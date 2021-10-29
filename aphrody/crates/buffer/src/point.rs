@@ -32,6 +32,14 @@ impl<'a> Add<&'a Self> for Point {
     type Output = Point;
 
     fn add(self, other: &'a Self) -> Self::Output {
+        self + *other
+    }
+}
+
+impl Add for Point {
+    type Output = Point;
+
+    fn add(self, other: Self) -> Self::Output {
         if other.row == 0 {
             Point::new(self.row, self.column + other.column)
         } else {
@@ -40,25 +48,11 @@ impl<'a> Add<&'a Self> for Point {
     }
 }
 
-impl Add for Point {
-    type Output = Point;
-
-    fn add(self, other: Self) -> Self::Output {
-        self + &other
-    }
-}
-
 impl<'a> Sub<&'a Self> for Point {
     type Output = Point;
 
     fn sub(self, other: &'a Self) -> Self::Output {
-        debug_assert!(*other <= self);
-
-        if self.row == other.row {
-            Point::new(0, self.column - other.column)
-        } else {
-            Point::new(self.row - other.row, self.column)
-        }
+        self - *other
     }
 }
 
@@ -66,7 +60,13 @@ impl Sub for Point {
     type Output = Point;
 
     fn sub(self, other: Self) -> Self::Output {
-        self - &other
+        debug_assert!(other <= self);
+
+        if self.row == other.row {
+            Point::new(0, self.column - other.column)
+        } else {
+            Point::new(self.row - other.row, self.column)
+        }
     }
 }
 
