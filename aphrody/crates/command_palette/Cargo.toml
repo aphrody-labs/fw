@@ -11,6 +11,7 @@ doctest = false
 editor = { path = "../editor" }
 fuzzy = { path = "../fuzzy" }
 gpui = { path = "../gpui" }
+picker = { path = "../picker" }
 settings = { path = "../settings" }
 util = { path = "../util" }
 theme = { path = "../theme" }
