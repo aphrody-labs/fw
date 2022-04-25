@@ -42,7 +42,7 @@
         "weight": "bold",
         "size": 14
       },
-      "background": "#93a1a1"
+      "background": "#93a1a12e"
     },
     "border": {
       "color": "#fdf6e3",
@@ -91,7 +91,7 @@
     },
     "shadow": {
       "blur": 16,
-      "color": "#00000052",
+      "color": "#0000001f",
       "offset": [
         0,
         2
@@ -368,8 +368,8 @@
     "code_actions_indicator": "#586e75",
     "diff_background_deleted": "#dc322f",
     "diff_background_inserted": "#859900",
-    "document_highlight_read_background": "#8394961f",
-    "document_highlight_write_background": "#83949629",
+    "document_highlight_read_background": "#fdf6e31f",
+    "document_highlight_write_background": "#fdf6e329",
     "error_color": "#dc322f",
     "gutter_background": "#fdf6e3",
     "gutter_padding_factor": 3.5,
@@ -697,7 +697,7 @@
         "weight": "normal"
       },
       "comment": {
-        "color": "#073642",
+        "color": "#586e75",
         "weight": "normal"
       },
       "punctuation": {
@@ -837,7 +837,7 @@
     },
     "hovered_entry": {
       "height": 22,
-      "background": "#93a1a1",
+      "background": "#93a1a11f",
       "icon_color": "#586e75",
       "icon_size": 8,
       "icon_spacing": 8,
@@ -860,7 +860,7 @@
     },
     "hovered_selected_entry": {
       "height": 22,
-      "background": "#93a1a1",
+      "background": "#93a1a11f",
       "icon_color": "#586e75",
       "icon_size": 8,
       "icon_spacing": 8,
@@ -945,7 +945,7 @@
             "right": 8
           }
         },
-        "background": "#93a1a1",
+        "background": "#93a1a11f",
         "corner_radius": 6
       },
       "active_item": {
@@ -980,7 +980,7 @@
             "right": 8
           }
         },
-        "background": "#93a1a1",
+        "background": "#93a1a11f",
         "corner_radius": 6
       },
       "menu": {
@@ -993,7 +993,7 @@
         },
         "shadow": {
           "blur": 16,
-          "color": "#00000052",
+          "color": "#0000001f",
           "offset": [
             0,
             2
@@ -1098,7 +1098,7 @@
       "right": 12
     },
     "host_row_height": 28,
-    "tree_branch_color": "#93a1a1",
+    "tree_branch_color": "#839496",
     "tree_branch_width": 1,
     "host_avatar": {
       "corner_radius": 10,
@@ -1170,7 +1170,7 @@
       "padding": {
         "left": 8
       },
-      "background": "#93a1a1",
+      "background": "#93a1a11f",
       "corner_radius": 6
     },
     "unshared_project": {
@@ -1221,10 +1221,10 @@
       "family": "Zed Mono",
       "color": "#002b36",
       "size": 14,
-      "background": "#93a1a1",
+      "background": "#839496",
       "corner_radius": 4,
       "border": {
-        "color": "#93a1a1",
+        "color": "#839496",
         "width": 1
       },
       "margin": {
@@ -1242,10 +1242,10 @@
       "family": "Zed Mono",
       "color": "#002b36",
       "size": 14,
-      "background": "#93a1a1",
+      "background": "#839496",
       "corner_radius": 4,
       "border": {
-        "color": "#93a1a1",
+        "color": "#839496",
         "width": 1
       },
       "margin": {
@@ -1299,7 +1299,7 @@
       "background": "#eee8d5",
       "corner_radius": 4,
       "border": {
-        "color": "#93a1a1",
+        "color": "#839496",
         "width": 1
       },
       "margin": {
