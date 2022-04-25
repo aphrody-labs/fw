@@ -2,28 +2,30 @@ import { color, fontWeights, NumberToken } from "../tokens";
 import { withOpacity } from "../utils/color";
 import Theme, { buildPlayer, Syntax } from "./theme";
 
+// Dark: 0 == Darkest, 3 == Lightest
 const dark = {
-  0: color("#657b83"),
-  1: color("#586e75"),
-  2: color("#073642"),
-  3: color("#002b36"),
+  0: color("#002b36"),
+  1: color("#073642"),
+  2: color("#586e75"),
+  3: color("#657b83"),
 };
+// Light: 0 == Lightest, 3 == Darkest
 const light = {
-  0: color("#839496"),
-  1: color("#93a1a1"),
-  2: color("#eee8d5"),
-  3: color("#fdf6e3"),
+  0: color("#fdf6e3"),
+  1: color("#eee8d5"),
+  2: color("#93a1a1"),
+  3: color("#839496"),
 };
 
 const colors = {
-  "yellow": color("#b58900"),
-  "orange": color("#cb4b16"),
   "red": color("#dc322f"),
-  "magenta": color("#d33682"),
-  "violet": color("#6c71c4"),
-  "blue": color("#268bd2"),
-  "cyan": color("#2aa198"),
+  "orange": color("#cb4b16"),
+  "yellow": color("#b58900"),
   "green": color("#859900"),
+  "cyan": color("#2aa198"),
+  "blue": color("#268bd2"),
+  "violet": color("#6c71c4"),
+  "magenta": color("#d33682"),
 };
 
 export function solarized(darkTheme: boolean): Theme {
@@ -33,34 +35,34 @@ export function solarized(darkTheme: boolean): Theme {
 
   const backgroundColor = {
     100: {
-      base: bg[2],
-      hovered: bg[1],
-      active: bg[1],
-      focused: bg[1],
+      base: bg[1],
+      hovered: bg[3],
+      active: bg[3],
+      focused: bg[3],
     },
     300: {
-      base: bg[2],
-      hovered: bg[1],
-      active: bg[1],
-      focused: bg[1],
+      base: bg[1],
+      hovered: bg[3],
+      active: bg[3],
+      focused: bg[3],
     },
     500: {
-      base: bg[3],
-      hovered: bg[2],
-      active: bg[2],
-      focused: bg[2],
-    },
-    on300: {
-      base: bg[3],
-      hovered: bg[2],
-      active: bg[2],
-      focused: bg[2],
-    },
-    on500: {
-      base: bg[2],
+      base: bg[0],
       hovered: bg[1],
       active: bg[1],
       focused: bg[1],
+    },
+    on300: {
+      base: bg[0],
+      hovered: bg[1],
+      active: bg[1],
+      focused: bg[1],
+    },
+    on500: {
+      base: bg[1],
+      hovered: bg[3],
+      active: bg[3],
+      focused: bg[3],
     },
     ok: {
       base: colors.green,
@@ -89,11 +91,11 @@ export function solarized(darkTheme: boolean): Theme {
   };
 
   const borderColor = {
-    primary: bg[3],
-    secondary: bg[2],
-    muted: bg[1],
-    focused: bg[1],
-    active: bg[1],
+    primary: bg[0],
+    secondary: bg[1],
+    muted: bg[3],
+    focused: bg[3],
+    active: bg[3],
     ok: colors.green,
     error: colors.red,
     warning: colors.yellow,
@@ -101,11 +103,11 @@ export function solarized(darkTheme: boolean): Theme {
   };
 
   const textColor = {
-    primary: fg[2],
-    secondary: fg[1],
-    muted: fg[1],
-    placeholder: fg[0],
-    active: fg[3],
+    primary: fg[1],
+    secondary: fg[2],
+    muted: fg[2],
+    placeholder: fg[3],
+    active: fg[0],
     //TODO: (design) define feature and it's correct value
     feature: colors.blue,
     ok: colors.green,
@@ -130,8 +132,8 @@ export function solarized(darkTheme: boolean): Theme {
     indent_guide: borderColor.muted,
     indent_guide_active: borderColor.secondary,
     line: {
-      active: withOpacity(fg[3], 0.07),
-      highlighted: withOpacity(fg[3], 0.12),
+      active: withOpacity(fg[0], 0.07),
+      highlighted: withOpacity(fg[0], 0.12),
       inserted: backgroundColor.ok.active,
       deleted: backgroundColor.error.active,
       modified: backgroundColor.info.active,
@@ -153,7 +155,7 @@ export function solarized(darkTheme: boolean): Theme {
 
   const syntax: Syntax = {
     primary: {
-      color: fg[3],
+      color: fg[0],
       weight: fontWeights.normal,
     },
     comment: {
@@ -161,11 +163,11 @@ export function solarized(darkTheme: boolean): Theme {
       weight: fontWeights.normal,
     },
     punctuation: {
-      color: fg[1],
+      color: fg[2],
       weight: fontWeights.normal,
     },
     constant: {
-      color: fg[0],
+      color: fg[3],
       weight: fontWeights.normal,
     },
     keyword: {
