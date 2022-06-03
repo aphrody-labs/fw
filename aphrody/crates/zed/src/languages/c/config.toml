@@ -1,5 +1,5 @@
 name = "C"
-path_suffixes = ["c", "h"]
+path_suffixes = ["c"]
 line_comment = "// "
 autoclose_before = ";:.,=}])>"
 brackets = [
