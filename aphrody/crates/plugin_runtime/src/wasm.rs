@@ -6,21 +6,20 @@ use wasmtime::{Engine, Func, Instance, Memory, MemoryType, Module, Store, TypedF
 
 use crate::*;
 
-pub struct Wasm<T> {
+pub struct Wasm {
     engine: Engine,
     module: Module,
-    store: Store<T>,
+    store: Store<()>,
     instance: Instance,
     alloc_buffer: TypedFunc<i32, i32>,
     // free_buffer: TypedFunc<(i32, i32), ()>,
 }
 
-pub struct WasmPlugin<T> {
+pub struct WasmPlugin {
     pub source_bytes: Vec<u8>,
-    pub store_data: T,
 }
 
-impl<T> Wasm<T> {
+impl Wasm {
     pub fn dump_memory(data: &[u8]) {
         for (i, byte) in data.iter().enumerate() {
             if i % 32 == 0 {
@@ -39,14 +38,14 @@ impl<T> Wasm<T> {
     }
 }
 
-impl<S> Runtime for Wasm<S> {
-    type Plugin = WasmPlugin<S>;
+impl Runtime for Wasm {
+    type Plugin = WasmPlugin;
     type Error = anyhow::Error;
 
-    fn init(plugin: WasmPlugin<S>) -> Result<Self, Self::Error> {
+    fn init(plugin: WasmPlugin) -> Result<Self, Self::Error> {
         let engine = Engine::default();
         let module = Module::new(&engine, plugin.source_bytes)?;
-        let mut store: Store<S> = Store::new(&engine, plugin.store_data);
+        let mut store: Store<()> = Store::new(&engine, ());
         let instance = Instance::new(&mut store, &module, &[])?;
 
         let alloc_buffer = instance.get_typed_func(&mut store, "__alloc_buffer")?;
