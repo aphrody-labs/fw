@@ -7,7 +7,7 @@ const variant: Variant = {
     meta: {
         name: `${name} Seaside Dark`,
         ...metaCommon,
-        url: "https://atelierbram.github.io/syntax-highlighting/atelier-schemes/savanna/",
+        url: "https://atelierbram.github.io/syntax-highlighting/atelier-schemes/seaside/",
     },
     colors: {
         base00: "#131513",
