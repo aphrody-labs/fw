@@ -1,8 +1,8 @@
 use anyhow::{Context, Result};
-use client::http::HttpClient;
 use serde::Deserialize;
 use smol::io::AsyncReadExt;
 use std::sync::Arc;
+use util::http::HttpClient;
 
 pub struct GitHubLspBinaryVersion {
     pub name: String,
