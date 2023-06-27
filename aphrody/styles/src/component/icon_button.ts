@@ -1,14 +1,17 @@
 import { ColorScheme } from "../common";
-import { interactive } from "../element";
+import { interactive, toggleable } from "../element";
 import { background, foreground } from "../styleTree/components";
 import { Margin } from "../types/zed";
 
 interface IconButtonOptions {
+    layer?: ColorScheme['lowest'] | ColorScheme['middle'] | ColorScheme['highest'];
     color?: keyof ColorScheme['lowest'];
     margin?: Partial<Margin>;
 }
 
-export function icon_button(theme: ColorScheme, { color, margin }: IconButtonOptions) {
+type ToggleableIconButtonOptions = IconButtonOptions & { active_color?: keyof ColorScheme['lowest'] };
+
+export function icon_button(theme: ColorScheme, { color, margin, layer }: IconButtonOptions) {
     if (!color)
         color = "base";
 
@@ -21,7 +24,7 @@ export function icon_button(theme: ColorScheme, { color, margin }: IconButtonOpt
 
     return interactive({
         base: {
-            corner_radius: 4,
+            corner_radius: 6,
             padding: {
                 top: 2,
                 bottom: 2,
@@ -36,19 +39,31 @@ export function icon_button(theme: ColorScheme, { color, margin }: IconButtonOpt
         },
         state: {
             default: {
-                background: background(theme.lowest, color),
-                color: foreground(theme.lowest, color),
+                background: background(layer ?? theme.lowest, color),
+                color: foreground(layer ?? theme.lowest, color),
             },
             hovered: {
-                background: background(theme.lowest, color, "hovered"),
-                color: foreground(theme.lowest, color, "hovered"),
+                background: background(layer ?? theme.lowest, color, "hovered"),
+                color: foreground(layer ?? theme.lowest, color, "hovered"),
 
             },
             clicked: {
-                background: background(theme.lowest, color, "pressed"),
-                color: foreground(theme.lowest, color, "pressed"),
+                background: background(layer ?? theme.lowest, color, "pressed"),
+                color: foreground(layer ?? theme.lowest, color, "pressed"),
 
             },
         },
     });
+}
+
+export function toggleable_icon_button(theme: ColorScheme, { color, active_color, margin }: ToggleableIconButtonOptions) {
+    if (!color)
+        color = "base";
+
+    return toggleable({
+        state: {
+            inactive: icon_button(theme, { color, margin }),
+            active: icon_button(theme, { color: active_color ? active_color : color, margin, layer: theme.middle }),
+        }
+    })
 }
