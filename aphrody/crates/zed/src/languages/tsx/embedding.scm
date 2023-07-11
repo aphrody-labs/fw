@@ -1,6 +1,6 @@
 ; (internal_module
 ;     "namespace" @context
-    name: (_) @name) @item
+    ; name: (_) @name) @item
 
 (enum_declaration
     "enum" @context
