@@ -43,6 +43,10 @@ impl LspAdapter for JsonLspAdapter {
         LanguageServerName("json-language-server".into())
     }
 
+    fn short_name(&self) -> &'static str {
+        "json"
+    }
+
     async fn fetch_latest_server_version(
         &self,
         _: &dyn LspAdapterDelegate,
@@ -102,7 +106,7 @@ impl LspAdapter for JsonLspAdapter {
     fn workspace_configuration(
         &self,
         cx: &mut AppContext,
-    ) -> Option<BoxFuture<'static, serde_json::Value>> {
+    ) -> BoxFuture<'static, serde_json::Value> {
         let action_names = cx.all_action_names().collect::<Vec<_>>();
         let staff_mode = cx.is_staff();
         let language_names = &self.languages.language_names();
@@ -113,29 +117,28 @@ impl LspAdapter for JsonLspAdapter {
             },
             cx,
         );
-        Some(
-            future::ready(serde_json::json!({
-                "json": {
-                    "format": {
-                        "enable": true,
+
+        future::ready(serde_json::json!({
+            "json": {
+                "format": {
+                    "enable": true,
+                },
+                "schemas": [
+                    {
+                        "fileMatch": [
+                            schema_file_match(&paths::SETTINGS),
+                            &*paths::LOCAL_SETTINGS_RELATIVE_PATH,
+                        ],
+                        "schema": settings_schema,
                     },
-                    "schemas": [
-                        {
-                            "fileMatch": [
-                                schema_file_match(&paths::SETTINGS),
-                                &*paths::LOCAL_SETTINGS_RELATIVE_PATH,
-                            ],
-                            "schema": settings_schema,
-                        },
-                        {
-                            "fileMatch": [schema_file_match(&paths::KEYMAP)],
-                            "schema": KeymapFile::generate_json_schema(&action_names),
-                        }
-                    ]
-                }
-            }))
-            .boxed(),
-        )
+                    {
+                        "fileMatch": [schema_file_match(&paths::KEYMAP)],
+                        "schema": KeymapFile::generate_json_schema(&action_names),
+                    }
+                ]
+            }
+        }))
+        .boxed()
     }
 
     async fn language_ids(&self) -> HashMap<String, String> {
