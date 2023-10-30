@@ -14,6 +14,7 @@ test-support = [
     "text/test-support",
     "language/test-support",
     "gpui/test-support",
+    "multi_buffer/test-support",
     "project/test-support",
     "util/test-support",
     "workspace/test-support",
@@ -34,6 +35,7 @@ git = { path = "../git" }
 gpui = { path = "../gpui" }
 language = { path = "../language" }
 lsp = { path = "../lsp" }
+multi_buffer = { path = "../multi_buffer" }
 project = { path = "../project" }
 rpc = { path = "../rpc" }
 rich_text = { path = "../rich_text" }
