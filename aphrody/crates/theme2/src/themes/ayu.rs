@@ -7,12 +7,12 @@ use crate::{
 
 pub fn ayu() -> ThemeFamily {
     ThemeFamily {
-        id: "769923cd-f2b6-4675-96b8-8a2953fc635b".into(),
+        id: "5ace5bd5-0231-4f26-a69f-40a96dd4163e".into(),
         name: "Ayu".into(),
         author: "dempfi (Ike Ku)".into(),
         themes: vec![
             ThemeVariant {
-                id: "f6ae55e2-a844-47ba-a720-ca88dd7b2a12".into(),
+                id: "7781d65c-4575-421d-af3c-061ab0b0478a".into(),
                 name: "Ayu Light".into(),
                 appearance: Appearance::Light,
                 styles: ThemeStyles {
@@ -170,7 +170,7 @@ pub fn ayu() -> ThemeFamily {
                 },
             },
             ThemeVariant {
-                id: "440f604c-3a70-4bac-901a-2dc92c7a241a".into(),
+                id: "68066666-5e56-4937-9434-510ffd0fe05f".into(),
                 name: "Ayu Mirage".into(),
                 appearance: Appearance::Dark,
                 styles: ThemeStyles {
@@ -328,7 +328,7 @@ pub fn ayu() -> ThemeFamily {
                 },
             },
             ThemeVariant {
-                id: "0135d1f0-1331-4e5a-9634-73e8f72356d0".into(),
+                id: "d4f949b8-e5b9-4337-a52e-2ed1752a6c4f".into(),
                 name: "Ayu Dark".into(),
                 appearance: Appearance::Dark,
                 styles: ThemeStyles {

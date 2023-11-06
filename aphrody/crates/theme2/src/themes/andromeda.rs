@@ -7,12 +7,12 @@ use crate::{
 
 pub fn andromeda() -> ThemeFamily {
     ThemeFamily {
-        id: "0d2fdd0e-de6d-44b2-8f16-f4da10a78f2e".into(),
+        id: "192bb9a2-a028-4c9a-b713-4c92330b3fab".into(),
         name: "Andromeda".into(),
         author: "Eliver Lara (EliverLara)".into(),
         themes: vec![
             ThemeVariant {
-                id: "8a4e3be2-0ea0-4a0c-9fee-bc63123205ba".into(),
+                id: "a3aaa73f-f225-41bd-8d52-77ca1df0b7f7".into(),
                 name: "Andromeda".into(),
                 appearance: Appearance::Dark,
                 styles: ThemeStyles {
@@ -170,7 +170,7 @@ pub fn andromeda() -> ThemeFamily {
                 },
             },
             ThemeVariant {
-                id: "812f0805-5f84-4f3f-97d3-b38b44307132".into(),
+                id: "91a17b19-1e74-487e-b0a0-56e2e5360ab8".into(),
                 name: "Andromeda Bordered".into(),
                 appearance: Appearance::Dark,
                 styles: ThemeStyles {

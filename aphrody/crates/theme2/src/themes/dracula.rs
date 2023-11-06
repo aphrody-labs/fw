@@ -7,11 +7,11 @@ use crate::{
 
 pub fn dracula() -> ThemeFamily {
     ThemeFamily {
-        id: "690e6a78-4aa6-471e-a342-4d0e0ee14952".into(),
+        id: "20b9a8c0-0b74-483b-bed2-be7a053e1321".into(),
         name: "Dracula".into(),
         author: "Zeno Rocha".into(),
         themes: vec![ThemeVariant {
-            id: "b4d04bac-514f-4a38-bf03-df54bb135d82".into(),
+            id: "02f5624f-9b0a-48e0-8897-4557adc8f104".into(),
             name: "Dracula".into(),
             appearance: Appearance::Dark,
             styles: ThemeStyles {
