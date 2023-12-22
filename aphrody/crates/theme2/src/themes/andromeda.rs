@@ -12,442 +12,342 @@ use crate::{
 pub fn andromeda() -> UserThemeFamily {
     UserThemeFamily {
         name: "Andromeda".into(),
-        author: "Eliver Lara (EliverLara)".into(),
-        themes: vec![
-            UserTheme {
-                name: "Andromeda".into(),
-                appearance: Appearance::Dark,
-                styles: UserThemeStylesRefinement {
-                    colors: ThemeColorsRefinement {
-                        border: Some(rgba(0x1b1d23ff).into()),
-                        border_variant: Some(rgba(0x1b1d23ff).into()),
-                        border_focused: Some(rgba(0x746f77ff).into()),
-                        border_selected: Some(rgba(0x1b1d23ff).into()),
-                        border_transparent: Some(rgba(0x1b1d23ff).into()),
-                        border_disabled: Some(rgba(0x1b1d23ff).into()),
-                        elevated_surface_background: Some(rgba(0x2b303bff).into()),
-                        surface_background: Some(rgba(0x23262eff).into()),
-                        background: Some(rgba(0x23262eff).into()),
-                        element_background: Some(rgba(0x00e8c5cc).into()),
-                        element_hover: Some(rgba(0x23262eff).into()),
-                        element_selected: Some(rgba(0x23262eff).into()),
-                        drop_target_background: Some(rgba(0x3a404eff).into()),
-                        ghost_element_hover: Some(rgba(0x23262eff).into()),
-                        ghost_element_selected: Some(rgba(0x23262eff).into()),
-                        text: Some(rgba(0xd5ced9ff).into()),
-                        text_muted: Some(rgba(0x746f77ff).into()),
-                        status_bar_background: Some(rgba(0x23262eff).into()),
-                        title_bar_background: Some(rgba(0x23262eff).into()),
-                        toolbar_background: Some(rgba(0x23262eff).into()),
-                        tab_bar_background: Some(rgba(0x23262eff).into()),
-                        tab_inactive_background: Some(rgba(0x23262eff).into()),
-                        tab_active_background: Some(rgba(0x23262eff).into()),
-                        scrollbar_thumb_background: Some(rgba(0x3a3f4c77).into()),
-                        scrollbar_thumb_hover_background: Some(rgba(0x3a3f4caa).into()),
-                        scrollbar_thumb_border: Some(rgba(0x3a3f4c77).into()),
-                        scrollbar_track_background: Some(rgba(0x23262eff).into()),
-                        scrollbar_track_border: Some(rgba(0x1b1d23ff).into()),
-                        editor_foreground: Some(rgba(0xd5ced9ff).into()),
-                        editor_background: Some(rgba(0x23262eff).into()),
-                        editor_gutter_background: Some(rgba(0x23262eff).into()),
-                        editor_line_number: Some(rgba(0x746f77ff).into()),
-                        editor_active_line_number: Some(rgba(0xd5ced9ff).into()),
-                        editor_wrap_guide: Some(rgba(0x1b1d23ff).into()),
-                        editor_active_wrap_guide: Some(rgba(0x1b1d23ff).into()),
-                        terminal_ansi_bright_red: Some(rgba(0xee5d43ff).into()),
-                        terminal_ansi_bright_green: Some(rgba(0x96e072ff).into()),
-                        terminal_ansi_bright_yellow: Some(rgba(0xffe66dff).into()),
-                        terminal_ansi_bright_blue: Some(rgba(0x7cb7ffff).into()),
-                        terminal_ansi_bright_magenta: Some(rgba(0xff00aaff).into()),
-                        terminal_ansi_bright_cyan: Some(rgba(0x00e8c6ff).into()),
-                        terminal_ansi_red: Some(rgba(0xee5d43ff).into()),
-                        terminal_ansi_green: Some(rgba(0x96e072ff).into()),
-                        terminal_ansi_yellow: Some(rgba(0xffe66dff).into()),
-                        terminal_ansi_blue: Some(rgba(0x7cb7ffff).into()),
-                        terminal_ansi_magenta: Some(rgba(0xff00aaff).into()),
-                        terminal_ansi_cyan: Some(rgba(0x00e8c6ff).into()),
-                        ..Default::default()
-                    },
-                    status: StatusColorsRefinement {
-                        created: Some(rgba(0x9bc53dbb).into()),
-                        deleted: Some(rgba(0xfc644dbb).into()),
-                        error: Some(rgba(0xfc644dff).into()),
-                        hidden: Some(rgba(0x746f77ff).into()),
-                        hint: Some(rgba(0x969696ff).into()),
-                        ignored: Some(rgba(0x555555ff).into()),
-                        modified: Some(rgba(0x5bc0ebbb).into()),
-                        ..Default::default()
-                    },
-                    syntax: Some(UserSyntaxTheme {
-                        highlights: vec![
-                            (
-                                "attribute".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xffe66dff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "comment".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xa0a1a7cc).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "comment.doc".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xa0a1a7cc).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "constant".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xee5d43ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "constructor".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xf92672ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "emphasis".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xc74dedff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "emphasis.strong".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xf39c12ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "function".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xffe66dff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "keyword".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xc74dedff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "number".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xf39c12ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "operator".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xee5d43ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string.escape".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string.regex".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string.special".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string.special.symbol".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "tag".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xf92672ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "text.literal".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "type".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xffe66dff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "variable".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x00e8c6ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "variable.special".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x00e8c6ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                        ],
-                    }),
+        author: "Zed Industries".into(),
+        themes: vec![UserTheme {
+            name: "Andromeda".into(),
+            appearance: Appearance::Dark,
+            styles: UserThemeStylesRefinement {
+                colors: ThemeColorsRefinement {
+                    border: Some(rgba(0x2b2f39ff).into()),
+                    border_variant: Some(rgba(0x2b2f39ff).into()),
+                    elevated_surface_background: Some(rgba(0x262a33ff).into()),
+                    background: Some(rgba(0x262a33ff).into()),
+                    panel_background: Some(rgba(0x21242bff).into()),
+                    element_hover: Some(rgba(0x2b2f3980).into()),
+                    element_selected: Some(rgba(0x383b4580).into()),
+                    text: Some(rgba(0xaca8aeff).into()),
+                    text_muted: Some(rgba(0x474a53ff).into()),
+                    status_bar_background: Some(rgba(0x262a33ff).into()),
+                    title_bar_background: Some(rgba(0x262a33ff).into()),
+                    toolbar_background: Some(rgba(0x1e2025ff).into()),
+                    tab_bar_background: Some(rgba(0x21242bff).into()),
+                    tab_inactive_background: Some(rgba(0x21242bff).into()),
+                    tab_active_background: Some(rgba(0x1e2025ff).into()),
+                    scrollbar_thumb_background: Some(rgba(0xf7f7f84d).into()),
+                    scrollbar_thumb_hover_background: Some(rgba(0xf7f7f84d).into()),
+                    scrollbar_thumb_border: Some(rgba(0x21232aff).into()),
+                    scrollbar_track_border: Some(rgba(0x21232aff).into()),
+                    editor_foreground: Some(rgba(0xf7f7f8ff).into()),
+                    editor_background: Some(rgba(0x1e2025ff).into()),
+                    editor_gutter_background: Some(rgba(0x1e2025ff).into()),
+                    editor_line_number: Some(rgba(0xf7f7f859).into()),
+                    editor_active_line_number: Some(rgba(0xf7f7f8ff).into()),
+                    editor_wrap_guide: Some(rgba(0xf7f7f80d).into()),
+                    editor_active_wrap_guide: Some(rgba(0xf7f7f81a).into()),
+                    terminal_background: Some(rgba(0x1e2025ff).into()),
+                    terminal_ansi_bright_black: Some(rgba(0x40434cff).into()),
+                    terminal_ansi_bright_red: Some(rgba(0x8e103aff).into()),
+                    terminal_ansi_bright_green: Some(rgba(0x457c38ff).into()),
+                    terminal_ansi_bright_yellow: Some(rgba(0x958435ff).into()),
+                    terminal_ansi_bright_blue: Some(rgba(0x1b5148ff).into()),
+                    terminal_ansi_bright_magenta: Some(rgba(0x682781ff).into()),
+                    terminal_ansi_bright_cyan: Some(rgba(0x018169ff).into()),
+                    terminal_ansi_bright_white: Some(rgba(0xf7f7f8ff).into()),
+                    terminal_ansi_black: Some(rgba(0x1e2025ff).into()),
+                    terminal_ansi_red: Some(rgba(0xf82872ff).into()),
+                    terminal_ansi_green: Some(rgba(0x96df72ff).into()),
+                    terminal_ansi_yellow: Some(rgba(0xfee56dff).into()),
+                    terminal_ansi_blue: Some(rgba(0x11a793ff).into()),
+                    terminal_ansi_magenta: Some(rgba(0xc74decff).into()),
+                    terminal_ansi_cyan: Some(rgba(0x09e7c6ff).into()),
+                    terminal_ansi_white: Some(rgba(0xf7f7f8ff).into()),
+                    ..Default::default()
                 },
-            },
-            UserTheme {
-                name: "Andromeda Bordered".into(),
-                appearance: Appearance::Dark,
-                styles: UserThemeStylesRefinement {
-                    colors: ThemeColorsRefinement {
-                        border: Some(rgba(0x1b1d23ff).into()),
-                        border_variant: Some(rgba(0x1b1d23ff).into()),
-                        border_focused: Some(rgba(0x746f77ff).into()),
-                        border_selected: Some(rgba(0x1b1d23ff).into()),
-                        border_transparent: Some(rgba(0x1b1d23ff).into()),
-                        border_disabled: Some(rgba(0x1b1d23ff).into()),
-                        elevated_surface_background: Some(rgba(0x2b303bff).into()),
-                        surface_background: Some(rgba(0x23262eff).into()),
-                        background: Some(rgba(0x262a33ff).into()),
-                        element_background: Some(rgba(0x00e8c5cc).into()),
-                        element_hover: Some(rgba(0x23262eff).into()),
-                        element_selected: Some(rgba(0x23262eff).into()),
-                        drop_target_background: Some(rgba(0x3a404eff).into()),
-                        ghost_element_hover: Some(rgba(0x23262eff).into()),
-                        ghost_element_selected: Some(rgba(0x23262eff).into()),
-                        text: Some(rgba(0xd5ced9ff).into()),
-                        text_muted: Some(rgba(0x746f77ff).into()),
-                        status_bar_background: Some(rgba(0x23262eff).into()),
-                        title_bar_background: Some(rgba(0x23262eff).into()),
-                        toolbar_background: Some(rgba(0x262a33ff).into()),
-                        tab_bar_background: Some(rgba(0x23262eff).into()),
-                        tab_inactive_background: Some(rgba(0x23262eff).into()),
-                        tab_active_background: Some(rgba(0x262a33ff).into()),
-                        scrollbar_thumb_background: Some(rgba(0x3a3f4c77).into()),
-                        scrollbar_thumb_hover_background: Some(rgba(0x3a3f4caa).into()),
-                        scrollbar_thumb_border: Some(rgba(0x3a3f4c77).into()),
-                        scrollbar_track_background: Some(rgba(0x262a33ff).into()),
-                        scrollbar_track_border: Some(rgba(0x1b1d23ff).into()),
-                        editor_foreground: Some(rgba(0xd5ced9ff).into()),
-                        editor_background: Some(rgba(0x262a33ff).into()),
-                        editor_gutter_background: Some(rgba(0x262a33ff).into()),
-                        editor_line_number: Some(rgba(0x746f77ff).into()),
-                        editor_active_line_number: Some(rgba(0xd5ced9ff).into()),
-                        editor_wrap_guide: Some(rgba(0x1b1d23ff).into()),
-                        editor_active_wrap_guide: Some(rgba(0x1b1d23ff).into()),
-                        terminal_ansi_bright_red: Some(rgba(0xee5d43ff).into()),
-                        terminal_ansi_bright_green: Some(rgba(0x96e072ff).into()),
-                        terminal_ansi_bright_yellow: Some(rgba(0xffe66dff).into()),
-                        terminal_ansi_bright_blue: Some(rgba(0x7cb7ffff).into()),
-                        terminal_ansi_bright_magenta: Some(rgba(0xff00aaff).into()),
-                        terminal_ansi_bright_cyan: Some(rgba(0x00e8c6ff).into()),
-                        terminal_ansi_red: Some(rgba(0xee5d43ff).into()),
-                        terminal_ansi_green: Some(rgba(0x96e072ff).into()),
-                        terminal_ansi_yellow: Some(rgba(0xffe66dff).into()),
-                        terminal_ansi_blue: Some(rgba(0x7cb7ffff).into()),
-                        terminal_ansi_magenta: Some(rgba(0xff00aaff).into()),
-                        terminal_ansi_cyan: Some(rgba(0x00e8c6ff).into()),
-                        ..Default::default()
-                    },
-                    status: StatusColorsRefinement {
-                        created: Some(rgba(0x9bc53dbb).into()),
-                        deleted: Some(rgba(0xfc644dbb).into()),
-                        error: Some(rgba(0xfc644dff).into()),
-                        hidden: Some(rgba(0x746f77ff).into()),
-                        hint: Some(rgba(0x969696ff).into()),
-                        ignored: Some(rgba(0x555555ff).into()),
-                        modified: Some(rgba(0x5bc0ebbb).into()),
-                        ..Default::default()
-                    },
-                    syntax: Some(UserSyntaxTheme {
-                        highlights: vec![
-                            (
-                                "attribute".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xffe66dff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "comment".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xa0a1a7cc).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "comment.doc".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xa0a1a7cc).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "constant".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xee5d43ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "constructor".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xf92672ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "emphasis".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xc74dedff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "emphasis.strong".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xf39c12ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "function".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xffe66dff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "keyword".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xc74dedff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "number".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xf39c12ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "operator".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xee5d43ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string.escape".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string.regex".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string.special".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "string.special.symbol".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "tag".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xf92672ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "text.literal".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x96e072ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "type".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0xffe66dff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "variable".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x00e8c6ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                            (
-                                "variable.special".into(),
-                                UserHighlightStyle {
-                                    color: Some(rgba(0x00e8c6ff).into()),
-                                    ..Default::default()
-                                },
-                            ),
-                        ],
-                    }),
+                status: StatusColorsRefinement {
+                    created: Some(rgba(0x96df72ff).into()),
+                    deleted: Some(rgba(0xcd1d5aff).into()),
+                    error: Some(rgba(0xf82872ff).into()),
+                    modified: Some(rgba(0xfee56dff).into()),
+                    success: Some(rgba(0xf7f7f8ff).into()),
+                    warning: Some(rgba(0xfee56dff).into()),
+                    ..Default::default()
                 },
+                syntax: Some(UserSyntaxTheme {
+                    highlights: vec![
+                        (
+                            "attribute".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "boolean".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x96df72ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "comment".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xafabb1ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "comment.doc".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xafabb1ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "constant".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x96df72ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "constructor".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "embedded".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf7f7f8ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "emphasis".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "emphasis.strong".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                font_weight: Some(UserFontWeight(700.0)),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "enum".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf29c14ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "function".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xfee56dff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "hint".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x618399ff).into()),
+                                font_weight: Some(UserFontWeight(700.0)),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "keyword".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "label".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "link_text".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf29c14ff).into()),
+                                font_style: Some(UserFontStyle::Italic),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "link_uri".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x96df72ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "number".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x96df72ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "operator".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf29c14ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "predictive".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x315f70ff).into()),
+                                font_style: Some(UserFontStyle::Italic),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "preproc".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf7f7f8ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "primary".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf7f7f8ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "property".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "punctuation".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xd8d5dbff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "punctuation.bracket".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xd8d5dbff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "punctuation.delimiter".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xd8d5dbff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "punctuation.list_marker".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xd8d5dbff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "punctuation.special".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xd8d5dbff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "string".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf29c14ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "string.escape".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xafabb1ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "string.regex".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf29c14ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "string.special".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf29c14ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "string.special.symbol".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf29c14ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "tag".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "text.literal".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf29c14ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "title".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf7f7f8ff).into()),
+                                font_weight: Some(UserFontWeight(700.0)),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "type".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x09e7c6ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "variable".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0xf7f7f8ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                        (
+                            "variant".into(),
+                            UserHighlightStyle {
+                                color: Some(rgba(0x11a793ff).into()),
+                                ..Default::default()
+                            },
+                        ),
+                    ],
+                }),
             },
-        ],
+        }],
     }
 }
