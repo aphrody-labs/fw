@@ -78,7 +78,7 @@ notifications = { path = "../notifications", features = ["test-support"] }
 project = { path = "../project", features = ["test-support"] }
 rpc = { path = "../rpc", features = ["test-support"] }
 settings = { path = "../settings", features = ["test-support"] }
-theme = { package = "theme2", path = "../theme2" }
+theme = { path = "../theme" }
 workspace = { path = "../workspace", features = ["test-support"] }
 
 collab_ui = { path = "../collab_ui", features = ["test-support"] }
