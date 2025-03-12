@@ -16,13 +16,15 @@ pub struct ReadFileToolInput {
     /// This path should never be absolute, and the first component
     /// of the path should always be a top-level directory in a project.
     ///
-    /// For example, if the project has the following top-level directories:
+    /// <example>
+    /// If the project has the following top-level directories:
     ///
     /// - directory1
     /// - directory2
     ///
     /// If you wanna access `file.txt` in `directory1`, you should use the path `directory1/file.txt`.
     /// If you wanna access `file.txt` in `directory2`, you should use the path `directory2/file.txt`.
+    /// </example>
     pub path: Arc<Path>,
 }
 
