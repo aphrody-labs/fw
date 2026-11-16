@@ -2015,3 +2015,11 @@ title = "Crawler built on Crawlee (Bun) with fingerprint-suite, got-scraping and
 reference = "https://crawlee.dev/"
 layer = "backend"
 status = "todo"
+
+[[feature]]
+product = "craft"
+id = "replica-dioxuslabs"
+title = "Craft replicas of dioxuslabs.com and blitz.is, checked against the originals at three widths"
+reference = "https://dioxuslabs.com/"
+layer = "ui"
+status = "todo"

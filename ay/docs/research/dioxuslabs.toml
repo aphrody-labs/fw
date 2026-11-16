@@ -1,0 +1,328 @@
+# DioxusLabs org replica, 2026-11-16 (bun tools/recon.ts; raw: C:/data/recon/dioxuslabs*/)
+version = 1
+retrieved = "2026-11-16"
+sources = ["https://github.com/DioxusLabs", "https://dioxuslabs.com/", "https://blitz.is/"]
+
+[org]
+repos = 78
+active = 35
+forked_to = "aphrody-labs (every active repo except .github, which is our own org profile repo)"
+
+[sites]
+dioxuslabs_com = { sitemap_pages = 111, mirrored = 110, mirror = "C:/data/recon/dioxuslabs-site/mirror" }
+blitz_is = { sitemap_pages = 0, note = "no sitemap; its source is the forked repo blitz-website" }
+
+[[repo]]
+name = "dioxus"
+stars = 39786
+language = "Rust"
+pushed = "2026-11-13"
+license = "Apache-2.0"
+description = "Fullstack app framework for web, desktop, and mobile."
+fork = "aphrody-labs/dioxus"
+
+[[repo]]
+name = "blitz"
+stars = 4483
+language = "Rust"
+pushed = "2026-11-16"
+license = "Apache-2.0"
+description = "A radically modular HTML/CSS rendering engine"
+fork = "aphrody-labs/blitz"
+
+[[repo]]
+name = "taffy"
+stars = 3788
+language = "Rust"
+pushed = "2026-11-15"
+license = "MIT"
+description = "A high performance rust-powered UI layout library"
+fork = "aphrody-labs/taffy"
+
+[[repo]]
+name = "dioxus-components"
+stars = 356
+language = "Rust"
+pushed = "2026-11-16"
+license = "Apache-2.0"
+description = "Accessible, unstyled, foundational components for Dioxus."
+fork = "aphrody-labs/dioxus-components"
+
+[[repo]]
+name = "awesome-dioxus"
+stars = 323
+language = "-"
+pushed = "2026-08-04"
+license = "-"
+description = "An awesome list of Dioxus-related content and resources"
+fork = "aphrody-labs/awesome-dioxus"
+
+[[repo]]
+name = "sdk"
+stars = 309
+language = "Rust"
+pushed = "2026-10-16"
+license = "Apache-2.0"
+description = "A library to provide abstractions to access common utilities when developing Dioxus applications."
+fork = "aphrody-labs/sdk"
+
+[[repo]]
+name = "rustd"
+stars = 244
+language = "Rust"
+pushed = "2026-11-03"
+license = "Apache-2.0"
+description = "a rust compiler daemon for up to 25x faster cargo builds"
+fork = "aphrody-labs/rustd"
+
+[[repo]]
+name = "docsite"
+stars = 206
+language = "Rust"
+pushed = "2026-09-12"
+license = "-"
+description = "Dioxuslabs.com documentation site"
+fork = "aphrody-labs/docsite"
+
+[[repo]]
+name = "anyrender"
+stars = 122
+language = "Rust"
+pushed = "2026-11-16"
+license = "Apache-2.0"
+description = "Rust 2D drawing abstraction"
+fork = "aphrody-labs/anyrender"
+
+[[repo]]
+name = "accessibility-cli"
+stars = 101
+language = "Rust"
+pushed = "2026-11-10"
+license = "Apache-2.0"
+description = "Cross platform CLI for computer use across macos, windows, linux and android "
+fork = "aphrody-labs/accessibility-cli"
+
+[[repo]]
+name = "dioxus-template"
+stars = 74
+language = "Rust"
+pushed = "2026-10-16"
+license = "-"
+description = "a template for starting a dioxus project to be used with dioxus-cli"
+fork = "aphrody-labs/dioxus-template"
+
+[[repo]]
+name = "markdown"
+stars = 55
+language = "Rust"
+pushed = "2024-08-15"
+license = "-"
+description = "Convert markdown to dioxus vnodes"
+fork = "aphrody-labs/markdown"
+
+[[repo]]
+name = "dioxus-ai"
+stars = 40
+language = "Rust"
+pushed = "2024-11-26"
+license = "-"
+description = ""
+fork = "aphrody-labs/dioxus-ai"
+
+[[repo]]
+name = "dioxus-html-macro"
+stars = 35
+language = "Rust"
+pushed = "2026-04-30"
+license = "Apache-2.0"
+description = "An html macro for dioxus applications."
+fork = "aphrody-labs/dioxus-html-macro"
+
+[[repo]]
+name = "betlang"
+stars = 28
+language = "Python"
+pushed = "2026-09-08"
+license = "MIT"
+description = "A tiny (50kb) programming language detection model - Like guesslang, but smaller"
+fork = "aphrody-labs/betlang"
+
+[[repo]]
+name = "wasm-bindgen-wry"
+stars = 27
+language = "Rust"
+pushed = "2026-10-30"
+license = "-"
+description = "Taking the wasm out of wasm-bindgen"
+fork = "aphrody-labs/wasm-bindgen-wry"
+
+[[repo]]
+name = "deploy-action"
+stars = 21
+language = "-"
+pushed = "2025-01-22"
+license = "MIT"
+description = "Deploy your dioxus-web app"
+fork = "aphrody-labs/deploy-action"
+
+[[repo]]
+name = "rsrpc"
+stars = 15
+language = "Rust"
+pushed = "2026-01-02"
+license = "MIT"
+description = "The simplest Rust RPC library"
+fork = "aphrody-labs/rsrpc"
+
+[[repo]]
+name = "dioxus-icons"
+stars = 11
+language = "Rust"
+pushed = "2026-10-16"
+license = "MIT"
+description = "An icon library for dioxus with rich documentation"
+fork = "aphrody-labs/dioxus-icons"
+
+[[repo]]
+name = "dioxus-test"
+stars = 8
+language = "Rust"
+pushed = "2026-11-14"
+license = "MIT"
+description = "An experimental testing library for dioxus"
+fork = "aphrody-labs/dioxus-test"
+
+[[repo]]
+name = "bedina"
+stars = 8
+language = "-"
+pushed = "2026-10-15"
+license = "Apache-2.0"
+description = "Bevy <-> Dioxus Native integration"
+fork = "aphrody-labs/bedina"
+
+[[repo]]
+name = "dioxus-code"
+stars = 7
+language = "CSS"
+pushed = "2026-10-16"
+license = "MIT"
+description = "Bundle size friendly code highlighting component for dioxus"
+fork = "aphrody-labs/dioxus-code"
+
+[[repo]]
+name = "warnings"
+stars = 5
+language = "Rust"
+pushed = "2024-11-11"
+license = "-"
+description = ""
+fork = "aphrody-labs/warnings"
+
+[[repo]]
+name = "doxie-bot"
+stars = 5
+language = "Rust"
+pushed = "2024-04-26"
+license = "-"
+description = "a helpful github bot that manages your large oss organization"
+fork = "aphrody-labs/doxie-bot"
+
+[[repo]]
+name = "blitz-website"
+stars = 5
+language = "Rust"
+pushed = "2026-11-16"
+license = "-"
+description = ""
+fork = "aphrody-labs/blitz-website"
+
+[[repo]]
+name = "web-adapters"
+stars = 4
+language = "Rust"
+pushed = "2024-02-16"
+license = "-"
+description = "Fullstack and LiveView adapters for various frameworks"
+fork = "aphrody-labs/web-adapters"
+
+[[repo]]
+name = "status"
+stars = 4
+language = "Rust"
+pushed = "2026-10-15"
+license = "-"
+description = "Status of dioxus org, all builds, versions, performance, and more"
+fork = "aphrody-labs/status"
+
+[[repo]]
+name = "blitz-wpt-results"
+stars = 4
+language = "Rust"
+pushed = "2026-11-16"
+license = "-"
+description = "Archive of WPT test results for Blitz"
+fork = "aphrody-labs/blitz-wpt-results"
+
+[[repo]]
+name = "dioxus-ci"
+stars = 3
+language = "-"
+pushed = "2026-07-06"
+license = "MIT"
+description = "Github CI workflows for dioxus including nightly github pages builds for every pr"
+fork = "aphrody-labs/dioxus-ci"
+
+[[repo]]
+name = "brand"
+stars = 3
+language = "-"
+pushed = "2025-01-21"
+license = "-"
+description = "Logos, brand, images, and more"
+fork = "aphrody-labs/brand"
+
+[[repo]]
+name = "screenshots"
+stars = 1
+language = "-"
+pushed = "2026-08-19"
+license = "-"
+description = ""
+fork = "aphrody-labs/screenshots"
+
+[[repo]]
+name = "dowsing"
+stars = 1
+language = "Rust"
+pushed = "2026-09-21"
+license = "-"
+description = "Rng that finds or avoids your code"
+fork = "aphrody-labs/dowsing"
+
+[[repo]]
+name = ".github"
+stars = 1
+language = "-"
+pushed = "2025-04-23"
+license = "-"
+description = ""
+fork = "aphrody-labs/.github"
+
+[[repo]]
+name = "browser-wpt-results"
+stars = 0
+language = "Rust"
+pushed = "2026-11-16"
+license = "-"
+description = ""
+fork = "aphrody-labs/browser-wpt-results"
+
+[[repo]]
+name = "blitz-chrome-devtools-frontend"
+stars = 0
+language = "Python"
+pushed = "2026-11-06"
+license = "BSD-3-Clause"
+description = "A minimal build of the Chrome DevTools frontend, for inspecting Blitz documents"
+fork = "aphrody-labs/blitz-chrome-devtools-frontend"
