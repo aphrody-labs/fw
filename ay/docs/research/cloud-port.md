@@ -9,7 +9,8 @@ never `cf.ts apply tunnels` from it.
   `mcp-origin.aphrody.com → http://127.0.0.1:8790` (the relay, on prd),
   `ssh-prd.aphrody.com → ssh://127.0.0.1:22`, then a 404 catch-all.
   - Earlier today an overwrite had left only the standby rules, so `mcp-origin` returned the 404.
-- **No fr2 connector:** the aphrody connector replica on fr2 is disabled (`cloudflared-mig-prd`), because the loopback origins exist only on prd and the replica returned 502 on half the requests.
+- **prd is the only connector:** the aphrody connector replicas on fr1 and fr2 (`cloudflared-mig-prd`) are disabled, because the loopback origins (the relay on 8790) exist only on prd. With prd alone, `mcp-origin.aphrody.com` answers 200 on 8/8 requests; with the replicas it returned 502 on about 5/6. Re-enable replicas only once the cluster load-balancer ports exist on every host.
+- **Account hardening done:** observability is on for 5 Workers, workers.dev is off for the gateway, minimum TLS is 1.2 on 3 R2 custom domains, and the legacy ftp DNS records are removed.
 - **Tunnel fr2 removed:** the tunnel and its connectors (`cloudflared-fr2`, `cloudflared-prod`) are gone from the account and the hosts.
 - **Bucket deleted:** `aphrody-archive` no longer exists.
 - **Undeclared ports:** the cluster load-balancer ports declared in the old file (19300, 19790, 19080, …) don't exist on any host.
