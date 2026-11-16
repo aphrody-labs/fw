@@ -9,7 +9,12 @@ cli = "ay"
 
 [orgs]
 dev = "aphrody-dev"          # this repository and its CI
-labs = "aphrody-labs"        # forks of upstreams (bun with craft, git stack, ...) and the archive of the old monorepo
+labs = "aphrody-labs"        # forks of upstreams (bun with craft, git stack, ...)
+
+[legacy]
+# The old monorepo, renamed (not archived) on 2026-11-16; tools/legacy.ts inventories it so nothing regresses.
+repo = "aphrody-labs/legacy"
+checkout = "../legacy"       # local checkout, relative to this repository
 
 [domains]
 root = "aphrody.com"
@@ -23,9 +28,9 @@ prod = "prd"                 # production only
 
 [products]
 # One entry per product; the feature matrix (docs/features.toml) refers to these keys.
-os = { title = "Aphrody OS", reference = "https://googlebook.google/" }
-browser = { title = "Aphrody Browser", reference = "https://chromium.googlesource.com/" }
-search = { title = "Aphrody Search", reference = "https://www.google.com/?hl=fr" }
-cloud = { title = "Aphrody Cloud", reference = "https://developers.cloudflare.com/workers/" }
-craft = { title = "Craft Anything", reference = "https://github.com/storytold/craft-anything" }
-brand = { title = "Aphrody brand", reference = "https://design.google/" }
+os = { title = "Aphrody OS", reference = "https://googlebook.google/", keywords = ["os", "kernel", "linux", "boot", "installer", "device", "hardware", "driver", "wayland", "desktop", "shell", "waydroid", "android", "aosp", "gpu", "vulkan", "audio", "fleet"] }
+browser = { title = "Aphrody Browser", reference = "https://chromium.googlesource.com/", keywords = ["browser", "chromium", "chrome", "cef", "webkit", "servo", "blink", "v8", "playwright", "puppeteer", "cdp", "webview", "tauri"] }
+search = { title = "Aphrody Search", reference = "https://www.google.com/?hl=fr", keywords = ["search", "crawl", "index", "rag", "embed", "rank", "google", "gemini", "llm", "llama", "infer", "ai", "agent", "a2a", "mcp", "memory"] }
+cloud = { title = "Aphrody Cloud", reference = "https://developers.cloudflare.com/workers/", keywords = ["cloud", "edge", "deploy", "gateway", "worker", "cloudflare", "r2", "dns", "tls", "http", "api", "server", "sql", "db", "vault", "mail", "apify", "relay"] }
+craft = { title = "Craft Anything", reference = "https://github.com/storytold/craft-anything", keywords = ["craft", "artcraft", "canvas", "video", "image", "game", "render", "3d", "media"] }
+brand = { title = "Aphrody brand", reference = "https://design.google/", keywords = ["brand", "identity", "design", "m3", "theme", "token", "font", "icon", "assets", "i18n"] }

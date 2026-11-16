@@ -1,0 +1,869 @@
+version = 1
+retrieved = "2026-11-16"
+subject = "casey/just (the command runner) and its ecosystem, and whether Aphrody should adopt it as the single task entry in front of tools/*.ts"
+method = "Release, repo and licence facts from gh api repos/casey/just and the crates.io API; Cargo.toml, Cargo.lock, CHANGELOG.md and README.md read at tag 1.59.0 with gh api repos/casey/just/contents/<file>?ref=1.59.0; CLI surface from the local binary (just --help, just 1.59.0); npm, PyPI, JetBrains and crates.io registries queried live; code-search counts from gh api search/code (file counts, not repository counts); big adopters from one GraphQL query that probes HEAD:justfile, HEAD:Justfile, HEAD:.justfile on 100 candidate repos (only the 8 listed matched, so the list is a floor, not a ranking); local justfiles read from the checkouts under C:/src and exercised with just --list, --dump --dump-format json, --fmt --check, --dry-run and a few real recipes."
+unverified = [
+  "VS Code Marketplace install count and version of nefrob.vscode-just-syntax (the marketplace query did not return it; GitHub release 0.10.2 of nefrob/vscode-just is verified)",
+  "Zed and Helix just support beyond what the just README states (Helix: out of the box since 23.05, per README; zed-just v0.2.0 verified on GitHub)",
+  "Whether just is in the default Windows image of GitHub-hosted runners beyond the README statement (choco install just on Windows, brew install just on macOS)",
+  "go-task and cargo-make/mise download counts (only npm and crates.io numbers that were read are listed)",
+]
+sources = [
+  "https://api.github.com/repos/casey/just",
+  "https://api.github.com/repos/casey/just/releases",
+  "https://crates.io/api/v1/crates/just",
+  "https://raw.githubusercontent.com/casey/just/1.59.0/Cargo.toml",
+  "https://raw.githubusercontent.com/casey/just/1.59.0/CHANGELOG.md",
+  "https://raw.githubusercontent.com/casey/just/1.59.0/README.md",
+  "https://just.systems/man/en/",
+]
+
+# ---------------------------------------------------------------- casey/just
+
+[just]
+repo = "https://github.com/casey/just"
+homepage = "https://just.systems"
+manual = "https://just.systems/man/en/"
+description = "Just a command runner (README: runs on any system with a reasonable sh; Windows needs sh from Git for Windows, Cygwin or similar, or set shell := [...] to PowerShell or cmd.exe)"
+default_branch = "master"
+created = "2016-06-17"
+last_push = "2026-11-15"
+stars = 36720
+forks = 943
+open_issues = 172
+open_pull_requests = 0
+contributors = 213
+licence = "CC0-1.0 (public domain dedication)"
+language = "Rust, edition 2024"
+msrv = "1.89.0 (Cargo.toml rust-version); README says the policy is current stable Rust"
+latest_release = "1.59.0"
+latest_release_date = "2026-10-15"
+releases_last_12_months = 20
+cadence = "README: new releases are made frequently; 1.44.0 (2025-12-07) to 1.59.0 (2026-10-15) is 20 releases in under 11 months"
+crate_all_time_downloads = 2972593
+crate_recent_downloads_90d = 566525
+crate_downloads_1_59_0 = 112018
+sources = [
+  "https://api.github.com/repos/casey/just",
+  "https://api.github.com/search/issues?q=repo:casey/just+is:pr+is:open",
+  "https://crates.io/api/v1/crates/just",
+  "https://api.github.com/repos/casey/just/contributors?per_page=1",
+]
+note = "crates.io counts only cargo installs; most users take prebuilt binaries or distro packages, so the figure understates real usage. PyPI rust-just shows 2568594 downloads in the last month (pypistats) and npm rust-just 290364 (npm downloads API, 2026-10-17 to 2026-11-15)."
+
+[just.build]
+workspace_members = ["just", "crates/action-versions", "crates/generate-book"]
+lockfile_packages = 155
+features = "none: the [features] table is absent and crates.io reports features = {}"
+profile_release = "lto = true, codegen-units = 1"
+runtime_deps_direct = 32
+unix_only_deps = ["nix 0.31.0 (signal, user, fs)"]
+windows_only_deps = ["ctrlc 3.1.1 (termination)"]
+dev_deps = ["pretty_assertions 1.0.0", "which 8.0.0"]
+source = "https://raw.githubusercontent.com/casey/just/1.59.0/Cargo.toml"
+
+# Direct dependencies at tag 1.59.0 (version requirement as written in Cargo.toml).
+[[just.dependency]]
+name = "blake3"
+req = "1.5.0"
+features = ["mmap", "rayon", "serde"]
+use = "recipe cache keys, blake3() and blake3_file()"
+
+[[just.dependency]]
+name = "camino"
+req = "1.0.4"
+features = ["serde1"]
+use = "UTF-8 paths (1.59.0 now requires Unicode paths)"
+
+[[just.dependency]]
+name = "chrono"
+req = "0.4.38"
+use = "datetime(), datetime_utc(), timestamps"
+
+[[just.dependency]]
+name = "clap"
+req = "4.0.0"
+features = ["derive", "env", "string", "wrap_help"]
+use = "command line"
+
+[[just.dependency]]
+name = "clap_complete"
+req = "=4.6.11"
+features = ["unstable-dynamic"]
+use = "dynamic shell completions (since 1.48.0)"
+
+[[just.dependency]]
+name = "clap_mangen"
+req = "0.3.0"
+use = "--man"
+
+[[just.dependency]]
+name = "digest-io"
+req = "0.1.0"
+use = "hashing files"
+
+[[just.dependency]]
+name = "dirs"
+req = "7.0.0"
+use = "config_directory(), data_directory(), home_directory(), cache_directory()"
+
+[[just.dependency]]
+name = "dotenvy"
+req = "0.15.0"
+use = ".env loading"
+
+[[just.dependency]]
+name = "heck"
+req = "0.5.0"
+use = "case-conversion functions"
+
+[[just.dependency]]
+name = "hex"
+req = "0.4.3"
+
+[[just.dependency]]
+name = "is_executable"
+req = "1.0.4"
+use = "which(), require()"
+
+[[just.dependency]]
+name = "libc"
+req = "0.2.0"
+
+[[just.dependency]]
+name = "nu-ansi-term"
+req = "0.50.3"
+use = "colour output, style()"
+
+[[just.dependency]]
+name = "num_cpus"
+req = "1.15.0"
+use = "num_cpus()"
+
+[[just.dependency]]
+name = "percent-encoding"
+req = "2.3.1"
+use = "encode_uri_component()"
+
+[[just.dependency]]
+name = "pulldown-cmark"
+req = "0.13.4"
+features = []
+use = "markdown justfiles (1.53.0)"
+
+[[just.dependency]]
+name = "rand"
+req = "0.10.0"
+use = "choose(), uuid()"
+
+[[just.dependency]]
+name = "regex"
+req = "1.10.4"
+use = "replace_regex(), [arg(pattern)]"
+
+[[just.dependency]]
+name = "semver"
+req = "1.0.20"
+use = "semver_matches(), set minimum-version"
+
+[[just.dependency]]
+name = "serde"
+req = "1.0.130"
+features = ["derive", "rc"]
+
+[[just.dependency]]
+name = "serde_json"
+req = "1.0.68"
+use = "--dump --dump-format json"
+
+[[just.dependency]]
+name = "sha2"
+req = "0.11.0"
+use = "sha256(), sha256_file()"
+
+[[just.dependency]]
+name = "shellexpand"
+req = "3.1.0"
+use = "shell-expanded strings x'...'"
+
+[[just.dependency]]
+name = "similar"
+req = "3.0.0"
+features = ["unicode"]
+use = "--fmt --check diff"
+
+[[just.dependency]]
+name = "snafu"
+req = "0.9.0"
+use = "error types"
+
+[[just.dependency]]
+name = "strsim"
+req = "0.11.1"
+use = "did-you-mean suggestions"
+
+[[just.dependency]]
+name = "strum"
+req = "0.28.0"
+features = ["derive"]
+
+[[just.dependency]]
+name = "tempfile"
+req = "3.0.0"
+use = "script and shebang recipe temporary files"
+
+[[just.dependency]]
+name = "typed-arena"
+req = "2.0.1"
+
+[[just.dependency]]
+name = "unicode-width"
+req = "0.2.0"
+use = "--list column alignment"
+
+[[just.dependency]]
+name = "uuid"
+req = "1.0.0"
+features = ["v4"]
+use = "uuid()"
+
+# ----------------------------------------------------------- install channels
+
+[just.install]
+prebuilt_targets = [
+  "aarch64-apple-darwin",
+  "aarch64-pc-windows-msvc",
+  "aarch64-unknown-linux-musl",
+  "arm-unknown-linux-musleabihf",
+  "armv7-unknown-linux-musleabihf",
+  "loongarch64-unknown-linux-musl",
+  "riscv64gc-unknown-linux-musl",
+  "x86_64-apple-darwin",
+  "x86_64-pc-windows-msvc",
+  "x86_64-unknown-linux-musl",
+]
+release_assets_note = "Each release carries 10 archives (tar.gz, zip on Windows), SHA256SUMS and CHANGELOG.md; source: gh api repos/casey/just/releases/latest"
+install_script = "curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to DEST (pass --tag on shared CI IPs to avoid GitHub API rate limits; 1.59.0 fixed minified-JSON handling and 1.56.0 empty GITHUB_TOKEN)"
+container = "ghcr.io/casey/just (COPY --from=ghcr.io/casey/just:latest /just /usr/local/bin/); docker images are built since 1.48.0"
+nix = "flake.nix in the repo (added 1.49.0) and nixpkgs pkgs/by-name/ju/just"
+cargo = "cargo install just; cargo binstall just"
+windows = "winget install --id Casey.Just --exact; scoop install just; choco install just"
+macos = "brew install just; port install just"
+linux = "apk add just; pacman -S just; apt install just (Debian trixie); dnf install just; zypper in just; xbps-install -S just; emerge dev-build/just; eopkg install just; snap install --edge --classic just; nix-env -iA nixos.just"
+bsd = "pkg install just (FreeBSD); pkg_add just (OpenBSD)"
+version_managers = "asdf (olofvndrhr/asdf-just), arkade, conda-forge, spack, mise (documented as a related tool)"
+source = "https://raw.githubusercontent.com/casey/just/1.59.0/README.md"
+
+[[just.install_wrapper]]
+channel = "npm"
+package = "rust-just"
+version = "1.59.0"
+licence = "CC0-1.0"
+maintainer_repo = "https://github.com/gnpaone/rust-just"
+note = "Third-party repackaging of the Rust binary, not published by casey; README lists `npm install -g rust-just`. 290364 downloads in the 30 days to 2026-11-15; depends on execa and yargs."
+source = "https://registry.npmjs.org/rust-just/latest"
+
+[[just.install_wrapper]]
+channel = "npm"
+package = "just-install"
+version = "2.0.2"
+licence = "MIT"
+maintainer_repo = "https://github.com/brombal/just-install"
+note = "postinstall downloads the platform binary (node-fetch, extract-zip). Last published 2024-07-31, so it can lag the current just; 9349 downloads in the 30 days to 2026-11-15."
+source = "https://registry.npmjs.org/just-install/latest"
+
+[[just.install_wrapper]]
+channel = "PyPI"
+package = "rust-just"
+version = "1.59.0"
+maintainer_repo = "https://github.com/gnpaone/rust-just"
+note = "Platform wheels (manylinux x86_64/aarch64/armv7/i686/ppc64le/s390x, macOS, Windows) of the Rust binary; README lists pipx install rust-just and uv tool install rust-just. 2568594 downloads in the last month (pypistats), published 2026-10-16."
+source = "https://pypi.org/pypi/rust-just/json"
+
+# --------------------------------------------------------- language features
+
+[language]
+file_names = "justfile, Justfile, any case, and .justfile; --justfile-name (1.49.0, comma-separated list 1.58.0) overrides; search runs upward from the current directory"
+default_recipe = "first recipe, or [default] (1.43.0), or set default-list / --default-list (1.52.0)"
+recipes = "name, parameters (positional, default values, variadic * and +, exported with $), prefixes @ (quiet), - (ignore error), ? guard sigil (1.47.0, set guards)"
+dependencies = "prior and subsequent dependencies (a: b && c), dependencies with arguments, dependencies on module recipes (foo::bar); [parallel] (1.42.0) runs dependencies in parallel, capped by --jobs (1.56.0)"
+options_on_recipes = "recipes take --long, -s short options and flags via [arg(name, long=, short=, value=, pattern=, help=, multiple, min=, max=)] (1.46.0 to 1.56.0); --usage prints generated usage"
+shell_recipes = "each line is run by the shell (set shell := [...]); lines are not a single script unless shebang or [script]"
+shebang_recipes = "recipe body beginning #!interpreter is written to a temporary file and executed"
+script_recipes = "[script] and [script(COMMAND)] (stabilized 1.44.0, set default-script 1.52.0, [shell] overrides)"
+variables = "assignments with :=, strings ('..', \"..\", triple-quoted, f'{format}' strings 1.44.0, shell-expanded x'...'), backtick commands, + concatenation, / path join, conditional if/else (else if documented 1.57.0), lazy evaluation (stabilized 1.48.0), eager keyword (1.47.1), export, unexport"
+user_defined_functions = "1.49.0, unstable"
+lists = "set lists (1.53.0), unstable"
+modules = "mod foo (1.19.0, stabilized 1.31.0), mod? optional, module aliases (1.55.0), [group] and [doc] on modules, recipes run as just foo::bar or just foo bar, --list-submodules"
+imports = "import 'path' and import? 'path': all recipes land in one global namespace (the ay legacy justfile uses this); same file imported twice is not an error (1.37.0)"
+settings = "allow-duplicate-recipes, allow-duplicate-variables, default-list, default-script, dotenv-command (1.54.0), dotenv-filename, dotenv-load, dotenv-override, dotenv-path, dotenv-required, export, fallback, guards, ignore-comments, indentation (1.56.0), lazy, lists (unstable), minimum-version (1.55.0), no-cd (1.51.0), no-exit-message, positional-arguments, quiet, script-interpreter, shell, tempdir, unstable, windows-powershell and windows-shell (deprecated, use [windows] on set shell), working-directory (1.33.0)"
+dotenv = "set dotenv-load, dotenv-filename, dotenv-path, dotenv-required, dotenv-override, dotenv-command; --dotenv-filename -F, --dotenv-path -E, --no-dotenv"
+unstable_features_in_1_59_0 = ["[cache] cached recipes (1.54.0)", "set lists (1.53.0)", "user-defined functions (1.49.0)"]
+unstable_switch = "--unstable, set unstable, or JUST_UNSTABLE=1; source: src/unstable_feature.rs at 1.59.0 lists exactly CachedRecipes, ListsSetting, UserDefinedFunctions"
+stable_after_unstable = "fmt stabilized 1.50.0; lazy evaluation 1.48.0; [script] 1.44.0; modules 1.31.0"
+function_count_note = "README documents roughly 90 built-in functions and constants; grouped below, not individually counted"
+
+[language.attributes]
+# From the README attribute table at 1.59.0 (version in which each appeared).
+recipe_behaviour = [
+  "[arg(...)] 1.46.0", "[cache] 1.54.0 (unstable)", "[confirm] 1.17.0", "[confirm(PROMPT)] 1.23.0 (expression 1.49.0)",
+  "[continue(SIGNALS)] 1.54.0", "[default] 1.43.0", "[doc(DOC)] 1.27.0", "[env(NAME, VALUE)] 1.47.0",
+  "[extension(EXT)] 1.32.0", "[exit-message] 1.39.0", "[group(NAME)] 1.27.0", "[metadata(...)] 1.42.0",
+  "[no-cd] 1.9.0", "[no-exit-message] 1.7.0", "[no-quiet] 1.23.0", "[parallel] 1.42.0",
+  "[positional-arguments] 1.29.0", "[private] 1.10.0", "[script] 1.33.0", "[script(COMMAND)] 1.32.0",
+  "[shell] 1.52.0", "[timestamp] and [timestamp(FORMAT)] 1.58.0", "[working-directory(PATH)] 1.38.0",
+]
+platform_gates = [
+  "[linux] 1.8.0", "[macos] 1.8.0", "[windows] 1.8.0", "[unix] 1.8.0", "[openbsd] 1.38.0",
+  "[freebsd] 1.47.0", "[netbsd] 1.47.0", "[dragonfly] 1.47.0", "[android] 1.50.0",
+]
+platform_gate_scope = "any item (recipe, alias, mod, set, assignment) since 1.56.0 (conditional attributes on all items)"
+
+[language.functions]
+system = ["arch()", "os()", "os_family()", "num_cpus() 1.15.0"]
+external_commands = ["shell(command, args...) 1.27.0"]
+environment = ["env(key) 1.15.0", "env(key, default) 1.15.0", "env_var() and env_var_or_default() deprecated"]
+executables = ["require(name) 1.39.0", "which(name) 1.39.0"]
+invocation = ["is_dependency()", "num_jobs() 1.56.0", "recipe_name() 1.53.0", "invocation_directory()", "invocation_directory_native()", "justfile()", "justfile_directory()", "source_file() 1.27.0", "source_directory() 1.27.0", "module_file()", "module_directory()", "module_path() 1.50.0", "just_executable()", "just_pid()", "just_version() 1.55.0"]
+strings = ["append", "prepend", "encode_uri_component", "quote", "replace", "replace_regex", "trim", "trim_end", "trim_end_match", "trim_end_matches", "trim_start", "trim_start_match", "trim_start_matches", "len() 1.57.0", "split (split('') splits into characters since 1.57.0)"]
+case_conversion = ["capitalize", "kebabcase", "lowercamelcase", "lowercase", "shoutykebabcase", "shoutysnakecase", "snakecase", "titlecase", "uppercamelcase", "uppercase"]
+paths = ["absolute_path", "canonicalize 1.24.0", "extension", "file_name", "file_stem", "parent_directory", "without_extension", "clean", "join", "path_exists", "read 1.39.0"]
+assertions = ["assert(CONDITION, MESSAGE) 1.27.0 (message optional since 1.53.0)", "error(message)"]
+hashing_and_random = ["blake3 1.25.0", "blake3_file 1.25.0", "sha256", "sha256_file", "uuid", "choose(n, alphabet) 1.27.0"]
+datetime = ["datetime(format) 1.30.0", "datetime_utc(format) 1.30.0"]
+semver = ["semver_matches(version, requirement) 1.16.0"]
+style = ["style(styles) 1.37.0", "style(styles, text) 1.55.0 (RGB and fixed colours 1.55.0)"]
+user_directories = ["cache_directory", "config_directory", "config_local_directory", "data_directory", "data_local_directory", "executable_directory", "home_directory", "runtime_directory (1.49.0)"]
+constants = ["HEX, HEXLOWER, HEXUPPER", "PATH_SEP, PATH_VAR_SEP 1.41.0", "terminal escapes: CLEAR, NORMAL, BOLD, ITALIC, UNDERLINE, INVERT, HIDE, STRIKETHROUGH, and the colour names (1.37.0)"]
+
+[language.cli]
+# Read from `just --help` (local binary 1.59.0); each long option also has a JUST_* environment variable.
+commands = [
+  "--list [MODULE...] (-l), --groups, --summary, --usage [PATH...] (1.46.0), --show RECIPE_PATH (-s), --variables",
+  "--evaluate [VAR] with --evaluate-format just|shell (1.49.0)",
+  "--dump with --dump-format just|json, and --json as a synonym (1.48.0)",
+  "--fmt (stabilized 1.50.0), --fmt --check prints a diff and exits 1 if unformatted",
+  "--choose with --chooser (default fzf; the justfile path is passed in an environment variable since 1.59.0)",
+  "--command (-c): run an arbitrary command with the justfile's working directory, .env, overrides and exports",
+  "--completions bash|elvish|fish|nushell|powershell|zsh (dynamic completion engine since 1.48.0)",
+  "--init, --edit (-e), --man, --changelog, --clean [RECIPE_PATH...] (clears the .justcache directory)",
+]
+flags = [
+  "--dry-run (-n), --yes (auto-confirm [confirm]), --one, --no-deps, --time (1.49.0), --timestamp and --timestamp-format, --jobs N (1.56.0)",
+  "--justfile (-f, '-' reads stdin since 1.51.0), --working-directory (-d, allowed without --justfile since 1.59.0), --global-justfile (-g), --ceiling, --allow-missing",
+  "--set VAR VALUE, --shell, --shell-arg, --shell-command, --clear-shell-args, --tempdir, --unstable, --verbose, --quiet",
+  "--list-heading, --list-prefix, --list-submodules, --alias-style, --group, --unsorted, --no-aliases, --complete-aliases",
+  "--color, --highlight, --no-highlight, --command-color, --explain, --indentation, --cygpath",
+]
+
+[[just.changes]]
+version = "1.59.0"
+date = "2026-10-14"
+kind = "breaking"
+summary = "Requires Unicode (UTF-8) paths. Added [cache(environment)], --usage over a module path, --working-directory without --justfile; the default chooser receives the justfile through an environment variable."
+
+[[just.changes]]
+version = "1.58.0"
+date = "2026-08-03"
+summary = "Added [timestamp] and [timestamp(FORMAT)]. just --fmt now surrounds interpolations with spaces ({{root}} becomes {{ root }}), so previously formatted justfiles fail --fmt --check. --justfile-name takes comma-separated values."
+
+[[just.changes]]
+version = "1.57.0"
+date = "2026-07-18"
+summary = "Added len(). Many hard-error tightenings: duplicate groups, option names starting with '-', [arg(flag)] with [arg(pattern)], empty alphabet in choose(). cmd.exe arguments pass unescaped. Markdown justfiles are found by name. [env] variables are visible to shell()."
+
+[[just.changes]]
+version = "1.56.0"
+date = "2026-07-09"
+summary = "Added --jobs and num_jobs(), set indentation, [arg(min)] and [arg(max)], platform attributes on any item, [doc] and [env] as expressions. Assignments are evaluated in dependency order; shell() is not run in a dry run; set ignore-comments applies only to shell recipes."
+
+[[just.changes]]
+version = "1.55.0"
+date = "2026-06-29"
+summary = "Added module aliases, set minimum-version, just_version(), [arg(multiple)], variadic parameters as options, combined short options, style() with RGB and fixed colours."
+
+[[just.changes]]
+version = "1.54.0"
+date = "2026-06-22"
+summary = "Added unstable [cache] cached recipes (BLAKE3 keys under .justcache), [continue], set dotenv-command and --dotenv-command."
+
+[[just.changes]]
+version = "1.53.0"
+date = "2026-06-16"
+summary = "Added markdown justfiles, recipe_name(), unstable set lists; assert() message optional."
+
+[[just.changes]]
+version = "1.52.0"
+date = "2026-06-08"
+summary = "Added set default-script and [shell], set default-list and --default-list; recipes that depend on absent optional modules are disabled."
+
+[[just.changes]]
+version = "1.51.0"
+date = "2026-05-09"
+summary = "Added set no-cd; --justfile - reads standard input; [env] and [working-directory] accept expressions."
+
+[[just.changes]]
+version = "1.50.0"
+date = "2026-04-19"
+summary = "--fmt stabilized (no longer needs --unstable). Added [android], module_path(), --choose filtered by --group; JSON dump gains module_path."
+
+[[just.changes]]
+version = "1.49.0"
+date = "2026-04-04"
+summary = "Added user-defined functions (unstable), a just skill for agents (skills/just, npx skills add casey/just --global), --time, --evaluate-format, --justfile-name, --indentation, runtime_directory(), a Nix flake."
+
+[[just.changes]]
+version = "1.48.0"
+date = "2026-03-23"
+summary = "Lazy evaluation stabilized; dynamic shell completion engine; --json; docker images; which() and require() respect PATHEXT on Windows; variables overridable in submodules."
+
+[[just.changes]]
+version = "1.47.0"
+date = "2026-03-14"
+summary = "Added lazy setting, ? guard sigil, --group, [env(NAME, VALUE)], BSD attributes; [private] modules hidden from --list."
+
+[[just.changes]]
+version = "1.46.0"
+date = "2026-01-01"
+summary = "Recipes accept --long and -s options and flags; --usage with argument help strings; const expressions in settings and working-directory."
+
+[[just.changes]]
+version = "1.45.0"
+date = "2025-12-10"
+summary = "[arg(pattern=...)] requires recipe arguments to match a regular expression."
+
+[[just.changes]]
+version = "1.44.0"
+date = "2025-12-06"
+summary = "[script] stabilized; f'{format}' strings with double braces; newlines allowed in interpolations."
+
+# ------------------------------------------------------------------ ecosystem
+
+[[ecosystem]]
+kind = "editor"
+name = "tree-sitter-just"
+repo = "https://github.com/casey/tree-sitter-just"
+note = "Moved from IndianBoy42 to casey (the old URL redirects). Grammar used by nvim-treesitter, Helix, Zed and just-lsp."
+stars = 197
+licence = "Apache-2.0"
+last_push = "2026-03-25"
+latest = "0.2.0 (package.json; crates.io tree-sitter-just 0.2.0, 205148 downloads)"
+source = "https://api.github.com/repos/casey/tree-sitter-just"
+
+[[ecosystem]]
+kind = "editor"
+name = "vscode-just (nefrob)"
+repo = "https://github.com/nefrob/vscode-just"
+stars = 280
+licence = "MIT"
+latest = "0.10.2"
+latest_date = "2026-06-10"
+note = "The extension the just README recommends. skellock/vscode-just (last push 2021-12-07) and sclu1034/vscode-just (2022-05-28) are archived."
+source = "https://api.github.com/repos/nefrob/vscode-just"
+
+[[ecosystem]]
+kind = "editor"
+name = "vim-just"
+repo = "https://github.com/NoahTheDuke/vim-just"
+stars = 121
+licence = "MIT"
+last_push = "2026-09-08"
+note = "Vim 9.1.1042 and Neovim 0.11 ship justfile syntax highlighting built in (README)."
+source = "https://api.github.com/repos/NoahTheDuke/vim-just"
+
+[[ecosystem]]
+kind = "editor"
+name = "zed-just"
+repo = "https://github.com/jackTabsCode/zed-just"
+stars = 62
+licence = "MIT"
+latest = "v0.2.0"
+latest_date = "2026-01-09"
+source = "https://api.github.com/repos/jackTabsCode/zed-just"
+
+[[ecosystem]]
+kind = "editor"
+name = "just-mode.el and justl.el (Emacs)"
+repo = "https://github.com/leon-barrett/just-mode.el"
+stars = 52
+licence = "GPL-3.0"
+note = "just-mode (syntax, indentation, on MELPA) plus psibi/justl.el (98 stars, GPL-3.0, last push 2026-09-15) to list and run recipes."
+source = "https://api.github.com/repos/psibi/justl.el"
+
+[[ecosystem]]
+kind = "editor"
+name = "JetBrains Just plugin (linux-china)"
+repo = "https://github.com/linux-china/jetbrains-just-plugin"
+latest = "0.6.58"
+downloads = 566166
+note = "JetBrains Marketplace plugin id 18658; downloads and version from plugins.jetbrains.com/api/plugins/18658."
+source = "https://plugins.jetbrains.com/plugin/18658-just"
+
+[[ecosystem]]
+kind = "editor"
+name = "Sublime Text, Helix, Kakoune, Micro"
+repo = "https://github.com/nk9/just_sublime"
+stars = 17
+licence = "MIT"
+note = "Sublime via the Just package (PackageControl). Helix (since 23.05), Kakoune and Micro highlight justfiles out of the box (README)."
+source = "https://raw.githubusercontent.com/casey/just/1.59.0/README.md"
+
+[[ecosystem]]
+kind = "language_server"
+name = "just-lsp"
+repo = "https://github.com/terror/just-lsp"
+stars = 359
+licence = "CC0-1.0"
+latest = "0.11.2"
+latest_date = "2026-11-16"
+crates_downloads = 21924
+note = "The only language server linked from the just README. Features per its README: completions, hover docs, diagnostics, navigation, renaming, formatting, running recipes. Install: cargo install just-lsp. Site and playground at just-lsp.systems."
+source = "https://api.github.com/repos/terror/just-lsp"
+
+[[ecosystem]]
+kind = "mcp"
+name = "just-mcp (PromptExecution)"
+repo = "https://github.com/PromptExecution/just-mcp"
+stars = 60
+licence = "MIT"
+latest = "v0.1.5"
+latest_date = "2025-11-15"
+crates_downloads = 713
+note = "The MCP server linked from the just README: lets an LLM list, inspect and run recipes. Its README says 67 percent complete (8 of 12 core tasks) and builds on rmcp 0.3.0; no release since 2025-11-15. toolprint/just-mcp (45 stars, last push 2025-08-22) is a second, smaller server. The just repo itself ships a skill instead (skills/just/SKILL.md since 1.49.0; npx skills add casey/just --global)."
+source = "https://api.github.com/repos/PromptExecution/just-mcp"
+
+[[ecosystem]]
+kind = "github_action"
+name = "extractions/setup-just"
+repo = "https://github.com/extractions/setup-just"
+stars = 160
+licence = "Apache-2.0"
+latest = "v4"
+latest_date = "2026-04-05"
+usage = "uses: extractions/setup-just@v3 with just-version (README example uses @v3; v4 is the latest release tag)"
+source = "https://api.github.com/repos/extractions/setup-just"
+
+[[ecosystem]]
+kind = "github_action"
+name = "taiki-e/install-action"
+repo = "https://github.com/taiki-e/install-action"
+stars = 559
+licence = "Apache-2.0"
+latest = "v2.90.5"
+latest_date = "2026-11-15"
+usage = "uses: taiki-e/install-action@just; manifests/just.json lists latest 1.59.0 and prebuilt x86_64/aarch64 Linux musl, macOS, Windows"
+note = "The legacy ay repo already pins taiki-e/install-action@v2 in 3 workflow files."
+source = "https://api.github.com/repos/taiki-e/install-action"
+
+[[ecosystem]]
+kind = "tool"
+name = "just.sh"
+repo = "https://github.com/jstrieb/just.sh"
+stars = 246
+last_push = "2025-05-05"
+note = "Compiles justfiles to portable shell scripts (topic:justfile search)."
+source = "https://api.github.com/search/repositories?q=topic:justfile&sort=stars"
+
+[[ecosystem]]
+kind = "tool"
+name = "just-flake"
+repo = "https://github.com/juspay/just-flake"
+stars = 55
+last_push = "2024-06-05"
+note = "just inside Nix devShells; stale."
+source = "https://api.github.com/search/repositories?q=topic:justfile&sort=stars"
+
+[[ecosystem]]
+kind = "tool"
+name = "just.nvim"
+repo = "https://github.com/nxuv/just.nvim"
+stars = 50
+last_push = "2026-02-14"
+source = "https://api.github.com/search/repositories?q=topic:justfile&sort=stars"
+
+[[ecosystem]]
+kind = "formatter"
+name = "just --fmt (built in)"
+note = "No separate formatter or linter has traction: gh search for justfile formatter and linter returned no repository. --fmt is stable since 1.50.0, --fmt --check is the CI gate, and just-lsp offers diagnostics. Formatting changed in 1.58.0 (spaces inside {{ }}), which is a one-time diff."
+source = "https://raw.githubusercontent.com/casey/just/1.59.0/CHANGELOG.md"
+
+[ecosystem_usage]
+justfile_files_on_github = 101632
+justfile_files_note = "gh api search/code?q=filename:justfile (case-insensitive; counts files, includes vendored copies and forks, so it overstates distinct projects)"
+dot_justfile_files = 3064
+dot_just_extension_files = 13344
+topic_justfile_repositories = 142
+compare_taskfile_yml = 37504
+compare_taskfile_yaml = 9856
+compare_mise_toml = 40384
+compare_dot_mise_toml = 8352
+compare_makefile_toml = 5912
+compare_moon_yml = 9552
+compare_nx_json = 65920
+compare_makefile = 17629184
+source = "https://api.github.com/search/code"
+
+[[adopter]]
+repo = "ajeetdsouza/zoxide"
+stars = 40610
+file = "justfile"
+source = "https://github.com/ajeetdsouza/zoxide/blob/HEAD/justfile"
+
+[[adopter]]
+repo = "casey/just"
+stars = 36720
+file = "justfile"
+source = "https://github.com/casey/just/blob/master/justfile"
+
+[[adopter]]
+repo = "nix-community/home-manager"
+stars = 10524
+file = "Justfile"
+source = "https://github.com/nix-community/home-manager/blob/HEAD/Justfile"
+
+[[adopter]]
+repo = "cloudflare/workerd"
+stars = 9202
+file = "justfile"
+note = "11.5 KB justfile driving Bazel, compile_commands and clang setup (prepare, compile-commands, fetch-generated, watch, coverage)."
+source = "https://github.com/cloudflare/workerd/blob/HEAD/justfile"
+
+[[adopter]]
+repo = "nextest-rs/nextest"
+stars = 3396
+file = "Justfile"
+source = "https://github.com/nextest-rs/nextest/blob/HEAD/Justfile"
+
+[[adopter]]
+repo = "near/nearcore"
+stars = 2622
+file = "Justfile"
+source = "https://github.com/near/nearcore/blob/HEAD/Justfile"
+
+[[adopter]]
+repo = "Uniswap/v4-core"
+stars = 2565
+file = "justfile"
+source = "https://github.com/Uniswap/v4-core/blob/HEAD/justfile"
+
+[[adopter]]
+repo = "PaulRBerg/prb-math"
+stars = 1008
+file = "justfile"
+source = "https://github.com/PaulRBerg/prb-math/blob/HEAD/justfile"
+
+[adopter_excluded]
+repo = "onedr0p/home-ops"
+reason = "Top result of topic:justfile, but its root has .mise and .lefthook.toml and no justfile, so it is not counted"
+source = "https://api.github.com/repos/onedr0p/home-ops/contents"
+
+# --------------------------------------------------------------- alternatives
+
+[[alternative]]
+name = "make (GNU Make)"
+kind = "build tool"
+note = "Ubiquitous (17.6 million Makefile files on GitHub). just's README lists the make idiosyncrasies it avoids (phony targets, tabs-only, platform-dependent sh). make is incremental (file mtimes); just is not unless the unstable [cache] attribute is used."
+source = "https://raw.githubusercontent.com/casey/just/1.59.0/README.md"
+
+[[alternative]]
+name = "go-task/task"
+repo = "https://github.com/go-task/task"
+language = "Go"
+format = "YAML Taskfile"
+latest = "v3.54.0"
+latest_date = "2026-10-01"
+stars = 16354
+open_issues = 195
+licence = "MIT"
+files_on_github = "37504 Taskfile.yml + 9856 Taskfile.yaml"
+note = "Single Go binary; checksum-based up-to-date checks (sources/generates), YAML includes. Listed in just's README as an alternative."
+source = "https://api.github.com/repos/go-task/task"
+
+[[alternative]]
+name = "cargo-make"
+repo = "https://github.com/sagiegurari/cargo-make"
+language = "Rust"
+format = "Makefile.toml"
+latest = "0.37.24"
+latest_date = "2025-01-18"
+stars = 2956
+open_issues = 92
+licence = "Apache-2.0"
+crates_downloads = 3846617
+note = "No release for 22 months at the time of writing (last push 2026-02-05). Rust-project focused, TOML tasks with conditions and cross-platform scripts."
+source = "https://crates.io/api/v1/crates/cargo-make"
+
+[[alternative]]
+name = "cargo xtask"
+repo = "https://github.com/matklad/cargo-xtask"
+language = "Rust"
+format = "a workspace crate invoked through a cargo alias (cargo xtask <task>)"
+stars = 1360
+note = "A convention, not a tool: tasks are Rust code (cargo run -p xtask). Needs a compile on first use, which the repo policy keeps off the PC. Aphrody already uses xtask in the legacy ay repo."
+source = "https://github.com/matklad/cargo-xtask"
+
+[[alternative]]
+name = "mise tasks"
+repo = "https://github.com/jdx/mise"
+language = "Rust"
+format = "[tasks] in mise.toml or executable files under mise-tasks/"
+latest = "v2026.11.9"
+latest_date = "2026-11-16"
+stars = 36219
+licence = "MIT"
+msrv = "1.95"
+note = "Tool version manager plus env plus tasks; docs/tasks has file tasks, TOML tasks, task arguments, monorepo, workspace graph, caching and remote cache. Listed in just's README as an alternative. Fits when tool pinning is also needed."
+source = "https://api.github.com/repos/jdx/mise"
+
+[[alternative]]
+name = "moon"
+repo = "https://github.com/moonrepo/moon"
+language = "Rust"
+format = "moon.yml"
+latest = "v2.6.5"
+latest_date = "2026-10-29"
+stars = 4191
+licence = "MIT"
+npm_downloads_30d = 1407027
+note = "Monorepo task orchestrator with project graph and remote caching (@moonrepo/cli on npm)."
+source = "https://api.github.com/repos/moonrepo/moon"
+
+[[alternative]]
+name = "nx"
+repo = "https://github.com/nrwl/nx"
+language = "TypeScript"
+format = "nx.json and project.json"
+latest = "24.0.6"
+latest_date = "2026-11-10"
+stars = 29475
+open_issues = 459
+licence = "MIT"
+npm_downloads_30d = 55065941
+note = "JavaScript monorepo build system with project graph, computation cache and affected commands; heavy for a polyglot Rust/Bun repo."
+source = "https://api.github.com/repos/nrwl/nx"
+
+[[alternative]]
+name = "bun scripts and npm scripts"
+format = "package.json scripts, bun run <file>.ts, bun exec"
+note = "bun run runs a package.json script or a TypeScript file directly; bun exec runs a shell script with Bun Shell (see bun --help in this session, Bun 1.4.5-canary.1). Per-package only: no recipe listing with docs across languages, no dependencies between scripts, no argument validation beyond what the script does. The just README states that just is a more robust alternative to npm scripts and documents Node package.json script compatibility."
+source = "https://raw.githubusercontent.com/casey/just/1.59.0/README.md"
+
+[[alternative]]
+name = "microsoft/just (just-scripts)"
+repo = "https://github.com/microsoft/just"
+language = "TypeScript"
+stars = 2023
+licence = "MIT"
+note = "Unrelated JavaScript task library with the same name; listed in the casey/just README as an alternative."
+source = "https://api.github.com/repos/microsoft/just"
+
+# ------------------------------------------------------------- Aphrody check
+
+[aphrody]
+local_just = "1.59.0 as a winget Casey.Just link under the user WinGet Links directory: installed and equal to the latest release"
+fork = "none: aphrody-labs/just, aphrody-labs/tree-sitter-just and aphrody-dev/just all return HTTP 404; the only match for 'just' in aphrody-labs is just-bash, a fork of vercel-labs/just-bash (unrelated shell sandbox, nie uses it for sandbox-sh)"
+shell_on_windows = "niubash (niu.exe) and winuxcmd sh.exe are installed; the legacy ay justfile sets windows-shell to niu -cu"
+stale_env = "The user environment variable SRC_ROOT is C:\\aphrody, a path that no longer exists (the checkout is C:\\src\\ay). The legacy justfile reads root := env(\"SRC_ROOT\", justfile_directory()), so recipes that use {{root}} fail until SRC_ROOT is removed; verified: just agents status fails with Module not found C:\\aphrody/tools/agents/runner.ts, and env -u SRC_ROOT just doctor runs."
+
+[[aphrody.justfile]]
+repo = "C:/src/ay (aphrody-labs/ay, legacy)"
+files = "justfile (91 lines) plus 23 imported .just files (one per area, 1152 lines in total, excluding third_party)"
+tracked_since = "2026-11-11 (f39b8ae60), last touched 2026-11-16 (b582f45fb)"
+recipes = 157
+recipe_groups = 22
+recipes_calling_bun = 73
+recipes_referencing_ts = 65
+recipes_calling_ay_cli = 24
+recipes_calling_cargo = 15
+shell = "set shell := [\"sh\", \"-cu\"]; set windows-shell := [\"niu\", \"-cu\"]; set dotenv-load := false"
+structure = "root justfile holds settings and shared variables and import statements only; recipes live next to the code they drive (system/ay/ay.just, device/fleet/fleet.just, build/chromium-factory/chromium-factory.just, tools/agents/agents.just, ...)"
+groups = "gates 12, ay 21, fleet 18, labs 13, ai-os 11, docker 10, agents 8, dev 7, cloudflare 7, gnu 7, machine 7, unixwin 7, core 6, cluster 5, android 4, lfs 3, release 3, upstream 2, env 2, browser 2, re 1"
+works = "yes. just --list, --summary, --groups and --dump --dump-format json succeed with 0 warnings; just --dry-run check prints the gate; env -u SRC_ROOT just doctor runs ay doctor through niu and reports toolchains (cl.exe MISSING is an environment finding, not a just failure)"
+defects = [
+  "just --fmt --check exits 1: 95 lines of diff, all the 1.58.0 spacing of {{ }} interpolations",
+  "stale SRC_ROOT (see aphrody.stale_env)",
+  "no set minimum-version, so a pre-1.56 just fails with a confusing error on [arg] or conditional attributes",
+]
+note = "Already implements the pattern recommended below: recipes are one-line calls into bun tools/scripts (for example bun \"{{root}}/tools/agents/runner.ts\" {{cmd}} {{args}}) and into the ay CLI."
+
+[[aphrody.justfile]]
+repo = "C:/src/ay/apps/nt (nested in legacy ay)"
+files = "justfile (96 lines)"
+recipes = 21
+works = "just --list succeeds (WinUI shell, interop, msindex, tools, web)"
+
+[[aphrody.justfile]]
+repo = "C:/src/ay/apps/open (own git repository)"
+files = "justfile"
+recipes = 8
+works = "just --list succeeds (check, extension, install, private, release, test-ts, upstream)"
+
+[[aphrody.justfile]]
+repo = "C:/src/nie (aphrody-labs/nie)"
+files = "justfile (87 lines) plus infra/just/{cloud,native,qa,rust,workspace}.just (148 lines)"
+last_commit = "01dec6c74 2026-11-14"
+recipes = 41
+groups = "cloud, infra, native, qa, rust, workspace"
+shell = "bash -euo pipefail -c; windows-shell powershell.exe -NoProfile -Command; dotenv-load true"
+works = "yes: --list and --dump json succeed with 0 warnings; --fmt --check exits 1 (1.58.0 spacing)"
+recipes_calling_bun = 17
+
+[[aphrody.justfile]]
+repo = "C:/src/rosegriffon (aphrody-labs/rosegriffon)"
+files = "same layout as nie (justfile 87 lines plus 5 infra/just files, 149 lines)"
+last_commit = "01dec6c7 2026-11-14"
+recipes = 41
+works = "yes: --list and --dump json succeed; --fmt --check exits 1 (1.58.0 spacing). Differs from nie only in build-all and check-all, which nie replaces with turbo-build and turbo-check."
+recipes_calling_bun = 19
+
+[[aphrody.justfile]]
+repo = "C:/src/shenron (aphrody-labs/shenron)"
+files = "justfile (334 lines)"
+last_commit = "3b23ca81 2026-11-16"
+recipes = 62
+shell = "set shell := [\"bun\", \"exec\"] and the same for windows-shell: Bun Shell runs every recipe line identically on Linux, WSL and Windows, so no sh is needed on Windows"
+header_says = "One entry point for the common Bun and Rust tasks: recipes call existing scripts (package.json, scripts/, cargo aliases) and never duplicate their logic"
+recipes_calling_bun = 43
+recipes_referencing_ts = 28
+works = "yes: --list, --dump json succeed; just --dry-run check prints bun run typecheck then bun scripts/build/rust/cargo.ts ck; just test-scripts runs the Bun test suite (684 tests, 5 failures that belong to the repo's tests; the recipe wiring works); --fmt --check exits 1 (1.58.0 spacing)"
+
+[[aphrody.justfile]]
+repo = "C:/src/aphrody (aphrody-dev/aphrody)"
+files = "none first-party: all 34 justfile and .just files are vendored upstream code under vendor/ (cosmic-*, libcosmic, blitz, anyrender, taffy, cosmic-epoch). Not run."
+works = "not run, upstream files"
+
+[[aphrody.justfile]]
+repo = "C:/src/bun, C:/src/ay-next, C:/src/browser"
+files = "none"
+note = "ay-next has tools/*.ts (absorb, disks, features, recon, each with a *.test.ts) and a package.json with two scripts (features, check); there is no justfile yet."
+
+[[aphrody.justfile]]
+repo = "C:/src/ay/third_party (bazzite, acp-rust-sdk, anyrender)"
+files = "upstream justfiles and ublue-os .just modules, vendored"
+works = "not run, upstream files"
+
+[recommendation]
+decision = "Adopt just as the single task entry for ay-next, with the recipes calling tools/*.ts and cargo; keep all logic in Bun typed scripts."
+alternatives_rejected = [
+  "Bun scripts only: package.json scripts cannot list or document tasks across Bun, cargo, Nix and depot_tools, have no dependencies between tasks, and the four sibling repos already converged on a justfile front end.",
+  "mise tasks: duplicates the Nix flake and depot_tools as the tool pin source; adopt only if tool version pinning is wanted later.",
+  "go-task, cargo-make, nx, moon: add a second language runtime or a heavier model without a gap just leaves open; cargo-make has no release since 2025-01-18.",
+  "cargo xtask: compiles Rust to run a task, which the policy keeps off the PC.",
+]
+reasons = [
+  "Evidence of fit: five Aphrody repos already use just (ay 157 recipes, shenron 62, nie 41, rosegriffon 41, ay/apps/nt 21), all list and dump cleanly with just 1.59.0 and 0 warnings.",
+  "Shenron's rule matches the policy: recipes call existing scripts and never duplicate their logic.",
+  "Language fit: one flat command surface over Bun, cargo, Nix and depot_tools; --list groups, --usage and --dump --dump-format json (or --json) give agents a machine-readable task catalogue without reading shell code.",
+  "Cost: a single static binary (10 prebuilt targets, CC0-1.0), 20 releases in the last 12 months, installed locally at 1.59.0; no runtime or compile step.",
+  "Release stability: the breaking change in 1.59.0 is UTF-8-only paths; 1.58.0 changed --fmt output; the unstable set is only [cache], lists and user-defined functions, which should not be used.",
+]
+adoption_rules = [
+  "Put set minimum-version := \"1.59.0\" (supported since 1.55.0) and set shell := [\"bun\", \"exec\"] or sh -cu with windows-shell niu -cu, one choice per repo, documented in the justfile header.",
+  "Keep recipes to one line: bun tools/<name>.ts {{args}} or cargo <cmd>; no logic in the justfile; tools/*.ts keep their own tests (bun test ./tools/).",
+  "Use [group], doc comments and the import pattern of ay (root justfile = settings and imports only) once there are more than about 20 recipes; mod gives namespaced recipes (just foo bar) if collisions appear.",
+  "Never read the repo root from a user environment variable without a fallback: use justfile_directory(); delete or fix SRC_ROOT=C:\\aphrody on this PC.",
+  "Add just --fmt --check to the check recipe and re-format once (1.58.0 spacing), so the 95-line diff seen in ay, nie, rosegriffon and shenron does not recur.",
+  "Install through the existing channels (winget Casey.Just on Windows, nixpkgs just in the flake, taiki-e/install-action@just in CI); no fork needed.",
+  "Optional: just-lsp 0.11.2 for editors and the in-repo skill (npx skills add casey/just --global) for agents instead of just-mcp, which is 67 percent complete and unreleased since 2025-11-15.",
+]
+fork_decision = "Do not fork casey/just or tree-sitter-just: nothing needs patching, the upstream release binaries cover every Aphrody host, and the tree-sitter grammar is consumed through editors. If a patch becomes necessary, fork with the gh-fork skill into aphrody-labs and register it in third_party/forks.txt."
