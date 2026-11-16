@@ -83,3 +83,6 @@ Upstreams are git submodules in `third_party/` (relative URLs, one checkout each
 
 ## Consequences
 One verb vocabulary, one capability model and one registry replace five overlapping surfaces. Playwright keeps Firefox, WebKit, the test runner and codegen as an external dependency. The cost is the alias and registry maintenance against five fast-moving upstreams (agent-browser and Obscura release every few days to two weeks), which the registry check and the live-pin check are meant to catch.
+
+## Blitz as a light backend (added 2026-11-16)
+Blitz (DioxusLabs, Apache-2.0) renders no-JS pages in-process in Rust and ships an experimental CDP server (`blitz-vibey-cdp-server`). It is a candidate backend next to Lightpanda and Obscura, measured on the same pages. See `docs/research/dioxus-blitz.md`.
