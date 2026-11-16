@@ -38,11 +38,11 @@ parsing layer for code intelligence. See ADR-2.
 | browser | Chromium with our UI, agent panel and WebMCP | ADR-3 |
 | search | Rust crawler, index and ranker; Bun front end; AI mode over the OpenAI-compatible model API | ADR-5 |
 | cloud | Bun edge runtime with a Workers-compatible API; deploys, domains, TLS, storage, logs | ADR-6 |
-| craft | engine: craft-anything in the bun fork, exposed as `bun craft` (CLI and MCP); native GUI: aphrody-dev/aphrody | ADR-1 |
+| craft | engine: aphrody-labs/craft-anything (submodule `third_party/craft-anything`), its CLI and MCP server; native GUI: aphrody-dev/aphrody | ADR-1 |
+| brand | character dataset, logo and token pipeline, Google Sans Flex, Material 3 | ADR-1 |
 
 ## Native UI lives in aphrody-dev/aphrody
 The native stack is owned by its own repository, `aphrody-dev/aphrody` (a Zed fork). That covers GPUI and the
 gpui-kit components, COSMIC and iced, the desktop shell (`gpui_app_shell`) and the Craft native UI (`os_craft`).
 This repository consumes it as the submodule `third_party/aphrody`. The OS image packages its shell; the browser
 and the web products don't depend on it. No GPUI or COSMIC code is written here.
-| brand | character dataset, logo and token pipeline, Google Sans Flex, Material 3 | ADR-1 |

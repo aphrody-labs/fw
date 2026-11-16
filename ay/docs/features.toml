@@ -270,7 +270,7 @@ status = "todo"
 [[feature]]
 product = "craft"
 id = "bun-craft"
-title = "bun craft: every craft-anything tool as a CLI command and an MCP tool"
+title = "Craft Anything (aphrody-labs/craft-anything): every tool as a CLI command and an MCP tool"
 reference = "https://github.com/storytold/craft-anything"
 layer = "backend"
 status = "todo"

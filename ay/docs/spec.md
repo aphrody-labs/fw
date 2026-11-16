@@ -11,7 +11,7 @@ Aphrody crafts four products and the brand that ties them together:
 | **Aphrody Cloud** | Cloudflare Workers + Vercel | A Bun edge runtime with a Workers-compatible API, git-push deploys, previews, domains and TLS, storage, logs and a dashboard |
 | **Craft Anything** | storytold/craft-anything | The engine that studies a reference and rebuilds it; it drives the replication of every product above |
 
-Any language does the job it suits: Rust, C, C++, Go, Bun/TypeScript, .NET, Python. The core is Rust plus the Bun fork (`aphrody-labs/bun`, with craft-anything in its `craft/`).
+Any language does the job it suits: Rust, C, C++, Go, Bun/TypeScript, .NET, Python. The core is Rust plus the Bun fork (`aphrody-labs/bun`), kept a pure JavaScript runtime; craft-anything is its own fork (`aphrody-labs/craft-anything`, with `aphrody-labs/craft-libs`) consumed as a submodule.
 
 ## Quality bar
 - No prototypes, scaffolds or placeholders: a directory exists only with a working, tested unit.
