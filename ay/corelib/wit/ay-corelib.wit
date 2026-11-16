@@ -1,0 +1,56 @@
+/// The host contract of the corelib as typed interfaces. The core module that the plain wasm build exports with
+/// C names (`ay_boot`, `ay_syscall`, ...) gets the same functions here, with a canonical ABI the toolchain checks.
+package ay:corelib@0.1.0;
+
+/// What the platform gives the corelib: the serial port of this machine.
+interface host {
+  console-put: func(byte: u8);
+}
+
+/// The platform driver's view of the corelib: boot it, create the boot task, loop over its scheduler.
+interface scheduler {
+  /// Run the boot self-test; 0 when every check held.
+  boot: func() -> s32;
+  /// Create the boot task; its id, or a negative error.
+  spawn: func() -> s32;
+  /// Next task to run, or -1 when none is runnable.
+  sched-next: func() -> s32;
+  /// Report what `step` returned for task `id` (0 done, 1 yield, 2 fault).
+  sched-report: func(id: u32, code: s32);
+}
+
+/// The syscall ABI of `include/ay_abi.h`: the only way out of an app's sandbox.
+interface syscall {
+  call: func(number: u32, a0: u32, a1: u32, a2: u32) -> s32;
+}
+
+/// What an app exports: one slice of work per call.
+interface task {
+  step: func() -> s32;
+}
+
+/// The corelib itself: needs a console, offers a scheduler and the syscall ABI.
+world corelib {
+  import host;
+  export scheduler;
+  export syscall;
+}
+
+/// An app: reaches the corelib through `syscall` and nothing else.
+world app {
+  import syscall;
+  export task;
+}
+
+/// A console backed by WASI standard output.
+world console {
+  import wasi:cli/stdout@0.2.12;
+  export host;
+}
+
+/// A command that drives one app under the corelib's scheduler.
+world driver {
+  import scheduler;
+  import task;
+  export wasi:cli/run@0.2.12;
+}

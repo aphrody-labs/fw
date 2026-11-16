@@ -1,0 +1,4 @@
+# Toolchain behind every generated listing of the guide. `bun tools/listings.ts` refuses other versions,
+# CI installs exactly these. clang is pinned by major version (all 23.x release the same code generation for these functions).
+clang = "23"
+wasm_tools = "1.263.0"

@@ -1,0 +1,13 @@
+ay-corelib abi 1
+sched: order 0 1 0 1
+mem: task 0 frames 0 1 2, freed 1 (0), realloc 1
+mem: task 1 free of foreign frame 0 -> -1, 61 frames free
+cap: derive console -1, derive endpoint as send-only 2, recv through it -1
+ipc: task 1 send 0, checksum 0xe5bacf84
+ipc: task 0 recv 0, checksum 0xe5bacf84, then empty -> -4
+log: ok
+selftest: ok
+hello from ay app
+ipc ok
+core: task 0 exited
+core: idle, no runnable task

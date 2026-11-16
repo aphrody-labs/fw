@@ -11,6 +11,7 @@ Cargo.toml       Rust workspace: members = ["crates/*"], shared [workspace.depen
 package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
 apps/            products a person runs, one folder each, any language: browser, search, cloud
 crates/          every Rust crate, flat, named ay_<area>_<thing>
+corelib/         the SDK corelib: freestanding C23 + assembly + WAT, the C ABI header, conformance hosts and proofs
 packages/        every Bun/TypeScript package, flat, named @aphrody/<name>
 os/              the distribution as data: bootstrap (LFS stage 0), pkgs (Nix), kernel, installer, image
 brand/           identity dataset and asset pipeline

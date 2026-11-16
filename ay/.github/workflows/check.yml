@@ -33,3 +33,36 @@ jobs:
       # ay_chromium downloads CEF (333 MB) in its build script, so clippy builds it here; its tests start Chromium and run on the
       # test host (docs/chromium.md).
       - run: cargo test --workspace --locked --exclude ay_chromium
+
+  # SDK corelib conformance: one freestanding C23 code base, run as a native process (clang, and clang-cl on Windows locally),
+  # as WebAssembly (Bun, wasmtime component) and as a bare-metal x86_64 image (QEMU), plus the guide's generated listings.
+  corelib:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - id: pins
+        run: |
+          pins=docs/guides/assembly-and-wasm/listings.toml
+          echo "clang=$(sed -n 's/^clang = "\(.*\)"/\1/p' $pins)" >> "$GITHUB_OUTPUT"
+          echo "wasm_tools=$(sed -n 's/^wasm_tools = "\(.*\)"/\1/p' $pins)" >> "$GITHUB_OUTPUT"
+      - name: LLVM (clang, lld, wasm-ld) from apt.llvm.org
+        run: |
+          curl -fsSL https://apt.llvm.org/llvm.sh -o "$RUNNER_TEMP/llvm.sh"
+          sudo bash "$RUNNER_TEMP/llvm.sh" ${{ steps.pins.outputs.clang }}
+          sudo apt-get install -y --no-install-recommends lld-${{ steps.pins.outputs.clang }} qemu-system-x86
+          echo "/usr/lib/llvm-${{ steps.pins.outputs.clang }}/bin" >> "$GITHUB_PATH"
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-tools@${{ steps.pins.outputs.wasm_tools }}
+      - uses: oven-sh/setup-bun@v2
+      - run: bun test ./corelib/host
+      - run: bun tools/corelib-qemu.ts --log "$RUNNER_TEMP/qemu-boot.log"
+      - run: bun tools/corelib-component.ts --log "$RUNNER_TEMP/wasmtime-boot.log"
+      - run: bun tools/listings.ts --check
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: corelib-boot-logs
+          path: |
+            ${{ runner.temp }}/qemu-boot.log
+            ${{ runner.temp }}/wasmtime-boot.log

@@ -2073,3 +2073,33 @@ layer = "backend"
 status = "done"
 proof = "packages/chromium/test/version.test.ts::stable on Windows: the channel's Chromium and a CEF minimal build for it"
 proof_kind = "test"
+
+[[feature]]
+product = "platform"
+id = "sdk-corelib-wasm"
+title = "SDK corelib (freestanding C23) on WebAssembly: capability syscall ABI as a Wasm module built with clang, apps are Wasm modules importing ay.syscall (conformance run under Bun)"
+reference = "https://www.w3.org/TR/wasm-core-2/"
+layer = "protocol"
+status = "done"
+proof = "corelib/host/corelib.test.ts"
+proof_kind = "test"
+
+[[feature]]
+product = "platform"
+id = "sdk-corelib-baremetal"
+title = "SDK corelib on bare-metal x86_64: PVH boot in assembly, long mode, serial console, same boot transcript as the Wasm run (conformance run in QEMU)"
+reference = "https://xenbits.xenproject.org/docs/unstable/misc/pvh.html"
+layer = "protocol"
+status = "done"
+proof = "corelib/proof/qemu-boot.log"
+proof_kind = "log"
+
+[[feature]]
+product = "platform"
+id = "sdk-corelib-native"
+title = "SDK corelib as a native library: the same C sources build with clang (ELF, PE) and clang-cl + lld-link (MSVC ABI) and print the same boot transcript"
+reference = "https://clang.llvm.org/docs/UsersManual.html#clang-cl"
+layer = "protocol"
+status = "done"
+proof = "corelib/host/native.test.ts"
+proof_kind = "test"
