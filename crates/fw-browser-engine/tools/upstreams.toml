@@ -22,7 +22,7 @@ branch = "main"
 [[upstream]]
 name = "webrender"
 url = "https://github.com/servo/webrender"
-branch = "main"
+branch = "0.70"   # Servo's line (published 0.70.x); main is a stale mozilla mirror, last push 2025-10, no common ancestor
 
 [[upstream]]
 name = "mozjs"
@@ -148,3 +148,15 @@ branch = "main"
 name = "agent-browser"
 url = "https://github.com/aphrody-labs/agent-browser"   # fork of vercel-labs/agent-browser
 branch = "main"
+manifest = "cli/Cargo.toml"
+
+[[upstream]]
+name = "lol-html"
+url = "https://github.com/oven-sh/lol-html"   # cloudflare/lol-html plus content-handler suspension, Bun's vendor/lolhtml
+branch = "bun"
+
+[[upstream]]
+name = "rust-argon2"
+url = "https://github.com/sru-systems/rust-argon2"   # Bun's vendor/rust-argon2 (3.0.0) + tools/patches/rust-argon2/*.patch
+branch = "master"
+rev = "ed81866f163f0c7026aa6fd8388adf37242eb32a"   # 3.0.0, the base of the two patches

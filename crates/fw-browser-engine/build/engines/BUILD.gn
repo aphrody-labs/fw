@@ -1,0 +1,15 @@
+# Overlay for the Chromium checkout: build.sh symlinks this directory to $CHROMIUM_SRC/browser.
+# `//browser:engines` is one archive with V8, Skia and ICU plus the default deps (Chromium's libc++), linked
+# by src/v8-sys and src/skia-sys through the C ABI. Blink is //headless:headless_shell (native CDP).
+static_library("engines") {
+  complete_static_lib = true
+  deps = [
+    "//skia",
+    "//third_party/icu",
+    "//v8:v8_monolith",
+  ]
+}
+
+group("blink") {
+  deps = [ "//headless:headless_shell" ]
+}
