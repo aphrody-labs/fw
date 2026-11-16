@@ -16,14 +16,22 @@ One engine, three entry points; reference in `docs/chromium.md`.
 | Get the CEF binaries without cargo | `ay-chromium install [dir]` (downloads the matching build, prints the directory) |
 
 ## Run it (build host only, never the PC)
+Keep the CEF download, the target directory and the checkout on the build volume: `/srv/xbuild/shared/<dir>` on fr1
+(fr2 sees the same path over NFS). The roots of both hosts are too small.
 ```sh
-ssh fr2    # the test host in ay.toml [hosts]; check `df -h /` first, CEF is about 1.3 GB extracted
-export CARGO_INCREMENTAL=0 CEF_PATH=$HOME/.local/share/cef   # CEF_PATH caches the download across builds
+ssh fr1
+cd /srv/xbuild/shared/<dir>/ay
+export CARGO_INCREMENTAL=0 CEF_PATH=/srv/xbuild/shared/<dir>/cef CARGO_TARGET_DIR=/srv/xbuild/shared/<dir>/target
 cargo build --release -p ay_chromium
 target/release/ay-chromium eval https://example.com document.title      # "Example Domain"
 target/release/ay-chromium screenshot https://example.com /tmp/x.png    # {"path":...,"width":1280,"height":720}
 cd packages/chromium && bun run build && bun test                       # addon + helper into native/, then the test
+# fr2 runs the same binaries from the shared path: libcef.so sits next to ay-chromium
 ```
+
+## Pages and backends
+`ay_chromium::{Backend, Page}` is the engine-neutral shape (`open(url)`, `screenshot`, `evaluate`) for the future
+`ay_browser` crate; `Chromium` is the CEF backend. A page keeps its state between calls and closes on drop.
 
 ## Rules
 - Expressions are evaluated with `returnByValue` and `awaitPromise`: return plain data, or a promise of it.
@@ -31,4 +39,4 @@ cd packages/chromium && bun run build && bun test                       # addon 
 - A failed load is an error (`page failed to load: ...`), a thrown exception is `javascript error: ...`.
 - CEF starts once per process and cannot restart: in Bun keep one process, call `shutdown()` at the end.
 - Linux runs headless (`--ozone-platform=headless`, software rendering): no display server is needed.
-- Proof of a UI change is the PNG, inspected, not the exit code: copy it back (`ssh fr2 'cat /tmp/x.png' > file.png`) and read it.
+- Proof of a UI change is the PNG, inspected, not the exit code: copy it back (`ssh <host> 'cat /tmp/x.png' > file.png`) and read it.

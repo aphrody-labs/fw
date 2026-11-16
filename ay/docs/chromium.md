@@ -34,11 +34,12 @@ build (`cef-dll-sys`' `build.rs`, through `download-cef`; `CEF_PATH` caches it a
    and, on Linux, `--ozone-platform=headless` and software rendering, so no display server is needed. CEF re-launches
    a helper executable for its renderer, GPU and utility processes: `ay-chromium` itself (its `main` calls
    `subprocess_main` first), or, inside Bun, the `ay-chromium` binary next to the addon.
-3. Each call posts a task to CEF's UI thread that creates one browser. A load handler waits for the main frame's
-   load event, then (after `settle`) either invalidates the view and takes the next `OnPaint` BGRA frame
-   (screenshot, encoded with the `png` crate), or sends `Runtime.evaluate` with `returnByValue` and `awaitPromise`
-   through `execute_dev_tools_method` and reads the result in a `DevToolsMessageObserver` (evaluate). The browser is
-   closed after the reply, and a watchdog turns a stuck page into a timeout error.
+3. `open` posts a task to CEF's UI thread that creates one browser and returns when the main frame's load event
+   fires (a watchdog turns a stuck load into a timeout error). On that page, `screenshot` sets the viewport
+   (`was_resized`), invalidates the view and takes the next `OnPaint` BGRA frame of the requested size, encoded with
+   the `png` crate; `evaluate` sends `Runtime.evaluate` with `returnByValue` and `awaitPromise` through
+   `execute_dev_tools_method` and reads the reply in a `DevToolsMessageObserver`. Dropping the page closes the
+   browser. State lives in `Rc`s on the UI thread; only `Send` data crosses to the caller.
 
 ## Rust API
 
@@ -63,9 +64,11 @@ fn main() -> ay_chromium::Result<()> {
 | `ScreenshotOptions { width, height, settle, timeout }` | Defaults 1280, 720, 500 ms, 30 s. |
 | `EvaluateOptions { settle, timeout }` | Defaults 0 ms, 30 s. |
 | `Chromium::start(config)` / `Chromium::global(config)` | A new engine, or the process-wide one. CEF initializes once per process. |
-| `Chromium::screenshot(url, out, &opts) -> Screenshot { path, width, height }` | Writes the PNG. |
-| `Chromium::evaluate(url, expression, &opts) -> serde_json::Value` | `undefined` is `null`. |
-| `Chromium::shutdown()` | Closes the browsers and shuts CEF down; it cannot be started again in the process. |
+| `trait Backend { fn open(&self, url) -> Result<Self::Page> }`, `trait Page { fn screenshot(&self, out, &opts); fn evaluate(&self, expression, &opts) }` | The engine-neutral shape for the future `ay_browser` crate; `Chromium` and `ChromiumPage` implement it. A page keeps its state between calls and is closed on drop. |
+| `Chromium::screenshot(url, out, &opts) -> Screenshot { path, width, height }` | Opens, writes the PNG, closes. |
+| `Chromium::evaluate(url, expression, &opts) -> serde_json::Value` | Opens, evaluates, closes. `undefined` is `null`. |
+| `Chromium::open_with(url, timeout)` | `Backend::open` with a load timeout. |
+| `Chromium::shutdown()` | Waits up to 5 s for open pages, then shuts CEF down; it cannot be started again in the process. Drop pages first. |
 | `Error` | `CefNotFound`, `Start`, `Load` (failed navigation), `Timeout`, `Script` (a thrown exception), `Protocol`, `Png`, `Io`, `Closed`. |
 | `install_cef(base)`, `cef_version()`, `CefDir::locate` | The CEF distribution. |
 
@@ -99,34 +102,65 @@ into `native/`; the environment overrides are `AY_CHROMIUM_HOME`, `AY_CHROMIUM_A
 `AY_CHROMIUM_HELPER`, `AY_CHROMIUM_CEF_DIR` and `AY_CHROMIUM_CACHE_DIR`. The addon and the helper are not committed;
 the test is `packages/chromium/test/chromium.test.ts`.
 
+## What exists in the community, and what this reuses
+
+Read live on 2026-11-16 before writing the glue:
+
+| Project | State | Verdict |
+|---|---|---|
+| [`cef`](https://crates.io/crates/cef) / cef-rs ([tauri-apps/cef-rs](https://github.com/tauri-apps/cef-rs)) | 156.6.0+156.0.30 released 2026-11-16, 492 stars, active | **Reused**: the bindings, the `wrap_*` handler macros, the build-time CEF download and linking. Its `cefsimple` and `osr` examples gave the app, browser-process and render-handler structure. It ships no screenshot or evaluate API: the examples open a window or paint to a wgpu texture. |
+| [`download-cef`](https://crates.io/crates/download-cef) 3.0.1 | 2026-11-15 | **Reused** for `ay-chromium install`, the same index and archive the crate build uses. |
+| [`chromiumoxide`](https://github.com/mattsse/chromiumoxide) 0.9.1 | last release 2026-02-25, last push 2026-04-03, 15 open PRs, open bugs `save_screenshot` hangs (#321) and `screenshot()` steals focus (#308) | **Not used here.** An async CDP client that launches or connects to a separate Chrome binary (Chrome for Testing, headless shell) with tokio and the full CDP type crate. It gives screenshot and evaluate, but not the embedded CEF in our process that ADR-3 chooses for the native browser. It is the natural second `Backend` for `ay_browser`. I did not try attaching it to CEF's remote debugging port. |
+| [`headless_chrome`](https://github.com/rust-headless-chrome/rust-headless-chrome) 1.0.22 | released 2026-06-11 | **Not used here**, same reason: it drives an external Chrome over CDP. |
+| `png` 0.18.1, `serde_json`, `thiserror` | current | **Reused** for the PNG encoding, JSON and errors. |
+| napi 3.16.2 / napi-derive 3.7.1 / napi-build 2.6.0 ([napi-rs](https://napi.rs)) | 2026-11-11 | **Reused** for the Bun addon. |
+
+Community PRs and forks of cef-rs checked against what this crate calls, none applied because none touches a path used here:
+
+- [#508](https://github.com/tauri-apps/cef-rs/pull/508) (empty `CefString` out-parameters are passed as a valid pointer): the crate passes no `string_byref`.
+- [#516](https://github.com/tauri-apps/cef-rs/pull/516) (free `CefStringMultimap` and strings read from collections) and [#497](https://github.com/tauri-apps/cef-rs/pull/497) (keep owned strings when converting to raw CEF strings): the crate builds no string collections; its strings are passed by reference for the duration of each call.
+- [#469](https://github.com/tauri-apps/cef-rs/pull/469) (better `wrap_*` developer experience), [#250](https://github.com/tauri-apps/cef-rs/pull/250) (input in the osr example), [#365](https://github.com/tauri-apps/cef-rs/pull/365) (Dawn GPU backend, WIP): not needed for software off-screen rendering.
+- The chromiumoxide PRs [#332](https://github.com/mattsse/chromiumoxide/pull/332) / [#336](https://github.com/mattsse/chromiumoxide/pull/336) (command timeouts), [#338](https://github.com/mattsse/chromiumoxide/pull/338) (attach to targets that become pages later) and [#325](https://github.com/mattsse/chromiumoxide/pull/325) (`--remote-debugging-pipes`) are the ones a chromiumoxide backend would need; they are unmerged upstream.
+
+If one of these starts to matter, the route is `[patch.crates-io] cef = { git = "https://github.com/aphrody-labs/cef-rs" }` with the PR branch.
+
 ## Build requirements
 
 - Linux x86_64 (the target proven here), cmake and ninja (the `cef-dll-sys` build script), a Rust toolchain with
   edition 2024, about 1.3 GB of disk for the extracted CEF (333 MB download for the minimal distribution) plus the
   Rust target directory, network access to `cef-builds.spotifycdn.com` on the first build.
-- Heavy builds run on the `build` host, tests on the `test` host (`ay.toml` `[hosts]`), never on the Windows PC.
-  The Windows and macOS targets of `cef` are not exercised here: the OS-specific parts (the `libcef.so` check, the
-  headless switches, `rpath`) are Linux code.
+- Heavy builds run on the `build` host (fr1), tests on the `test` host (fr2) (`ay.toml` `[hosts]`), never on the Windows
+  PC. Keep the CEF download, the target directory and the checkout on the build volume, `/srv/xbuild/<dir>` on fr1,
+  which fr2 mounts at `/srv/xbuild/shared/<dir>`; the roots of both hosts are too small for 1.3 GB of CEF plus a
+  target directory. The Windows and macOS targets of `cef` are not exercised here: the OS-specific parts (the
+  `libcef.so` check, the headless switches, `rpath`) are Linux code.
 - Bun 1.4 for the package.
 
 ```sh
-ssh fr2
-df -h /                                        # check the free space first
-export CARGO_INCREMENTAL=0 CEF_PATH=$HOME/.local/share/cef
+ssh fr1
+cd /srv/xbuild/<dir>/ay                        # a checkout on the build volume
+export CARGO_INCREMENTAL=0 CEF_PATH=/srv/xbuild/<dir>/cef CARGO_TARGET_DIR=/srv/xbuild/<dir>/target
 cargo build --release -p ay_chromium
 cargo test -p ay_chromium --release            # unit tests and the end-to-end test against a local page
 (cd packages/chromium && bun run build && bun test)
+# on fr2, the same binaries through the NFS mount (libcef.so sits next to them, found through $ORIGIN):
+/srv/xbuild/shared/<dir>/target/release/ay-chromium screenshot https://example.com /tmp/x.png
 ```
 
-## Proof (fr2, 2026-11-16)
+## Proof (2026-11-16)
 
-- `ay-chromium screenshot https://example.com /tmp/x.png` wrote a 1280x720 PNG; the copy is
+Built and tested on fr1 in `/srv/xbuild/shared/ay-chromium`, run on fr2 from the same path over NFS.
+
+- fr2: `ay-chromium screenshot https://example.com /tmp/ay-chromium-example.png` printed
+  `{"path":"/tmp/ay-chromium-example.png","width":1280,"height":720}`; the copy is
   `C:\data\shots\ay-chromium-example.png` (the rendered example.com page, inspected).
-- `ay-chromium eval https://example.com document.title` printed `"Example Domain"`.
-- `cargo test -p ay_chromium`: 6 unit tests and `tests/e2e.rs::screenshot_and_evaluate_a_real_page`
-  (real CEF against a local HTTP server: evaluate string, number, promise, object and exception, a load error, and a PNG
-  whose first pixel is the page's background colour).
-- `bun test` in `packages/chromium`: the same operations through the addon.
+- fr2: `ay-chromium eval https://example.com document.title` printed `"Example Domain"`.
+- fr1: `cargo test -p ay_chromium --release`: 6 unit tests and
+  `tests/e2e.rs::screenshot_and_evaluate_a_real_page` (real CEF against a local HTTP server: evaluate string, number,
+  promise, object and exception, a load error, a PNG whose first pixel is the page's background colour, and one page
+  reused for several evaluations and screenshots at three viewport sizes through the `Backend` and `Page` traits).
+- fr1 and fr2: `bun test` in `packages/chromium`: 4 pass, 0 fail, the same operations through the addon.
+- fr1: `cargo clippy -D warnings` (stable) on the crate, plain and with `--lib --features node`, and `cargo fmt --check`.
 
 ## Not used yet: rusty_v8
 

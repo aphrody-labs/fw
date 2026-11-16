@@ -1,11 +1,13 @@
-//! The CEF-bound half: process bootstrap, the engine thread, and one browser per job. Every CEF callback runs on
-//! CEF's UI thread, where the per-job state lives in `Rc`s; only `Send` data crosses to the caller.
+//! The CEF-bound half: process bootstrap, the engine thread, and one browser per page. Every CEF callback runs on
+//! CEF's UI thread, where the page state lives in `Rc`s; only `Send` data crosses to the caller.
 #![allow(unsafe_code)]
 
 use std::cell::RefCell;
+use std::collections::HashMap;
 use std::ffi::{CString, c_char};
 use std::rc::Rc;
 use std::sync::Mutex;
+use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 use std::sync::mpsc::{self, Sender};
 use std::thread::JoinHandle;
 use std::time::Duration;
@@ -14,41 +16,12 @@ use cef::*;
 
 use crate::{CefDir, Config, Error, Result};
 
-#[derive(Clone)]
-pub(crate) enum Job {
-    Screenshot {
-        url: String,
-        width: u32,
-        height: u32,
-        settle: Duration,
-        timeout: Duration,
-    },
-    Evaluate {
-        url: String,
-        expression: String,
-        settle: Duration,
-        timeout: Duration,
-    },
+/// A painted frame: BGRA pixels, top row first.
+pub(crate) struct Pixels {
+    pub width: u32,
+    pub height: u32,
+    pub bgra: Vec<u8>,
 }
-
-impl Job {
-    fn timeout(&self) -> Duration {
-        match self {
-            Job::Screenshot { timeout, .. } | Job::Evaluate { timeout, .. } => *timeout,
-        }
-    }
-}
-
-pub(crate) enum Output {
-    Frame {
-        width: u32,
-        height: u32,
-        bgra: Vec<u8>,
-    },
-    Value(serde_json::Value),
-}
-
-type Reply = Sender<Result<Output>>;
 
 /// Run CEF's child-process entry. Call first thing in `main` of an executable that CEF re-launches: returns
 /// `Some(exit_code)` in a child process (exit with it) and `None` in the browser process.
@@ -89,23 +62,16 @@ impl Engine {
             thread: Mutex::new(Some(thread)),
         })
     }
-
-    pub(crate) fn run(&self, job: Job) -> Result<Output> {
-        let (tx, rx) = mpsc::channel();
-        let timeout = job.timeout();
-        let mut task = StartJob::new(job, tx);
-        if post_task(ThreadId::UI, Some(&mut task)) != 1 {
-            return Err(Error::Closed);
-        }
-        // The watchdog on the UI thread reports the timeout; the grace period only covers a stuck UI thread.
-        rx.recv_timeout(timeout + Duration::from_secs(10))
-            .map_err(|_| Error::Timeout(timeout))?
-    }
 }
 
 impl Engine {
     /// Close every browser and shut CEF down; later jobs fail with `Error::Closed`.
     pub(crate) fn close(&self) {
+        // Pages close from tasks on the UI thread; CEF must not shut down while one is still open.
+        let deadline = std::time::Instant::now() + Duration::from_secs(5);
+        while LIVE_PAGES.load(Ordering::SeqCst) > 0 && std::time::Instant::now() < deadline {
+            std::thread::sleep(Duration::from_millis(20));
+        }
         if let Some(tx) = self.shutdown.lock().ok().and_then(|mut g| g.take()) {
             let _ = tx.send(());
         }
@@ -245,149 +211,254 @@ fn boot(config: &Config) -> Result<CefGuard> {
     Ok(guard)
 }
 
-// ---- one browser per job (UI thread) ----
+// ---- one browser per page (UI thread) ----
 
-struct JobState {
-    job: Job,
-    reply: Reply,
+static NEXT_PAGE: AtomicU64 = AtomicU64::new(1);
+static LIVE_PAGES: AtomicUsize = AtomicUsize::new(0);
+
+const DEFAULT_VIEW: (i32, i32) = (1280, 720);
+
+struct PageState {
     browser: Option<Browser>,
     observer: Option<Registration>,
+    size: (i32, i32),
+    open: Option<Sender<Result<()>>>,
     loaded: bool,
-    armed: bool,
-    finished: bool,
+    next_message: i32,
+    evals: HashMap<i32, Sender<Result<serde_json::Value>>>,
+    shot: Option<PendingShot>,
 }
 
-type Shared = Rc<RefCell<JobState>>;
+/// A screenshot waiting for the frame of the requested size.
+type PendingShot = (Sender<Result<Pixels>>, (i32, i32));
 
-fn finish(state: &Shared, result: Result<Output>) {
-    let browser = {
-        let mut st = state.borrow_mut();
-        if st.finished {
-            return;
+type Shared = Rc<RefCell<PageState>>;
+
+thread_local! {
+    /// Pages by id, owned by the UI thread.
+    static PAGES: RefCell<HashMap<u64, Shared>> = RefCell::new(HashMap::new());
+}
+
+fn page(id: u64) -> Option<Shared> {
+    PAGES.with(|pages| pages.borrow().get(&id).cloned())
+}
+
+/// Answer the pending `open`, once.
+fn answer_open(state: &Shared, result: Result<()>) {
+    let reply = state.borrow_mut().open.take();
+    if let Some(reply) = reply {
+        let _ = reply.send(result);
+    }
+}
+
+fn host_of(state: &Shared) -> Option<BrowserHost> {
+    state.borrow().browser.as_ref().and_then(|b| b.host())
+}
+
+/// A handle to one open page; closing the page is dropping the handle.
+pub(crate) struct PageHandle {
+    id: u64,
+}
+
+fn post(task: &mut Task) -> Result<()> {
+    if post_task(ThreadId::UI, Some(task)) == 1 {
+        Ok(())
+    } else {
+        Err(Error::Closed)
+    }
+}
+
+impl PageHandle {
+    /// Create a browser on `url` and wait for its main frame to load.
+    pub(crate) fn open(url: &str, timeout: Duration) -> Result<Self> {
+        let id = NEXT_PAGE.fetch_add(1, Ordering::SeqCst);
+        let (tx, rx) = mpsc::channel();
+        LIVE_PAGES.fetch_add(1, Ordering::SeqCst);
+        let handle = Self { id };
+        post(&mut OpenPage::new(id, url.to_owned(), timeout, tx))?;
+        rx.recv_timeout(timeout + Duration::from_secs(10))
+            .map_err(|_| Error::Timeout(timeout))??;
+        Ok(handle)
+    }
+
+    pub(crate) fn evaluate(
+        &self,
+        expression: &str,
+        timeout: Duration,
+    ) -> Result<serde_json::Value> {
+        let (tx, rx) = mpsc::channel();
+        post(&mut EvaluatePage::new(self.id, expression.to_owned(), tx))?;
+        rx.recv_timeout(timeout)
+            .map_err(|_| Error::Timeout(timeout))?
+    }
+
+    pub(crate) fn screenshot(&self, width: u32, height: u32, timeout: Duration) -> Result<Pixels> {
+        let (tx, rx) = mpsc::channel();
+        post(&mut PaintPage::new(
+            self.id,
+            width as i32,
+            height as i32,
+            tx,
+        ))?;
+        rx.recv_timeout(timeout)
+            .map_err(|_| Error::Timeout(timeout))?
+    }
+}
+
+impl Drop for PageHandle {
+    fn drop(&mut self) {
+        let mut task = ClosePage::new(self.id);
+        if post(&mut task).is_err() {
+            LIVE_PAGES.fetch_sub(1, Ordering::SeqCst);
         }
-        st.finished = true;
-        let _ = st.reply.send(result);
-        st.browser.clone()
-    };
-    // Close from a fresh task: closing inside the callback that finished the job re-enters CEF's observer lists
-    // and the life-span handler.
-    if let Some(browser) = browser {
-        let mut task = CloseBrowser::new(browser);
-        post_task(ThreadId::UI, Some(&mut task));
     }
 }
 
 wrap_task! {
-    struct CloseBrowser {
-        browser: Browser,
+    struct OpenPage {
+        id: u64,
+        url: String,
+        timeout: Duration,
+        reply: Sender<Result<()>>,
     }
 
     impl Task {
         fn execute(&self) {
-            if let Some(host) = self.browser.host() {
-                host.close_browser(1);
-            }
-        }
-    }
-}
-
-wrap_task! {
-    struct StartJob {
-        job: Job,
-        reply: Reply,
-    }
-
-    impl Task {
-        fn execute(&self) {
-            let state: Shared = Rc::new(RefCell::new(JobState {
-                job: self.job.clone(),
-                reply: self.reply.clone(),
+            let state: Shared = Rc::new(RefCell::new(PageState {
                 browser: None,
                 observer: None,
+                size: DEFAULT_VIEW,
+                open: Some(self.reply.clone()),
                 loaded: false,
-                armed: false,
-                finished: false,
+                next_message: 1,
+                evals: HashMap::new(),
+                shot: None,
             }));
-            let (url, width, height) = match &self.job {
-                Job::Screenshot { url, width, height, .. } => (url.clone(), *width, *height),
-                Job::Evaluate { url, .. } => (url.clone(), 1280, 720),
-            };
-            let mut client = JobClient::new(
-                JobLifeSpan::new(state.clone()),
-                JobLoad::new(state.clone()),
-                JobRender::new(state.clone(), width as i32, height as i32),
+            PAGES.with(|pages| pages.borrow_mut().insert(self.id, state.clone()));
+            let mut client = PageClient::new(
+                PageLifeSpan::new(state.clone()),
+                PageLoad::new(state.clone()),
+                PageRender::new(state.clone()),
             );
             let window_info = WindowInfo::default().set_as_windowless(Default::default());
             let settings = BrowserSettings { windowless_frame_rate: 30, ..Default::default() };
             let created = browser_host_create_browser(
                 Some(&window_info),
                 Some(&mut client),
-                Some(&CefString::from(url.as_str())),
+                Some(&CefString::from(self.url.as_str())),
                 Some(&settings),
                 None,
                 None,
             );
             if created != 1 {
-                finish(&state, Err(Error::Start("cef refused to create a browser".into())));
+                answer_open(&state, Err(Error::Start("cef refused to create a browser".into())));
                 return;
             }
-            let mut watchdog = Watchdog::new(state);
-            post_delayed_task(ThreadId::UI, Some(&mut watchdog), self.job.timeout().as_millis() as i64);
+            let mut watchdog = OpenWatchdog::new(state, self.timeout);
+            post_delayed_task(ThreadId::UI, Some(&mut watchdog), self.timeout.as_millis() as i64);
         }
     }
 }
 
 wrap_task! {
-    struct Watchdog {
+    struct OpenWatchdog {
         state: Shared,
+        timeout: Duration,
     }
 
     impl Task {
         fn execute(&self) {
-            let timeout = self.state.borrow().job.timeout();
-            finish(&self.state, Err(Error::Timeout(timeout)));
+            answer_open(&self.state, Err(Error::Timeout(self.timeout)));
         }
     }
 }
 
 wrap_task! {
-    struct AfterLoad {
-        state: Shared,
+    struct EvaluatePage {
+        id: u64,
+        expression: String,
+        reply: Sender<Result<serde_json::Value>>,
     }
 
     impl Task {
         fn execute(&self) {
-            let (browser, job) = {
-                let st = self.state.borrow();
-                (st.browser.clone(), st.job.clone())
+            let fail = |e: Error| {
+                let _ = self.reply.send(Err(e));
             };
-            let Some(host) = browser.and_then(|b| b.host()) else { return };
-            match job {
-                Job::Screenshot { .. } => {
-                    self.state.borrow_mut().armed = true;
-                    host.invalidate(PaintElementType::VIEW);
-                }
-                Job::Evaluate { expression, .. } => {
-                    let Some(params) = dictionary_value_create() else {
-                        return finish(&self.state, Err(Error::Protocol("cannot allocate DevTools params".into())));
-                    };
-                    params.set_string(Some(&"expression".into()), Some(&CefString::from(expression.as_str())));
-                    params.set_bool(Some(&"returnByValue".into()), 1);
-                    params.set_bool(Some(&"awaitPromise".into()), 1);
-                    let mut params = params;
-                    if host.execute_dev_tools_method(EVAL_ID, Some(&"Runtime.evaluate".into()), Some(&mut params)) == 0 {
-                        finish(&self.state, Err(Error::Protocol("Runtime.evaluate was rejected".into())));
-                    }
+            let Some(state) = page(self.id) else { return fail(Error::Closed) };
+            let Some(host) = host_of(&state) else { return fail(Error::Closed) };
+            let Some(mut params) = dictionary_value_create() else {
+                return fail(Error::Protocol("cannot allocate DevTools params".into()));
+            };
+            params.set_string(Some(&"expression".into()), Some(&CefString::from(self.expression.as_str())));
+            params.set_bool(Some(&"returnByValue".into()), 1);
+            params.set_bool(Some(&"awaitPromise".into()), 1);
+            let message = {
+                let mut st = state.borrow_mut();
+                let message = st.next_message;
+                st.next_message += 1;
+                st.evals.insert(message, self.reply.clone());
+                message
+            };
+            if host.execute_dev_tools_method(message, Some(&"Runtime.evaluate".into()), Some(&mut params)) == 0 {
+                state.borrow_mut().evals.remove(&message);
+                fail(Error::Protocol("Runtime.evaluate was rejected".into()));
+            }
+        }
+    }
+}
+
+wrap_task! {
+    struct PaintPage {
+        id: u64,
+        width: i32,
+        height: i32,
+        reply: Sender<Result<Pixels>>,
+    }
+
+    impl Task {
+        fn execute(&self) {
+            let Some(state) = page(self.id) else {
+                let _ = self.reply.send(Err(Error::Closed));
+                return;
+            };
+            let Some(host) = host_of(&state) else {
+                let _ = self.reply.send(Err(Error::Closed));
+                return;
+            };
+            let resized = {
+                let mut st = state.borrow_mut();
+                st.shot = Some((self.reply.clone(), (self.width, self.height)));
+                std::mem::replace(&mut st.size, (self.width, self.height)) != (self.width, self.height)
+            };
+            if resized {
+                host.was_resized();
+            }
+            host.invalidate(PaintElementType::VIEW);
+        }
+    }
+}
+
+wrap_task! {
+    struct ClosePage {
+        id: u64,
+    }
+
+    impl Task {
+        fn execute(&self) {
+            let state = PAGES.with(|pages| pages.borrow_mut().remove(&self.id));
+            match state.and_then(|s| host_of(&s)) {
+                Some(host) => host.close_browser(1),
+                None => {
+                    LIVE_PAGES.fetch_sub(1, Ordering::SeqCst);
                 }
             }
         }
     }
 }
 
-const EVAL_ID: i32 = 1;
-
 wrap_client! {
-    struct JobClient {
+    struct PageClient {
         life_span: LifeSpanHandler,
         load: LoadHandler,
         render: RenderHandler,
@@ -409,32 +480,41 @@ wrap_client! {
 }
 
 wrap_life_span_handler! {
-    struct JobLifeSpan {
+    struct PageLifeSpan {
         state: Shared,
     }
 
     impl LifeSpanHandler {
         fn on_after_created(&self, browser: Option<&mut Browser>) {
             let Some(browser) = browser else { return };
+            let mut observer = PageDevTools::new(self.state.clone());
+            let registration = browser.host().and_then(|h| h.add_dev_tools_message_observer(Some(&mut observer)));
             let mut st = self.state.borrow_mut();
             st.browser = Some(browser.clone());
-            if matches!(st.job, Job::Evaluate { .. }) {
-                let mut observer = JobDevTools::new(self.state.clone());
-                st.observer = browser.host().and_then(|h| h.add_dev_tools_message_observer(Some(&mut observer)));
-            }
+            st.observer = registration;
         }
 
         fn on_before_close(&self, _browser: Option<&mut Browser>) {
-            // Break the browser <-> state reference cycle.
-            let mut st = self.state.borrow_mut();
-            st.browser = None;
-            st.observer = None;
+            // Break the browser <-> state reference cycle and release the pending callers.
+            let (evals, shot) = {
+                let mut st = self.state.borrow_mut();
+                st.browser = None;
+                st.observer = None;
+                (std::mem::take(&mut st.evals), st.shot.take())
+            };
+            for (_, reply) in evals {
+                let _ = reply.send(Err(Error::Closed));
+            }
+            if let Some((reply, _)) = shot {
+                let _ = reply.send(Err(Error::Closed));
+            }
+            LIVE_PAGES.fetch_sub(1, Ordering::SeqCst);
         }
     }
 }
 
 wrap_load_handler! {
-    struct JobLoad {
+    struct PageLoad {
         state: Shared,
     }
 
@@ -443,18 +523,8 @@ wrap_load_handler! {
             if frame.is_none_or(|f| f.is_main() != 1) {
                 return;
             }
-            let settle = {
-                let mut st = self.state.borrow_mut();
-                if st.loaded {
-                    return;
-                }
-                st.loaded = true;
-                match st.job {
-                    Job::Screenshot { settle, .. } | Job::Evaluate { settle, .. } => settle,
-                }
-            };
-            let mut task = AfterLoad::new(self.state.clone());
-            post_delayed_task(ThreadId::UI, Some(&mut task), settle.as_millis() as i64);
+            self.state.borrow_mut().loaded = true;
+            answer_open(&self.state, Ok(()));
         }
 
         fn on_load_error(
@@ -471,22 +541,21 @@ wrap_load_handler! {
             }
             let text = error_text.map(|t| t.to_string()).unwrap_or_default();
             let url = failed_url.map(|u| u.to_string()).unwrap_or_default();
-            finish(&self.state, Err(Error::Load(format!("{text} ({url})"))));
+            answer_open(&self.state, Err(Error::Load(format!("{text} ({url})"))));
         }
     }
 }
 
 wrap_render_handler! {
-    struct JobRender {
+    struct PageRender {
         state: Shared,
-        width: i32,
-        height: i32,
     }
 
     impl RenderHandler {
         fn view_rect(&self, _browser: Option<&mut Browser>, rect: Option<&mut Rect>) {
             if let Some(rect) = rect {
-                *rect = Rect { x: 0, y: 0, width: self.width, height: self.height };
+                let (width, height) = self.state.borrow().size;
+                *rect = Rect { x: 0, y: 0, width, height };
             }
         }
 
@@ -502,33 +571,38 @@ wrap_render_handler! {
             if type_ != PaintElementType::VIEW || buffer.is_null() || width <= 0 || height <= 0 {
                 return;
             }
-            if !self.state.borrow().armed {
-                return;
-            }
+            let reply = {
+                let mut st = self.state.borrow_mut();
+                // Only a frame at the requested size answers; the one before a resize does not.
+                match st.shot.take_if(|(_, size)| *size == (width, height)) {
+                    Some((reply, _)) => reply,
+                    None => return,
+                }
+            };
             // SAFETY: CEF guarantees `buffer` holds width * height BGRA pixels for the duration of the callback.
             let bgra = unsafe { std::slice::from_raw_parts(buffer, width as usize * height as usize * 4) }.to_vec();
-            finish(&self.state, Ok(Output::Frame { width: width as u32, height: height as u32, bgra }));
+            let _ = reply.send(Ok(Pixels { width: width as u32, height: height as u32, bgra }));
         }
     }
 }
 
 wrap_dev_tools_message_observer! {
-    struct JobDevTools {
+    struct PageDevTools {
         state: Shared,
     }
 
     impl DevToolsMessageObserver {
         fn on_dev_tools_method_result(&self, _browser: Option<&mut Browser>, message_id: i32, success: i32, result: Option<&[u8]>) {
-            if message_id != EVAL_ID {
-                return;
+            let reply = self.state.borrow_mut().evals.remove(&message_id);
+            if let Some(reply) = reply {
+                let _ = reply.send(parse_evaluate(success == 1, result.unwrap_or_default()));
             }
-            finish(&self.state, parse_evaluate(success == 1, result.unwrap_or_default()));
         }
     }
 }
 
 /// `Runtime.evaluate` with `returnByValue` replies `{result: {type, value}}` or `{exceptionDetails: ...}`.
-fn parse_evaluate(success: bool, raw: &[u8]) -> Result<Output> {
+fn parse_evaluate(success: bool, raw: &[u8]) -> Result<serde_json::Value> {
     let reply: serde_json::Value =
         serde_json::from_slice(raw).map_err(|e| Error::Protocol(e.to_string()))?;
     if !success {
@@ -542,12 +616,10 @@ fn parse_evaluate(success: bool, raw: &[u8]) -> Result<Output> {
             .unwrap_or("exception");
         return Err(Error::Script(text.to_owned()));
     }
-    Ok(Output::Value(
-        reply
-            .pointer("/result/value")
-            .cloned()
-            .unwrap_or(serde_json::Value::Null),
-    ))
+    Ok(reply
+        .pointer("/result/value")
+        .cloned()
+        .unwrap_or(serde_json::Value::Null))
 }
 
 #[cfg(test)]
@@ -555,10 +627,7 @@ mod tests {
     use super::*;
 
     fn value(raw: &str) -> Result<serde_json::Value> {
-        match parse_evaluate(true, raw.as_bytes())? {
-            Output::Value(v) => Ok(v),
-            Output::Frame { .. } => unreachable!(),
-        }
+        parse_evaluate(true, raw.as_bytes())
     }
 
     #[test]

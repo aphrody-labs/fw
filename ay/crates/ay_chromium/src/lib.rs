@@ -1,8 +1,8 @@
 //! Chromium through CEF (`cef` crate, tauri-apps/cef-rs) from Rust, the `ay-chromium` binary and Bun.
 //!
-//! One engine per process starts CEF with off-screen rendering; every call opens a fresh browser, waits for the
-//! main frame to load, and then either paints a frame (screenshot) or runs `Runtime.evaluate` over the DevTools
-//! protocol (evaluate).
+//! One engine per process starts CEF with off-screen rendering; every page is one browser. Opening a page waits for
+//! the main frame to load; a screenshot paints a frame, an evaluation runs `Runtime.evaluate` over the DevTools
+//! protocol. [`Backend`] and [`Page`] are the engine-neutral shape; [`Chromium`] implements them.
 
 mod cef_dir;
 mod engine;
@@ -63,7 +63,7 @@ pub struct Config {
 pub struct ScreenshotOptions {
     pub width: u32,
     pub height: u32,
-    /// Wait after the load event before painting, for late scripts and images.
+    /// Wait before painting, for late scripts and images.
     pub settle: Duration,
     pub timeout: Duration,
 }
@@ -81,7 +81,7 @@ impl Default for ScreenshotOptions {
 
 #[derive(Clone, Debug)]
 pub struct EvaluateOptions {
-    /// Wait after the load event before evaluating.
+    /// Wait before evaluating.
     pub settle: Duration,
     pub timeout: Duration,
 }
@@ -102,10 +102,33 @@ pub struct Screenshot {
     pub height: u32,
 }
 
-/// A running CEF engine. Cheap to share by reference; CEF initializes once per process, so use [`Chromium::global`]
-/// unless you own the process.
+/// A browser engine that opens pages: the shape the future `ay_browser` crate plugs backends into. [`Chromium`]
+/// (CEF) is one; a CDP client over Chrome for Testing or a headless shell would be another.
+pub trait Backend {
+    type Page: Page;
+
+    /// Open `url` and return once its main frame has loaded.
+    fn open(&self, url: &str) -> Result<Self::Page>;
+}
+
+/// An open page. Dropping it closes it.
+pub trait Page {
+    /// Write a PNG of the viewport to `out`.
+    fn screenshot(&self, out: &Path, options: &ScreenshotOptions) -> Result<Screenshot>;
+
+    /// Evaluate a JavaScript expression in the page; promises are awaited and the value is returned by value as
+    /// JSON (`undefined` is `null`).
+    fn evaluate(&self, expression: &str, options: &EvaluateOptions) -> Result<serde_json::Value>;
+}
+
+/// A running CEF engine. CEF initializes once per process, so use [`Chromium::global`] unless you own the process.
 pub struct Chromium {
     engine: engine::Engine,
+}
+
+/// One page of the CEF engine.
+pub struct ChromiumPage {
+    handle: engine::PageHandle,
 }
 
 static GLOBAL: OnceLock<std::result::Result<Chromium, String>> = OnceLock::new();
@@ -125,61 +148,66 @@ impl Chromium {
             .map_err(|e| Error::Start(e.clone()))
     }
 
-    /// Close every browser and shut CEF down. CEF cannot be started again in the same process.
+    /// Close every page and shut CEF down. CEF cannot be started again in the same process; drop your pages first.
     pub fn shutdown(&self) {
         self.engine.close();
     }
 
-    /// Open `url` off-screen, wait for it to load and write a PNG of the viewport to `out`.
+    /// Like [`Backend::open`], with a load timeout (default 30 s).
+    pub fn open_with(&self, url: &str, timeout: Duration) -> Result<ChromiumPage> {
+        Ok(ChromiumPage {
+            handle: engine::PageHandle::open(url, timeout)?,
+        })
+    }
+
+    /// Open `url`, write a PNG of the viewport to `out` and close the page.
     pub fn screenshot(
         &self,
         url: &str,
         out: impl AsRef<Path>,
         options: &ScreenshotOptions,
     ) -> Result<Screenshot> {
-        let frame = self.engine.run(engine::Job::Screenshot {
-            url: url.to_owned(),
-            width: options.width,
-            height: options.height,
-            settle: options.settle,
-            timeout: options.timeout,
-        })?;
-        let engine::Output::Frame {
-            width,
-            height,
-            bgra,
-        } = frame
-        else {
-            return Err(Error::Protocol("screenshot job returned no frame".into()));
-        };
-        write_png(out.as_ref(), width, height, &bgra)?;
-        Ok(Screenshot {
-            path: out.as_ref().to_path_buf(),
-            width,
-            height,
-        })
+        self.open_with(url, options.timeout)?
+            .screenshot(out.as_ref(), options)
     }
 
-    /// Open `url`, wait for it to load and evaluate the JavaScript expression in the page; promises are awaited and
-    /// the value is returned by value as JSON.
+    /// Open `url`, evaluate the expression in the page and close the page.
     pub fn evaluate(
         &self,
         url: &str,
         expression: &str,
         options: &EvaluateOptions,
     ) -> Result<serde_json::Value> {
-        let out = self.engine.run(engine::Job::Evaluate {
-            url: url.to_owned(),
-            expression: expression.to_owned(),
-            settle: options.settle,
-            timeout: options.timeout,
-        })?;
-        match out {
-            engine::Output::Value(value) => Ok(value),
-            engine::Output::Frame { .. } => {
-                Err(Error::Protocol("evaluate job returned a frame".into()))
-            }
-        }
+        self.open_with(url, options.timeout)?
+            .evaluate(expression, options)
+    }
+}
+
+impl Backend for Chromium {
+    type Page = ChromiumPage;
+
+    fn open(&self, url: &str) -> Result<ChromiumPage> {
+        self.open_with(url, Duration::from_secs(30))
+    }
+}
+
+impl Page for ChromiumPage {
+    fn screenshot(&self, out: &Path, options: &ScreenshotOptions) -> Result<Screenshot> {
+        std::thread::sleep(options.settle);
+        let frame = self
+            .handle
+            .screenshot(options.width, options.height, options.timeout)?;
+        write_png(out, frame.width, frame.height, &frame.bgra)?;
+        Ok(Screenshot {
+            path: out.to_path_buf(),
+            width: frame.width,
+            height: frame.height,
+        })
+    }
+
+    fn evaluate(&self, expression: &str, options: &EvaluateOptions) -> Result<serde_json::Value> {
+        std::thread::sleep(options.settle);
+        self.handle.evaluate(expression, options.timeout)
     }
 }
 

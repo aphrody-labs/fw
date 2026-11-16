@@ -5,7 +5,7 @@ use std::net::TcpListener;
 use std::path::PathBuf;
 use std::time::Duration;
 
-use ay_chromium::{Chromium, Config, Error, EvaluateOptions, ScreenshotOptions};
+use ay_chromium::{Backend, Chromium, Config, Error, EvaluateOptions, Page, ScreenshotOptions};
 
 const PAGE: &str = "<!doctype html><title>Example Domain</title><body style=\"margin:0;background:#00ff00\">\
 <script>window.answer = 6 * 7; window.later = new Promise(r => setTimeout(() => r('done'), 50));</script></body>";
@@ -85,6 +85,35 @@ fn screenshot_and_evaluate_a_real_page() {
         "the page's green background is the first pixel"
     );
     std::fs::remove_file(&out).unwrap();
+
+    // One page, several operations: state persists, and the viewport follows each screenshot.
+    let page = Backend::open(&chromium, &url).unwrap();
+    page.evaluate("window.counter = 1", &eval).unwrap();
+    assert_eq!(
+        page.evaluate("window.counter + 1", &eval).unwrap(),
+        serde_json::json!(2)
+    );
+    let small = ScreenshotOptions {
+        width: 200,
+        height: 100,
+        settle: Duration::ZERO,
+        ..options.clone()
+    };
+    let large = ScreenshotOptions {
+        width: 400,
+        height: 300,
+        settle: Duration::ZERO,
+        ..options.clone()
+    };
+    assert_eq!(page.screenshot(&out, &small).unwrap().width, 200);
+    assert_eq!(page.screenshot(&out, &large).unwrap().height, 300);
+    assert_eq!(page.screenshot(&out, &small).unwrap().height, 100);
+    assert_eq!(
+        page.evaluate("window.innerWidth", &eval).unwrap(),
+        serde_json::json!(200)
+    );
+    std::fs::remove_file(&out).unwrap();
+    drop(page);
 
     let failed = chromium.evaluate(
         &unused_port_url(),
