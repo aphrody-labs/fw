@@ -1,0 +1,44 @@
+[package]
+name = "ay_chromium"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+description = "Chromium through CEF from Rust and Bun: open a URL off-screen, write a PNG screenshot, evaluate JavaScript and return JSON."
+build = "build.rs"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[[bin]]
+name = "ay-chromium"
+path = "src/main.rs"
+
+[features]
+# The Node-API addon loaded by Bun (packages/chromium): cargo build --release --lib --features node.
+# Its symbols resolve only inside the host, so never build the binary with this feature.
+node = ["dep:napi", "dep:napi-derive", "dep:napi-build"]
+
+[dependencies]
+cef = { version = "=156.6.0", default-features = false }
+cef-dll-sys = { version = "=156.6.0", default-features = false }
+download-cef = "3.0.1"
+napi = { version = "3.16.2", default-features = false, features = ["napi4"], optional = true }
+napi-derive = { version = "3.7.1", optional = true }
+png = "0.18.1"
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[build-dependencies]
+napi-build = { version = "2.6.0", optional = true }
+
+# The CEF bindings expand to unsafe code and the C and Node-API entry points are unsafe by nature, so the
+# workspace `forbid` is replaced by `deny`, lifted only in `engine` and `ffi`.
+[lints.rust]
+unsafe_code = "deny"
+unused_must_use = "deny"
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"

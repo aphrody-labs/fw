@@ -211,6 +211,16 @@ status = "todo"
 
 [[feature]]
 product = "browser"
+id = "cef-embed"
+title = "CEF embedding from Rust and Bun: screenshot and eval"
+reference = "https://github.com/tauri-apps/cef-rs"
+layer = "backend"
+status = "done"
+proof = "crates/ay_chromium/tests/e2e.rs::screenshot_and_evaluate_a_real_page"
+proof_kind = "test"
+
+[[feature]]
+product = "browser"
 id = "agent-panel"
 title = "Agent panel and WebMCP tools exposed by pages"
 reference = "https://github.com/webmachinelearning/webmcp"
