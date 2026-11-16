@@ -30,6 +30,6 @@ Any language does the job it suits: Rust, C, C++, Go, Bun/TypeScript, .NET, Pyth
 `brand` → `craft` → `search` → `cloud` → `browser` → `os`. Each product uses the ones before it.
 
 ## Known blockers
-- The browser needs at least 100 GB free on the build host (Chromium's Linux build instructions); fr1 has less today.
+- The browser, if a full Chromium build is ever needed, has room: fr1's build volume `/srv/xbuild` (XFS on LVM, 805 GB) has about 740 GB free, above Chromium's 100 GB floor; fr1's root filesystem is the small one. `bun tools/disks.ts` is the measure.
 - Hardware-only OS features (biometric unlock, TPM secure boot, phone continuity, the status light) need a real laptop and phone for their proofs.
 - Inference capacity on the fleet is unmeasured; AI features use a hosted fallback behind the OpenAI-compatible API until it is.

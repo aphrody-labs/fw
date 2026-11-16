@@ -27,4 +27,4 @@ Status: proposed, 2026-11-16; accepted after the measurements below. The audit i
 
 ## Known facts and lag (2026-11-16)
 CEF stable 156.0.30 (Chromium 156) while Chrome for Testing stable is 157.0.8103.78. The aphrody-labs cef-rs fork
-is at 156.4.0, behind upstream 156.6.0. A Chromium build (option a) needs ≥100 GB free; the build host has 47 GB.
+is synced with upstream (156.6.0, 2026-11-16). A Chromium build (option a) needs ≥100 GB free; fr1's build volume /srv/xbuild has about 740 GB free (its root filesystem has ~50 GB), so disk is not a blocker (`bun tools/disks.ts`).
