@@ -51,3 +51,12 @@ craft-anything = { slug = "aphrody-labs/craft-anything", kind = "craft" }       
 nie = { slug = "aphrody-labs/nie", kind = "craft", checkout = "../nie" }                  # football games built as craft jobs
 claude = { slug = "aphrody-labs/claude", kind = "plugin" }                                 # agent config and the aphrody plugin
 shenron = { slug = "aphrody-labs/shenron", kind = "app", checkout = "../shenron" }
+
+# SDK toolchain (ADR-0008). Rust lives in aphrody; everything here is LLVM-first and cross-target.
+[sdk]
+languages = ["c", "cpp", "objc", "asm", "wat", "zig", "wgsl", "python", "dotnet", "bun"]
+toolchain = ["llvm", "tree-sitter"]
+modes = ["ffi", "lto", "aot", "c-abi", "msvc-abi"]
+arch = ["x86_64", "aarch64", "riscv64", "wasm32", "wasm64"]
+os = ["linux", "windows", "macos", "android", "freestanding", "wasi", "browser"]
+gpu = ["webgpu", "vulkan", "d3d12", "metal"]

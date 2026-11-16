@@ -4,7 +4,8 @@ Contract for every agent working in this repository. Names come from `ay.toml`.
 
 ## Scope
 - This repository is the SDK of Aphrody: C ABI, OpenAPI, docs, spec, standards, corelib, libc and the
-  design system. The complete OS, in pure Rust, is `aphrody-dev/aphrody`, the source of truth; this SDK
+  design system, in C and its derivatives, assembly, Zig, WebGPU, Python, .NET and Bun; no Rust here.
+  LLVM first, tree-sitter, C-ABI FFI, LTO, AOT, unified lib/MSVC, cross arch/OS/GPU/platform (ADR-0008). The complete OS, in pure Rust, is `aphrody-dev/aphrody`, the source of truth; this SDK
   follows it. Satellites (`ay.toml` [repos], [registries]) build on both.
 - The products and their definition of done are in `docs/spec.md`; the tree and toolchain in
   `docs/architecture.md` and `docs/adr/`; the full scope, row by row, in `docs/features.toml`.
