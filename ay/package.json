@@ -1,0 +1,10 @@
+{
+  "name": "ay",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "features": "bun tools/features.ts",
+    "check": "bun tools/features.ts --check && bun test tools"
+  }
+}

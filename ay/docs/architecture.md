@@ -1,0 +1,42 @@
+# Architecture
+
+The tree follows the conventions of the upstreams this project builds on, not a layer model copied from another OS:
+Zed's flat `crates/`, Bun's `packages/*` workspaces, Nix for reproducible toolchains and packages, and product
+folders the way SerenityOS and Ladybird keep an OS and a browser in one repository. Decisions are in `docs/adr/`.
+
+```
+ay.toml          the only identity and configuration source
+flake.nix        pinned toolchains, dev shells, CI checks and OS package builds (ADR-2)
+Cargo.toml       Rust workspace: members = ["crates/*"], shared [workspace.dependencies]
+package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
+apps/            products a person runs, one folder each, any language: shell, browser, search, cloud, craft
+crates/          every Rust crate, flat, named ay_<area>_<thing>
+packages/        every Bun/TypeScript package, flat, named @aphrody/<name>
+os/              the distribution as data: bootstrap (LFS stage 0), pkgs (Nix), kernel, installer, image
+brand/           identity dataset and asset pipeline
+tools/           the ay CLI glue and typed scripts for every repeatable flow
+docs/            spec, architecture, ADRs, feature matrix
+third_party/     upstreams as git submodules with relative URLs, one checkout each
+```
+
+Rules:
+- A folder exists only with a working, tested unit; manifests list only members that build.
+- Code shared by two products lives in `crates/` or `packages/`; a product folder holds only that product.
+- Upstreams are submodules, never copies. Chromium is fetched with depot_tools `gclient`.
+- Nothing generated is committed (logs, reports, dumps); generators are committed instead.
+- Hosts are named by role in `ay.toml`: builds on `build`, tests on `test`, production on `prod`.
+
+## Toolchain
+One LLVM: clang and lld with ThinLTO for C and C++, Rust built against the same LLVM with cross-language LTO,
+`bun compile` (AOT) for typed Bun binaries, depot_tools `autoninja` for GN/ninja upstreams, tree-sitter as the one
+parsing layer for code intelligence. See ADR-2.
+
+## Products and their stacks
+| Product | Stack | ADR |
+|---|---|---|
+| os | LFS stage-0 bootstrap, then Nix packages; kernel.org + CachyOS patches; BLFS Wayland desktop; GPUI shell; Waydroid | ADR-4 |
+| browser | Chromium with our UI, agent panel and WebMCP | ADR-3 |
+| search | Rust crawler, index and ranker; Bun front end; AI mode over the OpenAI-compatible model API | ADR-5 |
+| cloud | Bun edge runtime with a Workers-compatible API; deploys, domains, TLS, storage, logs | ADR-6 |
+| craft | craft-anything from the bun fork, exposed as `bun craft` (CLI and MCP) | ADR-1 |
+| brand | character dataset, logo and token pipeline, Google Sans Flex, Material 3 | ADR-1 |
