@@ -1,3 +1,4 @@
+export * from "./version.ts";
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 

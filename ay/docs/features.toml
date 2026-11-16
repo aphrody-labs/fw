@@ -2023,3 +2023,53 @@ title = "Craft replicas of dioxuslabs.com and blitz.is, checked against the orig
 reference = "https://dioxuslabs.com/"
 layer = "ui"
 status = "todo"
+
+[[feature]]
+product = "browser"
+id = "release-channels"
+title = "Chrome release channels as a typed dataset (Stable, Extended, Beta, Dev, Canary), parsed live from chromium.org, with the cadence measured on the live schedule"
+reference = "https://www.chromium.org/getting-involved/chrome-release-channels/"
+layer = "backend"
+status = "done"
+proof = "packages/chromium-releases/test/channels.test.ts::the dataset agrees with the page: availability and cadence"
+proof_kind = "test"
+
+[[feature]]
+product = "browser"
+id = "chromium-releases-client"
+title = "Typed Bun client, sqlite cache and CLI for Chromium Dash (releases, milestones, schedule, branches, commits, versions, ChromeOS builds) and the Chrome Status read API"
+reference = "https://chromiumdash.appspot.com/"
+layer = "backend"
+status = "done"
+proof = "packages/chromium-releases/test/dash.test.ts::releases: newest first with hashes, milestone and previous version"
+proof_kind = "test"
+
+[[feature]]
+product = "browser"
+id = "chromium-dash"
+title = "Chromium Dash pages in Bun.serve: home, releases per platform, schedule, branches, commit lookup, serving builds, with the JSON endpoints at their original paths"
+reference = "https://chromiumdash.appspot.com/home"
+layer = "ui"
+status = "done"
+proof = "apps/chromium-dash/test/app.test.ts::releases: one card per channel with versions and commit links"
+proof_kind = "test"
+
+[[feature]]
+product = "browser"
+id = "chromestatus"
+title = "Chrome Platform Status in Bun.serve: roadmap, feature search, feature page, and the public /api/v0 read endpoints"
+reference = "https://chromestatus.com/roadmap"
+layer = "ui"
+status = "done"
+proof = "apps/chromium-dash/test/app.test.ts::feature page: overview, specification, status and stages"
+proof_kind = "test"
+
+[[feature]]
+product = "browser"
+id = "channel-version-pick"
+title = "Pick the Chromium version and the closest CEF build for a release channel, with the lag stated"
+reference = "https://cef-builds.spotifycdn.com/index.html"
+layer = "backend"
+status = "done"
+proof = "packages/chromium/test/version.test.ts::stable on Windows: the channel's Chromium and a CEF minimal build for it"
+proof_kind = "test"

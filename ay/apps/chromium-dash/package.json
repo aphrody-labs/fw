@@ -1,0 +1,11 @@
+{
+  "name": "chromium-dash",
+  "version": "0.1.0",
+  "description": "Chromium Dash and Chrome Status in one Bun.serve app: releases, schedule, branches, commits, roadmap, features, plus the JSON APIs of both services.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun src/main.ts",
+    "test": "bun test"
+  }
+}
