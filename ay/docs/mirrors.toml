@@ -1,0 +1,8 @@
+# Where the design package is mirrored (the design-package skill and workflow read these ids).
+[drive]
+folder = "1ydDkZ7opnB19FZqKblxD-g2vFiWkC0PJ"           # Drive folder "ay"
+doc = "1vzr62pNKNsOpv8x_ZQyXjWjxa3lHNVQGZyJXm8L4Tjk"    # ay — Spec, architecture and decisions
+sheet = "1IliGYdDToOufUSarqSADwg8VVb4Nv1kjpBcCGfhFQx0"  # ay — Feature matrix (Matrix, Inventory)
+
+[figma]
+team = "ay"
