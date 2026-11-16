@@ -1,0 +1,150 @@
+# One entry per upstream (history imported by tools/import.py). `mode = "bun"` keeps src/ as is.
+# Heads are resolved live at import time and recorded in upstreams.lock.json.
+
+[[upstream]]
+name = "bun"
+url = "https://github.com/aphrody-labs/bun"   # fork rebased on oven-sh/bun main
+branch = "main"
+mode = "bun"
+keep = ["Cargo.toml", "Cargo.lock", "clippy.toml", "AGENTS.md", "CLAUDE.md", "README.md", "LICENSE.md"]
+
+[[upstream]]
+name = "servo"
+url = "https://github.com/servo/servo"
+branch = "main"
+drop = ["tests/wpt/tests"]   # in-tree copy of web-platform-tests (re-fetched by mach update-wpt)
+
+[[upstream]]
+name = "stylo"
+url = "https://github.com/servo/stylo"
+branch = "main"
+
+[[upstream]]
+name = "webrender"
+url = "https://github.com/servo/webrender"
+branch = "main"
+
+[[upstream]]
+name = "mozjs"
+url = "https://github.com/servo/mozjs"
+branch = "main"
+
+[[upstream]]
+name = "mozangle"
+url = "https://github.com/servo/mozangle"
+branch = "main"
+
+[[upstream]]
+name = "html5ever"
+url = "https://github.com/servo/html5ever"
+branch = "main"
+
+[[upstream]]
+name = "rust-url"
+url = "https://github.com/servo/rust-url"
+branch = "main"
+
+[[upstream]]
+name = "rust-cssparser"
+url = "https://github.com/servo/rust-cssparser"
+branch = "main"
+
+[[upstream]]
+name = "ipc-channel"
+url = "https://github.com/servo/ipc-channel"
+branch = "main"
+
+[[upstream]]
+name = "surfman"
+url = "https://github.com/servo/surfman"
+branch = "main"
+
+[[upstream]]
+name = "euclid"
+url = "https://github.com/servo/euclid"
+branch = "main"
+
+[[upstream]]
+name = "string-cache"
+url = "https://github.com/servo/string-cache"
+branch = "main"
+
+[[upstream]]
+name = "unicode-bidi"
+url = "https://github.com/servo/unicode-bidi"
+branch = "main"
+
+[[upstream]]
+name = "core-foundation-rs"
+url = "https://github.com/servo/core-foundation-rs"
+branch = "main"
+
+[[upstream]]
+name = "dwrote-rs"
+url = "https://github.com/servo/dwrote-rs"
+branch = "main"
+
+[[upstream]]
+name = "gleam"
+url = "https://github.com/servo/gleam"
+branch = "main"
+
+[[upstream]]
+name = "app_units"
+url = "https://github.com/servo/app_units"
+branch = "main"
+
+[[upstream]]
+name = "cgl-rs"
+url = "https://github.com/servo/cgl-rs"
+branch = "main"
+
+[[upstream]]
+name = "fontsan"
+url = "https://github.com/servo/fontsan"
+branch = "main"
+
+[[upstream]]
+name = "gaol"
+url = "https://github.com/servo/gaol"
+branch = "main"
+
+[[upstream]]
+name = "plane-split"
+url = "https://github.com/servo/plane-split"
+branch = "main"
+
+[[upstream]]
+name = "rust-fnv"
+url = "https://github.com/servo/rust-fnv"
+branch = "main"
+
+[[upstream]]
+name = "rust-freetype"
+url = "https://github.com/servo/rust-freetype"
+branch = "main"
+
+[[upstream]]
+name = "rust-harfbuzz"
+url = "https://github.com/servo/rust-harfbuzz"
+branch = "main"
+
+[[upstream]]
+name = "smallbitvec"
+url = "https://github.com/servo/smallbitvec"
+branch = "main"
+
+[[upstream]]
+name = "uluru"
+url = "https://github.com/servo/uluru"
+branch = "main"
+
+[[upstream]]
+name = "obscura"
+url = "https://github.com/aphrody-labs/obscura"   # fork of h4ckf0r0day/obscura (a user account, not an org)
+branch = "main"
+
+[[upstream]]
+name = "agent-browser"
+url = "https://github.com/aphrody-labs/agent-browser"   # fork of vercel-labs/agent-browser
+branch = "main"
