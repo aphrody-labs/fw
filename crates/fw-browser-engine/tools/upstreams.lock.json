@@ -1,0 +1,394 @@
+{
+ "agent-browser": {
+  "branch": "main",
+  "crates": {
+   "cli": "src/agent-browser"
+  },
+  "sha": "53384771fbafc261ba67608ac806dd5aa70b84f0",
+  "url": "https://github.com/aphrody-labs/agent-browser"
+ },
+ "app_units": {
+  "branch": "main",
+  "crates": {
+   ".": "src/app_units"
+  },
+  "sha": "2e4e0e0ad8b43bf49a1d3d84e3ca4c55367314a7",
+  "url": "https://github.com/servo/app_units"
+ },
+ "bun": {
+  "branch": "main",
+  "crates": {},
+  "sha": "4537e3f856dce8f4d790baa3eda652f3a8f1ecd5",
+  "url": "https://github.com/aphrody-labs/bun"
+ },
+ "cgl-rs": {
+  "branch": "main",
+  "crates": {
+   ".": "src/cgl"
+  },
+  "sha": "d97cc08f93bfbf5b5f6520cfa0f49ac3fa01e07c",
+  "url": "https://github.com/servo/cgl-rs"
+ },
+ "core-foundation-rs": {
+  "branch": "main",
+  "crates": {
+   "cocoa": "src/cocoa",
+   "cocoa-foundation": "src/cocoa-foundation",
+   "core-foundation": "src/core-foundation",
+   "core-foundation-sys": "src/core-foundation-sys",
+   "core-graphics": "src/core-graphics",
+   "core-graphics-types": "src/core-graphics-types",
+   "core-text": "src/core-text",
+   "io-surface": "src/io-surface"
+  },
+  "sha": "5eb228da0e6268cfafd9f9c49fc3ac2dc7c5d434",
+  "url": "https://github.com/servo/core-foundation-rs"
+ },
+ "dwrote-rs": {
+  "branch": "main",
+  "crates": {
+   ".": "src/dwrote"
+  },
+  "sha": "be9593628212e00b6ef7466de6684547bd56357a",
+  "url": "https://github.com/servo/dwrote-rs"
+ },
+ "euclid": {
+  "branch": "main",
+  "crates": {
+   ".": "src/euclid"
+  },
+  "sha": "60f2bd96deec0c0683eeddd737e0dc070a25e9af",
+  "url": "https://github.com/servo/euclid"
+ },
+ "fontsan": {
+  "branch": "main",
+  "crates": {
+   ".": "src/fontsan"
+  },
+  "sha": "04d3e6cc12893731bb916ece3afe3bf93cb8089e",
+  "url": "https://github.com/servo/fontsan"
+ },
+ "gaol": {
+  "branch": "main",
+  "crates": {
+   ".": "src/gaol"
+  },
+  "sha": "683cb7dc873e06ff19bc3a464fbe027ad9c65003",
+  "url": "https://github.com/servo/gaol"
+ },
+ "gleam": {
+  "branch": "main",
+  "crates": {
+   ".": "src/gleam"
+  },
+  "sha": "ebf9bb015219e2a082be2defef18ba23670b005e",
+  "url": "https://github.com/servo/gleam"
+ },
+ "html5ever": {
+  "branch": "main",
+  "crates": {
+   "html5ever": "src/html5ever",
+   "markup5ever": "src/markup5ever",
+   "rcdom": "src/markup5ever_rcdom",
+   "tendril": "src/tendril",
+   "tendril-bench": "src/tendril-bench",
+   "web_atoms": "src/web_atoms",
+   "xml5ever": "src/xml5ever"
+  },
+  "sha": "492f52a02fd07c2321e59ccff90038e26b9c90bc",
+  "url": "https://github.com/servo/html5ever"
+ },
+ "ipc-channel": {
+  "branch": "main",
+  "crates": {
+   ".": "src/ipc-channel"
+  },
+  "sha": "f1214051be070ee51fcf4b9550b7015b3b942899",
+  "url": "https://github.com/servo/ipc-channel"
+ },
+ "lol-html": {
+  "branch": "bun",
+  "crates": {
+   ".": "src/lol_html"
+  },
+  "sha": "e1a306d32355e264a93ab41e2580f56444971aef",
+  "url": "https://github.com/oven-sh/lol-html"
+ },
+ "mozangle": {
+  "branch": "main",
+  "crates": {
+   ".": "src/mozangle"
+  },
+  "sha": "db4633ea0ce432fcb76d1ff3d38b513463b350df",
+  "url": "https://github.com/servo/mozangle"
+ },
+ "mozjs": {
+  "branch": "main",
+  "crates": {
+   "mozjs": "src/mozjs",
+   "mozjs-extracted-crates/collator_glue": "src/mozjs_collator_glue",
+   "mozjs-extracted-crates/icu_collator": "src/mozjs_icu_collator",
+   "mozjs-extracted-crates/icu_collator_data": "src/mozjs_icu_collator_data",
+   "mozjs-extracted-crates/icu_collections": "src/mozjs_icu_collections",
+   "mozjs-extracted-crates/icu_normalizer": "src/mozjs_icu_normalizer",
+   "mozjs-extracted-crates/icu_normalizer_data": "src/mozjs_icu_normalizer_data",
+   "mozjs-extracted-crates/locale_glue": "src/mozjs_locale_glue",
+   "mozjs-extracted-crates/normalizer_glue": "src/mozjs_normalizer_glue",
+   "mozjs-extracted-crates/properties_glue": "src/mozjs_properties_glue",
+   "mozjs-extracted-crates/unicode_bidi_ffi": "src/mozjs_unicode_bidi_ffi",
+   "mozjs-extracted-crates/utf16_iter": "src/mozjs_utf16_iter",
+   "mozjs-extracted-crates/utf8_iter": "src/mozjs_utf8_iter",
+   "mozjs-sys": "src/mozjs_sys"
+  },
+  "sha": "37f1c8fc8ebe7ad26cd88fdb9b203a28fe1860da",
+  "url": "https://github.com/servo/mozjs"
+ },
+ "obscura": {
+  "branch": "main",
+  "crates": {
+   "crates/obscura": "src/obscura",
+   "crates/obscura-browser": "src/obscura-browser",
+   "crates/obscura-cdp": "src/obscura-cdp",
+   "crates/obscura-cli": "src/obscura-cli",
+   "crates/obscura-dom": "src/obscura-dom",
+   "crates/obscura-js": "src/obscura-js",
+   "crates/obscura-mcp": "src/obscura-mcp",
+   "crates/obscura-net": "src/obscura-net",
+   "crates/obscura-render": "src/obscura-render",
+   "crates/obscura-ssrf": "src/obscura-ssrf"
+  },
+  "sha": "0d9a2f764ffdb097269da048002c593865e83a9e",
+  "url": "https://github.com/aphrody-labs/obscura"
+ },
+ "plane-split": {
+  "branch": "main",
+  "crates": {
+   ".": "src/plane-split"
+  },
+  "sha": "cb400581bcbb7c8a491377653d6a0e2945053151",
+  "url": "https://github.com/servo/plane-split"
+ },
+ "rust-argon2": {
+  "branch": "master",
+  "crates": {
+   ".": "src/rust-argon2"
+  },
+  "sha": "ed81866f163f0c7026aa6fd8388adf37242eb32a",
+  "url": "https://github.com/sru-systems/rust-argon2"
+ },
+ "rust-cssparser": {
+  "branch": "main",
+  "crates": {
+   ".": "src/cssparser",
+   "color": "src/cssparser-color",
+   "macros": "src/cssparser-macros"
+  },
+  "sha": "9f3ceddf398f5ce4ab76fdad1b42ccb6c578a926",
+  "url": "https://github.com/servo/rust-cssparser"
+ },
+ "rust-fnv": {
+  "branch": "main",
+  "crates": {
+   ".": "src/fnv"
+  },
+  "sha": "4e55052a343a4372c191141f29a17ab829cf1dbc",
+  "url": "https://github.com/servo/rust-fnv"
+ },
+ "rust-freetype": {
+  "branch": "main",
+  "crates": {
+   ".": "src/freetype"
+  },
+  "sha": "cdd3cd616be819f74aa34586022d00ff0a2e6c3c",
+  "url": "https://github.com/servo/rust-freetype"
+ },
+ "rust-harfbuzz": {
+  "branch": "main",
+  "crates": {
+   "harfbuzz": "src/harfbuzz",
+   "harfbuzz-sys": "src/harfbuzz-sys",
+   "harfbuzz-traits": "src/harfbuzz-traits"
+  },
+  "sha": "0d3ac4d874ed81a637c05f90d29ce4024b72c745",
+  "url": "https://github.com/servo/rust-harfbuzz"
+ },
+ "rust-url": {
+  "branch": "main",
+  "crates": {
+   "data-url": "src/data-url",
+   "form_urlencoded": "src/form_urlencoded",
+   "idna": "src/idna",
+   "percent_encoding": "src/percent-encoding",
+   "url": "src/rust-url-url",
+   "url_debug_tests": "src/url_debug_tests"
+  },
+  "sha": "bcf5a2a98986dd5dfb252d3e977d2da380b09fda",
+  "url": "https://github.com/servo/rust-url"
+ },
+ "servo": {
+  "branch": "main",
+  "crates": {
+   "components/allocator": "src/servo-allocator",
+   "components/background_hang_monitor": "src/servo-background-hang-monitor",
+   "components/bluetooth": "src/servo-bluetooth",
+   "components/canvas": "src/servo-canvas",
+   "components/config": "src/servo-config",
+   "components/config/macro": "src/servo-config-macro",
+   "components/constellation": "src/servo-constellation",
+   "components/default-resources": "src/servo-default-resources",
+   "components/deny_public_fields": "src/servo-deny-public-fields",
+   "components/devtools": "src/servo-devtools",
+   "components/dom_struct": "src/servo-dom-struct",
+   "components/fonts": "src/servo-fonts",
+   "components/geometry": "src/servo-geometry",
+   "components/hyper_serde": "src/servo-hyper-serde",
+   "components/jstraceable_derive": "src/servo-jstraceable-derive",
+   "components/layout": "src/servo-layout",
+   "components/malloc_size_of": "src/servo-malloc-size-of",
+   "components/media/audio": "src/servo-media-audio",
+   "components/media/backends/auto": "src/servo-media-auto",
+   "components/media/backends/dummy": "src/servo-media-dummy",
+   "components/media/backends/gstreamer": "src/servo-media-gstreamer",
+   "components/media/backends/gstreamer/render": "src/servo-media-gstreamer-render",
+   "components/media/backends/gstreamer/render-android": "src/servo-media-gstreamer-render-android",
+   "components/media/backends/gstreamer/render-unix": "src/servo-media-gstreamer-render-unix",
+   "components/media/backends/ohos": "src/servo-media-ohos",
+   "components/media/examples": "src/servo-media-examples",
+   "components/media/media-thread": "src/servo-media-thread",
+   "components/media/player": "src/servo-media-player",
+   "components/media/servo-media": "src/servo-media",
+   "components/media/servo-media-derive": "src/servo-media-derive",
+   "components/media/streams": "src/servo-media-streams",
+   "components/media/traits": "src/servo-media-traits",
+   "components/media/webrtc": "src/servo-media-webrtc",
+   "components/metrics": "src/servo-metrics",
+   "components/net": "src/servo-net",
+   "components/paint": "src/servo-paint",
+   "components/pixels": "src/servo-pixels",
+   "components/profile": "src/servo-profile",
+   "components/script": "src/servo-script",
+   "components/script_bindings": "src/servo-script-bindings",
+   "components/script_webcrypto": "src/servo-script-webcrypto",
+   "components/script_webgpu": "src/servo-script-webgpu",
+   "components/servo": "src/servo",
+   "components/servo_tracing": "src/servo-tracing",
+   "components/shared/background_hang_monitor": "src/servo-background-hang-monitor-api",
+   "components/shared/base": "src/servo-base",
+   "components/shared/bluetooth": "src/servo-bluetooth-traits",
+   "components/shared/canvas": "src/servo-canvas-traits",
+   "components/shared/constellation": "src/servo-constellation-traits",
+   "components/shared/devtools": "src/servo-devtools-traits",
+   "components/shared/embedder": "src/servo-embedder-traits",
+   "components/shared/fonts": "src/servo-fonts-traits",
+   "components/shared/layout": "src/servo-layout-api",
+   "components/shared/net": "src/servo-net-traits",
+   "components/shared/paint": "src/servo-paint-api",
+   "components/shared/profile": "src/servo-profile-traits",
+   "components/shared/script": "src/servo-script-traits",
+   "components/shared/storage": "src/servo-storage-traits",
+   "components/shared/webgpu": "src/servo-webgpu-traits",
+   "components/shared/webxr": "src/servo-webxr-api",
+   "components/storage": "src/servo-storage",
+   "components/svg": "src/servo-svg",
+   "components/timers": "src/servo-timers",
+   "components/url": "src/servo-url",
+   "components/wakelock": "src/servo-wakelock",
+   "components/webdriver_server": "src/servo-webdriver-server",
+   "components/webgl": "src/servo-webgl",
+   "components/webgpu": "src/servo-webgpu",
+   "components/webvtt": "src/servo-webvtt",
+   "components/webxr": "src/servo-webxr",
+   "components/xpath": "src/servo-xpath",
+   "ffi/capi": "src/servo-capi",
+   "ports/servoshell": "src/servoshell",
+   "tests/capi": "src/servo-capi-tests",
+   "tests/unit/malloc_size_of": "src/malloc_size_of_tests",
+   "tests/unit/profile": "src/profile_tests",
+   "tests/unit/script": "src/script_tests",
+   "tests/unit/style": "src/style_tests"
+  },
+  "sha": "695124a56869e2896eb6af48b308363010007114",
+  "url": "https://github.com/servo/servo"
+ },
+ "smallbitvec": {
+  "branch": "main",
+  "crates": {
+   ".": "src/smallbitvec"
+  },
+  "sha": "0d26579696e5083fef52de1ab17c757a3a9a9985",
+  "url": "https://github.com/servo/smallbitvec"
+ },
+ "string-cache": {
+  "branch": "main",
+  "crates": {
+   ".": "src/string_cache",
+   "integration-tests": "src/integration_tests",
+   "string-cache-codegen": "src/string_cache_codegen"
+  },
+  "sha": "5f845e2cdf504e76a53d6827a6f6d4bfcced1c93",
+  "url": "https://github.com/servo/string-cache"
+ },
+ "stylo": {
+  "branch": "main",
+  "crates": {
+   "malloc_size_of": "src/stylo_malloc_size_of",
+   "selectors": "src/selectors",
+   "servo_arc": "src/servo_arc",
+   "style": "src/stylo",
+   "style_derive": "src/stylo_derive",
+   "style_traits": "src/stylo_traits",
+   "stylo_atoms": "src/stylo_atoms",
+   "stylo_dom": "src/stylo_dom",
+   "stylo_static_prefs": "src/stylo_static_prefs",
+   "to_shmem": "src/to_shmem",
+   "to_shmem_derive": "src/to_shmem_derive"
+  },
+  "sha": "fa0bd5f8eb5a2f0ce10373c3b9451d41431352b3",
+  "url": "https://github.com/servo/stylo"
+ },
+ "surfman": {
+  "branch": "main",
+  "crates": {
+   ".": "src/surfman"
+  },
+  "sha": "d84ea4f647e327091108ad07dca154e6f2dc7b20",
+  "url": "https://github.com/servo/surfman"
+ },
+ "uluru": {
+  "branch": "main",
+  "crates": {
+   ".": "src/uluru"
+  },
+  "sha": "fc4a87761db7ee944b781e456cdbd5d6e41799b7",
+  "url": "https://github.com/servo/uluru"
+ },
+ "unicode-bidi": {
+  "branch": "main",
+  "crates": {
+   ".": "src/unicode-bidi"
+  },
+  "sha": "9a8c7b03be01def5cf7014b89d5af90f7382fdad",
+  "url": "https://github.com/servo/unicode-bidi"
+ },
+ "webrender": {
+  "branch": "main",
+  "crates": {
+   "example-compositor/compositor": "src/compositor",
+   "example-compositor/compositor-wayland": "src/compositor-wayland",
+   "example-compositor/compositor-windows": "src/compositor-windows",
+   "examples": "src/webrender-examples",
+   "glsl-to-cxx": "src/glsl-to-cxx",
+   "peek-poke": "src/peek-poke",
+   "peek-poke/peek-poke-derive": "src/peek-poke-derive",
+   "swgl": "src/swgl",
+   "webrender": "src/webrender",
+   "webrender_api": "src/webrender_api",
+   "webrender_build": "src/webrender_build",
+   "wr_glyph_rasterizer": "src/wr_glyph_rasterizer",
+   "wr_malloc_size_of": "src/wr_malloc_size_of",
+   "wrench": "src/wrench"
+  },
+  "sha": "e1c924ebad9ffdfe8c8c606aba77eb3f888c396a",
+  "url": "https://github.com/servo/webrender"
+ }
+}

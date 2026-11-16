@@ -25,8 +25,9 @@ def taken_dirs(mono):
     return set(os.listdir(p)) if os.path.isdir(p) else set()
 
 
-def crate_map(work, name, taken):
-    meta = json.loads(run("cargo", "metadata", "--no-deps", "--format-version", "1", cwd=work, out=True))
+def crate_map(work, name, taken, manifest="Cargo.toml"):
+    meta = json.loads(run("cargo", "metadata", "--no-deps", "--format-version", "1",
+                          "--manifest-path", manifest, cwd=work, out=True))
     root = os.path.realpath(work)
     pairs, used = [], set(taken)
     for p in sorted(meta["packages"], key=lambda p: p["name"]):
@@ -87,13 +88,16 @@ def main():
         if os.path.exists(w):
             shutil.rmtree(w)
         run("git", "clone", "-q", "--no-tags", "--single-branch", "--branch", u["branch"], u["url"], w)
+        if u.get("rev"):
+            run("git", "fetch", "-q", "--no-tags", "origin", u["rev"], cwd=w)
+            run("git", "reset", "-q", "--hard", u["rev"], cwd=w)
         sha = run("git", "rev-parse", "HEAD", cwd=w, out=True)
         if u.get("mode") == "bun":
             cb = "KEEP = %r\n" % (u.get("keep", [])) + CB_BUN
             mp = []
         else:
             own = {t.split("/", 1)[1] for t in lock.get(n, {}).get("crates", {}).values()}
-            mp = crate_map(w, n, taken_dirs(mono) - own)
+            mp = crate_map(w, n, taken_dirs(mono) - own, u.get("manifest", "Cargo.toml"))
             cb = CB % {"m": json.dumps(mp), "n": n, "drop": json.dumps(u.get("drop", [])),
                        "res": json.dumps(sorted(RESERVED))}
         run("git", "filter-repo", "--force", "--filename-callback", cb, cwd=w)
