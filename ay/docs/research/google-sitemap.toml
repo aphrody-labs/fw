@@ -1,0 +1,411 @@
+version = 1
+retrieved = "2026-11-16"
+sources = [
+  "https://www.google.com/robots.txt",
+  "https://www.google.com/sitemap.xml",
+  "https://workspace.google.com/sitemap.xml",
+  "https://cloud.google.com/sitemap.xml",
+  "https://about.google/sitemap.xml",
+  "https://developers.google.com/robots.txt",
+  "https://play.google.com/robots.txt",
+  "https://www.youtube.com/robots.txt",
+]
+
+# Every [[sitemap]] row was fetched live on 2026-11-16. urls = count of <loc> entries (for an index: sum over fetched children).
+# Anything not fetched is "unknown". Counts include localized variants. https://abc.xyz/sitemap.xml and https://support.google.com publish no fetchable sitemap (abc.xyz sitemap returned a Cloudflare challenge page; support.google.com robots.txt lists no Sitemap line).
+
+[[sitemap]]
+url = "https://www.google.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 23
+urls = "unknown"
+retrieved = "2026-11-16"
+note = "root index listed in https://www.google.com/robots.txt; child URL totals are in rows below with parent set"
+
+[[sitemap]]
+url = "https://www.google.com/sheets/sitemaps.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 404
+child_sitemaps = 0
+urls = "unknown"
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/slides/sitemaps.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 404
+child_sitemaps = 0
+urls = "unknown"
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/adwords/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 50
+urls = 7
+retrieved = "2026-11-16"
+note = "50 child entries; only https://www.google.com/adwords/sitemap_us.xml is a valid urlset (7 URLs); the other 49 per-locale entries return HTML pages, not sitemap XML, and are not counted"
+
+[[sitemap]]
+url = "https://www.google.com/calendar/about/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 404
+child_sitemaps = 0
+urls = "unknown"
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/docs/sitemaps.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 64
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/forms/sitemaps.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 64
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/finance/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 31
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/fit/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 6
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/partners/about/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 84
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/ads/publisher/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 278
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/grants/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "not-a-sitemap"
+http_status = 200
+child_sitemaps = 0
+urls = "unknown"
+retrieved = "2026-11-16"
+note = "HTTP 200 but body is HTML, not sitemap XML"
+
+[[sitemap]]
+url = "https://www.google.com/admob/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 253
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/gmail/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 166
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/get/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 432
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/travel/flights/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "not-a-sitemap"
+http_status = 200
+child_sitemaps = 0
+urls = "unknown"
+retrieved = "2026-11-16"
+note = "HTTP 200 but body is HTML, not sitemap XML"
+
+[[sitemap]]
+url = "https://www.google.com/drive/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 242
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/nonprofits/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 1098
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/chrome/sitemap.xml"
+parent = "https://www.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 693
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://workspace.google.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 10
+urls = 8789
+retrieved = "2026-11-16"
+note = "sum of sitemap-01..10"
+
+[[sitemap]]
+url = "https://cloud.google.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 180
+urls = 3495301
+retrieved = "2026-11-16"
+note = "sum of 180 child sitemaps (sitemap_N_of_180.xml), all HTTP 200; includes localized and docs URLs"
+
+[[sitemap]]
+url = "https://blog.google/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 31
+urls = 26722
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://deepmind.google/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 753
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://developers.google.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 40
+urls = 705509
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://store.google.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 36
+urls = 12094
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://labs.google/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 55
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://play.google.com/sitemaps/sitemaps-index-0.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 50000
+urls = "unknown"
+retrieved = "2026-11-16"
+note = "children not expanded (more than 400)"
+
+[[sitemap]]
+url = "https://play.google.com/sitemaps/sitemaps-index-1.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 37663
+urls = "unknown"
+retrieved = "2026-11-16"
+note = "children not expanded (more than 400)"
+
+[[sitemap]]
+url = "https://www.youtube.com/sitemaps/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 23
+urls = 2256
+retrieved = "2026-11-16"
+note = "4 of 23 child sitemaps returned non-200 and are not counted"
+
+[[sitemap]]
+url = "https://www.youtube.com/product/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 5
+urls = 234464
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://ai.google.dev/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 1
+urls = 1472
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://firebase.google.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 2
+urls = 33720
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.android.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 7
+urls = 2826
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://developer.android.com/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 10
+urls = 186379
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://one.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 1824
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://one.google.com/about/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 433
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://gemini.google/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 4
+urls = 4149
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://research.google/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 2
+urls = 21060
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://about.google/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 292
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://notebooklm.google/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 340
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://fonts.google.com/sitemap.xml"
+type = "urlset"
+http_status = 200
+child_sitemaps = 0
+urls = 2260
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/adsense/start/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 2
+urls = 966
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/photos/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 1
+urls = 485
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/chromebook/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 1
+urls = 339
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/maps/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 3
+urls = 36
+retrieved = "2026-11-16"
+
+[[sitemap]]
+url = "https://www.google.com/shopping/sitemap.xml"
+type = "index"
+http_status = 200
+child_sitemaps = 1
+urls = 16
+retrieved = "2026-11-16"
+

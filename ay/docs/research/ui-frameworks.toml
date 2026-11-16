@@ -1,0 +1,410 @@
+version = 1
+retrieved = "2026-11-16"
+sources = [
+  "https://api.github.com (gh api repos/*, releases, tags, readme)",
+  "https://crates.io/api/v1/crates/*",
+  "https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json",
+  "https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgtk",
+  "https://doc.qt.io/qt-6/",
+  "https://krausest.github.io/js-framework-benchmark/",
+  "C:/src/aphrody/.agents/plugins/aphrody/docs/nsh",
+]
+
+[[framework]]
+id = "iced"
+name = "iced"
+group = "desktop-native"
+language = "Rust"
+release = "0.14.0"
+release_date = "2025-12-07"
+license = "MIT"
+stars = 32051
+stars_repo = "iced-rs/iced"
+platforms = ["linux", "windows", "macos", "web"]
+rendering = "wgpu (Vulkan, Metal, DX12) with tiny-skia software fallback"
+accessibility = "none (feature request iced-rs/iced#552 open)"
+i18n = "unknown"
+hot_reload = "yes (CHANGELOG: Hot reloading, PR #3000)"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "Elm-style retained model; README lists Windows, macOS, Linux and the Web only"
+retrieved = "2026-11-16"
+sources = ["https://github.com/iced-rs/iced/blob/master/README.md", "https://api.github.com/repos/iced-rs/iced/releases/latest", "https://github.com/iced-rs/iced/issues/552", "https://github.com/iced-rs/iced/blob/master/CHANGELOG.md"]
+
+[[framework]]
+id = "egui"
+name = "egui (eframe)"
+group = "desktop-native"
+language = "Rust"
+release = "0.37.0"
+release_date = "2026-10-15"
+license = "MIT OR Apache-2.0"
+stars = 32320
+stars_repo = "emilk/egui"
+platforms = ["linux", "windows", "macos", "android", "web"]
+rendering = "immediate mode; eframe uses glow (OpenGL) or egui-wgpu"
+accessibility = "AccessKit on Windows and macOS (default in eframe); experimental built-in screen reader on web"
+i18n = "unknown"
+hot_reload = "unknown"
+size_benchmark = "unknown"
+startup_memory_benchmark = "vendor claim: 1-2 ms CPU per frame for most GUIs, repaints only on interaction or animation (README, not an independent benchmark)"
+notes = "library not framework; large scroll areas are costly because layout runs every frame"
+retrieved = "2026-11-16"
+sources = ["https://github.com/emilk/egui/blob/main/README.md", "https://api.github.com/repos/emilk/egui/releases/latest", "https://crates.io/api/v1/crates/egui"]
+
+[[framework]]
+id = "gtk4"
+name = "GTK 4 (gtk4-rs)"
+group = "desktop-native"
+language = "C (GTK); Rust bindings gtk4-rs"
+release = "gtk4-rs 0.11.5; GTK tag 4.25.0 (development series), latest stable-series tag 4.24.1 (2026-10-01)"
+release_date = "2026-09-20"
+license = "gtk4-rs MIT; GTK LGPL (GTK README)"
+stars = 2357
+stars_repo = "gtk-rs/gtk4-rs"
+platforms = ["linux", "windows", "macos"]
+rendering = "GSK renderer over OpenGL or Vulkan; GDK backends Wayland, X11, Win32, macOS"
+accessibility = "AT-SPI based; works with Orca screen reader (GTK docs)"
+i18n = "unknown"
+hot_reload = "unknown"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "stars are of the gtk4-rs GitHub repo (GTK itself lives on gitlab.gnome.org, 298 stars there); release_date is gtk4-rs 0.11.5"
+retrieved = "2026-11-16"
+sources = ["https://github.com/gtk-rs/gtk4-rs/blob/main/README.md", "https://api.github.com/repos/gtk-rs/gtk4-rs/releases/latest", "https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgtk/repository/tags", "https://gitlab.gnome.org/GNOME/gtk/-/blob/main/README.md", "https://docs.gtk.org/gtk4/section-accessibility.html"]
+
+[[framework]]
+id = "qt"
+name = "Qt 6 (cxx-qt for Rust)"
+group = "desktop-native"
+language = "C++ (Qt); Rust via cxx-qt (KDAB)"
+release = "Qt 6.12.0; cxx-qt 0.10.0"
+release_date = "Qt tag 2026-09-30; cxx-qt 2026-08-24"
+license = "Qt: commercial or LGPLv3/GPL (Qt docs); cxx-qt MIT OR Apache-2.0"
+stars = 3133
+stars_repo = "qt/qtbase"
+platforms = ["linux", "windows", "macos", "android", "ios", "web"]
+rendering = "Qt Quick scene graph over RHI (OpenGL, Vulkan, Metal, D3D) or native widgets"
+accessibility = "Qt Accessibility module (doc.qt.io/qt-6/accessible.html, page exists; platform matrix not read)"
+i18n = "Qt internationalization (doc.qt.io/qt-6/internationalization.html, page exists; details not read)"
+hot_reload = "unknown"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "stars are of the qt/qtbase GitHub mirror; cxx-qt CI covers Linux, Windows, macOS, WebAssembly; Qt for Android 9 (API 28) to 16 (API 36) per supported-platforms; iOS and web support read as Qt-supported but not independently opened"
+retrieved = "2026-11-16"
+sources = ["https://github.com/qt/qtbase/tags", "https://doc.qt.io/qt-6/supported-platforms.html", "https://doc.qt.io/qt-6/licensing.html", "https://github.com/KDAB/cxx-qt/blob/main/README.md", "https://api.github.com/repos/KDAB/cxx-qt/releases/latest", "https://doc.qt.io/qt-6/accessible.html"]
+
+[[framework]]
+id = "gpui"
+name = "GPUI (Zed)"
+group = "desktop-native"
+language = "Rust"
+release = "gpui 0.2.2 on crates.io (Zed app v1.28.1)"
+release_date = "gpui 2025-10-22; Zed v1.28.1 2026-11-11"
+license = "gpui Apache-2.0 (crates.io); Zed app GPL-3.0-or-later primarily with Apache-2.0 components (Zed README)"
+stars = 95159
+stars_repo = "zed-industries/zed"
+platforms = ["linux", "windows", "macos"]
+rendering = "GPU accelerated, hybrid immediate and retained mode (GPUI README); graphics API per platform not read"
+accessibility = "unknown"
+i18n = "unknown"
+hot_reload = "unknown"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "pre-1.0 with breaking changes (GPUI README); web is a tracking discussion (zed#26195); stars are of the zed repo; gpui_platform features include wayland and x11"
+retrieved = "2026-11-16"
+sources = ["https://github.com/zed-industries/zed/blob/main/crates/gpui/README.md", "https://github.com/zed-industries/zed/blob/main/README.md", "https://crates.io/api/v1/crates/gpui", "https://api.github.com/repos/zed-industries/zed/releases/latest"]
+
+[[framework]]
+id = "libcosmic"
+name = "libcosmic (COSMIC)"
+group = "desktop-native"
+language = "Rust"
+release = "git tag v0.12 (no GitHub releases; crates.io lookup failed)"
+release_date = "2024-10-16 (tag commit); default branch pushed 2026-11-16"
+license = "MPL-2.0"
+stars = 969
+stars_repo = "pop-os/libcosmic"
+platforms = ["linux"]
+rendering = "iced fork; optional wgpu feature, tiny-skia otherwise"
+accessibility = "experimental (a11y feature, README)"
+i18n = "i18n-embed with fluent (Cargo.toml)"
+hot_reload = "unknown"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "COSMIC desktop toolkit; platform list limited to what README features show (wayland, a11y, wgpu); tag recency may not reflect development on master"
+retrieved = "2026-11-16"
+sources = ["https://github.com/pop-os/libcosmic/blob/master/README.md", "https://github.com/pop-os/libcosmic/blob/master/Cargo.toml", "https://api.github.com/repos/pop-os/libcosmic/tags"]
+
+[[framework]]
+id = "slint"
+name = "Slint"
+group = "desktop-native"
+language = "Rust core; bindings for C++, JS, Python"
+release = "v1.19.0"
+release_date = "2026-11-16"
+license = "GPL-3.0-only OR Royalty-free-2.0 OR Commercial (Slint README)"
+stars = 24611
+stars_repo = "slint-ui/slint"
+platforms = ["linux", "windows", "macos", "android", "ios", "web", "embedded"]
+rendering = "femtovg (OpenGL ES 2.0), Skia, or software renderer"
+accessibility = "AccessKit in winit backend (internal/backends/winit/accesskit.rs)"
+i18n = "translations guide exists (slint.dev/docs/slint/guide/development/translations)"
+hot_reload = "Live Preview and editor integrations (README)"
+size_benchmark = "unknown"
+startup_memory_benchmark = "vendor claim only (qualitative: minimal memory and processing power, README); no numbers read"
+notes = "scales to STM32, ESP32, RP2040 microcontrollers (README)"
+retrieved = "2026-11-16"
+sources = ["https://github.com/slint-ui/slint/blob/master/README.md", "https://api.github.com/repos/slint-ui/slint/releases/latest", "https://crates.io/api/v1/crates/slint", "https://github.com/slint-ui/slint/blob/master/internal/backends/winit/accesskit.rs"]
+
+[[framework]]
+id = "tauri"
+name = "Tauri"
+group = "desktop-native"
+language = "Rust backend + web frontend (HTML, JS, CSS)"
+release = "tauri-v2.12.6 (v3.0.0-alpha.6 prerelease)"
+release_date = "2026-11-16"
+license = "Apache-2.0 (GitHub); crates.io Apache-2.0 OR MIT"
+stars = 112899
+stars_repo = "tauri-apps/tauri"
+platforms = ["linux", "windows", "macos", "android", "ios"]
+rendering = "system webview via WRY and TAO (DOM)"
+accessibility = "inherits the system webview (not separately documented in README)"
+i18n = "unknown"
+hot_reload = "unknown"
+size_benchmark = "vendor claim: tiny binaries (README); no number read"
+startup_memory_benchmark = "unknown"
+notes = "README minimums: Windows 10, macOS 10.15, Android 7 (currently 8), iOS 9; webkit2gtk 4.1 on Linux for v2"
+retrieved = "2026-11-16"
+sources = ["https://github.com/tauri-apps/tauri/blob/dev/README.md", "https://api.github.com/repos/tauri-apps/tauri/releases", "https://crates.io/api/v1/crates/tauri"]
+
+[[framework]]
+id = "rune"
+name = "Rune (aphrody-labs/rune, fork of anomalyco/rune)"
+group = "desktop-native"
+language = "Rust"
+release = "none published; pin a rev of the dev branch (README)"
+release_date = "unknown"
+license = "MIT"
+stars = 7302
+stars_repo = "anomalyco/rune"
+platforms = ["macos", "windows", "linux", "web"]
+rendering = "own wgpu renderer, one instanced uber-quad pipeline and one draw call per frame; Taffy 0.15 layout; Parley 0.12 text; web target renders one canvas through WebGPU"
+accessibility = "accesskit_macos and accesskit_windows vendored; element tree dump and roles (README mentions accessibility text and `elements()`); coverage not audited"
+i18n = "rune-i18n crate in workspace (content not read)"
+hot_reload = "web-build.sh --watch; scripts/mac-app relaunches in place (README, WEB.md); no live state-preserving reload read"
+size_benchmark = "web: not published for Rune itself; WEB.md says build script prints raw and gzip wasm size"
+startup_memory_benchmark = "vendor measurement (Rune README): first window with content about 300 ms after open on Apple silicon (median 299 ms warm shader cache, 312 ms cold, loaded laptop); one settings window 77 MB to 70 MB settled after idle fix"
+notes = "aphrody fork has 0 stars (fork of anomalyco/rune, default branch dev, pushed 2026-11-16); headless render to PNG and element tree dump for agents; iOS not wired yet (README); Android not mentioned; no pull requests accepted upstream; 55 workspace members incl. rune-kit, rune-motion, rune-fx, rune-luau, rune-mermaid"
+retrieved = "2026-11-16"
+sources = ["https://github.com/aphrody-labs/rune/blob/dev/README.md", "https://github.com/aphrody-labs/rune/blob/dev/crates/rune/README.md", "https://github.com/aphrody-labs/rune/blob/dev/WEB.md", "https://github.com/aphrody-labs/rune/blob/dev/Cargo.toml", "https://api.github.com/repos/aphrody-labs/rune", "https://api.github.com/repos/anomalyco/rune"]
+
+[[framework]]
+id = "nsh"
+name = "NSH (Native Shell, longbridge/nsh)"
+group = "desktop-native"
+language = "Rust engine; apps in TSX or Rust (QuickJS)"
+release = "v0.5.1"
+release_date = "2026-11-14"
+license = "Apache-2.0 (LICENSE-APACHE)"
+stars = 2915
+stars_repo = "longbridge/nsh"
+platforms = ["ios", "android", "macos", "windows", "linux", "web", "terminal"]
+rendering = "native views: UIKit, Android views, AppKit, Win32/Direct2D/DirectWrite, GTK 4/Pango; HTML on web; GPUI in GPUI apps; terminal cells"
+accessibility = "native platform accessibility; nsh/base provides accessible behavior (README)"
+i18n = "unknown"
+hot_reload = "TSX hot updates (README)"
+size_benchmark = "measured by NSH (docs/dev/browser-js-size.md, 2026-10-27, wasm web target): Counter 12,540,474 raw / 4,539,436 gzip / 3,425,833 brotli bytes; Gallery 13,100,520 / 4,724,712 / 3,589,333"
+startup_memory_benchmark = "unknown"
+notes = "IDENTIFIED: \"nsh\" in C:\\src\\aphrody/.agents/plugins/aphrody/docs/nsh and skills/nsh is Native Shell, a Rust native UI framework (upstream longbridge/nsh); minimums iOS 15, Android 8, macOS 14, Windows 10 1809, GTK 4.14"
+retrieved = "2026-11-16"
+sources = ["https://github.com/longbridge/nsh/blob/main/README.md", "https://api.github.com/repos/longbridge/nsh/releases/latest", "file:C:/src/aphrody/.agents/plugins/aphrody/docs/nsh/dev/browser-js-size.md", "file:C:/src/aphrody/.agents/plugins/aphrody/docs/nsh/dev/architecture.md"]
+
+[[framework]]
+id = "flutter"
+name = "Flutter"
+group = "cross-platform-mobile"
+language = "Dart"
+release = "3.50.0 (stable)"
+release_date = "2026-11-11"
+license = "BSD-3-Clause"
+stars = 181241
+stars_repo = "flutter/flutter"
+platforms = ["android", "ios", "web", "windows", "macos", "linux"]
+rendering = "own rendering via Impeller and Skia (README)"
+accessibility = "documented (docs.flutter.dev/ui/accessibility, page exists)"
+i18n = "documented (docs.flutter.dev/ui/internationalization, page exists)"
+hot_reload = "stateful hot reload (README)"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "GitHub releases page only has stale pre-releases; stable version read from storage.googleapis.com/flutter_infra_release/releases/releases_linux.json (Dart 3.14.0)"
+retrieved = "2026-11-16"
+sources = ["https://github.com/flutter/flutter/blob/master/README.md", "https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json", "https://docs.flutter.dev/ui/accessibility", "https://docs.flutter.dev/ui/internationalization"]
+
+[[framework]]
+id = "compose-multiplatform"
+name = "Compose Multiplatform"
+group = "cross-platform-mobile"
+language = "Kotlin"
+release = "v1.12.2"
+release_date = "2026-10-15"
+license = "Apache-2.0"
+stars = 19489
+stars_repo = "JetBrains/compose-multiplatform"
+platforms = ["android", "ios", "windows", "macos", "linux", "web"]
+rendering = "unknown (rendering engine not read from a source; Android uses the Jetpack Compose runtime per README)"
+accessibility = "Android semantics doc exists; Compose desktop accessibility page exists (jetbrains.com/help/kotlin-multiplatform-dev/compose-desktop-accessibility.html)"
+i18n = "unknown"
+hot_reload = "Compose Hot Reload project JetBrains/compose-hot-reload (Apache-2.0, 1423 stars)"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "README marks Web as Beta; iOS, Android, Desktop listed without a stability tag"
+retrieved = "2026-11-16"
+sources = ["https://github.com/JetBrains/compose-multiplatform/blob/master/README.md", "https://api.github.com/repos/JetBrains/compose-multiplatform/releases/latest", "https://api.github.com/repos/JetBrains/compose-hot-reload", "https://developer.android.com/develop/ui/compose/accessibility/semantics"]
+
+[[framework]]
+id = "react-native"
+name = "React Native"
+group = "cross-platform-mobile"
+language = "JavaScript/TypeScript, C++ core"
+release = "v0.88.1"
+release_date = "2026-10-27"
+license = "MIT"
+stars = 126937
+stars_repo = "react/react-native"
+platforms = ["android", "ios"]
+rendering = "native platform views"
+accessibility = "documented, platform behavior (reactnative.dev/docs/accessibility; README says native widgets so accessibility behaves as users expect)"
+i18n = "unknown"
+hot_reload = "Fast Refresh (README, reactnative.dev/docs/fast-refresh)"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "other platforms via out-of-tree platforms (reactnative.dev/docs/out-of-tree-platforms); repo moved to react/react-native"
+retrieved = "2026-11-16"
+sources = ["https://github.com/react/react-native/blob/main/README.md", "https://api.github.com/repos/facebook/react-native/releases/latest", "https://reactnative.dev/docs/accessibility", "https://reactnative.dev/docs/fast-refresh"]
+
+[[framework]]
+id = "expo"
+name = "Expo"
+group = "cross-platform-mobile"
+language = "TypeScript (React)"
+release = "expo@58.0.25 (npm)"
+release_date = "2026-11-12"
+license = "MIT"
+stars = 53589
+stars_repo = "expo/expo"
+platforms = ["android", "ios", "web"]
+rendering = "React Native native views; DOM via react-native-web on web"
+accessibility = "inherits React Native"
+i18n = "documented (docs.expo.dev/guides/localization, page exists)"
+hot_reload = "inherits React Native Fast Refresh"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "README: universal native apps for Android, iOS and the web; npm view expo time.modified 2026-11-12"
+retrieved = "2026-11-16"
+sources = ["https://github.com/expo/expo/blob/main/README.md", "https://api.github.com/repos/expo/expo/releases", "https://docs.expo.dev/guides/localization/"]
+
+[[framework]]
+id = "dioxus"
+name = "Dioxus"
+group = "cross-platform-mobile"
+language = "Rust"
+release = "v0.7.10 (GitHub latest); crates.io newest 0.8.0-alpha.3 prerelease"
+release_date = "2026-07-30 (v0.7.10); 2026-10-16 (0.8.0-alpha.3)"
+license = "Apache-2.0 (GitHub); crates.io MIT OR Apache-2.0"
+stars = 39788
+stars_repo = "DioxusLabs/dioxus"
+platforms = ["web", "windows", "macos", "linux", "android", "ios"]
+rendering = "system webview (desktop and mobile), DOM (web), optional experimental WGPU native renderer (Blitz), SSR, liveview"
+accessibility = "unknown"
+i18n = "unknown"
+hot_reload = "subsecond Rust hot-patching and asset hot-reload (README)"
+size_benchmark = "vendor claim (README): web hello world about 50 kb, desktop and mobile under 5 MB, portable desktop binaries under 3 MB; not independent"
+startup_memory_benchmark = "unknown"
+notes = "signals state; fullstack via axum and server functions"
+retrieved = "2026-11-16"
+sources = ["https://github.com/DioxusLabs/dioxus/blob/main/README.md", "https://api.github.com/repos/DioxusLabs/dioxus/releases/latest", "https://crates.io/api/v1/crates/dioxus"]
+
+[[framework]]
+id = "leptos"
+name = "Leptos"
+group = "web"
+language = "Rust (compiles to wasm)"
+release = "v0.8.23 (GitHub latest); crates.io newest 0.9.0-rc1 prerelease"
+release_date = "2026-10-31"
+license = "MIT"
+stars = 21536
+stars_repo = "leptos-rs/leptos"
+platforms = ["web"]
+rendering = "DOM; CSR, SSR and hydration; fine-grained reactivity (README)"
+accessibility = "unknown"
+i18n = "unknown"
+hot_reload = "cargo leptos watch (README)"
+size_benchmark = "unknown"
+startup_memory_benchmark = "krausest js-framework-benchmark includes leptos (frameworks/keyed/leptos); numbers not read in session"
+notes = "full-stack isomorphic"
+retrieved = "2026-11-16"
+sources = ["https://github.com/leptos-rs/leptos/blob/main/README.md", "https://api.github.com/repos/leptos-rs/leptos/releases/latest", "https://crates.io/api/v1/crates/leptos", "https://krausest.github.io/js-framework-benchmark/"]
+
+[[framework]]
+id = "svelte-kit"
+name = "Svelte 5 / SvelteKit"
+group = "web"
+language = "JavaScript/TypeScript"
+release = "svelte@5.57.3; @sveltejs/kit@3.2.0"
+release_date = "svelte 2026-10-26; kit 2026-11-10"
+license = "MIT"
+stars = 88876
+stars_repo = "sveltejs/svelte"
+platforms = ["web"]
+rendering = "DOM, updates generated by the Svelte compiler (compile-time warnings page confirms a compiler)"
+accessibility = "compile-time a11y warnings in the Svelte compiler (42 a11y_* warning codes listed on svelte.dev/docs/svelte/compiler-warnings)"
+i18n = "unknown"
+hot_reload = "unknown"
+size_benchmark = "unknown"
+startup_memory_benchmark = "krausest js-framework-benchmark includes svelte (frameworks/keyed/svelte); numbers not read in session"
+notes = "kit repo has 20914 stars; deploy targets via adapters (svelte.dev/docs/kit/adapters, page exists)"
+retrieved = "2026-11-16"
+sources = ["https://github.com/sveltejs/svelte", "https://api.github.com/repos/sveltejs/svelte/releases/latest", "https://api.github.com/repos/sveltejs/kit/releases/latest", "https://svelte.dev/docs/svelte/compiler-warnings", "https://krausest.github.io/js-framework-benchmark/"]
+
+[[framework]]
+id = "nextjs"
+name = "Next.js"
+group = "web"
+language = "TypeScript/JavaScript (React)"
+release = "v16.4.6"
+release_date = "2026-11-09"
+license = "MIT"
+stars = 143623
+stars_repo = "vercel/next.js"
+platforms = ["web"]
+rendering = "React DOM with server rendering"
+accessibility = "unknown"
+i18n = "documented (nextjs.org/docs/app/guides/internationalization, page exists)"
+hot_reload = "Fast Refresh (nextjs.org/docs/architecture/fast-refresh, page exists)"
+size_benchmark = "unknown"
+startup_memory_benchmark = "krausest js-framework-benchmark includes react frameworks; Next.js itself not read"
+notes = ""
+retrieved = "2026-11-16"
+sources = ["https://github.com/vercel/next.js/blob/canary/readme.md", "https://api.github.com/repos/vercel/next.js/releases/latest", "https://nextjs.org/docs/architecture/fast-refresh", "https://nextjs.org/docs/app/guides/internationalization"]
+
+[[framework]]
+id = "bun-fullstack"
+name = "Bun fullstack (Bun.serve + HTML imports)"
+group = "web"
+language = "TypeScript/JavaScript runtime written in Zig/Rust (per repo skills, not re-read)"
+release = "bun-v1.4.4 (GitHub latest); session runtime 1.4.5-canary.1"
+release_date = "2026-10-22"
+license = "MIT (LICENSE.md: Bun itself MIT; JavaScriptCore LGPL-2)"
+stars = 96718
+stars_repo = "oven-sh/bun"
+platforms = ["web (server on linux, windows, macos)"]
+rendering = "server serves HTML imports bundled by Bun; client rendering is whatever UI library is imported"
+accessibility = "unknown"
+i18n = "unknown"
+hot_reload = "bun --hot and HMR (bun.sh/docs/runtime/hot, page exists)"
+size_benchmark = "unknown"
+startup_memory_benchmark = "unknown"
+notes = "HTML imports documented at bun.sh/docs/bundler/fullstack"
+retrieved = "2026-11-16"
+sources = ["https://github.com/oven-sh/bun/blob/main/LICENSE.md", "https://api.github.com/repos/oven-sh/bun/releases/latest", "https://bun.sh/docs/bundler/fullstack", "https://bun.sh/docs/runtime/hot"]

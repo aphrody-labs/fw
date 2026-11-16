@@ -1,0 +1,729 @@
+version = 1
+retrieved = "2026-11-16"
+current_generation = "Pixel 11 series (Pixel 11, 11 Pro, 11 Pro XL, 11 Pro Fold), announced 2026-08-12, on shelves 2026-08-20, launched with Android 17, per store.google.com and blog.google"
+note = "Facts read live from Google pages on 2026-11-16. Values not on the pages are written as unknown. Rows tagged secondary source cite a press article and are not confirmed by Google pages."
+sources = [
+  "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/",
+  "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence/",
+  "https://blog.google/security/android-gemini-intelligence-security-privacy/",
+  "https://blog.google/products-and-platforms/devices/googlebook/googlebook-built-in-intelligence/",
+  "https://store.google.com/us/product/pixel_11_specs",
+  "https://store.google.com/us/product/pixel_11",
+  "https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/",
+  "https://blog.google/products-and-platforms/devices/pixel/september-2026-pixel-drop/",
+  "https://www.androidcentral.com/phones/google-pixel/november-2026-google-pixel-drop",
+  "https://www.techloy.com/november-pixel-drop-android-17-qpr2/",
+  "https://store.google.com/magazine/pixel-performance",
+  "https://store.google.com/us/product/pixel_11_pro_specs",
+  "https://store.google.com/us/product/pixel_11_pro_fold_specs",
+  "https://blog.google/products-and-platforms/devices/pixel/pixel-11-magic-capture/",
+  "https://blog.google/products-and-platforms/devices/pixel/pixel-11-pro-hilight/",
+  "https://blog.google/products-and-platforms/platforms/android/android-17-features/",
+  "https://blog.google/products-and-platforms/devices/pixel/american-sign-language-sign-to-text-pixel-11/",
+  "https://blog.google/products-and-platforms/platforms/android/meet-googlebook/",
+  "https://chromeunboxed.com/android-17-adds-new-continue-activity-settings-hub-ahead-of-googlebook-launch/",
+  "https://9to5google.com/2026/09/21/googlebook-launch/",
+  "https://support.google.com/googlebook/answer/16943612?hl=en",
+]
+
+[[feature]]
+area = "ai_gemini"
+name = "Gemini Intelligence"
+description = "Proactive, personal help across apps; multistep tasks across more than 40 apps and counting; user controls which data is used."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Core agent layer for a laptop AI OS; Aphrody has A2A and local inference."
+
+[[feature]]
+area = "ai_gemini"
+name = "Gemini app task automation"
+description = "Gemini works with apps in the background (ordering groceries, booking a ride, reordering); user can view progress or end a task; asks confirmation before purchases."
+source = "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence/ ; https://blog.google/security/android-gemini-intelligence-security-privacy/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Agentic desktop automation with visible progress and confirmation gates maps directly to an agent runtime."
+
+[[feature]]
+area = "ai_gemini"
+name = "Rambler"
+description = "Gemini-powered voice input that removes filler words and formats speech into concise text; switches languages mid-message; audio used only for real-time transcription and not stored."
+source = "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence/ ; https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Dictation cleanup is a local-model feature (STT plus LLM) that fits a laptop."
+
+[[feature]]
+area = "ai_gemini"
+name = "Create My Widget"
+description = "Build custom home-screen widgets by describing them in natural language; resizable; available on Gemini Intelligence phones and Wear OS, also on Googlebook."
+source = "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence/ ; https://blog.google/products-and-platforms/devices/googlebook/googlebook-built-in-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Generative widgets suit the desktop shell and the MDX/showcase pipeline."
+
+[[feature]]
+area = "ai_gemini"
+name = "Proactive cards and suggestions (Magic Cue)"
+description = "Glanceable cards in apps already in use (trip booking and flight status), proactive prompts to book a reservation, save events to Calendar, locations to Maps, membership numbers to Wallet."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/ ; https://blog.google/security/android-gemini-intelligence-security-privacy/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Context-aware suggestions are replicable with an on-device context graph; requires private compute boundary."
+
+[[feature]]
+area = "ai_gemini"
+name = "Location-based insights (Preview)"
+description = "Lock screen proactively shows insights such as top menu items from reviews and photos in Google Maps when waiting at a restaurant."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Depends on phone location context and Google Maps data; low value on a laptop."
+
+[[feature]]
+area = "ai_gemini"
+name = "Gemini in Chrome and Chrome auto browse"
+description = "Research, summarize and compare web content; auto browse handles tasks such as appointment booking or reserving parking; rolling out to Android from late June."
+source = "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Browser agent is a first-class Aphrody browser feature."
+
+[[feature]]
+area = "ai_gemini"
+name = "Autofill with Google plus Gemini Personal Intelligence"
+description = "Fills complex forms using information from connected apps; connection to Gemini is strictly opt-in and can be switched off."
+source = "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Form-filling agent with opt-in data sources is replicable in the browser and OS credential manager."
+
+[[feature]]
+area = "ai_gemini"
+name = "Gemini Nano on device"
+description = "Listed under the Gemini section of the specs together with Gemini Live and Gemini apps."
+source = "https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Local inference is an Aphrody pillar (llama and local models)."
+
+[[feature]]
+area = "ai_gemini"
+name = "Gemini Live"
+description = "Listed under the Gemini section of the specs."
+source = "https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Realtime voice conversation can be served by local or hosted models."
+
+[[feature]]
+area = "ai_gemini"
+name = "Circle to Search"
+description = "Search from the screen; on Pixel 11 also directly from the Camera viewfinder to identify objects such as plants."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/ ; https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Screen-region search is a desktop overlay plus vision model."
+
+[[feature]]
+area = "ai_gemini"
+name = "Live Translate for media"
+description = "Real-time speech-to-speech translation that automatically dubs videos and audio into the preferred language on-device using Tensor G6."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "System-wide audio capture, STT, translation and TTS pipeline is feasible locally on a laptop."
+
+[[feature]]
+area = "ai_gemini"
+name = "Live call translation in the caller's own voice"
+description = "Translates what each caller says using the sound of their voice; listed as Only on Google Pixel."
+source = "https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Telephony call path is phone-specific; voice cloning is out of scope for the laptop OS."
+
+[[feature]]
+area = "ai_gemini"
+name = "Conversation summaries"
+description = "Summaries of longer conversations; available in German, French, Spanish, Italian, Hindi and Traditional Chinese."
+source = "https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Message summarization is a plain LLM feature."
+
+[[feature]]
+area = "ai_gemini"
+name = "Gemini-powered Call Screen"
+description = "Gemini asks unknown callers why they are calling in a conversational way with live transcript on screen."
+source = "https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Phone-call feature; no laptop equivalent except VoIP."
+
+[[feature]]
+area = "ai_gemini"
+name = "Scam Detection"
+description = "Real-time alerts if a potential fraudster is calling or messaging; inline Gboard warnings in the U.S. and chat-app notification scanning in more regions."
+source = "https://store.google.com/us/product/pixel_11 ; https://blog.google/products-and-platforms/devices/pixel/september-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Scam detection on messages and email maps to laptop mail and chat clients."
+
+[[feature]]
+area = "ai_gemini"
+name = "Pixel search"
+description = "Finds content across phone: photos, emails, messages, calendar events and device settings; on Pixel 6a and newer."
+source = "https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Unified local semantic search over files, mail and settings is a core OS feature; Googlebook also lists semantic file search."
+
+[[feature]]
+area = "ai_gemini"
+name = "Custom icon styles"
+description = "Additional icon styles that apply across all home-screen app icons."
+source = "https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Theming feature for desktop shell."
+
+[[feature]]
+area = "ai_gemini"
+name = "Ask math in Calculator"
+description = "AI-powered Ask math tool; reported exclusive to the Pixel 11 series by Android Central (secondary source)."
+source = "https://www.androidcentral.com/phones/google-pixel/november-2026-google-pixel-drop"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Small LLM-backed utility; secondary source only, not confirmed on a Google page in this run."
+
+[[feature]]
+area = "ai_gemini"
+name = "Google Photos edit by asking"
+description = "Ask for edits in plain language with no tools or sliders; Edit with Ask Photos in the editing features list."
+source = "https://store.google.com/us/product/pixel_11 ; https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Natural-language image editing is replicable with a local or hosted image model."
+
+[[feature]]
+area = "ai_gemini"
+name = "Agents dashboard (Android 17 QPR2)"
+description = "Agents dashboard under Privacy controls; reported by Techloy (secondary source). Google's security post separately describes activity history of AI assistants coming to the Privacy Dashboard."
+source = "https://www.techloy.com/november-pixel-drop-android-17-qpr2/ ; https://blog.google/security/android-gemini-intelligence-security-privacy/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Audit log of agent actions is required for any agentic OS."
+
+[[feature]]
+area = "silicon"
+name = "Google Tensor G6"
+description = "Co-designed with Google DeepMind; 50% more powerful TPU, upgraded ISP, CPU with 25% faster browsing and up to 20% better power efficiency."
+source = "https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Silicon is not replicable; the OS should target generic NPUs and GPUs."
+
+[[feature]]
+area = "silicon"
+name = "Zoned UFS storage"
+description = "512 GB and larger storage options use Zoned UFS for faster performance; 256 GB base storage on all models."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11_pro_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware storage tech; Linux supports ZUFS drivers but it is not an OS feature."
+
+[[feature]]
+area = "silicon"
+name = "RAM configurations"
+description = "Pixel 11: 12 GB RAM. Pro and Pro XL: 12 GB with 256 GB, 16 GB with 512 GB and 1 TB. Pro Fold: 16 GB."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11_pro_specs ; https://store.google.com/us/product/pixel_11_pro_fold_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware spec."
+
+[[feature]]
+area = "silicon"
+name = "Vapor chamber cooling"
+description = "Pro phones include a sealed vacuum copper vapor chamber to sustain peak performance."
+source = "https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware."
+
+[[feature]]
+area = "camera"
+name = "Magic Capture"
+description = "One tap starts a session that analyzes around 400 frames with on-device intelligence and Gemini models to deliver well-timed 12 MP photos, optional crop, straighten and unblur, plus a video."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-magic-capture/ ; https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Requires a phone camera pipeline; laptop webcams are not the use case."
+
+[[feature]]
+area = "camera"
+name = "Camera Looks"
+description = "Alternative default looks Natural, Shadows, Vanilla plus six additional Looks Digi, Black Tie, Minimal, Editorial, Classic, Velvet; each customizable."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Camera ISP tuning; the OS could still offer photo-look presets in the gallery app but the capture feature is phone-only."
+
+[[feature]]
+area = "camera"
+name = "Creator Suite"
+description = "Viewfinder tools: social gridlines, on-screen teleprompter that scrolls as you talk, project folders, Storyboard to trim and rearrange clips, video as default mode."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/ ; https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Teleprompter, project folders and storyboard editing are desktop-friendly creator tools for the showcase."
+
+[[feature]]
+area = "camera"
+name = "Instant Night Sight"
+description = "Night Sight images up to 4.5 times faster compared with Pixel 10, 9 and 8 series; on Pixel 11 Pro and Pro XL."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Needs camera sensor pipeline."
+
+[[feature]]
+area = "camera"
+name = "Super Zoom up to 30x (Pixel 11, Pro Fold) and Pro Zoom up to 120x (Pro, Pro XL)"
+description = "Pixel 11 rear: 48 MP wide, 13 MP ultrawide, 10.8 MP 5x telephoto. Pro: 50 MP wide, 48 MP ultrawide, 48 MP 5x telephoto."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11_pro_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware."
+
+[[feature]]
+area = "camera"
+name = "Front camera"
+description = "Pixel 11: 10.5 MP with autofocus. Pro and Pro XL: 42 MP with autofocus. Pro Fold: 10 MP outer and 10 MP inner."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11_pro_specs ; https://store.google.com/us/product/pixel_11_pro_fold_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware."
+
+[[feature]]
+area = "camera"
+name = "Video capture"
+description = "Pixel 11 rear 4K at 24/30/60 FPS; Pro 8K at 24/30 FPS powered by Video Boost; formats HEVC, AVC, AV1, VP9; 10-bit HDR; slo-mo up to 240 FPS."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11_pro_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Capture hardware; codec support itself is standard on a laptop."
+
+[[feature]]
+area = "camera"
+name = "Add Me, Top Shot, Auto Best Take, Best Take, Magic Eraser, Photo Unblur, Zoom Enhance, Portrait Light, Real Tone"
+description = "Camera and editing feature names listed on the Pixel 11 specs page; no further description on that page."
+source = "https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Editing features (Magic Eraser, Unblur, Best Take, Portrait Light) are replicable as gallery tools with local models."
+
+[[feature]]
+area = "camera"
+name = "Audio Magic Eraser"
+description = "Video feature that reduces unwanted sounds; listed in Pixel 11 video features."
+source = "https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Audio separation models run locally on a laptop."
+
+[[feature]]
+area = "camera"
+name = "Pixel 11 Pro Fold camera extras"
+description = "Dual Screen Preview, Rear Camera Selfie, Tabletop mode hands-free shots, Instant View, Made You Look."
+source = "https://store.google.com/us/product/pixel_11_pro_fold_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Foldable-specific."
+
+[[feature]]
+area = "display"
+name = "Actua display (Pixel 11)"
+description = "6.3-inch 1080 x 2424 OLED at 422 PPI, Smooth Display 60-120 Hz, up to 2000 nits HDR and 3000 nits peak, Gorilla Glass Victus 2."
+source = "https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Panel hardware."
+
+[[feature]]
+area = "display"
+name = "Super Actua display (Pro and Pro XL)"
+description = "6.3-inch 1280 x 2856 LTPO OLED 495 PPI or 6.8-inch 1344 x 2992 LTPO OLED 486 PPI, 1-120 Hz, up to 2400 nits HDR and 3600 nits peak; Super Actua is 9% brighter and more than 2x more scratch resistant."
+source = "https://store.google.com/us/product/pixel_11_pro_specs ; https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Panel hardware; variable refresh (1-120 Hz) is something the compositor should support."
+
+[[feature]]
+area = "display"
+name = "Pixel 11 Pro Fold displays"
+description = "6.5-inch outer 1080 x 2342 OLED and 8-inch inner Super Actua Flex 2076 x 2152 OLED, 1-120 Hz, up to 3600 nits peak."
+source = "https://store.google.com/us/product/pixel_11_pro_fold_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Foldable hardware."
+
+[[feature]]
+area = "display"
+name = "HiLight"
+description = "Color-coded lights on Pixel 11 Pro, Pro XL and Pro Fold signal Gemini listening, thinking, responding and custom colors for favorite callers; works while face down; Google Messages support added in the November Pixel Drop."
+source = "https://blog.google/products-and-platforms/devices/pixel/pixel-11-pro-hilight/ ; https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Dedicated light hardware; a laptop could mimic it with the keyboard or glowbar LED only if present."
+
+[[feature]]
+area = "display"
+name = "Build and durability"
+description = "Aluminum frame, Gorilla Glass Victus 2, IP68 dust and water resistance, fingerprint-resistant coating; 100% recycled aluminum in the housing."
+source = "https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware."
+
+[[feature]]
+area = "battery"
+name = "Battery life and capacity"
+description = "30+ hours claimed (24+ hours Pro Fold). Typical capacity 4985 mAh (Pixel 11), 4850 mAh (Pro), 5115 mAh (Pro XL), 4806 mAh (Pro Fold)."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11_pro_specs ; https://store.google.com/us/product/pixel_11_pro_fold_specs ; https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware capacity."
+
+[[feature]]
+area = "battery"
+name = "Wired fast charging"
+description = "Pixel 11: up to 55% in about 30 minutes with 30W USB-C PPS charger. Pro XL: up to 75% in about 30 minutes with 45W. Pro Fold: up to 50%. The performance page states up to 75% generally, which applies to the Pro XL spec only."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11_pro_specs ; https://store.google.com/us/product/pixel_11_pro_fold_specs ; https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware."
+
+[[feature]]
+area = "battery"
+name = "Pixelsnap wireless charging"
+description = "Qi2.2-certified up to 25W with magnetic alignment; up to 25% faster than before (up to 29% for the Pixelsnap Charger for Pro); works with MagSafe accessories."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware."
+
+[[feature]]
+area = "battery"
+name = "Adaptive Battery"
+description = "Learns which apps are used most and reduces power to rarely opened apps."
+source = "https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Usage-learning background throttling is a power-management feature for the laptop scheduler."
+
+[[feature]]
+area = "battery"
+name = "Extreme Charging Mode"
+description = "Pauses background activity and non-essential apps so the device charges faster."
+source = "https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "A charge-fast profile that suspends background work is replicable in the power daemon."
+
+[[feature]]
+area = "security"
+name = "Titan M3 security chip"
+description = "Post-quantum cryptography support; certified; part of multi-layer hardware security with Tensor G6 quantum-safe secure boot, Tensor security core and Trusty TEE."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Hardware root of trust; the OS should consume TPM or equivalent and adopt post-quantum primitives in software."
+
+[[feature]]
+area = "security"
+name = "VPN by Google"
+description = "Built-in VPN at no extra cost."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Built-in VPN is an OS service; Bun already ships a VPN daemon track."
+
+[[feature]]
+area = "security"
+name = "Face Unlock and Fingerprint Unlock"
+description = "Face Unlock faster, more secure and more accurate in low light; also Fingerprint Unlock and pattern, PIN, password."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Biometric login on laptops with camera or reader; requires privacy-preserving local matching."
+
+[[feature]]
+area = "security"
+name = "Satellite SOS and Emergency SOS"
+description = "Connect to emergency services via satellite with no signal; Crisis Alerts, Car Crash Detection, Safety Check, Earthquake Alerts, Emergency Location Service."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Phone radio and sensors."
+
+[[feature]]
+area = "security"
+name = "Theft protection and Mark as lost"
+description = "Android 17: Find Hub Mark as lost locks a missing phone with biometrics; fewer PIN guesses and longer waits between failed attempts."
+source = "https://blog.google/products-and-platforms/platforms/android/android-17-features/ ; https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Device-lock-on-loss and PIN guess throttling apply to laptops."
+
+[[feature]]
+area = "security"
+name = "Android 17 privacy controls"
+description = "Temporary precise-location grants, share only specific contacts, Live Threat Detection improvements, enhanced Advanced Protection mode, app memory limits."
+source = "https://blog.google/products-and-platforms/platforms/android/android-17-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Scoped permission grants and app memory limits are OS-level and replicable."
+
+[[feature]]
+area = "security"
+name = "Gemini Intelligence privacy architecture"
+description = "Private Compute Core, Private AI Compute or protected KVM for ambient data; prompt-injection safeguards; real-time indicators and Privacy Dashboard activity logs; open-source, binary-transparent and third-party audited components."
+source = "https://blog.google/security/android-gemini-intelligence-security-privacy/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Aphrody agent runtime needs the same guardrails: explicit opt-in, confirmation before purchase, visible progress, audit log."
+
+[[feature]]
+area = "security"
+name = "Highest-rated phone for security five years running"
+description = "Google claim on the Pixel 11 page; the rating source is not named on the page."
+source = "https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Marketing claim, not a feature; source for the rating is unknown."
+
+[[feature]]
+area = "connectivity"
+name = "Modem and 5G"
+description = "Most power-efficient modem ever on a Google Pixel; 5G mmW model GPQQ7 with sub-6 and mmW bands (258/260/261); LTE band list on the specs page."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/magazine/pixel-performance"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Cellular hardware."
+
+[[feature]]
+area = "connectivity"
+name = "Wi-Fi 6E, Bluetooth 6, NFC, UWB, GNSS"
+description = "Wi-Fi 6E 2x2 MIMO, Bluetooth v6 with antenna diversity, NFC, Google Cast, dual-band GNSS (GPS, GLONASS, Galileo); UWB on Pro, Pro XL and Pro Fold per the November Pixel Drop footnote."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Laptop radios handled by the OS stack; Cast and Quick Share are the software features to replicate."
+
+[[feature]]
+area = "connectivity"
+name = "Dual eSIM only"
+description = "Pixel 11 is eSIM-only; two active eSIMs, 8 or more stored."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Phone SIM feature."
+
+[[feature]]
+area = "connectivity"
+name = "Quick Share with AirDrop interoperability"
+description = "Share photos, videos and files between Pixel and iOS, iPadOS and macOS without internet; tap to share contact cards with another Android phone."
+source = "https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Cross-platform nearby sharing for the laptop; Quick Share on Googlebook already works with Windows PCs and Chromebooks."
+
+[[feature]]
+area = "connectivity"
+name = "Google Pixel Tag and Find Hub"
+description = "Item-left-behind alerts, reverse ringing, UWB direction and distance, battery over a year, Find Hub network of more than 1 billion Android devices; available November 11 at $29.99 or $99.99 for four."
+source = "https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/ ; https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Find Hub integration lets a laptop be found and locate tags; tag hardware itself is not replicated."
+
+[[feature]]
+area = "connectivity"
+name = "Google Fi new super network and Wi-Fi Auto-Connect+"
+description = "Fi switches between two 5G networks and Wi-Fi networks using multiple enabled profiles on one eSIM; Pixel 9 and newer with Fi active on eSIM."
+source = "https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Carrier service."
+
+[[feature]]
+area = "connectivity"
+name = "Pixel Watch auto-unlock"
+description = "Pixel Watch automatically unlocks when worn and the nearby phone is unlocked; coming in the next few weeks as of the November Pixel Drop."
+source = "https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Proximity unlock of a laptop from phone or watch is a continuity feature."
+
+[[feature]]
+area = "software_updates"
+name = "7 years of OS, security and Pixel Drop updates"
+description = "Launched with Android 17; Pixel Drops deliver new features every few months. Googlebook OS promises feature drops for up to 10 years."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://store.google.com/us/product/pixel_11 ; https://blog.google/products-and-platforms/devices/googlebook/googlebook-built-in-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Long support window and a regular drop cadence are release-policy features Aphrody can commit to."
+
+[[feature]]
+area = "software_updates"
+name = "Pixel Drops"
+description = "September 2026 Drop (Android 17 QPR1) updated VIP widgets and scam warnings; November 2026 Drop brought Gemini Intelligence to Pixel 10, Call Screen with Gemini, Pixel search to Pixel 6a and newer."
+source = "https://blog.google/products-and-platforms/devices/pixel/september-2026-pixel-drop/ ; https://blog.google/products-and-platforms/devices/pixel/november-2026-pixel-drop/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Quarterly feature drop channel for the OS."
+
+[[feature]]
+area = "software_updates"
+name = "Bubbles"
+description = "Long-press any app icon to float it; on large screens docked in a bubble bar and resizable to full screen."
+source = "https://blog.google/products-and-platforms/platforms/android/android-17-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Floating app windows are a desktop windowing feature."
+
+[[feature]]
+area = "software_updates"
+name = "Screen recording toolbar and Screen Reactions"
+description = "New recording and annotation toolbar; record the selfie camera and screen simultaneously."
+source = "https://blog.google/products-and-platforms/platforms/android/android-17-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Screen capture with webcam overlay is trivially replicable."
+
+[[feature]]
+area = "software_updates"
+name = "Foldable gaming mode and controller remapping"
+description = "50/50 layout with game view and gamepad; native controller remapping; more efficient memory cleanup to reduce stutter."
+source = "https://blog.google/products-and-platforms/platforms/android/android-17-features/"
+retrieved = "2026-11-16"
+os_replica = false
+os_replica_reason = "Foldable-specific layout; controller remapping is replicable but secondary."
+
+[[feature]]
+area = "software_updates"
+name = "Android 17 UI settings"
+description = "Hide app names on home screen, Parental Controls on all Android devices, dedicated assistant volume control, more control over expanded dark theme."
+source = "https://blog.google/products-and-platforms/platforms/android/android-17-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Settings parity items for the shell."
+
+[[feature]]
+area = "software_updates"
+name = "Gemini Intelligence design language"
+description = "Updated design language building on Material 3 Expressive; animates with purpose to reduce distractions."
+source = "https://blog.google/products-and-platforms/platforms/android/gemini-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Directly relevant to the M3 Expressive showcase and design system."
+
+[[feature]]
+area = "software_updates"
+name = "Setup assistant and onboarding"
+description = "Setup assistant: prep new Pixel before it ships, cable-free data move, interactive onboarding companion, specialized support agents for first 30 days."
+source = "https://store.google.com/us/product/pixel_11"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Cloud-assisted device setup and guided onboarding can be replicated for first-run on a laptop."
+
+[[feature]]
+area = "accessibility"
+name = "Sign-to-text for ASL"
+description = "SL2T model analyzes hand shapes, facial expressions and body movements to translate ASL into written English in real time; one- or two-handed signing; via Live Transcribe or Gboard; shown on the outer display."
+source = "https://blog.google/products-and-platforms/devices/pixel/american-sign-language-sign-to-text-pixel-11/ ; https://blog.google/products-and-platforms/devices/pixel/pixel-11-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Camera-based sign recognition runs on a laptop webcam with a local model."
+
+[[feature]]
+area = "accessibility"
+name = "Pixel accessibility suite"
+description = "Hearing aid compatibility (HAP and ASHA), Guided Frame, Magnifier, Live Caption, Live Transcribe and Sound Notifications, TalkBack with image descriptions by Gemini, Lookout, Reading Mode, Sound Amplifier and Conversation mode, Camera Switches, Voice Access, real-time text."
+source = "https://store.google.com/us/product/pixel_11_specs"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "A laptop OS needs a screen reader, captions, switch access and voice control; Gemini image descriptions are replicable."
+
+[[feature]]
+area = "desktop_continuity"
+name = "Googlebook (Android plus ChromeOS laptop category)"
+description = "New laptop category built for Gemini Intelligence merging Android and ChromeOS; partners Acer, ASUS, Dell, HP and Lenovo; glowbar design; starts at $899; shelves October 4 in the U.S.; up to 10 years of updates."
+source = "https://blog.google/products-and-platforms/platforms/android/meet-googlebook/ ; https://blog.google/products-and-platforms/devices/googlebook/googlebook-built-in-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "The reference product Aphrody OS competes with on laptops."
+
+[[feature]]
+area = "desktop_continuity"
+name = "Magic Pointer"
+description = "Wiggle the cursor to summon Gemini with contextual suggestions for what is under the pointer: schedule a plan in Calendar, check a suspicious email, combine selected images; only active when summoned."
+source = "https://blog.google/products-and-platforms/platforms/android/meet-googlebook/ ; https://blog.google/products-and-platforms/devices/googlebook/googlebook-built-in-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Contextual pointer assistant is a desktop shell feature."
+
+[[feature]]
+area = "desktop_continuity"
+name = "Quick Access to phone files"
+description = "View, search or insert phone files in the laptop file browser with no transfers; Android 17 Continue activity hub exposes it per secondary source Chrome Unboxed."
+source = "https://blog.google/products-and-platforms/platforms/android/meet-googlebook/ ; https://chromeunboxed.com/android-17-adds-new-continue-activity-settings-hub-ahead-of-googlebook-launch/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Phone storage mounted in the laptop file manager."
+
+[[feature]]
+area = "desktop_continuity"
+name = "Phone apps on the laptop and Continue on"
+description = "Tap a phone app (food order, Duolingo) from the laptop and finish without leaving the screen; 9to5Google (secondary source) also lists Cast My Apps."
+source = "https://blog.google/products-and-platforms/platforms/android/meet-googlebook/ ; https://9to5google.com/2026/09/21/googlebook-launch/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "App streaming from phone to laptop is the core continuity feature."
+
+[[feature]]
+area = "desktop_continuity"
+name = "Quick Share on Googlebook"
+description = "Send and receive files with Android phones and tablets, other Googlebooks, Chromebooks and select Windows PCs; share from the Share menu, Quick Settings or the Quick Share app; Bluetooth must be enabled."
+source = "https://support.google.com/googlebook/answer/16943612?hl=en"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Nearby share protocol with Windows support is replicable."
+
+[[feature]]
+area = "desktop_continuity"
+name = "Google Antigravity and Linux terminal on Googlebook"
+description = "Antigravity comes with every Googlebook to write and deploy apps; developers get a full Linux terminal to run tools like Claude Code or Antigravity CLI."
+source = "https://blog.google/products-and-platforms/devices/googlebook/googlebook-built-in-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Developer terminal and agentic coding surface is native for Aphrody."
+
+[[feature]]
+area = "desktop_continuity"
+name = "Gemini features on Googlebook out of the box"
+description = "Task automations, Gemini Live, proactive suggestions; Gemini Spark continues background tasks with the laptop closed; 12 months of Google AI Pro with 5 TB storage."
+source = "https://blog.google/products-and-platforms/devices/googlebook/googlebook-built-in-intelligence/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "Background agent execution with lid closed is a laptop OS power and agent feature."
+
+[[feature]]
+area = "desktop_continuity"
+name = "Android desktop mode on Pixel 11 (external display)"
+description = "Not found on the Pixel 11 specs, features or Android 17 blog pages retrieved on 2026-11-16; unknown whether Pixel 11 ships a desktop windowing mode for external displays."
+source = "https://store.google.com/us/product/pixel_11_specs ; https://blog.google/products-and-platforms/platforms/android/android-17-features/"
+retrieved = "2026-11-16"
+os_replica = true
+os_replica_reason = "unknown; desktop windowing is required by an AI OS regardless."

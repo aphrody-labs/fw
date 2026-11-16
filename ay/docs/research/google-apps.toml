@@ -1,0 +1,3788 @@
+version = 1
+retrieved = "2026-11-16"
+sources = ["https://about.google/products/", "https://abc.xyz/", "https://workspace.google.com/intl/en/features/", "https://cloud.google.com/products?hl=en", "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm", "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm", "https://www.google.com/sitemap.xml"]
+
+# Method: every [[product]] row was read live on 2026-11-16. Name, URL and audience come from the https://about.google/products/ listing (121 cards, deduped by name+URL);
+# Workspace rows from https://workspace.google.com/intl/en/products/<slug>/; Cloud rows from the https://cloud.google.com/products?hl=en listing (category = the listing section heading order, grouped by this file).
+# function = the page's own meta description (English, served with /intl/en paths or hl=en) or the listing description; "unknown" when the page exposed none.
+# platforms lists only platforms evidenced by store links on the page (android = play.google.com/store/apps link, ios = apps.apple.com link); "unknown" when no store link was found, which does not mean the product has no such client.
+# replicate: yes | absorb-upstream | later | no, with reason; this is an Aphrody planning decision, not a Google fact.
+# owner_company is "Google" for every row: about.google lists them as Google products; per-product legal entities were not read.
+
+[[product]]
+name = "Android"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.android.com/"
+function = "Discover more about Android & learn how our devices can help you Do more with Google with hyper connectivity, powerful protection, Google apps, & Quick Share."
+function_source = "https://www.android.com/intl/en_us/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Android Auto"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://www.android.com/auto/"
+function = "Meet Android Auto, a hands-free, smart driving companion with apps that let you connect your phone to your car to stay focused, connected & entertained."
+function_source = "https://www.android.com/intl/en_us/auto/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Android TV"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.android.com/tv/"
+function = "Android TV is Google's operating system for smart TVs and streaming devices. Android TV makes it easier for people to watch, play, and do everything they love on their TV."
+function_source = "https://www.android.com/intl/en_us/tv/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Cars with Google built-in"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://built-in.google/cars/"
+function = "Experience a smarter, connected drive. Access your favorite apps, navigation, and voice controls directly in your car’s infotainment system."
+function_source = "https://built-in.google/cars/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Chrome"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/chrome/"
+function = "Chrome is the official web browser from Google, built to be fast, secure, and customizable. Download now and make it yours."
+function_source = "https://www.google.com/chrome/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Chromebook and ChromeOS"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/chromebook/"
+function = "Chromebooks are powerful, secure, fast, and affordable laptops for all your necessities. Chromebooks new features include Google apps and AI."
+function_source = "https://www.google.com/chromebook/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Contacts"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://play.google.com/store/apps/details?id=com.google.android.contacts#_ga=2.64729958.83130407.1517253748-1400634622.1515717381"
+function = "Back up your contacts & access them anywhere"
+function_source = "https://play.google.com/store/apps/details?id=com.google.android.contacts#_ga=2.64729958.83130407.1517253748-1400634622.1515717381"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Digital Wellbeing"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.android.com/digital-wellbeing/"
+function = "Discover more about Android & learn how our devices can help you Do more with Google with hyper connectivity, powerful protection, Google apps, & Quick Share."
+function_source = "https://www.android.com/intl/en_us/digital-wellbeing/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Files"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://files.google.com/"
+function = "Files. Free up space on your phone. Faster way to clean up, find, and share files. Get the App"
+function_source = "https://files.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Finance"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/finance"
+function = "Google Finance provides real-time market quotes, international stock information, financial news, currency conversion rates, and tracking tools."
+function_source = "https://www.google.com/finance"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Find Hub"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/android/find"
+function = "Misplaced or lost your phone, earbuds, watch, or other accessories? Use Find Hub to locate and lock your lost Android device."
+function_source = "https://www.google.com/android/find"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Fitbit"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://store.google.com/category/watches_trackers"
+function = "Make every move a healthy one with Google Pixel and Fitbit fitness trackers and smartwatches designed for Google Health. Built with Gemini to deliver fitness, sleep, and health coaching that fits your goals – and your life."
+function_source = "https://store.google.com/us/category/watches_trackers?hl=en-US"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Flights"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/flights"
+function = "unknown"
+function_source = "https://about.google/products/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Gboard"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin&e=-EnableAppDetailsPageRedesign"
+function = "Fast and smart typing with Emojis, GIFs, and more"
+function_source = "https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin&e=-EnableAppDetailsPageRedesign"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Gemini"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://gemini.google.com/"
+function = "Meet Gemini, Google’s AI assistant. Get help with writing, planning, brainstorming, and more. Experience the power of generative AI."
+function_source = "https://gemini.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI layer of Aphrody (Gemini API plus local inference); replicate the assistant and API surface."
+
+[[product]]
+name = "Gmail"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://www.gmail.com/intl/en_us/mail/help/about.html"
+workspace_url = "https://workspace.google.com/intl/en/products/gmail/"
+function = "Gmail, now powered by Gemini AI. Unlock new ways to write, reply, and organize your emails. Experience a more intelligent and secure inbox."
+function_source = "https://www.gmail.com/intl/en_us/mail/help/about.html"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Arts & Culture"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://artsandculture.google.com/"
+function = "Google Arts & Culture features content from over 2000 leading museums and archives who have partnered with the Google Cultural Institute to bring the world's treasures online."
+function_source = "https://artsandculture.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Assistant"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://assistant.google.com/"
+function = "Meet your Google Assistant. Ask it questions. Tell it to do things. It's your own personal Google, always ready to help whenever you need it."
+function_source = "https://assistant.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI layer of Aphrody (Gemini API plus local inference); replicate the assistant and API surface."
+
+[[product]]
+name = "Google Authenticator"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&e=-EnableAppDetailsPageRedesign"
+function = "Enable 2-step verification to protect your account from hijacking."
+function_source = "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&e=-EnableAppDetailsPageRedesign"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Googlebook"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://googlebook.google/"
+function = "The first laptop designed for Gemini Intelligence. Googlebook is crafted with premium materials for powerful performance, and syncs effortlessly with your phone."
+function_source = "https://googlebook.google/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Google Calendar"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://workspace.google.com/products/calendar/"
+workspace_url = "https://workspace.google.com/intl/en/products/calendar/"
+function = "Use Google Calendar to share meetings and schedule appointments, for managing what matters in your business and personal life, with Google Workspace."
+function_source = "https://workspace.google.com/products/calendar/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Cast"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.android.com/better-together/#cast"
+function = "Explore how you can pair all of your devices seamlessly together to create a better, more connected Android ecosystem for smoother transfers & more."
+function_source = "https://www.android.com/intl/en_us/better-together/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Google Chat"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://workspace.google.com/products/chat/"
+workspace_url = "https://workspace.google.com/intl/en/products/chat/"
+function = "Learn how Google Chat helps individuals, groups, and businesses to connect and collaborate online with secure messaging and powerful features from Google Workspace."
+function_source = "https://workspace.google.com/products/chat/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Classroom"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://edu.google.com/workspace-for-education/classroom/"
+function = "Get started with Google Classroom, a central hub for tools and resources designed to help educators manage classrooms and enrich learning experiences."
+function_source = "https://edu.google.com/intl/ALL_us/workspace-for-education/products/classroom/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Account, payments or education layer on top of core apps; build after identity and storage exist."
+
+[[product]]
+name = "Google Docs"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://www.google.com/docs/about/"
+workspace_url = "https://workspace.google.com/intl/en/products/docs/"
+function = "Create online documents and edit PDFs with Google Docs. Collaborate in real-time from any device and use AI to generate drafts, templates, and more."
+function_source = "https://www.google.com/docs/about/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Drive"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://www.google.com/drive/"
+workspace_url = "https://workspace.google.com/intl/en/products/drive/"
+function = "Learn about Google Drive’s file sharing platform that provides a personal, secure cloud storage option to share content with other users."
+function_source = "https://workspace.google.com/intl/en/products/drive/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Earth"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/earth/"
+function = "Leverage Google Earth"
+function_source = "https://www.google.com/intl/en_us/earth/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Family Link"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://families.google/familylink/"
+function = "Family Link gives parents the tools they need to create a safer online experience for their kids and empower them to build healthy digital habits together."
+function_source = "https://families.google/familylink/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Fi Wireless"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://fi.google.com/about/"
+function = "Explore Google Fi Wireless and enjoy flexible plans, superior coverage, and seamless device integration for a unique mobile experience."
+function_source = "https://fi.google.com/about/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Carrier or licensed-content service that depends on third-party agreements, not on shippable software."
+
+[[product]]
+name = "Google Fit"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://www.google.com/fit/"
+function = "Coaching you to a healthier and more active life"
+function_source = "https://www.google.com/fit/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Fonts"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://fonts.google.com/"
+function = "Making the web more beautiful, fast, and open through great typography"
+function_source = "https://fonts.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Forms"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/forms/about/"
+workspace_url = "https://workspace.google.com/intl/en/products/forms/"
+function = "Use Google Forms to easily create forms and surveys to gather data and gain insights from anywhere, with Google Workspace."
+function_source = "https://www.google.com/forms/about/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Home"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://home.google.com/welcome"
+function = "Discover a smarter way to run your home. Powered by Gemini, Google Home connects thousands of devices to manage & automate your entire home."
+function_source = "https://home.google.com/intl/en_us/welcome/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Google Keep"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://www.google.com/keep/"
+workspace_url = "https://workspace.google.com/intl/en/products/keep/"
+function = "Create and share digital notes, lists, photos, drawings, and audio to save your thoughts with Google Keep."
+function_source = "https://www.google.com/keep/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Maps"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://www.google.com/maps/about/"
+function = "From local favorites to global adventures, Google Maps is your ultimate guide to explore and navigate the world with confidence."
+function_source = "https://www.google.com/maps/about/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Meet"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://workspace.google.com/products/meet/"
+workspace_url = "https://workspace.google.com/intl/en/products/meet/"
+function = "Use Google Meet for secure online web conferencing calls and video chat as a part of Google Workspace."
+function_source = "https://workspace.google.com/products/meet/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Messages"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://messages.google.com/"
+function = "Messages is a simple, helpful messaging app that keeps you connected with the people who matter most. Text anyone from anywhere across devices."
+function_source = "https://messages.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Nest"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://store.google.com/category/connected_home"
+function = "Build a smarter home, one device at a time, with Google Nest home automation systems including smart thermostats, wireless cameras, smart speakers, and more."
+function_source = "https://store.google.com/category/connected_home"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Google News"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://news.google.com/"
+function = "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News."
+function_source = "https://news.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google One"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://one.google.com/about"
+function = "Google One brings together cloud storage, powerful AI capabilities and useful Google features in one shareable plan."
+function_source = "https://one.google.com/about/"
+function_note = "translated from the French og:description served to the fetcher; English page not reachable by geo-redirect"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Account, payments or education layer on top of core apps; build after identity and storage exist."
+
+[[product]]
+name = "Google Pay"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://pay.google.com/about/"
+function = "Google Pay is a quick, easy, and secure way to pay online, in stores or send money to friends and family."
+function_source = "https://pay.google.com/about/?hl=en"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Account, payments or education layer on top of core apps; build after identity and storage exist."
+
+[[product]]
+name = "Google Photos"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://www.google.com/photos/about"
+function = "Edit and enhance photos with AI-powered features like Magic Eraser and Unblur on Google Photos. Store, organize & search your memories."
+function_source = "https://www.google.com/photos/about"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Play"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://play.google.com/store/"
+function = "Enjoy millions of the latest Android apps, games, music, movies, TV, books, magazines & more. Anytime, anywhere, across your devices."
+function_source = "https://play.google.com/store/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Store and content distribution needs publisher catalogs; replicate the app-install surface after core OS apps."
+
+[[product]]
+name = "Google Play Books"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://play.google.com/store/books/"
+function = "Discover ebooks, audiobooks, manga, and comics! Explore best sellers, romance, sci-fi, thrillers, self-help, business titles, and more from Google Play Books."
+function_source = "https://play.google.com/store/books/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Store and content distribution needs publisher catalogs; replicate the app-install surface after core OS apps."
+
+[[product]]
+name = "Google Play Games"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://play.google.com/googleplaygames/"
+function = "Seamless gaming across mobile and PC"
+function_source = "https://play.google.com/googleplaygames/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Store and content distribution needs publisher catalogs; replicate the app-install surface after core OS apps."
+
+[[product]]
+name = "Google Play Pass"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://play.google.com/about/play-pass/"
+function = "Your pass to hundreds of awesome games and apps, completely free of ads and in-app purchases."
+function_source = "https://play.google/play-pass/?hl=en"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Store and content distribution needs publisher catalogs; replicate the app-install surface after core OS apps."
+
+[[product]]
+name = "Google Play Protect"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.android.com/play-protect/"
+function = "<p>Learn how you can use Google Play Protect to scan and help protect your Android device from harmful and unsafe apps and to verify the security of new apps.</p>&#10;"
+function_source = "https://www.android.com/play-protect/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Google Sheets"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://www.google.com/sheets/about/"
+workspace_url = "https://workspace.google.com/intl/en/products/sheets/"
+function = "Gemini in Sheets helps you simplify complex data, reveal insights, and turn data into interactive mini-apps. Try Sheets for work today!"
+function_source = "https://www.google.com/sheets/about/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Sites"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://workspace.google.com/products/sites/"
+workspace_url = "https://workspace.google.com/intl/en/products/sites/"
+function = "Create personal or business websites for your team, project or event that look great on any device with Google Sites in Google Workspace."
+function_source = "https://workspace.google.com/products/sites/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Slides"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://www.google.com/slides/about/"
+workspace_url = "https://workspace.google.com/intl/en/products/slides/"
+function = "Create stunning presentations with Google Slides. Discover slide templates for every use case, use AI to generate unique visualizations, and more."
+function_source = "https://www.google.com/slides/about/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Tasks"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://tasks.google.com/"
+workspace_url = "https://workspace.google.com/intl/en/products/tasks/"
+function = "Google Tasks helps you manage, capture, and edit your tasks from anywhere, at any time."
+function_source = "https://tasks.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Translate"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://translate.google.com/about"
+function = "Understand your world and communicate across languages with Google Translate. Translate text, speech, images, documents, websites, and more across your devices."
+function_source = "https://translate.google.com/about?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google Trends"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/trends/"
+function = "Explore search interest of terms and topics by time, location and popularity on Google Trends"
+function_source = "https://www.google.com/trends/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Google TV"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://tv.google/"
+function = "Your favorite streaming apps for movies, shows, live TV, and more, on one platform. Built right into your smart TV or streaming device, Google TV is your new home for all the content you love."
+function_source = "https://tv.google/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Google TV Streamer"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://store.google.com/product/google_tv_streamer"
+function = "Google TV Streamer is the next-generation, 4K TV streaming device from Google bringing an even faster processor, reimagined design, and the best of Google TV personalized to you."
+function_source = "https://store.google.com/product/google_tv_streamer?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Google Voice"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://workspace.google.com/products/voice/"
+workspace_url = "https://workspace.google.com/intl/en/products/voice/"
+function = "Learn how Google Voice provides flexible online phone numbers and systems that help businesses of any size stay connected and save time."
+function_source = "https://workspace.google.com/products/voice/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Wallet"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://wallet.google/"
+function = "Google Wallet gives you fast, secure access to your everyday essentials. Take the train, tap to pay in stores, and more with your digital wallet."
+function_source = "https://wallet.google/intl/en_us/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Account, payments or education layer on top of core apps; build after identity and storage exist."
+
+[[product]]
+name = "Google Workspace"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://workspace.google.com/"
+function = "Learn how the suite of secure, online tools from Google Workspace empowers teams of all sizes to do their best work."
+function_source = "https://workspace.google.com/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Lens"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://lens.google/"
+function = "Explore new ways to search. Download the Google app to experience Lens, AR, Search Labs, voice search, and more."
+function_source = "https://lens.google/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Core of Aphrody Search: web search, AI answers and visual search are the product itself."
+
+[[product]]
+name = "Gemini Notebook"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://notebooklm.google"
+workspace_url = "https://workspace.google.com/intl/en/products/gemini-notebook/"
+function = "Meet Gemini Notebook, the AI research tool and thinking partner that can analyze your sources, turn complexity into clarity and transform your content."
+function_source = "https://notebooklm.google"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI layer of Aphrody (Gemini API plus local inference); replicate the assistant and API surface."
+
+[[product]]
+name = "Pixel"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://store.google.com/category/phones"
+function = "Explore the Google Pixel 11 phone lineup. Find the right smartphone for you, from our helpful A-series Pixels to the advanced Pro versions."
+function_source = "https://store.google.com/us/category/phones?hl=en-US"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Pixel Buds"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://store.google.com/product/pixel_buds"
+function = "With a thoughtful design, Google Pixel Buds look great and stay firmly in place. Talk to Google to get answers, hear updates, and control your devices. Find out which earbuds are right for you."
+function_source = "https://store.google.com/us/category/earbuds?hl=en-US"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Pixel Tablet"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://store.google.com/us/product/pixel_tablet"
+function = "Shop the latest made by Google devices including the Pixel series phones, the latest Pixel Watch, Fitbit and Google Nest devices at Google Store!"
+function_source = "https://store.google.com/us/product/pixel_tablet?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Pixel Watch"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://store.google.com/category/watches"
+function = "Make every move a healthy one with Google Pixel and Fitbit fitness trackers and smartwatches designed for Google Health. Built with Gemini to deliver fitness, sleep, and health coaching that fits your goals – and your life."
+function_source = "https://store.google.com/us/category/watches?hl=en-US"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Scholar"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://scholar.google.com/intl/en/scholar/about.html"
+function = "unknown"
+function_source = "https://about.google/products/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Search"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://search.google/"
+function = "Explore a new kind of help for your everyday with breakthroughs in Search intelligence from Google I/O."
+function_source = "https://search.google/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Core of Aphrody Search: web search, AI answers and visual search are the product itself."
+
+[[product]]
+name = "Shopping"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://shopping.google.com/u/0/"
+function = "Find the best prices and places to buy. Google Shopping organizes information from thousands of online and local stores for you."
+function_source = "https://www.google.com/shopping"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Street View"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/streetview/"
+function = "Learn how to navigate and use Street View. Explore the world without leaving your couch and create and add your own images into Google Maps."
+function_source = "https://www.google.com/streetview/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Travel"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.google.com/travel/"
+function = "unknown"
+function_source = "https://about.google/products/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Waze"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android", "ios"]
+url = "https://www.waze.com/"
+function = "Get driving directions, a live traffic map & road alerts. Download the GPS traffic app, powered by community."
+function_source = "https://www.waze.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Search vertical or OS utility needed for Aphrody Search/OS parity; replicate behavior over local or self-hosted data."
+
+[[product]]
+name = "Wear OS by Google"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://wearos.google.com/"
+function = "Connect to your Google apps, health and wellness, and more right from your wrist with a Wear OS smartwatch. Maps and directions, music and media controls available to you with a glance."
+function_source = "https://wearos.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "YouTube"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.youtube.com/yt/about/"
+function = "YouTube"
+function_source = "https://www.youtube.com/yt/about/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Video and music client is core to a Google-class OS; replicate player, search and library over open media sources."
+
+[[product]]
+name = "YouTube Kids"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://www.youtubekids.com/"
+function = "YouTube Kids provides a more contained environment for kids to explore YouTube and makes it easier for parents and caregivers to guide their journey."
+function_source = "https://www.youtubekids.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Video and music client is core to a Google-class OS; replicate player, search and library over open media sources."
+
+[[product]]
+name = "YouTube Music"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["unknown"]
+url = "https://music.youtube.com/"
+function = "With the YouTube Music app, enjoy over 100 million songs at your fingertips, plus albums, playlists, remixes, music videos, live performances, covers, and hard-to-find music you can’t get anywhere else."
+function_source = "https://music.youtube.com/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Video and music client is core to a Google-class OS; replicate player, search and library over open media sources."
+
+[[product]]
+name = "YouTube TV"
+owner_company = "Google"
+category = "consumer (about.google/products filter)"
+audience = "consumer"
+platforms = ["android"]
+url = "https://tv.youtube.com/welcome/"
+function = "Stream live TV from ABC, CBS, FOX, NBC, ESPN & popular cable networks in English and Spanish. Record without DVR storage space limits. Try it free. Cancel anytime."
+function_source = "https://tv.youtube.com/welcome/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Carrier or licensed-content service that depends on third-party agreements, not on shippable software."
+
+[[product]]
+name = "Android Enterprise"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.android.com/enterprise"
+function = "Make Android work for your business. Our enterprise mobility solutions provide security and multi-device management at scale, with a range of device options."
+function_source = "https://www.android.com/intl/en_us/enterprise/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Blogger"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.blogger.com/features"
+function = "Publish your passions your way. Whether you’d like to share your knowledge, experiences or the latest news, create a unique and beautiful blog."
+function_source = "https://www.blogger.com/features"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Developer platform or publishing surface that Aphrody exposes as APIs; see per-service Cloud rows for the detailed matrix."
+
+[[product]]
+name = "Business Profile"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.google.com/business/"
+function = "List your business on Google with a free Business Profile. Turn people who find you on Search & Maps into new customers."
+function_source = "https://www.google.com/intl/en_us/business/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Chrome Enterprise"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://chromeenterprise.google/"
+function = "Discover Chrome Enterprise, the trusted enterprise browser that adapts to your business, empowers your workforce, and protects corporate data."
+function_source = "https://chromeenterprise.google/intl/en_us/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "ChromeOS"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://chromeos.google/"
+function = "Discover ChromeOS, the secure cloud-first operating system that keeps your business moving and provides employees with a modern experience."
+function_source = "https://chromeos.google/intl/en_us/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Demand Gen"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://ads.google.com/home/campaigns/demand-gen/"
+function = "Demand Gen helps you find, engage, and convert customers across Google and YouTube. Discover how to drive results with immersive, relevant creative."
+function_source = "https://ads.google.com/intl/en_us/home/campaigns/demand-gen/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google Ads"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://ads.google.com/home/"
+function = "Grow your business by running Google Ads. Start your first campaign, get quality leads, and reach new customers on Google and YouTube."
+function_source = "https://ads.google.com/intl/en_us/home/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google AdMob"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://admob.google.com/home/"
+function = "Utilize Admob’s mobile app monetization technology to generate revenue through in-app ads & discover other actionable insights to help your app grow."
+function_source = "https://admob.google.com/home/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google AdSense"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.google.com/adsense/"
+function = "With Google AdSense, you can earn money from your online content."
+function_source = "https://www.google.com/adsense/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google Ad Manager"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://admanager.google.com/home/"
+function = "Grow revenue wherever your users are with an integrated ad management platform that surfaces insights for smarter business decisions."
+function_source = "https://admanager.google.com/home/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google Analytics"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.google.com/analytics/"
+function = "Google Analytics gives you the tools you need to better understand your customers. You can then use those business insights to take action, such as improving your website, creating tailored audience lists, and more."
+function_source = "https://www.google.com/analytics/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google Assistant"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://assistant.google.com/business/"
+function = "Discover the resources you need to develop services that help people find answers and get things done with Google Assistant."
+function_source = "https://assistant.google.com/business/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI layer of Aphrody (Gemini API plus local inference); replicate the assistant and API surface."
+
+[[product]]
+name = "Google Beam"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://beam.google/"
+function = "Experience true-to-life video communication powered by Google AI. Google Beam is an enterprise meeting platform that helps make distance fade away."
+function_source = "https://beam.google/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Google Cloud"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/"
+function = "Meet your business challenges head on with AI and cloud computing services from Google, including security, data management, and hybrid & multi-cloud."
+function_source = "https://cloud.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Developer platform or publishing surface that Aphrody exposes as APIs; see per-service Cloud rows for the detailed matrix."
+
+[[product]]
+name = "Google Maps Platform"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://mapsplatform.google.com/"
+function = "Empower your location solutions with Google Maps Platform. Explore robust APIs & SDKs for asset tracking, route optimization, geospatial analytics, 3D maps & more."
+function_source = "https://mapsplatform.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Developer platform or publishing surface that Aphrody exposes as APIs; see per-service Cloud rows for the detailed matrix."
+
+[[product]]
+name = "Google Marketing Platform"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://marketingplatform.google.com/about/"
+function = "Introducing Google Marketing Platform, a unified marketing and analytics platform for smarter marketing measurement and better results."
+function_source = "https://marketingplatform.google.com/about/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google Search Console"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.google.com/webmasters/tools/home"
+function = "unknown"
+function_source = "https://about.google/products/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Core of Aphrody Search: web search, AI answers and visual search are the product itself."
+
+[[product]]
+name = "Local Services Ads"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://ads.google.com/home/local-services-ads/"
+function = "Boost visibility in local search with Google Local Services Ads. Become Google Guaranteed and attract more customers through local advertisements."
+function_source = "https://ads.google.com/intl/en_us/home/local-services-ads/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Manufacturer Center"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.google.com/retail/manufacturer-center/"
+function = "Manufacturer Center helps provide your most recent product information into Google. Explore how these resources and solutions can help your business."
+function_source = "https://www.google.com/intl/en_us/retail/manufacturer-center/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Merchant Center"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.google.com/retail/"
+function = "Promote your business and products with Merchant Center. Drive sales, reach more customers, and increase traffic to your ecommerce site or storefront."
+function_source = "https://business.google.com/us/merchant-center/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Performance Max"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://ads.google.com/home/campaigns/performance-max/"
+function = "Discover how Performance Max campaigns use AI to automatically identify better Ads channels, helping drive conversions to make more of your ad spend."
+function_source = "https://ads.google.com/intl/en_us/home/campaigns/performance-max/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Pixel for Business"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://pixel.google/business/"
+function = "Secure. Seamless. Helpful. Pixel has the tools you need for your team in one powerful device."
+function_source = "https://pixel.google/business/?hl=en&gl=us"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Search Ads"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://ads.google.com/home/campaigns/search-ads/"
+function = "Connect to more customers with Search Ads. Your ads can appear when people search for businesses like yours on Google, and you"
+function_source = "https://ads.google.com/intl/en_us/home/campaigns/search-ads/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Shopping Ads"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://ads.google.com/home/campaigns/shopping-ads/"
+function = "Maximize your product advertising with Google Shopping Ads and only pay when shoppers click to view your site or inventory."
+function_source = "https://ads.google.com/intl/en_us/home/campaigns/shopping-ads/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Tag Manager"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.google.com/tagmanager/"
+function = "Google Tag Manager helps make website tag management simple with tools & solutions that allow small businesses to deploy and edit tags all in one place."
+function_source = "https://www.google.com/tagmanager/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "YouTube Ads"
+owner_company = "Google"
+category = "business (about.google/products filter)"
+audience = "business"
+platforms = ["unknown"]
+url = "https://www.youtube.com/ads/"
+function = "Discover how to advertise on YouTube with YouTube Ads. Grow your business with video campaigns that reach potential customers where they"
+function_source = "https://www.youtube.com/intl/en_us/ads/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "AI for Developers"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["android", "ios"]
+url = "https://ai.google.dev/"
+function = "The fastest path from prompt to production with Gemini"
+function_source = "https://ai.google.dev/gemini-api/docs"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI layer of Aphrody (Gemini API plus local inference); replicate the assistant and API surface."
+
+[[product]]
+name = "Android"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developer.android.com/"
+function = "Discover the latest app development tools, platform updates, training, and documentation for developers across every Android device."
+function_source = "https://developer.android.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source or platform base (Chromium, AOSP, Wear OS); Aphrody absorbs the upstream and ships its own userland instead of rewriting it."
+
+[[product]]
+name = "Cloud Computing"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "http://cloud.google.com/"
+function = "Meet your business challenges head on with AI and cloud computing services from Google, including security, data management, and hybrid & multi-cloud."
+function_source = "http://cloud.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Developer platform or publishing surface that Aphrody exposes as APIs; see per-service Cloud rows for the detailed matrix."
+
+[[product]]
+name = "Firebase"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://firebase.google.com/"
+function = "Discover Firebase, Google’s mobile and web app development platform that helps developers build apps and games that users will love."
+function_source = "https://firebase.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Developer platform or publishing surface that Aphrody exposes as APIs; see per-service Cloud rows for the detailed matrix."
+
+[[product]]
+name = "Flutter"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://flutter.dev/"
+function = "Flutter transforms the entire app development process. Build, test, and deploy beautiful mobile, web, desktop, and embedded apps from a single codebase."
+function_source = "https://flutter.dev/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source upstream framework; Aphrody integrates and benchmarks it in the framework matrix instead of cloning it."
+
+[[product]]
+name = "Google AdMob"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/admob"
+function = "Discover how to monetize your mobile apps with targeted in-app advertising that matches criteria you set."
+function_source = "https://developers.google.com/admob"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google Ads"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/google-ads"
+function = "Promote your website, products, and app to the right users with Google Ads."
+function_source = "https://developers.google.com/google-ads"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google Analytics"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/analytics"
+function = "With Google Analytics, you can fine-tune your digital strategy, optimize your campaigns, and take your online presence to new heights."
+function_source = "https://developers.google.com/analytics"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Google for Developers"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/"
+function = "From AI and Cloud to Mobile and Web: Explore developer resources and community events to help you build with Gemini."
+function_source = "https://developers.google.com/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Developer platform or publishing surface that Aphrody exposes as APIs; see per-service Cloud rows for the detailed matrix."
+
+[[product]]
+name = "Google Identity Platform"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/identity"
+function = "Enable users to sign into apps and authorize apps to use Google services"
+function_source = "https://developers.google.com/identity"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Developer platform or publishing surface that Aphrody exposes as APIs; see per-service Cloud rows for the detailed matrix."
+
+[[product]]
+name = "Google Pay"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/pay"
+function = "Developer documentation for Google Pay and Wallet (page title: Google Pay & Wallet | Google for Developers)."
+function_source = "https://developers.google.com/pay?hl=en"
+function_note = "function taken from page title; no meta description exposed"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Account, payments or education layer on top of core apps; build after identity and storage exist."
+
+[[product]]
+name = "Google Play"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developer.android.com/distribute/console"
+function = "Publish your apps and games with Google Play Console and grow your business on Google Play. Benefit from features that help you improve your app's quality, engage your audience, earn revenue, and more."
+function_source = "https://developer.android.com/distribute/console"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Store and content distribution needs publisher catalogs; replicate the app-install surface after core OS apps."
+
+[[product]]
+name = "Google Wallet"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/wallet"
+function = "Developer documentation for Google Pay and Wallet (page title: Google Pay & Wallet | Google for Developers)."
+function_source = "https://developers.google.com/wallet?hl=en"
+function_note = "function taken from page title; no meta description exposed"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Account, payments or education layer on top of core apps; build after identity and storage exist."
+
+[[product]]
+name = "Interactive Media Ads"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/interactive-media-ads"
+function = "Monetize video, audio, or gaming content with multimedia advertising."
+function_source = "https://developers.google.com/interactive-media-ads"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Advertiser, publisher or measurement stack; not needed for Aphrody Search v1, revisit when there is traffic to monetize or measure."
+
+[[product]]
+name = "Search"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/search"
+function = "Google Search Central provides SEO resources to help you get your website on Google Search. Learn how to make your website more discoverable today."
+function_source = "https://developers.google.com/search"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Core of Aphrody Search: web search, AI answers and visual search are the product itself."
+
+[[product]]
+name = "TensorFlow"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://www.tensorflow.org/"
+function = "An end-to-end open source machine learning platform for everyone. Discover TensorFlow's flexible ecosystem of tools, libraries and community resources."
+function_source = "https://www.tensorflow.org/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Open-source upstream framework; Aphrody integrates and benchmarks it in the framework matrix instead of cloning it."
+
+[[product]]
+name = "Web"
+owner_company = "Google"
+category = "developer (about.google/products filter)"
+audience = "developer"
+platforms = ["unknown"]
+url = "https://developers.google.com/web/"
+function = "From AI and Cloud to Mobile and Web: Explore developer resources and community events to help you build with Gemini."
+function_source = "https://developers.google.com/web/"
+listed_in = "about.google/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Developer platform or publishing surface that Aphrody exposes as APIs; see per-service Cloud rows for the detailed matrix."
+
+[[product]]
+name = "Admin console"
+owner_company = "Google"
+category = "Google Workspace"
+audience = "business"
+platforms = ["unknown"]
+url = "https://workspace.google.com/intl/en/products/admin/"
+function = "With Admin console, you can manage Workspace users, devices, apps, and data across your organization. Explore administrator controls and resources."
+function_source = "https://workspace.google.com/intl/en/products/admin/"
+listed_in = "workspace.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Apps Script"
+owner_company = "Google"
+category = "Google Workspace"
+audience = "business"
+platforms = ["unknown"]
+url = "https://workspace.google.com/intl/en/products/apps-script/"
+function = "Discover Apps Script, a low code platform focused on building custom business solutions to integrate, automate, and extend Google Workspace."
+function_source = "https://workspace.google.com/intl/en/products/apps-script/"
+listed_in = "workspace.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Meet Hardware"
+owner_company = "Google"
+category = "Google Workspace"
+audience = "business"
+platforms = ["unknown"]
+url = "https://workspace.google.com/intl/en/products/meet-hardware/"
+function = "Explore Google Meet Hardware, a video conferencing system built to provide an all-in-one device experience to make your video meetings effortless."
+function_source = "https://workspace.google.com/intl/en/products/meet-hardware/"
+listed_in = "workspace.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Physical device line; Aphrody replicates the software feature set (see Pixel feature work), not the hardware."
+
+[[product]]
+name = "Google Pics"
+owner_company = "Google"
+category = "Google Workspace"
+audience = "business"
+platforms = ["unknown"]
+url = "https://workspace.google.com/intl/en/products/pics/"
+function = "Google Pics is a powerful AI image generator and editor that uses Google"
+function_source = "https://workspace.google.com/intl/en/products/pics/"
+listed_in = "workspace.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Vault"
+owner_company = "Google"
+category = "Google Workspace"
+audience = "business"
+platforms = ["unknown"]
+url = "https://workspace.google.com/intl/en/products/vault/"
+function = "Use Google Vault for data loss prevention and keeping track of what matters like, retaining and exporting your company email and Google file content."
+function_source = "https://workspace.google.com/intl/en/products/vault/"
+listed_in = "workspace.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Google Vids"
+owner_company = "Google"
+category = "Google Workspace"
+audience = "business"
+platforms = ["unknown"]
+url = "https://workspace.google.com/intl/en/products/vids/"
+function = "Create, edit, and share rich video content with Google Vids - a powerful online video editor infused with Google’s AI technology."
+function_source = "https://workspace.google.com/intl/en/products/vids/"
+listed_in = "workspace.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Work Insights"
+owner_company = "Google"
+category = "Google Workspace"
+audience = "business"
+platforms = ["unknown"]
+url = "https://workspace.google.com/intl/en/products/workinsights/"
+function = "Quickly understand the status and impact of your Google Workspace deployment, surfacing organizational insights around adoption, work patterns, and collaboration across Google Workspace apps with Work Insights."
+function_source = "https://workspace.google.com/intl/en/products/workinsights/"
+listed_in = "workspace.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Workspace-class app in the self-hosted Google services scope; Aphrody OS ships it as a first-party app."
+
+[[product]]
+name = "Gemini platform"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/gemini-enterprise-agent-platform"
+function = "AI platform for developers"
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Compute Engine"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/compute"
+function = "Virtual machines (VMs)"
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "BigQuery"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/bigquery"
+function = "Data warehouse"
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Run"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/run"
+function = "Serverless compute"
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud SQL"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/sql"
+function = "SQL database"
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Storage"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/storage"
+function = "Object storage"
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Gemini for your business"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/gemini-enterprise"
+function = "Discover, create, share, and run AI agents across your organization—all in one secure environment."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Google Kubernetes Engine"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/kubernetes-engine"
+function = "Managed environment for running containerized apps."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud TPUs"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/tpu"
+function = "Tensor processing units for machine learning applications."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Looker"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/looker"
+function = "Platform for BI, data applications, and embedded analytics."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Dataflow"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/dataflow"
+function = "Streaming analytics for stream and batch processing."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Gemini Code Assist"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/gemini/code-assist"
+function = "AI-assisted application development and coding."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Cloud Shell"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/shell"
+function = "Interactive shell environment with a built-in command line."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Run functions"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/functions"
+function = "Event-driven compute platform for cloud services and apps."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Artifact Registry"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/artifact-registry"
+function = "Store, manage, and secure container images and language packages."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Build"
+owner_company = "Google"
+category = "Google Cloud / Featured"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/build"
+function = "Solution for running build steps in a Docker container."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Customer Experience Agent Studio"
+owner_company = "Google"
+category = "Google Cloud / AI and Machine Learning"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/gemini-enterprise-cx/cx-agent-studio"
+function = "Build conversational AI with both deterministic and gen AI functionality."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Agent Search"
+owner_company = "Google"
+category = "Google Cloud / AI and Machine Learning"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/gemini-enterprise-agent-platform/agent-search"
+function = "Build Google-quality search for your enterprise apps and experiences."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Speech-to-Text"
+owner_company = "Google"
+category = "Google Cloud / AI and Machine Learning"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/speech-to-text"
+function = "Speech recognition and transcription across 125 languages."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Text-to-Speech"
+owner_company = "Google"
+category = "Google Cloud / AI and Machine Learning"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/text-to-speech"
+function = "Speech synthesis in 220+ voices and 40+ languages."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Translation AI"
+owner_company = "Google"
+category = "Google Cloud / AI and Machine Learning"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/translate"
+function = "Language detection, translation, and glossary support."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Vision AI"
+owner_company = "Google"
+category = "Google Cloud / AI and Machine Learning"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/vision"
+function = "Custom and pre-trained models to detect emotion, text, and more."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Contact Center as a Service"
+owner_company = "Google"
+category = "Google Cloud / AI and Machine Learning"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/solutions/contact-center-ai-platform"
+function = "Omnichannel contact center solution that is native to the cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Data Studio"
+owner_company = "Google"
+category = "Google Cloud / Business Intelligence"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/data-studio"
+function = "Interactive data suite for dashboarding, reporting, and analytics."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "App Engine"
+owner_company = "Google"
+category = "Google Cloud / Compute"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/appengine"
+function = "Serverless application platform for apps and back ends."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud GPUs"
+owner_company = "Google"
+category = "Google Cloud / Compute"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/gpu"
+function = "GPUs for ML, scientific computing, and 3D visualization."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "AI and search service on the Aphrody AI layer (Gemini plus local inference); replicate the API contract and serve from local or self-hosted models."
+
+[[product]]
+name = "Migrate to Virtual Machines"
+owner_company = "Google"
+category = "Google Cloud / Compute"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/cloud-migration/virtual-machines"
+function = "Server and virtual machine migration to Compute Engine."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Spot VMs"
+owner_company = "Google"
+category = "Google Cloud / Compute"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/spot-vms"
+function = "Compute instances for batch jobs and fault-tolerant workloads."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Batch"
+owner_company = "Google"
+category = "Google Cloud / Compute"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/batch"
+function = "Fully managed service for scheduling batch jobs."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Sole-Tenant Nodes"
+owner_company = "Google"
+category = "Google Cloud / Compute"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes"
+function = "Dedicated hardware for compliance, licensing, and management."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Bare Metal"
+owner_company = "Google"
+category = "Google Cloud / Compute"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/bare-metal"
+function = "Infrastructure to run specialized workloads on Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Recommender"
+owner_company = "Google"
+category = "Google Cloud / Compute"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/recommender/docs/whatis-activeassist"
+function = "Usage recommendations for Google Cloud products and services."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Code"
+owner_company = "Google"
+category = "Google Cloud / Containers"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/code"
+function = "IDE support to write, run, and debug Kubernetes applications."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Deploy"
+owner_company = "Google"
+category = "Google Cloud / Containers"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/deploy"
+function = "Fully managed continuous delivery to GKE and Cloud Run."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Migrate to Containers"
+owner_company = "Google"
+category = "Google Cloud / Containers"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/cloud-migration/containers"
+function = "Components for migrating VMs into system containers on GKE."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Deep Learning Containers"
+owner_company = "Google"
+category = "Google Cloud / Containers"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/deep-learning-containers/docs"
+function = "Containers with data science frameworks, libraries, and tools."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Managed Service for Apache Spark"
+owner_company = "Google"
+category = "Google Cloud / Data Analytics"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/managed-service-for-apache-spark"
+function = "Zero-ops serverless or managed clusters, accelerated by Lightning Engine."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Lakehouse"
+owner_company = "Google"
+category = "Google Cloud / Data Analytics"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/lakehouse"
+function = "Open lakehouse platform with enterprise storage and performance capabilities."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Pub/Sub"
+owner_company = "Google"
+category = "Google Cloud / Data Analytics"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/pubsub"
+function = "Messaging service for event ingestion and delivery."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Managed Service for Apache Airflow"
+owner_company = "Google"
+category = "Google Cloud / Data Analytics"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/managed-service-for-apache-airflow"
+function = "Workflow orchestration service built on Apache Airflow."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Knowledge Catalog"
+owner_company = "Google"
+category = "Google Cloud / Data Analytics"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/knowledge-catalog"
+function = "Always-on catalog for AI that provides universal context for agents."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Managed Service for Apache Kafka"
+owner_company = "Google"
+category = "Google Cloud / Data Analytics"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/managed-service-for-apache-kafka"
+function = "Managed Kafka service to operate highly available Apache Kafka clusters."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "AlloyDB for PostgreSQL"
+owner_company = "Google"
+category = "Google Cloud / Databases"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/alloydb"
+function = "Fully managed, PostgreSQL-compatible database for enterprise workloads."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Firestore"
+owner_company = "Google"
+category = "Google Cloud / Databases"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/firestore"
+function = "Highly scalable and serverless NoSQL document database, with MongoDB compatibility."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Spanner"
+owner_company = "Google"
+category = "Google Cloud / Databases"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/spanner"
+function = "Cloud-native relational database with unlimited scale and 99.999% availability."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Bigtable"
+owner_company = "Google"
+category = "Google Cloud / Databases"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/bigtable"
+function = "Cloud-native wide-column database for large-scale, low-latency workloads."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Datastream"
+owner_company = "Google"
+category = "Google Cloud / Databases"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/datastream"
+function = "Serverless change data capture and replication service."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Database Migration Service"
+owner_company = "Google"
+category = "Google Cloud / Databases"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/database-migration"
+function = "Serverless, minimal downtime migrations to Cloud SQL."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Memorystore"
+owner_company = "Google"
+category = "Google Cloud / Databases"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/memorystore"
+function = "Fully managed Redis and Memcached for sub-millisecond data access."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Deployment Manager"
+owner_company = "Google"
+category = "Google Cloud / Developer Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/deployment-manager/docs"
+function = "Service for creating and managing Google Cloud resources."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud SDK"
+owner_company = "Google"
+category = "Google Cloud / Developer Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/sdk"
+function = "Command-line tools and libraries for Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Scheduler"
+owner_company = "Google"
+category = "Google Cloud / Developer Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/scheduler/docs"
+function = "Cron job scheduler for task automation and management."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Source Repositories"
+owner_company = "Google"
+category = "Google Cloud / Developer Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/source-repositories/docs"
+function = "Private Git repository to store, manage, and track code."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Infrastructure Manager"
+owner_company = "Google"
+category = "Google Cloud / Developer Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/infrastructure-manager/docs"
+function = "Automate infrastructure management with Terraform."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Workstations"
+owner_company = "Google"
+category = "Google Cloud / Developer Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/workstations"
+function = "Managed and secure development environments in the cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Google Distributed Cloud Connected"
+owner_company = "Google"
+category = "Google Cloud / Distributed Cloud"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/distributed-cloud-connected"
+function = "Distributed cloud services for edge workloads."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Google Distributed Cloud Air-gapped"
+owner_company = "Google"
+category = "Google Cloud / Distributed Cloud"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/distributed-cloud-air-gapped"
+function = "Distributed cloud for air-gapped workloads."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Observability"
+owner_company = "Google"
+category = "Google Cloud / Distributed Cloud"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/observability"
+function = "Monitoring, logging, and application performance suite."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Cloud Service Mesh"
+owner_company = "Google"
+category = "Google Cloud / Distributed Cloud"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/service-mesh"
+function = "Fully managed service mesh based on Envoy and Istio."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Anti Money Laundering AI"
+owner_company = "Google"
+category = "Google Cloud / Industry Solutions"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/anti-money-laundering-ai"
+function = "Detect suspicious, potential money laundering activity with AI."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Cloud Healthcare API"
+owner_company = "Google"
+category = "Google Cloud / Industry Solutions"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/healthcare-api"
+function = "Solution for bridging existing care systems and apps on Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Device Connect for Fitbit"
+owner_company = "Google"
+category = "Google Cloud / Industry Solutions"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/device-connect"
+function = "Gain a 360-degree patient view with connected Fitbit data on Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Telecom Network Automation"
+owner_company = "Google"
+category = "Google Cloud / Industry Solutions"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/telecom-network-automation"
+function = "Ready to use cloud-native automation for telecom networks."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Telecom Data Fabric"
+owner_company = "Google"
+category = "Google Cloud / Industry Solutions"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/telecom-data-fabric"
+function = "Telecom data management and analytics with an automated approach."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Telecom Subscriber Insights"
+owner_company = "Google"
+category = "Google Cloud / Industry Solutions"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/telecom-subscriber-insights"
+function = "Ingests data to improve subscriber acquisition and retention."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Spectrum Access System (SAS)"
+owner_company = "Google"
+category = "Google Cloud / Industry Solutions"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/spectrum-access-system"
+function = "Controls fundamental access to the Citizens Broadband Radio Service (CBRS)."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Application Integration"
+owner_company = "Google"
+category = "Google Cloud / Integration Services"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/application-integration"
+function = "Connect to 3rd party apps and enable data consistency without code."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Workflows"
+owner_company = "Google"
+category = "Google Cloud / Integration Services"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/workflows"
+function = "Workflow orchestration for serverless products and API services."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Tasks"
+owner_company = "Google"
+category = "Google Cloud / Integration Services"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/tasks/docs"
+function = "Task management service for asynchronous task execution."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Data Fusion"
+owner_company = "Google"
+category = "Google Cloud / Integration Services"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/data-fusion"
+function = "Data integration for building and managing data pipelines."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Eventarc"
+owner_company = "Google"
+category = "Google Cloud / Integration Services"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/eventarc/docs"
+function = "Build an event-driven architecture that can connect any service."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud console"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/cloud-console"
+function = "Web-based interface for managing and monitoring cloud apps."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Endpoints"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/endpoints/docs"
+function = "Deployment and development management for APIs on Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud IAM"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/iam"
+function = "Permissions management system for Google Cloud resources."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud APIs"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/apis"
+function = "Programmatic interfaces for Google Cloud services."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Service Catalog"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/service-catalog/docs"
+function = "Service catalog for admins managing internal enterprise solutions."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cost Management"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/cost-management"
+function = "Tools for monitoring, controlling, and optimizing your costs."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Carbon Footprint"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/carbon-footprint"
+function = "Dashboard to view and export Google Cloud carbon emissions reports."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Config Connector"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/config-connector/docs/overview"
+function = "Kubernetes add-on for managing Google Cloud resources."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Active Assist"
+owner_company = "Google"
+category = "Google Cloud / Management Tools"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/solutions/active-assist"
+function = "Tools for easily managing performance, security, and cost."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Earth Engine"
+owner_company = "Google"
+category = "Google Cloud / Media and Geospatial"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/earth-engine"
+function = "Geospatial platform for Earth observation data and analysis."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Live Stream API"
+owner_company = "Google"
+category = "Google Cloud / Media and Geospatial"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/livestream/docs"
+function = "Service to convert live video and package for streaming."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Transcoder API"
+owner_company = "Google"
+category = "Google Cloud / Media and Geospatial"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/transcoder/docs"
+function = "Convert video files and package them for optimized delivery."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Video Stitcher API"
+owner_company = "Google"
+category = "Google Cloud / Media and Geospatial"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/video-stitcher/docs"
+function = "Service for dynamic or server side ad insertion."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Migration Center"
+owner_company = "Google"
+category = "Google Cloud / Migration"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/migration-center/docs"
+function = "Unified platform for migrating and modernizing with Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Foundation Toolkit"
+owner_company = "Google"
+category = "Google Cloud / Migration"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/docs/terraform/blueprints/terraform-blueprints"
+function = "Reference templates for Deployment Manager and Terraform."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Transfer Appliance"
+owner_company = "Google"
+category = "Google Cloud / Migration"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/transfer-appliance/docs/4.0/overview"
+function = "Storage server for moving large volumes of data to Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Storage Transfer Service"
+owner_company = "Google"
+category = "Google Cloud / Migration"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/storage-transfer-service"
+function = "Data transfers from online and on-premises sources to Cloud Storage."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Armor"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/armor"
+function = "Security policies and defense against web and DDoS attacks."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud DNS"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/dns"
+function = "Domain name system for reliable and low-latency name lookups."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Load Balancing"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/load-balancing"
+function = "Service for distributing traffic across applications and regions."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud NAT"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/nat"
+function = "NAT service for giving private instances internet access."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Connectivity"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/hybrid-connectivity"
+function = "Connectivity options for VPN, peering, and enterprise needs."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Network Connectivity Center"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/network-connectivity-center"
+function = "Connectivity management to help simplify and scale networks."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Network Intelligence Center"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/network-intelligence-center"
+function = "Network monitoring, verification, and optimization platform."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Network Service Tiers"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/network-tiers"
+function = "Cloud network options based on performance, availability, and cost."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Virtual Private Cloud"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/vpc"
+function = "Single VPC for an entire organization, isolated within projects."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Private Service Connect"
+owner_company = "Google"
+category = "Google Cloud / Networking"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/private-service-connect"
+function = "Secure connection between your VPC and services."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Logging"
+owner_company = "Google"
+category = "Google Cloud / Observability"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/logging"
+function = "Google Cloud audit, platform, and application logs management."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Monitoring"
+owner_company = "Google"
+category = "Google Cloud / Observability"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/monitoring"
+function = "Infrastructure and application health with rich metrics."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Error Reporting"
+owner_company = "Google"
+category = "Google Cloud / Observability"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/error-reporting/docs/grouping-errors"
+function = "Application error identification and analysis."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Managed Service for Prometheus"
+owner_company = "Google"
+category = "Google Cloud / Observability"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/managed-prometheus"
+function = "Fully-managed Prometheus on Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Trace"
+owner_company = "Google"
+category = "Google Cloud / Observability"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/trace/docs"
+function = "Tracing system collecting latency data from applications."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Profiler"
+owner_company = "Google"
+category = "Google Cloud / Observability"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/profiler/docs"
+function = "CPU and heap profiler for analyzing application performance."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Quotas"
+owner_company = "Google"
+category = "Google Cloud / Observability"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/docs/quotas"
+function = "Manage quotas for all Google Cloud services."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "AppSheet Automation"
+owner_company = "Google"
+category = "Google Cloud / Low-code"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/appsheet/automation"
+function = "Build automations and applications on a unified platform."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Sensitive Data Protection"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/sensitive-data-protection"
+function = "Discover, classify, and protect your valuable data assets."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Mandiant Managed Defense"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/managed-defense"
+function = "Find and eliminate threats with confidence 24x7."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Proprietary threat intelligence or human incident-response service; not software Aphrody can reproduce from public sources."
+
+[[product]]
+name = "Google Threat Intelligence"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/threat-intelligence"
+function = "Know who’s targeting you."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Proprietary threat intelligence or human incident-response service; not software Aphrody can reproduce from public sources."
+
+[[product]]
+name = "Security Command Center"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/security-command-center"
+function = "Platform for defending against threats to your Google Cloud assets."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Cloud Key Management"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/security-key-management"
+function = "Manage encryption keys on Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Mandiant Incident Response"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/consulting/mandiant-incident-response-services"
+function = "Minimize the impact of a breach."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Proprietary threat intelligence or human incident-response service; not software Aphrody can reproduce from public sources."
+
+[[product]]
+name = "Assured Workloads"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/assured-workloads"
+function = "Compliance and security controls for sensitive workloads."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Google Security Operations"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/products/security-operations"
+function = "Detect, investigate, and respond to cyber threats."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Proprietary threat intelligence or human incident-response service; not software Aphrody can reproduce from public sources."
+
+[[product]]
+name = "Mandiant Consulting"
+owner_company = "Google"
+category = "Google Cloud / Security and Identity"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/security/consulting/mandiant-services"
+function = "Get expert guidance before, during, and after an incident."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Proprietary threat intelligence or human incident-response service; not software Aphrody can reproduce from public sources."
+
+[[product]]
+name = "API Gateway"
+owner_company = "Google"
+category = "Google Cloud / Serverless"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/api-gateway/docs"
+function = "Develop, deploy, secure, and manage APIs with a fully managed gateway."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Block Storage"
+owner_company = "Google"
+category = "Google Cloud / Storage"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/block-storage"
+function = "High-performance storage for AI, analytics, databases, and enterprise applications."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Filestore"
+owner_company = "Google"
+category = "Google Cloud / Storage"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/filestore"
+function = "File storage that is highly scalable and secure."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Persistent Disk"
+owner_company = "Google"
+category = "Google Cloud / Storage"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/persistent-disk"
+function = "Block storage for virtual machine instances running on Google Cloud."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Local SSD"
+owner_company = "Google"
+category = "Google Cloud / Storage"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/local-ssd"
+function = "Block storage that is locally attached for high-performance needs."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Google Cloud Managed Lustre"
+owner_company = "Google"
+category = "Google Cloud / Storage"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/managed-lustre"
+function = "High performance managed parallel file service."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Google Cloud NetApp Volumes"
+owner_company = "Google"
+category = "Google Cloud / Storage"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/netapp-volumes"
+function = "File storage service for NFS, SMB, and multi-protocol environments."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Backup and DR Service"
+owner_company = "Google"
+category = "Google Cloud / Storage"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/backup-disaster-recovery"
+function = "Service for centralized, application-consistent data protection."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Aphrody deploys on Docker, systemd, Postgres, Redis and SQLite and fronts them with Axum or Nginx; replicate the service contract through open-source upstreams rather than a proprietary clone."
+
+[[product]]
+name = "Blockchain Node Engine"
+owner_company = "Google"
+category = "Google Cloud / Web3"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/blockchain-node-engine"
+function = "Fully managed node hosting for developing on the blockchain."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[product]]
+name = "Blockchain RPC"
+owner_company = "Google"
+category = "Google Cloud / Web3"
+audience = "business"
+platforms = ["unknown"]
+url = "https://cloud.google.com/products/blockchain-rpc"
+function = "Enterprise-grade RPC for building on the blockchain."
+function_source = "https://cloud.google.com/products?hl=en"
+listed_in = "cloud.google.com/products"
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Vertical, regulated or hardware-bound service outside the Aphrody Search/OS scope."
+
+[[company]]
+name = "Alphabet Inc."
+kind = "parent"
+owner_company = "none (public parent, Nasdaq GOOGL and GOOG)"
+segment = "parent"
+status = "active"
+url = "https://abc.xyz/"
+function = "Holding company; Google became a wholly-owned subsidiary of Alphabet and Alphabet Inc. replaced Google Inc. as the publicly traded entity (GOOGL, GOOG on Nasdaq)."
+sources = ["https://abc.xyz/", "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"]
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Corporate parent, not a product; kept as the root of the company map."
+
+[[company]]
+name = "Google"
+kind = "subsidiary"
+owner_company = "Google"
+segment = "Google Services; Google Cloud"
+status = "active"
+url = "https://about.google/"
+function = "Largest Alphabet company; reporting segments Google Services (ads, Android, Chrome, devices, Google Maps, Google Play, Search, YouTube) and Google Cloud (Google Cloud Platform, Google Workspace, other enterprise services)."
+sources = ["https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm", "https://about.google/products/"]
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Source of nearly every product row; Aphrody Search/OS replicates its apps and services."
+
+[[company]]
+name = "Google DeepMind"
+kind = "google-unit"
+owner_company = "Google"
+segment = "unknown"
+status = "active"
+url = "https://deepmind.google/"
+function = "Google's AI research lab (site served at deepmind.google; page metadata exposes no description)."
+sources = ["https://deepmind.google/", "https://about.google/products/"]
+retrieved = "2026-11-16"
+replicate = "absorb-upstream"
+replicate_reason = "Publishes models and research; Aphrody consumes Gemini and open weights through the AI router instead of re-training."
+
+[[company]]
+name = "Google Research"
+kind = "google-unit"
+owner_company = "Google"
+segment = "unknown"
+status = "active"
+url = "https://research.google/"
+function = "Google research organization, linked from the about.google footer."
+sources = ["https://about.google/products/"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Research organization, not a product."
+
+[[company]]
+name = "Google Labs"
+kind = "google-unit"
+owner_company = "Google"
+segment = "unknown"
+status = "active"
+url = "https://labs.google/"
+function = "Google Labs experiments site (labs.google) linked from about.google/products; hosts Flow and other experiments."
+sources = ["https://about.google/products/", "https://labs.google/sitemap.xml"]
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Experimental products; replicate selectively through the Craft and media work."
+
+[[company]]
+name = "Google.org"
+kind = "google-unit"
+owner_company = "Google"
+segment = "unknown"
+status = "active"
+url = "https://www.google.org/"
+function = "Google's philanthropy, connecting nonprofits to funding and resources."
+sources = ["https://www.google.org/"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Philanthropy, not software."
+
+[[company]]
+name = "YouTube"
+kind = "google-unit"
+owner_company = "Google"
+segment = "Google Services"
+status = "active"
+url = "https://www.youtube.com/"
+function = "Video platform listed on about.google/products with YouTube Kids, YouTube Music, YouTube TV and YouTube Ads; named in the Google Services segment."
+sources = ["https://about.google/products/", "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"]
+retrieved = "2026-11-16"
+replicate = "yes"
+replicate_reason = "Video client and search are core to a Google-class OS."
+
+[[company]]
+name = "Fitbit"
+kind = "google-unit"
+owner_company = "Google"
+segment = "unknown"
+status = "active"
+url = "https://store.google.com/category/watches_trackers"
+function = "Fitness trackers and smartwatches sold through the Google Store; Device Connect for Fitbit is a Google Cloud service."
+sources = ["https://about.google/products/", "https://cloud.google.com/products?hl=en"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Hardware line."
+
+[[company]]
+name = "Waymo"
+kind = "other-bet"
+owner_company = "Alphabet Inc."
+segment = "Other Bets"
+status = "active"
+url = "https://waymo.com/"
+function = "Autonomous driving company, formerly the Google self-driving car project; provides fully autonomous paid ride-hailing in multiple cities per Alphabet's 10-K."
+sources = ["https://waymo.com/", "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Autonomous vehicles are outside Aphrody Search/OS; only maps and routing features overlap."
+
+[[company]]
+name = "Verily"
+kind = "other-bet"
+owner_company = "Alphabet Inc."
+segment = "Other Bets (segment membership not stated on page)"
+status = "active"
+url = "https://verily.com/"
+function = "AI-native precision health data platform; site metadata lists Alphabet Inc. as parent organization."
+sources = ["https://verily.com/"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Health research platform outside scope."
+
+[[company]]
+name = "Calico"
+kind = "other-bet"
+owner_company = "Alphabet Inc."
+segment = "Other Bets (segment membership not stated on page)"
+status = "active"
+url = "https://www.calicolabs.com/"
+function = "Longevity-focused company named as an Alphabet company in the abc.xyz founding letter."
+sources = ["https://abc.xyz/", "https://www.calicolabs.com/"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Biotech research outside scope."
+
+[[company]]
+name = "X"
+kind = "other-bet"
+owner_company = "Alphabet Inc."
+segment = "Other Bets"
+status = "active"
+url = "https://x.company/"
+function = "Alphabet's moonshot factory creating radical technologies; named in the 10-K as an Other Bets business in R&D phase."
+sources = ["https://x.company/", "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Incubator, not a product line."
+
+[[company]]
+name = "Wing"
+kind = "other-bet"
+owner_company = "Alphabet Inc."
+segment = "Other Bets (segment membership not stated on page)"
+status = "active"
+url = "https://wing.com/"
+function = "Drone delivery company; the abc.xyz founding letter names Wing as X's drone delivery effort."
+sources = ["https://wing.com/", "https://abc.xyz/"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Logistics hardware outside scope."
+
+[[company]]
+name = "Intrinsic"
+kind = "other-bet"
+owner_company = "Alphabet Inc."
+segment = "Other Bets (segment membership not stated on page)"
+status = "active"
+url = "https://www.intrinsic.ai/"
+function = "Software and AI robotics company at Alphabet building a platform for intelligent automation."
+sources = ["https://www.intrinsic.ai/"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Industrial robotics outside scope."
+
+[[company]]
+name = "Isomorphic Labs"
+kind = "other-bet"
+owner_company = "Alphabet Inc."
+segment = "Other Bets"
+status = "active"
+url = "https://www.isomorphiclabs.com/"
+function = "Applies AI to drug discovery; named in the 10-K among Alphabet's Other Bets narrative."
+sources = ["https://www.isomorphiclabs.com/", "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Drug discovery outside scope."
+
+[[company]]
+name = "GFiber (Google Fiber)"
+kind = "other-bet"
+owner_company = "Alphabet Inc."
+segment = "Other Bets"
+status = "pending divestiture (contribution to new entity, expected close late 2026)"
+url = "https://gfiber.com/"
+function = "Fiber internet provider. Per the Q3 2026 10-Q, in March 2026 Alphabet agreed to contribute GFiber into a newly formed entity for $1.5 billion cash, a $2.0 billion note and a 49.99% equity interest, expected to close in late 2026; held for sale."
+sources = ["https://gfiber.com/", "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "ISP infrastructure outside scope."
+
+[[company]]
+name = "GV"
+kind = "investment-arm"
+owner_company = "Alphabet Inc."
+segment = "unknown"
+status = "active"
+url = "https://www.gv.com/"
+function = "Venture capital arm (Google Ventures); site metadata lists Alphabet Inc. as parent organization."
+sources = ["https://www.gv.com/"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Investment fund."
+
+[[company]]
+name = "CapitalG"
+kind = "investment-arm"
+owner_company = "Alphabet Inc."
+segment = "unknown"
+status = "active"
+url = "https://capitalg.com/"
+function = "Alphabet's independent growth fund."
+sources = ["https://capitalg.com/"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Investment fund."
+
+[[company]]
+name = "Wiz"
+kind = "acquisition"
+owner_company = "Alphabet Inc."
+segment = "Google Cloud"
+status = "acquired 2026-03-11"
+url = "https://www.wiz.io/"
+function = "Cloud security platform; Alphabet completed the acquisition on March 11, 2026 for $29.5 billion after purchase price adjustments; results are in the Google Cloud segment."
+sources = ["https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm", "https://www.wiz.io/"]
+retrieved = "2026-11-16"
+replicate = "later"
+replicate_reason = "Cloud security posture is a later layer on top of the Cloud matrix."
+
+[[company]]
+name = "Intersect"
+kind = "acquisition"
+owner_company = "Alphabet Inc."
+segment = "allocated across segments"
+status = "acquired 2026-03-10"
+url = "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm"
+function = "Developer of renewable energy and data center energy infrastructure; acquisition completed March 10, 2026 for $5.9 billion after purchase price adjustments."
+sources = ["https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm"]
+retrieved = "2026-11-16"
+replicate = "no"
+replicate_reason = "Energy infrastructure outside scope."
+
