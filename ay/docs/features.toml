@@ -271,7 +271,9 @@ id = "character-dataset"
 title = "Character dataset (canon, soul, voice, visual) with sourced facts and tests"
 reference = "https://zukan.inazuma.jp/en/"
 layer = "ui"
-status = "todo"
+status = "done"
+proof = "crates/ay_brand/tests/character_dataset.rs::the_dataset_parses_and_every_item_has_a_resolving_source"
+proof_kind = "test"
 
 [[feature]]
 product = "brand"
