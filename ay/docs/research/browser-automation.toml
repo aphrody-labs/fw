@@ -1,0 +1,300 @@
+version = 1
+retrieved = "2026-11-16"
+subject = "Browser-automation projects to fold into one Aphrody ecosystem, ay browser (ADR-7, proposed)"
+note = "Every value was read on 2026-11-16 from the aphrody-labs fork at its default branch (gh api repos/aphrody-labs/<name>/contents/...), from upstream release and npm/crates.io metadata, or from the local files named in sources. Anything not read is the string unknown. Vendor performance figures are labelled vendor; measured figures are labelled measured. Fork names: lightpanda-io/browser is forked as aphrody-labs/lightpanda; aphrody-labs/browser is a different, Aphrody-owned repository (see [context.aphrody_browser_repo])."
+sources = [
+  "https://github.com/aphrody-labs/obscura (fork of https://github.com/h4ckf0r0day/obscura): README.md, Cargo.toml, crates/*/Cargo.toml, vendor/*/Cargo.toml, skills/obscura/SKILL.md, docs/ listing, docs/Use-as-a-Rust-library.md",
+  "https://github.com/aphrody-labs/lightpanda (fork of https://github.com/lightpanda-io/browser): README.md, build.zig.zon, LICENSING.md, src/help.zon, src/mcp/tools.zig, src/browser/tools.zig, src/server tree",
+  "https://github.com/aphrody-labs/agent-browser (fork of https://github.com/vercel-labs/agent-browser): README.md, package.json, cli/Cargo.toml, cli/src tree, packages/@agent-browser/sandbox/mcp-tools.json, docs/content/docs/engines/*.mdx, docs/content/docs/webmcp.mdx, skill-data/core/SKILL.md, benchmarks/README.md",
+  "https://github.com/aphrody-labs/playwright (fork of https://github.com/microsoft/playwright): README.md, package.json, packages/playwright-core/{package.json,browsers.json,ThirdPartyNotices.txt}, packages/playwright-core/src/{cli,tools,server} trees, src/tools/cli-daemon/commands.ts, src/cli/program.ts, packages/playwright/src/program.ts, NOTICE",
+  "https://github.com/aphrody-labs/playwright-mcp (fork of https://github.com/microsoft/playwright-mcp): README.md, package.json",
+  "https://github.com/aphrody-labs/puppeteer (fork of https://github.com/puppeteer/puppeteer): README.md, packages/puppeteer-core/package.json, packages/browsers/README.md, docs/guides/webmcp.md, .agents/skills tree, packages/puppeteer-core/third_party tree",
+  "https://github.com/aphrody-labs/chrome-devtools-mcp (fork of https://github.com/ChromeDevTools/chrome-devtools-mcp): README.md, package.json, docs/tool-reference.md, skills tree, third_party tree, .gitmodules",
+  "https://github.com/aphrody-labs/chromiumoxide (fork of https://github.com/mattsse/chromiumoxide): Cargo.toml, README.md",
+  "https://github.com/aphrody-labs/headless_chrome (fork of https://github.com/rust-headless-chrome/rust-headless-chrome): Cargo.toml, README.md",
+  "https://github.com/aphrody-labs/browser: README.md, ARCHITECTURE.md, Cargo.toml (head commit d3e0d964eb66d1ba088add7116559bc55c04dd7f, 2026-11-16T07:47:50Z)",
+  "https://api.github.com/repos/{h4ckf0r0day/obscura,lightpanda-io/browser,microsoft/playwright,microsoft/playwright-mcp,puppeteer/puppeteer,mattsse/chromiumoxide,rust-headless-chrome/rust-headless-chrome}/releases and /repos/aphrody-labs/<name> (pushed_at, licence)",
+  "https://registry.npmjs.org/{agent-browser,playwright,playwright-core,@playwright/mcp,@playwright/cli,puppeteer,puppeteer-core,@puppeteer/browsers,chrome-devtools-mcp}",
+  "https://crates.io/api/v1/crates/{chromiumoxide,chromiumoxide_cdp,headless_chrome,obscura,cef,agent-browser,lightpanda}",
+  "C:/src/ay-next/docs/research/chromium-stack.toml and chromium-stack.md (CfT, chrome-headless-shell, CEF, cef-rs rows, read 2026-11-16)",
+  "C:/src/ay-next/crates/ay_chromium/{Cargo.toml,src/lib.rs,src/engine.rs} (local, read 2026-11-16)",
+  "C:/src/ay-next/docs/adr/0003-browser.md",
+]
+
+[context]
+common_protocol = "CDP is spoken or consumed by every project except Playwright's Firefox and WebKit drivers: obscura serves it, lightpanda serves it, agent-browser drives chrome, lightpanda and obscura through it (docs/content/docs/engines/*.mdx), puppeteer, playwright (Chromium), chromiumoxide, headless_chrome and DevTools MCP consume it, CfT and CEF (remote_debugging_port) expose it."
+webdriver_bidi = "Served by lightpanda (--protocol webdriver); consumed by puppeteer (Chrome and Firefox, README) and present in playwright (packages/playwright-core/src/server/bidi, biditest script). Not found in obscura, agent-browser (CDP plus a webdriver module for Safari and iOS through Appium), chromiumoxide or headless_chrome."
+webmcp = "WebMCP appears in agent-browser (cli/src/native/webmcp.rs, tools agent_browser_webmcp_*, enabled by default for locally managed Chrome), playwright (src/server/webmcp.ts, CLI webmcp-list and webmcp-call), chrome-devtools-mcp (list_webmcp_tools, execute_webmcp_tool) and puppeteer (experimental API, needs Chrome 151+ and --enable-features=WebMCP, docs/guides/webmcp.md). This answers part of the gap recorded in chromium-stack.md (whether anything ships WebMCP): Chrome 151+ behind a flag, per puppeteer's guide. Whether CEF 156 exposes it is still unknown."
+mcp_tool_counts = "playwright-mcp 72 (README, 9 groups, 7 opt-in); chrome-devtools-mcp 63 (docs/tool-reference.md, 13 categories); agent-browser 160 (packages/@agent-browser/sandbox/mcp-tools.json); lightpanda 35 browser tools plus 5 MCP-only (src/browser/tools.zig enum, src/mcp/tools.zig); obscura 14 (README table)."
+aphrody_browser_repo = "aphrody-labs/browser is an Aphrody-owned monorepo (not a fork). Its README says: Bun, Servo, Obscura and agent-browser crates in one flat Cargo workspace; Blink (headless Chromium, native CDP) renders, a lite engine (Obscura on Servo parsing and style crates) serves agents. ARCHITECTURE.md decision (measured 2026-11-16 on fr1): one CDP front, two engines, router picks lite first and escalates to Blink. It imports upstreams with tools/import.py and tools/flatten.py (copies with history), which conflicts with the no-copy third-party policy proposed in ADR-7. Its src/agent-browser, src/obscura-* crates are copies of the upstreams."
+independent_measurement = "aphrody-labs/browser ARCHITECTURE.md, one page (en.wikipedia.org/wiki/Servo_(software)), median of 5, fr1, 2026-11-16: Chrome 160.0.8164.0 headless-shell 0.49 s dump-dom, 578 MiB process-tree peak RSS; Obscura 0.2.7 no-render 0.66 s, 69 MiB; Obscura 0.2.7 render 1.71 s, 116 MiB; Servo 0.8.0-rc1 0.89 s, 556 MiB. It contradicts the vendor claim of Obscura 85 ms page load against Chrome 500 ms on that page; the two measure different things (one real page versus fixtures) and neither was re-run here."
+
+[[project]]
+name = "obscura"
+upstream = "https://github.com/h4ckf0r0day/obscura (fork: https://github.com/aphrody-labs/obscura, main, pushed 2026-11-14T17:39:58Z)"
+language = "Rust (workspace edition 2021, resolver 2)"
+licence = "Apache-2.0 (Cargo.toml, README)"
+latest_release = "v0.2.7, 2026-11-13T22:01:14Z (previous v0.2.6 2026-10-31, v0.2.5 2026-10-17)"
+engine = "Own engine, no Chromium: V8 through deno_core 0.412, html5ever 0.39 DOM, taffy layout, tiny-skia and cosmic-text paint (render feature, optional), reqwest/rustls network or wreq/BoringSSL with the stealth feature"
+protocols = "CDP server (domains Target, Page, Runtime, DOM, Network, Fetch, IO, Storage, Input, plus a custom LP.getMarkdown); MCP over stdio or HTTP. WebDriver BiDi: not found in README or docs list"
+cli_commands = "obscura serve (--port --proxy --stealth --workers --worker-max-connections --worker-max-rss --worker-max-age --font-dir --obey-robots), obscura fetch <URL> (--dump html|text|links|markdown|assets|original, --eval, --wait-until, --selector, --screenshot), obscura scrape <URL...> (--concurrency --eval --format), obscura mcp (stdio, or --http --port); second binary obscura-worker; global --proxy --stealth --v8-flags --allow-private-network"
+mcp_tools = "14: browser_navigate, browser_snapshot, browser_screenshot, browser_pdf, browser_click, browser_fill, browser_type, browser_press_key, browser_select_option, browser_evaluate, browser_wait_for, browser_network_requests, browser_console_messages, browser_close"
+skills_docs = "skills/obscura/SKILL.md (one skill), AGENTS.md, docs/ with 21 pages (CLI-reference, Use-the-MCP-server, Use-with-Puppeteer, Use-with-Playwright, Use-as-a-Rust-library, Intercept-and-modify-requests, Configure-stealth-and-proxies, Run-in-production-at-scale, Watch-agent-sessions-live and others)"
+key_features = [
+  "snapshot with element references (browser_snapshot), click and fill by ref or CSS selector",
+  "viewport and full-page screenshots, raster PDF, activity-driven CDP screencast (render build)",
+  "live network interception through CDP Fetch (continue, fulfill, fail, response body streaming) and Rust interception API",
+  "cookies through CookieStore and CDP Network and Storage, file persistence",
+  "stealth: per-session fingerprint randomisation (GPU, screen, canvas, audio, battery), navigator.webdriver false, isTrusted events, native-function masking, 3,520-domain tracker blocklist (stealth build)",
+  "browser contexts (Target.createBrowserContext), parallel worker processes with graceful recycling",
+  "SSRF guard (private IP blocking by default, crate obscura-ssrf), robots.txt option",
+  "DOM-to-markdown dump",
+  "in-process Rust API: obscura::Browser, Page, Element, CookieStore; git dependency, not on crates.io (the crates.io name obscura is an unrelated 2019 crate, v0.0.2)",
+  "no recording or tracing, no codegen, no test runner found",
+]
+dependencies = "Cargo.lock present. Notable: deno_core 0.412, html5ever 0.39, markup5ever 0.39, selectors 0.26, cssparser 0.34, servo_arc 0.4, tokio 1, tokio-tungstenite 0.26, reqwest 0.12 (rustls), clap 4, tiny-skia 0.12, ab_glyph 0.2, resvg 0.47, image 0.25, psl 2, RustCrypto set for crypto.subtle; stealth adds wreq/BoringSSL (needs CMake, Clang, libclang). First build compiles V8 from source (about 5 minutes per README)."
+vendored = "vendor/taffy 0.12.1 (MIT), vendor/cosmic-text 0.14.2 (MIT OR Apache-2.0), vendor/wreq-util 3.0.0-rc.12 (Apache-2.0); all three excluded from the workspace and referenced by path. assets/ and render fonts embedded."
+performance = "vendor, README: memory 30 MB vs Chrome 200+ MB, binary about 70 MiB vs 300+ MB, page load 85 ms vs about 500 ms (static HTML 51 ms, JS+XHR+fetch 84 ms, dynamic scripts 78 ms vs Chrome about 500, 800, 700 ms). Docker image about 57 MB compressed. Benchmark suite lives in https://github.com/h4ckf0r0day/obscura-benchmark (not read). Measured by Aphrody: see [context].independent_measurement."
+take = "The lite engine of the ecosystem and the only stealth implementation: use the obscura crate in-process (feature stealth, render) where the page needs no full Blink, and obscura serve over CDP otherwise. Take its SSRF guard, its MCP snapshot-ref model and its worker-recycling design. Pin a commit (git dependency, builds V8)."
+unknown = ["whether obscura-benchmark numbers reproduce on fr1", "WebDriver BiDi support", "WPT pass rate (the README names a WPT suite in obscura-benchmark but gives no number)"]
+
+[[project]]
+name = "lightpanda"
+upstream = "https://github.com/lightpanda-io/browser (fork: https://github.com/aphrody-labs/lightpanda, main, pushed 2026-11-16T19:46:15Z)"
+language = "Zig 0.17.0 (build.zig.zon minimum_zig_version), with a Rust FFI layer for html5ever and rendering (src/rust)"
+licence = "AGPL-3.0-only (LICENSING.md, GitHub reports AGPL-3.0)"
+latest_release = "1.0.4, 2026-11-13T11:51:36Z (1.0.4-rc1 2026-11-11, 1.0.3 2026-11-05, 1.0.2 2026-10-23); nightly builds on the releases page; build.zig.zon version 1.1.0-dev"
+engine = "Own engine from scratch, not Chromium, Blink or WebKit: V8 (zig-v8-fork), html5ever, libcurl; README says no graphical rendering engine (PNG and PDF dumps are text-only rendering)"
+protocols = "CDP (WebSocket on /, domains in src/server/cdp/domains: accessibility, audits, browser, console, css, debugger, dom, emulation, fetch, input, inspector and more); WebDriver BiDi plus classic WebDriver session endpoints (--protocol webdriver); MCP JSON-RPC 2.0 over stdio or HTTP (/mcp)"
+cli_commands = "lightpanda agent, completion, fetch, help, mcp, run, serve, version (src/help.zon). fetch --dump html|markdown|png|pdf|structured_data|wpt with --wait-until --wait-ms --wait-selector --wait-script --obey-robots; serve --host --port --unix-socket --protocol cdp|webdriver --cdp-max-connections --cookie --cookie-jar --remote-allow-origins; mcp --port for HTTP"
+mcp_tools = "40: 35 browser tools (goto, search, markdown, html, screenshot, links, evaluate, extract, tree, nodeDetails, interactiveElements, structuredData, detectForms, click, fill, scroll, waitForSelector, waitForScript, waitForState, hover, press, selectOption, setChecked, findElement, consoleLogs, getUrl, getCookies, getEnv, popups, download, pageTools, callPageTool, classify, acceptCookies, login) plus 5 MCP-only (save, run, session_new, session_list, session_close). HTTP transport gives one isolated browsing session per Mcp-Session-Id"
+skills_docs = "Skill source in the binary tree (src/main_skills.zig, src/script/skill.zig; content not read) and a separate repo https://github.com/lightpanda-io/agent-skill (not read); AGENTS.md and CLAUDE.md in the repo; docs at https://lightpanda.io/docs (not read); PandaScript, a JavaScript script format for deterministic replay"
+key_features = [
+  "native agent mode (lightpanda agent) with many LLM providers; /save exports a PandaScript, lightpanda run replays it without a model",
+  "semantic tree and interactive-elements tools (src/SemanticTree.zig, CDP accessibility domain); no @ref scheme found",
+  "network interception (CDP fetch domain), cookies with Netscape and JSON import and JSON export, custom headers, proxy, adblocker, robots.txt, CORS",
+  "multi-session MCP over HTTP",
+  "Prometheus /metrics endpoint on serve (on by default)",
+  "no real screenshots (text-only), no stealth, no recording or tracing, no codegen, no test runner found",
+  "usage telemetry on by default (LIGHTPANDA_DISABLE_TELEMETRY=true to opt out)",
+  "no native Windows binary (WSL2); Linux release binaries need glibc 2.35 (x86_64) or 2.38 (arm64)",
+]
+dependencies = "build.zig.zon: v8 (lightpanda-io/zig-v8-fork), brotli 1.2.1, zlib 1.3.2, zstd 1.5.7, nghttp2 1.70.0, boringssl-zig, curl 8.23.0, sqlite3 3.53.2 amalgamation, zenai (LLM client), isocline, pcre2, translate_c 2.0.0. Prebuilt V8 via make download-v8, otherwise V8 compiles from source."
+vendored = "src/rust (html5ever FFI, render crate), src/rust/render/fonts (DejaVu fonts with LICENSE). Dependencies are fetched by Zig package manager by URL and hash, not copied."
+performance = "vendor, README: 933 real pages on AWS EC2 m5.large, peak memory over 100 pages 123 MB vs Chrome 2 GB (about 16x less), execution time over 100 pages 5 s vs 46 s (about 9x faster); details https://github.com/lightpanda-io/demo (not read). WPT results published daily at https://perf.lightpanda.io/wpt (not read, so no pass rate)."
+take = "Second lite engine, always out of process over CDP (it is a Zig binary and AGPL-3.0-only; spawning it and speaking CDP keeps its code out of our binaries). Take: PandaScript idea (record an agent session, replay token-free), the HTTP MCP session model (session_new, session_close, shared or isolated by header), structuredData, detectForms and extract tools, unix-socket CDP listener, per-connection limits. Needs capability flags because agent-browser's own lightpanda page lists unsupported features (extensions, profiles, storage state)."
+unknown = ["WPT pass rate", "content of the embedded skill and of the agent-skill repo", "whether CDP Page.captureScreenshot returns a real raster (README says text-only)", "agent-browser compatibility test results against 1.0.4"]
+
+[[project]]
+name = "agent-browser"
+upstream = "https://github.com/vercel-labs/agent-browser (fork: https://github.com/aphrody-labs/agent-browser, main, pushed 2026-11-16T19:46:17Z)"
+language = "Rust CLI and daemon (cli/Cargo.toml edition 2021), Next.js docs and dashboard in TypeScript; binary only, no [lib] target"
+licence = "Apache-2.0"
+latest_release = "v0.43.0, 2026-11-12T23:09:31Z on GitHub, npm 0.43.0 at 2026-11-12T23:10:17Z (previous v0.42.0 2026-11-10); crates.io has agent-browser 0.19.0 from 2026-03-14, stale"
+engine = "No own engine. Drives Chrome for Testing (default, downloaded by agent-browser install) or any Chromium through --executable-path, --engine lightpanda, --engine obscura (experimental), attach with --cdp or --auto-connect, Safari and iOS through Appium/WebDriver (cli/src/native/webdriver), cloud providers browserbase, browserless, browser-use, kernel, agentcore"
+protocols = "CDP (tokio-tungstenite), WebDriver for Safari and iOS, MCP over stdio (agent-browser mcp)"
+cli_commands = "Groups from README: navigate and read (open back forward reload read snapshot get is); interact (click dblclick fill type press keyboard hover focus select check uncheck scroll drag upload mouse find); wait; capture (screenshot pdf record download diff); page and network state (cookies storage network set clipboard eval pushstate); tabs frames dialogs (tab frame dialog); debug and performance (console errors highlight inspect trace profiler vitals react a11y); sessions and auth (session state auth profiles confirm deny); agents and integrations (skills mcp webmcp flow chat batch plugin); observe (stream dashboard); setup (install upgrade doctor connect close)"
+mcp_tools = "160 entries in packages/@agent-browser/sandbox/mcp-tools.json, all named agent_browser_<command> (for example agent_browser_snapshot, _click, _fill, _network_route, _trace_start, _diff_snapshot, _auth_login, _webmcp_invoke, _react_tree, _flow_run). Catalog is generated by cargo test mcp_tool_catalog_snapshot"
+skills_docs = "skills/agent-browser/SKILL.md is a thin stub that runs agent-browser skills get core so instructions match the installed version; skill-data/ holds 10 skills (core, electron, slack, dogfood, vercel, vercel-sandbox, agentcore, derive-client, modern-web-guidance, webmcp-gen); core has 10 references and templates; agent-browser skills list|get; AGENTS.md; docs site https://agent-browser.dev (docs/content/docs, 30 pages)"
+key_features = [
+  "accessibility-tree snapshot with @eN refs (snapshot -i for interactive only), refs invalidated by navigation",
+  "screenshot with annotations, PDF, video recording, snapshot and screenshot and URL diffing, HAR capture, trace, CPU profiler, web vitals, React tree and render inspection, axe-core accessibility audit",
+  "network route and unroute, cookies, storage, state save and load, auth vault with domain allowlists and action policies",
+  "multi-tab, frames, dialogs, sessions (one daemon and one browser per --session), persistent profiles",
+  "flow (record and replay steps), batch, plugins, dashboard and live streaming, chat (natural-language command), WebMCP discovery and invocation",
+  "click fails instead of reporting success when the target is hidden, disabled or covered",
+  "no stealth, no codegen to a test framework, no test runner found",
+]
+dependencies = "cli/Cargo.toml: tokio 1, tokio-tungstenite 0.24, rustls 0.23, reqwest 0.12, serde 1, image 0.25, aes-gcm 0.10, similar 2, zip 8.2, rust-embed 8, psl 2.1.246, windows-sys 0.52; Node 24+ and pnpm 11+ to build the docs and dashboard from source; npm package engines node >=22"
+vendored = "cli/src/native/a11y/axe.min.js with LICENSE-axe-core.txt (axe-core, Mozilla Public License 2.0) and THIRD-PARTY notices; per-platform binary packages packages/@agent-browser/cli-*; patches/ for docs dependencies (geistdocs, next)"
+performance = "unknown: no published numbers. benchmarks/README.md describes a harness (bench.ts, needs Vercel Sandbox credentials) measuring command latency, cold start, RSS and binary size; no results are in the repo files read."
+take = "The base of the CLI and MCP surface: 20 command groups, snapshot refs, daemon with per-session browsers, skills that version with the binary, and an engine switch that already proves one CDP front can drive Chrome, lightpanda and obscura. Take its command set and its stub-skill pattern; its --engine capability errors define the backend capability model. It has no library target, so ay_browser cannot link it: consume it as a submodule binary first, and replace parts as ay_browser reaches parity."
+unknown = ["performance numbers", "whether agent-browser --cdp attaches to a CEF 156 remote_debugging_port (not tested)", "whether an upstream [lib] split would be accepted"]
+
+[[project]]
+name = "playwright"
+upstream = "https://github.com/microsoft/playwright (fork: https://github.com/aphrody-labs/playwright, main, pushed 2026-11-14T17:40:02Z)"
+language = "TypeScript (packages in a monorepo), Node >=20"
+licence = "Apache-2.0 (NOTICE: contains code derived from Puppeteer, Apache-2.0)"
+latest_release = "v1.65.1, 2026-11-13T21:46:58Z (v1.65.0 2026-11-05); main is 1.66.0-next; npm playwright 1.65.1"
+engine = "Drives patched or bundled browsers: Chromium (Chrome for Testing 159.0.8154.6 rev 1255) and chromium-headless-shell, Firefox 159.0 (rev 1578), WebKit 27.2 (rev 2393), plus ffmpeg, Android and Electron support; Firefox and WebKit builds come from browser_patches (firefox, webkit, winldd); Chrome and Edge channels"
+protocols = "CDP for Chromium; Playwright's own protocol over patched Firefox and WebKit (packages/protocol, channels); WebDriver BiDi implementation in packages/playwright-core/src/server/bidi (biditest script); client to server channel protocol"
+cli_commands = "npx playwright: test, clear-cache, test-server, show-report, merge-reports, run-test-mcp-server, init-agents, init-skills (packages/playwright/src/program.ts); install, uninstall, install-deps, open, codegen [url] (targets javascript, playwright-test, python, python-async, python-pytest, csharp, java), screenshot, pdf, show-trace, run-driver, run-server, launch-server, cli, mcp (packages/playwright-core/src/cli/program.ts). Agent CLI (npm @playwright/cli 0.1.24, 2026-11-10; code in packages/playwright-core/src/tools/cli-daemon/commands.ts, 102 command names): open attach close goto go-back reload press type click dblclick drag drop fill hover select upload check uncheck snapshot find generate-locator highlight eval dialog-accept resize set-color-scheme set-media tab-list tab-new tab-close tab-select state-load state-save cookie-* localstorage-* sessionstorage-* route route-list unroute network-state-set screenshot pdf console requests request response-body recording-start tracing-start video-start show resume step-over pause-at list close-all kill-all install webmcp-list webmcp-call and more"
+mcp_tools = "Through playwright-mcp (72 tools, own row); in-tree MCP backend in packages/playwright-core/src/tools/backend (one file per area: navigate, snapshot, network, route, storage, tracing, video, verify, wait, webmcp, and more); run-test-mcp-server for the test runner"
+skills_docs = "3 skills in packages/playwright-core/src/tools/skills: playwright-cli, playwright-component-testing, playwright-trace; init-skills and init-agents commands generate agent files; docs/ and https://playwright.dev; AGENTS.md"
+key_features = [
+  "one API over Chromium, Firefox and WebKit, auto-waiting, locators, web-first assertions",
+  "Playwright Test runner: parallel workers, projects, fixtures, retries, HTML and blob reporters, component testing, VS Code extension",
+  "codegen and recorder (packages/recorder), trace viewer (packages/trace-viewer), HAR, video, screencast, clock control",
+  "network routing and mocking, request and response inspection, storage state, cookies, permissions, geolocation, device emulation, media emulation",
+  "multi-tab and multiple isolated contexts, frames, dialogs, downloads, file chooser, ARIA snapshot (the basis of the MCP snapshot)",
+  "Android and Electron automation, extension package for attaching to a running Chrome or Edge",
+  "no stealth",
+]
+dependencies = "playwright-core has no runtime dependencies in package.json (utilities are bundled into utilsBundle and coreBundle); build tooling in the root package.json; browser downloads from the Playwright CDN (browsers.json)"
+vendored = "packages/playwright-core/ThirdPartyNotices.txt (bundled npm modules), packages/playwright-core/src/server/bidi/third_party (BiDi protocol types and keyboard, with LICENSE), browser_patches (patch sets applied to Firefox and WebKit sources)"
+performance = "unknown: no figures in the README, package.json or browsers.json files read"
+take = "The Test runner, codegen, trace viewer and the Firefox and WebKit engines are the parts nobody else has; use Playwright as an external dependency (npm playwright-core) behind the Bun package and expose ay-browser serve so Playwright connects with connectOverCDP. Take its CLI command vocabulary (the most complete: route, tracing, video, state, cookie-*, storage-*, generate-locator) as the naming base for ay-browser."
+unknown = ["performance figures", "licence terms of the downloaded Firefox, WebKit and ffmpeg builds", "whether Playwright's BiDi path can drive lightpanda (not tested)"]
+
+[[project]]
+name = "playwright-mcp"
+upstream = "https://github.com/microsoft/playwright-mcp (fork: https://github.com/aphrody-labs/playwright-mcp, main, pushed 2026-11-16T19:46:24Z)"
+language = "JavaScript (index.js, cli.js, config.d.ts), Node >=18"
+licence = "Apache-2.0"
+latest_release = "v0.0.85, 2026-11-09T18:28:53Z (v0.0.84 2026-10-31); npm @playwright/mcp 0.0.85"
+engine = "Playwright 1.66.0-alpha-2026-11-09: chrome, firefox, webkit, msedge (--browser), or --cdp-endpoint, or --extension to attach to a running Chrome or Edge with the Playwright extension"
+protocols = "MCP (stdio, or --port for HTTP/SSE); browser side via Playwright (CDP, patched Firefox and WebKit)"
+cli_commands = "playwright-mcp (cli.js) with flags --browser, --caps, --cdp-endpoint, --extension, --headless, --port, --host, --profile-dir-name, --background, --no-tab-group, --config; the README recommends the Playwright CLI with skills for coding agents instead"
+mcp_tools = "72 in 9 groups. Core automation: browser_click browser_close browser_console_messages browser_drag browser_drop browser_emulate_media browser_evaluate browser_file_upload browser_fill_form browser_find browser_handle_dialog browser_hover browser_navigate browser_navigate_back browser_network_request browser_network_requests browser_press_key browser_resize browser_run_code_unsafe browser_select_option browser_snapshot browser_take_screenshot browser_type browser_wait_for; tabs: browser_tabs; installation; config (--caps=config): browser_get_config; network: browser_route browser_route_list browser_unroute browser_network_state_set; storage: browser_cookie_{clear,delete,get,list,set} browser_localstorage_* browser_sessionstorage_* browser_set_storage_state browser_storage_state; devtools: browser_annotate browser_highlight browser_hide_highlight browser_resume browser_start/stop_recording browser_start/stop_tracing browser_start/stop_video browser_video_chapter browser_video_show/hide_actions; vision: browser_mouse_click_xy browser_mouse_down browser_mouse_drag_xy browser_mouse_move_xy browser_mouse_up browser_mouse_wheel; pdf: browser_pdf_save; testing: browser_generate_locator browser_verify_element_visible browser_verify_list_visible browser_verify_text_visible browser_verify_value"
+skills_docs = "README only for users; .claude/skills holds release.md (maintainer release skill, not a usage skill); AGENTS.md; the usage skills live in playwright (playwright-cli)"
+key_features = [
+  "accessibility snapshot driven (no vision model needed), ref-based actions",
+  "capability groups opt-in with --caps so the tool list stays small",
+  "persistent profile or isolated session, storage state, init scripts, config file (config.d.ts), Docker image",
+  "extension mode: control the user's own signed-in browser",
+  "network routing, cookies and storage tools, tracing, video, recording, coordinate mouse, PDF, assertions and locator generation",
+]
+dependencies = "playwright and playwright-core 1.66.0-alpha-2026-11-09; dev: @modelcontextprotocol/sdk ^1.25.2"
+vendored = "none found in the tree listing (src, utils, tests only)"
+performance = "unknown"
+take = "Canonical tool naming for the overlapping core (browser_*), the capability-group idea (--caps), and the extension attach mode. The MCP tool names of ay-browser start from this catalog."
+unknown = ["performance", "token cost per snapshot"]
+
+[[project]]
+name = "puppeteer"
+upstream = "https://github.com/puppeteer/puppeteer (fork: https://github.com/aphrody-labs/puppeteer, main, pushed 2026-11-16T19:46:20Z)"
+language = "TypeScript, Node >=22.12 (chromium-stack.md); packages puppeteer, puppeteer-core, @puppeteer/browsers, ng-schematics, testserver"
+licence = "Apache-2.0"
+latest_release = "puppeteer-v25.17.0, 2026-11-10T14:02:45Z (v25.16.0 2026-10-22); @puppeteer/browsers 3.2.7"
+engine = "Chrome (Chrome for Testing, downloaded on install) and Firefox; connects to any CDP or BiDi endpoint with puppeteer.connect"
+protocols = "CDP and WebDriver BiDi (README)"
+cli_commands = "npx puppeteer browsers install|launch|clear|list (package @puppeteer/browsers); no automation CLI"
+mcp_tools = "none in the package; the README points to chrome-devtools-mcp, a Puppeteer-based MCP server, and documents an experimental WebMCP API"
+skills_docs = ".agents/skills/puppeteer-verification (one maintainer skill); docs and website directories, https://pptr.dev"
+key_features = [
+  "page.locator with ::-p-aria and ::-p-text selectors, waitForSelector",
+  "screenshot, screencast, pdf and createPDFStream",
+  "setRequestInterception, cookies and setCookie, setOfflineMode, exposeFunction",
+  "emulate, emulateNetworkConditions, emulateCPUThrottling, emulateMediaFeatures, emulateTimezone, emulateVisionDeficiency, emulateIdleState (Page.ts)",
+  "experimental WebMCP API (Chrome 151+ with --enable-features=WebMCP)",
+  "no test runner, no codegen, no stealth, no snapshot-with-refs API found in Page.ts",
+]
+dependencies = "puppeteer-core: @puppeteer/browsers 3.2.7, chromium-bidi 157.0.8090-0, devtools-protocol 0.0.1717327, typed-query-selector ^2.12.3, webdriver-bidi-protocol 1.0.2, ws ^8.22.1"
+vendored = "packages/puppeteer-core/third_party: mitt, parsel-js, rxjs, urlpattern-polyfill (bundled sources with their licences)"
+performance = "unknown"
+take = "The API shape for the Bun package (Puppeteer is the smaller, CDP-first surface) and the browser downloader (@puppeteer/browsers 3.2.7: CfT and headless-shell by version, cache, launch). Use puppeteer-core as an external npm dependency, never reimplemented."
+unknown = ["performance", "Bun compatibility of puppeteer-core 25.17 (not run)"]
+
+[[project]]
+name = "chrome-devtools-mcp"
+upstream = "https://github.com/ChromeDevTools/chrome-devtools-mcp (fork: https://github.com/aphrody-labs/chrome-devtools-mcp, main, pushed 2026-11-14T17:39:17Z)"
+language = "TypeScript, built with gn and ninja scripts, Node ^20.19.0 || ^22.12.0 || >=23"
+licence = "Apache-2.0"
+latest_release = "1.13.0, 2026-11-11T12:46:51Z (npm); GitHub release chrome-devtools-mcp-v1.13.0 (chromium-stack.toml)"
+engine = "Chrome or Chrome for Testing only (officially); drives it through Puppeteer"
+protocols = "MCP (stdio); CDP through Puppeteer; WebMCP tools"
+cli_commands = "chrome-devtools-mcp (server) and chrome-devtools (CLI): chrome-devtools navigate_page 1 --url ..., take_screenshot, stop; flags --headless --isolated --slim (chromium-stack.toml)"
+mcp_tools = "63 in 13 categories. Input automation 10 (click drag fill fill_form handle_dialog hover press_key type_text upload_file click_at); navigation 6 (close_page list_pages navigate_page new_page select_page wait_for); emulation 2 (emulate resize_page); performance 3 (performance_analyze_insight performance_start_trace performance_stop_trace); network 2 (get_network_request list_network_requests); debugging 10 (evaluate_script get_console_message get_css_styles lighthouse_audit list_console_messages screencast_start screencast_stop set_logpoints take_screenshot take_snapshot); memory 14 (take_heapsnapshot plus 13 get_/query_/compare_/analyze_ heap snapshot tools); network mocks 2 (mock_network remove_network_mock); extensions 5 (install_extension list_extensions reload_extension trigger_extension_action uninstall_extension); third-party 2 (list_3p_developer_tools execute_3p_developer_tool); WebMCP 2 (list_webmcp_tools execute_webmcp_tool); PWA 4 (install_pwa launch_pwa uninstall_pwa get_os_app_state); WebAuthn 1 (configure_webauthn)"
+skills_docs = "8 skills in skills/: chrome-devtools, chrome-devtools-cli, a11y-debugging, cookie-debugging, debug-optimize-lcp, inspect-in-devtools, memory-leak-debugging, troubleshooting (README lists 7, the tree has inspect-in-devtools too); plugin manifests for Claude, Cursor, Gemini and Kimi; docs/ with tool-reference.md; AGENTS.md"
+key_features = [
+  "performance traces with insights, Lighthouse audit, heap snapshots and analysis, source-mapped console stacks, logpoints",
+  "snapshot (take_snapshot), screenshot, screencast",
+  "network inspection and mocking, no cookie tool (a cookie-debugging skill instead)",
+  "extension, PWA and WebAuthn management, third-party DevTools tools, WebMCP",
+  "usage statistics, CrUX lookups and update checks on by default, each with an opt-out",
+  "no PDF tool, no stealth, no multi-engine",
+]
+dependencies = "Puppeteer (README: automation uses puppeteer), devtools-frontend as a git submodule at third_party/devtools-frontend (branch main, shallow); package.json dependencies were not parsed, so the exact puppeteer version is unknown"
+vendored = "third_party/devtools-frontend (submodule, not a copy)"
+performance = "unknown"
+take = "The superset requirement: its 63 tools are the DevTools half of the ay MCP server. Overlapping tools (click, fill, navigate_page, take_screenshot, take_snapshot, list_network_requests, evaluate_script) alias to the browser_* names; the unique ones (performance, lighthouse, heap snapshots, extensions, PWA, WebAuthn, logpoints, third-party tools) are kept under their own names and gated to the Chromium backends. Run the upstream package as the implementation behind them first, then reimplement over ay_browser CDP only where needed."
+unknown = ["exact puppeteer version pinned", "behaviour against CEF 156 (chromium-stack.md lists it as a needed test)"]
+
+[[project]]
+name = "chromiumoxide"
+upstream = "https://github.com/mattsse/chromiumoxide (fork: https://github.com/aphrody-labs/chromiumoxide, main, pushed 2026-11-16T19:50:03Z, sync time)"
+language = "Rust (edition 2024, rust-version 1.85), async on tokio"
+licence = "MIT OR Apache-2.0 (Cargo.toml; GitHub shows Apache-2.0)"
+latest_release = "v0.9.1, 2026-02-25T20:04:03Z (crates.io chromiumoxide 0.9.1, 5,901,899 downloads); v0.9.0 2026-02-20; v0.8.0 2025-11-28. No release in the last 8 months."
+engine = "Chrome or Chromium launched or attached over CDP; optional chromiumoxide_fetcher downloads a build"
+protocols = "CDP, with typed commands and events for the whole protocol generated from PDL (chromiumoxide_pdl, chromiumoxide_cdp 0.9.1, 6,293,885 downloads); Page::execute sends any command"
+cli_commands = "none (library)"
+mcp_tools = "none"
+skills_docs = "README, examples/, CHANGELOG; no skills"
+key_features = [
+  "Browser::launch with BrowserConfig (headless default, with_head), Browser::new_page, Page::find_element, click, type_str, press_key, wait_for_navigation, content",
+  "full generated CDP type set, usable alone (chromiumoxide_cdp) as the typed protocol layer",
+  "PDF through Page::execute(PrintToPdfParams) (README example)",
+  "no snapshot with refs, no stealth, no MCP, no recording helpers found in the README"
+]
+dependencies = "async-tungstenite 0.32, tokio 1, serde, futures, which 8, reqwest 0.13 (default-features off), bytes (default feature), windows-registry 0.6 on Windows"
+vendored = "none (workspace members chromiumoxide_pdl, _types, _cdp, _fetcher)"
+performance = "unknown"
+take = "The typed CDP layer for ay_browser: depend on chromiumoxide_cdp and chromiumoxide_types from crates.io for command, event and param types, and decide in the probe step whether to also use its Browser and Page connection handler or write a thinner multi-backend session on top of the types. Do not use its launcher for lightpanda or obscura."
+unknown = ["whether the Browser handler works over a non-WebSocket transport (CEF)", "maintenance outlook (the last release is 2026-02-25)", "pipe transport support (--remote-debugging-pipe) not found in the README"]
+
+[[project]]
+name = "headless_chrome"
+upstream = "https://github.com/rust-headless-chrome/rust-headless-chrome (fork: https://github.com/aphrody-labs/headless_chrome, main, pushed 2026-06-11T00:04:40Z)"
+language = "Rust (edition 2024, rust-version 1.85), synchronous (tungstenite), no async runtime"
+licence = "MIT"
+latest_release = "1.0.22, 2026-06-11T00:04:52Z (crates.io headless_chrome 1.0.22, 3,623,763 downloads); 1.0.21 2026-02-03"
+engine = "Chrome or Chromium over CDP, auto-download of known-good Chromium (fetch feature)"
+protocols = "CDP (protocol::cdp types, hand-maintained)"
+cli_commands = "none (library)"
+mcp_tools = "none"
+skills_docs = "README, examples"
+key_features = [
+  "network request interception, JS coverage, incognito windows, element and full-page screenshots, PDF, headful mode, extension pre-loading (README list)",
+  "described by its README as not fully Puppeteer compatible",
+]
+dependencies = "tungstenite 0.29, serde, derive_builder, which 8, tempfile, ureq 3 (optional fetch), zip 8 (optional), rustls (optional)"
+vendored = "none found"
+performance = "unknown"
+take = "Reference only: synchronous and CDP-only, no advantage over chromiumoxide for a multi-backend async crate. Keep it as a candidate for a sync fallback, no dependency planned."
+unknown = ["whether it works over a pipe or CEF transport"]
+
+[[project]]
+name = "chrome-for-testing"
+upstream = "https://github.com/GoogleChromeLabs/chrome-for-testing"
+language = "tooling (JSON endpoints and scripts); the binaries are Chrome builds"
+licence = "tooling Apache-2.0; binary terms not read (chromium-stack.toml)"
+latest_release = "Stable 157.0.8103.78 revision 1717349, 2026-11-16T13:31:35Z; Playwright bundles 159.0.8154.6 (browsers.json), Beta 159.0.8154.6, Canary 160.0.8165.0 (chromium-stack.toml)"
+engine = "Chrome (chrome, chromedriver, chrome-headless-shell) by pinned version, linux64, linux-arm64, mac-arm64, mac-x64, win32, win64"
+protocols = "CDP (remote debugging port or pipe), chromedriver endpoint (WebDriver Classic; BiDi through chromedriver not read)"
+cli_commands = "none; fetched through JSON endpoints, @puppeteer/browsers, agent-browser install, playwright install"
+mcp_tools = "none"
+skills_docs = "none"
+key_features = [
+  "reproducible versioned downloads with a known-good list of 2638 versions up to 160.0.8165.0",
+  "chrome-headless-shell is the old headless mode in a separate 127,965,683-byte linux64 zip (chrome-linux64.zip is 203,266,906 bytes)",
+  "no automation features of its own"
+]
+dependencies = "none (prebuilt)"
+vendored = "none"
+performance = "unknown (see [context].independent_measurement for headless-shell 160.0.8164.0: 0.49 s, 578 MiB on one page)"
+take = "The default Chromium backend: spawn chrome-headless-shell for agents and tests, chrome for headed runs, pinned by version from the CfT endpoints (the downloader logic exists in @puppeteer/browsers and chromiumoxide_fetcher; reuse one, do not write a third)."
+unknown = ["installed size", "Chrome binary licence terms", "chromedriver WebDriver BiDi status"]
+
+[[project]]
+name = "cef-rs"
+upstream = "https://github.com/tauri-apps/cef-rs (fork: https://github.com/aphrody-labs/cef-rs); CEF itself https://github.com/chromiumembedded/cef"
+language = "Rust bindings (bindgen over the CEF C API) over a C++ framework"
+licence = "cef-rs Apache-2.0 OR MIT; CEF BSD-style (GitHub reports NOASSERTION)"
+latest_release = "cef 156.6.0+156.0.30, 2026-11-16T01:49Z (crates.io, 403,846 downloads); download-cef 3.0.1; CEF stable 156.0.30 is one milestone behind Chrome for Testing 157"
+engine = "Chromium through CEF: off-screen (windowless) rendering or native window hosting"
+protocols = "CDP through remote_debugging_port, and in process through CefBrowserHost execute_dev_tools_method plus add_dev_tools_message_observer (used by crates/ay_chromium/src/engine.rs lines 310-361)"
+cli_commands = "none (cef-rs ships examples cefsimple and osr, tools export-cef-dir and bundle-cef-app)"
+mcp_tools = "none"
+skills_docs = "none"
+key_features = [
+  "windowless rendering to a BGRA buffer (ay_chromium writes PNG screenshots from it)",
+  "Runtime.evaluate over the DevTools method API (ay_chromium evaluate)",
+  "CDP attach by external clients through the debugging port (not tested here)"
+]
+dependencies = "cef and cef-dll-sys =156.6.0, download-cef 3.0.1; archive sizes linux64 minimal 333,332,290 bytes, standard 697,434,558 bytes (chromium-stack.toml)"
+vendored = "none; CEF binary distribution downloaded"
+performance = "unknown (measurement list in chromium-stack.md)"
+take = "The embedding backend, already in progress as crates/ay_chromium (Config, Chromium::start and global, screenshot, evaluate; 970 lines; a fresh browser per call). It becomes the Chromium backend of ay_browser behind the cef feature once it exposes a persistent browser and a raw CDP message channel."
+unknown = ["whether CEF 156 supports extensions, WebMCP, and every CDP domain DevTools MCP needs", "accelerated off-screen rendering on each OS", "installed size"]
