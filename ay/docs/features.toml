@@ -1957,3 +1957,51 @@ title = "Cloud GPUs: GPUs for ML, scientific computing, and 3D visualization."
 reference = "https://cloud.google.com/gpu"
 layer = "backend"
 status = "todo"
+
+[[feature]]
+product = "cloud"
+id = "apify-actors"
+title = "Actor platform: build from source, versions, runs with logs, abort, metamorph, reboot, tasks with saved input"
+reference = "https://docs.apify.com/platform/actors"
+layer = "backend"
+status = "todo"
+
+[[feature]]
+product = "cloud"
+id = "apify-storages"
+title = "Storages with Apify-compatible REST: datasets, key-value stores, request queues with locks"
+reference = "https://docs.apify.com/api/v2"
+layer = "backend"
+status = "todo"
+
+[[feature]]
+product = "cloud"
+id = "apify-schedules-webhooks"
+title = "Schedules, webhooks and webhook dispatches"
+reference = "https://docs.apify.com/api/v2"
+layer = "backend"
+status = "todo"
+
+[[feature]]
+product = "cloud"
+id = "apify-store"
+title = "Store of actors with listings, users and usage"
+reference = "https://apify.com/store"
+layer = "ui"
+status = "todo"
+
+[[feature]]
+product = "cloud"
+id = "apify-mcp"
+title = "MCP server exposing actors as agent tools, plus CLI and SDKs"
+reference = "https://github.com/apify/apify-mcp-server"
+layer = "protocol"
+status = "todo"
+
+[[feature]]
+product = "search"
+id = "crawlee-crawler"
+title = "Crawler built on Crawlee (Bun) with fingerprint-suite, got-scraping and proxy-chain"
+reference = "https://crawlee.dev/"
+layer = "backend"
+status = "todo"

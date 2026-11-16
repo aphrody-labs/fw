@@ -1,0 +1,66 @@
+# Apify recon, 2026-11-16, produced with `bun tools/recon.ts` (raw facts: C:/data/recon/apify/apify.json, mirror: C:/data/recon/apify-content/mirror).
+version = 1
+retrieved = "2026-11-16"
+sources = [
+  "https://github.com/apify",
+  "https://apify.com/sitemap.xml",
+  "https://docs.apify.com/sitemap.xml",
+  "https://crawlee.dev/sitemap.xml",
+  "https://docs.apify.com/api/openapi.json",
+]
+
+[github]
+org = "apify"
+repos = 279
+active = 200            # not archived, not forks
+top = [
+  "crawlee ★26467 (TypeScript, scraping and browser automation library)",
+  "apify-mcp-server ★16540 (MCP server exposing Actors to agents)",
+  "crawlee-python ★9677",
+  "fingerprint-suite ★2672 (browser fingerprint generation and injection)",
+  "agent-skills ★2501 (Apify agent skills)",
+  "mcpc ★1104 (MCP CLI client)",
+  "proxy-chain ★1059 (proxy server with SSL and upstream chaining)",
+  "got-scraping ★778 (HTTP client for scraping)",
+  "impit ★643 (Rust library for browser impersonation)",
+  "apify-cli ★266, apify-sdk-js ★186, apify-sdk-python ★180, apify-client-js ★94, apify-client-python ★105",
+]
+
+[sites.apify_com]
+pages = 997550           # sitemap index: pages.xml, actors1..20.xml, users.xml
+content_sitemap = "https://apify.com/sitemap/pages.xml"
+note = "almost all URLs are Store Actor and user profile pages (largest: /parseforge 18311 URLs); content sections include /api, /integrations, /ideas, /change-log, /mcp, /alternatives, /pricing, /proxy, /resources, /scrapers"
+
+[sites.docs_apify_com]
+pages = 4237
+sections = { api = 1981, sdk = 1693, academy = 202, cli = 110, integrations = 100, actors = 76, legal = 20, account = 18 }
+
+[sites.crawlee_dev]
+pages = 3878
+sections = { js = 3839, blog = 37 }
+
+[api]
+title = "Apify API"
+version = "v2-2026-11-13T162342Z"
+operations = 240
+areas = ["Actors (versions, builds, runs, webhooks)", "Actor tasks", "Actor runs (abort, metamorph, reboot, log)", "Storage: datasets, key-value stores, request queues (requests, locks)", "Schedules", "Webhooks and dispatches", "Store", "Users and usage", "Logs", "Tools (encoding)"]
+
+# What Aphrody takes (feature-matrix rows cloud/apify-*): the Actor platform is a cloud product; Crawlee is a library we use.
+[[take]]
+what = "Crawlee (JS on Bun, and crawlee-python) as the crawling layer of Aphrody Search"
+how = "dependency, not a replica"
+[[take]]
+what = "Actor platform: build from source, versioned runs with logs, abort/metamorph/reboot, tasks with saved input"
+how = "replica in cloud on the Bun edge runtime and containers"
+[[take]]
+what = "Storages: datasets, key-value stores, request queues with locks, with the same REST shapes"
+how = "replica in cloud; API compatible with the 240-operation Apify API v2 where it is useful"
+[[take]]
+what = "Schedules, webhooks, Store, usage"
+how = "replica in cloud"
+[[take]]
+what = "MCP server exposing actors as tools, CLI, SDKs"
+how = "replica; the MCP surface merges into the ay browser/cloud MCP (ADR-7)"
+[[take]]
+what = "fingerprint-suite, got-scraping, impit, proxy-chain"
+how = "dependencies of the crawler and browser automation"
