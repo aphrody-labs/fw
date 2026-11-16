@@ -1,0 +1,274 @@
+# Every absorb decision, appended by tools/absorb.ts.
+version = 1
+
+[[merge]]
+repo = "oven-sh/bun"
+fork = "aphrody-labs/bun"
+source = "https://github.com/oven-sh/bun/pull/48762"
+title = "install: bin lookup fixes for lifecycle scripts"
+result = "skipped"
+test = "bun bd test"
+date = 2026-11-16
+detail = "touches Rust crates with green upstream CI, but its test is the full Bun build (bun bd: JSC + Rust workspace + test suite), not run in this round"
+
+[[merge]]
+repo = "oven-sh/bun"
+fork = "aphrody-labs/bun"
+source = "https://github.com/oven-sh/bun/pull/48780"
+title = "bun lint: hold back `vitest/no-importing-vitest-globals` fixes that change what the file does"
+result = "skipped"
+test = "bun bd test"
+date = 2026-11-16
+detail = "touches Rust crates with green upstream CI, but its test is the full Bun build (bun bd: JSC + Rust workspace + test suite), not run in this round"
+
+[[merge]]
+repo = "oven-sh/bun"
+fork = "aphrody-labs/bun"
+source = "https://github.com/oven-sh/bun/pull/48996"
+title = "crash handler: never wait for a once-cell or a lock in the report"
+result = "skipped"
+test = "bun bd test"
+date = 2026-11-16
+detail = "touches Rust crates with green upstream CI, but its test is the full Bun build (bun bd: JSC + Rust workspace + test suite), not run in this round"
+
+[[merge]]
+repo = "oven-sh/bun"
+fork = "aphrody-labs/bun"
+source = "https://github.com/oven-sh/bun/pull/33224"
+title = "build: fix strip flag downgrade, drop legacy .hash, losslessly shrink bun.ico"
+result = "skipped"
+test = "bun bd test"
+date = 2026-11-16
+detail = "touches Rust crates with green upstream CI, but its test is the full Bun build (bun bd: JSC + Rust workspace + test suite), not run in this round"
+
+[[merge]]
+repo = "oven-sh/bun"
+fork = "aphrody-labs/bun"
+source = "https://github.com/oven-sh/bun/pull/48883"
+title = "css: keep a resolution in a token list as a token"
+result = "skipped"
+test = "bun bd test"
+date = 2026-11-16
+detail = "touches Rust crates with green upstream CI, but its test is the full Bun build (bun bd: JSC + Rust workspace + test suite), not run in this round"
+
+[[merge]]
+repo = "denoland/rusty_v8"
+fork = "aphrody-labs/rusty_v8"
+source = "https://github.com/denoland/rusty_v8/pull/2092"
+title = "fix member alignment in cppgc"
+result = "skipped"
+test = "cargo test"
+date = 2026-11-16
+detail = "cargo test against the prebuilt librusty_v8 does not link on unmodified main either (undefined symbol v8__Data__IsCompatibleWithIsolate); a real verdict needs a V8_FROM_SOURCE build, not run in this round"
+
+[[merge]]
+repo = "denoland/rusty_v8"
+fork = "aphrody-labs/rusty_v8"
+source = "https://github.com/denoland/rusty_v8/pull/1957"
+title = "build: fix static_lib_name for non-MSVC Windows toolchains"
+result = "skipped"
+test = "cargo test"
+date = 2026-11-16
+detail = "cargo test against the prebuilt librusty_v8 does not link on unmodified main either (undefined symbol v8__Data__IsCompatibleWithIsolate); a real verdict needs a V8_FROM_SOURCE build, not run in this round"
+
+[[merge]]
+repo = "mattsse/chromiumoxide"
+fork = "aphrody-labs/chromiumoxide"
+source = "https://github.com/mattsse/chromiumoxide/pull/300"
+title = "fix: replace carriage returns with line break"
+result = "merged"
+test = "cargo test --lib && RUST_TEST_THREADS=1 cargo test --test '*'"
+date = 2026-11-16
+
+[[merge]]
+repo = "denoland/rusty_v8"
+fork = "aphrody-labs/rusty_v8"
+source = "https://github.com/denoland/rusty_v8/pull/2053"
+title = "fix: correct 32-bit layout of ScriptCompiler::Source"
+result = "skipped"
+test = "cargo test"
+date = 2026-11-16
+detail = "cargo test against the prebuilt librusty_v8 does not link on unmodified main either (undefined symbol v8__Data__IsCompatibleWithIsolate); a real verdict needs a V8_FROM_SOURCE build, not run in this round"
+
+[[merge]]
+repo = "denoland/rusty_v8"
+fork = "aphrody-labs/rusty_v8"
+source = "https://github.com/denoland/rusty_v8/pull/2072"
+title = "fix: return Value from Function::get_name"
+result = "skipped"
+test = "cargo test"
+date = 2026-11-16
+detail = "cargo test against the prebuilt librusty_v8 does not link on unmodified main either (undefined symbol v8__Data__IsCompatibleWithIsolate); a real verdict needs a V8_FROM_SOURCE build, not run in this round"
+
+[[merge]]
+repo = "denoland/rusty_v8"
+fork = "aphrody-labs/rusty_v8"
+source = "https://github.com/denoland/rusty_v8/pull/2085"
+title = "fix: keep WeakData alive when a Weak is dropped during isolate teardown"
+result = "skipped"
+test = "cargo test"
+date = 2026-11-16
+detail = "cargo test against the prebuilt librusty_v8 does not link on unmodified main either (undefined symbol v8__Data__IsCompatibleWithIsolate); a real verdict needs a V8_FROM_SOURCE build, not run in this round"
+
+[[merge]]
+repo = "mattsse/chromiumoxide"
+fork = "aphrody-labs/chromiumoxide"
+source = "https://github.com/mattsse/chromiumoxide/pull/332"
+title = "fix(handler): page commands and navigations honor request_timeout"
+result = "merged"
+test = "cargo test --lib && RUST_TEST_THREADS=1 cargo test --test '*'"
+date = 2026-11-16
+
+[[merge]]
+repo = "mattsse/chromiumoxide"
+fork = "aphrody-labs/chromiumoxide"
+source = "https://github.com/mattsse/chromiumoxide/pull/338"
+title = "fix(handler): attach to targets that become pages after they were created"
+result = "merged"
+test = "cargo test --lib && RUST_TEST_THREADS=1 cargo test --test '*'"
+date = 2026-11-16
+
+[[merge]]
+repo = "rust-headless-chrome/rust-headless-chrome"
+fork = "aphrody-labs/headless_chrome"
+source = "https://github.com/rust-headless-chrome/rust-headless-chrome/pull/568"
+title = "fix(memory leak): release tab and call state held by transport"
+result = "merged"
+test = "cargo test google.com --all-features --all-targets"
+date = 2026-11-16
+
+[[merge]]
+repo = "rust-headless-chrome/rust-headless-chrome"
+fork = "aphrody-labs/headless_chrome"
+source = "https://github.com/rust-headless-chrome/rust-headless-chrome/pull/567"
+title = "don't shut down transport when browser listener disconnects"
+result = "merged"
+test = "cargo test google.com --all-features --all-targets"
+date = 2026-11-16
+
+[[merge]]
+repo = "tauri-apps/cef-rs"
+fork = "aphrody-labs/cef-rs"
+source = "https://github.com/tauri-apps/cef-rs/pull/497"
+title = "fix: keep owned strings when converting to raw CEF strings"
+result = "merged"
+test = "D=/srv/xbuild/absorb/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
+date = 2026-11-16
+
+[[merge]]
+repo = "tauri-apps/cef-rs"
+fork = "aphrody-labs/cef-rs"
+source = "https://github.com/tauri-apps/cef-rs/pull/508"
+title = "fix(string): pass empty `CefString` out-parameters as a valid pointer"
+result = "conflict"
+test = "D=/srv/xbuild/absorb/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
+date = 2026-11-16
+
+[[merge]]
+repo = "tauri-apps/cef-rs"
+fork = "aphrody-labs/cef-rs"
+source = "https://github.com/tauri-apps/cef-rs/pull/516"
+title = "fix(string): free CefStringMultimap and the strings read from string collections"
+result = "merged"
+test = "D=/srv/xbuild/absorb/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
+date = 2026-11-16
+
+[[merge]]
+repo = "denoland/deno"
+fork = "aphrody-labs/deno"
+source = "https://github.com/denoland/deno/pull/36509"
+title = "fix(web): avoid inspecting getters on Event subclass prototypes"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "deno is candidates-only this round, no merges"
+
+[[merge]]
+repo = "denoland/deno"
+fork = "aphrody-labs/deno"
+source = "https://github.com/denoland/deno/pull/36566"
+title = "fix(ext/node): start proxy loop at index 0 in Readable.prototype.wrap()"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "deno is candidates-only this round, no merges"
+
+[[merge]]
+repo = "denoland/deno"
+fork = "aphrody-labs/deno"
+source = "https://github.com/denoland/deno/pull/36849"
+title = "fix(node): expose module format in registerHooks"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "deno is candidates-only this round, no merges"
+
+[[merge]]
+repo = "denoland/deno"
+fork = "aphrody-labs/deno"
+source = "https://github.com/denoland/deno/pull/36555"
+title = "fix(cli): Do not output literal \"\\n\" in bash completion script"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "deno is candidates-only this round, no merges"
+
+[[merge]]
+repo = "denoland/deno"
+fork = "aphrody-labs/deno"
+source = "https://github.com/denoland/deno/pull/36852"
+title = "fix(serde_v8): return an error instead of panicking on unsupported value types"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "deno is candidates-only this round, no merges"
+
+[[merge]]
+repo = "chromiumembedded/cef"
+fork = "aphrody-labs/cef"
+source = "https://github.com/chromiumembedded/cef/pull/4274"
+title = "Fix frameless Views windows on Wayland"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "record only: CEF needs a Chromium checkout build and its PR queue is rarely merged; no merge this round"
+
+[[merge]]
+repo = "chromiumembedded/cef"
+fork = "aphrody-labs/cef"
+source = "https://github.com/chromiumembedded/cef/pull/4364"
+title = "cefclient: osr: Fix Windows IME composition underlines (fixed 4363)"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "record only: CEF needs a Chromium checkout build and its PR queue is rarely merged; no merge this round"
+
+[[merge]]
+repo = "chromiumembedded/cef"
+fork = "aphrody-labs/cef"
+source = "https://github.com/chromiumembedded/cef/pull/4346"
+title = "linux: alloy: Fix native window popups closing on window manager refocus (fixes #4329, fixes #3979)"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "record only: CEF needs a Chromium checkout build and its PR queue is rarely merged; no merge this round"
+
+[[merge]]
+repo = "chromiumembedded/cef"
+fork = "aphrody-labs/cef"
+source = "https://github.com/chromiumembedded/cef/pull/4335"
+title = "Add CefDisplayHandler::OnAudioStateChange (fixes #4333)"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "record only: CEF needs a Chromium checkout build and its PR queue is rarely merged; no merge this round"
+
+[[merge]]
+repo = "chromiumembedded/cef"
+fork = "aphrody-labs/cef"
+source = "https://github.com/chromiumembedded/cef/pull/4316"
+title = "osr: Fix rendering when shown with many visible views (fixes #3427)"
+result = "skipped"
+test = ""
+date = 2026-11-16
+detail = "record only: CEF needs a Chromium checkout build and its PR queue is rarely merged; no merge this round"
