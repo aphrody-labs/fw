@@ -4,10 +4,8 @@ folder = "1ydDkZ7opnB19FZqKblxD-g2vFiWkC0PJ"           # Drive folder "ay"
 doc = "1vzr62pNKNsOpv8x_ZQyXjWjxa3lHNVQGZyJXm8L4Tjk"    # ay — Spec, architecture and decisions
 sheet = "1IliGYdDToOufUSarqSADwg8VVb4Nv1kjpBcCGfhFQx0"  # ay — Feature matrix (Matrix, Inventory)
 brand_book = "14NjMrELB8Vmp8-wIjrGnA6cKo_3emQZakIMKqYOjv6Q"  # ay — Brand book (built from brand/)
-slides = "1IaQh0pdTC5wJ4RWAbNZbLMySpFKhWzcLlv_ZLKu1kWg"  # ay — Architecture and roadmap
 slides = "1IaQh0pdTC5wJ4RWAbNZbLMySpFKhWzcLlv_ZLKu1kWg"     # ay — Architecture and roadmap
 
 [figma]
 team = "ay"
-file = "oubd2oqxMuyKYgGcaj3xNK"  # the "Aphrody" file in team ay
 file = "oubd2oqxMuyKYgGcaj3xNK"   # Aphrody: brand, design system, search, OS, browser, cloud
