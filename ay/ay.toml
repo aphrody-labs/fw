@@ -35,15 +35,16 @@ cloud = { title = "Aphrody Cloud", reference = "https://developers.cloudflare.co
 craft = { title = "Craft Anything", reference = "https://github.com/storytold/craft-anything", keywords = ["craft", "artcraft", "canvas", "video", "image", "game", "render", "3d", "media"] }
 brand = { title = "Aphrody brand", reference = "https://design.google/", keywords = ["brand", "identity", "design", "m3", "theme", "token", "font", "icon", "assets", "i18n"] }
 
-# Hub and satellites. This repository (orgs.dev / product.repo) is the entry point and the source of
-# truth; every other repository, package and crate gravitates around it and reads its names from here.
+# The ecosystem. aphrody-dev/aphrody is the complete OS in pure Rust and the source of truth; this
+# repository is its SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc and the design system.
 [registries]
 npm = "@aphrody"             # npm org scope for published Bun/TS packages
 crates = "aphrody-"          # crates.io name prefix for published Rust crates
 
 [repos]
-# kind: hub | runtime | craft | plugin | app. Satellites never redefine identity, hosts or products.
-ay = { slug = "aphrody-dev/ay", kind = "hub" }
+# kind: os | sdk | runtime | craft | plugin | app. Only the os repository defines the system; the rest build on it.
+aphrody = { slug = "aphrody-dev/aphrody", kind = "os", checkout = "../aphrody" }      # complete OS, pure Rust, source of truth
+ay = { slug = "aphrody-dev/ay", kind = "sdk" }                                             # C ABI, OpenAPI, docs, spec, corelib, libc, design system
 bun = { slug = "aphrody-labs/bun", kind = "runtime", checkout = "../bun" }                 # Bun fork and its plugins
 craft-anything = { slug = "aphrody-labs/craft-anything", kind = "craft" }                 # replication engine
 nie = { slug = "aphrody-labs/nie", kind = "craft", checkout = "../nie" }                  # football games built as craft jobs

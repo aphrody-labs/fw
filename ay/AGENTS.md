@@ -3,9 +3,9 @@
 Contract for every agent working in this repository. Names come from `ay.toml`.
 
 ## Scope
-- This repository is the hub: the entry point and the source of truth. Craft apps, Bun plugins, npm
-  packages (`[registries]`) and crates gravitate around it as satellites listed in `ay.toml` [repos];
-  they read identity, hosts and products from here and never redefine them.
+- This repository is the SDK of Aphrody: C ABI, OpenAPI, docs, spec, standards, corelib, libc and the
+  design system. The complete OS, in pure Rust, is `aphrody-dev/aphrody`, the source of truth; this SDK
+  follows it. Satellites (`ay.toml` [repos], [registries]) build on both.
 - The products and their definition of done are in `docs/spec.md`; the tree and toolchain in
   `docs/architecture.md` and `docs/adr/`; the full scope, row by row, in `docs/features.toml`.
 - A feature is done only with a proof in the matrix (test id, screenshot path or artifact URL);
