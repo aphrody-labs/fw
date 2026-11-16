@@ -9,7 +9,7 @@ ay.toml          the only identity and configuration source
 flake.nix        pinned toolchains, dev shells, CI checks and OS package builds (ADR-2)
 Cargo.toml       Rust workspace: members = ["crates/*"], shared [workspace.dependencies]
 package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
-apps/            products a person runs, one folder each, any language: shell, browser, search, cloud, craft
+apps/            products a person runs, one folder each, any language: browser, search, cloud
 crates/          every Rust crate, flat, named ay_<area>_<thing>
 packages/        every Bun/TypeScript package, flat, named @aphrody/<name>
 os/              the distribution as data: bootstrap (LFS stage 0), pkgs (Nix), kernel, installer, image
@@ -34,9 +34,15 @@ parsing layer for code intelligence. See ADR-2.
 ## Products and their stacks
 | Product | Stack | ADR |
 |---|---|---|
-| os | LFS stage-0 bootstrap, then Nix packages; kernel.org + CachyOS patches; BLFS Wayland desktop; GPUI shell; Waydroid | ADR-4 |
+| os | LFS stage-0 bootstrap, then Nix packages; kernel.org + CachyOS patches; BLFS Wayland desktop; the native desktop from aphrody-dev/aphrody; Waydroid | ADR-4 |
 | browser | Chromium with our UI, agent panel and WebMCP | ADR-3 |
 | search | Rust crawler, index and ranker; Bun front end; AI mode over the OpenAI-compatible model API | ADR-5 |
 | cloud | Bun edge runtime with a Workers-compatible API; deploys, domains, TLS, storage, logs | ADR-6 |
-| craft | craft-anything from the bun fork, exposed as `bun craft` (CLI and MCP) | ADR-1 |
+| craft | engine: craft-anything in the bun fork, exposed as `bun craft` (CLI and MCP); native GUI: aphrody-dev/aphrody | ADR-1 |
+
+## Native UI lives in aphrody-dev/aphrody
+The native stack is owned by its own repository, `aphrody-dev/aphrody` (a Zed fork). That covers GPUI and the
+gpui-kit components, COSMIC and iced, the desktop shell (`gpui_app_shell`) and the Craft native UI (`os_craft`).
+This repository consumes it as the submodule `third_party/aphrody`. The OS image packages its shell; the browser
+and the web products don't depend on it. No GPUI or COSMIC code is written here.
 | brand | character dataset, logo and token pipeline, Google Sans Flex, Material 3 | ADR-1 |
