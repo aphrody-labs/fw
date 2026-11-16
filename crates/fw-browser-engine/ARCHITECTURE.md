@@ -51,25 +51,6 @@ binaries). `build/engines/` drives GN on the Chromium checkout (`CHROMIUM_SRC`, 
   the checkout headers) or cxx (vendored in `third_party/rust/chromium_crates_io`), the way Chromium
   does Rust interop. Cross-language LTO needs rustc and clang on the same LLVM (see `docs/`).
 
-## Acceptance corpus
-
-The Dioxus monorepo's web examples must render and stay interactive here, compared with Chrome for Testing.
-They need WASM, WebGPU and CDP, so they run on the full engine (the lite engine does no paint).
-`tools/acceptance/cdp-probe.ts` is the probe (raw CDP, no Playwright): on Chrome 160.0.8164.0 headless-shell it
-reports WASM true and a WebGPU adapter (SwiftShader) for dioxuslabs.com (title, 208 elements) and for the
-WebGPU hello-triangle sample (1 canvas, PNG rendered). The same flags
-(`--enable-unsafe-webgpu --use-angle=swiftshader --use-webgpu-adapter=swiftshader`) apply to our
-`headless_shell` build.
-
-## Status (what exists, what does not)
-
-- Done: history-preserving import of 30 upstreams, one workspace (311 members, `cargo metadata` resolves,
-  one `Cargo.lock`), baseline measurements, CDP probe, GN overlay (`build/engines`).
-- V8 + Skia + ICU archive: building on the build host from the Chromium 157 checkout (`browser:engines`).
-- Not done: `src/v8-sys` and `src/skia-sys`; the Obscura script layer still depends on deno_core and
-  rusty_v8 and is therefore outside the workspace (it cannot resolve next to mozjs_sys); the lite engine
-  does not run yet; Blink (`browser:blink`) is not built; no PNG or CDP proof from our own binaries yet.
-
 ## Layout
 
 `src/<crate>` flat, Bun style, one Cargo workspace, one `Cargo.lock`. Imported crates keep their package

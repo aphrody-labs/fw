@@ -67,7 +67,6 @@ def vkey(req):
 def main():
     mono = sys.argv[1]
     unify = "--unify" in sys.argv
-    only = set(sys.argv[sys.argv.index("--only") + 1].split(",")) if "--only" in sys.argv else None
     lock = json.load(open(os.path.join(mono, "tools", "upstreams.lock.json")))
     root = load(os.path.join(mono, "upstream", "bun", "Cargo.toml"))
     bun_members = [m for m in plain(root["workspace"]["members"])]
@@ -126,7 +125,7 @@ def main():
     n_done = 0
 
     for tgt, u in sorted(owner.items()):
-        if u in (None, "bun") or (only and u not in only):
+        if u in (None, "bun"):
             continue
         mp = os.path.join(mono, tgt, "Cargo.toml")
         doc = load(mp)
