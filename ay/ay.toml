@@ -34,3 +34,18 @@ search = { title = "Aphrody Search", reference = "https://www.google.com/?hl=fr"
 cloud = { title = "Aphrody Cloud", reference = "https://developers.cloudflare.com/workers/", keywords = ["cloud", "edge", "deploy", "gateway", "worker", "cloudflare", "r2", "dns", "tls", "http", "api", "server", "sql", "db", "vault", "mail", "apify", "relay"] }
 craft = { title = "Craft Anything", reference = "https://github.com/storytold/craft-anything", keywords = ["craft", "artcraft", "canvas", "video", "image", "game", "render", "3d", "media"] }
 brand = { title = "Aphrody brand", reference = "https://design.google/", keywords = ["brand", "identity", "design", "m3", "theme", "token", "font", "icon", "assets", "i18n"] }
+
+# Hub and satellites. This repository (orgs.dev / product.repo) is the entry point and the source of
+# truth; every other repository, package and crate gravitates around it and reads its names from here.
+[registries]
+npm = "@aphrody"             # npm org scope for published Bun/TS packages
+crates = "aphrody-"          # crates.io name prefix for published Rust crates
+
+[repos]
+# kind: hub | runtime | craft | plugin | app. Satellites never redefine identity, hosts or products.
+ay = { slug = "aphrody-dev/ay", kind = "hub" }
+bun = { slug = "aphrody-labs/bun", kind = "runtime", checkout = "../bun" }                 # Bun fork and its plugins
+craft-anything = { slug = "aphrody-labs/craft-anything", kind = "craft" }                 # replication engine
+nie = { slug = "aphrody-labs/nie", kind = "craft", checkout = "../nie" }                  # football games built as craft jobs
+claude = { slug = "aphrody-labs/claude", kind = "plugin" }                                 # agent config and the aphrody plugin
+shenron = { slug = "aphrody-labs/shenron", kind = "app", checkout = "../shenron" }
