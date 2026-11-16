@@ -36,7 +36,8 @@ craft = { title = "Craft Anything", reference = "https://github.com/storytold/cr
 brand = { title = "Aphrody brand", reference = "https://design.google/", keywords = ["brand", "identity", "design", "m3", "theme", "token", "font", "icon", "assets", "i18n"] }
 
 # The ecosystem. aphrody-dev/aphrody is the complete OS in pure Rust and the source of truth; this
-# repository is its SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc and the design system.
+# repository is its SDK in C / assembly and Bun only (no Rust): C ABI, OpenAPI, docs, spec, standards,
+# corelib, libc and the design system. One checkout per repo locally and one repo per unit on GitHub.
 [registries]
 npm = "@aphrody"             # npm org scope for published Bun/TS packages
 crates = "aphrody-"          # crates.io name prefix for published Rust crates

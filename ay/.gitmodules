@@ -1,6 +1,0 @@
-[submodule "third_party/aphrody"]
-	path = third_party/aphrody
-	url = ../aphrody.git
-[submodule "third_party/craft-anything"]
-	path = third_party/craft-anything
-	url = ../../aphrody-labs/craft-anything.git
