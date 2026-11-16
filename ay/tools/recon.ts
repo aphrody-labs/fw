@@ -28,11 +28,44 @@ async function get(url: string): Promise<{ status: number; body: string }> {
   return { status: r.status, body: await r.text() };
 }
 
+/** Sitemaps a site declares: `Sitemap:` lines of robots.txt and `<link rel="sitemap">` of the home page. */
+export function declared(base: string, robots: string, home: string): string[] {
+  const out = [...robots.matchAll(/^\s*sitemap:\s*(\S+)/gim)].map(m => m[1]!);
+  for (const m of home.matchAll(/<link\b[^>]*>/gi)) {
+    const tag = m[0];
+    if (/rel=["']?sitemap/i.test(tag)) {
+      const href = tag.match(/href=["']?([^"'\s>]+)/i)?.[1];
+      if (href) out.push(new URL(href, base).href);
+    }
+  }
+  return [...new Set(out)];
+}
+
+/** True when a body is a sitemap document, not an HTML page served with 200 (a soft 404). */
+export const isSitemap = (body: string) => /<(urlset|sitemapindex)[\s>]/.test(body);
+
+/** Every sitemap of a site: the declared ones, else /sitemap.xml, /sitemap-index.xml and /sitemap_index.xml. */
+async function siteSitemaps(site: string) {
+  const [robots, home] = await Promise.all([get(new URL("/robots.txt", site).href), get(site)].map(p => p.catch(() => ({ status: 0, body: "" }))));
+  const roots = declared(site, robots!.status === 200 ? robots!.body : "", home!.body);
+  const candidates = roots.length ? roots : ["/sitemap.xml", "/sitemap-index.xml", "/sitemap_index.xml"].map(p => new URL(p, site).href);
+  const seen = new Set<string>();
+  const files: string[] = [], pages: string[] = [];
+  for (const c of candidates) {
+    const r = await sitemap(c, seen);
+    files.push(...r.files);
+    pages.push(...r.pages);
+    if (!roots.length && r.pages.length) break;
+  }
+  return { files, pages: [...new Set(pages)] };
+}
+
 async function sitemap(root: string, seen = new Set<string>()): Promise<{ files: string[]; pages: string[] }> {
   if (seen.has(root)) return { files: [], pages: [] };
   seen.add(root);
   const { status, body } = await get(root).catch(() => ({ status: 0, body: "" }));
   if (status !== 200) return { files: [`${root} (${status})`], pages: [] };
+  if (!isSitemap(body)) return { files: [`${root} (not a sitemap)`], pages: [] };
   const { sitemaps, pages } = locs(body);
   const nested = await Promise.all(sitemaps.map(s => sitemap(s, seen)));
   return { files: [root, ...nested.flatMap(n => n.files)], pages: [...pages, ...nested.flatMap(n => n.pages)] };
@@ -105,7 +138,7 @@ if (import.meta.main) {
   const [repos, sites, apis] = await Promise.all([
     values.org ? org(values.org) : Promise.resolve([]),
     Promise.all([
-      ...values.site!.map(async s => ({ site: s, ...(await sitemap(new URL("/sitemap.xml", s).href)) })),
+      ...values.site!.map(async s => ({ site: s, ...(await siteSitemaps(s)) })),
       ...values.sitemap!.map(async s => ({ site: s, ...(await sitemap(s)) })),
     ]),
     Promise.all(values.openapi!.map(openapi)),
