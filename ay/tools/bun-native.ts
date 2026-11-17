@@ -853,13 +853,24 @@ export async function scanRepo(dir: string, sc: Scanner, exclude: Set<string>): 
         const t = (await textOf(join(dir, f))) ?? "";
         res.files.configs++;
         res.files.scanned++;
-        const lines = t.replace(/\\\r?\n/g, " ").split("\n");
-        lines.forEach((line, i) => {
+        // a continued instruction is one logical line reported at the line where it starts
+        const logical: { text: string; at: number }[] = [];
+        let pending: { text: string; at: number } | undefined;
+        t.split("\n").forEach((raw, i) => {
+          const piece = raw.replace(/\\\r?$/, "");
+          pending = pending ? { at: pending.at, text: `${pending.text} ${piece}` } : { text: piece, at: i + 1 };
+          if (!/\\\r?$/.test(raw)) {
+            logical.push(pending);
+            pending = undefined;
+          }
+        });
+        if (pending) logical.push(pending);
+        logical.forEach(({ text: line, at }) => {
           const m = line.match(/^\s*(FROM|RUN|CMD|ENTRYPOINT)\s+(.*)$/i);
           if (!m) return;
           const verb = m[1]!.toUpperCase();
           if (verb === "FROM") {
-            if (/^(--\S+\s+)*(\S+\/)?node(:|@|\s|$)/.test(m[2]!)) emit("docker/from-node", f, i + 1);
+            if (/^(--\S+\s+)*(\S+\/)?node(:|@|\s|$)/.test(m[2]!)) emit("docker/from-node", f, at);
             return;
           }
           let body = m[2]!;
@@ -868,7 +879,7 @@ export async function scanRepo(dir: string, sc: Scanner, exclude: Set<string>): 
               body = (JSON.parse(body) as string[]).join(" ");
             } catch {}
           }
-          sc.shellLine(body, (id) => emit(id, f, i + 1));
+          sc.shellLine(body, (id) => emit(id, f, at));
         });
       } else if (/\.(?:sh|bash)$/.test(name)) {
         const t = (await textOf(join(dir, f))) ?? "";

@@ -220,7 +220,7 @@ test("scanRepo reads package.json, scripts, tsconfig, workflows, Dockerfiles and
   put("package-lock.json", "{}");
   put("tsconfig.json", '{ // jsonc\n "compilerOptions": { "types": ["node"], "moduleResolution": "node" } }');
   put(".github/workflows/ci.yml", "jobs:\n  t:\n    steps:\n      - uses: actions/setup-node@v4\n      - run: |\n          npx tsc\n");
-  put("Dockerfile", 'FROM node:22\nRUN npm ci\nCMD ["node", "x.js"]\n');
+  put("Dockerfile", 'FROM node:22\nRUN echo a \\\n  && npm ci\nCMD ["node", "x.js"]\n');
   put("node_modules/x/index.js", 'import e from "express";');
   put("src/index.ts", 'import express from "express";\nexport const x = 1;');
   const sc = new Scanner(
@@ -235,6 +235,9 @@ test("scanRepo reads package.json, scripts, tsconfig, workflows, Dockerfiles and
   for (const want of ["package/express", "cli/npm-ci", "cli/npx", "command/node", "package/rimraf", "config/package-manager", "lockfile/foreign", "lockfile/missing", "tsconfig/types-node", "tsconfig/module-resolution", "tsconfig/no-bun-types", "ci/setup-node", "docker/from-node"])
     expect(ids).toContain(want);
   expect(res.hits.some((h) => h.file.startsWith("node_modules"))).toBe(false);
+  // a continued RUN is reported where it starts; the CMD after it keeps its own line
+  expect(res.hits.find((h) => h.file === "Dockerfile" && h.rule === "cli/npm-ci")?.line).toBe(2);
+  expect(res.hits.find((h) => h.file === "Dockerfile" && h.rule === "command/node")?.line).toBe(4);
   const rules = new Map(deriveRules(reg, new Map()).rules.map((r) => [r.id, r]));
   const sum = summarize(res, rules);
   expect(sum.total).toBe(res.hits.length);
