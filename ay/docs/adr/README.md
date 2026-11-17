@@ -1,7 +1,7 @@
 # Architecture decision records
 
 Index updated 2026-11-17. A record is never rewritten; when a decision changes, the new record says what it supersedes and
-this table carries the current state. ADR-0008 (SDK languages and toolchain) is the newest and governs this repository.
+this table carries the current state. ADR-0009 (monorepo tree and build orchestration) is the newest; ADR-0008 (SDK languages and toolchain) governs the languages.
 
 | ADR | Decision | Status | Current state (2026-11-17) |
 |---|---|---|---|
@@ -13,3 +13,4 @@ this table carries the current state. ADR-0008 (SDK languages and toolchain) is 
 | [0006](0006-cloud.md) | Cloud on a Bun edge runtime | proposed 2026-11-16 | Product owned by `aphrody` on the `bun` fork; the Cloudflare policy is in the organization standard |
 | [0007](0007-browser-automation.md) | One browser-automation ecosystem, `ay browser` | proposed 2026-11-16 | Evidence in `docs/research/browser-automation.*`; implementation moves with the browser to `aphrody-labs/browser` |
 | [0008](0008-sdk-languages-toolchain.md) | SDK languages and toolchain | accepted 2026-11-17 | In force |
+| [0009](0009-monorepo-tree.md) | Monorepo tree and native build orchestration, template for any Aphrody repository | accepted 2026-11-17 | In force; supersedes the tree of 0001 and the native-workspaces part of 0002 |

@@ -16,7 +16,7 @@ packages/        Bun/TypeScript packages, flat, named @aphrody/<name>: chromium,
 apps/            programs a person runs, one folder each: chromium-dash
 brand/           identity dataset and assets; the token pipeline (Bun) is its generator
 tools/           typed Bun scripts for every repeatable flow (features, paths, hosts, disks, listings, absorb, legacy)
-docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, research, guides
+docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, science (cited async, recursion, compiler, OS foundations), research, guides
 third_party/     upstreams as submodules with relative URLs, one checkout each
 crates/          Rust crates of the SDK (ay-brand, ay-chromium)
 ```
