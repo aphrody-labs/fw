@@ -115,7 +115,9 @@ export function rustFacts(root: Node): Facts {
     if (name && value !== undefined) consts.set(name, value);
   }
   const fns = new Map<string, Sig>();
-  for (const f of root.descendantsOfType("function_signature_item")) {
+  // Declarations in extern blocks, and definitions exported with the C calling convention.
+  const items = [...root.descendantsOfType("function_signature_item"), ...root.descendantsOfType("function_item").filter((f) => f?.descendantsOfType("extern_modifier").length)];
+  for (const f of items) {
     const name = f?.childForFieldName("name")?.text;
     if (!name) continue;
     const params = (f.childForFieldName("parameters")?.namedChildren ?? []).filter((p) => p?.type === "parameter").map((p) => rustType(p!.childForFieldName("type")?.text ?? ""));

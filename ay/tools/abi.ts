@@ -21,11 +21,16 @@ export type Group = { id: string; comment: string; type: "u32" | "i32"; const: C
 export type Fn = { name: string; returns: string; params: [string, string][]; doc?: string; import?: { module: string; name: string } };
 export type Spec = {
   /** Output locations relative to the target root; defaults serve the ay SDK itself. */
-  output?: { header?: string; dir?: string; doc?: string }; version: number; name: string; title: string; intro: string[]; impl_attribute?: string; group: Group[]; function: Fn[] };
+  output?: { header?: string; dir?: string; doc?: string };
+  /** The implementing library: its name in comments, the comment over its functions, and its sources (C by default). */
+  library?: { noun?: string; functions?: string; lang?: "c" | "rust"; src?: string };
+  version: number; name: string; title: string; intro: string[]; impl_attribute?: string; group: Group[]; function: Fn[] };
 
 export async function loadSpec(dir = root, spec = "abi/ay.abi.toml"): Promise<Spec> {
   return Bun.TOML.parse(await Bun.file(join(dir, spec)).text()) as unknown as Spec;
 }
+
+const noun = (s: Spec) => s.library?.noun ?? "corelib";
 
 const SCALARS = ["u8", "u32", "i32", "u64", "usize", "void"];
 const POINTER = /^\*(const|mut) (u8|u32|i32|u64|usize)$/;
@@ -86,7 +91,7 @@ export function emitC(s: Spec): string {
     out.push(` * The corelib itself defines it, so its own sources set ${s.name.toUpperCase()}_CORELIB_IMPL and skip this declaration. */`);
     out.push(`#ifndef ${s.name.toUpperCase()}_CORELIB_IMPL`, "#ifdef __wasm__", `__attribute__((import_module("${entry.import!.module}"), import_name("${entry.import!.name}")))`, "#endif", cDecl(entry), "#endif", "");
   }
-  out.push("/* Pure functions the corelib exports for hosts and tools (no capability needed). */");
+  out.push(`/* ${s.library?.functions ?? "Pure functions the corelib exports for hosts and tools (no capability needed)."} */`);
   for (const f of s.function) if (!f.import) out.push(cDecl(f));
   out.push("", `#endif /* ${guard} */`, "");
   return out.join("\n");
@@ -127,9 +132,9 @@ export function emitTs(s: Spec): string {
     out.push("};", "");
   }
   const ffi = (t: string) => (t.startsWith("*") ? "ptr" : t === "void" ? "void" : t);
-  out.push("/** Symbols of the corelib as `bun:ffi` describes them (the syscall entry is provided by the platform). */", "export const symbols = {");
+  out.push(`/** Symbols of the ${noun(s)} as \`bun:ffi\` describes them${s.function.some((f) => f.import) ? " (the syscall entry is provided by the platform)" : ""}. */`, "export const symbols = {");
   for (const f of s.function) if (!f.import) out.push(`  ${f.name}: { args: [${f.params.map(([, t]) => `"${ffi(t)}"`).join(", ")}], returns: "${ffi(f.returns)}" },`);
-  out.push("} as const;", "", "/** Opens a built corelib (shared library) and binds every symbol. */", "export const open = (path: string) => dlopen(path, symbols);", "");
+  out.push("} as const;", "", `/** Opens a built ${noun(s)} (shared library) and binds every symbol. */`, "export const open = (path: string) => dlopen(path, symbols);", "");
   return out.join("\n");
 }
 
@@ -148,7 +153,7 @@ export function emitPython(s: Spec): string {
   }
   out.push("SIGNATURES = {");
   for (const f of s.function) if (!f.import) out.push(`    "${f.name}": (${pyTy(f.returns)}, [${f.params.map(([, t]) => pyTy(t)).join(", ")}]),`);
-  out.push("}", "", "", "def bind(lib):", '    """Sets restype and argtypes of every corelib function on a loaded library."""', "    for name, (restype, argtypes) in SIGNATURES.items():", "        fn = getattr(lib, name)", "        fn.restype = restype", "        fn.argtypes = argtypes", "    return lib", "");
+  out.push("}", "", "", "def bind(lib):", `    """Sets restype and argtypes of every ${noun(s)} function on a loaded library."""`, "    for name, (restype, argtypes) in SIGNATURES.items():", "        fn = getattr(lib, name)", "        fn.restype = restype", "        fn.argtypes = argtypes", "    return lib", "");
   return out.join("\n");
 }
 
@@ -228,9 +233,23 @@ export async function check(s: Spec, files: Output[], dir = root): Promise<strin
   compareConsts(py.path, p.consts);
   for (const f of s.function.filter((f) => !f.import)) if (p.arity.get(f.name) !== f.params.length) problems.push(`${py.path}: ${f.name} has ${p.arity.get(f.name) ?? "no"} argtypes, the spec says ${f.params.length}`);
 
-  // The corelib: exactly the spec's functions, same signatures, same syscall arities.
-  const srcDir = join(dir, "corelib/src");
-  if (existsSync(srcDir)) {
+  // The implementation: exactly the spec's functions, same signatures (and, for C, same syscall arities).
+  const srcRel = s.library?.src ?? "corelib/src";
+  const srcDir = join(dir, srcRel);
+  if (s.library?.lang === "rust" && existsSync(srcDir)) {
+    const defined = new Map<string, Sig>();
+    for (const file of readdirSync(srcDir, { recursive: true }).map(String).filter((f) => f.endsWith(".rs")).sort()) {
+      const tree = await parse("rust", await Bun.file(join(srcDir, file)).text());
+      for (const e of syntaxErrors(tree)) problems.push(`${srcRel}/${file}: syntax error at ${e}`);
+      for (const [name, sig] of rustFacts(tree).fns) {
+        if (!name.startsWith(`${s.name}_`)) continue;
+        if (defined.has(name)) problems.push(`${srcRel}/${file}: ${name} is defined twice`);
+        defined.set(name, sig);
+      }
+    }
+    compareFns(srcRel, defined);
+    for (const name of defined.keys()) if (!expectFns.has(name)) problems.push(`${srcRel}: ${name} is exported but not in the spec`);
+  } else if (existsSync(srcDir)) {
     const attr = s.impl_attribute ?? "AY_API";
     const defined = new Map<string, Sig>();
     const exported = new Set<string>();

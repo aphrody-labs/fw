@@ -84,3 +84,26 @@ test("another spec: u8 pointers, custom output paths, and the generated files ag
     rmSync(empty, { recursive: true, force: true });
   }
 });
+
+test("a Rust implementation is checked: matching extern \"C\" definitions pass, drift and unknown exports fail", async () => {
+  const spec: Spec = { version: 1, name: "vpn", title: "t", intro: ["i"], library: { noun: "vpn library", lang: "rust", src: "src" }, group: [], function: [{ name: "vpn_state", returns: "i32", params: [["out", "*mut u32"]] }, { name: "vpn_connect", returns: "i32", params: [] }] };
+  const dir = mkdtempSync(join(tmpdir(), "abi-rust-"));
+  try {
+    await Bun.write(join(dir, "src/lib.rs"), [
+      "#[unsafe(no_mangle)]",
+      "pub unsafe extern \"C\" fn vpn_state(out: *mut u32) -> i32 { 0 }",
+      "#[unsafe(no_mangle)]",
+      "pub extern \"C\" fn vpn_connect() -> i32 { 0 }",
+      "fn helper() {}",
+    ].join("\n"));
+    const files = outputs(spec, "x");
+    expect(files.find((f) => f.path.endsWith(".ts"))!.text).toContain("Symbols of the vpn library as `bun:ffi` describes them. */");
+    expect(await check(spec, files, dir)).toEqual([]);
+    await Bun.write(join(dir, "src/extra.rs"), "#[unsafe(no_mangle)]\npub extern \"C\" fn vpn_connect(x: u32) -> i32 { 0 }\npub extern \"C\" fn vpn_debug() -> i32 { 0 }\n");
+    const problems = await check(spec, files, dir);
+    expect(problems.some((p) => p.includes("vpn_connect is defined twice"))).toBe(true);
+    expect(problems.some((p) => p.includes("vpn_debug is exported but not in the spec"))).toBe(true);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
