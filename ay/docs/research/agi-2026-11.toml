@@ -220,7 +220,7 @@ applies_to = "reading list; not runnable"
 id = "rust-synthesis-stack"
 area = "program-synthesis-tta"
 name = "egglog 3.0.0 + z3 0.23.0 for DSL search and verification; candle-core 0.11.1 / ort 2.0.0-rc.15 / burn 0.22.1 for local inference and test-time adaptation"
-url = "C:/src/ay/docs/research/rust-ai-stack.toml"
+url = "docs/research/rust-ai-stack.toml"
 how_to_run = "cargo add egglog z3 candle-core ort burn (versions and sources in rust-ai-stack.toml, verified 2026-11-17 on crates.io); model enumerative or e-graph program search in egglog, check candidate programs with z3, run adapted models with candle or ort"
 applies_to = "Rust workspaces: in-process synthesis and inference, no Python on prd"
 
@@ -228,7 +228,7 @@ applies_to = "Rust workspaces: in-process synthesis and inference, no Python on 
 id = "rust-world-sim"
 area = "world-model"
 name = "rapier3d 0.36.1 + bevy (nie pins the aphrody-labs fork 0.20.0-dev) for world simulation"
-url = "C:/src/ay/docs/research/rust-ai-stack.toml"
+url = "docs/research/rust-ai-stack.toml"
 how_to_run = "cargo add rapier3d; bevy_urdf 0.4.3 targets an older Bevy and needs a port; use H-JEPA/LeWM only as external Python baselines"
 applies_to = "nie: physics and interactive environments in Rust"
 
