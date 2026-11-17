@@ -11,7 +11,7 @@
 | The newest stable kernel is 7.3.x (`linux-stable-73`) | proved | 7.3.4 | 2026-11-17 |
 | AOSP publishes the tag android-17.0.0_r1 (`aosp-android-17`) | proved | 216794 item(s): refs/backups/main-throttled, refs/cache-automerge/00/0060b8109e8853a650c3e6cf677aaba4f5f16d, refs/cache- | 2026-11-17 |
 | AOSP has no android-18 manifest branch or tag yet (`aosp-no-android-18-manifest`) | proved | 216794 item(s): refs/backups/main-throttled, refs/cache-automerge/00/0060b8109e8853a650c3e6cf677aaba4f5f16d, refs/cache- | 2026-11-17 |
-| The Android common kernel has the branch android18-7.3 (`gki-android18-73`) | proved | 735041 item(s): refs/cache-automerge/00/004cbd91d8ff869e42fd2bf2d6ba925285684d, refs/cache-automerge/00/00a2e7fb39c68961 | 2026-11-17 |
+| The Android common kernel has the branch android18-7.3 (`gki-android18-73`) | proved | 735047 item(s): refs/cache-automerge/00/004cbd91d8ff869e42fd2bf2d6ba925285684d, refs/cache-automerge/00/00a2e7fb39c68961 | 2026-11-17 |
 | Docker Hub redroid has no 17.x image (`redroid-no-android-17`) | proved | 0 | 2026-11-17 |
 | Microsoft's newest WSL2 kernel release is on the 6.18 line (`wsl-kernel-618`) | proved | linux-msft-wsl-6.18.58.1 | 2026-11-17 |
 | CachyOS builds a release-candidate kernel (linux-cachyos-rc) (`cachyos-rc-pkgver`) | proved | 7.4.rc3 | 2026-11-17 |
