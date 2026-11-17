@@ -23,3 +23,7 @@ for c in obscura-js obscura-browser obscura-cdp obscura-cli obscura obscura-mcp;
 for f in "$(crate webrender_api)/src/display_list.rs" "$(crate webrender)/src/scene_builder_thread.rs"; do
   perl -0pi -e 's/use time::precise_time_ns;/fn precise_time_ns() -> u64 { static S: std::sync::OnceLock<std::time::Instant> = std::sync::OnceLock::new(); S.get_or_init(std::time::Instant::now).elapsed().as_nanos() as u64 }/' "$f"
 done
+
+# hyperfine is edition 2018 (resolver 1): its normal and build-dependency clap share one feature set (build.rs includes
+# src/cli.rs). The workspace resolver 2 keeps them apart: give the normal clap `std` and the build one `cargo`, `wrap_help`.
+sed -i '/^clap = {version = "4", default-features = false/s/{version = "4", /{version = "4.6", /; /^clap = {version = "4.6", default-features = false/s/features = \["suggestions"/features = ["std", "suggestions"/; s/^clap = "4.6"$/clap = {version = "4.6", features = ["cargo", "wrap_help"]}/' "$(crate hyperfine)/Cargo.toml"
