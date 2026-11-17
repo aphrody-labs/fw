@@ -54,15 +54,19 @@ function keepAsmLine(l: string): boolean {
 }
 
 function stripComment(l: string): string {
-  return l.replace(/\s+(?:#|;|\/\/)\s?.*$/, "");
+  // `# note` (x86, RISC-V) and `// note` (AArch64) are comments; AArch64 immediates such as `#40389` are not.
+  return l.replace(/\s+(?:#(?=[\s=])|;|\/\/).*$/, "");
 }
 
 /** The `(func ...)` block of `wasm-tools print` output for an exported function, without volatile indices. */
 export function extractWat(wat: string, name: string): string {
   const lines = wat.split("\n");
   let start = lines.findIndex(l => l.startsWith(`  (func $${name} `) || l === `  (func $${name}`);
-  if (start < 0) {
-    // wasm-ld writes no name section: find the function through its export and give it the name.
+  if (start >= 0) {
+    // Some wasm-ld builds write a name section: spell the header the same way as the unnamed case.
+    if (!lines[start]!.includes(`(export "${name}")`)) lines[start] = lines[start]!.replace(`(func $${name}`, `(func $${name} (export "${name}")`);
+  } else {
+    // No name section (the usual wasm-ld output): find the function through its export and give it the name.
     const index = new RegExp(`\\(export "${name}" \\(func (\\d+)\\)\\)`).exec(wat)?.[1];
     if (index === undefined) throw new Error(`wat: function ${name} is not exported`);
     start = lines.findIndex(l => l.startsWith(`  (func (;${index};)`));
@@ -121,8 +125,10 @@ export class Generator {
 
   constructor(private pins: Pins) {}
 
+  /** Empty when the installed tools are the pinned ones; AY_LISTINGS_SKIP_PIN=1 skips the check to diagnose another toolchain. */
   verifyTools(): string[] {
     const out: string[] = [];
+    if (process.env.AY_LISTINGS_SKIP_PIN) return out;
     const clang = clangVersion();
     if (!clang.startsWith(`${this.pins.clang}.`)) out.push(`clang ${this.pins.clang}.x pinned, found ${clang}`);
     const wt = run(["wasm-tools", "--version"]);

@@ -256,7 +256,7 @@ core: idle, no runnable task
 | Native process | C reference app on the platform libc, built with clang and with clang-cl + lld-link | `bun test corelib/host/native.test.ts` |
 | WebAssembly | corelib `.wasm` + hand-written `hello.wat` under Bun's JavaScriptCore | `bun test corelib/host/corelib.test.ts` |
 | WebAssembly component | the same C built with `-DAY_COMPONENT`, composed with WAT parts, run on wasmtime | `bun tools/corelib-component.ts --remote` |
-| Bare metal | `x86_64-unknown-none-elf` image in QEMU, serial to a file | `bun tools/corelib-qemu.ts --remote`, log `corelib/proof/qemu-boot.log` |
+| Bare metal | `x86_64-unknown-none-elf` image in QEMU, serial to a file | `bun tools/corelib-qemu.ts --remote`, log `corelib/proof/qemu-boot.txt` |
 
 The QEMU run executed on fr1 (QEMU 11.0.3, `-machine q35 -cpu qemu64`), exit status 33, 13 serial lines identical to the golden file; the same command runs on GitHub-hosted Ubuntu in the `corelib` CI job.
 

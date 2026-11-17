@@ -2091,7 +2091,7 @@ title = "SDK corelib on bare-metal x86_64: PVH boot in assembly, long mode, seri
 reference = "https://xenbits.xenproject.org/docs/unstable/misc/pvh.html"
 layer = "protocol"
 status = "done"
-proof = "corelib/proof/qemu-boot.log"
+proof = "corelib/proof/qemu-boot.txt"
 proof_kind = "log"
 
 [[feature]]
@@ -2103,3 +2103,27 @@ layer = "protocol"
 status = "done"
 proof = "corelib/host/native.test.ts"
 proof_kind = "test"
+
+[[feature]]
+product = "craft"
+id = "org-mirror"
+title = "GitHub org replica in bun:sqlite, incremental and resumable: repos, git mirrors and commits, pull requests and issues with comments, reviews and timeline, releases, changelogs, and the npm, crates.io, PyPI and Zig packages published from the repos"
+reference = "https://github.com/anomalyco"
+layer = "backend"
+status = "todo"
+
+[[feature]]
+product = "craft"
+id = "org-mirror-browse"
+title = "Read API and pages over an org replica: repos, commits, pull requests, issues, releases, changelogs and packages, in the brand Material 3 tokens"
+reference = "https://github.com/anomalyco/opencode"
+layer = "ui"
+status = "todo"
+
+[[feature]]
+product = "craft"
+id = "replica-opencode-ai"
+title = "Craft replica of opencode.ai (2101 mirrored pages), checked against the original at three widths"
+reference = "https://opencode.ai/"
+layer = "ui"
+status = "todo"

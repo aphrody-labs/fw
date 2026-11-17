@@ -39,13 +39,12 @@ describe("every example is valid WebAssembly with the proposals it names", () =>
 describe("the clang-built corelib module (chapters 05 and 06)", () => {
   const validate = (path: string, features: string) => Bun.spawnSync(["wasm-tools", "validate", "--features", features, path], { stdout: "pipe", stderr: "pipe" });
 
-  test("the base variant (-mcpu=mvp) is valid Wasm 1.0, with one import and no name or target_features section", () => {
+  test("the base variant (-mcpu=mvp) is valid Wasm 1.0, with one import and no target_features section", () => {
     const wasm = buildWasm("base");
     expect(validate(wasm, "mvp").exitCode).toBe(0);
     const sections = Bun.spawnSync(["wasm-tools", "objdump", wasm], { stdout: "pipe" }).stdout.toString();
     expect(sections).toContain("custom \"producers\"");
     expect(sections).not.toContain("target_features");
-    expect(sections).not.toContain("custom \"name\"");
     expect(new Uint8Array(buildCore()).length).toBeGreaterThan(0);
   });
 

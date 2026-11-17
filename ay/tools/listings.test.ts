@@ -24,6 +24,11 @@ describe("listing extraction", () => {
     expect(extractAsm(ASM, "ay_rights_allow")).toBe("ay_rights_allow:\n\tand\tedi, esi\n\tcmp\tedi, esi\n\tsete\tal\n\tmovzx\teax, al\n\tret");
   });
 
+  test("asm: comments go, AArch64 immediates stay, CRLF is not an issue", () => {
+    const text = "f:                                      // @f\n\tmov\tw8, #40389                      // =0x9dc5\n\tcmn\tx0, #1\n\tadd\teax, 1                       # =>This Inner Loop Header: Depth=1\n.Lfunc_end0:\n";
+    expect(extractAsm(text, "f")).toBe("f:\n\tmov\tw8, #40389\n\tcmn\tx0, #1\n\tadd\teax, 1");
+  });
+
   test("asm: a missing function is an error", () => {
     expect(() => extractAsm(ASM, "nope")).toThrow("not found");
   });
@@ -38,9 +43,9 @@ describe("listing extraction", () => {
     expect(extractWat(wat, "ay_x")).toBe(`(func $ay_x (export "ay_x") (type 2) (result i32)\n  i32.const 1\n)`);
   });
 
-  test("wat: a named function is taken as is, without volatile indices", () => {
+  test("wat: a named function gets the same header as an unnamed one, without volatile indices", () => {
     const wat = `(module\n  (func $ay_x (;1;) (result i32)\n    i32.const 1\n  )\n  (memory (;0;) 2)\n)`;
-    expect(extractWat(wat, "ay_x")).toBe(`(func $ay_x (result i32)\n  i32.const 1\n)`);
+    expect(extractWat(wat, "ay_x")).toBe(`(func $ay_x (export "ay_x") (result i32)\n  i32.const 1\n)`);
   });
 
   test("c: finds a function whose signature starts with an attribute macro", () => {

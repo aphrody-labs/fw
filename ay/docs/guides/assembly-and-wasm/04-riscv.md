@@ -162,7 +162,7 @@ ay_first_free:
 	li	a0, -1
 	ret
 .LCPI0_0:
-	.quad	151050438420815295              # 0x218a392cd3d5dbf
+	.quad	151050438420815295
 .LCPI0_1:
 	.ascii	"\000\001\002\007\003\r\b\023\004\031\016\034\t\"\024(\005\021\032&\017.\0350\n\037#6\0252)9?\006\f\022\030\033!'\020%-/\036518>\013\027 $,47=\026+3<*;:"
 ```
@@ -252,7 +252,7 @@ ay_checksum:
 	add	a2, a0, a1
 	addi	a1, a3, -571
 	addi	a3, a4, -1607
-.LBB0_2:                                # =>This Inner Loop Header: Depth=1
+.LBB0_2:
 	lw	a4, 0(a0)
 	srliw	a5, a1, 27
 	slli	a1, a1, 5
@@ -287,7 +287,7 @@ AY_API uint32_t ay_try_acquire(uint32_t *flag) {
 ```asm
 ay_try_acquire:
 	li	a1, 1
-.LBB0_1:                                # =>This Inner Loop Header: Depth=1
+.LBB0_1:
 	lr.w.aq	a2, (a0)
 	bnez	a2, .LBB0_3
 	sc.w	a3, a1, (a0)

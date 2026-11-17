@@ -42,4 +42,4 @@ bun tools/corelib-component.ts --remote           # the component build on wasmt
 bun tools/listings.ts --check                     # every listing of this guide equals what the code generates
 ```
 
-The expected output every run shares is `corelib/tests/golden/boot.txt`; the QEMU serial log of the last run is `corelib/proof/qemu-boot.log`.
+The expected output every run shares is `corelib/tests/golden/boot.txt`; the QEMU serial log of the last run is `corelib/proof/qemu-boot.txt`.

@@ -37,7 +37,7 @@ export function findClang(): string {
 export function run(cmd: string[], cwd = root): string {
   const p = Bun.spawnSync(cmd, { cwd, stdout: "pipe", stderr: "pipe" });
   if (p.exitCode !== 0) throw new Error(`${cmd.join(" ")} failed (${p.exitCode}):\n${p.stderr.toString()}${p.stdout.toString()}`);
-  return p.stdout.toString();
+  return p.stdout.toString().replaceAll("\r\n", "\n");
 }
 
 export function clangVersion(): string {
@@ -94,7 +94,7 @@ export function emitAsm(arch: string): string {
     .map(src => {
       const out = join(dir, `${src.split("/").pop()!.replace(/\.c$/, "")}.s`);
       run([findClang(), ...flags, ...COMMON, "-S", "-o", out, src]);
-      return readFileSync(out, "utf8");
+      return readFileSync(out, "utf8").replaceAll("\r\n", "\n");
     })
     .join("\n");
 }

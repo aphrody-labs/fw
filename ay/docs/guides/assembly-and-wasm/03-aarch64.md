@@ -254,12 +254,12 @@ AY_API uint32_t ay_checksum(const uint32_t *words, size_t len) {
 <!-- listing asm:ay_checksum:aarch64 -->
 ```asm
 ay_checksum:
-	mov	w8, #40389                      // =0x9dc5
+	mov	w8, #40389
 	movk	w8, #33052, lsl #16
 	cbz	x1, .LBB0_3
-	mov	w9, #31161                      // =0x79b9
+	mov	w9, #31161
 	movk	w9, #40503, lsl #16
-.LBB0_2:                                // =>This Inner Loop Header: Depth=1
+.LBB0_2:
 	ror	w8, w8, #27
 	ldr	w10, [x0], #4
 	subs	x1, x1, #1
@@ -289,10 +289,10 @@ AY_API uint32_t ay_try_acquire(uint32_t *flag) {
 <!-- listing asm:ay_try_acquire:aarch64 -->
 ```asm
 ay_try_acquire:
-.LBB0_1:                                // =>This Inner Loop Header: Depth=1
+.LBB0_1:
 	ldaxr	w8, [x0]
 	cbnz	w8, .LBB0_4
-	mov	w8, #1                          // =0x1
+	mov	w8, #1
 	stxr	w9, w8, [x0]
 	cbnz	w9, .LBB0_1
 	mov	w0, w8

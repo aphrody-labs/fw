@@ -278,7 +278,7 @@ ay_sum:
 	and	rsi, -8
 	xor	edx, edx
 	xor	eax, eax
-.LBB1_9:                                # =>This Inner Loop Header: Depth=1
+.LBB1_9:
 	add	eax, dword ptr [rdi + 4*rdx]
 	add	eax, dword ptr [rdi + 4*rdx + 4]
 	add	eax, dword ptr [rdi + 4*rdx + 8]
@@ -295,7 +295,7 @@ ay_sum:
 .LBB1_5:
 	lea	rdx, [rdi + 4*rdx]
 	xor	esi, esi
-.LBB1_6:                                # =>This Inner Loop Header: Depth=1
+.LBB1_6:
 	add	eax, dword ptr [rdx + 4*rsi]
 	inc	rsi
 	cmp	rcx, rsi
@@ -336,7 +336,7 @@ ay_sum:
 	and	x9, x1, #0xfffffffffffffff0
 	add	x8, x0, #32
 	and	x11, x1, #0xfffffffffffffff0
-.LBB1_7:                                // =>This Inner Loop Header: Depth=1
+.LBB1_7:
 	ldp	q4, q5, [x8, #-32]
 	subs	x11, x11, #16
 	ldp	q6, q7, [x8], #64
@@ -360,7 +360,7 @@ ay_sum:
 	mov	v0.s[0], w8
 	add	x8, x0, x10, lsl #2
 	sub	x10, x10, x9
-.LBB1_11:                               // =>This Inner Loop Header: Depth=1
+.LBB1_11:
 	ldr	q1, [x8], #16
 	adds	x10, x10, #4
 	add	v0.4s, v1.4s, v0.4s
@@ -372,7 +372,7 @@ ay_sum:
 .LBB1_13:
 	add	x10, x0, x9, lsl #2
 	sub	x9, x1, x9
-.LBB1_14:                               // =>This Inner Loop Header: Depth=1
+.LBB1_14:
 	ldr	w11, [x10], #4
 	subs	x9, x9, #1
 	add	w8, w11, w8
@@ -516,10 +516,10 @@ ay_try_acquire:
 <!-- listing asm:ay_try_acquire:aarch64 -->
 ```asm
 ay_try_acquire:
-.LBB0_1:                                // =>This Inner Loop Header: Depth=1
+.LBB0_1:
 	ldaxr	w8, [x0]
 	cbnz	w8, .LBB0_4
-	mov	w8, #1                          // =0x1
+	mov	w8, #1
 	stxr	w9, w8, [x0]
 	cbnz	w9, .LBB0_1
 	mov	w0, w8
