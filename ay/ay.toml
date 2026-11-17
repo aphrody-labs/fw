@@ -92,3 +92,10 @@ gpu = ["webgpu", "vulkan", "d3d12", "metal"]
 [matrix]
 # Owner of the feature-matrix rows of a product that has no owner of its own (the platform standards rows).
 platform_owner = "ay"
+
+[audit.bun-native]
+# tools/bun-native.ts: the registry crate (after [registries].crates), directories never scanned (vendored, generated,
+# archived or legacy trees), and org originals that are detached upstream mirrors, not first-party code.
+registry = "n2b-registry"
+exclude = ["node_modules", "third_party", "vendor", "target", "dist", "generated", "coverage", "fixtures", "testdata", "legacy", "archive", "archived", ".git"]
+mirrors = []
