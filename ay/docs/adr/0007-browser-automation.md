@@ -75,7 +75,7 @@ Upstreams are git submodules in `third_party/` (relative URLs, one checkout each
 9. **`ay-browser` Phase B** migration to `ay_browser`, router (lite first, Blink escalation), obscura in-process, stealth over `remote` where feasible.
 
 ## Open questions (not decided here)
-1. `aphrody-labs/browser` imports and flattens upstreams (`tools/import.py`, `tools/flatten.py`, copies of obscura and agent-browser crates), which contradicts the no-copy rule. Either that repository becomes the engine workspace (lite engine and Blink build) consumed by `ay_browser` as a submodule, or it is retired in favour of submodules. Its owner decides.
+1. `aphrody-labs/browser` imports and flattens upstreams (`tools/import.py`, `tools/flatten.py`, copies of obscura and agent-browser crates), which contradicts the no-copy rule. Either that repository becomes the engine workspace (lite engine and Blink build) consumed by `ay_browser` as a submodule, or it is retired in favour of submodules. Its owner decides. Evidence for the cost of copies, measured by the browser session on 2026-11-17 and not re-run here: `cargo check -p obscura-dom` on the build host fails with 4 errors at `aphrody-labs/browser` 7d2657d85, the same count as before its layout change (an earlier figure of 61 errors, inherited from a recovery note, is stale).
 2. Whether `ay_browser` uses chromiumoxide's Browser/Page handler or only its CDP types (decided by the probe, step 1).
 3. Whether upstream agent-browser accepts a `[lib]` split, and whether Phase B retires its daemon or keeps it.
 4. Which CDP domains and DevTools features CEF 156 exposes (extensions, WebMCP): measured in step 1 and in the ADR-3 list.
