@@ -64,7 +64,7 @@ Upstreams are git submodules in `third_party/` (relative URLs, one checkout each
 - lightpanda stays a spawned process. This is an engineering boundary (Zig binary, CDP) that also keeps AGPL-3.0-only code out of linked artifacts; licence terms of the downloaded Chrome, Firefox, WebKit and ffmpeg builds are unknown and are not decided here.
 
 ## Build order (most reuse first)
-1. **Probe (reuse: everything, new code none).** On the build and test hosts, run agent-browser against CfT headless-shell 157, lightpanda 1.0.4, obscura 0.2.7 and a CEF 156 debugging port; record per-command pass or fail into the capability matrix; run puppeteer-core and playwright-core against `serve` of each; one benchmark table on fr2 across engines (replaces vendor figures).
+1. **Probe (reuse: everything, new code none).** On the build and test hosts, run agent-browser against CfT headless-shell 157, lightpanda 1.0.4, obscura 0.2.7 and a CEF 156 debugging port; record per-command pass or fail into the capability matrix; run puppeteer-core and playwright-core against `serve` of each; one benchmark table on <test-host> across engines (replaces vendor figures).
 2. **Submodules and pins** for the list above; `tools/` check that the pin matches a live upstream release.
 3. **`ay-browser` Phase A**: agent-browser binary plus alias layer, `browsers` commands, `serve` passthrough (reuses almost all of the surface; needs only the alias table).
 4. **`ay_browser` core**: Transport, Session, `Capabilities`, `chromium` and `remote` backends on `chromiumoxide_cdp` types, snapshot with refs; then `lightpanda` and `obscura` (spawn) backends.

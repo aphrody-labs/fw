@@ -7,7 +7,7 @@
 - **screenshot**: open a URL, wait for the main frame to load, write a PNG of the viewport;
 - **evaluate**: open a URL, wait for the load, run a JavaScript expression in the page and return the value as JSON.
 
-Proven on the test host (Linux, `fr2`): see "Proof" below. The inherited upstream CI failures and bugs of the four
+Proven on the test host (Linux, `<test-host>`): see "Proof" below. The inherited upstream CI failures and bugs of the four
 forks behind this are in `research/chromium-rust-issues.toml`.
 
 ## Versions (read live, 2026-11-16)
@@ -19,7 +19,7 @@ forks behind this are in `research/chromium-rust-issues.toml`.
 | cef-dll-sys | 156.6.0+156.0.30 | pulled by `cef` |
 | download-cef | 3.0.1 | crates.io |
 | napi (Bun addon) | 3.16.2, napi-derive 3.7.1, napi-build 2.6.0 | crates.io |
-| Bun | 1.4.5 | `bun --version` on fr2 |
+| Bun | 1.4.5 | `bun --version` on <test-host> |
 
 ## How it works
 
@@ -129,38 +129,38 @@ If one of these starts to matter, the route is `[patch.crates-io] cef = { git = 
 - Linux x86_64 (the target proven here), cmake and ninja (the `cef-dll-sys` build script), a Rust toolchain with
   edition 2024, about 1.3 GB of disk for the extracted CEF (333 MB download for the minimal distribution) plus the
   Rust target directory, network access to `cef-builds.spotifycdn.com` on the first build.
-- Heavy builds run on the `build` host (fr1), tests on the `test` host (fr2) (`ay.toml` `[hosts]`), never on the Windows
-  PC. Keep the CEF download, the target directory and the checkout on the build volume, `$WORK/<dir>` on fr1 (`WORK` is `[paths.build].work` of `ay.toml`, `bun tools/hosts.ts work build`),
-  which fr2 mounts at `[paths.test].work`/`<dir>`; the roots of both hosts are too small for 1.3 GB of CEF plus a
+- Heavy builds run on the `build` host (<build-host>), tests on the `test` host (<test-host>) (`ay.toml` `[hosts]`), never on the Windows
+  PC. Keep the CEF download, the target directory and the checkout on the build volume, `$WORK/<dir>` on <build-host> (`WORK` is `[paths.build].work` of `ay.toml`, `bun tools/hosts.ts work build`),
+  which <test-host> mounts at `[paths.test].work`/`<dir>`; the roots of both hosts are too small for 1.3 GB of CEF plus a
   target directory. The Windows and macOS targets of `cef` are not exercised here: the OS-specific parts (the
   `libcef.so` check, the headless switches, `rpath`) are Linux code.
 - Bun 1.4 for the package.
 
 ```sh
-ssh fr1
+ssh <build-host>
 cd $WORK/<dir>/ay                        # a checkout on the build volume
 export CARGO_INCREMENTAL=0 CEF_PATH=$WORK/<dir>/cef CARGO_TARGET_DIR=$WORK/<dir>/target
 cargo build --release -p ay-chromium
 cargo test -p ay-chromium --release            # unit tests and the end-to-end test against a local page
 (cd packages/chromium && bun run build && bun test)
-# on fr2, the same binaries through the NFS mount, `WORK_TEST` = `[paths.test].work` (libcef.so sits next to them, found through $ORIGIN):
+# on <test-host>, the same binaries through the NFS mount, `WORK_TEST` = `[paths.test].work` (libcef.so sits next to them, found through $ORIGIN):
 $WORK_TEST/<dir>/target/release/ay-chromium screenshot https://example.com /tmp/x.png
 ```
 
 ## Proof (2026-11-16)
 
-Built and tested on fr1 in `$WORK/shared/ay-chromium`, run on fr2 from the same path over NFS.
+Built and tested on <build-host> in `$WORK/shared/ay-chromium`, run on <test-host> from the same path over NFS.
 
-- fr2: `ay-chromium screenshot https://example.com /tmp/ay-chromium-example.png` printed
+- <test-host>: `ay-chromium screenshot https://example.com /tmp/ay-chromium-example.png` printed
   `{"path":"/tmp/ay-chromium-example.png","width":1280,"height":720}`; the copy is
   `$AY_DATA_DIR/shots/ay-chromium-example.png` (the rendered example.com page, inspected).
-- fr2: `ay-chromium eval https://example.com document.title` printed `"Example Domain"`.
-- fr1: `cargo test -p ay-chromium --release`: 6 unit tests and
+- <test-host>: `ay-chromium eval https://example.com document.title` printed `"Example Domain"`.
+- <build-host>: `cargo test -p ay-chromium --release`: 6 unit tests and
   `tests/e2e.rs::screenshot_and_evaluate_a_real_page` (real CEF against a local HTTP server: evaluate string, number,
   promise, object and exception, a load error, a PNG whose first pixel is the page's background colour, and one page
   reused for several evaluations and screenshots at three viewport sizes through the `Backend` and `Page` traits).
-- fr1 and fr2: `bun test` in `packages/chromium`: 4 pass, 0 fail, the same operations through the addon.
-- fr1: `cargo clippy -D warnings` (stable) on the crate, plain and with `--lib --features node`, and `cargo fmt --check`.
+- <build-host> and <test-host>: `bun test` in `packages/chromium`: 4 pass, 0 fail, the same operations through the addon.
+- <build-host>: `cargo clippy -D warnings` (stable) on the crate, plain and with `--lib --features node`, and `cargo fmt --check`.
 
 ## Not used yet: rusty_v8
 
@@ -174,7 +174,7 @@ submodule fetch breaks (`research/chromium-rust-issues.toml`). Add it when a fea
 The `rust` job of `.github/workflows/check.yml` formats and lints the workspace, which includes this crate, so its build
 script fetches CEF on the runner (333 MB download, 1.3 GB extracted, within the runner's disk). Its tests start
 Chromium, which needs the system libraries CEF links against, so the job runs `cargo test --workspace --exclude
-ay-chromium` and the crate's tests run on fr2 with the commands above. That CI job has not run yet: it is unproven
+ay-chromium` and the crate's tests run on <test-host> with the commands above. That CI job has not run yet: it is unproven
 until the first push.
 
 ## Limits

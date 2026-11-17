@@ -2,14 +2,16 @@
 // Recovery inventory: everything the legacy monorepo cleanup may have lost, from every place it can survive.
 // Sources: crates.io (crates owned by the owner account of ay.toml), npm (the registry org scope and the packages of the
 // logged-in npm account), GitHub (archived repositories and non-fork originals of the orgs of ay.toml), the legacy
-// inventory (docs/research/legacy-inventory.toml) and the trees under /opt and /srv of the hosts of ay.toml [hosts].
+// inventory (.private/legacy-inventory.toml) and the trees under /opt and /srv of the hosts of ay.toml [hosts].
 // Each unit is classified against the manifests of the current repositories (ay.toml [repos] checkouts):
 //   live  the unit exists in a current repository (`where`), or is an upstream fork that is tracked as such
 //   lost  our own code that survives only in a registry, an archive, the legacy repository or a host tree (`home` says
 //         where it belongs in the current architecture, from docs/research/recovery-rules.toml)
 //   dead  no value: regenerable build output, toolchains, duplicates, renamed upstream copies
-//   bun tools/recover.ts [--cache <dir>] [--offline] [--out docs/research/recovery.toml] [--md docs/research/recovery.md]
+//   bun tools/recover.ts [--cache <dir>] [--offline] [--out <file>] [--md <file>] (defaults in .private/)
 //   --cache keeps the raw registry, GitHub and host snapshots (default: <tmp>/ay-recover); --offline reuses them.
+import { privatePath } from "./local.ts";
+import { readAy } from "./local.ts";
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -382,14 +384,14 @@ if (import.meta.main) {
     await Bun.write(f, JSON.stringify(v));
     return v;
   };
-  const ay = readToml(join(root, "ay.toml"));
+  const ay = readAy(root) as ReturnType<typeof readToml>;
   const orgs = Object.values<string>(ay.orgs ?? {});
   const [owner] = [ay.product?.owner ?? ""];
   const crates = await snap("crates", () => collectCrates(owner));
   const npm = await snap("npm", () => collectNpm(ay.registries?.npm ?? ""));
   const repos = await snap("repos", () => collectRepos(orgs));
   const trees = await snap("trees", () => collectTrees(ay.hosts ?? {}, Object.fromEntries(Object.entries<any>(ay.paths ?? {}).map(([k, v]) => [k, v.work])), ay.recovery?.scan ?? []));
-  const legacy = (readToml(join(root, "docs/research/legacy-inventory.toml")).unit ?? []) as any[];
+  const legacy = (readToml(privatePath("legacy-inventory.toml", root)).unit ?? []) as any[];
 
   const manifests: Manifest[] = [];
   const dirMap = new Map<string, string>();
@@ -401,7 +403,7 @@ if (import.meta.main) {
     const p = Bun.spawn(["git", "-C", dir, "ls-files"], { stdout: "pipe", stderr: "ignore" });
     dirIndex(key, (await new Response(p.stdout).text()).split("\n").filter(Boolean), dirMap);
   }
-  const lrev = (readToml(join(root, "docs/research/legacy-inventory.toml")).meta ?? {}).commit;
+  const lrev = (readToml(privatePath("legacy-inventory.toml", root)).meta ?? {}).commit;
   const lco = resolve(root, ay.legacy?.checkout ?? "../legacy");
   if (lrev && existsSync(join(lco, ".git"))) archives.push(...(await scanRevision(`legacy@${lrev.slice(0, 8)}`, lco, lrev)));
   const dirs = (arg("--archive") ?? "").split(",").filter(Boolean).map(d => resolve(d));
@@ -415,7 +417,7 @@ if (import.meta.main) {
   const ctx: Context = { live: new LiveIndex(manifests), archives: new LiveIndex(archives), forks: new Set(repos.filter(r => r.fork && !r.archived && !ours.has(`${r.org}/${r.name}`)).map(r => r.name)), rules: loadRules(), dirs: dirMap };
   const units = assemble({ crates, npm, repos, legacy, trees }, ctx);
   const meta = { scanned: new Date().toISOString().slice(0, 10), owner, orgs: orgs.join(","), manifests: String(ctx.live.size) };
-  await Bun.write(resolve(root, arg("--out") ?? "docs/research/recovery.toml"), toToml(units, meta));
-  await Bun.write(resolve(root, arg("--md") ?? "docs/research/recovery.md"), toMarkdown(units, meta));
+  await Bun.write(resolve(root, arg("--out") ?? privatePath("recovery.toml", root, true)), toToml(units, meta));
+  await Bun.write(resolve(root, arg("--md") ?? privatePath("recovery.md", root, true)), toMarkdown(units, meta));
   for (const [o, r] of counts(units)) console.log(`${o.padEnd(7)} live ${r.live} lost ${r.lost} dead ${r.dead}`);
 }

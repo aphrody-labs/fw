@@ -30,11 +30,11 @@ Two sources, kept apart. **Observed** columns were run here with the example fil
 | Memory64 | **rejects**: `Memory64 is not enabled` | runs, default | 133 / 134 / flag / 24.0 | 30 |
 | Custom page sizes | **rejects**: `resizable limits flag are not valid 08` | runs with `-W custom-page-sizes`; default: `the custom page sizes proposal must be enabled to customize a memory's page size` | not listed in any of the four | flag |
 | JSPI | runs: `WebAssembly.Suspending` and `WebAssembly.promising` exist | no JS API in the CLI, not run | 137 / 153 / 27 / 26.0 | no |
-| Stack switching | **rejects**: `1th Type is non-Func, non-Struct, and non-Array -35` | runs with `-W stack-switching` on Linux x86-64 (`fr1`); on Windows: `the wasm_stack_switching feature is not supported on this compiler configuration` | flag in Chrome, not listed for the others | not listed |
+| Stack switching | **rejects**: `1th Type is non-Func, non-Struct, and non-Array -35` | runs with `-W stack-switching` on Linux x86-64 (`<build-host>`); on Windows: `the wasm_stack_switching feature is not supported on this compiler configuration` | flag in Chrome, not listed for the others | not listed |
 
 The "cited" cells quote `features.json`; "flag" means the entry exists only behind a flag. Bun 1.4.5-canary (`1.4.5-canary.1+9098897a1`) is the runtime of this repository; its JavaScriptCore is a fork, so its status can differ from Safari's. The rejections are recorded as test expectations: `wat-examples.test.ts` asserts the exact error and runs the real behavior assertions the moment a newer build accepts the module.
 
-wasmtime was installed from the release asset `wasmtime-v50.0.2-x86_64-linux.tar.xz` of [bytecodealliance/wasmtime v50.0.2](https://github.com/bytecodealliance/wasmtime/releases/tag/v50.0.2) (published 2026-11-16) under `$WORK/wasmtime` on `fr1`, and the Windows zip of the same release for the test; `wat-examples.test.ts` runs a wasmtime block when `wasmtime` is on `PATH` or `AY_WASMTIME` is set.
+wasmtime was installed from the release asset `wasmtime-v50.0.2-x86_64-linux.tar.xz` of [bytecodealliance/wasmtime v50.0.2](https://github.com/bytecodealliance/wasmtime/releases/tag/v50.0.2) (published 2026-11-16) under `$WORK/wasmtime` on `<build-host>`, and the Windows zip of the same release for the test; `wat-examples.test.ts` runs a wasmtime block when `wasmtime` is on `PATH` or `AY_WASMTIME` is set.
 
 ## The clang side: CPUs and features
 
@@ -776,7 +776,7 @@ Observed on wasmtime 50.0.2 (default flags): `size` = 1; `load8(1)` = 101 (the `
   (func (;10;) (type 4) (param i64 i64) (result i32))   ;; ay_sum(const uint32_t *words, size_t len)
 ```
 
-`size_t` and pointers are 64 bits, so `ay_sum` takes two `i64`, the table and the memory have the `i64` index type, and the stack pointer global is an `i64`; the `console_put` import keeps its `i32` byte parameter. The `target_features` section is `+mutable-globals +sign-ext +memory64`. `wasm-tools validate` (default features) accepts the module. wasmtime 50.0.2 on `fr1` ran it once the `ay_host` import was supplied with `--preload ay_host=stub.wat` (a one-function module): `ay_abi_version` returned 1, `ay_first_free(7)` returned 3, `ay_rights_allow(5, 4)` returned 1. Bun rejects the module: `CompileError: WebAssembly.Module doesn't parse at byte 152: Memory64 is not enabled`. The `wasm64` module is not part of the guide's generated listings: `tools/listings.ts` builds the 32-bit variants only.
+`size_t` and pointers are 64 bits, so `ay_sum` takes two `i64`, the table and the memory have the `i64` index type, and the stack pointer global is an `i64`; the `console_put` import keeps its `i32` byte parameter. The `target_features` section is `+mutable-globals +sign-ext +memory64`. `wasm-tools validate` (default features) accepts the module. wasmtime 50.0.2 on `<build-host>` ran it once the `ay_host` import was supplied with `--preload ay_host=stub.wat` (a one-function module): `ay_abi_version` returned 1, `ay_first_free(7)` returned 3, `ay_rights_allow(5, 4)` returned 1. Bun rejects the module: `CompileError: WebAssembly.Module doesn't parse at byte 152: Memory64 is not enabled`. The `wasm64` module is not part of the guide's generated listings: `tools/listings.ts` builds the 32-bit variants only.
 
 ## Custom page sizes
 
@@ -862,7 +862,7 @@ Observed on Bun: `promising(total)(4)` returns a `Promise` that resolves to 60 (
 ```
 <!-- /listing -->
 
-Observed: `wasm-tools validate --features all` accepts the module; wasmtime 50.0.2 on `fr1` (Linux x86-64) with `-W stack-switching,function-references,exceptions,gc` returns 2 (the task suspended twice); Bun rejects it; wasmtime on Windows reports that stack switching is not supported on that compiler configuration. Until it is standard everywhere, the cooperative `step()` state machine, which runs on any engine, remains the corelib's design.
+Observed: `wasm-tools validate --features all` accepts the module; wasmtime 50.0.2 on `<build-host>` (Linux x86-64) with `-W stack-switching,function-references,exceptions,gc` returns 2 (the task suspended twice); Bun rejects it; wasmtime on Windows reports that stack switching is not supported on that compiler configuration. Until it is standard everywhere, the cooperative `step()` state machine, which runs on any engine, remains the corelib's design.
 
 ## Feature-checking a module
 
@@ -874,4 +874,4 @@ Observed: `wasm-tools validate --features all` accepts the module; wasmtime 50.0
 - <https://github.com/WebAssembly/proposals/blob/main/finished-proposals.md>, <https://github.com/WebAssembly/website/blob/main/features.json>, <https://webassembly.org/features/> (2026-11-17).
 - Proposal overviews: [relaxed-simd](https://github.com/WebAssembly/relaxed-simd/blob/main/proposals/relaxed-simd/Overview.md), [custom-page-sizes](https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md).
 - Toolchain: `docs/adr/0008-sdk-languages-toolchain.md` (LLVM first: clang, wasm-ld); `tools/corelib.ts` (the flags); clang 23.1.5 and LLD 23.1.5 on Windows x64, run on 2026-11-17.
-- Runs: Bun 1.4.5-canary.1+9098897a1 on Windows x64, wasmtime 50.0.2 on `fr1` (Linux x86-64) and on Windows, `wasm-tools 1.263.0`; tests `corelib/host/wat-examples.test.ts`.
+- Runs: Bun 1.4.5-canary.1+9098897a1 on Windows x64, wasmtime 50.0.2 on `<build-host>` (Linux x86-64) and on Windows, `wasm-tools 1.263.0`; tests `corelib/host/wat-examples.test.ts`.

@@ -3,7 +3,9 @@
 // crate, Go and Python module, third-party pin and external dependency, with the product it belongs to (keywords of
 // ay.toml [products]) and its state here: `ported` (a unit of the same name exists in this repository), `tracked`
 // (named in the feature matrix or a research dataset) or `review` (nothing here covers it yet).
-//   bun tools/legacy.ts [--checkout <path>] (or AY_LEGACY_CHECKOUT; skipped when there is no checkout) [--out docs/research/legacy-inventory.toml] [--summary]
+//   bun tools/legacy.ts [--checkout <path>] (or AY_LEGACY_CHECKOUT; skipped when there is no checkout) [--out <file> (default .private/legacy-inventory.toml)] [--summary]
+import { privatePath } from "./local.ts";
+import { readAy } from "./local.ts";
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 
@@ -96,7 +98,7 @@ export function toToml(units: Unit[], deps: Dep[], meta: Record<string, string>)
 const depVersion = (v: any): string => (typeof v === "string" ? v : v?.version ?? (v?.git ? `git:${v.git}` : v?.path ? `path:${v.path}` : v?.workspace ? "workspace" : ""));
 
 async function scan(checkout: string) {
-  const ay = (await readToml(join(root, "ay.toml")))!;
+  const ay = readAy(root) as Toml;
   const keywords: Record<string, string[]> = Object.fromEntries(Object.entries(ay.products ?? {}).map(([k, v]: any) => [k, v.keywords ?? [k]]));
   const units: Unit[] = [];
   const cargoUse = new Map<string, Dep>();
@@ -208,14 +210,14 @@ if (import.meta.main) {
     const i = process.argv.indexOf(k);
     return i > 0 ? process.argv[i + 1] : undefined;
   };
-  const ay = (await readToml(join(root, "ay.toml")))!;
+  const ay = readAy(root) as Toml;
   const hint = arg("--checkout") ?? process.env.AY_LEGACY_CHECKOUT ?? ay.legacy?.checkout;
   const checkout = hint ? resolve(root, hint) : "";
   if (!checkout || !existsSync(join(checkout, ".git"))) {
     console.log("no legacy checkout (--checkout, AY_LEGACY_CHECKOUT or ay.toml [legacy].checkout): inventory skipped, the committed one is unchanged");
     process.exit(0);
   }
-  const out = resolve(root, arg("--out") ?? "docs/research/legacy-inventory.toml");
+  const out = resolve(root, arg("--out") ?? privatePath("legacy-inventory.toml", root, true));
   const { units, deps, head, repo } = await scan(checkout);
   await Bun.write(out, toToml(units, deps, { repo, commit: head, scanned: new Date().toISOString().slice(0, 10) }));
   console.log(`${units.length} units, ${deps.length} external dependencies → ${out}`);

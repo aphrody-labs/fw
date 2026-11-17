@@ -29,7 +29,7 @@ Reference reading: the French Wikipedia article [Assembleur](https://fr.wikipedi
 | wasm-tools | v1.263.0 (2026-10-30) | [bytecodealliance/wasm-tools](https://github.com/bytecodealliance/wasm-tools/releases) |
 | wabt | 1.0.42 (2026-09-15) | [WebAssembly/wabt](https://github.com/WebAssembly/wabt/releases) |
 | wit-bindgen | v0.63.0 (2026-10-14) | [bytecodealliance/wit-bindgen](https://github.com/bytecodealliance/wit-bindgen/releases) |
-| LLVM / clang | 23.1.5 here, 23.1.6 on fr1; the guide builds with `clang`, `lld` / `lld-link` and `wasm-ld` only (the corelib is C and assembly; Rust units of the SDK live in `crates/`, ADR-0008) | `clang --version` |
+| LLVM / clang | 23.1.5 here, 23.1.6 on <build-host>; the guide builds with `clang`, `lld` / `lld-link` and `wasm-ld` only (the corelib is C and assembly; Rust units of the SDK live in `crates/`, ADR-0008) | `clang --version` |
 
 A correction to a common assumption: as of this date Wasm 2.0 on w3.org is a *Candidate Recommendation Draft*, and the version that engines and webassembly.org treat as current is 3.0. The guide says which edition each feature belongs to.
 

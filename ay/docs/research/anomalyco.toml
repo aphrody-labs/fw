@@ -3261,7 +3261,7 @@ versions = 152
 
 # --- hand-written below: kept by `export` ---
 [run]
-host = "fr2 (ay.toml [hosts].test): sqlite on local disk, git mirrors on $WORK/shared"
+host = "<test-host> (ay.toml [hosts].test): sqlite on local disk, git mirrors on $WORK/shared"
 scope = "full sync of the 12 most recently pushed non-fork repos; metadata and language tags for all 86"
 not_returned_by_the_api = "opencode: 3 issues and 19 pull requests that GitHub counts but its list query does not return (skipped, not retried forever)"
 
@@ -3295,7 +3295,7 @@ served_at = "/openapi.json of `opencode serve` (packages/server/src/routes.ts, H
 openapi = "3.1.0"
 title = "opencode HttpApi 0.0.1"
 paths = 139
-read_from = "anomalyco/opencode default branch dev, git mirror on fr2"
+read_from = "anomalyco/opencode default branch dev, git mirror on <test-host>"
 
 [[api]]
 name = "GitHub GraphQL and REST"

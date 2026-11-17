@@ -3,9 +3,9 @@
 Status: DRAFT NOT PUBLISHED. Nothing was pushed, opened or commented on any remote.
 
 - Upstream issue: https://github.com/rust-lang/rust-clippy/issues/18066 (open, no assignee, 0 comments, labels `C-bug`, `I-false-positive`; re-read live on 2026-11-17; a search for PRs mentioning 18066 returned none)
-- Base upstream SHA: `b87acaf4d74921dca2d003e3e48045ea34e033bd` (`fix(missing_errors_doc): exempt never-like error types (#18060)`, upstream `master`, fast-forwarded on fr1)
+- Base upstream SHA: `b87acaf4d74921dca2d003e3e48045ea34e033bd` (`fix(missing_errors_doc): exempt never-like error types (#18060)`, upstream `master`, fast-forwarded on <build-host>)
 - Patch: `patch.diff` in this directory (`git format-patch -1 --stdout`, one commit, applies on the base SHA above)
-- Toolchain: `nightly-2026-11-14` from `rust-toolchain.toml` (auto-installed on fr1)
+- Toolchain: `nightly-2026-11-14` from `rust-toolchain.toml` (auto-installed on <build-host>)
 
 ## Applicable policy
 
@@ -39,9 +39,9 @@ changelog: [`large_stack_arrays`]: No longer lints arrays in associated consts
 - `tests/ui/large_stack_arrays.rs`: adds an inherent impl with two associated consts (literal-size array, repeat expression), a trait with a default associated const and a required one, and an impl providing the required one. All arrays exceed the default 16384-byte threshold (5000 `u32`, 20 000 `u8`), so they would lint if not exempted. The existing `let` and tuple cases still assert that local arrays are reported.
 - `tests/ui/large_stack_arrays.stderr`: line-number shifts only (diff below the new test block); no new expected diagnostics.
 
-## Commands run on fr1 and observed output
+## Commands run on <build-host> and observed output
 
-All commands ran in the clone on fr1 (`upstream-prs/rust-clippy`), one at a time, heavy builds on fr1 only.
+All commands ran in the clone on <build-host> (`upstream-prs/rust-clippy`), one at a time, heavy builds on <build-host> only.
 
 ### Before the fix (new test cases added, lint source at the base revision)
 
@@ -94,7 +94,7 @@ $ cargo test             # exit 0, 19 `test result: ok` lines, no failures
 
 ## Status
 
-Ready for human re-authoring: the new test fails before the fix (4 unexpected diagnostics, one per associated const) and passes after, and fmt, uitest, dogfood and cargo test pass on fr1.
+Ready for human re-authoring: the new test fails before the fix (4 unexpected diagnostics, one per associated const) and passes after, and fmt, uitest, dogfood and cargo test pass on <build-host>.
 
 Unverified:
 

@@ -1,4 +1,6 @@
 import { expect, test } from "bun:test";
+import { existsSync } from "node:fs";
+import { privatePath } from "./local.ts";
 import { toml } from "./org-inventory.ts";
 
 test("the TOML writer round-trips tables, arrays of tables, scalars and quoted keys", () => {
@@ -16,8 +18,8 @@ test("the TOML writer round-trips tables, arrays of tables, scalars and quoted k
   expect(parsed.nested).toEqual({ ok: true });
 });
 
-test("the committed inventory parses and records the evidence commands", async () => {
-  const parsed = Bun.TOML.parse(await Bun.file(new URL("../docs/research/org-inventory.toml", import.meta.url)).text()) as any;
+test.skipIf(!existsSync(privatePath("org-inventory.toml")))("the private inventory parses and records the evidence commands", async () => {
+  const parsed = Bun.TOML.parse(await Bun.file(privatePath("org-inventory.toml")).text()) as any;
   expect(parsed.commands.github).toContain("gh repo list");
   expect(Object.keys(parsed.github).length).toBeGreaterThanOrEqual(3);
   expect(JSON.stringify(parsed)).not.toMatch(/[0-9a-f]{32}/);

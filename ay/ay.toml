@@ -14,13 +14,10 @@ labs = "aphrody-labs"        # forks of upstreams (bun with craft, git stack, ..
 [legacy]
 # The old monorepo, renamed (not archived) on 2026-11-16; tools/legacy.ts inventories it so nothing regresses.
 repo = "aphrody-labs/legacy"
-checkout = "../legacy"       # local checkout, relative to this repository
 
 [recovery]
 # Archived repositories whose sources are crates.io tarballs; tools/recover.ts clones them to find where a lost crate survives.
 archives = ["aphrody-labs/bun-os", "aphrody-labs/bun-distribution"]
-# Directories of every host whose top-level trees are inventoried (together with the work volume of [paths.<role>]).
-scan = ["/opt", "/srv"]
 
 [domains]
 # Owned by the aphrody monorepo (aphrody-dev/aphrody); read-only here. Never change their DNS, zones or routes from
@@ -28,19 +25,6 @@ scan = ["/opt", "/srv"]
 root = "aphrody.com"
 app = "aphrody.app"
 owner = "aphrody"            # key of [repos]
-
-# Hosts by role; values are ssh Host aliases resolved by `ssh -G <alias>`.
-[hosts]
-build = "fr1"                # builds, CI runners, heavy agents
-test = "fr2"                 # tests, benchmarks, research
-prod = "prd"                 # production only
-
-# Per-role layouts on those hosts (tools/hosts.ts reads them; nothing else writes a host path).
-# work = the large volume for builds, caches and mirrors; the test host mounts the build host's volume over NFS.
-[paths.build]
-work = "/srv/xbuild"
-[paths.test]
-work = "/srv/xbuild/shared"
 
 [products]
 # One entry per product; the feature matrix (docs/features.toml) refers to these keys.
@@ -60,26 +44,26 @@ crates = "aphrody-"          # prefix of the crates the organization already pub
 own_crates = "ay-"           # prefix of this repository's own crates and the npm unit prefix (naming.toml scheme: {id}-{unit})
 
 [repos]
-# `checkout` is an optional local hint (a developer convenience): no tool requires it to exist, each one skips or falls back when it is absent.
+# A local `checkout` hint lives in the git-ignored ay.local.toml (a developer convenience): no tool requires it to exist, each one skips or falls back when it is absent.
 # kind: os | sdk | runtime | craft | plugin | app | browser | unix | ai | android | nt | design | org | site | standard.
 # Only the os repository defines the system; the rest build on it. A row of the feature matrix names its owner by key.
-aphrody = { slug = "aphrody-dev/aphrody", kind = "os", checkout = "../aphrody" }      # complete OS, pure Rust, source of truth
+aphrody = { slug = "aphrody-dev/aphrody", kind = "os" }      # complete OS, pure Rust, source of truth
 ay = { slug = "aphrody-dev/ay", kind = "sdk" }                                             # C ABI, OpenAPI, docs, spec, corelib, libc, design system
-bun = { slug = "aphrody-labs/bun", kind = "runtime", checkout = "../bun" }                 # Bun fork and its plugins
+bun = { slug = "aphrody-labs/bun", kind = "runtime" }                 # Bun fork and its plugins
 craft-anything = { slug = "aphrody-labs/craft-anything", kind = "craft" }                 # replication engine
-nie = { slug = "aphrody-labs/nie", kind = "craft", checkout = "../nie" }                  # football games built as craft jobs
+nie = { slug = "aphrody-labs/nie", kind = "craft" }                  # football games built as craft jobs
 claude = { slug = "aphrody-labs/claude", kind = "plugin" }                                 # agent config and the aphrody plugin
-shenron = { slug = "aphrody-labs/shenron", kind = "app", checkout = "../shenron" }
-browser = { slug = "aphrody-labs/browser", kind = "browser", checkout = "../browser" }   # one browser monorepo: Bun, Servo, Obscura, agent-browser, CEF, Chromium
-anu = { slug = "aphrody-dev/anu", kind = "unix", checkout = "../anu" }                    # Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; depends on no other Aphrody repository
-ai-os = { slug = "aphrody-dev/ai-os", kind = "ai", checkout = "../ai-os" }               # agent kernel, relay (MCP, A2A), model, inference and RAG, extracted from legacy
+shenron = { slug = "aphrody-labs/shenron", kind = "app" }
+browser = { slug = "aphrody-labs/browser", kind = "browser" }   # one browser monorepo: Bun, Servo, Obscura, agent-browser, CEF, Chromium
+anu = { slug = "aphrody-dev/anu", kind = "unix" }                    # Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; depends on no other Aphrody repository
+ai-os = { slug = "aphrody-dev/ai-os", kind = "ai" }               # agent kernel, relay (MCP, A2A), model, inference and RAG, extracted from legacy
 aydroid = { slug = "aphrody-dev/aydroid", kind = "android" }                              # AOSP with Aphrody in place of Android
 aynt = { slug = "aphrody-dev/aynt", kind = "nt" }                                          # free Windows-compatible operating system
-open = { slug = "aphrody-labs/open", kind = "app", checkout = "../open" }                  # open ecosystem monorepo (opencode, opentui, models.dev, ai-router)
-auto = { slug = "aphrody-labs/auto", kind = "app", checkout = "../auto" }                  # workflow automation, office suite and scraping
+open = { slug = "aphrody-labs/open", kind = "app" }                  # open ecosystem monorepo (opencode, opentui, models.dev, ai-router)
+auto = { slug = "aphrody-labs/auto", kind = "app" }                  # workflow automation, office suite and scraping
 aphrody-m3 = { slug = "aphrody-labs/aphrody-m3", kind = "design" }                         # Material 3 UI packages, icons, fonts; consumes the ay token pipeline
-rosegriffon = { slug = "rose-griffon/rosegriffon", kind = "site", checkout = "../rosegriffon" }  # moved to the rose-griffon org; owned by its own agent
-standard = { slug = "aphrody-labs/.github", kind = "standard", checkout = "../aphrody-labs-github" }  # org standard 1.0.0, defaults, reusable CI, profile
+rosegriffon = { slug = "rose-griffon/rosegriffon", kind = "site" }  # moved to the rose-griffon org; owned by its own agent
+standard = { slug = "aphrody-labs/.github", kind = "standard" }  # org standard 1.0.0, defaults, reusable CI, profile
 
 # SDK toolchain (ADR-0008): LLVM-first and cross-target, any language that fits the unit.
 [sdk]

@@ -3,11 +3,12 @@
 // and passes the tests. Hosts come from ay.toml [hosts], the work volume from tools/disks.ts, every decision is
 // appended to docs/research/absorbed.toml.
 //   bun tools/absorb.ts candidates <owner/repo> [--green] [--rust] [--fix] [--max 90] [--forks 10] [--top 15] [--json]
-//   bun tools/absorb.ts try <fork-checkout> <pr-number|fork:branch> --test "<cmd>" [--host fr1] [--timeout 5400]
-//   bun tools/absorb.ts auto <owner/repo> --test "<cmd>" [--top 5] [--green] [--host fr1] [--fork <name>]
+//   bun tools/absorb.ts try <fork-checkout> <pr-number|fork:branch> --test "<cmd>" [--host <build-host>] [--timeout 5400]
+//   bun tools/absorb.ts auto <owner/repo> --test "<cmd>" [--top 5] [--green] [--host <build-host>] [--fork <name>]
 //   bun tools/absorb.ts skip <owner/repo> <pr-number> --reason "<why>"
 // <fork-checkout> is a path on the build host, or a bare repository name (placed under <work volume>/absorb/<name>).
 // The checkout is merged on its default branch with FETCH_HEAD; no branch, no force-push, no stash, no reset.
+import { readAy } from "./local.ts";
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { bestForWork, parseDf } from "./disks.ts";
@@ -232,7 +233,7 @@ async function gh<T>(args: string[]): Promise<T> {
 }
 
 function config() {
-  const ay = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as {
+  const ay = readAy(root) as unknown as {
     orgs: { labs: string };
     hosts: { test: string; build: string };
   };

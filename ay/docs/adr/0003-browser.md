@@ -27,7 +27,7 @@ Status: proposed, 2026-11-16; accepted after the measurements below. The audit i
 
 ## Known facts and lag (2026-11-16)
 CEF stable 156.0.30 (Chromium 156) while Chrome for Testing stable is 157.0.8103.78. The aphrody-labs cef-rs fork
-is synced with upstream (156.6.0, 2026-11-16). A Chromium build (option a) needs ≥100 GB free; fr1's build volume $WORK has about 740 GB free (its root filesystem has ~50 GB), so disk is not a blocker (`bun tools/disks.ts`).
+is synced with upstream (156.6.0, 2026-11-16). A Chromium build (option a) needs ≥100 GB free; <build-host>'s build volume $WORK has about 740 GB free (its root filesystem has ~50 GB), so disk is not a blocker (`bun tools/disks.ts`).
 
 ## Rust engines to measure (added 2026-11-16)
 Servo (crate `servo` 0.8.0) and Blitz (0.3.0-beta.4, no JS by default, experimental Boa script and CDP server) are measured behind the same engine interface: web-platform-tests pass rate, embedding in the native UI, size. See `docs/research/browsers-compare.md` and `docs/research/dioxus-blitz.md`.

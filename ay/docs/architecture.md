@@ -32,6 +32,13 @@ Rules:
   `[paths.<role>]`, never from prose.
 - Rust units live in `crates/`, built by the root `Cargo.toml` and checked in CI like every other language.
 
+## Private data
+Tracked files hold code, schemas, specs and standards. Anything that names this machine, the fleet or the state of the work is kept out
+of git: `ay.local.toml` (overrides of `ay.toml`: host aliases, host paths, local checkout hints) and `.private/` (generated reports,
+inventories, telemetry, research notes, the work ledger and the plan page; `AY_PRIVATE_DIR` moves it). Documents name hosts by role
+(`<build-host>`, `<test-host>`, `<prod-host>` are the aliases of `[hosts]` in `ay.local.toml`). `tools/private-gate.ts` fails `bun run check`
+when a tracked file repeats a value of `ay.local.toml`, a user profile or home path, an e-mail address or a public IPv4 address.
+
 ## Independence
 Every Aphrody repository, `ay` included, builds, tests and releases alone from a clean clone (scheme: `aphrody-labs/.github` `naming/NAMING.md`;
 this repository declares its own names in `naming.toml`).

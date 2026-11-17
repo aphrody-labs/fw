@@ -3,6 +3,7 @@
 // (ay.toml [repos].bun) and the Cloudflare product catalog (docs/research/cloudflare.toml). Prints the Bun doc pages
 // no feature covers, which is the plugin's backlog.
 //   bun tools/cloud-map.ts [--summary]   exit 1 on a problem
+import { readAy } from "./local.ts";
 import { existsSync, readdirSync } from "node:fs";
 import { join, resolve } from "node:path";
 
@@ -60,7 +61,7 @@ export async function validate(rootDir = root, bunCheckout?: string): Promise<Re
   let uncovered: string[] = [];
   let docs: number | null = null;
   if (!bunCheckout) {
-    const hint = (await toml(join(rootDir, "ay.toml"))).repos?.bun?.checkout as string | undefined;
+    const hint = (readAy(rootDir) as Record<string, any>).repos?.bun?.checkout as string | undefined;
     if (hint) bunCheckout = resolve(rootDir, hint);
   }
   const docsDir = bunCheckout ? join(bunCheckout, map.bun_docs ?? "docs") : undefined;

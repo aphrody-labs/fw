@@ -1,4 +1,6 @@
 import { afterAll, expect, test } from "bun:test";
+import { existsSync } from "node:fs";
+import { privatePath } from "./local.ts";
 import { judge, loadClaims, pick, run, table, type Claim } from "./claims.ts";
 
 const server = Bun.serve({
@@ -46,7 +48,7 @@ test("the table reports counts and escapes pipes", () => {
   expect(t).toContain("x/y");
 });
 
-test("the repository's claims are well formed, unique and use known probes", async () => {
+test.skipIf(!existsSync(privatePath("claims.toml")))("the private claims are well formed, unique and use known probes", async () => {
   const claims = await loadClaims();
   expect(new Set(claims.map((c) => c.id)).size).toBe(claims.length);
   for (const c of claims) {

@@ -2,8 +2,9 @@
 // Host facts from ay.toml: roles in [hosts] (ssh Host aliases) and per-role layouts in [paths.<role>].
 //   bun tools/hosts.ts host build      the ssh alias of a role
 //   bun tools/hosts.ts work build      the work volume of a role (builds, caches, mirrors)
+import { readAy } from "./local.ts";
 import { readFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 
 export type Role = "build" | "test" | "prod";
 export type HostConfig = { hosts: Record<string, string>; paths: Record<string, { work?: string }> };
@@ -11,7 +12,7 @@ export type HostConfig = { hosts: Record<string, string>; paths: Record<string, 
 const root = resolve(import.meta.dir, "..");
 
 export function loadHosts(tomlPath = join(root, "ay.toml")): HostConfig {
-  const t = Bun.TOML.parse(readFileSync(tomlPath, "utf8")) as Partial<HostConfig>;
+  const t = (basename(tomlPath) === "ay.toml" ? readAy(dirname(tomlPath)) : Bun.TOML.parse(readFileSync(tomlPath, "utf8"))) as Partial<HostConfig>;
   return { hosts: t.hosts ?? {}, paths: t.paths ?? {} };
 }
 

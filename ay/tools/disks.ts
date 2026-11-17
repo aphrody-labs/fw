@@ -3,8 +3,9 @@
 // space, and where to put large work (builds, caches, mirrors). Reads hosts from ay.toml [hosts].
 //   bun tools/disks.ts                 table per host + the best place for large work
 //   bun tools/disks.ts --json          machine-readable result
-//   bun tools/disks.ts fr1 prd         only these hosts
+//   bun tools/disks.ts <build-host> <prod-host>         only these hosts
 //   bun tools/disks.ts --usage <path>  biggest directories under <path> on each host (dust, else du)
+import { readAy } from "./local.ts";
 import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
@@ -84,7 +85,7 @@ async function scan(host: string): Promise<HostDisks> {
 function hosts(argv: string[]): string[] {
   const named = argv.filter(a => !a.startsWith("--") && !a.startsWith("/"));
   if (named.length) return named;
-  const ay = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as { hosts?: Record<string, string> };
+  const ay = readAy(root) as unknown as { hosts?: Record<string, string> };
   return [...new Set(Object.values(ay.hosts ?? {}))];
 }
 

@@ -3,6 +3,7 @@
 //   bun tools/features.ts          write docs/features.md from the matrix
 //   bun tools/features.ts --check  fail when docs/features.md is stale, a row is malformed,
 //                                  or a `done` row has no proof (or a repo-path proof that doesn't exist)
+import { readAy } from "./local.ts";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
@@ -98,7 +99,7 @@ export function render(features: Feature[], owners?: Owners): string {
 
 if (import.meta.main) {
   const features = load(readFileSync(join(root, "docs/features.toml"), "utf8"));
-  const ay = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as { products?: Record<string, { owner?: string }>; matrix?: { platform_owner?: string }; repos?: Record<string, unknown> };
+  const ay = readAy(root) as unknown as { products?: Record<string, { owner?: string }>; matrix?: { platform_owner?: string }; repos?: Record<string, unknown> };
   const products = new Set([...Object.keys(ay.products ?? {}), "platform"]);
   const owners: Owners = {
     byProduct: {

@@ -11,7 +11,7 @@ dedicated volumes (LVM, extra disks, NFS exports).
 ## Inventory (always first)
 ```sh
 bun tools/disks.ts              # every host: devices, partitions, LVM, mounts, free space, best place for large work
-bun tools/disks.ts fr1 --json   # one host, machine-readable
+bun tools/disks.ts <build-host> --json   # one host, machine-readable
 bun tools/disks.ts --usage $WORK   # biggest directories (dust, else du)
 ```
 The last line per host, `→ large work: <mount>`, is where builds, `CARGO_TARGET_DIR`, CEF/Chromium checkouts,

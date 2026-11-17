@@ -4,3 +4,6 @@ result
 result-*
 .direnv/
 *.log
+# Machine- and work-specific data stays out of git (tools/local.ts)
+ay.local.toml
+.private/

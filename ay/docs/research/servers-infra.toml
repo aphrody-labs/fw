@@ -592,4 +592,4 @@ edge = "Caddy (HTTP/1.1, HTTP/2, HTTP/3 and ACME by default) in front; nginx 1.3
 app_server = "Rust: axum on hyper for services; Bun.serve only for TypeScript surfaces (HTTP/2 and HTTP/3 still experimental in Bun)"
 containers = "Podman (daemonless, rootless) managed by systemd units for production; Docker Engine 29 plus Compose 5 for developer machines and CI"
 database = "PostgreSQL 18 as system of record; SQLite for embedded and per-tenant local state; Valkey 9.1 (BSD-3-Clause) as cache and queue instead of Redis 8 (RSALv2/SSPLv1/AGPLv3)"
-caveat = "TFB R23 is Jan-Feb 2025 data and the repo is archived; use it for ordering, not absolute capacity. Re-measure on fr2 before committing sizing."
+caveat = "TFB R23 is Jan-Feb 2025 data and the repo is archived; use it for ordering, not absolute capacity. Re-measure on <test-host> before committing sizing."

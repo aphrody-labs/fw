@@ -16,17 +16,17 @@ One engine, three entry points; reference in `docs/chromium.md`.
 | Get the CEF binaries without cargo | `ay-chromium install [dir]` (downloads the matching build, prints the directory) |
 
 ## Run it (build host only, never the PC)
-Keep the CEF download, the target directory and the checkout on the build volume: `$WORK/shared/<dir>` on fr1 (`WORK` = `[paths.build].work` of `ay.toml`)
-(fr2 sees the same path over NFS). The roots of both hosts are too small.
+Keep the CEF download, the target directory and the checkout on the build volume: `$WORK/shared/<dir>` on <build-host> (`WORK` = `[paths.build].work` of `ay.toml`)
+(<test-host> sees the same path over NFS). The roots of both hosts are too small.
 ```sh
-ssh fr1
+ssh <build-host>
 cd $WORK/shared/<dir>/ay
 export CARGO_INCREMENTAL=0 CEF_PATH=$WORK/shared/<dir>/cef CARGO_TARGET_DIR=$WORK/shared/<dir>/target
 cargo build --release -p ay-chromium
 target/release/ay-chromium eval https://example.com document.title      # "Example Domain"
 target/release/ay-chromium screenshot https://example.com /tmp/x.png    # {"path":...,"width":1280,"height":720}
 cd packages/chromium && bun run build && bun test                       # addon + helper into native/, then the test
-# fr2 runs the same binaries from the shared path: libcef.so sits next to ay-chromium
+# <test-host> runs the same binaries from the shared path: libcef.so sits next to ay-chromium
 ```
 
 ## Pages and backends

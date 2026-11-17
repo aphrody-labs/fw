@@ -50,7 +50,7 @@ Published performance, with the sources and caveats in the toml:
 
 - Lightpanda (vendor, 933 pages on m5.large): 123 MB vs 2 GB peak, 5 s vs 46 s per 100 pages.
 - Obscura (vendor): 30 MB vs 200+ MB, 85 ms vs ~500 ms page load.
-- Measured by Aphrody on fr1, one real page, median of 5 (`aphrody-labs/browser` ARCHITECTURE.md): headless-shell 578 MiB and 0.49 s; Obscura no-render 69 MiB and 0.66 s; Obscura render 116 MiB and 1.71 s. On a real page the lite engine wins on memory (8.4x) and not on time.
+- Measured by Aphrody on <build-host>, one real page, median of 5 (`aphrody-labs/browser` ARCHITECTURE.md): headless-shell 578 MiB and 0.49 s; Obscura no-render 69 MiB and 0.66 s; Obscura render 116 MiB and 1.71 s. On a real page the lite engine wins on memory (8.4x) and not on time.
 
 ## Overlaps
 

@@ -95,7 +95,7 @@ All versions below are the latest release read with `gh api repos/OWNER/REPO/rel
 
 | Tool | Version | Role |
 |---|---|---|
-| `wasm-tools` | v1.263.0 (2026-10-30); this PC 1.263.0, build host `fr1` 1.261.0 | `component embed`, `component new`, `component wit`, `component targets`, `parse`, `validate` |
+| `wasm-tools` | v1.263.0 (2026-10-30); this PC 1.263.0, build host `<build-host>` 1.261.0 | `component embed`, `component new`, `component wit`, `component targets`, `parse`, `validate` |
 | `wit-bindgen` | v0.63.0 (2026-10-14) | generates guest bindings from WIT; its README lists Rust, C, C++, C# and Go |
 | `jco` | jco-v1.42.0 (2026-11-13); installed here: 1.41.0 | JavaScript toolchain: `transpile` a component to JS, `types`, componentize JS |
 | `wac` | v0.12.0 (2026-09-30) | composes components with a small language; the successor of `wasm-tools compose` |
@@ -169,7 +169,7 @@ int32_t ay_syscall(uint32_t nr, uint32_t a0, uint32_t a1, uint32_t a2) {
 ```
 <!-- /listing -->
 
-The build, as `buildWasm("component")` in `tools/corelib.ts` runs it (clang 23.1.5 on this PC, 23.1.6 on `fr1`; sources are every `corelib/src/*.c` except `wasm.c`, then `wasm.c`):
+The build, as `buildWasm("component")` in `tools/corelib.ts` runs it (clang 23.1.5 on this PC, 23.1.6 on `<build-host>`; sources are every `corelib/src/*.c` except `wasm.c`, then `wasm.c`):
 
 ```text
 clang --target=wasm32 -mcpu=mvp -std=c23 -O2 -ffreestanding -fno-stack-protector -fvisibility=hidden \
@@ -317,7 +317,7 @@ let driver = new ay:driver {
 export driver["wasi:cli/run@0.2.12"];
 ```
 
-`wac compose ay-os.wac --dep ay:console=console.wasm --dep ay:corelib=corelib.wasm --dep ay:app=app.wasm --dep ay:driver=driver.wasm -o ay-os.wasm` produces one component (16430 bytes on this PC with clang 23.1.5, 16413 bytes on `fr1` with clang 23.1.6). Its own interface is only what is left unsatisfied, WASI standard output, and what it offers, the `wasi:cli/run` command:
+`wac compose ay-os.wac --dep ay:console=console.wasm --dep ay:corelib=corelib.wasm --dep ay:app=app.wasm --dep ay:driver=driver.wasm -o ay-os.wasm` produces one component (16430 bytes on this PC with clang 23.1.5, 16413 bytes on `<build-host>` with clang 23.1.6). Its own interface is only what is left unsatisfied, WASI standard output, and what it offers, the `wasi:cli/run` command:
 
 ```text
 world root {
@@ -333,7 +333,7 @@ Composition is also where the isolation shows. The app component imports `syscal
 
 ## 7.6 Running on Wasmtime
 
-Wasmtime is not on this PC, so the run happens on the build host of `ay.toml` (`[hosts].build`, `fr1`). The prebuilt release was installed under `$WORK/asm-guide`:
+Wasmtime is not on this PC, so the run happens on the build host of `ay.toml` (`[hosts].build`, `<build-host>`). The prebuilt release was installed under `$WORK/asm-guide`:
 
 ```text
 $ curl -fsSL -o wt.tar.xz https://github.com/bytecodealliance/wasmtime/releases/download/v50.0.2/wasmtime-v50.0.2-x86_64-linux.tar.xz
@@ -393,10 +393,10 @@ $ bun tools/corelib-component.ts --remote
 component: $WORK/asm-guide/corelib-component/target/corelib-component/ay-os.wasm (16413 bytes)
 wasmtime: wasmtime 50.0.2 (f9a93b049 2026-11-16)
 wasmtime: boot transcript identical (13 lines), log $WORK/asm-guide/corelib-component/logs/wasmtime-boot.log
-wasmtime: fr1:$WORK/asm-guide/corelib-component/logs/wasmtime-boot.log copied to $WORKSPACE_ROOT/ay/target/corelib-component.log
+wasmtime: <build-host>:$WORK/asm-guide/corelib-component/logs/wasmtime-boot.log copied to $WORKSPACE_ROOT/ay/target/corelib-component.log
 ```
 
-The build host used its own `wasm-tools` 1.261.0 and clang 23.1.6; this PC used `wasm-tools` 1.263.0 and clang 23.1.5. The sizes differ by 17 bytes (16413 against 16430 for the composed component; the corelib component is 10198 bytes on `fr1` and 10215 on this PC), so I did not assume the builds are byte-identical, only that both transcripts equal the golden one. The only build prerequisites are clang with the wasm32 backend and `wasm-ld`, `wasm-tools`, `wac` and Wasmtime; there is no cargo step.
+The build host used its own `wasm-tools` 1.261.0 and clang 23.1.6; this PC used `wasm-tools` 1.263.0 and clang 23.1.5. The sizes differ by 17 bytes (16413 against 16430 for the composed component; the corelib component is 10198 bytes on `<build-host>` and 10215 on this PC), so I did not assume the builds are byte-identical, only that both transcripts equal the golden one. The only build prerequisites are clang with the wasm32 backend and `wasm-ld`, `wasm-tools`, `wac` and Wasmtime; there is no cargo step.
 
 ## 7.7 jco: the same component from JavaScript
 

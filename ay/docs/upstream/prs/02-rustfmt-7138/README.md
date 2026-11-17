@@ -45,7 +45,7 @@ This removes the `foo::self -> foo` normalization in `UseTree::normalize` and ke
 - `tests/source/issue-7138.rs` and `tests/target/issue-7138.rs` (identical content: the MCVE plus `pub use a::c::self;`; the target file compiles with `rustc --edition 2024 --crate-type lib`).
 - Updated: `tests/target/imports/imports.rs`, `tests/target/imports/imports_granularity_default-with-dups.rs`, unit test `imports::test::test_use_tree_normalize` in `src/imports.rs`.
 
-## Commands run and results (all on fr1, in the rustfmt clone)
+## Commands run and results (all on <build-host>, in the rustfmt clone)
 
 Before the fix (new tests added, `src/imports.rs` unchanged):
 
@@ -92,11 +92,11 @@ $ cargo clippy --locked --manifest-path <pkg>/Cargo.toml  for ., ci, config_proc
 
 ## Policy
 
-rust-lang LLM policy: https://forge.rust-lang.org/policies/llm-usage.html. It bans LLM-written PR text and requires pre-agreement with the reviewer for LLM-created code. The patch and the drafts above were produced with an LLM agent, so a named human must re-author the change and the PR text, fully understand it, and obtain the reviewer agreement before submission. Publishing (push, PR, comment) requires the owner's explicit yes. The commit author on fr1 is a bot-style identity and must be replaced by the human submitter.
+rust-lang LLM policy: https://forge.rust-lang.org/policies/llm-usage.html. It bans LLM-written PR text and requires pre-agreement with the reviewer for LLM-created code. The patch and the drafts above were produced with an LLM agent, so a named human must re-author the change and the PR text, fully understand it, and obtain the reviewer agreement before submission. Publishing (push, PR, comment) requires the owner's explicit yes. The commit author on <build-host> is a bot-style identity and must be replaced by the human submitter.
 
 ## Status
 
-Verified on fr1: the new tests fail before the fix and pass after it; full CI test command, `cargo fmt --check` and clippy (all four CI packages) pass.
+Verified on <build-host>: the new tests fail before the fix and pass after it; full CI test command, `cargo fmt --check` and clippy (all four CI packages) pass.
 
 Unverified: only the Linux x86_64 `nightly` channel was run (CI also runs `stable` channel and macOS/Windows); the `integration` CI job (third-party crates) was not run; maintainer agreement on the unconditional behaviour change and on the reason PR #7144 was closed.
 

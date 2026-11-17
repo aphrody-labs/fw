@@ -24,3 +24,7 @@ Contract for every agent working in this repository. Names come from `ay.toml`.
 - Work on `main`; no branches, worktrees, stash or reset. No AI attribution in commits.
 - Proof is an inspected screenshot, a checked API response or a real UI test, never an HTTP status.
 - Secrets are never printed or committed; the repository is public.
+- No data about the owner's machine, the fleet or the state of the work in tracked files or agent files: hosts, host paths and local
+  checkout hints live in the git-ignored `ay.local.toml` (shape in `ay.local.example.toml`); everything generated (reports, inventories,
+  telemetry, research notes, the work ledger, the plan page, learning digests) goes to the git-ignored `.private/` (`tools/local.ts`).
+  Docs name hosts by role (`<build-host>`, `<test-host>`, `<prod-host>`). `bun tools/private-gate.ts` enforces it.

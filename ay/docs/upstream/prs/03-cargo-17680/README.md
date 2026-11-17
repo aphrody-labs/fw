@@ -76,7 +76,7 @@ Body:
 > so callers that build a `BuildConfig` without command-line args (for
 > example `cargo package` verification) do not suggest the flag either.
 
-## Commands run (on fr1, clone of upstream master)
+## Commands run (on <build-host>, clone of upstream master)
 
 Toolchain: default nightly-2026-09-15 is too old for current master (E0658
 `trim_prefix_suffix`, MSRV 1.100), so `RUSTUP_TOOLCHAIN=nightly-2026-11-16`
@@ -130,7 +130,7 @@ confirm the chosen option (drop the suggestion versus accept the flag in `run`).
 
 ## Status
 
-Ready locally, not for submission: the test fails before and passes after on fr1.
+Ready locally, not for submission: the test fails before and passes after on <build-host>.
 Unverified: the full cargo testsuite (only the targeted filters above ran), CI on
 other platforms (Windows/macOS), maintainer agreement on the design, and
 `S-accepted`.

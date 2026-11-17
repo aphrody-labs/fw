@@ -1,4 +1,6 @@
 import { expect, test } from "bun:test";
+import { existsSync } from "node:fs";
+import { privatePath } from "./local.ts";
 import { loadClaims, type Result } from "./claims.ts";
 import { build, health, render, type Item } from "./plan.ts";
 
@@ -23,10 +25,10 @@ test("the page orders blocked work first and lists claims that do not hold", () 
   expect(page).toContain("| os | 1 | 1 |");
 });
 
-test("every claim an item names exists, and docs/plan.md is what the sources generate", async () => {
+test.skipIf(!existsSync(privatePath("plan/work.toml")))("every claim an item names exists, and the plan page is what the private sources generate", async () => {
   const ids = new Set((await loadClaims()).map((c) => c.id));
-  const work = (Bun.TOML.parse(await Bun.file(new URL("../docs/plan/work.toml", import.meta.url)).text()) as { item: Item[] }).item;
+  const work = (Bun.TOML.parse(await Bun.file(privatePath("plan/work.toml")).text()) as { item: Item[] }).item;
   for (const i of work) for (const c of i.claims ?? []) expect(ids.has(c), `${i.id}: ${c}`).toBe(true);
   expect(new Set(work.map((i) => i.id)).size).toBe(work.length);
-  expect(await Bun.file(new URL("../docs/plan.md", import.meta.url)).text()).toBe(await build());
+  expect(await Bun.file(privatePath("plan.md")).text()).toBe(await build());
 });

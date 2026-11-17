@@ -258,7 +258,7 @@ core: idle, no runnable task
 | WebAssembly component | the same C built with `-DAY_COMPONENT`, composed with WAT parts, run on wasmtime | `bun tools/corelib-component.ts --remote` |
 | Bare metal | `x86_64-unknown-none-elf` image in QEMU, serial to a file | `bun tools/corelib-qemu.ts --remote`, log `corelib/proof/qemu-boot.txt` |
 
-The QEMU run executed on fr1 (QEMU 11.0.3, `-machine q35 -cpu qemu64`), exit status 33, 13 serial lines identical to the golden file; the same command runs on GitHub-hosted Ubuntu in the `corelib` CI job.
+The QEMU run executed on <build-host> (QEMU 11.0.3, `-machine q35 -cpu qemu64`), exit status 33, 13 serial lines identical to the golden file; the same command runs on GitHub-hosted Ubuntu in the `corelib` CI job.
 
 ## Limits
 

@@ -34,7 +34,7 @@ At the first full pass opencode was 34,130 / 34,133 issues and 29,294 / 29,313 p
 - opencode server API: `opencode serve` serves its OpenAPI 3.1.0 document at `/openapi.json` (`packages/server/src/routes.ts`); the same spec is committed at `packages/protocol/openapi.json` (title "opencode HttpApi 0.0.1", 139 paths).
 
 ## How it runs
-`bun packages/org-mirror/src/cli.ts sync <org> [--repo x] [--top N] [--since ISO] [--package npm:NAME] [--steps ...] [--db path]`, then `stats`, `export --toml`, `serve`. Issues and pull requests crawl newest-update-first, store the cursor after every page and stop at the watermark of the previous complete crawl; commits come from `git log` of the mirror and only the ones past the previous tips are read. The full run took about 2.5 hours on fr2, dominated by opencode's 63,000 issues and pull requests.
+`bun packages/org-mirror/src/cli.ts sync <org> [--repo x] [--top N] [--since ISO] [--package npm:NAME] [--steps ...] [--db path]`, then `stats`, `export --toml`, `serve`. Issues and pull requests crawl newest-update-first, store the cursor after every page and stop at the watermark of the previous complete crawl; commits come from `git log` of the mirror and only the ones past the previous tips are read. The full run took about 2.5 hours on <test-host>, dominated by opencode's 63,000 issues and pull requests.
 
 ## Not replicated
 - The visual Craft replica of opencode.ai (feature row `craft/replica-opencode-ai`, a separate step); the site mirror is only the input.

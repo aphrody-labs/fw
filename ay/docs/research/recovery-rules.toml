@@ -75,26 +75,26 @@ note = "partial clone of the upstream Linux and Android common kernels, no commi
 # Unpushed work on hosts comes first: it exists nowhere else.
 [[rule]]
 origin = "vps"
-name = "^fr2:/srv/aphrody$"
+name = "^<test-host>:/srv/aphrody$"
 state = "dead"
-note = "uncommitted edits of upstream-derived winux date and factor plus a lockfile; the patch is kept in the build host salvage directory (legacy-fr2-srv-aphrody-2026-11-17.diff)"
+note = "uncommitted edits of upstream-derived winux date and factor plus a lockfile; the patch is kept in the build host salvage directory (legacy-<test-host>-srv-aphrody-2026-11-17.diff)"
 
 [[rule]]
 origin = "vps"
-name = "^prd:/srv/src$"
+name = "^<prod-host>:/srv/src$"
 state = "dead"
 note = "legacy main checkout with mechanical CLI shebang edits only"
 
 [[rule]]
 origin = "vps"
-name = ":/srv/xbuild/(ai-os-ci|ai-os-purge|auto-ci|open-ci|ay-clone|nie|ai-os|open|aysh|legacy-rev|salvage)$"
+name = ":$WORK/(ai-os-ci|ai-os-purge|auto-ci|open-ci|ay-clone|nie|ai-os|open|aysh|legacy-rev|salvage)$"
 state = "live"
 where = "checkout of a tracked repository or a salvage archive"
 note = "work-volume checkout: CI workdir or archive of repositories listed in ay.toml"
 
 [[rule]]
 origin = "vps"
-name = ":/srv/xbuild$"
+name = ":$WORK$"
 state = "dead"
 note = "work volume root"
 
@@ -112,7 +112,7 @@ note = "build output, cache, benchmark or log; regenerable"
 
 [[rule]]
 origin = "vps"
-name = ":/srv/xbuild/(llvm.*|absorb|backup|agents|work|target|scratch|cache|cold|ci|cloud|rescue|runners|tc160|wasmtime|shared|tmp|tools|clones|cas|linux|i18n.*|ay-(list|linux|corelib|os)|rust-fix.*|shenron-fix.*|script-tests.*|asm-guide)$"
+name = ":$WORK/(llvm.*|absorb|backup|agents|work|target|scratch|cache|cold|ci|cloud|rescue|runners|tc160|wasmtime|shared|tmp|tools|clones|cas|linux|i18n.*|ay-(list|linux|corelib|os)|rust-fix.*|shenron-fix.*|script-tests.*|asm-guide)$"
 state = "dead"
 note = "work volume: scratch, caches, clones of tracked repositories, fix runs already pushed"
 
@@ -389,12 +389,12 @@ home = "bun"
 
 [[rule]]
 origin = "vps"
-name = "^fr2:/srv/xbuild/shared/(ay-chromium|mirror)$|:/srv/zig-|ghidra-release|Cargo\\.lock|postinstall|deploy\\.lock"
+name = "^<test-host>:$WORK/(ay-chromium|mirror)$|:/srv/zig-|ghidra-release|Cargo\\.lock|postinstall|deploy\\.lock"
 state = "dead"
 note = "regenerable download, lockfile scratch or deploy marker"
 
 [[rule]]
 origin = "vps"
-name = "^prd:/srv/ai-os$"
+name = "^<prod-host>:/srv/ai-os$"
 state = "live"
 where = "ai-os (deployed checkout)"

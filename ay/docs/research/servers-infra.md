@@ -81,4 +81,4 @@ Gaps: no stock Apache httpd entry, no standalone Caddy entry, no Bun DB-test ent
 2. Services: Rust axum on hyper (hyper 2.89M and axum 2.71M req/s JSON in R23, ahead of Bun 2.10M). Use Bun.serve for TypeScript surfaces only; its HTTP/2 and HTTP/3 are experimental.
 3. Data: PostgreSQL 18 as system of record with a pipelined client (axum-pg style, not sqlx defaults, per the Fortunes gap); SQLite for embedded and per-node state; Valkey 9.1 for cache and queues, since Redis 8 is RSALv2/SSPLv1/AGPLv3 while Valkey is BSD-3-Clause.
 4. Runtime: Podman rootless under systemd units for production; Docker Engine 29 with Compose 5 for developer machines and CI.
-5. Caveat: R23 data is from Jan-Feb 2025 and the project is archived; use it for ordering and re-measure on fr2 before fixing capacity numbers.
+5. Caveat: R23 data is from Jan-Feb 2025 and the project is archived; use it for ordering and re-measure on <test-host> before fixing capacity numbers.

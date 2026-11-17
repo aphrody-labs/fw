@@ -1,0 +1,44 @@
+# Local overrides of ay.toml: this machine's layout and the fleet. Git-ignored; copy ay.local.example.toml.
+
+[legacy]
+checkout = "../legacy"
+
+[recovery]
+scan = ["<directory of a host to inventory>"]
+
+# Hosts by role; values are ssh Host aliases resolved by `ssh -G <alias>`.
+[hosts]
+build = "<ssh alias of the build host>"                # builds, CI runners, heavy agents
+test = "<ssh alias of the test host>"                 # tests, benchmarks, research
+prod = "<ssh alias of the production host>"                 # production only
+
+# Per-role layouts on those hosts (tools/hosts.ts reads them; nothing else writes a host path).
+# work = the large volume for builds, caches and mirrors; the test host mounts the build host's volume over NFS.
+[paths.build]
+work = "<work volume on the build host>"
+[paths.test]
+work = "<work volume on the test host>"
+
+[repos.aphrody]
+checkout = "../aphrody"
+[repos.bun]
+checkout = "../bun"
+[repos.nie]
+checkout = "../nie"
+[repos.shenron]
+checkout = "../shenron"
+[repos.browser]
+checkout = "../browser"
+[repos.anu]
+checkout = "../anu"
+[repos.ai-os]
+checkout = "../ai-os"
+[repos.open]
+checkout = "../open"
+[repos.auto]
+checkout = "../auto"
+[repos.rosegriffon]
+checkout = "../rosegriffon"
+[repos.standard]
+checkout = "../aphrody-labs-github"
+

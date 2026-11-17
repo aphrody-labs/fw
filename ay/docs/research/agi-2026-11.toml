@@ -142,7 +142,7 @@ area = "benchmark"
 name = "arcprize/ARC-AGI (arc-agi toolkit) + ARCEngine"
 url = "https://github.com/arcprize/ARC-AGI"
 how_to_run = "uv add arc-agi (or pip install arc-agi, needs Python 3.12); optional ARC_API_KEY; python -c 'import arc_agi; a=arc_agi.Arcade(); e=a.make(\"ls20\"); print(e.action_space)'; env.step(GameAction.ACTION1); arc.get_scorecard()"
-applies_to = "fr2 (tests/bench): interactive-reasoning evals for agents; Python only, drive from a Bun script via Bun.spawn"
+applies_to = "<test-host> (tests/bench): interactive-reasoning evals for agents; Python only, drive from a Bun script via Bun.spawn"
 
 [[action]]
 id = "arc-agi-3-benchmarking"
@@ -150,7 +150,7 @@ area = "benchmark"
 name = "arcprize/arc-agi-3-benchmarking (official LLM agent harness)"
 url = "https://github.com/arcprize/arc-agi-3-benchmarking"
 how_to_run = "git clone; uv venv; uv sync; cp .env.example .env (set ARC_API_KEY and one provider key); uv run main.py --game=ls20"
-applies_to = "fr2: score our hosted or local models on ARC-AGI-3 games"
+applies_to = "<test-host>: score our hosted or local models on ARC-AGI-3 games"
 
 [[action]]
 id = "arc-kaggle-starter"
@@ -158,7 +158,7 @@ area = "benchmark"
 name = "arcprize/ARC-AGI-3-Kaggle-Starter (local dev loop, offline agent)"
 url = "https://github.com/arcprize/ARC-AGI-3-Kaggle-Starter"
 how_to_run = "git clone; put Kaggle token in .kaggle/access_token; Python 3.12; follow README quick start; no GPU needed for the starter agent. Competition is closed (2026-11-02) so use it as an offline-agent template"
-applies_to = "fr2: template for a no-internet agent"
+applies_to = "<test-host>: template for a no-internet agent"
 
 [[action]]
 id = "h-jepa"
@@ -166,7 +166,7 @@ area = "benchmark"
 name = "kevinghst/H-JEPA (hierarchical JEPA world model, Visual AntMaze planning)"
 url = "https://github.com/kevinghst/H-JEPA"
 how_to_run = "conda create -n hjepa python=3.11.13 && conda activate hjepa; pip install -e \".[train,env]\" --extra-index-url https://download.pytorch.org/whl/cu128; cd h_jepa; python main_hjepa.py --config-name ant_hjepa_l3 seed=42; eval: python eval.py --config-name ant_l3 seed=42 output.dir=eval_l3; checkpoints at huggingface.co/jepa-world-models/h-jepa"
-applies_to = "fr1 (GPU, CUDA 12.8 wheels): world-model planning benchmark; MIT"
+applies_to = "<build-host> (GPU, CUDA 12.8 wheels): world-model planning benchmark; MIT"
 
 [[action]]
 id = "le-wm"
@@ -174,7 +174,7 @@ area = "benchmark"
 name = "lucas-maes/le-wm (LeWorldModel, JEPA from pixels)"
 url = "https://github.com/lucas-maes/le-wm"
 how_to_run = "git clone and follow the README (arXiv 2603.19312); MIT, 4642 stars, last push 2026-05-26"
-applies_to = "fr1: baseline world model; H-JEPA builds on it"
+applies_to = "<build-host>: baseline world model; H-JEPA builds on it"
 
 [[action]]
 id = "nvarc"
@@ -182,7 +182,7 @@ area = "program-synthesis-tta"
 name = "NVARC, ARC Prize 2025 first place (24.0% ARC-AGI-2): synthetic data + test-time-trained model + TRM components"
 url = "https://arcprize.org/competitions/2025"
 how_to_run = "Open the Code link on the page (a Kaggle notebook); technical report arXiv 2601.10904; NVIDIA write-up developer.nvidia.com/blog/nvidia-kaggle-grandmasters-win-artificial-general-intelligence-competition/"
-applies_to = "fr1 (training); reference recipe for test-time adaptation, run via Python"
+applies_to = "<build-host> (training); reference recipe for test-time adaptation, run via Python"
 
 [[action]]
 id = "architects"
@@ -190,15 +190,15 @@ area = "program-synthesis-tta"
 name = "the ARChitects (2024 winner, 2025 second place 16.5%): test-time training, masked-diffusion LLM, recursive self-refinement"
 url = "https://github.com/da-fr/arc-prize-2024"
 how_to_run = "git clone (Apache-2.0, last push 2025-06-17); 2025 write-up lambdalabsml.github.io/ARC2025_Solution_by_the_ARChitects/; 2025 Kaggle code linked from arcprize.org/competitions/2025"
-applies_to = "fr1: TTT reference implementation"
+applies_to = "<build-host>: TTT reference implementation"
 
 [[action]]
 id = "trm"
 area = "program-synthesis-tta"
 name = "SamsungSAILMontreal/TinyRecursiveModels (TRM, used in NVARC)"
 url = "https://github.com/SamsungSAILMontreal/TinyRecursiveModels"
-how_to_run = "git clone and follow the README; MIT, 6544 stars; small enough to train on one fr1 GPU"
-applies_to = "fr1: small recursive reasoner"
+how_to_run = "git clone and follow the README; MIT, 6544 stars; small enough to train on one <build-host> GPU"
+applies_to = "<build-host>: small recursive reasoner"
 
 [[action]]
 id = "mindsai-ttft"
@@ -222,7 +222,7 @@ area = "program-synthesis-tta"
 name = "egglog 3.0.0 + z3 0.23.0 for DSL search and verification; candle-core 0.11.1 / ort 2.0.0-rc.15 / burn 0.22.1 for local inference and test-time adaptation"
 url = "docs/research/rust-ai-stack.toml"
 how_to_run = "cargo add egglog z3 candle-core ort burn (versions and sources in rust-ai-stack.toml, verified 2026-11-17 on crates.io); model enumerative or e-graph program search in egglog, check candidate programs with z3, run adapted models with candle or ort"
-applies_to = "Rust workspaces: in-process synthesis and inference, no Python on prd"
+applies_to = "Rust workspaces: in-process synthesis and inference, no Python on <prod-host>"
 
 [[action]]
 id = "rust-world-sim"
@@ -238,7 +238,7 @@ area = "vuln-pipeline"
 name = "cargo-audit 0.23.0 on RustSec advisory-db"
 url = "https://github.com/rustsec/rustsec"
 how_to_run = "cargo install cargo-audit --locked; cargo audit (reads Cargo.lock; crates.io 0.23.0 updated 2026-11-10; advisory DB github.com/RustSec/advisory-db)"
-applies_to = "every Rust workspace, CI on fr1"
+applies_to = "every Rust workspace, CI on <build-host>"
 
 [[action]]
 id = "cargo-vet"
@@ -262,7 +262,7 @@ area = "vuln-pipeline"
 name = "cargo-fuzz 0.13.2 (libFuzzer for Rust) and Miri"
 url = "https://github.com/rust-fuzz/cargo-fuzz"
 how_to_run = "cargo install cargo-fuzz --locked; cargo fuzz init; cargo +nightly fuzz run <target>; undefined behaviour: cargo +nightly miri test (github.com/rust-lang/miri)"
-applies_to = "parsers and unsafe code on fr2 (long fuzz runs stay off the PC)"
+applies_to = "parsers and unsafe code on <test-host> (long fuzz runs stay off the PC)"
 
 [[action]]
 id = "buttercup"
@@ -270,7 +270,7 @@ area = "vuln-pipeline"
 name = "Trail of Bits Buttercup (AIxCC 2nd place CRS, open source, AGPL-3.0)"
 url = "https://github.com/trailofbits/buttercup"
 how_to_run = "git clone; make setup-local; make deploy; make status (needs an LLM API key; OSS-Fuzz-style harnesses, C/Java focus; Rust support unverified)"
-applies_to = "fr2 research: automated find-and-patch on C/C++ dependencies such as JSC"
+applies_to = "<test-host> research: automated find-and-patch on C/C++ dependencies such as JSC"
 
 [[action]]
 id = "atlantis"
@@ -278,7 +278,7 @@ area = "vuln-pipeline"
 name = "Team Atlanta Atlantis (AIxCC 1st place CRS)"
 url = "https://github.com/Team-Atlanta/aixcc-afc-atlantis"
 how_to_run = "git clone; follow example-crs-architecture docs to deploy; main implementation in example-crs-webservice; licence reported as NOASSERTION by GitHub, last push 2025-11-25"
-applies_to = "fr2 research only; heavy deployment"
+applies_to = "<test-host> research only; heavy deployment"
 
 [[action]]
 id = "oss-fuzz"
