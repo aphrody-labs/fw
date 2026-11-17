@@ -8,6 +8,9 @@ use resvg::{tiny_skia, usvg};
 
 use crate::{Error, Result};
 
+/// Largest output, in pixels (`width * height`), for an intrinsic or a requested size.
+pub const MAX_PIXELS: u64 = 64_000_000;
+
 /// Output size and rendering switches.
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
 pub struct RenderOptions {
@@ -57,7 +60,16 @@ fn system_fontdb() -> Arc<usvg::fontdb::Database> {
 /// # Errors
 /// [`Error::Parse`] when usvg rejects the document.
 pub fn parse_tree(svg: &str, system_fonts: bool) -> Result<usvg::Tree> {
-    let mut options = usvg::Options::default();
+    let mut options = usvg::Options {
+        resources_dir: None,
+        // `data:` images only: a string href (a path or a URL) is never read, so untrusted SVG
+        // cannot load a local file or reach the network through the renderer.
+        image_href_resolver: usvg::ImageHrefResolver {
+            resolve_data: usvg::ImageHrefResolver::default_data_resolver(),
+            resolve_string: Box::new(|_, _| None),
+        },
+        ..usvg::Options::default()
+    };
     if system_fonts {
         options.fontdb = system_fontdb();
     }
@@ -84,6 +96,11 @@ fn render_pixmap(svg: &str, options: RenderOptions) -> Result<tiny_skia::Pixmap>
     };
     if w == 0 || h == 0 {
         return Err(Error::Invalid("zero output size".into()));
+    }
+    if u64::from(w) * u64::from(h) > MAX_PIXELS {
+        return Err(Error::Invalid(format!(
+            "output {w}x{h} exceeds {MAX_PIXELS} pixels"
+        )));
     }
     let mut pixmap = tiny_skia::Pixmap::new(w, h)
         .ok_or_else(|| Error::Raster(format!("cannot allocate {w}x{h}")))?;
@@ -200,6 +217,73 @@ mod tests {
         .expect("ok");
         assert_eq!((r.width, r.height), (20, 40));
         assert_eq!(&r.rgba[..4], &[255, 0, 0, 255]);
+    }
+
+    #[test]
+    fn string_hrefs_are_not_loaded() {
+        let dir = std::env::temp_dir().join(format!("ay-svg-href-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).expect("dir");
+        let png = dir.join("secret.png");
+        std::fs::write(
+            &png,
+            render_png(RED, RenderOptions::square(8)).expect("png"),
+        )
+        .expect("write");
+        let href = png.to_string_lossy().replace('\\', "/");
+        let svg = format!(
+            r#"<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><image href="{href}" width="8" height="8"/></svg>"#
+        );
+        let r = render(&svg, RenderOptions::default()).expect("render");
+        std::fs::remove_dir_all(&dir).expect("cleanup");
+        assert!(r.rgba.iter().all(|b| *b == 0), "a local file was loaded");
+    }
+
+    #[test]
+    fn data_images_still_render() {
+        let png = render_png(RED, RenderOptions::square(8)).expect("png");
+        let b64 = {
+            const T: &[u8; 64] =
+                b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+            let mut s = String::new();
+            for c in png.chunks(3) {
+                let n = (u32::from(c[0]) << 16)
+                    | (u32::from(*c.get(1).unwrap_or(&0)) << 8)
+                    | u32::from(*c.get(2).unwrap_or(&0));
+                s.push(T[(n >> 18) as usize & 63] as char);
+                s.push(T[(n >> 12) as usize & 63] as char);
+                s.push(if c.len() > 1 {
+                    T[(n >> 6) as usize & 63] as char
+                } else {
+                    '='
+                });
+                s.push(if c.len() > 2 {
+                    T[n as usize & 63] as char
+                } else {
+                    '='
+                });
+            }
+            s
+        };
+        let svg = format!(
+            r#"<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><image href="data:image/png;base64,{b64}" width="8" height="8"/></svg>"#
+        );
+        let r = render(&svg, RenderOptions::default()).expect("render");
+        assert_eq!(&r.rgba[..4], &[255, 0, 0, 255]);
+    }
+
+    #[test]
+    fn oversized_outputs_are_refused() {
+        let wide = RenderOptions {
+            width: Some(60_000),
+            height: Some(60_000),
+            ..RenderOptions::default()
+        };
+        assert!(matches!(render(RED, wide), Err(Error::Invalid(_))));
+        let huge = r#"<svg xmlns="http://www.w3.org/2000/svg" width="60000" height="60000"/>"#;
+        assert!(matches!(
+            render_png(huge, RenderOptions::default()),
+            Err(Error::Invalid(_))
+        ));
     }
 
     #[test]

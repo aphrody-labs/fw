@@ -13,7 +13,7 @@ use ParseError::{InvalidHunk, InvalidPatch};
 use crate::parser::{
     ADD_FILE_MARKER, ApplyPatchArgs, BEGIN_PATCH_MARKER, CHANGE_CONTEXT_MARKER, DELETE_FILE_MARKER,
     EMPTY_CHANGE_CONTEXT_MARKER, END_PATCH_MARKER, EOF_MARKER, Hunk, MOVE_TO_MARKER, ParseError,
-    UPDATE_FILE_MARKER, UpdateChunk,
+    UPDATE_FILE_MARKER, UpdateChunk, check_path,
 };
 
 const ENVIRONMENT_ID_MARKER: &str = "*** Environment ID: ";
@@ -144,6 +144,7 @@ impl StreamingPatchParser {
         }
         if let Some(path) = trimmed.strip_prefix(ADD_FILE_MARKER) {
             self.ensure_update_hunk_not_empty(trimmed)?;
+            check_path(path, self.line_number)?;
             self.hunks.push(AddFile {
                 path: PathBuf::from(path),
                 contents: String::new(),
@@ -153,6 +154,7 @@ impl StreamingPatchParser {
         }
         if let Some(path) = trimmed.strip_prefix(DELETE_FILE_MARKER) {
             self.ensure_update_hunk_not_empty(trimmed)?;
+            check_path(path, self.line_number)?;
             self.hunks.push(DeleteFile {
                 path: PathBuf::from(path),
             });
@@ -161,6 +163,7 @@ impl StreamingPatchParser {
         }
         if let Some(path) = trimmed.strip_prefix(UPDATE_FILE_MARKER) {
             self.ensure_update_hunk_not_empty(trimmed)?;
+            check_path(path, self.line_number)?;
             self.hunks.push(UpdateFile {
                 path: PathBuf::from(path),
                 move_to: None,
@@ -237,6 +240,7 @@ impl StreamingPatchParser {
             && move_to.is_none()
             && let Some(dest) = update_line.strip_prefix(MOVE_TO_MARKER)
         {
+            check_path(dest, line_number)?;
             *move_to = Some(PathBuf::from(dest));
             return Ok(());
         }

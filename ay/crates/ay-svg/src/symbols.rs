@@ -204,16 +204,35 @@ pub fn symbol_path(
 #[must_use]
 pub fn symbol_svg(path: &str, size: f32, fill: Option<&str>) -> String {
     let size = crate::format_number(f64::from(size), 3);
-    let fill = fill.map_or_else(String::new, |f| format!(r#" fill="{f}""#));
+    let fill = fill.map_or_else(String::new, |f| {
+        format!(r#" fill="{}""#, crate::xml::escape_attr(f))
+    });
     format!(
-        r#"<svg xmlns="{}" width="{size}" height="{size}" viewBox="0 -960 960 960"{fill}><path d="{path}"/></svg>"#,
-        crate::SVG_NS
+        r#"<svg xmlns="{}" width="{size}" height="{size}" viewBox="0 -960 960 960"{fill}><path d="{}"/></svg>"#,
+        crate::SVG_NS,
+        crate::xml::escape_attr(path)
     )
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn symbol_svg_escapes_attribute_values() {
+        let svg = symbol_svg(
+            r#"M0 0"/><script>x</script><path d=""#,
+            24.0,
+            Some(r#"red" onload="x"#),
+        );
+        assert!(!svg.contains("<script"), "{svg}");
+        assert!(!svg.contains(r#"" onload=""#), "{svg}");
+        assert!(roxmltree::Document::parse(&svg).is_ok(), "{svg}");
+        assert_eq!(
+            symbol_svg("M0 0", 24.0, Some("#000")),
+            r##"<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960" fill="#000"><path d="M0 0"/></svg>"##
+        );
+    }
 
     #[test]
     fn cdn_variants_follow_gstatic() {

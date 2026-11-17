@@ -27,6 +27,8 @@ use std::path::{Path, PathBuf};
 
 use thiserror::Error;
 
+use crate::fs::unsafe_path_reason;
+
 pub(crate) const BEGIN_PATCH_MARKER: &str = "*** Begin Patch";
 pub(crate) const END_PATCH_MARKER: &str = "*** End Patch";
 pub(crate) const ADD_FILE_MARKER: &str = "*** Add File: ";
@@ -203,12 +205,24 @@ fn check_patch_boundaries_strict<'a>(lines: &'a [&'a str]) -> Result<&'a [&'a st
     }
 }
 
+/// Refuses a hunk path that is not a safe relative path.
+pub(crate) fn check_path(path: &str, line_number: usize) -> Result<(), ParseError> {
+    match unsafe_path_reason(Path::new(path)) {
+        Some(reason) => Err(InvalidHunk {
+            message: format!("unsafe path '{path}': {reason}"),
+            line_number,
+        }),
+        None => Ok(()),
+    }
+}
+
 /// Parse a single hunk from the start of `lines`. Returns the hunk and the
 /// number of lines consumed.
 fn parse_one_hunk(lines: &[&str], line_number: usize) -> Result<(Hunk, usize), ParseError> {
     let first_line = lines[0].trim();
 
     if let Some(path) = first_line.strip_prefix(ADD_FILE_MARKER) {
+        check_path(path, line_number)?;
         let mut contents = String::new();
         let mut consumed = 1;
         for add_line in &lines[1..] {
@@ -230,6 +244,7 @@ fn parse_one_hunk(lines: &[&str], line_number: usize) -> Result<(Hunk, usize), P
     }
 
     if let Some(path) = first_line.strip_prefix(DELETE_FILE_MARKER) {
+        check_path(path, line_number)?;
         return Ok((
             DeleteFile {
                 path: PathBuf::from(path),
@@ -239,13 +254,15 @@ fn parse_one_hunk(lines: &[&str], line_number: usize) -> Result<(Hunk, usize), P
     }
 
     if let Some(path) = first_line.strip_prefix(UPDATE_FILE_MARKER) {
+        check_path(path, line_number)?;
         let mut remaining = &lines[1..];
         let mut consumed = 1;
 
         let move_to = remaining
             .first()
             .and_then(|line| line.strip_prefix(MOVE_TO_MARKER));
-        if move_to.is_some() {
+        if let Some(dest) = move_to {
+            check_path(dest, line_number + 1)?;
             remaining = &remaining[1..];
             consumed += 1;
         }

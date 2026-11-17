@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 use thiserror::Error;
 
 use crate::{
-    fs::PatchFileSystem,
+    fs::{PatchFileSystem, unsafe_path_reason},
     parser::{ApplyPatchArgs, Hunk, UpdateChunk},
     seek::seek_sequence_eof,
 };
@@ -30,6 +30,9 @@ pub enum ApplyError {
     /// Context or removed lines from a chunk could not be located in the file.
     #[error("failed to find expected lines in {path}:\n{lines}")]
     ContextNotFound { path: PathBuf, lines: String },
+    /// A path is absolute, has a drive prefix or a `..` component (see [`crate::unsafe_path_reason`]).
+    #[error("unsafe path ({reason}): {path}")]
+    UnsafePath { path: PathBuf, reason: &'static str },
     /// A `@@` context marker could not be located.
     #[error("failed to find context '{context}' in {path}")]
     ContextMarkerNotFound { context: String, path: PathBuf },
@@ -60,6 +63,22 @@ pub fn apply_patch<F: PatchFileSystem>(
     args: &ApplyPatchArgs,
     fs: &F,
 ) -> Result<AppliedSummary, ApplyError> {
+    // Every path is checked before the first write, for any `PatchFileSystem`.
+    for hunk in &args.hunks {
+        let (path, move_to) = match hunk {
+            Hunk::AddFile { path, .. } | Hunk::DeleteFile { path } => (path, None),
+            Hunk::UpdateFile { path, move_to, .. } => (path, move_to.as_ref()),
+        };
+        for path in std::iter::once(path).chain(move_to) {
+            if let Some(reason) = unsafe_path_reason(path) {
+                return Err(ApplyError::UnsafePath {
+                    path: path.clone(),
+                    reason,
+                });
+            }
+        }
+    }
+
     let mut summary = AppliedSummary::default();
 
     for hunk in &args.hunks {

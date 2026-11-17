@@ -35,7 +35,7 @@ mod seek;
 mod streaming;
 
 pub use apply::{AppliedSummary, ApplyError, apply_patch};
-pub use fs::{PatchFileSystem, StdFileSystem};
+pub use fs::{PatchFileSystem, StdFileSystem, is_safe_relative_path, unsafe_path_reason};
 pub use parser::{ApplyPatchArgs, Hunk, ParseError, UpdateChunk, parse_patch};
 pub use seek::{seek_sequence, seek_sequence_eof};
 use similar::{ChangeTag, TextDiff};
@@ -122,6 +122,84 @@ mod tests {
         }
         fn exists(&self, path: &Path) -> bool {
             self.files.lock().unwrap().contains_key(path)
+        }
+    }
+
+    /// Paths a patch must never reach. The drive path is assembled so that no absolute-path literal
+    /// sits in the source.
+    fn unsafe_paths() -> Vec<String> {
+        let drive = format!("{}:{}evil.txt", 'C', '\\');
+        vec![
+            "../evil.txt".into(),
+            "a/../../evil.txt".into(),
+            "/etc/evil.txt".into(),
+            drive,
+            "\\\\server\\share\\evil.txt".into(),
+        ]
+    }
+
+    #[test]
+    fn parsers_reject_paths_outside_the_root() {
+        for path in unsafe_paths() {
+            for header in [
+                format!("*** Add File: {path}\n+x"),
+                format!("*** Delete File: {path}"),
+                format!("*** Update File: {path}\n@@\n-a\n+b"),
+                format!("*** Update File: ok.txt\n*** Move to: {path}\n@@\n-a\n+b"),
+            ] {
+                let patch = format!("*** Begin Patch\n{header}\n*** End Patch");
+                assert!(parse_patch(&patch).is_err(), "{header}");
+                let mut streaming = StreamingPatchParser::new();
+                let streamed = streaming.push(&patch).and_then(|()| streaming.finish());
+                assert!(streamed.is_err(), "{header}");
+            }
+        }
+    }
+
+    #[test]
+    fn apply_patch_rejects_unsafe_paths_before_writing_anything() {
+        for path in unsafe_paths() {
+            let fs = MemFs::with(&[("ok.txt", "a\n")]);
+            let hunks = |bad: Hunk| ApplyPatchArgs {
+                hunks: vec![
+                    Hunk::AddFile {
+                        path: PathBuf::from("first.txt"),
+                        contents: "x\n".into(),
+                    },
+                    bad,
+                ],
+            };
+            for bad in [
+                Hunk::AddFile {
+                    path: PathBuf::from(&path),
+                    contents: "x\n".into(),
+                },
+                Hunk::DeleteFile {
+                    path: PathBuf::from(&path),
+                },
+                Hunk::UpdateFile {
+                    path: PathBuf::from("ok.txt"),
+                    move_to: Some(PathBuf::from(&path)),
+                    chunks: vec![UpdateChunk {
+                        context_marker: None,
+                        old_lines: vec!["a".into()],
+                        new_lines: vec!["b".into()],
+                        is_eof: false,
+                    }],
+                },
+            ] {
+                let err = apply_patch(&hunks(bad), &fs).unwrap_err();
+                assert!(
+                    matches!(err, ApplyError::UnsafePath { .. }),
+                    "{path}: {err}"
+                );
+                assert_eq!(
+                    fs.get("first.txt"),
+                    None,
+                    "{path}: a hunk ran before the check"
+                );
+                assert_eq!(fs.get("ok.txt").as_deref(), Some("a\n"));
+            }
         }
     }
 
@@ -288,10 +366,10 @@ mod tests {
     fn std_filesystem_round_trip() {
         let dir = tempfile::tempdir().unwrap();
         let target = dir.path().join("nested/created.txt");
-        let fs = StdFileSystem;
+        let fs = StdFileSystem::new(dir.path());
         let args = ApplyPatchArgs {
             hunks: vec![Hunk::AddFile {
-                path: target.clone(),
+                path: PathBuf::from("nested/created.txt"),
                 contents: "content\n".to_string(),
             }],
         };

@@ -8,7 +8,7 @@ use roxmltree::{Document, Node, ParsingOptions};
 
 use crate::{Error, Result, SVG_NS, XLINK_NS};
 
-const XML_NS: &str = "http://www.w3.org/XML/1998/namespace";
+pub(crate) const XML_NS: &str = "http://www.w3.org/XML/1998/namespace";
 
 /// Hooks applied while writing. Every default keeps the node unchanged.
 pub(crate) trait Rules {
