@@ -11,24 +11,38 @@ const layout = Bun.TOML.parse(await Bun.file(at("tools/layout.toml")).text()) as
   first_party: { dir: string };
   third_party: { dir: string };
 };
-const lock = (await Bun.file(at("tools/upstreams.lock.json")).json()) as Record<string, { crates: Record<string, string> }>;
-const tracked = async (...paths: string[]) => (await Bun.$`git -C ${repo} ls-files -z -- ${paths}`.text()).split("\0").filter(Boolean);
+const lock = (await Bun.file(at("tools/upstreams.lock.json")).json()) as Record<
+  string,
+  { crates: Record<string, string> }
+>;
+const tracked = async (...paths: string[]) =>
+  (await Bun.$`git -C ${repo} ls-files -z -- ${paths}`.text()).split("\0").filter(Boolean);
 const problems: string[] = [];
 
 for (const legacy of await tracked("src", "upstream")) problems.push(`legacy location: ${legacy}`);
 
 for (const [name, entry] of Object.entries(lock))
   for (const dir of Object.values(entry.crates)) {
-    if (!dir.startsWith(`${layout.third_party.dir}/${name}/`)) problems.push(`${name}: crate at ${dir}, expected under ${layout.third_party.dir}/${name}/`);
+    if (!dir.startsWith(`${layout.third_party.dir}/${name}/`))
+      problems.push(`${name}: crate at ${dir}, expected under ${layout.third_party.dir}/${name}/`);
     else if (!(await Bun.file(at(`${dir}/Cargo.toml`)).exists())) problems.push(`${name}: no manifest at ${dir}`);
   }
 
 for (const manifest of await tracked(`${layout.first_party.dir}/*/Cargo.toml`)) {
-  const meta = (Bun.TOML.parse(await Bun.file(at(manifest)).text()) as { package?: { metadata?: { browser?: { native?: boolean } } } }).package?.metadata?.browser;
-  if (meta?.native !== true) problems.push(`${manifest}: first-party crates set [package.metadata.browser] native = true`);
+  const meta = (
+    Bun.TOML.parse(await Bun.file(at(manifest)).text()) as {
+      package?: { metadata?: { browser?: { native?: boolean } } };
+    }
+  ).package?.metadata?.browser;
+  if (meta?.native !== true)
+    problems.push(`${manifest}: first-party crates set [package.metadata.browser] native = true`);
 }
 
-const modules = (await Bun.file(at(".gitmodules")).text().catch(() => "")).matchAll(/path = (.+)/g);
+const modules = (
+  await Bun.file(at(".gitmodules"))
+    .text()
+    .catch(() => "")
+).matchAll(/path = (.+)/g);
 const submodules = [...modules].map((m) => m[1].trim());
 if (!submodules.includes(layout.bun.dir)) problems.push(`${layout.bun.dir} is not a submodule`);
 

@@ -36,7 +36,7 @@ bun testing/acceptance.ts run        # on the build host for anything beyond a f
 python3 tools/import.py . /srv/xbuild/scratch/imp <name>     # fetch, rewrite, replay new commits linearly, place them (layout.ts)
 uv run --with tomlkit tools/flatten.py .                      # re-flatten manifests, patches, root workspace
 bash tools/fixups.sh && bun tools/third_party.ts              # integration fixes, README.chromium
-cargo update && cargo tree -d                                 # dedup check
+cargo update && cargo tree -d                                 # dedup check; who requires which version: cargo metadata --format-version 1 | python3 tools/directdups.py
 ```
 
 ## Layout
