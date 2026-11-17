@@ -10,7 +10,7 @@
 //   wat:FN[:VARIANT]          the function in the linked corelib.wasm, printed as WAT; VARIANT is base | simd | atomics
 //   file:PATH[#FIRST-LAST]    a repository file, optionally a line range
 //   dump:PATH:LINES           the first LINES of `wasm-tools dump` of a .wat file, assembled
-// The clang major version and the wasm-tools version are pinned in docs/guides/assembly-and-wasm/listings.toml.
+// The clang version and the wasm-tools version are pinned in docs/guides/assembly-and-wasm/listings.toml.
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { extname, join } from "node:path";
@@ -130,7 +130,7 @@ export class Generator {
     const out: string[] = [];
     if (process.env.AY_LISTINGS_SKIP_PIN) return out;
     const clang = clangVersion();
-    if (!clang.startsWith(`${this.pins.clang}.`)) out.push(`clang ${this.pins.clang}.x pinned, found ${clang}`);
+    if (clang !== this.pins.clang && !clang.startsWith(`${this.pins.clang}.`)) out.push(`clang ${this.pins.clang} pinned, found ${clang}`);
     const wt = run(["wasm-tools", "--version"]);
     if (!wt.startsWith(`wasm-tools ${this.pins.wasm_tools} `)) out.push(`wasm-tools ${this.pins.wasm_tools} pinned, found ${wt.trim()}`);
     return out;

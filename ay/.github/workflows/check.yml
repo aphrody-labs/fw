@@ -45,12 +45,20 @@ jobs:
           pins=docs/guides/assembly-and-wasm/listings.toml
           echo "clang=$(sed -n 's/^clang = "\(.*\)"/\1/p' $pins)" >> "$GITHUB_OUTPUT"
           echo "wasm_tools=$(sed -n 's/^wasm_tools = "\(.*\)"/\1/p' $pins)" >> "$GITHUB_OUTPUT"
-      - name: LLVM (clang, lld, wasm-ld) from apt.llvm.org
+      - uses: actions/cache@v6
+        id: llvm
+        with:
+          path: ~/llvm
+          key: llvm-${{ steps.pins.outputs.clang }}-linux-x64
+      - name: LLVM (clang, lld, wasm-ld), the pinned official release
+        if: steps.llvm.outputs.cache-hit != 'true'
         run: |
-          curl -fsSL https://apt.llvm.org/llvm.sh -o "$RUNNER_TEMP/llvm.sh"
-          sudo bash "$RUNNER_TEMP/llvm.sh" ${{ steps.pins.outputs.clang }}
-          sudo apt-get install -y --no-install-recommends lld-${{ steps.pins.outputs.clang }} qemu-system-x86
-          echo "/usr/lib/llvm-${{ steps.pins.outputs.clang }}/bin" >> "$GITHUB_PATH"
+          v=${{ steps.pins.outputs.clang }}
+          curl -fsSL -o "$RUNNER_TEMP/llvm.tar.zst" "https://github.com/llvm/llvm-project/releases/download/llvmorg-$v/LLVM-$v-Linux-X64.tar.zst"
+          mkdir -p ~/llvm && tar --zstd -xf "$RUNNER_TEMP/llvm.tar.zst" -C ~/llvm --strip-components=1
+      - run: |
+          echo "$HOME/llvm/bin" >> "$GITHUB_PATH"
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends qemu-system-x86
       - uses: taiki-e/install-action@v2
         with:
           tool: wasm-tools@${{ steps.pins.outputs.wasm_tools }}

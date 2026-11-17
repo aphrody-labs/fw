@@ -114,7 +114,7 @@ Read them side by side. The x86-64 and AArch64 versions use the System V and AAP
 
 | Tool | What it does here | Version used (2026-11-16) |
 |---|---|---|
-| `clang`, `lld`, `wasm-ld` | compile the corelib, `-S` shows native assembly, `wasm-ld` links Wasm | LLVM 23.1.5 here (23.1.6 on fr1); major version pinned in `listings.toml` |
+| `clang`, `lld`, `wasm-ld` | compile the corelib, `-S` shows native assembly, `wasm-ld` links Wasm | LLVM 23.1.5 here (23.1.6 on fr1); version pinned in `listings.toml` |
 | `wasm-tools` | `parse` WAT to binary, `print` binary to WAT, `dump` annotated bytes, `validate`, `component` | 1.263.0 (released 2026-10-30) |
 | `wabt` (`wat2wasm`, `wasm2wat`) | the reference-style alternative to `wasm-tools parse`/`print` | 1.0.42 (2026-09-15) |
 | QEMU | boots the bare-metal image on fr1 | 11.0.3 |
