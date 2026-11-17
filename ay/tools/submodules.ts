@@ -5,7 +5,7 @@
 //   bun tools/submodules.ts              write .gitmodules and stage 160000 gitlinks
 //   bun tools/submodules.ts --check      verify .gitmodules, SHA pins, uniqueness, and git index gitlinks
 //   bun tools/submodules.ts --init <p>   shallow-checkout one or more submodules on a build host
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { repoRoot } from "./local.ts";
 
@@ -86,6 +86,7 @@ export async function applyGitmodulesAndLinks(root = repoRoot): Promise<void> {
   if (errs.length) throw new Error(errs.join("\n"));
   await Bun.write(join(root, ".gitmodules"), renderGitmodules(manifest));
   for (const s of manifest.submodule) {
+    mkdirSync(join(root, s.path), { recursive: true });
     const res = Bun.spawnSync(
       ["git", "-C", root, "update-index", "--add", "--cacheinfo", `160000,${s.sha},${s.path}`],
       { stdout: "pipe", stderr: "pipe", windowsHide: true },
