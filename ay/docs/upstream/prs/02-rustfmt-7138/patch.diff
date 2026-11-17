@@ -1,0 +1,152 @@
+From 8570776cfb84d33dcd8845b11baedb8a951f4abd Mon Sep 17 00:00:00 2001
+From: aphrody-dev <324927936+aphrody-dev@users.noreply.github.com>
+Date: Tue, 17 Nov 2026 04:09:03 +0000
+Subject: [PATCH] fix: don't normalize a trailing `::self` away in use trees
+
+`use a::b::self;` only imports the type namespace item `b`, whereas
+`use a::b;` imports `b` from every namespace. Rewriting the former into
+the latter can introduce a name clash with a same-named function or
+macro, turning valid code into code that no longer compiles.
+
+Keep an unaliased trailing `::self` as written. `foo::self as bar` is
+still normalized to `foo as bar`.
+
+Fixes rust-lang/rustfmt#7138
+---
+ src/imports.rs                                | 26 +++++++------------
+ tests/source/issue-7138.rs                    | 17 ++++++++++++
+ tests/target/imports/imports.rs               |  2 +-
+ .../imports_granularity_default-with-dups.rs  |  2 +-
+ tests/target/issue-7138.rs                    | 17 ++++++++++++
+ 5 files changed, 46 insertions(+), 18 deletions(-)
+ create mode 100644 tests/source/issue-7138.rs
+ create mode 100644 tests/target/issue-7138.rs
+
+diff --git a/src/imports.rs b/src/imports.rs
+index f062eaa3..3f0aea69 100644
+--- a/src/imports.rs
++++ b/src/imports.rs
+@@ -571,20 +571,11 @@ impl UseTree {
+             _ => (),
+         }
+ 
+-        // Normalise foo::self -> foo.
+-        if let UseSegmentKind::Slf(None) = last.kind {
+-            if let Some(second_last) = self.path.pop() {
+-                if matches!(second_last.kind, UseSegmentKind::Slf(_)) {
+-                    self.path.push(second_last);
+-                } else {
+-                    self.path.push(second_last);
+-                    return self;
+-                }
+-            }
+-        }
+-
+         // Normalise foo::self as bar -> foo as bar.
+-        if let UseSegmentKind::Slf(_) = last.kind {
++        //
++        // An unaliased trailing `::self` is kept as is: `use foo::self;` only imports the
++        // type namespace, whereas `use foo;` also imports same-named values and macros.
++        if let UseSegmentKind::Slf(Some(_)) = last.kind {
+             if let Some(UseSegment {
+                 kind: UseSegmentKind::Ident(_, None),
+                 ..
+@@ -1482,7 +1473,10 @@ mod test {
+ 
+     #[test]
+     fn test_use_tree_normalize() {
+-        assert_eq!(parse_use_tree("a::self").normalize(), parse_use_tree("a"));
++        assert_eq!(
++            parse_use_tree("a::self").normalize(),
++            parse_use_tree("a::self")
++        );
+         assert_eq!(
+             parse_use_tree("a::self as foo").normalize(),
+             parse_use_tree("a as foo")
+@@ -1494,11 +1488,11 @@ mod test {
+         assert_eq!(parse_use_tree("a::{b}").normalize(), parse_use_tree("a::b"));
+         assert_eq!(
+             parse_use_tree("a::{b, c::self}").normalize(),
+-            parse_use_tree("a::{b, c}")
++            parse_use_tree("a::{b, c::self}")
+         );
+         assert_eq!(
+             parse_use_tree("a::{b as bar, c::self}").normalize(),
+-            parse_use_tree("a::{b as bar, c}")
++            parse_use_tree("a::{b as bar, c::self}")
+         );
+     }
+ 
+diff --git a/tests/source/issue-7138.rs b/tests/source/issue-7138.rs
+new file mode 100644
+index 00000000..cddefede
+--- /dev/null
++++ b/tests/source/issue-7138.rs
+@@ -0,0 +1,17 @@
++// A trailing `::self` only imports the type namespace item, so it must not be
++// rewritten to the plain path, which also imports same-named values and macros.
++
++mod a {
++    pub mod b {}
++
++    pub fn b() {}
++
++    pub mod c {}
++
++    pub fn c() {}
++}
++
++fn b() {}
++
++use a::b::self;
++pub use a::c::self;
+diff --git a/tests/target/imports/imports.rs b/tests/target/imports/imports.rs
+index 8c0ed1d8..af563ed5 100644
+--- a/tests/target/imports/imports.rs
++++ b/tests/target/imports/imports.rs
+@@ -27,7 +27,7 @@ use rustc_ast::{self};
+ use Foo::{Bar, Baz};
+ use {Bar /* comment */, /* Pre-comment! */ Foo};
+ 
+-use std::io;
++use std::io::self;
+ use std::io::{self};
+ 
+ mod Foo {
+diff --git a/tests/target/imports/imports_granularity_default-with-dups.rs b/tests/target/imports/imports_granularity_default-with-dups.rs
+index 5da6d588..d44a49f0 100644
+--- a/tests/target/imports/imports_granularity_default-with-dups.rs
++++ b/tests/target/imports/imports_granularity_default-with-dups.rs
+@@ -1,5 +1,5 @@
+ use crate::lexer;
+-use crate::lexer;
++use crate::lexer::self;
+ use crate::lexer::tokens::TokenData;
+ use crate::lexer::tokens::TokenData;
+ use crate::lexer::{self};
+diff --git a/tests/target/issue-7138.rs b/tests/target/issue-7138.rs
+new file mode 100644
+index 00000000..cddefede
+--- /dev/null
++++ b/tests/target/issue-7138.rs
+@@ -0,0 +1,17 @@
++// A trailing `::self` only imports the type namespace item, so it must not be
++// rewritten to the plain path, which also imports same-named values and macros.
++
++mod a {
++    pub mod b {}
++
++    pub fn b() {}
++
++    pub mod c {}
++
++    pub fn c() {}
++}
++
++fn b() {}
++
++use a::b::self;
++pub use a::c::self;
+-- 
+2.55.0
+

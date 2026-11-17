@@ -166,6 +166,8 @@ why_it_fits = "Formatter changes semantics (`use a::b::self;` is not `use a::b;`
 size = "M"
 needs_compiler_build = false
 patch_candidate = true
+status = "patch-ready-local"
+patch = "docs/upstream/prs/02-rustfmt-7138/patch.diff"
 hint = "src/imports.rs: UseSegmentKind::Slf and the UseTree normalization drop a trailing `self` segment; keep it when it is not redundant; add a source/target pair under tests/ (imports); run `cargo test` on nightly with rustc-dev."
 
 [[issue]]
