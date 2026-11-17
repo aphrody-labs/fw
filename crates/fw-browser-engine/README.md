@@ -7,11 +7,11 @@ Decision, measurements and engine plan: [ARCHITECTURE.md](ARCHITECTURE.md). Agen
 
 | Source | Where | History |
 |---|---|---|
-| Bun (aphrody-labs/bun, rebased on oven-sh/bun) | `src/*` as upstream | kept |
-| Servo org: servo, stylo, webrender, mozjs, mozangle, html5ever, rust-url, rust-cssparser, ipc-channel, surfman, euclid, string-cache, unicode-bidi, core-foundation-rs, dwrote-rs, gleam, app_units, cgl-rs, fontsan, gaol, plane-split, rust-fnv, rust-freetype, rust-harfbuzz, smallbitvec, uluru | `src/<package>`, rest in `upstream/<repo>` | kept |
-| Obscura (a user account, h4ckf0r0day/obscura, not an org) | `src/obscura-*` | kept |
-| agent-browser (vercel-labs, aphrody-labs fork) | `src/agent-browser` | kept |
-| lol-html (oven-sh, bun branch), rust-argon2 | `src/lol_html`, `src/rust-argon2` (Bun's vendored deps) | kept |
+| Bun (aphrody-labs/bun, rebased on oven-sh/bun) | `bun/src/*` as upstream | kept |
+| Servo org: servo, stylo, webrender, mozjs, mozangle, html5ever, rust-url, rust-cssparser, ipc-channel, surfman, euclid, string-cache, unicode-bidi, core-foundation-rs, dwrote-rs, gleam, app_units, cgl-rs, fontsan, gaol, plane-split, rust-fnv, rust-freetype, rust-harfbuzz, smallbitvec, uluru | `third_party/<repo>/<package>`, the rest of the repository beside them | kept |
+| Obscura (a user account, h4ckf0r0day/obscura, not an org) | `third_party/obscura/obscura-*` | kept |
+| agent-browser (vercel-labs, aphrody-labs fork) | `third_party/agent-browser/agent-browser` | kept |
+| lol-html (oven-sh, bun branch), rust-argon2 | `third_party/lol-html/lol_html`, `third_party/rust-argon2/rust-argon2` (Bun's vendored deps) | kept |
 
 Skipped from the Servo org (listed with reason in [docs/inventory.md](docs/inventory.md)): archived repositories,
 websites, CI and WPT dashboards, the wpt fork, demos, `tendril` (superseded by the copy inside html5ever),

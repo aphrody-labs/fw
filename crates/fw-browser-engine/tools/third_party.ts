@@ -11,7 +11,10 @@ const layout = Bun.TOML.parse(await Bun.file(at("tools/layout.toml")).text()) as
 const spec = Bun.TOML.parse(await Bun.file(at("tools/upstreams.toml")).text()) as {
   upstream: { name: string; url: string; branch: string; mode?: string; drop?: string[] }[];
 };
-const lock = (await Bun.file(at("tools/upstreams.lock.json")).json()) as Record<string, { sha: string; branch: string; url: string; crates: Record<string, string> }>;
+const lock = (await Bun.file(at("tools/upstreams.lock.json")).json()) as Record<
+  string,
+  { sha: string; branch: string; url: string; crates: Record<string, string> }
+>;
 const root = Bun.TOML.parse(await Bun.file(at("Cargo.toml")).text()) as { workspace: { members: string[] } };
 const members = new Set(root.workspace.members);
 
@@ -21,21 +24,39 @@ for (const u of spec.upstream) {
   if (u.name === "bun") continue;
   const entry = lock[u.name];
   const base = `${dir}/${u.name}`;
-  if (!entry || !(await Bun.file(at(base)).stat().then((s) => s.isDirectory(), () => false))) continue;
+  if (
+    !entry ||
+    !(await Bun.file(at(base))
+      .stat()
+      .then(
+        (s) => s.isDirectory(),
+        () => false,
+      ))
+  )
+    continue;
 
   const crates = await Promise.all(
     Object.values(entry.crates).map(async (path) => {
       const file = Bun.file(at(`${path}/Cargo.toml`));
       if (!(await file.exists())) return null;
       const pkg = (Bun.TOML.parse(await file.text()) as any).package ?? {};
-      return { path, name: pkg.name as string, version: pkg.version as string | undefined, license: pkg.license as string | undefined, description: pkg.description as string | undefined, shipped: members.has(path) };
+      return {
+        path,
+        name: pkg.name as string,
+        version: pkg.version as string | undefined,
+        license: pkg.license as string | undefined,
+        description: pkg.description as string | undefined,
+        shipped: members.has(path),
+      };
     }),
   );
   const found = crates.filter((c): c is NonNullable<typeof c> => c !== null);
   const licenses = [...new Set(found.flatMap((c) => (c.license ? [c.license] : [])))].sort();
   const versions = found.flatMap((c) => (c.version ? [c.version] : []));
   const mostCommon = (xs: string[]) => [...Map.groupBy(xs, (x) => x)].sort((a, b) => b[1].length - a[1].length)[0]?.[0];
-  const files = (await Array.fromAsync(new Bun.Glob("{LICEN[CS]E*,COPYING*,UNLICENSE*}").scan({ cwd: at(base), dot: false }))).sort();
+  const files = (
+    await Array.fromAsync(new Bun.Glob("{LICEN[CS]E*,COPYING*,UNLICENSE*}").scan({ cwd: at(base), dot: false }))
+  ).sort();
   const lines = [
     `Name: ${u.name}`,
     `Short Name: ${u.name}`,

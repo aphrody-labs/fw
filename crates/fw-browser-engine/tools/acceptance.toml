@@ -147,7 +147,7 @@ branch = "main"
 release = false
 provider = "firefox"
 version_channel = "nightly"
-pin_file = "src/mozjs_sys/etc/COMMIT"
+pin_file = "third_party/mozjs/mozjs_sys/etc/COMMIT"
 
 [track.webkit]
 kind = "engine"

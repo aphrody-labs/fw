@@ -47,7 +47,9 @@ const third = layout.third_party.dir;
 
 for (const name of top("upstream")) {
   if (name === "bun") {
-    for (const file of tracked.filter((p) => p.startsWith("upstream/bun/")).map((p) => p.slice("upstream/bun/".length))) {
+    for (const file of tracked
+      .filter((p) => p.startsWith("upstream/bun/"))
+      .map((p) => p.slice("upstream/bun/".length))) {
       moves.push([`upstream/bun/${file}`, file === "Cargo.toml" ? layout.bun.workspace : `${bun}/${file}`]);
     }
   } else moves.push([`upstream/${name}`, `${third}/${name}`]);
@@ -74,7 +76,13 @@ const legacy = (path: string): string => {
 
 if (command === "root") {
   const manifest = at("Cargo.toml");
-  const exists = async (path: string) => Bun.file(at(path)).stat().then(() => true, () => false);
+  const exists = async (path: string) =>
+    Bun.file(at(path))
+      .stat()
+      .then(
+        () => true,
+        () => false,
+      );
   const found = new Map<string, string>();
   const entries = new Set<string>();
   for (const m of (await Bun.file(manifest).text()).matchAll(/"src\/([^"\/]+)(?:\/[^"]*)?"/g)) entries.add(m[1]);
@@ -85,7 +93,10 @@ if (command === "root") {
     else if (await exists(`${layout.first_party.dir}/${entry}`)) found.set(entry, `${layout.first_party.dir}/${entry}`);
     else found.set(entry, `${layout.bun.dir}/src/${entry}`);
   }
-  const text = (await Bun.file(manifest).text()).replace(/"src\/([^"\/]+)((?:\/[^"]*)?)"/g, (_, entry: string, rest: string) => `"${found.get(entry)}${rest}"`);
+  const text = (await Bun.file(manifest).text()).replace(
+    /"src\/([^"\/]+)((?:\/[^"]*)?)"/g,
+    (_, entry: string, rest: string) => `"${found.get(entry)}${rest}"`,
+  );
   await Bun.write(manifest, text);
   console.log(`root manifest: ${entries.size} crate paths relocated`);
   process.exit(0);
@@ -99,7 +110,10 @@ if (command !== "apply") throw new Error(`unknown command ${command}`);
 
 // ---- apply ---------------------------------------------------------------------------------------------------
 const targets = new Set(moves.map(([, to]) => to));
-const stat = (path: string) => Bun.file(at(path)).stat().catch(() => null);
+const stat = (path: string) =>
+  Bun.file(at(path))
+    .stat()
+    .catch(() => null);
 /** Moves `from` to `to`; when `to` is already there (an import added to a directory that was placed before) both are merged entry by entry. */
 async function place(from: string, to: string) {
   const [source, target] = [await stat(from), await stat(to)];

@@ -6,7 +6,7 @@ One browser, two engines behind one CDP front, on Bun's crate layout.
  agent / Playwright / Puppeteer / DevTools frontend
                      | CDP (WebSocket or pipe)
               +------v-------+
-              |   src/cdp    |  one CDP endpoint, Chrome-for-Testing compatible
+              |components/cdp|  one CDP endpoint, Chrome-for-Testing compatible
               +--+--------+--+
    lite engine   |        |   full engine
  (obscura-*, Servo crates)  |   (Blink, Chromium headless)
@@ -47,13 +47,16 @@ binaries). `build/engines/` drives GN on the Chromium checkout (`CHROMIUM_SRC`, 
   what Chromium ships; Chromium has no full-LTO mode for native targets).
 - Blink through `//headless:headless_shell` (native CDP, `--remote-debugging-pipe`); `headless_shell_lib`
   when in-process embedding is wanted.
-- Rust side links the libraries through the C ABI (`src/v8-sys`, `src/skia-sys`, generated with bindgen from
+- Rust side links the libraries through the C ABI (`components/v8-sys`, `components/skia-sys`, generated with bindgen from
   the checkout headers) or cxx (vendored in `third_party/rust/chromium_crates_io`), the way Chromium
   does Rust interop. Cross-language LTO needs rustc and clang on the same LLVM (see `docs/`).
 
 ## Layout
 
-`src/<crate>` flat, Bun style, one Cargo workspace, one `Cargo.lock`. Imported crates keep their package
-names; `upstream/<name>/` holds what is not a crate (CI, docs, resources) with history preserved.
-`tools/upstreams.toml` lists the upstreams, `tools/import.py` imports and re-syncs them, `tools/flatten.py`
-rewrites the manifests.
+The tree follows Chromium: `bun/` (the runtime, one tree, like `//v8`), `components/<crate>` (first-party, like
+`//components`), `third_party/<upstream>/<crate>` (everything imported, with `README.chromium`; Chromium's own checkout
+lives at `third_party/chromium` on the build host and is never committed), `build/`, `tools/`, `docs/`. One Cargo workspace,
+one `Cargo.lock`. Imported crates keep their package names; what an upstream has besides crates sits in its directory with
+history preserved. `tools/layout.toml` decides where everything goes, `tools/upstreams.toml` lists the upstreams,
+`tools/upstreams.lock.json` pins them (the `DEPS`), `tools/import.py` imports and re-syncs them (replayed linearly:
+`main` requires a linear history), `tools/flatten.py` rewrites the manifests, `tools/layout.ts` places the result.

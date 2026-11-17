@@ -11,5 +11,5 @@
     "skipLibCheck": true,
     "types": ["bun"]
   },
-  "include": ["acceptance.ts", "acceptance/**/*.ts", "inventory.ts"]
+  "include": ["acceptance.ts", "acceptance/**/*.ts", "inventory.ts", "layout.ts", "third_party.ts"]
 }

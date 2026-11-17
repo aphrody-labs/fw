@@ -1,4 +1,4 @@
-# One entry per upstream (history imported by tools/import.py). `mode = "bun"` keeps src/ as is.
+# One entry per upstream (history imported by tools/import.py). `mode = "bun"` keeps Bun's src/ as is (placed under bun/ by tools/layout.ts)
 # Heads are resolved live at import time and recorded in upstreams.lock.json.
 
 [[upstream]]
