@@ -1,4 +1,5 @@
 import { html, raw, type Safe } from "./html.ts";
+import { DIR, LANG } from "./format.ts";
 import { APP_CSS, FONT_CSS } from "./style.ts";
 
 export interface NavItem {
@@ -35,7 +36,7 @@ export function layout(p: Page): string {
   const groups = [...new Set(NAV.map(n => n.group))];
   const active = NAV.filter(n => n.href === "/" ? p.path === "/" : p.path === n.href || p.path.startsWith(`${n.href}/`)).sort((a, b) => b.href.length - a.href.length)[0]?.href;
   return html`<!doctype html>
-<html lang="en">
+<html lang="${LANG}" dir="${DIR}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
