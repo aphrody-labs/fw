@@ -1,4 +1,6 @@
 import { describe, expect, test } from "bun:test";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { hostAlias, hostWork, loadHosts, type HostConfig } from "./hosts.ts";
 
 const cfg: HostConfig = { hosts: { build: "b1" }, paths: { build: { work: "/vol/x/" } } };
@@ -12,7 +14,7 @@ describe("host facts", () => {
     expect(() => hostWork("prod", cfg)).toThrow("[paths.prod].work");
     expect(() => hostAlias("test", cfg)).toThrow("[hosts].test");
   });
-  test("ay.toml defines a work volume for the build and test roles", () => {
+  test.skipIf(!existsSync(join(import.meta.dir, "..", "ay.local.toml")))("ay.local.toml defines a work volume for the build and test roles", () => {
     const real = loadHosts();
     expect(hostWork("build", real)).toStartWith("/");
     expect(hostWork("test", real)).toStartWith("/");
