@@ -5,6 +5,13 @@
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
     "features": "bun tools/features.ts",
-    "check": "bun tools/features.ts --check && bun tools/paths.ts && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./apps/chromium-dash ./packages/chromium/test/version.test.ts"
+    "abi": "bun tools/abi.ts",
+    "check": "bun tools/features.ts --check && bun tools/paths.ts && bun tools/abi.ts --check && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./apps/chromium-dash ./packages/chromium/test/version.test.ts"
+  },
+  "devDependencies": {
+    "tree-sitter-c": "0.24.1",
+    "tree-sitter-python": "0.25.0",
+    "tree-sitter-rust": "0.24.0",
+    "web-tree-sitter": "0.27.2"
   }
 }
