@@ -83,3 +83,20 @@ test("a crate whose library name differs from its package name is keyed by the l
   expect(rewireLine('taffy = "0.15"', members, "browser-", "../../crates")).toBe('taffy = { package = "browser-taffy", path = "../../crates/taffy", version = "0.15" }');
   expect(renameFeatureRefs('a = ["stylo/servo", "dep:stylo", "stylo?/x", "taffy/std", "stylo_traits/x"]', members)).toBe('a = ["style/servo", "dep:style", "style?/x", "taffy/std", "style_traits/x"]');
 });
+
+test("the feature matrix lists each in-tree crate's features and marks the ones the build enables", async () => {
+  const { matrixOf } = await import("./kitesurf-monorepo.ts");
+  const meta = {
+    packages: [
+      { id: "a", name: "browser-taffy", version: "0.15.0", repository: "https://github.com/DioxusLabs/taffy", features: { default: ["std"], std: [], grid: ["dep:x"] }, manifest_path: "/w/crates/taffy/Cargo.toml" },
+      { id: "b", name: "browser-other", version: "1.0.0", repository: null, features: {}, manifest_path: "/w/packages/other/Cargo.toml" },
+    ],
+    resolve: { nodes: [{ id: "a", features: ["std", "default"] }] },
+  };
+  const text = matrixOf(meta, "browser-", { taffy: 7 });
+  expect(text).toContain("## browser-taffy 0.15.0");
+  expect(text).toContain("patches carried: 7");
+  expect(text).toContain("| `std` | ● |");
+  expect(text).toContain("| `grid` | ○ | `dep:x` |");
+  expect(text).not.toContain("browser-other");
+});
