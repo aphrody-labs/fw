@@ -53,6 +53,11 @@ cargo update && cargo tree -d                                 # dedup check; who
 - `scp` does not work from this PC's shell: `tar cf - dir | ssh fr1 'tar xf - -C /tmp/x'`. A shared checkout with someone else's unstaged
   changes cannot `pull --rebase` (no stash): `git fetch && git merge --ff-only origin/main`, then push.
 - The presubmit's docs check reads the Bun fork's docs: `BUN_DOCS=<fork>/docs`, else `third_party/bun/docs`, else `../bun/docs`.
+- The PC checkout holds 16 GB in `third_party/chromium` (ignored): use `git grep` and `git ls-files`, never `grep -r`, `find` or `du` from the root.
+- Tests are hermetic; the live or heavier ones are opt-in by environment: `TRACK_LIVE=1` (upstream APIs), `JETSTREAM_WS=<cdp ws>` (a real JetStream run), `REDIS_URL=redis://host:port` (the Redis/Valkey paths).
+- Bun 1.4.5-canary quirks hit here: `Bun.file(dir).exists()` is false for directories (use `.stat()`); `Bun.connect` TLS has no `getProtocol` (take the protocol from CDP `response.protocol`);
+  `Bun.WebView` cannot start Chrome or Edge on Windows (the front reports SKIP); `bun n2b` is not in the installed binary (the native lint rules enforce the same).
+- A push prints "Bypassed rule violations" (this account can bypass the `main` ruleset): never use that to land a non-linear history.
 
 ## Layout
 
