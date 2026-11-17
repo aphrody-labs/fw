@@ -4,9 +4,11 @@
 usage: import.py <monorepo> <workdir> <name>...        (names from tools/upstreams.toml)
 
 Per upstream: shallow-free single-branch clone, git-filter-repo rewrite so that every crate lives in
-src/<package> (flat, Bun layout) and every other file in upstream/<name>/, then
-`git merge --allow-unrelated-histories` into the monorepo. The rewrite is deterministic: a re-run on a
-newer upstream head produces the same SHAs for the old commits, so a re-sync merges only the new ones.
+src/<package> and every other file in upstream/<name>/ (legacy locations: the rewrite stays deterministic, a re-run on a
+newer upstream head produces the same SHAs for the old commits), then the commits that are new since the last import
+(lock field `imported`) are replayed onto main one by one: main requires a linear history, so nothing is merged. Directory
+renames are on, so changes to crates already placed follow them. `tools/layout.ts` then places whatever arrived in the legacy
+locations under third_party/<name>/ (tools/layout.toml).
 """
 import json, subprocess, sys, os, tomllib, shutil
 
@@ -20,9 +22,24 @@ def run(*a, cwd=None, env=None, out=False):
     return r.stdout.strip() if out else None
 
 
+def layout(mono):
+    with open(os.path.join(mono, "tools", "layout.toml"), "rb") as f:
+        return tomllib.load(f)
+
+
 def taken_dirs(mono):
-    p = os.path.join(mono, "src")
-    return set(os.listdir(p)) if os.path.isdir(p) else set()
+    """Directory names in use anywhere in the layout: a new crate must not take one."""
+    lay = layout(mono)
+    names = set()
+    for d in (os.path.join(mono, "src"), os.path.join(mono, lay["first_party"]["dir"]),
+              os.path.join(mono, lay["bun"]["dir"], "src")):
+        if os.path.isdir(d):
+            names |= set(os.listdir(d))
+    tp = os.path.join(mono, lay["third_party"]["dir"])
+    for u in os.listdir(tp) if os.path.isdir(tp) else []:
+        if os.path.isdir(os.path.join(tp, u)):
+            names |= set(os.listdir(os.path.join(tp, u)))
+    return names
 
 
 def crate_map(work, name, taken, manifest="Cargo.toml"):
@@ -96,18 +113,31 @@ def main():
             cb = "KEEP = %r\n" % (u.get("keep", [])) + CB_BUN
             mp = []
         else:
-            own = {t.split("/", 1)[1] for t in lock.get(n, {}).get("crates", {}).values()}
+            own = {t.rsplit("/", 1)[1] for t in lock.get(n, {}).get("crates", {}).values()}
             mp = crate_map(w, n, taken_dirs(mono) - own, u.get("manifest", "Cargo.toml"))
             cb = CB % {"m": json.dumps(mp), "n": n, "drop": json.dumps(u.get("drop", [])),
                        "res": json.dumps(sorted(RESERVED))}
         run("git", "filter-repo", "--force", "--filename-callback", cb, cwd=w)
         ref = f"refs/imports/{n}"
         run("git", "fetch", "-q", "--no-tags", w, f"+{u['branch']}:{ref}", cwd=mono)
-        run("git", "merge", "-q", "--allow-unrelated-histories", "--no-edit", "-m",
-            f"import {n} {u['url']} {u['branch']} @ {sha[:12]} (history preserved, crates flattened into src/)",
-            ref, cwd=mono)
-        lock[n] = {"url": u["url"], "branch": u["branch"], "sha": sha, "crates": dict(mp)}
+        head = run("git", "rev-parse", ref, cwd=mono, out=True)
+        last = lock.get(n, {}).get("imported")
+        span = f"{last}..{ref}" if last else ref
+        new = run("git", "rev-list", "--reverse", "--topo-order", "--no-merges", span, cwd=mono, out=True).split()
+        pick = ["git", "-c", "merge.directoryRenames=true", "-c", "merge.renames=true", "cherry-pick",
+                "--allow-empty", "--keep-redundant-commits"]
+        for i in range(0, len(new), 200):
+            run(*pick, *new[i:i + 200], cwd=mono)
+        run("git", "commit", "-q", "--allow-empty", "-m",
+            f"import {n} {u['url']} {u['branch']} @ {sha[:12]} (history preserved: {len(new)} commits replayed linearly, crates placed under third_party/{n})",
+            cwd=mono)
+        old = lock.get(n, {}).get("crates", {})
+        lock[n] = {"url": u["url"], "branch": u["branch"], "sha": sha, "imported": head, "crates": {**old, **dict(mp)}}
         json.dump(lock, open(lock_path, "w"), indent=1, sort_keys=True)
+        run("bun", "tools/layout.ts", "apply", ".", cwd=mono)       # place the legacy locations; also rewrites the lock paths
+        run("git", "add", "-A", "tools/upstreams.lock.json", cwd=mono)
+        if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=mono).returncode != 0:
+            run("git", "commit", "-q", "-m", f"layout: place {n} (tools/layout.toml)", cwd=mono)
         shutil.rmtree(w)
         print("imported", n, sha[:12], len(mp), "crates", flush=True)
 
