@@ -18,9 +18,10 @@ websites, CI and WPT dashboards, the wpt fork, demos, `tendril` (superseded by t
 `font-kit` and `pathfinder` (not in Servo's dependency graph), `malloc_size_of` (stylo carries its own).
 
 ```sh
-bun tools/acceptance.ts run                      # every engine x the live Google/Alphabet corpus: verdicts, screenshots, report
-bun tools/acceptance.ts bench <url>              # hyperfine cold start + process-tree RSS; --jetstream for JetStream
-bun tools/acceptance.ts track                    # Chromium, Servo, Blitz, Obscura, SpiderMonkey, WebKit ... against our pins
-bun tools/acceptance.ts serve --schedule         # live dashboard (HTML, JSON, SSE) and its cron
+bun PRESUBMIT.ts                                # types, lint, format, tests, layout, Bun-native proof
+bun testing/acceptance.ts run                      # every engine x the live Google/Alphabet corpus: verdicts, screenshots, report
+bun testing/acceptance.ts bench <url>              # hyperfine cold start + process-tree RSS; --jetstream for JetStream
+bun testing/acceptance.ts track                    # Chromium, Servo, Blitz, Obscura, SpiderMonkey, WebKit ... against our pins
+bun testing/acceptance.ts serve --schedule         # live dashboard (HTML, JSON, SSE) and its cron
 build/engines/build.sh                           # V8 + Skia archive from the Chromium checkout
 ```

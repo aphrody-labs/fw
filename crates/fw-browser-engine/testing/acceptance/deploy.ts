@@ -1,7 +1,7 @@
 // Publishing, derived from [serve] of acceptance.toml: the Worker config, the tunnel config, and the checks that decide
 // whether the hostname can be served. Without --apply nothing leaves this machine (wrangler runs with --dry-run).
-//   bun tools/acceptance.ts deploy            plan: write out/acceptance/deploy/{wrangler.jsonc,tunnel.yml}, bundle the Worker
-//   bun tools/acceptance.ts deploy --apply    wrangler deploy (the route and the secret), nothing else
+//   bun testing/acceptance.ts deploy            plan: write out/acceptance/deploy/{wrangler.jsonc,tunnel.yml}, bundle the Worker
+//   bun testing/acceptance.ts deploy --apply    wrangler deploy (the route and the secret), nothing else
 // The tunnel and its DNS record are not created here: the zone's DNS is managed elsewhere and the plan says what it needs.
 import { join } from "node:path";
 import { manifest, root } from "../acceptance.ts";

@@ -55,7 +55,7 @@ binaries). `build/engines/` drives GN on the Chromium checkout (`CHROMIUM_SRC`, 
 
 The tree follows Chromium: `bun/` (the runtime, one tree, like `//v8`), `components/<crate>` (first-party, like
 `//components`), `third_party/<upstream>/<crate>` (everything imported, with `README.chromium`; Chromium's own checkout
-lives at `third_party/chromium` on the build host and is never committed), `build/`, `tools/`, `docs/`. One Cargo workspace,
+lives at `third_party/chromium` on the build host and is never committed), `build/`, `testing/` (`//testing`), `tools/`, `styleguide/`, `docs/`, plus `DEPS` and `PRESUBMIT.ts`. One Cargo workspace,
 one `Cargo.lock`. Imported crates keep their package names; what an upstream has besides crates sits in its directory with
 history preserved. `tools/layout.toml` decides where everything goes, `tools/upstreams.toml` lists the upstreams,
 `tools/upstreams.lock.json` pins them (the `DEPS`), `tools/import.py` imports and re-syncs them (replayed linearly:

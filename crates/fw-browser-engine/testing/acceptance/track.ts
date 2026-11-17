@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 // Follows the upstream evolution of the browser engines: for every upstream of tools/upstreams.toml (pins in
-// tools/upstreams.lock.json) and every `[track.*]` entry of tools/acceptance.toml it reports, live, the head of the
+// tools/upstreams.lock.json) and every `[track.*]` entry of testing/acceptance.toml it reports, live, the head of the
 // tracked branch, the newest release / channel version, the pin this monorepo is on and how far behind it is.
 //
-//   bun tools/acceptance/track.ts [--json] [--root <repo>]
+//   bun testing/acceptance/track.ts [--json] [--root <repo>]
 //
 // GitHub: GraphQL batching when a token is known ($GH_TOKEN, $GITHUB_TOKEN, else `gh auth token`), REST without.
 // Every request goes through one pool of 8 with a 20 s timeout; a dead source sets `error` on its entry only.
@@ -35,6 +35,7 @@ export type Source = {
   branch: string;
   pin: string | null; // sha or version this monorepo is on
   pin_file: string | null; // file of the repo holding the pin, read at run time
+  pin_deps: string | null; // variable of DEPS holding the pin (gclient vars)
   release: boolean; // follow the newest release or tag of the repo
   provider: string | null; // chromium | firefox | webkit: channel versions from the official release data
   field: string; // what the provider reports: version | v8
@@ -106,6 +107,7 @@ export function parseSources(upstreamsToml: string, lock: Json, track: Json): So
       branch: e.branch ?? "main",
       pin: null,
       pin_file: e.pin_file ?? null,
+      pin_deps: e.pin_deps ?? null,
       release: e.release ?? true,
       provider: e.provider ?? null,
       field: e.field ?? "version",
@@ -132,12 +134,16 @@ async function loadSources(root: string): Promise<{ sources: Source[]; error?: s
   let track: Json = {};
   let error: string | undefined;
   try {
-    track = (Bun.TOML.parse(await Bun.file(join(tools, "acceptance.toml")).text()) as Json).track ?? {};
+    track = (Bun.TOML.parse(await Bun.file(join(root, "testing", "acceptance.toml")).text()) as Json).track ?? {};
   } catch (e) {
-    error = `tools/acceptance.toml: ${msg(e)}`;
+    error = `testing/acceptance.toml: ${msg(e)}`;
   }
   const sources = parseSources(upstreams, lock, track);
   for (const s of sources) {
+    if (s.pin_deps) {
+      const deps = await Bun.file(join(root, "DEPS")).text();
+      s.pin = deps.match(new RegExp(`'${s.pin_deps}':\\s*'([^']+)'`))?.[1] ?? s.pin;
+    }
     if (!s.pin_file) continue;
     const f = Bun.file(join(root, s.pin_file));
     if (await f.exists()) s.pin = (await f.text()).trim().split(/\s+/)[0] || null;

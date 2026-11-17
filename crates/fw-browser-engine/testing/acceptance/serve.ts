@@ -70,7 +70,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
         if (busy.has(command)) return void store.emit("schedule", { command, skipped: "still running" });
         busy.add(command);
         store.emit("schedule", { command, state: "started", next: Bun.cron.parse(expression)?.toISOString() });
-        const code = await spawn([process.execPath, join(root, "tools/acceptance.ts"), ...command.split(/\s+/)], {
+        const code = await spawn([process.execPath, join(root, "testing/acceptance.ts"), ...command.split(/\s+/)], {
           cwd: root,
           stdin: "ignore",
           stdout: "ignore",

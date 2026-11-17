@@ -1,19 +1,19 @@
 #!/usr/bin/env bun
 // The one web acceptance tool of the browser. Every engine found on this machine loads the live corpus
-// (seeds + recursive link index, tools/acceptance.toml) over raw CDP and is judged on what it rendered.
+// (seeds + recursive link index, testing/acceptance.toml) over raw CDP and is judged on what it rendered.
 // State is durable (SQLite) and shared (Redis): an interrupted index or run resumes where it stopped.
 //
-//   bun tools/acceptance.ts engines                engines, fronts and tools found here, with versions
-//   bun tools/acceptance.ts install                fetch the newest upstream baseline of every engine (canary, latest release)
-//   bun tools/acceptance.ts sites                  the corpus after the link index (resumed or reused when fresh enough)
-//   bun tools/acceptance.ts run                    engines x corpus -> <out>/{report.md,report.json,<engine>/*.png}; resumes
-//   bun tools/acceptance.ts bench [url...]         hyperfine on the engines' one-shot commands + process-tree RSS (default: seeds)
-//   bun tools/acceptance.ts bench --jetstream      the pinned JetStream suite inside every full engine
-//   bun tools/acceptance.ts track                  heads, releases and channels of every upstream against our pins
-//   bun tools/acceptance.ts serve [--schedule]     the live dashboard (HTML, JSON, SSE) and, with --schedule, the cron of the above
-//   bun tools/acceptance.ts deploy [--apply]      Worker + tunnel config for the published host (plan only without --apply)
-//   bun tools/acceptance.ts report [run]           print report.md of a run (default: the last one)
-//   bun tools/acceptance.ts cookies <cdp> <file>   save the corpus cookies of a running, signed-in browser
+//   bun testing/acceptance.ts engines                engines, fronts and tools found here, with versions
+//   bun testing/acceptance.ts install                fetch the newest upstream baseline of every engine (canary, latest release)
+//   bun testing/acceptance.ts sites                  the corpus after the link index (resumed or reused when fresh enough)
+//   bun testing/acceptance.ts run                    engines x corpus -> <out>/{report.md,report.json,<engine>/*.png}; resumes
+//   bun testing/acceptance.ts bench [url...]         hyperfine on the engines' one-shot commands + process-tree RSS (default: seeds)
+//   bun testing/acceptance.ts bench --jetstream      the pinned JetStream suite inside every full engine
+//   bun testing/acceptance.ts track                  heads, releases and channels of every upstream against our pins
+//   bun testing/acceptance.ts serve [--schedule]     the live dashboard (HTML, JSON, SSE) and, with --schedule, the cron of the above
+//   bun testing/acceptance.ts deploy [--apply]      Worker + tunnel config for the published host (plan only without --apply)
+//   bun testing/acceptance.ts report [run]           print report.md of a run (default: the last one)
+//   bun testing/acceptance.ts cookies <cdp> <file>   save the corpus cookies of a running, signed-in browser
 //
 // flags: --engine <name[=path]>   repeatable; default is the first binary found per engine (--all: every binary)
 //        --site <substring>       repeatable filter on the corpus     --no-discover   seeds only

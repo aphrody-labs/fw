@@ -20,3 +20,10 @@ marker = "package.metadata.browser.native"   # a crate manifest with this set to
 dir = "third_party"
 # Checkouts managed on the build host and never committed (gclient or git): listed in .gitignore.
 external = ["chromium"]
+
+# JavaScript and TypeScript: native Bun only. PRESUBMIT.ts enforces this on `first_party`; the rules of the native linter
+# are in bunfig.toml, the reasoning with its proof (docs of the Bun fork) in styleguide/bun/README.md.
+[javascript]
+first_party = ["tools", "testing", ".claude", "package.json", "third_party/agent-browser"]
+forbidden_files = ["package-lock.json", "yarn.lock", "pnpm-lock.yaml", "pnpm-workspace.yaml", ".node-version", ".nvmrc"]
+forbidden_script_words = ["npm", "npx", "pnpm", "yarn", "node", "tsx", "ts-node", "nodemon", "jest", "vitest", "mocha", "eslint", "prettier", "tsc"]

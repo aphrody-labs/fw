@@ -1,4 +1,4 @@
-// bun test tools/acceptance            (SQLite only; with REDIS_URL set the cache and wake-up paths run against that server too)
+// bun test testing/acceptance            (SQLite only; with REDIS_URL set the cache and wake-up paths run against that server too)
 import { expect, test } from "bun:test";
 import { normalize, parity, spread, judge, outliers, readHyperfine, manifest, type PageResult } from "../acceptance.ts";
 import { parseHttpsRecord } from "./net.ts";

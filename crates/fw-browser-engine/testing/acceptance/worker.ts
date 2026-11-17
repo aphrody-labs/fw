@@ -1,4 +1,4 @@
-// Cloudflare Worker in front of the dashboard (`bun tools/acceptance.ts serve`), which stays private behind a tunnel.
+// Cloudflare Worker in front of the dashboard (`bun testing/acceptance.ts serve`), which stays private behind a tunnel.
 // The edge terminates TLS and HTTP/3, caches what is cacheable, streams the Server-Sent Events untouched, and adds the
 // shared secret the origin checks (ACCEPTANCE_KEY). Bindings: ORIGIN (hostname of the tunnel), ACCEPTANCE_KEY (secret).
 export interface Env {

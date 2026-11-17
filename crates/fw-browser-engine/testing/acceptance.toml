@@ -1,4 +1,4 @@
-# Data of tools/acceptance.ts: what is loaded, in which engines, and how an outcome is named.
+# Data of testing/acceptance.ts: what is loaded, in which engines, and how an outcome is named.
 # Nothing here is a result: versions, hosts, engines and the discovered half of the corpus are read live.
 
 # The record of everything: runs, pages, link index, benchmarks, upstream snapshots, events (bun:sqlite, WAL).
@@ -96,7 +96,7 @@ runs = 20
 rss_runs = 5
 
 # The dashboard: `serve` listens on `port`; the tunnel publishes it as `origin`, the Worker
-# (tools/acceptance/worker.ts) fronts it on `host`. `serve --schedule` runs the commands below (cron, local time).
+# (testing/acceptance/worker.ts) fronts it on `host`. `serve --schedule` runs the commands below (cron, local time).
 [serve]
 port = 4680
 host = "browser.aphrody.app"
@@ -107,7 +107,7 @@ track = "17 * * * *"
 "run --install" = "43 */6 * * *"
 bench = "13 3 * * *"
 
-# Upstreams followed by `track` (tools/acceptance/track.ts) in addition to every entry of tools/upstreams.toml, whose
+# Upstreams followed by `track` (testing/acceptance/track.ts) in addition to every entry of tools/upstreams.toml, whose
 # pins are in tools/upstreams.lock.json. `repo` is the GitHub repository whose `branch` head is followed; `provider`
 # adds channel versions from the official release data (chromium: chromiumdash, Chrome for Testing as fallback;
 # firefox: product-details.mozilla.org; webkit: the webkit.org blog feed); `field` is what that provider reports for
@@ -125,6 +125,7 @@ provider = "chromium"
 field = "version"
 version_channel = "canary"
 platform = "Linux"
+pin_deps = "chromium_version"   # DEPS
 checkout = { env = "CHROMIUM_SRC", default = "/srv/chromium/src", ssh = "fr1" }
 
 [track.v8]

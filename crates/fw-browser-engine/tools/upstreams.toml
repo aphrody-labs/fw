@@ -164,7 +164,7 @@ rev = "ed81866f163f0c7026aa6fd8388adf37242eb32a"   # 3.0.0, the base of the two 
 
 [[upstream]]
 name = "hyperfine"
-url = "https://github.com/aphrody-labs/hyperfine"   # fork of sharkdp/hyperfine, benchmark runner (tools/acceptance.ts)
+url = "https://github.com/aphrody-labs/hyperfine"   # fork of sharkdp/hyperfine, benchmark runner (testing/acceptance.ts)
 branch = "master"
 
 [[upstream]]
