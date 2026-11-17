@@ -3,7 +3,7 @@
 // shared secret the origin checks (ACCEPTANCE_KEY). Bindings: ORIGIN (hostname of the tunnel), ACCEPTANCE_KEY (secret).
 export interface Env {
   ORIGIN: string;
-  ACCEPTANCE_KEY?: string;
+  ACCEPTANCE_KEY: string;
 }
 
 const policy = [
@@ -29,11 +29,16 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method !== "GET" && request.method !== "HEAD")
       return new Response("method not allowed", { status: 405, headers: { allow: "GET, HEAD" } });
+    if (!env.ACCEPTANCE_KEY)
+      return new Response("misconfigured: ACCEPTANCE_KEY secret missing", {
+        status: 500,
+        headers: { "cache-control": "no-store" },
+      });
     const url = new URL(request.url);
     const headers = new Headers({ accept: request.headers.get("accept") ?? "*/*" });
     const last = request.headers.get("last-event-id");
     if (last) headers.set("last-event-id", last);
-    if (env.ACCEPTANCE_KEY) headers.set("x-acceptance-key", env.ACCEPTANCE_KEY);
+    headers.set("x-acceptance-key", env.ACCEPTANCE_KEY);
     const seconds = ttl(url.pathname);
     let origin: Response;
     try {

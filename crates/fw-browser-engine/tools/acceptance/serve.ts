@@ -82,8 +82,18 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
     }
 
   const secret = key ? Buffer.from(key) : null;
+  const bind = process.env.ACCEPTANCE_BIND ?? "127.0.0.1";
+  const loopback = /^(127\.\d+\.\d+\.\d+|::1|localhost)$/.test(bind);
+  if (!secret && !loopback)
+    throw new Error(
+      `ACCEPTANCE_BIND=${bind} is not loopback: set ACCEPTANCE_KEY, the dashboard never serves without it off this machine`,
+    );
+  // Fail closed. Without a key the dashboard is for this machine only: a request that came through a tunnel or a proxy
+  // (it carries the headers they add) is refused, since cloudflared reaches us over loopback too.
+  const proxied = (req: Request) =>
+    ["cf-ray", "cf-connecting-ip", "x-forwarded-for", "forwarded"].some((h) => req.headers.has(h));
   const allowed = (req: Request) => {
-    if (!secret) return true;
+    if (!secret) return !proxied(req);
     const given = Buffer.from(req.headers.get("x-acceptance-key") ?? "");
     return given.length === secret.length && timingSafeEqual(given, secret);
   };
@@ -92,7 +102,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
 
   const server = Bun.serve({
     port: opt.port,
-    hostname: process.env.ACCEPTANCE_BIND ?? "127.0.0.1", // the tunnel and the Worker come from outside; nothing else should
+    hostname: bind,
     idleTimeout: 120,
     routes: {
       "/healthz": () => new Response("ok"),
