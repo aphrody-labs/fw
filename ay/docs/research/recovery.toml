@@ -10920,8 +10920,8 @@ kind = "archived"
 description = "Aphrody monorepo unit: crates/rust-stack"
 repository = "https://github.com/aphrody-labs/rust-stack"
 state = "lost"
-home = "nie"
-note = "gaming and Steam units: nie owns games, Steam and depot tooling"
+home = "ay"
+note = "benchmarks, Rust alternatives matrix, task runner and .env loaders: SDK tooling merged into the old monorepo"
 
 [[unit]]
 origin = "repo"
@@ -10930,7 +10930,8 @@ kind = "archived"
 description = "Aphrody monorepo unit: crates/ring3-agent"
 repository = "https://github.com/aphrody-labs/ring3-agent"
 state = "lost"
-home = "ai-os"
+home = "aphrody"
+note = "OS unit merged into the old monorepo"
 
 [[unit]]
 origin = "repo"
@@ -10939,7 +10940,8 @@ kind = "archived"
 description = "Aphrody monorepo unit: crates/bench"
 repository = "https://github.com/aphrody-labs/bench"
 state = "lost"
-home = "ai-os"
+home = "ay"
+note = "benchmarks, Rust alternatives matrix, task runner and .env loaders: SDK tooling merged into the old monorepo"
 
 [[unit]]
 origin = "repo"
@@ -10957,8 +10959,8 @@ kind = "archived"
 description = "Merged into aphrody-dev/src at crates/gamescope-* (archived 2026-11-12)"
 repository = "https://github.com/aphrody-labs/gamescope-rs"
 state = "lost"
-home = "nie"
-note = "gaming and Steam units: nie owns games, Steam and depot tooling"
+home = "aphrody"
+note = "OS unit merged into the old monorepo"
 
 [[unit]]
 origin = "repo"
@@ -10968,6 +10970,7 @@ description = "Merged into aphrody-dev/src at crates/wslg-cli (archived 2026-11-
 repository = "https://github.com/aphrody-labs/wayland"
 state = "lost"
 home = "anu"
+note = "Unix userland, Wayland and depot tooling merged into the old monorepo; anu is the Unix home"
 
 [[unit]]
 origin = "repo"
@@ -10976,7 +10979,8 @@ kind = "archived"
 description = "Merged into aphrody-dev/src at infra (archived 2026-11-12)"
 repository = "https://github.com/aphrody-labs/infra"
 state = "lost"
-home = "ai-os"
+home = "aphrody"
+note = "OS unit merged into the old monorepo"
 
 [[unit]]
 origin = "repo"
@@ -10985,7 +10989,8 @@ kind = "archived"
 description = "Merged into aphrody-dev/src at packages/wck (archived 2026-11-12)"
 repository = "https://github.com/aphrody-labs/wck"
 state = "lost"
-home = "ai-os"
+home = "bun"
+note = "both archives stay archived: crates.io tarball duplicates; the runtime units go to the Bun fork, the OS units to aphrody"
 
 [[unit]]
 origin = "repo"
@@ -10993,8 +10998,8 @@ name = "aphrody-labs/ai-os"
 kind = "archived"
 description = "Merged into aphrody-dev/src at packages/ai-os (archived 2026-11-12)"
 repository = "https://github.com/aphrody-labs/ai-os"
-state = "lost"
-home = "ai-os"
+state = "dead"
+note = "archived duplicate: superseded by aphrody-dev/ai-os"
 
 [[unit]]
 origin = "repo"
@@ -11013,6 +11018,7 @@ description = "Merged into aphrody-dev/src at crates/unix-* (archived 2026-11-12
 repository = "https://github.com/aphrody-labs/unix"
 state = "lost"
 home = "anu"
+note = "Unix userland, Wayland and depot tooling merged into the old monorepo; anu is the Unix home"
 
 [[unit]]
 origin = "repo"
@@ -11021,7 +11027,8 @@ kind = "archived"
 description = "Merged into aphrody-dev/src at crates/xtask (archived 2026-11-12)"
 repository = "https://github.com/aphrody-labs/xtask"
 state = "lost"
-home = "ai-os"
+home = "ay"
+note = "benchmarks, Rust alternatives matrix, task runner and .env loaders: SDK tooling merged into the old monorepo"
 
 [[unit]]
 origin = "repo"
@@ -11030,8 +11037,8 @@ kind = "archived"
 description = "Merged into aphrody-dev/src at packages/env-kit (archived 2026-11-12)"
 repository = "https://github.com/aphrody-labs/env-kit"
 state = "lost"
-home = "bun"
-note = "both archives stay archived: crates.io tarball duplicates; the runtime units go to the Bun fork, the OS units to aphrody"
+home = "ay"
+note = "benchmarks, Rust alternatives matrix, task runner and .env loaders: SDK tooling merged into the old monorepo"
 
 [[unit]]
 origin = "repo"
@@ -11040,7 +11047,8 @@ kind = "archived"
 description = "Merged into aphrody-dev/src at crates/depot-* (archived 2026-11-12)"
 repository = "https://github.com/aphrody-labs/depot"
 state = "lost"
-home = "ai-os"
+home = "anu"
+note = "Unix userland, Wayland and depot tooling merged into the old monorepo; anu is the Unix home"
 
 [[unit]]
 origin = "repo"
@@ -11077,7 +11085,7 @@ kind = "crate"
 description = "Game app: the Bevy game of frameworks/game with the Steam and Epic storefront services, as one binary"
 repository = "apps/game"
 state = "lost"
-home = "aphrody"
+home = "craft-anything"
 
 [[unit]]
 origin = "legacy"
@@ -11451,8 +11459,8 @@ kind = "crate"
 description = "Content-addressed artifact store for depot tooling, after Lore: FastCDC v2020 fragments (32/64/256 KiB), blake3 ids, zstd, sha256 file index"
 repository = "system/depot/cas"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11461,8 +11469,8 @@ kind = "crate"
 description = "CIPD client in Rust: `cipd ensure` with the luci-go site root layout, instances cached in depot-cas (`ay cipd ensure`)"
 repository = "system/depot/cipd"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11471,8 +11479,8 @@ kind = "crate"
 description = "depot command set (VCS, depot_tools, ingest, code graph) behind `ay git`, `ay ingest` and `ay graph`"
 repository = "system/depot/cli"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11481,8 +11489,8 @@ kind = "crate"
 description = "depot-core: part of the Aphrody monorepo"
 repository = "system/depot/core"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11491,8 +11499,8 @@ kind = "crate"
 description = "depot-forge: part of the Aphrody monorepo"
 repository = "system/depot/forge"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11501,8 +11509,8 @@ kind = "crate"
 description = "gclient in Rust: DEPS/.gclient evaluator, revinfo, getdep/setdep, sync planner on gix (`ay gclient`, `ay fetch`)"
 repository = "system/depot/gclient"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11511,8 +11519,8 @@ kind = "crate"
 description = "depot-graph: part of the Aphrody monorepo"
 repository = "system/depot/graph"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11521,8 +11529,8 @@ kind = "crate"
 description = "depot-ingest: part of the Aphrody monorepo"
 repository = "system/depot/ingest"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11531,8 +11539,8 @@ kind = "crate"
 description = "depot-migrate: part of the Aphrody monorepo"
 repository = "system/depot/migrate"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11541,8 +11549,8 @@ kind = "crate"
 description = "`ay vpy`: run Chromium vpython specs (vpython.toml + .uv.lock, PEP 723) on uv"
 repository = "system/depot/vpython"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -11595,6 +11603,7 @@ description = "dx12-hal: D3D12 + DirectComposition hardware layer (L2) with a C 
 repository = "hardware/drivers/gpu/dx12"
 state = "lost"
 home = "aphrody"
+note = "OS layer of the old monorepo"
 
 [[unit]]
 origin = "legacy"
@@ -11661,7 +11670,7 @@ kind = "crate"
 description = "Open-world vertical slice on Bevy: streamed procedural terrain, third-person controller, day/night, procedural audio"
 repository = "frameworks/game"
 state = "lost"
-home = "aphrody"
+home = "review"
 
 [[unit]]
 origin = "legacy"
@@ -12215,8 +12224,8 @@ kind = "crate"
 description = "AI-native bash-compatible shell for Windows, built on rubash + winuxcmd"
 repository = "system/niubash"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -12225,8 +12234,8 @@ kind = "crate"
 description = "Runtime crate for niubash: rubash-backed shell REPL on Windows"
 repository = "system/niubash/runtime"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -12358,7 +12367,7 @@ kind = "crate"
 description = "Unified Omarchy + CachyOS + Arch/Linux orchestration engine: hardware probe, kernel/patchsets, multi-distro recipes, Aether themes, plugins, and WSL2 bundle builder"
 repository = "system/posix/omarchy"
 state = "lost"
-home = "aphrody"
+home = "anu"
 
 [[unit]]
 origin = "legacy"
@@ -12367,7 +12376,7 @@ kind = "crate"
 description = "wslg-cli: part of the Aphrody monorepo"
 repository = "system/posix/wslg"
 state = "lost"
-home = "aphrody"
+home = "anu"
 
 [[unit]]
 origin = "legacy"
@@ -12453,8 +12462,8 @@ kind = "crate"
 description = "A Rust implementation of the GNU Bash shell"
 repository = "system/rubash"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -12463,8 +12472,8 @@ kind = "crate"
 description = "A GNU readline-compatible line editor for niubash"
 repository = "system/ruline"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -12473,8 +12482,8 @@ kind = "crate"
 description = "Clean-room GNU readline 8.x C ABI adapter for ruline"
 repository = "system/ruline/readline-abi"
 state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
 
 [[unit]]
 origin = "legacy"
@@ -13268,7 +13277,7 @@ kind = "crate"
 description = "cosmic-compat: part of the Aphrody monorepo"
 repository = "system/wayland/cosmic"
 state = "lost"
-home = "aphrody"
+home = "anu"
 
 [[unit]]
 origin = "legacy"
@@ -13277,7 +13286,7 @@ kind = "crate"
 description = "Gamescope CLI micro-compositor runtime, benchmarker, and window presenter"
 repository = "system/wayland/gamescope/cli"
 state = "lost"
-home = "aphrody"
+home = "anu"
 
 [[unit]]
 origin = "legacy"
@@ -13286,7 +13295,7 @@ kind = "crate"
 description = "Gamescope core micro-compositor frame pacing, scaling math, layer composition, and HDR color science"
 repository = "system/wayland/gamescope/core"
 state = "lost"
-home = "aphrody"
+home = "anu"
 
 [[unit]]
 origin = "legacy"
@@ -13295,7 +13304,7 @@ kind = "crate"
 description = "Gamescope WebAssembly / WebGPU client for Chromium"
 repository = "system/wayland/gamescope/web-wasm"
 state = "lost"
-home = "aphrody"
+home = "anu"
 
 [[unit]]
 origin = "legacy"
@@ -13304,7 +13313,7 @@ kind = "crate"
 description = "Gamescope WGSL compute shaders (FSR 1.0 EASU, RCAS, HDR Compositor) and wgpu pipeline runner"
 repository = "system/wayland/gamescope/wgsl"
 state = "lost"
-home = "aphrody"
+home = "anu"
 
 [[unit]]
 origin = "legacy"
@@ -13313,7 +13322,7 @@ kind = "crate"
 description = "smithay-wayland-wire: part of the Aphrody monorepo"
 repository = "system/wayland/smithay"
 state = "lost"
-home = "aphrody"
+home = "anu"
 
 [[unit]]
 origin = "legacy"
@@ -13347,7 +13356,6 @@ kind = "crate"
 repository = "system/winux/cmds"
 state = "lost"
 home = "anu"
-note = "Unix and shell userland"
 
 [[unit]]
 origin = "legacy"
@@ -13356,7 +13364,6 @@ kind = "crate"
 repository = "system/winux/core"
 state = "lost"
 home = "anu"
-note = "Unix and shell userland"
 
 [[unit]]
 origin = "legacy"
@@ -13366,7 +13373,6 @@ description = "WinuxCmd applets ported from C++ to portable Rust (same shape con
 repository = "system/winux/extra"
 state = "lost"
 home = "anu"
-note = "Unix and shell userland"
 
 [[unit]]
 origin = "legacy"
@@ -13375,7 +13381,6 @@ kind = "crate"
 repository = "system/winux/regex"
 state = "lost"
 home = "anu"
-note = "Unix and shell userland"
 
 [[unit]]
 origin = "legacy"
@@ -13450,9 +13455,8 @@ name = "aphrody-lore-integration-tests"
 kind = "crate"
 description = "Lore version control: lore-integration-tests (absorbed from Epic Games Lore, MIT)"
 repository = "test/lore"
-state = "lost"
-home = "anu"
-note = "Unix and shell userland"
+state = "dead"
+note = "test fixtures of the old monorepo"
 
 [[unit]]
 origin = "legacy"
@@ -13985,7 +13989,7 @@ kind = "app"
 description = "Game app: the Bevy game of frameworks/game with the Steam and Epic storefront services, as one binary"
 repository = "apps/game"
 state = "lost"
-home = "aphrody"
+home = "craft-anything"
 
 [[unit]]
 origin = "legacy"
@@ -19934,6 +19938,7 @@ kind = "dir"
 repository = "device/gamescope-web"
 state = "lost"
 home = "aphrody"
+note = "OS layer of the old monorepo"
 
 [[unit]]
 origin = "legacy"

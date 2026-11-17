@@ -218,7 +218,7 @@ home = "nie"
 
 [[rule]]
 origin = "repo"
-name = "/(gaming|steam-depot|gamescope-rs|rust-stack)$"
+name = "/(gaming|steam-depot)$"
 home = "nie"
 note = "gaming and Steam units: nie owns games, Steam and depot tooling"
 
@@ -230,30 +230,33 @@ note = "NT-inspired desktop; ayNT is the free Windows-compatible OS"
 
 [[rule]]
 origin = "repo"
-name = "/(unix|wayland)$"
+name = "/(unix|wayland|depot)$"
 home = "anu"
+note = "Unix userland, Wayland and depot tooling merged into the old monorepo; anu is the Unix home"
 
 [[rule]]
 origin = "repo"
-name = "/(bun-os|bun-distribution|yolo-bun|env-kit)$"
+name = "/(ring3-agent|gamescope-rs|infra)$"
+home = "aphrody"
+note = "OS unit merged into the old monorepo"
+
+[[rule]]
+origin = "repo"
+name = "/(bench|rust-stack|xtask|env-kit)$"
+home = "ay"
+note = "benchmarks, Rust alternatives matrix, task runner and .env loaders: SDK tooling merged into the old monorepo"
+
+[[rule]]
+origin = "repo"
+name = "/(bun-os|bun-distribution|yolo-bun|wck)$"
 home = "bun"
 note = "both archives stay archived: crates.io tarball duplicates; the runtime units go to the Bun fork, the OS units to aphrody"
 
 [[rule]]
 origin = "repo"
-name = "/(ring3-agent|bench|xtask|depot|infra|wck|ai-os)$"
-home = "ai-os"
-
-[[rule]]
-origin = "legacy"
-name = "^(aphrody-)?lore|^depot-|^winux-|^niubash|^reedline|^readline-abi|^rubash"
-home = "anu"
-note = "Unix and shell userland"
-
-[[rule]]
-origin = "legacy"
-name = "^(gamescope|cosmic-compat|smithay|dx12-hal|aphrody-omarchy|wslg-cli|aphrody-game|game$)"
-home = "aphrody"
+name = "/ai-os$"
+state = "dead"
+note = "archived duplicate: superseded by aphrody-dev/ai-os"
 
 # Legacy units by their path in the old monorepo (the layer directories: kernel, device, hardware, system, frameworks, apps, tools).
 [[rule]]

@@ -2165,3 +2165,13 @@ reference = "https://opencode.ai/"
 layer = "ui"
 status = "todo"
 owner = "open"
+
+[[feature]]
+product = "platform"
+id = "sdk-recovery-inventory"
+title = "Recovery inventory: every crates.io crate, npm package, archived repository, legacy unit and host tree classified live, lost or dead against the current repositories, with the home of each lost unit (docs/research/recovery.toml)"
+reference = "https://doc.rust-lang.org/cargo/reference/registry-web-api.html"
+layer = "protocol"
+status = "done"
+proof = "tools/recover.test.ts"
+proof_kind = "test"
