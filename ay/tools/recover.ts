@@ -138,7 +138,28 @@ export type Context = {
   /** Our own sources that survive in an archive (repository name → manifests), by ecosystem and name. */
   archives: LiveIndex;
   rules: Rule[];
+  /** Directories of the current repositories (up to three levels), by identity: where a unit without manifest lives. */
+  dirs?: Map<string, string>;
 };
+
+/** Directory names that carry no identity: they exist in every repository. */
+const GENERIC = new Set(["scripts", "assets", "tests", "docs", "build", "tools", "examples", "common", "shared", "utils", "cli", "core", "lib", "libs", "config", "main"]);
+
+/** Directory index of a repository: every tracked directory up to three levels deep, keyed by the identity of its name. */
+export function dirIndex(repo: string, files: string[], into = new Map<string, string>()): Map<string, string> {
+  for (const f of files) {
+    if (foreign(f)) continue;
+    const parts = f.split("/").slice(0, -1);
+    if (parts[0]?.startsWith(".") || parts.includes("docs")) continue;
+    for (let i = 1; i <= Math.min(parts.length, 3); i++) {
+      const path = parts.slice(0, i).join("/");
+      if (!into.has(`path:${path}`)) into.set(`path:${path}`, `${repo}:${path}`);
+      const k = norm(parts[i - 1]!);
+      if (i <= 2 && k.length > 3 && !GENERIC.has(k) && !into.has(k)) into.set(k, `${repo}:${path}`);
+    }
+  }
+  return into;
+}
 
 /** Classify one unit against the current repositories, the archives and the rules. */
 export function classify(u: Unit, ctx: Context): Unit {
@@ -335,6 +356,7 @@ export function assemble(input: {
     const f = eco ? ctx.live.find(eco, l.name) : undefined;
     const u: Unit = { origin: "legacy", name: l.name, kind: l.kind, description: l.description, repository: l.path, state: "lost" };
     if (f) units.push({ ...u, state: "live", where: `${f.m.repo}:${f.m.path.replace(/\/?(Cargo|package)\.(toml|json)$/, "")}` });
+    else if (!eco && l.kind !== "third_party" && (ctx.dirs?.get(`path:${l.path}`) ?? ctx.dirs?.get(norm(l.path.split("/").pop()!)))) units.push({ ...u, state: "live", where: ctx.dirs.get(`path:${l.path}`) ?? ctx.dirs.get(norm(l.path.split("/").pop()!)), note: "directory of the same path or name" });
     else if (l.kind === "third_party") units.push({ ...u, state: "live", where: `fork:${l.fork ?? l.url ?? ""}`, note: "third-party pin, tracked as a fork" });
     else units.push(classify(u, ctx));
   }
@@ -370,10 +392,14 @@ if (import.meta.main) {
   const legacy = (readToml(join(root, "docs/research/legacy-inventory.toml")).unit ?? []) as any[];
 
   const manifests: Manifest[] = [];
+  const dirMap = new Map<string, string>();
   const archives: Manifest[] = [];
   for (const [key, r] of Object.entries<any>(ay.repos ?? {})) {
     const dir = resolve(root, r.checkout ?? (key === "ay" ? "." : `../${key}`));
-    if (existsSync(join(dir, ".git"))) manifests.push(...(await scanCheckout(key, dir)));
+    if (!existsSync(join(dir, ".git"))) continue;
+    manifests.push(...(await scanCheckout(key, dir)));
+    const p = Bun.spawn(["git", "-C", dir, "ls-files"], { stdout: "pipe", stderr: "ignore" });
+    dirIndex(key, (await new Response(p.stdout).text()).split("\n").filter(Boolean), dirMap);
   }
   const lrev = (readToml(join(root, "docs/research/legacy-inventory.toml")).meta ?? {}).commit;
   const lco = resolve(root, ay.legacy?.checkout ?? "../legacy");
@@ -386,7 +412,7 @@ if (import.meta.main) {
   }
   for (const dir of dirs) archives.push(...(await scanCheckout(dir.split(/[\\/]/).pop()!, dir)));
   const ours = new Set(Object.values<any>(ay.repos ?? {}).map(r => r.slug));
-  const ctx: Context = { live: new LiveIndex(manifests), archives: new LiveIndex(archives), forks: new Set(repos.filter(r => r.fork && !r.archived && !ours.has(`${r.org}/${r.name}`)).map(r => r.name)), rules: loadRules() };
+  const ctx: Context = { live: new LiveIndex(manifests), archives: new LiveIndex(archives), forks: new Set(repos.filter(r => r.fork && !r.archived && !ours.has(`${r.org}/${r.name}`)).map(r => r.name)), rules: loadRules(), dirs: dirMap };
   const units = assemble({ crates, npm, repos, legacy, trees }, ctx);
   const meta = { scanned: new Date().toISOString().slice(0, 10), owner, orgs: orgs.join(","), manifests: String(ctx.live.size) };
   await Bun.write(resolve(root, arg("--out") ?? "docs/research/recovery.toml"), toToml(units, meta));

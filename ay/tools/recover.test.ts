@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { assemble, classify, collectCrates, collectNpm, collectRepos, collectTrees, hostScript, counts, LiveIndex, manifestName, norm, npmRepository, parseTrees, ruleFor, scanCheckout, scanRevision, toMarkdown, toToml, type Context, type Manifest, type Rule } from "./recover.ts";
+import { assemble, classify, collectCrates, collectNpm, collectRepos, collectTrees, dirIndex, hostScript, counts, LiveIndex, manifestName, norm, npmRepository, parseTrees, ruleFor, scanCheckout, scanRevision, toMarkdown, toToml, type Context, type Manifest, type Rule } from "./recover.ts";
 
 const m = (repo: string, ecosystem: "cargo" | "npm", name: string, path: string): Manifest => ({ repo, ecosystem, name, path });
 const ctx = (over: Partial<Context> = {}): Context => ({
@@ -169,4 +169,17 @@ test("collectTrees asks each distinct host once with its own work volume and par
   expect(asked).toEqual(["h1 /w1 true", "h2 /w2 true"]);
   expect(out.map(t => t.path)).toEqual(["/x/h1", "/x/h2"]);
   expect(hostScript()).toContain("git -C");
+});
+
+test("dirIndex keys directories by identity and skips upstream copies; legacy dir units match them", () => {
+  const dirs = dirIndex("bun", ["src/codegen/a.ts", "vendor/zlib/x.c", "src/node-fallbacks/z.js", "README.md"]);
+  expect(dirs.get("codegen")).toBe("bun:src/codegen");
+  expect(dirs.get("nodefallbacks")).toBe("bun:src/node-fallbacks");
+  expect(dirs.has("zlib")).toBe(false);
+  const units = assemble(
+    { crates: [], npm: [], repos: [], trees: [], legacy: [{ kind: "dir", name: "codegen", path: "system/codegen", product: "platform", state: "review" }, { kind: "dir", name: "gone", path: "system/gone", product: "platform", state: "review" }] },
+    ctx({ dirs }),
+  );
+  expect(units[0]).toMatchObject({ state: "live", where: "bun:src/codegen" });
+  expect(units[1].state).toBe("lost");
 });

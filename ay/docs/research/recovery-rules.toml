@@ -76,9 +76,8 @@ note = "partial clone of the upstream Linux and Android common kernels, no commi
 [[rule]]
 origin = "vps"
 name = "^fr2:/srv/aphrody$"
-state = "lost"
-home = "anu"
-note = "uncommitted rewrite of winux date and factor (legacy checkout); patch copied to the build host salvage directory"
+state = "dead"
+note = "uncommitted edits of upstream-derived winux date and factor plus a lockfile; the patch is kept in the build host salvage directory (legacy-fr2-srv-aphrody-2026-11-17.diff)"
 
 [[rule]]
 origin = "vps"
@@ -230,9 +229,15 @@ note = "NT-inspired desktop; ayNT is the free Windows-compatible OS"
 
 [[rule]]
 origin = "repo"
-name = "/(unix|wayland|depot)$"
+name = "/(unix|wayland)$"
 home = "anu"
-note = "Unix userland, Wayland and depot tooling merged into the old monorepo; anu is the Unix home"
+note = "Unix userland and Wayland units merged into the old monorepo; anu is the Unix home"
+
+[[rule]]
+origin = "repo"
+name = "/depot$"
+home = "browser"
+note = "depot_tools port merged into the old monorepo; Chromium tooling"
 
 [[rule]]
 origin = "repo"
@@ -356,9 +361,15 @@ note = "tooling"
 
 [[rule]]
 origin = "legacy"
-name = "^(aphrody-)?lore|^depot-|^winux-|^niubash|^reedline|^readline-abi|^rubash"
-home = "anu"
-note = "Unix and shell userland"
+name = "^(aphrody-)?lore|^winux-|^niubash|^reedline|^readline-abi|^rubash"
+state = "dead"
+note = "absorbed upstream (Epic Games Lore, unixwin winux, niubash, rubash, ruline): third-party code, tracked as forks and in the ANU index, never copied"
+
+[[rule]]
+origin = "legacy"
+name = "^depot-"
+home = "browser"
+note = "Rust port of depot_tools (own code): Chromium source and build tooling"
 
 [[rule]]
 origin = "crate"
