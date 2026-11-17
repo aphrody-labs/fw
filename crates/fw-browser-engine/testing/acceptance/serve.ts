@@ -56,6 +56,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
       last_event: store.lastEvent(),
       run: rep,
       runs,
+      lessons: store.lessons(),
       bench: store.bench(300),
       upstreams: store.upstreams(40),
       net,

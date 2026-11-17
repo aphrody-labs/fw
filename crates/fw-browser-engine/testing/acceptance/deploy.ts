@@ -19,6 +19,7 @@ export async function deploy(apply: boolean) {
     compatibility_date: new Date().toISOString().slice(0, 10),
     routes: [{ pattern: `${host}/*`, zone_name: zone }],
     vars: { ORIGIN: origin },
+    minify: true,
     observability: { enabled: true },
   };
   await Bun.write(join(dir, "wrangler.jsonc"), JSON.stringify(wrangler, null, 2) + "\n");

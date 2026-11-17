@@ -192,6 +192,7 @@
         <section id="engines"></section>
       </div>
       <section id="upstreams"></section>
+      <section id="lessons"></section>
       <section id="bench"></section>
       <section id="matrix"></section>
       <section>
@@ -406,6 +407,19 @@
         );
       }
 
+      function renderLessons(s) {
+        const el = $("lessons");
+        el.replaceChildren(h("h2", {}, "Learned: where an engine fell short of the full one (the router's data)"));
+        el.append(
+          s.lessons.length
+            ? table(
+                ["host", "engine", "kind", "#runs", "since", "detail"],
+                s.lessons.map((l) => tr(l.host, l.engine, pill(l.kind, "warn"), l.runs, l.first_run, l.detail)),
+              )
+            : h("div", { class: "mut" }, "nothing learned yet"),
+        );
+      }
+
       function renderBench(s) {
         const el = $("bench");
         el.replaceChildren(h("h2", {}, "Benchmarks (hyperfine cold start, JetStream)"));
@@ -504,6 +518,7 @@
         renderNet(state);
         renderEngines(state);
         renderUpstreams(state);
+        renderLessons(state);
         renderBench(state);
         renderMatrix(state);
         $("meta").textContent =
@@ -543,7 +558,19 @@
         es.onerror = () => {
           $("live").replaceChildren(h("i", { class: "dot" }), "reconnecting");
         };
-        for (const kind of ["index", "run", "engine", "page", "front", "bench", "upstream", "net", "schedule", "serve"])
+        for (const kind of [
+          "index",
+          "run",
+          "engine",
+          "page",
+          "front",
+          "bench",
+          "upstream",
+          "lessons",
+          "net",
+          "schedule",
+          "serve",
+        ])
           es.addEventListener(kind, (m) => {
             log(JSON.parse(m.data));
             soon();

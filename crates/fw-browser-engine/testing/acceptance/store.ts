@@ -46,8 +46,32 @@ CREATE TABLE IF NOT EXISTS bench (id INTEGER PRIMARY KEY, at TEXT NOT NULL, host
   version TEXT, target TEXT NOT NULL, result TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS upstreams (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, at TEXT NOT NULL, snapshot TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS upstreams_name ON upstreams (name, id);
+CREATE TABLE IF NOT EXISTS lessons (host TEXT NOT NULL, engine TEXT NOT NULL, kind TEXT NOT NULL, runs INTEGER NOT NULL, first_run TEXT NOT NULL,
+  last_run TEXT NOT NULL, detail TEXT NOT NULL, PRIMARY KEY (host, engine, kind));
 CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, kind TEXT NOT NULL, data TEXT NOT NULL);
 `;
+
+/**
+ * Schema versions (PRAGMA user_version): 1 = `upstreams` keyed by (name, at), which collides when two snapshots share a
+ * millisecond; 2 = `upstreams` with an autoincrement id. A database written by an older tool keeps its data.
+ */
+const version = 2;
+
+function migrateBefore(db: Database): boolean {
+  const columns = db.query("PRAGMA table_info(upstreams)").all() as { name: string }[];
+  if (!columns.length || columns.some((c) => c.name === "id")) return false;
+  db.exec("ALTER TABLE upstreams RENAME TO upstreams_v1");
+  return true;
+}
+
+function migrateAfter(db: Database, legacy: boolean) {
+  if (legacy)
+    db.transaction(() => {
+      db.exec("INSERT INTO upstreams (name, at, snapshot) SELECT name, at, snapshot FROM upstreams_v1 ORDER BY at");
+      db.exec("DROP TABLE upstreams_v1");
+    })();
+  db.exec(`PRAGMA user_version = ${version}`);
+}
 
 export class Store {
   readonly db: Database;
@@ -62,7 +86,9 @@ export class Store {
   static async open(path: string, redis?: string | false): Promise<Store> {
     if (path !== ":memory:") await mkdirp(dirname(path));
     const db = new Database(path, { create: true, strict: true });
+    const legacy = migrateBefore(db);
     db.exec(schema);
+    migrateAfter(db, legacy);
     if (redis === false) return new Store(db, null, null);
     const url = redis ?? Bun.env.REDIS_URL ?? Bun.env.VALKEY_URL ?? "redis://127.0.0.1:6379";
     const client = new RedisClient(url, { connectionTimeout: 1500, autoReconnect: true, enableOfflineQueue: false });
@@ -268,6 +294,62 @@ export class Store {
 
   index(crawl: string): IndexRow[] {
     return this.db.query("SELECT * FROM index_pages WHERE crawl = ? ORDER BY depth, url").all(crawl) as IndexRow[];
+  }
+
+  // ---- lessons ----
+
+  /**
+   * Records what a run showed. `seen` lists the (host, engine) pairs the run tested: a lesson of a tested pair that the run
+   * did not repeat is dropped (the engine caught up), one it repeated counts another run.
+   */
+  learn(
+    run: string,
+    found: { host: string; engine: string; kind: string; detail: string }[],
+    seen: { host: string; engine: string }[],
+  ) {
+    const keep = new Set(found.map((l) => `${l.host}\0${l.engine}\0${l.kind}`));
+    let [added, repeated, dropped] = [0, 0, 0];
+    this.db.transaction(() => {
+      for (const t of seen)
+        for (const old of this.db
+          .query("SELECT kind FROM lessons WHERE host = ? AND engine = ?")
+          .all(t.host, t.engine) as { kind: string }[])
+          if (!keep.has(`${t.host}\0${t.engine}\0${old.kind}`)) {
+            this.db.run("DELETE FROM lessons WHERE host = ? AND engine = ? AND kind = ?", [t.host, t.engine, old.kind]);
+            dropped++;
+          }
+      for (const l of found) {
+        const row = this.db
+          .query("SELECT last_run FROM lessons WHERE host = ? AND engine = ? AND kind = ?")
+          .get(l.host, l.engine, l.kind) as { last_run: string } | null;
+        if (!row) {
+          this.db.run(
+            "INSERT INTO lessons (host, engine, kind, runs, first_run, last_run, detail) VALUES (?, ?, ?, 1, ?, ?, ?)",
+            [l.host, l.engine, l.kind, run, run, l.detail],
+          );
+          added++;
+        } else if (row.last_run !== run) {
+          this.db.run(
+            "UPDATE lessons SET runs = runs + 1, last_run = ?, detail = ? WHERE host = ? AND engine = ? AND kind = ?",
+            [run, l.detail, l.host, l.engine, l.kind],
+          );
+          repeated++;
+        }
+      }
+    })();
+    return { added, repeated, dropped };
+  }
+
+  lessons(): {
+    host: string;
+    engine: string;
+    kind: string;
+    runs: number;
+    first_run: string;
+    last_run: string;
+    detail: string;
+  }[] {
+    return this.db.query("SELECT * FROM lessons ORDER BY runs DESC, host, engine").all() as never;
   }
 
   // ---- benchmarks and upstreams ----

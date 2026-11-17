@@ -9,6 +9,7 @@
 //   bun testing/acceptance.ts run                    engines x corpus -> <out>/{report.md,report.json,<engine>/*.png}; resumes
 //   bun testing/acceptance.ts bench [url...]         hyperfine on the engines' one-shot commands + process-tree RSS (default: seeds)
 //   bun testing/acceptance.ts bench --jetstream      the pinned JetStream suite inside every full engine
+//   bun testing/acceptance.ts lessons              where each engine fell short of the full one, learned from the runs (the router's data)
 //   bun testing/acceptance.ts track                  heads, releases and channels of every upstream against our pins
 //   bun testing/acceptance.ts serve [--schedule]     the live dashboard (HTML, JSON, SSE) and, with --schedule, the cron of the above
 //   bun testing/acceptance.ts deploy [--apply]      Worker + tunnel config for the published host (plan only without --apply)
@@ -60,8 +61,8 @@ export type Manifest = {
       agent: string;
     };
   };
-  page: { width: number; height: number; timeout_ms: number; settle_ms: number; quiet_ms: number };
-  walls: Record<"auth" | "consent" | "refused", string[]>;
+  page: { width: number; height: number; timeout_ms: number; settle_ms: number; quiet_ms: number; retries: number };
+  walls: Record<"auth" | "consent" | "refused" | "challenge", string[]>;
   session: { signed_in: string; signed_out: string };
   parity: { elements: number; text: number };
   engine: Record<string, EngineDef>;
@@ -81,6 +82,7 @@ export type PageResult = {
   final: string | null;
   status: number | null;
   protocol: string | null;
+  attempts?: number; // 1 unless a transient failure was tried again
   redirects: number;
   loaded: boolean;
   ms: number;
@@ -572,10 +574,31 @@ export function judge(r: PageResult, walls: Manifest["walls"]): Pick<PageResult,
   const at = r.final ?? r.url;
   const wall = (["refused", "auth", "consent"] as const).find((k) => walls[k].some((p) => new RegExp(p).test(at)));
   if (wall === "refused" || (r.status ?? 0) >= 400) return { verdict: "refused", reason: `http ${r.status} at ${at}` };
+  if (walls.challenge.some((p) => new RegExp(p, "i").test(r.title)))
+    return { verdict: "refused", reason: `challenge page "${r.title}"` };
   if (r.elements <= 3) return { verdict: "fail", reason: "empty document" }; // html, head, body
   if (r.spread === 0) return { verdict: "fail", reason: "blank paint" };
   if (wall) return { verdict: wall };
   return { verdict: "pass", reason: r.loaded ? undefined : "no load event" };
+}
+
+/** Failures that say nothing about the engine: the network moved, the peer reset, or the engine was starved of CPU. */
+export const isTransient = (reason = "") =>
+  /ERR_NETWORK_CHANGED|ERR_CONNECTION_(RESET|CLOSED|TIMED_OUT)|ERR_TIMED_OUT|ERR_INTERNET_DISCONNECTED|ERR_NAME_NOT_RESOLVED|no answer in/.test(
+    reason,
+  );
+
+export async function probeRetrying(run: Running, url: string, shot: string | null, retries = manifest.page.retries) {
+  let page = await probe(run, url, shot);
+  for (
+    let attempt = 1;
+    attempt <= retries && page.verdict === "fail" && isTransient(page.reason) && !run.exited();
+    attempt++
+  ) {
+    await Bun.sleep(1000 * attempt);
+    page = Object.assign(await probe(run, url, shot), { attempts: attempt + 1 });
+  }
+  return page;
 }
 
 export async function probe(run: Running, url: string, shot: string | null, settle = true): Promise<PageResult> {
@@ -718,6 +741,38 @@ export function parity(lite: PageResult, full: PageResult, min: Manifest["parity
               ? `${text} of the text`
               : undefined;
   return { url: full.url, sufficient: !why, why, elements, text };
+}
+
+/** What a difference between lite and full means, from the reason `parity` or `judge` gave. */
+export function classify(why: string): string {
+  if (/no answer|timeout|exited|crashed|opened no CDP/i.test(why)) return "hang";
+  if (/empty document/.test(why)) return "empty";
+  if (/blank paint/.test(why)) return "blank";
+  if (/^lite \w+, full \w+/.test(why)) return "verdict-differs";
+  if (/^lite at /.test(why)) return "redirect-differs";
+  if (/of the (elements|text)/.test(why)) return "low-parity";
+  return "other";
+}
+
+/** What the run teaches the router: per host and engine, why the engine could not do what the full one did. */
+export function lessonsOf(rep: NonNullable<Report>): { host: string; engine: string; kind: string; detail: string }[] {
+  const out: { host: string; engine: string; kind: string; detail: string }[] = [];
+  const [full, lite] = [rep.engines.find((e) => e.role === "full"), rep.engines.find((e) => e.role === "lite")];
+  for (const [i, site] of rep.corpus.entries()) {
+    const host = new URL(site.url).host;
+    if (lite?.pages[i] && full?.pages[i]) {
+      const p = parity(lite.pages[i]!, full.pages[i]!, manifest.parity);
+      if (!p.sufficient) out.push({ host, engine: lite.id, kind: classify(p.why!), detail: p.why! });
+    }
+    if (full?.pages[i]?.verdict === "fail")
+      out.push({
+        host,
+        engine: full.id,
+        kind: classify(full.pages[i]!.reason ?? ""),
+        detail: full.pages[i]!.reason ?? "",
+      });
+  }
+  return out;
 }
 
 // ---- fronts -------------------------------------------------------------------------------------------------
@@ -1044,7 +1099,7 @@ async function run(flag: Flags) {
         cdp.close();
       }
       await pool(todo, jobs, async (site) => {
-        const page = await probe(running, site.url, join(dir, `${slug(site.url)}.png`));
+        const page = await probeRetrying(running, site.url, join(dir, `${slug(site.url)}.png`));
         if (page.shot) page.shot = `${engine.id}/${basename(page.shot)}`;
         store.savePage(row.id, engine.id, page);
         store.emit("page", {
@@ -1081,6 +1136,14 @@ async function run(flag: Flags) {
     }
   }
   const rep = report(store, row.id)!;
+  const taught = store.learn(
+    row.id,
+    lessonsOf(rep),
+    rep.engines.flatMap((e) =>
+      e.pages.flatMap((p, i) => (p ? [{ host: new URL(rep.corpus[i].url).host, engine: e.id }] : [])),
+    ),
+  );
+  store.emit("lessons", { run: row.id, ...taught });
   store.finishRun(row.id, rep.ok);
   rep.finished = new Date().toISOString();
   await Bun.write(join(out, "report.json"), JSON.stringify(rep, null, 1));
@@ -1458,7 +1521,21 @@ if (import.meta.main) {
   } else if (command === "run") await run(flag);
   else if (command === "bench") await bench(args, flag);
   else if (command === "track") await track(flag);
-  else if (command === "serve")
+  else if (command === "lessons") {
+    const store = await openStore(flag);
+    const rows = store.lessons();
+    console.log(
+      flag.json
+        ? JSON.stringify(rows, null, 1)
+        : rows
+            .map(
+              (l) =>
+                `${l.host.padEnd(36)} ${l.engine.padEnd(8)} ${l.kind.padEnd(16)} ${String(l.runs).padStart(3)} runs  ${l.detail}`,
+            )
+            .join("\n") || "nothing learned yet",
+    );
+    store.close();
+  } else if (command === "serve")
     await (
       await import("./acceptance/serve.ts")
     ).serve(await openStore(flag), { port: Number(flag.port ?? manifest.serve.port), schedule: !!flag.schedule });

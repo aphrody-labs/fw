@@ -39,12 +39,16 @@ height = 800
 timeout_ms = 30000   # navigation to the load event
 settle_ms = 4000     # ceiling of the wait for the network to go quiet after load
 quiet_ms = 500       # no request started or finished for this long = quiet
+retries = 1          # a transient failure (network change, reset, hang) is tried again before it counts: a busy host made Obscura hang on 8 pages instead of 3
 
 # Where a navigation can end without the engine being at fault (regular expressions on the final URL).
 [walls]
 auth = ['^https://accounts\.(google|youtube)\.com/']
 consent = ['^https://consent\.(google|youtube)\.com/']
 refused = ['^https://[^/]+/sorry/']
+# Learned from the engines: a bot challenge answers 200 to some engines and 403 to others, so the verdict cannot trust the status.
+# Patterns on the page title, case-insensitive (the title is in the language of the machine: "Un instant...").
+challenge = ['just a moment', 'un instant', 'attention required', 'access denied', 'request rate threshold', 'verify(ing)? you are (a )?human', 'are you a robot']
 
 # How a page shows the account state (CSS selectors).
 [session]

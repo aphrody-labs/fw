@@ -1,8 +1,21 @@
 // bun test testing/acceptance            (SQLite only; with REDIS_URL set the cache and wake-up paths run against that server too)
+import { Database } from "bun:sqlite";
 import { expect, test } from "bun:test";
-import { normalize, parity, spread, judge, outliers, readHyperfine, manifest, type PageResult } from "../acceptance.ts";
+import {
+  classify,
+  isTransient,
+  normalize,
+  parity,
+  spread,
+  judge,
+  outliers,
+  readHyperfine,
+  manifest,
+  type PageResult,
+} from "../acceptance.ts";
 import { parseHttpsRecord } from "./net.ts";
 import { Store } from "./store.ts";
+import { rmrf, tmpdir } from "./sys.ts";
 
 const open = () => Store.open(":memory:", Bun.env.REDIS_URL ?? false);
 
@@ -211,4 +224,67 @@ test("hyperfine 1.x and 2.x exports both become a Timing", () => {
     user: 0.2,
     system: 0,
   });
+});
+
+test("a bot challenge is refused whatever status the engine saw", () => {
+  const walls = manifest.walls;
+  for (const title of [
+    "Just a moment...",
+    "Un instant…",
+    "Attention Required! | Cloudflare",
+    "SEC.gov | Request Rate Threshold Exceeded",
+  ])
+    expect(judge(page({ title, status: 200 }), walls)).toMatchObject({ verdict: "refused" });
+  expect(judge(page({ title: "Google Design", status: 200 }), walls).verdict).toBe("pass");
+});
+
+test("reasons are classified for the router", () => {
+  expect(classify("Page.navigate got no answer in 30000 ms")).toBe("hang");
+  expect(classify("empty document")).toBe("empty");
+  expect(classify("lite pass, full refused")).toBe("verdict-differs");
+  expect(classify("lite at a.test, full at b.test")).toBe("redirect-differs");
+  expect(classify("0.3 of the elements")).toBe("low-parity");
+});
+
+test("lessons count the runs that repeat them and drop the ones an engine caught up on", async () => {
+  const store = await open();
+  const lesson = { host: "a.test", engine: "lite", kind: "hang", detail: "no answer" };
+  const seen = [{ host: "a.test", engine: "lite" }];
+  expect(store.learn("r1", [lesson], seen)).toEqual({ added: 1, repeated: 0, dropped: 0 });
+  expect(store.learn("r1", [lesson], seen)).toEqual({ added: 0, repeated: 0, dropped: 0 }); // the same run twice counts once
+  expect(store.learn("r2", [lesson], seen)).toEqual({ added: 0, repeated: 1, dropped: 0 });
+  expect(store.lessons()[0]).toMatchObject({ runs: 2, first_run: "r1", last_run: "r2" });
+  expect(store.learn("r3", [], seen)).toEqual({ added: 0, repeated: 0, dropped: 1 });
+  expect(store.lessons()).toEqual([]);
+  store.learn("r4", [lesson], seen);
+  store.learn("r5", [], [{ host: "b.test", engine: "lite" }]); // another host was tested: a.test keeps its lesson
+  expect(store.lessons()).toHaveLength(1);
+  store.close();
+});
+
+test("a database written by the first schema keeps its data and gains the new one", async () => {
+  const path = `${tmpdir()}/acceptance-v1-${crypto.randomUUID().slice(0, 8)}.db`;
+  const old = new Database(path, { create: true });
+  old.exec(
+    "CREATE TABLE upstreams (name TEXT NOT NULL, at TEXT NOT NULL, snapshot TEXT NOT NULL, PRIMARY KEY (name, at))",
+  );
+  old.run("INSERT INTO upstreams VALUES ('servo', '2026-11-01T00:00:00Z', '{\"head\":\"a\"}')");
+  old.run("INSERT INTO upstreams VALUES ('servo', '2026-11-02T00:00:00Z', '{\"head\":\"b\"}')");
+  old.close();
+  const store = await Store.open(path, false);
+  expect(store.upstreams()[0].snapshot).toEqual({ head: "b" });
+  expect(store.upstreams()[0].history).toHaveLength(2);
+  expect(store.saveUpstream("servo", { head: "c" })).toBe(true);
+  expect(store.db.query("PRAGMA user_version").get()).toEqual({ user_version: 2 });
+  store.close();
+  expect((await Store.open(path, false)).upstreams()[0].history).toHaveLength(3); // opening twice is a no-op
+  await rmrf(path);
+});
+
+test("only failures that say nothing about the engine are tried again", () => {
+  expect(isTransient("net::ERR_NETWORK_CHANGED")).toBe(true);
+  expect(isTransient("Page.navigate got no answer in 30000 ms")).toBe(true);
+  expect(isTransient("empty document")).toBe(false);
+  expect(isTransient("blank paint")).toBe(false);
+  expect(isTransient(undefined)).toBe(false);
 });
