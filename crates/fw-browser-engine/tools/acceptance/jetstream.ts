@@ -3,6 +3,7 @@
 // poll JetStream.isDone / JetStream.errors / JetStream.resultsObject("simple").
 import { join, normalize, resolve, sep } from "node:path";
 import { Cdp } from "./cdp";
+import { spawn } from "./sys.ts";
 
 export type JetStreamResult = {
   score: number | null; // the overall JetStream score as the suite itself reports it
@@ -112,7 +113,7 @@ async function isDirectory(path: string) {
 
 async function gitRevision(dir: string): Promise<string | null> {
   try {
-    const run = Bun.spawn(["git", "-C", dir, "rev-parse", "HEAD"], { stdout: "pipe", stderr: "ignore" });
+    const run = spawn(["git", "-C", dir, "rev-parse", "HEAD"], { stdout: "pipe", stderr: "ignore" });
     const out = (await new Response(run.stdout).text()).trim();
     return (await run.exited) === 0 && /^[0-9a-f]{40}/.test(out) ? out : null;
   } catch {
@@ -144,8 +145,6 @@ type Poll = {
   results: SimpleResults;
   summary: string | null;
 };
-
-const sleep = (ms: number) => new Promise((done) => setTimeout(done, ms));
 
 async function endpoint(ws: string): Promise<string> {
   if (!/^https?:/.test(ws)) return ws;
@@ -242,7 +241,7 @@ export async function jetstream(ws: string, dir: string, opt: JetStreamOptions =
         return fail(`the suite refused to load: ${why || "allIsGood is false"}`);
       }
       if (performance.now() >= deadline) return timedOut(state, "waiting for JetStream.isReady");
-      await sleep(POLL_MS);
+      await Bun.sleep(POLL_MS);
     }
     progress(`ready, ${state.total} workloads`);
 
@@ -255,7 +254,7 @@ export async function jetstream(ws: string, dir: string, opt: JetStreamOptions =
 
     const seen = new Set<string>();
     for (;;) {
-      await sleep(POLL_MS);
+      await Bun.sleep(POLL_MS);
       if (crashed) {
         settle(state);
         return fail("the page crashed during the run");
@@ -293,7 +292,7 @@ export async function jetstream(ws: string, dir: string, opt: JetStreamOptions =
     result.ms = Math.round(performance.now() - started);
     if (cdp && targetId) await cdp.send("Target.closeTarget", { targetId }, undefined, 5_000).catch(() => {});
     cdp?.close();
-    server?.stop();
+    await server?.stop();
   }
 }
 

@@ -15,7 +15,6 @@ type Layout = {
 type Lock = Record<string, { crates: Record<string, string> }>;
 
 const [command = "plan", repo = "."] = Bun.argv.slice(2);
-const root = Bun.pathToFileURL(join(process.cwd(), repo, "/")).pathname.replace(/^\/([A-Za-z]:)/, "$1");
 const at = (path: string) => join(repo, path);
 const layout = Bun.TOML.parse(await Bun.file(at("tools/layout.toml")).text()) as Layout;
 const lock = (await Bun.file(at("tools/upstreams.lock.json")).json()) as Lock;
@@ -85,7 +84,7 @@ if (command === "root") {
       );
   const found = new Map<string, string>();
   const entries = new Set<string>();
-  for (const m of (await Bun.file(manifest).text()).matchAll(/"src\/([^"\/]+)(?:\/[^"]*)?"/g)) entries.add(m[1]);
+  for (const m of (await Bun.file(manifest).text()).matchAll(/"src\/([^"/]+)(?:\/[^"]*)?"/g)) entries.add(m[1]);
   const third = await Array.fromAsync(new Bun.Glob("*/*").scan({ cwd: at(layout.third_party.dir), onlyFiles: false }));
   for (const entry of entries) {
     const hit = third.find((p) => p.split("/")[1] === entry);
@@ -94,7 +93,7 @@ if (command === "root") {
     else found.set(entry, `${layout.bun.dir}/src/${entry}`);
   }
   const text = (await Bun.file(manifest).text()).replace(
-    /"src\/([^"\/]+)((?:\/[^"]*)?)"/g,
+    /"src\/([^"/]+)((?:\/[^"]*)?)"/g,
     (_, entry: string, rest: string) => `"${found.get(entry)}${rest}"`,
   );
   await Bun.write(manifest, text);

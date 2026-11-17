@@ -2,6 +2,7 @@
 // (protocol, cipher, ALPN, certificate chain end) and whether HTTP/3 is advertised (HTTPS record, Alt-Svc) and, when a
 // curl built with HTTP/3 exists, actually negotiated. Every part is independent: one failing leaves the others.
 
+import { spawn } from "./sys.ts";
 export type NetProbe = {
   host: string;
   at: string;
@@ -55,7 +56,10 @@ export function parseHttpsRecord(data: string): { priority: number; target: stri
     if (b.length < 3) return null;
     let at = 2;
     const labels: string[] = [];
-    while (b[at]) (labels.push(String.fromCharCode(...b.subarray(at + 1, at + 1 + b[at]))), (at += b[at] + 1));
+    while (b[at]) {
+      labels.push(String.fromCharCode(...b.subarray(at + 1, at + 1 + b[at])));
+      at += b[at] + 1;
+    }
     at++;
     const alpn: string[] = [];
     while (at + 4 <= b.length) {
@@ -207,12 +211,10 @@ async function h3(host: string, advertised: boolean): Promise<NetProbe["h3"]> {
   const curl = Bun.which("curl");
   const out: NetProbe["h3"] = { advertised, verified: null, via: null, ms: null };
   if (!curl) return out;
-  const features = await new Response(
-    Bun.spawn([curl, "--version"], { stdout: "pipe", stderr: "ignore" }).stdout,
-  ).text();
+  const features = await new Response(spawn([curl, "--version"], { stdout: "pipe", stderr: "ignore" }).stdout).text();
   if (!/HTTP3/.test(features)) return out;
   const t0 = performance.now();
-  const proc = Bun.spawn(
+  const proc = spawn(
     [
       curl,
       "-sS",

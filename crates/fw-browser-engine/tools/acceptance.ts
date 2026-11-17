@@ -22,21 +22,22 @@
 //        --cookies <file>         cookies set before the first page   --profile <dir> persistent profile directory
 //        --db <file>  --redis <url|off>  --warmup <n>  --runs <n>  --port <n>  --test <name> (JetStream workload, repeatable)
 // Exit status: 0 clean, 1 a full-engine page or a front failed, or a page that passed in the previous run fails, 2 nothing to run.
-import { basename, delimiter, dirname, join, resolve } from "node:path";
+import { basename, delimiter, join, resolve } from "node:path";
+import { parseArgs } from "node:util";
 import { Cdp } from "./acceptance/cdp.ts";
 import {
+  spawn,
   cores,
   exists,
-  hostname,
   list,
-  loadavg,
   mkdirp,
   mkdtemp,
   move,
-  parseFlags,
   rmrf,
   sampleRss,
   tmpdir,
+  hostname,
+  loadavg,
 } from "./acceptance/sys.ts";
 import { Store } from "./acceptance/store.ts";
 
@@ -139,7 +140,9 @@ export type Parity = { url: string; sufficient: boolean; why?: string; elements:
 export type Report = ReturnType<typeof report>;
 
 export const root = resolve(import.meta.dir, "..");
-export const manifest = Bun.TOML.parse(await Bun.file(join(import.meta.dir, "acceptance.toml")).text()) as Manifest;
+export const manifest = Bun.TOML.parse(
+  await Bun.file(new URL("./acceptance.toml", import.meta.url)).text(),
+) as Manifest;
 const exe = process.platform === "win32" ? ".exe" : "";
 const stamp = () =>
   new Date()
@@ -165,7 +168,7 @@ async function pool<T, R>(items: T[], width: number, fn: (item: T, index: number
 
 export const openStore = (flag: { db?: string; redis?: string } = {}) =>
   Store.open(
-    resolve(root, flag.db ?? process.env.ACCEPTANCE_DB ?? manifest.store.db),
+    resolve(root, flag.db ?? Bun.env.ACCEPTANCE_DB ?? manifest.store.db),
     flag.redis === "off" ? false : flag.redis,
   );
 
@@ -299,15 +302,15 @@ let buildDirsMemo: Promise<string[]> | undefined;
 const buildDirs = () =>
   (buildDirsMemo ??= (async () => {
     const script = await Bun.file(join(root, "build/engines/build.sh")).text();
-    const value = (name: string) => process.env[name] ?? script.match(new RegExp(`\\$\\{${name}:-([^}]+)\\}`))?.[1];
+    const value = (name: string) => Bun.env[name] ?? script.match(new RegExp(`\\$\\{${name}:-([^}]+)\\}`))?.[1];
     const [src, out] = [value("CHROMIUM_SRC"), value("OUT")];
-    const dirs = [join(process.env.CARGO_TARGET_DIR ?? join(root, "target"), "release")];
+    const dirs = [join(Bun.env.CARGO_TARGET_DIR ?? join(root, "target"), "release")];
     if (src && out) dirs.unshift(join(src, out));
     return dirs;
   })());
 
 /** Where baselines live: $BROWSER_ENGINES (a path list), else out/engines, which `install` fills. */
-const baselineDirs = () => (process.env.BROWSER_ENGINES ?? join(root, "out/engines")).split(delimiter).filter(Boolean);
+const baselineDirs = () => (Bun.env.BROWSER_ENGINES ?? join(root, "out/engines")).split(delimiter).filter(Boolean);
 
 async function* binaries(bins: string[]): AsyncGenerator<Pick<Engine, "path" | "origin">> {
   for (const dir of await buildDirs())
@@ -329,7 +332,7 @@ async function* binaries(bins: string[]): AsyncGenerator<Pick<Engine, "path" | "
   if (process.platform === "win32")
     for (const key of ["ProgramFiles", "ProgramFiles(x86)", "LOCALAPPDATA"])
       for (const bin of bins)
-        for (const path of await scan(process.env[key] ?? "", `*/*/Application/${bin}.exe`))
+        for (const path of await scan(Bun.env[key] ?? "", `*/*/Application/${bin}.exe`))
           yield { path, origin: "baseline" };
 }
 
@@ -359,7 +362,7 @@ export async function engines(select: string[] = [], all = false): Promise<Engin
 /** Fetches the newest upstream build of every engine that declares a baseline; older copies beyond two are removed. */
 async function install(select: string[] = []) {
   const dir = baselineDirs()[0];
-  const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
+  const token = Bun.env.GH_TOKEN ?? Bun.env.GITHUB_TOKEN;
   const os = { linux: "linux", darwin: "macos", win32: "windows" }[process.platform as string] ?? process.platform;
   const arch = { x64: "x86_64", arm64: "aarch64" }[process.arch as string] ?? process.arch;
   for (const [name, def] of Object.entries(manifest.engine)) {
@@ -404,7 +407,7 @@ async function install(select: string[] = []) {
         const zip = join(temp, "archive.zip");
         await Bun.write(zip, bytes);
         const unzip = Bun.which("unzip") ? ["unzip", "-oq", zip, "-d", temp] : ["tar", "-xf", zip, "-C", temp];
-        if ((await Bun.spawn(unzip, { stdout: "ignore", stderr: "inherit" }).exited) !== 0)
+        if ((await spawn(unzip, { stdout: "ignore", stderr: "inherit" }).exited) !== 0)
           throw new Error(`cannot extract ${url}`);
         await rmrf(zip);
       } else await new Bun.Archive(bytes).extract(temp);
@@ -435,7 +438,7 @@ export async function launch(
   const vars = { port, profile: opt.profile ?? temp!, ...manifest.page };
   const argv = [engine.path, ...engine.args.map((a) => fill(a, vars)), ...(opt.extra ?? [])];
   const t0 = performance.now();
-  const proc = Bun.spawn(argv, { stdin: "ignore", stdout: "ignore", stderr: opt.log ? Bun.file(opt.log) : "ignore" });
+  const proc = spawn(argv, { stdin: "ignore", stdout: "ignore", stderr: opt.log ? Bun.file(opt.log) : "ignore" });
   const rss = sampleRss(proc.pid, 100);
   // A launcher that hands over to another process and leaves with 0 (chrome.exe on Windows) is not a death.
   const died = () => proc.signalCode !== null || (proc.exitCode ?? 0) !== 0;
@@ -720,7 +723,7 @@ export function parity(lite: PageResult, full: PageResult, min: Manifest["parity
 // ---- fronts -------------------------------------------------------------------------------------------------
 
 async function capture(argv: string[], timeout: number): Promise<{ code: number; out: string; err: string }> {
-  const proc = Bun.spawn(argv, { stdin: "ignore", stdout: "pipe", stderr: "pipe", timeout });
+  const proc = spawn(argv, { stdin: "ignore", stdout: "pipe", stderr: "pipe", timeout });
   const [out, err, code] = await Promise.all([
     new Response(proc.stdout).text(),
     new Response(proc.stderr).text(),
@@ -971,7 +974,7 @@ async function run(flag: Flags) {
   const store = await openStore(flag);
   if (flag.install) await install(flag.engine);
   const found = await engines(flag.engine, flag.all);
-  const host = await hostname();
+  const host = hostname();
   const open = flag.fresh ? null : store.unfinishedRun(host);
   let sites = open?.meta.corpus as Site[] | undefined;
   if (!sites) {
@@ -1105,7 +1108,7 @@ async function run(flag: Flags) {
 
 // ---- benchmarks ---------------------------------------------------------------------------------------------
 
-type Timing = {
+export type Timing = {
   command: string;
   mean: number;
   stddev: number | null;
@@ -1119,6 +1122,41 @@ type Timing = {
   memory_usage_byte?: number[];
 };
 
+type Metric = { value: number };
+type V2Result = {
+  command: string;
+  measurements: Record<string, Metric | number>[];
+  summary: Record<string, { mean: number; stddev?: number; median: number; min: number; max: number }>;
+};
+
+/** hyperfine 1.x exports mean/times per result; 2.x exports measurements and a summary per metric. Both give a Timing. */
+export function readHyperfine(json: { results: unknown[]; schema_version?: number }): Timing[] {
+  if (json.schema_version !== 2) return json.results as Timing[];
+  return (json.results as V2Result[]).map((r) => {
+    const value = (m: Record<string, Metric | number>, key: string) => {
+      const v = m[key];
+      return typeof v === "object" ? v.value : null;
+    };
+    const wall = r.summary.time_wall_clock;
+    const memory = r.measurements
+      .map((m) => value(m, "memory_usage") ?? value(m, "memory_usage_byte"))
+      .filter((v): v is number => v !== null);
+    return {
+      command: r.command,
+      mean: wall.mean,
+      stddev: wall.stddev ?? null,
+      median: wall.median,
+      user: r.summary.time_user?.mean ?? 0,
+      system: r.summary.time_system?.mean ?? 0,
+      min: wall.min,
+      max: wall.max,
+      times: r.measurements.map((m) => value(m, "time_wall_clock") ?? 0),
+      exit_codes: r.measurements.map((m) => (typeof m.exit_code === "number" ? m.exit_code : null)),
+      ...(memory.length && { memory_usage_byte: memory }),
+    };
+  });
+}
+
 /** hyperfine flags observations beyond 14.826 median absolute deviations; the same rule, on the stored times. */
 export function outliers(times: number[]): number {
   const mid = median(times)!;
@@ -1129,7 +1167,7 @@ export function outliers(times: number[]): number {
 /** One-shot run of a command with its process tree sampled every 5 ms: wall time and peak resident memory. */
 async function sampled(argv: string[]): Promise<{ wall_s: number; rss_mib: number | null; code: number }> {
   const t0 = performance.now();
-  const proc = Bun.spawn(argv, { stdin: "ignore", stdout: "ignore", stderr: "ignore" });
+  const proc = spawn(argv, { stdin: "ignore", stdout: "ignore", stderr: "ignore" });
   const rss = sampleRss(proc.pid, 5);
   const code = await proc.exited;
   rss.stop();
@@ -1164,7 +1202,7 @@ async function jetstreamCheckout(): Promise<string> {
     ["fetch", "-q", "--depth", "1", "origin", pin.sha],
     ["checkout", "-q", "FETCH_HEAD"],
   ]) {
-    const code = await Bun.spawn(["git", ...args], { cwd: dir, stdin: "ignore", stdout: "ignore", stderr: "inherit" })
+    const code = await spawn(["git", ...args], { cwd: dir, stdin: "ignore", stdout: "ignore", stderr: "inherit" })
       .exited;
     if (code !== 0) throw new Error(`git ${args[0]} failed in ${dir}`);
   }
@@ -1175,10 +1213,10 @@ async function bench(urls: string[], flag: Flags) {
   const store = await openStore(flag);
   const found = await engines(flag.engine, flag.all);
   const env = {
-    host: await hostname(),
+    host: hostname(),
     cores: cores(),
     platform: `${process.platform} ${process.arch}`,
-    load: (await loadavg()).map((l) => Math.round(l * 100) / 100),
+    load: loadavg().map((l) => Math.round(l * 100) / 100),
   };
   if (flag.jetstream) {
     const { jetstream } = await import("./acceptance/jetstream.ts");
@@ -1252,9 +1290,9 @@ async function bench(urls: string[], flag: Flags) {
     console.error(
       `bench ${url}: ${timed.map((e) => e.id).join(" vs ")}, ${warmup} warm-ups + ${runs} runs each, load ${env.load.join(" ")}`,
     );
-    const code = await Bun.spawn(argv, { stdin: "ignore", stdout: "inherit", stderr: "inherit" }).exited;
+    const code = await spawn(argv, { stdin: "ignore", stdout: "inherit", stderr: "inherit" }).exited;
     if (code !== 0) throw new Error(`hyperfine exited with ${code}`);
-    const { results } = (await Bun.file(json).json()) as { results: Timing[] };
+    const results = readHyperfine(await Bun.file(json).json());
     const fastest = results.reduce((a, b) => (a.mean <= b.mean ? a : b));
     for (const [i, engine] of timed.entries()) {
       const t = results[i];
@@ -1357,7 +1395,7 @@ async function cookies(endpoint: string, file: string, flag: Flags) {
     )
     .map((c) => ({
       ...Object.fromEntries(fields.filter((f) => c[f] !== undefined).map((f) => [f, c[f]])),
-      ...(c.expires > 0 ? { expires: c.expires } : {}),
+      ...(c.expires > 0 && { expires: c.expires }),
     }));
   await Bun.write(file, JSON.stringify(kept), { mode: 0o600 });
   console.log(
@@ -1367,27 +1405,31 @@ async function cookies(endpoint: string, file: string, flag: Flags) {
 
 type Flags = ReturnType<typeof flags>["values"];
 const flags = () =>
-  parseFlags(Bun.argv.slice(2), {
-    engine: "strings",
-    site: "strings",
-    test: "strings",
-    all: "boolean",
-    fresh: "boolean",
-    install: "boolean",
-    "no-discover": "boolean",
-    jetstream: "boolean",
-    apply: "boolean",
-    schedule: "boolean",
-    json: "boolean",
-    jobs: "string",
-    out: "string",
-    cookies: "string",
-    profile: "string",
-    db: "string",
-    redis: "string",
-    warmup: "string",
-    runs: "string",
-    port: "string",
+  parseArgs({
+    args: Bun.argv.slice(2),
+    allowPositionals: true,
+    options: {
+      engine: { type: "string", multiple: true },
+      site: { type: "string", multiple: true },
+      test: { type: "string", multiple: true },
+      all: { type: "boolean" },
+      fresh: { type: "boolean" },
+      install: { type: "boolean" },
+      "no-discover": { type: "boolean" },
+      jetstream: { type: "boolean" },
+      apply: { type: "boolean" },
+      schedule: { type: "boolean" },
+      json: { type: "boolean" },
+      jobs: { type: "string" },
+      out: { type: "string" },
+      cookies: { type: "string" },
+      profile: { type: "string" },
+      db: { type: "string" },
+      redis: { type: "string" },
+      warmup: { type: "string" },
+      runs: { type: "string" },
+      port: { type: "string" },
+    },
   });
 
 if (import.meta.main) {

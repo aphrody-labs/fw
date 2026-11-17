@@ -19,7 +19,7 @@ describe("static server", () => {
     server = serveStatic(root);
   });
   afterAll(async () => {
-    server.stop();
+    await server.stop();
     await rmrf(base);
   });
 
@@ -110,12 +110,12 @@ describe("failure never throws", () => {
   });
 });
 
-test.skipIf(!process.env.JETSTREAM_WS)(
+test.skipIf(!Bun.env.JETSTREAM_WS)(
   "real run on the engine behind JETSTREAM_WS",
   async () => {
-    const dir = process.env.JETSTREAM_DIR ?? "";
-    const tests = (process.env.JETSTREAM_TESTS ?? "").split(",").filter(Boolean);
-    const result = await jetstream(process.env.JETSTREAM_WS!, dir, { tests, timeout_ms: 20 * 60_000 });
+    const dir = Bun.env.JETSTREAM_DIR ?? "";
+    const tests = (Bun.env.JETSTREAM_TESTS ?? "").split(",").filter(Boolean);
+    const result = await jetstream(Bun.env.JETSTREAM_WS!, dir, { tests, timeout_ms: 20 * 60_000 });
     expect(result.error).toBeUndefined();
     expect(result.score).toBeGreaterThan(0);
     expect(Object.keys(result.tests).length).toBeGreaterThan(0);

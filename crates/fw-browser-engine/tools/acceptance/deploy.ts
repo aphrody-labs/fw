@@ -5,7 +5,7 @@
 // The tunnel and its DNS record are not created here: the zone's DNS is managed elsewhere and the plan says what it needs.
 import { join } from "node:path";
 import { manifest, root } from "../acceptance.ts";
-import { mkdirp } from "./sys.ts";
+import { spawn, mkdirp } from "./sys.ts";
 
 export async function deploy(apply: boolean) {
   const { host, origin, port } = manifest.serve;
@@ -15,7 +15,7 @@ export async function deploy(apply: boolean) {
   const wrangler = {
     $schema: "node_modules/wrangler/config-schema.json",
     name: `browser-acceptance`,
-    main: join(import.meta.dir, "worker.ts"),
+    main: Bun.fileURLToPath(new URL("./worker.ts", import.meta.url)),
     compatibility_date: new Date().toISOString().slice(0, 10),
     routes: [{ pattern: `${host}/*`, zone_name: zone }],
     vars: { ORIGIN: origin },
@@ -28,10 +28,11 @@ export async function deploy(apply: boolean) {
   );
   const wr = Bun.which("wrangler");
   if (!wr) throw new Error("wrangler not found (bun add -g wrangler)");
-  const code = await Bun.spawn(
-    [wr, "deploy", "--config", join(dir, "wrangler.jsonc"), ...(apply ? [] : ["--dry-run"])],
-    { cwd: dir, stdout: "inherit", stderr: "inherit" },
-  ).exited;
+  const code = await spawn([wr, "deploy", "--config", join(dir, "wrangler.jsonc"), ...(apply ? [] : ["--dry-run"])], {
+    cwd: dir,
+    stdout: "inherit",
+    stderr: "inherit",
+  }).exited;
   const [route, origin_dns] = await Promise.all(
     [host, origin].map((name) =>
       fetch(`https://cloudflare-dns.com/dns-query?name=${name}&type=A`, { headers: { accept: "application/dns-json" } })

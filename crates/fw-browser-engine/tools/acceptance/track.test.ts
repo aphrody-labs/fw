@@ -250,11 +250,11 @@ describe("plumbing", () => {
   });
 });
 
-test.skipIf(!process.env.TRACK_LIVE)(
+test.skipIf(!Bun.env.TRACK_LIVE)(
   "live: track() answers for every manifest entry, with real data",
   async () => {
     const rows = await track(`${import.meta.dir}/../..`);
-    const toml = Bun.TOML.parse(await Bun.file(`${import.meta.dir}/../upstreams.toml`).text()) as any;
+    const toml = Bun.TOML.parse(await Bun.file(new URL("../upstreams.toml", import.meta.url)).text()) as any;
     const names = new Set(rows.map((r) => r.name));
     for (const u of toml.upstream) expect(names.has(u.name)).toBe(true);
     const chromium = rows.find((r) => r.name === "chromium")!;

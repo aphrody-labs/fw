@@ -64,7 +64,7 @@ export class Store {
     const db = new Database(path, { create: true, strict: true });
     db.exec(schema);
     if (redis === false) return new Store(db, null, null);
-    const url = redis ?? process.env.REDIS_URL ?? process.env.VALKEY_URL ?? "redis://127.0.0.1:6379";
+    const url = redis ?? Bun.env.REDIS_URL ?? Bun.env.VALKEY_URL ?? "redis://127.0.0.1:6379";
     const client = new RedisClient(url, { connectionTimeout: 1500, autoReconnect: true, enableOfflineQueue: false });
     try {
       await client.connect();

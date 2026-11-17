@@ -6,11 +6,12 @@ import { join, resolve, sep } from "node:path";
 import { engines, launch, manifest, probe, report, root } from "../acceptance.ts";
 import { probeNet, type NetProbe } from "./net.ts";
 import type { Store } from "./store.ts";
+import { spawn } from "./sys.ts";
 
-const page = await Bun.file(join(import.meta.dir, "dashboard.html")).text();
+const page = await Bun.file(new URL("./dashboard.html", import.meta.url)).text();
 
 export async function serve(store: Store, opt: { port: number; schedule: boolean }) {
-  const key = process.env.ACCEPTANCE_KEY;
+  const key = Bun.env.ACCEPTANCE_KEY;
   const hub = new Set<() => void>();
   await store.watch(() => hub.forEach((wake) => wake()));
 
@@ -69,7 +70,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
         if (busy.has(command)) return void store.emit("schedule", { command, skipped: "still running" });
         busy.add(command);
         store.emit("schedule", { command, state: "started", next: Bun.cron.parse(expression)?.toISOString() });
-        const code = await Bun.spawn([process.execPath, join(root, "tools/acceptance.ts"), ...command.split(/\s+/)], {
+        const code = await spawn([process.execPath, join(root, "tools/acceptance.ts"), ...command.split(/\s+/)], {
           cwd: root,
           stdin: "ignore",
           stdout: "ignore",
@@ -82,7 +83,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
     }
 
   const secret = key ? new TextEncoder().encode(key) : null;
-  const bind = process.env.ACCEPTANCE_BIND ?? "127.0.0.1";
+  const bind = Bun.env.ACCEPTANCE_BIND ?? "127.0.0.1";
   const loopback = /^(127\.\d+\.\d+\.\d+|::1|localhost)$/.test(bind);
   if (!secret && !loopback)
     throw new Error(
@@ -125,7 +126,11 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
                   controller.enqueue(encoder.encode(`id: ${e.id}\nevent: ${e.kind}\ndata: ${JSON.stringify(e)}\n\n`));
                   id = e.id;
                 }
-              } catch {} // the stream was closed between two events
+              } catch (error) {
+                // enqueue throws once the client has gone: stop being woken, the stream is closed
+                hub.delete(flush);
+                console.error(`events: ${(error as Error).message}`);
+              }
             };
             wake = flush;
             hub.add(flush);

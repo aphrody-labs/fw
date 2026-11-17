@@ -1,10 +1,10 @@
 // bun test tools/acceptance            (SQLite only; with REDIS_URL set the cache and wake-up paths run against that server too)
 import { expect, test } from "bun:test";
-import { index, normalize, parity, spread, judge, outliers, manifest, type PageResult } from "../acceptance.ts";
+import { normalize, parity, spread, judge, outliers, readHyperfine, manifest, type PageResult } from "../acceptance.ts";
 import { parseHttpsRecord } from "./net.ts";
 import { Store } from "./store.ts";
 
-const open = () => Store.open(":memory:", process.env.REDIS_URL ?? false);
+const open = () => Store.open(":memory:", Bun.env.REDIS_URL ?? false);
 
 test("events survive in order and are replayed after an id", async () => {
   const store = await open();
@@ -61,7 +61,7 @@ test("an upstream snapshot is stored only when it moved", async () => {
   store.close();
 });
 
-test.skipIf(!process.env.REDIS_URL)("the hot cache round-trips and the wake-up reaches a watcher", async () => {
+test.skipIf(!Bun.env.REDIS_URL)("the hot cache round-trips and the wake-up reaches a watcher", async () => {
   const store = await open();
   expect(store.redis).not.toBeNull();
   await store.cache("k", { v: 1 }, 5);
@@ -166,4 +166,49 @@ test("an all-grey PNG has no spread, a two-tone one has", async () => {
     .catch(() => null);
   if (!flat) return; // this runtime cannot build an image from raw pixels: the check is covered live by `run`
   expect(await spread(flat)).toBe(0);
+});
+
+test("hyperfine 1.x and 2.x exports both become a Timing", () => {
+  const v1 = {
+    results: [
+      {
+        command: "a",
+        mean: 0.5,
+        stddev: 0.1,
+        median: 0.5,
+        user: 0.2,
+        system: 0.1,
+        min: 0.4,
+        max: 0.6,
+        times: [0.4, 0.6],
+        exit_codes: [0, 0],
+      },
+    ],
+  };
+  expect(readHyperfine(v1)[0]).toMatchObject({ mean: 0.5, times: [0.4, 0.6] });
+  const v2 = {
+    schema_version: 2,
+    results: [
+      {
+        command: "a",
+        measurements: [
+          { time_wall_clock: { value: 0.4 }, exit_code: 0, memory_usage: { value: 1000 } },
+          { time_wall_clock: { value: 0.6 }, exit_code: 1, memory_usage: { value: 3000 } },
+        ],
+        summary: {
+          time_wall_clock: { mean: 0.5, stddev: 0.14, median: 0.5, min: 0.4, max: 0.6 },
+          time_user: { mean: 0.2, median: 0.2, min: 0.2, max: 0.2 },
+        },
+      },
+    ],
+  };
+  expect(readHyperfine(v2)[0]).toMatchObject({
+    mean: 0.5,
+    stddev: 0.14,
+    times: [0.4, 0.6],
+    exit_codes: [0, 1],
+    memory_usage_byte: [1000, 3000],
+    user: 0.2,
+    system: 0,
+  });
 });

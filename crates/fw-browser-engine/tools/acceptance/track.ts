@@ -9,6 +9,7 @@
 // Every request goes through one pool of 8 with a 20 s timeout; a dead source sets `error` on its entry only.
 import { dirname, join, resolve } from "node:path";
 import { exists } from "./sys.ts";
+import { spawn } from "./sys.ts";
 
 export type Tracked = {
   name: string;
@@ -156,10 +157,10 @@ async function fetchJson(gate: Gate, url: string, init: RequestInit = {}, text =
 }
 
 async function githubToken(): Promise<string | null> {
-  const env = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
+  const env = Bun.env.GH_TOKEN || Bun.env.GITHUB_TOKEN;
   if (env) return env;
   try {
-    const p = Bun.spawn(["gh", "auth", "token"], { stdout: "pipe", stderr: "ignore", timeout: 10_000 });
+    const p = spawn(["gh", "auth", "token"], { stdout: "pipe", stderr: "ignore", timeout: 10_000 });
     const out = (await new Response(p.stdout).text()).trim();
     return (await p.exited) === 0 && out ? out : null;
   } catch {
@@ -371,13 +372,13 @@ export function parseV8Version(header: string): string | null {
 
 /** Reads a file of the Chromium checkout: locally when the directory exists, else over ssh to the build host. */
 async function readCheckout(c: Checkout, file: string, gate: Gate): Promise<string | null> {
-  const dir = (c.env && process.env[c.env]) || c.default;
+  const dir = (c.env && Bun.env[c.env]) || c.default;
   if (!dir) return null;
   const local = join(dir, file);
   if (await exists(local)) return Bun.file(local).text();
   if (!c.ssh) return null;
   return gate(async () => {
-    const p = Bun.spawn(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8", c.ssh!, "cat", `${dir}/${file}`], {
+    const p = spawn(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8", c.ssh!, "cat", `${dir}/${file}`], {
       stdout: "pipe",
       stderr: "ignore",
       timeout: TIMEOUT_MS,
