@@ -23,7 +23,7 @@
 // Reading strategy: `read.ptr(addr, offset)` and `read.i32(addr, offset)` from bun:ffi;
 // every pointer is a `number` in Bun.
 
-import { dlopen, FFIType, ptr, read, CString } from "bun:ffi";
+import { dlopen, FFIType, ptr, read, CString, type Pointer } from "bun:ffi";
 
 // ── ABI constants ─────────────────────────────────────────────────────────────
 
@@ -107,7 +107,7 @@ function buildNode(nodeAddr: number, docAddr: number): XmlNode {
   const name = nameAddr ? new CString(nameAddr).toString() : "(unknown)";
 
   // Text content through xmlNodeGetContent (concatenates the text nodes)
-  const rawContentAddr = sym.xmlNodeGetContent(nodeAddr);
+  const rawContentAddr = sym.xmlNodeGetContent(nodeAddr as Pointer);
   let content: string | null = null;
   if (rawContentAddr) {
     const raw = new CString(rawContentAddr).toString();
@@ -140,14 +140,14 @@ function buildNode(nodeAddr: number, docAddr: number): XmlNode {
 
   // Element children: xmlFirstElementChild + xmlNextElementSibling
   const children: XmlNode[] = [];
-  let childAddr = sym.xmlFirstElementChild(nodeAddr);
+  let childAddr = sym.xmlFirstElementChild(nodeAddr as Pointer) as Pointer;
   while (childAddr) {
     // Check that it is an XML_ELEMENT_NODE (type at offset 8)
     const childType = read.i32(childAddr, OFF_NODE_TYPE);
     if (childType === XML_ELEMENT_NODE) {
       children.push(buildNode(childAddr, docAddr));
     }
-    childAddr = sym.xmlNextElementSibling(childAddr);
+    childAddr = sym.xmlNextElementSibling(childAddr) as Pointer;
   }
 
   const node: XmlNode = {
@@ -180,11 +180,11 @@ export function parseXml(xmlStr: string): XmlNode {
   }
 
   try {
-    const rootAddr = sym.xmlDocGetRootElement(docAddr);
+    const rootAddr = sym.xmlDocGetRootElement(docAddr) as Pointer;
     if (!rootAddr) {
       throw new Error("parseXml: document has no root element");
     }
-    return buildNode(rootAddr, docAddr);
+    return buildNode(rootAddr, Number(docAddr));
   } finally {
     sym.xmlFreeDoc(docAddr);
   }
@@ -202,11 +202,11 @@ export function parseXmlFile(filePath: string): XmlNode {
   }
 
   try {
-    const rootAddr = sym.xmlDocGetRootElement(docAddr);
+    const rootAddr = sym.xmlDocGetRootElement(docAddr) as Pointer;
     if (!rootAddr) {
       throw new Error(`parseXmlFile: document "${filePath}" has no root element`);
     }
-    return buildNode(rootAddr, docAddr);
+    return buildNode(rootAddr, Number(docAddr));
   } finally {
     sym.xmlFreeDoc(docAddr);
   }

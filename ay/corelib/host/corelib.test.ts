@@ -4,6 +4,8 @@ import { join } from "node:path";
 import { assemble, assembleFile, buildCore, root } from "./build.ts";
 import { instantiateApp, instantiateCore, run } from "./host.ts";
 
+const wasmModule = (bytes: Uint8Array) => new WebAssembly.Module(new Uint8Array(bytes));
+
 const golden = readFileSync(join(root, "corelib/tests/golden/boot.txt"), "utf8");
 let corelib: Uint8Array;
 let hello: Uint8Array;
@@ -19,9 +21,9 @@ describe("the WebAssembly OS", () => {
   });
 
   test("the corelib module imports one host function and the app module imports one syscall", () => {
-    const k = WebAssembly.Module.imports(new WebAssembly.Module(corelib));
+    const k = WebAssembly.Module.imports(wasmModule(corelib));
     expect(k.map(i => `${i.module}.${i.name}`)).toEqual(["ay_host.console_put"]);
-    const a = WebAssembly.Module.imports(new WebAssembly.Module(hello));
+    const a = WebAssembly.Module.imports(wasmModule(hello));
     expect(a.map(i => `${i.module}.${i.name}`)).toEqual(["ay.syscall"]);
   });
 

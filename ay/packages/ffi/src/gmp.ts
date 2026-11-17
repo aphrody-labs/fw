@@ -7,7 +7,7 @@
 // It is allocated as a Uint8Array(16) and its pointer is passed to the GMP functions.
 // GMP manages its own internal heap through __gmpz_init / __gmpz_clear.
 
-import { dlopen, FFIType, ptr } from "bun:ffi";
+import { dlopen, FFIType, ptr, type Pointer } from "bun:ffi";
 
 // ── FFI ──────────────────────────────────────────────────────────────────────
 
@@ -116,7 +116,7 @@ export class GmpInt {
 
   private _binOp(
     other: GmpInt,
-    fn: (r: number, a: number, b: number) => void,
+    fn: (r: Pointer, a: Pointer, b: Pointer) => void,
     tag: string,
   ): GmpInt {
     this._assertAlive(tag);

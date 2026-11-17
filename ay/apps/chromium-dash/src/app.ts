@@ -37,7 +37,7 @@ export interface AppOptions {
 }
 
 const PLATFORMS: DashPlatform[] = ["Windows", "Mac", "Linux", "Android", "iOS", "Webview"];
-const DASH_JSON = new Set(DASH_ENDPOINTS.filter(e => !e.auth && e.method === "GET" && !e.path.endsWith("csv")).map(e => e.path));
+const DASH_JSON = new Set<string>(DASH_ENDPOINTS.filter(e => !e.auth && e.method === "GET" && !e.path.endsWith("csv")).map(e => e.path));
 const STATUS_JSON = STATUS_ENDPOINTS.filter(e => !e.auth).map(e => new RegExp(`^${e.path.replace(/\{[^}]+\}/g, "[^/]+")}$`));
 const HEX = /^[0-9a-fA-F]{1,40}$/;
 

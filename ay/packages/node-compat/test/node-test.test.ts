@@ -53,14 +53,14 @@ describe("describe() group: internal tests of the adapter", () => {
   });
 
   // Test 6: t.assert.strictEqual(1, 1) does not throw
-  test("t.assert.strictEqual(1, 1) does not throw", (t) => {
+  test("t.assert.strictEqual(1, 1) does not throw", (t: TestContext) => {
     // Must pass without an exception
     t.assert.strictEqual(1, 1);
     t.assert.strictEqual("foo", "foo");
   });
 
   // Test 7: t.assert.strictEqual(1, 2) throws an AssertionError
-  test("t.assert.strictEqual(1, 2) throws an AssertionError", (t) => {
+  test("t.assert.strictEqual(1, 2) throws an AssertionError", (t: TestContext) => {
     let threw = false;
     try {
       t.assert.strictEqual(1, 2);

@@ -62,7 +62,7 @@ describe("zstd (bun:ffi -> libzstd.so.1)", () => {
     const native = Bun.zstdCompressSync(payload, { level: 3 }) as Uint8Array;
     // Sizes may differ slightly depending on internal flags; only check that our output
     // also decompresses through Bun and the other way around.
-    expect(Bun.zstdDecompressSync!(ours)).toEqual(payload);
+    expect(new Uint8Array(Bun.zstdDecompressSync!(ours))).toEqual(payload);
     expect(decompress(native)).toEqual(payload);
   });
 });

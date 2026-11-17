@@ -117,7 +117,7 @@ export class Re2 {
       s.re2_free(p);
       throw new Error(`RE2 compile error: ${errMsg}`);
     }
-    this._ptr = p;
+    this._ptr = p as Pointer;
   }
 
   /** The original pattern string as stored by RE2. */
@@ -160,7 +160,7 @@ export class Re2 {
     if (Number(rawPtr) === NO_GROUPS_SENTINEL) return [];
 
     try {
-      return parseExecResult(rawPtr, n);
+      return parseExecResult(rawPtr as Pointer, n);
     } finally {
       s.re2_free_exec(rawPtr, n);
     }

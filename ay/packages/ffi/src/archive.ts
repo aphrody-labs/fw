@@ -15,7 +15,7 @@
 //   archive_entry_set_filetype / archive_entry_set_perm / archive_entry_free
 
 import { readFileSync } from "node:fs";
-import { dlopen, FFIType, ptr } from "bun:ffi";
+import { dlopen, FFIType, ptr, type Pointer } from "bun:ffi";
 
 // File type constants (POSIX mode bits)
 const AE_IFREG = 0o100000; // regular file
@@ -120,7 +120,7 @@ export function listEntries(path: string): ArchiveEntry[] {
     }
 
     // Read the archive_entry* pointer out of entryPtrBuf (little-endian x86_64)
-    const entryPtr = Number(entryPtrBuf.readBigUInt64LE(0));
+    const entryPtr = Number(entryPtrBuf.readBigUInt64LE(0)) as Pointer;
 
     const pathnameRaw = s.archive_entry_pathname(entryPtr);
     const pathname = pathnameRaw?.toString() ?? "";
@@ -182,7 +182,7 @@ export function extractAll(archivePath: string, destDir: string): void {
       throw new Error(`archive_read_next_header failed (code ${r})`);
     }
 
-    const entryPtr = Number(entryPtrBuf.readBigUInt64LE(0));
+    const entryPtr = Number(entryPtrBuf.readBigUInt64LE(0)) as Pointer;
 
     // Prefix the pathname with destDir
     const pathnameRaw = s.archive_entry_pathname(entryPtr);

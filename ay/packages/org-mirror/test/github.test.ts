@@ -43,7 +43,7 @@ describe("GitHub transport", () => {
 
   test("retries 502 with backoff and fails with a transient error when it never recovers", async () => {
     const gh = new GitHub({ token: "t", retries: 2, sleep: noSleep, fetch: queueFetch(...Array.from({ length: 3 }, () => new Response("<html>502 Bad Gateway</html>", { status: 502 }))) });
-    const err = await gh.graphql("query { n }").catch(e => e);
+    const err = (await gh.graphql("query { n }").catch(e => e)) as GitHubError;
     expect(err).toBeInstanceOf(GitHubError);
     expect(err.status).toBe(502);
   });
@@ -52,7 +52,7 @@ describe("GitHub transport", () => {
     const partial = reply({ data: { repository: { author: null } }, errors: [{ type: "NOT_FOUND", message: "user gone" }] });
     expect(await new GitHub({ fetch: queueFetch(partial), sleep: noSleep }).graphql("q")).toMatchObject({ repository: { author: null } });
     const bad = reply({ errors: [{ type: "INVALID", message: "Field 'x' doesn't exist" }] });
-    expect((await new GitHub({ fetch: queueFetch(bad), sleep: noSleep }).graphql("q").catch(e => e)).message).toContain("doesn't exist");
+    expect(((await new GitHub({ fetch: queueFetch(bad), sleep: noSleep }).graphql("q").catch(e => e)) as Error).message).toContain("doesn't exist");
   });
 
   test("REST returns undefined on 404 and sends the project User-Agent", async () => {

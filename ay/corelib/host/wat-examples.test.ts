@@ -6,19 +6,21 @@ import { join } from "node:path";
 import { assembleFile, buildCore, root } from "./build.ts";
 import { buildWasm } from "../../tools/corelib.ts";
 
+const wasmModule = (bytes: Uint8Array) => new WebAssembly.Module(new Uint8Array(bytes));
+
 const DIR = "corelib/wat/examples";
 const path = (name: string) => `${DIR}/${name}.wat`;
 const bytes = (name: string) => assembleFile(path(name));
 type Exports = Record<string, (...a: any[]) => any> & { memory?: WebAssembly.Memory };
 
 function instantiate(name: string, imports: WebAssembly.Imports = {}): Exports {
-  return new WebAssembly.Instance(new WebAssembly.Module(bytes(name)), imports).exports as Exports;
+  return new WebAssembly.Instance(wasmModule(bytes(name)), imports).exports as Exports;
 }
 
 /** The compile error Bun reports for a module, or undefined when Bun accepts it. */
 function bunRejects(name: string): string | undefined {
   try {
-    new WebAssembly.Module(bytes(name));
+    wasmModule(bytes(name));
   } catch (e) {
     return String(e);
   }
@@ -143,7 +145,7 @@ describe("on Bun (JavaScriptCore)", () => {
     const memory = new WebAssembly.Memory({ initial: 1, maximum: 1, shared: true });
     const code = `
       self.onmessage = ({ data: { wasm, memory, mode, iters } }) => {
-        const x = new WebAssembly.Instance(new WebAssembly.Module(wasm), { env: { memory } }).exports;
+        const x = new WebAssembly.Instance(wasmModule(wasm), { env: { memory } }).exports;
         const w = new Int32Array(memory.buffer);
         if (mode === "add") for (let i = 0; i < iters; i++) x.add(8, 1);
         else if (mode === "lock") for (let i = 0; i < iters; i++) { while (!x.try_acquire(0)); w[3] = w[3] + 1; x.release(0); }
@@ -165,7 +167,7 @@ describe("on Bun (JavaScriptCore)", () => {
     await Promise.all([1, 2, 3, 4].map(() => run("lock", 5_000)));
     expect(Atomics.load(views, 3)).toBe(20_000);
     // wait/notify across threads: notify until a waiter is parked, then the waiter reports "woken" (0).
-    const e = new WebAssembly.Instance(new WebAssembly.Module(wasm), { env: { memory } }).exports as Exports;
+    const e = new WebAssembly.Instance(wasmModule(wasm), { env: { memory } }).exports as Exports;
     const waiter = run("wait", 0);
     for (let woken = 0; woken === 0; ) woken = e.notify(16, 1);
     expect(await waiter).toBe(0);
@@ -216,7 +218,7 @@ describe("on Bun (JavaScriptCore)", () => {
 
   test("jspi: a synchronous Wasm loop suspends on an async import", async () => {
     const WA = WebAssembly as unknown as { Suspending: new (f: Function) => Function; promising: (f: Function) => (...a: number[]) => Promise<number> };
-    const inst = new WebAssembly.Instance(new WebAssembly.Module(bytes("jspi")), {
+    const inst = new WebAssembly.Instance(wasmModule(bytes("jspi")), {
       ay: { fetch_word: new WA.Suspending(async (i: number) => (await Bun.sleep(1), i * 10)) },
     });
     const total = WA.promising(inst.exports.total as Function);
