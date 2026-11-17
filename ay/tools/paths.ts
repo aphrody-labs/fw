@@ -4,6 +4,7 @@
 // XDG and known folders, WORKSPACE_ROOT, per-host tables in ay.toml), not written down.
 //   bun tools/paths.ts                  scan the repo containing the current directory
 //   bun tools/paths.ts --root <dir>     scan another repository (git ls-files), e.g. a sibling checkout
+//   bun tools/paths.ts --include <path> only these files or directories of the repository (repeatable), for very large trees
 //   bun tools/paths.ts --allow <file>   allowlist (default: <root>/paths.allow, else <root>/tools/paths.allow)
 //   bun tools/paths.ts --summary        counts only (per file and total)
 //   bun tools/paths.ts --json           machine-readable result
@@ -81,8 +82,8 @@ function git(root: string, args: string[]): string {
 }
 
 /** Findings of every tracked text file under `root` that the allowlist does not exempt. */
-export function scanRepo(root: string, allow: RegExp[] = []): Finding[] {
-  const files = git(root, ["ls-files", "-z", "--cached", "--exclude-standard"])
+export function scanRepo(root: string, allow: RegExp[] = [], include: string[] = []): Finding[] {
+  const files = git(root, ["ls-files", "-z", "--cached", "--exclude-standard", ...(include.length ? ["--", ...include] : [])])
     .split("\0")
     .filter(f => f && !BINARY.test(f) && !allow.some(r => r.test(f)));
   const out: Finding[] = [];
@@ -114,7 +115,8 @@ if (import.meta.main) {
   };
   const root = resolve(opt("--root") ?? git(process.cwd(), ["rev-parse", "--show-toplevel"]).trim());
   const af = allowFile(root, opt("--allow"));
-  const findings = scanRepo(root, af ? parseAllow(readFileSync(af, "utf8")) : []);
+  const include = args.flatMap((a, i) => (a === "--include" && args[i + 1] ? [args[i + 1]!] : []));
+  const findings = scanRepo(root, af ? parseAllow(readFileSync(af, "utf8")) : [], include);
   if (args.includes("--json")) console.log(JSON.stringify(findings, null, 2));
   else if (args.includes("--summary")) {
     const per = new Map<string, number>();

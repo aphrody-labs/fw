@@ -1,5 +1,8 @@
 import { describe, expect, test } from "bun:test";
-import { globToRegExp, parseAllow, scanText } from "./paths.ts";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { globToRegExp, parseAllow, scanRepo, scanText } from "./paths.ts";
 
 const kinds = (s: string) => scanText("f", s).map(f => `${f.kind}:${f.match}`);
 
@@ -53,5 +56,26 @@ describe("allowlist", () => {
     const r = parseAllow("# header\n\ndocs/** # archived dump\nfoo.md\n");
     expect(r).toHaveLength(2);
     expect(r[0]!.test("docs/x/y")).toBe(true);
+  });
+});
+
+describe("repository scan", () => {
+  test("scans tracked files, honors the allowlist and --include", () => {
+    const dir = mkdtempSync(join(tmpdir(), "paths-"));
+    try {
+      const git = (...a: string[]) => Bun.spawnSync(["git", "-C", dir, ...a]);
+      git("init", "-q");
+      mkdirSync(join(dir, "a"));
+      mkdirSync(join(dir, "b"));
+      writeFileSync(join(dir, "a", "x.ts"), "const p = '/srv/data';\n");
+      writeFileSync(join(dir, "b", "y.ts"), "const p = '/home/me';\n");
+      writeFileSync(join(dir, "untracked.ts"), "const p = '/root/x';\n");
+      git("add", "a", "b");
+      expect(scanRepo(dir).map(f => f.file).sort()).toEqual(["a/x.ts", "b/y.ts"]);
+      expect(scanRepo(dir, parseAllow("a/**")).map(f => f.file)).toEqual(["b/y.ts"]);
+      expect(scanRepo(dir, [], ["a"]).map(f => f.file)).toEqual(["a/x.ts"]);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
