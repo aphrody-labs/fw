@@ -83,6 +83,13 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v7
         with:
+          name: corelib-wasm-debug
+          path: |
+            /tmp/d.wasm
+            target/corelib/wasm-base/corelib.wasm
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
           name: corelib-boot-logs
           path: |
             ${{ runner.temp }}/qemu-boot.log
