@@ -52,3 +52,17 @@ cryptography. The Puppeteer and Playwright expectations record 53 and 357 failur
    upstream when it is not Kitesurf-specific.
 4. **Chromium itself.** Kitesurf is not a Chromium build and does not become one. Chromium 160 is built from its own sources (`build/engines`)
    with the build tools of `ay-tools` (siso, ninja, gn, depot_tools at the revisions its DEPS pins); Kitesurf is the lite, edge and Rust path.
+
+## State of the integration (2026-11-17)
+
+- **Patches absorbed into forks.** Each patched crate was cut from an exact upstream commit (`.cargo_vcs_info.json` of the published crate); the series
+  is applied there as one commit per patch, with its real author, on the `kitesurf` branch of the aphrody-labs fork: parley, blitz, anyrender, taffy,
+  stylo (with selectors), boa, resvg (usvg), vello, ratatui-image, jpeg-encoder. Four of those forks were created for this. `tools/kitesurf-absorb.ts`
+  does it (the Cargo.toml hunks, which target the normalized published manifest, are replayed on the upstream form).
+- **One prefixed workspace.** The submodule's `crates/` holds the 26 engine crates (the patched ones and the four that depend on them: glifo,
+  stylo_dom, stylo_malloc_size_of, stylo_traits), named `browser-<crate>`, library names unchanged, siblings by path and version, `FEATURES.md` as the
+  feature matrix. `tools/kitesurf-monorepo.ts` generates the layout from `cargo metadata` (the closure is computed, never listed). Proof on the build
+  host: `cargo check` of the three wasm packages, 771 host tests of kitesurf-core passing, `cargo package` of a crate. The 26 `browser-*` names are free on crates.io; nothing is published.
+- **Bun.** `bun.lock` was migrated from `pnpm-lock.yaml` and the developer scripts run on Bun. Bazel still reads `pnpm-lock.yaml`, the patch series and the
+  node-run tests (`e2e-global-setup`, the lint rule tests), so those stay until the Bazel rules are moved to the workspace and to Bun.
+- **Not done.** Bazel on `crates/`; the Chromium 160 WPT reference run and the per-area parity matrix; publishing.
