@@ -262,7 +262,7 @@ The three other pieces are written in WAT, because they are short and show the c
 
 **The app** is `corelib/wat/hello.wat`, unchanged. The script renames its import `("ay", "syscall")` to `("ay:corelib/syscall@0.1.0", "call")` and its export `step` to `ay:corelib/task@0.1.0#step` as text before assembling, and then embeds world `app`:
 
-<!-- listing file:tools/corelib-component.ts#36-42 -->
+<!-- listing file:tools/corelib-component.ts#37-43 -->
 ```ts
 
 /** The app is hello.wat with its import and export renamed to the canonical ABI names of `world app`. */
@@ -278,7 +278,7 @@ export function appWat(hello: string): string {
 
 Components are wired by name: the `host` import of the corelib is satisfied by the console's `host` export, the app's `syscall` import by the corelib's export, and the driver's `scheduler` and `task` imports by the corelib and the app. `wac` states this as a small program:
 
-<!-- listing file:tools/corelib-component.ts#43-60 -->
+<!-- listing file:tools/corelib-component.ts#44-61 -->
 ```ts
 
 /** The composition script: who plugs into whom. */
