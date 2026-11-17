@@ -98,4 +98,4 @@ platform_owner = "ay"
 # archived or legacy trees), and org originals that are detached upstream mirrors, not first-party code.
 registry = "n2b-registry"
 exclude = ["node_modules", "third_party", "vendor", "target", "dist", "generated", "coverage", "fixtures", "testdata", "legacy", "archive", "archived", ".git"]
-mirrors = []
+mirrors = ["depot_tools", "wayland-c", "steam-runtime-tools", "steamos-manager", "antigravity-sdk-python", "zig", "binutils-gdb", "dash", "readline", "make", "gnu-findutils", "gnu-sed", "gawk", "bash", "tao", "scap", "tauri-action"]
