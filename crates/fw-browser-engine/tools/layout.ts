@@ -8,6 +8,7 @@ const repo = Bun.argv[2] ?? ".";
 const at = (path: string) => join(repo, path);
 const layout = Bun.TOML.parse(await Bun.file(at("tools/layout.toml")).text()) as {
   bun: { dir: string };
+  kitesurf?: { dir: string; commit?: string };
   first_party: { dir: string };
   third_party: { dir: string };
 };
@@ -29,6 +30,7 @@ for (const [name, entry] of Object.entries(lock))
   }
 
 for (const manifest of await tracked(`${layout.first_party.dir}/*/Cargo.toml`)) {
+  if (!(await Bun.file(at(manifest)).exists())) continue;
   const meta = (
     Bun.TOML.parse(await Bun.file(at(manifest)).text()) as {
       package?: { metadata?: { browser?: { native?: boolean } } };
@@ -45,6 +47,8 @@ const modules = (
 ).matchAll(/path = (.+)/g);
 const submodules = [...modules].map((m) => m[1].trim());
 if (!submodules.includes(layout.bun.dir)) problems.push(`${layout.bun.dir} is not a submodule`);
+if (layout.kitesurf && !submodules.includes(layout.kitesurf.dir))
+  problems.push(`${layout.kitesurf.dir} is not a submodule`);
 
 console.log(problems.length ? problems.join("\n") : "layout ok");
 process.exit(problems.length ? 1 : 0);

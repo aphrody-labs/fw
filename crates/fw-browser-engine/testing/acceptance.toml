@@ -84,6 +84,12 @@ args = ["serve", "--port", "{port}"]
 once = ["fetch", "{url}"]
 baseline = { kind = "github-release", repo = "h4ckf0r0day/obscura", asset = "obscura-{arch}-{os}.tar.gz" }
 
+[engine.kitesurf]
+role = "lite"
+bins = ["kitesurf"]
+args = ["serve", "--port", "{port}"]
+once = ["render", "{url}"]
+
 # Fronts drive the full engine the way the product does; they run on the seeds.
 [front.agent]      # agent-browser: accessibility snapshot with refs through the engine's CDP endpoint
 bins = ["agent-browser"]
@@ -178,13 +184,20 @@ source = "https://ladybird.org/"
 repo = "LadybirdBrowser/ladybird"
 branch = "master"
 
-# Bun is a submodule of our fork: the pin is its gitlink. The experimental Rust ecosystem is followed upstream.
+# Bun and Kitesurf are submodules of our forks: the pin is their gitlink.
 [track.bun]
 kind = "runtime"
 source = "https://github.com/aphrody-labs/bun"
 repo = "aphrody-labs/bun"
 branch = "main"
 pin_submodule = "third_party/bun"
+
+[track.kitesurf]
+kind = "engine"
+source = "https://github.com/aphrody-labs/kitesurf"
+repo = "aphrody-labs/kitesurf"
+branch = "main"
+pin_submodule = "third_party/kitesurf"
 
 [track.boa]
 kind = "js"

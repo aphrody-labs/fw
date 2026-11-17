@@ -63,7 +63,8 @@ the store by `bun testing/acceptance.ts telemetry` and `docs`; add what you lear
 | Path | Content |
 |---|---|
 | `third_party/bun` | the Bun runtime: a git submodule of aphrody-labs/bun (relative URL), its own workspace and build (`git submodule update --init third_party/bun`); change it in the fork, bump the pointer here |
-| `components/<crate>` | first-party crates: browser-detect, browser-index, browser-process, browser-engine (the engine catalog with `pick` and `escalate`) |
+| `third_party/kitesurf` | Cloudflare's Rust browser engine (`aphrody-labs/kitesurf`, submodule at `0e080e0988aaecd62ccdde88d4c67d8ac8acfd2f`): owns the 26 `browser-*` Rust engine crates (Blitz, Stylo, Taffy, Parley, Vello, Anyrender, Boa) behind CDP |
+| `components/<crate>` | first-party crates: browser-detect (with shared `ssrf` guard), browser-index, browser-engine (engine catalog with `pick`, `escalate`, `KITESURF_CRATES`, and `process` no-window spawning) |
 | `third_party/<upstream>/<crate>` | Servo and its org crates, Mozilla, HarfBuzz and platform bindings, Obscura, agent-browser, lol-html, argon2; the upstream's other files beside them; `README.chromium` |
 | `third_party/chromium` | the Chromium checkout of the build host (gclient), ignored by git |
 | `testing` | the acceptance tool: engines x live corpus, benchmarks, dashboard (Chromium's `//testing`) |

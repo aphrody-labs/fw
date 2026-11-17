@@ -10,7 +10,7 @@ description = "The engines this browser can run on (WebKit/JSC, Blink/V8/Skia/Da
 native = true
 
 [lints.rust]
-unsafe_code = "forbid"
+unsafe_op_in_unsafe_fn = "deny"
 unused_must_use = "deny"
 non_ascii_idents = "deny"
 

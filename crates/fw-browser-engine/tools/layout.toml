@@ -10,6 +10,11 @@
 [bun]
 dir = "third_party/bun"
 
+[kitesurf]
+dir = "third_party/kitesurf"
+crates_dir = "third_party/kitesurf/crates"
+commit = "0e080e0988aaecd62ccdde88d4c67d8ac8acfd2f"
+
 [first_party]
 dir = "components"
 

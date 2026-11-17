@@ -6,11 +6,13 @@
 
 mod challenge;
 mod rules;
+pub mod ssrf;
 mod strategy;
 
 use std::{collections::BTreeMap, net::IpAddr};
 
 pub use challenge::{Challenge, ChallengeProvider, Confidence, Recommendation};
+pub use ssrf::{is_forbidden_ip, is_link_local_or_metadata, is_loopback_ip};
 pub use strategy::{ScrapeProfile, SiteShape, Strategy, WaitFor, suggest_strategy};
 use url::Url;
 

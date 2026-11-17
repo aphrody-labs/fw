@@ -141,6 +141,7 @@ branch = "main"
 # Local modifications beyond the Cargo layout, listed in README.chromium.
 local = [
   "vendor/ holds three crates vendored by the upstream (taffy, cosmic-text, wreq-util): path dependencies of the obscura crates, not workspace members",
+  "obscura-ssrf delegates its outbound IP deny-set to components/browser-detect::ssrf so every engine and agent surface enforces one policy",
   "obscura-js, obscura-browser, obscura-cdp, obscura-cli, obscura and obscura-mcp are kept out of the workspace until V8 comes from our own build (tools/fixups.sh)",
 ]
 

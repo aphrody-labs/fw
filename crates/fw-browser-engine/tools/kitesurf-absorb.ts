@@ -6,7 +6,6 @@
 //   bun tools/kitesurf-absorb.ts [--kitesurf <checkout>] [--work <dir>] [--push] [--only <crate,...>]
 // Run it on a build host (clones are large). The pinned crates come from the checkout's own scripts/get-patched-vendor-crates.mjs, the
 // upstream of each crate from its published Cargo.toml `repository`, the fork from the organization (a fork is created when missing).
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const ORG = "aphrody-labs";
@@ -38,7 +37,13 @@ export function upstreamOf(url: string): string {
 export const forkName = (upstream: string): string => upstream.split("/")[1]!.toLowerCase();
 
 const run = (cwd: string, ...args: string[]) => {
-  const result = Bun.spawnSync(args, { cwd, stdout: "pipe", stderr: "pipe", env: { ...process.env, GIT_TERMINAL_PROMPT: "0" } });
+  const result = Bun.spawnSync(args, {
+    cwd,
+    stdout: "pipe",
+    stderr: "pipe",
+    windowsHide: true,
+    env: { ...Bun.env, GIT_TERMINAL_PROMPT: "0" },
+  });
   return { ok: result.exitCode === 0, out: result.stdout.toString().trim(), err: result.stderr.toString().trim() };
 };
 const must = (cwd: string, ...args: string[]) => {
@@ -46,19 +51,31 @@ const must = (cwd: string, ...args: string[]) => {
   if (!result.ok) throw new Error(`${args.slice(0, 3).join(" ")}: ${result.err.slice(0, 400)}`);
   return result.out;
 };
+const dirExists = async (path: string) =>
+  Bun.file(path)
+    .stat()
+    .then(
+      (s) => s.isDirectory(),
+      () => false,
+    );
 
 async function pinsOf(kitesurf: string, crates: string, only: string[]): Promise<Pin[]> {
-  const { CRATES } = (await import(join(kitesurf, "scripts", "get-patched-vendor-crates.mjs"))) as { CRATES: { name: string; version: string }[] };
-  mkdirSync(crates, { recursive: true });
+  const { CRATES } = (await import(join(kitesurf, "scripts", "get-patched-vendor-crates.mjs"))) as {
+    CRATES: { name: string; version: string }[];
+  };
+  await Bun.$`mkdir -p ${crates}`.quiet();
   const pins: Pin[] = [];
   for (const { name, version } of CRATES) {
     if (only.length && !only.includes(name)) continue;
     const dir = join(crates, `${name}-${version}`);
-    if (!existsSync(dir)) {
+    if (!(await dirExists(dir))) {
       must(crates, "sh", "-c", `curl -fsSL https://static.crates.io/crates/${name}/${name}-${version}.crate | tar xz`);
     }
-    const vcs = JSON.parse(readFileSync(join(dir, ".cargo_vcs_info.json"), "utf8")) as { git: { sha1: string }; path_in_vcs: string };
-    const repository = readFileSync(join(dir, "Cargo.toml"), "utf8").match(/^repository\s*=\s*"([^"]+)"/m)?.[1];
+    const vcs = (await Bun.file(join(dir, ".cargo_vcs_info.json")).json()) as {
+      git: { sha1: string };
+      path_in_vcs: string;
+    };
+    const repository = (await Bun.file(join(dir, "Cargo.toml")).text()).match(/^repository\s*=\s*"([^"]+)"/m)?.[1];
     if (!repository) throw new Error(`${name}-${version} publishes no repository`);
     pins.push({ name, version, sha: vcs.git.sha1, path: vcs.path_in_vcs, upstream: upstreamOf(repository) });
   }
@@ -78,18 +95,50 @@ function ensureFork(upstream: string): string {
  * manifest. Those hunks are left out of `git am` and replayed here as text edits of the upstream form, keyed by the patch they come from. */
 export type Edit = { file: string; from: string; to: string };
 export const MANIFEST_EDITS: Record<string, Edit[]> = {
-  "blitz-dom-0.3.0-beta.4/0032": [{ file: "Cargo.toml", from: "bitflags = { workspace = true }\n", to: 'bitflags = { workspace = true }\nencoding_rs = "0.8"\n' }],
+  "blitz-dom-0.3.0-beta.4/0032": [
+    {
+      file: "Cargo.toml",
+      from: "bitflags = { workspace = true }\n",
+      to: 'bitflags = { workspace = true }\nencoding_rs = "0.8"\n',
+    },
+  ],
   "parley-0.12.0/0006": [
-    { file: "Cargo.toml", from: '"fontique/libm", "parley_engine/libm", "peniko/libm", "dep:core_maths"', to: '"fontique/libm", "parley_engine/libm", "peniko/libm", "skrifa/libm", "dep:core_maths"' },
+    {
+      file: "Cargo.toml",
+      from: '"fontique/libm", "parley_engine/libm", "peniko/libm", "dep:core_maths"',
+      to: '"fontique/libm", "parley_engine/libm", "peniko/libm", "skrifa/libm", "dep:core_maths"',
+    },
     { file: "Cargo.toml", from: '"peniko/std", "parlance/std"]', to: '"peniko/std", "skrifa/std", "parlance/std"]' },
-    { file: "Cargo.toml", from: "hashbrown = { workspace = true }\n\n[dev-dependencies]", to: "hashbrown = { workspace = true }\nskrifa = { workspace = true }\n\n[dev-dependencies]" },
+    {
+      file: "Cargo.toml",
+      from: "hashbrown = { workspace = true }\n\n[dev-dependencies]",
+      to: "hashbrown = { workspace = true }\nskrifa = { workspace = true }\n\n[dev-dependencies]",
+    },
   ],
   "ratatui-image-8.1.1/0001": [
-    { file: "Cargo.toml", from: 'default = ["image-defaults", "crossterm"]\n', to: 'default = ["image-defaults", "crossterm", "query"]\nquery = ["dep:rustix", "dep:windows"]\n' },
-    { file: "Cargo.toml", from: 'rustix = { version = "^0.38.4", features', to: 'rustix = { version = "^0.38.4", optional = true, features' },
-    { file: "Cargo.toml", from: 'windows = { version = "0.58.0", default-features', to: 'windows = { version = "0.58.0", optional = true, default-features' },
+    {
+      file: "Cargo.toml",
+      from: 'default = ["image-defaults", "crossterm"]\n',
+      to: 'default = ["image-defaults", "crossterm", "query"]\nquery = ["dep:rustix", "dep:windows"]\n',
+    },
+    {
+      file: "Cargo.toml",
+      from: 'rustix = { version = "^0.38.4", features',
+      to: 'rustix = { version = "^0.38.4", optional = true, features',
+    },
+    {
+      file: "Cargo.toml",
+      from: 'windows = { version = "0.58.0", default-features',
+      to: 'windows = { version = "0.58.0", optional = true, default-features',
+    },
   ],
-  "vello_cpu-0.3.0/0001": [{ file: "Cargo.toml", from: "u8_pipeline = []\n", to: "u8_pipeline = []\n# Polynomial fit of the blurred-rect p-norm, replacing per-pixel powf with a degree-7 coefficient table.\npoly-pnorm = []\n" }],
+  "vello_cpu-0.3.0/0001": [
+    {
+      file: "Cargo.toml",
+      from: "u8_pipeline = []\n",
+      to: "u8_pipeline = []\n# Polynomial fit of the blurred-rect p-norm, replacing per-pixel powf with a degree-7 coefficient table.\npoly-pnorm = []\n",
+    },
+  ],
 };
 
 /** Applies the edits of one patch to the upstream manifest; a missing anchor is an error (the upstream moved), never a silent skip. */
@@ -102,39 +151,61 @@ export function editManifest(text: string, edits: Edit[]): string {
   return result;
 }
 
-export type Outcome = { fork: string; sha: string; crates: string[]; applied: number; failed?: { crate: string; patch: string; why: string }; head?: string };
+export type Outcome = {
+  fork: string;
+  sha: string;
+  crates: string[];
+  applied: number;
+  failed?: { crate: string; patch: string; why: string };
+  head?: string;
+};
 
-function absorb(group: Group, work: string, push: boolean): Outcome {
+async function absorb(group: Group, work: string, push: boolean): Promise<Outcome> {
   const fork = ensureFork(group.upstream);
   const dir = join(work, forkName(group.upstream));
   const outcome: Outcome = { fork, sha: group.sha, crates: group.crates.map((crate) => crate.name), applied: 0 };
-  if (!existsSync(join(dir, ".git"))) {
+  if (!(await dirExists(join(dir, ".git")))) {
     must(".", "git", "clone", "--quiet", "--filter=blob:none", "--no-checkout", `https://github.com/${fork}.git`, dir);
     must(dir, "git", "remote", "add", "upstream", `https://github.com/${group.upstream}.git`);
   }
   must(dir, "git", "config", "user.name", "aphrody-labs");
   must(dir, "git", "config", "user.email", "bot@aphrody.invalid");
   if (!run(dir, "git", "cat-file", "-e", `${group.sha}^{commit}`).ok) {
-    if (!run(dir, "git", "fetch", "--quiet", "origin", group.sha).ok) must(dir, "git", "fetch", "--quiet", "upstream", group.sha);
+    if (!run(dir, "git", "fetch", "--quiet", "origin", group.sha).ok)
+      must(dir, "git", "fetch", "--quiet", "upstream", group.sha);
   }
   run(dir, "git", "am", "--abort");
   must(dir, "git", "checkout", "--quiet", "--force", "-B", BRANCH, group.sha);
   for (const crate of group.crates) {
     const series = join(KITESURF, "scripts", "patches", `${crate.name}-${crate.version}`);
-    const patches = readdirSync(series).filter((file) => file.endsWith(".patch")).sort().map((file) => join(series, file));
+    const files = await Array.fromAsync(new Bun.Glob("*.patch").scan({ cwd: series }));
+    const patches = files.sort().map((file) => join(series, file));
     const directory = crate.path ? [`--directory=${crate.path}`] : [];
     for (const patch of patches) {
-      const key = `${crate.name}-${crate.version}/${patch.split("/").pop()!.slice(0, 4)}`;
+      const key = `${crate.name}-${crate.version}/${patch.split(/[\\/]/).pop()!.slice(0, 4)}`;
       const edits = MANIFEST_EDITS[key];
-      const applied = run(dir, "git", "am", "--3way", "--whitespace=nowarn", ...directory, ...(edits ? [`--exclude=${join(crate.path, "Cargo.toml")}`] : []), patch);
+      const applied = run(
+        dir,
+        "git",
+        "am",
+        "--3way",
+        "--whitespace=nowarn",
+        ...directory,
+        ...(edits ? [`--exclude=${join(crate.path, "Cargo.toml")}`] : []),
+        patch,
+      );
       if (applied.ok && edits) {
         const manifest = join(dir, crate.path, "Cargo.toml");
-        writeFileSync(manifest, editManifest(readFileSync(manifest, "utf8"), edits));
+        await Bun.write(manifest, editManifest(await Bun.file(manifest).text(), edits));
         must(dir, "git", "add", join(crate.path, "Cargo.toml"));
         must(dir, "git", "commit", "--quiet", "--amend", "--no-edit");
       }
       if (!applied.ok) {
-        outcome.failed = { crate: crate.name, patch: patch.split("/").pop()!, why: (applied.err || applied.out).split("\n").slice(0, 3).join(" | ").slice(0, 300) };
+        outcome.failed = {
+          crate: crate.name,
+          patch: patch.split(/[\\/]/).pop()!,
+          why: (applied.err || applied.out).split("\n").slice(0, 3).join(" | ").slice(0, 300),
+        };
         run(dir, "git", "am", "--abort");
         return outcome;
       }
@@ -150,16 +221,24 @@ let KITESURF = "";
 if (import.meta.main) {
   const argv = Bun.argv.slice(2);
   const flag = (name: string) => argv[argv.indexOf(`--${name}`) + 1];
-  KITESURF = resolve(argv.includes("--kitesurf") ? flag("kitesurf")! : join(import.meta.dir, "..", "third_party", "kitesurf"));
-  const work = resolve(argv.includes("--work") ? flag("work")! : join(import.meta.dir, "..", ".cache", "kitesurf-absorb"));
+  KITESURF = resolve(
+    argv.includes("--kitesurf")
+      ? flag("kitesurf")!
+      : Bun.fileURLToPath(new URL("../third_party/kitesurf", import.meta.url)),
+  );
+  const work = resolve(
+    argv.includes("--work") ? flag("work")! : Bun.fileURLToPath(new URL("../.cache/kitesurf-absorb", import.meta.url)),
+  );
   const only = argv.includes("--only") ? flag("only")!.split(",") : [];
-  mkdirSync(work, { recursive: true });
+  await Bun.$`mkdir -p ${work}`.quiet();
   const groups = groupPins(await pinsOf(KITESURF, join(work, "crates"), only));
   let failures = 0;
   for (const group of groups) {
-    const outcome = absorb(group, work, argv.includes("--push"));
+    const outcome = await absorb(group, work, argv.includes("--push"));
     if (outcome.failed) failures++;
-    console.log(`${outcome.fork} @${group.sha.slice(0, 9)} ${outcome.crates.join(",")}: ${outcome.failed ? `FAILED ${outcome.failed.crate} ${outcome.failed.patch}: ${outcome.failed.why}` : `${outcome.applied} patches -> ${BRANCH} ${outcome.head}${argv.includes("--push") ? " (pushed)" : ""}`}`);
+    console.log(
+      `${outcome.fork} @${group.sha.slice(0, 9)} ${outcome.crates.join(",")}: ${outcome.failed ? `FAILED ${outcome.failed.crate} ${outcome.failed.patch}: ${outcome.failed.why}` : `${outcome.applied} patches -> ${BRANCH} ${outcome.head}${argv.includes("--push") ? " (pushed)" : ""}`}`,
+    );
   }
   process.exit(failures ? 1 : 0);
 }

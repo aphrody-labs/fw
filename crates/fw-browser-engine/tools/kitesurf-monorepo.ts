@@ -7,25 +7,45 @@
 //   bun tools/kitesurf-monorepo.ts <kitesurf checkout> [--prefix browser-] [--dry-run]
 //   bun tools/kitesurf-monorepo.ts matrix <kitesurf checkout>     write crates/FEATURES.md, the feature matrix of the in-tree crates
 // Run it on a build host after `bun scripts/get-patched-vendor-crates.mjs` (the patched trees) and a `cargo fetch` (the registry sources).
-import { cpSync, existsSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 
-export type Meta = { packages: { id: string; name: string; version: string; source: string | null }[]; resolve: { nodes: { id: string; deps: { pkg: string }[] }[] }; workspace_members: string[] };
+export type Meta = {
+  packages: { id: string; name: string; version: string; source: string | null }[];
+  resolve: { nodes: { id: string; deps: { pkg: string }[] }[] };
+  workspace_members: string[];
+};
 export type Member = { name: string; version: string; lib?: string };
 
 /** The seeds and every package that depends on one of them, transitively, outside the workspace's own members. */
 export function closureOf(meta: Meta, seeds: string[]): Member[] {
   const reverse = new Map<string, Set<string>>();
-  for (const node of meta.resolve.nodes) for (const dep of node.deps) (reverse.get(dep.pkg) ?? reverse.set(dep.pkg, new Set()).get(dep.pkg)!).add(node.id);
+  for (const node of meta.resolve.nodes) {
+    for (const dep of node.deps) {
+      let parents = reverse.get(dep.pkg);
+      if (!parents) {
+        parents = new Set();
+        reverse.set(dep.pkg, parents);
+      }
+      parents.add(node.id);
+    }
+  }
   const members = new Set(meta.workspace_members);
   const wanted = new Set(seeds);
   const queue = meta.packages.filter((pkg) => wanted.has(pkg.name) && !members.has(pkg.id)).map((pkg) => pkg.id);
   const seen = new Set(queue);
   while (queue.length) {
-    for (const parent of reverse.get(queue.pop()!) ?? []) if (!seen.has(parent) && !members.has(parent)) (seen.add(parent), queue.push(parent));
+    for (const parent of reverse.get(queue.pop()!) ?? []) {
+      if (!seen.has(parent) && !members.has(parent)) {
+        seen.add(parent);
+        queue.push(parent);
+      }
+    }
   }
-  return meta.packages.filter((pkg) => seen.has(pkg.id)).map(({ name, version }) => ({ name, version })).sort((a, b) => a.name.localeCompare(b.name));
+  return meta.packages
+    .filter((pkg) => seen.has(pkg.id))
+    .map(({ name, version }) => ({ name, version }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 const lib = (name: string) => name.replace(/-/g, "_");
@@ -47,7 +67,10 @@ export function prefixManifest(text: string, names: string[], prefix: string): s
       // Tests, benches and examples are not in the published sources: their targets and dev-dependencies would only pull a second dependency tree.
       const dev = section.match(/^(?:target\..+\.)?dev-dependencies\.([A-Za-z0-9_-]+)$/);
       if (dev) devOnly.add(dev[1]!);
-      if (/^(?:target\..+\.)?dev-dependencies(?:\.|$)/.test(section) || /^\[(?:bench|test|example)\]$/.test(line.replace(/^\[\[/, "[").replace(/\]\]$/, "]")) ) {
+      if (
+        /^(?:target\..+\.)?dev-dependencies(?:\.|$)/.test(section) ||
+        /^\[(?:bench|test|example)\]$/.test(line.replace(/^\[\[/, "[").replace(/\]\]$/, "]"))
+      ) {
         while (index + 1 < lines.length && !/^\[/.test(lines[index + 1]!)) index++;
         continue;
       }
@@ -84,11 +107,13 @@ export function prefixManifest(text: string, names: string[], prefix: string): s
   let result = out.join("\n").replace(/\n+$/, "\n");
   // A feature that forwards to a dropped dev-dependency (`peniko/libm`) has nothing to forward to once it is gone.
   for (const name of devOnly) {
-    if (!new RegExp(`^\\[(?:target\\..+\\.)?dependencies\\.${name}\\]`, "m").test(result)) result = result.replace(new RegExp(`"${name}\\??/[^"]*"\\s*,?[ \\t]*`, "g"), "");
+    if (!new RegExp(`^\\[(?:target\\..+\\.)?dependencies\\.${name}\\]`, "m").test(result))
+      result = result.replace(new RegExp(`"${name}\\??/[^"]*"\\s*,?[ \\t]*`, "g"), "");
   }
   if (!packageName) throw new Error("the manifest has no [package] name");
   if (!sawLib) result += `\n[lib]\nname = "${lib(packageName)}"\n`;
-  else if (!/^\[lib\][^[]*^name\s*=/m.test(result)) result = result.replace(/^\[lib\]\s*$/m, `[lib]\nname = "${lib(packageName)}"`);
+  else if (!/^\[lib\][^[]*^name\s*=/m.test(result))
+    result = result.replace(/^\[lib\]\s*$/m, `[lib]\nname = "${lib(packageName)}"`);
   return result;
 }
 
@@ -110,7 +135,10 @@ export function renameFeatureRefs(text: string, members: Member[]): string {
   let result = text;
   for (const member of members) {
     if (!member.lib || member.lib === lib(member.name)) continue;
-    result = result.replace(new RegExp(`"(dep:)?${member.name}(\\??/[^"]*)?"`, "g"), (_all, dep: string | undefined, rest: string | undefined) => `"${dep ?? ""}${member.lib}${rest ?? ""}"`);
+    result = result.replace(
+      new RegExp(`"(dep:)?${member.name}(\\??/[^"]*)?"`, "g"),
+      (_all, dep: string | undefined, rest: string | undefined) => `"${dep ?? ""}${member.lib}${rest ?? ""}"`,
+    );
   }
   return result;
 }
@@ -125,60 +153,140 @@ export function rewriteRoot(text: string, members: Member[], prefix: string): st
     if (skipping) continue;
     out.push(rewireLine(line, members, prefix, "crates"));
   }
-  return out.join("\n").replace(/members = \[([^\]]*)\]/, (_all, inner: string) => (inner.includes("crates/*") ? _all : `members = [${inner.trim().replace(/,$/, "")}, "crates/*"]`)).replace(/\n{3,}/g, "\n\n");
+  return out
+    .join("\n")
+    .replace(/members = \[([^\]]*)\]/, (_all, inner: string) =>
+      inner.includes("crates/*") ? _all : `members = [${inner.trim().replace(/,$/, "")}, "crates/*"]`,
+    )
+    .replace(/\n{3,}/g, "\n\n");
 }
 
 export type MatrixMeta = {
-  packages: { id: string; name: string; version: string; repository: string | null; features: Record<string, string[]>; manifest_path: string }[];
+  packages: {
+    id: string;
+    name: string;
+    version: string;
+    repository: string | null;
+    features: Record<string, string[]>;
+    manifest_path: string;
+  }[];
   resolve: { nodes: { id: string; features: string[] }[] };
 };
 
 /** The feature matrix of the in-tree crates: every feature of each crate, and `●` where the workspace's own build turns it on. */
 export function matrixOf(meta: MatrixMeta, prefix: string, patches: Record<string, number> = {}): string {
   const active = new Map(meta.resolve.nodes.map((node) => [node.id, new Set(node.features)]));
-  const crates = meta.packages.filter((pkg) => pkg.name.startsWith(prefix) && /[\\/]crates[\\/]/.test(pkg.manifest_path)).sort((a, b) => a.name.localeCompare(b.name));
-  const lines = ["# Crates and their feature matrix", "", "Generated by `tools/kitesurf-monorepo.ts matrix`. `●` = enabled by the workspace's own build, `○` = available.", ""];
+  const crates = meta.packages
+    .filter((pkg) => pkg.name.startsWith(prefix) && /[\\/]crates[\\/]/.test(pkg.manifest_path))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const lines = [
+    "# Crates and their feature matrix",
+    "",
+    "Generated by `tools/kitesurf-monorepo.ts matrix`. `●` = enabled by the workspace's own build, `○` = available.",
+    "",
+  ];
   for (const pkg of crates) {
-    const features = Object.keys(pkg.features).filter((name) => name !== "default").sort();
+    const features = Object.keys(pkg.features)
+      .filter((name) => name !== "default")
+      .sort();
     const on = active.get(pkg.id) ?? new Set<string>();
     const original = pkg.name.slice(prefix.length);
-    lines.push(`## ${pkg.name} ${pkg.version}`, "", `Upstream: ${pkg.repository ?? "n/a"} · patches carried: ${patches[original] ?? 0} · default: ${(pkg.features.default ?? []).join(", ") || "none"}`, "");
-    if (features.length) lines.push("| feature | state | enables |", "|---|---|---|", ...features.map((name) => `| \`${name}\` | ${on.has(name) ? "●" : "○"} | ${pkg.features[name]!.map((entry) => `\`${entry}\``).join(" ") || "-"} |`), "");
+    lines.push(
+      `## ${pkg.name} ${pkg.version}`,
+      "",
+      `Upstream: ${pkg.repository ?? "n/a"} · patches carried: ${patches[original] ?? 0} · default: ${(pkg.features.default ?? []).join(", ") || "none"}`,
+      "",
+    );
+    if (features.length)
+      lines.push(
+        "| feature | state | enables |",
+        "|---|---|---|",
+        ...features.map(
+          (name) =>
+            `| \`${name}\` | ${on.has(name) ? "●" : "○"} | ${pkg.features[name]!.map((entry) => `\`${entry}\``).join(" ") || "-"} |`,
+        ),
+        "",
+      );
     else lines.push("No features.", "");
   }
   return lines.join("\n");
 }
 
-const SKIP = new Set([".git", ".patched", ".patch-sha8", ".cargo-ok", "Cargo.toml.orig", ".cargo_vcs_info.json", "Cargo.lock", "target"]);
+const SKIP = new Set([
+  ".git",
+  ".patched",
+  ".patch-sha8",
+  ".cargo-ok",
+  "Cargo.toml.orig",
+  ".cargo_vcs_info.json",
+  "Cargo.lock",
+  "target",
+]);
+const dirExists = async (path: string) =>
+  Bun.file(path)
+    .stat()
+    .then(
+      (s) => s.isDirectory(),
+      () => false,
+    );
 
-function sourceOf(checkout: string, member: Member): string {
+async function sourceOf(checkout: string, member: Member): Promise<string> {
   const patched = join(checkout, "packages", "core", "target", "vendor-patched", `${member.name}-${member.version}`);
-  if (existsSync(patched)) return patched;
+  if (await dirExists(patched)) return patched;
   const registry = join(homedir(), ".cargo", "registry", "src");
-  for (const index of readdirSync(registry)) {
+  for await (const index of new Bun.Glob("*").scan({ cwd: registry, onlyFiles: false })) {
     const candidate = join(registry, index, `${member.name}-${member.version}`);
-    if (existsSync(candidate)) return candidate;
+    if (await dirExists(candidate)) return candidate;
   }
   throw new Error(`no source for ${member.name}-${member.version}: run the materialiser and cargo fetch first`);
 }
 
+async function copyFiltered(source: string, target: string): Promise<void> {
+  await Bun.$`rm -rf ${target} && mkdir -p ${target}`.quiet();
+  for await (const rel of new Bun.Glob("**/*").scan({ cwd: source, dot: true })) {
+    if (rel.split(/[\\/]/).some((part) => SKIP.has(part))) continue;
+    await Bun.write(join(target, rel), Bun.file(join(source, rel)));
+  }
+}
+
 if (import.meta.main) {
   const argv = Bun.argv.slice(2);
-  const checkout = resolve(argv.find((arg) => !arg.startsWith("--") && arg !== "matrix" && argv[argv.indexOf(arg) - 1] !== "--prefix") ?? ".");
+  const checkout = resolve(
+    argv.find((arg) => !arg.startsWith("--") && arg !== "matrix" && argv[argv.indexOf(arg) - 1] !== "--prefix") ?? ".",
+  );
   const prefix = argv.includes("--prefix") ? argv[argv.indexOf("--prefix") + 1]! : "browser-";
   const dry = argv.includes("--dry-run");
   if (argv.includes("matrix")) {
-    const meta = JSON.parse(Bun.spawnSync(["cargo", "metadata", "--format-version", "1"], { cwd: checkout, stdout: "pipe", stderr: "pipe" }).stdout.toString()) as MatrixMeta;
+    const meta = JSON.parse(
+      Bun.spawnSync(["cargo", "metadata", "--format-version", "1"], {
+        cwd: checkout,
+        stdout: "pipe",
+        stderr: "pipe",
+        windowsHide: true,
+      }).stdout.toString(),
+    ) as MatrixMeta;
     const patches: Record<string, number> = {};
     const patchRoot = join(checkout, "scripts", "patches");
-    if (existsSync(patchRoot)) for (const dir of readdirSync(patchRoot).filter((name) => /-\d/.test(name))) patches[dir.replace(/-\d[^-]*(?:-[a-z0-9.]+)?$/, "")] = readdirSync(join(patchRoot, dir)).filter((file) => file.endsWith(".patch")).length;
-    writeFileSync(join(checkout, "crates", "FEATURES.md"), matrixOf(meta, prefix, patches));
+    if (await dirExists(patchRoot)) {
+      for await (const dir of new Bun.Glob("*").scan({ cwd: patchRoot, onlyFiles: false })) {
+        if (!/-\d/.test(dir)) continue;
+        const count = (await Array.fromAsync(new Bun.Glob("*.patch").scan({ cwd: join(patchRoot, dir) }))).length;
+        patches[dir.replace(/-\d[^-]*(?:-[a-z0-9.]+)?$/, "")] = count;
+      }
+    }
+    await Bun.write(join(checkout, "crates", "FEATURES.md"), matrixOf(meta, prefix, patches));
     console.log("wrote crates/FEATURES.md");
     process.exit(0);
   }
-  const crates = readFileSync(join(checkout, "scripts", "get-patched-vendor-crates.mjs"), "utf8");
+  const crates = await Bun.file(join(checkout, "scripts", "get-patched-vendor-crates.mjs")).text();
   const seeds = [...crates.matchAll(/\{ name: "([^"]+)", version: "[^"]+" \}/g)].map((match) => match[1]!);
-  const run = Bun.spawnSync(["cargo", "metadata", "--format-version", "1", "--locked"], { cwd: checkout, stdout: "pipe", stderr: "pipe", stdio: ["ignore", "pipe", "pipe"] });
+  const run = Bun.spawnSync(["cargo", "metadata", "--format-version", "1", "--locked"], {
+    cwd: checkout,
+    stdout: "pipe",
+    stderr: "pipe",
+    stdio: ["ignore", "pipe", "pipe"],
+    windowsHide: true,
+  });
   if (run.exitCode !== 0) throw new Error(run.stderr.toString().slice(-400));
   const members = closureOf(JSON.parse(run.stdout.toString()) as Meta, seeds);
   console.log(`${members.length} crates: ${members.map((member) => member.name).join(" ")}`);
@@ -186,23 +294,30 @@ if (import.meta.main) {
   const names = members.map((member) => member.name);
   for (const member of members) {
     const target = join(checkout, "crates", member.name);
-    rmSync(target, { recursive: true, force: true });
-    cpSync(sourceOf(checkout, member), target, { recursive: true, filter: (path) => !SKIP.has(path.split(/[\\/]/).pop()!) });
+    await copyFiltered(await sourceOf(checkout, member), target);
     const manifest = join(target, "Cargo.toml");
-    writeFileSync(manifest, prefixManifest(readFileSync(manifest, "utf8"), names, prefix));
+    await Bun.write(manifest, prefixManifest(await Bun.file(manifest).text(), names, prefix));
   }
   for (const member of members) {
-    const parsed = Bun.TOML.parse(readFileSync(join(checkout, "crates", member.name, "Cargo.toml"), "utf8")) as { lib?: { name?: string } };
+    const parsed = Bun.TOML.parse(await Bun.file(join(checkout, "crates", member.name, "Cargo.toml")).text()) as {
+      lib?: { name?: string };
+    };
     member.lib = parsed.lib?.name ?? lib(member.name);
   }
   const root = join(checkout, "Cargo.toml");
-  writeFileSync(root, rewriteRoot(readFileSync(root, "utf8"), members, prefix));
-  for (const dir of readdirSync(join(checkout, "packages"))) {
+  await Bun.write(root, rewriteRoot(await Bun.file(root).text(), members, prefix));
+  for await (const dir of new Bun.Glob("*").scan({ cwd: join(checkout, "packages"), onlyFiles: false })) {
     const manifest = join(checkout, "packages", dir, "Cargo.toml");
-    if (!existsSync(manifest)) continue;
-    const before = readFileSync(manifest, "utf8");
-    const after = renameFeatureRefs(before.split("\n").map((line) => rewireLine(line, members, prefix, "../../crates")).join("\n"), members);
-    if (after !== before) writeFileSync(manifest, after);
+    if (!(await Bun.file(manifest).exists())) continue;
+    const before = await Bun.file(manifest).text();
+    const after = renameFeatureRefs(
+      before
+        .split("\n")
+        .map((line) => rewireLine(line, members, prefix, "../../crates"))
+        .join("\n"),
+      members,
+    );
+    if (after !== before) await Bun.write(manifest, after);
   }
   console.log(`wrote crates/ (${members.length}), rewired the workspace root and the packages' manifests`);
 }

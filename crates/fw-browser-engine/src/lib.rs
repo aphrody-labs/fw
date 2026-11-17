@@ -5,16 +5,19 @@
 //! backend has; [`pick`] chooses the lightest one that satisfies what a page needs; [`escalate`] chooses the next heavier one
 //! when the first could not do it (the lessons of `testing/acceptance.ts` say where that happens).
 //!
-//! The catalog is facts about each engine's architecture. Costs (memory, start-up) are measurements and live in
-//! `ARCHITECTURE.md` and the benchmark database, not here: `weight` is only the order in which engines are tried.
+//! Kitesurf (`third_party/kitesurf`, pinned on its 26 `browser-*` Rust engine crates: Blitz, Stylo, Taffy, Parley, Vello,
+//! Anyrender, Boa) is the unified Rust browser engine behind CDP; Blink (`//headless:headless_shell` from the Chromium 160
+//! checkout) is the full-compatibility reference engine.
 
-#![forbid(unsafe_code)]
+pub mod process;
 
 /// Where the JavaScript of a page runs.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Js {
     /// The engine has none of its own: the embedder provides it (JavaScriptCore through Bun, or none for a static page).
     Host,
+    /// Boa (Rust ECMAScript engine, `browser-boa_engine`), run in per-page isolates by Kitesurf.
+    Boa,
     JavaScriptCore,
     V8,
     SpiderMonkey,
@@ -75,6 +78,36 @@ pub struct Backend {
     pub weight: u8,
 }
 
+/// Canonical `browser-*` Rust engine crates owned by the Kitesurf workspace (`third_party/kitesurf/crates`).
+pub const KITESURF_CRATES: &[&str] = &[
+    "browser-anyrender",
+    "browser-anyrender_svg",
+    "browser-anyrender_vello_cpu",
+    "browser-blitz-dom",
+    "browser-blitz-html",
+    "browser-blitz-paint",
+    "browser-boa_ast",
+    "browser-boa_engine",
+    "browser-boa_gc",
+    "browser-boa_interner",
+    "browser-boa_parser",
+    "browser-glifo",
+    "browser-jpeg-encoder",
+    "browser-parley",
+    "browser-parley_engine",
+    "browser-ratatui-image",
+    "browser-selectors",
+    "browser-stylo",
+    "browser-stylo_dom",
+    "browser-stylo_malloc_size_of",
+    "browser-stylo_taffy",
+    "browser-stylo_traits",
+    "browser-taffy",
+    "browser-usvg",
+    "browser-vello_common",
+    "browser-vello_cpu",
+];
+
 /// What a page needs from an engine.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct Needs {
@@ -100,7 +133,7 @@ impl Backend {
 
 /// Every backend this repository knows, lightest first.
 pub const CATALOG: &[Backend] = &[
-    // Obscura: html5ever and Stylo's selectors on V8, no layout and no paint; the lite engine.
+    // Obscura: html5ever and Stylo's selectors on V8, no layout and no paint; headless DOM/script lite engine.
     Backend {
         id: "obscura",
         js: Js::V8,
@@ -114,6 +147,20 @@ pub const CATALOG: &[Backend] = &[
         stage: Stage::Shipping,
         weight: 1,
     },
+    // Kitesurf: Cloudflare's Rust browser engine on Blitz + Stylo + Taffy + Parley + Vello + Boa, speaking CDP.
+    Backend {
+        id: "kitesurf",
+        js: Js::Boa,
+        style: "browser-stylo",
+        layout: "browser-blitz-dom+taffy+parley",
+        paint: Paint::Vello,
+        gpu: Gpu::Wgpu,
+        webgpu: false,
+        media: false,
+        cdp: Cdp::Subset,
+        stage: Stage::Shipping,
+        weight: 2,
+    },
     // Blitz (DioxusLabs): Stylo for style, Taffy for boxes, Parley for text, Vello for paint. No JavaScript bindings upstream.
     Backend {
         id: "blitz",
@@ -126,7 +173,7 @@ pub const CATALOG: &[Backend] = &[
         media: false,
         cdp: Cdp::None,
         stage: Stage::Experimental,
-        weight: 2,
+        weight: 3,
     },
     // WebKit with JavaScriptCore: Bun's native engine (WKWebView on macOS through Bun.WebView).
     Backend {
@@ -140,7 +187,7 @@ pub const CATALOG: &[Backend] = &[
         media: true,
         cdp: Cdp::None,
         stage: Stage::Shipping,
-        weight: 3,
+        weight: 4,
     },
     // Servo: SpiderMonkey, Stylo, its own layout, WebRender; Firefox's remote debugging protocol, not CDP.
     Backend {
@@ -154,7 +201,7 @@ pub const CATALOG: &[Backend] = &[
         media: true,
         cdp: Cdp::None,
         stage: Stage::Experimental,
-        weight: 4,
+        weight: 5,
     },
     // Blink: V8, Skia, Dawn; the engine of record, built from the Chromium checkout (build/engines), native CDP.
     Backend {
@@ -168,7 +215,7 @@ pub const CATALOG: &[Backend] = &[
         media: true,
         cdp: Cdp::Full,
         stage: Stage::Shipping,
-        weight: 5,
+        weight: 6,
     },
     // The experimental Rust ecosystem, followed upstream: Rust JavaScript engines and a new from-scratch browser.
     Backend {
@@ -182,7 +229,7 @@ pub const CATALOG: &[Backend] = &[
         media: false,
         cdp: Cdp::None,
         stage: Stage::Watching,
-        weight: 6,
+        weight: 7,
     },
     Backend {
         id: "nova",
@@ -195,7 +242,7 @@ pub const CATALOG: &[Backend] = &[
         media: false,
         cdp: Cdp::None,
         stage: Stage::Watching,
-        weight: 6,
+        weight: 7,
     },
     Backend {
         id: "ladybird",
@@ -208,7 +255,7 @@ pub const CATALOG: &[Backend] = &[
         media: false,
         cdp: Cdp::None,
         stage: Stage::Watching,
-        weight: 7,
+        weight: 8,
     },
 ];
 
@@ -260,6 +307,7 @@ mod tests {
             );
         }
         assert!(CATALOG.windows(2).all(|w| w[0].weight <= w[1].weight));
+        assert_eq!(KITESURF_CRATES.len(), 26);
     }
 
     #[test]
@@ -273,12 +321,24 @@ mod tests {
     }
 
     #[test]
-    fn a_static_page_that_needs_paint_goes_to_blitz() {
+    fn a_script_page_with_paint_and_cdp_subset_goes_to_kitesurf() {
+        let n = Needs {
+            javascript: true,
+            paint: true,
+            cdp: Some(Cdp::Subset),
+            ..needs()
+        };
+        assert_eq!(pick(&n, &[], false).unwrap().id, "kitesurf");
+    }
+
+    #[test]
+    fn a_static_page_that_needs_paint_goes_to_kitesurf_first() {
         let n = Needs {
             paint: true,
             ..needs()
         };
-        assert_eq!(pick(&n, &[], false).unwrap().id, "blitz");
+        assert_eq!(pick(&n, &[], false).unwrap().id, "kitesurf");
+        assert_eq!(pick(&n, &["blitz", "blink"], false).unwrap().id, "blitz");
     }
 
     #[test]
@@ -311,18 +371,27 @@ mod tests {
     }
 
     #[test]
-    fn escalation_moves_to_the_next_heavier_sufficient_engine() {
-        let n = Needs {
+    fn escalation_moves_from_kitesurf_to_blink_when_cdp_is_required() {
+        let cdp_paint = Needs {
+            javascript: true,
+            paint: true,
+            cdp: Some(Cdp::Subset),
+            ..needs()
+        };
+        assert_eq!(escalate("obscura", &cdp_paint, &[], false).unwrap().id, "kitesurf");
+        assert_eq!(escalate("kitesurf", &cdp_paint, &[], false).unwrap().id, "blink");
+
+        let webgpu = Needs {
             javascript: true,
             paint: true,
             webgpu: true,
             ..needs()
         };
-        assert_eq!(escalate("obscura", &n, &[], false).unwrap().id, "webkit");
-        assert_eq!(escalate("webkit", &n, &[], false).unwrap().id, "servo");
-        assert_eq!(escalate("servo", &n, &[], false).unwrap().id, "blink");
-        assert!(escalate("blink", &n, &[], false).is_none());
-        assert!(escalate("unknown", &n, &[], false).is_none());
+        assert_eq!(escalate("obscura", &webgpu, &[], false).unwrap().id, "webkit");
+        assert_eq!(escalate("webkit", &webgpu, &[], false).unwrap().id, "servo");
+        assert_eq!(escalate("servo", &webgpu, &[], false).unwrap().id, "blink");
+        assert!(escalate("blink", &webgpu, &[], false).is_none());
+        assert!(escalate("unknown", &webgpu, &[], false).is_none());
     }
 
     #[test]
