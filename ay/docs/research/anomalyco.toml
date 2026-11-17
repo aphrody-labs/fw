@@ -1,0 +1,3311 @@
+# anomalyco organization replica, 2026-11-17 (bun packages/org-mirror/src/cli.ts export anomalyco --toml; summary only, the data stays in the sqlite replica)
+version = 1
+retrieved = "2026-11-17"
+sources = ["https://github.com/anomalyco", "https://registry.npmjs.org", "https://crates.io", "https://pypi.org"]
+
+[org]
+repos = 86
+forks = 11
+archived = 29
+active_90d = 41
+deep_synced = 13
+
+[rows]
+repos = 86
+repo_languages = 420
+repo_topics = 69
+repo_tags = 117
+refs = 6752
+commits = 66745
+labels = 262
+milestones = 0
+issues = 37274
+pulls = 46315
+item_labels = 65673
+comments = 180291
+reviews = 16330
+events = 461359
+releases = 1100
+release_assets = 16194
+changelog_files = 1142
+changelog_entries = 104
+manifests = 208
+packages = 226
+package_versions = 170278
+
+[github_vs_replica]
+issues = { replica = 37274, github = 37274 }
+pulls = { replica = 46315, github = 46314 }
+releases = { replica = 1100, github = 1100 }
+
+[languages]
+TypeScript = { bytes = 120805628, repos = 61 }
+Rust = { bytes = 75708780, repos = 24 }
+"C++" = { bytes = 19120698, repos = 4 }
+Python = { bytes = 18373127, repos = 22 }
+MDX = { bytes = 10186658, repos = 7 }
+C = { bytes = 9250932, repos = 8 }
+Zig = { bytes = 7991837, repos = 4 }
+Go = { bytes = 5583797, repos = 12 }
+CSS = { bytes = 3586514, repos = 37 }
+JavaScript = { bytes = 3407198, repos = 48 }
+Cuda = { bytes = 2121279, repos = 1 }
+Swift = { bytes = 1928183, repos = 11 }
+Shell = { bytes = 1263787, repos = 42 }
+HTML = { bytes = 1112831, repos = 39 }
+Slint = { bytes = 975799, repos = 1 }
+PLpgSQL = { bytes = 727360, repos = 1 }
+Metal = { bytes = 662357, repos = 2 }
+WGSL = { bytes = 503549, repos = 6 }
+GLSL = { bytes = 404127, repos = 2 }
+CMake = { bytes = 374679, repos = 2 }
+
+[tags]
+bun = ["browse", "hex", "models.dev", "nightmail", "opencode", "opencode-console-cli", "opentui", "opentunnel", "rune", "strobe", "textjs"]
+c = ["transcribe.cpp", "tree-sitter-clojure"]
+cpp = ["transcribe.cpp"]
+go = ["computer-use", "extension", "ion", "opencode-sdk-go", "pulumi-namecheap", "pulumi-planetscale", "pulumi-railway", "pulumi-sst", "pulumi-supabase", "sst", "torpedo"]
+javascript = ["fiend", "grim", "ideal-stack-preview", "jobmail", "lerna-yarn-starter", "phonecall", "serverless-stack-resources-sample", "slack-support", "social-cards", "sst-start-demo", "sst-weekly-repos", "tree-sitter-vue", "tutorial-links-app", "zed-extensions"]
+lua = ["haunt"]
+python = ["computer-use", "harbor", "tree-sitter-vue"]
+rust = ["browse", "clip", "deadbolt", "flicks", "grim", "hex", "hokum", "isocast", "net-tools", "nightmail", "niri", "opencode", "opencode-pty", "opentui", "opentunnel", "rift", "rune", "strobe", "terminal-control", "tree-sitter-vue"]
+swift = ["computer-use"]
+typescript = ["agents-benchmark", "astro-sst", "bank", "bellhop", "blackout", "browse", "browser-control", "bun-ffi-structs", "bun-yoga", "deadbolt", "demo-ai-app", "demo-notes-app", "effect-http-recorder", "fiend", "freenextjsforjim.biz", "ghostty-web", "grim", "ideal-stack-preview", "ion", "isserverlessready", "jobmail", "justice", "kysely-data-api", "models.dev", "monorepo-template", "nightmail", "oc-plugin-rainbow", "openauth", "opencode", "opencode-bench", "opencode-console-cli", "opencode-drive", "opencode-github-copilot", "opencode-plugin-lane", "opencode-voice", "opentui", "opentunnel", "phonecall", "provider", "pulumi-namecheap", "rift", "social-cards", "sqr", "sst", "sst-weekly-repos", "strobe", "telemetry", "terminal-control", "textjs", "tutorial-links-app", "v2"]
+zig = ["haunt", "opentui"]
+
+[[repo]]
+name = "opencode"
+stars = 227325
+language = "TypeScript"
+pushed = "2026-11-17"
+license = "MIT"
+fork = false
+archived = false
+description = "The open source coding agent."
+tags = ["bun", "rust", "typescript"]
+replica = { issues = 34143, pulls = 29332, releases = 898, commits = 33573 }
+github = { issues = 34143, pulls = 29331, releases = 898, default_branch_commits = 22770 }
+
+[[repo]]
+name = "browse"
+stars = 699
+language = "TypeScript"
+pushed = "2026-11-17"
+license = "MIT"
+fork = false
+archived = false
+description = "Let your AI agents use your real browser: an MCP server and a Chromium extension"
+tags = ["bun", "rust", "typescript"]
+replica = { issues = 84, pulls = 213, releases = 12, commits = 705 }
+github = { issues = 84, pulls = 213, releases = 12, default_branch_commits = 675 }
+
+[[repo]]
+name = "models.dev"
+stars = 7661
+language = "TypeScript"
+pushed = "2026-11-17"
+license = "MIT"
+fork = false
+archived = false
+description = "An open-source database of AI models."
+tags = ["bun", "typescript"]
+replica = { issues = 1275, pulls = 12550, releases = 0, commits = 16153 }
+github = { issues = 1275, pulls = 12550, releases = 0, default_branch_commits = 15595 }
+
+[[repo]]
+name = "rune"
+stars = 7335
+language = "Rust"
+pushed = "2026-11-17"
+license = "MIT"
+fork = false
+archived = false
+description = "Rune: Native UI framework"
+tags = ["bun", "rust"]
+replica = { issues = 448, pulls = 652, releases = 0, commits = 2942 }
+github = { issues = 448, pulls = 652, releases = 0, default_branch_commits = 2462 }
+
+[[repo]]
+name = "hex"
+stars = 7136
+language = "Rust"
+pushed = "2026-11-17"
+license = "MIT"
+fork = false
+archived = false
+description = "Local voice dictation for mac, windows and linux"
+tags = ["bun", "rust"]
+replica = { issues = 725, pulls = 1200, releases = 25, commits = 3243 }
+github = { issues = 725, pulls = 1200, releases = 25, default_branch_commits = 1848 }
+
+[[repo]]
+name = "opencode-console-cli"
+stars = 0
+language = "TypeScript"
+pushed = "2026-11-17"
+license = "MIT"
+fork = false
+archived = false
+description = "Connect Claude Code, Codex, Pi, DeepSeek Harness and Hermes Agent to an OpenCode Console workspace"
+tags = ["bun", "typescript"]
+replica = { issues = 0, pulls = 9, releases = 2, commits = 6 }
+github = { issues = 0, pulls = 9, releases = 2, default_branch_commits = 7 }
+
+[[repo]]
+name = "nightmail"
+stars = 20
+language = "TypeScript"
+pushed = "2026-11-17"
+license = ""
+fork = false
+archived = false
+description = "Bane: transactional and marketing email on Amazon SES"
+tags = ["bun", "rust", "typescript"]
+replica = { issues = 40, pulls = 299, releases = 1, commits = 2256 }
+github = { issues = 40, pulls = 299, releases = 1, default_branch_commits = 2118 }
+
+[[repo]]
+name = "deadbolt"
+stars = 315
+language = "Rust"
+pushed = "2026-11-16"
+license = ""
+fork = false
+archived = false
+description = ""
+tags = ["rust", "typescript"]
+replica = { issues = 14, pulls = 246, releases = 0, commits = 0 }
+github = { issues = 14, pulls = 246, releases = 0, default_branch_commits = 289 }
+
+[[repo]]
+name = "opentunnel"
+stars = 456
+language = "Rust"
+pushed = "2026-11-16"
+license = "MIT"
+fork = false
+archived = false
+description = ""
+tags = ["bun", "rust", "typescript"]
+replica = { issues = 19, pulls = 59, releases = 20, commits = 166 }
+github = { issues = 19, pulls = 59, releases = 20, default_branch_commits = 132 }
+
+[[repo]]
+name = "opentui"
+stars = 13834
+language = "TypeScript"
+pushed = "2026-11-16"
+license = "MIT"
+fork = false
+archived = false
+description = "OpenTUI is a library to build terminal user interfaces (TUI)"
+tags = ["bun", "rust", "typescript", "zig"]
+replica = { issues = 504, pulls = 1638, releases = 127, commits = 5553 }
+github = { issues = 504, pulls = 1638, releases = 127, default_branch_commits = 1618 }
+
+[[repo]]
+name = "opentui-index"
+stars = 19
+language = "MDX"
+pushed = "2026-11-16"
+license = ""
+fork = false
+archived = false
+description = "OpenTUI packages"
+replica = { issues = 0, pulls = 8, releases = 0, commits = 129 }
+github = { issues = 0, pulls = 8, releases = 0, default_branch_commits = 128 }
+
+[[repo]]
+name = "strobe"
+stars = 165
+language = "Rust"
+pushed = "2026-11-16"
+license = "MIT"
+fork = false
+archived = false
+description = "Measure and explain performance: web pages, Electron apps, Bun/Node, any process. Agent-native CLI + MCP."
+tags = ["bun", "rust", "typescript"]
+replica = { issues = 19, pulls = 9, releases = 15, commits = 970 }
+github = { issues = 19, pulls = 9, releases = 15, default_branch_commits = 928 }
+
+[[repo]]
+name = "textjs"
+stars = 279
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "A React framework for apps that render in the browser console."
+tags = ["bun", "typescript"]
+replica = { issues = 3, pulls = 100, releases = 0, commits = 1049 }
+github = { issues = 3, pulls = 100, releases = 0, default_branch_commits = 1011 }
+
+[[repo]]
+name = "torpedo"
+stars = 112
+language = "Go"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "Connect to databases in private VPCs securely the easy way - no VPN required"
+tags = ["go"]
+
+[[repo]]
+name = "terminal-control"
+stars = 442
+language = "Rust"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = ""
+tags = ["rust", "typescript"]
+
+[[repo]]
+name = "sst"
+stars = 26442
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "Build full-stack apps on your own infrastructure."
+tags = ["go", "typescript"]
+
+[[repo]]
+name = "social-cards"
+stars = 38
+language = "HTML"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "An SST app that dynamically generates social cards."
+tags = ["javascript", "typescript"]
+
+[[repo]]
+name = "rift"
+stars = 1373
+language = "Rust"
+pushed = "2026-11-14"
+license = ""
+fork = false
+archived = false
+description = ""
+tags = ["rust", "typescript"]
+
+[[repo]]
+name = "phonecall"
+stars = 8
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "Let your agent make phone calls: Grok Voice + Twilio on Cloudflare, with mid-call questions, a CLI and an MCP server"
+tags = ["javascript", "typescript"]
+
+[[repo]]
+name = "openauth"
+stars = 7443
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "▦ Universal, standards-based auth provider."
+tags = ["typescript"]
+
+[[repo]]
+name = "opencode-plugin-lane"
+stars = 16
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "Lane copy-on-write worktree strategy for OpenCode V2"
+tags = ["typescript"]
+
+[[repo]]
+name = "opencode-drive"
+stars = 44
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = ""
+tags = ["typescript"]
+
+[[repo]]
+name = "justice"
+stars = 100
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "A small paragraph justification engine and typography playground"
+tags = ["typescript"]
+
+[[repo]]
+name = "jobmail"
+stars = 17
+language = "TypeScript"
+pushed = "2026-11-14"
+license = ""
+fork = false
+archived = false
+description = "File job applications into Git: Cloudflare Email Routing + Worker commits each email and its attachments to records/<role>/"
+tags = ["javascript", "typescript"]
+
+[[repo]]
+name = "isocast"
+stars = 201
+language = "Rust"
+pushed = "2026-11-14"
+license = "Apache-2.0"
+fork = false
+archived = false
+description = "Free, open-source OBS alternative for Mac: scenes and sources, every source recorded as its own file (ISO), about half OBS's CPU, CLI and MCP control. Rust, Apple silicon."
+tags = ["rust"]
+
+[[repo]]
+name = "hokum"
+stars = 258
+language = "Rust"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "Notifications for Wayland that look like they belong on a computer from this decade. Drawn with Rune."
+tags = ["rust"]
+
+[[repo]]
+name = "grim"
+stars = 127
+language = "TypeScript"
+pushed = "2026-11-14"
+license = ""
+fork = false
+archived = false
+description = "Don't think for yourself"
+tags = ["javascript", "rust", "typescript"]
+
+[[repo]]
+name = "flicks"
+stars = 8
+language = "Rust"
+pushed = "2026-11-14"
+license = ""
+fork = false
+archived = false
+description = "A lightweight Plex alternative in Rust: Flicks servers own your folders, the Flicks app merges any number of them into one library. No account, nothing hosted."
+tags = ["rust"]
+
+[[repo]]
+name = "fiend"
+stars = 15
+language = "TypeScript"
+pushed = "2026-11-14"
+license = ""
+fork = false
+archived = false
+description = ""
+tags = ["javascript", "typescript"]
+
+[[repo]]
+name = "clip"
+stars = 12
+language = "Rust"
+pushed = "2026-11-14"
+license = ""
+fork = false
+archived = false
+description = "Clip: double-tap ⌃ to record your screen, trim, crop and paste. A Rune app for macOS."
+tags = ["rust"]
+
+[[repo]]
+name = "bun-yoga"
+stars = 3
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = ""
+tags = ["typescript"]
+
+[[repo]]
+name = "bun-ffi-structs"
+stars = 20
+language = "TypeScript"
+pushed = "2026-11-14"
+license = "MIT"
+fork = false
+archived = false
+description = "Define and pack/unpack C-style structs with memory layout control for FFI calls."
+tags = ["typescript"]
+
+[[repo]]
+name = "bank"
+stars = 11
+language = "TypeScript"
+pushed = "2026-11-14"
+license = ""
+fork = false
+archived = false
+description = "A tiny currency for your Slack"
+tags = ["typescript"]
+
+[[repo]]
+name = "homebrew-tap"
+stars = 15
+language = "Ruby"
+pushed = "2026-11-13"
+license = ""
+fork = false
+archived = false
+description = ""
+
+[[repo]]
+name = "opencode-pty"
+stars = 10
+language = "Rust"
+pushed = "2026-11-11"
+license = "MIT"
+fork = false
+archived = false
+description = ""
+tags = ["rust"]
+
+[[repo]]
+name = "pulumi-railway"
+stars = 9
+language = "Go"
+pushed = "2026-11-11"
+license = "Apache-2.0"
+fork = true
+archived = false
+description = "A library allowing providers built with the Terraform Plugin SDK to be bridged into Pulumi."
+tags = ["go"]
+
+[[repo]]
+name = "computer-use"
+stars = 11
+language = "Swift"
+pushed = "2026-11-11"
+license = "MIT"
+fork = true
+archived = false
+description = "👾 Open Computer Use – Open-Source Alternative to Codex Computer Use"
+tags = ["go", "python", "swift"]
+
+[[repo]]
+name = "tree-sitter-clojure"
+stars = 2
+language = "C"
+pushed = "2026-11-11"
+license = "CC0-1.0"
+fork = true
+archived = false
+description = "Clojure(Script) grammar for tree-sitter"
+tags = ["c"]
+
+[[repo]]
+name = "tree-sitter-vue"
+stars = 3
+language = "Tree-sitter Query"
+pushed = "2026-11-11"
+license = "MIT"
+fork = true
+archived = false
+description = "Vue.js grammar for tree-sitter"
+tags = ["javascript", "python", "rust"]
+
+[[repo]]
+name = "provider"
+stars = 32
+language = "TypeScript"
+pushed = "2026-11-10"
+license = ""
+fork = false
+archived = true
+description = ""
+tags = ["typescript"]
+
+[[repo]]
+name = "guide"
+stars = 3682
+language = "SCSS"
+pushed = "2026-11-10"
+license = "MIT"
+fork = false
+archived = false
+description = "Repo for guide.sst.dev"
+
+[[repo]]
+name = "v2"
+stars = 67
+language = "TypeScript"
+pushed = "2026-11-10"
+license = "MIT"
+fork = false
+archived = false
+description = "SST v2"
+tags = ["typescript"]
+
+[[repo]]
+name = "kysely-data-api"
+stars = 91
+language = "TypeScript"
+pushed = "2026-11-10"
+license = ""
+fork = false
+archived = false
+description = ""
+tags = ["typescript"]
+
+[[repo]]
+name = "transcribe.cpp"
+stars = 1
+language = "C++"
+pushed = "2026-11-09"
+license = "MIT"
+fork = true
+archived = false
+description = " ggml speech-to-text inference for 16+ model families"
+tags = ["c", "cpp"]
+
+[[repo]]
+name = "bellhop"
+stars = 4
+language = "TypeScript"
+pushed = "2026-11-05"
+license = ""
+fork = false
+archived = false
+description = "Bellhop: realtime support sites where people report issues and agents answer them (blhp.app)"
+tags = ["typescript"]
+
+[[repo]]
+name = "net-tools"
+stars = 2
+language = "Rust"
+pushed = "2026-10-31"
+license = "Apache-2.0"
+fork = true
+archived = false
+description = "Cross platform, networking utilties in Rust"
+tags = ["rust"]
+
+[[repo]]
+name = "ghostty-web"
+stars = 33
+language = "TypeScript"
+pushed = "2026-10-31"
+license = "MIT"
+fork = true
+archived = false
+description = "Ghostty for the web with xterm.js API compatibility"
+tags = ["typescript"]
+
+[[repo]]
+name = "browser-control"
+stars = 498
+language = "TypeScript"
+pushed = "2026-10-25"
+license = "MIT"
+fork = false
+archived = true
+description = "Local browser driver for trusted agents: control your existing Chromium browser through a small extension and local relay"
+tags = ["typescript"]
+
+[[repo]]
+name = "niri"
+stars = 2
+language = "Rust"
+pushed = "2026-10-22"
+license = "GPL-3.0"
+fork = true
+archived = false
+description = "A scrollable-tiling Wayland compositor."
+tags = ["rust"]
+
+[[repo]]
+name = "blackout"
+stars = 7
+language = "TypeScript"
+pushed = "2026-10-12"
+license = ""
+fork = false
+archived = false
+description = "BLACKOUT — a top-down multiplayer stealth/office shooter in the browser. WebGPU, TypeScript, Cloudflare Durable Objects."
+tags = ["typescript"]
+
+[[repo]]
+name = "opencode-beta"
+stars = 302
+language = ""
+pushed = "2026-09-17"
+license = ""
+fork = false
+archived = false
+description = ""
+
+[[repo]]
+name = "haunt"
+stars = 36
+language = "Zig"
+pushed = "2026-09-05"
+license = ""
+fork = false
+archived = true
+description = ""
+tags = ["lua", "zig"]
+
+[[repo]]
+name = "harbor"
+stars = 2
+language = "Python"
+pushed = "2026-08-17"
+license = "Apache-2.0"
+fork = true
+archived = false
+description = "Framework for evaluating and improving agents "
+tags = ["python"]
+
+[[repo]]
+name = "effect-http-recorder"
+stars = 72
+language = "TypeScript"
+pushed = "2026-07-07"
+license = "MIT"
+fork = false
+archived = true
+description = "Record and replay Effect HTTP and WebSocket traffic with deterministic cassettes"
+tags = ["typescript"]
+
+[[repo]]
+name = "zed-extensions"
+stars = 8
+language = "JavaScript"
+pushed = "2026-05-30"
+license = ""
+fork = true
+archived = true
+description = "Extensions for the Zed editor"
+tags = ["javascript"]
+
+[[repo]]
+name = "oc-plugin-rainbow"
+stars = 90
+language = "TypeScript"
+pushed = "2026-04-10"
+license = ""
+fork = false
+archived = true
+description = "Theme-aware rainbow post-processing for the OpenCode TUI."
+tags = ["typescript"]
+
+[[repo]]
+name = "opencode-bench"
+stars = 90
+language = "TypeScript"
+pushed = "2026-03-13"
+license = ""
+fork = false
+archived = true
+description = ""
+tags = ["typescript"]
+
+[[repo]]
+name = "sqr"
+stars = 14
+language = "TypeScript"
+pushed = "2026-03-04"
+license = ""
+fork = false
+archived = true
+description = "Spotify Quarterly Report"
+tags = ["typescript"]
+
+[[repo]]
+name = "astro-sst"
+stars = 20
+language = "TypeScript"
+pushed = "2026-03-04"
+license = ""
+fork = false
+archived = false
+description = ""
+tags = ["typescript"]
+
+[[repo]]
+name = "telemetry"
+stars = 8
+language = "TypeScript"
+pushed = "2026-03-04"
+license = ""
+fork = false
+archived = false
+description = "An SST app that stores the telemetry data collected by the SST CLI."
+tags = ["typescript"]
+
+[[repo]]
+name = "sst-start-demo"
+stars = 20
+language = "JavaScript"
+pushed = "2026-03-04"
+license = "MIT"
+fork = false
+archived = true
+description = "A simple SST app to demo the new `sst start` command"
+tags = ["javascript"]
+
+[[repo]]
+name = "serverless-stack-resources-sample"
+stars = 14
+language = "JavaScript"
+pushed = "2026-03-04"
+license = ""
+fork = false
+archived = true
+description = "A sample SST app deploying the notes app resources from the Serverless Stack guide."
+tags = ["javascript"]
+
+[[repo]]
+name = "lerna-yarn-starter"
+stars = 25
+language = "JavaScript"
+pushed = "2026-03-04"
+license = ""
+fork = false
+archived = true
+description = "SST monorepo starter that uses Lerna and Yarn Workspaces."
+tags = ["javascript"]
+
+[[repo]]
+name = "freenextjsforjim.biz"
+stars = 7
+language = "TypeScript"
+pushed = "2026-03-04"
+license = ""
+fork = false
+archived = false
+description = "It's free Next.js Jim!"
+tags = ["typescript"]
+
+[[repo]]
+name = "demo-notes-app"
+stars = 196
+language = "TypeScript"
+pushed = "2026-03-04"
+license = "MIT"
+fork = false
+archived = false
+description = "Source for the demo notes app in the SST Guide"
+tags = ["typescript"]
+
+[[repo]]
+name = "opencode-voice"
+stars = 11
+language = "TypeScript"
+pushed = "2026-01-31"
+license = "MIT"
+fork = false
+archived = true
+description = "OpenCode plugin for text-to-speech using ElevenLabs v3 with expressive audio tags"
+tags = ["typescript"]
+
+[[repo]]
+name = "opencode-sdk-go"
+stars = 166
+language = "Go"
+pushed = "2026-01-17"
+license = "MIT"
+fork = false
+archived = true
+description = ""
+tags = ["go"]
+
+[[repo]]
+name = "agents-benchmark"
+stars = 7
+language = "TypeScript"
+pushed = "2025-11-29"
+license = ""
+fork = false
+archived = true
+description = ""
+tags = ["typescript"]
+
+[[repo]]
+name = "opencode-zed-extension"
+stars = 18
+language = ""
+pushed = "2025-11-08"
+license = "MIT"
+fork = false
+archived = true
+description = "OpenCode Zed Extension (powered by OpenCode's ACP support)"
+
+[[repo]]
+name = "opencode-github-copilot"
+stars = 14
+language = "TypeScript"
+pushed = "2025-06-24"
+license = ""
+fork = false
+archived = true
+description = ""
+tags = ["typescript"]
+
+[[repo]]
+name = "pulumi-sst"
+stars = 4
+language = "Go"
+pushed = "2025-05-12"
+license = "Apache-2.0"
+fork = true
+archived = true
+description = "Boilerplate showing how to create a native Pulumi provider"
+tags = ["go"]
+
+[[repo]]
+name = "monorepo-template"
+stars = 122
+language = "TypeScript"
+pushed = "2025-01-23"
+license = "MIT"
+fork = false
+archived = true
+description = "SST v3 monorepo template"
+tags = ["typescript"]
+
+[[repo]]
+name = "ion"
+stars = 1991
+language = "TypeScript"
+pushed = "2024-10-21"
+license = "MIT"
+fork = false
+archived = true
+description = "Moved to https://github.com/sst/sst"
+tags = ["go", "typescript"]
+
+[[repo]]
+name = "pulumi-supabase"
+stars = 19
+language = "Go"
+pushed = "2024-05-06"
+license = "Apache-2.0"
+fork = false
+archived = true
+description = ""
+tags = ["go"]
+
+[[repo]]
+name = "pulumi-planetscale"
+stars = 3
+language = "Go"
+pushed = "2024-05-01"
+license = "Apache-2.0"
+fork = false
+archived = true
+description = ""
+tags = ["go"]
+
+[[repo]]
+name = "pulumi-namecheap"
+stars = 6
+language = "TypeScript"
+pushed = "2024-04-14"
+license = "Apache-2.0"
+fork = false
+archived = true
+description = ""
+tags = ["go", "typescript"]
+
+[[repo]]
+name = "scoop-bucket"
+stars = 1
+language = ""
+pushed = "2024-03-23"
+license = ""
+fork = false
+archived = true
+description = ""
+
+[[repo]]
+name = "extension"
+stars = 3
+language = "Go"
+pushed = "2024-01-26"
+license = ""
+fork = false
+archived = true
+description = ""
+tags = ["go"]
+
+[[repo]]
+name = "demo-ai-app"
+stars = 735
+language = "TypeScript"
+pushed = "2024-01-22"
+license = "MIT"
+fork = false
+archived = false
+description = "Sample AI movies app built with ❍ Ion"
+tags = ["typescript"]
+
+[[repo]]
+name = "tutorial-links-app"
+stars = 13
+language = "TypeScript"
+pushed = "2023-04-20"
+license = "MIT"
+fork = false
+archived = true
+description = "Source for the links app that we build in the SST tutorial."
+tags = ["javascript", "typescript"]
+
+[[repo]]
+name = "isserverlessready"
+stars = 9
+language = "Astro"
+pushed = "2023-01-25"
+license = ""
+fork = false
+archived = false
+description = "Source for isserverlessready.com"
+tags = ["typescript"]
+
+[[repo]]
+name = "v1-conf"
+stars = 10
+language = "HTML"
+pushed = "2022-11-11"
+license = ""
+fork = false
+archived = false
+description = "An SST app powering the SST 1.0 Conf website."
+
+[[repo]]
+name = "sst-weekly-repos"
+stars = 24
+language = "TypeScript"
+pushed = "2022-09-02"
+license = ""
+fork = false
+archived = true
+description = "Repos from the SST Weekly streams"
+tags = ["javascript", "typescript"]
+
+[[repo]]
+name = "identity"
+stars = 6
+language = ""
+pushed = "2022-06-24"
+license = ""
+fork = false
+archived = true
+description = "SST logo and brand guidelines"
+
+[[repo]]
+name = "ideal-stack-preview"
+stars = 39
+language = "TypeScript"
+pushed = "2022-06-04"
+license = ""
+fork = false
+archived = true
+description = ""
+tags = ["javascript", "typescript"]
+
+[[repo]]
+name = "slack-support"
+stars = 6
+language = "JavaScript"
+pushed = "2022-01-25"
+license = ""
+fork = false
+archived = true
+description = "A Slack bot built with SST to help the SST team answer questions in Slack."
+tags = ["javascript"]
+
+[[package]]
+ecosystem = "crates"
+name = "hex"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/hex"
+latest = "0.4.3"
+last_published = "2021-03-03"
+versions = 9
+downloads = { recent = 212270984, window = "90d" }
+downloads_total = 811187615
+
+[[package]]
+ecosystem = "crates"
+name = "lab"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.11.0"
+last_published = "2021-07-30"
+versions = 19
+downloads = { recent = 15967224, window = "90d" }
+downloads_total = 34018442
+
+[[package]]
+ecosystem = "crates"
+name = "rune"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.14.2"
+last_published = "2026-05-22"
+versions = 47
+downloads = { recent = 26881, window = "90d" }
+downloads_total = 189348
+
+[[package]]
+ecosystem = "crates"
+name = "rich-clipboard"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.1.0"
+last_published = "2026-08-24"
+versions = 1
+downloads = { recent = 7591, window = "90d" }
+downloads_total = 7591
+
+[[package]]
+ecosystem = "crates"
+name = "todo"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.3.0"
+last_published = "2018-09-21"
+versions = 3
+downloads = { recent = 2396, window = "90d" }
+downloads_total = 11155
+
+[[package]]
+ecosystem = "crates"
+name = "opentunnel"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentunnel"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 18
+downloads = { recent = 1063, window = "90d" }
+downloads_total = 1063
+
+[[package]]
+ecosystem = "crates"
+name = "hello"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "1.0.4"
+last_published = "2015-05-08"
+versions = 5
+downloads = { recent = 567, window = "90d" }
+downloads_total = 15001
+
+[[package]]
+ecosystem = "crates"
+name = "opentunnel-cli"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentunnel"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 18
+downloads = { recent = 257, window = "90d" }
+downloads_total = 257
+
+[[package]]
+ecosystem = "crates"
+name = "overlay"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "1.0.1"
+last_published = "2024-05-30"
+versions = 2
+downloads = { recent = 162, window = "90d" }
+downloads_total = 3370
+
+[[package]]
+ecosystem = "crates"
+name = "shapes"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.1.0"
+last_published = "2020-01-19"
+versions = 1
+downloads = { recent = 70, window = "90d" }
+downloads_total = 1870
+
+[[package]]
+ecosystem = "crates"
+name = "knobs"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.0.9"
+last_published = "2026-11-05"
+versions = 2
+downloads = { recent = 23, window = "90d" }
+downloads_total = 23
+
+[[package]]
+ecosystem = "crates"
+name = "background"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.0.0"
+last_published = "2019-07-05"
+versions = 1
+downloads = { recent = 18, window = "90d" }
+downloads_total = 1936
+
+[[package]]
+ecosystem = "crates"
+name = "launcher"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.1.0"
+last_published = "2023-02-28"
+versions = 1
+downloads = { recent = 18, window = "90d" }
+downloads_total = 1573
+
+[[package]]
+ecosystem = "crates"
+name = "browse"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/browse"
+latest = "0.1.0"
+last_published = "2024-03-10"
+versions = 1
+downloads = { recent = 14, window = "90d" }
+downloads_total = 1668
+
+[[package]]
+ecosystem = "crates"
+name = "sketch"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.1.0"
+last_published = "2025-01-15"
+versions = 1
+downloads = { recent = 12, window = "90d" }
+downloads_total = 876
+
+[[package]]
+ecosystem = "crates"
+name = "rune-notify"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.1.0"
+last_published = "2026-11-13"
+versions = 1
+downloads = { recent = 10, window = "90d" }
+downloads_total = 10
+
+[[package]]
+ecosystem = "crates"
+name = "settings"
+status = "foreign"
+found_by = "manifest"
+repo = "anomalyco/rune"
+latest = "0.0.0"
+last_published = "2018-03-24"
+versions = 1
+downloads = { recent = 8, window = "90d" }
+downloads_total = 2308
+
+[[package]]
+ecosystem = "crates"
+name = "browse-capture"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/browse"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "browse-core"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/browse"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "browse-page"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/browse"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "browse-relay"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/browse"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "browse-script"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/browse"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "drag-out"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "drop-files"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "frosted-bar"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "glass-card"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "glass-panel"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "live-values"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "opencode-pty"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "overlay-lab"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "playground"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-fx"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-highlights"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-hot-patch"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-kit"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-knobs"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-light"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-luau"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-mac"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-mermaid"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-perf"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-ref"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-taffy"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "rune-theme-opencode"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "scrawl-router"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/hex"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "video-player"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "video-tiles"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "web-hello"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "crates"
+name = "web-showcase"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/rune"
+versions = 0
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/plugin"
+status = "ok"
+found_by = "scope"
+latest = "1.19.5"
+last_published = "2026-11-09"
+versions = 11967
+downloads = { recent = 139071687, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "opencode-ai"
+status = "ok"
+found_by = "named"
+latest = "1.19.5"
+last_published = "2026-11-09"
+versions = 12265
+downloads = { recent = 16073995, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentui"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 363
+downloads = { recent = 6299636, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core-linux-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 363
+downloads = { recent = 5473402, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/schema"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1692
+downloads = { recent = 3563071, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/protocol"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1690
+downloads = { recent = 3399013, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/client"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1691
+downloads = { recent = 3389518, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1682
+downloads = { recent = 2893679, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core-linux-x64-musl"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 105
+downloads = { recent = 2803132, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/ai"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1694
+downloads = { recent = 2084659, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/plugin"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1643
+downloads = { recent = 1993875, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/util"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1690
+downloads = { recent = 1991460, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/solid"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 357
+downloads = { recent = 1875883, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/react"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 357
+downloads = { recent = 1867722, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/keymap"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentui"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 170
+downloads = { recent = 1039187, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/models"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/models.dev"
+latest = "0.0.137"
+last_published = "2026-11-16"
+versions = 137
+downloads = { recent = 872241, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/codemode"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1693
+downloads = { recent = 638489, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/plugin-browser"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1648
+downloads = { recent = 598580, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/core"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1641
+downloads = { recent = 589102, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/simulation"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1641
+downloads = { recent = 560027, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/server"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1641
+downloads = { recent = 559877, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/sdk"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1641
+downloads = { recent = 528435, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 363
+downloads = { recent = 517637, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core-win32-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 363
+downloads = { recent = 485711, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core-linux-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 363
+downloads = { recent = 475246, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty-linux-x64-gnu"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 10
+downloads = { recent = 350486, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+downloads = { recent = 297080, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/rolling-number"
+status = "ok"
+found_by = "scope"
+latest = "0.4.1"
+last_published = "2026-09-06"
+versions = 5
+downloads = { recent = 287316, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/theme"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1692
+downloads = { recent = 265180, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty-linux-x64-gnu"
+status = "ok"
+found_by = "scope"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+downloads = { recent = 247147, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/client"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0"
+last_published = "2026-09-07"
+versions = 1682
+downloads = { recent = 245639, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/schema"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved.0"
+last_published = "2026-09-07"
+versions = 1803
+downloads = { recent = 242752, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentunnel/client"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentunnel"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 19
+downloads = { recent = 235735, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/solid-motion"
+status = "ok"
+found_by = "scope"
+latest = "0.2.2"
+last_published = "2026-10-07"
+versions = 4
+downloads = { recent = 233643, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentunnel/protocol"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentunnel"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 17
+downloads = { recent = 233393, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/terminal-control"
+status = "ok"
+found_by = "scope"
+latest = "1.2.1"
+last_published = "2026-09-04"
+versions = 11
+downloads = { recent = 230635, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/terminal-control-linux-x64-gnu"
+status = "ok"
+found_by = "scope"
+latest = "1.2.1"
+last_published = "2026-09-04"
+versions = 11
+downloads = { recent = 215106, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/codemode"
+status = "ok"
+found_by = "scope"
+latest = "1.18.4"
+last_published = "2026-09-07"
+versions = 879
+downloads = { recent = 188290, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/knobs"
+status = "ok"
+found_by = "scope"
+latest = "0.3.0"
+last_published = "2026-10-25"
+versions = 28
+downloads = { recent = 176438, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core-win32-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 363
+downloads = { recent = 174919, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-darwin-x64-baseline"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1699
+downloads = { recent = 138904, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-windows-arm64"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1697
+downloads = { recent = 131850, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty-linux-x64-musl"
+status = "ok"
+found_by = "scope"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+downloads = { recent = 120317, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/ui"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1641
+downloads = { recent = 109439, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/strobe-linux-x64"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/strobe"
+latest = "0.44.0"
+last_published = "2026-11-14"
+versions = 47
+downloads = { recent = 78701, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty-win32-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+downloads = { recent = 76083, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/hex"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/hex"
+latest = "0.3.1"
+last_published = "2026-09-26"
+versions = 6
+downloads = { recent = 62604, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@textjs/core"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/textjs"
+latest = "1.6.1"
+last_published = "2026-11-06"
+versions = 23
+downloads = { recent = 60515, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+downloads = { recent = 58574, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+downloads = { recent = 53435, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty-linux-arm64-gnu"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 10
+downloads = { recent = 49928, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 10
+downloads = { recent = 48877, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty-win32-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+downloads = { recent = 42692, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 10
+downloads = { recent = 41521, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/strobe-win32-x64"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/strobe"
+latest = "0.44.0"
+last_published = "2026-11-14"
+versions = 48
+downloads = { recent = 41332, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/browse"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/browse"
+latest = "0.1.1"
+last_published = "2026-11-17"
+versions = 166
+downloads = { recent = 37706, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/ui"
+status = "ok"
+found_by = "scope"
+latest = "1.19.5"
+last_published = "2026-11-09"
+versions = 3431
+downloads = { recent = 33940, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty-win32-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 3
+downloads = { recent = 31144, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/ai"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-bootstrap.0"
+last_published = "2026-09-07"
+versions = 1420
+downloads = { recent = 30971, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/strobe-darwin-arm64"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/strobe"
+latest = "0.44.0"
+last_published = "2026-11-14"
+versions = 47
+downloads = { recent = 25357, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/strobe-linux-arm64"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/strobe"
+latest = "0.44.0"
+last_published = "2026-11-14"
+versions = 47
+downloads = { recent = 24271, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@textjs/app"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/textjs"
+latest = "1.6.1"
+last_published = "2026-11-06"
+versions = 12
+downloads = { recent = 23847, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/strobe-darwin-x64"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/strobe"
+latest = "0.44.0"
+last_published = "2026-11-14"
+versions = 47
+downloads = { recent = 22487, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty-linux-arm64-musl"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 10
+downloads = { recent = 21443, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/core"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved.0"
+last_published = "2026-09-07"
+versions = 803
+downloads = { recent = 17870, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-beta-17823"
+last_published = "2026-09-07"
+versions = 3962
+downloads = { recent = 17020, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/util"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-bootstrap.0"
+last_published = "2026-09-07"
+versions = 1291
+downloads = { recent = 16759, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-linux-x64"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3989
+downloads = { recent = 16193, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/qrcode"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentui"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 110
+downloads = { recent = 16155, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/motel"
+status = "ok"
+found_by = "scope"
+latest = "0.2.8"
+last_published = "2026-09-02"
+versions = 11
+downloads = { recent = 14314, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/simulation"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved"
+last_published = "2026-09-07"
+versions = 677
+downloads = { recent = 11475, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/server"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved.0"
+last_published = "2026-09-07"
+versions = 676
+downloads = { recent = 11431, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-linux-x64-baseline-musl"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3988
+downloads = { recent = 11374, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-linux-x64-musl"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3987
+downloads = { recent = 11177, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty-win32-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 3
+downloads = { recent = 9321, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/strobe-bench"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/strobe"
+latest = "0.44.0"
+last_published = "2026-11-14"
+versions = 49
+downloads = { recent = 8774, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/strobe-win32-arm64"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/strobe"
+latest = "0.44.0"
+last_published = "2026-11-14"
+versions = 25
+downloads = { recent = 8306, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/ssh"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentui"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 91
+downloads = { recent = 6947, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/justice"
+status = "ok"
+found_by = "scope"
+latest = "0.4.0"
+last_published = "2026-10-24"
+versions = 5
+downloads = { recent = 6477, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/three"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentui"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 155
+downloads = { recent = 5503, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-windows-x64-baseline"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3991
+downloads = { recent = 4467, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/theme"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0"
+last_published = "2026-09-07"
+versions = 1146
+downloads = { recent = 3760, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "opentunnel"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/opentunnel"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 30
+downloads = { recent = 2843, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "create-text-app"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/textjs"
+latest = "1.6.1"
+last_published = "2026-11-06"
+versions = 14
+downloads = { recent = 2625, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/terminal-control-linux-arm64-gnu"
+status = "ok"
+found_by = "scope"
+latest = "1.2.1"
+last_published = "2026-09-04"
+versions = 11
+downloads = { recent = 2594, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "eslint-plugin-textjs"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/textjs"
+latest = "1.6.1"
+last_published = "2026-11-06"
+versions = 14
+downloads = { recent = 2557, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@textjs/font"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/textjs"
+latest = "1.6.1"
+last_published = "2026-11-06"
+versions = 14
+downloads = { recent = 2535, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-linux-arm64"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3995
+downloads = { recent = 1920, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentunnel/cli-linux-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 21
+downloads = { recent = 1756, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/ghui"
+status = "ok"
+found_by = "scope"
+latest = "0.9.1"
+last_published = "2026-09-02"
+versions = 42
+downloads = { recent = 1727, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-linux-arm64-musl"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3990
+downloads = { recent = 1726, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/browser-control"
+status = "ok"
+found_by = "scope"
+latest = "0.8.4"
+last_published = "2026-10-06"
+versions = 19
+downloads = { recent = 1462, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/ghui-linux-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.1"
+last_published = "2026-09-02"
+versions = 16
+downloads = { recent = 1454, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3996
+downloads = { recent = 1441, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-windows-arm64"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3992
+downloads = { recent = 1274, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/terminal-control-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "1.2.1"
+last_published = "2026-09-04"
+versions = 11
+downloads = { recent = 1221, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentunnel/cli-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 21
+downloads = { recent = 1067, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentunnel/cli-linux-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 21
+downloads = { recent = 1046, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/rune"
+status = "ok"
+found_by = "scope"
+latest = "0.1.0"
+last_published = "2026-05-29"
+versions = 1
+downloads = { recent = 1014, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentunnel/cli-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.6.2"
+last_published = "2026-11-04"
+versions = 21
+downloads = { recent = 998, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/merman"
+status = "ok"
+found_by = "scope"
+latest = "0.2.1"
+last_published = "2026-06-04"
+versions = 5
+downloads = { recent = 322, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/opencode-crt"
+status = "ok"
+found_by = "scope"
+latest = "0.1.0"
+last_published = "2026-10-27"
+versions = 2
+downloads = { recent = 298, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/ghui-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.1"
+last_published = "2026-09-02"
+versions = 16
+downloads = { recent = 245, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@nightmail/cli"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0"
+last_published = "2026-11-13"
+versions = 2
+downloads = { recent = 203, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@nightmail/sdk"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/nightmail"
+latest = "0.0.0"
+last_published = "2026-11-13"
+versions = 2
+downloads = { recent = 185, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/ghui-linux-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.1"
+last_published = "2026-09-02"
+versions = 16
+downloads = { recent = 156, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-node-linux-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0"
+last_published = "2026-09-07"
+versions = 1208
+downloads = { recent = 154, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-node-windows-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0"
+last_published = "2026-09-07"
+versions = 1209
+downloads = { recent = 144, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-node-windows-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0"
+last_published = "2026-09-07"
+versions = 1207
+downloads = { recent = 141, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/openeval"
+status = "ok"
+found_by = "scope"
+latest = "0.5.13"
+last_published = "2026-10-05"
+versions = 22
+downloads = { recent = 126, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-node-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0"
+last_published = "2026-09-07"
+versions = 1209
+downloads = { recent = 124, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/opencode-session-recap"
+status = "ok"
+found_by = "scope"
+latest = "0.1.2"
+last_published = "2026-08-12"
+versions = 3
+downloads = { recent = 120, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/opencode-pr-tracker"
+status = "ok"
+found_by = "scope"
+latest = "0.1.1"
+last_published = "2026-08-12"
+versions = 2
+downloads = { recent = 92, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/terminal-control-opentui"
+status = "ok"
+found_by = "scope"
+latest = "1.2.1"
+last_published = "2026-09-04"
+versions = 6
+downloads = { recent = 85, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/skulk"
+status = "ok"
+found_by = "scope"
+latest = "0.1.0"
+last_published = "2026-10-13"
+versions = 2
+downloads = { recent = 79, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/tailcode"
+status = "ok"
+found_by = "scope"
+latest = "0.2.8"
+last_published = "2026-02-24"
+versions = 11
+downloads = { recent = 69, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/animated-code"
+status = "ok"
+found_by = "scope"
+latest = "0.2.0"
+last_published = "2026-09-21"
+versions = 2
+downloads = { recent = 66, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/ralph-cli"
+status = "ok"
+found_by = "scope"
+latest = "0.1.3"
+last_published = "2026-01-06"
+versions = 4
+downloads = { recent = 39, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/behold"
+status = "ok"
+found_by = "scope"
+latest = "0.1.1"
+last_published = "2026-07-05"
+versions = 2
+downloads = { recent = 32, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentunnel/cli"
+status = "ok"
+found_by = "scope"
+latest = "0.0.3"
+last_published = "2026-08-11"
+versions = 3
+downloads = { recent = 32, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/nback"
+status = "ok"
+found_by = "scope"
+latest = "0.1.0"
+last_published = "2026-07-28"
+versions = 1
+downloads = { recent = 28, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/lgtm"
+status = "ok"
+found_by = "scope"
+latest = "0.3.0"
+last_published = "2026-03-13"
+versions = 7
+downloads = { recent = 27, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/ralph-cli-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.1.3"
+last_published = "2026-01-06"
+versions = 4
+downloads = { recent = 22, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/ralph-cli-windows-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.1.3"
+last_published = "2026-01-06"
+versions = 4
+downloads = { recent = 20, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/ralph-cli-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.1.3"
+last_published = "2026-01-06"
+versions = 4
+downloads = { recent = 19, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/ralph-cli-linux-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.1.3"
+last_published = "2026-01-06"
+versions = 4
+downloads = { recent = 19, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/ralph-cli-linux-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.1.3"
+last_published = "2026-01-06"
+versions = 4
+downloads = { recent = 19, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/sqli"
+status = "ok"
+found_by = "scope"
+latest = "0.0.1"
+last_published = "2026-05-28"
+versions = 1
+downloads = { recent = 12, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/extras"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-20260419-49f00f96"
+last_published = "2026-04-19"
+versions = 1
+downloads = { recent = 12, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/liveline-solid"
+status = "ok"
+found_by = "scope"
+latest = "0.0.6"
+last_published = "2026-03-02"
+versions = 1
+downloads = { recent = 10, window = "30d" }
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/ocdx"
+status = "ok"
+found_by = "scope"
+latest = "0.1.0"
+last_published = "2026-07-15"
+versions = 1
+
+[[package]]
+ecosystem = "npm"
+name = "@hona/strobe"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/strobe"
+latest = "0.44.0"
+last_published = "2026-11-14"
+versions = 48
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/docket"
+status = "ok"
+found_by = "scope"
+latest = "0.2.0"
+last_published = "2026-10-05"
+versions = 3
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/ghui-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.1"
+last_published = "2026-09-02"
+versions = 16
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/stack"
+status = "ok"
+found_by = "scope"
+latest = "0.4.6"
+last_published = "2026-08-28"
+versions = 17
+
+[[package]]
+ecosystem = "npm"
+name = "@kitlangton/terminal-control-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "1.2.1"
+last_published = "2026-09-04"
+versions = 11
+
+[[package]]
+ecosystem = "npm"
+name = "@models.dev/web"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/models.dev"
+versions = 0
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3997
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-darwin-x64-baseline"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3926
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-linux-x64-baseline"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3991
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-node-linux-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0"
+last_published = "2026-09-07"
+versions = 1209
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/cli-windows-x64"
+status = "ok"
+found_by = "scope"
+latest = "1.18.18"
+last_published = "2026-09-07"
+versions = 3987
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/protocol"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved.0"
+last_published = "2026-09-07"
+versions = 1787
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 10
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/pty-linux-x64-musl"
+status = "ok"
+found_by = "scope"
+latest = "0.3.1"
+last_published = "2026-10-16"
+versions = 10
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode-ai/sdk"
+status = "ok"
+found_by = "scope"
+latest = "1.19.5"
+last_published = "2026-11-09"
+versions = 11818
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/app"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+versions = 0
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1703
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1702
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-linux-arm64"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1691
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-linux-arm64-musl"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1690
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-linux-x64"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1689
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-linux-x64-baseline"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1688
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-linux-x64-baseline-musl"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1687
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-linux-x64-musl"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1687
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-node"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved"
+last_published = "2026-11-16"
+versions = 1608
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-node-darwin-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved"
+last_published = "2026-11-16"
+versions = 1614
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-node-linux-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved"
+last_published = "2026-11-16"
+versions = 1614
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-node-linux-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved"
+last_published = "2026-11-16"
+versions = 1614
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-node-windows-arm64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved"
+last_published = "2026-11-16"
+versions = 1613
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-node-windows-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.0.0-reserved"
+last_published = "2026-11-16"
+versions = 1613
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-windows-x64"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1689
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/cli-windows-x64-baseline"
+status = "ok"
+found_by = "scope"
+latest = "2.3.0"
+last_published = "2026-11-16"
+versions = 1688
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/console"
+status = "ok"
+found_by = "scope"
+latest = "0.1.12"
+last_published = "2026-11-16"
+versions = 14
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/http-recorder"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+versions = 0
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/plugin-figma"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+versions = 0
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty-linux-arm64-gnu"
+status = "ok"
+found_by = "scope"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/pty-linux-arm64-musl"
+status = "ok"
+found_by = "scope"
+latest = "0.6.0"
+last_published = "2026-11-16"
+versions = 7
+
+[[package]]
+ecosystem = "npm"
+name = "@opencode/script"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+versions = 0
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core-darwin-x64"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 363
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/core-linux-arm64-musl"
+status = "ok"
+found_by = "scope"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 105
+
+[[package]]
+ecosystem = "npm"
+name = "@opentui/vue"
+status = "ok"
+found_by = "scope"
+latest = "0.1.25"
+last_published = "2025-09-30"
+versions = 36
+
+[[package]]
+ecosystem = "npm"
+name = "@textjs/opencode"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/textjs"
+latest = "1.6.1"
+last_published = "2026-11-06"
+versions = 12
+
+[[package]]
+ecosystem = "npm"
+name = "@textjs/react"
+status = "ok"
+found_by = "manifest"
+repo = "anomalyco/textjs"
+latest = "1.6.1"
+last_published = "2026-11-06"
+versions = 14
+
+[[package]]
+ecosystem = "npm"
+name = "opencode"
+status = "missing"
+found_by = "manifest"
+repo = "anomalyco/opencode"
+versions = 0
+
+[[package]]
+ecosystem = "zig"
+name = "opentui"
+status = "git"
+found_by = "manifest"
+repo = "anomalyco/opentui"
+latest = "0.9.2"
+last_published = "2026-11-16"
+versions = 152
+
+[[package]]
+ecosystem = "zig"
+name = "opentui_hello"
+status = "git"
+found_by = "manifest"
+repo = "anomalyco/opentui"
+latest = "0.0.0"
+last_published = "2026-11-16"
+versions = 152
+
+# --- hand-written below: kept by `export` ---
+[run]
+host = "fr2 (ay.toml [hosts].test): sqlite on local disk, git mirrors on /srv/xbuild/shared"
+scope = "full sync of the 12 most recently pushed non-fork repos; metadata and language tags for all 86"
+not_returned_by_the_api = "opencode: 3 issues and 19 pull requests that GitHub counts but its list query does not return (skipped, not retried forever)"
+
+[[site]]
+url = "https://opencode.ai/"
+sitemap_pages = 2101
+mirrored = 2101
+mirror = "C:/data/recon/anomalyco/anomalyco/mirror"
+sections = { "/data" = 1617, "/changelog" = 204, "/docs" = 69, "/console" = 27 }
+
+[[site]]
+url = "https://sst.dev/"
+sitemap_pages = 336
+mirror = "C:/data/recon/anomalyco/anomalyco-sites/mirror/sst.dev"
+sections = { "/docs" = 292, "/blog" = 40 }
+
+[[site]]
+url = "https://openauth.js.org/"
+sitemap_pages = 32
+mirror = "C:/data/recon/anomalyco/anomalyco-sites/mirror/openauth.js.org"
+
+[[site]]
+url = "https://models.dev/"
+sitemap_pages = 0
+note = "no sitemap pages; the data behind it is the models.dev repo, replicated here"
+
+[[api]]
+name = "opencode server OpenAPI"
+spec_path_in_repo = "packages/protocol/openapi.json"
+served_at = "/openapi.json of `opencode serve` (packages/server/src/routes.ts, HttpApiBuilder openapiPath)"
+openapi = "3.1.0"
+title = "opencode HttpApi 0.0.1"
+paths = 139
+read_from = "anomalyco/opencode default branch dev, git mirror on fr2"
+
+[[api]]
+name = "GitHub GraphQL and REST"
+used_for = "repos, pull requests, issues, comments, reviews, labels, milestones, timeline, releases"
+[[api]]
+name = "npm registry and downloads API"
+used_for = "packuments (versions, publish dates), last-month downloads, @scope search"
+[[api]]
+name = "crates.io API"
+used_for = "crate and version metadata, total and 90 day downloads; User-Agent names the project, no email"
+[[api]]
+name = "PyPI JSON API and pypistats"
+used_for = "none of the 12 deep-synced repos publishes to PyPI; the client is tested on fixtures"

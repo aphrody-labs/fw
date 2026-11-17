@@ -1,0 +1,265 @@
+{
+ "data": {
+  "repositoryOwner": {
+   "repositories": {
+    "pageInfo": {
+     "hasNextPage": false,
+     "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0xMS0xNFQwMzo0NjozNVrOVZ7bPg=="
+    },
+    "nodes": [
+     {
+      "id": "R_kgDOOiiGLw",
+      "name": "opencode",
+      "nameWithOwner": "anomalyco/opencode",
+      "description": "The open source coding agent.",
+      "homepageUrl": "https://opencode.ai",
+      "url": "https://github.com/anomalyco/opencode",
+      "isFork": false,
+      "isArchived": false,
+      "isPrivate": false,
+      "isTemplate": false,
+      "stargazerCount": 227302,
+      "forkCount": 30797,
+      "diskUsage": 734589,
+      "createdAt": "2025-04-30T20:08:00Z",
+      "updatedAt": "2026-11-16T22:06:17Z",
+      "pushedAt": "2026-11-16T22:09:56Z",
+      "defaultBranchRef": {
+       "name": "dev"
+      },
+      "licenseInfo": {
+       "spdxId": "MIT",
+       "name": "MIT License"
+      },
+      "primaryLanguage": {
+       "name": "TypeScript"
+      },
+      "watchers": {
+       "totalCount": 873
+      },
+      "openIssues": {
+       "totalCount": 2673
+      },
+      "openPrs": {
+       "totalCount": 1382
+      },
+      "allIssues": {
+       "totalCount": 34132
+      },
+      "allPrs": {
+       "totalCount": 29314
+      },
+      "releases": {
+       "totalCount": 897
+      },
+      "labels": {
+       "totalCount": 77
+      },
+      "milestones": {
+       "totalCount": 0
+      },
+      "languages": {
+       "totalSize": 68319925,
+       "edges": [
+        {
+         "size": 58040118,
+         "node": {
+          "name": "TypeScript"
+         }
+        },
+        {
+         "size": 7459149,
+         "node": {
+          "name": "MDX"
+         }
+        },
+        {
+         "size": 2075970,
+         "node": {
+          "name": "CSS"
+         }
+        }
+       ]
+      },
+      "repositoryTopics": {
+       "nodes": []
+      }
+     },
+     {
+      "id": "R_kgDOTcCg9w",
+      "name": "hex",
+      "nameWithOwner": "anomalyco/hex",
+      "description": "Local voice dictation for mac, windows and linux",
+      "homepageUrl": "https://anoma.ly/hex",
+      "url": "https://github.com/anomalyco/hex",
+      "isFork": false,
+      "isArchived": false,
+      "isPrivate": false,
+      "isTemplate": false,
+      "stargazerCount": 7124,
+      "forkCount": 459,
+      "diskUsage": 470862,
+      "createdAt": "2026-07-17T23:48:56Z",
+      "updatedAt": "2026-11-16T22:10:52Z",
+      "pushedAt": "2026-11-16T22:06:21Z",
+      "defaultBranchRef": {
+       "name": "dev"
+      },
+      "licenseInfo": {
+       "spdxId": "MIT",
+       "name": "MIT License"
+      },
+      "primaryLanguage": {
+       "name": "Rust"
+      },
+      "watchers": {
+       "totalCount": 11
+      },
+      "openIssues": {
+       "totalCount": 181
+      },
+      "openPrs": {
+       "totalCount": 42
+      },
+      "allIssues": {
+       "totalCount": 724
+      },
+      "allPrs": {
+       "totalCount": 1196
+      },
+      "releases": {
+       "totalCount": 25
+      },
+      "labels": {
+       "totalCount": 12
+      },
+      "milestones": {
+       "totalCount": 0
+      },
+      "languages": {
+       "totalSize": 17152240,
+       "edges": [
+        {
+         "size": 15167312,
+         "node": {
+          "name": "Rust"
+         }
+        },
+        {
+         "size": 665320,
+         "node": {
+          "name": "Swift"
+         }
+        },
+        {
+         "size": 410864,
+         "node": {
+          "name": "JavaScript"
+         }
+        }
+       ]
+      },
+      "repositoryTopics": {
+       "nodes": [
+        {
+         "topic": {
+          "name": "dictation"
+         }
+        },
+        {
+         "topic": {
+          "name": "linux"
+         }
+        },
+        {
+         "topic": {
+          "name": "local-first"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "id": "R_kgDOVorAcg",
+      "name": "nightmail",
+      "nameWithOwner": "anomalyco/nightmail",
+      "description": "Bane: transactional and marketing email on Amazon SES",
+      "homepageUrl": null,
+      "url": "https://github.com/anomalyco/nightmail",
+      "isFork": false,
+      "isArchived": false,
+      "isPrivate": false,
+      "isTemplate": false,
+      "stargazerCount": 20,
+      "forkCount": 4,
+      "diskUsage": 99566,
+      "createdAt": "2026-11-09T22:09:40Z",
+      "updatedAt": "2026-11-16T17:23:22Z",
+      "pushedAt": "2026-11-16T21:56:03Z",
+      "defaultBranchRef": {
+       "name": "dev"
+      },
+      "licenseInfo": null,
+      "primaryLanguage": {
+       "name": "TypeScript"
+      },
+      "watchers": {
+       "totalCount": 0
+      },
+      "openIssues": {
+       "totalCount": 24
+      },
+      "openPrs": {
+       "totalCount": 2
+      },
+      "allIssues": {
+       "totalCount": 40
+      },
+      "allPrs": {
+       "totalCount": 297
+      },
+      "releases": {
+       "totalCount": 1
+      },
+      "labels": {
+       "totalCount": 15
+      },
+      "milestones": {
+       "totalCount": 0
+      },
+      "languages": {
+       "totalSize": 12550466,
+       "edges": [
+        {
+         "size": 10010744,
+         "node": {
+          "name": "TypeScript"
+         }
+        },
+        {
+         "size": 1069033,
+         "node": {
+          "name": "Rust"
+         }
+        },
+        {
+         "size": 727360,
+         "node": {
+          "name": "PLpgSQL"
+         }
+        }
+       ]
+      },
+      "repositoryTopics": {
+       "nodes": []
+      }
+     }
+    ]
+   }
+  },
+  "rateLimit": {
+   "cost": 1,
+   "remaining": 4791
+  }
+ }
+}

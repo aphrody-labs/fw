@@ -14,6 +14,7 @@ Every dataset below was read live on 2026-11-16 and carries a per-row source URL
 | `ui-frameworks.toml` / `.md` | 19 `[[framework]]` | iced, egui, GTK, Qt, GPUI, libcosmic, Slint, Tauri, Rune, NSH, Flutter, Compose, React Native, Expo, Dioxus, Leptos, Svelte, Next.js, Bun fullstack |
 | `chromium-stack.toml` / `.md` | 14 `[[component]]`, 3 `[[option]]` | Chromium, CEF, cef-rs, Chrome for Testing, V8, Skia, Dawn and the browser build options (ADR-3) |
 | `stitch.toml` | 1 `[stitch]`, 13 `[[feature]]` | Google Stitch: launch, model, SDK, skills and DESIGN.md |
+| `anomalyco.toml` / `.md` | 86 `[[repo]]`, 226 `[[package]]`, 4 `[[site]]`, 5 `[[api]]` | The anomalyco (ex sst) org replica summary: opencode and 12 repos replicated in full (37,274 issues, 46,315 pull requests, 66,745 commits, 1,100 releases) against GitHub's totals, languages, ecosystem tags, npm and crates.io packages, opencode.ai and sst.dev mirrors, opencode's OpenAPI spec |
 
 Related inputs: `../features.toml` (scope of every product, 242 rows after this pass), `../spec.md`, `../adr/0001` to `0006`, `../../brand/tokens/m3-tokens.json` and `m3-tokens.css` (Material 3 tokens), `../../brand/assets/` (icons, logo, manifest), `../../brand/character/`.
 

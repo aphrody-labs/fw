@@ -1,0 +1,34 @@
+{
+ "info": {
+  "name": "tomli",
+  "summary": "A lil' TOML parser",
+  "version": "2.5.0",
+  "home_page": null,
+  "license": null,
+  "license_expression": "MIT",
+  "project_urls": {
+   "Changelog": "https://github.com/hukkin/tomli/blob/master/CHANGELOG.md",
+   "Homepage": "https://github.com/hukkin/tomli"
+  }
+ },
+ "releases": {
+  "2.4.0": [
+   {
+    "upload_time_iso_8601": "2026-01-11T11:21:45.270444Z",
+    "yanked": false
+   }
+  ],
+  "2.4.1": [
+   {
+    "upload_time_iso_8601": "2026-03-25T20:21:10.473841Z",
+    "yanked": false
+   }
+  ],
+  "2.5.0": [
+   {
+    "upload_time_iso_8601": "2026-10-07T12:22:15.601508Z",
+    "yanked": false
+   }
+  ]
+ }
+}

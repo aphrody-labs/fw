@@ -2110,7 +2110,9 @@ id = "org-mirror"
 title = "GitHub org replica in bun:sqlite, incremental and resumable: repos, git mirrors and commits, pull requests and issues with comments, reviews and timeline, releases, changelogs, and the npm, crates.io, PyPI and Zig packages published from the repos"
 reference = "https://github.com/anomalyco"
 layer = "backend"
-status = "todo"
+status = "done"
+proof = "docs/research/anomalyco.toml"
+proof_kind = "log"
 
 [[feature]]
 product = "craft"
@@ -2118,7 +2120,9 @@ id = "org-mirror-browse"
 title = "Read API and pages over an org replica: repos, commits, pull requests, issues, releases, changelogs and packages, in the brand Material 3 tokens"
 reference = "https://github.com/anomalyco/opencode"
 layer = "ui"
-status = "todo"
+status = "done"
+proof = "packages/org-mirror/test/server.test.ts::HTML shows totals, ecosystem chips and repos by last push"
+proof_kind = "test"
 
 [[feature]]
 product = "craft"
