@@ -143,6 +143,13 @@ name = "agent-browser"
 url = "https://github.com/aphrody-labs/agent-browser"   # fork of vercel-labs/agent-browser
 branch = "main"
 manifest = "cli/Cargo.toml"
+# Local modifications beyond the Cargo layout, listed in README.chromium.
+local = [
+  "JavaScript and TypeScript tooling converted to native Bun (docs/, examples/, packages/, benchmarks/, evals/, scripts/, bin/, test/): pnpm, Node, tsx, tsc-ts, esbuild, oxlint and the pnpm lockfiles and workspace files removed, bun.lock files and package.json workspaces in their place",
+  "scripts/*.js and bin/agent-browser.js are TypeScript on Bun APIs (Bun.file, Bun.spawn with windowsHide, Bun.env); tests are bun:test",
+  "@agent-browser/sandbox emits dist with bun build --no-bundle --dts (no declaration maps); docs/tests and scripts run on Bun (esbuild CJS evaluation replaced by Bun.plugin virtual modules)",
+  "Next.js applications keep their Node-runtime source (process.env, node:fs in server code deployed on Vercel) and run on the Bun runtime in development (bun --bun next)",
+]
 
 [[upstream]]
 name = "lol-html"

@@ -9,7 +9,7 @@ const repo = Bun.argv[2] ?? ".";
 const at = (path: string) => join(repo, path);
 const layout = Bun.TOML.parse(await Bun.file(at("tools/layout.toml")).text()) as { third_party: { dir: string } };
 const spec = Bun.TOML.parse(await Bun.file(at("tools/upstreams.toml")).text()) as {
-  upstream: { name: string; url: string; branch: string; mode?: string; drop?: string[] }[];
+  upstream: { name: string; url: string; branch: string; mode?: string; drop?: string[]; local?: string[] }[];
 };
 const lock = (await Bun.file(at("tools/upstreams.lock.json")).json()) as Record<
   string,
@@ -76,6 +76,7 @@ for (const u of spec.upstream) {
     `tools/flatten.py (path dependencies, inlined workspace inheritance, one version per crate) and patched by`,
     `tools/fixups.sh and tools/patches/. Everything else of the upstream is in ${base}/ unchanged.${u.drop?.length ? ` Not imported: ${u.drop.join(", ")}.` : ""}`,
     ``,
+    ...(u.local ?? []).map((line) => `- ${line}`),
     `Crates:`,
     ...found.map((c) => `  ${c.name} ${c.version ?? ""} ${c.path}${c.shipped ? "" : " (not in the workspace)"}`),
     ``,

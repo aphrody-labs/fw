@@ -10,7 +10,7 @@ this one is a Rust workspace around imported engines, so what has no counterpart
 |---|---|---|
 | `base/` | `third_party/bun/src/bun_core`, ... | the foundation library of the runtime is Bun's, in its submodule |
 | `build/`, `buildtools/`, `build_overrides/` | `build/engines/` | the GN overlay (V8, Skia, Blink from the Chromium checkout); the toolchains are the Chromium checkout's own |
-| `components/` | `components/` | first-party crates (`browser-detect`, `browser-index`, `browser-process`, next: `cdp`, `v8-sys`, `skia-sys`) |
+| `components/` | `components/` | first-party crates (`browser-detect`, `browser-index`, `browser-process`, `browser-engine`; next: `cdp`, `v8-sys`, `skia-sys`) |
 | `docs/` | `docs/` | this file, the inventory, [../styleguide/bun](../styleguide/bun/README.md) is the style guide |
 | `styleguide/` | `styleguide/bun/` | JavaScript and TypeScript style with its proof; Rust follows `rustfmt` and the workspace lints |
 | `testing/` | `testing/` | the acceptance tool: engines x live corpus, benchmarks, dashboard |
