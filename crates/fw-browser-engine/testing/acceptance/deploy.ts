@@ -9,8 +9,14 @@ import { spawn, mkdirp } from "./sys.ts";
 
 export async function deploy(apply: boolean) {
   const { host, origin, port } = manifest.serve;
-  if (!host || !origin)
-    throw new Error("no published host: set [serve] host and origin in .local/config.toml (private)");
+  const { access_team, access_aud } = manifest.serve as typeof manifest.serve & {
+    access_team?: string;
+    access_aud?: string;
+  };
+  if (!host || !origin || !access_team || !access_aud)
+    throw new Error(
+      "not publishable: set [serve] host, origin, access_team and access_aud in .local/config.toml (private)",
+    );
   const zone = host.split(".").slice(-2).join(".");
   const dir = join(root, "out/acceptance/deploy");
   await mkdirp(dir);
@@ -20,7 +26,7 @@ export async function deploy(apply: boolean) {
     main: Bun.fileURLToPath(new URL("./worker.ts", import.meta.url)),
     compatibility_date: new Date().toISOString().slice(0, 10),
     routes: [{ pattern: `${host}/*`, zone_name: zone }],
-    vars: { ORIGIN: origin },
+    vars: { ORIGIN: origin, ACCESS_TEAM: access_team, ACCESS_AUD: access_aud },
     minify: true,
     observability: { enabled: true },
   };

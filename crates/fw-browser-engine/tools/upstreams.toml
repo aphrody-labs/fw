@@ -155,17 +155,20 @@ local = [
 name = "lol-html"
 url = "https://github.com/oven-sh/lol-html"   # cloudflare/lol-html plus content-handler suspension, Bun's vendor/lolhtml
 branch = "bun"
+shipped = false   # a dependency of the Bun submodule, no crate of ours uses it
 
 [[upstream]]
 name = "rust-argon2"
 url = "https://github.com/sru-systems/rust-argon2"   # Bun's vendor/rust-argon2 (3.0.0) + tools/patches/rust-argon2/*.patch
 branch = "master"
 rev = "ed81866f163f0c7026aa6fd8388adf37242eb32a"   # 3.0.0, the base of the two patches
+shipped = false   # a dependency of the Bun submodule, no crate of ours uses it
 
 [[upstream]]
 name = "hyperfine"
 url = "https://github.com/aphrody-labs/hyperfine"   # fork of sharkdp/hyperfine, benchmark runner (testing/acceptance.ts)
 branch = "master"
+shipped = false   # a test tool: built and run, never shipped
 
 [[upstream]]
 name = "JetStream"

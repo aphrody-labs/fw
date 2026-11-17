@@ -5,6 +5,7 @@
 import { join, resolve, sep } from "node:path";
 import { engines, launch, manifest, probe, report, root } from "../acceptance.ts";
 import { probeNet, type NetProbe } from "./net.ts";
+import { securityHeaders } from "./policy.ts";
 import type { Store } from "./store.ts";
 import { spawn } from "./sys.ts";
 
@@ -94,7 +95,20 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
   // (it carries the headers they add) is refused, since cloudflared reaches us over loopback too.
   const proxied = (req: Request) =>
     ["cf-ray", "cf-connecting-ip", "x-forwarded-for", "forwarded"].some((h) => req.headers.has(h));
+  // DNS rebinding: a page on another origin can make a browser send requests to a loopback server under its own name. Only the
+  // names this server is meant to answer to are answered.
+  const names = new Set([
+    "127.0.0.1",
+    "localhost",
+    "[::1]",
+    ...[manifest.serve.host, manifest.serve.origin].filter((n): n is string => !!n),
+  ]);
+  const hostOk = (req: Request) => {
+    const host = req.headers.get("host") ?? "";
+    return names.has(host.startsWith("[") ? host.slice(0, host.indexOf("]") + 1) : host.split(":")[0]);
+  };
   const allowed = (req: Request) => {
+    if (!hostOk(req)) return false;
     if (!secret) return !proxied(req);
     const given = new TextEncoder().encode(req.headers.get("x-acceptance-key") ?? "");
     return given.length === secret.length && crypto.timingSafeEqual(given, secret);
@@ -110,9 +124,14 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
       "/healthz": () => new Response("ok"),
       "/": (req) =>
         allowed(req)
-          ? new Response(page, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-cache" } })
+          ? new Response(page, {
+              headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-cache", ...securityHeaders },
+            })
           : new Response("forbidden", { status: 403 }),
-      "/api/state": (req) => (allowed(req) ? Response.json(state()) : new Response("forbidden", { status: 403 })),
+      "/api/state": (req) =>
+        allowed(req)
+          ? Response.json(state(), { headers: { ...securityHeaders, "cache-control": "no-store" } })
+          : new Response("forbidden", { status: 403 }),
       "/api/events": (req) => {
         if (!allowed(req)) return new Response("forbidden", { status: 403 });
         const url = new URL(req.url);
@@ -162,7 +181,11 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
         const png = Bun.file(path);
         return (await png.exists())
           ? new Response(png, {
-              headers: { "content-type": "image/png", "cache-control": "public, max-age=31536000, immutable" },
+              headers: {
+                "content-type": "image/png",
+                "cache-control": "private, max-age=3600, immutable",
+                ...securityHeaders,
+              },
             })
           : new Response("not found", { status: 404 });
       },

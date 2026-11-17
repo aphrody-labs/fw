@@ -9,7 +9,15 @@ const repo = Bun.argv[2] ?? ".";
 const at = (path: string) => join(repo, path);
 const layout = Bun.TOML.parse(await Bun.file(at("tools/layout.toml")).text()) as { third_party: { dir: string } };
 const spec = Bun.TOML.parse(await Bun.file(at("tools/upstreams.toml")).text()) as {
-  upstream: { name: string; url: string; branch: string; mode?: string; drop?: string[]; local?: string[] }[];
+  upstream: {
+    name: string;
+    url: string;
+    branch: string;
+    mode?: string;
+    drop?: string[];
+    local?: string[];
+    shipped?: boolean;
+  }[];
 };
 const lock = (await Bun.file(at("tools/upstreams.lock.json")).json()) as Record<
   string,
@@ -17,6 +25,49 @@ const lock = (await Bun.file(at("tools/upstreams.lock.json")).json()) as Record<
 >;
 const root = Bun.TOML.parse(await Bun.file(at("Cargo.toml")).text()) as { workspace: { members: string[] } };
 const members = new Set(root.workspace.members);
+
+/** Most permissive first: Chromium's rule is one licence per option ("choose the most permissive one, do not list all options"). */
+const permissive = [
+  "Unlicense",
+  "0BSD",
+  "CC0-1.0",
+  "MIT",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC",
+  "Zlib",
+  "Apache-2.0",
+  "MPL-2.0",
+];
+const rank = (l: string) => (permissive.includes(l) ? permissive.indexOf(l) : permissive.length);
+const android = new Set([
+  "Unlicense",
+  "0BSD",
+  "CC0-1.0",
+  "MIT",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC",
+  "Zlib",
+  "Apache-2.0",
+]);
+
+/** An SPDX expression as Chromium writes it: an OR becomes the most permissive of its options, an AND keeps every part. */
+export function chooseLicenses(expression: string): string[] {
+  return expression
+    .replaceAll("/", " OR ")
+    .replace(/[()]/g, "")
+    .split(/\s+AND\s+/)
+    .map(
+      (part) =>
+        part
+          .split(/\s+OR\s+/)
+          .map((l) => l.trim())
+          .filter(Boolean)
+          .sort((a, b) => rank(a) - rank(b))[0],
+    )
+    .filter(Boolean);
+}
 
 const dir = layout.third_party.dir;
 let written = 0;
@@ -50,28 +101,41 @@ for (const u of spec.upstream) {
     }),
   );
   const found = crates.filter((c): c is NonNullable<typeof c> => c !== null);
-  const licenses = [...new Set(found.flatMap((c) => (c.license ? [c.license] : [])))].sort();
+  const licenses = [...new Set(found.flatMap((c) => (c.license ? chooseLicenses(c.license) : [])))].sort(
+    (a, b) => rank(a) - rank(b) || a.localeCompare(b),
+  );
   const versions = found.flatMap((c) => (c.version ? [c.version] : []));
   const mostCommon = (xs: string[]) => [...Map.groupBy(xs, (x) => x)].sort((a, b) => b[1].length - a[1].length)[0]?.[0];
-  const files = (
-    await Array.fromAsync(new Bun.Glob("{LICEN[CS]E*,COPYING*,UNLICENSE*}").scan({ cwd: at(base), dot: false }))
-  ).sort();
+  // The licence files that exist, relative to this directory: its own, then those of its crates (one level down).
+  const names = "{LICEN[CS]E*,COPYING*,UNLICENSE*}";
+  const scanned = await Promise.all(
+    [names, `*/${names}`].map((pattern) => Array.fromAsync(new Bun.Glob(pattern).scan({ cwd: at(base), dot: false }))),
+  );
+  const files = scanned
+    .flat()
+    .map((p) => p.replaceAll("\\", "/"))
+    .sort((x, y) => x.split("/").length - y.split("/").length || x.localeCompare(y))
+    .slice(0, 8);
+  const shipped = (u.shipped ?? true) && found.some((c) => c.shipped);
   const lines = [
     `Name: ${u.name}`,
     `Short Name: ${u.name}`,
     `URL: ${entry.url}`,
     `Version: ${mostCommon(versions) ?? "N/A"}`,
     `Revision: ${entry.sha}`,
-    `Update Mechanism: Manual (tools/import.py ${u.name}, history replayed linearly)`,
+    `Update Mechanism: Manual`,
     `License: ${licenses.join(", ") || "Unknown"}`,
-    `License File: ${files.length ? files.join(", ") : "N/A (see the crate manifests)"}`,
-    `Security Critical: ${found.some((c) => c.shipped) ? "yes" : "no"}`,
-    `Shipped: ${found.some((c) => c.shipped) ? "yes" : "no"}`,
+    `License File: ${files.length ? files.join(", ") : "N/A"}`,
+    `License Android Compatible: ${licenses.length && licenses.every((l) => android.has(l)) ? "yes" : "no"}`,
+    `Security Critical: ${shipped ? "yes" : "no"}`,
+    `Shipped: ${shipped ? "yes" : "no"}`,
+    `CPEPrefix: unknown`,
     ``,
     `Description:`,
     found.find((c) => c.description)?.description ?? `Upstream ${u.name}.`,
     ``,
     `Local Modifications:`,
+    `Updated with tools/import.py ${u.name} (history replayed linearly); how far behind it is: \`bun testing/acceptance.ts track\`.`,
     `The crates (${found.length}) live in ${base}/<crate>, one directory per package; their manifests are rewritten by`,
     `tools/flatten.py (path dependencies, inlined workspace inheritance, one version per crate) and patched by`,
     `tools/fixups.sh and tools/patches/. Everything else of the upstream is in ${base}/ unchanged.${u.drop?.length ? ` Not imported: ${u.drop.join(", ")}.` : ""}`,
