@@ -26,6 +26,8 @@ test("paths, mapping over arrays and every operator", () => {
   expect(judge("gte", 5, 5)).toBe(true);
   expect(judge("lte", 6, 5)).toBe(false);
   expect(judge("exists", [], undefined)).toBe(false);
+  expect(judge("absent", undefined, undefined)).toBe(true);
+  expect(judge("absent", "x", undefined)).toBe(false);
 });
 
 test("a probe is proved, failed (the claim is false) or error (the source is unreadable)", async () => {
@@ -50,7 +52,7 @@ test("the repository's claims are well formed, unique and use known probes", asy
   for (const c of claims) {
     expect(["json", "gh", "regex", "status", "git-refs"], c.id).toContain(c.probe);
     expect(c.url, c.id).toBeTruthy();
-    if (c.op !== "exists") expect(c.value, c.id).not.toBeUndefined();
+    if (c.op !== "exists" && c.op !== "absent") expect(c.value, c.id).not.toBeUndefined();
     if (c.probe === "regex") expect(c.pattern, c.id).toBeTruthy();
   }
 });

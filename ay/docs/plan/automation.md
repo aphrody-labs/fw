@@ -18,4 +18,12 @@ Three loops, from cheap and certain to expensive and judged. Each writes only th
    `claims.toml` with a probe or is written as unverified, as the session review of 2026-11-17 did
    (`docs/research/session-review-2026-11-17.md`: 23 claims, 2 found false).
 
+## The dig rule
+Published version numbers are the least useful data. For every goal in `work.toml`, dig everything that can change the design before
+building: local data (the repositories and their history, the legacy archive, memory and past session transcripts, fleet hosts) and
+remote data (GitHub code, commits, issues and compare, kernel and AOSP git, mailing lists on lore.kernel.org, registries, vendor docs,
+prior art in repository search), then write the findings with their sources and dates under `docs/research/` and turn the
+design-deciding ones into claims. A goal's research note names what is still to dig. Example:
+`docs/research/linux-android-goal.md` found that mainline removed the C binder, which makes Rust mandatory for Android.
+
 Work enters the plan by editing `docs/plan/work.toml`; `bun run check` fails when `docs/plan.md` is not what the sources generate.

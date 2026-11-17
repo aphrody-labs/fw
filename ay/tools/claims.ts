@@ -19,7 +19,7 @@ export type Claim = {
   path?: string;
   pattern?: string;
   headers?: Record<string, string>;
-  op: "eq" | "matches" | "any-matches" | "none-matches" | "gte" | "lte" | "exists";
+  op: "eq" | "matches" | "any-matches" | "none-matches" | "gte" | "lte" | "exists" | "absent";
   value?: string | number | boolean;
 };
 export type Result = { id: string; text: string; status: "proved" | "failed" | "error"; observed: string; checked: string };
@@ -46,10 +46,20 @@ export function judge(op: Claim["op"], observed: unknown, value: Claim["value"])
     case "gte": return Number(observed) >= Number(value);
     case "lte": return Number(observed) <= Number(value);
     case "exists": return observed !== undefined && observed !== null && !(Array.isArray(observed) && observed.length === 0);
+    case "absent": return observed === undefined || observed === null || (Array.isArray(observed) && observed.length === 0);
   }
 }
 
 const timeout = () => AbortSignal.timeout(25_000);
+
+/** fetch that waits and retries on 429 and 503 (raw.githubusercontent.com and registries rate-limit bursts). */
+async function get(url: string, init: RequestInit): Promise<Response> {
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(url, { ...init, signal: timeout() });
+    if ((res.status !== 429 && res.status !== 503) || attempt >= 3) return res;
+    await Bun.sleep(1500 * (attempt + 1));
+  }
+}
 
 async function ghApi(path: string): Promise<unknown> {
   const token = Bun.env.GITHUB_TOKEN ?? Bun.env.GH_TOKEN;
@@ -66,17 +76,17 @@ async function ghApi(path: string): Promise<unknown> {
 export async function observe(c: Claim): Promise<unknown> {
   switch (c.probe) {
     case "json": {
-      const res = await fetch(c.url!, { headers: { "user-agent": "ay-claims", ...c.headers }, signal: timeout() });
+      const res = await get(c.url!, { headers: { "user-agent": "ay-claims", ...c.headers } });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return pick(await res.json(), c.path ?? "");
     }
     case "gh": return pick(await ghApi(c.url!), c.path ?? "");
     case "regex": {
-      const res = await fetch(c.url!, { headers: { "user-agent": "ay-claims" }, signal: timeout() });
+      const res = await get(c.url!, { headers: { "user-agent": "ay-claims" } });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return new RegExp(c.pattern!, "m").exec(await res.text())?.[1];
     }
-    case "status": return (await fetch(c.url!, { method: "HEAD", redirect: "follow", headers: { "user-agent": "ay-claims" }, signal: timeout() })).status;
+    case "status": return (await get(c.url!, { method: "HEAD", redirect: "follow", headers: { "user-agent": "ay-claims" } })).status;
     case "git-refs": {
       const proc = Bun.spawn(["git", "ls-remote", "--refs", c.url!], { stdout: "pipe", stderr: "ignore" });
       const [out, code] = await Promise.all([new Response(proc.stdout).text(), proc.exited]);

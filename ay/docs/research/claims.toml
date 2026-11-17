@@ -213,3 +213,47 @@ url = "repos/aphrody-labs/bun/actions/workflows/mirror-gate.yml/runs?branch=main
 path = "workflow_runs.0.conclusion"
 op = "eq"
 value = "success"
+
+# ---- Goal-critical kernel facts (dug 2026-11-17, docs/research/linux-android-goal.md) ----
+
+[[claim]]
+id = "mainline-no-c-binder"
+text = "Mainline Linux no longer has the C binder driver (drivers/android/binder.c is gone)"
+probe = "status"
+url = "https://raw.githubusercontent.com/torvalds/linux/master/drivers/android/binder.c"
+op = "eq"
+value = 404
+
+[[claim]]
+id = "mainline-rust-binder-needs-rust"
+text = "Mainline's only binder option, ANDROID_BINDER_IPC_RUST, depends on RUST"
+probe = "regex"
+url = "https://raw.githubusercontent.com/torvalds/linux/master/drivers/android/Kconfig"
+pattern = "config (ANDROID_BINDER_IPC_RUST)[\\s\\S]*?depends on (RUST)"
+op = "eq"
+value = "ANDROID_BINDER_IPC_RUST"
+
+[[claim]]
+id = "wsl-618-has-c-binder"
+text = "Microsoft's WSL2 6.18 kernel tree still carries the C binder driver"
+probe = "status"
+url = "https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.18.y/drivers/android/binder.c"
+op = "eq"
+value = 200
+
+[[claim]]
+id = "wsl-config-no-binder"
+text = "Microsoft's config-wsl enables no Android binder option"
+probe = "regex"
+url = "https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.18.y/Microsoft/config-wsl"
+pattern = "^(CONFIG_ANDROID_BINDER\\w*=\\w+)"
+op = "absent"
+
+[[claim]]
+id = "kernel-min-rust"
+text = "The kernel documents Rust 1.85.0 as its minimum rustc"
+probe = "regex"
+url = "https://raw.githubusercontent.com/torvalds/linux/master/Documentation/process/changes.rst"
+pattern = "Rust \\(optional\\)\\s+(\\S+)"
+op = "eq"
+value = "1.85.0"

@@ -61,8 +61,8 @@ id = "linux-android-wsl"
 title = "Linux 7.5 cycle kernel: WSL/WSLg, CachyOS, Arch, Android 17+, Waydroid, Rust mode"
 status = "running"
 owner = "agent arch-rc-wsl"
-claims = ["linux-mainline-rc", "linux-7-5-unreleased", "aosp-android-17", "aosp-no-android-18-manifest", "gki-android18-73", "redroid-no-android-17", "wsl-kernel-618"]
-next = "linux-next Kconfig scan, per-target config fragments, QEMU boot matrix, prd install plan (not executed)"
+claims = ["linux-mainline-rc", "linux-7-5-unreleased", "aosp-android-17", "aosp-no-android-18-manifest", "gki-android18-73", "redroid-no-android-17", "wsl-kernel-618", "mainline-no-c-binder", "mainline-rust-binder-needs-rust", "wsl-618-has-c-binder", "wsl-config-no-binder", "kernel-min-rust"]
+next = "Rust is mandatory for Android on the 7.4+ kernels (the C binder was removed upstream 2026-09-17): linux-next Kconfig scan with CONFIG_RUST=y, per-target fragments, QEMU boot matrix, prd install plan (not executed)"
 
 [[item]]
 id = "prd-update"

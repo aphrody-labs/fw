@@ -38,7 +38,7 @@
     "id": "gki-android18-73",
     "text": "The Android common kernel has the branch android18-7.3",
     "status": "proved",
-    "observed": "735047 item(s): refs/cache-automerge/00/004cbd91d8ff869e42fd2bf2d6ba925285684d, refs/cache-automerge/00/00a2e7fb39c68961",
+    "observed": "735067 item(s): refs/cache-automerge/00/004cbd91d8ff869e42fd2bf2d6ba925285684d, refs/cache-automerge/00/00a2e7fb39c68961",
     "checked": "2026-11-17"
   },
   {
@@ -122,14 +122,14 @@
     "id": "bun-fork-sync",
     "text": "The Bun fork is at most 100 commits behind oven-sh/bun",
     "status": "proved",
-    "observed": "4",
+    "observed": "6",
     "checked": "2026-11-17"
   },
   {
     "id": "ci-ay",
     "text": "The latest completed ay workflow run on main succeeded",
-    "status": "failed",
-    "observed": "failure",
+    "status": "proved",
+    "observed": "success",
     "checked": "2026-11-17"
   },
   {
@@ -165,6 +165,41 @@
     "text": "The Bun fork mirror-gate workflow succeeds on main",
     "status": "proved",
     "observed": "success",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "mainline-no-c-binder",
+    "text": "Mainline Linux no longer has the C binder driver (drivers/android/binder.c is gone)",
+    "status": "proved",
+    "observed": "404",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "mainline-rust-binder-needs-rust",
+    "text": "Mainline's only binder option, ANDROID_BINDER_IPC_RUST, depends on RUST",
+    "status": "proved",
+    "observed": "ANDROID_BINDER_IPC_RUST",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "wsl-618-has-c-binder",
+    "text": "Microsoft's WSL2 6.18 kernel tree still carries the C binder driver",
+    "status": "proved",
+    "observed": "200",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "wsl-config-no-binder",
+    "text": "Microsoft's config-wsl enables no Android binder option",
+    "status": "proved",
+    "observed": "undefined",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "kernel-min-rust",
+    "text": "The kernel documents Rust 1.85.0 as its minimum rustc",
+    "status": "proved",
+    "observed": "1.85.0",
     "checked": "2026-11-17"
   }
 ]
