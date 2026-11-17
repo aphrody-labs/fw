@@ -604,15 +604,15 @@ A module cannot do anything by itself: no memory outside its own, no clock, no f
 
 <!-- listing file:corelib/host/host.ts#22-31 -->
 ```ts
-export function instantiateCore(corelib: BufferSource, console_put: (byte: number) => void): CoreExports {
-  const instance = new WebAssembly.Instance(new WebAssembly.Module(corelib), { ay_host: { console_put } });
+export function instantiateCore(corelib: Uint8Array, console_put: (byte: number) => void): CoreExports {
+  const instance = new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array(corelib)), { ay_host: { console_put } });
   return instance.exports as unknown as CoreExports;
 }
 
 /** Instantiate an app module: its only way out of its sandbox is the corelib's syscall entry. */
-export function instantiateApp(app: BufferSource, corelib: CoreExports): AppExports & WebAssembly.Exports {
+export function instantiateApp(app: Uint8Array, corelib: CoreExports): AppExports & WebAssembly.Exports {
   const imports = { ay: { syscall: corelib.ay_syscall } };
-  return new WebAssembly.Instance(new WebAssembly.Module(app), imports).exports as unknown as AppExports;
+  return new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array(app)), imports).exports as unknown as AppExports;
 }
 ```
 <!-- /listing -->

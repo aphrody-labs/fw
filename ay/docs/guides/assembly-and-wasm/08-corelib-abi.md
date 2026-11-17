@@ -12,33 +12,33 @@
 
 <!-- listing file:corelib/include/ay_abi.h#15-41 -->
 ```c
-/* Syscall numbers. Capability handles are per-task indices; a task starts with its boot capabilities. */
-#define AY_SYS_VERSION     0  /* () -> abi version */
-#define AY_SYS_YIELD       1  /* () -> 0 */
-#define AY_SYS_LOG         2  /* (console cap, packed bytes, len 1..4) -> len; bytes little-endian */
-#define AY_SYS_MSG_SET     3  /* (register 0..3, value) -> 0 */
-#define AY_SYS_MSG_GET     4  /* (register 0..3) -> value */
-#define AY_SYS_SEND        5  /* (endpoint cap) -> 0; sends the four message registers */
-#define AY_SYS_RECV        6  /* (endpoint cap) -> 0; fills the four message registers */
-#define AY_SYS_CAP_DERIVE  7  /* (cap, rights mask) -> new handle with rights & mask; needs AY_RIGHT_DERIVE */
-#define AY_SYS_CAP_DROP    8  /* (cap) -> 0 */
-#define AY_SYS_FRAME_ALLOC 9  /* () -> frame number */
-#define AY_SYS_FRAME_FREE  10 /* (frame) -> 0; only the owner may free */
+#define AY_SYS_YIELD        1   /* () -> 0 */
+#define AY_SYS_LOG          2   /* (console cap, packed bytes, len 1..4) -> len; bytes little-endian */
+#define AY_SYS_MSG_SET      3   /* (register 0..3, value) -> 0 */
+#define AY_SYS_MSG_GET      4   /* (register 0..3) -> value */
+#define AY_SYS_SEND         5   /* (endpoint cap) -> 0; sends the four message registers */
+#define AY_SYS_RECV         6   /* (endpoint cap) -> 0; fills the four message registers */
+#define AY_SYS_CAP_DERIVE   7   /* (cap, rights mask) -> new handle with rights & mask; needs AY_RIGHT_DERIVE */
+#define AY_SYS_CAP_DROP     8   /* (cap) -> 0 */
+#define AY_SYS_FRAME_ALLOC  9   /* () -> frame number */
+#define AY_SYS_FRAME_FREE   10  /* (frame) -> 0; only the owner may free */
 
 /* Negative results. */
-#define AY_EPERM  (-1) /* capability lacks the right, or the object is not yours */
-#define AY_EBADCAP (-2) /* no such handle, or the wrong kind of object */
-#define AY_EINVAL (-3) /* argument out of range */
-#define AY_EAGAIN (-4) /* queue full or empty */
-#define AY_ENOMEM (-5) /* table or frame pool exhausted */
-#define AY_ENOSYS (-6) /* unknown syscall number */
+#define AY_EPERM    (-1)  /* capability lacks the right, or the object is not yours */
+#define AY_EBADCAP  (-2)  /* no such handle, or the wrong kind of object */
+#define AY_EINVAL   (-3)  /* argument out of range */
+#define AY_EAGAIN   (-4)  /* queue full or empty */
+#define AY_ENOMEM   (-5)  /* table or frame pool exhausted */
+#define AY_ENOSYS   (-6)  /* unknown syscall number */
 
 /* Capability rights. */
-#define AY_RIGHT_SEND   1u
-#define AY_RIGHT_RECV   2u
-#define AY_RIGHT_DERIVE 4u
+#define AY_RIGHT_SEND    1u
+#define AY_RIGHT_RECV    2u
+#define AY_RIGHT_DERIVE  4u
 
-#define AY_MSG_WORDS 4
+/* Sizes and version. */
+#define AY_ABI_VERSION  1
+#define AY_MSG_WORDS    4
 ```
 <!-- /listing -->
 
@@ -203,7 +203,7 @@ The host is the only code outside Wasm: instantiate the corelib module, give it 
 <!-- listing file:corelib/host/host.ts#33-48 -->
 ```ts
 /** Boot the corelib, run every app to completion under its scheduler and return the serial transcript. */
-export function run(coreWasm: BufferSource, appWasms: BufferSource[]): string {
+export function run(coreWasm: Uint8Array, appWasms: Uint8Array[]): string {
   const bytes: number[] = [];
   const corelib = instantiateCore(coreWasm, b => bytes.push(b));
   if (corelib.ay_boot() !== 0) throw new Error("corelib self-test failed");
