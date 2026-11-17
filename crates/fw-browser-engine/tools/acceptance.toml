@@ -1,0 +1,189 @@
+# Data of tools/acceptance.ts: what is loaded, in which engines, and how an outcome is named.
+# Nothing here is a result: versions, hosts, engines and the discovered half of the corpus are read live.
+
+# The record of everything: runs, pages, link index, benchmarks, upstream snapshots, events (bun:sqlite, WAL).
+# $ACCEPTANCE_DB overrides the path. The hot cache and the wake-up channel are Redis/Valkey at $REDIS_URL,
+# $VALKEY_URL or localhost:6379 when one answers; the tool works without.
+[store]
+db = "out/acceptance/acceptance.db"
+keep_runs = 12                     # screenshots of older runs are deleted, their rows stay
+
+[corpus]
+# Loaded exactly as written, query string included.
+seeds = [
+  "https://gemini.google.com/app",
+  "https://design.google/",
+  "https://www.google.com/?authuser=0",
+  "https://www.youtube.com/?authuser=0",
+  "https://photos.google.com/?authuser=0",
+  "https://abc.xyz/",
+]
+
+[corpus.discover]
+# Breadth-first link crawl at run time. From Alphabet's home page two hops reach about.google/products and,
+# through it, one page of every product host (Search, Workspace, Android, Cloud, DeepMind, Waze, ...).
+# The crawl is recursive to `depth`, its frontier is persisted: an interrupted index resumes where it stopped.
+roots = ["https://abc.xyz/"]
+depth = 2
+fetch_per_host = 8                 # index pages read per host
+fetch_max = 600                    # index pages read per crawl
+ttl_s = 21600                      # a finished index is reused this long; link lists stay in the hot cache as long,
+                                   # after that pages are revalidated with their ETag / Last-Modified
+agent = "browser-acceptance (+https://github.com/aphrody-labs/browser)"
+per_host = 1                       # pages kept per host, shallowest first; a seed counts
+drop_params = ["utm_*", "sjid"]    # tracking parameters removed from discovered links (glob on the name)
+
+[page]
+width = 1280
+height = 800
+timeout_ms = 30000   # navigation to the load event
+settle_ms = 4000     # ceiling of the wait for the network to go quiet after load
+quiet_ms = 500       # no request started or finished for this long = quiet
+
+# Where a navigation can end without the engine being at fault (regular expressions on the final URL).
+[walls]
+auth = ['^https://accounts\.(google|youtube)\.com/']
+consent = ['^https://consent\.(google|youtube)\.com/']
+refused = ['^https://[^/]+/sorry/']
+
+# How a page shows the account state (CSS selectors).
+[session]
+signed_in = 'a[href*="accounts.google.com/SignOutOptions"]'
+signed_out = 'a[href*="accounts.google.com/ServiceLogin"], a[href*="accounts.google.com/signin"], a[href*="accounts.google.com/v3/signin"]'
+
+# The lite engine is enough for a page when it lands where the full engine lands with at least this share of its DOM.
+[parity]
+elements = 0.5
+text = 0.5
+
+# Engines. `bins` are executable names, searched in: our build outputs (GN out directory of build/engines/build.sh,
+# cargo target/release), the directories of $BROWSER_ENGINES (default out/engines, filled by `install`), $PATH, the
+# OS application directories. `args` starts the CDP server, `once` is the one-shot command timed by `bench`.
+# Placeholders: {port} {profile} {width} {height} {url}. `baseline` is the newest upstream build `install` fetches
+# while ours does not exist: the corpus then follows upstream as it moves.
+[engine.blink]
+role = "full"
+bins = ["headless_shell", "chrome-headless-shell", "chrome", "google-chrome", "chromium", "msedge"]
+args = [
+  "--headless", "--no-sandbox", "--remote-debugging-port={port}", "--user-data-dir={profile}",
+  "--window-size={width},{height}", "--hide-scrollbars", "--no-first-run", "--no-default-browser-check",
+  "--enable-unsafe-webgpu", "--enable-features=Vulkan", "--use-angle=swiftshader",
+  "--use-webgpu-adapter=swiftshader", "--disable-vulkan-surface", "about:blank",
+]
+once = ["--headless", "--no-sandbox", "--user-data-dir={profile}", "--dump-dom", "{url}"]
+baseline = { kind = "chrome-for-testing", channel = "Canary", product = "chrome-headless-shell" }
+
+[engine.lite]
+role = "lite"
+bins = ["obscura"]
+args = ["serve", "--port", "{port}"]
+once = ["fetch", "{url}"]
+baseline = { kind = "github-release", repo = "h4ckf0r0day/obscura", asset = "obscura-{arch}-{os}.tar.gz" }
+
+# Fronts drive the full engine the way the product does; they run on the seeds.
+[front.agent]      # agent-browser: accessibility snapshot with refs through the engine's CDP endpoint
+bins = ["agent-browser"]
+
+[front.webview]    # Bun.WebView, the runtime's embedder API, spawning the engine over the CDP pipe
+bins = []
+
+# Benchmarks. `bench` times the one-shot commands with hyperfine (no shell, warm-ups discarded, profile wiped before
+# every run), then samples the process-tree RSS of `rss_runs` more runs. `bench --jetstream` runs the JetStream
+# suite pinned in tools/upstreams.lock.json inside every full engine.
+[bench]
+warmup = 3
+runs = 20
+rss_runs = 5
+
+# The dashboard: `serve` listens on `port`; the tunnel publishes it as `origin`, the Worker
+# (tools/acceptance/worker.ts) fronts it on `host`. `serve --schedule` runs the commands below (cron, local time).
+[serve]
+port = 4680
+host = "browser.aphrody.app"
+origin = "browser-origin.aphrody.app"
+
+[schedule]
+track = "17 * * * *"
+"run --install" = "43 */6 * * *"
+bench = "13 3 * * *"
+
+# Upstreams followed by `track` (tools/acceptance/track.ts) in addition to every entry of tools/upstreams.toml, whose
+# pins are in tools/upstreams.lock.json. `repo` is the GitHub repository whose `branch` head is followed; `provider`
+# adds channel versions from the official release data (chromium: chromiumdash, Chrome for Testing as fallback;
+# firefox: product-details.mozilla.org; webkit: the webkit.org blog feed); `field` is what that provider reports for
+# the entry (version | v8), `version_channel` the channel shown as `version`. `release = false` skips the newest
+# release or tag lookup. `checkout` is the Chromium checkout whose version file gives `pinned`: $env or default
+# path, read over ssh on the build host when it is not on this machine. `pin_file` is a file of this repository that
+# holds the pin.
+[track.chromium]
+kind = "engine"
+source = "https://chromiumdash.appspot.com/"
+repo = "chromium/chromium"
+branch = "main"
+release = false
+provider = "chromium"
+field = "version"
+version_channel = "canary"
+platform = "Linux"
+checkout = { env = "CHROMIUM_SRC", default = "/srv/chromium/src", ssh = "fr1" }
+
+[track.v8]
+kind = "js"
+source = "https://v8.dev/"
+repo = "v8/v8"
+branch = "main"
+release = false
+provider = "chromium"
+field = "v8"
+version_channel = "canary"
+platform = "Linux"
+checkout = { env = "CHROMIUM_SRC", default = "/srv/chromium/src", ssh = "fr1" }
+
+[track.spidermonkey]
+kind = "js"
+source = "https://firefox-source-docs.mozilla.org/js/"
+repo = "mozilla-firefox/firefox"
+branch = "main"
+release = false
+provider = "firefox"
+version_channel = "nightly"
+pin_file = "src/mozjs_sys/etc/COMMIT"
+
+[track.webkit]
+kind = "engine"
+source = "https://webkit.org/"
+repo = "WebKit/WebKit"
+branch = "main"
+release = false
+provider = "webkit"
+version_channel = "stp"
+
+[track.blitz]
+kind = "engine"
+source = "https://github.com/DioxusLabs/blitz"
+repo = "DioxusLabs/blitz"
+branch = "main"
+
+[track.obscura-upstream]
+kind = "engine"
+source = "https://github.com/h4ckf0r0day/obscura"
+repo = "h4ckf0r0day/obscura"
+branch = "main"
+
+[track.ladybird]
+kind = "engine"
+source = "https://ladybird.org/"
+repo = "LadybirdBrowser/ladybird"
+branch = "master"
+
+[track.hyperfine]
+kind = "tool"
+source = "https://github.com/sharkdp/hyperfine"
+repo = "sharkdp/hyperfine"
+branch = "master"
+
+[track.jetstream]
+kind = "tool"
+source = "https://browserbench.org/JetStream/"
+repo = "WebKit/JetStream"
+branch = "main"

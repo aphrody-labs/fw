@@ -12,6 +12,16 @@ Decision record: [ARCHITECTURE.md](ARCHITECTURE.md). Report: [docs/dedup.md](doc
 - Upstream code stays importable: do not hand-edit imported manifests, change `tools/flatten.py` instead.
 - Newest of everything (canary, nightly, rc), read live; pins live in `tools/upstreams.lock.json`.
 
+## Test and measure
+
+One tool, [tools/acceptance.ts](tools/acceptance.ts) (Bun only; data in `tools/acceptance.toml`): engines x live corpus over raw CDP,
+hyperfine and JetStream benchmarks, upstream tracking, the live dashboard. Usage and rules: `.claude/skills/acceptance/SKILL.md`.
+
+```sh
+bun check -p tools && bun lint tools/acceptance.ts tools/acceptance && bun test tools/acceptance   # native gates
+bun tools/acceptance.ts run        # on the build host for anything beyond a few pages
+```
+
 ## Sync an upstream (history preserved)
 
 ```sh

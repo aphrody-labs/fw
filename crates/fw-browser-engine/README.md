@@ -18,7 +18,9 @@ websites, CI and WPT dashboards, the wpt fork, demos, `tendril` (superseded by t
 `font-kit` and `pathfinder` (not in Servo's dependency graph), `malloc_size_of` (stylo carries its own).
 
 ```sh
-bun tools/acceptance/cdp-probe.ts <chrome|headless_shell> <url> out.png --swiftshader   # CDP, WASM, WebGPU probe
-python3 tools/bench/startup.py <url> 5 "name=cmd {url} {out}"                           # wall time and tree RSS
-build/engines/build.sh                                                                  # V8 + Skia archive from the Chromium checkout
+bun tools/acceptance.ts run                      # every engine x the live Google/Alphabet corpus: verdicts, screenshots, report
+bun tools/acceptance.ts bench <url>              # hyperfine cold start + process-tree RSS; --jetstream for JetStream
+bun tools/acceptance.ts track                    # Chromium, Servo, Blitz, Obscura, SpiderMonkey, WebKit ... against our pins
+bun tools/acceptance.ts serve --schedule         # live dashboard (HTML, JSON, SSE) and its cron
+build/engines/build.sh                           # V8 + Skia archive from the Chromium checkout
 ```
