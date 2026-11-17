@@ -1,5 +1,5 @@
 {
-  "name": "@aphrody/org-mirror",
+  "name": "@aphrody/ay-org-mirror",
   "version": "0.1.0",
   "description": "Replicates a GitHub organization end to end into bun:sqlite: repos, git history, pull requests, issues, releases, changelogs and the npm, crates.io, PyPI and Zig packages published from its repos; incremental, resumable, browsable through Bun.serve.",
   "type": "module",

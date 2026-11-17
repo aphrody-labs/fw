@@ -4,7 +4,7 @@
 # ///
 """Render brand/character/index.md from the JSON datasets in the same directory.
 
-The JSON files are the source of truth; the index is derived (and crates/ay_brand/tests/character_dataset.rs fails
+The JSON files are the source of truth; the index is derived (and crates/ay-brand/tests/character_dataset.rs fails
 when its counts are stale). Usage: python tools/render_character_index.py [brand/character]
 """
 import json

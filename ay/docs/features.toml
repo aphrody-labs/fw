@@ -218,7 +218,7 @@ title = "CEF embedding from Rust and Bun: screenshot and eval"
 reference = "https://github.com/tauri-apps/cef-rs"
 layer = "backend"
 status = "done"
-proof = "crates/ay_chromium/tests/e2e.rs::screenshot_and_evaluate_a_real_page"
+proof = "crates/ay-chromium/tests/e2e.rs::screenshot_and_evaluate_a_real_page"
 proof_kind = "test"
 
 [[feature]]
@@ -284,7 +284,7 @@ title = "Character dataset (canon, soul, voice, visual) with sourced facts and t
 reference = "https://zukan.inazuma.jp/en/"
 layer = "ui"
 status = "done"
-proof = "crates/ay_brand/tests/character_dataset.rs::the_dataset_parses_and_every_item_has_a_resolving_source"
+proof = "crates/ay-brand/tests/character_dataset.rs::the_dataset_parses_and_every_item_has_a_resolving_source"
 proof_kind = "test"
 
 [[feature]]

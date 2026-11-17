@@ -36,7 +36,7 @@
       "version": "0.1.0",
     },
     "packages/org-mirror": {
-      "name": "@aphrody/org-mirror",
+      "name": "@aphrody/ay-org-mirror",
       "version": "0.1.0",
       "bin": {
         "org-mirror": "src/cli.ts",
@@ -50,9 +50,9 @@
 
     "@aphrody/ay-node-compat": ["@aphrody/ay-node-compat@workspace:packages/node-compat"],
 
-    "@aphrody/chromium": ["@aphrody/chromium@workspace:packages/chromium"],
+    "@aphrody/ay-org-mirror": ["@aphrody/ay-org-mirror@workspace:packages/org-mirror"],
 
-    "@aphrody/org-mirror": ["@aphrody/org-mirror@workspace:packages/org-mirror"],
+    "@aphrody/chromium": ["@aphrody/chromium@workspace:packages/chromium"],
 
     "@types/bun": ["@types/bun@1.4.4", "", { "dependencies": { "bun-types": "1.4.4" } }, "sha512-9wkRDXUXK124pEnAutE6n/l18j+i9GC5IAHK8TmX/2nlySETmky0OU6yL5U8pW1AoKh++AN9auDCr647BfurjQ=="],
 

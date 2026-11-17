@@ -1,6 +1,6 @@
 # Chromium from Rust and Bun
 
-`ay-chromium` embeds Chromium through CEF (ADR-3). One Rust crate (`crates/ay_chromium`), one executable
+`ay-chromium` embeds Chromium through CEF (ADR-3). One Rust crate (`crates/ay-chromium`), one executable
 (`ay-chromium`), one Bun package (`packages/chromium`, `@aphrody/chromium`) and one skill
 (`.claude/skills/chromium`) give two operations on a real page, rendered off-screen:
 

@@ -56,7 +56,8 @@ brand = { owner = "ay", title = "Aphrody brand", reference = "https://design.goo
 # corelib, libc and the design system. One checkout per repo locally and one repo per unit on GitHub.
 [registries]
 npm = "@aphrody"             # npm org scope for published Bun/TS packages
-crates = "aphrody-"          # crates.io name prefix for published Rust crates
+crates = "aphrody-"          # prefix of the crates the organization already published on crates.io (legacy pipeline); read by tools/bun-native.ts
+own_crates = "ay-"           # prefix of this repository's own crates and the npm unit prefix (naming.toml scheme: {id}-{unit})
 
 [repos]
 # `checkout` is an optional local hint (a developer convenience): no tool requires it to exist, each one skips or falls back when it is absent.

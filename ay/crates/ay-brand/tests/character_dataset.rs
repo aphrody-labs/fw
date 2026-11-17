@@ -8,7 +8,7 @@ use ay_brand::sha256_hex;
 use serde_json::Value;
 use std::path::PathBuf;
 
-/// The repository root: the crate lives in `crates/ay_brand`.
+/// The repository root: the crate lives in `crates/ay-brand`.
 fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
