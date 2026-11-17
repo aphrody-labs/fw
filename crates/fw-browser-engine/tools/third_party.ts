@@ -69,6 +69,7 @@ export function chooseLicenses(expression: string): string[] {
     .filter(Boolean);
 }
 
+const fixupsText = await Bun.file(at("tools/fixups.sh")).text();
 const dir = layout.third_party.dir;
 let written = 0;
 for (const u of spec.upstream) {
@@ -116,6 +117,12 @@ for (const u of spec.upstream) {
     .map((p) => p.replaceAll("\\", "/"))
     .sort((x, y) => x.split("/").length - y.split("/").length || x.localeCompare(y))
     .slice(0, 8);
+  const known = new Set([u.name, ...found.map((c) => c.name)]);
+  const patchDir = at("tools/patches");
+  const patches = (await Array.fromAsync(new Bun.Glob("*/*").scan({ cwd: patchDir })))
+    .map((p) => p.replaceAll("\\", "/"))
+    .filter((p) => known.has(p.split("/")[0]) || known.has(p.split("/")[0].replaceAll("_", "-")));
+  const fixes = [...known].some((name) => fixupsText.includes(name));
   const shipped = (u.shipped ?? true) && found.some((c) => c.shipped);
   const lines = [
     `Name: ${u.name}`,
@@ -136,9 +143,10 @@ for (const u of spec.upstream) {
     ``,
     `Local Modifications:`,
     `Updated with tools/import.py ${u.name} (history replayed linearly); how far behind it is: \`bun testing/acceptance.ts track\`.`,
-    `The crates (${found.length}) live in ${base}/<crate>, one directory per package; their manifests are rewritten by`,
-    `tools/flatten.py (path dependencies, inlined workspace inheritance, one version per crate) and patched by`,
-    `tools/fixups.sh and tools/patches/. Everything else of the upstream is in ${base}/ unchanged.${u.drop?.length ? ` Not imported: ${u.drop.join(", ")}.` : ""}`,
+    `The crates (${found.length}) live in ${base}/<crate>, one directory per package; their manifests are rewritten by tools/flatten.py`,
+    `(path dependencies, inlined workspace inheritance, one version per crate). Lockfiles of the upstream are not kept.`,
+    `Patches: ${patches.length ? patches.join(", ") : "none"}. Integration fixes: ${fixes ? "yes, in tools/fixups.sh" : "none"}.`,
+    `Everything else of the upstream is in ${base}/ unchanged.${u.drop?.length ? ` Not imported: ${u.drop.join(", ")}.` : ""}`,
     ``,
     ...(u.local ?? []).map((line) => `- ${line}`),
     `Crates:`,

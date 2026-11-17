@@ -72,6 +72,8 @@ DROP = %(drop)s
 RES = %(res)s
 DEST = %(dest)r
 s = filename.decode("utf-8", "surrogateescape")
+if s.rsplit("/", 1)[-1] == "Cargo.lock":
+    return None          # a lockfile of an upstream is dead here: one Cargo.lock at the root
 for d in DROP:
     if s == d or s.startswith(d + "/"):
         return None
@@ -136,7 +138,8 @@ def main():
         last = rewritten(w, lock.get(n, {}).get("sha")) or lock.get(n, {}).get("imported")
         span = f"{last}..{ref}" if last else ref
         new = run("git", "rev-list", "--reverse", "--topo-order", "--no-merges", span, cwd=mono, out=True).split()
-        pick = ["git", "cherry-pick", "-X", "theirs", "--allow-empty", "--keep-redundant-commits"]
+        # No merge strategy option: a conflict stops the import and is resolved by hand, never by taking one side silently.
+        pick = ["git", "cherry-pick", "--allow-empty", "--keep-redundant-commits"]
         for i in range(0, len(new), 200):
             run(*pick, *new[i:i + 200], cwd=mono)
         sub = f"{layout(mono)['third_party']['dir']}/{n}"
@@ -148,6 +151,15 @@ def main():
             run("git", "checkout-index", "-fa", cwd=mono)
             run("git", "clean", "-fdq", "--", sub, cwd=mono)
             run("git", "commit", "-q", "-m", f"import {n}: resolutions of the merge commits not replayed", cwd=mono)
+        # Every file the replayed range changed must now be what upstream has: a skipped or overwritten change is an error.
+        empty = run("git", "hash-object", "-t", "tree", "/dev/null", out=True)
+        changed = run("git", "diff", "--name-only", last or empty, ref, "--", sub, cwd=mono, out=True).split("\n")
+        def blob(rev, path):
+            r = subprocess.run(["git", "rev-parse", "-q", "--verify", f"{rev}:{path}"], cwd=mono, capture_output=True, text=True)
+            return r.stdout.strip() or None
+        differ = [f for f in changed if f and blob("HEAD", f) != blob(ref, f)]
+        if differ:
+            raise SystemExit(f"import {n}: {len(differ)} file(s) changed upstream are not what upstream has: {differ[:5]}")
         run("git", "commit", "-q", "--allow-empty", "-m",
             f"import {n} {u['url']} {u['branch']} @ {sha[:12]} (history preserved: {len(new)} commits replayed linearly, crates under third_party/{n})",
             cwd=mono)
