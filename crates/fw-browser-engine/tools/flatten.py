@@ -225,6 +225,14 @@ def main():
 
     # --- root manifest ---------------------------------------------------------------------------
     members = list(bun_members) + sorted(t for t, u in owner.items() if u not in (None, "bun"))
+    # crates written in this repository (not imported): src/<package> whose manifest sets
+    # [package.metadata.browser] native = true
+    for d in sorted(os.listdir(os.path.join(mono, "src"))):
+        mf = os.path.join(mono, "src", d, "Cargo.toml")
+        if os.path.exists(mf) and "src/" + d not in members:
+            meta = plain(load(mf)).get("package", {}).get("metadata", {}).get("browser", {})
+            if meta.get("native") is True:
+                members.append("src/" + d)
     root["workspace"]["members"] = members
     # Bun fetches vendor/lolhtml and vendor/rust-argon2 before cargo runs; they are imported crates here.
     wd = root["workspace"]["dependencies"]
