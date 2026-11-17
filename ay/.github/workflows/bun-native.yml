@@ -1,0 +1,46 @@
+name: bun-native
+
+# Fails when first-party JS/TS, package.json, CI, Dockerfile or script lines reintroduce a pattern that has a proven Bun
+# owner (docs/research/bun-native-audit.toml). Findings recorded in the baseline file are tolerated until fixed.
+# Reusable: other repositories call it with the repository that holds tools/bun-native.ts (docs/research/bun-native-gate.md).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+    inputs:
+      tools-repository:
+        description: Repository that holds tools/bun-native.ts and its dataset; empty means the calling repository
+        type: string
+        default: ""
+      tools-ref:
+        type: string
+        default: main
+      baseline:
+        description: Baseline file of tolerated findings, relative to the calling repository
+        type: string
+        default: .bun-native-baseline
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - if: inputs.tools-repository != ''
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ inputs.tools-repository }}
+          ref: ${{ inputs.tools-ref }}
+          path: .bun-native-tools
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - env:
+          TOOLS: ${{ inputs.tools-repository != '' && '.bun-native-tools' || '.' }}
+          BASELINE: ${{ inputs.baseline || '.bun-native-baseline' }}
+        run: bun "$TOOLS/tools/bun-native.ts" check . --baseline "$BASELINE"
