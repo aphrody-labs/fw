@@ -1114,9 +1114,10 @@ if (import.meta.main) {
       else
         for (const h of res.hits) {
           const key = `${h.rule} ${h.file}`;
-          seen.add(key);
           const r = byId.get(h.rule)!;
-          if (baseline.has(key) || !failOn.has(r.severity) || (r.tier === "style" && !arg("--style"))) continue;
+          if (!failOn.has(r.severity) || (r.tier === "style" && !arg("--style"))) continue;
+          seen.add(key);
+          if (baseline.has(key)) continue;
           fail++;
           console.error(`${h.file}:${h.line}: ${h.rule}: use ${r.replacement} (${r.severity})`);
         }
