@@ -7,7 +7,7 @@ Decision record: [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Rules
 
-- Never build on a workstation: Rust and GN builds run on the build host (`ssh fr1`, `/srv/xbuild/scratch`).
+- Never build on a workstation: Rust and GN builds run on a build host (which one: private config, `bun testing/acceptance.ts telemetry`).
 - No published V8, Skia or Blink bindings or prebuilts: engines come from the Chromium checkout (`build/engines`).
 - No second copy of a crate: new code goes to the crate that owns the function; a vendored copy of an imported
   crate is deleted in the same commit.
@@ -36,7 +36,7 @@ git submodule update --init third_party/bun   # only when Bun itself is needed (
 ## Sync an upstream (history preserved)
 
 ```sh
-python3 tools/import.py . /srv/xbuild/scratch/imp <name>     # fetch, rewrite to final paths, replay new commits linearly (no merge commit)
+python3 tools/import.py . <scratch>/imp <name>     # fetch, rewrite to final paths, replay new commits linearly (no merge commit)
 uv run --with tomlkit tools/flatten.py . --root-only          # members and [patch.crates-io] follow the lock (full run: only for a crate just imported)
 bash tools/fixups.sh && bun tools/third_party.ts              # integration fixes, README.chromium
 cargo update && cargo tree -d                                 # dedup check; who requires which version: cargo metadata --format-version 1 | python3 tools/directdups.py
@@ -47,17 +47,16 @@ cargo update && cargo tree -d                                 # dedup check; who
 - `bun fmt <directory>` also reformats data (lock, reports, TOML): pass explicit `.ts` paths; the edit hook does.
 - `tools/flatten.py` rewrites the members list from the lock, so `fixups.sh` (which drops obscura-*, wrench, webrender-examples) must run after it; the
   crate manifests are already flattened, so `--root-only` is the normal run.
-- Pre-existing build failures, not regressions: `lol_html` and `obscura-dom` (cssparser 0.38 / selectors 0.43 against code written for older APIs),
-  `servo-malloc-size-of` (`webrender::FastTransform`). Detail and handled cases: `docs/third-party-lessons.md`.
-- Compare acceptance runs only on a quiet build host (`uptime`): a busy one made Obscura hang on 8 pages instead of 3; `[page] retries` absorbs some of it.
-- `scp` does not work from this PC's shell: `tar cf - dir | ssh fr1 'tar xf - -C /tmp/x'`. A shared checkout with someone else's unstaged
-  changes cannot `pull --rebase` (no stash): `git fetch && git merge --ff-only origin/main`, then push.
+- Tests are hermetic; the live or heavier ones are opt-in by environment: `TRACK_LIVE=1` (upstream APIs), `JETSTREAM_WS=<cdp ws>` (a real JetStream
+  run), `REDIS_URL=redis://host:port` (the Redis/Valkey paths).
 - The presubmit's docs check reads the Bun fork's docs: `BUN_DOCS=<fork>/docs`, else `third_party/bun/docs`, else `../bun/docs`.
-- The PC checkout holds 16 GB in `third_party/chromium` (ignored): use `git grep` and `git ls-files`, never `grep -r`, `find` or `du` from the root.
-- Tests are hermetic; the live or heavier ones are opt-in by environment: `TRACK_LIVE=1` (upstream APIs), `JETSTREAM_WS=<cdp ws>` (a real JetStream run), `REDIS_URL=redis://host:port` (the Redis/Valkey paths).
-- Bun 1.4.5-canary quirks hit here: `Bun.file(dir).exists()` is false for directories (use `.stat()`); `Bun.connect` TLS has no `getProtocol` (take the protocol from CDP `response.protocol`);
-  `Bun.WebView` cannot start Chrome or Edge on Windows (the front reports SKIP); `bun n2b` is not in the installed binary (the native lint rules enforce the same).
-- A push prints "Bypassed rule violations" (this account can bypass the `main` ruleset): never use that to land a non-linear history.
+
+## Private state, never written here
+
+Machine, host, account and work facts (measurements, lessons, build failures that are not regressions, quirks of a runtime version, how
+a host is reached) do not belong in tracked docs or agent files. They live in the git-ignored `.local/` and `.claude.local.md`, generated from
+the store by `bun testing/acceptance.ts telemetry` and `docs`; add what you learn with `bun testing/acceptance.ts note "<text>" --kind gotcha`.
+`bun PRESUBMIT.ts` fails when a tracked file names a host path, a user directory or a private host.
 
 ## Layout
 

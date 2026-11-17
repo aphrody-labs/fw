@@ -18,16 +18,15 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
   // ---- the published host as a client sees it
   let net: NetProbe | null = await store.cached<NetProbe>("net");
   const refreshNet = async (verify: boolean) => {
-    const next = await probeNet(manifest.serve.host);
+    const host = manifest.serve.host!; // only called when a published host is configured
+    const next = await probeNet(host);
     const blink = verify && next.h3.advertised ? (await engines(["blink"]))[0] : null;
     if (blink) {
       // The engine reports the protocol it negotiated; forcing QUIC on the origin skips the first-visit Alt-Svc round trip.
       const running = await launch(blink, {
-        extra: [`--origin-to-force-quic-on=${manifest.serve.host}:443`, "--enable-quic"],
+        extra: [`--origin-to-force-quic-on=${host}:443`, "--enable-quic"],
       }).catch(() => null);
-      const seen = running
-        ? await probe(running, `https://${manifest.serve.host}/`, null, false).finally(() => running.stop())
-        : null;
+      const seen = running ? await probe(running, `https://${host}/`, null, false).finally(() => running.stop()) : null;
       if (seen?.protocol) next.tls.alpn = seen.protocol;
       if (seen && !next.h3.verified)
         Object.assign(next.h3, {
@@ -43,8 +42,9 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
     await store.cache("net", next, 3600);
     if (changed) store.emit("net", { host: next.host, h3: next.h3, tls: next.tls.protocol, status: next.http.status });
   };
-  void refreshNet(true).catch(() => {});
-  setInterval(() => void refreshNet(Math.floor(Date.now() / 60000) % 30 === 0).catch(() => {}), 5 * 60000);
+  if (manifest.serve.host) void refreshNet(true).catch(() => {});
+  if (manifest.serve.host)
+    setInterval(() => void refreshNet(Math.floor(Date.now() / 60000) % 30 === 0).catch(() => {}), 5 * 60000);
 
   const state = () => {
     const rep = report(store);
@@ -170,7 +170,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
     fetch: () => new Response("not found", { status: 404 }),
   });
   console.error(
-    `dashboard http://${server.hostname}:${server.port}  store sqlite${store.redis ? ` + ${store.redis}` : ""}  published as https://${manifest.serve.host}`,
+    `dashboard http://${server.hostname}:${server.port}  store sqlite${store.redis ? ` + ${store.redis}` : ""} ${manifest.serve.host ? `  published as https://${manifest.serve.host}` : ""}`,
   );
   store.emit("serve", { port: server.port, schedule: opt.schedule });
   await new Promise(() => {}); // runs until killed

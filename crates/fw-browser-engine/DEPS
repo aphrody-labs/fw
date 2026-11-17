@@ -9,6 +9,6 @@ vars = {
 }
 
 deps = {
-  # The checkout lives on the build host (CHROMIUM_SRC) and in third_party/chromium on a workstation; git ignores it.
+  # The checkout is a build input (CHROMIUM_SRC, or third_party/chromium); git ignores it.
   'third_party/chromium/src': Var('chromium_git') + '/chromium/src.git' + '@' + Var('chromium_version'),
 }

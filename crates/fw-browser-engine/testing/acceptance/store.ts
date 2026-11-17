@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS upstreams (id INTEGER PRIMARY KEY AUTOINCREMENT, name
 CREATE INDEX IF NOT EXISTS upstreams_name ON upstreams (name, id);
 CREATE TABLE IF NOT EXISTS lessons (host TEXT NOT NULL, engine TEXT NOT NULL, kind TEXT NOT NULL, runs INTEGER NOT NULL, first_run TEXT NOT NULL,
   last_run TEXT NOT NULL, detail TEXT NOT NULL, PRIMARY KEY (host, engine, kind));
+CREATE TABLE IF NOT EXISTS telemetry (host TEXT NOT NULL, at TEXT NOT NULL, data TEXT NOT NULL, PRIMARY KEY (host, at));
+CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, kind TEXT NOT NULL, text TEXT NOT NULL, source TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, at TEXT NOT NULL, kind TEXT NOT NULL, data TEXT NOT NULL);
 `;
 
@@ -294,6 +296,46 @@ export class Store {
 
   index(crawl: string): IndexRow[] {
     return this.db.query("SELECT * FROM index_pages WHERE crawl = ? ORDER BY depth, url").all(crawl) as IndexRow[];
+  }
+
+  // ---- telemetry and notes: what the machines and the agent learned, private ----
+
+  saveTelemetry(host: string, data: object) {
+    this.db.run("INSERT INTO telemetry (host, at, data) VALUES (?, ?, ?)", [
+      host,
+      new Date().toISOString(),
+      JSON.stringify(data),
+    ]);
+  }
+
+  /** The latest probe of every host. */
+  telemetry(): { host: string; at: string; data: Record<string, unknown> }[] {
+    const rows = this.db
+      .query(
+        "SELECT host, at, data FROM telemetry WHERE (host, at) IN (SELECT host, MAX(at) FROM telemetry GROUP BY host) ORDER BY host",
+      )
+      .all() as { host: string; at: string; data: string }[];
+    return rows.map((r) => ({ ...r, data: JSON.parse(r.data) }));
+  }
+
+  /** A note is kept once: the same kind and text only moves its date. */
+  addNote(kind: string, text: string, source: string) {
+    const old = this.db.query("SELECT id FROM notes WHERE kind = ? AND text = ?").get(kind, text) as {
+      id: number;
+    } | null;
+    if (old)
+      this.db.run("UPDATE notes SET at = ?, source = ? WHERE id = ?", [new Date().toISOString(), source, old.id]);
+    else
+      this.db.run("INSERT INTO notes (at, kind, text, source) VALUES (?, ?, ?, ?)", [
+        new Date().toISOString(),
+        kind,
+        text,
+        source,
+      ]);
+  }
+
+  notes(): { id: number; at: string; kind: string; text: string; source: string }[] {
+    return this.db.query("SELECT * FROM notes ORDER BY kind, id").all() as never;
   }
 
   // ---- lessons ----

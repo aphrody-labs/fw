@@ -1,8 +1,8 @@
 # Layout against Chromium
 
-Chromium's top level, read live from `chromium/chromium` (`gh api repos/chromium/chromium/contents/`, 2026-11-17, main, milestone
-160) and from the build host's checkout (`/srv/chromium/src`, 157), set against this repository. Chromium is a C++ product tree;
-this one is a Rust workspace around imported engines, so what has no counterpart is listed with the reason.
+Chromium's top level set against this repository. The live comparison (Chromium's current top level against this tree) is generated:
+`bun testing/acceptance.ts docs` writes `.local/docs/chromium-layout.md`. Chromium is a C++ product tree; this one is a Rust
+workspace around imported engines, so what has no counterpart is listed with the reason.
 
 ## Directories
 

@@ -39,7 +39,7 @@ mode = "bun"
       repo: "chromium/chromium",
       provider: "chromium",
       version_channel: "canary",
-      checkout: { env: "CHROMIUM_SRC", default: "/srv/chromium/src", ssh: "fr1" },
+      checkout: { env: "SOME_SRC", default: "/some/src", ssh: "a-host" },
       release: false,
     },
     ladybird: { kind: "engine", repo: "LadybirdBrowser/ladybird", branch: "master" },
@@ -59,7 +59,7 @@ mode = "bun"
     expect(s[1]).toMatchObject({ kind: "bun", repo: "bun", branch: "bun", pin: null });
     expect(s[2]).toMatchObject({ owner: "chromium", repo: "chromium", provider: "chromium" });
     expect(s[2]).toMatchObject({ release: false, channel: "canary" });
-    expect(s[2].checkout).toEqual({ env: "CHROMIUM_SRC", default: "/srv/chromium/src", ssh: "fr1" });
+    expect(s[2].checkout).toEqual({ env: "SOME_SRC", default: "/some/src", ssh: "a-host" });
     expect(s[3]).toMatchObject({ branch: "master", source: "https://github.com/LadybirdBrowser/ladybird" });
   });
 

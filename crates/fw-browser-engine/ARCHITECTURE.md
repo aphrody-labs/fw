@@ -40,29 +40,26 @@ page needs the full CDP, media or anything the others lack. Where an engine fall
 Switching is `Bun.WebView({ backend })`: `webkit` and `chrome` exist in the runtime today; `blitz`, `servo` and `obscura` join
 as backends of the same API, CDP where the engine speaks it.
 
-## Decision (measured, 2026-11-16, fr1, one real page: en.wikipedia.org/wiki/Servo_(software), median of 5)
+## Decision
 
-| Engine (prebuilt baseline)          | wall (s) | peak RSS, process tree (MiB) | CDP | Output |
-|-------------------------------------|---------:|-----------------------------:|-----|--------|
-| Chrome 160.0.8164.0 headless-shell  | 0.49 dump-dom / 0.59 screenshot | 578 / 584 | native, full | PNG 154 KB |
-| Servo 0.8.0-rc1 servoshell          | 0.89 screenshot | 556 | none (Firefox RDP devtools) | PNG 332 KB |
-| Obscura 0.2.7 no-render             | 0.66 fetch html | 69  | subset | HTML |
-| Obscura 0.2.7 render                | 1.71 fetch html | 116 | subset | HTML, optional PNG |
-
-Re-measured with hyperfine through `bun testing/acceptance.ts bench`: Chrome 483 ms and 518 MiB, Obscura 1.65 s and 115 MiB
-(run count and spread in the database). Numbers are baselines of upstream releases, to be re-run on our builds.
+Measurements (start-up, memory, scores, per engine, host and version) are private data of whoever ran them: `bun testing/acceptance.ts
+bench` records them, `bun testing/acceptance.ts docs` writes `.local/docs/measurements.md`. The decision rests on what each engine
+is, not on a number kept here:
 
 - Blink is the engine of record for anything that renders: the only one with the full CDP, DevTools, Chrome-for-Testing parity
-  (Playwright and Puppeteer work unchanged) and full web compatibility. Servo matches Chrome on memory and is slower.
-- The lite engine wins on memory: 69 MiB against 578 MiB (8.4x). It is Obscura on html5ever, cssparser, selectors/stylo and url
-  from this repository, with V8 from our Chromium checkout instead of rusty_v8 prebuilts.
+  (Playwright and Puppeteer work unchanged) and full web compatibility. Servo costs as much memory as Blink and is slower.
+- The lite engine wins on memory by an order of magnitude for DOM, network and script work. It is Obscura on html5ever, cssparser,
+  selectors/stylo and url from this repository, with V8 from our Chromium checkout instead of rusty_v8 prebuilts.
 - agent-browser is the AI front end: snapshot, refs, click; it speaks CDP, so it drives either CDP engine.
 - Servo's remaining value is its crates: stylo, html5ever, cssparser, url, webrender, mozjs, ipc-channel. Blitz uses Stylo too.
+- A verdict is about what the engine did, not what the server answered: `refused`, `auth` and `consent` are not failures, a status code
+  is never trusted for a wall (the title and the final URL are read), an engine that hangs is a result with a timeout, and what an
+  engine cannot do is recorded where the router reads it (`lessons`) and forgotten the day it can.
 
 ## Engines from the Chromium checkout
 
 V8, Skia, Dawn and Blink are never taken as published crates or prebuilts (no rusty_v8 archive, no skia-safe binaries).
-`build/engines/` drives GN on the Chromium checkout (`CHROMIUM_SRC`, default `/srv/chromium/src`; the pinned revision is in `DEPS`):
+`build/engines/` drives GN on the Chromium checkout (`CHROMIUM_SRC`; the pinned revision is in `DEPS`):
 
 - `//v8:v8_monolith` and `//skia:skia` static libraries, optimized official build (ThinLTO).
 - Blink through `//headless:headless_shell` (native CDP, `--remote-debugging-pipe`); `headless_shell_lib` for in-process embedding.

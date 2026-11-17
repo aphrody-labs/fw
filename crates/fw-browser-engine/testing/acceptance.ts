@@ -10,6 +10,9 @@
 //   bun testing/acceptance.ts bench [url...]         hyperfine on the engines' one-shot commands + process-tree RSS (default: seeds)
 //   bun testing/acceptance.ts bench --jetstream      the pinned JetStream suite inside every full engine
 //   bun testing/acceptance.ts lessons              where each engine fell short of the full one, learned from the runs (the router's data)
+//   bun testing/acceptance.ts telemetry            probe this machine and the hosts of .local/config.toml (private)
+//   bun testing/acceptance.ts note "<text>"        a gotcha, decision or fact the agent learned (--kind), private
+//   bun testing/acceptance.ts docs                 generate .local/docs/*.md and .claude.local.md from the store (private, git-ignored)
 //   bun testing/acceptance.ts track                  heads, releases and channels of every upstream against our pins
 //   bun testing/acceptance.ts serve [--schedule]     the live dashboard (HTML, JSON, SSE) and, with --schedule, the cron of the above
 //   bun testing/acceptance.ts deploy [--apply]      Worker + tunnel config for the published host (plan only without --apply)
@@ -26,6 +29,7 @@
 import { basename, delimiter, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { Cdp } from "./acceptance/cdp.ts";
+import { merge, readLocal } from "./acceptance/local.ts";
 import {
   spawn,
   cores,
@@ -68,7 +72,7 @@ export type Manifest = {
   engine: Record<string, EngineDef>;
   front: Record<string, { bins: string[] }>;
   bench: { warmup: number; runs: number; rss_runs: number };
-  serve: { port: number; host: string; origin: string };
+  serve: { port: number; host?: string; origin?: string }; // host and origin are private: .local/config.toml
   schedule: Record<string, string>;
 };
 export type Site = { url: string; host: string; from: string; depth: number };
@@ -142,9 +146,11 @@ export type Parity = { url: string; sufficient: boolean; why?: string; elements:
 export type Report = ReturnType<typeof report>;
 
 export const root = resolve(import.meta.dir, "..");
-export const manifest = Bun.TOML.parse(
-  await Bun.file(new URL("./acceptance.toml", import.meta.url)).text(),
-) as Manifest;
+export const local = await readLocal(root);
+export const manifest = merge(
+  Bun.TOML.parse(await Bun.file(new URL("./acceptance.toml", import.meta.url)).text()) as Manifest,
+  local,
+);
 const exe = process.platform === "win32" ? ".exe" : "";
 const stamp = () =>
   new Date()
@@ -305,7 +311,7 @@ const buildDirs = () =>
   (buildDirsMemo ??= (async () => {
     const script = await Bun.file(join(root, "build/engines/build.sh")).text();
     const value = (name: string) => Bun.env[name] ?? script.match(new RegExp(`\\$\\{${name}:-([^}]+)\\}`))?.[1];
-    const [src, out] = [value("CHROMIUM_SRC"), value("OUT")];
+    const [src, out] = [Bun.env.CHROMIUM_SRC ?? local.paths?.chromium_src, value("OUT")]; // the checkout is private: env or .local/config.toml
     const dirs = [join(Bun.env.CARGO_TARGET_DIR ?? join(root, "target"), "release")];
     if (src && out) dirs.unshift(join(src, out));
     return dirs;
@@ -1492,6 +1498,7 @@ const flags = () =>
       warmup: { type: "string" },
       runs: { type: "string" },
       port: { type: "string" },
+      kind: { type: "string" },
     },
   });
 
@@ -1521,7 +1528,18 @@ if (import.meta.main) {
   } else if (command === "run") await run(flag);
   else if (command === "bench") await bench(args, flag);
   else if (command === "track") await track(flag);
-  else if (command === "lessons") {
+  else if (command === "telemetry" || command === "docs" || command === "note") {
+    const store = await openStore(flag);
+    const learn = await import("./acceptance/learn.ts");
+    if (command === "telemetry")
+      for (const [name, probe] of await learn.telemetry(store))
+        console.log(`${name}: ${probe.error ?? `${probe.cores} cores, ${probe.memory_mib} MiB, bun ${probe.bun}`}`);
+    else if (command === "note") {
+      if (!args.length) throw new Error('usage: note "<text>" [--kind gotcha|decision|fact]');
+      store.addNote(flag.kind ?? "fact", args.join(" "), "agent");
+    } else console.log(JSON.stringify(await learn.docs(store)));
+    store.close();
+  } else if (command === "lessons") {
     const store = await openStore(flag);
     const rows = store.lessons();
     console.log(

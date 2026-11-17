@@ -15,6 +15,7 @@ import {
 } from "../acceptance.ts";
 import { parseHttpsRecord } from "./net.ts";
 import { Store } from "./store.ts";
+import { merge } from "./local.ts";
 import { rmrf, tmpdir } from "./sys.ts";
 
 const open = () => Store.open(":memory:", Bun.env.REDIS_URL ?? false);
@@ -287,4 +288,32 @@ test("only failures that say nothing about the engine are tried again", () => {
   expect(isTransient("empty document")).toBe(false);
   expect(isTransient("blank paint")).toBe(false);
   expect(isTransient(undefined)).toBe(false);
+});
+
+test("the private config is laid over the shared one: tables merge, values and arrays are replaced", () => {
+  const shared = { serve: { port: 4680 }, track: { chromium: { kind: "engine", pin_deps: "v" } }, seeds: ["a"] };
+  const mine = { serve: { host: "h.test" }, track: { chromium: { checkout: { ssh: "x" } } }, seeds: ["b"] };
+  expect(merge<unknown>(shared, mine)).toEqual({
+    serve: { port: 4680, host: "h.test" },
+    track: { chromium: { kind: "engine", pin_deps: "v", checkout: { ssh: "x" } } },
+    seeds: ["b"],
+  });
+  expect(merge<unknown>(shared, {})).toEqual(shared);
+});
+
+test("a note is kept once and the latest probe of each host is what telemetry returns", async () => {
+  const store = await open();
+  store.addNote("gotcha", "a thing", "agent");
+  store.addNote("gotcha", "a thing", "agent");
+  store.addNote("fact", "another", "agent");
+  expect(store.notes().map((n) => n.text)).toEqual(["another", "a thing"]);
+  store.saveTelemetry("build", { cores: 4 });
+  await Bun.sleep(5);
+  store.saveTelemetry("build", { cores: 8 });
+  store.saveTelemetry("local", { cores: 2 });
+  expect(store.telemetry().map((t) => [t.host, t.data.cores])).toEqual([
+    ["build", 8],
+    ["local", 2],
+  ]);
+  store.close();
 });

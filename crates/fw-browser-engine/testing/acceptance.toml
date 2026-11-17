@@ -5,7 +5,7 @@
 # $ACCEPTANCE_DB overrides the path. The hot cache and the wake-up channel are Redis/Valkey at $REDIS_URL,
 # $VALKEY_URL or localhost:6379 when one answers; the tool works without.
 [store]
-db = "out/acceptance/acceptance.db"
+db = ".local/acceptance.db"      # private: telemetry, notes and lessons live in it
 keep_runs = 12                     # screenshots of older runs are deleted, their rows stay
 
 [corpus]
@@ -99,12 +99,10 @@ warmup = 3
 runs = 20
 rss_runs = 5
 
-# The dashboard: `serve` listens on `port`; the tunnel publishes it as `origin`, the Worker
-# (testing/acceptance/worker.ts) fronts it on `host`. `serve --schedule` runs the commands below (cron, local time).
+# The dashboard: `serve` listens on `port`. Publishing needs a `host` (the Worker fronts it) and an `origin` (the tunnel hostname):
+# both are private, set them in .local/config.toml under [serve]. `serve --schedule` runs the commands below (cron, local time).
 [serve]
 port = 4680
-host = "browser.aphrody.app"
-origin = "browser-origin.aphrody.app"
 
 [schedule]
 track = "17 * * * *"
@@ -130,7 +128,6 @@ field = "version"
 version_channel = "canary"
 platform = "Linux"
 pin_deps = "chromium_version"   # DEPS
-checkout = { env = "CHROMIUM_SRC", default = "/srv/chromium/src", ssh = "fr1" }
 
 [track.v8]
 kind = "js"
@@ -142,7 +139,7 @@ provider = "chromium"
 field = "v8"
 version_channel = "canary"
 platform = "Linux"
-checkout = { env = "CHROMIUM_SRC", default = "/srv/chromium/src", ssh = "fr1" }
+# the pinned V8 comes from a Chromium checkout when .local/config.toml gives one: [track.v8] checkout = { env, default, ssh }
 
 [track.spidermonkey]
 kind = "js"

@@ -9,6 +9,8 @@ import { spawn, mkdirp } from "./sys.ts";
 
 export async function deploy(apply: boolean) {
   const { host, origin, port } = manifest.serve;
+  if (!host || !origin)
+    throw new Error("no published host: set [serve] host and origin in .local/config.toml (private)");
   const zone = host.split(".").slice(-2).join(".");
   const dir = join(root, "out/acceptance/deploy");
   await mkdirp(dir);

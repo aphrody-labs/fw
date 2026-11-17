@@ -10,6 +10,7 @@
 import { dirname, join, resolve } from "node:path";
 import { exists } from "./sys.ts";
 import { spawn } from "./sys.ts";
+import { merge, readLocal } from "./local.ts";
 
 export type Tracked = {
   name: string;
@@ -136,7 +137,9 @@ async function loadSources(root: string): Promise<{ sources: Source[]; error?: s
   let track: Json = {};
   let error: string | undefined;
   try {
-    track = (Bun.TOML.parse(await Bun.file(join(root, "testing", "acceptance.toml")).text()) as Json).track ?? {};
+    const shared =
+      (Bun.TOML.parse(await Bun.file(join(root, "testing", "acceptance.toml")).text()) as Json).track ?? {};
+    track = merge(shared, (await readLocal(root)).track ?? {}); // checkouts and hosts are private
   } catch (e) {
     error = `testing/acceptance.toml: ${msg(e)}`;
   }

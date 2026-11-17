@@ -90,7 +90,7 @@ def main():
                 if sec in cfg:
                     fix(cfg[sec], sec)
         open(f, "w", encoding="utf-8", newline="\n").write(tomlkit.dumps(doc))
-    json.dump({"target": target, "edits": changed}, open(os.path.join(mono, "tools", "unify.report.json"), "w"), indent=1)
+    json.dump({"target": target, "edits": changed}, open(os.path.join(mono, ".local", "reports", "unify.report.json"), "w"), indent=1)
     print(len(target), "crates unified;", sum(changed.values()), "requirement edits")
 
 

@@ -13,7 +13,7 @@ Decision, measurements and engine plan: [ARCHITECTURE.md](ARCHITECTURE.md). Agen
 | agent-browser (vercel-labs, aphrody-labs fork) | `third_party/agent-browser/agent-browser` | kept |
 | lol-html (oven-sh, bun branch), rust-argon2 | `third_party/lol-html/lol_html`, `third_party/rust-argon2/rust-argon2` (Bun's vendored deps) | kept |
 
-Skipped from the Servo org (listed with reason in [docs/inventory.md](docs/inventory.md)): archived repositories,
+Skipped from the Servo org (listed with the reason by `bun tools/inventory.ts` into the private `.local/docs/`): archived repositories,
 websites, CI and WPT dashboards, the wpt fork, demos, `tendril` (superseded by the copy inside html5ever),
 `font-kit` and `pathfinder` (not in Servo's dependency graph), `malloc_size_of` (stylo carries its own).
 

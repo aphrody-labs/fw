@@ -272,7 +272,7 @@ def main():
     save(root, os.path.join(mono, "Cargo.toml"))
     json.dump({"unresolved": unresolved, "profiles_not_merged": [f"{u}:{t}" for (u, t) in extras_profile],
                "patches_not_merged": [f"{u}:{t}" for (u, t) in extras_patch]},
-              open(os.path.join(mono, "tools", "flatten.report.json"), "w"), indent=1)
+              open(os.path.join(mono, ".local", "reports", "flatten.report.json"), "w"), indent=1)
     print("flattened", n_done, "manifests;", len(members), "members;", len(unresolved), "unresolved")
 
 
