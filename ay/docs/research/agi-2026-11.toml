@@ -1,0 +1,297 @@
+version = 1
+retrieved = "2026-11-17"
+subject = "Seven news-summary claims about AGI benchmarks, labs and AI security (ARC Prize 2026, Inkling 2, Ndea, World Labs, AMI Labs, OpenAI, Project Glasswing) checked against primary sources, plus the public code and benchmarks Aphrody can run"
+method = "arcprize.org pages (competitions/2026, competitions/2025, arc-agi/3), docs.arcprize.org and gh api repos/arcprize/*; PyPI JSON for arc-agi; thinkingmachines.ai news pages; worldlabs.ai blog index and /blog/atlas; AMD newsroom listing; arXiv abs pages (citation meta tags) for 2610.06805, 2603.19312, 2603.24621, 2601.10904, 2602.07666, 2604.18907; gh api for repo licence, push date and archive flag; crates.io API for cargo-audit, cargo-vet, cargo-fuzz; vulncheck.com blog post and anthropic.com/project/glasswing fetched directly; ibm.com announcement fetched directly; WebSearch used to find candidates, never as the only source for a status unless listed in unverified."
+unverified = [
+  "openai.com/index/a-thousand-fewer-paths-to-root/ and openai.com/index/lifeval/ return HTTP 403 to every fetch; the 948 figures are confirmed through Help Net Security (2026-11-05) and the LifeVal date (2026-11-02) through a search snippet only",
+  "Kaggle ARC-AGI-3 prize split ($850,000 track, $700,000 grand prize, milestone amounts, entry deadline 2026-10-26): the Kaggle page is JavaScript-rendered and was not readable; the figures come from a search summary of the Kaggle rules page. arcprize.org confirms only the $2M total over three tracks and the dates",
+  "Ndea funding (USD 43M, YC W26) and the 2025-01-14 announcement date: secondary sites and an X post, not ndea.com",
+  "Whether H-JEPA (arXiv 2610.06805) is an AMI Labs release: authors include LeCun, but the arXiv page shows no affiliation; AMI Labs' own site links no repository",
+  "IBM joining Project Glasswing on 2026-05-19: one secondary site; the IBM announcement of 2026-11-09 confirms the partnership but gives no join date",
+  "Whether the OpenAI cyber model behind the 948 patches has been released: the sources call it upcoming and unnamed",
+  "Atlas weights or licence: the World Labs pages mention web apps and developer APIs only",
+]
+sources = [
+  "https://arcprize.org/competitions/2026",
+  "https://arcprize.org/arc-agi/3",
+  "https://docs.arcprize.org",
+  "https://github.com/arcprize/ARC-AGI",
+  "https://thinkingmachines.ai/news/inkling-2-small/",
+  "https://www.worldlabs.ai/blog",
+  "https://newsroom.amd.com/news/amd-completes-acquisition-world-labs/",
+  "https://arxiv.org/abs/2604.18907",
+  "https://arxiv.org/abs/2610.06805",
+  "https://www.vulncheck.com/blog/anthropic-glasswing-november-update",
+  "https://www.anthropic.com/project/glasswing",
+  "https://www.ibm.com/new/announcements/ibm-plans-to-bring-anthropic-s-claude-mythos-cyber-reasoning-into-ibm-concert",
+  "https://www.helpnetsecurity.com/2026/11/05/openai-linux-kernel-root-exploits/",
+]
+related = ["rust-ai-stack.toml"]
+
+# ---------------------------------------------------------------- claims
+
+[[claim]]
+id = "arc-prize-2026"
+text = "ARC Prize 2026 and ARC-AGI-3 interactive track + leaderboard (rules, dates, prize, how to run locally)"
+status = "confirmed"
+source = "https://arcprize.org/competitions/2026"
+date = "2026-11-17"
+note = "USD 2M over three tracks (ARC-AGI-3, ARC-AGI-2, Paper Prize); started 2026-03-25, milestones 2026-06-30 and 2026-09-30, submissions due 2026-11-02, papers due 2026-11-08, results 2026-12-04; so the competition is already closed to new entries. Rules: permissive open source (CC0 or MIT-0), Kaggle sandbox with no internet so GPT/Claude APIs are barred. Verified leaderboard arcprize.org/leaderboard, community leaderboard /leaderboard/community, competition leaderboard on Kaggle. Local run: pip install arc-agi (PyPI 0.9.10, 2026-06-10), repo arcprize/ARC-AGI (MIT)."
+
+[[claim]]
+id = "arc-agi-3-paper"
+text = "ARC-AGI-3 is an interactive reasoning benchmark with a public paper"
+status = "confirmed"
+source = "https://arxiv.org/abs/2603.24621"
+date = "2026-03-24"
+note = "arXiv 2603.24621 'ARC-AGI-3: A New Challenge for Frontier Agentic Intelligence'; the toolkit runs environments locally or via API; the benchmarking harness is arcprize/arc-agi-3-benchmarking."
+
+[[claim]]
+id = "inkling-2"
+text = "Thinking Machines Lab 'Inkling 2' released 2026-11-05"
+status = "partly"
+source = "https://thinkingmachines.ai/news/inkling-2-small/"
+date = "2026-11-05"
+note = "The model is 'Inkling 2 Small', announced 2026-11-05 with closed weights through Tinker; the post's 2026-11-12 update says weights are on Hugging Face (thinkingmachines/Inkling-2-Small), Apache 2.0 announced, while its safety section still says release is pending. VentureBeat confirms 2026-11-05 launch (article 2026-11-06). Parameters (594B total, 17B active) and the Artificial Analysis score of 31 are from search snippets only."
+
+[[claim]]
+id = "ndea"
+text = "Ndea (Francois Chollet, Mike Knoop) program synthesis work: papers, repos, what is public"
+status = "partly"
+source = "https://arxiv.org/abs/2604.18907"
+date = "2026-04-20"
+note = "ndea.com states the focus (guided program synthesis, deep learning plus program search) and lists no papers, founders or repos. One paper found: arXiv 2604.18907 'Gradient-Based Program Synthesis with Neurally Interpreted Languages' (Macfarlane, Bonnet, van Hoof, Lelis; Bonnet listed with Ndea; ICLR). The GitHub org 'ndea' exists with 0 public repos; no public code, model or API found."
+
+[[claim]]
+id = "world-labs-atlas"
+text = "World Labs 'Atlas' 3D world model opened 2026-11-12"
+status = "confirmed"
+source = "https://www.worldlabs.ai/blog/atlas"
+date = "2026-11-12"
+note = "Blog post 'Atlas: Releasing our next generation world model' dated 2026-11-12, available through web apps and developer API endpoints; Atlas was first announced 2026-09-01. No open weights or pricing stated on the pages read."
+
+[[claim]]
+id = "amd-world-labs"
+text = "AMD acquisition of World Labs 2026-11-16"
+status = "partly"
+source = "https://newsroom.amd.com/news/amd-completes-acquisition-world-labs/"
+date = "2026-11-16"
+note = "The deal was announced 2026-09-28 (all-stock, about USD 8.2B, Fei-Fei Li to AMD as EVP and chief scientist); 2026-11-16 is the completion announcement ('AMD Completes Acquisition of World Labs'), not the acquisition itself. The completion press release body was not read; wording comes from unite.ai."
+
+[[claim]]
+id = "ami-labs"
+text = "AMI Labs (Yann LeCun, Paris) world models: funding, papers, code"
+status = "confirmed"
+source = "https://techcrunch.com/2026/03/09/yann-lecuns-ami-labs-raises-1-03-billion-to-build-world-models/"
+date = "2026-03-10"
+note = "USD 1.03B seed announced 2026-03-09/10 (USD 3.5B pre-money, 4.5B post per Dealroom), JEPA-based, CEO Alexandre LeBrun, LeCun executive chairman. Code: H-JEPA arXiv 2610.06805 (MIT, kevinghst/H-JEPA, checkpoints on Hugging Face jepa-world-models/h-jepa) and LeWorldModel arXiv 2603.19312 (MIT, lucas-maes/le-wm, 4642 stars). AMI Labs authorship of H-JEPA is not shown on arXiv; amilabs.xyz only pledges open publications and open source."
+
+[[claim]]
+id = "gpt-rosalind"
+text = "OpenAI 'GPT-Rosalind'"
+status = "confirmed"
+source = "https://venturebeat.com/technology/openai-debuts-gpt-rosalind-a-new-limited-access-model-for-life-sciences-and-broader-codex-plugin-on-github"
+date = "2026-04-16"
+note = "Life-sciences model, limited-access research preview for qualified US Enterprise customers via Trusted Access; announced 2026-04-16, not a November item (a later capability update dated 2026-06-03 per search)."
+
+[[claim]]
+id = "lifeval"
+text = "OpenAI 'LifeVal' (linked to GPT-Rosalind)"
+status = "partly"
+source = "https://openai.com/index/lifeval/"
+date = "2026-11-02"
+note = "LifeVal exists but is a benchmark of everyday personal tasks (childcare, finances, government paperwork), unrelated to GPT-Rosalind; page returns 403, date from a search snippet."
+
+[[claim]]
+id = "openai-948"
+text = "OpenAI pipeline that patched 948 Linux kernel vulnerabilities"
+status = "partly"
+source = "https://www.helpnetsecurity.com/2026/11/05/openai-linux-kernel-root-exploits/"
+date = "2026-11-05"
+note = "OpenAI post 'A thousand fewer paths to root' (2026-11-04): an upcoming unnamed cyber model validated and generated patches for 948 local privilege-escalation bugs in one run, USD 1,213,430 API cost, 1,169 working exploits. 'Patched' overstates it: after the 10-day scan 61 were upstream and 43 staged; the rest were being reported. No CVE list published; pipeline and model not public."
+
+[[claim]]
+id = "glasswing-mythos"
+text = "Project Glasswing / 'Claude Mythos'"
+status = "confirmed"
+source = "https://www.anthropic.com/project/glasswing"
+date = "2026-04-07"
+note = "Announced 2026-04-07 with Claude Mythos Preview as gated research preview (USD 25/125 per million tokens); 12 launch partners (AWS, Anthropic, Apple, Broadcom, Cisco, CrowdStrike, Google, JPMorganChase, Linux Foundation, Microsoft, NVIDIA, Palo Alto Networks), 40+ more orgs, USD 100M credits. Later versions Mythos 5.1 and 5.2 (5.2 on 2026-11-09 per Security Boulevard)."
+
+[[claim]]
+id = "glasswing-ibm"
+text = "Glasswing / Mythos 'with IBM'"
+status = "partly"
+source = "https://www.ibm.com/new/announcements/ibm-plans-to-bring-anthropic-s-claude-mythos-cyber-reasoning-into-ibm-concert"
+date = "2026-11-09"
+note = "IBM is not a launch partner; it joined Glasswing later (2026-05-19 per one secondary site). IBM's 2026-11-09 announcement plans Mythos scanning in Concert Protect plus Red Hat Lightwell patch PRs, general availability early 2027 (planned, not shipped)."
+
+[[claim]]
+id = "vulncheck-audit"
+text = "VulnCheck audit of Glasswing"
+status = "confirmed"
+source = "https://www.vulncheck.com/blog/anthropic-glasswing-november-update"
+date = "2026-11-09"
+note = "Post by Patrick Garrity: 442 CVEs attributed to Anthropic (about 0.5% of 93,450 in 2026), 37,966 ledger findings of which 7,349 (19.4%) public and 217 marked fixed, 2 exploited in the wild per VulnCheck KEV. The audit does not mention IBM."
+
+# ---------------------------------------------------------------- actions
+
+[[action]]
+id = "arc-toolkit"
+area = "benchmark"
+name = "arcprize/ARC-AGI (arc-agi toolkit) + ARCEngine"
+url = "https://github.com/arcprize/ARC-AGI"
+how_to_run = "uv add arc-agi (or pip install arc-agi, needs Python 3.12); optional ARC_API_KEY; python -c 'import arc_agi; a=arc_agi.Arcade(); e=a.make(\"ls20\"); print(e.action_space)'; env.step(GameAction.ACTION1); arc.get_scorecard()"
+applies_to = "fr2 (tests/bench): interactive-reasoning evals for agents; Python only, drive from a Bun script via Bun.spawn"
+
+[[action]]
+id = "arc-agi-3-benchmarking"
+area = "benchmark"
+name = "arcprize/arc-agi-3-benchmarking (official LLM agent harness)"
+url = "https://github.com/arcprize/arc-agi-3-benchmarking"
+how_to_run = "git clone; uv venv; uv sync; cp .env.example .env (set ARC_API_KEY and one provider key); uv run main.py --game=ls20"
+applies_to = "fr2: score our hosted or local models on ARC-AGI-3 games"
+
+[[action]]
+id = "arc-kaggle-starter"
+area = "benchmark"
+name = "arcprize/ARC-AGI-3-Kaggle-Starter (local dev loop, offline agent)"
+url = "https://github.com/arcprize/ARC-AGI-3-Kaggle-Starter"
+how_to_run = "git clone; put Kaggle token in .kaggle/access_token; Python 3.12; follow README quick start; no GPU needed for the starter agent. Competition is closed (2026-11-02) so use it as an offline-agent template"
+applies_to = "fr2: template for a no-internet agent"
+
+[[action]]
+id = "h-jepa"
+area = "benchmark"
+name = "kevinghst/H-JEPA (hierarchical JEPA world model, Visual AntMaze planning)"
+url = "https://github.com/kevinghst/H-JEPA"
+how_to_run = "conda create -n hjepa python=3.11.13 && conda activate hjepa; pip install -e \".[train,env]\" --extra-index-url https://download.pytorch.org/whl/cu128; cd h_jepa; python main_hjepa.py --config-name ant_hjepa_l3 seed=42; eval: python eval.py --config-name ant_l3 seed=42 output.dir=eval_l3; checkpoints at huggingface.co/jepa-world-models/h-jepa"
+applies_to = "fr1 (GPU, CUDA 12.8 wheels): world-model planning benchmark; MIT"
+
+[[action]]
+id = "le-wm"
+area = "benchmark"
+name = "lucas-maes/le-wm (LeWorldModel, JEPA from pixels)"
+url = "https://github.com/lucas-maes/le-wm"
+how_to_run = "git clone and follow the README (arXiv 2603.19312); MIT, 4642 stars, last push 2026-05-26"
+applies_to = "fr1: baseline world model; H-JEPA builds on it"
+
+[[action]]
+id = "nvarc"
+area = "program-synthesis-tta"
+name = "NVARC, ARC Prize 2025 first place (24.0% ARC-AGI-2): synthetic data + test-time-trained model + TRM components"
+url = "https://arcprize.org/competitions/2025"
+how_to_run = "Open the Code link on the page (a Kaggle notebook); technical report arXiv 2601.10904; NVIDIA write-up developer.nvidia.com/blog/nvidia-kaggle-grandmasters-win-artificial-general-intelligence-competition/"
+applies_to = "fr1 (training); reference recipe for test-time adaptation, run via Python"
+
+[[action]]
+id = "architects"
+area = "program-synthesis-tta"
+name = "the ARChitects (2024 winner, 2025 second place 16.5%): test-time training, masked-diffusion LLM, recursive self-refinement"
+url = "https://github.com/da-fr/arc-prize-2024"
+how_to_run = "git clone (Apache-2.0, last push 2025-06-17); 2025 write-up lambdalabsml.github.io/ARC2025_Solution_by_the_ARChitects/; 2025 Kaggle code linked from arcprize.org/competitions/2025"
+applies_to = "fr1: TTT reference implementation"
+
+[[action]]
+id = "trm"
+area = "program-synthesis-tta"
+name = "SamsungSAILMontreal/TinyRecursiveModels (TRM, used in NVARC)"
+url = "https://github.com/SamsungSAILMontreal/TinyRecursiveModels"
+how_to_run = "git clone and follow the README; MIT, 6544 stars; small enough to train on one fr1 GPU"
+applies_to = "fr1: small recursive reasoner"
+
+[[action]]
+id = "mindsai-ttft"
+area = "program-synthesis-tta"
+name = "MindsAI (2025 third place 12.6%): test-time fine-tuning, augmentation ensembles; paper arXiv 2506.14276"
+url = "https://arxiv.org/abs/2506.14276"
+how_to_run = "Read the paper; Kaggle code linked from arcprize.org/competitions/2025"
+applies_to = "reading list for TTFT"
+
+[[action]]
+id = "nli-paper"
+area = "program-synthesis-tta"
+name = "Neural Language Interpreter (Ndea-affiliated, ICLR): gradient-based program synthesis"
+url = "https://arxiv.org/abs/2604.18907"
+how_to_run = "Paper only; no public code found. Track arxiv.org/html/2604.18907v1 for a repo link"
+applies_to = "reading list; not runnable"
+
+[[action]]
+id = "rust-synthesis-stack"
+area = "program-synthesis-tta"
+name = "egglog 3.0.0 + z3 0.23.0 for DSL search and verification; candle-core 0.11.1 / ort 2.0.0-rc.15 / burn 0.22.1 for local inference and test-time adaptation"
+url = "C:/src/ay/docs/research/rust-ai-stack.toml"
+how_to_run = "cargo add egglog z3 candle-core ort burn (versions and sources in rust-ai-stack.toml, verified 2026-11-17 on crates.io); model enumerative or e-graph program search in egglog, check candidate programs with z3, run adapted models with candle or ort"
+applies_to = "Rust workspaces: in-process synthesis and inference, no Python on prd"
+
+[[action]]
+id = "rust-world-sim"
+area = "world-model"
+name = "rapier3d 0.36.1 + bevy (nie pins the aphrody-labs fork 0.20.0-dev) for world simulation"
+url = "C:/src/ay/docs/research/rust-ai-stack.toml"
+how_to_run = "cargo add rapier3d; bevy_urdf 0.4.3 targets an older Bevy and needs a port; use H-JEPA/LeWM only as external Python baselines"
+applies_to = "nie: physics and interactive environments in Rust"
+
+[[action]]
+id = "cargo-audit"
+area = "vuln-pipeline"
+name = "cargo-audit 0.23.0 on RustSec advisory-db"
+url = "https://github.com/rustsec/rustsec"
+how_to_run = "cargo install cargo-audit --locked; cargo audit (reads Cargo.lock; crates.io 0.23.0 updated 2026-11-10; advisory DB github.com/RustSec/advisory-db)"
+applies_to = "every Rust workspace, CI on fr1"
+
+[[action]]
+id = "cargo-vet"
+area = "vuln-pipeline"
+name = "cargo-vet 0.10.3 (supply-chain audits, Mozilla)"
+url = "https://github.com/mozilla/cargo-vet"
+how_to_run = "cargo install cargo-vet --locked; cargo vet init; cargo vet"
+applies_to = "Rust workspaces with many dependencies (bun fork has 243 crates)"
+
+[[action]]
+id = "cargo-deny"
+area = "vuln-pipeline"
+name = "cargo-deny (advisories, licences, bans)"
+url = "https://github.com/EmbarkStudios/cargo-deny"
+how_to_run = "cargo install cargo-deny --locked; cargo deny check advisories"
+applies_to = "Rust workspaces; complements cargo-audit"
+
+[[action]]
+id = "cargo-fuzz"
+area = "vuln-pipeline"
+name = "cargo-fuzz 0.13.2 (libFuzzer for Rust) and Miri"
+url = "https://github.com/rust-fuzz/cargo-fuzz"
+how_to_run = "cargo install cargo-fuzz --locked; cargo fuzz init; cargo +nightly fuzz run <target>; undefined behaviour: cargo +nightly miri test (github.com/rust-lang/miri)"
+applies_to = "parsers and unsafe code on fr2 (long fuzz runs stay off the PC)"
+
+[[action]]
+id = "buttercup"
+area = "vuln-pipeline"
+name = "Trail of Bits Buttercup (AIxCC 2nd place CRS, open source, AGPL-3.0)"
+url = "https://github.com/trailofbits/buttercup"
+how_to_run = "git clone; make setup-local; make deploy; make status (needs an LLM API key; OSS-Fuzz-style harnesses, C/Java focus; Rust support unverified)"
+applies_to = "fr2 research: automated find-and-patch on C/C++ dependencies such as JSC"
+
+[[action]]
+id = "atlantis"
+area = "vuln-pipeline"
+name = "Team Atlanta Atlantis (AIxCC 1st place CRS)"
+url = "https://github.com/Team-Atlanta/aixcc-afc-atlantis"
+how_to_run = "git clone; follow example-crs-architecture docs to deploy; main implementation in example-crs-webservice; licence reported as NOASSERTION by GitHub, last push 2025-11-25"
+applies_to = "fr2 research only; heavy deployment"
+
+[[action]]
+id = "oss-fuzz"
+area = "vuln-pipeline"
+name = "google/oss-fuzz (continuous fuzzing; Rust supported through cargo-fuzz) and oss-fuzz-gen (LLM fuzz-target generation)"
+url = "https://github.com/google/oss-fuzz"
+how_to_run = "OSS-Fuzz: add project.yaml and Dockerfile, python infra/helper.py build_fuzzers <project>. oss-fuzz-gen (github.com/google/oss-fuzz-gen, Apache-2.0) is archived and says it is no longer maintained, and targets C/C++/Java/Python, so do not build on it for Rust"
+applies_to = "C/C++ libraries vendored by bun and nie; not for Rust crates"
+
+[[action]]
+id = "big-sleep-note"
+area = "vuln-pipeline"
+name = "Google Big Sleep: not available"
+url = "https://projectzero.google/2024/10/from-naptime-to-big-sleep.html"
+how_to_run = "Not runnable: Google runs it internally (search summary of Project Zero 2026-10 post, not verified on a primary page). Use cargo-fuzz and Buttercup instead"
+applies_to = "none"

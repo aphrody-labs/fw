@@ -1,0 +1,274 @@
+# 20 open starter issues, verified live via GitHub GraphQL/REST on 2026-11-17 (UTC).
+# Verification per entry: state OPEN, assignees = 0, no OPEN cross-referenced PR, no standing "claim"/"working on"
+# comment (released claims noted), last activity as listed.
+# patch_candidate = true marks the 6 best first patches (small, well-specified, testable with the repo's own suite).
+# Hints name files confirmed to exist unless marked "unverified"; the exact edit site still has to be located.
+# AI rules differ per repo, see maintainer-plan.md section 0. Patches to rust-lang repos must be human-authored.
+
+verified_on = "2026-11-17"
+
+[[issue]]
+repo = "rust-lang/rust-clippy"
+number = 18066
+title = "large_stack_arrays lints the array of an associated const, which it does not lint in a free const"
+labels = ["C-bug", "I-false-positive"]
+url = "https://github.com/rust-lang/rust-clippy/issues/18066"
+created = "2026-11-14"
+updated = "2026-11-14"
+why_it_fits = "Lint false positive with a complete repro (inherent, trait default, trait impl); pure lint logic."
+size = "S"
+needs_compiler_build = false
+patch_candidate = true
+hint = "clippy_lints/src/large_stack_arrays.rs: skip arrays whose enclosing item is an associated const, mirroring the free const/static handling; add cases to the large_stack_arrays UI test under tests/ui/, then `cargo bless`."
+
+[[issue]]
+repo = "rust-lang/rust-clippy"
+number = 18054
+title = "`default_numeric_fallback` flags a literal in an enum struct variant's field, whose declared type pins it"
+labels = ["C-bug", "I-false-positive"]
+url = "https://github.com/rust-lang/rust-clippy/issues/18054"
+created = "2026-11-13"
+updated = "2026-11-13"
+why_it_fits = "Plain struct field works, enum struct-variant field does not; small type-lookup exception with a repro."
+size = "S"
+needs_compiler_build = false
+patch_candidate = true
+hint = "clippy_lints/src/default_numeric_fallback.rs: extend the struct-field expected-type handling to enum variants (resolve the variant from the path, use its field types) - exact edit site unverified; extend the default_numeric_fallback UI tests under tests/ui/."
+
+[[issue]]
+repo = "rust-lang/rust-clippy"
+number = 18043
+title = "`disallowed_methods` fires inside a macro defined in another crate, where the calling crate cannot change the code"
+labels = ["C-bug", "good first issue", "I-false-positive"]
+url = "https://github.com/rust-lang/rust-clippy/issues/18043"
+created = "2026-11-11"
+updated = "2026-11-13"
+why_it_fits = "Macro-expansion/span handling (clippy book macro_expansions). The maintainer comment says LLMs are not allowed on good first issue; another maintainer questions blanket suppression, so agree on a per-entry option first."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/rust-clippy"
+number = 17991
+title = "`manual_ignore_case_cmp`: `x.to_ascii_uppercase() == 'a'` is linted and `--fix` turns `false` into `true`"
+labels = ["C-bug", "L-suggestion", "I-suggestion-causes-error", "I-false-positive"]
+url = "https://github.com/rust-lang/rust-clippy/issues/17991"
+created = "2026-11-06"
+updated = "2026-11-10"
+why_it_fits = "Suggestion that silently changes behavior (priority bug class in Clippy CONTRIBUTING). PR #18022 was closed unmerged after a maintainer asked whether an LLM wrote it; keep the patch small and human-written."
+size = "S"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/cargo"
+number = 17680
+title = "`cargo run` suggests adding `--future-incompat-report`, which does not work"
+labels = ["C-bug", "S-triage"]
+url = "https://github.com/rust-lang/cargo/issues/17680"
+created = "2026-11-03"
+updated = "2026-11-03"
+why_it_fits = "Wrong hint text in a user-facing message; small, snapshot-testable. Not yet S-accepted: comment first (cargo reviews only accepted issues)."
+size = "S"
+needs_compiler_build = false
+patch_candidate = true
+hint = "src/compiler/future_incompat.rs contains the message 'to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id N`': only suggest the flag for commands that accept it, otherwise print only the `cargo report` form; update tests/testsuite/future_incompat_report.rs."
+
+[[issue]]
+repo = "rust-lang/cargo"
+number = 17634
+title = "Undetected changes to non-UTF-8 environment variables used at build time"
+labels = ["C-bug", "S-triage"]
+url = "https://github.com/rust-lang/cargo/issues/17634"
+created = "2026-10-23"
+updated = "2026-10-23"
+why_it_fits = "Fingerprinting bug with a shell repro; Unix/Windows OsString semantics. Not yet S-accepted: comment first."
+size = "M"
+needs_compiler_build = false
+patch_candidate = true
+hint = "src/compiler/fingerprint/mod.rs: `LocalFingerprint::RerunIfEnvChanged { var: String, val: Option<String> }` (~line 855) stores the value as a lossy String; keep OsString/bytes so \\xff vs \\xfe vs unset compare as different; add a case to the build-script tests under tests/testsuite/ (file name unverified)."
+
+[[issue]]
+repo = "rust-lang/cargo"
+number = 17704
+title = "`--features pkg/feature` is silently ignored for a package that has a dev-dependency on itself"
+labels = ["C-bug", "S-triage"]
+url = "https://github.com/rust-lang/cargo/issues/17704"
+created = "2026-11-09"
+updated = "2026-11-09"
+why_it_fits = "Feature resolver (resolver 2/3) behavior bug with a minimal manifest repro; resolver/manifest skill. Not yet S-accepted."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/cargo"
+number = 17646
+title = "warning on unspecified edition missing suggestion"
+labels = ["C-bug", "A-diagnostics", "S-needs-design"]
+url = "https://github.com/rust-lang/cargo/issues/17646"
+created = "2026-10-27"
+updated = "2026-10-27"
+why_it_fits = "Structured suggestion for the `package.edition` unspecified warning (emitted in src/workspace/parser/mod.rs); diagnostics plumbing. S-needs-design: agree on the design first."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/rust-analyzer"
+number = 23628
+title = "Missing `parameter` semantic token modifier in `format` macro"
+labels = ["E-easy", "E-has-instructions", "C-bug", "A-highlighting"]
+url = "https://github.com/rust-lang/rust-analyzer/issues/23628"
+created = "2026-11-07"
+updated = "2026-11-07"
+why_it_fits = "E-easy with maintainer instructions (crates/ide/src/syntax_highlighting/format.rs: drop the early return, use rustc_parse_format). AI_POLICY.md: no AI-authored code on E-easy+E-has-instructions; PR #23645 was closed for AI-policy violations."
+size = "S"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/rust-analyzer"
+number = 23603
+title = "Cycles in crate graph cause `View Crate Graph` to hang indefinitely"
+labels = ["A-vscode", "C-bug", "A-ide"]
+url = "https://github.com/rust-lang/rust-analyzer/issues/23603"
+created = "2026-11-02"
+updated = "2026-11-02"
+why_it_fits = "Graph traversal bug in the IDE layer (view crate graph handler in crates/rust-analyzer/src/handlers/request.rs); not analysis code."
+size = "S"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/rust-analyzer"
+number = 23356
+title = "panic: entered unreachable code: inference diagnostic in desugared expr"
+labels = ["C-bug", "I-panic"]
+url = "https://github.com/rust-lang/rust-analyzer/issues/23356"
+created = "2026-09-13"
+updated = "2026-11-12"
+why_it_fits = "Panic in hir-ty inference diagnostics. Two claims were released (unclaim 2026-09-24 and 2026-11-12); earlier PR #23517 closed. Analysis code: AI_POLICY.md requires citing the rustc code behind the change."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/rustfmt"
+number = 7138
+title = "Rustfmt removes trailing `::self` unconditionally"
+labels = ["C-bug", "A-imports", "X-impacts-stable-default-format", "I-invalid-code", "S-has-mcve", "A-resolve"]
+url = "https://github.com/rust-lang/rustfmt/issues/7138"
+created = "2026-09-26"
+updated = "2026-10-25"
+why_it_fits = "Formatter changes semantics (`use a::b::self;` is not `use a::b;`: different namespaces); minimal MCVE; the team asked for clarification and the reporter answered."
+size = "M"
+needs_compiler_build = false
+patch_candidate = true
+hint = "src/imports.rs: UseSegmentKind::Slf and the UseTree normalization drop a trailing `self` segment; keep it when it is not redundant; add a source/target pair under tests/ (imports); run `cargo test` on nightly with rustc-dev."
+
+[[issue]]
+repo = "rust-lang/rustfmt"
+number = 6896
+title = "Weird formatting of whitespace in between code and in-line comments"
+labels = ["C-bug", "I-poor-formatting", "A-comments", "I-vertical-alignment", "A-whitespace", "S-has-mcve", "A-line-width"]
+url = "https://github.com/rust-lang/rustfmt/issues/6896"
+created = "2026-05-13"
+updated = "2026-09-25"
+why_it_fits = "MCVE with array-of-tuples trailing comments; reproduces on stable defaults; line-width interplay in comment alignment."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/miri"
+number = 5242
+title = "Miri can't detect clashing shims between static and function symbols in all cases"
+labels = ["C-bug", "A-shims", "I-misses-UB"]
+url = "https://github.com/rust-lang/miri/issues/5242"
+created = "2026-08-04"
+updated = "2026-08-04"
+why_it_fits = "RalfJung: calling `environ` as a function should also check conflicting native Miri static shims - 'would be easy to fix'; the reverse direction needs a function-shim refactor, so scope the patch to the easy half."
+size = "S"
+needs_compiler_build = false
+patch_candidate = true
+hint = "src/machine.rs holds `extern_statics` / `init_extern_statics`; where a function symbol is resolved for a call (src/shims/foreign_items.rs, unverified) also look the name up in `extern_statics` and raise the existing clashing-symbol error; add a tests/fail case from the godbolt repro; `./miri test`."
+
+[[issue]]
+repo = "rust-lang/miri"
+number = 5256
+title = "pthread primitives: ensure the provenance passed to \"init\" remains valid"
+labels = ["C-bug", "A-shims", "I-misses-UB"]
+url = "https://github.com/rust-lang/miri/issues/5256"
+created = "2026-08-16"
+updated = "2026-08-16"
+why_it_fits = "Concurrency shim precision (relates to rust-lang/rust#160815); needs a design chat with a maintainer first, hence M."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/crates.io"
+number = 15161
+title = "Adding Trusted Publisher fails without an email address"
+labels = []
+url = "https://github.com/rust-lang/crates.io/issues/15161"
+created = "2026-11-09"
+updated = "2026-11-09"
+why_it_fits = "Backend controller src/controllers/trustpub/github_configs/create.rs inner-joins users and emails (per a root-cause comment, unverified); fix the query or return a clear error plus a frontend hint. The commenter did not claim it. Needs Postgres (devcontainer)."
+size = "S"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/crates.io"
+number = 14747
+title = "Blocked URLs should block links in READMEs as well"
+labels = []
+url = "https://github.com/rust-lang/crates.io/issues/14747"
+created = "2026-09-21"
+updated = "2026-09-21"
+why_it_fits = "carols10cents: solved if implemented and that crate's READMEs are re-rendered (render_readmes admin command exists); README rendering lives in crates/crates_io_markdown. Turbo87 flagged the re-render cost, so confirm the approach first."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "rust-lang/rust"
+number = 89040
+title = "Unclear documentation around HashMap iteration order"
+labels = ["E-help-wanted", "A-docs", "T-libs", "A-hashtable"]
+url = "https://github.com/rust-lang/rust/issues/89040"
+created = "2021-09-17"
+updated = "2026-11-13"
+why_it_fits = "Doc-only (library/std/src/collections/hash/map.rs), no compiler build, but it is a libs-team policy question (guarantee or not): discuss first. Weak fit: rust-lang/rust has almost no E-easy/E-mentor issue that is unclaimed and PR-free (159751 and 159686 are claimed or have PRs). Docs must be human-written under the LLM policy."
+size = "S"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "oven-sh/bun"
+number = 48797
+title = "CSS Modules cause ReferenceError: import_Button_module is not defined with HMR enabled on Windows"
+labels = ["bug", "needs triage", "bake:dev", "css"]
+url = "https://github.com/oven-sh/bun/issues/48797"
+created = "2026-11-13"
+updated = "2026-11-13"
+why_it_fits = "robobun reproduced it on Linux: the dev-server HMR module for a CSS-module import is emitted with an empty import list (Rust bundler/bake code). No PR yet. Needs a full `bun bd` debug build (~10 GB, 10-30 min), not a rustc build."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
+
+[[issue]]
+repo = "oven-sh/bun"
+number = 48531
+title = "Windows: recursive fs.rmSync / fs.promises.rm spin while the directory holds a delete-pending file"
+labels = ["bug", "windows", "node:fs"]
+url = "https://github.com/oven-sh/bun/issues/48531"
+created = "2026-11-11"
+updated = "2026-11-11"
+why_it_fits = "Windows sys code in src/runtime/node/node_fs.rs (`zig_delete_tree`: ENOTEMPTY/EEXIST sets `need_to_retry` and reopens, which spins on a delete-pending file; a commenter located the seam). Windows host required to test."
+size = "M"
+needs_compiler_build = false
+patch_candidate = false
