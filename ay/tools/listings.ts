@@ -215,8 +215,12 @@ if (import.meta.main) {
         const before = readFileSync(join(root, file), "utf8");
         const after = rewrite(before, gen.generate);
         if (after === before) continue;
-        if (check) problems.push(`${file}: listings are stale`);
-        else writeFileSync(join(root, file), after);
+        if (check) {
+          const a = before.split("\n");
+          const b = after.split("\n");
+          const at = a.findIndex((l, i) => l !== b[i]);
+          problems.push(`${file}: listings are stale, first difference at line ${at + 1}:\n  committed: ${a[at]}\n  generated: ${b[at]}`);
+        } else writeFileSync(join(root, file), after);
       }
     }
   } finally {
