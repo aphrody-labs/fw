@@ -26,6 +26,7 @@ Rust ecosystem (Boa, Nova, Ladybird) followed upstream.
 | `webkit` | JavaScriptCore | WebCore | WebKit, system GPU layer | none (WKWebView) | Bun's native engine (`Bun.WebView`, macOS) |
 | `blink` | V8 | Blink (LayoutNG) | Skia, Dawn (WebGPU) | CDP, full | Chromium checkout, `//headless:headless_shell` (`build/engines`) |
 | `blitz` | none: the host runs the script | Stylo, Taffy, Parley | Vello on wgpu | none | `DioxusLabs/blitz`, tracked; its README: "no JavaScript bindings", beta |
+| `kitesurf` | Boa (Rust) in isolates | Stylo, Taffy, Parley, Blitz patched (193 patches) | Vello (CPU) | CDP, partial | `third_party/kitesurf`, Cloudflare's engine on Blitz; see [docs/kitesurf.md](docs/kitesurf.md) |
 | `servo` | SpiderMonkey (`mozjs`) | Stylo, Servo layout | WebRender, wgpu | Firefox RDP | crates in `third_party/servo` and its organisation's |
 | `obscura` | V8 | html5ever, Stylo selectors | none (optional render) | CDP, subset | fork in `third_party/obscura` |
 | `boa`, `nova` | Rust JavaScript engines | none | none | none | `track` only |
@@ -52,6 +53,9 @@ is, not on a number kept here:
   selectors/stylo and url from this repository, with V8 from our Chromium checkout instead of rusty_v8 prebuilts.
 - agent-browser is the AI front end: snapshot, refs, click; it speaks CDP, so it drives either CDP engine.
 - Servo's remaining value is its crates: stylo, html5ever, cssparser, url, webrender, mozjs, ipc-channel. Blitz uses Stylo too.
+- Kitesurf is the Rust engine with the most work behind it: it turns Blitz into an engine that runs page JavaScript behind CDP, and carries the
+  patches that close most of Blitz's gap with Blink. It is not Chromium and does not replace it: Blink stays the engine of record, and
+  Kitesurf's value is the lite and edge path whose parity with Chromium 160 is measured on the same WPT corpus (docs/kitesurf.md).
 - A verdict is about what the engine did, not what the server answered: `refused`, `auth` and `consent` are not failures, a status code
   is never trusted for a wall (the title and the final URL are read), an engine that hangs is a result with a timeout, and what an
   engine cannot do is recorded where the router reads it (`lessons`) and forgotten the day it can.
