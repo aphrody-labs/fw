@@ -103,8 +103,8 @@
   "crates": {
    ".": "third_party/hyperfine/hyperfine"
   },
-  "imported": "2a321673b8964f3c21f03ed1ece5244a6c27eec4",
-  "sha": "12fec42098642a19855ead34c8cb1e0be28c8ead",
+  "imported": "bc2b7a5e8a785270fc47be73e4dc294b7318fa01",
+  "sha": "c5161524980522320c7d3425e714cc0965a869a5",
   "url": "https://github.com/aphrody-labs/hyperfine"
  },
  "ipc-channel": {
