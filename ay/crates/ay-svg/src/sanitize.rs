@@ -306,13 +306,32 @@ fn animation_is_safe(node: Node<'_, '_>) -> bool {
 
 struct Sanitizer(SanitizeOptions);
 
+impl Sanitizer {
+    /// A `<style>` is kept only when every child is a text node (a comment, processing
+    /// instruction or element would split the text a browser joins) and the joined text passes
+    /// [`css_is_safe`] once; the writer then emits exactly the checked text.
+    fn style_is_safe(&self, node: Node<'_, '_>) -> bool {
+        node.children().all(|child| child.is_text())
+            && css_is_safe(
+                &node
+                    .children()
+                    .filter_map(|child| child.text())
+                    .collect::<String>(),
+                self.0,
+                true,
+            )
+    }
+}
+
 impl Rules for Sanitizer {
     fn keep_element(&self, node: Node<'_, '_>) -> bool {
         let tag = node.tag_name();
         match tag.namespace() {
             Some(SVG_NS) => {
                 let name = tag.name();
-                if ANIMATION_ELEMENTS.contains(&name) {
+                if name == "style" {
+                    self.style_is_safe(node)
+                } else if ANIMATION_ELEMENTS.contains(&name) {
                     animation_is_safe(node)
                 } else if name == "metadata" {
                     !self.0.strip_metadata
@@ -356,13 +375,6 @@ impl Rules for Sanitizer {
             }
         };
         safe.then(|| value.to_owned())
-    }
-
-    fn text(&self, parent: Node<'_, '_>, text: &str) -> Option<String> {
-        if parent.tag_name().name() == "style" && !css_is_safe(text, self.0, true) {
-            return None;
-        }
-        Some(text.to_owned())
     }
 }
 
@@ -485,6 +497,23 @@ mod tests {
             ok.contains("@media") && ok.contains("url(#g)") && ok.contains("stroke:red"),
             "{ok}"
         );
+    }
+
+    #[test]
+    fn style_split_across_text_nodes_is_checked_as_a_whole() {
+        for body in [
+            "<style>.a{background:u<!--x-->rl(https://evil/x)}</style>",
+            "<style>.a{background:ur<![CDATA[l(https://evil/x)]]>}</style>",
+            "<style>.a{background:u<!--1-->r<!--2-->l(<!--3-->https://evil/x)}</style>",
+            "<style>@im<!--x-->port 'https://evil/x.css';</style>",
+            "<style>.a{b:c}<?pi x?>.d{background:url(https://evil/x)}</style>",
+            "<style><b>.a{background:url(https://evil/x)}</b></style>",
+        ] {
+            let svg = format!(r#"<svg xmlns="http://www.w3.org/2000/svg">{body}</svg>"#);
+            let out = clean(&svg);
+            assert!(!out.contains("evil"), "{body} -> {out}");
+            assert!(!out.contains("rl("), "{body} -> {out}");
+        }
     }
 
     #[test]

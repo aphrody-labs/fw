@@ -2,7 +2,10 @@
 
 //! Rasterization with `resvg`: SVG to straight-alpha RGBA, PNG and multi-size ICO.
 
-use std::sync::{Arc, OnceLock};
+use std::sync::{
+    Arc, OnceLock,
+    atomic::{AtomicU64, Ordering},
+};
 
 use resvg::{tiny_skia, usvg};
 
@@ -10,6 +13,13 @@ use crate::{Error, Result};
 
 /// Largest output, in pixels (`width * height`), for an intrinsic or a requested size.
 pub const MAX_PIXELS: u64 = 64_000_000;
+
+/// Largest embedded raster image, in pixels, judged from its header before anything is decoded.
+pub const MAX_IMAGE_PIXELS: u64 = 16_000_000;
+/// Largest embedded raster image, in bytes.
+pub const MAX_IMAGE_BYTES: usize = 16 * 1024 * 1024;
+/// Most embedded raster images decoded for one document.
+pub const MAX_IMAGES: u64 = 256;
 
 /// Output size and rendering switches.
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
@@ -45,6 +55,40 @@ pub struct Raster {
     pub rgba: Vec<u8>,
 }
 
+/// The `data:` image resolver: the default one, behind caps read from the image header
+/// (`imagesize`, nothing is decoded): bytes and pixels per image ([`MAX_IMAGE_BYTES`],
+/// [`MAX_IMAGE_PIXELS`]), and image count and total pixels per document ([`MAX_IMAGES`],
+/// [`MAX_PIXELS`]; `spent` holds the pixels and the count of the document so far). A small file
+/// cannot decode into gigabytes; images whose header cannot be read are refused.
+fn limited_data_resolver(spent: Arc<Spent>) -> usvg::ImageHrefDataResolverFn<'static> {
+    let inner = usvg::ImageHrefResolver::default_data_resolver();
+    Box::new(move |mime, data, options| {
+        if mime != "image/svg+xml" {
+            if data.len() > MAX_IMAGE_BYTES {
+                return None;
+            }
+            let size = imagesize::blob_size(&data).ok()?;
+            let pixels = (size.width as u64).checked_mul(size.height as u64)?;
+            if pixels > MAX_IMAGE_PIXELS {
+                return None;
+            }
+            let total = spent.pixels.fetch_add(pixels, Ordering::Relaxed) + pixels;
+            let count = spent.images.fetch_add(1, Ordering::Relaxed) + 1;
+            if total > MAX_PIXELS || count > MAX_IMAGES {
+                return None;
+            }
+        }
+        inner(mime, data, options)
+    })
+}
+
+/// Embedded image work done so far for one document.
+#[derive(Debug, Default)]
+struct Spent {
+    pixels: AtomicU64,
+    images: AtomicU64,
+}
+
 fn system_fontdb() -> Arc<usvg::fontdb::Database> {
     static DB: OnceLock<Arc<usvg::fontdb::Database>> = OnceLock::new();
     DB.get_or_init(|| {
@@ -65,7 +109,7 @@ pub fn parse_tree(svg: &str, system_fonts: bool) -> Result<usvg::Tree> {
         // `data:` images only: a string href (a path or a URL) is never read, so untrusted SVG
         // cannot load a local file or reach the network through the renderer.
         image_href_resolver: usvg::ImageHrefResolver {
-            resolve_data: usvg::ImageHrefResolver::default_data_resolver(),
+            resolve_data: limited_data_resolver(Arc::new(Spent::default())),
             resolve_string: Box::new(|_, _| None),
         },
         ..usvg::Options::default()
@@ -269,6 +313,51 @@ mod tests {
         );
         let r = render(&svg, RenderOptions::default()).expect("render");
         assert_eq!(&r.rgba[..4], &[255, 0, 0, 255]);
+    }
+
+    fn png_header(width: u32, height: u32) -> Arc<Vec<u8>> {
+        let mut data = b"\x89PNG\r\n\x1a\n\0\0\0\x0dIHDR".to_vec();
+        data.extend_from_slice(&width.to_be_bytes());
+        data.extend_from_slice(&height.to_be_bytes());
+        data.extend_from_slice(&[8, 6, 0, 0, 0]);
+        Arc::new(data)
+    }
+
+    #[test]
+    fn embedded_images_are_capped_by_header_size() {
+        let options = usvg::Options::default();
+        let resolve = limited_data_resolver(Arc::new(Spent::default()));
+        // A bomb: tiny file, 60000 x 60000 pixels declared.
+        assert!(resolve("image/png", png_header(60_000, 60_000), &options).is_none());
+        // Unreadable headers are refused, whatever the mime type claims.
+        assert!(resolve("image/png", Arc::new(b"junk".to_vec()), &options).is_none());
+        assert!(resolve("image/png", png_header(400, 400), &options).is_some());
+        // Over the byte cap, whatever the header says.
+        let mut heavy = png_header(8, 8).as_ref().clone();
+        heavy.resize(MAX_IMAGE_BYTES + 1, 0);
+        assert!(resolve("image/png", Arc::new(heavy), &options).is_none());
+    }
+
+    #[test]
+    fn embedded_images_are_counted_per_document() {
+        let options = usvg::Options::default();
+        let resolve = limited_data_resolver(Arc::new(Spent::default()));
+        let small = png_header(2, 2);
+        for _ in 0..MAX_IMAGES {
+            assert!(resolve("image/png", small.clone(), &options).is_some());
+        }
+        assert!(resolve("image/png", small, &options).is_none());
+    }
+
+    #[test]
+    fn embedded_images_share_a_document_budget() {
+        let options = usvg::Options::default();
+        let resolve = limited_data_resolver(Arc::new(Spent::default()));
+        let big = png_header(4_000, 4_000);
+        for _ in 0..4 {
+            assert!(resolve("image/png", big.clone(), &options).is_some());
+        }
+        assert!(resolve("image/png", big, &options).is_none());
     }
 
     #[test]
