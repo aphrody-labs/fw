@@ -58,6 +58,8 @@ jobs:
       - run: bun test ./corelib/host
       - run: bun tools/corelib-qemu.ts --log "$RUNNER_TEMP/qemu-boot.log"
       - run: bun tools/corelib-component.ts --log "$RUNNER_TEMP/wasmtime-boot.log"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - run: bun tools/listings.ts --check
       - if: always()
         uses: actions/upload-artifact@v7

@@ -89,8 +89,14 @@ function onPath(name: string): string | undefined {
   return undefined;
 }
 
+/** GitHub API headers; a token (GITHUB_TOKEN or GH_TOKEN) lifts the anonymous rate limit that shared CI runners hit. */
+function githubHeaders(): Record<string, string> {
+  const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
+  return { "user-agent": "ay-tools", ...(token ? { authorization: `Bearer ${token}` } : {}) };
+}
+
 async function latest(repo: string): Promise<{ tag: string; assets: Map<string, string> }> {
-  const res = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, { headers: { "user-agent": "ay-tools" } });
+  const res = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, { headers: githubHeaders() });
   if (!res.ok) throw new Error(`${repo}: latest release lookup failed (${res.status})`);
   const json = (await res.json()) as { tag_name: string; assets: { name: string; browser_download_url: string }[] };
   return { tag: json.tag_name, assets: new Map(json.assets.map(a => [a.name, a.browser_download_url])) };
