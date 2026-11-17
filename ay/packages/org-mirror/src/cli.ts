@@ -15,7 +15,7 @@ const USAGE = `usage: org-mirror <command> <org> [options]
   stats <org>   row counts per table and the replica against GitHub's totals [--json]
   export <org>  --toml [--out PATH]   research dataset summary (default docs/research/<org>.toml in the repository)
   serve <org>   [--port 8788] [--host 127.0.0.1]   browse the replica
-defaults: --db ${defaultDbPath("<org>")}; data root from AY_ORG_MIRROR_DIR; token from GH_TOKEN, GITHUB_TOKEN or \`gh auth token\``;
+defaults: --db ${defaultDbPath("<org>")}; data root from AY_ORG_MIRROR_DIR, else AY_DATA_DIR/mirror; token from GH_TOKEN, GITHUB_TOKEN or \`gh auth token\``;
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,

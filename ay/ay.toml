@@ -26,6 +26,13 @@ build = "fr1"                # builds, CI runners, heavy agents
 test = "fr2"                 # tests, benchmarks, research
 prod = "prd"                 # production only
 
+# Per-role layouts on those hosts (tools/hosts.ts reads them; nothing else writes a host path).
+# work = the large volume for builds, caches and mirrors; the test host mounts the build host's volume over NFS.
+[paths.build]
+work = "/srv/xbuild"
+[paths.test]
+work = "/srv/xbuild/shared"
+
 [products]
 # One entry per product; the feature matrix (docs/features.toml) refers to these keys.
 os = { title = "Aphrody OS", reference = "https://googlebook.google/", keywords = ["os", "kernel", "linux", "boot", "installer", "device", "hardware", "driver", "wayland", "desktop", "shell", "waydroid", "android", "aosp", "gpu", "vulkan", "audio", "fleet"] }

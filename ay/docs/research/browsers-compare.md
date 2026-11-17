@@ -1,7 +1,7 @@
 # Servo, Brave and Helium compared
 
 Read live on 2026-11-16 with `bun tools/recon.ts` (GitHub orgs, site sitemaps) and `gh api` (repository contents,
-releases). Raw data: `C:/data/recon/{servo,brave,imputnet}-org/*.json`.
+releases). Raw data: `$AY_DATA_DIR/recon/{servo,brave,imputnet}-org/*.json`.
 
 | | Servo | Brave | Helium |
 |---|---|---|---|

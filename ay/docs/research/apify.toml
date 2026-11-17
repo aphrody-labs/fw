@@ -1,4 +1,4 @@
-# Apify recon, 2026-11-16, produced with `bun tools/recon.ts` (raw facts: C:/data/recon/apify/apify.json, mirror: C:/data/recon/apify-content/mirror).
+# Apify recon, 2026-11-16, produced with `bun tools/recon.ts` (raw facts: $AY_DATA_DIR/recon/apify/apify.json, mirror: $AY_DATA_DIR/recon/apify-content/mirror).
 version = 1
 retrieved = "2026-11-16"
 sources = [

@@ -1,13 +1,21 @@
 /** The sqlite schema of a replica. One database per organization; every table is keyed by the repository's full name. */
 import { Database } from "bun:sqlite";
 import { mkdirSync } from "node:fs";
+import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 
 export const SCHEMA_VERSION = 1;
 
-/** Root of the replica data: AY_ORG_MIRROR_DIR, else C:/data/mirror on Windows, /srv/mirror elsewhere. */
+/** Data directory of the ay tools: AY_DATA_DIR, else `ay` under XDG_DATA_HOME (LOCALAPPDATA on Windows, ~/.local/share elsewhere). */
+export function dataDir(): string {
+  if (process.env.AY_DATA_DIR) return process.env.AY_DATA_DIR;
+  const base = process.env.XDG_DATA_HOME ?? (process.platform === "win32" ? process.env.LOCALAPPDATA : undefined) ?? join(homedir(), ".local", "share");
+  return join(base, "ay");
+}
+
+/** Root of the replica data: AY_ORG_MIRROR_DIR, else `mirror` in the data directory. */
 export function dataRoot(): string {
-  return process.env.AY_ORG_MIRROR_DIR ?? (process.platform === "win32" ? "C:/data/mirror" : "/srv/mirror");
+  return process.env.AY_ORG_MIRROR_DIR ?? join(dataDir(), "mirror");
 }
 
 export const orgDir = (org: string, root = dataRoot()) => join(root, org);

@@ -1,7 +1,7 @@
 version = 1
 retrieved = "2026-11-16"
 subject = "casey/just (the command runner) and its ecosystem, and whether Aphrody should adopt it as the single task entry in front of tools/*.ts"
-method = "Release, repo and licence facts from gh api repos/casey/just and the crates.io API; Cargo.toml, Cargo.lock, CHANGELOG.md and README.md read at tag 1.59.0 with gh api repos/casey/just/contents/<file>?ref=1.59.0; CLI surface from the local binary (just --help, just 1.59.0); npm, PyPI, JetBrains and crates.io registries queried live; code-search counts from gh api search/code (file counts, not repository counts); big adopters from one GraphQL query that probes HEAD:justfile, HEAD:Justfile, HEAD:.justfile on 100 candidate repos (only the 8 listed matched, so the list is a floor, not a ranking); local justfiles read from the checkouts under C:/src and exercised with just --list, --dump --dump-format json, --fmt --check, --dry-run and a few real recipes."
+method = "Release, repo and licence facts from gh api repos/casey/just and the crates.io API; Cargo.toml, Cargo.lock, CHANGELOG.md and README.md read at tag 1.59.0 with gh api repos/casey/just/contents/<file>?ref=1.59.0; CLI surface from the local binary (just --help, just 1.59.0); npm, PyPI, JetBrains and crates.io registries queried live; code-search counts from gh api search/code (file counts, not repository counts); big adopters from one GraphQL query that probes HEAD:justfile, HEAD:Justfile, HEAD:.justfile on 100 candidate repos (only the 8 listed matched, so the list is a floor, not a ranking); local justfiles read from the checkouts under $WORKSPACE_ROOT and exercised with just --list, --dump --dump-format json, --fmt --check, --dry-run and a few real recipes."
 unverified = [
   "VS Code Marketplace install count and version of nefrob.vscode-just-syntax (the marketplace query did not return it; GitHub release 0.10.2 of nefrob/vscode-just is verified)",
   "Zed and Helix just support beyond what the just README states (Helix: out of the box since 23.05, per README; zed-just v0.2.0 verified on GitHub)",
@@ -763,10 +763,10 @@ source = "https://api.github.com/repos/microsoft/just"
 local_just = "1.59.0 as a winget Casey.Just link under the user WinGet Links directory: installed and equal to the latest release"
 fork = "none: aphrody-labs/just, aphrody-labs/tree-sitter-just and aphrody-dev/just all return HTTP 404; the only match for 'just' in aphrody-labs is just-bash, a fork of vercel-labs/just-bash (unrelated shell sandbox, nie uses it for sandbox-sh)"
 shell_on_windows = "niubash (niu.exe) and winuxcmd sh.exe are installed; the legacy ay justfile sets windows-shell to niu -cu"
-stale_env = "The user environment variable SRC_ROOT is C:\\aphrody, a path that no longer exists (the checkout is C:\\src\\ay). The legacy justfile reads root := env(\"SRC_ROOT\", justfile_directory()), so recipes that use {{root}} fail until SRC_ROOT is removed; verified: just agents status fails with Module not found C:\\aphrody/tools/agents/runner.ts, and env -u SRC_ROOT just doctor runs."
+stale_env = "The user environment variable SRC_ROOT points to a directory that no longer exists (the checkout is $WORKSPACE_ROOT/ay). The legacy justfile reads root := env(\"SRC_ROOT\", justfile_directory()), so recipes that use {{root}} fail until SRC_ROOT is removed; verified: just agents status fails with Module not found <stale SRC_ROOT>/tools/agents/runner.ts, and env -u SRC_ROOT just doctor runs."
 
 [[aphrody.justfile]]
-repo = "C:/src/ay (aphrody-labs/ay, legacy)"
+repo = "$WORKSPACE_ROOT/ay (aphrody-labs/ay, legacy)"
 files = "justfile (91 lines) plus 23 imported .just files (one per area, 1152 lines in total, excluding third_party)"
 tracked_since = "2026-11-11 (f39b8ae60), last touched 2026-11-16 (b582f45fb)"
 recipes = 157
@@ -787,19 +787,19 @@ defects = [
 note = "Already implements the pattern recommended below: recipes are one-line calls into bun tools/scripts (for example bun \"{{root}}/tools/agents/runner.ts\" {{cmd}} {{args}}) and into the ay CLI."
 
 [[aphrody.justfile]]
-repo = "C:/src/ay/apps/nt (nested in legacy ay)"
+repo = "$WORKSPACE_ROOT/ay/apps/nt (nested in legacy ay)"
 files = "justfile (96 lines)"
 recipes = 21
 works = "just --list succeeds (WinUI shell, interop, msindex, tools, web)"
 
 [[aphrody.justfile]]
-repo = "C:/src/ay/apps/open (own git repository)"
+repo = "$WORKSPACE_ROOT/ay/apps/open (own git repository)"
 files = "justfile"
 recipes = 8
 works = "just --list succeeds (check, extension, install, private, release, test-ts, upstream)"
 
 [[aphrody.justfile]]
-repo = "C:/src/nie (aphrody-labs/nie)"
+repo = "$WORKSPACE_ROOT/nie (aphrody-labs/nie)"
 files = "justfile (87 lines) plus infra/just/{cloud,native,qa,rust,workspace}.just (148 lines)"
 last_commit = "01dec6c74 2026-11-14"
 recipes = 41
@@ -809,7 +809,7 @@ works = "yes: --list and --dump json succeed with 0 warnings; --fmt --check exit
 recipes_calling_bun = 17
 
 [[aphrody.justfile]]
-repo = "C:/src/rosegriffon (aphrody-labs/rosegriffon)"
+repo = "$WORKSPACE_ROOT/rosegriffon (aphrody-labs/rosegriffon)"
 files = "same layout as nie (justfile 87 lines plus 5 infra/just files, 149 lines)"
 last_commit = "01dec6c7 2026-11-14"
 recipes = 41
@@ -817,7 +817,7 @@ works = "yes: --list and --dump json succeed; --fmt --check exits 1 (1.58.0 spac
 recipes_calling_bun = 19
 
 [[aphrody.justfile]]
-repo = "C:/src/shenron (aphrody-labs/shenron)"
+repo = "$WORKSPACE_ROOT/shenron (aphrody-labs/shenron)"
 files = "justfile (334 lines)"
 last_commit = "3b23ca81 2026-11-16"
 recipes = 62
@@ -828,17 +828,17 @@ recipes_referencing_ts = 28
 works = "yes: --list, --dump json succeed; just --dry-run check prints bun run typecheck then bun scripts/build/rust/cargo.ts ck; just test-scripts runs the Bun test suite (684 tests, 5 failures that belong to the repo's tests; the recipe wiring works); --fmt --check exits 1 (1.58.0 spacing)"
 
 [[aphrody.justfile]]
-repo = "C:/src/aphrody (aphrody-dev/aphrody)"
+repo = "$WORKSPACE_ROOT/aphrody (aphrody-dev/aphrody)"
 files = "none first-party: all 34 justfile and .just files are vendored upstream code under vendor/ (cosmic-*, libcosmic, blitz, anyrender, taffy, cosmic-epoch). Not run."
 works = "not run, upstream files"
 
 [[aphrody.justfile]]
-repo = "C:/src/bun, C:/src/ay-next, C:/src/browser"
+repo = "$WORKSPACE_ROOT/bun, $WORKSPACE_ROOT/ay-next, $WORKSPACE_ROOT/browser"
 files = "none"
 note = "ay-next has tools/*.ts (absorb, disks, features, recon, each with a *.test.ts) and a package.json with two scripts (features, check); there is no justfile yet."
 
 [[aphrody.justfile]]
-repo = "C:/src/ay/third_party (bazzite, acp-rust-sdk, anyrender)"
+repo = "$WORKSPACE_ROOT/ay/third_party (bazzite, acp-rust-sdk, anyrender)"
 files = "upstream justfiles and ublue-os .just modules, vendored"
 works = "not run, upstream files"
 
@@ -861,7 +861,7 @@ adoption_rules = [
   "Put set minimum-version := \"1.59.0\" (supported since 1.55.0) and set shell := [\"bun\", \"exec\"] or sh -cu with windows-shell niu -cu, one choice per repo, documented in the justfile header.",
   "Keep recipes to one line: bun tools/<name>.ts {{args}} or cargo <cmd>; no logic in the justfile; tools/*.ts keep their own tests (bun test ./tools/).",
   "Use [group], doc comments and the import pattern of ay (root justfile = settings and imports only) once there are more than about 20 recipes; mod gives namespaced recipes (just foo bar) if collisions appear.",
-  "Never read the repo root from a user environment variable without a fallback: use justfile_directory(); delete or fix SRC_ROOT=C:\\aphrody on this PC.",
+  "Never read the repo root from a user environment variable without a fallback: use justfile_directory(); delete or fix the stale SRC_ROOT on this PC.",
   "Add just --fmt --check to the check recipe and re-format once (1.58.0 spacing), so the 95-line diff seen in ay, nie, rosegriffon and shenron does not recur.",
   "Install through the existing channels (winget Casey.Just on Windows, nixpkgs just in the flake, taiki-e/install-action@just in CI); no fork needed.",
   "Optional: just-lsp 0.11.2 for editors and the in-repo skill (npx skills add casey/just --global) for agents instead of just-mcp, which is 67 percent complete and unreleased since 2025-11-15.",

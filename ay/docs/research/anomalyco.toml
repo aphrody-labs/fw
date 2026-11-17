@@ -3261,7 +3261,7 @@ versions = 152
 
 # --- hand-written below: kept by `export` ---
 [run]
-host = "fr2 (ay.toml [hosts].test): sqlite on local disk, git mirrors on /srv/xbuild/shared"
+host = "fr2 (ay.toml [hosts].test): sqlite on local disk, git mirrors on $WORK/shared"
 scope = "full sync of the 12 most recently pushed non-fork repos; metadata and language tags for all 86"
 not_returned_by_the_api = "opencode: 3 issues and 19 pull requests that GitHub counts but its list query does not return (skipped, not retried forever)"
 
@@ -3269,19 +3269,19 @@ not_returned_by_the_api = "opencode: 3 issues and 19 pull requests that GitHub c
 url = "https://opencode.ai/"
 sitemap_pages = 2101
 mirrored = 2101
-mirror = "C:/data/recon/anomalyco/anomalyco/mirror"
+mirror = "$AY_DATA_DIR/recon/anomalyco/anomalyco/mirror"
 sections = { "/data" = 1617, "/changelog" = 204, "/docs" = 69, "/console" = 27 }
 
 [[site]]
 url = "https://sst.dev/"
 sitemap_pages = 336
-mirror = "C:/data/recon/anomalyco/anomalyco-sites/mirror/sst.dev"
+mirror = "$AY_DATA_DIR/recon/anomalyco/anomalyco-sites/mirror/sst.dev"
 sections = { "/docs" = 292, "/blog" = 40 }
 
 [[site]]
 url = "https://openauth.js.org/"
 sitemap_pages = 32
-mirror = "C:/data/recon/anomalyco/anomalyco-sites/mirror/openauth.js.org"
+mirror = "$AY_DATA_DIR/recon/anomalyco/anomalyco-sites/mirror/openauth.js.org"
 
 [[site]]
 url = "https://models.dev/"

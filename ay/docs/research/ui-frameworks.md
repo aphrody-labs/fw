@@ -70,7 +70,7 @@ All other frameworks: size, startup and memory unknown (no published source read
 
 ## Identified: nsh
 
-"nsh" in C:\src\aphrody (.agents/plugins/aphrody/docs/nsh, skills/nsh, skills/nsh-design-guides) is **Native Shell (NSH)**, upstream https://github.com/longbridge/nsh (Apache-2.0, v0.5.1 2026-11-14, 2915 stars): a Rust native UI framework whose apps (TSX or Rust, QuickJS engine) render through each platform's own views (UIKit, Android views, AppKit, Win32, GTK 4), HTML on the web, GPUI inside GPUI apps, and cells in a terminal. Its docs also name a plugin ecosystem (longbridge/nsh-compat, huacnlee/nsh-platform-miniprogram). It is a different architecture from Rune: native widgets per platform versus Rune's single own GPU renderer.
+"nsh" in $WORKSPACE_ROOT/aphrody (.agents/plugins/aphrody/docs/nsh, skills/nsh, skills/nsh-design-guides) is **Native Shell (NSH)**, upstream https://github.com/longbridge/nsh (Apache-2.0, v0.5.1 2026-11-14, 2915 stars): a Rust native UI framework whose apps (TSX or Rust, QuickJS engine) render through each platform's own views (UIKit, Android views, AppKit, Win32, GTK 4), HTML on the web, GPUI inside GPUI apps, and cells in a terminal. Its docs also name a plugin ecosystem (longbridge/nsh-compat, huacnlee/nsh-platform-miniprogram). It is a different architecture from Rune: native widgets per platform versus Rune's single own GPU renderer.
 
 ## Rune (aphrody-labs/rune, fork of anomalyco/rune)
 

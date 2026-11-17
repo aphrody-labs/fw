@@ -9,6 +9,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { parseArgs } from "node:util";
 
+import { dataDir } from "../packages/org-mirror/src/db.ts";
+
 const UA = "Mozilla/5.0 (X11; Linux x86_64) AphrodyRecon/1.0";
 
 export function locs(xml: string): { sitemaps: string[]; pages: string[] } {
@@ -127,7 +129,7 @@ if (import.meta.main) {
       site: { type: "string", multiple: true, default: [] },
       sitemap: { type: "string", multiple: true, default: [] }, // explicit sitemap files (e.g. only the content part of a site)
       openapi: { type: "string", multiple: true, default: [] },
-      out: { type: "string", default: "C:/data/recon" },
+      out: { type: "string", default: join(dataDir(), "recon") },
       mirror: { type: "boolean", default: false },
       concurrency: { type: "string", default: "2" },
     },

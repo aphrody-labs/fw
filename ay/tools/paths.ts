@@ -16,8 +16,9 @@ export type Finding = { file: string; line: number; kind: Kind; match: string; t
 export type Kind = "drive" | "msys" | "home" | "users" | "root" | "srv";
 
 const RULES: { kind: Kind; re: RegExp }[] = [
-  // C:\x, C:/x, C:\\x (escaped in source); a leading identifier character means it is not a drive (e.g. `a:/b` in a URL).
-  { kind: "drive", re: /(?<![A-Za-z0-9_])[A-Za-z]:(?:\\{1,2}|\/)[A-Za-z0-9$%._{(]/g },
+  // A drive letter with a backslash, escaped backslash or slash. A leading identifier character means it is not a drive,
+  // and a lowercase letter before `\n`, `\t`... is a label followed by an escape sequence.
+  { kind: "drive", re: /(?<![A-Za-z0-9_])(?:[A-Za-z]:(?:\\\\|\/)|[A-Z]:\\|[a-z]:\\(?![nrtbfv0]))[A-Za-z0-9$%._{(]/g },
   { kind: "msys", re: /(?<![A-Za-z0-9_.:\-/~])\/[cd]\/[A-Za-z]/g },
   { kind: "home", re: /(?<![A-Za-z0-9_.\-])\/home\/[A-Za-z_][\w.-]*/g },
   { kind: "users", re: /(?<![A-Za-z0-9_.\-])\/Users\/[A-Za-z_][\w.-]*/g },

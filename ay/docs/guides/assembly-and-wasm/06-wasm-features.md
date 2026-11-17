@@ -34,7 +34,7 @@ Two sources, kept apart. **Observed** columns were run here with the example fil
 
 The "cited" cells quote `features.json`; "flag" means the entry exists only behind a flag. Bun 1.4.5-canary (`1.4.5-canary.1+9098897a1`) is the runtime of this repository; its JavaScriptCore is a fork, so its status can differ from Safari's. The rejections are recorded as test expectations: `wat-examples.test.ts` asserts the exact error and runs the real behavior assertions the moment a newer build accepts the module.
 
-wasmtime was installed from the release asset `wasmtime-v50.0.2-x86_64-linux.tar.xz` of [bytecodealliance/wasmtime v50.0.2](https://github.com/bytecodealliance/wasmtime/releases/tag/v50.0.2) (published 2026-11-16) under `/srv/xbuild/wasmtime` on `fr1`, and the Windows zip of the same release for the test; `wat-examples.test.ts` runs a wasmtime block when `wasmtime` is on `PATH` or `AY_WASMTIME` is set.
+wasmtime was installed from the release asset `wasmtime-v50.0.2-x86_64-linux.tar.xz` of [bytecodealliance/wasmtime v50.0.2](https://github.com/bytecodealliance/wasmtime/releases/tag/v50.0.2) (published 2026-11-16) under `$WORK/wasmtime` on `fr1`, and the Windows zip of the same release for the test; `wat-examples.test.ts` runs a wasmtime block when `wasmtime` is on `PATH` or `AY_WASMTIME` is set.
 
 ## The clang side: CPUs and features
 

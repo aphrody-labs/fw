@@ -3,13 +3,14 @@
 //   bun tools/corelib-component.ts               build, componentize, compose, run with the wasmtime found (or installed) here
 //   bun tools/corelib-component.ts --no-run      stop after composing
 //   bun tools/corelib-component.ts --remote      sync the sources to the build host of ay.toml and do all of it there
-//   options: --log PATH (where the transcript is written), --dir PATH (remote work dir, default /srv/xbuild/asm-guide/corelib-component)
+//   options: --log PATH (where the transcript is written), --dir PATH (remote work dir, default <build work>/asm-guide/corelib-component, [paths.build].work of ay.toml)
 // Pieces (wit/ay-corelib.wit): corelib (C built with -DAY_COMPONENT, wrapped by `wasm-tools component new`), app (hello.wat with
 // renamed import and export), console and driver (hand-written WAT); `wac` wires them, wasmtime runs the result.
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { delimiter, dirname, join, resolve } from "node:path";
 
 import { buildWasm } from "./corelib.ts";
+import { hostAlias, hostWork, loadHosts } from "./hosts.ts";
 
 const root = resolve(import.meta.dir, "..");
 const GOLDEN = "corelib/tests/golden/boot.txt";
@@ -179,9 +180,9 @@ async function runLocal(log: string): Promise<number> {
 }
 
 function runRemote(log: string): number {
-  const ay = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as { hosts: { build: string } };
-  const host = ay.hosts.build;
-  const dir = arg("--dir") ?? "/srv/xbuild/asm-guide/corelib-component";
+  const cfg = loadHosts();
+  const host = hostAlias("build", cfg);
+  const dir = arg("--dir") ?? `${hostWork("build", cfg)}/asm-guide/corelib-component`;
   const files = ["ay.toml", "corelib", "tools/corelib.ts", "tools/corelib-component.ts"];
   const archive = Bun.spawnSync(["tar", "czf", "-", ...files], { cwd: root, stdout: "pipe" });
   if (archive.exitCode !== 0) return 1;

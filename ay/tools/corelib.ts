@@ -28,7 +28,7 @@ export const ASM_TARGETS: Record<string, string[]> = {
 };
 
 export function findClang(): string {
-  const candidates = [process.env.AY_CLANG, ...[23, 22, 21].map(v => Bun.which(`clang-${v}`)), Bun.which("clang"), "C:/Program Files/LLVM/bin/clang.exe"];
+  const candidates = [process.env.AY_CLANG, ...[23, 22, 21].map(v => Bun.which(`clang-${v}`)), Bun.which("clang"), process.env.ProgramFiles && join(process.env.ProgramFiles, "LLVM", "bin", "clang.exe")];
   const found = candidates.find((c): c is string => !!c && existsSync(c));
   if (!found) throw new Error("clang not found: install LLVM or set AY_CLANG");
   return found;

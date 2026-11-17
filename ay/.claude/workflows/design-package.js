@@ -9,9 +9,10 @@ export const meta = {
   ],
 }
 
-// args: { repo: 'C:\\src\\ay-next', driveFolderId: '...', docId?: '...', sheetId?: '...', slidesId?: '...', figmaFileKey?: '...', today: 'YYYY-MM-DD' }
+// args: { repo: '<path of the ay checkout>', driveFolderId: '...', docId?: '...', sheetId?: '...', slidesId?: '...', figmaFileKey?: '...', today: 'YYYY-MM-DD' }
 const A = args || {}
-const repo = A.repo || 'C:\\src\\ay-next'
+const repo = A.repo
+if (!repo) throw new Error('args.repo (path of the ay checkout) is required')
 const sources = `${repo}\\docs\\spec.md, ${repo}\\docs\\architecture.md, ${repo}\\docs\\adr\\*.md, ${repo}\\docs\\features.toml, ${repo}\\ay.toml, ${repo}\\brand`
 const rule = 'Read the sources; never invent content. Load MCP tools with ToolSearch before calling them. Report ids and URLs of what you created or updated.'
 

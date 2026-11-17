@@ -102,18 +102,18 @@ Local `just` is installed: 1.59.0 (winget), equal to the latest release. A shell
 
 | Repository | Justfiles | Recipes | Result |
 |---|---|---|---|
-| `C:\src\ay` (legacy) | `justfile` plus 23 imported `.just` | 157 in 22 groups; 73 call `bun`, 65 reference `.ts` | `--list`, `--dump --dump-format json` OK, 0 warnings; `just doctor` runs with `SRC_ROOT` unset |
-| `C:\src\ay\apps\nt` | 1 | 21 | `--list` OK |
-| `C:\src\ay\apps\open` | 1 | 8 | `--list` OK |
-| `C:\src\nie` | `justfile` plus 5 in `infra/just` | 41 | `--list`, dump OK |
-| `C:\src\rosegriffon` | same layout as nie | 41 | `--list`, dump OK |
-| `C:\src\shenron` | 1 (334 lines), shell `bun exec` | 62; 43 call `bun` | `--list`, dump, `--dry-run check` OK; `test-scripts` runs and 5 repo tests fail |
-| `C:\src\aphrody` | vendored upstream only (cosmic, blitz, taffy, anyrender) | not run | n/a |
-| `C:\src\bun`, `C:\src\ay-next`, `C:\src\browser` | none | n/a | n/a |
+| `$WORKSPACE_ROOT/ay` (legacy) | `justfile` plus 23 imported `.just` | 157 in 22 groups; 73 call `bun`, 65 reference `.ts` | `--list`, `--dump --dump-format json` OK, 0 warnings; `just doctor` runs with `SRC_ROOT` unset |
+| `$WORKSPACE_ROOT/ay/apps/nt` | 1 | 21 | `--list` OK |
+| `$WORKSPACE_ROOT/ay/apps/open` | 1 | 8 | `--list` OK |
+| `$WORKSPACE_ROOT/nie` | `justfile` plus 5 in `infra/just` | 41 | `--list`, dump OK |
+| `$WORKSPACE_ROOT/rosegriffon` | same layout as nie | 41 | `--list`, dump OK |
+| `$WORKSPACE_ROOT/shenron` | 1 (334 lines), shell `bun exec` | 62; 43 call `bun` | `--list`, dump, `--dry-run check` OK; `test-scripts` runs and 5 repo tests fail |
+| `$WORKSPACE_ROOT/aphrody` | vendored upstream only (cosmic, blitz, taffy, anyrender) | not run | n/a |
+| `$WORKSPACE_ROOT/bun`, `$WORKSPACE_ROOT/ay-next`, `$WORKSPACE_ROOT/browser` | none | n/a | n/a |
 
 Defects found:
 
-1. The user environment variable `SRC_ROOT` is `C:\aphrody`, which does not exist. The legacy justfile does `root := env("SRC_ROOT", justfile_directory())`, so `just agents status` fails with `Module not found`. Removing the variable fixes it. A justfile should use `justfile_directory()` without an environment override.
+1. The user environment variable `SRC_ROOT` points to a directory that does not exist. The legacy justfile does `root := env("SRC_ROOT", justfile_directory())`, so `just agents status` fails with `Module not found`. Removing the variable fixes it. A justfile should use `justfile_directory()` without an environment override.
 2. `just --fmt --check` exits 1 in ay, nie, rosegriffon and shenron. The diff is only the 1.58.0 change to `{{ x }}` spacing (95 lines in ay).
 3. No justfile sets `minimum-version`, so an old `just` fails with a confusing parse error on newer syntax.
 

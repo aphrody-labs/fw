@@ -64,7 +64,7 @@ On 2026-11-16 Chrome Stable was 158 while the newest CEF Stable build was 156 an
 ## Tests and proof
 
 - `bun test ./packages/chromium-releases ./apps/chromium-dash ./packages/chromium/test/version.test.ts`: 80 tests against fixtures recorded from the live services (`packages/chromium-releases/test/fixtures`, re-recorded with `bun packages/chromium-releases/test/record.ts`). `bun run check` runs them in CI.
-- Pages, side by side with the originals, rendered in Chrome by agent-browser: `C:\data\shots\chromium-dash\orig-*.png` (chromiumdash.appspot.com and chromestatus.com) next to `ay-*.png` (this app): home, releases, schedule, branches, commits, channels, roadmap, features, feature, api, serving-builds.
+- Pages, side by side with the originals, rendered in Chrome by agent-browser: `$AY_DATA_DIR/shots/chromium-dash/orig-*.png` (chromiumdash.appspot.com and chromestatus.com) next to `ay-*.png` (this app): home, releases, schedule, branches, commits, channels, roadmap, features, feature, api, serving-builds.
 - JSON: `/fetch_releases`, `/fetch_version`, `/fetch_milestone_schedule` of the app hash equal to the upstream bodies; `/api/v0/channels` keeps the guard.
 
 ## Not replicated

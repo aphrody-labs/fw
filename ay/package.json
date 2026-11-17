@@ -5,6 +5,6 @@
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
     "features": "bun tools/features.ts",
-    "check": "bun tools/features.ts --check && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./apps/chromium-dash ./packages/chromium/test/version.test.ts"
+    "check": "bun tools/features.ts --check && bun tools/paths.ts && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./apps/chromium-dash ./packages/chromium/test/version.test.ts"
   }
 }

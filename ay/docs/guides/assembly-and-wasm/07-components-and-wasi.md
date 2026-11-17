@@ -333,7 +333,7 @@ Composition is also where the isolation shows. The app component imports `syscal
 
 ## 7.6 Running on Wasmtime
 
-Wasmtime is not on this PC, so the run happens on the build host of `ay.toml` (`[hosts].build`, `fr1`). The prebuilt release was installed under `/srv/xbuild/asm-guide`:
+Wasmtime is not on this PC, so the run happens on the build host of `ay.toml` (`[hosts].build`, `fr1`). The prebuilt release was installed under `$WORK/asm-guide`:
 
 ```text
 $ curl -fsSL -o wt.tar.xz https://github.com/bytecodealliance/wasmtime/releases/download/v50.0.2/wasmtime-v50.0.2-x86_64-linux.tar.xz
@@ -387,13 +387,13 @@ What this does not show: the driver supports one app (the host.ts driver support
 
 ```text
 $ bun tools/corelib-component.ts --no-run
-component: C:\src\ay\target\corelib-component\ay-os.wasm (16430 bytes)
+component: $WORKSPACE_ROOT/ay/target/corelib-component/ay-os.wasm (16430 bytes)
 
 $ bun tools/corelib-component.ts --remote
-component: /srv/xbuild/asm-guide/corelib-component/target/corelib-component/ay-os.wasm (16413 bytes)
+component: $WORK/asm-guide/corelib-component/target/corelib-component/ay-os.wasm (16413 bytes)
 wasmtime: wasmtime 50.0.2 (f9a93b049 2026-11-16)
-wasmtime: boot transcript identical (13 lines), log /srv/xbuild/asm-guide/corelib-component/logs/wasmtime-boot.log
-wasmtime: fr1:/srv/xbuild/asm-guide/corelib-component/logs/wasmtime-boot.log copied to C:\src\ay\target\corelib-component.log
+wasmtime: boot transcript identical (13 lines), log $WORK/asm-guide/corelib-component/logs/wasmtime-boot.log
+wasmtime: fr1:$WORK/asm-guide/corelib-component/logs/wasmtime-boot.log copied to $WORKSPACE_ROOT/ay/target/corelib-component.log
 ```
 
 The build host used its own `wasm-tools` 1.261.0 and clang 23.1.6; this PC used `wasm-tools` 1.263.0 and clang 23.1.5. The sizes differ by 17 bytes (16413 against 16430 for the composed component; the corelib component is 10198 bytes on `fr1` and 10215 on this PC), so I did not assume the builds are byte-identical, only that both transcripts equal the golden one. The only build prerequisites are clang with the wasm32 backend and `wasm-ld`, `wasm-tools`, `wac` and Wasmtime; there is no cargo step.

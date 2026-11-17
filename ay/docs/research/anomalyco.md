@@ -1,6 +1,6 @@
 # anomalyco (formerly sst): opencode and the org replica
 
-Read live on 2026-11-16 and 2026-11-17 with `packages/org-mirror` (GitHub GraphQL and REST, `git clone --mirror`, npm, crates.io). Counts are in `anomalyco.toml`; the data itself lives in the sqlite replica on the test host and on the PC under `C:/data/mirror/anomalyco/`, never in the repository.
+Read live on 2026-11-16 and 2026-11-17 with `packages/org-mirror` (GitHub GraphQL and REST, `git clone --mirror`, npm, crates.io). Counts are in `anomalyco.toml`; the data itself lives in the sqlite replica on the test host and on the PC under `$AY_DATA_DIR/mirror/anomalyco/`, never in the repository.
 
 ## The org
 - 86 repos, 11 forks, 29 archived, 41 pushed in the last 90 days. All 45 active non-fork repos are forked or synced in aphrody-labs.

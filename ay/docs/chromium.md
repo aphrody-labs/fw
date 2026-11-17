@@ -130,30 +130,30 @@ If one of these starts to matter, the route is `[patch.crates-io] cef = { git = 
   edition 2024, about 1.3 GB of disk for the extracted CEF (333 MB download for the minimal distribution) plus the
   Rust target directory, network access to `cef-builds.spotifycdn.com` on the first build.
 - Heavy builds run on the `build` host (fr1), tests on the `test` host (fr2) (`ay.toml` `[hosts]`), never on the Windows
-  PC. Keep the CEF download, the target directory and the checkout on the build volume, `/srv/xbuild/<dir>` on fr1,
-  which fr2 mounts at `/srv/xbuild/shared/<dir>`; the roots of both hosts are too small for 1.3 GB of CEF plus a
+  PC. Keep the CEF download, the target directory and the checkout on the build volume, `$WORK/<dir>` on fr1 (`WORK` is `[paths.build].work` of `ay.toml`, `bun tools/hosts.ts work build`),
+  which fr2 mounts at `[paths.test].work`/`<dir>`; the roots of both hosts are too small for 1.3 GB of CEF plus a
   target directory. The Windows and macOS targets of `cef` are not exercised here: the OS-specific parts (the
   `libcef.so` check, the headless switches, `rpath`) are Linux code.
 - Bun 1.4 for the package.
 
 ```sh
 ssh fr1
-cd /srv/xbuild/<dir>/ay                        # a checkout on the build volume
-export CARGO_INCREMENTAL=0 CEF_PATH=/srv/xbuild/<dir>/cef CARGO_TARGET_DIR=/srv/xbuild/<dir>/target
+cd $WORK/<dir>/ay                        # a checkout on the build volume
+export CARGO_INCREMENTAL=0 CEF_PATH=$WORK/<dir>/cef CARGO_TARGET_DIR=$WORK/<dir>/target
 cargo build --release -p ay_chromium
 cargo test -p ay_chromium --release            # unit tests and the end-to-end test against a local page
 (cd packages/chromium && bun run build && bun test)
-# on fr2, the same binaries through the NFS mount (libcef.so sits next to them, found through $ORIGIN):
-/srv/xbuild/shared/<dir>/target/release/ay-chromium screenshot https://example.com /tmp/x.png
+# on fr2, the same binaries through the NFS mount, `WORK_TEST` = `[paths.test].work` (libcef.so sits next to them, found through $ORIGIN):
+$WORK_TEST/<dir>/target/release/ay-chromium screenshot https://example.com /tmp/x.png
 ```
 
 ## Proof (2026-11-16)
 
-Built and tested on fr1 in `/srv/xbuild/shared/ay-chromium`, run on fr2 from the same path over NFS.
+Built and tested on fr1 in `$WORK/shared/ay-chromium`, run on fr2 from the same path over NFS.
 
 - fr2: `ay-chromium screenshot https://example.com /tmp/ay-chromium-example.png` printed
   `{"path":"/tmp/ay-chromium-example.png","width":1280,"height":720}`; the copy is
-  `C:\data\shots\ay-chromium-example.png` (the rendered example.com page, inspected).
+  `$AY_DATA_DIR/shots/ay-chromium-example.png` (the rendered example.com page, inspected).
 - fr2: `ay-chromium eval https://example.com document.title` printed `"Example Domain"`.
 - fr1: `cargo test -p ay_chromium --release`: 6 unit tests and
   `tests/e2e.rs::screenshot_and_evaluate_a_real_page` (real CEF against a local HTTP server: evaluate string, number,

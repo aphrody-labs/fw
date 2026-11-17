@@ -2,11 +2,12 @@
 // Boot the bare-metal corelib image in QEMU and compare its serial output with the shared golden transcript.
 //   bun tools/corelib-qemu.ts                 build (clang, lld) and boot on this machine (Linux with qemu-system-x86_64)
 //   bun tools/corelib-qemu.ts --remote        sync the sources to the build host of ay.toml, run there, fetch the log
-//   options: --log PATH (where the serial log is written), --dir PATH (remote work dir, default /srv/xbuild/ay-corelib)
+//   options: --log PATH (where the serial log is written), --dir PATH (remote work dir, default <build work>/ay-corelib, [paths.build].work of ay.toml)
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 import { buildX86Image } from "./corelib.ts";
+import { hostAlias, hostWork, loadHosts } from "./hosts.ts";
 
 const root = resolve(import.meta.dir, "..");
 const GOLDEN = "corelib/tests/golden/boot.txt";
@@ -55,9 +56,9 @@ function runLocal(log: string): number {
 }
 
 function runRemote(log: string): number {
-  const ay = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as { hosts: { build: string } };
-  const host = ay.hosts.build;
-  const dir = arg("--dir") ?? "/srv/xbuild/ay-corelib";
+  const cfg = loadHosts();
+  const host = hostAlias("build", cfg);
+  const dir = arg("--dir") ?? `${hostWork("build", cfg)}/ay-corelib`;
   const files = ["ay.toml", "corelib", "tools/corelib.ts", "tools/corelib-qemu.ts"];
   const tar = Bun.spawnSync(["tar", "czf", "-", ...files], { cwd: root, stdout: "pipe" });
   if (tar.exitCode !== 0) return 1;

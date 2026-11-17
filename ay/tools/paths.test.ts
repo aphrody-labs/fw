@@ -28,6 +28,7 @@ describe("absolute-path literals", () => {
       "git@github.com:org/repo.git and ssh host:/path and x:y",
     ];
     for (const c of clean) expect(kinds(c)).toEqual([]);
+    expect(kinds(String.raw`const asm = "f:\n\tmov"`)).toEqual([]);
   });
   test("an inline paths:ok marker exempts the line", () => {
     expect(kinds("C:\\x // paths:ok")).toEqual([]);

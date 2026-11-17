@@ -24,7 +24,7 @@ Retrieved 2026-11-16. Data and per-row sources are in `chromium-stack.toml`. Any
 Facts that shape the decision:
 
 - Linux build floor: 8 GB RAM minimum (16 GB or more recommended), 100 GB free disk, clang with libc++ only. Windows needs 100 GB on NTFS and Visual Studio 2026. Fetch takes about 30 minutes on a fast link; compile time is not stated in the docs read.
-- The build host's root filesystem has ~50 GB free, but its build volume `/srv/xbuild` (XFS on LVM, 805 GB, also NFS-mounted on fr2 at /srv/xbuild/shared) has ~740 GB free (`bun tools/disks.ts`, 2026-11-16). Disk is not a blocker.
+- The build host's root filesystem has ~50 GB free, but its build volume `$WORK` (XFS on LVM, 805 GB, also NFS-mounted on fr2 at $WORK/shared) has ~740 GB free (`bun tools/disks.ts`, 2026-11-16). Disk is not a blocker.
 - Chrome stable moves every 14 to 21 days (M156 2026-10-20, M157 2026-11-03, M158 2026-11-17, M159 2026-12-08). CEF stable is at 156 while Chrome for Testing is at 157.
 - Prebuilt sizes (archives): CfT `chrome-linux64.zip` 203,266,906 B, `chrome-headless-shell-linux64.zip` 127,965,683 B, CEF linux64 `minimal` 333,332,290 B and `standard` 697,434,558 B. Installed sizes are unknown.
 - Chrome DevTools MCP officially supports only Chrome and Chrome for Testing; usage statistics and CrUX lookups are on by default.
@@ -41,7 +41,7 @@ Facts that shape the decision:
 | Update cost | Highest: rebase every 14 to 21 days, touching `chrome/browser/ui`; we track security fixes | Low: bump the crate and the CEF build; about one milestone behind stable | High: content API churn, no stability guarantee found in the docs read |
 | Binary size | Unknown until built (CfT chrome zip 203 MB as a hint) | CEF archive 333 MB minimal, 697 MB standard; installed size unknown | Unknown until built |
 | Rust fit | Weak: libraries, Mojo, cxx only | Strong: `cef` crate on crates.io, osr example on winit and wgpu | Weak |
-| Blocker | 100 GB disk (available on /srv/xbuild) | None for prebuilt | 100 GB disk |
+| Blocker | 100 GB disk (available on $WORK) | None for prebuilt | 100 GB disk |
 
 ## Recommendation
 
@@ -54,6 +54,6 @@ Measurements still needed to accept ADR-3:
 3. Feature probe on CEF 156 and 158: CDP attach from DevTools MCP and Puppeteer, extensions, WebGPU, and any WebMCP support.
 4. web-platform-tests pass rate on CfT 157 as the upper bound, then on the CEF build.
 5. CEF update lag in days behind Chrome stable over several milestones.
-6. Only if (a) or (c) stays alive: a build directory on fr1 /srv/xbuild, then fetch time, `autoninja` release time with ThinLTO, peak RAM, disk use and binary size, with content_shell measured next to chrome.
+6. Only if (a) or (c) stays alive: a build directory on fr1 $WORK, then fetch time, `autoninja` release time with ThinLTO, peak RAM, disk use and binary size, with content_shell measured next to chrome.
 
 Not sourced: Chromium compile time, CEF source-build time and requirements, installed sizes, Blink's licence, Chrome binary licence terms, rusty_v8 and rust-skia versions, whether WebMCP ships in Chromium or CEF, whether cef-rs accelerated off-screen rendering works on each OS.

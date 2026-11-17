@@ -16,9 +16,9 @@ sources = [
   "https://api.github.com/repos/{h4ckf0r0day/obscura,lightpanda-io/browser,microsoft/playwright,microsoft/playwright-mcp,puppeteer/puppeteer,mattsse/chromiumoxide,rust-headless-chrome/rust-headless-chrome}/releases and /repos/aphrody-labs/<name> (pushed_at, licence)",
   "https://registry.npmjs.org/{agent-browser,playwright,playwright-core,@playwright/mcp,@playwright/cli,puppeteer,puppeteer-core,@puppeteer/browsers,chrome-devtools-mcp}",
   "https://crates.io/api/v1/crates/{chromiumoxide,chromiumoxide_cdp,headless_chrome,obscura,cef,agent-browser,lightpanda}",
-  "C:/src/ay-next/docs/research/chromium-stack.toml and chromium-stack.md (CfT, chrome-headless-shell, CEF, cef-rs rows, read 2026-11-16)",
-  "C:/src/ay-next/crates/ay_chromium/{Cargo.toml,src/lib.rs,src/engine.rs} (local, read 2026-11-16)",
-  "C:/src/ay-next/docs/adr/0003-browser.md",
+  "$WORKSPACE_ROOT/ay-next/docs/research/chromium-stack.toml and chromium-stack.md (CfT, chrome-headless-shell, CEF, cef-rs rows, read 2026-11-16)",
+  "$WORKSPACE_ROOT/ay-next/crates/ay_chromium/{Cargo.toml,src/lib.rs,src/engine.rs} (local, read 2026-11-16)",
+  "$WORKSPACE_ROOT/ay-next/docs/adr/0003-browser.md",
 ]
 
 [context]

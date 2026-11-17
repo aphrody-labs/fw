@@ -1,4 +1,4 @@
-# DioxusLabs org replica, 2026-11-16 (bun tools/recon.ts; raw: C:/data/recon/dioxuslabs*/)
+# DioxusLabs org replica, 2026-11-16 (bun tools/recon.ts; raw: $AY_DATA_DIR/recon/dioxuslabs*/)
 version = 1
 retrieved = "2026-11-16"
 sources = ["https://github.com/DioxusLabs", "https://dioxuslabs.com/", "https://blitz.is/"]
@@ -9,7 +9,7 @@ active = 35
 forked_to = "aphrody-labs (every active repo except .github, which is our own org profile repo)"
 
 [sites]
-dioxuslabs_com = { sitemap_pages = 111, mirrored = 110, mirror = "C:/data/recon/dioxuslabs-site/mirror" }
+dioxuslabs_com = { sitemap_pages = 111, mirrored = 110, mirror = "$AY_DATA_DIR/recon/dioxuslabs-site/mirror" }
 blitz_is = { sitemap_pages = 0, note = "no sitemap; its source is the forked repo blitz-website" }
 
 [[repo]]
