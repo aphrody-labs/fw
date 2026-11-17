@@ -18,3 +18,9 @@ test("crates cut from one upstream commit share a fork branch, in list order; an
   const groups = groupPins([pin("a", "1", "o/x"), pin("b", "2", "o/y"), pin("c", "1", "o/x"), pin("d", "3", "o/x")]);
   expect(groups.map((group) => group.crates.map((crate) => crate.name))).toEqual([["a", "c"], ["b"], ["d"]]);
 });
+
+test("a manifest edit lands once at its anchor and a moved anchor is an error", async () => {
+  const { editManifest } = await import("./kitesurf-absorb.ts");
+  expect(editManifest("a = 1\nb = 2\n", [{ file: "Cargo.toml", from: "a = 1\n", to: "a = 1\nc = 3\n" }])).toBe("a = 1\nc = 3\nb = 2\n");
+  expect(() => editManifest("x\n", [{ file: "Cargo.toml", from: "a = 1\n", to: "" }])).toThrow("anchor not found");
+});

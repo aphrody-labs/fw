@@ -6,7 +6,7 @@
 //   bun tools/kitesurf-absorb.ts [--kitesurf <checkout>] [--work <dir>] [--push] [--only <crate,...>]
 // Run it on a build host (clones are large). The pinned crates come from the checkout's own scripts/get-patched-vendor-crates.mjs, the
 // upstream of each crate from its published Cargo.toml `repository`, the fork from the organization (a fork is created when missing).
-import { existsSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const ORG = "aphrody-labs";
@@ -74,6 +74,34 @@ function ensureFork(upstream: string): string {
   return `${ORG}/${name}`;
 }
 
+/** A published Cargo.toml is the normalized form of the upstream manifest (inlined workspace keys), so a patch hunk on it cannot apply to the source
+ * manifest. Those hunks are left out of `git am` and replayed here as text edits of the upstream form, keyed by the patch they come from. */
+export type Edit = { file: string; from: string; to: string };
+export const MANIFEST_EDITS: Record<string, Edit[]> = {
+  "blitz-dom-0.3.0-beta.4/0032": [{ file: "Cargo.toml", from: "bitflags = { workspace = true }\n", to: 'bitflags = { workspace = true }\nencoding_rs = "0.8"\n' }],
+  "parley-0.12.0/0006": [
+    { file: "Cargo.toml", from: '"fontique/libm", "parley_engine/libm", "peniko/libm", "dep:core_maths"', to: '"fontique/libm", "parley_engine/libm", "peniko/libm", "skrifa/libm", "dep:core_maths"' },
+    { file: "Cargo.toml", from: '"peniko/std", "parlance/std"]', to: '"peniko/std", "skrifa/std", "parlance/std"]' },
+    { file: "Cargo.toml", from: "hashbrown = { workspace = true }\n\n[dev-dependencies]", to: "hashbrown = { workspace = true }\nskrifa = { workspace = true }\n\n[dev-dependencies]" },
+  ],
+  "ratatui-image-8.1.1/0001": [
+    { file: "Cargo.toml", from: 'default = ["image-defaults", "crossterm"]\n', to: 'default = ["image-defaults", "crossterm", "query"]\nquery = ["dep:rustix", "dep:windows"]\n' },
+    { file: "Cargo.toml", from: 'rustix = { version = "^0.38.4", features', to: 'rustix = { version = "^0.38.4", optional = true, features' },
+    { file: "Cargo.toml", from: 'windows = { version = "0.58.0", default-features', to: 'windows = { version = "0.58.0", optional = true, default-features' },
+  ],
+  "vello_cpu-0.3.0/0001": [{ file: "Cargo.toml", from: "u8_pipeline = []\n", to: "u8_pipeline = []\n# Polynomial fit of the blurred-rect p-norm, replacing per-pixel powf with a degree-7 coefficient table.\npoly-pnorm = []\n" }],
+};
+
+/** Applies the edits of one patch to the upstream manifest; a missing anchor is an error (the upstream moved), never a silent skip. */
+export function editManifest(text: string, edits: Edit[]): string {
+  let result = text;
+  for (const edit of edits) {
+    if (!result.includes(edit.from)) throw new Error(`manifest anchor not found: ${edit.from.slice(0, 60)}`);
+    result = result.replace(edit.from, () => edit.to);
+  }
+  return result;
+}
+
 export type Outcome = { fork: string; sha: string; crates: string[]; applied: number; failed?: { crate: string; patch: string; why: string }; head?: string };
 
 function absorb(group: Group, work: string, push: boolean): Outcome {
@@ -96,7 +124,15 @@ function absorb(group: Group, work: string, push: boolean): Outcome {
     const patches = readdirSync(series).filter((file) => file.endsWith(".patch")).sort().map((file) => join(series, file));
     const directory = crate.path ? [`--directory=${crate.path}`] : [];
     for (const patch of patches) {
-      const applied = run(dir, "git", "am", "--3way", "--whitespace=nowarn", ...directory, patch);
+      const key = `${crate.name}-${crate.version}/${patch.split("/").pop()!.slice(0, 4)}`;
+      const edits = MANIFEST_EDITS[key];
+      const applied = run(dir, "git", "am", "--3way", "--whitespace=nowarn", ...directory, ...(edits ? [`--exclude=${join(crate.path, "Cargo.toml")}`] : []), patch);
+      if (applied.ok && edits) {
+        const manifest = join(dir, crate.path, "Cargo.toml");
+        writeFileSync(manifest, editManifest(readFileSync(manifest, "utf8"), edits));
+        must(dir, "git", "add", join(crate.path, "Cargo.toml"));
+        must(dir, "git", "commit", "--quiet", "--amend", "--no-edit");
+      }
       if (!applied.ok) {
         outcome.failed = { crate: crate.name, patch: patch.split("/").pop()!, why: (applied.err || applied.out).split("\n").slice(0, 3).join(" | ").slice(0, 300) };
         run(dir, "git", "am", "--abort");
