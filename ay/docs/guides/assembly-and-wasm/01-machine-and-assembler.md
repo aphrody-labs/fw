@@ -99,8 +99,8 @@ WebAssembly (text format, linked module):
 <!-- listing wat:ay_rights_allow -->
 ```wat
 (func $ay_rights_allow (export "ay_rights_allow") (type 3) (param i32 i32) (result i32)
-  local.get 0
   local.get 1
+  local.get 0
   i32.and
   local.get 1
   i32.eq

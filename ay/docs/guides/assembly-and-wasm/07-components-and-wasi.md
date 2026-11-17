@@ -204,7 +204,7 @@ world root {
 }
 ```
 
-`wasm-tools component targets corelib/wit --world corelib corelib.wasm` returns success, so the component conforms to world `corelib`. The core module is 5020 bytes and the component 6842 bytes (the core module plus the canonical wrapper), built with clang 23.1.5 on this PC.
+`wasm-tools component targets corelib/wit --world corelib corelib.wasm` returns success, so the component conforms to world `corelib`. The core module is 8393 bytes and the component 10215 bytes (the core module plus the canonical wrapper), built with clang 23.1.5 on this PC.
 
 The three other pieces are written in WAT, because they are short and show the canonical ABI at the instruction level.
 
@@ -317,7 +317,7 @@ let driver = new ay:driver {
 export driver["wasi:cli/run@0.2.12"];
 ```
 
-`wac compose ay-os.wac --dep ay:console=console.wasm --dep ay:corelib=corelib.wasm --dep ay:app=app.wasm --dep ay:driver=driver.wasm -o ay-os.wasm` produces one component (13057 bytes on this PC with clang 23.1.5, 13040 bytes on `fr1` with clang 23.1.6). Its own interface is only what is left unsatisfied, WASI standard output, and what it offers, the `wasi:cli/run` command:
+`wac compose ay-os.wac --dep ay:console=console.wasm --dep ay:corelib=corelib.wasm --dep ay:app=app.wasm --dep ay:driver=driver.wasm -o ay-os.wasm` produces one component (16430 bytes on this PC with clang 23.1.5, 16413 bytes on `fr1` with clang 23.1.6). Its own interface is only what is left unsatisfied, WASI standard output, and what it offers, the `wasi:cli/run` command:
 
 ```text
 world root {
@@ -387,16 +387,16 @@ What this does not show: the driver supports one app (the host.ts driver support
 
 ```text
 $ bun tools/corelib-component.ts --no-run
-component: C:\src\ay\target\corelib-component\ay-os.wasm (13057 bytes)
+component: C:\src\ay\target\corelib-component\ay-os.wasm (16430 bytes)
 
 $ bun tools/corelib-component.ts --remote
-component: /srv/xbuild/asm-guide/corelib-component/target/corelib-component/ay-os.wasm (13040 bytes)
+component: /srv/xbuild/asm-guide/corelib-component/target/corelib-component/ay-os.wasm (16413 bytes)
 wasmtime: wasmtime 50.0.2 (f9a93b049 2026-11-16)
 wasmtime: boot transcript identical (13 lines), log /srv/xbuild/asm-guide/corelib-component/logs/wasmtime-boot.log
 wasmtime: fr1:/srv/xbuild/asm-guide/corelib-component/logs/wasmtime-boot.log copied to C:\src\ay\target\corelib-component.log
 ```
 
-The build host used its own `wasm-tools` 1.261.0 and clang 23.1.6; this PC used `wasm-tools` 1.263.0 and clang 23.1.5. The sizes differ by 17 bytes (13040 against 13057 for the composed component; the corelib component is 6825 bytes on `fr1` and 6842 on this PC), so I did not assume the builds are byte-identical, only that both transcripts equal the golden one. The only build prerequisites are clang with the wasm32 backend and `wasm-ld`, `wasm-tools`, `wac` and Wasmtime; there is no cargo step.
+The build host used its own `wasm-tools` 1.261.0 and clang 23.1.6; this PC used `wasm-tools` 1.263.0 and clang 23.1.5. The sizes differ by 17 bytes (16413 against 16430 for the composed component; the corelib component is 10198 bytes on `fr1` and 10215 on this PC), so I did not assume the builds are byte-identical, only that both transcripts equal the golden one. The only build prerequisites are clang with the wasm32 backend and `wasm-ld`, `wasm-tools`, `wac` and Wasmtime; there is no cargo step.
 
 ## 7.7 jco: the same component from JavaScript
 
@@ -404,7 +404,7 @@ The build host used its own `wasm-tools` 1.261.0 and clang 23.1.6; this PC used 
 
 ```text
 $ jco transpile corelib.wasm -o out
- - out/corelib.core.wasm                     4.92 KiB
+ - out/corelib.core.wasm                     (size depends on the build)
  - out/corelib.d.ts                          0.33 KiB
  - out/corelib.js                             139 KiB
  - out/interfaces/ay-corelib-host.d.ts       0.09 KiB

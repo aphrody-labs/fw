@@ -10,7 +10,7 @@ Specification used: [WebAssembly Core Specification](https://www.w3.org/TR/wasm-
 |---|---|
 | `corelib/wat/hello.wat` | The boot app, hand-written WAT. Imports one function, exports `step` and its memory. |
 | `corelib/wat/syscall_shim.wat` | A hand-written shim: typed wrappers over the one import, plus a `funcref` table and `call_indirect`. |
-| `corelib/src/*.c`, `tools/corelib.ts` | The corelib in C23, and the one place that knows the clang flags. `buildWasm()` runs `clang --target=wasm32 -mcpu=mvp -std=c23 -O2 -ffreestanding -nostdlib -Wl,--no-entry -Wl,-z,stack-size=65536 -Wl,--initial-memory=131072 -Wl,--export-dynamic`. The resulting `corelib.wasm` has (`wasm-tools objdump`/`print`, clang 23.1.5, 2026-11-17): 9 types, 1 import, 23 functions, 1 table of 2 entries, 1 memory of 2 pages, 1 mutable global, 14 exports, 3 data segments and only a `producers` custom section. |
+| `corelib/src/*.c`, `tools/corelib.ts` | The corelib in C23, and the one place that knows the clang flags. `buildWasm()` runs `clang --target=wasm32 -mcpu=mvp -std=c23 -O2 -ffreestanding -nostdlib --no-wasm-opt -Wl,--no-entry -Wl,-z,stack-size=65536 -Wl,--initial-memory=131072 -Wl,--export-dynamic`. The resulting `corelib.wasm` has (`wasm-tools objdump`/`print`, clang 23.1.5, 2026-11-17): 10 types, 1 import, 34 functions, 1 table of 2 entries, 1 memory of 2 pages, 1 mutable global, 14 exports, 2 data segments (`.rodata`, `.data`) and the custom sections `name` and `producers`. `--no-wasm-opt` matters: with binaryen's `wasm-opt` on `PATH`, clang optimizes the linked module further (cross-unit inlining, 23 functions) and the output depends on the machine. |
 | `corelib/host/host.ts` | The embedder: instantiates the modules and wires imports. |
 | `corelib/wat/examples/*.wat` | Small examples written for this guide, each validated with `wasm-tools validate --features all` and run by the test. |
 
@@ -28,8 +28,8 @@ AY_API uint32_t ay_rights_allow(uint32_t have, uint32_t need) { return (have & n
 <!-- listing wat:ay_rights_allow -->
 ```wat
 (func $ay_rights_allow (export "ay_rights_allow") (type 3) (param i32 i32) (result i32)
-  local.get 0
   local.get 1
+  local.get 0
   i32.and
   local.get 1
   i32.eq
@@ -90,7 +90,7 @@ A module is a binary with a header and sections. The spec lists these ids (secti
 | data | initial contents of memories | three strings at offsets 0, 32 and 48 |
 | custom | opaque, ignored by semantics: `name` (debug names), `producers`, `target_features`, DWARF | `name` |
 
-The compiled corelib adds a `producers` section and a `target_features` section; `wasm-tools objdump` shows both. The `target_features` section is a toolchain convention (it records what the object was built with), not part of the spec.
+The compiled corelib adds a `name` section (function names, a debugging aid) and a `producers` section; `wasm-tools objdump` shows both. Built with a CPU other than `-mcpu=mvp`, clang also writes a `target_features` section, a toolchain convention (it records what the object was built with) that is not part of the spec.
 
 ## The binary format
 
@@ -287,20 +287,23 @@ There is **no goto**. Control is made of nested constructs whose branches target
 ```wat
 (func $ay_checksum (export "ay_checksum") (type 3) (param i32 i32) (result i32)
   (local i32 i32 i32 i32)
-  local.get 1
-  i32.eqz
-  if ;; label = @1
+  block ;; label = @1
+    local.get 1
+    br_if 0 (;@1;)
     i32.const -2128831035
     return
   end
   block ;; label = @1
     block ;; label = @2
-      local.get 1
-      i32.const 1
-      i32.eq
-      if ;; label = @3
+      block ;; label = @3
+        local.get 1
+        i32.const 1
+        i32.ne
+        br_if 0 (;@3;)
         i32.const -2128831035
         local.set 2
+        i32.const 0
+        local.set 3
         br 1 (;@2;)
       end
       local.get 1
@@ -313,6 +316,8 @@ There is **no goto**. Control is made of nested constructs whose branches target
       local.set 5
       i32.const -2128831035
       local.set 2
+      i32.const 0
+      local.set 3
       local.get 0
       local.set 1
       loop ;; label = @3
@@ -435,18 +440,21 @@ Why this restriction? A forward-only-or-loop-head label structure lets an engine
 ```wat
 (func $ay_arg_count (export "ay_arg_count") (type 4) (param i32) (result i32)
   (local i32)
-  local.get 0
-  i32.const 2
-  i32.sub
-  local.tee 0
-  i32.const 8
-  i32.le_u
-  if (result i32) ;; label = @1
+  i32.const 0
+  local.set 1
+  block ;; label = @1
+    local.get 0
+    i32.const -2
+    i32.add
+    local.tee 0
+    i32.const 8
+    i32.gt_u
+    br_if 0 (;@1;)
     local.get 0
     i32.load8_u offset=65536
-  else
-    local.get 1
+    local.set 1
   end
+  local.get 1
 )
 ```
 <!-- /listing -->
@@ -508,7 +516,7 @@ ay_arg_count:
 
 <!-- listing wat:ay_first_free -->
 ```wat
-(func $ay_first_free (export "ay_first_free") (type 8) (param i64) (result i32)
+(func $ay_first_free (export "ay_first_free") (type 9) (param i64) (result i32)
   i32.const -1
   local.get 0
   i64.const -1

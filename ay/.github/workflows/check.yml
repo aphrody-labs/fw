@@ -68,25 +68,7 @@ jobs:
       - run: bun tools/corelib-component.ts --log "$RUNNER_TEMP/wasmtime-boot.log"
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: diagnose listings
-        if: always()
-        run: |
-          which -a clang clang-23 clang-22 clang-21 || true
-          clang --version | head -1; wasm-tools --version
-          bun -e 'import { buildWasm } from "./tools/corelib.ts"; console.log(buildWasm("base"))'
-          env | grep -iE "clang|cflags|ccc_|llvm|^CI|CPATH|LIBRARY" || true
-          ls corelib/src
-          git status --short | head
-          clang --target=wasm32 -mcpu=mvp -std=c23 -O2 -ffreestanding -fvisibility=hidden -Icorelib/include -Icorelib/src -nostdlib -Wl,--no-entry -Wl,--export-dynamic -v -o /tmp/d.wasm corelib/src/abi.c corelib/src/apps.c corelib/src/cap.c corelib/src/demo.c corelib/src/engine.c corelib/src/ipc.c corelib/src/libc.c corelib/src/mem.c corelib/src/out.c corelib/src/sync.c corelib/src/wasm.c 2>&1 | grep -E "cc1|wasm-ld|clang version|Configuration" | cut -c1-600
-          wasm-tools objdump /tmp/d.wasm | tail -4
       - run: bun tools/listings.ts --check
-      - if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: corelib-wasm-debug
-          path: |
-            /tmp/d.wasm
-            target/corelib/wasm-base/corelib.wasm
       - if: always()
         uses: actions/upload-artifact@v7
         with:

@@ -53,7 +53,8 @@ function outDir(name: string): string {
 /** Build a WebAssembly module of the corelib; returns the .wasm path. */
 export function buildWasm(variant: WasmVariant = "base"): string {
   const out = join(outDir(`wasm-${variant}`), "corelib.wasm");
-  const link = ["-Wl,--no-entry", "-Wl,-z,stack-size=65536", "-Wl,--initial-memory=131072", ...(variant === "component" ? [] : ["-Wl,--export-dynamic"])];
+  // --no-wasm-opt: clang otherwise runs binaryen's wasm-opt after linking when it is on PATH, and the output would depend on the machine.
+  const link = ["--no-wasm-opt", "-Wl,--no-entry", "-Wl,-z,stack-size=65536", "-Wl,--initial-memory=131072", ...(variant === "component" ? [] : ["-Wl,--export-dynamic"])];
   run([findClang(), "--target=wasm32", "-mcpu=mvp", ...COMMON, ...WASM_FLAGS[variant], "-nostdlib", ...link, "-o", out, ...commonSources(), `${SRC}/wasm.c`]);
   return out;
 }
