@@ -1,0 +1,56 @@
+# W3C tooling for parsing, mirroring, crawling and spec data. Read live 2026-11-17 (gh api, crates.io, npm registry).
+# Rule: take data from webref/browser-specs and the W3C API first; crawl www.w3.org only for what they do not cover,
+# honouring robots.txt (https://www.w3.org/robots.txt).
+
+[sources]
+w3c_api = { url = "https://api.w3.org/", note = "public JSON API, no key: 1721 specifications, groups, users, versions" }
+webref = { repo = "w3c/webref", note = "curated extracts of every spec (IDL, CSS, elements, events, dfns), updated every few hours" }
+browser_specs = { repo = "w3c/browser-specs", note = "list of specs with URLs, series, repositories, nightly/TR links" }
+specref = { repo = "specinfra/specref", note = "bibliographic references API used by ReSpec and Bikeshed" }
+bcd = { repo = "mdn/browser-compat-data", note = "per-feature browser support" }
+i18n = { repo = "w3c/i18n-drafts", note = "W3C Internationalization articles and checklists" }
+
+[typescript]
+"@webref/idl" = "3.87.0"          # parsed Web IDL of the platform
+"@webref/css" = "8.7.9"           # CSS properties, at-rules, values
+"@webref/elements" = "2.9.2"
+"@webref/events" = "1.28.0"
+web-specs = "4.20.0"              # browser-specs as a package
+webidl2 = "24.5.0"                # Web IDL parser and writer (w3c/webidl2.js)
+reffy = "21.3.3"                  # the crawler that produces webref; reusable to crawl any spec
+node-w3capi = "2.2.2"             # W3C API client
+parse5 = "8.1.1"                  # WHATWG HTML parser
+linkedom = "0.18.15"              # light DOM for server-side processing
+css-tree = "3.2.1"                # CSS parser, walker, generator
+"@mdn/browser-compat-data" = "8.1.9"
+crawlee = "3.18.2"                # crawling framework when a site needs a queue and retries
+robots-parser = "3.0.1"
+sitemapper = "4.1.6"
+jsonld = "9.0.0"                  # JSON-LD processing (W3C JSON-LD 1.1)
+n3 = "2.13.12"                    # Turtle / N3 / RDF
+
+[rust]
+weedle2 = "5.0.0"                 # Web IDL parser
+html5ever = "0.40.1"              # WHATWG HTML parser (Servo)
+html5gum = "0.9.1"                # WHATWG HTML tokenizer
+scraper = "0.29.0"                # HTML query with CSS selectors
+lol_html = "3.0.3"                # streaming HTML rewriter (Cloudflare)
+cssparser = "0.38.0"              # CSS Syntax Level 3 (Servo)
+selectors = "0.43.0"              # CSS Selectors matching (Servo)
+lightningcss = "1.0.0-alpha.72"   # CSS parser, transformer, minifier
+url = "2.5.8"                     # WHATWG URL Standard
+quick-xml = "0.42.0"
+spider = "2.53.9"                 # crawler
+texting_robots = "0.2.2"          # robots.txt
+oxigraph = "0.5.13"               # RDF store and SPARQL
+sophia = "0.10.0"                 # RDF and Linked Data toolkit
+json-ld = "0.22.0"
+
+[authoring]
+bikeshed = { repo = "speced/bikeshed", note = "spec preprocessor (Python), most CSSWG and WHATWG-style specs" }
+respec = { repo = "speced/respec", note = "in-browser spec authoring (w3c/respec is archived; use speced/respec)" }
+spec_prod = { repo = "w3c/spec-prod", note = "GitHub Action: build, validate and publish specs to TR and gh-pages" }
+specberus = { repo = "w3c/specberus", note = "W3C publication rules checker" }
+nu_validator = { repo = "validator/validator", note = "HTML/CSS/SVG conformance checker (Java), also as a service" }
+strudy = { repo = "w3c/strudy", note = "cross-spec consistency analysis over webref data" }
+tr_design = { repo = "w3c/tr-design", note = "TR document styles" }
