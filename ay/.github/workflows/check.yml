@@ -74,8 +74,8 @@ jobs:
           which -a clang clang-23 clang-22 clang-21 || true
           clang --version | head -1; wasm-tools --version
           bun -e 'import { buildWasm } from "./tools/corelib.ts"; console.log(buildWasm("base"))'
-          wasm-tools print target/corelib/wasm-base/corelib.wasm | grep -B1 -A8 'export "ay_rights_allow"' | head -20
-          wasm-tools print target/corelib/wasm-base/corelib.wasm | grep -A8 '^  (func (;2;)'
+          which -a wasm-ld; wasm-ld --version
+          wasm-tools print target/corelib/wasm-base/corelib.wasm | grep -A8 'func $ay_rights_allow'
       - run: bun tools/listings.ts --check
       - if: always()
         uses: actions/upload-artifact@v7
