@@ -1,0 +1,29 @@
+# Rust stack for training, local inference, program synthesis, agents and world simulation.
+# Each crate verified on crates.io 2026-11-17 (latest stable, total downloads, last update).
+
+[training]
+burn = { version = "0.22.1", downloads = 2328594, updated = "2026-11-09", repo = "tracel-ai/burn", note = "autodiff, CubeCL kernel fusion; CUDA, ROCm, Metal, WebGPU" }
+burn-rl = { version = "0.22.1", updated = "2026-11-09", note = "reinforcement learning, inside the burn repo" }
+cubecl = { version = "0.11.4", updated = "2026-11-09", repo = "tracel-ai/cubecl", note = "GPU kernels in Rust for every backend" }
+tch = { version = "0.27.0", updated = "2026-11-10", repo = "LaurentMazare/tch-rs", note = "libtorch bindings, when PyTorch parity is required" }
+
+[inference]
+candle-core = { version = "0.11.1", downloads = 11984024, updated = "2026-10-31", repo = "huggingface/candle", note = "minimal tensor engine for embedded inference" }
+mistralrs = { version = "0.8.1", updated = "2026-04-02", repo = "EricLBuehler/mistral.rs", note = "quantized text/vision/multimodal serving; last release April, check activity before depending" }
+ort = { version = "2.0.0-rc.15", downloads = 26521250, updated = "2026-10-19", repo = "pykeio/ort", note = "ONNX Runtime, also used by fastembed-rs and magika" }
+
+[synthesis_and_proof]
+egglog = { version = "3.0.0", updated = "2026-08-19", repo = "egraphs-good/egglog", note = "equality saturation + Datalog; successor of egg (0.11.0, 2025-12)" }
+z3 = { version = "0.23.0", updated = "2026-11-11", repo = "prove-rs/z3.rs", note = "SMT solving and verification" }
+
+[agents]
+rig-core = { version = "0.46.0", downloads = 4455510, updated = "2026-10-31", repo = "0xPlaygrounds/rig", note = "agents and tools; companions rig-memory, rig-cassette (replay), rig-ecs, rig-mcp-client (new: 166 downloads)" }
+ai-agents = { version = "1.1.2", downloads = 8365, updated = "2026-10-11", repo = "geminik23/ai-agents", note = "declarative multi-agent; small user base" }
+
+[simulation]
+rapier3d = { version = "0.36.1", downloads = 2133258, updated = "2026-10-10", repo = "dimforge/rapier", note = "SIMD + rayon physics; rapier3d-mjcf loads MuJoCo models (1141 downloads)" }
+bevy = { version = "0.20.1", updated = "2026-10-28", note = "nie pins the aphrody-labs fork at 0.20.0-dev" }
+bevy_urdf = { version = "0.4.3", updated = "2025-09-02", repo = "stillonearth/bevy_urdf", note = "URDF robots in Bevy; a year old, targets an older Bevy: port before use with 0.20" }
+
+[not_recommended]
+dfdx = "0.13.0, last release 2023-07: inactive, use burn or candle"
