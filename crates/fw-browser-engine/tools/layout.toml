@@ -1,20 +1,17 @@
 # Where everything lives, on the Chromium model. `tools/layout.ts`, `tools/import.py` and `tools/flatten.py` read this file;
 # nothing else knows a directory name.
 #
-#   bun/                  the Bun runtime tree, kept as one unit (bun/src/<crate>): its crates reach each other by relative path
+#   third_party/bun/      the Bun runtime: a git submodule of our fork (relative URL in .gitmodules), a workspace and a build of its own
 #   components/<crate>    first-party crates, written in this repository (//components in Chromium)
 #   third_party/<name>/   one directory per upstream project: its crates as <crate> subdirectories, its other files
 #                         (CI, docs, resources, tests, licences) beside them; README.chromium describes it
-#   build/  tools/  docs/ build configuration, developer tools, documentation (as in Chromium)
+#   build/  testing/  tools/  styleguide/  docs/   build configuration, test infrastructure, developer tools, style, documentation
 
 [bun]
-dir = "bun"
-workspace = "bun/Cargo.workspace.toml"    # Bun's own root manifest: input of the root Cargo.toml (tools/flatten.py)
-saved = ["Cargo.lock", "AGENTS.md", "CLAUDE.md", "clippy.toml", "LICENSE.md", "README.md"]   # Bun's root files, kept inside bun/
+dir = "third_party/bun"
 
 [first_party]
 dir = "components"
-marker = "package.metadata.browser.native"   # a crate manifest with this set to true is first-party
 
 [third_party]
 dir = "third_party"

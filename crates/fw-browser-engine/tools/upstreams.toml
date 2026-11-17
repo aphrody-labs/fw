@@ -1,13 +1,6 @@
-# One entry per upstream (history imported by tools/import.py). `mode = "bun"` keeps Bun's src/ as is (placed under bun/ by tools/layout.ts)
+# One entry per upstream (history imported by tools/import.py; `mode = "pin"` only records the head). The Bun runtime is not here: it is a submodule.
 # `mode = "pin"` only records the live branch head in the lock (a non-crate tree too large to import).
 # Heads are resolved live at import time and recorded in upstreams.lock.json.
-
-[[upstream]]
-name = "bun"
-url = "https://github.com/aphrody-labs/bun"   # fork rebased on oven-sh/bun main
-branch = "main"
-mode = "bun"
-keep = ["Cargo.toml", "Cargo.lock", "clippy.toml", "AGENTS.md", "CLAUDE.md", "README.md", "LICENSE.md"]
 
 [[upstream]]
 name = "servo"

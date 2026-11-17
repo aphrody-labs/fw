@@ -21,7 +21,6 @@ const members = new Set(root.workspace.members);
 const dir = layout.third_party.dir;
 let written = 0;
 for (const u of spec.upstream) {
-  if (u.name === "bun") continue;
   const entry = lock[u.name];
   const base = `${dir}/${u.name}`;
   if (

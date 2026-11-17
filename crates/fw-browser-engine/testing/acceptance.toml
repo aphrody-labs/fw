@@ -181,6 +181,26 @@ source = "https://ladybird.org/"
 repo = "LadybirdBrowser/ladybird"
 branch = "master"
 
+# Bun is a submodule of our fork: the pin is its gitlink. The experimental Rust ecosystem is followed upstream.
+[track.bun]
+kind = "runtime"
+source = "https://github.com/aphrody-labs/bun"
+repo = "aphrody-labs/bun"
+branch = "main"
+pin_submodule = "third_party/bun"
+
+[track.boa]
+kind = "js"
+source = "https://boajs.dev/"
+repo = "boa-dev/boa"
+branch = "main"
+
+[track.nova]
+kind = "js"
+source = "https://trynova.dev/"
+repo = "trynova/nova"
+branch = "main"
+
 [track.hyperfine]
 kind = "tool"
 source = "https://github.com/sharkdp/hyperfine"

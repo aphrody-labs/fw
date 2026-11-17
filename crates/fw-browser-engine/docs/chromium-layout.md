@@ -8,7 +8,7 @@ this one is a Rust workspace around imported engines, so what has no counterpart
 
 | Chromium | Here | Note |
 |---|---|---|
-| `base/` | `bun/src/bun_core`, `bun/src/sys`, ... | the foundation library of this workspace is Bun's, kept whole in `bun/` |
+| `base/` | `third_party/bun/src/bun_core`, ... | the foundation library of the runtime is Bun's, in its submodule |
 | `build/`, `buildtools/`, `build_overrides/` | `build/engines/` | the GN overlay (V8, Skia, Blink from the Chromium checkout); the toolchains are the Chromium checkout's own |
 | `components/` | `components/` | first-party crates (`browser-detect`, `browser-index`, `browser-process`, next: `cdp`, `v8-sys`, `skia-sys`) |
 | `docs/` | `docs/` | this file, the inventory, [../styleguide/bun](../styleguide/bun/README.md) is the style guide |
@@ -40,5 +40,5 @@ this one is a Rust workspace around imported engines, so what has no counterpart
 - **Third party, imported with history:** `third_party/<upstream>/`: Servo and its organisation's crates, Mozilla (`mozjs`, `mozangle`),
   HarfBuzz/FreeType/platform bindings, `lol-html`, `rust-argon2`, `hyperfine`, our forks `obscura` and `agent-browser`. Local
   modifications are listed in each `README.chromium`.
-- **Vendored runtime:** `bun/` (aphrody-labs/bun, rebased on oven-sh/bun): one tree, its relative paths intact.
+- **Runtime:** `third_party/bun`, a submodule of aphrody-labs/bun (rebased on oven-sh/bun) with a relative URL: its own workspace and build, as a Chromium dependency has.
 - **Not imported:** the Chromium checkout, JetStream (a pin in `tools/upstreams.lock.json`), the 16 GB of Chromium history.

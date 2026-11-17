@@ -1,7 +1,7 @@
 # browser: agent contract
 
-One Cargo workspace laid out like Chromium: `bun/` (the runtime), `components/` (first-party crates), `third_party/` (everything
-imported, one directory per upstream), `build/`, `testing/`, `tools/`, `styleguide/`, `docs/`, `DEPS`, `PRESUBMIT.ts`. One `Cargo.lock`, one version per crate.
+One Cargo workspace laid out like Chromium: `components/` (first-party crates), `third_party/` (everything that is not ours: one
+directory per imported upstream, and the Bun runtime as a submodule), `build/`, `testing/`, `tools/`, `styleguide/`, `docs/`, `DEPS`, `PRESUBMIT.ts`. One `Cargo.lock`, one version per crate.
 Where a thing lives is decided by [tools/layout.toml](tools/layout.toml) and nowhere else.
 Decision record: [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -11,6 +11,7 @@ Decision record: [ARCHITECTURE.md](ARCHITECTURE.md).
 - No published V8, Skia or Blink bindings or prebuilts: engines come from the Chromium checkout (`build/engines`).
 - No second copy of a crate: new code goes to the crate that owns the function; a vendored copy of an imported
   crate is deleted in the same commit.
+- A fork with a build system of its own is a submodule (relative URL, one checkout), never an import: `third_party/bun`.
 - First party in `components/<crate>` (a manifest with `[package.metadata.browser] native = true`), new crates named `browser-<unit>`;
   third party only in `third_party/<upstream>/`, never edited in place beyond `tools/flatten.py`, `tools/fixups.sh` and `tools/patches/`.
 - Upstream code stays importable: do not hand-edit imported manifests, change `tools/flatten.py` instead.
@@ -42,7 +43,7 @@ cargo update && cargo tree -d                                 # dedup check
 
 | Path | Content |
 |---|---|
-| `bun/src/<crate>` | the Bun runtime (aphrody-labs/bun), kept as one tree; `bun/Cargo.workspace.toml` is its root manifest |
+| `third_party/bun` | the Bun runtime: a git submodule of aphrody-labs/bun (relative URL), its own workspace and build (`git submodule update --init third_party/bun`); change it in the fork, bump the pointer here |
 | `components/<crate>` | first-party crates (browser-detect, browser-index, browser-process, ...) |
 | `third_party/<upstream>/<crate>` | Servo and its org crates, Mozilla, HarfBuzz and platform bindings, Obscura, agent-browser, lol-html, argon2; the upstream's other files beside them; `README.chromium` |
 | `third_party/chromium` | the Chromium checkout of the build host (gclient), ignored by git |

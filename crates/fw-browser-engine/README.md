@@ -7,7 +7,7 @@ Decision, measurements and engine plan: [ARCHITECTURE.md](ARCHITECTURE.md). Agen
 
 | Source | Where | History |
 |---|---|---|
-| Bun (aphrody-labs/bun, rebased on oven-sh/bun) | `bun/src/*` as upstream | kept |
+| Bun (aphrody-labs/bun, rebased on oven-sh/bun) | submodule `third_party/bun` | its own |
 | Servo org: servo, stylo, webrender, mozjs, mozangle, html5ever, rust-url, rust-cssparser, ipc-channel, surfman, euclid, string-cache, unicode-bidi, core-foundation-rs, dwrote-rs, gleam, app_units, cgl-rs, fontsan, gaol, plane-split, rust-fnv, rust-freetype, rust-harfbuzz, smallbitvec, uluru | `third_party/<repo>/<package>`, the rest of the repository beside them | kept |
 | Obscura (a user account, h4ckf0r0day/obscura, not an org) | `third_party/obscura/obscura-*` | kept |
 | agent-browser (vercel-labs, aphrody-labs fork) | `third_party/agent-browser/agent-browser` | kept |

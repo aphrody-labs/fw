@@ -9,7 +9,7 @@ usage: uv run --with tomlkit tools/flatten.py <monorepo> [--unify] [--root-only]
   disappear); a [patch.crates-io] entry makes third-party dependents use the same copy;
 * with --unify, registry requirements of the same crate on different breaking lines are raised to the
   newest line found in the workspace (one version per crate).
-Root manifest = the Bun one (bun/Cargo.workspace.toml) with the new members, patches and profiles merged.
+Root manifest = the committed one: its members and [patch.crates-io] follow the lock, profiles of Servo and Obscura are added.
 """
 import copy, json, os, re, sys, tomllib
 import tomlkit
@@ -76,17 +76,11 @@ def main():
     root_only = "--root-only" in sys.argv   # manifests of the crates are already flattened: rebuild the root manifest only
     lock = json.load(open(os.path.join(mono, "tools", "upstreams.lock.json")))
     lay = layout(mono)
-    bun_dir, third, first = lay["bun"]["dir"], lay["third_party"]["dir"], lay["first_party"]["dir"]
-    root = load(os.path.join(mono, lay["bun"]["workspace"]))
-    # the members of Bun's root manifest are relative to Bun's own root: bun/src/<crate> here
-    bun_members = [bun_dir + "/" + m for m in plain(root["workspace"]["members"])]
+    third, first = lay["third_party"]["dir"], lay["first_party"]["dir"]
+    root = load(os.path.join(mono, "Cargo.toml"))
 
     # --- index: package name -> (dir, upstream) ---------------------------------------------------
     pkgs, owner = {}, {}
-    for d in bun_members:
-        t = load(os.path.join(mono, d, "Cargo.toml"))
-        pkgs[str(t["package"]["name"])] = d
-        owner[d] = "bun"
     for u, v in lock.items():
         for _, tgt in v["crates"].items():
             mf = os.path.join(mono, tgt, "Cargo.toml")
@@ -104,8 +98,6 @@ def main():
     # --- per-upstream workspace source ------------------------------------------------------------
     W = {}
     for u, v in lock.items():
-        if u == "bun":
-            continue
         virt = os.path.join(mono, third, u, "Cargo.toml")
         saved = os.path.join(mono, third, u, "Cargo.workspace.toml")
         rootcrate = v["crates"].get(".")
@@ -135,7 +127,7 @@ def main():
     n_done = 0
 
     for tgt, u in sorted(owner.items()):
-        if u in (None, "bun") or root_only:
+        if u is None or root_only:
             continue
         mp = os.path.join(mono, tgt, "Cargo.toml")
         doc = load(mp)
@@ -202,7 +194,7 @@ def main():
                             unresolved.append((tgt, k, "path dep not found: " + resolved))
                         else:
                             d["path"] = os.path.relpath(hit, tgt).replace("\\", "/")
-                elif pname in pkgs and owner.get(pkgs[pname]) not in (None, "bun"):
+                elif pname in pkgs and owner.get(pkgs[pname]) is not None:
                     # registry or git spec of a crate that lives in the monorepo: use the local copy
                     internal = pkgs[pname]
                     d.pop("version", None)
@@ -234,26 +226,13 @@ def main():
         n_done += 1
 
     # --- root manifest ---------------------------------------------------------------------------
-    members = list(bun_members) + sorted(t for t, u in owner.items() if u not in (None, "bun"))
+    members = sorted(t for t, u in owner.items() if u is not None)
     # crates written in this repository (not imported): components/<package>
     for d in sorted(os.listdir(os.path.join(mono, first))) if os.path.isdir(os.path.join(mono, first)) else []:
         mf = os.path.join(mono, first, d, "Cargo.toml")
         if os.path.exists(mf) and first + "/" + d not in members:
             members.append(first + "/" + d)
     root["workspace"]["members"] = members
-    # Bun fetches vendor/lolhtml and vendor/rust-argon2 before cargo runs; they are imported crates here.
-    wd = root["workspace"]["dependencies"]
-    for k in list(wd.keys()):
-        spec = plain(wd[k])
-        if isinstance(spec, dict) and "path" in spec and os.path.exists(os.path.join(mono, bun_dir, spec["path"])):
-            wd[k]["path"] = bun_dir + "/" + spec["path"]      # Bun-relative path, now under bun/
-        elif isinstance(spec, dict) and "path" in spec and not os.path.exists(os.path.join(mono, spec["path"])):
-            if k in pkgs:
-                wd[k]["path"] = pkgs[k]
-            else:
-                unresolved.append(("root", k, "path " + spec["path"] + " missing"))
-    if "exclude" in root["workspace"]:
-        del root["workspace"]["exclude"]
     # patches over imported crates (Bun's patches/rust-argon2/*), applied once
     import subprocess
     for name_dir in sorted(os.listdir(os.path.join(mono, "tools", "patches"))) if os.path.isdir(os.path.join(mono, "tools", "patches")) else []:
@@ -268,7 +247,7 @@ def main():
     patch = tomlkit.table()
     cio = tomlkit.table()
     for name, d in sorted(pkgs.items()):
-        if owner[d] in (None, "bun"):
+        if owner[d] is None:
             continue
         it = inline_table()
         it["path"] = d

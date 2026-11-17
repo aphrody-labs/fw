@@ -21,12 +21,6 @@
   "sha": "2e4e0e0ad8b43bf49a1d3d84e3ca4c55367314a7",
   "url": "https://github.com/servo/app_units"
  },
- "bun": {
-  "branch": "main",
-  "crates": {},
-  "sha": "4537e3f856dce8f4d790baa3eda652f3a8f1ecd5",
-  "url": "https://github.com/aphrody-labs/bun"
- },
  "cgl-rs": {
   "branch": "main",
   "crates": {

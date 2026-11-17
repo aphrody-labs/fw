@@ -36,6 +36,7 @@ export type Source = {
   pin: string | null; // sha or version this monorepo is on
   pin_file: string | null; // file of the repo holding the pin, read at run time
   pin_deps: string | null; // variable of DEPS holding the pin (gclient vars)
+  pin_submodule: string | null; // path of a submodule whose gitlink is the pin
   release: boolean; // follow the newest release or tag of the repo
   provider: string | null; // chromium | firefox | webkit: channel versions from the official release data
   field: string; // what the provider reports: version | v8
@@ -108,6 +109,7 @@ export function parseSources(upstreamsToml: string, lock: Json, track: Json): So
       pin: null,
       pin_file: e.pin_file ?? null,
       pin_deps: e.pin_deps ?? null,
+      pin_submodule: e.pin_submodule ?? null,
       release: e.release ?? true,
       provider: e.provider ?? null,
       field: e.field ?? "version",
@@ -140,6 +142,10 @@ async function loadSources(root: string): Promise<{ sources: Source[]; error?: s
   }
   const sources = parseSources(upstreams, lock, track);
   for (const s of sources) {
+    if (s.pin_submodule) {
+      const tree = await Bun.$`git -C ${root} ls-tree HEAD ${s.pin_submodule}`.nothrow().text();
+      s.pin = tree.match(/^160000 commit (\w+)/)?.[1] ?? s.pin;
+    }
     if (s.pin_deps) {
       const deps = await Bun.file(join(root, "DEPS")).text();
       s.pin = deps.match(new RegExp(`'${s.pin_deps}':\\s*'([^']+)'`))?.[1] ?? s.pin;
