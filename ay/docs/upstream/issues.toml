@@ -19,6 +19,8 @@ why_it_fits = "Lint false positive with a complete repro (inherent, trait defaul
 size = "S"
 needs_compiler_build = false
 patch_candidate = true
+status = "patch-ready-local"
+patch = "docs/upstream/prs/01-clippy-18066/patch.diff"
 hint = "clippy_lints/src/large_stack_arrays.rs: skip arrays whose enclosing item is an associated const, mirroring the free const/static handling; add cases to the large_stack_arrays UI test under tests/ui/, then `cargo bless`."
 
 [[issue]]
