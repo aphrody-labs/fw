@@ -1,4 +1,10 @@
 {
+ "JetStream": {
+  "branch": "main",
+  "crates": {},
+  "sha": "5fb9b4915f47792e6368d54d79ba3ba85e5600cc",
+  "url": "https://github.com/aphrody-labs/JetStream"
+ },
  "agent-browser": {
   "branch": "main",
   "crates": {

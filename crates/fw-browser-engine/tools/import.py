@@ -111,7 +111,7 @@ def main():
         if u.get("mode") == "pin":
             sha = run("git", "ls-remote", u["url"], f"refs/heads/{u['branch']}", out=True).split()[0]
             lock[n] = {"url": u["url"], "branch": u["branch"], "sha": sha, "crates": {}}
-            json.dump(lock, open(lock_path, "w"), indent=1, sort_keys=True)
+            open(lock_path, "w").write(json.dumps(lock, indent=1, sort_keys=True) + "\n")
             print("pinned", n, sha[:12], flush=True)
             continue
         w = os.path.join(wd, n)
