@@ -111,7 +111,7 @@ The pipeline for one component:
 
 `wasm-tools compose` still exists in v1.263.0 but prints `WARNING: wasm-tools compose has been deprecated. Please use wac instead.` In my run it also left `host` and `syscall` as unresolved imports of the composed result, so this chapter uses `wac`. `wit-bindgen` is not used here: the corelib's interface is five scalar functions, so the names are one line each and I wrote them by hand. For anything with strings, lists or records, use it.
 
-Rust is not used here: ADR-0008 (`docs/adr/0008-sdk-languages-toolchain.md`) keeps Rust in `aphrody-dev/aphrody` and makes the SDK C, assembly, WAT and Bun, with wasm getting "the same ABI as imports/exports and a WIT world". For information only, `rustc --print target-list` (rustc 1.102.0-nightly, 2026-11-11) lists `wasm32-wasip1`, `wasm32-wasip2`, `wasm32-wasip3` and `wasm32-none-component`, so Rust can emit components directly. In this chapter the component is made from a plain core module by `wasm-tools`, whatever the source language.
+The corelib shown here is C and assembly by choice, not by rule: ADR-0008 (`docs/adr/0008-sdk-languages-toolchain.md`, amended 2026-11-17) allows Rust in the SDK too, and wasm gets "the same ABI as imports/exports and a WIT world". `rustc --print target-list` (rustc 1.102.0-nightly, 2026-11-11) lists `wasm32-wasip1`, `wasm32-wasip2`, `wasm32-wasip3` and `wasm32-none-component`, so Rust can emit components directly. In this chapter the component is made from a plain core module by `wasm-tools`, whatever the source language.
 
 ## 7.4 The corelib as a component
 
