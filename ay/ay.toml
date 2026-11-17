@@ -16,6 +16,12 @@ labs = "aphrody-labs"        # forks of upstreams (bun with craft, git stack, ..
 repo = "aphrody-labs/legacy"
 checkout = "../legacy"       # local checkout, relative to this repository
 
+[recovery]
+# Archived repositories whose sources are crates.io tarballs; tools/recover.ts clones them to find where a lost crate survives.
+archives = ["aphrody-labs/bun-os", "aphrody-labs/bun-distribution"]
+# Directories of every host whose top-level trees are inventoried (together with the work volume of [paths.<role>]).
+scan = ["/opt", "/srv"]
+
 [domains]
 # Owned by the aphrody monorepo (aphrody-dev/aphrody); read-only here. Never change their DNS, zones or routes from
 # this repository: per-domain roles are decided once, at the end, by the owner of that repository.

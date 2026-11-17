@@ -1,0 +1,386 @@
+# Rules of tools/recover.ts: the first matching rule gives a unit its state, home and note.
+# A unit that matches no rule and is not live stays `lost` with home `review`.
+# Match keys: origin (crate|npm|repo|legacy|vps), kind, name, repository, description (regular expressions, case-insensitive).
+# home: key of [repos] in ay.toml.
+# state `live` here means "exists under another name or as an upstream", the note says where.
+
+# ---- dead: upstream copies, regenerable output, duplicates --------------------------------------------------------
+[[rule]]
+origin = "crate"
+name = "^aphrody-(tauri|taffy|egui-winit|hayro|pdfcraft-forms)"
+state = "dead"
+note = "renamed copy of an upstream crate (tauri, taffy, egui-winit, hayro, pdfcraft); the fork repository is the home"
+
+[[rule]]
+origin = "crate"
+name = "^(yolo-zig-ffi|yolo-core|yolo-runtime|aphrody-rust)$"
+state = "dead"
+note = "yolo-rs is a separate organization; its crates are tracked there"
+
+[[rule]]
+origin = "crate"
+name = "^bun_browser_layout$"
+state = "dead"
+note = "renamed Taffy fork"
+
+[[rule]]
+origin = "npm"
+name = "^@aphrody/bun-windows-"
+state = "dead"
+note = "generated Win32 bindings (bun winmd); regenerated from Windows metadata, never restored"
+
+[[rule]]
+origin = "npm"
+repository = "tauri-apps|discordx-ts|material-web|hls.js|/base-ui$|aphrody-code/(bxc-test|next-playwright)"
+state = "dead"
+note = "renamed upstream package"
+
+[[rule]]
+origin = "npm"
+name = "^@yohan971/"
+state = "dead"
+note = "personal-scope republish of discordx"
+
+[[rule]]
+origin = "npm"
+name = "^@aphrody/(plugin-|api$|bun-plugin-(svelte|yaml|tailwind|supabase|neon)|bun-(types|inspector-protocol|debug-adapter-protocol)$)"
+state = "dead"
+note = "renamed upstream or generated package of the Bun fork"
+
+[[rule]]
+origin = "repo"
+name = "/(next\\.js-1|base-ui-1|tailwindcss-1|agent-desktop|longbridge-nsh|dioxus-monorepo|carbon|yolo-hub)$"
+state = "dead"
+note = "archived duplicate of a fork, an empty repository or a consolidated yolo-rs repository"
+
+[[rule]]
+origin = "legacy"
+name = "^aphrody-tauri|^aphrody-tao|^taffy$"
+state = "dead"
+note = "renamed upstream (tauri, tao, taffy); forks are the home"
+
+[[rule]]
+origin = "vps"
+name = "^fr[12]:/opt/aphrody$"
+state = "live"
+where = "ai-os:tools/ai/fabric"
+note = "inference fabric node (llama.cpp rpc server) deployed from ai-os"
+
+[[rule]]
+origin = "vps"
+name = ":/srv/kpatch$"
+state = "dead"
+note = "partial clone of the upstream Linux and Android common kernels, no commits of ours"
+
+# Unpushed work on hosts comes first: it exists nowhere else.
+[[rule]]
+origin = "vps"
+name = "^fr2:/srv/aphrody$"
+state = "lost"
+home = "anu"
+note = "uncommitted rewrite of winux date and factor (legacy checkout); patch copied to the build host salvage directory"
+
+[[rule]]
+origin = "vps"
+name = "^prd:/srv/src$"
+state = "dead"
+note = "legacy main checkout with mechanical CLI shebang edits only"
+
+[[rule]]
+origin = "vps"
+name = ":/srv/xbuild/(ai-os-ci|ai-os-purge|auto-ci|open-ci|ay-clone|nie|ai-os|open|aysh|legacy-rev|salvage)$"
+state = "live"
+where = "checkout of a tracked repository or a salvage archive"
+note = "work-volume checkout: CI workdir or archive of repositories listed in ay.toml"
+
+[[rule]]
+origin = "vps"
+name = ":/srv/xbuild$"
+state = "dead"
+note = "work volume root"
+
+[[rule]]
+origin = "vps"
+name = ":/opt/(android-|containerd|devkitpro|dotnet|dxvk|ffmpeg|google|Heroic|linux-sysroot|vkd3d|vulkan-sdk|winsysroot|wonderful|zig-|steamcmd|umu|bun$)"
+state = "dead"
+note = "toolchain or prebuilt download; reinstalled by the host setup"
+
+[[rule]]
+origin = "vps"
+name = ":/srv/(.*cargo-home.*|.*-target|target|tgt-win|zig-|.*\\.(log|lock|err|sh|done)$|.*-logs$|lock-(before|after)|Cargo\\.lock\\.|deploy\\.lock|offload-bench|bench|xbench|xc|gt|gb|gbfull|tsc|uw|mk|p2b.*|corp-out|ch-pipe|aot|build|artifacts|br-test|scratch|tmp|cache|cold|clones|cas|ci|rescue|runners|tc160|wasmtime|shared|mirror|ftp|http|dbfr|aphrody-src)$"
+state = "dead"
+note = "build output, cache, benchmark or log; regenerable"
+
+[[rule]]
+origin = "vps"
+name = ":/srv/xbuild/(llvm.*|absorb|backup|agents|work|target|scratch|cache|cold|ci|cloud|rescue|runners|tc160|wasmtime|shared|tmp|tools|clones|cas|linux|i18n.*|ay-(list|linux|corelib|os)|rust-fix.*|shenron-fix.*|script-tests.*|asm-guide)$"
+state = "dead"
+note = "work volume: scratch, caches, clones of tracked repositories, fix runs already pushed"
+
+[[rule]]
+origin = "vps"
+kind = "link"
+state = "dead"
+note = "symbolic link"
+
+[[rule]]
+origin = "vps"
+name = ":/srv/(chromium|craft|depot_tools|ghidra-scripts|kpatch|research|repos|open-src|upabs|shenron.*|rosegriffon|steam|wii-os|www|cdn-shenron|native-ui|koharu-preview|py2bun.*|pipe-src)$"
+state = "live"
+where = "tracked repositories or deployments"
+note = "checkout, deployment or upstream tree whose content is pushed (git tree with a remote) or redeployable; see the dirty-tree rows for unpushed work"
+
+# ---- lost, with a home ----------------------------------------------------------------------------------------------
+# Bun runtime and Bun OS crates.
+[[rule]]
+origin = "crate"
+name = "^(bun-os-|bunos-|bun-(re|steam)$)"
+home = "aphrody"
+note = "Bun OS unit: OS prefix (aphrody-*) per aphrody-labs/.github naming; owned by aphrody-dev/aphrody, listed not edited"
+
+[[rule]]
+origin = "crate"
+name = "^(bun-(dotnet-host|python-host|emu-host|emu-host-sys|windows-winclean)|bun_(env_cookie|git|host|native|pkg|vt|x))$"
+home = "bun"
+note = "runtime unit, restored as a standalone crate under packages/os of the Bun fork"
+
+[[rule]]
+origin = "crate"
+name = "^bun_browser"
+home = "browser"
+note = "BunBrowser: headless browser crates derived from obscura"
+
+[[rule]]
+origin = "crate"
+name = "^aphrody-(web|web-crawl|web-extract)$"
+home = "browser"
+
+[[rule]]
+origin = "crate"
+name = "^aphrody-(m3|m3-tokens|m3-reproduce|themes|svg|sprite-sheet|softraster|http-error|patch|bindgen)$"
+home = "ay"
+note = "design system, SVG, rendering and SDK utilities"
+
+[[rule]]
+origin = "crate"
+name = "^aphrody-(engine|toolcall|toolcall-repair|rollout|subsystem|guard|proc|app-protocol|rag-eval|store|jobs|secrets|fsindex|code-graph|command-pure|command-wasm|train|voice|vision|ocr|ocr-core|ocr-onnx|ocr-vlm|translate|translate-core|firefly|yolo|backend|sql|infra|certificates|ovh|identity|bun|bun-docs)$"
+home = "ai-os"
+note = "agent kernel, tools, inference and RAG"
+
+[[rule]]
+origin = "crate"
+name = "^aphrody-(aarch64|ctr|switch|wii|wii-dff|wii-image|homebrew|emu-utils|emu-utils-macros|nu|toolchains|vpn|wireguard|remote-desktop|capture|ssh|kernel|kernel-client|shell-.*|term|term-caps|terminal-.*|gpu-backend|render|webos-protocol)$"
+home = "aphrody"
+note = "OS crate: belongs to aphrody-dev/aphrody (owned by its own agent), listed not edited"
+
+[[rule]]
+origin = "crate"
+name = "^aphrody-(nie|pdfcraft)|^dragon-pixel"
+home = "nie"
+
+[[rule]]
+origin = "crate"
+name = "^craft-"
+home = "craft-anything"
+note = "craft-libs crate published under its upstream name prefix"
+
+[[rule]]
+origin = "npm"
+name = "^@aphrody/(auto-|automate)"
+home = "auto"
+
+[[rule]]
+origin = "npm"
+name = "^(@aphrody/(m3|material|libm3|eslint|base-ui|canvas)|@aphrody/m3-)"
+home = "aphrody-m3"
+note = "Material 3 packages; aphrody-m3 owns them"
+
+[[rule]]
+origin = "npm"
+name = "^@(aphrody/(shenron|koharu|discord-kit)|rosegriffon/)"
+home = "shenron"
+
+[[rule]]
+origin = "npm"
+name = "^@aphrody/(bun|node-|oxc|zstd|xml2|gmp|libmagic|http-curl|hash-cc|napi-stress|pkg-guard|archive|fuzzy|bun-|buncc|bxc|x$|supervisor|update|workspace|scaffold|web-inspector|web-to-tauri)|^bun-(plugin|agent)|^@aphrody/bun$"
+home = "bun"
+note = "Bun package: runtime neighbour"
+
+[[rule]]
+origin = "npm"
+name = "^@aphrody/(a2a|ag-ui|agent-browser|ai|doc-ai|messaging|yolo.*|http|sql|ovh|os|api|di|internal|importer|utilities|pagination|music|admin-ui|app-ui|arch-index|bun-arch)$"
+home = "ai-os"
+
+[[rule]]
+origin = "npm"
+name = "^(@aphrody/(nie|iecode|inagle|ietv|frames|zukan|play|worldbeyblade|challonge|fut|xcom|animesama|gaming|ntcore)|ieverse|niers|nie-plugin|iecode)"
+home = "nie"
+
+[[rule]]
+origin = "repo"
+name = "/(gaming|steam-depot|gamescope-rs|rust-stack)$"
+home = "nie"
+note = "gaming and Steam units: nie owns games, Steam and depot tooling"
+
+[[rule]]
+origin = "repo"
+name = "/(nt)$"
+home = "aynt"
+note = "NT-inspired desktop; ayNT is the free Windows-compatible OS"
+
+[[rule]]
+origin = "repo"
+name = "/(unix|wayland)$"
+home = "anu"
+
+[[rule]]
+origin = "repo"
+name = "/(bun-os|bun-distribution|yolo-bun|env-kit)$"
+home = "bun"
+note = "both archives stay archived: crates.io tarball duplicates; the runtime units go to the Bun fork, the OS units to aphrody"
+
+[[rule]]
+origin = "repo"
+name = "/(ring3-agent|bench|xtask|depot|infra|wck|ai-os)$"
+home = "ai-os"
+
+[[rule]]
+origin = "legacy"
+name = "^(aphrody-)?lore|^depot-|^winux-|^niubash|^reedline|^readline-abi|^rubash"
+home = "anu"
+note = "Unix and shell userland"
+
+[[rule]]
+origin = "legacy"
+name = "^(gamescope|cosmic-compat|smithay|dx12-hal|aphrody-omarchy|wslg-cli|aphrody-game|game$)"
+home = "aphrody"
+
+# Legacy units by their path in the old monorepo (the layer directories: kernel, device, hardware, system, frameworks, apps, tools).
+[[rule]]
+origin = "legacy"
+repository = "^test/"
+state = "dead"
+note = "test fixtures of the old monorepo"
+
+[[rule]]
+origin = "legacy"
+repository = "^(kernel|device|hardware)/"
+home = "aphrody"
+note = "OS layer of the old monorepo"
+
+[[rule]]
+origin = "legacy"
+repository = "^system/(wine|nt|gnu|android|diffutils-flat|toolchains|wayland|xtask|posix|winux)"
+home = "anu"
+
+[[rule]]
+origin = "legacy"
+repository = "^frameworks/(a2a|agent|accounts|antigravity|boq|embed|flowcat|gateway|gemini|google|infer|llama|mcp-client|memory|ml-|model|models|rag|ring3|openpets|ai-os|re|re-ts|ocr)"
+home = "ai-os"
+
+[[rule]]
+origin = "legacy"
+repository = "^frameworks/(m3|canvas|design|ui)"
+home = "aphrody-m3"
+
+[[rule]]
+origin = "legacy"
+repository = "^frameworks/(corelib|i18n|craft|chromium|modele|tv)"
+home = "ay"
+note = "SDK: corelib, i18n catalogs, Chromium tooling, media tools"
+
+[[rule]]
+origin = "legacy"
+repository = "^frameworks/(gaming|steam)"
+home = "nie"
+
+[[rule]]
+origin = "legacy"
+repository = "^frameworks/(api|web|messaging|plugin-opener)"
+home = "browser"
+
+[[rule]]
+origin = "legacy"
+repository = "^frameworks/bun-video"
+home = "bun"
+
+[[rule]]
+origin = "legacy"
+repository = "^frameworks/(emu|tauri)"
+home = "aphrody"
+
+[[rule]]
+origin = "legacy"
+repository = "^apps/(open)$"
+home = "open"
+
+[[rule]]
+origin = "legacy"
+repository = "^apps/(auto|r2-site|r2b)$"
+home = "auto"
+
+[[rule]]
+origin = "legacy"
+repository = "^apps/(craft|game)$"
+home = "craft-anything"
+
+[[rule]]
+origin = "legacy"
+repository = "^apps/(rosegriffon|shenron)$"
+home = "shenron"
+
+[[rule]]
+origin = "legacy"
+repository = "^apps/(nt)$"
+home = "aynt"
+
+[[rule]]
+origin = "legacy"
+repository = "^apps/"
+home = "aphrody"
+
+[[rule]]
+origin = "legacy"
+repository = "^(system|plugins)/"
+home = "bun"
+note = "Bun runtime neighbour (system layer of the old monorepo)"
+
+[[rule]]
+origin = "legacy"
+repository = "^(tools|scripts|bench)"
+home = "ay"
+note = "tooling"
+
+[[rule]]
+origin = "legacy"
+name = "^(aphrody-)?lore|^depot-|^winux-|^niubash|^reedline|^readline-abi|^rubash"
+home = "anu"
+note = "Unix and shell userland"
+
+[[rule]]
+origin = "crate"
+name = "^aphrody-(n2b-core|n2b-registry|n2b-types|oxc-bridge)$"
+home = "bun"
+note = "Node-to-Bun migration engine and Oxc bridge (bun n2b, bun-distribution)"
+
+[[rule]]
+origin = "npm"
+name = "^@aphrody/(web|web-cache|web-crawl|web-indexeddb|web-notification|web-storage|web-test|webview-page|webos|webos-wasm|wasm|cli-wasm|shell-web|qr|rg-ui|spaceui|timeline|menu-render|menu-render-webgpu|android-web|regex-re2)$"
+home = "browser"
+
+[[rule]]
+origin = "npm"
+name = "^@aphrody/(n2b-|next-bun|runtime-sdk|runner|watch|plugins|product|replica-skills|typesafe-sdk|docs-sync|drive-client|google|tauri|tauri-theme|windows|winclean|waydroid|wonderbot|voiranime)|^@yolo-rs/"
+home = "bun"
+
+[[rule]]
+origin = "vps"
+name = "^fr2:/srv/xbuild/shared/(ay-chromium|mirror)$|:/srv/zig-|ghidra-release|Cargo\\.lock|postinstall|deploy\\.lock"
+state = "dead"
+note = "regenerable download, lockfile scratch or deploy marker"
+
+[[rule]]
+origin = "vps"
+name = "^prd:/srv/ai-os$"
+state = "live"
+where = "ai-os (deployed checkout)"

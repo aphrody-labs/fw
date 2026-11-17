@@ -2,3 +2,6 @@
 ay.toml                       # the host layout table: [paths.<role>] is the one place host paths are written
 tools/paths.test.ts           # fixtures of the checker itself
 tools/disks.test.ts           # df output fixture of the fleet
+
+docs/research/recovery*       # inventory of host trees and the rules that classify them: path literals are the data
+tools/recover.test.ts          # fixtures of the host-tree parser
