@@ -1,50 +1,82 @@
 # Architecture
 
-The tree follows the conventions of the upstreams this project builds on, not a layer model copied from another OS:
-Zed's flat `crates/`, Bun's `packages/*` workspaces, Nix for reproducible toolchains and packages, and product
-folders the way SerenityOS and Ladybird keep an OS and a browser in one repository. Decisions are in `docs/adr/`.
+Updated 2026-11-17. `ay` is the SDK of Aphrody (ADR-0008): C and its derivatives, assembly, Zig, WebGPU, Python, .NET and
+Bun, with no Rust. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the source of truth; the dependency
+points from `aphrody` to `ay`, never the other way, and `ay` embeds no checkout of another repository (one local checkout
+per repository, forks and upstreams as submodules with relative URLs). Decisions are in `docs/adr/` (index in
+`docs/adr/README.md`).
+
+## Tree of this repository
 
 ```
-ay.toml          the only identity and configuration source
-flake.nix        pinned toolchains, dev shells, CI checks and OS package builds (ADR-2)
-Cargo.toml       Rust workspace: members = ["crates/*"], shared [workspace.dependencies]
+ay.toml          the only identity and configuration source: orgs, hosts, products, repos, sdk targets, domains
 package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
-apps/            products a person runs, one folder each, any language: browser, search, cloud
-crates/          every Rust crate, flat, named ay_<area>_<thing>
-corelib/         the SDK corelib: freestanding C23 + assembly + WAT, the C ABI header, conformance hosts and proofs
-packages/        every Bun/TypeScript package, flat, named @aphrody/<name>
-os/              the distribution as data: bootstrap (LFS stage 0), pkgs (Nix), kernel, installer, image
-brand/           identity dataset and asset pipeline
-tools/           the ay CLI glue and typed scripts for every repeatable flow
-docs/            spec, architecture, ADRs, feature matrix
-third_party/     upstreams as git submodules with relative URLs, one checkout each
+corelib/         the SDK corelib: freestanding C23 + assembly + WAT, the C ABI header, WIT world, conformance hosts and proofs
+packages/        Bun/TypeScript packages, flat, named @aphrody/<name>: chromium, chromium-releases, org-mirror
+apps/            programs a person runs, one folder each: chromium-dash
+brand/           identity dataset and assets; the token pipeline (Bun) is its generator
+tools/           typed Bun scripts for every repeatable flow (features, paths, hosts, disks, listings, absorb, legacy)
+docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, research, guides
+third_party/     upstreams as submodules with relative URLs, one checkout each
+crates/          transitional Rust, leaving this repository: ay_brand -> Bun (brand/), ay_chromium -> aphrody-labs/browser
 ```
 
 Rules:
 - A folder exists only with a working, tested unit; manifests list only members that build.
-- Code shared by two products lives in `crates/` or `packages/`; a product folder holds only that product.
+- Code shared by two repositories lives in a package or in `corelib/`; a product lives in the repository that owns it.
 - Upstreams are submodules, never copies. Chromium is fetched with depot_tools `gclient`.
-- Nothing generated is committed (logs, reports, dumps); generators are committed instead.
-- Hosts are named by role in `ay.toml`: builds on `build`, tests on `test`, production on `prod`.
+- Nothing generated is committed (logs, reports, dumps), except the artifacts a check compares (`docs/features.md`);
+  generators are committed instead.
+- Hosts are named by role in `ay.toml`: builds on `build`, tests on `test`, production on `prod`; their paths come from
+  `[paths.<role>]`, never from prose.
+- No Rust is added here. `crates/` and the root `Cargo.toml` are removed when the last two crates have moved.
 
 ## Toolchain
-One LLVM: clang and lld with ThinLTO for C and C++, Rust built against the same LLVM with cross-language LTO,
-`bun compile` (AOT) for typed Bun binaries, depot_tools `autoninja` for GN/ninja upstreams, tree-sitter as the one
-parsing layer for code intelligence. See ADR-2.
+One LLVM: clang, clang++ and clang-cl with lld (`ld.lld`, `lld-link`, `wasm-ld`), `llvm-ar`, libc++ and compiler-rt, with
+ThinLTO by default and full LTO for releases; Zig and .NET NativeAOT ride the same backend where they can; `bun compile`
+(AOT) for typed Bun binaries; tree-sitter is the one parsing layer for code intelligence. Targets (architectures, OSes,
+GPUs, ABIs) are the lists in `ay.toml` [sdk]; a target is supported only when CI builds it and a test runs on it. See ADR-0008.
+
+## The ecosystem, by repository
+Keys are those of `ay.toml` [repos]; the matrix owner of every feature row is one of them.
+
+| Repository | Role | State 2026-11-17 |
+|---|---|---|
+| `aphrody-dev/aphrody` | The OS in pure Rust, source of truth; native UI (GPUI, COSMIC, `gpui_app_shell`, `os_craft`); owns `aphrody.com` and `aphrody.app` | Owned by another agent; read-only for this repository |
+| `aphrody-dev/ay` | SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc, design system | This repository |
+| `aphrody-dev/ANU` | Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; no dependency on any other Aphrody repository | Own repository, own agent |
+| `aphrody-dev/ai-os` | Agent kernel, relay (MCP, A2A), model, inference and RAG, extracted from `legacy` by `tools/extract.ts` | Own repository, own agent |
+| `aphrody-dev/aydroid` | AOSP with Aphrody in place of Android | Empty repository, no content yet |
+| `aphrody-dev/ayNT` | A free Windows-compatible operating system (fork of LiberNT) | Fork |
+| `aphrody-labs/browser` | One browser monorepo: Bun, Servo, Obscura, agent-browser, CEF/Chromium | Receives `ay_chromium` |
+| `aphrody-labs/bun` | The Bun fork, the Cloud edge runtime and its plugins | Fork |
+| `aphrody-labs/craft-anything` | Replication engine, consumed by `aphrody` as `vendor/craft-anything` | Fork |
+| `aphrody-labs/open`, `auto` | Open ecosystem (opencode, opentui, models.dev) and workflow automation | Own agents |
+| `aphrody-labs/aphrody-m3` | Material 3 UI packages, icons, fonts | Consumes the `ay` token pipeline |
+| `aphrody-labs/nie` | Football games built as craft jobs | Own agent |
+| `rose-griffon/rosegriffon` | Rose Griffon monorepo, moved from `aphrody-labs` to its own organization | Own agent |
+| `aphrody-labs/.github` | The organization standard 1.0.0, defaults, reusable CI, profile | See `docs/standard.md` |
+| `aphrody-labs/legacy` | The old monorepo, preserved archive, workflows disabled | Read only |
 
 ## Products and their stacks
-| Product | Stack | ADR |
-|---|---|---|
-| os | LFS stage-0 bootstrap, then Nix packages; kernel.org + CachyOS patches; BLFS Wayland desktop; the native desktop from aphrody-dev/aphrody; Waydroid | ADR-4 |
-| browser | Chromium with our UI, agent panel and WebMCP | ADR-3 |
-| search | Rust crawler, index and ranker; Bun front end; AI mode over the OpenAI-compatible model API | ADR-5 |
-| cloud | Bun edge runtime with a Workers-compatible API; deploys, domains, TLS, storage, logs | ADR-6 |
-| craft | engine: aphrody-labs/craft-anything (Rust, consumed by aphrody-dev/aphrody as `vendor/craft-anything`), its CLI and MCP server; native GUI: aphrody-dev/aphrody | ADR-1 |
-| brand | character dataset, logo and token pipeline, Google Sans Flex, Material 3 | ADR-1 |
+| Product | Stack | Owner repository | ADR |
+|---|---|---|---|
+| os | Rust OS; LFS stage-0 and Nix packages for the Linux flavour; kernel.org + CachyOS patches; Wayland desktop; Waydroid and `aydroid` | `aphrody` | ADR-4 |
+| browser | Chromium through CEF with our UI, agent panel and WebMCP | `browser` | ADR-3 |
+| search | Rust crawler, index and ranker; Bun front end; AI mode over the OpenAI-compatible model API | `aphrody` | ADR-5 |
+| cloud | Bun edge runtime with a Workers-compatible API; deploys, domains, TLS, storage, logs | `aphrody` on `bun` | ADR-6 |
+| craft | Engine `craft-anything`, its CLI and MCP server; native GUI in `aphrody` | `craft-anything` | ADR-1 |
+| brand | Character dataset, one Bun token pipeline, Google Sans Flex, Material 3 | `ay` | ADR-1 |
+
+ADR-3 to ADR-6 describe products that moved out of this repository; they stay here as the decision record until each
+owner repository carries its own copy.
+
+## Design system and tokens
+One Bun pipeline owned by `ay` generates the tokens from the brand seed and the Material 3 rules: DTCG JSON, CSS custom
+properties, a Tailwind v4 preset and a C header (target; today `brand/tokens` is colour only and `aphrody-m3` holds
+shape, type, motion, elevation and state). Figma is the visual source and is mirrored to code through variables and Code
+Connect (`docs/mirrors.toml`). `aphrody-m3` and `aphrody` consume the output and do not regenerate it.
 
 ## Native UI lives in aphrody-dev/aphrody
-The native stack is owned by its own repository, `aphrody-dev/aphrody` (a Zed fork). That covers GPUI and the
-gpui-kit components, COSMIC and iced, the desktop shell (`gpui_app_shell`) and the Craft native UI (`os_craft`).
-Since 2026-11-17 aphrody is the full-Rust OS and source of truth and this repository is its C / assembly and Bun
-SDK; the dependency points from aphrody to ay, so ay embeds no aphrody checkout (one local checkout per repo). The OS image packages its shell; the browser
-and the web products don't depend on it. No GPUI or COSMIC code is written here.
+GPUI, gpui-kit, COSMIC and iced, the desktop shell and the Craft native UI belong to `aphrody-dev/aphrody` (a Zed fork).
+No GPUI or COSMIC code is written here. The browser and the web products do not depend on it.

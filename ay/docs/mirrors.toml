@@ -1,11 +1,18 @@
 # Where the design package is mirrored (the design-package skill and workflow read these ids).
+# Mirrors are regenerated from docs/ and docs/features.toml; last_synced is the date of the last full regeneration.
 [drive]
 folder = "1ydDkZ7opnB19FZqKblxD-g2vFiWkC0PJ"           # Drive folder "ay"
-doc = "1vzr62pNKNsOpv8x_ZQyXjWjxa3lHNVQGZyJXm8L4Tjk"    # ay — Spec, architecture and decisions
-sheet = "1IliGYdDToOufUSarqSADwg8VVb4Nv1kjpBcCGfhFQx0"  # ay — Feature matrix (Matrix, Inventory)
-brand_book = "14NjMrELB8Vmp8-wIjrGnA6cKo_3emQZakIMKqYOjv6Q"  # ay — Brand book (built from brand/)
-slides = "1IaQh0pdTC5wJ4RWAbNZbLMySpFKhWzcLlv_ZLKu1kWg"     # ay — Architecture and roadmap
+doc = "1vzr62pNKNsOpv8x_ZQyXjWjxa3lHNVQGZyJXm8L4Tjk"    # ay — Spec, architecture and decisions (spec, architecture, standard, ADR index, matrix by owner)
+sheet = "1IliGYdDToOufUSarqSADwg8VVb4Nv1kjpBcCGfhFQx0"  # ay — Feature matrix (Matrix: 261 rows with owner, Owners, Inventory: legacy port decisions)
+brand_book = "14NjMrELB8Vmp8-wIjrGnA6cKo_3emQZakIMKqYOjv6Q"  # ay — Brand book (built from brand/); not regenerated on 2026-11-17, follows the Bun token pipeline
+slides = "1IaQh0pdTC5wJ4RWAbNZbLMySpFKhWzcLlv_ZLKu1kWg"     # ay — SDK, ecosystem and roadmap
+last_synced = "2026-11-17"      # doc, sheet and slides; brand_book still at 2026-11-16
 
 [figma]
 team = "ay"
-file = "oubd2oqxMuyKYgGcaj3xNK"   # Aphrody: brand, design system, search, OS, browser, cloud
+file = "oubd2oqxMuyKYgGcaj3xNK"   # Aphrody: brand, design system, search, OS, browser, cloud, craft, Standard
+standard_page = "16:2"            # page "Standard": README and MDX templates, label palette, Material 3 tokens in use
+last_synced = "2026-11-17"
+
+[standard]
+repo = "aphrody-labs/.github"     # organization standard 1.0.0; docs/standard.md links it

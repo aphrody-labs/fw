@@ -1,6 +1,7 @@
 # Feature matrix: the scope of every product. `bun tools/features.ts` renders docs/features.md and checks proofs.
 # status: todo | doing | done. A `done` row needs `proof` (a path in the repo, a test id, or an https URL to an artifact).
 # proof_kind: test | screenshot | log | hardware (hardware rows can only be proven on a real device).
+# owner (optional): key of [repos] in ay.toml that builds the row; defaults to the owner of the product ([products], [matrix]).
 # Reference pages were read on 2026-11-16 in a real browser.
 
 [[feature]]
@@ -149,6 +150,7 @@ title = "Android apps through Waydroid, plus game streaming"
 reference = "https://googlebook.google/"
 layer = "os"
 status = "todo"
+owner = "aydroid"
 
 [[feature]]
 product = "os"
@@ -300,6 +302,7 @@ title = "DNS: authoritative and recursive resolver, DoH and DoT"
 reference = "https://www.rfc-editor.org/rfc/rfc8484"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -308,6 +311,7 @@ title = "TLS 1.3 with ACME certificates"
 reference = "https://www.rfc-editor.org/rfc/rfc8446"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -316,6 +320,7 @@ title = "IPv4 and IPv6 on every service"
 reference = "https://www.rfc-editor.org/rfc/rfc8200"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -324,6 +329,7 @@ title = "HTTP/1.1, HTTP/2 and HTTP/3 (QUIC)"
 reference = "https://www.rfc-editor.org/rfc/rfc9114"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -332,6 +338,7 @@ title = "WebSockets, WebRTC and Server-Sent Events"
 reference = "https://www.w3.org/TR/webrtc/"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -340,6 +347,7 @@ title = "OpenAI-compatible API (chat, responses, embeddings) on our model layer"
 reference = "https://platform.openai.com/docs/api-reference"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -356,6 +364,7 @@ title = "MCP servers and WebMCP in the browser"
 reference = "https://modelcontextprotocol.io/"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -364,6 +373,7 @@ title = "ACP between shell, editors and agents; A2A between agents"
 reference = "https://agentclientprotocol.com/"
 layer = "protocol"
 status = "todo"
+owner = "ai-os"
 
 [[feature]]
 product = "platform"
@@ -396,6 +406,7 @@ title = "web-platform-tests pass rate tracked for the browser"
 reference = "https://github.com/web-platform-tests/wpt"
 layer = "protocol"
 status = "todo"
+owner = "browser"
 
 [[feature]]
 product = "platform"
@@ -404,6 +415,7 @@ title = "Rust for Linux kernel modules where supported"
 reference = "https://rust-for-linux.com/"
 layer = "os"
 status = "todo"
+owner = "anu"
 
 [[feature]]
 product = "platform"
@@ -412,6 +424,7 @@ title = "Rust in Chromium through its supported toolchain"
 reference = "https://chromium.googlesource.com/chromium/src/+/main/docs/rust/README.md"
 layer = "backend"
 status = "todo"
+owner = "browser"
 
 [[feature]]
 product = "platform"
@@ -420,6 +433,7 @@ title = "Rust in AOSP through Soong rust_* modules"
 reference = "https://source.android.com/docs/setup/build/rust/building-rust-modules/overview"
 layer = "os"
 status = "todo"
+owner = "aydroid"
 
 # Rows below were derived from docs/research/*.toml (replicate = true / os_replica = true), retrieved 2026-11-16.
 
@@ -1471,6 +1485,7 @@ title = "Gemini: Meet Gemini, Google’s AI assistant. Get help with writing, pl
 reference = "https://gemini.google.com/"
 layer = "backend"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "os"
@@ -1495,6 +1510,7 @@ title = "Google Assistant: Meet your Google Assistant. Ask it questions. Tell it
 reference = "https://assistant.google.com/"
 layer = "backend"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "os"
@@ -1695,6 +1711,7 @@ title = "Gemini Notebook: Meet Gemini Notebook, the AI research tool and thinkin
 reference = "https://notebooklm.google"
 layer = "backend"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "search"
@@ -1791,6 +1808,7 @@ title = "AI for Developers: The fastest path from prompt to production with Gemi
 reference = "https://ai.google.dev/"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "cloud"
@@ -1807,6 +1825,7 @@ title = "Google for Developers: From AI and Cloud to Mobile and Web: Explore dev
 reference = "https://developers.google.com/"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -1815,6 +1834,7 @@ title = "Google Identity Platform: Enable users to sign into apps and authorize 
 reference = "https://developers.google.com/identity"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -1823,6 +1843,7 @@ title = "Web: From AI and Cloud to Mobile and Web: Explore developer resources a
 reference = "https://developers.google.com/web/"
 layer = "protocol"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "os"
@@ -1879,6 +1900,7 @@ title = "Gemini platform: AI platform for developers"
 reference = "https://cloud.google.com/products/gemini-enterprise-agent-platform"
 layer = "backend"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -1887,6 +1909,7 @@ title = "Gemini for your business: Discover, create, share, and run AI agents ac
 reference = "https://cloud.google.com/gemini-enterprise"
 layer = "backend"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "cloud"
@@ -1903,6 +1926,7 @@ title = "Gemini Code Assist: AI-assisted application development and coding."
 reference = "https://cloud.google.com/products/gemini/code-assist"
 layer = "backend"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -1911,6 +1935,7 @@ title = "Customer Experience Agent Studio: Build conversational AI with both det
 reference = "https://cloud.google.com/gemini-enterprise-cx/cx-agent-studio"
 layer = "backend"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -1919,6 +1944,7 @@ title = "Agent Search: Build Google-quality search for your enterprise apps and 
 reference = "https://cloud.google.com/products/gemini-enterprise-agent-platform/agent-search"
 layer = "backend"
 status = "todo"
+owner = "aphrody"
 
 [[feature]]
 product = "cloud"
@@ -2031,6 +2057,7 @@ title = "Chrome release channels as a typed dataset (Stable, Extended, Beta, Dev
 reference = "https://www.chromium.org/getting-involved/chrome-release-channels/"
 layer = "backend"
 status = "done"
+owner = "ay"
 proof = "packages/chromium-releases/test/channels.test.ts::the dataset agrees with the page: availability and cadence"
 proof_kind = "test"
 
@@ -2041,6 +2068,7 @@ title = "Typed Bun client, sqlite cache and CLI for Chromium Dash (releases, mil
 reference = "https://chromiumdash.appspot.com/"
 layer = "backend"
 status = "done"
+owner = "ay"
 proof = "packages/chromium-releases/test/dash.test.ts::releases: newest first with hashes, milestone and previous version"
 proof_kind = "test"
 
@@ -2051,6 +2079,7 @@ title = "Chromium Dash pages in Bun.serve: home, releases per platform, schedule
 reference = "https://chromiumdash.appspot.com/home"
 layer = "ui"
 status = "done"
+owner = "ay"
 proof = "apps/chromium-dash/test/app.test.ts::releases: one card per channel with versions and commit links"
 proof_kind = "test"
 
@@ -2061,6 +2090,7 @@ title = "Chrome Platform Status in Bun.serve: roadmap, feature search, feature p
 reference = "https://chromestatus.com/roadmap"
 layer = "ui"
 status = "done"
+owner = "ay"
 proof = "apps/chromium-dash/test/app.test.ts::feature page: overview, specification, status and stages"
 proof_kind = "test"
 
@@ -2071,6 +2101,7 @@ title = "Pick the Chromium version and the closest CEF build for a release chann
 reference = "https://cef-builds.spotifycdn.com/index.html"
 layer = "backend"
 status = "done"
+owner = "ay"
 proof = "packages/chromium/test/version.test.ts::stable on Windows: the channel's Chromium and a CEF minimal build for it"
 proof_kind = "test"
 
@@ -2111,6 +2142,7 @@ title = "GitHub org replica in bun:sqlite, incremental and resumable: repos, git
 reference = "https://github.com/anomalyco"
 layer = "backend"
 status = "done"
+owner = "ay"
 proof = "docs/research/anomalyco.toml"
 proof_kind = "log"
 
@@ -2121,6 +2153,7 @@ title = "Read API and pages over an org replica: repos, commits, pull requests, 
 reference = "https://github.com/anomalyco/opencode"
 layer = "ui"
 status = "done"
+owner = "ay"
 proof = "packages/org-mirror/test/server.test.ts::HTML shows totals, ecosystem chips and repos by last push"
 proof_kind = "test"
 
@@ -2131,3 +2164,4 @@ title = "Craft replica of opencode.ai (2101 mirrored pages), checked against the
 reference = "https://opencode.ai/"
 layer = "ui"
 status = "todo"
+owner = "open"

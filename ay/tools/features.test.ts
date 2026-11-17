@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { type Feature, load, problems, render } from "./features.ts";
+import { type Feature, type Owners, load, ownerOf, problems, render } from "./features.ts";
 
 const root = resolve(import.meta.dir, "..");
 const products = new Set(["search", "os", "platform"]);
@@ -20,7 +20,19 @@ describe("feature matrix", () => {
     const features = load(readFileSync(join(root, "docs/features.toml"), "utf8"));
     const ay = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as { products: Record<string, unknown> };
     expect(features.length).toBeGreaterThan(40);
-    expect(problems(features, new Set([...Object.keys(ay.products), "platform"]), () => true)).toEqual([]);
+    const repos = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as {
+      products: Record<string, { owner?: string }>;
+      repos: Record<string, unknown>;
+      matrix?: { platform_owner?: string };
+    };
+    const owners: Owners = {
+      byProduct: {
+        ...(repos.matrix?.platform_owner ? { platform: repos.matrix.platform_owner } : {}),
+        ...Object.fromEntries(Object.entries(repos.products).flatMap(([k, v]) => (v.owner ? [[k, v.owner]] : []))),
+      },
+      repos: new Set(Object.keys(repos.repos)),
+    };
+    expect(problems(features, new Set([...Object.keys(ay.products), "platform"]), () => true, owners)).toEqual([]);
   });
 
   test("done without proof is refused", () => {
@@ -53,5 +65,21 @@ describe("feature matrix", () => {
     const md = render([row({ status: "done", proof: "a" }), row({ id: "h", proof_kind: "hardware" })]);
     expect(md).toContain("## search (1/2 done)");
     expect(md).toContain("needs hardware");
+  });
+
+  test("a row's owner is its own, else its product's, and must be a key of [repos]", () => {
+    const owners: Owners = { byProduct: { search: "aphrody" }, repos: new Set(["aphrody", "ay"]) };
+    expect(ownerOf(row(), owners)).toBe("aphrody");
+    expect(ownerOf(row({ owner: "ay" }), owners)).toBe("ay");
+    expect(problems([row({ owner: "nope" })], products, () => true, owners)).toEqual(["search/x: owner nope is not a key of [repos]"]);
+    expect(problems([row({ product: "os" })], products, () => true, owners)).toEqual(["os/x: no owner (set owner on the row or on the product)"]);
+  });
+
+  test("render adds an owner column and a rows-by-owner summary", () => {
+    const owners: Owners = { byProduct: { search: "aphrody" }, repos: new Set(["aphrody", "ay"]) };
+    const md = render([row({ status: "done", proof: "a", owner: "ay" }), row({ id: "z" })], owners);
+    expect(md).toContain("| ay | 1 | 1 |");
+    expect(md).toContain("| aphrody | 1 | 0 |");
+    expect(md).toContain("| Feature | Owner | Layer | Status | Proof | Reference |");
   });
 });

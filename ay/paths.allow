@@ -2,4 +2,3 @@
 ay.toml                       # the host layout table: [paths.<role>] is the one place host paths are written
 tools/paths.test.ts           # fixtures of the checker itself
 tools/disks.test.ts           # df output fixture of the fleet
-docs/spec.md                  # standard workflow is editing it; its host path moves to [paths.build].work after that lands
