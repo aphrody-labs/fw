@@ -2,7 +2,7 @@ import { afterAll, beforeAll, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { codeMask, commandWords, deriveRules, loadRegistry, Scanner, scanRepo, selectRepos, summarize, tokensOf } from "./bun-native.ts";
+import { codeMask, commandWords, deriveRules, loadRegistry, loadRules, rulesDocument, Scanner, scanRepo, selectRepos, summarize, tokensOf } from "./bun-native.ts";
 
 const tmp = mkdtempSync(join(tmpdir(), "ay-bun-native-test-"));
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
@@ -257,12 +257,31 @@ test("repository selection: ay.toml repos minus runtime forks, plus non-archived
   expect(out.map((r) => r.slug)).toEqual(["o/a", "o/c"]);
 });
 
-test("the committed dataset parses, records the Bun version and proves every rule it can gate on", async () => {
-  const file = Bun.file(new URL("../docs/research/bun-native-audit.toml", import.meta.url));
+test("the committed rules file parses, records the Bun version, carries no repository data and every proven rule has its proof", async () => {
+  const file = Bun.file(new URL("../docs/research/bun-native-rules.toml", import.meta.url));
   if (!(await file.exists())) return;
   const t = Bun.TOML.parse(await file.text()) as any;
   expect(t.meta.bun_version).toMatch(/^\d+\.\d+\.\d+/);
   expect(t.meta.proven + t.meta.unproven).toBe(t.rule.length);
+  expect(t.repo).toBeUndefined();
   for (const r of t.rule) if (r.status === "proven") expect(r.check_ok && (r.doc || r.types)).toBeTruthy();
   expect(JSON.stringify(t)).not.toMatch(/"(?:\/(?:home|srv|root|Users)\/|[A-Za-z]:\\\\)/);
+  const { rules, builtins } = loadRules(new URL("../docs/research/bun-native-rules.toml", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
+  expect(rules.length).toBe(t.rule.length);
+  expect(builtins.has("fs")).toBe(true);
+});
+
+test("the rules document round-trips through loadRules and keeps proofs, gates and tiers", async () => {
+  const { rules } = deriveRules(reg, new Map());
+  const dir = join(tmp, "doc");
+  mkdirSync(dir);
+  const path = join(dir, "rules.toml");
+  const audit = { registry: "n2b-registry", crates: "x-", exclude: [], mirrors: [], legacy: "" };
+  writeFileSync(path, rulesDocument({ rules, reg, dropped: {}, builtins: builtins(), bunVersion: "1.0.0", revision: "abc", audit, skillRules: 0 }));
+  const back = loadRules(path);
+  expect(back.rules.map((r) => r.id)).toEqual(rules.map((r) => r.id));
+  expect(back.rules.find((r) => r.id === "api/fs-readFileSync")?.gate).toEqual(["fs", "fs/promises"]);
+  expect(back.rules.find((r) => r.id === "api/buffer-alloc")?.tier).toBe("style");
+  expect(back.builtins.has("fs")).toBe(true);
+  expect(back.meta.registry_crate).toBe("x-n2b-registry");
 });
