@@ -27,6 +27,15 @@ replace = "none"
 import_from = "child_process"
 
 [[apis]]
+id = "api/buffer-alloc"
+pattern = '\\bBuffer\\.alloc\\s*\\(\\s*([^)]+?)\\s*\\)'
+message = "m"
+severity = "warn"
+replace = "template"
+replacement = "new Uint8Array($1)"
+aggressive = true
+
+[[apis]]
 id = "api/process-env"
 pattern = '\\bprocess\\.env\\.X\\b'
 message = "style"
@@ -93,6 +102,12 @@ package = "rimraf"
 replacement = "fs.rm"
 
 [[packages]]
+id = "imports/bun-native"
+package = "which"
+replacement = "Bun.which"
+aggressive = true
+
+[[packages]]
 id = "imports/rust-sdk-alt"
 package = "express"
 replacement = "axum"
@@ -141,6 +156,16 @@ test("derived rules: info rules and generic patterns are dropped, severity follo
   expect(rules.find((r) => r.id === "api/child-process-spawn")?.match).toContain("spawn");
   expect(rules.find((r) => r.id === "package/left-pad")?.source).toBe("skill:bun-native");
   expect(rules.find((r) => r.id === "api/fs-readFileSync")?.gate).toEqual(["fs", "fs/promises"]);
+});
+
+test("Web-standard substitutes are the style tier; shell words match only command-line packages", () => {
+  const rules = deriveRules(reg, new Map()).rules;
+  expect(rules.find((r) => r.id === "api/buffer-alloc")?.tier).toBe("style");
+  expect(rules.find((r) => r.id === "api/fs-readFileSync")?.tier).toBeUndefined();
+  const sc = new Scanner(rules, builtins(), false);
+  const ids: string[] = [];
+  sc.shellLine("which git && rimraf dist", (id) => ids.push(id));
+  expect(ids).toEqual(["package/rimraf"]);
 });
 
 test("tokensOf names the first Bun owner of each alternative", () => {
@@ -236,5 +261,5 @@ test("the committed dataset parses, records the Bun version and proves every rul
   expect(t.meta.bun_version).toMatch(/^\d+\.\d+\.\d+/);
   expect(t.meta.proven + t.meta.unproven).toBe(t.rule.length);
   for (const r of t.rule) if (r.status === "proven") expect(r.check_ok && (r.doc || r.types)).toBeTruthy();
-  expect(JSON.stringify(t)).not.toMatch(/[A-Za-z]:\\|\/home\/|\/srv\//);
+  expect(JSON.stringify(t)).not.toMatch(/"(?:\/(?:home|srv|root|Users)\/|[A-Za-z]:\\\\)/);
 });

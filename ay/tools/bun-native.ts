@@ -33,6 +33,7 @@ export type Rule = {
   match?: string; // call/cli regex source
   flags?: string;
   gate?: string[]; // import specifiers the file must import
+  tier?: "bun" | "style"; // style: a Web-standard substitute for a Node API that Bun runs unchanged (Buffer -> Uint8Array...)
   proof: Proof;
   status: "proven" | "unproven";
 };
@@ -79,7 +80,7 @@ export async function loadRegistry(crate: string, dir?: string): Promise<Registr
 }
 
 /** The "Instead of X, use Y" table of the installed bun-native skill (plugin cache, any marketplace). */
-export function skillTable(): Map<string, string> {
+export function skillTable(file?: string): Map<string, string> {
   const out = new Map<string, string>();
   const base = join(homedir(), ".claude", "plugins", "cache");
   const files: string[] = [];
@@ -92,7 +93,7 @@ export function skillTable(): Map<string, string> {
     }
   };
   walk(base, 0);
-  const newest = files.sort().at(-1);
+  const newest = file ?? files.sort().at(-1);
   if (!newest) return out;
   let inTable = false;
   for (const line of readFileSync(newest, "utf8").split("\n")) {
@@ -219,6 +220,10 @@ export function deriveRules(reg: Registry, skill: Map<string, string>): { rules:
   }
   rules.push({ id: "module/node-prefix", source: "n2b-registry:modules", kind: "module", target: "bare builtin specifier", replacement: "node: prefix", severity: "safe-rewrite", proof: {}, status: "unproven" });
 
+  for (const r of rules) {
+    const token = tokensOf(r.replacement)[0];
+    if (r.kind === "call" && token && !/^(Bun\.|bun:|bun |bunx|import\.meta|fetch$)/.test(token)) r.tier = "style";
+  }
   rules.push(...structural());
   return { rules, dropped };
 }
@@ -631,7 +636,10 @@ export class Scanner {
     for (const r of rules) {
       if (onlyProven && r.status !== "proven") continue;
       this.byId.set(r.id, r);
-      if (r.kind === "package") this.pkg.set(r.target, r);
+      if (r.kind === "package") {
+        this.pkg.set(r.target, r);
+        if (/^(bun( |:test)|fs\.(rm|mkdir)$)/.test(r.replacement)) this.bins.add(r.target);
+      }
       else if (r.kind === "call" && r.match) this.calls.push({ rule: r, re: compile(r.match, "g")! });
       else if (r.kind === "cli" && r.match) this.cli.push({ rule: r, re: compile(r.match, "g")! });
       else if (r.kind === "global") this.globals.push(r);
@@ -639,6 +647,8 @@ export class Scanner {
     }
   }
   has = (id: string) => this.byId.has(id);
+  /** Packages that are command-line tools (their Bun owner is a bun command or a node:fs call): `which` or `glob` as a shell word is the Unix tool. */
+  bins = new Set<string>();
 
   /** Rules matched by one shell line (a package.json script, a `run:` line, a Dockerfile RUN/CMD, a .sh line). */
   shellLine(line: string, emit: (id: string) => void) {
@@ -648,7 +658,7 @@ export class Scanner {
     }
     for (const w of commandWords(line)) {
       if (w === "node" && this.has("command/node")) emit("command/node");
-      else if (w !== "bun" && !BUILTIN_BIN.has(w) && this.pkg.has(w)) emit(`package/${w}`);
+      else if (this.bins.has(w)) emit(`package/${w}`);
     }
   }
 
@@ -772,6 +782,7 @@ export async function scanRepo(dir: string, sc: Scanner, exclude: Set<string>): 
     }
   };
 
+  const tsPackages: string[] = [];
   const queue = [...files];
   const work = async () => {
     for (let f = queue.pop(); f; f = queue.pop()) {
@@ -809,7 +820,7 @@ export async function scanRepo(dir: string, sc: Scanner, exclude: Set<string>): 
         if (j.packageManager && !String(j.packageManager).startsWith("bun@")) emit("config/package-manager", f);
         const all = { ...j.dependencies, ...j.devDependencies };
         if (Object.keys(all).length && !hasLock(d)) emit("lockfile/missing", f);
-        if (existsSync(join(dir, d, "tsconfig.json")) && !("@types/bun" in all) && !("bun-types" in all) && !Object.values(pkgs).some((p) => "@types/bun" in { ...p.devDependencies, ...p.dependencies })) emit("tsconfig/no-bun-types", f);
+        if (existsSync(join(dir, d, "tsconfig.json"))) tsPackages.push(f);
       } else if (/^tsconfig(\.[\w-]+)?\.json$/.test(name)) {
         const t = await textOf(join(dir, f));
         res.files.configs++;
@@ -871,6 +882,9 @@ export async function scanRepo(dir: string, sc: Scanner, exclude: Set<string>): 
     }
   };
   await Promise.all(Array.from({ length: 16 }, work));
+  // one finding per repository: no package of it declares the Bun types
+  const typed = [...pkgs.values()].some((p) => "@types/bun" in { ...p.devDependencies, ...p.dependencies } || "bun-types" in { ...p.devDependencies, ...p.dependencies });
+  if (tsPackages.length && !typed) emit("tsconfig/no-bun-types", tsPackages.sort((a, b) => a.length - b.length || a.localeCompare(b))[0]!);
   return res;
 }
 
@@ -878,23 +892,29 @@ export async function scanRepo(dir: string, sc: Scanner, exclude: Set<string>): 
 
 export function summarize(res: RepoResult, rules: Map<string, Rule>, top = 10, unsafeCap = 200) {
   const sev: Record<string, number> = { "safe-rewrite": 0, "behaviour-change": 0, "no-equivalent": 0 };
+  let style = 0;
   const byRule: Record<string, number> = {};
   const byFile = new Map<string, number>();
   for (const h of res.hits) {
     const r = rules.get(h.rule);
     if (!r) continue;
+    if (r.tier === "style") {
+      style++;
+      continue;
+    }
     sev[r.severity]!++;
     byRule[h.rule] = (byRule[h.rule] ?? 0) + 1;
     byFile.set(h.file, (byFile.get(h.file) ?? 0) + 1);
   }
   const sorted = Object.fromEntries(Object.entries(byRule).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
   const unsafe = res.hits
-    .filter((h) => rules.get(h.rule)?.severity !== "safe-rewrite")
+    .filter((h) => rules.get(h.rule)?.severity !== "safe-rewrite" && rules.get(h.rule)?.tier !== "style")
     .sort((a, b) => a.rule.localeCompare(b.rule) || a.file.localeCompare(b.file) || a.line - b.line);
   return {
     files: res.files,
     parse_error_files: res.errorFiles.sort().slice(0, 20),
-    total: res.hits.length,
+    total: res.hits.length - style,
+    style_hits: style,
     severity: sev,
     rules: sorted,
     top_files: [...byFile].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, top).map(([path, hits]) => ({ path, hits })),
@@ -926,14 +946,14 @@ const arg = (flag: string) => {
   return i >= 0 ? process.argv[i + 1] : undefined;
 };
 
-async function prepare(bunDir: string | undefined, registryDir: string | undefined) {
+async function prepare(bunDir: string | undefined, registryDir: string | undefined, skillFile = arg("--skill")) {
   const { cfg, audit } = loadConfig();
   const reg = await loadRegistry(`${audit.crates}${audit.registry}`, registryDir);
   const checkout = bunDir ?? resolve(root, cfg.repos?.bun?.checkout ?? "../bun");
   if (!existsSync(join(checkout, "docs"))) throw new Error(`Bun fork docs not found at ${checkout}: pass --bun <checkout>`);
   const fork = loadFork(checkout);
   const builtins = new Set((reg.files.modules as Json[]).map((m) => m.module as string));
-  const { rules, dropped } = deriveRules(reg, skillTable());
+  const { rules, dropped } = deriveRules(reg, skillTable(skillFile));
   const { bunVersion, revision } = await proveRules(rules, fork, builtins);
   return { cfg, audit, reg, rules, dropped, builtins, bunVersion, revision };
 }
@@ -1003,6 +1023,7 @@ if (import.meta.main) {
         id: r.id, source: r.source, kind: r.kind, target: r.target, replacement: r.replacement, severity: r.severity, status: r.status,
         doc: r.proof.doc ?? "", heading: r.proof.heading ?? "", types: r.proof.types ?? "", check: r.proof.check ?? "", check_ok: r.proof.checkOk ?? false,
         ...(r.gate ? { gate: r.gate } : {}),
+        ...(r.tier ? { tier: r.tier } : {}),
         ...(r.note ? { note: r.note } : {}),
       })),
       repo,
@@ -1023,7 +1044,7 @@ if (import.meta.main) {
       builtins = new Set<string>(t.meta.builtins);
       rules = (t.rule as Json[]).map((r) => ({
         id: r.id, source: r.source, kind: r.kind, target: r.target, replacement: r.replacement, severity: r.severity, status: r.status,
-        match: r.kind === "call" || r.kind === "cli" ? r.target : undefined, flags: "g", gate: r.gate, proof: { doc: r.doc, types: r.types, check: r.check, checkOk: r.check_ok },
+        match: r.kind === "call" || r.kind === "cli" ? r.target : undefined, flags: "g", gate: r.gate, tier: r.tier, proof: { doc: r.doc, types: r.types, check: r.check, checkOk: r.check_ok },
       }));
     } else {
       const p = await prepare(arg("--bun"), arg("--registry"));
@@ -1046,7 +1067,7 @@ if (import.meta.main) {
           const key = `${h.rule} ${h.file}`;
           seen.add(key);
           const r = byId.get(h.rule)!;
-          if (baseline.has(key) || !failOn.has(r.severity)) continue;
+          if (baseline.has(key) || !failOn.has(r.severity) || (r.tier === "style" && !arg("--style"))) continue;
           fail++;
           console.error(`${h.file}:${h.line}: ${h.rule}: use ${r.replacement} (${r.severity})`);
         }
