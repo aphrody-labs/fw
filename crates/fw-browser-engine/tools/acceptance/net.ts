@@ -1,7 +1,6 @@
 // What a client sees of a published host: DNS (through DNS-over-HTTPS, so the answer is the public one), the TLS session
 // (protocol, cipher, ALPN, certificate chain end) and whether HTTP/3 is advertised (HTTPS record, Alt-Svc) and, when a
 // curl built with HTTP/3 exists, actually negotiated. Every part is independent: one failing leaves the others.
-import { connect } from "node:tls";
 
 export type NetProbe = {
   host: string;
@@ -91,10 +90,73 @@ async function dns(host: string): Promise<NetProbe["dns"]> {
   return out;
 }
 
-function tls(host: string): Promise<NetProbe["tls"]> {
+/** What Bun's TLS socket reports about the peer; the typings omit these methods. */
+type PeerSocket = {
+  getPeerCertificate(): {
+    subject?: { CN?: string };
+    issuer?: { O?: string; CN?: string };
+    subjectaltname?: string;
+    valid_from?: string;
+    valid_to?: string;
+  };
+  getCipher(): { name?: string; version?: string };
+  end(): void;
+};
+
+/** TLS through Bun.connect. The negotiated HTTP version is not exposed there: `serve` fills `alpn` from the engine's CDP protocol. */
+async function tls(host: string): Promise<NetProbe["tls"]> {
   const t0 = performance.now();
-  return new Promise((done) => {
-    const empty = {
+  const ms = () => Math.round(performance.now() - t0);
+  try {
+    return await new Promise<NetProbe["tls"]>((done, fail) => {
+      const timer = setTimeout(() => fail(new Error("timeout")), 8000);
+      Bun.connect({
+        hostname: host,
+        port: 443,
+        tls: { serverName: host },
+        socket: {
+          data() {},
+          open(raw) {
+            clearTimeout(timer);
+            const socket = raw as unknown as PeerSocket;
+            try {
+              const cert = socket.getPeerCertificate();
+              const cipher = socket.getCipher();
+              const to = cert.valid_to ? new Date(cert.valid_to) : null;
+              const from = cert.valid_from ? new Date(cert.valid_from) : null;
+              done({
+                protocol: cipher.version ?? null,
+                cipher: cipher.name ?? null,
+                alpn: null,
+                subject: cert.subject?.CN ?? null,
+                issuer: [cert.issuer?.O, cert.issuer?.CN].filter(Boolean).join(" / ") || null,
+                san: (cert.subjectaltname ?? "")
+                  .split(", ")
+                  .map((n) => n.replace(/^DNS:/, ""))
+                  .filter(Boolean),
+                valid_from: from && !Number.isNaN(+from) ? from.toISOString() : null,
+                valid_to: to && !Number.isNaN(+to) ? to.toISOString() : null,
+                days_left: to && !Number.isNaN(+to) ? Math.floor((+to - Date.now()) / 86400000) : null,
+                ms: ms(),
+              });
+            } catch (error) {
+              fail(error as Error);
+            }
+            socket.end();
+          },
+          error(_socket, error) {
+            clearTimeout(timer);
+            fail(error);
+          },
+          connectError(_socket, error) {
+            clearTimeout(timer);
+            fail(error);
+          },
+        },
+      }).catch(fail);
+    });
+  } catch (error) {
+    return {
       protocol: null,
       cipher: null,
       alpn: null,
@@ -104,36 +166,10 @@ function tls(host: string): Promise<NetProbe["tls"]> {
       valid_from: null,
       valid_to: null,
       days_left: null,
+      ms: ms(),
+      error: (error as Error).message,
     };
-    const socket = connect(
-      { host, port: 443, servername: host, ALPNProtocols: ["h2", "http/1.1"], timeout: 8000 },
-      () => {
-        const cert = socket.getPeerCertificate();
-        const to = cert.valid_to ? new Date(cert.valid_to) : null;
-        done({
-          protocol: socket.getProtocol(),
-          cipher: socket.getCipher()?.name ?? null,
-          alpn: (socket.alpnProtocol as string | false) || null,
-          subject: String(cert.subject?.CN ?? "") || null,
-          issuer: [cert.issuer?.O, cert.issuer?.CN].filter(Boolean).join(" / ") || null,
-          san: (cert.subjectaltname ?? "")
-            .split(", ")
-            .map((s) => s.replace(/^DNS:/, ""))
-            .filter(Boolean),
-          valid_from: cert.valid_from ? new Date(cert.valid_from).toISOString() : null,
-          valid_to: to?.toISOString() ?? null,
-          days_left: to ? Math.floor((to.getTime() - Date.now()) / 86400000) : null,
-          ms: Math.round(performance.now() - t0),
-        });
-        socket.end();
-      },
-    );
-    socket.on("error", (e) => done({ ...empty, ms: Math.round(performance.now() - t0), error: e.message }));
-    socket.on(
-      "timeout",
-      () => (socket.destroy(), done({ ...empty, ms: Math.round(performance.now() - t0), error: "timeout" })),
-    );
-  });
+  }
 }
 
 async function http(host: string): Promise<NetProbe["http"]> {

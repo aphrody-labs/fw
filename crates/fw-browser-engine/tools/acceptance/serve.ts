@@ -2,7 +2,6 @@
 // Server-Sent Events so a page or a benchmark that lands in the store is on screen within a second (Redis wakes the
 // stream at once when available, a one-second tick does otherwise). `--schedule` also runs the cron of acceptance.toml,
 // which is what keeps the page following the engines' evolution without anyone starting anything.
-import { timingSafeEqual } from "node:crypto";
 import { join, resolve, sep } from "node:path";
 import { engines, launch, manifest, probe, report, root } from "../acceptance.ts";
 import { probeNet, type NetProbe } from "./net.ts";
@@ -19,7 +18,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
   let net: NetProbe | null = await store.cached<NetProbe>("net");
   const refreshNet = async (verify: boolean) => {
     const next = await probeNet(manifest.serve.host);
-    const blink = verify && next.h3.advertised ? engines(["blink"])[0] : null;
+    const blink = verify && next.h3.advertised ? (await engines(["blink"]))[0] : null;
     if (blink) {
       // The engine reports the protocol it negotiated; forcing QUIC on the origin skips the first-visit Alt-Svc round trip.
       const running = await launch(blink, {
@@ -28,6 +27,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
       const seen = running
         ? await probe(running, `https://${manifest.serve.host}/`, null, false).finally(() => running.stop())
         : null;
+      if (seen?.protocol) next.tls.alpn = seen.protocol;
       if (seen && !next.h3.verified)
         Object.assign(next.h3, {
           verified: seen.protocol === "h3",
@@ -81,7 +81,7 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
       console.error(`schedule ${expression}  ${command}`);
     }
 
-  const secret = key ? Buffer.from(key) : null;
+  const secret = key ? new TextEncoder().encode(key) : null;
   const bind = process.env.ACCEPTANCE_BIND ?? "127.0.0.1";
   const loopback = /^(127\.\d+\.\d+\.\d+|::1|localhost)$/.test(bind);
   if (!secret && !loopback)
@@ -94,8 +94,8 @@ export async function serve(store: Store, opt: { port: number; schedule: boolean
     ["cf-ray", "cf-connecting-ip", "x-forwarded-for", "forwarded"].some((h) => req.headers.has(h));
   const allowed = (req: Request) => {
     if (!secret) return !proxied(req);
-    const given = Buffer.from(req.headers.get("x-acceptance-key") ?? "");
-    return given.length === secret.length && timingSafeEqual(given, secret);
+    const given = new TextEncoder().encode(req.headers.get("x-acceptance-key") ?? "");
+    return given.length === secret.length && crypto.timingSafeEqual(given, secret);
   };
   const out = resolve(root, "out/acceptance") + sep;
   const encoder = new TextEncoder();

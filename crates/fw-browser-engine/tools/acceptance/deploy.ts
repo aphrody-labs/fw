@@ -3,15 +3,15 @@
 //   bun tools/acceptance.ts deploy            plan: write out/acceptance/deploy/{wrangler.jsonc,tunnel.yml}, bundle the Worker
 //   bun tools/acceptance.ts deploy --apply    wrangler deploy (the route and the secret), nothing else
 // The tunnel and its DNS record are not created here: the zone's DNS is managed elsewhere and the plan says what it needs.
-import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { manifest, root } from "../acceptance.ts";
+import { mkdirp } from "./sys.ts";
 
 export async function deploy(apply: boolean) {
   const { host, origin, port } = manifest.serve;
   const zone = host.split(".").slice(-2).join(".");
   const dir = join(root, "out/acceptance/deploy");
-  mkdirSync(dir, { recursive: true });
+  await mkdirp(dir);
   const wrangler = {
     $schema: "node_modules/wrangler/config-schema.json",
     name: `browser-acceptance`,

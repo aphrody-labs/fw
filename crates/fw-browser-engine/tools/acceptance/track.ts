@@ -7,8 +7,8 @@
 //
 // GitHub: GraphQL batching when a token is known ($GH_TOKEN, $GITHUB_TOKEN, else `gh auth token`), REST without.
 // Every request goes through one pool of 8 with a 20 s timeout; a dead source sets `error` on its entry only.
-import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { exists } from "./sys.ts";
 
 export type Tracked = {
   name: string;
@@ -374,7 +374,7 @@ async function readCheckout(c: Checkout, file: string, gate: Gate): Promise<stri
   const dir = (c.env && process.env[c.env]) || c.default;
   if (!dir) return null;
   const local = join(dir, file);
-  if (existsSync(local)) return Bun.file(local).text();
+  if (await exists(local)) return Bun.file(local).text();
   if (!c.ssh) return null;
   return gate(async () => {
     const p = Bun.spawn(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8", c.ssh!, "cat", `${dir}/${file}`], {

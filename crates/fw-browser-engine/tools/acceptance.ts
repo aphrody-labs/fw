@@ -22,12 +22,22 @@
 //        --cookies <file>         cookies set before the first page   --profile <dir> persistent profile directory
 //        --db <file>  --redis <url|off>  --warmup <n>  --runs <n>  --port <n>  --test <name> (JetStream workload, repeatable)
 // Exit status: 0 clean, 1 a full-engine page or a front failed, or a page that passed in the previous run fails, 2 nothing to run.
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, renameSync, rmSync } from "node:fs";
-import { availableParallelism, cpus, hostname, loadavg, release, tmpdir } from "node:os";
 import { basename, delimiter, dirname, join, resolve } from "node:path";
-import { parseArgs } from "node:util";
-import { inflateSync } from "node:zlib";
 import { Cdp } from "./acceptance/cdp.ts";
+import {
+  cores,
+  exists,
+  hostname,
+  list,
+  loadavg,
+  mkdirp,
+  mkdtemp,
+  move,
+  parseFlags,
+  rmrf,
+  sampleRss,
+  tmpdir,
+} from "./acceptance/sys.ts";
 import { Store } from "./acceptance/store.ts";
 
 type Baseline =
@@ -285,28 +295,33 @@ export async function corpus(
 // ---- engines ------------------------------------------------------------------------------------------------
 
 /** Where our own builds land: the GN out directory (defaults read from build/engines/build.sh) and cargo's. */
-function buildDirs(): string[] {
-  const script = readFileSync(join(root, "build/engines/build.sh"), "utf8");
-  const value = (name: string) => process.env[name] ?? script.match(new RegExp(`\\$\\{${name}:-([^}]+)\\}`))?.[1];
-  const [src, out] = [value("CHROMIUM_SRC"), value("OUT")];
-  const dirs = [join(process.env.CARGO_TARGET_DIR ?? join(root, "target"), "release")];
-  if (src && out) dirs.unshift(join(src, out));
-  return dirs;
-}
+let buildDirsMemo: Promise<string[]> | undefined;
+const buildDirs = () =>
+  (buildDirsMemo ??= (async () => {
+    const script = await Bun.file(join(root, "build/engines/build.sh")).text();
+    const value = (name: string) => process.env[name] ?? script.match(new RegExp(`\\$\\{${name}:-([^}]+)\\}`))?.[1];
+    const [src, out] = [value("CHROMIUM_SRC"), value("OUT")];
+    const dirs = [join(process.env.CARGO_TARGET_DIR ?? join(root, "target"), "release")];
+    if (src && out) dirs.unshift(join(src, out));
+    return dirs;
+  })());
 
 /** Where baselines live: $BROWSER_ENGINES (a path list), else out/engines, which `install` fills. */
 const baselineDirs = () => (process.env.BROWSER_ENGINES ?? join(root, "out/engines")).split(delimiter).filter(Boolean);
 
-function* binaries(bins: string[]): Generator<Pick<Engine, "path" | "origin">> {
-  for (const dir of buildDirs())
-    for (const bin of bins) if (existsSync(join(dir, bin + exe))) yield { path: join(dir, bin + exe), origin: "build" };
+async function* binaries(bins: string[]): AsyncGenerator<Pick<Engine, "path" | "origin">> {
+  for (const dir of await buildDirs())
+    for (const bin of bins)
+      if (await exists(join(dir, bin + exe))) yield { path: join(dir, bin + exe), origin: "build" };
   const newestFirst = (a: string, b: string) => b.localeCompare(a, undefined, { numeric: true });
-  const scan = (cwd: string, pattern: string) =>
-    existsSync(cwd) ? [...new Bun.Glob(pattern).scanSync({ cwd, absolute: true })].sort(newestFirst) : [];
+  const scan = async (cwd: string, pattern: string) =>
+    (await exists(cwd))
+      ? (await Array.fromAsync(new Bun.Glob(pattern).scan({ cwd, absolute: true }))).sort(newestFirst)
+      : [];
   for (const dir of baselineDirs())
     for (const bin of bins)
       for (const depth of ["", "*/", "*/*/"])
-        for (const path of scan(dir, depth + bin + exe)) yield { path, origin: "baseline" };
+        for (const path of await scan(dir, depth + bin + exe)) yield { path, origin: "baseline" };
   for (const bin of bins) {
     const path = Bun.which(bin);
     if (path) yield { path, origin: "baseline" };
@@ -314,27 +329,27 @@ function* binaries(bins: string[]): Generator<Pick<Engine, "path" | "origin">> {
   if (process.platform === "win32")
     for (const key of ["ProgramFiles", "ProgramFiles(x86)", "LOCALAPPDATA"])
       for (const bin of bins)
-        for (const path of scan(process.env[key] ?? "", `*/*/Application/${bin}.exe`))
+        for (const path of await scan(process.env[key] ?? "", `*/*/Application/${bin}.exe`))
           yield { path, origin: "baseline" };
 }
 
 /** A helper program (hyperfine, agent-browser): our build of it first, then $PATH. */
-const tool = (bin: string) =>
-  buildDirs()
-    .map((dir) => join(dir, bin + exe))
-    .find(existsSync) ?? Bun.which(bin);
+const tool = async (bin: string) => {
+  for (const dir of await buildDirs()) if (await exists(join(dir, bin + exe))) return join(dir, bin + exe);
+  return Bun.which(bin);
+};
 
 /** `--engine name` keeps an engine, `--engine name=path` pins its binary; without --all the first binary wins. */
-export function engines(select: string[] = [], all = false): Engine[] {
+export async function engines(select: string[] = [], all = false): Promise<Engine[]> {
   const pinned = new Map(select.map((s) => s.split(/=(.*)/s) as [string, string | undefined]));
-  const builds = buildDirs().map((dir) => resolve(dir));
+  const builds = (await buildDirs()).map((dir) => resolve(dir));
   const out: Engine[] = [];
   for (const [name, def] of Object.entries(manifest.engine)) {
     if (pinned.size && !pinned.has(name)) continue;
     const pin = pinned.get(name);
     const found = pin
       ? [{ path: resolve(pin), origin: builds.some((d) => resolve(pin).startsWith(d)) ? "build" : "baseline" } as const]
-      : [...new Map([...binaries(def.bins)].map((b) => [b.path, b])).values()];
+      : [...new Map((await Array.fromAsync(binaries(def.bins))).map((b) => [b.path, b])).values()];
     for (const [i, bin] of (all ? found : found.slice(0, 1)).entries())
       out.push({ ...def, ...bin, name, id: i ? `${name}-${i + 1}` : name });
   }
@@ -377,13 +392,13 @@ async function install(select: string[] = []) {
         [product, version, url] = [basename(base.repo), latest.tag_name, asset.browser_download_url];
       }
       const target = join(dir, `${product}-${version}`);
-      if (existsSync(target)) {
+      if (await exists(target)) {
         console.log(`${name}: ${product} ${version} already in ${target}`);
         continue;
       }
       const temp = `${target}.partial`;
-      rmSync(temp, { recursive: true, force: true });
-      mkdirSync(temp, { recursive: true });
+      await rmrf(temp);
+      await mkdirp(temp);
       const bytes = await (await fetch(url)).bytes();
       if (url.endsWith(".zip")) {
         const zip = join(temp, "archive.zip");
@@ -391,35 +406,17 @@ async function install(select: string[] = []) {
         const unzip = Bun.which("unzip") ? ["unzip", "-oq", zip, "-d", temp] : ["tar", "-xf", zip, "-C", temp];
         if ((await Bun.spawn(unzip, { stdout: "ignore", stderr: "inherit" }).exited) !== 0)
           throw new Error(`cannot extract ${url}`);
-        rmSync(zip);
+        await rmrf(zip);
       } else await new Bun.Archive(bytes).extract(temp);
-      renameSync(temp, target);
+      await move(temp, target);
       console.log(`${name}: ${product} ${version} -> ${target}`);
-      const copies = readdirSync(dir).filter((d) => d.startsWith(`${product}-`) && !d.endsWith(".partial"));
+      const copies = (await list(dir)).filter((d) => d.startsWith(`${product}-`) && !d.endsWith(".partial"));
       for (const old of copies.sort((a, b) => b.localeCompare(a, undefined, { numeric: true })).slice(2))
-        rmSync(join(dir, old), { recursive: true, force: true });
+        await rmrf(join(dir, old));
     } catch (error) {
       console.error(`${name}: baseline not installed: ${(error as Error).message}`);
     }
   }
-}
-
-/** Resident memory of a process and its descendants in KiB (Linux procfs; null elsewhere). */
-function treeRss(pid: number): number | null {
-  if (process.platform !== "linux") return null;
-  let total = 0;
-  const stack = [pid];
-  const seen = new Set<number>();
-  while (stack.length) {
-    const p = stack.pop()!;
-    if (seen.has(p)) continue;
-    seen.add(p);
-    try {
-      total += Number(readFileSync(`/proc/${p}/status`, "utf8").match(/^VmRSS:\s+(\d+)/m)?.[1] ?? 0);
-      stack.push(...readFileSync(`/proc/${p}/task/${p}/children`, "utf8").split(" ").filter(Boolean).map(Number));
-    } catch {} // the process left between two reads
-  }
-  return total;
 }
 
 function freePort(): number {
@@ -434,23 +431,19 @@ export async function launch(
   opt: { profile?: string; log?: string; extra?: string[] } = {},
 ): Promise<Running> {
   const port = freePort();
-  const temp = opt.profile ? null : mkdtempSync(join(tmpdir(), "acceptance-"));
+  const temp = opt.profile ? null : await mkdtemp("acceptance-");
   const vars = { port, profile: opt.profile ?? temp!, ...manifest.page };
   const argv = [engine.path, ...engine.args.map((a) => fill(a, vars)), ...(opt.extra ?? [])];
   const t0 = performance.now();
   const proc = Bun.spawn(argv, { stdin: "ignore", stdout: "ignore", stderr: opt.log ? Bun.file(opt.log) : "ignore" });
-  let peak = treeRss(proc.pid);
-  const sampler = setInterval(() => (peak = Math.max(peak ?? 0, treeRss(proc.pid) ?? 0) || peak), 100);
+  const rss = sampleRss(proc.pid, 100);
   // A launcher that hands over to another process and leaves with 0 (chrome.exe on Windows) is not a death.
   const died = () => proc.signalCode !== null || (proc.exitCode ?? 0) !== 0;
   const cleanup = async () => {
-    clearInterval(sampler);
+    rss.stop();
     proc.kill();
     await proc.exited;
-    if (temp)
-      try {
-        rmSync(temp, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
-      } catch {}
+    if (temp) await rmrf(temp);
   };
   try {
     for (;;) {
@@ -468,7 +461,7 @@ export async function launch(
           version: info.Browser,
           start_ms: Math.round(performance.now() - t0),
           exited: died,
-          peak: () => (peak === null ? null : Math.round((peak / 1024) * 10) / 10),
+          peak: () => (rss.peak() === null ? null : Math.round((rss.peak()! / 1024) * 10) / 10),
           stop: async () => {
             const cdp = await Cdp.open(info.webSocketDebuggerUrl).catch(() => null);
             await cdp?.send("Browser.close", {}, undefined, 3000).catch(() => {});
@@ -544,7 +537,7 @@ export async function spread(image: Uint8Array): Promise<number | null> {
       channels = [1, 0, 3, 0, 2, 0, 4][body[9]]; // grey, -, rgb, palette, grey+alpha, -, rgba
       if (body[8] !== 8 || body[12] !== 0 || !channels) return null; // 8-bit, not interlaced, not indexed
     }
-    const data = inflateSync(Buffer.concat(idat));
+    const data = Bun.inflateSync(await new Blob(idat as unknown as BlobPart[]).bytes());
     const stride = width * channels;
     const above = new Uint8Array(stride);
     let [low, high] = [255, 0];
@@ -749,7 +742,7 @@ async function front(name: string, run: Running, url: string, dir: string, index
   const budget = manifest.page.timeout_ms * 2;
   try {
     if (name === "agent") {
-      const bin = manifest.front.agent.bins.map(tool).find(Boolean);
+      const bin = (await Promise.all(manifest.front.agent.bins.map(tool))).find(Boolean);
       if (!bin) return done(false, "agent-browser not found");
       const call = async (...args: string[]) => {
         const session = `acceptance-${process.pid}-${index}`;
@@ -977,8 +970,8 @@ export function markdown(rep: NonNullable<Report>): string {
 async function run(flag: Flags) {
   const store = await openStore(flag);
   if (flag.install) await install(flag.engine);
-  const found = engines(flag.engine, flag.all);
-  const host = hostname();
+  const found = await engines(flag.engine, flag.all);
+  const host = await hostname();
   const open = flag.fresh ? null : store.unfinishedRun(host);
   let sites = open?.meta.corpus as Site[] | undefined;
   if (!sites) {
@@ -1000,7 +993,7 @@ async function run(flag: Flags) {
   };
   const row = open ?? store.createRun(id, host, meta);
   const out = row.meta.out as string;
-  const jobs = Number(flag.jobs ?? Math.max(2, Math.min(8, availableParallelism() >> 1)));
+  const jobs = Number(flag.jobs ?? Math.max(2, Math.min(8, cores() >> 1)));
   const cookies = flag.cookies ? ((await Bun.file(flag.cookies).json()) as object[]) : null;
   console.error(
     `run ${row.id}${open ? " (resumed)" : ""}: ${sites.length} pages, ${found.map((e) => e.id).join(" + ")}, store ${store.redis ? `sqlite + ${store.redis}` : "sqlite"}`,
@@ -1016,7 +1009,7 @@ async function run(flag: Flags) {
   process.on("SIGINT", () => void (current ? current.stop() : Promise.resolve()).finally(() => process.exit(130)));
   for (const engine of found) {
     const dir = join(out, engine.id);
-    mkdirSync(dir, { recursive: true });
+    await mkdirp(dir);
     const before = store.engine<EngineInfo>(row.id, engine.id);
     const kept = store.pages<PageResult>(row.id, engine.id);
     if (before?.state === "done" && sites.every((s) => kept.has(s.url))) continue; // finished before the interruption
@@ -1095,8 +1088,7 @@ async function run(flag: Flags) {
     .runs(1000)
     .filter((r) => r.host === host)
     .slice(manifest.store.keep_runs))
-    if (resolve(old.meta.out).startsWith(base + (process.platform === "win32" ? "\\" : "/")))
-      rmSync(old.meta.out, { recursive: true, force: true });
+    if (resolve(old.meta.out).startsWith(base + (process.platform === "win32" ? "\\" : "/"))) await rmrf(old.meta.out);
   for (const e of rep.engines)
     console.log(
       `${e.id} ${e.version}: ${Object.entries(e.counts)
@@ -1138,10 +1130,10 @@ export function outliers(times: number[]): number {
 async function sampled(argv: string[]): Promise<{ wall_s: number; rss_mib: number | null; code: number }> {
   const t0 = performance.now();
   const proc = Bun.spawn(argv, { stdin: "ignore", stdout: "ignore", stderr: "ignore" });
-  let peak = treeRss(proc.pid);
-  const sampler = setInterval(() => (peak = Math.max(peak ?? 0, treeRss(proc.pid) ?? 0) || peak), 5);
+  const rss = sampleRss(proc.pid, 5);
   const code = await proc.exited;
-  clearInterval(sampler);
+  rss.stop();
+  const peak = rss.peak();
   return {
     wall_s: (performance.now() - t0) / 1000,
     rss_mib: peak === null ? null : Math.round((peak / 1024) * 10) / 10,
@@ -1164,8 +1156,8 @@ async function jetstreamCheckout(): Promise<string> {
   const pin = lock.JetStream;
   if (!pin) throw new Error("JetStream is not pinned in tools/upstreams.lock.json (import.py pin mode)");
   const dir = join(baselineDirs()[0], `JetStream-${pin.sha.slice(0, 12)}`);
-  if (existsSync(join(dir, "JetStreamDriver.js"))) return dir;
-  mkdirSync(dir, { recursive: true });
+  if (await exists(join(dir, "JetStreamDriver.js"))) return dir;
+  await mkdirp(dir);
   for (const args of [
     ["init", "-q"],
     ["remote", "add", "origin", pin.url],
@@ -1181,13 +1173,12 @@ async function jetstreamCheckout(): Promise<string> {
 
 async function bench(urls: string[], flag: Flags) {
   const store = await openStore(flag);
-  const found = engines(flag.engine, flag.all);
+  const found = await engines(flag.engine, flag.all);
   const env = {
-    host: hostname(),
-    cpu: cpus()[0]?.model ?? null,
-    cores: availableParallelism(),
-    kernel: release(),
-    load: loadavg().map((l) => Math.round(l * 100) / 100),
+    host: await hostname(),
+    cores: cores(),
+    platform: `${process.platform} ${process.arch}`,
+    load: (await loadavg()).map((l) => Math.round(l * 100) / 100),
   };
   if (flag.jetstream) {
     const { jetstream } = await import("./acceptance/jetstream.ts");
@@ -1224,7 +1215,7 @@ async function bench(urls: string[], flag: Flags) {
     }
     return store.close();
   }
-  const hyperfine = tool("hyperfine");
+  const hyperfine = await tool("hyperfine");
   if (!hyperfine)
     throw new Error(
       "hyperfine not found: build it on the build host (cargo build --release -p hyperfine) or put it on PATH",
@@ -1237,7 +1228,7 @@ async function bench(urls: string[], flag: Flags) {
   const quote = (arg: string) =>
     /[\s"']/.test(arg) ? `"${arg.replaceAll("\\", "/").replaceAll('"', '\\"')}"` : arg.replaceAll("\\", "/");
   for (const url of urls.length ? urls : manifest.corpus.seeds) {
-    const work = mkdtempSync(join(tmpdir(), "acceptance-bench-"));
+    const work = await mkdtemp("acceptance-bench-");
     const commands = timed.map((engine) => [
       engine.path,
       ...engine.once!.map((a) => fill(a, { url, profile: join(work, "profiles", engine.id) })),
@@ -1269,7 +1260,7 @@ async function bench(urls: string[], flag: Flags) {
       const t = results[i];
       const rss: number[] = [];
       for (let n = 0; n < manifest.bench.rss_runs; n++) {
-        rmSync(join(work, "profiles"), { recursive: true, force: true });
+        await rmrf(join(work, "profiles"));
         const one = await sampled(commands[i]);
         if (one.code === 0 && one.rss_mib !== null) rss.push(one.rss_mib);
       }
@@ -1316,7 +1307,7 @@ async function bench(urls: string[], flag: Flags) {
           `${ratio.toFixed(2)} ± ${result.relative_stddev.toFixed(2)}x  tree RSS ${result.tree_rss_mib ?? "-"} MiB  ${result.failed ? `${result.failed} failed  ` : ""}${result.outliers ? `${result.outliers} outliers  ` : ""}${url}`,
       );
     }
-    rmSync(work, { recursive: true, force: true });
+    await rmrf(work);
   }
   store.close();
 }
@@ -1376,31 +1367,27 @@ async function cookies(endpoint: string, file: string, flag: Flags) {
 
 type Flags = ReturnType<typeof flags>["values"];
 const flags = () =>
-  parseArgs({
-    args: Bun.argv.slice(2),
-    allowPositionals: true,
-    options: {
-      engine: { type: "string", multiple: true },
-      site: { type: "string", multiple: true },
-      test: { type: "string", multiple: true },
-      all: { type: "boolean" },
-      fresh: { type: "boolean" },
-      install: { type: "boolean" },
-      "no-discover": { type: "boolean" },
-      jetstream: { type: "boolean" },
-      apply: { type: "boolean" },
-      schedule: { type: "boolean" },
-      json: { type: "boolean" },
-      jobs: { type: "string" },
-      out: { type: "string" },
-      cookies: { type: "string" },
-      profile: { type: "string" },
-      db: { type: "string" },
-      redis: { type: "string" },
-      warmup: { type: "string" },
-      runs: { type: "string" },
-      port: { type: "string" },
-    },
+  parseFlags(Bun.argv.slice(2), {
+    engine: "strings",
+    site: "strings",
+    test: "strings",
+    all: "boolean",
+    fresh: "boolean",
+    install: "boolean",
+    "no-discover": "boolean",
+    jetstream: "boolean",
+    apply: "boolean",
+    schedule: "boolean",
+    json: "boolean",
+    jobs: "string",
+    out: "string",
+    cookies: "string",
+    profile: "string",
+    db: "string",
+    redis: "string",
+    warmup: "string",
+    runs: "string",
+    port: "string",
   });
 
 if (import.meta.main) {
@@ -1409,7 +1396,7 @@ if (import.meta.main) {
     positionals: [command, ...args],
   } = flags();
   if (command === "engines") {
-    for (const engine of engines(flag.engine, true)) {
+    for (const engine of await engines(flag.engine, true)) {
       const version = await versionOf(engine);
       console.log(
         `${engine.id.padEnd(9)} ${engine.role.padEnd(5)} ${engine.origin.padEnd(8)} ${version ?? "BROKEN (opens no CDP endpoint)"}  ${engine.path}`,
@@ -1417,9 +1404,9 @@ if (import.meta.main) {
     }
     for (const [name, def] of Object.entries(manifest.front))
       console.log(
-        `${name.padEnd(9)} front ${def.bins.length ? (def.bins.map(tool).find(Boolean) ?? "MISSING") : `Bun.WebView ${typeof Bun.WebView === "function" ? Bun.version : "MISSING"}`}`,
+        `${name.padEnd(9)} front ${def.bins.length ? ((await Promise.all(def.bins.map(tool))).find(Boolean) ?? "MISSING") : `Bun.WebView ${typeof Bun.WebView === "function" ? Bun.version : "MISSING"}`}`,
       );
-    console.log(`hyperfine tool  ${tool("hyperfine") ?? "MISSING"}`);
+    console.log(`hyperfine tool  ${(await tool("hyperfine")) ?? "MISSING"}`);
   } else if (command === "install") await install(flag.engine);
   else if (command === "sites") {
     const store = await openStore(flag);
@@ -1441,8 +1428,7 @@ if (import.meta.main) {
     store.close();
   } else if (command === "cookies" && args[1]) await cookies(args[0], args[1], flag);
   else if (command === "webview" && args[2]) await webview(args);
-  else if (command === "wipe" && args[0] && resolve(args[0]).startsWith(resolve(tmpdir())))
-    rmSync(args[0], { recursive: true, force: true });
+  else if (command === "wipe" && args[0] && resolve(args[0]).startsWith(resolve(tmpdir()))) await rmrf(args[0]);
   else {
     console.error(
       (await Bun.file(import.meta.path).text())

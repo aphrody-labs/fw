@@ -4,8 +4,8 @@
 // Every Redis call is best effort: without a server the tool is slower and the dashboard polls, nothing is lost.
 import { RedisClient } from "bun";
 import { Database } from "bun:sqlite";
-import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
+import { mkdirp } from "./sys.ts";
 
 export type Event = { id: number; at: string; kind: string; data: any };
 export type IndexRow = {
@@ -60,7 +60,7 @@ export class Store {
 
   /** `redis`: a URL, or undefined for $REDIS_URL / $VALKEY_URL / localhost:6379, or false for none. */
   static async open(path: string, redis?: string | false): Promise<Store> {
-    if (path !== ":memory:") mkdirSync(dirname(path), { recursive: true });
+    if (path !== ":memory:") await mkdirp(dirname(path));
     const db = new Database(path, { create: true, strict: true });
     db.exec(schema);
     if (redis === false) return new Store(db, null, null);
