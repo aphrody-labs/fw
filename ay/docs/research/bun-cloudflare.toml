@@ -1,0 +1,559 @@
+# Bun feature to Cloudflare equivalent, the specification of the Bun plugin and of create-cloud-app (ADR-0010).
+# Drafted 2026-11-17 from two live sources: the Bun fork's docs (`docs/runtime`, `bundler`, `pm`, `test` pages, 99
+# pages read from the checkout in ay.toml [repos].bun) and docs/research/cloudflare.toml (138 products).
+# tools/cloud-map.ts validates it: every `bun` slug must be a docs page of the checkout, every `cloudflare` name a
+# product of the catalog, every `parity` a value below. The `parity` values are design claims until the plugin's
+# conformance test (same test file, run on Bun and on workerd) proves them; `proof` stays empty until then.
+#
+# parity
+#   native     the same API exists on Workers (or is pure computation): the code is bundled unchanged
+#   adapter    the plugin rewrites or shims the Bun API onto the Cloudflare binding with the same call shape
+#   partial    the adapter covers a subset; the rest is a build-time diagnostic naming the missing calls
+#   container  needs a process, a kernel or a native library: runs in Cloudflare Containers or Sandboxes, or on the fleet
+#   none       no Cloudflare equivalent, or it is a development-time tool: not shipped to the edge
+# plugin: what the plugin does for the feature (rewrite = build plugin onResolve/onLoad, shim = runtime module,
+# diagnose = build-time error with the replacement, dev = only under `bun run`, no-op = nothing to do)
+
+version = 1
+drafted = "2026-11-17"
+bun_docs = "docs"
+catalog = "docs/research/cloudflare.toml"
+
+# ---- Runtime: servers, networking, I/O --------------------------------------------------------------------------
+
+[[feature]]
+id = "http-server"
+bun = "runtime/http/server"
+names = ["Bun.serve", "Server"]
+cloudflare = ["Workers"]
+binding = "export default { fetch(request, env, ctx) }"
+parity = "adapter"
+plugin = "rewrite: Bun.serve({ fetch, routes }) becomes the module's default export; routes compile to a router"
+
+[[feature]]
+id = "http-routing"
+bun = "runtime/http/routing"
+names = ["Bun.serve routes"]
+cloudflare = ["Workers", "Rules"]
+binding = "router in the Worker; static assets binding for files"
+parity = "adapter"
+plugin = "rewrite: route table kept, file responses served by the assets binding"
+
+[[feature]]
+id = "http-websockets"
+bun = "runtime/http/websockets"
+names = ["Bun.serve websocket", "ServerWebSocket"]
+cloudflare = ["Durable Objects"]
+binding = "WebSocketPair with hibernation inside a Durable Object"
+parity = "adapter"
+plugin = "rewrite: websocket handlers move into a generated Durable Object class, pub/sub topics map to one object per topic"
+
+[[feature]]
+id = "http-tls"
+bun = "runtime/http/tls"
+names = ["Bun.serve tls"]
+cloudflare = ["SSL/TLS"]
+binding = "edge certificates on the zone"
+parity = "none"
+plugin = "diagnose: tls options are ignored on Workers, certificates belong to the zone"
+
+[[feature]]
+id = "http-cookies"
+bun = "runtime/http/cookies"
+names = ["Bun.Cookie", "Bun.CookieMap", "request.cookies"]
+cloudflare = ["Workers"]
+binding = "pure computation"
+parity = "native"
+plugin = "no-op"
+
+[[feature]]
+id = "http-metrics"
+bun = "runtime/http/metrics"
+names = ["server.pendingRequests"]
+cloudflare = ["Workers Analytics Engine", "Cloudflare Observability"]
+binding = "analytics_engine_datasets, observability in the Worker config"
+parity = "partial"
+plugin = "shim: counters written to Analytics Engine; pendingRequests has no equivalent"
+
+[[feature]]
+id = "http-error-handling"
+bun = "runtime/http/error-handling"
+names = ["Bun.serve error"]
+cloudflare = ["Workers"]
+binding = "try/catch in fetch, exceptions logged by observability"
+parity = "adapter"
+plugin = "rewrite: error handler wrapped around the fetch handler"
+
+[[feature]]
+id = "fetch"
+bun = "runtime/networking/fetch"
+names = ["fetch"]
+cloudflare = ["Workers"]
+binding = "global fetch"
+parity = "native"
+plugin = "diagnose: Bun-only options (proxy, tls, unix) have no effect on Workers"
+
+[[feature]]
+id = "tcp"
+bun = "runtime/networking/tcp"
+names = ["Bun.connect", "Bun.listen"]
+cloudflare = ["Workers", "Cloudflare Tunnel"]
+binding = "connect() from cloudflare:sockets (client only); listening needs a Tunnel to a host"
+parity = "partial"
+plugin = "rewrite: Bun.connect to connect(); Bun.listen is a diagnostic"
+
+[[feature]]
+id = "udp"
+bun = "runtime/networking/udp"
+names = ["Bun.udpSocket"]
+cloudflare = ["Realtime"]
+binding = "no raw UDP on Workers; WebRTC and MoQ products cover media"
+parity = "none"
+plugin = "diagnose"
+
+[[feature]]
+id = "dns"
+bun = "runtime/networking/dns"
+names = ["Bun.dns"]
+cloudflare = ["DNS"]
+binding = "DNS-over-HTTPS through fetch for lookups; the zone's records through the DNS API"
+parity = "partial"
+plugin = "shim: Bun.dns.lookup over DoH; prefetch and cache stats are no-ops"
+
+[[feature]]
+id = "file-io"
+bun = "runtime/file-io"
+names = ["Bun.file", "Bun.write", "BunFile"]
+cloudflare = ["R2", "Workers"]
+binding = "R2 bucket binding for storage; assets binding for read-only files bundled at build time"
+parity = "adapter"
+plugin = "rewrite: Bun.file(path) resolves to the assets binding or an R2 key per the config's `storage` map"
+
+[[feature]]
+id = "s3"
+bun = "runtime/s3"
+names = ["Bun.S3Client", "Bun.s3"]
+cloudflare = ["R2"]
+binding = "r2_buckets binding, or the S3 endpoint of the account"
+parity = "adapter"
+plugin = "shim: same S3Client calls over the R2 binding (presign over the S3 endpoint)"
+
+[[feature]]
+id = "sqlite"
+bun = "runtime/sqlite"
+names = ["bun:sqlite", "Database"]
+cloudflare = ["D1", "Durable Objects"]
+binding = "d1_databases binding; SQLite storage of a Durable Object for per-tenant data"
+parity = "partial"
+plugin = "shim: Database/Statement calls become async D1 calls, the sync API is a diagnostic naming each call"
+
+[[feature]]
+id = "sql"
+bun = "runtime/sql"
+names = ["Bun.sql", "Bun.SQL"]
+cloudflare = ["Hyperdrive", "D1"]
+binding = "hyperdrive binding for Postgres and MySQL; D1 for SQLite"
+parity = "adapter"
+plugin = "shim: tagged template over the Hyperdrive connection string, D1 for the sqlite adapter"
+
+[[feature]]
+id = "redis"
+bun = "runtime/redis"
+names = ["Bun.redis", "Bun.RedisClient"]
+cloudflare = ["KV", "Durable Objects"]
+binding = "kv_namespaces for get/set/expire; a Durable Object for counters, locks and lists"
+parity = "partial"
+plugin = "shim: string, hash and expiry commands on KV, atomic commands on a Durable Object; pub/sub and streams are diagnostics"
+
+[[feature]]
+id = "secrets"
+bun = "runtime/secrets"
+names = ["Bun.secrets"]
+cloudflare = ["Secrets Store"]
+binding = "secrets_store_secrets binding, or Worker secrets"
+parity = "adapter"
+plugin = "shim: Bun.secrets.get(service, name) reads the binding"
+
+[[feature]]
+id = "environment-variables"
+bun = "runtime/environment-variables"
+names = ["Bun.env", "process.env"]
+cloudflare = ["Workers"]
+binding = "vars and secrets of the Worker, populated into process.env with nodejs_compat"
+parity = "adapter"
+plugin = "shim: Bun.env reads env"
+
+[[feature]]
+id = "cron"
+bun = "runtime/cron"
+names = ["Bun.cron"]
+cloudflare = ["Workers", "Workflows"]
+binding = "triggers.crons and the scheduled() handler; Workflows for multi-step jobs"
+parity = "adapter"
+plugin = "rewrite: Bun.cron(schedule, handler) registers the schedule in the Worker config and exports scheduled()"
+
+[[feature]]
+id = "workers"
+bun = "runtime/workers"
+names = ["Worker", "Bun.isMainThread"]
+cloudflare = ["Workers", "Queues", "Dynamic Workers"]
+binding = "service bindings for calls, Queues for background jobs, Dynamic Workers for code loaded at runtime"
+parity = "partial"
+plugin = "rewrite: new Worker(file) becomes a service binding call or a queue message; shared memory is a diagnostic"
+
+[[feature]]
+id = "child-process"
+bun = "runtime/child-process"
+names = ["Bun.spawn", "Bun.spawnSync"]
+cloudflare = ["Containers", "Sandboxes"]
+binding = "a Container or Sandbox with the process inside"
+parity = "container"
+plugin = "rewrite: spawn calls run in a generated Sandbox binding; spawnSync is a diagnostic"
+
+[[feature]]
+id = "shell"
+bun = "runtime/shell"
+names = ["Bun.$"]
+cloudflare = ["Containers", "Sandboxes"]
+binding = "a Container or Sandbox"
+parity = "container"
+plugin = "rewrite: the shell template runs in a Sandbox"
+
+[[feature]]
+id = "ffi"
+bun = "runtime/ffi"
+names = ["bun:ffi"]
+cloudflare = ["Containers"]
+binding = "native libraries need a host process; Wasm builds of the library run on Workers"
+parity = "container"
+plugin = "diagnose: suggest the Wasm build of the library or a Container"
+
+[[feature]]
+id = "c-compiler"
+bun = "runtime/c-compiler"
+names = ["cc"]
+cloudflare = ["Containers"]
+binding = "build-time tool"
+parity = "none"
+plugin = "diagnose"
+
+[[feature]]
+id = "node-api"
+bun = "runtime/node-api"
+names = ["N-API addons"]
+cloudflare = ["Containers"]
+binding = "native addons need a host process"
+parity = "container"
+plugin = "diagnose"
+
+[[feature]]
+id = "webview"
+bun = "runtime/webview"
+names = ["Bun.WebView"]
+cloudflare = ["Browser Run"]
+binding = "browser binding driven over CDP"
+parity = "adapter"
+plugin = "shim: WebView navigation, evaluation and screenshots over the browser binding"
+
+[[feature]]
+id = "image"
+bun = "runtime/image"
+names = ["Bun.Image"]
+cloudflare = ["Cloudflare Images"]
+binding = "images binding (transform, resize, format)"
+parity = "partial"
+plugin = "shim: resize, rotate and encode over the images binding; operations it lacks are diagnostics"
+
+[[feature]]
+id = "html-rewriter"
+bun = "runtime/html-rewriter"
+names = ["HTMLRewriter"]
+cloudflare = ["Workers"]
+binding = "global HTMLRewriter (Bun implements the Workers API)"
+parity = "native"
+plugin = "no-op"
+
+[[feature]]
+id = "hashing"
+bun = "runtime/hashing"
+names = ["Bun.hash", "Bun.CryptoHasher", "Bun.password"]
+cloudflare = ["Workers"]
+binding = "Web Crypto and node:crypto under nodejs_compat; bcrypt and argon2 compiled to Wasm"
+parity = "partial"
+plugin = "shim: CryptoHasher over Web Crypto; password over a Wasm argon2"
+
+[[feature]]
+id = "streams"
+bun = "runtime/streams"
+names = ["ReadableStream", "Bun.readableStreamToText"]
+cloudflare = ["Workers"]
+binding = "Web Streams"
+parity = "native"
+plugin = "shim: the Bun.readableStreamTo* helpers"
+
+[[feature]]
+id = "web-apis"
+bun = "runtime/web-apis"
+also = ["runtime/cookies", "runtime/binary-data", "runtime/globals", "runtime/file-types", "runtime/bun-apis", "runtime/index"]
+names = ["Request", "Response", "URL", "WebSocket", "crypto", "TextEncoder"]
+cloudflare = ["Workers"]
+binding = "the same Web APIs"
+parity = "native"
+plugin = "no-op"
+
+[[feature]]
+id = "csrf"
+bun = "runtime/csrf"
+names = ["Bun.CSRF"]
+cloudflare = ["Workers"]
+binding = "pure computation over Web Crypto"
+parity = "native"
+plugin = "shim: HMAC over Web Crypto"
+
+[[feature]]
+id = "archive"
+bun = "runtime/archive"
+names = ["Bun.Archive"]
+cloudflare = ["Workers"]
+binding = "CompressionStream for gzip; tar is pure computation"
+parity = "partial"
+plugin = "shim: tar in JavaScript, zstd is a diagnostic"
+
+[[feature]]
+id = "pure-computation"
+bun = "runtime/utils"
+also = ["runtime/color", "runtime/glob", "runtime/semver"]
+names = ["Bun.semver", "Bun.color", "Bun.Glob", "Bun.deepEquals", "Bun.escapeHTML", "Bun.stringWidth", "Bun.peek", "Bun.sleep", "Bun.nanoseconds", "Bun.randomUUIDv7"]
+cloudflare = ["Workers"]
+binding = "pure computation, bundled into the Worker"
+parity = "native"
+plugin = "no-op"
+
+[[feature]]
+id = "data-formats"
+bun = "runtime/yaml"
+also = ["runtime/json5", "runtime/jsonl", "runtime/toml", "runtime/xml", "runtime/markdown"]
+names = ["Bun.YAML", "Bun.TOML", "Bun.JSON5", "Bun.JSONL", "Bun.XML", "Bun.markdown"]
+cloudflare = ["Workers"]
+binding = "pure computation, bundled into the Worker"
+parity = "native"
+plugin = "no-op"
+
+[[feature]]
+id = "file-system-router"
+bun = "runtime/file-system-router"
+names = ["Bun.FileSystemRouter"]
+cloudflare = ["Workers"]
+binding = "route table generated at build time, assets binding"
+parity = "adapter"
+plugin = "rewrite: the directory is scanned at build time into a route table"
+
+[[feature]]
+id = "transpiler"
+bun = "runtime/transpiler"
+names = ["Bun.Transpiler"]
+cloudflare = ["Dynamic Workers"]
+binding = "build-time; Dynamic Workers load already compiled code"
+parity = "none"
+plugin = "diagnose: transpile at build time"
+
+[[feature]]
+id = "code-generation-from-strings"
+bun = "runtime/code-generation-from-strings"
+names = ["eval", "new Function"]
+cloudflare = ["Dynamic Workers"]
+binding = "eval and new Function are blocked on Workers; Dynamic Workers run code loaded by the Worker"
+parity = "none"
+plugin = "diagnose"
+
+[[feature]]
+id = "module-resolution"
+bun = "runtime/module-resolution"
+names = ["import.meta", "Bun.resolve"]
+cloudflare = ["Workers"]
+binding = "resolution happens at build time"
+parity = "adapter"
+plugin = "rewrite: import.meta.dir and Bun.resolveSync become build-time constants"
+
+[[feature]]
+id = "plugins"
+bun = "runtime/plugins"
+names = ["Bun.plugin"]
+cloudflare = ["Workers"]
+binding = "build-time"
+parity = "adapter"
+plugin = "rewrite: the project's own plugins run in the build, the runtime registry is a diagnostic"
+
+[[feature]]
+id = "auto-install"
+bun = "runtime/auto-install"
+names = ["auto-install"]
+cloudflare = ["Workers"]
+binding = "build-time"
+parity = "none"
+plugin = "diagnose: dependencies are resolved by `bun install` before the build"
+
+[[feature]]
+id = "nodejs-compat"
+bun = "runtime/nodejs-compat"
+names = ["node:*"]
+cloudflare = ["Workers"]
+binding = "compatibility_flags = [nodejs_compat]"
+parity = "partial"
+plugin = "diagnose: each node:* import is checked against the Workers support list"
+
+[[feature]]
+id = "console-debugger"
+bun = "runtime/console"
+also = ["runtime/debugger", "runtime/repl", "runtime/check", "runtime/module-graph"]
+names = ["console", "bun --inspect"]
+cloudflare = ["Cloudflare Observability"]
+binding = "logs and traces of the Worker; wrangler dev inspector"
+parity = "native"
+plugin = "no-op"
+
+[[feature]]
+id = "watch-mode"
+bun = "runtime/watch-mode"
+names = ["bun --watch", "bun --hot"]
+cloudflare = ["Cloudflare CLI"]
+binding = "local workerd simulation with the same bindings (`cf --local`)"
+parity = "adapter"
+plugin = "dev: `bun run dev` starts the app under Bun or under local workerd, same source"
+
+[[feature]]
+id = "bunfig"
+bun = "runtime/bunfig"
+names = ["bunfig.toml"]
+cloudflare = ["Cloudflare CLI"]
+binding = "the Worker config (wrangler.jsonc or cloudflare.config.ts)"
+parity = "adapter"
+plugin = "rewrite: the Worker config is generated from the source analysis and the project's cloud.toml"
+
+# ---- Bundler and dev server -------------------------------------------------------------------------------------
+
+[[feature]]
+id = "bundler"
+bun = "bundler/index"
+also = ["bundler/css", "bundler/esbuild", "bundler/hot-reloading", "bundler/minifier", "bundler/plugins", "bundler/standalone-html", "runtime/jsx", "runtime/typescript"]
+names = ["Bun.build"]
+cloudflare = ["Workers"]
+binding = "one ES module per Worker, target browser or neutral with the Workers conditions"
+parity = "adapter"
+plugin = "rewrite: the plugin is a Bun.build plugin and a CLI around it"
+
+[[feature]]
+id = "fullstack"
+bun = "bundler/fullstack"
+names = ["HTML imports", "Bun.serve routes"]
+cloudflare = ["Workers", "Pages"]
+binding = "static assets binding for the bundled front end, Worker for the routes"
+parity = "adapter"
+plugin = "rewrite: HTML entry points built into the assets directory"
+
+[[feature]]
+id = "html-static"
+bun = "bundler/html-static"
+names = ["static sites"]
+cloudflare = ["Workers", "Pages"]
+binding = "assets binding"
+parity = "native"
+plugin = "no-op: the build output is the assets directory"
+
+[[feature]]
+id = "macros"
+bun = "bundler/macros"
+names = ["with { type: 'macro' }"]
+cloudflare = ["Workers"]
+binding = "build-time"
+parity = "native"
+plugin = "no-op"
+
+[[feature]]
+id = "loaders"
+bun = "bundler/loaders"
+names = ["loaders"]
+cloudflare = ["Workers"]
+binding = "build-time; text, json, toml, wasm and file loaders produce modules the Worker accepts"
+parity = "native"
+plugin = "no-op"
+
+# ---- Package manager --------------------------------------------------------------------------------------------
+
+[[feature]]
+id = "package-manager"
+bun = "pm/workspaces"
+also = ["pm/catalogs", "pm/filter", "pm/global-cache", "pm/global-store", "pm/isolated-installs", "pm/lifecycle", "pm/lockfile", "pm/npmrc", "pm/overrides", "pm/package-extensions", "pm/scopes-registries", "pm/security-scanner-api", "pm/cli/add", "pm/cli/audit", "pm/cli/dedupe", "pm/cli/info", "pm/cli/install", "pm/cli/link", "pm/cli/migrate", "pm/cli/outdated", "pm/cli/patch", "pm/cli/pm", "pm/cli/prune", "pm/cli/publish", "pm/cli/remove", "pm/cli/update", "pm/cli/why"]
+names = ["bun install", "workspaces", "catalogs"]
+cloudflare = ["Workers"]
+binding = "build-time; the Worker is built from the installed tree"
+parity = "none"
+plugin = "no-op: the build reads bun.lock to pin the bundle"
+
+[[feature]]
+id = "bunx"
+bun = "pm/bunx"
+also = ["runtime/templating/create", "runtime/templating/init"]
+names = ["bunx"]
+cloudflare = ["Cloudflare CLI"]
+binding = "the `cf` CLI and wrangler run from the project"
+parity = "none"
+plugin = "dev"
+
+# ---- Test runner ------------------------------------------------------------------------------------------------
+
+[[feature]]
+id = "test-runner"
+bun = "test/index"
+also = ["test/code-coverage", "test/configuration", "test/dates-times", "test/discovery", "test/dom", "test/lifecycle", "test/parallel", "test/reporters", "test/runtime-behavior", "test/snapshots", "test/writing-tests"]
+names = ["bun:test"]
+cloudflare = ["Workers", "Cloudflare CLI"]
+binding = "the same test file runs under Bun and under local workerd with the real bindings"
+parity = "adapter"
+plugin = "dev: `bun test` runs the suite on Bun, `bun test --target workerd` on local workerd; both must pass"
+
+[[feature]]
+id = "mocks"
+bun = "test/mocks"
+names = ["mock", "spyOn"]
+cloudflare = ["Workers"]
+binding = "local binding simulations replace mocks"
+parity = "native"
+plugin = "no-op"
+
+# ---- Cloudflare products with no Bun feature to map: kept so the plugin can offer them -------------------------
+
+[[extra]]
+cloudflare = "Workers AI"
+bun = "none"
+offer = "env.AI.run(model, input); the model catalog of Workers AI replaces local inference"
+
+[[extra]]
+cloudflare = "Vectorize"
+bun = "none"
+offer = "vector index binding for retrieval"
+
+[[extra]]
+cloudflare = "AI Gateway"
+bun = "none"
+offer = "one gateway in front of every model call: cache, limits, logs"
+
+[[extra]]
+cloudflare = "Email Service"
+bun = "none"
+offer = "outbound and inbound mail from the Worker"
+
+[[extra]]
+cloudflare = "Turnstile"
+bun = "none"
+offer = "bot challenge for forms, replaces self-made CSRF and captcha code"
+
+[[extra]]
+cloudflare = "Stream"
+bun = "none"
+offer = "video storage and delivery; Bun.Video of the fork stays the local transformer"
+
+[[extra]]
+cloudflare = "Cache"
+bun = "none"
+offer = "cache API and cache rules in front of the Worker"
