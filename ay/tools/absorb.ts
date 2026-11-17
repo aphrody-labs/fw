@@ -11,6 +11,7 @@
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { bestForWork, parseDf } from "./disks.ts";
+import { hostWork, loadHosts, type Role } from "./hosts.ts";
 
 const root = resolve(import.meta.dir, "..");
 const LEDGER = join(root, "docs/research/absorbed.toml");
@@ -168,6 +169,7 @@ export function buildScript(p: Plan): string {
   return `
 set -u
 export CARGO_INCREMENTAL=0
+export ABSORB=${shq(p.dir.replace(/\/[^/]*$/, ""))}
 export CARGO_TARGET_DIR=${shq(`${p.dir}.target`)}
 mkdir -p "$(dirname ${shq(p.dir)})"
 [ -d ${shq(p.dir)}/.git ] || ${git} clone ${shq(p.forkUrl)} ${shq(p.dir)} >&2 || { echo "@@RESULT skipped clone failed"; exit 0; }
@@ -324,7 +326,11 @@ function fmt(c: Candidate): string {
 
 // ---------- try ----------
 
+/** The work volume of a host: [paths.<role>].work of ay.toml for the role the alias serves, else the live df. */
 async function workRoot(host: string): Promise<string> {
+  const cfg = loadHosts();
+  const role = (Object.keys(cfg.hosts) as Role[]).find(r => cfg.hosts[r] === host && cfg.paths[r]?.work);
+  if (role) return hostWork(role, cfg);
   const r = await run(["ssh", "-o", "BatchMode=yes", host, "df -B1 --output=source,fstype,size,used,avail,target"]);
   if (r.code !== 0) throw new Error(`ssh ${host}: ${r.err.trim()}`);
   const best = bestForWork(parseDf(r.out));

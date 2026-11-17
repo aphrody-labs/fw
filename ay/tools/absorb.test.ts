@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { hostWork } from "./hosts.ts";
 import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -78,7 +79,7 @@ describe("absorb ledger", () => {
 
 describe("absorb script", () => {
   const plan = {
-    dir: "/srv/xbuild/absorb/cef-rs", forkUrl: "https://github.com/aphrody-labs/cef-rs.git", base: "dev",
+    dir: `${hostWork("build")}/absorb/cef-rs`, forkUrl: "https://github.com/aphrody-labs/cef-rs.git", base: "dev",
     srcUrl: "https://github.com/tauri-apps/cef-rs.git", srcRef: "pull/5/head", test: "cargo test --locked",
     message: mergeMessage("tauri-apps/cef-rs", { number: 5, title: "Fix it", url: "https://github.com/tauri-apps/cef-rs/pull/5" }), timeout: 60,
   };
@@ -89,6 +90,7 @@ describe("absorb script", () => {
     expect(s).toContain("push origin HEAD:'dev'");
     expect(s).not.toMatch(/--force|push -f|stash|reset|checkout -b|branch |worktree/);
     expect(s).toContain("CARGO_INCREMENTAL=0");
+    expect(s).toContain(`export ABSORB='${hostWork("build")}/absorb'`);
   });
   test("the PR URL goes into the merge message", () => {
     expect(s).toContain("Merge tauri-apps/cef-rs#5: Fix it");

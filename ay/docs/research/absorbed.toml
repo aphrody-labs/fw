@@ -152,7 +152,7 @@ fork = "aphrody-labs/cef-rs"
 source = "https://github.com/tauri-apps/cef-rs/pull/497"
 title = "fix: keep owned strings when converting to raw CEF strings"
 result = "merged"
-test = "D=/srv/xbuild/absorb/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
+test = "D=$ABSORB/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
 date = 2026-11-16
 
 [[merge]]
@@ -161,7 +161,7 @@ fork = "aphrody-labs/cef-rs"
 source = "https://github.com/tauri-apps/cef-rs/pull/508"
 title = "fix(string): pass empty `CefString` out-parameters as a valid pointer"
 result = "conflict"
-test = "D=/srv/xbuild/absorb/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
+test = "D=$ABSORB/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
 date = 2026-11-16
 
 [[merge]]
@@ -170,7 +170,7 @@ fork = "aphrody-labs/cef-rs"
 source = "https://github.com/tauri-apps/cef-rs/pull/516"
 title = "fix(string): free CefStringMultimap and the strings read from string collections"
 result = "merged"
-test = "D=/srv/xbuild/absorb/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
+test = "D=$ABSORB/_cef; [ -d $D ] || cargo run -p export-cef-dir -- $D; export CEF_PATH=$D LD_LIBRARY_PATH=$D; cargo build --verbose && cargo test --verbose"
 date = 2026-11-16
 
 [[merge]]
