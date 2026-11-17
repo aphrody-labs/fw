@@ -27,3 +27,20 @@ done
 # hyperfine is edition 2018 (resolver 1): its normal and build-dependency clap share one feature set (build.rs includes
 # src/cli.rs). The workspace resolver 2 keeps them apart: give the normal clap `std` and the build one `cargo`, `wrap_help`.
 sed -i '/^clap = {version = "4", default-features = false/s/{version = "4", /{version = "4.6", /; /^clap = {version = "4.6", default-features = false/s/features = \["suggestions"/features = ["std", "suggestions"/; s/^clap = "4.6"$/clap = {version = "4.6", features = ["cargo", "wrap_help"]}/' "$(crate hyperfine)/Cargo.toml"
+
+# webrender: time 0.1's precise_time_ns is gone in time 0.3 (the version servo and the rest use). One shim in the crate,
+# every use goes through it; webrender_api (a separate crate) keeps its own inline copy above.
+wr=$(crate webrender)
+if ! grep -q 'fn precise_time_ns' "$wr/src/lib.rs"; then
+  cat >> "$wr/src/lib.rs" <<'RS'
+
+/// Monotonic nanoseconds since the first call: time 0.1's `precise_time_ns`, which time 0.3 no longer has.
+pub(crate) fn precise_time_ns() -> u64 {
+    static START: std::sync::OnceLock<std::time::Instant> = std::sync::OnceLock::new();
+    START.get_or_init(std::time::Instant::now).elapsed().as_nanos() as u64
+}
+RS
+fi
+rg -l 'time::precise_time_ns' "$wr/src" | xargs -r perl -pi -e 's/use time::precise_time_ns;/use crate::precise_time_ns;/; s/\btime::precise_time_ns\(\)/crate::precise_time_ns()/g'
+# the serde(skip) field attributes must follow the derives (capture, replay), not the implicit `serde` feature of the optional dependency
+rg -l 'cfg_attr\(feature = "serde", serde\(' "$wr/src" | xargs -r perl -pi -e 's/cfg_attr\(feature = "serde", serde\(/cfg_attr(any(feature = "capture", feature = "replay"), serde(/g'
