@@ -1,4 +1,5 @@
 # One entry per upstream (history imported by tools/import.py). `mode = "bun"` keeps Bun's src/ as is (placed under bun/ by tools/layout.ts)
+# `mode = "pin"` only records the live branch head in the lock (a non-crate tree too large to import).
 # Heads are resolved live at import time and recorded in upstreams.lock.json.
 
 [[upstream]]
@@ -160,3 +161,14 @@ name = "rust-argon2"
 url = "https://github.com/sru-systems/rust-argon2"   # Bun's vendor/rust-argon2 (3.0.0) + tools/patches/rust-argon2/*.patch
 branch = "master"
 rev = "ed81866f163f0c7026aa6fd8388adf37242eb32a"   # 3.0.0, the base of the two patches
+
+[[upstream]]
+name = "hyperfine"
+url = "https://github.com/aphrody-labs/hyperfine"   # fork of sharkdp/hyperfine, benchmark runner (tools/acceptance.ts)
+branch = "master"
+
+[[upstream]]
+name = "JetStream"
+url = "https://github.com/aphrody-labs/JetStream"   # fork of WebKit/JetStream, ~208 MB of JS/Wasm workloads, not a crate
+branch = "main"
+mode = "pin"
