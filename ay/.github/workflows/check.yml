@@ -55,7 +55,7 @@ jobs:
         run: |
           v=${{ steps.pins.outputs.clang }}
           curl -fsSL -o "$RUNNER_TEMP/llvm.tar.zst" "https://github.com/llvm/llvm-project/releases/download/llvmorg-$v/LLVM-$v-Linux-X64.tar.zst"
-          mkdir -p ~/llvm && tar --zstd -xf "$RUNNER_TEMP/llvm.tar.zst" -C ~/llvm --strip-components=1
+          mkdir -p ~/llvm && zstd -d --long=30 -c "$RUNNER_TEMP/llvm.tar.zst" | tar -xf - -C ~/llvm --strip-components=1
       - run: |
           echo "$HOME/llvm/bin" >> "$GITHUB_PATH"
           sudo apt-get update && sudo apt-get install -y --no-install-recommends qemu-system-x86
