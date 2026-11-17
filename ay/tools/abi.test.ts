@@ -67,3 +67,12 @@ test("tree-sitter extracts macros, signatures, Rust externs, Python tables and s
   expect([...sw!]).toEqual([[1, 0], [2, 0], [3, 2], [-1, 9]]);
   expect(syntaxErrors(await parse("c", "int f( {"))).not.toEqual([]);
 });
+
+test("another spec: u8 pointers, custom output paths, and the generated files agree with it", async () => {
+  const other: Spec = { version: 1, name: "vpn", title: "t", intro: ["i"], output: { header: "include/vpn.h", dir: "gen", doc: "docs/vpn.md" }, group: [{ id: "state", comment: "States.", type: "u32", const: [{ name: "VPN_STATE_UP", value: 1 }] }], function: [{ name: "vpn_open", returns: "i32", params: [["config", "*const u8"], ["len", "usize"], ["out", "*mut u64"]] }] };
+  const files = outputs(other, "x");
+  expect(files.map((f) => f.path).sort()).toEqual(["docs/vpn.md", "gen/vpn_abi.json", "gen/vpn_abi.py", "gen/vpn_abi.rs", "gen/vpn_abi.ts", "include/vpn.h"]);
+  expect(files.find((f) => f.path === "include/vpn.h")!.text.replace(/[ ]+/g, " ")).toContain("int32_t vpn_open(const uint8_t *config, uintptr_t len, uint64_t *out);");
+  expect(validate(other)).toEqual([]);
+  expect(await check(other, files)).toEqual([]);
+});

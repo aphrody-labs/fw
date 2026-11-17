@@ -19,14 +19,16 @@ const root = resolve(import.meta.dir, "..");
 export type Const = { name: string; value: number; doc?: string; nargs?: number };
 export type Group = { id: string; comment: string; type: "u32" | "i32"; const: Const[] };
 export type Fn = { name: string; returns: string; params: [string, string][]; doc?: string; import?: { module: string; name: string } };
-export type Spec = { version: number; name: string; title: string; intro: string[]; impl_attribute?: string; group: Group[]; function: Fn[] };
+export type Spec = {
+  /** Output locations relative to the target root; defaults serve the ay SDK itself. */
+  output?: { header?: string; dir?: string; doc?: string }; version: number; name: string; title: string; intro: string[]; impl_attribute?: string; group: Group[]; function: Fn[] };
 
-export async function loadSpec(dir = root): Promise<Spec> {
-  return Bun.TOML.parse(await Bun.file(join(dir, "abi/ay.abi.toml")).text()) as unknown as Spec;
+export async function loadSpec(dir = root, spec = "abi/ay.abi.toml"): Promise<Spec> {
+  return Bun.TOML.parse(await Bun.file(join(dir, spec)).text()) as unknown as Spec;
 }
 
-const SCALARS = ["u32", "i32", "u64", "usize", "void"];
-const POINTER = /^\*(const|mut) (u32|i32|u64|usize)$/;
+const SCALARS = ["u8", "u32", "i32", "u64", "usize", "void"];
+const POINTER = /^\*(const|mut) (u8|u32|i32|u64|usize)$/;
 
 export function validate(spec: Spec): string[] {
   const problems: string[] = [];
@@ -54,7 +56,7 @@ export function validate(spec: Spec): string[] {
 
 // ------------------------------------------------------------------------------------------ emitters
 
-const C_NAME: Record<string, string> = { u32: "uint32_t", i32: "int32_t", u64: "uint64_t", usize: "uintptr_t", void: "void" };
+const C_NAME: Record<string, string> = { u8: "uint8_t", u32: "uint32_t", i32: "int32_t", u64: "uint64_t", usize: "uintptr_t", void: "void" };
 const cTy = (t: string): string => {
   const m = POINTER.exec(t);
   return m ? `${m[1] === "const" ? "const " : ""}${C_NAME[m[2]!]} *` : C_NAME[t]!;
@@ -131,7 +133,7 @@ export function emitTs(s: Spec): string {
   return out.join("\n");
 }
 
-const PY: Record<string, string> = { u32: "ctypes.c_uint32", i32: "ctypes.c_int32", u64: "ctypes.c_uint64", usize: "ctypes.c_size_t", void: "None" };
+const PY: Record<string, string> = { u8: "ctypes.c_uint8", u32: "ctypes.c_uint32", i32: "ctypes.c_int32", u64: "ctypes.c_uint64", usize: "ctypes.c_size_t", void: "None" };
 const pyTy = (t: string) => {
   const m = POINTER.exec(t);
   return m ? `ctypes.POINTER(${PY[m[2]!]})` : PY[t]!;
@@ -173,12 +175,12 @@ export type Output = { path: string; text: string };
 export function outputs(s: Spec, specText: string): Output[] {
   const n = s.name;
   return [
-    { path: `corelib/include/${n}_abi.h`, text: emitC(s) },
-    { path: `abi/gen/${n}_abi.rs`, text: emitRust(s) },
-    { path: `abi/gen/${n}_abi.ts`, text: emitTs(s) },
-    { path: `abi/gen/${n}_abi.py`, text: emitPython(s) },
-    { path: `abi/gen/${n}_abi.json`, text: emitJson(s, specText) },
-    { path: `docs/abi.md`, text: emitDoc(s) },
+    { path: s.output?.header ?? `corelib/include/${n}_abi.h`, text: emitC(s) },
+    { path: `${s.output?.dir ?? "abi/gen"}/${n}_abi.rs`, text: emitRust(s) },
+    { path: `${s.output?.dir ?? "abi/gen"}/${n}_abi.ts`, text: emitTs(s) },
+    { path: `${s.output?.dir ?? "abi/gen"}/${n}_abi.py`, text: emitPython(s) },
+    { path: `${s.output?.dir ?? "abi/gen"}/${n}_abi.json`, text: emitJson(s, specText) },
+    { path: s.output?.doc ?? "docs/abi.md", text: emitDoc(s) },
   ];
 }
 
@@ -259,18 +261,22 @@ export async function check(s: Spec, files: Output[], dir = root): Promise<strin
 
 if (import.meta.main) {
   const checkOnly = process.argv.includes("--check");
-  const specText = await Bun.file(join(root, "abi/ay.abi.toml")).text();
-  const spec = await loadSpec();
+  const argv = process.argv;
+  const flag = (name: string) => (argv.includes(name) ? argv[argv.indexOf(name) + 1] : undefined);
+  const target = flag("--root") ? resolve(flag("--root")!) : root;
+  const specPath = flag("--spec") ?? "abi/ay.abi.toml";
+  const specText = await Bun.file(join(target, specPath)).text();
+  const spec = await loadSpec(target, specPath);
   const problems = validate(spec);
   const files = outputs(spec, specText);
   for (const f of files) {
-    const path = join(root, f.path);
+    const path = join(target, f.path);
     const current = (await Bun.file(path).exists()) ? await Bun.file(path).text() : undefined;
     if (current === f.text) continue;
     if (checkOnly) problems.push(`${f.path} is stale: run bun tools/abi.ts`);
     else await Bun.write(path, f.text);
   }
-  if (!problems.length) problems.push(...(await check(spec, files)));
+  if (!problems.length) problems.push(...(await check(spec, files, target)));
   console.log(`${spec.group.reduce((n, g) => n + g.const.length, 0)} constants, ${spec.function.length} functions, ${files.length} outputs`);
   for (const p of problems) console.error(p);
   process.exit(problems.length ? 1 : 0);
