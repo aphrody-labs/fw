@@ -5,7 +5,7 @@ this table carries the current state. ADR-0008 (SDK languages and toolchain) is 
 
 | ADR | Decision | Status | Current state (2026-11-17) |
 |---|---|---|---|
-| [0001](0001-tree.md) | Product-first tree on upstream conventions | accepted 2026-11-16 | Partly superseded by 0008: no Rust crates here; the tree is in `docs/architecture.md` |
+| [0001](0001-tree.md) | Product-first tree on upstream conventions | accepted 2026-11-16 | Partly superseded by 0008; the tree is in `docs/architecture.md` |
 | [0002](0002-build.md) | Nix for toolchains, native workspaces, one LLVM | accepted 2026-11-16 | Partly superseded by 0008: the LLVM rule stands; the Cargo workspace and Rust pins belong to `aphrody`; `flake.nix` is not in this tree |
 | [0003](0003-browser.md) | Browser on CEF with cef-rs, native UI from `aphrody` | proposed 2026-11-16 | Product owned by `aphrody-labs/browser`; the record stays until that repository carries its own copy |
 | [0004](0004-os.md) | OS on an LFS bootstrap, Nix packages, kernel.org + CachyOS | accepted 2026-11-16 | Product owned by `aphrody` (Rust OS), `anu` (Unix userland) and `aydroid` |

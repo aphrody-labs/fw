@@ -46,7 +46,7 @@ craft = { owner = "craft-anything", title = "Craft Anything", reference = "https
 brand = { owner = "ay", title = "Aphrody brand", reference = "https://design.google/", keywords = ["brand", "identity", "design", "m3", "theme", "token", "font", "icon", "assets", "i18n"] }
 
 # The ecosystem (2026-11-17). aphrody-dev/aphrody is the complete OS in pure Rust and the source of truth; this
-# repository is its SDK in C / assembly and Bun only (no Rust): C ABI, OpenAPI, docs, spec, standards,
+# repository is its SDK, in any best-fit language: C ABI, OpenAPI, docs, spec, standards,
 # corelib, libc and the design system. One checkout per repo locally and one repo per unit on GitHub.
 [registries]
 npm = "@aphrody"             # npm org scope for published Bun/TS packages
@@ -73,9 +73,9 @@ aphrody-m3 = { slug = "aphrody-labs/aphrody-m3", kind = "design" }              
 rosegriffon = { slug = "rose-griffon/rosegriffon", kind = "site", checkout = "../rosegriffon" }  # moved to the rose-griffon org; owned by its own agent
 standard = { slug = "aphrody-labs/.github", kind = "standard", checkout = "../aphrody-labs-github" }  # org standard 1.0.0, defaults, reusable CI, profile
 
-# SDK toolchain (ADR-0008). Rust lives in aphrody; everything here is LLVM-first and cross-target.
+# SDK toolchain (ADR-0008): LLVM-first and cross-target, any language that fits the unit.
 [sdk]
-languages = ["c", "cpp", "objc", "asm", "wat", "zig", "wgsl", "python", "dotnet", "bun"]
+languages = ["c", "cpp", "objc", "asm", "wat", "rust", "zig", "wgsl", "python", "dotnet", "bun"]
 toolchain = ["llvm", "tree-sitter"]
 modes = ["ffi", "lto", "aot", "c-abi", "msvc-abi"]
 arch = ["x86_64", "aarch64", "riscv64", "wasm32", "wasm64"]

@@ -1,7 +1,7 @@
 # Architecture
 
-Updated 2026-11-17. `ay` is the SDK of Aphrody (ADR-0008): C and its derivatives, assembly, Zig, WebGPU, Python, .NET and
-Bun, with no Rust. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the source of truth; the dependency
+Updated 2026-11-17. `ay` is the SDK of Aphrody (ADR-0008): C and its derivatives, assembly, Rust, Zig, WebGPU, Python, .NET and
+Bun, each where it fits. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the source of truth; the dependency
 points from `aphrody` to `ay`, never the other way, and `ay` embeds no checkout of another repository (one local checkout
 per repository, forks and upstreams as submodules with relative URLs). Decisions are in `docs/adr/` (index in
 `docs/adr/README.md`).
@@ -18,7 +18,7 @@ brand/           identity dataset and assets; the token pipeline (Bun) is its ge
 tools/           typed Bun scripts for every repeatable flow (features, paths, hosts, disks, listings, absorb, legacy)
 docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, research, guides
 third_party/     upstreams as submodules with relative URLs, one checkout each
-crates/          transitional Rust, leaving this repository: ay_brand -> Bun (brand/), ay_chromium -> aphrody-labs/browser
+crates/          Rust crates of the SDK (ay_brand, ay_chromium)
 ```
 
 Rules:
@@ -29,7 +29,7 @@ Rules:
   generators are committed instead.
 - Hosts are named by role in `ay.toml`: builds on `build`, tests on `test`, production on `prod`; their paths come from
   `[paths.<role>]`, never from prose.
-- No Rust is added here. `crates/` and the root `Cargo.toml` are removed when the last two crates have moved.
+- Rust units live in `crates/`, built by the root `Cargo.toml` and checked in CI like every other language.
 
 ## Toolchain
 One LLVM: clang, clang++ and clang-cl with lld (`ld.lld`, `lld-link`, `wasm-ld`), `llvm-ar`, libc++ and compiler-rt, with

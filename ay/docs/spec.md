@@ -1,8 +1,8 @@
 # Aphrody: SDK specification
 
 Updated 2026-11-17 (ADR-0008, owner decision). This repository, `aphrody-dev/ay`, is the **SDK** of Aphrody:
-C ABI, OpenAPI, docs, spec, standards, corelib, libc and the design system, in C and its derivatives, assembly, Zig,
-WebGPU, Python, .NET and Bun. It contains no Rust. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the
+C ABI, OpenAPI, docs, spec, standards, corelib, libc and the design system, in C and its derivatives, assembly, Rust, Zig,
+WebGPU, Python, .NET and Bun, each where it fits. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the
 source of truth; this SDK follows it. Names, owners and hosts come from `ay.toml`.
 
 ## Vision
@@ -18,8 +18,8 @@ Aphrody crafts four products and the brand that ties them together. Each row of 
 | **Craft Anything** | storytold/craft-anything | `craft-anything` | The engine that studies a reference and rebuilds it; it drives the replication of every product above |
 | **Brand and design system** | design.google, Material 3 | `ay` (this repository) | One token pipeline (DTCG JSON, CSS, a Tailwind v4 preset, a C header) that `aphrody-m3` and `aphrody` consume |
 
-Any language does the job it suits. In this repository: C and its derivatives, assembly, Zig, WebGPU (WGSL), Python, .NET
-and Bun (ADR-0008). Rust lives in `aphrody` and the satellites that need it. The ecosystem, by repository, is in
+Any language does the job it suits. In this repository: C and its derivatives, assembly, Rust, Zig, WebGPU (WGSL), Python,
+.NET and Bun (ADR-0008). The ecosystem, by repository, is in
 `docs/architecture.md`.
 
 ## What this repository owns
@@ -47,7 +47,7 @@ and Bun (ADR-0008). Rust lives in `aphrody` and the satellites that need it. The
 - Copying any upstream's directory layout (the previous monorepo mirrored AOSP and broke).
 - Google-scale search parity: the index grows from seeded domains and its size and freshness are measured, never claimed.
 - Shipping Google's proprietary services or images; Android apps run through Waydroid or `aydroid`, AI runs on our model layer.
-- Writing Rust, GPUI or COSMIC code here (it belongs to `aphrody`), or owning the domains `aphrody.com` and
+- Writing the OS's GPUI or COSMIC desktop code here (it belongs to `aphrody`), or owning the domains `aphrody.com` and
   `aphrody.app` (they belong to the aphrody monorepo; DNS and per-domain roles are decided there).
 
 ## Order of delivery
