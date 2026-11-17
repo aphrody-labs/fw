@@ -15,7 +15,7 @@ import {
   type CrosBuilds,
   type ChannelSchedule,
   CHANNELS,
-} from "@aphrody/chromium-releases";
+} from "@aphrody/ay-chromium-releases";
 import { ago, dateOf, scheduleDay, statusDate } from "./format.ts";
 import { html, raw, type Safe } from "./html.ts";
 

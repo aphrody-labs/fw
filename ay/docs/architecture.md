@@ -3,7 +3,7 @@
 Updated 2026-11-17. `ay` is the SDK of Aphrody (ADR-0008): C and its derivatives, assembly, Rust, Zig, WebGPU, Python, .NET and
 Bun, each where it fits. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the source of truth; the dependency
 points from `aphrody` to `ay`, never the other way, and `ay` embeds no checkout of another repository (one local checkout
-per repository, forks and upstreams as submodules with relative URLs). Decisions are in `docs/adr/` (index in
+per repository, forks and upstreams as submodules with relative URLs). Independence rule: see below. Decisions are in `docs/adr/` (index in
 `docs/adr/README.md`).
 
 ## Tree of this repository
@@ -18,7 +18,7 @@ brand/           identity dataset and assets; the token pipeline (Bun) is its ge
 tools/           typed Bun scripts for every repeatable flow (features, paths, hosts, disks, listings, absorb, legacy)
 docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, research, guides
 third_party/     upstreams as submodules with relative URLs, one checkout each
-crates/          Rust crates of the SDK (ay_brand, ay_chromium)
+crates/          Rust crates of the SDK (ay-brand, ay-chromium)
 ```
 
 Rules:
@@ -30,6 +30,19 @@ Rules:
 - Hosts are named by role in `ay.toml`: builds on `build`, tests on `test`, production on `prod`; their paths come from
   `[paths.<role>]`, never from prose.
 - Rust units live in `crates/`, built by the root `Cargo.toml` and checked in CI like every other language.
+
+## Independence
+Every Aphrody repository, `ay` included, builds, tests and releases alone from a clean clone (scheme: `aphrody-labs/.github` `naming/NAMING.md`;
+this repository declares its own names in `naming.toml`).
+- The sibling checkouts listed under `ay.toml` [repos] (`checkout = "../x"`) are optional local hints. No tool, test or CI job of
+  `ay` requires one: a tool that can use a sibling takes it from a flag, an environment variable or the hint, and otherwise skips or
+  falls back (`tools/recover.ts` scans only the checkouts that exist; `tools/legacy.ts` skips when the legacy checkout is absent).
+- CI never checks out, triggers or waits for another repository.
+- Another repository is used through a published version, or a pinned commit that the tool fetches itself into a gitignored cache
+  directory inside this repository, always behind a skip or a fallback; never through a path next to this repository.
+- The slugs in `[repos]` are metadata (owners of matrix rows, inventory targets), not dependencies.
+- Published names are never freed: `naming.toml` [legacy] lists them, new units use `ay-<unit>` (crates `ay-brand`, `ay-chromium`,
+  npm `@aphrody/ay-<unit>`).
 
 ## Toolchain
 One LLVM: clang, clang++ and clang-cl with lld (`ld.lld`, `lld-link`, `wasm-ld`), `llvm-ar`, libc++ and compiler-rt, with
@@ -44,11 +57,11 @@ Keys are those of `ay.toml` [repos]; the matrix owner of every feature row is on
 |---|---|---|
 | `aphrody-dev/aphrody` | The OS in pure Rust, source of truth; native UI (GPUI, COSMIC, `gpui_app_shell`, `os_craft`); owns `aphrody.com` and `aphrody.app` | Owned by another agent; read-only for this repository |
 | `aphrody-dev/ay` | SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc, design system | This repository |
-| `aphrody-dev/ANU` | Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; no dependency on any other Aphrody repository | Own repository, own agent |
+| `aphrody-dev/anu` | Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; no dependency on any other Aphrody repository | Own repository, own agent |
 | `aphrody-dev/ai-os` | Agent kernel, relay (MCP, A2A), model, inference and RAG, extracted from `legacy` by `tools/extract.ts` | Own repository, own agent |
 | `aphrody-dev/aydroid` | AOSP with Aphrody in place of Android | Empty repository, no content yet |
-| `aphrody-dev/ayNT` | A free Windows-compatible operating system (fork of LiberNT) | Fork |
-| `aphrody-labs/browser` | One browser monorepo: Bun, Servo, Obscura, agent-browser, CEF/Chromium | Receives `ay_chromium` |
+| `aphrody-dev/aynt` | A free Windows-compatible operating system (fork of LiberNT) | Fork |
+| `aphrody-labs/browser` | One browser monorepo: Bun, Servo, Obscura, agent-browser, CEF/Chromium | Receives `ay-chromium` |
 | `aphrody-labs/bun` | The Bun fork, the Cloud edge runtime and its plugins | Fork |
 | `aphrody-labs/craft-anything` | Replication engine, consumed by `aphrody` as `vendor/craft-anything` | Fork |
 | `aphrody-labs/open`, `auto` | Open ecosystem (opencode, opentui, models.dev) and workflow automation | Own agents |

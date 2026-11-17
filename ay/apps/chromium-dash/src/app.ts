@@ -22,7 +22,7 @@ import {
   type DashChannel,
   type DashPlatform,
   type Entry,
-} from "@aphrody/chromium-releases";
+} from "@aphrody/ay-chromium-releases";
 import { layout } from "./layout.ts";
 import * as v from "./views.ts";
 import { html, type Safe } from "./html.ts";

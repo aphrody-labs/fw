@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Cache } from "@aphrody/chromium-releases";
+import { Cache } from "@aphrody/ay-chromium-releases";
 import { replayFetch } from "../../chromium-releases/test/fixtures.ts";
 import { pickVersion } from "../src/version.ts";
 

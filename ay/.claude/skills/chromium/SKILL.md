@@ -22,7 +22,7 @@ Keep the CEF download, the target directory and the checkout on the build volume
 ssh fr1
 cd $WORK/shared/<dir>/ay
 export CARGO_INCREMENTAL=0 CEF_PATH=$WORK/shared/<dir>/cef CARGO_TARGET_DIR=$WORK/shared/<dir>/target
-cargo build --release -p ay_chromium
+cargo build --release -p ay-chromium
 target/release/ay-chromium eval https://example.com document.title      # "Example Domain"
 target/release/ay-chromium screenshot https://example.com /tmp/x.png    # {"path":...,"width":1280,"height":720}
 cd packages/chromium && bun run build && bun test                       # addon + helper into native/, then the test

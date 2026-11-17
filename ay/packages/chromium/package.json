@@ -1,7 +1,7 @@
 {
   "name": "@aphrody/chromium",
   "version": "0.1.0",
-  "description": "Chromium through CEF from Bun: screenshot a URL and evaluate JavaScript in a page, through the ay_chromium Node-API addon.",
+  "description": "Chromium through CEF from Bun: screenshot a URL and evaluate JavaScript in a page, through the ay-chromium Node-API addon.",
   "type": "module",
   "private": true,
   "main": "src/index.ts",

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
-import { Cache, createClients } from "@aphrody/chromium-releases";
+import { Cache, createClients } from "@aphrody/ay-chromium-releases";
 import { FIXTURES, COMMIT, fixturePath } from "../../../packages/chromium-releases/test/fixtures.ts";
 import { createApp } from "../src/app.ts";
 import { escape, html } from "../src/html.ts";

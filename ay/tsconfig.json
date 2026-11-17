@@ -8,6 +8,9 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": ".",
-    "paths": { "@aphrody/*": ["packages/*/src/index.ts"] }
+    "paths": {
+      "@aphrody/ay-chromium-releases": ["packages/chromium-releases/src/index.ts"],
+      "@aphrody/*": ["packages/*/src/index.ts"]
+    }
   }
 }

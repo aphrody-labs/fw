@@ -1,0 +1,8 @@
+id = "ay"
+kind = "sdk"
+org = "aphrody-dev"
+
+[legacy]
+# Published on npm by the aphrody-labs/bun-os pipeline (1.4.7, another package): registries never free a name. The private workspace
+# package packages/chromium keeps it until the release pipeline of this repository publishes @aphrody/ay-chromium.
+npm = ["@aphrody/chromium"]

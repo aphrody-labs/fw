@@ -4,7 +4,7 @@ Three parts, all pure Bun (`Bun.serve`, `bun:sqlite`, `bun:test`, no npm depende
 
 | Part | Path | What it is |
 |---|---|---|
-| `@aphrody/chromium-releases` | `packages/chromium-releases` | Typed client for Chromium Dash and the public read API of Chrome Status, the channel dataset, a sqlite read-through cache, the `chromium-releases` CLI and the CEF/Chromium version picker |
+| `@aphrody/ay-chromium-releases` | `packages/chromium-releases` | Typed client for Chromium Dash and the public read API of Chrome Status, the channel dataset, a sqlite read-through cache, the `chromium-releases` CLI and the CEF/Chromium version picker |
 | `chromium-dash` | `apps/chromium-dash` | `Bun.serve` app: the pages of both dashboards, their JSON endpoints at the original paths, brand M3 tokens and Google Sans Flex |
 | `pickVersion` | `packages/chromium/src/version.ts` | The picker exposed to the browser package: which Chromium and which CEF build to embed for a channel |
 

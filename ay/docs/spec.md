@@ -11,7 +11,7 @@ Aphrody crafts four products and the brand that ties them together. Each row of 
 
 | Product | Replica of | Built in | What "done" means |
 |---|---|---|---|
-| **Aphrody OS** | The Googlebook experience (googlebook.google) | `aphrody` (Rust), `aydroid` (AOSP), `anu` (Unix userland), `ayNT` (NT) | A bootable, installable system whose desktop offers every Googlebook feature in the matrix, AI-first, with our own model layer (`ai-os`) |
+| **Aphrody OS** | The Googlebook experience (googlebook.google) | `aphrody` (Rust), `aydroid` (AOSP), `anu` (Unix userland), `aynt` (NT) | A bootable, installable system whose desktop offers every Googlebook feature in the matrix, AI-first, with our own model layer (`ai-os`) |
 | **Aphrody Browser** | Chromium-based browsers | `browser` | A browser with our UI, the agent panel, WebMCP and our search as the default engine, installable on Linux and Windows |
 | **Aphrody Search** | google.com | `aphrody` | A search home and results page matching google.com feature for feature, an AI mode, image search and file Q&A, served from our own crawler and index |
 | **Aphrody Cloud** | Cloudflare Workers + Vercel | `aphrody` on the Bun fork (`bun`) | A Bun edge runtime with a Workers-compatible API, git-push deploys, previews, domains and TLS, storage, logs and a dashboard |

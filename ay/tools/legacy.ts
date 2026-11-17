@@ -3,7 +3,8 @@
 // crate, Go and Python module, third-party pin and external dependency, with the product it belongs to (keywords of
 // ay.toml [products]) and its state here: `ported` (a unit of the same name exists in this repository), `tracked`
 // (named in the feature matrix or a research dataset) or `review` (nothing here covers it yet).
-//   bun tools/legacy.ts [--checkout <path>] [--out docs/research/legacy-inventory.toml] [--summary]
+//   bun tools/legacy.ts [--checkout <path>] (or AY_LEGACY_CHECKOUT; skipped when there is no checkout) [--out docs/research/legacy-inventory.toml] [--summary]
+import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const root = resolve(import.meta.dir, "..");
@@ -208,7 +209,12 @@ if (import.meta.main) {
     return i > 0 ? process.argv[i + 1] : undefined;
   };
   const ay = (await readToml(join(root, "ay.toml")))!;
-  const checkout = resolve(root, arg("--checkout") ?? ay.legacy?.checkout ?? "../ay");
+  const hint = arg("--checkout") ?? process.env.AY_LEGACY_CHECKOUT ?? ay.legacy?.checkout;
+  const checkout = hint ? resolve(root, hint) : "";
+  if (!checkout || !existsSync(join(checkout, ".git"))) {
+    console.log("no legacy checkout (--checkout, AY_LEGACY_CHECKOUT or ay.toml [legacy].checkout): inventory skipped, the committed one is unchanged");
+    process.exit(0);
+  }
   const out = resolve(root, arg("--out") ?? "docs/research/legacy-inventory.toml");
   const { units, deps, head, repo } = await scan(checkout);
   await Bun.write(out, toToml(units, deps, { repo, commit: head, scanned: new Date().toISOString().slice(0, 10) }));

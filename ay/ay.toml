@@ -59,6 +59,7 @@ npm = "@aphrody"             # npm org scope for published Bun/TS packages
 crates = "aphrody-"          # crates.io name prefix for published Rust crates
 
 [repos]
+# `checkout` is an optional local hint (a developer convenience): no tool requires it to exist, each one skips or falls back when it is absent.
 # kind: os | sdk | runtime | craft | plugin | app | browser | unix | ai | android | nt | design | org | site | standard.
 # Only the os repository defines the system; the rest build on it. A row of the feature matrix names its owner by key.
 aphrody = { slug = "aphrody-dev/aphrody", kind = "os", checkout = "../aphrody" }      # complete OS, pure Rust, source of truth
@@ -69,10 +70,10 @@ nie = { slug = "aphrody-labs/nie", kind = "craft", checkout = "../nie" }        
 claude = { slug = "aphrody-labs/claude", kind = "plugin" }                                 # agent config and the aphrody plugin
 shenron = { slug = "aphrody-labs/shenron", kind = "app", checkout = "../shenron" }
 browser = { slug = "aphrody-labs/browser", kind = "browser", checkout = "../browser" }   # one browser monorepo: Bun, Servo, Obscura, agent-browser, CEF, Chromium
-anu = { slug = "aphrody-dev/ANU", kind = "unix", checkout = "../anu" }                    # Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; depends on no other Aphrody repository
+anu = { slug = "aphrody-dev/anu", kind = "unix", checkout = "../anu" }                    # Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; depends on no other Aphrody repository
 ai-os = { slug = "aphrody-dev/ai-os", kind = "ai", checkout = "../ai-os" }               # agent kernel, relay (MCP, A2A), model, inference and RAG, extracted from legacy
 aydroid = { slug = "aphrody-dev/aydroid", kind = "android" }                              # AOSP with Aphrody in place of Android
-aynt = { slug = "aphrody-dev/ayNT", kind = "nt" }                                          # free Windows-compatible operating system
+aynt = { slug = "aphrody-dev/aynt", kind = "nt" }                                          # free Windows-compatible operating system
 open = { slug = "aphrody-labs/open", kind = "app", checkout = "../open" }                  # open ecosystem monorepo (opencode, opentui, models.dev, ai-router)
 auto = { slug = "aphrody-labs/auto", kind = "app", checkout = "../auto" }                  # workflow automation, office suite and scraping
 aphrody-m3 = { slug = "aphrody-labs/aphrody-m3", kind = "design" }                         # Material 3 UI packages, icons, fonts; consumes the ay token pipeline

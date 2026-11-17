@@ -787,19 +787,19 @@ defects = [
 note = "Already implements the pattern recommended below: recipes are one-line calls into bun tools/scripts (for example bun \"{{root}}/tools/agents/runner.ts\" {{cmd}} {{args}}) and into the ay CLI."
 
 [[aphrody.justfile]]
-repo = "$WORKSPACE_ROOT/ay/apps/nt (nested in legacy ay)"
+repo = "aphrody-dev/ay/apps/nt (nested in legacy ay)"
 files = "justfile (96 lines)"
 recipes = 21
 works = "just --list succeeds (WinUI shell, interop, msindex, tools, web)"
 
 [[aphrody.justfile]]
-repo = "$WORKSPACE_ROOT/ay/apps/open (own git repository)"
+repo = "aphrody-dev/ay/apps/open (own git repository)"
 files = "justfile"
 recipes = 8
 works = "just --list succeeds (check, extension, install, private, release, test-ts, upstream)"
 
 [[aphrody.justfile]]
-repo = "$WORKSPACE_ROOT/nie (aphrody-labs/nie)"
+repo = "aphrody-labs/nie"
 files = "justfile (87 lines) plus infra/just/{cloud,native,qa,rust,workspace}.just (148 lines)"
 last_commit = "01dec6c74 2026-11-14"
 recipes = 41
@@ -809,7 +809,7 @@ works = "yes: --list and --dump json succeed with 0 warnings; --fmt --check exit
 recipes_calling_bun = 17
 
 [[aphrody.justfile]]
-repo = "$WORKSPACE_ROOT/rosegriffon (aphrody-labs/rosegriffon)"
+repo = "rose-griffon/rosegriffon"
 files = "same layout as nie (justfile 87 lines plus 5 infra/just files, 149 lines)"
 last_commit = "01dec6c7 2026-11-14"
 recipes = 41
@@ -817,7 +817,7 @@ works = "yes: --list and --dump json succeed; --fmt --check exits 1 (1.58.0 spac
 recipes_calling_bun = 19
 
 [[aphrody.justfile]]
-repo = "$WORKSPACE_ROOT/shenron (aphrody-labs/shenron)"
+repo = "aphrody-labs/shenron"
 files = "justfile (334 lines)"
 last_commit = "3b23ca81 2026-11-16"
 recipes = 62
@@ -828,12 +828,12 @@ recipes_referencing_ts = 28
 works = "yes: --list, --dump json succeed; just --dry-run check prints bun run typecheck then bun scripts/build/rust/cargo.ts ck; just test-scripts runs the Bun test suite (684 tests, 5 failures that belong to the repo's tests; the recipe wiring works); --fmt --check exits 1 (1.58.0 spacing)"
 
 [[aphrody.justfile]]
-repo = "$WORKSPACE_ROOT/aphrody (aphrody-dev/aphrody)"
+repo = "aphrody-dev/aphrody"
 files = "none first-party: all 34 justfile and .just files are vendored upstream code under vendor/ (cosmic-*, libcosmic, blitz, anyrender, taffy, cosmic-epoch). Not run."
 works = "not run, upstream files"
 
 [[aphrody.justfile]]
-repo = "$WORKSPACE_ROOT/bun, $WORKSPACE_ROOT/ay-next, $WORKSPACE_ROOT/browser"
+repo = "aphrody-labs/bun, aphrody-dev/ay, aphrody-labs/browser"
 files = "none"
 note = "ay-next has tools/*.ts (absorb, disks, features, recon, each with a *.test.ts) and a package.json with two scripts (features, check); there is no justfile yet."
 

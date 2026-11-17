@@ -1,7 +1,7 @@
-/** Which Chromium, and which CEF build, to embed for a release channel: live Chromium Dash and CEF data through @aphrody/chromium-releases. */
-import { Cache, createClients, loadCefIndex, pickChromium, type CefPlatform, type FetchLike, type Selection } from "@aphrody/chromium-releases";
+/** Which Chromium, and which CEF build, to embed for a release channel: live Chromium Dash and CEF data through @aphrody/ay-chromium-releases. */
+import { Cache, createClients, loadCefIndex, pickChromium, type CefPlatform, type FetchLike, type Selection } from "@aphrody/ay-chromium-releases";
 
-export type { Selection } from "@aphrody/chromium-releases";
+export type { Selection } from "@aphrody/ay-chromium-releases";
 
 export interface PickVersionOptions {
   /** `stable` (default), `extended`, `beta`, `dev` or `canary`. */

@@ -1,6 +1,6 @@
 # Chromium from Rust and Bun
 
-`ay_chromium` embeds Chromium through CEF (ADR-3). One Rust crate (`crates/ay_chromium`), one executable
+`ay-chromium` embeds Chromium through CEF (ADR-3). One Rust crate (`crates/ay_chromium`), one executable
 (`ay-chromium`), one Bun package (`packages/chromium`, `@aphrody/chromium`) and one skill
 (`.claude/skills/chromium`) give two operations on a real page, rendered off-screen:
 
@@ -140,8 +140,8 @@ If one of these starts to matter, the route is `[patch.crates-io] cef = { git = 
 ssh fr1
 cd $WORK/<dir>/ay                        # a checkout on the build volume
 export CARGO_INCREMENTAL=0 CEF_PATH=$WORK/<dir>/cef CARGO_TARGET_DIR=$WORK/<dir>/target
-cargo build --release -p ay_chromium
-cargo test -p ay_chromium --release            # unit tests and the end-to-end test against a local page
+cargo build --release -p ay-chromium
+cargo test -p ay-chromium --release            # unit tests and the end-to-end test against a local page
 (cd packages/chromium && bun run build && bun test)
 # on fr2, the same binaries through the NFS mount, `WORK_TEST` = `[paths.test].work` (libcef.so sits next to them, found through $ORIGIN):
 $WORK_TEST/<dir>/target/release/ay-chromium screenshot https://example.com /tmp/x.png
@@ -155,7 +155,7 @@ Built and tested on fr1 in `$WORK/shared/ay-chromium`, run on fr2 from the same 
   `{"path":"/tmp/ay-chromium-example.png","width":1280,"height":720}`; the copy is
   `$AY_DATA_DIR/shots/ay-chromium-example.png` (the rendered example.com page, inspected).
 - fr2: `ay-chromium eval https://example.com document.title` printed `"Example Domain"`.
-- fr1: `cargo test -p ay_chromium --release`: 6 unit tests and
+- fr1: `cargo test -p ay-chromium --release`: 6 unit tests and
   `tests/e2e.rs::screenshot_and_evaluate_a_real_page` (real CEF against a local HTTP server: evaluate string, number,
   promise, object and exception, a load error, a PNG whose first pixel is the page's background colour, and one page
   reused for several evaluations and screenshots at three viewport sizes through the `Backend` and `Page` traits).
@@ -174,7 +174,7 @@ submodule fetch breaks (`research/chromium-rust-issues.toml`). Add it when a fea
 The `rust` job of `.github/workflows/check.yml` formats and lints the workspace, which includes this crate, so its build
 script fetches CEF on the runner (333 MB download, 1.3 GB extracted, within the runner's disk). Its tests start
 Chromium, which needs the system libraries CEF links against, so the job runs `cargo test --workspace --exclude
-ay_chromium` and the crate's tests run on fr2 with the commands above. That CI job has not run yet: it is unproven
+ay-chromium` and the crate's tests run on fr2 with the commands above. That CI job has not run yet: it is unproven
 until the first push.
 
 ## Limits

@@ -14,7 +14,7 @@ export interface CefBuild {
   /** CEF's own channel: `stable` or `beta`. */
   channel: string;
   chromium_version: string;
-  /** The `minimal` distribution (the one `ay_chromium` downloads), when the build has one. */
+  /** The `minimal` distribution (the one `ay-chromium` downloads), when the build has one. */
   minimal?: { name: string; sha1: string; size: number };
 }
 

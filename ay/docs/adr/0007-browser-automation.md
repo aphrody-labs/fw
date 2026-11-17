@@ -8,7 +8,7 @@ Eleven projects were read at the aphrody-labs forks (obscura, lightpanda, agent-
 - CDP is the common protocol. agent-browser already drives Chrome for Testing, lightpanda and obscura through one CDP path (`--engine`), and aphrody-labs/browser already decided "one CDP front, two engines, router picks lite first" with measurements (69 MiB lite vs 578 MiB headless-shell on one page).
 - The same ~25 verbs exist five times with five names. playwright-mcp's `browser_*` names are the de-facto convention (obscura copied them).
 - Only Playwright has Firefox and WebKit, a test runner, codegen and a trace viewer. Only DevTools MCP has performance, Lighthouse, heap, extension, PWA and WebAuthn tools. Only obscura has stealth.
-- No Rust library combines refs, tools and several backends: agent-browser is a binary without `[lib]`; chromiumoxide and headless_chrome are bare CDP clients; `ay_chromium` covers CEF only.
+- No Rust library combines refs, tools and several backends: agent-browser is a binary without `[lib]`; chromiumoxide and headless_chrome are bare CDP clients; `ay-chromium` covers CEF only.
 - lightpanda is AGPL-3.0-only; everything else read is Apache-2.0 or MIT.
 
 ## Decision (proposed)
@@ -21,13 +21,13 @@ One ecosystem, **ay browser**, assembled from upstreams, in six parts.
   - `chromium`: spawn Chrome for Testing `chrome` or `chrome-headless-shell` pinned by version from the CfT endpoints, over `--remote-debugging-pipe` or WebSocket. Default backend.
   - `lightpanda`: spawn `lightpanda serve` and speak CDP (or BiDi later); always out of process, which keeps AGPL code out of our binaries.
   - `obscura`: in-process through the `obscura` crate (git dependency, pinned `rev`, features `render` and `stealth`) if the probe shows it works from our tree; otherwise spawn `obscura serve`. The in-process route is conditional because the crate builds V8 from source and is not on crates.io.
-  - `cef`: `ay_chromium` (below).
+  - `cef`: `ay-chromium` (below).
   - `remote`: attach to any CDP endpoint (`--cdp`, cloud providers).
 - **Refs and snapshot**: one snapshot model (accessibility tree plus stable `@eN` refs, invalidated on navigation, covered-element click failure) implemented once in `ay_browser` over CDP `Accessibility` and `DOM`; obscura's in-process path maps to the same type.
 - **Router**: lite first, escalate to Blink when a page needs paint, media or a missing capability, replaying the session (the `aphrody-labs/browser` design).
 - Rust builds run on the build host (`ay.toml` [hosts]).
 
-### 2. `ay_chromium` becomes the Chromium (CEF) backend
+### 2. `ay-chromium` becomes the Chromium (CEF) backend
 `crates/ay_chromium` (CEF 156.6.0 through cef-rs; screenshot through off-screen rendering and `Runtime.evaluate` through `execute_dev_tools_method` and a DevTools message observer, engine.rs lines 310 to 361) stays its own crate because CEF needs its helper binary and process model. It is the `cef` backend of `ay_browser` once it gains (a) a persistent browser per session instead of a fresh browser per call and (b) a raw CDP channel: send any method, receive results and events from the existing observer. Its public `screenshot` and `evaluate` then become thin calls on a session. The Node-API addon (`node` feature) is reused by the Bun package. The ADR-3 measurement list (CDP attach, extensions, WebMCP on CEF 156 and 158) gates how much of the DevTools-class toolset the `cef` backend advertises.
 
 ### 3. One CLI, `ay-browser` (also `ay browser`)
@@ -48,7 +48,7 @@ Names follow `ay.toml`. The command set is the deduplicated union of agent-brows
 
 ### 5. One npm package, `@aphrody/browser` (`packages/browser`, Bun)
 - Compatibility by protocol, not reimplementation: `ay-browser serve` exposes a CDP endpoint, so `puppeteer-core` and `playwright-core` (`connectOverCDP`) run unchanged against every backend that serves CDP. `@aphrody/browser` exports `launch()` and `connect()` that start or attach a backend and return a Puppeteer `Browser` or Playwright `Browser` when the user has installed that package (optional peer dependency), and a small native `Browser`/`Page`/`Locator` API (goto, snapshot, click, fill, screenshot, evaluate, route, cookies) over the daemon otherwise. Everything beyond that subset (test runner, codegen, trace viewer, Firefox, WebKit) is Playwright itself, used as an external npm dependency.
-- In-process path: the Node-API addon from `ay_chromium` (feature `node`) and `ay_browser`, loaded by Bun.
+- In-process path: the Node-API addon from `ay-chromium` (feature `node`) and `ay_browser`, loaded by Bun.
 - Verified claim needed before release: that `puppeteer-core` 25.x and `playwright-core` 1.65 run on Bun against each backend (not run yet).
 
 ### 6. One skill and one docs reference
@@ -68,7 +68,7 @@ Upstreams are git submodules in `third_party/` (relative URLs, one checkout each
 2. **Submodules and pins** for the list above; `tools/` check that the pin matches a live upstream release.
 3. **`ay-browser` Phase A**: agent-browser binary plus alias layer, `browsers` commands, `serve` passthrough (reuses almost all of the surface; needs only the alias table).
 4. **`ay_browser` core**: Transport, Session, `Capabilities`, `chromium` and `remote` backends on `chromiumoxide_cdp` types, snapshot with refs; then `lightpanda` and `obscura` (spawn) backends.
-5. **`ay_chromium` upgrade** to a persistent session with a raw CDP channel, then the `cef` backend.
+5. **`ay-chromium` upgrade** to a persistent session with a raw CDP channel, then the `cef` backend.
 6. **Tool registry and MCP server**, DevTools-only tools proxied to `chrome-devtools-mcp` first.
 7. **`@aphrody/browser`**: `launch`/`connect` returning Puppeteer or Playwright objects, then the native subset and the napi addon.
 8. **Skill and docs reference** generated from the registry.

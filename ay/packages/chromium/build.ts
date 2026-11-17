@@ -1,4 +1,4 @@
-// Builds the Rust crate ay_chromium (addon + helper executable) and places them in native/.
+// Builds the Rust crate ay-chromium (addon + helper executable) and places them in native/.
 // Runs on the build host: cargo needs CEF, which cef-dll-sys downloads on first build (CEF_PATH caches it).
 import { copyFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -11,8 +11,8 @@ const run = (cmd: string[]) => {
 
 // Two invocations: the Node-API symbols resolve only when Bun loads the addon, so the helper executable must be
 // linked without the `node` feature.
-run(["cargo", "build", "--release", "-p", "ay_chromium", "--bins"]);
-run(["cargo", "build", "--release", "-p", "ay_chromium", "--lib", "--features", "node"]);
+run(["cargo", "build", "--release", "-p", "ay-chromium", "--bins"]);
+run(["cargo", "build", "--release", "-p", "ay-chromium", "--lib", "--features", "node"]);
 
 const meta = Bun.spawnSync(["cargo", "metadata", "--format-version", "1", "--no-deps"], { cwd: root });
 const target: string = JSON.parse(meta.stdout.toString()).target_directory;

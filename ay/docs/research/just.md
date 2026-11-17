@@ -103,13 +103,13 @@ Local `just` is installed: 1.59.0 (winget), equal to the latest release. A shell
 | Repository | Justfiles | Recipes | Result |
 |---|---|---|---|
 | `$WORKSPACE_ROOT/ay` (legacy) | `justfile` plus 23 imported `.just` | 157 in 22 groups; 73 call `bun`, 65 reference `.ts` | `--list`, `--dump --dump-format json` OK, 0 warnings; `just doctor` runs with `SRC_ROOT` unset |
-| `$WORKSPACE_ROOT/ay/apps/nt` | 1 | 21 | `--list` OK |
-| `$WORKSPACE_ROOT/ay/apps/open` | 1 | 8 | `--list` OK |
-| `$WORKSPACE_ROOT/nie` | `justfile` plus 5 in `infra/just` | 41 | `--list`, dump OK |
-| `$WORKSPACE_ROOT/rosegriffon` | same layout as nie | 41 | `--list`, dump OK |
-| `$WORKSPACE_ROOT/shenron` | 1 (334 lines), shell `bun exec` | 62; 43 call `bun` | `--list`, dump, `--dry-run check` OK; `test-scripts` runs and 5 repo tests fail |
-| `$WORKSPACE_ROOT/aphrody` | vendored upstream only (cosmic, blitz, taffy, anyrender) | not run | n/a |
-| `$WORKSPACE_ROOT/bun`, `$WORKSPACE_ROOT/ay-next`, `$WORKSPACE_ROOT/browser` | none | n/a | n/a |
+| `aphrody-dev/ay/apps/nt` | 1 | 21 | `--list` OK |
+| `aphrody-dev/ay/apps/open` | 1 | 8 | `--list` OK |
+| `aphrody-labs/nie` | `justfile` plus 5 in `infra/just` | 41 | `--list`, dump OK |
+| `rose-griffon/rosegriffon` | same layout as nie | 41 | `--list`, dump OK |
+| `aphrody-labs/shenron` | 1 (334 lines), shell `bun exec` | 62; 43 call `bun` | `--list`, dump, `--dry-run check` OK; `test-scripts` runs and 5 repo tests fail |
+| `aphrody-dev/aphrody` | vendored upstream only (cosmic, blitz, taffy, anyrender) | not run | n/a |
+| `aphrody-labs/bun`, `aphrody-dev/ay`, `aphrody-labs/browser` | none | n/a | n/a |
 
 Defects found:
 
