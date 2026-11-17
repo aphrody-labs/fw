@@ -24,7 +24,7 @@ Read live on 2026-11-17 (the account inventory itself is private: `.private/rese
    | main page | one Worker with static assets in front of R2 | www.aphrody.com |
 2. Remove the cause of 1027 before buying capacity: the events receiver filters and batches by queue so it stops answering every delivery; the
    Workers Paid plan is the owner's decision (it also unlocks Containers and Dynamic Workers, so `kitesurf` on the edge depends on it).
-3. Purge is by inventory, never by name: an item is a purge candidate when nothing in `C:\src` deploys it and it has had no traffic for 30 days.
+3. Purge is by inventory, never by name: an item is a purge candidate when nothing in the workspace repositories deploys it and it has had no traffic for 30 days.
    Candidates are listed privately and removed one by one; what moves off the edge to the production host moves only on the owner's explicit go
    for that host (read-only until then), as a dry-run install plan.
 4. `ay` follows Cloudflare's tooling shape (`workers-sdk`/wrangler): one manifest per product, `ay dev`, `ay deploy`, `ay tail`, `ay types`,

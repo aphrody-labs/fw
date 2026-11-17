@@ -1,0 +1,19 @@
+[package]
+name = "ay-dioxus"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+license = "Apache-2.0"
+description = "Unified Dioxus 0.8 + Taffy + Material 3 (ay-brand) + Aphrody GUI/NSH reactive shell & SSR bridge."
+
+[dependencies]
+ay-brand.workspace = true
+dioxus.workspace = true
+dioxus-core.workspace = true
+dioxus-signals.workspace = true
+dioxus-ssr.workspace = true
+serde.workspace = true
+taffy.workspace = true
+
+[lints]
+workspace = true

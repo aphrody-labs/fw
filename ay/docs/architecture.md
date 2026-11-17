@@ -10,16 +10,18 @@ per repository, forks and upstreams as submodules with relative URLs). Independe
 
 ```
 ay.toml          the only identity and configuration source: orgs, hosts, products, repos, sdk targets, domains
+justfile         Pop!_OS / COSMIC-style command runner (check, submodules, dedup, deploy, sessions, sync-host, plan, clean)
+submodules.toml  declarative pin manifest for the 38 aphrody-labs forks rendered into .gitmodules and 160000 gitlinks
 package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
 abi/             the ABI spec (ay.abi.toml) and the bindings generated from it (ADR-0011); the C header is generated into corelib/include
 corelib/         the SDK corelib: freestanding C23 + assembly + WAT, the C ABI header, WIT world, conformance hosts and proofs
-packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: chromium-releases, ffi, node-compat, org-mirror (chromium keeps its published legacy name @aphrody/chromium)
+packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: chromium-releases, edge-stack (Cloudflare-OS + Vercel Bun SDK), ffi, node-compat, org-mirror
 apps/            programs a person runs, one folder each: chromium-dash
 brand/           identity dataset and assets; the token pipeline (Bun) is its generator
-tools/           typed Bun scripts for every repeatable flow (one file and one test each: features, paths, abi, hosts, disks, listings, absorb, legacy, org-inventory, cloud-map)
+tools/           typed Bun scripts for every repeatable flow (features, submodules, paths, abi, hosts, disks, listings, absorb, legacy, org-inventory, cloud-map, deploy, claude-sessions)
 docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, science (cited async, recursion, compiler, OS foundations), research, guides
-third_party/     upstreams as submodules with relative URLs, one checkout each
-crates/          Rust crates of the SDK, directory named like the crate, hyphens only (ay-brand, ay-chromium, ay-http-error, ay-patch, ay-softraster, ay-sprite-sheet, ay-svg)
+third_party/     upstreams as submodules with relative URLs (DioxusLabs, Pop!_OS/COSMIC, Cloudflare, Vercel, Browser+VPN, Bun, Nysh), one checkout each
+crates/          Rust crates of the SDK, directory named like the crate, hyphens only (ay-brand, ay-chromium, ay-dioxus, ay-headless, ay-http-error, ay-patch, ay-softraster, ay-sprite-sheet, ay-svg)
 ```
 
 Rules:

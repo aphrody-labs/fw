@@ -1,18 +1,47 @@
 [workspace]
 resolver = "3"
 members = ["crates/*"]
+exclude = ["third_party"]
 
 [workspace.package]
 edition = "2024"
 publish = false
 
 [workspace.dependencies]
+ay-brand = { path = "crates/ay-brand" }
+browser-browse = { path = "third_party/browser/components/browser-browse" }
+browser-detect = { path = "third_party/browser/components/browser-detect", default-features = false }
+browser-engine = { path = "third_party/browser/components/browser-engine" }
+browser-views = { path = "third_party/browser/components/browser-views" }
+browser-vpn = { path = "third_party/browser/components/browser-vpn" }
+dioxus = { path = "third_party/dioxus/packages/dioxus", default-features = false, features = ["signals", "macro", "html"] }
+dioxus-core = { path = "third_party/dioxus/packages/core" }
+dioxus-signals = { path = "third_party/dioxus/packages/signals" }
+dioxus-ssr = { path = "third_party/dioxus/packages/ssr" }
 material-colors = "0.5.0"
+parking_lot = "0.12"
 serde = { version = "1.0.229", default-features = false, features = ["derive", "std"] }
 serde_json = "1.0.154"
 sha2 = "0.11.1"
+taffy = { path = "third_party/taffy", default-features = false, features = ["std", "taffy_tree", "flexbox", "grid", "block_layout"] }
 thiserror = "2.0.21"
 toml = "1.2.1"
+url = { version = "2.5.8", features = ["serde"] }
+
+# Fork patches unified across DioxusLabs, Pop!_OS/COSMIC, AccessKit, Anyrender, WGPU, and Browser+VPN.
+# Initialized on `<build-host>` via `just submodules-init` (`submodules.toml`).
+[patch.crates-io]
+accesskit = { path = "third_party/accesskit/accesskit" }
+anyrender = { path = "third_party/anyrender/crates/anyrender" }
+cosmic-text = { path = "third_party/cosmic-text" }
+dioxus = { path = "third_party/dioxus/packages/dioxus" }
+dioxus-core = { path = "third_party/dioxus/packages/core" }
+dioxus-hooks = { path = "third_party/dioxus/packages/hooks" }
+dioxus-html = { path = "third_party/dioxus/packages/html" }
+dioxus-rsx = { path = "third_party/dioxus/packages/rsx" }
+dioxus-signals = { path = "third_party/dioxus/packages/signals" }
+dioxus-ssr = { path = "third_party/dioxus/packages/ssr" }
+taffy = { path = "third_party/taffy" }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

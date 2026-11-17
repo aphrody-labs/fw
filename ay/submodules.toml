@@ -1,0 +1,316 @@
+# Declarative Pop!_OS / COSMIC-style fork submodule manifest for `ay` (`aphrody-dev/ay`).
+# Rendered into `.gitmodules` and git index (`160000` gitlinks) by `bun tools/submodules.ts`.
+# Every fork lives under `aphrody-labs` and uses a relative URL (`../../aphrody-labs/<repo>.git`)
+# resolved against `aphrody-dev/ay.git` so HTTPS, SSH, and local mirrors resolve identically.
+
+version = 1
+
+# --- DioxusLabs & GPU/UI Foundation ---
+[[submodule]]
+path = "third_party/dioxus"
+repo = "aphrody-labs/dioxus"
+branch = "main"
+sha = "164e07f94d3cfe4e46430a98925b414b061ef4ea"
+domain = "dioxus"
+role = "Fullstack RSX, signals, router, SSR, web, desktop, and native renderer"
+
+[[submodule]]
+path = "third_party/blitz"
+repo = "aphrody-labs/blitz"
+branch = "main"
+sha = "7bade8ead71c7ea852042c0cf156241aca32cc4c"
+domain = "dioxus"
+role = "Modular Stylo + Taffy + Parley HTML/CSS engine for Dioxus Native"
+
+[[submodule]]
+path = "third_party/taffy"
+repo = "aphrody-labs/taffy"
+branch = "main"
+sha = "2649e09d44ec4a1b928d957cbb0043ae1a3f56a5"
+domain = "dioxus"
+role = "Shared CSS Flexbox, Grid, and Block layout engine"
+
+[[submodule]]
+path = "third_party/anyrender"
+repo = "aphrody-labs/anyrender"
+branch = "main"
+sha = "92d2a9ea4f27075f840b6d36a42da8a1ffc1746f"
+domain = "dioxus"
+role = "2D scene & paint abstraction across Vello, Skia, and CPU rasterizers"
+
+[[submodule]]
+path = "third_party/dioxus-components"
+repo = "aphrody-labs/dioxus-components"
+branch = "main"
+sha = "9a758255ea26e2b20c8cecf4c1c946feb9e71da7"
+domain = "dioxus"
+role = "Accessible headless component primitives for Dioxus"
+
+[[submodule]]
+path = "third_party/dioxus-sdk"
+repo = "aphrody-labs/sdk"
+branch = "main"
+sha = "35df178c629776dfd204660b562c983c6969ccc9"
+domain = "dioxus"
+role = "Cross-platform clipboard, storage, notifications, and system hooks for Dioxus"
+
+[[submodule]]
+path = "third_party/wgpu"
+repo = "aphrody-labs/wgpu"
+branch = "trunk"
+sha = "110b5881fd9ed998d722909e71e7a0fe84be2273"
+domain = "gpu"
+role = "WebGPU / Vulkan / DX12 / Metal / WGSL Naga stack"
+
+[[submodule]]
+path = "third_party/vello"
+repo = "aphrody-labs/vello"
+branch = "main"
+sha = "71109540002c9a2c6bb7c000ce8c829ba261304b"
+domain = "gpu"
+role = "GPU compute and sparse-strips 2D vector renderer"
+
+[[submodule]]
+path = "third_party/winit"
+repo = "aphrody-labs/winit"
+branch = "main"
+sha = "0c7372808c59c0d46ae777959e65e773381dc9e9"
+domain = "gpu"
+role = "Cross-platform windowing and WebCanvas surface loop"
+
+[[submodule]]
+path = "third_party/accesskit"
+repo = "aphrody-labs/accesskit"
+branch = "main"
+sha = "432d06659e0a6708fb206e266d65752dd372deeb"
+domain = "gpu"
+role = "UIA, AT-SPI2, NSAccessibility, and ARIA semantic tree bridge"
+
+[[submodule]]
+path = "third_party/nsh"
+repo = "aphrody-labs/longbridge-native-shell"
+branch = "main"
+sha = "9c2e2cbfd6bd8c265e4126884da7e13c20ad3385"
+domain = "gui-nsh"
+role = "Native Shell TSX/GPUI/Dioxus reactive component bridge"
+
+# --- Pop!_OS / COSMIC Epoch Stack ---
+[[submodule]]
+path = "third_party/cosmic-epoch"
+repo = "aphrody-labs/cosmic-epoch"
+branch = "master"
+sha = "e98f8289a22f9e612feee7d4c6ba197782db154b"
+domain = "cosmic"
+role = "Pop!_OS COSMIC Epoch superproject (justfile + submodule orchestration reference)"
+
+[[submodule]]
+path = "third_party/libcosmic"
+repo = "aphrody-labs/libcosmic"
+branch = "master"
+sha = "12ae9ef3a8b9e36e6fb8459444341b680c2ccc7a"
+domain = "cosmic"
+role = "COSMIC widget toolkit and responsive theme system"
+
+[[submodule]]
+path = "third_party/cosmic-text"
+repo = "aphrody-labs/cosmic-text"
+branch = "main"
+sha = "b07cb90a872cb9fec7fea1c72d734f81907fe3ad"
+domain = "cosmic"
+role = "Multi-line Unicode text shaping and layout"
+
+[[submodule]]
+path = "third_party/iced"
+repo = "aphrody-labs/iced"
+branch = "master"
+sha = "e5c350f271a8046f875c6662d452fde9e462d486"
+domain = "cosmic"
+role = "Reactive Elm-style Rust GUI engine underlying COSMIC"
+
+# --- Unified Headless Browser + VPN + Browse Stack ---
+[[submodule]]
+path = "third_party/browser"
+repo = "aphrody-labs/browser"
+branch = "main"
+sha = "3ce6ecc7fd11b254860bf77af7fa0763d67381c5"
+domain = "browser"
+role = "Fused Kitesurf + Servo + Chromium + ayvpn + anomalyco/browse engine workspace"
+
+[[submodule]]
+path = "third_party/mullvad"
+repo = "aphrody-labs/mullvadvpn-app"
+branch = "main"
+sha = "9f48572ea0f5223591fcdd15d15059b9cc59a227"
+domain = "browser"
+role = "WireGuard, DAITA v2, PQ PSK, and MASQUE tunnel engine"
+
+# --- Cloudflare Open-Source Stack (Bun-migrated & patched) ---
+[[submodule]]
+path = "third_party/cloudflare/cloudflare-os"
+repo = "aphrody-labs/cloudflare-os"
+branch = "main"
+sha = "2bfcab65931903cfeb3838ea47f503ec7d14d492"
+domain = "cloudflare"
+role = "Durable-Object OS platform (Workshop, Gadgets, 21 Gatekeepers, Cap'n Web) migrated to Bun"
+
+[[submodule]]
+path = "third_party/cloudflare/kitesurf"
+repo = "aphrody-labs/kitesurf"
+branch = "main"
+sha = "0e080e0988aaecd62ccdde88d4c67d8ac8acfd2f"
+domain = "cloudflare"
+role = "26-crate Rust browser engine on Dynamic Workers"
+
+[[submodule]]
+path = "third_party/cloudflare/agents"
+repo = "aphrody-labs/agents"
+branch = "main"
+sha = "53017688f89ec33603aa70bc38d53c245ca5aa26"
+domain = "cloudflare"
+role = "Stateful AI Agents SDK on Durable Objects (migrated to Bun 1.4.5)"
+
+[[submodule]]
+path = "third_party/cloudflare/sandbox-sdk"
+repo = "aphrody-labs/sandbox-sdk"
+branch = "main"
+sha = "4cad461f4b913bf35ba6a0294a76195420e45ce9"
+domain = "cloudflare"
+role = "Cloudflare Containers & isolated code execution SDK (migrated to Bun 1.4.5)"
+
+[[submodule]]
+path = "third_party/cloudflare/workers-sdk"
+repo = "aphrody-labs/workers-sdk"
+branch = "main"
+sha = "575d1366aa4c3a83cca69253bc5247e7fa1ab002"
+domain = "cloudflare"
+role = "Wrangler, Miniflare, and Cloudflare Workers developer platform"
+
+[[submodule]]
+path = "third_party/cloudflare/workerd"
+repo = "aphrody-labs/workerd"
+branch = "main"
+sha = "22a428de134db2dba3a5a96b71c9875b8abed3ac"
+domain = "cloudflare"
+role = "JavaScript/Wasm edge runtime powering Cloudflare Workers"
+
+[[submodule]]
+path = "third_party/cloudflare/pingora"
+repo = "aphrody-labs/pingora"
+branch = "main"
+sha = "3f87e92c982ee27c714506e16ae362776faea4aa"
+domain = "cloudflare"
+role = "Rust HTTP/1/2/3 programmable proxy framework"
+
+[[submodule]]
+path = "third_party/cloudflare/quiche"
+repo = "aphrody-labs/quiche"
+branch = "master"
+sha = "c20b8c32d0eabbb727306ad8d0fb1c95634d3d8a"
+domain = "cloudflare"
+role = "Rust QUIC, HTTP/3, and MASQUE implementation"
+
+[[submodule]]
+path = "third_party/cloudflare/artifact-fs"
+repo = "aphrody-labs/artifact-fs"
+branch = "main"
+sha = "2b87a48691ef4ae82d391b7bbe4976c06c7fadf7"
+domain = "cloudflare"
+role = "Content-addressed edge filesystem for agent & build artifacts"
+
+# --- Vercel Open-Source Stack (Bun-migrated & patched) ---
+[[submodule]]
+path = "third_party/vercel/ai"
+repo = "aphrody-labs/ai"
+branch = "main"
+sha = "bd272ac8e9efa97bf9ee7602bcb149c14b684066"
+domain = "vercel"
+role = "Vercel AI SDK unified streaming & tool-calling workspace (migrated to Bun 1.4.5)"
+
+[[submodule]]
+path = "third_party/vercel/just-bash"
+repo = "aphrody-labs/just-bash"
+branch = "main"
+sha = "23874cf752ef44a4b1c3a02a5bea51138a0d1875"
+domain = "vercel"
+role = "Sandboxed virtual Bash interpreter for AI agents (migrated to Bun 1.4.5)"
+
+[[submodule]]
+path = "third_party/vercel/wterm"
+repo = "aphrody-labs/wterm"
+branch = "main"
+sha = "818fdecb5cf34ed6465fa32babb94f8527bd0fce"
+domain = "vercel"
+role = "Web & headless terminal emulator (migrated to Bun 1.4.5)"
+
+[[submodule]]
+path = "third_party/vercel/sandbox"
+repo = "aphrody-labs/sandbox"
+branch = "main"
+sha = "dc28f9cdcb395f4c6be532fb37300f27cbc59699"
+domain = "vercel"
+role = "Ephemeral microVM & compute sandbox SDK (patched & migrated to Bun 1.4.5)"
+
+[[submodule]]
+path = "third_party/vercel/workflow"
+repo = "aphrody-labs/workflow"
+branch = "main"
+sha = "94b0689088730357ff9052d2ad60373552ae7d53"
+domain = "vercel"
+role = "Durable TypeScript workflow engine (duplicate workspace patched & migrated to Bun 1.4.5)"
+
+[[submodule]]
+path = "third_party/vercel/turborepo"
+repo = "aphrody-labs/turborepo"
+branch = "main"
+sha = "4e3bdf1eff825764acff269b8e71760e5e5c9300"
+domain = "vercel"
+role = "Rust task graph & remote-cache monorepo scheduler"
+
+[[submodule]]
+path = "third_party/vercel/next.js"
+repo = "aphrody-labs/next.js"
+branch = "canary"
+sha = "19f7cdb0e757dd82ba7f50ee73bcdc1e8770c80d"
+domain = "vercel"
+role = "React RSC & Turbopack fullstack web framework"
+
+[[submodule]]
+path = "third_party/vercel/agent-browser"
+repo = "aphrody-labs/agent-browser"
+branch = "main"
+sha = "9f62847e89712164a6d5ea823e8c700d5fd911cd"
+domain = "vercel"
+role = "Headless Rust/CDP browser CLI for AI agents"
+
+# --- Runtime & Nysh Shell Stack ---
+[[submodule]]
+path = "third_party/bun"
+repo = "aphrody-labs/bun"
+branch = "main"
+sha = "4407879a5f5a42535c0852292b935b5e73146a7f"
+domain = "runtime"
+role = "Aphrody Bun runtime, bundler, package manager, and test runner"
+
+[[submodule]]
+path = "third_party/rubash"
+repo = "aphrody-labs/rubash"
+branch = "master"
+sha = "7906eb1b02abd040aaa4089cc993572bbf7661fa"
+domain = "nysh"
+role = "GNU Bash 5.3 compatible Rust shell engine"
+
+[[submodule]]
+path = "third_party/niubash"
+repo = "aphrody-labs/niubash"
+branch = "master"
+sha = "43fc1f1e8ded547de2e2ffacb279776018f270a1"
+domain = "nysh"
+role = "Windows-native Bash host powering aysh and nysh"
+
+[[submodule]]
+path = "third_party/rio"
+repo = "aphrody-labs/rio"
+branch = "main"
+sha = "635e661fc0b74ffe8076fd9fcb6fa46a8ec78a49"
+domain = "nysh"
+role = "WGPU/WebGPU hardware-accelerated terminal and rio-vt parser"

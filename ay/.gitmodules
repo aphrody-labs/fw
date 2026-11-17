@@ -1,0 +1,152 @@
+[submodule "third_party/dioxus"]
+	path = third_party/dioxus
+	url = ../../aphrody-labs/dioxus.git
+	branch = main
+[submodule "third_party/blitz"]
+	path = third_party/blitz
+	url = ../../aphrody-labs/blitz.git
+	branch = main
+[submodule "third_party/taffy"]
+	path = third_party/taffy
+	url = ../../aphrody-labs/taffy.git
+	branch = main
+[submodule "third_party/anyrender"]
+	path = third_party/anyrender
+	url = ../../aphrody-labs/anyrender.git
+	branch = main
+[submodule "third_party/dioxus-components"]
+	path = third_party/dioxus-components
+	url = ../../aphrody-labs/dioxus-components.git
+	branch = main
+[submodule "third_party/dioxus-sdk"]
+	path = third_party/dioxus-sdk
+	url = ../../aphrody-labs/sdk.git
+	branch = main
+[submodule "third_party/wgpu"]
+	path = third_party/wgpu
+	url = ../../aphrody-labs/wgpu.git
+	branch = trunk
+[submodule "third_party/vello"]
+	path = third_party/vello
+	url = ../../aphrody-labs/vello.git
+	branch = main
+[submodule "third_party/winit"]
+	path = third_party/winit
+	url = ../../aphrody-labs/winit.git
+	branch = main
+[submodule "third_party/accesskit"]
+	path = third_party/accesskit
+	url = ../../aphrody-labs/accesskit.git
+	branch = main
+[submodule "third_party/nsh"]
+	path = third_party/nsh
+	url = ../../aphrody-labs/longbridge-native-shell.git
+	branch = main
+[submodule "third_party/cosmic-epoch"]
+	path = third_party/cosmic-epoch
+	url = ../../aphrody-labs/cosmic-epoch.git
+	branch = master
+[submodule "third_party/libcosmic"]
+	path = third_party/libcosmic
+	url = ../../aphrody-labs/libcosmic.git
+	branch = master
+[submodule "third_party/cosmic-text"]
+	path = third_party/cosmic-text
+	url = ../../aphrody-labs/cosmic-text.git
+	branch = main
+[submodule "third_party/iced"]
+	path = third_party/iced
+	url = ../../aphrody-labs/iced.git
+	branch = master
+[submodule "third_party/browser"]
+	path = third_party/browser
+	url = ../../aphrody-labs/browser.git
+	branch = main
+[submodule "third_party/mullvad"]
+	path = third_party/mullvad
+	url = ../../aphrody-labs/mullvadvpn-app.git
+	branch = main
+[submodule "third_party/cloudflare/cloudflare-os"]
+	path = third_party/cloudflare/cloudflare-os
+	url = ../../aphrody-labs/cloudflare-os.git
+	branch = main
+[submodule "third_party/cloudflare/kitesurf"]
+	path = third_party/cloudflare/kitesurf
+	url = ../../aphrody-labs/kitesurf.git
+	branch = main
+[submodule "third_party/cloudflare/agents"]
+	path = third_party/cloudflare/agents
+	url = ../../aphrody-labs/agents.git
+	branch = main
+[submodule "third_party/cloudflare/sandbox-sdk"]
+	path = third_party/cloudflare/sandbox-sdk
+	url = ../../aphrody-labs/sandbox-sdk.git
+	branch = main
+[submodule "third_party/cloudflare/workers-sdk"]
+	path = third_party/cloudflare/workers-sdk
+	url = ../../aphrody-labs/workers-sdk.git
+	branch = main
+[submodule "third_party/cloudflare/workerd"]
+	path = third_party/cloudflare/workerd
+	url = ../../aphrody-labs/workerd.git
+	branch = main
+[submodule "third_party/cloudflare/pingora"]
+	path = third_party/cloudflare/pingora
+	url = ../../aphrody-labs/pingora.git
+	branch = main
+[submodule "third_party/cloudflare/quiche"]
+	path = third_party/cloudflare/quiche
+	url = ../../aphrody-labs/quiche.git
+	branch = master
+[submodule "third_party/cloudflare/artifact-fs"]
+	path = third_party/cloudflare/artifact-fs
+	url = ../../aphrody-labs/artifact-fs.git
+	branch = main
+[submodule "third_party/vercel/ai"]
+	path = third_party/vercel/ai
+	url = ../../aphrody-labs/ai.git
+	branch = main
+[submodule "third_party/vercel/just-bash"]
+	path = third_party/vercel/just-bash
+	url = ../../aphrody-labs/just-bash.git
+	branch = main
+[submodule "third_party/vercel/wterm"]
+	path = third_party/vercel/wterm
+	url = ../../aphrody-labs/wterm.git
+	branch = main
+[submodule "third_party/vercel/sandbox"]
+	path = third_party/vercel/sandbox
+	url = ../../aphrody-labs/sandbox.git
+	branch = main
+[submodule "third_party/vercel/workflow"]
+	path = third_party/vercel/workflow
+	url = ../../aphrody-labs/workflow.git
+	branch = main
+[submodule "third_party/vercel/turborepo"]
+	path = third_party/vercel/turborepo
+	url = ../../aphrody-labs/turborepo.git
+	branch = main
+[submodule "third_party/vercel/next.js"]
+	path = third_party/vercel/next.js
+	url = ../../aphrody-labs/next.js.git
+	branch = canary
+[submodule "third_party/vercel/agent-browser"]
+	path = third_party/vercel/agent-browser
+	url = ../../aphrody-labs/agent-browser.git
+	branch = main
+[submodule "third_party/bun"]
+	path = third_party/bun
+	url = ../../aphrody-labs/bun.git
+	branch = main
+[submodule "third_party/rubash"]
+	path = third_party/rubash
+	url = ../../aphrody-labs/rubash.git
+	branch = master
+[submodule "third_party/niubash"]
+	path = third_party/niubash
+	url = ../../aphrody-labs/niubash.git
+	branch = master
+[submodule "third_party/rio"]
+	path = third_party/rio
+	url = ../../aphrody-labs/rio.git
+	branch = main
