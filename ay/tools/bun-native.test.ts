@@ -2,7 +2,7 @@ import { afterAll, beforeAll, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { codeMask, commandWords, deriveRules, loadRegistry, loadRules, rulesDocument, Scanner, scanRepo, selectRepos, summarize, tokensOf } from "./bun-native.ts";
+import { codeMask, commandWords, deriveRules, fixSource, loadRegistry, loadRules, rulesDocument, Scanner, scanRepo, selectRepos, summarize, tokensOf } from "./bun-native.ts";
 
 const tmp = mkdtempSync(join(tmpdir(), "ay-bun-native-test-"));
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
@@ -242,6 +242,31 @@ test("scanRepo reads package.json, scripts, tsconfig, workflows, Dockerfiles and
   const sum = summarize(res, rules);
   expect(sum.total).toBe(res.hits.length);
   expect(sum.severity["safe-rewrite"] + sum.severity["behaviour-change"] + sum.severity["no-equivalent"]).toBe(sum.total);
+});
+
+test("fixSource adds node: prefixes and replaces __dirname only in code of ES modules that do not declare it", () => {
+  const all = new Set(["module/node-prefix", "globals/__dirname", "globals/__filename"]);
+  const src = [
+    'import fs from "fs";',
+    'import events from "events";',
+    'const p = require("path");',
+    "const s = \"from 'fs' __dirname\";",
+    "// __dirname",
+    "const a = join(__dirname, 'x');",
+    "const b = __filename; const c = obj.__dirname;",
+  ].join("\n");
+  const out = fixSource(src, all, new Set(["events"]), new Set(["fs", "events", "path"]));
+  expect(out).toContain('import fs from "node:fs";');
+  expect(out).toContain('import events from "events";'); // declared in package.json: an npm package
+  expect(out).toContain('require("node:path")');
+  expect(out).toContain("\"from 'fs' __dirname\""); // string untouched
+  expect(out).toContain("// __dirname");
+  expect(out).toContain("join(import.meta.dir, 'x')");
+  expect(out).toContain("const b = import.meta.path; const c = obj.__dirname;");
+  const own = 'import x from "x";\nconst __dirname = "mine";\nuse(__dirname);';
+  expect(fixSource(own, all, new Set(), new Set())).toBe(own);
+  const cjs = "const d = __dirname;";
+  expect(fixSource(cjs, all, new Set(), new Set())).toBe(cjs);
 });
 
 test("unproven rules never match", () => {
