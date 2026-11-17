@@ -1,0 +1,170 @@
+[
+  {
+    "id": "linux-mainline-rc",
+    "text": "Linux mainline is at a 7.4 release candidate",
+    "status": "proved",
+    "observed": "7.4-rc3",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "linux-7-5-unreleased",
+    "text": "Linux 7.5 is not released (no v7.5 tag)",
+    "status": "proved",
+    "observed": "30 item(s): v7.4-rc3, v7.4-rc2, v7.4-rc1, ...",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "linux-stable-73",
+    "text": "The newest stable kernel is 7.3.x",
+    "status": "proved",
+    "observed": "7.3.4",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "aosp-android-17",
+    "text": "AOSP publishes the tag android-17.0.0_r1",
+    "status": "proved",
+    "observed": "216794 item(s): refs/backups/main-throttled, refs/cache-automerge/00/0060b8109e8853a650c3e6cf677aaba4f5f16d, refs/cache-",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "aosp-no-android-18-manifest",
+    "text": "AOSP has no android-18 manifest branch or tag yet",
+    "status": "proved",
+    "observed": "216794 item(s): refs/backups/main-throttled, refs/cache-automerge/00/0060b8109e8853a650c3e6cf677aaba4f5f16d, refs/cache-",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "gki-android18-73",
+    "text": "The Android common kernel has the branch android18-7.3",
+    "status": "proved",
+    "observed": "735041 item(s): refs/cache-automerge/00/004cbd91d8ff869e42fd2bf2d6ba925285684d, refs/cache-automerge/00/00a2e7fb39c68961",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "redroid-no-android-17",
+    "text": "Docker Hub redroid has no 17.x image",
+    "status": "proved",
+    "observed": "0",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "wsl-kernel-618",
+    "text": "Microsoft's newest WSL2 kernel release is on the 6.18 line",
+    "status": "proved",
+    "observed": "linux-msft-wsl-6.18.58.1",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "cachyos-rc-pkgver",
+    "text": "CachyOS builds a release-candidate kernel (linux-cachyos-rc)",
+    "status": "proved",
+    "observed": "7.4.rc3",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "arch-linux-pkg",
+    "text": "Arch's linux package is on the 7.3 line",
+    "status": "proved",
+    "observed": "7.3.4.arch1",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "tree-sitter-release",
+    "text": "tree-sitter's newest release is 0.27 or later",
+    "status": "proved",
+    "observed": "v0.27.2",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "stack-graphs-archived",
+    "text": "github/stack-graphs is archived",
+    "status": "proved",
+    "observed": "true",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "cf-connect-handler-doc",
+    "text": "Cloudflare documents an inbound TCP connect() handler for Workers",
+    "status": "proved",
+    "observed": "200",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "cf-hyperdrive-databases-doc",
+    "text": "Cloudflare documents the databases Hyperdrive supports",
+    "status": "proved",
+    "observed": "200",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "crates-owner-count",
+    "text": "The aphrody-dev account has published at least 300 crates",
+    "status": "proved",
+    "observed": "365",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "npm-scope-count",
+    "text": "At least 600 packages are published under the @aphrody scope",
+    "status": "proved",
+    "observed": "625",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "org-repo-count",
+    "text": "aphrody-labs holds at least 900 public repositories",
+    "status": "proved",
+    "observed": "999",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "bun-fork-sync",
+    "text": "The Bun fork is at most 100 commits behind oven-sh/bun",
+    "status": "proved",
+    "observed": "4",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "ci-ay",
+    "text": "The latest completed ay workflow run on main succeeded",
+    "status": "failed",
+    "observed": "failure",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "ci-aphrody",
+    "text": "The latest completed aphrody CI run on main succeeded",
+    "status": "proved",
+    "observed": "success",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "ci-kernel-watch",
+    "text": "The latest completed kernel-watch workflow run succeeded",
+    "status": "proved",
+    "observed": "success",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "ci-standard",
+    "text": "The latest completed standard workflow run in aphrody-labs/.github succeeded",
+    "status": "proved",
+    "observed": "success",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "ci-rust-mono-sync",
+    "text": "The rust-mono scheduled sync workflow succeeds (blocked by the app key until the owner replaces it)",
+    "status": "failed",
+    "observed": "failure",
+    "checked": "2026-11-17"
+  },
+  {
+    "id": "ci-mirror-gate",
+    "text": "The Bun fork mirror-gate workflow succeeds on main",
+    "status": "proved",
+    "observed": "success",
+    "checked": "2026-11-17"
+  }
+]

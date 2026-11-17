@@ -145,7 +145,7 @@ describe("on Bun (JavaScriptCore)", () => {
     const memory = new WebAssembly.Memory({ initial: 1, maximum: 1, shared: true });
     const code = `
       self.onmessage = ({ data: { wasm, memory, mode, iters } }) => {
-        const x = new WebAssembly.Instance(wasmModule(wasm), { env: { memory } }).exports;
+        const x = new WebAssembly.Instance(new WebAssembly.Module(wasm), { env: { memory } }).exports;
         const w = new Int32Array(memory.buffer);
         if (mode === "add") for (let i = 0; i < iters; i++) x.add(8, 1);
         else if (mode === "lock") for (let i = 0; i < iters; i++) { while (!x.try_acquire(0)); w[3] = w[3] + 1; x.release(0); }

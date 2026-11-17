@@ -1,0 +1,37 @@
+name: plan-sync
+
+# Re-probes every claim (tools/claims.ts) and regenerates the plan page (tools/plan.ts) once a day, and commits the two
+# generated files when they changed. A claim that no longer holds shows in docs/plan.md; the agent loop in
+# docs/plan/automation.md picks it up.
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: plan-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Probe the claims
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun tools/claims.ts || true
+      - run: bun tools/plan.ts
+      - name: Commit the generated files
+        run: |
+          git add docs/research/claims.md docs/research/claims-status.json docs/plan.md
+          if git diff --cached --quiet; then echo "nothing changed"; exit 0; fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "plan: refresh claims and plan"
+          git push origin HEAD:main
