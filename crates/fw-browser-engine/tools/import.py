@@ -9,7 +9,7 @@ with `git ls-remote` and recorded in tools/upstreams.lock.json, nothing else.
 Per upstream: shallow-free single-branch clone, git-filter-repo rewrite so that every crate lives in
 third_party/<name>/<package> and every other file in third_party/<name>/ (the final locations, tools/layout.toml: the rewrite
 stays deterministic, a re-run on a newer upstream head produces the same SHAs for the old commits), then the commits that
-are new since the last import (lock field `imported`) are replayed onto main one by one: main requires a linear history,
+are new since the last import (the lock's `sha`, translated through filter-repo's commit-map) are replayed onto main one by one: main requires a linear history,
 so nothing is merged (conflicts of a commit
 picked onto a different base resolve to the commit's side; a first import is then forced to the exact upstream tree). The history is rewritten straight into the final locations because a replay across a directory move
 cannot be done by git (a commit that renames a file inside a moved directory is a rename/rename conflict, e.g. hyperfine
@@ -100,6 +100,18 @@ return None
 '''
 
 
+def rewritten(work, upstream_sha):
+    """The commit that upstream_sha became in the filter-repo rewrite (its commit-map), or None."""
+    if not upstream_sha:
+        return None
+    with open(os.path.join(work, ".git", "filter-repo", "commit-map")) as f:
+        for line in f:
+            old, new = line.split()
+            if old == upstream_sha and set(new) != {"0"}:
+                return new
+    return None
+
+
 def main():
     mono, wd, names = sys.argv[1], sys.argv[2], sys.argv[3:]
     with open(os.path.join(mono, "tools", "upstreams.toml"), "rb") as f:
@@ -135,7 +147,9 @@ def main():
         ref = f"refs/imports/{n}"
         run("git", "fetch", "-q", "--no-tags", w, f"+{u['branch']}:{ref}", cwd=mono)
         head = run("git", "rev-parse", ref, cwd=mono, out=True)
-        last = lock.get(n, {}).get("imported")
+        # what is new = after the upstream head of the previous import, translated through the rewrite: independent of the layout
+        # the previous import used, so upstreams imported before the linear importer re-sync correctly too
+        last = rewritten(w, lock.get(n, {}).get("sha")) or lock.get(n, {}).get("imported")
         span = f"{last}..{ref}" if last else ref
         new = run("git", "rev-list", "--reverse", "--topo-order", "--no-merges", span, cwd=mono, out=True).split()
         pick = ["git", "cherry-pick", "-X", "theirs", "--allow-empty", "--keep-redundant-commits"]
