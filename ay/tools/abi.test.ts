@@ -1,4 +1,7 @@
 import { expect, test } from "bun:test";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { check, loadSpec, outputs, validate, type Spec } from "./abi.ts";
 import { cFacts, parse, pythonFacts, rustFacts, switchTable, syntaxErrors } from "./ts.ts";
 
@@ -74,5 +77,10 @@ test("another spec: u8 pointers, custom output paths, and the generated files ag
   expect(files.map((f) => f.path).sort()).toEqual(["docs/vpn.md", "gen/vpn_abi.json", "gen/vpn_abi.py", "gen/vpn_abi.rs", "gen/vpn_abi.ts", "include/vpn.h"]);
   expect(files.find((f) => f.path === "include/vpn.h")!.text.replace(/[ ]+/g, " ")).toContain("int32_t vpn_open(const uint8_t *config, uintptr_t len, uint64_t *out);");
   expect(validate(other)).toEqual([]);
-  expect(await check(other, files)).toEqual([]);
+  const empty = mkdtempSync(join(tmpdir(), "abi-"));
+  try {
+    expect(await check(other, files, empty)).toEqual([]);
+  } finally {
+    rmSync(empty, { recursive: true, force: true });
+  }
 });
