@@ -14,6 +14,9 @@
 //   bun tools/bun-native.ts audit [--repos a,b] [--work <dir>] [--out <file>]
 //       scan the estate with the committed rules; per-repo results go to the private store (.private/bun-native-audit.toml)
 //   bun tools/bun-native.ts scan <dir>... [--bun <fork checkout>]     one-off scan of directories, JSON on stdout
+//   bun tools/bun-native.ts fix <dir>... [--globals]
+//       apply the deterministic safe rewrites and print the changed files: the node: prefix; with --globals also __dirname and
+//       __filename to import.meta.dir and import.meta.path, which only a file that always runs on Bun may take (a config loaded by Node may not)
 //   bun tools/bun-native.ts check <dir>... [--baseline <file>] [--fail-on <severities>] [--write-baseline <file>]
 //       gate from the committed dataset (no fork checkout or network): exit 1 on a finding outside the baseline
 import { existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
@@ -945,8 +948,8 @@ export function fixSource(code: string, rules: Set<string>, deps: Set<string>, b
 }
 
 /** Applies fixSource to every file the scan flagged with a fixable rule; returns the changed files. */
-export async function fixRepo(dir: string, sc: Scanner, exclude: Set<string>, builtins: Set<string>): Promise<string[]> {
-  const fixable = new Set(["module/node-prefix", "globals/__dirname", "globals/__filename"].filter((r) => sc.byId.get(r)?.severity === "safe-rewrite"));
+export async function fixRepo(dir: string, sc: Scanner, exclude: Set<string>, builtins: Set<string>, globals = false): Promise<string[]> {
+  const fixable = new Set(["module/node-prefix", ...(globals ? ["globals/__dirname", "globals/__filename"] : [])].filter((r) => sc.byId.get(r)?.severity === "safe-rewrite"));
   const res = await scanRepo(dir, sc, exclude);
   const byFile = new Map<string, Set<string>>();
   for (const h of res.hits) if (fixable.has(h.rule)) (byFile.get(h.file) ?? byFile.set(h.file, new Set()).get(h.file)!).add(h.rule);
@@ -1158,7 +1161,7 @@ if (import.meta.main) {
     const { rules, builtins } = loadRules(resolve(root, arg("--rules") ?? "docs/research/bun-native-rules.toml"));
     const sc = new Scanner(rules, builtins);
     const exclude = new Set(loadConfig().audit.exclude);
-    for (const d of dirs) for (const f of await fixRepo(resolve(d), sc, exclude, builtins)) console.log(f);
+    for (const d of dirs) for (const f of await fixRepo(resolve(d), sc, exclude, builtins, process.argv.includes("--globals"))) console.log(f);
   } else if (cmd === "scan" || cmd === "check") {
     // The committed rules carry every proven rule: no fork checkout, registry download or network is needed to scan.
     const rulesFile = resolve(root, arg("--rules") ?? "docs/research/bun-native-rules.toml");
