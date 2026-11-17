@@ -1,0 +1,128 @@
+From 48b2660cdef0b44f517a91e20580b65f777117b5 Mon Sep 17 00:00:00 2001
+From: aphrody-dev <324927936+aphrody-dev@users.noreply.github.com>
+Date: Tue, 17 Nov 2026 04:14:22 +0000
+Subject: [PATCH] fix(report): Only suggest `--future-incompat-report` where
+ accepted
+
+The future-incompat note told users to use `--future-incompat-report`
+even for commands that do not accept it, like `cargo run`.
+Now the option is only suggested when the command defines it;
+otherwise only `cargo report future-incompatibilities --id N` is shown.
+
+Fixes #17680
+---
+ src/compiler/build_config.rs              |  4 +++
+ src/compiler/future_incompat.rs           | 11 ++++---
+ src/util/command_prelude.rs               |  2 ++
+ tests/testsuite/future_incompat_report.rs | 37 +++++++++++++++++++++++
+ 4 files changed, 50 insertions(+), 4 deletions(-)
+
+diff --git a/src/compiler/build_config.rs b/src/compiler/build_config.rs
+index 23e93f4b2..80d65528d 100644
+--- a/src/compiler/build_config.rs
++++ b/src/compiler/build_config.rs
+@@ -44,6 +44,9 @@ pub struct BuildConfig {
+     pub export_dir: Option<PathBuf>,
+     /// `true` to output a future incompatibility report at the end of the build
+     pub future_incompat_report: bool,
++    /// `true` if the command accepts `--future-incompat-report`,
++    /// and so it can be suggested to the user.
++    pub future_incompat_report_flag_available: bool,
+     /// Output timing report at the end of the build
+     pub timing_report: bool,
+     /// Output SBOM precursor files.
+@@ -127,6 +130,7 @@ impl BuildConfig {
+             rustfix_diagnostic_server: Rc::new(RefCell::new(None)),
+             export_dir: None,
+             future_incompat_report: false,
++            future_incompat_report_flag_available: false,
+             timing_report: false,
+             sbom,
+             compile_time_deps_only: false,
+diff --git a/src/compiler/future_incompat.rs b/src/compiler/future_incompat.rs
+index 15163ec7b..318514ab5 100644
+--- a/src/compiler/future_incompat.rs
++++ b/src/compiler/future_incompat.rs
+@@ -516,11 +516,14 @@ https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html#the-patch
+                 saved_report_id
+             ))));
+         } else if should_display_message {
++            let use_option = if bcx.build_config.future_incompat_report_flag_available {
++                "use the option `--future-incompat-report`, or "
++            } else {
++                ""
++            };
+             report.push(Group::with_title(Level::NOTE.secondary_title(format!(
+-                "to see what the problems were, use the option \
+-             `--future-incompat-report`, or run `cargo report \
+-             future-incompatibilities --id {}`",
+-                saved_report_id
++                "to see what the problems were, {use_option}run `cargo report \
++             future-incompatibilities --id {saved_report_id}`",
+             ))));
+         }
+         drop(bcx.gctx.shell().print_report(&report, false))
+diff --git a/src/util/command_prelude.rs b/src/util/command_prelude.rs
+index 2b4655d67..1b72f0717 100644
+--- a/src/util/command_prelude.rs
++++ b/src/util/command_prelude.rs
+@@ -829,6 +829,8 @@ Run `{cmd}` to see possible targets."
+             self.get_profile_name(default_profile, profile_checking)?;
+         build_config.unit_graph = self.flag("unit-graph");
+         build_config.future_incompat_report = self.flag("future-incompat-report");
++        build_config.future_incompat_report_flag_available =
++            self._contains("future-incompat-report");
+         build_config.compile_time_deps_only = self.flag("compile-time-deps");
+         build_config.timing_report = self.flag("timings");
+ 
+diff --git a/tests/testsuite/future_incompat_report.rs b/tests/testsuite/future_incompat_report.rs
+index 6f71811f6..8831b1264 100644
+--- a/tests/testsuite/future_incompat_report.rs
++++ b/tests/testsuite/future_incompat_report.rs
+@@ -123,6 +123,43 @@ The package `foo v0.0.0 ([ROOT]/foo)` currently triggers the following future in
+         .run();
+ }
+ 
++#[cargo_test(
++    nightly,
++    reason = "-Zfuture-incompat-test requires nightly (permanently)"
++)]
++fn no_flag_suggestion_for_unsupported_command() {
++    // `cargo run` does not accept `--future-incompat-report`,
++    // so it must not be suggested.
++    let p = project()
++        .file("Cargo.toml", &basic_manifest("foo", "0.0.0"))
++        .file("src/main.rs", "fn main() { let x = 1; }")
++        .build();
++
++    p.cargo("run")
++        .env("RUSTFLAGS", "-Zfuture-incompat-test")
++        .with_stderr_data(str![[r#"
++[COMPILING] foo v0.0.0 ([ROOT]/foo)
++[WARNING] unused variable: `x`
++...
++
++[WARNING] `foo` (bin "foo") generated 1 warning[..]
++[FINISHED] `dev` profile [unoptimized + debuginfo] target(s) in [ELAPSED]s
++[WARNING] the following packages contain code that will be rejected by a future version of Rust: foo v0.0.0 ([ROOT]/foo)
++[NOTE] to see what the problems were, run `cargo report future-incompatibilities --id 1`
++[RUNNING] `target/debug/foo[EXE]`
++
++"#]])
++        .run();
++
++    p.cargo("run --future-incompat-report")
++        .with_status(1)
++        .with_stderr_data(str![[r#"
++[ERROR] unexpected argument '--future-incompat-report' found
++...
++"#]])
++        .run();
++}
++
+ #[cargo_test(
+     nightly,
+     reason = "-Zfuture-incompat-test requires nightly (permanently)"
+-- 
+2.55.0
+

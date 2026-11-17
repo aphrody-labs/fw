@@ -75,6 +75,8 @@ why_it_fits = "Wrong hint text in a user-facing message; small, snapshot-testabl
 size = "S"
 needs_compiler_build = false
 patch_candidate = true
+status = "patch-ready-local-needs-s-accepted"
+patch = "docs/upstream/prs/03-cargo-17680/patch.diff"
 hint = "src/compiler/future_incompat.rs contains the message 'to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id N`': only suggest the flag for commands that accept it, otherwise print only the `cargo report` form; update tests/testsuite/future_incompat_report.rs."
 
 [[issue]]
