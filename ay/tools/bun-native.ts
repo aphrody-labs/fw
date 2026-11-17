@@ -11,8 +11,9 @@
 // matched on source whose strings, comments and template text are masked by a lexer, gated by the file's import graph.
 //   bun tools/bun-native.ts audit [--bun <fork checkout>] [--registry <dir>] [--repos a,b] [--out docs/research/bun-native-audit.toml]
 //   bun tools/bun-native.ts scan <dir>... [--bun <fork checkout>]     one-off scan of directories, JSON on stdout
-//   bun tools/bun-native.ts check <dir>... [--baseline <file>]        gate: exit 1 on a finding outside the baseline
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+//   bun tools/bun-native.ts check <dir>... [--baseline <file>] [--fail-on <severities>] [--write-baseline <file>]
+//       gate from the committed dataset (no fork checkout or network): exit 1 on a finding outside the baseline
+import { existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { toml } from "./org-inventory.ts";
@@ -907,7 +908,7 @@ export function summarize(res: RepoResult, rules: Map<string, Rule>, top = 10, u
 /** Repositories in scope: ay.toml [repos] (minus runtime forks) and the non-archived originals of the org inventory. */
 export function selectRepos(cfg: Json, audit: AuditConfig, inventory?: Json): { key: string; slug: string; checkout?: string }[] {
   const out = new Map<string, { key: string; slug: string; checkout?: string }>();
-  for (const [key, r] of Object.entries<Json>(cfg.repos ?? {})) if (r.kind !== "runtime") out.set(r.slug, { key, slug: r.slug, checkout: r.checkout });
+  for (const [key, r] of Object.entries<Json>(cfg.repos ?? {})) if (r.kind !== "runtime") out.set(r.slug, { key, slug: r.slug, checkout: r.checkout ?? (key === cfg.product?.repo ? "." : undefined) });
   for (const [org, o] of Object.entries<Json>(inventory?.github ?? {})) {
     for (const r of o.originals ?? []) {
       const slug = `${org}/${r.name}`;
@@ -937,14 +938,20 @@ async function prepare(bunDir: string | undefined, registryDir: string | undefin
   return { cfg, audit, reg, rules, dropped, builtins, bunVersion, revision };
 }
 
-async function resolveCheckout(r: { key: string; slug: string; checkout?: string }, work: string): Promise<string | undefined> {
-  if (r.checkout && existsSync(resolve(root, r.checkout))) return resolve(root, r.checkout);
+/** Paths the audit reads; a partial clone materialises only these, so a multi-gigabyte repository costs its first-party sources. */
+const sparse = ["*.js", "*.jsx", "*.mjs", "*.cjs", "*.ts", "*.tsx", "*.mts", "*.cts", "package.json", "tsconfig*.json", "Dockerfile*", "*.Dockerfile", "*.sh", "*.bash", "/.github/workflows/*.yml", "/.github/workflows/*.yaml", ".github/actions/*/action.yml", "pnpm-workspace.yaml"];
+
+/** A local checkout, else a shallow partial clone of the slug limited to the audited paths (blobs fetched in one batch). */
+async function resolveCheckout(r: { key: string; slug: string; checkout?: string }, work: string): Promise<{ dir: string; temp: boolean } | undefined> {
+  if (r.checkout && existsSync(resolve(root, r.checkout))) return { dir: resolve(root, r.checkout), temp: false };
   const dir = join(work, r.key);
   if (!existsSync(join(dir, ".git"))) {
-    const c = await run(["gh", "repo", "clone", r.slug, dir, "--", "--depth", "1", "--quiet"]);
+    const c = await run(["gh", "repo", "clone", r.slug, dir, "--", "--depth", "1", "--filter=blob:none", "--no-checkout", "--quiet"]);
     if (c.code !== 0) return undefined;
+    await run(["git", "-C", dir, "sparse-checkout", "set", "--no-cone", ...sparse]);
+    if ((await run(["git", "-C", dir, "checkout", "--quiet"])).code !== 0) return undefined;
   }
-  return dir;
+  return { dir, temp: true };
 }
 
 if (import.meta.main) {
@@ -964,12 +971,13 @@ if (import.meta.main) {
     const byId = new Map(p.rules.map((r) => [r.id, r]));
     const repo: Record<string, Json> = {};
     for (const r of repos) {
-      const dir = await resolveCheckout(r, work);
-      if (!dir) {
+      const co = await resolveCheckout(r, work);
+      if (!co) {
         repo[r.key] = { error: "checkout unavailable" };
         continue;
       }
-      repo[r.key] = summarize(await scanRepo(dir, sc, exclude), byId);
+      repo[r.key] = summarize(await scanRepo(co.dir, sc, exclude), byId);
+      if (co.temp) rmSync(co.dir, { recursive: true, force: true });
       console.error(`${r.key}: ${repo[r.key]!.total} hits in ${repo[r.key]!.files.scanned} files`);
     }
     const proven = p.rules.filter((r) => r.status === "proven");
@@ -982,6 +990,7 @@ if (import.meta.main) {
         bun_revision: p.revision,
         registry_crate: `${audit.crates}${audit.registry}`,
         registry_version: p.reg.version,
+        builtins: [...p.builtins],
         rules: p.rules.length,
         proven: proven.length,
         unproven: p.rules.length - proven.length,
@@ -993,6 +1002,7 @@ if (import.meta.main) {
       rule: p.rules.map((r) => ({
         id: r.id, source: r.source, kind: r.kind, target: r.target, replacement: r.replacement, severity: r.severity, status: r.status,
         doc: r.proof.doc ?? "", heading: r.proof.heading ?? "", types: r.proof.types ?? "", check: r.proof.check ?? "", check_ok: r.proof.checkOk ?? false,
+        ...(r.gate ? { gate: r.gate } : {}),
         ...(r.note ? { note: r.note } : {}),
       })),
       repo,
@@ -1002,24 +1012,48 @@ if (import.meta.main) {
     if (out) await Bun.write(resolve(root, out), text);
     else console.log(text);
   } else if (cmd === "scan" || cmd === "check") {
-    const p = await prepare(arg("--bun"), arg("--registry"));
-    const sc = new Scanner(p.rules, p.builtins);
-    const byId = new Map(p.rules.map((r) => [r.id, r]));
-    const exclude = new Set(p.audit.exclude);
+    // The committed dataset carries every proven rule: no fork checkout, registry download or network is needed to scan.
+    const datasetPath = resolve(root, arg("--dataset") ?? "docs/research/bun-native-audit.toml");
+    const useDataset = !arg("--bun") && !arg("--registry") && existsSync(datasetPath);
+    const cfgs = loadConfig();
+    let rules: Rule[];
+    let builtins: Set<string>;
+    if (useDataset) {
+      const t = Bun.TOML.parse(readFileSync(datasetPath, "utf8")) as Json;
+      builtins = new Set<string>(t.meta.builtins);
+      rules = (t.rule as Json[]).map((r) => ({
+        id: r.id, source: r.source, kind: r.kind, target: r.target, replacement: r.replacement, severity: r.severity, status: r.status,
+        match: r.kind === "call" || r.kind === "cli" ? r.target : undefined, flags: "g", gate: r.gate, proof: { doc: r.doc, types: r.types, check: r.check, checkOk: r.check_ok },
+      }));
+    } else {
+      const p = await prepare(arg("--bun"), arg("--registry"));
+      rules = p.rules;
+      builtins = p.builtins;
+    }
+    const sc = new Scanner(rules, builtins);
+    const byId = new Map(rules.map((r) => [r.id, r]));
+    const exclude = new Set(cfgs.audit.exclude);
+    const failOn = new Set((arg("--fail-on") ?? "safe-rewrite,behaviour-change,no-equivalent").split(","));
+    const baselinePath = arg("--baseline");
+    const baseline = new Set<string>(baselinePath && existsSync(baselinePath) ? readFileSync(baselinePath, "utf8").split("\n").filter(Boolean) : []);
+    const seen = new Set<string>();
     let fail = 0;
-    const baseline = new Set<string>(arg("--baseline") && existsSync(arg("--baseline")!) ? readFileSync(arg("--baseline")!, "utf8").split("\n").filter(Boolean) : []);
     for (const d of dirs.length ? dirs : ["."]) {
       const res = await scanRepo(resolve(d), sc, exclude);
       if (cmd === "scan") console.log(JSON.stringify({ dir: basename(resolve(d)), ...summarize(res, byId) }, null, 1));
       else
         for (const h of res.hits) {
           const key = `${h.rule} ${h.file}`;
-          if (baseline.has(key)) continue;
+          seen.add(key);
+          const r = byId.get(h.rule)!;
+          if (baseline.has(key) || !failOn.has(r.severity)) continue;
           fail++;
-          console.error(`${h.file}:${h.line}: ${h.rule}: use ${byId.get(h.rule)!.replacement} (${byId.get(h.rule)!.severity})`);
+          console.error(`${h.file}:${h.line}: ${h.rule}: use ${r.replacement} (${r.severity})`);
         }
     }
-    if (cmd === "check") process.exit(fail ? 1 : 0);
+    const writeBaseline = arg("--write-baseline");
+    if (writeBaseline) await Bun.write(writeBaseline, [...seen].sort().join("\n") + "\n");
+    if (cmd === "check") process.exit(fail && !writeBaseline ? 1 : 0);
   } else {
     console.error("usage: bun tools/bun-native.ts audit|scan|check ...");
     process.exit(2);
