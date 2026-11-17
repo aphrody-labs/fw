@@ -1,6 +1,6 @@
-import { describe, expect, test } from "bun:test";
+import { beforeAll, describe, expect, test } from "bun:test";
 import { hostWork } from "./hosts.ts";
-import { mkdtempSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
@@ -77,13 +77,16 @@ describe("absorb ledger", () => {
   });
 });
 
-describe("absorb script", () => {
-  const plan = {
+describe.skipIf(!existsSync(join(import.meta.dir, "..", "ay.local.toml")))("absorb script", () => {
+  const plan = () => ({
     dir: `${hostWork("build")}/absorb/cef-rs`, forkUrl: "https://github.com/aphrody-labs/cef-rs.git", base: "dev",
     srcUrl: "https://github.com/tauri-apps/cef-rs.git", srcRef: "pull/5/head", test: "cargo test --locked",
     message: mergeMessage("tauri-apps/cef-rs", { number: 5, title: "Fix it", url: "https://github.com/tauri-apps/cef-rs/pull/5" }), timeout: 60,
-  };
-  const s = buildScript(plan);
+  });
+  let s = "";
+  beforeAll(() => {
+    s = buildScript(plan());
+  });
   test("merges on the default branch through FETCH_HEAD and never forces, branches, stashes or resets", () => {
     expect(s).toContain("git checkout 'dev'");
     expect(s).toContain("fetch 'https://github.com/tauri-apps/cef-rs.git' 'pull/5/head'");
