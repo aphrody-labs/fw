@@ -46,7 +46,7 @@ four parts and one rule: **the application source is plain Bun; the target is a 
    Cloudflare-shaped calls the plugin emits (`env.DB.prepare`, `env.BUCKET.put`) run against bun:sqlite, `Bun.S3Client` and
    the local disk, so one source runs on a laptop, on `prd` and on the edge.
 4. **Conformance suite**: each feature has one test file written with `bun:test`, run twice by `bun test` and
-   `bun test --target workerd` (local workerd through the `cf` CLI, real bindings simulated). A feature's `proof` field in
+   a workerd run of the same file (the runner is part of the plugin; the command is not designed yet, `bun test` has no `--target` option) (local workerd through the `cf` CLI, real bindings simulated). A feature's `proof` field in
    `bun-cloudflare.toml` is set only when both runs pass; the `parity` claim stands or is corrected from that result.
 
 Keeping the map honest as Bun moves: `tools/cloud-map.ts` already fails when a Bun docs page has no feature; the same check
@@ -65,8 +65,11 @@ to `@scope/create-name`). It generates a project that is valid before any edit:
   owner's decision on the domain roles is recorded.
 - Names, scope, org and registry come from the target repository's `ay.toml`-style identity file; nothing is hardcoded.
 
+## Verification status (2026-11-17)
+Read in the Cloudflare docs and recorded as `source` in the map: outbound TCP and an inbound `connect()` handler, Hyperdrive on Postgres and MySQL, Durable Object WebSocket hibernation, Secrets Store bindings, `node:fs` virtual file system, Browser Run with a browser binding, Analytics Engine `writeDataPoint`, the Images binding. Everything else in the map, and every `parity` value, is a claim from memory until the conformance suite or a docs page proves it; `bun tools/cloud-map.ts` prints the count. Two statements were looked for and not found: that `eval` and `new Function` are blocked, and that Workers have no UDP API.
+
 ## Order of work
-1. Conformance harness and `analyze` (read-only, no deploy). Done when `bun test --target workerd` runs one feature file.
+1. Conformance harness and `analyze` (read-only, no deploy). Done when a workerd run of the same file (the runner is part of the plugin; the command is not designed yet, `bun test` has no `--target` option) runs one feature file.
 2. Adapters in this order, chosen by what production already uses: `Bun.serve`, `Bun.S3Client` (R2), `Bun.env`/`Bun.secrets`,
    `Bun.cron`, then `bun:sqlite` (D1), `Bun.sql` (Hyperdrive), `Bun.redis` (KV and Durable Objects), websockets.
 3. `create-cloud-app`, generated from the adapters that are proven, deployed once to a `*.workers.dev` hostname.

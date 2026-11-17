@@ -4,6 +4,8 @@
 # tools/cloud-map.ts validates it: every `bun` slug must be a docs page of the checkout, every `cloudflare` name a
 # product of the catalog, every `parity` a value below. The `parity` values are design claims until the plugin's
 # conformance test (same test file, run on Bun and on workerd) proves them; `proof` stays empty until then.
+# `source` is set only where a Cloudflare docs page stating the capability was read on 2026-11-17 (`cf docs search`);
+# a feature without `source` is a claim from memory and is counted as unverified by tools/cloud-map.ts.
 #
 # parity
 #   native     the same API exists on Workers (or is pure computation): the code is bundled unchanged
@@ -46,6 +48,7 @@ names = ["Bun.serve websocket", "ServerWebSocket"]
 cloudflare = ["Durable Objects"]
 binding = "WebSocketPair with hibernation inside a Durable Object"
 parity = "adapter"
+source = "https://developers.cloudflare.com/durable-objects/best-practices/websockets/"
 plugin = "rewrite: websocket handlers move into a generated Durable Object class, pub/sub topics map to one object per topic"
 
 [[feature]]
@@ -73,6 +76,7 @@ names = ["server.pendingRequests"]
 cloudflare = ["Workers Analytics Engine", "Cloudflare Observability"]
 binding = "analytics_engine_datasets, observability in the Worker config"
 parity = "partial"
+source = "https://developers.cloudflare.com/analytics/analytics-engine/get-started/"
 plugin = "shim: counters written to Analytics Engine; pendingRequests has no equivalent"
 
 [[feature]]
@@ -98,16 +102,17 @@ id = "tcp"
 bun = "runtime/networking/tcp"
 names = ["Bun.connect", "Bun.listen"]
 cloudflare = ["Workers", "Cloudflare Tunnel"]
-binding = "connect() from cloudflare:sockets (client only); listening needs a Tunnel to a host"
+binding = "connect() from cloudflare:sockets for outbound TCP; the docs also describe a connect() handler for inbound TCP forwarded to a Worker (availability and limits not checked)"
 parity = "partial"
-plugin = "rewrite: Bun.connect to connect(); Bun.listen is a diagnostic"
+source = "https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/"
+plugin = "rewrite: Bun.connect to connect(); Bun.listen maps to the connect() handler only after its availability is proven, otherwise a diagnostic"
 
 [[feature]]
 id = "udp"
 bun = "runtime/networking/udp"
 names = ["Bun.udpSocket"]
 cloudflare = ["Realtime"]
-binding = "no raw UDP on Workers; WebRTC and MoQ products cover media"
+binding = "no UDP API was found in the Workers docs search of 2026-11-17 (absence not proven); Realtime and MoQ products cover media"
 parity = "none"
 plugin = "diagnose"
 
@@ -127,6 +132,7 @@ names = ["Bun.file", "Bun.write", "BunFile"]
 cloudflare = ["R2", "Workers"]
 binding = "R2 bucket binding for storage; assets binding for read-only files bundled at build time"
 parity = "adapter"
+source = "https://developers.cloudflare.com/workers/runtime-apis/nodejs/fs/"
 plugin = "rewrite: Bun.file(path) resolves to the assets binding or an R2 key per the config's `storage` map"
 
 [[feature]]
@@ -154,6 +160,7 @@ names = ["Bun.sql", "Bun.SQL"]
 cloudflare = ["Hyperdrive", "D1"]
 binding = "hyperdrive binding for Postgres and MySQL; D1 for SQLite"
 parity = "adapter"
+source = "https://developers.cloudflare.com/hyperdrive/reference/supported-databases-and-features/"
 plugin = "shim: tagged template over the Hyperdrive connection string, D1 for the sqlite adapter"
 
 [[feature]]
@@ -172,6 +179,7 @@ names = ["Bun.secrets"]
 cloudflare = ["Secrets Store"]
 binding = "secrets_store_secrets binding, or Worker secrets"
 parity = "adapter"
+source = "https://developers.cloudflare.com/secrets-store/integrations/workers/"
 plugin = "shim: Bun.secrets.get(service, name) reads the binding"
 
 [[feature]]
@@ -253,6 +261,7 @@ names = ["Bun.WebView"]
 cloudflare = ["Browser Run"]
 binding = "browser binding driven over CDP"
 parity = "adapter"
+source = "https://developers.cloudflare.com/browser-run/puppeteer/"
 plugin = "shim: WebView navigation, evaluation and screenshots over the browser binding"
 
 [[feature]]
@@ -262,6 +271,7 @@ names = ["Bun.Image"]
 cloudflare = ["Cloudflare Images"]
 binding = "images binding (transform, resize, format)"
 parity = "partial"
+source = "https://developers.cloudflare.com/images/optimization/binding/"
 plugin = "shim: resize, rotate and encode over the images binding; operations it lacks are diagnostics"
 
 [[feature]]
@@ -362,7 +372,7 @@ id = "code-generation-from-strings"
 bun = "runtime/code-generation-from-strings"
 names = ["eval", "new Function"]
 cloudflare = ["Dynamic Workers"]
-binding = "eval and new Function are blocked on Workers; Dynamic Workers run code loaded by the Worker"
+binding = "UNVERIFIED that eval and new Function are blocked on Workers (the docs search did not return the statement); Dynamic Workers run code loaded by the Worker and are documented"
 parity = "none"
 plugin = "diagnose"
 

@@ -20,8 +20,9 @@ export type Feature = {
   parity: (typeof PARITY)[number];
   plugin: string;
   proof?: string;
+  source?: string;
 };
-export type Report = { features: number; parity: Record<string, number>; problems: string[]; uncovered: string[]; docs: number | null };
+export type Report = { features: number; sourced: number; parity: Record<string, number>; problems: string[]; uncovered: string[]; docs: number | null };
 
 const toml = async (path: string) => Bun.TOML.parse(await Bun.file(path).text()) as Record<string, any>;
 
@@ -74,12 +75,12 @@ export async function validate(rootDir = root, bunCheckout?: string): Promise<Re
 
   const parity: Record<string, number> = {};
   for (const f of features) parity[f.parity] = (parity[f.parity] ?? 0) + 1;
-  return { features: features.length, parity, problems, uncovered, docs };
+  return { features: features.length, sourced: features.filter((f) => f.source).length, parity, problems, uncovered, docs };
 }
 
 if (import.meta.main) {
   const report = await validate();
-  console.log(`${report.features} features ${JSON.stringify(report.parity)}; Bun docs read: ${report.docs ?? "checkout absent, skipped"}`);
+  console.log(`${report.features} features (${report.sourced} with a docs source, ${report.features - report.sourced} unverified) ${JSON.stringify(report.parity)}; Bun docs read: ${report.docs ?? "checkout absent, skipped"}`);
   if (process.argv.includes("--summary")) console.log(`pages without a feature (${report.uncovered.length}): ${report.uncovered.join(", ")}`);
   for (const p of report.problems) console.error(p);
   process.exit(report.problems.length ? 1 : 0);
