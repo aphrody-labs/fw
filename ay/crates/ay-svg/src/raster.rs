@@ -59,24 +59,26 @@ pub struct Raster {
 /// (`imagesize`, nothing is decoded): bytes and pixels per image ([`MAX_IMAGE_BYTES`],
 /// [`MAX_IMAGE_PIXELS`]), and image count and total pixels per document ([`MAX_IMAGES`],
 /// [`MAX_PIXELS`]; `spent` holds the pixels and the count of the document so far). A small file
-/// cannot decode into gigabytes; images whose header cannot be read are refused.
+/// cannot decode into gigabytes; images whose header cannot be read are refused, which excludes
+/// nested SVG and svgz images altogether.
 fn limited_data_resolver(spent: Arc<Spent>) -> usvg::ImageHrefDataResolverFn<'static> {
     let inner = usvg::ImageHrefResolver::default_data_resolver();
     Box::new(move |mime, data, options| {
-        if mime != "image/svg+xml" {
-            if data.len() > MAX_IMAGE_BYTES {
-                return None;
-            }
-            let size = imagesize::blob_size(&data).ok()?;
-            let pixels = (size.width as u64).checked_mul(size.height as u64)?;
-            if pixels > MAX_IMAGE_PIXELS {
-                return None;
-            }
-            let total = spent.pixels.fetch_add(pixels, Ordering::Relaxed) + pixels;
-            let count = spent.images.fetch_add(1, Ordering::Relaxed) + 1;
-            if total > MAX_PIXELS || count > MAX_IMAGES {
-                return None;
-            }
+        // Only raster images: the default resolver would also open nested SVG (also behind
+        // `text/plain`) and gzip-compressed SVG (svgz), each a new document with its own
+        // images and no budget. Their bytes never pass the raster header check below.
+        if data.len() > MAX_IMAGE_BYTES {
+            return None;
+        }
+        let size = imagesize::blob_size(&data).ok()?;
+        let pixels = (size.width as u64).checked_mul(size.height as u64)?;
+        if pixels > MAX_IMAGE_PIXELS {
+            return None;
+        }
+        let total = spent.pixels.fetch_add(pixels, Ordering::Relaxed) + pixels;
+        let count = spent.images.fetch_add(1, Ordering::Relaxed) + 1;
+        if total > MAX_PIXELS || count > MAX_IMAGES {
+            return None;
         }
         inner(mime, data, options)
     })
@@ -336,6 +338,74 @@ mod tests {
         let mut heavy = png_header(8, 8).as_ref().clone();
         heavy.resize(MAX_IMAGE_BYTES + 1, 0);
         assert!(resolve("image/png", Arc::new(heavy), &options).is_none());
+    }
+
+    fn data_uri(mime: &str, bytes: &[u8]) -> String {
+        const T: &[u8; 64] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        let mut s = format!("data:{mime};base64,");
+        for c in bytes.chunks(3) {
+            let n = (u32::from(c[0]) << 16)
+                | (u32::from(*c.get(1).unwrap_or(&0)) << 8)
+                | u32::from(*c.get(2).unwrap_or(&0));
+            s.push(T[(n >> 18) as usize & 63] as char);
+            s.push(T[(n >> 12) as usize & 63] as char);
+            s.push(if c.len() > 1 {
+                T[(n >> 6) as usize & 63] as char
+            } else {
+                '='
+            });
+            s.push(if c.len() > 2 {
+                T[n as usize & 63] as char
+            } else {
+                '='
+            });
+        }
+        s
+    }
+
+    const NESTED: &[u8] = br#"<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="red"/></svg>"#;
+
+    #[test]
+    fn nested_svg_images_are_refused() {
+        let options = usvg::Options::default();
+        let resolve = limited_data_resolver(Arc::new(Spent::default()));
+        let data = Arc::new(NESTED.to_vec());
+        // Whatever the declared type: svg, plain text, a raster type.
+        for mime in ["image/svg+xml", "text/plain", "image/png", "image/jpeg"] {
+            assert!(resolve(mime, data.clone(), &options).is_none(), "{mime}");
+        }
+        // Oversized nested SVG: refused by size before anything is parsed.
+        let mut big = NESTED.to_vec();
+        big.resize(MAX_IMAGE_BYTES + 1, b' ');
+        assert!(resolve("image/svg+xml", Arc::new(big), &options).is_none());
+        // svgz: gzip magic, then anything.
+        let svgz = Arc::new(vec![0x1f, 0x8b, 8, 0, 0, 0, 0, 0, 0, 3, 1, 2, 3, 4]);
+        assert!(resolve("image/svg+xml", svgz.clone(), &options).is_none());
+        assert!(resolve("text/plain", svgz, &options).is_none());
+    }
+
+    #[test]
+    fn nested_svg_images_do_not_render_in_a_document() {
+        for mime in ["image/svg+xml", "text/plain"] {
+            let svg = format!(
+                r#"<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><image href="{}" width="8" height="8"/></svg>"#,
+                data_uri(mime, NESTED)
+            );
+            let r = render(&svg, RenderOptions::default()).expect("render");
+            assert!(r.rgba.iter().all(|b| *b == 0), "{mime}: nested SVG drawn");
+        }
+    }
+
+    #[test]
+    fn many_nested_svg_images_stay_refused_and_spend_nothing() {
+        let options = usvg::Options::default();
+        let resolve = limited_data_resolver(Arc::new(Spent::default()));
+        let data = Arc::new(NESTED.to_vec());
+        for _ in 0..=MAX_IMAGES {
+            assert!(resolve("image/svg+xml", data.clone(), &options).is_none());
+        }
+        // Refused images spent nothing: a real raster still resolves afterwards.
+        assert!(resolve("image/png", png_header(2, 2), &options).is_some());
     }
 
     #[test]
