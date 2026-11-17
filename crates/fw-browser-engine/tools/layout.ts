@@ -9,6 +9,8 @@ const at = (path: string) => join(repo, path);
 const layout = Bun.TOML.parse(await Bun.file(at("tools/layout.toml")).text()) as {
   bun: { dir: string };
   kitesurf?: { dir: string; commit?: string };
+  browse?: { dir: string; commit?: string };
+  mullvad?: { dir: string; commit?: string };
   first_party: { dir: string };
   third_party: { dir: string };
 };
@@ -49,6 +51,9 @@ const submodules = [...modules].map((m) => m[1].trim());
 if (!submodules.includes(layout.bun.dir)) problems.push(`${layout.bun.dir} is not a submodule`);
 if (layout.kitesurf && !submodules.includes(layout.kitesurf.dir))
   problems.push(`${layout.kitesurf.dir} is not a submodule`);
+if (layout.browse && !submodules.includes(layout.browse.dir)) problems.push(`${layout.browse.dir} is not a submodule`);
+if (layout.mullvad && !submodules.includes(layout.mullvad.dir))
+  problems.push(`${layout.mullvad.dir} is not a submodule`);
 
 console.log(problems.length ? problems.join("\n") : "layout ok");
 process.exit(problems.length ? 1 : 0);

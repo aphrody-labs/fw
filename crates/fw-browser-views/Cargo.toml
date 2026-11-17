@@ -1,0 +1,29 @@
+[package]
+name = "browser-views"
+version = "0.1.0"
+edition.workspace = true
+publish = false
+license = "Apache-2.0"
+description = "Chromium //ui/views and //chrome/browser/ui/views hierarchy, TabStripModel, Omnibox AI/VPN bar, SidePanelCoordinator, and pixel layout solver for GPUI and headless hosts."
+
+[package.metadata.browser]
+native = true
+
+[dependencies]
+browser-browse = { path = "../browser-browse" }
+browser-engine = { path = "../browser-engine" }
+browser-vpn = { path = "../browser-vpn" }
+serde = { version = "1.0.229", features = ["derive", "std"] }
+url = { version = "2.5.8", features = ["serde"] }
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+unused_must_use = "deny"
+non_ascii_idents = "deny"
+
+[lints.clippy]
+todo = "deny"
+unimplemented = "deny"
+dbg_macro = "deny"
+correctness = { level = "warn", priority = -1 }
+perf = { level = "warn", priority = -1 }

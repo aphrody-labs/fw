@@ -15,6 +15,14 @@ dir = "third_party/kitesurf"
 crates_dir = "third_party/kitesurf/crates"
 commit = "0e080e0988aaecd62ccdde88d4c67d8ac8acfd2f"
 
+[browse]
+dir = "third_party/browse"
+commit = "e4522ba9c7ff0c22d5b4623c7ae2fe282a2dd5b1"
+
+[mullvad]
+dir = "third_party/mullvad"
+commit = "9f48572ea0f5223591fcdd15d15059b9cc59a227"
+
 [first_party]
 dir = "components"
 
