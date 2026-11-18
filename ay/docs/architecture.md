@@ -15,13 +15,13 @@ submodules.toml  declarative pin manifest for the 38 aphrody-labs forks rendered
 package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
 abi/             the ABI spec (ay.abi.toml) and the bindings generated from it (ADR-0011); the C header is generated into corelib/include
 corelib/         the SDK corelib: freestanding C23 + assembly + WAT, the C ABI header, WIT world, conformance hosts and proofs
-packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: chromium-releases, edge-stack (Cloudflare-OS + Vercel Bun SDK), ffi, node-compat, org-mirror
-apps/            programs a person runs, one folder each: chromium-dash
+packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: chromium-releases, edge-stack (Cloudflare-OS + Vercel Bun SDK), ffi, node-compat, org-mirror; the AI OS: ai-os (agent kernel, relay over HTTP and stdio MCP, A2A, LLM runtime discovery, RAG), automate, core, env-kit, ghidra, gnu, omniu, py2bun, wck
+apps/            programs a person runs, one folder each: chromium-dash, agents (agent harness: runner, GitHub events, plugins), ai-gateway (model gateway overlay)
 brand/           identity dataset and assets; the token pipeline (Bun) is its generator
 tools/           typed Bun scripts for every repeatable flow (features, submodules, paths, abi, hosts, disks, listings, absorb, legacy, org-inventory, cloud-map, deploy, claude-sessions)
 docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, science (cited async, recursion, compiler, OS foundations), research, guides
 third_party/     upstreams as submodules with relative URLs (DioxusLabs, Pop!_OS/COSMIC, Cloudflare, Vercel, Browser+VPN, Bun, Nysh), one checkout each
-crates/          Rust crates of the SDK, directory named like the crate, hyphens only (ay-brand, ay-chromium, ay-dioxus, ay-headless, ay-http-error, ay-patch, ay-softraster, ay-sprite-sheet, ay-svg)
+crates/          Rust crates of the SDK, directory named like the crate, hyphens only (ay-brand, ay-chromium, ay-dioxus, ay-headless, ay-http-error, ay-patch, ay-softraster, ay-sprite-sheet, ay-svg; the AI OS crates: ay-a2a*, ay-agent-*, ay-models, ay-model-client, ay-llama*, ay-infer, ay-embed, ay-rag*, ay-memory, ay-mcp-client, ay-gateway, ay-accounts, ay-core, ay-config, ay-vault, ay-store, ay-sql and the rest)
 ```
 
 Rules:
@@ -68,9 +68,9 @@ Keys are those of `ay.toml` [repos]; the matrix owner of every feature row is on
 | `aphrody-dev/aphrody` | The OS in pure Rust, source of truth; native UI (GPUI, COSMIC, `gpui_app_shell`, `os_craft`); owns `aphrody.com` and `aphrody.app` | Owned by another agent; read-only for this repository |
 | `aphrody-dev/ay` | SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc, design system | This repository |
 | `aphrody-dev/anu` | Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; no dependency on any other Aphrody repository | Own repository, own agent |
-| `aphrody-dev/ai-os` | Agent kernel, relay (MCP, A2A), model, inference and RAG, extracted from `legacy` by `tools/extract.ts` | Own repository, own agent |
+| `aphrody-dev/ai-os` | Absorbed into this repository on 2026-11-18 (`packages/ai-os`, `crates/ay-*`, `apps/agents`); archived | Read only |
 | `aphrody-dev/aydroid` | AOSP with Aphrody in place of Android | Empty repository, no content yet |
-| `aphrody-dev/aynt` | A free Windows-compatible operating system (fork of LiberNT) | Fork |
+| `aphrody-dev/aynt` | A free Windows-compatible operating system (fork of ReactOS) | Fork |
 | `aphrody-labs/browser` | One browser monorepo: Bun, Servo, Obscura, agent-browser, CEF/Chromium | Receives `ay-chromium` |
 | `aphrody-labs/bun` | The Bun fork, the Cloud edge runtime and its plugins | Fork |
 | `aphrody-labs/craft-anything` | Replication engine, consumed by `aphrody` as `vendor/craft-anything` | Fork |

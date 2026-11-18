@@ -88,7 +88,7 @@ role = "UIA, AT-SPI2, NSAccessibility, and ARIA semantic tree bridge"
 
 [[submodule]]
 path = "third_party/nsh"
-repo = "aphrody-labs/longbridge-native-shell"
+repo = "aphrody-labs/longbridge-nsh"
 branch = "main"
 sha = "9c2e2cbfd6bd8c265e4126884da7e13c20ad3385"
 domain = "gui-nsh"
@@ -132,7 +132,7 @@ role = "Reactive Elm-style Rust GUI engine underlying COSMIC"
 path = "third_party/browser"
 repo = "aphrody-labs/browser"
 branch = "main"
-sha = "3ce6ecc7fd11b254860bf77af7fa0763d67381c5"
+sha = "171e35e971281b2e2545bf032f3751b170d98bcf"
 domain = "browser"
 role = "Fused Kitesurf + Servo + Chromium + ayvpn + anomalyco/browse engine workspace"
 
