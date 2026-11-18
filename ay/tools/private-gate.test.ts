@@ -11,7 +11,7 @@ test("generic leaks are found: profile and home paths, e-mail, public addresses;
   try {
     const drive = ["C", ":", "\\", "Users", "\\", "someone"].join("");
     const home = ["", "home", "dev", "x"].join("/");
-    const text = [`see ${drive} and ${home}`, "mail me@example.com", "host 51.77.1.2", "local 127.0.0.1 and 203.0.113.9"].join("\n");
+    const text = [`see ${drive} and ${home}`, "mail me@example.com", "host 51.77.1.2", "local 127.0.0.1 and 203.0.113.9", "git@github.com:o/r.git Chrome/131.0.0.0 6.6.36.6-microsoft-WSL2"].join("\n");
     const leaks = scan(files({ "a.md": text }), patterns(root));
     expect(leaks.map((l) => `${l.line}:${l.why}`).sort()).toEqual(["1:a Windows user profile path", "1:a home directory path", "2:an e-mail address", "3:an IPv4 address"].sort());
   } finally {

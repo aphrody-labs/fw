@@ -31,7 +31,7 @@ owner = "aphrody"            # key of [repos]
 os = { owner = "aphrody", title = "Aphrody OS", reference = "https://googlebook.google/", keywords = ["os", "kernel", "linux", "boot", "installer", "device", "hardware", "driver", "wayland", "desktop", "shell", "waydroid", "android", "aosp", "gpu", "vulkan", "audio", "fleet"] }
 browser = { owner = "browser", title = "Aphrody Browser", reference = "https://chromium.googlesource.com/", keywords = ["browser", "chromium", "chrome", "cef", "webkit", "servo", "blink", "v8", "playwright", "puppeteer", "cdp", "webview", "tauri"] }
 search = { owner = "aphrody", title = "Aphrody Search", reference = "https://www.google.com/?hl=fr", keywords = ["search", "crawl", "index", "rag", "embed", "rank", "google", "gemini", "llm", "llama", "infer", "ai", "agent", "a2a", "mcp", "memory"] }
-cloud = { owner = "aphrody", title = "Aphrody Cloud", reference = "https://developers.cloudflare.com/workers/", keywords = ["cloud", "edge", "deploy", "gateway", "worker", "cloudflare", "r2", "dns", "tls", "http", "api", "server", "sql", "db", "vault", "mail", "apify", "relay"] }
+cloud = { owner = "aphrody", title = "Aphrody Cloud", reference = "https://developers.cloudflare.com/workers/", keywords = ["cloud", "edge", "deploy", "gateway", "worker", "cloudflare", "r2", "dns", "tls", "http", "api", "server", "sql", "db", "vault", "mail", "apify", "ai-os"] }
 craft = { owner = "craft-anything", title = "Craft Anything", reference = "https://github.com/storytold/craft-anything", keywords = ["craft", "artcraft", "canvas", "video", "image", "game", "render", "3d", "media"] }
 brand = { owner = "ay", title = "Aphrody brand", reference = "https://design.google/", keywords = ["brand", "identity", "design", "m3", "theme", "token", "font", "icon", "assets", "i18n"] }
 
@@ -56,7 +56,7 @@ claude = { slug = "aphrody-labs/claude", kind = "plugin" }                      
 shenron = { slug = "aphrody-labs/shenron", kind = "app" }
 browser = { slug = "aphrody-labs/browser", kind = "browser" }   # one browser monorepo: Bun, Servo, Obscura, agent-browser, CEF, Chromium
 anu = { slug = "aphrody-dev/anu", kind = "unix" }                    # Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; depends on no other Aphrody repository
-ai-os = { slug = "aphrody-dev/ai-os", kind = "ai" }               # agent kernel, relay (MCP, A2A), model, inference and RAG, extracted from legacy
+ai-os = { slug = "aphrody-dev/ai-os", kind = "ai" }               # agent kernel, ai-os (MCP, A2A), model, inference and RAG, extracted from legacy
 aydroid = { slug = "aphrody-dev/aydroid", kind = "android" }                              # AOSP with Aphrody in place of Android
 aynt = { slug = "aphrody-dev/aynt", kind = "nt" }                                          # free Windows-compatible operating system
 open = { slug = "aphrody-labs/open", kind = "app" }                  # open ecosystem monorepo (opencode, opentui, models.dev, ai-router)

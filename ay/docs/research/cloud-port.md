@@ -6,10 +6,10 @@ never `cf.ts apply tunnels` from it.
 
 ## Live Cloudflare state
 - **Tunnel `aphrody`, ingress v13:** the 3 standby rules,
-  `mcp-origin.aphrody.com → http://127.0.0.1:8790` (the relay, on <prod-host>),
+  `mcp-origin.aphrody.com → http://127.0.0.1:8790` (the ai-os, on <prod-host>),
   `ssh-<prod-host>.aphrody.com → ssh://127.0.0.1:22`, then a 404 catch-all.
   - Earlier today an overwrite had left only the standby rules, so `mcp-origin` returned the 404.
-- **<prod-host> is the only connector:** the aphrody connector replicas on <build-host> and <test-host> (`cloudflared-mig-<prod-host>`) are disabled, because the loopback origins (the relay on 8790) exist only on <prod-host>. With <prod-host> alone, `mcp-origin.aphrody.com` answers 200 on 8/8 requests; with the replicas it returned 502 on about 5/6. Re-enable replicas only once the cluster load-balancer ports exist on every host.
+- **<prod-host> is the only connector:** the aphrody connector replicas on <build-host> and <test-host> (`cloudflared-mig-<prod-host>`) are disabled, because the loopback origins (the ai-os on 8790) exist only on <prod-host>. With <prod-host> alone, `mcp-origin.aphrody.com` answers 200 on 8/8 requests; with the replicas it returned 502 on about 5/6. Re-enable replicas only once the cluster load-balancer ports exist on every host.
 - **Account hardening done:** observability is on for 5 Workers, workers.dev is off for the gateway, minimum TLS is 1.2 on 3 R2 custom domains, and the legacy ftp DNS records are removed.
 - **Tunnel <test-host> removed:** the tunnel and its connectors (`cloudflared-<test-host>`, `cloudflared-prod`) are gone from the account and the hosts.
 - **Bucket deleted:** `aphrody-archive` no longer exists.

@@ -15,7 +15,7 @@ submodules.toml  declarative pin manifest for the 38 aphrody-labs forks rendered
 package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
 abi/             the ABI spec (ay.abi.toml) and the bindings generated from it (ADR-0011); the C header is generated into corelib/include
 corelib/         the SDK corelib: freestanding C23 + assembly + WAT, the C ABI header, WIT world, conformance hosts and proofs
-packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: chromium-releases, edge-stack (Cloudflare-OS + Vercel Bun SDK), ffi, node-compat, org-mirror; the AI OS: ai-os (agent kernel, relay over HTTP and stdio MCP, A2A, LLM runtime discovery, RAG), automate, core, env-kit, ghidra, gnu, omniu, py2bun, wck
+packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: chromium-releases, edge-stack (Cloudflare-OS + Vercel Bun SDK), ffi, node-compat, org-mirror; the AI OS: ai-os (agent kernel, ai-os over HTTP and stdio MCP, A2A, LLM runtime discovery, RAG), automate, core, env-kit, ghidra, gnu, omniu, py2bun, wck
 apps/            programs a person runs, one folder each: chromium-dash, agents (agent harness: runner, GitHub events, plugins), ai-gateway (model gateway overlay)
 brand/           identity dataset and assets; the token pipeline (Bun) is its generator
 tools/           typed Bun scripts for every repeatable flow (features, submodules, paths, abi, hosts, disks, listings, absorb, legacy, org-inventory, cloud-map, deploy, claude-sessions)

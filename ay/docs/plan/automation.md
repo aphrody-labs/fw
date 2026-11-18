@@ -13,7 +13,7 @@ Three loops write there; none commits.
    `bun tools/plan.ts` renders `.private/plan.md` from `.private/plan/work.toml` and those results. Schedule it on the fleet's
    build host (cron or a systemd timer), not in CI: a public repository's workflow output is public.
 2. **Triage loop, agent**: for each claim that fails or cannot be read, read what changed upstream with a repository digest
-   (`gitingest <repo-url>`) and, for a library or an API, Context7 through the relay hub (skill `aphrody:context7-deep-research`); research
+   (`gitingest <repo-url>`) and, for a library or an API, Context7 through the ai-os hub (skill `aphrody:context7-deep-research`); research
    the new fact with WebSearch and WebFetch, keep URL and retrieval date; fix the private note or the tracked code that relied on it.
 3. **Fact-check loop, agent**: before a report to the owner, every number or capability is a probe or is stated as unverified.
 

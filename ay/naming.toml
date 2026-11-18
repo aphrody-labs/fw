@@ -6,3 +6,5 @@ org = "aphrody-dev"
 # Published on npm by the aphrody-labs/bun-os pipeline (1.4.7, another package): registries never free a name. The private workspace
 # package packages/chromium keeps it until the release pipeline of this repository publishes @aphrody/ay-chromium.
 npm = ["@aphrody/chromium"]
+# Published on crates.io 1.4.7 from the legacy monorepo; the crates now live in crates/ay-<unit> (absorbed from aphrody-dev/ai-os, 2026-11-18).
+crates = ["aphrody-a2a", "aphrody-a2a-client", "aphrody-a2a-coord", "aphrody-a2a-pb", "aphrody-a2a-server", "aphrody-agent-home", "aphrody-agent-proto", "aphrody-agent-tools", "aphrody-antigravity", "aphrody-boq", "aphrody-embed", "aphrody-gemini-runtime", "aphrody-gemini-web", "aphrody-google", "aphrody-infer", "aphrody-llama", "aphrody-llama-server", "aphrody-llama-sys", "aphrody-mcp-client", "aphrody-memory", "aphrody-ml-config", "aphrody-ml-runtime", "aphrody-model-antigravity", "aphrody-model-client", "aphrody-models", "aphrody-rag", "aphrody-rag-core", "aphrody-config", "aphrody-jev", "aphrody-code-graph", "aphrody-toolcall", "aphrody-toolcall-repair"]

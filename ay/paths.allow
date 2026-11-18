@@ -5,3 +5,17 @@ tools/disks.test.ts           # df output fixture of the fleet
 
 docs/research/recovery*       # inventory of host trees and the rules that classify them: path literals are the data
 tools/recover.test.ts          # fixtures of the host-tree parser
+
+# Absorbed from aphrody-dev/ai-os (2026-11-18): fixtures that quote absolute paths on purpose.
+packages/gnu/test/gnu.test.ts                    # fixture: ls -lR listing of ftp.gnu.org, whose paths are server-side
+crates/ay-proc/src/elevate.rs                    # fixture: Windows paths quoted by the argument-quoting and elevation tests
+crates/ay-fsindex/src/everything.rs              # fixture: Windows paths of Everything hits
+crates/ay-fsindex/src/google.rs                  # fixture: Windows paths of the local_files.db rows
+crates/ay-fsindex/src/mft.rs                     # fixture: Windows paths resolved from MFT records
+crates/ay-fsindex/src/paths.rs                   # fixture: a legacy index file with Windows paths
+crates/ay-jobs/src/lib.rs                        # fixture: a POSIX state root for the default path helpers
+crates/ay-sql/tests/product-schema.sql           # fixture: unsafe path strings the schema must refuse
+crates/ay-toolcall-repair/src/repair_tests.rs    # fixture: unescaped Windows paths in model output
+crates/ay-toolcall-repair/tests/fixtures/**      # fixtures: unescaped Windows paths in model output
+crates/ay-subsystem/src/lib.rs                   # fixture: a Windows path in skill parameters
+crates/ay-app-protocol/tests/tier1_contract.rs   # fixture: cwd and home values of the protocol examples

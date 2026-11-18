@@ -18,7 +18,7 @@ export function patterns(root = repoRoot): [string, RegExp][] {
   const out: [string, RegExp][] = [
     ["a Windows user profile path", /[A-Za-z]:\\Users\\[A-Za-z0-9._-]+/],
     ["a home directory path", /(^|[\s"'`(=])\/home\/[a-z][a-z0-9_-]{1,}\//],
-    ["an e-mail address", /\b[\w.+-]+@(?!users\.noreply\.github\.com)[\w-]+\.(com|net|org|fr|io|dev)\b/],
+    ["an e-mail address", /\b[\w.+-]+@(?!users\.noreply\.github\.com|github\.com:)[\w-]+\.(com|net|org|fr|io|dev)\b/],
   ];
   const cfg = (existsSync(join(root, "ay.toml")) ? readAy(root) : {}) as { hosts?: Record<string, string>; paths?: Record<string, { work?: string }>; recovery?: { scan?: string[] } };
   const secrets = new Set<string>([...Object.values(cfg.hosts ?? {}), ...Object.values(cfg.paths ?? {}).map((p) => p.work ?? "")].filter((s) => s.length >= 3 && !s.startsWith("<")));
@@ -33,7 +33,7 @@ export function scan(files: Map<string, string>, pats: [string, RegExp][]): Leak
     text.split("\n").forEach((line, i) => {
       for (const [why, re] of pats) if (re.test(line)) leaks.push({ file, line: i + 1, why });
       const ip = IPV4.exec(line);
-      if (ip && !/version|v\d|\d+\.\d+\.\d+\.\d+[-.]\d/i.test(line) && ip.slice(1).every((n) => Number(n) <= 255)) leaks.push({ file, line: i + 1, why: "an IPv4 address" });
+      if (ip && !/version|v\d|\d+\.\d+\.\d+\.\d+[-.]\d|\w+\/\d+\.\d+\.\d+\.\d+|Core \d+\.\d+\.\d+\.\d+|\d+\.\d+\.\d+\.\d+-[a-z]/i.test(line) && ip.slice(1).every((n) => Number(n) <= 255)) leaks.push({ file, line: i + 1, why: "an IPv4 address" });
     });
   }
   return leaks;

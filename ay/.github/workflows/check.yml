@@ -24,12 +24,14 @@ jobs:
       RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@v7
+      - name: Checkout path-dep submodules
+        run: git submodule update --init --depth 1 third_party/browser
       - uses: dtolnay/rust-toolchain@v1
         with:
           toolchain: stable
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
-      - run: cargo fmt --all --check
+      - run: cargo fmt --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
       # ay-chromium downloads CEF (333 MB) in its build script, so clippy builds it here; its tests start Chromium and run on the
       # test host (docs/chromium.md).

@@ -42,7 +42,7 @@ export function remoteScript(destination: string, sha: string, remote: string, h
     "git checkout -q --force FETCH_HEAD",
     `git clean -fdq ${keep}`,
     ...(hasBody ? ["tar xf -"] : []),
-    hasPatch ? "git apply --binary .sync.patch && rm -f .sync.patch" : "rm -f .sync.patch",
+    hasPatch ? "[ -f .git/.sync.patch ] && mv .git/.sync.patch .sync.patch; git apply --binary .sync.patch && rm -f .sync.patch" : "rm -f .sync.patch .git/.sync.patch",
     "git rev-parse --short HEAD",
   ].join("\n");
 }
@@ -51,8 +51,10 @@ export function remoteScript(destination: string, sha: string, remote: string, h
 async function stream(checkout: Checkout): Promise<Uint8Array> {
   const patch = `${checkout.dir}/.git/.sync.patch`;
   if (checkout.patch.length) await Bun.write(patch, checkout.patch);
-  const extra = checkout.patch.length ? ["-C", `${checkout.dir}/.git`, ".sync.patch"] : [];
-  const packed = Bun.spawnSync(["tar", "-cf", "-", ...(checkout.untracked.length ? ["--null", "-T", "-"] : []), ...extra], { cwd: checkout.dir, stdin: new TextEncoder().encode(checkout.untracked.join("\0")), stdout: "pipe", stderr: "pipe" });
+  const files = [...checkout.untracked, ...(checkout.patch.length ? [".git/.sync.patch"] : [])];
+  if (!files.length) return new Uint8Array();
+  const packed = Bun.spawnSync(["tar", "-cf", "-", "--null", "-T", "-"], { cwd: checkout.dir, stdin: new TextEncoder().encode(files.join("\0")), stdout: "pipe", stderr: "pipe" });
+  if (packed.exitCode !== 0) throw new Error(`tar failed: ${packed.stderr.toString().trim()}`);
   return packed.stdout;
 }
 
