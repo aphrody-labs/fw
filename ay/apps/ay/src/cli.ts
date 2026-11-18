@@ -154,6 +154,8 @@ async function runCompile(repoRoot: string, args: string[]): Promise<number> {
       process.execPath,
       "build",
       "--compile",
+      "--minify",
+      "--bytecode",
       join(repoRoot, "apps/ay/src/cli.ts"),
       "--outfile",
       outfile,

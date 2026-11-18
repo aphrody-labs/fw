@@ -157,3 +157,18 @@ debug = "limited"
 codegen-units = 16
 split-debuginfo = "unpacked"
 debug = "limited"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+
+[profile.bare-metal]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
