@@ -42,12 +42,15 @@ export function validateManifest(manifest: SubmodulesManifest): string[] {
   const seenPaths = new Set<string>();
   const seenRepos = new Set<string>();
   for (const s of manifest.submodule ?? []) {
-    if (!s.path.startsWith("third_party/")) errors.push(`${s.path}: submodule must live under third_party/`);
+    // Upstream forks live in aphrody-labs under third_party/; the kernels and OS layers of the product (own forks) live in aphrody-dev under os/.
+    const own = s.path.startsWith("os/");
+    if (!own && !s.path.startsWith("third_party/")) errors.push(`${s.path}: submodule must live under third_party/ or os/`);
     if (seenPaths.has(s.path)) errors.push(`duplicate submodule path: ${s.path}`);
     seenPaths.add(s.path);
     if (seenRepos.has(s.repo)) errors.push(`duplicate fork submodule (deduplication rule): ${s.repo}`);
     seenRepos.add(s.repo);
-    if (!s.repo.startsWith("aphrody-labs/")) errors.push(`${s.path}: fork must live in aphrody-labs, got ${s.repo}`);
+    const org = own ? "aphrody-dev/" : "aphrody-labs/";
+    if (!s.repo.startsWith(org)) errors.push(`${s.path}: fork must live in ${org.slice(0, -1)}, got ${s.repo}`);
     if (!SHA_RE.test(s.sha)) errors.push(`${s.path}: invalid 40-hex sha ${s.sha}`);
     if (!s.branch) errors.push(`${s.path}: missing branch`);
   }
@@ -66,7 +69,7 @@ export function renderGitmodules(manifest: SubmodulesManifest): string {
 }
 
 export function readGitlinks(root = repoRoot): Map<string, string> {
-  const p = Bun.spawnSync(["git", "-C", root, "ls-files", "--stage", "--", "third_party"], {
+  const p = Bun.spawnSync(["git", "-C", root, "ls-files", "--stage", "--", "third_party", "os"], {
     stdout: "pipe",
     stderr: "pipe",
     windowsHide: true,

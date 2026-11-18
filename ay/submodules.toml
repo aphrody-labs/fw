@@ -48,9 +48,9 @@ role = "Accessible headless component primitives for Dioxus"
 
 [[submodule]]
 path = "third_party/dioxus-sdk"
-repo = "aphrody-labs/sdk"
+repo = "aphrody-labs/dioxus-sdk"
 branch = "main"
-sha = "35df178c629776dfd204660b562c983c6969ccc9"
+sha = "551cd800827dbc330876511737226cc894f7aae7"
 domain = "dioxus"
 role = "Cross-platform clipboard, storage, notifications, and system hooks for Dioxus"
 
@@ -314,3 +314,20 @@ branch = "main"
 sha = "635e661fc0b74ffe8076fd9fcb6fa46a8ec78a49"
 domain = "nysh"
 role = "WGPU/WebGPU hardware-accelerated terminal and rio-vt parser"
+
+# --- Kernels and OS layers of the product (own forks in aphrody-dev, built on the build host) ---
+[[submodule]]
+path = "os/nt"
+repo = "aphrody-dev/aynt"
+branch = "main-nt10"
+sha = "28e83fcfa996fe2a3fbedafbd0aede83977e55f4"
+domain = "kernel-nt"
+role = "Windows-compatible NT kernel and userland (fork of ReactOS, NT 10 line)"
+
+[[submodule]]
+path = "os/aphrody"
+repo = "aphrody-dev/aphrody"
+branch = "main"
+sha = "b7fdd1ca17cb44712cd62d8c7ee43cd55dcdfbe2"
+domain = "os-desktop"
+role = "Rust OS layer and native desktop (GPUI, COSMIC), fork of Zed"

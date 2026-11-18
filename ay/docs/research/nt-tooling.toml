@@ -1,0 +1,50 @@
+# NTFS / Win32 / NT tooling, read live 2026-11-17 (gh api: stars, last push). `have` = fork exists in aphrody-labs.
+# Missing ones are listed in anu.toml [picks] groups nt, ntfs, win32-docs so the fork step adds them as submodules.
+
+[have]
+repos = ["microsoft/windows-rs", "microsoft/windows-drivers-rs", "microsoft/win32metadata", "microsoft/cppwinrt", "microsoft/wil",
+  "microsoft/WindowsAppSDK", "microsoft/microsoft-ui-xaml", "microsoft/terminal", "microsoft/winget-cli", "microsoft/PowerToys",
+  "microsoft/WSL", "reactos/reactos", "wine-mirror/wine", "m4b/goblin"]
+
+[missing.ntfs]
+"ColinFinck/ntfs" = "Rust NTFS reader (no_std capable), 605 stars, 2026-01"
+"ColinFinck/nt-hive" = "Rust registry hive reader, 2025-01"
+"tuxera/ntfs-3g" = "FUSE NTFS driver and ntfsprogs (mkntfs, ntfsfix, ntfsclone), 2026-09"
+"omerbenamram/mft" = "Rust MFT parser, 2026-11"
+"winfsp/winfsp" = "Windows File System Proxy (FUSE for Windows), 9047 stars, 2026-11"
+"dokan-dev/dokany" = "user-mode file systems on Windows, 2026-11"
+"microsoft/ProjFS-Managed-API" = "Projected File System API"
+
+[missing.nt]
+"winsiderss/systeminformer" = "process/kernel inspector (ex Process Hacker), 16501 stars, 2026-11"
+"winsiderss/phnt" = "native NT API headers, 2026-03"
+"hfiref0x/WinObjEx64" = "object manager namespace explorer, 2026-11"
+"googleprojectzero/sandbox-attacksurface-analysis-tools" = "NtObjectManager, NtCoreLib, 2026-10"
+"x64dbg/x64dbg" = "user-mode debugger, 50333 stars, 2026-11"
+"microsoft/Detours" = "API interception, 2026-10"
+"microsoft/krabsetw" = "ETW consumer library (C++/.NET), 2026-11"
+"n4r1b/ferrisetw" = "ETW consumer in Rust, 2025-10"
+"rust-minidump/rust-minidump" = "minidump parsing and stackwalking in Rust, 2026-11"
+"omerbenamram/evtx" = "Rust EVTX event-log parser, 2026-11"
+"ohadravid/wmi-rs" = "WMI from Rust, 2026-10"
+"CasualX/pelite" = "Rust PE parser, 2026-11"
+"lief-project/LIEF" = "PE/ELF/Mach-O parse and modify, 2026-11"
+"ionescu007/SimpleVisor" = "minimal Intel VT-x hypervisor (reference), 2024-05"
+"microsoft/CsWin32" = "C# Win32 P/Invoke source generator, 2026-11"
+
+[missing.win32-docs]
+"MicrosoftDocs/win32" = "Win32 docs (CC-BY), 2026-11"
+"MicrosoftDocs/sdk-api" = "Windows SDK API reference, 2026-10"
+"MicrosoftDocs/windows-driver-docs" = "WDK docs, 2026-11"
+"MicrosoftDocs/windows-powershell-docs" = "PowerShell module docs, 2026-11"
+"microsoft/Windows-classic-samples" = "Win32 samples, 2026-09"
+"microsoft/Windows-driver-samples" = "WDK samples, 2026-11"
+"microsoft/Windows-universal-samples" = "UWP/WinRT samples, 2026-05"
+"microsoft/WinDbg-Samples" = "debugger extensions and samples, 2026-11"
+
+[closed]
+# Useful but closed source, so not forkable: install from the vendor, never redistribute.
+tools = ["Sysinternals (Process Monitor, Process Explorer, Autoruns, Sigcheck)", "WinDbg", "Windows ADK/WDK/SDK installers", "Windows Performance Toolkit (WPR/WPA)"]
+
+[archived]
+"microsoft/microsoft-pdb" = "archived 2023; PDB parsing via the Rust `pdb` crate or LLVM llvm-pdbutil instead"

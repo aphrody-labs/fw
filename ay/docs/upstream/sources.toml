@@ -1,0 +1,958 @@
+# Extraction-source manifest for aphrody-dev/ay (generated 2026-11-18).
+#
+# Each [[source]] is an upstream repository used ONLY as an extraction source for
+# skills, docs, MCP server definitions and the code graph. Builds never use these
+# checkouts: they build against the artifacts listed in `published` (registry,
+# name, latest version) from crates.io, npm and PyPI. An empty `published` means
+# the repository publishes nothing and is consumed as source only.
+#
+# Fields: upstream, fork (aphrody-labs, git submodule with relative URL),
+# fork_parent (only when the fork's GitHub parent differs from upstream), branch
+# (upstream default branch), language (GitHub primary language), role (GitHub
+# description), extract (subset of skills, docs, mcp, graph, decided from the git
+# tree), skills_paths / docs_paths / mcp_paths (concrete paths in the tree),
+# published (artifacts to build against, max 8, only names whose registry
+# metadata points back at the upstream repository), note.
+#
+# Refresh: re-run the generator (gh api repos/<upstream>, repos/<upstream>/git/trees/<branch>?recursive=1,
+# https://crates.io/api/v1/crates/<name>, https://registry.npmjs.org/<name>/latest,
+# https://pypi.org/pypi/<name>/json), then validate with:
+#   bun -e 'Bun.TOML.parse(await Bun.file("docs/upstream/sources.toml").text())'
+
+# ----------------------------------------------------------------------
+# Cloudflare
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "cloudflare/workers-rs"
+fork = "aphrody-labs/workers-rs"
+branch = "main"
+language = "Rust"
+role = "Write Cloudflare Workers in 100% Rust via WebAssembly"
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "worker-sys", latest = "0.9.0" },
+  { registry = "crates.io", name = "worker-macros", latest = "0.9.0" },
+  { registry = "crates.io", name = "worker", latest = "0.9.0" },
+  { registry = "crates.io", name = "worker-build", latest = "0.9.0" },
+  { registry = "crates.io", name = "worker-codegen", latest = "0.2.0" },
+]
+
+[[source]]
+upstream = "cloudflare/lol-html"
+fork = "aphrody-labs/lol-html"
+fork_parent = "oven-sh/lol-html"
+branch = "main"
+language = "Rust"
+role = "Low output latency streaming HTML parser/rewriter with CSS selector-based API"
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "lol_html", latest = "3.0.3" },
+]
+note = "aphrody-labs/lol-html forks oven-sh/lol-html (same fork network as cloudflare/lol-html), not cloudflare/lol-html directly."
+
+[[source]]
+upstream = "cloudflare/kitesurf"
+fork = "aphrody-labs/kitesurf"
+branch = "main"
+language = "TypeScript"
+role = "Kitesurf is an experimental browser engine that runs on Cloudflare Workers."
+extract = ["skills", "graph"]
+skills_paths = [".agents/skills/"]
+docs_paths = []
+mcp_paths = []
+published = []
+note = "publishes nothing: 5 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "cloudflare/pingora"
+fork = "aphrody-labs/pingora"
+branch = "main"
+language = "Rust"
+role = "A library for building fast, reliable and evolvable network services."
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "pingora-timeout", latest = "0.9.1" },
+  { registry = "crates.io", name = "pingora-pool", latest = "0.9.1" },
+  { registry = "crates.io", name = "pingora-runtime", latest = "0.9.1" },
+  { registry = "crates.io", name = "pingora-error", latest = "0.9.1" },
+  { registry = "crates.io", name = "pingora-http", latest = "0.9.1" },
+  { registry = "crates.io", name = "pingora-core", latest = "0.9.1" },
+  { registry = "crates.io", name = "pingora-lru", latest = "0.9.1" },
+  { registry = "crates.io", name = "pingora-cache", latest = "0.9.1" },
+]
+note = "22 published artifacts found, the 8 most downloaded are listed."
+
+[[source]]
+upstream = "cloudflare/cloudflare-os"
+fork = "aphrody-labs/cloudflare-os"
+branch = "main"
+language = "TypeScript"
+role = "Agent workspace built on Cloudflare Workers for creating documents, building apps, and running agents with your company’s context and systems."
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = [".agents/skills/"]
+docs_paths = ["docs/"]
+mcp_paths = ["packages/gatekeeper-mcp-portal/", "packages/gatekeeper-mcp/", "packages/mcp-shared/"]
+published = []
+note = "publishes nothing: 30 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "cloudflare/mcp"
+fork = "aphrody-labs/cloudflare-mcp"
+branch = "main"
+language = "TypeScript"
+role = "MCP server for the Cloudflare API"
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = ["src/skills/"]
+docs_paths = ["docs/"]
+mcp_paths = ["src/mcp-handler.ts", "src/generated/forge-mcp/", "docs/mcp-events.md"]
+published = []
+note = "publishes nothing: 1 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo. same-named registry packages whose repository field is missing or points elsewhere, excluded: npm:cloudflare-mcp."
+
+[[source]]
+upstream = "cloudflare/kumo"
+fork = "aphrody-labs/kumo"
+branch = "main"
+language = "TypeScript"
+role = "Cloudflare's component library for building modern web applications."
+extract = ["skills", "docs", "graph"]
+skills_paths = [".agents/skills/", "skills/"]
+docs_paths = ["packages/kumo-docs-astro/src/pages/"]
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@cloudflare/kumo", latest = "2.19.0" },
+]
+
+[[source]]
+upstream = "cloudflare/workers-sdk"
+fork = "aphrody-labs/workers-sdk"
+branch = "main"
+language = "TypeScript"
+role = "Home to Wrangler, the CLI for Cloudflare Workers"
+extract = ["skills", "graph"]
+skills_paths = [".opencode/skills/"]
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@cloudflare/config", latest = "0.32.1" },
+  { registry = "npm", name = "@cloudflare/build-output-utils", latest = "0.9.14" },
+  { registry = "npm", name = "@cloudflare/codemods", latest = "0.8.1" },
+  { registry = "npm", name = "create-cloudflare", latest = "2.74.14" },
+  { registry = "npm", name = "@cloudflare/cli-shared-helpers", latest = "0.3.10" },
+  { registry = "npm", name = "@cloudflare/containers-shared", latest = "0.26.3" },
+  { registry = "npm", name = "@cloudflare/deploy-helpers", latest = "0.27.2" },
+  { registry = "npm", name = "@cloudflare/autoconfig", latest = "0.13.1" },
+]
+note = "21 published artifacts found, the 8 most downloaded are listed."
+
+[[source]]
+upstream = "cloudflare/templates"
+fork = "aphrody-labs/cloudflare-templates"
+branch = "main"
+language = "TypeScript"
+role = "Templates for Cloudflare Workers"
+extract = ["mcp", "graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = ["nlweb-template/src/nlweb-mcp-do.ts"]
+published = []
+note = "publishes nothing: 1 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo. same-named registry packages whose repository field is missing or points elsewhere, excluded: npm:templates."
+
+[[source]]
+upstream = "cloudflare/agents"
+fork = "aphrody-labs/agents"
+branch = "main"
+language = "TypeScript"
+role = "Build and deploy AI Agents on Cloudflare"
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = [".gardener/", "agent-think/skills/"]
+docs_paths = ["docs/"]
+mcp_paths = ["packages/agents/src/mcp/", "packages/codemode/src/mcp.ts"]
+published = [
+  { registry = "npm", name = "agents", latest = "0.33.0" },
+  { registry = "npm", name = "@cloudflare/codemode", latest = "0.5.6" },
+  { registry = "npm", name = "@cloudflare/ai-chat", latest = "0.12.2" },
+  { registry = "npm", name = "@cloudflare/think", latest = "0.23.0" },
+  { registry = "npm", name = "@cloudflare/shell", latest = "0.5.0" },
+  { registry = "npm", name = "@cloudflare/voice", latest = "0.5.0" },
+  { registry = "npm", name = "@cloudflare/worker-bundler", latest = "0.2.6" },
+  { registry = "npm", name = "hono-agents", latest = "3.0.12" },
+]
+note = "14 published artifacts found, the 8 most downloaded are listed."
+
+[[source]]
+upstream = "cloudflare/browser-run"
+fork = "aphrody-labs/browser-run"
+branch = "main"
+language = "TypeScript"
+role = "Monorepo including libraries and examples for Cloudflare's Browser Run powered by Workers"
+extract = ["mcp", "graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = ["packages/playwright-mcp-cloudflare/"]
+published = [
+  { registry = "npm", name = "@cloudflare/puppeteer", latest = "2.0.1" },
+  { registry = "npm", name = "@cloudflare/playwright", latest = "1.4.0" },
+  { registry = "npm", name = "@cloudflare/playwright-mcp", latest = "0.0.6" },
+]
+
+[[source]]
+upstream = "cloudflare/computer"
+fork = "aphrody-labs/cloudflare-computer"
+branch = "main"
+language = "TypeScript"
+role = "Give your agent a computer"
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = [".agents/skills/", ".gardener/"]
+docs_paths = ["docs/"]
+mcp_paths = ["examples/mcp/"]
+published = [
+  { registry = "npm", name = "@cloudflare/computer", latest = "0.11.3" },
+]
+
+# ----------------------------------------------------------------------
+# Vercel Labs
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "vercel-labs/fx"
+fork = "aphrody-labs/fx"
+branch = "main"
+language = "Zig"
+role = "Unix like coding agent"
+extract = ["skills", "graph"]
+skills_paths = [".fx/skills/", "src/core/skills/", "src/tools/skills/"]
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "npm", name = "libfx", latest = "0.0.17" },
+]
+note = "MCP code in src/mcp/, src/core/mcp/, src/core/mcp_host/ and sdk/mcp.js is MCP host/client side, so mcp is not listed in extract."
+
+[[source]]
+upstream = "vercel-labs/agent-desktop"
+fork = "aphrody-labs/agent-desktop"
+branch = "main"
+language = "Rust"
+role = "Computer use CLI for AI agents"
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = [".agents/skills/", "skills/"]
+docs_paths = ["apps/docs/", "docs/"]
+mcp_paths = ["src/mcp/"]
+published = [
+  { registry = "npm", name = "agent-desktop", latest = "1.3.1" },
+]
+note = "same-named registry packages whose repository field is missing or points elsewhere, excluded: crates.io:agent-desktop."
+
+[[source]]
+upstream = "vercel-labs/just-bash"
+fork = "aphrody-labs/just-bash"
+branch = "main"
+language = "TypeScript"
+role = "Bash for Agents"
+extract = ["skills", "graph"]
+skills_paths = ["packages/just-bash-executor/"]
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "npm", name = "just-bash", latest = "3.6.1" },
+  { registry = "npm", name = "@just-bash/executor", latest = "7.0.1" },
+]
+
+[[source]]
+upstream = "vercel-labs/agent-browser"
+fork = "aphrody-labs/agent-browser"
+branch = "main"
+language = "Rust"
+role = "Browser automation CLI for AI agents"
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = [".agents/skills/", "skill-data/", "skills/"]
+docs_paths = ["docs/"]
+mcp_paths = ["cli/src/mcp.rs", "packages/@agent-browser/sandbox/mcp-tools.json", "packages/@agent-browser/sandbox/src/mcp.ts"]
+published = [
+  { registry = "npm", name = "agent-browser", latest = "0.43.0" },
+  { registry = "npm", name = "@agent-browser/cli-linux-x64-gnu", latest = "0.43.0" },
+  { registry = "npm", name = "@agent-browser/cli-win32-x64-msvc", latest = "0.43.0" },
+  { registry = "npm", name = "@agent-browser/cli-darwin-arm64", latest = "0.43.0" },
+  { registry = "crates.io", name = "agent-browser", latest = "0.19.0" },
+  { registry = "npm", name = "@agent-browser/cli-linux-arm64-gnu", latest = "0.43.0" },
+  { registry = "npm", name = "@agent-browser/cli-linux-x64-musl", latest = "0.43.0" },
+  { registry = "npm", name = "@agent-browser/cli-darwin-x64", latest = "0.43.0" },
+]
+note = "11 published artifacts found, the 8 most downloaded are listed."
+
+[[source]]
+upstream = "vercel-labs/skills"
+fork = "aphrody-labs/skills"
+branch = "main"
+language = "TypeScript"
+role = "The open agent skills tool - npx skills"
+extract = ["skills", "docs", "graph"]
+skills_paths = [".automations/pr-labeling/skills/", ".automations/triage/skills/", ".vc/automations/workflows/pr-labeling/skills/", ".vc/automations/workflows/triage/skills/", "skills/"]
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "npm", name = "skills", latest = "1.9.0" },
+]
+
+[[source]]
+upstream = "vercel-labs/ui"
+fork = "aphrody-labs/vercel-ui"
+branch = "main"
+language = "TypeScript"
+role = "A library of behaviors for agents to build the next generation of user interfaces."
+extract = ["skills", "docs", "graph"]
+skills_paths = [".agents/skills/", "packages/core/skills/"]
+docs_paths = ["apps/docs/"]
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@ui-sdk/core", latest = "0.1.0-beta.6" },
+  { registry = "npm", name = "@ui-sdk/react", latest = "0.1.0-beta.6" },
+  { registry = "npm", name = "@ui-sdk/web", latest = "0.1.0-beta.6" },
+  { registry = "npm", name = "@ui-sdk/vue", latest = "0.1.0-beta.6" },
+  { registry = "npm", name = "@ui-sdk/svelte", latest = "0.1.0-beta.6" },
+  { registry = "npm", name = "@ui-sdk/solid", latest = "0.1.0-beta.6" },
+]
+
+# ----------------------------------------------------------------------
+# Anomaly (anomalyco)
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "anomalyco/browse"
+fork = "aphrody-labs/browse"
+branch = "dev"
+language = "TypeScript"
+role = "Let your AI agents use your real browser: an MCP server and a Chromium extension"
+extract = ["mcp", "graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = ["cli/src/mcp.ts", "cli/src/mcp/", "rust/crates/browse/src/mcp.rs"]
+published = [
+  { registry = "npm", name = "@opencode/browse", latest = "0.1.5" },
+]
+note = "MCP server in the CLI (cli/src/mcp.ts) and in the Rust crate. same-named registry packages whose repository field is missing or points elsewhere, excluded: crates.io:browse."
+
+[[source]]
+upstream = "anomalyco/models.dev"
+fork = "aphrody-labs/models.dev"
+branch = "dev"
+language = "TypeScript"
+role = "An open-source database of AI models."
+extract = ["skills", "graph"]
+skills_paths = [".opencode/skills/"]
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@opencode-ai/models", latest = "0.0.139" },
+]
+
+[[source]]
+upstream = "anomalyco/openauth"
+fork = "aphrody-labs/openauth"
+branch = "master"
+language = "TypeScript"
+role = "Universal, standards-based auth provider."
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["www/src/content/"]
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@openauthjs/openauth", latest = "0.4.3" },
+]
+note = "registry metadata lacks a matching repository field, matched by publisher and package contents: @openauthjs/openauth. same-named registry packages whose repository field is missing or points elsewhere, excluded: npm:www."
+
+[[source]]
+upstream = "anomalyco/opentui"
+fork = "aphrody-labs/opentui"
+branch = "main"
+language = "TypeScript"
+role = "OpenTUI is a library to build terminal user interfaces (TUI)"
+extract = ["skills", "docs", "graph"]
+skills_paths = ["packages/web/src/content/"]
+docs_paths = ["packages/react/docs/", "packages/web/src/content/"]
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@opentui/core", latest = "0.9.2" },
+  { registry = "npm", name = "@opentui/keymap", latest = "0.9.2" },
+  { registry = "npm", name = "@opentui/qrcode", latest = "0.9.2" },
+  { registry = "npm", name = "@opentui/ssh", latest = "0.9.2" },
+  { registry = "npm", name = "@opentui/three", latest = "0.9.2" },
+]
+
+[[source]]
+upstream = "anomalyco/hex"
+fork = "aphrody-labs/hex"
+branch = "dev"
+language = "Rust"
+role = "Local voice dictation for mac, windows and linux"
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = ["skills/"]
+docs_paths = ["docs/", "site/public/docs/"]
+mcp_paths = ["src/meeting/mcp.rs"]
+published = [
+  { registry = "npm", name = "@kitlangton/hex", latest = "0.3.1" },
+]
+note = "same-named registry packages whose repository field is missing or points elsewhere, excluded: crates.io:hex."
+
+[[source]]
+upstream = "anomalyco/opentunnel"
+fork = "aphrody-labs/opentunnel"
+branch = "dev"
+language = "Rust"
+role = "A blind TLS tunnel: each client gets a unique <id>.opentunnel.xyz hostname and terminates TLS locally, so the server never holds the certificate private key or sees HTTP plaintext."
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@opentunnel/client", latest = "0.6.2" },
+  { registry = "npm", name = "@opentunnel/protocol", latest = "0.6.2" },
+  { registry = "npm", name = "opentunnel", latest = "0.6.2" },
+  { registry = "crates.io", name = "opentunnel", latest = "0.6.2" },
+  { registry = "crates.io", name = "opentunnel-cli", latest = "0.6.2" },
+]
+
+[[source]]
+upstream = "anomalyco/deadbolt"
+fork = "aphrody-labs/deadbolt"
+branch = "dev"
+language = "Rust"
+role = "A decentralized password manager in Rust: devices sync directly with each other over iroh, a new device joins only by pairing from an existing one."
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = []
+note = "publishes nothing: 10 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "anomalyco/strobe"
+fork = "aphrody-labs/strobe"
+branch = "main"
+language = "Rust"
+role = "Measure and explain performance: web pages, Electron apps, Bun/Node, any process. Agent-native CLI + MCP."
+extract = ["skills", "mcp", "graph"]
+skills_paths = ["skill/"]
+docs_paths = []
+mcp_paths = ["src/app/mcp.rs"]
+published = [
+  { registry = "npm", name = "@hona/strobe-linux-x64", latest = "0.44.0" },
+  { registry = "npm", name = "@hona/strobe-win32-x64", latest = "0.44.0" },
+  { registry = "npm", name = "@hona/strobe-darwin-arm64", latest = "0.44.0" },
+  { registry = "npm", name = "@hona/strobe-linux-arm64", latest = "0.44.0" },
+  { registry = "npm", name = "@hona/strobe-darwin-x64", latest = "0.44.0" },
+  { registry = "npm", name = "@hona/strobe-win32-arm64", latest = "0.44.0" },
+  { registry = "npm", name = "@hona/strobe-bench", latest = "0.44.0" },
+]
+
+[[source]]
+upstream = "anomalyco/rune"
+fork = "aphrody-labs/rune"
+branch = "dev"
+language = "Rust"
+role = "Rune: Native UI framework"
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = []
+note = "publishes nothing: 15 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo. same-named registry packages whose repository field is missing or points elsewhere, excluded: crates.io:rune-notify, crates.io:rune."
+
+[[source]]
+upstream = "anomalyco/terminal-control"
+fork = "aphrody-labs/terminal-control"
+branch = "main"
+language = "Rust"
+role = "Control, inspect, test, and capture real terminal applications for agents and TUI review."
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = ["skills/"]
+docs_paths = ["docs/"]
+mcp_paths = ["src/mcp.rs"]
+published = [
+  { registry = "npm", name = "@kitlangton/terminal-control-linux-x64-gnu", latest = "1.2.1" },
+  { registry = "crates.io", name = "terminal-control", latest = "1.2.1" },
+  { registry = "npm", name = "@kitlangton/terminal-control-darwin-arm64", latest = "1.2.1" },
+  { registry = "npm", name = "@kitlangton/terminal-control-linux-arm64-gnu", latest = "1.2.1" },
+  { registry = "npm", name = "@kitlangton/terminal-control-darwin-x64", latest = "1.2.1" },
+  { registry = "npm", name = "@kitlangton/terminal-control-opentui", latest = "1.2.1" },
+]
+
+[[source]]
+upstream = "anomalyco/rift"
+fork = "aphrody-labs/rift"
+branch = "dev"
+language = "Rust"
+role = "Instant copy-on-write workspaces for coding agents and parallel work."
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "npm", name = "rift-snapshot", latest = "0.0.13" },
+]
+note = "same-named registry packages whose repository field is missing or points elsewhere, excluded: crates.io:rift."
+
+[[source]]
+upstream = "anomalyco/isocast"
+fork = "aphrody-labs/isocast"
+branch = "main"
+language = "Rust"
+role = "Free, open-source OBS alternative for Mac: scenes and sources, every source recorded as its own file (ISO), about half OBS's CPU, CLI and MCP control. Rust, Apple silicon."
+extract = ["docs", "mcp", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = ["crates/isocast-cli/src/mcp.rs", "crates/isocast-cli/src/mcp/", "docs/mcp-tools.md"]
+published = []
+note = "publishes nothing: 24 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "anomalyco/hokum"
+fork = "aphrody-labs/hokum"
+branch = "dev"
+language = "Rust"
+role = "Notifications for Wayland that look like they belong on a computer from this decade. Drawn with Rune."
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = []
+note = "publishes nothing: 1 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "anomalyco/clip"
+fork = "aphrody-labs/clip"
+branch = "dev"
+language = "Rust"
+role = "Clip: double-tap ⌃ to record your screen, trim, crop and paste. A Rune app for macOS."
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = []
+note = "publishes nothing: 0 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "anomalyco/opencode-pty"
+fork = "aphrody-labs/opencode-pty"
+branch = "master"
+language = "Rust"
+role = "Experimental threaded PTY service core for OpenCode."
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@opencode-ai/pty", latest = "0.3.1" },
+]
+note = "README states the repository is no longer maintained and moved to anomalyco/opencode packages/process-daemon, with releases under @opencode/pty (replacing @opencode-ai/pty)."
+
+[[source]]
+upstream = "anomalyco/flicks"
+fork = "aphrody-labs/flicks"
+branch = "main"
+language = "Rust"
+role = "A lightweight Plex alternative in Rust: Flicks servers own your folders, the Flicks app merges any number of them into one library. No account, nothing hosted."
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = []
+note = "publishes nothing: 25 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+# ----------------------------------------------------------------------
+# Nous Research
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "NousResearch/hermes-agent"
+fork = "aphrody-labs/hermes-agent"
+branch = "main"
+language = "Python"
+role = "The agent that grows with you"
+extract = ["skills", "docs", "mcp", "graph"]
+skills_paths = ["optional-skills/", "plugins/google_meet/", "skills/"]
+docs_paths = ["apps/desktop/docs/", "website/docs/"]
+mcp_paths = ["optional-mcps/", "agent/transports/hermes_tools_mcp_server.py", "hermes_cli/mcp_catalog.py"]
+published = [
+  { registry = "pypi", name = "hermes-agent", latest = "0.19.0" },
+]
+note = "registry metadata lacks a matching repository field, matched by publisher and package contents: hermes-agent."
+
+# ----------------------------------------------------------------------
+# Storytold
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "storytold/craft-libs"
+fork = "aphrody-labs/craft-libs"
+branch = "main"
+language = "Rust"
+role = "Rust libraries for the Craft Apps"
+extract = ["docs", "mcp", "graph"]
+skills_paths = []
+docs_paths = ["crates/aep/docs/", "crates/raw/docs/", "crates/ui/docs/", "docs/"]
+mcp_paths = ["crates/mcp-server/", "crates/mcp/"]
+published = [
+  { registry = "crates.io", name = "craft-atomic", latest = "1.4.7" },
+  { registry = "crates.io", name = "craft-cms", latest = "1.4.7" },
+]
+note = "published from the aphrody-labs fork (registry repository field points at the fork), not by upstream: craft-atomic, craft-cms."
+
+# ----------------------------------------------------------------------
+# Hugging Face
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "huggingface/diffusers"
+fork = "aphrody-labs/diffusers"
+branch = "main"
+language = "Python"
+role = "Diffusers: State-of-the-art diffusion models for image, video, and audio generation in PyTorch."
+extract = ["skills", "docs", "graph"]
+skills_paths = [".ai/skills/"]
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "pypi", name = "diffusers", latest = "0.43.0" },
+]
+
+[[source]]
+upstream = "huggingface/trl"
+fork = "aphrody-labs/trl"
+branch = "main"
+language = "Python"
+role = "Train transformer language models with reinforcement learning."
+extract = ["skills", "docs", "graph"]
+skills_paths = [".agents/skills/", "skills/"]
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "pypi", name = "trl", latest = "1.18.1" },
+]
+
+[[source]]
+upstream = "huggingface/transformers"
+fork = "aphrody-labs/transformers"
+branch = "main"
+language = "Python"
+role = "Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training."
+extract = ["skills", "docs", "graph"]
+skills_paths = [".ai/skills/"]
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "pypi", name = "transformers", latest = "5.23.0" },
+]
+
+[[source]]
+upstream = "huggingface/serge"
+fork = "aphrody-labs/serge"
+branch = "main"
+language = "Python"
+role = "Reviews pull requests with any OpenAI-compatible LLM"
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = []
+note = "publishes nothing: 1 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "huggingface/huggingface.js"
+fork = "aphrody-labs/huggingface.js"
+branch = "main"
+language = "TypeScript"
+role = "Use Hugging Face with JavaScript"
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@huggingface/hub", latest = "2.17.11" },
+  { registry = "npm", name = "@huggingface/inference", latest = "4.13.33" },
+  { registry = "npm", name = "@huggingface/gguf", latest = "0.4.6" },
+  { registry = "npm", name = "@huggingface/agents", latest = "0.0.5" },
+  { registry = "npm", name = "@huggingface/blob", latest = "0.0.2" },
+  { registry = "npm", name = "@huggingface/dduf", latest = "0.0.2" },
+  { registry = "npm", name = "@huggingface/jinja", latest = "0.5.13" },
+  { registry = "npm", name = "@huggingface/languages", latest = "1.0.0" },
+]
+note = "packages/mcp-client/ and packages/tiny-agents/ are MCP clients, not MCP servers, so mcp is not listed in extract. 16 published artifacts found, the 8 most downloaded are listed. same-named registry packages whose repository field is missing or points elsewhere, excluded: npm:@huggingface/blake3-jit, npm:gearhash-jit, npm:@huggingface/splitmix64-wasm."
+
+[[source]]
+upstream = "huggingface/tokenizers"
+fork = "aphrody-labs/tokenizers"
+branch = "main"
+language = "Rust"
+role = "Fast State-of-the-Art Tokenizers optimized for Research and Production"
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "tokenizers", latest = "0.23.2" },
+  { registry = "npm", name = "tokenizers", latest = "0.23.2" },
+  { registry = "crates.io", name = "bitcannon", latest = "0.1.0-rc.4" },
+  { registry = "crates.io", name = "tk-encode", latest = "0.1.0-rc.4" },
+  { registry = "crates.io", name = "tk-convert", latest = "0.1.0-rc.4" },
+  { registry = "crates.io", name = "tk-serialize", latest = "0.1.0-rc.4" },
+  { registry = "crates.io", name = "tk-train", latest = "0.1.0-rc.4" },
+  { registry = "pypi", name = "tokenizers", latest = "0.23.3" },
+]
+note = "same-named registry packages whose repository field is missing or points elsewhere, excluded: crates.io:node."
+
+# ----------------------------------------------------------------------
+# vLLM
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "vllm-project/vllm"
+fork = "aphrody-labs/vllm"
+branch = "main"
+language = "Python"
+role = "A high-throughput and memory-efficient inference and serving engine for LLMs"
+extract = ["skills", "docs", "graph"]
+skills_paths = [".agents/skills/", ".claude/skills/"]
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "vllm-proto", latest = "0.6.0" },
+  { registry = "pypi", name = "vllm", latest = "0.34.0" },
+]
+note = "vllm/entrypoints/mcp/ is an MCP client/tool-server integration, not an MCP server, so mcp is not listed in extract."
+
+# ----------------------------------------------------------------------
+# ggml
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "ggml-org/ggml"
+fork = "aphrody-labs/ggml"
+branch = "master"
+language = "C++"
+role = "Tensor library for machine learning"
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = []
+note = "publishes nothing: 0 candidate package names read from the tree manifests (the tree has no package manifests), none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "ggml-org/llama.cpp"
+fork = "aphrody-labs/llama.cpp"
+branch = "master"
+language = "C++"
+role = "LLM inference in C/C++"
+extract = ["skills", "docs", "graph"]
+skills_paths = ["skills/", "ui/apps/chat/src/lib/components/app/"]
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "npm", name = "@ggml-org/llama-ui", latest = "0.4.0" },
+  { registry = "pypi", name = "gguf", latest = "0.19.0" },
+]
+note = "tools/server/server-mcp.cpp hosts and proxies external MCP servers, not an MCP server of its own, so mcp is not listed in extract."
+
+[[source]]
+upstream = "ggml-org/whisper.cpp"
+fork = "aphrody-labs/whisper.cpp"
+branch = "master"
+language = "C++"
+role = "Port of OpenAI's Whisper model in C/C++"
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = []
+note = "publishes nothing: 0 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+# ----------------------------------------------------------------------
+# Dioxus
+# ----------------------------------------------------------------------
+
+[[source]]
+upstream = "DioxusLabs/taffy"
+fork = "aphrody-labs/taffy"
+branch = "main"
+language = "Rust"
+role = "A high performance rust-powered UI layout library"
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "taffy", latest = "0.15.1" },
+]
+
+[[source]]
+upstream = "DioxusLabs/blitz"
+fork = "aphrody-labs/blitz"
+branch = "main"
+language = "Rust"
+role = "A radically modular HTML/CSS rendering engine"
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/"]
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "debug_timer", latest = "0.1.3" },
+  { registry = "crates.io", name = "blitz-dom", latest = "0.2.4" },
+  { registry = "crates.io", name = "blitz-html", latest = "0.2.0" },
+  { registry = "crates.io", name = "blitz-traits", latest = "0.2.0" },
+  { registry = "crates.io", name = "stylo_taffy", latest = "0.2.0" },
+  { registry = "crates.io", name = "blitz-paint", latest = "0.2.1" },
+  { registry = "crates.io", name = "blitz-net", latest = "0.2.1" },
+  { registry = "crates.io", name = "blitz-shell", latest = "0.2.3" },
+]
+note = "dioxus-native and dioxus-native-dom on crates.io are published from DioxusLabs/dioxus (packages/native, packages/native-dom); the copies in this tree are stale (0.7.0). 11 published artifacts found, the 8 most downloaded are listed. same-named registry packages whose repository field is missing or points elsewhere, excluded: crates.io:dioxus-native-dom, crates.io:dioxus-native."
+
+[[source]]
+upstream = "DioxusLabs/anyrender"
+fork = "aphrody-labs/anyrender"
+branch = "main"
+language = "Rust"
+role = "Rust 2D drawing abstraction"
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "anyrender", latest = "0.15.0" },
+  { registry = "crates.io", name = "anyrender_svg", latest = "0.16.0" },
+  { registry = "crates.io", name = "anyrender_vello_cpu", latest = "0.19.0" },
+  { registry = "crates.io", name = "wgpu_context", latest = "0.11.0" },
+  { registry = "crates.io", name = "anyrender_vello", latest = "0.16.0" },
+  { registry = "crates.io", name = "pixels_window_renderer", latest = "0.10.0" },
+  { registry = "crates.io", name = "anyrender_serialize", latest = "0.9.0" },
+  { registry = "crates.io", name = "softbuffer_window_renderer", latest = "0.10.0" },
+]
+note = "12 published artifacts found, the 8 most downloaded are listed."
+
+[[source]]
+upstream = "DioxusLabs/dioxus-icons"
+fork = "aphrody-labs/dioxus-icons"
+branch = "main"
+language = "Rust"
+role = "An icon library for dioxus with rich documentation"
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "dioxus-icons", latest = "0.1.0" },
+]
+
+[[source]]
+upstream = "DioxusLabs/dioxus-components"
+fork = "aphrody-labs/dioxus-components"
+branch = "main"
+language = "Rust"
+role = "Accessible, unstyled, foundational components for Dioxus."
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = []
+note = "publishes nothing: 4 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo. same-named registry packages whose repository field is missing or points elsewhere, excluded: crates.io:dioxus-primitives, crates.io:test-harness."
+
+[[source]]
+upstream = "DioxusLabs/dioxus"
+fork = "aphrody-labs/dioxus"
+branch = "main"
+language = "Rust"
+role = "Fullstack app framework for web, desktop, and mobile."
+extract = ["skills", "docs", "graph"]
+skills_paths = [".devin/skills/"]
+docs_paths = ["packages/document/docs/", "packages/hooks/docs/", "packages/html/docs/", "packages/signals/docs/", "packages/vdom-macro/docs/", "packages/vdom/docs/"]
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "dioxus-core", latest = "0.7.10" },
+  { registry = "crates.io", name = "dioxus-signals", latest = "0.7.10" },
+  { registry = "crates.io", name = "dioxus-hooks", latest = "0.7.10" },
+  { registry = "crates.io", name = "dioxus-html", latest = "0.7.10" },
+  { registry = "crates.io", name = "dioxus-rsx", latest = "0.7.10" },
+  { registry = "crates.io", name = "dioxus-cli-config", latest = "0.7.10" },
+  { registry = "crates.io", name = "dioxus", latest = "0.7.10" },
+  { registry = "crates.io", name = "dioxus-interpreter-js", latest = "0.7.10" },
+]
+note = "37 published artifacts found, the 8 most downloaded are listed."
+
+[[source]]
+upstream = "DioxusLabs/accessibility-cli"
+fork = "aphrody-labs/accessibility-cli"
+branch = "main"
+language = "Rust"
+role = "Cross platform CLI for computer use across macos, windows, linux and android"
+extract = ["skills", "docs", "graph"]
+skills_paths = [".devin/skills/"]
+docs_paths = ["docs/"]
+mcp_paths = []
+published = []
+note = "publishes nothing: 8 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo."
+
+[[source]]
+upstream = "DioxusLabs/wasm-bindgen-wry"
+fork = "aphrody-labs/wasm-bindgen-wry"
+branch = "main"
+language = "Rust"
+role = "Taking the wasm out of wasm-bindgen"
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "wry-bindgen-macro-support", latest = "0.2.123-alpha.10" },
+  { registry = "crates.io", name = "wry-bindgen-macro", latest = "0.2.123-alpha.10" },
+  { registry = "crates.io", name = "wry-bindgen", latest = "0.2.123-alpha.10" },
+  { registry = "crates.io", name = "wry-bindgen-runtime", latest = "0.1.0" },
+  { registry = "crates.io", name = "wry-bindgen-core", latest = "0.1.0" },
+  { registry = "crates.io", name = "js-sys-wry", latest = "0.3.100-alpha.10" },
+  { registry = "crates.io", name = "web-sys-wry", latest = "0.3.100-alpha.10" },
+  { registry = "crates.io", name = "wasm-bindgen-futures-wry", latest = "0.4.73-alpha.10" },
+]
+note = "registry metadata lacks a matching repository field, matched by publisher and package contents: js-sys-wry, web-sys-wry, wasm-bindgen-futures-wry. 12 same-named registry packages whose repository field is missing or points elsewhere (vendored or unrelated crates), excluded, e.g. crates.io:js-sys, crates.io:wasm-bindgen-futures, crates.io:wasm-bindgen-macro."
+
+[[source]]
+upstream = "DioxusLabs/sdk"
+fork = "aphrody-labs/dioxus-sdk"
+branch = "main"
+language = "Rust"
+role = "A library to provide abstractions to access common utilities when developing Dioxus applications."
+extract = ["graph"]
+skills_paths = []
+docs_paths = []
+mcp_paths = []
+published = [
+  { registry = "crates.io", name = "dioxus-sdk-time", latest = "0.7.0" },
+  { registry = "crates.io", name = "dioxus-sdk", latest = "0.7.0" },
+  { registry = "crates.io", name = "dioxus-sdk-storage", latest = "0.7.0" },
+  { registry = "crates.io", name = "dioxus-sdk-geolocation", latest = "0.7.0" },
+  { registry = "crates.io", name = "dioxus-sdk-window", latest = "0.7.0" },
+  { registry = "crates.io", name = "dioxus-sdk-notification", latest = "0.7.0" },
+  { registry = "crates.io", name = "dioxus-sdk-sync", latest = "0.7.0" },
+  { registry = "crates.io", name = "dioxus-sdk-util", latest = "0.7.0" },
+]
+
+[[source]]
+upstream = "DioxusLabs/rustd"
+fork = "aphrody-labs/rustd"
+branch = "main"
+language = "Rust"
+role = "a rust compiler daemon for up to 25x faster cargo builds"
+extract = ["docs", "graph"]
+skills_paths = []
+docs_paths = ["docs/", "harness/buildmodel/doctest/docs/"]
+mcp_paths = []
+published = []
+note = "publishes nothing: 24 candidate package names read from the tree manifests, none found on the registries with a repository field pointing at this repo. 13 same-named registry packages whose repository field is missing or points elsewhere (vendored or unrelated crates), excluded, e.g. crates.io:rung, crates.io:ecs, crates.io:grpc."
