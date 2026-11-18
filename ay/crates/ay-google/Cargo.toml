@@ -1,0 +1,37 @@
+[package]
+name = "ay-google"
+description = "Aphrody OS Google facade: public search, language atlas and project contract with the Gemini, Antigravity and model-client integrations, the google CLI, routes, detection and translation."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lib]
+name = "ay_google"
+path = "src/lib.rs"
+
+[dependencies]
+ay-antigravity = { path = "../ay-antigravity" }
+ay-gemini-web = { path = "../ay-gemini-web" }
+serde.workspace = true
+serde_json = { workspace = true, features = ["std"] }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+ay-gemini-runtime = { path = "../ay-gemini-runtime" }
+ay-model-client = { path = "../ay-model-client" }
+bun_browser_dom = "1.4.7"
+chrono = { version = "0.4.45", default-features = false }
+clap = { workspace = true, features = ["derive", "env"] }
+futures = { version = "0.3.34", default-features = false, features = ["std", "async-await"] }
+regex = { version = "1.13.1", default-features = false }
+reqwest = { version = "0.13.5", default-features = false }
+rusqlite = { workspace = true, features = ["bundled"] }
+rustls = { version = "0.23.45", default-features = false }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }
+url = { workspace = true }
+
+[lints]
+workspace = true

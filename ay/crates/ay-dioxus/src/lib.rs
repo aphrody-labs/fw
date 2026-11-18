@@ -100,7 +100,10 @@ pub fn render_nsh_shell_ssr(props: NshShellProps) -> String {
 }
 
 /// Computes a 2-region COSMIC/NSH split layout (navigation rail + WebGPU workspace) using our `taffy` fork.
-pub fn compute_nsh_split_layout(viewport_w: f32, viewport_h: f32) -> Result<([f32; 4], [f32; 4]), taffy::TaffyError> {
+pub fn compute_nsh_split_layout(
+    viewport_w: f32,
+    viewport_h: f32,
+) -> Result<([f32; 4], [f32; 4]), taffy::TaffyError> {
     let mut tree: TaffyTree<()> = TaffyTree::new();
     let rail_w = match CosmicBreakpoint::from_width_px(viewport_w) {
         CosmicBreakpoint::Compact => 0.0,

@@ -77,7 +77,8 @@ impl HeadlessBrowserSdk {
         explicit_route: Option<RouteMode>,
     ) -> Result<HeadlessLaunchPlan, HeadlessError> {
         self.sessions.ensure_url_allowed(raw_url)?;
-        let parsed = Url::parse(raw_url).map_err(|_| HeadlessError::InvalidUrl(raw_url.to_owned()))?;
+        let parsed =
+            Url::parse(raw_url).map_err(|_| HeadlessError::InvalidUrl(raw_url.to_owned()))?;
         let backend: &Backend = browser_engine::pick(&needs, &self.shipping_backends, true)
             .ok_or(HeadlessError::NoEngine(needs))?;
 
@@ -90,7 +91,10 @@ impl HeadlessBrowserSdk {
                 .unwrap_or(RouteMode::SystemTunnel),
         };
         let proxy: ContextProxyConfig = self.vpn.resolve_context_proxy(&route)?;
-        let mut args = vec!["--headless=new".to_owned(), "--disable-gpu-sandbox".to_owned()];
+        let mut args = vec![
+            "--headless=new".to_owned(),
+            "--disable-gpu-sandbox".to_owned(),
+        ];
         args.extend(proxy.chromium_args());
 
         Ok(HeadlessLaunchPlan {
