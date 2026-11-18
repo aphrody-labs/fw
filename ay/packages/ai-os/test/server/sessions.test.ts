@@ -92,3 +92,19 @@ test("unknown and ambiguous recipients are errors", () => {
     /ambiguous/,
   );
 });
+
+test("session_inbox works with omitted session by resolving active session", async () => {
+  await tool("session_send").run({
+    from: "aaaa1111",
+    to: "bbbb2222",
+    text: "auto-resolved inbox message",
+  });
+  const res = (await tool("session_inbox").run({})) as {
+    text: string;
+    messages: Array<{ text: string }>;
+  };
+  expect(res.text).toContain("auto-resolved inbox message");
+  expect(
+    res.messages.some((m) => m.text === "auto-resolved inbox message"),
+  ).toBe(true);
+});

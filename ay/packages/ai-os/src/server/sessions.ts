@@ -117,6 +117,42 @@ export function resolve(who: string): Session {
   );
 }
 
+/**
+ * Resolve an optional caller session: uses explicit name/id when passed,
+ * else AI_OS_SESSION / CLAUDE_SESSION_ID, else active sessions matching cwd
+ * (preferring one with pending unread mail), else most recently seen live session.
+ */
+export function resolveDefault(who?: string, cwd = process.cwd()): Session {
+  const trimmed = who?.trim();
+  if (trimmed) return resolve(trimmed);
+
+  const envId =
+    process.env.AI_OS_SESSION?.trim() || process.env.CLAUDE_SESSION_ID?.trim();
+  if (envId) {
+    try {
+      return resolve(envId);
+    } catch {
+      // fall through to live session discovery
+    }
+  }
+
+  const live = list();
+  if (!live.length) {
+    throw new Error(
+      "no active session registered (pass `session` or call `session_register`)",
+    );
+  }
+  const norm = (p: string) =>
+    p.replaceAll("\\", "/").replace(/\/+$/, "").toLowerCase();
+  const targetCwd = norm(cwd);
+  const cwdMatches = targetCwd
+    ? live.filter((s) => s.cwd && norm(s.cwd) === targetCwd)
+    : [];
+  const pool = cwdMatches.length ? cwdMatches : live;
+  const withPending = pool.find((s) => existsSync(pendingFile(s.id)));
+  return withPending ?? pool[0]!;
+}
+
 /** Queue a message. A reply (reply_to) stays in the thread of the message it answers. */
 export function send(
   from: string,

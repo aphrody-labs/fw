@@ -8,6 +8,7 @@ import {
   register,
   render,
   resolve,
+  resolveDefault,
   send,
   waitReply,
 } from "./sessions.ts";
@@ -100,14 +101,18 @@ export const SESSION_TOOLS: Tool[] = [
       "Unread messages of a session (marks them read unless peek). Returns the rendered mail and the rows.",
     inputSchema: obj(
       {
-        session: str("your own session name or id"),
+        session: str(
+          "your own session name or id (optional: defaults to AI_OS_SESSION / matching cwd / latest live session)",
+        ),
         peek: { type: "boolean", description: "do not mark read (optional)" },
       },
-      ["session"],
+      [],
     ),
     readOnly: false,
     run: async (a) => {
-      const me = resolve(String(a.session));
+      const me = resolveDefault(
+        typeof a.session === "string" ? a.session : undefined,
+      );
       const rows = inbox(me.id, Boolean(a.peek));
       return { text: render(rows, me), messages: rows };
     },
