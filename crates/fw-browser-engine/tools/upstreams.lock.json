@@ -7,396 +7,189 @@
  },
  "agent-browser": {
   "branch": "main",
-  "crates": {
-   "cli": "third_party/agent-browser/agent-browser"
-  },
+  "crates": {},
   "sha": "53384771fbafc261ba67608ac806dd5aa70b84f0",
   "url": "https://github.com/aphrody-labs/agent-browser"
  },
  "app_units": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/app_units/app_units"
-  },
+  "crates": {},
   "sha": "2e4e0e0ad8b43bf49a1d3d84e3ca4c55367314a7",
   "url": "https://github.com/servo/app_units"
  },
  "cgl-rs": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/cgl-rs/cgl"
-  },
+  "crates": {},
   "sha": "d97cc08f93bfbf5b5f6520cfa0f49ac3fa01e07c",
   "url": "https://github.com/servo/cgl-rs"
  },
  "core-foundation-rs": {
   "branch": "main",
-  "crates": {
-   "cocoa": "third_party/core-foundation-rs/cocoa",
-   "cocoa-foundation": "third_party/core-foundation-rs/cocoa-foundation",
-   "core-foundation": "third_party/core-foundation-rs/core-foundation",
-   "core-foundation-sys": "third_party/core-foundation-rs/core-foundation-sys",
-   "core-graphics": "third_party/core-foundation-rs/core-graphics",
-   "core-graphics-types": "third_party/core-foundation-rs/core-graphics-types",
-   "core-text": "third_party/core-foundation-rs/core-text",
-   "io-surface": "third_party/core-foundation-rs/io-surface"
-  },
+  "crates": {},
   "sha": "5eb228da0e6268cfafd9f9c49fc3ac2dc7c5d434",
   "url": "https://github.com/servo/core-foundation-rs"
  },
  "dwrote-rs": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/dwrote-rs/dwrote"
-  },
+  "crates": {},
   "sha": "be9593628212e00b6ef7466de6684547bd56357a",
   "url": "https://github.com/servo/dwrote-rs"
  },
  "euclid": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/euclid/euclid"
-  },
+  "crates": {},
   "sha": "60f2bd96deec0c0683eeddd737e0dc070a25e9af",
   "url": "https://github.com/servo/euclid"
  },
  "fontsan": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/fontsan/fontsan"
-  },
+  "crates": {},
   "sha": "04d3e6cc12893731bb916ece3afe3bf93cb8089e",
   "url": "https://github.com/servo/fontsan"
  },
  "gaol": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/gaol/gaol"
-  },
+  "crates": {},
   "sha": "683cb7dc873e06ff19bc3a464fbe027ad9c65003",
   "url": "https://github.com/servo/gaol"
  },
  "gleam": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/gleam/gleam"
-  },
+  "crates": {},
   "sha": "ebf9bb015219e2a082be2defef18ba23670b005e",
   "url": "https://github.com/servo/gleam"
  },
  "html5ever": {
   "branch": "main",
-  "crates": {
-   "html5ever": "third_party/html5ever/html5ever",
-   "markup5ever": "third_party/html5ever/markup5ever",
-   "rcdom": "third_party/html5ever/markup5ever_rcdom",
-   "tendril": "third_party/html5ever/tendril",
-   "tendril-bench": "third_party/html5ever/tendril-bench",
-   "web_atoms": "third_party/html5ever/web_atoms",
-   "xml5ever": "third_party/html5ever/xml5ever"
-  },
+  "crates": {},
   "sha": "492f52a02fd07c2321e59ccff90038e26b9c90bc",
   "url": "https://github.com/servo/html5ever"
  },
  "hyperfine": {
   "branch": "master",
-  "crates": {
-   ".": "third_party/hyperfine/hyperfine"
-  },
+  "crates": {},
   "imported": "bc2b7a5e8a785270fc47be73e4dc294b7318fa01",
   "sha": "c5161524980522320c7d3425e714cc0965a869a5",
   "url": "https://github.com/aphrody-labs/hyperfine"
  },
  "ipc-channel": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/ipc-channel/ipc-channel"
-  },
+  "crates": {},
   "sha": "f1214051be070ee51fcf4b9550b7015b3b942899",
   "url": "https://github.com/servo/ipc-channel"
  },
  "lol-html": {
   "branch": "bun",
-  "crates": {
-   ".": "third_party/lol-html/lol_html"
-  },
+  "crates": {},
   "sha": "e1a306d32355e264a93ab41e2580f56444971aef",
   "url": "https://github.com/oven-sh/lol-html"
  },
  "mozangle": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/mozangle/mozangle"
-  },
+  "crates": {},
   "sha": "db4633ea0ce432fcb76d1ff3d38b513463b350df",
   "url": "https://github.com/servo/mozangle"
  },
  "mozjs": {
   "branch": "main",
-  "crates": {
-   "mozjs": "third_party/mozjs/mozjs",
-   "mozjs-extracted-crates/collator_glue": "third_party/mozjs/mozjs_collator_glue",
-   "mozjs-extracted-crates/icu_collator": "third_party/mozjs/mozjs_icu_collator",
-   "mozjs-extracted-crates/icu_collator_data": "third_party/mozjs/mozjs_icu_collator_data",
-   "mozjs-extracted-crates/icu_collections": "third_party/mozjs/mozjs_icu_collections",
-   "mozjs-extracted-crates/icu_normalizer": "third_party/mozjs/mozjs_icu_normalizer",
-   "mozjs-extracted-crates/icu_normalizer_data": "third_party/mozjs/mozjs_icu_normalizer_data",
-   "mozjs-extracted-crates/locale_glue": "third_party/mozjs/mozjs_locale_glue",
-   "mozjs-extracted-crates/normalizer_glue": "third_party/mozjs/mozjs_normalizer_glue",
-   "mozjs-extracted-crates/properties_glue": "third_party/mozjs/mozjs_properties_glue",
-   "mozjs-extracted-crates/unicode_bidi_ffi": "third_party/mozjs/mozjs_unicode_bidi_ffi",
-   "mozjs-extracted-crates/utf16_iter": "third_party/mozjs/mozjs_utf16_iter",
-   "mozjs-extracted-crates/utf8_iter": "third_party/mozjs/mozjs_utf8_iter",
-   "mozjs-sys": "third_party/mozjs/mozjs_sys"
-  },
+  "crates": {},
   "sha": "37f1c8fc8ebe7ad26cd88fdb9b203a28fe1860da",
   "url": "https://github.com/servo/mozjs"
  },
  "obscura": {
   "branch": "main",
-  "crates": {
-   "crates/obscura": "third_party/obscura/obscura",
-   "crates/obscura-browser": "third_party/obscura/obscura-browser",
-   "crates/obscura-cdp": "third_party/obscura/obscura-cdp",
-   "crates/obscura-cli": "third_party/obscura/obscura-cli",
-   "crates/obscura-dom": "third_party/obscura/obscura-dom",
-   "crates/obscura-js": "third_party/obscura/obscura-js",
-   "crates/obscura-mcp": "third_party/obscura/obscura-mcp",
-   "crates/obscura-net": "third_party/obscura/obscura-net",
-   "crates/obscura-render": "third_party/obscura/obscura-render",
-   "crates/obscura-ssrf": "third_party/obscura/obscura-ssrf"
-  },
+  "crates": {},
   "sha": "0d9a2f764ffdb097269da048002c593865e83a9e",
   "url": "https://github.com/aphrody-labs/obscura"
  },
  "plane-split": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/plane-split/plane-split"
-  },
+  "crates": {},
   "sha": "cb400581bcbb7c8a491377653d6a0e2945053151",
   "url": "https://github.com/servo/plane-split"
  },
  "rust-argon2": {
   "branch": "master",
-  "crates": {
-   ".": "third_party/rust-argon2/rust-argon2"
-  },
+  "crates": {},
   "sha": "ed81866f163f0c7026aa6fd8388adf37242eb32a",
   "url": "https://github.com/sru-systems/rust-argon2"
  },
  "rust-cssparser": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/rust-cssparser/cssparser",
-   "color": "third_party/rust-cssparser/cssparser-color",
-   "macros": "third_party/rust-cssparser/cssparser-macros"
-  },
+  "crates": {},
   "sha": "9f3ceddf398f5ce4ab76fdad1b42ccb6c578a926",
   "url": "https://github.com/servo/rust-cssparser"
  },
  "rust-fnv": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/rust-fnv/fnv"
-  },
+  "crates": {},
+  "crates_legacy": false,
   "sha": "4e55052a343a4372c191141f29a17ab829cf1dbc",
   "url": "https://github.com/servo/rust-fnv"
  },
  "rust-freetype": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/rust-freetype/freetype"
-  },
+  "crates": {},
   "sha": "cdd3cd616be819f74aa34586022d00ff0a2e6c3c",
   "url": "https://github.com/servo/rust-freetype"
  },
  "rust-harfbuzz": {
   "branch": "main",
-  "crates": {
-   "harfbuzz": "third_party/rust-harfbuzz/harfbuzz",
-   "harfbuzz-sys": "third_party/rust-harfbuzz/harfbuzz-sys",
-   "harfbuzz-traits": "third_party/rust-harfbuzz/harfbuzz-traits"
-  },
+  "crates": {},
   "sha": "0d3ac4d874ed81a637c05f90d29ce4024b72c745",
   "url": "https://github.com/servo/rust-harfbuzz"
  },
  "rust-url": {
   "branch": "main",
-  "crates": {
-   "data-url": "third_party/rust-url/data-url",
-   "form_urlencoded": "third_party/rust-url/form_urlencoded",
-   "idna": "third_party/rust-url/idna",
-   "percent_encoding": "third_party/rust-url/percent-encoding",
-   "url": "third_party/rust-url/rust-url-url",
-   "url_debug_tests": "third_party/rust-url/url_debug_tests"
-  },
+  "crates": {},
   "sha": "bcf5a2a98986dd5dfb252d3e977d2da380b09fda",
   "url": "https://github.com/servo/rust-url"
  },
  "servo": {
   "branch": "main",
-  "crates": {
-   "components/allocator": "third_party/servo/servo-allocator",
-   "components/background_hang_monitor": "third_party/servo/servo-background-hang-monitor",
-   "components/bluetooth": "third_party/servo/servo-bluetooth",
-   "components/canvas": "third_party/servo/servo-canvas",
-   "components/config": "third_party/servo/servo-config",
-   "components/config/macro": "third_party/servo/servo-config-macro",
-   "components/constellation": "third_party/servo/servo-constellation",
-   "components/default-resources": "third_party/servo/servo-default-resources",
-   "components/deny_public_fields": "third_party/servo/servo-deny-public-fields",
-   "components/devtools": "third_party/servo/servo-devtools",
-   "components/dom_struct": "third_party/servo/servo-dom-struct",
-   "components/fonts": "third_party/servo/servo-fonts",
-   "components/geometry": "third_party/servo/servo-geometry",
-   "components/hyper_serde": "third_party/servo/servo-hyper-serde",
-   "components/jstraceable_derive": "third_party/servo/servo-jstraceable-derive",
-   "components/layout": "third_party/servo/servo-layout",
-   "components/malloc_size_of": "third_party/servo/servo-malloc-size-of",
-   "components/media/audio": "third_party/servo/servo-media-audio",
-   "components/media/backends/auto": "third_party/servo/servo-media-auto",
-   "components/media/backends/dummy": "third_party/servo/servo-media-dummy",
-   "components/media/backends/gstreamer": "third_party/servo/servo-media-gstreamer",
-   "components/media/backends/gstreamer/render": "third_party/servo/servo-media-gstreamer-render",
-   "components/media/backends/gstreamer/render-android": "third_party/servo/servo-media-gstreamer-render-android",
-   "components/media/backends/gstreamer/render-unix": "third_party/servo/servo-media-gstreamer-render-unix",
-   "components/media/backends/ohos": "third_party/servo/servo-media-ohos",
-   "components/media/examples": "third_party/servo/servo-media-examples",
-   "components/media/media-thread": "third_party/servo/servo-media-thread",
-   "components/media/player": "third_party/servo/servo-media-player",
-   "components/media/servo-media": "third_party/servo/servo-media",
-   "components/media/servo-media-derive": "third_party/servo/servo-media-derive",
-   "components/media/streams": "third_party/servo/servo-media-streams",
-   "components/media/traits": "third_party/servo/servo-media-traits",
-   "components/media/webrtc": "third_party/servo/servo-media-webrtc",
-   "components/metrics": "third_party/servo/servo-metrics",
-   "components/net": "third_party/servo/servo-net",
-   "components/paint": "third_party/servo/servo-paint",
-   "components/pixels": "third_party/servo/servo-pixels",
-   "components/profile": "third_party/servo/servo-profile",
-   "components/script": "third_party/servo/servo-script",
-   "components/script_bindings": "third_party/servo/servo-script-bindings",
-   "components/script_webcrypto": "third_party/servo/servo-script-webcrypto",
-   "components/script_webgpu": "third_party/servo/servo-script-webgpu",
-   "components/servo": "third_party/servo/servo",
-   "components/servo_tracing": "third_party/servo/servo-tracing",
-   "components/shared/background_hang_monitor": "third_party/servo/servo-background-hang-monitor-api",
-   "components/shared/base": "third_party/servo/servo-base",
-   "components/shared/bluetooth": "third_party/servo/servo-bluetooth-traits",
-   "components/shared/canvas": "third_party/servo/servo-canvas-traits",
-   "components/shared/constellation": "third_party/servo/servo-constellation-traits",
-   "components/shared/devtools": "third_party/servo/servo-devtools-traits",
-   "components/shared/embedder": "third_party/servo/servo-embedder-traits",
-   "components/shared/fonts": "third_party/servo/servo-fonts-traits",
-   "components/shared/layout": "third_party/servo/servo-layout-api",
-   "components/shared/net": "third_party/servo/servo-net-traits",
-   "components/shared/paint": "third_party/servo/servo-paint-api",
-   "components/shared/profile": "third_party/servo/servo-profile-traits",
-   "components/shared/script": "third_party/servo/servo-script-traits",
-   "components/shared/storage": "third_party/servo/servo-storage-traits",
-   "components/shared/webgpu": "third_party/servo/servo-webgpu-traits",
-   "components/shared/webxr": "third_party/servo/servo-webxr-api",
-   "components/storage": "third_party/servo/servo-storage",
-   "components/svg": "third_party/servo/servo-svg",
-   "components/timers": "third_party/servo/servo-timers",
-   "components/url": "third_party/servo/servo-url",
-   "components/wakelock": "third_party/servo/servo-wakelock",
-   "components/webdriver_server": "third_party/servo/servo-webdriver-server",
-   "components/webgl": "third_party/servo/servo-webgl",
-   "components/webgpu": "third_party/servo/servo-webgpu",
-   "components/webvtt": "third_party/servo/servo-webvtt",
-   "components/webxr": "third_party/servo/servo-webxr",
-   "components/xpath": "third_party/servo/servo-xpath",
-   "ffi/capi": "third_party/servo/servo-capi",
-   "ports/servoshell": "third_party/servo/servoshell",
-   "tests/capi": "third_party/servo/servo-capi-tests",
-   "tests/unit/malloc_size_of": "third_party/servo/malloc_size_of_tests",
-   "tests/unit/profile": "third_party/servo/profile_tests",
-   "tests/unit/script": "third_party/servo/script_tests",
-   "tests/unit/style": "third_party/servo/style_tests"
-  },
+  "crates": {},
   "sha": "695124a56869e2896eb6af48b308363010007114",
   "url": "https://github.com/servo/servo"
  },
  "smallbitvec": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/smallbitvec/smallbitvec"
-  },
+  "crates": {},
   "sha": "0d26579696e5083fef52de1ab17c757a3a9a9985",
   "url": "https://github.com/servo/smallbitvec"
  },
  "string-cache": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/string-cache/string_cache",
-   "integration-tests": "third_party/string-cache/integration_tests",
-   "string-cache-codegen": "third_party/string-cache/string_cache_codegen"
-  },
+  "crates": {},
   "sha": "5f845e2cdf504e76a53d6827a6f6d4bfcced1c93",
   "url": "https://github.com/servo/string-cache"
  },
  "stylo": {
   "branch": "main",
-  "crates": {
-   "malloc_size_of": "third_party/stylo/stylo_malloc_size_of",
-   "selectors": "third_party/stylo/selectors",
-   "servo_arc": "third_party/stylo/servo_arc",
-   "style": "third_party/stylo/stylo",
-   "style_derive": "third_party/stylo/stylo_derive",
-   "style_traits": "third_party/stylo/stylo_traits",
-   "stylo_atoms": "third_party/stylo/stylo_atoms",
-   "stylo_dom": "third_party/stylo/stylo_dom",
-   "stylo_static_prefs": "third_party/stylo/stylo_static_prefs",
-   "to_shmem": "third_party/stylo/to_shmem",
-   "to_shmem_derive": "third_party/stylo/to_shmem_derive"
-  },
+  "crates": {},
   "sha": "fa0bd5f8eb5a2f0ce10373c3b9451d41431352b3",
   "url": "https://github.com/servo/stylo"
  },
  "surfman": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/surfman/surfman"
-  },
+  "crates": {},
   "sha": "d84ea4f647e327091108ad07dca154e6f2dc7b20",
   "url": "https://github.com/servo/surfman"
  },
  "uluru": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/uluru/uluru"
-  },
+  "crates": {},
   "sha": "fc4a87761db7ee944b781e456cdbd5d6e41799b7",
   "url": "https://github.com/servo/uluru"
  },
  "unicode-bidi": {
   "branch": "main",
-  "crates": {
-   ".": "third_party/unicode-bidi/unicode-bidi"
-  },
+  "crates": {},
   "sha": "9a8c7b03be01def5cf7014b89d5af90f7382fdad",
   "url": "https://github.com/servo/unicode-bidi"
  },
  "webrender": {
   "branch": "main",
-  "crates": {
-   "example-compositor/compositor": "third_party/webrender/compositor",
-   "example-compositor/compositor-wayland": "third_party/webrender/compositor-wayland",
-   "example-compositor/compositor-windows": "third_party/webrender/compositor-windows",
-   "examples": "third_party/webrender/webrender-examples",
-   "glsl-to-cxx": "third_party/webrender/glsl-to-cxx",
-   "peek-poke": "third_party/webrender/peek-poke",
-   "peek-poke/peek-poke-derive": "third_party/webrender/peek-poke-derive",
-   "swgl": "third_party/webrender/swgl",
-   "webrender": "third_party/webrender/webrender",
-   "webrender_api": "third_party/webrender/webrender_api",
-   "webrender_build": "third_party/webrender/webrender_build",
-   "wr_glyph_rasterizer": "third_party/webrender/wr_glyph_rasterizer",
-   "wr_malloc_size_of": "third_party/webrender/wr_malloc_size_of",
-   "wrench": "third_party/webrender/wrench"
-  },
+  "crates": {},
   "sha": "e1c924ebad9ffdfe8c8c606aba77eb3f888c396a",
   "url": "https://github.com/servo/webrender"
  }

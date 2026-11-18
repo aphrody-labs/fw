@@ -1,184 +1,195 @@
-# One entry per upstream (history imported by tools/import.py; `mode = "pin"` only records the head). The Bun runtime is not here: it is a submodule.
-# `mode = "pin"` only records the live branch head in the lock (a non-crate tree too large to import).
-# Heads are resolved live at import time and recorded in upstreams.lock.json.
+# Upstream repositories tracked by tools/import.py and testing/acceptance/track.ts.
+# All entries use `mode = "pin"` so live SHAs stay recorded in tools/upstreams.lock.json without duplicating third_party trees on disk.
 
 [[upstream]]
 name = "servo"
 url = "https://github.com/servo/servo"
 branch = "main"
-drop = ["tests/wpt/tests"]   # in-tree copy of web-platform-tests (re-fetched by mach update-wpt)
+mode = "pin"
 
 [[upstream]]
 name = "stylo"
 url = "https://github.com/servo/stylo"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "webrender"
 url = "https://github.com/servo/webrender"
-branch = "0.70"   # Servo's line (published 0.70.x); main is a stale mozilla mirror, last push 2025-10, no common ancestor
+branch = "0.70"
+mode = "pin"
 
 [[upstream]]
 name = "mozjs"
 url = "https://github.com/servo/mozjs"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "mozangle"
 url = "https://github.com/servo/mozangle"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "html5ever"
 url = "https://github.com/servo/html5ever"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "rust-url"
 url = "https://github.com/servo/rust-url"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "rust-cssparser"
 url = "https://github.com/servo/rust-cssparser"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "ipc-channel"
 url = "https://github.com/servo/ipc-channel"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "surfman"
 url = "https://github.com/servo/surfman"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "euclid"
 url = "https://github.com/servo/euclid"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "string-cache"
 url = "https://github.com/servo/string-cache"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "unicode-bidi"
 url = "https://github.com/servo/unicode-bidi"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "core-foundation-rs"
 url = "https://github.com/servo/core-foundation-rs"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "dwrote-rs"
 url = "https://github.com/servo/dwrote-rs"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "gleam"
 url = "https://github.com/servo/gleam"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "app_units"
 url = "https://github.com/servo/app_units"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "cgl-rs"
 url = "https://github.com/servo/cgl-rs"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "fontsan"
 url = "https://github.com/servo/fontsan"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "gaol"
 url = "https://github.com/servo/gaol"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "plane-split"
 url = "https://github.com/servo/plane-split"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "rust-fnv"
 url = "https://github.com/servo/rust-fnv"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "rust-freetype"
 url = "https://github.com/servo/rust-freetype"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "rust-harfbuzz"
 url = "https://github.com/servo/rust-harfbuzz"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "smallbitvec"
 url = "https://github.com/servo/smallbitvec"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "uluru"
 url = "https://github.com/servo/uluru"
 branch = "main"
+mode = "pin"
 
 [[upstream]]
 name = "obscura"
-url = "https://github.com/aphrody-labs/obscura"   # fork of h4ckf0r0day/obscura (a user account, not an org)
+url = "https://github.com/aphrody-labs/obscura"
 branch = "main"
-
-# Local modifications beyond the Cargo layout, listed in README.chromium.
-local = [
-  "vendor/ holds three crates vendored by the upstream (taffy, cosmic-text, wreq-util): path dependencies of the obscura crates, not workspace members",
-  "obscura-ssrf delegates its outbound IP deny-set to components/browser-detect::ssrf so every engine and agent surface enforces one policy",
-  "obscura-js, obscura-browser, obscura-cdp, obscura-cli, obscura and obscura-mcp are kept out of the workspace until V8 comes from our own build (tools/fixups.sh)",
-]
+mode = "pin"
 
 [[upstream]]
 name = "agent-browser"
-url = "https://github.com/aphrody-labs/agent-browser"   # fork of vercel-labs/agent-browser
+url = "https://github.com/aphrody-labs/agent-browser"
 branch = "main"
-manifest = "cli/Cargo.toml"
-# Local modifications beyond the Cargo layout, listed in README.chromium.
-local = [
-  "JavaScript and TypeScript tooling converted to native Bun (docs/, examples/, packages/, benchmarks/, evals/, scripts/, bin/, test/): pnpm, Node, tsx, tsc-ts, esbuild, oxlint and the pnpm lockfiles and workspace files removed, bun.lock files and package.json workspaces in their place",
-  "scripts/*.js and bin/agent-browser.js are TypeScript on Bun APIs (Bun.file, Bun.spawn with windowsHide, Bun.env); tests are bun:test",
-  "@agent-browser/sandbox emits dist with bun build --no-bundle --dts (no declaration maps); docs/tests and scripts run on Bun (esbuild CJS evaluation replaced by Bun.plugin virtual modules)",
-  "Next.js applications keep their Node-runtime source (process.env, node:fs in server code deployed on Vercel) and run on the Bun runtime in development (bun --bun next)",
-]
+mode = "pin"
 
 [[upstream]]
 name = "lol-html"
-url = "https://github.com/oven-sh/lol-html"   # cloudflare/lol-html plus content-handler suspension, Bun's vendor/lolhtml
+url = "https://github.com/oven-sh/lol-html"
 branch = "bun"
-shipped = false   # a dependency of the Bun submodule, no crate of ours uses it
+mode = "pin"
 
 [[upstream]]
 name = "rust-argon2"
-url = "https://github.com/sru-systems/rust-argon2"   # Bun's vendor/rust-argon2 (3.0.0) + tools/patches/rust-argon2/*.patch
+url = "https://github.com/sru-systems/rust-argon2"
 branch = "master"
-rev = "ed81866f163f0c7026aa6fd8388adf37242eb32a"   # 3.0.0, the base of the two patches
-shipped = false   # a dependency of the Bun submodule, no crate of ours uses it
+rev = "ed81866f163f0c7026aa6fd8388adf37242eb32a"
+mode = "pin"
 
 [[upstream]]
 name = "hyperfine"
-url = "https://github.com/aphrody-labs/hyperfine"   # fork of sharkdp/hyperfine, benchmark runner (testing/acceptance.ts)
+url = "https://github.com/aphrody-labs/hyperfine"
 branch = "master"
-shipped = false   # a test tool: built and run, never shipped
+mode = "pin"
 
 [[upstream]]
 name = "JetStream"
-url = "https://github.com/aphrody-labs/JetStream"   # fork of WebKit/JetStream, ~208 MB of JS/Wasm workloads, not a crate
+url = "https://github.com/aphrody-labs/JetStream"
 branch = "main"
 mode = "pin"

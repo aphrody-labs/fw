@@ -107,7 +107,7 @@ export function parseSources(upstreamsToml: string, lock: Json, track: Json): So
       owner: gh?.owner ?? null,
       repo: gh?.repo ?? null,
       branch: e.branch ?? "main",
-      pin: null,
+      pin: e.pin ?? null,
       pin_file: e.pin_file ?? null,
       pin_deps: e.pin_deps ?? null,
       pin_submodule: e.pin_submodule ?? null,
