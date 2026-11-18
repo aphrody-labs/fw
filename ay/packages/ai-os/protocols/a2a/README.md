@@ -20,7 +20,7 @@ bun run --cwd packages/ai-os/protocols/a2a test
 bun run --cwd packages/ai-os/protocols/a2a lint
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->
 
 A2A **1.0** client for Bun and the web platform: Agent Card discovery, the JSON-RPC and HTTP+JSON
@@ -30,10 +30,10 @@ the pre-1.0 dialect. Zero runtime dependencies, standard `fetch` only.
 Specification: [A2A Protocol 1.0](https://a2a-protocol.org/latest/specification/) (latest released
 version `1.0.0`, checked on 2026-10-06). Server side: the Rust crates `ay-a2a`,
 `ay-a2a-pb`, `ay-a2a-server`, `ay-a2a-coord` (`aphrody a2a serve`), documented in
-[docs/products/contracts/a2a](../../../../docs/aphrody/products/contracts/a2a/README.md).
+[crates/ay-a2a](../../../../crates/ay-a2a).
 
 Status: source and tested behavior only. The package is **not published** to npm; publication is
-the owner's decision. `npm pack --dry-run` lists exactly `src/`, `README.md` and `package.json`.
+the owner's decision. `bun pm pack --dry-run` lists exactly `src/`, `README.md` and `package.json`.
 
 ```ts
 import { A2AClient, collectStream, responseText } from "@aphrody/a2a";
@@ -110,7 +110,7 @@ OAuth / in-task authorisation flows (credentials are the caller's, through `head
 | `A2ADiscoveryError` | `kind`: `fetch`, `invalid`, `no-interface`.                                                                                                                                                                             |
 
 `A2A_ERROR_CODES` holds the codes of spec section 5.4 and JSON-RPC (`-32001` to `-32009`, `-32700` to
-`-32603`); a test compares them with `crates/contracts/a2a/src/errors.rs`.
+`-32603`); a test compares them with `crates/ay-a2a/src/errors.rs`.
 
 ## Push notifications
 
@@ -121,7 +121,7 @@ in a send request). A webhook receiver decodes a delivery with `parsePushNotific
 
 ## Generated types
 
-`src/generated/a2a.ts` is generated from `crates/os/kernel/comps/a2a-pb/proto/a2a.proto`, the schema the Rust
+`src/generated/a2a.ts` is generated from `crates/ay-a2a-pb/proto/a2a.proto`, the schema the Rust
 crates compile with prost, so both sides share one source: camelCase members, enum names as
 strings (`TASK_STATE_COMPLETED`), `oneof` as exclusive unions (`Part`, `StreamResponse`), required
 fields from `google.api.field_behavior`, and the method tables (`A2A_METHODS`, `A2AMethodTypes`).

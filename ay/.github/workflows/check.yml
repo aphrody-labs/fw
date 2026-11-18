@@ -4,13 +4,54 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-slim
+    outputs:
+      rust: ${{ steps.filter.outputs.rust }}
+      corelib: ${{ steps.filter.outputs.corelib }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+          submodules: false
+      - id: filter
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "rust=true" >> "$GITHUB_OUTPUT"
+            echo "corelib=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          BASE="${{ github.event.pull_request.base.sha || github.event.before }}"
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            echo "rust=true" >> "$GITHUB_OUTPUT"
+            echo "corelib=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          FILES=$(git diff --name-only "$BASE" HEAD)
+          if echo "$FILES" | grep -qE '^(Cargo\.(toml|lock)|crates/|submodules\.toml|\.gitmodules|\.github/workflows/check\.yml)'; then
+            echo "rust=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "rust=false" >> "$GITHUB_OUTPUT"
+          fi
+          if echo "$FILES" | grep -qE '^(corelib/|abi/|tools/(corelib|listings|abi)|docs/guides/assembly-and-wasm/|\.github/workflows/check\.yml)'; then
+            echo "corelib=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "corelib=false" >> "$GITHUB_OUTPUT"
+          fi
+
   check:
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
@@ -18,29 +59,37 @@ jobs:
       - run: bun run check
 
   rust:
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
     env:
       CARGO_INCREMENTAL: "0"
       RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@v7
       - name: Checkout path-dep submodules
-        run: git submodule update --init --depth 1 third_party/browser
+        run: git submodule update --init --depth 1 third_party/browser third_party/rio third_party/rubash third_party/niubash third_party/ruline
       - uses: dtolnay/rust-toolchain@v1
         with:
           toolchain: stable
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
       - run: cargo fmt --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
-      # ay-chromium downloads CEF (333 MB) in its build script, so clippy builds it here; its tests start Chromium and run on the
+      # ay-chromium downloads CEF in its build script, so clippy builds it here; its tests start Chromium and run on the
       # test host (docs/chromium.md).
       - run: cargo test --workspace --locked --exclude ay-chromium
 
   # SDK corelib conformance: one freestanding C23 code base, run as a native process (clang, and clang-cl on Windows locally),
   # as WebAssembly (Bun, wasmtime component) and as a bare-metal x86_64 image (QEMU), plus the guide's generated listings.
   corelib:
+    needs: changes
+    if: needs.changes.outputs.corelib == 'true'
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
       - id: pins
@@ -53,6 +102,7 @@ jobs:
         with:
           path: ~/llvm
           key: llvm-${{ steps.pins.outputs.clang }}-linux-x64
+          enableCrossOsArchive: false
       - name: LLVM (clang, lld, wasm-ld), the pinned official release
         if: steps.llvm.outputs.cache-hit != 'true'
         run: |
@@ -76,6 +126,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: corelib-boot-logs
+          retention-days: 7
           path: |
             ${{ runner.temp }}/qemu-boot.log
             ${{ runner.temp }}/wasmtime-boot.log

@@ -1644,6 +1644,9 @@ function commonDir(files: string[]): string {
 /** Scores of all archived verdicts (.private/reviews/*.md and auto/*.md): the score contract the tool reproduces. */
 export function mine(root = srcRoot()) {
   const dir = join(root, ".private", "reviews");
+  if (!existsSync(dir)) {
+    return { verdicts: [], byVoice: {}, unscored: [] };
+  }
   const out: { file: string; voice: string; date?: string; score?: number }[] =
     [];
   const files = [

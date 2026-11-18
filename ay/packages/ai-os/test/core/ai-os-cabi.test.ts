@@ -26,6 +26,7 @@ test("ai-os unified C ABI contract: uname, FHS VFS, LLM spec, RAG, World Model, 
     const vfs = osResolveVfs(dir, "/dev/world");
     expect(vfs.device).toBe("world");
     expect(vfs.readonly).toBe(false);
+    // Virtual FHS VFS traversal fixture
     expect(() => osResolveVfs(dir, "/etc/../secret")).toThrow();
 
     const spec = osLlmSpec() as {
@@ -49,7 +50,7 @@ test("ai-os unified C ABI contract: uname, FHS VFS, LLM spec, RAG, World Model, 
     const okStep = osWorldStep(dbPath, {
       actor: "agent",
       action: "write",
-      target: "/etc/ai-os/policy",
+      target: "/etc/ai-os/policy", // Virtual FHS fixture
       predicted: { ok: true },
       observed: { ok: true },
     });

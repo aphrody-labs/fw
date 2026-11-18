@@ -16,5 +16,5 @@ bun run --cwd packages/ai-os/protocols/agent-browser test
 bun run --cwd packages/ai-os/protocols/agent-browser lint
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->

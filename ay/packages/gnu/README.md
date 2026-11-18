@@ -16,6 +16,6 @@ bun run --cwd packages/gnu check
 bun run --cwd packages/gnu sync
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->

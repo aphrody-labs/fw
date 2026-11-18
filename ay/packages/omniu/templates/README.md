@@ -12,5 +12,5 @@ and adjust permissions before adding it to `bundle.toml`.
 - `wasm/plugin.toml`: explicit opt-in WASM command template for future
   sandboxed packs.
 
-Run `python tools/validate_bundle.py` after copying a template into
+Run `bun src/cli.ts validate` from `packages/omniu` after copying a template into
 `packs/<name>/plugin.toml`.

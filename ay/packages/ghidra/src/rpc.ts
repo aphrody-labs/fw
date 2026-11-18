@@ -2,7 +2,6 @@
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
 import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
 import type { Subprocess } from "bun";
 
 export class JavaError extends Error {
@@ -304,7 +303,7 @@ export function findInstall(): string | undefined {
 }
 
 async function compileBridge(java: string, utility: string): Promise<string> {
-  const src = join(dirname(fileURLToPath(import.meta.url)), "..", "bridge", "Bridge.java");
+  const src = join(import.meta.dir, "..", "bridge", "Bridge.java");
   const gsrc = join(dirname(src), "GhidraBridge.java");
   const stamp = new Bun.CryptoHasher("sha1").update(readFileSync(src)).update(readFileSync(gsrc)).digest("hex").slice(0, 12);
   const out = join(process.env.XDG_CACHE_HOME ?? join(homedir() || tmpdir(), ".cache"), "aphrody-ghidra", `bridge-${stamp}`);

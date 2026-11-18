@@ -1,5 +1,5 @@
-import { existsSync, readdirSync, readFileSync, statSync } from "fs";
-import { basename, extname, join, relative } from "path";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { basename, extname, join, relative } from "node:path";
 import type { WebFilesContext } from "./types";
 
 export function loadWebContext(targetPath: string): WebFilesContext {

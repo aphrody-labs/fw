@@ -2,7 +2,7 @@
 
 <!-- catalog:begin unit -->
 <!-- prettier-ignore-start -->
-> Python 3 to Bun TypeScript transpiler: runtime and CLI wrapper (Rust crate at system/py2bun)
+> Python 3 to Bun TypeScript transpiler: Bun runtime and CLI wrapper for py2bun-rs
 
 | Type | Path |
 | :-- | :-- |
@@ -14,13 +14,13 @@
 bun run --cwd packages/py2bun test
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->
 
 Python 3 to Bun TypeScript transpiler, built for Ghidra (PyGhidra) scripts.
 
-- Rust crate: `system/py2bun` (standalone workspace, parser `ruff_python_parser` 0.0.22 from crates.io).
+- Rust CLI (`py2bun-rs`): resolved via `PY2BUN_BIN` or `PATH` (parser `ruff_python_parser` 0.0.22).
 - PyO3 module (abi3, `py2bun._py2bun`): `py2bun.transpile(source, mode="auto") -> str` (raises `SyntaxError` with all diagnostics), `py2bun.transpile_with_diagnostics(source, mode="auto") -> (ts, [(line, col, severity, message)])`.
 - Bun runtime: `@aphrody/ay-py2bun/runtime` (builtins, operators, `str`/`list`/`dict` methods), plus `runtime/{math,json,os,sys,re,time,string,struct,random}`.
 - Bun wrapper: `import { transpile } from "@aphrody/ay-py2bun"` shells to the Rust CLI `py2bun-rs`.
@@ -40,7 +40,7 @@ No existing tool emits Bun-runnable TypeScript with Ghidra FlatAPI and Java name
 ## Usage
 
 ```sh
-# Rust CLI (<build-host>: cargo build --release in system/py2bun)
+# Rust CLI (when py2bun-rs is on PATH or PY2BUN_BIN)
 py2bun-rs script.py -o script.ts          # --json diagnostics on stderr, --strict
 # Python (uv + maturin)
 uv build                                   # in packages/py2bun
@@ -54,7 +54,7 @@ Exit status 1 when the input does not parse or an error diagnostic exists (the `
 ## Mapping
 
 - Imports: `from ghidra.x.y import A` becomes `import { A } from "@aphrody/ay-ghidra/java/ghidra/x/y"` (roots `ghidra java javax generic docking utility db org com resources ...`); `import ghidra` becomes `import { ghidra } from "@aphrody/ay-ghidra/java"`; `pyghidra` maps to `@aphrody/ay-ghidra`; stdlib `math json os sys re time string struct random` map to `@aphrody/ay-py2bun/runtime/<name>`; other modules are reported.
-- Ghidra script globals (`currentProgram`, `toAddr`, `getFunctionAt`, `println`, `askString`, `monitor`, ...) are resolved to `import { ... } from "@aphrody/ay-ghidra/script"`. The name list (`GHIDRA_FLAT` in `system/py2bun/src/names.rs`) is generated from `packages/ghidra/src/script.generated.ts` (193 functions) plus the script fields; ambiguous names (`start`, `end`, `set`, `show`, `print`, ...) never capture an unbound Python name.
+- Ghidra script globals (`currentProgram`, `toAddr`, `getFunctionAt`, `println`, `askString`, `monitor`, ...) are resolved to `import { ... } from "@aphrody/ay-ghidra/script"`. The name list (`GHIDRA_FLAT` in `py2bun-rs`) is generated from `packages/ghidra/src/script.generated.ts` (193 functions) plus the script fields; ambiguous names (`start`, `end`, `set`, `show`, `print`, ...) never capture an unbound Python name.
 - Async mode (default when the script uses Ghidra, `--async`/`--sync` to force): Ghidra calls cross a process boundary, so every `def` becomes `async`, every non-builtin call is `await`ed, `for` becomes `for await (... of __py.aiter(x))`, comprehensions are async IIFEs, `and`/`or`/`==`/`%`/`str()`/`len()`/`list()`/`sorted()`... use the `a_*` variants of `runtime/async.ts` (Java iterables go through `$list()`, Java strings through `$str()`). JS constructors (`__init__`), accessors, `toString` and lambdas cannot await: calls inside are left unawaited and reported as warnings. Java classes are constructed as `await X.new_(...)` (`new X(...)` only in sync mode) (`JClass` of `packages/ghidra`).
 - Java namespaces are imported from `@aphrody/ay-ghidra/java` (root proxy) and `@aphrody/ay-ghidra/java/<package path>` (class proxies). These two entry points are the contract py2bun relies on; they are not exported by `packages/ghidra` yet (its `package.json` exports only `.`, `./script`, `./flat`, `./plugin`, `./preload`, `./analysis`).
 - `pyghidra`: `import pyghidra` becomes `import * as pyghidra from "@aphrody/ay-ghidra"` and attributes are camel-cased (`pyghidra.open_program` -> `pyghidra.openProgram`, per `packages/ghidra/PARITY.md`); `with pyghidra.open_program(...) as flat:` is not translated to `await using` (reported through the generic `with` path: the handle, not the flat API, is bound).
@@ -65,7 +65,7 @@ Exit status 1 when the input does not parse or an error diagnostic exists (the `
 
 ## Diagnostics
 
-Errors (unsupported): `match`, `except*`, decorators other than `staticmethod`/`classmethod`/`property`/`setter`, class decorators, multiple inheritance, metaclasses, complex literals, star imports of unmapped modules, unmapped modules, `**` in dict comprehension. Matrix multiplication (`@`) emits `__py.unsupported` with an error diagnostic. Calls to `os.path` and the ignored modules in `IGNORED_MODULES` (`system/py2bun/src/names.rs`) are mapped or dropped without a diagnostic. Flags: `py2bun-rs` implements `-o/--output --json --strict --async --sync -h`; `src/cli.ts` implements `-o/--output --async --sync --strict`; `cli.py` implements `-o/--output --strict --async --sync --json`. Exit status: 0 ok, 1 diagnostics (errors, or any with `--strict`, or a syntax error), 2 usage or I/O error. `__str__`/`__repr__` are emitted as `toString` (a class defining both keeps `__repr__` under its own name). `ignored modules`: `__future__ typing __main__ exceptions`; `jarray` is an error.
+Errors (unsupported): `match`, `except*`, decorators other than `staticmethod`/`classmethod`/`property`/`setter`, class decorators, multiple inheritance, metaclasses, complex literals, star imports of unmapped modules, unmapped modules, `**` in dict comprehension. Matrix multiplication (`@`) emits `__py.unsupported` with an error diagnostic. Calls to `os.path` and the ignored modules in `IGNORED_MODULES` (in `py2bun-rs`) are mapped or dropped without a diagnostic. Flags: `py2bun-rs` implements `-o/--output --json --strict --async --sync -h`; `src/cli.ts` implements `-o/--output --async --sync --strict`; `cli.py` implements `-o/--output --strict --async --sync --json`. Exit status: 0 ok, 1 diagnostics (errors, or any with `--strict`, or a syntax error), 2 usage or I/O error. `__str__`/`__repr__` are emitted as `toString` (a class defining both keeps `__repr__` under its own name). `ignored modules`: `__future__ typing __main__ exceptions`; `jarray` is an error.
 Warnings: unresolved names, class attributes emitted as `static`, eager generator expressions, keyword arguments to unresolved callees, Python 2 rewrites.
 
 ## Conversion rate on aphrody-labs/ghidra (aa800ba9, all 146 `*.py` of the repo)
@@ -80,7 +80,6 @@ Most remaining diagnostics on the full set are library code (decorators, third-p
 ## Tests
 
 ```sh
-cargo test                 # in system/py2bun (<build-host>)
-bun test packages/py2bun   # runtime and wrapper (<test-host>)
-uv run --with pytest pytest packages/py2bun/tests   # after maturin develop / wheel install
+bun test packages/py2bun   # runtime and wrapper tests
+uv run --with pytest pytest packages/py2bun/tests   # Python package tests
 ```

@@ -21,10 +21,10 @@
     "@aphrody/ay-env-kit": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "1.4.2",
-    "typescript": "7.0.2"
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
   },
   "engines": {
-    "bun": ">=1.4.2"
+    "bun": ">=1.4.4"
   }
 }

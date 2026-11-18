@@ -16,5 +16,5 @@ bun run --cwd packages/ai-os/engines/gemma-web build:web
 bun run --cwd packages/ai-os/engines/gemma-web bench:webgpu
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->

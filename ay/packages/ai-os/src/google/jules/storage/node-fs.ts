@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import * as fs from "fs/promises";
-import { createReadStream, createWriteStream, WriteStream } from "fs";
-import * as path from "path";
-import * as readline from "readline";
+import * as fs from "node:fs/promises";
+import { createReadStream, createWriteStream, WriteStream } from "node:fs";
+import * as path from "node:path";
+import * as readline from "node:readline";
 import { type Activity, type SessionResource } from "../types.js";
 import {
   type ActivityStorage,

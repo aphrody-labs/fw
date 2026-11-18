@@ -28,9 +28,9 @@
     "typecheck": "bun check -p ../../tsconfig.json --threads=2 --no-pretty"
   },
   "devDependencies": {
-    "@aphrody/bun-workspace": "1.4.7"
+    "@types/bun": "catalog:"
   },
   "engines": {
-    "bun": "=1.4.4"
+    "bun": ">=1.4.4"
   }
 }

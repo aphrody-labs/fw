@@ -19,7 +19,7 @@ bun run --cwd packages/env-kit doctor
 bun run --cwd packages/env-kit accounts
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->
 
@@ -33,7 +33,7 @@ Zero-dependency cross-language environment loader, secret redaction guard, and u
 
 ## CLI Usage (`env-kit`)
 
-Installed at `~\.local\bin\env-kit.exe` (`env-kit.cmd` shim):
+Installed at `~/.local/bin/env-kit.exe` (`env-kit.cmd` shim):
 
 ```powershell
 env-kit doctor                       # Masked audit of all credentials, NTFS ACLs, and editors
@@ -74,15 +74,15 @@ Library API for other tools (AI provider keys included): `secretSet`, `secretGet
 ## Fleet Authentication (`env-kit auth`, `ay auth`)
 
 `status`, `repair [--browser]`, `gh-secrets`, `tunnels`, `rotate cloudflare`.
-Inventory in `device/deploy.toml` (`[nodes.*]`, `[auth.*]`).
+Fleet inventory in `apps/agents/fleet.toml`.
 
 ## Multi-Language Loaders
 
 | Language / Runtime            | Path                                                      | Native CLI Flag / Usage                                                  |
 | :---------------------------- | :-------------------------------------------------------- | :----------------------------------------------------------------------- |
-| **Bun v1.4.4 / TypeScript**   | `packages/env-kit/src/index.ts`                    | `bun --env-file=<workspace>/.env` or `loadMonorepoEnv({ service, required })` |
-| **Rust 2024 (`aphrody-env`)** | `<workspace>/src/env` (`ay env` inspects a `.env` without printing values) | `aphrody_env::load_monorepo_env(LoadOptions::default())`                 |
-| **Python 3.12+ / `uv`**       | `packages/env-kit/loaders/python/sovereign_env.py` | `uv run --env-file <workspace>/.env` or `sovereign_env.load_monorepo_env()`   |
+| **Bun v1.4.4 / TypeScript**   | `packages/env-kit/src/index.ts`                    | `bun --env-file=.env` or `loadMonorepoEnv({ service, required })` |
+| **Rust 2024 (`aphrody-env`)** | `crates/ay-vault` and `packages/env-kit` | `aphrody_env::load_monorepo_env(LoadOptions::default())`                 |
+| **Python 3.12+ / `uv`**       | `packages/env-kit/loaders/python/sovereign_env.py` | `uv run --env-file .env` or `sovereign_env.load_monorepo_env()`   |
 | **C11 / C++23**               | `packages/env-kit/loaders/cpp/sovereign_env.hpp`   | `sovereign_env::load()` / `sovereign_env_load_file(NULL, 0)`             |
 | **.NET 10/11 C#**             | `packages/env-kit/loaders/dotnet/SovereignEnv.cs`  | `Aphrody.EnvKit.SovereignEnv.Load()`                                     |
 | **Go 1.24+**                  | `packages/env-kit/loaders/go/envkit.go`            | `envkit.Load()`                                                          |

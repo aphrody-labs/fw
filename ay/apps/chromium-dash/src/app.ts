@@ -41,6 +41,18 @@ const DASH_JSON = new Set<string>(DASH_ENDPOINTS.filter(e => !e.auth && e.method
 const STATUS_JSON = STATUS_ENDPOINTS.filter(e => !e.auth).map(e => new RegExp(`^${e.path.replace(/\{[^}]+\}/g, "[^/]+")}$`));
 const HEX = /^[0-9a-fA-F]{1,40}$/;
 
+const ASSETS: Record<string, [string, string]> = {
+  "/favicon.ico": ["brand/assets/favicon.ico", "image/x-icon"],
+  "/apple-touch-icon.png": ["brand/assets/apple-touch-icon.png", "image/png"],
+  "/manifest.webmanifest": ["brand/assets/manifest.webmanifest", "application/manifest+json; charset=utf-8"],
+  "/assets/m3-tokens.css": ["brand/tokens/m3-tokens.css", "text/css; charset=utf-8"],
+  "/assets/icon.svg": ["brand/assets/icon.svg", "image/svg+xml"],
+  "/assets/icon-192.png": ["brand/assets/icon-192.png", "image/png"],
+  "/assets/icon-512.png": ["brand/assets/icon-512.png", "image/png"],
+  "/assets/maskable-192.png": ["brand/assets/maskable-192.png", "image/png"],
+  "/assets/maskable-512.png": ["brand/assets/maskable-512.png", "image/png"],
+};
+
 class NotFound extends Error {}
 
 export function createApp(options: AppOptions) {
@@ -200,13 +212,11 @@ export function createApp(options: AppOptions) {
   }
 
   async function asset(pathname: string): Promise<Response | undefined> {
-    const files: Record<string, [string, string]> = {
-      "/assets/m3-tokens.css": ["brand/tokens/m3-tokens.css", "text/css; charset=utf-8"],
-      "/assets/icon.svg": ["brand/assets/icon.svg", "image/svg+xml"],
-    };
-    const hit = files[pathname];
+    const hit = ASSETS[pathname];
     if (!hit) return undefined;
-    return new Response(Bun.file(join(root, hit[0])), { headers: { "content-type": hit[1], "cache-control": "public, max-age=3600" } });
+    const file = Bun.file(join(root, hit[0]));
+    if (!(await file.exists())) return undefined;
+    return new Response(file, { headers: { "content-type": hit[1], "cache-control": "public, max-age=3600" } });
   }
 
   return {

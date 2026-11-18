@@ -52,7 +52,7 @@ describe("derived locations", () => {
     const root = scratch();
     const elsewhere = scratch();
     writeFileSync(join(root, ".env"), "REAL_TOKEN=workspace-secret-value\n");
-    writeFileSync(join(elsewhere, ".env"), "LD_PRELOAD=/tmp/evil.so\n");
+    writeFileSync(join(elsewhere, ".env"), "LD_PRELOAD=./evil.so\n");
     process.env.AY_ROOT = root;
     delete process.env.ENV_FILE;
     process.chdir(elsewhere);

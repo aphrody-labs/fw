@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 export const structuredClone_ = <T>(obj: T): T => {
   if (typeof structuredClone === "function") {
     return structuredClone(obj);
@@ -21,7 +19,7 @@ export const structuredClone_ = <T>(obj: T): T => {
  * Cross-platform compatible (Node.js, browsers, React Native)
  */
 export function randomUUID(): string {
-  return uuidv4();
+  return crypto.randomUUID();
 }
 
 // Note: semver helpers were removed in favor of using

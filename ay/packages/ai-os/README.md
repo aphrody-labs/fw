@@ -16,11 +16,11 @@ bun run --cwd packages/ai-os check
 bun run --cwd packages/ai-os ai-os
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->
 
-Cross-platform sandboxed Unix/GNU-like operating system distribution for autonomous agents, unifying POSIX/FHS VFS, LLM runtime discovery, hybrid RAG, causal World Model, and sub-millisecond System 1 decision routing behind **one single C ABI** (`ai_os_*` in [src/core/capi](../../system/core/capi), header [ay_core.h](../../system/core/capi/include/ay_core.h)).
+Cross-platform sandboxed Unix/GNU-like operating system distribution for autonomous agents, unifying POSIX/FHS VFS, LLM runtime discovery, hybrid RAG, causal World Model, and sub-millisecond System 1 decision routing behind **one single C ABI** (`ai_os_*` in [crates/ay-core/capi](../../crates/ay-core/capi), header [ay_core.h](../../crates/ay-core/capi/include/ay_core.h)).
 
 `@aphrody/ay-ai-os` is an agent kernel and runtime distribution, not a TUI, package manager, or cron wrapper (those belong to host agent harnesses such as `agy`, Claude Code, and OpenCode). Zero third-party npm dependencies (`bun:ffi`, `bun:sqlite`, `Bun.serve`, `Bun.listen`, `Bun.spawn`, `fetch`).
 
@@ -63,7 +63,7 @@ bun src/cli.ts orch health                      # fleet & engine health
 
 ## Architecture & Research References
 
-- docs/ARCHITECTURE.md — Layered Agent OS architecture, C ABI contract, and `Context` retrieval metrics.
-- ../../docs/research/ai-os-stack-factcheck.md — November 2026 Context7 + GitHub/npm/crates.io deterministic fact-check (`100/100`).
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Layered Agent OS architecture, C ABI contract, and `Context` retrieval metrics.
+- [docs/architecture.md](../../docs/architecture.md) — Monorepo tree and SDK architecture.
 
 License: MIT OR Apache-2.0. Third-party notices in `NOTICE` and `licenses/`.

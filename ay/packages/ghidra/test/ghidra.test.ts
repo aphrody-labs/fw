@@ -1,4 +1,7 @@
 import { describe, expect, test } from "bun:test";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { Session, JavaError } from "../src/rpc.ts";
 import { createFlat, FLAT_PROGRAM_API, GHIDRA_SCRIPT_EXTRA, LOCAL_METHODS, sprintf, CancelledError } from "../src/flat.ts";
 import { parseSpecifier, renderModule } from "../src/plugin.ts";
@@ -90,10 +93,15 @@ describe("plugin + api helpers", () => {
     expect(m.functionCount).toBe(1);
   });
   test("ApplicationInfo parses application.properties", async () => {
-    const p = `${process.env.TEMP ?? "/tmp"}/app-${Date.now()}.properties`;
-    await Bun.write(p, "application.name=Ghidra\napplication.version=12.2\napplication.release.name=PUBLIC\napplication.java.min=25\n");
-    const a = ApplicationInfo.fromFile(p);
-    expect([a.name, a.version, a.release_name, a.java_min]).toEqual(["Ghidra", "12.2", "PUBLIC", "25"]);
+    const dir = mkdtempSync(join(tmpdir(), "ghidra-app-"));
+    const p = join(dir, "application.properties");
+    try {
+      await Bun.write(p, "application.name=Ghidra\napplication.version=12.2\napplication.release.name=PUBLIC\napplication.java.min=25\n");
+      const a = ApplicationInfo.fromFile(p);
+      expect([a.name, a.version, a.release_name, a.java_min]).toEqual(["Ghidra", "12.2", "PUBLIC", "25"]);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
   test("misc", () => {
     expect(started()).toBe(false);
@@ -176,11 +184,16 @@ describe("plugin, context and flat review fixes", () => {
     expect(JSON.stringify({ f })).toBe("{\"f\":{}}");
   });
   test("ApplicationInfo skips comments and validates required keys", async () => {
-    const p = `${process.env.TEMP ?? "/tmp"}/app2-${Date.now()}.properties`;
-    await Bun.write(p, "# application.name=bad\napplication.name=Ghidra\napplication.version=12.2\napplication.release.name=PUBLIC\n");
-    expect(ApplicationInfo.fromFile(p).name).toBe("Ghidra");
-    await Bun.write(p, "application.name=Ghidra\n");
-    expect(() => ApplicationInfo.fromFile(p)).toThrow();
+    const dir = mkdtempSync(join(tmpdir(), "ghidra-app2-"));
+    const p = join(dir, "application.properties");
+    try {
+      await Bun.write(p, "# application.name=bad\napplication.name=Ghidra\napplication.version=12.2\napplication.release.name=PUBLIC\n");
+      expect(ApplicationInfo.fromFile(p).name).toBe("Ghidra");
+      await Bun.write(p, "application.name=Ghidra\n");
+      expect(() => ApplicationInfo.fromFile(p)).toThrow();
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
 

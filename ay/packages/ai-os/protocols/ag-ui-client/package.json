@@ -7,16 +7,16 @@
   "license": "MIT",
   "private": false,
   "type": "module",
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/types/index.d.ts",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./src/index.ts",
       "bun": "./src/index.ts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./package.json": "./package.json"
   },
@@ -24,8 +24,7 @@
     "typecheck": "tsc --noEmit",
     "test": "bun test",
     "build": "bun build src/index.ts --target node --packages external --outfile dist/index.mjs && tsc --noEmit false --declaration --emitDeclarationOnly --outDir dist/types --rootDir src",
-    "prepack": "bun run build",
-    "test:upstream": "vitest run"
+    "prepack": "bun run build"
   },
   "dependencies": {
     "@ag-ui/core": "1.0.1",
@@ -35,18 +34,14 @@
     "fast-json-patch": "^3.1.1",
     "rxjs": "7.8.1",
     "untruncate-json": "^0.0.1",
-    "uuid": "^11.1.0",
     "zod": "^3.25.76 || ^4.0.0"
   },
   "devDependencies": {
-    "@types/node": "26.6.3",
-    "@types/uuid": "^10.0.0",
-    "typescript": "7.0.2",
-    "vitest": "5.0.3",
-    "bun-types": "^1.4.2"
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
   },
   "engines": {
-    "bun": ">=1.4.2"
+    "bun": ">=1.4.4"
   },
   "description": "AG-UI client with stream error draining and HTTP cancellation fixes.",
   "author": "aphrody-dev",

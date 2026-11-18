@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "moduleDetection": "force",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["bun-types", "node"],
+    "types": ["bun"],
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,

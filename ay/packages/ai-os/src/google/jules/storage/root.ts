@@ -15,7 +15,7 @@
  */
 
 // src/storage/root.ts
-import { homedir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 import { accessSync, constants, existsSync } from "node:fs";
 import * as path from "node:path";
 
@@ -55,6 +55,6 @@ export function getRootDir(): string {
   }
 
   // 5. Temporary directory as last resort
-  const tmpDir = process.env.TMPDIR || process.env.TMP || "/tmp";
+  const tmpDir = process.env.TMPDIR || process.env.TMP || tmpdir();
   return tmpDir;
 }

@@ -41,7 +41,10 @@ export function layout(p: Page): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${p.title} - ${p.product}</title>
-<link rel="icon" href="/assets/icon.svg">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <link rel="stylesheet" href="/assets/m3-tokens.css">
 <link rel="stylesheet" href="${FONT_CSS}">
 <style>${raw(APP_CSS)}</style>

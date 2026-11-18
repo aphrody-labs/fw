@@ -260,6 +260,13 @@ name = "unixwin"
 command = ["{home}/.bun/bin/bun.exe", "{src}/packages/ai-os/src/server/unixwin-mcp.ts"]
 hosts = ["pc"]
 
+# xh HTTP client knowledge (code graph, CLI help, man page, 16 use cases), curl translator, offline builder, and request runner.
+# hub_call xh__xh_docs | xh__xh_code_graph | xh__xh_use_cases | xh__xh_translate_curl | xh__xh_build_request | xh__xh_request; XH_BIN overrides `xh`.
+[[hub.mcp]]
+name = "xh"
+command = ["{home}/.bun/bin/bun.exe", "{home}/.gemini/plugins/aphrody/mcp/xh-mcp.ts"]
+hosts = ["pc"]
+
 # Hardcode and slop scanner (scripts/hygiene.ts). hub_call hygiene__hygiene_scan | hygiene__hygiene_rules.
 [[hub.mcp]]
 name = "hygiene"

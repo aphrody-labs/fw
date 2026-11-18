@@ -26,9 +26,9 @@
     "@aphrody/ay-env-kit": "workspace:*"
   },
   "devDependencies": {
-    "@aphrody/bun-types": "1.4.7"
+    "@types/bun": "catalog:"
   },
   "engines": {
-    "bun": "=1.4.4"
+    "bun": ">=1.4.4"
   }
 }

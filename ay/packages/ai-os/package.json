@@ -31,7 +31,7 @@
     "ai-os": "bun src/server/cli.ts serve"
   },
   "dependencies": {
-    "@aphrody/ai-router": "https://github.com/aphrody-labs/open/releases/download/libraries-v0.4.0/aphrody-ai-router-0.4.0.tgz",
+    "@aphrody/ai-router": "https://github.com/aphrody-labs/open/releases/download/libraries-v0.5.0/aphrody-ai-router-0.5.0.tgz",
     "@aphrody/ay-automate": "workspace:*",
     "@aphrody/ay-core": "workspace:*",
     "@aphrody/ay-env-kit": "workspace:*",

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import * as fs from "fs/promises";
-import * as path from "path";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
 import { type Activity } from "../types.js";
 import { getRootDir } from "./root.js";
 import { type GlobalCacheMetadata, type SessionMetadata } from "./types.js";

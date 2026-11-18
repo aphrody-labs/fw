@@ -18,17 +18,17 @@ bun run --cwd packages/ai-os/engines/rag-core typecheck
 bun run --cwd packages/ai-os/engines/rag-core test
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->
 
 The RAG core of Aphrody (source-aware chunkers, rank fusion, MMR, source weighting, vector kernels,
 the retrieval eval harness) behind one typed facade, with two backends over the same Rust source of
-truth, `crates/ai/rag-core/src/api.rs`:
+truth, `crates/ay-rag-core/src/api.rs`:
 
 | Backend     | Import                   | Use                                                                    |
 | :---------- | :----------------------- | :--------------------------------------------------------------------- |
 | WebAssembly | `@aphrody/rag-core/wasm` | browser, Bun, Node (the shared `@aphrody/cli-wasm` module)             |
-| bun:ffi     | `@aphrody/rag-core/ffi`  | Bun backend (`crates/ai/rag-ffi`, in the single `aphrody-ffi` library) |
+| bun:ffi     | `@aphrody/rag-core/ffi`  | Bun backend (`crates/ay-rag-core`, exported by `aphrody-ffi` in the OS repository) |
 
 The native desktop app links `ay-rag-core` directly as a Rust crate (no binding layer).
 
@@ -50,4 +50,3 @@ whose single binary is `aphrody_command_wasm_bg.wasm`. CLI and typed RAG calls s
 loader and memory. The `loadRagWasm` and `loadRagWasmSync` APIs remain unchanged; explicit
 bytes or module inputs must now be the CLI module. The old generated `wasm/*` resource
 exports are replaced by `@aphrody/cli-wasm/wasm/*`. No second module is copied into this package.
-Plan: `docs/plans/ai/shenron-targets.md`.

@@ -1,6 +1,7 @@
 // <test-host> integration: bun scripts/parity/run.ts   (needs GHIDRA_INSTALL_DIR, uv venv with pyghidra, gcc, java)
 // Builds test inputs, runs pyghidra (parity_py.py) and bun-ghidra (parity.ts) on the same binary, diffs, writes PARITY.md.
 import { mkdirSync, rmSync, writeFileSync, readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { findInstall } from "../../src/rpc.ts";
 
@@ -8,7 +9,7 @@ const install = findInstall();
 if (!install) throw new Error("no Ghidra install: set GHIDRA_INSTALL_DIR");
 // provision-fr2.sh puts the pyghidra venv next to the release directory.
 const venvPy = process.env.PYGHIDRA_PYTHON ?? join(install, "..", "venv", "bin", "python");
-const work = process.env.PARITY_WORK ?? "/tmp/ghidra-parity";
+const work = process.env.PARITY_WORK ?? join(tmpdir(), "ghidra-parity");
 const here = import.meta.dir;
 const pkg = resolve(here, "../..");
 if (process.env.PARITY_REUSE !== "1") rmSync(work, { recursive: true, force: true });

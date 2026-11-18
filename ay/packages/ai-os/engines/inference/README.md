@@ -17,7 +17,7 @@ bun run --cwd packages/ai-os/engines/inference typecheck
 bun run --cwd packages/ai-os/engines/inference test
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->
 
 `NativeInference` loads the `aphrody_ffi` library (cargo feature `inference` of `aphrody-ffi`) and uses
@@ -26,7 +26,7 @@ workers while Bun polls asynchronous jobs; Discord's event loop remains free.
 The bridge starts no model server or CLI process and performs no implicit model
 download. One resident model is allowed per library, with a bounded request queue.
 
-Build and qualify `crates/interop/ffi` with `--features inference` through the repository's serialized
+Build and qualify `crates/interop/ffi` (in the sibling Aphrody OS repository) with `--features inference` through its serialized
 factory. Install `libaphrody_ffi` in the protected Aphrody `lib` store, or set the
 absolute `APHRODY_INFERENCE_LIBRARY` path. Its existing llama runtime dependencies
 must also be installed through their owner. Source presence does not establish

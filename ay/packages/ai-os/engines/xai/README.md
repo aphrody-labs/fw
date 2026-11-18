@@ -15,7 +15,7 @@ bun run --cwd packages/ai-os/engines/xai typecheck
 bun run --cwd packages/ai-os/engines/xai test
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->
 
 Headless **xAI Grok** client for Bun — OpenAI-compatible `https://api.x.ai/v1`.
@@ -139,7 +139,7 @@ import {
   xNewsToolDef,
 } from "@aphrody/xai";
 const grok = new XaiClient();
-const xTools = new XTools(); // reuses our native system/x (cookie, store, stealth)
+const xTools = new XTools(); // uses the @aphrody/x client (cookie, store, stealth)
 
 const chat = grok.createChat("grok-3", {
   tools: [xSearchToolDef, xWhoamiToolDef, xTweetsToolDef, xNewsToolDef],
@@ -172,7 +172,7 @@ const xTools = new XTools(mockX);
 
 Corresponding tool defs (`xSearchToolDef`, etc.) and the `xNativeTools` array are exported for easy use in `createChat({ tools: xNativeTools })`.
 
-`XTools` and the tool definitions are owned by `@aphrody/x` in aphrody-web (`system/x/src/tools/function-tools.ts`, which also provides `XTools.execute(name, args)` and `isXToolName`); this package re-exports them. The dependency points one way: the AI layer consumes the web layer.
+`XTools` and the tool definitions are owned by `@aphrody/x` (in the sibling Aphrody OS checkout, which also provides `XTools.execute(name, args)` and `isXToolName`); this package re-exports them. The dependency points one way: the AI layer consumes the web layer.
 
 Simple agent loop with native X tools:
 
@@ -236,19 +236,17 @@ await xTools.news({count?});
 
 See `src/core/client.ts` (Chat + XaiClient), `src/index.ts` (exports, including `XTools`, every `*ToolDef` and `xNativeTools` re-exported from `@aphrody/x`).
 
-Runnable example: [packages/ai-os/engines/xai/examples/grok-x-agent.ts](examples/grok-x-agent.ts) (full agent loop with native X fulfillment).
-
 ## Production-grade Grok and native X
 
 The combo `@aphrody/xai` (Chat + XTools) + `@aphrody/x` (XClient) supports Grok tool calls for X search, tweets, news, identity and profiles. XTools uses the published X client; unit tests use mock clients and do not require a live API.
 
-See also the `@aphrody/x` package in `frameworks/web/x` and the tests in this package.
+See also the `@aphrody/x` package in the sibling Aphrody OS checkout and the tests in this package.
 
 ## Contributing & Notes
 
 - Keep packages light (dynamic zod for structured if present at runtime).
 - Prefer tools + XTools for agentic X access over legacy search_parameters.
-- `@aphrody/x` is integrated directly from `frameworks/web/x` via Bun workspace (`@aphrody/x: "workspace:*"`).
+- `@aphrody/x` is consumed from the published package or sibling Aphrody OS checkout.
 - Tests: `bun run test` from `packages/ai-os/engines/xai` (unit-only by default; live opt-in via env flags). Coverage includes Chat, XTools, native X dispatch and the bounded research helper.
 
 See `index.test.ts` and `agent.test.ts` for details (all mocks, no live service required for core coverage).

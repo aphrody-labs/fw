@@ -22,6 +22,6 @@ Each file uses the native Niubash TOML completion schema:
   `values_from = "path"`;
 - optional `[[subcommands]]` entries with their own `[[subcommands.flags]]`.
 
-`tools/validate_bundle.py` checks that every manifest entry in
+`bun src/cli.ts validate` (`packages/omniu/src/validate.ts`) checks that every manifest entry in
 `exports.completions` has a matching parseable `completions/<name>.toml` asset
 whose `command` matches the exported completion name.

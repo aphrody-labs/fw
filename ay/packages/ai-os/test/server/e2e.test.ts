@@ -567,6 +567,7 @@ describe.skipIf(!alive)("ai-os e2e", () => {
       "agent-desktop": ["agent-desktop__desktop_version", {}],
       "agent-browser": ["agent-browser__agent_browser_tools_profiles", {}],
       gnu: ["gnu__gnu_status", {}],
+      xh: ["xh__xh_docs", { section: "exit_codes" }],
     };
     test("toolchain.toml declares the expected hub servers", () => {
       for (const s of ["context7", "rea", "agent-desktop", "agent-browser"])
@@ -725,7 +726,7 @@ describe.skipIf(!alive)("ai-os e2e", () => {
     ];
     const allowed = [
       "cat x",
-      "cd /tmp",
+      "cd ..",
       "git stash",
       "git add -A",
       "git commit -m x",

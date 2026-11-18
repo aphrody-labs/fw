@@ -1,6 +1,6 @@
 // Index NHITL : classement des fins de tour, expurgation, lecture de la file, remplacement par source et tri humain.
 import { expect, test } from "bun:test";
-import { mkdtempSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -87,9 +87,27 @@ test("remplacement par source et tri persistant", () => {
 });
 
 test("versioned registry readable", () => {
-  const l = scanLedger();
-  expect(l.length).toBeGreaterThan(5);
+  const tmp = mkdtempSync(join(tmpdir(), "ai-os-ledger-"));
+  mkdirSync(join(tmp, ".private/nhitl"), { recursive: true });
+  writeFileSync(
+    join(tmp, ".private/nhitl/ledger.json"),
+    JSON.stringify({
+      entries: [
+        { location: "src/a.ts", category: "cat", status: "open" },
+        { location: "src/b.ts", category: "cat", status: "fixed" },
+      ],
+    }),
+  );
+  const sample = scanLedger(tmp);
+  expect(sample).toHaveLength(2);
   expect(
-    l.every((e) => ["open", "fixed", "inevitable"].includes(e.status)),
+    sample.every((e) => ["open", "fixed", "inevitable"].includes(e.status)),
   ).toBe(true);
+  if (existsSync(join(process.cwd(), ".private/nhitl/ledger.json"))) {
+    const l = scanLedger();
+    expect(l.length).toBeGreaterThan(5);
+    expect(
+      l.every((e) => ["open", "fixed", "inevitable"].includes(e.status)),
+    ).toBe(true);
+  }
 });

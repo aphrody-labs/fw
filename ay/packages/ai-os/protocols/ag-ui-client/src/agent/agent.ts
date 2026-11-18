@@ -19,7 +19,6 @@ import {
   resolveAgentDebugConfig,
 } from "./types";
 import { DebugLogger, createDebugLogger } from "../debug-logger";
-import { v4 as uuidv4 } from "uuid";
 import { structuredClone_ } from "../utils";
 import { compareVersions, validate as validateVersion } from "compare-versions";
 import { catchError, map, tap } from "rxjs/operators";
@@ -257,7 +256,7 @@ export abstract class AbstractAgent {
   }: AgentConfig = {}) {
     this.agentId = agentId;
     this.description = description ?? "";
-    this.threadId = threadId ?? uuidv4();
+    this.threadId = threadId ?? crypto.randomUUID();
     this.messages = structuredClone_(initialMessages ?? []);
     this.state = structuredClone_(initialState ?? {});
     this._debug = resolveAgentDebugConfig(debug);
@@ -325,7 +324,7 @@ export abstract class AbstractAgent {
   ): Promise<RunAgentResult> {
     try {
       this.isRunning = true;
-      this.agentId = this.agentId ?? uuidv4();
+      this.agentId = this.agentId ?? crypto.randomUUID();
       const input = this.prepareRunAgentInput(parameters);
 
       this.debugLogger?.lifecycle("LIFECYCLE", "Run started:", {
@@ -446,7 +445,7 @@ export abstract class AbstractAgent {
   ): Promise<RunAgentResult> {
     try {
       this.isRunning = true;
-      this.agentId = this.agentId ?? uuidv4();
+      this.agentId = this.agentId ?? crypto.randomUUID();
       const input = this.prepareRunAgentInput(parameters);
       let result: unknown = undefined;
       const currentMessageIds = new Set(
@@ -639,7 +638,7 @@ export abstract class AbstractAgent {
 
     return {
       threadId: this.threadId,
-      runId: parameters?.runId || uuidv4(),
+      runId: parameters?.runId || crypto.randomUUID(),
       // Declared only when the peer's ceiling is not pinned below this
       // client: a downgraded peer predates the field, and an unknown input
       // member is exactly what a strict old parser could reject.
@@ -999,7 +998,7 @@ export abstract class AbstractAgent {
   public legacy_to_be_removed_runAgentBridged(
     config?: RunAgentParameters,
   ): Observable<LegacyRuntimeProtocolEvent> {
-    this.agentId = this.agentId ?? uuidv4();
+    this.agentId = this.agentId ?? crypto.randomUUID();
     const input = this.prepareRunAgentInput(config);
 
     // Build middleware chain for legacy bridge

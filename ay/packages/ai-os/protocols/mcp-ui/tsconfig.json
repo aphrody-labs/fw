@@ -21,7 +21,7 @@
     "verbatimModuleSyntax": true,
     "noUncheckedIndexedAccess": false,
     "noImplicitOverride": false,
-    "types": ["bun-types", "node"],
+    "types": ["bun"],
     "jsx": "react-jsx",
     "declaration": true,
     "noUnusedLocals": true,

@@ -21,7 +21,7 @@ bun run --cwd packages/ai-os/engines/ai-triad build
 bun run --cwd packages/ai-os/engines/ai-triad fmt
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->
 
 Cross-AI CLI, TUI, WebGUI, OAuth 2.1 / PKCE / RFC 8628 Device Authorization, MCP `2025-03-26`, ACP v1, and Multi-Protocol Gateway uniting **OpenAI Codex (`codex`)**, **Google Antigravity (`agy` + `gemini`)**, **Anthropic Claude Code (`claude`)**, **OpenCode**, **Pi**, and **Zed** in pure **Bun v1.4.4**.

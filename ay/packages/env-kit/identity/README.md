@@ -19,7 +19,7 @@ bun run --cwd packages/env-kit/identity demo
 bun run --cwd packages/env-kit/identity measure
 ```
 
-Part of Aphrody: [aphrody-dev/ai-os](../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../README.md).
 <!-- catalog:end -->
 
 The Aphrody product identity for React/M3 surfaces, drawn from `crates/ui/identity` of the aphrody

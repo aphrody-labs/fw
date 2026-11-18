@@ -10,5 +10,8 @@
   "scripts": {
     "build": "bun run build.ts",
     "test": "bun test"
+  },
+  "dependencies": {
+    "@aphrody/ay-chromium-releases": "workspace:*"
   }
 }

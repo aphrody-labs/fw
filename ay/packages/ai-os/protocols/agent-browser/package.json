@@ -31,7 +31,7 @@
     "lint": "oxlint"
   },
   "dependencies": {
-    "@aphrody/runtime-sdk": "0.1.4"
+    "@aphrody/runtime-sdk": "1.4.7"
   },
   "engines": {
     "bun": ">=1.4.3"

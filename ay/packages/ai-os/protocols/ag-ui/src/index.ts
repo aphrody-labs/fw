@@ -17,7 +17,7 @@ export {
 } from "@ag-ui/proto";
 
 // Client runtime & transformers
-export * from "@ag-ui/client";
+export * from "@aphrody/ag-ui-client";
 
 // A2UI Declarative UI Toolkit
 export * from "@ag-ui/a2ui-toolkit";
