@@ -22,6 +22,14 @@ submodules-init *paths:
 dedup:
     bun tools/dedup.ts
 
+# Audit duplicate vendor/third_party trees across workspace checkouts with eza + rg + fuzzy matching
+vendor-dedup *args:
+    bun tools/vendor-dedup.ts {{ args }}
+
+# Audit code clones, code-graph overlaps, and copied upstream code across workspace checkouts
+code-dedup *args:
+    bun tools/code-dedup.ts {{ args }}
+
 # Generate and verify the unified stage-aware deploy plan across `ay.toml` products and Gatekeepers
 deploy stage="prod":
     bun tools/deploy.ts --stage {{ stage }}

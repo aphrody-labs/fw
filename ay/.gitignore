@@ -1,9 +1,65 @@
-node_modules/
+# Rust (github/gitignore Rust)
 target/
+**/target/
+**/*.rs.bk
+**/mutants.out*/
+rustc-ice-*.txt
+*.pdb
+
+# Bun / Node / TypeScript / Cloudflare
+node_modules/
+dist/
+coverage/
+*.lcov
+.turbo/
+.cache/
+.wrangler/
+**/wrangler-dry-*/
+*.tsbuildinfo
+*.log
+
+# Nix
 result
 result-*
 .direnv/
-*.log
-# Machine- and work-specific data stays out of git (tools/local.ts)
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Machine- and work-specific data stays out of git (tools/local.ts, STANDARD.md section 2 & 14)
 ay.local.toml
 .private/
+.local/
+.secrets/
+.env
+.env.*
+!.env.example
+!.env.*.example
+.dev.vars
+*.pem
+*.key
+*.p12
+*.pfx
+id_ed25519*
+id_rsa*
+.claude/settings.local.json
+.claude/worktrees/
+
+# Editors and OS (github/gitignore Global)
+.DS_Store
+Thumbs.db
+[Dd]esktop.ini
+*.swp
+*~
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+!*.code-workspace

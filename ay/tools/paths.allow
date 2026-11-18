@@ -1,0 +1,10 @@
+# Intentional Windows/POSIX path examples and unit test fixtures
+config/bash/bashrc
+config/bash/niubashrc
+config/pwsh/profile.ps1
+crates/ay-re/src/adobe.rs
+crates/ay-re/src/minidump.rs
+crates/ay-re/src/pipeline/ghidra.rs
+crates/ay-sh-pty/src/lib.rs
+tools/shells.ts
+tools/shells.test.ts

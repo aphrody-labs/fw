@@ -1,0 +1,16 @@
+# Copy to git-ignored `ay-vercel.local.toml`.
+# Never commit real Vercel API tokens, Team IDs, Project IDs, OIDC secrets, or AI Gateway keys.
+
+[vercel]
+token = "<vercel personal or scoped access token>"
+team_id = "<team_...>"
+team_slug = "aphrody-dev"
+default_org = "aphrody-labs"
+
+[vercel.projects]
+rg_website = "<prj_...>"
+rg_api = "<prj_...>"
+rg_discord = "<prj_...>"
+
+[ai_gateway]
+api_key = "<vck_...>"

@@ -1,0 +1,138 @@
+{
+  "generated_at": "2026-11-18T14:42:30.442Z",
+  "total": 22,
+  "pages": [
+    {
+      "page": "getting-started-with-vercel",
+      "file": "docs/vercel/getting-started-with-vercel.md",
+      "sha256": "1155b8eeecdf8f1f743a8a0a0ba6e4dd906ad1d82c5c8d08cf006a30c4eed0b5",
+      "bytes": 9900
+    },
+    {
+      "page": "agent-resources",
+      "file": "docs/vercel/agent-resources.md",
+      "sha256": "472895e7d097876b93bc321847f429a149f597b4d640c7a53fd9415c0f2f8f46",
+      "bytes": 10399
+    },
+    {
+      "page": "agent-resources/vercel-plugin",
+      "file": "docs/vercel/agent-resources/vercel-plugin.md",
+      "sha256": "82587e931a842634e1ff9a66444274c3c4a56d072496f352cf10446b2e64be28",
+      "bytes": 18089
+    },
+    {
+      "page": "agent-resources/vercel-mcp",
+      "file": "docs/vercel/agent-resources/vercel-mcp.md",
+      "sha256": "192c75fac750bbbe94a638053b875b6ed2cebe35dc11867c4b94baa6c823e08f",
+      "bytes": 17726
+    },
+    {
+      "page": "agent-resources/vercel-mcp/tools",
+      "file": "docs/vercel/agent-resources/vercel-mcp/tools.md",
+      "sha256": "da4ade0be9cdf4461d586080f66b15e479c29509b0adefd6adf1be60ecb30e31",
+      "bytes": 9360
+    },
+    {
+      "page": "agent-resources/skills",
+      "file": "docs/vercel/agent-resources/skills.md",
+      "sha256": "3a0e4538bb0fbd779f66bac89f85ba2fbbb2b0526df3e691ddaf1c9897bd9681",
+      "bytes": 15864
+    },
+    {
+      "page": "cli",
+      "file": "docs/vercel/cli.md",
+      "sha256": "cdf7e2454138233cc3d473efc573f59b3bee2b1b35b9889dd5f3e3ac97a5b178",
+      "bytes": 31987
+    },
+    {
+      "page": "cli/mcp",
+      "file": "docs/vercel/cli/mcp.md",
+      "sha256": "f053d8ed8bed45210be3eff60380ed64a4e85d8de64348d4b86e24c3a5d8c113",
+      "bytes": 6794
+    },
+    {
+      "page": "cli/skills",
+      "file": "docs/vercel/cli/skills.md",
+      "sha256": "adc2435b51a46d3d6209cff78c3dd561e80449264fc73122323f596d66e05a64",
+      "bytes": 6123
+    },
+    {
+      "page": "cli/setup",
+      "file": "docs/vercel/cli/setup.md",
+      "sha256": "19e55439c1749bbbb781626f9975d1ac48931be2e2cf926ab25edb8c27028e97",
+      "bytes": 7440
+    },
+    {
+      "page": "cli/deploy",
+      "file": "docs/vercel/cli/deploy.md",
+      "sha256": "83c7ab82d8cabe1d73409b40ef5e882ddd6b24d25f21a04acf55bb4014f425d0",
+      "bytes": 21487
+    },
+    {
+      "page": "cli/env",
+      "file": "docs/vercel/cli/env.md",
+      "sha256": "f6b4eeb36d5e62d1832017f518dc683204ff7428e64acba6c7b615e167b9e409",
+      "bytes": 16603
+    },
+    {
+      "page": "cli/docs",
+      "file": "docs/vercel/cli/docs.md",
+      "sha256": "a052baaae944b6717ef7fd06cd2a43979a1b82a6bc129f903b19e5ca3aeff44e",
+      "bytes": 7640
+    },
+    {
+      "page": "mcp",
+      "file": "docs/vercel/mcp.md",
+      "sha256": "4ec15aa37b8ab412435cef631abbed3d57253e6ad4242ce151b4b366fc043a57",
+      "bytes": 12087
+    },
+    {
+      "page": "mcp/deploy-mcp-servers-to-vercel",
+      "file": "docs/vercel/mcp/deploy-mcp-servers-to-vercel.md",
+      "sha256": "6636eb8e5cac4c588940411571de02b71c355bdedad7b81d8095d842a8ac6ab4",
+      "bytes": 21841
+    },
+    {
+      "page": "functions",
+      "file": "docs/vercel/functions.md",
+      "sha256": "9aba3ac93e271520e49fde458a91de70da02d3d32e74e2d140b409ca8237d8f2",
+      "bytes": 13894
+    },
+    {
+      "page": "fluid-compute",
+      "file": "docs/vercel/fluid-compute.md",
+      "sha256": "329c617d5f1c57e7b98f54ef2b9237bd054aed272b273954dcc08242cbc91867",
+      "bytes": 17458
+    },
+    {
+      "page": "sandbox",
+      "file": "docs/vercel/sandbox.md",
+      "sha256": "b799f289a44dd4aee74631e0a27f18293e5396c67d8f629b580033016124ff2d",
+      "bytes": 13538
+    },
+    {
+      "page": "ai-gateway",
+      "file": "docs/vercel/ai-gateway.md",
+      "sha256": "65715ee626cc10065b9169dd7462097dc623df444074d472800a3f379771ab89",
+      "bytes": 15471
+    },
+    {
+      "page": "workflow",
+      "file": "docs/vercel/workflow.md",
+      "sha256": "53933c1b6c29f1203f9ff9f4a7e329ddab743fbab710468ffc23d8281d32415a",
+      "bytes": 16687
+    },
+    {
+      "page": "flags",
+      "file": "docs/vercel/flags.md",
+      "sha256": "ee79b60362eed07e74c8db8823a19c4d008c1e7244dd5d31e42824465ec029a0",
+      "bytes": 6162
+    },
+    {
+      "page": "vercel-ci",
+      "file": "docs/vercel/vercel-ci.md",
+      "sha256": "63f3d5d86b743946d6c173cb28deb2ba4efe139270c29389a110149dc3304710",
+      "bytes": 7859
+    }
+  ]
+}

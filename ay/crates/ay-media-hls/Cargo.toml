@@ -1,0 +1,12 @@
+[package]
+name = "ay-media-hls"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+repository.workspace = true
+
+[lib]
+path = "src/ay_media_hls.rs"
+
+[lints]
+workspace = true

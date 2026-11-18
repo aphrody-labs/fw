@@ -1,0 +1,1696 @@
+# Authoritative Vercel & Vercel-Labs fork catalog for aphrody-labs/ay-vercel.
+# Every fork lives under org = "aphrody-labs" and uses relative submodule paths (`../<name>.git`).
+
+[meta]
+org = "aphrody-labs"
+consumer = "aphrody-labs"
+
+[groups]
+frameworks = "Next.js, SWR, Microfrontends, Styled-JSX, Turborepo Next.js starters, and React compilers"
+sdk = "Vercel CLI, AI SDK, Turborepo, Workflow SDK, Flags SDK, Chat SDK, Eve, Sandbox, Storage, and Edge Runtime"
+skill-repos = "Vercel Plugin, Agent Skills, Skills CLI, Next Maintainer Skills, KB Skills, Migration Skills, and Design Skills"
+mcp = "Next DevTools MCP, MCP Handler, ACP Handler, add-mcp, MCP-to-AI-SDK, and MCP starters"
+docs = "Next.js docs RAG corpus, auxiliary docs, OpenWiki, SWR site, Next Learn, and MDXG specs"
+agents = "Browser/Desktop CLI agents, dev3000, Emulate, DeepSec, OpenReview, Tersa, Sandcastle, and Eve agent templates"
+ui = "AI Elements, Streamdown, Geist fonts, JSON Render, Vercel UI SDK, Satori/OG, WTerm, and FX0"
+runtime = "Micro, Serve, NCC, NFT, Portless, ZeroLang, QuickJS-WASI, Screen-Relay, Go/Terraform/CI actions, and utilities"
+python = "Vercel Python runtime integrations, Seal, Tau-Agent, Hatchery, FastAPI starters, and SQL/PG builders"
+templates = "Official Vercel & Vercel-Labs reference applications, demos, and marketplace integration examples"
+
+# ---- frameworks ----
+[[fork]]
+path = "frameworks/cra-to-next"
+upstream = "vercel/cra-to-next"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/fast-link"
+upstream = "vercel-labs/fast-link"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/fix-react2shell-next"
+upstream = "vercel-labs/fix-react2shell-next"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/kirimase"
+upstream = "vercel/kirimase"
+branch = "master"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/mdxjs-rs-turbopack"
+upstream = "vercel-labs/mdxjs-rs-turbopack"
+branch = "turbopack"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/microfrontends"
+upstream = "vercel/microfrontends"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/next-app-router-playground"
+upstream = "vercel/next-app-router-playground"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/next-evals-oss"
+upstream = "vercel/next-evals-oss"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/next-forge"
+upstream = "vercel/next-forge"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/next-safe-image-optimization"
+upstream = "vercel-labs/next-safe-image-optimization"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/next.js"
+upstream = "vercel/next.js"
+branch = "canary"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/nextjs-foundations-starter"
+upstream = "vercel/nextjs-foundations-starter"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/platforms"
+upstream = "vercel/platforms"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/styled-jsx"
+upstream = "vercel/styled-jsx"
+branch = "main"
+role = "frameworks"
+
+[[fork]]
+path = "frameworks/swr"
+upstream = "vercel/swr"
+branch = "main"
+role = "frameworks"
+
+# ---- sdk ----
+[[fork]]
+path = "sdk/ai"
+upstream = "vercel/ai"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/ai-catalog-sdk"
+upstream = "vercel-labs/ai-catalog-sdk"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/ai-cli"
+upstream = "vercel-labs/ai-cli"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/ai-gateway-provider-php"
+upstream = "vercel-labs/ai-gateway-provider-php"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/ai-python"
+upstream = "vercel-labs/ai-python"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/ai-sdk-computer-use"
+upstream = "vercel-labs/ai-sdk-computer-use"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/ai-sdk-tool-code-execution"
+upstream = "vercel-labs/ai-sdk-tool-code-execution"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/analytics"
+upstream = "vercel/analytics"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/bash-tool"
+upstream = "vercel-labs/bash-tool"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/chat"
+upstream = "vercel/chat"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/durable-harness"
+upstream = "vercel-labs/durable-harness"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/edge-runtime"
+upstream = "vercel/edge-runtime"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/eve"
+upstream = "vercel/eve"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/eve-examples"
+upstream = "vercel/eve-examples"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/fast-webstreams"
+upstream = "vercel-labs/fast-webstreams"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/flags"
+upstream = "vercel/flags"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/just-bash"
+upstream = "vercel-labs/just-bash"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/node-vfs-polyfill"
+upstream = "vercel-labs/node-vfs-polyfill"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/open-agents"
+upstream = "vercel-labs/open-agents"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/otel"
+upstream = "vercel/otel"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/remote-cache"
+upstream = "vercel/remote-cache"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/resumable-stream"
+upstream = "vercel/resumable-stream"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/sandbox"
+upstream = "vercel/sandbox"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/satori"
+upstream = "vercel/satori"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/schemas"
+upstream = "vercel/schemas"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/sdk"
+upstream = "vercel/sdk"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/slack-tools"
+upstream = "vercel/slack-tools"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/speed-insights"
+upstream = "vercel/speed-insights"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/storage"
+upstream = "vercel/storage"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/swift-vercel-runtime"
+upstream = "vercel-labs/swift-vercel-runtime"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/turborepo"
+upstream = "vercel/turborepo"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/v0-language-model-chat-provider"
+upstream = "vercel/v0-language-model-chat-provider"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/v0-sdk"
+upstream = "vercel/v0-sdk"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/vercel"
+upstream = "vercel/vercel"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/vercel-blob-ai-sdk"
+upstream = "vercel-labs/vercel-blob-ai-sdk"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/vercel-open"
+upstream = "vercel-labs/vercel-open"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/vercel-py"
+upstream = "vercel/vercel-py"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/workflow"
+upstream = "vercel/workflow"
+branch = "main"
+role = "sdk"
+
+[[fork]]
+path = "sdk/workflow-examples"
+upstream = "vercel/workflow-examples"
+branch = "main"
+role = "sdk"
+
+# ---- skills ----
+[[fork]]
+path = "skill-repos/academy-skills"
+upstream = "vercel-labs/academy-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/agent-skills"
+upstream = "vercel-labs/agent-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/agentic-commerce-skills"
+upstream = "vercel-labs/agentic-commerce-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/components.build"
+upstream = "vercel/components.build"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/cursor-plugin"
+upstream = "vercel-labs/cursor-plugin"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/design-systems-to-agent-skills"
+upstream = "vercel-labs/design-systems-to-agent-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/ds-skill-extraction-workshop"
+upstream = "vercel-labs/ds-skill-extraction-workshop"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/marketplace-skills"
+upstream = "vercel/marketplace-skills"
+branch = "master"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/migration-skills"
+upstream = "vercel-labs/migration-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/next-maintainer-skills"
+upstream = "vercel-labs/next-maintainer-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/next-skills"
+upstream = "vercel-labs/next-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/sitecore-skills"
+upstream = "vercel-labs/sitecore-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/skill-geist-learning-labs"
+upstream = "vercel-labs/skill-geist-learning-labs"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/skill-remotion-geist"
+upstream = "vercel-labs/skill-remotion-geist"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/skills"
+upstream = "vercel-labs/skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/skills-handler"
+upstream = "vercel-labs/skills-handler"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/slack-agent-skill"
+upstream = "vercel-labs/slack-agent-skill"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/trackcn"
+upstream = "vercel-labs/trackcn"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/tw-blocks"
+upstream = "vercel-labs/tw-blocks"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/vercel-byoc"
+upstream = "vercel-labs/vercel-byoc"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/vercel-deploy-claude-code-plugin"
+upstream = "vercel/vercel-deploy-claude-code-plugin"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/vercel-deploy-codex-skill"
+upstream = "vercel-labs/vercel-deploy-codex-skill"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/vercel-kb-skills"
+upstream = "vercel-labs/vercel-kb-skills"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/vercel-plugin"
+upstream = "vercel/vercel-plugin"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/web-interface-guidelines"
+upstream = "vercel-labs/web-interface-guidelines"
+branch = "main"
+role = "skills"
+
+[[fork]]
+path = "skill-repos/writing-guidelines"
+upstream = "vercel-labs/writing-guidelines"
+branch = "main"
+role = "skills"
+
+# ---- mcp ----
+[[fork]]
+path = "mcp/acp-handler"
+upstream = "vercel/acp-handler"
+branch = "main"
+role = "mcp"
+
+[[fork]]
+path = "mcp/add-mcp"
+upstream = "neon-solutions/add-mcp"
+branch = "main"
+role = "mcp"
+
+[[fork]]
+path = "mcp/mcp-apps-nextjs-starter"
+upstream = "vercel-labs/mcp-apps-nextjs-starter"
+branch = "main"
+role = "mcp"
+
+[[fork]]
+path = "mcp/mcp-for-next.js"
+upstream = "vercel-labs/mcp-for-next.js"
+branch = "main"
+role = "mcp"
+
+[[fork]]
+path = "mcp/mcp-handler"
+upstream = "vercel-labs/mcp-handler"
+branch = "main"
+role = "mcp"
+
+[[fork]]
+path = "mcp/mcp-to-ai-sdk"
+upstream = "vercel-labs/mcp-to-ai-sdk"
+branch = "main"
+role = "mcp"
+
+[[fork]]
+path = "mcp/next-devtools-mcp"
+upstream = "vercel/next-devtools-mcp"
+branch = "main"
+role = "mcp"
+
+[[fork]]
+path = "mcp/vercel-mcp-overview"
+upstream = "vercel/vercel-mcp-overview"
+branch = "main"
+role = "mcp"
+
+# ---- docs ----
+[[fork]]
+path = "docs/lat.md"
+upstream = "vercel-labs/lat.md"
+branch = "main"
+role = "docs"
+
+[[fork]]
+path = "docs/mdxg"
+upstream = "vercel-labs/mdxg"
+branch = "main"
+role = "docs"
+
+[[fork]]
+path = "docs/next-auxiliary-docs"
+upstream = "vercel-labs/next-auxiliary-docs"
+branch = "main"
+role = "docs"
+
+[[fork]]
+path = "docs/next-docs-agentic-rag"
+upstream = "vercel-labs/next-docs-agentic-rag"
+branch = "main"
+role = "docs"
+
+[[fork]]
+path = "docs/next-learn"
+upstream = "vercel/next-learn"
+branch = "main"
+role = "docs"
+
+[[fork]]
+path = "docs/openwiki"
+upstream = "vercel-labs/openwiki"
+branch = "main"
+role = "docs"
+
+[[fork]]
+path = "docs/swr-site"
+upstream = "vercel/swr-site"
+branch = "main"
+role = "docs"
+
+[[fork]]
+path = "docs/vercel-marketing-toolkit"
+upstream = "vercel/vercel-marketing-toolkit"
+branch = "main"
+role = "docs"
+
+# ---- agents ----
+[[fork]]
+path = "agents/agent-browser"
+upstream = "vercel-labs/agent-browser"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/agent-desktop"
+upstream = "vercel-labs/agent-desktop"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/agent-eval"
+upstream = "vercel-labs/agent-eval"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/agentenv-framework"
+upstream = "vercel-labs/agentenv-framework"
+branch = "vercel-demo"
+role = "agents"
+
+[[fork]]
+path = "agents/ai-sdk-gateway-demo"
+upstream = "vercel-labs/ai-sdk-gateway-demo"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/ai-sdk-slackbot"
+upstream = "vercel-labs/ai-sdk-slackbot"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/arcade"
+upstream = "vercel-labs/arcade"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/call-summary-agent-with-sandbox"
+upstream = "vercel-labs/call-summary-agent-with-sandbox"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/chatbot"
+upstream = "vercel/chatbot"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/claude-managed-agents-starter"
+upstream = "vercel-labs/claude-managed-agents-starter"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/coding-agent-template"
+upstream = "vercel-labs/coding-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/community-agent-template"
+upstream = "vercel-labs/community-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/deepsec"
+upstream = "vercel-labs/deepsec"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/deepsec-runner-template"
+upstream = "vercel-labs/deepsec-runner-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/dev3000"
+upstream = "vercel-labs/dev3000"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/durable-web-research-agent"
+upstream = "vercel-labs/durable-web-research-agent"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/email-agent"
+upstream = "vercel-labs/email-agent"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/emulate"
+upstream = "vercel-labs/emulate"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-agent-python-template"
+upstream = "vercel-labs/eve-agent-python-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-content-agent-template"
+upstream = "vercel-labs/eve-content-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-contentful-agent-template"
+upstream = "vercel-labs/eve-contentful-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-data-analyst-template"
+upstream = "vercel-labs/eve-data-analyst-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-design-template"
+upstream = "vercel-labs/eve-design-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-memory-agent-template"
+upstream = "vercel-labs/eve-memory-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-pr-triage-agent-template"
+upstream = "vercel-labs/eve-pr-triage-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-software-factory-template"
+upstream = "vercel-labs/eve-software-factory-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-sre-agent-template"
+upstream = "vercel-labs/eve-sre-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-tanstack-start-template"
+upstream = "vercel-labs/eve-tanstack-start-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-triage-demo"
+upstream = "vercel-labs/eve-triage-demo"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/eve-vercel-drives-starter"
+upstream = "vercel-labs/eve-vercel-drives-starter"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/express-issue-triage-agent-template"
+upstream = "vercel-labs/express-issue-triage-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/gemini-chatbot"
+upstream = "vercel-labs/gemini-chatbot"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/harness-agent-eve-extension"
+upstream = "vercel-labs/harness-agent-eve-extension"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/herdr-vercel-sandbox-plugin"
+upstream = "vercel-labs/herdr-vercel-sandbox-plugin"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/knowledge-agent-template"
+upstream = "vercel-labs/knowledge-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/nitro-imessage-agent-template"
+upstream = "vercel-labs/nitro-imessage-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/nostics"
+upstream = "vercel-labs/nostics"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/openai-agents-api-v0-clone"
+upstream = "vercel-labs/openai-agents-api-v0-clone"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/openai-agents-api-vercel"
+upstream = "vercel-labs/openai-agents-api-vercel"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/opencode-vercel-sandbox"
+upstream = "vercel-labs/opencode-vercel-sandbox"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/openreview"
+upstream = "vercel-labs/openreview"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/opensrc"
+upstream = "vercel-labs/opensrc"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/paseo-vercel-sandbox"
+upstream = "vercel-labs/paseo-vercel-sandbox"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/personal-agent-template"
+upstream = "vercel-labs/personal-agent-template"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/phase"
+upstream = "vercel-labs/phase"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/ralph-loop-agent"
+upstream = "vercel-labs/ralph-loop-agent"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/sandboxed-issue-triage-agent"
+upstream = "vercel-labs/sandboxed-issue-triage-agent"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/sandcastle"
+upstream = "vercel-labs/sandcastle"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/steve"
+upstream = "vercel-labs/steve"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/tersa"
+upstream = "vercel-labs/tersa"
+branch = "main"
+role = "agents"
+
+[[fork]]
+path = "agents/workflow-builder-template"
+upstream = "vercel-labs/workflow-builder-template"
+branch = "main"
+role = "agents"
+
+# ---- ui ----
+[[fork]]
+path = "ui/ai-elements"
+upstream = "vercel/ai-elements"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/avatar"
+upstream = "vercel/avatar"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/bash-video"
+upstream = "vercel/bash-video"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/beautiful-mermaid"
+upstream = "vercel-labs/beautiful-mermaid"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/before-and-after"
+upstream = "vercel-labs/before-and-after"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/fx0"
+upstream = "vercel-labs/fx0"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/geist-font"
+upstream = "vercel/geist-font"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/geist-pixel-font"
+upstream = "vercel/geist-pixel-font"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/gpu-lexer"
+upstream = "vercel-labs/gpu-lexer"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/json-render"
+upstream = "vercel-labs/json-render"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/react-native-diffs"
+upstream = "vercel-labs/react-native-diffs"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/react-tweet"
+upstream = "vercel/react-tweet"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/reel0"
+upstream = "vercel-labs/reel0"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/streamdown"
+upstream = "vercel/streamdown"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/vercel-ui"
+upstream = "vercel-labs/ui"
+branch = "main"
+role = "ui"
+note = "Forked as vercel-ui to avoid collision with shadcn-ui/ui"
+
+[[fork]]
+path = "ui/visual-json"
+upstream = "vercel-labs/visual-json"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/webreel"
+upstream = "vercel-labs/webreel"
+branch = "main"
+role = "ui"
+
+[[fork]]
+path = "ui/wterm"
+upstream = "vercel-labs/wterm"
+branch = "main"
+role = "ui"
+
+# ---- runtime ----
+[[fork]]
+path = "runtime/ai-action"
+upstream = "vercel/ai-action"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/aix"
+upstream = "vercel/aix"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/arg"
+upstream = "vercel/arg"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/async-listen"
+upstream = "vercel/async-listen"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/async-sema"
+upstream = "vercel/async-sema"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/bincode-fork"
+upstream = "vercel-labs/bincode-fork"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/ci"
+upstream = "vercel/ci"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/detect-agent"
+upstream = "vercel/detect-agent"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/error"
+upstream = "vercel-labs/error"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/firewall-templates"
+upstream = "vercel/firewall-templates"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/fun"
+upstream = "vercel/fun"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/fx"
+upstream = "vercel-labs/fx"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/github-tools"
+upstream = "vercel-labs/github-tools"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/go-bridge"
+upstream = "vercel/go-bridge"
+branch = "master"
+role = "runtime"
+
+[[fork]]
+path = "runtime/guarded-fetch"
+upstream = "vercel-labs/guarded-fetch"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/issue-graph"
+upstream = "vercel-labs/issue-graph"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/just-secrets"
+upstream = "vercel-labs/just-secrets"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/konsistent"
+upstream = "vercel-labs/konsistent"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/markdown-sanitizers"
+upstream = "vercel-labs/markdown-sanitizers"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/micro"
+upstream = "vercel/micro"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/ms"
+upstream = "vercel/ms"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/native"
+upstream = "vercel-labs/native"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/ncc"
+upstream = "vercel/ncc"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/nft"
+upstream = "vercel/nft"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/npm.bet"
+upstream = "vercel-labs/npm.bet"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/portless"
+upstream = "vercel-labs/portless"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/quickjs-wasi"
+upstream = "vercel-labs/quickjs-wasi"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/remote-agent-browser"
+upstream = "vercel-labs/remote-agent-browser"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/remote-components-in-mdx"
+upstream = "vercel-labs/remote-components-in-mdx"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/repository-dispatch"
+upstream = "vercel/repository-dispatch"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/review-desk"
+upstream = "vercel-labs/review-desk"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/rex-cloud"
+upstream = "vercel-labs/rex-cloud"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/run"
+upstream = "vercel-labs/run"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/screen-relay"
+upstream = "vercel-labs/screen-relay"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/scriptc"
+upstream = "vercel-labs/scriptc"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/serve"
+upstream = "vercel/serve"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/serve-handler"
+upstream = "vercel/serve-handler"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/setup-turborepo-remote-cache-action"
+upstream = "vercel/setup-turborepo-remote-cache-action"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/slack-bolt"
+upstream = "vercel-labs/slack-bolt"
+branch = "master"
+role = "runtime"
+
+[[fork]]
+path = "runtime/specli"
+upstream = "vercel-labs/specli"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/terraform-provider-vercel"
+upstream = "vercel/terraform-provider-vercel"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/test-listen"
+upstream = "vercel/test-listen"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/traefik-oidc-auth-plugin"
+upstream = "vercel-labs/traefik-oidc-auth-plugin"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/tsc-ts"
+upstream = "vercel-labs/tsc-ts"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/uid-promise"
+upstream = "vercel/uid-promise"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/vcr-action"
+upstream = "vercel/vcr-action"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/vercel-box-mount"
+upstream = "vercel-labs/vercel-box-mount"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/vercel-bulk-waf-rules"
+upstream = "vercel-labs/vercel-bulk-waf-rules"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/vercel-openclaw"
+upstream = "vercel-labs/vercel-openclaw"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/vgpu"
+upstream = "vercel-labs/vgpu"
+branch = "canary"
+role = "runtime"
+
+[[fork]]
+path = "runtime/virtue-fork"
+upstream = "vercel-labs/virtue-fork"
+branch = "trunk"
+role = "runtime"
+
+[[fork]]
+path = "runtime/wait-for-deployment-action"
+upstream = "vercel/wait-for-deployment-action"
+branch = "main"
+role = "runtime"
+
+[[fork]]
+path = "runtime/zerolang"
+upstream = "vercel-labs/zerolang"
+branch = "main"
+role = "runtime"
+
+# ---- python ----
+[[fork]]
+path = "python/ggbuild"
+upstream = "vercel-labs/ggbuild"
+branch = "main"
+role = "python"
+
+[[fork]]
+path = "python/hatchery"
+upstream = "vercel-labs/hatchery"
+branch = "main"
+role = "python"
+
+[[fork]]
+path = "python/modelsdotdev-python"
+upstream = "vercel-labs/modelsdotdev-python"
+branch = "main"
+role = "python"
+
+[[fork]]
+path = "python/nextjs-fastapi-multiplayer-cursors"
+upstream = "vercel-labs/nextjs-fastapi-multiplayer-cursors"
+branch = "main"
+role = "python"
+
+[[fork]]
+path = "python/ocr-fastapi-nextjs-docker"
+upstream = "vercel-labs/ocr-fastapi-nextjs-docker"
+branch = "main"
+role = "python"
+
+[[fork]]
+path = "python/postgresbuild"
+upstream = "vercel-labs/postgresbuild"
+branch = "main"
+role = "python"
+
+[[fork]]
+path = "python/python-nextjs-starter"
+upstream = "vercel-labs/python-nextjs-starter"
+branch = "main"
+role = "python"
+
+[[fork]]
+path = "python/seal"
+upstream = "vercel-labs/seal"
+branch = "main"
+role = "python"
+
+[[fork]]
+path = "python/tau-agent"
+upstream = "vercel-labs/tau-agent"
+branch = "main"
+role = "python"
+
+# ---- templates ----
+[[fork]]
+path = "templates/academy-starters"
+upstream = "vercel/academy-starters"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-facts"
+upstream = "vercel-labs/ai-facts"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-gateway-embeddings-demo"
+upstream = "vercel-labs/ai-gateway-embeddings-demo"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-sdk-fundamentals-starter"
+upstream = "vercel/ai-sdk-fundamentals-starter"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-sdk-image-generator"
+upstream = "vercel-labs/ai-sdk-image-generator"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-sdk-preview-multi-steps"
+upstream = "vercel-labs/ai-sdk-preview-multi-steps"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-sdk-preview-pdf-support"
+upstream = "vercel-labs/ai-sdk-preview-pdf-support"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-sdk-preview-python-streaming"
+upstream = "vercel-labs/ai-sdk-preview-python-streaming"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-sdk-rag-starter"
+upstream = "vercel/ai-sdk-rag-starter"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ai-test-clone"
+upstream = "vercel-labs/ai-test-clone"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/arena-fixture"
+upstream = "vercel-labs/arena-fixture"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/autoship"
+upstream = "vercel-labs/autoship"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/aws-s3-general-purpose-buckets-demo"
+upstream = "vercel/aws-s3-general-purpose-buckets-demo"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/aws-s3-tables-demo"
+upstream = "vercel/aws-s3-tables-demo"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/aws-s3-vectors-demo"
+upstream = "vercel/aws-s3-vectors-demo"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/callscript"
+upstream = "vercel-labs/callscript"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/chat-sdk-deploy-bot"
+upstream = "vercel-labs/chat-sdk-deploy-bot"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/chat-sdk-form-bot"
+upstream = "vercel-labs/chat-sdk-form-bot"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/cma-chat-sdk"
+upstream = "vercel-labs/cma-chat-sdk"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/daily-digest-bot"
+upstream = "vercel-labs/daily-digest-bot"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/example-marketplace-integration"
+upstream = "vercel/example-marketplace-integration"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/examples"
+upstream = "vercel/examples"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/flags-sdk-workshop-starter"
+upstream = "vercel/flags-sdk-workshop-starter"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/hono-websockets-presence"
+upstream = "vercel-labs/hono-websockets-presence"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/isr-platform-shield"
+upstream = "vercel-labs/isr-platform-shield"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/jev-ai-sdk-form-router"
+upstream = "vercel-labs/jev-ai-sdk-form-router"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/jev-model-api"
+upstream = "vercel-labs/jev-model-api"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/kody-eve-template"
+upstream = "vercel-labs/kody-eve-template"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/marketing-team-eve-template"
+upstream = "vercel-labs/marketing-team-eve-template"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/natural-language-postgres"
+upstream = "vercel-labs/natural-language-postgres"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/next-dev-bridge"
+upstream = "vercel-labs/next-dev-bridge"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/nextjs-nights-shader"
+upstream = "vercel-labs/nextjs-nights-shader"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/nextjs-passport-entra-id"
+upstream = "vercel-labs/nextjs-passport-entra-id"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/nextjs-waiting-room"
+upstream = "vercel-labs/nextjs-waiting-room"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/nextjs-websocket-chat-app"
+upstream = "vercel-labs/nextjs-websocket-chat-app"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/orb_data_freshness_dashboard"
+upstream = "vercel/orb_data_freshness_dashboard"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/registry-starter"
+upstream = "vercel/registry-starter"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/sanity-copilot-eve-template"
+upstream = "vercel-labs/sanity-copilot-eve-template"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/semantic-image-search"
+upstream = "vercel-labs/semantic-image-search"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/ship26-backends-workshop-template"
+upstream = "vercel-labs/ship26-backends-workshop-template"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/shop"
+upstream = "vercel/shop"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/simple-agent-with-jev"
+upstream = "vercel-labs/simple-agent-with-jev"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/store-front-agent-example"
+upstream = "vercel-labs/store-front-agent-example"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/storytime-slackbot"
+upstream = "vercel-labs/storytime-slackbot"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/vectr"
+upstream = "vercel-labs/vectr"
+branch = "main"
+role = "templates"
+
+[[fork]]
+path = "templates/vercel-config-demo"
+upstream = "vercel-labs/vercel-config-demo"
+branch = "main"
+role = "templates"
+
+# ---- not_forked (upstream mirrors or archived/empty repos) ----
+[[not_forked]]
+upstream = "vercel/hyper"
+reason = "Archived upstream terminal repository; collides with aphrody-labs/hyper (mullvad/hyper)"
+
+[[not_forked]]
+upstream = "vercel/models.dev"
+reason = "Mirror of anomalyco/models.dev, already forked as aphrody-labs/models.dev"
+
+[[not_forked]]
+upstream = "vercel-labs/openclaw"
+reason = "Fork of openclaw/openclaw, already forked as aphrody-labs/openclaw"
+
+[[not_forked]]
+upstream = "vercel-labs/react"
+reason = "Fork of react/react, already forked as aphrody-labs/react"
+
+[[not_forked]]
+upstream = "vercel-labs/npx-mcp"
+reason = "Empty upstream Git repository (HTTP 409)"
+
+[[not_forked]]
+upstream = "vercel-labs/cooking-school-feedback"
+reason = "Archived upstream repository"
+
+[[not_forked]]
+upstream = "vercel/.github"
+reason = "Upstream organization profile; aphrody-labs/.github owns organization governance"

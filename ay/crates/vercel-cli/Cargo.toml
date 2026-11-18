@@ -1,0 +1,23 @@
+[package]
+name = "vercel-cli"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Unified AOT Rust CLI for Vercel, Next.js, Turbopack, Turborepo, and Agent Skills verification"
+repository = "https://github.com/aphrody-labs/ay-vercel"
+keywords = ["vercel", "nextjs", "turbopack", "turborepo", "cli"]
+categories = ["command-line-utilities", "development-tools"]
+
+[[bin]]
+name = "vercel-rs"
+path = "src/main.rs"
+bench = false
+
+[dependencies]
+next-bun = { path = "../next-bun", version = "0.1.0" }
+serde_json = "1.0.151"
+vercel-config = { path = "../vercel-config", version = "0.1.0" }
+vercel-skills = { path = "../vercel-skills", version = "0.1.0" }
+
+[lints]
+workspace = true

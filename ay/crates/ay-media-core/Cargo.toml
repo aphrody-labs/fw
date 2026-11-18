@@ -1,0 +1,15 @@
+[package]
+name = "ay-media-core"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+repository.workspace = true
+
+[lib]
+path = "src/ay_media_core.rs"
+
+[build-dependencies]
+cc = "1.2"
+
+[lints]
+workspace = true

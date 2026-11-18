@@ -248,6 +248,22 @@ export const COMMANDS: readonly CommandEntry[] = [
     summary: "Detect duplicate files, symbols, and packages",
   },
   {
+    name: "vendor-dedup",
+    aliases: ["vdedup", "dup-vendor"],
+    category: "quality",
+    kind: "tool",
+    target: "tools/vendor-dedup.ts",
+    summary: "Find duplicate vendor and third_party trees across workspace checkouts with eza, rg, and fuzzy matching",
+  },
+  {
+    name: "code-dedup",
+    aliases: ["cdedup", "dup-code"],
+    category: "quality",
+    kind: "tool",
+    target: "tools/code-dedup.ts",
+    summary: "Detect code clones, code-graph overlaps, and upstream repos copied into first-party via git, tree-sitter, difft, rg, eza, and fzf",
+  },
+  {
     name: "legacy",
     category: "quality",
     kind: "tool",

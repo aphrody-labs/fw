@@ -1,0 +1,22 @@
+[package]
+name = "vercel-skills"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Vercel Agent Skills RFC discovery index and SHA-256 verification library"
+repository = "https://github.com/aphrody-labs/ay-vercel"
+keywords = ["vercel", "agent-skills", "mcp", "ai"]
+categories = ["development-tools"]
+
+[lib]
+path = "src/lib.rs"
+bench = false
+
+[dependencies]
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.151"
+sha2 = "0.10.8"
+thiserror = "2.0.18"
+
+[lints]
+workspace = true
