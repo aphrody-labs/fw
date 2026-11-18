@@ -1,0 +1,19 @@
+{
+  "name": "@aphrody/ay-cli",
+  "version": "0.4.0",
+  "description": "Unified Aphrody OS & SDK CLI entrypoint consolidating AI OS, WebOS/Portal, Chromium Dash, Shell/PTY, RE/Ghidra, Corelib WASM, Cloud Quota, GNU, and Build/Release workflows.",
+  "type": "module",
+  "private": true,
+  "main": "src/cli.ts",
+  "types": "src/cli.ts",
+  "bin": {
+    "ay": "./src/cli.ts"
+  },
+  "scripts": {
+    "start": "bun src/cli.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@aphrody/ay-edge-stack": "workspace:*"
+  }
+}

@@ -142,7 +142,7 @@ cd $WORK/<dir>/ay                        # a checkout on the build volume
 export CARGO_INCREMENTAL=0 CEF_PATH=$WORK/<dir>/cef CARGO_TARGET_DIR=$WORK/<dir>/target
 cargo build --release -p ay-chromium
 cargo test -p ay-chromium --release            # unit tests and the end-to-end test against a local page
-(cd packages/chromium && bun run build && bun test)
+bun --cwd packages/chromium run build && bun test packages/chromium
 # on <test-host>, the same binaries through the NFS mount, `WORK_TEST` = `[paths.test].work` (libcef.so sits next to them, found through $ORIGIN):
 $WORK_TEST/<dir>/target/release/ay-chromium screenshot https://example.com /tmp/x.png
 ```
@@ -171,7 +171,7 @@ submodule fetch breaks (`research/chromium-rust-issues.toml`). Add it when a fea
 
 ## CI
 
-The `rust` job of `.github/workflows/check.yml` formats and lints the workspace, which includes this crate, so its build
+`bun run check` runs the repository-wide Bun, ABI, path, and feature-matrix gates. The `rust` job of `.github/workflows/check.yml` formats and lints the workspace, which includes this crate, so its build
 script fetches CEF on the runner (333 MB download, 1.3 GB extracted, within the runner's disk). Its tests start
 Chromium, which needs the system libraries CEF links against, so the job runs `cargo test --workspace --exclude
 ay-chromium` and the crate's tests run on <test-host> with the commands above. That CI job has not run yet: it is unproven

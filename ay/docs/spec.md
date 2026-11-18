@@ -1,6 +1,6 @@
 # Aphrody: SDK specification
 
-Updated 2026-11-17 (ADR-0008, owner decision). This repository, `aphrody-dev/ay`, is the **SDK** of Aphrody:
+Updated 2026-11-18 (ADR-0008, owner decision). This repository, `aphrody-dev/ay`, is the **SDK** of Aphrody:
 C ABI, OpenAPI, docs, spec, standards, corelib, libc and the design system, in C and its derivatives, assembly, Rust, Zig,
 WebGPU, Python, .NET and Bun, each where it fits. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the
 source of truth; this SDK follows it. Names, owners and hosts come from `ay.toml`.
@@ -11,7 +11,7 @@ Aphrody crafts four products and the brand that ties them together. Each row of 
 
 | Product | Replica of | Built in | What "done" means |
 |---|---|---|---|
-| **Aphrody OS** | The Googlebook experience (googlebook.google) | `aphrody` (Rust), `aydroid` (AOSP), `anu` (Unix userland), `aynt` (NT) | A bootable, installable system whose desktop offers every Googlebook feature in the matrix, AI-first, with our own model layer (`ai-os`) |
+| **Aphrody OS** | The Googlebook experience (googlebook.google) | `aphrody` (Rust), `aydroid` (AOSP), `os/linux` (Linux platform in `ay`), `aynt` (NT) | A bootable, installable system whose desktop offers every Googlebook feature in the matrix, AI-first, with our own model layer (`ai-os`) |
 | **Aphrody Browser** | Chromium-based browsers | `browser` | A browser with our UI, the agent panel, WebMCP and our search as the default engine, installable on Linux and Windows |
 | **Aphrody Search** | google.com | `aphrody` | A search home and results page matching google.com feature for feature, an AI mode, image search and file Q&A, served from our own crawler and index |
 | **Aphrody Cloud** | Cloudflare Workers + Vercel | `aphrody` on the Bun fork (`bun`) | A Bun edge runtime with a Workers-compatible API, git-push deploys, previews, domains and TLS, storage, logs and a dashboard |
@@ -32,6 +32,9 @@ Any language does the job it suits. In this repository: C and its derivatives, a
   repository applies it.
 - **Feature matrix and decisions**: `docs/features.toml`, `docs/adr/`, the design package mirrored to Drive and Figma
   (`docs/mirrors.toml`).
+- **AI OS & agent harness**: `packages/ai-os`, `crates/ay-*` (`ay-a2a*`, `ay-agent-*`, `ay-rag*`, `ay-llama*`, `ay-store`, `ay-vault`), `apps/agents`, `apps/ai-gateway`.
+- **Shell, PTY & environment**: `crates/ay-sh`, `crates/ay-sh-pty`, `packages/omniu`, `config/`, `packages/env-kit`.
+- **Reverse engineering & Linux platform**: `crates/ay-re`, `crates/ay-ghidra-bun`, `packages/ghidra`, `packages/py2bun`, `os/linux`, `tools/linux-*.ts`.
 - **Release tooling**: the Chromium release datasets and dashboard (`packages/chromium*`, `apps/chromium-dash`) and the
   organization mirror (`packages/org-mirror`).
 

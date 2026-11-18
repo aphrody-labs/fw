@@ -1,0 +1,26 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Material 3 Symbols & Aphrody Brand Iconography CSS for every ay & aphrody-labs product */
+:root {
+  --aphrody-era-ie1: #e2dbad;
+  --aphrody-era-go: #d3c972;
+  --aphrody-era-ares: #406653;
+  --aphrody-symbol-size: 24px;
+  --aphrody-symbol-radius: 8px;
+}
+
+.aphrody-symbol {
+  display: inline-block;
+  width: var(--aphrody-symbol-size);
+  height: var(--aphrody-symbol-size);
+  border-radius: var(--aphrody-symbol-radius);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  vertical-align: middle;
+}
+
+.aphrody-symbol-mark { background-image: url("/assets/icon.svg"); }
+.aphrody-symbol-ie1  { background-image: url("/assets/zukan/aphrody-ie1.svg"); }
+.aphrody-symbol-go   { background-image: url("/assets/zukan/aphrody-go.svg"); }
+.aphrody-symbol-ares { background-image: url("/assets/zukan/aphrody-ares.svg"); }
+.aphrody-symbol-eras { background-image: url("/assets/zukan/aphrody-eras.gif"); }

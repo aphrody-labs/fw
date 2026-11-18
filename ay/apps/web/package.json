@@ -1,0 +1,17 @@
+{
+  "name": "@aphrody/ay-web",
+  "version": "0.4.0",
+  "description": "Unified Aphrody Web Portal, WebOS Desktop, Search Gateway, Corelib WASM Sandbox, and Chromium Dash.",
+  "type": "module",
+  "private": true,
+  "main": "src/app.ts",
+  "types": "src/app.ts",
+  "scripts": {
+    "start": "bun src/main.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@aphrody/ay-chromium-releases": "workspace:*",
+    "@aphrody/ay-edge-stack": "workspace:*"
+  }
+}

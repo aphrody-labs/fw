@@ -1,19 +1,36 @@
 # Aphrody
 
-Aphrody crafts an OS, a browser, a Google and a Cloudflare/Vercel, each in whatever language does the job.
+The Aphrody SDK and platform workspace: C ABI and freestanding corelib, Rust crates, Bun packages, AI OS runtime, shell and PTY, reverse-engineering core, Linux platform pins, and design tokens.
 
 | Product | Replica of | Status |
 |---|---|---|
-| Aphrody OS | The Googlebook experience | see [features](docs/features.md#os) |
-| Aphrody Browser | Chromium-based browsers | see [features](docs/features.md#browser) |
-| Aphrody Search | google.com | see [features](docs/features.md#search) |
-| Aphrody Cloud | Cloudflare Workers + Vercel | see [features](docs/features.md#cloud) |
-| Craft Anything | storytold/craft-anything | see [features](docs/features.md#craft) |
+| Aphrody OS | The Googlebook experience | see [features](docs/features.md) |
+| Aphrody Browser | Chromium-based browsers | see [features](docs/features.md) |
+| Aphrody Search | google.com | see [features](docs/features.md) |
+| Aphrody Cloud | Cloudflare Workers + Vercel | see [features](docs/features.md) |
+| Craft Anything | storytold/craft-anything | see [features](docs/features.md) |
 
-- [Specification](docs/spec.md), [architecture](docs/architecture.md), [decisions](docs/adr/)
-- [Feature matrix](docs/features.md): the scope, each row with its reference and its proof
+## Components
+
+- **C ABI & corelib**: `abi/`, `corelib/`, `crates/ay-core/capi` ([ABI reference](docs/abi.md))
+- **AI OS & agent harness**: `packages/ai-os`, `crates/ay-a2a*`, `crates/ay-agent-*`, `crates/ay-rag*`, `crates/ay-llama*`, `crates/ay-store`, `crates/ay-vault`, `apps/agents`, `apps/ai-gateway`
+- **Shell, PTY & environment**: `crates/ay-sh`, `crates/ay-sh-pty`, `packages/omniu`, `config/`, `packages/env-kit`
+- **Reverse engineering & Linux platform**: `crates/ay-re`, `crates/ay-ghidra-bun`, `packages/ghidra`, `packages/py2bun`, `os/linux`, `tools/linux-*.ts`
+- **Chromium & web validation**: `crates/ay-chromium`, `packages/chromium`, `packages/chromium-releases`, `apps/chromium-dash`, `packages/wck` ([Chromium guide](docs/chromium.md), [Chromium Dash](docs/chromium-dash.md))
+
+## Documentation
+
+- [Specification](docs/spec.md), [architecture](docs/architecture.md), [ABI](docs/abi.md), [decisions](docs/adr/README.md)
+- [Feature matrix](docs/features.md): product scope, references, and verified proofs
+- [Organization standard](docs/standard.md): repository conventions and CI policy
+
+## Commands
 
 ```sh
-bun run check      # feature matrix and tool tests
+bun install        # install workspace dependencies
+bun run check      # feature matrix, paths, private-gate, ABI, typecheck, and Bun tests
+bun test           # run Bun test suites
+bun fmt            # format workspace files
 bun run features   # regenerate docs/features.md
+bun run abi        # regenerate abi/ and docs/abi.md
 ```

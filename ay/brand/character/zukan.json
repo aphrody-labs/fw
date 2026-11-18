@@ -1,0 +1,104 @@
+{
+  "schema": "aphrody.character.zukan",
+  "schema_version": 1,
+  "retrieved": "2026-11-18",
+  "source": "https://zukan.inazuma.jp/en/chara_list/?q=hN2RnpKaoIyano2cl93FpN2ej5eNkJuG39_dooI=&per_page=50",
+  "forms": [
+    {
+      "id": "ie1",
+      "no": 185,
+      "era": "Inazuma Eleven",
+      "portrait": "https://dxi4wb638ujep.cloudfront.net/1/k/d/y/dykb3jbxeis.png",
+      "icon": "https://dxi4wb638ujep.cloudfront.net/1/prd/assets/4/img/shared/icn_ie1.png",
+      "file": "aphrody-ie1-185.png",
+      "color": "#e2dbad",
+      "names": {
+        "en": "Byron Love",
+        "nicknameEn": "Aphrody",
+        "ja": "亜風炉 照美",
+        "nicknameJa": "アフロディ",
+        "fr": "Byron Love"
+      },
+      "position": "MF",
+      "element": "Forest",
+      "statsLv50": {
+        "kick": 104,
+        "control": 112,
+        "technique": 109,
+        "pressure": 91,
+        "physical": 92,
+        "agility": 85,
+        "intelligence": 100
+      },
+      "descriptions": {
+        "en": "Captivating the opposition with artistic grace, he plays with the aura of a deity from on high.",
+        "ja": "芸術的なプレイで敵をも魅了する。 その姿は神のように美しい。",
+        "fr": ""
+      }
+    },
+    {
+      "id": "go",
+      "no": 2625,
+      "era": "Inazuma Eleven GO: Light / Shadow",
+      "portrait": "https://dxi4wb638ujep.cloudfront.net/1/k/g/l/gltgpqjnrn0.png",
+      "icon": "https://dxi4wb638ujep.cloudfront.net/1/prd/assets/4/img/shared/icn_go1.png",
+      "file": "aphrody-go-2625.png",
+      "color": "#d3c972",
+      "names": {
+        "en": "Byron Love",
+        "nicknameEn": "Aphrody",
+        "ja": "亜風炉 照美",
+        "nicknameJa": "アフロディ",
+        "fr": "Byron Love"
+      },
+      "position": "MF",
+      "element": "Forest",
+      "statsLv50": {
+        "kick": 104,
+        "control": 112,
+        "technique": 109,
+        "pressure": 91,
+        "physical": 92,
+        "agility": 85,
+        "intelligence": 100
+      },
+      "descriptions": {
+        "en": "Former Zeus Jr High captain, now coaches Kirkwood. His graceful tactics earn him the admiration of even his enemies.",
+        "ja": "元世宇子キャプテンで木戸川清修の監督。 その美しい采配に 敵までもウットリ。",
+        "fr": ""
+      }
+    },
+    {
+      "id": "ares",
+      "no": 4526,
+      "era": "Inazuma Eleven Ares",
+      "portrait": "https://dxi4wb638ujep.cloudfront.net/1/k/6/q/6q1af7euf9m.png",
+      "icon": "https://dxi4wb638ujep.cloudfront.net/1/prd/assets/4/img/shared/icn_ars.png",
+      "file": "aphrody-ares-4526.png",
+      "color": "#406653",
+      "names": {
+        "en": "Byron Love",
+        "nicknameEn": "Aphrody",
+        "ja": "亜風炉 照美",
+        "nicknameJa": "アフロディ",
+        "fr": "Byron Love"
+      },
+      "position": "MF",
+      "element": "Forest",
+      "statsLv50": {
+        "kick": 104,
+        "control": 112,
+        "technique": 109,
+        "pressure": 91,
+        "physical": 92,
+        "agility": 85,
+        "intelligence": 100
+      },
+      "descriptions": {
+        "en": "Raimon's defeat fueled him to refine his game into something sharp and almost artistic.",
+        "ja": "雷門への敗北をバネに 自らを鍛え直し 芸術的なプレイに磨きがかかった。",
+        "fr": ""
+      }
+    }
+  ]
+}
