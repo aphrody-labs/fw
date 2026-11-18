@@ -201,8 +201,8 @@ pin_submodule = "third_party/kitesurf"
 
 [track.browse]
 kind = "tool"
-source = "https://github.com/aphrody-labs/anomalyco-browse"
-repo = "aphrody-labs/anomalyco-browse"
+source = "https://github.com/aphrody-labs/browse"
+repo = "aphrody-labs/browse"
 branch = "dev"
 pin_submodule = "third_party/browse"
 

@@ -17,7 +17,7 @@ commit = "0e080e0988aaecd62ccdde88d4c67d8ac8acfd2f"
 
 [browse]
 dir = "third_party/browse"
-commit = "e4522ba9c7ff0c22d5b4623c7ae2fe282a2dd5b1"
+commit = "be5528ff2194c8defab74d41e13abb7cb149548e"
 
 [mullvad]
 dir = "third_party/mullvad"

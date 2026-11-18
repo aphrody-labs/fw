@@ -64,7 +64,7 @@ the store by `bun testing/acceptance.ts telemetry` and `docs`; add what you lear
 |---|---|
 | `third_party/bun` | the Bun runtime: a git submodule of aphrody-labs/bun (relative URL), its own workspace and build (`git submodule update --init third_party/bun`); change it in the fork, bump the pointer here |
 | `third_party/kitesurf` | Cloudflare's Rust browser engine (`aphrody-labs/kitesurf`, submodule at `0e080e0988aaecd62ccdde88d4c67d8ac8acfd2f`): owns the 26 `browser-*` Rust engine crates (Blitz, Stylo, Taffy, Parley, Vello, Anyrender, Boa) behind CDP |
-| `third_party/browse` | real-browser MCP server and Chromium extension (`aphrody-labs/anomalyco-browse`, submodule) |
+| `third_party/browse` | real-browser MCP server and Chromium extension (`aphrody-labs/browse`, submodule) |
 | `third_party/mullvad` | WireGuard/DAITA/MASQUE tunnel stack (`aphrody-labs/mullvadvpn-app`, submodule) fused with `ayvpn` |
 | `components/<crate>` | first-party crates: browser-detect (with shared `ssrf` guard), browser-index, browser-engine (`pick`, `escalate`, `KITESURF_CRATES`, `process`), browser-vpn (fused `ayvpn` per-context router & ABI v1), browser-browse (absorbed `anomalyco/browse` pairing, CDP pool, ARIA `@e1` snapshots, WebMCP, human handoff), browser-views (Chromium `//ui/views` model for GPUI & headless) |
 | `third_party/<upstream>/<crate>` | Servo and its org crates, Mozilla, HarfBuzz and platform bindings, Obscura, agent-browser, lol-html, argon2; the upstream's other files beside them; `README.chromium` |
