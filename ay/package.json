@@ -24,7 +24,7 @@
     "submodules": "bun tools/submodules.ts",
     "deploy": "bun tools/deploy.ts",
     "sessions": "bun tools/claude-sessions.ts",
-    "check": "bun tools/features.ts --check && bun tools/submodules.ts --check && bun tools/paths.ts && bun tools/private-gate.ts && bun tools/abi.ts --check && bun check --no-script && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./packages/edge-stack ./apps/chromium-dash ./apps/ay ./apps/web ./packages/chromium/test/version.test.ts"
+    "check": "bun tools/features.ts --check && bun tools/submodules.ts --check && bun tools/paths.ts && bun tools/private-gate.ts && bun tools/abi.ts --check && bun check --no-script && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./packages/edge-stack ./apps/chromium-dash ./apps/ay ./packages/chromium/test/version.test.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.4.4",

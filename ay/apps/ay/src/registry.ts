@@ -28,14 +28,6 @@ export interface CommandEntry {
 export const COMMANDS: readonly CommandEntry[] = [
   // Core & Apps
   {
-    name: "web",
-    aliases: ["portal", "search"],
-    category: "core",
-    kind: "app",
-    target: "apps/web/src/main.ts",
-    summary: "Run the unified @aphrody/ay-web HTTP server",
-  },
-  {
     name: "completions",
     aliases: ["comp"],
     category: "meta",
