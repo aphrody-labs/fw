@@ -1,101 +1,214 @@
 #!/usr/bin/env bun
-import { join } from "node:path";
-import {
-  COMMAND_REGISTRY,
-  findCommand,
-  probeFastTools,
-  readUnifiedStatus,
-  resolveRepoRoot,
-} from "./registry.ts";
+/**
+ * Unified `ay` CLI entrypoint.
+ *
+ * Dispatches all workspace tools, apps, and built-in commands with zero
+ * Node.js dependencies and sub-millisecond startup.
+ */
 
-function formatHelp(): string {
-  const lines = [
-    "ay — Unified Aphrody OS, SDK, WebOS, AI OS, Shell, RE, WASM & Cloud CLI",
+import { join, resolve } from "node:path";
+import { COMMANDS, resolveCommand, type CommandCategory } from "./registry.ts";
+
+const AY_VERSION = "0.1.0";
+
+const CATEGORY_ORDER: readonly CommandCategory[] = [
+  "core",
+  "runtime",
+  "cloud",
+  "infra",
+  "quality",
+  "data",
+  "meta",
+];
+
+function findRepoRoot(startDir: string): string {
+  let current = resolve(startDir);
+  while (true) {
+    if (
+      Bun.file(join(current, "package.json")).size > 0 &&
+      Bun.file(join(current, "Cargo.toml")).size > 0
+    ) {
+      return current;
+    }
+    const parent = resolve(current, "..");
+    if (parent === current) {
+      return resolve(startDir);
+    }
+    current = parent;
+  }
+}
+
+export function formatHelp(): string {
+  const lines: string[] = [
+    `ay ${AY_VERSION} — Unified Aphrody CLI (Bun ${Bun.version})`,
     "",
     "Usage:",
     "  ay <command> [args...]",
-    "  ay --list [--json]",
-    "  ay --help",
+    "  ay --help | -h",
+    "  ay --version | -v",
     "",
     "Commands:",
   ];
-  for (const c of COMMAND_REGISTRY) {
-    const aliases = c.aliases.length ? ` (${c.aliases.join(", ")})` : "";
-    lines.push(`  ${(c.name + aliases).padEnd(28)} ${c.summary}`);
+
+  for (const category of CATEGORY_ORDER) {
+    const items = COMMANDS.filter((c) => c.category === category);
+    if (items.length === 0) continue;
+    lines.push(`  [${category}]`);
+    for (const item of items) {
+      const aliasText = item.aliases?.length
+        ? ` (${item.aliases.join(", ")})`
+        : "";
+      lines.push(`    ${item.name.padEnd(20)} ${item.summary}${aliasText}`);
+    }
   }
+
   return lines.join("\n");
 }
 
-async function runBuiltin(name: string, args: string[], root: string): Promise<number> {
-  const asJson = args.includes("--json");
-  if (name === "status") {
-    const status = await readUnifiedStatus(root);
-    console.log(JSON.stringify(status, null, 2));
-    return 0;
+export function generateCompletions(shell: string): string {
+  const names = COMMANDS.map((c) => c.name);
+  switch (shell.toLowerCase()) {
+    case "bash":
+      return [
+        "_ay_completions() {",
+        `  local cur="\${COMP_WORDS[COMP_CWORD]}"`,
+        `  COMPREPLY=( $(compgen -W "${names.join(" ")}" -- "$cur") )`,
+        "}",
+        "complete -F _ay_completions ay",
+      ].join("\n");
+    case "zsh":
+      return [
+        "#compdef ay",
+        "_ay() {",
+        "  local -a commands",
+        "  commands=(",
+        ...COMMANDS.map((c) => `    '${c.name}:${c.summary.replace(/'/g, "")}'`),
+        "  )",
+        "  _describe 'command' commands",
+        "}",
+        "_ay",
+      ].join("\n");
+    case "fish":
+      return COMMANDS.map(
+        (c) =>
+          `complete -c ay -f -n "__fish_use_subcommand" -a "${c.name}" -d "${c.summary.replace(/"/g, '\\"')}"`,
+      ).join("\n");
+    case "nu":
+    case "nushell":
+      return [
+        `export def "nu-complete ay" [] {`,
+        `  [${names.map((n) => `"${n}"`).join(" ")}]`,
+        `}`,
+        `export extern ay [command?: string@"nu-complete ay", ...args: string]`,
+      ].join("\n");
+    case "pwsh":
+    case "powershell":
+      return [
+        `Register-ArgumentCompleter -Native -CommandName ay -ScriptBlock {`,
+        `  param($wordToComplete, $commandAst, $cursorPosition)`,
+        `  @(${names.map((n) => `'${n}'`).join(", ")}) | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {`,
+        `    [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)`,
+        `  }`,
+        `}`,
+      ].join("\n");
+    default:
+      throw new Error(
+        `Unsupported shell '${shell}'. Expected: bash, zsh, fish, nu, pwsh.`,
+      );
   }
-  if (name === "doctor") {
-    const tools = probeFastTools();
-    const entries = Object.entries(tools);
-    const present = entries.filter(([, p]) => p !== null).length;
-    const missing = entries.filter(([, p]) => p === null).map(([k]) => k);
-    const report = {
-      ok: Boolean(tools.bun && tools.cargo),
-      presentCount: present,
-      totalCount: entries.length,
-      missing,
-      tools,
-      runtime: { bun: Bun.version, platform: process.platform, arch: process.arch },
-    };
-    if (asJson) {
-      console.log(JSON.stringify(report, null, 2));
-    } else {
-      console.log(`ay doctor: Bun ${Bun.version} (${process.platform}/${process.arch}) — ${present}/${entries.length} fast CLI tools installed`);
-      for (const [k, p] of entries) {
-        console.log(`  ${k.padEnd(10)} ${p ?? "MISSING"}`);
-      }
+}
+
+async function runDoctor(repoRoot: string): Promise<number> {
+  const missing: string[] = [];
+  for (const cmd of COMMANDS) {
+    if (cmd.kind === "builtin") continue;
+    const fullPath = join(repoRoot, cmd.target);
+    if (!(await Bun.file(fullPath).exists())) {
+      missing.push(cmd.target);
     }
-    return report.ok ? 0 : 1;
   }
-  if (name === "check") {
-    const proc = Bun.spawn(["bun", "run", "check", ...args], {
-      cwd: root,
+
+  console.log(`ay ${AY_VERSION} | Bun ${Bun.version} | root=${repoRoot}`);
+  console.log(`registered commands: ${COMMANDS.length}`);
+  if (missing.length > 0) {
+    console.error(`missing targets (${missing.length}): ${missing.join(", ")}`);
+    return 1;
+  }
+  console.log("status: ok (all targets present)");
+  return 0;
+}
+
+async function runCompile(repoRoot: string, args: string[]): Promise<number> {
+  const outIdx = args.indexOf("--outfile");
+  const outfile =
+    outIdx >= 0 && args[outIdx + 1]
+      ? args[outIdx + 1]
+      : join(
+          repoRoot,
+          "dist",
+          process.platform === "win32" ? "ay.exe" : "ay",
+        );
+
+  const proc = Bun.spawn(
+    [
+      process.execPath,
+      "build",
+      "--compile",
+      join(repoRoot, "apps/ay/src/cli.ts"),
+      "--outfile",
+      outfile,
+    ],
+    {
+      cwd: repoRoot,
       stdin: "inherit",
       stdout: "inherit",
       stderr: "inherit",
-    });
-    return await proc.exited;
-  }
-  return 1;
+    },
+  );
+  return await proc.exited;
 }
 
-export async function runCli(argv: string[], root = resolveRepoRoot()): Promise<number> {
+export async function runCli(argv: readonly string[]): Promise<number> {
   const [first, ...rest] = argv;
+
   if (!first || first === "--help" || first === "-h" || first === "help") {
     console.log(formatHelp());
     return 0;
   }
-  if (first === "--list") {
-    if (rest.includes("--json")) {
-      console.log(JSON.stringify(COMMAND_REGISTRY, null, 2));
-    } else {
-      for (const c of COMMAND_REGISTRY) console.log(`${c.name}\t${c.category}\t${c.summary}`);
-    }
+
+  if (first === "--version" || first === "-v" || first === "version") {
+    console.log(`ay ${AY_VERSION} (Bun ${Bun.version})`);
     return 0;
   }
 
-  const cmd = findCommand(first);
+  const cmd = resolveCommand(first);
   if (!cmd) {
-    console.error(`ay: unknown command "${first}". Run "ay --help" for commands.`);
-    return 2;
+    console.error(`Unknown command: ${first}\nRun 'ay --help' for usage.`);
+    return 1;
   }
+
+  const repoRoot = findRepoRoot(import.meta.dir);
 
   if (cmd.kind === "builtin") {
-    return runBuiltin(cmd.name, rest, root);
+    switch (cmd.name) {
+      case "completions": {
+        const shell = rest[0] ?? "pwsh";
+        console.log(generateCompletions(shell));
+        return 0;
+      }
+      case "doctor":
+        return await runDoctor(repoRoot);
+      case "compile":
+        return await runCompile(repoRoot, rest);
+      default:
+        console.error(`Unhandled builtin: ${cmd.name}`);
+        return 1;
+    }
   }
 
-  const target = join(root, cmd.entry!);
-  const proc = Bun.spawn([process.execPath, target, ...rest], {
-    cwd: root,
+  const targetPath = join(repoRoot, cmd.target);
+  const proc = Bun.spawn([process.execPath, "run", targetPath, ...rest], {
+    cwd: repoRoot,
     stdin: "inherit",
     stdout: "inherit",
     stderr: "inherit",
@@ -104,5 +217,6 @@ export async function runCli(argv: string[], root = resolveRepoRoot()): Promise<
 }
 
 if (import.meta.main) {
-  process.exitCode = await runCli(Bun.argv.slice(2));
+  const code = await runCli(Bun.argv.slice(2));
+  process.exit(code);
 }

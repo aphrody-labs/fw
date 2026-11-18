@@ -1,258 +1,332 @@
-import { join, resolve } from "node:path";
+/**
+ * Unified command registry for the `ay` CLI.
+ *
+ * Maps every standalone `tools/*.ts` script, app entrypoint, and built-in
+ * subcommand into one Bun-native dispatch table.
+ */
 
-export type CommandKind = "app" | "package" | "tool" | "builtin";
+export type CommandKind = "tool" | "app" | "builtin";
+
+export type CommandCategory =
+  | "core"
+  | "runtime"
+  | "cloud"
+  | "infra"
+  | "quality"
+  | "data"
+  | "meta";
 
 export interface CommandEntry {
   readonly name: string;
-  readonly aliases: readonly string[];
+  readonly aliases?: readonly string[];
+  readonly category: CommandCategory;
   readonly kind: CommandKind;
-  readonly category: "web" | "ai" | "shell" | "re" | "wasm" | "cloud" | "sdk";
+  readonly target: string;
   readonly summary: string;
-  readonly entry?: string;
 }
 
-export const COMMAND_REGISTRY: readonly CommandEntry[] = [
+export const COMMANDS: readonly CommandEntry[] = [
+  // Core & Apps
   {
     name: "web",
-    aliases: ["webos", "portal", "site"],
+    aliases: ["portal", "search"],
+    category: "core",
     kind: "app",
-    category: "web",
-    summary: "Serve unified Aphrody Website, WebOS shell, Search gateway, WASM corelib sandbox, and Chromium Dash.",
-    entry: "apps/web/src/main.ts",
+    target: "apps/web/src/main.ts",
+    summary: "Run the unified @aphrody/ay-web HTTP server",
   },
   {
-    name: "dash",
-    aliases: ["chromium-dash"],
-    kind: "app",
-    category: "web",
-    summary: "Run standalone Chromium Dash & Chrome Status SSR server.",
-    entry: "apps/chromium-dash/src/main.ts",
-  },
-  {
-    name: "chromium",
-    aliases: ["chromium-releases", "chrome"],
-    kind: "package",
-    category: "web",
-    summary: "Query Chromium release channels, schedules, commits, features, and CEF pins.",
-    entry: "packages/chromium-releases/src/cli.ts",
-  },
-  {
-    name: "ai",
-    aliases: ["os", "ai-os", "agent"],
-    kind: "package",
-    category: "ai",
-    summary: "AI OS kernel: agent runtime, MCP/A2A server, orchestrator, fabric, brain, providers, NHITL, automate.",
-    entry: "packages/ai-os/src/cli.ts",
-  },
-  {
-    name: "shell",
-    aliases: ["sh", "ay-sh", "shells"],
-    kind: "tool",
-    category: "shell",
-    summary: "Inspect/launch native shells (ay-sh, fish, nu, bash, niubash, pwsh) and platform matrix.",
-    entry: "tools/shells.ts",
-  },
-  {
-    name: "omniu",
-    aliases: ["prompt", "niu"],
-    kind: "package",
-    category: "shell",
-    summary: "Oh-My-Niu / shell themes, completions, prompts, and command packs.",
-    entry: "packages/omniu/src/cli.ts",
-  },
-  {
-    name: "gnu",
-    aliases: ["coreutils", "unix"],
-    kind: "package",
-    category: "shell",
-    summary: "Cross-platform GNU / uutils userland runner and parity suite.",
-    entry: "packages/gnu/src/cli.ts",
-  },
-  {
-    name: "re",
-    aliases: ["ghidra", "disasm"],
-    kind: "package",
-    category: "re",
-    summary: "Reverse engineering suite: binary triage, Ghidra headless/BUN, PE/ELF/Lua52/CPK analysis.",
-    entry: "packages/ghidra/src/cli.ts",
-  },
-  {
-    name: "py2bun",
-    aliases: [],
-    kind: "package",
-    category: "sdk",
-    summary: "Python-to-Bun AST transpiler and stdlib compatibility layer.",
-    entry: "packages/py2bun/src/cli.ts",
-  },
-  {
-    name: "wck",
-    aliases: ["web-check"],
-    kind: "package",
-    category: "web",
-    summary: "Modern Web Guidance, WCAG 2.2 AA, SEO, and Core Web Vitals conformance checker.",
-    entry: "packages/wck/src/cli.ts",
-  },
-  {
-    name: "wasm",
-    aliases: ["corelib"],
-    kind: "tool",
-    category: "wasm",
-    summary: "Run corelib WebAssembly component conformance host and boot verification.",
-    entry: "tools/corelib-component.ts",
-  },
-  {
-    name: "qemu",
-    aliases: ["kernel-boot"],
-    kind: "tool",
-    category: "wasm",
-    summary: "Boot freestanding x86_64 corelib PVH image in QEMU and verify serial transcript.",
-    entry: "tools/corelib-qemu.ts",
-  },
-  {
-    name: "abi",
-    aliases: ["codegen"],
-    kind: "tool",
-    category: "wasm",
-    summary: "Generate and check unified C23 / Rust / Bun FFI / Python / JSON ABI artifacts from abi/ay.abi.toml.",
-    entry: "tools/abi.ts",
-  },
-  {
-    name: "deploy",
-    aliases: ["cloud"],
-    kind: "tool",
-    category: "cloud",
-    summary: "Stage-aware Cloudflare Workers/Gatekeepers & fleet service deploy planner.",
-    entry: "tools/deploy.ts",
-  },
-  {
-    name: "quota",
-    aliases: ["cf-quota", "limits"],
-    kind: "tool",
-    category: "cloud",
-    summary: "Quota-safe routing monitor across Cloudflare Workers/R2/KV/D1, GitHub Actions, and VPS fleet.",
-    entry: "tools/cf-quota.ts",
-  },
-  {
-    name: "mirror",
-    aliases: ["org-mirror"],
-    kind: "package",
-    category: "sdk",
-    summary: "Mirror and audit upstream organizational repositories and forks.",
-    entry: "packages/org-mirror/src/cli.ts",
-  },
-  {
-    name: "features",
-    aliases: ["matrix"],
-    kind: "tool",
-    category: "sdk",
-    summary: "Render and validate docs/features.toml product proof matrix.",
-    entry: "tools/features.ts",
-  },
-  {
-    name: "submodules",
-    aliases: ["forks"],
-    kind: "tool",
-    category: "sdk",
-    summary: "Reconcile .gitmodules and gitlinks against submodules.toml.",
-    entry: "tools/submodules.ts",
-  },
-  {
-    name: "inventory",
-    aliases: ["orgs"],
-    kind: "tool",
-    category: "sdk",
-    summary: "Inventory repositories, packages, and org transfers against ay.toml.",
-    entry: "tools/org-inventory.ts",
-  },
-  {
-    name: "hosts",
-    aliases: [],
-    kind: "tool",
-    category: "cloud",
-    summary: "List configured fleet host roles and reachability from ay.toml / ay.local.toml.",
-    entry: "tools/hosts.ts",
-  },
-  {
-    name: "disks",
-    aliases: [],
-    kind: "tool",
-    category: "cloud",
-    summary: "Measure host build/test/prod volume headroom.",
-    entry: "tools/disks.ts",
-  },
-  {
-    name: "status",
-    aliases: ["info"],
+    name: "completions",
+    aliases: ["comp"],
+    category: "meta",
     kind: "builtin",
-    category: "sdk",
-    summary: "Print unified product manifest, workspace packages/crates counts, and fast tool telemetry.",
+    target: "builtin:completions",
+    summary: "Generate shell completions (bash, zsh, fish, nu, pwsh)",
+  },
+  {
+    name: "compile",
+    aliases: ["aot"],
+    category: "meta",
+    kind: "builtin",
+    target: "builtin:compile",
+    summary: "Compile `ay` into a standalone native binary via `bun build --compile`",
   },
   {
     name: "doctor",
     aliases: ["health"],
+    category: "meta",
     kind: "builtin",
-    category: "sdk",
-    summary: "Check fast modern CLI tools (bun, eza, dust, xh, fd, rg, fish, nu, bat, wrangler, clang, cargo, gh) and workspace health.",
+    target: "builtin:doctor",
+    summary: "Verify Bun runtime, workspace root, and CLI registry integrity",
+  },
+
+  // Runtime & Corelib
+  {
+    name: "abi",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/abi.ts",
+    summary: "ABI surface and C/JNI header verification",
   },
   {
-    name: "check",
-    aliases: ["verify"],
-    kind: "builtin",
-    category: "sdk",
-    summary: "Run full workspace verification pipeline (`bun run check`).",
+    name: "corelib",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/corelib.ts",
+    summary: "Corelib build, test, and component orchestration",
   },
-] as const;
+  {
+    name: "corelib-component",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/corelib-component.ts",
+    summary: "Inspect and manage corelib components",
+  },
+  {
+    name: "corelib-qemu",
+    aliases: ["qemu"],
+    category: "runtime",
+    kind: "tool",
+    target: "tools/corelib-qemu.ts",
+    summary: "Run corelib verification inside QEMU",
+  },
+  {
+    name: "linux-aphrody",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/linux-aphrody.ts",
+    summary: "Linux kernel / Aphrody OS integration tooling",
+  },
+  {
+    name: "linux-docs",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/linux-docs.ts",
+    summary: "Linux documentation indexing and lookup",
+  },
+  {
+    name: "linux-sources",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/linux-sources.ts",
+    summary: "Linux source tree management and verification",
+  },
+  {
+    name: "shells",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/shells.ts",
+    summary: "Cross-platform shell environment diagnostics",
+  },
+  {
+    name: "ts",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/ts.ts",
+    summary: "TypeScript / Bun typecheck and workspace runner",
+  },
 
-export const FAST_TOOL_BINARIES = [
-  "bun",
-  "cargo",
-  "clang",
-  "gh",
-  "wrangler",
-  "eza",
-  "dust",
-  "xh",
-  "fd",
-  "rg",
-  "fish",
-  "nu",
-  "bat",
-] as const;
+  // Cloud & Edge
+  {
+    name: "cf-quota",
+    aliases: ["quota"],
+    category: "cloud",
+    kind: "tool",
+    target: "tools/cf-quota.ts",
+    summary: "Cloudflare Workers/R2/D1/KV quota guard and telemetry",
+  },
+  {
+    name: "cloud-map",
+    category: "cloud",
+    kind: "tool",
+    target: "tools/cloud-map.ts",
+    summary: "Cloudflare & edge topology map",
+  },
+  {
+    name: "deploy",
+    category: "cloud",
+    kind: "tool",
+    target: "tools/deploy.ts",
+    summary: "Deploy Aphrody services across Cloudflare and fleet VPS",
+  },
+  {
+    name: "r2-cdn-sync",
+    aliases: ["cdn-sync", "r2-sync"],
+    category: "cloud",
+    kind: "tool",
+    target: "tools/r2-cdn-sync.ts",
+    summary: "Sync aphrody-cdn R2 bucket via Bun.s3 to CloudFront origin",
+  },
+  {
+    name: "serve-closed-loop",
+    category: "cloud",
+    kind: "tool",
+    target: "tools/serve-closed-loop.ts",
+    summary: "Closed-loop local/edge verification server",
+  },
 
-export function resolveRepoRoot(fromDir = import.meta.dir): string {
-  return resolve(fromDir, "../../..");
-}
+  // Infra & Fleet
+  {
+    name: "disks",
+    category: "infra",
+    kind: "tool",
+    target: "tools/disks.ts",
+    summary: "Disk and storage layout inspection",
+  },
+  {
+    name: "hosts",
+    category: "infra",
+    kind: "tool",
+    target: "tools/hosts.ts",
+    summary: "Fleet host inventory and SSH reachability",
+  },
+  {
+    name: "local",
+    category: "infra",
+    kind: "tool",
+    target: "tools/local.ts",
+    summary: "Local workstation environment setup and checks",
+  },
+  {
+    name: "org-inventory",
+    aliases: ["org"],
+    category: "infra",
+    kind: "tool",
+    target: "tools/org-inventory.ts",
+    summary: "GitHub org repository and package inventory",
+  },
+  {
+    name: "recon",
+    category: "infra",
+    kind: "tool",
+    target: "tools/recon.ts",
+    summary: "Infrastructure and repo reconnaissance",
+  },
+  {
+    name: "recover",
+    category: "infra",
+    kind: "tool",
+    target: "tools/recover.ts",
+    summary: "Recovery and repair workflows",
+  },
+  {
+    name: "submodules",
+    category: "infra",
+    kind: "tool",
+    target: "tools/submodules.ts",
+    summary: "Submodule and vendor manifest synchronization",
+  },
+  {
+    name: "sync-host",
+    category: "infra",
+    kind: "tool",
+    target: "tools/sync-host.ts",
+    summary: "Synchronize workspace state to fleet hosts",
+  },
 
-export function findCommand(nameOrAlias: string): CommandEntry | undefined {
-  const key = nameOrAlias.trim().toLowerCase();
-  return COMMAND_REGISTRY.find((c) => c.name === key || c.aliases.includes(key));
-}
+  // Quality & Hygiene
+  {
+    name: "bun-native",
+    aliases: ["native"],
+    category: "quality",
+    kind: "tool",
+    target: "tools/bun-native.ts",
+    summary: "Enforce Bun-native APIs and zero Node/legacy regressions",
+  },
+  {
+    name: "claims",
+    category: "quality",
+    kind: "tool",
+    target: "tools/claims.ts",
+    summary: "Verify architectural claims and invariants",
+  },
+  {
+    name: "dedup",
+    category: "quality",
+    kind: "tool",
+    target: "tools/dedup.ts",
+    summary: "Detect duplicate files, symbols, and packages",
+  },
+  {
+    name: "legacy",
+    category: "quality",
+    kind: "tool",
+    target: "tools/legacy.ts",
+    summary: "Scan and audit legacy prototypes or deprecated patterns",
+  },
+  {
+    name: "paths",
+    category: "quality",
+    kind: "tool",
+    target: "tools/paths.ts",
+    summary: "Enforce relative paths and zero hardcoded machine paths",
+  },
+  {
+    name: "private-gate",
+    aliases: ["privacy"],
+    category: "quality",
+    kind: "tool",
+    target: "tools/private-gate.ts",
+    summary: "Prevent secrets and private paths from leaking into git",
+  },
 
-export function probeFastTools(): Record<(typeof FAST_TOOL_BINARIES)[number], string | null> {
-  const out = {} as Record<(typeof FAST_TOOL_BINARIES)[number], string | null>;
-  for (const bin of FAST_TOOL_BINARIES) {
-    out[bin] = Bun.which(bin) ?? null;
-  }
-  return out;
-}
+  // Data, Planning & Research
+  {
+    name: "absorb",
+    category: "data",
+    kind: "tool",
+    target: "tools/absorb.ts",
+    summary: "Absorb external crates/repos into the unified workspace",
+  },
+  {
+    name: "claude-sessions",
+    category: "data",
+    kind: "tool",
+    target: "tools/claude-sessions.ts",
+    summary: "Inspect and export Claude session transcripts",
+  },
+  {
+    name: "features",
+    category: "data",
+    kind: "tool",
+    target: "tools/features.ts",
+    summary: "Feature matrix and parity tracking",
+  },
+  {
+    name: "listings",
+    category: "data",
+    kind: "tool",
+    target: "tools/listings.ts",
+    summary: "Generate structured workspace listings",
+  },
+  {
+    name: "plan",
+    category: "data",
+    kind: "tool",
+    target: "tools/plan.ts",
+    summary: "Execution plan tracking and verification",
+  },
+  {
+    name: "rust-map",
+    category: "data",
+    kind: "tool",
+    target: "tools/rust-map.ts",
+    summary: "Rust workspace crate dependency and symbol map",
+  },
+  {
+    name: "science",
+    category: "data",
+    kind: "tool",
+    target: "tools/science.ts",
+    summary: "Benchmarks, telemetry, and experimental analysis",
+  },
+];
 
-export async function readUnifiedStatus(root = resolveRepoRoot()) {
-  const ayText = await Bun.file(join(root, "ay.toml")).text();
-  const ay = Bun.TOML.parse(ayText) as Record<string, any>;
-  const rootPkg = (await Bun.file(join(root, "package.json")).json()) as {
-    name?: string;
-    bin?: Record<string, string>;
-    workspaces?: { packages?: string[] };
-  };
-  return {
-    product: ay.product ?? { name: "aphrody", cli: "ay" },
-    orgs: ay.orgs ?? {},
-    domains: ay.domains ?? {},
-    products: Object.keys(ay.products ?? {}),
-    repos: Object.keys(ay.repos ?? {}),
-    sdk: ay.sdk ?? {},
-    cliBin: rootPkg.bin ?? {},
-    commands: COMMAND_REGISTRY.map((c) => c.name),
-    tools: probeFastTools(),
-  };
+export function resolveCommand(name: string): CommandEntry | undefined {
+  const normalized = name.trim().toLowerCase();
+  return COMMANDS.find(
+    (cmd) =>
+      cmd.name === normalized ||
+      cmd.aliases?.some((alias) => alias === normalized),
+  );
 }

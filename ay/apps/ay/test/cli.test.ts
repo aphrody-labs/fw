@@ -1,63 +1,55 @@
 import { describe, expect, test } from "bun:test";
-import { join } from "node:path";
-import { COMMAND_REGISTRY, findCommand, probeFastTools, readUnifiedStatus, resolveRepoRoot } from "../src/registry.ts";
+import { resolve } from "node:path";
+import { COMMANDS, resolveCommand } from "../src/registry.ts";
+import { formatHelp, generateCompletions } from "../src/cli.ts";
 
-describe("@aphrody/ay-cli unified registry", () => {
-  const root = resolveRepoRoot();
+const REPO_ROOT = resolve(import.meta.dir, "../../..");
 
-  test("every external command entry points to an existing file", async () => {
-    for (const cmd of COMMAND_REGISTRY) {
-      if (cmd.kind !== "builtin") {
-        expect(cmd.entry).toBeDefined();
-        const exists = await Bun.file(join(root, cmd.entry!)).exists();
-        expect(exists).toBe(true);
-      }
+describe("ay unified CLI", () => {
+  test("all non-builtin command targets exist on disk", async () => {
+    for (const cmd of COMMANDS) {
+      if (cmd.kind === "builtin") continue;
+      const file = Bun.file(resolve(REPO_ROOT, cmd.target));
+      expect(await file.exists()).toBe(true);
     }
   });
 
-  test("aliases resolve deterministically without collisions", () => {
+  test("every standalone tools/*.ts script is registered", () => {
+    const registeredTargets = new Set(COMMANDS.map((c) => c.target));
+    const toolFiles = [...new Bun.Glob("tools/*.ts").scanSync(REPO_ROOT)]
+      .map((p) => p.replaceAll("\\", "/"))
+      .filter((p) => !p.endsWith(".test.ts"));
+
+    for (const toolFile of toolFiles) {
+      expect(registeredTargets.has(toolFile)).toBe(true);
+    }
+  });
+
+  test("command names and aliases resolve uniquely", () => {
     const seen = new Set<string>();
-    for (const cmd of COMMAND_REGISTRY) {
+    for (const cmd of COMMANDS) {
       expect(seen.has(cmd.name)).toBe(false);
       seen.add(cmd.name);
-      expect(findCommand(cmd.name)?.name).toBe(cmd.name);
-      for (const alias of cmd.aliases) {
+      expect(resolveCommand(cmd.name)?.name).toBe(cmd.name);
+
+      for (const alias of cmd.aliases ?? []) {
         expect(seen.has(alias)).toBe(false);
         seen.add(alias);
-        expect(findCommand(alias)?.name).toBe(cmd.name);
+        expect(resolveCommand(alias)?.name).toBe(cmd.name);
       }
     }
   });
 
-  test("fast modern CLI probe detects installed bun + modern binaries", () => {
-    const tools = probeFastTools();
-    expect(tools.bun).toBeTruthy();
-    expect(tools.rg).toBeTruthy();
-    expect(tools.eza).toBeTruthy();
-    expect(tools.xh).toBeTruthy();
-  });
+  test("help and shell completions render cleanly", () => {
+    const help = formatHelp();
+    expect(help).toContain("ay 0.1.0");
+    expect(help).toContain("r2-cdn-sync");
+    expect(help).toContain("completions");
 
-  test("readUnifiedStatus reads ay.toml products and CLI metadata", async () => {
-    const status = await readUnifiedStatus(root);
-    expect(status.product.cli).toBe("ay");
-    expect(status.products).toContain("os");
-    expect(status.products).toContain("cloud");
-    expect(status.commands).toContain("web");
-    expect(status.commands).toContain("ai");
-    expect(status.commands).toContain("re");
-    expect(status.commands).toContain("wasm");
-  });
-
-  test("CLI executable supports --list --json and status subcommand", async () => {
-    const cli = join(root, "apps/ay/src/cli.ts");
-    const listProc = Bun.spawnSync([process.execPath, cli, "--list", "--json"], { cwd: root });
-    expect(listProc.exitCode).toBe(0);
-    const list = JSON.parse(listProc.stdout.toString()) as Array<{ name: string }>;
-    expect(list.some((x) => x.name === "web")).toBe(true);
-
-    const statusProc = Bun.spawnSync([process.execPath, cli, "status"], { cwd: root });
-    expect(statusProc.exitCode).toBe(0);
-    const status = JSON.parse(statusProc.stdout.toString()) as { product: { cli: string } };
-    expect(status.product.cli).toBe("ay");
+    for (const shell of ["bash", "zsh", "fish", "nu", "pwsh"]) {
+      const out = generateCompletions(shell);
+      expect(out.length).toBeGreaterThan(20);
+      expect(out).toContain("ay");
+    }
   });
 });
