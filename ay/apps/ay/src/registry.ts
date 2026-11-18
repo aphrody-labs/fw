@@ -59,6 +59,14 @@ export const COMMANDS: readonly CommandEntry[] = [
     target: "builtin:doctor",
     summary: "Verify Bun runtime, workspace root, and CLI registry integrity",
   },
+  {
+    name: "wck",
+    aliases: ["mwg", "web-check"],
+    category: "quality",
+    kind: "builtin",
+    target: "builtin:wck",
+    summary: "Modern Web Guidance, Core Web Vitals, SEO/A11y & legacy-scan gate",
+  },
 
   // Runtime & Corelib
   {

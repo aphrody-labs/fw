@@ -8,6 +8,7 @@
 
 import { join, resolve } from "node:path";
 import { COMMANDS, resolveCommand, type CommandCategory } from "./registry.ts";
+import { runWckCli } from "./wck.ts";
 
 const AY_VERSION = "0.1.0";
 
@@ -202,6 +203,8 @@ export async function runCli(argv: readonly string[]): Promise<number> {
         return await runDoctor(repoRoot);
       case "compile":
         return await runCompile(repoRoot, rest);
+      case "wck":
+        return await runWckCli(rest);
       default:
         console.error(`Unhandled builtin: ${cmd.name}`);
         return 1;
