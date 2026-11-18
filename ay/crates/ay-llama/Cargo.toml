@@ -56,20 +56,20 @@ path = "src/lib.rs"
 path = "../ay-llama-sys"
 
 [dependencies.encoding_rs]
-version = "0.8.41"
+version = "0.8.44"
 
 [dependencies.enumflags2]
 version = "0.7.12"
 
 [dependencies.llguidance]
-version = "1.8.0"
+version = "1.9.1"
 optional = true
 
 [dependencies.thiserror]
-version = "2.0.20"
+version = "2.0.21"
 
 [dependencies.toktrie]
-version = "1.8.0"
+version = "1.9.1"
 optional = true
 
 [dependencies.tracing]

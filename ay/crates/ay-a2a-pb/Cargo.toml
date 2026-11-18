@@ -70,14 +70,14 @@ version = "0.9"
 version = "0.9"
 
 [dependencies.prost]
-version = "0.14"
+version = "0.14.6"
 features = []
 
 [dependencies.prost-types]
-version = "0.14"
+version = "0.14.6"
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -85,7 +85,7 @@ features = [
 default-features = false
 
 [dependencies.serde_json]
-version = "1.0.151"
+version = "1.0.154"
 
 [build-dependencies.pbjson-build]
 version = "0.9"
@@ -99,11 +99,11 @@ version = "0.14"
 features = []
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.tonic]
-version = "0.14"
+version = "0.14.9"
 features = []
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.tonic-prost]
-version = "0.14"
+version = "0.14.9"
 features = []
 
 [lints.clippy]

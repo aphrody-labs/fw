@@ -11,7 +11,7 @@ publish = false
 description = "Pure stages of the aphrody comment rewriter: comment extraction, AI-marker scrubbing, Aphrody style, language detection. No network, no runtime; wasm32-safe. Legacy crates.io name: aphrody-translate-core."
 
 [dependencies]
-regex = "1.11"
+regex = "1.13.2"
 
 [lints.rust]
 non_ascii_idents = "deny"

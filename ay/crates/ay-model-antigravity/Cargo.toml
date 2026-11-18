@@ -62,7 +62,7 @@ version = "0.13.5"
 default-features = false
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -75,7 +75,7 @@ features = ["std"]
 default-features = false
 
 [dependencies.tokio]
-version = "1.53.2"
+version = "1.54.1"
 features = [
     "sync",
     "time",

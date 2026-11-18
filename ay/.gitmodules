@@ -146,10 +146,14 @@
 	path = third_party/niubash
 	url = ../../aphrody-labs/niubash.git
 	branch = master
+[submodule "third_party/ruline"]
+	path = third_party/ruline
+	url = ../../aphrody-labs/ruline.git
+	branch = main
 [submodule "third_party/rio"]
 	path = third_party/rio
 	url = ../../aphrody-labs/rio.git
-	branch = main
+	branch = v0.5
 [submodule "os/nt"]
 	path = os/nt
 	url = ../../aphrody-dev/aynt.git

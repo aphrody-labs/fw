@@ -18,16 +18,16 @@ path = "src/bin/ai-os-graph.rs"
 ay-proc = { path = "../ay-proc" }
 ay-store = { path = "../ay-store" }
 clap = { workspace = true }
-oxc_allocator = "0.153.0"
-oxc_ast = "0.153.0"
-oxc_ast_visit = "0.153.0"
-oxc_parser = "0.153.0"
-oxc_span = "0.153.0"
-oxc_syntax = "0.153.0"
+oxc_allocator = { workspace = true }
+oxc_ast = { workspace = true }
+oxc_ast_visit = { workspace = true }
+oxc_parser = { workspace = true }
+oxc_span = { workspace = true }
+oxc_syntax = { workspace = true }
 rusqlite = { workspace = true, features = ["bundled"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
-thiserror = "2.0.20"
+thiserror = "2.0.21"
 tree-sitter = { workspace = true }
 tree-sitter-rust = { workspace = true }
 

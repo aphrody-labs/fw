@@ -5,6 +5,7 @@
 //! Names, colours and paths are data in `brand/`; this crate carries none of them.
 
 pub mod character;
+pub mod media;
 
 use sha2::{Digest, Sha256};
 

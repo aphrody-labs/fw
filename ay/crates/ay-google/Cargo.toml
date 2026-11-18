@@ -22,14 +22,14 @@ serde_json = { workspace = true, features = ["std"] }
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 ay-gemini-runtime = { path = "../ay-gemini-runtime" }
 ay-model-client = { path = "../ay-model-client" }
-bun_browser_dom = "1.4.7"
+bun_browser_dom = "1.4.8"
 chrono = { version = "0.4.45", default-features = false }
 clap = { workspace = true, features = ["derive", "env"] }
 futures = { version = "0.3.34", default-features = false, features = ["std", "async-await"] }
-regex = { version = "1.13.1", default-features = false }
+regex = { version = "1.13.2", default-features = false }
 reqwest = { version = "0.13.5", default-features = false }
 rusqlite = { workspace = true, features = ["bundled"] }
-rustls = { version = "0.23.45", default-features = false }
+rustls = { version = "0.23.46", default-features = false }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }
 url = { workspace = true }
 

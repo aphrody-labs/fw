@@ -1,0 +1,29 @@
+[package]
+name = "ay-ghidra-bun"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Native Bun plugin (onBeforeParse, NAPI cdylib) and fast-path analysis for @aphrody/ghidra, backed by ay-re"
+publish = false
+
+[lib]
+name = "aphrody_ghidra_bun"
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = []
+# full Ghidra decompiler (ghidra-decompiler 2.1.0) through ay-re
+decompile = ["ay-re/decompile"]
+
+[dependencies]
+ay-re = { path = "../ay-re", default-features = false }
+bun-native-plugin = "0.2.0"
+napi = { version = "3.16.2", default-features = false, features = ["napi4"] }
+napi-derive = "3.7.1"
+serde_json.workspace = true
+
+[build-dependencies]
+napi-build = "2.6.0"
+
+[lints]

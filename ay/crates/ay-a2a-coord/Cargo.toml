@@ -110,7 +110,7 @@ features = [
 default-features = false
 
 [dependencies.rustls]
-version = "0.23"
+version = "0.23.46"
 features = [
     "ring",
     "std",
@@ -119,7 +119,7 @@ features = [
 default-features = false
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -127,13 +127,13 @@ features = [
 default-features = false
 
 [dependencies.serde_json]
-version = "1.0.151"
+version = "1.0.154"
 
 [dependencies.thiserror]
-version = "2.0.20"
+version = "2.0.21"
 
 [dependencies.tokio]
-version = "1.53.1"
+version = "1.54.1"
 features = [
     "process",
     "rt-multi-thread",

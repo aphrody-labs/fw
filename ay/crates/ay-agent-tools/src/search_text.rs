@@ -57,6 +57,14 @@ impl ToolExecutor for SearchTextTool {
         if args.pattern.trim().is_empty() {
             return Ok(ToolOutput::error("search_text: pattern must not be empty"));
         }
+        let cwd = args
+            .cwd
+            .as_deref()
+            .unwrap_or_else(|| std::path::Path::new("."));
+        let root_arg = args
+            .path
+            .as_deref()
+            .unwrap_or_else(|| std::path::Path::new("."));
         let mut command = tokio::process::Command::new("rg").no_window();
         command.args([
             "--line-number",
@@ -66,40 +74,92 @@ impl ToolExecutor for SearchTextTool {
             "--glob",
             "!.git",
         ]);
-        if let Some(glob) = args.glob {
-            command.args(["--glob", &glob]);
+        if let Some(ref glob) = args.glob {
+            command.args(["--glob", glob]);
         }
-        command.current_dir(
-            args.cwd
-                .as_deref()
-                .unwrap_or_else(|| std::path::Path::new(".")),
-        );
-        command.arg(&args.pattern).arg(
-            args.path
-                .as_deref()
-                .unwrap_or_else(|| std::path::Path::new(".")),
-        );
-        let output = command
-            .output()
-            .await
-            .map_err(|error| ToolError::Execution {
+        command.current_dir(cwd);
+        command.arg(&args.pattern).arg(root_arg);
+        match command.output().await {
+            Ok(output) => {
+                let mut text = String::from_utf8_lossy(&output.stdout).into_owned();
+                if text.len() > MAX_OUTPUT_BYTES {
+                    text.truncate(MAX_OUTPUT_BYTES);
+                    text.push_str("\n[output truncated]");
+                }
+                if output.status.success() || output.status.code() == Some(1) {
+                    Ok(ToolOutput::ok(text))
+                } else {
+                    Ok(ToolOutput::error(format!(
+                        "search_text: rg failed: {}",
+                        String::from_utf8_lossy(&output.stderr)
+                    )))
+                }
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                let search_root = if root_arg.is_absolute() {
+                    root_arg.to_path_buf()
+                } else {
+                    cwd.join(root_arg)
+                };
+                let text = fallback_search(&search_root, cwd, &args.pattern, args.glob.as_deref());
+                Ok(ToolOutput::ok(text))
+            }
+            Err(error) => Err(ToolError::Execution {
                 tool: "search_text".into(),
                 message: format!("failed to start rg: {error}"),
-            })?;
-        let mut text = String::from_utf8_lossy(&output.stdout).into_owned();
-        if text.len() > MAX_OUTPUT_BYTES {
-            text.truncate(MAX_OUTPUT_BYTES);
-            text.push_str("\n[output truncated]");
-        }
-        if output.status.success() || output.status.code() == Some(1) {
-            Ok(ToolOutput::ok(text))
-        } else {
-            Ok(ToolOutput::error(format!(
-                "search_text: rg failed: {}",
-                String::from_utf8_lossy(&output.stderr)
-            )))
+            }),
         }
     }
+}
+
+fn fallback_search(
+    root: &std::path::Path,
+    cwd: &std::path::Path,
+    pattern: &str,
+    glob: Option<&str>,
+) -> String {
+    let ext_filter = glob
+        .and_then(|g| g.rsplit('.').next())
+        .filter(|e| !e.contains('*'));
+    let mut stack = vec![root.to_path_buf()];
+    let mut out = String::new();
+    while let Some(path) = stack.pop() {
+        if out.len() >= MAX_OUTPUT_BYTES {
+            break;
+        }
+        if path.file_name().is_some_and(|n| n == ".git") {
+            continue;
+        }
+        if path.is_dir() {
+            if let Ok(entries) = std::fs::read_dir(&path) {
+                for entry in entries.flatten() {
+                    stack.push(entry.path());
+                }
+            }
+            continue;
+        }
+        if let Some(ext) = ext_filter
+            && path.extension().and_then(|s| s.to_str()) != Some(ext)
+        {
+            continue;
+        }
+        let Ok(content) = std::fs::read_to_string(&path) else {
+            continue;
+        };
+        let display = path.strip_prefix(cwd).unwrap_or(&path);
+        for (idx, line) in content.lines().enumerate() {
+            if line.contains(pattern) {
+                let row = format!("{}:{}:{}\n", display.display(), idx + 1, line);
+                if out.len() + row.len() > MAX_OUTPUT_BYTES {
+                    out.truncate(MAX_OUTPUT_BYTES);
+                    out.push_str("\n[output truncated]");
+                    return out;
+                }
+                out.push_str(&row);
+            }
+        }
+    }
+    out
 }
 
 fn definition() -> ToolDefinition {

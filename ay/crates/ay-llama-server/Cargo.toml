@@ -134,7 +134,7 @@ version = "0.23.1"
 optional = true
 
 [dependencies.bytes]
-version = "1.12.1"
+version = "1.12.2"
 optional = true
 
 [dependencies.chrono]
@@ -143,7 +143,7 @@ features = ["serde"]
 optional = true
 
 [dependencies.encoding_rs]
-version = "0.8.41"
+version = "0.8.44"
 optional = true
 
 [dependencies.futures]
@@ -151,16 +151,16 @@ version = "0.3.34"
 optional = true
 
 [dependencies.libloading]
-version = "0.9.0"
+version = "0.9.1"
 optional = true
 
 [dependencies.minijinja]
-version = "2.24.0"
+version = "3.1.0"
 features = ["json"]
 optional = true
 
 [dependencies.minijinja-contrib]
-version = "2.24.0"
+version = "3.1.0"
 features = ["pycompat"]
 optional = true
 
@@ -186,7 +186,7 @@ features = [
 default-features = false
 
 [dependencies.rustls]
-version = "0.23"
+version = "0.23.46"
 features = [
     "ring",
     "std",
@@ -195,7 +195,7 @@ features = [
 default-features = false
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -203,13 +203,13 @@ features = [
 default-features = false
 
 [dependencies.serde_json]
-version = "1.0.151"
+version = "1.0.154"
 
 [dependencies.thiserror]
-version = "2.0.20"
+version = "2.0.21"
 
 [dependencies.tokio]
-version = "1.53.1"
+version = "1.54.1"
 features = [
     "process",
     "rt-multi-thread",

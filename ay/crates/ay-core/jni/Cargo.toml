@@ -14,8 +14,13 @@ categories = ["api-bindings", "development-tools::debugging"]
 name = "aphrody_jni"
 crate-type = ["cdylib", "rlib"]
 
+[features]
+default = ["re"]
+re = ["dep:ay-re"]
+
 [dependencies]
 ay-core.workspace = true
+ay-re = { workspace = true, optional = true }
 jni = "0.22.4"
 serde_json.workspace = true
 

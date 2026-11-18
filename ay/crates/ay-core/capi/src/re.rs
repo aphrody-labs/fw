@@ -8,14 +8,19 @@ use std::path::Path;
 use serde_json::json;
 
 use crate::cabi::{c_str, into_c_string, json_err, json_ok, raw_slice};
-use aphrody_re::{
+use ay_re::{
     ReEngine, SreAnalyzeOptions, analyze_binary_file, analyze_pe_mingw_rea,
     transcode_lua52_bytecode,
 };
 
+/// Audit an on-disk binary or Lua 5.2 chunk as JSON.
+///
+/// # Safety
+///
+/// `path_ptr` must be a valid NUL-terminated UTF-8 C string.
 #[unsafe(no_mangle)]
-pub extern "C" fn aphrody_re_audit_json(path_ptr: *const c_char) -> *mut c_char {
-    // SAFETY: caller passes a NUL-terminated string valid for the call.
+pub unsafe extern "C" fn aphrody_re_audit_json(path_ptr: *const c_char) -> *mut c_char {
+    // SAFETY: caller guarantees `path_ptr` is a valid NUL-terminated string.
     let p_str = unsafe { c_str(path_ptr) };
     let path = Path::new(p_str);
 
@@ -25,13 +30,18 @@ pub extern "C" fn aphrody_re_audit_json(path_ptr: *const c_char) -> *mut c_char 
     }
 }
 
+/// Audit an in-memory binary or Lua 5.2 buffer as JSON.
+///
+/// # Safety
+///
+/// `label_ptr` must be a valid NUL-terminated string, and `bytes_ptr` must be readable for `bytes_len` bytes.
 #[unsafe(no_mangle)]
-pub extern "C" fn aphrody_re_audit_bytes_json(
+pub unsafe extern "C" fn aphrody_re_audit_bytes_json(
     label_ptr: *const c_char,
     bytes_ptr: *const u8,
     bytes_len: usize,
 ) -> *mut c_char {
-    // SAFETY: caller passes a NUL-terminated string and `bytes_len` readable bytes.
+    // SAFETY: caller guarantees `label_ptr` and `[bytes_ptr; bytes_len]` are valid for the call.
     let label = unsafe { c_str(label_ptr) };
     let slice = unsafe { raw_slice(bytes_ptr, bytes_len) };
     if slice.is_empty() {
@@ -46,12 +56,17 @@ pub extern "C" fn aphrody_re_audit_bytes_json(
     }
 }
 
+/// Lift and decompile up to `max_functions` functions from a binary via Ghidra P-Code.
+///
+/// # Safety
+///
+/// `path_ptr` must be a valid NUL-terminated UTF-8 C string.
 #[unsafe(no_mangle)]
-pub extern "C" fn aphrody_ghidra_decompile_json(
+pub unsafe extern "C" fn aphrody_ghidra_decompile_json(
     path_ptr: *const c_char,
     max_functions: usize,
 ) -> *mut c_char {
-    // SAFETY: caller passes a NUL-terminated string valid for the call.
+    // SAFETY: caller guarantees `path_ptr` is a valid NUL-terminated string.
     let p_str = unsafe { c_str(path_ptr) };
     let opts = SreAnalyzeOptions {
         max_functions: max_functions.max(1),
@@ -63,12 +78,17 @@ pub extern "C" fn aphrody_ghidra_decompile_json(
     }
 }
 
+/// Audit a PE binary for MinGW CRT/REA imports and artifacts as JSON.
+///
+/// # Safety
+///
+/// `path_ptr` must be a valid NUL-terminated UTF-8 C string.
 #[unsafe(no_mangle)]
-pub extern "C" fn aphrody_mingw_audit_json(
+pub unsafe extern "C" fn aphrody_mingw_audit_json(
     path_ptr: *const c_char,
     max_functions: usize,
 ) -> *mut c_char {
-    // SAFETY: caller passes a NUL-terminated string valid for the call.
+    // SAFETY: caller guarantees `path_ptr` is a valid NUL-terminated string.
     let p_str = unsafe { c_str(path_ptr) };
     match analyze_pe_mingw_rea(Path::new(p_str), max_functions.max(16)) {
         Ok(rep) => json_ok(&rep),
@@ -76,8 +96,13 @@ pub extern "C" fn aphrody_mingw_audit_json(
     }
 }
 
+/// Transcode a Lua 5.2 bytecode buffer into target `integer`/`size_t` widths as hex JSON.
+///
+/// # Safety
+///
+/// `bytes_ptr` must be readable for `bytes_len` bytes.
 #[unsafe(no_mangle)]
-pub extern "C" fn aphrody_lua52_transcode_hex(
+pub unsafe extern "C" fn aphrody_lua52_transcode_hex(
     bytes_ptr: *const u8,
     bytes_len: usize,
     target_int: u8,
@@ -140,13 +165,13 @@ mod tests {
         chunk.extend_from_slice(&0u32.to_le_bytes());
 
         let audit_ptr =
-            aphrody_re_audit_bytes_json(luac_path.as_ptr(), chunk.as_ptr(), chunk.len());
+            unsafe { aphrody_re_audit_bytes_json(luac_path.as_ptr(), chunk.as_ptr(), chunk.len()) };
         let audit_str = unsafe { CStr::from_ptr(audit_ptr).to_str().unwrap() };
         assert!(audit_str.contains("\"is_lua_bytecode\":true"));
         assert!(audit_str.contains("RETURN"));
         unsafe { aphrody_free(audit_ptr) };
 
-        let trans_ptr = aphrody_lua52_transcode_hex(chunk.as_ptr(), chunk.len(), 4, 4);
+        let trans_ptr = unsafe { aphrody_lua52_transcode_hex(chunk.as_ptr(), chunk.len(), 4, 4) };
         let trans_str = unsafe { CStr::from_ptr(trans_ptr).to_str().unwrap() };
         assert!(trans_str.contains("\"ok\":true"));
         unsafe { aphrody_free(trans_ptr) };

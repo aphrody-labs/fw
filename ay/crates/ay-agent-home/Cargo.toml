@@ -55,14 +55,14 @@ path = "../ay-models"
 features = []
 
 [dependencies.arc-swap]
-version = "1.9.2"
+version = "1.9.5"
 
 [dependencies.blake3]
 version = "1"
 default-features = false
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -70,13 +70,13 @@ features = [
 default-features = false
 
 [dependencies.serde_json]
-version = "1.0.151"
+version = "1.0.154"
 
 [dependencies.sha2]
-version = "0.11.0"
+version = "0.11.1"
 
 [dependencies.thiserror]
-version = "2.0.20"
+version = "2.0.21"
 
 [dependencies.tracing]
 version = "0.1.44"
@@ -93,7 +93,7 @@ features = ["html_reports"]
 version = "3.27.0"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.clap]
-version = "4.6.6"
+version = "4.6.8"
 features = [
     "derive",
     "env",
@@ -101,13 +101,13 @@ features = [
 ]
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.gix]
-version = "0.88"
+version = "0.90.0"
 features = [
     "sha1",
     "basic",
     "extras",
     "comfort",
-    "max-performance-safe",
+    "max-performance",
     "revision",
     "index",
     "worktree-mutation",
@@ -116,7 +116,7 @@ optional = true
 default-features = false
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.memmap2]
-version = "0.9.11"
+version = "0.9.12"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.notify]
 version = "8"

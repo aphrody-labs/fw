@@ -58,7 +58,7 @@ role = "Cross-platform clipboard, storage, notifications, and system hooks for D
 path = "third_party/wgpu"
 repo = "aphrody-labs/wgpu"
 branch = "trunk"
-sha = "110b5881fd9ed998d722909e71e7a0fe84be2273"
+sha = "96aaa484995eaef0dcd94381fda8f34a0ba77bd0"
 domain = "gpu"
 role = "WebGPU / Vulkan / DX12 / Metal / WGSL Naga stack"
 
@@ -308,12 +308,20 @@ domain = "nysh"
 role = "Windows-native Bash host powering aysh and nysh"
 
 [[submodule]]
+path = "third_party/ruline"
+repo = "aphrody-labs/ruline"
+branch = "main"
+sha = "52f344979d42c2e403a41cd98f0d966450f25bde"
+domain = "nysh"
+role = "GNU readline-compatible Rust line editor powering niubash and ay-sh"
+
+[[submodule]]
 path = "third_party/rio"
 repo = "aphrody-labs/rio"
-branch = "main"
-sha = "635e661fc0b74ffe8076fd9fcb6fa46a8ec78a49"
+branch = "v0.5"
+sha = "f6eae96f94f8507badb2b94223b231b7ad001782"
 domain = "nysh"
-role = "WGPU/WebGPU hardware-accelerated terminal and rio-vt parser"
+role = "WGPU/WebGPU hardware-accelerated terminal and rio-vt parser (exit-status fix)"
 
 # --- Kernels and OS layers of the product (own forks in aphrody-dev, built on the build host) ---
 [[submodule]]
@@ -328,6 +336,6 @@ role = "Windows-compatible NT kernel and userland (fork of ReactOS, NT 10 line)"
 path = "os/aphrody"
 repo = "aphrody-dev/aphrody"
 branch = "main"
-sha = "b7fdd1ca17cb44712cd62d8c7ee43cd55dcdfbe2"
+sha = "24ef4bcc27582888e2171e24bb70a86beeabce11"
 domain = "os-desktop"
 role = "Rust OS layer and native desktop (GPUI, COSMIC), fork of Zed"

@@ -14,10 +14,10 @@ description = "Tool catalogue model for the aphrody agent engine: ToolDefinition
 async-trait = { version = "0.1.92", default-features = false }
 serde = { workspace = true }
 serde_json = { workspace = true }
-thiserror = "2.0.20"
+thiserror = "2.0.21"
 
 [dev-dependencies]
-pretty_assertions = "1"
+pretty_assertions = "1.4.1"
 
 [lints.rust]
 non_ascii_idents = "deny"

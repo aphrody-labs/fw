@@ -4,12 +4,12 @@
 
 use std::path::{Path, PathBuf};
 
+use ay_core::{SupportedLanguage, TreeSitterEngine, hash, index};
 #[cfg(feature = "re")]
-use aphrody_re::{
+use ay_re::{
     ReEngine, SreAnalyzeOptions, analyze_binary_bytes, analyze_pe_mingw_rea, audit_lua52_bytecode,
     disassemble_x64, is_lua52_bytecode, pdata, transcode_lua52_bytecode, triage_bounded,
 };
-use ay_core::{SupportedLanguage, TreeSitterEngine, hash, index};
 use jni::errors::ThrowRuntimeExAndDefault;
 use jni::objects::{JByteArray, JClass, JString};
 #[cfg(feature = "re")]
@@ -164,8 +164,7 @@ pub extern "system" fn Java_com_aphrody_core_AphrodyNative_reAuditBytesJson<'loc
         .with_env(|env| -> jni::errors::Result<JString<'local>> {
             let lbl = label.to_string();
             let bytes = env.convert_byte_array(&data)?;
-            let rep = ReEngine::audit_bytes(&bytes, &lbl)
-                .map_err(|e| throw_runtime(env, e.to_string()))?;
+            let rep = ReEngine::audit_bytes(&bytes, &lbl).map_err(|e| throw_runtime(env, &e))?;
             let json =
                 serde_json::to_string(&rep).map_err(|e| throw_runtime(env, e.to_string()))?;
             JString::from_str(env, json)
@@ -227,7 +226,7 @@ pub extern "system" fn Java_com_aphrody_core_AphrodyNative_reGhidraDecompileByte
                 ..SreAnalyzeOptions::default()
             };
             let rep = analyze_binary_bytes("memory.bin", &bytes, &opts)
-                .map_err(|e| throw_runtime(env, e.to_string()))?;
+                .map_err(|e| throw_runtime(env, &e))?;
             let json =
                 serde_json::to_string(&rep).map_err(|e| throw_runtime(env, e.to_string()))?;
             JString::from_str(env, json)
@@ -247,7 +246,7 @@ pub extern "system" fn Java_com_aphrody_core_AphrodyNative_reMingwAuditJson<'loc
         .with_env(|env| -> jni::errors::Result<JString<'local>> {
             let p = path.to_string();
             let rep = analyze_pe_mingw_rea(Path::new(&p), max_functions.max(16) as usize)
-                .map_err(|e| throw_runtime(env, e.to_string()))?;
+                .map_err(|e| throw_runtime(env, &e))?;
             let json =
                 serde_json::to_string(&rep).map_err(|e| throw_runtime(env, e.to_string()))?;
             JString::from_str(env, json)
@@ -268,8 +267,7 @@ pub extern "system" fn Java_com_aphrody_core_AphrodyNative_reLua52AuditJson<'loc
             if !is_lua52_bytecode(&bytes) {
                 return Err(throw_runtime(env, "input is not Lua 5.2 bytecode"));
             }
-            let rep =
-                audit_lua52_bytecode(&bytes).map_err(|e| throw_runtime(env, e.to_string()))?;
+            let rep = audit_lua52_bytecode(&bytes).map_err(|e| throw_runtime(env, &e))?;
             let json =
                 serde_json::to_string(&rep).map_err(|e| throw_runtime(env, e.to_string()))?;
             JString::from_str(env, json)
@@ -290,7 +288,7 @@ pub extern "system" fn Java_com_aphrody_core_AphrodyNative_reLua52Transcode<'loc
         .with_env(|env| -> jni::errors::Result<JByteArray<'local>> {
             let bytes = env.convert_byte_array(&data)?;
             let out = transcode_lua52_bytecode(&bytes, target_int as u8, target_sizet as u8)
-                .map_err(|e| throw_runtime(env, e.to_string()))?;
+                .map_err(|e| throw_runtime(env, &e))?;
             env.byte_array_from_slice(&out)
         })
         .resolve::<ThrowRuntimeExAndDefault>()

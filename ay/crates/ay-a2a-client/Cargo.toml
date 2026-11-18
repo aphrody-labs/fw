@@ -73,13 +73,13 @@ version = "0.1.92"
 version = "1"
 
 [dependencies.bytes]
-version = "1.12.1"
+version = "1.12.2"
 
 [dependencies.futures]
 version = "0.3.34"
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -87,13 +87,13 @@ features = [
 default-features = false
 
 [dependencies.serde_json]
-version = "1.0.151"
+version = "1.0.154"
 
 [dependencies.tracing]
 version = "0.1.44"
 
 [dependencies.uuid]
-version = "1.26.0"
+version = "1.29.3"
 features = [
     "v4",
     "v7",
@@ -110,7 +110,7 @@ features = [
 default-features = false
 
 [target.'cfg(all(target_arch = "wasm32", target_os = "unknown"))'.dependencies.tokio]
-version = "1.52"
+version = "1.54.1"
 features = [
     "sync",
     "macros",
@@ -148,7 +148,7 @@ features = [
 default-features = false
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.rustls]
-version = "0.23"
+version = "0.23.46"
 features = [
     "ring",
     "std",
@@ -158,7 +158,7 @@ optional = true
 default-features = false
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.tokio]
-version = "1.53.1"
+version = "1.54.1"
 features = [
     "process",
     "rt-multi-thread",
@@ -181,7 +181,7 @@ features = [
 default-features = false
 
 [target.'cfg(target_os = "wasi")'.dependencies.tokio]
-version = "1.52"
+version = "1.54.1"
 features = [
     "sync",
     "macros",

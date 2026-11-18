@@ -70,7 +70,7 @@ version = "0.23.1"
 default-features = false
 
 [dependencies.bytes]
-version = "1.12.1"
+version = "1.12.2"
 
 [dependencies.data-encoding]
 version = "2.11.1"
@@ -84,12 +84,12 @@ features = [
 default-features = false
 
 [dependencies.rand]
-version = "0.10.1"
+version = "0.10.4"
 features = ["thread_rng"]
 default-features = false
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -163,7 +163,7 @@ features = [
 default-features = false
 
 [target.'cfg(all(target_arch = "wasm32", target_os = "unknown"))'.dependencies.tokio]
-version = "1.52"
+version = "1.54.1"
 features = [
     "sync",
     "macros",
@@ -184,11 +184,11 @@ optional = true
 default-features = false
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.prost]
-version = "0.14.4"
+version = "0.14.6"
 optional = true
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.regex]
-version = "1.13.1"
+version = "1.13.2"
 optional = true
 default-features = false
 
@@ -205,12 +205,12 @@ default-features = false
 version = "0.40"
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.rustls]
-version = "0.23.45"
+version = "0.23.46"
 optional = true
 default-features = false
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.tokio]
-version = "1.53.2"
+version = "1.54.1"
 features = [
     "macros",
     "rt",
@@ -221,11 +221,11 @@ features = [
 default-features = false
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.tonic]
-version = "0.14.6"
+version = "0.14.9"
 optional = true
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.tonic-prost]
-version = "0.14.6"
+version = "0.14.9"
 optional = true
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.x509-parser]
@@ -233,7 +233,7 @@ version = "0.18"
 optional = true
 
 [target.'cfg(target_os = "wasi")'.dependencies.tokio]
-version = "1.52"
+version = "1.54.1"
 features = [
     "sync",
     "macros",

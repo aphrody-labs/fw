@@ -44,7 +44,7 @@ name = "ay_agent_proto"
 path = "src/lib.rs"
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -65,7 +65,7 @@ version = "1.4.1"
 default-features = false
 
 [target.'cfg(not(all(target_arch = "wasm32", target_os = "unknown")))'.dependencies.uuid]
-version = "1.28.0"
+version = "1.29.3"
 features = [
     "v4",
     "serde",

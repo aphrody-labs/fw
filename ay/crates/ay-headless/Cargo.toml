@@ -12,7 +12,6 @@ browser-detect.workspace = true
 browser-engine.workspace = true
 browser-views.workspace = true
 browser-vpn.workspace = true
-parking_lot.workspace = true
 serde.workspace = true
 thiserror.workspace = true
 url.workspace = true

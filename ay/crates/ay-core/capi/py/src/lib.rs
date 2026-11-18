@@ -6,7 +6,7 @@
 use std::path::Path;
 
 use ay_core::{SupportedLanguage, TreeSitterEngine, hash, index};
-use aphrody_re::{
+use ay_re::{
     ReEngine, SreAnalyzeOptions, analyze_binary_bytes, analyze_pe_mingw_rea, audit_lua52_bytecode,
     disassemble_x64, is_lua52_bytecode, pdata, transcode_lua52_bytecode, triage_bounded,
 };

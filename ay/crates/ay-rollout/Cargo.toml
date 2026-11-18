@@ -13,13 +13,13 @@ description = "Resilient agent-session recorder: appends timestamped JSONL items
 [dependencies]
 serde = { workspace = true }
 serde_json = { workspace = true }
-thiserror = "2.0.20"
+thiserror = "2.0.21"
 tokio = { workspace = true }
 tracing = "0.1.44"
-uuid = { version = "1.26.0", features = ["v4", "v7", "serde"] }
+uuid = { version = "1.29.3", features = ["v4", "v7", "serde"] }
 
 [dev-dependencies]
-pretty_assertions = "1"
+pretty_assertions = "1.4.1"
 tempfile = "3.27.0"
 
 [lints.rust]

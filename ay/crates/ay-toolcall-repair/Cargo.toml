@@ -11,14 +11,14 @@ publish = false
 description = "Weak open-source model tool-calling robustness layer: a tolerant JSON repairer (markdown fences, trailing commas, single-quoted strings, unquoted keys, Python literals, truncation, double-encoding), inline tool-call extraction for Hermes / Qwen3-Coder XML / Mistral / bare-JSON dialects, a JSON-Schema-subset argument validator + coercer with corrective retry messages, apply_patch normalisation (unified diff / SEARCH-REPLACE / whole-file -> Codex patch), and per-model PromptProfile selection. Legacy crates.io name: aphrody-toolcall-repair."
 
 [dependencies]
-regex = "1.11"
+regex = "1.13.2"
 serde = { workspace = true }
 serde_json = { workspace = true }
-thiserror = "2.0.20"
+thiserror = "2.0.21"
 
 [dev-dependencies]
-pretty_assertions = "1"
-proptest = "1"
+pretty_assertions = "1.4.1"
+proptest = "1.12.0"
 
 [lints.rust]
 non_ascii_idents = "deny"

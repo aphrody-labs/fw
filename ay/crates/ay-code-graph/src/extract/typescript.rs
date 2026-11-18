@@ -37,7 +37,7 @@ struct Extractor<'a> {
     imported: HashMap<String, (String, String)>,
 }
 
-fn require_specifier<'b>(init: Option<&'b Expression<'_>>) -> Option<&'b str> {
+fn require_specifier<'a>(init: Option<&Expression<'a>>) -> Option<&'a str> {
     let Some(Expression::CallExpression(call)) = init else {
         return None;
     };
@@ -48,7 +48,7 @@ fn require_specifier<'b>(init: Option<&'b Expression<'_>>) -> Option<&'b str> {
         return None;
     }
     match call.arguments.first() {
-        Some(Argument::StringLiteral(s)) => Some(s.value.as_str()),
+        Some(Argument::StringLiteral(s)) => s.value.as_str(),
         _ => None,
     }
 }
@@ -303,7 +303,11 @@ impl<'a> Visit<'a> for Extractor<'a> {
     }
 
     fn visit_import_declaration(&mut self, import: &ImportDeclaration<'a>) {
-        let specifier_text = import.source.value.to_string();
+        let specifier_text = import
+            .source
+            .value
+            .as_str()
+            .map_or_else(|| import.source.value.display().to_string(), str::to_owned);
         let mut names = Vec::new();
         if let Some(specifiers) = &import.specifiers {
             for specifier in specifiers {
@@ -311,7 +315,10 @@ impl<'a> Visit<'a> for Extractor<'a> {
                     ImportDeclarationSpecifier::ImportSpecifier(s) => (
                         match &s.imported {
                             ModuleExportName::IdentifierName(name) => name.name.to_string(),
-                            ModuleExportName::StringLiteral(name) => name.value.to_string(),
+                            ModuleExportName::StringLiteral(name) => name
+                                .value
+                                .as_str()
+                                .map_or_else(|| name.value.display().to_string(), str::to_owned),
                             ModuleExportName::IdentifierReference(name) => name.name.to_string(),
                         },
                         s.local.name.to_string(),
@@ -339,7 +346,11 @@ impl<'a> Visit<'a> for Extractor<'a> {
     }
 
     fn visit_export_all_declaration(&mut self, export: &ExportAllDeclaration<'a>) {
-        self.record_import(export.source.value.as_str(), Vec::new(), export.span.start);
+        let specifier = export.source.value.as_str().map_or_else(
+            || std::borrow::Cow::Owned(export.source.value.display().to_string()),
+            std::borrow::Cow::Borrowed,
+        );
+        self.record_import(&specifier, Vec::new(), export.span.start);
         walk::walk_export_all_declaration(self, export);
     }
 }

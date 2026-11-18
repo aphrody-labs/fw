@@ -63,7 +63,7 @@ features = ["sqlite"]
 default-features = false
 
 [dependencies.aphrody-web-index]
-version = "1.4.7"
+version = "1.4.8"
 package = "bun_browser_index"
 
 [dependencies.async-trait]
@@ -102,7 +102,7 @@ version = "0.40"
 features = ["bundled"]
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -110,10 +110,10 @@ features = [
 default-features = false
 
 [dependencies.serde_json]
-version = "1.0.151"
+version = "1.0.154"
 
 [dependencies.thiserror]
-version = "2.0.20"
+version = "2.0.21"
 
 [dependencies.time]
 version = "0.3"
@@ -125,7 +125,7 @@ features = [
 ]
 
 [dependencies.tokio]
-version = "1.53.1"
+version = "1.54.1"
 features = [
     "process",
     "rt-multi-thread",
@@ -143,7 +143,7 @@ features = [
 version = "0.1.44"
 
 [dependencies.uuid]
-version = "1.26.0"
+version = "1.29.3"
 features = [
     "v4",
     "v7",

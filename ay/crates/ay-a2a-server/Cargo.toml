@@ -84,7 +84,7 @@ features = [
 default-features = false
 
 [dependencies.axum-server]
-version = "0.8"
+version = "0.9.2"
 features = ["tls-rustls-no-provider"]
 optional = true
 default-features = false
@@ -125,7 +125,7 @@ features = [
 default-features = false
 
 [dependencies.rustls]
-version = "0.23"
+version = "0.23.46"
 features = [
     "ring",
     "std",
@@ -135,7 +135,7 @@ optional = true
 default-features = false
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -143,10 +143,10 @@ features = [
 default-features = false
 
 [dependencies.serde_json]
-version = "1.0.151"
+version = "1.0.154"
 
 [dependencies.tokio]
-version = "1.53.1"
+version = "1.54.1"
 features = [
     "process",
     "rt-multi-thread",
@@ -171,7 +171,7 @@ features = ["util"]
 version = "0.1.44"
 
 [dependencies.uuid]
-version = "1.26.0"
+version = "1.29.3"
 features = [
     "v4",
     "v7",

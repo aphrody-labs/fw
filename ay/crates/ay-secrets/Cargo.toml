@@ -14,14 +14,14 @@ description = "Secret store abstraction (env + plaintext file + AES-256-GCM/Argo
 async-trait = "0.1.92"
 serde = { workspace = true }
 serde_json = { workspace = true }
-thiserror = "2.0.20"
+thiserror = "2.0.21"
 zeroize = { workspace = true, features = ["derive"] }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 aes-gcm = { workspace = true }
 argon2 = "0.6"
 base64 = "0.23.1"
-rand = "0.10.2"
+rand = "0.10.4"
 tokio = { workspace = true }
 
 [dev-dependencies]

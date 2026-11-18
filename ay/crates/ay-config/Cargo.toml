@@ -31,7 +31,7 @@ name = "ay_config"
 path = "src/lib.rs"
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -49,7 +49,7 @@ features = ["std"]
 default-features = false
 
 [dependencies.toml]
-version = "1.1.8"
+version = "1.2.1"
 features = [
     "parse",
     "display",

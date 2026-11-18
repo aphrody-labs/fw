@@ -1,0 +1,22 @@
+[package]
+name = "ay-sh"
+description = "The Aphrody shell: Bash 5.3 (rubash) with the niubash interactive host, native on Windows, Linux and macOS"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "ay-sh"
+path = "src/main.rs"
+
+[dependencies]
+# The whole niubash launcher (invocation, REPL, plugins, faces), exposed by our fork as `niubash_host`.
+niubash = { path = "../../third_party/niubash" }
+
+[dev-dependencies]
+ay-sh-pty = { workspace = true }
+
+[lints]
+workspace = true

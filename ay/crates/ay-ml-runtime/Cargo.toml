@@ -65,10 +65,10 @@ version = "7.0.0"
 version = "1.0.5"
 
 [dependencies.fast-glob]
-version = "1.1.1"
+version = "1.1.2"
 
 [dependencies.flate2]
-version = "1.1.10"
+version = "1.1.11"
 
 [dependencies.fs4]
 version = "1.1.0"
@@ -80,10 +80,10 @@ version = "0.3.34"
 version = "1.0.0"
 
 [dependencies.libc]
-version = "0.2.189"
+version = "0.2.191"
 
 [dependencies.libloading]
-version = "0.9.0"
+version = "0.9.1"
 
 [dependencies.petgraph]
 version = "0.8.3"
@@ -116,7 +116,7 @@ version = "0.5.2"
 version = "0.9.1"
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -134,7 +134,7 @@ version = "0.4.46"
 version = "3.27.0"
 
 [dependencies.tokio]
-version = "1.53.1"
+version = "1.54.1"
 features = [
     "process",
     "rt-multi-thread",
@@ -154,7 +154,7 @@ version = "0.1.44"
 version = "2.5.0"
 
 [dependencies.zip]
-version = "8.6.0"
+version = "9.7.0"
 features = ["deflate"]
 default-features = false
 

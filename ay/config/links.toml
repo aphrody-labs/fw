@@ -1,0 +1,129 @@
+# Files the installer (tools/shells.ts) deploys; `--check` reports any difference.
+# [[link]]
+#   src   relative to config/
+#   dst   a string, or a table { windows, linux, darwin }; a platform without an entry is skipped.
+#         ~ = USERPROFILE / HOME, {appdata} = %APPDATA%, {localappdata} = %LOCALAPPDATA%, {config} = ~/.config
+#   mode  "source": dst is a stub that sources src from this checkout (no symlink: SeCreateSymbolicLink is not
+#         guaranteed); "copy": dst is a copy of src, with {src_root} replaced by the workspace root.
+#   shell bash | pwsh | powershell: the stub syntax of "source" and the interpreter that reads dst; for "copy", the
+#         tool whose binary must be on PATH, otherwise the link is dropped as dead.
+
+# --- bash family: niubash reads ~/.niubashrc alone when interactive and ~/.bash_profile when login; Git Bash and
+# brush read ~/.bash_profile when login and ~/.bashrc when interactive.
+[[link]]
+shell = "bash"
+src = "bash/bashrc"
+dst = "~/.bashrc"
+mode = "source"
+
+[[link]]
+shell = "bash"
+src = "bash/bash_profile"
+dst = "~/.bash_profile"
+mode = "source"
+
+[[link]]
+shell = "bash"
+src = "bash/niubashrc"
+dst = { windows = "~/.niubashrc" }
+mode = "source"
+
+# readline has no portable `source`: copy.
+[[link]]
+shell = "bash"
+src = "bash/inputrc"
+dst = "~/.inputrc"
+mode = "copy"
+
+# --- PowerShell: one profile for pwsh 7 and Windows PowerShell 5.1. The Coreutils for Windows block it carries
+# ("DO NOT MODIFY", marker 60b36fc6) keeps the Coreutils installer from rewriting the profile.
+[[link]]
+shell = "pwsh"
+src = "pwsh/profile.ps1"
+dst = { windows = "~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1" }
+mode = "copy"
+
+[[link]]
+shell = "powershell"
+src = "pwsh/profile.ps1"
+dst = { windows = "~/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1" }
+mode = "copy"
+
+# --- prompt, history, navigation and viewers: copied when the tool is installed.
+[[link]]
+shell = "starship"
+src = "starship/starship.toml"
+dst = "~/.config/starship.toml"
+mode = "copy"
+
+[[link]]
+shell = "atuin"
+src = "atuin/config.toml"
+dst = "~/.config/atuin/config.toml"
+mode = "copy"
+
+[[link]]
+shell = "eza"
+src = "eza/theme.yml"
+dst = "~/.config/eza/theme.yml"
+mode = "copy"
+
+[[link]]
+shell = "bat"
+src = "bat/config"
+dst = "~/.config/bat/config"
+mode = "copy"
+
+[[link]]
+shell = "delta"
+src = "git/delta.gitconfig"
+dst = "~/.config/git/delta.gitconfig"
+mode = "copy"
+
+[[link]]
+shell = "yazi"
+src = "yazi/yazi.toml"
+dst = { windows = "{appdata}/yazi/config/yazi.toml", linux = "{config}/yazi/yazi.toml", darwin = "{config}/yazi/yazi.toml" }
+mode = "copy"
+
+[[link]]
+shell = "yazi"
+src = "yazi/theme.toml"
+dst = { windows = "{appdata}/yazi/config/theme.toml", linux = "{config}/yazi/theme.toml", darwin = "{config}/yazi/theme.toml" }
+mode = "copy"
+
+[[link]]
+shell = "yazi"
+src = "yazi/keymap.toml"
+dst = { windows = "{appdata}/yazi/config/keymap.toml", linux = "{config}/yazi/keymap.toml", darwin = "{config}/yazi/keymap.toml" }
+mode = "copy"
+
+[[link]]
+shell = "hx"
+src = "helix/config.toml"
+dst = { windows = "{appdata}/helix/config.toml", linux = "{config}/helix/config.toml", darwin = "{config}/helix/config.toml" }
+mode = "copy"
+
+[[link]]
+shell = "lazygit"
+src = "lazygit/config.yml"
+dst = { windows = "{localappdata}/lazygit/config.yml", linux = "{config}/lazygit/config.yml", darwin = "~/Library/Application Support/lazygit/config.yml" }
+mode = "copy"
+
+[[link]]
+shell = "btm"
+src = "bottom/bottom.toml"
+dst = { windows = "{appdata}/bottom/bottom.toml", linux = "{config}/bottom/bottom.toml", darwin = "{config}/bottom/bottom.toml" }
+mode = "copy"
+
+[[link]]
+shell = "fastfetch"
+src = "fastfetch/config.jsonc"
+dst = "~/.config/fastfetch/config.jsonc"
+mode = "copy"
+
+[[link]]
+shell = "tmux"
+src = "tmux/tmux.conf"
+dst = "~/.tmux.conf"
+mode = "copy"

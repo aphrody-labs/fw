@@ -78,7 +78,7 @@ features = [
 default-features = false
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -86,10 +86,10 @@ features = [
 default-features = false
 
 [dependencies.serde_json]
-version = "1.0.151"
+version = "1.0.154"
 
 [dependencies.thiserror]
-version = "2.0.20"
+version = "2.0.21"
 
 [dependencies.tracing]
 version = "0.1.44"
@@ -126,12 +126,12 @@ path = "../ay-proc"
 features = ["tokio"]
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.aphrody-web-service]
-version = "1.4.7"
+version = "1.4.8"
 features = ["render"]
 package = "bun_browser_service"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.tokio]
-version = "1.53.1"
+version = "1.54.1"
 features = [
     "process",
     "rt-multi-thread",
@@ -145,7 +145,7 @@ features = [
 ]
 
 [target.'cfg(target_arch = "wasm32")'.dependencies.tokio]
-version = "1.52"
+version = "1.54.1"
 features = ["sync"]
 default-features = false
 

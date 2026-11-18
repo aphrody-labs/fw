@@ -15,11 +15,13 @@ crate-type = ["cdylib", "rlib"]
 
 
 [features]
-default = ["core", "ai-os", "pipeline", "web"]
+default = ["core", "ai-os", "pipeline", "re", "web"]
 core = ["dep:ay-core"]
 # core_pipeline_* : the in-process index pipeline (tree-sitter and document stages) over the same SQLite file as `ay index`.
 pipeline = ["core", "ay-core/pipeline"]
 ai-os = ["dep:ay-agent-context", "dep:rusqlite"]
+# aphrody_re_* : binary triage, Ghidra lifting, MinGW-REA, Lua 5.2 (ay-re).
+re = ["dep:ay-re"]
 # aphrody_* Boq parser (ay-boq).
 web = ["dep:ay-boq"]
 aysys-link = []
@@ -28,6 +30,7 @@ aysys-link = []
 ay-agent-context = { workspace = true, optional = true }
 ay-boq = { workspace = true, optional = true }
 ay-core = { workspace = true, optional = true }
+ay-re = { workspace = true, optional = true }
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
 serde.workspace = true
 serde_json.workspace = true

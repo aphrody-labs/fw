@@ -44,11 +44,11 @@ path = "examples/smoke.rs"
 path = "../ay-boq"
 
 [dependencies.regex]
-version = "1.13.1"
+version = "1.13.2"
 default-features = false
 
 [dependencies.serde]
-version = "1.0.228"
+version = "1.0.229"
 features = [
     "derive",
     "std",
@@ -101,7 +101,7 @@ features = [
 default-features = false
 
 [target.'cfg(all(target_arch = "wasm32", target_os = "unknown"))'.dependencies.tokio]
-version = "1.53"
+version = "1.54.1"
 features = [
     "sync",
     "macros",
@@ -115,7 +115,7 @@ version = "0.13.5"
 default-features = false
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies.tokio]
-version = "1.53.2"
+version = "1.54.1"
 features = [
     "fs",
     "io-util",
@@ -126,7 +126,7 @@ features = [
 default-features = false
 
 [target.'cfg(target_os = "wasi")'.dependencies.tokio]
-version = "1.53"
+version = "1.54.1"
 features = [
     "sync",
     "macros",

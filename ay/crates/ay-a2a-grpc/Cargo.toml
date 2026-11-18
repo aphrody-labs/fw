@@ -101,7 +101,7 @@ optional = true
 default-features = false
 
 [dependencies.tokio]
-version = "1.53.1"
+version = "1.54.1"
 features = [
     "process",
     "rt-multi-thread",
@@ -124,7 +124,7 @@ version = "0.1"
 features = ["net"]
 
 [dependencies.tonic]
-version = "0.14"
+version = "0.14.9"
 features = []
 
 [dependencies.tonic-tls]

@@ -208,18 +208,19 @@ fn declaration_name(decl: &Declaration) -> Option<String> {
     }
 }
 
+fn property_key_name(key: &oxc_ast::ast::PropertyKey<'_>, fallback: &str) -> String {
+    key.name()
+        .map(|n| {
+            n.as_str()
+                .map_or_else(|| n.display().to_string(), str::to_owned)
+        })
+        .unwrap_or_else(|| fallback.to_string())
+}
+
 fn class_element_name(el: &ClassElement) -> String {
     match el {
-        ClassElement::MethodDefinition(m) => m
-            .key
-            .name()
-            .map(|n| n.to_string())
-            .unwrap_or_else(|| "method".to_string()),
-        ClassElement::PropertyDefinition(p) => p
-            .key
-            .name()
-            .map(|n| n.to_string())
-            .unwrap_or_else(|| "field".to_string()),
+        ClassElement::MethodDefinition(m) => property_key_name(&m.key, "method"),
+        ClassElement::PropertyDefinition(p) => property_key_name(&p.key, "field"),
         _ => "member".to_string(),
     }
 }
