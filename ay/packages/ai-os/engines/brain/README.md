@@ -1,0 +1,20 @@
+# @aphrody/brain
+
+<!-- catalog:begin unit -->
+
+> Autonomous-agent memory: AGY sessions merged into a redacted Obsidian vault, graphify code graph, Google Drive sync for NotebookLM sources
+
+| Type        | Path                           |
+| :---------- | :----------------------------- |
+| Bun package | `packages/ai-os/engines/brain` |
+
+**Commands**
+
+```sh
+bun run --cwd packages/ai-os/engines/brain test
+bun run --cwd packages/ai-os/engines/brain check
+bun run --cwd packages/ai-os/engines/brain fmt
+```
+
+Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+<!-- catalog:end -->

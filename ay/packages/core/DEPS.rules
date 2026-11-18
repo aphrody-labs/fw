@@ -1,0 +1,3 @@
+# checkdeps layer rules. Inherited by subdirectories.
+layer = 3
+use crates/ay-core/capi   # bun:ffi dlopen of the one C ABI (core, ai-os, depot, RE, Boq)

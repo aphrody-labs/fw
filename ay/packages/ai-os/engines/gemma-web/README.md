@@ -1,0 +1,20 @@
+# @aphrody/gemma-web
+
+<!-- catalog:begin unit -->
+
+> Gemma 4 E2B in the browser: ONNX Runtime Web (WebGPU decoder, wasm per-layer embeddings), OPFS shard cache, OpenAI-style streaming client.
+
+| Type        | Path                               |
+| :---------- | :--------------------------------- |
+| Bun package | `packages/ai-os/engines/gemma-web` |
+
+**Commands**
+
+```sh
+bun run --cwd packages/ai-os/engines/gemma-web test
+bun run --cwd packages/ai-os/engines/gemma-web build:web
+bun run --cwd packages/ai-os/engines/gemma-web bench:webgpu
+```
+
+Part of Aphrody: [aphrody-dev/ai-os](../../../../README.md).
+<!-- catalog:end -->

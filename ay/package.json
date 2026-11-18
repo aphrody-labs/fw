@@ -2,7 +2,19 @@
   "name": "ay",
   "private": true,
   "type": "module",
-  "workspaces": ["packages/*", "apps/*"],
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "packages/ai-os/engines/*",
+      "packages/ai-os/protocols/*",
+      "packages/env-kit/*",
+      "apps/*"
+    ],
+    "catalog": {
+      "@types/bun": "1.4.4",
+      "typescript": "6.0.3"
+    }
+  },
   "scripts": {
     "features": "bun tools/features.ts",
     "abi": "bun tools/abi.ts",
@@ -17,5 +29,8 @@
     "tree-sitter-python": "0.25.0",
     "tree-sitter-rust": "0.24.0",
     "web-tree-sitter": "0.27.2"
+  },
+  "patchedDependencies": {
+    "@ag-ui/core@1.0.1": "patches/ag-ui-core-1.0.1.patch"
   }
 }
