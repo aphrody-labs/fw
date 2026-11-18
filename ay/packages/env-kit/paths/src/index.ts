@@ -2,7 +2,6 @@
 import { existsSync, statSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 
 export type ExternalCheckout = "aphrody-py" | "iecode" | "rg" | "source" | "bxc" | "yolo" | "m3" | "bun" | "material";
 
@@ -134,7 +133,7 @@ export function portablePath(path: string): string {
 
 // Keep an eager module URL helper available to callers that are launched outside cwd.
 export function moduleDirectory(moduleUrl: string): string {
-  return dirname(fileURLToPath(moduleUrl));
+  return dirname(Bun.fileURLToPath(moduleUrl));
 }
 
 /**

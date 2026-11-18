@@ -9,7 +9,7 @@
       "no": 185,
       "era": "Inazuma Eleven",
       "portrait": "https://dxi4wb638ujep.cloudfront.net/1/k/d/y/dykb3jbxeis.png",
-      "icon": "https://dxi4wb638ujep.cloudfront.net/1/prd/assets/4/img/shared/icn_ie1.png",
+      "icon": "icn_ie1.png",
       "file": "aphrody-ie1-185.png",
       "color": "#e2dbad",
       "names": {
@@ -41,7 +41,7 @@
       "no": 2625,
       "era": "Inazuma Eleven GO: Light / Shadow",
       "portrait": "https://dxi4wb638ujep.cloudfront.net/1/k/g/l/gltgpqjnrn0.png",
-      "icon": "https://dxi4wb638ujep.cloudfront.net/1/prd/assets/4/img/shared/icn_go1.png",
+      "icon": "icn_go1.png",
       "file": "aphrody-go-2625.png",
       "color": "#d3c972",
       "names": {
@@ -73,7 +73,7 @@
       "no": 4526,
       "era": "Inazuma Eleven Ares",
       "portrait": "https://dxi4wb638ujep.cloudfront.net/1/k/6/q/6q1af7euf9m.png",
-      "icon": "https://dxi4wb638ujep.cloudfront.net/1/prd/assets/4/img/shared/icn_ars.png",
+      "icon": "icn_ars.png",
       "file": "aphrody-ares-4526.png",
       "color": "#406653",
       "names": {

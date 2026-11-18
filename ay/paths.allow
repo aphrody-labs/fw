@@ -19,3 +19,14 @@ crates/ay-toolcall-repair/src/repair_tests.rs    # fixture: unescaped Windows pa
 crates/ay-toolcall-repair/tests/fixtures/**      # fixtures: unescaped Windows paths in model output
 crates/ay-subsystem/src/lib.rs                   # fixture: a Windows path in skill parameters
 crates/ay-app-protocol/tests/tier1_contract.rs   # fixture: cwd and home values of the protocol examples
+
+# Intentional Windows/POSIX path examples and unit test fixtures
+config/bash/bashrc
+config/bash/niubashrc
+config/pwsh/profile.ps1
+crates/ay-re/src/adobe.rs
+crates/ay-re/src/minidump.rs
+crates/ay-re/src/pipeline/ghidra.rs
+crates/ay-sh-pty/src/lib.rs
+tools/shells.ts
+tools/shells.test.ts

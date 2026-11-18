@@ -9,7 +9,6 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, extname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 
 export type NativeBuild = {
   /** Absolute path of the C (.c) or C++ (.cpp) source. */
@@ -50,5 +49,5 @@ export function buildSharedLibrary({ source, libs, owner }: NativeBuild): string
 
 /** Absolute path of a source file shipped in this package's `native/` directory. */
 export function nativeSource(file: string): string {
-  return fileURLToPath(new URL(`../native/${file}`, import.meta.url));
+  return Bun.fileURLToPath(new URL(`../native/${file}`, import.meta.url));
 }
