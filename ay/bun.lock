@@ -330,7 +330,7 @@
 
     "@aphrody/agent-browser": ["@aphrody/agent-browser@workspace:packages/ai-os/protocols/agent-browser"],
 
-    "@aphrody/ai-router": ["@aphrody/ai-router@https://github.com/aphrody-labs/open/releases/download/libraries-v0.5.0/aphrody-ai-router-0.5.0.tgz", {}, "sha512-+V6alroPOjnjBdDz4rnEh7/UDAGG++hGMY5jnjZS/fIXvQo5/mnxZM/zkLhZ3oyfh6oBX6moMbNroYEV4XCDdw=="],
+    "@aphrody/ai-router": ["@aphrody/ai-router@https://github.com/aphrody-labs/open/releases/download/libraries-v0.5.0/aphrody-ai-router-0.5.0.tgz", {}, "sha512-KAggzL0bIuzZEpi7ousJC8jOma1htbDi8CSL7OcRSCUtIIRYoIaMElv6S7QkjZ568fkuSOjGd4Di+t2sBzUr1Q=="],
 
     "@aphrody/ai-triad": ["@aphrody/ai-triad@workspace:packages/ai-os/engines/ai-triad"],
 
