@@ -21,6 +21,7 @@ use tokio::sync::watch;
 use tokio::task::JoinHandle;
 use tower::ServiceExt;
 
+pub use h3::EarlyData;
 pub use tls::Tls;
 
 /// How to serve.

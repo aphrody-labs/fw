@@ -21,11 +21,11 @@ zeroize = { workspace = true, features = ["derive"] }
 tempfile.workspace = true
 
 [target."cfg(not(target_arch = \"wasm32\"))".dependencies]
-aes-gcm = { workspace = true, version = "0.11.1" }
+aes-gcm = { workspace = true }
 argon2 = "0.6"
 base64 = "0.23.1"
 rand = "0.10.4"
-tokio = { workspace = true, version = "1.54.1" }
+tokio = { workspace = true }
 
 [lints.rust]
 non_ascii_idents = "deny"

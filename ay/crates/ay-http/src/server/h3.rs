@@ -7,6 +7,7 @@ use axum::Router;
 use axum::body::Body;
 use bytes::{Buf, Bytes};
 use futures_util::stream;
+use h3::error::Code;
 use h3::server::RequestResolver;
 use http_body_util::BodyExt;
 use tokio::sync::watch;
@@ -70,27 +71,57 @@ async fn connection_loop(connection: quinn::Connection, app: Router) {
 
 type BoxError = Box<dyn std::error::Error + Send + Sync>;
 
+/// Marks a request that arrived as TLS 1.3 early data (0-RTT). The request also carries `Early-Data: 1` (RFC 8470), and the server
+/// answers `425 Too Early` to any early request whose method is not safe.
+#[derive(Debug, Clone, Copy)]
+pub struct EarlyData;
+
+fn is_safe(method: &http::Method) -> bool {
+    matches!(*method, http::Method::GET | http::Method::HEAD | http::Method::OPTIONS)
+}
+
 async fn request(resolver: RequestResolver<h3_quinn::Connection, Bytes>, app: Router) -> Result<(), BoxError> {
     let (request, stream) = resolver.resolve_request().await?;
+    let early = stream.is_0rtt();
     let (mut send, mut recv) = stream.split();
-    let (parts, ()) = request.into_parts();
-    // The request body is drained by its own task, so the receive half of the stream lives until the response is sent even when the
-    // handler drops the body unread (dropping it earlier sends STOP_SENDING and the peer may see the connection as terminated).
+    let (mut parts, ()) = request.into_parts();
+    if early {
+        if !is_safe(&parts.method) {
+            let response = http::Response::builder().status(http::StatusCode::TOO_EARLY).body(())?;
+            send.send_response(response).await?;
+            recv.stop_sending(Code::H3_NO_ERROR);
+            send.finish().await?;
+            return Ok(());
+        }
+        parts.headers.insert("early-data", http::HeaderValue::from_static("1"));
+        parts.extensions.insert(EarlyData);
+    }
+    // The request body is drained by its own task so that the receive half lives until the request ends by itself, even when the handler
+    // drops the body unread. Dropping it earlier (or aborting the read while the client's FIN is still in flight) makes quinn send
+    // STOP_SENDING with its default code 0, which reqwest's h3 client turns into `RemoteTerminate { code: 0x0 }` and a failed exchange
+    // (seanmonstar/reqwest#3147). A request that does not end within a short grace period (an upload nobody reads) is aborted with
+    // H3_NO_ERROR, the code RFC 9114 section 4.1 asks for.
     let (chunks, body_rx) = tokio::sync::mpsc::channel::<Result<Bytes, io::Error>>(8);
-    let reader = tokio::spawn(async move {
+    let (done, mut done_rx) = tokio::sync::oneshot::channel::<()>();
+    let mut reader = tokio::spawn(async move {
         loop {
-            match recv.recv_data().await {
-                Ok(Some(mut chunk)) => {
-                    let _ = chunks.send(Ok(chunk.copy_to_bytes(chunk.remaining()))).await;
-                }
-                Ok(None) => break,
-                Err(error) => {
-                    let _ = chunks.send(Err(io::Error::other(error))).await;
+            tokio::select! {
+                _ = &mut done_rx => {
+                    recv.stop_sending(Code::H3_NO_ERROR);
                     break;
                 }
+                read = recv.recv_data() => match read {
+                    Ok(Some(mut chunk)) => {
+                        let _ = chunks.send(Ok(chunk.copy_to_bytes(chunk.remaining()))).await;
+                    }
+                    Ok(None) => break,
+                    Err(error) => {
+                        let _ = chunks.send(Err(io::Error::other(error))).await;
+                        break;
+                    }
+                },
             }
         }
-        recv
     });
     let body = Body::from_stream(stream::unfold(body_rx, |mut rx| async move { rx.recv().await.map(|item| (item, rx)) }));
     let response = match app.oneshot(http::Request::from_parts(parts, body)).await {
@@ -111,6 +142,9 @@ async fn request(resolver: RequestResolver<h3_quinn::Connection, Bytes>, app: Ro
         }
     }
     send.finish().await?;
-    reader.abort();
+    // Let a request that is already complete (a GET carries its FIN right behind the head) end by itself; only then abort reading.
+    if tokio::time::timeout(std::time::Duration::from_millis(250), &mut reader).await.is_err() {
+        let _ = done.send(());
+    }
     Ok(())
 }

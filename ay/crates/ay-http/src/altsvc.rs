@@ -7,9 +7,6 @@ use std::time::{Duration, Instant};
 /// Default freshness of an alternative service when the header has no `ma` parameter (RFC 7838 section 3.1).
 pub const DEFAULT_MAX_AGE: Duration = Duration::from_secs(86_400);
 
-/// How long an origin whose QUIC attempt failed is kept on TCP.
-pub const BROKEN_BACKOFF: Duration = Duration::from_secs(300);
-
 /// One parsed alternative service entry.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Alternative {
@@ -167,12 +164,13 @@ impl AltSvcCache {
         }
     }
 
-    /// Marks the QUIC path of `origin` as failing; it stays on TCP for [`BROKEN_BACKOFF`].
+    /// Marks the QUIC path of `origin` as failing: the origin stays on TCP until the freshness of its current `Alt-Svc` ends (a later
+    /// `Alt-Svc` answer over TCP extends the freshness but not the break, so QUIC is tried again once the broken period is over).
     pub fn mark_broken(&self, origin: &Origin) {
         if let Ok(mut entries) = self.entries.lock()
             && let Some(e) = entries.get_mut(origin)
         {
-            e.broken_until = Some(Instant::now() + BROKEN_BACKOFF);
+            e.broken_until = Some(e.expires);
         }
     }
 

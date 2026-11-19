@@ -1,9 +1,11 @@
-//! Which side of an h3 exchange tolerates a multi-thread runtime.
+//! h3 on multi-thread runtimes, on either side of the exchange, with a long-lived connection and a connection-churning client sharing
+//! one server.
 //!
-//! The server (`ay_http::server`) is exercised on a multi-thread runtime by `server_multi_client_current`. The h3 client of reqwest
-//! (with the hyperium/h3 master patched in the workspace) answers some requests with `RemoteTerminate { code: H3_NO_ERROR }` when it
-//! runs on a multi-thread runtime while another client churns connections in the same process: `server_current_client_multi` is the
-//! reproduction, ignored until reqwest or h3 fix it. Single-thread clients are stable (see `h3_roundtrip`).
+//! This reproduced `RemoteTerminate { code: 0x0 }` errors at the client. Root cause: when the server finished a response while the client's
+//! `send.finish()` on the request stream was still waiting, the server's drop of the request stream half sent STOP_SENDING with quinn's
+//! default code 0; reqwest only treats H3_NO_ERROR (0x100) as a benign stop (RFC 9114 section 4.1) and surfaced the reset as an error of
+//! the exchange. The server now stops reading with H3_NO_ERROR. A multi-thread client made the race frequent: it lets the response beat
+//! the finish acknowledgement.
 
 use std::time::Duration;
 use axum::{Router, routing::get};
@@ -68,7 +70,6 @@ fn server_multi_client_current() {
     assert!(a.0.is_ok() && a.1.is_ok(), "{a:?}");
 }
 #[test]
-#[ignore = "reqwest h3 client on a multi-thread runtime: RemoteTerminate(H3_NO_ERROR) under concurrent connection churn"]
 fn server_current_client_multi() {
     let env = start_server(false);
     let a = std::thread::scope(|s| {

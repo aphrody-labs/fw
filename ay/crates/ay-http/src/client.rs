@@ -205,7 +205,8 @@ impl ClientBuilder {
 }
 
 /// The QUIC transports: reqwest sends a request over h3 only when its version is HTTP/3 and the client was built with h3 prior knowledge.
-/// `early` additionally sends TLS 1.3 early data (0-RTT) and is used for safe methods only (RFC 8470).
+/// `early` additionally enables TLS 1.3 early data in the rustls config and is used for safe methods only (RFC 8470); reqwest 0.13.5 does
+/// not yet send 0-RTT data on a resumed connection (seanmonstar/reqwest#3148), so today the request travels as 1-RTT data.
 #[cfg(not(target_family = "wasm"))]
 struct H3Transports {
     builder: ClientBuilder,
@@ -363,12 +364,19 @@ impl Client {
             match transport.execute(over_quic).await {
                 Ok(response) => return Ok(response),
                 Err(error) => {
-                    let transport_failure = error.is_connect() || error.is_timeout();
-                    if transport_failure {
+                    // Nothing was received over QUIC: a connect failure, a timeout, or a stream reset by the peer (a server that stops
+                    // reading with a non-H3_NO_ERROR code resets the client's request stream). The origin goes back to TCP for the
+                    // freshness of its Alt-Svc, and the request is replayed once over TCP when it is safe to do so. A reset that
+                    // arrives after the response head is a body error the caller sees: the response cannot be replayed.
+                    let reset = is_stream_reset(&error) || error.is_request();
+                    let connect = error.is_connect();
+                    if connect || reset || error.is_timeout() {
                         self.inner.alt.mark_broken(origin);
                     }
                     return match retry {
-                        Some(retry) if transport_failure => self.over_tcp(retry, Some(origin)).await,
+                        Some(retry) if connect || ((reset || error.is_timeout()) && is_idempotent(retry.method())) => {
+                            self.over_tcp(retry, Some(origin)).await
+                        }
                         _ => Err(error),
                     };
                 }
@@ -490,6 +498,27 @@ impl From<reqwest::Client> for Client {
             }),
         }
     }
+}
+
+/// Methods that can be replayed without changing the outcome (RFC 9110 section 9.2.2).
+#[cfg(not(target_family = "wasm"))]
+fn is_idempotent(method: &Method) -> bool {
+    matches!(*method, Method::GET | Method::HEAD | Method::OPTIONS | Method::PUT | Method::DELETE | Method::TRACE)
+}
+
+/// Whether the error chain holds an h3 stream reset or stop-sending (`RemoteTerminate`), however reqwest wrapped it. Request-phase
+/// errors (`is_request`) cover the other ways a misbehaving peer ends an exchange before the response head, such as an h3 connection
+/// error raised by the reset of a request stream.
+#[cfg(not(target_family = "wasm"))]
+fn is_stream_reset(error: &reqwest::Error) -> bool {
+    let mut source: Option<&(dyn std::error::Error + 'static)> = Some(error);
+    while let Some(current) = source {
+        if format!("{current:?}").contains("RemoteTerminate") {
+            return true;
+        }
+        source = current.source();
+    }
+    false
 }
 
 /// Methods that may travel in TLS early data: safe and idempotent by definition (RFC 9110 section 9.2.1).

@@ -48,7 +48,7 @@ tokio.workspace = true
 
 [target."cfg(not(target_family = \"wasm\"))".dependencies]
 reqwest = { version = "0.13.5", default-features = false, features = ["rustls", "http2", "http3", "json", "stream", "form", "query", "charset", "system-proxy", "cookies", "gzip", "brotli", "deflate", "socks", "multipart"], optional = true }
-tokio = { workspace = true, version = "1.54.1", features = ["net", "rt", "sync", "time", "macros"], optional = true }
+tokio = { workspace = true, features = ["net", "rt", "sync", "time", "macros"], optional = true }
 
 [target."cfg(target_family = \"wasm\")".dependencies]
 reqwest = { version = "0.13.5", default-features = false, features = ["json", "stream", "query", "form", "multipart"], optional = true }
