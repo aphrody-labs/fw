@@ -1,0 +1,11 @@
+[package]
+name = "fw-compute"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Unified Fairwind compute router: WebGPU/WGSL, CUDA sm_89 (RTX 4070), CPU AVX2/AVX-512/NEON, TPU PJRT, and OS UAPI/Win32/POSIX/Darwin probe"
+
+[dependencies]
+fw-ggml = { path = "../fw-ggml" }
+serde.workspace = true
+serde_json.workspace = true

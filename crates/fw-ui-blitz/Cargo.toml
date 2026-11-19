@@ -1,0 +1,11 @@
+[package]
+name = "fw-ui-blitz"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Fairwind native HTML/CSS/WGPU UI renderer aligned with DioxusLabs/blitz (vello_gpu / vello_cpu) with zero-dep headless PNG visual proof"
+
+[dependencies]
+flate2.workspace = true
+serde.workspace = true
+serde_json.workspace = true

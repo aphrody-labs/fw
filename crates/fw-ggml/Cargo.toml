@@ -1,0 +1,11 @@
+[package]
+name = "fw-ggml"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "100% ggml-org compatible tensor/cgraph IR, GGUF v3 parser/writer, quantized Q8_0/Q4_0 kernels, and ggml-rpc wire protocol"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true

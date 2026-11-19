@@ -185,6 +185,15 @@
       "autoUpgrade": true
     },
     {
+      "id": "v3-unified-workspace",
+      "path": "crates",
+      "kind": "rust-v3-zero-dep-hybrid-cluster",
+      "grammar": "rust",
+      "gate": "cargo test --workspace",
+      "sampleFile": "crates/fw-bin/src/main.rs",
+      "autoUpgrade": true
+    },
+    {
       "id": "core-polyglot-lowlevel",
       "path": "core/go/fairwind-go",
       "kind": "polyglot-go-c-cpp-asm-wasm-cuda-wgsl-java-kotlin",

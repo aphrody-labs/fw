@@ -1,0 +1,133 @@
+# Fairwind v3.0 Declarative Hybrid Cluster Topology
+# One unified zero-system-dependency binary across PC CUDA, 3 VPS, 4 GPU, 3 CPU, User WebGPU/FPU, Cloudflare & GCloud
+
+[cluster]
+name = "fairwind-hybrid-v3"
+router_engine = "pingora+dynamo+vllm-router"
+wire_protocol = "ggml-rpc+http2+ws+webrtc"
+disaggregated_prefill_decode = true
+kv_cache_radix_routing = true
+ggml_compat = "ggml-org/ggml+llama.cpp-gguf-v3"
+
+# Base CUDA Node (Self-Hosted PC)
+[[nodes]]
+id = "gpu-1-pc-rtx4070"
+role = "gpu-inference"
+tier = "base-cuda"
+os = "windows-11"
+arch = "x86_64-pc-windows-msvc"
+backends = ["ggml-cuda", "ggml-webgpu", "ggml-vulkan", "ggml-cpu"]
+gpu = "NVIDIA GeForce RTX 4070 (sm_89, 12GB VRAM)"
+vram_gb = 12
+ram_gb = 32
+cpu_cores = 16
+rpc_addr = "127.0.0.1:50052"
+prefill_weight = 1.0
+decode_weight = 1.0
+
+# 3 Remote / GCloud GPU Inference Hosts (4 GPU hosts total with PC RTX 4070)
+[[nodes]]
+id = "gpu-2-gcloud-l4"
+role = "gpu-inference"
+tier = "gcloud-gpu"
+os = "linux-7.3"
+arch = "x86_64-unknown-linux-musl"
+backends = ["ggml-cuda", "ggml-webgpu", "ggml-rpc"]
+gpu = "NVIDIA L4 / A10G (24GB VRAM)"
+vram_gb = 24
+ram_gb = 64
+cpu_cores = 16
+rpc_addr = "10.66.0.21:50052"
+prefill_weight = 1.4
+decode_weight = 1.3
+
+[[nodes]]
+id = "gpu-3-gcloud-t4"
+role = "gpu-inference"
+tier = "gcloud-gpu"
+os = "linux-7.3"
+arch = "x86_64-unknown-linux-musl"
+backends = ["ggml-cuda", "ggml-rpc"]
+gpu = "NVIDIA T4 / L4 (16GB VRAM)"
+vram_gb = 16
+ram_gb = 32
+cpu_cores = 8
+rpc_addr = "10.66.0.22:50052"
+prefill_weight = 1.0
+decode_weight = 1.0
+
+[[nodes]]
+id = "gpu-4-tpu-gpu-burst"
+role = "gpu-inference"
+tier = "gcloud-tpu-gpu"
+os = "linux-7.3"
+arch = "x86_64-unknown-linux-musl"
+backends = ["tpu-pjrt", "ggml-cuda", "ggml-rpc"]
+gpu = "GCloud TPU v5e / GPU Burst"
+vram_gb = 32
+ram_gb = 64
+cpu_cores = 16
+rpc_addr = "10.66.0.23:50052"
+prefill_weight = 1.6
+decode_weight = 1.5
+
+# 3 VPS Nodes: Pingora Proxy + KV Load Balancer + GGUF Storage + 3 CPU Inference Workers
+[[nodes]]
+id = "vps-1-fr1-cpu-storage"
+role = "vps-proxy-lb-storage-cpu"
+tier = "vps-cpu"
+os = "linux-7.3"
+arch = "x86_64-unknown-linux-musl"
+backends = ["ggml-cpu", "ggml-rpc", "pingora-lb"]
+gpu = "none"
+vram_gb = 0
+ram_gb = 45
+disk_gb = 1000
+cpu_cores = 12
+rpc_addr = "10.66.0.11:50052"
+proxy_addr = "0.0.0.0:8080"
+prefill_weight = 0.6
+decode_weight = 0.8
+
+[[nodes]]
+id = "vps-2-fr2-cpu-lb"
+role = "vps-proxy-lb-storage-cpu"
+tier = "vps-cpu"
+os = "linux-7.3"
+arch = "x86_64-unknown-linux-musl"
+backends = ["ggml-cpu", "ggml-rpc", "pingora-lb"]
+gpu = "none"
+vram_gb = 0
+ram_gb = 32
+disk_gb = 500
+cpu_cores = 8
+rpc_addr = "10.66.0.12:50052"
+proxy_addr = "0.0.0.0:8080"
+prefill_weight = 0.4
+decode_weight = 0.6
+
+[[nodes]]
+id = "vps-3-prd-edge-proxy"
+role = "vps-proxy-lb-storage-cpu"
+tier = "vps-cpu"
+os = "linux-7.3"
+arch = "x86_64-unknown-linux-musl"
+backends = ["ggml-cpu", "ggml-rpc", "pingora-lb"]
+gpu = "none"
+vram_gb = 0
+ram_gb = 24
+disk_gb = 400
+cpu_cores = 8
+rpc_addr = "10.66.0.13:50052"
+proxy_addr = "0.0.0.0:8080"
+prefill_weight = 0.4
+decode_weight = 0.5
+
+# End-User Federated WebGPU / FPU Browser & Device Pool
+[end_user_pool]
+enabled = true
+transport = ["webrtc-datachannel", "websocket"]
+wasm_module = "target/wasm32-unknown-unknown/release/fw_wasm.wasm"
+wgsl_shaders = "core/webgpu/fairwind_compute.wgsl"
+roles = ["speculative-draft", "edge-embedding", "client-webgpu-fpu"]
+max_concurrent_peers = 256

@@ -1,0 +1,46 @@
+[workspace]
+members = [
+    "crates/fw-ggml",
+    "crates/fw-compute",
+    "crates/fw-cluster",
+    "crates/fw-proto",
+    "crates/fw-ui-blitz",
+    "crates/fw-wasm",
+    "crates/fw-bin",
+]
+exclude = [
+    "native/fairwind-pe",
+    "native/fairwind-sniff",
+    "native/fairwind-kernel",
+    "native/fairwind-world",
+    "native/fairwind-abi",
+    "native/fairwind-agy",
+    "core/rs/craft-libs",
+    "core/rs/craft-anything",
+    "core/rs/auto",
+    "core/rs/tui-test",
+    "core/rs/wta",
+    "packages",
+]
+resolver = "2"
+
+[workspace.package]
+version = "3.0.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/aphrody-labs/fairwind"
+
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.10"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "sync"] }
+base64 = "0.22"
+flate2 = "1.0"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true
+panic = "abort"
