@@ -186,12 +186,12 @@ Logically keys are ordered by hash (this is how we chose file and block assignme
 
 A key-value tombstone names the exact pair to remove, so it must carry a copy of the deleted
 value's bytes. Since the value lives inline in the key block and its length is encoded in the type
-byte, only inline-sized values can be deleted this way - hence `MAX_INLINE_VALUE_SIZE` bounds
+byte, only inline-sized values can be deleted this way — hence `MAX_INLINE_VALUE_SIZE` bounds
 `delete_value`.
 
 The size limit is a consequence of that encoding, not of the comparison logic: matching is a plain
 byte comparison and does not care how a value is stored. Supporting larger deleted values is
-therefore possible but unmotivated - the tombstone stores a second copy of the value, so the cost
+therefore possible but unmotivated — the tombstone stores a second copy of the value, so the cost
 of deleting approaches the cost of the value itself, and reclaiming space is the whole point.
 
 If it is ever needed, the natural encoding is a dedicated is-tombstone bit (e.g. the top bit) on the
@@ -212,12 +212,12 @@ during binary search.
 - 1 byte key size (uniform across all entries)
 - 1 byte value type (shared by all entries, same encoding as variable-size type field), or
   `FIXED_KEY_BLOCK_MIXED_VALUE_TYPE` (4) when entries share a value size but not a value type
-- 1 byte value size - only present when the value type is `FIXED_KEY_BLOCK_MIXED_VALUE_TYPE`
+- 1 byte value size — only present when the value type is `FIXED_KEY_BLOCK_MIXED_VALUE_TYPE`
 - search region, foreach entry at stride `search_stride`:
   - 8 bytes key hash (block type 3), or key data (block type 4, `key_size` bytes)
 - tail region, foreach entry at stride `tail_stride`:
   - key data (block type 3 only, `key_size` bytes)
-  - 1 byte value type - only present when the block is mixed-type
+  - 1 byte value type — only present when the block is mixed-type
   - value data (size determined by the block's or the entry's value type)
 
 The mixed-type form exists so that same-sized inline values and key-value tombstones can share a
@@ -228,8 +228,8 @@ mixed marker because it is not itself a valid entry type.
 
 Rather than one interleaved record per entry, entries are split into a **search region** and a
 **tail region**, indexed by the same entry number. The search region holds only the bytes binary
-search compares first - the hash for block type `3`, the key for block type `4` (see
-[Entry ordering](#entry-ordering)) - so a probe searches the dense prefix region. The _values_ are then found by index in the **tail**
+search compares first — the hash for block type `3`, the key for block type `4` (see
+[Entry ordering](#entry-ordering)) — so a probe searches the dense prefix region. The _values_ are then found by index in the **tail**
 after the search succeeds.
 
 Entry positions for index `i` are `header_size + i * search_stride` and
@@ -237,7 +237,7 @@ Entry positions for index `i` are `header_size + i * search_stride` and
 
 The search region must be in ascending order for that binary search to be valid. This is inherited
 from the `(key hash, key)` order the writer requires of its input, not established per block, so
-reordering entries within a block is a format violation rather than a free choice - see
+reordering entries within a block is a format violation rather than a free choice — see
 [Entry ordering](#entry-ordering).
 
 #### Value Block
