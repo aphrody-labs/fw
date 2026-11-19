@@ -6,7 +6,7 @@ use std::{fmt::Display, hash::Hash, path::PathBuf};
 
 use anyhow::Result;
 
-use crate::{Device, Hardware};
+use crate::runtime::{Device, Hardware};
 use graph::{Component, Plan};
 use packages::Llama;
 

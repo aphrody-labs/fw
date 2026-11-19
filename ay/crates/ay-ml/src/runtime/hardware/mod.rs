@@ -6,7 +6,7 @@ pub(crate) use hip::Target;
 
 use std::{cmp::Reverse, sync::OnceLock};
 
-use crate::{Backend, Device, DeviceType};
+use crate::runtime::{Backend, Device, DeviceType};
 
 /// Accelerator capabilities and their process-wide selection priority.
 #[derive(Clone, Debug, Default, Eq, PartialEq)]

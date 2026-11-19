@@ -20,7 +20,7 @@ use tokio::{
     sync::broadcast,
 };
 
-use crate::network;
+use crate::runtime::network;
 
 const EVENT_CAPACITY: usize = 256;
 const CHUNK_SIZE: u64 = 64 * 1024 * 1024;

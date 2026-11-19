@@ -3,7 +3,7 @@
 use std::ffi::c_void;
 
 use super::Target;
-use crate::{Backend, Device};
+use crate::runtime::{Backend, Device};
 
 type ClInt = i32;
 type ClUint = u32;

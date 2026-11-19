@@ -75,16 +75,16 @@ pub(crate) enum Target {
 }
 
 impl Target {
-    pub(super) fn device_type(self) -> crate::DeviceType {
+    pub(super) fn device_type(self) -> crate::runtime::DeviceType {
         use strum::EnumProperty;
 
         if self
             .get_bool("integrated")
             .expect("ROCm target has a device type")
         {
-            crate::DeviceType::IntegratedGpu
+            crate::runtime::DeviceType::IntegratedGpu
         } else {
-            crate::DeviceType::Gpu
+            crate::runtime::DeviceType::Gpu
         }
     }
 }

@@ -5,7 +5,7 @@ use std::{
 
 use libloading::Library;
 
-use crate::{Backend, Device, DeviceType};
+use crate::runtime::{Backend, Device, DeviceType};
 
 const ATTRIBUTE_INTEGRATED: c_int = 18;
 const ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR: c_int = 75;

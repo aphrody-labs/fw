@@ -8,7 +8,7 @@
 //! #[derive(Default, Deserialize, Serialize)]
 //! struct PipelineConfig { translator: String }
 //! # fn main() -> anyhow::Result<()> {
-//! let pipeline = ay_ml_config::load::<PipelineConfig>("pipeline")?;
+//! let pipeline = ay_ml::config::load::<PipelineConfig>("pipeline")?;
 //! pipeline.write()?.translator = "deepl".into();
 //! pipeline.save()?;
 //! # Ok(()) }

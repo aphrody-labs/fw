@@ -6,7 +6,7 @@ use std::{
 use anyhow::Result;
 use strum::IntoEnumIterator;
 
-use crate::{
+use crate::runtime::{
     Store, download,
     hardware::Target,
     runtime::{Package, RuntimePackage, loader, sealed},

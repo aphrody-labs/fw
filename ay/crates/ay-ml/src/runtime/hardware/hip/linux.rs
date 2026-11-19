@@ -6,7 +6,7 @@ use anyhow::Result;
 use strum::{EnumProperty, IntoEnumIterator};
 
 use super::Target;
-use crate::{Backend, Device};
+use crate::runtime::{Backend, Device};
 
 const KFD_TOPOLOGY: &str = "/sys/class/kfd/kfd/topology/nodes";
 

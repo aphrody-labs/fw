@@ -6,7 +6,7 @@ use petgraph::{
     graph::{DiGraph, NodeIndex},
 };
 
-use crate::{
+use crate::runtime::{
     Device, Hardware,
     runtime::{
         DiscoverablePackage, RuntimePackage,
@@ -141,12 +141,12 @@ mod tests {
     #[test]
     fn cuda_dependencies_are_shared_and_ordered() {
         let hardware = Hardware {
-            devices: vec![crate::Device {
+            devices: vec![crate::runtime::Device {
                 index: 0,
                 name: "CUDA0".to_owned(),
                 description: "CUDA0".to_owned(),
-                backend: crate::Backend::Cuda,
-                device_type: crate::DeviceType::Gpu,
+                backend: crate::runtime::Backend::Cuda,
+                device_type: crate::runtime::DeviceType::Gpu,
                 memory_total: 0,
                 memory_free: 0,
                 compute_capability: 80,

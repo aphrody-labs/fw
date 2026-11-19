@@ -8,7 +8,7 @@ mod linux;
 mod windows;
 
 #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
-pub(super) fn probe() -> Vec<crate::Device> {
+pub(super) fn probe() -> Vec<crate::runtime::Device> {
     linux::probe().unwrap_or_else(|error| {
         tracing::warn!(?error, "failed to discover AMD GPUs");
         Vec::new()
@@ -16,7 +16,7 @@ pub(super) fn probe() -> Vec<crate::Device> {
 }
 
 #[cfg(all(target_os = "windows", target_arch = "x86_64"))]
-pub(super) fn probe() -> Vec<crate::Device> {
+pub(super) fn probe() -> Vec<crate::runtime::Device> {
     windows::probe()
 }
 
@@ -24,6 +24,6 @@ pub(super) fn probe() -> Vec<crate::Device> {
     target_arch = "x86_64",
     any(target_os = "linux", target_os = "windows")
 )))]
-pub(super) fn probe() -> Vec<crate::Device> {
+pub(super) fn probe() -> Vec<crate::runtime::Device> {
     Vec::new()
 }

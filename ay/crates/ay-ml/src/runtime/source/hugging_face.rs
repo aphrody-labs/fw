@@ -2,7 +2,7 @@ use std::{path::PathBuf, sync::OnceLock};
 
 use hf_hub::{HFClient, HFRepository, RepoType, repository::download::HFByteStream, split_id};
 
-use crate::{Store, download, network};
+use crate::runtime::{Store, download, network};
 
 static CLIENT: OnceLock<HFClient> = OnceLock::new();
 

@@ -279,7 +279,7 @@ mod tests {
             std::process::Command::new(&executable)
                 .args([
                     "--exact",
-                    "store::tests::one_installation_wins_across_processes",
+                    "runtime::store::tests::one_installation_wins_across_processes",
                 ])
                 .env(TARGET, &target)
                 .spawn()

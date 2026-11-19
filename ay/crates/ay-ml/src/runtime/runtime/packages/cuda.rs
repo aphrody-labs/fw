@@ -4,7 +4,7 @@ use anyhow::{Context, Result};
 use strum::EnumProperty;
 use walkdir::WalkDir;
 
-use crate::{
+use crate::runtime::{
     Hardware, Store, download,
     runtime::{Package, RuntimePackage, graph::Component, loader, sealed},
     source::{Platform, extract, wheel},

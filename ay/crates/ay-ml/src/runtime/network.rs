@@ -30,7 +30,7 @@ pub(crate) fn config() -> Result<Config> {
     if let Some(config) = HTTP_CONFIG.get() {
         return Ok(*config);
     }
-    let config = ay_ml_config::load::<Config>("http")?;
+    let config = crate::config::load::<Config>("http")?;
     let config = *config.read()?;
     Ok(*HTTP_CONFIG.get_or_init(|| config))
 }
