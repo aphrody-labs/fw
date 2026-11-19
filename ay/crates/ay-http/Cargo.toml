@@ -1,0 +1,68 @@
+[package]
+name = "ay-http"
+description = "One HTTP stack for the SDK: an async client (HTTP/1.1, h2 and h3 with Alt-Svc upgrade, rustls) and an axum server that serves the same router over TCP (h1, h2) and QUIC (h3) with Alt-Svc advertised; also the JSON error envelope"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[features]
+default = ["client", "server"]
+# The async client: reqwest with rustls, h2, and h3 (needs `--cfg reqwest_unstable`, set in `.cargo/config.toml`).
+client = ["dep:reqwest", "dep:http", "dep:serde"]
+# The server: axum over hyper (h1, h2) and h3 + quinn on the same router, plus the error envelope.
+server = [
+  "dep:axum", "dep:bytes", "dep:futures-util", "dep:h3", "dep:h3-quinn", "dep:http", "dep:http-body-util", "dep:hyper",
+  "dep:hyper-util", "dep:quinn", "dep:rustls", "dep:serde", "dep:serde_json", "dep:tokio", "dep:tokio-rustls", "dep:tower", "dep:tracing",
+]
+# Self-signed certificates for development and tests.
+selfsigned = ["dep:rcgen"]
+
+[dependencies]
+axum = { version = "0.8", default-features = false, features = ["http1", "http2", "json", "query", "tokio"], optional = true }
+bytes = { version = "1.12.2", optional = true }
+futures-util = { version = "0.3", default-features = false, features = ["std"], optional = true }
+h3 = { version = "0.0.8", optional = true }
+h3-quinn = { version = "0.0.10", optional = true }
+http = { workspace = true, optional = true }
+http-body-util = { version = "0.1", optional = true }
+hyper = { version = "1", features = ["http1", "http2", "server"], optional = true }
+hyper-util = { version = "0.1", features = ["server-auto", "tokio", "service"], optional = true }
+quinn = { version = "0.11", default-features = false, features = ["runtime-tokio", "rustls-aws-lc-rs"], optional = true }
+rcgen = { version = "0.14", optional = true }
+rustls = { version = "0.23", optional = true }
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+tokio = { workspace = true, features = ["net", "rt", "sync", "time", "macros"], optional = true }
+tokio-rustls = { version = "0.26", optional = true }
+tower = { version = "0.5", default-features = false, features = ["util"], optional = true }
+tracing = { version = "0.1.44", optional = true }
+
+[target.'cfg(not(target_family = "wasm"))'.dependencies]
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls", "http2", "http3", "json", "stream", "form", "query", "charset", "system-proxy", "cookies", "gzip", "brotli", "deflate", "socks", "multipart"], optional = true }
+
+[target.'cfg(target_family = "wasm")'.dependencies]
+reqwest = { version = "0.13.5", default-features = false, features = ["json", "stream", "query", "form"], optional = true }
+
+[dev-dependencies]
+bytes = "1.12.2"
+axum = { version = "0.8", default-features = false, features = ["http1", "http2", "tokio"] }
+rcgen = "0.14"
+tokio = { workspace = true, features = ["macros", "net", "rt", "rt-multi-thread", "time"] }
+
+[[test]]
+name = "h3_roundtrip"
+path = "tests/h3_roundtrip.rs"
+required-features = ["client", "server", "selfsigned"]
+
+[[bench]]
+name = "latency"
+path = "benches/latency.rs"
+harness = false
+required-features = ["client", "server", "selfsigned"]
+
+[lints]
+workspace = true

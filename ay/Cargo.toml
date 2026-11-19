@@ -14,7 +14,6 @@ repository = "https://github.com/aphrody-dev/ay"
 
 [workspace.dependencies]
 # inherited by the auto, cf and media crates merged into the SDK
-aphrody-rag-core = { version = "=1.4.7", default-features = false }
 argon2 = { version = "0.6", default-features = false, features = ["alloc"] }
 axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
 base64 = "0.23"
@@ -52,11 +51,9 @@ age = { version = "0.12.1", default-features = false }
 anyhow = "1.0.104"
 argh = "0.1.19"
 ay-agent-context = { path = "crates/ay-agent-context" }
-ay-boq = { path = "crates/ay-boq" }
 ay-brand = { path = "crates/ay-brand" }
 ay-core = { path = "crates/ay-core" }
 ay-re = { path = "crates/ay-re" }
-ay-sh-pty = { path = "crates/ay-sh-pty" }
 blake3 = { version = "1.8.7", features = ["mmap", "rayon"] }
 browser-browse = { path = "third_party/browser/components/browser-browse" }
 browser-detect = { path = "third_party/browser/components/browser-detect", default-features = false }
