@@ -1,0 +1,22 @@
+[package]
+name = "fw-apm"
+version = "4.2.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/aphrody-labs/fw"
+keywords = ["fw", "apm", "agents", "mcp", "skills"]
+categories = ["command-line-utilities", "development-tools"]
+description = "Pure-Rust migration of microsoft/apm (Agent Package Manager): zero-bloat apm.yml parser, dependency resolver, SHA-256 + Nix store lockfile, AGENTS.md/prompt compiler, MCP config synthesizer, skill installer, and security auditor"
+
+[dependencies]
+fw-hermes-claw.workspace = true
+fw-nix.workspace = true
+fw-uutils.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+flate2.workspace = true
+
+[lints]
+workspace = true

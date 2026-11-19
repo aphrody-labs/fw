@@ -85,9 +85,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "fw-apm"
+version = "4.2.0"
+dependencies = [
+ "flate2",
+ "fw-hermes-claw",
+ "fw-nix",
+ "fw-uutils",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "fw-bin"
 version = "4.2.0"
 dependencies = [
+ "fw-apm",
  "fw-cluster",
  "fw-compute",
  "fw-ggml",

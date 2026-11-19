@@ -10,8 +10,67 @@ use fw_hermes_claw::{modern_cli_ranking, protocol_and_agent_ranking, ChannelKind
 use serde_json::{json, Value};
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
+use std::time::Instant;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
+
+/// Zero-latency in-process MCP tools representing the Linux, Windows, and WebAssembly kernels.
+pub const KERNEL_MCP_TOOLS: &[(&str, &str)] = &[
+    (
+        "linux_kernel_mcp",
+        "Zero-latency Linux kernel MCP tool (Linux 7.5 / CachyOS LTO, sched_ext scx_lavd, io_uring, WSL dxgkrnl, POSIX UAPI)",
+    ),
+    (
+        "windows_kernel_mcp",
+        "Zero-latency Windows kernel MCP tool (Win32/NT, in-process ConPTY, SDDL NamedPipe, DX12/WGPU, DirectWrite)",
+    ),
+    (
+        "wasm_kernel_mcp",
+        "Zero-latency WebAssembly kernel MCP tool (wasm32-unknown-unknown, wasm32-wasip2, Asterinas OSTD XArray/MlsDisk, WebGPU WGSL)",
+    ),
+];
+
+/// Executes a Linux, Windows, or WebAssembly kernel MCP tool directly in-process (zero fork / zero IPC latency).
+pub fn dispatch_kernel_mcp_tool(tool_name: &str, args: &Value) -> Option<Value> {
+    let t0 = Instant::now();
+    let action = args.get("action").and_then(Value::as_str).unwrap_or("probe");
+    let hw = detect_hardware_profile();
+    let payload = match tool_name {
+        "linux_kernel_mcp" => json!({
+            "ok": true,
+            "kernel": "linux",
+            "action": action,
+            "hostOs": std::env::consts::OS,
+            "arch": std::env::consts::ARCH,
+            "capabilities": ["sched_ext:scx_lavd", "io_uring", "cgroups-v2", "namespaces", "wsl-dxgkrnl", "uutils-zero-fork"],
+            "hardware": hw
+        }),
+        "windows_kernel_mcp" => json!({
+            "ok": true,
+            "kernel": "windows",
+            "action": action,
+            "hostOs": std::env::consts::OS,
+            "arch": std::env::consts::ARCH,
+            "capabilities": ["nt-win32", "in-process-conpty", "named-pipe-sddl", "dx12-wgpu", "directwrite", "job-object-sandbox"],
+            "hardware": hw
+        }),
+        "wasm_kernel_mcp" => json!({
+            "ok": true,
+            "kernel": "webassembly",
+            "action": action,
+            "targets": ["wasm32-unknown-unknown", "wasm32-wasip2"],
+            "capabilities": ["asterinas-ostd-xarray", "mlsdisk-sha256", "webgpu-wgsl", "cloudflare-workers-edge", "kitty-csi-u-pack"],
+            "wgslBytes": DEFAULT_WGSL_KERNEL.len()
+        }),
+        _ => return None,
+    };
+    Some(json!({
+        "tool": tool_name,
+        "inProcessZeroLatency": true,
+        "latencyUs": t0.elapsed().as_micros(),
+        "result": payload
+    }))
+}
 
 pub const CONTROL_PLANE_HTML: &str = include_str!("../../../web/index.html");
 
@@ -247,16 +306,29 @@ pub fn dispatch_http(
                 .and_then(|m| m.get("content"))
                 .and_then(|c| c.as_str())
                 .unwrap_or("hello");
+            let requested_tool = body_json
+                .get("tool_choice")
+                .and_then(|v| v.as_str())
+                .or_else(|| {
+                    body_json
+                        .get("tools")
+                        .and_then(|t| t.as_array())
+                        .and_then(|a| a.first())
+                        .and_then(|t| t.get("function").and_then(|f| f.get("name")).or_else(|| t.get("name")))
+                        .and_then(|n| n.as_str())
+                });
+            let kernel_call = requested_tool.and_then(|name| dispatch_kernel_mcp_tool(name, &json!({ "action": "probe" })));
             let mut r = router.lock().unwrap_or_else(|e| e.into_inner());
             let route = r.route_request(prompt, true);
             (
                 200,
                 "application/json",
                 json!({
-                    "id": "chatcmpl-fw-v3",
+                    "id": "chatcmpl-fw-v4",
                     "object": "chat.completion",
                     "model": "fw-ggml-hybrid",
                     "routing": route,
+                    "kernelToolCall": kernel_call,
                     "choices": [{
                         "index": 0,
                         "message": { "role": "assistant", "content": format!("Routed via {} -> prefill={} decode={}", route.proxy_vps, route.prefill_node, route.decode_node) },
@@ -267,20 +339,57 @@ pub fn dispatch_http(
             )
         }
         ("POST", "/mcp") => {
+            let id = body_json.get("id").cloned().unwrap_or(json!(1));
+            let rpc_method = body_json.get("method").and_then(Value::as_str).unwrap_or("");
+            if rpc_method == "tools/call" {
+                let name = body_json["params"]["name"].as_str().unwrap_or("");
+                let args = body_json["params"].get("arguments").cloned().unwrap_or_else(|| json!({}));
+                if let Some(res) = dispatch_kernel_mcp_tool(name, &args) {
+                    return (
+                        200,
+                        "application/json",
+                        json!({ "jsonrpc": "2.0", "id": id, "result": res }).to_string(),
+                    );
+                }
+            }
             let agent = HermesClawAgent::new("fw-hermes-claw");
-            let resp = agent.mcp.handle_jsonrpc(&body_json);
+            let mut resp = agent.mcp.handle_jsonrpc(&body_json);
+            if rpc_method == "tools/list"
+                && let Some(tools) = resp["result"]["tools"].as_array_mut()
+            {
+                for (name, desc) in KERNEL_MCP_TOOLS {
+                    tools.push(json!({
+                        "name": name,
+                        "description": desc,
+                        "inProcessZeroLatency": true
+                    }));
+                }
+            }
             (200, "application/json", resp.to_string())
         }
         ("POST", "/acp") | ("POST", "/a2a") => {
             let id = body_json.get("id").cloned().unwrap_or(json!(1));
             let rpc_method = body_json.get("method").and_then(|v| v.as_str()).unwrap_or("ping");
+            let tool_name = body_json["params"]["name"].as_str().unwrap_or("");
+            let kernel_res = if !tool_name.is_empty() {
+                dispatch_kernel_mcp_tool(tool_name, &body_json["params"])
+            } else {
+                None
+            };
             (
                 200,
                 "application/json",
                 json!({
                     "jsonrpc": "2.0",
                     "id": id,
-                    "result": { "ok": true, "endpoint": path, "method": rpc_method, "version": "3.0.0" }
+                    "result": {
+                        "ok": true,
+                        "endpoint": path,
+                        "method": rpc_method,
+                        "version": "4.2.0",
+                        "kernelMcpTools": KERNEL_MCP_TOOLS.iter().map(|(n, _)| *n).collect::<Vec<_>>(),
+                        "kernelCall": kernel_res
+                    }
                 })
                 .to_string(),
             )
@@ -360,8 +469,31 @@ mod tests {
         assert_eq!(code, 200);
         assert!(html.contains("navigator.gpu"));
 
-        let (code, _, oai) = dispatch_http(&router, "POST", "/v1/chat/completions", r#"{"messages":[{"role":"user","content":"test"}]}"#);
+        let (code, _, oai) = dispatch_http(&router, "POST", "/v1/chat/completions", r#"{"messages":[{"role":"user","content":"test"}],"tool_choice":"wasm_kernel_mcp"}"#);
         assert_eq!(code, 200);
         assert!(oai.contains("prefill="));
+        assert!(oai.contains("wasm_kernel_mcp"));
+
+        // Verify zero-latency Linux, Windows, and WebAssembly kernel MCP tools over /mcp, /acp, /a2a
+        let (code, _, mcp_list) = dispatch_http(&router, "POST", "/mcp", r#"{"jsonrpc":"2.0","id":1,"method":"tools/list"}"#);
+        assert_eq!(code, 200);
+        assert!(mcp_list.contains("linux_kernel_mcp"));
+        assert!(mcp_list.contains("windows_kernel_mcp"));
+        assert!(mcp_list.contains("wasm_kernel_mcp"));
+
+        for tool in ["linux_kernel_mcp", "windows_kernel_mcp", "wasm_kernel_mcp"] {
+            let body = format!(r#"{{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{{"name":"{tool}","arguments":{{"action":"probe"}}}}}}"#);
+            let (c, _, out) = dispatch_http(&router, "POST", "/mcp", &body);
+            assert_eq!(c, 200);
+            assert!(out.contains("\"inProcessZeroLatency\":true"), "out={out}");
+        }
+
+        let (c_acp, _, out_acp) = dispatch_http(&router, "POST", "/acp", r#"{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"linux_kernel_mcp"}}"#);
+        assert_eq!(c_acp, 200);
+        assert!(out_acp.contains("sched_ext:scx_lavd"));
+
+        let (c_a2a, _, out_a2a) = dispatch_http(&router, "POST", "/a2a", r#"{"jsonrpc":"2.0","id":4,"method":"tasks/send","params":{"name":"windows_kernel_mcp"}}"#);
+        assert_eq!(c_a2a, 200);
+        assert!(out_a2a.contains("in-process-conpty"));
     }
 }

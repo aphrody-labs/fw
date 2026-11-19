@@ -394,6 +394,17 @@ fn main() {
                 }
             }
         }
+        "apm" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let sub_args: Vec<&str> = args.iter().skip(1).map(String::as_str).collect();
+            match fw_apm::run_cli(&sub_args, &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw apm: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
         "m3-tui" | "agent-tui" | "god" => {
             m3_agent_tui::run_m3_agent_tui(&args[1..]);
         }
