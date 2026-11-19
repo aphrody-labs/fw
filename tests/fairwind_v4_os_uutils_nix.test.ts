@@ -75,18 +75,25 @@ describe("Fairwind v4.0 — Asterinas OSDK + GPUI WebGPU/Wasm + Alpine uutils + 
     const rootFlake = readFileSync(join(ROOT, "flake.nix"), "utf8");
     expect(rootFlake).toContain("rust-userland");
     expect(rootFlake).toContain("uutils-coreutils-noprefix");
+    expect(rootFlake).toContain("xddxdd/nix-cachyos-kernel/release");
     expect(rootFlake).toContain("nixosConfigurations");
     expect(rootFlake).toContain("fr1 = mkVps ./nix/hosts/fr1.nix");
     expect(rootFlake).toContain("fr2 = mkVps ./nix/hosts/fr2.nix");
     expect(rootFlake).toContain("prd = mkVps ./nix/hosts/prd.nix");
 
     const common = readFileSync(join(ROOT, "nix", "modules", "vps-common.nix"), "utf8");
+    expect(common).toContain("security.sudo-rs.enable = true");
+    expect(common).toContain("services.ntpd-rs.enable = true");
     expect(common).toContain("vm.watermark_boost_factor");
     expect(common).toContain("vm.watermark_scale_factor");
     expect(common).toContain('ATTR{queue/scheduler}="none"');
     expect(common).toContain("fairwind-native serve");
 
+    const fr1 = readFileSync(join(ROOT, "nix", "hosts", "fr1.nix"), "utf8");
+    expect(fr1).toContain("linuxPackages-cachyos-latest-lto-x86_64-v3");
+
     const prd = readFileSync(join(ROOT, "nix", "hosts", "prd.nix"), "utf8");
+    expect(prd).toContain("linuxPackages-cachyos-latest-lto-zen4");
     expect(prd).toContain("fairwind-build-worker");
     expect(prd).toContain('MemoryHigh = "12G"');
 

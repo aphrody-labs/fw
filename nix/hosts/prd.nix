@@ -1,8 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 
 # prd (srv2116886) — Production 8 vCPU AMD EPYC 9354P (Zen 4) / 32 GB RAM + Cgroup-Isolated Burst Worker
 {
   networking.hostName = "prd";
+  boot.kernelPackages = inputs.nix-cachyos-kernel.legacyPackages.x86_64-linux.linuxPackages-cachyos-latest-lto-zen4;
 
   boot.kernel.sysctl = {
     "vm.swappiness" = 150;

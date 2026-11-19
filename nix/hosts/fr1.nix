@@ -1,8 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 
-# fr1 (vps-203bea89) — Primary 12 vCPU / 47 GB RAM Heavy Build & NativeLink/sccache Scheduler
+# fr1 (vps-203bea89) — Primary 12 vCPU Intel Haswell (x86_64-v3) / 47 GB RAM Heavy Build & NativeLink/sccache Scheduler
 {
   networking.hostName = "fr1";
+  boot.kernelPackages = inputs.nix-cachyos-kernel.legacyPackages.x86_64-linux.linuxPackages-cachyos-latest-lto-x86_64-v3;
 
   fileSystems."/srv/xbuild" = {
     device = "/dev/mapper/xbuild-data";

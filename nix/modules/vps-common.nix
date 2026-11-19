@@ -27,6 +27,12 @@ in {
     CARGO_PROFILE_DEV_DEBUG = "line-tables-only";
   };
 
+  # Pure-Rust system daemons & privilege escalation (replaces GNU sudo & systemd-timesyncd)
+  security.sudo.enable = false;
+  security.sudo-rs.enable = true;
+  services.timesyncd.enable = false;
+  services.ntpd-rs.enable = true;
+
   # ZRAM zstd swap (prio 100, ZSWAP disabled to avoid double compression)
   zramSwap = {
     enable = true;

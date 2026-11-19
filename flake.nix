@@ -5,6 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     crane.url = "github:ipetkov/crane";
+    # Keep upstream nixpkgs pin intact for 100% binary cache hits (Clang+ThinLTO CachyOS kernels)
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, ... }:

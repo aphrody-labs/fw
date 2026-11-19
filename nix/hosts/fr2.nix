@@ -1,8 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 
-# fr2 (bunos) — Secondary 6 vCPU / 11.7 GB RAM Build Worker, Test/Lint & NFSv4.2 Client
+# fr2 (bunos) — Secondary 6 vCPU Intel Haswell (x86_64-v3) / 11.7 GB RAM Build Worker, Test/Lint & NFSv4.2 Client
 {
   networking.hostName = "fr2";
+  boot.kernelPackages = inputs.nix-cachyos-kernel.legacyPackages.x86_64-linux.linuxPackages-cachyos-latest-lto-x86_64-v3;
 
   fileSystems."/srv/xbuild/shared" = {
     device = "10.200.77.1:/srv/xbuild/shared";
