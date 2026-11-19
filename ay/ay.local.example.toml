@@ -16,6 +16,8 @@ prod = "<ssh alias of the production host>"                 # production only
 # work = the large volume for builds, caches and mirrors; the test host mounts the build host's volume over NFS.
 [paths.build]
 work = "<work volume on the build host>"
+android_sdk = "<Android SDK on the build host>"          # optional; tools/compose-check.ts
+gradle_home = "<Gradle user home on the build host>"      # optional; defaults to <work>/gradle-home
 [paths.test]
 work = "<work volume on the test host>"
 

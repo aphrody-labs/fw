@@ -7,7 +7,9 @@ import { readFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 
 export type Role = "build" | "test" | "prod";
-export type HostConfig = { hosts: Record<string, string>; paths: Record<string, { work?: string }> };
+/** `android_sdk` and `gradle_home`: optional per-role locations of the Android SDK and the Gradle user home (tools/compose-check.ts). */
+export type HostPaths = { work?: string; android_sdk?: string; gradle_home?: string };
+export type HostConfig = { hosts: Record<string, string>; paths: Record<string, HostPaths> };
 
 const root = resolve(import.meta.dir, "..");
 

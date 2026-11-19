@@ -21,6 +21,7 @@ config/          shell and CLI configs (env.toml, links.toml, bash, pwsh, git, h
 apps/            programs a person runs, one folder each: chromium-dash, agents (agent harness: runner, GitHub events, plugins), ai-gateway (model gateway overlay), cf-gateway and tools-release (Cloudflare Workers), auto-server, auto-ui, auto-cli, auto-extension, auto-desktop (the Auto product; auto-ui and auto-desktop are standalone Cargo workspaces)
 python/          Python workspace (uv, root pyproject.toml): ay_cf_py (Cloudflare SDK and Pydantic control-plane models)
 cpp/             C++23 units built with Bazel (root MODULE.bazel): edge_abi
+kotlin/          Kotlin workspace (Gradle wrapper, AGP, version catalog): aphrody-theme, the Aphrody Compose theme compiled in place from brand/tokens/compose and published as com.aphrody:aphrody-theme (group from ay.toml [domains], version from Cargo.toml) to the GitHub Packages Maven registry; gate `bun tools/compose-check.ts` (runs on the build host)
 brand/           identity dataset and assets; the token pipeline (Bun) is its generator
 tools/           typed Bun scripts for every repeatable flow (features, submodules, paths, private-gate, abi, hosts, disks, listings, absorb, legacy, org-inventory, cloud-map, deploy, claude-sessions, linux-*, rust-map, shells)
 docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, science (cited async, recursion, compiler, OS foundations), research, guides
@@ -106,7 +107,8 @@ owner repository carries its own copy.
 ## Design system and tokens
 One Bun pipeline owned by `ay` generates the tokens from the brand seed and the Material 3 rules: DTCG JSON, CSS custom
 properties, a Tailwind v4 preset, a Jetpack Compose Material 3 theme (`brand/tokens/compose`, `bun tools/tokens-compose.ts`: the 48 colour roles
-of material3 1.5 in light and dark, and `AphrodyTheme` on `MaterialExpressiveTheme` with expressive motion) and a C header (target; today `brand/tokens` is colour only and `aphrody-m3` holds
+of material3 1.5 in light and dark, and `AphrodyTheme` on `MaterialExpressiveTheme` with expressive motion; `kotlin/aphrody-theme` compiles that file in place into an Android library, so
+other repositories depend on `com.aphrody:aphrody-theme` and never copy it) and a C header (target; today `brand/tokens` is colour only and `aphrody-m3` holds
 shape, type, motion, elevation and state). Figma is the visual source and is mirrored to code through variables and Code
 Connect (`docs/mirrors.toml`). `aphrody-m3` and `aphrody` consume the output and do not regenerate it.
 

@@ -6,6 +6,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MotionScheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -113,12 +115,19 @@ val AphrodyDarkColors: ColorScheme = darkColorScheme(
     onTertiaryFixedVariant = Color(0xFF284E3C),
 )
 
-/** The Aphrody theme: the token colours on the Material 3 Expressive theme (expressive motion, M3 shapes and type scale). */
+/** The Aphrody theme: the token colours on the Material 3 Expressive theme (expressive motion; `shapes` and `typography` default to the M3 ones). */
 @Composable
-fun AphrodyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun AphrodyTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    shapes: Shapes? = null,
+    typography: Typography? = null,
+    content: @Composable () -> Unit,
+) {
     MaterialExpressiveTheme(
         colorScheme = if (darkTheme) AphrodyDarkColors else AphrodyLightColors,
         motionScheme = MotionScheme.expressive(),
+        shapes = shapes,
+        typography = typography,
         content = content,
     )
 }

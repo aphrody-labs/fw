@@ -296,6 +296,16 @@ layer = "ui"
 status = "todo"
 
 [[feature]]
+product = "brand"
+id = "compose-theme"
+title = "Jetpack Compose Material 3 Expressive theme from the tokens, published as com.aphrody:aphrody-theme"
+reference = "https://m3.material.io/blog/compose-material-3-is-stable"
+layer = "ui"
+status = "done"
+proof = "kotlin/aphrody-theme/src/test/kotlin/com/aphrody/theme/AphrodyColorSchemeTest.kt::everyRoleEqualsTheTokenInBothSchemes"
+proof_kind = "test"
+
+[[feature]]
 product = "platform"
 id = "dns"
 title = "DNS: authoritative and recursive resolver, DoH and DoT"
