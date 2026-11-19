@@ -233,7 +233,7 @@ mod native_impl {
 
     #[cfg(not(target_family = "wasm"))]
     async fn try_post_msg(env: &Envelope) -> bool {
-        let client = match reqwest::Client::builder()
+        let client = match ay_http::Client::builder()
             .timeout(Duration::from_millis(2000))
             .build()
         {
@@ -353,6 +353,6 @@ fn main() -> std::process::ExitCode {
     // reqwest is built with `rustls-no-provider`: install the process-wide rustls
     // crypto provider before any HTTP client exists (building one without it panics).
     #[cfg(feature = "rustls-tls")]
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     native_impl::entry()
 }

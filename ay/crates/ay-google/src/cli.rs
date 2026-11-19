@@ -89,7 +89,7 @@ fn resolved_home(runtime: &GoogleRuntime) -> Option<PathBuf> {
 }
 
 async fn run(cli: Cli) -> Result<i32, Box<dyn std::error::Error>> {
-    rustls::crypto::ring::default_provider()
+    rustls::crypto::aws_lc_rs::default_provider()
         .install_default()
         .ok();
     let runtime = GoogleRuntime::from_env();
@@ -170,7 +170,7 @@ async fn run(cli: Cli) -> Result<i32, Box<dyn std::error::Error>> {
 
             let mut prompt = String::new();
             std::io::stdin().read_to_string(&mut prompt)?;
-            rustls::crypto::ring::default_provider()
+            rustls::crypto::aws_lc_rs::default_provider()
                 .install_default()
                 .ok();
             let client = crate::authenticated_client()?;

@@ -104,7 +104,7 @@ async fn run(args: Vec<String>) -> Result<(), String> {
                 .await
                 .map_err(|e| format!("bind {addr}: {e}"))?;
             eprintln!("ay-jev serving /v1/systemone on http://{addr}");
-            axum::serve(listener, app(ServerState::new(router, keys, model)))
+            ay_http::server::serve_listener(listener, app(ServerState::new(router, keys, model)))
                 .await
                 .map_err(|e| e.to_string())
         }

@@ -55,7 +55,7 @@ pub async fn ingest_web_document(
     markdown: &str,
     force: bool,
 ) -> Result<PgWebIngestResult, &'static str> {
-    let parsed = reqwest::Url::parse(url).map_err(|_| "invalid web document URL")?;
+    let parsed = ay_http::Url::parse(url).map_err(|_| "invalid web document URL")?;
     if !matches!(parsed.scheme(), "http" | "https") || parsed.host_str().is_none() {
         return Err("invalid web document URL");
     }

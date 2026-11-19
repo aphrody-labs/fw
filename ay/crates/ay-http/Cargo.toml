@@ -12,7 +12,7 @@ publish.workspace = true
 [features]
 default = ["client", "server"]
 # The async client: reqwest with rustls, h2, and h3 (needs `--cfg reqwest_unstable`, set in `.cargo/config.toml`).
-client = ["dep:reqwest", "dep:http", "dep:serde"]
+client = ["dep:reqwest", "dep:http", "dep:serde", "dep:tokio"]
 # The server: axum over hyper (h1, h2) and h3 + quinn on the same router, plus the error envelope.
 server = [
   "dep:axum", "dep:bytes", "dep:futures-util", "dep:h3", "dep:h3-quinn", "dep:http", "dep:http-body-util", "dep:hyper",
@@ -36,12 +36,12 @@ rcgen = { version = "0.14", optional = true }
 rustls = { version = "0.23", optional = true }
 serde = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
-tokio = { workspace = true, features = ["net", "rt", "sync", "time", "macros"], optional = true }
 tokio-rustls = { version = "0.26", optional = true }
 tower = { version = "0.5", default-features = false, features = ["util"], optional = true }
 tracing = { version = "0.1.44", optional = true }
 
 [target.'cfg(not(target_family = "wasm"))'.dependencies]
+tokio = { workspace = true, features = ["net", "rt", "sync", "time", "macros"], optional = true }
 reqwest = { version = "0.13.5", default-features = false, features = ["rustls", "http2", "http3", "json", "stream", "form", "query", "charset", "system-proxy", "cookies", "gzip", "brotli", "deflate", "socks", "multipart"], optional = true }
 
 [target.'cfg(target_family = "wasm")'.dependencies]

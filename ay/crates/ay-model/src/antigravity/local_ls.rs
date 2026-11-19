@@ -467,7 +467,7 @@ async fn build_pinned_channel(port: u16) -> Result<Channel, SdkError> {
 
     let provider = CryptoProvider::get_default()
         .cloned()
-        .unwrap_or_else(|| Arc::new(rustls::crypto::ring::default_provider()));
+        .unwrap_or_else(|| Arc::new(rustls::crypto::aws_lc_rs::default_provider()));
 
     let tls = rustls::ClientConfig::builder_with_provider(provider)
         .with_safe_default_protocol_versions()
@@ -512,7 +512,7 @@ impl SpkiPinVerifier {
             .map_err(|e| SdkError::Tls(format!("invalid pinned SPKI base64: {e}")))?;
         let provider = CryptoProvider::get_default()
             .cloned()
-            .unwrap_or_else(|| Arc::new(rustls::crypto::ring::default_provider()));
+            .unwrap_or_else(|| Arc::new(rustls::crypto::aws_lc_rs::default_provider()));
         Ok(Self { pinned, provider })
     }
 }

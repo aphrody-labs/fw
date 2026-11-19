@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! Authenticated HTTP client for the Antigravity API.
 //!
-//! [`AntigravityClient`] wraps a [`reqwest::Client`] together with an
+//! [`AntigravityClient`] wraps a [`ay_http::Client`] together with an
 //! [`OAuthToken`] and automatically injects a `Bearer` authorization header
 //! on every request.
 
@@ -50,7 +50,7 @@ pub type ResponseStream = Pin<Box<dyn Stream<Item = Result<GenerateContentRespon
 ///
 /// All requests include `Authorization: Bearer <access_token>`.
 pub struct AntigravityClient {
-    http: reqwest::Client,
+    http: ay_http::Client,
     token: OAuthToken,
 }
 
@@ -60,14 +60,14 @@ impl AntigravityClient {
     /// The caller is responsible for ensuring the token is valid (not expired).
     /// Use [`AntigravityClient::refresh_token`] to rotate the token when
     /// necessary.
-    pub fn new(http: reqwest::Client, token: OAuthToken) -> Self {
+    pub fn new(http: ay_http::Client, token: OAuthToken) -> Self {
         Self { http, token }
     }
 
     /// Create a new client by reading the OAuth token from the Windows
     /// Credential Manager entry `gemini:antigravity`.
     ///
-    /// A default [`reqwest::Client`] is constructed internally.
+    /// A default [`ay_http::Client`] is constructed internally.
     ///
     /// # Errors
     ///
@@ -76,9 +76,9 @@ impl AntigravityClient {
     /// [`SdkError::Unsupported`] on non-Windows).
     pub fn from_credential_manager() -> Result<Self, SdkError> {
         let token = token_from_credential_manager()?;
-        // Build a minimal reqwest::Client.  The caller must have installed a
+        // Build a minimal ay_http::Client.  The caller must have installed a
         // rustls CryptoProvider before reaching here (cf. CLAUDE.md §7).
-        let http = reqwest::Client::new();
+        let http = ay_http::Client::new();
         debug!("AntigravityClient created from credential manager");
         Ok(Self { http, token })
     }
@@ -151,7 +151,7 @@ impl AntigravityClient {
         let response = self
             .http
             .get(url)
-            .header(reqwest::header::USER_AGENT, self.user_agent())
+            .header(ay_http::header::USER_AGENT, self.user_agent())
             .bearer_auth(&self.token.access_token)
             .send()
             .await?;
@@ -188,7 +188,7 @@ impl AntigravityClient {
         let response = self
             .http
             .post(url)
-            .header(reqwest::header::USER_AGENT, self.user_agent())
+            .header(ay_http::header::USER_AGENT, self.user_agent())
             .bearer_auth(&self.token.access_token)
             .json(body)
             .send()
@@ -492,9 +492,9 @@ impl AntigravityClient {
         let response = self
             .http
             .post(&url)
-            .header(reqwest::header::USER_AGENT, self.user_agent())
+            .header(ay_http::header::USER_AGENT, self.user_agent())
             .bearer_auth(&self.token.access_token)
-            .header(reqwest::header::ACCEPT, "text/event-stream")
+            .header(ay_http::header::ACCEPT, "text/event-stream")
             .json(&body)
             .send()
             .await?;
@@ -661,7 +661,7 @@ pub fn parse_sse_response_stream<S>(
     byte_stream: S,
 ) -> impl Stream<Item = Result<GenerateContentResponse, SdkError>> + MaybeSend
 where
-    S: Stream<Item = reqwest::Result<bytes::Bytes>> + MaybeSend + 'static,
+    S: Stream<Item = ay_http::Result<bytes::Bytes>> + MaybeSend + 'static,
 {
     futures::stream::unfold(
         (Box::pin(byte_stream), String::new()),

@@ -212,7 +212,7 @@ struct Inner {
     config: RouterConfig,
     declared: Option<Catalog>,
     context: RouterContext,
-    http: reqwest::Client,
+    http: ay_http::Client,
     /// The llama model currently started, and its OpenAI root.
     active: Mutex<Option<(String, String)>>,
     gemini: Mutex<HashMap<String, Gemini>>,
@@ -237,7 +237,7 @@ impl ChatRouter {
             config,
             declared,
             context,
-            http: reqwest::Client::new(),
+            http: ay_http::Client::new(),
             active: Mutex::new(None),
             gemini: Mutex::new(HashMap::new()),
         })))
@@ -600,7 +600,7 @@ async fn route_request(router: ChatRouter, mut body: Value, endpoint: &str) -> R
 
 /// Relay a request to an OpenAI-compatible root, streaming the answer back as is.
 async fn relay(
-    http: &reqwest::Client,
+    http: &ay_http::Client,
     base: &str,
     endpoint: &str,
     key: Option<&str>,
@@ -812,7 +812,7 @@ mod tests {
             .unwrap();
         let addr = listener.local_addr().unwrap();
         tokio::spawn(async move { axum::serve(listener, app).await });
-        let http = reqwest::Client::new();
+        let http = ay_http::Client::new();
         let models: Value = http
             .get(format!("http://{addr}/v1/models"))
             .send()
@@ -885,7 +885,7 @@ mod tests {
             .unwrap();
         let addr = listener.local_addr().unwrap();
         tokio::spawn(async move { axum::serve(listener, app).await });
-        let http = reqwest::Client::new();
+        let http = ay_http::Client::new();
         let models: Value = http
             .get(format!("http://{addr}/v1/models"))
             .send()
@@ -954,7 +954,7 @@ mod tests {
             .unwrap();
         let addr = listener.local_addr().unwrap();
         let router_task = tokio::spawn(async move { axum::serve(listener, app).await });
-        let http = reqwest::Client::new();
+        let http = ay_http::Client::new();
         let input = json!([
             {"type":"compaction", "id":"cmp_previous", "encrypted_content":"opaque-state"},
             {"type":"function_call_output", "call_id":"call_1", "output":"工具結果"},

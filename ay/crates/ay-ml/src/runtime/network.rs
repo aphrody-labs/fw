@@ -1,7 +1,7 @@
 use std::{sync::OnceLock, time::Duration};
 
 use anyhow::{Context, Result};
-use reqwest::Client;
+use ay_http::Client;
 use serde::{Deserialize, Serialize};
 
 const USER_AGENT: &str = concat!("ay-ml-runtime/", env!("CARGO_PKG_VERSION"));

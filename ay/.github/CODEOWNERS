@@ -2,6 +2,6 @@
 *                       @aphrody-dev
 /.github/               @aphrody-dev
 /packages/auto-store/migrations/ @aphrody-dev
-/crates/auto-facturx/            @aphrody-dev
+/crates/auto-sdk/src/facturx/            @aphrody-dev
 /packages/cf-control-plane/cf.toml @aphrody-dev
 /submodules.toml                 @aphrody-dev

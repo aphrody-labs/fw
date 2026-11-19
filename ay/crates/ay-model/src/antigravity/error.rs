@@ -30,7 +30,7 @@ pub enum SdkError {
 
     /// An HTTP-level error occurred while refreshing the token.
     #[error("HTTP error during token refresh: {0}")]
-    Http(#[from] reqwest::Error),
+    Http(#[from] ay_http::Error),
 
     /// The OAuth server returned an error response (non-2xx status).
     #[error("OAuth server error {status}: {body}")]

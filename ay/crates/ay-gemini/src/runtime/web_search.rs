@@ -48,7 +48,7 @@ pub enum WebSearchError {
 
     /// Transport failure.
     #[error("HTTP transport error: {0}")]
-    Http(#[from] reqwest::Error),
+    Http(#[from] ay_http::Error),
 
     /// Upstream returned a non-2xx status.
     #[error("Gemini API HTTP {status}: {body}")]
@@ -214,7 +214,7 @@ pub fn build_request_body(query: &str, time_range: Option<&TimeRange>) -> serde_
 /// - [`WebSearchError::Api`] — Gemini returned a structured error payload.
 /// - [`WebSearchError::Malformed`] — response shape did not match expectations.
 pub async fn web_search(
-    client: &reqwest::Client,
+    client: &ay_http::Client,
     cfg: &WebSearchConfig,
     query: &str,
 ) -> Result<SearchResults, WebSearchError> {
@@ -529,8 +529,8 @@ mod tests {
         // Install the ring CryptoProvider before constructing a reqwest
         // Client: the workspace pins `reqwest` to `rustls-no-provider`, so
         // `Client::new()` would otherwise panic with "No provider set".
-        let _ = rustls::crypto::ring::default_provider().install_default();
-        let client = reqwest::Client::new();
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
+        let client = ay_http::Client::new();
         let cfg = WebSearchConfig::default();
         let err = web_search(&client, &cfg, "anything").await.unwrap_err();
         assert!(matches!(err, WebSearchError::MissingApiKey));

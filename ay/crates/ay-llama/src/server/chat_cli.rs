@@ -26,7 +26,6 @@
 
 use std::{
     ffi::OsString,
-    future::IntoFuture,
     path::{Path, PathBuf},
     time::Duration,
 };
@@ -243,7 +242,7 @@ fn exe_dir() -> Vec<PathBuf> {
 /// Entry point of `aphrody llama` (multi-call; `args[0]` is the invocation name).
 #[must_use]
 pub fn chat_cli_main(args: Vec<OsString>) -> i32 {
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     let mut rest = args
         .into_iter()
         .skip(1)
@@ -479,11 +478,9 @@ async fn route(args: &Args, state: &Path) -> i32 {
     }));
     let (stop_tx, stop_rx) = tokio::sync::oneshot::channel::<()>();
     let server = tokio::spawn(
-        axum::serve(listener, router.app())
-            .with_graceful_shutdown(async move {
-                let _ = stop_rx.await;
-            })
-            .into_future(),
+        ay_http::server::serve_listener_until(listener, router.app(), async move {
+            let _ = stop_rx.await;
+        }),
     );
     let reason = lifeline(args, |_| server.is_finished().then_some("server exited")).await;
     let _ = stop_tx.send(());

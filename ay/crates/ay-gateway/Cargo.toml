@@ -65,27 +65,6 @@ version = "7.0.0"
 [dependencies.futures]
 version = "0.3.34"
 
-[dependencies.reqwest]
-version = "0.13.5"
-features = [
-    "rustls-no-provider",
-    "json",
-    "stream",
-    "form",
-    "query",
-    "charset",
-    "http2",
-    "system-proxy",
-    "blocking",
-    "cookies",
-    "gzip",
-    "brotli",
-    "deflate",
-    "socks",
-    "multipart",
-]
-default-features = false
-
 [dependencies.serde]
 version = "1.0.229"
 features = [
@@ -123,31 +102,10 @@ features = ["serde"]
 version = "8"
 features = []
 
-[dev-dependencies.reqwest]
-version = "0.13.5"
-features = [
-    "rustls-no-provider",
-    "json",
-    "stream",
-    "form",
-    "query",
-    "charset",
-    "http2",
-    "system-proxy",
-    "blocking",
-    "cookies",
-    "gzip",
-    "brotli",
-    "deflate",
-    "socks",
-    "multipart",
-]
-default-features = false
-
 [dev-dependencies.rustls]
 version = "0.23"
 features = [
-    "ring",
+    "aws_lc_rs",
     "std",
     "tls12",
 ]
@@ -187,3 +145,6 @@ priority = -1
 non_ascii_idents = "deny"
 unsafe_op_in_unsafe_fn = "deny"
 unused_must_use = "deny"
+
+[dependencies]
+ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"] }

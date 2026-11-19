@@ -16,7 +16,7 @@ use ay_gemini::web::GeminiWebClient;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // rustls 0.23 requires a CryptoProvider before the first reqwest client.
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
 
     let client = GeminiWebClient::from_default_cookie_file("en").await?;
     let t = client.transport().tokens();

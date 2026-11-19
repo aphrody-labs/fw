@@ -13,7 +13,7 @@ use std::{
 use anyhow::{Context, Result, bail, ensure};
 use backon::{ExponentialBuilder, Retryable};
 use futures::{StreamExt, TryStreamExt, stream};
-use reqwest::{StatusCode, header};
+use ay_http::{StatusCode, header};
 use serde::{Deserialize, Serialize};
 use tokio::{
     io::{AsyncSeekExt, AsyncWriteExt, BufWriter},
@@ -32,7 +32,7 @@ const WRITE_BUFFER_SIZE: usize = 256 * 1024;
 static NEXT_ID: AtomicU64 = AtomicU64::new(1);
 static EVENTS: LazyLock<broadcast::Sender<Event>> =
     LazyLock::new(|| broadcast::channel(EVENT_CAPACITY).0);
-type DownloadClient = Arc<reqwest_middleware::ClientWithMiddleware>;
+type DownloadClient = ay_http::Client;
 
 static CLIENT: OnceLock<DownloadClient> = OnceLock::new();
 
@@ -118,23 +118,12 @@ pub fn subscribe() -> broadcast::Receiver<Event> {
     EVENTS.subscribe()
 }
 
-fn client(http: reqwest::Client, max_retries: usize) -> DownloadClient {
-    CLIENT
-        .get_or_init(|| {
-            Arc::new(
-                reqwest_middleware::ClientBuilder::new(http)
-                    .with(reqwest_retry::RetryTransientMiddleware::new_with_policy(
-                        reqwest_retry::policies::ExponentialBackoff::builder()
-                            .build_with_max_retries(max_retries as u32),
-                    ))
-                    .build(),
-            )
-        })
-        .clone()
+fn client(http: ay_http::Client, max_retries: usize) -> DownloadClient {
+    CLIENT.get_or_init(|| http.with_retries(u32::try_from(max_retries).unwrap_or(u32::MAX))).clone()
 }
 
 pub(crate) async fn fetch(url: &str, destination: &Path) -> Result<()> {
-    let name = reqwest::Url::parse(url)
+    let name = ay_http::Url::parse(url)
         .ok()
         .and_then(|url| {
             url.path_segments()
@@ -187,7 +176,7 @@ where
 
 async fn fetch_http(
     activity: &Activity,
-    client: &reqwest_middleware::ClientWithMiddleware,
+    client: &ay_http::Client,
     url: &str,
     destination: &Path,
     read_timeout: Duration,
@@ -248,7 +237,7 @@ async fn fetch_http(
 
 async fn fetch_stream(
     activity: &Activity,
-    client: &reqwest_middleware::ClientWithMiddleware,
+    client: &ay_http::Client,
     url: &str,
     destination: &Path,
     read_timeout: Duration,
@@ -276,7 +265,7 @@ async fn fetch_stream(
 
 async fn fetch_ranges(
     activity: &Activity,
-    client: &reqwest_middleware::ClientWithMiddleware,
+    client: &ay_http::Client,
     url: &str,
     destination: &Path,
     total: u64,
@@ -315,7 +304,7 @@ async fn fetch_ranges(
 }
 
 async fn fetch_range(
-    client: &reqwest_middleware::ClientWithMiddleware,
+    client: &ay_http::Client,
     url: &str,
     destination: &Path,
     total: u64,
@@ -434,7 +423,7 @@ fn connection_count() -> usize {
 fn retryable(error: &anyhow::Error) -> bool {
     error
         .chain()
-        .find_map(|cause| cause.downcast_ref::<reqwest::Error>())
+        .find_map(|cause| cause.downcast_ref::<ay_http::Error>())
         .map(|error| error.is_body() || error.is_decode())
         .unwrap_or(true)
 }

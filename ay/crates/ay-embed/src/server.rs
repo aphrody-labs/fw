@@ -204,7 +204,7 @@ pub async fn serve(config: ServerConfig) -> std::io::Result<()> {
         let _ = loader.set(status);
     });
     tracing::info!(addr = %listener.local_addr()?, model = SERVED_MODEL, "embedding server listening");
-    axum::serve(listener, router(state)).await
+    ay_http::server::serve_listener(listener, router(state)).await
 }
 
 #[cfg(test)]

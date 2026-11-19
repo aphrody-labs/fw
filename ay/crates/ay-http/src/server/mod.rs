@@ -3,6 +3,7 @@
 mod h3;
 mod tls;
 
+use std::future::Future;
 use std::io;
 use std::net::SocketAddr;
 use std::time::Duration;
@@ -93,10 +94,18 @@ impl Server {
 /// # Errors
 /// Bind failures, invalid TLS material, or `h3` requested without TLS.
 pub async fn serve(router: Router, config: ServeConfig) -> io::Result<Server> {
+    let listener = TcpListener::bind(config.addr).await?;
+    serve_on(listener, router, config).await
+}
+
+/// Starts serving `router` on a TCP listener the caller already bound (`config.addr` is ignored; h3 uses the listener's port over UDP).
+///
+/// # Errors
+/// Bind failures of the QUIC socket, invalid TLS material, or `h3` requested without TLS.
+pub async fn serve_on(listener: TcpListener, router: Router, config: ServeConfig) -> io::Result<Server> {
     if config.h3 && config.tls.is_none() {
         return Err(io::Error::new(io::ErrorKind::InvalidInput, "h3 needs TLS material"));
     }
-    let listener = TcpListener::bind(config.addr).await?;
     let tcp = listener.local_addr()?;
     let (stop, shutdown) = watch::channel(false);
     let mut tasks = Vec::new();
@@ -128,6 +137,26 @@ pub async fn serve(router: Router, config: ServeConfig) -> io::Result<Server> {
     };
     tasks.push(tokio::spawn(accept_loop(listener, acceptor, app, shutdown)));
     Ok(Server { tcp, quic, stop, tasks })
+}
+
+/// Serves `router` over cleartext HTTP/1.1 and h2c on `listener` until the listener fails; the replacement of `axum::serve`.
+///
+/// # Errors
+/// Never returns `Ok` while the listener is healthy.
+pub async fn serve_listener(listener: TcpListener, router: Router) -> io::Result<()> {
+    serve_on(listener, router, ServeConfig::plain(SocketAddr::from(([0, 0, 0, 0], 0)))).await?.wait().await;
+    Ok(())
+}
+
+/// Like [`serve_listener`], stopping when `shutdown` resolves; the replacement of `axum::serve(..).with_graceful_shutdown(..)`.
+///
+/// # Errors
+/// Listener setup failures.
+pub async fn serve_listener_until(listener: TcpListener, router: Router, shutdown: impl Future<Output = ()>) -> io::Result<()> {
+    let server = serve_on(listener, router, ServeConfig::plain(SocketAddr::from(([0, 0, 0, 0], 0)))).await?;
+    shutdown.await;
+    server.shutdown().await;
+    Ok(())
 }
 
 async fn accept_loop(listener: TcpListener, acceptor: Option<tokio_rustls::TlsAcceptor>, app: Router, mut shutdown: watch::Receiver<bool>) {

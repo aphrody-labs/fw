@@ -46,7 +46,7 @@ impl InProcessServer {
             .route("/v1/chat/completions", post(chat))
             .with_state(Arc::new(engine));
         let task = tokio::spawn(async move {
-            if let Err(error) = axum::serve(listener, app).await {
+            if let Err(error) = ay_http::server::serve_listener(listener, app).await {
                 tracing::warn!(%error, "in-process inference endpoint stopped");
             }
         });

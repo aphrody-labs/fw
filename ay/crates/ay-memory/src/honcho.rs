@@ -9,7 +9,7 @@
 //! both Honcho `user_id` and `session_id` for round-trip stability).
 
 use async_trait::async_trait;
-use reqwest::Client;
+use ay_http::Client;
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -172,7 +172,7 @@ fn parse_iso_to_unix_ms(s: &str) -> Option<u64> {
         .map(|dt| u64::try_from(dt.timestamp_millis()).unwrap_or(0))
 }
 
-async fn lift_error(resp: reqwest::Response) -> MemoryError {
+async fn lift_error(resp: ay_http::Response) -> MemoryError {
     let status = resp.status().as_u16();
     let body = resp.text().await.unwrap_or_default();
     let message = serde_json::from_str::<HonchoError>(&body)
@@ -215,7 +215,7 @@ impl MemoryProvider for HonchoProvider {
         let resp = self
             .client
             .post(self.endpoint(&self.messages_path(&rec.agent_id)))
-            .header(reqwest::header::AUTHORIZATION, self.auth_value())
+            .header(ay_http::header::AUTHORIZATION, self.auth_value())
             .json(&body)
             .send()
             .await?;
@@ -245,7 +245,7 @@ impl MemoryProvider for HonchoProvider {
         let resp = self
             .client
             .get(self.endpoint(&self.messages_path(&q.agent_id)))
-            .header(reqwest::header::AUTHORIZATION, self.auth_value())
+            .header(ay_http::header::AUTHORIZATION, self.auth_value())
             .query(&query_pairs)
             .send()
             .await?;
@@ -291,7 +291,7 @@ impl MemoryProvider for HonchoProvider {
         let resp = self
             .client
             .get(self.endpoint("/v1/apps"))
-            .header(reqwest::header::AUTHORIZATION, self.auth_value())
+            .header(ay_http::header::AUTHORIZATION, self.auth_value())
             .send()
             .await?;
         if resp.status().is_success() {

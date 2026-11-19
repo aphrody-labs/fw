@@ -14,13 +14,14 @@ llguidance = ["dep:llguidance", "dep:toktrie"]
 sampler = []
 in-process = ["server", "dep:ay-infer", "dep:ay-model", "dep:ay-toolcall", "dep:async-trait", "dep:base64", "dep:bytes", "dep:chrono", "dep:futures", "dep:ay-ml", "dep:libloading", "dep:minijinja", "dep:minijinja-contrib"]
 test-support = []
-server = ["dep:ay-gemini", "dep:ay-model", "dep:ay-proc", "dep:axum", "dep:reqwest", "dep:rustls", "dep:serde", "dep:serde_json", "dep:tokio"]
+server = ["dep:ay-gemini", "dep:ay-model", "dep:ay-proc", "dep:axum", "dep:ay-http", "dep:rustls", "dep:serde", "dep:serde_json", "dep:tokio"]
 
 [lib]
 name = "ay_llama"
 path = "src/lib.rs"
 
 [dependencies]
+ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }
 async-trait = { version = "0.1.92", optional = true }
 axum = { version = "0.8", default-features = false, features = ["json", "query", "tokio", "http1", "http2"], optional = true }
 ay-gemini = { path = "../ay-gemini", default-features = false, features = ["web"], optional = true }
@@ -40,8 +41,7 @@ libloading = { version = "0.9.1", optional = true }
 llguidance = { version = "1.9.1", optional = true }
 minijinja = { version = "3.1.0", features = ["json"], optional = true }
 minijinja-contrib = { version = "3.1.0", features = ["pycompat"], optional = true }
-reqwest = { version = "0.13.5", default-features = false, features = ["rustls-no-provider", "json", "stream", "form", "query", "charset", "http2", "system-proxy", "blocking", "cookies", "gzip", "brotli", "deflate", "socks", "multipart"], optional = true }
-rustls = { version = "0.23.46", default-features = false, features = ["ring", "std", "tls12"], optional = true }
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"], optional = true }
 serde = { version = "1.0.229", default-features = false, features = ["derive", "std"], optional = true }
 serde_json = { version = "1.0.154", optional = true }
 thiserror = "2.0.21"

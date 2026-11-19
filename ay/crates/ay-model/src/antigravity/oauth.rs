@@ -374,7 +374,7 @@ fn percent_decode(value: &str) -> String {
 /// Exchange the authorization `code` (with the PKCE `code_verifier`) for an
 /// [`OAuthToken`] at the Google token endpoint.
 async fn exchange_code(code: &str, verifier: &str) -> Result<OAuthToken, SdkError> {
-    let client = reqwest::Client::new();
+    let client = ay_http::Client::new();
     let secret = crate::antigravity::auth::resolve_client_secret_from_env();
     let mut params = vec![
         ("client_id", ANTIGRAVITY_CLIENT_ID),

@@ -101,7 +101,7 @@ pub enum AuthError {
 
     /// HTTP transport failure during a token request.
     #[error("HTTP error during token request: {0}")]
-    Http(#[from] reqwest::Error),
+    Http(#[from] ay_http::Error),
 
     /// Token endpoint returned a non-2xx response.
     #[error("token endpoint returned {status}: {body}")]
@@ -386,7 +386,7 @@ pub fn build_refresh_body(
 /// - [`AuthError::TokenStatus`] — Google returned a non-2xx status.
 /// - [`AuthError::Json`] — response body was not valid JSON.
 pub async fn request_token_grant(
-    client: &reqwest::Client,
+    client: &ay_http::Client,
     body: String,
 ) -> Result<TokenResponse, AuthError> {
     let resp = client
@@ -418,7 +418,7 @@ pub async fn request_token_grant(
 /// Surfaces any [`AuthError`] from the underlying token grant or the
 /// `into_credentials` step.
 pub async fn exchange_code_for_tokens(
-    client: &reqwest::Client,
+    client: &ay_http::Client,
     client_id: &str,
     client_secret: Option<&str>,
     code: &str,
@@ -439,7 +439,7 @@ pub async fn exchange_code_for_tokens(
 ///
 /// Surfaces any [`AuthError`] from the underlying token grant.
 pub async fn refresh_tokens(
-    client: &reqwest::Client,
+    client: &ay_http::Client,
     client_id: &str,
     client_secret: Option<&str>,
     existing: &GeminiCliCredentials,

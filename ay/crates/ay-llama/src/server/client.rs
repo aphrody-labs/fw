@@ -35,7 +35,7 @@ pub struct LoraStatus {
 pub enum ClientError {
     /// Transport failure.
     #[error("llama-server request failed: {0}")]
-    Http(#[from] reqwest::Error),
+    Http(#[from] ay_http::Error),
     /// The server answered with an error status.
     #[error("llama-server answered {status}: {body}")]
     Status {
@@ -52,7 +52,7 @@ pub enum ClientError {
 /// Client for the non-OpenAI endpoints of one server.
 #[derive(Debug, Clone)]
 pub struct ServerClient {
-    http: reqwest::Client,
+    http: ay_http::Client,
     server_url: String,
 }
 
@@ -62,8 +62,8 @@ impl ServerClient {
     pub fn new(server_url: impl Into<String>) -> Self {
         // rustls needs a process-wide provider before the first client
         // (idempotent; harmless for plain-http loopback traffic).
-        let _ = rustls::crypto::ring::default_provider().install_default();
-        let http = reqwest::Client::builder()
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
+        let http = ay_http::Client::builder()
             .connect_timeout(Duration::from_secs(2))
             .no_proxy()
             .build()
@@ -78,7 +78,7 @@ impl ServerClient {
         format!("{}{path}", self.server_url)
     }
 
-    async fn checked(response: reqwest::Response) -> Result<reqwest::Response, ClientError> {
+    async fn checked(response: ay_http::Response) -> Result<ay_http::Response, ClientError> {
         let status = response.status();
         if status.is_success() {
             return Ok(response);
@@ -97,7 +97,7 @@ impl ServerClient {
             .timeout(Duration::from_secs(3));
         match request.send().await {
             Ok(response) if response.status().is_success() => Health::Ready,
-            Ok(response) if response.status() == reqwest::StatusCode::SERVICE_UNAVAILABLE => {
+            Ok(response) if response.status() == ay_http::StatusCode::SERVICE_UNAVAILABLE => {
                 Health::Loading
             }
             Ok(response) => Health::Down(format!("unexpected status {}", response.status())),

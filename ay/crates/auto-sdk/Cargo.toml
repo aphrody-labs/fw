@@ -7,7 +7,7 @@ license.workspace = true
 description = "Unified Aphrody Auto SDK library + single LTO/AOT executable: modern Rust Better Auth, billing/Factur-X/DOCX/XLSX/PPTX/PDF engines, HLC sync client, MCP router, and real-time L7 load balancer"
 
 [features]
-runtime = ["dep:axum", "dep:reqwest", "dep:tokio", "dep:toml", "native", "auth", "client"]
+runtime = ["dep:axum", "dep:ay-http", "dep:tokio", "dep:toml", "native", "auth", "client"]
 native = ["dep:axum", "dep:getrandom", "dep:rusqlite", "dep:tokio"]
 auth = ["dep:argon2", "dep:chacha20poly1305", "dep:ed25519-dalek", "dep:hmac", "dep:p256", "dep:scrypt", "dep:sha1", "dep:subtle"]
 client = ["dep:ed25519-dalek", "model"]
@@ -26,6 +26,7 @@ name = "aphrody_auto"
 path = "src/lib.rs"
 
 [dependencies]
+ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }
 ay-rag-core = { path = "../ay-rag-core", default-features = false, optional = true }
 argon2 = { workspace = true, optional = true }
 axum = { workspace = true, optional = true }
@@ -50,7 +51,6 @@ flate2 = { workspace = true, optional = true }
 getrandom = { workspace = true, optional = true }
 hmac = { workspace = true, optional = true }
 p256 = { workspace = true, optional = true }
-reqwest = { workspace = true, optional = true }
 rusqlite = { workspace = true, optional = true }
 scrypt = { workspace = true, optional = true }
 serde.workspace = true

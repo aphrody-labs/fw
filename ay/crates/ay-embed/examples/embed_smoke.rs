@@ -30,7 +30,7 @@ fn main() -> ay_embed::Result<()> {
     use ay_embed::{Embedder, EmbeddingModelKind};
 
     // Install the rustls ring provider before any rustls client (hf-hub).
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
 
     let model = EmbeddingModelKind::default(); // bge-small-en-v1.5, 384 dims
     eprintln!("loading model {model} (dim={}) ...", model.dimension());

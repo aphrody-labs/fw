@@ -47,7 +47,7 @@ fn parse_args(mut args: impl Iterator<Item = String>) -> Result<Args, String> {
 pub fn cli_main(args: Vec<OsString>) -> i32 {
     // reqwest is built with `rustls-no-provider`: install the process-wide rustls
     // crypto provider before any HTTP client exists (building one without it panics).
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     let args = match parse_args(
         args.into_iter()
             .skip(1)

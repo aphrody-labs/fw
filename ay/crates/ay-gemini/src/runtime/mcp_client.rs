@@ -246,7 +246,7 @@ mod tests {
     #[tokio::test]
     async fn custom_http_headers_reach_handshake_notification_and_tool_list() {
         use std::io::{BufRead as _, Read as _, Write as _};
-        let _ = rustls::crypto::ring::default_provider().install_default();
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         let listener = std::net::TcpListener::bind("127.0.0.1:0").expect("bind local fixture");
         let address = listener.local_addr().expect("fixture address");
         let server = std::thread::spawn(move || {

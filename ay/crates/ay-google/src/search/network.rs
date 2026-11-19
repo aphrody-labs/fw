@@ -23,17 +23,17 @@ const DESKTOP_UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 const SOCS: &str = "CAESHAgBEhJnd3NfMjAyNDA5MDktMF9SQzIaAmVuIAEaBgiA_L-3Bg";
 const TIMEOUT: Duration = Duration::from_secs(30);
 
-static HTTP: LazyLock<reqwest::Client> = LazyLock::new(|| {
-    let _ = rustls::crypto::ring::default_provider().install_default();
-    reqwest::Client::builder()
+static HTTP: LazyLock<ay_http::Client> = LazyLock::new(|| {
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
+    ay_http::Client::builder()
         .timeout(TIMEOUT)
-        .redirect(search_redirect_policy())
+        .redirect(search_redirect_policy)
         .build()
         .expect("static search HTTP client")
 });
 
-fn search_redirect_policy() -> reqwest::redirect::Policy {
-    reqwest::redirect::Policy::custom(|attempt| {
+fn search_redirect_policy() -> ay_http::redirect::Policy {
+    ay_http::redirect::Policy::custom(|attempt| {
         if attempt.previous().len() >= 10
             || attempt.url().scheme() != "https"
             || !attempt.url().host_str().is_some_and(is_google_domain)
@@ -895,10 +895,10 @@ mod redirect_tests {
             assert!(n > 0);
             socket.write_all(format!("HTTP/1.1 302 Found\r\nLocation: {destination}\r\nContent-Length: 0\r\nConnection: close\r\n\r\n").as_bytes()).await.unwrap();
         });
-        let _ = rustls::crypto::ring::default_provider().install_default();
-        let client = reqwest::Client::builder()
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
+        let client = ay_http::Client::builder()
             .no_proxy()
-            .redirect(search_redirect_policy())
+            .redirect(search_redirect_policy)
             .build()
             .unwrap();
         assert!(client.get(url).send().await.is_err());

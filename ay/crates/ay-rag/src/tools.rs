@@ -398,7 +398,7 @@ const WEB_API_DEFAULT_URL: &str = "http://127.0.0.1:3007";
 const WEB_API_MAX_RESPONSE_BYTES: usize = 8 * 1024 * 1024;
 
 struct WebApiConfig {
-    base_url: reqwest::Url,
+    base_url: ay_http::Url,
     token: String,
 }
 
@@ -423,7 +423,7 @@ fn web_api_config(
         .ok_or_else(|| {
             format!("{WEB_API_TOKEN_ENV} is required to ingest through Aphrody OS Web API")
         })?;
-    let base_url = reqwest::Url::parse(configured_url.as_deref().unwrap_or(WEB_API_DEFAULT_URL))
+    let base_url = ay_http::Url::parse(configured_url.as_deref().unwrap_or(WEB_API_DEFAULT_URL))
         .map_err(|_| format!("{WEB_API_URL_ENV} must be a loopback HTTP origin"))?;
     let loopback = base_url
         .host_str()
@@ -448,7 +448,7 @@ async fn fetch_os_web_markdown(
     force: bool,
     budget: Duration,
 ) -> Result<String, String> {
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     let mut endpoint = config
         .base_url
         .join("api/v1/page")
@@ -460,10 +460,10 @@ async fn fetch_os_web_markdown(
             query.append_pair("force", "true");
         }
     }
-    let client = reqwest::Client::builder()
+    let client = ay_http::Client::builder()
         .timeout(budget)
         .no_proxy()
-        .redirect(reqwest::redirect::Policy::none())
+        .redirect_none()
         .build()
         .map_err(|_| "could not initialize Aphrody OS Web API client".to_string())?;
     let mut response = client

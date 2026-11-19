@@ -6,7 +6,7 @@
 //! and the optional model-selector header are the only Gemini-specific bits.
 //! A future stealth path (TLS impersonation via the planned
 //! `aphrody-impersonate` crate, cf. `docs/research/bxc-google-module-chrome-mcp.md`)
-//! can replace the inner `reqwest::Client` without touching this surface.
+//! can replace the inner `ay_http::Client` without touching this surface.
 
 use std::sync::{
     atomic::{AtomicU64, Ordering},
@@ -15,7 +15,7 @@ use std::sync::{
 #[cfg(not(target_arch = "wasm32"))]
 use std::time::Duration;
 
-use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
+use ay_http::header::{HeaderMap, HeaderName, HeaderValue};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -46,7 +46,7 @@ pub struct SessionTokens {
 /// Holds the reqwest client, credentials, session tokens and `_reqid` counter.
 #[derive(Debug, Clone)]
 pub struct HttpTransport {
-    client: reqwest::Client,
+    client: ay_http::Client,
     auth: Arc<Auth>,
     tokens: SessionTokens,
     req_counter: Arc<AtomicU64>,
@@ -61,7 +61,7 @@ impl HttpTransport {
     /// Returns [`GeminiError::Network`] if the reqwest client cannot be built.
     pub fn new(auth: Auth, tokens: SessionTokens) -> Result<Self> {
         #[cfg(not(target_arch = "wasm32"))]
-        let client = reqwest::Client::builder()
+        let client = ay_http::Client::builder()
             .user_agent(USER_AGENT_CHROME)
             // HTTP/1.1 only: over HTTP/2 gemini.google.com resets the stream with
             // PROTOCOL_ERROR for this client (measured 2026-09-21: h2 -> RST_STREAM,
@@ -73,7 +73,7 @@ impl HttpTransport {
             .map_err(|e| GeminiError::Network(format!("reqwest builder: {e}")))?;
 
         #[cfg(target_arch = "wasm32")]
-        let client = reqwest::Client::builder()
+        let client = ay_http::Client::builder()
             .user_agent(USER_AGENT_CHROME)
             .build()
             .map_err(|e| GeminiError::Network(format!("reqwest builder: {e}")))?;
@@ -110,11 +110,11 @@ impl HttpTransport {
     fn build_headers(&self, content_length: usize, model: Option<&str>) -> Result<HeaderMap> {
         let mut headers = HeaderMap::new();
         headers.insert(
-            reqwest::header::CONTENT_TYPE,
+            ay_http::header::CONTENT_TYPE,
             HeaderValue::from_static("application/x-www-form-urlencoded;charset=UTF-8"),
         );
         headers.insert(
-            reqwest::header::CONTENT_LENGTH,
+            ay_http::header::CONTENT_LENGTH,
             HeaderValue::from_str(&content_length.to_string())
                 .map_err(|e| GeminiError::Network(format!("invalid content-length: {e}")))?,
         );
@@ -198,7 +198,7 @@ impl HttpTransport {
             .await?;
         let status = response.status();
         let text = response.text().await?;
-        if status == reqwest::StatusCode::UNAUTHORIZED || status == reqwest::StatusCode::FORBIDDEN {
+        if status == ay_http::StatusCode::UNAUTHORIZED || status == ay_http::StatusCode::FORBIDDEN {
             return Err(GeminiError::Auth(format!(
                 "{status}: StreamGenerate rejected"
             )));
@@ -259,7 +259,7 @@ impl HttpTransport {
             .await?;
         let status = response.status();
         let text = response.text().await?;
-        if status == reqwest::StatusCode::UNAUTHORIZED || status == reqwest::StatusCode::FORBIDDEN {
+        if status == ay_http::StatusCode::UNAUTHORIZED || status == ay_http::StatusCode::FORBIDDEN {
             return Err(GeminiError::Auth(format!(
                 "{status}: rejected by batchexecute"
             )));
@@ -324,7 +324,7 @@ impl HttpTransport {
         let status = response.status();
         let text = response.text().await?;
 
-        if status == reqwest::StatusCode::UNAUTHORIZED || status == reqwest::StatusCode::FORBIDDEN {
+        if status == ay_http::StatusCode::UNAUTHORIZED || status == ay_http::StatusCode::FORBIDDEN {
             return Err(GeminiError::Auth(format!(
                 "{status}: cookie/at rejected by batchexecute (session expired?)"
             )));
@@ -362,13 +362,13 @@ impl HttpTransport {
             HeaderName::from_static("authority"),
             HeaderValue::from_static("content-push.googleapis.com"),
         );
-        base_headers.insert(reqwest::header::ACCEPT, HeaderValue::from_static("*/*"));
+        base_headers.insert(ay_http::header::ACCEPT, HeaderValue::from_static("*/*"));
         base_headers.insert(
-            reqwest::header::ACCEPT_LANGUAGE,
+            ay_http::header::ACCEPT_LANGUAGE,
             HeaderValue::from_static("en-US,en;q=0.7"),
         );
         base_headers.insert(
-            reqwest::header::AUTHORIZATION,
+            ay_http::header::AUTHORIZATION,
             HeaderValue::from_static("Basic c2F2ZXM6cyNMdGhlNmxzd2F2b0RsN3J1d1U="),
         );
         base_headers.insert(
@@ -391,7 +391,7 @@ impl HttpTransport {
         // 1. OPTIONS preflight to base upload URL
         let preflight_resp = self
             .client
-            .request(reqwest::Method::OPTIONS, upload_url_base)
+            .request(ay_http::Method::OPTIONS, upload_url_base)
             .headers(base_headers.clone())
             .send()
             .await
@@ -406,7 +406,7 @@ impl HttpTransport {
         // 2. POST start request to establish resumable session
         let mut start_headers = base_headers.clone();
         start_headers.insert(
-            reqwest::header::CONTENT_TYPE,
+            ay_http::header::CONTENT_TYPE,
             HeaderValue::from_static("application/x-www-form-urlencoded;charset=UTF-8"),
         );
         start_headers.insert(
@@ -469,7 +469,7 @@ impl HttpTransport {
 
         let preflight2_resp = self
             .client
-            .request(reqwest::Method::OPTIONS, &upload_url)
+            .request(ay_http::Method::OPTIONS, &upload_url)
             .headers(custom_options_headers)
             .send()
             .await
@@ -484,7 +484,7 @@ impl HttpTransport {
         // 4. POST the raw data bytes
         let mut upload_headers = base_headers.clone();
         upload_headers.insert(
-            reqwest::header::CONTENT_TYPE,
+            ay_http::header::CONTENT_TYPE,
             HeaderValue::from_static("application/x-www-form-urlencoded;charset=UTF-8"),
         );
         upload_headers.insert(

@@ -14,6 +14,7 @@ name = "ay_google"
 path = "src/lib.rs"
 
 [dependencies]
+ay-http = { path = "../ay-http", default-features = false, features = ["client"] }
 ay-model = { path = "../ay-model", default-features = false, features = ["antigravity"] }
 ay-gemini = { path = "../ay-gemini", default-features = false, features = ["web"] }
 serde.workspace = true
@@ -27,7 +28,6 @@ chrono = { version = "0.4.45", default-features = false }
 clap = { workspace = true, features = ["derive", "env"] }
 futures = { version = "0.3.34", default-features = false, features = ["std", "async-await"] }
 regex = { version = "1.13.2", default-features = false }
-reqwest = { version = "0.13.5", default-features = false }
 rusqlite = { workspace = true, features = ["bundled"] }
 rustls = { version = "0.23.46", default-features = false }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }

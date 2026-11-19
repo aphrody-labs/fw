@@ -24,7 +24,7 @@ static RUSTLS: Once = Once::new();
 /// none is installed — see CLAUDE.md §7.
 fn install_rustls_provider() {
     RUSTLS.call_once(|| {
-        let _ = rustls::crypto::ring::default_provider().install_default();
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     });
 }
 

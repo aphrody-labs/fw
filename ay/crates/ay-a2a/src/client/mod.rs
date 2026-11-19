@@ -4,7 +4,7 @@
 // Platform support:
 //
 // - Native (Linux / Windows / macOS): full support. reqwest uses OS networking (mio / hyper /
-//   rustls). The `rustls-tls` and `native-tls` features are only meaningful on native targets.
+//   rustls). The `rustls-tls` feature is only meaningful on native targets.
 //
 // - wasm32-unknown-unknown (browser): JSON-RPC + REST transports via reqwest browser `fetch`
 //   backend. No TLS crate needed. SSE streaming via `response.bytes_stream()`. gRPC (server-side
@@ -106,18 +106,18 @@ pub(crate) fn a2a_error_from_details(
     }
 }
 
-// reqwest::Certificate and rustls are not available on wasm32 / WASI.
-// The `rustls-tls` / `native-tls` features only activate on native targets.
+// ay_http::Certificate and rustls are not available on wasm32 / WASI.
+// The `rustls-tls` feature only activate on native targets.
 #[cfg(all(
     not(target_family = "wasm"),
-    any(feature = "rustls-tls", feature = "native-tls")
+    feature = "rustls-tls"
 ))]
 pub(crate) fn build_reqwest_client_with_root_pem(
     pem: &[u8],
-) -> Result<reqwest::Client, crate::A2AError> {
-    let cert = reqwest::Certificate::from_pem(pem)
+) -> Result<ay_http::Client, crate::A2AError> {
+    let cert = ay_http::Certificate::from_pem(pem)
         .map_err(|e| crate::A2AError::internal(format!("invalid PEM certificate: {e}")))?;
-    reqwest::Client::builder()
+    ay_http::Client::builder()
         .add_root_certificate(cert)
         .build()
         .map_err(|e| crate::A2AError::internal(format!("failed to build HTTP client: {e}")))
@@ -139,8 +139,8 @@ pub(crate) mod test_utils {
     }
 
     /// Install the rustls `ring` `CryptoProvider` exactly once for the whole
-    /// test process. Required because `reqwest::Client::new()` and
-    /// `reqwest::Client::builder().build()` instantiate a rustls
+    /// test process. Required because `ay_http::Client::new()` and
+    /// `ay_http::Client::builder().build()` instantiate a rustls
     /// `ClientConfig`, and rustls 0.23+ refuses to pick a default provider
     /// implicitly. Without this every transport test panics with
     /// `No provider set` (origin: reqwest/async_impl/client.rs).
@@ -149,7 +149,7 @@ pub(crate) mod test_utils {
         use std::sync::Once;
         static ONCE: Once = Once::new();
         ONCE.call_once(|| {
-            let _ = rustls::crypto::ring::default_provider().install_default();
+            let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         });
     }
 }

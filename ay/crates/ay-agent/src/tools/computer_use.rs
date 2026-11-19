@@ -866,7 +866,7 @@ fn parse_mcp_reply(text: &str) -> Option<Value> {
 pub struct RemoteComputerBackend {
     target: RemoteComputerTarget,
     mode: RemoteComputerMode,
-    client: reqwest::Client,
+    client: ay_http::Client,
     /// Streamable HTTP MCP session (`Mcp-Session-Id`), opened on first call.
     session: tokio::sync::Mutex<Option<String>>,
 }
@@ -875,7 +875,7 @@ impl RemoteComputerBackend {
     /// Create a new remote backend for the specified target and mode.
     #[must_use]
     pub fn new(target: RemoteComputerTarget, mode: RemoteComputerMode) -> Self {
-        let client = reqwest::Client::builder()
+        let client = ay_http::Client::builder()
             .timeout(Duration::from_secs(30))
             .build()
             .unwrap_or_default();
@@ -918,7 +918,7 @@ impl RemoteComputerBackend {
             }
             let (status, _, body) = self.post(&payload, session.as_deref()).await?;
             // An expired or unknown session is reopened once.
-            if status == reqwest::StatusCode::NOT_FOUND && attempt == 0 {
+            if status == ay_http::StatusCode::NOT_FOUND && attempt == 0 {
                 *session = None;
                 continue;
             }
@@ -960,7 +960,7 @@ impl RemoteComputerBackend {
         &self,
         payload: &Value,
         session: Option<&str>,
-    ) -> Result<(reqwest::StatusCode, Option<String>, Option<Value>), ToolError> {
+    ) -> Result<(ay_http::StatusCode, Option<String>, Option<Value>), ToolError> {
         let mut req = self
             .client
             .post(&self.target.endpoint)
@@ -972,7 +972,7 @@ impl RemoteComputerBackend {
             // ("Forbidden: Host header is not allowed"), so the mesh address reqwest would
             // derive (e.g. 10.0.0.10:8793) is refused. Present the loopback identity the
             // server actually listens on; the portproxy already routed us there.
-            .header(reqwest::header::HOST, "localhost")
+            .header(ay_http::header::HOST, "localhost")
             .json(payload);
         if let Some(token) = self.bearer() {
             req = req.bearer_auth(token);
@@ -1016,7 +1016,7 @@ impl RemoteComputerBackend {
             return Err(self.error(format!(
                 "remote MCP initialize: HTTP {status} from {}{}",
                 self.target.endpoint,
-                if status == reqwest::StatusCode::UNAUTHORIZED {
+                if status == ay_http::StatusCode::UNAUTHORIZED {
                     format!(
                         " (set {} or run aphrody infra remote token set mcp)",
                         rd::tokens::TokenKind::Mcp.env()

@@ -109,12 +109,12 @@ fn mcp_loader_parses_claude_format() {
 ///     result deserialises to a non-empty content string.
 #[tokio::test]
 async fn tool_trait_web_search_invokes() {
-    // Required to construct a reqwest::Client in this workspace — the global
+    // Required to construct a ay_http::Client in this workspace — the global
     // CryptoProvider must be installed before any TLS handshake.
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
 
     let tool = WebSearchTool::new(
-        reqwest::Client::new(),
+        ay_http::Client::new(),
         WebSearchConfig::with_api_key(
             std::env::var("GEMINI_API_KEY").unwrap_or_else(|_| "AIza-fake".to_owned()),
         ),
@@ -147,7 +147,7 @@ async fn tool_trait_web_search_invokes() {
     if std::env::var("GEMINI_API_KEY").is_ok() {
         let mut reg = ToolRegistry::new();
         reg.register(Arc::new(WebSearchTool::new(
-            reqwest::Client::new(),
+            ay_http::Client::new(),
             WebSearchConfig::with_api_key(std::env::var("GEMINI_API_KEY").unwrap()),
         )));
         let res = reg

@@ -15,8 +15,8 @@ crates/ay-fsindex/src/mft.rs                     # fixture: Windows paths resolv
 crates/ay-fsindex/src/paths.rs                   # fixture: a legacy index file with Windows paths
 crates/ay-jobs/src/lib.rs                        # fixture: a POSIX state root for the default path helpers
 crates/ay-sql/tests/product-schema.sql           # fixture: unsafe path strings the schema must refuse
-crates/ay-toolcall-repair/src/repair_tests.rs    # fixture: unescaped Windows paths in model output
-crates/ay-toolcall-repair/tests/fixtures/**      # fixtures: unescaped Windows paths in model output
+crates/ay-toolcall/src/repair/repair_tests.rs    # fixture: unescaped Windows paths in model output
+crates/ay-toolcall/tests/fixtures/**      # fixtures: unescaped Windows paths in model output
 crates/ay-subsystem/src/lib.rs                   # fixture: a Windows path in skill parameters
 crates/ay-app-protocol/tests/tier1_contract.rs   # fixture: cwd and home values of the protocol examples
 
@@ -27,7 +27,7 @@ config/pwsh/profile.ps1
 crates/ay-re/src/adobe.rs
 crates/ay-re/src/minidump.rs
 crates/ay-re/src/pipeline/ghidra.rs
-crates/ay-sh-pty/src/lib.rs
+crates/ay-sh/src/pty/mod.rs
 tools/shells.ts
 tools/shells.test.ts
 

@@ -6,7 +6,7 @@ use async_trait::async_trait;
 use crate::*;
 use crate::pb::protojson_conv::{self, ProtoJsonPayload};
 use futures::stream::{self, StreamExt};
-use reqwest::Client;
+use ay_http::Client;
 use serde_json::Value;
 
 use crate::client::{
@@ -184,7 +184,7 @@ fn find_event_boundary(buf: &[u8]) -> Option<(usize, usize)> {
 /// from `crate::client::lib` on wasm32 targets).
 #[cfg(not(target_family = "wasm"))]
 fn parse_sse_bytes<F>(
-    stream: impl futures::Stream<Item = Result<bytes::Bytes, reqwest::Error>> + Send + 'static,
+    stream: impl futures::Stream<Item = Result<bytes::Bytes, ay_http::Error>> + Send + 'static,
     parse_event: F,
 ) -> BoxStream<'static, Result<StreamResponse, A2AError>>
 where
@@ -235,7 +235,7 @@ where
 
 #[cfg(target_family = "wasm")]
 fn parse_sse_bytes<F>(
-    stream: impl futures::Stream<Item = Result<bytes::Bytes, reqwest::Error>> + 'static,
+    stream: impl futures::Stream<Item = Result<bytes::Bytes, ay_http::Error>> + 'static,
     parse_event: F,
 ) -> BoxStream<'static, Result<StreamResponse, A2AError>>
 where
@@ -287,14 +287,14 @@ where
 /// Parse an SSE byte stream into StreamResponse events (JSON-RPC envelope).
 #[cfg(not(target_family = "wasm"))]
 fn parse_sse_stream(
-    stream: impl futures::Stream<Item = Result<bytes::Bytes, reqwest::Error>> + Send + 'static,
+    stream: impl futures::Stream<Item = Result<bytes::Bytes, ay_http::Error>> + Send + 'static,
 ) -> BoxStream<'static, Result<StreamResponse, A2AError>> {
     parse_sse_bytes(stream, parse_sse_jsonrpc_event)
 }
 
 #[cfg(target_family = "wasm")]
 fn parse_sse_stream(
-    stream: impl futures::Stream<Item = Result<bytes::Bytes, reqwest::Error>> + 'static,
+    stream: impl futures::Stream<Item = Result<bytes::Bytes, ay_http::Error>> + 'static,
 ) -> BoxStream<'static, Result<StreamResponse, A2AError>> {
     parse_sse_bytes(stream, parse_sse_jsonrpc_event)
 }
@@ -349,14 +349,14 @@ fn parse_sse_jsonrpc_event(event_text: &str) -> Option<Result<StreamResponse, A2
 /// raw StreamResponse JSON (not wrapped in a JSON-RPC envelope).
 #[cfg(not(target_family = "wasm"))]
 pub(crate) fn parse_sse_stream_rest(
-    stream: impl futures::Stream<Item = Result<bytes::Bytes, reqwest::Error>> + Send + 'static,
+    stream: impl futures::Stream<Item = Result<bytes::Bytes, ay_http::Error>> + Send + 'static,
 ) -> BoxStream<'static, Result<StreamResponse, A2AError>> {
     parse_sse_bytes(stream, parse_sse_rest_event)
 }
 
 #[cfg(target_family = "wasm")]
 pub(crate) fn parse_sse_stream_rest(
-    stream: impl futures::Stream<Item = Result<bytes::Bytes, reqwest::Error>> + 'static,
+    stream: impl futures::Stream<Item = Result<bytes::Bytes, ay_http::Error>> + 'static,
 ) -> BoxStream<'static, Result<StreamResponse, A2AError>> {
     parse_sse_bytes(stream, parse_sse_rest_event)
 }
@@ -543,7 +543,7 @@ impl JsonRpcTransportFactory {
     // Custom root certificates require TLS crates not available on wasm32.
     #[cfg(all(
         not(target_family = "wasm"),
-        any(feature = "rustls-tls", feature = "native-tls")
+        feature = "rustls-tls"
     ))]
     pub fn with_root_certificates_pem(pem: &[u8]) -> Result<Self, A2AError> {
         Ok(Self {
@@ -591,7 +591,7 @@ mod tests {
     /// Helper: build an SSE byte stream from raw text chunks.
     fn byte_stream(
         chunks: Vec<String>,
-    ) -> impl futures::Stream<Item = Result<bytes::Bytes, reqwest::Error>> + Send + 'static {
+    ) -> impl futures::Stream<Item = Result<bytes::Bytes, ay_http::Error>> + Send + 'static {
         stream::iter(
             chunks
                 .into_iter()
@@ -1017,8 +1017,8 @@ mod tests {
         let raw1 = bytes[..split].to_vec();
         let raw2 = bytes[split..].to_vec();
         let raw_stream = stream::iter(vec![
-            Ok::<_, reqwest::Error>(bytes::Bytes::from(raw1)),
-            Ok::<_, reqwest::Error>(bytes::Bytes::from(raw2)),
+            Ok::<_, ay_http::Error>(bytes::Bytes::from(raw1)),
+            Ok::<_, ay_http::Error>(bytes::Bytes::from(raw2)),
         ]);
         let items: Vec<_> = parse_sse_stream(raw_stream).collect().await;
         assert_eq!(items.len(), 1, "expected one event, got {items:?}");
@@ -1045,7 +1045,7 @@ mod tests {
         let mut bytes = b"data: ".to_vec();
         bytes.push(0xFF); // never valid in UTF-8
         bytes.extend_from_slice(b"\n\n");
-        let raw_stream = stream::iter(vec![Ok::<_, reqwest::Error>(bytes::Bytes::from(bytes))]);
+        let raw_stream = stream::iter(vec![Ok::<_, ay_http::Error>(bytes::Bytes::from(bytes))]);
         let items: Vec<_> = parse_sse_stream(raw_stream).collect().await;
         assert_eq!(items.len(), 1, "expected one error item, got {items:?}");
         let err = items.into_iter().next().unwrap().expect_err("should error");
@@ -1094,22 +1094,22 @@ mod tests {
 
     /// Errors yielded by the underlying byte stream must be surfaced to the
     /// consumer rather than swallowed.  `futures::stream::iter` only accepts
-    /// `Ok` variants typed as `reqwest::Error`, so we need an actual
-    /// reqwest::Error instance — obtained by issuing a request against an
+    /// `Ok` variants typed as `ay_http::Error`, so we need an actual
+    /// ay_http::Error instance — obtained by issuing a request against an
     /// address that cannot accept a connection.
     #[tokio::test]
     async fn test_parse_sse_stream_surfaces_stream_errors() {
         install_rustls_provider();
-        // Produce a real reqwest::Error by hitting a listener we bound and
+        // Produce a real ay_http::Error by hitting a listener we bound and
         // then dropped, so the connect fails immediately.
         let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
         let addr = listener.local_addr().unwrap();
         drop(listener);
-        let err = reqwest::get(format!("http://{addr}/"))
+        let err = ay_http::get(format!("http://{addr}/"))
             .await
             .expect_err("connection should fail");
 
-        let s = stream::iter(vec![Err::<bytes::Bytes, reqwest::Error>(err)]);
+        let s = stream::iter(vec![Err::<bytes::Bytes, ay_http::Error>(err)]);
         let items: Vec<_> = parse_sse_stream(s).collect().await;
         assert_eq!(items.len(), 1, "expected one error item, got {items:?}");
         let got = items.into_iter().next().unwrap().expect_err("should error");
@@ -1126,11 +1126,11 @@ mod tests {
         let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
         let addr = listener.local_addr().unwrap();
         drop(listener);
-        let err = reqwest::get(format!("http://{addr}/"))
+        let err = ay_http::get(format!("http://{addr}/"))
             .await
             .expect_err("connection should fail");
 
-        let s = stream::iter(vec![Err::<bytes::Bytes, reqwest::Error>(err)]);
+        let s = stream::iter(vec![Err::<bytes::Bytes, ay_http::Error>(err)]);
         let items: Vec<_> = parse_sse_stream_rest(s).collect().await;
         assert_eq!(items.len(), 1, "expected one error item, got {items:?}");
         let got = items.into_iter().next().unwrap().expect_err("should error");

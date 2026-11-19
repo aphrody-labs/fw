@@ -88,13 +88,13 @@ impl Default for TranslateOptions {
 
 #[derive(Clone)]
 pub struct GoogleTranslateClient {
-    client: reqwest::Client,
+    client: ay_http::Client,
 }
 
 impl GoogleTranslateClient {
     pub fn new() -> Result<Self, String> {
-        let _ = rustls::crypto::ring::default_provider().install_default();
-        let client = reqwest::Client::builder()
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
+        let client = ay_http::Client::builder()
             .user_agent(USER_AGENT)
             .build()
             .map_err(|error| error.to_string())?;
@@ -133,7 +133,7 @@ impl GoogleTranslateClient {
                 ])
                 .timeout(options.timeout);
             let request = if let Some(cookie) = &options.cookie_header {
-                request.header(reqwest::header::COOKIE, cookie)
+                request.header(ay_http::header::COOKIE, cookie)
             } else {
                 request
             };
@@ -173,7 +173,7 @@ impl GoogleTranslateClient {
             ])
             .timeout(options.timeout);
         let request = if let Some(cookie) = &options.cookie_header {
-            request.header(reqwest::header::COOKIE, cookie)
+            request.header(ay_http::header::COOKIE, cookie)
         } else {
             request
         };

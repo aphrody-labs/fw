@@ -22,8 +22,17 @@ pub mod server;
 #[cfg(feature = "client")]
 pub use client::{Client, ClientBuilder, RequestBuilder};
 
+/// `GET` with a fresh default client (the shape of `reqwest::get`).
+///
+/// # Errors
+/// Any transport error.
+#[cfg(feature = "client")]
+pub async fn get<U: IntoUrl>(url: U) -> Result<Response> {
+    Client::new().get(url).send().await
+}
+
 /// The `reqwest` types of the client surface, so dependents never name `reqwest` themselves.
 #[cfg(feature = "client")]
 pub use reqwest;
 #[cfg(feature = "client")]
-pub use reqwest::{Body, Error, IntoUrl, Method, Proxy, Request, Response, Result, StatusCode, Url, Version, header, multipart, redirect};
+pub use reqwest::{Body, Certificate, Error, IntoUrl, Method, Proxy, Request, Response, Result, StatusCode, Url, Version, header, multipart, redirect};

@@ -7,7 +7,7 @@ use std::{collections::BTreeMap, time::Duration};
 
 use async_trait::async_trait;
 use futures_util::StreamExt;
-use reqwest::header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue};
+use ay_http::header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue};
 use serde_json::Value as JsonValue;
 
 use super::Transport;
@@ -90,7 +90,7 @@ impl SseResponse {
     }
 }
 
-async fn response_text(response: reqwest::Response, expected_id: Option<u64>) -> Result<String> {
+async fn response_text(response: ay_http::Response, expected_id: Option<u64>) -> Result<String> {
     if response
         .content_length()
         .is_some_and(|bytes| bytes > MAX_RESPONSE_BYTES as u64)
@@ -141,7 +141,7 @@ async fn response_text(response: reqwest::Response, expected_id: Option<u64>) ->
 
 /// HTTP transport for streamable MCP endpoints.
 pub struct HttpTransport {
-    client: reqwest::Client,
+    client: ay_http::Client,
     url: String,
     /// Headers sent with every request: `Accept`, then the caller's headers, then `Authorization`
     /// when a bearer token is configured (the explicit token wins over a same-named header).
@@ -190,9 +190,9 @@ impl HttpTransport {
 
         // The browser `fetch` owns redirects on wasm32 and strips `Authorization` on a
         // cross-origin redirect; reqwest exposes no redirect policy there.
-        let builder = reqwest::Client::builder();
+        let builder = ay_http::Client::builder();
         #[cfg(not(target_arch = "wasm32"))]
-        let builder = builder.redirect(reqwest::redirect::Policy::none());
+        let builder = builder.redirect_none();
         let client = builder.build().map_err(McpClientError::Http)?;
 
         Ok(Self {

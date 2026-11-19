@@ -1,31 +1,22 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright AGNTCY Contributors (https://github.com/agntcy)
 
-//! Re-exports for serving axum routers over HTTPS with rustls.
+//! Serving axum routers over HTTPS (h1, h2 and h3 with `Alt-Svc`) through the workspace HTTP stack.
 //!
-//! This module is available when the `rustls` feature is enabled. It
-//! re-exports compatible versions of [`rustls`] and [`axum_server`] so that
-//! consumers do not need to manually align dependency versions.
+//! Available with the `rustls` feature. Re-exports the server of [`ay_http`] and the matching [`rustls`].
 //!
 //! # Example
 //!
 //! ```no_run
-//! use std::sync::Arc;
+//! use ay_a2a::server::tls::{ServeConfig, Tls, serve};
 //!
-//! use ay_a2a::server::tls::{axum_server, rustls};
-//!
-//! # async fn example() {
-//! let tls_config = rustls::ServerConfig::builder()
-//!     .with_no_client_auth()
-//!     .with_single_cert(vec![], rustls::pki_types::PrivateKeyDer::Pkcs8(vec![].into()))
-//!     .unwrap();
-//!
-//! let app = axum::Router::new();
-//! let rustls_config = axum_server::tls_rustls::RustlsConfig::from_config(Arc::new(tls_config));
-//! let addr: std::net::SocketAddr = "0.0.0.0:3443".parse().unwrap();
-//! axum_server::bind_rustls(addr, rustls_config).serve(app.into_make_service()).await.unwrap();
+//! # async fn example(cert_pem: Vec<u8>, key_pem: Vec<u8>) -> std::io::Result<()> {
+//! let tls = Tls::from_pem(&cert_pem, &key_pem)?;
+//! let server = serve(axum::Router::new(), ServeConfig::secure("0.0.0.0:3443".parse().unwrap(), tls)).await?;
+//! server.wait().await;
+//! # Ok(())
 //! # }
 //! ```
 
-pub use axum_server;
+pub use ay_http::server::{ServeConfig, Server, Tls, serve, serve_listener, serve_on};
 pub use rustls;

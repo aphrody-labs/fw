@@ -26,7 +26,7 @@ pub struct OpenAiCompatEmbedder {
     model_id: String,
     dimension: usize,
     api_key: Option<String>,
-    client: reqwest::Client,
+    client: ay_http::Client,
 }
 
 impl OpenAiCompatEmbedder {
@@ -42,7 +42,7 @@ impl OpenAiCompatEmbedder {
             model_id: model_id.into(),
             dimension,
             api_key,
-            client: reqwest::Client::new(),
+            client: ay_http::Client::new(),
         }
     }
 }

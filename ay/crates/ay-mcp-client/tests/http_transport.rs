@@ -27,7 +27,7 @@ type Seen = (String, BTreeMap<String, String>, Value);
 fn install_crypto_provider() {
     // reqwest is built with `rustls-no-provider`; a process-wide provider has to be installed
     // before the first client exists. A second installation attempt is harmless.
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
 }
 
 /// Accept one connection and wrap it for line-oriented reads.

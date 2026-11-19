@@ -8,7 +8,7 @@ use crate::*;
 ///
 /// Sends A2A streaming events to a push notification endpoint over HTTP POST.
 pub struct HttpPushSender {
-    client: reqwest::Client,
+    client: ay_http::Client,
     fail_on_error: bool,
 }
 
@@ -32,7 +32,7 @@ impl Default for HttpPushSenderConfig {
 impl HttpPushSender {
     pub fn new(config: Option<HttpPushSenderConfig>) -> Self {
         let config = config.unwrap_or_default();
-        let client = reqwest::Client::builder()
+        let client = ay_http::Client::builder()
             .timeout(config.timeout)
             .build()
             .expect("failed to create HTTP client");

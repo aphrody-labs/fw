@@ -13,7 +13,7 @@ fn client() -> anyhow::Result<HFClient> {
     let max_retries = network::config()?.max_retries as usize;
     let http = network::http()?;
     let client = HFClient::builder()
-        .client(http)
+        .client(http.reqwest().clone())
         .cache_enabled(false)
         .retry_max_attempts(max_retries)
         .build()?;

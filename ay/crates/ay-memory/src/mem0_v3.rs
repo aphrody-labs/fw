@@ -19,7 +19,7 @@
 //! tests can point at a local axum mock without touching the network.
 
 use async_trait::async_trait;
-use reqwest::Client;
+use ay_http::Client;
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -135,7 +135,7 @@ impl Mem0V3Provider {
         let resp = self
             .client
             .post(self.endpoint("/v3/memories/add/"))
-            .header(reqwest::header::AUTHORIZATION, self.auth_header())
+            .header(ay_http::header::AUTHORIZATION, self.auth_header())
             .json(&body)
             .send()
             .await?;
@@ -161,7 +161,7 @@ impl Mem0V3Provider {
             let resp = self
                 .client
                 .get(self.endpoint(&format!("/v1/event/{event_id}/")))
-                .header(reqwest::header::AUTHORIZATION, self.auth_header())
+                .header(ay_http::header::AUTHORIZATION, self.auth_header())
                 .send()
                 .await?;
             if !resp.status().is_success() {
@@ -349,7 +349,7 @@ fn parse_iso_to_unix_ms(s: &str) -> Option<u64> {
         .map(|dt| u64::try_from(dt.timestamp_millis()).unwrap_or(0))
 }
 
-async fn lift_error(resp: reqwest::Response) -> MemoryError {
+async fn lift_error(resp: ay_http::Response) -> MemoryError {
     let status = resp.status().as_u16();
     let body = resp.text().await.unwrap_or_default();
     let message = serde_json::from_str::<ApiErrorEnvelope>(&body)
@@ -384,10 +384,10 @@ impl MemoryProvider for Mem0V3Provider {
         let resp = self
             .client
             .get(self.endpoint(&format!("/v1/memories/{id}/")))
-            .header(reqwest::header::AUTHORIZATION, self.auth_header())
+            .header(ay_http::header::AUTHORIZATION, self.auth_header())
             .send()
             .await?;
-        if resp.status() == reqwest::StatusCode::NOT_FOUND {
+        if resp.status() == ay_http::StatusCode::NOT_FOUND {
             return Ok(None);
         }
         if !resp.status().is_success() {
@@ -410,7 +410,7 @@ impl MemoryProvider for Mem0V3Provider {
             };
             self.client
                 .post(self.endpoint("/v2/memories/search/"))
-                .header(reqwest::header::AUTHORIZATION, self.auth_header())
+                .header(ay_http::header::AUTHORIZATION, self.auth_header())
                 .json(&body)
                 .send()
                 .await?
@@ -422,7 +422,7 @@ impl MemoryProvider for Mem0V3Provider {
             };
             self.client
                 .post(self.endpoint("/v3/memories/"))
-                .header(reqwest::header::AUTHORIZATION, self.auth_header())
+                .header(ay_http::header::AUTHORIZATION, self.auth_header())
                 .json(&body)
                 .send()
                 .await?
@@ -447,10 +447,10 @@ impl MemoryProvider for Mem0V3Provider {
         let resp = self
             .client
             .delete(self.endpoint(&format!("/v1/memories/{id}/")))
-            .header(reqwest::header::AUTHORIZATION, self.auth_header())
+            .header(ay_http::header::AUTHORIZATION, self.auth_header())
             .send()
             .await?;
-        if resp.status() == reqwest::StatusCode::NOT_FOUND || resp.status().is_success() {
+        if resp.status() == ay_http::StatusCode::NOT_FOUND || resp.status().is_success() {
             return Ok(());
         }
         Err(lift_error(resp).await)
@@ -466,11 +466,11 @@ impl MemoryProvider for Mem0V3Provider {
         let resp = self
             .client
             .post(self.endpoint("/v3/memories/"))
-            .header(reqwest::header::AUTHORIZATION, self.auth_header())
+            .header(ay_http::header::AUTHORIZATION, self.auth_header())
             .json(&body)
             .send()
             .await?;
-        if resp.status().is_success() || resp.status() == reqwest::StatusCode::NO_CONTENT {
+        if resp.status().is_success() || resp.status() == ay_http::StatusCode::NO_CONTENT {
             return Ok(());
         }
         Err(lift_error(resp).await)

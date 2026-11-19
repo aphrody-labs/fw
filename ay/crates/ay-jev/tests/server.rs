@@ -50,7 +50,7 @@ async fn server() -> String {
 #[tokio::test]
 async fn missing_key_gets_jev_authentication_error() {
     let base = server().await;
-    let reply = reqwest::Client::new()
+    let reply = ay_http::Client::new()
         .post(format!("{base}/v1/systemone"))
         .json(&json!({}))
         .send()
@@ -68,7 +68,7 @@ async fn missing_key_gets_jev_authentication_error() {
 #[tokio::test]
 async fn valid_request_is_served_and_invalid_one_is_422() {
     let base = server().await;
-    let client = reqwest::Client::new();
+    let client = ay_http::Client::new();
     let ok: Value = client
         .post(format!("{base}/v1/systemone"))
         .bearer_auth("devkey")
@@ -118,7 +118,7 @@ async fn confidence_policy_preserves_auth_and_rejects_invalid_thresholds_before_
         "fixture",
     )))
     .await;
-    let client = reqwest::Client::new();
+    let client = ay_http::Client::new();
     let request = json!({"state":"synthetic fixture","model":"fixture","questions":{"tool":{"type":"choice","instructions":"Select a tool","criteria":{"read":"Read","search":"Search"}}}});
     let denied = client
         .post(format!("{base}/v1/systemone?minimum_confidence=NaN"))

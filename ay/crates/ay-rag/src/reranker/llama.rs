@@ -4,7 +4,7 @@
 use std::time::Duration;
 
 use async_trait::async_trait;
-use reqwest::header::{AUTHORIZATION, CONTENT_TYPE, HeaderMap, HeaderValue};
+use ay_http::header::{AUTHORIZATION, CONTENT_TYPE, HeaderMap, HeaderValue};
 use serde::{Deserialize, Serialize};
 
 use super::Reranker;
@@ -18,7 +18,7 @@ use crate::{
 pub struct LlamaServerReranker {
     endpoint_url: String,
     model_id: String,
-    client: reqwest::Client,
+    client: ay_http::Client,
     api_key: Option<String>,
 }
 
@@ -35,7 +35,7 @@ impl LlamaServerReranker {
             format!("{}/v1/rerank", raw.trim_end_matches('/'))
         };
 
-        let client = reqwest::Client::builder()
+        let client = ay_http::Client::builder()
             .timeout(Duration::from_secs(60))
             .build()
             .unwrap_or_default();
@@ -55,7 +55,7 @@ impl LlamaServerReranker {
     }
 
     /// Set a custom HTTP client (e.g. with custom proxy, timeouts, etc.).
-    pub fn with_client(mut self, client: reqwest::Client) -> Self {
+    pub fn with_client(mut self, client: ay_http::Client) -> Self {
         self.client = client;
         self
     }

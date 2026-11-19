@@ -40,7 +40,7 @@ static RE_FSID: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#""FdrFJe":"([^"]
 /// when the page loaded but the `at`/`bl` tokens are absent.
 pub async fn fetch_session_tokens(auth: &Auth, language: Option<&str>) -> Result<SessionTokens> {
     #[cfg(not(target_arch = "wasm32"))]
-    let client = reqwest::Client::builder()
+    let client = ay_http::Client::builder()
         .user_agent(USER_AGENT_CHROME)
         // HTTP/1.1 only: over HTTP/2 gemini.google.com resets the stream with
         // PROTOCOL_ERROR for this request (measured 2026-09-21: h2 -> RST_STREAM,
@@ -51,7 +51,7 @@ pub async fn fetch_session_tokens(auth: &Auth, language: Option<&str>) -> Result
         .map_err(|e| GeminiError::Network(format!("reqwest builder: {e}")))?;
 
     #[cfg(target_arch = "wasm32")]
-    let client = reqwest::Client::builder()
+    let client = ay_http::Client::builder()
         .user_agent(USER_AGENT_CHROME)
         .build()
         .map_err(|e| GeminiError::Network(format!("reqwest builder: {e}")))?;
@@ -62,7 +62,7 @@ pub async fn fetch_session_tokens(auth: &Auth, language: Option<&str>) -> Result
     }
     let response = req.send().await.map_err(GeminiError::from)?;
     let status = response.status();
-    if status == reqwest::StatusCode::UNAUTHORIZED || status == reqwest::StatusCode::FORBIDDEN {
+    if status == ay_http::StatusCode::UNAUTHORIZED || status == ay_http::StatusCode::FORBIDDEN {
         return Err(GeminiError::Auth(format!(
             "{status}: Gemini app page rejected the cookie jar (signed out?)"
         )));

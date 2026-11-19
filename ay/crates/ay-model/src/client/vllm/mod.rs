@@ -117,7 +117,7 @@ impl VllmClient {
     /// Set connect/read timeouts on its builder; a total HTTP timeout also
     /// limits SSE generation, so use the provider's idle timeout for long turns.
     #[must_use]
-    pub fn with_http_client(mut self, http: reqwest::Client) -> Self {
+    pub fn with_http_client(mut self, http: ay_http::Client) -> Self {
         self.compat_client = self.compat_client.with_http_client(http.clone());
         self.api = self.api.with_http_client(http);
         self

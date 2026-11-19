@@ -71,7 +71,7 @@ fn turn() -> ChatTurn {
     }
 }
 fn tls() {
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
 }
 
 #[tokio::test]

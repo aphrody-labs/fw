@@ -14,7 +14,7 @@
 
 use std::env;
 
-use reqwest::Client;
+use ay_http::Client;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -163,13 +163,13 @@ mod tests {
     use super::*;
 
     /// Install the rustls `ring` `CryptoProvider` once for the test process —
-    /// `CloudflareAdapter::new` builds a `reqwest::Client`, and rustls 0.23+
+    /// `CloudflareAdapter::new` builds a `ay_http::Client`, and rustls 0.23+
     /// panics `No provider set` without an installed default provider.
     fn install_rustls_provider() {
         use std::sync::Once;
         static ONCE: Once = Once::new();
         ONCE.call_once(|| {
-            let _ = rustls::crypto::ring::default_provider().install_default();
+            let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         });
     }
 

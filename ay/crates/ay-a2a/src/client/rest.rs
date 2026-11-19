@@ -3,7 +3,7 @@
 use async_trait::async_trait;
 use crate::*;
 use crate::pb::protojson_conv::{self, ProtoJsonPayload};
-use reqwest::Client;
+use ay_http::Client;
 use serde::Deserialize;
 use serde_json::Value;
 
@@ -49,10 +49,10 @@ impl RestTransport {
 
     fn build_request(
         &self,
-        method: reqwest::Method,
+        method: ay_http::Method,
         path: &str,
         params: &ServiceParams,
-    ) -> reqwest::RequestBuilder {
+    ) -> ay_http::RequestBuilder {
         let url = format!("{}{}", self.base_url, path);
         let mut builder = self.client.request(method, &url);
         for (key, values) in params {
@@ -65,11 +65,11 @@ impl RestTransport {
 
     fn build_request_with_query(
         &self,
-        method: reqwest::Method,
+        method: ay_http::Method,
         path: &str,
         params: &ServiceParams,
         query: &[(String, String)],
-    ) -> reqwest::RequestBuilder {
+    ) -> ay_http::RequestBuilder {
         let builder = self.build_request(method, path, params);
         if query.is_empty() {
             builder
@@ -78,14 +78,14 @@ impl RestTransport {
         }
     }
 
-    async fn send(&self, builder: reqwest::RequestBuilder) -> Result<reqwest::Response, A2AError> {
+    async fn send(&self, builder: ay_http::RequestBuilder) -> Result<ay_http::Response, A2AError> {
         builder
             .send()
             .await
             .map_err(|e| A2AError::internal(format!("HTTP request failed: {e}")))
     }
 
-    async fn into_rest_error(resp: reqwest::Response) -> A2AError {
+    async fn into_rest_error(resp: ay_http::Response) -> A2AError {
         let status = resp.status();
         let body = resp.text().await.unwrap_or_default();
         parse_rest_error(status, &body)
@@ -105,7 +105,7 @@ impl RestTransport {
         })?;
         let resp = self
             .send(
-                self.build_request(reqwest::Method::POST, path, params)
+                self.build_request(ay_http::Method::POST, path, params)
                     .json(&payload),
             )
             .await?;
@@ -145,7 +145,7 @@ impl RestTransport {
         query: &[(String, String)],
     ) -> Result<Value, A2AError> {
         let resp = self
-            .send(self.build_request_with_query(reqwest::Method::GET, path, params, query))
+            .send(self.build_request_with_query(ay_http::Method::GET, path, params, query))
             .await?;
 
         if !resp.status().is_success() {
@@ -189,7 +189,7 @@ impl RestTransport {
         })?;
         let resp = self
             .send(
-                self.build_request(reqwest::Method::POST, path, params)
+                self.build_request(ay_http::Method::POST, path, params)
                     .header("Accept", "text/event-stream")
                     .json(&payload),
             )
@@ -210,7 +210,7 @@ impl RestTransport {
     ) -> Result<BoxStream<'static, Result<StreamResponse, A2AError>>, A2AError> {
         let resp = self
             .send(
-                self.build_request(reqwest::Method::GET, path, params)
+                self.build_request(ay_http::Method::GET, path, params)
                     .header("Accept", "text/event-stream"),
             )
             .await?;
@@ -225,7 +225,7 @@ impl RestTransport {
 
     async fn delete(&self, path: &str, params: &ServiceParams) -> Result<(), A2AError> {
         let resp = self
-            .send(self.build_request(reqwest::Method::DELETE, path, params))
+            .send(self.build_request(ay_http::Method::DELETE, path, params))
             .await?;
 
         if !resp.status().is_success() {
@@ -235,7 +235,7 @@ impl RestTransport {
     }
 }
 
-fn parse_rest_error(status: reqwest::StatusCode, body: &str) -> A2AError {
+fn parse_rest_error(status: ay_http::StatusCode, body: &str) -> A2AError {
     let Ok(envelope) = serde_json::from_str::<RestErrorEnvelope>(body) else {
         return A2AError::internal(format!("HTTP {status}: {body}"));
     };
@@ -430,7 +430,7 @@ impl RestTransportFactory {
     // Custom root certificates require TLS crates not available on wasm32.
     #[cfg(all(
         not(target_family = "wasm"),
-        any(feature = "rustls-tls", feature = "native-tls")
+        feature = "rustls-tls"
     ))]
     pub fn with_root_certificates_pem(pem: &[u8]) -> Result<Self, A2AError> {
         Ok(Self {
@@ -459,7 +459,7 @@ impl TransportFactory for RestTransportFactory {
 }
 
 // Tests rely on install_rustls_provider / rcgen (native-only) and
-// reqwest::Client::new() which requires a TLS provider on native targets.
+// ay_http::Client::new() which requires a TLS provider on native targets.
 // Gate to native targets to keep wasm32 checks clean.
 #[cfg(all(test, not(target_family = "wasm")))]
 mod tests {
@@ -520,7 +520,7 @@ mod tests {
         let t = RestTransport::new(Client::new(), "http://localhost:8080".into());
         let mut params = ServiceParams::new();
         params.insert("X-Custom".into(), vec!["val1".into(), "val2".into()]);
-        let builder = t.build_request(reqwest::Method::GET, "/test", &params);
+        let builder = t.build_request(ay_http::Method::GET, "/test", &params);
         let req = builder.build().unwrap();
         let vals: Vec<_> = req
             .headers()
@@ -555,7 +555,7 @@ mod tests {
         })
         .to_string();
 
-        let err = parse_rest_error(reqwest::StatusCode::NOT_FOUND, &body);
+        let err = parse_rest_error(ay_http::StatusCode::NOT_FOUND, &body);
 
         assert_eq!(err.code, error_code::TASK_NOT_FOUND);
         assert_eq!(err.message, "task not found: t1");
@@ -587,7 +587,7 @@ mod tests {
         })
         .to_string();
 
-        let err = parse_rest_error(reqwest::StatusCode::BAD_REQUEST, &body);
+        let err = parse_rest_error(ay_http::StatusCode::BAD_REQUEST, &body);
         assert_eq!(err.code, error_code::CONTENT_TYPE_NOT_SUPPORTED);
     }
 
@@ -613,7 +613,7 @@ mod tests {
         })
         .to_string();
 
-        let err = parse_rest_error(reqwest::StatusCode::BAD_REQUEST, &body);
+        let err = parse_rest_error(ay_http::StatusCode::BAD_REQUEST, &body);
         assert_eq!(err.code, error_code::INVALID_PARAMS);
         assert!(
             err.message
@@ -651,7 +651,7 @@ mod tests {
         })
         .to_string();
 
-        let err = parse_rest_error(reqwest::StatusCode::BAD_REQUEST, &body);
+        let err = parse_rest_error(ay_http::StatusCode::BAD_REQUEST, &body);
         assert_eq!(err.code, error_code::INVALID_PARAMS);
     }
 

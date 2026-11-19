@@ -4,7 +4,7 @@ use std::sync::{Arc, OnceLock};
 use std::time::Duration;
 
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
-use reqwest::{IntoUrl, Method, Request, Response, Result};
+use reqwest::{IntoUrl, Method, Request, Response, Result, StatusCode};
 
 use crate::altsvc::{AltSvcCache, Origin};
 
@@ -48,8 +48,14 @@ impl ClientBuilder {
         connect_timeout(value: Duration));
     option!(/// Timeout between two reads of a response body.
         read_timeout(value: Duration));
-    option!(/// Idle time before a pooled connection is closed.
-        pool_idle_timeout(value: Option<Duration>));
+    /// Idle time before a pooled connection is closed.
+    #[must_use]
+    pub fn pool_idle_timeout(mut self, value: impl Into<Option<Duration>>) -> Self {
+        let value = value.into();
+        self.ops.push(Arc::new(move |b| b.pool_idle_timeout(value)));
+        self
+    }
+
     option!(/// Idle connections kept per host.
         pool_max_idle_per_host(value: usize));
     option!(/// Cookie jar on or off.
@@ -62,8 +68,45 @@ impl ClientBuilder {
         proxy(proxy: reqwest::Proxy));
     option!(/// Add a trusted root certificate.
         add_root_certificate(cert: reqwest::Certificate));
-    option!(/// TCP keepalive interval.
-        tcp_keepalive(value: Option<Duration>));
+    /// TCP keepalive interval.
+    #[must_use]
+    pub fn tcp_keepalive(mut self, value: impl Into<Option<Duration>>) -> Self {
+        let value = value.into();
+        self.ops.push(Arc::new(move |b| b.tcp_keepalive(value)));
+        self
+    }
+
+    /// A redirect policy built per transport (a `Policy` itself cannot be cloned).
+    #[must_use]
+    pub fn redirect(mut self, policy: impl Fn() -> reqwest::redirect::Policy + Send + Sync + 'static) -> Self {
+        self.ops.push(Arc::new(move |b| b.redirect(policy())));
+        self
+    }
+
+    /// HTTP/1.1 only (no h2 negotiation, no h3 upgrade of this client's TCP transport).
+    #[must_use]
+    pub fn http1_only(mut self) -> Self {
+        self.ops.push(Arc::new(reqwest::ClientBuilder::http1_only));
+        self
+    }
+
+    /// Cleartext and TLS connections speak h2 without negotiation.
+    #[must_use]
+    pub fn http2_prior_knowledge(mut self) -> Self {
+        self.ops.push(Arc::new(reqwest::ClientBuilder::http2_prior_knowledge));
+        self
+    }
+
+    option!(/// Adaptive h2 flow-control windows.
+        http2_adaptive_window(enable: bool));
+    option!(/// `TCP_NODELAY` on or off.
+        tcp_nodelay(enable: bool));
+    option!(/// Transparent gzip decoding.
+        gzip(enable: bool));
+    option!(/// Transparent brotli decoding.
+        brotli(enable: bool));
+    option!(/// Transparent deflate decoding.
+        deflate(enable: bool));
 
     /// Sets the `User-Agent`.
     #[must_use]
@@ -143,6 +186,7 @@ impl ClientBuilder {
     pub fn build(self) -> Result<Client> {
         let base = self.base().build()?;
         Ok(Client {
+            retries: 0,
             inner: Arc::new(Inner {
                 base,
                 #[cfg(not(target_family = "wasm"))]
@@ -181,6 +225,7 @@ struct Inner {
 #[derive(Clone)]
 pub struct Client {
     inner: Arc<Inner>,
+    retries: u32,
 }
 
 impl std::fmt::Debug for Client {
@@ -210,6 +255,13 @@ impl Client {
     #[must_use]
     pub fn builder() -> ClientBuilder {
         ClientBuilder::new()
+    }
+
+    /// A handle sharing this client's pools that retries transient failures (connect errors, timeouts, 408, 429 and 5xx other than 501)
+    /// up to `max_retries` times with exponential backoff from 500 ms to 30 s. Requests whose body cannot be cloned are not retried.
+    #[must_use]
+    pub fn with_retries(&self, max_retries: u32) -> Client {
+        Client { inner: Arc::clone(&self.inner), retries: max_retries }
     }
 
     /// The h1/h2 transport, for APIs that need a raw `reqwest::Client` (WebSocket upgrades, `reqwest-middleware`).
@@ -259,6 +311,39 @@ impl Client {
     /// # Errors
     /// Any transport, TLS, timeout or redirect error of the chosen path.
     pub async fn execute(&self, request: Request) -> Result<Response> {
+        #[cfg(not(target_family = "wasm"))]
+        if self.retries > 0 {
+            return self.execute_with_retries(request).await;
+        }
+        self.execute_once(request).await
+    }
+
+    #[cfg(not(target_family = "wasm"))]
+    async fn execute_with_retries(&self, mut request: Request) -> Result<Response> {
+        let mut attempt = 0u32;
+        loop {
+            let spare = request.try_clone();
+            let result = self.execute_once(request).await;
+            let transient = match &result {
+                Ok(response) => {
+                    let status = response.status();
+                    status == StatusCode::REQUEST_TIMEOUT
+                        || status == StatusCode::TOO_MANY_REQUESTS
+                        || (status.is_server_error() && status != StatusCode::NOT_IMPLEMENTED)
+                }
+                Err(error) => error.is_connect() || error.is_timeout() || error.is_request(),
+            };
+            let Some(next) = spare.filter(|_| transient && attempt < self.retries) else {
+                return result;
+            };
+            let backoff = Duration::from_millis(500u64.saturating_mul(1u64 << attempt.min(16))).min(Duration::from_secs(30));
+            tokio::time::sleep(backoff).await;
+            attempt += 1;
+            request = next;
+        }
+    }
+
+    async fn execute_once(&self, request: Request) -> Result<Response> {
         let origin = Origin::of_https(request.url());
         #[cfg(not(target_family = "wasm"))]
         if let (Some(origin), Some(h3)) = (&origin, &self.inner.h3)
@@ -388,6 +473,7 @@ impl From<reqwest::Client> for Client {
     /// Wraps an existing reqwest client as the TCP transport (no h3 upgrade).
     fn from(base: reqwest::Client) -> Self {
         Self {
+            retries: 0,
             inner: Arc::new(Inner {
                 base,
                 #[cfg(not(target_family = "wasm"))]

@@ -94,7 +94,7 @@ impl PullOutcome {
 
 /// A reusable HTTP client for weight downloads.
 pub struct Downloader {
-    client: reqwest::Client,
+    client: ay_http::Client,
     hub_token: Option<ay_secrets::SecretValue>,
 }
 
@@ -106,7 +106,7 @@ impl Downloader {
     /// [`ModelError::Download`] when the TLS/HTTP client cannot be built.
     pub fn new() -> Result<Self> {
         ensure_crypto_provider();
-        let client = reqwest::Client::builder()
+        let client = ay_http::Client::builder()
             .user_agent(concat!("ay-models/", env!("CARGO_PKG_VERSION")))
             // Weight files are large; the read timeout guards against a stalled
             // socket without capping total transfer time.
@@ -125,7 +125,7 @@ impl Downloader {
 
     /// Wrap an already-configured client (proxy, custom roots, test server).
     #[must_use]
-    pub const fn with_client(client: reqwest::Client) -> Self {
+    pub const fn with_client(client: ay_http::Client) -> Self {
         Self {
             client,
             hub_token: None,
@@ -243,7 +243,7 @@ impl Downloader {
             }
         }
         if resume_from > 0 {
-            request = request.header(reqwest::header::RANGE, format!("bytes={resume_from}-"));
+            request = request.header(ay_http::header::RANGE, format!("bytes={resume_from}-"));
         }
 
         let response = request.send().await.map_err(|e| ModelError::Download {
@@ -268,7 +268,7 @@ impl Downloader {
 
         // 206 means the server honoured the range and we append; anything else
         // (including a 200 answering a range request) restarts from scratch.
-        let resuming = resume_from > 0 && status == reqwest::StatusCode::PARTIAL_CONTENT;
+        let resuming = resume_from > 0 && status == ay_http::StatusCode::PARTIAL_CONTENT;
 
         let mut hasher = Hasher::new();
         let mut written = 0_u64;
@@ -375,7 +375,7 @@ fn hf_token(url: &str) -> Option<String> {
 pub(crate) fn ensure_crypto_provider() {
     static ONCE: Once = Once::new();
     ONCE.call_once(|| {
-        let _ = rustls::crypto::ring::default_provider().install_default();
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     });
 }
 

@@ -23,17 +23,17 @@ use crate::client::{
 /// non-success status becomes [`ModelError::Api`] carrying the message
 /// extracted from the error body (see [`error_message`]).
 pub(crate) async fn send_request(
-    http: &reqwest::Client,
+    http: &ay_http::Client,
     runtime: &ProviderRuntime,
-    method: reqwest::Method,
+    method: ay_http::Method,
     url: &str,
     body: Option<&Value>,
     accept: &str,
-) -> Result<reqwest::Response, ModelError> {
+) -> Result<ay_http::Response, ModelError> {
     send_with_retry(runtime, &|| {
         let mut request = http
             .request(method.clone(), url)
-            .header(reqwest::header::ACCEPT, accept);
+            .header(ay_http::header::ACCEPT, accept);
         if let Some(token) = &runtime.bearer_token {
             request = request.bearer_auth(token);
         }
@@ -52,7 +52,7 @@ pub(crate) async fn send_request(
 /// [`ModelError::Decode`] (with the serde position) instead of an opaque
 /// transport error.
 pub(crate) async fn read_json<T: DeserializeOwned>(
-    response: reqwest::Response,
+    response: ay_http::Response,
 ) -> Result<T, ModelError> {
     let bytes = response.bytes().await?;
     Ok(serde_json::from_slice(&bytes)?)
@@ -60,9 +60,9 @@ pub(crate) async fn read_json<T: DeserializeOwned>(
 
 /// One-call JSON request/response round trip.
 pub(crate) async fn request_json<T: DeserializeOwned>(
-    http: &reqwest::Client,
+    http: &ay_http::Client,
     runtime: &ProviderRuntime,
-    method: reqwest::Method,
+    method: ay_http::Method,
     url: &str,
     body: Option<&Value>,
 ) -> Result<T, ModelError> {

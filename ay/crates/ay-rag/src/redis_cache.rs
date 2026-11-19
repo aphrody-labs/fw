@@ -43,7 +43,7 @@ impl RedisRagCache {
             };
         };
 
-        let parsed = match reqwest::Url::parse(raw) {
+        let parsed = match ay_http::Url::parse(raw) {
             Ok(u) => u,
             Err(_) => {
                 return Self {

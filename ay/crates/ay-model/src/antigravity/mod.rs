@@ -30,7 +30,7 @@
 //! use ay_model::antigravity::client::AntigravityClient;
 //!
 //! // Install a rustls CryptoProvider before the first reqwest call.
-//! rustls::crypto::ring::default_provider().install_default().ok();
+//! rustls::crypto::aws_lc_rs::default_provider().install_default().ok();
 //!
 //! let client = AntigravityClient::from_credential_manager().unwrap();
 //! # }

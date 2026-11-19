@@ -22,7 +22,7 @@ pub(super) fn deadline_error() -> ModelError {
 /// Requests requiring a pooling model may fail on generation-only servers.
 #[derive(Clone)]
 pub struct VllmApi {
-    pub(super) http: reqwest::Client,
+    pub(super) http: ay_http::Client,
     runtime: ProviderRuntime,
     pub(super) request_timeout: Duration,
 }
@@ -39,14 +39,14 @@ impl VllmApi {
     #[must_use]
     pub fn from_provider(runtime: ProviderRuntime) -> Self {
         Self {
-            http: reqwest::Client::new(),
+            http: ay_http::Client::new(),
             runtime: rooted(&runtime),
             request_timeout: DEFAULT_VLLM_REQUEST_TIMEOUT,
         }
     }
 
     #[must_use]
-    pub fn with_http_client(mut self, http: reqwest::Client) -> Self {
+    pub fn with_http_client(mut self, http: ay_http::Client) -> Self {
         self.http = http;
         self
     }
@@ -59,7 +59,7 @@ impl VllmApi {
 
     async fn json<T: DeserializeOwned>(
         &self,
-        method: reqwest::Method,
+        method: ay_http::Method,
         endpoint: &str,
         body: Option<&Value>,
     ) -> Result<T, ModelError> {
@@ -77,7 +77,7 @@ impl VllmApi {
         endpoint: &str,
         body: &Value,
     ) -> Result<T, ModelError> {
-        self.json(reqwest::Method::POST, endpoint, Some(body)).await
+        self.json(ay_http::Method::POST, endpoint, Some(body)).await
     }
 
     pub async fn version(&self) -> Result<String, ModelError> {
@@ -85,7 +85,7 @@ impl VllmApi {
         struct VersionResponse {
             version: String,
         }
-        let response: VersionResponse = self.json(reqwest::Method::GET, "version", None).await?;
+        let response: VersionResponse = self.json(ay_http::Method::GET, "version", None).await?;
         Ok(response.version)
     }
 
@@ -98,7 +98,7 @@ impl VllmApi {
         struct ModelsResponse {
             data: Vec<ModelEntry>,
         }
-        let response: ModelsResponse = self.json(reqwest::Method::GET, "v1/models", None).await?;
+        let response: ModelsResponse = self.json(ay_http::Method::GET, "v1/models", None).await?;
         Ok(response.data.into_iter().map(|model| model.id).collect())
     }
 
@@ -109,7 +109,7 @@ impl VllmApi {
             let response = send_request(
                 &self.http,
                 &self.runtime,
-                reqwest::Method::GET,
+                ay_http::Method::GET,
                 &url,
                 None,
                 "*/*",
@@ -129,7 +129,7 @@ impl VllmApi {
             let response = send_request(
                 &self.http,
                 &self.runtime,
-                reqwest::Method::GET,
+                ay_http::Method::GET,
                 &url,
                 None,
                 "text/plain",
@@ -249,7 +249,7 @@ impl VllmApi {
             let response = send_request(
                 &self.http,
                 &self.runtime,
-                reqwest::Method::POST,
+                ay_http::Method::POST,
                 &url,
                 Some(request),
                 "*/*",

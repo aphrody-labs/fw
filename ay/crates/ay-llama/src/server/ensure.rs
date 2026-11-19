@@ -121,7 +121,7 @@ pub enum OssReadyError {
     Model(#[from] ay_model::store::ModelError),
     /// HTTP transport failure.
     #[error("network or HTTP error: {0}")]
-    Http(#[from] reqwest::Error),
+    Http(#[from] ay_http::Error),
     /// Server is down or unreachable.
     #[error("endpoint unavailable at {endpoint}: {reason}")]
     EndpointUnavailable {
@@ -162,7 +162,7 @@ pub enum OssReadyError {
 /// Returns [`OssReadyError`] if the provider is unknown, the model cannot be resolved
 /// or downloaded, or an external endpoint cannot be reached.
 pub async fn ensure_oss_ready(opts: OssReadyOptions<'_>) -> Result<OssReadyOutcome, OssReadyError> {
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     match opts.provider.to_ascii_lowercase().as_str() {
         "llama" | "managed" | "aphrody" | "local" => ensure_llama_ready(&opts).await,
         "ollama" => ensure_ollama_ready(&opts).await,
@@ -231,7 +231,7 @@ async fn ensure_ollama_ready(opts: &OssReadyOptions<'_>) -> Result<OssReadyOutco
         .unwrap_or(DEFAULT_OLLAMA_ENDPOINT)
         .trim_end_matches('/');
 
-    let client = reqwest::Client::builder()
+    let client = ay_http::Client::builder()
         .timeout(std::time::Duration::from_secs(30))
         .build()?;
 
@@ -322,7 +322,7 @@ async fn ensure_lmstudio_ready(
         .unwrap_or(DEFAULT_LMSTUDIO_ENDPOINT)
         .trim_end_matches('/');
 
-    let client = reqwest::Client::builder()
+    let client = ay_http::Client::builder()
         .timeout(std::time::Duration::from_secs(10))
         .build()?;
 
@@ -362,7 +362,7 @@ async fn ensure_vllm_ready(opts: &OssReadyOptions<'_>) -> Result<OssReadyOutcome
         .unwrap_or(DEFAULT_VLLM_ENDPOINT)
         .trim_end_matches('/');
 
-    let client = reqwest::Client::builder()
+    let client = ay_http::Client::builder()
         .timeout(std::time::Duration::from_secs(10))
         .build()?;
 

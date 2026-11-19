@@ -321,7 +321,7 @@ impl OAuthToken {
     /// * [`SdkError::Http`] — transport-level failure.
     /// * [`SdkError::OAuthServer`] — non-2xx response from Google.
     /// * [`SdkError::TokenParse`] — response body is not valid JSON.
-    pub async fn refresh(&self, client: &reqwest::Client) -> Result<OAuthToken, SdkError> {
+    pub async fn refresh(&self, client: &ay_http::Client) -> Result<OAuthToken, SdkError> {
         let Some(ref refresh_token) = self.refresh_token else {
             return Err(SdkError::Unsupported(
                 "no refresh_token available; cannot refresh",

@@ -110,7 +110,7 @@ pub enum SendError {
     #[error("unknown peer: {0}")]
     UnknownPeer(String),
     #[error("http: {0}")]
-    Http(#[from] reqwest::Error),
+    Http(#[from] ay_http::Error),
     #[error("mailbox: {0}")]
     Mailbox(#[from] MailboxError),
 }
@@ -128,7 +128,7 @@ pub async fn send(
     match (peer.channel(), peer.url.as_deref()) {
         (Channel::HttpJsonrpc, Some(url)) => {
             let req = build_request(&crate::coordinator::envelope::new_id("rpc"), params);
-            let resp = reqwest::Client::new()
+            let resp = ay_http::Client::new()
                 .post(url)
                 .header("A2A-Version", "1.0")
                 .json(&req)

@@ -29,7 +29,7 @@ repository = "https://github.com/aphrody-labs/bun-distribution"
 [features]
 client = [
     "dep:futures",
-    "dep:reqwest",
+    "dep:ay-http",
     "dep:rustls",
     "dep:tokio",
     "dep:tracing",
@@ -80,32 +80,10 @@ optional = true
 version = "0.3.34"
 optional = true
 
-[dependencies.reqwest]
-version = "0.13.5"
-features = [
-    "rustls-no-provider",
-    "json",
-    "stream",
-    "form",
-    "query",
-    "charset",
-    "http2",
-    "system-proxy",
-    "blocking",
-    "cookies",
-    "gzip",
-    "brotli",
-    "deflate",
-    "socks",
-    "multipart",
-]
-optional = true
-default-features = false
-
 [dependencies.rustls]
 version = "0.23.46"
 features = [
-    "ring",
+    "aws_lc_rs",
     "std",
     "tls12",
 ]
@@ -290,3 +268,6 @@ check-cfg = [
 [lints.rust.warnings]
 level = "deny"
 priority = -1
+
+[dependencies]
+ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }

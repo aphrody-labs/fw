@@ -205,7 +205,7 @@ pub async fn serve_gateway(
     let listener = tokio::net::TcpListener::bind(addr)
         .await
         .map_err(|e| GatewayError::Config(format!("failed to bind {addr}: {e}")))?;
-    axum::serve(listener, app)
+    ay_http::server::serve_listener(listener, app)
         .await
         .map_err(|e| GatewayError::Config(format!("gateway server runtime error: {e}")))?;
     Ok(())
@@ -369,7 +369,7 @@ mod tests {
 
     #[tokio::test]
     async fn file_auth_failure_is_closed_and_success_requires_the_bound_token() {
-        let _ = rustls::crypto::ring::default_provider().install_default();
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         for (token, expected) in [
             (Err(()), StatusCode::SERVICE_UNAVAILABLE),
             (
@@ -383,7 +383,7 @@ mod tests {
             let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
             let address = listener.local_addr().unwrap();
             let server = tokio::spawn(async move { axum::serve(listener, app).await });
-            let client = reqwest::Client::builder().no_proxy().build().unwrap();
+            let client = ay_http::Client::builder().no_proxy().build().unwrap();
             let url = format!("http://{address}/v1/models");
             assert_eq!(client.get(&url).send().await.unwrap().status(), expected);
             let authenticated = client

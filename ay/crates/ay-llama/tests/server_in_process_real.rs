@@ -60,7 +60,7 @@ async fn in_process_model_streams_text_and_serves_openai() {
     let server = InProcessServer::start(engine)
         .await
         .expect("loopback server");
-    let health = reqwest::get(format!(
+    let health = ay_http::get(format!(
         "{}/health",
         server.base_url().trim_end_matches("/v1")
     ))
@@ -191,7 +191,7 @@ async fn in_process_vision_reads_an_image() {
     let server = InProcessServer::start(engine)
         .await
         .expect("loopback server");
-    let response: serde_json::Value = reqwest::Client::new()
+    let response: serde_json::Value = ay_http::Client::new()
         .post(format!("{}/chat/completions", server.base_url()))
         .json(&serde_json::json!({
             "messages": [{"role": "user", "content": [

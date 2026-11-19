@@ -35,7 +35,7 @@ const SYSTEM_PROMPT: &str = "You are a decision function. Read the state, then a
 /// HTTP client of an existing OpenAI-compatible model endpoint.
 #[derive(Clone)]
 pub struct NativeEngine {
-    http: reqwest::Client,
+    http: ay_http::Client,
     base: Url,
     model: String,
     api_key: Option<String>,
@@ -110,8 +110,8 @@ impl NativeEngine {
         };
         let base = Url::parse(&with_slash).map_err(|e| JevError::Config(format!("{base}: {e}")))?;
         #[cfg(not(target_arch = "wasm32"))]
-        let _ = rustls::crypto::ring::default_provider().install_default();
-        let http = reqwest::Client::builder()
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
+        let http = ay_http::Client::builder()
             .user_agent(concat!("ay-jev/", env!("CARGO_PKG_VERSION")))
             .build()
             .map_err(|e| JevError::Config(e.to_string()))?;

@@ -5,6 +5,6 @@ config/pwsh/profile.ps1
 crates/ay-re/src/adobe.rs
 crates/ay-re/src/minidump.rs
 crates/ay-re/src/pipeline/ghidra.rs
-crates/ay-sh-pty/src/lib.rs
+crates/ay-sh/src/pty/mod.rs
 tools/shells.ts
 tools/shells.test.ts

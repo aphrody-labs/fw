@@ -157,7 +157,7 @@ pub fn canonical_model_name(name: &str) -> String {
 /// chat client with [`OllamaClient::api`].
 #[derive(Debug, Clone)]
 pub struct OllamaApi {
-    http: reqwest::Client,
+    http: ay_http::Client,
     runtime: ProviderRuntime,
 }
 
@@ -168,7 +168,7 @@ impl OllamaApi {
     #[must_use]
     pub fn new(runtime: ProviderRuntime) -> Self {
         Self {
-            http: reqwest::Client::new(),
+            http: ay_http::Client::new(),
             runtime: rooted(&runtime),
         }
     }
@@ -203,7 +203,7 @@ impl OllamaApi {
         let version: Version = request_json(
             &self.http,
             &self.runtime,
-            reqwest::Method::GET,
+            ay_http::Method::GET,
             &self.url("api/version"),
             None,
         )
@@ -225,7 +225,7 @@ impl OllamaApi {
         let tags: Tags = request_json(
             &self.http,
             &self.runtime,
-            reqwest::Method::GET,
+            ay_http::Method::GET,
             &self.url("api/tags"),
             None,
         )
@@ -247,7 +247,7 @@ impl OllamaApi {
         let running: Running = request_json(
             &self.http,
             &self.runtime,
-            reqwest::Method::GET,
+            ay_http::Method::GET,
             &self.url("api/ps"),
             None,
         )
@@ -269,7 +269,7 @@ impl OllamaApi {
         request_json(
             &self.http,
             &self.runtime,
-            reqwest::Method::POST,
+            ay_http::Method::POST,
             &self.url("api/show"),
             Some(&body),
         )
@@ -304,7 +304,7 @@ impl OllamaApi {
         request_json(
             &self.http,
             &self.runtime,
-            reqwest::Method::POST,
+            ay_http::Method::POST,
             &self.url("api/embed"),
             Some(&request.to_body()),
         )
@@ -327,7 +327,7 @@ impl OllamaApi {
         let response = send_request(
             &self.http,
             &self.runtime,
-            reqwest::Method::POST,
+            ay_http::Method::POST,
             &self.url("api/generate"),
             Some(&request.to_body()),
             "application/x-ndjson",
@@ -357,7 +357,7 @@ impl OllamaApi {
         let response = send_request(
             &self.http,
             &self.runtime,
-            reqwest::Method::POST,
+            ay_http::Method::POST,
             &self.url("api/pull"),
             Some(&body),
             "application/x-ndjson",
@@ -406,7 +406,7 @@ impl OllamaApi {
         send_request(
             &self.http,
             &self.runtime,
-            reqwest::Method::DELETE,
+            ay_http::Method::DELETE,
             &self.url("api/delete"),
             Some(&body),
             "application/json",
@@ -447,7 +447,7 @@ impl OllamaApi {
         send_request(
             &self.http,
             &self.runtime,
-            reqwest::Method::POST,
+            ay_http::Method::POST,
             &self.url("api/generate"),
             Some(body),
             "application/json",
@@ -604,7 +604,7 @@ impl ModelClient for OllamaClient {
         let response = send_request(
             &self.api.http,
             &self.api.runtime,
-            reqwest::Method::POST,
+            ay_http::Method::POST,
             &self.api.url("api/chat"),
             Some(&body),
             "application/x-ndjson",
@@ -670,12 +670,12 @@ mod tests {
     use super::*;
     use crate::client::{ChatMessage, ModelStreamEvent, Part, Role};
 
-    /// rustls 0.23 needs an explicit provider before the first `reqwest::Client`
+    /// rustls 0.23 needs an explicit provider before the first `ay_http::Client`
     /// (CLAUDE.md §7).
     fn install_rustls_provider() {
         static ONCE: Once = Once::new();
         ONCE.call_once(|| {
-            let _ = rustls::crypto::ring::default_provider().install_default();
+            let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         });
     }
 

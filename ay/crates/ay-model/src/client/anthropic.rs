@@ -54,7 +54,7 @@ pub enum AnthropicAuth {
 /// Anthropic Messages streaming client.
 #[derive(Debug, Clone)]
 pub struct AnthropicClient {
-    http: reqwest::Client,
+    http: ay_http::Client,
     runtime: ProviderRuntime,
     auth: AnthropicAuth,
     model: String,
@@ -67,7 +67,7 @@ impl AnthropicClient {
     #[must_use]
     pub fn from_provider(runtime: ProviderRuntime, model: impl Into<String>) -> Self {
         Self {
-            http: reqwest::Client::new(),
+            http: ay_http::Client::new(),
             runtime,
             auth: AnthropicAuth::ApiKey,
             model: model.into(),
@@ -95,7 +95,7 @@ impl AnthropicClient {
         build_messages_request(&turn, &self.model)
     }
 
-    fn authorize(&self, request: reqwest::RequestBuilder) -> reqwest::RequestBuilder {
+    fn authorize(&self, request: ay_http::RequestBuilder) -> ay_http::RequestBuilder {
         let mut request = request.header("anthropic-version", ANTHROPIC_API_VERSION);
         match (&self.runtime.bearer_token, self.auth) {
             (Some(key), AnthropicAuth::ApiKey) => request = request.header("x-api-key", key),
@@ -670,7 +670,7 @@ mod tests {
     fn install_rustls_provider() {
         static ONCE: Once = Once::new();
         ONCE.call_once(|| {
-            let _ = rustls::crypto::ring::default_provider().install_default();
+            let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         });
     }
 

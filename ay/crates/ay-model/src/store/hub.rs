@@ -133,15 +133,15 @@ impl Hub {
 
     fn build(token: Option<&SecretValue>) -> Result<Self, HubError> {
         crate::store::fetch::ensure_crypto_provider();
-        let http = reqwest::Client::builder()
+        let http = ay_http::Client::builder()
             .user_agent(concat!("ay-models/", env!("CARGO_PKG_VERSION")))
             .timeout(std::time::Duration::from_secs(30))
             .connect_timeout(std::time::Duration::from_secs(10))
-            .redirect(reqwest::redirect::Policy::none())
+            .redirect_none()
             .build()
             .map_err(|_| HubError::Request)?;
         let mut builder = HFClient::builder()
-            .client(http)
+            .client(http.reqwest().clone())
             .endpoint("https://huggingface.co")
             .cache_enabled(false)
             .retry_max_attempts(2)

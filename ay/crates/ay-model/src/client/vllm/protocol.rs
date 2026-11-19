@@ -31,6 +31,6 @@ pub struct ScoreResponse {
 /// Uninterpreted pooling binary output and its shape/dtype/content headers.
 #[derive(Debug, Clone)]
 pub struct PoolingBytes {
-    pub headers: reqwest::header::HeaderMap,
+    pub headers: ay_http::header::HeaderMap,
     pub data: bytes::Bytes,
 }

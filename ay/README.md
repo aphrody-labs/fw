@@ -14,7 +14,7 @@ The Aphrody SDK and platform workspace: C ABI and freestanding corelib, Rust cra
 
 - **C ABI & corelib**: `abi/`, `corelib/`, `crates/ay-core/capi` ([ABI reference](docs/abi.md))
 - **AI OS & agent harness**: `packages/ai-os`, `crates/ay-a2a*`, `crates/ay-agent-*`, `crates/ay-rag*`, `crates/ay-llama*`, `crates/ay-store`, `crates/ay-vault`, `apps/agents`, `apps/ai-gateway`
-- **Shell, PTY & environment**: `crates/ay-sh`, `crates/ay-sh-pty`, `packages/omniu`, `config/`, `packages/env-kit`
+- **Shell, PTY & environment**: `crates/ay-sh`, `packages/omniu`, `config/`, `packages/env-kit`
 - **Reverse engineering & Linux platform**: `crates/ay-re`, `crates/ay-ghidra-bun`, `packages/ghidra`, `packages/py2bun`, `os/linux`, `tools/linux-*.ts`
 - **Chromium & web validation**: `crates/ay-chromium`, `packages/chromium`, `packages/chromium-releases`, `apps/chromium-dash`, `packages/wck` ([Chromium guide](docs/chromium.md), [Chromium Dash](docs/chromium-dash.md))
 

@@ -51,7 +51,7 @@ pub(crate) mod test_util {
     pub(crate) fn install_crypto_provider() {
         #[cfg(feature = "rustls-tls")]
         {
-            let _ = rustls::crypto::ring::default_provider().install_default();
+            let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         }
     }
 }

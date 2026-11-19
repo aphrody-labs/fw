@@ -444,7 +444,7 @@ mod tests {
         }
 
         fn build_test_tls_config(ca_pem: &[u8]) -> Arc<tokio_rustls::rustls::ClientConfig> {
-            let _ = tokio_rustls::rustls::crypto::ring::default_provider().install_default();
+            let _ = tokio_rustls::rustls::crypto::aws_lc_rs::default_provider().install_default();
             let ca_cert = CertificateDer::pem_slice_iter(ca_pem)
                 .next()
                 .expect("should have at least one cert in ca.pem")

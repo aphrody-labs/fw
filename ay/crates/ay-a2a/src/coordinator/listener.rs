@@ -859,7 +859,7 @@ pub async fn serve(
     let mailbox = Mailbox::new(cfg.manifest.coord_dir(&cfg.repo_root));
     let app = router_with_token(&cfg, mailbox, token);
     info!(%cfg.bind, "aphrody A2A coord listener started");
-    axum::serve(listener, app).await?;
+    ay_http::server::serve_listener(listener, app).await?;
     Ok(())
 }
 
@@ -874,7 +874,7 @@ pub async fn serve_profile(
     reconcile_interrupted_tasks(&Mailbox::for_profile_root(profile_root).coord_dir).await?;
     let app = router_with_token(&cfg, Mailbox::for_profile_root(profile_root), token);
     info!(%cfg.bind, profile_root = %profile_root.display(), "aphrody A2A coord listener started");
-    axum::serve(listener, app).await?;
+    ay_http::server::serve_listener(listener, app).await?;
     Ok(())
 }
 

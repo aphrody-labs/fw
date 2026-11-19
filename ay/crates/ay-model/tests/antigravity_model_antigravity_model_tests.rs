@@ -7,14 +7,14 @@ use ay_model::client::{ChatMessage, ChatTurn, ModelClient, Part, Role};
 use pretty_assertions::assert_eq;
 
 fn dummy_client() -> AntigravityClient {
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     let token = OAuthToken {
         access_token: "dummy-token-12345".to_string(),
         refresh_token: None,
         expiry: None,
         auth_method: Some("consumer".to_string()),
     };
-    AntigravityClient::new(reqwest::Client::new(), token)
+    AntigravityClient::new(ay_http::Client::new(), token)
 }
 
 #[test]

@@ -60,7 +60,7 @@ pub use vllm::{VllmApi, VllmClient, VllmConfig};
 pub enum ModelError {
     /// Transport-level failure issuing the request or reading the body.
     #[error("http transport error: {0}")]
-    Http(#[from] reqwest::Error),
+    Http(#[from] ay_http::Error),
     /// A JSON payload (SSE frame or response body) failed to deserialize.
     #[error("json decode error: {0}")]
     Decode(#[from] serde_json::Error),
@@ -778,7 +778,7 @@ pub const DEFAULT_GEMINI_BASE_URL: &str = "https://generativelanguage.googleapis
 #[derive(Debug, Clone)]
 pub struct GeminiClient {
     /// The reqwest client (reused for connection pooling / low latency).
-    pub http: reqwest::Client,
+    pub http: ay_http::Client,
     /// Gemini API key.
     pub api_key: String,
     /// Target model id (e.g. `gemini-2.5-flash`).
@@ -795,7 +795,7 @@ impl GeminiClient {
     #[must_use]
     pub fn new(api_key: impl Into<String>, model: impl Into<String>) -> Self {
         Self {
-            http: reqwest::Client::new(),
+            http: ay_http::Client::new(),
             api_key: api_key.into(),
             model: model.into(),
             base_url: DEFAULT_GEMINI_BASE_URL.to_string(),
@@ -869,7 +869,7 @@ fn sse_byte_stream_to_events<S>(
     byte_stream: S,
 ) -> impl Stream<Item = Result<ModelStreamEvent, ModelError>> + Send
 where
-    S: Stream<Item = reqwest::Result<bytes::Bytes>> + Send + 'static,
+    S: Stream<Item = ay_http::Result<bytes::Bytes>> + Send + 'static,
 {
     futures::stream::once(async { Ok(ModelStreamEvent::Created) }).chain(
         futures::stream::unfold(
@@ -1367,7 +1367,7 @@ mod tests {
     }
 
     // Note: we test the pure URL builder directly rather than constructing a
-    // `GeminiClient`, because `reqwest::Client::new()` panics with "No provider
+    // `GeminiClient`, because `ay_http::Client::new()` panics with "No provider
     // set" under rustls 0.23 in a bare test process (CLAUDE.md §7). Tests stay
     // network-free and provider-free.
     #[test]

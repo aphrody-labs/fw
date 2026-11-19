@@ -23,7 +23,7 @@ pub enum RagError {
 
     /// HTTP request error (embedder or reranker endpoints).
     #[error("HTTP error: {0}")]
-    Http(#[from] reqwest::Error),
+    Http(#[from] ay_http::Error),
 
     /// JSON serialization/deserialization error.
     #[error("JSON error: {0}")]

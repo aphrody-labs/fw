@@ -44,7 +44,7 @@ use thiserror::Error;
 pub enum GatewayError {
     /// Network transport failure (connection refused, timeout, DNS, …).
     #[error("transport error: {0}")]
-    Transport(#[from] reqwest::Error),
+    Transport(#[from] ay_http::Error),
 
     /// The upstream returned a non-2xx status code.
     #[error("upstream HTTP {status}: {body}")]

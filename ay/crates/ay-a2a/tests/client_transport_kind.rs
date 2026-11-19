@@ -51,7 +51,7 @@ fn wasi_resolves_to_unsupported() {
 
 // Compile-time-only contract for wasm32-unknown-unknown: assert the public
 // `JsonRpcTransport` constructor signature is reachable via the public
-// `reqwest::Client` re-export when the target is the browser. We cannot
+// `ay_http::Client` re-export when the target is the browser. We cannot
 // actually run wasm tests here (no wasm-bindgen-test runner wired), but
 // `cargo check --target wasm32-unknown-unknown --tests` flips this into a
 // type-check that catches any regression that hides the constructor behind
@@ -60,7 +60,7 @@ fn wasi_resolves_to_unsupported() {
 #[allow(dead_code)]
 fn browser_jsonrpc_transport_compiles() {
     use ay_a2a::client::jsonrpc::JsonRpcTransport;
-    let client = reqwest::Client::new();
+    let client = ay_http::Client::new();
     let _transport: Box<dyn Transport> = Box::new(JsonRpcTransport::new(
         client,
         "https://example.invalid/jsonrpc".to_string(),
@@ -73,11 +73,11 @@ fn jsonrpc_transport_advertises_protocol_name() {
     use ay_a2a::client::jsonrpc::JsonRpcTransport;
 
     // The rustls 0.23 CryptoProvider must be installed before any
-    // reqwest::Client::new() on native rustls builds; otherwise the call
+    // ay_http::Client::new() on native rustls builds; otherwise the call
     // panics with `No provider set`. Install once for the test process.
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
 
-    let client = reqwest::Client::new();
+    let client = ay_http::Client::new();
     let transport: Box<dyn Transport> = Box::new(JsonRpcTransport::new(
         client,
         "http://127.0.0.1:0/jsonrpc".to_string(),
@@ -90,9 +90,9 @@ fn jsonrpc_transport_advertises_protocol_name() {
 fn rest_transport_advertises_protocol_name() {
     use ay_a2a::client::rest::RestTransport;
 
-    let _ = rustls::crypto::ring::default_provider().install_default();
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
 
-    let client = reqwest::Client::new();
+    let client = ay_http::Client::new();
     let transport: Box<dyn Transport> =
         Box::new(RestTransport::new(client, "http://127.0.0.1:0".to_string()));
     assert_eq!(transport.protocol_name(), "http+json");
