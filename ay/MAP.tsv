@@ -9,7 +9,7 @@ assets	misc	2	10869	bun run check
 brand	brand	56	3669872	undefined
 config	misc	30	59025	bun run check
 corelib	c-asm	50	82826	bun tools/corelib.ts
-crates	rust	1789	23268983	cargo check --workspace
+crates	rust	1167	11863194	cargo check --workspace
 docs	docs	148	1987776	bun tools/features.ts --check
 locales	misc	2	96055	bun run check
 os	os-layer	2	15127	bun tools/submodules.ts --check
