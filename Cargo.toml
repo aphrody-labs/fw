@@ -13,6 +13,7 @@ members = [
     "crates/fw-wayland-wgpu",
     "crates/fw-hermes-claw",
     "crates/fw-bin",
+    "xtask",
 ]
 exclude = [
     "os/fairwind-os",

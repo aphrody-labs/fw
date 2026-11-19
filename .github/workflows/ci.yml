@@ -87,7 +87,7 @@ jobs:
         run: |
           uvx ruff check .
           uv run python -m unittest discover -s tests
-      - name: Verify MAP.tsv & zero hardcoded machine paths
+      - name: Verify MAP.tsv & zero hardcoded machine paths (cargo xtask)
         run: |
-          bun src/repo_map.ts
-          ! grep -rnE 'C:\\Users\\aphro|C:\\src\\fairwind' --exclude-dir=.git --exclude-dir=target .
+          cargo xtask purity
+          cargo xtask map

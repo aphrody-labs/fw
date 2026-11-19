@@ -4,19 +4,37 @@ set windows-shell := ["pwsh", "-NoLogo", "-NoProfile", "-Command"]
 default:
     @just --list
 
-# Zero-warning Clippy across all 13 workspace crates
-clippy:
-    cargo clippy --workspace --all-targets -- -D warnings
+# Zero-dep pure-Rust parallel CI (all lanes: Rust, Native ABI, Wasm32, Ruff, Bun, Cloudflare, Purity, MAP.tsv)
+ci:
+    cargo xtask ci all
 
-# Run Rust, Bun, and Python checks
-test:
-    cargo test --workspace
-    bun test
-    uvx ruff check .
+# Fast parallel gate
+ci-fast:
+    cargo xtask ci fast
 
-# Build Fat-LTO native binary + Wasm32 module
+# Deterministic byte-exact MAP.tsv generator
+map:
+    cargo xtask map
+
+# Zero-hardcoded-path & workspace purity gate
+purity:
+    cargo xtask purity
+
+# Verify crates.io packaging for publishable fw-* crates
+package:
+    cargo xtask package
+
+# Check local toolchain health
+doctor:
+    cargo xtask doctor
+
+# Auto-update plugin/skills/upstreams/ from upstreams.toml + live Git HEADs
+sync-upstreams:
+    cargo xtask sync-upstreams
+
+# Build Fat-LTO fw binary + Wasm32 module
 build:
-    cargo build --release -p fw-bin
+    cargo build --release -p fw-bin --bin fw
     cargo build --release --target wasm32-unknown-unknown -p fw-wasm
 
 # Verify Linux static musl cross-compilation
@@ -25,22 +43,17 @@ musl:
 
 # Run Hermes/OpenClaw Rust agent smoke checks
 claw:
-    ./target/release/fairwind-native claw status
-    ./target/release/fairwind-native claw mcp
-    ./target/release/fairwind-native claw run "Audit Rust CLI MCP skills"
+    ./target/release/fw claw status
+    ./target/release/fw claw mcp
+    ./target/release/fw claw run "Audit Rust CLI MCP skills"
 
 # Launch fullstack control-plane + MCP/GraphQL/WebRTC/WebGPU server
 serve addr="127.0.0.1:4380":
-    ./target/release/fairwind-native serve {{addr}}
+    ./target/release/fw serve {{addr}}
 
 # Build Alpine Linux static musl container image
-docker tag="fairwind:latest":
+docker tag="fw:latest":
     docker build -t {{tag}} .
-
-# Sync Fairwind plugin and validate ~/.gemini
-plugin:
-    ./dist/fairwind plugin sync --install
-    bun ~/.gemini/scripts/check.ts
 
 # Cloudflare Workers types, dry-run, dev, and deploy (Wrangler)
 cf-types:
@@ -62,23 +75,3 @@ nix-bootstrap-vps host="fr1":
 # Apply tuned Windows .wslconfig + .wslgconfig for Fairwind-WSL (WSL 3.0.5 + RTX 4070)
 wsl-apply-configs:
     pwsh -NoProfile -File os/fairwind-wsl/install-fairwind-wsl.ps1 -ApplyHostConfigs
-
-# Regenerate byte-exact MAP.tsv for token-minimal agent navigation
-map:
-    bun src/repo_map.ts
-
-# Auto-generate & update plugin/skills/upstreams/ from upstreams.toml + live Git HEADs
-sync-upstreams:
-    bun src/upstream_skills.ts
-
-# Full parallel local CI pipeline (Rust, Native ABI, Wasm32, Python, Bun, Cloudflare)
-ci:
-    bun tools/ci.ts all
-
-# Fast parallel local gate
-ci-fast:
-    bun tools/ci.ts fast
-
-# Cross-host parallel fleet CI via detached tmux on fr1 + fr2
-ci-fleet:
-    bun tools/ci.ts fleet
