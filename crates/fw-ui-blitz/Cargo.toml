@@ -5,7 +5,6 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-homepage.workspace = true
 keywords.workspace = true
 categories.workspace = true
 description = "Fairwind native HTML/CSS/WGPU UI renderer aligned with DioxusLabs/blitz (vello_gpu / vello_cpu) with zero-dep headless PNG visual proof"

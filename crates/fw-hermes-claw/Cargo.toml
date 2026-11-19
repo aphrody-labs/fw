@@ -5,7 +5,6 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-homepage.workspace = true
 keywords.workspace = true
 categories.workspace = true
 description = "Full-Rust end-to-end Hermes Agent + OpenClaw/ZeroClaw runtime, CLI-to-MCP JSON-RPC bridge, CLI-to-Skill (agentskills.io) generator, and Nov 2026 Rust CLI/protocol ranking"

@@ -5,7 +5,6 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-homepage.workspace = true
 keywords.workspace = true
 categories.workspace = true
 description = "fw unified zero-system-dependency Fat-LTO static binary (CLI, Hybrid Cluster, GGML, WebGPU, Hermes/OpenClaw, MCP, uutils, Nix)"
@@ -14,9 +13,6 @@ description = "fw unified zero-system-dependency Fat-LTO static binary (CLI, Hyb
 name = "fw"
 path = "src/main.rs"
 
-[[bin]]
-name = "fairwind-native"
-path = "src/main.rs"
 
 [dependencies]
 fw-ggml.workspace = true

@@ -5,7 +5,6 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-homepage.workspace = true
 keywords.workspace = true
 categories.workspace = true
 description = "Unifies Burn CubeCL, Rig, rmcp, ACP rust-sdk, a2a-rs, Pingora/Quiche/Foundations, Yazi VFS, Kitty Graphics/CSI-u, AnomalyCo terminal-control & Hex local voice, and Cloudflare Kitesurf"

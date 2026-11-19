@@ -5,7 +5,6 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-homepage.workspace = true
 keywords.workspace = true
 categories.workspace = true
 description = "100% pure-Rust NixOS compatibility layer: nixbase32 /nix/store paths, NAR archive encoder, atomic generations, and uutils-coreutils-noprefix"

@@ -34,7 +34,6 @@ edition = "2021"
 rust-version = "1.85"
 license = "MIT"
 repository = "https://github.com/aphrody-labs/fairwind"
-homepage = "https://github.com/aphrody-labs/fairwind"
 keywords = ["fw", "rust-os", "wasm", "mcp", "cluster"]
 categories = ["command-line-utilities", "development-tools", "os"]
 
@@ -45,7 +44,6 @@ fw-compute = { version = "4.2.0", path = "crates/fw-compute" }
 fw-cluster = { version = "4.2.0", path = "crates/fw-cluster" }
 fw-proto = { version = "4.2.0", path = "crates/fw-proto" }
 fw-ui-blitz = { version = "4.2.0", path = "crates/fw-ui-blitz" }
-fw-wasm = { version = "4.2.0", path = "crates/fw-wasm" }
 fw-ostd-wasm = { version = "4.2.0", path = "crates/fw-ostd-wasm" }
 fw-uutils = { version = "4.2.0", path = "crates/fw-uutils" }
 fw-nix = { version = "4.2.0", path = "crates/fw-nix" }

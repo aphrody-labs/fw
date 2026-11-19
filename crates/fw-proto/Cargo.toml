@@ -5,7 +5,6 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-homepage.workspace = true
 keywords.workspace = true
 categories.workspace = true
 description = "Zero-dependency Rust protocol server: HTTP, WebSockets (RFC 6455), WebRTC SDP/DataChannel signaling, GraphQL, OpenAPI 3.1, OpenAI, Decision-1, MCP, ACP, A2A, and WebGPU/Wasm browser harness"

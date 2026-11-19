@@ -4,7 +4,7 @@ import { join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dir, "..");
 const EXT = process.platform === "win32" ? ".exe" : "";
-const NATIVE_BIN = join(ROOT, "target", "release", `fairwind-native${EXT}`);
+const NATIVE_BIN = join(ROOT, "target", "release", `fw${EXT}`);
 const WASM_BIN = join(ROOT, "target", "wasm32-unknown-unknown", "release", "fw_wasm.wasm");
 
 describe("Fairwind v3.0 unified zero-dep binary, hybrid cluster, ggml-org, Wasm32 & Blitz/WebGPU proof", () => {

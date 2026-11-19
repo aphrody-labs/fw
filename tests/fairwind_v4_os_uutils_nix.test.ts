@@ -4,7 +4,7 @@ import { join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dir, "..");
 const EXT = process.platform === "win32" ? ".exe" : "";
-const NATIVE_BIN = join(ROOT, "target", "release", `fairwind-native${EXT}`);
+const NATIVE_BIN = join(ROOT, "target", "release", `fw${EXT}`);
 
 describe("Fairwind v4.0 — Asterinas OSDK + GPUI WebGPU/Wasm + Alpine uutils + NixOS + 23 unified stacks", () => {
   test("os/fairwind-os conforms to official Asterinas OSDK, NixOS flake.nix, and Alpine APKBUILD", () => {
