@@ -5,12 +5,15 @@ use std::path::PathBuf;
 use std::process::Command;
 
 fn main() {
-    println!("cargo:rerun-if-changed=src/luma.c");
-    println!("cargo:rerun-if-changed=src/luma_x86_64.asm");
+    if env::var_os("CARGO_FEATURE_LUMA").is_none() {
+        return;
+    }
+    println!("cargo:rerun-if-changed=src/luma/luma.c");
+    println!("cargo:rerun-if-changed=src/luma/luma_x86_64.asm");
     println!("cargo:rustc-check-cfg=cfg(has_nasm_simd)");
 
     cc::Build::new()
-        .file("src/luma.c")
+        .file("src/luma/luma.c")
         .opt_level(3)
         .compile("ay_media_c");
 
@@ -23,7 +26,7 @@ fn main() {
         let status = Command::new("nasm")
             .args(["-f", format, "-o"])
             .arg(&obj_path)
-            .arg("src/luma_x86_64.asm")
+            .arg("src/luma/luma_x86_64.asm")
             .status();
 
         if let Ok(s) = status
