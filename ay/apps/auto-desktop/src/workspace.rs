@@ -102,7 +102,7 @@ impl AutoDesktopWorkspace {
     fn render_header(&self, pal: DesktopPalette, cx: &mut Context<Self>) -> impl IntoElement {
         let lang_label: SharedString = self.store.lang.to_ascii_uppercase().into();
         let mode_label: SharedString = self.store.tr(self.store.mode.label_key()).into();
-        let theme_label: SharedString = if matches!(self.store.appearance, auto_theme::Appearance::Dark) {
+        let theme_label: SharedString = if matches!(self.store.appearance, aphrody_auto::theme::Appearance::Dark) {
             self.store.tr("Light")
         } else {
             self.store.tr("Dark")

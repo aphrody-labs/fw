@@ -1,6 +1,6 @@
 //! Reactive store owning Auto's cross-platform NSH state cleanly via `global<AutoUiState>()`.
 
-use auto_model::{DocumentType, LineItem, Party};
+use aphrody_auto::model::{DocumentType, LineItem, Party};
 use nsh_core::prelude::*;
 
 use crate::nav::Section;
@@ -141,7 +141,7 @@ fn state() -> Signal<AutoUiState> {
 
 pub fn tr(source: &'static str) -> String {
     let lang = state().with(|s| s.lang);
-    auto_i18n::tr(lang, source).into_owned()
+    aphrody_auto::i18n::tr(lang, source).into_owned()
 }
 
 pub fn lang() -> &'static str {

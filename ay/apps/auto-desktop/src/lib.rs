@@ -14,7 +14,7 @@ pub use workspace::{AutoDesktopWorkspace, register_keybindings};
 #[cfg(test)]
 mod tests {
     use super::*;
-    use auto_theme::Appearance;
+    use aphrody_auto::theme::Appearance;
 
     #[test]
     fn desktop_store_filters_10k_rows_and_generates_facturx() {

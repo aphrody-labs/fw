@@ -1,7 +1,7 @@
 // Self-updater for `auto` LTO binary: verifies SHA-256 + Ed25519 signed `UpdateManifest` before replacing binary.
 use std::path::Path;
 
-use auto_client::{ReleaseArtifact, UpdateManifest};
+use crate::client::{ReleaseArtifact, UpdateManifest};
 
 use crate::{SdkError, SdkResult};
 

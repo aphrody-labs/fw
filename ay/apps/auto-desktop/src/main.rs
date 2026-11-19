@@ -1,7 +1,7 @@
 #![cfg_attr(target_os = "windows", windows_subsystem = "windows")]
 
 use auto_desktop::{AutoDesktopWorkspace, register_keybindings, sync_gpui_theme};
-use auto_theme::Appearance;
+use aphrody_auto::theme::Appearance;
 use gpui_kit::{AppContext, WindowOptions, bounds, point, px, size};
 
 fn main() {

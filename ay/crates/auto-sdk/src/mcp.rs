@@ -1,11 +1,11 @@
 // Native Rust JSON-RPC 2.0 MCP router (stdio + HTTP) for external agents and IDEs.
-use auto_auth::{
+use crate::auth::{
     password::{hash_password, verify_password},
     rbac::{Action, Role, can_perform},
 };
-use auto_facturx::{generate as generate_facturx, verify_pdfa, xml as facturx_xml};
-use auto_knowledge::chunk_text;
-use auto_model::Document;
+use crate::facturx::{generate as generate_facturx, verify_pdfa, xml as facturx_xml};
+use crate::knowledge::chunk_text;
+use crate::model::Document;
 use base64::{Engine as _, engine::general_purpose::STANDARD};
 use serde_json::{Value, json};
 
@@ -105,7 +105,7 @@ fn dispatch_tool(name: &str, args: &Value) -> Result<Value, String> {
         }
         "render_facturx_pdf" => {
             let doc: Document = serde_json::from_value(args["document"].clone()).map_err(|e| e.to_string())?;
-            let pdf = auto_docs::render(&doc).map_err(|e| e.to_string())?;
+            let pdf = crate::docs::render(&doc).map_err(|e| e.to_string())?;
             let unix = args["unixSecs"].as_i64().unwrap_or(1_792_663_200);
             let fx = generate_facturx(&doc, &pdf, unix).map_err(|e| e.to_string())?;
             Ok(json!({ "pdfBase64": STANDARD.encode(&fx), "bytes": fx.len() }))

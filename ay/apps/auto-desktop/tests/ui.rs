@@ -1,7 +1,7 @@
 //! Headless GPUI Kit integration tests verifying real frame rendering, navigation, and actions.
 
 use auto_desktop::{AutoDesktopWorkspace, RuntimeMode, Section, register_keybindings, sync_gpui_theme};
-use auto_theme::Appearance;
+use aphrody_auto::theme::Appearance;
 use gpui_kit::{
     AppContext, Bounds, Point, TestAppContext, WindowBounds, WindowOptions, px, size,
     test::TestWindowExt,

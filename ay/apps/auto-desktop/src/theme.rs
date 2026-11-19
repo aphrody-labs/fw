@@ -1,13 +1,13 @@
 //! Semantic GPUI theme bridge backed exclusively by `crates/auto-theme`.
 
-use auto_theme::{Appearance, ColorPalette, RgbColor, ThemeTokens, resolve};
+use aphrody_auto::theme::{Appearance, ColorPalette, RgbColor, ThemeTokens, resolve};
 use gpui_kit::{
     App, Hsla, Pixels,
     component::theme::{Theme, ThemeMode},
     px, rgb,
 };
 
-/// Convert an `auto_theme::RgbColor` to GPUI `Hsla` without losing accuracy.
+/// Convert an `aphrody_auto::theme::RgbColor` to GPUI `Hsla` without losing accuracy.
 #[inline]
 pub fn rgb_to_hsla(c: RgbColor) -> Hsla {
     let packed = ((c.r as u32) << 16) | ((c.g as u32) << 8) | (c.b as u32);

@@ -1,13 +1,13 @@
 //! Production state & virtualized 10,000-row ledger backing `AutoDesktopWorkspace`.
 
-use auto_auth::{
+use aphrody_auto::auth::{
     jwt::{JwkSet, derive_ed25519_keypair, jwk_from_verifying_key},
     password::hash_password_argon2id_with_salt,
 };
-use auto_facturx::xml as to_cii_xml;
-use auto_i18n::catalog;
-use auto_model::{Document, DocumentType, LineItem, Party, format_eur};
-use auto_theme::Appearance;
+use aphrody_auto::facturx::xml as to_cii_xml;
+use aphrody_auto::i18n::catalog;
+use aphrody_auto::model::{Document, DocumentType, LineItem, Party, format_eur};
+use aphrody_auto::theme::Appearance;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Section {

@@ -2,7 +2,7 @@
 
 use std::collections::BTreeMap;
 
-use auto_auth::{
+use aphrody_auto::auth::{
     jwt::{JwkSet, JwtClaims, derive_ed25519_keypair, jwk_from_verifying_key, sign_jwt, verify_jwt},
     passkey::{PasskeyAssertion, verify_passkey_assertion},
     password::{hash_password_argon2id_with_salt, hash_password_scrypt_compat, verify_password},
@@ -10,14 +10,14 @@ use auto_auth::{
     session::{open_sealed, seal_with_nonce, sign_hmac_token, verify_hmac_token},
     totp::{TotpAlgorithm, decode_base32, otpauth_uri, totp, verify_totp},
 };
-use auto_files::{
+use aphrody_auto::files::{
     NewPresentation, RedactionOptions, SignatureOptions, SimpleDocx, TextReplacement, create_docx, create_pptx,
     docx_text, docx_to_pdf, extract_pdf_pages, fill_template_docx, merge_pdfs, pdf_page_count, pdf_text, pptx_text,
     pptx_to_pdf, read_docx, redact_pdf, replace_docx, sign_pdf, template_fields_docx, verify_signatures,
 };
-use auto_knowledge::{chunk_text, nearest_vectors};
-use auto_model::Document;
-use auto_sheets::{CellEdit, Workbook, modify_xlsx, read as read_spreadsheet, write_xlsx};
+use aphrody_auto::knowledge::{chunk_text, nearest_vectors};
+use aphrody_auto::model::Document;
+use aphrody_auto::sheets::{CellEdit, Workbook, modify_xlsx, read as read_spreadsheet, write_xlsx};
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -106,7 +106,7 @@ pub fn dispatch(op: &str, input: &[u8]) -> Result<Vec<u8>, String> {
     match op {
         "render_pdf" => {
             let doc = parse_doc_with_locale(input)?;
-            auto_docs::render(&doc).map_err(|e| e.to_string())
+            aphrody_auto::docs::render(&doc).map_err(|e| e.to_string())
         }
         "facturx" => {
             let (mut doc, ts) = if input.first() == Some(&b'{')
@@ -136,19 +136,19 @@ pub fn dispatch(op: &str, input: &[u8]) -> Result<Vec<u8>, String> {
                 (doc, ts)
             };
             let _ = &mut doc;
-            let base_pdf = auto_docs::render(&doc).map_err(|e| e.to_string())?;
-            auto_facturx::generate(&doc, &base_pdf, ts).map_err(|e| e.to_string())
+            let base_pdf = aphrody_auto::docs::render(&doc).map_err(|e| e.to_string())?;
+            aphrody_auto::facturx::generate(&doc, &base_pdf, ts).map_err(|e| e.to_string())
         }
         "xml_cii" => {
             let doc = parse_doc_with_locale(input)?;
-            auto_facturx::xml(&doc).map(String::into_bytes).map_err(|e| e.to_string())
+            aphrody_auto::facturx::xml(&doc).map(String::into_bytes).map_err(|e| e.to_string())
         }
         "extract_xml" => {
-            let opt = auto_facturx::extract_xml(input).map_err(|e| e.to_string())?;
+            let opt = aphrody_auto::facturx::extract_xml(input).map_err(|e| e.to_string())?;
             Ok(opt.unwrap_or_default().into_bytes())
         }
         "verify_pdfa" => {
-            let errs = auto_facturx::verify_pdfa(input).map_err(|e| e.to_string())?;
+            let errs = aphrody_auto::facturx::verify_pdfa(input).map_err(|e| e.to_string())?;
             to_json_bytes(&errs)
         }
         "read_spreadsheet" => {

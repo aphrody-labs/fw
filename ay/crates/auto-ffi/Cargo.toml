@@ -9,13 +9,7 @@ license.workspace = true
 crate-type = ["cdylib", "staticlib", "rlib"]
 
 [dependencies]
-auto-auth = { path = "../auto-auth", default-features = false }
-auto-docs = { path = "../auto-docs" }
-auto-facturx = { path = "../auto-facturx" }
-auto-files = { path = "../auto-files" }
-auto-knowledge = { path = "../auto-knowledge" }
-auto-model = { path = "../auto-model" }
-auto-sheets = { path = "../auto-sheets" }
+aphrody-auto = { path = "../auto-sdk", default-features = false, features = ["auth", "docs", "facturx", "files", "knowledge", "model", "sheets"] }
 base64.workspace = true
 serde.workspace = true
 serde_json.workspace = true

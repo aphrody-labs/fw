@@ -1,6 +1,6 @@
 //! Workspace and detail screens rendered inside `nav_stack()`.
 
-use auto_model::format_eur;
+use aphrody_auto::model::format_eur;
 use nsh_base::{button, nav_page, switch, theme};
 use nsh_core::{
     element::{Position, Screen},

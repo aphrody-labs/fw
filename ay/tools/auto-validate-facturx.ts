@@ -35,7 +35,7 @@ if (!(await Bun.file(xsd).exists())) {
 const out = join(root, ".cache", "cii-out");
 await $`mkdir -p ${out}`;
 const env = { ...Bun.env, RUSTC_WRAPPER: "", RUSTUP_TOOLCHAIN: "nightly" };
-const gen = Bun.spawnSync(["cargo", "run", "-q", "-p", "auto-facturx", "--example", "samples", "--", out], {
+const gen = Bun.spawnSync(["cargo", "run", "-q", "-p", "aphrody-auto", "--example", "facturx_samples", "--", out], {
   cwd: root,
   env,
   stdout: "inherit",

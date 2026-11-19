@@ -15,9 +15,7 @@ name = "auto_ui"
 path = "src/lib.rs"
 
 [dependencies]
-auto-i18n = { path = "../../crates/auto-i18n" }
-auto-model = { path = "../../crates/auto-model" }
-auto-theme = { path = "../../crates/auto-theme" }
+aphrody-auto = { path = "../../crates/auto-sdk", default-features = false, features = ["i18n", "model", "theme"] }
 nsh-base = "0.6.0"
 nsh-core = "0.6.0"
 serde = { version = "1", features = ["derive"] }

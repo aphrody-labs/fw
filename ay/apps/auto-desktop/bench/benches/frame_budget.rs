@@ -3,7 +3,7 @@
 use std::time::Duration;
 
 use auto_desktop::{AutoDesktopStore, DesktopPalette};
-use auto_theme::Appearance;
+use aphrody_auto::theme::Appearance;
 use criterion::{Criterion, black_box, criterion_group, criterion_main};
 
 fn bench_frame_budget(c: &mut Criterion) {

@@ -1,6 +1,6 @@
 //! Bridge from canonical `auto_theme` semantic tokens into `nsh_core::prelude::Tokens`.
 
-use auto_theme::{DARK_PALETTE, LIGHT_PALETTE, RADII, RgbColor, SPACING, TYPOGRAPHY};
+use aphrody_auto::theme::{DARK_PALETTE, LIGHT_PALETTE, RADII, RgbColor, SPACING, TYPOGRAPHY};
 use nsh_core::prelude::*;
 
 #[inline]

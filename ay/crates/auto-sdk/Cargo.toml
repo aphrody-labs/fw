@@ -6,34 +6,102 @@ rust-version.workspace = true
 license.workspace = true
 description = "Unified Aphrody Auto SDK library + single LTO/AOT executable: modern Rust Better Auth, billing/Factur-X/DOCX/XLSX/PPTX/PDF engines, HLC sync client, MCP router, and real-time L7 load balancer"
 
+[features]
+runtime = ["dep:axum", "dep:reqwest", "dep:tokio", "dep:toml", "native", "auth", "client"]
+native = ["dep:axum", "dep:getrandom", "dep:rusqlite", "dep:tokio"]
+auth = ["dep:argon2", "dep:chacha20poly1305", "dep:ed25519-dalek", "dep:hmac", "dep:p256", "dep:scrypt", "dep:sha1", "dep:subtle"]
+client = ["dep:ed25519-dalek", "model"]
+docs = ["dep:craft-pdf", "dep:flate2", "dep:skrifa", "i18n", "model", "theme"]
+facturx = ["dep:craft-pdf", "dep:flate2", "dep:chrono", "i18n", "model", "docs"]
+files = ["dep:craft-pdf", "dep:craft-docx", "dep:craft-pkcs7", "dep:craft-pptx", "dep:craft-wordmodel", "docs"]
+i18n = ["dep:craft-i18n"]
+knowledge = ["dep:ay-rag-core"]
+model = ["i18n"]
+sheets = ["dep:craft-csv", "dep:craft-ods", "dep:craft-opc", "dep:craft-sheet", "dep:craft-xls", "dep:craft-xlsx", "dep:craft-xml"]
+theme = []
+default = ["runtime", "native", "auth", "client", "docs", "facturx", "files", "i18n", "knowledge", "model", "sheets", "theme"]
+
 [lib]
 name = "aphrody_auto"
 path = "src/lib.rs"
 
+[dependencies]
+ay-rag-core = { path = "../ay-rag-core", default-features = false, optional = true }
+argon2 = { workspace = true, optional = true }
+axum = { workspace = true, optional = true }
+base64.workspace = true
+chacha20poly1305 = { workspace = true, optional = true }
+chrono = { workspace = true, optional = true }
+craft-csv = { workspace = true, optional = true }
+craft-docx = { workspace = true, optional = true }
+craft-i18n = { workspace = true, optional = true }
+craft-ods = { workspace = true, optional = true }
+craft-opc = { workspace = true, optional = true }
+craft-pdf = { workspace = true, optional = true }
+craft-pkcs7 = { workspace = true, optional = true }
+craft-pptx = { workspace = true, optional = true }
+craft-sheet = { workspace = true, optional = true }
+craft-wordmodel = { workspace = true, optional = true }
+craft-xls = { workspace = true, optional = true }
+craft-xlsx = { workspace = true, optional = true }
+craft-xml = { workspace = true, optional = true }
+ed25519-dalek = { workspace = true, optional = true }
+flate2 = { workspace = true, optional = true }
+getrandom = { workspace = true, optional = true }
+hmac = { workspace = true, optional = true }
+p256 = { workspace = true, optional = true }
+reqwest = { workspace = true, optional = true }
+rusqlite = { workspace = true, optional = true }
+scrypt = { workspace = true, optional = true }
+serde.workspace = true
+serde_json.workspace = true
+sha1 = { workspace = true, optional = true }
+sha2.workspace = true
+skrifa = { workspace = true, optional = true }
+subtle = { workspace = true, optional = true }
+thiserror.workspace = true
+tokio = { workspace = true, optional = true }
+toml = { workspace = true, optional = true }
+
 [[bin]]
 name = "auto"
 path = "src/bin/auto.rs"
+required-features = ["runtime"]
 
-[dependencies]
-auto-auth = { path = "../auto-auth" }
-auto-client = { path = "../auto-client" }
-auto-docs = { path = "../auto-docs" }
-auto-facturx = { path = "../auto-facturx" }
-auto-files = { path = "../auto-files" }
-auto-i18n = { path = "../auto-i18n" }
-auto-knowledge = { path = "../auto-knowledge" }
-auto-model = { path = "../auto-model" }
-auto-sheets = { path = "../auto-sheets" }
-auto-theme = { path = "../auto-theme" }
-axum.workspace = true
-base64.workspace = true
-reqwest.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-sha2.workspace = true
-thiserror.workspace = true
-tokio.workspace = true
-toml.workspace = true
+[[example]]
+name = "docs_preview"
+path = "examples/docs_preview.rs"
+required-features = ["docs"]
+
+[[test]]
+name = "docs_render"
+path = "tests/docs_render.rs"
+required-features = ["docs"]
+
+[[example]]
+name = "facturx_samples"
+path = "examples/facturx_samples.rs"
+required-features = ["facturx"]
+
+[[test]]
+name = "facturx_facturx"
+path = "tests/facturx_facturx.rs"
+required-features = ["facturx"]
+
+[[test]]
+name = "files_files_test"
+path = "tests/files_files_test.rs"
+required-features = ["files"]
+
+[[example]]
+name = "sheets_example"
+path = "examples/sheets_example.rs"
+required-features = ["sheets"]
+
+[[test]]
+name = "sheets_spreadsheets"
+path = "tests/sheets_spreadsheets.rs"
+required-features = ["sheets"]
 
 [lints]
 workspace = true
