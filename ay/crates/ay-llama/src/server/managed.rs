@@ -9,11 +9,11 @@
 
 use std::path::{Path, PathBuf};
 
-use ay_models::{
+use ay_model::store::{
     Backend, Catalog, Downloader, LocalRole, ModelStore, ModelTask, PullOptions, Resolved,
 };
 
-use crate::{
+use crate::server::{
     Budget, DaemonCommand, Endpoint, EnsureOptions, ModelFacts, Plan, PlanRequest, Role,
     ServerCapabilities, StateDirs, Supervisor,
 };
@@ -85,7 +85,7 @@ impl Default for ManagedLaunchOptions {
         Self {
             ctx: None,
             pooling: None,
-            margin_mib: crate::DEFAULT_MARGIN_MIB,
+            margin_mib: crate::server::DEFAULT_MARGIN_MIB,
             parallel: 1,
             extra_args: Vec::new(),
             ensure: EnsureOptions::default(),
@@ -161,16 +161,16 @@ impl ManagedEndpoint {
 pub enum ManagedError {
     /// Model catalog, store, or download failure.
     #[error("managed model error: {0}")]
-    Model(#[from] ay_models::ModelError),
+    Model(#[from] ay_model::store::ModelError),
     /// GGUF inspection failure.
     #[error("managed model inspection failed: {0}")]
-    Facts(#[from] crate::FactsError),
+    Facts(#[from] crate::server::FactsError),
     /// Installed server capability probe failure.
     #[error("managed llama-server capability probe failed: {0}")]
-    Capability(#[from] crate::CapabilityError),
+    Capability(#[from] crate::server::CapabilityError),
     /// Supervisor launch or stop failure.
     #[error("managed llama-server supervisor failed: {0}")]
-    Supervisor(#[from] crate::SupervisorError),
+    Supervisor(#[from] crate::server::SupervisorError),
     /// Filesystem or daemon discovery failure.
     #[error("managed llama-server i/o error: {0}")]
     Io(#[from] std::io::Error),
@@ -333,7 +333,7 @@ impl ManagedLlamaServer {
         let (facts, capabilities, budget) = tokio::task::spawn_blocking(move || {
             let facts = ModelFacts::read(&model_path)?;
             let capabilities = ServerCapabilities::probe(&binary)?;
-            let budget = Budget::from_profile(&ay_models::accel::probe());
+            let budget = Budget::from_profile(&ay_model::store::accel::probe());
             Ok::<_, ManagedError>((facts, capabilities, budget))
         })
         .await
@@ -355,7 +355,7 @@ impl ManagedLlamaServer {
                     .is_some_and(|name| name.to_string_lossy().contains("mmproj"))
             })
             .cloned();
-        let plan = crate::plan(&facts, &capabilities, budget, &plan_request);
+        let plan = crate::server::plan(&facts, &capabilities, budget, &plan_request);
         let endpoint = self
             .supervisor
             .ensure(&self.binary, &plan, options.ensure)

@@ -19,7 +19,7 @@ use std::{
 };
 
 use async_trait::async_trait;
-use ay_llama::{
+use crate::{
     context::params::{LlamaAttentionType, LlamaContextParams},
     llama_backend::LlamaBackend,
     llama_batch::LlamaBatch,
@@ -30,7 +30,7 @@ use ay_llama::{
     },
     sampling::LlamaSampler,
 };
-use ay_model_client::{
+use ay_model::client::{
     ChatMessage, ChatTurn, ImageSource, ModelCapabilities, ModelClient, ModelError, ModelStream,
     ModelStreamEvent, Part, Role, ToolDecl,
 };
@@ -121,7 +121,7 @@ static BACKEND: OnceCell<&'static LlamaBackend> = OnceCell::const_new();
 async fn backend() -> Result<&'static LlamaBackend, LlamaLoadError> {
     BACKEND
         .get_or_try_init(|| async {
-            ay_ml_runtime::Runtime::discover([ay_ml_runtime::Feature::Llama])
+            ay_ml::runtime::Runtime::discover([ay_ml::runtime::Feature::Llama])
                 .map_err(|error| LlamaLoadError::Runtime(format!("{error:#}")))?
                 .initialize()
                 .await
@@ -129,7 +129,7 @@ async fn backend() -> Result<&'static LlamaBackend, LlamaLoadError> {
             let backend = match LlamaBackend::init() {
                 Ok(backend) => backend,
                 // Initialised elsewhere in the process (the empty handle only proves it).
-                Err(ay_llama::LlamaCppError::BackendAlreadyInitialized) => LlamaBackend {},
+                Err(crate::LlamaCppError::BackendAlreadyInitialized) => LlamaBackend {},
                 Err(error) => return Err(LlamaLoadError::Backend(error.to_string())),
             };
             Ok::<_, LlamaLoadError>(&*Box::leak(Box::new(backend)))
@@ -535,7 +535,7 @@ fn generate(
     let template = match model.chat_template(None) {
         Ok(template) => template,
         Err(_) => {
-            ay_llama::model::LlamaChatTemplate::new("chatml").map_err(|error| error.to_string())?
+            crate::model::LlamaChatTemplate::new("chatml").map_err(|error| error.to_string())?
         }
     };
     let raw_template = template.to_str().map_err(|error| error.to_string())?;
@@ -776,7 +776,7 @@ mod tests {
                     role: Role::User,
                     parts: vec![Part::Text("Count from one to ten.".into())],
                 }],
-                options: ay_model_client::TurnOptions {
+                options: ay_model::client::TurnOptions {
                     max_output_tokens: Some(16),
                     ..Default::default()
                 },

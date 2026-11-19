@@ -5,7 +5,7 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::server::{
     caps::{FlashAttnSyntax, ServerCapabilities},
     facts::KvQuant,
 };

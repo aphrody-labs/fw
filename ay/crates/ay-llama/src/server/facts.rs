@@ -6,7 +6,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use ay_models::{Details, inspect_prefix};
+use ay_model::store::{Details, inspect_prefix};
 use serde::{Deserialize, Serialize};
 
 /// How much of the file is read to find the scalar metadata. The architecture

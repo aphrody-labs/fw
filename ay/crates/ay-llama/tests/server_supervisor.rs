@@ -9,7 +9,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use ay_llama_server::{
+use ay_llama::server::{
     DaemonCommand, EnsureOptions, KvQuant, LlamaServerSpec, LoraAdapter, Placement, Plan, Role,
     StateDirs, Supervisor, SupervisorError,
 };

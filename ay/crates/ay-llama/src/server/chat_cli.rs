@@ -31,10 +31,10 @@ use std::{
     time::Duration,
 };
 
-use ay_models::Catalog;
+use ay_model::store::Catalog;
 use serde_json::{Value, json};
 
-use crate::{
+use crate::server::{
     ArtifactSpec, ChatLaunchOptions, ChatProvisionRequest, DaemonCommand, Health, LoraSpec, Role,
     ServerClient, StateDirs, Supervisor, launch_chat, locate_llama_server, provision_chat,
 };
@@ -147,7 +147,7 @@ fn parse(mut it: impl Iterator<Item = String>) -> Result<Args, String> {
             "--model-sha256" => {
                 let sha = value()?;
                 let model = args.model.get_or_insert_with(|| {
-                    ArtifactSpec::new(crate::local_chat::DEFAULT_CHAT_MODEL)
+                    ArtifactSpec::new(crate::server::local_chat::DEFAULT_CHAT_MODEL)
                 });
                 model.sha256 = Some(sha);
             }
@@ -253,7 +253,7 @@ pub fn chat_cli_main(args: Vec<OsString>) -> i32 {
     if rest.peek().map(String::as_str) == Some("llama-daemon") {
         let mut argv = vec![OsString::from("aphrody-llama-daemon")];
         argv.extend(rest.skip(1).map(OsString::from));
-        return crate::cli_main(argv);
+        return crate::server::cli_main(argv);
     }
     if matches!(
         rest.peek().map(String::as_str),
@@ -293,7 +293,7 @@ async fn run(args: Args) -> i32 {
     }
 }
 
-async fn provision(args: &Args) -> Result<crate::ProvisionedChat, i32> {
+async fn provision(args: &Args) -> Result<crate::server::ProvisionedChat, i32> {
     let declared = match &args.catalog {
         Some(path) => Some(Catalog::load(path).map_err(fail)?),
         None => None,
@@ -333,7 +333,7 @@ async fn serve(args: &Args, state: &Path) -> i32 {
         Err(error) => return fail(format!("no daemon launcher: {error}")),
     };
     let default_keep_alive = if args.detach {
-        crate::DEFAULT_KEEP_ALIVE.as_secs()
+        crate::server::DEFAULT_KEEP_ALIVE.as_secs()
     } else {
         120
     };
@@ -439,7 +439,7 @@ async fn route(args: &Args, state: &Path) -> i32 {
     let Some(config_path) = &args.config else {
         return fail("router needs --config <file>");
     };
-    let config = match crate::router::RouterConfig::load(config_path) {
+    let config = match crate::server::router::RouterConfig::load(config_path) {
         Ok(config) => config,
         Err(error) => return fail(error),
     };
@@ -448,13 +448,13 @@ async fn route(args: &Args, state: &Path) -> i32 {
         Err(error) => return fail(format!("no daemon launcher: {error}")),
     };
     let ids: Vec<String> = config.models.iter().map(|m| m.id().to_owned()).collect();
-    let context = crate::router::RouterContext {
+    let context = crate::server::router::RouterContext {
         models_dir: args.models_dir().unwrap_or_default(),
         state_dir: state.to_path_buf(),
         llama_bin: locate_llama_server(args.llama_bin.as_deref(), &exe_dir()),
         daemon,
     };
-    let router = match crate::router::ChatRouter::new(config, context) {
+    let router = match crate::server::router::ChatRouter::new(config, context) {
         Ok(router) => router,
         Err(error) => return fail(error),
     };

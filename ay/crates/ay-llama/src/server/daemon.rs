@@ -24,7 +24,7 @@ use std::{
 use ay_proc::{GpuLease, GroupChild, LeaseError, LeaseKind, SpawnOptions, free_port, spawn_group};
 use serde::{Deserialize, Serialize};
 
-use crate::{
+use crate::server::{
     caps::{CapabilityError, ServerCapabilities},
     client::{Health, ServerClient},
     spec::{LlamaServerSpec, Placement, Role},
@@ -229,7 +229,7 @@ pub async fn run(dirs: &StateDirs, role: Role) -> Result<ExitReason, DaemonError
         // The client that spawned us is polling for a state file that will
         // never come; tell it why.
         if let Err(write_error) =
-            crate::state::write_atomic(&dirs.error_file(role), error.to_string().as_bytes())
+            crate::server::state::write_atomic(&dirs.error_file(role), error.to_string().as_bytes())
         {
             tracing::warn!(%write_error, "failed to publish the launch error");
         }

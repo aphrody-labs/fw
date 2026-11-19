@@ -9,8 +9,8 @@
 //! ```
 #![cfg(feature = "in-process")]
 
-use ay_llama_server::{InProcessLlama, InProcessServer, in_process::LoadOptions};
-use ay_model_client::{
+use ay_llama::server::{InProcessLlama, InProcessServer, in_process::LoadOptions};
+use ay_model::client::{
     ChatMessage, ChatTurn, ModelClient, ModelStreamEvent, Part, Role, TurnOptions,
 };
 use futures::StreamExt as _;
@@ -143,7 +143,7 @@ async fn reply(engine: &InProcessLlama, turn: ChatTurn) -> String {
 #[tokio::test(flavor = "multi_thread")]
 #[ignore = "needs the libllama runtime, a vision GGUF and its mmproj (APHRODY_LLAMA_TEST_MODEL + APHRODY_LLAMA_TEST_MMPROJ)"]
 async fn in_process_vision_reads_an_image() {
-    use ay_model_client::ImageSource;
+    use ay_model::client::ImageSource;
     use base64::Engine as _;
 
     let model = std::env::var("APHRODY_LLAMA_TEST_MODEL").expect("set APHRODY_LLAMA_TEST_MODEL");
@@ -214,7 +214,7 @@ async fn in_process_vision_reads_an_image() {
 #[tokio::test(flavor = "multi_thread")]
 #[ignore = "needs the libllama runtime, a GGUF model and a compatible adapter (APHRODY_LLAMA_TEST_MODEL + APHRODY_LLAMA_TEST_LORA)"]
 async fn in_process_lora_adapter_loads_and_generates() {
-    use ay_llama_server::in_process::LoraSpec;
+    use ay_llama::server::in_process::LoraSpec;
 
     let model = std::env::var("APHRODY_LLAMA_TEST_MODEL").expect("set APHRODY_LLAMA_TEST_MODEL");
     let lora = std::env::var("APHRODY_LLAMA_TEST_LORA").expect("set APHRODY_LLAMA_TEST_LORA");

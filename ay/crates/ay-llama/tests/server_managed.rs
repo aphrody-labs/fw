@@ -4,10 +4,10 @@
 
 use std::path::{Path, PathBuf};
 
-use ay_llama_server::{
+use ay_llama::server::{
     DaemonCommand, ManagedCategory, ManagedLlamaServer, ManagedRequest, StateDirs, Supervisor,
 };
-use ay_models::ModelRef;
+use ay_model::store::ModelRef;
 
 const FAKE_SERVER: &str = env!("CARGO_BIN_EXE_aphrody-fake-llama-server");
 const DAEMON: &str = env!("CARGO_BIN_EXE_aphrody-llama-daemon");

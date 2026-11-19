@@ -10,7 +10,7 @@
 
 use std::path::{Path, PathBuf};
 
-use ay_models::{Catalog, Downloader, LocalRole, ModelStore, PullOptions};
+use ay_model::store::{Catalog, Downloader, LocalRole, ModelStore, PullOptions};
 
 /// Default model identifier used for managed llama-server when unspecified.
 ///
@@ -118,7 +118,7 @@ pub enum OssReadyError {
     UnknownProvider(String),
     /// Error originating from [`ay_models`] (catalog, store, or download).
     #[error("model store error: {0}")]
-    Model(#[from] ay_models::ModelError),
+    Model(#[from] ay_model::store::ModelError),
     /// HTTP transport failure.
     #[error("network or HTTP error: {0}")]
     Http(#[from] reqwest::Error),
@@ -431,7 +431,7 @@ mod tests {
         let fake_weights = temp.path().join("fake_qwen.gguf");
         std::fs::write(&fake_weights, b"GGUF_TEST_BYTES").unwrap();
 
-        let local_ref = ay_models::ModelRef::Local(fake_weights.clone());
+        let local_ref = ay_model::store::ModelRef::Local(fake_weights.clone());
         let adopted = store.adopt_local(&fake_weights).unwrap();
         assert_eq!(adopted.bytes, 15);
 

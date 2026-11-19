@@ -22,8 +22,8 @@
 
 use std::sync::atomic::{AtomicU64, Ordering};
 
-use ay_model_client::{ModelStreamEvent, TokenUsage};
-use ay_toolcall_repair::{extract_any, strip_tool_calls};
+use ay_model::client::{ModelStreamEvent, TokenUsage};
+use ay_toolcall::repair::{extract_any, strip_tool_calls};
 
 const THINK_OPEN: &str = "<think>";
 const THINK_CLOSE: &str = "</think>";

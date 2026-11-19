@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! One loopback OpenAI-compatible endpoint over several chat models, chosen by
 //! the request's `model`: managed llama.cpp models (a base GGUF with optional
-//! LoRA adapters, see [`crate::local_chat`]), the Gemini web app (a signed-in
+//! LoRA adapters, see [`crate::server::local_chat`]), the Gemini web app (a signed-in
 //! cookie jar, `ay-gemini-web`) and any other OpenAI-compatible server.
 //!
 //! - `GET /v1/models` lists only the models that can answer now: a llama model whose files are
@@ -35,13 +35,13 @@ use axum::{
     response::{IntoResponse, Response},
     routing::{get, post},
 };
-use ay_gemini_web::{GeminiModel, GeminiWebClient};
-use ay_models::Catalog;
+use ay_gemini::web::{GeminiModel, GeminiWebClient};
+use ay_model::store::Catalog;
 use serde::Deserialize;
 use serde_json::{Value, json};
 use tokio::sync::Mutex;
 
-use crate::{
+use crate::server::{
     ArtifactSpec, ChatLaunchOptions, ChatProvisionRequest, DaemonCommand, LoraSpec, Role,
     StateDirs, Supervisor, chat_present, launch_chat, provision_chat,
 };
@@ -367,7 +367,7 @@ impl ChatRouter {
         }
         let path = cookie_file
             .clone()
-            .or_else(|| ay_gemini_web::Auth::default_cookie_path().ok());
+            .or_else(|| ay_gemini::web::Auth::default_cookie_path().ok());
         let result = match path {
             Some(path) if path.is_file() => {
                 match tokio::time::timeout(

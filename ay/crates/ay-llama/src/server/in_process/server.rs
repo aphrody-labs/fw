@@ -16,7 +16,7 @@ use axum::{
     response::{IntoResponse, Response},
     routing::{get, post},
 };
-use ay_model_client::{
+use ay_model::client::{
     ChatMessage, ChatTurn, ImageSource, ModelClient, ModelStreamEvent, Part, Role, ToolDecl,
 };
 use futures::StreamExt;
@@ -442,7 +442,7 @@ fn request_to_turn(body: &Value) -> Result<ChatTurn, String> {
 
 #[cfg(test)]
 mod tests {
-    use ay_model_client::TokenUsage;
+    use ay_model::client::TokenUsage;
 
     use super::*;
 

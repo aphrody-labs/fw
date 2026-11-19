@@ -10,9 +10,9 @@
 
 use std::path::PathBuf;
 
-use ay_models::HardwareProfile;
+use ay_model::store::HardwareProfile;
 
-use crate::{
+use crate::server::{
     caps::{FlashAttnSyntax, ServerCapabilities},
     facts::{KvQuant, ModelFacts},
     spec::{LlamaServerSpec, LoraAdapter, Placement, Role},

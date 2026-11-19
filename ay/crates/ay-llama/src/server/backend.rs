@@ -12,7 +12,7 @@
 //! | `in-process`           | yes                   | [`InferenceBackend::InProcess`] |
 //! | `in-process`           | no                    | error (never a silent fallback) |
 //!
-//! The detached daemon ([`crate::daemon`]) stays the engine of the standalone `aphrody` CLI and
+//! The detached daemon ([`crate::server::daemon`]) stays the engine of the standalone `aphrody` CLI and
 //! of `aphrody-llama-daemon`; a host that links the in-process engine (the desktop app) never
 //! re-executes its own executable.
 

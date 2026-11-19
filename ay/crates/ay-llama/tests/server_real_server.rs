@@ -12,11 +12,11 @@
 
 use std::{path::PathBuf, time::Duration};
 
-use ay_llama_server::{
+use ay_llama::server::{
     Budget, DaemonCommand, EnsureOptions, ModelFacts, PlanRequest, Role, ServerCapabilities,
     StateDirs, Supervisor, plan,
 };
-use ay_model_client::{
+use ay_model::client::{
     ChatMessage, ChatTurn, ModelClient, ModelStreamEvent, OpenAiCompatClient, OpenAiWire, Part,
     ProviderRuntime, TurnOptions,
 };
@@ -36,7 +36,7 @@ async fn real_server_plans_launches_answers_and_stops() {
 
     let facts = ModelFacts::read(&model).expect("gguf facts");
     let caps = ServerCapabilities::probe(&binary).expect("server capabilities");
-    let budget = Budget::from_profile(&ay_models::accel::probe());
+    let budget = Budget::from_profile(&ay_model::store::accel::probe());
     let plan = plan(
         &facts,
         &caps,
@@ -92,7 +92,7 @@ async fn real_server_plans_launches_answers_and_stops() {
     );
     let turn = ChatTurn {
         messages: vec![ChatMessage {
-            role: ay_model_client::Role::User,
+            role: ay_model::client::Role::User,
             parts: vec![Part::Text("Reply with the single word: ready".to_string())],
         }],
         options: TurnOptions {

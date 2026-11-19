@@ -2,9 +2,9 @@
 //! Entry point of the former `aphrody-llama-daemon` binary:
 //! `aphrody-llama-daemon --state-root <dir> --role <chat|embed|rerank>`
 //!
-//! The standalone host of [`ay_llama_server::daemon::run`]: it owns one
+//! The standalone host of [`crate::server::daemon::run`]: it owns one
 //! `llama-server` process for one role until that server stops, is stopped, or
-//! idles out. Started detached by [`ay_llama_server::Supervisor`]; it
+//! idles out. Started detached by [`crate::server::Supervisor`]; it
 //! takes its launch request from the role's spec file under the state root.
 //!
 //! Exit status: 0 when the server ended for a normal reason, 1 when it could
@@ -13,7 +13,7 @@
 
 use std::{ffi::OsString, path::PathBuf};
 
-use crate::{Role, StateDirs, daemon};
+use crate::server::{Role, StateDirs, daemon};
 
 struct Args {
     state_root: PathBuf,

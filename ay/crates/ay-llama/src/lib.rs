@@ -18,6 +18,8 @@
 //!
 //! - `cuda` enables CUDA gpu support.
 //! - `sampler` adds the [`context::sample::sampler`] struct for a more rusty way of sampling.
+extern crate self as ay_llama;
+
 use std::ffi::{NulError, c_char};
 use std::fmt::Debug;
 use std::num::NonZeroI32;
@@ -571,3 +573,6 @@ pub fn send_logs_to_tracing(options: LogOptions) {
         ay_llama_sys::ggml_log_set(Some(logs_to_trace), ggml_heap_state as *mut _);
     }
 }
+
+#[cfg(feature = "server")]
+pub mod server;

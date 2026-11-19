@@ -22,7 +22,7 @@ use std::{
 use ay_proc::process_alive;
 use serde::{Deserialize, Serialize};
 
-use crate::spec::Role;
+use crate::server::spec::Role;
 
 /// The directories the supervisor and the daemon share.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -113,7 +113,7 @@ pub struct RunState {
     pub server_pid: u32,
     /// The loopback port the server listens on.
     pub port: u16,
-    /// [`LlamaServerSpec::fingerprint`](crate::LlamaServerSpec::fingerprint) of
+    /// [`LlamaServerSpec::fingerprint`](crate::server::LlamaServerSpec::fingerprint) of
     /// the spec it was started with.
     pub fingerprint: String,
     /// Model name the API reports.
@@ -221,11 +221,11 @@ pub(crate) fn last_touch(dirs: &StateDirs, role: Role) -> Option<u64> {
 
 /// Best-effort discovery of a currently running managed instance of `role`,
 /// on the default aphrody state directory (`$APHRODY_HOME`, else
-/// `~/.aphrody`; see [`ay_models::paths::state_dir`]).
+/// `~/.aphrody`; see [`ay_model::store::paths::state_dir`]).
 ///
 /// This never spawns anything and never blocks on a model load: it reads the
 /// [`RunState`] a live daemon already published and checks the daemon is
-/// still alive, exactly what [`crate::Supervisor::status`] does for a caller
+/// still alive, exactly what [`crate::server::Supervisor::status`] does for a caller
 /// that already holds a `Supervisor`. Callers that only need "is a `role`
 /// endpoint already up, and if so, where" — the one fallback CLAUDE.md's AI
 /// environment contract allows in place of a hardcoded port — use this
@@ -235,7 +235,7 @@ pub(crate) fn last_touch(dirs: &StateDirs, role: Role) -> Option<u64> {
 /// has published state for `role`, or its daemon process is gone.
 #[must_use]
 pub fn discover_running(role: Role) -> Option<RunState> {
-    let root = ay_models::paths::state_dir().ok()?;
+    let root = ay_model::store::paths::state_dir().ok()?;
     let dirs = StateDirs::new(root);
     read_state(&dirs, role).filter(|state| process_alive(state.daemon_pid))
 }

@@ -15,18 +15,18 @@
 
 use std::path::{Path, PathBuf};
 
-use ay_models::{
+use ay_model::store::{
     Catalog, Downloader, ModelError, ModelRef, ModelStore, Progress, PullOptions, Resolved,
 };
 use serde::Serialize;
 
-use crate::{
+use crate::server::{
     Budget, DaemonCommand, Endpoint, EnsureOptions, LoraAdapter, LoraStatus, ManagedError,
     ModelFacts, Plan, PlanRequest, Role, ServerCapabilities, StateDirs, Supervisor,
 };
 
 /// Base model used when the caller names none: the small chat role of the catalog.
-pub const DEFAULT_CHAT_MODEL: &str = ay_models::LocalRole::Small.default_model();
+pub const DEFAULT_CHAT_MODEL: &str = ay_model::store::LocalRole::Small.default_model();
 
 /// Catalog file roles that carry adapter weights.
 const LORA_ROLES: &[&str] = &["lora", "adapter"];
@@ -315,7 +315,7 @@ async fn pull_one(
     force: bool,
     on_progress: &mut impl FnMut(&ProvisionProgress),
 ) -> Result<ProvisionedArtifact, ManagedError> {
-    let expected = sha256.map(|digest| ay_models::digest::normalize_digest(&digest));
+    let expected = sha256.map(|digest| ay_model::store::digest::normalize_digest(&digest));
     let options = PullOptions {
         expected_sha256: expected.clone(),
         force,
@@ -402,7 +402,7 @@ impl Default for ChatLaunchOptions {
         Self {
             ctx: None,
             parallel: 1,
-            margin_mib: crate::DEFAULT_MARGIN_MIB,
+            margin_mib: crate::server::DEFAULT_MARGIN_MIB,
             alias: None,
             extra_args: Vec::new(),
             ensure: EnsureOptions::default(),
@@ -441,7 +441,7 @@ pub async fn launch_chat(
     let (facts, capabilities, budget) = tokio::task::spawn_blocking(move || {
         let facts = ModelFacts::read(&weights)?;
         let capabilities = ServerCapabilities::probe(&probe_binary)?;
-        let budget = Budget::from_profile(&ay_models::accel::probe());
+        let budget = Budget::from_profile(&ay_model::store::accel::probe());
         Ok::<_, ManagedError>((facts, capabilities, budget))
     })
     .await
@@ -458,7 +458,7 @@ pub async fn launch_chat(
     request.mmproj.clone_from(&model.mmproj);
     request.lora.clone_from(&model.lora);
     request.extra_args.clone_from(&options.extra_args);
-    let plan = crate::plan(&facts, &capabilities, budget, &request);
+    let plan = crate::server::plan(&facts, &capabilities, budget, &request);
     plan.spec
         .validate_capabilities(&capabilities)
         .map_err(|reason| ManagedError::Task(reason.to_owned()))?;
@@ -516,7 +516,7 @@ pub fn locate_llama_server(explicit: Option<&Path>, extra_dirs: &[PathBuf]) -> O
     if let Some(found) = extra_dirs.iter().find_map(|dir| in_dir(dir)) {
         return Some(found);
     }
-    if let Ok(root) = ay_models::paths::runtimes_dir()
+    if let Ok(root) = ay_model::store::paths::runtimes_dir()
         && let Ok(entries) = std::fs::read_dir(&root)
     {
         let mut dirs: Vec<PathBuf> = entries
@@ -550,8 +550,8 @@ mod tests {
         let entry = Catalog::builtin()
             .get(DEFAULT_CHAT_MODEL)
             .expect("catalog entry");
-        assert_eq!(entry.backend, ay_models::Backend::LlamaCpp);
-        assert_eq!(entry.task, ay_models::ModelTask::TextGeneration);
+        assert_eq!(entry.backend, ay_model::store::Backend::LlamaCpp);
+        assert_eq!(entry.task, ay_model::store::ModelTask::TextGeneration);
     }
 
     #[test]
@@ -594,7 +594,7 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let adapter = dir.path().join("adapter.gguf");
         std::fs::write(&adapter, b"GGUF-adapter").unwrap();
-        let good = ay_models::digest::sha256_hex(b"GGUF-adapter");
+        let good = ay_model::store::digest::sha256_hex(b"GGUF-adapter");
         let store = ModelStore::with_root(dir.path().join("models")).unwrap();
         let downloader = Downloader::new().unwrap();
         let reference = ModelRef::Local(adapter.clone());

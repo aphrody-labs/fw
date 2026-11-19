@@ -11,7 +11,7 @@ use std::{
 
 use ay_proc::{FileLock, LockKind, process_alive, spawn_detached, terminate_process};
 
-use crate::{
+use crate::server::{
     client::{Health, ServerClient},
     daemon::DaemonRequest,
     plan::Plan,
@@ -36,7 +36,7 @@ const ROLE_LOCK_TIMEOUT: Duration = Duration::from_secs(300);
 ///
 /// The daemon is either the standalone `aphrody-llama-daemon` binary or the
 /// `aphrody` CLI re-invoked with a hidden subcommand; both end up in
-/// [`crate::daemon::run`]. Whatever `args` are given, the supervisor appends
+/// [`crate::server::daemon::run`]. Whatever `args` are given, the supervisor appends
 /// `--state-root <dir> --role <role>`.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DaemonCommand {
