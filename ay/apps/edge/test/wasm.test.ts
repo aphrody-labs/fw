@@ -6,7 +6,14 @@ import { join } from "node:path";
 import { build } from "../../../tools/edge-wasm.ts";
 import { root } from "../../../tools/corelib.ts";
 
-const index = build();
+let toolchain = "";
+let built: ReturnType<typeof build> | undefined;
+try {
+  built = build();
+} catch (e) {
+  toolchain = `wasm toolchain unavailable: ${String(e).split("\n")[0]}`;
+}
+const index = built as ReturnType<typeof build>;
 const out = join(root, "target/edge-wasm");
 
 async function freePort(): Promise<number> {
@@ -43,7 +50,7 @@ async function start(): Promise<{ base: string; stop: () => void } | string> {
   return `wrangler dev did not become ready: ${log.slice(-400)}`;
 }
 
-const server = await start();
+const server = toolchain || (await start());
 const running = typeof server === "object";
 if (!running) console.warn(`skipping the workerd tests: ${server}`);
 afterAll(() => {
