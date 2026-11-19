@@ -20,5 +20,6 @@ fw-uutils = { path = "../fw-uutils" }
 fw-nix = { path = "../fw-nix" }
 fw-unified-stack = { path = "../fw-unified-stack" }
 fw-wayland-wgpu = { path = "../fw-wayland-wgpu" }
+fw-hermes-claw = { path = "../fw-hermes-claw" }
 serde_json.workspace = true
 tokio.workspace = true

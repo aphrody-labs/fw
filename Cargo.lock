@@ -85,6 +85,7 @@ dependencies = [
  "fw-cluster",
  "fw-compute",
  "fw-ggml",
+ "fw-hermes-claw",
  "fw-nix",
  "fw-ostd-wasm",
  "fw-proto",
@@ -118,6 +119,15 @@ name = "fw-ggml"
 version = "3.0.0"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "fw-hermes-claw"
+version = "3.0.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "sha2",
 ]
 
 [[package]]

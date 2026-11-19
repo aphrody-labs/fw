@@ -11,6 +11,7 @@ members = [
     "crates/fw-nix",
     "crates/fw-unified-stack",
     "crates/fw-wayland-wgpu",
+    "crates/fw-hermes-claw",
     "crates/fw-bin",
 ]
 exclude = [
