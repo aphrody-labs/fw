@@ -1,0 +1,95 @@
+name: edge-deploy
+
+# Deploys the unified edge Worker (apps/edge, config apps/edge/edge.toml) on every push to main that touches it.
+# Every run validates: the rendered wrangler config must match edge.toml, unit tests, the wasm modules, `wrangler deploy --dry-run`.
+# The deploy step runs only when the repository variable EDGE_DEPLOY is "true" (set it after the owner confirms the first deploy):
+#   - until the routes were moved (repository variable EDGE_CUTOVER_DONE is not "true") it uploads the Worker WITHOUT routes, so the live
+#     routes stay on the old scripts and the Worker answers on its workers.dev preview (/_/<service>/...);
+#   - after `bun tools/edge-cutover.ts apply --apply` it deploys the full config, routes included.
+# Secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID. Nothing is printed.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/edge/**"
+      - "apps/cf-gateway/**"
+      - "apps/tools-release/**"
+      - "tools/edge-*.ts"
+      - "tools/corelib.ts"
+      - "corelib/**"
+      - "release.toml"
+      - ".github/workflows/edge-deploy.yml"
+  pull_request:
+    paths:
+      - "apps/edge/**"
+      - "tools/edge-*.ts"
+      - ".github/workflows/edge-deploy.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: edge-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - run: bun install --frozen-lockfile
+      - name: Rendered wrangler config matches edge.toml
+        run: bun tools/edge-config.ts --check
+      - name: Wasm modules the Worker bundles
+        run: bun tools/edge-wasm.ts
+      - name: Unit tests and workerd tests
+        run: bun test apps/edge tools/edge-cutover.test.ts tools/r2-sync.test.ts tools/edge-wasm.test.ts
+      - name: Bundle and validate the Worker
+        working-directory: apps/edge
+        run: bunx wrangler deploy --dry-run --outdir ../../target/edge-dry
+        env:
+          WRANGLER_SEND_METRICS: "false"
+
+  deploy:
+    needs: verify
+    if: github.event_name != 'pull_request' && vars.EDGE_DEPLOY == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment: edge-production
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - run: bun install --frozen-lockfile
+      - run: bun tools/edge-wasm.ts
+      - name: Config of this deploy
+        id: config
+        run: |
+          if [ "${{ vars.EDGE_CUTOVER_DONE }}" = "true" ]; then
+            cp apps/edge/wrangler.jsonc apps/edge/wrangler.deploy.jsonc
+            echo "mode=full" >> "$GITHUB_OUTPUT"
+          else
+            bun tools/edge-config.ts --no-routes > apps/edge/wrangler.deploy.jsonc
+            echo "mode=no-routes" >> "$GITHUB_OUTPUT"
+          fi
+      - name: wrangler deploy
+        working-directory: apps/edge
+        run: bunx wrangler deploy -c wrangler.deploy.jsonc
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: "false"
+      - name: Smoke test the routed hosts
+        if: steps.config.outputs.mode == 'full'
+        run: |
+          set -e
+          root=$(bun -e 'import { loadEdgeConfig } from "./tools/edge-config.ts"; console.log(loadEdgeConfig().domains.root)')
+          curl -fsS "https://releases.${root}/health" | tee /dev/stderr | bun -e 'const j = await Bun.stdin.json(); if (!j.ok) process.exit(1)'
+          curl -fsS "https://releases.${root}/manifest.json" | bun -e 'const j = await Bun.stdin.json(); if (j.schema !== "ay.releases.v1") process.exit(1)'
