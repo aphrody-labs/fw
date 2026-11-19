@@ -59,5 +59,9 @@ cf-deploy:
 nix-bootstrap-vps host="fr1":
     ssh {{host}} "bash -s -- {{host}}" < nix/bootstrap-vps.sh
 
+# Apply tuned Windows .wslconfig + .wslgconfig for Fairwind-WSL (WSL 3.0.5 + RTX 4070)
+wsl-apply-configs:
+    pwsh -NoProfile -File os/fairwind-wsl/install-fairwind-wsl.ps1 -ApplyHostConfigs
+
 # Full CI verification pipeline
 ci: clippy test build musl claw cf-dry-run

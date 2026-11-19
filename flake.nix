@@ -7,6 +7,10 @@
     crane.url = "github:ipetkov/crane";
     # Keep upstream nixpkgs pin intact for 100% binary cache hits (Clang+ThinLTO CachyOS kernels)
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, ... }:
@@ -106,6 +110,15 @@
           fr1 = mkVps ./nix/hosts/fr1.nix;
           fr2 = mkVps ./nix/hosts/fr2.nix;
           prd = mkVps ./nix/hosts/prd.nix;
+          wsl-fairwind = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs; };
+            modules = [
+              inputs.nixos-wsl.nixosModules.default
+              inputs.self.nixosModules.fairwind-vps-common
+              ./nix/hosts/wsl-fairwind.nix
+            ];
+          };
         };
       };
     };
