@@ -346,6 +346,60 @@ fn cmd_upgrade(root: &Path) -> ExitCode {
     if sync_ok && ci_ok { ExitCode::SUCCESS } else { ExitCode::FAILURE }
 }
 
+/// Unified parallel Feature-to-Deploy pipeline (`cargo xtask ship`):
+/// Stage 1: Parallel fast CI gate (purity + clippy + rust-test + ruff + bun-test + MAP.tsv)
+/// Stage 2: Parallel Fat-LTO fw + Wasm32 + Bun 1.4.5 AOT `--trim` + Cloudflare dry-run
+fn cmd_ship(root: &Path) -> ExitCode {
+    let t0 = Instant::now();
+    if cmd_ci(root, "fast") != ExitCode::SUCCESS {
+        return ExitCode::FAILURE;
+    }
+    let build_lanes: Vec<(&str, &str, Vec<&str>)> = vec![
+        ("fw-fat-lto", "cargo", vec!["build", "--release", "-p", "fw-bin", "--bin", "fw"]),
+        ("fw-wasm32", "cargo", vec!["build", "--release", "--target", "wasm32-unknown-unknown", "-p", "fw-wasm"]),
+        (
+            "bun-aot-cli",
+            "bun",
+            vec![
+                "build",
+                "--compile",
+                "--aot",
+                "--trim",
+                "--no-compile-function-source",
+                "--no-compile-autoload-dotenv",
+                "--no-compile-autoload-bunfig",
+                "src/fairwind_cli.ts",
+                "--outfile",
+                "dist/fairwind.exe",
+            ],
+        ),
+        ("cf-dry-run", "bunx", vec!["wrangler", "deploy", "--dry-run", "-c", "cloudflare/wrangler.jsonc"]),
+    ];
+    let results: Vec<(&str, bool, i32, u128, String)> = thread::scope(|s| {
+        #[allow(clippy::needless_collect)]
+        let handles: Vec<_> = build_lanes
+            .into_iter()
+            .map(|(id, prog, args)| {
+                s.spawn(move || {
+                    let (ok, code, ms, tail) = run_cmd(root, prog, &args);
+                    (id, ok, code, ms, tail)
+                })
+            })
+            .collect();
+        handles
+            .into_iter()
+            .map(|h| h.join().unwrap_or(("join-panic", false, -1, 0, "thread panicked".into())))
+            .collect()
+    });
+    let all_ok = results.iter().all(|r| r.1);
+    let wall_ms = t0.elapsed().as_millis();
+    println!("=== fw xtask ship — wall={wall_ms}ms ok={all_ok} ===");
+    for (id, ok, code, ms, tail) in &results {
+        println!("  [{}] {:<14} {:>5}ms (exit {}) {}", if *ok { "PASS" } else { "FAIL" }, id, ms, code, tail);
+    }
+    if all_ok { ExitCode::SUCCESS } else { ExitCode::FAILURE }
+}
+
 fn main() -> ExitCode {
     let root = repo_root();
     let args: Vec<String> = env::args().skip(1).collect();
@@ -357,8 +411,9 @@ fn main() -> ExitCode {
         Some("doctor") => cmd_doctor(&root),
         Some("sync-upstreams") => cmd_sync_upstreams(&root),
         Some("upgrade") => cmd_upgrade(&root),
+        Some("ship") => cmd_ship(&root),
         _ => {
-            println!("Usage: cargo xtask <ci [fast|all]|map|purity|package|doctor|sync-upstreams|upgrade>");
+            println!("Usage: cargo xtask <ci [fast|all]|map|purity|package|doctor|sync-upstreams|upgrade|ship>");
             ExitCode::SUCCESS
         }
     }

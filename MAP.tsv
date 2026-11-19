@@ -1,5 +1,5 @@
 dir	tier	files	bytes	gate
-(root)	misc	26	1096324	just ci
+(root)	misc	26	1096684	just ci
 .agents	misc	2	3031	just ci
 .cargo	misc	1	164	just ci
 .github	misc	2	5030	just ci
@@ -22,7 +22,7 @@ crates/fw-unified-stack	rust-core	2	6220	cargo test --workspace
 crates/fw-uutils	rust-core	4	29351	cargo test --workspace
 crates/fw-wasm	rust-wasm	2	1912	cargo build --release --target wasm32-unknown-unknown -p fw-wasm
 crates/fw-wayland-wgpu	rust-core	2	5075	cargo test --workspace
-docs	architecture-docs	15	79578	read-only
+docs	architecture-docs	16	82860	read-only
 native	rust-ffi-abi	27	187095	cargo test --manifest-path native/fairwind-abi/Cargo.toml
 nix	nix-fleet	6	8961	bun test tests/fairwind_v4_os_uutils_nix.test.ts
 os/fairwind-os	asterinas-osdk	6	5125	bun test tests/fairwind_v4_os_uutils_nix.test.ts
@@ -33,4 +33,4 @@ tests	e2e-tests	10	70613	bun test
 tools	misc	2	36989	just ci
 vercel	edge-vercel	2	1928	bun test tests/fairwind_decisions_vercel.test.ts
 web	control-plane-ui	1	6261	bun run cf:dry-run
-xtask	rust-xtask	2	16186	cargo xtask purity
+xtask	rust-xtask	2	18473	cargo xtask purity

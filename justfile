@@ -36,6 +36,14 @@ sync-upstreams:
 upgrade-all:
     cargo xtask upgrade
 
+# End-to-end parallel Feature-to-Deploy pipeline (CI fast -> Fat-LTO fw + Wasm32 + Bun AOT --trim + CF dry-run)
+ship:
+    cargo xtask ship
+
+# Run a single .rs file with inline Cargo frontmatter using Cranelift
+rs-run file:
+    cargo -Zscript -Zcodegen-backend {{file}}
+
 # Build Fat-LTO fw binary + Wasm32 module
 build:
     cargo build --release -p fw-bin --bin fw
