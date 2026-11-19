@@ -1,0 +1,91 @@
+[package]
+name = "ay-agent"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[features]
+git = ["dep:gix"]
+home = ["dep:ay-config", "dep:ay-model", "dep:arc-swap", "dep:blake3", "dep:serde", "dep:serde_json", "dep:sha2", "dep:thiserror", "dep:tracing", "dep:unicode-segmentation", "dep:clap", "dep:memmap2", "dep:notify"]
+proto = ["dep:serde", "dep:serde_json", "dep:thiserror", "dep:uuid"]
+tools = ["dep:serde", "dep:serde_json", "dep:ay-jev", "dep:ay-patch", "dep:ay-toolcall", "dep:async-trait", "dep:axum", "dep:anyhow", "dep:ay-gemini", "dep:ay-google", "dep:ay-guard", "dep:ay-proc", "dep:aphrody-remote-desktop", "dep:aphrody-term", "dep:aphrody-web-service", "dep:aphrody-winclean", "dep:base64", "dep:obscura-net", "dep:reqwest", "dep:thiserror", "dep:tokio", "dep:tracing", "dep:libc", "dep:sysinfo"]
+default = ["home", "proto", "tools"]
+
+[dependencies]
+arc-swap = { version = "1.9.5", optional = true }
+async-trait = { version = "0.1.92", optional = true }
+axum = { version = "0.8", optional = true }
+ay-config = { path = "../ay-config", features = [], optional = true }
+ay-jev = { path = "../ay-jev", default-features = false, features = ["client"], optional = true }
+ay-model = { path = "../ay-model", default-features = false, features = ["store"], optional = true }
+ay-patch = { path = "../ay-patch", features = [], optional = true }
+ay-toolcall = { path = "../ay-toolcall", default-features = false, features = [], optional = true }
+blake3 = { version = "1", default-features = false, optional = true }
+serde = { version = "1.0.229", default-features = false, features = ["derive", "std"], optional = true }
+serde_json = { version = "1.0.154", features = ["std"], optional = true }
+sha2 = { version = "0.11.1", optional = true }
+thiserror = { version = "2.0.21", optional = true }
+tracing = { version = "0.1.44", optional = true }
+unicode-segmentation = { version = "1", features = [], optional = true }
+
+[dev-dependencies]
+criterion = { version = "0.8.2", features = ["html_reports"] }
+pretty_assertions = "1.4.1"
+tempfile = "3.27.0"
+tokio = { version = "1.53.1", features = ["process", "rt-multi-thread", "macros", "time", "signal", "sync", "fs", "io-util", "full"] }
+
+[target."cfg(not(all(target_arch = \"wasm32\", target_os = \"unknown\")))".dependencies]
+uuid = { version = "1.29.3", default-features = false, features = ["v4", "serde"], optional = true }
+
+[target."cfg(not(target_arch = \"wasm32\"))".dependencies]
+anyhow = { version = "1.0.104", optional = true }
+aphrody-remote-desktop = { version = "1.4.7", features = ["vnc-client"], optional = true }
+aphrody-term = { version = "1.4.7", features = [], optional = true }
+aphrody-web-service = { version = "1.4.8", features = ["render"], optional = true, package = "bun_browser_service" }
+aphrody-winclean = { version = "1.4.8", features = [], optional = true, package = "bun-windows-winclean" }
+ay-gemini = { path = "../ay-gemini", default-features = false, features = ["web"], optional = true }
+ay-google = { path = "../ay-google", features = [], optional = true }
+ay-guard = { path = "../ay-guard", features = [], optional = true }
+ay-proc = { path = "../ay-proc", features = ["tokio"], optional = true }
+base64 = { version = "0.23.1", optional = true }
+clap = { version = "4.6.8", features = ["derive", "env", "color"], optional = true }
+gix = { version = "0.90.0", default-features = false, features = ["sha1", "basic", "extras", "comfort", "max-performance", "revision", "index", "worktree-mutation"], optional = true }
+memmap2 = { version = "0.9.12", optional = true }
+notify = { version = "8", features = [], optional = true }
+obscura-net = { version = "1.4.8", features = [], optional = true, package = "bun_browser_net" }
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls-no-provider", "json", "stream", "form", "query", "charset", "http2", "system-proxy", "blocking", "cookies", "gzip", "brotli", "deflate", "socks", "multipart"], optional = true }
+thiserror = { version = "2.0.21", optional = true }
+tokio = { version = "1.54.1", features = ["process", "rt-multi-thread", "macros", "time", "signal", "sync", "fs", "io-util", "full"], optional = true }
+tracing = { version = "0.1.44", optional = true }
+
+[target."cfg(unix)".dependencies]
+libc = { version = "0.2.191", optional = true }
+
+[target."cfg(windows)".dependencies]
+sysinfo = { version = "0.40.4", default-features = false, features = ["system", "disk"], optional = true }
+
+[[bench]]
+name = "home_agent_home_bench"
+path = "benches/home_agent_home_bench.rs"
+harness = false
+required-features = ["home"]
+
+[[test]]
+name = "home_dbfr_shenron_test"
+path = "tests/home_dbfr_shenron_test.rs"
+required-features = ["home"]
+
+# Agent tools call OS APIs with documented `unsafe` blocks.
+[lints.rust]
+non_ascii_idents = "deny"
+unsafe_op_in_unsafe_fn = "deny"
+unused_must_use = "deny"
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"
