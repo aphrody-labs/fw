@@ -20,7 +20,8 @@ const NTFS_RESERVED: &[&str] = &[
 /// Fix uutils #16228: case-insensitive multicall `argv[0]` normalization on Windows/MSYS2.
 #[inline]
 pub fn normalize_applet_name(raw_argv0: &str) -> String {
-    let stem = Path::new(raw_argv0)
+    let name = raw_argv0.rsplit(['/', '\\']).next().unwrap_or(raw_argv0);
+    let stem = Path::new(name)
         .file_stem()
         .and_then(|s| s.to_str())
         .unwrap_or(raw_argv0);
