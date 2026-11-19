@@ -38,6 +38,8 @@
             uutils-findutils
             uutils-diffutils
             # Modern Nov 2026 Rust CLIs (replaces bash/pwsh text pipelines)
+            tmux
+            zellij
             nushell
             ripgrep
             fd
@@ -50,9 +52,14 @@
             yazi
             jujutsu
             difftastic
+            git-delta
             hyperfine
             tokei
             procs
+            dust
+            bottom
+            watchexec
+            duckdb
             zoxide
             starship
             just
