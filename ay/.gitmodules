@@ -162,3 +162,6 @@
 	path = os/aphrody
 	url = ../../aphrody-dev/aphrody.git
 	branch = main
+[submodule "third_party/craft-i18n"]
+	path = third_party/craft-i18n
+	url = https://github.com/storytold/craft-i18n.git
