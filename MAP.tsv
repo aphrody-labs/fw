@@ -1,5 +1,5 @@
 dir	tier	files	bytes	gate
-(root)	misc	31	1101860	just ci
+(root)	misc	31	1102286	just ci
 .agents	misc	2	2947	just ci
 .cargo	misc	1	164	just ci
 .claude-plugin	misc	1	893	just ci
@@ -7,10 +7,10 @@ dir	tier	files	bytes	gate
 cloudflare	edge-worker	5	736157	bun run cf:dry-run
 cluster	topology-spec	2	3938	bun test tests/fw_v3_cluster_webgpu.test.ts
 configs/heretic	heretic-presets	8	31105	uvx ruff check .
-core	misc	31	72285	just ci
+core	misc	31	77609	just ci
 core/py	python-core	115	2238295	uvx ruff check .
 core/rs	rust-embedded	298	7878632	cargo check --manifest-path core/rs/wta/Cargo.toml
-crates/fw-bin	rust-core	2	18802	cargo build --release -p fw-bin --bin fw
+crates/fw-bin	rust-core	2	18931	cargo build --release -p fw-bin --bin fw
 crates/fw-cluster	rust-core	2	14422	cargo test --workspace
 crates/fw-compute	rust-core	3	26333	cargo test --workspace
 crates/fw-ggml	rust-core	2	16983	cargo test --workspace

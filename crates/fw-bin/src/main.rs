@@ -4,6 +4,8 @@
 //! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
+mod m3_agent_tui;
+
 use fw_cluster::HybridClusterRouter;
 use fw_compute::bench_sandbox::{
     bench_compare, bench_exec, bench_http, bench_silicon, universal_bench_matrix,
@@ -391,6 +393,9 @@ fn main() {
                     );
                 }
             }
+        }
+        "m3-tui" | "agent-tui" | "god" => {
+            m3_agent_tui::run_m3_agent_tui(&args[1..]);
         }
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
