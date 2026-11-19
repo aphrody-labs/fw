@@ -21,6 +21,7 @@ function initGitRepo(root: string, files: Record<string, string>): string {
   }
   const git = (...a: string[]) => Bun.spawnSync(["git", "-C", root, ...a], { stdout: "ignore", stderr: "ignore" });
   git("init", "-q");
+  git("config", "core.fsmonitor", "false"); // a global fsmonitor daemon would hold the temp dir open on Windows
   git("add", ".");
   return root;
 }
@@ -37,7 +38,14 @@ function makeWorkspace(repos: Record<string, Record<string, string>>): string {
 }
 
 afterEach(() => {
-  for (const d of tempDirs.splice(0)) rmSync(d, { recursive: true, force: true });
+  for (const d of tempDirs.splice(0)) {
+    try {
+      rmSync(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
+    } catch (e) {
+      // Windows can keep a handle on a fresh repo (search indexer, antivirus) past the test; the OS temp dir is left for the system to clear.
+      if ((e as NodeJS.ErrnoException).code !== "EBUSY") throw e;
+    }
+  }
 });
 
 describe("code-dedup AST and Tree-sitter normalization", () => {
