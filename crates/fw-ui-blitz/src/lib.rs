@@ -89,13 +89,13 @@ pub fn render_cluster_hud_png(out_path: &Path, width: u32, height: u32) -> std::
             let mut b = (32 + (x * 24 / width.max(1))) as u8;
 
             // Header bar (Blitz/WGPU card)
-            if y >= 24 && y < 72 && x >= 24 && x < width.saturating_sub(24) {
+            if (24..72).contains(&y) && x >= 24 && x < width.saturating_sub(24) {
                 r = 18;
                 g = 34;
                 b = 68;
             }
             // 4 GPU node cards (emerald/cyan accents)
-            if y >= 96 && y < 196 && x >= 24 && x < width.saturating_sub(24) {
+            if (96..196).contains(&y) && x >= 24 && x < width.saturating_sub(24) {
                 let col = ((x - 24) * 4) / (width.saturating_sub(48).max(1));
                 let local_x = (x - 24) % ((width.saturating_sub(48) / 4).max(1));
                 if local_x > 6 {

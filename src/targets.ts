@@ -179,187 +179,144 @@ export function probeRustAbi(root: string) {
   }
 }
 
-export function parseAstWithAbi(root: string, lang: string, filePath: string) {
+const TEXT_ENC = new TextEncoder();
+const TEXT_DEC = new TextDecoder();
+
+function invokeAbiJson(
+  root: string,
+  symbolName: string,
+  argTypes: readonly FFIType[],
+  outCap: number,
+  invoke: (fn: (...args: unknown[]) => unknown, outBuf: Uint8Array) => number,
+  failError: string,
+  extraOnError?: Record<string, unknown>,
+): Record<string, unknown> {
   const libPath = findAbiLibrary(root);
-  if (!libPath) return { ok: false, error: "abi not found" };
-  if (!existsSync(filePath)) return { ok: false, error: "file not found" };
-  const lb = new TextEncoder().encode(lang);
-  const sb = new Uint8Array(readFileSync(filePath));
-  const ob = new Uint8Array(4096);
+  if (!libPath) return { ok: false, ...extraOnError, error: "abi not found" };
+  const ob = new Uint8Array(outCap);
   const lib = dlopen(libPath, {
-    fairwind_parse_summary: {
-      args: [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
-      returns: FFIType.usize,
-    },
+    [symbolName]: { args: [...argTypes, FFIType.ptr, FFIType.usize], returns: FFIType.usize },
   });
-  const n = Number(
-    lib.symbols.fairwind_parse_summary(
-      ffiPtr(lb),
-      lb.byteLength,
-      ffiPtr(sb),
-      sb.byteLength,
-      ffiPtr(ob),
-      ob.byteLength,
-    ),
+  let n = 0;
+  try {
+    const sym = (lib.symbols as Record<string, (...args: unknown[]) => unknown>)[symbolName];
+    n = Number(invoke(sym, ob));
+  } finally {
+    lib.close();
+  }
+  if (n <= 0) return { ok: false, ...extraOnError, error: failError };
+  return JSON.parse(TEXT_DEC.decode(ob.subarray(0, n))) as Record<string, unknown>;
+}
+
+export function parseAstWithAbi(root: string, lang: string, filePath: string) {
+  if (!existsSync(filePath)) return { ok: false, error: "file not found" };
+  const lb = TEXT_ENC.encode(lang);
+  const sb = new Uint8Array(readFileSync(filePath));
+  const res = invokeAbiJson(
+    root,
+    "fairwind_parse_summary",
+    [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
+    4096,
+    (fn, ob) => Number(fn(ffiPtr(lb), lb.byteLength, ffiPtr(sb), sb.byteLength, ffiPtr(ob), ob.byteLength)),
+    "parse failed",
   );
-  lib.close();
-  if (n <= 0) return { ok: false, error: "parse failed" };
-  return {
-    ...(JSON.parse(new TextDecoder().decode(ob.subarray(0, n))) as Record<string, unknown>),
-    file: filePath,
-    bytes: sb.byteLength,
-  };
+  return res.ok === false ? res : { ...res, file: filePath, bytes: sb.byteLength };
 }
 
 export function inspectPeWithAbi(root: string, filePath: string): Record<string, unknown> {
-  const libPath = findAbiLibrary(root);
-  if (!libPath) return { ok: false, path: filePath, error: "abi not found" };
   if (!existsSync(filePath)) return { ok: false, path: filePath, error: "file not found" };
-  const pb = new TextEncoder().encode(filePath);
-  const ob = new Uint8Array(65536);
-  const lib = dlopen(libPath, {
-    fairwind_inspect_pe: {
-      args: [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
-      returns: FFIType.usize,
-    },
-  });
-  const n = Number(
-    lib.symbols.fairwind_inspect_pe(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength),
+  const pb = TEXT_ENC.encode(filePath);
+  return invokeAbiJson(
+    root,
+    "fairwind_inspect_pe",
+    [FFIType.ptr, FFIType.usize],
+    65536,
+    (fn, ob) => Number(fn(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength)),
+    "pe inspect failed or buffer exceeded",
+    { path: filePath },
   );
-  lib.close();
-  if (n <= 0) return { ok: false, path: filePath, error: "pe inspect failed or buffer exceeded" };
-  return JSON.parse(new TextDecoder().decode(ob.subarray(0, n))) as Record<string, unknown>;
 }
 
 export function astSymbolsWithAbi(root: string, lang: string, filePath: string): Record<string, unknown> {
-  const libPath = findAbiLibrary(root);
-  if (!libPath) return { ok: false, error: "abi not found" };
   if (!existsSync(filePath)) return { ok: false, error: "file not found" };
-  const lb = new TextEncoder().encode(lang);
+  const lb = TEXT_ENC.encode(lang);
   const sb = new Uint8Array(readFileSync(filePath));
-  const ob = new Uint8Array(65536);
-  const lib = dlopen(libPath, {
-    fairwind_ast_symbols: {
-      args: [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
-      returns: FFIType.usize,
-    },
-  });
-  const n = Number(
-    lib.symbols.fairwind_ast_symbols(ffiPtr(lb), lb.byteLength, ffiPtr(sb), sb.byteLength, ffiPtr(ob), ob.byteLength),
+  const res = invokeAbiJson(
+    root,
+    "fairwind_ast_symbols",
+    [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
+    65536,
+    (fn, ob) => Number(fn(ffiPtr(lb), lb.byteLength, ffiPtr(sb), sb.byteLength, ffiPtr(ob), ob.byteLength)),
+    "ast symbols failed",
   );
-  lib.close();
-  if (n <= 0) return { ok: false, error: "ast symbols failed" };
-  return { ...(JSON.parse(new TextDecoder().decode(ob.subarray(0, n))) as Record<string, unknown>), file: filePath };
+  return res.ok === false ? res : { ...res, file: filePath };
 }
 
 export function astQueryWithAbi(root: string, lang: string, filePath: string, query: string): Record<string, unknown> {
-  const libPath = findAbiLibrary(root);
-  if (!libPath) return { ok: false, error: "abi not found" };
   if (!existsSync(filePath)) return { ok: false, error: "file not found" };
-  const lb = new TextEncoder().encode(lang);
+  const lb = TEXT_ENC.encode(lang);
   const sb = new Uint8Array(readFileSync(filePath));
-  const qb = new TextEncoder().encode(query);
-  const ob = new Uint8Array(65536);
-  const lib = dlopen(libPath, {
-    fairwind_ast_query: {
-      args: [
-        FFIType.ptr,
-        FFIType.usize,
-        FFIType.ptr,
-        FFIType.usize,
-        FFIType.ptr,
-        FFIType.usize,
-        FFIType.ptr,
-        FFIType.usize,
-      ],
-      returns: FFIType.usize,
-    },
-  });
-  const n = Number(
-    lib.symbols.fairwind_ast_query(
-      ffiPtr(lb),
-      lb.byteLength,
-      ffiPtr(sb),
-      sb.byteLength,
-      ffiPtr(qb),
-      qb.byteLength,
-      ffiPtr(ob),
-      ob.byteLength,
-    ),
+  const qb = TEXT_ENC.encode(query);
+  const res = invokeAbiJson(
+    root,
+    "fairwind_ast_query",
+    [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
+    65536,
+    (fn, ob) =>
+      Number(fn(ffiPtr(lb), lb.byteLength, ffiPtr(sb), sb.byteLength, ffiPtr(qb), qb.byteLength, ffiPtr(ob), ob.byteLength)),
+    "ast query failed",
   );
-  lib.close();
-  if (n <= 0) return { ok: false, error: "ast query failed" };
-  return { ...(JSON.parse(new TextDecoder().decode(ob.subarray(0, n))) as Record<string, unknown>), file: filePath };
+  return res.ok === false ? res : { ...res, file: filePath };
 }
 
 export function identifyFileWithAbi(root: string, filePath: string): Record<string, unknown> {
-  const libPath = findAbiLibrary(root);
-  if (!libPath) return { ok: false, error: "abi not found" };
   if (!existsSync(filePath)) return { ok: false, error: "file not found" };
-  const pb = new TextEncoder().encode(filePath);
-  const ob = new Uint8Array(16384);
-  const lib = dlopen(libPath, {
-    fairwind_identify_file: {
-      args: [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
-      returns: FFIType.usize,
-    },
-  });
-  const n = Number(lib.symbols.fairwind_identify_file(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength));
-  lib.close();
-  if (n <= 0) return { ok: false, error: "identify failed" };
-  return JSON.parse(new TextDecoder().decode(ob.subarray(0, n))) as Record<string, unknown>;
+  const pb = TEXT_ENC.encode(filePath);
+  return invokeAbiJson(
+    root,
+    "fairwind_identify_file",
+    [FFIType.ptr, FFIType.usize],
+    16384,
+    (fn, ob) => Number(fn(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength)),
+    "identify failed",
+  );
 }
 
 export function disasmX64WithAbi(root: string, filePath: string, maxInsns = 12): Record<string, unknown> {
-  const libPath = findAbiLibrary(root);
-  if (!libPath) return { ok: false, error: "abi not found" };
   if (!existsSync(filePath)) return { ok: false, error: "file not found" };
-  const pb = new TextEncoder().encode(filePath);
-  const ob = new Uint8Array(65536);
-  const lib = dlopen(libPath, {
-    fairwind_disasm_x64: {
-      args: [FFIType.ptr, FFIType.usize, FFIType.usize, FFIType.ptr, FFIType.usize],
-      returns: FFIType.usize,
-    },
-  });
-  const n = Number(lib.symbols.fairwind_disasm_x64(ffiPtr(pb), pb.byteLength, maxInsns, ffiPtr(ob), ob.byteLength));
-  lib.close();
-  if (n <= 0) return { ok: false, error: "disasm failed" };
-  return JSON.parse(new TextDecoder().decode(ob.subarray(0, n))) as Record<string, unknown>;
+  const pb = TEXT_ENC.encode(filePath);
+  return invokeAbiJson(
+    root,
+    "fairwind_disasm_x64",
+    [FFIType.ptr, FFIType.usize, FFIType.usize],
+    65536,
+    (fn, ob) => Number(fn(ffiPtr(pb), pb.byteLength, maxInsns, ffiPtr(ob), ob.byteLength)),
+    "disasm failed",
+  );
 }
 
 export function cryptoDigestWithAbi(root: string, input: string): Record<string, unknown> {
-  const libPath = findAbiLibrary(root);
-  if (!libPath) return { ok: false, error: "abi not found" };
-  const db = new TextEncoder().encode(input);
-  const ob = new Uint8Array(8192);
-  const lib = dlopen(libPath, {
-    fairwind_crypto_digest: {
-      args: [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
-      returns: FFIType.usize,
-    },
-  });
-  const n = Number(lib.symbols.fairwind_crypto_digest(ffiPtr(db), db.byteLength, ffiPtr(ob), ob.byteLength));
-  lib.close();
-  if (n <= 0) return { ok: false, error: "crypto digest failed" };
-  return JSON.parse(new TextDecoder().decode(ob.subarray(0, n))) as Record<string, unknown>;
+  const db = TEXT_ENC.encode(input);
+  return invokeAbiJson(
+    root,
+    "fairwind_crypto_digest",
+    [FFIType.ptr, FFIType.usize],
+    8192,
+    (fn, ob) => Number(fn(ffiPtr(db), db.byteLength, ffiPtr(ob), ob.byteLength)),
+    "crypto digest failed",
+  );
 }
 
 export function gitInspectWithAbi(root: string, repoDir = root): Record<string, unknown> {
-  const libPath = findAbiLibrary(root);
-  if (!libPath) return { ok: false, error: "abi not found" };
-  const pb = new TextEncoder().encode(repoDir);
-  const ob = new Uint8Array(8192);
-  const lib = dlopen(libPath, {
-    fairwind_git_inspect: {
-      args: [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
-      returns: FFIType.usize,
-    },
-  });
-  const n = Number(lib.symbols.fairwind_git_inspect(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength));
-  lib.close();
-  if (n <= 0) return { ok: false, error: "git inspect failed" };
-  return JSON.parse(new TextDecoder().decode(ob.subarray(0, n))) as Record<string, unknown>;
+  const pb = TEXT_ENC.encode(repoDir);
+  return invokeAbiJson(
+    root,
+    "fairwind_git_inspect",
+    [FFIType.ptr, FFIType.usize],
+    8192,
+    (fn, ob) => Number(fn(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength)),
+    "git inspect failed",
+  );
 }
 
 export function resolveUpstreamAgyPath(): string | null {

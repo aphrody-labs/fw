@@ -9,12 +9,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "320119579fcad9c21884f5c4861d16174d0e06250625266f50fe6898340abefa"
 
 [[package]]
-name = "base64"
-version = "0.22.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
-
-[[package]]
 name = "block-buffer"
 version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -112,7 +106,6 @@ version = "3.0.0"
 dependencies = [
  "fw-ggml",
  "serde",
- "serde_json",
 ]
 
 [[package]]
@@ -120,15 +113,12 @@ name = "fw-ggml"
 version = "3.0.0"
 dependencies = [
  "serde",
- "serde_json",
- "tokio",
 ]
 
 [[package]]
 name = "fw-proto"
 version = "3.0.0"
 dependencies = [
- "base64",
  "fw-cluster",
  "fw-compute",
  "fw-ggml",
@@ -144,7 +134,6 @@ version = "3.0.0"
 dependencies = [
  "flate2",
  "serde",
- "serde_json",
 ]
 
 [[package]]

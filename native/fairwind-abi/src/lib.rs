@@ -1,3 +1,5 @@
+#![allow(clippy::not_unsafe_ptr_arg_deref)]
+
 pub mod ast;
 pub mod disasm;
 pub mod gguf;
@@ -77,13 +79,13 @@ fn classify_runtime(
     if names.iter().any(|n| *n == "google_i" || *n == "protodes" || *n == "flags_he") {
         return "google-antigravity-pe";
     }
-    if names.iter().any(|n| *n == ".bun") {
+    if names.contains(&".bun") {
         return "bun-compiled-pe";
     }
     if has_clr {
         return "dotnet-clr-pe";
     }
-    if names.iter().any(|n| *n == ".text") && file_bytes < 16 * 1024 * 1024 && !has_authenticode {
+    if names.contains(&".text") && file_bytes < 16 * 1024 * 1024 && !has_authenticode {
         return "native-lto-pe";
     }
     "pe-generic"

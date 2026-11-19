@@ -7,5 +7,3 @@ description = "100% ggml-org compatible tensor/cgraph IR, GGUF v3 parser/writer,
 
 [dependencies]
 serde.workspace = true
-serde_json.workspace = true
-tokio.workspace = true

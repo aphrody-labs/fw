@@ -126,9 +126,7 @@ pub fn handle_webrtc_offer(router: &mut HybridClusterRouter, body: &Value) -> Va
     let vram_gb = body.get("vramGb").and_then(|v| v.as_u64()).unwrap_or(4) as u32;
     let cpu_cores = body.get("cpuCores").and_then(|v| v.as_u64()).unwrap_or(4) as u32;
     router.register_user_webgpu_peer(peer_id, vram_gb, cpu_cores);
-    let sdp_answer = format!(
-        "v=0\r\no=fairwind-v3 1 1 IN IP4 127.0.0.1\r\ns=FairwindWebGpuDataChannel\r\nt=0 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\na=setup:active\r\na=mid:0\r\na=sctp-port:5000\r\n"
-    );
+    let sdp_answer = "v=0\r\no=fairwind-v3 1 1 IN IP4 127.0.0.1\r\ns=FairwindWebGpuDataChannel\r\nt=0 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\na=setup:active\r\na=mid:0\r\na=sctp-port:5000\r\n".to_string();
     json!({
         "ok": true,
         "type": "answer",

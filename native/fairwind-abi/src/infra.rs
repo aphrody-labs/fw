@@ -253,10 +253,8 @@ pub fn inspect_dockerfile(content: &str) -> OciDockerfileReport {
                     env_keys.push(key.to_string());
                 }
             }
-            "ENTRYPOINT" | "CMD" => {
-                if entrypoint.is_none() {
-                    entrypoint = Some(rest.to_string());
-                }
+            "ENTRYPOINT" | "CMD" if entrypoint.is_none() => {
+                entrypoint = Some(rest.to_string());
             }
             _ => {}
         }

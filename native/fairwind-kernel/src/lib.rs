@@ -292,8 +292,10 @@ mod platform {
         let arch_code = unsafe { sys_info.Anonymous.Anonymous.wProcessorArchitecture };
         let processor_architecture = processor_arch_name(arch_code);
 
-        let mut osvi = OSVERSIONINFOW::default();
-        osvi.dwOSVersionInfoSize = size_of::<OSVERSIONINFOW>() as u32;
+        let mut osvi = OSVERSIONINFOW {
+            dwOSVersionInfoSize: size_of::<OSVERSIONINFOW>() as u32,
+            ..Default::default()
+        };
         let nt_version_source = unsafe {
             if RtlGetVersion(&mut osvi) == 0 {
                 "RtlGetVersion"
@@ -320,8 +322,10 @@ mod platform {
             )
         };
 
-        let mut mem = MEMORYSTATUSEX::default();
-        mem.dwLength = size_of::<MEMORYSTATUSEX>() as u32;
+        let mut mem = MEMORYSTATUSEX {
+            dwLength: size_of::<MEMORYSTATUSEX>() as u32,
+            ..Default::default()
+        };
         let mem_ok = unsafe { GlobalMemoryStatusEx(&mut mem) != FALSE };
 
         let pid = unsafe { GetCurrentProcessId() };
@@ -331,8 +335,10 @@ mod platform {
         let mut handle_count: u32 = 0;
         let handles_ok = unsafe { GetProcessHandleCount(proc_handle, &mut handle_count) != FALSE };
 
-        let mut pmc = PROCESS_MEMORY_COUNTERS::default();
-        pmc.cb = size_of::<PROCESS_MEMORY_COUNTERS>() as u32;
+        let mut pmc = PROCESS_MEMORY_COUNTERS {
+            cb: size_of::<PROCESS_MEMORY_COUNTERS>() as u32,
+            ..Default::default()
+        };
         let pmc_ok = unsafe {
             GetProcessMemoryInfo(
                 proc_handle,

@@ -310,7 +310,7 @@ pub fn parse_gguf_header(bytes: &[u8]) -> Result<GgufHeader, String> {
         return Err("Invalid GGUF magic".into());
     }
     let version = u32::from_le_bytes(bytes[4..8].try_into().unwrap());
-    if version < 2 || version > 3 {
+    if !(2..=3).contains(&version) {
         return Err(format!("Unsupported GGUF version {version}"));
     }
     let tensor_count = u64::from_le_bytes(bytes[8..16].try_into().unwrap());
