@@ -31,7 +31,12 @@ checkpoints/
 target/
 dist/*.exe
 
+# Cloudflare Wrangler local state
+.wrangler/
+cloudflare/.wrangler/
+
 # External cloned upstream source trees
+packages/ghidra/
 packages/windows-rs/
 packages/rust-for-linux/
 packages/antigravity-sdk-python/

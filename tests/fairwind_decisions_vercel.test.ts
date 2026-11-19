@@ -8,9 +8,9 @@ import { GET as vercelGet, POST as vercelPost } from "../vercel/api/fairwind.ts"
 const ROOT = process.cwd();
 
 describe("fairwind Gemini Decision 1, self-hosted workflow, Antigravity SDK fork, Auto core, and Vercel cross-cloud", () => {
-  test("forked Antigravity Python SDK, Auto core, fairwind-kernel, and fairwind-world are present", () => {
+  test("forked Antigravity Python SDK, fairwind-kernel, and fairwind-world are present (auto-* deduplicated to aphrody-labs/ay)", () => {
     expect(existsSync(join(ROOT, "core", "py", "google"))).toBe(true);
-    expect(existsSync(join(ROOT, "core", "rs", "auto", "auto-auth", "Cargo.toml"))).toBe(true);
+    expect(existsSync(join(ROOT, "core", "rs", "auto"))).toBe(false);
     expect(existsSync(join(ROOT, "native", "fairwind-kernel", "Cargo.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "native", "fairwind-world", "Cargo.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "vercel", "vercel.json"))).toBe(true);

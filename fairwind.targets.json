@@ -158,15 +158,6 @@
       "autoUpgrade": true
     },
     {
-      "id": "core-auto",
-      "path": "core/rs/auto",
-      "kind": "rust-auto-core",
-      "grammar": "rust",
-      "gate": "bun test tests",
-      "sampleFile": "core/rs/auto/auto-auth/Cargo.toml",
-      "autoUpgrade": true
-    },
-    {
       "id": "core-tui-test",
       "path": "core/rs/tui-test",
       "kind": "rust-tui-test-workspace",
