@@ -7,7 +7,7 @@ dir	tier	files	bytes	gate
 cloudflare	edge-worker	5	736157	bun run cf:dry-run
 cluster	topology-spec	2	3938	bun test tests/fw_v3_cluster_webgpu.test.ts
 configs/heretic	heretic-presets	8	31105	uvx ruff check .
-core	misc	31	77609	just ci
+core	misc	35	140661	just ci
 core/py	python-core	115	2238295	uvx ruff check .
 core/rs	rust-embedded	298	7878632	cargo check --manifest-path core/rs/wta/Cargo.toml
 crates/fw-bin	rust-core	2	18931	cargo build --release -p fw-bin --bin fw
@@ -23,16 +23,16 @@ crates/fw-unified-stack	rust-core	2	6196	cargo test --workspace
 crates/fw-uutils	rust-core	4	29635	cargo test --workspace
 crates/fw-wasm	rust-wasm	2	1906	cargo build --release --target wasm32-unknown-unknown -p fw-wasm
 crates/fw-wayland-wgpu	rust-core	3	19705	cargo test --workspace
-docs	architecture-docs	18	91730	read-only
+docs	architecture-docs	18	94184	read-only
 native	rust-ffi-abi	27	189914	cargo test --manifest-path native/fw-abi/Cargo.toml
 nix	nix-fleet	6	8889	bun test tests/fw_v4_os_uutils_nix.test.ts
 os/fw-os	asterinas-osdk	6	4999	bun test tests/fw_v4_os_uutils_nix.test.ts
 os/fw-wsl	wsl-zero-legacy	8	9850	bun test tests/fw_v4_os_uutils_nix.test.ts
-plugin	agy-plugin	55	241941	dist/fw.exe plugin sync --install
+plugin	agy-plugin	55	242578	dist/fw.exe plugin sync --install
 plugins	misc	8	62583	just ci
 src	bun-cli-aot	18	221546	bun test
 tests	e2e-tests	13	130252	bun test
-tools	misc	2	36930	just ci
+tools	misc	3	40727	just ci
 vercel	edge-vercel	2	1886	bun test tests/fw_decisions_vercel.test.ts
 web	control-plane-ui	1	6243	bun run cf:dry-run
 xtask	rust-xtask	2	18365	cargo xtask purity
