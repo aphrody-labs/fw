@@ -2,6 +2,8 @@
 // Copyright AGNTCY Contributors (https://github.com/agntcy)
 #![doc = include_str!("../README.md")]
 
+extern crate self as ay_a2a;
+
 pub mod agent_card;
 pub mod coord;
 pub mod errordetails;
@@ -26,3 +28,14 @@ pub const SVC_PARAM_VERSION: &str = "A2A-Version";
 
 /// Service parameter key for extensions the client wants to use.
 pub const SVC_PARAM_EXTENSIONS: &str = "A2A-Extensions";
+
+#[cfg(feature = "pb")]
+pub mod pb;
+#[cfg(feature = "client")]
+pub mod client;
+#[cfg(feature = "server")]
+pub mod server;
+#[cfg(feature = "coordinator")]
+pub mod coordinator;
+#[cfg(feature = "grpc")]
+pub mod grpc;
