@@ -21,6 +21,7 @@ describe("fairwind unified plugin, MCP, API, and cross-platform daemon", () => {
       "learn",
       "low-level-lto-aot",
       "reverse-engineer-anything",
+      "rust-upstream",
       "static-recompile",
       "tree-sitter",
       "tui-test",

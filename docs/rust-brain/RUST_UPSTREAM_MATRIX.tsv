@@ -1,0 +1,17 @@
+id	repo	domain	stars	release	branch	license	pushed	role
+rust	rust-lang/rust	compiler	122242	1.100.0	main	Apache-2.0	2026-11-19	rustc, std, core, alloc, MIR, LLVM/Cranelift codegen
+cargo	rust-lang/cargo	build	15754	rolling	master	Apache-2.0	2026-11-19	Package manager, workspace resolver v2, -Zscript, xtask, crates.io
+libc	rust-lang/libc	ffi	2648	0.2.191	main	Apache-2.0	2026-11-18	Raw C/POSIX/Linux/Win32/musl platform FFI bindings
+rustup	rust-lang/rustup	toolchain	7129	rolling	main	Apache-2.0	2026-11-19	Toolchain, target, and component manager (336 targets)
+rust-analyzer	rust-lang/rust-analyzer	ast-lsp	17009	2026-11-16	master	Apache-2.0	2026-11-19	Incremental IDE compiler front-end, HIR/MIR, symbol/type graph
+clippy	rust-lang/rust-clippy	lint	13681	rolling	main	Apache-2.0	2026-11-19	Static analysis & clippy::perf zero-allocation enforcement
+miri	rust-lang/miri	ub-check	6755	rolling	master	Apache-2.0	2026-11-18	MIR interpreter for Stacked/Tree Borrows & UB verification
+cranelift	rust-lang/rustc_codegen_cranelift	codegen	2175	rolling	main	Apache-2.0	2026-11-18	Fast dev codegen backend (2x-5x faster compile than LLVM)
+cc-rs	rust-lang/cc-rs	ffi-build	2169	cc-v1.11.2	main	Apache-2.0	2026-11-19	Build-script C/C++/Asm compiler driver
+bindgen	rust-lang/rust-bindgen	ffi-gen	5327	v0.73.2	main	BSD-3-Clause	2026-11-12	C/C++ header to Rust FFI generator
+rfcs	rust-lang/rfcs	spec	6646	rolling	main	Apache-2.0	2026-11-14	Language, Cargo, Edition 2024, and standard library RFCs
+tree-sitter-rust	tree-sitter/tree-sitter-rust	ast-cst	539	v0.24.2	master	MIT	2026-09-16	Incremental concrete syntax tree grammar (used by fw C ABI & Zed)
+zed	zed-industries/zed	editor-ast	95320	v1.29.2	main	NOASSERTION	2026-11-19	GPUI + Tree-sitter + rust-analyzer multi-buffer AST engine
+wild	davidlattimore/wild	linker	4125	0.11.0	main	Apache-2.0	2026-11-19	Ultra-fast Rust linker for Linux ELF & WebAssembly
+mold	rui314/mold	linker	17762	v3.0.0	main	MIT	2026-10-22	Modern parallel linker in Rust (v3.0+)
+sccache	mozilla/sccache	cache	7952	v0.19.0	main	Apache-2.0	2026-11-19	Shared local/remote Rust/C/C++ compilation cache

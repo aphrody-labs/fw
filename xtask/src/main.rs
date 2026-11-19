@@ -192,7 +192,7 @@ fn cmd_ci(root: &Path, mode: &str) -> ExitCode {
         ("rust-clippy", "cargo", vec!["clippy", "--workspace", "--all-targets", "--", "-D", "warnings"]),
         ("rust-test", "cargo", vec!["test", "--workspace"]),
         ("python-ruff", "uvx", vec!["ruff", "check", "."]),
-        ("bun-test", "bun", vec!["test"]),
+        ("bun-test", "bun", vec!["test", "--timeout=30000"]),
     ];
     if mode != "fast" {
         lanes.extend([

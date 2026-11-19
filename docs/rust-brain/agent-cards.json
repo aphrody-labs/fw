@@ -1,0 +1,519 @@
+{
+  "schema": "fw.rust-brain.agent-cards/v1",
+  "generated_at": "2026-11-19T15:05:40.330Z",
+  "local_toolchain": {
+    "rustc": "rustc 1.102.0-nightly (3ef0c22cd 2026-11-11)",
+    "llvm": "23.1.5",
+    "host": "x86_64-pc-windows-msvc",
+    "cargo": "cargo 1.102.0-nightly (c07ac2c4d 2026-11-06)",
+    "rustup": "rustup 1.29.3 (edbc831ce 2026-11-02)",
+    "rust_analyzer": "rust-analyzer 1.102.0-nightly (3ef0c22cd 2026-11-11)",
+    "targets_total": 336,
+    "targets_installed": [
+      "aarch64-apple-darwin",
+      "aarch64-linux-android",
+      "aarch64-pc-windows-msvc",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-unknown-linux-musl",
+      "aarch64-unknown-none",
+      "armv7-linux-androideabi",
+      "riscv64gc-unknown-none-elf",
+      "wasm32-unknown-unknown",
+      "wasm32-wasip1",
+      "wasm32-wasip2",
+      "wasm32v1-none",
+      "x86_64-apple-darwin",
+      "x86_64-linux-android",
+      "x86_64-pc-windows-gnu",
+      "x86_64-pc-windows-msvc",
+      "x86_64-unknown-freebsd",
+      "x86_64-unknown-linux-gnu",
+      "x86_64-unknown-linux-musl",
+      "x86_64-unknown-none"
+    ],
+    "components_installed": [
+      "cargo-x86_64-pc-windows-msvc",
+      "clippy-x86_64-pc-windows-msvc",
+      "llvm-tools-x86_64-pc-windows-msvc",
+      "miri-x86_64-pc-windows-msvc",
+      "rust-analyzer-x86_64-pc-windows-msvc",
+      "rust-src",
+      "rust-std-aarch64-apple-darwin",
+      "rust-std-aarch64-linux-android",
+      "rust-std-aarch64-pc-windows-msvc",
+      "rust-std-aarch64-unknown-linux-gnu",
+      "rust-std-aarch64-unknown-linux-musl",
+      "rust-std-aarch64-unknown-none",
+      "rust-std-armv7-linux-androideabi",
+      "rust-std-riscv64gc-unknown-none-elf",
+      "rust-std-wasm32-unknown-unknown",
+      "rust-std-wasm32-wasip1",
+      "rust-std-wasm32-wasip2",
+      "rust-std-wasm32v1-none",
+      "rust-std-x86_64-apple-darwin",
+      "rust-std-x86_64-linux-android",
+      "rust-std-x86_64-pc-windows-gnu",
+      "rust-std-x86_64-pc-windows-msvc",
+      "rust-std-x86_64-unknown-freebsd",
+      "rust-std-x86_64-unknown-linux-gnu",
+      "rust-std-x86_64-unknown-linux-musl",
+      "rust-std-x86_64-unknown-none",
+      "rustc-x86_64-pc-windows-msvc",
+      "rustc-codegen-cranelift-x86_64-pc-windows-msvc",
+      "rustfmt-x86_64-pc-windows-msvc"
+    ]
+  },
+  "cards": [
+    {
+      "id": "card:rustc",
+      "name": "rustc",
+      "upstream": "rust-lang/rust",
+      "capabilities": [
+        "edition-2024",
+        "fat-lto",
+        "wasm32",
+        "musl-static",
+        "cranelift-codegen",
+        "unsafe-forbid"
+      ],
+      "commands": [
+        "rustc -vV",
+        "rustc --print target-list",
+        "rustc -Zcodegen-backend=cranelift"
+      ],
+      "key_flags": [
+        "-C target-cpu=native",
+        "-C lto=fat",
+        "-C codegen-units=1",
+        "-C panic=abort",
+        "-Zthreads=8"
+      ]
+    },
+    {
+      "id": "card:cargo",
+      "name": "cargo",
+      "upstream": "rust-lang/cargo",
+      "capabilities": [
+        "workspace-resolver-2",
+        "workspace-lints",
+        "xtask",
+        "single-file-Zscript",
+        "crates-io-publish"
+      ],
+      "commands": [
+        "cargo xtask ci fast",
+        "cargo xtask upgrade",
+        "cargo -Zscript file.rs",
+        "cargo metadata --no-deps"
+      ],
+      "key_flags": [
+        "--workspace --all-targets",
+        "-Zcodegen-backend",
+        "--locked",
+        "--offline"
+      ]
+    },
+    {
+      "id": "card:libc",
+      "name": "libc",
+      "upstream": "rust-lang/libc",
+      "capabilities": [
+        "posix-abi",
+        "linux-syscalls",
+        "musl-abi",
+        "win32-msvc-abi",
+        "no-std-ffi"
+      ],
+      "commands": [
+        "cargo tree -i libc"
+      ],
+      "key_flags": [
+        "default-features = false",
+        "extra_traits"
+      ]
+    },
+    {
+      "id": "card:rustup",
+      "name": "rustup",
+      "upstream": "rust-lang/rustup",
+      "capabilities": [
+        "multi-toolchain",
+        "cross-targets",
+        "component-mgmt",
+        "rust-toolchain-toml"
+      ],
+      "commands": [
+        "rustup toolchain list",
+        "rustup target list --installed",
+        "rustup component add rustc-codegen-cranelift-preview"
+      ],
+      "key_flags": [
+        "+nightly",
+        "--profile minimal"
+      ]
+    },
+    {
+      "id": "card:rust-analyzer",
+      "name": "rust-analyzer",
+      "upstream": "rust-lang/rust-analyzer",
+      "capabilities": [
+        "incremental-hir",
+        "type-inference",
+        "macro-expansion",
+        "call-hierarchy",
+        "lsif-scip"
+      ],
+      "commands": [
+        "rust-analyzer --version",
+        "rust-analyzer analysis-stats .",
+        "rust-analyzer scip ."
+      ],
+      "key_flags": [
+        "--disable-build-scripts",
+        "--memory-usage"
+      ]
+    },
+    {
+      "id": "card:clippy",
+      "name": "clippy",
+      "upstream": "rust-lang/rust-clippy",
+      "capabilities": [
+        "clippy-perf-deny",
+        "needless-collect-deny",
+        "inefficient-to-string-deny",
+        "zero-warnings"
+      ],
+      "commands": [
+        "cargo clippy --workspace --all-targets -- -D warnings"
+      ],
+      "key_flags": [
+        "-D warnings",
+        "-D clippy::perf"
+      ]
+    },
+    {
+      "id": "card:cranelift",
+      "name": "rustc_codegen_cranelift",
+      "upstream": "rust-lang/rustc_codegen_cranelift",
+      "capabilities": [
+        "fast-dev-codegen",
+        "2x-5x-compile-speedup",
+        "lld-link-pairing"
+      ],
+      "commands": [
+        "CARGO_PROFILE_DEV_CODEGEN_BACKEND=cranelift cargo +nightly -Zcodegen-backend build"
+      ],
+      "key_flags": [
+        "-Zcodegen-backend=cranelift",
+        "-Clinker=lld-link"
+      ]
+    },
+    {
+      "id": "card:tree-sitter-rust",
+      "name": "tree-sitter-rust",
+      "upstream": "tree-sitter/tree-sitter-rust",
+      "capabilities": [
+        "cst-parse",
+        "s-expr-query",
+        "fat-lto-c-abi",
+        "sub-ms-symbol-extract"
+      ],
+      "commands": [
+        "bun src/fairwind_cli.ts ast crates/fw-ggml/src/lib.rs"
+      ],
+      "key_flags": [
+        "tree-sitter-0.27",
+        "v0.24.2"
+      ]
+    },
+    {
+      "id": "card:zed-ast",
+      "name": "zed-ast",
+      "upstream": "zed-industries/zed",
+      "capabilities": [
+        "gpui-retained",
+        "multi-buffer-ast",
+        "tree-sitter-highlights",
+        "lsp-rust-analyzer-bridge"
+      ],
+      "commands": [
+        "zed_headless_parse_ast",
+        "zed_headless_symbols"
+      ],
+      "key_flags": [
+        "v1.29.2",
+        "flake-parts + crane"
+      ]
+    }
+  ],
+  "workspace_ast": {
+    "files": 14,
+    "total_symbols": 180,
+    "modules": [
+      {
+        "file": "crates/fw-bin/src/main.rs",
+        "symbols": [
+          "main"
+        ],
+        "lines": 269
+      },
+      {
+        "file": "crates/fw-cluster/src/lib.rs",
+        "symbols": [
+          "NodeKind",
+          "ClusterNode",
+          "RoutingDecision",
+          "HybridClusterRouter",
+          "default_hybrid_cluster",
+          "register_user_webgpu_peer",
+          "prefix_key",
+          "route_request",
+          "pick_best_prefill",
+          "pick_best_decode",
+          "summary",
+          "tests",
+          "hybrid_cluster_routes_kv_cache_and_disaggregated_pd_across_4gpu_3vps_and_user_webgpu"
+        ],
+        "lines": 353
+      },
+      {
+        "file": "crates/fw-compute/src/lib.rs",
+        "symbols": [
+          "DEFAULT_WGSL_KERNEL",
+          "main",
+          "HardwareProfile",
+          "detect_simd",
+          "detect_hardware_profile",
+          "ComputeBenchResult",
+          "run_compute_smoke_bench",
+          "tests",
+          "hardware_profile_and_compute_bench_succeed"
+        ],
+        "lines": 180
+      },
+      {
+        "file": "crates/fw-ggml/src/lib.rs",
+        "symbols": [
+          "GGUF_MAGIC",
+          "GGUF_DEFAULT_ALIGNMENT",
+          "GgmlType",
+          "block_size",
+          "type_size",
+          "GgmlOp",
+          "GgmlBackendKind",
+          "GgmlTensor",
+          "nelements",
+          "GgmlGraph",
+          "new",
+          "new_tensor_1d",
+          "new_tensor_2d",
+          "add",
+          "mul_mat",
+          "rms_norm",
+          "compute",
+          "schedule_backends",
+          "quantize_q8_0",
+          "dot_q8_0",
+          "GgufHeader",
+          "parse_gguf_header",
+          "encode_gguf_header",
+          "RpcCmd",
+          "spawn_rpc_server_once",
+          "rpc_get_device_memory",
+          "tests",
+          "ggml_cgraph_mul_mat_and_add_match_expected",
+          "q8_0_quantized_dot_and_gguf_v3_roundtrip",
+          "ggml_rpc_loopback_reports_device_memory"
+        ],
+        "lines": 487
+      },
+      {
+        "file": "crates/fw-hermes-claw/src/lib.rs",
+        "symbols": [
+          "RankedEntry",
+          "CliArgSpec",
+          "CliToolSpec",
+          "ChannelKind",
+          "SandboxPolicy",
+          "default",
+          "validate",
+          "MemoryEntry",
+          "TrajectoryStep",
+          "AgentRunReport",
+          "modern_cli_ranking",
+          "protocol_and_agent_ranking",
+          "default_cli_tools",
+          "CliToMcpServer",
+          "new",
+          "handle_jsonrpc",
+          "tool_to_mcp_schema",
+          "execute_tool",
+          "generate_agent_skill_md",
+          "HermesClawAgent",
+          "remember",
+          "recall",
+          "distill_skill",
+          "run_goal",
+          "tests",
+          "sandbox_blocks_dangerous_commands",
+          "mcp_initialize_and_tools_list_work",
+          "skill_generator_emits_valid_agentskills_frontmatter",
+          "hermes_claw_end_to_end_goal_and_recall"
+        ],
+        "lines": 811
+      },
+      {
+        "file": "crates/fw-nix/src/lib.rs",
+        "symbols": [
+          "NIXBASE32_CHARS",
+          "nixbase32_encode",
+          "compress_nix_hash",
+          "write_nar_str",
+          "encode_nar_regular_file",
+          "NixStoreEntry",
+          "compute_fixed_output_store_entry",
+          "tests",
+          "nar_encoding_and_nix_store_path_are_deterministic_and_valid"
+        ],
+        "lines": 108
+      },
+      {
+        "file": "crates/fw-ostd-wasm/src/lib.rs",
+        "symbols": [
+          "XArray",
+          "store",
+          "load",
+          "len",
+          "is_empty",
+          "MlsDisk",
+          "write_block",
+          "read_block",
+          "block_count",
+          "GpuiBounds",
+          "GpuiQuad",
+          "GpuiWasmScene",
+          "new",
+          "paint_quad",
+          "quad_wgsl_shader",
+          "FairwindOstdKernel",
+          "boot_ostd_gpui_snapshot",
+          "tests",
+          "ostd_xarray_mlsdisk_and_gpui_wasm_scene_work"
+        ],
+        "lines": 186
+      },
+      {
+        "file": "crates/fw-proto/src/lib.rs",
+        "symbols": [
+          "CONTROL_PLANE_HTML",
+          "WEBGPU_HTML_HARNESS",
+          "out",
+          "adapter",
+          "device",
+          "wgsl",
+          "module",
+          "pipeline",
+          "input",
+          "gpuBuf",
+          "readBuf",
+          "bindGroup",
+          "enc",
+          "pass",
+          "build_openapi_3_1",
+          "handle_graphql",
+          "handle_webrtc_offer",
+          "dispatch_http",
+          "handle_conn",
+          "serve",
+          "tests",
+          "http_graphql_webrtc_openai_mcp_acp_a2a_dispatch_cleanly"
+        ],
+        "lines": 368
+      },
+      {
+        "file": "crates/fw-ui-blitz/src/lib.rs",
+        "symbols": [
+          "BlitzRenderReport",
+          "crc32",
+          "write_chunk",
+          "encode_rgba_png",
+          "render_cluster_hud_png",
+          "tests",
+          "renders_valid_non_blank_png"
+        ],
+        "lines": 160
+      },
+      {
+        "file": "crates/fw-unified-stack/src/lib.rs",
+        "symbols": [
+          "BurnRigPipeline",
+          "default_burn_rig_pipeline",
+          "encode_kitty_graphics_rgba_header",
+          "encode_kitty_keyboard_enable",
+          "encode_osc133_prompt_start",
+          "YaziVfsEntry",
+          "yazi_list_dir",
+          "HexVoiceStatus",
+          "hex_voice_status",
+          "unified_v4_catalog",
+          "tests",
+          "burn_kitty_yazi_hex_and_v4_catalog_work"
+        ],
+        "lines": 149
+      },
+      {
+        "file": "crates/fw-uutils/src/lib.rs",
+        "symbols": [
+          "SUPPORTED_APPLETS",
+          "AppletOutput",
+          "run_applet",
+          "tests",
+          "coreutils_grep_sed_sha256_and_uname_execute_pure_rust"
+        ],
+        "lines": 258
+      },
+      {
+        "file": "crates/fw-wasm/src/lib.rs",
+        "symbols": [
+          "tests",
+          "wasm_exports_compute_accurately"
+        ],
+        "lines": 52
+      },
+      {
+        "file": "crates/fw-wayland-wgpu/src/lib.rs",
+        "symbols": [
+          "WlMessageHeader",
+          "encode",
+          "decode",
+          "WAYLAND_WASM_GLOBALS",
+          "WlWgpuSurface",
+          "WaylandWgpuCompositor",
+          "new",
+          "create_surface",
+          "commit_surface",
+          "tests",
+          "wayland_wire_header_and_wgpu_surface_commit_roundtrip"
+        ],
+        "lines": 140
+      },
+      {
+        "file": "xtask/src/main.rs",
+        "symbols": [
+          "repo_root",
+          "run_cmd",
+          "role_for",
+          "cmd_map",
+          "cmd_purity",
+          "cmd_ci",
+          "cmd_package",
+          "cmd_doctor",
+          "cmd_sync_upstreams",
+          "cmd_upgrade",
+          "main"
+        ],
+        "lines": 366
+      }
+    ]
+  }
+}

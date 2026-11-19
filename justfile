@@ -83,3 +83,7 @@ wsl-apply-configs:
 # Refresh live direct Rust competitor benchmark (TSV + Markdown)
 competitors:
     bun tools/competitor_audit.ts
+
+# Refresh live Rust upstream & toolchain brain (Matrix + Agent Cards + Vectors + Skill)
+rust-brain:
+    bun tools/rust_brain.ts
