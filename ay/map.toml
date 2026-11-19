@@ -1,0 +1,48 @@
+# Tier and gate of each top-level directory (MAP.tsv is rendered by aphrody-labs/.github tools/map.ts: bun run map).
+[default]
+tier = "misc"
+gate = "bun run check"
+
+["(root)"]
+tier = "manifest"
+gate = "bun run check"
+
+[abi]
+tier = "c-abi"
+gate = "bun tools/abi.ts --check"
+
+[apps]
+tier = "program"
+gate = "bun test ./apps/ay"
+
+[brand]
+tier = "brand"
+gate = "bun run check"
+
+[corelib]
+tier = "c-asm"
+gate = "bun tools/corelib.ts"
+
+[crates]
+tier = "rust"
+gate = "cargo check --workspace"
+
+[docs]
+tier = "docs"
+gate = "bun tools/features.ts --check"
+
+[os]
+tier = "os-layer"
+gate = "bun tools/submodules.ts --check"
+
+[packages]
+tier = "bun-package"
+gate = "bun test ./packages"
+
+[third_party]
+tier = "submodule"
+gate = "bun tools/submodules.ts --check"
+
+[tools]
+tier = "typed-bun"
+gate = "bun test ./tools/"
