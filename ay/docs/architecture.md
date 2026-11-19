@@ -1,6 +1,6 @@
 # Architecture
 
-Updated 2026-11-18. `ay` is the SDK of Aphrody (ADR-0008): C and its derivatives, assembly, Rust, Zig, WebGPU, Python, .NET and
+Updated 2026-11-19. `ay` is the SDK of Aphrody (ADR-0008): C and its derivatives, assembly, Rust, Zig, WebGPU, Python, .NET and
 Bun, each where it fits. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the source of truth; the dependency
 points from `aphrody` to `ay`, never the other way, and `ay` embeds no checkout of another repository (one local checkout
 per repository, forks and upstreams as submodules with relative URLs). Independence rule: see below. Decisions are in `docs/adr/` (index in
@@ -15,14 +15,16 @@ submodules.toml  declarative pin manifest for submodules rendered into .gitmodul
 package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
 abi/             the ABI spec (ay.abi.toml) and the bindings generated from it (ADR-0011); the C header is generated into corelib/include
 corelib/         the SDK corelib: freestanding C23 + assembly + WAT, the C ABI header, WIT world, conformance hosts and proofs
-packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: ai-os (agent kernel, MCP, A2A, LLM discovery, RAG), automate, chromium, chromium-releases, core, edge-stack (Cloudflare-OS + Vercel Bun SDK), env-kit, ffi, ghidra, gnu, node-compat, omniu, org-mirror, py2bun, wck
+packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: ai-os (agent kernel, MCP, A2A, LLM discovery, RAG), automate, cf-control-plane (Cloudflare manifest, FinOps, reconcile, cluster configs), chromium, chromium-releases, core, edge-stack (Cloudflare-OS + Vercel Bun SDK), env-kit, ffi, ghidra, gnu, node-compat, omniu, org-mirror, py2bun, wck; the Auto product keeps its own prefix: auto (SDK entry) and auto-client, auto-domain, auto-i18n, auto-native, auto-platform, auto-services, auto-store
 os/              OS platform pins and submodules: os/linux (kernel PKGBUILD + Rust userland map), os/nt (aynt), os/aphrody
 config/          shell and CLI configs (env.toml, links.toml, bash, pwsh, git, helix, starship, yazi) installed by tools/shells.ts
-apps/            programs a person runs, one folder each: chromium-dash, agents (agent harness: runner, GitHub events, plugins), ai-gateway (model gateway overlay)
+apps/            programs a person runs, one folder each: chromium-dash, agents (agent harness: runner, GitHub events, plugins), ai-gateway (model gateway overlay), cf-gateway and tools-release (Cloudflare Workers), auto-server, auto-ui, auto-cli, auto-extension, auto-desktop (the Auto product; auto-ui and auto-desktop are standalone Cargo workspaces)
+python/          Python workspace (uv, root pyproject.toml): ay_cf_py (Cloudflare SDK and Pydantic control-plane models)
+cpp/             C++23 units built with Bazel (root MODULE.bazel): edge_abi
 brand/           identity dataset and assets; the token pipeline (Bun) is its generator
 tools/           typed Bun scripts for every repeatable flow (features, submodules, paths, private-gate, abi, hosts, disks, listings, absorb, legacy, org-inventory, cloud-map, deploy, claude-sessions, linux-*, rust-map, shells)
 docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, science (cited async, recursion, compiler, OS foundations), research, guides
-third_party/     upstreams as submodules with relative URLs (DioxusLabs, Pop!_OS/COSMIC, Cloudflare, Vercel, Browser+VPN, Bun, Nysh), one checkout each
+third_party/     upstreams as submodules with relative URLs (DioxusLabs, Pop!_OS/COSMIC, Cloudflare including net, runtime, rust, sdk, agents and python forks, Vercel, media codecs under third_party/media, Browser+VPN, Bun, Nysh, better-auth), one checkout each; submodules.toml also records each fork upstream
 crates/          Rust crates of the SDK, directory named like the crate, hyphens only (ay-core/capi/jni, ay-sh, ay-sh-pty, ay-re, ay-ghidra-bun, ay-brand, ay-chromium, ay-dioxus, ay-headless, ay-http-error, ay-patch, ay-softraster, ay-sprite-sheet, ay-svg, ay-boq, ay-deps, ay-ocr-core, ay-ring3-agent; and the AI OS crates: ay-a2a*, ay-agent-*, ay-models, ay-model-client, ay-llama*, ay-infer, ay-embed, ay-rag*, ay-memory, ay-mcp-client, ay-gateway, ay-accounts, ay-config, ay-vault, ay-store, ay-sql, ...)
 ```
 
@@ -78,7 +80,10 @@ Keys are those of `ay.toml` [repos]; the matrix owner of every feature row is on
 | `aphrody-labs/browser` | One browser monorepo: Bun, Servo, Obscura, agent-browser, CEF/Chromium | Receives `ay-chromium` |
 | `aphrody-labs/bun` | The Bun fork, the Cloud edge runtime and its plugins | Fork |
 | `aphrody-labs/craft-anything` | Replication engine, consumed by `aphrody` as `vendor/craft-anything` | Fork |
-| `aphrody-labs/open`, `auto` | Open ecosystem (opencode, opentui, models.dev) and workflow automation | Own agents |
+| `aphrody-labs/open` | Open ecosystem (opencode, opentui, models.dev) | Own agent |
+| `aphrody-labs/auto` | Absorbed into this repository on 2026-11-19 (`apps/auto-*`, `packages/auto*`, `crates/auto-*`, `docs/auto`, `tools/auto-*`); archived | Read only |
+| `aphrody-labs/ay-cf` | Absorbed into this repository on 2026-11-19 (`packages/cf-control-plane`, `apps/cf-gateway`, `apps/tools-release`, `tools/cf-*`, `python/`, `cpp/`, `third_party/cloudflare`); archived | Read only |
+| `aphrody-labs/ay-media` | Absorbed into this repository on 2026-11-19 (`crates/ay-media-*`, `third_party/media`); archived | Read only |
 | `aphrody-labs/aphrody-m3` | Material 3 UI packages, icons, fonts | Consumes the `ay` token pipeline |
 | `aphrody-labs/nie` | Football games built as craft jobs | Own agent |
 | `rose-griffon/rosegriffon` | Rose Griffon monorepo, moved from `aphrody-labs` to its own organization | Own agent |

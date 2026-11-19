@@ -2,6 +2,7 @@
 // Zero hardcoded IPs or secrets in tracked source: resolves SSH aliases from the CLI, the environment or ay.toml [hosts] and probes the WireGuard mesh at runtime.
 import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { hostWork, loadHosts, type Role } from "./hosts.ts";
 import { readAy } from "./local.ts";
 
 const repoRoot = resolve(import.meta.dir, "..");
@@ -13,7 +14,11 @@ const hosts = (Bun.argv.slice(2).find((a) => !a.startsWith("-")) ?? Bun.env.AUTO
 
 const buildHost = Bun.env.AUTO_BUILD_HOST ?? hosts[0];
 if (!buildHost) throw new Error("no fleet host: pass hosts, set AUTO_FLEET_HOSTS or define [hosts] in ay.local.toml");
-const remoteDir = Bun.env.AUTO_REMOTE_DIR ?? "/srv/auto";
+// Install and source directories live on the work volume of the build host role (ay.toml [paths.<role>].work) unless AUTO_REMOTE_DIR says otherwise.
+const buildRole = Object.entries(roles).find(([, alias]) => alias === buildHost)?.[0] as Role | undefined;
+const remoteDir = Bun.env.AUTO_REMOTE_DIR ?? (buildRole ? `${hostWork(buildRole, loadHosts())}/auto` : "");
+if (!remoteDir) throw new Error(`no work volume for ${buildHost}: set AUTO_REMOTE_DIR or [paths.<role>].work in ay.local.toml`);
+const srcDir = `${remoteDir}-src`;
 const port = Number(Bun.env.AUTO_PORT ?? 3410);
 const lbPort = Number(Bun.env.AUTO_LB_PORT ?? 3420);
 const cloudUpstream = (Bun.env.AUTO_PUBLIC_URL ?? "https://auto.aphrody.com").replace(/\/+$/, "");
@@ -88,8 +93,8 @@ console.log(`Packing server sources and compiling Linux executable on '${buildHo
 const prepRes = await sshBash(
   buildHost,
   `set -euo pipefail
-sudo mkdir -p /srv/auto-src ${remoteDir}/data ${remoteDir}/web
-sudo chown -R "$(id -un)":"$(id -gn)" /srv/auto-src ${remoteDir}
+sudo mkdir -p ${srcDir} ${remoteDir}/data ${remoteDir}/web
+sudo chown -R "$(id -un)":"$(id -gn)" ${srcDir} ${remoteDir}
 `,
 );
 if (prepRes.code !== 0) process.exit(prepRes.code);
@@ -120,7 +125,7 @@ const tarProc = Bun.spawn(
   ],
   { cwd: repoRoot, stdout: "pipe", stderr: "inherit" },
 );
-const sshTar = Bun.spawn(["ssh", buildHost, "tar", "-xf", "-", "-C", "/srv/auto-src"], {
+const sshTar = Bun.spawn(["ssh", buildHost, "tar", "-xf", "-", "-C", srcDir], {
   cwd: repoRoot,
   stdin: tarProc.stdout,
   stdout: "inherit",
@@ -132,7 +137,7 @@ const compileRes = await sshBash(
   buildHost,
   `set -euo pipefail
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
-cd /srv/auto-src
+cd ${srcDir}
 bun install --ignore-scripts
 bun build --compile --bytecode --minify \\
   --asset packages/auto-native/wasm/auto_ffi_bg.wasm \\

@@ -3,13 +3,13 @@
 ## Environnement
 
 - Runtime [Aphrody](https://aphrody.app) (fork de Bun 1.4.5) : `bun check`, `bun lint` et `bun fmt` sont natifs.
-- Postgres de dev : `docker compose up -d postgres` (port 5433), puis `bun run migrate`.
-- Rust : compilé et testé dans le conteneur Linux (`bun scripts/cargo.ts`).
+- Base de dev : SQLite locale ; migrations avec `bun run auto:migrate`.
+- Rust : compilé et testé sur l’hôte de build (`bun tools/auto-cargo.ts`), jamais sur le PC.
 
 ## Règles
 
 - Code, commentaires, commits et documentation en français.
-- Une branche par sujet, PR fusionnée en squash ; message de commit à l'impératif décrivant le résultat.
-- Les gates passent avant toute PR : `bun run gates`, et `bun run gates:rust` si du Rust change.
-- Migrations SQL : nouveau fichier numéroté dans `packages/store/migrations/`, jamais de modification d'une migration appliquée, RLS sur toute table de tenant.
+- Travail sur `main` ; message de commit à l'impératif décrivant le résultat.
+- Les gates passent avant tout push : `bun run check` à la racine, et `cargo test --workspace` si du Rust change.
+- Migrations SQL : nouveau fichier numéroté dans `packages/auto-store/migrations/`, jamais de modification d'une migration appliquée, RLS sur toute table de tenant.
 - Pas de secret ni de donnée client réelle dans le dépôt, les tests ou les issues.

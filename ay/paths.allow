@@ -30,3 +30,7 @@ crates/ay-re/src/pipeline/ghidra.rs
 crates/ay-sh-pty/src/lib.rs
 tools/shells.ts
 tools/shells.test.ts
+
+# Absorbed from aphrody-labs/ay-cf and aphrody-labs/auto (2026-11-19).
+tools/cf-secrets.ts                              # scans the standard Linux credential locations (/etc/credstore.encrypted, /root/.config) of the fleet hosts
+apps/auto-server/deploy/compose.self-hosted.yaml # container mount layout of the self-hosted compose stack

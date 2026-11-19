@@ -35,8 +35,6 @@ checkout = "../anu"
 checkout = "../ai-os"
 [repos.open]
 checkout = "../open"
-[repos.auto]
-checkout = "../auto"
 [repos.rosegriffon]
 checkout = "../rosegriffon"
 [repos.standard]

@@ -75,7 +75,7 @@ export function collectAllCredentials(
     if (v) record(k, v, "pc:env");
   }
 
-  // 2. Local C:\src/*/.env files
+  // 2. The .env files of the sibling checkouts
   const srcRoot = resolve(root, "..");
   if (existsSync(srcRoot)) {
     for (const d of readdirSync(srcRoot, { withFileTypes: true })) {

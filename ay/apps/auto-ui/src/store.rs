@@ -118,14 +118,14 @@ impl Default for AutoUiState {
                     latency_ms: 14,
                 },
                 ClusterNode {
-                    id: "prd-node".to_owned(),
-                    endpoint: "prd (Self-Hosted LTO)".to_owned(),
+                    id: "prod-node".to_owned(),
+                    endpoint: "prod (Self-Hosted LTO)".to_owned(),
                     healthy: true,
                     latency_ms: 28,
                 },
                 ClusterNode {
-                    id: "fr2-proxy".to_owned(),
-                    endpoint: "fr2 (Pingora Edge LB)".to_owned(),
+                    id: "edge-proxy".to_owned(),
+                    endpoint: "edge proxy (Pingora Edge LB)".to_owned(),
                     healthy: true,
                     latency_ms: 19,
                 },
