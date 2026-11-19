@@ -75,12 +75,19 @@ async fn main() {
     let blob_url = format!("https://localhost:{}/blob", addr.port());
 
     println!("ay-http latency, TLS on localhost ({} warm, {} cold, {} x 1 MiB)", WARM, COLD, BLOB);
+    let only = std::env::var("AY_BENCH_ONLY").ok();
     for protocol in ["h1", "h2", "h3"] {
+        if only.as_deref().is_some_and(|o| o != protocol) {
+            continue;
+        }
         let client = prepared(&pem, addr, protocol, &ping).await;
         let mut warm = Vec::with_capacity(WARM);
-        for _ in 0..WARM {
+        for i in 0..WARM {
             let start = Instant::now();
-            let response = client.get(&ping).send().await.expect("request");
+            let response = match client.get(&ping).send().await {
+                Ok(response) => response,
+                Err(error) => panic!("{protocol} warm request {i}: {error:?}"),
+            };
             response.bytes().await.expect("body");
             warm.push(start.elapsed());
         }
