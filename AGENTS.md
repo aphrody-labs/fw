@@ -1,19 +1,21 @@
-# fairwind — Agent Contract
+# fairwind — Agent Contract (v4.0)
 
-- Layout: `core/py/heretic`, `core/ts/neon`, `core/rs/craft-libs`, `core/rs/craft-anything`, `native/fairwind-pe`, `native/fairwind-abi`, `native/fairwind-agy`, `plugin/`, `src/`, `fairwind.targets.json`, `.agents/rules/fairwind-auto-upgrade.md`, `tests/`. `packages/ghidra` is external.
-- Unified plugin (`plugin/` -> `~/.gemini/plugins/fairwind` & `~/.gemini/config/plugins/fairwind`): bundles unified MCP (`fairwind mcp`), `rules/AGENTS.md`, and skills `fairwind`, `agy-knowledge`, and `learn`.
-- Target & self-upgrade layout: `target/agy/` (`agy.exe` Rust Fat-LTO AOT launcher, `fairwind.exe` Bun AOT + `--trim` CLI, `fairwind_abi.dll` Rust Fat-LTO C ABI), tracked against all in-repo code in `target/manifest.json`, `target/upgrade-history.jsonl`, and `target/daemon-state.json`. Upstream Google-signed `%LOCALAPPDATA%\agy\bin\agy.exe` is strictly read-only.
-- Persistent cross-platform daemon: `fairwind service render|install|status` (Windows Task Scheduler, Linux systemd `--user`, macOS launchd) running `fairwind daemon run --interval=300 --auto-apply --with-learn`.
+- Layout:
+  - Root 12-crate Rust workspace (`Cargo.toml`): `crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,bin}` (zero system deps, `#![forbid(unsafe_code)]` on OS/UI/store crates, zero Clippy warnings).
+  - Official Asterinas OSDK kernel + NixOS + Alpine: `os/fairwind-os/` (`OSDK.toml`, `rust-toolchain.toml`, `src/lib.rs`, `flake.nix`, `APKBUILD`).
+  - Native ABI & launcher crates: `native/fairwind-{pe,sniff,kernel,world,abi,agy}`.
+  - Polyglot cores: `core/{asm,c,cpp,cuda,go,java,kotlin,py,rs,ts,wasm,webgpu}` (zero nested `vendor/` or `fuzz/`).
+  - Cloud & cluster: `cluster/`, `cloudflare/`, `vercel/`, `src/`, `tests/`, `docs/`, `plugin/`, `bunfig.toml`, `tsconfig.json`, `fairwind.targets.json`.
+  - Gitignored external forks/trees: `packages/{ghidra,windows-rs,rust-for-linux,antigravity-sdk-python,tui-test,intelligent-terminal,asterinas,wayland-rs}`.
+- Unified plugin (`plugin/` -> `~/.gemini/plugins/fairwind` & `~/.gemini/config/plugins/fairwind`): bundles MCP (`fairwind mcp`), `rules/AGENTS.md`, and 9 skills (`fairwind`, `agy-knowledge`, `learn`, `low-level-lto-aot`, `binary-analysis`, `reverse-engineer-anything`, `static-recompile`, `tree-sitter`, `tui-test`).
+- Upstream Google-signed `%LOCALAPPDATA%\agy\bin\agy.exe` is strictly read-only.
 - Gates before commit/push:
+  - `cargo clippy --workspace --all-targets -- -D warnings`
+  - `cargo test --workspace`
+  - `cargo build --release -p fw-bin && cargo build --release --target wasm32-unknown-unknown -p fw-wasm && cargo check --target x86_64-unknown-linux-musl -p fw-bin`
   - `uvx ruff check .`
-  - `cargo test --manifest-path native/fairwind-pe/Cargo.toml`
-  - `cargo test --manifest-path native/fairwind-abi/Cargo.toml`
-  - `cargo test --manifest-path native/fairwind-agy/Cargo.toml`
-  - `cargo build --release --manifest-path native/fairwind-abi/Cargo.toml`
-  - `cargo build --release --manifest-path native/fairwind-agy/Cargo.toml`
-  - `bun test tests`
+  - `bun test`
   - `bun src/fairwind_cli.ts upgrade --apply --skip-tests`
-  - `bun src/fairwind_cli.ts service render`
-  - `dist/fairwind.exe status`
-  - `target/agy/agy.exe --fairwind-info`
+  - `.\dist\fairwind.exe plugin sync --install && bun C:\Users\aphro\.gemini\scripts\check.ts`
+  - `.\dist\fairwind.exe dedupe && .\dist\fairwind.exe target verify`
 - Work on `main`; zero AI attribution trailers; keep repository private (`aphrody-labs/fairwind`).

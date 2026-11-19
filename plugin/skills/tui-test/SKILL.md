@@ -118,6 +118,13 @@ Do not use a fixed sleep when a wait can describe the state.
 - Use semantic mouse buttons: `left`, `middle`, or `right`.
 - Close every session. Prefer the Python and JavaScript test helpers.
 
+## Fairwind Integration (`core/rs/tui-test` & `core/rs/wta`)
+
+- Source-only Rust crates live in `core/rs/tui-test` (forked from `microsoft/tui-test`, zero binary font/ConPTY bloat) and `core/rs/wta` (Microsoft Intelligent Terminal ACP/MCP orchestrator).
+- CLI commands: `fairwind tui status`, `fairwind tui wta-config`, `fairwind tui verify-self`, `fairwind tui verify <expect> -- <cmd...>`.
+- MCP tool: `fairwind_tui_terminal` (`status | wta_config | verify_self`).
+- HTTP API: `GET /api/tui/status`, `GET /api/tui/wta-config`, `GET /api/tui/verify`.
+
 ## Capture output
 
 Use `screenshot` for text, SVG, or PNG. SVG, PNG, APNG, and GIF support `--background COLOR` and `--transparent`. MP4 supports `--background` only. Use `record` for APNG, GIF, MP4, or asciinema. Configure `[trace]` with `mode = "on-failure"` and a `directory` for test artifacts, including agent-readable Markdown/JSON, an asciicast, and standalone HTML. Trace modes are `off` (default), `on`, and `on-failure`; `[recording]` only accepts `directory`.
