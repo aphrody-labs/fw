@@ -1,0 +1,32 @@
+[package]
+name = "ay-cf"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[features]
+default = ["assets", "edge"]
+assets = ["dep:blake3", "dep:etagere", "dep:gltf", "dep:http", "dep:http-range-header", "dep:ktx2", "dep:serde", "dep:serde_json", "dep:spdx", "dep:thiserror", "dep:thumbhash", "dep:url"]
+edge = ["dep:serde", "dep:thiserror", "dep:toml"]
+
+[dependencies]
+blake3 = { workspace = true, optional = true }
+etagere = { workspace = true, optional = true }
+gltf = { workspace = true, optional = true }
+http = { workspace = true, optional = true }
+http-range-header = { workspace = true, optional = true }
+ktx2 = { workspace = true, optional = true }
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+spdx = { workspace = true, optional = true }
+thiserror = { workspace = true, optional = true }
+thumbhash = { workspace = true, optional = true }
+toml = { workspace = true, optional = true }
+url = { workspace = true, optional = true }
+
+[lints]
+workspace = true
