@@ -1,0 +1,25 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+cc_library(
+    name = "edge_abi",
+    srcs = ["edge_abi.cc"],
+    hdrs = ["edge_abi.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@abseil-cpp//absl/crc:crc32c",
+        "@abseil-cpp//absl/status",
+        "@abseil-cpp//absl/status:statusor",
+        "@abseil-cpp//absl/types:span",
+    ],
+)
+
+cc_test(
+    name = "edge_abi_test",
+    size = "small",
+    srcs = ["edge_abi_test.cc"],
+    deps = [
+        ":edge_abi",
+        "@abseil-cpp//absl/crc:crc32c",
+        "@googletest//:gtest_main",
+    ],
+)

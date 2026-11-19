@@ -25,7 +25,15 @@
     "deploy": "bun tools/deploy.ts",
     "sessions": "bun tools/claude-sessions.ts",
     "map": "bun tools/map.ts",
-    "check": "bun tools/features.ts --check && bun tools/submodules.ts --check && bun tools/paths.ts && bun tools/private-gate.ts && bun tools/abi.ts --check && bun check --no-script && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./packages/edge-stack ./apps/chromium-dash ./apps/ay ./packages/chromium/test/version.test.ts"
+    "check": "bun tools/features.ts --check && bun tools/submodules.ts --check && bun tools/paths.ts && bun tools/private-gate.ts && bun tools/abi.ts --check && bun check --no-script && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./packages/edge-stack ./apps/chromium-dash ./apps/ay ./packages/chromium/test/version.test.ts ./packages/cf-control-plane ./apps/cf-gateway ./apps/tools-release ./packages/auto- ./apps/auto-",
+    "cf:audit": "bun tools/cf-audit.ts",
+    "auto:server": "bun apps/auto-server/src/bin.ts",
+    "auto:dev": "bun --watch apps/auto-server/src/bin.ts",
+    "auto:migrate": "bun packages/auto-store/src/migrate.ts",
+    "auto:openapi": "bun tools/auto-openapi.ts",
+    "auto:build-native": "bun tools/auto-build-native.ts",
+    "auto:build-aot": "bun tools/auto-build-aot.ts",
+    "auto:validate-facturx": "bun tools/auto-validate-facturx.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.4.4",
@@ -35,6 +43,7 @@
     "web-tree-sitter": "0.27.2"
   },
   "patchedDependencies": {
-    "@ag-ui/core@1.0.1": "patches/ag-ui-core-1.0.1.patch"
+    "@ag-ui/core@1.0.1": "patches/ag-ui-core-1.0.1.patch",
+    "jsonc-parser@3.3.1": "patches/jsonc-parser@3.3.1.patch"
   }
 }

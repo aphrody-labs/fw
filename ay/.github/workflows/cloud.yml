@@ -1,0 +1,93 @@
+name: cloud
+
+# Cloudflare units (packages/cf-control-plane, apps/cf-gateway, apps/tools-release), the Python workspace (python/) and the C++ ABI (cpp/).
+# The Bun tests of these units also run in check.yml; this workflow adds the Worker bundle dry-runs, Ruff and pytest, and the Bazel suite.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/cf-control-plane/**"
+      - "apps/cf-gateway/**"
+      - "apps/tools-release/**"
+      - "tools/cf-*"
+      - "python/**"
+      - "cpp/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "MODULE.bazel"
+      - ".bazelrc"
+      - ".bazelversion"
+      - ".github/workflows/cloud.yml"
+  pull_request:
+    paths:
+      - "packages/cf-control-plane/**"
+      - "apps/cf-gateway/**"
+      - "apps/tools-release/**"
+      - "tools/cf-*"
+      - "python/**"
+      - "cpp/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - "MODULE.bazel"
+      - ".bazelrc"
+      - ".bazelversion"
+      - ".github/workflows/cloud.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  workers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun tools/cf-audit.ts
+      - run: bun tools/cf-skills-index.ts --check
+      - run: bun x wrangler deploy --dry-run --outdir target/wrangler-dry --config apps/cf-gateway/wrangler.jsonc
+      - run: bun x wrangler deploy --dry-run --outdir target/wrangler-dry-release --config apps/tools-release/wrangler.jsonc
+
+  python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run ruff check python
+      - run: uv run ruff format --check python
+      - run: uv run pytest
+
+  cpp-bazel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: KyleMayes/install-llvm-action@ebc0426251bc40c7cd31162802432c68818ab8f0 # v2.0.9
+        with:
+          version: "21"
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/bazel
+          key: bazel-${{ runner.os }}-${{ hashFiles('MODULE.bazel', '.bazelversion') }}
+          restore-keys: bazel-${{ runner.os }}-
+      - name: Install Bazelisk and run the Abseil and GoogleTest suite
+        run: |
+          sudo curl -fsSL -o /usr/local/bin/bazelisk https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64
+          sudo chmod +x /usr/local/bin/bazelisk
+          CC=clang CXX=clang++ bazelisk test --config=linux //cpp/...

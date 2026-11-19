@@ -1,0 +1,26 @@
+diff --git a/lib/esm/impl/parser.js b/lib/esm/impl/parser.js
+index 6ebb947f32bcf5da4bd55ff140be75fb52bbe429..b585d3b3b2d0d06804656eab555dc2afcb25c013 100644
+--- a/lib/esm/impl/parser.js
++++ b/lib/esm/impl/parser.js
+@@ -7,7 +7,7 @@ import { createScanner } from './scanner';
+ var ParseOptions;
+ (function (ParseOptions) {
+     ParseOptions.DEFAULT = {
+-        allowTrailingComma: false
++        allowTrailingComma: true
+     };
+ })(ParseOptions || (ParseOptions = {}));
+ /**
+diff --git a/lib/umd/impl/parser.js b/lib/umd/impl/parser.js
+index b30bb9364def1b1a14d297a73e5f2e93ae49dac3..091052dda145a4a252e0b3e0cdf728ef690be50f 100644
+--- a/lib/umd/impl/parser.js
++++ b/lib/umd/impl/parser.js
+@@ -18,7 +18,7 @@
+     var ParseOptions;
+     (function (ParseOptions) {
+         ParseOptions.DEFAULT = {
+-            allowTrailingComma: false
++            allowTrailingComma: true
+         };
+     })(ParseOptions || (ParseOptions = {}));
+     /**

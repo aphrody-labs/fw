@@ -1,3 +1,17 @@
 * text=auto eol=lf
 *.bat text eol=crlf
 *.cmd text eol=crlf
+*.pdf binary
+*.png binary
+*.jpg binary
+*.ttf binary
+*.otf binary
+*.woff2 binary
+*.xlsx binary
+*.docx binary
+*.pptx binary
+*.mp4 binary
+bun.lock linguist-generated
+Cargo.lock linguist-generated
+uv.lock linguist-generated
+packages/auto-store/migrations/*.sql -text

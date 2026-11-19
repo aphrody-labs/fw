@@ -4,7 +4,7 @@
 // tree can never repeat them) and generic ones (a non-loopback IPv4 address, a Windows user profile path, a home directory
 // path, an e-mail address). Tests, lock files, vendored trees and SVG are not scanned.
 //   bun tools/private-gate.ts        exit 1 and list file:line when a tracked file leaks
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { readAy, repoRoot } from "./local.ts";
 
@@ -23,7 +23,28 @@ export function patterns(root = repoRoot): [string, RegExp][] {
   const cfg = (existsSync(join(root, "ay.toml")) ? readAy(root) : {}) as { hosts?: Record<string, string>; paths?: Record<string, { work?: string }>; recovery?: { scan?: string[] } };
   const secrets = new Set<string>([...Object.values(cfg.hosts ?? {}), ...Object.values(cfg.paths ?? {}).map((p) => p.work ?? "")].filter((s) => s.length >= 3 && !s.startsWith("<")));
   for (const s of secrets) out.push([`a value of ay.local.toml (${s.startsWith("/") ? "a host path" : "a host alias"})`, new RegExp(s.startsWith("/") ? `${escape(s)}(?![\\w-])` : `(?<![\\w-])${escape(s)}(?![\\w-])`)]);
+  for (const s of cloudflareLiterals(root)) out.push(["a value of cf.local.toml (a Cloudflare id or a host address)", new RegExp(`(?<![\\w.-])${escape(s)}(?![\\w.-])`, "i")]);
   return out;
+}
+
+/** Account, zone and tunnel ids and the public addresses of the git-ignored cf.local.toml (packages/cf-control-plane): never tracked. */
+export function cloudflareLiterals(root = repoRoot): string[] {
+  const file = join(root, "cf.local.toml");
+  if (!existsSync(file)) return [];
+  try {
+    const parsed = Bun.TOML.parse(readFileSync(file, "utf8")) as Record<string, unknown>;
+    const vals: string[] = [];
+    const walk = (v: unknown) => {
+      if (typeof v === "string") vals.push(v);
+      else if (Array.isArray(v)) v.forEach(walk);
+      else if (v && typeof v === "object") Object.values(v).forEach(walk);
+    };
+    walk(parsed.cloudflare);
+    for (const h of Object.values((parsed.hosts ?? {}) as Record<string, { public_ipv4?: string; public_ipv6?: string }>)) walk([h?.public_ipv4, h?.public_ipv6]);
+    return vals.filter((v) => v.length >= 6 && !v.startsWith("<"));
+  } catch {
+    return [];
+  }
 }
 
 export function scan(files: Map<string, string>, pats: [string, RegExp][]): Leak[] {

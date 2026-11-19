@@ -1,0 +1,1335 @@
+# Declarative public-safe control plane of the Cloudflare units (packages/cf-control-plane).
+# Literal Account IDs, Zone IDs, Tunnel UUIDs, VPS IPs, and emails live ONLY in the git-ignored `cf.local.toml`.
+
+[product]
+name = "cf"
+repo = "aphrody-dev/ay"
+fork_org = "aphrody-labs"
+description = "Unified Cloudflare monorepo, upstream fork sync, FinOps, tunnels, Mullvad VPN, proxy VPS, and polyglot edge toolchain"
+
+[plans]
+workers_paid = true
+workers_paid_base_usd = 5.0
+r2_paid = true
+observability_paid = true
+images_stream_basic = true
+
+[finops]
+# Workers Paid included monthly quota + overage rates
+workers_included_requests = 10_000_000
+workers_overage_per_million_usd = 0.30
+workers_included_cpu_ms = 30_000_000
+workers_cpu_per_million_ms_usd = 0.02
+# Observability monthly free tier + overage
+observability_included_events = 20_000_000
+observability_overage_per_million_usd = 0.60
+# R2 Paid monthly free tier + overage
+r2_included_gb = 10.0
+r2_storage_per_gb_usd = 0.015
+r2_included_class_a = 1_000_000
+r2_class_a_per_million_usd = 4.50
+r2_included_class_b = 10_000_000
+r2_class_b_per_million_usd = 0.36
+# Target FinOps policies
+default_cdn_cpu_ms = 50
+default_api_cpu_ms = 500
+cdn_log_sampling_rate = 0.1
+api_log_sampling_rate = 1.0
+default_trace_sampling_rate = 0.05
+r2_multipart_abort_seconds = 86_400
+
+[domains]
+# Core domains + maintained sites (1 OS + 4 web estates)
+primary = ["aphrody.com", "aphrody.app"]
+sites = ["dragonballfr.com", "rosegriffon.fr"]
+
+[[site]]
+id = "aphrody-os"
+zone = "aphrody.com"
+kind = "os-and-portal"
+tunnel = "aphrody"
+origin_role = "edge-proxy"
+
+[[site]]
+id = "aphrody-webos"
+zone = "aphrody.app"
+kind = "webos-apps-and-r2-cdn"
+tunnel = "aphrody"
+origin_role = "edge-proxy"
+
+[[site]]
+id = "shenron"
+zone = "dragonballfr.com"
+kind = "community-portal-and-cdn"
+tunnel = "shenron"
+origin_role = "origin"
+
+[[site]]
+id = "rosegriffon"
+zone = "rosegriffon.fr"
+kind = "community-portal-and-api"
+tunnel = "rosegriffon"
+origin_role = "origin"
+
+[tunnels.aphrody]
+transport = "quic"
+connectors = 2
+ingress = ["dbfr.aphrody.com", "nie.aphrody.app", "mcp-origin.aphrody.com", "ssh-prd.aphrody.com"]
+
+[tunnels.rosegriffon]
+transport = "quic"
+connectors = 2
+ingress = [
+  "rosegriffon.fr",
+  "www.rosegriffon.fr",
+  "achillea.rosegriffon.fr",
+  "azalee.rosegriffon.fr",
+  "shop.rosegriffon.fr",
+  "ranked.rosegriffon.fr",
+  "api.rosegriffon.fr",
+  "bot.rosegriffon.fr",
+  "mcp.rosegriffon.fr",
+  "db.rosegriffon.fr",
+  "cdn.rosegriffon.fr",
+]
+
+[tunnels.shenron]
+transport = "quic"
+connectors = 4
+ingress = [
+  "dragonballfr.com",
+  "www.dragonballfr.com",
+  "bot.dragonballfr.com",
+  "mcp.dragonballfr.com",
+  "origin-cdn.dragonballfr.com",
+]
+
+# Active R2 buckets (tier: hot-reusable | dist | site-cdn | cold-offload)
+[buckets]
+aphrody-assets = { tier = "hot-reusable", custom_domains = ["assets.aphrody.app"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-video = { tier = "hot-reusable", custom_domains = ["video.aphrody.app", "video.aphrody.com"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-releases = { tier = "dist", custom_domains = ["releases.aphrody.com"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-dist = { tier = "dist", custom_domains = ["dist.aphrody.app"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+bun-lib = { tier = "dist", custom_domains = ["bun-lib.aphrody.app"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+rosegriffon-cdn = { tier = "site-cdn", custom_domains = ["r2.rosegriffon.fr"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+shenron-cdn = { tier = "site-cdn", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-backups = { tier = "cold-offload", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-chromium = { tier = "cold-offload", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-gnu = { tier = "cold-offload", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-lore = { tier = "cold-offload", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
+
+# Live Worker FinOps & Secret Contract Registry
+[workers.aphrody]
+profile = "web-router"
+cpu_ms = 250
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
+[workers.aphrody-app]
+profile = "api-compute"
+cpu_ms = 500
+log_sampling = 0.25
+trace_sampling = 0.1
+workers_dev = false
+previews = false
+secrets = ["APP_SECRET", "NEON_DATABASE_URL", "TYPESAFE_API_KEY"]
+
+[workers.aphrody-deploy]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = ["DEPLOY_TOKEN"]
+
+[workers.aphrody-github]
+profile = "webhook"
+cpu_ms = 500
+log_sampling = 1.0
+trace_sampling = 0.1
+workers_dev = true
+previews = false
+secrets = ["GITHUB_WEBHOOK_SECRET"]
+
+[workers.aphrody-mcp-gateway]
+profile = "api-gateway"
+cpu_ms = 500
+log_sampling = 0.25
+trace_sampling = 0.1
+workers_dev = false
+previews = false
+secrets = [
+  "CF_ACCESS_CLIENT_ID",
+  "CF_ACCESS_CLIENT_SECRET",
+  "GOOGLE_CLIENT_ID",
+  "GOOGLE_CLIENT_SECRET",
+  "OAUTH_SECRET",
+  "OWNER_GOOGLE_ACCOUNT",
+  "RELAY_TOKEN",
+]
+
+[workers.aphrody-releases]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
+[workers.aphrody-sites]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
+[workers.aphrody-webos]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
+[workers.api-aphrody-com]
+profile = "api-gateway"
+cpu_ms = 250
+log_sampling = 0.25
+trace_sampling = 0.1
+workers_dev = false
+previews = false
+secrets = []
+
+[workers.ay-cf-gateway]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
+[workers.ay-tools-release]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = true
+previews = false
+secrets = []
+
+[workers.bun-video-showcase]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
+[workers.auto]
+profile = "api-compute"
+cpu_ms = 500
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = ["AUTO_MASTER_KEY", "BETTER_AUTH_SECRET"]
+
+[workers.docs-proxy]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = true
+previews = false
+secrets = []
+
+[workers.open-source-website-assets]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = true
+previews = false
+secrets = []
+
+[workers.rosegriffon-edge]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
+[workers.shenron-cdn]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
+# Declarative Multi-Zone Cartography (187 DNS records, Worker routes, Worker Custom Domains, R2 CDNs, Tunnels & Mail)
+# Zero literal Account IDs, Zone IDs, Tunnel UUIDs, or VPS IPs: resolved dynamically via `cf.local.toml`.
+
+[zones."aphrody.com"]
+worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases"]
+
+[zones."aphrody.com".tunnel_cnames]
+aphrody = [
+  "@",
+  "admin",
+  "ai",
+  "art",
+  "auth",
+  "bot",
+  "bxc",
+  "cad",
+  "calendar",
+  "chat",
+  "console",
+  "control",
+  "design",
+  "docs",
+  "drive",
+  "fig",
+  "gnu",
+  "inacord",
+  "mail",
+  "maps",
+  "mcp-origin",
+  "meet",
+  "mig-commons",
+  "mig-depot",
+  "mig-downloads",
+  "mig-test",
+  "n2b",
+  "nie",
+  "open-origin",
+  "os",
+  "pdf",
+  "photos",
+  "play",
+  "search",
+  "sheets",
+  "slides",
+  "sound",
+  "ssh-fr2",
+  "ssh-prd",
+  "status",
+  "store",
+  "translate",
+]
+
+[zones."aphrody.com".r2_cnames]
+video = "aphrody-video"
+
+[[zones."aphrody.com".direct_origins]]
+name = "dbfr"
+type = "A"
+target = "host:edge_proxy"
+proxied = true
+
+[[zones."aphrody.com".direct_origins]]
+name = "dbfr"
+type = "AAAA"
+target = "host:edge_proxy"
+proxied = true
+
+[[zones."aphrody.com".direct_origins]]
+name = "vps"
+type = "A"
+target = "host:build"
+proxied = false
+
+[[zones."aphrody.com".direct_origins]]
+name = "vps"
+type = "AAAA"
+target = "host:build"
+proxied = false
+
+[[zones."aphrody.com".static_cnames]]
+name = "ovhmo-selector-1._domainkey"
+target = "ovhmo-selector-1._domainkey.4861041.dp.dkim.mail.ovh.net"
+proxied = false
+
+[[zones."aphrody.com".static_cnames]]
+name = "ovhmo-selector-2._domainkey"
+target = "ovhmo-selector-2._domainkey.4861042.dp.dkim.mail.ovh.net"
+proxied = false
+
+[[zones."aphrody.com".static_cnames]]
+name = "rsend"
+target = "rsend-euw1.forge.rmta.net"
+proxied = false
+
+[[zones."aphrody.com".static_cnames]]
+name = "rsend.notifications"
+target = "rsend-euw1.forge.rmta.net"
+proxied = false
+
+[[zones."aphrody.com".static_cnames]]
+name = "send"
+target = "send.forge.rmta.net"
+proxied = false
+
+[[zones."aphrody.com".static_cnames]]
+name = "send.notifications"
+target = "send.forge.rmta.net"
+proxied = false
+
+[[zones."aphrody.com".caa_records]]
+name = "@"
+flags = 0
+tag = "issuewild"
+value = "pki.goog; cansignhttpexchanges=yes"
+
+[[zones."aphrody.com".caa_records]]
+name = "@"
+flags = 0
+tag = "issue"
+value = "pki.goog; cansignhttpexchanges=yes"
+
+[[zones."aphrody.com".caa_records]]
+name = "@"
+flags = 0
+tag = "issuewild"
+value = "letsencrypt.org"
+
+[[zones."aphrody.com".caa_records]]
+name = "@"
+flags = 0
+tag = "issue"
+value = "letsencrypt.org"
+
+[[zones."aphrody.com".mx_records]]
+name = "@"
+target = "mx0.mail.ovh.net"
+priority = 1
+
+[[zones."aphrody.com".mx_records]]
+name = "@"
+target = "mx1.mail.ovh.net"
+priority = 5
+
+[[zones."aphrody.com".mx_records]]
+name = "@"
+target = "mx2.mail.ovh.net"
+priority = 50
+
+[[zones."aphrody.com".mx_records]]
+name = "@"
+target = "mx3.mail.ovh.net"
+priority = 100
+
+[[zones."aphrody.com".srv_records]]
+name = "_autodiscover._tcp"
+priority = 0
+weight = 0
+port = 443
+target = "zimbra1.mail.ovh.net"
+
+[[zones."aphrody.com".srv_records]]
+name = "_nativelink-cas._tcp"
+priority = 10
+weight = 10
+port = 50061
+target = "fr1.mesh"
+
+[[zones."aphrody.com".srv_records]]
+name = "_nativelink-scheduler._tcp"
+priority = 10
+weight = 10
+port = 50051
+target = "fr1.mesh"
+
+[[zones."aphrody.com".srv_records]]
+name = "_valkey._tcp"
+priority = 10
+weight = 10
+port = 6379
+target = "fr2.mesh"
+
+[[zones."aphrody.com".txt_records]]
+name = "@"
+content = "v=spf1 include:mx.ovh.com include:_spf.google.com include:resend.com ip4:${host:build:ipv4} ip4:${host:origin:ipv4} ~all"
+
+[[zones."aphrody.com".txt_records]]
+name = "_dmarc"
+content = "v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@aphrody.com; aspf=r; adkim=r"
+
+[[zones."aphrody.com".txt_records]]
+name = "resend._domainkey"
+content = "\"p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDYpYTrAwdzYxp+RA8jFQnaKCh86RLtMsIcRA3/ePi7aG+JXmSMjhmzmNeuG095IAPx5qbp9aiNE6HQRl9QdcT3H0iTXITCNAFoNNI3lCtKAbPpbPU2lhkPLla2lKQBugY7nbpVeaXmsN2Nyy7+eOfrufwr3IJ7rLH6tchJ47uAFwIDAQAB\""
+
+[[zones."aphrody.com".txt_records]]
+name = "resend._domainkey.notifications"
+content = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDI0HowbH8NacV8VXSC/N/dc7QR/QzV8KLElkpWQcMFZGjONQ1o7nTxw6f+nIxhmgf3J5a1LqAFnGoz53ngoFgzkroqDF/NQM06q3uvXMe62M9TivfWudR5HObaIgMUldtD6rR3fOJ9x29kEBKZmHXH3pkeIHkHvVt14YEVtaRBZQIDAQAB"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "fig.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "video.aphrody.com/*"
+script = "bun-video-showcase"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "play.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "photos.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "sound.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "design.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "art.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "calendar.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "console.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "sheets.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "slides.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "maps.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "pdf.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "cad.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "os.aphrody.com/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "aphrody.com/*"
+script = "aphrody"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "docs.aphrody.com/*"
+script = "docs-proxy"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "downloads.aphrody.com/*"
+script = "aphrody-releases"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "releases.aphrody.com/*"
+script = "aphrody-releases"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "aphrody.com/download*"
+script = "aphrody-releases"
+
+[[zones."aphrody.com".worker_domains]]
+hostname = "bun.aphrody.com"
+service = "aphrody-app"
+
+[[zones."aphrody.com".worker_domains]]
+hostname = "api.aphrody.com"
+service = "api-aphrody-com"
+
+[[zones."aphrody.com".worker_domains]]
+hostname = "www.aphrody.com"
+service = "aphrody"
+
+[[zones."aphrody.com".worker_domains]]
+hostname = "creator.aphrody.com"
+service = "aphrody-sites"
+
+[[zones."aphrody.com".worker_domains]]
+hostname = "cdn.aphrody.com"
+service = "aphrody-sites"
+
+[[zones."aphrody.com".worker_domains]]
+hostname = "mcp.aphrody.com"
+service = "aphrody-mcp-gateway"
+
+[[zones."aphrody.com".worker_domains]]
+hostname = "auto.aphrody.com"
+service = "auto"
+
+
+[zones."aphrody.app"]
+worker_aaaa = [
+  "*",
+  "@",
+  "www",
+  "apt",
+  "bun",
+  "shell",
+  "artcraft",
+  "cadcraft",
+  "deckcraft",
+  "designcraft",
+  "effectcraft",
+  "figcraft",
+  "filmcraft",
+  "gridcraft",
+  "lightcraft",
+  "pdfcraft",
+  "photocraft",
+  "soundcraft",
+  "vectorcraft",
+  "wordcraft",
+]
+
+[zones."aphrody.app".tunnel_cnames]
+aphrody = [
+  "api",
+  "auth",
+  "craft",
+  "deploy",
+  "desktop",
+  "git",
+  "play",
+  "source",
+  "app-audio",
+  "app-cad",
+  "app-compositing",
+  "app-documents",
+  "app-generation",
+  "app-images",
+  "app-interface-layouts",
+  "app-layout",
+  "app-pdf",
+  "app-photo-processing",
+  "app-slides",
+  "app-tables",
+  "app-vectors",
+  "app-video",
+]
+
+[zones."aphrody.app".r2_cnames]
+assets = "aphrody-assets"
+bun-lib = "bun-lib"
+dist = "aphrody-dist"
+video = "aphrody-video"
+
+[[zones."aphrody.app".direct_origins]]
+name = "nie"
+type = "A"
+target = "host:edge_proxy"
+proxied = true
+
+[[zones."aphrody.app".caa_records]]
+name = "@"
+flags = 0
+tag = "iodef"
+value = "mailto:contact@aphrody.com"
+
+[[zones."aphrody.app".caa_records]]
+name = "@"
+flags = 0
+tag = "issuewild"
+value = "ssl.com"
+
+[[zones."aphrody.app".caa_records]]
+name = "@"
+flags = 0
+tag = "issue"
+value = "ssl.com"
+
+[[zones."aphrody.app".caa_records]]
+name = "@"
+flags = 0
+tag = "issuewild"
+value = "pki.goog; cansignhttpexchanges=yes"
+
+[[zones."aphrody.app".caa_records]]
+name = "@"
+flags = 0
+tag = "issue"
+value = "pki.goog; cansignhttpexchanges=yes"
+
+[[zones."aphrody.app".caa_records]]
+name = "@"
+flags = 0
+tag = "issuewild"
+value = "letsencrypt.org"
+
+[[zones."aphrody.app".caa_records]]
+name = "@"
+flags = 0
+tag = "issue"
+value = "letsencrypt.org"
+
+[[zones."aphrody.app".mx_records]]
+name = "@"
+target = "route1.mx.cloudflare.net"
+priority = 72
+
+[[zones."aphrody.app".mx_records]]
+name = "@"
+target = "route3.mx.cloudflare.net"
+priority = 80
+
+[[zones."aphrody.app".mx_records]]
+name = "@"
+target = "route2.mx.cloudflare.net"
+priority = 94
+
+[[zones."aphrody.app".txt_records]]
+name = "@"
+content = "v=spf1 include:_spf.mx.cloudflare.net include:_spf.google.com include:resend.com ip4:${host:build:ipv4} ip4:${host:origin:ipv4} ~all"
+
+[[zones."aphrody.app".txt_records]]
+name = "cf2024-1._domainkey"
+content = "\"v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiweykoi+o48IOGuP7GR3X0MOExCUDY/BCRHoWBnh3rChl7WhdyCxW3jgq1daEjPPqoi7sJvdg5hEQVsgVRQP4DcnQDVjGMbASQtrY4WmB1VebF+RPJB2ECPsEDTpeiI5ZyUAwJaVX7r6bznU67g7LvFq35yIo4sdlmtZGV+i0H4cpYH9+3JJ78k\" \"m4KXwaf9xUJCWF6nxeD+qG6Fyruw1Qlbds2r85U9dkNDVAS3gioCvELryh1TxKGiVTkg4wqHTyHfWsp7KD3WQHYJn0RyfJJu6YEmL77zonn7p2SRMvTMP3ZEXibnC9gz3nnhR6wcYL8Q7zXypKTMD58bTixDSJwIDAQAB\""
+
+[[zones."aphrody.app".txt_records]]
+name = "_dmarc"
+content = "v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@aphrody.app; aspf=r; adkim=r"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "play.aphrody.app/"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-interface-layouts.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-photo-processing.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-compositing.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-generation.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-documents.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-vectors.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-layout.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-tables.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-images.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-slides.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-audio.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-video.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-cad.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "app-pdf.aphrody.app/*"
+script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "api.aphrody.app/*"
+script = "aphrody-deploy"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "auth.aphrody.app/*"
+script = "aphrody-deploy"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "craft.aphrody.app/*"
+script = "aphrody-deploy"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "deploy.aphrody.app/*"
+script = "aphrody-deploy"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "git.aphrody.app/*"
+script = "aphrody-deploy"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "source.aphrody.app/*"
+script = "aphrody-deploy"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "bun.aphrody.app"
+service = "aphrody-app"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "filmcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "artcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "photocraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "vectorcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "effectcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "lightcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "pdfcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "wordcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "soundcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "designcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "cadcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "deckcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "gridcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "figcraft.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "apt.aphrody.app"
+service = "aphrody-webos"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "aphrody.app"
+service = "aphrody-deploy"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "www.aphrody.app"
+service = "aphrody-deploy"
+
+[[zones."aphrody.app".worker_domains]]
+hostname = "shell.aphrody.app"
+service = "aphrody-sites"
+
+
+[zones."dragonballfr.com"]
+[[zones."dragonballfr.com".direct_origins]]
+name = "@"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "www"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "admin"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "bot"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "cdn"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "files"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "game-api"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "mcp"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "origin-cdn"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "play"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".direct_origins]]
+name = "tv"
+type = "A"
+target = "host:origin"
+proxied = true
+
+[[zones."dragonballfr.com".caa_records]]
+name = "@"
+flags = 0
+tag = "issuewild"
+value = "pki.goog; cansignhttpexchanges=yes"
+
+[[zones."dragonballfr.com".caa_records]]
+name = "@"
+flags = 0
+tag = "issue"
+value = "pki.goog; cansignhttpexchanges=yes"
+
+[[zones."dragonballfr.com".caa_records]]
+name = "@"
+flags = 0
+tag = "issuewild"
+value = "letsencrypt.org"
+
+[[zones."dragonballfr.com".caa_records]]
+name = "@"
+flags = 0
+tag = "issue"
+value = "letsencrypt.org"
+
+[[zones."dragonballfr.com".mx_records]]
+name = "@"
+target = "mx1.mail.ovh.net"
+priority = 1
+
+[[zones."dragonballfr.com".mx_records]]
+name = "@"
+target = "mx2.mail.ovh.net"
+priority = 5
+
+[[zones."dragonballfr.com".mx_records]]
+name = "@"
+target = "mx3.mail.ovh.net"
+priority = 100
+
+[[zones."dragonballfr.com".txt_records]]
+name = "_dmarc"
+content = "v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@dragonballfr.com; aspf=r; adkim=r"
+
+[[zones."dragonballfr.com".txt_records]]
+name = "@"
+content = "\"v=spf1 include:mx.ovh.com -all\""
+
+[[zones."dragonballfr.com".worker_routes]]
+pattern = "cdn.dragonballfr.com/*"
+script = "shenron-cdn"
+
+
+[zones."rosegriffon.fr"]
+[zones."rosegriffon.fr".tunnel_cnames]
+rosegriffon = [
+  "@",
+  "www",
+  "achillea",
+  "api",
+  "azalee",
+  "bot",
+  "cdn",
+  "db",
+  "mcp",
+  "ranked",
+  "shop",
+]
+
+[zones."rosegriffon.fr".r2_cnames]
+r2 = "rosegriffon-cdn"
+
+[[zones."rosegriffon.fr".static_cnames]]
+name = "autoconfig"
+target = "mailconfig.ovh.net"
+proxied = false
+
+[[zones."rosegriffon.fr".static_cnames]]
+name = "autodiscover"
+target = "mailconfig.ovh.net"
+proxied = false
+
+[[zones."rosegriffon.fr".static_cnames]]
+name = "imap"
+target = "ssl0.ovh.net"
+proxied = false
+
+[[zones."rosegriffon.fr".static_cnames]]
+name = "mail"
+target = "ssl0.ovh.net"
+proxied = false
+
+[[zones."rosegriffon.fr".static_cnames]]
+name = "pop3"
+target = "ssl0.ovh.net"
+proxied = false
+
+[[zones."rosegriffon.fr".static_cnames]]
+name = "smtp"
+target = "ssl0.ovh.net"
+proxied = false
+
+[[zones."rosegriffon.fr".static_cnames]]
+name = "ovhmo5380100-selector1._domainkey"
+target = "ovhmo5380100-selector1._domainkey.4076964.oh.dkim.mail.ovh.net"
+proxied = false
+
+[[zones."rosegriffon.fr".static_cnames]]
+name = "ovhmo5380100-selector2._domainkey"
+target = "ovhmo5380100-selector2._domainkey.4076963.oh.dkim.mail.ovh.net"
+proxied = false
+
+[[zones."rosegriffon.fr".mx_records]]
+name = "@"
+target = "ssl0.ovh.net"
+priority = 1
+
+[[zones."rosegriffon.fr".srv_records]]
+name = "_autodiscover._tcp"
+priority = 0
+weight = 0
+port = 443
+target = "mailconfig.ovh.net"
+
+[[zones."rosegriffon.fr".srv_records]]
+name = "_imaps._tcp"
+priority = 0
+weight = 0
+port = 993
+target = "ssl0.ovh.net"
+
+[[zones."rosegriffon.fr".srv_records]]
+name = "_submission._tcp"
+priority = 0
+weight = 0
+port = 465
+target = "ssl0.ovh.net"
+
+[[zones."rosegriffon.fr".txt_records]]
+name = "_gh-rose-griffon-o"
+content = "\"545007b9e3\""
+
+[[zones."rosegriffon.fr".txt_records]]
+name = "_github-pages-challenge-rose-griffon"
+content = "\"33a7475cc8811bf9a480f8b6a1258a\""
+
+[[zones."rosegriffon.fr".txt_records]]
+name = "google._domainkey"
+content = "\"v=DKIM1; k=rsa;  p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1xwquq6mUEUzDFDLhrVeaQi/p0EcVR7VdHGDDC7JXWyreGMQncssPaUKGoP8ruJw3Q8IAj6WuFNAR1y55gok7rwdjWvgm2z6v0QlhJla7afYaOZ7PrE/TYA2oxTFQEsPQ+zskgVjLD5HzZsrWhxTQiI9kJMKId2gZbpTVKbHaFuGWvPD3FsnWEyu9qv1QQbk\" \"QNiMEwz7K3xdfk842mz60hquwXCfxbVG1wkmmWdE61HKHcrlHK6tSfB5yMjJOGh0p6pzjpkfTFbzIAZTCVwB5BqiK7SxC6LUB8xazrwiPa+XaqJ6PftmsftB3nXkHPHAkLbSv5Hz6Fy6CqGyI5tN9QIDAQAB\""
+
+[[zones."rosegriffon.fr".txt_records]]
+name = "@"
+content = "\"google-site-verification=BJFFjSf_CgVOUoFmruO_VB79uY7qlGfLUPYoDuJ73u4\""
+
+[[zones."rosegriffon.fr".txt_records]]
+name = "@"
+content = "\"google-site-verification=58ZU3U2GX-YgqYh0Ym4x1EZoXnt7dGYnU8H1yo2mt9A\""
+
+[[zones."rosegriffon.fr".txt_records]]
+name = "@"
+content = "\"v=spf1 include:mx.ovh.com -all\""
+
+[[zones."rosegriffon.fr".worker_routes]]
+pattern = "cdn.rosegriffon.fr/"
+script = "rosegriffon-edge"
+
+[[zones."rosegriffon.fr".worker_routes]]
+pattern = "cdn.rosegriffon.fr/health"
+script = "rosegriffon-edge"
+
+[[zones."rosegriffon.fr".worker_routes]]
+pattern = "cdn.rosegriffon.fr/static/*"
+script = "rosegriffon-edge"
+
+[secrets_store]
+store_name = "default-secrets-store"
+quota_limit = 100
+scopes = ["workers"]
+bundle_overflow_key = "APHRODY_VAULT_BUNDLE_V1"
+required_keys = [
+  "ACHILLEA_CROSS_SYNC_RECEIVE_SECRET",
+  "ACHILLEA_DISCORD_BOT_TOKEN",
+  "ACHILLEA_DISCORD_CLIENT_ID",
+  "ACHILLEA_DISCORD_CLIENT_SECRET",
+  "ACHILLEA_DISCORD_PUBLIC_KEY",
+  "ANTHROPIC_API_KEY",
+  "ANTHROPIC_SERVICE_ACCOUNT_ID",
+  "APHRODY_AI_HTTP_TOKEN",
+  "APHRODY_DEPLOY_TOKEN",
+  "APHRODY_GOOGLE_ADMIN_TOKEN",
+  "APHRODY_GOOGLE_OAUTH_CLIENT_ID",
+  "APHRODY_GOOGLE_OAUTH_CLIENT_SECRET",
+  "APHRODY_MCP_DATABASE_URL",
+  "APHRODY_WEBOS_SESSION_KEY",
+  "API_ADMIN_TOKEN",
+  "API_USER_SECRET",
+  "APP_SECRET",
+  "AUTO_GOOGLE_CLIENT_ID",
+  "AUTO_GOOGLE_CLIENT_SECRET",
+  "AUTO_MICROSOFT_CLIENT_ID",
+  "AUTO_MICROSOFT_CLIENT_SECRET",
+  "AUTO_SMTP_MOT_DE_PASSE",
+  "AWS_ACCESS_KEY_ID",
+  "AWS_SECRET_ACCESS_KEY",
+  "AZALEE_DISCORD_BOT_TOKEN",
+  "AZALEE_DISCORD_CLIENT_ID",
+  "AZALEE_DISCORD_CLIENT_SECRET",
+  "AZALEE_DISCORD_PUBLIC_KEY",
+  "BETTER_AUTH_SECRET",
+  "BLOB_READ_WRITE_TOKEN",
+  "BOT_ADMIN_TOKEN",
+  "BOT_API_KEY",
+  "BOT_API_TOKEN",
+  "CF_ACCESS_CLIENT_ID",
+  "CF_ACCESS_CLIENT_SECRET",
+  "CHALLONGE_API_KEY",
+  "CLAUDE_CODE_OAUTH_TOKEN",
+  "CLOUDFLARE_ACCOUNT_ID",
+  "CLOUDFLARE_API_TOKEN",
+  "COMMONS_RELAY_TOKEN",
+  "CRON_SECRET",
+  "CTX7_API_KEY",
+  "DATABASE_URL",
+  "DBXV2_TOKEN",
+  "DIRECT_DATABASE_URL",
+  "DISCORD_ANNOUNCE_SECRET",
+  "DISCORD_BOT_TOKEN",
+  "DISCORD_CLIENT_ID",
+  "DISCORD_CLIENT_SECRET",
+  "DISCORD_PUBLIC_KEY",
+  "DISCORD_TOKEN",
+  "DISCORD_TOKEN_BEERUS",
+  "DISCORD_TOKEN_ENMA",
+  "DISCORD_TOKEN_GRAND_PRETRE",
+  "DISCORD_TOKEN_KAIO",
+  "DISCORD_TOKEN_WHIS",
+  "ENV_KIT_SYNC_KEY",
+  "EXA_API_KEY",
+  "FIGMA_ACCESS_TOKEN",
+  "FLEET_RESEND_KEY",
+  "GCP_ADMIN_SA_KEY",
+  "GITEA_TOKEN",
+  "GITEA_TOKEN_LABS",
+  "GITEA_TOKEN_OWNER",
+  "GITEA_TOKEN_V2",
+  "GITHUB_TOKEN",
+  "GOOGLE_API_KEY",
+  "GOOGLE_CALENDAR_API_KEY",
+  "GOOGLE_CLIENT_ID",
+  "GOOGLE_CLIENT_SECRET",
+  "GOOGLE_INSTALLED_CLIENT_ID",
+  "GOOGLE_INSTALLED_CLIENT_SECRET",
+  "GOOGLE_PRIVATE_KEY",
+  "HOSTINGER_API_TOKEN",
+  "INAGLE_DATABASE_URL",
+  "JWT_SECRET_KEY",
+  "LITELLM_MASTER_KEY",
+  "NEON_API_KEY",
+  "NEON_ORG_ID",
+  "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY",
+  "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+  "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+  "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY",
+  "NOCTALY_API_KEY",
+  "NPM_TOKEN",
+  "OVH_CLIENT_ID",
+  "OVH_CLIENT_SECRET",
+  "PATREON_CLIENT_ID",
+  "PATREON_CLIENT_SECRET",
+  "PATREON_CREATOR_ACCESS_TOKEN",
+  "PATREON_CREATOR_REFRESH_TOKEN",
+  "PATREON_ENCRYPTION_KEY",
+  "PATREON_WEBHOOK_SECRET",
+  "POSTGRES_PASSWORD",
+  "R2_ACCESS_KEY_ID",
+  "R2_SECRET_ACCESS_KEY",
+  "RANKED_INTERNAL_SECRET",
+  "RCLONE_CONFIG_IEVR_DRIVE_TOKEN",
+  "RELAY_TOKEN",
+  "RG_FLEET_TOKEN",
+  "SESSION_SECRET",
+  "SHENRON_ADMIN_TOKEN",
+  "SHENRON_AGENT_API_KEY",
+  "SHENRON_BILLING_OUTBOX_TOKEN",
+  "SHENRON_MCP_ADMIN_TOKEN",
+  "SHENRON_TV_TOKEN",
+  "SMTP_PASSWORD",
+  "STEAM_PASSWORD",
+  "STEAM_TOKEN_STORE",
+  "STRIPE_SECRET_KEY",
+  "STRIPE_WEBHOOK_SECRET",
+  "SUBBASE_ACCESS_TOKEN",
+  "SUPABASE_ACCESS_TOKEN",
+  "SUPABASE_ANON_KEY",
+  "SUPABASE_JWT_SECRET",
+  "SUPABASE_SECRET_KEY",
+  "SUPABASE_SERVICE_ROLE_KEY",
+  "TWINE_PASSWORD",
+  "TWITCH_CLIENT_ID",
+  "TWITCH_CLIENT_SECRET",
+  "TYPESAFE_API_KEY",
+  "VALKEY_PASSWORD",
+  "VAULT_MASTER_KEY",
+  "VAULT_PROOF_TOKEN",
+  "VERCEL_ORG_ID",
+  "VERCEL_TOKEN",
+  "VERTEX_APHRODY_SA_KEY",
+]
+
+[secrets_store.aliases]
+CF_ACCOUNT_ID = "CLOUDFLARE_ACCOUNT_ID"
+CLOUDFLARE_AI_GATEWAY_ACCOUNT_ID = "CLOUDFLARE_ACCOUNT_ID"
+R2_ACCOUNT_ID = "CLOUDFLARE_ACCOUNT_ID"
+CF_API_TOKEN = "CLOUDFLARE_API_TOKEN"
+FIGMA_TOKEN = "FIGMA_ACCESS_TOKEN"
+GH_TOKEN = "GITHUB_TOKEN"
+GITHUB_PERSONAL_ACCESS_TOKEN = "GITHUB_TOKEN"
+GITHUB__ACCESS__TOKEN = "GITHUB_TOKEN"
+GEMINI_API_KEY = "GOOGLE_API_KEY"
+GOOGLE_OAUTH_CLIENT_ID = "GOOGLE_CLIENT_ID"
+GOOGLE_OAUTH_CLIENT_SECRET = "GOOGLE_CLIENT_SECRET"
+MCP_ADMIN_TOKEN = "SHENRON_MCP_ADMIN_TOKEN"
+UV_PUBLISH_TOKEN = "TWINE_PASSWORD"
+RG_R2_ACCESS_KEY_ID = "R2_ACCESS_KEY_ID"
+RG_R2_SECRET_ACCESS_KEY = "R2_SECRET_ACCESS_KEY"
+NIE_STEAM_TOKEN_STORE = "STEAM_TOKEN_STORE"
+SHENRON_API_ADMIN_TOKEN = "SHENRON_ADMIN_TOKEN"
+SHENRON_DATABOOKS_API_TOKEN = "SHENRON_ADMIN_TOKEN"
+NEXT_PUBLIC_DISCORD_CLIENT_ID = "DISCORD_CLIENT_ID"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "SUPABASE_ANON_KEY"
+TWITCH_AUTH_CLIENT_ID = "TWITCH_CLIENT_ID"
+TWITCH_AUTH_CLIENT_SECRET = "TWITCH_CLIENT_SECRET"
+RG_DATABASE_URL = "DATABASE_URL"
+SHENRON_USER_SECRET = "API_USER_SECRET"
+APHRODY_MCP_HTTP_TOKEN = "APHRODY_AI_HTTP_TOKEN"
+APHRODY_SHENRON_API_TOKEN = "APHRODY_AI_HTTP_TOKEN"
+DEPLOY_TOKEN = "APHRODY_DEPLOY_TOKEN"
+NEON_DATABASE_URL = "DATABASE_URL"
+
+[cluster]
+mesh_cidr = "10.200.77.0/24"
+cloudflared_quic_port = 7844
+
+[cluster.build]
+provider = "ovh"
+os = "ubuntu-26.10"
+mesh_ip = "10.200.77.1"
+services = ["nativelink-server", "nativelink-worker", "sccache", "docker"]
+
+[cluster.edge_proxy]
+provider = "ovh"
+os = "ubuntu-26.10"
+mesh_ip = "10.200.77.3"
+services = ["pingora", "nginx", "garage-s3", "valkey", "nativelink-worker"]
+
+[cluster.origin]
+provider = "hostinger"
+os = "arch-linux"
+mesh_ip = "10.200.77.5"
+services = ["cloudflared-mig-prd", "cloudflared-rosegriffon", "docker", "nginx"]
+
+[vpn]
+provider = "mullvad"
+mode = "uid-policy-routing"
+preserve_mesh_cidr = "10.200.77.0/24"
+
+[[vpn.exit]]
+id = "us"
+purpose = "google-api"
+country = "us"
+city = "qas"
+uid = 2001
+table = 51821
+
+[[vpn.exit]]
+id = "jp"
+purpose = "crawler"
+country = "jp"
+city = "tyo"
+uid = 2002
+table = 51822
+
+[[vpn.exit]]
+id = "eu"
+purpose = "eu-proxy-checks"
+country = "fr"
+city = "par"
+uid = 2003
+table = 51823

@@ -1,0 +1,6 @@
+common --enable_bzlmod
+build --cxxopt=-std=c++23 --host_cxxopt=-std=c++23
+build:linux --cxxopt=-std=c++23 --cxxopt=-Wall --cxxopt=-Wextra --cxxopt=-Werror=return-type
+build:clang --repo_env=CC=clang --repo_env=CXX=clang++
+build:windows --cxxopt=/std:c++latest --host_cxxopt=/std:c++latest --cxxopt=/W3
+test --test_output=errors

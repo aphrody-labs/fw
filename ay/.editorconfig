@@ -12,5 +12,15 @@ end_of_line = crlf
 [*.{ps1,psm1,psd1}]
 charset = utf-8-bom
 
+[*.md]
+trim_trailing_whitespace = false
+
+[*.rs]
+indent_size = 4
+
 [{Makefile,*.mk}]
 indent_style = tab
+
+[justfile]
+indent_style = space
+indent_size = 4

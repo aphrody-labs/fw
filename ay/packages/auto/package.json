@@ -1,0 +1,29 @@
+{
+  "name": "@aphrody/auto",
+  "version": "2026.11.5",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "../auto-client/src/index.ts",
+    "./domain": "../auto-domain/src/index.ts",
+    "./i18n": "../auto-i18n/src/index.ts",
+    "./native": "../auto-native/src/index.ts",
+    "./platform": "../auto-platform/src/index.ts",
+    "./store": "../auto-store/src/index.ts",
+    "./services": "../auto-services/src/index.ts",
+    "./server": "../../apps/auto-server/src/index.ts",
+    "./worker": "../../apps/auto-server/src/worker.ts"
+  },
+  "dependencies": {
+    "@aphrody/auto-client": "workspace:*",
+    "@aphrody/auto-domain": "workspace:*",
+    "@aphrody/auto-i18n": "workspace:*",
+    "@aphrody/auto-native": "workspace:*",
+    "@aphrody/auto-platform": "workspace:*",
+    "@aphrody/auto-server": "workspace:*",
+    "@aphrody/auto-services": "workspace:*",
+    "@aphrody/auto-store": "workspace:*"
+  }
+}

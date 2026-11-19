@@ -1,0 +1,9 @@
+name = "ay-tools-release"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+# Served on workers.dev only: no route, no custom domain, no zone of the organization is touched.
+workers_dev = true
+
+[[r2_buckets]]
+binding = "RELEASES"
+bucket_name = "aphrody-chromium"

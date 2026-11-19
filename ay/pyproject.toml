@@ -1,0 +1,28 @@
+[project]
+name = "ay"
+version = "0.1.0"
+description = "Python workspace of the SDK: Cloudflare control-plane models and Workers validation"
+requires-python = ">=3.12"
+dependencies = ["ay-cf-py"]
+
+[tool.uv.sources]
+ay-cf-py = { workspace = true }
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3",
+  "ruff>=0.17",
+]
+
+[tool.uv.workspace]
+members = ["python/ay_*_py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "ASYNC", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["python/ay_cf_py/tests"]

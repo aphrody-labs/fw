@@ -17,6 +17,11 @@ coverage/
 **/wrangler-dry-*/
 *.tsbuildinfo
 *.log
+bazel-*
+wrangler.deploy.jsonc
+/data
+*.sqlite
+*.db
 
 # Nix
 result
@@ -32,6 +37,7 @@ __pycache__/
 
 # Machine- and work-specific data stays out of git (tools/local.ts, STANDARD.md section 2 & 14)
 ay.local.toml
+cf.local.toml
 .private/
 .local/
 .secrets/
