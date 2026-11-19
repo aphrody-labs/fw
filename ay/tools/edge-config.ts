@@ -21,7 +21,7 @@ export interface ServiceSpec {
 }
 
 export interface EdgeConfig {
-  worker: { name: string; main: string; compatibility_date: string; compatibility_flags?: string[]; cpu_ms: number; workers_dev: boolean };
+  worker: { name: string; main: string; compatibility_date: string; compatibility_flags?: string[]; cpu_ms: number; preview_workers_dev: boolean };
   domains: Record<string, string>;
   buckets: Record<string, string>;
   services: Record<string, ServiceSpec>;
@@ -93,7 +93,7 @@ export function renderWrangler(cfg: EdgeConfig, opts: { routes?: boolean } = {})
     main: cfg.worker.main,
     compatibility_date: cfg.worker.compatibility_date,
     ...(cfg.worker.compatibility_flags?.length ? { compatibility_flags: cfg.worker.compatibility_flags } : {}),
-    workers_dev: cfg.worker.workers_dev,
+    workers_dev: !withRoutes && cfg.worker.preview_workers_dev,
     preview_urls: false,
     limits: { cpu_ms: cfg.worker.cpu_ms },
     observability: {

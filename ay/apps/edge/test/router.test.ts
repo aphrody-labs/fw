@@ -52,6 +52,8 @@ describe("wrangler render", () => {
   test("the no-routes variant uploads the script without touching a zone", () => {
     const w = renderWrangler(cfg, { routes: false }) as Record<string, unknown>;
     expect(w.routes).toBeUndefined();
+    expect(w.workers_dev).toBe(true);
+    expect((renderWrangler(cfg) as Record<string, unknown>).workers_dev).toBe(false);
     expect(w.vars).toBeDefined();
   });
 

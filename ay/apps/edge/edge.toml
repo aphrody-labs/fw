@@ -9,7 +9,7 @@ main = "src/index.ts"
 compatibility_date = "2026-11-18"
 compatibility_flags = ["nodejs_compat"]
 cpu_ms = 50
-workers_dev = true          # preview before the cutover: https://<name>.<subdomain>.workers.dev/_/<service>/...
+preview_workers_dev = true  # the config without routes (pre-cutover upload) answers on workers.dev under /_/<service>/...; the routed config sets workers_dev = false
 
 [domains]
 shenron = "dragonballfr.com"  # zone of the shenron repository; its zone id comes from cf.local.toml

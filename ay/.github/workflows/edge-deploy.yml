@@ -3,7 +3,7 @@ name: edge-deploy
 # Deploys the unified edge Worker (apps/edge, config apps/edge/edge.toml) on every push to main that touches it.
 # Every run validates: the rendered wrangler config must match edge.toml, unit tests, the wasm modules, `wrangler deploy --dry-run`.
 # The deploy step runs only when the repository variable EDGE_DEPLOY is "true" (set it after the owner confirms the first deploy):
-#   - until the routes were moved (repository variable EDGE_CUTOVER_DONE is not "true") it uploads the Worker WITHOUT routes, so the live
+#   - until the routes were moved (repository variable EDGE_CUTOVER_DONE is not "true") it uploads the Worker WITHOUT routes (workers_dev on), so the live
 #     routes stay on the old scripts and the Worker answers on its workers.dev preview (/_/<service>/...);
 #   - after `bun tools/edge-cutover.ts apply --apply` it deploys the full config, routes included.
 # Secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID. Nothing is printed.
