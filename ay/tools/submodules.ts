@@ -16,6 +16,8 @@ export interface SubmoduleSpec {
   sha: string;
   domain: string;
   role: string;
+  /** `owner/name` of the upstream the fork tracks, when it is one. */
+  upstream?: string;
 }
 
 export interface SubmodulesManifest {

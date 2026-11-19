@@ -347,3 +347,660 @@ branch = "main"
 sha = "6ccdd32c58ccbe6f278ff3e534be003b1689805b"
 domain = "os-desktop"
 role = "Rust i18n catalogs for the native desktop (fork of storytold/craft-i18n)"
+
+# --- Cloudflare edge stack, media codecs and auth (absorbed from ay-cf, ay-media and auto, 2026-11-19) ---
+[[submodule]]
+path = "third_party/cloudflare/browser-run"
+repo = "aphrody-labs/browser-run"
+branch = "main"
+sha = "6bcf8351eaf74a1269a4bee1dcd34b28220dfeef"
+domain = "cloudflare"
+role = "cloudflare/browser-run fork, agents"
+upstream = "cloudflare/browser-run"
+
+[[submodule]]
+path = "third_party/cloudflare/cloudflare-ai"
+repo = "aphrody-labs/cloudflare-ai"
+branch = "main"
+sha = "34a8f4c00c0871883215a7114e9a7f3e7747ee1b"
+domain = "cloudflare"
+role = "cloudflare/ai fork, agents"
+upstream = "cloudflare/ai"
+
+[[submodule]]
+path = "third_party/cloudflare/cloudflare-computer"
+repo = "aphrody-labs/cloudflare-computer"
+branch = "main"
+sha = "3636ffb1555fc17a5898914f6e8698c716970bc7"
+domain = "cloudflare"
+role = "cloudflare/computer fork, agents"
+upstream = "cloudflare/computer"
+
+[[submodule]]
+path = "third_party/cloudflare/cloudflare-mcp"
+repo = "aphrody-labs/cloudflare-mcp"
+branch = "main"
+sha = "b99e945ca62a518a794d4a0b4e6c453b30446fb1"
+domain = "cloudflare"
+role = "cloudflare/mcp fork, agents"
+upstream = "cloudflare/mcp"
+
+[[submodule]]
+path = "third_party/cloudflare/cloudflare-skills"
+repo = "aphrody-labs/cloudflare-skills"
+branch = "main"
+sha = "5108325ecceabc899c761e07aa617b09c02445ee"
+domain = "cloudflare"
+role = "cloudflare/skills fork, agents"
+upstream = "cloudflare/skills"
+
+[[submodule]]
+path = "third_party/cloudflare/mcp-server-cloudflare"
+repo = "aphrody-labs/mcp-server-cloudflare"
+branch = "main"
+sha = "a21972e219289337731a066befb5c66886b9ce7b"
+domain = "cloudflare"
+role = "cloudflare/mcp-server-cloudflare fork, agents"
+upstream = "cloudflare/mcp-server-cloudflare"
+
+[[submodule]]
+path = "third_party/modern-web-guidance-src"
+repo = "aphrody-labs/modern-web-guidance-src"
+branch = "main"
+sha = "50854941da44b22670ef7b5a77bd9f19dd0dc8e2"
+domain = "cloudflare"
+role = "GoogleChrome/modern-web-guidance-src fork, agents"
+upstream = "GoogleChrome/modern-web-guidance-src"
+
+[[submodule]]
+path = "third_party/cloudflare/security-audit-skill"
+repo = "aphrody-labs/security-audit-skill"
+branch = "main"
+sha = "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8"
+domain = "cloudflare"
+role = "cloudflare/security-audit-skill fork, security"
+upstream = "cloudflare/security-audit-skill"
+
+[[submodule]]
+path = "third_party/ui-ux-pro-max-skill"
+repo = "aphrody-labs/ui-ux-pro-max-skill"
+branch = "main"
+sha = "f984fcd3dec8c71cf88f2b47ff8acd0ff4ca99c2"
+domain = "cloudflare"
+role = "nextlevelbuilder/ui-ux-pro-max-skill fork, agents"
+upstream = "nextlevelbuilder/ui-ux-pro-max-skill"
+
+[[submodule]]
+path = "third_party/cloudflare/apt-transport-cloudflared"
+repo = "aphrody-labs/apt-transport-cloudflared"
+branch = "master"
+sha = "042a4c0e142f1fbd81aaf1a14f1e7f74f59109cd"
+domain = "cloudflare"
+role = "cloudflare/apt-transport-cloudflared fork, net"
+upstream = "cloudflare/apt-transport-cloudflared"
+
+[[submodule]]
+path = "third_party/cloudflare/cbpfc"
+repo = "aphrody-labs/cbpfc"
+branch = "master"
+sha = "083e74b275b017fa6ae795d295c91513c6d2ed05"
+domain = "cloudflare"
+role = "cloudflare/cbpfc fork, net"
+upstream = "cloudflare/cbpfc"
+
+[[submodule]]
+path = "third_party/cloudflare/certinel"
+repo = "aphrody-labs/certinel"
+branch = "master"
+sha = "2e3e79c3cd5b7ac166a14edc0c9ff7ee748899ae"
+domain = "cloudflare"
+role = "cloudflare/certinel fork, net"
+upstream = "cloudflare/certinel"
+
+[[submodule]]
+path = "third_party/cloudflare/cfssl"
+repo = "aphrody-labs/cfssl"
+branch = "master"
+sha = "e5d686ddb7af3fc31911ddd5c385c3d8715307e4"
+domain = "cloudflare"
+role = "cloudflare/cfssl fork, net"
+upstream = "cloudflare/cfssl"
+
+[[submodule]]
+path = "third_party/cloudflare/cfssl_trust"
+repo = "aphrody-labs/cfssl_trust"
+branch = "master"
+sha = "4b68e8ba108e9197a9258747bf3085a474bd9c41"
+domain = "cloudflare"
+role = "cloudflare/cfssl_trust fork, net"
+upstream = "cloudflare/cfssl_trust"
+
+[[submodule]]
+path = "third_party/cloudflare/cloudflared"
+repo = "aphrody-labs/cloudflared"
+branch = "master"
+sha = "518d7f7969b764df628bb4b1088f0f154901dc4e"
+domain = "cloudflare"
+role = "cloudflare/cloudflared fork, net"
+upstream = "cloudflare/cloudflared"
+
+[[submodule]]
+path = "third_party/cloudflare/ebpf_exporter"
+repo = "aphrody-labs/ebpf_exporter"
+branch = "master"
+sha = "4bef30d2ec7f824681f9dffe3a34f8d74743f3f2"
+domain = "cloudflare"
+role = "cloudflare/ebpf_exporter fork, net"
+upstream = "cloudflare/ebpf_exporter"
+
+[[submodule]]
+path = "third_party/cloudflare/go"
+repo = "aphrody-labs/go"
+branch = "cf"
+sha = "37bc41c6ff79507200a315b72834fce6ca427a7e"
+domain = "cloudflare"
+role = "cloudflare/go fork, net"
+upstream = "cloudflare/go"
+
+[[submodule]]
+path = "third_party/cloudflare/gokeyless"
+repo = "aphrody-labs/gokeyless"
+branch = "master"
+sha = "168ff2a6a315862f97d4add65c4225292bf3c558"
+domain = "cloudflare"
+role = "cloudflare/gokeyless fork, net"
+upstream = "cloudflare/gokeyless"
+
+[[submodule]]
+path = "third_party/cloudflare/matched-data-cli"
+repo = "aphrody-labs/matched-data-cli"
+branch = "master"
+sha = "833acf26cca3b74073a7247288cedce372a0d40c"
+domain = "cloudflare"
+role = "cloudflare/matched-data-cli fork, net"
+upstream = "cloudflare/matched-data-cli"
+
+[[submodule]]
+path = "third_party/cloudflare/mmproxy"
+repo = "aphrody-labs/mmproxy"
+branch = "master"
+sha = "428a42f26e17973cdd1b657e166f63bda0397c30"
+domain = "cloudflare"
+role = "cloudflare/mmproxy fork, net"
+upstream = "cloudflare/mmproxy"
+
+[[submodule]]
+path = "third_party/cloudflare/mpp-proxy"
+repo = "aphrody-labs/mpp-proxy"
+branch = "main"
+sha = "86fa3c099df41edcbf6ba5252e72c10273cd0da3"
+domain = "cloudflare"
+role = "cloudflare/mpp-proxy fork, net"
+upstream = "cloudflare/mpp-proxy"
+
+[[submodule]]
+path = "third_party/cloudflare/ngtcp2"
+repo = "aphrody-labs/ngtcp2"
+branch = "master"
+sha = "e4d0b67e78c0cedc32f1c6e5c48e75c4d4282ff7"
+domain = "cloudflare"
+role = "cloudflare/ngtcp2 fork, net"
+upstream = "cloudflare/ngtcp2"
+
+[[submodule]]
+path = "third_party/cloudflare/octopus"
+repo = "aphrody-labs/octopus"
+branch = "main"
+sha = "73c632be22fb4c6ff7880776268979decac44b38"
+domain = "cloudflare"
+role = "cloudflare/octopus fork, net"
+upstream = "cloudflare/octopus"
+
+[[submodule]]
+path = "third_party/cloudflare/pmtud"
+repo = "aphrody-labs/pmtud"
+branch = "master"
+sha = "0bfdb8cabc2e3dcf22e1fa3f3d7d169cf43124ad"
+domain = "cloudflare"
+role = "cloudflare/pmtud fork, net"
+upstream = "cloudflare/pmtud"
+
+[[submodule]]
+path = "third_party/cloudflare/pp-browser-extension"
+repo = "aphrody-labs/pp-browser-extension"
+branch = "main"
+sha = "e7f036ecf8da72b007953e5e500f5d2ea02d9b17"
+domain = "cloudflare"
+role = "cloudflare/pp-browser-extension fork, security"
+upstream = "cloudflare/pp-browser-extension"
+
+[[submodule]]
+path = "third_party/cloudflare/privacy-gateway-client-library"
+repo = "aphrody-labs/privacy-gateway-client-library"
+branch = "main"
+sha = "ea58fe848d3b5212b18914e67a4b11fdd33f7180"
+domain = "cloudflare"
+role = "cloudflare/privacy-gateway-client-library fork, security"
+upstream = "cloudflare/privacy-gateway-client-library"
+
+[[submodule]]
+path = "third_party/cloudflare/privacy-gateway-server-go"
+repo = "aphrody-labs/privacy-gateway-server-go"
+branch = "main"
+sha = "d63adf6f333cb2c78fad41dff5b117c7c284645e"
+domain = "cloudflare"
+role = "cloudflare/privacy-gateway-server-go fork, security"
+upstream = "cloudflare/privacy-gateway-server-go"
+
+[[submodule]]
+path = "third_party/cloudflare/privacypass-attester"
+repo = "aphrody-labs/privacypass-attester"
+branch = "main"
+sha = "ad6c70ae017688c1df05058430003ad650dd0594"
+domain = "cloudflare"
+role = "cloudflare/privacypass-attester fork, security"
+upstream = "cloudflare/privacypass-attester"
+
+[[submodule]]
+path = "third_party/cloudflare/privacypass-config"
+repo = "aphrody-labs/privacypass-config"
+branch = "main"
+sha = "fbed718fff56f7683473fc66100f919a138c5c45"
+domain = "cloudflare"
+role = "cloudflare/privacypass-config fork, security"
+upstream = "cloudflare/privacypass-config"
+
+[[submodule]]
+path = "third_party/cloudflare/privacypass-issuer"
+repo = "aphrody-labs/privacypass-issuer"
+branch = "main"
+sha = "f16f5d2b1c41bb420ea1ec465d11e2a0d7e0f5a5"
+domain = "cloudflare"
+role = "cloudflare/privacypass-issuer fork, security"
+upstream = "cloudflare/privacypass-issuer"
+
+[[submodule]]
+path = "third_party/cloudflare/privacypass-origin"
+repo = "aphrody-labs/privacypass-origin"
+branch = "main"
+sha = "93a1d8d1dba138b1c7f2c3d8ef5786a3341cbf6a"
+domain = "cloudflare"
+role = "cloudflare/privacypass-origin fork, security"
+upstream = "cloudflare/privacypass-origin"
+
+[[submodule]]
+path = "third_party/cloudflare/privacypass-ts"
+repo = "aphrody-labs/privacypass-ts"
+branch = "main"
+sha = "5cdd7f21d699c4bdcef2c8221822e03cfc05773f"
+domain = "cloudflare"
+role = "cloudflare/privacypass-ts fork, security"
+upstream = "cloudflare/privacypass-ts"
+
+[[submodule]]
+path = "third_party/cloudflare/proxy-everything"
+repo = "aphrody-labs/proxy-everything"
+branch = "main"
+sha = "ecf39de6fbfeaa116b2d6803c95f9d441493b3e0"
+domain = "cloudflare"
+role = "cloudflare/proxy-everything fork, net"
+upstream = "cloudflare/proxy-everything"
+
+[[submodule]]
+path = "third_party/cloudflare/rakelimit"
+repo = "aphrody-labs/rakelimit"
+branch = "master"
+sha = "d78c15e774e09344276767acd0d1d34de756827e"
+domain = "cloudflare"
+role = "cloudflare/rakelimit fork, net"
+upstream = "cloudflare/rakelimit"
+
+[[submodule]]
+path = "third_party/cloudflare/speedtest"
+repo = "aphrody-labs/speedtest"
+branch = "main"
+sha = "564a2c113a0e2c014dc6377c13375524c252c3ee"
+domain = "cloudflare"
+role = "cloudflare/speedtest fork, net"
+upstream = "cloudflare/speedtest"
+
+[[submodule]]
+path = "third_party/cloudflare/tls-tris"
+repo = "aphrody-labs/tls-tris"
+branch = "master"
+sha = "3943e1535ec5e53d1ce229e5482ef9ae36e3bbd1"
+domain = "cloudflare"
+role = "cloudflare/tls-tris fork, security"
+upstream = "cloudflare/tls-tris"
+
+[[submodule]]
+path = "third_party/cloudflare/tubular"
+repo = "aphrody-labs/tubular"
+branch = "main"
+sha = "35817992491457fd026d3c69bf4daa498360d94c"
+domain = "cloudflare"
+role = "cloudflare/tubular fork, net"
+upstream = "cloudflare/tubular"
+
+[[submodule]]
+path = "third_party/cloudflare/unbound"
+repo = "aphrody-labs/unbound"
+branch = "master"
+sha = "b6c8f7cdb14ebe880f97924e483a9b9b158054f9"
+domain = "cloudflare"
+role = "cloudflare/unbound fork, net"
+upstream = "cloudflare/unbound"
+
+[[submodule]]
+path = "third_party/cloudflare/xdpcap"
+repo = "aphrody-labs/xdpcap"
+branch = "master"
+sha = "5f60cc95b1ab2ce7c8443046b65cc41a01eb241a"
+domain = "cloudflare"
+role = "cloudflare/xdpcap fork, net"
+upstream = "cloudflare/xdpcap"
+
+[[submodule]]
+path = "third_party/cloudflare/bpftools"
+repo = "aphrody-labs/bpftools"
+branch = "master"
+sha = "a98ee67d00998ddfbdf57b074393f9f604abda3a"
+domain = "cloudflare"
+role = "cloudflare/bpftools fork, python"
+upstream = "cloudflare/bpftools"
+
+[[submodule]]
+path = "third_party/cloudflare/cloudflare-python"
+repo = "aphrody-labs/cloudflare-python"
+branch = "main"
+sha = "f9186cff279be0930e666b047e09823a3b9fc952"
+domain = "cloudflare"
+role = "cloudflare/cloudflare-python fork, python"
+upstream = "cloudflare/cloudflare-python"
+
+[[submodule]]
+path = "third_party/cloudflare/langchain-cloudflare"
+repo = "aphrody-labs/langchain-cloudflare"
+branch = "main"
+sha = "c5e1e552cfcb0b18ae0eacb5fb3769bb11140e43"
+domain = "cloudflare"
+role = "cloudflare/langchain-cloudflare fork, python"
+upstream = "cloudflare/langchain-cloudflare"
+
+[[submodule]]
+path = "third_party/cloudflare/python-workers-examples"
+repo = "aphrody-labs/python-workers-examples"
+branch = "main"
+sha = "ee24598e81962dfbb8ee865115f332bd68422103"
+domain = "cloudflare"
+role = "cloudflare/python-workers-examples fork, python"
+upstream = "cloudflare/python-workers-examples"
+
+[[submodule]]
+path = "third_party/cloudflare/workers-py"
+repo = "aphrody-labs/workers-py"
+branch = "main"
+sha = "c7ae9f3593cc31c7a9c23fa6b54b711ce8c1760e"
+domain = "cloudflare"
+role = "cloudflare/workers-py fork, python"
+upstream = "cloudflare/workers-py"
+
+[[submodule]]
+path = "third_party/cloudflare/capnweb"
+repo = "aphrody-labs/capnweb"
+branch = "main"
+sha = "098dca7c9f3c9fba9dfb29da92dbde2f6adac199"
+domain = "cloudflare"
+role = "cloudflare/capnweb fork, runtime"
+upstream = "cloudflare/capnweb"
+
+[[submodule]]
+path = "third_party/cloudflare/workerd-cxx"
+repo = "aphrody-labs/workerd-cxx"
+branch = "master"
+sha = "5ec65716134050e500fd69fb6c862694e3b23ea6"
+domain = "cloudflare"
+role = "cloudflare/workerd-cxx fork, runtime"
+upstream = "cloudflare/workerd-cxx"
+
+[[submodule]]
+path = "third_party/cloudflare/workers-wasi"
+repo = "aphrody-labs/workers-wasi"
+branch = "main"
+sha = "55d7dc2374f6ccf7a863127b4635de87f920b2e0"
+domain = "cloudflare"
+role = "cloudflare/workers-wasi fork, runtime"
+upstream = "cloudflare/workers-wasi"
+
+[[submodule]]
+path = "third_party/cloudflare/boring"
+repo = "aphrody-labs/boring"
+branch = "master"
+sha = "cc61ac0e3b6f1b623b5a1b7de46d05fc6538cb9f"
+domain = "cloudflare"
+role = "cloudflare/boring fork, rust"
+upstream = "cloudflare/boring"
+
+[[submodule]]
+path = "third_party/cloudflare/boringtun"
+repo = "aphrody-labs/boringtun"
+branch = "master"
+sha = "6dcc889a95ad82400932f785d874421d70308195"
+domain = "cloudflare"
+role = "cloudflare/boringtun fork, rust"
+upstream = "cloudflare/boringtun"
+
+[[submodule]]
+path = "third_party/cloudflare/foundations"
+repo = "aphrody-labs/foundations"
+branch = "main"
+sha = "d34ad63536b6f1f44f4202eab437d56f7f38f8c8"
+domain = "cloudflare"
+role = "cloudflare/foundations fork, rust"
+upstream = "cloudflare/foundations"
+
+[[submodule]]
+path = "third_party/cloudflare/moq-rs"
+repo = "aphrody-labs/moq-rs"
+branch = "main"
+sha = "f9d1880f62451b729d0594dfb98d417b3f3d81d8"
+domain = "cloudflare"
+role = "cloudflare/moq-rs fork, rust"
+upstream = "cloudflare/moq-rs"
+
+[[submodule]]
+path = "third_party/cloudflare/nel-rs"
+repo = "aphrody-labs/nel-rs"
+branch = "master"
+sha = "49b1efbbcca0e49f73ddd28074c90e062edadaae"
+domain = "cloudflare"
+role = "cloudflare/nel-rs fork, rust"
+upstream = "cloudflare/nel-rs"
+
+[[submodule]]
+path = "third_party/cloudflare/networkquality-rs"
+repo = "aphrody-labs/networkquality-rs"
+branch = "main"
+sha = "4aa61fabc19d1554f2a8b5ac4a55ab974d3911ee"
+domain = "cloudflare"
+role = "cloudflare/networkquality-rs fork, rust"
+upstream = "cloudflare/networkquality-rs"
+
+[[submodule]]
+path = "third_party/cloudflare/odoh-client-rs"
+repo = "aphrody-labs/odoh-client-rs"
+branch = "master"
+sha = "1dc34228aff6c795683fc8da3cc68d8a32538495"
+domain = "cloudflare"
+role = "cloudflare/odoh-client-rs fork, rust"
+upstream = "cloudflare/odoh-client-rs"
+
+[[submodule]]
+path = "third_party/cloudflare/odoh-rs"
+repo = "aphrody-labs/odoh-rs"
+branch = "master"
+sha = "138052fffabaee43f88c3a14844bb6a6bfcadcd4"
+domain = "cloudflare"
+role = "cloudflare/odoh-rs fork, rust"
+upstream = "cloudflare/odoh-rs"
+
+[[submodule]]
+path = "third_party/cloudflare/svg-hush"
+repo = "aphrody-labs/svg-hush"
+branch = "main"
+sha = "fba34edcbb9c58d855628a67032b43aed5f2b5bd"
+domain = "cloudflare"
+role = "cloudflare/svg-hush fork, rust"
+upstream = "cloudflare/svg-hush"
+
+[[submodule]]
+path = "third_party/cloudflare/web-bot-auth"
+repo = "aphrody-labs/web-bot-auth"
+branch = "main"
+sha = "ce5e54fd7e05dd8ae14fd56198cfcba7acb6082e"
+domain = "cloudflare"
+role = "cloudflare/web-bot-auth fork, rust"
+upstream = "cloudflare/web-bot-auth"
+
+[[submodule]]
+path = "third_party/cloudflare/wirefilter"
+repo = "aphrody-labs/wirefilter"
+branch = "master"
+sha = "a101f7c0fc60012803ee23432b5514644d9fbe4f"
+domain = "cloudflare"
+role = "cloudflare/wirefilter fork, rust"
+upstream = "cloudflare/wirefilter"
+
+[[submodule]]
+path = "third_party/cloudflare/workers-rs"
+repo = "aphrody-labs/workers-rs"
+branch = "main"
+sha = "a61be7843ef3d0ef422e3f95f8820b8312857d1e"
+domain = "cloudflare"
+role = "cloudflare/workers-rs fork, rust"
+upstream = "cloudflare/workers-rs"
+
+[[submodule]]
+path = "third_party/xh"
+repo = "aphrody-labs/xh"
+branch = "master"
+sha = "8b21cc07a6deeff0ca50ba2a4bfa8d34daffd94f"
+domain = "cloudflare"
+role = "ducaale/xh fork, rust"
+upstream = "ducaale/xh"
+
+[[submodule]]
+path = "third_party/cloudflare/cf"
+repo = "aphrody-labs/cf"
+branch = "main"
+sha = "777bb282ed3755e2f84df9904a223031a4a6314c"
+domain = "cloudflare"
+role = "cloudflare/cf fork, sdk"
+upstream = "cloudflare/cf"
+
+[[submodule]]
+path = "third_party/cloudflare/cloudflare-templates"
+repo = "aphrody-labs/cloudflare-templates"
+branch = "main"
+sha = "1fa42412fd36fd4f265383493f3e548f66e39c5d"
+domain = "cloudflare"
+role = "cloudflare/templates fork, sdk"
+upstream = "cloudflare/templates"
+
+[[submodule]]
+path = "third_party/cloudflare/cloudflare-typescript"
+repo = "aphrody-labs/cloudflare-typescript"
+branch = "main"
+sha = "0eb9ef0ea40c1fe38e4b19be92f41bd7466bc1d6"
+domain = "cloudflare"
+role = "cloudflare/cloudflare-typescript fork, sdk"
+upstream = "cloudflare/cloudflare-typescript"
+
+[[submodule]]
+path = "third_party/cloudflare/kumo"
+repo = "aphrody-labs/kumo"
+branch = "main"
+sha = "3de47f8d2b2add9b3480c6bdbfffeee08b8e9a79"
+domain = "cloudflare"
+role = "cloudflare/kumo fork, sdk"
+upstream = "cloudflare/kumo"
+
+[[submodule]]
+path = "third_party/cloudflare/vinext"
+repo = "aphrody-labs/vinext"
+branch = "main"
+sha = "396b5cc96b6e33ff5b20893077231b9e9039e8fa"
+domain = "cloudflare"
+role = "cloudflare/vinext fork, sdk"
+upstream = "cloudflare/vinext"
+
+[[submodule]]
+path = "third_party/media/dav1d"
+repo = "aphrody-labs/dav1d"
+branch = "master"
+sha = "6c7bee685677fd997a431302be4fea8ea4017606"
+domain = "media"
+role = "videolan/dav1d fork, runtime"
+upstream = "videolan/dav1d"
+
+[[submodule]]
+path = "third_party/media/ffmpeg"
+repo = "aphrody-labs/ffmpeg"
+branch = "master"
+sha = "342cb6374fee2e7a86b35235203e3eefc9572969"
+domain = "media"
+role = "FFmpeg/FFmpeg fork, runtime"
+upstream = "FFmpeg/FFmpeg"
+
+[[submodule]]
+path = "third_party/media/hls.js"
+repo = "aphrody-labs/hls.js"
+branch = "master"
+sha = "c4637e53bbd4d1d0838d5b1e954ab1fc7af355bb"
+domain = "media"
+role = "video-dev/hls.js fork, sdk"
+upstream = "video-dev/hls.js"
+
+[[submodule]]
+path = "third_party/media/hyperframe"
+repo = "aphrody-labs/hyperframe"
+branch = "master"
+sha = "632e309bf6d76d6a3cd04e3cbc0b006eddbf7056"
+domain = "media"
+role = "python-hyper/hyperframe fork, python"
+upstream = "python-hyper/hyperframe"
+
+[[submodule]]
+path = "third_party/media/rav1e"
+repo = "aphrody-labs/rav1e"
+branch = "master"
+sha = "31435de9d76fddd38f6dcc31d4014574cebb2092"
+domain = "media"
+role = "xiph/rav1e fork, rust"
+upstream = "xiph/rav1e"
+
+[[submodule]]
+path = "third_party/media/svt-av1"
+repo = "aphrody-labs/svt-av1"
+branch = "main"
+sha = "5fdf6b2f373bd96256bb6b45f892077b1b4431d9"
+domain = "media"
+role = "AOMediaCodec/SVT-AV1 fork, runtime"
+upstream = "AOMediaCodec/SVT-AV1"
+
+[[submodule]]
+path = "third_party/media/yt-dlp"
+repo = "aphrody-labs/yt-dlp"
+branch = "master"
+sha = "2d596f4882a2d6e6414836bccd9fd3fb1e1534a2"
+domain = "media"
+role = "yt-dlp/yt-dlp fork, python"
+upstream = "yt-dlp/yt-dlp"
+
+[[submodule]]
+path = "third_party/better-auth"
+repo = "aphrody-labs/better-auth"
+branch = "main"
+sha = "5c261e101da82fdfb79ac4fb7d9c59a17d4b43ab"
+domain = "auto"
+role = "better-auth fork"
