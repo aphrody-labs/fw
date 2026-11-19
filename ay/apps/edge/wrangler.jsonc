@@ -1,0 +1,222 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "ay-edge",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-18",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "limits": {
+    "cpu_ms": 50
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+      "head_sampling_rate": 0.1
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.05
+    }
+  },
+  "rules": [
+    {
+      "type": "CompiledWasm",
+      "globs": [
+        "**/*.wasm"
+      ],
+      "fallthrough": true
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "RELEASES",
+      "bucket_name": "aphrody-releases"
+    },
+    {
+      "binding": "ASSETS",
+      "bucket_name": "aphrody-assets"
+    },
+    {
+      "binding": "VIDEO",
+      "bucket_name": "aphrody-video"
+    },
+    {
+      "binding": "CHROMIUM",
+      "bucket_name": "aphrody-chromium"
+    }
+  ],
+  "services": [
+    {
+      "binding": "SVC_LEARN",
+      "service": "aphrody-learn"
+    },
+    {
+      "binding": "SVC_APHRODY",
+      "service": "aphrody-worker"
+    },
+    {
+      "binding": "SVC_AUTO",
+      "service": "auto"
+    },
+    {
+      "binding": "SVC_SHENRON_CDN",
+      "service": "shenron-cdn"
+    }
+  ],
+  "vars": {
+    "EDGE_SERVICES": {
+      "releases": {
+        "binding": null
+      },
+      "assets": {
+        "binding": null
+      },
+      "wasm": {
+        "binding": null
+      },
+      "learn": {
+        "binding": "SVC_LEARN"
+      },
+      "aphrody": {
+        "binding": "SVC_APHRODY"
+      },
+      "auto": {
+        "binding": "SVC_AUTO"
+      },
+      "shenron": {
+        "binding": "SVC_SHENRON_CDN"
+      }
+    },
+    "EDGE_ROUTES": [
+      {
+        "pattern": "releases.aphrody.com/*",
+        "host": "releases.aphrody.com",
+        "path": "/",
+        "prefix": true,
+        "service": "releases"
+      },
+      {
+        "pattern": "downloads.aphrody.com/*",
+        "host": "downloads.aphrody.com",
+        "path": "/",
+        "prefix": true,
+        "service": "releases"
+      },
+      {
+        "pattern": "aphrody.com/download*",
+        "host": "aphrody.com",
+        "path": "/download",
+        "prefix": true,
+        "service": "releases"
+      },
+      {
+        "pattern": "assets.aphrody.com/*",
+        "host": "assets.aphrody.com",
+        "path": "/",
+        "prefix": true,
+        "service": "assets"
+      },
+      {
+        "pattern": "aphrody.com/r2-assets/*",
+        "host": "aphrody.com",
+        "path": "/r2-assets/",
+        "prefix": true,
+        "service": "assets"
+      },
+      {
+        "pattern": "wasm.aphrody.com/*",
+        "host": "wasm.aphrody.com",
+        "path": "/",
+        "prefix": true,
+        "service": "wasm"
+      },
+      {
+        "pattern": "learn.aphrody.com/*",
+        "host": "learn.aphrody.com",
+        "path": "/",
+        "prefix": true,
+        "service": "learn"
+      },
+      {
+        "pattern": "docs.aphrody.com/*",
+        "host": "docs.aphrody.com",
+        "path": "/",
+        "prefix": true,
+        "service": "aphrody"
+      },
+      {
+        "pattern": "aphrody.com/github",
+        "host": "aphrody.com",
+        "path": "/github",
+        "prefix": false,
+        "service": "aphrody"
+      },
+      {
+        "pattern": "auto.aphrody.com/*",
+        "host": "auto.aphrody.com",
+        "path": "/",
+        "prefix": true,
+        "service": "auto"
+      },
+      {
+        "pattern": "cdn.dragonballfr.com/*",
+        "host": "cdn.dragonballfr.com",
+        "path": "/",
+        "prefix": true,
+        "service": "shenron"
+      }
+    ]
+  },
+  "routes": [
+    {
+      "pattern": "releases.aphrody.com/*",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "downloads.aphrody.com/*",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "aphrody.com/download*",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "assets.aphrody.com/*",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "aphrody.com/r2-assets/*",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "wasm.aphrody.com/*",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "learn.aphrody.com/*",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "docs.aphrody.com/*",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "aphrody.com/github",
+      "zone_name": "aphrody.com"
+    },
+    {
+      "pattern": "auto.aphrody.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "cdn.dragonballfr.com/*",
+      "zone_name": "dragonballfr.com"
+    }
+  ]
+}

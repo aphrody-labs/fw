@@ -109,6 +109,14 @@
         "@aphrody/ay-chromium-releases": "workspace:*",
       },
     },
+    "apps/edge": {
+      "name": "@aphrody/ay-edge",
+      "version": "0.1.0",
+      "devDependencies": {
+        "@cloudflare/workers-types": "5.20261115.1",
+        "wrangler": "4.162.0",
+      },
+    },
     "apps/tools-release": {
       "name": "@aphrody/ay-tools-release",
       "devDependencies": {
@@ -537,6 +545,8 @@
     "@aphrody/ay-cli": ["@aphrody/ay-cli@workspace:apps/ay"],
 
     "@aphrody/ay-core": ["@aphrody/ay-core@workspace:packages/core"],
+
+    "@aphrody/ay-edge": ["@aphrody/ay-edge@workspace:apps/edge"],
 
     "@aphrody/ay-edge-stack": ["@aphrody/ay-edge-stack@workspace:packages/edge-stack"],
 

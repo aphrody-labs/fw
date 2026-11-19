@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "types": ["@cloudflare/workers-types"], "paths": {} },
+  "include": ["src", "../cf-gateway/src/index.ts", "../tools-release/src/index.ts"]
+}

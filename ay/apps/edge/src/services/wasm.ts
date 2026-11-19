@@ -49,7 +49,7 @@ const instances = new Map<string, Exports>();
 export function instantiate(pkg: PackageInfo, bundled: Bundled): Exports {
   let exports = instances.get(pkg.name);
   if (!exports) {
-    const imports: Record<string, Record<string, unknown>> = {};
+    const imports: WebAssembly.Imports = {};
     for (const i of pkg.imports) {
       if (i.kind !== "function") throw new Error(`${pkg.name}: import ${i.module}.${i.name} is a ${i.kind}, the edge host provides functions only`);
       (imports[i.module] ??= {})[i.name] = () => 0;

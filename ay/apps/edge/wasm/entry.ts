@@ -6,6 +6,6 @@ import type { EdgeEnv } from "../src/types.ts";
 export default {
   fetch(request: Request, env: EdgeEnv, ctx: ExecutionContext): Promise<Response> | Response {
     const url = new URL(request.url);
-    return wasm({ request, url, path: url.pathname, env, ctx });
+    return wasm({ request, url, path: url.pathname, origin: url.origin, env, ctx });
   },
 } satisfies ExportedHandler<EdgeEnv>;

@@ -1,0 +1,15 @@
+{
+  "name": "@aphrody/ay-edge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "config": "bun ../../tools/edge-config.ts",
+    "dev": "wrangler dev --local",
+    "dry-run": "wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261115.1",
+    "wrangler": "4.162.0"
+  }
+}

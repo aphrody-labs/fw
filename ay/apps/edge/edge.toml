@@ -1,0 +1,79 @@
+# The only source of the unified edge Worker (apps/edge): worker identity, buckets, hosts, routes and the services behind them.
+# tools/edge-config.ts renders wrangler.jsonc from it, with the domains of ay.toml [domains] and the account of cf.local.toml
+# (git-ignored); tools/edge-cutover.ts re-points the live routes. Nothing else names a host, a bucket or a script.
+#   {root} = ay.toml [domains].root     {app} = ay.toml [domains].app     {shenron} = [domains].shenron below
+
+[worker]
+name = "ay-edge"
+main = "src/index.ts"
+compatibility_date = "2026-11-18"
+compatibility_flags = ["nodejs_compat"]
+cpu_ms = 50
+workers_dev = true          # preview before the cutover: https://<name>.<subdomain>.workers.dev/_/<service>/...
+
+[domains]
+shenron = "dragonballfr.com"  # zone of the shenron repository; its zone id comes from cf.local.toml
+
+[buckets]
+# binding = bucket name. One layout per bucket: apps/edge/src/manifest.ts for releases, tools/r2-sync.ts for the others.
+RELEASES = "aphrody-releases"
+ASSETS = "aphrody-assets"
+VIDEO = "aphrody-video"
+CHROMIUM = "aphrody-chromium"
+
+# Services. mode = "module": code in this repository, bundled into the Worker. mode = "service": a script that still owns code or
+# Durable Object state in another repository, reached through a service binding (script = its current name); it keeps its cron
+# triggers and receives no route of its own. `routes` are Cloudflare route patterns ("host/path", a trailing * is a prefix): they are
+# rendered into wrangler.jsonc and are also the table the router matches, the longest pattern winning, so the two never drift.
+# `custom_domains` are rendered as Workers Custom Domains instead of routes.
+
+[services.releases]
+mode = "module"
+routes = ["releases.{root}/*", "downloads.{root}/*", "{root}/download*"]
+note = "downloads (latest and versioned, per os and arch), manifest, aphrody legacy channel API, installers, ay-tools builds"
+
+[services.assets]
+mode = "module"
+routes = ["assets.{root}/*", "{root}/r2-assets/*"]
+note = "ay-cf-gateway (content-addressed v1/<kind>/<sha256>, agent-skills index) and plain keys of the assets bucket. assets.{app} stays an R2 custom domain"
+
+[services.wasm]
+mode = "module"
+routes = ["wasm.{root}/*"]
+note = "WebAssembly packages: instantiated in the Worker and served from R2"
+
+[services.learn]
+mode = "service"
+script = "aphrody-learn"
+binding = "SVC_LEARN"
+routes = ["learn.{root}/*"]
+note = "aphrody-learn: learn sync, cron stays on the script"
+
+[services.aphrody]
+mode = "service"
+script = "aphrody-worker"
+binding = "SVC_APHRODY"
+routes = ["docs.{root}/*", "{root}/github"]
+note = "aphrody-worker: docs proxy, GitHub webhook intake into the github-events queue; cron and queue producer stay on the script"
+
+[services.auto]
+mode = "service"
+script = "auto"
+binding = "SVC_AUTO"
+custom_domains = ["auto.{root}"]
+note = "auto: D1, Durable Object CompanyDO (sqlite), Workflow and cron stay on the script until the transfer migration (docs/edge.md)"
+
+[services.shenron]
+mode = "service"
+script = "shenron-cdn"
+binding = "SVC_SHENRON_CDN"
+routes = ["cdn.{shenron}/*"]
+note = "shenron-cdn: R2 shenron-cdn, manifests and import state"
+
+[services.fw]
+mode = "service"
+script = "fw-edge"
+binding = "SVC_FW"
+enabled = false
+routes = []
+note = "fw-edge is not deployed on the account: enable once it is, or when fw exports its handler as a module"
