@@ -1,16 +1,16 @@
 { inputs, pkgs, lib, ... }:
 
-# Fairwind-WSL — Fused NixOS-WSL (nix-community/NixOS-WSL 2605.7.2) + CachyOS-WSL (2026.11.05.5)
-# Tuned for Windows 11 WSL 3.0.5 + NVIDIA RTX 4070 (dxgkrnl CUDA/Vulkan/WebGPU) + 24 vCPU / 32 GB RAM
+# Fairwind-WSL Zero-Legacy Pure-Rust Edition
+# Strips legacy WSL shell/C wrappers (wslu, 9p, PulseAudio, Weston/FreeRDP, GNU sudo/coreutils)
+# Replaces with: OpenVMM/virtiofsd + CachyOS BORE/scx_lavd + fw-wayland-wgpu/Smithay + IronRDP + rust-userland
 {
   networking.hostName = "fairwind-wsl";
 
-  # NixOS-WSL integration (when imported with nixos-wsl.nixosModules.default)
   wsl = {
     enable = true;
     defaultUser = "aphro";
-    startMenuLaunchers = true;
-    useWindowsDriver = true; # exposes /usr/lib/wsl/lib (libcuda.so, libdxcore.so) for RTX 4070
+    startMenuLaunchers = false; # replaced by native Fairwind launcher
+    useWindowsDriver = true;    # RTX 4070 dxgkrnl CUDA/Vulkan/WebGPU (/usr/lib/wsl/lib)
     interop.register = true;
     wslConf = {
       automount = {
@@ -22,12 +22,12 @@
       network.generateResolvConf = true;
       interop = {
         enabled = true;
-        appendWindowsPath = false; # keep PATH pure-Rust & fast (<15ms startup)
+        appendWindowsPath = false; # zero Windows PATH pollution; pure-Rust PATH only
       };
     };
   };
 
-  # CachyOS-grade environment + RTX 4070 CUDA/Vulkan/WebGPU + Wayland/WSLg tuning
+  # Pure-Rust / CachyOS experimental runtime environment (NVIDIA RTX 4070 Vulkan/WebGPU + Wayland)
   environment.variables = {
     CUDA_PATH = "/usr/lib/wsl/lib";
     MESA_D3D12_DEFAULT_ADAPTER_NAME = "NVIDIA";
@@ -42,16 +42,24 @@
     RUSTFLAGS = "-C target-cpu=native -C link-arg=-fuse-ld=mold";
   };
 
-  # Hardware GPU / Vulkan / OpenGL acceleration inside WSL2
+  # Modern PipeWire audio (replaces legacy WSLg PulseAudio C daemon)
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  # Hardware GPU / Vulkan acceleration
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [ mesa vulkan-loader vulkan-tools ];
   };
 
-  # Fuse CachyOS-WSL ergonomics (fish/nu/pacman-compat tools) with Fairwind pure-Rust userland
+  # Zero legacy wslu/GNU bloat: 100% pure-Rust userland + virtiofsd + sched_ext Rust schedulers
   environment.systemPackages = with pkgs; [
     inputs.self.packages.x86_64-linux.rust-userland
-    wslu
+    virtiofsd
+    scx.rustscheds
     wl-clipboard
     xfsprogs
     btrfs-progs

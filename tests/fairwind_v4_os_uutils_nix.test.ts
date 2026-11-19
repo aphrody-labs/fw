@@ -104,13 +104,25 @@ describe("Fairwind v4.0 — Asterinas OSDK + GPUI WebGPU/Wasm + Alpine uutils + 
     const wslHost = readFileSync(join(ROOT, "nix", "hosts", "wsl-fairwind.nix"), "utf8");
     expect(wslHost).toContain("useWindowsDriver = true");
     expect(wslHost).toContain('MESA_D3D12_DEFAULT_ADAPTER_NAME = "NVIDIA"');
+    expect(wslHost).toContain("virtiofsd");
+    expect(wslHost).toContain("scx.rustscheds");
+    expect(wslHost).not.toContain("\n    wslu\n");
 
     const wslKernelCfg = readFileSync(join(ROOT, "os", "fairwind-wsl", "kernel", "fairwind-wsl-6.18.config"), "utf8");
+    expect(wslKernelCfg).toContain("# CONFIG_9P_FS is not set");
+    expect(wslKernelCfg).toContain("CONFIG_VIRTIO_FS=y");
+    expect(wslKernelCfg).toContain("CONFIG_VIRTIO_VSOCKETS=y");
     expect(wslKernelCfg).toContain("CONFIG_DXGKRNL=y");
     expect(wslKernelCfg).toContain("CONFIG_SCHED_BORE=y");
     expect(wslKernelCfg).toContain("CONFIG_SCHED_CLASS_EXT=y");
     expect(wslKernelCfg).toContain("CONFIG_LTO_CLANG_THIN=y");
     expect(wslKernelCfg).toContain("CONFIG_XFS_FS=y");
+
+    const rustStack = readFileSync(join(ROOT, "os", "fairwind-wsl", "wslg", "rust-compositor-stack.toml"), "utf8");
+    expect(rustStack).toContain("microsoft/openvmm");
+    expect(rustStack).toContain("Devolutions/IronRDP");
+    expect(rustStack).toContain("fw-wayland-wgpu");
+    expect(rustStack).toContain("scx_lavd");
 
     const wslgBuild = readFileSync(join(ROOT, "os", "fairwind-wsl", "wslg", "build-wslg.sh"), "utf8");
     expect(wslgBuild).toContain("1137 1333 1046 1426 1436");
