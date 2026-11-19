@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairwind": {
+      "command": "bun",
+      "args": [
+        "--no-install",
+        "--no-env-file",
+        "${PLUGIN_ROOT}/mcp/fairwind-mcp.ts"
+      ]
+    }
+  }
+}

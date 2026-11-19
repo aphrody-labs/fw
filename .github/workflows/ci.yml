@@ -16,13 +16,19 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Python lint
         run: uvx ruff check .
-      - name: Rust ABI test and build
+      - name: Rust Fat-LTO crates test and build
         run: |
+          cargo test --manifest-path native/fairwind-pe/Cargo.toml
           cargo test --manifest-path native/fairwind-abi/Cargo.toml
+          cargo test --manifest-path native/fairwind-agy/Cargo.toml
           cargo build --release --manifest-path native/fairwind-abi/Cargo.toml
+          cargo build --release --manifest-path native/fairwind-agy/Cargo.toml
       - name: Bun tests
         run: bun test tests
-      - name: Build unified CLI and smoke check
+      - name: Build AOT CLI, promote target/agy, render services, and verify
         run: |
-          bun build --compile --bytecode src/fairwind_cli.ts --outfile dist/fairwind
+          bun src/fairwind_cli.ts upgrade --apply --skip-tests
+          bun src/fairwind_cli.ts service render
           ./dist/fairwind status
+          ./target/agy/agy --fairwind-info
+          ./dist/fairwind target verify

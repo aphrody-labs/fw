@@ -1,0 +1,16 @@
+{
+  "name": "fairwind",
+  "version": "2.3.0",
+  "description": "Unified Fairwind plugin fusing CLI, Fat-LTO Rust FFI/C ABI, MCP, HTTP API, agy-knowledge, autonomous learning, and continuous cross-platform agy upgrade daemon.",
+  "contextFileName": "rules/AGENTS.md",
+  "mcpServers": {
+    "fairwind": {
+      "command": "bun",
+      "args": [
+        "--no-install",
+        "--no-env-file",
+        "${extensionPath}/mcp/fairwind-mcp.ts"
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "fairwind",
+  "displayName": "Fairwind Unified",
+  "version": "2.3.0",
+  "description": "Unified Fairwind plugin fusing CLI, Fat-LTO Rust FFI/C ABI, MCP, HTTP API, heretic, neon/REA, craft-libs/craft-pe, craft-anything, ghidra, agy-knowledge, autonomous learning, and a persistent boot-startup cross-platform continuous agy upgrade daemon.",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Scan all Fairwind targets and run gated Fat-LTO/AOT self-upgrade into target/agy",
+    "Inspect upstream agy.exe PE headers via craft-pe and benchmark target/agy/agy.exe",
+    "Verify persistent cross-platform continuous upgrade daemon and distill autonomous learning"
+  ],
+  "author": {
+    "name": "aphrody-labs",
+    "url": "https://github.com/aphrody-labs"
+  },
+  "homepage": "https://github.com/aphrody-labs/fairwind",
+  "repository": "https://github.com/aphrody-labs/fairwind"
+}
