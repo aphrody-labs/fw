@@ -1,7 +1,0 @@
-id = "ay-cf"
-kind = "app"
-org = "aphrody-labs"
-
-[names]
-npm_scope = "@aphrody"
-crate_prefix = "ay-cf-"
