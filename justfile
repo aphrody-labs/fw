@@ -42,5 +42,18 @@ plugin:
     ./dist/fairwind plugin sync --install
     bun ~/.gemini/scripts/check.ts
 
+# Cloudflare Workers types, dry-run, dev, and deploy (Wrangler)
+cf-types:
+    bunx wrangler types -c cloudflare/wrangler.jsonc cloudflare/worker-configuration.d.ts
+
+cf-dry-run:
+    bunx wrangler deploy --dry-run -c cloudflare/wrangler.jsonc
+
+cf-dev port="8787":
+    bunx wrangler dev -c cloudflare/wrangler.jsonc --port {{port}} --local
+
+cf-deploy:
+    bunx wrangler deploy -c cloudflare/wrangler.jsonc
+
 # Full CI verification pipeline
-ci: clippy test build musl claw
+ci: clippy test build musl claw cf-dry-run
