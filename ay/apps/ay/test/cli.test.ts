@@ -43,7 +43,7 @@ describe("ay unified CLI", () => {
   test("help and shell completions render cleanly", () => {
     const help = formatHelp();
     expect(help).toContain("ay 0.1.0");
-    expect(help).toContain("r2-cdn-sync");
+    expect(help).toContain("r2-sync");
     expect(help).toContain("completions");
 
     for (const shell of ["bash", "zsh", "fish", "nu", "pwsh"]) {
