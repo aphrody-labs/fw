@@ -1,6 +1,17 @@
 #!/usr/bin/env bun
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { dirname, extname, join, resolve } from "node:path";
+import {
+  brainIndexRepo,
+  brainSearch,
+  buildA2AAgentCard,
+  buildOpenApiSpec,
+  DEFAULT_ROUTER_PROVIDERS,
+  handleA2AMessage,
+  handleAcpMessage,
+  loadSoul,
+  routeModelRequest,
+} from "./ai_stack.ts";
 import { startFairwindApiServer } from "./api.ts";
 import {
   installService,
@@ -9,10 +20,18 @@ import {
   serviceStatus,
   uninstallService,
 } from "./daemon.ts";
+import { evaluateDecisions, runSelfHostedAiWorkflow } from "./decisions.ts";
+import { LOW_LEVEL_LTO_AOT_MATRIX, verifyLowLevelToolchains } from "./lowlevel.ts";
 import { runLearnBridge, startMcpStdioServer } from "./mcp_server.ts";
-import { pluginStatus, syncFairwindPlugin } from "./plugin_sync.ts";
+import { auditDeduplication, pluginStatus, syncFairwindPlugin } from "./plugin_sync.ts";
 import {
+  astQueryWithAbi,
+  astSymbolsWithAbi,
   buildTargetManifest,
+  cryptoDigestWithAbi,
+  disasmX64WithAbi,
+  gitInspectWithAbi,
+  identifyFileWithAbi,
   inspectPeWithAbi,
   parseAstWithAbi,
   probeRustAbi,
@@ -20,16 +39,21 @@ import {
   resolveUpstreamAgyPath,
   writeTargetManifest,
 } from "./targets.ts";
+import { generateFairwindWtaConfig, getTerminalTuiStatus, runTuiTestVerify, verifyFairwindSelfTui } from "./terminal_tui.ts";
+import { renderFairwindTui } from "./tui.ts";
 import { applyUpgrade, buildAgyUpgradePlan, checkUpgrade, runBenchmarks } from "./upgrade.ts";
+import { listVfsMounts, vfsList, vfsRead, vfsSnapshot, vfsSnapshots, vfsWrite } from "./vfs.ts";
 
 const TREE_SITTER_GRAMMARS = [
   "rust",
   "typescript",
   "tsx",
+  "javascript",
   "python",
   "c",
   "cpp",
   "java",
+  "go",
   "json",
   "bash",
 ] as const;
@@ -42,11 +66,28 @@ const SUBCOMMANDS = [
   "craft",
   "ast",
   "inspect",
+  "identify",
+  "disasm",
   "target",
   "upgrade",
   "bench",
   "mcp",
+  "acp",
+  "a2a",
   "api",
+  "web",
+  "tui",
+  "vfs",
+  "brain",
+  "soul",
+  "router",
+  "decide",
+  "workflow",
+  "lowlevel",
+  "train",
+  "crypto",
+  "git",
+  "dedupe",
   "daemon",
   "service",
   "plugin",
@@ -200,6 +241,16 @@ function cmdCraft(root: string, args: string[]): number {
 }
 
 function cmdAst(root: string, args: string[]): number {
+  if (args[0] === "symbols" && args.length >= 3) {
+    const res = astSymbolsWithAbi(root, args[1], resolve(root, args[2]));
+    printJson({ bridge: "tree-sitter-symbols-c-abi", ...res });
+    return res.ok ? 0 : 1;
+  }
+  if (args[0] === "query" && args.length >= 4) {
+    const res = astQueryWithAbi(root, args[1], resolve(root, args[2]), args.slice(3).join(" "));
+    printJson({ bridge: "tree-sitter-query-c-abi", ...res });
+    return res.ok ? 0 : 1;
+  }
   if (args.length >= 2) {
     const res = parseAstWithAbi(root, args[0], resolve(root, args[1]));
     printJson({ bridge: "tree-sitter-c-abi", ...res });
@@ -417,6 +468,27 @@ async function main(): Promise<number> {
       return cmdAst(root, rest);
     case "inspect":
       return cmdInspect(root, rest);
+    case "identify": {
+      const target = rest[0] ? resolve(root, rest[0]) : resolveUpstreamAgyPath();
+      if (!target) {
+        printJson({ ok: false, error: "no target file specified" });
+        return 1;
+      }
+      const res = identifyFileWithAbi(root, target);
+      printJson(res);
+      return res.ok ? 0 : 1;
+    }
+    case "disasm": {
+      const target = rest[0] ? resolve(root, rest[0]) : resolveUpstreamAgyPath();
+      const max = rest[1] ? Number(rest[1]) || 12 : 12;
+      if (!target) {
+        printJson({ ok: false, error: "no PE binary specified" });
+        return 1;
+      }
+      const res = disasmX64WithAbi(root, target, max);
+      printJson(res);
+      return res.ok ? 0 : 1;
+    }
     case "target":
       return cmdTarget(root, rest);
     case "upgrade":
@@ -426,8 +498,159 @@ async function main(): Promise<number> {
     case "mcp":
       await startMcpStdioServer(root);
       return 0;
+    case "acp": {
+      const method = rest[0] ?? "initialize";
+      const prompt = rest.slice(1).join(" ");
+      printJson(handleAcpMessage(root, { id: 1, method, params: prompt ? { prompt } : {} }));
+      return 0;
+    }
+    case "a2a": {
+      if (rest[0] === "card" || rest.length === 0) {
+        printJson(buildA2AAgentCard());
+        return 0;
+      }
+      printJson(handleA2AMessage(root, { id: 1, method: rest[0], params: { prompt: rest.slice(1).join(" ") } }));
+      return 0;
+    }
     case "api":
+    case "web":
       return cmdApi(root, rest);
+    case "tui": {
+      const act = rest[0];
+      if (act === "status") {
+        printJson(getTerminalTuiStatus(root));
+        return 0;
+      }
+      if (act === "wta-config") {
+        printJson(generateFairwindWtaConfig(root));
+        return 0;
+      }
+      if (act === "verify-self") {
+        const res = verifyFairwindSelfTui(root);
+        printJson(res);
+        return res.ok ? 0 : 1;
+      }
+      if (act === "verify") {
+        const expectText = rest[1] ?? "fairwind";
+        const sepIdx = rest.indexOf("--");
+        const cmd = sepIdx >= 0 ? rest.slice(sepIdx + 1) : rest.slice(2);
+        if (cmd.length === 0) {
+          printJson({ ok: false, error: "Usage: fairwind tui verify <expectText> -- <command...>" });
+          return 1;
+        }
+        const res = runTuiTestVerify(root, cmd, expectText);
+        printJson(res);
+        return res.ok ? 0 : 1;
+      }
+      console.log(renderFairwindTui(root));
+      return 0;
+    }
+    case "vfs": {
+      const act = rest[0] ?? "mounts";
+      if (act === "mounts") {
+        printJson(listVfsMounts(root));
+        return 0;
+      }
+      if (act === "ls") {
+        printJson(vfsList(root, rest[1] ?? "/"));
+        return 0;
+      }
+      if (act === "read" && rest[1]) {
+        const r = vfsRead(root, rest[1]);
+        printJson(r);
+        return r.ok ? 0 : 1;
+      }
+      if (act === "write" && rest[1]) {
+        printJson(vfsWrite(root, rest[1], rest.slice(2).join(" ")));
+        return 0;
+      }
+      if (act === "snapshot") {
+        printJson(vfsSnapshot(root, rest[1]));
+        return 0;
+      }
+      if (act === "snapshots") {
+        printJson(vfsSnapshots(root));
+        return 0;
+      }
+      printJson({ ok: false, error: `Unknown vfs action: ${act}` });
+      return 1;
+    }
+    case "brain": {
+      const act = rest[0] ?? "search";
+      if (act === "index") {
+        printJson(brainIndexRepo(root));
+        return 0;
+      }
+      printJson(brainSearch(root, rest.slice(1).join(" ") || "fairwind"));
+      return 0;
+    }
+    case "soul":
+      printJson({ ok: true, soul: loadSoul(root), openapi: buildOpenApiSpec().info });
+      return 0;
+    case "router":
+      printJson({
+        ok: true,
+        providers: DEFAULT_ROUTER_PROVIDERS,
+        decision: routeModelRequest(rest[0], rest[1] ?? "chat"),
+      });
+      return 0;
+    case "decide": {
+      const input = rest.join(" ") || "Build and verify Fairwind Rust Fat-LTO binary";
+      const res = await evaluateDecisions({
+        model: "gemini-decision-1",
+        input,
+        mode: process.env.GEMINI_API_KEY ? "auto" : "local",
+        questions: {
+          needs_build: { type: "noul", instructions: "Does this input request building, compiling, or testing code?" },
+          route: {
+            type: "choice",
+            instructions: "Choose the optimal handler queue.",
+            criteria: {
+              lowlevel: "Rust, C, C++, Assembly, WebAssembly, CUDA, WebGPU, PE/ELF binary work.",
+              cloud: "Cloudflare Workers, Vercel Functions, Durable Objects, R2, D1, edge deployment.",
+              ai_train: "LLM training, fine-tuning, PEFT LoRA, Gemma, Gemini, datasets, abliteration.",
+              general: "General documentation, inspection, or status query.",
+            },
+          },
+        },
+      });
+      printJson(res);
+      return 0;
+    }
+    case "workflow": {
+      const input = rest.join(" ") || "Optimize and verify Fairwind end-to-end self-hosted AI workflow";
+      printJson(await runSelfHostedAiWorkflow(root, input, "local"));
+      return 0;
+    }
+    case "lowlevel": {
+      const act = rest[0] ?? "matrix";
+      if (act === "verify") {
+        const res = await verifyLowLevelToolchains(root);
+        printJson(res);
+        return res.ok ? 0 : 1;
+      }
+      printJson({ ok: true, matrix: LOW_LEVEL_LTO_AOT_MATRIX });
+      return 0;
+    }
+    case "train": {
+      const act = rest[0] ?? "plan";
+      return runSubprocess(["uv", "run", "python", "core/py/fairwind_ml/pipeline.py", act, ...rest.slice(1)], root);
+    }
+    case "crypto": {
+      const res = cryptoDigestWithAbi(root, rest.join(" ") || "fairwind");
+      printJson(res);
+      return res.ok ? 0 : 1;
+    }
+    case "git": {
+      const res = gitInspectWithAbi(root, rest[0] ? resolve(root, rest[0]) : root);
+      printJson(res);
+      return res.ok ? 0 : 1;
+    }
+    case "dedupe": {
+      const res = auditDeduplication(root);
+      printJson(res);
+      return res.ok ? 0 : 1;
+    }
     case "daemon":
       return cmdDaemon(root, rest);
     case "service":

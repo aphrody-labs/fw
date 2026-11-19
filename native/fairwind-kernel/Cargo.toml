@@ -1,0 +1,34 @@
+[package]
+name = "fairwind-kernel"
+version = "0.1.0"
+edition = "2024"
+description = "Cross-OS Fat-LTO kernel and OS telemetry crate (agent-as-a-kernel: windows-sys on Windows, libc/procfs/sysfs aligned with Rust-for-Linux on Linux)"
+
+[lib]
+name = "fairwind_kernel"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = [
+    "Wdk_System_SystemServices",
+    "Win32_Foundation",
+    "Win32_Storage_FileSystem",
+    "Win32_System_Performance",
+    "Win32_System_ProcessStatus",
+    "Win32_System_SystemInformation",
+    "Win32_System_Threading",
+] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = "symbols"
+panic = "abort"

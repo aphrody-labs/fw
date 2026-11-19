@@ -1,6 +1,7 @@
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { join, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
+import { mirrorRealDirNtfs, scanNtfsJunctions, toNtfsSafePath } from "./ntfs.ts";
 
 export function resolvePluginSource(root: string): string {
   return resolve(root, "plugin");
@@ -12,27 +13,71 @@ export function resolveGeminiPluginPaths() {
     geminiRoot,
     trackedDest: join(geminiRoot, "plugins", "fairwind"),
     configDest: join(geminiRoot, "config", "plugins", "fairwind"),
+    aphrodySkills: join(geminiRoot, "plugins", "aphrody", "skills"),
     installScript: join(geminiRoot, "scripts", "install.ts"),
   };
 }
 
-function mirrorRealDir(src: string, dst: string): void {
-  mkdirSync(dst, { recursive: true });
-  const srcNames = new Set(readdirSync(src));
-  for (const existing of readdirSync(dst)) {
-    if (!srcNames.has(existing)) {
-      rmSync(join(dst, existing), { recursive: true, force: true });
+function computeDirLockManifest(dir: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  const stack = [dir];
+  const files: string[] = [];
+  while (stack.length > 0) {
+    const cur = stack.pop()!;
+    for (const entry of readdirSync(toNtfsSafePath(cur), { withFileTypes: true })) {
+      const full = join(cur, entry.name);
+      if (entry.isDirectory()) stack.push(full);
+      else if (entry.isFile() && entry.name !== "fairwind.plugin.lock.json") files.push(full);
     }
   }
-  for (const entry of readdirSync(src, { withFileTypes: true })) {
-    const from = join(src, entry.name);
-    const to = join(dst, entry.name);
-    if (entry.isDirectory()) {
-      mirrorRealDir(from, to);
-    } else {
-      cpSync(from, to, { force: true });
-    }
+  files.sort();
+  for (const f of files) {
+    const rel = relative(dir, f).replaceAll("\\", "/");
+    const h = new Bun.CryptoHasher("sha256");
+    h.update(readFileSync(toNtfsSafePath(f)));
+    out[rel] = h.digest("hex");
   }
+  return out;
+}
+
+export function auditDeduplication(root: string) {
+  const src = resolvePluginSource(root);
+  const { aphrodySkills, trackedDest, configDest } = resolveGeminiPluginPaths();
+  const listSkills = (dir: string) =>
+    existsSync(dir)
+      ? readdirSync(dir, { withFileTypes: true })
+          .filter((e) => e.isDirectory())
+          .map((e) => e.name)
+          .sort()
+      : [];
+
+  const fairwindSkills = listSkills(join(src, "skills"));
+  const aphrodySkillList = listSkills(aphrodySkills);
+  const aphrodySet = new Set(aphrodySkillList);
+  const overlapWithAphrody = fairwindSkills.filter((s) => aphrodySet.has(s));
+
+  const srcLock = existsSync(src) ? computeDirLockManifest(src) : {};
+  const trackedLock = existsSync(trackedDest) ? computeDirLockManifest(trackedDest) : {};
+  const configLock = existsSync(configDest) ? computeDirLockManifest(configDest) : {};
+
+  const lockJson = JSON.stringify(srcLock);
+  const geminiTrackedInSync = lockJson === JSON.stringify(trackedLock);
+  const geminiConfigInSync = lockJson === JSON.stringify(configLock);
+  const ntfsJunctionsFound = [
+    ...scanNtfsJunctions(trackedDest),
+    ...scanNtfsJunctions(configDest),
+  ];
+
+  return {
+    ok: overlapWithAphrody.length === 0 && ntfsJunctionsFound.length === 0,
+    fairwindSkillCount: fairwindSkills.length,
+    fairwindSkills,
+    aphrodySkillCount: aphrodySkillList.length,
+    overlapWithAphrody,
+    geminiTrackedInSync,
+    geminiConfigInSync,
+    ntfsJunctionsFound,
+  };
 }
 
 export function pluginStatus(root: string) {
@@ -64,6 +109,7 @@ export function pluginStatus(root: string) {
     configMaterialized: existsSync(join(configDest, "plugin.json")),
     trackedDest,
     configDest,
+    dedupe: auditDeduplication(root),
   };
 }
 
@@ -77,6 +123,7 @@ export function syncFairwindPlugin(
   configDest: string;
   validated?: boolean;
   validationOutput?: string;
+  lockFileCount?: number;
   error?: string;
 } {
   const src = resolvePluginSource(root);
@@ -92,8 +139,21 @@ export function syncFairwindPlugin(
   }
 
   try {
-    mirrorRealDir(src, trackedDest);
-    mirrorRealDir(src, configDest);
+    mirrorRealDirNtfs(src, trackedDest);
+    mirrorRealDirNtfs(src, configDest);
+    const files = computeDirLockManifest(src);
+    const lockPayload = `${JSON.stringify(
+      {
+        schema: "fairwind.plugin-lock.v1",
+        sourceRepo: "aphrody-labs/fairwind",
+        syncedAt: new Date().toISOString(),
+        files,
+      },
+      null,
+      2,
+    )}\n`;
+    writeFileSync(join(trackedDest, "fairwind.plugin.lock.json"), lockPayload, "utf8");
+    writeFileSync(join(configDest, "fairwind.plugin.lock.json"), lockPayload, "utf8");
   } catch (err) {
     return {
       ok: false,
@@ -146,5 +206,6 @@ export function syncFairwindPlugin(
     configDest,
     validated,
     validationOutput,
+    lockFileCount: Object.keys(computeDirLockManifest(src)).length,
   };
 }

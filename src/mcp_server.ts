@@ -3,7 +3,28 @@ import { existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 import {
+  brainIndexRepo,
+  brainSearch,
+  DEFAULT_ROUTER_PROVIDERS,
+  loadSoul,
+  routeModelRequest,
+} from "./ai_stack.ts";
+import {
+  installService,
+  renderCrossPlatformServices,
+  runDaemonCycle,
+  serviceStatus,
+  uninstallService,
+} from "./daemon.ts";
+import { LOW_LEVEL_LTO_AOT_MATRIX } from "./lowlevel.ts";
+import { auditDeduplication, pluginStatus, syncFairwindPlugin } from "./plugin_sync.ts";
+import { generateFairwindWtaConfig, getTerminalTuiStatus, verifyFairwindSelfTui } from "./terminal_tui.ts";
+import {
+  astQueryWithAbi,
+  astSymbolsWithAbi,
   buildTargetManifest,
+  disasmX64WithAbi,
+  identifyFileWithAbi,
   inspectPeWithAbi,
   parseAstWithAbi,
   probeRustAbi,
@@ -12,14 +33,7 @@ import {
   writeTargetManifest,
 } from "./targets.ts";
 import { applyUpgrade, buildAgyUpgradePlan, checkUpgrade, runBenchmarks } from "./upgrade.ts";
-import {
-  installService,
-  renderCrossPlatformServices,
-  runDaemonCycle,
-  serviceStatus,
-  uninstallService,
-} from "./daemon.ts";
-import { pluginStatus, syncFairwindPlugin } from "./plugin_sync.ts";
+import { listVfsMounts, vfsList, vfsRead, vfsWrite } from "./vfs.ts";
 
 export interface JsonRpcRequest {
   jsonrpc?: string;
@@ -141,6 +155,56 @@ export const FAIRWIND_MCP_TOOLS = [
       required: ["subsystem"],
     },
   },
+  {
+    name: "fairwind_disasm",
+    description:
+      "Disassemble PE entry-point x86-64 instructions using craft-pe + iced-x86 Fat-LTO ABI, or identify any file via craft-sniff.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        action: { type: "string", enum: ["disasm", "identify"], description: "Operation mode." },
+        path: { type: "string", description: "Optional binary/file path (defaults to upstream agy.exe)." },
+        maxInsns: { type: "integer", minimum: 1, maximum: 128, description: "Instruction limit." },
+      },
+    },
+  },
+  {
+    name: "fairwind_vfs",
+    description: "Interact with Fairwind SQLite CAS VFS OS (mounts, ls, read, write).",
+    inputSchema: {
+      type: "object",
+      properties: {
+        action: { type: "string", enum: ["mounts", "ls", "read", "write"] },
+        path: { type: "string" },
+        content: { type: "string" },
+      },
+      required: ["action"],
+    },
+  },
+  {
+    name: "fairwind_ai",
+    description: "Query Fairwind AI Brain (FTS5), Soul constitution, Router providers, or Low-Level LTO/AOT matrix.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        action: { type: "string", enum: ["brain_index", "brain_search", "soul", "router", "lowlevel_matrix", "dedupe"] },
+        query: { type: "string" },
+        model: { type: "string" },
+      },
+      required: ["action"],
+    },
+  },
+  {
+    name: "fairwind_tui_terminal",
+    description: "Inspect and run Fairwind-optimized Microsoft Intelligent Terminal (WTA) and tui-test source-only workflows.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        action: { type: "string", enum: ["status", "wta_config", "verify_self"] },
+      },
+      required: ["action"],
+    },
+  },
 ] as const;
 
 function textResult(
@@ -208,8 +272,16 @@ export function handleFairwindToolCall(
     case "fairwind_ast_parse": {
       const lang = typeof args.lang === "string" ? args.lang : "";
       const file = typeof args.file === "string" ? args.file : "";
+      const mode = typeof args.mode === "string" ? args.mode : "summary";
+      const query = typeof args.query === "string" ? args.query : "";
       if (!lang || !file) return textResult({ ok: false, error: "lang and file are required" }, true);
-      const res = parseAstWithAbi(root, lang, resolve(root, file));
+      const abs = resolve(root, file);
+      const res =
+        mode === "symbols"
+          ? astSymbolsWithAbi(root, lang, abs)
+          : mode === "query"
+            ? astQueryWithAbi(root, lang, abs, query)
+            : parseAstWithAbi(root, lang, abs);
       return textResult(res, !res.ok);
     }
     case "fairwind_pe_inspect": {
@@ -289,6 +361,54 @@ export function handleFairwindToolCall(
         runtime: entry.runtime,
         abi: sub === "craft" ? probeRustAbi(root) : undefined,
       });
+    }
+    case "fairwind_disasm": {
+      const action = typeof args.action === "string" ? args.action : "disasm";
+      const target =
+        typeof args.path === "string" && args.path.trim() ? resolve(root, args.path) : resolveUpstreamAgyPath();
+      if (!target) return textResult({ ok: false, error: "no target binary resolved" }, true);
+      if (action === "identify") {
+        const res = identifyFileWithAbi(root, target);
+        return textResult(res, !res.ok);
+      }
+      const max = typeof args.maxInsns === "number" ? args.maxInsns : 12;
+      const res = disasmX64WithAbi(root, target, max);
+      return textResult(res, !res.ok);
+    }
+    case "fairwind_vfs": {
+      const action = typeof args.action === "string" ? args.action : "mounts";
+      const p = typeof args.path === "string" ? args.path : "/";
+      if (action === "ls") return textResult(vfsList(root, p));
+      if (action === "read") {
+        const r = vfsRead(root, p);
+        return textResult(r, !r.ok);
+      }
+      if (action === "write") return textResult(vfsWrite(root, p, typeof args.content === "string" ? args.content : ""));
+      return textResult(listVfsMounts(root));
+    }
+    case "fairwind_ai": {
+      const action = typeof args.action === "string" ? args.action : "soul";
+      if (action === "brain_index") return textResult(brainIndexRepo(root));
+      if (action === "brain_search") return textResult(brainSearch(root, typeof args.query === "string" ? args.query : "fairwind"));
+      if (action === "router") {
+        return textResult({
+          ok: true,
+          providers: DEFAULT_ROUTER_PROVIDERS,
+          decision: routeModelRequest(typeof args.model === "string" ? args.model : undefined),
+        });
+      }
+      if (action === "lowlevel_matrix") return textResult({ ok: true, matrix: LOW_LEVEL_LTO_AOT_MATRIX });
+      if (action === "dedupe") return textResult(auditDeduplication(root));
+      return textResult({ ok: true, soul: loadSoul(root) });
+    }
+    case "fairwind_tui_terminal": {
+      const action = typeof args.action === "string" ? args.action : "status";
+      if (action === "wta_config") return textResult(generateFairwindWtaConfig(root));
+      if (action === "verify_self") {
+        const res = verifyFairwindSelfTui(root);
+        return textResult(res, !res.ok);
+      }
+      return textResult(getTerminalTuiStatus(root));
     }
     default:
       return textResult({ ok: false, error: `Unknown tool: ${name}` }, true);

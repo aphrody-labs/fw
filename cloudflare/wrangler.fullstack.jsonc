@@ -1,0 +1,130 @@
+{
+  // Full-stack production topology template for Fairwind Edge OS on Cloudflare Workers (Wrangler 4.162+).
+  // Replace placeholder resource IDs before deploying to a live Cloudflare account.
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "fairwind-edge-fullstack",
+  "main": "worker.ts",
+  "compatibility_date": "2026-11-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "upload_source_maps": true,
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "FAIRWIND_ENV": "production"
+  },
+  // Workers AI inference & embeddings (Llama 3.3, Qwen 2.5 Coder, BGE, Whisper)
+  "ai": {
+    "binding": "AI"
+  },
+  // Tier-0 SQLite Durable Object Kernel/VFS + Tier-2 Sandbox 1.0 Durable Object
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "FAIRWIND_OS",
+        "class_name": "FairwindOSAgent"
+      },
+      {
+        "name": "SANDBOX",
+        "class_name": "Sandbox"
+      }
+    ]
+  },
+  // Declarative Durable Object exports (mutually exclusive with legacy migrations[])
+  "exports": {
+    "FairwindOSAgent": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    },
+    "Sandbox": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    }
+  },
+  // Tier-2 Cloudflare Sandbox 1.0 (@cloudflare/sandbox@1.0.3 / @cloudflare/containers@0.3.7)
+  "containers": [
+    {
+      "name": "fairwind-sandbox",
+      "class_name": "Sandbox",
+      "image": "cloudflare/sandbox:next",
+      "max_instances": 16
+    }
+  ],
+  // Tier-1 Dynamic Worker Loader for @cloudflare/codemode isolates (globalOutbound: null)
+  "worker_loaders": [
+    {
+      "binding": "LOADER"
+    }
+  ],
+  // R2 object spillover for large VFS blobs (> 64 KiB) and artifacts
+  "r2_buckets": [
+    {
+      "binding": "VFS_BLOBS",
+      "bucket_name": "fairwind-vfs-blobs"
+    }
+  ],
+  // D1 relational metadata & cross-tenant index
+  "d1_databases": [
+    {
+      "binding": "META_DB",
+      "database_name": "fairwind-meta",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  // Vectorize semantic memory index paired with /v1/embeddings
+  "vectorize": [
+    {
+      "binding": "MEMORY_VEC",
+      "index_name": "fairwind-memory"
+    }
+  ],
+  // Browser Run (managed Chromium + Kitesurf Rust/Wasm CDP agent browser)
+  "browser": {
+    "binding": "BROWSER"
+  },
+  // Durable multi-step Agent Workflows
+  "workflows": [
+    {
+      "name": "fairwind-agent-workflow",
+      "binding": "FAIRWIND_WORKFLOW",
+      "class_name": "FairwindWorkflow"
+    }
+  ],
+  // Asynchronous background task queues
+  "queues": {
+    "producers": [
+      {
+        "binding": "FAIRWIND_QUEUE",
+        "queue": "fairwind-jobs"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "fairwind-jobs",
+        "max_batch_size": 10,
+        "max_batch_timeout": 5
+      }
+    ]
+  },
+  // Hyperdrive connection pooler for external Postgres/MySQL
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "00000000000000000000000000000000"
+    }
+  ],
+  // K2 Streams durable at-least-once event log for autonomous learning replay
+  "k2": [
+    {
+      "binding": "EVENT_LOG",
+      "stream": "fairwind-learn-events"
+    }
+  ],
+  // Basin Pipelines 1 GB/s telemetry sink into R2 Iceberg tables (uses `stream`, not deprecated `pipeline`)
+  "pipelines": [
+    {
+      "binding": "TELEMETRY_PIPELINE",
+      "stream": "fairwind-telemetry-stream"
+    }
+  ]
+}

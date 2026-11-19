@@ -1,0 +1,40 @@
+[package]
+name = "tui-test-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "The tui-test command-line interface and per-session daemon (Fairwind source-only Fat-LTO)"
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[[bin]]
+name = "tui-test"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap = { workspace = true, features = ["env"] }
+crossterm.workspace = true
+dialoguer.workspace = true
+dirs.workspace = true
+interprocess.workspace = true
+portable-pty.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+vte.workspace = true
+tui-test = { workspace = true }
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { workspace = true, features = [
+    "Win32_System_Console",
+    "Win32_System_Pipes",
+] }
+
+[build-dependencies]
+toml.workspace = true
+
+[dev-dependencies]
+gif.workspace = true
+png.workspace = true

@@ -30,3 +30,10 @@ checkpoints/
 # Rust & compiled CLI artifacts
 target/
 dist/*.exe
+
+# External cloned upstream source trees
+packages/windows-rs/
+packages/rust-for-linux/
+packages/antigravity-sdk-python/
+packages/tui-test/
+packages/intelligent-terminal/

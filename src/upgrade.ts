@@ -1,5 +1,6 @@
-import { appendFileSync, copyFileSync, existsSync, mkdirSync, renameSync, rmSync, statSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { atomicReplaceFileNtfs } from "./ntfs.ts";
 import {
   buildTargetManifest,
   loadTargetsConfig,
@@ -56,34 +57,7 @@ function runCaptured(cmd: string[], cwd: string) {
  * rename-while-running (a running .exe can be renamed to .prev.exe even while locked).
  */
 export function promoteBinaryAtomic(stagedPath: string, destPath: string): void {
-  mkdirSync(dirname(destPath), { recursive: true });
-  const backupPath = `${destPath}.prev`;
-  let movedExisting = false;
-  if (existsSync(destPath)) {
-    try {
-      rmSync(backupPath, { force: true });
-    } catch {
-      // Ignore if previous backup is still held by an old process
-    }
-    try {
-      renameSync(destPath, backupPath);
-      movedExisting = true;
-    } catch {
-      // Fallback: copy directly if rename fails on non-locked cross-device path
-    }
-  }
-  try {
-    copyFileSync(stagedPath, destPath);
-  } catch (err) {
-    if (movedExisting && existsSync(backupPath) && !existsSync(destPath)) {
-      try {
-        renameSync(backupPath, destPath);
-      } catch {
-        // Best-effort rollback
-      }
-    }
-    throw err;
-  }
+  atomicReplaceFileNtfs(stagedPath, destPath);
 }
 
 export function checkUpgrade(root: string): UpgradeCheckReport {
@@ -196,6 +170,7 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
     steps.push(
       { name: "ruff-lint", cmd: ["uvx", "ruff", "check", "."] },
       { name: "cargo-test-pe", cmd: ["cargo", "test", "--manifest-path", "native/fairwind-pe/Cargo.toml"] },
+      { name: "cargo-test-sniff", cmd: ["cargo", "test", "--manifest-path", "native/fairwind-sniff/Cargo.toml"] },
       { name: "cargo-test-abi", cmd: ["cargo", "test", "--manifest-path", "native/fairwind-abi/Cargo.toml"] },
       { name: "cargo-test-agy", cmd: ["cargo", "test", "--manifest-path", "native/fairwind-agy/Cargo.toml"] },
     );

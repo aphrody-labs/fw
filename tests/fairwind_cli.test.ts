@@ -29,8 +29,11 @@ describe("fairwind unified product", () => {
     expect(data.ok).toBe(true);
     expect(data.product).toBe("fairwind");
     expect(data.abiLoaded).toBe(true);
-    expect(data.abi.version).toBe(3);
+    expect(data.abi.version).toBe(4);
     expect(data.abi.health.capabilities).toContain("craft-pe");
+    expect(data.abi.health.capabilities).toContain("craft-sniff");
+    expect(data.abi.health.capabilities).toContain("iced-x86-disasm");
+    expect(data.abi.health.capabilities).toContain("gguf-ggml");
     expect(data.subcommands).toContain("inspect");
     expect(data.subcommands).toContain("target");
     expect(data.subcommands).toContain("upgrade");

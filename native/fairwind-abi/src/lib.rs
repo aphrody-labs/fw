@@ -1,3 +1,8 @@
+pub mod ast;
+pub mod disasm;
+pub mod gguf;
+pub mod infra;
+
 use craft_pe::{DATA_DIRECTORY_NAMES, PeSection, headers, rich_header, subsystem_name};
 use serde::Serialize;
 use sha2::{Digest, Sha256};
@@ -6,16 +11,13 @@ use std::io::{BufReader, Read};
 use std::path::Path;
 use std::slice;
 
-#[cfg(feature = "tree-sitter-all")]
-use tree_sitter::{Language, Node, Parser};
-
-pub const ABI_VERSION: u32 = 3;
+pub const ABI_VERSION: u32 = 4;
 
 #[cfg(not(debug_assertions))]
-const HEALTH_JSON: &[u8] = b"{\"ok\":true,\"product\":\"fairwind\",\"crate\":\"fairwind-abi\",\"abiVersion\":3,\"profile\":\"release\",\"lto\":\"fat\",\"aot\":true,\"absorbed\":[\"heretic\",\"neon\",\"craft-libs\",\"craft-anything\"],\"capabilities\":[\"tree-sitter\",\"craft-pe\",\"sha256\"],\"treeSitterGrammars\":[\"rust\",\"typescript\",\"tsx\",\"python\",\"c\",\"cpp\",\"java\",\"json\",\"bash\"]}\0";
+const HEALTH_JSON: &[u8] = b"{\"ok\":true,\"product\":\"fairwind\",\"crate\":\"fairwind-abi\",\"abiVersion\":4,\"profile\":\"release\",\"lto\":\"fat\",\"aot\":true,\"absorbed\":[\"heretic\",\"neon\",\"craft-libs\",\"craft-anything\"],\"capabilities\":[\"tree-sitter\",\"tree-sitter-query\",\"tree-sitter-symbols\",\"craft-pe\",\"craft-sniff\",\"iced-x86-disasm\",\"gguf-ggml\",\"rust-crypto\",\"rust-git\",\"rust-ssh\",\"rust-oci\"],\"treeSitterGrammars\":[\"rust\",\"typescript\",\"tsx\",\"javascript\",\"python\",\"c\",\"cpp\",\"java\",\"go\",\"json\",\"bash\"]}\0";
 
 #[cfg(debug_assertions)]
-const HEALTH_JSON: &[u8] = b"{\"ok\":true,\"product\":\"fairwind\",\"crate\":\"fairwind-abi\",\"abiVersion\":3,\"profile\":\"debug\",\"lto\":\"none\",\"aot\":true,\"absorbed\":[\"heretic\",\"neon\",\"craft-libs\",\"craft-anything\"],\"capabilities\":[\"tree-sitter\",\"craft-pe\",\"sha256\"],\"treeSitterGrammars\":[\"rust\",\"typescript\",\"tsx\",\"python\",\"c\",\"cpp\",\"java\",\"json\",\"bash\"]}\0";
+const HEALTH_JSON: &[u8] = b"{\"ok\":true,\"product\":\"fairwind\",\"crate\":\"fairwind-abi\",\"abiVersion\":4,\"profile\":\"debug\",\"lto\":\"none\",\"aot\":true,\"absorbed\":[\"heretic\",\"neon\",\"craft-libs\",\"craft-anything\"],\"capabilities\":[\"tree-sitter\",\"tree-sitter-query\",\"tree-sitter-symbols\",\"craft-pe\",\"craft-sniff\",\"iced-x86-disasm\",\"gguf-ggml\",\"rust-crypto\",\"rust-git\",\"rust-ssh\",\"rust-oci\"],\"treeSitterGrammars\":[\"rust\",\"typescript\",\"tsx\",\"javascript\",\"python\",\"c\",\"cpp\",\"java\",\"go\",\"json\",\"bash\"]}\0";
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -65,7 +67,12 @@ fn machine_name(machine: u16) -> String {
     }
 }
 
-fn classify_runtime(sections: &[PeSection], has_authenticode: bool, has_clr: bool, file_bytes: u64) -> &'static str {
+fn classify_runtime(
+    sections: &[PeSection],
+    has_authenticode: bool,
+    has_clr: bool,
+    file_bytes: u64,
+) -> &'static str {
     let names: Vec<&str> = sections.iter().map(|s| s.name.as_str()).collect();
     if names.iter().any(|n| *n == "google_i" || *n == "protodes" || *n == "flags_he") {
         return "google-antigravity-pe";
@@ -177,30 +184,15 @@ pub fn inspect_pe_headers_fast(path: &Path) -> Result<PeInspectionReport, String
     inspect_pe_path_opts(path, false)
 }
 
-#[cfg(feature = "tree-sitter-all")]
-fn resolve_lang(lang: &str) -> Option<Language> {
-    match lang.to_ascii_lowercase().as_str() {
-        "rust" | "rs" => Some(tree_sitter_rust::LANGUAGE.into()),
-        "typescript" | "ts" => Some(tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into()),
-        "tsx" => Some(tree_sitter_typescript::LANGUAGE_TSX.into()),
-        "python" | "py" => Some(tree_sitter_python::LANGUAGE.into()),
-        "c" => Some(tree_sitter_c::LANGUAGE.into()),
-        "cpp" | "c++" | "cc" => Some(tree_sitter_cpp::LANGUAGE.into()),
-        "java" => Some(tree_sitter_java::LANGUAGE.into()),
-        "json" => Some(tree_sitter_json::LANGUAGE.into()),
-        "bash" | "sh" => Some(tree_sitter_bash::LANGUAGE.into()),
-        _ => None,
+fn write_json_out(json: &str, ob: *mut u8, oc: usize) -> usize {
+    if ob.is_null() || json.is_empty() || json.len() > oc {
+        return 0;
     }
-}
-
-#[cfg(feature = "tree-sitter-all")]
-fn count_nodes(n: Node<'_>) -> usize {
-    let mut c = 1;
-    let mut cur = n.walk();
-    for ch in n.children(&mut cur) {
-        c += count_nodes(ch);
+    let bytes = json.as_bytes();
+    unsafe {
+        std::ptr::copy_nonoverlapping(bytes.as_ptr(), ob, bytes.len());
     }
-    c
+    bytes.len()
 }
 
 #[unsafe(no_mangle)]
@@ -229,30 +221,65 @@ pub extern "C" fn fairwind_parse_summary(
     let Ok(ls) = std::str::from_utf8(unsafe { slice::from_raw_parts(lp, ll) }) else {
         return 0;
     };
-    let Some(lang) = resolve_lang(ls) else {
+    let src = unsafe { slice::from_raw_parts(sp, sl) };
+    let json = match ast::parse_summary(ls, src) {
+        Ok(s) => serde_json::to_string(&s).unwrap_or_default(),
+        Err(e) => serde_json::json!({ "ok": false, "error": e }).to_string(),
+    };
+    write_json_out(&json, ob, oc)
+}
+
+#[cfg(feature = "tree-sitter-all")]
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_ast_symbols(
+    lp: *const u8,
+    ll: usize,
+    sp: *const u8,
+    sl: usize,
+    ob: *mut u8,
+    oc: usize,
+) -> usize {
+    if lp.is_null() || sp.is_null() || ob.is_null() || oc == 0 {
+        return 0;
+    }
+    let Ok(ls) = std::str::from_utf8(unsafe { slice::from_raw_parts(lp, ll) }) else {
         return 0;
     };
     let src = unsafe { slice::from_raw_parts(sp, sl) };
-    let mut p = Parser::new();
-    if p.set_language(&lang).is_err() {
+    let json = match ast::extract_symbols(ls, src, 256) {
+        Ok(s) => serde_json::to_string(&s).unwrap_or_default(),
+        Err(e) => serde_json::json!({ "ok": false, "error": e }).to_string(),
+    };
+    write_json_out(&json, ob, oc)
+}
+
+#[cfg(feature = "tree-sitter-all")]
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_ast_query(
+    lp: *const u8,
+    ll: usize,
+    sp: *const u8,
+    sl: usize,
+    qp: *const u8,
+    ql: usize,
+    ob: *mut u8,
+    oc: usize,
+) -> usize {
+    if lp.is_null() || sp.is_null() || qp.is_null() || ob.is_null() || oc == 0 {
         return 0;
     }
-    let Some(t) = p.parse(src, None) else {
+    let Ok(ls) = std::str::from_utf8(unsafe { slice::from_raw_parts(lp, ll) }) else {
         return 0;
     };
-    let r = t.root_node();
-    let j = format!(
-        "{{\"ok\":true,\"lang\":\"{}\",\"rootKind\":\"{}\",\"nodeCount\":{},\"hasError\":{}}}",
-        ls,
-        r.kind(),
-        count_nodes(r),
-        r.has_error()
-    );
-    let n = j.len().min(oc);
-    unsafe {
-        std::ptr::copy_nonoverlapping(j.as_ptr(), ob, n);
-    }
-    n
+    let Ok(qs) = std::str::from_utf8(unsafe { slice::from_raw_parts(qp, ql) }) else {
+        return 0;
+    };
+    let src = unsafe { slice::from_raw_parts(sp, sl) };
+    let json = match ast::run_query(ls, src, qs, 128) {
+        Ok(s) => serde_json::to_string(&s).unwrap_or_default(),
+        Err(e) => serde_json::json!({ "ok": false, "error": e }).to_string(),
+    };
+    write_json_out(&json, ob, oc)
 }
 
 #[unsafe(no_mangle)]
@@ -272,14 +299,134 @@ pub extern "C" fn fairwind_inspect_pe(
         Ok(report) => serde_json::to_string(&report).unwrap_or_default(),
         Err(err) => serde_json::json!({ "ok": false, "path": path_str, "error": err }).to_string(),
     };
-    if json.is_empty() || json.len() > oc {
+    write_json_out(&json, ob, oc)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_identify_file(
+    pp: *const u8,
+    pl: usize,
+    ob: *mut u8,
+    oc: usize,
+) -> usize {
+    if pp.is_null() || ob.is_null() || oc == 0 {
         return 0;
     }
-    let bytes = json.as_bytes();
-    unsafe {
-        std::ptr::copy_nonoverlapping(bytes.as_ptr(), ob, bytes.len());
+    let Ok(path_str) = std::str::from_utf8(unsafe { slice::from_raw_parts(pp, pl) }) else {
+        return 0;
+    };
+    let json = match infra::identify_file_path(Path::new(path_str)) {
+        Ok(report) => serde_json::to_string(&report).unwrap_or_default(),
+        Err(err) => serde_json::json!({ "ok": false, "path": path_str, "error": err }).to_string(),
+    };
+    write_json_out(&json, ob, oc)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_disasm_x64(
+    pp: *const u8,
+    pl: usize,
+    max_insns: usize,
+    ob: *mut u8,
+    oc: usize,
+) -> usize {
+    if pp.is_null() || ob.is_null() || oc == 0 {
+        return 0;
     }
-    bytes.len()
+    let Ok(path_str) = std::str::from_utf8(unsafe { slice::from_raw_parts(pp, pl) }) else {
+        return 0;
+    };
+    let json = match disasm::disassemble_pe_entry(Path::new(path_str), max_insns) {
+        Ok(report) => serde_json::to_string(&report).unwrap_or_default(),
+        Err(err) => serde_json::json!({ "ok": false, "path": path_str, "error": err }).to_string(),
+    };
+    write_json_out(&json, ob, oc)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_inspect_gguf(
+    pp: *const u8,
+    pl: usize,
+    ob: *mut u8,
+    oc: usize,
+) -> usize {
+    if pp.is_null() || ob.is_null() || oc == 0 {
+        return 0;
+    }
+    let Ok(path_str) = std::str::from_utf8(unsafe { slice::from_raw_parts(pp, pl) }) else {
+        return 0;
+    };
+    let json = match gguf::inspect_gguf_path(Path::new(path_str)) {
+        Ok(report) => serde_json::to_string(&report).unwrap_or_default(),
+        Err(err) => serde_json::json!({ "ok": false, "path": path_str, "error": err }).to_string(),
+    };
+    write_json_out(&json, ob, oc)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_crypto_digest(
+    dp: *const u8,
+    dl: usize,
+    ob: *mut u8,
+    oc: usize,
+) -> usize {
+    if dp.is_null() || ob.is_null() || oc == 0 {
+        return 0;
+    }
+    let data = unsafe { slice::from_raw_parts(dp, dl) };
+    let report = infra::compute_crypto_digests(data, None);
+    let json = serde_json::to_string(&report).unwrap_or_default();
+    write_json_out(&json, ob, oc)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_git_inspect(
+    pp: *const u8,
+    pl: usize,
+    ob: *mut u8,
+    oc: usize,
+) -> usize {
+    if pp.is_null() || ob.is_null() || oc == 0 {
+        return 0;
+    }
+    let Ok(path_str) = std::str::from_utf8(unsafe { slice::from_raw_parts(pp, pl) }) else {
+        return 0;
+    };
+    let json = match infra::inspect_git_repo(Path::new(path_str)) {
+        Ok(report) => serde_json::to_string(&report).unwrap_or_default(),
+        Err(err) => serde_json::json!({ "ok": false, "error": err }).to_string(),
+    };
+    write_json_out(&json, ob, oc)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_ssh_fingerprint(
+    kp: *const u8,
+    kl: usize,
+    ob: *mut u8,
+    oc: usize,
+) -> usize {
+    if kp.is_null() || ob.is_null() || oc == 0 {
+        return 0;
+    }
+    let Ok(key_str) = std::str::from_utf8(unsafe { slice::from_raw_parts(kp, kl) }) else {
+        return 0;
+    };
+    let json = match infra::parse_ssh_pubkey_fingerprint(key_str) {
+        Ok(report) => serde_json::to_string(&report).unwrap_or_default(),
+        Err(err) => serde_json::json!({ "ok": false, "error": err }).to_string(),
+    };
+    write_json_out(&json, ob, oc)
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn fairwind_ml_dot_f32(ap: *const f32, bp: *const f32, len: usize) -> f32 {
+    if ap.is_null() || bp.is_null() || len == 0 {
+        return 0.0;
+    }
+    let a = unsafe { slice::from_raw_parts(ap, len) };
+    let b = unsafe { slice::from_raw_parts(bp, len) };
+    gguf::dot_f32(a, b)
 }
 
 #[cfg(test)]
@@ -288,54 +435,87 @@ mod tests {
     use std::ffi::CStr;
 
     #[test]
-    fn abi_ok() {
-        assert_eq!(fairwind_abi_version(), 3);
+    fn abi_v4_ok() {
+        assert_eq!(fairwind_abi_version(), 4);
         let s = unsafe { CStr::from_ptr(fairwind_health_json() as *const i8) }
             .to_str()
             .unwrap();
-        assert!(s.contains("treeSitterGrammars"));
-        assert!(s.contains("craft-pe"));
-        assert!(s.contains("\"abiVersion\":3"));
+        assert!(s.contains("\"abiVersion\":4"));
+        assert!(s.contains("craft-sniff"));
+        assert!(s.contains("iced-x86-disasm"));
+        assert!(s.contains("gguf-ggml"));
+        assert!(s.contains("rust-crypto"));
     }
 
     #[cfg(feature = "tree-sitter-all")]
     #[test]
-    fn parse_rust_ok() {
-        let (l, s) = (b"rust", b"fn main() { let x = 1 + 2; }");
-        let mut buf = [0u8; 256];
-        let n = fairwind_parse_summary(
-            l.as_ptr(),
-            l.len(),
-            s.as_ptr(),
-            s.len(),
-            buf.as_mut_ptr(),
-            buf.len(),
-        );
-        assert!(n > 0);
-        let out = std::str::from_utf8(&buf[..n]).unwrap();
-        assert!(out.contains("source_file") && out.contains("\"hasError\":false"));
+    fn ast_symbols_and_query_work() {
+        let src = b"pub fn hello(x: i32) -> i32 { x + 1 } struct Fairwind { id: u32 }";
+        let syms = ast::extract_symbols("rust", src, 32).unwrap();
+        assert_eq!(syms.symbol_count, 2);
+        assert_eq!(syms.symbols[0].name, "hello");
+        assert_eq!(syms.symbols[1].name, "Fairwind");
+
+        let q = ast::run_query("rust", src, "(function_item name: (identifier) @fn)", 16).unwrap();
+        assert_eq!(q.match_count, 1);
+        assert_eq!(q.matches[0].text, "hello");
+
+        let go_syms = ast::extract_symbols("go", b"package main\nfunc Run() {}", 16).unwrap();
+        assert_eq!(go_syms.symbol_count, 1);
+        assert_eq!(go_syms.symbols[0].name, "Run");
     }
 
     #[test]
-    fn inspect_missing_pe_returns_error_json() {
-        let p = b"C:\\nonexistent\\fairwind_missing_binary.exe";
-        let mut buf = [0u8; 4096];
-        let n = fairwind_inspect_pe(p.as_ptr(), p.len(), buf.as_mut_ptr(), buf.len());
-        assert!(n > 0);
-        let out = std::str::from_utf8(&buf[..n]).unwrap();
-        assert!(out.contains("\"ok\":false"));
+    fn gguf_parser_and_ggml_kernels_work() {
+        let mut synthetic = Vec::new();
+        synthetic.extend_from_slice(b"GGUF");
+        synthetic.extend_from_slice(&3u32.to_le_bytes());
+        synthetic.extend_from_slice(&42u64.to_le_bytes());
+        synthetic.extend_from_slice(&1u64.to_le_bytes());
+        let key = b"general.architecture";
+        synthetic.extend_from_slice(&(key.len() as u64).to_le_bytes());
+        synthetic.extend_from_slice(key);
+        synthetic.extend_from_slice(&8u32.to_le_bytes());
+        let val = b"llama";
+        synthetic.extend_from_slice(&(val.len() as u64).to_le_bytes());
+        synthetic.extend_from_slice(val);
+
+        let report = gguf::inspect_gguf_bytes(&synthetic, "test.gguf").unwrap();
+        assert_eq!(report.version, 3);
+        assert_eq!(report.tensor_count, 42);
+        assert_eq!(report.metadata.get("general.architecture").map(String::as_str), Some("llama"));
+
+        let d = gguf::dot_f32(&[1.0, 2.0, 3.0], &[4.0, 5.0, 6.0]);
+        assert!((d - 32.0).abs() < 1e-5);
+        let probs = gguf::softmax_f32(&[1.0, 2.0, 3.0]);
+        assert!((probs.iter().sum::<f32>() - 1.0).abs() < 1e-5);
+        let cos = gguf::cosine_similarity_f32(&[1.0, 0.0], &[1.0, 0.0]);
+        assert!((cos - 1.0).abs() < 1e-5);
     }
 
     #[test]
-    fn inspect_self_test_binary_on_windows() {
-        let exe = std::env::current_exe().unwrap();
+    fn rust_infra_crypto_ssh_oci_and_disasm_work() {
+        let dig = infra::compute_crypto_digests(b"fairwind", Some(b"secret"));
+        assert_eq!(dig.sha256.len(), 64);
+        assert_eq!(dig.blake3.len(), 64);
+        assert!(dig.hmac_sha256.is_some());
+
+        let b64 = base64::Engine::encode(&base64::engine::general_purpose::STANDARD, b"fairwind-ed25519-test-pubkey-bytes");
+        let fp = infra::parse_ssh_pubkey_fingerprint(&format!("ssh-ed25519 {b64} user@fairwind")).unwrap();
+        assert_eq!(fp.key_type, "ssh-ed25519");
+        assert!(fp.sha256_fingerprint.starts_with("SHA256:"));
+
+        let oci = infra::inspect_dockerfile("FROM alpine:3.21\nENV MODE=prod\nEXPOSE 4379\nENTRYPOINT [\"/fairwind\"]\n");
+        assert_eq!(oci.base_images, vec!["alpine:3.21"]);
+        assert_eq!(oci.exposed_ports, vec!["4379"]);
+        assert_eq!(oci.env_keys, vec!["MODE"]);
+
         if cfg!(windows) {
-            let report = inspect_pe_path(&exe).unwrap();
-            assert!(report.ok);
-            assert!(report.pe32_plus);
-            assert_eq!(report.machine, "x86_64");
-            assert!(report.section_count > 0);
-            assert_eq!(report.sha256.len(), 64);
+            let exe = std::env::current_exe().unwrap();
+            let dis = disasm::disassemble_pe_entry(&exe, 8).unwrap();
+            assert!(dis.ok && dis.count > 0);
+            let id = infra::identify_file_path(&exe).unwrap();
+            assert!(id.ok && id.bytes > 0);
         }
     }
 }

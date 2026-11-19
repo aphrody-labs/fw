@@ -1,11 +1,11 @@
 {
   "name": "fairwind",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "uvx ruff check . && cargo test --manifest-path native/fairwind-pe/Cargo.toml && cargo test --manifest-path native/fairwind-abi/Cargo.toml && cargo test --manifest-path native/fairwind-agy/Cargo.toml && bun test tests",
-    "test": "bun test tests && cargo test --manifest-path native/fairwind-pe/Cargo.toml && cargo test --manifest-path native/fairwind-abi/Cargo.toml && cargo test --manifest-path native/fairwind-agy/Cargo.toml && uv run python -m unittest discover -s tests",
+    "check": "uvx ruff check . && cargo test --manifest-path native/fairwind-pe/Cargo.toml && cargo test --manifest-path native/fairwind-sniff/Cargo.toml && cargo test --manifest-path native/fairwind-kernel/Cargo.toml && cargo test --manifest-path native/fairwind-world/Cargo.toml && cargo test --manifest-path native/fairwind-abi/Cargo.toml && cargo test --manifest-path native/fairwind-agy/Cargo.toml && cargo check --manifest-path core/rs/tui-test/Cargo.toml --workspace && cargo check --manifest-path core/rs/wta/Cargo.toml && bun test tests",
+    "test": "bun test tests && cargo test --manifest-path native/fairwind-pe/Cargo.toml && cargo test --manifest-path native/fairwind-sniff/Cargo.toml && cargo test --manifest-path native/fairwind-kernel/Cargo.toml && cargo test --manifest-path native/fairwind-world/Cargo.toml && cargo test --manifest-path native/fairwind-abi/Cargo.toml && cargo test --manifest-path native/fairwind-agy/Cargo.toml && uv run python -m unittest discover -s tests",
     "build:abi": "cargo build --release --manifest-path native/fairwind-abi/Cargo.toml",
     "build:agy": "cargo build --release --manifest-path native/fairwind-agy/Cargo.toml",
     "build:cli": "bun build --compile --aot --trim --no-compile-function-source src/fairwind_cli.ts --outfile dist/fairwind.exe",

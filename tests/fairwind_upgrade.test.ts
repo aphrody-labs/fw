@@ -74,7 +74,7 @@ describe("fairwind target and self-upgrade pipeline", () => {
     const infoJson = JSON.parse(info.stdout.toString());
     expect(infoJson.ok).toBe(true);
     expect(infoJson.binary).toBe("fairwind-agy");
-    expect(infoJson.abiVersion).toBe(3);
+    expect(infoJson.abiVersion).toBe(4);
     expect(infoJson.build.lto).toBe("fat");
     expect(infoJson.build.aot).toBe(true);
 

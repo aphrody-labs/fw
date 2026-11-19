@@ -13,7 +13,17 @@ describe("fairwind unified plugin, MCP, API, and cross-platform daemon", () => {
     const status = pluginStatus(ROOT);
     expect(status.ok).toBe(true);
     expect(status.name).toBe("fairwind");
-    expect(status.skills).toEqual(["agy-knowledge", "fairwind", "learn"]);
+    expect(status.skills).toEqual([
+      "agy-knowledge",
+      "binary-analysis",
+      "fairwind",
+      "learn",
+      "low-level-lto-aot",
+      "reverse-engineer-anything",
+      "static-recompile",
+      "tree-sitter",
+      "tui-test",
+    ]);
 
     const manifest = JSON.parse(readFileSync(join(ROOT, "plugin", "plugin.json"), "utf8"));
     expect(manifest.name).toBe("fairwind");
@@ -34,7 +44,7 @@ describe("fairwind unified plugin, MCP, API, and cross-platform daemon", () => {
 
     const list = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 2, method: "tools/list" });
     const tools = (list?.result as { tools: typeof FAIRWIND_MCP_TOOLS }).tools;
-    expect(tools.length).toBe(9);
+    expect(tools.length).toBe(13);
     const names = tools.map((t) => t.name);
     for (const expected of [
       "fairwind_status",
@@ -46,6 +56,7 @@ describe("fairwind unified plugin, MCP, API, and cross-platform daemon", () => {
       "fairwind_learn",
       "fairwind_service",
       "fairwind_bridge",
+      "fairwind_tui_terminal",
     ]) {
       expect(names).toContain(expected);
     }
@@ -74,20 +85,20 @@ describe("fairwind unified plugin, MCP, API, and cross-platform daemon", () => {
 
   test("unified HTTP API handler serves health, status, ast, and 404 cleanly", async () => {
     const handler = createFairwindApiHandler(ROOT);
-    const healthResp = handler(new Request("http://127.0.0.1:4379/health"));
+    const healthResp = await handler(new Request("http://127.0.0.1:4379/health"));
     expect(healthResp.status).toBe(200);
     const health = (await healthResp.json()) as { ok: boolean; abiLoaded: boolean; abiVersion: number };
     expect(health.ok).toBe(true);
     expect(health.abiLoaded).toBe(true);
-    expect(health.abiVersion).toBe(3);
+    expect(health.abiVersion).toBe(4);
 
-    const astResp = handler(new Request("http://127.0.0.1:4379/ast?lang=typescript&file=src/index.ts"));
+    const astResp = await handler(new Request("http://127.0.0.1:4379/ast?lang=typescript&file=src/index.ts"));
     expect(astResp.status).toBe(200);
     const ast = (await astResp.json()) as { ok: boolean; hasError: boolean };
     expect(ast.ok).toBe(true);
     expect(ast.hasError).toBe(false);
 
-    const notFound = handler(new Request("http://127.0.0.1:4379/unknown"));
+    const notFound = await handler(new Request("http://127.0.0.1:4379/unknown"));
     expect(notFound.status).toBe(404);
   });
 
