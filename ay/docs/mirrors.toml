@@ -12,7 +12,9 @@ last_synced = "2026-11-17"      # doc, sheet and slides; brand_book still at 202
 team = "ay"
 file = "oubd2oqxMuyKYgGcaj3xNK"   # Aphrody: brand, design system, search, OS, browser, cloud, craft, Standard
 standard_page = "16:2"            # page "Standard": README and MDX templates, label palette, Material 3 tokens in use
-last_synced = "2026-11-17"
+m3_kit = "1035203688168086460"    # Material 3 Design Kit (community), subscribed as a library of the file
+m3_kit_theme = "18:1944"          # page "Design system": kit buttons with Schemes/* rebound to M3 Color, State Layers/* to stateLayer/<role>/<NN>
+last_synced = "2026-11-19"        # M3 Color variables equal brand/tokens/m3-tokens.json (49 roles, light and dark)
 
 [standard]
 repo = "aphrody-labs/.github"     # organization standard 1.0.0; docs/standard.md links it
