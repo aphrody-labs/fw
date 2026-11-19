@@ -159,9 +159,13 @@ if (conf.settings.depth > 0) {
         status: 0,
         json: null,
       }));
+      const data =
+        r.json && typeof r.json === "object" && "data" in r.json
+          ? r.json.data
+          : undefined;
       p.probe = {
         status: r.status,
-        models: Array.isArray(r.json?.data) ? r.json.data.length : undefined,
+        models: Array.isArray(data) ? data.length : undefined,
       };
     }
   };

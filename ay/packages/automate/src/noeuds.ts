@@ -470,7 +470,7 @@ async function source(
   if (!p.url) throw new Error("file or URL required");
   const r = await ctx.services.fetch(p.url, { signal: ctx.signal });
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  const octets = await r.bytes();
+  const octets = new Uint8Array(await r.arrayBuffer());
   if (octets.length > OCTETS_MAX)
     throw new Error("fichier trop volumineux (20 Mo au plus)");
   return {

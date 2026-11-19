@@ -4,6 +4,12 @@ import type { Entry, Feed, GnuEvent } from "../src/types.ts";
 type SortKey = "id" | "date" | "rust" | "sig";
 const $ = <T extends HTMLElement>(id: string) =>
   document.getElementById(id) as T;
+/** Own helper for <select>: HTMLSelectElement overrides Element.remove(), which the HTMLElement constraint of $ rejects when worker globals are in the program. */
+const sel = (id: string) => {
+  const el = document.getElementById(id);
+  if (!(el instanceof HTMLSelectElement)) throw new Error(`#${id} is not a <select>`);
+  return el;
+};
 const esc = (s: unknown) =>
   String(s ?? "").replace(
     /[&<>"]/g,
@@ -94,7 +100,7 @@ function matches(e: Entry, q: string, f: string) {
 
 function render() {
   const q = $<HTMLInputElement>("q").value.trim().toLowerCase();
-  const f = $<HTMLSelectElement>("f").value;
+  const f = sel("f").value;
   const rows = feed.entries.filter((e) => matches(e, q, f));
   rows.sort((a, b) => {
     const d =
@@ -226,7 +232,7 @@ async function main() {
     clearTimeout(typing);
     typing = setTimeout(render, 150);
   });
-  $<HTMLSelectElement>("f").addEventListener("change", render);
+  sel("f").addEventListener("change", render);
   for (const th of document.querySelectorAll<HTMLElement>("th[data-sort]")) {
     th.addEventListener("click", () => {
       const k = th.dataset.sort as SortKey;

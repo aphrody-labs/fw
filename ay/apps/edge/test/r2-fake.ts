@@ -1,13 +1,13 @@
 // In-memory R2Bucket for unit tests: get/head with range and conditional headers, put, list. The real binding is exercised by the wrangler dev test.
 export interface Stored {
-  body: Uint8Array;
+  body: Uint8Array<ArrayBuffer>;
   contentType?: string;
 }
 
 export class FakeBucket {
   readonly objects = new Map<string, Stored>();
 
-  put(key: string, value: string | Uint8Array, contentType?: string): void {
+  put(key: string, value: string | Uint8Array<ArrayBuffer>, contentType?: string): void {
     this.objects.set(key, { body: typeof value === "string" ? new TextEncoder().encode(value) : value, contentType });
   }
 

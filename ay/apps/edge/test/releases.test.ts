@@ -39,6 +39,8 @@ beforeEach(() => {
   env = { RELEASES: rel, ASSETS: assets, VIDEO: bucket(), CHROMIUM: chromium } as EdgeEnv;
 });
 
+const json = async <T>(res: Response) => (await res.json()) as T;
+
 const call = (path: string, init: RequestInit = {}) => {
   const url = new URL(`https://releases.example${path}`);
   return releases({ request: new Request(url, init), url, path: url.pathname, origin: url.origin, env, ctx: {} as ExecutionContext });
@@ -51,11 +53,11 @@ describe("releases service", () => {
     const res = await call("/manifest.json");
     expect(res.status).toBe(200);
     expect(res.headers.get("cache-control")).toBe("no-cache");
-    expect((await res.json()).products.ay.stable.version).toBe("1.2.3");
+    expect((await json<{ products: { ay: { stable: { version: string } } } }>(res)).products.ay.stable.version).toBe("1.2.3");
   });
 
   test("latest manifest of a channel carries absolute asset urls", async () => {
-    const body = await (await call("/api/releases/ay/stable/latest")).json();
+    const body = await json<{ version: string; assets: { url: string }[] }>(await call("/api/releases/ay/stable/latest"));
     expect(body.version).toBe("1.2.3");
     expect(body.assets[0].url).toBe("https://releases.example/ay/1.2.3/ay-x86_64-linux");
   });
@@ -111,12 +113,12 @@ describe("releases service", () => {
 
   test("legacy aphrody paths still read the old layout", async () => {
     expect((await call("/install.sh")).status).toBe(200);
-    expect((await (await call("/api/releases/canary/latest")).json()).version).toBe("9");
+    expect((await json<{ version: string }>(await call("/api/releases/canary/latest"))).version).toBe("9");
     expect((await call("/api/channels")).status).toBe(200);
   });
 
   test("brand files come from the assets bucket and ay-tools from the chromium bucket", async () => {
     expect(await (await call("/brand/icon.svg")).text()).toBe("<svg/>");
-    expect((await (await call("/ay-tools/latest.json")).json()).version).toBe("t1");
+    expect((await json<{ version: string }>(await call("/ay-tools/latest.json"))).version).toBe("t1");
   });
 });

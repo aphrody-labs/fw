@@ -623,8 +623,7 @@ export async function instantiateAySysWasm(
   const root = process.env.AY_ROOT || join(import.meta.dir, "..", "..", "..");
   const resolved = wasmPath ?? join(root, "target", "sys", "aysys.wasm");
   const bytes = readFileSync(resolved);
-  const { instance } = await WebAssembly.instantiate(bytes, {});
-  return instance;
+  return WebAssembly.instantiate(await WebAssembly.compile(bytes), {});
 }
 
 export const SHELL_CATEGORIES = [

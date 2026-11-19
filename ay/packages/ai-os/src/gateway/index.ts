@@ -27,12 +27,17 @@ export type Inbound = {
   text: string;
   user?: string;
 };
+/** What a channel reads of an incoming request; BunRequest and the standard Request both satisfy it. */
+export type GatewayRequest = Pick<
+  Request,
+  "headers" | "method" | "url" | "json" | "text" | "arrayBuffer" | "formData"
+>;
 export interface Channel {
   id: string;
   /** Own authentication of a public webhook (provider signature). Without it the gateway token is required. */
-  verify?(req: Request): Promise<boolean>;
+  verify?(req: GatewayRequest): Promise<boolean>;
   /** Parse a webhook request into an inbound message (or a direct Response, e.g. a verification challenge). */
-  parse(req: Request): Promise<Inbound | Response>;
+  parse(req: GatewayRequest): Promise<Inbound | Response>;
   /** Deliver the reply (for push channels); return value becomes the HTTP response body when defined. */
   reply(msg: Inbound, text: string): Promise<Response | undefined>;
 }
@@ -211,13 +216,13 @@ export function createGateway(o: GatewayOptions) {
   const busy = () => new Response("too many concurrent turns", { status: 429 });
   // Without a token the gateway trusts the loopback only, so a page of another site must not reach it
   // (CSRF / WebSocket hijacking): any Origin header must be a loopback origin.
-  const localOrigin = (req: Request) => {
+  const localOrigin = (req: Pick<Request, "headers">) => {
     const origin = req.headers.get("origin");
     if (!origin) return true;
     const host = URL.parse(origin)?.hostname;
     return host === "localhost" || host === "127.0.0.1" || host === "[::1]";
   };
-  const authed = (req: Request) =>
+  const authed = (req: Pick<Request, "headers">) =>
     o.token
       ? same(req.headers.get("authorization"), `Bearer ${o.token}`)
       : localOrigin(req);

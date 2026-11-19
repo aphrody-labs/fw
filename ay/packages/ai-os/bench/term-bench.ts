@@ -104,9 +104,10 @@ async function loadGhosttyVt() {
   const wasmFile = candidates.find((p) => existsSync(p));
   if (!wasmFile) return null;
   const bytes = await Bun.file(wasmFile).arrayBuffer();
-  const { instance } = await WebAssembly.instantiate(bytes, {
-    env: { log: () => {} },
-  });
+  const instance = await WebAssembly.instantiate(
+    await WebAssembly.compile(bytes),
+    { env: { log: () => {} } },
+  );
   return instance.exports as any;
 }
 
@@ -115,7 +116,10 @@ async function benchVtParsers() {
   const wasmBytes = await Bun.file(
     join(srcRoot, "target", "sys", "aysys.wasm"),
   ).arrayBuffer();
-  const { instance: ayWasmInst } = await WebAssembly.instantiate(wasmBytes, {});
+  const ayWasmInst = await WebAssembly.instantiate(
+    await WebAssembly.compile(wasmBytes),
+    {},
+  );
   const ayExp = ayWasmInst.exports as any;
   const neededBytes = ayExp.ay_vterm_state_bytes() + 131072;
   ayExp.memory.grow(Math.ceil(neededBytes / 65536) + 2);
