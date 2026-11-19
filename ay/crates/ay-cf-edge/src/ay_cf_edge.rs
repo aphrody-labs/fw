@@ -231,7 +231,7 @@ mod tests {
     #[test]
     fn parses_live_ay_cf_manifest_and_validates_invariants()
     -> Result<(), Box<dyn std::error::Error>> {
-        let raw = include_str!("../../../ay-cf.toml");
+        let raw = include_str!("../../../packages/cf-control-plane/cf.toml");
         let manifest = AyCfManifest::from_toml_str(raw)?;
         assert_eq!(manifest.buckets.len(), 11);
         assert_eq!(manifest.tunnels.len(), 3);

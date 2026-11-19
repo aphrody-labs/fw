@@ -44,9 +44,11 @@ crates = "aphrody-"          # prefix of the crates the organization already pub
 own_crates = "ay-"           # prefix of this repository's own crates and the npm unit prefix (naming.toml scheme: {id}-{unit})
 
 [repos]
+# The ordered stack of the ecosystem: the org profile shows it in this order (aphrody-labs/.github standard.toml [profile.flagships]).
 # A local `checkout` hint lives in the git-ignored ay.local.toml (a developer convenience): no tool requires it to exist, each one skips or falls back when it is absent.
-# kind: os | sdk | runtime | craft | plugin | app | browser | unix | ai | android | nt | design | org | site | standard.
+# kind: toolchain | os | sdk | runtime | craft | plugin | app | browser | unix | ai | android | nt | design | org | site | standard.
 # Only the os repository defines the system; the rest build on it. A row of the feature matrix names its owner by key.
+fw = { slug = "aphrody-labs/fw", kind = "toolchain" }                # toolchain and agent runtime: Fat-LTO/AOT Rust, C ABI, Wasm, MCP, CLI, upgrade daemon
 aphrody = { slug = "aphrody-dev/aphrody", kind = "os" }      # complete OS, pure Rust, source of truth
 ay = { slug = "aphrody-dev/ay", kind = "sdk" }                                             # C ABI, OpenAPI, docs, spec, corelib, libc, design system
 bun = { slug = "aphrody-labs/bun", kind = "runtime" }                 # Bun fork and its plugins
@@ -60,7 +62,6 @@ ai-os = { slug = "aphrody-dev/ai-os", kind = "ai" }               # agent kernel
 aydroid = { slug = "aphrody-dev/aydroid", kind = "android" }                              # AOSP with Aphrody in place of Android
 aynt = { slug = "aphrody-dev/aynt", kind = "nt" }                                          # free Windows-compatible operating system
 open = { slug = "aphrody-labs/open", kind = "app" }                  # open ecosystem monorepo (opencode, opentui, models.dev, ai-router)
-auto = { slug = "aphrody-labs/auto", kind = "app" }                  # workflow automation, office suite and scraping
 aphrody-m3 = { slug = "aphrody-labs/aphrody-m3", kind = "design" }                         # Material 3 UI packages, icons, fonts; consumes the ay token pipeline
 rosegriffon = { slug = "rose-griffon/rosegriffon", kind = "site" }  # moved to the rose-griffon org; owned by its own agent
 standard = { slug = "aphrody-labs/.github", kind = "standard" }  # org standard 1.0.0, defaults, reusable CI, profile
@@ -84,3 +85,7 @@ platform_owner = "ay"
 registry = "n2b-registry"
 exclude = ["node_modules", "third_party", "vendor", "target", "dist", "generated", "coverage", "fixtures", "testdata", "legacy", "archive", "archived", "forks", "Externals", "external", "extern", ".git"]
 mirrors = ["depot_tools", "wayland-c", "steam-runtime-tools", "steamos-manager", "zig", "binutils-gdb", "dash", "readline", "make", "gnu-findutils", "gnu-sed", "gawk", "bash", "tao", "scap", "tauri-action"]
+
+# The ordered stack of the ecosystem, keys of [repos]: 1 fw, 2 aphrody, 3 ay, 4 nie, 5 shenron.
+[ecosystem]
+stack = ["fw", "aphrody", "ay", "nie", "shenron"]

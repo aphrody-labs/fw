@@ -797,7 +797,7 @@ mod tests {
     #[test]
     fn sqlite_better_auth_flow_jwt_totp_apikey_and_passkey_es256() {
         let store = SqlAuthStore::open(":memory:", test_config()).unwrap();
-        let env = store.sign_up_email("founder@aphrody.com", "CorrectHorseBattery99!", "Founder").unwrap();
+        let env = store.sign_up_email("founder@example.test", "CorrectHorseBattery99!", "Founder").unwrap();
         let org_id = store.create_organization(&env.user.id, "Aphrody SAS", "aphrody-sas", "73282932000074").unwrap();
         store.set_active_organization(&env.session.token, &org_id).unwrap();
 

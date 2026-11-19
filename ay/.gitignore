@@ -50,6 +50,8 @@ cf.local.toml
 *.key
 *.p12
 *.pfx
+# self-signed signing fixtures (password "test") that the auto-files PDF signature test embeds
+!crates/auto-files/tests/data/*
 id_ed25519*
 id_rsa*
 .claude/settings.local.json
