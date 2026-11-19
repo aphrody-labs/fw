@@ -31,12 +31,17 @@ resolver = "2"
 
 [workspace.package]
 version = "4.2.0"
-edition = "2021"
+edition = "2024"
 rust-version = "1.85"
 license = "MIT"
 repository = "https://github.com/aphrody-labs/fairwind"
 keywords = ["fw", "rust-os", "wasm", "mcp", "cluster"]
 categories = ["command-line-utilities", "development-tools", "os"]
+
+[workspace.lints.clippy]
+perf = { level = "deny", priority = -1 }
+needless_collect = "deny"
+inefficient_to_string = "deny"
 
 [workspace.dependencies]
 # Internal publishable fw-* crates (pinned with version + path for crates.io)

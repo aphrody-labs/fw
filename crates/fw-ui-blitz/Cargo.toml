@@ -12,3 +12,6 @@ description = "Fairwind native HTML/CSS/WGPU UI renderer aligned with DioxusLabs
 [dependencies]
 flate2.workspace = true
 serde.workspace = true
+
+[lints]
+workspace = true

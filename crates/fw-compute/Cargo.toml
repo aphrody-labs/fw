@@ -12,3 +12,6 @@ description = "Unified Fairwind compute router: WebGPU/WGSL, CUDA sm_89 (RTX 407
 [dependencies]
 fw-ggml.workspace = true
 serde.workspace = true
+
+[lints]
+workspace = true

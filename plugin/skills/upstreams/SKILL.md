@@ -3,7 +3,7 @@ name: upstreams
 description: >-
   Auto-generated Git-pinned upstream reference catalog for fw (llama.cpp, Asterinas,
   Cloudflare OS/Computer/Pingora/Kitesurf/lol-html, rmcp, ZeroClaw, Zed, nix-cachyos-kernel,
-  OpenVMM, IronRDP). Refresh anytime via `just sync-upstreams` (`cargo xtask sync-upstreams`).
+  scx, Cloud Hypervisor, uutils, OpenVMM, IronRDP). Refresh anytime via `just sync-upstreams`.
 ---
 
 # fw Auto-Generated Upstream Skill Catalog
@@ -25,7 +25,7 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `zed-industries/zed` | `0cc1ffb6b3` | `crates/fw-ostd-wasm + flake.nix` | [docs](https://zed.dev/docs) |
 | `xddxdd/nix-cachyos-kernel` | `10e8df08ad` | `flake.nix + nix/hosts/` | [docs](https://github.com/xddxdd/nix-cachyos-kernel#readme) |
 | `microsoft/openvmm` | `c04c2b735a` | `os/fairwind-wsl` | [docs](https://openvmm.dev/guide/) |
-| `Devolutions/IronRDP` | `2064ca1c56` | `os/fairwind-wsl` | [docs](https://github.com/Devolutions/IronRDP#readme) |
+| `Devolutions/IronRDP` | `15b4a03ff5` | `os/fairwind-wsl` | [docs](https://github.com/Devolutions/IronRDP#readme) |
 | `sched-ext/scx` | `c8f241e960` | `nix/modules/vps-common.nix + os/fairwind-wsl` | [docs](https://github.com/sched-ext/scx#readme) |
 | `cloud-hypervisor/cloud-hypervisor` | `a425508457` | `nix/modules/vps-common.nix` | [docs](https://github.com/cloud-hypervisor/cloud-hypervisor#readme) |
 | `uutils/coreutils` | `f2d7c59d7d` | `flake.nix + crates/fw-uutils` | [docs](https://uutils.github.io/coreutils/) |

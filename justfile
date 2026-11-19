@@ -28,9 +28,13 @@ package:
 doctor:
     cargo xtask doctor
 
-# Auto-update plugin/skills/upstreams/ from upstreams.toml + live Git HEADs
+# Auto-update plugin/skills/upstreams/ from upstreams.toml + live Git HEADs (parallel)
 sync-upstreams:
     cargo xtask sync-upstreams
+
+# Parallel full monorepo upgrade (sync-upstreams + parallel CI + purity + MAP.tsv)
+upgrade-all:
+    cargo xtask upgrade
 
 # Build Fat-LTO fw binary + Wasm32 module
 build:

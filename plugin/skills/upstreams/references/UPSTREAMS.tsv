@@ -11,7 +11,7 @@ zeroclaw	zeroclaw-labs/zeroclaw	main	unknown	crates/fw-hermes-claw	https://githu
 zed	zed-industries/zed	main	0cc1ffb6b3	crates/fw-ostd-wasm + flake.nix	https://zed.dev/docs	GPUI retained rendering, ACP External Agents, flake-parts + crane
 nix-cachyos-kernel	xddxdd/nix-cachyos-kernel	release	10e8df08ad	flake.nix + nix/hosts/	https://github.com/xddxdd/nix-cachyos-kernel#readme	Clang+ThinLTO CachyOS kernels (x86_64-v3 + zen4) with binary cache
 openvmm	microsoft/openvmm	main	c04c2b735a	os/fairwind-wsl	https://openvmm.dev/guide/	Memory-safe Rust VMM replacing legacy Hyper-V/WSL C++ host layers
-ironrdp	Devolutions/IronRDP	master	2064ca1c56	os/fairwind-wsl	https://github.com/Devolutions/IronRDP#readme	Memory-safe Rust RDP transport replacing legacy WSLg FreeRDP C
+ironrdp	Devolutions/IronRDP	master	15b4a03ff5	os/fairwind-wsl	https://github.com/Devolutions/IronRDP#readme	Memory-safe Rust RDP transport replacing legacy WSLg FreeRDP C
 scx	sched-ext/scx	main	c8f241e960	nix/modules/vps-common.nix + os/fairwind-wsl	https://github.com/sched-ext/scx#readme	Rust BPF sched_ext schedulers (scx_lavd, scx_bpfland) on Linux CachyOS LTO
 cloud-hypervisor	cloud-hypervisor/cloud-hypervisor	main	a425508457	nix/modules/vps-common.nix	https://github.com/cloud-hypervisor/cloud-hypervisor#readme	Rust KVM microVM VMM (virtio-fs, vsock, VFIO) for Tier-2 agent sandboxes
 uutils-coreutils	uutils/coreutils	main	f2d7c59d7d	flake.nix + crates/fw-uutils	https://uutils.github.io/coreutils/	Cross-platform pure-Rust POSIX coreutils replacing GNU coreutils

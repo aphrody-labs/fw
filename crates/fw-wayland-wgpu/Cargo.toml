@@ -12,3 +12,6 @@ description = "Zero-C-dependency Wayland wire protocol & compositor surface laye
 [dependencies]
 fw-ostd-wasm.workspace = true
 serde.workspace = true
+
+[lints]
+workspace = true

@@ -11,3 +11,6 @@ description = "Fairwind v3.0 WebAssembly (wasm32-unknown-unknown & wasm32-wasip2
 
 [lib]
 crate-type = ["cdylib", "rlib"]
+
+[lints]
+workspace = true

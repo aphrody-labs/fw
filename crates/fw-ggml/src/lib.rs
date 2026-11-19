@@ -200,67 +200,88 @@ impl GgmlGraph {
         id
     }
 
-    /// Execute the DAG in topological order (`ggml_graph_compute`).
+    /// Execute the DAG in topological order (`ggml_graph_compute`), zero-clone in-place.
     pub fn compute(&mut self) -> Result<(), String> {
         for idx in 0..self.tensors.len() {
-            let op = self.tensors[idx].op;
-            let src = self.tensors[idx].src.clone();
-            match op {
-                GgmlOp::None => {}
+            let (prev, rest) = self.tensors.split_at_mut(idx);
+            let dst = &mut rest[0];
+            match dst.op {
+                GgmlOp::None | GgmlOp::Rope => {}
                 GgmlOp::Add => {
-                    let a = self.tensors[src[0]].data.clone();
-                    let b = self.tensors[src[1]].data.clone();
+                    let a = &prev[dst.src[0]].data;
+                    let b = &prev[dst.src[1]].data;
                     if a.len() != b.len() {
                         return Err("ggml_add shape mismatch".into());
                     }
-                    self.tensors[idx].data = a.iter().zip(b.iter()).map(|(x, y)| x + y).collect();
+                    dst.data.resize(a.len(), 0.0);
+                    for ((o, &x), &y) in dst.data.iter_mut().zip(a.iter()).zip(b.iter()) {
+                        *o = x + y;
+                    }
                 }
                 GgmlOp::Mul => {
-                    let a = self.tensors[src[0]].data.clone();
-                    let b = self.tensors[src[1]].data.clone();
-                    self.tensors[idx].data = a.iter().zip(b.iter()).map(|(x, y)| x * y).collect();
+                    let a = &prev[dst.src[0]].data;
+                    let b = &prev[dst.src[1]].data;
+                    let len = a.len().min(b.len());
+                    dst.data.resize(len, 0.0);
+                    for ((o, &x), &y) in dst.data.iter_mut().zip(a.iter()).zip(b.iter()) {
+                        *o = x * y;
+                    }
                 }
                 GgmlOp::MulMat => {
-                    let a_ne = self.tensors[src[0]].ne;
-                    let b_ne = self.tensors[src[1]].ne;
-                    let k = a_ne[0];
-                    let m = a_ne[1];
-                    let n = b_ne[1];
-                    if b_ne[0] != k {
+                    let ta = &prev[dst.src[0]];
+                    let tb = &prev[dst.src[1]];
+                    let k = ta.ne[0];
+                    let m = ta.ne[1];
+                    let n = tb.ne[1];
+                    if tb.ne[0] != k {
                         return Err("ggml_mul_mat inner dim mismatch".into());
                     }
-                    let a = self.tensors[src[0]].data.clone();
-                    let b = self.tensors[src[1]].data.clone();
-                    let mut out = vec![0.0f32; m * n];
+                    let a = &ta.data;
+                    let b = &tb.data;
+                    dst.data.resize(m * n, 0.0);
                     for col in 0..n {
+                        let b_col = &b[col * k..(col + 1) * k];
                         for row in 0..m {
+                            let a_row = &a[row * k..(row + 1) * k];
                             let mut acc = 0.0f32;
                             for i in 0..k {
-                                acc += a[row * k + i] * b[col * k + i];
+                                acc += a_row[i] * b_col[i];
                             }
-                            out[col * m + row] = acc;
+                            dst.data[col * m + row] = acc;
                         }
                     }
-                    self.tensors[idx].data = out;
                 }
                 GgmlOp::RmsNorm => {
-                    let a = self.tensors[src[0]].data.clone();
-                    let mean_sq = a.iter().map(|v| v * v).sum::<f32>() / (a.len().max(1) as f32);
+                    let a = &prev[dst.src[0]].data;
+                    let mean_sq = a.iter().map(|&v| v * v).sum::<f32>() / (a.len().max(1) as f32);
                     let inv = 1.0 / (mean_sq + 1e-5).sqrt();
-                    self.tensors[idx].data = a.into_iter().map(|v| v * inv).collect();
+                    dst.data.resize(a.len(), 0.0);
+                    for (o, &v) in dst.data.iter_mut().zip(a.iter()) {
+                        *o = v * inv;
+                    }
                 }
                 GgmlOp::SoftMax => {
-                    let a = self.tensors[src[0]].data.clone();
+                    let a = &prev[dst.src[0]].data;
                     let max = a.iter().copied().fold(f32::NEG_INFINITY, f32::max);
-                    let exps: Vec<f32> = a.iter().map(|v| (v - max).exp()).collect();
-                    let sum: f32 = exps.iter().sum::<f32>().max(1e-9);
-                    self.tensors[idx].data = exps.into_iter().map(|v| v / sum).collect();
+                    dst.data.resize(a.len(), 0.0);
+                    let mut sum = 0.0f32;
+                    for (o, &v) in dst.data.iter_mut().zip(a.iter()) {
+                        let e = (v - max).exp();
+                        *o = e;
+                        sum += e;
+                    }
+                    let inv_sum = 1.0 / sum.max(1e-9);
+                    for o in &mut dst.data {
+                        *o *= inv_sum;
+                    }
                 }
                 GgmlOp::Silu => {
-                    let a = self.tensors[src[0]].data.clone();
-                    self.tensors[idx].data = a.into_iter().map(|x| x / (1.0 + (-x).exp())).collect();
+                    let a = &prev[dst.src[0]].data;
+                    dst.data.resize(a.len(), 0.0);
+                    for (o, &x) in dst.data.iter_mut().zip(a.iter()) {
+                        *o = x / (1.0 + (-x).exp());
+                    }
                 }
-                GgmlOp::Rope => {}
             }
         }
         Ok(())

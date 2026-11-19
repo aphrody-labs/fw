@@ -1,20 +1,20 @@
 //! `fw-wasm` — Pure zero-dependency `wasm32-unknown-unknown` & `wasm32-wasip2` compute kernel
 //! shared by Cloudflare Workers (`cloudflare/worker.ts`) and End-User Browser WebGPU/FPU peers.
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn fw_wasm_abi_version() -> u32 {
     3
 }
 
 /// Calibrated System-1 logistic decision (`gemini-decision-1` noul probability in [0.01, 0.99]).
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn fw_wasm_decision_noul(logit: f32) -> f32 {
     let p = 1.0 / (1.0 + (-logit).exp());
     p.clamp(0.01, 0.99)
 }
 
 /// Quantized Q8_0 4-lane dot product for End-User Browser FPU / Wasm SIMD128 drafting.
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn fw_wasm_q8_dot4(
     a0: i32,
     a1: i32,
@@ -31,7 +31,7 @@ pub extern "C" fn fw_wasm_q8_dot4(
 }
 
 /// Encode Wayland wire protocol header `(size << 16) | opcode` directly in Wasm32 (zero libwayland C deps).
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn fw_wasm_wayland_word(size: u32, opcode: u32) -> u32 {
     ((size & 0xFFFF) << 16) | (opcode & 0xFFFF)
 }

@@ -13,3 +13,6 @@ description = "Unifies Burn CubeCL, Rig, rmcp, ACP rust-sdk, a2a-rs, Pingora/Qui
 fw-ggml.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+
+[lints]
+workspace = true

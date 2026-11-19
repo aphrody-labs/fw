@@ -6,3 +6,6 @@ rust-version.workspace = true
 license.workspace = true
 publish = false
 description = "Zero-dependency pure-Rust xtask orchestrator for fw (parallel CI, MAP.tsv, purity, upstreams sync, crates.io packaging, doctor)"
+
+[lints]
+workspace = true

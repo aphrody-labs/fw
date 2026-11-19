@@ -12,3 +12,6 @@ description = "Alpine-lighter 100% pure-Rust uutils multicall userland (coreutil
 [dependencies]
 serde.workspace = true
 sha2.workspace = true
+
+[lints]
+workspace = true

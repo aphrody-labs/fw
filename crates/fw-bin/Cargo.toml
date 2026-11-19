@@ -28,3 +28,6 @@ fw-wayland-wgpu.workspace = true
 fw-hermes-claw.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
+
+[lints]
+workspace = true

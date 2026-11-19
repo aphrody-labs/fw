@@ -13,3 +13,6 @@ description = "Fairwind hybrid cluster router: Cloudflare Pingora proxy/LB patte
 serde.workspace = true
 serde_json.workspace = true
 sha2.workspace = true
+
+[lints]
+workspace = true

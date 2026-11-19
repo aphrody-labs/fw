@@ -12,3 +12,6 @@ description = "100% pure-Rust NixOS compatibility layer: nixbase32 /nix/store pa
 [dependencies]
 serde.workspace = true
 sha2.workspace = true
+
+[lints]
+workspace = true

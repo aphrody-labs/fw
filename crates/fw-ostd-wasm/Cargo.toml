@@ -12,3 +12,6 @@ description = "Asterinas Framekernel OSTD + Zed GPUI WebAssembly/WebGPU/Cloudfla
 [dependencies]
 serde.workspace = true
 sha2.workspace = true
+
+[lints]
+workspace = true

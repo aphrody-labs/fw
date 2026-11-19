@@ -144,18 +144,34 @@ fn cmd_purity(root: &Path) -> ExitCode {
         concat!("C:\\", "src\\", "fairwind"),
         "defaultUser = \"aphro\"",
     ];
-    let mut violations = Vec::new();
-    for rel in String::from_utf8_lossy(&out).lines() {
-        if rel.starts_with("packages/") || rel.ends_with(".lock") || rel.ends_with(".png") {
-            continue;
-        }
-        let Ok(txt) = fs::read_to_string(root.join(rel)) else { continue };
-        for needle in &forbidden {
-            if txt.contains(needle) {
-                violations.push(format!("{rel}: contains hardcoded `{needle}`"));
-            }
-        }
-    }
+    let text = String::from_utf8_lossy(&out);
+    let files: Vec<&str> = text
+        .lines()
+        .filter(|rel| !rel.is_empty() && !rel.starts_with("packages/") && !rel.ends_with(".lock") && !rel.ends_with(".png"))
+        .collect();
+    let workers = thread::available_parallelism().map(usize::from).unwrap_or(4).min(files.len().max(1));
+    let chunk_size = files.len().div_ceil(workers);
+    let mut violations: Vec<String> = thread::scope(|s| {
+        #[allow(clippy::needless_collect)]
+        let handles: Vec<_> = files
+            .chunks(chunk_size.max(1))
+            .map(|chunk| {
+                s.spawn(move || {
+                    let mut local = Vec::new();
+                    for &rel in chunk {
+                        let Ok(txt) = fs::read_to_string(root.join(rel)) else { continue };
+                        for needle in &forbidden {
+                            if txt.contains(needle) {
+                                local.push(format!("{rel}: contains hardcoded `{needle}`"));
+                            }
+                        }
+                    }
+                    local
+                })
+            })
+            .collect();
+        handles.into_iter().flat_map(|h| h.join().unwrap_or_default()).collect()
+    });
     let product_ok = root.join("product.toml").exists() && root.join("LICENSE").exists();
     if !product_ok {
         violations.push("missing product.toml or LICENSE".into());
@@ -189,7 +205,9 @@ fn cmd_ci(root: &Path, mode: &str) -> ExitCode {
     }
 
     let t0 = Instant::now();
-    let results: Vec<(&str, bool, i32, u128, String)> = thread::scope(|s| {
+    let (purity_ok, results) = thread::scope(|s| {
+        let purity_h = s.spawn(|| cmd_purity(root) == ExitCode::SUCCESS);
+        #[allow(clippy::needless_collect)]
         let handles: Vec<_> = lanes
             .into_iter()
             .map(|(id, prog, args)| {
@@ -199,14 +217,14 @@ fn cmd_ci(root: &Path, mode: &str) -> ExitCode {
                 })
             })
             .collect();
-        handles
+        let res: Vec<(&str, bool, i32, u128, String)> = handles
             .into_iter()
             .map(|h| h.join().unwrap_or(("join-panic", false, -1, 0, "thread panicked".into())))
-            .collect()
+            .collect();
+        (purity_h.join().unwrap_or(false), res)
     });
 
     let wall_ms = t0.elapsed().as_millis();
-    let purity_ok = cmd_purity(root) == ExitCode::SUCCESS;
     let map_ok = cmd_map(root) == ExitCode::SUCCESS;
     let all_ok = purity_ok && map_ok && results.iter().all(|r| r.1);
 
@@ -229,15 +247,20 @@ fn cmd_package(root: &Path) -> ExitCode {
 
 fn cmd_doctor(root: &Path) -> ExitCode {
     let tools = ["cargo", "rustc", "just", "bun", "uv", "rg", "fd", "nu", "duckdb", "git"];
-    let mut missing = Vec::new();
-    for t in tools {
-        let (ok, _, _, _) = run_cmd(root, t, &["--version"]);
+    let results: Vec<(&str, bool)> = thread::scope(|s| {
+        #[allow(clippy::needless_collect)]
+        let handles: Vec<_> = tools
+            .into_iter()
+            .map(|t| s.spawn(move || (t, run_cmd(root, t, &["--version"]).0)))
+            .collect();
+        handles.into_iter().map(|h| h.join().unwrap_or(("?", false))).collect()
+    });
+    let mut ok_all = true;
+    for (t, ok) in results {
         println!("  {:<8} {}", t, if ok { "OK" } else { "MISSING" });
-        if !ok {
-            missing.push(t);
-        }
+        ok_all &= ok;
     }
-    if missing.is_empty() { ExitCode::SUCCESS } else { ExitCode::FAILURE }
+    if ok_all { ExitCode::SUCCESS } else { ExitCode::FAILURE }
 }
 
 fn cmd_sync_upstreams(root: &Path) -> ExitCode {
@@ -246,46 +269,61 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
         eprintln!("missing upstreams.toml");
         return ExitCode::FAILURE;
     };
-    let mut rows = Vec::new();
-    for block in src.split("[[upstream]]").skip(1) {
-        let get = |key: &str| -> String {
-            for line in block.lines() {
-                let l = line.trim();
-                if let Some(rest) = l.strip_prefix(key) {
-                    if let Some(val) = rest.trim().strip_prefix('=') {
-                        return val.trim().trim_matches('"').to_string();
+    let specs: Vec<(String, String, String, String, String, String)> = src
+        .split("[[upstream]]")
+        .skip(1)
+        .map(|block| {
+            let get = |key: &str| -> String {
+                for line in block.lines() {
+                    let l = line.trim();
+                    if let Some(rest) = l.strip_prefix(key) {
+                        if let Some(val) = rest.trim().strip_prefix('=') {
+                            return val.trim().trim_matches('"').to_string();
+                        }
                     }
                 }
-            }
-            String::new()
-        };
-        let id = get("id");
-        let repo = get("repo");
-        let branch = {
-            let b = get("branch");
-            if b.is_empty() { "main".to_string() } else { b }
-        };
-        let docs = get("docs");
-        let fairwind = get("fairwind");
-        let role = get("role");
-        let (ok, _, _, out) = run_cmd(
-            root,
-            "git",
-            &["ls-remote", &format!("https://github.com/{repo}.git"), &format!("refs/heads/{branch}")],
-        );
-        let sha = if ok {
-            out.split_whitespace().next().unwrap_or("unknown").chars().take(10).collect()
-        } else {
-            "offline".to_string()
-        };
-        rows.push((id, repo, branch, sha, fairwind, docs, role));
-    }
+                String::new()
+            };
+            let branch = {
+                let b = get("branch");
+                if b.is_empty() { "main".to_string() } else { b }
+            };
+            (get("id"), get("repo"), branch, get("docs"), get("fairwind"), get("role"))
+        })
+        .collect();
+
+    let t0 = Instant::now();
+    let rows: Vec<(String, String, String, String, String, String, String)> = thread::scope(|s| {
+        #[allow(clippy::needless_collect)]
+        let handles: Vec<_> = specs
+            .into_iter()
+            .map(|(id, repo, branch, docs, fairwind, role)| {
+                s.spawn(move || {
+                    let url = format!("https://github.com/{repo}.git");
+                    let refspec = format!("refs/heads/{branch}");
+                    let (ok, _, _, out) = run_cmd(root, "git", &["ls-remote", &url, &refspec]);
+                    let sha = if ok {
+                        out.split_whitespace().next().unwrap_or("unknown").chars().take(10).collect()
+                    } else {
+                        "offline".to_string()
+                    };
+                    (id, repo, branch, sha, fairwind, docs, role)
+                })
+            })
+            .collect();
+        handles
+            .into_iter()
+            .filter_map(|h| h.join().ok())
+            .collect()
+    });
 
     let ref_dir = root.join("plugin").join("skills").join("upstreams").join("references");
     let _ = fs::create_dir_all(&ref_dir);
-    let mut tsv = String::from("id\trepo\tbranch\thead_sha\tfairwind\tdocs\trole\n");
-    let mut md = String::from(
-        "---\nname: upstreams\ndescription: >-\n  Auto-generated Git-pinned upstream reference catalog for fw (llama.cpp, Asterinas,\n  Cloudflare OS/Computer/Pingora/Kitesurf/lol-html, rmcp, ZeroClaw, Zed, nix-cachyos-kernel,\n  OpenVMM, IronRDP). Refresh anytime via `just sync-upstreams` (`cargo xtask sync-upstreams`).\n---\n\n# fw Auto-Generated Upstream Skill Catalog\n\nRefresh via `just sync-upstreams` (`cargo xtask sync-upstreams`).\nIndex: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).\n\n| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n",
+    let mut tsv = String::with_capacity(rows.len() * 160);
+    tsv.push_str("id\trepo\tbranch\thead_sha\tfairwind\tdocs\trole\n");
+    let mut md = String::with_capacity(rows.len() * 140 + 512);
+    md.push_str(
+        "---\nname: upstreams\ndescription: >-\n  Auto-generated Git-pinned upstream reference catalog for fw (llama.cpp, Asterinas,\n  Cloudflare OS/Computer/Pingora/Kitesurf/lol-html, rmcp, ZeroClaw, Zed, nix-cachyos-kernel,\n  scx, Cloud Hypervisor, uutils, OpenVMM, IronRDP). Refresh anytime via `just sync-upstreams`.\n---\n\n# fw Auto-Generated Upstream Skill Catalog\n\nRefresh via `just sync-upstreams` (`cargo xtask sync-upstreams`).\nIndex: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).\n\n| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n",
     );
     for (id, repo, branch, sha, fairwind, docs, role) in &rows {
         tsv.push_str(&format!("{id}\t{repo}\t{branch}\t{sha}\t{fairwind}\t{docs}\t{role}\n"));
@@ -293,8 +331,19 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
     }
     let _ = fs::write(ref_dir.join("UPSTREAMS.tsv"), tsv);
     let _ = fs::write(root.join("plugin").join("skills").join("upstreams").join("SKILL.md"), md);
-    println!("{{\"ok\":true,\"upstreams\":{}}}", rows.len());
+    println!("{{\"ok\":true,\"upstreams\":{},\"ms\":{}}}", rows.len(), t0.elapsed().as_millis());
     ExitCode::SUCCESS
+}
+
+fn cmd_upgrade(root: &Path) -> ExitCode {
+    let t0 = Instant::now();
+    let (sync_ok, ci_ok) = thread::scope(|s| {
+        let sync_h = s.spawn(|| cmd_sync_upstreams(root) == ExitCode::SUCCESS);
+        let ci_h = s.spawn(|| cmd_ci(root, "fast") == ExitCode::SUCCESS);
+        (sync_h.join().unwrap_or(false), ci_h.join().unwrap_or(false))
+    });
+    println!("{{\"ok\":{},\"sync\":{},\"ci\":{},\"wall_ms\":{}}}", sync_ok && ci_ok, sync_ok, ci_ok, t0.elapsed().as_millis());
+    if sync_ok && ci_ok { ExitCode::SUCCESS } else { ExitCode::FAILURE }
 }
 
 fn main() -> ExitCode {
@@ -307,8 +356,9 @@ fn main() -> ExitCode {
         Some("package") => cmd_package(&root),
         Some("doctor") => cmd_doctor(&root),
         Some("sync-upstreams") => cmd_sync_upstreams(&root),
+        Some("upgrade") => cmd_upgrade(&root),
         _ => {
-            println!("Usage: cargo xtask <ci [fast|all]|map|purity|package|doctor|sync-upstreams>");
+            println!("Usage: cargo xtask <ci [fast|all]|map|purity|package|doctor|sync-upstreams|upgrade>");
             ExitCode::SUCCESS
         }
     }
