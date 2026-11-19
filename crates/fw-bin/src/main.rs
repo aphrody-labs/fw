@@ -16,6 +16,7 @@ use fw_unified_stack::{
     encode_osc133_prompt_start, hex_voice_status, unified_v4_catalog, yazi_list_dir,
 };
 use fw_uutils::fast_cli::{fast_find, fast_grep, fast_ls, fast_table};
+use fw_uutils::hardened::normalize_applet_name;
 use fw_uutils::{run_applet, SUPPORTED_APPLETS};
 use fw_wayland_wgpu::{WaylandWgpuCompositor, WAYLAND_WASM_GLOBALS};
 use fw_hermes_claw::{
@@ -28,16 +29,13 @@ use std::path::{Path, PathBuf};
 
 fn main() {
     let raw_argv0 = std::env::args().next().unwrap_or_default();
-    let bin_stem = Path::new(&raw_argv0)
-        .file_stem()
-        .and_then(|s| s.to_str())
-        .unwrap_or("fairwind-native");
+    let bin_stem = normalize_applet_name(&raw_argv0);
     let args: Vec<String> = std::env::args().skip(1).collect();
 
-    // Alpine uutils-coreutils multicall argv[0] dispatch (zero BusyBox/GNU/glibc)
-    if SUPPORTED_APPLETS.contains(&bin_stem) {
+    // Case-insensitive multicall argv[0] dispatch (fixes uutils #16228 on Windows/MSYS2)
+    if SUPPORTED_APPLETS.contains(&bin_stem.as_str()) {
         let refs: Vec<&str> = args.iter().map(String::as_str).collect();
-        let res = run_applet(bin_stem, &refs, "");
+        let res = run_applet(&bin_stem, &refs, "");
         if !res.stdout.is_empty() {
             print!("{}", res.stdout);
         }

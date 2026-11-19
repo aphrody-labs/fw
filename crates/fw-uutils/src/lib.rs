@@ -5,6 +5,7 @@
 #![forbid(unsafe_code)]
 
 pub mod fast_cli;
+pub mod hardened;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
