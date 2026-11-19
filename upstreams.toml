@@ -15,7 +15,7 @@ repo = "asterinas/asterinas"
 branch = "main"
 docs = "https://asterinas.github.io/book/osdk/guide/create-project.html"
 fairwind = "os/fairwind-os + crates/fw-ostd-wasm"
-role = "Safe-Rust framekernel (ostd), aster-fuse, aster-rights, mlsdisk, drm"
+role = "Optional memory-safe guest microVM sandbox (v0.19.0 pre-1.0; Linux CachyOS LTO is primary OS)"
 
 [[upstream]]
 id = "cloudflare-os"
@@ -104,3 +104,27 @@ branch = "master"
 docs = "https://github.com/Devolutions/IronRDP#readme"
 fairwind = "os/fairwind-wsl"
 role = "Memory-safe Rust RDP transport replacing legacy WSLg FreeRDP C"
+
+[[upstream]]
+id = "scx"
+repo = "sched-ext/scx"
+branch = "main"
+docs = "https://github.com/sched-ext/scx#readme"
+fairwind = "nix/modules/vps-common.nix + os/fairwind-wsl"
+role = "Rust BPF sched_ext schedulers (scx_lavd, scx_bpfland) on Linux CachyOS LTO"
+
+[[upstream]]
+id = "cloud-hypervisor"
+repo = "cloud-hypervisor/cloud-hypervisor"
+branch = "main"
+docs = "https://github.com/cloud-hypervisor/cloud-hypervisor#readme"
+fairwind = "nix/modules/vps-common.nix"
+role = "Rust KVM microVM VMM (virtio-fs, vsock, VFIO) for Tier-2 agent sandboxes"
+
+[[upstream]]
+id = "uutils-coreutils"
+repo = "uutils/coreutils"
+branch = "main"
+docs = "https://uutils.github.io/coreutils/"
+fairwind = "flake.nix + crates/fw-uutils"
+role = "Cross-platform pure-Rust POSIX coreutils replacing GNU coreutils"

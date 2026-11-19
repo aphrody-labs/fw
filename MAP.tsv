@@ -1,7 +1,7 @@
 dir	tier	files	bytes	gate
-(root)	misc	26	1093897	just ci
+(root)	misc	26	1095448	just ci
 .agents	misc	2	3031	just ci
-.cargo	misc	1	41	just ci
+.cargo	misc	1	164	just ci
 .github	misc	2	5030	just ci
 cloudflare	edge-worker	5	736993	bun run cf:dry-run
 cluster	topology-spec	2	3974	bun test tests/fairwind_v3_cluster_webgpu.test.ts
@@ -22,14 +22,14 @@ crates/fw-unified-stack	rust-core	2	6194	cargo test --workspace
 crates/fw-uutils	rust-core	2	9383	cargo test --workspace
 crates/fw-wasm	rust-wasm	2	1854	cargo build --release --target wasm32-unknown-unknown -p fw-wasm
 crates/fw-wayland-wgpu	rust-core	2	5049	cargo test --workspace
-docs	architecture-docs	9	32850	read-only
+docs	architecture-docs	10	35686	read-only
 native	rust-ffi-abi	27	187095	cargo test --manifest-path native/fairwind-abi/Cargo.toml
-nix	nix-fleet	6	8284	bun test tests/fairwind_v4_os_uutils_nix.test.ts
+nix	nix-fleet	6	8961	bun test tests/fairwind_v4_os_uutils_nix.test.ts
 os/fairwind-os	asterinas-osdk	6	5125	bun test tests/fairwind_v4_os_uutils_nix.test.ts
 os/fairwind-wsl	wsl-zero-legacy	8	9982	bun test tests/fairwind_v4_os_uutils_nix.test.ts
-plugin	agy-plugin	51	227939	dist/fairwind.exe plugin sync --install
+plugin	agy-plugin	51	228123	dist/fairwind.exe plugin sync --install
 src	bun-cli-aot	16	156920	bun test
-tests	e2e-tests	10	70143	bun test
+tests	e2e-tests	10	70590	bun test
 tools	misc	1	20835	just ci
 vercel	edge-vercel	2	1928	bun test tests/fairwind_decisions_vercel.test.ts
 web	control-plane-ui	1	6261	bun run cf:dry-run

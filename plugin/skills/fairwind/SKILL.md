@@ -1,16 +1,19 @@
 ---
 name: fairwind
-description: Unified Fairwind v4.0 monorepo, plugin, 12-crate zero-dependency Rust OS workspace (fairwind-native, fw-wasm, Asterinas OSDK, GPUI WebGPU/Wasm, Wayland-WGPU, Alpine uutils, NixOS store/NAR, ggml-org, Pingora+Dynamo+vLLM-Router), Fat-LTO Rust C ABI v4, Bun AOT CLI, MCP server, HTTP/WS/WebRTC/GraphQL API, Gemini Decision 1, Cloudflare/Vercel, Intelligent Terminal (WTA) + tui-test, and persistent continuous agy upgrade daemon.
+description: Unified fw (Fairwind) v4.2 monorepo, plugin, 13-crate + xtask zero-bloat Rust workspace (fw, fw-wasm, fw-hermes-claw, GPUI WebGPU/Wasm, Wayland-WGPU, uutils, NixOS store/NAR, ggml, Pingora+Dynamo+vLLM-Router), 2-tier Linux CachyOS LTO + sched_ext primary OS & microVM sandbox (Cloud Hypervisor / OpenVMM / optional Asterinas OSDK guest), Fat-LTO Rust C ABI v4, Bun AOT CLI, Cloudflare/Vercel, and continuous agy upgrade pipeline.
 ---
 
-# Fairwind v4.0 Unified OS, Cluster & Continuous `agy` Upgrade Stack
+# `fw` (Fairwind v4.2) Unified OS, Cluster & Continuous `agy` Upgrade Stack
 
-## 1. Zero-Dependency Rust v4.0 Workspace (`Cargo.toml` — 12 Crates, 0 Clippy Warnings)
+## 1. Zero-Bloat Rust v4.2 Workspace (`Cargo.toml` — 13 Crates + `xtask`, 5 External Deps, 0 Warnings)
 
-- **Unified static binary**: `target/release/fairwind-native.exe` (`crates/fw-bin`, ~637 KiB Fat-LTO zero-dep; cross-checked for `x86_64-unknown-linux-musl` static). Subcommands: `status | hardware | compute | ggml | cluster [route] | openapi | ui [--out] | ostd | uutils <applet> | nix <name> | stack | wayland | serve [addr]` + Alpine `uutils` `argv[0]` multicall dispatch.
-- **WebAssembly module**: `target/wasm32-unknown-unknown/release/fw_wasm.wasm` (`crates/fw-wasm`, ~872 B) for Cloudflare Workers & End-User Browser WebGPU/FPU compute.
-- **Asterinas OSDK Kernel + NixOS + Alpine**: `os/fairwind-os/` (`OSDK.toml` with `grub-rescue-iso`/`microvm`/`virtio-gpu`/`tdx`, `rust-toolchain.toml` `nightly-2026-11-16`, `#![no_std] #![deny(unsafe_code)] #[ostd::main]`, `flake.nix` with `uutils-coreutils-noprefix`, and `APKBUILD`).
-- **Core `#![forbid(unsafe_code)]` crates**: `fw-ostd-wasm` (Asterinas `XArray`/`MlsDisk` + Zed GPUI retained quad scene + WGSL), `fw-wayland-wgpu` (zero-C-dep Wayland wire protocol + WebGPU/GPUI compositor), `fw-uutils` (pure-Rust Alpine-lighter multicall + Wasm32 playground), `fw-nix` (`nixbase32` `/nix/store` + NAR binary encoder), `fw-ggml` (`introduction-to-ggml` 4D tensor/cgraph + GGUF v3 + `ggml-rpc`), `fw-compute` (CUDA `sm_89`/WebGPU/Vulkan/Metal/CPU/TPU PJRT), `fw-cluster` (Pingora + `ai-dynamo` + `vllm-router` KV-cache P/D router across 4 GPU + 3 VPS/CPU + End-User WebGPU), `fw-proto` (HTTP/WS/WebRTC/GraphQL/OpenAPI 3.1/OpenAI/MCP/ACP/A2A/`/webgpu`), `fw-ui-blitz` (DioxusLabs/blitz zero-dep PNG renderer), `fw-unified-stack` (Burn CubeCL, Rig, `rmcp`, ACP, `a2a-rs`, Quiche, Foundations, Kitesurf, Yazi, Kitty Graphics/CSI-u/OSC 133, AnomalyCo `terminal-control` & `hex`).
+- **Unified static binary**: `target/release/fw.exe` (`crates/fw-bin`, Fat-LTO; cross-checked for `x86_64-unknown-linux-musl`). Subcommands: `status | hardware | compute | ggml | cluster [route] | openapi | ui [--out] | ostd | uutils <applet> | nix <name> | stack | wayland | claw | serve [addr]` + `uutils` `argv[0]` multicall dispatch.
+- **Pure-Rust automation (`xtask/`)**: `cargo xtask ci [fast|full]`, `cargo xtask purity`, `cargo xtask map`, `cargo xtask sync-upstreams`.
+- **WebAssembly module**: `target/wasm32-unknown-unknown/release/fw_wasm.wasm` (`crates/fw-wasm`) for Cloudflare Workers & Browser WebGPU/FPU compute.
+- **2-Tier OS Architecture (`docs/architecture/os-strategy-2026.md`)**:
+  - **Tier 1 Primary Host (Linux perf)**: NixOS `flake.nix` + `nix/` (`nix-cachyos-kernel` LTO `x86_64-v3`/`zen4`, `sched_ext` `scx_lavd`, `io_uring`, `uutils-coreutils-noprefix`, `sudo-rs`, `ntpd-rs`) + `os/fairwind-wsl` (custom BORE/`sched_ext`/ThinLTO/`virtiofs`/`dxgkrnl` WSL kernel).
+  - **Tier 2 MicroVM Sandbox**: `cloud-hypervisor` / `openvmm` + optional `os/fairwind-os` (Asterinas OSDK `v0.19.0` guest R&D only, non-primary).
+- **Core `#![forbid(unsafe_code)]` crates (12/13)**: `fw-hermes-claw` (Hermes memory/distiller + OpenClaw/ZeroClaw gateway + CLI-to-MCP + CLI-to-Skill), `fw-ostd-wasm`, `fw-wayland-wgpu`, `fw-uutils`, `fw-nix`, `fw-ggml`, `fw-compute`, `fw-cluster`, `fw-proto`, `fw-ui-blitz`, `fw-unified-stack`, `fw-bin`.
 
 ## 2. Bun AOT CLI, Fat-LTO C ABI v4 & `agy` Target Pipeline
 

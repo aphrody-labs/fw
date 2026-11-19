@@ -84,10 +84,19 @@ describe("Fairwind v4.0 — Asterinas OSDK + GPUI WebGPU/Wasm + Alpine uutils + 
     const common = readFileSync(join(ROOT, "nix", "modules", "vps-common.nix"), "utf8");
     expect(common).toContain("security.sudo-rs.enable = true");
     expect(common).toContain("services.ntpd-rs.enable = true");
+    expect(common).toContain("services.scx");
+    expect(common).toContain('scheduler = "scx_lavd"');
+    expect(common).toContain("pkgs.cloud-hypervisor");
     expect(common).toContain("vm.watermark_boost_factor");
     expect(common).toContain("vm.watermark_scale_factor");
+    expect(common).toContain("kernel.io_uring_disabled");
     expect(common).toContain('ATTR{queue/scheduler}="none"');
-    expect(common).toContain("fairwind-native serve");
+    expect(common).toContain("/bin/fw serve");
+
+    const osAdr = readFileSync(join(ROOT, "docs", "architecture", "os-strategy-2026.md"), "utf8");
+    expect(osAdr).toContain("Linux CachyOS LTO");
+    expect(osAdr).toContain("scx_lavd");
+    expect(osAdr).toContain("cloud-hypervisor");
 
     const fr1 = readFileSync(join(ROOT, "nix", "hosts", "fr1.nix"), "utf8");
     expect(fr1).toContain("linuxPackages-cachyos-latest-lto-x86_64-v3");

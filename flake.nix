@@ -22,17 +22,17 @@
           craneLib = inputs.crane.mkLib pkgs;
           src = craneLib.cleanCargoSource ./.;
 
-          fairwindNative = craneLib.buildPackage {
+          fwPkg = craneLib.buildPackage {
             inherit src;
-            pname = "fairwind-native";
+            pname = "fw";
             version = "4.2.0";
-            cargoExtraArgs = "-p fw-bin";
+            cargoExtraArgs = "-p fw-bin --bin fw";
             doCheck = true;
           };
 
-          # Identical pure-Rust full-stack userland closure deployed to fr1, fr2, and prd
-          userlandPackages = with pkgs; [
-            fairwindNative
+          # Identical pure-Rust full-stack userland closure deployed to fr1, fr2, prd, and WSL
+          userlandPackages = (with pkgs; [
+            fwPkg
             # Pure-Rust POSIX coreutils (replaces GNU coreutils)
             uutils-coreutils-noprefix
             uutils-findutils
@@ -69,10 +69,15 @@
             sccache
             mold
             bun
-          ];
+          ]) ++ pkgs.lib.optionals pkgs.stdenv.isLinux (with pkgs; [
+            # Tier-1 Linux kernel perf (Rust BPF schedulers) + Tier-2 microVM sandbox
+            scx.rustscheds
+            cloud-hypervisor
+            virtiofsd
+          ]);
 
           rustUserland = pkgs.buildEnv {
-            name = "fairwind-rust-userland-4.2.0";
+            name = "fw-rust-userland-4.2.0";
             paths = userlandPackages;
             pathsToLink = [ "/bin" "/share" ];
           };
@@ -80,7 +85,8 @@
           packages = {
             default = rustUserland;
             rust-userland = rustUserland;
-            fairwind-native = fairwindNative;
+            fw = fwPkg;
+            fairwind-native = fwPkg;
           };
 
           devShells.default = pkgs.mkShell {
