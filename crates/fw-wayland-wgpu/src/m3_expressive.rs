@@ -134,8 +134,8 @@ pub struct M3SpringSpec {
 
 impl M3SpringSpec {
     pub const EXPRESSIVE_FAST_SPATIAL: Self = Self { damping_ratio: 0.6, stiffness: 800.0 };
-    pub const EXPRESSIVE_DEFAULT_SPATIAL: Self = Self { damping_ratio: 0.6, stiffness: 380.0 };
-    pub const EXPRESSIVE_SLOW_SPATIAL: Self = Self { damping_ratio: 0.6, stiffness: 200.0 };
+    pub const EXPRESSIVE_DEFAULT_SPATIAL: Self = Self { damping_ratio: 0.8, stiffness: 380.0 };
+    pub const EXPRESSIVE_SLOW_SPATIAL: Self = Self { damping_ratio: 0.8, stiffness: 200.0 };
     pub const EXPRESSIVE_FAST_EFFECTS: Self = Self { damping_ratio: 1.0, stiffness: 3800.0 };
     pub const EXPRESSIVE_DEFAULT_EFFECTS: Self = Self { damping_ratio: 1.0, stiffness: 1600.0 };
 
@@ -272,6 +272,95 @@ impl M3WgpuScene {
         s.push_surface("HorizontalFloatingToolbar", [(w - 280.0).max(24.0) * 0.5, (height as f32) - 72.0, 280.0, 52.0], [0.19, 0.18, 0.51, 1.0], [0.99, 0.73, 0.45, 1.0], 26.0, true);
         s
     }
+
+    /// Builds a parametric prototype WGPU scene driven by live decoupled design tokens
+    /// and optional interactive spec overlays (keylines / spatial measurements).
+    pub fn from_parametric(cfg: &M3ParametricConfig, width: u32, height: u32) -> Self {
+        let safe = cfg.enforce_constraints();
+        let mut s = Self::new(width, height);
+        let w = width as f32;
+        let pad = safe.padding_px;
+        let inner_w = (w - pad * 2.0).max(64.0);
+
+        s.push_surface(
+            "Parametric.Container",
+            [pad, pad, inner_w, 96.0],
+            [0.12, 0.16, 0.26, 1.0],
+            [0.65, 0.71, 0.99, 1.0],
+            safe.outer_corner_radius,
+            safe.spec_keylines,
+        );
+        s.push_surface(
+            "Parametric.InnerChip",
+            [pad * 2.0, pad + 20.0, (inner_w - pad * 2.0).max(48.0), 48.0],
+            [0.22, 0.19, 0.64, 1.0],
+            [0.37, 0.92, 0.83, 1.0],
+            safe.inner_corner_radius,
+            safe.spec_keylines,
+        );
+        s.push_wavy_linear(
+            "Parametric.WavyProgress",
+            [pad, pad + 116.0, inner_w, 18.0],
+            [0.18, 0.25, 0.36, 1.0],
+            [0.65, 0.71, 0.99, 1.0],
+            0.68,
+            safe.wave_phase,
+        );
+        if safe.spec_keylines {
+            // Vertical keyline guide bars for interactive spec mode
+            s.push_surface("Spec.Keyline.Left", [pad, 0.0, 1.0, height as f32], [0.99, 0.73, 0.45, 0.65], [0.99, 0.73, 0.45, 1.0], 0.0, false);
+            s.push_surface("Spec.Keyline.Right", [w - pad, 0.0, 1.0, height as f32], [0.99, 0.73, 0.45, 0.65], [0.99, 0.73, 0.45, 1.0], 0.0, false);
+        }
+        s
+    }
+}
+
+/// Decoupled parametric prototyping settings for pure-WGPU Material 3 components
+/// (aligned with https://m3.material.io/blog/enhance-your-component-designs-with-parametric-prototyping).
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub struct M3ParametricConfig {
+    pub outer_corner_radius: f32,
+    pub inner_corner_radius: f32,
+    pub padding_px: f32,
+    pub wave_phase: f32,
+    pub spec_keylines: bool,
+}
+
+impl M3ParametricConfig {
+    /// Tethers inner corner radius to outer corner radius and padding so components never clip.
+    pub fn enforce_constraints(self) -> Self {
+        let outer = self.outer_corner_radius.clamp(0.0, 36.0);
+        let pad = self.padding_px.clamp(4.0, 32.0);
+        let max_inner = (outer - pad * 0.5).max(2.0);
+        Self {
+            outer_corner_radius: outer,
+            inner_corner_radius: self.inner_corner_radius.clamp(2.0, max_inner),
+            padding_px: pad,
+            wave_phase: self.wave_phase,
+            spec_keylines: self.spec_keylines,
+        }
+    }
+
+    /// Deterministic xorshift64 randomization to break bias and stress-test edge cases.
+    pub fn randomize_seeded(mut seed: u64, spec_keylines: bool) -> Self {
+        if seed == 0 {
+            seed = 0x9E37_79B9_7F4A_7C15;
+        }
+        let mut next_f32 = || {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            ((seed >> 40) as f32) / ((1u64 << 24) as f32)
+        };
+        let raw = Self {
+            outer_corner_radius: 12.0 + next_f32() * 16.0,
+            inner_corner_radius: 4.0 + next_f32() * 14.0,
+            padding_px: 8.0 + next_f32() * 12.0,
+            wave_phase: next_f32() * 6.283_185_5,
+            spec_keylines,
+        };
+        raw.enforce_constraints()
+    }
 }
 
 #[cfg(test)]
@@ -290,6 +379,13 @@ mod tests {
         assert_eq!(scene.spec_version, "compose-material3-1.5.0");
         assert_eq!(scene.compose_bom, "2026.11.01");
         assert_eq!(scene.instances.len(), 9);
+
+        // Verify parametric WGPU scene with constraint tethering and keyline spec overlay
+        let cfg = M3ParametricConfig::randomize_seeded(20261116, true);
+        assert!(cfg.inner_corner_radius <= (cfg.outer_corner_radius - cfg.padding_px * 0.5).max(2.0) + 1e-4);
+        let p_scene = M3WgpuScene::from_parametric(&cfg, 960, 540);
+        assert_eq!(p_scene.instances.len(), 5);
+        assert!(p_scene.instances.iter().any(|i| i.label == "Spec.Keyline.Left"));
 
         // Verify expressive spring converges smoothly toward target 1.0
         let (mut pos, mut vel) = (0.0f32, 0.0f32);

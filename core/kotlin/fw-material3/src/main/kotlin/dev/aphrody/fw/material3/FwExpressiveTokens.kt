@@ -27,8 +27,8 @@ data class FwSpringToken(
 
 data class FwMotionScheme(
     val fastSpatial: FwSpringToken = FwSpringToken("fastSpatial", 0.6f, 800f),
-    val defaultSpatial: FwSpringToken = FwSpringToken("defaultSpatial", 0.6f, 380f),
-    val slowSpatial: FwSpringToken = FwSpringToken("slowSpatial", 0.6f, 200f),
+    val defaultSpatial: FwSpringToken = FwSpringToken("defaultSpatial", 0.8f, 380f),
+    val slowSpatial: FwSpringToken = FwSpringToken("slowSpatial", 0.8f, 200f),
     val fastEffects: FwSpringToken = FwSpringToken("fastEffects", 1.0f, 3800f),
     val defaultEffects: FwSpringToken = FwSpringToken("defaultEffects", 1.0f, 1600f),
     val slowEffects: FwSpringToken = FwSpringToken("slowEffects", 1.0f, 800f),
