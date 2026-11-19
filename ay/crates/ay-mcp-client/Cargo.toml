@@ -44,6 +44,7 @@ features = []
 
 [dependencies.ay-toolcall]
 path = "../ay-toolcall"
+default-features = false
 features = []
 
 [dependencies.async-trait]

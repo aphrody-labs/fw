@@ -15,6 +15,8 @@
 //! (Apache-2.0). The crate is `wasm`-clean: no I/O, no time, no threads beyond
 //! the [`Send`] + [`Sync`] bounds required of executors.
 
+extern crate self as ay_toolcall;
+
 use std::{collections::BTreeMap, sync::Arc};
 
 use serde::{Deserialize, Serialize};
@@ -798,3 +800,6 @@ impl std::fmt::Debug for ToolRegistry {
 #[cfg(test)]
 #[path = "lib_tests.rs"]
 mod tests;
+
+#[cfg(feature = "repair")]
+pub mod repair;

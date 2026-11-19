@@ -4,23 +4,28 @@ version.workspace = true
 edition.workspace = true
 rust-version = "1.97"
 license = "Apache-2.0"
-authors.workspace = true
 repository.workspace = true
-readme = "README.md"
+authors.workspace = true
 publish = false
 description = "Tool catalogue model for the aphrody agent engine: ToolDefinition (name / description / JSON-schema input & output), the async ToolExecutor trait, ToolExposure (Direct / Deferred / DirectModelOnly / Hidden), and a JsonSchema type with prompt-budget compaction passes. Inspired by OpenAI Codex tools (Apache-2.0). Legacy crates.io name: aphrody-toolcall."
 
+[features]
+repair = ["dep:regex"]
+default = ["repair"]
+
 [dependencies]
 async-trait = { version = "0.1.92", default-features = false }
-serde = { workspace = true }
-serde_json = { workspace = true }
+regex = { version = "1.13.2", optional = true }
+serde.workspace = true
+serde_json.workspace = true
 thiserror = "2.0.21"
 
 [dev-dependencies]
 pretty_assertions = "1.4.1"
+proptest = "1.12.0"
 
+# The repair tests mutate the process environment with `set_var` (unsafe in edition 2024).
 [lints.rust]
-non_ascii_idents = "deny"
 unsafe_op_in_unsafe_fn = "deny"
 unused_must_use = "deny"
 
@@ -28,5 +33,3 @@ unused_must_use = "deny"
 dbg_macro = "deny"
 todo = "deny"
 unimplemented = "deny"
-correctness = { level = "warn", priority = -1 }
-perf = { level = "warn", priority = -1 }
