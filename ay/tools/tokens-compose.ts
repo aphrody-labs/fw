@@ -2,7 +2,9 @@
 // Renders the Material 3 colour tokens (brand/tokens/m3-tokens.json) as a Jetpack Compose Material 3 theme:
 // `lightColorScheme(...)` and `darkColorScheme(...)` with every role of androidx.compose.material3.ColorScheme
 // (1.5 stable: the surface containers and the fixed roles included), so Android and Kotlin targets use the same
-// colours as CSS, Tailwind and Figma. The Kotlin package is the reversed root domain of ay.toml [domains].
+// colours as CSS, Tailwind and Figma, plus `AphrodyTheme`, which puts them on `MaterialExpressiveTheme` (expressive
+// motion; shapes and type scale stay the M3 defaults until the tokens carry brand values for them).
+// The Kotlin package is the reversed root domain of ay.toml [domains].
 //   bun tools/tokens-compose.ts [--check]   (--check exits 1 when the committed file is not what the tokens give)
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -50,14 +52,28 @@ export function render(tokens: Tokens, pkg: string): string {
     `// Seed ${tokens.seed}, variant ${tokens.variant}.`,
     `package ${pkg}.theme`,
     "",
+    "import androidx.compose.foundation.isSystemInDarkTheme",
     "import androidx.compose.material3.ColorScheme",
+    "import androidx.compose.material3.MaterialExpressiveTheme",
+    "import androidx.compose.material3.MotionScheme",
     "import androidx.compose.material3.darkColorScheme",
     "import androidx.compose.material3.lightColorScheme",
+    "import androidx.compose.runtime.Composable",
     "import androidx.compose.ui.graphics.Color",
     "",
     scheme("lightColorScheme", tokens.light),
     "",
     scheme("darkColorScheme", tokens.dark),
+    "",
+    "/** The Aphrody theme: the token colours on the Material 3 Expressive theme (expressive motion, M3 shapes and type scale). */",
+    "@Composable",
+    "fun AphrodyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {",
+    "    MaterialExpressiveTheme(",
+    "        colorScheme = if (darkTheme) AphrodyDarkColors else AphrodyLightColors,",
+    "        motionScheme = MotionScheme.expressive(),",
+    "        content = content,",
+    "    )",
+    "}",
     "",
   ].join("\n");
 }

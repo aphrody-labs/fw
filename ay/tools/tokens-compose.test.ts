@@ -18,6 +18,8 @@ describe("tokens-compose", () => {
     expect(kt).toContain("package com.aphrody.theme");
     expect(kt).toContain(`primary = ${composeColor(tokens.light.primary as string)},`);
     expect(kt.match(/ = Color\(0xFF/g)?.length).toBe(COMPOSE_ROLES.length * 2);
+    expect(kt).toContain("fun AphrodyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit)");
+    expect(kt).toContain("motionScheme = MotionScheme.expressive(),");
   });
 
   test("a missing role is an error, not a silent default", () => {

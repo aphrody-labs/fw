@@ -105,7 +105,8 @@ owner repository carries its own copy.
 
 ## Design system and tokens
 One Bun pipeline owned by `ay` generates the tokens from the brand seed and the Material 3 rules: DTCG JSON, CSS custom
-properties, a Tailwind v4 preset, a Jetpack Compose Material 3 colour scheme (`brand/tokens/compose`, `bun tools/tokens-compose.ts`) and a C header (target; today `brand/tokens` is colour only and `aphrody-m3` holds
+properties, a Tailwind v4 preset, a Jetpack Compose Material 3 theme (`brand/tokens/compose`, `bun tools/tokens-compose.ts`: the 48 colour roles
+of material3 1.5 in light and dark, and `AphrodyTheme` on `MaterialExpressiveTheme` with expressive motion) and a C header (target; today `brand/tokens` is colour only and `aphrody-m3` holds
 shape, type, motion, elevation and state). Figma is the visual source and is mirrored to code through variables and Code
 Connect (`docs/mirrors.toml`). `aphrody-m3` and `aphrody` consume the output and do not regenerate it.
 

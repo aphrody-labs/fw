@@ -2,9 +2,13 @@
 // Seed #e2dbad, variant tonal-spot.
 package com.aphrody.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialExpressiveTheme
+import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val AphrodyLightColors: ColorScheme = lightColorScheme(
@@ -108,3 +112,13 @@ val AphrodyDarkColors: ColorScheme = darkColorScheme(
     onTertiaryFixed = Color(0xFF002114),
     onTertiaryFixedVariant = Color(0xFF284E3C),
 )
+
+/** The Aphrody theme: the token colours on the Material 3 Expressive theme (expressive motion, M3 shapes and type scale). */
+@Composable
+fun AphrodyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    MaterialExpressiveTheme(
+        colorScheme = if (darkTheme) AphrodyDarkColors else AphrodyLightColors,
+        motionScheme = MotionScheme.expressive(),
+        content = content,
+    )
+}
