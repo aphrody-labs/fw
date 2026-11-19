@@ -1,8 +1,8 @@
 dir	tier	files	bytes	gate
 .agents/rules	misc	1	1989	just ci
 .agents/workflows	misc	1	1042	just ci
-.github/workflows	misc	1	1621	just ci
-(root)	misc	25	1093506	just ci
+.github/workflows	misc	1	2911	just ci
+(root)	misc	26	1094282	just ci
 cloudflare	edge-worker	5	736993	bun run cf:dry-run
 cluster	topology-spec	2	3974	bun test tests/fairwind_v3_cluster_webgpu.test.ts
 configs/heretic	heretic-presets	8	31105	uvx ruff check .
@@ -17,19 +17,19 @@ core/py	python-core	109	2140660	uvx ruff check .
 core/rs	vendored-rs	298	7878650	ignored-by-default (.rgignore)
 core/wasm	misc	1	598	just ci
 core/webgpu	misc	1	1487	just ci
-crates/fw-bin	rust-core	2	12400	cargo build --release -p fw-bin
-crates/fw-cluster	rust-core	2	14242	cargo test -p fw-cluster
-crates/fw-compute	rust-core	2	6201	cargo test -p fw-compute
-crates/fw-ggml	rust-core	2	16389	cargo test -p fw-ggml
-crates/fw-hermes-claw	rust-core	2	30639	cargo test -p fw-hermes-claw
-crates/fw-nix	rust-core	2	4201	cargo test -p fw-nix
-crates/fw-ostd-wasm	rust-core	2	6248	cargo test -p fw-ostd-wasm
-crates/fw-proto	rust-core	2	17282	cargo test -p fw-proto
-crates/fw-ui-blitz	rust-core	2	6012	cargo test -p fw-ui-blitz
-crates/fw-unified-stack	rust-core	2	6220	cargo test -p fw-unified-stack
-crates/fw-uutils	rust-core	2	9409	cargo test -p fw-uutils
-crates/fw-wasm	rust-wasm	2	1880	cargo build --release --target wasm32-unknown-unknown -p fw-wasm
-crates/fw-wayland-wgpu	rust-core	2	5075	cargo test -p fw-wayland-wgpu
+crates/fw-bin	rust-core	2	12320	cargo build --release -p fw-bin
+crates/fw-cluster	rust-core	2	14216	cargo test -p fw-cluster
+crates/fw-compute	rust-core	2	6175	cargo test -p fw-compute
+crates/fw-ggml	rust-core	2	16363	cargo test -p fw-ggml
+crates/fw-hermes-claw	rust-core	2	30613	cargo test -p fw-hermes-claw
+crates/fw-nix	rust-core	2	4175	cargo test -p fw-nix
+crates/fw-ostd-wasm	rust-core	2	6222	cargo test -p fw-ostd-wasm
+crates/fw-proto	rust-core	2	17256	cargo test -p fw-proto
+crates/fw-ui-blitz	rust-core	2	5986	cargo test -p fw-ui-blitz
+crates/fw-unified-stack	rust-core	2	6194	cargo test -p fw-unified-stack
+crates/fw-uutils	rust-core	2	9383	cargo test -p fw-uutils
+crates/fw-wasm	rust-wasm	2	1854	cargo build --release --target wasm32-unknown-unknown -p fw-wasm
+crates/fw-wayland-wgpu	rust-core	2	5049	cargo test -p fw-wayland-wgpu
 docs	architecture-docs	7	21419	read-only
 native	rust-ffi-abi	27	187095	cargo test --manifest-path native/fairwind-abi/Cargo.toml
 nix	nix-fleet	6	8284	bun test tests/fairwind_v4_os_uutils_nix.test.ts
@@ -37,6 +37,6 @@ os/fairwind-os	asterinas-osdk	6	5125	bun test tests/fairwind_v4_os_uutils_nix.te
 os/fairwind-wsl	wsl-zero-legacy	8	9982	bun test tests/fairwind_v4_os_uutils_nix.test.ts
 plugin	agy-plugin	51	227939	dist/fairwind.exe plugin sync --install
 src	bun-cli-aot	18	164903	bun test
-tests	e2e-tests	10	70169	bun test
+tests	e2e-tests	10	70143	bun test
 vercel	edge-vercel	2	1928	bun test tests/fairwind_decisions_vercel.test.ts
 web	control-plane-ui	1	6261	bun run cf:dry-run

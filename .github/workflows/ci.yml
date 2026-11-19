@@ -6,41 +6,88 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: fw-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  verify:
+  rust-cross-os:
+    name: Rust (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Zero-warning Clippy and workspace tests
+        run: |
+          cargo clippy --workspace --all-targets -- -D warnings
+          cargo test --workspace
+      - name: Build Fat-LTO fw binary and smoke-verify
+        run: |
+          cargo build --release -p fw-bin --bin fw
+          ./target/release/fw claw status
+          ./target/release/fw claw mcp
+
+  wasm-musl-container:
+    name: Wasm32 + Linux musl + Alpine OCI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown,x86_64-unknown-linux-musl
+      - uses: Swatinem/rust-cache@v2
+      - name: Build fw-wasm (wasm32) and check fw (musl)
+        run: |
+          cargo build --release --target wasm32-unknown-unknown -p fw-wasm
+          cargo check --target x86_64-unknown-linux-musl -p fw-bin
+
+  crates-io-package:
+    name: crates.io Packaging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Verify publishable fw-* tarballs
+        run: |
+          cargo package -p fw-wasm -p fw-ggml -p fw-compute -p fw-uutils -p fw-nix -p fw-hermes-claw
+
+  bun-edge-and-native:
+    name: Bun + Cloudflare Edge + Native ABI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Native PE/Sniff/ABI tests
+        run: |
+          cargo test --manifest-path native/fairwind-pe/Cargo.toml
+          cargo test --manifest-path native/fairwind-sniff/Cargo.toml
+          cargo test --manifest-path native/fairwind-abi/Cargo.toml
+      - name: Bun test suite & Cloudflare Workers dry-run
+        run: |
+          bun test
+          bun run cf:dry-run
+
+  python-and-purity:
+    name: Python + Repo Map & Purity
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
       - uses: oven-sh/setup-bun@v2
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: clippy
-          targets: wasm32-unknown-unknown
-      - name: Python lint
-        run: uvx ruff check .
-      - name: Rust 13-crate workspace Clippy (-D warnings) and tests
+      - name: Python lint & tests
         run: |
-          cargo clippy --workspace --all-targets -- -D warnings
-          cargo test --workspace
-      - name: Rust Fat-LTO native binary and Wasm32 release builds
+          uvx ruff check .
+          uv run python -m unittest discover -s tests
+      - name: Verify MAP.tsv & zero hardcoded machine paths
         run: |
-          cargo build --release -p fw-bin
-          cargo build --release --target wasm32-unknown-unknown -p fw-wasm
-          ./target/release/fairwind-native claw status
-          ./target/release/fairwind-native claw mcp
-          ./target/release/fairwind-native claw run "CI fullstack verification"
-      - name: Native ABI and launcher crates
-        run: |
-          cargo test --manifest-path native/fairwind-pe/Cargo.toml
-          cargo test --manifest-path native/fairwind-abi/Cargo.toml
-          cargo test --manifest-path native/fairwind-agy/Cargo.toml
-      - name: Bun tests
-        run: bun test
-      - name: Build AOT CLI, promote target/agy, render services, and verify
-        run: |
-          bun src/fairwind_cli.ts upgrade --apply --skip-tests
-          bun src/fairwind_cli.ts service render
-          ./dist/fairwind status
-          ./target/agy/agy --fairwind-info
-          ./dist/fairwind target verify
+          bun src/repo_map.ts
+          ! grep -rnE 'C:\\Users\\aphro|C:\\src\\fairwind' --exclude-dir=.git --exclude-dir=target .

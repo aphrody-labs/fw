@@ -71,5 +71,14 @@ map:
 sync-upstreams:
     bun src/upstream_skills.ts
 
-# Full CI verification pipeline
-ci: map clippy test build musl claw cf-dry-run
+# Full parallel local CI pipeline (Rust, Native ABI, Wasm32, Python, Bun, Cloudflare)
+ci:
+    bun tools/ci.ts all
+
+# Fast parallel local gate
+ci-fast:
+    bun tools/ci.ts fast
+
+# Cross-host parallel fleet CI via detached tmux on fr1 + fr2
+ci-fleet:
+    bun tools/ci.ts fleet

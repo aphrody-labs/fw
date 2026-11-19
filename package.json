@@ -27,6 +27,9 @@
     "cf:dev": "bunx wrangler dev -c cloudflare/wrangler.jsonc --port 8787 --local",
     "cf:deploy": "bunx wrangler deploy -c cloudflare/wrangler.jsonc",
     "status": "dist/fairwind.exe status",
-    "ci": "bun run check && bun run upgrade && bun run service:render && bun run status && bun run bench"
+    "ci": "bun tools/ci.ts all",
+    "ci:fast": "bun tools/ci.ts fast",
+    "ci:fleet": "bun tools/ci.ts fleet",
+    "ci:full-upgrade": "bun run check && bun run upgrade && bun run service:render && bun run status && bun run bench"
   }
 }
