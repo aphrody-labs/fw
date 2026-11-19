@@ -75,3 +75,7 @@ nix-bootstrap-vps host="fr1":
 # Apply tuned Windows .wslconfig + .wslgconfig for Fairwind-WSL (WSL 3.0.5 + RTX 4070)
 wsl-apply-configs:
     pwsh -NoProfile -File os/fairwind-wsl/install-fairwind-wsl.ps1 -ApplyHostConfigs
+
+# Refresh live direct Rust competitor benchmark (TSV + Markdown)
+competitors:
+    bun tools/competitor_audit.ts
