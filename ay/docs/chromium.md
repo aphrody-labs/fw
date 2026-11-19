@@ -1,8 +1,7 @@
 # Chromium from Rust and Bun
 
 `ay-chromium` embeds Chromium through CEF (ADR-3). One Rust crate (`crates/ay-chromium`), one executable
-(`ay-chromium`), one Bun package (`packages/chromium`, `@aphrody/chromium`) and one skill
-(the `chromium` skill of the Aphrody plugin) give two operations on a real page, rendered off-screen:
+(`ay-chromium`), and one Bun package (`packages/chromium`, `@aphrody/chromium`) give two operations on a real page, rendered off-screen:
 
 - **screenshot**: open a URL, wait for the main frame to load, write a PNG of the viewport;
 - **evaluate**: open a URL, wait for the load, run a JavaScript expression in the page and return the value as JSON.

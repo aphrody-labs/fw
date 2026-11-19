@@ -10,5 +10,5 @@
     "MD036": false,
     "MD060": false
   },
-  "ignores": ["profile/README.md", "node_modules/**", "third_party/**", "vendor/**", "upstream/**"]
+  "ignores": ["node_modules/**", "third_party/**"]
 }

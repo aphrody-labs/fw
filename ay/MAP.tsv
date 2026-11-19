@@ -1,16 +1,16 @@
 dir	tier	files	bytes	gate
-(root)	manifest	26	521741	bun run check
+(root)	manifest	26	521674	undefined
 .cargo	misc	1	144	bun run check
 .claude	misc	10	21726	bun run check
-.github	misc	9	18882	bun run check
+.github	misc	9	18961	bun run check
 abi	c-abi	5	15676	bun tools/abi.ts --check
 apps	program	62	284156	bun test ./apps/ay
 assets	misc	2	10869	bun run check
-brand	brand	56	3669872	bun run check
+brand	brand	56	3669872	undefined
 config	misc	30	59025	bun run check
 corelib	c-asm	50	82826	bun tools/corelib.ts
 crates	rust	1789	23268983	cargo check --workspace
-docs	docs	148	1987647	bun tools/features.ts --check
+docs	docs	148	1987776	bun tools/features.ts --check
 locales	misc	2	96055	bun run check
 os	os-layer	2	15127	bun tools/submodules.ts --check
 packages/ai-os	bun-package	501	3469602	bun test ./packages
