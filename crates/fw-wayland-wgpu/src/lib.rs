@@ -6,6 +6,7 @@
 #![forbid(unsafe_code)]
 
 pub mod m3_expressive;
+pub mod unified_wgpu_terminal;
 
 use fw_ostd_wasm::GpuiWasmScene;
 use serde::{Deserialize, Serialize};

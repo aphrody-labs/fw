@@ -36,6 +36,22 @@ pub extern "C" fn fw_wasm_wayland_word(size: u32, opcode: u32) -> u32 {
     ((size & 0xFFFF) << 16) | (opcode & 0xFFFF)
 }
 
+/// Pack Kitty Keyboard Protocol (`CSI u`) `(codepoint, modifiers)` into one 32-bit Wasm word.
+#[unsafe(no_mangle)]
+pub extern "C" fn fw_wasm_kitty_key_word(codepoint: u32, modifiers: u32) -> u32 {
+    ((modifiers & 0xFF) << 24) | (codepoint & 0x00FF_FFFF)
+}
+
+/// Compute a 64-bit Rio pull-model dirty-row bitmask update in Wasm32.
+#[unsafe(no_mangle)]
+pub extern "C" fn fw_wasm_dirty_row_set(mask: u64, row: u32) -> u64 {
+    if row >= 64 {
+        mask
+    } else {
+        mask | (1u64 << row)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
