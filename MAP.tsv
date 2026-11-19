@@ -1,5 +1,5 @@
 dir	tier	files	bytes	gate
-(root)	misc	31	1101579	just ci
+(root)	misc	31	1101859	just ci
 .agents	misc	2	2947	just ci
 .cargo	misc	1	164	just ci
 .claude-plugin	misc	1	893	just ci
@@ -8,8 +8,8 @@ cloudflare	edge-worker	5	736157	bun run cf:dry-run
 cluster	topology-spec	2	3938	bun test tests/fw_v3_cluster_webgpu.test.ts
 configs/heretic	heretic-presets	8	31105	uvx ruff check .
 core	misc	13	10065	just ci
-core/py	python-core	115	2237232	uvx ruff check .
-core/rs	rust-embedded	298	7874341	cargo check --manifest-path core/rs/wta/Cargo.toml
+core/py	python-core	115	2238295	uvx ruff check .
+core/rs	rust-embedded	298	7878632	cargo check --manifest-path core/rs/wta/Cargo.toml
 crates/fw-bin	rust-core	2	18802	cargo build --release -p fw-bin --bin fw
 crates/fw-cluster	rust-core	2	14422	cargo test --workspace
 crates/fw-compute	rust-core	3	26333	cargo test --workspace
@@ -22,15 +22,15 @@ crates/fw-ui-blitz	rust-core	2	5988	cargo test --workspace
 crates/fw-unified-stack	rust-core	2	6196	cargo test --workspace
 crates/fw-uutils	rust-core	4	29635	cargo test --workspace
 crates/fw-wasm	rust-wasm	2	1906	cargo build --release --target wasm32-unknown-unknown -p fw-wasm
-crates/fw-wayland-wgpu	rust-core	2	5069	cargo test --workspace
+crates/fw-wayland-wgpu	rust-core	2	5093	cargo test --workspace
 docs	architecture-docs	16	82471	read-only
-native	rust-ffi-abi	27	185970	cargo test --manifest-path native/fw-abi/Cargo.toml
+native	rust-ffi-abi	27	189914	cargo test --manifest-path native/fw-abi/Cargo.toml
 nix	nix-fleet	6	8889	bun test tests/fw_v4_os_uutils_nix.test.ts
 os/fw-os	asterinas-osdk	6	4999	bun test tests/fw_v4_os_uutils_nix.test.ts
 os/fw-wsl	wsl-zero-legacy	8	9850	bun test tests/fw_v4_os_uutils_nix.test.ts
 plugin	agy-plugin	53	237596	dist/fw.exe plugin sync --install
 plugins	misc	8	62583	just ci
-src	bun-cli-aot	18	220790	bun test
+src	bun-cli-aot	18	221546	bun test
 tests	e2e-tests	13	130252	bun test
 tools	misc	2	36930	just ci
 vercel	edge-vercel	2	1886	bun test tests/fw_decisions_vercel.test.ts

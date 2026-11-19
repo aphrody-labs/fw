@@ -5,6 +5,8 @@
 
 #![forbid(unsafe_code)]
 
+pub mod m3_expressive;
+
 use fw_ostd_wasm::GpuiWasmScene;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;

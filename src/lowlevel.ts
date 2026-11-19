@@ -232,7 +232,7 @@ export async function verifyLowLevelToolchains(root: string) {
     }
   }
 
-  // 5. WebGPU WGSL static verification
+  // 5. WebGPU WGSL static + Naga verification (compute + Material 3 1.5.0 Expressive)
   const wgslPath = resolve(root, "core", "webgpu", "fw_compute.wgsl");
   if (existsSync(wgslPath)) {
     const wgsl = readFileSync(wgslPath, "utf8");
@@ -242,6 +242,19 @@ export async function verifyLowLevelToolchains(root: string) {
       wgsl.includes("workgroupBarrier()") &&
       wgsl.includes("fn fw_rmsnorm");
     steps.push({ name: "webgpu-wgsl", ok: valid, bytes: Buffer.byteLength(wgsl), output: "fw_saxpy + fw_rmsnorm" });
+  }
+  const m3WgslPath = resolve(root, "core", "webgpu", "fw_m3_expressive.wgsl");
+  if (existsSync(m3WgslPath)) {
+    const m3Wgsl = readFileSync(m3WgslPath, "utf8");
+    const naga = Bun.which("naga");
+    let nagaOk = m3Wgsl.includes("fn vs_main") && m3Wgsl.includes("fn fs_main") && m3Wgsl.includes("sdf_wavy_linear");
+    let nagaOut = "m3-1.5.0-expressive-wgsl";
+    if (naga) {
+      const nr = Bun.spawnSync([naga, m3WgslPath], { cwd: root, stdout: "pipe", stderr: "pipe" });
+      nagaOk = nr.exitCode === 0;
+      nagaOut = (nr.stdout.toString().trim() || "naga validated");
+    }
+    steps.push({ name: "webgpu-m3-expressive-wgsl", ok: nagaOk, bytes: Buffer.byteLength(m3Wgsl), output: nagaOut });
   }
 
   // 6. Go native test

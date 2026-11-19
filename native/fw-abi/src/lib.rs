@@ -16,10 +16,10 @@ use std::slice;
 pub const ABI_VERSION: u32 = 4;
 
 #[cfg(not(debug_assertions))]
-const HEALTH_JSON: &[u8] = b"{\"ok\":true,\"product\":\"fw\",\"crate\":\"fw-abi\",\"abiVersion\":4,\"profile\":\"release\",\"lto\":\"fat\",\"aot\":true,\"absorbed\":[\"heretic\",\"neon\",\"craft-libs\",\"craft-anything\"],\"capabilities\":[\"tree-sitter\",\"tree-sitter-query\",\"tree-sitter-symbols\",\"craft-pe\",\"craft-sniff\",\"iced-x86-disasm\",\"gguf-ggml\",\"rust-crypto\",\"rust-git\",\"rust-ssh\",\"rust-oci\"],\"treeSitterGrammars\":[\"rust\",\"typescript\",\"tsx\",\"javascript\",\"python\",\"c\",\"cpp\",\"java\",\"go\",\"json\",\"bash\"]}\0";
+const HEALTH_JSON: &[u8] = b"{\"ok\":true,\"product\":\"fw\",\"crate\":\"fw-abi\",\"abiVersion\":4,\"profile\":\"release\",\"lto\":\"fat\",\"aot\":true,\"absorbed\":[\"heretic\",\"neon\",\"craft-libs\",\"craft-anything\"],\"capabilities\":[\"tree-sitter\",\"tree-sitter-query\",\"tree-sitter-symbols\",\"kotlin-ffi-callbacks\",\"m3-contrast\",\"craft-pe\",\"craft-sniff\",\"iced-x86-disasm\",\"gguf-ggml\",\"rust-crypto\",\"rust-git\",\"rust-ssh\",\"rust-oci\"],\"treeSitterGrammars\":[\"rust\",\"typescript\",\"tsx\",\"javascript\",\"python\",\"c\",\"cpp\",\"java\",\"kotlin\",\"go\",\"json\",\"bash\"]}\0";
 
 #[cfg(debug_assertions)]
-const HEALTH_JSON: &[u8] = b"{\"ok\":true,\"product\":\"fw\",\"crate\":\"fw-abi\",\"abiVersion\":4,\"profile\":\"debug\",\"lto\":\"none\",\"aot\":true,\"absorbed\":[\"heretic\",\"neon\",\"craft-libs\",\"craft-anything\"],\"capabilities\":[\"tree-sitter\",\"tree-sitter-query\",\"tree-sitter-symbols\",\"craft-pe\",\"craft-sniff\",\"iced-x86-disasm\",\"gguf-ggml\",\"rust-crypto\",\"rust-git\",\"rust-ssh\",\"rust-oci\"],\"treeSitterGrammars\":[\"rust\",\"typescript\",\"tsx\",\"javascript\",\"python\",\"c\",\"cpp\",\"java\",\"go\",\"json\",\"bash\"]}\0";
+const HEALTH_JSON: &[u8] = b"{\"ok\":true,\"product\":\"fw\",\"crate\":\"fw-abi\",\"abiVersion\":4,\"profile\":\"debug\",\"lto\":\"none\",\"aot\":true,\"absorbed\":[\"heretic\",\"neon\",\"craft-libs\",\"craft-anything\"],\"capabilities\":[\"tree-sitter\",\"tree-sitter-query\",\"tree-sitter-symbols\",\"kotlin-ffi-callbacks\",\"m3-contrast\",\"craft-pe\",\"craft-sniff\",\"iced-x86-disasm\",\"gguf-ggml\",\"rust-crypto\",\"rust-git\",\"rust-ssh\",\"rust-oci\"],\"treeSitterGrammars\":[\"rust\",\"typescript\",\"tsx\",\"javascript\",\"python\",\"c\",\"cpp\",\"java\",\"kotlin\",\"go\",\"json\",\"bash\"]}\0";
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -431,6 +431,56 @@ pub extern "C" fn fw_ml_dot_f32(ap: *const f32, bp: *const f32, len: usize) -> f
     gguf::dot_f32(a, b)
 }
 
+fn srgb_channel_to_linear(channel: u8) -> f64 {
+    let c = f64::from(channel) / 255.0;
+    if c <= 0.04045 {
+        c / 12.92
+    } else {
+        ((c + 0.055) / 1.055).powf(2.4)
+    }
+}
+
+fn relative_luminance(argb: u32) -> f64 {
+    let r = srgb_channel_to_linear(((argb >> 16) & 0xff) as u8);
+    let g = srgb_channel_to_linear(((argb >> 8) & 0xff) as u8);
+    let b = srgb_channel_to_linear((argb & 0xff) as u8);
+    0.2126 * r + 0.7152 * g + 0.0722 * b
+}
+
+/// Computes the WCAG 2.1 contrast ratio between two 0xAARRGGBB colors for
+/// Material 3 1.5.0 Expressive color scheme accessibility verification.
+#[unsafe(no_mangle)]
+pub extern "C" fn fw_m3_contrast_ratio(fg_argb: u32, bg_argb: u32) -> f64 {
+    let l1 = relative_luminance(fg_argb);
+    let l2 = relative_luminance(bg_argb);
+    let (hi, lo) = if l1 >= l2 { (l1, l2) } else { (l2, l1) };
+    (hi + 0.05) / (lo + 0.05)
+}
+
+/// Bidirectional Rust <-> Kotlin FFI entrypoint:
+/// Accepts UTF-8 bytes from Kotlin, hashes them with BLAKE3 in native Rust,
+/// and invokes the caller-provided C callback pointer (e.g., JDK 25 Panama
+/// `Linker.upcallStub` or Kotlin/Native `staticCFunction`) with the hex digest.
+#[unsafe(no_mangle)]
+pub extern "C" fn fw_kotlin_invoke_callback(
+    input_ptr: *const u8,
+    input_len: usize,
+    cb: Option<extern "C" fn(*const u8, usize) -> i32>,
+) -> i32 {
+    let Some(callback) = cb else {
+        return -1;
+    };
+    let bytes = if input_ptr.is_null() || input_len == 0 {
+        &[][..]
+    } else {
+        unsafe { slice::from_raw_parts(input_ptr, input_len) }
+    };
+    let digest = blake3::hash(bytes);
+    let hex = digest.to_hex();
+    let hex_bytes = hex.as_bytes();
+    callback(hex_bytes.as_ptr(), hex_bytes.len())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -465,6 +515,34 @@ mod tests {
         let go_syms = ast::extract_symbols("go", b"package main\nfunc Run() {}", 16).unwrap();
         assert_eq!(go_syms.symbol_count, 1);
         assert_eq!(go_syms.symbols[0].name, "Run");
+
+        let kt_src = b"package dev.aphrody.fw\n\nobject FwTokens {\n    val version: String = \"1.5.0\"\n}\n\nclass FwButton {\n    fun renderM3(): Int {\n        return 1\n    }\n}\n";
+        let kt_sum = ast::parse_summary("kotlin", kt_src).unwrap();
+        assert!(kt_sum.ok && !kt_sum.has_error, "kt_sum={kt_sum:?}");
+        let kt_syms = ast::extract_symbols("kt", kt_src, 16).unwrap();
+        let kt_names: Vec<&str> = kt_syms.symbols.iter().map(|s| s.name.as_str()).collect();
+        assert!(kt_names.contains(&"FwTokens"), "got {kt_names:?}");
+        assert!(kt_names.contains(&"FwButton"), "got {kt_names:?}");
+        assert!(kt_names.contains(&"renderM3"), "got {kt_names:?}");
+    }
+
+    #[test]
+    fn kotlin_ffi_callback_and_m3_contrast_work() {
+        extern "C" fn on_digest(ptr: *const u8, len: usize) -> i32 {
+            if ptr.is_null() || len != 64 {
+                return -2;
+            }
+            len as i32
+        }
+        let payload = b"aphrody-m3-1.5.0";
+        let rc = fw_kotlin_invoke_callback(payload.as_ptr(), payload.len(), Some(on_digest));
+        assert_eq!(rc, 64);
+        assert_eq!(fw_kotlin_invoke_callback(payload.as_ptr(), payload.len(), None), -1);
+
+        let bw = fw_m3_contrast_ratio(0xFF000000, 0xFFFFFFFF);
+        assert!((bw - 21.0).abs() < 1e-3, "bw={bw}");
+        let same = fw_m3_contrast_ratio(0xFF6750A4, 0xFF6750A4);
+        assert!((same - 1.0).abs() < 1e-6, "same={same}");
     }
 
     #[test]

@@ -13,6 +13,7 @@ pub const SUPPORTED_GRAMMARS: &[&str] = &[
     "c",
     "cpp",
     "java",
+    "kotlin",
     "go",
     "json",
     "bash",
@@ -76,6 +77,7 @@ pub fn resolve_lang(lang: &str) -> Option<Language> {
         "c" | "h" => Some(tree_sitter_c::LANGUAGE.into()),
         "cpp" | "c++" | "cc" | "cxx" | "hpp" => Some(tree_sitter_cpp::LANGUAGE.into()),
         "java" => Some(tree_sitter_java::LANGUAGE.into()),
+        "kotlin" | "kt" | "kts" => Some(tree_sitter_kotlin_ng::LANGUAGE.into()),
         "go" => Some(tree_sitter_go::LANGUAGE.into()),
         "json" => Some(tree_sitter_json::LANGUAGE.into()),
         "bash" | "sh" => Some(tree_sitter_bash::LANGUAGE.into()),
@@ -137,6 +139,8 @@ fn is_symbol_node(kind: &str) -> bool {
             | "type_spec"
             | "struct_specifier"
             | "class_specifier"
+            | "object_declaration"
+            | "type_alias"
     )
 }
 
@@ -155,7 +159,11 @@ fn extract_node_name(node: Node<'_>, src: &[u8]) -> Option<String> {
     for child in node.children(&mut cur) {
         if matches!(
             child.kind(),
-            "identifier" | "type_identifier" | "field_identifier" | "property_identifier"
+            "identifier"
+                | "simple_identifier"
+                | "type_identifier"
+                | "field_identifier"
+                | "property_identifier"
         ) && let Ok(t) = child.utf8_text(src)
         {
             return Some(t.trim().to_string());
