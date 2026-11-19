@@ -27,6 +27,7 @@ fw-unified-stack.workspace = true
 fw-wayland-wgpu.workspace = true
 fw-hermes-claw.workspace = true
 fw-apm.workspace = true
+fw-fx.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
 

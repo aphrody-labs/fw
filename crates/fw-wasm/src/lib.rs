@@ -52,6 +52,24 @@ pub extern "C" fn fw_wasm_dirty_row_set(mask: u64, row: u32) -> u64 {
     }
 }
 
+/// `libfx` WebAssembly ACP protocol version (parity with `vercel-labs/fx` `0.0.17`).
+#[unsafe(no_mangle)]
+pub extern "C" fn fw_wasm_fx_acp_protocol_version() -> u32 {
+    1
+}
+
+/// `libfx` WebAssembly deterministic recovery backoff lookup (`recovery.zig::backoff_ms`).
+#[unsafe(no_mangle)]
+pub extern "C" fn fw_wasm_fx_recovery_backoff_ms(step: u32) -> u32 {
+    const BACKOFF: [u32; 6] = [1_000, 2_000, 4_000, 8_000, 16_000, 30_000];
+    let idx = if (step as usize) >= BACKOFF.len() {
+        BACKOFF.len() - 1
+    } else {
+        step as usize
+    };
+    BACKOFF[idx]
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

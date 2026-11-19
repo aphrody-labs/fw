@@ -416,6 +416,16 @@ fn main() {
                 }
             }
         }
+        "fx" => {
+            match fw_fx::cli::run_cli(&args[1..]) {
+                Ok(0) => {}
+                Ok(code) => std::process::exit(code),
+                Err(e) => {
+                    eprintln!("fw fx: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
         "m3-tui" | "agent-tui" | "god" => {
             m3_agent_tui::run_m3_agent_tui(&args[1..]);
         }

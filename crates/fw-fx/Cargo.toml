@@ -1,0 +1,24 @@
+[package]
+name = "fw-fx"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Full pure-Rust Bun-in-Rust migration of vercel-labs/fx (native coding agent, recovery state machine, indexer, compactor, permissions, sessions, tools, gateway, MCP, ACP, libfx Wasm)"
+
+[lib]
+name = "fw_fx"
+path = "src/lib.rs"
+
+[[bin]]
+name = "fx"
+path = "src/main.rs"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+
+[lints]
+workspace = true
