@@ -1,0 +1,89 @@
+/* ###
+ * IP: GHIDRA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package ghidra.app.plugin.core.analysis;
+
+import ghidra.app.services.Analyzer;
+import ghidra.app.util.importer.MessageLog;
+import ghidra.framework.cmd.BackgroundCommand;
+import ghidra.program.model.address.AddressSetView;
+import ghidra.program.model.listing.Program;
+import ghidra.util.exception.CancelledException;
+import ghidra.util.task.TaskMonitor;
+
+/**
+ * Background task to artificially kick off Auto analysis by
+ * calling anything that analyzes bytes.
+ * <p>
+ * This command is single use. Its input address set is released when execution completes or the
+ * queued command is disposed. Completed or disposed commands must not be executed again.
+ */
+public class OneShotAnalysisCommand extends BackgroundCommand<Program>
+		implements AutoAnalysisManagerListener {
+	private Analyzer analyzer;
+	private AddressSetView set;
+	private MessageLog log;
+
+	private Program lastProgram;
+
+	public OneShotAnalysisCommand(Analyzer analyzer, AddressSetView set, MessageLog log) {
+		super(analyzer.getName() + " - One Time", true, true, false);
+		this.analyzer = analyzer;
+		this.set = set;
+		this.log = log;
+	}
+
+	@Override
+	public boolean applyTo(Program program, TaskMonitor monitor) {
+		this.lastProgram = program;
+		try {
+			monitor.setMessage(analyzer.getName());
+			return analyzer.added(program, set, monitor, log);
+		}
+		catch (CancelledException e) {
+			return false;
+		}
+		finally {
+			// The manager retains this command as an analysis-ended listener.
+			set = null;
+		}
+	}
+
+	@Override
+	public void dispose() {
+		set = null;
+		super.dispose();
+	}
+
+	@Override
+	public void analysisEnded(AutoAnalysisManager manager, boolean isCancelled) {
+		manager.removeListener(this);
+		if (lastProgram != null) {
+			analyzer.analysisEnded(lastProgram);
+		}
+	}
+
+	@Override
+	public String getStatusMsg() {
+		String statusMessage = log.getStatus();
+
+		if (statusMessage.length() > 0) {
+			return statusMessage;
+		}
+
+		return null;
+	}
+
+}
