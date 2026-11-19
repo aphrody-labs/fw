@@ -16,10 +16,10 @@ build needs neither a system `protoc` nor network access.
 
 Two module surfaces are exposed:
 
-- `proto` — prost message structs plus tonic `A2aServiceClient` /
+- `proto` - prost message structs plus tonic `A2aServiceClient` /
   `A2aServiceServer`. Not available on `wasm32` because tonic transport
   transitively requires `mio`/`tokio::net`.
-- `protojson` / `protojson_conv` — pure prost message structs with pbjson
+- `protojson` / `protojson_conv` - pure prost message structs with pbjson
   serde derives. Available on all targets, including `wasm32`. WASM consumers
   must use `protojson_conv` for serialisation.
 
@@ -80,6 +80,6 @@ Apache-2.0.
 
 ## Related crates
 
-- `ay-a2a` — canonical A2A v1 protocol types and core definitions.
-- `ay-a2a-client`, `ay-a2a-server`, `ay-a2a-grpc` — the transport
+- `ay-a2a` - canonical A2A v1 protocol types and core definitions.
+- `ay-a2a-client`, `ay-a2a-server`, `ay-a2a-grpc` - the transport
   layers built on these bindings.

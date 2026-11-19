@@ -63,7 +63,7 @@ bun src/cli.ts orch health                      # fleet & engine health
 
 ## Architecture & Research References
 
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Layered Agent OS architecture, C ABI contract, and `Context` retrieval metrics.
-- [docs/architecture.md](../../docs/architecture.md) — Monorepo tree and SDK architecture.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) - Layered Agent OS architecture, C ABI contract, and `Context` retrieval metrics.
+- [docs/architecture.md](../../docs/architecture.md) - Monorepo tree and SDK architecture.
 
 License: MIT OR Apache-2.0. Third-party notices in `NOTICE` and `licenses/`.

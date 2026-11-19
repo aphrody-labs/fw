@@ -44,19 +44,19 @@ assert_eq!(message.text(), Some("hello peer"));
 Source of truth: `crates/aphrody-a2a/src/lib.rs`. The crate re-exports every public
 item from seven submodules through `pub use <mod>::*;`:
 
-- `agent_card` — `AgentCard` and the well-known descriptor types served at
+- `agent_card` - `AgentCard` and the well-known descriptor types served at
   `.well-known/agent-card.json`.
-- `types` — `Message`, `Task`, `Artifact`, `Part`, `PartContent`, `Role`,
+- `types` - `Message`, `Task`, `Artifact`, `Part`, `PartContent`, `Role`,
   `TaskState`, `TaskStatus`, `SendMessageRequest`, `SendMessageResponse`,
   `SendMessageConfiguration`, `GetTaskRequest`, `ListTasksRequest`,
   `ListTasksResponse`, plus ID constructors `new_task_id`, `new_context_id`,
   `new_message_id`, `new_artifact_id`.
-- `event` — streaming envelopes `StreamResponse`, `TaskStatusUpdateEvent`,
+- `event` - streaming envelopes `StreamResponse`, `TaskStatusUpdateEvent`,
   `TaskArtifactUpdateEvent` for SSE / gRPC streams.
-- `jsonrpc` — `JsonRpcRequest`, `JsonRpcResponse`, `JsonRpcError`, `JsonRpcId`.
-- `errors` — `A2AError` plus protocol error code helpers.
-- `errordetails` — typed error payload structures for richer client surfaces.
-- `coord` — fleet `.coord` envelopes (`CoordEnvelope`, `FleetSendParams`), the
+- `jsonrpc` - `JsonRpcRequest`, `JsonRpcResponse`, `JsonRpcError`, `JsonRpcId`.
+- `errors` - `A2AError` plus protocol error code helpers.
+- `errordetails` - typed error payload structures for richer client surfaces.
+- `coord` - fleet `.coord` envelopes (`CoordEnvelope`, `FleetSendParams`), the
   peer roster and the JSON Schemas of the envelope, JSON-RPC frames and agent card.
 
 Top-level constants: `VERSION = "1.0"`, `SVC_PARAM_VERSION = "A2A-Version"`,
@@ -75,10 +75,10 @@ Apache-2.0. Copyright AGNTCY Contributors; aphrody-code packaging.
 
 ## Related
 
-- `ay-a2a-pb` — prost-generated protobuf bindings and pbjson conversion helpers.
-- `ay-a2a-client` — async client with JSON-RPC / REST / gRPC transports.
-- `ay-a2a-server` — `axum`-based server framework and task store.
-- `ay-a2a-grpc` — gRPC binding layer connecting client and server over tonic.
+- `ay-a2a-pb` - prost-generated protobuf bindings and pbjson conversion helpers.
+- `ay-a2a-client` - async client with JSON-RPC / REST / gRPC transports.
+- `ay-a2a-server` - `axum`-based server framework and task store.
+- `ay-a2a-grpc` - gRPC binding layer connecting client and server over tonic.
 
 ## Shenron TypeScript projection
 

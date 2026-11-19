@@ -31,7 +31,7 @@ The `keybindings` plugin (`plugins/keybindings`) translates presets into
   per-keymap scoping: installing them would land their entries in every
   keymap. The vi preset's plain-character motions (`h`, `l`, `0`) would
   break text entry in emacs mode, and its mode-switch actions
-  (`vi-normal-mode`, `vi-insert-mode`) are not host widgets at all — the
+  (`vi-normal-mode`, `vi-insert-mode`) are not host widgets at all - the
   editor delivers vi mode switching natively. These two files are
   therefore reference data: they describe the bindings the host's
   default emacs and vi keymaps already deliver, and they are the

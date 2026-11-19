@@ -61,7 +61,7 @@ Linux and Windows are fully supported through `reqwest` over
 `tokio` / `mio`. `wasm32-unknown-unknown` uses the browser `fetch` backend,
 SSE streaming via `bytes_stream`, and `LocalBoxStream` because reqwest
 futures are `!Send` in the single-threaded JS runtime. `wasm32-wasip1` builds
-the trait definitions and data types only — the HTTP modules are
+the trait definitions and data types only - the HTTP modules are
 `cfg`-stripped until `wasi-http` (WASI Preview 2) lands.
 
 ## License
@@ -70,6 +70,6 @@ Apache-2.0. Copyright AGNTCY Contributors; aphrody-code packaging.
 
 ## Related
 
-- `ay-a2a-server` — server-side counterpart.
-- `ay-a2a-pb` — generated protobuf bindings.
-- `ay-a2a-grpc` — gRPC transport binding.
+- `ay-a2a-server` - server-side counterpart.
+- `ay-a2a-pb` - generated protobuf bindings.
+- `ay-a2a-grpc` - gRPC transport binding.

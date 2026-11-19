@@ -88,7 +88,7 @@ Posh where that helps users:
   `theme-*` replaces the old `themes` pack surface in the bundle
   inventory. (An earlier host release also read `plugins/<name>/plugin.toml`
   from the bundle into its own inventory; that host integration is
-  retired — `plugin.toml` is bundle-side metadata now.)
+  retired - `plugin.toml` is bundle-side metadata now.)
 - Framework enablement gates what the framework itself loads:
   `NIU_PLUGINS` controls which plugin directories the entry point
   sources, and disabling `git` therefore removes its aliases,
@@ -102,7 +102,7 @@ Posh where that helps users:
   consumed `NIU_PROMPT_LEFT`, `NIU_PROMPT_RIGHT`, `NIU_ACTIVE_THEME`,
   and `NIU_PROMPT_SYMBOL` was retired with the built-in stack,
   niubash#145. Native TOML prompt configuration on the host side is
-  unaffected — it belongs to sessions that do not load prompt-core.)
+  unaffected - it belongs to sessions that do not load prompt-core.)
 - The Git prompt snapshot is framework-maintained: `prompt-core`
   consumes `NIU_PROMPT_GIT` for `{git}`/`{git_prompt}`, refreshed by
   its own backends (legacy/shell via `lib/git.niu`, starship via

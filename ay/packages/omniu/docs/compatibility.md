@@ -74,7 +74,7 @@ the bundle relies on:
 - `exports.providers` is an optional compatibility marker, not a runtime. The
   current bundle may mark `command-not-found` as the first provider ABI
   candidate, but no provider binding is implemented in current
-  Niubash — the host's missing-command surface is its own
+  Niubash - the host's missing-command surface is its own
   `command-not-found-hint` policy. WASM packs cannot
   export providers until Niubash defines a separate WASM provider contract.
 - Shell-mutating WASM host APIs, arbitrary zsh source, WASI, unrestricted files,

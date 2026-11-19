@@ -116,15 +116,15 @@ Marks the task as **session dependent**. Session-dependent tasks are re-executed
 persistent cache because they depend on external state (filesystem, environment, network) that may
 have changed between sessions.
 
-When a session-dependent task completes, it is not marked as fully clean — it retains a special
+When a session-dependent task completes, it is not marked as fully clean - it retains a special
 "session dependent" dirty state. If the task is later restored from persistent cache in a new
 session, this state causes it to be re-executed rather than reusing the cached result.
 
 Typical use cases:
 
-- **Filesystem reads** — file contents may have changed on disk between sessions.
-- **Environment variable reads** — process environment may differ between sessions.
-- **Network requests** — remote resources may return different results.
+- **Filesystem reads** - file contents may have changed on disk between sessions.
+- **Environment variable reads** - process environment may differ between sessions.
+- **Network requests** - remote resources may return different results.
 
 ```rust
 #[turbo_tasks::function(fs, session_dependent)]
@@ -142,7 +142,7 @@ fn read_all_env(&self) -> Vc<TransientEnvMap> {
 ```
 
 Note: `session_dependent` should be applied to the **leaf task** that directly reads external state.
-Tasks that transitively depend on a session-dependent task do not need this attribute — they will
+Tasks that transitively depend on a session-dependent task do not need this attribute - they will
 naturally re-execute when the session-dependent task they depend on produces a new result.
 
 [`OperationVc<T>`]: crate::OperationVc

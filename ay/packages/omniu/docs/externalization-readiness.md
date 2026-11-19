@@ -2,9 +2,9 @@
 This document classifies official bundle behavior during the framework-first
 migration. The active runtime target is `plugins/<name>/`; old `packs/`
 manifests remain a packaging and review surface. Niubash does not load
-directory plugins — the host integration this classification was
+directory plugins - the host integration this classification was
 written against was retired with the built-in plugin stack
-(niubash#145) — so the framework entry point is the only loader, and
+(niubash#145) - so the framework entry point is the only loader, and
 "missing host API" below means "no host surface exists", not "pending
 host work" unless a row says otherwise.
 
@@ -34,8 +34,8 @@ host work" unless a row says otherwise.
   earlier host release derived them on a `niu plugin review` surface;
   that verb is retired and nothing exposes the values today.
 - `exports.providers` is a guarded provider marker only. No provider
-  binding is implemented in current Niubash — in particular there is
-  no command-not-found binding for `command:diagnose` — and the marker
+  binding is implemented in current Niubash - in particular there is
+  no command-not-found binding for `command:diagnose` - and the marker
   does not make command-style WASM act as a provider.
 
 ## Pack Matrix

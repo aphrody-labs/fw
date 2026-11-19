@@ -4,7 +4,7 @@ Standard Rust formatting (`format!`, `Display`) is synchronous. In turbo-tasks,
 many values live behind `Vc<T>` or `ResolvedVc<T>`, which require `.await` to
 read. These macros handle that automatically.
 
-## `turbofmt!` — async `format!`
+## `turbofmt!` - async `format!`
 
 Returns `Result<RcStr>` after resolving all arguments asynchronously.
 
@@ -18,12 +18,12 @@ let msg = turbofmt!("hello {name}").await?;
 ```
 
 Arguments can be `Vc<T>`, `ResolvedVc<T>`, `ReadRef<T>`, or any type
-implementing `Display` — they are all resolved automatically.
+implementing `Display` - they are all resolved automatically.
 
 Arguments with format specifiers (e.g., `{x:?}`) use standard `Debug`/`Display`
 formatting directly and are **not** resolved asynchronously.
 
-## `turbobail!` — async `bail!`
+## `turbobail!` - async `bail!`
 
 Same as `turbofmt!`, but calls `anyhow::bail!()` with the formatted message.
 Has implicit `.await` and return flow.
@@ -38,14 +38,14 @@ Generates both `ValueToStringRef` (returning `RcStr`) and `ValueToString`
 (returning `Vc<RcStr>`) impls. Fields are resolved asynchronously, so `Vc<T>`
 and `ResolvedVc<T>` fields work directly in format strings.
 
-**No attribute** — delegates to `Display::to_string()`:
+**No attribute** - delegates to `Display::to_string()`:
 
 ```ignore
 #[derive(ValueToString)]
 struct Foo { ... } // requires Display impl
 ```
 
-**Format string with field references** — fields are resolved async:
+**Format string with field references** - fields are resolved async:
 
 ```ignore
 #[derive(ValueToString)]
@@ -69,7 +69,7 @@ struct Bar { ... }
 struct Wrapper { inner: RcStr }
 ```
 
-**Enums** — variants without an attribute default to their name:
+**Enums** - variants without an attribute default to their name:
 
 ```ignore
 #[derive(ValueToString)]

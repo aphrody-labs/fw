@@ -4,7 +4,7 @@ This guide is the public authoring contract for the current Niubash-native
 plugin model. The runtime model is directory-first: a plugin is shell code
 in a directory that the framework sources into the user's session because
 the user selected it in `~/.niubashrc`. The TOML manifests are bundle-side
-packaging and review metadata — they document permissions, runtime kind,
+packaging and review metadata - they document permissions, runtime kind,
 and exported surfaces so reviewers can audit a pack before it ships, but
 Niubash has no plugin trust system: it does not read, score, or enforce
 them, and enabling a plugin is the user's own decision. The only
@@ -19,7 +19,7 @@ the host plugin CLI, verified once at install time.
   is not the whole future plugin universe; third-party registries should use
   the same manifest/index contract and are validated by this repository's
   bundle validator, not by Niubash host policy.
-- Bundle updates are manual — `git pull` in the clone, or unpack a newer
+- Bundle updates are manual - `git pull` in the clone, or unpack a newer
   release zip over the old tree. No host command updates this bundle.
 - `source` packs are the Oh My-style shell plugin path. They ship bundle-local
   `.niu` code that the framework sources into the current interactive session
@@ -55,7 +55,7 @@ python tools/package_bundle.py --check
 There is no host-side review or install step for this bundle. The host
 plugin CLI (`niu plugin ...`) manages only the external ecosystem
 sources declared in `~/.niubash/plugins.json` (oh-my-bash, bash-it,
-bash-completion, wild file sources) — a separate distribution channel
+bash-completion, wild file sources) - a separate distribution channel
 this bundle deliberately does not use; oh-my-niu cannot be installed,
 reviewed, or updated through it. When a user installs one of those
 ecosystem sources (or any zip) through the host CLI, they may pass
@@ -150,7 +150,7 @@ Two of the runtime kinds describe the retired built-in stack
 plugin modules, so those manifests are archival packaging metadata. The
 live runtime surface is the directory plugin model —
 `plugins/<name>/<name>.plugin.niu` files the framework sources for the
-plugins selected in `NIU_PLUGINS` — with `source` packs as their
+plugins selected in `NIU_PLUGINS` - with `source` packs as their
 transitional equivalent.
 
 ### Source
@@ -254,7 +254,7 @@ Rules:
 Permissions are bundle-side review metadata: they document what a pack
 does so a reviewer can audit it before it ships. Current Niubash does
 not read or enforce them, and plugin code runs with the user's full
-shell privileges once the user enables it — the risk column is a
+shell privileges once the user enables it - the risk column is a
 review aid, not a host guarantee.
 
 | Token | Risk | Meaning |

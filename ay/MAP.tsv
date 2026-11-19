@@ -9,22 +9,22 @@ assets	misc	2	10869	bun run check
 brand	brand	56	3669872	bun run check
 config	misc	30	59025	bun run check
 corelib	c-asm	50	82826	bun tools/corelib.ts
-crates	rust	1789	23269049	cargo check --workspace
-docs	docs	148	1987649	bun tools/features.ts --check
+crates	rust	1789	23268939	cargo check --workspace
+docs	docs	148	1987647	bun tools/features.ts --check
 locales	misc	2	96055	bun run check
 os	os-layer	2	15127	bun tools/submodules.ts --check
-packages/ai-os	bun-package	501	3469650	bun test ./packages
+packages/ai-os	bun-package	501	3469602	bun test ./packages
 packages/automate	bun-package	15	192000	bun test ./packages
 packages/chromium	bun-package	7	10519	bun test ./packages
 packages/chromium-releases	bun-package	40	166289	bun test ./packages
 packages/core	bun-package	21	137552	bun test ./packages
 packages/edge-stack	bun-package	3	5923	bun test ./packages
-packages/env-kit	bun-package	204	1062705	bun test ./packages
+packages/env-kit	bun-package	204	1062703	bun test ./packages
 packages/ffi	bun-package	23	91859	bun test ./packages
 packages/ghidra	bun-package	29	180908	bun test ./packages
 packages/gnu	bun-package	20	125629	bun test ./packages
 packages/node-compat	bun-package	8	18385	bun test ./packages
-packages/omniu	bun-package	417	671025	bun test ./packages
+packages/omniu	bun-package	417	670989	bun test ./packages
 packages/org-mirror	bun-package	50	329945	bun test ./packages
 packages/py2bun	bun-package	24	136011	bun test ./packages
 packages/wck	bun-package	38	9365619	bun test ./packages

@@ -2,7 +2,7 @@
 
 # gemini-web
 
-Pure-Rust SDK for the **Gemini web app** (`gemini.google.com/app`) — the
+Pure-Rust SDK for the **Gemini web app** (`gemini.google.com/app`) - the
 consumer Gemini product, driven by the signed-in Google session cookies (no API
 key). Mirrors the `notebooklm` crate's Boq `batchexecute` transport.
 
@@ -13,7 +13,7 @@ Feature matrix: [Aphrody OS feature matrix](../../../../../docs/aphrody-source/r
 
 Export your signed-in Google cookies (e.g. the Cookie-Editor extension, JSON
 array format) to `~/.aphrody/google-cookies.json`. The anti-CSRF `at` token is
-scraped from the app page at construction — no key, no OAuth. Secrets stay under
+scraped from the app page at construction - no key, no OAuth. Secrets stay under
 your home directory; never inside the workspace.
 
 ## Quick start
@@ -50,8 +50,8 @@ println!("{} (images: {:?})", follow.text, follow.generated_image_urls);
 
 ## Consumers
 
-- `aphrody-chat::GeminiWebBackend` — native 3.5 Flash chat backend.
-- `aphrody-mcp` tools — `gemini_chat`, `gemini_image` (Nano Banana),
+- `aphrody-chat::GeminiWebBackend` - native 3.5 Flash chat backend.
+- `aphrody-mcp` tools - `gemini_chat`, `gemini_image` (Nano Banana),
   `gemini_video` (Veo), `gemini_deep_research`.
 
 ## OS process boundary

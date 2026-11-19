@@ -30,7 +30,7 @@ This document establishes the canonical roadmap and technical evaluation of the 
 
 ## 3. Comprehensive Evaluation of `aphrody-dev` Repositories
 
-### Tier A — Core Strategic Foundations (Keep & Integrate Directly)
+### Tier A - Core Strategic Foundations (Keep & Integrate Directly)
 
 These repositories form the direct dependencies, architectural inspirations, or submodules of the `ring3-agent` ecosystem:
 
@@ -60,7 +60,7 @@ These repositories form the direct dependencies, architectural inspirations, or 
 
 ---
 
-### Tier B — Specialized Reference / Niche Utility
+### Tier B - Specialized Reference / Niche Utility
 
 These repositories provide specific algorithms, data structures, or auxiliary functionality:
 
@@ -76,7 +76,7 @@ These repositories provide specific algorithms, data structures, or auxiliary fu
 
 ---
 
-### Tier C — Redundant / Overlapped Forks (Candidates for Archival or Consolidation)
+### Tier C - Redundant / Overlapped Forks (Candidates for Archival or Consolidation)
 
 These forks overlap with Tier A components or have been superseded by more integrated sovereign tools:
 

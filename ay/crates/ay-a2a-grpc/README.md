@@ -77,6 +77,6 @@ Apache-2.0. Copyright AGNTCY Contributors; aphrody-code packaging.
 
 ## Related
 
-- `ay-a2a-pb` — generated protobuf bindings driving the wire format.
-- `tonic` — upstream gRPC runtime used by both transports.
-- `ay-a2a-client` / `ay-a2a-server` — transport-agnostic halves wired by this crate.
+- `ay-a2a-pb` - generated protobuf bindings driving the wire format.
+- `tonic` - upstream gRPC runtime used by both transports.
+- `ay-a2a-client` / `ay-a2a-server` - transport-agnostic halves wired by this crate.

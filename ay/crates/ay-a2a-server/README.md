@@ -67,7 +67,7 @@ into every request without rewriting the handler.
 
 Linux and Windows are fully supported. The crate emits a
 `compile_error!` on `wasm32` targets because `axum` / `hyper` / `tokio::net`
-require OS-level TCP sockets — WASM agents should consume the API through
+require OS-level TCP sockets - WASM agents should consume the API through
 `ay-a2a-client` with `RestTransport` instead.
 
 ## License
@@ -76,5 +76,5 @@ Apache-2.0. Copyright AGNTCY Contributors; aphrody-code packaging.
 
 ## Related
 
-- `ay-a2a-client` — client-side counterpart.
-- `ay-a2a-pb` — generated protobuf bindings shared by both peers.
+- `ay-a2a-client` - client-side counterpart.
+- `ay-a2a-pb` - generated protobuf bindings shared by both peers.

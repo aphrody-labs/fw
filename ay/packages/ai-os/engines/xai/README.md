@@ -2,7 +2,7 @@
 
 <!-- catalog:begin unit -->
 
-> Headless xAI Grok API client for Bun — high-level fluent Chat API (createChat/append/sample/stream/executeToolCalls/sampleStructured, reasoning, structured, XTools for native X tool fulfillment) + SUPER_GROK_TOKEN keyless + OIDC. OpenAI-compatible REST, deep native integration with @aphrody/x.
+> Headless xAI Grok API client for Bun - high-level fluent Chat API (createChat/append/sample/stream/executeToolCalls/sampleStructured, reasoning, structured, XTools for native X tool fulfillment) + SUPER_GROK_TOKEN keyless + OIDC. OpenAI-compatible REST, deep native integration with @aphrody/x.
 
 | Type        | Path                         |
 | :---------- | :--------------------------- |
@@ -18,7 +18,7 @@ bun run --cwd packages/ai-os/engines/xai test
 Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->
 
-Headless **xAI Grok** client for Bun — OpenAI-compatible `https://api.x.ai/v1`.
+Headless **xAI Grok** client for Bun - OpenAI-compatible `https://api.x.ai/v1`.
 
 **Table of Contents**
 
@@ -56,7 +56,7 @@ aphrody-web grok raw GET /models
 
 ## Library (high-level fluent Chat like xai-sdk-python)
 
-The high-level API provides a stateful `Chat` session for multi-turn conversations, tool calling, streaming, structured outputs, and reasoning — directly inspired by the Python xai-sdk.
+The high-level API provides a stateful `Chat` session for multi-turn conversations, tool calling, streaming, structured outputs, and reasoning - directly inspired by the Python xai-sdk.
 
 ```ts
 import { XaiClient, system, user } from "@aphrody/xai"; // (add helpers if you want)

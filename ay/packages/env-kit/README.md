@@ -1,4 +1,4 @@
-# `@aphrody/ay-env-kit` — Monorepo Environment & Secret Architecture
+# `@aphrody/ay-env-kit` - Monorepo Environment & Secret Architecture
 
 <!-- catalog:begin unit -->
 <!-- prettier-ignore-start -->

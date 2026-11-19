@@ -28,9 +28,9 @@ Unified **Context7 v2 + 5-Channel Deep Research + Deterministic Fact-Checker + M
 
 ## Binaries & Shims (`~/.local/bin`)
 
-- `ske.exe` — Standalone AOT-compiled Bun executable (`bun build --compile --minify`).
-- `ske.cmd` / `knowledge-engine.cmd` — Userland CLI entrypoints.
-- `ske mcp-stdio` — Native MCP `2025-03-26` stdio server registered across Antigravity CLI, Gemini CLI, Codex, Claude Code, OpenCode, and Zed.
+- `ske.exe` - Standalone AOT-compiled Bun executable (`bun build --compile --minify`).
+- `ske.cmd` / `knowledge-engine.cmd` - Userland CLI entrypoints.
+- `ske mcp-stdio` - Native MCP `2025-03-26` stdio server registered across Antigravity CLI, Gemini CLI, Codex, Claude Code, OpenCode, and Zed.
 
 ## Modules
 

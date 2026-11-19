@@ -39,7 +39,7 @@ are identified via a compile-time perfect hash set (`phf`).
 
 ### Skip-scan heuristic
 
-For large files, scanning from byte 0 is expensive — the regex tokenizer
+For large files, scanning from byte 0 is expensive - the regex tokenizer
 dominates runtime. To avoid this, `extract_highlights()` walks backwards from
 the visible window looking for a **blank line** and starts the scan there.
 A blank line is a safe restart point for single-line constructs (strings,
@@ -58,7 +58,7 @@ may lose its expected coloring. For example:
 const after = 1 // `*/` may lose comment highlighting
 ```
 
-This is a deliberate tradeoff — blank lines inside block comments or template
+This is a deliberate tradeoff - blank lines inside block comments or template
 literals that span the window boundary are vanishingly rare in practice, and
 the consequence is only slightly wrong highlighting, never a failure or missing output.
 
@@ -67,7 +67,7 @@ the consequence is only slightly wrong highlighting, never a failure or missing 
 When the visible window starts far into a long line (>200 bytes from the
 line-level scan start), the heuristic additionally scans backwards from the
 visible start for a `;` and restarts the tokenizer there. This is critical for
-minified files where the entire source may be a single line — without it the
+minified files where the entire source may be a single line - without it the
 scanner would tokenize hundreds of kilobytes of invisible content.
 
 **Known limitation:** The `;` can land inside a string literal, causing an
@@ -77,7 +77,7 @@ triggers, and the consequence is only incorrect highlighting, never a failure.
 
 ## Features
 
-- Caller-provided output width (no terminal detection — sans-io)
+- Caller-provided output width (no terminal detection - sans-io)
 - Syntax highlighting for JS, TS, JSX, TSX
 - Graceful degradation for non-JS files or parsing errors
 - ANSI color support matching babel-code-frame aesthetics

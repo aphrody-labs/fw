@@ -369,8 +369,8 @@ See [vertex.py](./examples/getting_started/vertex.py) for a complete example.
 ### Simple Agent
 
 The `Agent` class is the easiest way to get started. It manages the full
-lifecycle — binary discovery, tool wiring, hook registration, and policy
-defaults — behind a single async context manager.
+lifecycle - binary discovery, tool wiring, hook registration, and policy
+defaults - behind a single async context manager.
 
 The `system_instructions` parameter is optional.
 
