@@ -126,7 +126,7 @@ async fn h3_without_tls_is_refused() {
     assert!(serve(router(), config).await.is_err());
 }
 
-#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+#[tokio::test]
 async fn one_h3_connection_serves_many_sequential_requests() {
     let fixture = secure_server().await;
     let client = client(&fixture);
@@ -140,7 +140,7 @@ async fn one_h3_connection_serves_many_sequential_requests() {
     fixture.server.shutdown().await;
 }
 
-#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+#[tokio::test]
 async fn every_new_h3_connection_answers_its_first_request() {
     let fixture = secure_server().await;
     let url = format!("https://localhost:{}/ping", fixture.port);

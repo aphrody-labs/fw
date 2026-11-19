@@ -1,5 +1,6 @@
 //! Latency of h1, h2 and h3 against the localhost server of this crate: `cargo bench -p ay-http --bench latency`.
 //!
+//! Single-thread runtime (the h3 client of reqwest is not stable on a multi-thread one, see tests/h3_client_threads.rs).
 //! Warm: one connection reused for every request. Cold: a new client (new handshake) per request. Blob: a 1 MiB download on a warm connection.
 
 use std::net::SocketAddr;
@@ -61,7 +62,7 @@ async fn prepared(pem: &str, addr: SocketAddr, protocol: &str, url: &str) -> Cli
     client
 }
 
-#[tokio::main]
+#[tokio::main(flavor = "current_thread")]
 async fn main() {
     let (tls, pem) = Tls::self_signed(&["localhost"]).expect("self-signed certificate");
     let blob = Bytes::from(vec![7u8; 1 << 20]);

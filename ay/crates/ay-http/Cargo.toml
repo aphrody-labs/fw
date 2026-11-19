@@ -54,6 +54,11 @@ rcgen = "0.14"
 tokio = { workspace = true, features = ["macros", "net", "rt", "rt-multi-thread", "time"] }
 
 [[test]]
+name = "h3_client_threads"
+path = "tests/h3_client_threads.rs"
+required-features = ["client", "server", "selfsigned"]
+
+[[test]]
 name = "h3_roundtrip"
 path = "tests/h3_roundtrip.rs"
 required-features = ["client", "server", "selfsigned"]

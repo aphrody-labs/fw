@@ -30,11 +30,11 @@ pub(crate) async fn accept_loop(endpoint: quinn::Endpoint, app: Router, mut shut
                 tokio::spawn(async move {
                     match incoming.await {
                         Ok(connection) => connection_loop(connection, app).await,
-                        Err(error) => eprintln!("SRV quic handshake failed: {error:?}"),
+                        Err(error) => tracing::debug!(%error, "quic handshake failed"),
                     }
                 });
             }
-            r = shutdown.changed() => { eprintln!("SRV shutdown {:?} on {:?}", r, endpoint.local_addr()); break }
+            _ = shutdown.changed() => break,
         }
     }
     endpoint.close(0u32.into(), b"shutdown");
@@ -55,13 +55,13 @@ async fn connection_loop(connection: quinn::Connection, app: Router) {
                 let app = app.clone();
                 tokio::spawn(async move {
                     if let Err(error) = request(resolver, app).await {
-                        eprintln!("SRV h3 request failed: {error:?}");
+                        tracing::debug!(%error, "h3 request failed");
                     }
                 });
             }
-            Ok(None) => { eprintln!("SRV h3 accept none"); break }
+            Ok(None) => break,
             Err(error) => {
-                eprintln!("SRV h3 accept failed: {error:?}");
+                tracing::debug!(%error, "h3 accept failed");
                 break;
             }
         }
