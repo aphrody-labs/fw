@@ -7,3 +7,6 @@ license.workspace = true
 
 [dependencies]
 craft-i18n.workspace = true
+
+[lints]
+workspace = true

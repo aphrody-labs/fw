@@ -8,3 +8,9 @@ org = "aphrody-dev"
 npm = ["@aphrody/chromium"]
 # Published on crates.io 1.4.7 from the legacy monorepo; the crates now live in crates/ay-<unit> (absorbed from aphrody-dev/ai-os, 2026-11-18).
 crates = ["aphrody-a2a", "aphrody-a2a-client", "aphrody-a2a-coord", "aphrody-a2a-pb", "aphrody-a2a-server", "aphrody-agent-home", "aphrody-agent-proto", "aphrody-agent-tools", "aphrody-antigravity", "aphrody-boq", "aphrody-embed", "aphrody-gemini-runtime", "aphrody-gemini-web", "aphrody-google", "aphrody-infer", "aphrody-llama", "aphrody-llama-server", "aphrody-llama-sys", "aphrody-mcp-client", "aphrody-memory", "aphrody-ml-config", "aphrody-ml-runtime", "aphrody-model-antigravity", "aphrody-model-client", "aphrody-models", "aphrody-rag", "aphrody-rag-core", "aphrody-config", "aphrody-jev", "aphrody-code-graph", "aphrody-toolcall", "aphrody-toolcall-repair"]
+
+[absorbed]
+# Repositories merged into this one (2026-11-19), archived on GitHub. Their units keep the prefix they were built under.
+auto = { crate_prefix = "auto-", npm_scope = "@aphrody", npm_prefix = "auto-" }
+ay-cf = { crate_prefix = "ay-cf-", npm_scope = "@aphrody", npm_prefix = "ay-cf-" }
+ay-media = { crate_prefix = "ay-media-", npm_scope = "@aphrody" }

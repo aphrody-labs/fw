@@ -1,4 +1,4 @@
-# `ay-cf` Documentation
+# Cloud units documentation
 
 - [Infrastructure Architecture](architecture.md) — Domains, Sites, Tunnels, Workers, and R2 topology
 - [FinOps Optimization](finops.md) — Workers Paid, R2 Paid, Observability sampling, and cold S3 tiering

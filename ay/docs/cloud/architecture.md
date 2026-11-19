@@ -1,6 +1,6 @@
 # Cloudflare & Hybrid Infrastructure Architecture
 
-`ay-cf` governs one Cloudflare Paid account (`Workers Paid` + `R2 Paid` + `Observability`), four DNS zones (`aphrody.com`, `aphrody.app`, `dragonballfr.com`, `rosegriffon.fr`), three HA `cloudflared` QUIC tunnels (`aphrody`, `rosegriffon`, `shenron`), eleven R2 buckets, and three Linux cluster nodes connected over a private WireGuard mesh (`10.200.77.0/24`).
+The cloud units (`packages/cf-control-plane`, manifest `packages/cf-control-plane/cf.toml`) govern one Cloudflare Paid account (`Workers Paid` + `R2 Paid` + `Observability`), four DNS zones (`aphrody.com`, `aphrody.app`, `dragonballfr.com`, `rosegriffon.fr`), three HA `cloudflared` QUIC tunnels (`aphrody`, `rosegriffon`, `shenron`), eleven R2 buckets, and three Linux cluster nodes connected over a private WireGuard mesh (`10.200.77.0/24`).
 
 ## Zones & Workloads
 
@@ -11,6 +11,6 @@
 | Shenron | `dragonballfr.com` | Portal, Discord/AI bot, MCP, asset CDN | `shenron` HA QUIC tunnel + OVH Pingora shield |
 | Rose Griffon | `rosegriffon.fr` | Community site, API, Achillea ranked, bot, MCP, CDN | `rosegriffon` HA QUIC tunnel + `r2.rosegriffon.fr` |
 
-## Submodule Groups (`forks.toml`)
+## Cloudflare forks (`submodules.toml`)
 
-71 `aphrody-labs/*` forks of official `cloudflare/*` repositories are indexed via `.gitmodules` and `160000` gitlinks under `runtime/`, `sdk/`, `agents/`, `rust/`, `python/`, and `net/`.
+71 `aphrody-labs/*` forks of official `cloudflare/*` repositories (runtime, SDK, agents, Rust, Python and network daemons) are pinned in `submodules.toml` under `third_party/cloudflare/`; each entry records its upstream.

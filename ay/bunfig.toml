@@ -4,3 +4,7 @@ globalStore = true
 exact = true
 saveTextLockfile = true
 minimumReleaseAge = 259200
+
+[test]
+root = "."
+pathIgnorePatterns = ["target/**", ".claude/**", "third_party/**"]

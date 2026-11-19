@@ -4,9 +4,9 @@ Configuration lives in `auto.toml` with environment variable overrides (`AUTO_MO
 
 ## Cloudflare Workers (`AUTO_MODE=serverless`)
 
-1. Apply D1 global schema: `bun x wrangler d1 execute auto --remote --file=packages/store/migrations/001_global.sql`
+1. Apply D1 global schema: `bun x wrangler d1 execute auto --remote --file=packages/auto-store/migrations/001_global.sql`
 2. Configure Worker secrets (`AUTO_MASTER_KEY`, `BETTER_AUTH_SECRET`) via `wrangler secret put`.
-3. Build UI (`apps/ui/dist/web/`) and WASM (`bun run build:native`).
+3. Build UI (`apps/auto-ui/dist/web/`) and WASM (`bun run auto:build-native`).
 4. Deploy single Worker: `bun x wrangler deploy`.
 
 ## Self-Hosted & Multi-Node Fleet (`AUTO_MODE=self-hosted`)

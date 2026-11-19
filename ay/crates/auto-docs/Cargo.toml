@@ -22,3 +22,6 @@ path = "examples/preview.rs"
 [[test]]
 name = "render"
 path = "tests/render.rs"
+
+[lints]
+workspace = true

@@ -23,3 +23,6 @@ path = "examples/samples.rs"
 [[test]]
 name = "facturx"
 path = "tests/facturx.rs"
+
+[lints]
+workspace = true

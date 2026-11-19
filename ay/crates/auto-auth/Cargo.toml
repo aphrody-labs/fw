@@ -29,3 +29,6 @@ axum = { workspace = true, optional = true }
 getrandom = { workspace = true, optional = true }
 rusqlite = { workspace = true, optional = true }
 tokio = { workspace = true, optional = true }
+
+[lints]
+workspace = true

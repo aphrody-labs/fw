@@ -23,3 +23,6 @@ path = "examples/example.rs"
 [[test]]
 name = "spreadsheets"
 path = "tests/spreadsheets.rs"
+
+[lints]
+workspace = true

@@ -10,7 +10,7 @@
 
 ## Mullvad VPN UID Policy Routing (`[vpn]`)
 
-Generated via `just cluster-proxy` into `.private/generated/mullvad-uid-routes.sh`:
+Generated via `just cf-cluster-proxy` into `.private/generated/mullvad-uid-routes.sh`:
 
 - Each Mullvad exit binds exclusively to a dedicated system user (`vpn-us` `uid=2001` table `51821`, `vpn-jp` `uid=2002` table `51822`, `vpn-eu` `uid=2003` table `51823`).
 - `ip rule add to 10.200.77.0/24 lookup main priority 50` runs at higher priority than `uidrange` rules so cluster WireGuard traffic, `cloudflared` QUIC tunnels, and SSH never enter Mullvad tunnels.
@@ -18,6 +18,6 @@ Generated via `just cluster-proxy` into `.private/generated/mullvad-uid-routes.s
 ## Generating Live Configs
 
 ```sh
-just cluster-proxy
-just tunnels
+just cf-cluster-proxy
+just cf-tunnels
 ```

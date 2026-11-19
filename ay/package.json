@@ -25,7 +25,7 @@
     "deploy": "bun tools/deploy.ts",
     "sessions": "bun tools/claude-sessions.ts",
     "map": "bun tools/map.ts",
-    "check": "bun tools/features.ts --check && bun tools/submodules.ts --check && bun tools/paths.ts && bun tools/private-gate.ts && bun tools/abi.ts --check && bun tools/tokens-compose.ts --check && bun tools/edge-config.ts --check && bun check --no-script && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./packages/edge-stack ./apps/chromium-dash ./apps/ay ./packages/chromium/test/version.test.ts ./packages/cf-control-plane ./apps/cf-gateway ./apps/tools-release ./apps/edge ./packages/auto- ./apps/auto-",
+    "check": "bun tools/features.ts --check && bun tools/submodules.ts --check && bun tools/paths.ts && bun tools/private-gate.ts && bun tools/abi.ts --check && bun tools/tokens-compose.ts --check && bun tools/edge-config.ts --check && bun check --no-script && bun test ./tools/ ./packages/chromium-releases ./packages/org-mirror ./packages/edge-stack ./apps/chromium-dash ./apps/ay ./packages/chromium/test/version.test.ts ./packages/cf-control-plane ./apps/cf-gateway ./apps/tools-release ./apps/edge packages/auto- apps/auto-",
     "cf:audit": "bun tools/cf-audit.ts",
     "auto:server": "bun apps/auto-server/src/bin.ts",
     "auto:dev": "bun --watch apps/auto-server/src/bin.ts",
