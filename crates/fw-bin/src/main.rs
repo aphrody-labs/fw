@@ -15,6 +15,7 @@ use fw_unified_stack::{
     default_burn_rig_pipeline, encode_kitty_graphics_rgba_header, encode_kitty_keyboard_enable,
     encode_osc133_prompt_start, hex_voice_status, unified_v4_catalog, yazi_list_dir,
 };
+use fw_uutils::fast_cli::{fast_find, fast_grep, fast_ls, fast_table};
 use fw_uutils::{run_applet, SUPPORTED_APPLETS};
 use fw_wayland_wgpu::{WaylandWgpuCompositor, WAYLAND_WASM_GLOBALS};
 use fw_hermes_claw::{
@@ -47,6 +48,47 @@ fn main() {
     }
 
     let cmd = args.first().map(|s| s.as_str()).unwrap_or("status");
+
+    // Zero-overhead fast CLI paths (beats eza/fd/rg/nu startup & throughput with zero external deps)
+    match cmd {
+        "ls" => {
+            let tsv = args.iter().any(|a| a == "--tsv");
+            let dir = args.iter().skip(1).find(|a| !a.starts_with('-')).map(Path::new).unwrap_or(Path::new("."));
+            if let Err(e) = fast_ls(dir, tsv) {
+                eprintln!("fw ls: {e}");
+                std::process::exit(1);
+            }
+            return;
+        }
+        "table" => {
+            let as_json = args.iter().any(|a| a == "--json");
+            let dir = args.iter().skip(1).find(|a| !a.starts_with('-')).map(Path::new).unwrap_or(Path::new("."));
+            if let Err(e) = fast_table(dir, as_json) {
+                eprintln!("fw table: {e}");
+                std::process::exit(1);
+            }
+            return;
+        }
+        "find" => {
+            let pat = args.get(1).map(String::as_str).unwrap_or("");
+            let dir = args.get(2).map(Path::new).unwrap_or(Path::new("."));
+            if let Err(e) = fast_find(pat, dir) {
+                eprintln!("fw find: {e}");
+                std::process::exit(1);
+            }
+            return;
+        }
+        "grep" => {
+            let pat = args.get(1).map(String::as_str).unwrap_or("");
+            let dir = args.get(2).map(Path::new).unwrap_or(Path::new("."));
+            if let Err(e) = fast_grep(pat, dir) {
+                eprintln!("fw grep: {e}");
+                std::process::exit(1);
+            }
+            return;
+        }
+        _ => {}
+    }
 
     match cmd {
         "status" => {

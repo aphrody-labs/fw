@@ -87,3 +87,10 @@ competitors:
 # Refresh live Rust upstream & toolchain brain (Matrix + Agent Cards + Vectors + Skill)
 rust-brain:
     bun tools/rust_brain.ts
+
+# Prove fw ls/table/find/grep against eza, nu, fd, rg via hyperfine
+bench-cli:
+    hyperfine --warmup 5 --runs 25 -N "./target/release/fw.exe ls ." "eza ."
+    hyperfine --warmup 3 --runs 15 -N "./target/release/fw.exe table ." "nu -n --no-std-lib -c 'ls | select name type size'"
+    hyperfine --warmup 5 --runs 25 -N "./target/release/fw.exe find .rs crates" "fd -e rs . crates"
+    hyperfine --warmup 5 --runs 25 -N "./target/release/fw.exe grep forbid crates" "rg -F -n forbid crates"
