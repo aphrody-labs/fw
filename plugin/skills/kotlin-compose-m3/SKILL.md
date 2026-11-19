@@ -30,3 +30,4 @@ description: Compose Material 3 1.5.0 stable (Expressive), Jetpack Compose 1.13 
 4. Use `Text(color = ColorProducer { ... })` for animated text colors without recomposition.
 5. Prefer `MaterialTheme.motionScheme` over deprecated `LocalMotionScheme` and `material3-ripple:1.5.0` inset focus rings for keyboard accessibility.
 6. Verify contrast ratios (`>= 4.5:1` WCAG AA) via `FwExpressiveTokens.wcagContrastRatio` or Rust `fw_m3_contrast_ratio`.
+7. For complex components (time pickers, scroll fields, toolbars, tabs), use `FwParametricEngine` / `FwParametricControlPanel` (Kotlin) or `M3ParametricConfig` (pure WGPU) to map sweet-spot grids, tether dependent parameters, toggle keyline/token spec overlays, export JSON presets, and run seeded randomization.

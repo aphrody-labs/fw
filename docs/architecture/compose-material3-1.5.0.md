@@ -44,3 +44,15 @@
 - Shader: `core/webgpu/fw_m3_expressive.wgsl`
 - Rust scene & spring engine: `crates/fw-wayland-wgpu/src/m3_expressive.rs` (`#![forbid(unsafe_code)]`)
 - Implements all 35 `MaterialShapes` SDFs + `MorphPolygonShape`, animated `WavyLinearProgressIndicator` and `WavyCircularProgressIndicator` SDFs, `material3-ripple:1.5.0` inset focus rings + radial ripples, `StatefulSlider`, `SplitButton`/`FloatingToolbar`/`SegmentedListItem`, and Compose 1.13 progressive blur gradients in pure WGSL.
+
+## 5. Parametric Prototyping (`2026-11-16`)
+
+- **Source**: `https://m3.material.io/blog/enhance-your-component-designs-with-parametric-prototyping` (Reed Hollett & Tiffany Wan, `2026-11-16`; controls generated with Antigravity using Material switches, sliders, button groups, lists, and buttons for expressive time pickers & scroll fields).
+- **6 Practices Implemented in `fw`**:
+  1. **Map sweet spots**: `FwParametricEngine.mapSweetSpotGrid` (`ParamRange` min/max + sweet-spot bounds).
+  2. **Fine-tune parameters**: Decoupled `FwComponentParams` (corner radii, padding, type scale, elevation, spring damping/stiffness, wave amplitude/wavelength, focus ring inset).
+  3. **Group/tether parameters**: `enforceConstraints` in Kotlin (`FwParametricEngine`) and Rust (`M3ParametricConfig`) keeps inner corner radii, padding, and bounds coherent.
+  4. **Turn designs into specs**: `FwSpecOverlay` (`showKeylines`, `showColorTokens`, `showSpatialMeasurements`) + WGPU `Spec.Keyline.*` overlay instances.
+  5. **Presets & JSON export**: `FwParametricPreset` + `exportPresetJson` / `importPresetJson`.
+  6. **Randomize to break bias**: Deterministic seeded randomization (`FwParametricEngine.randomize` / `M3ParametricConfig::randomize_seeded`).
+- **Files**: `core/kotlin/fw-material3/src/main/kotlin/dev/aphrody/fw/material3/FwParametricStudio.kt`, `crates/fw-wayland-wgpu/src/m3_expressive.rs`.

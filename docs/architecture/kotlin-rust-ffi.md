@@ -4,7 +4,7 @@ Verified live on `2026-11-19` for `fw` and all `aphrody-labs` repositories.
 
 ## 1. Installed Toolchain
 
-- **Android CLI**: `1.1.16919734` (`C:\Users\aphro\AppData\AndroidCLI\android.exe`), official skills installed via `android skills add --all` (including `migrate-xml-views-to-jetpack-compose`, `jetpack-compose-performance`, `adaptive`, `camerax`, `ink-app-builder`, `litert-lm`).
+- **Android CLI**: `1.1.16919734` (`%USERPROFILE%\AppData\AndroidCLI\android.exe`), official skills installed via `android skills add --all` (including `migrate-xml-views-to-jetpack-compose`, `jetpack-compose-performance`, `adaptive`, `camerax`, `ink-app-builder`, `litert-lm`).
 - **JetBrains Official Kotlin LSP**: `v271.2085.0` (`%LOCALAPPDATA%\kotlin-lsp\bin\intellij-server.exe --stdio`, wrapper `kotlin-lsp.cmd`).
 - **Gradle**: `9.9.1` with Kotlin `2.4.21` and Microsoft OpenJDK `25.0.5 LTS`.
 - **Tree-sitter Kotlin**: `tree-sitter-kotlin-ng = "1.1.0"` compiled directly into Fat-LTO `native/fw-abi` (`fw_abi.dll`) alongside 11 other grammars.

@@ -45,4 +45,36 @@ class FwMaterial3Test {
             assertTrue(ratio >= 4.5, "Contrast $name was $ratio (< 4.5)")
         }
     }
+
+    @Test
+    fun parametricPrototypingCoversAllSixMaterial3Pillars() {
+        // 1. Sweet spot grid
+        val grid = FwParametricEngine.mapSweetSpotGrid(
+            FwParametricEngine.CornerRadiusRange,
+            FwParametricEngine.PaddingRange,
+            steps = 5,
+        )
+        assertEquals(25, grid.size)
+        assertTrue(grid.any { it.inSweetSpot })
+        assertTrue(grid.any { !it.inSweetSpot })
+
+        // 2 & 3. Constraint tethering prevents inner radius > outer radius - padding*0.5
+        val tethered = FwParametricEngine.enforceConstraints(
+            FwComponentParams(outerCornerRadiusDp = 10f, innerCornerRadiusDp = 30f, paddingDp = 12f),
+        )
+        assertTrue(tethered.innerCornerRadiusDp <= tethered.outerCornerRadiusDp - tethered.paddingDp * 0.5f + 0.01f)
+
+        // 4 & 5. Spec overlay & JSON preset round-trip
+        val preset = FwParametricEngine.builtInPresets.last()
+        assertTrue(preset.params.specOverlay.showKeylines)
+        val roundTripped = FwParametricEngine.importPresetJson(FwParametricEngine.exportPresetJson(preset))
+        assertEquals(preset, roundTripped)
+
+        // 6. Seeded randomization is deterministic and stays in sweet spot when requested
+        val r1 = FwParametricEngine.randomize(seed = 42L, stayInSweetSpot = true)
+        val r2 = FwParametricEngine.randomize(seed = 42L, stayInSweetSpot = true)
+        assertEquals(r1, r2)
+        assertTrue(FwParametricEngine.CornerRadiusRange.isInSweetSpot(r1.outerCornerRadiusDp))
+        assertTrue(FwParametricEngine.PaddingRange.isInSweetSpot(r1.paddingDp))
+    }
 }
