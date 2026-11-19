@@ -1,5 +1,5 @@
 dir	tier	files	bytes	gate
-(root)	misc	26	1096684	just ci
+(root)	misc	26	1096891	just ci
 .agents	misc	2	3031	just ci
 .cargo	misc	1	164	just ci
 .github	misc	2	5030	just ci
@@ -9,9 +9,9 @@ configs/heretic	heretic-presets	8	31105	uvx ruff check .
 core	misc	13	10443	just ci
 core/py	python-core	109	2140660	uvx ruff check .
 core/rs	rust-embedded	298	7878650	cargo check --manifest-path core/rs/wta/Cargo.toml
-crates/fw-bin	rust-core	2	13963	cargo build --release -p fw-bin --bin fw
+crates/fw-bin	rust-core	2	17396	cargo build --release -p fw-bin --bin fw
 crates/fw-cluster	rust-core	2	14242	cargo test --workspace
-crates/fw-compute	rust-core	2	6201	cargo test --workspace
+crates/fw-compute	rust-core	3	26339	cargo test --workspace
 crates/fw-ggml	rust-core	2	16983	cargo test --workspace
 crates/fw-hermes-claw	rust-core	2	30639	cargo test --workspace
 crates/fw-nix	rust-core	2	4201	cargo test --workspace

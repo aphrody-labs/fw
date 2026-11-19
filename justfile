@@ -96,6 +96,13 @@ competitors:
 rust-brain:
     bun tools/rust_brain.ts
 
+# Universal benchmark sandbox: silicon (RAM/SWAR/MatMul/System-1/Tokens) & taxonomy
+bench-silicon:
+    ./target/release/fw.exe bench silicon --mb 16
+
+bench-matrix:
+    ./target/release/fw.exe bench matrix
+
 # Prove fw ls/table/find/grep against eza, nu, fd, rg via hyperfine
 bench-cli:
     hyperfine --warmup 5 --runs 25 -N "./target/release/fw.exe ls ." "eza ."

@@ -5,6 +5,9 @@
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
 use fw_cluster::HybridClusterRouter;
+use fw_compute::bench_sandbox::{
+    bench_compare, bench_exec, bench_http, bench_silicon, universal_bench_matrix,
+};
 use fw_compute::{detect_hardware_profile, run_compute_smoke_bench};
 use fw_ggml::{encode_gguf_header, parse_gguf_header, rpc_get_device_memory, spawn_rpc_server_once};
 use fw_nix::compute_fixed_output_store_entry;
@@ -82,6 +85,78 @@ fn main() {
             if let Err(e) = fast_grep(pat, dir) {
                 eprintln!("fw grep: {e}");
                 std::process::exit(1);
+            }
+            return;
+        }
+        "bench" => {
+            let sub = args.get(1).map(String::as_str).unwrap_or("silicon");
+            let flag_usize = |name: &str, def: usize| -> usize {
+                args.windows(2)
+                    .find(|w| w[0] == name)
+                    .and_then(|w| w[1].parse().ok())
+                    .unwrap_or(def)
+            };
+            let sandbox = args.iter().any(|a| a == "--sandbox");
+            match sub {
+                "silicon" => {
+                    let mb = flag_usize("--mb", 8);
+                    println!("{}", serde_json::to_string_pretty(&bench_silicon(mb)).unwrap());
+                }
+                "matrix" => {
+                    println!("{}", serde_json::to_string_pretty(&universal_bench_matrix()).unwrap());
+                }
+                "exec" => {
+                    let warmup = flag_usize("--warmup", 2);
+                    let runs = flag_usize("--runs", 10);
+                    let cmdline = args.last().map(String::as_str).unwrap_or("");
+                    match bench_exec(cmdline, warmup, runs, sandbox) {
+                        Ok(rep) => println!("{}", serde_json::to_string_pretty(&rep).unwrap()),
+                        Err(e) => {
+                            eprintln!("fw bench exec: {e}");
+                            std::process::exit(1);
+                        }
+                    }
+                }
+                "compare" => {
+                    let warmup = flag_usize("--warmup", 2);
+                    let runs = flag_usize("--runs", 10);
+                    let mut cmds = Vec::new();
+                    let mut i = 2usize;
+                    while i < args.len() {
+                        match args[i].as_str() {
+                            "--warmup" | "--runs" => i += 2,
+                            "--sandbox" => i += 1,
+                            c => {
+                                cmds.push(c.to_string());
+                                i += 1;
+                            }
+                        }
+                    }
+                    match bench_compare(&cmds, warmup, runs, sandbox) {
+                        Ok(rep) => println!("{}", serde_json::to_string_pretty(&rep).unwrap()),
+                        Err(e) => {
+                            eprintln!("fw bench compare: {e}");
+                            std::process::exit(1);
+                        }
+                    }
+                }
+                "http" => {
+                    let conc = flag_usize("--concurrency", 8);
+                    let reqs = flag_usize("--requests", 50);
+                    let target = args.last().map(String::as_str).unwrap_or("127.0.0.1:4380/health");
+                    match bench_http(target, conc, reqs) {
+                        Ok(rep) => println!("{}", serde_json::to_string_pretty(&rep).unwrap()),
+                        Err(e) => {
+                            eprintln!("fw bench http: {e}");
+                            std::process::exit(1);
+                        }
+                    }
+                }
+                _ => {
+                    println!(
+                        "{{\"ok\":true,\"usage\":\"fw bench <silicon|matrix|exec|compare|http> [--warmup N] [--runs N] [--sandbox]\"}}"
+                    );
+                }
             }
             return;
         }

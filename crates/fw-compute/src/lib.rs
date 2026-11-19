@@ -4,6 +4,8 @@
 //! (CUDA sm_89 RTX 4070, WebGPU/WGSL Dawn/wgpu, Vulkan, Metal, CPU AVX2/AVX-512/NEON, TPU PJRT)
 //! compute discovery and benchmark execution.
 
+pub mod bench_sandbox;
+
 use fw_ggml::{dot_q8_0, quantize_q8_0, GgmlBackendKind, GgmlGraph, GgmlType};
 use serde::{Deserialize, Serialize};
 use std::path::Path;
