@@ -4,6 +4,8 @@ import {
   AyCfManifestSchema,
   auditWranglerManifest,
   buildFinOpsReport,
+  diffZoneSettings,
+  effectiveZoneSettings,
   expandZoneRecords,
   generateClusterConfigs,
   loadR2Catalog,
@@ -28,21 +30,34 @@ describe("@aphrody/ay-cf-control-plane", () => {
     expect(report.monthlySavingsUsd).toBeGreaterThan(5);
   });
 
-  test("expands declarative multi-zone cartography to exact 77 + 60 + 20 + 30 = 187 DNS records and zero conflicts", async () => {
+  test("every zone declares full HTTP/3: http3, 0rtt, tls_1_3 zrt, early_hints; drift is diffed per setting id", async () => {
+    const manifest = AyCfManifestSchema.parse(Bun.TOML.parse(await Bun.file(resolve(root, "packages/cf-control-plane/cf.toml")).text()));
+    for (const zone of Object.keys(manifest.zones)) {
+      expect(effectiveZoneSettings(manifest, zone)).toMatchObject({ http3: "on", zero_rtt: "on", tls_1_3: "zrt", early_hints: "on", min_tls_version: "1.2" });
+    }
+    const live = { http3: "off", "0rtt": "on", early_hints: "on", tls_1_3: "on", min_tls_version: "1.2" };
+    expect(diffZoneSettings(effectiveZoneSettings(manifest, "aphrody.com"), live)).toEqual([
+      { id: "http3", live: "off", want: "on" },
+      { id: "tls_1_3", live: "on", want: "zrt" },
+    ]);
+    expect(diffZoneSettings({ http3: "on" }, { http3: "on" })).toEqual([]);
+  });
+
+  test("expands declarative multi-zone cartography to exact 81 + 60 + 20 + 30 = 191 DNS records and zero conflicts", async () => {
     const manifest = AyCfManifestSchema.parse(Bun.TOML.parse(await Bun.file(resolve(root, "packages/cf-control-plane/cf.toml")).text()));
     const aphrodyCom = expandZoneRecords("aphrody.com", manifest.zones["aphrody.com"]!);
     const aphrodyApp = expandZoneRecords("aphrody.app", manifest.zones["aphrody.app"]!);
     const dragonballfr = expandZoneRecords("dragonballfr.com", manifest.zones["dragonballfr.com"]!);
     const rosegriffon = expandZoneRecords("rosegriffon.fr", manifest.zones["rosegriffon.fr"]!);
 
-    expect(aphrodyCom.length).toBe(77);
+    expect(aphrodyCom.length).toBe(81);
     expect(aphrodyApp.length).toBe(60);
     expect(dragonballfr.length).toBe(20);
     expect(rosegriffon.length).toBe(30);
-    expect(aphrodyCom.length + aphrodyApp.length + dragonballfr.length + rosegriffon.length).toBe(187);
+    expect(aphrodyCom.length + aphrodyApp.length + dragonballfr.length + rosegriffon.length).toBe(191);
 
     // Verify conflict fixes are baked into declarative state
-    expect(manifest.zones["aphrody.com"]!.worker_domains.some((d) => d.hostname === "auto.aphrody.com" && d.service === "auto")).toBe(true);
+    expect(manifest.zones["aphrody.com"]!.worker_domains.some((d) => d.hostname === "auto.aphrody.com" && d.service === "ay-edge")).toBe(true);
     expect(manifest.zones["aphrody.com"]!.tunnel_cnames.aphrody).not.toContain("auto");
     expect(manifest.zones["aphrody.com"]!.worker_domains.some((d) => d.hostname === "downloads.aphrody.com")).toBe(false);
     expect(manifest.zones["aphrody.app"]!.worker_routes.some((r) => r.pattern === "*.aphrody.app/*")).toBe(false);

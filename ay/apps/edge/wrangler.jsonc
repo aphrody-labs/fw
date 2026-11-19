@@ -113,7 +113,12 @@
         "host": "aphrody.com",
         "path": "/download",
         "prefix": true,
-        "service": "releases"
+        "service": "releases",
+        "hints": {
+          "early_hints": [
+            "</brand/icon.svg>; rel=preload; as=image"
+          ]
+        }
       },
       {
         "pattern": "assets.aphrody.com/*",
@@ -148,7 +153,13 @@
         "host": "docs.aphrody.com",
         "path": "/",
         "prefix": true,
-        "service": "aphrody"
+        "service": "aphrody",
+        "hints": {
+          "cache": {
+            "ttl": 300,
+            "swr": 3600
+          }
+        }
       },
       {
         "pattern": "aphrody.com/github",
@@ -169,7 +180,13 @@
         "host": "cdn.dragonballfr.com",
         "path": "/",
         "prefix": true,
-        "service": "shenron"
+        "service": "shenron",
+        "hints": {
+          "cache": {
+            "ttl": 3600,
+            "swr": 86400
+          }
+        }
       }
     ]
   },

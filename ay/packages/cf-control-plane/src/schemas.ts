@@ -118,7 +118,28 @@ export const ZoneWorkerDomainSchema = z.object({
   service: z.string().min(1),
 });
 
+/** Zone settings the control plane owns (Cloudflare API ids: http3, 0rtt, early_hints, tls_1_3, min_tls_version). `zrt` is TLS 1.3 with 0-RTT. */
+export const ZoneSettingsSchema = z.object({
+  http3: z.enum(["on", "off"]).optional(),
+  zero_rtt: z.enum(["on", "off"]).optional(),
+  early_hints: z.enum(["on", "off"]).optional(),
+  tls_1_3: z.enum(["on", "off", "zrt"]).optional(),
+  min_tls_version: z.enum(["1.0", "1.1", "1.2", "1.3"]).optional(),
+});
+
+export type ZoneSettings = z.infer<typeof ZoneSettingsSchema>;
+
+/** Contract key to Cloudflare zone-setting id. */
+export const ZONE_SETTING_IDS: Record<keyof ZoneSettings, string> = {
+  http3: "http3",
+  zero_rtt: "0rtt",
+  early_hints: "early_hints",
+  tls_1_3: "tls_1_3",
+  min_tls_version: "min_tls_version",
+};
+
 export const ZoneContractSchema = z.object({
+  settings: ZoneSettingsSchema.default({}),
   tunnel_cnames: z.record(z.string(), z.array(z.string())).default({}),
   worker_aaaa: z.array(z.string()).default([]),
   r2_cnames: z.record(z.string(), z.string()).default({}),
@@ -176,6 +197,9 @@ export const AyCfManifestSchema = z.object({
   tunnels: z.record(z.string(), TunnelContractSchema),
   buckets: z.record(z.string(), BucketContractSchema),
   workers: z.record(z.string(), WorkerContractSchema),
+  zone_settings: ZoneSettingsSchema.default({}),
+  /** Scripts that own Worker routes and custom domains outside apps/edge/edge.toml (other repositories); every other route is the edge Worker's. */
+  edge: z.object({ external_scripts: z.array(z.string().min(1)).default([]) }).default({ external_scripts: [] }),
   zones: z.record(z.string(), ZoneContractSchema),
   secrets_store: SecretsStoreContractSchema.optional(),
   cluster: z.object({

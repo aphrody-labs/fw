@@ -208,6 +208,15 @@ workers_dev = false
 previews = false
 secrets = []
 
+[workers.ay-edge]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
 [workers.ay-cf-gateway]
 profile = "cdn-router"
 cpu_ms = 50
@@ -280,11 +289,25 @@ workers_dev = false
 previews = false
 secrets = []
 
-# Declarative Multi-Zone Cartography (187 DNS records, Worker routes, Worker Custom Domains, R2 CDNs, Tunnels & Mail)
+# Worker routes and custom domains below belong to the unified edge Worker (script = "ay-edge", exactly the routes of apps/edge/edge.toml) or to one of these
+# scripts, which live in other repositories and stay where they are. `bun tools/edge-config.ts --check` fails on any route that is neither, or both.
+[edge]
+external_scripts = ["aphrody", "aphrody-app", "aphrody-deploy", "aphrody-mcp-gateway", "aphrody-sites", "aphrody-webos", "api-aphrody-com", "bun-video-showcase", "rosegriffon-edge"]
+
+# Zone settings of every zone below (tools/cf-reconcile.ts diffs them, `--apply-zones` writes them; a `[zones."<zone>".settings]` table overrides one key).
+# http3 serves QUIC on UDP 443 and Cloudflare advertises it in Alt-Svc; 0rtt and tls_1_3 = "zrt" allow TLS 1.3 early data; early_hints sends 103 for cached Link headers.
+[zone_settings]
+http3 = "on"
+zero_rtt = "on"
+tls_1_3 = "zrt"
+early_hints = "on"
+min_tls_version = "1.2"
+
+# Declarative Multi-Zone Cartography (191 DNS records, Worker routes, Worker Custom Domains, R2 CDNs, Tunnels & Mail)
 # Zero literal Account IDs, Zone IDs, Tunnel UUIDs, or VPS IPs: resolved dynamically via `cf.local.toml`.
 
 [zones."aphrody.com"]
-worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases"]
+worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases", "assets", "wasm", "learn", "auto"]
 
 [zones."aphrody.com".tunnel_cnames]
 aphrody = [
@@ -543,19 +566,39 @@ script = "aphrody"
 
 [[zones."aphrody.com".worker_routes]]
 pattern = "docs.aphrody.com/*"
-script = "docs-proxy"
+script = "ay-edge"
 
 [[zones."aphrody.com".worker_routes]]
 pattern = "downloads.aphrody.com/*"
-script = "aphrody-releases"
+script = "ay-edge"
 
 [[zones."aphrody.com".worker_routes]]
 pattern = "releases.aphrody.com/*"
-script = "aphrody-releases"
+script = "ay-edge"
 
 [[zones."aphrody.com".worker_routes]]
 pattern = "aphrody.com/download*"
-script = "aphrody-releases"
+script = "ay-edge"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "assets.aphrody.com/*"
+script = "ay-edge"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "aphrody.com/r2-assets/*"
+script = "ay-edge"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "wasm.aphrody.com/*"
+script = "ay-edge"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "learn.aphrody.com/*"
+script = "ay-edge"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "aphrody.com/github"
+script = "ay-edge"
 
 [[zones."aphrody.com".worker_domains]]
 hostname = "bun.aphrody.com"
@@ -583,7 +626,7 @@ service = "aphrody-mcp-gateway"
 
 [[zones."aphrody.com".worker_domains]]
 hostname = "auto.aphrody.com"
-service = "auto"
+service = "ay-edge"
 
 
 [zones."aphrody.app"]
@@ -994,7 +1037,7 @@ content = "\"v=spf1 include:mx.ovh.com -all\""
 
 [[zones."dragonballfr.com".worker_routes]]
 pattern = "cdn.dragonballfr.com/*"
-script = "shenron-cdn"
+script = "ay-edge"
 
 
 [zones."rosegriffon.fr"]

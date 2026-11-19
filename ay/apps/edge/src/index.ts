@@ -1,5 +1,6 @@
 // The unified edge Worker: one script for every host and path of edge.toml. Routing is router.ts; a module service runs here
 // (services/), a service-mode service is the script that still owns its code or Durable Object state, reached through its service binding.
+import { withEdgeCache } from "./hints.ts";
 import { type Resolved, type RouteRow, type ServiceInfo, resolve } from "./router.ts";
 import assets from "./services/assets.ts";
 import releases from "./services/releases.ts";
@@ -54,7 +55,7 @@ export async function dispatch(inbound: Request, env: EdgeEnv, ctx: ExecutionCon
   if (info.binding) {
     const target = env[info.binding] as Fetcher | undefined;
     if (!target) return json({ error: "service binding missing", service: hit.service, binding: info.binding }, 502);
-    if (!hit.preview) return target.fetch(request);
+    if (!hit.preview) return withEdgeCache(request, hit.hints, ctx, () => target.fetch(request));
     const forwarded = new URL(request.url);
     forwarded.pathname = hit.path;
     return target.fetch(new Request(forwarded, request));
@@ -63,7 +64,7 @@ export async function dispatch(inbound: Request, env: EdgeEnv, ctx: ExecutionCon
   if (!handler) return json({ error: "no module for service", service: hit.service }, 501);
   const origin = hit.preview ? `${url.origin}/_/${hit.service}` : url.origin;
   const routed: Routed = { request, url, path: hit.path, origin, env, ctx };
-  return handler(routed);
+  return withEdgeCache(request, hit.preview ? undefined : hit.hints, ctx, async () => handler(routed));
 }
 
 export default {

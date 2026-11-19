@@ -9,6 +9,9 @@ main = "src/index.ts"
 compatibility_date = "2026-11-18"
 compatibility_flags = ["nodejs_compat"]
 cpu_ms = 50
+# placement = "smart" is not set: the modules read R2 (global) and the rest is forwarded over service bindings, so pulling the whole Worker toward one
+# region would slow every host. Smart Placement pays for a backend with single-region state (the D1 database and CompanyDO of `auto`); it belongs on that
+# script today, and here (`placement = "smart"`, rendered as placement.mode) only once `auto` is fused into this Worker (docs/edge.md, Latency).
 preview_workers_dev = true  # the config without routes (pre-cutover upload) answers on workers.dev under /_/<service>/...; the routed config sets workers_dev = false
 
 [domains]
@@ -25,12 +28,17 @@ CHROMIUM = "aphrody-chromium"
 # Durable Object state in another repository, reached through a service binding (script = its current name); it keeps its cron
 # triggers and receives no route of its own. `routes` are Cloudflare route patterns ("host/path", a trailing * is a prefix): they are
 # rendered into wrangler.jsonc and are also the table the router matches, the longest pattern winning, so the two never drift.
-# `custom_domains` are rendered as Workers Custom Domains instead of routes.
+# `custom_domains` are rendered as Workers Custom Domains instead of routes. `[services.<name>.hints."<route as written>"]` are latency hints of one route,
+# rendered into vars.EDGE_ROUTES and applied by apps/edge/src/hints.ts: cache = { ttl, swr } (edge cache for cacheable GETs, and s-maxage when the
+# service set no cache-control) and early_hints = ["<Link value>"] (preload/preconnect, sent as 103 once the zone setting early_hints is on).
 
 [services.releases]
 mode = "module"
 routes = ["releases.{root}/*", "downloads.{root}/*", "{root}/download*"]
 note = "downloads (latest and versioned, per os and arch), manifest, aphrody legacy channel API, installers, ay-tools builds"
+# The portal and its icon: the page links /brand/icon.svg, so the browser can fetch it while the Worker renders.
+[services.releases.hints."{root}/download*"]
+early_hints = ["</brand/icon.svg>; rel=preload; as=image"]
 
 [services.assets]
 mode = "module"
@@ -55,6 +63,9 @@ script = "aphrody-worker"
 binding = "SVC_APHRODY"
 routes = ["docs.{root}/*", "{root}/github"]
 note = "aphrody-worker: docs proxy, GitHub webhook intake into the github-events queue; cron and queue producer stay on the script"
+# Docs pages change on deploy, not per request: five minutes at the edge, stale for an hour. The webhook (`{root}/github`, POST) has no hint and is never cached.
+[services.aphrody.hints."docs.{root}/*"]
+cache = { ttl = 300, swr = 3600 }
 
 [services.auto]
 mode = "service"
@@ -69,6 +80,9 @@ script = "shenron-cdn"
 binding = "SVC_SHENRON_CDN"
 routes = ["cdn.{shenron}/*"]
 note = "shenron-cdn: R2 shenron-cdn, manifests and import state"
+# Immutable media of the community CDN: cached at the edge for an hour, served stale for a day while it revalidates (a response with its own cache-control keeps it).
+[services.shenron.hints."cdn.{shenron}/*"]
+cache = { ttl = 3600, swr = 86400 }
 
 [services.fw]
 mode = "service"

@@ -135,6 +135,51 @@ bun tools/edge-cutover.ts plan                         # read-only: owner of eve
 and sends real requests with the Host of each route (`wrangler dev` rewrites the host, so the test names it in `x-edge-host`, a header honoured only
 when the dev config sets `EDGE_HOST_HEADER`; the rendered config never does).
 
+## Latency: HTTP/3, cache, early hints, placement
+
+**HTTP/3 at the edge.** `packages/cf-control-plane/cf.toml` `[zone_settings]` declares `http3 = "on"`, `zero_rtt = "on"`, `tls_1_3 = "zrt"`, `early_hints = "on"` and
+`min_tls_version = "1.2"` for every zone (a `[zones."<zone>".settings]` table overrides one key). `bun tools/cf-reconcile.ts` diffs them with the zone routes
+and DNS; `--apply-settings` writes only the settings (never DNS or routes); `--apply-zones` and `--apply-all` include them. Read live 2026-11-19, the four zones
+(`aphrody.com`, `aphrody.app`, `dragonballfr.com`, `rosegriffon.fr`) already had exactly these values, so the apply changed nothing (0 settings applied).
+
+`bun tools/cf-h3-probe.ts` (`ay cf-h3-probe`) proves it: for every host of cf.toml and edge.toml it opens a real QUIC connection (`fetch(..., { protocol: "http3" })`
+rejects instead of falling back to TCP) and records the Alt-Svc of the HTTP/2 response in `.private/h3-evidence.json`. Verdicts: `h3`, `no-dns` (declared, absent from live
+DNS), `r2-custom-domain`, `fail` (the only one that exits 1). Read 2026-11-19: 106 proxied hosts answer h3 with `alt-svc: h3=":443"; ma=86400`; an independent client
+(xh 0.26.3 built with `http3`, run on the test host) agreed on 106 and failed on the same 5. The 5 R2 custom domains (`assets.<app>`, `dist.<app>`, `bun-lib.<app>`,
+`video.<app>`, `video.<root>`) answer HTTP/2 with no Alt-Svc whatever the zone setting is: R2 serves them directly. Fronting one with a route of this Worker gives it h3
+(`assets.<root>` does once it is routed); the bucket domains stay as they are until the owner moves them. 14 hosts (the `rosegriffon.fr` tunnel hosts, `assets.<root>`, `wasm.<root>`)
+have no DNS record yet: `cf-reconcile` lists the records to create.
+
+**HTTP/3 in Bun servers.** `Bun.serve` implements HTTP/3 itself (oven-sh/bun `docs/runtime/http/server.mdx`, experimental): `http3: true` with `tls` listens on the same port over TCP
+(HTTP/1.1, with `Alt-Svc`) and UDP (QUIC); `http1: false` makes it UDP only. `packages/edge-stack` `listenOptions()` reads `AY_TLS_CERT`, `AY_TLS_KEY` (PEM files, optional `AY_TLS_CA`) and
+`AY_HTTP3` (`1` default once TLS is set, `only`, `0`), and `apps/auto-server` (self-hosted), `apps/chromium-dash` and `packages/org-mirror` spread it into `Bun.serve`;
+`packages/edge-stack/test/serve.test.ts` proves an h3 round trip, the Alt-Svc of the TCP response, and h3-only with no TCP listener. The other Bun servers (the `ai-os` gateway, terminal and RPC servers, the ai-triad gateway, the pi-opencode UI, the env-kit OAuth callbacks) do not read these options: they are local endpoints, or reached through
+the Cloudflare edge or the tunnels, which terminate HTTP/3 for them. One that must become a public listener gets `...listenOptions()` in its `Bun.serve` call. Never set
+`BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP2_CLIENT` or `BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP3_CLIENT` in the Windows environment; the tests need neither.
+
+**Per-route hints.** `edge.toml` `[services.<name>.hints."<route as written>"]` carries `cache = { ttl, swr }` and `early_hints = ["<Link value>"]`. They are rendered into
+`vars.EDGE_ROUTES` and applied by `apps/edge/src/hints.ts`: a cacheable GET (200, no cookie, no authorization, no range) is stored in the Cache API for `ttl` seconds and gets
+`s-maxage` and `stale-while-revalidate` when the service set no `cache-control` of its own; `early_hints` are added as `Link` headers, which Cloudflare turns into a 103
+once the zone setting `early_hints` is on. Today: `docs.<root>/*` 300 s plus 3600 s stale, `cdn.<shenron>/*` 3600 s plus 86400 s stale, the portal (`<root>/download*`) preloads `/brand/icon.svg`.
+Mutating routes (the webhook, `auto`) have no hint and are never cached.
+
+**Smart Placement.** `[worker] placement = "smart"` renders `placement.mode`. It is not set: the modules read R2 (global) and the other services are forwarded over service bindings, so
+pulling the Worker toward one region would slow every host. It pays for a backend with single-region state, which is the D1 database and `CompanyDO` of `auto`; it goes on that script today
+and on this Worker only once `auto` is fused into it.
+
+## One route table, checked
+
+`bun tools/edge-config.ts --check` (part of `bun run check`) fails when `wrangler.jsonc` is not the render of `edge.toml`, and on any drift between the three files:
+
+- every Worker route and custom domain of cf.toml is the edge Worker's (`script = "ay-edge"`, and `edge.toml` has that exact route) or intentionally external (the script is in
+  cf.toml `[edge] external_scripts`, the scripts of other repositories, and `edge.toml` has no such route): exactly one owner;
+- every `edge.toml` route is declared in cf.toml, in a zone cf.toml knows, and its host has a proxied DNS record (a route on a host without one never receives traffic);
+- no pattern is declared by two services, a hint names a route of its service, `[workers.ay-edge]` of cf.toml agrees with `[worker]` (`cpu_ms`, `workers_dev = false`);
+- the committed `wrangler.jsonc` carries the rendered `routes`, `vars`, `limits`, `placement` and `workers_dev`.
+
+cf.toml declares the post-cutover owner of the edge routes. `cf-reconcile` therefore shows them as route updates, which equal the `edge-cutover plan` below, and it
+never creates or moves a route or custom domain whose script is not deployed (`ay-edge` is not until its first upload): they are listed as skipped.
+
 ## Cutover checklist (the owner confirms the first deploy; nothing here runs on its own)
 
 The routes of `aphrody.com`, `aphrody.app` and the custom domain move zones that `ay.toml` `[domains]` marks read-only for this repository; the owner's directive

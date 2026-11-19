@@ -1,5 +1,5 @@
 import Cloudflare from "cloudflare";
-import type { AyCfManifest, ZoneContract } from "./schemas.ts";
+import { ZONE_SETTING_IDS, type AyCfManifest, type ZoneContract, type ZoneSettings } from "./schemas.ts";
 import type { BucketUsageRow } from "./finops.ts";
 
 export interface LocalCloudflareContext {
@@ -36,6 +36,29 @@ export interface ZoneReconcileDiff {
   routesToDelete: Array<{ id: string; pattern: string; script: string }>;
   domainsToCreate: Array<{ hostname: string; service: string }>;
   domainsToDelete: Array<{ id: string; hostname: string; service: string }>;
+  settingsToUpdate: ZoneSettingChange[];
+}
+
+export interface ZoneSettingChange {
+  id: string;
+  live: string | null;
+  want: string;
+}
+
+/** The settings a zone must have: the manifest defaults overridden by the zone's own table. */
+export function effectiveZoneSettings(manifest: AyCfManifest, zoneName: string): ZoneSettings {
+  return { ...manifest.zone_settings, ...manifest.zones[zoneName]?.settings };
+}
+
+/** Settings whose live value differs from the declared one. A setting absent from the contract is never touched. */
+export function diffZoneSettings(want: ZoneSettings, live: Record<string, string>): ZoneSettingChange[] {
+  const changes: ZoneSettingChange[] = [];
+  for (const [key, value] of Object.entries(want) as Array<[keyof ZoneSettings, string | undefined]>) {
+    if (value === undefined) continue;
+    const id = ZONE_SETTING_IDS[key];
+    if (live[id] !== value) changes.push({ id, live: live[id] ?? null, want: value });
+  }
+  return changes;
 }
 
 export function qualifyHostname(sub: string, zone: string): string {
@@ -202,6 +225,7 @@ export function diffZoneState(
   spec: ZoneContract,
   liveZone: LiveCloudflareSnapshot["zones"][number],
   local: LocalCloudflareContext = {},
+  settings: ZoneSettings = spec.settings,
 ): ZoneReconcileDiff {
   const expectedDns = expandZoneRecords(zoneName, spec, local);
   const dnsToCreate: ExpectedDnsRecord[] = [];
@@ -329,6 +353,7 @@ export function diffZoneState(
     routesToDelete,
     domainsToCreate,
     domainsToDelete,
+    settingsToUpdate: diffZoneSettings(settings, liveZone.settings),
   };
 }
 
@@ -337,7 +362,7 @@ export async function applyZoneReconciliation(
   manifest: AyCfManifest,
   snapshot: LiveCloudflareSnapshot,
   local: LocalCloudflareContext,
-  opts: { apply: boolean; prune?: boolean },
+  opts: { apply: boolean; prune?: boolean; settings?: boolean },
 ): Promise<{
   zoneDiffs: ZoneReconcileDiff[];
   appliedDnsCreates: number;
@@ -348,6 +373,9 @@ export async function applyZoneReconciliation(
   appliedRouteDeletes: number;
   appliedDomainCreates: number;
   appliedDomainDeletes: number;
+  appliedSettings: number;
+  /** Routes and custom domains left alone because their script is not deployed yet (the edge Worker before its first upload). */
+  skippedUndeployed: string[];
 }> {
   const zoneDiffs: ZoneReconcileDiff[] = [];
   let appliedDnsCreates = 0;
@@ -358,12 +386,26 @@ export async function applyZoneReconciliation(
   let appliedRouteDeletes = 0;
   let appliedDomainCreates = 0;
   let appliedDomainDeletes = 0;
+  let appliedSettings = 0;
+  const skippedUndeployed: string[] = [];
+  const deployed = new Set(snapshot.workers.map((w) => w.id));
 
   for (const liveZone of snapshot.zones) {
     const spec = manifest.zones[liveZone.name];
     if (!spec) continue;
-    const diff = diffZoneState(liveZone.name, spec, liveZone, local);
+    const diff = diffZoneState(liveZone.name, spec, liveZone, local, effectiveZoneSettings(manifest, liveZone.name));
     zoneDiffs.push(diff);
+
+    for (const r of [...diff.routesToCreate, ...diff.routesToUpdate]) if (!deployed.has(r.script)) skippedUndeployed.push(`${r.pattern} -> ${r.script}`);
+    for (const d of diff.domainsToCreate) if (!deployed.has(d.service)) skippedUndeployed.push(`${d.hostname} -> ${d.service}`);
+
+    // 0. Zone settings (http3, 0rtt, early_hints, tls_1_3, min_tls_version): one PATCH per drifted setting; `settings` applies only these
+    if (opts.apply || opts.settings) {
+      for (const change of diff.settingsToUpdate) {
+        await client.zones.settings.edit(change.id, { zone_id: liveZone.id, value: change.want as never });
+        appliedSettings++;
+      }
+    }
 
     if (!opts.apply) continue;
 
@@ -407,6 +449,7 @@ export async function applyZoneReconciliation(
 
     // 4. Create new Worker Routes BEFORE deleting wildcard/obsolete routes (zero downtime)
     for (const r of diff.routesToCreate) {
+      if (!deployed.has(r.script)) continue;
       await client.workers.routes.create({
         zone_id: liveZone.id,
         pattern: r.pattern,
@@ -417,6 +460,7 @@ export async function applyZoneReconciliation(
 
     // 5. Update drifted Worker Routes
     for (const r of diff.routesToUpdate) {
+      if (!deployed.has(r.script)) continue;
       await client.workers.routes.update(r.id, {
         zone_id: liveZone.id,
         pattern: r.pattern,
@@ -433,7 +477,10 @@ export async function applyZoneReconciliation(
 
     // 7. Delete conflicting Worker Custom Domains (e.g., downloads.aphrody.com on aphrody-sites)
     const expAaaaSet = new Set(spec.worker_aaaa.map((sub) => qualifyHostname(sub, liveZone.name).toLowerCase()));
+    // A custom domain moving to a script that is not deployed keeps its current owner: neither deleted nor re-created.
+    const undeployedDomains = new Set(diff.domainsToCreate.filter((d) => !deployed.has(d.service)).map((d) => d.hostname.toLowerCase()));
     for (const d of diff.domainsToDelete) {
+      if (undeployedDomains.has(d.hostname.toLowerCase())) continue;
       await client.workers.domains.delete(d.id, { account_id: snapshot.accountId });
       appliedDomainDeletes++;
       // Deleting a Worker Custom Domain automatically deletes its managed AAAA 100:: record; re-create if declared
@@ -452,6 +499,7 @@ export async function applyZoneReconciliation(
 
     // 8. Create missing Worker Custom Domains
     for (const d of diff.domainsToCreate) {
+      if (!deployed.has(d.service)) continue;
       await client.workers.domains.update({
         account_id: snapshot.accountId,
         zone_id: liveZone.id,
@@ -472,6 +520,8 @@ export async function applyZoneReconciliation(
     appliedRouteDeletes,
     appliedDomainCreates,
     appliedDomainDeletes,
+    appliedSettings,
+    skippedUndeployed,
   };
 }
 
@@ -497,6 +547,7 @@ export interface LiveCloudflareSnapshot {
     workerRoutes: Array<Record<string, unknown>>;
     workerDomains: Array<Record<string, unknown>>;
     cacheRuleset: Record<string, unknown> | null;
+    settings: Record<string, string>;
   }>;
   workers: Array<{
     id: string;
@@ -529,6 +580,17 @@ export function createCloudflareClient(apiToken = Bun.env.CLOUDFLARE_API_TOKEN):
   return new Cloudflare({ apiToken });
 }
 
+/** Live value of every setting the contract can declare, by Cloudflare setting id. */
+export async function readZoneSettings(client: Cloudflare, zoneId: string): Promise<Record<string, string>> {
+  const entries = await Promise.all(
+    Object.values(ZONE_SETTING_IDS).map(async (id) => {
+      const res = (await client.zones.settings.get(id, { zone_id: zoneId })) as unknown as { value?: unknown };
+      return [id, String(res.value ?? "")] as const;
+    }),
+  );
+  return Object.fromEntries(entries);
+}
+
 export async function captureLiveSnapshot(
   client: Cloudflare,
   accountId: string,
@@ -558,6 +620,7 @@ export async function captureLiveSnapshot(
         workerRoutes: (routesRes.result ?? []) as unknown as Array<Record<string, unknown>>,
         workerDomains: (domainsRes.result ?? []) as unknown as Array<Record<string, unknown>>,
         cacheRuleset,
+        settings: await readZoneSettings(client, z.id),
       };
     }),
   );

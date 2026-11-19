@@ -1,12 +1,16 @@
 // Host and path routing of the unified Worker. The table is vars.EDGE_ROUTES, rendered by tools/edge-config.ts from edge.toml with the
 // same patterns Cloudflare gets as routes, so the Worker and the zone never disagree. The longest matching path wins on a host.
 
+import type { RouteHints } from "./hints.ts";
+
 export interface RouteRow {
   pattern: string;
   host: string;
   path: string;
   prefix: boolean;
   service: string;
+  /** Latency hints of the route (edge.toml hints): edge cache and early hints. */
+  hints?: RouteHints;
 }
 
 export interface ServiceInfo {
@@ -19,6 +23,7 @@ export interface Resolved {
   /** Path below the mount: the preview prefix is removed, a routed host keeps its full path. */
   path: string;
   preview: boolean;
+  hints?: RouteHints;
 }
 
 export const PREVIEW_PREFIX = "/_/";
@@ -41,7 +46,7 @@ export function matchRoute(rows: readonly RouteRow[], host: string, path: string
  */
 export function resolve(rows: readonly RouteRow[], services: Record<string, ServiceInfo>, host: string, path: string): Resolved | undefined {
   const hit = matchRoute(rows, host, path);
-  if (hit) return { service: hit.service, path, preview: false };
+  if (hit) return { service: hit.service, path, preview: false, hints: hit.hints };
   const known = rows.some((r) => r.host === host.toLowerCase());
   if (known || !path.startsWith(PREVIEW_PREFIX)) return undefined;
   const rest = path.slice(PREVIEW_PREFIX.length);
