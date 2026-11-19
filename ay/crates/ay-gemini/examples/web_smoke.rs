@@ -11,7 +11,7 @@
 //!   cargo run -p ay-gemini-web --example smoke                 # read-only probe
 //!   cargo run -p ay-gemini-web --example smoke -- "your prompt" # also send
 
-use ay_gemini_web::GeminiWebClient;
+use ay_gemini::web::GeminiWebClient;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

@@ -10,7 +10,7 @@
 //! # Usage
 //!
 //! ```no_run
-//! use ay_gemini_runtime::{TurnOptions, detect};
+//! use ay_gemini::runtime::{TurnOptions, detect};
 //! use futures_util::StreamExt as _;
 //!
 //! # async fn run() {

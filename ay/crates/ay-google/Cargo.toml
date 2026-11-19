@@ -14,14 +14,14 @@ name = "ay_google"
 path = "src/lib.rs"
 
 [dependencies]
-ay-antigravity = { path = "../ay-antigravity" }
-ay-gemini-web = { path = "../ay-gemini-web" }
+ay-model = { path = "../ay-model", default-features = false, features = ["antigravity"] }
+ay-gemini = { path = "../ay-gemini", default-features = false, features = ["web"] }
 serde.workspace = true
 serde_json = { workspace = true, features = ["std"] }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-ay-gemini-runtime = { path = "../ay-gemini-runtime" }
-ay-model-client = { path = "../ay-model-client" }
+ay-gemini = { path = "../ay-gemini", default-features = false, features = ["runtime"] }
+ay-model = { path = "../ay-model", default-features = false, features = ["client"] }
 bun_browser_dom = "1.4.8"
 chrono = { version = "0.4.45", default-features = false }
 clap = { workspace = true, features = ["derive", "env"] }

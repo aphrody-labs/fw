@@ -19,7 +19,7 @@ use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::{
+use crate::web::{
     auth::Auth,
     boq::{encode_f_req, first_envelope},
     error::{GeminiError, Result},
@@ -148,11 +148,11 @@ impl HttpTransport {
     }
 
     /// Send a generate turn to the streaming endpoint
-    /// ([`crate::rpc_ids::URL_STREAM_GENERATE`]) and return the raw streamed
-    /// response text for [`crate::payload::parse_stream_response`].
+    /// ([`crate::web::rpc_ids::URL_STREAM_GENERATE`]) and return the raw streamed
+    /// response text for [`crate::web::payload::parse_stream_response`].
     ///
     /// `inner` is the message list built by
-    /// [`crate::payload::build_send_payload`]; it is wrapped as
+    /// [`crate::web::payload::build_send_payload`]; it is wrapped as
     /// `f.req=[null,"<inner_json>"]&at=<token>` (the `BardFrontendService`
     /// framing, distinct from `batchexecute`). `model` ships the optional
     /// model-selector header.
@@ -175,7 +175,7 @@ impl HttpTransport {
             urlencoded(&self.tokens.at),
         );
         let req_id = self.next_req_id();
-        let mut url = url::Url::parse(crate::rpc_ids::URL_STREAM_GENERATE)
+        let mut url = url::Url::parse(crate::web::rpc_ids::URL_STREAM_GENERATE)
             .map_err(|e| GeminiError::Network(format!("invalid stream URL: {e}")))?;
         {
             let mut qp = url.query_pairs_mut();
@@ -276,7 +276,7 @@ impl HttpTransport {
 
     /// Execute a single RPC and return the inner `wrb.fr` envelope.
     ///
-    /// `model` (when set) is the [`crate::rpc_ids`] model-selector token shipped
+    /// `model` (when set) is the [`crate::web::rpc_ids`] model-selector token shipped
     /// via the `x-goog-ext-525001261-jspb` header (only meaningful for
     /// `MaZiqc` sends).
     ///

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! Typed error surface for the Gemini web RPC client.
 //!
-//! Every public function on [`crate::client::GeminiWebClient`] returns
+//! Every public function on [`crate::web::client::GeminiWebClient`] returns
 //! [`Result<T>`] = `Result<T, GeminiError>`. Variants carry enough context for
 //! callers to route (auth refresh, retry, surface-back).
 

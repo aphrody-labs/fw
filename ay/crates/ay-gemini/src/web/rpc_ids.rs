@@ -41,7 +41,7 @@ pub const URL_STREAM_GENERATE: &str = "https://gemini.google.com/_/BardChatUi/da
 /// opaque per-model tokens (`HanaokaYuzu` `constants.py`).
 pub const MODEL_HEADER: &str = "x-goog-ext-525001261-jspb";
 
-// Model-selector header VALUES are built by [`crate::models::GeminiModel`],
+// Model-selector header VALUES are built by [`crate::web::models::GeminiModel`],
 // whose tokens + full array shape were captured live (the earlier short-form
 // `[1,null,null,null,"<token>"]` reconstruction was wrong). Pass
 // `GeminiModel::Flash.header()` (etc.) as the `model` argument to

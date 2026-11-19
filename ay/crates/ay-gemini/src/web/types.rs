@@ -26,7 +26,7 @@ impl ConversationMetadata {
     }
 }
 
-/// One model reply parsed from a [`crate::rpc_ids::SEND_MESSAGE`] response.
+/// One model reply parsed from a [`crate::web::rpc_ids::SEND_MESSAGE`] response.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct ChatReply {
     /// The concatenated reply text of the selected candidate.

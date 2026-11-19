@@ -7,7 +7,7 @@ use std::path::{Path, PathBuf};
 
 use serde_json::json;
 
-use crate::{
+use crate::web::{
     auth::Auth,
     bootstrap::fetch_session_tokens,
     error::{GeminiError, Result},
@@ -109,7 +109,7 @@ impl GeminiWebClient {
     ///
     /// Pass [`ConversationMetadata::default`] to start a new conversation, or a
     /// prior reply's [`ChatReply::metadata`] to continue the same thread.
-    /// `model` is an optional [`crate::rpc_ids`] model-selector token
+    /// `model` is an optional [`crate::web::rpc_ids`] model-selector token
     /// (`MODEL_FLASH` / `MODEL_PRO` / `MODEL_THINKING`); `None` = account default.
     /// Optionally pass a list of attachments previously uploaded via [`Self::upload_file`].
     ///

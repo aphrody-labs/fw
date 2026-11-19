@@ -15,7 +15,7 @@ use std::{
 use serde::Deserialize;
 use serde_json::{json, Value};
 
-use crate::{GeminiModel, GeminiWebClient};
+use crate::web::{GeminiModel, GeminiWebClient};
 
 #[derive(Deserialize)]
 struct Request {
@@ -91,7 +91,7 @@ pub fn cli_main(_args: Vec<OsString>) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::model_header;
-    use crate::GeminiModel;
+    use crate::web::GeminiModel;
 
     #[test]
     fn expands_known_model_and_preserves_custom_header() {

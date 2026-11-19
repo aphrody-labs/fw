@@ -9,9 +9,9 @@
 
 use serde_json::Value;
 
-pub use ay_boq::{extract_chunks, parse_envelopes, strip_xssi, XSSI_PREFIX};
+pub use crate::boq::{extract_chunks, parse_envelopes, strip_xssi, XSSI_PREFIX};
 
-use crate::error::{GeminiError, Result};
+use crate::web::error::{GeminiError, Result};
 
 /// Encode a single-RPC `f.req` body string.
 ///
@@ -19,7 +19,7 @@ use crate::error::{GeminiError, Result};
 ///
 /// Returns [`GeminiError::Parse`] if `payload` cannot be serialised.
 pub fn encode_f_req(rpc_id: &str, payload: &Value) -> Result<String> {
-    Ok(ay_boq::encode_f_req(rpc_id, payload)?)
+    Ok(crate::boq::encode_f_req(rpc_id, payload)?)
 }
 
 /// Return the first `wrb.fr` envelope or fail with [`GeminiError::Parse`].
@@ -28,7 +28,7 @@ pub fn encode_f_req(rpc_id: &str, payload: &Value) -> Result<String> {
 ///
 /// Returns [`GeminiError::Parse`] when the response carries no `wrb.fr` chunk.
 pub fn first_envelope(raw: &str) -> Result<Value> {
-    ay_boq::first_envelope(raw)
+    crate::boq::first_envelope(raw)
         .ok_or_else(|| GeminiError::Parse("no wrb.fr envelope in response".to_string()))
 }
 

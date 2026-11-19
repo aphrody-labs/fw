@@ -8,7 +8,7 @@
 //! ```
 
 use crate::cabi::{ABI_STATUS_ERR, ABI_STATUS_OK, free_framed, pack_framed, utf8_slice};
-use ay_boq::parse_envelopes as boq_parse_envelopes;
+use ay_gemini::boq::parse_envelopes as boq_parse_envelopes;
 
 /// Free a framed buffer returned by any `aphrody_*` C-ABI function.
 ///

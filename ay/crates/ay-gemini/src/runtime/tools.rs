@@ -3,18 +3,18 @@
 //!
 //! The gemini runtime exposes three first-class tool sources:
 //!
-//! - [`WebSearchTool`] — built-in Gemini web-search via [`crate::web_search`].
+//! - [`WebSearchTool`] — built-in Gemini web-search via [`crate::runtime::web_search`].
 //! - [`McpProxyTool`] — wraps a single tool advertised by an MCP server.
 //! - User-defined tools registered through [`ToolRegistry::register`].
 //!
-//! All three share the same [`Tool`] surface so the upstream [`crate::GeminiRuntime`]
+//! All three share the same [`Tool`] surface so the upstream [`crate::runtime::GeminiRuntime`]
 //! turn loop can dispatch tool calls polymorphically (boxed trait objects under
 //! `Arc` so they can be cheaply cloned across turns).
 //!
 //! ```no_run
 //! use std::sync::Arc;
-//! use ay_gemini_runtime::tools::{Tool, ToolRegistry, WebSearchTool};
-//! use ay_gemini_runtime::WebSearchConfig;
+//! use ay_gemini::runtime::tools::{Tool, ToolRegistry, WebSearchTool};
+//! use ay_gemini::runtime::WebSearchConfig;
 //!
 //! # async fn run() {
 //! let mut reg = ToolRegistry::new();
@@ -37,7 +37,7 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use tokio::sync::Mutex;
 
-use crate::{
+use crate::runtime::{
     mcp_client::{McpClient, McpError},
     web_search::{WebSearchConfig, WebSearchError, web_search},
 };
@@ -113,8 +113,8 @@ pub trait Tool: Send + Sync {
 // WebSearchTool
 // ---------------------------------------------------------------------------
 
-/// Built-in tool wrapping [`crate::web_search`]. Accepts `{ "query": "..." }`
-/// and returns the [`crate::SearchResults`] JSON.
+/// Built-in tool wrapping [`crate::runtime::web_search`]. Accepts `{ "query": "..." }`
+/// and returns the [`crate::runtime::SearchResults`] JSON.
 pub struct WebSearchTool {
     client: reqwest::Client,
     cfg: WebSearchConfig,

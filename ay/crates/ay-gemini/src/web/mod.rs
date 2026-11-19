@@ -29,9 +29,9 @@
 //! ## Quick start
 //!
 //! ```no_run
-//! use ay_gemini_web::GeminiWebClient;
+//! use ay_gemini::web::GeminiWebClient;
 //!
-//! # async fn run() -> ay_gemini_web::Result<()> {
+//! # async fn run() -> ay_gemini::web::Result<()> {
 //! // Install a rustls CryptoProvider before the first reqwest call (caller).
 //! let client = GeminiWebClient::from_default_cookie_file("en").await?;
 //! let reply = client.ask("Explain io_uring in one sentence.", None).await?;
@@ -75,9 +75,9 @@ pub use models::{GeminiModel, ReasoningLevel};
 pub use transport::{HttpTransport, SessionTokens};
 pub use types::{ChatReply, ConversationMetadata, UploadedAttachment};
 
-/// Curated re-exports for a single `use ay_gemini_web::prelude::*;`.
+/// Curated re-exports for a single `use crate::web::prelude::*;`.
 pub mod prelude {
-    pub use crate::{
+    pub use crate::web::{
         auth::{Auth, CookieJar, SessionCookie},
         client::GeminiWebClient,
         error::{GeminiError, Result},

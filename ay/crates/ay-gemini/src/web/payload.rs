@@ -4,7 +4,7 @@
 //! Wire spec captured live from `gemini.google.com` build
 //! `boq_assistant-bard-web-server_20260520.03_p0` (2026-05-21). A user message
 //! is NOT sent via `batchexecute`; it goes to
-//! [`crate::rpc_ids::URL_STREAM_GENERATE`] (the `BardFrontendService` streaming
+//! [`crate::web::rpc_ids::URL_STREAM_GENERATE`] (the `BardFrontendService` streaming
 //! endpoint) with body `f.req=[null,"<inner_list_json>"]&at=<token>`.
 //!
 //! The `inner_list` (the JSON-stringified slot 1 of the `f.req` envelope) is:
@@ -18,7 +18,7 @@
 
 use serde_json::{json, Value};
 
-use crate::{
+use crate::web::{
     boq::parse_envelopes,
     error::{GeminiError, Result},
     types::{ChatReply, ConversationMetadata, UploadedAttachment},

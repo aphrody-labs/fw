@@ -56,12 +56,12 @@ impl GoogleRuntime {
     }
 }
 
-pub use ay_antigravity as antigravity;
+pub use ay_model::antigravity as antigravity;
 #[cfg(not(target_arch = "wasm32"))]
-pub use ay_gemini_runtime as gemini_runtime;
-pub use ay_gemini_web as gemini_web;
+pub use ay_gemini::runtime as gemini_runtime;
+pub use ay_gemini::web as gemini_web;
 #[cfg(not(target_arch = "wasm32"))]
-pub use ay_model_client as model_client;
+pub use ay_model::client as model_client;
 #[cfg(not(target_arch = "wasm32"))]
 mod cli;
 #[cfg(not(target_arch = "wasm32"))]

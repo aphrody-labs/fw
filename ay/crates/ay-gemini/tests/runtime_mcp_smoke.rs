@@ -7,7 +7,7 @@
 
 use std::sync::Arc;
 
-use ay_gemini_runtime::{
+use ay_gemini::runtime::{
     McpConfig, McpTransportConfig, Tool, ToolError, ToolRegistry, WebSearchConfig, WebSearchTool,
     parse_mcp_config,
 };

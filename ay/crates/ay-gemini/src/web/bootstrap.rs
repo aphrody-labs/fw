@@ -15,7 +15,7 @@ use std::time::Duration;
 
 use regex::Regex;
 
-use crate::{
+use crate::web::{
     auth::Auth,
     error::{GeminiError, Result},
     rpc_ids::URL_APP,

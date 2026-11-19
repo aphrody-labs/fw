@@ -5,7 +5,7 @@
 //! from a logged-in browser (e.g. the Cookie-Editor extension) into a JSON
 //! file; the headless client replays the jar on every `batchexecute` POST. The
 //! anti-CSRF `at` token is NOT a cookie — it is scraped from the app page at
-//! bootstrap (see [`crate::bootstrap`]).
+//! bootstrap (see [`crate::web::bootstrap`]).
 //!
 //! Secrets stay on disk under the caller's home (`~/.aphrody/google-cookies.json`
 //! by default); they are never written into the aphrody workspace.
@@ -16,7 +16,7 @@ use std::path::Path;
 
 use serde::{Deserialize, Serialize};
 
-use crate::error::{GeminiError, Result};
+use crate::web::error::{GeminiError, Result};
 
 /// One entry in the cookie jar. Field aliases accept both the Cookie-Editor
 /// (`httpOnly`, camel-case) spelling and the `aphrody chromium export-session`
@@ -416,7 +416,7 @@ mod tests {
             .filter(|value| !value.is_empty())
             .expect("configured Google cookie path");
         assert_eq!(
-            crate::client::GeminiWebClient::default_cookie_path(),
+            crate::web::client::GeminiWebClient::default_cookie_path(),
             Some(path.clone().into())
         );
         let auth = Auth::from_cookie_file(path)
