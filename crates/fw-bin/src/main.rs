@@ -394,6 +394,17 @@ fn main() {
                 }
             }
         }
+        "pm" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let sub_args: Vec<&str> = args.iter().skip(1).map(String::as_str).collect();
+            match fw_apm::unified_pm::run_pm_cli(&sub_args, &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw pm: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
         "apm" => {
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
             let sub_args: Vec<&str> = args.iter().skip(1).map(String::as_str).collect();

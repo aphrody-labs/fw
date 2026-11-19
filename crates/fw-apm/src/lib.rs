@@ -21,6 +21,7 @@ pub mod installer;
 pub mod lockfile;
 pub mod manifest;
 pub mod resolver;
+pub mod unified_pm;
 
 use serde_json::{Value, json};
 use std::path::Path;

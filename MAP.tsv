@@ -10,7 +10,8 @@ configs/heretic	heretic-presets	8	31105	uvx ruff check .
 core	misc	36	144461	just ci
 core/py	python-core	115	2238295	uvx ruff check .
 core/rs	rust-embedded	299	7880945	cargo check --manifest-path core/rs/wta/Cargo.toml
-crates/fw-bin	rust-core	3	44496	cargo build --release -p fw-bin --bin fw
+crates/fw-apm	rust-core	8	103295	cargo test --workspace
+crates/fw-bin	rust-core	3	45003	cargo build --release -p fw-bin --bin fw
 crates/fw-cluster	rust-core	2	14422	cargo test --workspace
 crates/fw-compute	rust-core	3	26333	cargo test --workspace
 crates/fw-ggml	rust-core	2	16983	cargo test --workspace
