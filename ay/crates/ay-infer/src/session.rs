@@ -17,7 +17,7 @@
 
 use std::path::{Path, PathBuf};
 
-use ay_models::{Accelerator, HardwareProfile};
+use ay_model::store::{Accelerator, HardwareProfile};
 use ort::session::{Session, builder::GraphOptimizationLevel};
 
 use crate::{

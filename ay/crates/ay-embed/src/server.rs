@@ -119,7 +119,7 @@ pub fn load_model(config: &ServerConfig) -> crate::native::Result<Embedder> {
 }
 
 fn error(status: StatusCode, message: &str) -> Response {
-    ay_http_error::error_response(status, status.as_u16().to_string(), message, None)
+    ay_http::error::error_response(status, status.as_u16().to_string(), message, None)
 }
 
 async fn health(State(state): State<AppState>) -> Response {

@@ -37,9 +37,10 @@ path = "src/lib.rs"
 path = "../ay-config"
 features = []
 
-[dependencies.ay-model-client]
-path = "../ay-model-client"
-features = []
+[dependencies.ay-model]
+path = "../ay-model"
+default-features = false
+features = ["client"]
 
 [dependencies.async-trait]
 version = "0.1.92"

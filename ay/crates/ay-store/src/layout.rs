@@ -8,7 +8,7 @@
 
 use std::path::{Path, PathBuf};
 
-use ay_agent_home::paths::{named_profile_workspace, sanitize_profile, state_dir};
+use ay_agent::home::paths::{named_profile_workspace, sanitize_profile, state_dir};
 
 use crate::{
     error::{Result, StoreError},

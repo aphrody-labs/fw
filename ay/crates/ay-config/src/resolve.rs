@@ -161,7 +161,7 @@ impl Config {
 /// dependency-free leaf (no `ay-models`), so the two cannot share one
 /// `const`; `gpt-oss:20b`/`openai/gpt-oss-20b` is published under those exact
 /// tags by Ollama, LM Studio and vLLM, which is why it — not a
-/// `ay_models::LocalRole` model family — is the value both crates agree
+/// `ay_model::store::LocalRole` model family — is the value both crates agree
 /// on.
 fn hardcoded_default_model(provider_id: &str) -> Option<String> {
     match provider_id {

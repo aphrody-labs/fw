@@ -136,8 +136,8 @@ async fn sqlite_local() {
 async fn sqlite_local_profiles_are_physically_isolated() {
     let dir = tempfile::tempdir().expect("tempdir");
     let left_context =
-        ay_agent_home::ProfileServiceContext::new(dir.path().join("workspace-left"), Some("left"));
-    let right_context = ay_agent_home::ProfileServiceContext::new(
+        ay_agent::home::ProfileServiceContext::new(dir.path().join("workspace-left"), Some("left"));
+    let right_context = ay_agent::home::ProfileServiceContext::new(
         dir.path().join("workspace-right"),
         Some("right"),
     );

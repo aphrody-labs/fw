@@ -63,7 +63,7 @@ server = [
     "native",
     "dep:axum",
     "dep:tokio",
-    "dep:ay-http-error",
+    "dep:ay-http",
 ]
 
 [lib]
@@ -104,14 +104,16 @@ name = "native_semantics"
 path = "tests/native_semantics.rs"
 required-features = ["native"]
 
-[dependencies.ay-http-error]
-path = "../ay-http-error"
-features = []
+[dependencies.ay-http]
+path = "../ay-http"
+default-features = false
+features = ["server"]
 optional = true
 
-[dependencies.ay-models]
-path = "../ay-models"
-features = []
+[dependencies.ay-model]
+path = "../ay-model"
+default-features = false
+features = ["store"]
 
 [dependencies.axum]
 version = "0.8"

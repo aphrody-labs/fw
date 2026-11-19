@@ -79,16 +79,16 @@ impl RuntimeSource {
 ///
 /// [`InferError::NoStateDir`] when no home directory can be resolved.
 pub fn runtimes_dir() -> Result<PathBuf> {
-    // Delegates to `ay_models::paths`, the single authority for the
+    // Delegates to `ay_model::store::paths`, the single authority for the
     // on-disk layout. This function used to carry its own copy of the
     // resolution chain; `aphrody-voice` carried a third one that consulted
     // `HOME` before `USERPROFILE`, so under Git Bash on Windows the two
     // crates looked for runtimes in different trees.
     #[cfg(not(target_arch = "wasm32"))]
     {
-        ay_models::paths::runtimes_dir().map_err(|_| InferError::NoStateDir)
+        ay_model::store::paths::runtimes_dir().map_err(|_| InferError::NoStateDir)
     }
-    // A browser has no state directory: `ay_models::paths` is host-only.
+    // A browser has no state directory: `ay_model::store::paths` is host-only.
     #[cfg(target_arch = "wasm32")]
     {
         Err(InferError::NoStateDir)

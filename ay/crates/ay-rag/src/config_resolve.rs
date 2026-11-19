@@ -24,7 +24,7 @@
 //! 3. `configured` — the caller's `[rag]` table (`config.rag.embed_model`,
 //!    `.rerank_model`, ...).
 //! 4. The local model catalog's default for the role
-//!    ([`ay_models::LocalRole::Embed`] / [`LocalRole::Rerank`]).
+//!    ([`ay_model::store::LocalRole::Embed`] / [`LocalRole::Rerank`]).
 //!
 //! A vector width is resolved the same way, except an explicit override that
 //! disagrees with the catalog's own dimension for the resolved model is
@@ -32,7 +32,7 @@
 //! silently winning: embedding spaces must never mix.
 
 use ay_config::{EmbedBackend, RagConfig, ai_env};
-use ay_models::{Catalog, LocalRole};
+use ay_model::store::{Catalog, LocalRole};
 
 use crate::error::{RagError, Result};
 

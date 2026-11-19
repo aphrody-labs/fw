@@ -49,13 +49,15 @@ name = "recall"
 path = "benches/recall.rs"
 harness = false
 
-[dependencies.ay-agent-home]
-path = "../ay-agent-home"
-features = []
+[dependencies.ay-agent]
+path = "../ay-agent"
+default-features = false
+features = ["home"]
 
-[dependencies.ay-models]
-path = "../ay-models"
-features = []
+[dependencies.ay-model]
+path = "../ay-model"
+default-features = false
+features = ["store"]
 
 [dependencies.ay-sql]
 path = "../ay-sql"

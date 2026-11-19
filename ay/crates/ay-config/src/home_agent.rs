@@ -125,7 +125,7 @@ pub struct RedisConfig {
 /// `homes_dir` overrides the default homes root (`<state>/workspaces`). A
 /// relative value is resolved against the state directory. The environment
 /// variable `APHRODY_HOMES_DIR` wins over this key (see
-/// `ay_agent_home::homes`).
+/// `ay_agent::home::homes`).
 #[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct AgentHomeConfig {
     /// Root directory holding one subdirectory per home.

@@ -3,7 +3,7 @@
 
 use std::{env, ffi::OsString, path::PathBuf};
 
-use ay_agent_home::SyncSnapshot;
+use ay_agent::home::SyncSnapshot;
 
 use crate::{agent_home::ingest_agent_home, sqlite::SqliteBackend};
 

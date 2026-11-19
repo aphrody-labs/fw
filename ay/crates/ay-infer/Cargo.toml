@@ -35,9 +35,10 @@ name = "ay_infer"
 crate-type = ["rlib"]
 path = "src/lib.rs"
 
-[dependencies.ay-models]
-path = "../ay-models"
-features = []
+[dependencies.ay-model]
+path = "../ay-model"
+default-features = false
+features = ["store"]
 
 [dependencies.dirs]
 version = "7.0.0"

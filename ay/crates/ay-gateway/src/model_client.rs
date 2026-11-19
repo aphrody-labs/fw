@@ -4,7 +4,7 @@
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use ay_model_client::{
+use ay_model::client::{
     ChatMessage, ChatTurn, ModelClient, ModelStreamEvent, Part, Role, TurnOptions,
 };
 use futures::StreamExt;
@@ -155,7 +155,7 @@ impl GatewayAdapter for ModelClientAdapter {
     }
 }
 
-fn provider_error(error: ay_model_client::ModelError) -> GatewayError {
+fn provider_error(error: ay_model::client::ModelError) -> GatewayError {
     GatewayError::StreamFraming(error.to_string())
 }
 
@@ -169,7 +169,7 @@ fn tool_call_error() -> GatewayError {
 mod tests {
     use std::sync::Mutex;
 
-    use ay_model_client::{ModelError, ModelStream, TokenUsage};
+    use ay_model::client::{ModelError, ModelStream, TokenUsage};
 
     use super::*;
 

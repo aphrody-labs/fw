@@ -44,7 +44,7 @@ pub enum InferError {
 
     /// A model needed for this operation is not installed.
     #[error("{0}")]
-    Model(#[from] ay_models::ModelError),
+    Model(#[from] ay_model::store::ModelError),
 
     /// A catalog entry does not declare the role a pipeline asked for.
     #[error("catalog entry `{entry}` has no `{role}` artefact")]

@@ -58,7 +58,7 @@ impl SqliteLocalProvider {
     /// WAL cache. A PostgreSQL profile without that cache has no local memory
     /// database and is rejected instead of silently sharing a global file.
     pub fn open_profile(
-        profile: &ay_agent_home::ProfileServiceContext,
+        profile: &ay_agent::home::ProfileServiceContext,
     ) -> Result<Self, MemoryError> {
         let path = profile
             .local_memory_path()
@@ -81,7 +81,7 @@ impl SqliteLocalProvider {
     /// - [`MemoryError::MissingConfig`] if the state directory cannot be resolved.
     /// - [`MemoryError::Sqlite`] if the file cannot be opened or migrated.
     pub fn open_default() -> Result<Self, MemoryError> {
-        let path = ay_models::paths::memory_sqlite_path()
+        let path = ay_model::store::paths::memory_sqlite_path()
             .map_err(|e| MemoryError::MissingConfig(Box::leak(e.to_string().into_boxed_str())))?;
         if let Some(parent) = path.parent().filter(|p| !p.as_os_str().is_empty()) {
             std::fs::create_dir_all(parent)?;

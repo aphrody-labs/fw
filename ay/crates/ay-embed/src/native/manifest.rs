@@ -151,7 +151,7 @@ pub fn models_root() -> PathBuf {
     let explicit = std::env::var_os("APHRODY_MODELS_DIR")
         .filter(|v| !v.is_empty())
         .map(PathBuf::from);
-    let shared = ay_models::paths::models_dir().ok();
+    let shared = ay_model::store::paths::models_dir().ok();
     resolve_models_root(explicit, shared)
 }
 

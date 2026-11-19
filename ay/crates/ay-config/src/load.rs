@@ -4,7 +4,7 @@
 //! This module is the *only* place in this crate that touches a filesystem;
 //! everything else ([`crate::layer`], [`crate::resolve`]) is pure and
 //! wasm32-safe. The caller resolves the home directory (aphrody's is
-//! `ay_models::paths::state_dir()`, per `docs/plans/codex-oss.md`,
+//! `ay_model::store::paths::state_dir()`, per `docs/plans/codex-oss.md`,
 //! "Cross-cutting rules") — this crate does not depend on `ay-models`
 //! and does not re-derive `~/.aphrody` itself.
 use std::{

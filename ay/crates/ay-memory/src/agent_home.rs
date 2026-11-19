@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! Idempotent bridge from Agent Home revisions into the existing memory SDK.
 
-use ay_agent_home::SyncSnapshot;
+use ay_agent::home::SyncSnapshot;
 
 use crate::{MemoryBackend, MemoryError, MemoryRecord};
 

@@ -1,0 +1,94 @@
+[package]
+name = "ay-model"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[features]
+store = ["dep:hex", "dep:serde", "dep:serde_json", "dep:sha2", "dep:thiserror", "dep:ay-secrets", "dep:chrono", "dep:dirs", "dep:futures-util", "dep:hf-hub", "dep:nvml-wrapper", "dep:reqwest", "dep:rustls"]
+client = ["dep:serde", "dep:serde_json", "dep:thiserror", "dep:ay-toolcall", "dep:async-trait", "dep:bytes", "dep:futures", "dep:reqwest", "dep:tokio", "dep:tracing"]
+grpc = ["dep:prost", "dep:tonic", "dep:tonic-prost", "dep:tonic-prost-build", "dep:protoc-bin-vendored"]
+local-ls = ["grpc", "dep:ay-proc", "dep:regex", "dep:rustls", "dep:hyper-rustls", "dep:x509-parser", "tokio/process", "tokio/rt-multi-thread"]
+antigravity = ["dep:serde", "dep:serde_json", "dep:sha2", "dep:thiserror", "dep:bytes", "dep:futures", "dep:tracing", "dep:base64", "dep:data-encoding", "dep:rand", "dep:webbrowser", "dep:getrandom", "dep:reqwest", "dep:tokio", "dep:rusqlite", "dep:windows-sys"]
+antigravity_model = ["dep:serde", "dep:serde_json", "dep:ay-toolcall", "dep:async-trait", "dep:futures", "dep:reqwest", "dep:tokio", "dep:tracing", "antigravity", "client"]
+default = ["store", "client", "antigravity", "antigravity_model"]
+
+[dependencies]
+async-trait = { version = "0.1.92", optional = true }
+ay-proc = { path = "../ay-proc", features = ["tokio"], optional = true }
+ay-toolcall = { path = "../ay-toolcall", default-features = false, features = [], optional = true }
+base64 = { version = "0.23.1", default-features = false, optional = true }
+bytes = { version = "1.12.2", optional = true }
+data-encoding = { version = "2.11.1", optional = true }
+futures = { version = "0.3.34", features = ["std", "async-await"], optional = true }
+hex = { version = "0.4", features = [], optional = true }
+rand = { version = "0.10.4", default-features = false, features = ["thread_rng"], optional = true }
+serde = { version = "1.0.229", default-features = false, features = ["derive", "std"], optional = true }
+serde_json = { version = "1.0.154", features = ["std"], optional = true }
+sha2 = { version = "0.11.1", optional = true }
+thiserror = { version = "2.0.21", optional = true }
+tracing = { version = "0.1.44", optional = true }
+webbrowser = { version = "1.2", optional = true }
+
+[dev-dependencies]
+axum = { version = "0.8", default-features = false, features = ["json", "query", "tokio", "http1", "http2"] }
+pretty_assertions = { version = "1.4.1", features = [] }
+rustls = { version = "0.23.45", default-features = false, features = ["ring", "std", "tls12"] }
+tempfile = { version = "3.27.0", features = ["getrandom"] }
+tokio = { version = "1.53.2", features = ["process", "rt-multi-thread", "macros", "time", "signal", "sync", "fs", "io-util", "full", "rt", "net"] }
+
+[build-dependencies]
+protoc-bin-vendored = { version = "3.2.0", optional = true }
+tonic-prost-build = { version = "0.14.6", optional = true }
+
+[target."cfg(all(target_arch = \"wasm32\", target_os = \"unknown\"))".dependencies]
+getrandom = { version = "0.4.3", default-features = false, features = ["wasm_js"], optional = true }
+reqwest = { version = "0.13", default-features = false, features = ["json", "stream", "query", "form"], optional = true }
+tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
+
+[target."cfg(not(target_arch = \"wasm32\"))".dependencies]
+ay-secrets = { path = "../ay-secrets", features = [], optional = true }
+chrono = { version = "0.4", features = ["serde"], optional = true }
+dirs = { version = "7.0.0", optional = true }
+futures-util = { version = "0.3", features = [], optional = true }
+hf-hub = { version = "1.0.0", optional = true }
+nvml-wrapper = { version = "0.13.0", optional = true }
+rustls = { version = "0.23.46", default-features = false, features = ["ring", "std", "tls12"], optional = true }
+
+[target."cfg(not(target_family = \"wasm\"))".dependencies]
+hyper-rustls = { version = "0.27", default-features = false, features = ["http1", "http2", "ring", "tls12"], optional = true }
+prost = { version = "0.14.6", optional = true }
+regex = { version = "1.13.2", default-features = false, optional = true }
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls-no-provider", "json", "stream", "form", "query", "charset", "http2", "system-proxy", "blocking", "cookies", "gzip", "brotli", "deflate", "socks", "multipart"], optional = true }
+rusqlite = { version = "0.40", optional = true }
+rustls = { version = "0.23.46", default-features = false, optional = true }
+tokio = { version = "1.54.1", features = ["full"], optional = true }
+tonic = { version = "0.14.9", optional = true }
+tonic-prost = { version = "0.14.9", optional = true }
+x509-parser = { version = "0.18", optional = true }
+
+[target."cfg(target_os = \"wasi\")".dependencies]
+tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
+
+[target."cfg(target_os = \"windows\")".dependencies]
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Security_Credentials"], optional = true }
+
+[[test]]
+name = "antigravity_model_antigravity_model_tests"
+path = "tests/antigravity_model_antigravity_model_tests.rs"
+required-features = ["antigravity_model"]
+
+# Antigravity edits process environment and FFI-free but `unsafe` set_var in tests; the workspace `unsafe_code = "forbid"` does not apply.
+[lints.rust]
+non_ascii_idents = "deny"
+unsafe_op_in_unsafe_fn = "deny"
+unused_must_use = "deny"
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"

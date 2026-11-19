@@ -63,9 +63,10 @@ features = []
 optional = true
 default-features = false
 
-[dependencies.ay-models]
-path = "../ay-models"
-features = []
+[dependencies.ay-model]
+path = "../ay-model"
+default-features = false
+features = ["store"]
 
 [dependencies.ay-rag-core]
 path = "../ay-rag-core"
@@ -85,6 +86,7 @@ features = []
 
 [dependencies.ay-toolcall]
 path = "../ay-toolcall"
+default-features = false
 features = []
 
 [dependencies.async-trait]

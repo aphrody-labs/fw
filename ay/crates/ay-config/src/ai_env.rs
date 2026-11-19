@@ -52,7 +52,7 @@ pub struct CanonicalEnv {
 impl CanonicalEnv {
     /// Read the process environment: [`Self::canonical`], then each of
     /// [`Self::aliases`] in order. A blank value counts as unset, matching
-    /// [`ay_models::LocalRole::resolve`]'s treatment of blank overrides.
+    /// [`ay_model::store::LocalRole::resolve`]'s treatment of blank overrides.
     #[must_use]
     pub fn resolve(&self) -> Option<String> {
         self.resolve_with(&|name| std::env::var(name).ok())

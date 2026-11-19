@@ -158,7 +158,7 @@ impl RagStore {
     /// Open or create the canonical persistent SQLite RAG database under the unified state directory
     /// (`~/.aphrody/vector/rag.sqlite`).
     pub fn open_default() -> Result<Self> {
-        let dir = ay_models::paths::vector_dir().map_err(|e| RagError::Other(e.to_string()))?;
+        let dir = ay_model::store::paths::vector_dir().map_err(|e| RagError::Other(e.to_string()))?;
         std::fs::create_dir_all(&dir)?;
         let path = dir.join("rag.sqlite");
         Self::open(path)

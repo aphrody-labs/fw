@@ -15,7 +15,7 @@ use crate::error::{EmbedError, Result};
 
 /// Resolve the aphrody root state directory.
 ///
-/// Delegates to [`ay_models::paths::state_dir`], the single authority for
+/// Delegates to [`ay_model::store::paths::state_dir`], the single authority for
 /// aphrody's on-disk layout. The copy that lived here was one of eight, and
 /// the eight did not agree on what `$APHRODY_HOME` meant.
 fn aphrody_state_dir() -> Result<PathBuf> {
@@ -28,9 +28,9 @@ fn aphrody_state_dir() -> Result<PathBuf> {
     };
     #[cfg(not(target_arch = "wasm32"))]
     {
-        ay_models::paths::state_dir().map_err(|_| unresolved())
+        ay_model::store::paths::state_dir().map_err(|_| unresolved())
     }
-    // A browser has no state directory: `ay_models::paths` is host-only.
+    // A browser has no state directory: `ay_model::store::paths` is host-only.
     #[cfg(target_arch = "wasm32")]
     {
         Err(unresolved())

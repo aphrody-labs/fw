@@ -29,7 +29,7 @@
 //!
 //! ```rust,ignore
 //! use ay_infer::{SessionConfig, load_catalog_role};
-//! use ay_models::accel;
+//! use ay_model::store::accel;
 //!
 //! # fn main() -> ay_infer::Result<()> {
 //! let profile = accel::probe();
@@ -83,7 +83,7 @@ pub fn load_catalog_role(
     role: &str,
     config: &SessionConfig,
 ) -> Result<LoadedModel> {
-    use ay_models::{Catalog, ModelStore};
+    use ay_model::store::{Catalog, ModelStore};
 
     let entry = Catalog::builtin().get(entry_id)?;
     let file = entry.file(role).ok_or_else(|| InferError::MissingRole {
@@ -94,7 +94,7 @@ pub fn load_catalog_role(
     let store = ModelStore::open()?;
     let installed = store
         .get(&file.reference)?
-        .ok_or_else(|| ay_models::ModelError::NotInstalled(file.reference.to_string()))?;
+        .ok_or_else(|| ay_model::store::ModelError::NotInstalled(file.reference.to_string()))?;
 
     // Stamp the artefact as used so the LRU eviction in `aphrody model gc`
     // reflects what the inference paths actually depend on.

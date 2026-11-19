@@ -21,7 +21,7 @@ path = "src/bin/ai-os-store.rs"
 
 [dependencies]
 ay-sql = { path = "../ay-sql", default-features = false, features = ["sqlite"] }
-ay-agent-home = { path = "../ay-agent-home" }
+ay-agent = { path = "../ay-agent", default-features = false, features = ["home"] }
 blake3 = { workspace = true }
 clap = { workspace = true }
 ignore = { workspace = true }

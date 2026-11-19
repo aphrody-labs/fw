@@ -12,10 +12,10 @@ description = "Portable versioned OCR result contract, provenance and quality st
 
 [features]
 default = []
-sqlite = ["dep:rusqlite", "dep:chrono", "dep:ay-agent-home"]
+sqlite = ["dep:rusqlite", "dep:chrono", "dep:ay-agent"]
 
 [dependencies]
-ay-agent-home = { path = "../ay-agent-home", optional = true }
+ay-agent = { path = "../ay-agent", default-features = false, features = ["home"], optional = true }
 chrono = { version = "0.4", features = ["serde"], optional = true }
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
 serde = { workspace = true }
