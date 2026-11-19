@@ -240,7 +240,7 @@ def run():
 
         print()
         print(
-            "Run [bold]heretic --help[/] or see [bold]config.default.toml[/] for details about configuration parameters."
+            "Run [bold]heretic --help[/] or see [bold]configs/heretic/config.default.toml[/] for details about configuration parameters."
         )
         return
 
@@ -648,7 +648,7 @@ def run():
         print(
             "[red]No optimization objectives configured.[/] At least one scorer "
             'must set [bold]optimization[/] to "maximize" or "minimize". '
-            "See [bold]config.default.toml[/] for details."
+            "See [bold]configs/heretic/config.default.toml[/] for details."
         )
         return
 

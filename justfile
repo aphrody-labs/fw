@@ -63,5 +63,9 @@ nix-bootstrap-vps host="fr1":
 wsl-apply-configs:
     pwsh -NoProfile -File os/fairwind-wsl/install-fairwind-wsl.ps1 -ApplyHostConfigs
 
+# Regenerate byte-exact MAP.tsv for token-minimal agent navigation
+map:
+    bun src/repo_map.ts
+
 # Full CI verification pipeline
-ci: clippy test build musl claw cf-dry-run
+ci: map clippy test build musl claw cf-dry-run

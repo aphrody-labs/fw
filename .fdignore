@@ -1,0 +1,10 @@
+# Exclude vendored/upstream trees & build artifacts from default agent `fd` scans.
+core/ts/neon/
+core/rs/craft-libs/
+core/rs/craft-anything/
+packages/
+target/
+dist/
+.wrangler/
+cloudflare/.wrangler/
+uv.lock

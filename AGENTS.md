@@ -1,21 +1,13 @@
-# fairwind — Agent Contract (v4.0)
+# fairwind — Agent Contract (v4.2, Bun-in-Rust Methodology)
 
-- Layout:
-  - Root 12-crate Rust workspace (`Cargo.toml`): `crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,bin}` (zero system deps, `#![forbid(unsafe_code)]` on OS/UI/store crates, zero Clippy warnings).
-  - Official Asterinas OSDK kernel + NixOS + Alpine: `os/fairwind-os/` (`OSDK.toml`, `rust-toolchain.toml`, `src/lib.rs`, `flake.nix`, `APKBUILD`).
-  - Native ABI & launcher crates: `native/fairwind-{pe,sniff,kernel,world,abi,agy}`.
-  - Polyglot cores: `core/{asm,c,cpp,cuda,go,java,kotlin,py,rs,ts,wasm,webgpu}` (zero nested `vendor/` or `fuzz/`).
-  - Cloud & cluster: `cluster/`, `cloudflare/`, `vercel/`, `src/`, `tests/`, `docs/`, `plugin/`, `bunfig.toml`, `tsconfig.json`, `fairwind.targets.json`.
-  - Gitignored external forks/trees: `packages/{ghidra,windows-rs,rust-for-linux,antigravity-sdk-python,tui-test,intelligent-terminal,asterinas,wayland-rs}`.
-- Unified plugin (`plugin/` -> `~/.gemini/plugins/fairwind` & `~/.gemini/config/plugins/fairwind`): bundles MCP (`fairwind mcp`), `rules/AGENTS.md`, and 9 skills (`fairwind`, `agy-knowledge`, `learn`, `low-level-lto-aot`, `binary-analysis`, `reverse-engineer-anything`, `static-recompile`, `tree-sitter`, `tui-test`).
-- Upstream Google-signed `%LOCALAPPDATA%\agy\bin\agy.exe` is strictly read-only.
-- Gates before commit/push:
-  - `cargo clippy --workspace --all-targets -- -D warnings`
-  - `cargo test --workspace`
+- **Read First (< 600 tokens)**: `MAP.tsv` (byte-exact directory map + gates), `LIFETIMES_AND_STYLE.md` (zero-abstraction Rust rules), `.agents/workflows/bun-in-rust-loop.md` (split-context adversarial review).
+- **Token Hygiene**: `.rgignore` & `.fdignore` automatically hide vendored trees (`core/ts/neon`, `core/rs/craft-*`, `packages/`, `target/`, `uv.lock`) from default searches (`--no-ignore` only when auditing vendored trees).
+- **Root 13-crate Rust Workspace (`Cargo.toml`)**: `crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,hermes-claw,bin}` — `#![forbid(unsafe_code)]`, zero system deps, zero Clippy warnings, zero stubs, zero skipped tests.
+- **OS, Fleet & Edge**: `os/{fairwind-os,fairwind-wsl}`, `nix/` + `flake.nix` (`nix-cachyos-kernel` + `rust-userland`), `cloudflare/` (Workers Static Assets + SQLite DO), `web/`, `configs/heretic/`, `plugin/` (10 skills).
+- **Upstream Read-Only Boundary**: `%LOCALAPPDATA%\agy\bin\agy.exe` is strictly read-only.
+- **Gates (`just ci`)**:
+  - `cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace`
   - `cargo build --release -p fw-bin && cargo build --release --target wasm32-unknown-unknown -p fw-wasm && cargo check --target x86_64-unknown-linux-musl -p fw-bin`
-  - `uvx ruff check .`
-  - `bun test`
-  - `bun src/fairwind_cli.ts upgrade --apply --skip-tests`
-  - `.\dist\fairwind.exe plugin sync --install && bun C:\Users\aphro\.gemini\scripts\check.ts`
-  - `.\dist\fairwind.exe dedupe && .\dist\fairwind.exe target verify`
-- Work on `main`; zero AI attribution trailers; keep repository private (`aphrody-labs/fairwind`).
+  - `uvx ruff check . && bun test && bun run cf:dry-run`
+  - `just map` (keeps `MAP.tsv` byte-exact)
+- **Git Discipline**: Commit explicit file paths on `main`; never `git stash` or `git reset --hard`; zero AI attribution trailers; keep repo private (`aphrody-labs/fairwind`).
