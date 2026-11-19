@@ -1,5 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import { resolve } from "node:path";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import { COMMANDS, resolveCommand } from "../src/registry.ts";
 import { formatHelp, generateCompletions } from "../src/cli.ts";
 
@@ -52,4 +54,34 @@ describe("ay unified CLI", () => {
       expect(out).toContain("ay");
     }
   });
+
+  test("<command> --help prints the registry row and the script header without running the tool", async () => {
+    const run = (...args: string[]) =>
+      Bun.spawnSync([process.execPath, resolve(REPO_ROOT, "apps/ay/src/cli.ts"), ...args], { cwd: REPO_ROOT });
+    // shells installs the machine configuration and edge-config rewrites wrangler.jsonc when run, so --help must never reach them.
+    for (const name of ["shells", "edge-config", "release-publish"]) {
+      const out = run(name, "--help");
+      expect(out.exitCode).toBe(0);
+      const text = out.stdout.toString();
+      expect(text).toContain(`ay ${name}`);
+      expect(text).toContain(`script: tools/${name}.ts`);
+    }
+  });
+
+  test("the compiled single-file binary dispatches without Bun in-process", () => {
+    const dir = mkdtempSync(join(tmpdir(), "ay-compile-"));
+    try {
+      const exe = join(dir, process.platform === "win32" ? "ay.exe" : "ay");
+      const build = Bun.spawnSync([process.execPath, "build", "--compile", "--minify", "--bytecode", resolve(REPO_ROOT, "apps/ay/src/cli.ts"), "--outfile", exe]);
+      expect(build.exitCode).toBe(0);
+      const opts = { cwd: REPO_ROOT };
+      expect(Bun.spawnSync([exe, "version"], opts).stdout.toString()).toContain("ay 0.1.0");
+      expect(Bun.spawnSync([exe, "hosts", "--help"], opts).stdout.toString()).toContain("script: tools/hosts.ts");
+      // a tool runs through the `bun` on PATH from the checkout found above the working directory
+      const doctor = Bun.spawnSync([exe, "doctor"], opts);
+      expect(doctor.stdout.toString()).toContain("status: ok");
+    } finally {
+      rmSync(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+    }
+  }, 60_000);
 });

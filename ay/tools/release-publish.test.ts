@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { type IndexManifest, type ReleaseManifest, pickAsset, releaseKeys, validateRelease } from "../apps/edge/src/manifest.ts";
-import { actionsMatrix, fsStore, patternRegex, planRelease, publishRelease, readMatrix, releasesBucket } from "./release-publish.ts";
+import { actionsMatrix, compileArgv, fsStore, patternRegex, planRelease, publishRelease, readMatrix, releasesBucket } from "./release-publish.ts";
 
 const dirs: string[] = [];
 const tmp = () => {
@@ -49,6 +49,16 @@ describe("release.toml", () => {
     expect(include.map((t) => t.asset)).toContain("ay-corelib-component.wasm");
     expect(include.every((t) => (t as { build?: string }).build)).toBe(true);
     expect(actionsMatrix("nie").include.map((t) => t.asset).some((a) => a.endsWith(".wasm"))).toBe(false);
+  });
+
+  test("every bun-compile target builds with minify and bytecode for its own bun target", () => {
+    const targets = actionsMatrix("ay").include.filter((t) => t.build === "bun-compile");
+    expect(targets.map((t) => t.bun_target).sort()).toEqual(["bun-darwin-arm64", "bun-linux-arm64", "bun-linux-x64", "bun-windows-x64"]);
+    for (const t of targets) {
+      const argv = compileArgv("ay", t.asset, "out/x");
+      expect(argv).toEqual(["build", "--compile", "--minify", "--bytecode", `--target=${t.bun_target}`, "apps/ay/src/cli.ts", "--outfile", "out/x"]);
+    }
+    expect(() => compileArgv("ay", "ay-corelib-base.wasm", "x")).toThrow("not bun-compile");
   });
 
   test("{version} patterns match the release version only", () => {

@@ -138,5 +138,5 @@ export async function runWckCli(args: readonly string[]): Promise<number> {
 }
 
 if (import.meta.main) {
-  process.exit(await runWckCli(Bun.argv.slice(2)));
+  runWckCli(Bun.argv.slice(2)).then((code) => process.exit(code));
 }

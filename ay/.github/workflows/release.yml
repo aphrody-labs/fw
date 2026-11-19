@@ -122,15 +122,11 @@ jobs:
           persist-credentials: false
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
       - run: bun install --frozen-lockfile
-      - name: Bun compile (cross-target, one Linux runner)
+      - name: Bun compile (cross-target, one Linux runner; flags and target from release.toml)
         if: ${{ matrix.build == 'bun-compile' }}
         env:
-          ENTRY: ${{ matrix.entry }}
-          BUN_TARGET: ${{ matrix.bun_target }}
           ASSET: ${{ matrix.asset }}
-        run: |
-          mkdir -p dist
-          bun build --compile --target="$BUN_TARGET" "$ENTRY" --outfile "dist/$ASSET"
+        run: bun tools/release-publish.ts compile --product ay --asset "$ASSET" --outdir dist
       - name: Pinned LLVM version of the corelib listings
         if: ${{ matrix.build == 'corelib-wasm' }}
         id: pins

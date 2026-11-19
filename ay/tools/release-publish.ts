@@ -4,6 +4,7 @@
 //   bun tools/release-publish.ts publish --product <key> --version <v> --channel <c> --tag <t> --commit <sha> --dir <artifacts>
 //        [--out <dir>] [--force] [--date <iso>]        without --out the objects go to R2 (CLOUDFLARE_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY)
 //   bun tools/release-publish.ts matrix --product <key>   the build targets of a product as a GitHub Actions matrix (JSON on stdout)
+//   bun tools/release-publish.ts compile --product <key> --asset <name> [--outdir dist]   `bun build --compile` of one bun-compile target
 // Immutable objects (assets, SHA256SUMS, release.json) are written once: a second run with the same bytes is a no-op, different bytes fail
 // unless --force. The channel pointer and manifest.json are mutable and always rewritten.
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
@@ -246,6 +247,15 @@ export function actionsMatrix(product: string, matrix = readMatrix()): { include
   return { include: targets.filter((t) => t.ship !== false) };
 }
 
+/** The `bun build --compile` argv of a bun-compile target: entry, bun_target and flags come from release.toml. */
+export function compileArgv(product: string, asset: string, outfile: string, matrix = readMatrix()): string[] {
+  const t = matrix[product]?.targets.find((x) => x.asset === asset);
+  if (!t) throw new Error(`release.toml has no asset ${asset} in product ${product}`);
+  if (t.build !== "bun-compile") throw new Error(`${product}/${asset} is built by ${String(t.build)}, not bun-compile`);
+  const flags = (t.flags as string[] | undefined) ?? [];
+  return ["build", "--compile", ...flags, `--target=${String(t.bun_target)}`, String(t.entry), "--outfile", outfile];
+}
+
 if (import.meta.main) {
   const [cmd, ...rest] = Bun.argv.slice(2);
   const opt = (flag: string) => {
@@ -260,6 +270,12 @@ if (import.meta.main) {
   try {
     if (cmd === "matrix") {
       console.log(JSON.stringify(actionsMatrix(need("--product"))));
+    } else if (cmd === "compile") {
+      const outfile = join(resolve(opt("--outdir") ?? "dist"), need("--asset"));
+      const argv = compileArgv(need("--product"), need("--asset"), outfile);
+      mkdirSync(dirname(outfile), { recursive: true });
+      const proc = Bun.spawnSync([process.execPath, ...argv], { cwd: root, stdout: "inherit", stderr: "inherit" });
+      process.exit(proc.exitCode);
     } else if (cmd === "publish") {
       const plan = await planRelease({
         product: need("--product"),
@@ -275,7 +291,7 @@ if (import.meta.main) {
       const result = await publishRelease(plan, store, { force: rest.includes("--force") });
       console.log(JSON.stringify({ target: out ? resolve(out) : releasesBucket(), written: result.written, unchanged: result.unchanged }, null, 2));
     } else {
-      console.error("usage: bun tools/release-publish.ts publish|matrix ... (see the header of this file)");
+      console.error("usage: bun tools/release-publish.ts publish|matrix|compile ... (see the header of this file)");
       process.exit(2);
     }
   } catch (e) {

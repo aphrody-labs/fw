@@ -110,7 +110,7 @@ ship = false
 
 [products.ay]
 # aphrody-dev/ay: .github/workflows/release.yml. The `ay` CLI is compiled by Bun for each OS and architecture (`bun build --compile`,
-# cross-compilation from one Linux runner), the corelib is built with the pinned LLVM (tools/corelib.ts buildWasm variants).
+# cross-compilation from one Linux runner, `flags` are the extra `bun build` flags, run by `bun tools/release-publish.ts compile`), the corelib is built with the pinned LLVM (tools/corelib.ts buildWasm variants).
 [[products.ay.targets]]
 asset = "ay-linux-x86_64"
 os = "linux"
@@ -119,6 +119,7 @@ kind = "binary"
 runner = "ubuntu-latest"
 build = "bun-compile"
 entry = "apps/ay/src/cli.ts"
+flags = ["--minify", "--bytecode"]
 bun_target = "bun-linux-x64"
 [[products.ay.targets]]
 asset = "ay-linux-aarch64"
@@ -128,6 +129,7 @@ kind = "binary"
 runner = "ubuntu-latest"
 build = "bun-compile"
 entry = "apps/ay/src/cli.ts"
+flags = ["--minify", "--bytecode"]
 bun_target = "bun-linux-arm64"
 [[products.ay.targets]]
 asset = "ay-windows-x86_64.exe"
@@ -137,6 +139,7 @@ kind = "binary"
 runner = "ubuntu-latest"
 build = "bun-compile"
 entry = "apps/ay/src/cli.ts"
+flags = ["--minify", "--bytecode"]
 bun_target = "bun-windows-x64"
 [[products.ay.targets]]
 asset = "ay-macos-aarch64"
@@ -146,6 +149,7 @@ kind = "binary"
 runner = "ubuntu-latest"
 build = "bun-compile"
 entry = "apps/ay/src/cli.ts"
+flags = ["--minify", "--bytecode"]
 bun_target = "bun-darwin-arm64"
 [[products.ay.targets]]
 asset = "ay-corelib-base.wasm"
