@@ -30,11 +30,11 @@ pub(crate) async fn accept_loop(endpoint: quinn::Endpoint, app: Router, mut shut
                 tokio::spawn(async move {
                     match incoming.await {
                         Ok(connection) => connection_loop(connection, app).await,
-                        Err(error) => tracing::debug!(%error, "quic handshake failed"),
+                        Err(error) => eprintln!("SRV quic handshake failed: {error:?}"),
                     }
                 });
             }
-            _ = shutdown.changed() => break,
+            r = shutdown.changed() => { eprintln!("SRV shutdown {:?} on {:?}", r, endpoint.local_addr()); break }
         }
     }
     endpoint.close(0u32.into(), b"shutdown");
@@ -55,13 +55,13 @@ async fn connection_loop(connection: quinn::Connection, app: Router) {
                 let app = app.clone();
                 tokio::spawn(async move {
                     if let Err(error) = request(resolver, app).await {
-                        tracing::debug!(%error, "h3 request failed");
+                        eprintln!("SRV h3 request failed: {error:?}");
                     }
                 });
             }
-            Ok(None) => break,
+            Ok(None) => { eprintln!("SRV h3 accept none"); break }
             Err(error) => {
-                tracing::debug!(%error, "h3 accept failed");
+                eprintln!("SRV h3 accept failed: {error:?}");
                 break;
             }
         }
@@ -72,15 +72,27 @@ type BoxError = Box<dyn std::error::Error + Send + Sync>;
 
 async fn request(resolver: RequestResolver<h3_quinn::Connection, Bytes>, app: Router) -> Result<(), BoxError> {
     let (request, stream) = resolver.resolve_request().await?;
-    let (mut send, recv) = stream.split();
+    let (mut send, mut recv) = stream.split();
     let (parts, ()) = request.into_parts();
-    let body = Body::from_stream(stream::unfold(recv, |mut recv| async move {
-        match recv.recv_data().await {
-            Ok(Some(mut chunk)) => Some((Ok::<Bytes, io::Error>(chunk.copy_to_bytes(chunk.remaining())), recv)),
-            Ok(None) => None,
-            Err(error) => Some((Err(io::Error::other(error)), recv)),
+    // The request body is drained by its own task, so the receive half of the stream lives until the response is sent even when the
+    // handler drops the body unread (dropping it earlier sends STOP_SENDING and the peer may see the connection as terminated).
+    let (chunks, body_rx) = tokio::sync::mpsc::channel::<Result<Bytes, io::Error>>(8);
+    let reader = tokio::spawn(async move {
+        loop {
+            match recv.recv_data().await {
+                Ok(Some(mut chunk)) => {
+                    let _ = chunks.send(Ok(chunk.copy_to_bytes(chunk.remaining()))).await;
+                }
+                Ok(None) => break,
+                Err(error) => {
+                    let _ = chunks.send(Err(io::Error::other(error))).await;
+                    break;
+                }
+            }
         }
-    }));
+        recv
+    });
+    let body = Body::from_stream(stream::unfold(body_rx, |mut rx| async move { rx.recv().await.map(|item| (item, rx)) }));
     let response = match app.oneshot(http::Request::from_parts(parts, body)).await {
         Ok(response) => response,
         Err(never) => match never {},
@@ -99,5 +111,6 @@ async fn request(resolver: RequestResolver<h3_quinn::Connection, Bytes>, app: Ro
         }
     }
     send.finish().await?;
+    reader.abort();
     Ok(())
 }

@@ -126,7 +126,7 @@ async fn h3_without_tls_is_refused() {
     assert!(serve(router(), config).await.is_err());
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
 async fn one_h3_connection_serves_many_sequential_requests() {
     let fixture = secure_server().await;
     let client = client(&fixture);
@@ -136,6 +136,21 @@ async fn one_h3_connection_serves_many_sequential_requests() {
         let response = client.get(&url).send().await.unwrap_or_else(|e| panic!("request {i}: {e:?}"));
         assert_eq!(response.version(), Version::HTTP_3, "request {i}");
         assert_eq!(response.text().await.unwrap(), "pong");
+    }
+    fixture.server.shutdown().await;
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn every_new_h3_connection_answers_its_first_request() {
+    let fixture = secure_server().await;
+    let url = format!("https://localhost:{}/ping", fixture.port);
+    let origin = ay_http::altsvc::Origin::of_https(&url.parse().unwrap()).unwrap();
+    for i in 0..200 {
+        let client = client(&fixture);
+        client.alt_svc().insert(origin.clone(), Duration::from_secs(60));
+        let response = client.get(&url).send().await.unwrap_or_else(|e| panic!("connection {i}: {e:?}"));
+        assert_eq!(response.version(), Version::HTTP_3, "connection {i}");
+        assert_eq!(response.text().await.unwrap_or_else(|e| panic!("body {i}: {e:?}")), "pong");
     }
     fixture.server.shutdown().await;
 }

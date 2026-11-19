@@ -168,6 +168,10 @@ readline-abi = { path = "third_party/ruline/readline-abi" }
 
 [patch.crates-io]
 reedline = { path = "third_party/ruline" }
+# hyperium/h3 master (2026-09-20) carries fixes the 0.0.8 release lacks (send_data flushed before finish, stop_sending, request tracking);
+# reqwest's http3 client and ay-http's server both use it. Fork of hyperium/h3; drop the patch once the next release ships.
+h3 = { git = "https://github.com/aphrody-labs/h3-1", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
+h3-quinn = { git = "https://github.com/aphrody-labs/h3-1", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"
