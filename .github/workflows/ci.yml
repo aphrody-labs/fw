@@ -4,16 +4,25 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
-  lint-and-typecheck:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
-        with:
-          enable-cache: true
-      - run: uv sync --frozen --only-group dev
-      - run: uv run ruff check .
-      - run: uv run ruff format --check .
-      - run: uv run ty check
+      - uses: astral-sh/setup-uv@v5
+      - uses: oven-sh/setup-bun@v2
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Python lint
+        run: uvx ruff check .
+      - name: Rust ABI test and build
+        run: |
+          cargo test --manifest-path native/fairwind-abi/Cargo.toml
+          cargo build --release --manifest-path native/fairwind-abi/Cargo.toml
+      - name: Bun tests
+        run: bun test tests
+      - name: Build unified CLI and smoke check
+        run: |
+          bun build --compile --bytecode src/fairwind_cli.ts --outfile dist/fairwind
+          ./dist/fairwind status

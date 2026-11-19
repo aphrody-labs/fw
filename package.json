@@ -1,0 +1,15 @@
+{
+  "name": "fairwind",
+  "version": "2.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "uvx ruff check . && cargo test --manifest-path native/fairwind-abi/Cargo.toml && bun test tests",
+    "test": "bun test tests && cargo test --manifest-path native/fairwind-abi/Cargo.toml && uv run python -m unittest discover -s tests",
+    "build:abi": "cargo build --release --manifest-path native/fairwind-abi/Cargo.toml",
+    "build:cli": "bun build --compile --bytecode src/fairwind_cli.ts --outfile dist/fairwind.exe",
+    "build": "bun run build:abi && bun run build:cli",
+    "status": "dist/fairwind.exe status",
+    "ci": "bun run check && bun run build && bun run status"
+  }
+}

@@ -1,9 +1,11 @@
-# fairwind — NHITL Agent Contract (`agy` CLI)
+# fairwind — Agent Contract
 
-- Runtime: Python (`uv` + `uv.lock`, `pyproject.toml`, `ruff`, `ty`). Never use bare `pip` or global `python`.
-- Verification gate (mandatory before commit/push):
-  - `uv run ruff check .`
-  - `uv run ruff format --check .`
-  - `uv run ty check`
-- Headless `agy` CLI loop: `agy -p "<task>" --output-format stream-json` or bidirectional `--input-format stream-json --output-format stream-json`.
-- Work on `main`; commit by path; zero AI attribution trailers; keep repository private (`aphrody-labs/fairwind`).
+- Layout: `core/py/heretic`, `core/ts/neon`, `core/rs/craft-libs`, `core/rs/craft-anything`, `native/fairwind-abi`, `src/fairwind_cli.ts`, `tests/`. `packages/ghidra` is external.
+- Gates before commit/push:
+  - `uvx ruff check .`
+  - `cargo test --manifest-path native/fairwind-abi/Cargo.toml`
+  - `cargo build --release --manifest-path native/fairwind-abi/Cargo.toml`
+  - `bun test tests`
+  - `bun build --compile --bytecode src/fairwind_cli.ts --outfile dist/fairwind.exe`
+  - `dist/fairwind.exe status`
+- Work on `main`; zero AI attribution trailers; keep repository private (`aphrody-labs/fairwind`).

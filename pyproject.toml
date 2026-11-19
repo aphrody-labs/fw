@@ -1,28 +1,10 @@
 [project]
-name = "heretic-llm"
+name = "fairwind"
 version = "2.2.0.dev0"
-description = "Training-free language model modification"
+description = "Unified Fairwind product (heretic, neon, craft-libs, craft-anything)"
 readme = "README.md"
 license = "AGPL-3.0-or-later"
-authors = [
-    { name = "Philipp Emanuel Weidmann", email = "pew@worldwidemann.com" }
-]
 requires-python = ">=3.10"
-keywords = ["llm", "transformer", "abliteration"]
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Console",
-    "Environment :: GPU",
-    "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
-    "Programming Language :: Python :: 3.15",
-]
 dependencies = [
     "accelerate~=1.15",
     "bitsandbytes~=0.50",
@@ -41,8 +23,8 @@ dependencies = [
     "questionary~=2.1",
     "rich~=15.0",
     "tomli-w~=1.2",
-    "torch",  # version deliberately unspecified
-    "torchvision",  # version deliberately unspecified
+    "torch",
+    "torchvision",
     "tqdm~=4.70",
     "transformers[kernels]~=5.18",
 ]
@@ -53,27 +35,20 @@ dev = [
     "ty>=0.0.84",
 ]
 
-[project.urls]
-Homepage = "https://heretic-project.org"
-Documentation = "https://heretic-project.org/tutorial"
-Repository = "https://github.com/p-e-w/heretic.git"
-Issues = "https://github.com/p-e-w/heretic/issues"
-Changelog = "https://github.com/p-e-w/heretic/releases"
-
 [project.scripts]
 heretic = "heretic.main:main"
+fairwind-py = "heretic.main:main"
 
 [build-system]
 requires = ["uv_build>=0.12.21,<0.13.0"]
 build-backend = "uv_build"
 
+[tool.ruff]
+src = ["core/py", "tests"]
+exclude = ["core/ts", "core/rs", "packages", "native", "dist"]
+
 [tool.ruff.lint]
-ignore = [
-    "B023",  # "Function definition does not bind loop variable"
-    "BLE001",  # "Do not catch blind exception"
-    "TRY002",  # "Create your own exception"
-    "SIM117",  # "Use a single `with` statement with multiple contexts instead of nested `with` statements"
-]
+ignore = ["B023", "BLE001", "TRY002", "SIM117"]
 
 [tool.uv]
 exclude-newer = "7 days"
@@ -83,11 +58,10 @@ torch = { index = "pytorch" }
 torchvision = { index = "pytorch" }
 
 [[tool.uv.index]]
-# Default to CPU wheels for PyTorch to avoid issues in CI.
-# Can be overridden by passing `--index pytorch=<url>` to uv.
 name = "pytorch"
 url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [tool.uv.build-backend]
 module-name = "heretic"
+module-root = "core/py"
