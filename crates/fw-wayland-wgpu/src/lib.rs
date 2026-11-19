@@ -30,8 +30,8 @@ impl WlMessageHeader {
         if bytes.len() < 8 {
             return Err("wayland wire message shorter than 8-byte header");
         }
-        let object_id = u32::from_le_bytes(bytes[0..4].try_into().unwrap());
-        let word = u32::from_le_bytes(bytes[4..8].try_into().unwrap());
+        let object_id = u32::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3]]);
+        let word = u32::from_le_bytes([bytes[4], bytes[5], bytes[6], bytes[7]]);
         let size = (word >> 16) as u16;
         let opcode = (word & 0xFFFF) as u16;
         if size < 8 || (size % 4) != 0 {

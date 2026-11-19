@@ -1,8 +1,4 @@
-# Exclude vendored/upstream trees & lockfiles from default agent searches (>96% token reduction).
-# Use `rg --no-ignore` or `fd --no-ignore` when intentionally inspecting vendored sources.
-core/ts/neon/
-core/rs/craft-libs/
-core/rs/craft-anything/
+# Exclude external untracked forks & build artifacts from default agent searches.
 packages/
 target/
 dist/

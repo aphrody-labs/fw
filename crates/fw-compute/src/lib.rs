@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 //! `fw-compute` — Unified cross-OS (Win32 / Linux UAPI / POSIX / Darwin) and cross-hardware
 //! (CUDA sm_89 RTX 4070, WebGPU/WGSL Dawn/wgpu, Vulkan, Metal, CPU AVX2/AVX-512/NEON, TPU PJRT)
 //! compute discovery and benchmark execution.

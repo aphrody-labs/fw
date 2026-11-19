@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 //! `fw-ui-blitz` — DioxusLabs/blitz-aligned (`blitz-dom` / `blitz-paint` / `anyrender_vello_cpu`+`vello_gpu`)
 //! zero-dependency headless RGBA renderer producing verifiable PNG visual proofs on both
 //! Win 11 RTX 4070 and no-GPU Linux 7.3 servers.

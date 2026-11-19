@@ -1,7 +1,4 @@
-# Exclude vendored/upstream trees & build artifacts from default agent `fd` scans.
-core/ts/neon/
-core/rs/craft-libs/
-core/rs/craft-anything/
+# Exclude external untracked forks & build artifacts from default `fd` scans.
 packages/
 target/
 dist/

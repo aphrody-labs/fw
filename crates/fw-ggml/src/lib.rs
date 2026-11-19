@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 //! `fw-ggml` — 100% `ggml-org` (`introduction-to-ggml`, `ggml`, `llama.cpp`) compatible
 //! computation graph IR, 4D strided tensors, GGUF v3 header parser, quantized Q8_0/Q4_0
 //! dot kernels, multi-backend graph scheduler, and `ggml-rpc` binary wire protocol.
@@ -309,12 +311,16 @@ pub fn parse_gguf_header(bytes: &[u8]) -> Result<GgufHeader, String> {
     if bytes[0..4] != GGUF_MAGIC {
         return Err("Invalid GGUF magic".into());
     }
-    let version = u32::from_le_bytes(bytes[4..8].try_into().unwrap());
+    let version = u32::from_le_bytes([bytes[4], bytes[5], bytes[6], bytes[7]]);
     if !(2..=3).contains(&version) {
         return Err(format!("Unsupported GGUF version {version}"));
     }
-    let tensor_count = u64::from_le_bytes(bytes[8..16].try_into().unwrap());
-    let metadata_kv_count = u64::from_le_bytes(bytes[16..24].try_into().unwrap());
+    let tensor_count = u64::from_le_bytes([
+        bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15],
+    ]);
+    let metadata_kv_count = u64::from_le_bytes([
+        bytes[16], bytes[17], bytes[18], bytes[19], bytes[20], bytes[21], bytes[22], bytes[23],
+    ]);
     Ok(GgufHeader {
         version,
         tensor_count,
@@ -402,8 +408,14 @@ pub fn rpc_get_device_memory(addr: SocketAddr) -> io::Result<(u64, u64)> {
     }
     let mut payload = [0u8; 16];
     stream.read_exact(&mut payload)?;
-    let free = u64::from_le_bytes(payload[0..8].try_into().unwrap());
-    let total = u64::from_le_bytes(payload[8..16].try_into().unwrap());
+    let free = u64::from_le_bytes([
+        payload[0], payload[1], payload[2], payload[3], payload[4], payload[5], payload[6],
+        payload[7],
+    ]);
+    let total = u64::from_le_bytes([
+        payload[8], payload[9], payload[10], payload[11], payload[12], payload[13], payload[14],
+        payload[15],
+    ]);
     Ok((free, total))
 }
 

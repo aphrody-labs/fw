@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 //! `fw-proto` — Zero-system-dependency unified protocol fabric:
 //! HTTP/1.1, WebSockets (RFC 6455), WebRTC DataChannel SDP signaling, GraphQL,
 //! OpenAPI 3.1, OpenAI, Gemini Decision 1, MCP, ACP, A2A, and Browser WebGPU/Wasm32 harness.
@@ -206,23 +208,23 @@ pub fn dispatch_http(
             .to_string(),
         ),
         ("GET", "/cluster") => {
-            let r = router.lock().unwrap();
+            let r = router.lock().unwrap_or_else(|e| e.into_inner());
             (200, "application/json", r.summary().to_string())
         }
         ("POST", "/cluster/route") => {
             let prompt = body_json.get("prompt").and_then(|v| v.as_str()).unwrap_or("fairwind");
             let draft = body_json.get("userWebGpuDraft").and_then(|v| v.as_bool()).unwrap_or(true);
-            let mut r = router.lock().unwrap();
+            let mut r = router.lock().unwrap_or_else(|e| e.into_inner());
             let decision = r.route_request(prompt, draft);
             (200, "application/json", json!({ "ok": true, "decision": decision }).to_string())
         }
         ("POST", "/graphql") => {
             let q = body_json.get("query").and_then(|v| v.as_str()).unwrap_or("{ status }");
-            let r = router.lock().unwrap();
+            let r = router.lock().unwrap_or_else(|e| e.into_inner());
             (200, "application/json", handle_graphql(&r, q).to_string())
         }
         ("POST", "/rtc/offer") => {
-            let mut r = router.lock().unwrap();
+            let mut r = router.lock().unwrap_or_else(|e| e.into_inner());
             (200, "application/json", handle_webrtc_offer(&mut r, &body_json).to_string())
         }
         ("GET", "/v1/models") => (
@@ -245,7 +247,7 @@ pub fn dispatch_http(
                 .and_then(|m| m.get("content"))
                 .and_then(|c| c.as_str())
                 .unwrap_or("hello");
-            let mut r = router.lock().unwrap();
+            let mut r = router.lock().unwrap_or_else(|e| e.into_inner());
             let route = r.route_request(prompt, true);
             (
                 200,

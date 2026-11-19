@@ -24,6 +24,7 @@ describe("fairwind unified plugin, MCP, API, and cross-platform daemon", () => {
       "static-recompile",
       "tree-sitter",
       "tui-test",
+      "upstreams",
     ]);
 
     const manifest = JSON.parse(readFileSync(join(ROOT, "plugin", "plugin.json"), "utf8"));

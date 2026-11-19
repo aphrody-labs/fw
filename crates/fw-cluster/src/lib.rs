@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 //! `fw-cluster` — Unified Hybrid Cluster Control Plane:
 //! - Cloudflare **Pingora** `ProxyHttp` + `LoadBalancer` (consistent-hash Ketama, health checks, circuit breaking)
 //! - **`ai-dynamo/dynamo`** + **`vllm-project/router`** KV-cache radix prefix routing & disaggregated Prefill/Decode (P/D)

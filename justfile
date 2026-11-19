@@ -67,5 +67,9 @@ wsl-apply-configs:
 map:
     bun src/repo_map.ts
 
+# Auto-generate & update plugin/skills/upstreams/ from upstreams.toml + live Git HEADs
+sync-upstreams:
+    bun src/upstream_skills.ts
+
 # Full CI verification pipeline
 ci: map clippy test build musl claw cf-dry-run

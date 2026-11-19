@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 //! `fairwind-native` (`fw-bin`) — Single unified zero-system-dependency Fat-LTO binary
 //! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
