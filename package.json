@@ -1,6 +1,6 @@
 {
-  "name": "fairwind",
-  "version": "3.0.0",
+  "name": "fw",
+  "version": "4.2.0",
   "private": true,
   "type": "module",
   "scripts": {

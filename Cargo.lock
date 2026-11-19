@@ -80,7 +80,7 @@ dependencies = [
 
 [[package]]
 name = "fw-bin"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "fw-cluster",
  "fw-compute",
@@ -99,7 +99,7 @@ dependencies = [
 
 [[package]]
 name = "fw-cluster"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -108,7 +108,7 @@ dependencies = [
 
 [[package]]
 name = "fw-compute"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "fw-ggml",
  "serde",
@@ -116,14 +116,14 @@ dependencies = [
 
 [[package]]
 name = "fw-ggml"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "serde",
 ]
 
 [[package]]
 name = "fw-hermes-claw"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -132,7 +132,7 @@ dependencies = [
 
 [[package]]
 name = "fw-nix"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "serde",
  "sha2",
@@ -140,7 +140,7 @@ dependencies = [
 
 [[package]]
 name = "fw-ostd-wasm"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "serde",
  "sha2",
@@ -148,7 +148,7 @@ dependencies = [
 
 [[package]]
 name = "fw-proto"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "fw-cluster",
  "fw-compute",
@@ -162,7 +162,7 @@ dependencies = [
 
 [[package]]
 name = "fw-ui-blitz"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "flate2",
  "serde",
@@ -170,7 +170,7 @@ dependencies = [
 
 [[package]]
 name = "fw-unified-stack"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "fw-ggml",
  "serde",
@@ -179,7 +179,7 @@ dependencies = [
 
 [[package]]
 name = "fw-uutils"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "serde",
  "sha2",
@@ -187,11 +187,11 @@ dependencies = [
 
 [[package]]
 name = "fw-wasm"
-version = "3.0.0"
+version = "4.2.0"
 
 [[package]]
 name = "fw-wayland-wgpu"
-version = "3.0.0"
+version = "4.2.0"
 dependencies = [
  "fw-ostd-wasm",
  "serde",

@@ -2,7 +2,12 @@
 name = "fw-uutils"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 description = "Alpine-lighter 100% pure-Rust uutils multicall userland (coreutils, findutils, grep, diffutils, sed, util-linux, procps) + Wasm32 playground"
 
 [dependencies]

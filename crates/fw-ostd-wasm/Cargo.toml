@@ -2,7 +2,12 @@
 name = "fw-ostd-wasm"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 description = "Asterinas Framekernel OSTD + Zed GPUI WebAssembly/WebGPU/Cloudflare retained scene graph, VirtIO-WebGPU, MlsDisk, XArray, and WASI-P2"
 
 [dependencies]

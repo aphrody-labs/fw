@@ -2,9 +2,14 @@
 name = "fw-wayland-wgpu"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 description = "Zero-C-dependency Wayland wire protocol & compositor surface layer (forked/optimized from smithay/wayland-rs) replaced with native WebAssembly + WebGPU + GPUI"
 
 [dependencies]
-fw-ostd-wasm = { path = "../fw-ostd-wasm" }
+fw-ostd-wasm.workspace = true
 serde.workspace = true

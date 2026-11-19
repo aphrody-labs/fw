@@ -29,11 +29,31 @@ exclude = [
 resolver = "2"
 
 [workspace.package]
-version = "3.0.0"
+version = "4.2.0"
 edition = "2021"
+rust-version = "1.85"
 license = "MIT"
+repository = "https://github.com/aphrody-labs/fairwind"
+homepage = "https://github.com/aphrody-labs/fairwind"
+keywords = ["fw", "rust-os", "wasm", "mcp", "cluster"]
+categories = ["command-line-utilities", "development-tools", "os"]
 
 [workspace.dependencies]
+# Internal publishable fw-* crates (pinned with version + path for crates.io)
+fw-ggml = { version = "4.2.0", path = "crates/fw-ggml" }
+fw-compute = { version = "4.2.0", path = "crates/fw-compute" }
+fw-cluster = { version = "4.2.0", path = "crates/fw-cluster" }
+fw-proto = { version = "4.2.0", path = "crates/fw-proto" }
+fw-ui-blitz = { version = "4.2.0", path = "crates/fw-ui-blitz" }
+fw-wasm = { version = "4.2.0", path = "crates/fw-wasm" }
+fw-ostd-wasm = { version = "4.2.0", path = "crates/fw-ostd-wasm" }
+fw-uutils = { version = "4.2.0", path = "crates/fw-uutils" }
+fw-nix = { version = "4.2.0", path = "crates/fw-nix" }
+fw-unified-stack = { version = "4.2.0", path = "crates/fw-unified-stack" }
+fw-wayland-wgpu = { version = "4.2.0", path = "crates/fw-wayland-wgpu" }
+fw-hermes-claw = { version = "4.2.0", path = "crates/fw-hermes-claw" }
+
+# External zero-bloat dependencies
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.10"

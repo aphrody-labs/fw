@@ -8,7 +8,7 @@
 
   wsl = {
     enable = true;
-    defaultUser = "aphro";
+    defaultUser = "fw";
     startMenuLaunchers = false; # replaced by native Fairwind launcher
     useWindowsDriver = true;    # RTX 4070 dxgkrnl CUDA/Vulkan/WebGPU (/usr/lib/wsl/lib)
     interop.register = true;

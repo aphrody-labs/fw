@@ -2,7 +2,12 @@
 name = "fw-ggml"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 description = "100% ggml-org compatible tensor/cgraph IR, GGUF v3 parser/writer, quantized Q8_0/Q4_0 kernels, and ggml-rpc wire protocol"
 
 [dependencies]

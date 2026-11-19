@@ -1,0 +1,25 @@
+# Single declarative product identity for `fw` (zero hardcoded names/paths/prefixes).
+name = "fw"
+display_name = "fw"
+binary = "fw"
+version = "4.2.0"
+crate_prefix = "fw-"
+license = "MIT"
+organization = "aphrody-labs"
+repository = "https://github.com/aphrody-labs/fairwind"
+homepage = "https://github.com/aphrody-labs/fairwind"
+crates_io_publish_order = [
+  "fw-wasm",
+  "fw-ggml",
+  "fw-compute",
+  "fw-cluster",
+  "fw-ostd-wasm",
+  "fw-uutils",
+  "fw-nix",
+  "fw-ui-blitz",
+  "fw-unified-stack",
+  "fw-wayland-wgpu",
+  "fw-hermes-claw",
+  "fw-proto",
+  "fw-bin",
+]

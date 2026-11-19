@@ -14,7 +14,7 @@ Dated source-verified audit following `context7-deep-research` (live GitHub HEAD
 | Zed | `zed-industries/zed` (`main`) | `b51ffab015` (95,309★, `v1.29.2`) | 2026-11-19 |
 | OpenClaw / Hermes / ZeroClaw | `openclaw/openclaw` (394,799★), `NousResearch/hermes-agent` (264,635★), `zeroclaw-labs/zeroclaw` (33,488★) | live HEAD | 2026-11-19 |
 
-## 2. Gaps Found & Resolved in `C:\src\fairwind`
+## 2. Gaps Found & Resolved in `fw` Monorepo
 
 1. **Root Nix Flake (`flake.nix`)** — added `flake-parts` + `crane` root flake with full Nov 2026 Rust CLI `devShell` (`nu`, `rg`, `fd`, `ast-grep`, `jaq`, `xh`, `sd`, `bat`, `eza`, `jj`, `difft`, `hyperfine`, `just`, `bun`, `uv`) and `nixosModules.fairwind`.
 2. **Task Runner (`justfile`)** — added cross-OS recipes (`clippy`, `test`, `build`, `musl`, `claw`, `serve`, `docker`, `plugin`, `ci`).

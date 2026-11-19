@@ -131,9 +131,11 @@ fn resolve_repo_root() -> PathBuf {
             }
         }
     }
-    let fallback = PathBuf::from(r"C:\src\fairwind");
-    if is_repo_root(&fallback) {
-        return fallback;
+    if let Some(root_env) = env::var_os("FW_ROOT") {
+        let candidate = PathBuf::from(root_env);
+        if is_repo_root(&candidate) {
+            return candidate;
+        }
     }
     env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
 }

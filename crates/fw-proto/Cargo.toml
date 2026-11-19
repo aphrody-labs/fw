@@ -2,14 +2,19 @@
 name = "fw-proto"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 description = "Zero-dependency Rust protocol server: HTTP, WebSockets (RFC 6455), WebRTC SDP/DataChannel signaling, GraphQL, OpenAPI 3.1, OpenAI, Decision-1, MCP, ACP, A2A, and WebGPU/Wasm browser harness"
 
 [dependencies]
-fw-cluster = { path = "../fw-cluster" }
-fw-compute = { path = "../fw-compute" }
-fw-ggml = { path = "../fw-ggml" }
-fw-hermes-claw = { path = "../fw-hermes-claw" }
+fw-cluster.workspace = true
+fw-compute.workspace = true
+fw-ggml.workspace = true
+fw-hermes-claw.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
