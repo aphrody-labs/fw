@@ -1,0 +1,8 @@
+[package]
+name = "fairwind-abi"
+version = "0.1.0"
+edition = "2024"
+description = "Minimal C ABI bridge for Fairwind"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
