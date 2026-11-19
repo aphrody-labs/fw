@@ -1,0 +1,172 @@
+#!/usr/bin/env bun
+// Package WebAssembly (wasm32) modules for the edge Worker (apps/edge, services/wasm.ts).
+//   bun tools/edge-wasm.ts [--out target/edge-wasm] [--variants base,simd,atomics,component] [--from <dir> --product <id>] [--bundle-limit <bytes>]
+// Builds the ay corelib variants with tools/corelib.ts, optimizes them with binaryen when wasm-opt is on PATH, validates them and writes
+//   <out>/<name>.wasm        the module (CompiledWasm import of the Worker)
+//   <out>/<name>.wasm.bin    the same bytes as a Data import, for serving the raw module (a Worker cannot read the bytes of a Module)
+//   <out>/wasm.json          index: name, product, sha256, size, imports, exports, variant, os, arch, bundled, r2Key
+//   <out>/registry.ts        static imports of every bundled module (what services/wasm.ts loads)
+//   <out>/wrangler.jsonc     dev config for apps/edge/wasm/entry.ts (compatibility date and flags read from apps/edge/edge.toml)
+// `--from <dir>` adds the *.wasm files of another repository (fw-wasm, nie-plugin, ...) built elsewhere: Rust wasm builds run on the
+// build host only. A module over --bundle-limit is not bundled: it is listed with its content-addressed R2 key (wasm/<sha256>.wasm in the
+// releases bucket) and served from there; tools/release-publish.ts and tools/r2-sync.ts upload it.
+// A Worker cannot compile bytes at runtime (WebAssembly.compile is blocked), so only bundled modules are instantiated.
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { basename, join, resolve } from "node:path";
+import { buildWasm, root, type WasmVariant } from "./corelib.ts";
+
+/** This repository id (naming.toml), prefix of its package names and product of its artifacts. */
+export const ID = (Bun.TOML.parse(readFileSync(join(root, "naming.toml"), "utf8")) as { id: string }).id;
+
+export const SCHEMA_WASM = "ay.wasm.v1";
+export const DEFAULT_OUT = "target/edge-wasm";
+export const DEFAULT_BUNDLE_LIMIT = 1024 * 1024;
+const ALL_VARIANTS: WasmVariant[] = ["base", "simd", "atomics", "component"];
+
+export interface WasmPackage {
+  name: string;
+  product: string;
+  variant: string;
+  os: "wasi" | "browser" | "any";
+  arch: "wasm32";
+  sha256: string;
+  size: number;
+  imports: { module: string; name: string; kind: string }[];
+  exports: { name: string; kind: string }[];
+  bundled: boolean;
+  r2Key: string;
+}
+
+export interface WasmIndex {
+  schema: typeof SCHEMA_WASM;
+  packages: WasmPackage[];
+}
+
+/** Package name of a corelib variant: <id>-corelib for the base build, <id>-corelib-<variant> for the others. */
+export const corelibName = (variant: WasmVariant): string => (variant === "base" ? `${ID}-corelib` : `${ID}-corelib-${variant}`);
+
+/** binaryen with every feature the module may use; skipped (module kept as clang linked it) when wasm-opt is not installed. */
+export function optimize(wasm: Uint8Array, tmp: string): Uint8Array {
+  const opt = Bun.which("wasm-opt");
+  if (!opt) return wasm;
+  const input = `${tmp}.in.wasm`;
+  const output = `${tmp}.out.wasm`;
+  writeFileSync(input, wasm);
+  const p = Bun.spawnSync([opt, "-O2", "--all-features", "--strip-debug", input, "-o", output], { stdout: "pipe", stderr: "pipe" });
+  if (p.exitCode !== 0) throw new Error(`wasm-opt failed: ${p.stderr.toString()}`);
+  const result = new Uint8Array(readFileSync(output));
+  rmSync(input);
+  rmSync(output);
+  return result;
+}
+
+export function describe(bytes: Uint8Array): Pick<WasmPackage, "imports" | "exports"> {
+  if (!WebAssembly.validate(bytes)) throw new Error("not a valid WebAssembly module");
+  const mod = new WebAssembly.Module(bytes as BufferSource);
+  return { imports: WebAssembly.Module.imports(mod).map(i => ({ module: i.module, name: i.name, kind: i.kind })), exports: WebAssembly.Module.exports(mod).map(e => ({ name: e.name, kind: e.kind })) };
+}
+
+const sha256 = (b: Uint8Array): string => createHash("sha256").update(b).digest("hex");
+
+/** os of a module from its imports: wasi_* imports mean WASI, a wbg/env-less host contract means any. */
+export function osOf(imports: WasmPackage["imports"]): WasmPackage["os"] {
+  if (imports.some(i => i.module.startsWith("wasi_"))) return "wasi";
+  if (imports.some(i => i.module === "wbg" || i.module === "__wbindgen_placeholder__")) return "browser";
+  return "any";
+}
+
+export function describePackage(name: string, product: string, variant: string, bytes: Uint8Array, bundleLimit: number): WasmPackage {
+  const info = describe(bytes);
+  const digest = sha256(bytes);
+  return { name, product, variant, os: osOf(info.imports), arch: "wasm32", sha256: digest, size: bytes.byteLength, ...info, bundled: bytes.byteLength <= bundleLimit, r2Key: `wasm/${digest}.wasm` };
+}
+
+export function renderRegistry(packages: WasmPackage[]): string {
+  const bundled = packages.filter(p => p.bundled);
+  const lines = [
+    "// Generated by tools/edge-wasm.ts. Do not edit.",
+    ...bundled.flatMap((p, i) => [`import module${i} from "./${p.name}.wasm";`, `import bytes${i} from "./${p.name}.wasm.bin";`]),
+    `import index from "./wasm.json";`,
+    "",
+    "export interface Bundled {",
+    "  module: WebAssembly.Module;",
+    "  bytes: ArrayBuffer;",
+    "}",
+    "export const registry: Record<string, Bundled> = {",
+    ...bundled.map((p, i) => `  ${JSON.stringify(p.name)}: { module: module${i}, bytes: bytes${i} },`),
+    "};",
+    "export { index };",
+    "",
+  ];
+  return lines.join("\n");
+}
+
+/** Dev config of the wasm service alone: compatibility settings come from edge.toml, the modules from the output directory. */
+export function renderDevConfig(): string {
+  const edge = Bun.TOML.parse(readFileSync(join(root, "apps/edge/edge.toml"), "utf8")) as { worker: { compatibility_date: string; compatibility_flags?: string[] } };
+  return JSON.stringify(
+    {
+      name: "ay-edge-wasm-dev",
+      main: join(root, "apps/edge/wasm/entry.ts"),
+      compatibility_date: edge.worker.compatibility_date,
+      ...(edge.worker.compatibility_flags ? { compatibility_flags: edge.worker.compatibility_flags } : {}),
+      workers_dev: false,
+      rules: [
+        { type: "CompiledWasm", globs: ["**/*.wasm"], fallthrough: false },
+        { type: "Data", globs: ["**/*.wasm.bin"], fallthrough: false },
+      ],
+    },
+    null,
+    2,
+  ) + "\n";
+}
+
+export interface BuildOptions {
+  out?: string;
+  variants?: WasmVariant[];
+  from?: string;
+  product?: string;
+  bundleLimit?: number;
+}
+
+export function build(opts: BuildOptions = {}): WasmIndex {
+  const out = resolve(root, opts.out ?? DEFAULT_OUT);
+  const limit = opts.bundleLimit ?? DEFAULT_BUNDLE_LIMIT;
+  mkdirSync(out, { recursive: true });
+  const packages: WasmPackage[] = [];
+  const sources: { name: string; product: string; variant: string; bytes: Uint8Array }[] = [];
+  for (const variant of opts.variants ?? ALL_VARIANTS) {
+    const name = corelibName(variant);
+    const linked = new Uint8Array(readFileSync(buildWasm(variant)));
+    sources.push({ name, product: ID, variant, bytes: optimize(linked, join(out, `.${name}`)) });
+  }
+  if (opts.from) {
+    if (!opts.product) throw new Error("--from needs --product");
+    for (const file of readdirSync(opts.from).filter(f => f.endsWith(".wasm")).sort()) {
+      sources.push({ name: basename(file, ".wasm"), product: opts.product, variant: "base", bytes: new Uint8Array(readFileSync(join(opts.from, file))) });
+    }
+  }
+  for (const s of sources) {
+    const pkg = describePackage(s.name, s.product, s.variant, s.bytes, limit);
+    writeFileSync(join(out, `${s.name}.wasm`), s.bytes);
+    if (pkg.bundled) writeFileSync(join(out, `${s.name}.wasm.bin`), s.bytes);
+    packages.push(pkg);
+  }
+  const index: WasmIndex = { schema: SCHEMA_WASM, packages };
+  writeFileSync(join(out, "wasm.json"), JSON.stringify(index, null, 2) + "\n");
+  writeFileSync(join(out, "registry.ts"), renderRegistry(packages));
+  writeFileSync(join(out, "wrangler.jsonc"), renderDevConfig());
+  return index;
+}
+
+if (import.meta.main) {
+  const args = process.argv.slice(2);
+  const opt = (flag: string) => (args.includes(flag) ? args[args.indexOf(flag) + 1] : undefined);
+  const variants = opt("--variants")?.split(",") as WasmVariant[] | undefined;
+  for (const v of variants ?? []) if (!ALL_VARIANTS.includes(v)) throw new Error(`unknown variant ${v}`);
+  const from = opt("--from");
+  if (from && !existsSync(from)) throw new Error(`--from ${from}: no such directory`);
+  const index = build({ out: opt("--out"), variants, from, product: opt("--product"), bundleLimit: opt("--bundle-limit") ? Number(opt("--bundle-limit")) : undefined });
+  for (const p of index.packages) console.log(`${p.name}\t${p.size}\t${p.sha256.slice(0, 12)}\t${p.bundled ? "bundled" : p.r2Key}`);
+}
