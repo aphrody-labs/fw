@@ -38,96 +38,29 @@ path = "tests/http_transport.rs"
 name = "mcp_client_tests"
 path = "tests/mcp_client_tests.rs"
 
-[dependencies.ay-config]
-path = "../ay-config"
-features = []
+[dependencies]
+async-trait.workspace = true
+ay-config = { path = "../ay-config", features = [] }
+ay-http = { path = "../ay-http", default-features = false, features = ["client"] }
+ay-toolcall = { path = "../ay-toolcall", default-features = false, features = [] }
+base64.workspace = true
+futures-util.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
 
-[dependencies.ay-toolcall]
-path = "../ay-toolcall"
-default-features = false
-features = []
+[dev-dependencies]
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"] }
+tokio = { workspace = true, features = ["process", "full"] }
 
-[dependencies.async-trait]
-version = "0.1.92"
+[target."cfg(not(target_arch = \"wasm32\"))".dependencies]
+aphrody-web-service = { version = "1.4.8", package = "bun_browser_service", features = ["render"] }
+ay-proc = { path = "../ay-proc", features = ["tokio"] }
+tokio = { version = "1.54.1", features = ["process", "rt-multi-thread", "macros", "time", "signal", "sync", "fs", "io-util", "full"] }
 
-[dependencies.base64]
-version = "0.23.1"
-
-[dependencies.futures-util]
-version = "0.3"
-features = []
-
-[dependencies.serde]
-version = "1.0.229"
-features = [
-    "derive",
-    "std",
-]
-default-features = false
-
-[dependencies.serde_json]
-version = "1.0.154"
-
-[dependencies.thiserror]
-version = "2.0.21"
-
-[dependencies.tracing]
-version = "0.1.44"
-
-[dev-dependencies.pretty_assertions]
-version = "1"
-features = []
-
-[dev-dependencies.rustls]
-version = "0.23"
-features = [
-    "aws_lc_rs",
-    "std",
-    "tls12",
-]
-default-features = false
-
-[dev-dependencies.tokio]
-version = "1.53.1"
-features = [
-    "process",
-    "rt-multi-thread",
-    "macros",
-    "time",
-    "signal",
-    "sync",
-    "fs",
-    "io-util",
-    "full",
-]
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies.ay-proc]
-path = "../ay-proc"
-features = ["tokio"]
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies.aphrody-web-service]
-version = "1.4.8"
-features = ["render"]
-package = "bun_browser_service"
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies.tokio]
-version = "1.54.1"
-features = [
-    "process",
-    "rt-multi-thread",
-    "macros",
-    "time",
-    "signal",
-    "sync",
-    "fs",
-    "io-util",
-    "full",
-]
-
-[target.'cfg(target_arch = "wasm32")'.dependencies.tokio]
-version = "1.54.1"
-features = ["sync"]
-default-features = false
+[target."cfg(target_arch = \"wasm32\")".dependencies]
+tokio = { version = "1.54.1", default-features = false, features = ["sync"] }
 
 [lints.clippy]
 dbg_macro = "deny"
@@ -146,6 +79,3 @@ priority = -1
 non_ascii_idents = "deny"
 unsafe_op_in_unsafe_fn = "deny"
 unused_must_use = "deny"
-
-[dependencies]
-ay-http = { path = "../ay-http", default-features = false, features = ["client"] }

@@ -1,6 +1,7 @@
 mod device;
 mod hardware;
 mod network;
+#[allow(clippy::module_inception)] // the module keeps the name of the original file
 mod runtime;
 mod source;
 mod store;

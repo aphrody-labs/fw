@@ -20,19 +20,19 @@ name = "ay-store"
 path = "src/bin/ai-os-store.rs"
 
 [dependencies]
-ay-sql = { path = "../ay-sql", default-features = false, features = ["sqlite"] }
 ay-agent = { path = "../ay-agent", default-features = false, features = ["home"] }
-blake3 = { workspace = true }
-clap = { workspace = true }
-ignore = { workspace = true }
+ay-sql = { path = "../ay-sql", default-features = false, features = ["sqlite"] }
+blake3.workspace = true
+clap.workspace = true
+ignore.workspace = true
 rusqlite = { workspace = true, features = ["bundled"] }
-serde = { workspace = true }
-serde_json = { workspace = true }
-sha2 = "0.11.1"
-thiserror = "2.0.21"
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
 
 [dev-dependencies]
-tempfile = "3.27.0"
+tempfile.workspace = true
 
 [lints.rust]
 non_ascii_idents = "deny"

@@ -176,7 +176,7 @@ fn decode_png_opaque(raw: &[u8]) -> Result<EmbeddedImage, PdfBuildError> {
     let mut idat = Vec::new();
 
     while pos + 12 <= raw.len() {
-        let len = u32::from_be_bytes(raw[pos..pos + 4].try_into().unwrap()) as usize;
+        let len = u32::from_be_bytes([raw[pos], raw[pos + 1], raw[pos + 2], raw[pos + 3]]) as usize;
         let kind = &raw[pos + 4..pos + 8];
         let data_start = pos + 8;
         let data_end = data_start.saturating_add(len);
@@ -186,8 +186,8 @@ fn decode_png_opaque(raw: &[u8]) -> Result<EmbeddedImage, PdfBuildError> {
         let chunk = &raw[data_start..data_end];
         match kind {
             b"IHDR" if len == 13 => {
-                width = u32::from_be_bytes(chunk[0..4].try_into().unwrap());
-                height = u32::from_be_bytes(chunk[4..8].try_into().unwrap());
+                width = u32::from_be_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]);
+                height = u32::from_be_bytes([chunk[4], chunk[5], chunk[6], chunk[7]]);
                 bit_depth = chunk[8];
                 color_type = chunk[9];
                 if chunk[12] != 0 {

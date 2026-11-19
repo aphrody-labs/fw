@@ -104,158 +104,34 @@ name = "native_semantics"
 path = "tests/native_semantics.rs"
 required-features = ["native"]
 
-[dependencies.ay-http]
-path = "../ay-http"
-default-features = false
-features = ["server"]
-optional = true
+[dependencies]
+axum = { workspace = true, features = ["http2"], optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["server"], optional = true }
+ay-model = { path = "../ay-model", default-features = false, features = ["store"] }
+base64 = { workspace = true, optional = true }
+candle-core = { version = "0.11", default-features = false, optional = true }
+candle-nn = { version = "0.11", default-features = false, optional = true }
+candle-transformers = { version = "0.11", default-features = false, optional = true }
+gemm = { version = "0.19", default-features = false, features = ["std", "rayon", "x86-v4"], optional = true }
+memmap2 = { workspace = true, optional = true }
+rayon = { workspace = true, optional = true }
+safetensors = { version = "0.8.0", optional = true }
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+sha2 = { workspace = true, optional = true }
+thiserror.workspace = true
+tokenizers = { version = "0.23.2", default-features = false, features = ["fancy-regex", "onig"], optional = true }
+tokio = { workspace = true, features = ["process", "full"], optional = true }
+tracing.workspace = true
+ureq = { version = "3.5.2", default-features = false, features = ["rustls"], optional = true }
 
-[dependencies.ay-model]
-path = "../ay-model"
-default-features = false
-features = ["store"]
+[dev-dependencies]
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"] }
+tempfile.workspace = true
 
-[dependencies.axum]
-version = "0.8"
-features = [
-    "json",
-    "query",
-    "tokio",
-    "http1",
-    "http2",
-]
-optional = true
-default-features = false
-
-[dependencies.base64]
-version = "0.23.1"
-optional = true
-
-[dependencies.candle-core]
-version = "0.11"
-optional = true
-default-features = false
-
-[dependencies.candle-nn]
-version = "0.11"
-optional = true
-default-features = false
-
-[dependencies.candle-transformers]
-version = "0.11"
-optional = true
-default-features = false
-
-[dependencies.dirs]
-version = "7.0.0"
-
-[dependencies.gemm]
-version = "0.19"
-features = [
-    "std",
-    "rayon",
-    "x86-v4",
-]
-optional = true
-default-features = false
-
-[dependencies.memmap2]
-version = "0.9.12"
-optional = true
-
-[dependencies.rayon]
-version = "1.12.0"
-optional = true
-
-[dependencies.safetensors]
-version = "0.8.0"
-optional = true
-
-[dependencies.serde]
-version = "1.0.229"
-features = [
-    "derive",
-    "std",
-]
-optional = true
-default-features = false
-
-[dependencies.serde_json]
-version = "1.0.154"
-optional = true
-
-[dependencies.sha2]
-version = "0.11.1"
-optional = true
-
-[dependencies.thiserror]
-version = "2.0.21"
-
-[dependencies.tokenizers]
-version = "0.23.2"
-features = [
-    "fancy-regex",
-    "onig",
-]
-optional = true
-default-features = false
-
-[dependencies.tokio]
-version = "1.54.1"
-features = [
-    "process",
-    "rt-multi-thread",
-    "macros",
-    "time",
-    "signal",
-    "sync",
-    "fs",
-    "io-util",
-    "full",
-]
-optional = true
-
-[dependencies.tracing]
-version = "0.1.44"
-
-[dependencies.ureq]
-version = "3.5.2"
-features = ["rustls"]
-optional = true
-default-features = false
-
-[dev-dependencies.rustls]
-version = "0.23"
-features = [
-    "aws_lc_rs",
-    "std",
-    "tls12",
-]
-default-features = false
-
-[dev-dependencies.tempfile]
-version = "3.27.0"
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies.fastembed]
-version = "5.13.4"
-features = [
-    "ort-load-dynamic",
-    "ort-download-binaries-rustls-tls",
-    "hf-hub-rustls-tls",
-]
-optional = true
-default-features = false
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies.ort]
-version = "=2.0.0-rc.12"
-features = [
-    "std",
-    "api-24",
-    "ndarray",
-    "tracing",
-]
-optional = true
-default-features = false
+[target."cfg(not(target_arch = \"wasm32\"))".dependencies]
+fastembed = { version = "5.13.4", default-features = false, features = ["ort-load-dynamic", "ort-download-binaries-rustls-tls", "hf-hub-rustls-tls"], optional = true }
+ort = { version = "=2.0.0-rc.12", default-features = false, features = ["std", "api-24", "ndarray", "tracing"], optional = true }
 
 [lints.clippy]
 dbg_macro = "deny"

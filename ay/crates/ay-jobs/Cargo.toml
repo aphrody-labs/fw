@@ -11,17 +11,17 @@ publish = false
 description = "Persistent background job queue (SQLite): submission, leased claims, crash recovery, retries, NDJSON logs. Legacy crates.io name: aphrody-jobs."
 
 [dependencies]
-async-trait = "0.1.92"
-chrono = { version = "0.4", features = ["serde"] }
+async-trait.workspace = true
+chrono = { workspace = true, features = ["serde"] }
 rusqlite = { workspace = true, features = ["bundled"] }
-serde = { workspace = true }
-serde_json = { workspace = true }
-thiserror = "2.0.21"
-tokio = { workspace = true }
-uuid = { version = "1.29.3", features = ["v4", "v7", "serde"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+uuid = { workspace = true, features = ["v4", "v7", "serde"] }
 
 [dev-dependencies]
-tempfile = "3.27.0"
+tempfile.workspace = true
 
 [lints.rust]
 non_ascii_idents = "deny"

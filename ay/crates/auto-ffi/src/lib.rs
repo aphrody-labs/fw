@@ -539,7 +539,9 @@ pub unsafe extern "C" fn auto_call(
     if out_len.is_null() {
         return std::ptr::null_mut();
     }
+    // SAFETY: the caller guarantees `op_ptr` is valid for `op_len` bytes when it is not null (documented contract of `auto_call`).
     let op_bytes = if op_ptr.is_null() { &[] } else { unsafe { std::slice::from_raw_parts(op_ptr, op_len) } };
+    // SAFETY: same contract for `in_ptr` and `in_len`.
     let input = if in_ptr.is_null() { &[] } else { unsafe { std::slice::from_raw_parts(in_ptr, in_len) } };
     let result = match std::str::from_utf8(op_bytes) {
         Ok(op) => dispatch(op, input),
@@ -563,6 +565,7 @@ pub unsafe extern "C" fn auto_call(
     let len = framed.len();
     let ptr = framed.as_mut_ptr();
     std::mem::forget(framed);
+    // SAFETY: the caller passes a valid, writable `out_len` pointer (documented contract of `auto_call`).
     unsafe {
         *out_len = len;
     }
@@ -577,6 +580,7 @@ pub unsafe extern "C" fn auto_call(
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn auto_free(ptr: *mut u8, len: usize) {
     if !ptr.is_null() && len > 0 {
+        // SAFETY: `ptr` and `len` come from a previous `auto_call` buffer whose capacity equals its length, and it is freed once.
         unsafe {
             let _ = Vec::from_raw_parts(ptr, len, len);
         }

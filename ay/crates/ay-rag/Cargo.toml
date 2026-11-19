@@ -49,139 +49,33 @@ path = "tests/rag_store_tests.rs"
 name = "trained_onnx_smoke"
 path = "tests/trained_onnx_smoke.rs"
 
-[dependencies.ay-code-graph]
-path = "../ay-code-graph"
-features = []
+[dependencies]
+async-trait.workspace = true
+ay-code-graph = { path = "../ay-code-graph", features = [] }
+ay-config = { path = "../ay-config", features = [] }
+ay-embed = { path = "../ay-embed", default-features = false, features = [], optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["client"] }
+ay-model = { path = "../ay-model", default-features = false, features = ["store"] }
+ay-rag-core = { path = "../ay-rag-core", features = [] }
+ay-sql = { path = "../ay-sql", default-features = false, features = ["postgres", "sqlite"] }
+ay-store = { path = "../ay-store", features = [] }
+ay-toolcall = { path = "../ay-toolcall", default-features = false, features = [] }
+blake3.workspace = true
+clap = { workspace = true, features = ["color"] }
+ignore.workspace = true
+rusqlite = { workspace = true, features = ["bundled"] }
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["process", "full"] }
+tokio-postgres = { workspace = true, features = ["with-serde_json-1"] }
+tracing.workspace = true
 
-[dependencies.ay-config]
-path = "../ay-config"
-features = []
-
-[dependencies.ay-embed]
-path = "../ay-embed"
-features = []
-optional = true
-default-features = false
-
-[dependencies.ay-model]
-path = "../ay-model"
-default-features = false
-features = ["store"]
-
-[dependencies.ay-rag-core]
-path = "../ay-rag-core"
-features = []
-
-[dependencies.ay-sql]
-path = "../ay-sql"
-features = [
-    "postgres",
-    "sqlite",
-]
-default-features = false
-
-[dependencies.ay-store]
-path = "../ay-store"
-features = []
-
-[dependencies.ay-toolcall]
-path = "../ay-toolcall"
-default-features = false
-features = []
-
-[dependencies.async-trait]
-version = "0.1.92"
-
-[dependencies.blake3]
-version = "1.8.7"
-
-[dependencies.clap]
-version = "4.6.8"
-features = [
-    "derive",
-    "env",
-    "color",
-]
-
-[dependencies.dirs]
-version = "7.0.0"
-
-[dependencies.ignore]
-version = "0.4"
-features = []
-
-[dependencies.rusqlite]
-version = "0.40"
-features = ["bundled"]
-
-[dependencies.rustls]
-version = "0.23.46"
-features = [
-    "aws_lc_rs",
-    "std",
-    "tls12",
-]
-default-features = false
-
-[dependencies.serde]
-version = "1.0.229"
-features = [
-    "derive",
-    "std",
-]
-default-features = false
-
-[dependencies.serde_json]
-version = "1.0.154"
-
-[dependencies.sha2]
-version = "0.11.1"
-
-[dependencies.thiserror]
-version = "2.0.21"
-
-[dependencies.tokio]
-version = "1.54.1"
-features = [
-    "process",
-    "rt-multi-thread",
-    "macros",
-    "time",
-    "signal",
-    "sync",
-    "fs",
-    "io-util",
-    "full",
-    "rt",
-]
-
-[dependencies.tokio-postgres]
-version = "0.7.18"
-features = ["with-serde_json-1"]
-
-[dependencies.tracing]
-version = "0.1.44"
-
-[dev-dependencies.pretty_assertions]
-version = "1"
-features = []
-
-[dev-dependencies.tempfile]
-version = "3.27.0"
-
-[dev-dependencies.tokio]
-version = "1.53.1"
-features = [
-    "process",
-    "rt-multi-thread",
-    "macros",
-    "time",
-    "signal",
-    "sync",
-    "fs",
-    "io-util",
-    "full",
-]
+[dev-dependencies]
+pretty_assertions.workspace = true
+tempfile.workspace = true
+tokio = { workspace = true, features = ["process", "full"] }
 
 [lints.clippy]
 dbg_macro = "deny"
@@ -200,6 +94,3 @@ priority = -1
 non_ascii_idents = "deny"
 unsafe_op_in_unsafe_fn = "deny"
 unused_must_use = "deny"
-
-[dependencies]
-ay-http = { path = "../ay-http", default-features = false, features = ["client"] }

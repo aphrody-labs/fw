@@ -305,8 +305,7 @@ pub fn rename_home(opts: &RenameOptions) -> Result<RenameReport, HomeError> {
     let state_plan = plan_state(&opts.root.state, &from_path, &to_path)?;
     let dir_name = |p: &Path| {
         p.file_name()
-            .map(|n| n.to_string_lossy().into_owned())
-            .unwrap_or_default()
+            .map_or_else(String::new, |n| n.to_string_lossy().into_owned())
     };
     let mut report = RenameReport {
         from_path: from_path.clone(),

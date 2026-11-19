@@ -23,6 +23,7 @@ impl Default for ClientBuilder {
     }
 }
 
+#[cfg_attr(target_family = "wasm", allow(unused_macros))]
 macro_rules! option {
     ($(#[$doc:meta])* $name:ident($($arg:ident: $ty:ty),*)) => {
         $(#[$doc])*
@@ -42,6 +43,63 @@ impl ClientBuilder {
         Self::default()
     }
 
+    /// Sets the `User-Agent`.
+    #[must_use]
+    pub fn user_agent<V>(mut self, value: V) -> Self
+    where
+        V: TryInto<HeaderValue>,
+        V::Error: Into<http::Error>,
+    {
+        if let Ok(value) = value.try_into() {
+            self.ops.push(Arc::new(move |b| b.user_agent(value.clone())));
+        }
+        self
+    }
+
+    /// Headers sent with every request.
+    #[must_use]
+    pub fn default_headers(mut self, headers: HeaderMap) -> Self {
+        self.ops.push(Arc::new(move |b| b.default_headers(headers.clone())));
+        self
+    }
+
+    /// Any other `reqwest` option; the closure runs once per transport.
+    #[must_use]
+    pub fn with(mut self, f: impl Fn(reqwest::ClientBuilder) -> reqwest::ClientBuilder + Send + Sync + 'static) -> Self {
+        self.ops.push(Arc::new(f));
+        self
+    }
+
+    fn base(&self) -> reqwest::ClientBuilder {
+        #[cfg(not(target_family = "wasm"))]
+        let mut b = reqwest::Client::builder().tcp_nodelay(true).pool_idle_timeout(Duration::from_secs(90));
+        #[cfg(target_family = "wasm")]
+        let mut b = reqwest::Client::builder();
+        for op in &self.ops {
+            b = op(b);
+        }
+        b
+    }
+    /// Builds the client (the h3 transports are built on first use).
+    ///
+    /// # Errors
+    /// Fails when the TLS backend or a configured option is invalid.
+    pub fn build(self) -> Result<Client> {
+        let base = self.base().build()?;
+        Ok(Client {
+            retries: 0,
+            inner: Arc::new(Inner {
+                base,
+                #[cfg(not(target_family = "wasm"))]
+                h3: self.h3.then(|| H3Transports { builder: self, plain: OnceLock::new(), early: OnceLock::new() }),
+                alt: AltSvcCache::default(),
+            }),
+        })
+    }
+}
+
+#[cfg(not(target_family = "wasm"))]
+impl ClientBuilder {
     option!(/// Total request timeout.
         timeout(value: Duration));
     option!(/// Connect timeout.
@@ -108,26 +166,6 @@ impl ClientBuilder {
     option!(/// Transparent deflate decoding.
         deflate(enable: bool));
 
-    /// Sets the `User-Agent`.
-    #[must_use]
-    pub fn user_agent<V>(mut self, value: V) -> Self
-    where
-        V: TryInto<HeaderValue>,
-        V::Error: Into<http::Error>,
-    {
-        if let Ok(value) = value.try_into() {
-            self.ops.push(Arc::new(move |b| b.user_agent(value.clone())));
-        }
-        self
-    }
-
-    /// Headers sent with every request.
-    #[must_use]
-    pub fn default_headers(mut self, headers: HeaderMap) -> Self {
-        self.ops.push(Arc::new(move |b| b.default_headers(headers.clone())));
-        self
-    }
-
     /// Bypass every proxy, system ones included.
     #[must_use]
     pub fn no_proxy(mut self) -> Self {
@@ -164,37 +202,6 @@ impl ClientBuilder {
         self
     }
 
-    /// Any other `reqwest` option; the closure runs once per transport.
-    #[must_use]
-    pub fn with(mut self, f: impl Fn(reqwest::ClientBuilder) -> reqwest::ClientBuilder + Send + Sync + 'static) -> Self {
-        self.ops.push(Arc::new(f));
-        self
-    }
-
-    fn base(&self) -> reqwest::ClientBuilder {
-        let mut b = reqwest::Client::builder().tcp_nodelay(true).pool_idle_timeout(Duration::from_secs(90));
-        for op in &self.ops {
-            b = op(b);
-        }
-        b
-    }
-
-    /// Builds the client (the h3 transports are built on first use).
-    ///
-    /// # Errors
-    /// Fails when the TLS backend or a configured option is invalid.
-    pub fn build(self) -> Result<Client> {
-        let base = self.base().build()?;
-        Ok(Client {
-            retries: 0,
-            inner: Arc::new(Inner {
-                base,
-                #[cfg(not(target_family = "wasm"))]
-                h3: self.h3.then(|| H3Transports { builder: self, plain: OnceLock::new(), early: OnceLock::new() }),
-                alt: AltSvcCache::default(),
-            }),
-        })
-    }
 }
 
 /// The QUIC transports: reqwest sends a request over h3 only when its version is HTTP/3 and the client was built with h3 prior knowledge.
@@ -440,6 +447,7 @@ impl RequestBuilder {
         self.map(|b| b.multipart(form))
     }
     /// Pins the HTTP version of this request.
+    #[cfg(not(target_family = "wasm"))]
     pub fn version(self, version: reqwest::Version) -> Self {
         self.map(|b| b.version(version))
     }

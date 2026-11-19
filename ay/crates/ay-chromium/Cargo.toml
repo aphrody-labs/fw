@@ -22,18 +22,16 @@ node = ["dep:napi", "dep:napi-derive", "dep:napi-build"]
 cef = { version = "=156.6.0", default-features = false }
 cef-dll-sys = { version = "=156.6.0", default-features = false }
 download-cef = "3.0.1"
-napi = { version = "3.16.2", default-features = false, features = ["napi4"], optional = true }
-napi-derive = { version = "3.7.1", optional = true }
+napi = { workspace = true, features = ["napi4"], optional = true }
+napi-derive = { workspace = true, optional = true }
 png = "0.18.1"
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
 
 [build-dependencies]
-napi-build = { version = "2.6.0", optional = true }
+napi-build = { workspace = true, optional = true }
 
-# The CEF bindings expand to unsafe code and the C and Node-API entry points are unsafe by nature, so the
-# workspace `forbid` is replaced by `deny`, lifted only in `engine` and `ffi`.
 [lints.rust]
 unsafe_code = "deny"
 unused_must_use = "deny"

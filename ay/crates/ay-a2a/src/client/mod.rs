@@ -18,6 +18,7 @@
 
 // Modules available on all targets (trait definitions, data types, helpers).
 pub mod auth;
+#[allow(clippy::module_inception)] // `client::client` is a public path of the crate
 pub mod client;
 pub mod middleware;
 pub mod transport;

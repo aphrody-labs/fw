@@ -10,12 +10,11 @@ readme = "README.md"
 publish = false
 description = "Autonomous-agent safety guardrails: pre-main process hardening (disable core dumps, block ptrace attach, strip LD_*/DYLD_* loader env) and a cross-platform shell command-safety classifier (Allow / Prompt / Forbidden) for gating agent-issued commands. Inspired by OpenAI Codex (Apache-2.0). Legacy crates.io name: aphrody-guard."
 
-[dependencies]
-[target.'cfg(unix)'.dependencies]
-libc = "0.2.191"
-
 [dev-dependencies]
-pretty_assertions = "1.4.1"
+pretty_assertions.workspace = true
+
+[target."cfg(unix)".dependencies]
+libc.workspace = true
 
 [lints.rust]
 non_ascii_idents = "deny"

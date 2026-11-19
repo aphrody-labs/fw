@@ -125,6 +125,7 @@ pub mod hub;
 pub mod ollama;
 /// The on-disk store: layout, registry, verification, eviction. Host-only.
 #[cfg(not(target_arch = "wasm32"))]
+#[allow(clippy::module_inception)] // `store::store` is a public path of the crate
 pub mod store;
 
 pub use accel::{Accelerator, GpuInfo, HardwareProfile, Recommendation, rank_for};

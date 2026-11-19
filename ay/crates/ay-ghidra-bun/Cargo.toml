@@ -19,11 +19,11 @@ decompile = ["ay-re/decompile"]
 [dependencies]
 ay-re = { path = "../ay-re", default-features = false }
 bun-native-plugin = "0.2.0"
-napi = { version = "3.16.2", default-features = false, features = ["napi4"] }
-napi-derive = "3.7.1"
+napi = { workspace = true, features = ["napi4"] }
+napi-derive.workspace = true
 serde_json.workspace = true
 
 [build-dependencies]
-napi-build = "2.6.0"
+napi-build.workspace = true
 
 [lints]

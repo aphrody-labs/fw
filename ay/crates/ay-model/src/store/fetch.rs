@@ -260,8 +260,7 @@ impl Downloader {
                     status.as_u16(),
                     status
                         .canonical_reason()
-                        .map(|r| format!(" {r}"))
-                        .unwrap_or_default()
+                        .map_or_else(String::new, |r| format!(" {r}"))
                 ),
             });
         }

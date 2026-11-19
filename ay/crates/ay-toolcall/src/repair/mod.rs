@@ -30,6 +30,7 @@
 mod extract;
 mod patch_normalize;
 mod profile;
+#[allow(clippy::module_inception)] // `repair::repair` is the public entry point of the pipeline
 mod repair;
 mod validate;
 

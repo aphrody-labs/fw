@@ -11,16 +11,16 @@ publish = false
 description = "Resilient agent-session recorder: appends timestamped JSONL items to ~/.aphrody/sessions/rollout-*.jsonl through an async actor (mpsc + background writer task with Flush/Persist/Shutdown), and resumes a prior session by replaying its JSONL. Inspired by OpenAI Codex rollout (Apache-2.0). Legacy crates.io name: aphrody-rollout."
 
 [dependencies]
-serde = { workspace = true }
-serde_json = { workspace = true }
-thiserror = "2.0.21"
-tokio = { workspace = true }
-tracing = "0.1.44"
-uuid = { version = "1.29.3", features = ["v4", "v7", "serde"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+uuid = { workspace = true, features = ["v4", "v7", "serde"] }
 
 [dev-dependencies]
-pretty_assertions = "1.4.1"
-tempfile = "3.27.0"
+pretty_assertions.workspace = true
+tempfile.workspace = true
 
 [lints.rust]
 non_ascii_idents = "deny"

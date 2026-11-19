@@ -15,26 +15,26 @@ runtime = ["dep:serde_json", "dep:serde", "dep:thiserror", "dep:url", "dep:ay-co
 default = ["boq", "web", "runtime"]
 
 [dependencies]
-ay-http = { path = "../ay-http", default-features = false, features = ["client"], optional = true }
 async-trait = { version = "0.1.92", default-features = false, optional = true }
 ay-config = { path = "../ay-config", optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["client"], optional = true }
 ay-mcp-client = { path = "../ay-mcp-client", optional = true }
 ay-proc = { path = "../ay-proc", features = ["tokio"], optional = true }
 dirs = { version = "7.0.0", default-features = false, optional = true }
-futures-util = { version = "0.3", optional = true }
+futures-util = { workspace = true, optional = true }
 regex = { version = "1.13.2", default-features = false, optional = true }
-serde = { version = "1.0.229", default-features = false, features = ["derive", "std"], optional = true }
+serde = { workspace = true, optional = true }
 serde_json = { version = "1.0.154", default-features = false, features = ["std"], optional = true }
 sha2 = { version = "0.11.1", default-features = false, optional = true }
 thiserror = { version = "2.0.21", default-features = false, optional = true }
 tracing = { version = "0.1.44", default-features = false, optional = true }
 url = { version = "2.5.8", default-features = false, optional = true }
-which = { version = "8", optional = true }
+which = { workspace = true, optional = true }
 
 [dev-dependencies]
-rustls = { version = "0.23.45", default-features = false, features = ["aws_lc_rs"] }
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs"] }
 tempfile = { version = "3.27.0", default-features = false, features = ["getrandom"] }
-tokio = { version = "1.53.2", default-features = false, features = ["macros", "rt", "rt-multi-thread"] }
+tokio = { version = "1.54.1", default-features = false, features = ["macros", "rt", "rt-multi-thread"] }
 
 [target."cfg(all(target_arch = \"wasm32\", target_os = \"unknown\"))".dependencies]
 tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }

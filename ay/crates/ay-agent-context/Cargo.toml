@@ -16,8 +16,8 @@ crate-type = ["rlib", "cdylib"]
 python = ["dep:pyo3"]
 
 [dependencies]
-rusqlite = { workspace = true, features = ["bundled"] }
 pyo3 = { workspace = true, features = ["abi3-py310", "extension-module"], optional = true }
+rusqlite = { workspace = true, features = ["bundled"] }
 
 [lints]
 workspace = true

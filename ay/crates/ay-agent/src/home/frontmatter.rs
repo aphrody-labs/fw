@@ -154,8 +154,7 @@ fn quote_scalar(value: &str) -> String {
 pub fn upsert_scalars(content: &str, pairs: &[(&str, Option<&str>)]) -> String {
     let (fm, body) = split(content);
     let mut lines: Vec<String> = fm
-        .map(|f| f.lines().map(str::to_string).collect())
-        .unwrap_or_default();
+        .map_or_else(Vec::new, |f| f.lines().map(str::to_string).collect());
     for (key, value) in pairs {
         let top_level_key = |line: &str| {
             !line.starts_with([' ', '\t'])

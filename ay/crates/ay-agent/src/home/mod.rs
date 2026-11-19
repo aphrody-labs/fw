@@ -77,6 +77,7 @@ pub mod frontmatter;
 pub mod fsutil;
 pub mod guard;
 pub mod heartbeat;
+#[allow(clippy::module_inception)] // `home::home` is a public path of the crate
 pub mod home;
 pub mod homes;
 pub mod identity;

@@ -13,12 +13,29 @@ authors = ["aphrody-dev"]
 repository = "https://github.com/aphrody-dev/ay"
 
 [workspace.dependencies]
-# inherited by the auto, cf and media crates merged into the SDK
+aes-gcm = "0.11.1"
+age = { version = "0.12.1", default-features = false }
+anyhow = "1.0.104"
+argh = "0.1.19"
 argon2 = { version = "0.6", default-features = false, features = ["alloc"] }
+async-trait = "0.1.92"
 axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
-base64 = "0.23"
+ay-agent-context = { path = "crates/ay-agent-context" }
+ay-brand = { path = "crates/ay-brand" }
+ay-core = { path = "crates/ay-core" }
+ay-re = { path = "crates/ay-re" }
+base64 = "0.23.1"
+blake3 = { version = "1.8.7", features = ["mmap", "rayon"] }
+browser-browse = { path = "third_party/browser/components/browser-browse" }
+browser-detect = { path = "third_party/browser/components/browser-detect", default-features = false }
+browser-engine = { path = "third_party/browser/components/browser-engine" }
+browser-views = { path = "third_party/browser/components/browser-views" }
+browser-vpn = { path = "third_party/browser/components/browser-vpn" }
+bytes = "1.12.2"
+cc = "1.11.2"
 chacha20poly1305 = { version = "0.11", default-features = false, features = ["alloc"] }
 chrono = { version = "0.4.45", default-features = false, features = ["std"] }
+clap = { version = "4.6.8", features = ["derive", "env", "cargo", "string", "unicode"] }
 craft-csv = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
 craft-docx = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
 craft-i18n = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
@@ -32,87 +49,76 @@ craft-wordmodel = { git = "https://github.com/storytold/craft-libs", rev = "ccbc
 craft-xls = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
 craft-xlsx = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
 craft-xml = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
-ed25519-dalek = "3.0.0"
-etagere = "0.3.0"
-gltf = { version = "1.4.1", default-features = false, features = ["names", "utils"] }
-hmac = "0.13"
-http = "1.5.0"
-http-range-header = "1.1.0"
-ktx2 = "0.5.0"
-p256 = { version = "0.14", default-features = false, features = ["ecdsa", "sha256"] }
-reqwest = { version = "0.13", default-features = false, features = ["json", "rustls"] }
-scrypt = { version = "0.12", default-features = false }
-skrifa = { version = "0.47", default-features = false, features = ["std"] }
-spdx = "0.13.6"
-subtle = "2.6"
-thumbhash = "0.1.0"
-aes-gcm = "0.11.1"
-age = { version = "0.12.1", default-features = false }
-anyhow = "1.0.104"
-argh = "0.1.19"
-ay-agent-context = { path = "crates/ay-agent-context" }
-ay-brand = { path = "crates/ay-brand" }
-ay-core = { path = "crates/ay-core" }
-ay-re = { path = "crates/ay-re" }
-blake3 = { version = "1.8.7", features = ["mmap", "rayon"] }
-browser-browse = { path = "third_party/browser/components/browser-browse" }
-browser-detect = { path = "third_party/browser/components/browser-detect", default-features = false }
-browser-engine = { path = "third_party/browser/components/browser-engine" }
-browser-views = { path = "third_party/browser/components/browser-views" }
-browser-vpn = { path = "third_party/browser/components/browser-vpn" }
-cc = "1.11.2"
-clap = { version = "4.6.8", features = [
-  "derive",
-  "env",
-  "cargo",
-  "string",
-  "unicode",
-] }
 crc32fast = "1.5.5"
+criterion = "0.8.2"
 dioxus = { version = "0.7.10", default-features = false, features = ["signals", "macro", "html"] }
 dioxus-core = "0.7.10"
 dioxus-signals = "0.7.10"
 dioxus-ssr = "0.7.10"
+dirs = "7.0.0"
+ed25519-dalek = "3.0.0"
+etagere = "0.3.0"
 flate2 = "1.1.11"
+futures = "0.3.34"
+futures-util = "0.3"
 getrandom = "0.4.3"
+gltf = { version = "1.4.1", default-features = false, features = ["names", "utils"] }
 goblin = "0.10.7"
+hex = "0.4.3"
+hf-hub = "1.0.0"
+hmac = "0.13"
+http = "1.5.0"
+http-body-util = "0.1"
+http-range-header = "1.1.0"
+hyper = "1"
 iced-x86 = "1.22.0"
 ignore = "0.4.34"
+ktx2 = "0.5.0"
+libc = "0.2.191"
+libloading = "0.9.1"
 material-colors = "0.5.0"
 memmap2 = "0.9.12"
+napi = { version = "3.16.2", default-features = false }
+napi-build = "2.6.0"
+napi-derive = "3.7.1"
 oxc_allocator = "0.159.0"
 oxc_ast = "0.159.0"
 oxc_ast_visit = "0.159.0"
 oxc_parser = "0.159.0"
 oxc_span = "0.159.0"
 oxc_syntax = "0.159.0"
+p256 = { version = "0.14", default-features = false, features = ["ecdsa", "sha256"] }
+pretty_assertions = "1.4.1"
+prost = "0.14.6"
+protoc-bin-vendored = "3.2.0"
 pyo3 = "0.30.1"
 rayon = "1.12.0"
+rcgen = "0.14"
 regex = "1.13.2"
 ropey = { version = "2.0.0-beta.1", features = ["metric_chars"] }
 rusqlite = "0.40"
 rustc-hash = "2.1.3"
+rustls = "0.23.46"
+scrypt = { version = "0.12", default-features = false }
 serde = { version = "1.0.229", default-features = false, features = ["derive", "std"] }
 serde_json = "1.0.154"
 sha1 = "0.11.0"
 sha2 = "0.11.1"
+skrifa = { version = "0.50.0", default-features = false, features = ["std"] }
+spdx = "0.13.6"
 streaming-iterator = "0.1.9"
+subtle = "2.6"
 taffy = { version = "0.15.1", default-features = false, features = ["std", "taffy_tree", "flexbox", "grid", "block_layout"] }
 tempfile = "3.27.0"
 thiserror = "2.0.21"
-tokio = { version = "1.54.1", features = [
-  "fs",
-  "io-util",
-  "macros",
-  "net",
-  "parking_lot",
-  "rt",
-  "rt-multi-thread",
-  "signal",
-  "sync",
-  "time",
-] }
+thumbhash = "0.1.0"
+tokio = { version = "1.54.1", features = ["fs", "io-util", "macros", "net", "parking_lot", "rt", "rt-multi-thread", "signal", "sync", "time"] }
+tokio-postgres = "0.7.18"
+tokio-rustls = "0.26"
 toml = "1.2.1"
+tonic-prost-build = "0.14.6"
+tower = "0.5"
+tracing = "0.1.44"
 tree-sitter = "0.27.2"
 tree-sitter-bash = "0.25.1"
 tree-sitter-c = "0.24.2"
@@ -130,32 +136,12 @@ tree-sitter-rust = "0.24.2"
 tree-sitter-typescript = "0.23.2"
 ureq = { version = "3.5.2", features = ["json"] }
 url = { version = "2.5.8", features = ["serde"] }
+uuid = "1.29.3"
 walkdir = "2.5.0"
 wasm-bindgen = "0.2.130"
-windows = { version = "0.62.2", features = [
-  "Win32_Foundation",
-  "Win32_Graphics_Direct3D",
-  "Win32_Graphics_Direct3D12",
-  "Win32_Graphics_Dxgi",
-  "Win32_Graphics_Dxgi_Common",
-  "Win32_Graphics_DirectComposition",
-  "Win32_System_Threading",
-  "Win32_Security",
-  "Win32_System_WinRT",
-  "Win32_System_WinRT_Composition",
-  "Win32_UI_WindowsAndMessaging",
-  "Win32_Networking_WinSock",
-  "System",
-] }
-windows-sys = { version = "0.61.2", features = [
-  "Win32_Foundation",
-  "Win32_System_Console",
-  "Win32_System_LibraryLoader",
-  "Win32_System_SystemInformation",
-  "Win32_Storage_FileSystem",
-  "Win32_System_Performance",
-  "Win32_Security",
-] }
+which = "8"
+windows = { version = "0.62.2", features = ["Win32_Foundation", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D12", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_DirectComposition", "Win32_System_Threading", "Win32_Security", "Win32_System_WinRT", "Win32_System_WinRT_Composition", "Win32_UI_WindowsAndMessaging", "Win32_Networking_WinSock", "System"] }
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_System_Console", "Win32_System_LibraryLoader", "Win32_System_SystemInformation", "Win32_Storage_FileSystem", "Win32_System_Performance", "Win32_Security"] }
 zerocopy = { version = "0.8.63", features = ["derive", "alloc", "simd"] }
 zeroize = "1.9.2"
 zstd = "0.14.4"

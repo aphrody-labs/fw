@@ -30,41 +30,15 @@ repository = "https://source.aphrody.app/aphrody-dev/bun-crate-aphrody-config"
 name = "ay_config"
 path = "src/lib.rs"
 
-[dependencies.serde]
-version = "1.0.229"
-features = [
-    "derive",
-    "std",
-]
-default-features = false
+[dependencies]
+serde.workspace = true
+serde_json = { version = "1.0.154", default-features = false, features = ["std"] }
+thiserror = { version = "2.0.21", default-features = false, features = ["std"] }
+toml = { version = "1.2.1", default-features = false, features = ["parse", "display", "serde"] }
 
-[dependencies.serde_json]
-version = "1.0.154"
-features = ["std"]
-default-features = false
-
-[dependencies.thiserror]
-version = "2.0.21"
-features = ["std"]
-default-features = false
-
-[dependencies.toml]
-version = "1.2.1"
-features = [
-    "parse",
-    "display",
-    "serde",
-]
-default-features = false
-
-[dev-dependencies.pretty_assertions]
-version = "1.4.1"
-default-features = false
-
-[dev-dependencies.tempfile]
-version = "3.27.0"
-features = ["getrandom"]
-default-features = false
+[dev-dependencies]
+pretty_assertions = { version = "1.4.1", default-features = false }
+tempfile = { version = "3.27.0", default-features = false, features = ["getrandom"] }
 
 [lints.clippy]
 dbg_macro = "deny"

@@ -13,7 +13,6 @@ description = "One C ABI cdylib: core_* (ay-core), ai_os_*, depot_*, aphrody_re_
 name = "ay_core_capi"
 crate-type = ["cdylib", "rlib"]
 
-
 [features]
 default = ["core", "ai-os", "pipeline", "re", "web"]
 core = ["dep:ay-core"]
@@ -28,8 +27,8 @@ aysys-link = []
 
 [dependencies]
 ay-agent-context = { workspace = true, optional = true }
-ay-gemini = { path = "../../ay-gemini", default-features = false, features = ["boq"], optional = true }
 ay-core = { workspace = true, optional = true }
+ay-gemini = { path = "../../ay-gemini", default-features = false, features = ["boq"], optional = true }
 ay-re = { workspace = true, optional = true }
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
 serde.workspace = true

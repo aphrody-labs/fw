@@ -17,8 +17,6 @@ hls = []
 [build-dependencies]
 cc.workspace = true
 
-# FFI crate: the workspace forbids unsafe code, the luma module calls its C and NASM kernels through documented `unsafe` blocks;
-# the hls module keeps `#![forbid(unsafe_code)]` itself.
 [lints.rust]
 unsafe_op_in_unsafe_fn = "deny"
 unused_must_use = "deny"

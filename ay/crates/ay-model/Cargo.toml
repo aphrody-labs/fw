@@ -18,33 +18,33 @@ antigravity_model = ["dep:serde", "dep:serde_json", "dep:ay-toolcall", "dep:asyn
 default = ["store", "client", "antigravity", "antigravity_model"]
 
 [dependencies]
+async-trait = { workspace = true, optional = true }
 ay-http = { path = "../ay-http", default-features = false, features = ["client"], optional = true }
-async-trait = { version = "0.1.92", optional = true }
 ay-proc = { path = "../ay-proc", features = ["tokio"], optional = true }
 ay-toolcall = { path = "../ay-toolcall", default-features = false, features = [], optional = true }
 base64 = { version = "0.23.1", default-features = false, optional = true }
-bytes = { version = "1.12.2", optional = true }
+bytes = { workspace = true, optional = true }
 data-encoding = { version = "2.11.1", optional = true }
-futures = { version = "0.3.34", features = ["std", "async-await"], optional = true }
-hex = { version = "0.4", features = [], optional = true }
+futures = { workspace = true, features = ["std", "async-await"], optional = true }
+hex = { workspace = true, optional = true }
 rand = { version = "0.10.4", default-features = false, features = ["thread_rng"], optional = true }
-serde = { version = "1.0.229", default-features = false, features = ["derive", "std"], optional = true }
-serde_json = { version = "1.0.154", features = ["std"], optional = true }
-sha2 = { version = "0.11.1", optional = true }
-thiserror = { version = "2.0.21", optional = true }
-tracing = { version = "0.1.44", optional = true }
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, features = ["std"], optional = true }
+sha2 = { workspace = true, optional = true }
+thiserror = { workspace = true, optional = true }
+tracing = { workspace = true, optional = true }
 webbrowser = { version = "1.2", optional = true }
 
 [dev-dependencies]
-axum = { version = "0.8", default-features = false, features = ["json", "query", "tokio", "http1", "http2"] }
-pretty_assertions = { version = "1.4.1", features = [] }
-rustls = { version = "0.23.45", default-features = false, features = ["aws_lc_rs", "std", "tls12"] }
-tempfile = { version = "3.27.0", features = ["getrandom"] }
-tokio = { version = "1.53.2", features = ["process", "rt-multi-thread", "macros", "time", "signal", "sync", "fs", "io-util", "full", "rt", "net"] }
+axum = { workspace = true, features = ["http2"] }
+pretty_assertions.workspace = true
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"] }
+tempfile = { workspace = true, features = ["getrandom"] }
+tokio = { workspace = true, features = ["process", "full"] }
 
 [build-dependencies]
-protoc-bin-vendored = { version = "3.2.0", optional = true }
-tonic-prost-build = { version = "0.14.6", optional = true }
+protoc-bin-vendored = { workspace = true, optional = true }
+tonic-prost-build = { workspace = true, optional = true }
 
 [target."cfg(all(target_arch = \"wasm32\", target_os = \"unknown\"))".dependencies]
 getrandom = { version = "0.4.3", default-features = false, features = ["wasm_js"], optional = true }
@@ -52,7 +52,7 @@ tokio = { version = "1.54.1", default-features = false, features = ["sync", "mac
 
 [target."cfg(not(target_arch = \"wasm32\"))".dependencies]
 ay-secrets = { path = "../ay-secrets", features = [], optional = true }
-chrono = { version = "0.4", features = ["serde"], optional = true }
+chrono = { version = "0.4.45", features = ["serde"], optional = true }
 dirs = { version = "7.0.0", optional = true }
 futures-util = { version = "0.3", features = [], optional = true }
 hf-hub = { version = "1.0.0", optional = true }
@@ -74,7 +74,7 @@ x509-parser = { version = "0.18", optional = true }
 tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
 
 [target."cfg(target_os = \"windows\")".dependencies]
-windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Security_Credentials"], optional = true }
+windows-sys = { workspace = true, features = ["Win32_Security_Credentials"], optional = true }
 
 [[test]]
 name = "antigravity_model_antigravity_model_tests"

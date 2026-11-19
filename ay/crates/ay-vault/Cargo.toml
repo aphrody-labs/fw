@@ -13,27 +13,17 @@ publish = false
 crate-type = ["rlib", "cdylib"]
 
 [dependencies]
-age = { workspace = true }
-aes-gcm = { workspace = true }
-tokio = { workspace = true, features = [
-  "rt",
-  "rt-multi-thread",
-  "process",
-  "fs",
-  "io-util",
-  "macros",
-] }
-zeroize = { workspace = true }
-getrandom = { workspace = true }
-
-[target.'cfg(windows)'.dependencies]
-windows = { workspace = true, features = [
-  "Win32_Foundation",
-  "Win32_Security_Cryptography",
-] }
+aes-gcm.workspace = true
+age.workspace = true
+getrandom.workspace = true
+tokio = { workspace = true, features = ["process"] }
+zeroize.workspace = true
 
 [dev-dependencies]
-tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
+tokio.workspace = true
+
+[target."cfg(windows)".dependencies]
+windows = { workspace = true, features = ["Win32_Security_Cryptography"] }
 
 [lints.rust]
 unused_must_use = "deny"

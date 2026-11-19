@@ -48,21 +48,23 @@ ignored = [
     "libloading",
 ]
 
+# libloading and libc are used by the generated bindings (shear cannot see them).
+[package.metadata.cargo-shear]
+ignored = ["libloading", "libc"]
+
 [lib]
 name = "ay_llama_sys"
 path = "src/lib.rs"
 
-[dependencies.libloading]
-version = "0.9.1"
+[dependencies]
+libloading.workspace = true
 
-[build-dependencies.anyhow]
-version = "1.0.104"
+[build-dependencies]
+anyhow.workspace = true
+aphrody-bindgen = "1.4.7"
 
-[build-dependencies.aphrody-bindgen]
-version = "1.4.7"
-
-[target.'cfg(target_os = "linux")'.dependencies.libc]
-version = "0.2.191"
+[target."cfg(target_os = \"linux\")".dependencies]
+libc.workspace = true
 
 [lints.rust]
 unused_must_use = "deny"

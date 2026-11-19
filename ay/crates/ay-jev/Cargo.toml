@@ -72,82 +72,21 @@ name = "server"
 path = "tests/server.rs"
 required-features = ["server"]
 
-[dependencies.axum]
-version = "=0.8.9"
-optional = true
+[dependencies]
+axum = { workspace = true, optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }
+futures = { workspace = true, optional = true }
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"], optional = true }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true, features = ["process", "full"], optional = true }
+tracing = { workspace = true, optional = true }
+url = { workspace = true, optional = true }
 
-[dependencies.futures]
-version = "0.3.34"
-optional = true
-
-[dependencies.rustls]
-version = "0.23.46"
-features = [
-    "aws_lc_rs",
-    "std",
-    "tls12",
-]
-optional = true
-default-features = false
-
-[dependencies.serde]
-version = "1.0.229"
-features = ["derive"]
-
-[dependencies.serde_json]
-version = "1.0.154"
-
-[dependencies.thiserror]
-version = "2.0.21"
-
-[dependencies.tokio]
-version = "1.54.1"
-features = [
-    "process",
-    "rt-multi-thread",
-    "macros",
-    "time",
-    "signal",
-    "sync",
-    "fs",
-    "io-util",
-    "full",
-    "sync",
-    "time",
-]
-optional = true
-
-[dependencies.tracing]
-version = "0.1.44"
-optional = true
-
-[dependencies.url]
-version = "2.5.8"
-features = ["serde"]
-optional = true
-
-[dev-dependencies.axum]
-version = "=0.8.9"
-
-[dev-dependencies.tokio]
-version = "1.53.1"
-features = [
-    "process",
-    "rt-multi-thread",
-    "macros",
-    "time",
-    "signal",
-    "sync",
-    "fs",
-    "io-util",
-    "full",
-    "rt",
-    "rt-multi-thread",
-    "macros",
-    "net",
-    "sync",
-    "time",
-]
+[dev-dependencies]
+axum.workspace = true
+tokio = { workspace = true, features = ["process", "full"] }
 
 [lints.clippy]
 approx_constant = "allow"
@@ -268,6 +207,3 @@ check-cfg = [
 [lints.rust.warnings]
 level = "deny"
 priority = -1
-
-[dependencies]
-ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }

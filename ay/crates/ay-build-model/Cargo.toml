@@ -9,9 +9,8 @@ description = "Work/span model of a ninja/siso build: DAG from `siso query graph
 # Member of the root workspace (explicit entry in the root Cargo.toml).
 
 [dependencies]
-serde = { workspace = true }
-serde_json = { workspace = true }
-
+serde.workspace = true
+serde_json.workspace = true
 
 [lints]
 workspace = true

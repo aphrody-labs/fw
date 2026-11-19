@@ -35,4 +35,7 @@ pub async fn get<U: IntoUrl>(url: U) -> Result<Response> {
 #[cfg(feature = "client")]
 pub use reqwest;
 #[cfg(feature = "client")]
-pub use reqwest::{Body, Certificate, Error, IntoUrl, Method, Proxy, Request, Response, Result, StatusCode, Url, Version, header, multipart, redirect};
+pub use reqwest::{Body, Error, IntoUrl, Method, Request, Response, Result, StatusCode, Url, Version, header, multipart};
+/// Native-only parts of the surface (the browser backend has no TLS configuration, proxies or redirect policies).
+#[cfg(all(feature = "client", not(target_family = "wasm")))]
+pub use reqwest::{Certificate, Proxy, redirect};

@@ -291,8 +291,7 @@ fn probe_nvidia() -> Vec<GpuInfo> {
             let memory = device.memory_info().ok()?;
             let compute_capability = device
                 .cuda_compute_capability()
-                .map(|cc| format!("{}.{}", cc.major, cc.minor))
-                .unwrap_or_default();
+                .map_or_else(|_| String::new(), |cc| format!("{}.{}", cc.major, cc.minor));
             Some(GpuInfo {
                 name: device.name().unwrap_or_default(),
                 vram_bytes: memory.total,

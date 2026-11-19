@@ -26,10 +26,10 @@ name = "aphrody_auto"
 path = "src/lib.rs"
 
 [dependencies]
-ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }
-ay-rag-core = { path = "../ay-rag-core", default-features = false, optional = true }
 argon2 = { workspace = true, optional = true }
 axum = { workspace = true, optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }
+ay-rag-core = { path = "../ay-rag-core", default-features = false, optional = true }
 base64.workspace = true
 chacha20poly1305 = { workspace = true, optional = true }
 chrono = { workspace = true, optional = true }

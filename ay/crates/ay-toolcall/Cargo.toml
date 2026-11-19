@@ -15,16 +15,15 @@ default = ["repair"]
 
 [dependencies]
 async-trait = { version = "0.1.92", default-features = false }
-regex = { version = "1.13.2", optional = true }
+regex = { workspace = true, optional = true }
 serde.workspace = true
 serde_json.workspace = true
-thiserror = "2.0.21"
+thiserror.workspace = true
 
 [dev-dependencies]
-pretty_assertions = "1.4.1"
+pretty_assertions.workspace = true
 proptest = "1.12.0"
 
-# The repair tests mutate the process environment with `set_var` (unsafe in edition 2024).
 [lints.rust]
 unsafe_op_in_unsafe_fn = "deny"
 unused_must_use = "deny"

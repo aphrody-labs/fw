@@ -30,46 +30,36 @@ yara = ["dep:yara-x"]
 wasm = ["dep:wasm-bindgen"]
 
 [dependencies]
-# Core workspace dependencies (all crates.io-backed)
-blake3.workspace = true
-goblin.workspace = true
-iced-x86.workspace = true
-rustc-hash.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-sha2.workspace = true
-sha1.workspace = true
-thiserror.workspace = true
-regex.workspace = true
-crc32fast.workspace = true
-zerocopy.workspace = true
-walkdir.workspace = true
-flate2.workspace = true
-getrandom.workspace = true
+aes = "0.9.4"
 anyhow.workspace = true
 ay-core = { workspace = true, features = ["pipeline"], optional = true }
-
-# Standard crates.io RE libraries merged from rosegriffon (yolo-re-core, aphrody-nie-pe) & shenron (shenron-re)
-aes = "0.9.4"
-md5 = { package = "md-5", version = "0.11.0" }
-hex = "0.4.3"
-memchr = "2.8.3"
-hashbrown = { version = "0.17.1", default-features = false, features = [
-  "default-hasher",
-  "inline-more",
-] }
-wasm-bindgen = { workspace = true, optional = true }
-
-# Optional feature-gated dependencies
-memmap2 = { workspace = true, optional = true }
-tempfile = { workspace = true, optional = true }
-process-wrap = { version = "10.0.1", optional = true, default-features = false, features = ["std", "process-group", "job-object"] }
+blake3.workspace = true
+crc32fast.workspace = true
+flate2.workspace = true
 ghidra-decompiler = { version = "2.1.0", optional = true }
+goblin.workspace = true
+hashbrown = { version = "0.17.1", default-features = false, features = ["default-hasher", "inline-more"] }
+hex.workspace = true
+iced-x86.workspace = true
 magika = { version = "1.1.0", optional = true }
-# Magika ships no ONNX Runtime backend: the final binary picks one. download-binaries fetches the prebuilt runtime at build time (host and msvc targets).
-ort = { version = "=2.0.0-rc.12", optional = true, default-features = false, features = ["download-binaries", "tls-rustls"] }
-rusty-leveldb = { version = "4.0.2", optional = true, default-features = false, features = ["fs"] }
-yara-x = { version = "1.23.0", optional = true, default-features = false }
+md5 = { version = "0.11.0", package = "md-5" }
+memchr = "2.8.3"
+memmap2 = { workspace = true, optional = true }
+ort = { version = "=2.0.0-rc.12", default-features = false, features = ["download-binaries", "tls-rustls"], optional = true }
+process-wrap = { version = "10.0.1", default-features = false, features = ["std", "process-group", "job-object"], optional = true }
+regex.workspace = true
+rustc-hash.workspace = true
+rusty-leveldb = { version = "4.0.2", default-features = false, features = ["fs"], optional = true }
+serde.workspace = true
+serde_json.workspace = true
+sha1.workspace = true
+sha2.workspace = true
+tempfile = { workspace = true, optional = true }
+thiserror.workspace = true
+walkdir.workspace = true
+wasm-bindgen = { workspace = true, optional = true }
+yara-x = { version = "1.23.0", default-features = false, optional = true }
+zerocopy.workspace = true
 
 [lints.rust]
 unsafe_op_in_unsafe_fn = "deny"

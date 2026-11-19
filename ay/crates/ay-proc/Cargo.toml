@@ -14,23 +14,23 @@ description = "Process supervision primitives shared by the llama-server supervi
 tokio = ["dep:tokio"]
 
 [dependencies]
-serde = { workspace = true }
-serde_json = { workspace = true }
-thiserror = "2.0.21"
-tracing = "0.1.44"
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-tokio = { workspace = true, features = ["process"], optional = true }
-
-[target.'cfg(unix)'.dependencies]
-rustix = { version = "1.1.6", features = ["process", "std"] }
-
-[target.'cfg(windows)'.dependencies]
-windows = { workspace = true, features = ["Win32_System_Console", "Win32_System_JobObjects", "Win32_System_Registry", "Win32_UI_Shell"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
 
 [dev-dependencies]
-pretty_assertions = "1.4.1"
-tempfile = "3.27.0"
+pretty_assertions.workspace = true
+tempfile.workspace = true
+
+[target."cfg(not(target_arch = \"wasm32\"))".dependencies]
+tokio = { workspace = true, version = "1.54.1", features = ["process"], optional = true }
+
+[target."cfg(unix)".dependencies]
+rustix = { version = "1.1.6", features = ["process", "std"] }
+
+[target."cfg(windows)".dependencies]
+windows = { workspace = true, features = ["Win32_System_Console", "Win32_System_JobObjects", "Win32_System_Registry", "Win32_UI_Shell"] }
 
 [lints.rust]
 non_ascii_idents = "deny"

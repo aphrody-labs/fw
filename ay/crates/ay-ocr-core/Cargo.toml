@@ -16,14 +16,14 @@ sqlite = ["dep:rusqlite", "dep:chrono", "dep:ay-agent"]
 
 [dependencies]
 ay-agent = { path = "../ay-agent", default-features = false, features = ["home"], optional = true }
-chrono = { version = "0.4", features = ["serde"], optional = true }
+chrono = { workspace = true, features = ["serde"], optional = true }
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-tracing = "0.1.44"
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
 
 [dev-dependencies]
-tempfile = "3.27.0"
+tempfile.workspace = true
 
 [lints.rust]
 non_ascii_idents = "deny"
