@@ -339,3 +339,11 @@ branch = "main"
 sha = "24ef4bcc27582888e2171e24bb70a86beeabce11"
 domain = "os-desktop"
 role = "Rust OS layer and native desktop (GPUI, COSMIC), fork of Zed"
+
+[[submodule]]
+path = "third_party/craft-i18n"
+repo = "aphrody-labs/craft-i18n"
+branch = "main"
+sha = "6ccdd32c58ccbe6f278ff3e534be003b1689805b"
+domain = "os-desktop"
+role = "Rust i18n catalogs for the native desktop (fork of storytold/craft-i18n)"
