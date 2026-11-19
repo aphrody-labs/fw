@@ -94,3 +94,5 @@ export function evalVirtualNyshPipeline(pipeline: string, vfs: ReadonlyMap<strin
   }
   return { stdout: buf, exitCode: 0 };
 }
+
+export * from "./serve.ts";

@@ -1,6 +1,7 @@
 /** The read API and the minimal pages over a replica: every page has a JSON twin under /api serving the same data. */
 import type { Database } from "bun:sqlite";
 import { join } from "node:path";
+import { listenOptions } from "@aphrody/ay-edge-stack/serve";
 import { TABLES, type Row } from "./db.ts";
 import { layout, type Page } from "./html.ts";
 import * as v from "./views.ts";
@@ -346,5 +347,5 @@ export function createApp({ db, org, root = join(import.meta.dir, "../../..") }:
 }
 
 export function serve(db: Database, org: string, { port, hostname }: { port: number; hostname: string }) {
-  return Bun.serve({ port, hostname, fetch: createApp({ db, org }).fetch, idleTimeout: 60 });
+  return Bun.serve({ port, hostname, fetch: createApp({ db, org }).fetch, idleTimeout: 60, ...listenOptions() });
 }

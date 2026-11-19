@@ -1,6 +1,7 @@
 // Self-hosted Bun HTTP + WebSocket HLC peer sync + filesystem blobs + optional remote sync worker.
 import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { listenOptions } from "@aphrody/ay-edge-stack/serve";
 import { initNative } from "@aphrody/auto-native";
 import { dirBlobs } from "@aphrody/auto-platform/bun";
 import { openAiClient, llmConfigFromEnv } from "@aphrody/auto-platform/llm";
@@ -79,6 +80,7 @@ export async function createSelfHostedServer(opts: SelfHostedOptions = {}) {
   });
 
   const server = Bun.serve<{ companyId: string }>({
+    ...listenOptions(env),
     hostname: host,
     port,
     async fetch(req, srv) {

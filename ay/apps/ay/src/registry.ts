@@ -477,6 +477,13 @@ export const COMMANDS: readonly CommandEntry[] = [
     summary: "Deduplicate and sync credentials and env files across the PC and the fleet",
   },
   {
+    name: "cf-h3-probe",
+    category: "cloud",
+    kind: "tool",
+    target: "tools/cf-h3-probe.ts",
+    summary: "Probe every public host of cf.toml and edge.toml over HTTP/3 and record the negotiated protocol and Alt-Svc",
+  },
+  {
     name: "cf-skills-index",
     category: "data",
     kind: "tool",

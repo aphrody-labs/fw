@@ -3,3 +3,4 @@ export * from "./finops.ts";
 export * from "./cluster.ts";
 export * from "./r2-catalog.ts";
 export * from "./reconcile.ts";
+export * from "./hosts.ts";

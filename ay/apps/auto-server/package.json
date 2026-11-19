@@ -21,6 +21,7 @@
     "@aphrody/auto-platform": "workspace:*",
     "@aphrody/auto-services": "workspace:*",
     "@aphrody/auto-store": "workspace:*",
+    "@aphrody/ay-edge-stack": "workspace:*",
     "@orpc/openapi": "^1.16.2",
     "@orpc/server": "^1.16.2",
     "@orpc/zod": "^1.16.2",

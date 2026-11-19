@@ -62,6 +62,7 @@
         "@aphrody/auto-platform": "workspace:*",
         "@aphrody/auto-services": "workspace:*",
         "@aphrody/auto-store": "workspace:*",
+        "@aphrody/ay-edge-stack": "workspace:*",
         "@orpc/openapi": "^1.16.2",
         "@orpc/server": "^1.16.2",
         "@orpc/zod": "^1.16.2",
@@ -107,6 +108,7 @@
       "version": "0.1.0",
       "dependencies": {
         "@aphrody/ay-chromium-releases": "workspace:*",
+        "@aphrody/ay-edge-stack": "workspace:*",
       },
     },
     "apps/edge": {
@@ -457,6 +459,9 @@
       "version": "0.1.0",
       "bin": {
         "org-mirror": "src/cli.ts",
+      },
+      "dependencies": {
+        "@aphrody/ay-edge-stack": "workspace:*",
       },
     },
     "packages/py2bun": {

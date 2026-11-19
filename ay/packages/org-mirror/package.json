@@ -8,6 +8,7 @@
   "types": "src/index.ts",
   "bin": { "org-mirror": "src/cli.ts" },
   "files": ["src"],
+  "dependencies": { "@aphrody/ay-edge-stack": "workspace:*" },
   "scripts": {
     "test": "bun test",
     "record": "bun test/record.ts"

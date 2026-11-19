@@ -9,6 +9,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@aphrody/ay-chromium-releases": "workspace:*"
+    "@aphrody/ay-chromium-releases": "workspace:*",
+    "@aphrody/ay-edge-stack": "workspace:*"
   }
 }
