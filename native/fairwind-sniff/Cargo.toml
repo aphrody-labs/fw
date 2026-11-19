@@ -2,8 +2,9 @@
 name = "fairwind-sniff"
 version = "0.1.0"
 edition = "2024"
-description = "Thin standalone crate binding core/rs/craft-libs/crates/sniff into Fairwind Fat-LTO targets"
+license = "MIT"
+description = "First-party Fairwind Rust binary format sniffer crate (Fat-LTO/AOT)"
 
 [lib]
 name = "craft_sniff"
-path = "../../core/rs/craft-libs/crates/sniff/src/lib.rs"
+path = "src/lib.rs"

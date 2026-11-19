@@ -46,7 +46,7 @@
       "kind": "rust-crate",
       "grammar": "rust",
       "gate": "cargo test --manifest-path native/fairwind-pe/Cargo.toml",
-      "sampleFile": "core/rs/craft-libs/crates/pe/src/lib.rs",
+      "sampleFile": "native/fairwind-pe/src/lib.rs",
       "autoUpgrade": true
     },
     {
@@ -55,7 +55,7 @@
       "kind": "rust-crate",
       "grammar": "rust",
       "gate": "cargo test --manifest-path native/fairwind-sniff/Cargo.toml",
-      "sampleFile": "core/rs/craft-libs/crates/sniff/src/lib.rs",
+      "sampleFile": "native/fairwind-sniff/src/lib.rs",
       "autoUpgrade": true
     },
     {
@@ -128,33 +128,6 @@
       "grammar": "python",
       "gate": "uvx ruff check .",
       "sampleFile": "core/py/heretic/config.py",
-      "autoUpgrade": true
-    },
-    {
-      "id": "core-neon",
-      "path": "core/ts/neon",
-      "kind": "ts-re-engine",
-      "grammar": "typescript",
-      "gate": "bun test tests",
-      "sampleFile": "core/ts/neon/package.json",
-      "autoUpgrade": true
-    },
-    {
-      "id": "core-craft-libs",
-      "path": "core/rs/craft-libs",
-      "kind": "rust-format-libs",
-      "grammar": "rust",
-      "gate": "cargo test --manifest-path native/fairwind-pe/Cargo.toml",
-      "sampleFile": "core/rs/craft-libs/crates/pe/src/lib.rs",
-      "autoUpgrade": true
-    },
-    {
-      "id": "core-craft-anything",
-      "path": "core/rs/craft-anything",
-      "kind": "rust-re-engine",
-      "grammar": "rust",
-      "gate": "bun test tests",
-      "sampleFile": "core/rs/craft-anything/crates/ai/src/cli_agents/adapters/antigravity.rs",
       "autoUpgrade": true
     },
     {

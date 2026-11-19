@@ -22,8 +22,6 @@ exclude = [
     "native/fairwind-world",
     "native/fairwind-abi",
     "native/fairwind-agy",
-    "core/rs/craft-libs",
-    "core/rs/craft-anything",
     "core/rs/tui-test",
     "core/rs/wta",
     "packages",

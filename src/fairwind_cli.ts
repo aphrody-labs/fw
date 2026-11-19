@@ -165,9 +165,10 @@ function cmdStatus(root: string): number {
     plugin: pluginStatus(root),
     absorbed: {
       heretic: { path: "core/py/heretic", files: countFiles(join(root, "core", "py", "heretic")) },
-      neon: { path: "core/ts/neon", files: countFiles(join(root, "core", "ts", "neon")) },
-      craftLibs: { path: "core/rs/craft-libs", files: countFiles(join(root, "core", "rs", "craft-libs")) },
-      craftAnything: { path: "core/rs/craft-anything", files: countFiles(join(root, "core", "rs", "craft-anything")) },
+      tuiTest: { path: "core/rs/tui-test", files: countFiles(join(root, "core", "rs", "tui-test")) },
+      wta: { path: "core/rs/wta", files: countFiles(join(root, "core", "rs", "wta")) },
+      nativePe: { path: "native/fairwind-pe/src", files: countFiles(join(root, "native", "fairwind-pe", "src")) },
+      nativeSniff: { path: "native/fairwind-sniff/src", files: countFiles(join(root, "native", "fairwind-sniff", "src")) },
     },
     external: {
       ghidra: { path: "packages/ghidra", present: existsSync(join(root, "packages", "ghidra")) },

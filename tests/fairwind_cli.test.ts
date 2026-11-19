@@ -6,12 +6,15 @@ const ROOT = process.cwd();
 const IS_WIN = process.platform === "win32";
 
 describe("fairwind unified product", () => {
-  test("core layout contains all absorbed components and native LTO/AOT crates", () => {
+  test("core layout contains first-party unified modules and native LTO/AOT crates (zero dead upstream copies)", () => {
+    expect(existsSync(join(ROOT, "LICENSE"))).toBe(true);
+    expect(existsSync(join(ROOT, "THIRD_PARTY_NOTICES.md"))).toBe(true);
     expect(existsSync(join(ROOT, "core", "py", "heretic"))).toBe(true);
-    expect(existsSync(join(ROOT, "core", "ts", "neon"))).toBe(true);
-    expect(existsSync(join(ROOT, "core", "rs", "craft-libs"))).toBe(true);
-    expect(existsSync(join(ROOT, "core", "rs", "craft-anything"))).toBe(true);
-    expect(existsSync(join(ROOT, "native", "fairwind-pe", "Cargo.toml"))).toBe(true);
+    expect(existsSync(join(ROOT, "core", "ts", "neon"))).toBe(false);
+    expect(existsSync(join(ROOT, "core", "rs", "craft-libs"))).toBe(false);
+    expect(existsSync(join(ROOT, "core", "rs", "craft-anything"))).toBe(false);
+    expect(existsSync(join(ROOT, "native", "fairwind-pe", "src", "lib.rs"))).toBe(true);
+    expect(existsSync(join(ROOT, "native", "fairwind-sniff", "src", "lib.rs"))).toBe(true);
     expect(existsSync(join(ROOT, "native", "fairwind-abi", "Cargo.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "native", "fairwind-agy", "Cargo.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "fairwind.targets.json"))).toBe(true);
@@ -39,9 +42,10 @@ describe("fairwind unified product", () => {
     expect(data.subcommands).toContain("upgrade");
     expect(data.subcommands).toContain("bench");
     expect(data.absorbed.heretic.files).toBeGreaterThan(0);
-    expect(data.absorbed.neon.files).toBeGreaterThan(0);
-    expect(data.absorbed.craftLibs.files).toBeGreaterThan(0);
-    expect(data.absorbed.craftAnything.files).toBeGreaterThan(0);
+    expect(data.absorbed.tuiTest.files).toBeGreaterThan(0);
+    expect(data.absorbed.wta.files).toBeGreaterThan(0);
+    expect(data.absorbed.nativePe.files).toBeGreaterThan(0);
+    expect(data.absorbed.nativeSniff.files).toBeGreaterThan(0);
   });
 
   test("fairwind_cli.ts ast parses Rust and TypeScript via Tree-sitter C ABI", () => {

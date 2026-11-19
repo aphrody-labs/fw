@@ -2,11 +2,12 @@
 name = "fairwind-pe"
 version = "0.1.0"
 edition = "2024"
-description = "Thin standalone crate binding core/rs/craft-libs/crates/pe into Fairwind LTO/AOT targets"
+license = "MIT"
+description = "First-party Fairwind Rust PE binary parser crate (Fat-LTO/AOT)"
 
 [lib]
 name = "craft_pe"
-path = "../../core/rs/craft-libs/crates/pe/src/lib.rs"
+path = "src/lib.rs"
 
 [dependencies]
 thiserror = "2"

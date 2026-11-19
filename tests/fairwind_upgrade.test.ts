@@ -14,14 +14,15 @@ describe("fairwind target and self-upgrade pipeline", () => {
     const ids = cfg.modules.map((m) => m.id);
     for (const expected of [
       "native-pe",
+      "native-sniff",
       "native-abi",
       "native-agy",
       "fairwind-cli",
       "fairwind-tests",
       "core-heretic",
-      "core-neon",
-      "core-craft-libs",
-      "core-craft-anything",
+      "core-tui-test",
+      "core-wta",
+      "v3-unified-workspace",
       "external-ghidra",
     ]) {
       expect(ids).toContain(expected);
