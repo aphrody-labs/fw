@@ -1,5 +1,5 @@
 dir	tier	files	bytes	gate
-(root)	misc	27	1097668	just ci
+(root)	misc	27	1097713	just ci
 .agents	misc	2	3031	just ci
 .cargo	misc	1	164	just ci
 .github	misc	2	5030	just ci

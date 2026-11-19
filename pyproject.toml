@@ -45,7 +45,7 @@ build-backend = "uv_build"
 
 [tool.ruff]
 src = ["core/py", "tests"]
-exclude = ["core/py/google", "core/ts", "core/rs", "packages", "native", "dist", "cloudflare", "vercel"]
+exclude = ["core/py/google", "core/ts", "core/rs", "packages", "third_party", "native", "dist", "cloudflare", "vercel"]
 
 [tool.ruff.lint]
 ignore = ["B023", "BLE001", "TRY002", "SIM117"]
