@@ -1,0 +1,237 @@
+name: release
+
+# One release pipeline for the ecosystem (docs/release.md).
+#   - `workflow_call`: the publish job for any repository. The caller builds its own artifacts, uploads them with actions/upload-artifact,
+#     then calls this workflow: checksums, R2 layout of apps/edge/src/manifest.ts (served by the edge Worker), build provenance and the
+#     GitHub Release of the caller's repository. The caller grants contents: write, id-token: write, attestations: write.
+#   - push of a tag v* and workflow_dispatch: the `ay` artifacts of release.toml (Bun-compiled CLI for four targets, corelib wasm32 variants),
+#     then the same publish job.
+# The matrix of every product, and how an artifact is classified, is release.toml; tools/release-publish.ts does the work.
+
+on:
+  workflow_call:
+    inputs:
+      product:
+        description: Key of release.toml [products] (fw, aphrody, ay, nie, shenron)
+        type: string
+        required: true
+      version:
+        description: Release version without the leading v
+        type: string
+        required: true
+      channel:
+        description: lts, stable, preview, canary, nightly or dev
+        type: string
+        default: stable
+      tag:
+        description: Git tag of the release in the calling repository
+        type: string
+        required: true
+      commit:
+        description: Commit SHA the artifacts were built from
+        type: string
+        required: true
+      artifacts-pattern:
+        description: Pattern of the upload-artifact names to publish
+        type: string
+        default: "*"
+      tools-repository:
+        description: Repository that holds tools/release-publish.ts and release.toml (ay.toml [repos].ay.slug); the caller repository when empty
+        type: string
+        default: ""
+      tools-ref:
+        description: Ref of that repository
+        type: string
+        default: main
+    secrets:
+      CLOUDFLARE_ACCOUNT_ID:
+        required: false
+      R2_ACCESS_KEY_ID:
+        required: false
+      R2_SECRET_ACCESS_KEY:
+        required: false
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Release channel
+        type: choice
+        default: dev
+        options: [lts, stable, preview, canary, nightly, dev]
+      version:
+        description: Version without the leading v (default yyyy.mm.dd-sha)
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  meta:
+    name: Resolve version and matrix
+    if: ${{ inputs.product == '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      channel: ${{ steps.meta.outputs.channel }}
+      tag: ${{ steps.meta.outputs.tag }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - id: meta
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_CHANNEL: ${{ inputs.channel }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          if [ "$REF_TYPE" = tag ]; then
+            tag="$REF_NAME"
+            version="${tag#v}"
+            case "$version" in *-*) channel=preview ;; *) channel=stable ;; esac
+          else
+            channel="${INPUT_CHANNEL:-dev}"
+            version="${INPUT_VERSION:-$(date -u +%Y.%m.%d)-${GITHUB_SHA::7}}"
+            tag="${channel}-v${version}"
+          fi
+          {
+            echo "version=$version"
+            echo "channel=$channel"
+            echo "tag=$tag"
+          } >> "$GITHUB_OUTPUT"
+      - id: matrix
+        run: echo "matrix=$(bun tools/release-publish.ts matrix --product ay)" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build ${{ matrix.asset }}
+    needs: meta
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.meta.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - run: bun install --frozen-lockfile
+      - name: Bun compile (cross-target, one Linux runner)
+        if: ${{ matrix.build == 'bun-compile' }}
+        env:
+          ENTRY: ${{ matrix.entry }}
+          BUN_TARGET: ${{ matrix.bun_target }}
+          ASSET: ${{ matrix.asset }}
+        run: |
+          mkdir -p dist
+          bun build --compile --target="$BUN_TARGET" "$ENTRY" --outfile "dist/$ASSET"
+      - name: Pinned LLVM version of the corelib listings
+        if: ${{ matrix.build == 'corelib-wasm' }}
+        id: pins
+        run: echo "clang=$(sed -n 's/^clang = "\(.*\)"/\1/p' docs/guides/assembly-and-wasm/listings.toml)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        if: ${{ matrix.build == 'corelib-wasm' }}
+        id: llvm
+        with:
+          path: ~/llvm
+          key: llvm-${{ steps.pins.outputs.clang }}-linux-x64
+      - name: LLVM (clang, wasm-ld), the pinned official release
+        if: ${{ matrix.build == 'corelib-wasm' && steps.llvm.outputs.cache-hit != 'true' }}
+        env:
+          LLVM_VERSION: ${{ steps.pins.outputs.clang }}
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/llvm.tar.zst" "https://github.com/llvm/llvm-project/releases/download/llvmorg-$LLVM_VERSION/LLVM-$LLVM_VERSION-Linux-X64.tar.zst"
+          mkdir -p ~/llvm && zstd -d --long=30 -c "$RUNNER_TEMP/llvm.tar.zst" | tar -xf - -C ~/llvm --strip-components=1
+      - name: Corelib wasm32 variant
+        if: ${{ matrix.build == 'corelib-wasm' }}
+        env:
+          VARIANT: ${{ matrix.variant }}
+          ASSET: ${{ matrix.asset }}
+        run: |
+          echo "$HOME/llvm/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/llvm/bin:$PATH"
+          mkdir -p dist
+          bun --eval 'import { buildWasm } from "./tools/corelib.ts"; await Bun.write(`dist/${process.env.ASSET}`, Bun.file(buildWasm(process.env.VARIANT)));'
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-${{ matrix.asset }}
+          path: dist/${{ matrix.asset }}
+          if-no-files-found: error
+
+  publish:
+    name: Publish ${{ inputs.product || 'ay' }} ${{ inputs.version || needs.meta.outputs.version }}
+    needs: [meta, build]
+    # Runs for a caller (meta and build are skipped) and after a green `ay` build.
+    if: ${{ !cancelled() && (needs.build.result == 'success' || needs.build.result == 'skipped') && (needs.meta.result == 'success' || needs.meta.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # The index manifest.json is read, folded and rewritten: one publisher at a time.
+    concurrency:
+      group: release-publish-index
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      PRODUCT: ${{ inputs.product || 'ay' }}
+      VERSION: ${{ inputs.version || needs.meta.outputs.version }}
+      CHANNEL: ${{ inputs.channel || needs.meta.outputs.channel }}
+      TAG: ${{ inputs.tag || needs.meta.outputs.tag }}
+      COMMIT: ${{ inputs.commit || github.sha }}
+      PATTERN: ${{ inputs.artifacts-pattern || 'release-*' }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      # The publisher, release.toml and the manifest contract come from the repository that owns them (a caller names it in tools-repository).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ inputs.tools-repository || github.repository }}
+          ref: ${{ inputs.tools-ref || github.sha }}
+          path: release-tools
+          persist-credentials: false
+          sparse-checkout: |
+            tools/release-publish.ts
+            apps/edge/src/manifest.ts
+            apps/edge/edge.toml
+            release.toml
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: ${{ env.PATTERN }}
+          path: artifacts
+          merge-multiple: true
+      - name: Classify, checksum and lay out the release
+        run: |
+          set -euo pipefail
+          bun release-tools/tools/release-publish.ts publish --product "$PRODUCT" --version "$VERSION" --channel "$CHANNEL" \
+            --tag "$TAG" --commit "$COMMIT" --dir artifacts --out layout
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: layout/${{ env.PRODUCT }}/${{ env.VERSION }}/*
+      - name: Upload to R2 (immutable objects, then channel pointer and manifest.json)
+        run: |
+          set -euo pipefail
+          if [ -z "$R2_ACCESS_KEY_ID" ] || [ -z "$R2_SECRET_ACCESS_KEY" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::R2 credentials are not configured for this repository: the release is on GitHub only"
+            exit 0
+          fi
+          bun release-tools/tools/release-publish.ts publish --product "$PRODUCT" --version "$VERSION" --channel "$CHANNEL" \
+            --tag "$TAG" --commit "$COMMIT" --dir artifacts
+      - name: GitHub Release
+        run: |
+          set -euo pipefail
+          flags=(--title "$PRODUCT $VERSION" --generate-notes --target "$COMMIT")
+          case "$CHANNEL" in lts|stable) ;; *) flags+=(--prerelease) ;; esac
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" "${flags[@]}"
+          gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber layout/"$PRODUCT"/"$VERSION"/*
