@@ -1,4 +1,4 @@
-# Fairwind v3.0 — Unified Hybrid Cluster & Zero-Dependency Architecture
+# Fairwind v3.0 - Unified Hybrid Cluster & Zero-Dependency Architecture
 
 ## Overview
 

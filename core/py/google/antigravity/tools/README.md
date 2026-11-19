@@ -69,7 +69,7 @@ can use. They operate at different levels and have different trade-offs:
 
 Use `CapabilitiesConfig.enabled_tools` or `CapabilitiesConfig.disabled_tools`
 to control which builtin tools the harness exposes to the model. A disabled
-tool is **removed from the model's context entirely** — the model never sees
+tool is **removed from the model's context entirely** - the model never sees
 its definition, never considers calling it, and never wastes tokens on it.
 
 ```python

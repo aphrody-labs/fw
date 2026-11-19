@@ -249,8 +249,8 @@ at different levels:
 
 | Mechanism | Where it acts | Model sees the tool? | Token cost | Best for |
 |---|---|---|---|---|
-| `CapabilitiesConfig.disabled_tools` / `enabled_tools` | Harness config (before model context is built) | **No** — tool is stripped entirely | None | Tools irrelevant to the agent's purpose |
-| `policy.deny()` | Hook layer (runtime, per-call) | **Yes** — tool remains in context | Wasted tokens on failed calls | Conditional or argument-dependent restrictions |
+| `CapabilitiesConfig.disabled_tools` / `enabled_tools` | Harness config (before model context is built) | **No** - tool is stripped entirely | None | Tools irrelevant to the agent's purpose |
+| `policy.deny()` | Hook layer (runtime, per-call) | **Yes** - tool remains in context | Wasted tokens on failed calls | Conditional or argument-dependent restrictions |
 
 **Disabling** a tool via `CapabilitiesConfig` removes it from the model's
 context entirely. The model never sees the tool definition, never considers

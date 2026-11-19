@@ -6,7 +6,7 @@ push messages back into the agent.
 
 ## Overview
 
-Triggers complement **hooks** — they handle different concerns:
+Triggers complement **hooks** - they handle different concerns:
 
 | Concept | Hooks | Triggers |
 |---------|-------|----------|
@@ -91,7 +91,7 @@ my_trigger = every(300, check_status)  # Every 5 minutes.
 ### `on_file_change(path, callback)`
 
 Creates a trigger that reacts to filesystem changes. Uses `watchfiles` for
-efficient OS-level watching (lazy import — only needed if you use this helper).
+efficient OS-level watching (lazy import - only needed if you use this helper).
 
 The callback receives a `list[FileChange]` where each `FileChange` has:
 
@@ -119,7 +119,7 @@ Manages the lifecycle of registered triggers:
 -   **No ordering**: Triggers run as independent tasks with no ordering
     guarantees.
 
-Developers are responsible for everything between start and stop — their own
+Developers are responsible for everything between start and stop - their own
 event loops, cleanup, and side effects.
 
 > **Note**: The TriggerRunner assumes a 1:1 relationship between the
@@ -150,7 +150,7 @@ event loops, cleanup, and side effects.
 +-------------------------------------------+
 ```
 
-Hooks and triggers are independent — hooks handle agent lifecycle, triggers
+Hooks and triggers are independent - hooks handle agent lifecycle, triggers
 handle external events. Both communicate with the agent through the
 Connection.
 

@@ -1,4 +1,4 @@
-# Fairwind v3.0 — Cross-Hardware & Cross-Cloud Deployment Matrix
+# Fairwind v3.0 - Cross-Hardware & Cross-Cloud Deployment Matrix
 
 | Node / Target | Hardware / OS | Rust Target Triple | System Dependencies | Compute Backends | Role in Cluster |
 | :--- | :--- | :--- | :--- | :--- | :--- |

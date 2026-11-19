@@ -14,7 +14,7 @@ Modeled on Jarred Sumner's *Rewriting Bun in Rust* (`https://bun.com/blog/bun-in
    - `cargo build --release --target wasm32-unknown-unknown -p fw-wasm`
    - `cargo check --target x86_64-unknown-linux-musl -p fw-bin`
 5. **No stubs, no excuses**:
-   > *"If you need a paragraph-long comment to justify why the workaround is OK, the code is wrong — fix the code."*
+   > *"If you need a paragraph-long comment to justify why the workaround is OK, the code is wrong - fix the code."*
 6. **0 tests skipped or deleted**: Never delete, comment out, or `#[ignore]` a failing test to turn CI green.
 
 ## 2. Token-Minimal Agent Navigation

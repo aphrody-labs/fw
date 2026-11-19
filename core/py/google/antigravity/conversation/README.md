@@ -38,9 +38,9 @@ prevents confusion:
 
 | Concern | Owner | Why |
 |:--------|:------|:----|
-| Config, hooks, policies, tools | **Agent** | These are *declarative setup* — they define what the agent can do, not what it has done. |
-| History, turns, usage, compaction | **Conversation** | These are *session state* — they accumulate as the agent interacts. |
-| Wire protocol, process lifecycle | **Connection** | This is *transport plumbing* — how bytes move. |
+| Config, hooks, policies, tools | **Agent** | These are *declarative setup* - they define what the agent can do, not what it has done. |
+| History, turns, usage, compaction | **Conversation** | These are *session state* - they accumulate as the agent interacts. |
+| Wire protocol, process lifecycle | **Connection** | This is *transport plumbing* - how bytes move. |
 
 **Can an Agent have multiple Conversations?**
 
@@ -54,11 +54,11 @@ directly with a `ConnectionStrategy`.
 Most users only need `agent.chat()`. Use `agent.conversation` when you
 need:
 
-- **History inspection** — `agent.conversation.history`
-- **Token usage tracking** — `agent.conversation.total_usage`
-- **Step-level streaming** — `agent.conversation.send()` +
+- **History inspection** - `agent.conversation.history`
+- **Token usage tracking** - `agent.conversation.total_usage`
+- **Step-level streaming** - `agent.conversation.send()` +
   `agent.conversation.receive_steps()`
-- **Transport access** — `agent.conversation.connection`
+- **Transport access** - `agent.conversation.connection`
 
 Key features:
 - **Step History Accumulation**: It automatically records all `Step` objects received from the connection.

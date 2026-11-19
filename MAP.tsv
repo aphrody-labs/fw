@@ -1,14 +1,14 @@
 dir	tier	files	bytes	gate
-(root)	misc	31	1102968	just ci
+(root)	misc	31	1102932	just ci
 .agents	misc	2	3031	just ci
 .cargo	misc	1	164	just ci
 .claude-plugin	misc	1	935	just ci
 .github	misc	4	6865	just ci
-cloudflare	edge-worker	5	736993	bun run cf:dry-run
+cloudflare	edge-worker	5	736991	bun run cf:dry-run
 cluster	topology-spec	2	3974	bun test tests/fairwind_v3_cluster_webgpu.test.ts
 configs/heretic	heretic-presets	8	31105	uvx ruff check .
 core	misc	13	10443	just ci
-core/py	python-core	115	2238475	uvx ruff check .
+core/py	python-core	115	2238447	uvx ruff check .
 core/rs	rust-embedded	298	7878650	cargo check --manifest-path core/rs/wta/Cargo.toml
 crates/fw-bin	rust-core	2	18856	cargo build --release -p fw-bin --bin fw
 crates/fw-cluster	rust-core	2	14458	cargo test --workspace
@@ -23,7 +23,7 @@ crates/fw-unified-stack	rust-core	2	6220	cargo test --workspace
 crates/fw-uutils	rust-core	4	29608	cargo test --workspace
 crates/fw-wasm	rust-wasm	2	1912	cargo build --release --target wasm32-unknown-unknown -p fw-wasm
 crates/fw-wayland-wgpu	rust-core	2	5075	cargo test --workspace
-docs	architecture-docs	16	82860	read-only
+docs	architecture-docs	16	82798	read-only
 native	rust-ffi-abi	27	187095	cargo test --manifest-path native/fairwind-abi/Cargo.toml
 nix	nix-fleet	6	8961	bun test tests/fairwind_v4_os_uutils_nix.test.ts
 os/fairwind-os	asterinas-osdk	6	5125	bun test tests/fairwind_v4_os_uutils_nix.test.ts

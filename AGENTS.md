@@ -1,8 +1,8 @@
-# fw (fairwind) — Agent Contract (v4.2, Bun-in-Rust Methodology)
+# fw (fairwind) - Agent Contract (v4.2, Bun-in-Rust Methodology)
 
 - **Read First (< 600 tokens)**: `MAP.tsv` (byte-exact directory map + gates), `LIFETIMES_AND_STYLE.md` (zero-abstraction Rust rules), `.agents/workflows/bun-in-rust-loop.md` (split-context adversarial review), `docs/architecture/os-strategy-2026.md` (long-term OS decision).
 - **Token Hygiene**: `.rgignore` & `.fdignore` automatically hide vendored trees (`core/ts/neon`, `core/rs/craft-*`, `packages/`, `target/`, `uv.lock`) from default searches (`--no-ignore` only when auditing vendored trees).
-- **Root 13-crate Rust Workspace + `xtask` (`Cargo.toml`)**: `crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,hermes-claw,bin}` + `xtask` — `12/13 #![forbid(unsafe_code)]`, 5 external deps, zero Clippy warnings, zero stubs, zero skipped tests.
+- **Root 13-crate Rust Workspace + `xtask` (`Cargo.toml`)**: `crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,hermes-claw,bin}` + `xtask` - `12/13 #![forbid(unsafe_code)]`, 5 external deps, zero Clippy warnings, zero stubs, zero skipped tests.
 - **OS Architecture (2-Tier)**:
   - **Tier 1 Primary Host (Linux perf)**: NixOS `flake.nix` + `nix/` (`nix-cachyos-kernel` LTO `x86_64-v3`/`zen4`, `sched_ext` `scx_lavd`, `io_uring`, `uutils`, `sudo-rs`, `ntpd-rs`) + `os/fairwind-wsl` (custom BORE/`sched_ext`/ThinLTO/virtiofs/dxgkrnl WSL kernel).
   - **Tier 2 Sandbox MicroVM**: `cloud-hypervisor` / `openvmm` + optional `os/fairwind-os` (Asterinas OSDK `v0.19.0` guest R&D only).
