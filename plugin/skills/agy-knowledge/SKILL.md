@@ -5,7 +5,7 @@ description: Verified operational knowledge base for the complete Google Antigra
 
 # agy-knowledge — Verified Antigravity Stack Operating Spec (Fairwind Unified)
 
-Reference JSON: `references/agy-knowledge.verified.json` and `references/protocols-recon.verified.json`.
+Reference JSON: `references/agy-knowledge.verified.json` and `references/protocols-recon.verified.json`; narrative spec: `references/agy-knlogie.md`.
 
 ## 1. Runtime & Surface Selection
 - **Antigravity CLI (`agy`)**: Zero-dependency Google-signed native binary (`%LOCALAPPDATA%\agy\bin\agy.exe`). Default mode since **v1.5.7** is **`auto`** (including `-p` headless runs); pin `"agentMode": ""` in `~/.gemini/antigravity-cli/settings.json` to restore `default`. Inside Fairwind, `target/agy/agy.exe` (Rust Fat-LTO AOT) wraps and accelerates Fairwind operations while leaving Google's signed binary strictly read-only.

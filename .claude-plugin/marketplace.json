@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "fairwind",
+  "owner": { "name": "aphrody-labs", "url": "https://github.com/aphrody-labs" },
+  "metadata": { "description": "Fairwind plugin for Claude Code, from the same plugin/ directory agy installs.", "version": "2.3.0" },
+  "plugins": [
+    {
+      "name": "fairwind",
+      "source": "./plugin",
+      "description": "Fairwind CLI, MCP, agy-knowledge, binary analysis, reverse engineering, tree-sitter, Rust brain.",
+      "version": "2.3.0"
+    }
+  ]
+}

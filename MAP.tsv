@@ -2,6 +2,7 @@ dir	tier	files	bytes	gate
 (root)	misc	27	1097713	just ci
 .agents	misc	2	3031	just ci
 .cargo	misc	1	164	just ci
+.claude-plugin	misc	1	547	just ci
 .github	misc	2	5030	just ci
 cloudflare	edge-worker	5	736993	bun run cf:dry-run
 cluster	topology-spec	2	3974	bun test tests/fairwind_v3_cluster_webgpu.test.ts
@@ -27,7 +28,7 @@ native	rust-ffi-abi	27	187095	cargo test --manifest-path native/fairwind-abi/Car
 nix	nix-fleet	6	8961	bun test tests/fairwind_v4_os_uutils_nix.test.ts
 os/fairwind-os	asterinas-osdk	6	5125	bun test tests/fairwind_v4_os_uutils_nix.test.ts
 os/fairwind-wsl	wsl-zero-legacy	8	9982	bun test tests/fairwind_v4_os_uutils_nix.test.ts
-plugin	agy-plugin	52	230971	dist/fairwind.exe plugin sync --install
+plugin	agy-plugin	55	238867	dist/fairwind.exe plugin sync --install
 plugins	misc	8	62829	just ci
 src	bun-cli-aot	18	222610	bun test
 tests	e2e-tests	13	131536	bun test
