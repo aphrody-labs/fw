@@ -55,5 +55,9 @@ cf-dev port="8787":
 cf-deploy:
     bunx wrangler deploy -c cloudflare/wrangler.jsonc
 
+# Reproducible Nix full-stack Rust userland across all 3 VPS (fr1, fr2, prd)
+nix-bootstrap-vps host="fr1":
+    ssh {{host}} "bash -s -- {{host}}" < nix/bootstrap-vps.sh
+
 # Full CI verification pipeline
 ci: clippy test build musl claw cf-dry-run

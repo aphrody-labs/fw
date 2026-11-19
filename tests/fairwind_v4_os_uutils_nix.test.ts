@@ -70,4 +70,28 @@ describe("Fairwind v4.0 — Asterinas OSDK + GPUI WebGPU/Wasm + Alpine uutils + 
     expect(wl.commitHeader.size).toBe(8);
     expect(wl.gpuiQuads).toBe(1);
   });
+
+  test("reproducible root flake.nix and nix/ 3-VPS pure-Rust userland definitions are complete", () => {
+    const rootFlake = readFileSync(join(ROOT, "flake.nix"), "utf8");
+    expect(rootFlake).toContain("rust-userland");
+    expect(rootFlake).toContain("uutils-coreutils-noprefix");
+    expect(rootFlake).toContain("nixosConfigurations");
+    expect(rootFlake).toContain("fr1 = mkVps ./nix/hosts/fr1.nix");
+    expect(rootFlake).toContain("fr2 = mkVps ./nix/hosts/fr2.nix");
+    expect(rootFlake).toContain("prd = mkVps ./nix/hosts/prd.nix");
+
+    const common = readFileSync(join(ROOT, "nix", "modules", "vps-common.nix"), "utf8");
+    expect(common).toContain("vm.watermark_boost_factor");
+    expect(common).toContain("vm.watermark_scale_factor");
+    expect(common).toContain('ATTR{queue/scheduler}="none"');
+    expect(common).toContain("fairwind-native serve");
+
+    const prd = readFileSync(join(ROOT, "nix", "hosts", "prd.nix"), "utf8");
+    expect(prd).toContain("fairwind-build-worker");
+    expect(prd).toContain('MemoryHigh = "12G"');
+
+    const bootstrap = readFileSync(join(ROOT, "nix", "bootstrap-vps.sh"), "utf8");
+    expect(bootstrap).toContain("rust-userland");
+    expect(bootstrap).toContain("auto-optimise-store = true");
+  });
 });
