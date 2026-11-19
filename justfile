@@ -103,6 +103,19 @@ bench-silicon:
 bench-matrix:
     ./target/release/fw.exe bench matrix
 
+# CLI migration from OpenClaw or Hermes Agent into fw
+migrate-openclaw *args:
+    bun src/migrate_openclaw_to_fw.ts {{args}}
+
+migrate-hermes *args:
+    uv run python core/py/fw_py_ai/migrate_hermes_to_fw.py {{args}}
+
+migrate-vllm *args:
+    uv run python core/py/fw_py_ai/migrate_vllm_llmd_to_fw.py vllm {{args}}
+
+migrate-llmd *args:
+    uv run python core/py/fw_py_ai/migrate_vllm_llmd_to_fw.py llmd {{args}}
+
 # Prove fw ls/table/find/grep against eza, nu, fd, rg via hyperfine
 bench-cli:
     hyperfine --warmup 5 --runs 25 -N "./target/release/fw.exe ls ." "eza ."

@@ -660,9 +660,19 @@ impl HermesClawAgent {
     }
 
     pub fn remember(&mut self, kind: &str, topic: &str, content: &str, tags: Vec<String>) -> String {
+        const HEX: &[u8; 16] = b"0123456789abcdef";
         let mut hasher = Sha256::new();
-        hasher.update(format!("{kind}:{topic}:{content}").as_bytes());
-        let id = format!("{:x}", hasher.finalize())[..12].to_string();
+        hasher.update(kind.as_bytes());
+        hasher.update(b":");
+        hasher.update(topic.as_bytes());
+        hasher.update(b":");
+        hasher.update(content.as_bytes());
+        let raw = hasher.finalize();
+        let mut id = String::with_capacity(12);
+        for &b in &raw[..6] {
+            id.push(HEX[(b >> 4) as usize] as char);
+            id.push(HEX[(b & 0x0f) as usize] as char);
+        }
         if !self.memories.iter().any(|m| m.id == id) {
             self.memories.push(MemoryEntry {
                 id: id.clone(),

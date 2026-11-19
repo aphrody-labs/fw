@@ -40,7 +40,13 @@ pub struct MlsDisk {
 
 impl MlsDisk {
     pub fn write_block(&mut self, data: &[u8]) -> String {
-        let digest = format!("{:x}", Sha256::digest(data));
+        const HEX: &[u8; 16] = b"0123456789abcdef";
+        let raw = Sha256::digest(data);
+        let mut digest = String::with_capacity(64);
+        for b in raw {
+            digest.push(HEX[(b >> 4) as usize] as char);
+            digest.push(HEX[(b & 0x0f) as usize] as char);
+        }
         self.blocks.insert(digest.clone(), data.to_vec());
         digest
     }

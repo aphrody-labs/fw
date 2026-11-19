@@ -149,7 +149,13 @@ pub fn run_applet(applet: &str, args: &[&str], stdin: &str) -> AppletOutput {
             }
         }
         "sha256sum" => {
-            let digest = format!("{:x}", Sha256::digest(stdin.as_bytes()));
+            const HEX: &[u8; 16] = b"0123456789abcdef";
+            let raw = Sha256::digest(stdin.as_bytes());
+            let mut digest = String::with_capacity(64);
+            for b in raw {
+                digest.push(HEX[(b >> 4) as usize] as char);
+                digest.push(HEX[(b & 0x0f) as usize] as char);
+            }
             AppletOutput {
                 applet: "sha256sum".into(),
                 exit_code: 0,

@@ -57,12 +57,12 @@ fw-unified-stack = { version = "4.2.0", path = "crates/fw-unified-stack" }
 fw-wayland-wgpu = { version = "4.2.0", path = "crates/fw-wayland-wgpu" }
 fw-hermes-claw = { version = "4.2.0", path = "crates/fw-hermes-claw" }
 
-# External zero-bloat dependencies
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-sha2 = "0.10"
-tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "sync"] }
-flate2 = "1.0"
+# External zero-bloat dependencies (verified latest on crates.io 2026-11-19)
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.11.1"
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "sync"] }
+flate2 = "1.1.11"
 
 [profile.release]
 opt-level = 3

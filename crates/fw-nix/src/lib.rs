@@ -70,7 +70,13 @@ pub struct NixStoreEntry {
 /// Compute a deterministic NixOS `/nix/store/<32-char-nixbase32>-<name>` path from file contents.
 pub fn compute_fixed_output_store_entry(name: &str, contents: &[u8], executable: bool) -> NixStoreEntry {
     let nar = encode_nar_regular_file(contents, executable);
-    let nar_hex = format!("{:x}", Sha256::digest(&nar));
+    const HEX: &[u8; 16] = b"0123456789abcdef";
+    let nar_raw = Sha256::digest(&nar);
+    let mut nar_hex = String::with_capacity(64);
+    for b in nar_raw {
+        nar_hex.push(HEX[(b >> 4) as usize] as char);
+        nar_hex.push(HEX[(b & 0x0f) as usize] as char);
+    }
     let fingerprint = format!("fixed:out:sha256:{nar_hex}:/nix/store:{name}");
     let fp_hash: [u8; 32] = Sha256::digest(fingerprint.as_bytes()).into();
     let compressed = compress_nix_hash(&fp_hash);

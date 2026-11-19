@@ -147,7 +147,7 @@ fn cmd_purity(root: &Path) -> ExitCode {
     let text = String::from_utf8_lossy(&out);
     let files: Vec<&str> = text
         .lines()
-        .filter(|rel| !rel.is_empty() && !rel.starts_with("packages/") && !rel.ends_with(".lock") && !rel.ends_with(".png"))
+        .filter(|rel| !rel.is_empty() && !rel.starts_with("packages/") && !rel.starts_with("third_party/") && !rel.ends_with(".lock") && !rel.ends_with(".png"))
         .collect();
     let workers = thread::available_parallelism().map(usize::from).unwrap_or(4).min(files.len().max(1));
     let chunk_size = files.len().div_ceil(workers);

@@ -218,9 +218,15 @@ impl HybridClusterRouter {
 
     /// Hash prompt prefix for KV-cache radix affinity (vllm-router / dynamo style).
     pub fn prefix_key(prompt: &str) -> String {
+        const HEX: &[u8; 16] = b"0123456789abcdef";
         let prefix = &prompt[..prompt.len().min(128)];
         let digest = Sha256::digest(prefix.as_bytes());
-        format!("{:x}", digest)[..16].to_string()
+        let mut out = String::with_capacity(16);
+        for &b in &digest[..8] {
+            out.push(HEX[(b >> 4) as usize] as char);
+            out.push(HEX[(b & 0x0f) as usize] as char);
+        }
+        out
     }
 
     /// Select Pingora ingress VPS, KV-affinity Prefill node, Decode node, and optional User WebGPU draft node.

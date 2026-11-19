@@ -1,0 +1,64 @@
+{
+  "id": "openclaw-fw",
+  "name": "Fairwind (fw) Bun-Native Runtime",
+  "description": "Bun-native Fairwind (fw) plugin for OpenClaw exposing ls, grep, find, bench, claw (prefix KV + runtime TS tool compiler), and MCP JSON-RPC 2.0.",
+  "version": "4.2.0",
+  "main": "./index.ts",
+  "runtime": "bun",
+  "capabilities": ["tools", "mcp", "cli", "kv-cache"],
+  "tools": [
+    {
+      "name": "fw_ls",
+      "description": "List directory entries with type and byte size using Fairwind Bun-native filesystem traversal."
+    },
+    {
+      "name": "fw_grep",
+      "description": "Search file contents by literal or regex pattern with bounded match limits."
+    },
+    {
+      "name": "fw_find",
+      "description": "Find files matching a glob pattern via Bun.Glob."
+    },
+    {
+      "name": "fw_bench",
+      "description": "Benchmark a command or in-process snippet with Bun.nanoseconds() latency percentiles."
+    },
+    {
+      "name": "fw_claw",
+      "description": "Dispatch Fairwind Hermes/OpenClaw actions (status, sandbox-check, kv-route, tool-compile)."
+    },
+    {
+      "name": "fw_mcp",
+      "description": "Execute JSON-RPC 2.0 MCP methods (initialize, tools/list, tools/call) against the Fairwind tool registry."
+    }
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "fwBinary": {
+        "type": "string",
+        "description": "Optional path to compiled fw binary; falls back to pure Bun-native execution when absent."
+      },
+      "cwd": {
+        "type": "string",
+        "description": "Default working directory for ls, grep, find, and bench tools."
+      },
+      "sandbox": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enforce Fairwind sandbox checks for runtime tools and shell binaries."
+      },
+      "maxMatches": {
+        "type": "integer",
+        "default": 200,
+        "minimum": 1,
+        "maximum": 5000
+      },
+      "enableMcpBridge": {
+        "type": "boolean",
+        "default": true
+      }
+    }
+  }
+}
