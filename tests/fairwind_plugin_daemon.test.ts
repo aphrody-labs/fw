@@ -17,6 +17,7 @@ describe("fairwind unified plugin, MCP, API, and cross-platform daemon", () => {
       "agy-knowledge",
       "binary-analysis",
       "fairwind",
+      "hermes-claw",
       "learn",
       "low-level-lto-aot",
       "reverse-engineer-anything",

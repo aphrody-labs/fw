@@ -153,6 +153,7 @@ dependencies = [
  "fw-cluster",
  "fw-compute",
  "fw-ggml",
+ "fw-hermes-claw",
  "serde",
  "serde_json",
  "sha2",

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fairwind v4.1 — Fullstack Rust OS &amp; Hermes/OpenClaw Control Plane</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --surface: #121922;
+      --surface-2: #182230;
+      --border: #263447;
+      --text: #edf2f7;
+      --muted: #9eb0c7;
+      --accent: #4fd1c5;
+      --accent-ink: #071316;
+      --ok: #68d391;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface);
+    }
+    header h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.01em; }
+    .pill {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--ok);
+    }
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    h2 { margin: 0; font-size: 0.95rem; color: var(--accent); font-weight: 600; }
+    pre {
+      margin: 0;
+      padding: 10px;
+      border-radius: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text);
+      overflow: auto;
+      max-height: 260px;
+      white-space: pre-wrap;
+    }
+    .row { display: flex; gap: 8px; }
+    input {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.85rem;
+    }
+    button {
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    a { color: var(--accent); }
+    footer { padding: 12px 24px 24px; color: var(--muted); font-size: 0.8rem; max-width: 1200px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fairwind v4.1 — Zero-Dep Rust OS, Hybrid Cluster &amp; Hermes/OpenClaw</h1>
+    <span class="pill" id="health-pill">connecting...</span>
+  </header>
+  <main>
+    <section>
+      <h2>Hybrid Cluster &amp; Hardware</h2>
+      <pre id="cluster-out">Loading /cluster and /hardware...</pre>
+    </section>
+    <section>
+      <h2>Hermes/OpenClaw Agent &amp; MCP Tools</h2>
+      <div class="row">
+        <input id="goal-input" value="Audit Rust CLI MCP skills" aria-label="Agent goal" />
+        <button id="run-btn" type="button">Run</button>
+      </div>
+      <pre id="claw-out">Loading /claw/status and /mcp...</pre>
+    </section>
+    <section>
+      <h2>Nov 2026 Modern Rust CLI &amp; Protocol Ranking</h2>
+      <pre id="rank-out">Loading /claw/ranking...</pre>
+    </section>
+    <section>
+      <h2>Browser WebGPU Compute Probe</h2>
+      <pre id="webgpu-out">Checking navigator.gpu...</pre>
+      <div><a href="/webgpu">Open full WGSL WebGPU harness</a> · <a href="/openapi.json">OpenAPI 3.1</a></div>
+    </section>
+  </main>
+  <footer>
+    Served from a single Fat-LTO Rust binary (<code>fairwind-native</code>) — HTTP, GraphQL, WebSockets, WebRTC, OpenAI, MCP, ACP, A2A, GGML-RPC.
+  </footer>
+  <script>
+    async function load() {
+      const [health, cluster, claw, rank, mcp] = await Promise.all([
+        fetch("/health").then(r => r.json()),
+        fetch("/cluster").then(r => r.json()),
+        fetch("/claw/status").then(r => r.json()),
+        fetch("/claw/ranking").then(r => r.json()),
+        fetch("/mcp", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" })
+        }).then(r => r.json()),
+      ]);
+      document.getElementById("health-pill").textContent =
+        health.ok ? `ONLINE v${health.version} (zero-dep)` : "DEGRADED";
+      document.getElementById("cluster-out").textContent = JSON.stringify(cluster, null, 2);
+      document.getElementById("claw-out").textContent = JSON.stringify({ claw, mcpTools: mcp.result?.tools?.map(t => t.name) }, null, 2);
+      document.getElementById("rank-out").textContent = JSON.stringify({
+        topRustClis: rank.modernRustClis?.slice(0, 6).map(x => `#${x.rank} ${x.name} (${x.stars_nov_2026}★)`),
+        topProtocols: rank.protocolsAndAgentOs?.slice(0, 6).map(x => `#${x.rank} ${x.name} (${x.stars_nov_2026}★)`),
+      }, null, 2);
+      const gpuOut = document.getElementById("webgpu-out");
+      if ("gpu" in navigator) {
+        const adapter = await navigator.gpu.requestAdapter();
+        gpuOut.textContent = adapter ? "WebGPU adapter ready (Dawn/Chromium)" : "navigator.gpu present, no adapter";
+      } else {
+        gpuOut.textContent = "WebGPU unavailable in this browser context";
+      }
+    }
+    document.getElementById("run-btn").addEventListener("click", async () => {
+      const goal = document.getElementById("goal-input").value;
+      const res = await fetch("/claw/run", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ goal })
+      }).then(r => r.json());
+      document.getElementById("claw-out").textContent = JSON.stringify(res, null, 2);
+    });
+    load().catch(err => {
+      document.getElementById("health-pill").textContent = "ERROR";
+      document.getElementById("cluster-out").textContent = String(err);
+    });
+  </script>
+</body>
+</html>

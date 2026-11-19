@@ -9,6 +9,7 @@ description = "Zero-dependency Rust protocol server: HTTP, WebSockets (RFC 6455)
 fw-cluster = { path = "../fw-cluster" }
 fw-compute = { path = "../fw-compute" }
 fw-ggml = { path = "../fw-ggml" }
+fw-hermes-claw = { path = "../fw-hermes-claw" }
 serde.workspace = true
 serde_json.workspace = true
 tokio.workspace = true

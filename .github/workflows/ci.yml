@@ -14,17 +14,29 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - uses: oven-sh/setup-bun@v2
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+          targets: wasm32-unknown-unknown
       - name: Python lint
         run: uvx ruff check .
-      - name: Rust Fat-LTO crates test and build
+      - name: Rust 13-crate workspace Clippy (-D warnings) and tests
+        run: |
+          cargo clippy --workspace --all-targets -- -D warnings
+          cargo test --workspace
+      - name: Rust Fat-LTO native binary and Wasm32 release builds
+        run: |
+          cargo build --release -p fw-bin
+          cargo build --release --target wasm32-unknown-unknown -p fw-wasm
+          ./target/release/fairwind-native claw status
+          ./target/release/fairwind-native claw mcp
+          ./target/release/fairwind-native claw run "CI fullstack verification"
+      - name: Native ABI and launcher crates
         run: |
           cargo test --manifest-path native/fairwind-pe/Cargo.toml
           cargo test --manifest-path native/fairwind-abi/Cargo.toml
           cargo test --manifest-path native/fairwind-agy/Cargo.toml
-          cargo build --release --manifest-path native/fairwind-abi/Cargo.toml
-          cargo build --release --manifest-path native/fairwind-agy/Cargo.toml
       - name: Bun tests
-        run: bun test tests
+        run: bun test
       - name: Build AOT CLI, promote target/agy, render services, and verify
         run: |
           bun src/fairwind_cli.ts upgrade --apply --skip-tests

@@ -1,0 +1,15 @@
+services:
+  fairwind:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fairwind:4.1-alpine
+    container_name: fairwind-control-plane
+    ports:
+      - "4380:4380"
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

@@ -4,11 +4,14 @@
 
 use fw_cluster::HybridClusterRouter;
 use fw_compute::{detect_hardware_profile, run_compute_smoke_bench, DEFAULT_WGSL_KERNEL};
+use fw_hermes_claw::{modern_cli_ranking, protocol_and_agent_ranking, ChannelKind, HermesClawAgent};
 use serde_json::{json, Value};
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
+
+pub const CONTROL_PLANE_HTML: &str = include_str!("../../../web/index.html");
 
 pub const WEBGPU_HTML_HARNESS: &str = r#"<!doctype html>
 <html lang="en">
@@ -90,9 +93,12 @@ pub fn build_openapi_3_1() -> Value {
             "/v1/models": { "get": { "summary": "OpenAI-compatible models list" } },
             "/v1/chat/completions": { "post": { "summary": "OpenAI-compatible chat completion routed across hybrid cluster" } },
             "/v1beta/decisions": { "post": { "summary": "Gemini Decision 1 calibrated zero-token decisions" } },
-            "/mcp": { "post": { "summary": "Streamable HTTP MCP JSON-RPC 2.0" } },
+            "/mcp": { "post": { "summary": "Streamable HTTP MCP JSON-RPC 2.0 (fw-hermes-claw CliToMcpServer)" } },
             "/acp": { "post": { "summary": "Agent Client Protocol JSON-RPC 2.0" } },
             "/a2a": { "post": { "summary": "Agent-to-Agent JSON-RPC 2.0" } },
+            "/claw/status": { "get": { "summary": "Hermes/OpenClaw full-Rust runtime status" } },
+            "/claw/ranking": { "get": { "summary": "Verified Nov 2026 Rust CLI and protocol rankings" } },
+            "/claw/run": { "post": { "summary": "Execute Hermes/OpenClaw grounded goal loop" } },
             "/webgpu": { "get": { "summary": "Live WebGPU WGSL + Wasm32 browser proof page (Blitz / Chromium CEF + Dawn)" } }
         }
     })
@@ -144,7 +150,43 @@ pub fn dispatch_http(
 ) -> (u16, &'static str, String) {
     let body_json: Value = serde_json::from_str(body_str).unwrap_or_else(|_| json!({}));
     match (method, path) {
-        ("GET", "/") | ("GET", "/webgpu") => (200, "text/html; charset=utf-8", WEBGPU_HTML_HARNESS.to_string()),
+        ("GET", "/") => (200, "text/html; charset=utf-8", CONTROL_PLANE_HTML.to_string()),
+        ("GET", "/webgpu") => (200, "text/html; charset=utf-8", WEBGPU_HTML_HARNESS.to_string()),
+        ("GET", "/claw/status") => {
+            let agent = HermesClawAgent::new("fairwind-hermes-claw");
+            (
+                200,
+                "application/json",
+                json!({
+                    "ok": true,
+                    "agent": agent.name,
+                    "sandboxAllowBinaries": agent.policy.allow_binaries.len(),
+                    "mcpTools": agent.mcp.tools.len(),
+                    "memories": agent.memories.len(),
+                    "skills": agent.skills.len()
+                })
+                .to_string(),
+            )
+        }
+        ("GET", "/claw/ranking") => (
+            200,
+            "application/json",
+            json!({
+                "ok": true,
+                "modernRustClis": modern_cli_ranking(),
+                "protocolsAndAgentOs": protocol_and_agent_ranking()
+            })
+            .to_string(),
+        ),
+        ("POST", "/claw/run") => {
+            let goal = body_json
+                .get("goal")
+                .and_then(|v| v.as_str())
+                .unwrap_or("Audit Rust CLI MCP skills");
+            let mut agent = HermesClawAgent::new("fairwind-hermes-claw");
+            let report = agent.run_goal(ChannelKind::HttpWebhook, goal);
+            (200, "application/json", json!(report).to_string())
+        }
         ("GET", "/health") => (
             200,
             "application/json",
@@ -222,7 +264,12 @@ pub fn dispatch_http(
                 .to_string(),
             )
         }
-        ("POST", "/mcp") | ("POST", "/acp") | ("POST", "/a2a") => {
+        ("POST", "/mcp") => {
+            let agent = HermesClawAgent::new("fairwind-hermes-claw");
+            let resp = agent.mcp.handle_jsonrpc(&body_json);
+            (200, "application/json", resp.to_string())
+        }
+        ("POST", "/acp") | ("POST", "/a2a") => {
             let id = body_json.get("id").cloned().unwrap_or(json!(1));
             let rpc_method = body_json.get("method").and_then(|v| v.as_str()).unwrap_or("ping");
             (
