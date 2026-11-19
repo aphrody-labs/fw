@@ -1,4 +1,4 @@
-package dev.aphrody.fw.ffi
+package com.aphrody.fw.ffi
 
 import kotlin.math.abs
 import kotlin.test.Test
@@ -21,7 +21,7 @@ class FwRustFfiTest {
 
             // 2. Kotlin -> Rust: Tree-sitter Kotlin AST parsing & symbol extraction
             val sampleKt = """
-                package dev.aphrody.demo
+                package com.aphrody.demo
                 object Material3Palette {
                     val version: String = "1.5.0"
                 }

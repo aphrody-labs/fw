@@ -1,7 +1,10 @@
-package dev.aphrody.fw.material3
+package com.aphrody.fw.material3
 
+import com.aphrody.theme.AphrodyDarkColors
+import com.aphrody.theme.AphrodyLightColors
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 class FwMaterial3Test {
@@ -23,27 +26,13 @@ class FwMaterial3Test {
     }
 
     @Test
-    fun expressiveLightAndDarkSchemesMeetWcagAA() {
-        val light = FwExpressiveTokens.LightColorScheme
-        val dark = FwExpressiveTokens.DarkColorScheme
-        val pairs = listOf(
-            "light.primary" to (light.onPrimary to light.primary),
-            "light.primaryContainer" to (light.onPrimaryContainer to light.primaryContainer),
-            "light.secondary" to (light.onSecondary to light.secondary),
-            "light.surface" to (light.onSurface to light.surface),
-            "light.surfaceVariant" to (light.onSurfaceVariant to light.surfaceVariant),
-            "light.error" to (light.onError to light.error),
-            "dark.primary" to (dark.onPrimary to dark.primary),
-            "dark.primaryContainer" to (dark.onPrimaryContainer to dark.primaryContainer),
-            "dark.secondary" to (dark.onSecondary to dark.secondary),
-            "dark.surface" to (dark.onSurface to dark.surface),
-            "dark.surfaceVariant" to (dark.onSurfaceVariant to dark.surfaceVariant),
-            "dark.error" to (dark.onError to dark.error),
+    fun colourSchemesComeFromTheAyThemeArtifactNotFromFw() {
+        assertNotEquals(AphrodyLightColors, AphrodyDarkColors)
+        assertEquals("com.aphrody.theme", Class.forName("com.aphrody.theme.AphrodyColorSchemeKt").packageName)
+        assertTrue(
+            runCatching { Class.forName("com.aphrody.fw.material3.FwExpressiveTokens") }.isFailure,
+            "fw must not define a palette of its own",
         )
-        for ((name, pair) in pairs) {
-            val ratio = FwExpressiveTokens.wcagContrastRatio(pair.first, pair.second)
-            assertTrue(ratio >= 4.5, "Contrast $name was $ratio (< 4.5)")
-        }
     }
 
     @Test

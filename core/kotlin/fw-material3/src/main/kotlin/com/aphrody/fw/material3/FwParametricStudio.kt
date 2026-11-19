@@ -1,4 +1,4 @@
-package dev.aphrody.fw.material3
+package com.aphrody.fw.material3
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

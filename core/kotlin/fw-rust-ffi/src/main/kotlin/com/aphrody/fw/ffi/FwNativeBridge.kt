@@ -1,4 +1,4 @@
-package dev.aphrody.fw.ffi
+package com.aphrody.fw.ffi
 
 import java.lang.foreign.Arena
 import java.lang.foreign.FunctionDescriptor

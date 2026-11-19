@@ -1,4 +1,4 @@
-package dev.aphrody.fw.ffi
+package com.aphrody.fw.ffi
 
 import kotlinx.serialization.Serializable
 

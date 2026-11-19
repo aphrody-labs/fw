@@ -2,18 +2,10 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.kotlin.compose) apply false
-    alias(libs.plugins.compose.multiplatform) apply false
+    alias(libs.plugins.android.library) apply false
 }
 
-val fwGroup = providers.gradleProperty("fw.group").orElse("dev.aphrody.fw").get()
-val fwVersion = providers.gradleProperty("fw.version").orElse("4.2.0").get()
-
 subprojects {
-    group = fwGroup
-    version = fwVersion
-
-    repositories {
-        google()
-        mavenCentral()
-    }
+    group = gradle.extra["fw.group"] as String
+    version = gradle.extra["fw.version"] as String
 }

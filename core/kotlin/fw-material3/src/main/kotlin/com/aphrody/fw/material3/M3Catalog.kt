@@ -1,4 +1,4 @@
-package dev.aphrody.fw.material3
+package com.aphrody.fw.material3
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -72,7 +72,7 @@ object M3Catalog {
             MavenArtifactSpec("androidx.compose.material3", "material3-adaptive-navigation-suite", "1.5.0", "stable", "Adaptive navigation rail/bar/drawer"),
             MavenArtifactSpec("androidx.compose.material3", "material3-lint", "1.5.0", "stable", "Android Lint rules for M3"),
             MavenArtifactSpec("androidx.compose.material3.adaptive", "adaptive", "1.3.0", "stable", "Adaptive panes and scaffolds"),
-            MavenArtifactSpec("org.jetbrains.compose.material3", "material3", "1.13.0-rc01", "rc", "JetBrains Compose Multiplatform Material 3"),
+            MavenArtifactSpec("org.jetbrains.compose.material3", "material3", "1.13.0-rc01", "rc", "Compose Multiplatform port, based on androidx material3 1.5.0-rc01; not used by fw (no stable port of 1.5.0 exists)"),
         ),
         stableExpressiveComponents = listOf(
             "ToggleButton",
@@ -112,7 +112,7 @@ object M3Catalog {
             "LocalRippleThemeConfiguration / RippleThemeConfiguration",
             "BasicAlertDialog",
             "MaterialTheme.expressiveLightColorScheme",
-            "Typography(defaultFontFamily = ...)",
+            "Typography(fontFamily = ...)",
             "Text(color = ColorProducer)",
         ),
         remainingExperimentalApis = listOf(

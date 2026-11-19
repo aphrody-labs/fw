@@ -23,3 +23,12 @@ crates_io_publish_order = [
   "fw-proto",
   "fw-bin",
 ]
+
+[kotlin]
+# core/kotlin (Gradle). group: reversed root domain of ay.toml [domains] (aphrody.com) + the product name.
+# theme_*: the Aphrody Compose theme owned by aphrody-labs/ay (kotlin/aphrody-theme), published to its GitHub Packages Maven registry.
+group = "com.aphrody.fw"
+theme_group = "com.aphrody"
+theme_artifact = "aphrody-theme"
+theme_version = "0.4.0"
+theme_registry = "https://maven.pkg.github.com/aphrody-labs/ay"

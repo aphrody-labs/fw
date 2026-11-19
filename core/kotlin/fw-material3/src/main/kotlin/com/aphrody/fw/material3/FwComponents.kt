@@ -1,6 +1,7 @@
-package dev.aphrody.fw.material3
+package com.aphrody.fw.material3
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,9 +18,8 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -28,35 +28,26 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.aphrody.theme.AphrodyTheme
 import kotlin.math.PI
 import kotlin.math.sin
 
-val LocalFwMotionScheme = staticCompositionLocalOf { FwExpressiveTokens.ExpressiveMotion }
-val LocalFwRippleFocusRing = staticCompositionLocalOf { FwExpressiveTokens.RippleFocusRing }
-
 /**
- * Unified Material 3 1.5.0 Expressive theme for `fw` and all `aphrody-labs` Compose apps.
+ * The `fw` theme: the Aphrody Material 3 Expressive theme of `com.aphrody:aphrody-theme` (colours generated from the ay brand tokens,
+ * expressive motion from `MotionScheme.expressive()`), with an optional brand font on the whole type scale. fw defines no colour,
+ * shape or motion token of its own; components read `MaterialTheme.colorScheme`, `MaterialTheme.shapes` and `MaterialTheme.motionScheme`.
  */
 @Composable
 fun FwExpressiveTheme(
-    darkTheme: Boolean = true,
-    brandFontFamily: FontFamily = FontFamily.SansSerif,
-    motionScheme: FwMotionScheme = FwExpressiveTokens.ExpressiveMotion,
-    rippleFocusRing: FwRippleFocusRingConfig = FwExpressiveTokens.RippleFocusRing,
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    brandFontFamily: FontFamily? = null,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = if (darkTheme) FwExpressiveTokens.DarkColorScheme else FwExpressiveTokens.LightColorScheme
-    CompositionLocalProvider(
-        LocalFwMotionScheme provides motionScheme,
-        LocalFwRippleFocusRing provides rippleFocusRing,
-    ) {
-        MaterialTheme(
-            colorScheme = colorScheme,
-            typography = FwExpressiveTokens.expressiveTypography(brandFontFamily),
-            shapes = FwExpressiveTokens.ExpressiveShapes,
-            content = content,
-        )
-    }
+    AphrodyTheme(
+        darkTheme = darkTheme,
+        typography = brandFontFamily?.let { Typography(fontFamily = it) },
+        content = content,
+    )
 }
 
 /**

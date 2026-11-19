@@ -1,4 +1,4 @@
-package dev.aphrody.fw.core
+package com.aphrody.fw.core
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -79,7 +79,7 @@ data class VfsEntry(
 @Serializable
 data class AphrodyLabManifest(
     val org: String = "aphrody-labs",
-    val mavenGroup: String = "dev.aphrody.fw",
+    val mavenGroup: String = "com.aphrody.fw",
     val version: String = "4.2.0",
     val modules: List<String> = listOf("fw-core", "fw-material3", "fw-rust-ffi"),
 )

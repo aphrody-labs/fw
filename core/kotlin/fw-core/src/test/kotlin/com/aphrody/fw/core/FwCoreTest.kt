@@ -1,4 +1,4 @@
-package dev.aphrody.fw.core
+package com.aphrody.fw.core
 
 import com.sun.net.httpserver.HttpServer
 import kotlinx.coroutines.test.runTest

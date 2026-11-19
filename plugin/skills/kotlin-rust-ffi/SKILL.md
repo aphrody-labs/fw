@@ -7,7 +7,7 @@ description: Bidirectional Kotlin-to-Rust and Rust-to-Kotlin FFI best practices 
 
 ## 1. Selection Matrix
 
-- **Kotlin/JVM <-> Rust Fat-LTO C ABI (`fw_abi.dll`)**: Use **JDK 22+/25 Panama FFM** (`java.lang.foreign.Linker`, `SymbolLookup`, `Arena`, `MemorySegment`) as implemented in `core/kotlin/fw-rust-ffi/src/main/kotlin/dev/aphrody/fw/ffi/FwNativeBridge.kt`.
+- **Kotlin/JVM <-> Rust Fat-LTO C ABI (`fw_abi.dll`)**: Use **JDK 22+/25 Panama FFM** (`java.lang.foreign.Linker`, `SymbolLookup`, `Arena`, `MemorySegment`) as implemented in `core/kotlin/fw-rust-ffi/src/main/kotlin/com/aphrody/fw/ffi/FwNativeBridge.kt`.
   - **Kotlin -> Rust**: `Linker.nativeLinker().downcallHandle(addr, descriptor)`
   - **Rust -> Kotlin**: `Linker.nativeLinker().upcallStub(methodHandle, descriptor, arena)` passed as `Option<extern "C" fn(*const u8, usize) -> i32>` to Rust (`fw_kotlin_invoke_callback`).
 - **Android / Kotlin Multiplatform**: Use **Mozilla UniFFI `0.32.2`** (`uniffi`) for idiomatic Kotlin data classes, sealed errors, `suspend` async functions, and `CallbackInterface` traits.
