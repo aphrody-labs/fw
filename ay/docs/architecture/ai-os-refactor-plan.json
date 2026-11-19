@@ -1,0 +1,26 @@
+{
+  "schema_version": "2026-11-19.verified",
+  "repo": "aphrody-labs/ay",
+  "workspace_baseline": {
+    "edition": "2024",
+    "resolver": "3",
+    "rust_version": "1.98",
+    "crates": 128,
+    "apps": 4,
+    "tools": 76,
+    "os_targets": ["aphrody", "linux", "nt"]
+  },
+  "layers": {
+    "L0_kernel_and_exec": ["ay-core", "ay-proc", "ay-sh", "ay-sh-pty", "ay-jobs", "ay-subsystem", "ay-headless", "ay-guard", "turbo-tasks", "turbo-persistence"],
+    "L1_wire_and_protocols": ["ay-gateway", "ay-a2a", "ay-a2a-client", "ay-a2a-server", "ay-a2a-coord", "ay-a2a-grpc", "ay-a2a-pb", "ay-mcp-client", "ay-agent-proto", "ay-app-protocol", "ay-http-error", "ay-antigravity"],
+    "L2_memory_graph_and_i18n": ["ay-memory", "ay-rag", "ay-rag-core", "ay-code-graph", "ay-fsindex", "ay-embed", "ay-sql", "ay-store", "ay-vault", "ay-secrets", "ay-accounts", "ay-translate-core"],
+    "L3_inference_and_models": ["ay-infer", "ay-llama", "ay-llama-server", "ay-llama-sys", "ay-ml-config", "ay-ml-runtime", "ay-models", "ay-model-client", "ay-model-antigravity", "ay-gemini-runtime"],
+    "L4_autonomous_agent_os": ["ay-agent-context", "ay-agent-home", "ay-agent-tools", "ay-ring3-agent", "ay-toolcall", "ay-toolcall-repair", "ay-rollout", "ay-patch", "ay-chromium", "ay-ocr-core"]
+  },
+  "phases": [
+    { "id": 1, "name": "crate_dedup", "status": "planned_for_fr1", "target": "Merge 12 auto-* crates into ay-* and collapse 6 ay-a2a-* into feature-gated ay-a2a" },
+    { "id": 2, "name": "wire_unification", "status": "planned_for_fr1", "target": "Unify HTTP/1.1+2+3 (hyper 1.12, h2 0.4.20, h3 0.0.8), ACP 5.4.0, A2A v1.0.1, MCP rmcp 3.11.0 behind ay-wire" },
+    { "id": 3, "name": "memoized_os_scheduler", "status": "planned_for_fr1", "target": "Wire turbo-tasks DAG into ay-jobs + ay-ring3-agent for content-addressed execution" },
+    { "id": 4, "name": "self_healing_i18n_and_loop", "status": "applied", "target": "craft-i18n submodule + tools/i18n-audit.rs (3-col TSV lint/fmt + Rust string scanner) + aphrody-auto-learn-boot scheduled task" }
+  ]
+}

@@ -122,31 +122,35 @@ fn walk(dir: &Path, rs: &mut Vec<PathBuf>, tsv: &mut Vec<PathBuf>) {
 
 fn lint_and_fmt_tsv(path: &Path, fmt: bool) -> Result<(), String> {
     let raw = fs::read_to_string(path).map_err(|e| e.to_string())?;
-    let mut lines = raw.lines();
-    let Some(header) = lines.next() else { return Ok(()) };
-    let cols = header.split('\t').count();
+    let mut header_comments = Vec::new();
     let mut seen = BTreeSet::new();
-    let mut rows: BTreeMap<String, String> = BTreeMap::new();
+    let mut rows: BTreeMap<(String, String), String> = BTreeMap::new();
 
-    for (idx, line) in lines.enumerate() {
-        if line.trim().is_empty() {
+    for (idx, line) in raw.lines().enumerate() {
+        let trimmed = line.trim();
+        if trimmed.is_empty() || trimmed.starts_with('#') {
+            if rows.is_empty() {
+                header_comments.push(line.to_string());
+            }
             continue;
         }
         let parts: Vec<&str> = line.split('\t').collect();
-        if parts.len() != cols {
-            return Err(format!("line {} has {} cols, expected {cols}", idx + 2, parts.len()));
+        if parts.len() != 3 {
+            return Err(format!("line {} has {} cols, expected 3 (context\\tsource\\ttranslation)", idx + 1, parts.len()));
         }
-        let key = parts[0].trim().to_string();
+        let key = (parts[0].to_string(), parts[1].to_string());
         if !seen.insert(key.clone()) {
-            return Err(format!("duplicate key '{key}' at line {}", idx + 2));
+            return Err(format!("duplicate entry ({:?}, {:?}) at line {}", key.0, key.1, idx + 1));
         }
         rows.insert(key, line.to_string());
     }
 
     if fmt {
         let mut out = String::with_capacity(raw.len());
-        out.push_str(header);
-        out.push('\n');
+        for c in &header_comments {
+            out.push_str(c);
+            out.push('\n');
+        }
         for row in rows.values() {
             out.push_str(row);
             out.push('\n');
