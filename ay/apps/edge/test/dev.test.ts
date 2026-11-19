@@ -13,7 +13,8 @@ const cfg = loadEdgeConfig();
 const edge = join(root, "apps/edge");
 const work = mkdtempSync(join(tmpdir(), "ay-edge-dev-"));
 const persist = join(work, "state");
-const wrangler = Bun.which("wrangler") ?? "wrangler";
+const wrangler = Bun.which("wrangler") ?? Bun.which("bunx") ?? "bunx";
+const wranglerArgs = Bun.which("wrangler") ? [] : ["wrangler"];
 const env = { ...process.env, WRANGLER_SEND_METRICS: "false" };
 const domains = cfg.domains as Record<string, string>;
 const rootDomain = domains.root!;
@@ -46,7 +47,7 @@ function seed(): void {
   writeFileSync(tools, '{"version":"tools-1"}');
   puts.push([cfg.buckets.CHROMIUM!, "ay-tools/latest.json", tools]);
   for (const [bucket, key, file] of puts) {
-    const r = run([wrangler, "r2", "object", "put", `${bucket}/${key}`, "--file", file, "--local", "--persist-to", persist, "-c", "wrangler.jsonc"]);
+    const r = run([wrangler, ...wranglerArgs, "r2", "object", "put", `${bucket}/${key}`, "--file", file, "--local", "--persist-to", persist, "-c", "wrangler.jsonc"]);
     if (r.exitCode !== 0) throw new Error(`r2 put ${bucket}/${key}: ${r.stderr.toString().slice(-300)}`);
   }
 }
@@ -77,7 +78,7 @@ async function start(): Promise<{ base: string; stop: () => void } | string> {
   const port = await freePort();
   const args = ["dev", "-c", rendered, ...stubs.flatMap((s) => ["-c", s]), "--local", "--port", String(port), "--ip", "127.0.0.1", "--persist-to", persist];
   void configs;
-  const proc = Bun.spawn([wrangler, ...args], { cwd: edge, stdout: "pipe", stderr: "pipe", env });
+  const proc = Bun.spawn([wrangler, ...wranglerArgs, ...args], { cwd: edge, stdout: "pipe", stderr: "pipe", env });
   let log = "";
   const pump = async (s: ReadableStream<Uint8Array>) => {
     for await (const chunk of s) log += new TextDecoder().decode(chunk);
