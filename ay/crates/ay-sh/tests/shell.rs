@@ -75,8 +75,8 @@ fn a_script_on_stdin_runs() {
 
 #[test]
 fn an_interactive_session_on_a_pty_runs_commands_and_exits() {
-    let session = ay_sh_pty::Session::spawn(
-        &ay_sh_pty::Command::new(AYSH, ["--norc", "-i"]).env("PS1", "aysh> "),
+    let session = ay_sh::pty::Session::spawn(
+        &ay_sh::pty::Command::new(AYSH, ["--norc", "-i"]).env("PS1", "aysh> "),
     )
     .unwrap();
     session.write_line("echo interactive-$((20+22))");
