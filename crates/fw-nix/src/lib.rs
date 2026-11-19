@@ -95,9 +95,9 @@ mod tests {
 
     #[test]
     fn nar_encoding_and_nix_store_path_are_deterministic_and_valid() {
-        let entry = compute_fixed_output_store_entry("fairwind-uutils-4.0.0", b"#!/bin/sh\necho ok\n", true);
+        let entry = compute_fixed_output_store_entry("fw-uutils-4.0.0", b"#!/bin/sh\necho ok\n", true);
         assert!(entry.store_path.starts_with("/nix/store/"));
-        assert!(entry.store_path.ends_with("-fairwind-uutils-4.0.0"));
+        assert!(entry.store_path.ends_with("-fw-uutils-4.0.0"));
         let hash_part = entry
             .store_path
             .strip_prefix("/nix/store/")

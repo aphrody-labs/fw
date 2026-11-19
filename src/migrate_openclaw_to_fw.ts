@@ -73,31 +73,31 @@ export const OPENCLAW_BUN_RUNTIME_PATCH_NOTES: readonly BunRuntimePatchNote[] = 
     upstreamPr: "openclaw/openclaw#201907",
     title: "fix: release retired agent catalogs on Bun",
     impact: "Long-lived agent catalog references can retain memory across hot reloads on Bun.",
-    fwMitigation: "Fairwind RuntimeToolRegistry replaces Map entries in-place and increments versions without retaining old module graphs.",
+    fwMitigation: "Fw RuntimeToolRegistry replaces Map entries in-place and increments versions without retaining old module graphs.",
   },
   {
     upstreamPr: "openclaw/openclaw#199959",
     title: "chore(runtime): update pinned Bun fork to 9debcc4b9",
     impact: "OpenClaw pins Node >=24.16 / pnpm@12.15 and tracks a custom Bun fork for runtime edge cases.",
-    fwMitigation: "Fairwind targets stock Bun 1.4.5+ native APIs (Bun.Transpiler, bun:sqlite, Bun.CryptoHasher, Bun.gzipSync) with zero pnpm/Node dependencies.",
+    fwMitigation: "Fw targets stock Bun 1.4.5+ native APIs (Bun.Transpiler, bun:sqlite, Bun.CryptoHasher, Bun.gzipSync) with zero pnpm/Node dependencies.",
   },
   {
     upstreamPr: "openclaw/openclaw#186500",
     title: "fix(test): retain selected Bun through isolation",
     impact: "Isolated test runners can lose the selected Bun binary path across subprocesses.",
-    fwMitigation: "Fairwind runs all tests under `bun test` with `bunfig.toml` root scoping and zero subprocess runtime drift.",
+    fwMitigation: "Fw runs all tests under `bun test` with `bunfig.toml` root scoping and zero subprocess runtime drift.",
   },
   {
     upstreamPr: "openclaw/openclaw#165486",
     title: "feat: add signed bundled Bun to Windows desktop",
     impact: "Windows desktop bundles need clean file-lock teardown and native binary hygiene.",
-    fwMitigation: "Fairwind PrefixKvRagStore finalizes every `bun:sqlite` Statement before `db.close()` so Windows temp/data dirs never leak EBUSY locks.",
+    fwMitigation: "Fw PrefixKvRagStore finalizes every `bun:sqlite` Statement before `db.close()` so Windows temp/data dirs never leak EBUSY locks.",
   },
   {
     upstreamPr: "openclaw/openclaw#173373",
     title: "fix(cli): keep source commands on Node instead of switching to Bun",
     impact: "Mixed Node/Bun CLI dispatch introduces startup overhead and JSX/TSX loader mismatches.",
-    fwMitigation: "Fairwind passes explicit `tsconfig` (`jsx: \"react\"`, `jsxFactory: \"__fwJsx\"`) to `Bun.Transpiler` and runs 100% on Bun.",
+    fwMitigation: "Fw passes explicit `tsconfig` (`jsx: \"react\"`, `jsxFactory: \"__fwJsx\"`) to `Bun.Transpiler` and runs 100% on Bun.",
   },
 ] as const;
 
@@ -239,7 +239,7 @@ function extractMcpServers(configObj: Record<string, unknown>): FwMigratedMcpSer
 export function migrateOpenClawToFw(opts: MigrateOpenClawOptions = {}): MigrateOpenClawResult {
   const openclawDir = resolve(opts.openclawDir ?? join(homedir(), ".openclaw"));
   const configPath = resolve(opts.configPath ?? join(openclawDir, "openclaw.json"));
-  const outputDir = resolve(opts.outputDir ?? join(homedir(), ".fairwind"));
+  const outputDir = resolve(opts.outputDir ?? join(homedir(), ".fw"));
   const mode: "dry-run" | "apply" = opts.apply === true && opts.dryRun !== true ? "apply" : "dry-run";
   const warnings: string[] = [];
 
@@ -254,7 +254,7 @@ export function migrateOpenClawToFw(opts: MigrateOpenClawOptions = {}): MigrateO
       warnings.push(`Failed to parse ${configPath}: ${err instanceof Error ? err.message : String(err)}`);
     }
   } else {
-    warnings.push(`OpenClaw config not found at ${configPath}; generating baseline Fairwind config.`);
+    warnings.push(`OpenClaw config not found at ${configPath}; generating baseline Fw config.`);
   }
 
   // Channels
@@ -277,7 +277,7 @@ export function migrateOpenClawToFw(opts: MigrateOpenClawOptions = {}): MigrateO
       ? rawDefaults.model
       : typeof (rawDefaults.model as Record<string, unknown> | undefined)?.primary === "string"
         ? String((rawDefaults.model as Record<string, unknown>).primary)
-        : "fairwind-qwen3-8b-gguf";
+        : "fw-qwen3-8b-gguf";
 
   const gateway = {
     port: typeof rawGateway.port === "number" ? rawGateway.port : 18789,
@@ -293,7 +293,7 @@ export function migrateOpenClawToFw(opts: MigrateOpenClawOptions = {}): MigrateO
   }
   if (channels.length === 0) {
     parityGaps.push(
-      "OpenClaw ships native messaging channel extensions (WhatsApp, Telegram, Discord, Slack, Signal); Fairwind maps external chat platforms via HttpWebhook bridges.",
+      "OpenClaw ships native messaging channel extensions (WhatsApp, Telegram, Discord, Slack, Signal); Fw maps external chat platforms via HttpWebhook bridges.",
     );
   }
 
@@ -311,7 +311,7 @@ export function migrateOpenClawToFw(opts: MigrateOpenClawOptions = {}): MigrateO
       fwConfigPath,
       JSON.stringify(
         {
-          schema: "fairwind/v4.2",
+          schema: "fw/v4.2",
           migratedFrom: configPath,
           runtime: "bun",
           gateway,

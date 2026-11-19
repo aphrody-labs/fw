@@ -219,7 +219,7 @@
         "sub-ms-symbol-extract"
       ],
       "commands": [
-        "bun src/fairwind_cli.ts ast crates/fw-ggml/src/lib.rs"
+        "bun src/fw_cli.ts ast crates/fw-ggml/src/lib.rs"
       ],
       "key_flags": [
         "tree-sitter-0.27",
@@ -395,7 +395,7 @@
           "new",
           "paint_quad",
           "quad_wgsl_shader",
-          "FairwindOstdKernel",
+          "FwOstdKernel",
           "boot_ostd_gpui_snapshot",
           "tests",
           "ostd_xarray_mlsdisk_and_gpui_wasm_scene_work"

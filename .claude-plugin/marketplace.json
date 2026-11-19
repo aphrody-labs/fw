@@ -1,22 +1,22 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "fairwind",
+  "name": "fw",
   "owner": { "name": "aphrody-labs", "url": "https://github.com/aphrody-labs" },
-  "metadata": { "description": "Fairwind plugin for Claude Code, from the same plugin/ directory agy installs.", "version": "2.3.0" },
+  "metadata": { "description": "Fw plugin for Claude Code, from the same plugin/ directory agy installs.", "version": "2.3.0" },
   "plugins": [
     {
-      "name": "fairwind",
+      "name": "fw",
       "source": "./plugin",
       "strict": false,
-      "description": "Fairwind CLI, MCP, agy-knowledge, binary analysis, reverse engineering, tree-sitter, Rust brain.",
+      "description": "Fw CLI, MCP, agy-knowledge, binary analysis, reverse engineering, tree-sitter, Rust brain.",
       "version": "2.3.0",
       "author": { "name": "aphrody-labs", "url": "https://github.com/aphrody-labs" },
-      "homepage": "https://github.com/aphrody-labs/fairwind",
+      "homepage": "https://github.com/aphrody-labs/fw",
       "skills": "./skills/",
       "mcpServers": {
-        "fairwind": {
+        "fw": {
           "command": "bun",
-          "args": ["--no-install", "--no-env-file", "${CLAUDE_PLUGIN_ROOT}/mcp/fairwind-mcp.ts"]
+          "args": ["--no-install", "--no-env-file", "${CLAUDE_PLUGIN_ROOT}/mcp/fw-mcp.ts"]
         }
       }
     }

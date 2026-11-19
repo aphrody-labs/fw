@@ -637,7 +637,7 @@ export interface KvStoreStats {
 }
 
 export interface SnapshotExportResult {
-  format: "fairwind-kv-rag-v1+gzip";
+  format: "fw-kv-rag-v1+gzip";
   createdAt: string;
   rawBytes: number;
   compressedBytes: number;
@@ -1007,7 +1007,7 @@ export class PrefixKvRagStore {
   }
 
   routePrefix(req: KvRouteRequest): KvRouteDecision {
-    const model = req.model ?? "fairwind-qwen3-8b-gguf";
+    const model = req.model ?? "fw-qwen3-8b-gguf";
     const disaggregated = req.disaggregated ?? true;
     const now = Date.now();
     const { tokens, blocks } = computeChainedPrefixBlocks(req.prompt, model, KV_BLOCK_TOKEN_SIZE);
@@ -1270,7 +1270,7 @@ export class PrefixKvRagStore {
 
     const createdAt = new Date().toISOString();
     const payloadObj = {
-      format: "fairwind-kv-rag-v1",
+      format: "fw-kv-rag-v1",
       createdAt,
       stats: this.getStats(),
       kvBlocks: blocks,
@@ -1283,7 +1283,7 @@ export class PrefixKvRagStore {
     return {
       gzBytes,
       meta: {
-        format: "fairwind-kv-rag-v1+gzip",
+        format: "fw-kv-rag-v1+gzip",
         createdAt,
         rawBytes: rawBytes.byteLength,
         compressedBytes: gzBytes.byteLength,
@@ -1358,7 +1358,7 @@ async function readJsonBody<T>(req: Request): Promise<T | null> {
 export function createBunNativeAiHandler(options: BunNativeAiHandlerOptions = {}) {
   const store = options.store ?? new PrefixKvRagStore(":memory:");
   const tools = options.tools ?? new RuntimeToolRegistry();
-  const defaultModel = options.defaultModel ?? "fairwind-qwen3-8b-gguf";
+  const defaultModel = options.defaultModel ?? "fw-qwen3-8b-gguf";
 
   return async (req: Request): Promise<Response> => {
     const url = new URL(req.url);
@@ -1540,7 +1540,7 @@ export function createBunNativeAiHandler(options: BunNativeAiHandlerOptions = {}
                 finish_reason: "stop",
               },
             ],
-            fairwind: route,
+            fw: route,
           },
           200,
           commonHeaders,
@@ -1557,7 +1557,7 @@ export function createBunNativeAiHandler(options: BunNativeAiHandlerOptions = {}
             created,
             model,
             choices: [{ index: 0, delta: { role: "assistant" }, finish_reason: null }],
-            fairwind: {
+            fw: {
               prefillNode: route.prefillNode,
               decodeNode: route.decodeNode,
               kvCacheHit: route.kvCacheHit,

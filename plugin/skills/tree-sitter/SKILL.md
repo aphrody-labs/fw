@@ -1,6 +1,6 @@
 ---
 name: tree-sitter
-description: Authoritative Tree-sitter 0.27+ incremental parsing, AST queries, highlighting, tags, and multi-language Rust/C ABI integration for Aphrody and Fairwind. Use when embedding tree-sitter parsers, writing S-expression queries, extracting symbols, or bridging AST analysis over FFI.
+description: Authoritative Tree-sitter 0.27+ incremental parsing, AST queries, highlighting, tags, and multi-language Rust/C ABI integration for Aphrody and Fw. Use when embedding tree-sitter parsers, writing S-expression queries, extracting symbols, or bridging AST analysis over FFI.
 ---
 
 # Tree-sitter Engineering Reference (Verified 2026-11-19)
@@ -30,7 +30,7 @@ Live-verified against `https://github.com/orgs/tree-sitter/repositories` (48 act
    - Bind grammar via `parser.set_language(&tree_sitter_rust::LANGUAGE.into())?`.
    - Parse with `parser.parse(source, None)` and walk `tree.root_node()` or run `tree_sitter::Query`.
 2. **C ABI / `bun:ffi` single-binary bridge**:
-   - Export `#[unsafe(no_mangle)] pub extern "C" fn` entry points from a `cdylib` crate (`fairwind-abi`).
+   - Export `#[unsafe(no_mangle)] pub extern "C" fn` entry points from a `cdylib` crate (`fw-abi`).
    - Pass UTF-8 `(ptr, len)` slices; return counts, error flags, or caller-freed JSON buffers.
    - Invoke from Bun (`bun:ffi` `dlopen`) inside `bun build --compile --bytecode` single binaries.
 3. **Verification**:

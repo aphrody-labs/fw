@@ -1,5 +1,5 @@
 {
-  description = "Fairwind v4.2 — Reproducible Full-Stack Pure-Rust Userland & 3-VPS Build Cluster Nix Flake (fr1, fr2, prd)";
+  description = "Fw v4.2 — Reproducible Full-Stack Pure-Rust Userland & 3-VPS Build Cluster Nix Flake (fr1, fr2, prd)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -86,7 +86,7 @@
             default = rustUserland;
             rust-userland = rustUserland;
             fw = fwPkg;
-            fairwind-native = fwPkg;
+            fw-native = fwPkg;
           };
 
           devShells.default = pkgs.mkShell {
@@ -106,8 +106,8 @@
 
       flake = {
         nixosModules = {
-          fairwind-vps-common = import ./nix/modules/vps-common.nix;
-          fairwind-os = import ./os/fairwind-os/flake.nix;
+          fw-vps-common = import ./nix/modules/vps-common.nix;
+          fw-os = import ./os/fw-os/flake.nix;
         };
 
         nixosConfigurations = let
@@ -115,7 +115,7 @@
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
-              inputs.self.nixosModules.fairwind-vps-common
+              inputs.self.nixosModules.fw-vps-common
               hostModule
             ];
           };
@@ -123,13 +123,13 @@
           fr1 = mkVps ./nix/hosts/fr1.nix;
           fr2 = mkVps ./nix/hosts/fr2.nix;
           prd = mkVps ./nix/hosts/prd.nix;
-          wsl-fairwind = nixpkgs.lib.nixosSystem {
+          wsl-fw = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
             modules = [
               inputs.nixos-wsl.nixosModules.default
-              inputs.self.nixosModules.fairwind-vps-common
-              ./nix/hosts/wsl-fairwind.nix
+              inputs.self.nixosModules.fw-vps-common
+              ./nix/hosts/wsl-fw.nix
             ];
           };
         };

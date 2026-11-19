@@ -1,9 +1,9 @@
-"""Fairwind native vLLM general plugin & KVConnectorBase_V1 adapter.
+"""Fw native vLLM general plugin & KVConnectorBase_V1 adapter.
 
 Implements the upstream `vllm.general_plugins` entry-point protocol (`register()`)
-and a stdlib-only `FairwindKVConnectorV1` mirror of vLLM's `KVConnectorBase_V1`
+and a stdlib-only `FwKVConnectorV1` mirror of vLLM's `KVConnectorBase_V1`
 lifecycle (scheduler-side + worker-side), bridging vLLM PagedAttention/NIXL KV
-blocks to Fairwind's `fw-cluster` radix prefix index and `fw bench`.
+blocks to Fw's `fw-cluster` radix prefix index and `fw bench`.
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from enum import Enum
 from typing import Any
 
 PLUGIN_GROUP = "vllm.general_plugins"
-PLUGIN_NAME = "fairwind_vllm_kv"
+PLUGIN_NAME = "fw_vllm_kv"
 DEFAULT_BLOCK_SIZE = 16
 SUPPORTED_TRANSPORTS = ("nixl", "mooncake", "lmcache", "fw-rpc")
 
@@ -37,7 +37,7 @@ class KVRole(str, Enum):
 class KVConnectorConfig:
     """Configuration aligned with vLLM `KVTransferConfig` and `fw-cluster`."""
 
-    kv_connector: str = "FairwindKVConnectorV1"
+    kv_connector: str = "FwKVConnectorV1"
     kv_role: KVRole = KVRole.KV_BOTH
     block_size: int = DEFAULT_BLOCK_SIZE
     transport: str = "nixl"
@@ -74,7 +74,7 @@ class KVConnectorConfig:
             else:
                 transport = "fw-rpc"
         return cls(
-            kv_connector=str(data.get("kv_connector", "FairwindKVConnectorV1")),
+            kv_connector=str(data.get("kv_connector", "FwKVConnectorV1")),
             kv_role=KVRole(role_val),
             block_size=int(extra.get("block_size", DEFAULT_BLOCK_SIZE)),
             transport=transport,
@@ -143,7 +143,7 @@ def compute_paged_block_hashes(
     return hashes
 
 
-class FairwindKVConnectorV1:
+class FwKVConnectorV1:
     """Stdlib-only vLLM `KVConnectorBase_V1` adapter bridged to `fw-cluster` & `fw bench`.
 
     Implements both scheduler-side and worker-side primitives defined in
@@ -380,7 +380,7 @@ class FairwindKVConnectorV1:
         }
 
     # ------------------------------------------------------------------
-    # Fairwind `fw-cluster` & `fw bench` bridge
+    # Fw `fw-cluster` & `fw bench` bridge
     # ------------------------------------------------------------------
 
     def export_cluster_kv_index(self) -> dict[str, str]:
@@ -451,7 +451,7 @@ class FairwindKVConnectorV1:
 # ----------------------------------------------------------------------
 
 _REGISTERED: bool = False
-_ACTIVE_CONNECTOR: FairwindKVConnectorV1 | None = None
+_ACTIVE_CONNECTOR: FwKVConnectorV1 | None = None
 _REGISTRATION_COUNT: int = 0
 
 
@@ -502,7 +502,7 @@ def register(
             "connector": _ACTIVE_CONNECTOR.config.kv_connector,
         }
 
-    _ACTIVE_CONNECTOR = FairwindKVConnectorV1(config=config)
+    _ACTIVE_CONNECTOR = FwKVConnectorV1(config=config)
     _REGISTERED = True
     _REGISTRATION_COUNT += 1
     return {
@@ -517,12 +517,12 @@ def register(
 
 
 def is_registered() -> bool:
-    """Return True if `register()` has initialized the Fairwind vLLM plugin."""
+    """Return True if `register()` has initialized the Fw vLLM plugin."""
     return _REGISTERED
 
 
-def get_connector() -> FairwindKVConnectorV1 | None:
-    """Return the active singleton `FairwindKVConnectorV1` instance, if registered."""
+def get_connector() -> FwKVConnectorV1 | None:
+    """Return the active singleton `FwKVConnectorV1` instance, if registered."""
     return _ACTIVE_CONNECTOR
 
 

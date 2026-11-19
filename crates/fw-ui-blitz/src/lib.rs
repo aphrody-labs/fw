@@ -77,7 +77,7 @@ pub fn encode_rgba_png(width: u32, height: u32, rgba: &[u8]) -> Vec<u8> {
     png
 }
 
-/// Render the Fairwind v3.0 Hybrid Cluster HUD (4 GPU + 3 VPS/CPU + User WebGPU cards) to PNG.
+/// Render the Fw v3.0 Hybrid Cluster HUD (4 GPU + 3 VPS/CPU + User WebGPU cards) to PNG.
 pub fn render_cluster_hud_png(out_path: &Path, width: u32, height: u32) -> std::io::Result<BlitzRenderReport> {
     let mut rgba = vec![0u8; (width as usize) * (height as usize) * 4];
     let mut colors = std::collections::HashSet::new();
@@ -132,7 +132,7 @@ pub fn render_cluster_hud_png(out_path: &Path, width: u32, height: u32) -> std::
     fs::write(out_path, &png)?;
     Ok(BlitzRenderReport {
         ok: true,
-        renderer: "fairwind-blitz-vello-zero-dep".into(),
+        renderer: "fw-blitz-vello-zero-dep".into(),
         width,
         height,
         png_bytes: png.len(),
@@ -147,7 +147,7 @@ mod tests {
 
     #[test]
     fn renders_valid_non_blank_png() {
-        let tmp = std::env::temp_dir().join("fairwind-blitz-unit.png");
+        let tmp = std::env::temp_dir().join("fw-blitz-unit.png");
         let rep = render_cluster_hud_png(&tmp, 320, 180).unwrap();
         assert!(rep.ok);
         assert!(rep.png_bytes > 200);

@@ -1,10 +1,10 @@
-export function renderFairwindWebHtml(): string {
+export function renderFwWebHtml(): string {
   return `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fairwind Unified OS Control Plane</title>
+  <title>Fw Unified OS Control Plane</title>
   <style>
     :root {
       --bg: #0b1220;
@@ -31,7 +31,7 @@ export function renderFairwindWebHtml(): string {
 </head>
 <body>
   <header>
-    <h1>Fairwind Unified OS — Fat-LTO / AOT / VFS / AI Control Plane</h1>
+    <h1>Fw Unified OS — Fat-LTO / AOT / VFS / AI Control Plane</h1>
     <span class="badge" id="health">loading...</span>
   </header>
   <main>

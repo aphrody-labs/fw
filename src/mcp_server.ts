@@ -17,8 +17,8 @@ import {
   uninstallService,
 } from "./daemon.ts";
 import { LOW_LEVEL_LTO_AOT_MATRIX } from "./lowlevel.ts";
-import { auditDeduplication, pluginStatus, syncFairwindPlugin } from "./plugin_sync.ts";
-import { generateFairwindWtaConfig, getTerminalTuiStatus, verifyFairwindSelfTui } from "./terminal_tui.ts";
+import { auditDeduplication, pluginStatus, syncFwPlugin } from "./plugin_sync.ts";
+import { generateFwWtaConfig, getTerminalTuiStatus, verifyFwSelfTui } from "./terminal_tui.ts";
 import {
   astQueryWithAbi,
   astSymbolsWithAbi,
@@ -49,17 +49,17 @@ export interface JsonRpcResponse {
   error?: { code: number; message: string; data?: unknown };
 }
 
-export const FAIRWIND_MCP_TOOLS = [
+export const FW_MCP_TOOLS = [
   {
-    name: "fairwind_status",
+    name: "fw_status",
     description:
-      "Return unified Fairwind monorepo status, Fat-LTO Rust C ABI v3 health, absorbed first/third-party modules, and target/agy readiness.",
+      "Return unified Fw monorepo status, Fat-LTO Rust C ABI v3 health, absorbed first/third-party modules, and target/agy readiness.",
     inputSchema: { type: "object", properties: {} },
   },
   {
-    name: "fairwind_ast_parse",
+    name: "fw_ast_parse",
     description:
-      "Parse a source file using Fairwind's Fat-LTO Rust Tree-sitter C ABI across 9 grammars (rust, typescript, tsx, python, c, cpp, java, json, bash).",
+      "Parse a source file using Fw's Fat-LTO Rust Tree-sitter C ABI across 9 grammars (rust, typescript, tsx, python, c, cpp, java, json, bash).",
     inputSchema: {
       type: "object",
       properties: {
@@ -70,9 +70,9 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_pe_inspect",
+    name: "fw_pe_inspect",
     description:
-      "Inspect a Windows PE/COFF binary (defaults to read-only signed upstream agy.exe) using craft-pe compiled into Fairwind's Fat-LTO ABI.",
+      "Inspect a Windows PE/COFF binary (defaults to read-only signed upstream agy.exe) using craft-pe compiled into Fw's Fat-LTO ABI.",
     inputSchema: {
       type: "object",
       properties: {
@@ -81,15 +81,15 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_target_scan",
+    name: "fw_target_scan",
     description:
-      "Scan all registered in-repo Fairwind modules (heretic, neon, craft-libs, craft-anything, native/*, src, tests), run AST probes, and update target/manifest.json.",
+      "Scan all registered in-repo Fw modules (heretic, neon, craft-libs, craft-anything, native/*, src, tests), run AST probes, and update target/manifest.json.",
     inputSchema: { type: "object", properties: {} },
   },
   {
-    name: "fairwind_upgrade",
+    name: "fw_upgrade",
     description:
-      "Check or apply Fairwind's gated LTO/AOT self-upgrade pipeline across target/agy/ and dist/, or produce an agy headless upgrade plan.",
+      "Check or apply Fw's gated LTO/AOT self-upgrade pipeline across target/agy/ and dist/, or produce an agy headless upgrade plan.",
     inputSchema: {
       type: "object",
       properties: {
@@ -103,9 +103,9 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_bench",
+    name: "fw_bench",
     description:
-      "Benchmark binary size and cold-start latency for target/agy/agy (Rust Fat-LTO), dist/fairwind (Bun AOT+trim), and upstream agy.exe.",
+      "Benchmark binary size and cold-start latency for target/agy/agy (Rust Fat-LTO), dist/fw (Bun AOT+trim), and upstream agy.exe.",
     inputSchema: {
       type: "object",
       properties: {
@@ -114,9 +114,9 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_learn",
+    name: "fw_learn",
     description:
-      "Run Fairwind-integrated autonomous learning operations via ~/.gemini/scripts/learn.ts (search, distill, cloud-sync, status).",
+      "Run Fw-integrated autonomous learning operations via ~/.gemini/scripts/learn.ts (search, distill, cloud-sync, status).",
     inputSchema: {
       type: "object",
       properties: {
@@ -127,9 +127,9 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_service",
+    name: "fw_service",
     description:
-      "Manage Fairwind's persistent, boot-startup, auto-restart cross-platform continuous agy improvement daemon and plugin sync.",
+      "Manage Fw's persistent, boot-startup, auto-restart cross-platform continuous agy improvement daemon and plugin sync.",
     inputSchema: {
       type: "object",
       properties: {
@@ -144,9 +144,9 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_bridge",
+    name: "fw_bridge",
     description:
-      "Inspect or dispatch to Fairwind's absorbed first/third-party subsystems (heretic, neon/REA, craft-libs, craft-anything, ghidra).",
+      "Inspect or dispatch to Fw's absorbed first/third-party subsystems (heretic, neon/REA, craft-libs, craft-anything, ghidra).",
     inputSchema: {
       type: "object",
       properties: {
@@ -156,7 +156,7 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_disasm",
+    name: "fw_disasm",
     description:
       "Disassemble PE entry-point x86-64 instructions using craft-pe + iced-x86 Fat-LTO ABI, or identify any file via craft-sniff.",
     inputSchema: {
@@ -169,8 +169,8 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_vfs",
-    description: "Interact with Fairwind SQLite CAS VFS OS (mounts, ls, read, write).",
+    name: "fw_vfs",
+    description: "Interact with Fw SQLite CAS VFS OS (mounts, ls, read, write).",
     inputSchema: {
       type: "object",
       properties: {
@@ -182,8 +182,8 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_ai",
-    description: "Query Fairwind AI Brain (FTS5), Soul constitution, Router providers, or Low-Level LTO/AOT matrix.",
+    name: "fw_ai",
+    description: "Query Fw AI Brain (FTS5), Soul constitution, Router providers, or Low-Level LTO/AOT matrix.",
     inputSchema: {
       type: "object",
       properties: {
@@ -195,8 +195,8 @@ export const FAIRWIND_MCP_TOOLS = [
     },
   },
   {
-    name: "fairwind_tui_terminal",
-    description: "Inspect and run Fairwind-optimized Microsoft Intelligent Terminal (WTA) and tui-test source-only workflows.",
+    name: "fw_tui_terminal",
+    description: "Inspect and run Fw-optimized Microsoft Intelligent Terminal (WTA) and tui-test source-only workflows.",
     inputSchema: {
       type: "object",
       properties: {
@@ -222,7 +222,7 @@ export function runLearnBridge(action: string, query?: string) {
   }
   const cmd =
     action === "search"
-      ? ["bun", learnScript, "search", ...(query ? query.trim().split(/\s+/) : ["fairwind"])]
+      ? ["bun", learnScript, "search", ...(query ? query.trim().split(/\s+/) : ["fw"])]
       : action === "distill"
         ? ["bun", learnScript, "distill-quiet"]
         : action === "cloud-sync"
@@ -246,20 +246,20 @@ export function runLearnBridge(action: string, query?: string) {
   };
 }
 
-export function handleFairwindToolCall(
+export function handleFwToolCall(
   root: string,
   name: string,
   args: Record<string, unknown> = {},
 ): { content: Array<{ type: "text"; text: string }>; isError?: boolean } {
   switch (name) {
-    case "fairwind_status": {
+    case "fw_status": {
       const abi = probeRustAbi(root);
       const manifest = readTargetManifest(root);
       const isWin = process.platform === "win32";
       const agyTarget = join(root, "target", "agy", isWin ? "agy.exe" : "agy");
       return textResult({
         ok: true,
-        product: "fairwind",
+        product: "fw",
         root,
         abiLoaded: abi.loaded,
         abi,
@@ -269,7 +269,7 @@ export function handleFairwindToolCall(
         plugin: pluginStatus(root),
       });
     }
-    case "fairwind_ast_parse": {
+    case "fw_ast_parse": {
       const lang = typeof args.lang === "string" ? args.lang : "";
       const file = typeof args.file === "string" ? args.file : "";
       const mode = typeof args.mode === "string" ? args.mode : "summary";
@@ -284,18 +284,18 @@ export function handleFairwindToolCall(
             : parseAstWithAbi(root, lang, abs);
       return textResult(res, !res.ok);
     }
-    case "fairwind_pe_inspect": {
+    case "fw_pe_inspect": {
       const target = typeof args.path === "string" && args.path.trim() ? resolve(root, args.path) : resolveUpstreamAgyPath();
       if (!target) return textResult({ ok: false, error: "no PE binary path resolved" }, true);
       const res = inspectPeWithAbi(root, target);
       return textResult(res, !res.ok);
     }
-    case "fairwind_target_scan": {
+    case "fw_target_scan": {
       const manifest = buildTargetManifest(root);
       const manifestPath = writeTargetManifest(root, manifest);
       return textResult({ ok: true, manifestPath, manifest });
     }
-    case "fairwind_upgrade": {
+    case "fw_upgrade": {
       const mode = typeof args.mode === "string" ? args.mode : "check";
       if (mode === "apply") {
         const res = applyUpgrade(root, { skipTests: Boolean(args.skipTests) });
@@ -306,17 +306,17 @@ export function handleFairwindToolCall(
       }
       return textResult(checkUpgrade(root));
     }
-    case "fairwind_bench": {
+    case "fw_bench": {
       const iterations = typeof args.iterations === "number" ? Math.max(1, Math.min(25, Math.trunc(args.iterations))) : 5;
       return textResult(runBenchmarks(root, iterations));
     }
-    case "fairwind_learn": {
+    case "fw_learn": {
       const action = typeof args.action === "string" ? args.action : "status";
       const query = typeof args.query === "string" ? args.query : undefined;
       const res = runLearnBridge(action, query);
       return textResult(res, !res.ok);
     }
-    case "fairwind_service": {
+    case "fw_service": {
       const action = typeof args.action === "string" ? args.action : "status";
       switch (action) {
         case "render":
@@ -334,7 +334,7 @@ export function handleFairwindToolCall(
           return textResult(res, !res.ok);
         }
         case "plugin_sync": {
-          const res = syncFairwindPlugin(root);
+          const res = syncFwPlugin(root);
           return textResult(res, !res.ok);
         }
         case "plugin_status":
@@ -343,7 +343,7 @@ export function handleFairwindToolCall(
           return textResult(serviceStatus(root));
       }
     }
-    case "fairwind_bridge": {
+    case "fw_bridge": {
       const sub = typeof args.subsystem === "string" ? args.subsystem : "";
       const map: Record<string, { path: string; runtime: string }> = {
         heretic: { path: join(root, "core", "py", "heretic"), runtime: "uv/python" },
@@ -362,7 +362,7 @@ export function handleFairwindToolCall(
         abi: sub === "craft" ? probeRustAbi(root) : undefined,
       });
     }
-    case "fairwind_disasm": {
+    case "fw_disasm": {
       const action = typeof args.action === "string" ? args.action : "disasm";
       const target =
         typeof args.path === "string" && args.path.trim() ? resolve(root, args.path) : resolveUpstreamAgyPath();
@@ -375,7 +375,7 @@ export function handleFairwindToolCall(
       const res = disasmX64WithAbi(root, target, max);
       return textResult(res, !res.ok);
     }
-    case "fairwind_vfs": {
+    case "fw_vfs": {
       const action = typeof args.action === "string" ? args.action : "mounts";
       const p = typeof args.path === "string" ? args.path : "/";
       if (action === "ls") return textResult(vfsList(root, p));
@@ -386,10 +386,10 @@ export function handleFairwindToolCall(
       if (action === "write") return textResult(vfsWrite(root, p, typeof args.content === "string" ? args.content : ""));
       return textResult(listVfsMounts(root));
     }
-    case "fairwind_ai": {
+    case "fw_ai": {
       const action = typeof args.action === "string" ? args.action : "soul";
       if (action === "brain_index") return textResult(brainIndexRepo(root));
-      if (action === "brain_search") return textResult(brainSearch(root, typeof args.query === "string" ? args.query : "fairwind"));
+      if (action === "brain_search") return textResult(brainSearch(root, typeof args.query === "string" ? args.query : "fw"));
       if (action === "router") {
         return textResult({
           ok: true,
@@ -401,11 +401,11 @@ export function handleFairwindToolCall(
       if (action === "dedupe") return textResult(auditDeduplication(root));
       return textResult({ ok: true, soul: loadSoul(root) });
     }
-    case "fairwind_tui_terminal": {
+    case "fw_tui_terminal": {
       const action = typeof args.action === "string" ? args.action : "status";
-      if (action === "wta_config") return textResult(generateFairwindWtaConfig(root));
+      if (action === "wta_config") return textResult(generateFwWtaConfig(root));
       if (action === "verify_self") {
-        const res = verifyFairwindSelfTui(root);
+        const res = verifyFwSelfTui(root);
         return textResult(res, !res.ok);
       }
       return textResult(getTerminalTuiStatus(root));
@@ -428,7 +428,7 @@ export function handleJsonRpcMessage(root: string, req: JsonRpcRequest): JsonRpc
       result: {
         protocolVersion: "2024-11-05",
         capabilities: { tools: {} },
-        serverInfo: { name: "fairwind", version: "2.3.0" },
+        serverInfo: { name: "fw", version: "2.3.0" },
       },
     };
   }
@@ -436,7 +436,7 @@ export function handleJsonRpcMessage(root: string, req: JsonRpcRequest): JsonRpc
     return { jsonrpc: "2.0", id, result: {} };
   }
   if (method === "tools/list") {
-    return { jsonrpc: "2.0", id, result: { tools: FAIRWIND_MCP_TOOLS } };
+    return { jsonrpc: "2.0", id, result: { tools: FW_MCP_TOOLS } };
   }
   if (method === "tools/call") {
     const params = req.params ?? {};
@@ -447,7 +447,7 @@ export function handleJsonRpcMessage(root: string, req: JsonRpcRequest): JsonRpc
     return {
       jsonrpc: "2.0",
       id,
-      result: handleFairwindToolCall(root, toolName, toolArgs),
+      result: handleFwToolCall(root, toolName, toolArgs),
     };
   }
   return {

@@ -356,8 +356,8 @@ class TestHermesFwPluginAndMigration(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp:
             sample = Path(tmp) / "hello.txt"
-            sample.write_text("alpha\nfairwind-kernel\nomega\n", encoding="utf-8")
-            grep_res = registry["fw_grep"].handler(pattern="fairwind-kernel", root=tmp)
+            sample.write_text("alpha\nfw-kernel\nomega\n", encoding="utf-8")
+            grep_res = registry["fw_grep"].handler(pattern="fw-kernel", root=tmp)
             self.assertEqual(len(grep_res["matches"]), 1)
             find_res = registry["fw_find"].handler(glob_pattern="*.txt", root=tmp)
             self.assertEqual(find_res["files"], ["hello.txt"])

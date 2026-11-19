@@ -1,8 +1,8 @@
 {
-  // Full-stack production topology template for Fairwind Edge OS on Cloudflare Workers (Wrangler 4.162+).
+  // Full-stack production topology template for Fw Edge OS on Cloudflare Workers (Wrangler 4.162+).
   // Replace placeholder resource IDs before deploying to a live Cloudflare account.
   "$schema": "../node_modules/wrangler/config-schema.json",
-  "name": "fairwind-edge-fullstack",
+  "name": "fw-edge-fullstack",
   "main": "worker.ts",
   "compatibility_date": "2026-11-12",
   "compatibility_flags": ["nodejs_compat"],
@@ -11,7 +11,7 @@
     "enabled": true
   },
   "vars": {
-    "FAIRWIND_ENV": "production"
+    "FW_ENV": "production"
   },
   // Workers AI inference & embeddings (Llama 3.3, Qwen 2.5 Coder, BGE, Whisper)
   "ai": {
@@ -21,8 +21,8 @@
   "durable_objects": {
     "bindings": [
       {
-        "name": "FAIRWIND_OS",
-        "class_name": "FairwindOSAgent"
+        "name": "FW_OS",
+        "class_name": "FwOSAgent"
       },
       {
         "name": "SANDBOX",
@@ -32,7 +32,7 @@
   },
   // Declarative Durable Object exports (mutually exclusive with legacy migrations[])
   "exports": {
-    "FairwindOSAgent": {
+    "FwOSAgent": {
       "type": "durable-object",
       "storage": "sqlite"
     },
@@ -44,7 +44,7 @@
   // Tier-2 Cloudflare Sandbox 1.0 (@cloudflare/sandbox@1.0.3 / @cloudflare/containers@0.3.7)
   "containers": [
     {
-      "name": "fairwind-sandbox",
+      "name": "fw-sandbox",
       "class_name": "Sandbox",
       "image": "cloudflare/sandbox:next",
       "max_instances": 16
@@ -60,14 +60,14 @@
   "r2_buckets": [
     {
       "binding": "VFS_BLOBS",
-      "bucket_name": "fairwind-vfs-blobs"
+      "bucket_name": "fw-vfs-blobs"
     }
   ],
   // D1 relational metadata & cross-tenant index
   "d1_databases": [
     {
       "binding": "META_DB",
-      "database_name": "fairwind-meta",
+      "database_name": "fw-meta",
       "database_id": "00000000-0000-0000-0000-000000000000"
     }
   ],
@@ -75,7 +75,7 @@
   "vectorize": [
     {
       "binding": "MEMORY_VEC",
-      "index_name": "fairwind-memory"
+      "index_name": "fw-memory"
     }
   ],
   // Browser Run (managed Chromium + Kitesurf Rust/Wasm CDP agent browser)
@@ -85,22 +85,22 @@
   // Durable multi-step Agent Workflows
   "workflows": [
     {
-      "name": "fairwind-agent-workflow",
-      "binding": "FAIRWIND_WORKFLOW",
-      "class_name": "FairwindWorkflow"
+      "name": "fw-agent-workflow",
+      "binding": "FW_WORKFLOW",
+      "class_name": "FwWorkflow"
     }
   ],
   // Asynchronous background task queues
   "queues": {
     "producers": [
       {
-        "binding": "FAIRWIND_QUEUE",
-        "queue": "fairwind-jobs"
+        "binding": "FW_QUEUE",
+        "queue": "fw-jobs"
       }
     ],
     "consumers": [
       {
-        "queue": "fairwind-jobs",
+        "queue": "fw-jobs",
         "max_batch_size": 10,
         "max_batch_timeout": 5
       }
@@ -117,14 +117,14 @@
   "k2": [
     {
       "binding": "EVENT_LOG",
-      "stream": "fairwind-learn-events"
+      "stream": "fw-learn-events"
     }
   ],
   // Basin Pipelines 1 GB/s telemetry sink into R2 Iceberg tables (uses `stream`, not deprecated `pipeline`)
   "pipelines": [
     {
       "binding": "TELEMETRY_PIPELINE",
-      "stream": "fairwind-telemetry-stream"
+      "stream": "fw-telemetry-stream"
     }
   ]
 }

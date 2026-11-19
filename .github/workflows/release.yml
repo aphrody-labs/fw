@@ -49,7 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - name: Deploy fairwind-edge (Workers Static Assets + SQLite DO)
+      - name: Deploy fw-edge (Workers Static Assets + SQLite DO)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: bun run cf:deploy

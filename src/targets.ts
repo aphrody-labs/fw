@@ -25,7 +25,7 @@ export interface TargetArtifactConfig {
   profile: string;
 }
 
-export interface FairwindTargetsConfig {
+export interface FwTargetsConfig {
   $schema: string;
   product: string;
   agent: {
@@ -38,8 +38,8 @@ export interface FairwindTargetsConfig {
   };
   artifacts: {
     agyNativeLto: TargetArtifactConfig;
-    fairwindAbiLto: TargetArtifactConfig;
-    fairwindCliAot: TargetArtifactConfig;
+    fwAbiLto: TargetArtifactConfig;
+    fwCliAot: TargetArtifactConfig;
   };
   modules: TargetModuleConfig[];
 }
@@ -76,7 +76,7 @@ export interface ArtifactSnapshot {
 }
 
 export interface TargetManifest {
-  schema: "fairwind.target-manifest.v1";
+  schema: "fw.target-manifest.v1";
   generatedAt: string;
   root: string;
   gitHead: string | null;
@@ -110,22 +110,22 @@ const SKIP_DIRS = new Set([
   ".next",
 ]);
 
-export function loadTargetsConfig(root: string): FairwindTargetsConfig {
-  const cfgPath = join(root, "fairwind.targets.json");
+export function loadTargetsConfig(root: string): FwTargetsConfig {
+  const cfgPath = join(root, "fw.targets.json");
   if (!existsSync(cfgPath)) {
-    throw new Error(`Missing fairwind.targets.json at ${cfgPath}`);
+    throw new Error(`Missing fw.targets.json at ${cfgPath}`);
   }
-  return JSON.parse(readFileSync(cfgPath, "utf8")) as FairwindTargetsConfig;
+  return JSON.parse(readFileSync(cfgPath, "utf8")) as FwTargetsConfig;
 }
 
 let winShadowDllCache: { src: string; mtimeMs: number; shadow: string } | null = null;
 
 export function findAbiLibrary(root: string): string | null {
-  const libName = process.platform === "win32" ? `fairwind_abi.${suffix}` : `libfairwind_abi.${suffix}`;
+  const libName = process.platform === "win32" ? `fw_abi.${suffix}` : `libfw_abi.${suffix}`;
   const candidates = [
     join(root, "target", "agy", libName),
-    join(root, "native", "fairwind-abi", "target", "release", libName),
-    join(root, "native", "fairwind-abi", "target", "debug", libName),
+    join(root, "native", "fw-abi", "target", "release", libName),
+    join(root, "native", "fw-abi", "target", "debug", libName),
     join(root, "dist", libName),
   ];
   let found: string | null = null;
@@ -142,9 +142,9 @@ export function findAbiLibrary(root: string): string | null {
       if (winShadowDllCache && winShadowDllCache.src === found && winShadowDllCache.mtimeMs === mtimeMs && existsSync(winShadowDllCache.shadow)) {
         return winShadowDllCache.shadow;
       }
-      const shadowDir = join(tmpdir(), "fairwind-abi-shadow");
+      const shadowDir = join(tmpdir(), "fw-abi-shadow");
       mkdirSync(shadowDir, { recursive: true });
-      const shadowPath = join(shadowDir, `fairwind_abi_${process.pid}_${Math.trunc(mtimeMs)}.dll`);
+      const shadowPath = join(shadowDir, `fw_abi_${process.pid}_${Math.trunc(mtimeMs)}.dll`);
       copyFileSync(found, shadowPath);
       winShadowDllCache = { src: found, mtimeMs, shadow: shadowPath };
       return shadowPath;
@@ -160,11 +160,11 @@ export function probeRustAbi(root: string) {
   if (!libPath) return { loaded: false, path: null, version: null, health: null };
   try {
     const lib = dlopen(libPath, {
-      fairwind_abi_version: { args: [], returns: FFIType.u32 },
-      fairwind_health_json: { args: [], returns: FFIType.ptr },
+      fw_abi_version: { args: [], returns: FFIType.u32 },
+      fw_health_json: { args: [], returns: FFIType.ptr },
     });
-    const version = Number(lib.symbols.fairwind_abi_version());
-    const ptr = lib.symbols.fairwind_health_json();
+    const version = Number(lib.symbols.fw_abi_version());
+    const ptr = lib.symbols.fw_health_json();
     const raw = ptr ? new CString(ptr).toString() : "{}";
     lib.close();
     return { loaded: true, path: libPath, version, health: JSON.parse(raw) };
@@ -214,7 +214,7 @@ export function parseAstWithAbi(root: string, lang: string, filePath: string) {
   const sb = new Uint8Array(readFileSync(filePath));
   const res = invokeAbiJson(
     root,
-    "fairwind_parse_summary",
+    "fw_parse_summary",
     [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
     4096,
     (fn, ob) => Number(fn(ffiPtr(lb), lb.byteLength, ffiPtr(sb), sb.byteLength, ffiPtr(ob), ob.byteLength)),
@@ -228,7 +228,7 @@ export function inspectPeWithAbi(root: string, filePath: string): Record<string,
   const pb = TEXT_ENC.encode(filePath);
   return invokeAbiJson(
     root,
-    "fairwind_inspect_pe",
+    "fw_inspect_pe",
     [FFIType.ptr, FFIType.usize],
     65536,
     (fn, ob) => Number(fn(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength)),
@@ -243,7 +243,7 @@ export function astSymbolsWithAbi(root: string, lang: string, filePath: string):
   const sb = new Uint8Array(readFileSync(filePath));
   const res = invokeAbiJson(
     root,
-    "fairwind_ast_symbols",
+    "fw_ast_symbols",
     [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
     65536,
     (fn, ob) => Number(fn(ffiPtr(lb), lb.byteLength, ffiPtr(sb), sb.byteLength, ffiPtr(ob), ob.byteLength)),
@@ -259,7 +259,7 @@ export function astQueryWithAbi(root: string, lang: string, filePath: string, qu
   const qb = TEXT_ENC.encode(query);
   const res = invokeAbiJson(
     root,
-    "fairwind_ast_query",
+    "fw_ast_query",
     [FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize, FFIType.ptr, FFIType.usize],
     65536,
     (fn, ob) =>
@@ -274,7 +274,7 @@ export function identifyFileWithAbi(root: string, filePath: string): Record<stri
   const pb = TEXT_ENC.encode(filePath);
   return invokeAbiJson(
     root,
-    "fairwind_identify_file",
+    "fw_identify_file",
     [FFIType.ptr, FFIType.usize],
     16384,
     (fn, ob) => Number(fn(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength)),
@@ -287,7 +287,7 @@ export function disasmX64WithAbi(root: string, filePath: string, maxInsns = 12):
   const pb = TEXT_ENC.encode(filePath);
   return invokeAbiJson(
     root,
-    "fairwind_disasm_x64",
+    "fw_disasm_x64",
     [FFIType.ptr, FFIType.usize, FFIType.usize],
     65536,
     (fn, ob) => Number(fn(ffiPtr(pb), pb.byteLength, maxInsns, ffiPtr(ob), ob.byteLength)),
@@ -299,7 +299,7 @@ export function cryptoDigestWithAbi(root: string, input: string): Record<string,
   const db = TEXT_ENC.encode(input);
   return invokeAbiJson(
     root,
-    "fairwind_crypto_digest",
+    "fw_crypto_digest",
     [FFIType.ptr, FFIType.usize],
     8192,
     (fn, ob) => Number(fn(ffiPtr(db), db.byteLength, ffiPtr(ob), ob.byteLength)),
@@ -311,7 +311,7 @@ export function gitInspectWithAbi(root: string, repoDir = root): Record<string, 
   const pb = TEXT_ENC.encode(repoDir);
   return invokeAbiJson(
     root,
-    "fairwind_git_inspect",
+    "fw_git_inspect",
     [FFIType.ptr, FFIType.usize],
     8192,
     (fn, ob) => Number(fn(ffiPtr(pb), pb.byteLength, ffiPtr(ob), ob.byteLength)),
@@ -528,12 +528,12 @@ export function buildTargetManifest(root: string): TargetManifest {
 
   const artifacts: Record<string, ArtifactSnapshot> = {
     agyNativeLto: inspectArtifact(root, "agyNativeLto", cfg.artifacts.agyNativeLto),
-    fairwindAbiLto: inspectArtifact(root, "fairwindAbiLto", cfg.artifacts.fairwindAbiLto),
-    fairwindCliAot: inspectArtifact(root, "fairwindCliAot", cfg.artifacts.fairwindCliAot),
+    fwAbiLto: inspectArtifact(root, "fwAbiLto", cfg.artifacts.fwAbiLto),
+    fwCliAot: inspectArtifact(root, "fwCliAot", cfg.artifacts.fwCliAot),
   };
 
   return {
-    schema: "fairwind.target-manifest.v1",
+    schema: "fw.target-manifest.v1",
     generatedAt: new Date().toISOString(),
     root,
     gitHead: getGitHead(root),
@@ -567,7 +567,7 @@ export function writeTargetManifest(root: string, manifest: TargetManifest): str
     join(targetDir, "target-profile.json"),
     `${JSON.stringify(
       {
-        product: "fairwind",
+        product: "fw",
         agent: cfg.agent,
         repoDigest: manifest.repoDigest,
         gitHead: manifest.gitHead,

@@ -22,11 +22,11 @@ import {
 const ROOT = resolve(import.meta.dir, "..");
 
 const SHARED_SYSTEM_PREFIX =
-  "You are Fairwind distributed inference router orchestrating disaggregated prefill and decode workers " +
+  "You are Fw distributed inference router orchestrating disaggregated prefill and decode workers " +
   "across local RTX 4070 GPU and European VPS cluster nodes with deterministic prefix KV cache affinity " +
   "using sixteen token block chained SHA256 digests and hybrid SQLite FTS5 vector retrieval";
 
-describe("Fairwind Bun Native AI Runtime — 3 Pillars (zero external deps)", () => {
+describe("Fw Bun Native AI Runtime — 3 Pillars (zero external deps)", () => {
   describe("Pillar 1: Runtime TS/TSX AI Tool Compiler & Hot-Swap Registry (Bun.Transpiler)", () => {
     test("compiles and executes typed TS tool in-process with latency telemetry", async () => {
       const registry = new RuntimeToolRegistry();
@@ -243,7 +243,7 @@ describe("Fairwind Bun Native AI Runtime — 3 Pillars (zero external deps)", ()
 
       store.upsertDocument({
         docKey: "fw-router",
-        title: "Fairwind Disaggregated Router",
+        title: "Fw Disaggregated Router",
         content: "Pingora + llm-d prefix cache routing separates prefill on fr1 from decode on fr2 and prd.",
       });
 
@@ -351,7 +351,7 @@ describe("Fairwind Bun Native AI Runtime — 3 Pillars (zero external deps)", ()
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
-            model: "fairwind-qwen3-8b-gguf",
+            model: "fw-qwen3-8b-gguf",
             messages: [
               { role: "system", content: SHARED_SYSTEM_PREFIX },
               { role: "user", content: "Report streaming status." },
@@ -382,7 +382,7 @@ describe("Fairwind Bun Native AI Runtime — 3 Pillars (zero external deps)", ()
           payloadBase64: string;
         };
         expect(snapJson.ok).toBe(true);
-        expect(snapJson.format).toBe("fairwind-kv-rag-v1+gzip");
+        expect(snapJson.format).toBe("fw-kv-rag-v1+gzip");
         expect(snapJson.kvBlockCount).toBeGreaterThanOrEqual(2);
         expect(snapJson.ragDocCount).toBe(1);
 
@@ -493,7 +493,7 @@ describe("Fairwind Bun Native AI Runtime — 3 Pillars (zero external deps)", ()
         const clawAllowed = (await plugin.tools.fw_claw!.execute({
           action: "sandbox-check",
           binary: "rg",
-          binaryArgs: ["-n", "fairwind"],
+          binaryArgs: ["-n", "fw"],
         })) as { ok: boolean };
         expect(clawAllowed.ok).toBe(true);
 
@@ -525,7 +525,7 @@ describe("Fairwind Bun Native AI Runtime — 3 Pillars (zero external deps)", ()
     test("migrateOpenClawToFw converts channels, skills, MCP servers, and gateway in dry-run and apply modes", () => {
       const tmp = mkdtempSync(join(tmpdir(), "fw-openclaw-mig-"));
       const openclawDir = join(tmp, ".openclaw");
-      const outDir = join(tmp, ".fairwind");
+      const outDir = join(tmp, ".fw");
 
       try {
         mkdirSync(join(openclawDir, "skills", "custom-skill"), { recursive: true });
@@ -595,7 +595,7 @@ describe("Fairwind Bun Native AI Runtime — 3 Pillars (zero external deps)", ()
           schema: string;
           plugin: string;
         };
-        expect(writtenCfg.schema).toBe("fairwind/v4.2");
+        expect(writtenCfg.schema).toBe("fw/v4.2");
         expect(writtenCfg.plugin).toBe("openclaw-fw");
       } finally {
         rmSync(tmp, { recursive: true, force: true });

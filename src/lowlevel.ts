@@ -15,84 +15,84 @@ export const LOW_LEVEL_LTO_AOT_MATRIX: LowLevelTargetRecipe[] = [
     arch: "x86_64 | aarch64 | riscv64 | wasm32-wasip2",
     compiler: "rustc / cargo",
     ltoAotFlags: "opt-level=3, lto='fat', codegen-units=1, panic='abort', strip='symbols'",
-    sourceExample: "native/fairwind-agy/Cargo.toml",
+    sourceExample: "native/fw-agy/Cargo.toml",
   },
   {
     lang: "c",
     arch: "x86_64 | aarch64 | riscv64 | wasm32 | bpf",
     compiler: "clang",
     ltoAotFlags: "-O3 -flto=full -fuse-ld=lld -fomit-frame-pointer",
-    sourceExample: "core/c/fairwind_c_smoke.c",
+    sourceExample: "core/c/fw_c_smoke.c",
   },
   {
     lang: "cpp",
     arch: "x86_64 | aarch64 | riscv64 | wasm32",
     compiler: "clang++",
     ltoAotFlags: "-std=c++23 -O3 -flto=full -fno-exceptions -fno-rtti",
-    sourceExample: "core/cpp/fairwind_cpp_smoke.cpp",
+    sourceExample: "core/cpp/fw_cpp_smoke.cpp",
   },
   {
     lang: "assembly",
     arch: "x86_64 (Win64 & SysV) | aarch64 | riscv64",
     compiler: "clang / llvm-mc",
     ltoAotFlags: "-O3 -c (links directly into C/C++/Rust Fat-LTO binaries)",
-    sourceExample: "core/asm/fairwind_kernel.S",
+    sourceExample: "core/asm/fw_kernel.S",
   },
   {
     lang: "webassembly",
     arch: "wasm32 | wasm64 | wasm32-wasip2",
     compiler: "clang --target=wasm32 / wasm-opt",
     ltoAotFlags: "--target=wasm32 -O3 -nostdlib -Wl,--no-entry -Wl,--export-all -Wl,--strip-all",
-    sourceExample: "core/wasm/fairwind_wasm.c",
+    sourceExample: "core/wasm/fw_wasm.c",
   },
   {
     lang: "cuda",
     arch: "nvptx64 (sm_80 / sm_89 / sm_90)",
     compiler: "clang --target=nvptx64-nvidia-cuda / nvcc",
     ltoAotFlags: "--target=nvptx64-nvidia-cuda -O3 -S (or nvcc -O3 -dlto -arch=sm_89)",
-    sourceExample: "core/cuda/fairwind_kernel.cu",
+    sourceExample: "core/cuda/fw_kernel.cu",
   },
   {
     lang: "webgpu",
     arch: "SPIR-V / DXIL / MSL / WGSL",
     compiler: "naga / tint / wgpu",
     ltoAotFlags: "WGSL compute shaders with workgroupBarrier & fma",
-    sourceExample: "core/webgpu/fairwind_compute.wgsl",
+    sourceExample: "core/webgpu/fw_compute.wgsl",
   },
   {
     lang: "typescript",
     arch: "x86_64 | aarch64 (Windows / Linux / macOS)",
     compiler: "bun build --compile --aot --trim",
     ltoAotFlags: "--compile --aot --trim --no-compile-function-source",
-    sourceExample: "src/fairwind_cli.ts",
+    sourceExample: "src/fw_cli.ts",
   },
   {
     lang: "go",
     arch: "amd64 | arm64 | riscv64 | wasm",
     compiler: "go build",
     ltoAotFlags: "-trimpath -ldflags='-s -w' (-buildmode=c-shared for FFI)",
-    sourceExample: "core/go/fairwind-go/main.go",
+    sourceExample: "core/go/fw-go/main.go",
   },
   {
     lang: "java",
     arch: "jvm / GraalVM native-image",
     compiler: "javac / java",
     ltoAotFlags: "javac --release 25 (or native-image -O3 --gc=serial)",
-    sourceExample: "core/java/FairwindBridge.java",
+    sourceExample: "core/java/FwBridge.java",
   },
   {
     lang: "kotlin",
     arch: "jvm / kotlin-native (x64/arm64)",
     compiler: "kotlinc / konanc",
     ltoAotFlags: "-opt (Kotlin/Native LLVM AOT)",
-    sourceExample: "core/kotlin/FairwindSdk.kt",
+    sourceExample: "core/kotlin/FwSdk.kt",
   },
   {
     lang: "python",
     arch: "x86_64 | aarch64 (PyTorch / PEFT / Heretic)",
     compiler: "uv / torch.compile",
     ltoAotFlags: "uv run + torch.compile(mode='max-autotune')",
-    sourceExample: "core/py/fairwind_ml/pipeline.py",
+    sourceExample: "core/py/fw_ml/pipeline.py",
   },
 ];
 
@@ -118,9 +118,9 @@ export async function verifyLowLevelToolchains(root: string) {
 
   // 1. C + x86-64 Assembly native build & execution
   if (hasClang) {
-    const outExe = join(outDir, isWin ? "fairwind_c_asm.exe" : "fairwind_c_asm");
+    const outExe = join(outDir, isWin ? "fw_c_asm.exe" : "fw_c_asm");
     const compile = Bun.spawnSync(
-      ["clang", "-O3", "core/c/fairwind_c_smoke.c", "core/asm/fairwind_kernel.S", "-o", outExe],
+      ["clang", "-O3", "core/c/fw_c_smoke.c", "core/asm/fw_kernel.S", "-o", outExe],
       { cwd: root, stdout: "pipe", stderr: "pipe" },
     );
     if (compile.exitCode === 0) {
@@ -137,7 +137,7 @@ export async function verifyLowLevelToolchains(root: string) {
     }
 
     // 2. WebAssembly (wasm32) compile + LIVE execution inside Bun WebAssembly runtime
-    const wasmOut = join(outDir, "fairwind_kernel.wasm");
+    const wasmOut = join(outDir, "fw_kernel.wasm");
     const wasmCompile = Bun.spawnSync(
       [
         "clang",
@@ -147,7 +147,7 @@ export async function verifyLowLevelToolchains(root: string) {
         "-Wl,--no-entry",
         "-Wl,--export-all",
         "-Wl,--strip-all",
-        "core/wasm/fairwind_wasm.c",
+        "core/wasm/fw_wasm.c",
         "-o",
         wasmOut,
       ],
@@ -158,8 +158,8 @@ export async function verifyLowLevelToolchains(root: string) {
         const wasmBytes = readFileSync(wasmOut);
         const mod = await WebAssembly.instantiate(wasmBytes);
         const exp = mod.instance.exports as {
-          fairwind_wasm_add: (a: number, b: number) => number;
-          fairwind_wasm_dot4: (
+          fw_wasm_add: (a: number, b: number) => number;
+          fw_wasm_dot4: (
             a0: number,
             a1: number,
             a2: number,
@@ -170,8 +170,8 @@ export async function verifyLowLevelToolchains(root: string) {
             b3: number,
           ) => number;
         };
-        const sum = exp.fairwind_wasm_add(19, 23);
-        const dot = exp.fairwind_wasm_dot4(1, 2, 3, 4, 5, 6, 7, 8);
+        const sum = exp.fw_wasm_add(19, 23);
+        const dot = exp.fw_wasm_dot4(1, 2, 3, 4, 5, 6, 7, 8);
         steps.push({
           name: "webassembly-wasm32",
           ok: sum === 42 && Math.abs(dot - 70) < 0.001,
@@ -190,14 +190,14 @@ export async function verifyLowLevelToolchains(root: string) {
     }
 
     // 3. CUDA / NVPTX64 PTX generation via LLVM Clang
-    const ptxOut = join(outDir, "fairwind_nvptx.ptx");
+    const ptxOut = join(outDir, "fw_nvptx.ptx");
     const ptxCompile = Bun.spawnSync(
-      ["clang", "--target=nvptx64-nvidia-cuda", "-S", "-O3", "core/cuda/fairwind_nvptx.c", "-o", ptxOut],
+      ["clang", "--target=nvptx64-nvidia-cuda", "-S", "-O3", "core/cuda/fw_nvptx.c", "-o", ptxOut],
       { cwd: root, stdout: "pipe", stderr: "pipe" },
     );
     if (ptxCompile.exitCode === 0 && existsSync(ptxOut)) {
       const ptx = readFileSync(ptxOut, "utf8");
-      const validPtx = ptx.includes(".target sm_") && ptx.includes("fairwind_nvptx_saxpy");
+      const validPtx = ptx.includes(".target sm_") && ptx.includes("fw_nvptx_saxpy");
       steps.push({
         name: "cuda-nvptx64-ptx",
         ok: validPtx,
@@ -213,8 +213,8 @@ export async function verifyLowLevelToolchains(root: string) {
 
   // 4. C++ native build & execution
   if (hasClangxx) {
-    const cppExe = join(outDir, isWin ? "fairwind_cpp.exe" : "fairwind_cpp");
-    const c = Bun.spawnSync(["clang++", "-std=c++20", "-O3", "core/cpp/fairwind_cpp_smoke.cpp", "-o", cppExe], {
+    const cppExe = join(outDir, isWin ? "fw_cpp.exe" : "fw_cpp");
+    const c = Bun.spawnSync(["clang++", "-std=c++20", "-O3", "core/cpp/fw_cpp_smoke.cpp", "-o", cppExe], {
       cwd: root,
       stdout: "pipe",
       stderr: "pipe",
@@ -233,21 +233,21 @@ export async function verifyLowLevelToolchains(root: string) {
   }
 
   // 5. WebGPU WGSL static verification
-  const wgslPath = resolve(root, "core", "webgpu", "fairwind_compute.wgsl");
+  const wgslPath = resolve(root, "core", "webgpu", "fw_compute.wgsl");
   if (existsSync(wgslPath)) {
     const wgsl = readFileSync(wgslPath, "utf8");
     const valid =
       wgsl.includes("@compute") &&
       wgsl.includes("@workgroup_size(256)") &&
       wgsl.includes("workgroupBarrier()") &&
-      wgsl.includes("fn fairwind_rmsnorm");
-    steps.push({ name: "webgpu-wgsl", ok: valid, bytes: Buffer.byteLength(wgsl), output: "fairwind_saxpy + fairwind_rmsnorm" });
+      wgsl.includes("fn fw_rmsnorm");
+    steps.push({ name: "webgpu-wgsl", ok: valid, bytes: Buffer.byteLength(wgsl), output: "fw_saxpy + fw_rmsnorm" });
   }
 
   // 6. Go native test
   if (hasGo) {
     const goRes = Bun.spawnSync(["go", "test", "./..."], {
-      cwd: resolve(root, "core", "go", "fairwind-go"),
+      cwd: resolve(root, "core", "go", "fw-go"),
       stdout: "pipe",
       stderr: "pipe",
     });
@@ -263,13 +263,13 @@ export async function verifyLowLevelToolchains(root: string) {
   if (hasJavac) {
     const javaOut = join(outDir, "java");
     mkdirSync(javaOut, { recursive: true });
-    const jc = Bun.spawnSync(["javac", "-d", javaOut, "core/java/FairwindBridge.java"], {
+    const jc = Bun.spawnSync(["javac", "-d", javaOut, "core/java/FwBridge.java"], {
       cwd: root,
       stdout: "pipe",
       stderr: "pipe",
     });
     if (jc.exitCode === 0) {
-      const jr = Bun.spawnSync(["java", "-cp", javaOut, "FairwindBridge", root], {
+      const jr = Bun.spawnSync(["java", "-cp", javaOut, "FwBridge", root], {
         cwd: root,
         stdout: "pipe",
         stderr: "pipe",

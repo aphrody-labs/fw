@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Unified Fairwind compute router: WebGPU/WGSL, CUDA sm_89 (RTX 4070), CPU AVX2/AVX-512/NEON, TPU PJRT, and OS UAPI/Win32/POSIX/Darwin probe"
+description = "Unified Fw compute router: WebGPU/WGSL, CUDA sm_89 (RTX 4070), CPU AVX2/AVX-512/NEON, TPU PJRT, and OS UAPI/Win32/POSIX/Darwin probe"
 
 [dependencies]
 fw-ggml.workspace = true

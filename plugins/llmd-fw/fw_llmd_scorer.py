@@ -1,11 +1,11 @@
-"""Fairwind native `llm-d` Endpoint Picker (EPP) scorer plugin.
+"""Fw native `llm-d` Endpoint Picker (EPP) scorer plugin.
 
 Implements prefix-cache affinity, KV-cache utilization, queue/token-load scoring,
 and disaggregated Prefill/Decode (P/D) endpoint selection aligned with:
 - Upstream `llm-d` (`llm-d/llm-d`, `llm-d/llm-d-router` EPP `EndpointPickerConfig`
   plugins: `precise-prefix-cache-producer`, `prefix-cache-affinity-filter`,
   `token-load-scorer`, `active-request-scorer`, `disagg-profile-handler`)
-- Fairwind `crates/fw-cluster/src/lib.rs` (`HybridClusterRouter`, `ClusterNode`,
+- Fw `crates/fw-cluster/src/lib.rs` (`HybridClusterRouter`, `ClusterNode`,
   `RoutingDecision`, `prefix_key`).
 
 Pure Python 3.12+ standard library only.

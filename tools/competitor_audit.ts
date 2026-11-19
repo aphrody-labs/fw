@@ -79,7 +79,7 @@ function getGitHubHeaders(): Record<string, string> {
     if (res.exitCode === 0) token = res.stdout.toString().trim();
   }
   const headers: Record<string, string> = {
-    "User-Agent": "fairwind-competitor-audit/4.2",
+    "User-Agent": "fw-competitor-audit/4.2",
     Accept: "application/vnd.github+json",
   };
   if (token) headers.Authorization = `Bearer ${token}`;
@@ -218,7 +218,7 @@ async function auditCompetitor(
   };
 }
 
-function auditLocalFairwind(): RepoMetrics {
+function auditLocalFw(): RepoMetrics {
   const cargoRaw = readFileSync(join(ROOT, "Cargo.toml"), "utf8");
   const cratesDir = join(ROOT, "crates");
   const crateNames = readdirSync(cratesDir)
@@ -252,8 +252,8 @@ function auditLocalFairwind(): RepoMetrics {
     .trim();
 
   return {
-    slug: "aphrody-labs/fairwind",
-    label: "fw (Fairwind)",
+    slug: "aphrody-labs/fw",
+    label: "fw",
     role: "Zero-bloat Rust OS, WebGPU/Wasm, Cluster & Agent runtime",
     stars: null,
     pushedAt: gitDate || new Date().toISOString(),
@@ -393,7 +393,7 @@ ${treeRows}
 | Capacité | \`fw\` | ZeroClaw | OpenFang | IronClaw | Zed | Asterinas |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **OS / Userland** | Oui (\`fw-uutils\`, Alpine musl, NixOS) | Non | Non | Non | Non | Oui (Linux ABI) |
-| **Kernel** | Oui (\`os/fairwind-os\` Asterinas OSDK + \`fw-ostd-wasm\`) | Non | Non | Non | Non | Oui (Framekernel OSTD) |
+| **Kernel** | Oui (\`os/fw-os\` Asterinas OSDK + \`fw-ostd-wasm\`) | Non | Non | Non | Non | Oui (Framekernel OSTD) |
 | **Wasm** | Oui (\`fw-wasm\` \`wasm32-unknown-unknown\`) | Partiel | Partiel | Oui (Wasmtime plugins) | Oui (extensions WIT) | Non |
 | **WebGPU** | Oui (\`fw-wayland-wgpu\`, WGSL, probe web) | Non | Non | Non | Oui (GPUI Metal/Vulkan/DX12) | Non |
 | **Cluster / Routing** | Oui (\`fw-cluster\` Pingora/Dynamo/vLLM-Router) | Non | Non | Partiel (TEE nodes) | Partiel (collab server) | Non |
@@ -402,7 +402,7 @@ ${treeRows}
 | **A2A (Agent-to-Agent)** | Partiel (spec \`fw-cluster\` / relay) | Partiel | Oui | Oui | Non | Non |
 | **Cloudflare Edge** | Oui (\`cloudflare/\` Workers + SQLite DO) | Non | Non | Non | Non | Non |
 | **Nix** | Oui (\`flake.nix\` flake-parts + crane + NixOS) | Partiel | Non | Non | Oui (\`nix/\` flake-parts + crane) | Partiel (dev env) |
-| **WSL** | Oui (\`os/fairwind-wsl\` tuning WSL + GPU) | Non | Non | Non | Oui (WSL remote) | Non |
+| **WSL** | Oui (\`os/fw-wsl\` tuning WSL + GPU) | Non | Non | Non | Oui (WSL remote) | Non |
 | **CLI-to-Skill** | Oui (\`fw-hermes-claw\` \`agentskills.io\` gen) | Partiel (skills MD) | Oui (skill registry) | Partiel (Wasm tools) | Oui (skills / rules) | Non |
 
 ## 6. Comparaison UI/UX (Web / GPUI / Blitz / TUI)
@@ -428,7 +428,7 @@ ${treeRows}
 
 async function main(): Promise<void> {
   const headers = getGitHubHeaders();
-  const local = auditLocalFairwind();
+  const local = auditLocalFw();
   const peers = await Promise.all(COMPETITORS.map((spec) => auditCompetitor(spec, headers)));
   const rows: RepoMetrics[] = [local, ...peers];
   const generatedAt = new Date().toISOString();

@@ -9,7 +9,7 @@ const PORTABLE_PTY_VERSION: &str = env!("PORTABLE_PTY_VERSION");
 pub fn render(json_output: bool) -> Result<String> {
     let mut report = json!({
         "tui_test": env!("CARGO_PKG_VERSION"),
-        "mode": "fairwind-source-only-fat-lto",
+        "mode": "fw-source-only-fat-lto",
         "terminal_emulators": {
             "alacritty": { "version": env!("ALACRITTY_TERMINAL_VERSION"), "package": "alacritty_terminal" },
             "rio": { "version": env!("RIO_VT_VERSION"), "package": "rio-vt" },

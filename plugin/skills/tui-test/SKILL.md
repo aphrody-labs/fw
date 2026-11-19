@@ -118,11 +118,11 @@ Do not use a fixed sleep when a wait can describe the state.
 - Use semantic mouse buttons: `left`, `middle`, or `right`.
 - Close every session. Prefer the Python and JavaScript test helpers.
 
-## Fairwind Integration (`core/rs/tui-test` & `core/rs/wta`)
+## Fw Integration (`core/rs/tui-test` & `core/rs/wta`)
 
 - Source-only Rust crates live in `core/rs/tui-test` (forked from `microsoft/tui-test`, zero binary font/ConPTY bloat) and `core/rs/wta` (Microsoft Intelligent Terminal ACP/MCP orchestrator).
-- CLI commands: `fairwind tui status`, `fairwind tui wta-config`, `fairwind tui verify-self`, `fairwind tui verify <expect> -- <cmd...>`.
-- MCP tool: `fairwind_tui_terminal` (`status | wta_config | verify_self`).
+- CLI commands: `fw tui status`, `fw tui wta-config`, `fw tui verify-self`, `fw tui verify <expect> -- <cmd...>`.
+- MCP tool: `fw_tui_terminal` (`status | wta_config | verify_self`).
 - HTTP API: `GET /api/tui/status`, `GET /api/tui/wta-config`, `GET /api/tui/verify`.
 
 ## Capture output

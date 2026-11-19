@@ -1,8 +1,8 @@
 [plugin]
 id = "hermes-fw"
-name = "Fairwind (fw) Native Tool & AI Kernel Plugin"
+name = "fw Native Tool & AI Kernel Plugin"
 version = "0.1.0"
-description = "Exposes Fairwind CLI (bench/grep/find/ls), ggml_dlpack, and vllm_paged_kv as native Hermes Agent tools."
+description = "Exposes Fw CLI (bench/grep/find/ls), ggml_dlpack, and vllm_paged_kv as native Hermes Agent tools."
 entrypoint = "fw_hermes_plugin:register"
 requires_python = ">=3.12"
 license = "MIT OR Apache-2.0"

@@ -1,11 +1,11 @@
-# Fairwind Low-Level Rust, Lifetimes & Zero-Abstraction Contract
+# Fw Low-Level Rust, Lifetimes & Zero-Abstraction Contract
 
 Modeled on Jarred Sumner's *Rewriting Bun in Rust* (`https://bun.com/blog/bun-in-rust`, 2026-07-08).
 
 ## 1. Zero-Abstraction Low-Level Rust Rules
 
 1. **Flat data, explicit memory**: Prefer flat `#[repr(C)]` / plain structs, `&[u8]` slices, fixed arrays, and stack buffers over `Box<dyn Trait>`, `Arc<Mutex<...>>` cascades, or proc-macro DSLs.
-2. **Memory safety without GC tax**: `#![forbid(unsafe_code)]` on all workspace crates (`crates/fw-*`) except FFI/ABI (`native/fairwind-abi`) and minimal kernel TCB (`os/fairwind-os` / `ostd`).
+2. **Memory safety without GC tax**: `#![forbid(unsafe_code)]` on all workspace crates (`crates/fw-*`) except FFI/ABI (`native/fw-abi`) and minimal kernel TCB (`os/fw-os` / `ostd`).
 3. **Zero hidden panics or silent drops**: Never `.unwrap()` on fallible I/O or user input in production paths; never put side effects inside `debug_assert!`; always check slice lengths and alignment explicitly.
 4. **Zero-warning scientific compilation**: Every crate must compile and pass independently in `< 2 s`:
    - `cargo clippy --workspace --all-targets -- -D warnings`

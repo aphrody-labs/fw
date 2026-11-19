@@ -12,8 +12,8 @@
   };
 
   # Strict cgroup v2 isolation so burst builds never impact production services
-  systemd.slices.fairwind-build-worker = {
-    description = "Fairwind Cgroup-Isolated Burst Build Worker Slice (never impacts prod)";
+  systemd.slices.fw-build-worker = {
+    description = "Fw Cgroup-Isolated Burst Build Worker Slice (never impacts prod)";
     sliceConfig = {
       CPUWeight = 15;
       IOWeight = 15;

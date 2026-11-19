@@ -1,5 +1,5 @@
 repo	label	stars	pushed_at	license	workspace_members	crates_count	root_external_deps	root_total_deps	forbid_unsafe	top_dirs
-aphrody-labs/fairwind	fw (Fairwind)	private	2026-11-19T15:44:12+01:00	MIT	14	13	5	16	12/13 #![forbid(unsafe_code)]	cloudflare,cluster,configs,core,crates,docs,native,nix,os,plugin,src,tests,tools,vercel,web,xtask
+aphrody-labs/fw	fw	private	2026-11-19T15:44:12+01:00	MIT	14	13	5	16	12/13 #![forbid(unsafe_code)]	cloudflare,cluster,configs,core,crates,docs,native,nix,os,plugin,src,tests,tools,vercel,web,xtask
 zeroclaw-labs/zeroclaw	ZeroClaw	33495	2026-11-19T10:35:50Z	Apache-2.0	44	24	67	75	partial (FFI/sys crates)	apps,benches,crates,demo,deploy-k8s,dev,dist,docs,evals,firmware,fuzz,memory,nix,scripts,src,tests,tools,vendor,web,wit,xtask
 RightNow-AI/openfang	OpenFang	18271	2026-07-02T08:13:12Z	Apache-2.0	14	13	63	63	partial (runtime crates)	agents,crates,deploy,docs,packages,public,scripts,sdk,xtask
 nearai/ironclaw	IronClaw	12718	2026-11-09T17:36:48Z	Apache-2.0	68	10	35	89	partial (Wasmtime/crypto)	crates,deploy,docker,docs,harness,infra,migrations,openwiki,profiles,prompts,registry,scripts,skills,test-tools,tests,tools

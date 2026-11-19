@@ -3,14 +3,14 @@
 [cloudflare]
 worker_entry = "cloudflare/worker.ts"
 wrangler_config = "cloudflare/wrangler.jsonc"
-durable_object = "FairwindOSAgent"
-r2_gguf_bucket = "fairwind-gguf-cas"
+durable_object = "FwOSAgent"
+r2_gguf_bucket = "fw-gguf-cas"
 tunnel_ingress = "cloudflared-loopback-real-ip"
 wasm_accelerator = "crates/fw-wasm"
 
 [gcloud]
 decisions_model = "gemini-decision-1"
 decisions_endpoint = "https://generativelanguage.googleapis.com/v1beta/decisions"
-gcs_gguf_mirror = "gs://fairwind-models-gguf"
+gcs_gguf_mirror = "gs://fw-models-gguf"
 tpu_pjrt_enabled = true
 gpu_burst_pool = ["gpu-2-gcloud-l4", "gpu-3-gcloud-t4", "gpu-4-tpu-gpu-burst"]

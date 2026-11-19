@@ -19,7 +19,7 @@ import tomllib
 
 @dataclass(frozen=True, slots=True)
 class ForkPin:
-    """Verified version and Cargo metadata for a Fairwind ``third_party/`` fork."""
+    """Verified version and Cargo metadata for a Fw ``third_party/`` fork."""
 
     name: str
     version: str
@@ -193,7 +193,7 @@ def generate_gpu_eval_script(
     deps = ["torch>=2.6", "vllm>=0.8"]
     if backend == "triton":
         deps.append("triton>=3.2")
-    body = f'''"""Reproducible Fairwind GPU evaluation harness ({backend}, {quantization})."""
+    body = f'''"""Reproducible Fw GPU evaluation harness ({backend}, {quantization})."""
 
 import json
 import sys

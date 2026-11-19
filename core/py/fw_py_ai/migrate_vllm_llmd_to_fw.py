@@ -1,4 +1,4 @@
-"""Migrate vLLM or llm-d deployments to Fairwind `fw-cluster.json` with parity gap analysis.
+"""Migrate vLLM or llm-d deployments to Fw `fw-cluster.json` with parity gap analysis.
 
 CLI usage:
     python migrate_vllm_llmd_to_fw.py <vllm|llmd> [--source <path>] [--target <dir>] [--dry-run|--apply]
@@ -288,7 +288,7 @@ class ParityGap:
 
 @dataclass(slots=True)
 class MigrationResult:
-    """Output of migrating a vLLM or llm-d deployment into Fairwind `fw-cluster.json`."""
+    """Output of migrating a vLLM or llm-d deployment into Fw `fw-cluster.json`."""
 
     source_kind: str
     source_path: str | None
@@ -532,7 +532,7 @@ def migrate_vllm_to_fw(
                     upstream_value=f"{connector_name} ({kv_role})",
                     fw_status="partial",
                     recommendation=(
-                        "Wire plugins/vllm-fw/fw_vllm_plugin.py (FairwindKVConnectorV1) to bridge "
+                        "Wire plugins/vllm-fw/fw_vllm_plugin.py (FwKVConnectorV1) to bridge "
                         f"{connector_name} blocks into fw-cluster prefix index; RDMA/UCX direct "
                         "memory transfer stays inside vLLM worker processes."
                     ),
@@ -599,7 +599,7 @@ def migrate_vllm_to_fw(
         )
 
     cluster_config: dict[str, Any] = {
-        "cluster_name": "fairwind-migrated-vllm",
+        "cluster_name": "fw-migrated-vllm",
         "nodes": nodes,
         "kv_prefix_index": {},
         "migration": {
@@ -820,7 +820,7 @@ def migrate_llmd_to_fw(
     nodes.append(_default_vps_proxy_node())
 
     cluster_config: dict[str, Any] = {
-        "cluster_name": "fairwind-migrated-llmd",
+        "cluster_name": "fw-migrated-llmd",
         "nodes": nodes,
         "kv_prefix_index": {},
         "migration": {
@@ -907,7 +907,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
         prog="migrate_vllm_llmd_to_fw",
         description=(
             "Convert vLLM CLI/JSON/docker-compose or llm-d Helm/InferencePool configs "
-            "into Fairwind fw-cluster.json with exact parity gap report."
+            "into fw-cluster.json with exact parity gap report."
         ),
     )
     parser.add_argument(

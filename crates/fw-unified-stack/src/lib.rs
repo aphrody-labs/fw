@@ -24,7 +24,7 @@ pub fn default_burn_rig_pipeline() -> BurnRigPipeline {
     BurnRigPipeline {
         burn_backend: "burn-cubecl-wgpu".into(),
         ggml_interop: GgmlBackendKind::WebGpu,
-        rig_agent_model: "fairwind-burn-ggml-hybrid".into(),
+        rig_agent_model: "fw-burn-ggml-hybrid".into(),
         vector_dim: 768,
         webgpu_native: true,
     }
@@ -82,7 +82,7 @@ pub struct HexVoiceStatus {
 
 pub fn hex_voice_status() -> HexVoiceStatus {
     HexVoiceStatus {
-        engine: "anomalyco-hex-fairwind".into(),
+        engine: "anomalyco-hex-fw".into(),
         asr_backend: "whisper.cpp + burn-wgpu".into(),
         target_platforms: vec!["windows".into(), "linux".into(), "macos".into(), "wasm32-webgpu".into()],
         terminal_control_ready: true,
@@ -94,10 +94,10 @@ pub fn unified_v4_catalog() -> Value {
     json!({
         "version": "4.0.0",
         "kernel": {
-            "asterinas": "os/fairwind-os (OSDK.toml + #![no_std] #![deny(unsafe_code)] #[ostd::main])",
+            "asterinas": "os/fw-os (OSDK.toml + #![no_std] #![deny(unsafe_code)] #[ostd::main])",
             "gpuiCore": "crates/fw-ostd-wasm (Zed GPUI retained quad scene + WGSL + Cloudflare SSR)",
             "uutilsUserland": "crates/fw-uutils (Alpine-lighter pure-Rust multicall + Wasm32 playground)",
-            "nixosCompat": "crates/fw-nix + os/fairwind-os/flake.nix (/nix/store nixbase32 + NAR + uutils-coreutils-noprefix)"
+            "nixosCompat": "crates/fw-nix + os/fw-os/flake.nix (/nix/store nixbase32 + NAR + uutils-coreutils-noprefix)"
         },
         "ml": {
             "burn": "tracel-ai/burn (CubeCL WebGPU/CUDA/CPU/Wasm)",

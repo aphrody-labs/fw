@@ -1,7 +1,7 @@
 {
   "id": "openclaw-fw",
-  "name": "Fairwind (fw) Bun-Native Runtime",
-  "description": "Bun-native Fairwind (fw) plugin for OpenClaw exposing ls, grep, find, bench, claw (prefix KV + runtime TS tool compiler), and MCP JSON-RPC 2.0.",
+  "name": "fw Bun-Native Runtime",
+  "description": "Bun-native fw plugin for OpenClaw exposing ls, grep, find, bench, claw (prefix KV + runtime TS tool compiler), and MCP JSON-RPC 2.0.",
   "version": "4.2.0",
   "main": "./index.ts",
   "runtime": "bun",
@@ -9,7 +9,7 @@
   "tools": [
     {
       "name": "fw_ls",
-      "description": "List directory entries with type and byte size using Fairwind Bun-native filesystem traversal."
+      "description": "List directory entries with type and byte size using Fw Bun-native filesystem traversal."
     },
     {
       "name": "fw_grep",
@@ -25,11 +25,11 @@
     },
     {
       "name": "fw_claw",
-      "description": "Dispatch Fairwind Hermes/OpenClaw actions (status, sandbox-check, kv-route, tool-compile)."
+      "description": "Dispatch Fw Hermes/OpenClaw actions (status, sandbox-check, kv-route, tool-compile)."
     },
     {
       "name": "fw_mcp",
-      "description": "Execute JSON-RPC 2.0 MCP methods (initialize, tools/list, tools/call) against the Fairwind tool registry."
+      "description": "Execute JSON-RPC 2.0 MCP methods (initialize, tools/list, tools/call) against the Fw tool registry."
     }
   ],
   "configSchema": {
@@ -47,7 +47,7 @@
       "sandbox": {
         "type": "boolean",
         "default": true,
-        "description": "Enforce Fairwind sandbox checks for runtime tools and shell binaries."
+        "description": "Enforce Fw sandbox checks for runtime tools and shell binaries."
       },
       "maxMatches": {
         "type": "integer",

@@ -175,7 +175,7 @@ impl HybridClusterRouter {
             ClusterNode {
                 id: "user-webgpu-peer-1".into(),
                 kind: NodeKind::UserWebGpuFpu,
-                endpoint: "webrtc://peer-1/fairwind-compute".into(),
+                endpoint: "webrtc://peer-1/fw-compute".into(),
                 rpc_addr: None,
                 gpu_model: "End-User Browser WebGPU (Dawn/WGPU) + Wasm SIMD128 FPU".into(),
                 vram_gb: 4,
@@ -189,7 +189,7 @@ impl HybridClusterRouter {
             },
         ];
         Self {
-            cluster_name: "fairwind-hybrid-v3".into(),
+            cluster_name: "fw-hybrid-v3".into(),
             nodes,
             kv_prefix_index: HashMap::new(),
         }
@@ -202,7 +202,7 @@ impl HybridClusterRouter {
         self.nodes.push(ClusterNode {
             id: peer_id.to_string(),
             kind: NodeKind::UserWebGpuFpu,
-            endpoint: format!("webrtc://{peer_id}/fairwind-compute"),
+            endpoint: format!("webrtc://{peer_id}/fw-compute"),
             rpc_addr: None,
             gpu_model: "End-User Browser WebGPU + FPU".into(),
             vram_gb,
@@ -344,14 +344,14 @@ mod tests {
         assert_eq!(s["vpsProxyLbStorageCpuHosts"], 3);
         assert_eq!(s["userWebGpuFpuPeers"], 1);
 
-        let d1 = router.route_request("System prompt: Fairwind v3.0 ggml-rpc hybrid cluster", true);
+        let d1 = router.route_request("System prompt: Fw v3.0 ggml-rpc hybrid cluster", true);
         assert!(!d1.kv_cache_hit);
         assert!(d1.disaggregated);
         assert!(d1.proxy_vps.starts_with("vps-"));
         assert_eq!(d1.draft_user_webgpu.as_deref(), Some("user-webgpu-peer-1"));
 
         // Second request with same prefix MUST hit KV-cache radix index
-        let d2 = router.route_request("System prompt: Fairwind v3.0 ggml-rpc hybrid cluster", true);
+        let d2 = router.route_request("System prompt: Fw v3.0 ggml-rpc hybrid cluster", true);
         assert!(d2.kv_cache_hit);
         assert_eq!(d2.prefill_node, d1.prefill_node);
     }

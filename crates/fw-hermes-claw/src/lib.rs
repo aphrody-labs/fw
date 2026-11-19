@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-//! Fairwind Full-Rust Hermes Agent + OpenClaw / ZeroClaw End-to-End Runtime.
+//! Fw Full-Rust Hermes Agent + OpenClaw / ZeroClaw End-to-End Runtime.
 //!
 //! Combines:
 //! - Self-growing episodic/semantic memory & skill distillation (Hermes Agent architecture)
@@ -464,7 +464,7 @@ pub struct CliToMcpServer {
 impl CliToMcpServer {
     pub fn new(tools: Vec<CliToolSpec>, policy: SandboxPolicy) -> Self {
         Self {
-            name: "fairwind-hermes-claw-mcp".into(),
+            name: "fw-hermes-claw-mcp".into(),
             version: "4.0.0".into(),
             tools,
             policy,
@@ -808,7 +808,7 @@ mod tests {
 
     #[test]
     fn hermes_claw_end_to_end_goal_and_recall() {
-        let mut agent = HermesClawAgent::new("fairwind-claw");
+        let mut agent = HermesClawAgent::new("fw-claw");
         let report = agent.run_goal(ChannelKind::Cli, "Audit Rust CLI MCP skills");
         assert!(report.ok);
         assert_eq!(report.steps.len(), 3);

@@ -885,7 +885,7 @@ wheels = [
 ]
 
 [[package]]
-name = "fairwind"
+name = "fw"
 version = "2.2.0.dev0"
 source = { editable = "." }
 dependencies = [

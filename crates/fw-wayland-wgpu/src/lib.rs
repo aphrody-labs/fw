@@ -125,7 +125,7 @@ mod tests {
     #[test]
     fn wayland_wire_header_and_wgpu_surface_commit_roundtrip() {
         let mut comp = WaylandWgpuCompositor::new(1280, 720);
-        let sid = comp.create_surface("Fairwind GPUI+WebGPU Window", 1280, 720);
+        let sid = comp.create_surface("Fw GPUI+WebGPU Window", 1280, 720);
         let hdr = comp.commit_surface(sid).unwrap();
         let raw = hdr.encode();
         let decoded = WlMessageHeader::decode(&raw).unwrap();

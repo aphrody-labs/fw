@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/wrangler/config-schema.json",
-  "name": "fairwind-edge",
+  "name": "fw-edge",
   "main": "worker.ts",
   "compatibility_date": "2026-11-19",
   "compatibility_flags": ["nodejs_compat"],
@@ -16,18 +16,18 @@
   "durable_objects": {
     "bindings": [
       {
-        "name": "FAIRWIND_OS",
-        "class_name": "FairwindOSAgent"
+        "name": "FW_OS",
+        "class_name": "FwOSAgent"
       }
     ]
   },
   "exports": {
-    "FairwindOSAgent": {
+    "FwOSAgent": {
       "type": "durable-object",
       "storage": "sqlite"
     }
   },
   "vars": {
-    "FAIRWIND_ENV": "production"
+    "FW_ENV": "production"
   }
 }

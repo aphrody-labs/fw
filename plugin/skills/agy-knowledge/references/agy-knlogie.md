@@ -1,4 +1,4 @@
-<!-- Folded from the ay repository skill agy-knlogie (2026-11-19); fairwind owns Antigravity knowledge. -->
+<!-- Folded from the ay repository skill agy-knlogie (2026-11-19); fw owns Antigravity knowledge. -->
 
 # agy-knlogie — Verified Antigravity Stack Operating Spec (2026-11-19)
 

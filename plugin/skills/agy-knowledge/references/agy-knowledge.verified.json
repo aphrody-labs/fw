@@ -45,7 +45,7 @@
         "cwe_bench_v2_uplift_vs_carbon_pp": 3.4,
         "exploitgym": "frontier_performance_at_50pct_carbon_tokens",
         "gray_swan_ipi_asr_pct": 0.0,
-        "program": "Fairwind Program (Gemini 4 Neon for cyber)"
+        "program": "Fw Program (Gemini 4 Neon for cyber)"
       },
       "source": "https://deepmind.google/models/model-cards/gemini-4-neon/"
     }

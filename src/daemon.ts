@@ -2,11 +2,11 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileS
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { applyUpgrade, checkUpgrade } from "./upgrade.ts";
-import { syncFairwindPlugin } from "./plugin_sync.ts";
+import { syncFwPlugin } from "./plugin_sync.ts";
 
-export const WINDOWS_TASK_NAME = "FairwindAgyContinuousUpgrade";
-export const LINUX_SERVICE_NAME = "fairwind-agy-upgrade.service";
-export const MACOS_LAUNCHD_LABEL = "com.aphrody.fairwind-agy";
+export const WINDOWS_TASK_NAME = "FwAgyContinuousUpgrade";
+export const LINUX_SERVICE_NAME = "fw-agy-upgrade.service";
+export const MACOS_LAUNCHD_LABEL = "com.aphrody.fw-agy";
 
 export interface DaemonCycleOptions {
   autoApply?: boolean;
@@ -39,8 +39,8 @@ function xmlEscape(s: string): string {
 
 function resolveServiceExecutable(root: string): { command: string; args: string[] } {
   const isWin = process.platform === "win32";
-  const cliTarget = resolve(root, "target", "agy", isWin ? "fairwind.exe" : "fairwind");
-  const cliDist = resolve(root, "dist", isWin ? "fairwind.exe" : "fairwind");
+  const cliTarget = resolve(root, "target", "agy", isWin ? "fw.exe" : "fw");
+  const cliDist = resolve(root, "dist", isWin ? "fw.exe" : "fw");
   if (existsSync(cliTarget)) {
     return { command: cliTarget, args: ["daemon", "run", "--interval=300", "--auto-apply", "--with-learn"] };
   }
@@ -49,7 +49,7 @@ function resolveServiceExecutable(root: string): { command: string; args: string
   }
   return {
     command: "bun",
-    args: [resolve(root, "src", "fairwind_cli.ts"), "daemon", "run", "--interval=300", "--auto-apply", "--with-learn"],
+    args: [resolve(root, "src", "fw_cli.ts"), "daemon", "run", "--interval=300", "--auto-apply", "--with-learn"],
   };
 }
 
@@ -62,13 +62,13 @@ export function renderCrossPlatformServices(root: string) {
   mkdirSync(linuxDir, { recursive: true });
   mkdirSync(macDir, { recursive: true });
 
-  const winExe = resolve(root, "target", "agy", "fairwind.exe");
+  const winExe = resolve(root, "target", "agy", "fw.exe");
   const winArgs = "daemon run --interval=300 --auto-apply --with-learn";
   const winXml = `<?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
-    <Description>Fairwind continuous LTO/AOT self-upgrade and autonomous learning loop for agy</Description>
-    <Author>fairwind</Author>
+    <Description>Fw continuous LTO/AOT self-upgrade and autonomous learning loop for agy</Description>
+    <Author>fw</Author>
   </RegistrationInfo>
   <Triggers>
     <LogonTrigger>
@@ -110,9 +110,9 @@ export function renderCrossPlatformServices(root: string) {
 `;
 
   const unixRoot = root.replaceAll("\\", "/");
-  const linuxExec = `${unixRoot}/target/agy/fairwind daemon run --interval=300 --auto-apply --with-learn`;
+  const linuxExec = `${unixRoot}/target/agy/fw daemon run --interval=300 --auto-apply --with-learn`;
   const linuxUnit = `[Unit]
-Description=Fairwind Continuous LTO/AOT Self-Upgrade & Learning Daemon for agy
+Description=Fw Continuous LTO/AOT Self-Upgrade & Learning Daemon for agy
 After=network-online.target
 
 [Service]
@@ -121,7 +121,7 @@ WorkingDirectory=${unixRoot}
 ExecStart=${linuxExec}
 Restart=always
 RestartSec=5
-Environment=FAIRWIND_ROOT=${unixRoot}
+Environment=FW_ROOT=${unixRoot}
 
 [Install]
 WantedBy=default.target
@@ -137,7 +137,7 @@ WantedBy=default.target
   <string>${xmlEscape(unixRoot)}</string>
   <key>ProgramArguments</key>
   <array>
-    <string>${xmlEscape(`${unixRoot}/target/agy/fairwind`)}</string>
+    <string>${xmlEscape(`${unixRoot}/target/agy/fw`)}</string>
     <string>daemon</string>
     <string>run</string>
     <string>--interval=300</string>
@@ -146,7 +146,7 @@ WantedBy=default.target
   </array>
   <key>EnvironmentVariables</key>
   <dict>
-    <key>FAIRWIND_ROOT</key>
+    <key>FW_ROOT</key>
     <string>${xmlEscape(unixRoot)}</string>
   </dict>
   <key>RunAtLoad</key>
@@ -339,7 +339,7 @@ export function runDaemonCycle(root: string, opts: DaemonCycleOptions = {}): Dae
   }
 
   if (opts.syncPlugin) {
-    const syncRes = syncFairwindPlugin(root, { runInstall: false });
+    const syncRes = syncFwPlugin(root, { runInstall: false });
     pluginSynced = syncRes.ok;
     if (!syncRes.ok && syncRes.error) errors.push(syncRes.error);
   }

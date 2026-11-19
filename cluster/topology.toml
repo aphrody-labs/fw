@@ -1,8 +1,8 @@
-# Fairwind v3.0 Declarative Hybrid Cluster Topology
+# Fw v3.0 Declarative Hybrid Cluster Topology
 # One unified zero-system-dependency binary across PC CUDA, 3 VPS, 4 GPU, 3 CPU, User WebGPU/FPU, Cloudflare & GCloud
 
 [cluster]
-name = "fairwind-hybrid-v3"
+name = "fw-hybrid-v3"
 router_engine = "pingora+dynamo+vllm-router"
 wire_protocol = "ggml-rpc+http2+ws+webrtc"
 disaggregated_prefill_decode = true
@@ -128,6 +128,6 @@ decode_weight = 0.5
 enabled = true
 transport = ["webrtc-datachannel", "websocket"]
 wasm_module = "target/wasm32-unknown-unknown/release/fw_wasm.wasm"
-wgsl_shaders = "core/webgpu/fairwind_compute.wgsl"
+wgsl_shaders = "core/webgpu/fw_compute.wgsl"
 roles = ["speculative-draft", "edge-embedding", "client-webgpu-fpu"]
 max_concurrent_peers = 256

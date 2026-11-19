@@ -1,24 +1,24 @@
 [plugin]
 name = "vllm-fw"
 version = "4.2.0"
-description = "Fairwind native vLLM general plugin and KVConnectorBase_V1 adapter for PagedAttention/NIXL -> fw-cluster & fw bench"
+description = "Fw native vLLM general plugin and KVConnectorBase_V1 adapter for PagedAttention/NIXL -> fw-cluster & fw bench"
 protocol = "vllm.general_plugins"
 entrypoint = "fw_vllm_plugin:register"
-kv_connector = "fw_vllm_plugin:FairwindKVConnectorV1"
+kv_connector = "fw_vllm_plugin:FwKVConnectorV1"
 min_python = "3.12"
 dependencies = []
 
 [vllm]
 plugin_group = "vllm.general_plugins"
 env_allowlist_var = "VLLM_PLUGINS"
-plugin_allowlist_name = "fairwind_vllm_kv"
+plugin_allowlist_name = "fw_vllm_kv"
 kv_connector_abi = "KVConnectorBase_V1"
 supported_roles = ["kv_producer", "kv_consumer", "kv_both"]
 supported_transports = ["nixl", "mooncake", "lmcache", "fw-rpc"]
 kv_events_port = 5556
 kv_replay_port = 5559
 
-[fairwind]
+[fw]
 cluster_crate = "fw-cluster"
 bench_command = "fw bench"
 prefix_hash = "sha256-128b-hex16"

@@ -5,7 +5,7 @@
  * Extracts live facts in parallel from:
  *  1. GitHub API (`gh api`) across 16 `rust-lang` & toolchain upstreams
  *  2. Local `rustc`, `cargo`, `rustup`, `rust-analyzer` introspection
- *  3. Workspace Rust AST symbol extraction (`crates/fw-*`, `xtask`) via `fairwind_cli.ts ast` (Tree-sitter 0.27 Fat-LTO C ABI)
+ *  3. Workspace Rust AST symbol extraction (`crates/fw-*`, `xtask`) via `fw_cli.ts ast` (Tree-sitter 0.27 Fat-LTO C ABI)
  *
  * Emits:
  *  - docs/rust-brain/RUST_UPSTREAM_MATRIX.tsv
@@ -251,7 +251,7 @@ async function cmdBuild() {
         name: "tree-sitter-rust",
         upstream: "tree-sitter/tree-sitter-rust",
         capabilities: ["cst-parse", "s-expr-query", "fat-lto-c-abi", "sub-ms-symbol-extract"],
-        commands: ["bun src/fairwind_cli.ts ast crates/fw-ggml/src/lib.rs"],
+        commands: ["bun src/fw_cli.ts ast crates/fw-ggml/src/lib.rs"],
         key_flags: ["tree-sitter-0.27", "v0.24.2"],
       },
       {

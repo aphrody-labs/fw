@@ -1,7 +1,7 @@
-"""Zero-dependency CLI migration engine: ``~/.hermes/`` -> Fairwind (``fw``) config & skills.
+"""Zero-dependency CLI migration engine: ``~/.hermes/`` -> Fw (``fw``) config & skills.
 
 Converts Hermes Agent homes (``config.yaml``/``config.json``, ``memories/``, ``skills/``,
-``cron/``) into Fairwind's normalized config, ``MemoryEntry`` JSONL index, ``agentskills.io``
+``cron/``) into Fw's normalized config, ``MemoryEntry`` JSONL index, ``agentskills.io``
 ``SKILL.md`` trees, and cron schedule definitions using Python 3.12+ stdlib only.
 """
 
@@ -157,7 +157,7 @@ def _normalize_config(raw: dict[str, Any]) -> dict[str, Any]:
     if isinstance(model_cfg, str):
         model_cfg = {"default": model_cfg}
     return {
-        "schema": "fairwind.config.v1",
+        "schema": "fw.config.v1",
         "migrated_from": "hermes-agent",
         "model": model_cfg if isinstance(model_cfg, dict) else {},
         "provider": raw.get("provider", raw.get("inference_provider", "auto")),
@@ -195,7 +195,7 @@ def migrate_hermes_to_fw(
     *,
     dry_run: bool = True,
 ) -> MigrationReport:
-    """Convert a ``~/.hermes/`` directory into Fairwind ``fw`` config, memories, skills, and cron."""
+    """Convert a ``~/.hermes/`` directory into Fw ``fw`` config, memories, skills, and cron."""
     src = Path(source_dir).expanduser()
     dst = Path(target_dir).expanduser()
     report = MigrationReport(source_dir=str(src), target_dir=str(dst), dry_run=dry_run)
@@ -343,7 +343,7 @@ def migrate_hermes_to_fw(
             out_cron = dst / "cron" / "jobs.json"
             status = _write_text(
                 out_cron,
-                json.dumps({"schema": "fairwind.cron.v1", "jobs": jobs}, indent=2) + "\n",
+                json.dumps({"schema": "fw.cron.v1", "jobs": jobs}, indent=2) + "\n",
                 dry_run=dry_run,
             )
             report.cron_jobs_migrated = len(jobs)
@@ -363,10 +363,10 @@ def migrate_hermes_to_fw(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="migrate-hermes-to-fw",
-        description="Migrate ~/.hermes/ (config, memories, skills, cron) to Fairwind (fw).",
+        description="Migrate ~/.hermes/ (config, memories, skills, cron) to fw.",
     )
     parser.add_argument("--source", default="~/.hermes", help="Source Hermes home directory")
-    parser.add_argument("--target", default="~/.fw", help="Target Fairwind directory")
+    parser.add_argument("--target", default="~/.fw", help="Target Fw directory")
     parser.add_argument(
         "--apply",
         action="store_true",

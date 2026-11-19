@@ -132,7 +132,7 @@ impl GpuiWasmScene {
 
 /// Asterinas Framekernel OSTD + GPUI WebGPU/Wasm32 unified OS state.
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct FairwindOstdKernel {
+pub struct FwOstdKernel {
     pub kernel_name: String,
     pub framekernel_safe_rust: bool,
     pub wasm_target_tuned: bool,
@@ -143,21 +143,21 @@ pub struct FairwindOstdKernel {
     pub gpui_wgsl_bytes: usize,
 }
 
-pub fn boot_ostd_gpui_snapshot() -> FairwindOstdKernel {
+pub fn boot_ostd_gpui_snapshot() -> FwOstdKernel {
     let mut xa = XArray::default();
     xa.store(0, 0x1000);
     xa.store(1, 0x2000);
 
     let mut disk = MlsDisk::default();
-    let _ = disk.write_block(b"fairwind-v4-asterinas-ostd-superblock");
+    let _ = disk.write_block(b"fw-v4-asterinas-ostd-superblock");
 
     let mut scene = GpuiWasmScene::new(1280, 720, 2.0);
     scene.paint_quad(0.0, 0.0, 1280.0, 48.0, [0.07, 0.10, 0.19, 1.0]);
     scene.paint_quad(24.0, 72.0, 600.0, 320.0, [0.09, 0.14, 0.24, 1.0]);
     scene.paint_quad(656.0, 72.0, 600.0, 320.0, [0.09, 0.14, 0.24, 1.0]);
 
-    FairwindOstdKernel {
-        kernel_name: "fairwind-asterinas-gpui-v4".into(),
+    FwOstdKernel {
+        kernel_name: "fw-asterinas-gpui-v4".into(),
         framekernel_safe_rust: true,
         wasm_target_tuned: true,
         webgpu_virtio_ready: true,

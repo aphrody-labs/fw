@@ -2,7 +2,7 @@
 
 let
   system = pkgs.stdenv.hostPlatform.system;
-  fairwindUserland = inputs.self.packages.${system}.rust-userland;
+  fwUserland = inputs.self.packages.${system}.rust-userland;
   fwBin = inputs.self.packages.${system}.fw;
 in {
   # Nix daemon reproducibility & store deduplication
@@ -15,7 +15,7 @@ in {
 
   # Identical full-stack pure-Rust userland + Linux microVM sandbox tools on every host
   environment.systemPackages = [
-    fairwindUserland
+    fwUserland
     pkgs.clang
     pkgs.lld
     pkgs.xfsprogs

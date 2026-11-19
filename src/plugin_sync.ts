@@ -11,8 +11,8 @@ export function resolveGeminiPluginPaths() {
   const geminiRoot = join(homedir(), ".gemini");
   return {
     geminiRoot,
-    trackedDest: join(geminiRoot, "plugins", "fairwind"),
-    configDest: join(geminiRoot, "config", "plugins", "fairwind"),
+    trackedDest: join(geminiRoot, "plugins", "fw"),
+    configDest: join(geminiRoot, "config", "plugins", "fw"),
     aphrodySkills: join(geminiRoot, "plugins", "aphrody", "skills"),
     installScript: join(geminiRoot, "scripts", "install.ts"),
   };
@@ -27,7 +27,7 @@ function computeDirLockManifest(dir: string): Record<string, string> {
     for (const entry of readdirSync(toNtfsSafePath(cur), { withFileTypes: true })) {
       const full = join(cur, entry.name);
       if (entry.isDirectory()) stack.push(full);
-      else if (entry.isFile() && entry.name !== "fairwind.plugin.lock.json") files.push(full);
+      else if (entry.isFile() && entry.name !== "fw.plugin.lock.json") files.push(full);
     }
   }
   files.sort();
@@ -51,10 +51,10 @@ export function auditDeduplication(root: string) {
           .sort()
       : [];
 
-  const fairwindSkills = listSkills(join(src, "skills"));
+  const fwSkills = listSkills(join(src, "skills"));
   const aphrodySkillList = listSkills(aphrodySkills);
   const aphrodySet = new Set(aphrodySkillList);
-  const overlapWithAphrody = fairwindSkills.filter((s) => aphrodySet.has(s));
+  const overlapWithAphrody = fwSkills.filter((s) => aphrodySet.has(s));
 
   const srcLock = existsSync(src) ? computeDirLockManifest(src) : {};
   const trackedLock = existsSync(trackedDest) ? computeDirLockManifest(trackedDest) : {};
@@ -70,8 +70,8 @@ export function auditDeduplication(root: string) {
 
   return {
     ok: overlapWithAphrody.length === 0 && ntfsJunctionsFound.length === 0,
-    fairwindSkillCount: fairwindSkills.length,
-    fairwindSkills,
+    fwSkillCount: fwSkills.length,
+    fwSkills,
     aphrodySkillCount: aphrodySkillList.length,
     overlapWithAphrody,
     geminiTrackedInSync,
@@ -101,7 +101,7 @@ export function pluginStatus(root: string) {
     : [];
   return {
     ok: existsSync(manifestPath),
-    name: "fairwind",
+    name: "fw",
     version,
     sourceDir: src,
     skills,
@@ -113,7 +113,7 @@ export function pluginStatus(root: string) {
   };
 }
 
-export function syncFairwindPlugin(
+export function syncFwPlugin(
   root: string,
   options: { runInstall?: boolean; validate?: boolean } = {},
 ): {
@@ -144,16 +144,16 @@ export function syncFairwindPlugin(
     const files = computeDirLockManifest(src);
     const lockPayload = `${JSON.stringify(
       {
-        schema: "fairwind.plugin-lock.v1",
-        sourceRepo: "aphrody-labs/fairwind",
+        schema: "fw.plugin-lock.v1",
+        sourceRepo: "aphrody-labs/fw",
         syncedAt: new Date().toISOString(),
         files,
       },
       null,
       2,
     )}\n`;
-    writeFileSync(join(trackedDest, "fairwind.plugin.lock.json"), lockPayload, "utf8");
-    writeFileSync(join(configDest, "fairwind.plugin.lock.json"), lockPayload, "utf8");
+    writeFileSync(join(trackedDest, "fw.plugin.lock.json"), lockPayload, "utf8");
+    writeFileSync(join(configDest, "fw.plugin.lock.json"), lockPayload, "utf8");
   } catch (err) {
     return {
       ok: false,

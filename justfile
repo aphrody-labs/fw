@@ -84,9 +84,9 @@ cf-deploy:
 nix-bootstrap-vps host="fr1":
     ssh {{host}} "bash -s -- {{host}}" < nix/bootstrap-vps.sh
 
-# Apply tuned Windows .wslconfig + .wslgconfig for Fairwind-WSL (WSL 3.0.5 + RTX 4070)
+# Apply tuned Windows .wslconfig + .wslgconfig for Fw-WSL (WSL 3.0.5 + RTX 4070)
 wsl-apply-configs:
-    pwsh -NoProfile -File os/fairwind-wsl/install-fairwind-wsl.ps1 -ApplyHostConfigs
+    pwsh -NoProfile -File os/fw-wsl/install-fw-wsl.ps1 -ApplyHostConfigs
 
 # Refresh live direct Rust competitor benchmark (TSV + Markdown)
 competitors:

@@ -16,13 +16,13 @@ members = [
     "xtask",
 ]
 exclude = [
-    "os/fairwind-os",
-    "native/fairwind-pe",
-    "native/fairwind-sniff",
-    "native/fairwind-kernel",
-    "native/fairwind-world",
-    "native/fairwind-abi",
-    "native/fairwind-agy",
+    "os/fw-os",
+    "native/fw-pe",
+    "native/fw-sniff",
+    "native/fw-kernel",
+    "native/fw-world",
+    "native/fw-abi",
+    "native/fw-agy",
     "core/rs/tui-test",
     "core/rs/wta",
     "packages",
@@ -34,7 +34,7 @@ version = "4.2.0"
 edition = "2024"
 rust-version = "1.85"
 license = "MIT"
-repository = "https://github.com/aphrody-labs/fairwind"
+repository = "https://github.com/aphrody-labs/fw"
 keywords = ["fw", "rust-os", "wasm", "mcp", "cluster"]
 categories = ["command-line-utilities", "development-tools", "os"]
 

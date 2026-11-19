@@ -17,7 +17,7 @@ export interface TerminalTuiStatus {
   tuiTest: SourceCrateMetrics;
   intelligentTerminalWta: SourceCrateMetrics;
   skillInstalled: boolean;
-  fairwindWorkflowOptimized: true;
+  fwWorkflowOptimized: true;
 }
 
 export interface TuiVerifyResult {
@@ -82,21 +82,21 @@ export function getTerminalTuiStatus(root: string): TerminalTuiStatus {
       upstreamUrl: "https://github.com/microsoft/intelligent-terminal",
     },
     skillInstalled: existsSync(join(root, "plugin", "skills", "tui-test", "SKILL.md")),
-    fairwindWorkflowOptimized: true,
+    fwWorkflowOptimized: true,
   };
 }
 
-export function generateFairwindWtaConfig(root: string) {
+export function generateFwWtaConfig(root: string) {
   const agyPath = join(root, "target", "agy", process.platform === "win32" ? "agy.exe" : "agy");
-  const fwPath = join(root, "target", "agy", process.platform === "win32" ? "fairwind.exe" : "fairwind");
+  const fwPath = join(root, "target", "agy", process.platform === "win32" ? "fw.exe" : "fw");
   return {
-    schema: "fairwind.intelligent-terminal.wta.v1",
+    schema: "fw.intelligent-terminal.wta.v1",
     acpAgent: "antigravity",
     acpModel: "gemini-2.5-pro",
     acpCustomCommand: `${fwPath} mcp`,
     delegateAgent: "gemini",
     delegateModel: "gemini-decision-1",
-    delegateCustomCommand: `${agyPath} --fairwind-info`,
+    delegateCustomCommand: `${agyPath} --fw-info`,
     agentPanePosition: "bottom",
     autoErrorDetectionEnabled: true,
     autoFixEnabled: true,
@@ -202,7 +202,7 @@ export function runTuiTestVerify(
   };
 }
 
-export function verifyFairwindSelfTui(root: string): TuiVerifyResult {
-  const cli = join(root, "src", "fairwind_cli.ts");
-  return runTuiTestVerify(root, ["bun", cli, "tui", "status"], "fairwindWorkflowOptimized", 15_000);
+export function verifyFwSelfTui(root: string): TuiVerifyResult {
+  const cli = join(root, "src", "fw_cli.ts");
+  return runTuiTestVerify(root, ["bun", cli, "tui", "status"], "fwWorkflowOptimized", 15_000);
 }

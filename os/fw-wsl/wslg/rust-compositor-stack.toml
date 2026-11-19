@@ -1,0 +1,26 @@
+# Fw Experimental Rust WSLg Replacement Stack (replaces C Weston + C FreeRDP + C PulseAudio)
+[vmm]
+primary = "microsoft/openvmm"
+alternative = "cloud-hypervisor/cloud-hypervisor"
+filesystem = "virtiofsd"          # replaces legacy Plan 9 9p C server
+socket_transport = "virtio-vsock" # replaces legacy wslrelay C++
+
+[display]
+compositor = "fw-wayland-wgpu"    # zero-libwayland Rust compositor (Smithay / cosmic-comp compatible)
+rdp_transport = "Devolutions/IronRDP"
+gpu_backend = "vulkan"            # NVIDIA RTX 4070 via dxgkrnl / virtio-gpu
+wayland_native = true
+xwayland_enabled = false
+
+[scheduler]
+kernel_patch = "CachyOS-BORE-6.18-Clang-ThinLTO"
+sched_ext = "scx_lavd"            # Rust BPF scheduler from sched-ext/scx
+fallback_sched_ext = "scx_rustland"
+
+[userland]
+shell = "nushell"
+coreutils = "uutils-coreutils-noprefix"
+sudo = "sudo-rs"
+ntp = "ntpd-rs"
+audio = "pipewire"
+agent_runtime = "fw-native"

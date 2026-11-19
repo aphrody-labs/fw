@@ -107,10 +107,10 @@ export interface WorkersAILike {
   run: (model: string, input: Record<string, unknown>) => Promise<unknown>;
 }
 
-export interface FairwindWorkerEnv {
+export interface FwWorkerEnv {
   ASSETS?: { fetch: (request: Request | string) => Promise<Response> };
   AI?: WorkersAILike;
-  FAIRWIND_OS?: DurableObjectNamespaceLike;
+  FW_OS?: DurableObjectNamespaceLike;
   LOADER?: DynamicWorkerLoaderLike;
   VFS_BLOBS?: R2BucketLike;
   META_DB?: D1DatabaseLike;
@@ -119,7 +119,7 @@ export interface FairwindWorkerEnv {
   EVENT_LOG?: K2StreamLike;
   TELEMETRY_PIPELINE?: BasinPipelineLike;
   SANDBOX?: DurableObjectNamespaceLike;
-  FAIRWIND_ENV?: string;
+  FW_ENV?: string;
 }
 
 export interface CatalogEntry {
@@ -130,7 +130,7 @@ export interface CatalogEntry {
   url: string;
   docsUrl?: string;
   role: string;
-  fairwindWiring: string;
+  fwWiring: string;
 }
 
 export interface VfsNodeRecord {
@@ -204,7 +204,7 @@ export interface VfsExecRequest {
   input?: Record<string, unknown>;
 }
 
-const FAIRWIND_VERSION = "2.5.0";
+const FW_VERSION = "2.5.0";
 const COMPATIBILITY_DATE = "2026-11-12";
 const R2_SPILL_THRESHOLD_BYTES = 65_536;
 
@@ -213,7 +213,7 @@ const MODELS = [
   { id: "@cf/qwen/qwen2.5-coder-32b-instruct", object: "model", owned_by: "cloudflare-ai" },
   { id: "@cf/baai/bge-base-en-v1.5", object: "model", owned_by: "cloudflare-ai" },
   { id: "@cf/openai/whisper", object: "model", owned_by: "cloudflare-ai" },
-  { id: "fairwind-edge-router", object: "model", owned_by: "fairwind" },
+  { id: "fw-edge-router", object: "model", owned_by: "fw" },
 ];
 
 export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
@@ -224,7 +224,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     layer: "os-control-plane",
     url: "https://github.com/cloudflare/cloudflare-os",
     role: "Multi-worker AI OS workspace, gadget sandboxing, Access SSO, and Gatekeeper capability policies",
-    fairwindWiring: "Gatekeeper policy engine in FairwindOSAgent (/os/gatekeeper) and multi-tenant DO isolation",
+    fwWiring: "Gatekeeper policy engine in FwOSAgent (/os/gatekeeper) and multi-tenant DO isolation",
   },
   {
     id: "cloudflare-computer-dofs",
@@ -234,7 +234,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/cloudflare/computer",
     docsUrl: "https://www.npmjs.com/package/@cloudflare/dofs",
     role: "Authoritative per-tenant SQLite VFS inside Durable Objects with pluggable execution runtimes",
-    fairwindWiring: "FairwindOSAgent SQLite vfs_nodes table + R2 blob spillover via /os/vfs/{ls,read,write,stat,exec}",
+    fwWiring: "FwOSAgent SQLite vfs_nodes table + R2 blob spillover via /os/vfs/{ls,read,write,stat,exec}",
   },
   {
     id: "cloudflare-agents",
@@ -244,7 +244,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/cloudflare/agents",
     docsUrl: "https://developers.cloudflare.com/agents/",
     role: "Durable Object Agent runtime with SQLite state, @callable RPC, runFiber/stash, scheduling, and MCP handlers",
-    fairwindWiring: "Per-tenant FairwindOSAgent DO coordination model with SQLite schema init via blockConcurrencyWhile",
+    fwWiring: "Per-tenant FwOSAgent DO coordination model with SQLite schema init via blockConcurrencyWhile",
   },
   {
     id: "cloudflare-codemode",
@@ -254,7 +254,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/cloudflare/agents/tree/main/packages/codemode",
     docsUrl: "https://www.npmjs.com/package/@cloudflare/codemode",
     role: "Code-mode LLM tool orchestration using DynamicWorkerExecutor with globalOutbound: null",
-    fairwindWiring: "Tier-1 execution path in /os/vfs/exec dispatching isolated ES modules via env.LOADER.load()",
+    fwWiring: "Tier-1 execution path in /os/vfs/exec dispatching isolated ES modules via env.LOADER.load()",
   },
   {
     id: "cloudflare-sandbox",
@@ -264,7 +264,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/cloudflare/sandbox-sdk",
     docsUrl: "https://developers.cloudflare.com/sandbox/",
     role: "Isolated Linux microVMs on Cloudflare Containers with argv process handles, output/waitForExit, and terminals",
-    fairwindWiring: "Tier-2 execution path in /os/vfs/exec routing explicit argv payloads to env.SANDBOX Durable Object",
+    fwWiring: "Tier-2 execution path in /os/vfs/exec routing explicit argv payloads to env.SANDBOX Durable Object",
   },
   {
     id: "cloudflare-containers",
@@ -274,7 +274,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/cloudflare/containers",
     docsUrl: "https://developers.cloudflare.com/containers/",
     role: "Durable Object-backed container lifecycle, routing, sleepAfter, and preview isolation",
-    fairwindWiring: "Full-stack container binding topology in cloudflare/wrangler.fullstack.jsonc",
+    fwWiring: "Full-stack container binding topology in cloudflare/wrangler.fullstack.jsonc",
   },
   {
     id: "cloudflare-workers-rs",
@@ -284,7 +284,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/cloudflare/workers-rs",
     docsUrl: "https://crates.io/crates/worker",
     role: "Native Rust-to-WebAssembly Workers SDK for low-level crypto, PE/ELF parsing, and Wasm edge kernels",
-    fairwindWiring: "Wasm ABI companion target alongside Fairwind Fat-LTO Rust crates (native/fairwind-abi)",
+    fwWiring: "Wasm ABI companion target alongside Fw Fat-LTO Rust crates (native/fw-abi)",
   },
   {
     id: "browser-run-kitesurf",
@@ -294,7 +294,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/cloudflare/kitesurf",
     docsUrl: "https://developers.cloudflare.com/browser-rendering/",
     role: "Managed headless Chromium plus Kitesurf Rust/Wasm (Blitz + Stylo) stateless CDP browser on V8 isolates",
-    fairwindWiring: "Optional env.BROWSER binding declared in FairwindWorkerEnv and wrangler.fullstack.jsonc",
+    fwWiring: "Optional env.BROWSER binding declared in FwWorkerEnv and wrangler.fullstack.jsonc",
   },
   {
     id: "cloudflare-vibesdk",
@@ -303,7 +303,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     layer: "os-control-plane",
     url: "https://github.com/cloudflare/vibesdk",
     role: "Vibe-coding platform combining SpaceDO workspaces, Dynamic Workers, and preview deployments",
-    fairwindWiring: "Dynamic Worker preview & tenant workspace isolation pattern mirrored in Tier-1 + DO VFS",
+    fwWiring: "Dynamic Worker preview & tenant workspace isolation pattern mirrored in Tier-1 + DO VFS",
   },
   {
     id: "cloudflare-moltworker",
@@ -312,7 +312,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     layer: "agent-runtime",
     url: "https://github.com/cloudflare/moltworker",
     role: "Self-hosted personal AI agent middleware on Workers, Sandbox microVMs, and R2 storage",
-    fairwindWiring: "Personal agent state + R2 spillover (env.VFS_BLOBS) + Sandbox tier dispatch",
+    fwWiring: "Personal agent state + R2 spillover (env.VFS_BLOBS) + Sandbox tier dispatch",
   },
   {
     id: "hono",
@@ -322,7 +322,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/honojs/hono",
     docsUrl: "https://hono.dev/",
     role: "Web Standards router and middleware for Workers HTTP APIs and OpenAPI gateways",
-    fairwindWiring: "Zero-dependency Web Standards Fetch router contract compatible with Hono mounting",
+    fwWiring: "Zero-dependency Web Standards Fetch router contract compatible with Hono mounting",
   },
   {
     id: "just-bash",
@@ -332,7 +332,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/vercel-labs/just-bash",
     docsUrl: "https://www.npmjs.com/package/just-bash",
     role: "In-isolate virtual POSIX bash interpreter executing against an in-memory/DO filesystem",
-    fairwindWiring: "Tier-0 virtual POSIX shell inside FairwindOSAgent (/vfs/exec tier=0) with zero container cold start",
+    fwWiring: "Tier-0 virtual POSIX shell inside FwOSAgent (/vfs/exec tier=0) with zero container cold start",
   },
   {
     id: "mcp-server-sdk",
@@ -342,7 +342,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://github.com/modelcontextprotocol/typescript-sdk",
     docsUrl: "https://modelcontextprotocol.io/",
     role: "MCP v2 Streamable HTTP JSON-RPC 2.0 server contract (initialize, tools/list, tools/call)",
-    fairwindWiring: "Native Streamable HTTP MCP gateway at POST /mcp backed by FairwindOSAgent tools",
+    fwWiring: "Native Streamable HTTP MCP gateway at POST /mcp backed by FwOSAgent tools",
   },
   {
     id: "cloudflare-basin",
@@ -352,7 +352,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://developers.cloudflare.com/basin/",
     docsUrl: "https://developers.cloudflare.com/basin-pipelines/",
     role: "1 GB/s streaming ingestion (pipelines[].stream) into R2 Apache Iceberg tables queried via Basin SQL",
-    fairwindWiring: "Optional env.TELEMETRY_PIPELINE.send() sink on autonomous learning and audit events",
+    fwWiring: "Optional env.TELEMETRY_PIPELINE.send() sink on autonomous learning and audit events",
   },
   {
     id: "cloudflare-k2",
@@ -362,7 +362,7 @@ export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
     url: "https://developers.cloudflare.com/k2/",
     docsUrl: "https://developers.cloudflare.com/k2/features/produce/",
     role: "Durable at-least-once event log (k2[].stream) for decoupled producers, subscriptions, and replay",
-    fairwindWiring: "Optional env.EVENT_LOG produce sink on /api/learn/events for durable cross-agent learning replay",
+    fwWiring: "Optional env.EVENT_LOG produce sink on /api/learn/events for durable cross-agent learning replay",
   },
 ];
 
@@ -427,7 +427,7 @@ const MCP_TOOLS = [
   },
   {
     name: "vfs_exec",
-    description: "Execute a command or code snippet via Fairwind 3-tier routing (0=DO POSIX, 1=CodeMode LOADER, 2=Sandbox microVM).",
+    description: "Execute a command or code snippet via Fw 3-tier routing (0=DO POSIX, 1=CodeMode LOADER, 2=Sandbox microVM).",
     inputSchema: {
       type: "object",
       properties: {
@@ -727,10 +727,10 @@ function defaultGatekeeperRules(): GatekeeperRule[] {
   ];
 }
 
-function getBindingSummary(env: FairwindWorkerEnv): Record<string, boolean> {
+function getBindingSummary(env: FwWorkerEnv): Record<string, boolean> {
   return {
     AI: Boolean(env.AI),
-    FAIRWIND_OS: Boolean(env.FAIRWIND_OS),
+    FW_OS: Boolean(env.FW_OS),
     LOADER: Boolean(env.LOADER),
     VFS_BLOBS: Boolean(env.VFS_BLOBS),
     META_DB: Boolean(env.META_DB),
@@ -743,14 +743,14 @@ function getBindingSummary(env: FairwindWorkerEnv): Record<string, boolean> {
 }
 
 /**
- * Durable Object SQLite Kernel & VFS for Fairwind Edge OS.
+ * Durable Object SQLite Kernel & VFS for Fw Edge OS.
  *
  * Compatible with both Cloudflare Workers SQLite Durable Objects (`ctx.storage.sql`)
  * and direct in-memory instantiation in Bun/Node test suites.
  */
-export class FairwindOSAgent {
+export class FwOSAgent {
   private readonly ctx?: DurableObjectStateLike;
-  private env: FairwindWorkerEnv;
+  private env: FwWorkerEnv;
   private readonly sql?: SqlStorageLike;
   private readonly vfsMem = new Map<string, VfsNodeRecord>();
   private readonly rulesMem = new Map<string, GatekeeperRule>();
@@ -767,7 +767,7 @@ export class FairwindOSAgent {
   private readonly acpSessions = new Map<string, AcpSessionRecord>();
   private initialized = false;
 
-  constructor(ctx?: DurableObjectStateLike, env: FairwindWorkerEnv = {}) {
+  constructor(ctx?: DurableObjectStateLike, env: FwWorkerEnv = {}) {
     this.ctx = ctx;
     this.env = env;
     this.sql = ctx?.storage?.sql;
@@ -787,8 +787,8 @@ export class FairwindOSAgent {
     const ts = nowIso();
     const manifestJson = JSON.stringify(
       {
-        product: "fairwind-edge",
-        version: FAIRWIND_VERSION,
+        product: "fw-edge",
+        version: FW_VERSION,
         compatibilityDate: COMPATIBILITY_DATE,
         tiers: [0, 1, 2],
       },
@@ -881,7 +881,7 @@ export class FairwindOSAgent {
       );
       this.sql.exec(
         "INSERT OR IGNORE INTO vfs_nodes (path, kind, content, content_type, size, sha256, blob_key, metadata, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        "/etc/fairwind.json",
+        "/etc/fw.json",
         "file",
         manifestJson,
         "application/json",
@@ -940,8 +940,8 @@ export class FairwindOSAgent {
       metadata: {},
       updatedAt: ts,
     });
-    this.vfsMem.set("/etc/fairwind.json", {
-      path: "/etc/fairwind.json",
+    this.vfsMem.set("/etc/fw.json", {
+      path: "/etc/fw.json",
       kind: "file",
       content: manifestJson,
       contentType: "application/json",
@@ -956,7 +956,7 @@ export class FairwindOSAgent {
     }
   }
 
-  public bindEnv(env: FairwindWorkerEnv): void { this.env = env; }
+  public bindEnv(env: FwWorkerEnv): void { this.env = env; }
 
   private getTenantName(): string {
     return this.ctx?.id?.name ?? this.ctx?.id?.toString() ?? "default";
@@ -1435,13 +1435,13 @@ export class FairwindOSAgent {
         stdout = `${principal}\n`;
         break;
       case "uname":
-        stdout = `FairwindEdgeOS ${FAIRWIND_VERSION} cloudflare-workers wasm32-v8\n`;
+        stdout = `FwEdgeOS ${FW_VERSION} cloudflare-workers wasm32-v8\n`;
         break;
       case "echo":
         stdout = `${args.join(" ")}\n`;
         break;
       case "env": {
-        const merged = { FAIRWIND_ENV: this.env.FAIRWIND_ENV ?? "production", PWD: cwd, USER: principal, ...envVars };
+        const merged = { FW_ENV: this.env.FW_ENV ?? "production", PWD: cwd, USER: principal, ...envVars };
         stdout = `${Object.entries(merged).map(([k, v]) => `${k}=${v}`).join("\n")}\n`;
         break;
       }
@@ -1679,7 +1679,7 @@ export class FairwindOSAgent {
         break;
       }
       case "help":
-        stdout = "Fairwind Tier-0 DO POSIX Shell: pwd ls cat echo stat mkdir touch rm cp mv wc head tail grep find cd env uname whoami help\n";
+        stdout = "Fw Tier-0 DO POSIX Shell: pwd ls cat echo stat mkdir touch rm cp mv wc head tail grep find cd env uname whoami help\n";
         break;
       default:
         exitCode = 127;
@@ -1927,7 +1927,7 @@ export class FairwindOSAgent {
     const record: LearnEventRecord = {
       id: makeId("learn"),
       kind: input.kind || "observation",
-      source: input.source || "fairwind-edge",
+      source: input.source || "fw-edge",
       summary: input.summary || "",
       tags: Array.isArray(input.tags) ? input.tags.map(String) : [],
       payload: input.payload && typeof input.payload === "object" ? input.payload : {},
@@ -1965,7 +1965,7 @@ export class FairwindOSAgent {
     }
     if (this.env.META_DB) {
       await this.env.META_DB.prepare(
-        "INSERT INTO fairwind_learn_events (id, tenant, kind, source, summary, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO fw_learn_events (id, tenant, kind, source, summary, created_at) VALUES (?, ?, ?, ?, ?, ?)",
       )
         .bind(record.id, this.getTenantName(), record.kind, record.source, record.summary, record.createdAt)
         .run()
@@ -2074,7 +2074,7 @@ export class FairwindOSAgent {
   async fetch(request: Request): Promise<Response> {
     this.ensureInitialized();
     const url = new URL(request.url);
-    const principal = request.headers.get("x-fairwind-principal") ?? "default";
+    const principal = request.headers.get("x-fw-principal") ?? "default";
 
     if (url.pathname === "/vfs/ls") {
       const body = request.method === "POST" ? ((await request.json().catch(() => ({}))) as { prefix?: string; path?: string }) : {};
@@ -2183,17 +2183,17 @@ export class FairwindOSAgent {
   }
 }
 
-const localAgents = new Map<string, FairwindOSAgent>();
+const localAgents = new Map<string, FwOSAgent>();
 
 function resolveTenant(request: Request, url: URL): string {
-  return request.headers.get("x-fairwind-tenant")?.trim() || url.searchParams.get("tenant")?.trim() || "default";
+  return request.headers.get("x-fw-tenant")?.trim() || url.searchParams.get("tenant")?.trim() || "default";
 }
 
-function getLocalAgent(tenant: string, env: FairwindWorkerEnv): FairwindOSAgent {
-  const key = `${tenant}:${env.FAIRWIND_ENV ?? "production"}`;
+function getLocalAgent(tenant: string, env: FwWorkerEnv): FwOSAgent {
+  const key = `${tenant}:${env.FW_ENV ?? "production"}`;
   let agent = localAgents.get(key);
   if (!agent) {
-    agent = new FairwindOSAgent({ id: { name: tenant, toString: () => tenant } }, env);
+    agent = new FwOSAgent({ id: { name: tenant, toString: () => tenant } }, env);
     localAgents.set(key, agent);
   }
   agent.bindEnv(env);
@@ -2202,21 +2202,21 @@ function getLocalAgent(tenant: string, env: FairwindWorkerEnv): FairwindOSAgent 
 
 async function dispatchToTenantDO(
   tenant: string,
-  env: FairwindWorkerEnv,
+  env: FwWorkerEnv,
   doPath: string,
   init: { method: string; headers?: HeadersInit; body?: string; search?: string },
 ): Promise<Response> {
-  const targetUrl = `https://fairwind-os.internal${doPath}${init.search ?? ""}`;
+  const targetUrl = `https://fw-os.internal${doPath}${init.search ?? ""}`;
   const req = new Request(targetUrl, {
     method: init.method,
     headers: init.headers,
     body: init.method === "GET" || init.method === "HEAD" ? undefined : init.body,
   });
 
-  if (env.FAIRWIND_OS) {
-    const stub = env.FAIRWIND_OS.getByName
-      ? env.FAIRWIND_OS.getByName(tenant)
-      : env.FAIRWIND_OS.get!(env.FAIRWIND_OS.idFromName!(tenant));
+  if (env.FW_OS) {
+    const stub = env.FW_OS.getByName
+      ? env.FW_OS.getByName(tenant)
+      : env.FW_OS.get!(env.FW_OS.idFromName!(tenant));
     return stub.fetch(req);
   }
 
@@ -2224,7 +2224,7 @@ async function dispatchToTenantDO(
 }
 
 async function runInferenceText(
-  env: FairwindWorkerEnv,
+  env: FwWorkerEnv,
   model: string,
   messages: Array<{ role: string; content: string }>,
 ): Promise<{ text: string; raw?: unknown }> {
@@ -2233,13 +2233,13 @@ async function runInferenceText(
     return { text: extractAiText(raw), raw };
   }
   const last = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
-  return { text: `[fairwind-edge] ${last}` };
+  return { text: `[fw-edge] ${last}` };
 }
 
 async function handleMcp(
   request: Request,
   url: URL,
-  env: FairwindWorkerEnv,
+  env: FwWorkerEnv,
 ): Promise<Response> {
   const rpc = (await request.json().catch(() => ({}))) as {
     jsonrpc?: string;
@@ -2250,7 +2250,7 @@ async function handleMcp(
   const id = rpc.id ?? null;
   const method = rpc.method ?? "ping";
   const tenant = resolveTenant(request, url);
-  const principal = request.headers.get("x-fairwind-principal") ?? "default";
+  const principal = request.headers.get("x-fw-principal") ?? "default";
 
   if (method === "initialize") {
     return json({
@@ -2263,8 +2263,8 @@ async function handleMcp(
           resources: { subscribe: false, listChanged: false },
         },
         serverInfo: {
-          name: "fairwind-edge",
-          version: FAIRWIND_VERSION,
+          name: "fw-edge",
+          version: FW_VERSION,
         },
       },
     });
@@ -2286,7 +2286,7 @@ async function handleMcp(
       : {}) as Record<string, unknown>;
     const headers = {
       "content-type": "application/json",
-      "x-fairwind-principal": principal,
+      "x-fw-principal": principal,
     };
 
     let resultPayload: Record<string, unknown>;
@@ -2412,7 +2412,7 @@ async function handleMcp(
 async function handleAcp(
   request: Request,
   url: URL,
-  env: FairwindWorkerEnv,
+  env: FwWorkerEnv,
 ): Promise<Response> {
   const rpc = (await request.json().catch(() => ({}))) as {
     id?: string | number | null;
@@ -2433,7 +2433,7 @@ async function handleAcp(
         protocolVersion: "1.33.0",
         edge: true,
         ok: true,
-        agentInfo: { name: "fairwind-edge", version: FAIRWIND_VERSION },
+        agentInfo: { name: "fw-edge", version: FW_VERSION },
         agentCapabilities: {
           loadSession: true,
           promptCapabilities: { embeddedContext: true },
@@ -2499,7 +2499,7 @@ async function handleAcp(
 async function handleA2A(
   request: Request,
   url: URL,
-  env: FairwindWorkerEnv,
+  env: FwWorkerEnv,
 ): Promise<Response> {
   const rpc = (await request.json().catch(() => ({}))) as {
     id?: string | number | null;
@@ -2567,8 +2567,8 @@ function buildOpenApiSpec(origin: string): Record<string, unknown> {
   return {
     openapi: "3.1.0",
     info: {
-      title: "Fairwind Cloudflare Edge OS API",
-      version: FAIRWIND_VERSION,
+      title: "Fw Cloudflare Edge OS API",
+      version: FW_VERSION,
       description:
         "Unified Cloudflare Edge OS Worker: Durable Object SQLite VFS, 3-tier execution (DO POSIX, Dynamic Worker Loader CodeMode, Sandbox microVM), Gatekeeper policy engine, autonomous learning log, and OpenAI / MCP / ACP / A2A protocol gateway.",
     },
@@ -2598,7 +2598,7 @@ function buildOpenApiSpec(origin: string): Record<string, unknown> {
 }
 
 export default {
-  async fetch(request: Request, env: FairwindWorkerEnv = {}): Promise<Response> {
+  async fetch(request: Request, env: FwWorkerEnv = {}): Promise<Response> {
     const url = new URL(request.url);
 
     if (request.method === "OPTIONS") {
@@ -2607,7 +2607,7 @@ export default {
         headers: {
           "access-control-allow-origin": "*",
           "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "access-control-allow-headers": "Content-Type, Authorization, X-Fairwind-Tenant, X-Fairwind-Principal, Mcp-Session-Id",
+          "access-control-allow-headers": "Content-Type, Authorization, X-Fw-Tenant, X-Fw-Principal, Mcp-Session-Id",
         },
       });
     }
@@ -2619,21 +2619,21 @@ export default {
     if (url.pathname === "/health") {
       return json({
         ok: true,
-        product: "fairwind-edge",
-        version: FAIRWIND_VERSION,
+        product: "fw-edge",
+        version: FW_VERSION,
         runtime: "cloudflare-workers",
         compatibilityDate: COMPATIBILITY_DATE,
-        env: env.FAIRWIND_ENV ?? "production",
+        env: env.FW_ENV ?? "production",
         bindings: getBindingSummary(env),
       });
     }
 
     if (url.pathname === "/.well-known/agent.json") {
       return json({
-        name: "Fairwind Edge",
-        description: "Fairwind Edge OS Worker with SQLite DO VFS, 3-tier execution, Gatekeeper, and MCP/ACP/A2A gateway",
+        name: "Fw Edge",
+        description: "Fw Edge OS Worker with SQLite DO VFS, 3-tier execution, Gatekeeper, and MCP/ACP/A2A gateway",
         url: `${url.origin}/a2a`,
-        version: FAIRWIND_VERSION,
+        version: FW_VERSION,
         protocolVersion: "1.0.1",
         defaultInputModes: ["text/plain", "application/json"],
         defaultOutputModes: ["text/plain", "application/json"],
@@ -2756,7 +2756,7 @@ export default {
         : CLOUDFLARE_EDGE_OS_CATALOG;
       return json({
         ok: true,
-        product: "fairwind-edge",
+        product: "fw-edge",
         updated: "2026-11-19",
         compatibilityDate: COMPATIBILITY_DATE,
         count: items.length,
@@ -2767,8 +2767,8 @@ export default {
     if (url.pathname === "/os/tiers" && request.method === "GET") {
       return json({
         ok: true,
-        product: "fairwind-edge",
-        version: FAIRWIND_VERSION,
+        product: "fw-edge",
+        version: FW_VERSION,
         tiers: EXECUTION_TIERS,
         bindings: getBindingSummary(env),
       });
@@ -2825,7 +2825,7 @@ export default {
     if (url.pathname === "/claw/status" && request.method === "GET") {
       return json({
         ok: true,
-        agent: "fairwind-edge-hermes-claw",
+        agent: "fw-edge-hermes-claw",
         runtime: "cloudflare-workers",
         mcpTools: 4,
         sandboxAllowBinaries: 13,

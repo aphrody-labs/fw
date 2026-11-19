@@ -62,12 +62,12 @@ pub fn run_applet(applet: &str, args: &[&str], stdin: &str) -> AppletOutput {
         "uname" => {
             let text = if args.contains(&"-a") {
                 format!(
-                    "FairwindOS-Asterinas 4.0.0 {} {} pure-rust-uutils\n",
+                    "FwOS-Asterinas 4.0.0 {} {} pure-rust-uutils\n",
                     std::env::consts::OS,
                     std::env::consts::ARCH
                 )
             } else {
-                "FairwindOS-Asterinas\n".to_string()
+                "FwOS-Asterinas\n".to_string()
             };
             AppletOutput {
                 applet: "uname".into(),
@@ -79,7 +79,7 @@ pub fn run_applet(applet: &str, args: &[&str], stdin: &str) -> AppletOutput {
         "hostname" => AppletOutput {
             applet: "hostname".into(),
             exit_code: 0,
-            stdout: "fairwind-os\n".into(),
+            stdout: "fw-os\n".into(),
             stderr: String::new(),
         },
         "cat" => {
@@ -254,13 +254,13 @@ mod tests {
 
     #[test]
     fn coreutils_grep_sed_sha256_and_uname_execute_pure_rust() {
-        assert_eq!(run_applet("echo", &["fairwind", "uutils"], "").stdout, "fairwind uutils\n");
+        assert_eq!(run_applet("echo", &["fw", "uutils"], "").stdout, "fw uutils\n");
         assert_eq!(run_applet("wc", &[], "a b\nc d e\n").stdout, "2 5 10\n");
         assert_eq!(run_applet("grep", &["rust"], "alpine\npure rust\n").stdout, "pure rust\n");
         assert_eq!(run_applet("sed", &["s/gnu/uutils/g"], "gnu coreutils").stdout, "uutils coreutils");
-        let h = run_applet("sha256sum", &[], "fairwind");
+        let h = run_applet("sha256sum", &[], "fw");
         assert_eq!(h.exit_code, 0);
         assert_eq!(h.stdout.split_whitespace().next().unwrap().len(), 64);
-        assert!(run_applet("uname", &["-a"], "").stdout.contains("FairwindOS-Asterinas"));
+        assert!(run_applet("uname", &["-a"], "").stdout.contains("FwOS-Asterinas"));
     }
 }

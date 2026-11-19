@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Fairwind hybrid cluster router: Cloudflare Pingora proxy/LB pattern + ai-dynamo/dynamo & vllm-project/router KV-cache radix P/D scheduler across 4 GPU + 3 VPS/CPU + End-User WebGPU/FPU + Cloudflare + GCloud"
+description = "Fw hybrid cluster router: Cloudflare Pingora proxy/LB pattern + ai-dynamo/dynamo & vllm-project/router KV-cache radix P/D scheduler across 4 GPU + 3 VPS/CPU + End-User WebGPU/FPU + Cloudflare + GCloud"
 
 [dependencies]
 serde.workspace = true

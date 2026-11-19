@@ -2,10 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "bunVersion": "1.4.x",
   "rewrites": [
-    { "source": "/health", "destination": "/api/fairwind" },
-    { "source": "/openapi.json", "destination": "/api/fairwind?route=/openapi.json" },
-    { "source": "/.well-known/agent.json", "destination": "/api/fairwind?route=/agent.json" },
-    { "source": "/v1/models", "destination": "/api/fairwind?route=/models" },
-    { "source": "/v1beta/decisions", "destination": "/api/fairwind" }
+    { "source": "/health", "destination": "/api/fw" },
+    { "source": "/openapi.json", "destination": "/api/fw?route=/openapi.json" },
+    { "source": "/.well-known/agent.json", "destination": "/api/fw?route=/agent.json" },
+    { "source": "/v1/models", "destination": "/api/fw?route=/models" },
+    { "source": "/v1beta/decisions", "destination": "/api/fw" }
   ]
 }

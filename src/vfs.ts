@@ -11,7 +11,7 @@ export interface VfsEntry {
 }
 
 function openVfsDb(root: string): Database {
-  const dbPath = resolve(root, "target", "fairwind-vfs.db");
+  const dbPath = resolve(root, "target", "fw-vfs.db");
   mkdirSync(dirname(dbPath), { recursive: true });
   const db = new Database(dbPath);
   db.exec(`
@@ -49,7 +49,7 @@ export function listVfsMounts(root: string) {
     mounts: [
       { mount: "/repo", backing: root, mode: "read-only-host" },
       { mount: "/target", backing: resolve(root, "target"), mode: "read-write-host" },
-      { mount: "/overlay", backing: resolve(root, "target", "fairwind-vfs.db"), mode: "read-write-cas-sqlite" },
+      { mount: "/overlay", backing: resolve(root, "target", "fw-vfs.db"), mode: "read-write-cas-sqlite" },
       { mount: "/models", backing: resolve(root, "target", "models"), mode: "read-write-host" },
       { mount: "/datasets", backing: resolve(root, "target", "datasets"), mode: "read-write-host" },
     ],

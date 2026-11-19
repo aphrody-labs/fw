@@ -59,17 +59,17 @@ fn role_for(dir: &str) -> (&'static str, &'static str) {
         "crates/fw-wasm" => ("rust-wasm", "cargo build --release --target wasm32-unknown-unknown -p fw-wasm"),
         d if d.starts_with("crates/fw-") => ("rust-core", "cargo test --workspace"),
         "xtask" => ("rust-xtask", "cargo xtask purity"),
-        "native" => ("rust-ffi-abi", "cargo test --manifest-path native/fairwind-abi/Cargo.toml"),
-        "os/fairwind-os" => ("asterinas-osdk", "bun test tests/fairwind_v4_os_uutils_nix.test.ts"),
-        "os/fairwind-wsl" => ("wsl-zero-legacy", "bun test tests/fairwind_v4_os_uutils_nix.test.ts"),
-        "nix" => ("nix-fleet", "bun test tests/fairwind_v4_os_uutils_nix.test.ts"),
+        "native" => ("rust-ffi-abi", "cargo test --manifest-path native/fw-abi/Cargo.toml"),
+        "os/fw-os" => ("asterinas-osdk", "bun test tests/fw_v4_os_uutils_nix.test.ts"),
+        "os/fw-wsl" => ("wsl-zero-legacy", "bun test tests/fw_v4_os_uutils_nix.test.ts"),
+        "nix" => ("nix-fleet", "bun test tests/fw_v4_os_uutils_nix.test.ts"),
         "cloudflare" => ("edge-worker", "bun run cf:dry-run"),
-        "vercel" => ("edge-vercel", "bun test tests/fairwind_decisions_vercel.test.ts"),
+        "vercel" => ("edge-vercel", "bun test tests/fw_decisions_vercel.test.ts"),
         "web" => ("control-plane-ui", "bun run cf:dry-run"),
         "src" => ("bun-cli-aot", "bun test"),
         "tests" => ("e2e-tests", "bun test"),
-        "plugin" => ("agy-plugin", "dist/fairwind.exe plugin sync --install"),
-        "cluster" => ("topology-spec", "bun test tests/fairwind_v3_cluster_webgpu.test.ts"),
+        "plugin" => ("agy-plugin", "dist/fw.exe plugin sync --install"),
+        "cluster" => ("topology-spec", "bun test tests/fw_v3_cluster_webgpu.test.ts"),
         "configs/heretic" => ("heretic-presets", "uvx ruff check ."),
         "docs" => ("architecture-docs", "read-only"),
         "core/py" => ("python-core", "uvx ruff check ."),
@@ -99,8 +99,8 @@ fn cmd_map(root: &Path) -> ExitCode {
         } else {
             let p2 = format!("{}/{}", parts[0], parts[1]);
             if p2.starts_with("crates/fw-")
-                || p2 == "os/fairwind-os"
-                || p2 == "os/fairwind-wsl"
+                || p2 == "os/fw-os"
+                || p2 == "os/fw-wsl"
                 || p2 == "configs/heretic"
                 || p2 == "core/py"
                 || p2 == "core/rs"
@@ -141,7 +141,7 @@ fn cmd_purity(root: &Path) -> ExitCode {
     };
     let forbidden = [
         concat!("C:\\", "Users\\", "aphro"),
-        concat!("C:\\", "src\\", "fairwind"),
+        concat!("C:\\", "src\\", "fw"),
         "defaultUser = \"aphro\"",
     ];
     let text = String::from_utf8_lossy(&out);
@@ -196,9 +196,9 @@ fn cmd_ci(root: &Path, mode: &str) -> ExitCode {
     ];
     if mode != "fast" {
         lanes.extend([
-            ("native-pe", "cargo", vec!["test", "--manifest-path", "native/fairwind-pe/Cargo.toml"]),
-            ("native-sniff", "cargo", vec!["test", "--manifest-path", "native/fairwind-sniff/Cargo.toml"]),
-            ("native-abi", "cargo", vec!["test", "--manifest-path", "native/fairwind-abi/Cargo.toml"]),
+            ("native-pe", "cargo", vec!["test", "--manifest-path", "native/fw-pe/Cargo.toml"]),
+            ("native-sniff", "cargo", vec!["test", "--manifest-path", "native/fw-sniff/Cargo.toml"]),
+            ("native-abi", "cargo", vec!["test", "--manifest-path", "native/fw-abi/Cargo.toml"]),
             ("wasm32", "cargo", vec!["build", "--release", "--target", "wasm32-unknown-unknown", "-p", "fw-wasm"]),
             ("cf-dry-run", "bunx", vec!["wrangler", "deploy", "--dry-run", "-c", "cloudflare/wrangler.jsonc"]),
         ]);
@@ -288,7 +288,7 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
                 let b = get("branch");
                 if b.is_empty() { "main".to_string() } else { b }
             };
-            (get("id"), get("repo"), branch, get("docs"), get("fairwind"), get("role"))
+            (get("id"), get("repo"), branch, get("docs"), get("fw"), get("role"))
         })
         .collect();
 
@@ -297,7 +297,7 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
         #[allow(clippy::needless_collect)]
         let handles: Vec<_> = specs
             .into_iter()
-            .map(|(id, repo, branch, docs, fairwind, role)| {
+            .map(|(id, repo, branch, docs, fw, role)| {
                 s.spawn(move || {
                     let url = format!("https://github.com/{repo}.git");
                     let refspec = format!("refs/heads/{branch}");
@@ -307,7 +307,7 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
                     } else {
                         "offline".to_string()
                     };
-                    (id, repo, branch, sha, fairwind, docs, role)
+                    (id, repo, branch, sha, fw, docs, role)
                 })
             })
             .collect();
@@ -320,14 +320,14 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
     let ref_dir = root.join("plugin").join("skills").join("upstreams").join("references");
     let _ = fs::create_dir_all(&ref_dir);
     let mut tsv = String::with_capacity(rows.len() * 160);
-    tsv.push_str("id\trepo\tbranch\thead_sha\tfairwind\tdocs\trole\n");
+    tsv.push_str("id\trepo\tbranch\thead_sha\tfw\tdocs\trole\n");
     let mut md = String::with_capacity(rows.len() * 140 + 512);
     md.push_str(
         "---\nname: upstreams\ndescription: >-\n  Auto-generated Git-pinned upstream reference catalog for fw (llama.cpp, Asterinas,\n  Cloudflare OS/Computer/Pingora/Kitesurf/lol-html, rmcp, ZeroClaw, Zed, nix-cachyos-kernel,\n  scx, Cloud Hypervisor, uutils, OpenVMM, IronRDP). Refresh anytime via `just sync-upstreams`.\n---\n\n# fw Auto-Generated Upstream Skill Catalog\n\nRefresh via `just sync-upstreams` (`cargo xtask sync-upstreams`).\nIndex: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).\n\n| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n",
     );
-    for (id, repo, branch, sha, fairwind, docs, role) in &rows {
-        tsv.push_str(&format!("{id}\t{repo}\t{branch}\t{sha}\t{fairwind}\t{docs}\t{role}\n"));
-        md.push_str(&format!("| `{repo}` | `{sha}` | `{fairwind}` | [docs]({docs}) |\n"));
+    for (id, repo, branch, sha, fw, docs, role) in &rows {
+        tsv.push_str(&format!("{id}\t{repo}\t{branch}\t{sha}\t{fw}\t{docs}\t{role}\n"));
+        md.push_str(&format!("| `{repo}` | `{sha}` | `{fw}` | [docs]({docs}) |\n"));
     }
     let _ = fs::write(ref_dir.join("UPSTREAMS.tsv"), tsv);
     let _ = fs::write(root.join("plugin").join("skills").join("upstreams").join("SKILL.md"), md);
@@ -368,9 +368,9 @@ fn cmd_ship(root: &Path) -> ExitCode {
                 "--no-compile-function-source",
                 "--no-compile-autoload-dotenv",
                 "--no-compile-autoload-bunfig",
-                "src/fairwind_cli.ts",
+                "src/fw_cli.ts",
                 "--outfile",
-                "dist/fairwind.exe",
+                "dist/fw.exe",
             ],
         ),
         ("cf-dry-run", "bunx", vec!["wrangler", "deploy", "--dry-run", "-c", "cloudflare/wrangler.jsonc"]),

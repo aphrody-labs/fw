@@ -1,0 +1,10 @@
+[package]
+name = "fw-sniff"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "First-party Fw Rust binary format sniffer crate (Fat-LTO/AOT)"
+
+[lib]
+name = "craft_sniff"
+path = "src/lib.rs"

@@ -1,9 +1,9 @@
-# Fairwind v3.0 - Unified Hybrid Cluster & Zero-Dependency Architecture
+# Fw v3.0 - Unified Hybrid Cluster & Zero-Dependency Architecture
 
 ## Overview
 
-Fairwind v3.0 consolidates all low-level OS, inference, protocol, UI, and cluster orchestration capabilities into:
-1. **One zero-system-dependency static binary** (`target/release/fairwind-native` / `fairwind-native.exe`, compiled with Fat-LTO and static CRT on Windows MSVC and Linux `musl`).
+Fw v3.0 consolidates all low-level OS, inference, protocol, UI, and cluster orchestration capabilities into:
+1. **One zero-system-dependency static binary** (`target/release/fw-native` / `fw-native.exe`, compiled with Fat-LTO and static CRT on Windows MSVC and Linux `musl`).
 2. **One zero-dependency WebAssembly module** (`target/wasm32-unknown-unknown/release/fw_wasm.wasm`) shared by **Cloudflare Workers** and **End-User Browser WebGPU/FPU compute peers**.
 
 ## Hybrid Cluster Topology
@@ -17,7 +17,7 @@ Fairwind v3.0 consolidates all low-level OS, inference, protocol, UI, and cluste
 - **4 GPU Inference Hosts**: Base CUDA PC (`gpu-1-pc-rtx4070`) + 3 remote/GCloud GPU hosts (`gpu-2..4`) pooled via `ggml-rpc` + WireGuard/QUIC.
 - **End-User Federated WebGPU + FPU Pool**: Browser and desktop/mobile devices join via **WebRTC DataChannels** (`/rtc/offer`) or **WebSockets** to contribute local WebGPU WGSL & Wasm SIMD128 compute.
 - **Cloud Acceleration**:
-  - **Cloudflare**: `cloudflare/worker.ts` (`FairwindOSAgent` DO SQLite, R2 GGUF CDN, Tunnels, K2/Basin)
+  - **Cloudflare**: `cloudflare/worker.ts` (`FwOSAgent` DO SQLite, R2 GGUF CDN, Tunnels, K2/Basin)
   - **Google Cloud (`gcloud`)**: Gemini Decision 1 (`/v1beta/decisions`), GCS model mirror, GPU/TPU PJRT burst nodes.
 
 ## Crate Layout (`Cargo.toml` Root Workspace)
@@ -30,4 +30,4 @@ Fairwind v3.0 consolidates all low-level OS, inference, protocol, UI, and cluste
 | `crates/fw-proto` | Zero-dep HTTP, WebSockets (RFC 6455), WebRTC SDP/DataChannel, GraphQL, OpenAPI 3.1, OpenAI, MCP, ACP, A2A, `/webgpu` harness | Native |
 | `crates/fw-ui-blitz` | DioxusLabs/blitz (`v0.3.0-beta.4`) aligned zero-dep RGBA PNG renderer (`vello_gpu` / `vello_cpu` parity) | Native |
 | `crates/fw-wasm` | `wasm32-unknown-unknown` & `wasm32-wasip2` compute kernel for Cloudflare Workers & End-User Browser WebGPU/FPU | Wasm32 |
-| `crates/fw-bin` | Single unified zero-system-dependency Fat-LTO binary (`fairwind-native`) | Win11 / Linux musl / Darwin |
+| `crates/fw-bin` | Single unified zero-system-dependency Fat-LTO binary (`fw-native`) | Win11 / Linux musl / Darwin |

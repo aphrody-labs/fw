@@ -6,7 +6,7 @@ Generated reproducibly by `bun tools/competitor_audit.ts` (live GitHub API + loc
 
 | Projet | Stars | Dernier push | Licence | Workspace Members | Crates | Root Deps (externes) | Sécurité mémoire |
 |---|---:|---|---|---:|---:|---:|---|
-| **fw (Fairwind)** (`aphrody-labs/fairwind`) | private | `2026-11-19` | MIT | 14 | 13 | **5** (16 total) | 12/13 #![forbid(unsafe_code)] |
+| **fw** (`aphrody-labs/fw`) | private | `2026-11-19` | MIT | 14 | 13 | **5** (16 total) | 12/13 #![forbid(unsafe_code)] |
 | **ZeroClaw** (`zeroclaw-labs/zeroclaw`) | 33,495 | `2026-11-19` | Apache-2.0 | 44 | 24 | **67** (75 total) | partial (FFI/sys crates) |
 | **OpenFang** (`RightNow-AI/openfang`) | 18,271 | `2026-07-02` | Apache-2.0 | 14 | 13 | **63** (63 total) | partial (runtime crates) |
 | **IronClaw** (`nearai/ironclaw`) | 12,718 | `2026-11-09` | Apache-2.0 | 68 | 10 | **35** (89 total) | partial (Wasmtime/crypto) |
@@ -19,7 +19,7 @@ Generated reproducibly by `bun tools/competitor_audit.ts` (live GitHub API + loc
 
 | Projet | Dossiers racine | Organisation top-level |
 |---|---:|---|
-| **fw (Fairwind)** | 16 | `cloudflare`, `cluster`, `configs`, `core`, `crates`, `docs`, `native`, `nix`, `os`, `plugin`, ... |
+| **fw** | 16 | `cloudflare`, `cluster`, `configs`, `core`, `crates`, `docs`, `native`, `nix`, `os`, `plugin`, ... |
 | **ZeroClaw** | 21 | `apps`, `benches`, `crates`, `demo`, `deploy-k8s`, `dev`, `dist`, `docs`, `evals`, `firmware`, ... |
 | **OpenFang** | 9 | `agents`, `crates`, `deploy`, `docs`, `packages`, `public`, `scripts`, `sdk`, `xtask` |
 | **IronClaw** | 16 | `crates`, `deploy`, `docker`, `docs`, `harness`, `infra`, `migrations`, `openwiki`, `profiles`, `prompts`, ... |
@@ -58,7 +58,7 @@ Generated reproducibly by `bun tools/competitor_audit.ts` (live GitHub API + loc
 | Capacité | `fw` | ZeroClaw | OpenFang | IronClaw | Zed | Asterinas |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **OS / Userland** | Oui (`fw-uutils`, Alpine musl, NixOS) | Non | Non | Non | Non | Oui (Linux ABI) |
-| **Kernel** | Oui (`os/fairwind-os` Asterinas OSDK + `fw-ostd-wasm`) | Non | Non | Non | Non | Oui (Framekernel OSTD) |
+| **Kernel** | Oui (`os/fw-os` Asterinas OSDK + `fw-ostd-wasm`) | Non | Non | Non | Non | Oui (Framekernel OSTD) |
 | **Wasm** | Oui (`fw-wasm` `wasm32-unknown-unknown`) | Partiel | Partiel | Oui (Wasmtime plugins) | Oui (extensions WIT) | Non |
 | **WebGPU** | Oui (`fw-wayland-wgpu`, WGSL, probe web) | Non | Non | Non | Oui (GPUI Metal/Vulkan/DX12) | Non |
 | **Cluster / Routing** | Oui (`fw-cluster` Pingora/Dynamo/vLLM-Router) | Non | Non | Partiel (TEE nodes) | Partiel (collab server) | Non |
@@ -67,7 +67,7 @@ Generated reproducibly by `bun tools/competitor_audit.ts` (live GitHub API + loc
 | **A2A (Agent-to-Agent)** | Partiel (spec `fw-cluster` / relay) | Partiel | Oui | Oui | Non | Non |
 | **Cloudflare Edge** | Oui (`cloudflare/` Workers + SQLite DO) | Non | Non | Non | Non | Non |
 | **Nix** | Oui (`flake.nix` flake-parts + crane + NixOS) | Partiel | Non | Non | Oui (`nix/` flake-parts + crane) | Partiel (dev env) |
-| **WSL** | Oui (`os/fairwind-wsl` tuning WSL + GPU) | Non | Non | Non | Oui (WSL remote) | Non |
+| **WSL** | Oui (`os/fw-wsl` tuning WSL + GPU) | Non | Non | Non | Oui (WSL remote) | Non |
 | **CLI-to-Skill** | Oui (`fw-hermes-claw` `agentskills.io` gen) | Partiel (skills MD) | Oui (skill registry) | Partiel (Wasm tools) | Oui (skills / rules) | Non |
 
 ## 6. Comparaison UI/UX (Web / GPUI / Blitz / TUI)

@@ -3,13 +3,13 @@
 // Runtime types generated with workerd@1.20261113.1 2026-11-19 nodejs_compat
 interface __BaseEnv_Env {
 	ASSETS: Fetcher;
-	FAIRWIND_ENV: "production";
-	FAIRWIND_OS: DurableObjectNamespace<import("./worker").FairwindOSAgent>;
+	FW_ENV: "production";
+	FW_OS: DurableObjectNamespace<import("./worker").FwOSAgent>;
 }
 declare namespace Cloudflare {
 	interface GlobalProps {
 		mainModule: typeof import("./worker");
-		durableNamespaces: "FairwindOSAgent";
+		durableNamespaces: "FwOSAgent";
 	}
 	interface Env extends __BaseEnv_Env {}
 }
@@ -18,7 +18,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "FAIRWIND_ENV">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "FW_ENV">> {}
 }
 declare module "*.txt" {
 	const value: string;

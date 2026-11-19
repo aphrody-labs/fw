@@ -1,4 +1,4 @@
-"""Native Python/uv Fairwind (``fw``) plugin for Hermes Agent.
+"""Native Python/uv Fw (``fw``) plugin for Hermes Agent.
 
 Follows Hermes Agent's "Plugins never touch core" contract: exposes ``fw bench``,
 ``fw grep``/``find``/``ls``, ``ggml_dlpack``, and ``vllm_paged_kv`` through
@@ -253,7 +253,7 @@ def get_tool_specs() -> list[HermesToolSpec]:
     return [
         HermesToolSpec(
             name="fw_bench",
-            description="Run Fairwind CLI or in-process Q8_0 microbenchmark.",
+            description="Run Fw CLI or in-process Q8_0 microbenchmark.",
             parameters={
                 "type": "object",
                 "properties": {
@@ -330,7 +330,7 @@ def get_tool_specs() -> list[HermesToolSpec]:
 
 
 def register(ctx: Any) -> list[str]:
-    """Hermes Agent plugin entrypoint: register all Fairwind tools on ``ctx``."""
+    """Hermes Agent plugin entrypoint: register all Fw tools on ``ctx``."""
     registered: list[str] = []
     for spec in get_tool_specs():
         if hasattr(ctx, "register_tool"):

@@ -6,7 +6,7 @@ id = "llama-cpp"
 repo = "ggml-org/llama.cpp"
 branch = "master"
 docs = "https://github.com/ggml-org/llama.cpp/blob/master/CONTRIBUTING.md"
-fairwind = "crates/fw-ggml"
+fw = "crates/fw-ggml"
 role = "GGUF v3, quantized dot/matmul, ggml-rpc, zero-bloat C/Rust discipline"
 
 [[upstream]]
@@ -14,7 +14,7 @@ id = "asterinas"
 repo = "asterinas/asterinas"
 branch = "main"
 docs = "https://asterinas.github.io/book/osdk/guide/create-project.html"
-fairwind = "os/fairwind-os + crates/fw-ostd-wasm"
+fw = "os/fw-os + crates/fw-ostd-wasm"
 role = "Optional memory-safe guest microVM sandbox (v0.19.0 pre-1.0; Linux CachyOS LTO is primary OS)"
 
 [[upstream]]
@@ -22,7 +22,7 @@ id = "cloudflare-os"
 repo = "cloudflare/cloudflare-os"
 branch = "main"
 docs = "https://developers.cloudflare.com/agents/"
-fairwind = "cloudflare/worker.ts"
+fw = "cloudflare/worker.ts"
 role = "Multi-tenant AI OS, 19 gatekeepers, gadgets, Workers Static Assets"
 
 [[upstream]]
@@ -30,7 +30,7 @@ id = "cloudflare-computer"
 repo = "cloudflare/computer"
 branch = "main"
 docs = "https://github.com/cloudflare/computer#readme"
-fairwind = "cloudflare/worker.ts"
+fw = "cloudflare/worker.ts"
 role = "DO SQLite VFS (dofs), computerd FUSE over capnweb RPC, 3-tier runtime"
 
 [[upstream]]
@@ -38,7 +38,7 @@ id = "pingora"
 repo = "cloudflare/pingora"
 branch = "main"
 docs = "https://github.com/cloudflare/pingora#readme"
-fairwind = "crates/fw-cluster"
+fw = "crates/fw-cluster"
 role = "Low-latency Rust L7 proxy, pooling, hybrid 3-VPS + Edge routing"
 
 [[upstream]]
@@ -46,7 +46,7 @@ id = "kitesurf"
 repo = "cloudflare/kitesurf"
 branch = "main"
 docs = "https://github.com/cloudflare/kitesurf#readme"
-fairwind = "cloudflare/worker.ts"
+fw = "cloudflare/worker.ts"
 role = "Zero-Chrome Workers Isolate browser engine"
 
 [[upstream]]
@@ -54,7 +54,7 @@ id = "lol-html"
 repo = "cloudflare/lol-html"
 branch = "master"
 docs = "https://github.com/cloudflare/lol-html#readme"
-fairwind = "crates/fw-wasm + crates/fw-proto"
+fw = "crates/fw-wasm + crates/fw-proto"
 role = "Zero-copy streaming Rust/Wasm HTML parser & CSS selector rewriter"
 
 [[upstream]]
@@ -62,7 +62,7 @@ id = "rmcp"
 repo = "modelcontextprotocol/rust-sdk"
 branch = "main"
 docs = "https://modelcontextprotocol.io/specification"
-fairwind = "crates/fw-hermes-claw"
+fw = "crates/fw-hermes-claw"
 role = "Official MCP Rust SDK (JSON-RPC 2.0, tools/list, tools/call)"
 
 [[upstream]]
@@ -70,7 +70,7 @@ id = "zeroclaw"
 repo = "zeroclaw-labs/zeroclaw"
 branch = "main"
 docs = "https://github.com/zeroclaw-labs/zeroclaw#readme"
-fairwind = "crates/fw-hermes-claw"
+fw = "crates/fw-hermes-claw"
 role = "Full-Rust autonomous multi-channel assistant reference"
 
 [[upstream]]
@@ -78,7 +78,7 @@ id = "zed"
 repo = "zed-industries/zed"
 branch = "main"
 docs = "https://zed.dev/docs"
-fairwind = "crates/fw-ostd-wasm + flake.nix"
+fw = "crates/fw-ostd-wasm + flake.nix"
 role = "GPUI retained rendering, ACP External Agents, flake-parts + crane"
 
 [[upstream]]
@@ -86,7 +86,7 @@ id = "nix-cachyos-kernel"
 repo = "xddxdd/nix-cachyos-kernel"
 branch = "release"
 docs = "https://github.com/xddxdd/nix-cachyos-kernel#readme"
-fairwind = "flake.nix + nix/hosts/"
+fw = "flake.nix + nix/hosts/"
 role = "Clang+ThinLTO CachyOS kernels (x86_64-v3 + zen4) with binary cache"
 
 [[upstream]]
@@ -94,7 +94,7 @@ id = "openvmm"
 repo = "microsoft/openvmm"
 branch = "main"
 docs = "https://openvmm.dev/guide/"
-fairwind = "os/fairwind-wsl"
+fw = "os/fw-wsl"
 role = "Memory-safe Rust VMM replacing legacy Hyper-V/WSL C++ host layers"
 
 [[upstream]]
@@ -102,7 +102,7 @@ id = "ironrdp"
 repo = "Devolutions/IronRDP"
 branch = "master"
 docs = "https://github.com/Devolutions/IronRDP#readme"
-fairwind = "os/fairwind-wsl"
+fw = "os/fw-wsl"
 role = "Memory-safe Rust RDP transport replacing legacy WSLg FreeRDP C"
 
 [[upstream]]
@@ -110,7 +110,7 @@ id = "scx"
 repo = "sched-ext/scx"
 branch = "main"
 docs = "https://github.com/sched-ext/scx#readme"
-fairwind = "nix/modules/vps-common.nix + os/fairwind-wsl"
+fw = "nix/modules/vps-common.nix + os/fw-wsl"
 role = "Rust BPF sched_ext schedulers (scx_lavd, scx_bpfland) on Linux CachyOS LTO"
 
 [[upstream]]
@@ -118,7 +118,7 @@ id = "cloud-hypervisor"
 repo = "cloud-hypervisor/cloud-hypervisor"
 branch = "main"
 docs = "https://github.com/cloud-hypervisor/cloud-hypervisor#readme"
-fairwind = "nix/modules/vps-common.nix"
+fw = "nix/modules/vps-common.nix"
 role = "Rust KVM microVM VMM (virtio-fs, vsock, VFIO) for Tier-2 agent sandboxes"
 
 [[upstream]]
@@ -126,5 +126,5 @@ id = "uutils-coreutils"
 repo = "uutils/coreutils"
 branch = "main"
 docs = "https://uutils.github.io/coreutils/"
-fairwind = "flake.nix + crates/fw-uutils"
+fw = "flake.nix + crates/fw-uutils"
 role = "Cross-platform pure-Rust POSIX coreutils replacing GNU coreutils"

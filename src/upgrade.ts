@@ -107,9 +107,9 @@ export function checkUpgrade(root: string): UpgradeCheckReport {
 
   const upgradeRequired = reasons.length > 0;
   const plan = [
-    "cargo build --release --manifest-path native/fairwind-abi/Cargo.toml (Fat LTO cdylib + craft-pe + tree-sitter)",
-    "cargo build --release --manifest-path native/fairwind-agy/Cargo.toml (Fat LTO AOT native agy launcher)",
-    "bun build --compile --aot --trim --no-compile-function-source src/fairwind_cli.ts --outfile dist/fairwind.staging.exe",
+    "cargo build --release --manifest-path native/fw-abi/Cargo.toml (Fat LTO cdylib + craft-pe + tree-sitter)",
+    "cargo build --release --manifest-path native/fw-agy/Cargo.toml (Fat LTO AOT native agy launcher)",
+    "bun build --compile --aot --trim --no-compile-function-source src/fw_cli.ts --outfile dist/fw.staging.exe",
     "verify gates: uvx ruff check ., cargo test (pe/abi/agy), bun test tests, staged binary smoke checks",
     "atomic promote into target/agy/ and dist/ + update target/manifest.json + target/upgrade-history.jsonl",
   ];
@@ -142,15 +142,15 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
   const steps: Array<{ name: string; cmd: string[] }> = [
     {
       name: "build-abi-fat-lto",
-      cmd: ["cargo", "build", "--release", "--manifest-path", "native/fairwind-abi/Cargo.toml"],
+      cmd: ["cargo", "build", "--release", "--manifest-path", "native/fw-abi/Cargo.toml"],
     },
     {
       name: "build-agy-fat-lto",
-      cmd: ["cargo", "build", "--release", "--manifest-path", "native/fairwind-agy/Cargo.toml"],
+      cmd: ["cargo", "build", "--release", "--manifest-path", "native/fw-agy/Cargo.toml"],
     },
   ];
 
-  const stagedCli = join(stageDir, isWin ? "fairwind.exe" : "fairwind");
+  const stagedCli = join(stageDir, isWin ? "fw.exe" : "fw");
   steps.push({
     name: "build-cli-bun-aot-trim",
     cmd: [
@@ -160,7 +160,7 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
       "--aot",
       "--trim",
       "--no-compile-function-source",
-      "src/fairwind_cli.ts",
+      "src/fw_cli.ts",
       "--outfile",
       stagedCli,
     ],
@@ -169,10 +169,10 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
   if (!options.skipTests) {
     steps.push(
       { name: "ruff-lint", cmd: ["uvx", "ruff", "check", "."] },
-      { name: "cargo-test-pe", cmd: ["cargo", "test", "--manifest-path", "native/fairwind-pe/Cargo.toml"] },
-      { name: "cargo-test-sniff", cmd: ["cargo", "test", "--manifest-path", "native/fairwind-sniff/Cargo.toml"] },
-      { name: "cargo-test-abi", cmd: ["cargo", "test", "--manifest-path", "native/fairwind-abi/Cargo.toml"] },
-      { name: "cargo-test-agy", cmd: ["cargo", "test", "--manifest-path", "native/fairwind-agy/Cargo.toml"] },
+      { name: "cargo-test-pe", cmd: ["cargo", "test", "--manifest-path", "native/fw-pe/Cargo.toml"] },
+      { name: "cargo-test-sniff", cmd: ["cargo", "test", "--manifest-path", "native/fw-sniff/Cargo.toml"] },
+      { name: "cargo-test-abi", cmd: ["cargo", "test", "--manifest-path", "native/fw-abi/Cargo.toml"] },
+      { name: "cargo-test-agy", cmd: ["cargo", "test", "--manifest-path", "native/fw-agy/Cargo.toml"] },
     );
   }
 
@@ -198,7 +198,7 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
   // Smoke-check staged binaries BEFORE promoting
   const abiSrc = resolve(
     root,
-    isWin ? cfg.artifacts.fairwindAbiLto.buildOutput! : cfg.artifacts.fairwindAbiLto.buildOutputUnix!,
+    isWin ? cfg.artifacts.fwAbiLto.buildOutput! : cfg.artifacts.fwAbiLto.buildOutputUnix!,
   );
   const agySrc = resolve(
     root,
@@ -207,7 +207,7 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
 
   for (const smoke of [
     { name: "smoke-staged-cli", cmd: [stagedCli, "status"] },
-    { name: "smoke-staged-agy", cmd: [agySrc, "--fairwind-info"] },
+    { name: "smoke-staged-agy", cmd: [agySrc, "--fw-info"] },
   ]) {
     const res = runCaptured(smoke.cmd, root);
     gates.push({ name: smoke.name, ok: res.ok, durationMs: res.durationMs, exitCode: res.exitCode });
@@ -232,12 +232,12 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
     {
       name: "target-abi",
       src: abiSrc,
-      dest: resolve(root, isWin ? cfg.artifacts.fairwindAbiLto.targetPath : cfg.artifacts.fairwindAbiLto.targetPathUnix),
+      dest: resolve(root, isWin ? cfg.artifacts.fwAbiLto.targetPath : cfg.artifacts.fwAbiLto.targetPathUnix),
     },
     {
       name: "dist-abi",
       src: abiSrc,
-      dest: resolve(root, isWin ? cfg.artifacts.fairwindAbiLto.distPath : cfg.artifacts.fairwindAbiLto.distPathUnix),
+      dest: resolve(root, isWin ? cfg.artifacts.fwAbiLto.distPath : cfg.artifacts.fwAbiLto.distPathUnix),
     },
     {
       name: "target-agy",
@@ -252,12 +252,12 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
     {
       name: "target-cli",
       src: stagedCli,
-      dest: resolve(root, isWin ? cfg.artifacts.fairwindCliAot.targetPath : cfg.artifacts.fairwindCliAot.targetPathUnix),
+      dest: resolve(root, isWin ? cfg.artifacts.fwCliAot.targetPath : cfg.artifacts.fwCliAot.targetPathUnix),
     },
     {
       name: "dist-cli",
       src: stagedCli,
-      dest: resolve(root, isWin ? cfg.artifacts.fairwindCliAot.distPath : cfg.artifacts.fairwindCliAot.distPathUnix),
+      dest: resolve(root, isWin ? cfg.artifacts.fwCliAot.distPath : cfg.artifacts.fwCliAot.distPathUnix),
     },
   ];
 
@@ -307,7 +307,7 @@ export function buildAgyUpgradePlan(root: string) {
   const check = checkUpgrade(root);
   const upstream = resolveUpstreamAgyPath();
   const prompt = [
-    `Inspect the Fairwind monorepo at ${root} (tracked in fairwind.targets.json and target/manifest.json).`,
+    `Inspect the Fw monorepo at ${root} (tracked in fw.targets.json and target/manifest.json).`,
     check.changedModules.length > 0
       ? `Drifted modules: ${check.changedModules.join(", ")}.`
       : "No module drift detected; audit LTO/AOT build flags, PE inspection coverage, and test gates.",
@@ -326,8 +326,8 @@ export function runBenchmarks(root: string, iterations = 5) {
   const cfg = loadTargetsConfig(root);
   const isWin = process.platform === "win32";
   const agyTarget = resolve(root, isWin ? cfg.artifacts.agyNativeLto.targetPath : cfg.artifacts.agyNativeLto.targetPathUnix);
-  const cliTarget = resolve(root, isWin ? cfg.artifacts.fairwindCliAot.distPath : cfg.artifacts.fairwindCliAot.distPathUnix);
-  const abiTarget = resolve(root, isWin ? cfg.artifacts.fairwindAbiLto.targetPath : cfg.artifacts.fairwindAbiLto.targetPathUnix);
+  const cliTarget = resolve(root, isWin ? cfg.artifacts.fwCliAot.distPath : cfg.artifacts.fwCliAot.distPathUnix);
+  const abiTarget = resolve(root, isWin ? cfg.artifacts.fwAbiLto.targetPath : cfg.artifacts.fwAbiLto.targetPathUnix);
   const upstream = resolveUpstreamAgyPath();
 
   const measure = (label: string, bin: string | null, args: string[]) => {
@@ -347,11 +347,11 @@ export function runBenchmarks(root: string, iterations = 5) {
   };
 
   const results = {
-    fairwindAgyLto: measure("target/agy/agy (Rust Fat-LTO AOT)", agyTarget, ["--fairwind-info"]),
-    fairwindCliAot: measure("dist/fairwind (Bun AOT + trim)", cliTarget, ["status"]),
+    fwAgyLto: measure("target/agy/agy (Rust Fat-LTO AOT)", agyTarget, ["--fw-info"]),
+    fwCliAot: measure("dist/fw (Bun AOT + trim)", cliTarget, ["status"]),
     upstreamAgySigned: measure("upstream signed agy.exe (--version)", upstream, ["--version"]),
-    fairwindAbiLto: {
-      label: "fairwind_abi (Rust Fat-LTO cdylib)",
+    fwAbiLto: {
+      label: "fw_abi (Rust Fat-LTO cdylib)",
       path: abiTarget,
       exists: existsSync(abiTarget),
       bytes: existsSync(abiTarget) ? statSync(abiTarget).size : 0,
@@ -359,8 +359,8 @@ export function runBenchmarks(root: string, iterations = 5) {
   };
 
   const sizeReductionPct =
-    results.upstreamAgySigned.bytes > 0 && results.fairwindAgyLto.bytes > 0
-      ? Math.round((1 - results.fairwindAgyLto.bytes / results.upstreamAgySigned.bytes) * 10000) / 100
+    results.upstreamAgySigned.bytes > 0 && results.fwAgyLto.bytes > 0
+      ? Math.round((1 - results.fwAgyLto.bytes / results.upstreamAgySigned.bytes) * 10000) / 100
       : null;
 
   return {
@@ -370,8 +370,8 @@ export function runBenchmarks(root: string, iterations = 5) {
     comparisons: {
       agyLtoVsUpstreamSizeReductionPct: sizeReductionPct,
       agyLtoSpeedupVsUpstream:
-        results.upstreamAgySigned.medianMs && results.fairwindAgyLto.medianMs
-          ? Math.round((results.upstreamAgySigned.medianMs / results.fairwindAgyLto.medianMs) * 100) / 100
+        results.upstreamAgySigned.medianMs && results.fwAgyLto.medianMs
+          ? Math.round((results.upstreamAgySigned.medianMs / results.fwAgyLto.medianMs) * 100) / 100
           : null,
     },
   };

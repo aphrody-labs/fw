@@ -19,7 +19,7 @@ pub const WEBGPU_HTML_HARNESS: &str = r#"<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Fairwind v3.0 — WebGPU + Wasm32 Hybrid Cluster Proof</title>
+  <title>Fw v3.0 — WebGPU + Wasm32 Hybrid Cluster Proof</title>
   <style>
     body { margin: 0; font-family: system-ui, sans-serif; background: #0b1020; color: #e6eefc; padding: 24px; }
     .card { max-width: 820px; margin: 0 auto; background: #121a30; border: 1px solid #26355a; border-radius: 12px; padding: 20px; }
@@ -29,12 +29,12 @@ pub const WEBGPU_HTML_HARNESS: &str = r#"<!doctype html>
 </head>
 <body>
   <div class="card">
-    <h1>Fairwind v3.0 — WebGPU (Dawn/WGPU) + Wasm32 + GGML Cluster</h1>
+    <h1>Fw v3.0 — WebGPU (Dawn/WGPU) + Wasm32 + GGML Cluster</h1>
     <p id="status">Probing WebGPU adapter...</p>
     <pre id="result">{}</pre>
   </div>
   <script>
-    window.__fairwindWebGpuProof = (async () => {
+    window.__fwWebGpuProof = (async () => {
       const out = { ok: true, hasNavigatorGpu: Boolean(navigator.gpu), adapter: null, computeResult: null };
       try {
         if (navigator.gpu) {
@@ -82,7 +82,7 @@ pub fn build_openapi_3_1() -> Value {
     json!({
         "openapi": "3.1.0",
         "info": {
-            "title": "Fairwind v3.0 Unified Zero-Dep Hybrid Cluster API",
+            "title": "Fw v3.0 Unified Zero-Dep Hybrid Cluster API",
             "version": "3.0.0"
         },
         "paths": {
@@ -134,12 +134,12 @@ pub fn handle_webrtc_offer(router: &mut HybridClusterRouter, body: &Value) -> Va
     let vram_gb = body.get("vramGb").and_then(|v| v.as_u64()).unwrap_or(4) as u32;
     let cpu_cores = body.get("cpuCores").and_then(|v| v.as_u64()).unwrap_or(4) as u32;
     router.register_user_webgpu_peer(peer_id, vram_gb, cpu_cores);
-    let sdp_answer = "v=0\r\no=fairwind-v3 1 1 IN IP4 127.0.0.1\r\ns=FairwindWebGpuDataChannel\r\nt=0 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\na=setup:active\r\na=mid:0\r\na=sctp-port:5000\r\n".to_string();
+    let sdp_answer = "v=0\r\no=fw-v3 1 1 IN IP4 127.0.0.1\r\ns=FwWebGpuDataChannel\r\nt=0 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\na=setup:active\r\na=mid:0\r\na=sctp-port:5000\r\n".to_string();
     json!({
         "ok": true,
         "type": "answer",
         "peerId": peer_id,
-        "datachannel": "fairwind-webgpu-compute",
+        "datachannel": "fw-webgpu-compute",
         "sdp": sdp_answer
     })
 }
@@ -155,7 +155,7 @@ pub fn dispatch_http(
         ("GET", "/") => (200, "text/html; charset=utf-8", CONTROL_PLANE_HTML.to_string()),
         ("GET", "/webgpu") => (200, "text/html; charset=utf-8", WEBGPU_HTML_HARNESS.to_string()),
         ("GET", "/claw/status") => {
-            let agent = HermesClawAgent::new("fairwind-hermes-claw");
+            let agent = HermesClawAgent::new("fw-hermes-claw");
             (
                 200,
                 "application/json",
@@ -185,14 +185,14 @@ pub fn dispatch_http(
                 .get("goal")
                 .and_then(|v| v.as_str())
                 .unwrap_or("Audit Rust CLI MCP skills");
-            let mut agent = HermesClawAgent::new("fairwind-hermes-claw");
+            let mut agent = HermesClawAgent::new("fw-hermes-claw");
             let report = agent.run_goal(ChannelKind::HttpWebhook, goal);
             (200, "application/json", json!(report).to_string())
         }
         ("GET", "/health") => (
             200,
             "application/json",
-            json!({ "ok": true, "product": "fairwind", "version": "3.0.0", "zeroSystemDeps": true }).to_string(),
+            json!({ "ok": true, "product": "fw", "version": "3.0.0", "zeroSystemDeps": true }).to_string(),
         ),
         ("GET", "/hardware") => (200, "application/json", json!(detect_hardware_profile()).to_string()),
         ("GET", "/compute/bench") => (200, "application/json", json!(run_compute_smoke_bench()).to_string()),
@@ -201,7 +201,7 @@ pub fn dispatch_http(
             200,
             "application/json",
             json!({
-                "name": "Fairwind v3.0 Hybrid Cluster Agent",
+                "name": "Fw v3.0 Hybrid Cluster Agent",
                 "version": "3.0.0",
                 "protocols": ["http", "websocket", "webrtc", "graphql", "openapi-3.1", "openai", "mcp", "acp", "a2a", "ggml-rpc", "gemini-decision-1"]
             })
@@ -212,7 +212,7 @@ pub fn dispatch_http(
             (200, "application/json", r.summary().to_string())
         }
         ("POST", "/cluster/route") => {
-            let prompt = body_json.get("prompt").and_then(|v| v.as_str()).unwrap_or("fairwind");
+            let prompt = body_json.get("prompt").and_then(|v| v.as_str()).unwrap_or("fw");
             let draft = body_json.get("userWebGpuDraft").and_then(|v| v.as_bool()).unwrap_or(true);
             let mut r = router.lock().unwrap_or_else(|e| e.into_inner());
             let decision = r.route_request(prompt, draft);
@@ -233,7 +233,7 @@ pub fn dispatch_http(
             json!({
                 "object": "list",
                 "data": [
-                    { "id": "fairwind-ggml-hybrid", "object": "model", "owned_by": "fairwind" },
+                    { "id": "fw-ggml-hybrid", "object": "model", "owned_by": "fw" },
                     { "id": "gemini-decision-1", "object": "model", "owned_by": "google" }
                 ]
             })
@@ -253,9 +253,9 @@ pub fn dispatch_http(
                 200,
                 "application/json",
                 json!({
-                    "id": "chatcmpl-fairwind-v3",
+                    "id": "chatcmpl-fw-v3",
                     "object": "chat.completion",
-                    "model": "fairwind-ggml-hybrid",
+                    "model": "fw-ggml-hybrid",
                     "routing": route,
                     "choices": [{
                         "index": 0,
@@ -267,7 +267,7 @@ pub fn dispatch_http(
             )
         }
         ("POST", "/mcp") => {
-            let agent = HermesClawAgent::new("fairwind-hermes-claw");
+            let agent = HermesClawAgent::new("fw-hermes-claw");
             let resp = agent.mcp.handle_jsonrpc(&body_json);
             (200, "application/json", resp.to_string())
         }
@@ -310,7 +310,7 @@ async fn handle_conn(mut stream: TcpStream, router: Arc<Mutex<HybridClusterRoute
     // Detect WebSocket upgrade
     let is_ws = req.to_ascii_lowercase().contains("upgrade: websocket");
     if is_ws {
-        let resp = "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nX-Fairwind-WS: v3.0\r\n\r\n";
+        let resp = "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nX-Fw-WS: v3.0\r\n\r\n";
         let _ = stream.write_all(resp.as_bytes()).await;
         return;
     }
@@ -350,7 +350,7 @@ mod tests {
         let router = Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster()));
         let (code, _, gql) = dispatch_http(&router, "POST", "/graphql", r#"{"query":"{ status hardware cluster wgsl }"}"#);
         assert_eq!(code, 200);
-        assert!(gql.contains("fairwind-hybrid-v3"));
+        assert!(gql.contains("fw-hybrid-v3"));
 
         let (code, _, rtc) = dispatch_http(&router, "POST", "/rtc/offer", r#"{"peerId":"browser-rtx","vramGb":8}"#);
         assert_eq!(code, 200);

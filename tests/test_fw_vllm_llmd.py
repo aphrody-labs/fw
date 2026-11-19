@@ -1,4 +1,4 @@
-"""Unit tests for Fairwind vLLM plugin, llm-d EPP scorer, and migration CLI."""
+"""Unit tests for Fw vLLM plugin, llm-d EPP scorer, and migration CLI."""
 
 from __future__ import annotations
 
@@ -52,7 +52,7 @@ class TestVllmFwPlugin(unittest.TestCase):
         self.assertEqual(data["plugin"]["entrypoint"], "fw_vllm_plugin:register")
         self.assertEqual(data["plugin"]["dependencies"], [])
         self.assertEqual(data["vllm"]["kv_connector_abi"], "KVConnectorBase_V1")
-        self.assertTrue(data["fairwind"]["disaggregated_pd"])
+        self.assertTrue(data["fw"]["disaggregated_pd"])
 
     def test_register_idempotency_and_allowlist_gating(self) -> None:
         # Explicit empty allowlist blocks registration (matches vllm/plugins/__init__.py)
@@ -81,7 +81,7 @@ class TestVllmFwPlugin(unittest.TestCase):
         self.assertIsNotNone(fw_vllm_plugin.get_connector())
 
     def test_prefix_key_matches_fw_cluster_rust_sha256_contract(self) -> None:
-        prompt = "System prompt: Fairwind v3.0 ggml-rpc hybrid cluster"
+        prompt = "System prompt: Fw v3.0 ggml-rpc hybrid cluster"
         expected = hashlib.sha256(prompt.encode("utf-8")[:128]).hexdigest()[:16]
         self.assertEqual(fw_vllm_plugin.fw_prefix_key(prompt), expected)
         self.assertEqual(len(expected), 16)
@@ -110,8 +110,8 @@ class TestVllmFwPlugin(unittest.TestCase):
         self.assertEqual(cfg.transport, "nixl")
         self.assertEqual(cfg.kv_role, fw_vllm_plugin.KVRole.KV_PRODUCER)
 
-        conn = fw_vllm_plugin.FairwindKVConnectorV1(cfg)
-        prompt = "Explain Fairwind PagedAttention and NIXL KV transfer"
+        conn = fw_vllm_plugin.FwKVConnectorV1(cfg)
+        prompt = "Explain Fw PagedAttention and NIXL KV transfer"
         tokens = [10, 20, 30, 40, 50, 60, 70, 80]
         hashes = fw_vllm_plugin.compute_paged_block_hashes(tokens, block_size=4)
         self.assertEqual(len(hashes), 2)
@@ -175,7 +175,7 @@ class TestLlmdFwScorer(unittest.TestCase):
         self.assertIn("token-load-scorer", data["llmd"]["scorer_plugins"])
 
     def test_score_endpoints_prefix_affinity_and_load_balancing(self) -> None:
-        prompt = "System prompt: Fairwind llm-d prefix cache routing benchmark"
+        prompt = "System prompt: Fw llm-d prefix cache routing benchmark"
         pkey = fw_llmd_scorer.fw_prefix_key(prompt)
         endpoints = [
             {
@@ -216,7 +216,7 @@ class TestLlmdFwScorer(unittest.TestCase):
         self.assertEqual(scored[-1].reason, "unhealthy")
 
     def test_select_pd_endpoints_disaggregated_with_vps_and_webgpu(self) -> None:
-        prompt = "System prompt: Fairwind v4.2 disaggregated P/D routing"
+        prompt = "System prompt: Fw v4.2 disaggregated P/D routing"
         pkey = fw_llmd_scorer.fw_prefix_key(prompt)
         endpoints = [
             fw_llmd_scorer.EndpointState(
@@ -251,7 +251,7 @@ class TestLlmdFwScorer(unittest.TestCase):
             ),
             fw_llmd_scorer.EndpointState(
                 id="user-webgpu-peer-1",
-                endpoint="webrtc://peer-1/fairwind-compute",
+                endpoint="webrtc://peer-1/fw-compute",
                 role="webgpu_draft",
                 kind="UserWebGpuFpu",
             ),
@@ -294,7 +294,7 @@ class TestMigrateVllmLlmdToFw(unittest.TestCase):
         res = migrate_mod.migrate_vllm_to_fw(cli, apply=False)
         self.assertFalse(res.applied)
         self.assertEqual(res.written_files, [])
-        self.assertEqual(res.cluster_config["cluster_name"], "fairwind-migrated-vllm")
+        self.assertEqual(res.cluster_config["cluster_name"], "fw-migrated-vllm")
         self.assertEqual(res.cluster_config["migration"]["models"], ["Qwen/Qwen3-32B"])
         gpu_node = res.cluster_config["nodes"][0]
         self.assertEqual(gpu_node["endpoint"], "http://127.0.0.1:8000")

@@ -50,7 +50,7 @@ struct PreparedBundle {
 }
 
 /// Initialize the bundle before any portable-pty PTY is opened in this process.
-/// In Fairwind source-only mode (`bundled-conpty` disabled), uses the native system ConPTY.
+/// In Fw source-only mode (`bundled-conpty` disabled), uses the native system ConPTY.
 pub fn initialize() -> Result<()> {
     #[cfg(not(feature = "bundled-conpty"))]
     {

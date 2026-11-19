@@ -303,7 +303,7 @@ export function createOpenClawFwPlugin(config: OpenClawFwPluginConfig = {}) {
     },
     fw_claw: {
       name: "fw_claw",
-      description: "Run Fairwind Hermes/OpenClaw actions (status, sandbox-check, kv-route, tool-compile).",
+      description: "Run Fw Hermes/OpenClaw actions (status, sandbox-check, kv-route, tool-compile).",
       inputSchema: {
         type: "object",
         properties: {
@@ -398,7 +398,7 @@ export function createOpenClawFwPlugin(config: OpenClawFwPluginConfig = {}) {
 
   return {
     id: "openclaw-fw",
-    name: "Fairwind (fw) Bun-Native Runtime",
+    name: "fw Bun-Native Runtime",
     version: "4.2.0",
     tools: toolMap,
     handleMcpRequest,
@@ -418,8 +418,8 @@ export function createOpenClawFwPlugin(config: OpenClawFwPluginConfig = {}) {
 
 const defaultPlugin = {
   id: "openclaw-fw",
-  name: "Fairwind (fw) Bun-Native Runtime",
-  description: "Bun-native Fairwind (fw) plugin exposing ls, grep, find, bench, claw, and MCP JSON-RPC 2.0.",
+  name: "fw Bun-Native Runtime",
+  description: "Bun-native fw plugin exposing ls, grep, find, bench, claw, and MCP JSON-RPC 2.0.",
   version: "4.2.0",
   register(api: OpenClawPluginApiLike) {
     const instance = createOpenClawFwPlugin((api.config ?? {}) as OpenClawFwPluginConfig);

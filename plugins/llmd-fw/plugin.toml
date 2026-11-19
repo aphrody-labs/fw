@@ -1,7 +1,7 @@
 [plugin]
 name = "llmd-fw"
 version = "4.2.0"
-description = "Fairwind native llm-d Endpoint Picker (EPP) prefix-cache, KV-load, and disaggregated P/D scorer aligned with fw-cluster"
+description = "Fw native llm-d Endpoint Picker (EPP) prefix-cache, KV-load, and disaggregated P/D scorer aligned with fw-cluster"
 protocol = "llm-d.ai/v1/EndpointPickerConfig"
 entrypoint = "fw_llmd_scorer:score_endpoints"
 pd_selector = "fw_llmd_scorer:select_pd_endpoints"
@@ -25,7 +25,7 @@ default_prefill_port = 8000
 default_decode_port = 8200
 default_epp_metrics_port = 9090
 
-[fairwind]
+[fw]
 cluster_crate = "fw-cluster"
 prefix_hash = "sha256-128b-hex16"
 disaggregated_pd = true

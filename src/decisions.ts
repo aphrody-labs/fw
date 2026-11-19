@@ -34,7 +34,7 @@ export type DecisionAnswer =
 export interface DecisionsResponse {
   ok: boolean;
   model: string;
-  backend: "gemini-decision-1-remote" | "fairwind-system1-local";
+  backend: "gemini-decision-1-remote" | "fw-system1-local";
   outputTokens: 0;
   questionCount: number;
   answers: Record<string, DecisionAnswer>;
@@ -132,7 +132,7 @@ export function evaluateDecisionsLocal(req: DecisionsRequest): DecisionsResponse
   return {
     ok: true,
     model: req.model || "gemini-decision-1",
-    backend: "fairwind-system1-local",
+    backend: "fw-system1-local",
     outputTokens: 0,
     questionCount: entries.length,
     answers,
@@ -142,7 +142,7 @@ export function evaluateDecisionsLocal(req: DecisionsRequest): DecisionsResponse
 /**
  * Dual-mode Gemini Decision 1 evaluator:
  * - Uses official `https://generativelanguage.googleapis.com/v1beta/decisions` when `GEMINI_API_KEY` is set and mode !== "local".
- * - Seamlessly falls back to Fairwind's self-hosted zero-token local System-1 engine offline/self-hosted.
+ * - Seamlessly falls back to Fw's self-hosted zero-token local System-1 engine offline/self-hosted.
  */
 export async function evaluateDecisions(req: DecisionsRequest): Promise<DecisionsResponse> {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -182,9 +182,9 @@ export async function evaluateDecisions(req: DecisionsRequest): Promise<Decision
 /**
  * End-to-end self-hosted AI workflow fusing:
  * 1. Gemini Decision 1 (System-1 zero-token routing, policy check, rubric score)
- * 2. Fairwind SQLite FTS5 Brain retrieval
+ * 2. Fw SQLite FTS5 Brain retrieval
  * 3. Gemma / local GGUF / Antigravity / Cloudflare AI Router selection
- * 4. Fairwind Soul invariants
+ * 4. Fw Soul invariants
  */
 export async function runSelfHostedAiWorkflow(root: string, taskInput: string, mode: "local" | "auto" = "local") {
   const decisions = await evaluateDecisions({
@@ -201,7 +201,7 @@ export async function runSelfHostedAiWorkflow(root: string, taskInput: string, m
         instructions: "Select the optimal self-hosted execution backend for this task.",
         criteria: {
           "gemma-local-gguf": "Fast local privacy-first generation, summarization, or self-hosted chat using Gemma/GGUF.",
-          "fairwind-lowlevel": "Binary analysis, PE/ELF/WASM, Assembly, CUDA, WebGPU, Rust Fat-LTO compilation.",
+          "fw-lowlevel": "Binary analysis, PE/ELF/WASM, Assembly, CUDA, WebGPU, Rust Fat-LTO compilation.",
           "antigravity-sdk": "Multi-step autonomous coding agent orchestration, tools, MCP, ACP, and repo upgrades.",
           "cloudflare-edge": "Edge Worker deployment, Durable Objects VFS, R2/D1/Vectorize, or global API serving.",
         },
@@ -224,7 +224,7 @@ export async function runSelfHostedAiWorkflow(root: string, taskInput: string, m
   const selectedTrack = routeAnswer?.type === "choice" ? routeAnswer.choice : "gemma-local-gguf";
   const modelMap: Record<string, string> = {
     "gemma-local-gguf": "gemma-3-12b-it-gguf",
-    "fairwind-lowlevel": "fairwind-local",
+    "fw-lowlevel": "fw-local",
     "antigravity-sdk": "gemini-4-neon",
     "cloudflare-edge": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
   };
@@ -234,7 +234,7 @@ export async function runSelfHostedAiWorkflow(root: string, taskInput: string, m
 
   return {
     ok: true,
-    workflow: "fairwind-self-hosted-gemini-gemma-agy",
+    workflow: "fw-self-hosted-gemini-gemma-agy",
     input: taskInput,
     stage1_decisions: decisions,
     stage2_brain: brainHits,
@@ -243,6 +243,6 @@ export async function runSelfHostedAiWorkflow(root: string, taskInput: string, m
       decision: routerDecision,
       availableProviders: DEFAULT_ROUTER_PROVIDERS.map((p) => p.id),
     },
-    stage4_soul: soul.identity ?? { name: "Fairwind" },
+    stage4_soul: soul.identity ?? { name: "Fw" },
   };
 }

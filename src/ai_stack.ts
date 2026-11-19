@@ -13,10 +13,10 @@ export interface RouterProviderEntry {
 
 export const DEFAULT_ROUTER_PROVIDERS: RouterProviderEntry[] = [
   {
-    id: "fairwind-llmd-local",
+    id: "fw-llmd-local",
     kind: "local-gguf",
     baseUrl: "http://127.0.0.1:8080/v1",
-    models: ["fairwind-local", "gguf-default", "whisper-local"],
+    models: ["fw-local", "gguf-default", "whisper-local"],
     priority: 1,
     capabilities: ["chat", "embeddings", "audio", "gguf"],
   },
@@ -47,9 +47,9 @@ export const DEFAULT_ROUTER_PROVIDERS: RouterProviderEntry[] = [
 ];
 
 export function loadSoul(root: string): Record<string, unknown> {
-  const soulPath = resolve(root, "fairwind.soul.json");
+  const soulPath = resolve(root, "fw.soul.json");
   if (!existsSync(soulPath)) {
-    return { identity: { name: "Fairwind", version: "2.4.0" }, principles: [], capabilities: [] };
+    return { identity: { name: "Fw", version: "2.4.0" }, principles: [], capabilities: [] };
   }
   return JSON.parse(readFileSync(soulPath, "utf8")) as Record<string, unknown>;
 }
@@ -76,7 +76,7 @@ export function routeModelRequest(requestedModel?: string, capability = "chat") 
 }
 
 function openBrainDb(root: string): Database {
-  const dbPath = resolve(root, "target", "fairwind-brain.db");
+  const dbPath = resolve(root, "target", "fw-brain.db");
   mkdirSync(dirname(dbPath), { recursive: true });
   const db = new Database(dbPath);
   db.exec(`
@@ -107,11 +107,11 @@ export function brainUpsert(root: string, docId: string, kind: string, title: st
 
 export function brainIndexRepo(root: string) {
   const docs: Array<{ id: string; kind: string; title: string; path: string }> = [
-    { id: "soul", kind: "soul", title: "Fairwind Soul", path: "fairwind.soul.json" },
-    { id: "targets", kind: "config", title: "Fairwind Targets", path: "fairwind.targets.json" },
-    { id: "agents", kind: "rule", title: "Fairwind AGENTS", path: "AGENTS.md" },
-    { id: "readme", kind: "doc", title: "Fairwind README", path: "README.md" },
-    { id: "plugin-fairwind", kind: "skill", title: "Fairwind Skill", path: "plugin/skills/fairwind/SKILL.md" },
+    { id: "soul", kind: "soul", title: "Fw Soul", path: "fw.soul.json" },
+    { id: "targets", kind: "config", title: "Fw Targets", path: "fw.targets.json" },
+    { id: "agents", kind: "rule", title: "Fw AGENTS", path: "AGENTS.md" },
+    { id: "readme", kind: "doc", title: "Fw README", path: "README.md" },
+    { id: "plugin-fw", kind: "skill", title: "Fw Skill", path: "plugin/skills/fw/SKILL.md" },
     { id: "plugin-agy", kind: "skill", title: "Antigravity Knowledge", path: "plugin/skills/agy-knowledge/SKILL.md" },
     { id: "plugin-learn", kind: "skill", title: "Autonomous Learn", path: "plugin/skills/learn/SKILL.md" },
     { id: "plugin-lowlevel", kind: "skill", title: "Low-Level LTO AOT", path: "plugin/skills/low-level-lto-aot/SKILL.md" },
@@ -149,7 +149,7 @@ export function buildOpenApiSpec(baseUrl = "http://127.0.0.1:4379") {
   return {
     openapi: "3.1.0",
     info: {
-      title: "Fairwind Unified AI, Binary & VFS OS API",
+      title: "Fw Unified AI, Binary & VFS OS API",
       version: "2.4.0",
       description:
         "OpenAI-compatible, MCP, ACP, A2A, VFS OS, Fat-LTO PE/AST/Disasm/GGUF, AI Router/Brain/Soul, and Continuous Upgrade API.",
@@ -161,15 +161,15 @@ export function buildOpenApiSpec(baseUrl = "http://127.0.0.1:4379") {
       "/openapi.json": { get: { summary: "OpenAPI 3.1 machine-readable specification" } },
       "/.well-known/agent.json": { get: { summary: "A2A AgentCard discovery document" } },
       "/v1/models": { get: { summary: "OpenAI-compatible model catalog from AI Router" } },
-      "/v1/chat/completions": { post: { summary: "OpenAI-compatible chat completions via Fairwind Router/LLMD" } },
+      "/v1/chat/completions": { post: { summary: "OpenAI-compatible chat completions via Fw Router/LLMD" } },
       "/v1/embeddings": { post: { summary: "OpenAI-compatible embeddings" } },
       "/mcp": { post: { summary: "Streamable HTTP MCP JSON-RPC 2.0 endpoint" } },
       "/acp": { post: { summary: "Agent Client Protocol (ACP) JSON-RPC 2.0 endpoint" } },
       "/a2a": { post: { summary: "Agent2Agent (A2A) JSON-RPC 2.0 endpoint" } },
       "/vfs/ls": { get: { summary: "List VFS OS directory entries" } },
       "/vfs/read": { get: { summary: "Read file from VFS OS" } },
-      "/brain/search": { get: { summary: "Search Fairwind SQLite FTS5 AI Brain" } },
-      "/soul": { get: { summary: "Inspect Fairwind AI Soul constitution" } },
+      "/brain/search": { get: { summary: "Search Fw SQLite FTS5 AI Brain" } },
+      "/soul": { get: { summary: "Inspect Fw AI Soul constitution" } },
       "/router": { get: { summary: "Inspect AI Router providers and route decision" } },
       "/lowlevel/matrix": { get: { summary: "Cross-language cross-architecture LTO/AOT build matrix" } },
       "/inspect": { get: { summary: "Fat-LTO craft-pe PE/COFF binary inspection" } },
@@ -180,7 +180,7 @@ export function buildOpenApiSpec(baseUrl = "http://127.0.0.1:4379") {
 
 export function buildA2AAgentCard(baseUrl = "http://127.0.0.1:4379") {
   return {
-    name: "Fairwind",
+    name: "Fw",
     description:
       "Unified polyglot Fat-LTO/AOT reverse-engineering, low-level build, VFS OS, and autonomous self-upgrading agent runtime.",
     url: `${baseUrl}/a2a`,
@@ -207,7 +207,7 @@ export function handleAcpMessage(root: string, req: { id?: string | number | nul
         id,
         result: {
           protocolVersion: "1.33.0",
-          agentInfo: { name: "fairwind", version: "2.4.0" },
+          agentInfo: { name: "fw", version: "2.4.0" },
           capabilities: { vfs: true, mcp: true, lowlevel: true, brain: true },
         },
       };
@@ -231,7 +231,7 @@ export function handleAcpMessage(root: string, req: { id?: string | number | nul
           route,
           blobCount: blobs.length,
           brainHits: brain.hits,
-          reply: `Fairwind ACP routed prompt via ${route.selectedProvider} (${route.model}) with ${brain.hits.length} brain context hits.`,
+          reply: `Fw ACP routed prompt via ${route.selectedProvider} (${route.model}) with ${brain.hits.length} brain context hits.`,
         },
       };
     }
@@ -255,8 +255,8 @@ export function handleA2AMessage(root: string, req: { id?: string | number | nul
           status: { state: "completed", timestamp: new Date().toISOString() },
           artifacts: [
             {
-              name: "fairwind-response",
-              parts: [{ type: "text", text: `Fairwind (${(soul.identity as { version?: string } | undefined)?.version ?? "2.4.0"}) handled: ${text}` }],
+              name: "fw-response",
+              parts: [{ type: "text", text: `Fw (${(soul.identity as { version?: string } | undefined)?.version ?? "2.4.0"}) handled: ${text}` }],
             },
           ],
         },
@@ -285,13 +285,13 @@ export function handleOpenAiChatCompletion(
   // Preserve multi-turn continuation after tool responses (opencode#14973)
   const continuingAfterTool = lastMsg?.role === "tool";
   const reply = [
-    `[fairwind-router -> ${route.selectedProvider}:${route.model}]`,
+    `[fw-router -> ${route.selectedProvider}:${route.model}]`,
     continuingAfterTool ? "Continuing after tool result." : lastUser ? `Prompt received (${lastUser.length} chars).` : "Ready.",
     brain.hits.length > 0 ? `Brain hits: ${brain.hits.map((h) => h.title).join(", ")}.` : "No local brain hits.",
   ].join(" ");
 
   return {
-    id: `chatcmpl-fairwind-${Date.now()}`,
+    id: `chatcmpl-fw-${Date.now()}`,
     object: "chat.completion",
     created: Math.floor(Date.now() / 1000),
     model: route.model,
@@ -308,9 +308,9 @@ export function handleOpenAiChatCompletion(
 }
 
 /**
- * Typed Fairwind Provider & SDK Client (compatible with OpenAI/AI-SDK patterns).
+ * Typed Fw Provider & SDK Client (compatible with OpenAI/AI-SDK patterns).
  */
-export class FairwindProvider {
+export class FwProvider {
   constructor(
     public readonly root: string,
     public readonly baseUrl = "http://127.0.0.1:4379",

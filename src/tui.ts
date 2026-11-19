@@ -4,7 +4,7 @@ import { serviceStatus } from "./daemon.ts";
 import { listVfsMounts } from "./vfs.ts";
 import { DEFAULT_ROUTER_PROVIDERS, loadSoul } from "./ai_stack.ts";
 
-export function renderFairwindTui(root: string): string {
+export function renderFwTui(root: string): string {
   const abi = probeRustAbi(root);
   const manifest = readTargetManifest(root);
   const plugin = pluginStatus(root);
@@ -15,12 +15,12 @@ export function renderFairwindTui(root: string): string {
 
   const lines = [
     "======================================================================",
-    `  FAIRWIND OS TUI  |  ${identity.name ?? "Fairwind"} v${identity.version ?? "2.4.0"}  |  ${process.platform}/${process.arch}`,
+    `  FW OS TUI  |  ${identity.name ?? "Fw"} v${identity.version ?? "2.4.0"}  |  ${process.platform}/${process.arch}`,
     "======================================================================",
     `  Root       : ${root}`,
     `  Rust ABI   : ${abi.loaded ? `v${abi.version} (${abi.health?.lto ?? "unknown"} LTO)` : "not loaded"}`,
     `  Grammars   : ${Array.isArray(abi.health?.treeSitterGrammars) ? (abi.health.treeSitterGrammars as string[]).join(", ") : "n/a"}`,
-    `  Plugin     : fairwind (${plugin.skills.length} skills, overlap=${plugin.dedupe.overlapWithAphrody.length}, junctions=${plugin.dedupe.ntfsJunctionsFound.length})`,
+    `  Plugin     : fw (${plugin.skills.length} skills, overlap=${plugin.dedupe.overlapWithAphrody.length}, junctions=${plugin.dedupe.ntfsJunctionsFound.length})`,
     `  Daemon     : ${svc.installed ? "INSTALLED (boot-startup + auto-restart)" : "not installed"}`,
     `  Manifest   : ${manifest ? `repoDigest=${manifest.repoDigest.slice(0, 16)}... (${manifest.totalTrackedFiles} files)` : "pending scan"}`,
     `  VFS Mounts : ${vfs.mounts.map((m) => m.mount).join(", ")}`,

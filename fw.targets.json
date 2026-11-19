@@ -1,0 +1,197 @@
+{
+  "$schema": "fw.targets.v1",
+  "product": "fw",
+  "agent": {
+    "id": "agy",
+    "upstreamStrategy": "read-only-signed-upstream",
+    "targetDir": "target/agy",
+    "manifestPath": "target/manifest.json",
+    "historyPath": "target/upgrade-history.jsonl",
+    "autoUpgradeCommand": "bun run upgrade"
+  },
+  "artifacts": {
+    "agyNativeLto": {
+      "crate": "native/fw-agy",
+      "buildOutput": "native/fw-agy/target/release/agy.exe",
+      "buildOutputUnix": "native/fw-agy/target/release/agy",
+      "targetPath": "target/agy/agy.exe",
+      "targetPathUnix": "target/agy/agy",
+      "distPath": "dist/agy-aot.exe",
+      "distPathUnix": "dist/agy-aot",
+      "profile": "rust-fat-lto-aot"
+    },
+    "fwAbiLto": {
+      "crate": "native/fw-abi",
+      "buildOutput": "native/fw-abi/target/release/fw_abi.dll",
+      "buildOutputUnix": "native/fw-abi/target/release/libfw_abi.so",
+      "targetPath": "target/agy/fw_abi.dll",
+      "targetPathUnix": "target/agy/libfw_abi.so",
+      "distPath": "dist/fw_abi.dll",
+      "distPathUnix": "dist/libfw_abi.so",
+      "profile": "rust-fat-lto-cdylib"
+    },
+    "fwCliAot": {
+      "entry": "src/fw_cli.ts",
+      "targetPath": "target/agy/fw.exe",
+      "targetPathUnix": "target/agy/fw",
+      "distPath": "dist/fw.exe",
+      "distPathUnix": "dist/fw",
+      "profile": "bun-compile-aot-trim"
+    }
+  },
+  "modules": [
+    {
+      "id": "native-pe",
+      "path": "native/fw-pe",
+      "kind": "rust-crate",
+      "grammar": "rust",
+      "gate": "cargo test --manifest-path native/fw-pe/Cargo.toml",
+      "sampleFile": "native/fw-pe/src/lib.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "native-sniff",
+      "path": "native/fw-sniff",
+      "kind": "rust-crate",
+      "grammar": "rust",
+      "gate": "cargo test --manifest-path native/fw-sniff/Cargo.toml",
+      "sampleFile": "native/fw-sniff/src/lib.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "native-kernel",
+      "path": "native/fw-kernel",
+      "kind": "rust-kernel-cdylib",
+      "grammar": "rust",
+      "gate": "cargo test --manifest-path native/fw-kernel/Cargo.toml",
+      "sampleFile": "native/fw-kernel/src/lib.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "native-world",
+      "path": "native/fw-world",
+      "kind": "rust-nostd-world-model",
+      "grammar": "rust",
+      "gate": "cargo test --manifest-path native/fw-world/Cargo.toml",
+      "sampleFile": "native/fw-world/src/lib.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "native-abi",
+      "path": "native/fw-abi",
+      "kind": "rust-cdylib",
+      "grammar": "rust",
+      "gate": "cargo test --manifest-path native/fw-abi/Cargo.toml",
+      "sampleFile": "native/fw-abi/src/lib.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "native-agy",
+      "path": "native/fw-agy",
+      "kind": "rust-bin",
+      "grammar": "rust",
+      "gate": "cargo test --manifest-path native/fw-agy/Cargo.toml",
+      "sampleFile": "native/fw-agy/src/main.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "fw-cli",
+      "path": "src",
+      "kind": "bun-aot-cli",
+      "grammar": "typescript",
+      "gate": "bun test tests",
+      "sampleFile": "src/fw_cli.ts",
+      "autoUpgrade": true
+    },
+    {
+      "id": "fw-tests",
+      "path": "tests",
+      "kind": "test-suite",
+      "grammar": "typescript",
+      "gate": "bun test tests",
+      "sampleFile": "tests/fw_cli.test.ts",
+      "autoUpgrade": true
+    },
+    {
+      "id": "fw-plugin",
+      "path": "plugin",
+      "kind": "antigravity-plugin",
+      "grammar": "typescript",
+      "gate": "bun src/fw_cli.ts plugin status",
+      "sampleFile": "plugin/mcp/fw-mcp.ts",
+      "autoUpgrade": true
+    },
+    {
+      "id": "core-heretic",
+      "path": "core/py/heretic",
+      "kind": "python-core",
+      "grammar": "python",
+      "gate": "uvx ruff check .",
+      "sampleFile": "core/py/heretic/config.py",
+      "autoUpgrade": true
+    },
+    {
+      "id": "core-tui-test",
+      "path": "core/rs/tui-test",
+      "kind": "rust-tui-test-workspace",
+      "grammar": "rust",
+      "gate": "cargo check --manifest-path core/rs/tui-test/Cargo.toml --workspace",
+      "sampleFile": "core/rs/tui-test/crates/tui-test/src/lib.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "core-wta",
+      "path": "core/rs/wta",
+      "kind": "rust-intelligent-terminal-wta",
+      "grammar": "rust",
+      "gate": "cargo check --manifest-path core/rs/wta/Cargo.toml",
+      "sampleFile": "core/rs/wta/src/main.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "v3-unified-workspace",
+      "path": "crates",
+      "kind": "rust-v3-zero-dep-hybrid-cluster",
+      "grammar": "rust",
+      "gate": "cargo test --workspace",
+      "sampleFile": "crates/fw-bin/src/main.rs",
+      "autoUpgrade": true
+    },
+    {
+      "id": "core-polyglot-lowlevel",
+      "path": "core/go/fw-go",
+      "kind": "polyglot-go-c-cpp-asm-wasm-cuda-wgsl-java-kotlin",
+      "grammar": "go",
+      "gate": "bun src/fw_cli.ts lowlevel verify",
+      "sampleFile": "core/go/fw-go/main.go",
+      "autoUpgrade": true
+    },
+    {
+      "id": "cloud-cloudflare",
+      "path": "cloudflare",
+      "kind": "cloudflare-edge-os-worker",
+      "grammar": "typescript",
+      "gate": "wrangler deploy --dry-run --config cloudflare/wrangler.jsonc --outdir target/cloudflare-dry-run",
+      "sampleFile": "cloudflare/worker.ts",
+      "autoUpgrade": true
+    },
+    {
+      "id": "cloud-vercel",
+      "path": "vercel",
+      "kind": "vercel-fluid-bun1.4",
+      "grammar": "typescript",
+      "gate": "bun test tests/fw_decisions_vercel.test.ts",
+      "sampleFile": "vercel/api/fw.ts",
+      "autoUpgrade": true
+    },
+    {
+      "id": "external-ghidra",
+      "path": "packages/ghidra",
+      "kind": "external-jvm",
+      "grammar": "java",
+      "gate": null,
+      "sampleFile": null,
+      "autoUpgrade": false
+    }
+  ]
+}

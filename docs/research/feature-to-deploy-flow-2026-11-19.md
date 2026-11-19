@@ -25,7 +25,7 @@
 2. **Parallel Verification Gate (`just ci-fast`, ~7 s)**: `purity` + `rust-clippy` (Rust 2024, `clippy::perf = "deny"`) + `rust-test` + `python-ruff` + `bun-test` + `MAP.tsv`.
 3. **Parallel Release & Edge Build (`just ship` / `cargo xtask ship`)**:
    - Stage 1: runs `cargo xtask ci fast`.
-   - Stage 2 (4 concurrent `std::thread::scope` lanes): `fw-fat-lto` (`fw.exe`), `fw-wasm32` (`fw_wasm.wasm`), `bun-aot-cli` (`dist/fairwind.exe`), and `cf-dry-run` (`wrangler deploy --dry-run`).
+   - Stage 2 (4 concurrent `std::thread::scope` lanes): `fw-fat-lto` (`fw.exe`), `fw-wasm32` (`fw_wasm.wasm`), `bun-aot-cli` (`dist/fw.exe`), and `cf-dry-run` (`wrangler deploy --dry-run`).
 4. **Deploy**:
    - **Edge**: `just cf-deploy` (Cloudflare Workers + Static Assets + DO SQLite) & Vercel (`vercel/`).
    - **3-VPS + WSL Fleet**: `flake.nix` (`nix-cachyos-kernel` LTO + `fw-rust-userland-4.2.0` + `scx_lavd`).

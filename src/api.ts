@@ -5,7 +5,7 @@ import {
   buildA2AAgentCard,
   buildOpenApiSpec,
   DEFAULT_ROUTER_PROVIDERS,
-  FairwindProvider,
+  FwProvider,
   handleA2AMessage,
   handleAcpMessage,
   handleOpenAiChatCompletion,
@@ -35,11 +35,11 @@ import {
 } from "./targets.ts";
 import { checkUpgrade, runBenchmarks } from "./upgrade.ts";
 import { listVfsMounts, vfsList, vfsRead, vfsSnapshots, vfsWrite } from "./vfs.ts";
-import { generateFairwindWtaConfig, getTerminalTuiStatus, verifyFairwindSelfTui } from "./terminal_tui.ts";
-import { renderFairwindWebHtml } from "./web_ui.ts";
+import { generateFwWtaConfig, getTerminalTuiStatus, verifyFwSelfTui } from "./terminal_tui.ts";
+import { renderFwWebHtml } from "./web_ui.ts";
 
-export function createFairwindApiHandler(root: string) {
-  const provider = new FairwindProvider(root);
+export function createFwApiHandler(root: string) {
+  const provider = new FwProvider(root);
 
   return async (req: Request): Promise<Response> => {
     const url = new URL(req.url);
@@ -64,14 +64,14 @@ export function createFairwindApiHandler(root: string) {
     }
 
     if (url.pathname === "/" || url.pathname === "/ui") {
-      return new Response(renderFairwindWebHtml(), {
+      return new Response(renderFwWebHtml(), {
         status: 200,
         headers: { "content-type": "text/html; charset=utf-8" },
       });
     }
     if (url.pathname === "/health") {
       const abi = probeRustAbi(root);
-      return json({ ok: true, product: "fairwind", version: "2.4.0", abiLoaded: abi.loaded, abiVersion: abi.version });
+      return json({ ok: true, product: "fw", version: "2.4.0", abiLoaded: abi.loaded, abiVersion: abi.version });
     }
     if (url.pathname === "/openapi.json") {
       return json(buildOpenApiSpec(url.origin));
@@ -84,7 +84,7 @@ export function createFairwindApiHandler(root: string) {
       const manifest = readTargetManifest(root);
       return json({
         ok: true,
-        product: "fairwind",
+        product: "fw",
         version: "2.4.0",
         root,
         abi,
@@ -107,7 +107,7 @@ export function createFairwindApiHandler(root: string) {
       return json(report, report.ok ? 200 : 400);
     }
     if (url.pathname === "/identify") {
-      const p = url.searchParams.get("path") ?? "fairwind.targets.json";
+      const p = url.searchParams.get("path") ?? "fw.targets.json";
       const report = identifyFileWithAbi(root, resolve(root, p));
       return json(report, report.ok ? 200 : 400);
     }
@@ -150,7 +150,7 @@ export function createFairwindApiHandler(root: string) {
       const vec = Array.from({ length: 8 }, (_, i) => Number((((text.charCodeAt(i % Math.max(1, text.length)) || 0) % 97) / 97).toFixed(4)));
       return json({
         object: "list",
-        model: body.model ?? "fairwind-embed-local",
+        model: body.model ?? "fw-embed-local",
         data: [{ object: "embedding", index: 0, embedding: vec }],
       });
     }
@@ -188,7 +188,7 @@ export function createFairwindApiHandler(root: string) {
     }
     if (url.pathname === "/vfs/snapshots") return json(vfsSnapshots(root));
     if (url.pathname === "/brain/index") return json(brainIndexRepo(root));
-    if (url.pathname === "/brain/search") return json(brainSearch(root, url.searchParams.get("q") ?? "fairwind"));
+    if (url.pathname === "/brain/search") return json(brainSearch(root, url.searchParams.get("q") ?? "fw"));
     if (url.pathname === "/soul") return json({ ok: true, soul: loadSoul(root) });
     if (url.pathname === "/router") {
       return json({
@@ -203,11 +203,11 @@ export function createFairwindApiHandler(root: string) {
       const iters = Math.max(1, Math.min(10, Number(url.searchParams.get("iterations")) || 3));
       return json(runBenchmarks(root, iters));
     }
-    if (url.pathname === "/learn/search") return json(runLearnBridge("search", url.searchParams.get("q") ?? "fairwind"));
+    if (url.pathname === "/learn/search") return json(runLearnBridge("search", url.searchParams.get("q") ?? "fw"));
     if (url.pathname === "/daemon/status") return json(serviceStatus(root));
     if (url.pathname === "/api/tui/status") return json(getTerminalTuiStatus(root));
-    if (url.pathname === "/api/tui/wta-config") return json(generateFairwindWtaConfig(root));
-    if (url.pathname === "/api/tui/verify") return json(verifyFairwindSelfTui(root));
+    if (url.pathname === "/api/tui/wta-config") return json(generateFwWtaConfig(root));
+    if (url.pathname === "/api/tui/verify") return json(verifyFwSelfTui(root));
 
     return json(
       {
@@ -248,10 +248,10 @@ export function createFairwindApiHandler(root: string) {
   };
 }
 
-export function startFairwindApiServer(root: string, host = "127.0.0.1", port = 4379) {
+export function startFwApiServer(root: string, host = "127.0.0.1", port = 4379) {
   return Bun.serve({
     hostname: host,
     port,
-    fetch: createFairwindApiHandler(root),
+    fetch: createFwApiHandler(root),
   });
 }

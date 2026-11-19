@@ -1,7 +1,7 @@
-"""Fairwind Python AI Kernel Bridge (`fw_py_ai`).
+"""Fw Python AI Kernel Bridge (`fw_py_ai`).
 
 Zero-dependency Python 3.12+ stdlib package unlocking PyTorch/Triton/vLLM/llm-d
-capabilities alongside Fairwind's Rust workspace (`fw-ggml`, `fw-compute`):
+capabilities alongside Fw's Rust workspace (`fw-ggml`, `fw-compute`):
 - ``ggml_dlpack``: Zero-copy ``memoryview``/DLPack tensor views, GGUF v3 codec, Q8_0 parity
 - ``vllm_paged_kv``: PagedAttention allocator, chained SHA-256 APC, CoW fork, llm-d scheduler
 - ``pyo3_uv_bridge``: Pinned ``uv``/``ruff``/``pyo3`` metadata, PEP 723 scripts, PyO3 abi3 FFI

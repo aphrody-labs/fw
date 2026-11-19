@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Fairwind v3.0 WebAssembly (wasm32-unknown-unknown & wasm32-wasip2) module for Cloudflare Workers and End-User Browser WebGPU/FPU compute"
+description = "Fw v3.0 WebAssembly (wasm32-unknown-unknown & wasm32-wasip2) module for Cloudflare Workers and End-User Browser WebGPU/FPU compute"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

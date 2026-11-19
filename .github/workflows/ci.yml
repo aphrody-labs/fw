@@ -68,9 +68,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Native PE/Sniff/ABI tests
         run: |
-          cargo test --manifest-path native/fairwind-pe/Cargo.toml
-          cargo test --manifest-path native/fairwind-sniff/Cargo.toml
-          cargo test --manifest-path native/fairwind-abi/Cargo.toml
+          cargo test --manifest-path native/fw-pe/Cargo.toml
+          cargo test --manifest-path native/fw-sniff/Cargo.toml
+          cargo test --manifest-path native/fw-abi/Cargo.toml
       - name: Bun test suite & Cloudflare Workers dry-run
         run: |
           bun test

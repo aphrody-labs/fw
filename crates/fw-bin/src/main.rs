@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-//! `fairwind-native` (`fw-bin`) — Single unified zero-system-dependency Fat-LTO binary
+//! `fw-native` (`fw-bin`) — Single unified zero-system-dependency Fat-LTO binary
 //! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
@@ -203,7 +203,7 @@ fn main() {
                 "{}",
                 serde_json::to_string_pretty(&json!({
                     "ok": true,
-                    "product": "fairwind-native",
+                    "product": "fw-native",
                     "version": "3.0.0",
                     "zeroSystemDeps": true,
                     "hardware": hw,
@@ -245,7 +245,7 @@ fn main() {
             let mut router = HybridClusterRouter::default_hybrid_cluster();
             let sub = args.get(1).map(|s| s.as_str()).unwrap_or("summary");
             if sub == "route" {
-                let prompt = args.get(2).map(|s| s.as_str()).unwrap_or("Fairwind v3.0 hybrid inference");
+                let prompt = args.get(2).map(|s| s.as_str()).unwrap_or("Fw v3.0 hybrid inference");
                 let d1 = router.route_request(prompt, true);
                 let d2 = router.route_request(prompt, true);
                 println!(
@@ -295,8 +295,8 @@ fn main() {
             );
         }
         "nix" => {
-            let name = args.get(1).map(String::as_str).unwrap_or("fairwind-uutils-4.0.0");
-            let entry = compute_fixed_output_store_entry(name, b"#!/bin/sh\nexec fairwind-native\n", true);
+            let name = args.get(1).map(String::as_str).unwrap_or("fw-uutils-4.0.0");
+            let entry = compute_fixed_output_store_entry(name, b"#!/bin/sh\nexec fw-native\n", true);
             println!("{}", serde_json::to_string_pretty(&json!({ "ok": true, "entry": entry })).unwrap());
         }
         "stack" => {
@@ -319,7 +319,7 @@ fn main() {
         }
         "wayland" => {
             let mut comp = WaylandWgpuCompositor::new(1280, 720);
-            let sid = comp.create_surface("Fairwind Wayland-WebGPU-GPUI", 1280, 720);
+            let sid = comp.create_surface("Fw Wayland-WebGPU-GPUI", 1280, 720);
             let commit_hdr = comp.commit_surface(sid).unwrap();
             println!(
                 "{}",
@@ -337,7 +337,7 @@ fn main() {
         }
         "claw" | "hermes" => {
             let sub = args.get(1).map(String::as_str).unwrap_or("status");
-            let mut agent = HermesClawAgent::new("fairwind-hermes-claw");
+            let mut agent = HermesClawAgent::new("fw-hermes-claw");
             match sub {
                 "ranking" => {
                     println!(
@@ -396,7 +396,7 @@ fn main() {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
             let addr: SocketAddr = addr_str.parse().expect("valid host:port");
             let rt = tokio::runtime::Runtime::new().unwrap();
-            eprintln!("fairwind-native v3.0 listening on http://{addr}");
+            eprintln!("fw-native v3.0 listening on http://{addr}");
             rt.block_on(async move {
                 serve(addr).await.expect("serve failed");
             });
@@ -406,7 +406,7 @@ fn main() {
                 "{}",
                 serde_json::to_string_pretty(&json!({
                     "ok": true,
-                    "usage": "fairwind-native <status|hardware|compute|ggml|cluster|openapi|ui|serve>"
+                    "usage": "fw-native <status|hardware|compute|ggml|cluster|openapi|ui|serve>"
                 }))
                 .unwrap()
             );

@@ -1,4 +1,4 @@
-# Fairwind v3.0 - `ggml-org` & `llama.cpp` Compatibility Specification
+# Fw v3.0 - `ggml-org` & `llama.cpp` Compatibility Specification
 
 ## Verified `ggml-org` Ecosystem (2026-11-19)
 
