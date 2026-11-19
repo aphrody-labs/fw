@@ -6,9 +6,15 @@ members = [
     "crates/fw-proto",
     "crates/fw-ui-blitz",
     "crates/fw-wasm",
+    "crates/fw-ostd-wasm",
+    "crates/fw-uutils",
+    "crates/fw-nix",
+    "crates/fw-unified-stack",
+    "crates/fw-wayland-wgpu",
     "crates/fw-bin",
 ]
 exclude = [
+    "os/fairwind-os",
     "native/fairwind-pe",
     "native/fairwind-sniff",
     "native/fairwind-kernel",

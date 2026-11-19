@@ -30,6 +30,12 @@ pub extern "C" fn fw_wasm_q8_dot4(
     (acc as f32) * scale_ab
 }
 
+/// Encode Wayland wire protocol header `(size << 16) | opcode` directly in Wasm32 (zero libwayland C deps).
+#[no_mangle]
+pub extern "C" fn fw_wasm_wayland_word(size: u32, opcode: u32) -> u32 {
+    ((size & 0xFFFF) << 16) | (opcode & 0xFFFF)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

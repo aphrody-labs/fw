@@ -1,0 +1,10 @@
+[package]
+name = "fw-uutils"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Alpine-lighter 100% pure-Rust uutils multicall userland (coreutils, findutils, grep, diffutils, sed, util-linux, procps) + Wasm32 playground"
+
+[dependencies]
+serde.workspace = true
+sha2.workspace = true

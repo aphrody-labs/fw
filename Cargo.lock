@@ -85,8 +85,13 @@ dependencies = [
  "fw-cluster",
  "fw-compute",
  "fw-ggml",
+ "fw-nix",
+ "fw-ostd-wasm",
  "fw-proto",
  "fw-ui-blitz",
+ "fw-unified-stack",
+ "fw-uutils",
+ "fw-wayland-wgpu",
  "serde_json",
  "tokio",
 ]
@@ -116,6 +121,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "fw-nix"
+version = "3.0.0"
+dependencies = [
+ "serde",
+ "sha2",
+]
+
+[[package]]
+name = "fw-ostd-wasm"
+version = "3.0.0"
+dependencies = [
+ "serde",
+ "sha2",
+]
+
+[[package]]
 name = "fw-proto"
 version = "3.0.0"
 dependencies = [
@@ -137,8 +158,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "fw-unified-stack"
+version = "3.0.0"
+dependencies = [
+ "fw-ggml",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "fw-uutils"
+version = "3.0.0"
+dependencies = [
+ "serde",
+ "sha2",
+]
+
+[[package]]
 name = "fw-wasm"
 version = "3.0.0"
+
+[[package]]
+name = "fw-wayland-wgpu"
+version = "3.0.0"
+dependencies = [
+ "fw-ostd-wasm",
+ "serde",
+]
 
 [[package]]
 name = "generic-array"

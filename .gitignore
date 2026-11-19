@@ -37,3 +37,5 @@ packages/rust-for-linux/
 packages/antigravity-sdk-python/
 packages/tui-test/
 packages/intelligent-terminal/
+packages/asterinas/
+packages/wayland-rs/

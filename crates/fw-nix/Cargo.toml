@@ -1,0 +1,10 @@
+[package]
+name = "fw-nix"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "100% pure-Rust NixOS compatibility layer: nixbase32 /nix/store paths, NAR archive encoder, atomic generations, and uutils-coreutils-noprefix"
+
+[dependencies]
+serde.workspace = true
+sha2.workspace = true

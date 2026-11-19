@@ -1,0 +1,25 @@
+# Maintainer: Aphrody Labs <dev@aphrody.com>
+# Alpine Linux edge/community uutils-coreutils-compatible static musl multicall recipe
+pkgname=fairwind-uutils-os
+pkgver=4.0.0
+pkgrel=0
+pkgdesc="Fairwind v4.0 100% pure-Rust static musl multicall binary (uutils + Asterinas OSTD + NixOS store + WebGPU/Wasm)"
+url="https://github.com/aphrody-labs/fairwind"
+arch="x86_64 aarch64 riscv64"
+license="MIT"
+makedepends="cargo rust"
+provides="uutils-coreutils fairwind-native"
+options="net !check"
+
+build() {
+	RUSTFLAGS="-C target-feature=+crt-static" \
+		cargo build --release --locked --target "${CARCH}-unknown-linux-musl" -p fw-bin
+}
+
+package() {
+	install -Dm755 "target/${CARCH}-unknown-linux-musl/release/fairwind-native" \
+		"$pkgdir/usr/bin/fairwind-native"
+	for applet in ls cat echo wc head tail sha256sum uname env pwd stat find grep diff sed ps hostname; do
+		ln -s /usr/bin/fairwind-native "$pkgdir/usr/bin/$applet"
+	done
+}

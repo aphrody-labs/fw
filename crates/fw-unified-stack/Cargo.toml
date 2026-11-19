@@ -1,0 +1,11 @@
+[package]
+name = "fw-unified-stack"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Unifies Burn CubeCL, Rig, rmcp, ACP rust-sdk, a2a-rs, Pingora/Quiche/Foundations, Yazi VFS, Kitty Graphics/CSI-u, AnomalyCo terminal-control & Hex local voice, and Cloudflare Kitesurf"
+
+[dependencies]
+fw-ggml = { path = "../fw-ggml" }
+serde.workspace = true
+serde_json.workspace = true

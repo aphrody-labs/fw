@@ -1,0 +1,15 @@
+[package]
+name = "fairwind-os"
+version = "4.0.0"
+edition = "2024"
+license = "MIT"
+description = "Fairwind v4.0 Asterinas OSDK Framekernel OS tuned for WebAssembly, WebGPU, uutils multicall, and NixOS"
+
+[features]
+default = []
+virtio_webgpu = []
+cvm_guest = []
+
+[dependencies]
+# Resolved via Asterinas OSDK (`cargo osdk build/run/test`) against packages/asterinas/ostd
+ostd = { path = "../../packages/asterinas/ostd" }

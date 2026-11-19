@@ -5,14 +5,41 @@
 use fw_cluster::HybridClusterRouter;
 use fw_compute::{detect_hardware_profile, run_compute_smoke_bench};
 use fw_ggml::{encode_gguf_header, parse_gguf_header, rpc_get_device_memory, spawn_rpc_server_once};
+use fw_nix::compute_fixed_output_store_entry;
+use fw_ostd_wasm::{boot_ostd_gpui_snapshot, GpuiWasmScene};
 use fw_proto::{build_openapi_3_1, serve};
 use fw_ui_blitz::render_cluster_hud_png;
+use fw_unified_stack::{
+    default_burn_rig_pipeline, encode_kitty_graphics_rgba_header, encode_kitty_keyboard_enable,
+    encode_osc133_prompt_start, hex_voice_status, unified_v4_catalog, yazi_list_dir,
+};
+use fw_uutils::{run_applet, SUPPORTED_APPLETS};
+use fw_wayland_wgpu::{WaylandWgpuCompositor, WAYLAND_WASM_GLOBALS};
 use serde_json::json;
 use std::net::SocketAddr;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn main() {
+    let raw_argv0 = std::env::args().next().unwrap_or_default();
+    let bin_stem = Path::new(&raw_argv0)
+        .file_stem()
+        .and_then(|s| s.to_str())
+        .unwrap_or("fairwind-native");
     let args: Vec<String> = std::env::args().skip(1).collect();
+
+    // Alpine uutils-coreutils multicall argv[0] dispatch (zero BusyBox/GNU/glibc)
+    if SUPPORTED_APPLETS.contains(&bin_stem) {
+        let refs: Vec<&str> = args.iter().map(String::as_str).collect();
+        let res = run_applet(bin_stem, &refs, "");
+        if !res.stdout.is_empty() {
+            print!("{}", res.stdout);
+        }
+        if !res.stderr.is_empty() {
+            eprint!("{}", res.stderr);
+        }
+        std::process::exit(res.exit_code);
+    }
+
     let cmd = args.first().map(|s| s.as_str()).unwrap_or("status");
 
     match cmd {
@@ -88,6 +115,72 @@ fn main() {
                 .unwrap_or_else(|| PathBuf::from("target/blitz-proof.png"));
             let rep = render_cluster_hud_png(&out, 640, 360).expect("render blitz proof PNG");
             println!("{}", serde_json::to_string_pretty(&rep).unwrap());
+        }
+        "ostd" => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&json!({
+                    "ok": true,
+                    "kernel": boot_ostd_gpui_snapshot(),
+                    "gpuiWgslPreview": GpuiWasmScene::quad_wgsl_shader().lines().next().unwrap_or("")
+                }))
+                .unwrap()
+            );
+        }
+        "uutils" => {
+            let applet = args.get(1).map(String::as_str).unwrap_or("uname");
+            let rest: Vec<&str> = args.iter().skip(2).map(String::as_str).collect();
+            let res = run_applet(applet, &rest, "");
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&json!({
+                    "ok": res.exit_code == 0,
+                    "applets": SUPPORTED_APPLETS,
+                    "result": res
+                }))
+                .unwrap()
+            );
+        }
+        "nix" => {
+            let name = args.get(1).map(String::as_str).unwrap_or("fairwind-uutils-4.0.0");
+            let entry = compute_fixed_output_store_entry(name, b"#!/bin/sh\nexec fairwind-native\n", true);
+            println!("{}", serde_json::to_string_pretty(&json!({ "ok": true, "entry": entry })).unwrap());
+        }
+        "stack" => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&json!({
+                    "ok": true,
+                    "catalog": unified_v4_catalog(),
+                    "burnRig": default_burn_rig_pipeline(),
+                    "voice": hex_voice_status(),
+                    "yaziSampleCount": yazi_list_dir(".", 8).len(),
+                    "kittyProtocol": {
+                        "graphicsSample": encode_kitty_graphics_rgba_header(1, 1, "AAAA"),
+                        "keyboardCsiU": encode_kitty_keyboard_enable(1),
+                        "osc133": encode_osc133_prompt_start()
+                    }
+                }))
+                .unwrap()
+            );
+        }
+        "wayland" => {
+            let mut comp = WaylandWgpuCompositor::new(1280, 720);
+            let sid = comp.create_surface("Fairwind Wayland-WebGPU-GPUI", 1280, 720);
+            let commit_hdr = comp.commit_surface(sid).unwrap();
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&json!({
+                    "ok": true,
+                    "fork": "https://github.com/aphrody-labs/wayland-rs",
+                    "zeroLibwaylandCDeps": true,
+                    "globals": WAYLAND_WASM_GLOBALS,
+                    "surfaceId": sid,
+                    "commitHeader": commit_hdr,
+                    "gpuiQuads": comp.scene.quads.len()
+                }))
+                .unwrap()
+            );
         }
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
