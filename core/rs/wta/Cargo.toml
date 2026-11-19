@@ -5,6 +5,10 @@ edition = "2021"
 description = "Windows Terminal ACP agent bridge and control CLI"
 build = "build.rs"
 
+[lib]
+name = "wta_core"
+path = "src/lib.rs"
+
 [[bin]]
 name = "wta"
 path = "src/main.rs"

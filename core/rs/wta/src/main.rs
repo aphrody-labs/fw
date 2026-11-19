@@ -22,12 +22,6 @@ mod custom_model_provider;
 mod cwd_util;
 mod event;
 mod helper;
-#[cfg(test)]
-#[path = "hook_contract_tests.rs"]
-mod hook_contract_tests;
-#[cfg(test)]
-#[path = "locale_parity_tests.rs"]
-mod locale_parity_tests;
 mod logging;
 mod master;
 mod osc52;
@@ -41,8 +35,6 @@ mod session_registry;
 mod session_watcher;
 mod shell;
 mod telemetry;
-#[cfg(test)]
-mod test_support;
 mod text_selection;
 mod theme;
 mod turn_context;
