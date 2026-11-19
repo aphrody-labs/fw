@@ -1,9 +1,9 @@
 dir	tier	files	bytes	gate
-(root)	misc	27	1097747	just ci
+(root)	misc	31	1102968	just ci
 .agents	misc	2	3031	just ci
 .cargo	misc	1	164	just ci
 .claude-plugin	misc	1	935	just ci
-.github	misc	2	5030	just ci
+.github	misc	4	6865	just ci
 cloudflare	edge-worker	5	736993	bun run cf:dry-run
 cluster	topology-spec	2	3974	bun test tests/fairwind_v3_cluster_webgpu.test.ts
 configs/heretic	heretic-presets	8	31105	uvx ruff check .
