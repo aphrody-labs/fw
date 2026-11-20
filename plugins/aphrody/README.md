@@ -11,7 +11,7 @@ Cross-CLI engineering plugin for Claude Code and Antigravity (`agy`), served by 
 ## Install
 
 ```text
-claude plugin marketplace add C:\src\fw
+claude plugin marketplace add $WORKSPACE_ROOT/fw
 claude plugin install aphrody@fw
 bun ~/.gemini/scripts/install.ts   # agy: materializes every fw plugin
 ```

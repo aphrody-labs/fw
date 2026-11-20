@@ -86,6 +86,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "craft-pe"
+version = "0.1.0"
+source = "git+https://github.com/aphrody-labs/craft-libs.git?tag=v0.1.0-aphrody.20261120.2#487e4e882d293f4b2c38b3f867e2c03d0b32d925"
+dependencies = [
+ "serde",
+ "thiserror",
+]
+
+[[package]]
+name = "craft-sniff"
+version = "0.1.0"
+source = "git+https://github.com/aphrody-labs/craft-libs.git?tag=v0.1.0-aphrody.20261120.2#487e4e882d293f4b2c38b3f867e2c03d0b32d925"
+
+[[package]]
 name = "crypto-common"
 version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -130,8 +144,8 @@ version = "0.4.0"
 dependencies = [
  "base64",
  "blake3",
- "fw-pe",
- "fw-sniff",
+ "craft-pe",
+ "craft-sniff",
  "hmac",
  "iced-x86",
  "serde",
@@ -151,18 +165,6 @@ dependencies = [
  "tree-sitter-rust",
  "tree-sitter-typescript",
 ]
-
-[[package]]
-name = "fw-pe"
-version = "0.1.0"
-dependencies = [
- "serde",
- "thiserror",
-]
-
-[[package]]
-name = "fw-sniff"
-version = "0.1.0"
 
 [[package]]
 name = "generic-array"

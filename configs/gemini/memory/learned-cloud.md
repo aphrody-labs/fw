@@ -4,8 +4,8 @@
 name: Antigravity plugin discovery and strict schema
 
 ## Cross-Session Coordination (`relay` Mailbox, Sibling Repos & Shared VPS Builds)
-Before mutating shared remote build directories (`/srv/xbuild/...`), sibling workspaces, or shared GitHub forks (`aphrody-labs/*`), inspect active Antigravity sessions via `relay` `session_list` (plus `C:\Users\aphro\.gemini\antigravity-cli\conversation_summaries.db` if needed) and register the current session (`sessio
-- Before mutating shared remote build directories (`/srv/xbuild/...`), sibling workspaces, or shared GitHub forks (`aphrody-labs/*`), inspect active Antigravity sessions via `relay` `session_list` (plus `C:\Users\aphro\.gemini\antigravity-cli
+Before mutating shared remote build directories (`/srv/xbuild/...`), sibling workspaces, or shared GitHub forks (`aphrody-labs/*`), inspect active Antigravity sessions via `relay` `session_list` (plus `~/.gemini/antigravity-cli\conversation_summaries.db` if needed) and register the current session (`sessio
+- Before mutating shared remote build directories (`/srv/xbuild/...`), sibling workspaces, or shared GitHub forks (`aphrody-labs/*`), inspect active Antigravity sessions via `relay` `session_list` (plus `~/.gemini/antigravity-cli
 - Never abort merges, reset branches, push forks, or overwrite remote build scratch dirs owned by another live `agy` session; agree on non-overlapping write boundaries and handoff SHAs via `session_send`.
 - `relay` `session_send` messages do **not** wake `swarm_wait`: whenever resuming from `swarm_wait`, immediately call `session_inbox` (`peek: false`) alongside `read_board`.
 - Before scheduling heavy remote builds, probe live load/disk (`fleet_status` or `bun run fleet:lb probe --all`) rather than assuming `fr1` is free when another session is actively compiling there.
@@ -61,13 +61,13 @@ Autonomous learnings for Bun Runtime & Test Discovery.
 Autonomous learnings for Autonomous Execution & Recovery.
 - [correction] idiot je vise linux 7.5 full optimisé et wayland et android 17/18 qui boot nativement dans wsl , qemu , docker donc arrete de contredire et hallluciner et regarde TOUT ce qui existe deja partout idiott de merde gemini fa
 - [error] cd /c/src/aphrody/tooling/kernel-watch && sed -i 's/kselftest_targets = \[.*\]/kselftest_targets = ["exec", "membarrier", "clone3", "kcmp", "mincore", "sigaltstack", "mqueue"]/' la => Exit code 1 53:kselftest_targets = [
-- [error] Read => File does not exist. Note: your current working directory is C:\src\ay.
+- [error] Read => File does not exist. Note: your current working directory is $WORKSPACE_ROOT/ay.
 - [correction] security review inutile je m'en fou arrete ces truc loud et lent
 - [error] edit_file => target content not found in the file; the Target must exactly match existing file text, including whitespace
 
 ## Multi-VPS Fleet & SSH Transport
 Autonomous learnings for Multi-VPS Fleet & SSH Transport.
-- [correction] <cross-session-message from-name="anu-monorepo-plan"> Resend from session anu-monorepo-plan (2026-11-17), owner decisions in force: 1. agy has FINISHED aphrody: Claude sessions are now alone; C:\src\aphrody is editable b
+- [correction] <cross-session-message from-name="anu-monorepo-plan"> Resend from session anu-monorepo-plan (2026-11-17), owner decisions in force: 1. agy has FINISHED aphrody: Claude sessions are now alone; $WORKSPACE_ROOT/aphrody is editable b
 
 ## Git & Submodule Hygiene
 Autonomous learnings for Git & Submodule Hygiene.

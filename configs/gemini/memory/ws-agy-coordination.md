@@ -5,7 +5,7 @@ metadata:
   type: feedback
 ---
 
-agy (Antigravity CLI, `C:\Users\aphro\AppData\Local\agy\bin\agy.exe`, live process started with -dangerously-skip-permissions) owns $WORKSPACE_ROOT/aphrody. Running `agy -p`, `agy --conversation <id> -p` or an ACP client with `session/load` on its conversation starts a second agy agent on the same work: the owner called it "tu dupliques agy" (2026-11-17).
+agy (Antigravity CLI, `%LOCALAPPDATA%\agy\bin\agy.exe`, live process started with -dangerously-skip-permissions) owns $WORKSPACE_ROOT/aphrody. Running `agy -p`, `agy --conversation <id> -p` or an ACP client with `session/load` on its conversation starts a second agy agent on the same work: the owner called it "tu dupliques agy" (2026-11-17).
 
 **Why:** a duplicate agy edits aphrody in parallel with the real one and burns quota.
 

@@ -20,9 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: clippy
+      - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
       - name: Zero-warning Clippy and workspace tests
         run: |
@@ -39,9 +37,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: ./.github/actions/rust-toolchain
         with:
-          targets: wasm32-unknown-unknown,x86_64-unknown-linux-musl
+          targets: wasm32-unknown-unknown x86_64-unknown-linux-musl
       - uses: Swatinem/rust-cache@v2
       - name: Build fw-wasm (wasm32) and check fw (musl)
         run: |
@@ -53,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
       - name: Verify publishable fw-* tarballs
         run: |
@@ -65,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: ./.github/actions/rust-toolchain
         with:
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
@@ -117,7 +115,7 @@ jobs:
         with:
           gradle-version: wrapper
           build-root-directory: core/kotlin
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: native/fw-abi

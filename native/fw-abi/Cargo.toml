@@ -28,8 +28,8 @@ tree-sitter-all = [
 [dependencies]
 base64 = "0.22"
 blake3 = "1"
-fw-pe = { path = "../fw-pe", features = ["serde"] }
-fw-sniff = { path = "../fw-sniff" }
+craft-pe = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2", features = ["serde"] }
+craft-sniff = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
 hmac = "0.12"
 iced-x86 = { version = "1.21", default-features = false, features = ["std", "decoder", "intel"] }
 serde = { version = "1", features = ["derive"] }

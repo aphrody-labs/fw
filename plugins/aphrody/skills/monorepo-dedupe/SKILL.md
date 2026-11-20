@@ -11,7 +11,7 @@ description: >-
 
 ## 1. Pre-Flight Coordination & Ownership
 
-1. Before touching sibling repositories (`C:\src\fw`, `C:\src\aphrody`, `C:\src\ay`, etc.), check `relay` `session_list` + `session_inbox` and register via `session_register` so no active peer session is disrupted.
+1. Before touching sibling repositories (`$WORKSPACE_ROOT/fw`, `$WORKSPACE_ROOT/aphrody`, `$WORKSPACE_ROOT/ay`, etc.), check `relay` `session_list` + `session_inbox` and register via `session_register` so no active peer session is disrupted.
 2. Verify clean `git status --short` and `git branch --show-current` on every target repo before editing.
 3. Establish a **single canonical owner** for every shared crate, package, skill, or doc tree before deleting any duplicate copy.
 
@@ -20,7 +20,7 @@ description: >-
 Run the deterministic Bun audit CLI across all target repos:
 
 ```powershell
-bun "$HOME/.gemini/scripts/monorepo-dedupe-audit.ts" C:\src\fw C:\src\aphrody C:\src\ay
+bun "$HOME/.gemini/scripts/monorepo-dedupe-audit.ts" $WORKSPACE_ROOT/fw $WORKSPACE_ROOT/aphrody $WORKSPACE_ROOT/ay
 ```
 
 It reports four independent signals from `git ls-files`:

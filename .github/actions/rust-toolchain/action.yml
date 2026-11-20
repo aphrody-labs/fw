@@ -1,0 +1,16 @@
+name: Rust toolchain from rust-toolchain.toml
+description: Install the channel and components pinned by rust-toolchain.toml, then add the requested targets to that same toolchain.
+inputs:
+  targets:
+    description: Space-separated rustup targets to add
+    default: ""
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        TARGETS: ${{ inputs.targets }}
+      run: |
+        rustup toolchain install
+        if [ -n "$TARGETS" ]; then rustup target add $TARGETS; fi
+        rustc --version
