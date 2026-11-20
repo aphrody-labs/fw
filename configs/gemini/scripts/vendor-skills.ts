@@ -18,7 +18,7 @@ export interface VendorSource {
 /** Upstream skill collections vendored as-is (edit upstream, not the copies). */
 export const SOURCES: VendorSource[] = [{ repo: "docker/skills", dir: "skills", license: "Apache-2.0" }];
 
-/** Skills removed as duplicates of another skill; unify-plugins.ts never copies them back. */
+/** Skills removed as duplicates of another skill. */
 export const SUPERSEDED: Record<string, string> = {
   ...Object.fromEntries(Object.entries(merged).map(([c, p]) => [c, `merged into the ${p} skill (references/${c}.md)`])),
   "vercel-react-best-practices": "react-best-practices (now provided by official plugins/vercel/skills)",

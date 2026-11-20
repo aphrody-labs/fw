@@ -7,7 +7,7 @@ import {
   CLI_DIR,
   CONFIG_DIR,
   discoverAphrodyRoot,
-  discoverWorkspaceRoot,
+  FW_ROOT,
   discoverWorkspaces,
   GEMINI_ROOT,
   syncRealDir,
@@ -16,7 +16,6 @@ import {
   writeIfChanged,
 } from "./lib.ts";
 import { syncAll } from "./sync.ts";
-import { exportCrossAgentConfigs } from "./unify-plugins.ts";
 import { updateVendoredSkills } from "./vendor-skills.ts";
 import { syncGoogleGuidance } from "./sync-google-guidance.ts";
 
@@ -92,57 +91,40 @@ if (existsSync(agySrc)) {
 if (!dry) console.log(`vendored skills: ${JSON.stringify(await updateVendoredSkills())}`);
 if (!dry) console.log(`google guidance: ${JSON.stringify(syncGoogleGuidance())}`);
 
-// Sync the canonical fw plugin from <fw checkout>/plugin when present (single source of truth).
-const fwPluginSrc = join(process.env.FW_ROOT || process.env.FAIRWIND_ROOT || join(discoverWorkspaceRoot(), "fw"), "plugin");
-if (existsSync(join(fwPluginSrc, "plugin.json"))) {
-  const fwTrackedDst = join(GEMINI_ROOT, "plugins", "fw");
-  console.log(`${dry ? "would sync" : "sync"} plugins/fw <- ${fwPluginSrc}`);
-  if (!dry) syncRealDir(fwPluginSrc, fwTrackedDst);
-}
-
-// Materialize plugins as real directories (Go os.ReadDir skips NTFS junctions on Windows).
-const pluginsSrcRoot = join(GEMINI_ROOT, "plugins");
-const pluginsDstRoot = join(CONFIG_DIR, "plugins");
-const activePlugins = new Set<string>();
-if (existsSync(pluginsSrcRoot)) {
-  for (const entry of readdirSync(pluginsSrcRoot, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue;
-    activePlugins.add(entry.name);
-    const src = join(pluginsSrcRoot, entry.name);
-    const dst = join(pluginsDstRoot, entry.name);
-    console.log(`${dry ? "would sync" : "sync"} config/plugins/${entry.name}`);
-    if (!dry) syncRealDir(src, dst);
-  }
-}
-if (existsSync(pluginsDstRoot) && !dry) {
-  for (const entry of readdirSync(pluginsDstRoot, { withFileTypes: true })) {
-    if (!activePlugins.has(entry.name)) {
-      try {
-        rmSync(join(pluginsDstRoot, entry.name), { recursive: true, force: true });
-      } catch {
-        // Locked by an active MCP process on Windows; will be removed on next install.
-      }
+// Plugins: every agy/Claude plugin has one source tree in the fw checkout (plugin/ and plugins/<name>/).
+// They are materialized as real directories under config/plugins (Go os.ReadDir skips NTFS junctions on Windows)
+// and exposed to Gemini CLI as link extensions pointing straight at the fw tree.
+const pluginSources = new Map<string, string>();
+const isPlugin = (dir: string) =>
+  existsSync(join(dir, "gemini-extension.json")) || existsSync(join(dir, "plugin.json"));
+if (isPlugin(join(FW_ROOT, "plugin"))) pluginSources.set("fw", join(FW_ROOT, "plugin"));
+const fwPluginsDir = join(FW_ROOT, "plugins");
+if (existsSync(fwPluginsDir)) {
+  for (const entry of readdirSync(fwPluginsDir, { withFileTypes: true })) {
+    if (entry.isDirectory() && isPlugin(join(fwPluginsDir, entry.name))) {
+      pluginSources.set(entry.name, join(fwPluginsDir, entry.name));
     }
   }
 }
-
-// Re-point Gemini CLI extension install metadata to unified plugin and clean stale extensions.
-for (const name of ["bun", "nextjs"]) {
-  const staleExt = join(GEMINI_ROOT, "extensions", name);
-  if (existsSync(staleExt) && !dry) rmSync(staleExt, { recursive: true, force: true });
+const pluginsDstRoot = join(CONFIG_DIR, "plugins");
+for (const [name, src] of pluginSources) {
+  console.log(`${dry ? "would sync" : "sync"} config/plugins/${name} <- ${src}`);
+  if (!dry) syncRealDir(src, join(pluginsDstRoot, name));
 }
-for (const name of activePlugins) {
+
+// Gemini CLI extension install metadata: link to the fw tree; drop superseded extensions.
+for (const name of ["bun", "nextjs", "fairwind"]) {
+  const staleExt = join(GEMINI_ROOT, "extensions", name);
+  if (!pluginSources.has(name) && existsSync(staleExt) && !dry) rmSync(staleExt, { recursive: true, force: true });
+}
+for (const [name, src] of pluginSources) {
+  if (dry) continue;
   const extDir = join(GEMINI_ROOT, "extensions", name);
-  const manifest = join(extDir, ".gemini-extension-install.json");
-  const target = join(pluginsSrcRoot, name);
-  if (!existsSync(target)) continue;
-  if (!dry) {
-    mkdirSync(extDir, { recursive: true });
-    writeIfChanged(
-      manifest,
-      `${JSON.stringify({ source: target.replaceAll("/", "\\"), type: "link" }, null, 2)}\n`,
-    );
-  }
+  mkdirSync(extDir, { recursive: true });
+  writeIfChanged(
+    join(extDir, ".gemini-extension-install.json"),
+    `${JSON.stringify({ source: src.replaceAll("/", "\\"), type: "link" }, null, 2)}\n`,
+  );
 }
 
 // Clean legacy .claude link remnants if present.
@@ -183,9 +165,8 @@ if (aphrodyRoot && existsSync(join(GEMINI_ROOT, "dashboard", "Cargo.toml"))) {
 }
 
 if (!dry) {
-  const exp = exportCrossAgentConfigs();
   const syncRes = syncAll();
   console.log(
-    `Install complete (GEMINI.md ${syncRes.changed ? "updated" : "current"}, indexed ${syncRes.indexedFiles} file(s), exported ${exp.targets.length} cross-agent targets).`,
+    `Install complete (GEMINI.md ${syncRes.changed ? "updated" : "current"}, indexed ${syncRes.indexedFiles} file(s)).`,
   );
 }

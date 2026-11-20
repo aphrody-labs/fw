@@ -1,7 +1,3 @@
----
-trigger: always_on
-description: Windows-native tooling fallback using pwsh 7.7+, .NET 10/11, and vcpkg when bun/rust are absent.
----
 # Windows Native Tooling Fallback (`pwsh` + `.NET` + `vcpkg`)
 
 - Avant d'invoquer `bun` ou `cargo`, vérifier leur présence (`Get-Command bun, cargo -ErrorAction SilentlyContinue`) ou utiliser directement `pwsh` 7.7+ et `dotnet` 10/11 lorsqu'ils sont absents.

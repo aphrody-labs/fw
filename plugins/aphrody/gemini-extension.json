@@ -1,0 +1,7 @@
+{
+  "name": "aphrody",
+  "version": "1.0.0",
+  "description": "Unified cross-CLI autonomous engineering plugin: rules and curated cross-project skills.",
+  "contextFileName": "rules/AGENTS.md",
+  "mcpServers": {}
+}

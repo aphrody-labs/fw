@@ -23,7 +23,12 @@ export const CONFIG_DIR = `${GEMINI_ROOT}/config`;
 export const CLI_DIR = `${GEMINI_ROOT}/antigravity-cli`;
 export const LEARNING_DIR = `${GEMINI_ROOT}/learning`;
 export const MEMORY_DIR = `${GEMINI_ROOT}/memory`;
-export const RULES_DIR = `${GEMINI_ROOT}/rules`;
+/** The fw checkout: single source of truth for plugins and rules (FW_ROOT overrides). */
+export const FW_ROOT = toSlash(
+  resolve(process.env.FW_ROOT ?? process.env.FAIRWIND_ROOT ?? `${discoverWorkspaceRoot()}/fw`),
+);
+export const FW_GEMINI_DIR = `${FW_ROOT}/configs/gemini`;
+export const RULES_DIR = existsSync(`${FW_GEMINI_DIR}/rules`) ? `${FW_GEMINI_DIR}/rules` : `${GEMINI_ROOT}/rules`;
 
 export interface RawHookEvent {
   hook_event_name?: string;

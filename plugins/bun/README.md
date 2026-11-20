@@ -11,8 +11,9 @@ Cross-CLI plugin for Bun-native engineering workflows across Claude Code, Antigr
 ## Install
 
 ```text
-/plugin marketplace add aphrody-labs/claude
-/plugin install bun --marketplace aphrody
+claude plugin marketplace add C:\src\fw
+claude plugin install bun@fw
+bun ~/.gemini/scripts/install.ts   # agy
 ```
 
 ## Privacy

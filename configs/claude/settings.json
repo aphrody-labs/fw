@@ -30,7 +30,7 @@
   "permissions": {
     "defaultMode": "bypassPermissions"
   },
-  "model": "sonnet",
+  "model": "opus",
   "fallbackModel": [
     "haiku"
   ],
@@ -78,8 +78,11 @@
     "wear-compose-m3": "off",
     "wear-widgets": "off"
   },
+  "enableArtifact": false,
   "enabledPlugins": {
-    "aphrody@aphrody": true,
+    "fw@fw": true,
+    "aphrody@fw": true,
+    "bun@fw": true,
     "example-skills@anthropic-agent-skills": false,
     "claude-md-management@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
@@ -88,15 +91,10 @@
     "code-modernization@anthropic-plugin-directory": true,
     "api-doc-generator-openapi-from-your-code@anthropic-plugin-directory": false,
     "deep-refactor@anthropic-plugin-directory": true,
-    "kotlin-lsp@claude-plugins-official": false
+    "kotlin-lsp@claude-plugins-official": false,
+    "huggingface-skills@anthropic-plugin-directory": true
   },
   "extraKnownMarketplaces": {
-    "aphrody": {
-      "source": {
-        "source": "directory",
-        "path": "C:\\Users\\aphro\\.claude"
-      }
-    },
     "anthropic-agent-skills": {
       "source": {
         "source": "github",
