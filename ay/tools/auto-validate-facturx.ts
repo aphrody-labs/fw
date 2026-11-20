@@ -1,4 +1,4 @@
-// Validates EN 16931 CII XML emitted by auto-facturx against official D16B XSD + Schematron XSLT.
+// Validates EN 16931 CII XML emitted by aphrody-auto/facturx against official D16B XSD + Schematron XSLT.
 import { $ } from "bun";
 import { join } from "node:path";
 
@@ -35,7 +35,7 @@ if (!(await Bun.file(xsd).exists())) {
 const out = join(root, ".cache", "cii-out");
 await $`mkdir -p ${out}`;
 const env = { ...Bun.env, RUSTC_WRAPPER: "", RUSTUP_TOOLCHAIN: "nightly" };
-const gen = Bun.spawnSync(["cargo", "run", "-q", "-p", "aphrody-auto", "--example", "facturx_samples", "--", out], {
+const gen = Bun.spawnSync(["cargo", "run", "-q", "-p", "aphrody-auto", "--features", "facturx", "--example", "facturx_samples", "--", out], {
   cwd: root,
   env,
   stdout: "inherit",

@@ -152,7 +152,7 @@ test.skipIf(!HAS_ENGLISH_WASM)(
     expect(report.occurrences).toBe(2);
     expect(pdfText(redacted).join("\n")).not.toContain("zoe@");
 
-    const ecP12 = Bun.file(new URL("../../../crates/auto-files/tests/data/ec-p256.p12", import.meta.url));
+    const ecP12 = Bun.file(new URL("../../../crates/auto-sdk/tests/data/ec-p256.p12", import.meta.url));
     if (await ecP12.exists()) {
       const signed = signPdf(b, await ecP12.bytes(), { password: "test", reason: "Approved" });
       const sigs = verifyPdfSignatures(signed);
@@ -161,7 +161,7 @@ test.skipIf(!HAS_ENGLISH_WASM)(
       expect(sigs[0]!.status).toBe("unknown");
       expect(sigs[0]!.modifications).toBe("none");
     }
-    const rsaP12 = Bun.file(new URL("../../../crates/auto-files/tests/data/rsa-aes.p12", import.meta.url));
+    const rsaP12 = Bun.file(new URL("../../../crates/auto-sdk/tests/data/rsa-aes.p12", import.meta.url));
     if (await rsaP12.exists()) {
       const rsaBytes = await rsaP12.bytes();
       expect(() => signPdf(b, rsaBytes, { password: "test" })).toThrow("not supported: RSA signing");

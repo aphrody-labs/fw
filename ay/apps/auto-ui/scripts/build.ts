@@ -13,7 +13,7 @@ interface PaletteMap {
 }
 
 async function parsePaletteFromRust(): Promise<{ light: PaletteMap; dark: PaletteMap }> {
-  const src = await Bun.file(join(repoRoot, "crates/auto-theme/src/lib.rs")).text();
+  const src = await Bun.file(join(repoRoot, "crates/auto-sdk/src/theme/mod.rs")).text();
   const extract = (blockName: string): PaletteMap => {
     const start = src.indexOf(`pub const ${blockName}:`);
     const end = src.indexOf("};", start);
@@ -326,7 +326,7 @@ await Bun.write(
 <section class="card stack">
   <h1>Single Binaries & Developer Libraries</h1>
   <p class="muted">Consume Auto as a standalone server binary or embed any layer as a typed crate, npm workspace package, C ABI shared library, or MCP server.</p>
-  <pre class="code-box">cargo add aphrody-auto auto-auth auto-facturx auto-model auto-client
+  <pre class="code-box">cargo add aphrody-auto --features auth,facturx,model,client
 bun add @aphrody/auto @aphrody/auto-client @aphrody/auto-native
 auto serve --mode self-hosted --port 3000
 auto lb --listen 127.0.0.1:8080 --upstreams https://auto.aphrody.com</pre>

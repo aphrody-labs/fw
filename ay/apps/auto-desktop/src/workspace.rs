@@ -310,7 +310,7 @@ impl AutoDesktopWorkspace {
             .flex_1()
             .p_4()
             .gap_4()
-            .child(div().text_base().font_weight(gpui_kit::FontWeight::SEMIBOLD).text_color(pal.foreground).child("Rust Better Auth (`auto-auth`) & Cluster Endpoints"))
+            .child(div().text_base().font_weight(gpui_kit::FontWeight::SEMIBOLD).text_color(pal.foreground).child("Rust Better Auth (`aphrody-auto (auth)`) & Cluster Endpoints"))
             .child(
                 div()
                     .p_4()

@@ -21,7 +21,7 @@ export interface Services {
     entree: Element[],
     signal: AbortSignal,
   ): Promise<Element[]>;
-  /** Spreadsheets through the native library (crate auto-sheets). */
+  /** Spreadsheets through the native library (crate aphrody-auto (sheets)). */
   tableur?: {
     ecrire(feuille: {
       nom: string;
@@ -188,7 +188,7 @@ export interface Services {
   };
 }
 
-/** OpenAI-compatible embeddings API (`POST <url>/embeddings`): ay-llama-server, Ollama, OpenAI... */
+/** OpenAI-compatible embeddings API (`POST <url>/embeddings`): ay-llama (server), Ollama, OpenAI... */
 export interface ApiEmbeddings {
   url: string;
   modele: string;
@@ -2053,7 +2053,7 @@ export const TYPES: TypeNoeud[] = [
     type: "ia.ocr",
     libelle: "Read an image (OCR)",
     description:
-      "Reads the text of an image (scan, receipt photo, screenshot) with a vision model: ay-llama-server, Ollama, OpenAI...",
+      "Reads the text of an image (scan, receipt photo, screenshot) with a vision model: ay-llama (server), Ollama, OpenAI...",
     categorie: "ia",
     icone: "document_scanner",
     parametres: z.object({

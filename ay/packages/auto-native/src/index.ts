@@ -353,7 +353,7 @@ export const nearestVectors = (
     ),
   ) as { index: number; score: number }[];
 
-// Modern Rust Better Auth (`auto-auth` via Wasm/FFI) --------------------------------------------
+// Modern Rust Better Auth (`aphrody-auto` (auth) via Wasm/FFI) --------------------------------------------
 
 const toBase64 = (bytes: Uint8Array): string => {
   let s = "";

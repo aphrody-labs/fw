@@ -2,7 +2,7 @@
 
 ## Semantic Design Tokens
 
-Derived from `crates/auto-theme` (`auto_theme`) aligned with Material 3 Expressive (`https://design.google/`). No raw hex literals appear inside UI views or components.
+Derived from `crates/auto-sdk` (`aphrody_auto::theme`) aligned with Material 3 Expressive (`https://design.google/`). No raw hex literals appear inside UI views or components.
 
 - **Light palette**:
   - Background `#F6F8F7`, Surface `#FFFFFF`, Surface Variant `#ECF1EE`, Elevated `#E2E9E5`
@@ -15,7 +15,7 @@ Derived from `crates/auto-theme` (`auto_theme`) aligned with Material 3 Expressi
   - Foreground `#E8F0ED`, muted `#9AB0A8`, border `#2A3B35`
 - **Typography**: Clean UI sans-serif + monospace for tax IDs, ledger numbers, and invoice totals (`13px` dense tables, `14px` body, `22px` title).
 - **Spacing & Radii**: 4px base unit (`4, 8, 12, 16, 24, 32`), radii `4 / 8 / 12 / 16`, border `1px`.
-- **Accessibility**: Minimum `4.5:1` contrast ratio verified in `auto-theme` unit tests; visible focus ring on interactive elements; Escape dismisses topmost dialog/palette.
+- **Accessibility**: Minimum `4.5:1` contrast ratio verified in `aphrody-auto/theme` unit tests; visible focus ring on interactive elements; Escape dismisses topmost dialog/palette.
 
 ## Motion Inventory (Pre-Flight Specification)
 

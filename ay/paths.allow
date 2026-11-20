@@ -9,15 +9,15 @@ tools/recover.test.ts          # fixtures of the host-tree parser
 # Absorbed from aphrody-dev/ai-os (2026-11-18): fixtures that quote absolute paths on purpose.
 packages/gnu/test/gnu.test.ts                    # fixture: ls -lR listing of ftp.gnu.org, whose paths are server-side
 crates/ay-proc/src/elevate.rs                    # fixture: Windows paths quoted by the argument-quoting and elevation tests
-crates/ay-fsindex/src/everything.rs              # fixture: Windows paths of Everything hits
-crates/ay-fsindex/src/google.rs                  # fixture: Windows paths of the local_files.db rows
-crates/ay-fsindex/src/mft.rs                     # fixture: Windows paths resolved from MFT records
-crates/ay-fsindex/src/paths.rs                   # fixture: a legacy index file with Windows paths
-crates/ay-jobs/src/lib.rs                        # fixture: a POSIX state root for the default path helpers
-crates/ay-sql/tests/product-schema.sql           # fixture: unsafe path strings the schema must refuse
+crates/ay-rag/src/fsindex/everything.rs              # fixture: Windows paths of Everything hits
+crates/ay-rag/src/fsindex/google.rs                  # fixture: Windows paths of the local_files.db rows
+crates/ay-rag/src/fsindex/mft.rs                     # fixture: Windows paths resolved from MFT records
+crates/ay-rag/src/fsindex/paths.rs                   # fixture: a legacy index file with Windows paths
+crates/ay-ml/src/jobs/mod.rs                        # fixture: a POSIX state root for the default path helpers
+crates/ay-rag/tests/sql_product-schema.sql           # fixture: unsafe path strings the schema must refuse
 crates/ay-toolcall/src/repair/repair_tests.rs    # fixture: unescaped Windows paths in model output
 crates/ay-toolcall/tests/fixtures/**      # fixtures: unescaped Windows paths in model output
-crates/ay-subsystem/src/lib.rs                   # fixture: a Windows path in skill parameters
+crates/ay-agent/src/subsystem/mod.rs                   # fixture: a Windows path in skill parameters
 crates/ay-app-protocol/tests/tier1_contract.rs   # fixture: cwd and home values of the protocol examples
 
 # Intentional Windows/POSIX path examples and unit test fixtures

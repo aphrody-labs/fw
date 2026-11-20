@@ -1,4 +1,4 @@
-// At-rest vault encryption: prefers Rust `auto-auth` ChaCha20-Poly1305 AEAD via Wasm (`VERSION = 2`)
+// At-rest vault encryption: prefers Rust `aphrody-auto` (auth) ChaCha20-Poly1305 AEAD via Wasm (`VERSION = 2`)
 // with Web Crypto AES-256-GCM + HKDF-SHA256 (`VERSION = 1`) compatibility fallback.
 import { authOpenSecret, authSealSecret, isEnglishWasmReady } from "@aphrody/auto-native";
 

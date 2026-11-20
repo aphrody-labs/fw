@@ -2,13 +2,13 @@
 
 Auto is the workflow automation, invoicing and office suite of Aphrody, merged into [`aphrody-dev/ay`](https://github.com/aphrody-dev/ay) (the former `aphrody-labs/auto` repository is archived). Its Rust crates are `crates/auto-*`, its apps `apps/auto-*`, its TypeScript packages `packages/auto` and `packages/auto-*`; this folder holds its documentation (API, architecture, compliance, deployment, SDK, design) and licence.
 
-Unified billing, Factur-X compliance, HR, workflow automation, and workspace software delivered as a single LTO Rust binary (`auto`), embeddable libraries (`aphrody_auto`, `auto_auth`, `auto_ffi`, `@aphrody/auto`), a Cloudflare Workers edge bundle, a Web UI, and a 120 FPS GPUI desktop app.
+Unified billing, Factur-X compliance, HR, workflow automation, and workspace software delivered as a single LTO Rust binary (`auto`), embeddable libraries (`aphrody_auto`, `aphrody_auto::auth`, `auto_ffi`, `@aphrody/auto`), a Cloudflare Workers edge bundle, a Web UI, and a 120 FPS GPUI desktop app.
 
 ## Architecture
 
 - **Rust core and single binary (`crates/`)**
-  - `auto-auth`: Better Auth engine in Rust (Argon2id + Scrypt compatibility, ChaCha20-Poly1305 encrypted vaults, Ed25519 JWKS/JWT, TOTP RFC 6238, ES256 P-256 Passkeys, RBAC, OAuth2 PKCE, SQLite store, Axum router).
-  - `auto-model`, `auto-i18n`, `auto-docs`, `auto-facturx`, `auto-sheets`, `auto-files`, `auto-knowledge`, `auto-client`, `auto-theme`: native domain, PDF/A-3b Factur-X, DOCX/XLSX/PPTX, RAG chunking, HLC sync, and Material 3 design tokens.
+  - `aphrody-auto/auth`: Better Auth engine in Rust (Argon2id + Scrypt compatibility, ChaCha20-Poly1305 encrypted vaults, Ed25519 JWKS/JWT, TOTP RFC 6238, ES256 P-256 Passkeys, RBAC, OAuth2 PKCE, SQLite store, Axum router).
+  - `aphrody-auto/model`, `aphrody-auto/i18n`, `aphrody-auto/docs`, `aphrody-auto/facturx`, `aphrody-auto/sheets`, `aphrody-auto/files`, `aphrody-auto/knowledge`, `aphrody-auto/client`, `aphrody-auto/theme`: native domain, PDF/A-3b Factur-X, DOCX/XLSX/PPTX, RAG chunking, HLC sync, and Material 3 design tokens.
   - `auto-ffi`: C ABI (`cdylib` + `staticlib` + `include/auto.h`) and `wasm32-unknown-unknown` WASM module for Cloudflare Workers, browsers, and Bun.
   - `auto-sdk` (`aphrody-auto`): embeddable Rust SDK library and unified `auto` executable (`serve`, `lb`, `mcp`, `auth`, `pdf`, `facturx`, `docx`, `chunk`, `desktop`).
 - **TypeScript packages (`packages/`)**
@@ -29,7 +29,7 @@ bun run check                      # repository gates, including the Auto tests
 bun run auto:build-native          # Wasm FFI module (nightly toolchain, run on the build host)
 bun run auto:build-aot             # Bun AOT binary
 bun run auto:server --port 3000    # self-hosted server
-bun tools/auto-cargo.ts run --bin auto -- lb --listen 127.0.0.1:8080 --upstreams http://127.0.0.1:3000
+bun tools/auto-cargo.ts run --features runtime --bin auto -- lb --listen 127.0.0.1:8080 --upstreams http://127.0.0.1:3000
 ```
 
 Configuration is declarative via `apps/auto-server/auto.toml` and environment variables (`AUTO_MODE`, `AUTO_HOST`, `AUTO_PORT`, `AUTO_DB_PATH`, `AUTO_UPSTREAMS`, `AUTO_URL_APP`). Deployment scripts are `tools/auto-deploy-cf.ts` (Cloudflare) and `tools/auto-deploy-fleet.ts` (self-hosted hosts); CI is `.github/workflows/auto.yml`.

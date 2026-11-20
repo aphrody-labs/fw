@@ -29,7 +29,7 @@ the pre-1.0 dialect. Zero runtime dependencies, standard `fetch` only.
 
 Specification: [A2A Protocol 1.0](https://a2a-protocol.org/latest/specification/) (latest released
 version `1.0.0`, checked on 2026-10-06). Server side: the Rust crates `ay-a2a`,
-`ay-a2a-pb`, `ay-a2a-server`, `ay-a2a-coord` (`aphrody a2a serve`), documented in
+`ay-a2a/protobuf`, `ay-a2a/server`, `ay-a2a/coordinator` (`aphrody a2a serve`), documented in
 [crates/ay-a2a](../../../../crates/ay-a2a).
 
 Status: source and tested behavior only. The package is **not published** to npm; publication is
@@ -121,7 +121,7 @@ in a send request). A webhook receiver decodes a delivery with `parsePushNotific
 
 ## Generated types
 
-`src/generated/a2a.ts` is generated from `crates/ay-a2a-pb/proto/a2a.proto`, the schema the Rust
+`src/generated/a2a.ts` is generated from `crates/ay-a2a/proto/a2a.proto`, the schema the Rust
 crates compile with prost, so both sides share one source: camelCase members, enum names as
 strings (`TASK_STATE_COMPLETED`), `oneof` as exclusive unions (`Part`, `StreamResponse`), required
 fields from `google.api.field_behavior`, and the method tables (`A2A_METHODS`, `A2AMethodTypes`).

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 /**
  * `@aphrody/a2a`: A2A 1.0 client. Types are generated from `a2a.proto`, the same schema the Rust
- * `ay-a2a-pb` crate compiles. The pre-1.0 dialect shim lives in `@aphrody/a2a/legacy`.
+ * `ay-a2a` (protobuf) crate compiles. The pre-1.0 dialect shim lives in `@aphrody/a2a/legacy`.
  */
 export * from "./generated/a2a.ts";
 export * from "./protocol.ts";

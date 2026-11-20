@@ -1,4 +1,4 @@
-// RFC 6238 TOTP & RFC 4226 HOTP delegating standard 6-digit SHA-1 TOTP to Rust `auto-auth`
+// RFC 6238 TOTP & RFC 4226 HOTP delegating standard 6-digit SHA-1 TOTP to Rust `aphrody-auto` (auth)
 // when Wasm is initialized, with Web Crypto (`crypto.subtle`) fallback, plus unpadded RFC 4648 Base32.
 import { authTotpCode, isEnglishWasmReady } from "@aphrody/auto-native";
 

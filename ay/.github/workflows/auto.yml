@@ -86,7 +86,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@nightly
       - uses: Swatinem/rust-cache@v2
       - uses: oven-sh/setup-bun@v2
-      - run: bun tools/auto-cargo.ts build --release -p aphrody-auto --bin auto
+      - run: bun tools/auto-cargo.ts build --release -p aphrody-auto --features runtime --bin auto
       - run: bun tools/auto-cargo.ts build --release -p auto-ffi
       - uses: actions/upload-artifact@v7
         with:

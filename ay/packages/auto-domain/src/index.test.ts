@@ -94,7 +94,7 @@ test("validates quote, invoice conversion, VAT exemption, and credit notes", () 
   expect(() => partialCreditNote(inv, "INV-2026-0001", "2026-10-20", [])).toThrow();
 });
 
-test("matches auto-model line discount rounding and verifies customers/products", () => {
+test("matches aphrody-auto model line discount rounding and verifies customers/products", () => {
   const discounted = (quantity: number, unitPriceExclVatCents: number, discountBp: number) =>
     lineNetExclVat({ description: "x", quantity, unitPriceExclVatCents, vat: 200, discountBp });
   expect(discounted(3, 33333, 1250)).toBe(87499);

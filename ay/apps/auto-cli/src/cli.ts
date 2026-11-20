@@ -20,7 +20,7 @@ Usage:
   auto-cli tools                           List remote API agent/MCP tools
   auto-cli agent [prompt...]               Execute an interactive or one-shot LLM + MCP turn
   auto-cli workflows [list|run|import]     Manage or execute DAG workflows remotely
-  auto-cli auth <hash|verify|keygen|totp>  Run local Rust auto-auth operations
+  auto-cli auth <hash|verify|keygen|totp>  Run local Rust aphrody-auto (auth) operations
   auto-cli health                          Check configured Auto server health
 
 Environment:

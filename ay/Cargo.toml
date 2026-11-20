@@ -21,7 +21,6 @@ argon2 = { version = "0.6", default-features = false, features = ["alloc"] }
 async-trait = "0.1.92"
 axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
 ay-agent-context = { path = "crates/ay-agent-context" }
-ay-brand = { path = "crates/ay-brand" }
 ay-core = { path = "crates/ay-core" }
 ay-re = { path = "crates/ay-re" }
 base64 = "0.23.1"

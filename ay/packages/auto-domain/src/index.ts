@@ -1,4 +1,4 @@
-// Core business domain model aligned 1:1 with Rust `auto-model` (`#11`) and legal invoicing rules.
+// Core business domain model aligned 1:1 with Rust `aphrody-auto` (model) (`#11`) and legal invoicing rules.
 import { t, type Locale } from "@aphrody/auto-platform/i18n";
 
 export const VALID_VAT_RATES = [0, 21, 55, 100, 200] as const;
@@ -138,7 +138,7 @@ export const ISSUED_TRANSITIONS: Record<DocumentType, Partial<Record<DocumentSta
 /** Gross line amount excl. VAT before discount. */
 export const lineGrossExclVat = (line: LineItem): number => Math.round(line.quantity * line.unitPriceExclVatCents);
 
-/** Net line amount excl. VAT using the exact rounding order of `auto-model` (Rust). */
+/** Net line amount excl. VAT using the exact rounding order of `aphrody-auto` model (Rust). */
 export const lineNetExclVat = (line: LineItem): number =>
   Math.round((line.quantity * line.unitPriceExclVatCents * (10000 - (line.discountBp ?? 0))) / 10000);
 

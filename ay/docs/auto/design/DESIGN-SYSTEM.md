@@ -2,7 +2,7 @@
 
 Direction : sobre, dense, lisible, de confiance (finance B2B). Style plat à bordures fines, sans verre dépoli ni dégradés (le style Glassmorphism proposé par l'outil de recherche a été écarté : contraste instable, inadapté à des tableaux de chiffres). Original : aucune couleur, police ni logo de Pennylane ou d'Abby.
 
-Source unique : `crates/auto-theme` (`auto_theme`), aligné sur Material 3 : les couleurs sont les rôles `--md-sys-color-*` que `@aphrody/m3-tokens` dérive de la graine de marque #0F6B5C (schéma `tonalSpot`, clair et sombre). Succès et avertissement sont des couleurs personnalisées M3 tirées de leurs propres graines. `tokens.css` en est généré (`bun packages/ui/src/gen.ts`) et un test vérifie l'identité exacte. Les composants consomment les alias `--auto-*` (ou directement les rôles `--md-sys-color-*`), jamais d'hexadécimal brut ; il n'existe pas de palette parallèle.
+Source unique : `crates/auto-sdk` (`aphrody_auto::theme`), aligné sur Material 3 : les couleurs sont les rôles `--md-sys-color-*` que `@aphrody/m3-tokens` dérive de la graine de marque #0F6B5C (schéma `tonalSpot`, clair et sombre). Succès et avertissement sont des couleurs personnalisées M3 tirées de leurs propres graines. `tokens.css` en est généré (`bun packages/ui/src/gen.ts`) et un test vérifie l'identité exacte. Les composants consomment les alias `--auto-*` (ou directement les rôles `--md-sys-color-*`), jamais d'hexadécimal brut ; il n'existe pas de palette parallèle.
 
 ## Couleurs (contrastes WCAG vérifiés par `tokens.test.ts`)
 

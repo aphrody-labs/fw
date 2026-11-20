@@ -1,4 +1,4 @@
-//! Bridge from canonical `auto_theme` semantic tokens into `nsh_core::prelude::Tokens`.
+//! Bridge from canonical `aphrody_auto::theme` semantic tokens into `nsh_core::prelude::Tokens`.
 
 use aphrody_auto::theme::{DARK_PALETTE, LIGHT_PALETTE, RADII, RgbColor, SPACING, TYPOGRAPHY};
 use nsh_core::prelude::*;
@@ -13,7 +13,7 @@ pub fn adaptive(light: RgbColor, dark: RgbColor) -> AdaptiveColor {
     AdaptiveColor::rgb(pack24(light), pack24(dark))
 }
 
-/// Applies Auto's canonical light & dark palettes (`crates/auto-theme`) into NSH `Tokens`.
+/// Applies Auto's canonical light & dark palettes (`crates/auto-sdk`) into NSH `Tokens`.
 pub fn apply_auto_tokens() {
     let mut tokens = Tokens::default();
     let pairs = [

@@ -16,7 +16,7 @@ fn native(registry: &mut Registry) {
     registry.register::<App>();
 }
 
-/// Root NSH component binding `auto_theme` semantic tokens onto the primary surface.
+/// Root NSH component binding `aphrody_auto::theme` semantic tokens onto the primary surface.
 #[component]
 pub fn App() -> impl IntoElement {
     theme_bridge::apply_auto_tokens();

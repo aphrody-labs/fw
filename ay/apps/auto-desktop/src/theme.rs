@@ -1,4 +1,4 @@
-//! Semantic GPUI theme bridge backed exclusively by `crates/auto-theme`.
+//! Semantic GPUI theme bridge backed exclusively by `crates/auto-sdk`.
 
 use aphrody_auto::theme::{Appearance, ColorPalette, RgbColor, ThemeTokens, resolve};
 use gpui_kit::{
@@ -14,7 +14,7 @@ pub fn rgb_to_hsla(c: RgbColor) -> Hsla {
     rgb(packed).into()
 }
 
-/// Complete resolved semantic GPUI palette aligned with `DESIGN.md` & `auto_theme`.
+/// Complete resolved semantic GPUI palette aligned with `DESIGN.md` & `aphrody_auto::theme`.
 #[derive(Clone, Copy, Debug)]
 pub struct DesktopPalette {
     pub appearance: Appearance,
@@ -74,7 +74,7 @@ impl DesktopPalette {
     }
 }
 
-/// Synchronize `gpui_component::Theme` with `auto_theme` semantic tokens.
+/// Synchronize `gpui_component::Theme` with `aphrody_auto::theme` semantic tokens.
 pub fn sync_gpui_theme(appearance: Appearance, cx: &mut App) {
     let mode = match appearance {
         Appearance::Light => ThemeMode::Light,
