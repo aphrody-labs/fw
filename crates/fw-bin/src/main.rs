@@ -7,6 +7,7 @@
 mod abliterate;
 mod cli_parser;
 mod doctor;
+mod hf_hub;
 mod m3_agent_tui;
 mod ml_engine;
 
@@ -508,7 +509,7 @@ fn main() {
             }
         }
         "hf" | "huggingface" => {
-            match ml_engine::run_hf(&args[1..], parsed.global.offline) {
+            match hf_hub::run_hf_cli(&args[1..], parsed.global.offline) {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
                     eprintln!("fw {cmd}: {e}");
