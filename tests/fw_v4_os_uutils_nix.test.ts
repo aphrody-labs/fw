@@ -57,7 +57,7 @@ describe("Fw v4.0 — Asterinas OSDK + GPUI WebGPU/Wasm + Alpine uutils + NixOS 
       new TextDecoder().decode(Bun.spawnSync([NATIVE_BIN, "stack"], { cwd: ROOT, stdout: "pipe" }).stdout),
     );
     expect(stack.ok).toBe(true);
-    expect(stack.catalog.version).toBe("4.0.0");
+    expect(stack.catalog.version).toBe(/^version = "([^"]+)"/m.exec(readFileSync(join(ROOT, "product.toml"), "utf8"))?.[1]);
     expect(stack.burnRig.webgpu_native).toBe(true);
     expect(stack.voice.terminal_control_ready).toBe(true);
 
