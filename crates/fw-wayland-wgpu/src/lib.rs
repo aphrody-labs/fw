@@ -37,7 +37,7 @@ impl WlMessageHeader {
         let word = u32::from_le_bytes([bytes[4], bytes[5], bytes[6], bytes[7]]);
         let size = (word >> 16) as u16;
         let opcode = (word & 0xFFFF) as u16;
-        if size < 8 || (size % 4) != 0 {
+        if size < 8 || !size.is_multiple_of(4) {
             return Err("invalid wayland message size alignment");
         }
         Ok(Self { object_id, opcode, size })

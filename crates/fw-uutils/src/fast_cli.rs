@@ -27,12 +27,10 @@ pub fn find_byte_swar(haystack: &[u8], needle: u8) -> Option<usize> {
     const LO: u64 = 0x0101_0101_0101_0101;
     const HI: u64 = 0x8080_8080_8080_8080;
     let mask = u64::from(needle) * LO;
-    let mut chunks = haystack.chunks_exact(8);
+    let (chunks, remainder) = haystack.as_chunks::<8>();
     let mut offset = 0usize;
-    for chunk in chunks.by_ref() {
-        let mut arr = [0u8; 8];
-        arr.copy_from_slice(chunk);
-        let word = u64::from_ne_bytes(arr);
+    for chunk in chunks {
+        let word = u64::from_ne_bytes(*chunk);
         let x = word ^ mask;
         let hit = x.wrapping_sub(LO) & !x & HI;
         if hit != 0 {
@@ -45,7 +43,7 @@ pub fn find_byte_swar(haystack: &[u8], needle: u8) -> Option<usize> {
         }
         offset += 8;
     }
-    for (i, &b) in chunks.remainder().iter().enumerate() {
+    for (i, &b) in remainder.iter().enumerate() {
         if b == needle {
             return Some(offset + i);
         }

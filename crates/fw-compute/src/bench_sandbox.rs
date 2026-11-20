@@ -366,10 +366,8 @@ pub fn bench_silicon(buffer_mb: usize) -> SiliconBenchReport {
     // 2. SWAR 8-byte word scan bandwidth (GB/s)
     let t1 = Instant::now();
     let mut acc = 0u64;
-    for chunk in dst.chunks_exact(8) {
-        let mut a = [0u8; 8];
-        a.copy_from_slice(chunk);
-        acc ^= u64::from_ne_bytes(a);
+    for chunk in dst.as_chunks::<8>().0 {
+        acc ^= u64::from_ne_bytes(*chunk);
     }
     std::hint::black_box(acc);
     let dt_scan = t1.elapsed().as_secs_f64().max(1e-9);

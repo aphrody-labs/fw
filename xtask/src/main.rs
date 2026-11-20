@@ -272,10 +272,10 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
             let get = |key: &str| -> String {
                 for line in block.lines() {
                     let l = line.trim();
-                    if let Some(rest) = l.strip_prefix(key) {
-                        if let Some(val) = rest.trim().strip_prefix('=') {
-                            return val.trim().trim_matches('"').to_string();
-                        }
+                    if let Some(rest) = l.strip_prefix(key)
+                        && let Some(val) = rest.trim().strip_prefix('=')
+                    {
+                        return val.trim().trim_matches('"').to_string();
                     }
                 }
                 String::new()

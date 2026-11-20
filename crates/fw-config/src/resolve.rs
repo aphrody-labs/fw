@@ -354,8 +354,7 @@ fn apply_selected_profile(
             let mut available: Vec<String> = merged
                 .get("profiles")
                 .and_then(toml::Value::as_table)
-                .map(|table| table.keys().cloned().collect())
-                .unwrap_or_default();
+                .map_or_default(|table| table.keys().cloned().collect());
             available.sort_unstable();
             return Err(ConfigError::UnknownProfile {
                 name: name.to_owned(),
