@@ -182,6 +182,8 @@ never creates or moves a route or custom domain whose script is not deployed (`a
 
 ## Cutover checklist (the owner confirms the first deploy; nothing here runs on its own)
 
+Status 2026-11-20: done with the owner's approval. `ay-edge` was uploaded without routes and checked on workers.dev, the proxied AAAA records of `assets.<root>` and `wasm.<root>` were created (declared in cf.toml `worker_aaaa`), `edge-cutover apply --apply` moved the 10 routes and the `auto` custom domain, and `EDGE_DEPLOY` and `EDGE_CUTOVER_DONE` are `true`. Every routed host answers with `x-served-by: ay-edge`. The 12 `rosegriffon.fr` hosts that cf.toml declares as tunnel CNAMEs have no DNS record because that tunnel was deleted on 2026-11-19: they are not created until the rosegriffon owner declares a live target. The R2 custom domains (`assets.<app>`, `video.*`, `bun-lib`, `dist`) are served by R2 directly over HTTP/2 and are not fronted by the Worker.
+
 The routes of `aphrody.com`, `aphrody.app` and the custom domain move zones that `ay.toml` `[domains]` marks read-only for this repository; the owner's directive
 of 2026-11-19 authorizes the move, and `edge-cutover` changes nothing without `--apply`.
 
