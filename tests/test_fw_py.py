@@ -3,8 +3,8 @@ from pathlib import Path
 
 
 class FwPythonLayoutTest(unittest.TestCase):
-    def test_heretic_absorbed_under_core_py(self) -> None:
-        heretic_dir = Path("core/py/heretic")
+    def test_fw_python_modules_under_core_py(self) -> None:
+        heretic_dir = Path("core/py/fw_py_ai")
         self.assertTrue(heretic_dir.is_dir())
         self.assertGreater(len(list(heretic_dir.rglob("*.py"))), 0)
 

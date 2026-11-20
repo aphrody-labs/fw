@@ -412,7 +412,7 @@ ${treeRows}
 | **Web** | Dashboard embarqué zéro-build (\`web/index.html\` servi par \`fw-proto\` sur \`/\`, câblé sur \`/health\`, \`/cluster\`, \`/claw/*\`, \`/mcp\`, WebGPU probe) | Web UI optionnelle (SPA JS/TS séparée ou gateway HTTP) | Non (desktop natif) | Non |
 | **GPUI** | Modèle scène/couches \`fw-ostd-wasm\` + \`fw-wayland-wgpu\` | Non | Référence GPU desktop (60-120 FPS, rendu natif, Taffy layout) | Non |
 | **Blitz** | Moteur déclaratif HTML/CSS-vers-GPU (\`fw-ui-blitz\`) sans dépendance Chromium | Non | Non | Non |
-| **TUI** | \`core/rs/tui-test\` + \`core/rs/wta\` (contrôle PTY, snapshots, locators) | TUI Ratatui / CLI interactive centrée chat & logs | Terminal intégré GPUI | Console série / QEMU |
+| **TUI** | \`tui-test\` + \`wta\` (contrôle PTY, snapshots, locators) | TUI Ratatui / CLI interactive centrée chat & logs | Terminal intégré GPUI | Console série / QEMU |
 
 **Constat UI/UX :** \`fw\` combine un panneau Web embarqué instantané (zéro bundler au runtime) avec une base graphique Rust (\`fw-ui-blitz\` + \`fw-wayland-wgpu\`) et une suite de test terminal (\`tui-test\`). Zed domine le rendu GPU desktop (GPUI), tandis que ZeroClaw, OpenFang et IronClaw concentrent leurs efforts sur la CLI/TUI et les canaux messagerie.
 

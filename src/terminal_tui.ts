@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 
 export interface SourceCrateMetrics {
   path: string;
@@ -51,24 +51,28 @@ function measureDir(dir: string): { files: number; bytes: number } {
   return { files, bytes };
 }
 
+// Both tools are forks owned elsewhere (never vendored here): tui-test is resolved from PATH, the Intelligent Terminal
+// `wta` crate from the fw-nt checkout (FW_NT_ROOT, else the sibling `fw-nt` directory).
+function ntRoot(root: string): string {
+  return process.env.FW_NT_ROOT ?? resolve(root, "..", "fw-nt");
+}
+
 export function getTerminalTuiStatus(root: string): TerminalTuiStatus {
-  const tuiDir = join(root, "core", "rs", "tui-test");
-  const wtaDir = join(root, "core", "rs", "wta");
   const ext = process.platform === "win32" ? ".exe" : "";
-  const tuiBin = join(tuiDir, "target", "release", `tui-test${ext}`);
+  const tuiBin = Bun.which("tui-test");
+  const wtaDir = join(ntRoot(root), "third_party", "intelligent-terminal", "tools", "wta");
   const wtaBin = join(wtaDir, "target", "release", `wta${ext}`);
-  const tuiM = measureDir(tuiDir);
   const wtaM = measureDir(wtaDir);
   return {
     ok: true,
     tuiTest: {
-      path: tuiDir,
-      present: existsSync(join(tuiDir, "Cargo.toml")),
-      files: tuiM.files,
-      bytes: tuiM.bytes,
-      binaryPath: tuiBin,
-      binaryBuilt: existsSync(tuiBin),
-      forkUrl: "https://github.com/aphrody-labs/tui-test-1",
+      path: tuiBin ?? "tui-test",
+      present: tuiBin !== null,
+      files: 0,
+      bytes: 0,
+      binaryPath: tuiBin ?? "tui-test",
+      binaryBuilt: tuiBin !== null,
+      forkUrl: "https://github.com/aphrody-labs/tui-test",
       upstreamUrl: "https://github.com/microsoft/tui-test",
     },
     intelligentTerminalWta: {
@@ -78,7 +82,7 @@ export function getTerminalTuiStatus(root: string): TerminalTuiStatus {
       bytes: wtaM.bytes,
       binaryPath: wtaBin,
       binaryBuilt: existsSync(wtaBin),
-      forkUrl: "https://github.com/aphrody-labs/intelligent-terminal-1",
+      forkUrl: "https://github.com/aphrody-labs/intelligent-terminal",
       upstreamUrl: "https://github.com/microsoft/intelligent-terminal",
     },
     skillInstalled: existsSync(join(root, "plugin", "skills", "tui-test", "SKILL.md")),
@@ -88,7 +92,7 @@ export function getTerminalTuiStatus(root: string): TerminalTuiStatus {
 
 export function generateFwWtaConfig(root: string) {
   const agyPath = join(root, "target", "agy", process.platform === "win32" ? "agy.exe" : "agy");
-  const fwPath = join(root, "target", "agy", process.platform === "win32" ? "fw.exe" : "fw");
+  const fwPath = join(root, "target", "agy", process.platform === "win32" ? "fw-plugin.exe" : "fw-plugin");
   return {
     schema: "fw.intelligent-terminal.wta.v1",
     acpAgent: "antigravity",

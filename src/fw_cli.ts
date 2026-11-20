@@ -182,13 +182,6 @@ function cmdStatus(root: string): number {
       repoDigest: manifest?.repoDigest ?? null,
     },
     plugin: pluginStatus(root),
-    absorbed: {
-      heretic: { path: "core/py/heretic", files: countFiles(join(root, "core", "py", "heretic")) },
-      tuiTest: { path: "core/rs/tui-test", files: countFiles(join(root, "core", "rs", "tui-test")) },
-      wta: { path: "core/rs/wta", files: countFiles(join(root, "core", "rs", "wta")) },
-      nativePe: { path: "native/fw-pe/src", files: countFiles(join(root, "native", "fw-pe", "src")) },
-      nativeSniff: { path: "native/fw-sniff/src", files: countFiles(join(root, "native", "fw-sniff", "src")) },
-    },
     external: {
       ghidra: { path: "packages/ghidra", present: existsSync(join(root, "packages", "ghidra")) },
     },
@@ -198,19 +191,20 @@ function cmdStatus(root: string): number {
 }
 
 function cmdHeretic(root: string, args: string[]): number {
-  const dir = join(root, "core", "py", "heretic");
+  // Heretic (AGPL-3.0) is not vendored: the upstream PyPI package runs through uvx with the presets of configs/heretic.
+  const dir = join(root, "configs", "heretic");
   if (args.length === 0 || args[0] === "--info") {
     printJson({
       ok: true,
-      bridge: "uv/PyO3",
-      path: dir,
+      bridge: "uvx/heretic-llm",
+      presets: dir,
       present: existsSync(dir),
       files: countFiles(dir),
       usage: "fw heretic <args...>",
     });
     return 0;
   }
-  return runSubprocess(["uv", "run", "heretic", ...args], root);
+  return runSubprocess(["uvx", "--from", "heretic-llm", "heretic", ...args], root);
 }
 
 function cmdNeon(root: string, args: string[]): number {

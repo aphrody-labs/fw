@@ -3,12 +3,19 @@
   "version": "4.2.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/agents",
+    "packages/gnu",
+    "packages/ai-os",
+    "packages/ai-os/engines/*",
+    "packages/ai-os/protocols/*"
+  ],
   "scripts": {
-    "check": "uvx ruff check . && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace && cargo test --manifest-path native/fw-pe/Cargo.toml && cargo test --manifest-path native/fw-sniff/Cargo.toml && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && cargo test --manifest-path native/fw-agy/Cargo.toml && cargo check --manifest-path core/rs/tui-test/Cargo.toml --workspace && cargo check --manifest-path core/rs/wta/Cargo.toml && bun test",
-    "test": "bun test tests && cargo test --manifest-path native/fw-pe/Cargo.toml && cargo test --manifest-path native/fw-sniff/Cargo.toml && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && cargo test --manifest-path native/fw-agy/Cargo.toml && uv run python -m unittest discover -s tests",
+    "check": "uvx ruff check . && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && cargo test --manifest-path native/fw-agy/Cargo.toml && bun test",
+    "test": "bun test tests && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && cargo test --manifest-path native/fw-agy/Cargo.toml && uv run python -m unittest discover -s tests",
     "build:abi": "cargo build --release --manifest-path native/fw-abi/Cargo.toml",
     "build:agy": "cargo build --release --manifest-path native/fw-agy/Cargo.toml",
-    "build:cli": "bun build --compile --aot --trim --no-compile-function-source --no-compile-autoload-dotenv --no-compile-autoload-bunfig src/fw_cli.ts --outfile dist/fw.exe",
+    "build:cli": "bun build --compile --aot --trim --no-compile-function-source --no-compile-autoload-dotenv --no-compile-autoload-bunfig src/fw_cli.ts --outfile dist/fw-plugin.exe",
     "build": "bun run build:abi && bun run build:agy && bun run build:cli",
     "ship": "cargo xtask ship",
     "target:scan": "bun src/fw_cli.ts target scan",
@@ -27,7 +34,7 @@
     "cf:dry-run": "bunx wrangler deploy --dry-run -c cloudflare/wrangler.jsonc",
     "cf:dev": "bunx wrangler dev -c cloudflare/wrangler.jsonc --port 8787 --local",
     "cf:deploy": "bunx wrangler deploy -c cloudflare/wrangler.jsonc",
-    "status": "dist/fw.exe status",
+    "status": "dist/fw-plugin.exe status",
     "ci": "cargo xtask ci all",
     "ci:fast": "cargo xtask ci fast",
     "ci:full-upgrade": "bun run check && bun run upgrade && bun run service:render && bun run status && bun run bench"

@@ -1,6 +1,6 @@
 ---
 name: fw
-description: Unified fw v4.2 monorepo, plugin, 27-crate + xtask zero-bloat Rust workspace (all AI, inference, MCP, ACP, A2A, RAG, llama/ggml, fw-wasm, fw-hermes-claw, GPUI WebGPU/Wasm, Wayland-WGPU, uutils, NixOS store/NAR, Pingora+Dynamo+vLLM-Router), 2-tier Linux CachyOS LTO + sched_ext primary OS & kernel pipeline (`os/{fw-os,fw-os-boot,fw-ostd-vfs,fw-wsl,initramfs,kernel-pipeline}`), Fat-LTO Rust C ABI v4, Bun AOT CLI, Cloudflare/Vercel, and continuous agy upgrade pipeline.
+description: Unified fw v4.2 monorepo, plugin, `crates/fw-*` + xtask zero-bloat Rust workspace (all AI, inference, MCP, ACP, A2A, RAG, llama/ggml, fw-wasm, fw-hermes-claw, GPUI WebGPU/Wasm, Wayland-WGPU, uutils, NixOS store/NAR, Pingora+Dynamo+vLLM-Router), 2-tier Linux CachyOS LTO + sched_ext primary OS & kernel pipeline (`os/{fw-os,fw-os-boot,fw-ostd-vfs,fw-wsl,initramfs,kernel-pipeline}`), Fat-LTO Rust C ABI v4, Bun AOT CLI, Cloudflare/Vercel, and continuous agy upgrade pipeline.
 ---
 
 # `fw` (Fw v4.2) Unified OS, Cluster & Continuous `agy` Upgrade Stack
@@ -18,10 +18,10 @@ description: Unified fw v4.2 monorepo, plugin, 27-crate + xtask zero-bloat Rust 
 ## 2. Bun AOT CLI, Fat-LTO C ABI v4 & `agy` Target Pipeline
 
 - **Native Fat-LTO `agy` launcher**: `target/agy/agy.exe` (`native/fw-agy`, ~381 KiB vs 235.4 MB signed read-only Google upstream `agy.exe`).
-- **Bun AOT `--trim` CLI**: `dist/fw.exe` & `target/agy/fw.exe` (`bun build --compile --aot --trim --no-compile-function-source src/fw_cli.ts`).
+- **Bun AOT `--trim` CLI**: `dist/fw-plugin.exe` & `target/agy/fw-plugin.exe` (`bun build --compile --aot --trim --no-compile-function-source src/fw_cli.ts`).
 - **Fat-LTO Rust C ABI v4**: `target/agy/fw_abi.dll` (`native/fw-abi`, 11 Tree-sitter 0.27 grammars, `craft-pe`, `craft-sniff`, `iced-x86`, SHA-256/512, BLAKE3, SSH, Git, OCI, GGUF/GGML). On Windows, `src/targets.ts` shadow-copies the DLL to `%TEMP%\fw-abi-shadow\` before `dlopen` to prevent `os error 5` locks during `cargo build --release`.
 - **Gemini Decision 1 & Self-Hosted AI**: `fw decide`, `fw workflow`, `POST /v1beta/decisions` (`src/decisions.ts`, `noul`/`choice`/`score`, 0 output tokens).
-- **Intelligent Terminal (WTA) & `tui-test`**: source-only `core/rs/wta` + `core/rs/tui-test` exposed via `fw tui status|wta-config|verify-self|verify` and MCP tool `fw_tui_terminal`.
+- **Intelligent Terminal (WTA) & `tui-test`**: `wta` (fw-nt fork `intelligent-terminal`) + `tui-test` (PATH) exposed via `fw tui status|wta-config|verify-self|verify` and MCP tool `fw_tui_terminal`.
 - **Cross-Cloud**: `cloudflare/worker.ts` (`FwOSAgent` DO SQLite + 3-tier execution + Gatekeeper) and `vercel/api/fw.ts` (Bun 1.4.x Fluid Compute).
 
 ## 3. Verification & Hygiene Gates
@@ -30,5 +30,5 @@ description: Unified fw v4.2 monorepo, plugin, 27-crate + xtask zero-bloat Rust 
 2. `cargo build --release -p fw-bin && cargo build --release --target wasm32-unknown-unknown -p fw-wasm && cargo check --target x86_64-unknown-linux-musl -p fw-bin`
 3. `bun test` (root `bunfig.toml` scopes test discovery strictly to `./tests`)
 4. `uvx ruff check . && uv run python -m unittest discover -s tests`
-5. `bun run upgrade && .\dist\fw.exe plugin sync --install && .\dist\fw.exe dedupe && .\dist\fw.exe target verify`
+5. `bun run upgrade && .\dist\fw-plugin.exe plugin sync --install && .\dist\fw-plugin.exe dedupe && .\dist\fw-plugin.exe target verify`
 6. On Windows PowerShell 5.1: use `@' ... '@ | bun -` heredocs instead of `bun -e "..."`, and `gh api ... | ConvertFrom-Json` instead of `--jq` with backslashes.

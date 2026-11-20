@@ -105,7 +105,7 @@ export const FW_MCP_TOOLS = [
   {
     name: "fw_bench",
     description:
-      "Benchmark binary size and cold-start latency for target/agy/agy (Rust Fat-LTO), dist/fw (Bun AOT+trim), and upstream agy.exe.",
+      "Benchmark binary size and cold-start latency for target/agy/agy (Rust Fat-LTO), dist/fw-plugin (Bun AOT+trim), and upstream agy.exe.",
     inputSchema: {
       type: "object",
       properties: {
@@ -346,7 +346,7 @@ export function handleFwToolCall(
     case "fw_bridge": {
       const sub = typeof args.subsystem === "string" ? args.subsystem : "";
       const map: Record<string, { path: string; runtime: string }> = {
-        heretic: { path: join(root, "core", "py", "heretic"), runtime: "uv/python" },
+        heretic: { path: join(root, "configs", "heretic"), runtime: "uvx/heretic-llm (PyPI)" },
         neon: { path: join(root, "core", "ts", "neon"), runtime: "bun/ts-rea" },
         craft: { path: join(root, "core", "rs", "craft-anything"), runtime: "rust/craft-libs+craft-anything" },
         ghidra: { path: join(root, "packages", "ghidra"), runtime: "jvm/gradle-headless" },

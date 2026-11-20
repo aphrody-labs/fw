@@ -68,12 +68,11 @@ fn role_for(dir: &str) -> (&'static str, &'static str) {
         "web" => ("control-plane-ui", "bun run cf:dry-run"),
         "src" => ("bun-cli-aot", "bun test"),
         "tests" => ("e2e-tests", "bun test"),
-        "plugin" => ("agy-plugin", "dist/fw.exe plugin sync --install"),
+        "plugin" => ("agy-plugin", "dist/fw-plugin.exe plugin sync --install"),
         "cluster" => ("topology-spec", "bun test tests/fw_v3_cluster_webgpu.test.ts"),
         "configs/heretic" => ("heretic-presets", "uvx ruff check ."),
         "docs" => ("architecture-docs", "read-only"),
         "core/py" => ("python-core", "uvx ruff check ."),
-        "core/rs" => ("rust-embedded", "cargo check --manifest-path core/rs/wta/Cargo.toml"),
         _ => ("misc", "just ci"),
     }
 }
@@ -103,7 +102,6 @@ fn cmd_map(root: &Path) -> ExitCode {
                 || p2 == "os/fw-wsl"
                 || p2 == "configs/heretic"
                 || p2 == "core/py"
-                || p2 == "core/rs"
             {
                 p2
             } else {
@@ -196,8 +194,6 @@ fn cmd_ci(root: &Path, mode: &str) -> ExitCode {
     ];
     if mode != "fast" {
         lanes.extend([
-            ("native-pe", "cargo", vec!["test", "--manifest-path", "native/fw-pe/Cargo.toml"]),
-            ("native-sniff", "cargo", vec!["test", "--manifest-path", "native/fw-sniff/Cargo.toml"]),
             ("native-abi", "cargo", vec!["test", "--manifest-path", "native/fw-abi/Cargo.toml"]),
             ("wasm32", "cargo", vec!["build", "--release", "--target", "wasm32-unknown-unknown", "-p", "fw-wasm"]),
             ("cf-dry-run", "bunx", vec!["wrangler", "deploy", "--dry-run", "-c", "cloudflare/wrangler.jsonc"]),
@@ -323,7 +319,7 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
     tsv.push_str("id\trepo\tbranch\thead_sha\tfw\tdocs\trole\n");
     let mut md = String::with_capacity(rows.len() * 140 + 512);
     md.push_str(
-        "---\nname: upstreams\ndescription: >-\n  Auto-generated Git-pinned upstream reference catalog for fw (llama.cpp, Asterinas,\n  Cloudflare OS/Computer/Pingora/Kitesurf/lol-html, rmcp, ZeroClaw, Zed, nix-cachyos-kernel,\n  scx, Cloud Hypervisor, uutils, OpenVMM, IronRDP). Refresh anytime via `just sync-upstreams`.\n---\n\n# fw Auto-Generated Upstream Skill Catalog\n\nRefresh via `just sync-upstreams` (`cargo xtask sync-upstreams`).\nIndex: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).\n\n| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n",
+        "---\nname: upstreams\ndescription: >-\n  Auto-generated Git-pinned upstream reference catalog for fw (llama.cpp,\n  Cloudflare OS/Computer/Pingora/Kitesurf/lol-html, rmcp, ZeroClaw, Zed, nix-cachyos-kernel,\n  scx, Cloud Hypervisor, uutils). Refresh anytime via `just sync-upstreams`.\n---\n\n# fw Auto-Generated Upstream Skill Catalog\n\nRefresh via `just sync-upstreams` (`cargo xtask sync-upstreams`).\nIndex: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).\n\n| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n",
     );
     for (id, repo, branch, sha, fw, docs, role) in &rows {
         tsv.push_str(&format!("{id}\t{repo}\t{branch}\t{sha}\t{fw}\t{docs}\t{role}\n"));
@@ -370,7 +366,7 @@ fn cmd_ship(root: &Path) -> ExitCode {
                 "--no-compile-autoload-bunfig",
                 "src/fw_cli.ts",
                 "--outfile",
-                "dist/fw.exe",
+                "dist/fw-plugin.exe",
             ],
         ),
         ("cf-dry-run", "bunx", vec!["wrangler", "deploy", "--dry-run", "-c", "cloudflare/wrangler.jsonc"]),

@@ -37,12 +37,5 @@ dist/*.exe
 .wrangler/
 cloudflare/.wrangler/
 
-# External cloned upstream source trees
-packages/ghidra/
-packages/windows-rs/
-packages/rust-for-linux/
-packages/antigravity-sdk-python/
-packages/tui-test/
-packages/intelligent-terminal/
-packages/asterinas/
-packages/wayland-rs/
+# Package manager installs
+node_modules/

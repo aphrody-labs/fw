@@ -11,7 +11,7 @@ Primary-source verified repositories, crate/package versions, and community fixe
 - `huggingface/transformers.js` (`@huggingface/transformers@4.3.2`, 16.4k★) - WebGPU/ONNX inference across Browser/Bun/Node.
 - `huggingface/lerobot` (`v0.7.0`, 29.0k★) - robotics / System-1 control & world-model policy training.
 - `huggingface/smolagents` (`v1.26.0`, 30.4k★) - CodeAgent loop architecture.
-- `huggingface/peft` (`v0.21.3`, 21.9k★) + `transformers` (`v5.23.0`) + `trl` (`v1.18.1`) - LoRA/QLoRA fine-tuning integrated with `core/py/heretic` & `core/py/fw_ml`.
+- `huggingface/peft` (`v0.21.3`, 21.9k★) + `transformers` (`v5.23.0`) + `trl` (`v1.18.1`) - LoRA/QLoRA fine-tuning integrated with `configs/heretic` & `core/py/fw_ml`.
 - `huggingface/text-embeddings-inference` (`v1.9.4`, 5.1k★) - Rust embedding/reranker architecture. *(Note: `text-generation-inference` is archived; do not adopt.)*
 
 ## 2. Anomalyco (`github.com/orgs/anomalyco`)
@@ -32,6 +32,6 @@ Primary-source verified repositories, crate/package versions, and community fixe
 - Fw `vercel/` targets **Bun 1.4.x Fluid Compute** (`bunVersion: "1.4.x"`, zero legacy `runtime: "edge"`, zero TS decorators per `vercel#17712`, `globalStore = false` per `vercel#17711`, REST/Node24 isolation for Sandbox until `vercel/sandbox#479` lands).
 
 ## 5. Google Gemini / Gemma / Antigravity
-- Forked `aphrody-labs/antigravity-sdk-python` absorbed into `core/py/google/`.
+- `google-antigravity` Python SDK is consumed from PyPI (Apache-2.0), not vendored.
 - `gemini-decision-1` (`POST /v1beta/decisions`) dual-mode implementation (`src/decisions.ts`): official remote API when `GEMINI_API_KEY` is set + zero-output-token calibrated local System-1 fallback (`noul`, `choice`, `score`).
 - Cross-OS kernel foundations: `packages/windows-rs` (`microsoft/windows-rs`), `packages/rust-for-linux` (`Rust-for-Linux/linux` 7.4-rc3), `native/fw-kernel` (`177 KiB` Fat-LTO), and `native/fw-world` (`15 KiB` pure `no_std` bare-metal/WASM System-1 + World Model).

@@ -69,7 +69,7 @@ def build_lora_plan(
         "datasetPath": dataset_path,
         "outputDir": output_dir,
         "lora": {"r": rank, "lora_alpha": alpha, "lora_dropout": 0.05, "qlora4bit": qlora_4bit},
-        "hereticBridge": "uv run heretic --help",
+        "hereticBridge": "uvx --from heretic-llm heretic --help",
         "installedMlPackages": available,
     }
 

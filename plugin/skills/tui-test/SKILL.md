@@ -118,9 +118,9 @@ Do not use a fixed sleep when a wait can describe the state.
 - Use semantic mouse buttons: `left`, `middle`, or `right`.
 - Close every session. Prefer the Python and JavaScript test helpers.
 
-## Fw Integration (`core/rs/tui-test` & `core/rs/wta`)
+## Fw Integration (`tui-test` & `wta`)
 
-- Source-only Rust crates live in `core/rs/tui-test` (forked from `microsoft/tui-test`, zero binary font/ConPTY bloat) and `core/rs/wta` (Microsoft Intelligent Terminal ACP/MCP orchestrator).
+- Not vendored: `tui-test` is the `tui-test` binary on PATH (fork `aphrody-labs/tui-test`), `wta` is the Microsoft Intelligent Terminal ACP/MCP orchestrator from the fw-nt checkout (`third_party/intelligent-terminal/tools/wta`, override with `FW_NT_ROOT`).
 - CLI commands: `fw tui status`, `fw tui wta-config`, `fw tui verify-self`, `fw tui verify <expect> -- <cmd...>`.
 - MCP tool: `fw_tui_terminal` (`status | wta_config | verify_self`).
 - HTTP API: `GET /api/tui/status`, `GET /api/tui/wta-config`, `GET /api/tui/verify`.

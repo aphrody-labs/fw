@@ -1,33 +1,15 @@
 [project]
 name = "fw"
-version = "2.2.0.dev0"
-description = "Unified Fw product (heretic, neon, craft-libs, craft-anything)"
+version = "4.2.0"
+description = "fw Python tooling: llama.cpp/vLLM/Hermes migration helpers and the ML pipeline bridge"
 readme = "README.md"
-license = "AGPL-3.0-or-later"
+license = "MIT"
 requires-python = ">=3.10"
-dependencies = [
-    "accelerate~=1.15",
-    "bitsandbytes~=0.50",
-    "datasets~=5.0",
-    "huggingface-hub~=1.33",
-    "immutabledict~=4.3",
-    "ipython~=8.39",
-    "langdetect~=1.0",
-    "lm-eval[hf]~=0.4",
-    "numpy~=2.2",
-    "optuna~=5.0",
-    "peft~=0.21",
-    "psutil~=7.2",
-    "py-cpuinfo~=9.0",
-    "pydantic-settings~=2.15",
-    "questionary~=2.1",
-    "rich~=15.0",
-    "tomli-w~=1.2",
-    "torch",
-    "torchvision",
-    "tqdm~=4.70",
-    "transformers[kernels]~=5.18",
-]
+dependencies = []
+
+[project.optional-dependencies]
+# Heretic (AGPL-3.0) is consumed as the upstream PyPI package, never vendored in this MIT repository.
+heretic = ["heretic-llm~=2.1"]
 
 [dependency-groups]
 dev = [
@@ -35,33 +17,13 @@ dev = [
     "ty>=0.0.84",
 ]
 
-[project.scripts]
-heretic = "heretic.main:main"
-fw-py = "heretic.main:main"
-
-[build-system]
-requires = ["uv_build>=0.12.21,<0.13.0"]
-build-backend = "uv_build"
+[tool.uv]
+package = false
+exclude-newer = "7 days"
 
 [tool.ruff]
 src = ["core/py", "tests"]
-exclude = ["core/py/google", "core/ts", "core/rs", "packages", "third_party", "native", "dist", "cloudflare", "vercel"]
+exclude = ["packages", "plugin", "plugins", "native", "dist", "cloudflare", "vercel"]
 
 [tool.ruff.lint]
 ignore = ["B023", "BLE001", "TRY002", "SIM117"]
-
-[tool.uv]
-exclude-newer = "7 days"
-
-[tool.uv.sources]
-torch = { index = "pytorch" }
-torchvision = { index = "pytorch" }
-
-[[tool.uv.index]]
-name = "pytorch"
-url = "https://download.pytorch.org/whl/cpu"
-explicit = true
-
-[tool.uv.build-backend]
-module-name = "heretic"
-module-root = "core/py"

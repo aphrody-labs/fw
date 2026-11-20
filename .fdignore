@@ -1,6 +1,4 @@
-# Exclude external untracked forks & build artifacts from default `fd` scans.
-packages/
-third_party/
+# Exclude build artifacts from default `fd` scans.
 target/
 dist/
 .wrangler/

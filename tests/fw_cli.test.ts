@@ -9,12 +9,12 @@ describe("fw unified product", () => {
   test("core layout contains first-party unified modules and native LTO/AOT crates (zero dead upstream copies)", () => {
     expect(existsSync(join(ROOT, "LICENSE"))).toBe(true);
     expect(existsSync(join(ROOT, "THIRD_PARTY_NOTICES.md"))).toBe(true);
-    expect(existsSync(join(ROOT, "core", "py", "heretic"))).toBe(true);
+    expect(existsSync(join(ROOT, "core", "py", "heretic"))).toBe(false);
     expect(existsSync(join(ROOT, "core", "ts", "neon"))).toBe(false);
     expect(existsSync(join(ROOT, "core", "rs", "craft-libs"))).toBe(false);
     expect(existsSync(join(ROOT, "core", "rs", "craft-anything"))).toBe(false);
-    expect(existsSync(join(ROOT, "native", "fw-pe", "src", "lib.rs"))).toBe(true);
-    expect(existsSync(join(ROOT, "native", "fw-sniff", "src", "lib.rs"))).toBe(true);
+    expect(existsSync(join(ROOT, "native", "fw-pe"))).toBe(false);
+    expect(existsSync(join(ROOT, "native", "fw-sniff"))).toBe(false);
     expect(existsSync(join(ROOT, "native", "fw-abi", "Cargo.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "native", "fw-agy", "Cargo.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "fw.targets.json"))).toBe(true);
@@ -41,11 +41,6 @@ describe("fw unified product", () => {
     expect(data.subcommands).toContain("target");
     expect(data.subcommands).toContain("upgrade");
     expect(data.subcommands).toContain("bench");
-    expect(data.absorbed.heretic.files).toBeGreaterThan(0);
-    expect(data.absorbed.tuiTest.files).toBeGreaterThan(0);
-    expect(data.absorbed.wta.files).toBeGreaterThan(0);
-    expect(data.absorbed.nativePe.files).toBeGreaterThan(0);
-    expect(data.absorbed.nativeSniff.files).toBeGreaterThan(0);
   });
 
   test("fw_cli.ts ast parses Rust and TypeScript via Tree-sitter C ABI", () => {

@@ -13,15 +13,10 @@ describe("fw target and self-upgrade pipeline", () => {
     const cfg = loadTargetsConfig(ROOT);
     const ids = cfg.modules.map((m) => m.id);
     for (const expected of [
-      "native-pe",
-      "native-sniff",
       "native-abi",
       "native-agy",
       "fw-cli",
       "fw-tests",
-      "core-heretic",
-      "core-tui-test",
-      "core-wta",
       "v3-unified-workspace",
       "external-ghidra",
     ]) {
