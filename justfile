@@ -32,6 +32,10 @@ doctor:
 sync-upstreams:
     cargo xtask sync-upstreams
 
+# Refresh the research snapshot of watched upstreams (docs/research/upstream-watch.tsv)
+sync-research:
+    bun tools/upstream_watch.ts
+
 # Parallel full monorepo upgrade (sync-upstreams + parallel CI + purity + MAP.tsv)
 upgrade-all:
     cargo xtask upgrade

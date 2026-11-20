@@ -1,0 +1,45 @@
+name: Sync upstreams
+
+# Cron refresh of the live upstream catalog (plugin/skills/upstreams/) and of the research snapshot
+# (docs/research/upstream-watch.tsv) for every upstream declared in upstreams.toml. Commits straight to main, no branch.
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fw-sync-upstreams
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: xtask
+      - uses: oven-sh/setup-bun@v2
+      - name: Refresh catalog and research snapshot
+        run: |
+          cargo xtask sync-upstreams
+          bun tools/upstream_watch.ts
+      - name: Commit changes to main
+        run: |
+          paths="plugin/skills/upstreams docs/research/upstream-watch.tsv"
+          if git diff --quiet -- $paths; then
+            echo "upstreams unchanged"
+            exit 0
+          fi
+          git config user.name "fw-sync"
+          git config user.email "fw-sync@users.noreply.github.com"
+          git add -- $paths
+          git commit -m "chore: sync upstream catalog and research snapshot"
+          git pull --rebase origin main
+          git push origin HEAD:main
