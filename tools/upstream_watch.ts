@@ -76,8 +76,12 @@ const refDir = join(root, "plugin", "skills", "upstreams");
 const prevTsv = existsSync(join(refDir, "references", "UPSTREAMS.tsv")) ? readFileSync(join(refDir, "references", "UPSTREAMS.tsv"), "utf8") : "";
 const prevSha = new Map(prevTsv.split("\n").slice(1).map((l) => l.split("\t")).map((c) => [c[0], c[3]]));
 const catTsv = ["id\trepo\tbranch\thead_sha\tfw\tdocs\trole"];
-const skillHead = readFileSync(join(refDir, "SKILL.md"), "utf8").split("| Upstream | HEAD SHA | Target | Docs |")[0] + "| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n";
-let md = skillHead;
+// Same header as xtask cmd_sync_upstreams: generated from upstreams.toml, never hand-written.
+let md =
+  `---\nname: upstreams\ndescription: >-\n  Git-pinned catalog of the ${specs.length} upstreams fw tracks (${specs.map((s) => s.id).join(", ")}).\n` +
+  "  Live HEAD SHAs refresh every 6 hours (sync-upstreams workflow) or with `just sync-upstreams`.\n---\n\n" +
+  "# fw upstream catalog\n\nGenerated from `upstreams.toml` by `cargo xtask sync-upstreams` and `bun tools/upstream_watch.ts`; do not edit.\n" +
+  "Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).\n\n| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n";
 specs.forEach((s, i) => {
   const sha = heads[i] === "offline" ? prevSha.get(s.id) ?? "offline" : heads[i]; // keep the last known SHA when the network fails
   catTsv.push([s.id, s.repo, s.branch, sha, s.fw, s.docs, s.role].join("\t"));

@@ -24,5 +24,9 @@ tokio.workspace = true
 ureq.workspace = true
 sha2.workspace = true
 
+[dev-dependencies]
+fw-m3 = { path = "../fw-m3" }
+toml.workspace = true
+
 [lints]
 workspace = true

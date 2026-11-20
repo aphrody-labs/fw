@@ -6,6 +6,9 @@
 //! corner shapes, state-layer opacities, variable font axis bounds, spring physics,
 //! and WCAG 2.2 luminance/contrast calculations.
 
+/// Color roles computed from a seed with the HCT dynamic-color algorithm.
+pub mod scheme;
+
 /// Full text of `tokens/google_design_tokens.toml` embedded once for inspection or export.
 pub const BUNDLED_GOOGLE_DESIGN_TOKENS_TOML: &str =
     include_str!("../tokens/google_design_tokens.toml");

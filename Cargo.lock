@@ -3598,6 +3598,7 @@ dependencies = [
 name = "fw-m3"
 version = "0.1.0"
 dependencies = [
+ "material-colors",
  "schemars",
  "serde",
  "toml",
@@ -3738,11 +3739,14 @@ dependencies = [
  "fw-fx",
  "fw-ggml",
  "fw-hermes-claw",
+ "fw-m3",
  "fw-wayland-wgpu",
  "serde",
  "serde_json",
  "sha2",
  "tokio",
+ "toml",
+ "ureq",
 ]
 
 [[package]]
@@ -6447,6 +6451,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "47e1ffaa40ddd1f3ed91f717a33c8c0ee23fff369e3aa8772b9605cc1d22f4c3"
 
 [[package]]
+name = "material-colors"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "57a5bf6a9d1cf6319a36cebc589b9a681a6b1c699e162f27c020877783579cc7"
+dependencies = [
+ "ahash",
+ "indexmap",
+ "serde",
+]
+
+[[package]]
 name = "matrixmultiply"
 version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -8900,7 +8915,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.4.15",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]

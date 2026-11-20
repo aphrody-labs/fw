@@ -319,9 +319,13 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
     let mut tsv = String::with_capacity(rows.len() * 160);
     tsv.push_str("id\trepo\tbranch\thead_sha\tfw\tdocs\trole\n");
     let mut md = String::with_capacity(rows.len() * 140 + 512);
-    md.push_str(
-        "---\nname: upstreams\ndescription: >-\n  Auto-generated Git-pinned upstream reference catalog for fw (llama.cpp,\n  Cloudflare OS/Computer/Pingora/Kitesurf/lol-html, rmcp, ZeroClaw, Zed, nix-cachyos-kernel,\n  scx, Cloud Hypervisor, uutils). Refresh anytime via `just sync-upstreams`.\n---\n\n# fw Auto-Generated Upstream Skill Catalog\n\nRefresh via `just sync-upstreams` (`cargo xtask sync-upstreams`).\nIndex: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).\n\n| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n",
-    );
+    // Same header as tools/upstream_watch.ts: generated from upstreams.toml, never hand-written.
+    let ids: Vec<&str> = rows.iter().map(|r| r.0.as_str()).collect();
+    md.push_str(&format!(
+        "---\nname: upstreams\ndescription: >-\n  Git-pinned catalog of the {} upstreams fw tracks ({}).\n  Live HEAD SHAs refresh every 6 hours (sync-upstreams workflow) or with `just sync-upstreams`.\n---\n\n# fw upstream catalog\n\nGenerated from `upstreams.toml` by `cargo xtask sync-upstreams` and `bun tools/upstream_watch.ts`; do not edit.\nIndex: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).\n\n| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n",
+        ids.len(),
+        ids.join(", ")
+    ));
     for (id, repo, branch, sha, fw, docs, role) in &rows {
         tsv.push_str(&format!("{id}\t{repo}\t{branch}\t{sha}\t{fw}\t{docs}\t{role}\n"));
         md.push_str(&format!("| `{repo}` | `{sha}` | `{fw}` | [docs]({docs}) |\n"));

@@ -288,3 +288,113 @@ docs = "https://github.com/utilityai/llama-cpp-rs#readme"
 fw = "crates/fw-llama-sys"
 role = "Binding Rust llama.cpp de référence (llama-cpp-2), submodule épinglé"
 watch = true
+
+# Google design, Material, Stitch, Gemini and Antigravity (verified with `gh api repos/...` on 2026-11-20).
+
+[[upstream]]
+id = "material-color-utilities"
+repo = "material-foundation/material-color-utilities"
+branch = "main"
+docs = "https://github.com/material-foundation/material-color-utilities#readme"
+fw = "crates/fw-m3"
+role = "HCT color space, tonal palettes and dynamic schemes; fw-m3 scheme.rs computes the same roles in Rust"
+watch = true
+
+[[upstream]]
+id = "material-theme-builder"
+repo = "material-foundation/material-theme-builder"
+branch = "main"
+docs = "https://github.com/material-foundation/material-theme-builder#readme"
+fw = "crates/fw-m3"
+role = "Theme export formats (tokens, CSS, Compose) that fw-m3 emits from one seed"
+watch = true
+
+[[upstream]]
+id = "material-web"
+repo = "material-components/material-web"
+branch = "main"
+docs = "https://material-web.dev/"
+fw = "crates/fw-proto/ui"
+role = "Material 3 web components: token names, state layers, focus rings, motion used by the fw web UI"
+watch = true
+
+[[upstream]]
+id = "material-design-icons"
+repo = "google/material-design-icons"
+branch = "master"
+docs = "https://fonts.google.com/icons"
+fw = "crates/fw-proto/ui"
+role = "Material Symbols paths for the UI sprite and Figma icon components"
+watch = true
+
+[[upstream]]
+id = "googlesans-flex"
+repo = "googlefonts/googlesans-flex"
+branch = "main"
+docs = "https://fonts.google.com/specimen/Google+Sans+Flex"
+fw = "crates/fw-m3"
+role = "Google Sans Flex variable axes (opsz, wght, wdth, ROND, GRAD, slnt) behind the type scale"
+watch = true
+
+[[upstream]]
+id = "stitch-skills"
+repo = "google-labs-code/stitch-skills"
+branch = "main"
+docs = "https://github.com/google-labs-code/stitch-skills#readme"
+fw = "plugin/skills"
+role = "Stitch design-to-code plugins (stitch-build, stitch-design, stitch-utilities)"
+watch = true
+
+[[upstream]]
+id = "gemini-cli"
+repo = "google-gemini/gemini-cli"
+branch = "main"
+docs = "https://github.com/google-gemini/gemini-cli#readme"
+fw = "crates/fw-gemini"
+role = "Gemini CLI agent loop, tools, extensions and MCP wiring"
+watch = true
+
+[[upstream]]
+id = "gemini-skills"
+repo = "google-gemini/gemini-skills"
+branch = "main"
+docs = "https://github.com/google-gemini/gemini-skills#readme"
+fw = "plugin/skills"
+role = "Official Gemini agent skills"
+watch = true
+
+[[upstream]]
+id = "gemini-cookbook"
+repo = "google-gemini/cookbook"
+branch = "main"
+docs = "https://ai.google.dev/gemini-api/docs"
+fw = "crates/fw-gemini"
+role = "Gemini API usage patterns (Live API, function calling, files, caching)"
+watch = true
+
+[[upstream]]
+id = "adk-python"
+repo = "google/adk-python"
+branch = "main"
+docs = "https://google.github.io/adk-docs/"
+fw = "crates/fw-agent"
+role = "Agent Development Kit: agent, tool and session model used by Gemini agents"
+watch = true
+
+[[upstream]]
+id = "antigravity-cli"
+repo = "google-antigravity/antigravity-cli"
+branch = "main"
+docs = "https://github.com/google-antigravity/antigravity-cli#readme"
+fw = "native/fw-agy"
+role = "Antigravity CLI (agy) wrapped by fw-agy and the agy-knowledge skill"
+watch = true
+
+[[upstream]]
+id = "antigravity-sdk-python"
+repo = "google-antigravity/antigravity-sdk-python"
+branch = "main"
+docs = "https://github.com/google-antigravity/antigravity-sdk-python#readme"
+fw = "native/fw-agy"
+role = "Antigravity agent SDK: session, tool and plugin protocol"
+watch = true
