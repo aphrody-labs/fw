@@ -1,3 +1,7 @@
+---
+trigger: always_on
+description: Google-style polyglot engineering standard for Python, Go, C, and C++.
+---
 # Google-Style Polyglot Standard (Python, Go, C, C++)
 
 - **Reference canonique locale** : `~/.gemini/brain/google/styleguide` (Python, Go, C++, Shell, Markdown, Protobuf).
