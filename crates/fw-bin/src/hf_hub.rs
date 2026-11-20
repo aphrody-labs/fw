@@ -109,6 +109,11 @@ pub fn inspect_safetensors(path: &Path) -> Result<Value, String> {
         }
     }
 
+    let arch = header
+        .as_object()
+        .map(|obj| crate::local_studio::sniff_safetensors_architecture(obj.keys().map(String::as_str)))
+        .unwrap_or(Value::Null);
+
     Ok(json!({
         "ok": true,
         "zeroSubprocess": true,
@@ -116,6 +121,7 @@ pub fn inspect_safetensors(path: &Path) -> Result<Value, String> {
         "fileBytes": total_bytes,
         "headerBytes": header_len,
         "tensorCount": tensor_count,
+        "architecture": arch,
         "dtypes": dtypes,
         "metadata": metadata,
         "sampleTensors": sample_tensors

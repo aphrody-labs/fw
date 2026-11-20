@@ -8,6 +8,7 @@ mod abliterate;
 mod cli_parser;
 mod doctor;
 mod hf_hub;
+mod local_studio;
 mod m3_agent_tui;
 mod ml_engine;
 
@@ -549,6 +550,29 @@ fn main() {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
                     eprintln!("fw {cmd}: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "vram" => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&local_studio::run_vram_cli(&args[1..])).unwrap()
+            );
+        }
+        "repomap" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let target = args.get(1).map(|s| cwd.join(s)).unwrap_or(cwd);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&local_studio::build_repo_map(&target, 120)).unwrap()
+            );
+        }
+        "watch" => {
+            match local_studio::run_watch_cli(&args[1..]) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw watch: {e}");
                     std::process::exit(1);
                 }
             }

@@ -371,6 +371,24 @@ pub fn run_abliterate_cli(args: &[String], cwd: &Path) -> Result<Value, String> 
     let t0 = Instant::now();
 
     match sub {
+        "plan" => {
+            let model_id = args
+                .get(1)
+                .filter(|a| !a.starts_with('-'))
+                .map(String::as_str)
+                .unwrap_or("Qwen/Qwen3-8B");
+            let model_gb = args
+                .windows(2)
+                .find(|w| w[0] == "--model-gb")
+                .and_then(|w| w[1].parse::<f64>().ok())
+                .unwrap_or(8.0);
+            let vram_gb = args
+                .windows(2)
+                .find(|w| w[0] == "--vram-gb")
+                .and_then(|w| w[1].parse::<f64>().ok())
+                .unwrap_or(12.0);
+            Ok(crate::local_studio::build_abliterate_pipeline_plan(model_id, model_gb, vram_gb))
+        }
         "presets" | "list" => crate::ml_engine::run_heretic(&["presets".to_owned()], cwd),
         "biprojected" | "run" => {
             let strength = flag_f32(args, "--strength", 1.0).clamp(0.0, 2.0);
