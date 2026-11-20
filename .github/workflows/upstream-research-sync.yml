@@ -1,0 +1,59 @@
+name: Upstream Research Sync
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch live upstream metadata
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, datetime
+
+          repos = [
+              "HKUDS/CLI-Anything",
+              "affaan-m/ECC",
+              "thedotmack/claude-mem",
+          ]
+          out = {
+              "synced_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              "repos": [],
+          }
+          for repo in repos:
+              info = json.loads(subprocess.check_output(["gh", "api", f"repos/{repo}"]))
+              commits = json.loads(subprocess.check_output(["gh", "api", f"repos/{repo}/commits?per_page=1"]))
+              releases = json.loads(subprocess.check_output(["gh", "api", f"repos/{repo}/releases?per_page=1"]))
+              out["repos"].append({
+                  "repo": info["full_name"],
+                  "stars": info["stargazers_count"],
+                  "pushed_at": info["pushed_at"],
+                  "head_sha": commits[0]["sha"][:10] if commits else None,
+                  "head_message": commits[0]["commit"]["message"].splitlines()[0] if commits else None,
+                  "latest_release": releases[0]["tag_name"] if releases else None,
+              })
+
+          with open("docs/research/upstream-sync-status.json", "w", encoding="utf-8") as f:
+              json.dump(out, f, indent=2)
+              f.write("\n")
+          PY
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/research/upstream-sync-status.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(research): sync CLI-Anything, ECC, and claude-mem status"
+            git push
+          fi
