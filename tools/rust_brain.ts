@@ -49,6 +49,17 @@ const UPSTREAMS: UpstreamSpec[] = [
   { id: "wild", repo: "davidlattimore/wild", domain: "linker", role: "Ultra-fast Rust linker for Linux ELF & WebAssembly" },
   { id: "mold", repo: "rui314/mold", domain: "linker", role: "Modern parallel linker in Rust (v3.0+)" },
   { id: "sccache", repo: "mozilla/sccache", domain: "cache", role: "Shared local/remote Rust/C/C++ compilation cache" },
+  { id: "bun", repo: "oven-sh/bun", domain: "runtime", role: "Bun runtime, bundler, test runner and package manager, now Rust and Zig on WebKit/JSC (the aphrody fork aphrody-labs/bun)" },
+  { id: "kiri", repo: "libracoder/kiri", domain: "container-runtime", role: "Docker Engine API compatible container runtime: tiny VM kernel, Rust PID 1 guest agent, clone3 containers, no runc or dockerd" },
+  { id: "niubash", repo: "unixwin/niubash", domain: "shell", role: "AI-native bash host for Windows/Linux/macOS (real bash syntax, winuxcmd commands), the shell of ay-sh" },
+  { id: "rubash", repo: "unixwin/rubash", domain: "shell-engine", role: "From-scratch GNU Bash 5.3 compatible shell engine in Rust, embeddable" },
+  { id: "winuxcmd", repo: "unixwin/WinuxCmd", domain: "userland", role: "Native Windows implementation of Linux commands (3 MB), coreutils role of the unixwin userland" },
+  { id: "pingora", repo: "cloudflare/pingora", domain: "proxy", role: "Rust library for proxies and load balancers (nginx replacement), basis of fw-cluster" },
+  { id: "workerd", repo: "cloudflare/workerd", domain: "edge-runtime", role: "Workers runtime (C++, V8) that runs ay-edge locally and in CI" },
+  { id: "workers-rs", repo: "cloudflare/workers-rs", domain: "edge-sdk", role: "Rust SDK for Cloudflare Workers (wasm32), used by fw-wasm" },
+  { id: "quiche", repo: "cloudflare/quiche", domain: "transport", role: "QUIC and HTTP/3 implementation in Rust, the h3 stack behind the edge and ay-http" },
+  { id: "foundations", repo: "cloudflare/foundations", domain: "service-framework", role: "Service foundations: telemetry, metrics, tracing, settings, seccomp, for Rust network services" },
+  { id: "boring", repo: "cloudflare/boring", domain: "tls", role: "BoringSSL bindings for Rust (TLS for pingora and quiche)" },
 ];
 
 async function runText(cmd: string[], cwd = ROOT): Promise<{ ok: boolean; stdout: string }> {

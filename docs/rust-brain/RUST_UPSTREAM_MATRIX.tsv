@@ -15,3 +15,14 @@ zed	zed-industries/zed	editor-ast	95320	v1.29.2	main	NOASSERTION	2026-11-19	GPUI
 wild	davidlattimore/wild	linker	4125	0.11.0	main	Apache-2.0	2026-11-19	Ultra-fast Rust linker for Linux ELF & WebAssembly
 mold	rui314/mold	linker	17762	v3.0.0	main	MIT	2026-10-22	Modern parallel linker in Rust (v3.0+)
 sccache	mozilla/sccache	cache	7952	v0.19.0	main	Apache-2.0	2026-11-19	Shared local/remote Rust/C/C++ compilation cache
+bun	oven-sh/bun	runtime	96799	bun-v1.4.5	main	NOASSERTION	2026-11-20	Bun runtime, bundler, test runner and package manager, now Rust and Zig on WebKit/JSC (the aphrody fork aphrody-labs/bun)
+kiri	libracoder/kiri	container-runtime	11530	v0.2.2	main	Apache-2.0	2026-11-20	Docker Engine API compatible container runtime: tiny VM kernel, Rust PID 1 guest agent, clone3 containers, no runc or dockerd
+niubash	unixwin/niubash	shell	293	v1.5.0	master	MIT	2026-11-20	AI-native bash host for Windows/Linux/macOS (real bash syntax, winuxcmd commands), the shell of ay-sh
+rubash	unixwin/rubash	shell-engine	24	v1.5.0	master	MIT	2026-11-20	From-scratch GNU Bash 5.3 compatible shell engine in Rust, embeddable
+winuxcmd	unixwin/WinuxCmd	userland	275	v1.2.1	main	MIT	2026-11-20	Native Windows implementation of Linux commands (3 MB), coreutils role of the unixwin userland
+pingora	cloudflare/pingora	proxy	27973	0.9.1	main	Apache-2.0	2026-11-09	Rust library for proxies and load balancers (nginx replacement), basis of fw-cluster
+workerd	cloudflare/workerd	edge-runtime	9224	v1.20261120.1	main	Apache-2.0	2026-11-20	Workers runtime (C++, V8) that runs ay-edge locally and in CI
+workers-rs	cloudflare/workers-rs	edge-sdk	3799	v0.9.0	main	Apache-2.0	2026-11-17	Rust SDK for Cloudflare Workers (wasm32), used by fw-wasm
+quiche	cloudflare/quiche	transport	12882	0.30.1	master	BSD-2-Clause	2026-11-18	QUIC and HTTP/3 implementation in Rust, the h3 stack behind the edge and ay-http
+foundations	cloudflare/foundations	service-framework	1723	v3.4.0	main	BSD-3-Clause	2026-11-20	Service foundations: telemetry, metrics, tracing, settings, seccomp, for Rust network services
+boring	cloudflare/boring	tls	532	v5.6.0	master	NOASSERTION	2026-11-20	BoringSSL bindings for Rust (TLS for pingora and quiche)
