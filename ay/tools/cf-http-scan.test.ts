@@ -16,7 +16,7 @@ describe("ay-cf http-scan", () => {
     const manifest = AyCfManifestSchema.parse(Bun.TOML.parse(readFileSync(resolve(root, "packages/cf-control-plane/cf.toml"), "utf8")));
     const targets = collectHttpTargets(manifest);
     expect(targets.some((t) => t.url === "https://aphrody.com/")).toBe(true);
-    expect(targets.some((t) => t.url === "https://assets.aphrody.app/" && t.kind === "r2-custom-domain")).toBe(true);
+    expect(targets.some((t) => t.url === "https://assets.aphrody.app/" && t.kind === "worker-route" && t.worker === "ay-edge")).toBe(true);
     expect(targets.some((t) => t.url === "https://ay-tools-release.aphrody-labs.workers.dev/latest.json")).toBe(true);
     expect(targets.some((t) => t.url.includes("ssh-prd"))).toBe(false);
   });

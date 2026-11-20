@@ -157,6 +157,13 @@ export const COMMANDS: readonly CommandEntry[] = [
     summary: "Render apps/edge/wrangler.jsonc from apps/edge/edge.toml (routes, buckets, service bindings), or check it is current",
   },
   {
+    name: "repo-archive",
+    category: "infra",
+    kind: "tool",
+    target: "tools/repo-archive.ts",
+    summary: "Archive satellite repositories from a reviewed ledger, with a dry run and an API check of the result",
+  },
+  {
     name: "edge-cutover",
     category: "cloud",
     kind: "tool",
