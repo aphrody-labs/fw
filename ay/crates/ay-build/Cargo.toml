@@ -1,0 +1,38 @@
+[package]
+name = "ay-build"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[features]
+deps = ["dep:serde", "dep:serde_json", "dep:thiserror", "dep:tree-sitter", "dep:tree-sitter-python"]
+siso = ["dep:serde", "dep:serde_json"]
+full = ["deps", "siso"]
+default = []
+
+[dependencies]
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+thiserror = { workspace = true, optional = true }
+tree-sitter = { workspace = true, optional = true }
+tree-sitter-python = { workspace = true, optional = true }
+
+[dev-dependencies]
+ay-build = { path = ".", features = ["full"] }
+
+[[bin]]
+name = "ay-deps"
+path = "src/bin/ay-deps.rs"
+required-features = ["deps"]
+
+[[bin]]
+name = "ay-build-model"
+path = "src/bin/ay-build-model.rs"
+required-features = ["siso"]
+
+[lints]
+workspace = true

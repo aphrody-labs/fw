@@ -29,7 +29,7 @@ pub enum JobError {
     #[error("unknown job `{0}`")]
     UnknownJob(String),
 
-    /// A row in the database does not decode to a [`crate::Job`]. This means
+    /// A row in the database does not decode to a [`crate::jobs::Job`]. This means
     /// the file was written by an incompatible version or edited by hand;
     /// naming the id makes it removable.
     #[error("job `{id}` is corrupt in the store: {reason}")]
@@ -46,7 +46,7 @@ pub enum JobError {
         /// The job in question.
         id: String,
         /// Its current state.
-        state: crate::JobState,
+        state: crate::jobs::JobState,
         /// The refused action.
         action: &'static str,
     },

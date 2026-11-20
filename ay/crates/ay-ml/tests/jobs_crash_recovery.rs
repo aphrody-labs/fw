@@ -11,7 +11,7 @@
 
 use std::sync::Arc;
 
-use ay_jobs::{
+use ay_ml::jobs::{
     HandlerError, Job, JobContext, JobHandler, JobLogs, JobSpec, JobState, JobStore, Worker,
 };
 use chrono::Duration;
@@ -109,7 +109,7 @@ async fn a_job_abandoned_by_a_dead_worker_is_finished_by_the_next_one() {
     );
 
     let outcome = worker.run_once().await.unwrap();
-    assert_eq!(outcome, Some(ay_jobs::Outcome::Succeeded(job_id.clone())));
+    assert_eq!(outcome, Some(ay_ml::jobs::Outcome::Succeeded(job_id.clone())));
 
     let done = worker.store().get(&job_id).unwrap();
     assert_eq!(done.state, JobState::Succeeded);

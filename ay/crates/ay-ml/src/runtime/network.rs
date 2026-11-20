@@ -4,7 +4,7 @@ use anyhow::{Context, Result};
 use ay_http::Client;
 use serde::{Deserialize, Serialize};
 
-const USER_AGENT: &str = concat!("ay-ml-runtime/", env!("CARGO_PKG_VERSION"));
+const USER_AGENT: &str = concat!("ay-ml/", env!("CARGO_PKG_VERSION"));
 
 static HTTP_CLIENT: OnceLock<Client> = OnceLock::new();
 static HTTP_CONFIG: OnceLock<Config> = OnceLock::new();

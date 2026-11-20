@@ -25,7 +25,7 @@ use std::path::{Path, PathBuf};
 use chrono::{DateTime, Duration, Utc};
 use rusqlite::{Connection, OptionalExtension as _, params};
 
-use crate::{
+use crate::jobs::{
     error::{JobError, Result},
     spec::{HostAffinity, Job, JobSpec, JobState},
 };

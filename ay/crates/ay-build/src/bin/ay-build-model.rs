@@ -10,7 +10,7 @@
 //!   --link    comma list of final-link durations (s) for sensitivity
 //! Output: plain text report on stdout.
 
-use ay_build_model::*;
+use ay_build::siso::*;
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::io::{BufRead, BufReader};

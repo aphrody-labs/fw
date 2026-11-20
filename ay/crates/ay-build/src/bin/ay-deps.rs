@@ -1,9 +1,9 @@
-//! `ay-deps`: print the dependencies and hooks of a DEPS file for a target as JSON, for parity tests and scripts.
+//! `ay-deps` (crate `ay-build`, feature `deps`): print the dependencies and hooks of a DEPS file for a target as JSON, for parity tests and scripts.
 //!   ay-deps list <DEPS> [--host-os linux] [--host-cpu x64] [--os linux] [--cpu x64] [--var name=value ...]
 
 use std::process::ExitCode;
 
-use ay_deps::{Deps, Env, Value};
+use ay_build::deps::{Deps, Env, Value};
 
 const USAGE: &str = "usage: ay-deps list <DEPS> [--host-os os] [--host-cpu cpu] [--os os] [--cpu cpu] [--var name=value ...]";
 

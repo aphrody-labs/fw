@@ -6,7 +6,7 @@
 
 | Type | Path |
 | :-- | :-- |
-| Rust crate | `crates/ay-build-model` |
+| Rust crate | `crates/ay-build` |
 
 **Commands**
 

@@ -10,7 +10,7 @@ use chrono::{DateTime, Utc};
 /// `Running` is the only state that can be reached without an explicit
 /// transition — a worker claims a queued job — and the only one a crash can
 /// leave stale. Recovery is therefore defined entirely in terms of this state
-/// plus the claim's lease deadline (see [`crate::store::JobStore::recover`]).
+/// plus the claim's lease deadline (see [`crate::jobs::store::JobStore::recover`]).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum JobState {

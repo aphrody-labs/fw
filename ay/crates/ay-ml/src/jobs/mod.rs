@@ -35,7 +35,7 @@
 //!
 //! ```
 //! use std::sync::Arc;
-//! use ay_jobs::{JobLogs, JobSpec, JobStore, Worker, JobHandler, JobContext,
+//! use ay_ml::jobs::{JobLogs, JobSpec, JobStore, Worker, JobHandler, JobContext,
 //!                    HandlerError, Job, Outcome};
 //!
 //! struct Echo;

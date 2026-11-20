@@ -15,7 +15,7 @@ use std::{
 
 use chrono::{DateTime, Utc};
 
-use crate::error::Result;
+use crate::jobs::error::Result;
 
 /// Severity of a log line.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
@@ -83,8 +83,8 @@ impl JobLogs {
     ///
     /// # Errors
     ///
-    /// [`crate::JobError::Io`] when the directory or file cannot be written,
-    /// [`crate::JobError::Json`] when the line cannot be serialised.
+    /// [`crate::jobs::JobError::Io`] when the directory or file cannot be written,
+    /// [`crate::jobs::JobError::Json`] when the line cannot be serialised.
     pub fn append(&self, job_id: &str, line: &LogLine) -> Result<()> {
         std::fs::create_dir_all(&self.root)?;
         let mut file = std::fs::OpenOptions::new()
@@ -140,7 +140,7 @@ impl JobLogs {
     ///
     /// # Errors
     ///
-    /// [`crate::JobError::Io`] when the file exists but cannot be read.
+    /// [`crate::jobs::JobError::Io`] when the file exists but cannot be read.
     pub fn read(&self, job_id: &str, tail: Option<usize>) -> Result<Vec<LogLine>> {
         let path = self.path_for(job_id);
         if !path.is_file() {
@@ -163,7 +163,7 @@ impl JobLogs {
     ///
     /// # Errors
     ///
-    /// [`crate::JobError::Io`] when the file exists but cannot be removed.
+    /// [`crate::jobs::JobError::Io`] when the file exists but cannot be removed.
     pub fn remove(&self, job_id: &str) -> Result<bool> {
         let path = self.path_for(job_id);
         if path.is_file() {

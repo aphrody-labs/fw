@@ -21,7 +21,7 @@ use std::{
 
 use chrono::Duration;
 
-use crate::{
+use crate::jobs::{
     error::{JobError, Result},
     log::{JobLogs, LogLevel, LogLine},
     spec::Job,
@@ -157,7 +157,7 @@ impl Worker {
             logs,
             handlers: HashMap::new(),
             name: name.into(),
-            lease: crate::store::DEFAULT_LEASE,
+            lease: crate::jobs::store::DEFAULT_LEASE,
             backoff: Duration::seconds(5),
             host: None,
         }
@@ -310,7 +310,7 @@ impl Worker {
                 else {
                     return Ok(Some(Outcome::Cancelled(job.id)));
                 };
-                Ok(Some(if after.state == crate::JobState::Queued {
+                Ok(Some(if after.state == crate::jobs::JobState::Queued {
                     Outcome::Retrying(job.id)
                 } else {
                     Outcome::Failed(job.id)
@@ -437,7 +437,7 @@ impl Worker {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{JobSpec, JobState, store::ListFilter};
+    use crate::jobs::{JobSpec, JobState, store::ListFilter};
     use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 
     struct Fixed {
