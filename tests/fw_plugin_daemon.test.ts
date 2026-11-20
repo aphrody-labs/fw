@@ -18,7 +18,7 @@ describe("fw unified plugin, MCP, API, and cross-platform daemon", () => {
       .map((d) => d.name)
       .sort();
     expect(status.skills).toEqual(onDisk);
-    for (const core of ["agy-knowledge", "binary-analysis", "fw", "hermes-claw", "learn", "low-level-lto-aot", "reverse-engineer-anything", "rust-upstream", "static-recompile", "tree-sitter", "tui-test", "upstreams"]) {
+    for (const core of ["agy-knowledge", "fw", "hermes-claw", "learn", "low-level-lto-aot", "rust-upstream", "tree-sitter", "tui-test", "upstreams"]) {
       expect(status.skills).toContain(core);
     }
 

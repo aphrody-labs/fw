@@ -41,7 +41,11 @@ jobs:
         with:
           targets: wasm32-unknown-unknown x86_64-unknown-linux-musl
       - uses: Swatinem/rust-cache@v2
+      - name: musl C toolchain for crates with C build scripts
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends musl-tools
       - name: Build fw-wasm (wasm32) and check fw (musl)
+        env:
+          CC_x86_64_unknown_linux_musl: musl-gcc
         run: |
           cargo build --release --target wasm32-unknown-unknown -p fw-wasm
           cargo check --target x86_64-unknown-linux-musl -p fw-bin

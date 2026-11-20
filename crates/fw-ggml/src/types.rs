@@ -168,7 +168,7 @@ impl GgmlType {
     /// Bytes of one row of `ne0` elements (`ggml_row_size`); `None` if `ne0` is not a block multiple.
     pub fn row_size(self, ne0: usize) -> Option<usize> {
         let bs = self.block_size();
-        (ne0 % bs == 0).then(|| ne0 / bs * self.type_size())
+        ne0.is_multiple_of(bs).then(|| ne0 / bs * self.type_size())
     }
 }
 
