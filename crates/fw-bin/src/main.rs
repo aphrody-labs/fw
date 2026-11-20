@@ -4,6 +4,7 @@
 //! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
+mod cli_parser;
 mod doctor;
 mod m3_agent_tui;
 
@@ -51,8 +52,44 @@ fn main() {
         std::process::exit(res.exit_code);
     }
 
-    if args.is_empty() || args[0] == "-c" {
-        match fw_fx::cli::run_cli(&args) {
+    let parsed = match cli_parser::parse_argv(&args) {
+        Ok(p) => p,
+        Err(e) => {
+            eprintln!("fw: {e}");
+            std::process::exit(2);
+        }
+    };
+
+    if parsed.global.version {
+        println!("fw {}", cli_parser::FW_VERSION);
+        return;
+    }
+
+    if let Some(dir) = &parsed.global.directory
+        && let Err(e) = std::env::set_current_dir(dir)
+    {
+        eprintln!("fw: cannot chdir to {}: {e}", dir.display());
+        std::process::exit(1);
+    }
+
+    if parsed.global.help {
+        if let Some(cmd) = &parsed.command
+            && let Some(help_txt) = cli_parser::render_command_help(cmd)
+        {
+            print!("{help_txt}");
+            return;
+        }
+        print!("{}", cli_parser::render_root_help());
+        return;
+    }
+
+    let Some(cmd_owned) = parsed.command else {
+        let repl_args = if parsed.global.continue_session {
+            vec!["-c".to_owned()]
+        } else {
+            Vec::new()
+        };
+        match fw_fx::cli::run_cli(&repl_args) {
             Ok(0) => return,
             Ok(code) => std::process::exit(code),
             Err(e) => {
@@ -60,9 +97,12 @@ fn main() {
                 std::process::exit(1);
             }
         }
-    }
+    };
 
-    let cmd = args[0].as_str();
+    let cmd = cmd_owned.as_str();
+    let mut args = Vec::with_capacity(parsed.args.len() + 1);
+    args.push(cmd_owned.clone());
+    args.extend(parsed.args);
 
     // Zero-overhead fast CLI paths (beats eza/fd/rg/nu startup & throughput with zero external deps)
     match cmd {
@@ -418,10 +458,22 @@ fn main() {
                 }
             }
         }
-        // Flat unified package manager commands (Cargo sparse + npm + APM merged directly into fw)
-        "scan" | "lock" | "verify" | "resolve" | "sbom" | "semver" => {
+        // Flat unified package manager commands (bun + uv grammar: info/resolve, tree/scan, export/sbom, lock, verify, semver)
+        "info" | "resolve" | "tree" | "scan" | "export" | "sbom" | "lock" | "verify" | "semver" => {
+            if parsed.global.offline && matches!(cmd, "info" | "resolve") {
+                eprintln!("fw {cmd}: disabled by --offline");
+                std::process::exit(1);
+            }
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            let refs: Vec<&str> = args.iter().map(String::as_str).collect();
+            let mapped = match cmd {
+                "info" => "resolve",
+                "tree" => "scan",
+                "export" => "sbom",
+                other => other,
+            };
+            let mut refs = Vec::with_capacity(args.len());
+            refs.push(mapped);
+            refs.extend(args.iter().skip(1).map(String::as_str));
             match fw_apm::unified_pm::run_pm_cli(&refs, &cwd) {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
@@ -430,9 +482,16 @@ fn main() {
                 }
             }
         }
-        "init" | "install" | "uninstall" | "compile" | "audit" | "list" | "deps" | "prune" => {
+        "init" | "install" | "add" | "remove" | "uninstall" | "compile" | "audit" | "list" | "deps" | "prune" => {
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            let refs: Vec<&str> = args.iter().map(String::as_str).collect();
+            let mapped = match cmd {
+                "add" => "install",
+                "remove" => "uninstall",
+                other => other,
+            };
+            let mut refs = Vec::with_capacity(args.len());
+            refs.push(mapped);
+            refs.extend(args.iter().skip(1).map(String::as_str));
             match fw_apm::run_cli(&refs, &cwd) {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
@@ -451,31 +510,31 @@ fn main() {
                 serde_json::to_string_pretty(&doctor::run_doctor(&cwd)).unwrap()
             );
         }
-        "help" | "--help" | "-h" => {
-            println!("fw 4.2.0 — Unified Rust Coding Agent, Package Manager & Server");
-            println!("  fw [-c]                    Interactive coding agent REPL (-c resumes latest)");
-            println!("  fw ask [flags] <prompt>    Multi-turn tool-calling agent (--json --resume --model --url)");
-            println!("  fw tool <name> '<json>'    Run workspace tool (read_file, write_file, edit_file, glob_files, grep_files, shell)");
-            println!("  fw config <list|get|set>   Manage ~/.fx/config.json");
-            println!("  fw mcp <list|add|remove>   Manage ~/.fx/mcp.json");
-            println!("  fw acp | sessions | pr     ACP stdio server, session store, safe git snapshot");
-            println!("  fw resolve <cargo|npm> <p> Live crates.io sparse index & npm registry resolver");
-            println!("  fw scan|lock|verify|sbom   Unified Cargo + npm + APM lockfile & CycloneDX SBOM");
-            println!("  fw install|compile|audit   APM package lifecycle & instruction compiler");
-            println!("  fw doctor | serve | tui    System probes, HTTP/Chat/MCP/ACP server, Material 3 TUI");
+        "help" => {
+            if let Some(sub) = args.get(1)
+                && let Some(txt) = cli_parser::render_command_help(sub)
+            {
+                print!("{txt}");
+                return;
+            }
+            print!("{}", cli_parser::render_root_help());
         }
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
             let addr: SocketAddr = addr_str.parse().expect("valid host:port");
             let rt = tokio::runtime::Runtime::new().unwrap();
-            eprintln!("fw v4.2 listening on http://{addr}");
+            eprintln!("fw v{} listening on http://{addr}", cli_parser::FW_VERSION);
             rt.block_on(async move {
                 serve(addr).await.expect("serve failed");
             });
         }
         _ => {
-            eprintln!("unknown command `{cmd}`; run `fw help`");
-            std::process::exit(1);
+            if let Some(hint) = cli_parser::suggest_command(cmd) {
+                eprintln!("fw: unknown command `{cmd}`; did you mean `{hint}`? (run `fw --help`)");
+            } else {
+                eprintln!("fw: unknown command `{cmd}` (run `fw --help`)");
+            }
+            std::process::exit(2);
         }
     }
 }
