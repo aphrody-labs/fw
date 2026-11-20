@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { type Feature, type Owners, load, ownerOf, problems, render } from "./features.ts";
+import { type Feature, type Owners, load, ownerOf, problems, proofPath, render, splitRepoProof } from "./features.ts";
 
 const root = resolve(import.meta.dir, "..");
 const products = new Set(["search", "os", "platform"]);
@@ -44,7 +44,24 @@ describe("feature matrix", () => {
       "search/x: proof missing.png does not exist",
     ]);
     expect(problems([row({ status: "done", proof: "https://ci/run/1" })], products, () => false)).toEqual([]);
-    expect(problems([row({ status: "done", proof: "tools/features.test.ts::done" })], products, () => false)).toEqual([]);
+    expect(problems([row({ status: "done", proof: "tools/features.test.ts::done" })], products, () => true)).toEqual([]);
+  });
+
+  test("a path::test proof is checked on its file part", () => {
+    const seen: string[] = [];
+    const exists = (p: string) => (seen.push(p), false);
+    expect(problems([row({ status: "done", proof: "crates/gone/tests/e2e.rs::a_test" })], products, exists)).toEqual([
+      "search/x: proof crates/gone/tests/e2e.rs::a_test does not exist",
+    ]);
+    expect(seen).toEqual(["crates/gone/tests/e2e.rs"]);
+  });
+
+  test("a <repo>:path proof names a [repos] key; drives and unknown prefixes stay plain paths", () => {
+    const repos = new Set(["browser"]);
+    expect(splitRepoProof("browser:packages/x/test.ts", repos)).toEqual({ repo: "browser", path: "packages/x/test.ts" });
+    expect(splitRepoProof("other:packages/x/test.ts", repos)).toEqual({ path: "other:packages/x/test.ts" });
+    expect(splitRepoProof("C:/x/test.ts", repos)).toEqual({ path: "C:/x/test.ts" });
+    expect(proofPath("browser:a/b.ts::name with :: inside")).toBe("browser:a/b.ts");
   });
 
   test("duplicates, unknown products, layers and non-https references are refused", () => {

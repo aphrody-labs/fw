@@ -2,8 +2,10 @@
 // The feature matrix: docs/features.toml is the scope of every product.
 //   bun tools/features.ts          write docs/features.md from the matrix
 //   bun tools/features.ts --check  fail when docs/features.md is stale, a row is malformed,
-//                                  or a `done` row has no proof (or a repo-path proof that doesn't exist)
-import { readAy } from "./local.ts";
+//                                  or a `done` row has no proof (or a local proof path that doesn't exist)
+// Proof forms: an https URL; `path` or `path::test name` in this repository; `<repo>:path[::test name]` in the checkout of
+// another [repos] key of ay.toml (verified when that checkout is present, accepted otherwise).
+import { checkoutOf, readAy } from "./local.ts";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
@@ -27,6 +29,15 @@ const STATUSES = new Set(["todo", "doing", "done"]);
 export function load(text: string): Feature[] {
   const parsed = Bun.TOML.parse(text) as { feature?: Feature[] };
   return parsed.feature ?? [];
+}
+
+/** The file part of a proof: the test id after `::` is dropped. */
+export const proofPath = (proof: string): string => proof.split("::")[0]!;
+
+/** Splits `<repo>:path` (a [repos] key of ay.toml) from a plain repository path; Windows drives and URLs are not repo keys. */
+export function splitRepoProof(path: string, repos: Set<string>): { repo?: string; path: string } {
+  const m = /^([A-Za-z][\w-]+):(?![\\/])(.+)$/.exec(path);
+  return m && repos.has(m[1]!) ? { repo: m[1], path: m[2]! } : { path };
 }
 
 /** Owners: the default owner of each product and the keys of [repos] (both from ay.toml). */
@@ -55,8 +66,7 @@ export function problems(features: Feature[], products: Set<string>, exists: (pa
     }
     if (f.status === "done") {
       if (!f.proof) out.push(`${key}: done without proof`);
-      else if (!/^https:\/\//.test(f.proof) && !f.proof.includes("::") && !exists(f.proof))
-        out.push(`${key}: proof ${f.proof} does not exist`);
+      else if (!/^https:\/\//.test(f.proof) && !exists(proofPath(f.proof))) out.push(`${key}: proof ${f.proof} does not exist`);
     }
   }
   return out;
@@ -108,7 +118,14 @@ if (import.meta.main) {
     },
     repos: new Set(Object.keys(ay.repos ?? {})),
   };
-  const issues = problems(features, products, p => existsSync(join(root, p)), owners);
+  const cfg = readAy(root);
+  const proofExists = (p: string): boolean => {
+    const { repo, path } = splitRepoProof(p, owners.repos);
+    if (!repo) return existsSync(join(root, path));
+    const base = checkoutOf(repo, cfg, root);
+    return !existsSync(base) || existsSync(join(base, path));
+  };
+  const issues = problems(features, products, proofExists, owners);
   const md = render(features, owners);
   const target = join(root, "docs/features.md");
   if (process.argv.includes("--check")) {

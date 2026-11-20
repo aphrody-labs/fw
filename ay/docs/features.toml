@@ -1,5 +1,5 @@
 # Feature matrix: the scope of every product. `bun tools/features.ts` renders docs/features.md and checks proofs.
-# status: todo | doing | done. A `done` row needs `proof` (a path in the repo, a test id, or an https URL to an artifact).
+# status: todo | doing | done. A `done` row needs `proof` (a path in the repo, `path::test`, `<repo>:path` in another [repos] checkout, or an https URL to an artifact).
 # proof_kind: test | screenshot | log | hardware (hardware rows can only be proven on a real device).
 # owner (optional): key of [repos] in ay.toml that builds the row; defaults to the owner of the product ([products], [matrix]).
 # Reference pages were read on 2026-11-16 in a real browser.
@@ -218,7 +218,7 @@ title = "CEF embedding from Rust and Bun: screenshot and eval"
 reference = "https://github.com/tauri-apps/cef-rs"
 layer = "backend"
 status = "done"
-proof = "crates/ay-chromium/tests/e2e.rs::screenshot_and_evaluate_a_real_page"
+proof = "browser:components/browser-chromium/tests/e2e.rs::screenshot_and_evaluate_a_real_page"
 proof_kind = "test"
 
 [[feature]]
@@ -2067,8 +2067,8 @@ title = "Chrome release channels as a typed dataset (Stable, Extended, Beta, Dev
 reference = "https://www.chromium.org/getting-involved/chrome-release-channels/"
 layer = "backend"
 status = "done"
-owner = "ay"
-proof = "packages/chromium-releases/test/channels.test.ts::the dataset agrees with the page: availability and cadence"
+owner = "browser"
+proof = "browser:packages/chromium-releases/test/channels.test.ts::the dataset agrees with the page: availability and cadence"
 proof_kind = "test"
 
 [[feature]]
@@ -2078,8 +2078,8 @@ title = "Typed Bun client, sqlite cache and CLI for Chromium Dash (releases, mil
 reference = "https://chromiumdash.appspot.com/"
 layer = "backend"
 status = "done"
-owner = "ay"
-proof = "packages/chromium-releases/test/dash.test.ts::releases: newest first with hashes, milestone and previous version"
+owner = "browser"
+proof = "browser:packages/chromium-releases/test/dash.test.ts::releases: newest first with hashes, milestone and previous version"
 proof_kind = "test"
 
 [[feature]]
@@ -2089,8 +2089,8 @@ title = "Chromium Dash pages in Bun.serve: home, releases per platform, schedule
 reference = "https://chromiumdash.appspot.com/home"
 layer = "ui"
 status = "done"
-owner = "ay"
-proof = "apps/chromium-dash/test/app.test.ts::releases: one card per channel with versions and commit links"
+owner = "browser"
+proof = "browser:apps/chromium-dash/test/app.test.ts::releases: one card per channel with versions and commit links"
 proof_kind = "test"
 
 [[feature]]
@@ -2100,8 +2100,8 @@ title = "Chrome Platform Status in Bun.serve: roadmap, feature search, feature p
 reference = "https://chromestatus.com/roadmap"
 layer = "ui"
 status = "done"
-owner = "ay"
-proof = "apps/chromium-dash/test/app.test.ts::feature page: overview, specification, status and stages"
+owner = "browser"
+proof = "browser:apps/chromium-dash/test/app.test.ts::feature page: overview, specification, status and stages"
 proof_kind = "test"
 
 [[feature]]
@@ -2111,8 +2111,8 @@ title = "Pick the Chromium version and the closest CEF build for a release chann
 reference = "https://cef-builds.spotifycdn.com/index.html"
 layer = "backend"
 status = "done"
-owner = "ay"
-proof = "packages/chromium/test/version.test.ts::stable on Windows: the channel's Chromium and a CEF minimal build for it"
+owner = "browser"
+proof = "browser:packages/chromium/test/version.test.ts::stable on Windows: the channel's Chromium and a CEF minimal build for it"
 proof_kind = "test"
 
 [[feature]]
