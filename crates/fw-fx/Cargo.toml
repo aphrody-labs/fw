@@ -11,10 +11,6 @@ description = "Full pure-Rust Bun-in-Rust migration of vercel-labs/fx (native co
 name = "fw_fx"
 path = "src/lib.rs"
 
-[[bin]]
-name = "fx"
-path = "src/main.rs"
-
 [dependencies]
 serde.workspace = true
 serde_json.workspace = true

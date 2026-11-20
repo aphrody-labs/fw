@@ -51,7 +51,18 @@ fn main() {
         std::process::exit(res.exit_code);
     }
 
-    let cmd = args.first().map(|s| s.as_str()).unwrap_or("status");
+    if args.is_empty() || args[0] == "-c" {
+        match fw_fx::cli::run_cli(&args) {
+            Ok(0) => return,
+            Ok(code) => std::process::exit(code),
+            Err(e) => {
+                eprintln!("fw: {e}");
+                std::process::exit(1);
+            }
+        }
+    }
+
+    let cmd = args[0].as_str();
 
     // Zero-overhead fast CLI paths (beats eza/fd/rg/nu startup & throughput with zero external deps)
     match cmd {
@@ -395,39 +406,42 @@ fn main() {
                 }
             }
         }
-        "pm" => {
-            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            let sub_args: Vec<&str> = args.iter().skip(1).map(String::as_str).collect();
-            match fw_apm::unified_pm::run_pm_cli(&sub_args, &cwd) {
-                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
-                Err(e) => {
-                    eprintln!("fw pm: {e}");
-                    std::process::exit(1);
-                }
-            }
-        }
-        "apm" => {
-            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            let sub_args: Vec<&str> = args.iter().skip(1).map(String::as_str).collect();
-            match fw_apm::run_cli(&sub_args, &cwd) {
-                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
-                Err(e) => {
-                    eprintln!("fw apm: {e}");
-                    std::process::exit(1);
-                }
-            }
-        }
-        "fx" => {
-            match fw_fx::cli::run_cli(&args[1..]) {
+        // Flat unified coding agent commands (fw-fx merged directly into fw)
+        "ask" | "tool" | "config" | "mcp" | "acp" | "sessions" | "session" | "permissions"
+        | "models" | "provider" | "workspace" | "pr" | "issue" | "completion" => {
+            match fw_fx::cli::run_cli(&args) {
                 Ok(0) => {}
                 Ok(code) => std::process::exit(code),
                 Err(e) => {
-                    eprintln!("fw fx: {e}");
+                    eprintln!("fw {cmd}: {e}");
                     std::process::exit(1);
                 }
             }
         }
-        "m3-tui" | "agent-tui" | "god" => {
+        // Flat unified package manager commands (Cargo sparse + npm + APM merged directly into fw)
+        "scan" | "lock" | "verify" | "resolve" | "sbom" | "semver" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let refs: Vec<&str> = args.iter().map(String::as_str).collect();
+            match fw_apm::unified_pm::run_pm_cli(&refs, &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw {cmd}: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "init" | "install" | "uninstall" | "compile" | "audit" | "list" | "deps" | "prune" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let refs: Vec<&str> = args.iter().map(String::as_str).collect();
+            match fw_apm::run_cli(&refs, &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw {cmd}: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "tui" | "m3-tui" | "god" => {
             m3_agent_tui::run_m3_agent_tui(&args[1..]);
         }
         "doctor" => {
@@ -438,26 +452,29 @@ fn main() {
             );
         }
         "help" | "--help" | "-h" => {
-            println!("fw 4.2.0 — Native Rust CLI");
-            println!("  fw fx [args...]          Real coding agent (ask, REPL, tool, config, mcp, sessions, acp)");
-            println!("  fw pm <subcmd>           Unified package manager (scan, lock, verify, resolve cargo|npm <pkg>, sbom, semver)");
-            println!("  fw doctor                Probe local toolchain, FX_HOME, git, API keys, and Ollama :11434");
-            println!("  fw m3-tui                Interactive Material 3 TUI");
-            println!("  fw serve [host:port]     HTTP/MCP/ACP/A2A/OpenAI server");
-            println!("  fw uutils <applet>       Zero-fork Rust coreutils");
-            println!("  fw bench <subcmd>        Silicon/exec/compare/HTTP benchmarks");
+            println!("fw 4.2.0 — Unified Rust Coding Agent, Package Manager & Server");
+            println!("  fw [-c]                    Interactive coding agent REPL (-c resumes latest)");
+            println!("  fw ask [flags] <prompt>    Multi-turn tool-calling agent (--json --resume --model --url)");
+            println!("  fw tool <name> '<json>'    Run workspace tool (read_file, write_file, edit_file, glob_files, grep_files, shell)");
+            println!("  fw config <list|get|set>   Manage ~/.fx/config.json");
+            println!("  fw mcp <list|add|remove>   Manage ~/.fx/mcp.json");
+            println!("  fw acp | sessions | pr     ACP stdio server, session store, safe git snapshot");
+            println!("  fw resolve <cargo|npm> <p> Live crates.io sparse index & npm registry resolver");
+            println!("  fw scan|lock|verify|sbom   Unified Cargo + npm + APM lockfile & CycloneDX SBOM");
+            println!("  fw install|compile|audit   APM package lifecycle & instruction compiler");
+            println!("  fw doctor | serve | tui    System probes, HTTP/Chat/MCP/ACP server, Material 3 TUI");
         }
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
             let addr: SocketAddr = addr_str.parse().expect("valid host:port");
             let rt = tokio::runtime::Runtime::new().unwrap();
-            eprintln!("fw-native v4.2 listening on http://{addr}");
+            eprintln!("fw v4.2 listening on http://{addr}");
             rt.block_on(async move {
                 serve(addr).await.expect("serve failed");
             });
         }
         _ => {
-            eprintln!("unknown command; run `fw help`");
+            eprintln!("unknown command `{cmd}`; run `fw help`");
             std::process::exit(1);
         }
     }
