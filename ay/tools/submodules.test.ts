@@ -6,12 +6,15 @@ describe("Pop!_OS / COSMIC-style fork submodules manifest", () => {
     const m = loadManifest();
     expect(m.submodule.length).toBeGreaterThanOrEqual(35);
     expect(validateManifest(m)).toEqual([]);
-    expect(relativeForkUrl("aphrody-labs/dioxus")).toBe("../../aphrody-labs/dioxus.git");
+    expect(relativeForkUrl("aphrody-labs/dioxus", "aphrody-labs")).toBe("../dioxus.git");
+    expect(relativeForkUrl("aphrody-labs/dioxus", "other-org")).toBe("../../aphrody-labs/dioxus.git");
+    expect(relativeForkUrl("aphrody-labs/dioxus")).toBe("../dioxus.git");
     const gm = renderGitmodules(m);
     expect(gm).toContain('[submodule "third_party/dioxus"]');
     expect(gm).toContain('[submodule "third_party/cloudflare/cloudflare-os"]');
     expect(gm).toContain('[submodule "third_party/vercel/workflow"]');
-    expect(gm).toContain('[submodule "third_party/browser"]');
+    expect(gm).toContain("url = ../dioxus.git");
+    expect(gm).not.toContain("../../");
   });
 
   test("rejects duplicate fork checkouts and non-third_party paths", () => {

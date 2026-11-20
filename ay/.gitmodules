@@ -1,428 +1,400 @@
 [submodule "third_party/dioxus"]
 	path = third_party/dioxus
-	url = ../../aphrody-labs/dioxus.git
+	url = ../dioxus.git
 	branch = main
 [submodule "third_party/blitz"]
 	path = third_party/blitz
-	url = ../../aphrody-labs/blitz.git
+	url = ../blitz.git
 	branch = main
 [submodule "third_party/anyrender"]
 	path = third_party/anyrender
-	url = ../../aphrody-labs/anyrender.git
+	url = ../anyrender.git
 	branch = main
 [submodule "third_party/dioxus-components"]
 	path = third_party/dioxus-components
-	url = ../../aphrody-labs/dioxus-components.git
+	url = ../dioxus-components.git
 	branch = main
 [submodule "third_party/dioxus-sdk"]
 	path = third_party/dioxus-sdk
-	url = ../../aphrody-labs/dioxus-sdk.git
+	url = ../dioxus-sdk.git
 	branch = main
 [submodule "third_party/vello"]
 	path = third_party/vello
-	url = ../../aphrody-labs/vello.git
+	url = ../vello.git
 	branch = main
 [submodule "third_party/winit"]
 	path = third_party/winit
-	url = ../../aphrody-labs/winit.git
+	url = ../winit.git
 	branch = main
 [submodule "third_party/nsh"]
 	path = third_party/nsh
-	url = ../../aphrody-labs/longbridge-nsh.git
+	url = ../longbridge-nsh.git
 	branch = main
 [submodule "third_party/libcosmic"]
 	path = third_party/libcosmic
-	url = ../../aphrody-labs/libcosmic.git
+	url = ../libcosmic.git
 	branch = master
 [submodule "third_party/iced"]
 	path = third_party/iced
-	url = ../../aphrody-labs/iced.git
+	url = ../iced.git
 	branch = master
 [submodule "third_party/cloudflare/cloudflare-os"]
 	path = third_party/cloudflare/cloudflare-os
-	url = ../../aphrody-labs/cloudflare-os.git
+	url = ../cloudflare-os.git
 	branch = main
 [submodule "third_party/cloudflare/agents"]
 	path = third_party/cloudflare/agents
-	url = ../../aphrody-labs/agents.git
+	url = ../agents.git
 	branch = main
 [submodule "third_party/cloudflare/sandbox-sdk"]
 	path = third_party/cloudflare/sandbox-sdk
-	url = ../../aphrody-labs/sandbox-sdk.git
+	url = ../sandbox-sdk.git
 	branch = main
 [submodule "third_party/cloudflare/workers-sdk"]
 	path = third_party/cloudflare/workers-sdk
-	url = ../../aphrody-labs/workers-sdk.git
+	url = ../workers-sdk.git
 	branch = main
 [submodule "third_party/cloudflare/workerd"]
 	path = third_party/cloudflare/workerd
-	url = ../../aphrody-labs/workerd.git
+	url = ../workerd.git
 	branch = main
 [submodule "third_party/cloudflare/pingora"]
 	path = third_party/cloudflare/pingora
-	url = ../../aphrody-labs/pingora.git
+	url = ../pingora.git
 	branch = main
 [submodule "third_party/cloudflare/quiche"]
 	path = third_party/cloudflare/quiche
-	url = ../../aphrody-labs/quiche.git
+	url = ../quiche.git
 	branch = master
 [submodule "third_party/cloudflare/artifact-fs"]
 	path = third_party/cloudflare/artifact-fs
-	url = ../../aphrody-labs/artifact-fs.git
+	url = ../artifact-fs.git
 	branch = main
 [submodule "third_party/vercel/ai"]
 	path = third_party/vercel/ai
-	url = ../../aphrody-labs/ai.git
+	url = ../ai.git
 	branch = main
 [submodule "third_party/vercel/just-bash"]
 	path = third_party/vercel/just-bash
-	url = ../../aphrody-labs/just-bash.git
+	url = ../just-bash.git
 	branch = main
 [submodule "third_party/vercel/wterm"]
 	path = third_party/vercel/wterm
-	url = ../../aphrody-labs/wterm.git
+	url = ../wterm.git
 	branch = main
 [submodule "third_party/vercel/sandbox"]
 	path = third_party/vercel/sandbox
-	url = ../../aphrody-labs/sandbox.git
+	url = ../sandbox.git
 	branch = main
 [submodule "third_party/vercel/workflow"]
 	path = third_party/vercel/workflow
-	url = ../../aphrody-labs/workflow.git
+	url = ../workflow.git
 	branch = main
 [submodule "third_party/vercel/turborepo"]
 	path = third_party/vercel/turborepo
-	url = ../../aphrody-labs/turborepo.git
+	url = ../turborepo.git
 	branch = main
 [submodule "third_party/vercel/next.js"]
 	path = third_party/vercel/next.js
-	url = ../../aphrody-labs/next.js.git
+	url = ../next.js.git
 	branch = canary
 [submodule "third_party/vercel/agent-browser"]
 	path = third_party/vercel/agent-browser
-	url = ../../aphrody-labs/agent-browser.git
+	url = ../agent-browser.git
 	branch = main
 [submodule "third_party/bun"]
 	path = third_party/bun
-	url = ../../aphrody-labs/bun.git
-	branch = main
-[submodule "third_party/rubash"]
-	path = third_party/rubash
-	url = ../../aphrody-labs/rubash.git
-	branch = master
-[submodule "third_party/niubash"]
-	path = third_party/niubash
-	url = ../../aphrody-labs/niubash.git
-	branch = master
-[submodule "third_party/ruline"]
-	path = third_party/ruline
-	url = ../../aphrody-labs/ruline.git
-	branch = main
-[submodule "third_party/rio"]
-	path = third_party/rio
-	url = ../../aphrody-labs/rio.git
-	branch = v0.5
-[submodule "os/nt"]
-	path = os/nt
-	url = ../../aphrody-dev/aynt.git
-	branch = main-nt10
-[submodule "os/aphrody"]
-	path = os/aphrody
-	url = ../../aphrody-dev/aphrody.git
+	url = ../bun.git
 	branch = main
 [submodule "third_party/craft-i18n"]
 	path = third_party/craft-i18n
-	url = ../../aphrody-labs/craft-i18n.git
+	url = ../craft-i18n.git
 	branch = main
 [submodule "third_party/cloudflare/browser-run"]
 	path = third_party/cloudflare/browser-run
-	url = ../../aphrody-labs/browser-run.git
+	url = ../browser-run.git
 	branch = main
 [submodule "third_party/cloudflare/cloudflare-ai"]
 	path = third_party/cloudflare/cloudflare-ai
-	url = ../../aphrody-labs/cloudflare-ai.git
+	url = ../cloudflare-ai.git
 	branch = main
 [submodule "third_party/cloudflare/cloudflare-computer"]
 	path = third_party/cloudflare/cloudflare-computer
-	url = ../../aphrody-labs/cloudflare-computer.git
+	url = ../cloudflare-computer.git
 	branch = main
 [submodule "third_party/cloudflare/cloudflare-mcp"]
 	path = third_party/cloudflare/cloudflare-mcp
-	url = ../../aphrody-labs/cloudflare-mcp.git
+	url = ../cloudflare-mcp.git
 	branch = main
 [submodule "third_party/cloudflare/cloudflare-skills"]
 	path = third_party/cloudflare/cloudflare-skills
-	url = ../../aphrody-labs/cloudflare-skills.git
+	url = ../cloudflare-skills.git
 	branch = main
 [submodule "third_party/cloudflare/mcp-server-cloudflare"]
 	path = third_party/cloudflare/mcp-server-cloudflare
-	url = ../../aphrody-labs/mcp-server-cloudflare.git
+	url = ../mcp-server-cloudflare.git
 	branch = main
 [submodule "third_party/modern-web-guidance-src"]
 	path = third_party/modern-web-guidance-src
-	url = ../../aphrody-labs/modern-web-guidance-src.git
+	url = ../modern-web-guidance-src.git
 	branch = main
 [submodule "third_party/cloudflare/security-audit-skill"]
 	path = third_party/cloudflare/security-audit-skill
-	url = ../../aphrody-labs/security-audit-skill.git
+	url = ../security-audit-skill.git
 	branch = main
 [submodule "third_party/ui-ux-pro-max-skill"]
 	path = third_party/ui-ux-pro-max-skill
-	url = ../../aphrody-labs/ui-ux-pro-max-skill.git
+	url = ../ui-ux-pro-max-skill.git
 	branch = main
 [submodule "third_party/cloudflare/apt-transport-cloudflared"]
 	path = third_party/cloudflare/apt-transport-cloudflared
-	url = ../../aphrody-labs/apt-transport-cloudflared.git
+	url = ../apt-transport-cloudflared.git
 	branch = master
 [submodule "third_party/cloudflare/cbpfc"]
 	path = third_party/cloudflare/cbpfc
-	url = ../../aphrody-labs/cbpfc.git
+	url = ../cbpfc.git
 	branch = master
 [submodule "third_party/cloudflare/certinel"]
 	path = third_party/cloudflare/certinel
-	url = ../../aphrody-labs/certinel.git
+	url = ../certinel.git
 	branch = master
 [submodule "third_party/cloudflare/cfssl"]
 	path = third_party/cloudflare/cfssl
-	url = ../../aphrody-labs/cfssl.git
+	url = ../cfssl.git
 	branch = master
 [submodule "third_party/cloudflare/cfssl_trust"]
 	path = third_party/cloudflare/cfssl_trust
-	url = ../../aphrody-labs/cfssl_trust.git
+	url = ../cfssl_trust.git
 	branch = master
 [submodule "third_party/cloudflare/cloudflared"]
 	path = third_party/cloudflare/cloudflared
-	url = ../../aphrody-labs/cloudflared.git
+	url = ../cloudflared.git
 	branch = master
 [submodule "third_party/cloudflare/ebpf_exporter"]
 	path = third_party/cloudflare/ebpf_exporter
-	url = ../../aphrody-labs/ebpf_exporter.git
+	url = ../ebpf_exporter.git
 	branch = master
 [submodule "third_party/cloudflare/go"]
 	path = third_party/cloudflare/go
-	url = ../../aphrody-labs/go.git
+	url = ../go.git
 	branch = cf
 [submodule "third_party/cloudflare/gokeyless"]
 	path = third_party/cloudflare/gokeyless
-	url = ../../aphrody-labs/gokeyless.git
+	url = ../gokeyless.git
 	branch = master
 [submodule "third_party/cloudflare/matched-data-cli"]
 	path = third_party/cloudflare/matched-data-cli
-	url = ../../aphrody-labs/matched-data-cli.git
+	url = ../matched-data-cli.git
 	branch = master
 [submodule "third_party/cloudflare/mmproxy"]
 	path = third_party/cloudflare/mmproxy
-	url = ../../aphrody-labs/mmproxy.git
+	url = ../mmproxy.git
 	branch = master
 [submodule "third_party/cloudflare/mpp-proxy"]
 	path = third_party/cloudflare/mpp-proxy
-	url = ../../aphrody-labs/mpp-proxy.git
+	url = ../mpp-proxy.git
 	branch = main
 [submodule "third_party/cloudflare/ngtcp2"]
 	path = third_party/cloudflare/ngtcp2
-	url = ../../aphrody-labs/ngtcp2.git
+	url = ../ngtcp2.git
 	branch = master
 [submodule "third_party/cloudflare/octopus"]
 	path = third_party/cloudflare/octopus
-	url = ../../aphrody-labs/octopus.git
+	url = ../octopus.git
 	branch = main
 [submodule "third_party/cloudflare/pmtud"]
 	path = third_party/cloudflare/pmtud
-	url = ../../aphrody-labs/pmtud.git
+	url = ../pmtud.git
 	branch = master
 [submodule "third_party/cloudflare/pp-browser-extension"]
 	path = third_party/cloudflare/pp-browser-extension
-	url = ../../aphrody-labs/pp-browser-extension.git
+	url = ../pp-browser-extension.git
 	branch = main
 [submodule "third_party/cloudflare/privacy-gateway-client-library"]
 	path = third_party/cloudflare/privacy-gateway-client-library
-	url = ../../aphrody-labs/privacy-gateway-client-library.git
+	url = ../privacy-gateway-client-library.git
 	branch = main
 [submodule "third_party/cloudflare/privacy-gateway-server-go"]
 	path = third_party/cloudflare/privacy-gateway-server-go
-	url = ../../aphrody-labs/privacy-gateway-server-go.git
+	url = ../privacy-gateway-server-go.git
 	branch = main
 [submodule "third_party/cloudflare/privacypass-attester"]
 	path = third_party/cloudflare/privacypass-attester
-	url = ../../aphrody-labs/privacypass-attester.git
+	url = ../privacypass-attester.git
 	branch = main
 [submodule "third_party/cloudflare/privacypass-config"]
 	path = third_party/cloudflare/privacypass-config
-	url = ../../aphrody-labs/privacypass-config.git
+	url = ../privacypass-config.git
 	branch = main
 [submodule "third_party/cloudflare/privacypass-issuer"]
 	path = third_party/cloudflare/privacypass-issuer
-	url = ../../aphrody-labs/privacypass-issuer.git
+	url = ../privacypass-issuer.git
 	branch = main
 [submodule "third_party/cloudflare/privacypass-origin"]
 	path = third_party/cloudflare/privacypass-origin
-	url = ../../aphrody-labs/privacypass-origin.git
+	url = ../privacypass-origin.git
 	branch = main
 [submodule "third_party/cloudflare/privacypass-ts"]
 	path = third_party/cloudflare/privacypass-ts
-	url = ../../aphrody-labs/privacypass-ts.git
+	url = ../privacypass-ts.git
 	branch = main
 [submodule "third_party/cloudflare/proxy-everything"]
 	path = third_party/cloudflare/proxy-everything
-	url = ../../aphrody-labs/proxy-everything.git
+	url = ../proxy-everything.git
 	branch = main
 [submodule "third_party/cloudflare/rakelimit"]
 	path = third_party/cloudflare/rakelimit
-	url = ../../aphrody-labs/rakelimit.git
+	url = ../rakelimit.git
 	branch = master
 [submodule "third_party/cloudflare/speedtest"]
 	path = third_party/cloudflare/speedtest
-	url = ../../aphrody-labs/speedtest.git
+	url = ../speedtest.git
 	branch = main
 [submodule "third_party/cloudflare/tls-tris"]
 	path = third_party/cloudflare/tls-tris
-	url = ../../aphrody-labs/tls-tris.git
+	url = ../tls-tris.git
 	branch = master
 [submodule "third_party/cloudflare/tubular"]
 	path = third_party/cloudflare/tubular
-	url = ../../aphrody-labs/tubular.git
+	url = ../tubular.git
 	branch = main
 [submodule "third_party/cloudflare/unbound"]
 	path = third_party/cloudflare/unbound
-	url = ../../aphrody-labs/unbound.git
+	url = ../unbound.git
 	branch = master
 [submodule "third_party/cloudflare/xdpcap"]
 	path = third_party/cloudflare/xdpcap
-	url = ../../aphrody-labs/xdpcap.git
+	url = ../xdpcap.git
 	branch = master
 [submodule "third_party/cloudflare/bpftools"]
 	path = third_party/cloudflare/bpftools
-	url = ../../aphrody-labs/bpftools.git
+	url = ../bpftools.git
 	branch = master
 [submodule "third_party/cloudflare/cloudflare-python"]
 	path = third_party/cloudflare/cloudflare-python
-	url = ../../aphrody-labs/cloudflare-python.git
+	url = ../cloudflare-python.git
 	branch = main
 [submodule "third_party/cloudflare/langchain-cloudflare"]
 	path = third_party/cloudflare/langchain-cloudflare
-	url = ../../aphrody-labs/langchain-cloudflare.git
+	url = ../langchain-cloudflare.git
 	branch = main
 [submodule "third_party/cloudflare/python-workers-examples"]
 	path = third_party/cloudflare/python-workers-examples
-	url = ../../aphrody-labs/python-workers-examples.git
+	url = ../python-workers-examples.git
 	branch = main
 [submodule "third_party/cloudflare/workers-py"]
 	path = third_party/cloudflare/workers-py
-	url = ../../aphrody-labs/workers-py.git
+	url = ../workers-py.git
 	branch = main
 [submodule "third_party/cloudflare/capnweb"]
 	path = third_party/cloudflare/capnweb
-	url = ../../aphrody-labs/capnweb.git
+	url = ../capnweb.git
 	branch = main
 [submodule "third_party/cloudflare/workerd-cxx"]
 	path = third_party/cloudflare/workerd-cxx
-	url = ../../aphrody-labs/workerd-cxx.git
+	url = ../workerd-cxx.git
 	branch = master
 [submodule "third_party/cloudflare/workers-wasi"]
 	path = third_party/cloudflare/workers-wasi
-	url = ../../aphrody-labs/workers-wasi.git
+	url = ../workers-wasi.git
 	branch = main
 [submodule "third_party/cloudflare/boring"]
 	path = third_party/cloudflare/boring
-	url = ../../aphrody-labs/boring.git
+	url = ../boring.git
 	branch = master
 [submodule "third_party/cloudflare/boringtun"]
 	path = third_party/cloudflare/boringtun
-	url = ../../aphrody-labs/boringtun.git
+	url = ../boringtun.git
 	branch = master
 [submodule "third_party/cloudflare/foundations"]
 	path = third_party/cloudflare/foundations
-	url = ../../aphrody-labs/foundations.git
+	url = ../foundations.git
 	branch = main
 [submodule "third_party/cloudflare/moq-rs"]
 	path = third_party/cloudflare/moq-rs
-	url = ../../aphrody-labs/moq-rs.git
+	url = ../moq-rs.git
 	branch = main
 [submodule "third_party/cloudflare/nel-rs"]
 	path = third_party/cloudflare/nel-rs
-	url = ../../aphrody-labs/nel-rs.git
+	url = ../nel-rs.git
 	branch = master
 [submodule "third_party/cloudflare/networkquality-rs"]
 	path = third_party/cloudflare/networkquality-rs
-	url = ../../aphrody-labs/networkquality-rs.git
+	url = ../networkquality-rs.git
 	branch = main
 [submodule "third_party/cloudflare/odoh-client-rs"]
 	path = third_party/cloudflare/odoh-client-rs
-	url = ../../aphrody-labs/odoh-client-rs.git
+	url = ../odoh-client-rs.git
 	branch = master
 [submodule "third_party/cloudflare/odoh-rs"]
 	path = third_party/cloudflare/odoh-rs
-	url = ../../aphrody-labs/odoh-rs.git
+	url = ../odoh-rs.git
 	branch = master
 [submodule "third_party/cloudflare/svg-hush"]
 	path = third_party/cloudflare/svg-hush
-	url = ../../aphrody-labs/svg-hush.git
+	url = ../svg-hush.git
 	branch = main
 [submodule "third_party/cloudflare/web-bot-auth"]
 	path = third_party/cloudflare/web-bot-auth
-	url = ../../aphrody-labs/web-bot-auth.git
+	url = ../web-bot-auth.git
 	branch = main
 [submodule "third_party/cloudflare/wirefilter"]
 	path = third_party/cloudflare/wirefilter
-	url = ../../aphrody-labs/wirefilter.git
+	url = ../wirefilter.git
 	branch = master
 [submodule "third_party/cloudflare/workers-rs"]
 	path = third_party/cloudflare/workers-rs
-	url = ../../aphrody-labs/workers-rs.git
+	url = ../workers-rs.git
 	branch = main
 [submodule "third_party/xh"]
 	path = third_party/xh
-	url = ../../aphrody-labs/xh.git
+	url = ../xh.git
 	branch = master
 [submodule "third_party/cloudflare/cf"]
 	path = third_party/cloudflare/cf
-	url = ../../aphrody-labs/cf.git
+	url = ../cf.git
 	branch = main
 [submodule "third_party/cloudflare/cloudflare-templates"]
 	path = third_party/cloudflare/cloudflare-templates
-	url = ../../aphrody-labs/cloudflare-templates.git
+	url = ../cloudflare-templates.git
 	branch = main
 [submodule "third_party/cloudflare/cloudflare-typescript"]
 	path = third_party/cloudflare/cloudflare-typescript
-	url = ../../aphrody-labs/cloudflare-typescript.git
+	url = ../cloudflare-typescript.git
 	branch = main
 [submodule "third_party/cloudflare/kumo"]
 	path = third_party/cloudflare/kumo
-	url = ../../aphrody-labs/kumo.git
+	url = ../kumo.git
 	branch = main
 [submodule "third_party/cloudflare/vinext"]
 	path = third_party/cloudflare/vinext
-	url = ../../aphrody-labs/vinext.git
+	url = ../vinext.git
 	branch = main
 [submodule "third_party/media/dav1d"]
 	path = third_party/media/dav1d
-	url = ../../aphrody-labs/dav1d.git
+	url = ../dav1d.git
 	branch = master
 [submodule "third_party/media/ffmpeg"]
 	path = third_party/media/ffmpeg
-	url = ../../aphrody-labs/ffmpeg.git
+	url = ../ffmpeg.git
 	branch = master
 [submodule "third_party/media/hls.js"]
 	path = third_party/media/hls.js
-	url = ../../aphrody-labs/hls.js.git
+	url = ../hls.js.git
 	branch = master
 [submodule "third_party/media/hyperframe"]
 	path = third_party/media/hyperframe
-	url = ../../aphrody-labs/hyperframe.git
+	url = ../hyperframe.git
 	branch = master
 [submodule "third_party/media/rav1e"]
 	path = third_party/media/rav1e
-	url = ../../aphrody-labs/rav1e.git
+	url = ../rav1e.git
 	branch = master
 [submodule "third_party/media/svt-av1"]
 	path = third_party/media/svt-av1
-	url = ../../aphrody-labs/svt-av1.git
+	url = ../svt-av1.git
 	branch = main
-[submodule "third_party/media/yt-dlp"]
-	path = third_party/media/yt-dlp
-	url = ../../aphrody-labs/yt-dlp.git
-	branch = master
 [submodule "third_party/better-auth"]
 	path = third_party/better-auth
-	url = ../../aphrody-labs/better-auth.git
+	url = ../better-auth.git
 	branch = main

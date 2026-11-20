@@ -1,7 +1,9 @@
-# Declarative Pop!_OS / COSMIC-style fork submodule manifest for `ay` (`aphrody-dev/ay`).
+# Declarative fork submodule manifest for `ay` (`aphrody-labs/ay`).
 # Rendered into `.gitmodules` and git index (`160000` gitlinks) by `bun tools/submodules.ts`.
-# Every fork lives under `aphrody-labs` and uses a relative URL (`../../aphrody-labs/<repo>.git`)
-# resolved against `aphrody-dev/ay.git` so HTTPS, SSH, and local mirrors resolve identically.
+# Every fork lives under `aphrody-labs` and uses a relative URL (`../<repo>.git`, resolved against
+# `aphrody-labs/ay.git`) so HTTPS, SSH, and local mirrors resolve identically.
+# One checkout per fork across the workspace: fw-nt owns the Windows/NT forks (niubash, rubash, ruline, wgpu),
+# aphrody owns the UI/GPU forks (taffy, accesskit, cosmic-text, mullvad, kitesurf, yt-dlp) and browser owns the browser stack.
 
 version = 1
 
@@ -21,14 +23,6 @@ branch = "main"
 sha = "7bade8ead71c7ea852042c0cf156241aca32cc4c"
 domain = "dioxus"
 role = "Modular Stylo + Taffy + Parley HTML/CSS engine for Dioxus Native"
-
-[[submodule]]
-path = "third_party/taffy"
-repo = "aphrody-labs/taffy"
-branch = "main"
-sha = "2649e09d44ec4a1b928d957cbb0043ae1a3f56a5"
-domain = "dioxus"
-role = "Shared CSS Flexbox, Grid, and Block layout engine"
 
 [[submodule]]
 path = "third_party/anyrender"
@@ -55,14 +49,6 @@ domain = "dioxus"
 role = "Cross-platform clipboard, storage, notifications, and system hooks for Dioxus"
 
 [[submodule]]
-path = "third_party/wgpu"
-repo = "aphrody-labs/wgpu"
-branch = "trunk"
-sha = "96aaa484995eaef0dcd94381fda8f34a0ba77bd0"
-domain = "gpu"
-role = "WebGPU / Vulkan / DX12 / Metal / WGSL Naga stack"
-
-[[submodule]]
 path = "third_party/vello"
 repo = "aphrody-labs/vello"
 branch = "main"
@@ -79,14 +65,6 @@ domain = "gpu"
 role = "Cross-platform windowing and WebCanvas surface loop"
 
 [[submodule]]
-path = "third_party/accesskit"
-repo = "aphrody-labs/accesskit"
-branch = "main"
-sha = "432d06659e0a6708fb206e266d65752dd372deeb"
-domain = "gpu"
-role = "UIA, AT-SPI2, NSAccessibility, and ARIA semantic tree bridge"
-
-[[submodule]]
 path = "third_party/nsh"
 repo = "aphrody-labs/longbridge-nsh"
 branch = "main"
@@ -94,15 +72,7 @@ sha = "9c2e2cbfd6bd8c265e4126884da7e13c20ad3385"
 domain = "gui-nsh"
 role = "Native Shell TSX/GPUI/Dioxus reactive component bridge"
 
-# --- Pop!_OS / COSMIC Epoch Stack ---
-[[submodule]]
-path = "third_party/cosmic-epoch"
-repo = "aphrody-labs/cosmic-epoch"
-branch = "master"
-sha = "e98f8289a22f9e612feee7d4c6ba197782db154b"
-domain = "cosmic"
-role = "Pop!_OS COSMIC Epoch superproject (justfile + submodule orchestration reference)"
-
+# --- COSMIC toolkit ---
 [[submodule]]
 path = "third_party/libcosmic"
 repo = "aphrody-labs/libcosmic"
@@ -112,14 +82,6 @@ domain = "cosmic"
 role = "COSMIC widget toolkit and responsive theme system"
 
 [[submodule]]
-path = "third_party/cosmic-text"
-repo = "aphrody-labs/cosmic-text"
-branch = "main"
-sha = "b07cb90a872cb9fec7fea1c72d734f81907fe3ad"
-domain = "cosmic"
-role = "Multi-line Unicode text shaping and layout"
-
-[[submodule]]
 path = "third_party/iced"
 repo = "aphrody-labs/iced"
 branch = "master"
@@ -127,24 +89,7 @@ sha = "e5c350f271a8046f875c6662d452fde9e462d486"
 domain = "cosmic"
 role = "Reactive Elm-style Rust GUI engine underlying COSMIC"
 
-# --- Unified Headless Browser + VPN + Browse Stack ---
-[[submodule]]
-path = "third_party/browser"
-repo = "aphrody-labs/browser"
-branch = "main"
-sha = "171e35e971281b2e2545bf032f3751b170d98bcf"
-domain = "browser"
-role = "Fused Kitesurf + Servo + Chromium + ayvpn + anomalyco/browse engine workspace"
-
-[[submodule]]
-path = "third_party/mullvad"
-repo = "aphrody-labs/mullvadvpn-app"
-branch = "main"
-sha = "9f48572ea0f5223591fcdd15d15059b9cc59a227"
-domain = "browser"
-role = "WireGuard, DAITA v2, PQ PSK, and MASQUE tunnel engine"
-
-# --- Cloudflare Open-Source Stack (Bun-migrated & patched) ---
+# --- Cloudflare platform ---
 [[submodule]]
 path = "third_party/cloudflare/cloudflare-os"
 repo = "aphrody-labs/cloudflare-os"
@@ -152,14 +97,6 @@ branch = "main"
 sha = "2bfcab65931903cfeb3838ea47f503ec7d14d492"
 domain = "cloudflare"
 role = "Durable-Object OS platform (Workshop, Gadgets, 21 Gatekeepers, Cap'n Web) migrated to Bun"
-
-[[submodule]]
-path = "third_party/cloudflare/kitesurf"
-repo = "aphrody-labs/kitesurf"
-branch = "main"
-sha = "0e080e0988aaecd62ccdde88d4c67d8ac8acfd2f"
-domain = "cloudflare"
-role = "26-crate Rust browser engine on Dynamic Workers"
 
 [[submodule]]
 path = "third_party/cloudflare/agents"
@@ -282,7 +219,7 @@ sha = "9f62847e89712164a6d5ea823e8c700d5fd911cd"
 domain = "vercel"
 role = "Headless Rust/CDP browser CLI for AI agents"
 
-# --- Runtime & Nysh Shell Stack ---
+# --- Runtime & i18n ---
 [[submodule]]
 path = "third_party/bun"
 repo = "aphrody-labs/bun"
@@ -290,55 +227,6 @@ branch = "main"
 sha = "4407879a5f5a42535c0852292b935b5e73146a7f"
 domain = "runtime"
 role = "Aphrody Bun runtime, bundler, package manager, and test runner"
-
-[[submodule]]
-path = "third_party/rubash"
-repo = "aphrody-labs/rubash"
-branch = "master"
-sha = "7906eb1b02abd040aaa4089cc993572bbf7661fa"
-domain = "nysh"
-role = "GNU Bash 5.3 compatible Rust shell engine"
-
-[[submodule]]
-path = "third_party/niubash"
-repo = "aphrody-labs/niubash"
-branch = "master"
-sha = "43fc1f1e8ded547de2e2ffacb279776018f270a1"
-domain = "nysh"
-role = "Windows-native Bash host powering aysh and nysh"
-
-[[submodule]]
-path = "third_party/ruline"
-repo = "aphrody-labs/ruline"
-branch = "main"
-sha = "52f344979d42c2e403a41cd98f0d966450f25bde"
-domain = "nysh"
-role = "GNU readline-compatible Rust line editor powering niubash and ay-sh"
-
-[[submodule]]
-path = "third_party/rio"
-repo = "aphrody-labs/rio"
-branch = "v0.5"
-sha = "f6eae96f94f8507badb2b94223b231b7ad001782"
-domain = "nysh"
-role = "WGPU/WebGPU hardware-accelerated terminal and rio-vt parser (exit-status fix)"
-
-# --- Kernels and OS layers of the product (own forks in aphrody-dev, built on the build host) ---
-[[submodule]]
-path = "os/nt"
-repo = "aphrody-dev/aynt"
-branch = "main-nt10"
-sha = "28e83fcfa996fe2a3fbedafbd0aede83977e55f4"
-domain = "kernel-nt"
-role = "Windows-compatible NT kernel and userland (fork of ReactOS, NT 10 line)"
-
-[[submodule]]
-path = "os/aphrody"
-repo = "aphrody-dev/aphrody"
-branch = "main"
-sha = "24ef4bcc27582888e2171e24bb70a86beeabce11"
-domain = "os-desktop"
-role = "Rust OS layer and native desktop (GPUI, COSMIC), fork of Zed"
 
 [[submodule]]
 path = "third_party/craft-i18n"
@@ -987,15 +875,6 @@ sha = "5fdf6b2f373bd96256bb6b45f892077b1b4431d9"
 domain = "media"
 role = "AOMediaCodec/SVT-AV1 fork, runtime"
 upstream = "AOMediaCodec/SVT-AV1"
-
-[[submodule]]
-path = "third_party/media/yt-dlp"
-repo = "aphrody-labs/yt-dlp"
-branch = "master"
-sha = "2d596f4882a2d6e6414836bccd9fd3fb1e1534a2"
-domain = "media"
-role = "yt-dlp/yt-dlp fork, python"
-upstream = "yt-dlp/yt-dlp"
 
 [[submodule]]
 path = "third_party/better-auth"

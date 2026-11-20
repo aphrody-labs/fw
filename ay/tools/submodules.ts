@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // Pop!_OS / COSMIC-style declarative submodule manager for `ay`.
-// Reads `submodules.toml`, generates `.gitmodules` with relative `../../aphrody-labs/<fork>.git` URLs,
+// Reads `submodules.toml`, generates `.gitmodules` with relative `../<fork>.git` URLs (same org as ay.toml product.owner),
 // and verifies or updates `160000` gitlinks in the git index without requiring gigabytes of local checkouts.
 //   bun tools/submodules.ts              write .gitmodules and stage 160000 gitlinks
 //   bun tools/submodules.ts --check      verify .gitmodules, SHA pins, uniqueness, and git index gitlinks
@@ -32,46 +32,52 @@ export function loadManifest(root = repoRoot): SubmodulesManifest {
   return Bun.TOML.parse(raw) as unknown as SubmodulesManifest;
 }
 
-export function relativeForkUrl(repo: string): string {
-  const [org, name] = repo.split("/");
-  if (!org || !name) throw new Error(`invalid repo slug: ${repo}`);
-  return `../../${org}/${name}.git`;
+/** Organization that owns this repository (ay.toml product.owner); relative submodule URLs resolve against it. */
+export function homeOrg(root = repoRoot): string {
+  const ay = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as { product?: { owner?: string } };
+  const owner = ay.product?.owner;
+  if (!owner) throw new Error("ay.toml: product.owner is missing");
+  return owner;
 }
 
-export function validateManifest(manifest: SubmodulesManifest): string[] {
+/** `../<name>.git` inside the home org, `../../<org>/<name>.git` across orgs. */
+export function relativeForkUrl(repo: string, home = homeOrg()): string {
+  const [org, name] = repo.split("/");
+  if (!org || !name) throw new Error(`invalid repo slug: ${repo}`);
+  return org === home ? `../${name}.git` : `../../${org}/${name}.git`;
+}
+
+export function validateManifest(manifest: SubmodulesManifest, home = homeOrg()): string[] {
   const errors: string[] = [];
   if (manifest.version !== 1) errors.push(`unsupported version ${manifest.version}`);
   const seenPaths = new Set<string>();
   const seenRepos = new Set<string>();
   for (const s of manifest.submodule ?? []) {
-    // Upstream forks live in aphrody-labs under third_party/; the kernels and OS layers of the product (own forks) live in aphrody-dev under os/.
-    const own = s.path.startsWith("os/");
-    if (!own && !s.path.startsWith("third_party/")) errors.push(`${s.path}: submodule must live under third_party/ or os/`);
+    if (!s.path.startsWith("third_party/")) errors.push(`${s.path}: submodule must live under third_party/`);
     if (seenPaths.has(s.path)) errors.push(`duplicate submodule path: ${s.path}`);
     seenPaths.add(s.path);
     if (seenRepos.has(s.repo)) errors.push(`duplicate fork submodule (deduplication rule): ${s.repo}`);
     seenRepos.add(s.repo);
-    const org = own ? "aphrody-dev/" : "aphrody-labs/";
-    if (!s.repo.startsWith(org)) errors.push(`${s.path}: fork must live in ${org.slice(0, -1)}, got ${s.repo}`);
+    if (!s.repo.startsWith(`${home}/`)) errors.push(`${s.path}: fork must live in ${home}, got ${s.repo}`);
     if (!SHA_RE.test(s.sha)) errors.push(`${s.path}: invalid 40-hex sha ${s.sha}`);
     if (!s.branch) errors.push(`${s.path}: missing branch`);
   }
   return errors;
 }
 
-export function renderGitmodules(manifest: SubmodulesManifest): string {
+export function renderGitmodules(manifest: SubmodulesManifest, home = homeOrg()): string {
   return (
     manifest.submodule
       .map(
         (s) =>
-          `[submodule "${s.path}"]\n\tpath = ${s.path}\n\turl = ${relativeForkUrl(s.repo)}\n\tbranch = ${s.branch}`,
+          `[submodule "${s.path}"]\n\tpath = ${s.path}\n\turl = ${relativeForkUrl(s.repo, home)}\n\tbranch = ${s.branch}`,
       )
       .join("\n") + "\n"
   );
 }
 
 export function readGitlinks(root = repoRoot): Map<string, string> {
-  const p = Bun.spawnSync(["git", "-C", root, "ls-files", "--stage", "--", "third_party", "os"], {
+  const p = Bun.spawnSync(["git", "-C", root, "ls-files", "--stage", "--", "third_party"], {
     stdout: "pipe",
     stderr: "pipe",
     windowsHide: true,
@@ -118,6 +124,8 @@ export function checkAll(root = repoRoot): string[] {
     const got = links.get(s.path);
     if (got !== s.sha) errs.push(`${s.path}: gitlink is ${got ?? "missing"}, expected ${s.sha}`);
   }
+  const declared = new Set(manifest.submodule.map((s) => s.path));
+  for (const path of links.keys()) if (!declared.has(path)) errs.push(`${path}: gitlink is not declared in submodules.toml`);
   return errs;
 }
 
