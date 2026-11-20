@@ -74,6 +74,7 @@ pub(crate) enum Target {
     Gfx1201,
 }
 
+#[cfg(all(target_arch = "x86_64", any(target_os = "linux", target_os = "windows")))]
 impl Target {
     pub(super) fn device_type(self) -> crate::runtime::DeviceType {
         use strum::EnumProperty;
