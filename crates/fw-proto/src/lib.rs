@@ -85,25 +85,60 @@ pub const WEBGPU_HTML_HARNESS: &str = r#"<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Fw v3.0 — WebGPU + Wasm32 Hybrid Cluster Proof</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Fw v4.2 — WebGPU &amp; Wasm32 Compute Harness</title>
+  <meta name="description" content="Live WebGPU WGSL compute shader and WebAssembly capability verification harness for Fw v4.2." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://fw.aphrody.com/webgpu" />
   <style>
-    body { margin: 0; font-family: system-ui, sans-serif; background: #0b1020; color: #e6eefc; padding: 24px; }
-    .card { max-width: 820px; margin: 0 auto; background: #121a30; border: 1px solid #26355a; border-radius: 12px; padding: 20px; }
-    h1 { margin: 0 0 8px; font-size: 22px; color: #7cc4ff; }
-    pre { background: #080d1a; padding: 12px; border-radius: 8px; overflow: auto; }
+    :root {
+      color-scheme: light dark;
+      --md-sys-color-background: #0e1117;
+      --md-sys-color-surface: #151b23;
+      --md-sys-color-outline-variant: #2d3a4d;
+      --md-sys-color-on-surface: #f0f4f8;
+      --md-sys-color-primary: #7cd4fd;
+      --md-sys-typescale-font: "Google Sans Flex", system-ui, -apple-system, sans-serif;
+      --md-sys-typescale-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --md-sys-color-background: #f8fafc;
+        --md-sys-color-surface: #ffffff;
+        --md-sys-color-outline-variant: #cbd5e1;
+        --md-sys-color-on-surface: #0f172a;
+        --md-sys-color-primary: #0369a1;
+      }
+    }
+    body { margin: 0; font-family: var(--md-sys-typescale-font); background: var(--md-sys-color-background); color: var(--md-sys-color-on-surface); padding: 24px; }
+    header, main, footer { max-width: 820px; margin: 0 auto 16px; }
+    section { background: var(--md-sys-color-surface); border: 1px solid var(--md-sys-color-outline-variant); border-radius: 12px; padding: 20px; }
+    h1 { margin: 0 0 8px; font-size: 1.35rem; color: var(--md-sys-color-primary); }
+    pre { background: var(--md-sys-color-background); border: 1px solid var(--md-sys-color-outline-variant); font-family: var(--md-sys-typescale-mono); padding: 12px; border-radius: 8px; overflow: auto; }
+    a { color: var(--md-sys-color-primary); }
+    :focus-visible { outline: 2px solid var(--md-sys-color-primary); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Fw v3.0 — WebGPU (Dawn/WGPU) + Wasm32 + GGML Cluster</h1>
-    <p id="status">Probing WebGPU adapter...</p>
-    <pre id="result">{}</pre>
-  </div>
+  <header>
+    <h1>Fw v4.2 — WebGPU (Dawn/WGPU) &amp; Wasm32 Compute Harness</h1>
+  </header>
+  <main>
+    <section aria-labelledby="status">
+      <p id="status" role="status" aria-live="polite">Probing WebGPU adapter...</p>
+      <pre id="result">{}</pre>
+    </section>
+  </main>
+  <footer><a href="/">Back to Control Plane</a></footer>
   <script>
     window.__fwWebGpuProof = (async () => {
       const out = { ok: true, hasNavigatorGpu: Boolean(navigator.gpu), adapter: null, computeResult: null };
       try {
-        if (navigator.gpu) {
+        if (!navigator.gpu) {
+          out.fallback = 'WebGPU unavailable — graceful CPU/Wasm fallback active';
+        } else {
           const adapter = await navigator.gpu.requestAdapter();
           if (adapter) {
             out.adapter = adapter.info ? { vendor: adapter.info.vendor, architecture: adapter.info.architecture } : { available: true };
@@ -526,8 +561,13 @@ async fn handle_conn(mut stream: TcpStream, router: Arc<Mutex<HybridClusterRoute
         404 => "Not Found",
         _ => "Error",
     };
+    let csp = if path == "/webgpu" {
+        "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'"
+    } else {
+        "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+    };
     let resp = format!(
-        "HTTP/1.1 {status} {reason}\r\nContent-Type: {content_type}\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{payload}",
+        "HTTP/1.1 {status} {reason}\r\nContent-Type: {content_type}\r\nX-Content-Type-Options: nosniff\r\nReferrer-Policy: strict-origin-when-cross-origin\r\nContent-Security-Policy: {csp}\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{payload}",
         payload.len()
     );
     let _ = stream.write_all(resp.as_bytes()).await;

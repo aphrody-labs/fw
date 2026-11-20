@@ -3,48 +3,90 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fw v4.1 — Fullstack Rust OS &amp; Hermes/OpenClaw Control Plane</title>
+  <meta name="color-scheme" content="light dark" />
+  <title>Fw v4.2 — Rust OS, Coding Agent &amp; WebGPU Control Plane</title>
+  <meta name="description" content="Zero-dependency pure-Rust coding agent (fw-fx), unified npm/crates.io/APM package manager, MCP/ACP/A2A fabric, and WebGPU/Wasm32 control plane." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://fw.aphrody.com/" />
+  <meta property="og:title" content="Fw v4.2 — Rust OS, Coding Agent &amp; WebGPU Control Plane" />
+  <meta property="og:description" content="Zero-dependency pure-Rust coding agent, unified package manager, MCP/ACP/A2A server, and WebGPU compute control plane." />
+  <meta property="og:url" content="https://fw.aphrody.com/" />
+  <meta property="og:type" content="website" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fw v4.2 Control Plane",
+    "url": "https://fw.aphrody.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://fw.aphrody.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
   <style>
     :root {
-      --bg: #0b0f14;
-      --surface: #121922;
-      --surface-2: #182230;
-      --border: #263447;
-      --text: #edf2f7;
-      --muted: #9eb0c7;
-      --accent: #4fd1c5;
-      --accent-ink: #071316;
-      --ok: #68d391;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      --sans: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color-scheme: light dark;
+      --md-sys-color-background: #0e1117;
+      --md-sys-color-surface: #151b23;
+      --md-sys-color-surface-container: #1c2430;
+      --md-sys-color-outline-variant: #2d3a4d;
+      --md-sys-color-on-surface: #f0f4f8;
+      --md-sys-color-on-surface-variant: #a6b7cc;
+      --md-sys-color-primary: #7cd4fd;
+      --md-sys-color-on-primary: #06202e;
+      --md-sys-color-tertiary: #6ee7b7;
+      --md-sys-typescale-font: "Google Sans Flex", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --md-sys-typescale-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --md-sys-shape-corner-medium: 12px;
+      --md-sys-shape-corner-small: 8px;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --md-sys-color-background: #f8fafc;
+        --md-sys-color-surface: #ffffff;
+        --md-sys-color-surface-container: #eef2f6;
+        --md-sys-color-outline-variant: #cbd5e1;
+        --md-sys-color-on-surface: #0f172a;
+        --md-sys-color-on-surface-variant: #475569;
+        --md-sys-color-primary: #0369a1;
+        --md-sys-color-on-primary: #ffffff;
+        --md-sys-color-tertiary: #047857;
+      }
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--md-sys-typescale-font);
+      font-variation-settings: "wght" 450, "opsz" 16;
+      background: var(--md-sys-color-background);
+      color: var(--md-sys-color-on-surface);
       line-height: 1.5;
     }
     header {
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
       padding: 18px 24px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      background: var(--surface);
+      background: var(--md-sys-color-surface);
     }
-    header h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.01em; }
+    header h1 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-variation-settings: "wght" 650, "opsz" 20;
+    }
     .pill {
-      font-family: var(--mono);
+      font-family: var(--md-sys-typescale-mono);
       font-size: 0.78rem;
       padding: 4px 10px;
       border-radius: 999px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      color: var(--ok);
+      background: var(--md-sys-color-surface-container);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      color: var(--md-sys-color-tertiary);
     }
     main {
       max-width: 1200px;
@@ -55,111 +97,137 @@
       gap: 16px;
     }
     section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      background: var(--md-sys-color-surface);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: var(--md-sys-shape-corner-medium);
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    h2 { margin: 0; font-size: 0.95rem; color: var(--accent); font-weight: 600; }
+    h2 {
+      margin: 0;
+      font-size: 0.98rem;
+      color: var(--md-sys-color-primary);
+      font-variation-settings: "wght" 600, "opsz" 18;
+    }
     pre {
       margin: 0;
       padding: 10px;
-      border-radius: 6px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      font-family: var(--mono);
+      border-radius: var(--md-sys-shape-corner-small);
+      background: var(--md-sys-color-background);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      font-family: var(--md-sys-typescale-mono);
       font-size: 0.78rem;
-      color: var(--text);
+      color: var(--md-sys-color-on-surface);
       overflow: auto;
-      max-height: 260px;
+      max-height: 240px;
       white-space: pre-wrap;
     }
     .row { display: flex; gap: 8px; }
     input {
       flex: 1;
       padding: 8px 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--mono);
+      border-radius: var(--md-sys-shape-corner-small);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      background: var(--md-sys-color-background);
+      color: var(--md-sys-color-on-surface);
+      font-family: var(--md-sys-typescale-mono);
       font-size: 0.85rem;
     }
     button {
       padding: 8px 14px;
       border: 0;
-      border-radius: 6px;
-      background: var(--accent);
-      color: var(--accent-ink);
+      border-radius: var(--md-sys-shape-corner-small);
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
       font-weight: 600;
       cursor: pointer;
     }
-    a { color: var(--accent); }
-    footer { padding: 12px 24px 24px; color: var(--muted); font-size: 0.8rem; max-width: 1200px; margin: 0 auto; }
+    a { color: var(--md-sys-color-primary); }
+    :focus-visible {
+      outline: 2px solid var(--md-sys-color-primary);
+      outline-offset: 2px;
+    }
+    footer {
+      padding: 12px 24px 24px;
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 0.82rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Fw v4.1 — Zero-Dep Rust OS, Hybrid Cluster &amp; Hermes/OpenClaw</h1>
-    <span class="pill" id="health-pill">connecting...</span>
+    <h1>Fw v4.2 — Rust Coding Agent, Package Manager &amp; WebGPU Control Plane</h1>
+    <span class="pill" id="health-pill" role="status" aria-live="polite">connecting...</span>
   </header>
   <main>
-    <section>
-      <h2>Hybrid Cluster &amp; Hardware</h2>
-      <pre id="cluster-out">Loading /cluster and /hardware...</pre>
+    <section aria-labelledby="fx-heading">
+      <h2 id="fx-heading">fw-fx Coding Agent &amp; Workspace Indexer</h2>
+      <pre id="fx-out">Loading /v1/fx/status...</pre>
     </section>
-    <section>
-      <h2>Hermes/OpenClaw Agent &amp; MCP Tools</h2>
+    <section aria-labelledby="mcp-heading">
+      <h2 id="mcp-heading">In-Process MCP &amp; Hermes Agent</h2>
       <div class="row">
         <input id="goal-input" value="Audit Rust CLI MCP skills" aria-label="Agent goal" />
         <button id="run-btn" type="button">Run</button>
       </div>
-      <pre id="claw-out">Loading /claw/status and /mcp...</pre>
+      <pre id="mcp-out">Loading /mcp tools/list...</pre>
     </section>
-    <section>
-      <h2>Nov 2026 Modern Rust CLI &amp; Protocol Ranking</h2>
-      <pre id="rank-out">Loading /claw/ranking...</pre>
+    <section aria-labelledby="pm-heading">
+      <h2 id="pm-heading">Unified Package Manager (Cargo + npm + APM)</h2>
+      <pre id="pm-out">Loading /v1/pm/scan...</pre>
     </section>
-    <section>
-      <h2>Browser WebGPU Compute Probe</h2>
+    <section aria-labelledby="gpu-heading">
+      <h2 id="gpu-heading">Browser WebGPU Capability Probe</h2>
       <pre id="webgpu-out">Checking navigator.gpu...</pre>
-      <div><a href="/webgpu">Open full WGSL WebGPU harness</a> · <a href="/openapi.json">OpenAPI 3.1</a></div>
+      <div><a href="/webgpu">Open WGSL WebGPU harness</a> · <a href="/openapi.json">OpenAPI 3.1</a></div>
     </section>
   </main>
   <footer>
-    Served from a single Fat-LTO Rust binary (<code>fw-native</code>) — HTTP, GraphQL, WebSockets, WebRTC, OpenAI, MCP, ACP, A2A, GGML-RPC.
+    Served by Fat-LTO Rust binary <code>fw</code> — HTTP, WebSockets, WebRTC, GraphQL, OpenAI, MCP, ACP, A2A, WebGPU.
   </footer>
   <script>
     async function load() {
-      const [health, cluster, claw, rank, mcp] = await Promise.all([
+      const [health, fx, pm, mcp] = await Promise.all([
         fetch("/health").then(r => r.json()),
-        fetch("/cluster").then(r => r.json()),
-        fetch("/claw/status").then(r => r.json()),
-        fetch("/claw/ranking").then(r => r.json()),
+        fetch("/v1/fx/status").then(r => r.json()),
+        fetch("/v1/pm/scan").then(r => r.json()),
         fetch("/mcp", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" })
-        }).then(r => r.json()),
+        }).then(r => r.json())
       ]);
       document.getElementById("health-pill").textContent =
-        health.ok ? `ONLINE v${health.version} (zero-dep)` : "DEGRADED";
-      document.getElementById("cluster-out").textContent = JSON.stringify(cluster, null, 2);
-      document.getElementById("claw-out").textContent = JSON.stringify({ claw, mcpTools: mcp.result?.tools?.map(t => t.name) }, null, 2);
-      document.getElementById("rank-out").textContent = JSON.stringify({
-        topRustClis: rank.modernRustClis?.slice(0, 6).map(x => `#${x.rank} ${x.name} (${x.stars_nov_2026}★)`),
-        topProtocols: rank.protocolsAndAgentOs?.slice(0, 6).map(x => `#${x.rank} ${x.name} (${x.stars_nov_2026}★)`),
+        health.ok ? `ONLINE v${health.version}` : "DEGRADED";
+      document.getElementById("fx-out").textContent = JSON.stringify(fx, null, 2);
+      document.getElementById("pm-out").textContent = JSON.stringify({
+        engine: pm.engine,
+        counts: pm.counts
+      }, null, 2);
+      document.getElementById("mcp-out").textContent = JSON.stringify({
+        tools: mcp.result?.tools?.map(t => t.name)
       }, null, 2);
       const gpuOut = document.getElementById("webgpu-out");
-      if ("gpu" in navigator) {
-        const adapter = await navigator.gpu.requestAdapter();
-        gpuOut.textContent = adapter ? "WebGPU adapter ready (Dawn/Chromium)" : "navigator.gpu present, no adapter";
-      } else {
-        gpuOut.textContent = "WebGPU unavailable in this browser context";
+      if (!navigator.gpu) {
+        gpuOut.textContent = "WebGPU unavailable in this browser — graceful CPU/Wasm fallback active.";
+        return;
       }
+      const adapter = await navigator.gpu.requestAdapter();
+      gpuOut.textContent = adapter
+        ? "WebGPU adapter ready (Dawn/Chromium)"
+        : "navigator.gpu present, no adapter — CPU fallback active.";
     }
     document.getElementById("run-btn").addEventListener("click", async () => {
       const goal = document.getElementById("goal-input").value;
@@ -168,11 +236,11 @@
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ goal })
       }).then(r => r.json());
-      document.getElementById("claw-out").textContent = JSON.stringify(res, null, 2);
+      document.getElementById("mcp-out").textContent = JSON.stringify(res, null, 2);
     });
     load().catch(err => {
-      document.getElementById("health-pill").textContent = "ERROR";
-      document.getElementById("cluster-out").textContent = String(err);
+      document.getElementById("health-pill").textContent = "OFFLINE";
+      document.getElementById("fx-out").textContent = String(err);
     });
   </script>
 </body>
