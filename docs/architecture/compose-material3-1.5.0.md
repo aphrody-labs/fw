@@ -23,7 +23,7 @@
 | `com.aphrody.fw:fw-material3` | `4.2.0` | Gradle build | Android library: fw components and `M3Catalog` on `aphrody-theme` (`core/kotlin/fw-material3`) |
 | `com.aphrody.fw:fw-rust-ffi` | `4.2.0` | Gradle build | Bidirectional JDK 25 Panama FFM Kotlin <-> Rust bridge (`core/kotlin/fw-rust-ffi`, JVM) |
 
-Group `com.aphrody` is the reversed root domain of `ay.toml` [domains] in `aphrody-dev/ay`; `product.toml` [kotlin] holds the fw group and the theme coordinates, `core/kotlin/settings.gradle.kts` reads them.
+Group `com.aphrody` is the reversed root domain of `ay.toml` [domains] in `aphrody-labs/ay`; `product.toml` [kotlin] holds the fw group and the theme coordinates, `core/kotlin/settings.gradle.kts` reads them.
 
 ### 1.1 Why an Android library on androidx, not Compose Multiplatform
 
