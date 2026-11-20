@@ -3,26 +3,26 @@ import { pinnedChannel, renderInstall, renderScript, renderUnits, resolvePolicy 
 
 describe("host-hygiene", () => {
   test("policy defaults, the pinned toolchain and local lists", () => {
-    const p = resolvePolicy({ hygiene: { target_cap_gb: 10, protect: ["/srv/site"], systemd: { keep: ["fleet-*"] } } }, "1.100.0");
+    const p = resolvePolicy({ hygiene: { target_cap_gb: 10, protect: ["/opt/site"], systemd: { keep: ["fleet-*"] } } }, "1.100.0");
     expect(p.targetCapGb).toBe(10);
     expect(p.nodeModulesIdleDays).toBe(7);
     expect(p.keepToolchains).toEqual(["1.100.0"]);
-    expect(p.protect).toEqual(["/srv/site"]);
+    expect(p.protect).toEqual(["/opt/site"]);
     expect(p.systemdKeep).toEqual(["fleet-*"]);
     expect(pinnedChannel()).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
   test("refuses unsafe or invalid values", () => {
     expect(() => resolvePolicy({ hygiene: { target_cap_gb: 0 } }, "x")).toThrow(/positive/);
-    expect(() => resolvePolicy({ hygiene: { protect: ["/srv/a; rm -rf /"] } }, "x")).toThrow(/characters/);
+    expect(() => resolvePolicy({ hygiene: { protect: ["/opt/a; rm -rf /"] } }, "x")).toThrow(/characters/);
     expect(() => resolvePolicy({ hygiene: { journal_max: "lots" } }, "x")).toThrow(/journal_max/);
   });
 
   test("the script is valid bash, dry by default and keeps volumes on the prod role", () => {
-    const p = resolvePolicy({ hygiene: { protect: ["/srv/site"] } }, "1.100.0");
+    const p = resolvePolicy({ hygiene: { protect: ["/opt/site"] } }, "1.100.0");
     const dry = renderScript(p, "prod", false);
     expect(dry).toContain("APPLY=0");
-    expect(dry).toContain("PROTECT=('/srv/site')");
+    expect(dry).toContain("PROTECT=('/opt/site')");
     expect(dry).toContain("ROLE='prod'");
     expect(renderScript(p, "build", true, true)).toContain("DISABLE_UNDECLARED=1");
     const check = Bun.spawnSync(["bash", "-n"], { stdin: new Blob([dry]) });

@@ -34,7 +34,7 @@ work = "<work volume on the test host>"
 
 # [hygiene]                                  # tools/host-hygiene.ts: what the policy of ay.toml [hygiene] must never touch
 # roots = ["/home", "/root", "/srv"]         # where targets and node_modules are looked for
-# protect = ["/srv/<site>", "/var/lib/containerd"]   # deployed apps and container storage: never purged
+# protect = ["/opt/<site>", "/var/lib/containerd"]   # deployed apps and container storage: never purged
 # keep_toolchains = []                       # extra rustup toolchains to keep besides rust-toolchain.toml
 # [hygiene.systemd]
 # keep = ["fleet-*", "nginx"]                # custom units declared on purpose; others are reported (--disable-undeclared disables them)

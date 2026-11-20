@@ -1,2 +1,1 @@
-- [crate-unification-2026-11](crate-unification-2026-11.md) — merged crate families as features, kept splits, ay-http/h3 conventions and known issues
 - [build-host-workflow](build-host-workflow.md) — sync-host stale-tree trap, git commit --only with new files, separate target dirs

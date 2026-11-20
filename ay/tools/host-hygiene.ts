@@ -117,8 +117,9 @@ while IFS= read -r d; do
   echo "node_modules idle: $d $(mb "$d") MiB"; act rm -rf --one-file-system "$d"
 done < <(find "\${ROOTS[@]}" -xdev -type d -name node_modules -prune -mtime +${p.nodeModulesIdleDays} -print 2>/dev/null)
 
-# 3. sccache caches over ${p.sccacheCapGb} GB: least recently used first
-for d in /var/cache/*/sccache /var/cache/sccache /home/*/.cache/sccache /root/.cache/sccache; do
+# 3. sccache caches over ${p.sccacheCapGb} GB: least recently used first (home directories come from the account database)
+HOME_DIRS=$(getent passwd | awk -F: '$3 == 0 || ($3 >= 1000 && $3 < 60000) { print $6 }')
+for d in /var/cache/*/sccache /var/cache/sccache $(for h in $HOME_DIRS; do echo "$h/.cache/sccache"; done); do
   [ -d "$d" ] || continue
   size=$(du -sb "$d" | cut -f1)
   if [ "$size" -gt "$SCCACHE_CAP_BYTES" ]; then
@@ -128,7 +129,7 @@ for d in /var/cache/*/sccache /var/cache/sccache /home/*/.cache/sccache /root/.c
 done
 
 # 4. rustup toolchains other than the pinned one
-for t in /home/*/.rustup/toolchains/* /root/.rustup/toolchains/*; do
+for t in $(for h in $HOME_DIRS; do echo "$h"/.rustup/toolchains/*; done); do
   [ -d "$t" ] || continue
   name=$(basename "$t"); keepit=0
   for k in "\${KEEP_TOOLCHAINS[@]}"; do case "$name" in "$k"-*|"$k") keepit=1;; esac; done

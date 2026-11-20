@@ -9,15 +9,6 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "paths": {
-      "@aphrody/x": [
-        "./packages/ai-os/engines/xai/types/aphrody-x.d.ts"
-      ],
-      "@ag-ui/client": [
-        "./packages/ai-os/protocols/ag-ui-client/src/index.ts"
-      ],
-      "@aphrody/ay-chromium-releases": [
-        "./packages/chromium-releases/src/index.ts"
-      ],
       "@aphrody/*": [
         "./packages/*/src/index.ts"
       ]

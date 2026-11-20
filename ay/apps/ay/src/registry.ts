@@ -99,25 +99,11 @@ export const COMMANDS: readonly CommandEntry[] = [
     summary: "Run corelib verification inside QEMU",
   },
   {
-    name: "linux-aphrody",
-    category: "runtime",
-    kind: "tool",
-    target: "tools/linux-aphrody.ts",
-    summary: "Linux kernel / Aphrody OS integration tooling",
-  },
-  {
     name: "linux-docs",
     category: "runtime",
     kind: "tool",
     target: "tools/linux-docs.ts",
     summary: "Linux documentation indexing and lookup",
-  },
-  {
-    name: "linux-sources",
-    category: "runtime",
-    kind: "tool",
-    target: "tools/linux-sources.ts",
-    summary: "Linux source tree management and verification",
   },
   {
     name: "shells",
@@ -371,13 +357,6 @@ export const COMMANDS: readonly CommandEntry[] = [
     kind: "tool",
     target: "tools/plan.ts",
     summary: "Execution plan tracking and verification",
-  },
-  {
-    name: "rust-map",
-    category: "data",
-    kind: "tool",
-    target: "tools/rust-map.ts",
-    summary: "Rust workspace crate dependency and symbol map",
   },
   {
     name: "science",
