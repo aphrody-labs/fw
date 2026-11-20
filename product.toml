@@ -32,3 +32,7 @@ theme_group = "com.aphrody"
 theme_artifact = "aphrody-theme"
 theme_version = "0.4.0"
 theme_registry = "https://maven.pkg.github.com/aphrody-labs/ay"
+# Without registry credentials (CI, a clean clone) the theme is built from the public source repository at this pinned commit
+# (Gradle property aphrody.ay.checkout, composite build with dependency substitution): bump the rev to take a newer theme.
+theme_source = "aphrody-labs/ay"
+theme_source_rev = "5339bc337d3de46b27b1d755442756b1c504dc51"

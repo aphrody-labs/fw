@@ -76,6 +76,49 @@ jobs:
           bun test
           bun run cf:dry-run
 
+  kotlin-compose:
+    name: Kotlin + Compose Material 3 (theme from ay)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pinned ay source (public repository, no registry credentials)
+        id: ay
+        run: |
+          echo "repo=$(sed -n 's/^theme_source = "\(.*\)"/\1/p' product.toml)" >> "$GITHUB_OUTPUT"
+          echo "rev=$(sed -n 's/^theme_source_rev = "\(.*\)"/\1/p' product.toml)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.ay.outputs.repo }}
+          ref: ${{ steps.ay.outputs.rev }}
+          path: ay-source
+          sparse-checkout: |
+            kotlin
+            brand/tokens
+            ay.toml
+            Cargo.toml
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+          build-root-directory: core/kotlin
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: native/fw-abi
+      - name: Android SDK platform of compileSdk
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.1" > /dev/null
+      - name: libfw_abi for the fw-rust-ffi tests
+        run: cargo build --release --manifest-path native/fw-abi/Cargo.toml
+      - name: Gradle build and tests (fw-material3 consumes aphrody-theme from the pinned ay source)
+        working-directory: core/kotlin
+        run: |
+          export FW_ABI_PATH="$GITHUB_WORKSPACE/native/fw-abi/target/release/libfw_abi.so"
+          bash ./gradlew --no-daemon --console=plain -Paphrody.ay.checkout="$GITHUB_WORKSPACE/ay-source" test assembleRelease :fw-material3:dependencies --configuration releaseRuntimeClasspath
+
   python-and-purity:
     name: Python + Repo Map & Purity
     runs-on: ubuntu-latest
