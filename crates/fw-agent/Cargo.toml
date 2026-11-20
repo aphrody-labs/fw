@@ -12,13 +12,13 @@ ignored = ["fw-agent"]
 
 [features]
 git = ["dep:gix"]
-home = ["dep:ay-config", "dep:fw-model", "dep:arc-swap", "dep:blake3", "dep:sha2", "dep:unicode-segmentation", "dep:clap", "dep:memmap2", "dep:notify"]
+home = ["dep:fw-config", "dep:fw-model", "dep:arc-swap", "dep:blake3", "dep:sha2", "dep:unicode-segmentation", "dep:clap", "dep:memmap2", "dep:notify"]
 proto = ["dep:uuid"]
-tools = ["jev-client", "patch", "guard", "dep:fw-toolcall", "dep:axum", "dep:anyhow", "dep:fw-gemini", "dep:fw-proc", "dep:aphrody-remote-desktop", "dep:aphrody-term", "dep:aphrody-web-service", "dep:aphrody-winclean", "dep:base64", "dep:obscura-net", "dep:ay-http", "dep:tokio", "dep:sysinfo"]
+tools = ["jev-client", "patch", "guard", "dep:fw-toolcall", "dep:axum", "dep:anyhow", "dep:fw-gemini", "dep:fw-proc", "dep:aphrody-remote-desktop", "dep:aphrody-term", "dep:aphrody-web-service", "dep:aphrody-winclean", "dep:base64", "dep:obscura-net", "dep:fw-http", "dep:tokio", "dep:sysinfo"]
 guard = []
 patch = ["dep:similar"]
-jev-client = ["jev", "dep:futures", "dep:ay-http", "dep:rustls", "dep:tokio", "dep:url"]
-jev-server = ["jev-client", "ay-http/server", "dep:axum", "tokio/rt-multi-thread", "tokio/macros", "tokio/net"]
+jev-client = ["jev", "dep:futures", "dep:fw-http", "dep:rustls", "dep:tokio", "dep:url"]
+jev-server = ["jev-client", "fw-http/server", "dep:axum", "tokio/rt-multi-thread", "tokio/macros", "tokio/net"]
 jev = ["dep:tokio"]
 rollout = ["dep:tokio", "dep:uuid"]
 subsystem = ["dep:tokio"]
@@ -29,8 +29,8 @@ default = []
 arc-swap = { version = "1.9.5", optional = true }
 async-trait.workspace = true
 axum = { workspace = true, optional = true }
-ay-config = { path = "../../../ay/crates/ay-config", features = [], optional = true }
-ay-http = { path = "../../../ay/crates/ay-http", default-features = false, features = ["client"], optional = true }
+fw-config = { workspace = true, optional = true }
+fw-http = { workspace = true, features = ["client"], optional = true }
 fw-model = { path = "../fw-model", default-features = false, features = ["store"], optional = true }
 fw-toolcall = { path = "../fw-toolcall", default-features = false, features = [], optional = true }
 blake3 = { version = "1.8.7", default-features = false, optional = true }

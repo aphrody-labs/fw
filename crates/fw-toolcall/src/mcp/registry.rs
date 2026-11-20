@@ -5,7 +5,7 @@
 
 use std::{collections::BTreeMap, sync::Arc};
 
-use ay_config::mcp::McpServerConfig;
+use fw_config::mcp::McpServerConfig;
 use crate::{ToolExecutor, ToolExposure, ToolRegistry};
 use tracing::{info, warn};
 

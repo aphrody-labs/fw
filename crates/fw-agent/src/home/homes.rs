@@ -69,10 +69,10 @@ pub struct HomeEntry {
 #[cfg(not(target_arch = "wasm32"))]
 pub fn configured_homes_dir(state: &Path) -> Result<Option<String>, HomeError> {
     let path = state.join("config.toml");
-    let value = ay_config::load_toml_file(&path).map_err(|e| HomeError::Config(e.to_string()))?;
+    let value = fw_config::load_toml_file(&path).map_err(|e| HomeError::Config(e.to_string()))?;
     Ok(value
         .as_ref()
-        .and_then(ay_config::AgentHomeConfig::from_toml)
+        .and_then(fw_config::AgentHomeConfig::from_toml)
         .and_then(|c| c.homes_dir)
         .filter(|d| !d.trim().is_empty()))
 }

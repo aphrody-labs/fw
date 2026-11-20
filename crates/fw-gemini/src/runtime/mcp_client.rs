@@ -11,7 +11,7 @@
 //! delegation plus value conversion.
 //!
 //! New code should use [`fw_toolcall::mcp::McpClient`] together with
-//! [`ay_config::mcp::McpServerConfig`]; this facade goes away once `aphrody mcp` migrates.
+//! [`fw_config::mcp::McpServerConfig`]; this facade goes away once `aphrody mcp` migrates.
 
 use std::{
     collections::{BTreeMap, HashMap},

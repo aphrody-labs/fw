@@ -27,7 +27,7 @@
 //! answer, which we return as a single [`MemoryRecord`].
 
 use async_trait::async_trait;
-use ay_http::Client;
+use fw_http::Client;
 use serde::{Deserialize, Serialize};
 
 use crate::memory::{
@@ -235,7 +235,7 @@ fn flatten_detail(detail: &serde_json::Value) -> Option<String> {
     }
 }
 
-async fn lift_error(resp: ay_http::Response) -> MemoryError {
+async fn lift_error(resp: fw_http::Response) -> MemoryError {
     let status = resp.status().as_u16();
     let body = resp.text().await.unwrap_or_default();
     let message = serde_json::from_str::<HonchoError>(&body)
@@ -273,7 +273,7 @@ impl MemoryProvider for HonchoV3Provider {
         let resp = self
             .client
             .post(self.endpoint(&self.messages_path()))
-            .header(ay_http::header::AUTHORIZATION, self.auth_value())
+            .header(fw_http::header::AUTHORIZATION, self.auth_value())
             .json(&body)
             .send()
             .await?;
@@ -307,7 +307,7 @@ impl MemoryProvider for HonchoV3Provider {
         let resp = self
             .client
             .post(self.endpoint(&self.chat_path(&q.agent_id)))
-            .header(ay_http::header::AUTHORIZATION, self.auth_value())
+            .header(fw_http::header::AUTHORIZATION, self.auth_value())
             .json(&body)
             .send()
             .await?;
@@ -349,10 +349,10 @@ impl MemoryProvider for HonchoV3Provider {
         let resp = self
             .client
             .get(self.endpoint(&self.workspace_path()))
-            .header(ay_http::header::AUTHORIZATION, self.auth_value())
+            .header(fw_http::header::AUTHORIZATION, self.auth_value())
             .send()
             .await?;
-        if resp.status().is_success() || resp.status() == ay_http::StatusCode::NOT_FOUND {
+        if resp.status().is_success() || resp.status() == fw_http::StatusCode::NOT_FOUND {
             return Ok(());
         }
         Err(lift_error(resp).await)

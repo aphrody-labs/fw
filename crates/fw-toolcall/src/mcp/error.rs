@@ -36,7 +36,7 @@ pub enum McpClientError {
 
     /// HTTP transport error.
     #[error("HTTP transport error: {0}")]
-    Http(#[from] ay_http::Error),
+    Http(#[from] fw_http::Error),
 
     /// The HTTP MCP endpoint returned a non-2xx status.
     #[error("HTTP MCP endpoint returned status {status}: {body}")]

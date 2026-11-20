@@ -19,7 +19,7 @@
 //! `resolution.precedence` (`canonical`, `alias`, `target`, `default`):
 //!
 //! 1. The canonical `APHRODY_AI_*` environment variable
-//!    ([`ay_config::ai_env`]).
+//!    ([`fw_config::ai_env`]).
 //! 2. Its legacy aliases, in the order the contract lists them.
 //! 3. `configured` — the caller's `[rag]` table (`config.rag.embed_model`,
 //!    `.rerank_model`, ...).
@@ -31,7 +31,7 @@
 //! rejected outright ([`RagError::EmbedDimensionMismatch`]) rather than one
 //! silently winning: embedding spaces must never mix.
 
-use ay_config::{EmbedBackend, RagConfig, ai_env};
+use fw_config::{EmbedBackend, RagConfig, ai_env};
 use fw_model::store::{Catalog, LocalRole};
 
 use crate::error::{RagError, Result};
@@ -299,7 +299,7 @@ fn rerank_available_with(config: &RagConfig, env: &EnvReader<'_>) -> bool {
 }
 
 /// Resolve the reranker configuration. `enabled` mirrors the caller's
-/// requested [`ay_config::RagMode`]: reranking is opt-in per search, not
+/// requested [`fw_config::RagMode`]: reranking is opt-in per search, not
 /// per process, so a caller that does not need it never pays for endpoint
 /// resolution or its errors.
 ///

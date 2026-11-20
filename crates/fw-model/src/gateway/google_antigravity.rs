@@ -23,7 +23,7 @@
 
 use std::env;
 
-use ay_http::Client;
+use fw_http::Client;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -201,7 +201,7 @@ mod tests {
     use super::*;
 
     /// Install the rustls `ring` `CryptoProvider` once for the test process —
-    /// `GoogleAntigravityAdapter::new` builds a `ay_http::Client`, and rustls
+    /// `GoogleAntigravityAdapter::new` builds a `fw_http::Client`, and rustls
     /// 0.23+ panics `No provider set` without an installed default provider.
     fn install_rustls_provider() {
         use std::sync::Once;

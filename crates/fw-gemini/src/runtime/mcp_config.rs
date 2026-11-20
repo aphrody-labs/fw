@@ -38,7 +38,7 @@
 //!
 //! # One server model
 //!
-//! The typed model of an MCP server entry is [`ay_config::mcp::McpServerConfig`], the same
+//! The typed model of an MCP server entry is [`fw_config::mcp::McpServerConfig`], the same
 //! one `config.toml` `[mcp_servers.*]` uses and [`fw_toolcall::mcp::McpClient::from_config`]
 //! connects from. [`parse_mcp_servers`], [`load_mcp_servers`] and [`load_default_mcp_servers`]
 //! read this Claude Desktop / Cursor / Continue compatible JSON file straight into it, as a

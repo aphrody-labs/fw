@@ -8,7 +8,7 @@
 
 use bytes::Bytes;
 use futures::{Stream, StreamExt};
-use ay_http::Client;
+use fw_http::Client;
 use url::Url;
 
 use crate::gateway::{
@@ -51,7 +51,7 @@ async fn post(
     url: Url,
     bearer: &str,
     req: &ChatRequest,
-) -> Result<ay_http::Response, GatewayError> {
+) -> Result<fw_http::Response, GatewayError> {
     let resp = client
         .post(url)
         .bearer_auth(bearer)
@@ -71,7 +71,7 @@ async fn post(
 /// Handles partial line buffering across `Bytes` frames, which is the normal case for streaming
 /// HTTP/2 responses.
 fn sse_bytes_to_chunks(
-    stream: impl Stream<Item = Result<Bytes, ay_http::Error>> + Send + 'static,
+    stream: impl Stream<Item = Result<Bytes, fw_http::Error>> + Send + 'static,
 ) -> impl Stream<Item = Result<ChatChunk, GatewayError>> + Send {
     let mut buf = String::new();
     stream.flat_map(move |result| {
@@ -113,8 +113,8 @@ mod tests {
 
     fn frames(
         parts: &[&str],
-    ) -> impl Stream<Item = Result<Bytes, ay_http::Error>> + Send + 'static {
-        let owned: Vec<Result<Bytes, ay_http::Error>> = parts
+    ) -> impl Stream<Item = Result<Bytes, fw_http::Error>> + Send + 'static {
+        let owned: Vec<Result<Bytes, fw_http::Error>> = parts
             .iter()
             .map(|p| Ok(Bytes::from((*p).to_owned())))
             .collect();

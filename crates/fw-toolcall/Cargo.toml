@@ -14,14 +14,14 @@ ignored = ["fw-toolcall"]
 
 [features]
 repair = ["dep:regex"]
-mcp = ["dep:ay-config", "dep:ay-http", "dep:base64", "dep:futures-util", "dep:tracing", "dep:aphrody-web-service", "dep:fw-proc", "dep:tokio"]
+mcp = ["dep:fw-config", "dep:fw-http", "dep:base64", "dep:futures-util", "dep:tracing", "dep:aphrody-web-service", "dep:fw-proc", "dep:tokio"]
 full = ["repair", "mcp"]
 default = []
 
 [dependencies]
 async-trait.workspace = true
-ay-config = { path = "../../../ay/crates/ay-config", features = [], optional = true }
-ay-http = { path = "../../../ay/crates/ay-http", default-features = false, features = ["client"], optional = true }
+fw-config = { workspace = true, optional = true }
+fw-http = { workspace = true, features = ["client"], optional = true }
 base64 = { workspace = true, optional = true }
 futures-util = { workspace = true, optional = true }
 regex = { workspace = true, optional = true }

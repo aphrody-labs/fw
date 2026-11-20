@@ -12,7 +12,7 @@
 [package]
 edition = "2024"
 name = "fw-llama-sys"
-version = "1.4.7"
+version.workspace = true
 authors = [
     "Mayo Takanashi",
     "Wangchong Zhou",

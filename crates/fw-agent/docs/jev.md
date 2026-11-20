@@ -46,7 +46,7 @@ chat setting and managed server before constructing the shared router:
 
 ```rust,ignore
 fn configured_jev_router() -> Result<fw_agent::jev::JevRouter, fw_agent::jev::JevError> {
-    let mut endpoint = ay_config::ai_env::CHAT_BASE_URL.resolve();
+    let mut endpoint = fw_config::ai_env::CHAT_BASE_URL.resolve();
     #[cfg(not(target_arch = "wasm32"))]
     if endpoint.is_none() {
         endpoint = fw_llama::server::discover_running(fw_llama::server::Role::Chat)

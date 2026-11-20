@@ -100,11 +100,11 @@ async fn cors_middleware(req: Request, next: Next) -> Response {
 /// Resolve the gateway credential, preserving the prior OS alias.
 fn gateway_token() -> Result<Option<String>, GatewayError> {
     if let Some(path) = std::env::var_os("APHRODY_AI_HTTP_TOKEN_FILE") {
-        return ay_config::credential_file::read_credential_file(std::path::Path::new(&path))
+        return fw_config::credential_file::read_credential_file(std::path::Path::new(&path))
             .map(Some)
             .map_err(|error| GatewayError::Config(error.to_string()));
     }
-    Ok(ay_config::ai_env::HTTP_TOKEN.resolve().or_else(|| {
+    Ok(fw_config::ai_env::HTTP_TOKEN.resolve().or_else(|| {
         std::env::var("APHRODY_OS_AUTH_TOKEN")
             .ok()
             .filter(|token| !token.trim().is_empty())
@@ -205,7 +205,7 @@ pub async fn serve_gateway(
     let listener = tokio::net::TcpListener::bind(addr)
         .await
         .map_err(|e| GatewayError::Config(format!("failed to bind {addr}: {e}")))?;
-    ay_http::server::serve_listener(listener, app)
+    fw_http::server::serve_listener(listener, app)
         .await
         .map_err(|e| GatewayError::Config(format!("gateway server runtime error: {e}")))?;
     Ok(())
@@ -383,7 +383,7 @@ mod tests {
             let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
             let address = listener.local_addr().unwrap();
             let server = tokio::spawn(async move { axum::serve(listener, app).await });
-            let client = ay_http::Client::builder().no_proxy().build().unwrap();
+            let client = fw_http::Client::builder().no_proxy().build().unwrap();
             let url = format!("http://{address}/v1/models");
             assert_eq!(client.get(&url).send().await.unwrap().status(), expected);
             let authenticated = client

@@ -159,9 +159,9 @@ pub fn merge_options(defaults: &TurnOptions, turn: &TurnOptions) -> TurnOptions 
 }
 
 /// Whether a response status is worth another attempt.
-fn is_retryable_status(status: ay_http::StatusCode) -> bool {
-    status == ay_http::StatusCode::TOO_MANY_REQUESTS
-        || status == ay_http::StatusCode::REQUEST_TIMEOUT
+fn is_retryable_status(status: fw_http::StatusCode) -> bool {
+    status == fw_http::StatusCode::TOO_MANY_REQUESTS
+        || status == fw_http::StatusCode::REQUEST_TIMEOUT
         || status.is_server_error()
 }
 
@@ -182,10 +182,10 @@ fn backoff(attempt: u32, retry_after: Option<Duration>) -> Duration {
     base + jitter
 }
 
-fn retry_after(response: &ay_http::Response) -> Option<Duration> {
+fn retry_after(response: &fw_http::Response) -> Option<Duration> {
     response
         .headers()
-        .get(ay_http::header::RETRY_AFTER)?
+        .get(fw_http::header::RETRY_AFTER)?
         .to_str()
         .ok()?
         .trim()
@@ -200,7 +200,7 @@ pub(crate) fn with_idle_timeout<S>(
     idle: Duration,
 ) -> impl Stream<Item = Result<bytes::Bytes, ModelError>> + Send
 where
-    S: Stream<Item = ay_http::Result<bytes::Bytes>> + Send + 'static,
+    S: Stream<Item = fw_http::Result<bytes::Bytes>> + Send + 'static,
 {
     // Fused so a decoder that polls once more after the end sees `None` again.
     futures::stream::unfold(
@@ -228,7 +228,7 @@ where
 /// A streaming client for any OpenAI-compatible provider.
 #[derive(Debug, Clone)]
 pub struct OpenAiCompatClient {
-    http: ay_http::Client,
+    http: fw_http::Client,
     runtime: ProviderRuntime,
     wire: OpenAiWire,
     model: String,
@@ -243,7 +243,7 @@ impl OpenAiCompatClient {
         model: impl Into<String>,
     ) -> Self {
         Self {
-            http: ay_http::Client::new(),
+            http: fw_http::Client::new(),
             runtime,
             wire,
             model: model.into(),
@@ -252,7 +252,7 @@ impl OpenAiCompatClient {
 
     /// Reuse a configured HTTP client and its connection pool across provider APIs.
     #[must_use]
-    pub fn with_http_client(mut self, http: ay_http::Client) -> Self {
+    pub fn with_http_client(mut self, http: fw_http::Client) -> Self {
         self.http = http;
         self
     }
@@ -282,7 +282,7 @@ impl OpenAiCompatClient {
 
     /// Send the request, retrying the repeatable failures, and return the
     /// successful response ready to stream.
-    async fn send(&self, body: &serde_json::Value) -> Result<ay_http::Response, ModelError> {
+    async fn send(&self, body: &serde_json::Value) -> Result<fw_http::Response, ModelError> {
         let url = self.runtime.endpoint_url(self.wire);
         send_streaming_post(
             &self.http,
@@ -305,16 +305,16 @@ impl OpenAiCompatClient {
 /// response status only, since once the body streams a replay could duplicate
 /// output the model already produced.
 pub(crate) async fn send_streaming_post(
-    http: &ay_http::Client,
+    http: &fw_http::Client,
     url: &str,
     runtime: &ProviderRuntime,
     body: &serde_json::Value,
-    authorize: &(dyn Fn(ay_http::RequestBuilder) -> ay_http::RequestBuilder + Sync),
-) -> Result<ay_http::Response, ModelError> {
+    authorize: &(dyn Fn(fw_http::RequestBuilder) -> fw_http::RequestBuilder + Sync),
+) -> Result<fw_http::Response, ModelError> {
     send_with_retry(runtime, &|| {
         authorize(
             http.post(url)
-                .header(ay_http::header::ACCEPT, "text/event-stream")
+                .header(fw_http::header::ACCEPT, "text/event-stream")
                 .json(body),
         )
     })
@@ -331,8 +331,8 @@ pub(crate) async fn send_streaming_post(
 /// provider (and `Retry-After` is honoured everywhere).
 pub(crate) async fn send_with_retry(
     runtime: &ProviderRuntime,
-    build: &(dyn Fn() -> ay_http::RequestBuilder + Sync),
-) -> Result<ay_http::Response, ModelError> {
+    build: &(dyn Fn() -> fw_http::RequestBuilder + Sync),
+) -> Result<fw_http::Response, ModelError> {
     let mut attempt = 0u32;
     loop {
         let mut request = build();
@@ -417,7 +417,7 @@ mod tests {
     use super::*;
     use crate::client::{ChatMessage, ModelStreamEvent, Part, Role};
 
-    /// rustls 0.23 needs an explicit provider before the first `ay_http::Client`
+    /// rustls 0.23 needs an explicit provider before the first `fw_http::Client`
     /// (CLAUDE.md §7).
     fn install_rustls_provider() {
         static ONCE: Once = Once::new();

@@ -12,6 +12,11 @@ rustflags = ["-C", "target-cpu=x86-64-v3"]
 [target.x86_64-unknown-linux-musl]
 rustflags = ["-C", "target-cpu=x86-64-v3"]
 
+# reqwest gates its HTTP/3 client (the `http3` feature of fw-http) behind this cfg; it must reach reqwest itself.
+# A `[build]` rustflags entry would be dropped by the per-triple rustflags above, so the cfg rides a matching `cfg(...)` table that cargo joins with them.
+[target.'cfg(all())']
+rustflags = ["--cfg", "reqwest_unstable"]
+
 [profile.dev]
 debug = "line-tables-only"
 

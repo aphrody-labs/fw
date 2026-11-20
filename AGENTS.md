@@ -12,3 +12,4 @@
   - `cargo build --release -p fw-bin --bin fw && cargo check --target wasm32-unknown-unknown -p fw-uutils -p fw-fx --lib && cargo build --release --target wasm32-unknown-unknown -p fw-wasm`
   - `bun run cf:dry-run && cargo xtask map && cargo xtask purity`
 - **Git Discipline**: Commit explicit file paths on `main`; never `git stash` or `git reset --hard`; zero AI attribution trailers; keep repo private (`aphrody-labs/fw`).
+- **Workspace Dependency Direction**: Repositories are sibling checkouts under one root, the stack is ordered 1 `fw`, 2 `aphrody`, 3 `ay`, 4 `nie`, 5 `shenron`, then satellites, and a Rust dependency between repositories may only point down the stack (to `fw` from everyone), never up and never in a cycle, so `fw` builds from its own checkout alone.

@@ -273,8 +273,8 @@ pub enum MemoryError {
     Unexpected(String),
 }
 
-impl From<ay_http::Error> for MemoryError {
-    fn from(err: ay_http::Error) -> Self {
+impl From<fw_http::Error> for MemoryError {
+    fn from(err: fw_http::Error) -> Self {
         Self::Http(err.to_string())
     }
 }

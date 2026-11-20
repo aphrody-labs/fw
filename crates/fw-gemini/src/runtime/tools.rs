@@ -19,7 +19,7 @@
 //! # async fn run() {
 //! let mut reg = ToolRegistry::new();
 //! reg.register(Arc::new(WebSearchTool::new(
-//!     ay_http::Client::new(),
+//!     fw_http::Client::new(),
 //!     WebSearchConfig::with_api_key("AIza…"),
 //! )));
 //! let res = reg
@@ -116,15 +116,15 @@ pub trait Tool: Send + Sync {
 /// Built-in tool wrapping [`crate::runtime::web_search`]. Accepts `{ "query": "..." }`
 /// and returns the [`crate::runtime::SearchResults`] JSON.
 pub struct WebSearchTool {
-    client: ay_http::Client,
+    client: fw_http::Client,
     cfg: WebSearchConfig,
 }
 
 impl WebSearchTool {
-    /// Construct a new tool. Re-uses the provided [`ay_http::Client`] across
+    /// Construct a new tool. Re-uses the provided [`fw_http::Client`] across
     /// invocations (HTTP connection pool reuse).
     #[must_use]
-    pub fn new(client: ay_http::Client, cfg: WebSearchConfig) -> Self {
+    pub fn new(client: fw_http::Client, cfg: WebSearchConfig) -> Self {
         Self { client, cfg }
     }
 
@@ -179,7 +179,7 @@ impl Tool for WebSearchTool {
 /// proxied verbatim through `tools/call` on the shared [`McpClient`].
 ///
 /// The client is held under `Arc<Mutex<…>>` because [`McpClient`] is not
-/// `Clone` (it owns a `Child` process / `ay_http::Client`) and the gemini
+/// `Clone` (it owns a `Child` process / `fw_http::Client`) and the gemini
 /// runtime may invoke multiple tools concurrently.
 pub struct McpProxyTool {
     client: Arc<Mutex<McpClient>>,
@@ -349,7 +349,7 @@ mod tests {
     async fn web_search_tool_bad_args_missing_query() {
         let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         let tool = WebSearchTool::new(
-            ay_http::Client::new(),
+            fw_http::Client::new(),
             WebSearchConfig::with_api_key("AIza-test"),
         );
         let err = tool.invoke(serde_json::json!({})).await.unwrap_err();

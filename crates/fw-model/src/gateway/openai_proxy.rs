@@ -17,7 +17,7 @@
 
 use std::env;
 
-use ay_http::Client;
+use fw_http::Client;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -172,7 +172,7 @@ mod tests {
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
     /// Install the rustls `ring` `CryptoProvider` once for the test process —
-    /// `OpenAiProxyAdapter::new` builds a `ay_http::Client`, and rustls 0.23+
+    /// `OpenAiProxyAdapter::new` builds a `fw_http::Client`, and rustls 0.23+
     /// panics `No provider set` without an installed default provider.
     fn install_rustls_provider() {
         use std::sync::Once;

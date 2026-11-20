@@ -9,7 +9,7 @@
 //! - Built-in agent tools: `update_plan`, `view_image`, and `tool_search`.
 //! - Native web tools backed by the shared Rust client (`web_search`, `web_fetch`,
 //!   supported `browser_*` actions).
-//! - Automatic assembly from [`ay_config::mcp::McpServerConfig`].
+//! - Automatic assembly from [`fw_config::mcp::McpServerConfig`].
 //! - Fail-closed `${VAR}` credential expansion ([`headers`]) shared by every caller.
 //!
 //! This is the one MCP client of the workspace: `fw-gemini/runtime`'s `McpClient` and the

@@ -11,7 +11,7 @@ repository.workspace = true
 ignored = ["fw-model"]
 
 [features]
-store = ["dep:hex", "dep:sha2", "dep:ay-secrets", "dep:chrono", "dep:dirs", "dep:futures-util", "dep:hf-hub", "dep:nvml-wrapper", "dep:rustls"]
+store = ["dep:hex", "dep:sha2", "dep:fw-secrets", "dep:chrono", "dep:dirs", "dep:futures-util", "dep:hf-hub", "dep:nvml-wrapper", "dep:rustls"]
 client = ["dep:fw-toolcall", "dep:tokio"]
 grpc = ["dep:prost", "dep:tonic", "dep:tonic-prost", "dep:tonic-prost-build", "dep:protoc-bin-vendored"]
 local-ls = ["grpc", "dep:fw-proc", "dep:regex", "dep:rustls", "dep:hyper-rustls", "dep:x509-parser", "tokio/process", "tokio/rt-multi-thread"]
@@ -21,18 +21,18 @@ infer = ["store"]
 onnx = ["infer", "dep:ort"]
 embed = ["store"]
 embed-fastembed = ["embed", "dep:fastembed", "dep:ort"]
-embed-native = ["embed", "dep:tokenizers", "ay-http/blocking", "dep:sha2", "dep:rayon", "dep:gemm", "dep:safetensors", "dep:memmap2", "dep:base64"]
+embed-native = ["embed", "dep:tokenizers", "fw-http/blocking", "dep:sha2", "dep:rayon", "dep:gemm", "dep:safetensors", "dep:memmap2", "dep:base64"]
 embed-candle = ["embed-native", "dep:candle-core", "dep:candle-nn", "dep:candle-transformers"]
-embed-server = ["embed-native", "dep:axum", "dep:tokio", "ay-http/server"]
-gateway = ["client", "ay-http/server", "dep:axum", "dep:tokio", "dep:ay-config", "dep:dirs", "dep:url", "dep:which"]
+embed-server = ["embed-native", "dep:axum", "dep:tokio", "fw-http/server"]
+gateway = ["client", "fw-http/server", "dep:axum", "dep:tokio", "dep:fw-config", "dep:dirs", "dep:url", "dep:which"]
 full = ["store", "client", "grpc", "local-ls", "antigravity", "antigravity_model", "infer", "onnx", "embed", "embed-fastembed", "embed-native", "embed-candle", "embed-server", "gateway"]
 default = []
 
 [dependencies]
 async-trait.workspace = true
 axum = { workspace = true, features = ["http2"], optional = true }
-ay-config = { path = "../../../ay/crates/ay-config", features = [], optional = true }
-ay-http = { path = "../../../ay/crates/ay-http", default-features = false, features = ["client"] }
+fw-config = { workspace = true, optional = true }
+fw-http = { workspace = true, features = ["client"] }
 fw-proc = { path = "../fw-proc", features = ["tokio"], optional = true }
 fw-toolcall = { path = "../fw-toolcall", default-features = false, features = [], optional = true }
 base64 = { workspace = true, optional = true }
@@ -78,7 +78,7 @@ getrandom = { version = "0.4.3", default-features = false, features = ["wasm_js"
 tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
 
 [target."cfg(not(target_arch = \"wasm32\"))".dependencies]
-ay-secrets = { path = "../../../ay/crates/ay-secrets", features = [], optional = true }
+fw-secrets = { workspace = true, optional = true }
 chrono = { version = "0.4.45", features = ["serde"], optional = true }
 dirs = { version = "7.0.0", optional = true }
 fastembed = { version = "5.13.4", default-features = false, features = ["ort-load-dynamic", "ort-download-binaries-rustls-tls", "hf-hub-rustls-tls"], optional = true }

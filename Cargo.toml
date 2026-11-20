@@ -16,6 +16,9 @@ members = [
     "crates/fw-toolcall",
     "crates/fw-translate-core",
     "crates/fw-compute",
+    "crates/fw-config",
+    "crates/fw-http",
+    "crates/fw-secrets",
     "crates/fw-cluster",
     "crates/fw-proto",
     "crates/fw-ui-blitz",
@@ -32,7 +35,6 @@ members = [
     "xtask",
 ]
 exclude = [
-    "crates/fw-sh",
     "os/fw-os",
     "os/fw-os-boot",
     "os/fw-ostd-vfs",
@@ -75,10 +77,12 @@ fw-proc = { version = "4.2.0", path = "crates/fw-proc" }
 fw-rag = { version = "4.2.0", path = "crates/fw-rag" }
 fw-rag-core = { version = "4.2.0", path = "crates/fw-rag-core" }
 fw-ring3-agent = { version = "4.2.0", path = "crates/fw-ring3-agent" }
-fw-sh = { version = "4.2.0", path = "crates/fw-sh" }
 fw-toolcall = { version = "4.2.0", path = "crates/fw-toolcall" }
 fw-translate-core = { version = "4.2.0", path = "crates/fw-translate-core" }
 fw-compute = { version = "4.2.0", path = "crates/fw-compute" }
+fw-config = { version = "4.2.0", path = "crates/fw-config" }
+fw-http = { version = "4.2.0", path = "crates/fw-http", default-features = false }
+fw-secrets = { version = "4.2.0", path = "crates/fw-secrets" }
 fw-cluster = { version = "4.2.0", path = "crates/fw-cluster" }
 fw-proto = { version = "4.2.0", path = "crates/fw-proto" }
 fw-ui-blitz = { version = "4.2.0", path = "crates/fw-ui-blitz" }
@@ -102,6 +106,7 @@ ureq = { version = "3.5.2", default-features = false, features = ["rustls", "gzi
 
 anyhow = "1.0.104"
 argh = "0.1.19"
+aes-gcm = "0.11.1"
 async-trait = "0.1.92"
 axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
 base64 = "0.23.1"
@@ -115,7 +120,9 @@ futures = "0.3.34"
 futures-util = "0.3"
 hex = "0.4.3"
 hf-hub = "1.0.0"
+http = "1.5.0"
 http-body-util = "0.1"
+hyper = "1"
 ignore = "0.4.34"
 libc = "0.2.191"
 libloading = "0.9.1"
@@ -131,11 +138,14 @@ prost = "0.14.6"
 protoc-bin-vendored = "3.2.0"
 pyo3 = "0.30.1"
 rayon = "1.12.0"
+rcgen = "0.14"
 regex = "1.13.2"
+rustls = "0.23.46"
 rusqlite = "0.40"
 tempfile = "3.27.0"
 thiserror = "2.0.21"
 tokio-postgres = "0.7.18"
+tokio-rustls = "0.26"
 toml = "1.2.1"
 tonic-prost-build = "0.14.6"
 tower = "0.5"
@@ -149,6 +159,13 @@ which = "8"
 windows = { version = "0.62.2", features = ["Win32_Foundation", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D12", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_DirectComposition", "Win32_System_Threading", "Win32_Security", "Win32_System_WinRT", "Win32_System_WinRT_Composition", "Win32_UI_WindowsAndMessaging", "Win32_Networking_WinSock", "System"] }
 windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_System_Console", "Win32_System_LibraryLoader", "Win32_System_SystemInformation", "Win32_Storage_FileSystem", "Win32_System_Performance", "Win32_Security"] }
 zerocopy = { version = "0.8.63", features = ["derive", "alloc", "simd"] }
+zeroize = "1.9.2"
+
+# hyperium/h3 master carries fixes the 0.0.8 release lacks (send_data flushed before finish, stop_sending, request tracking);
+# fw-http's client (through reqwest) and server both use it. Fork of hyperium/h3; drop the patch once the next release ships.
+[patch.crates-io]
+h3 = { git = "https://github.com/aphrody-labs/h3", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
+h3-quinn = { git = "https://github.com/aphrody-labs/h3", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
 
 [profile.release]
 opt-level = 3

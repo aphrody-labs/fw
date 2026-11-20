@@ -172,7 +172,7 @@ impl Health {
 /// Routes decisions across the configured backends.
 #[derive(Debug)]
 pub struct JevRouter {
-    http: ay_http::Client,
+    http: fw_http::Client,
     saas: Option<Endpoint>,
     edge: Option<Endpoint>,
     local: Option<Endpoint>,
@@ -265,7 +265,7 @@ impl JevRouter {
     ) -> Result<Self, JevError> {
         #[cfg(not(target_arch = "wasm32"))]
         let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
-        let http = ay_http::Client::builder()
+        let http = fw_http::Client::builder()
             .user_agent(concat!("fw-agent/", env!("CARGO_PKG_VERSION")))
             .build()
             .map_err(|e| JevError::Config(e.to_string()))?;

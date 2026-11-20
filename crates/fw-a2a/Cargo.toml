@@ -1,6 +1,6 @@
 [package]
 name = "fw-a2a"
-version = "1.4.7"
+version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license = "Apache-2.0"
@@ -17,8 +17,8 @@ ignored = ["fw-a2a"]
 default = []
 full = ["protobuf", "client", "server", "coordinator", "grpc", "rustls-tls", "rustls"]
 protobuf = ["dep:pbjson", "dep:pbjson-types", "dep:prost", "dep:prost-types", "dep:tonic", "dep:tonic-prost", "dep:pbjson-build", "dep:protoc-bin-vendored", "dep:tonic-prost-build"]
-client = ["protobuf", "dep:async-trait", "dep:auto_impl", "dep:bytes", "dep:futures", "dep:tracing", "dep:ay-http", "ay-http/client", "dep:tokio", "dep:getrandom"]
-server = ["protobuf", "dep:async-trait", "dep:futures", "dep:tracing", "dep:axum", "dep:hyper", "dep:ay-http", "ay-http/client", "ay-http/server", "dep:tokio", "dep:tokio-stream", "dep:tower"]
+client = ["protobuf", "dep:async-trait", "dep:auto_impl", "dep:bytes", "dep:futures", "dep:tracing", "dep:fw-http", "fw-http/client", "dep:tokio", "dep:getrandom"]
+server = ["protobuf", "dep:async-trait", "dep:futures", "dep:tracing", "dep:axum", "dep:hyper", "dep:fw-http", "fw-http/client", "fw-http/server", "dep:tokio", "dep:tokio-stream", "dep:tower"]
 coordinator = ["server", "dep:fw-proc", "dep:getrandom", "dep:which"]
 grpc = ["protobuf", "client", "server", "dep:http", "dep:tokio-stream", "dep:tonic"]
 # TLS: rustls is the default provider for the HTTP client; `rustls` adds the TLS listener of the server and the gRPC TLS transport.
@@ -32,7 +32,7 @@ path = "src/lib.rs"
 [dependencies]
 async-trait = { workspace = true, optional = true }
 auto_impl = { version = "1", optional = true }
-ay-http = { path = "../../../ay/crates/ay-http", default-features = false, optional = true }
+fw-http = { workspace = true, optional = true }
 base64 = { workspace = true, features = ["alloc"] }
 bytes = { workspace = true, optional = true }
 chrono = { workspace = true, features = ["serde", "clock"] }

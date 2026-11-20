@@ -14,7 +14,7 @@ fn dummy_client() -> AntigravityClient {
         expiry: None,
         auth_method: Some("consumer".to_string()),
     };
-    AntigravityClient::new(ay_http::Client::new(), token)
+    AntigravityClient::new(fw_http::Client::new(), token)
 }
 
 #[test]

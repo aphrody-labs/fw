@@ -3,7 +3,7 @@
 
 //! Serving axum routers over HTTPS (h1, h2 and h3 with `Alt-Svc`) through the workspace HTTP stack.
 //!
-//! Available with the `rustls` feature. Re-exports the server of [`ay_http`] and the matching [`rustls`].
+//! Available with the `rustls` feature. Re-exports the server of [`fw_http`] and the matching [`rustls`].
 //!
 //! # Example
 //!
@@ -18,5 +18,5 @@
 //! # }
 //! ```
 
-pub use ay_http::server::{ServeConfig, Server, Tls, serve, serve_listener, serve_on};
+pub use fw_http::server::{ServeConfig, Server, Tls, serve, serve_listener, serve_on};
 pub use rustls;

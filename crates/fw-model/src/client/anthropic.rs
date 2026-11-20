@@ -54,7 +54,7 @@ pub enum AnthropicAuth {
 /// Anthropic Messages streaming client.
 #[derive(Debug, Clone)]
 pub struct AnthropicClient {
-    http: ay_http::Client,
+    http: fw_http::Client,
     runtime: ProviderRuntime,
     auth: AnthropicAuth,
     model: String,
@@ -67,7 +67,7 @@ impl AnthropicClient {
     #[must_use]
     pub fn from_provider(runtime: ProviderRuntime, model: impl Into<String>) -> Self {
         Self {
-            http: ay_http::Client::new(),
+            http: fw_http::Client::new(),
             runtime,
             auth: AnthropicAuth::ApiKey,
             model: model.into(),
@@ -95,7 +95,7 @@ impl AnthropicClient {
         build_messages_request(&turn, &self.model)
     }
 
-    fn authorize(&self, request: ay_http::RequestBuilder) -> ay_http::RequestBuilder {
+    fn authorize(&self, request: fw_http::RequestBuilder) -> fw_http::RequestBuilder {
         let mut request = request.header("anthropic-version", ANTHROPIC_API_VERSION);
         match (&self.runtime.bearer_token, self.auth) {
             (Some(key), AnthropicAuth::ApiKey) => request = request.header("x-api-key", key),

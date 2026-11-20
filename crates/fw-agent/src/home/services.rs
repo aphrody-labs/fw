@@ -8,7 +8,7 @@
 
 use std::path::{Path, PathBuf};
 
-use ay_config::{
+use fw_config::{
     Config, DatabaseCache, DatabaseConfig, DatabaseType, OcrConfig, OcrEngine, RedisConfig,
 };
 
@@ -332,7 +332,7 @@ fn profile_namespace(profile: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use ay_config::{
+    use fw_config::{
         DatabaseCache, DatabaseConfig, DatabaseType, OcrConfig, OcrEngine, RedisConfig,
     };
 

@@ -25,7 +25,7 @@ pub struct LlamaServerEmbedder {
     endpoint: String,
     model_id: String,
     dimension: usize,
-    client: ay_http::Client,
+    client: fw_http::Client,
 }
 
 impl LlamaServerEmbedder {
@@ -35,7 +35,7 @@ impl LlamaServerEmbedder {
             endpoint: endpoint.into(),
             model_id: model_id.into(),
             dimension,
-            client: ay_http::Client::new(),
+            client: fw_http::Client::new(),
         }
     }
 }

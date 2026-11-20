@@ -3,7 +3,7 @@
 //! No credentials are persisted here; the caller selects the domain's store.
 //! Downloads remain owned by [`crate::store::Downloader`] and [`crate::store::ModelStore`].
 
-use ay_secrets::{SecretStore, SecretValue};
+use fw_secrets::{SecretStore, SecretValue};
 use futures_util::TryStreamExt as _;
 use hf_hub::HFClient;
 /// Official repository-kind selector, shared with the pinned library.
@@ -133,7 +133,7 @@ impl Hub {
 
     fn build(token: Option<&SecretValue>) -> Result<Self, HubError> {
         crate::store::fetch::ensure_crypto_provider();
-        let http = ay_http::Client::builder()
+        let http = fw_http::Client::builder()
             .user_agent(concat!("fw-model/", env!("CARGO_PKG_VERSION")))
             .timeout(std::time::Duration::from_secs(30))
             .connect_timeout(std::time::Duration::from_secs(10))
@@ -341,7 +341,7 @@ mod tests {
     #[tokio::test]
     async fn selected_store_is_reused_and_missing_identity_is_explicit() {
         let dir = tempfile::tempdir().unwrap();
-        let store = ay_secrets::FileSecretStore::new(dir.path().join("test-only.json"));
+        let store = fw_secrets::FileSecretStore::new(dir.path().join("test-only.json"));
         assert!(matches!(
             resolve_token(&store, "HF_TOKEN").await,
             Err(HubError::MissingIdentity)

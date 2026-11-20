@@ -21,18 +21,18 @@ pub const DEFAULT_OSS_MODEL: &str = LocalRole::Chat.default_model();
 
 /// Default model identifier used for Ollama when unspecified.
 ///
-/// Must agree with `ay-config`'s `hardcoded_default_model("ollama")`
+/// Must agree with `fw-config`'s `hardcoded_default_model("ollama")`
 /// (`crates/aphrody-config/src/resolve.rs`): that crate is an intentionally
 /// dependency-free leaf (no `fw-model/store`), so the two cannot share one
 /// `const` — this comment is the cross-check. `gpt-oss:20b` mirrors upstream
 /// `openai/codex`'s own OSS default and is published under this exact tag by
 /// Ollama, LM Studio and vLLM, which is why it — not a `LocalRole` model
-/// family — is the one this crate and `ay-config` agree on.
+/// family — is the one this crate and `fw-config` agree on.
 pub const DEFAULT_OLLAMA_MODEL: &str = "gpt-oss:20b";
 
 /// Default model identifier used for LM Studio when unspecified.
 ///
-/// Must agree with `ay-config`'s `hardcoded_default_model("lmstudio")`;
+/// Must agree with `fw-config`'s `hardcoded_default_model("lmstudio")`;
 /// see [`DEFAULT_OLLAMA_MODEL`] for why these are two literals, not one
 /// shared `const`.
 pub const DEFAULT_LMSTUDIO_MODEL: &str = "openai/gpt-oss-20b";
@@ -121,7 +121,7 @@ pub enum OssReadyError {
     Model(#[from] fw_model::store::ModelError),
     /// HTTP transport failure.
     #[error("network or HTTP error: {0}")]
-    Http(#[from] ay_http::Error),
+    Http(#[from] fw_http::Error),
     /// Server is down or unreachable.
     #[error("endpoint unavailable at {endpoint}: {reason}")]
     EndpointUnavailable {
@@ -231,7 +231,7 @@ async fn ensure_ollama_ready(opts: &OssReadyOptions<'_>) -> Result<OssReadyOutco
         .unwrap_or(DEFAULT_OLLAMA_ENDPOINT)
         .trim_end_matches('/');
 
-    let client = ay_http::Client::builder()
+    let client = fw_http::Client::builder()
         .timeout(std::time::Duration::from_secs(30))
         .build()?;
 
@@ -322,7 +322,7 @@ async fn ensure_lmstudio_ready(
         .unwrap_or(DEFAULT_LMSTUDIO_ENDPOINT)
         .trim_end_matches('/');
 
-    let client = ay_http::Client::builder()
+    let client = fw_http::Client::builder()
         .timeout(std::time::Duration::from_secs(10))
         .build()?;
 
@@ -362,7 +362,7 @@ async fn ensure_vllm_ready(opts: &OssReadyOptions<'_>) -> Result<OssReadyOutcome
         .unwrap_or(DEFAULT_VLLM_ENDPOINT)
         .trim_end_matches('/');
 
-    let client = ay_http::Client::builder()
+    let client = fw_http::Client::builder()
         .timeout(std::time::Duration::from_secs(10))
         .build()?;
 

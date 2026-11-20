@@ -233,7 +233,7 @@ mod native_impl {
 
     #[cfg(not(target_family = "wasm"))]
     async fn try_post_msg(env: &Envelope) -> bool {
-        let client = match ay_http::Client::builder()
+        let client = match fw_http::Client::builder()
             .timeout(Duration::from_millis(2000))
             .build()
         {

@@ -94,8 +94,8 @@ impl PullOutcome {
 
 /// A reusable HTTP client for weight downloads.
 pub struct Downloader {
-    client: ay_http::Client,
-    hub_token: Option<ay_secrets::SecretValue>,
+    client: fw_http::Client,
+    hub_token: Option<fw_secrets::SecretValue>,
 }
 
 impl Downloader {
@@ -106,7 +106,7 @@ impl Downloader {
     /// [`ModelError::Download`] when the TLS/HTTP client cannot be built.
     pub fn new() -> Result<Self> {
         ensure_crypto_provider();
-        let client = ay_http::Client::builder()
+        let client = fw_http::Client::builder()
             .user_agent(concat!("fw-model/", env!("CARGO_PKG_VERSION")))
             // Weight files are large; the read timeout guards against a stalled
             // socket without capping total transfer time.
@@ -125,7 +125,7 @@ impl Downloader {
 
     /// Wrap an already-configured client (proxy, custom roots, test server).
     #[must_use]
-    pub const fn with_client(client: ay_http::Client) -> Self {
+    pub const fn with_client(client: fw_http::Client) -> Self {
         Self {
             client,
             hub_token: None,
@@ -139,7 +139,7 @@ impl Downloader {
     /// # Errors
     /// Returns redacted credential or client-construction errors.
     pub async fn from_secret_store(
-        store: &dyn ay_secrets::SecretStore,
+        store: &dyn fw_secrets::SecretStore,
         key: &str,
     ) -> core::result::Result<Self, crate::store::hub::HubError> {
         let token = crate::store::hub::resolve_token(store, key).await?;
@@ -243,7 +243,7 @@ impl Downloader {
             }
         }
         if resume_from > 0 {
-            request = request.header(ay_http::header::RANGE, format!("bytes={resume_from}-"));
+            request = request.header(fw_http::header::RANGE, format!("bytes={resume_from}-"));
         }
 
         let response = request.send().await.map_err(|e| ModelError::Download {
@@ -267,7 +267,7 @@ impl Downloader {
 
         // 206 means the server honoured the range and we append; anything else
         // (including a 200 answering a range request) restarts from scratch.
-        let resuming = resume_from > 0 && status == ay_http::StatusCode::PARTIAL_CONTENT;
+        let resuming = resume_from > 0 && status == fw_http::StatusCode::PARTIAL_CONTENT;
 
         let mut hasher = Hasher::new();
         let mut written = 0_u64;
@@ -505,9 +505,9 @@ mod tests {
 
     #[tokio::test]
     async fn protected_store_is_authoritative_for_downloader() {
-        use ay_secrets::{SecretStore as _, SecretValue};
+        use fw_secrets::{SecretStore as _, SecretValue};
         let dir = tempfile::tempdir().unwrap();
-        let store = ay_secrets::FileSecretStore::new(dir.path().join("test-only.json"));
+        let store = fw_secrets::FileSecretStore::new(dir.path().join("test-only.json"));
         assert!(matches!(
             Downloader::from_secret_store(&store, "selected").await,
             Err(crate::store::hub::HubError::MissingIdentity)

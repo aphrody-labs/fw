@@ -13,15 +13,15 @@ ignored = ["fw-gemini"]
 [features]
 boq = []
 web = ["dep:regex", "dep:sha2", "dep:thiserror", "dep:tracing", "dep:url", "dep:tokio", "boq"]
-runtime = ["dep:thiserror", "dep:url", "dep:ay-config", "dep:fw-toolcall", "dep:fw-proc", "dep:async-trait", "dep:dirs", "dep:futures-util", "dep:tokio", "dep:which"]
+runtime = ["dep:thiserror", "dep:url", "dep:fw-config", "dep:fw-toolcall", "dep:fw-proc", "dep:async-trait", "dep:dirs", "dep:futures-util", "dep:tokio", "dep:which"]
 google = ["web", "runtime", "dep:fw-model", "dep:bun_browser_dom", "dep:chrono", "dep:clap", "dep:futures", "dep:regex", "dep:rusqlite", "dep:rustls", "dep:tokio", "dep:url"]
 full = ["boq", "web", "runtime", "google"]
 default = []
 
 [dependencies]
 async-trait = { version = "0.1.92", default-features = false, optional = true }
-ay-config = { path = "../../../ay/crates/ay-config", optional = true }
-ay-http = { path = "../../../ay/crates/ay-http", default-features = false, features = ["client"] }
+fw-config = { workspace = true, optional = true }
+fw-http = { workspace = true, features = ["client"] }
 fw-model = { path = "../fw-model", default-features = false, features = ["antigravity"], optional = true }
 fw-proc = { path = "../fw-proc", features = ["tokio"], optional = true }
 fw-toolcall = { path = "../fw-toolcall", features = ["mcp"], optional = true }

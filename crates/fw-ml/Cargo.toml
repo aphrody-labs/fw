@@ -12,7 +12,7 @@ ignored = ["fw-ml"]
 
 [features]
 config = ["dep:anyhow", "dep:atomicwrites", "dep:dirs", "dep:toml", "dep:tracing"]
-runtime = ["dep:anyhow", "dep:dirs", "dep:tracing", "dep:backon", "dep:dunce", "dep:fast-glob", "dep:flate2", "dep:fs4", "dep:futures", "dep:hf-hub", "dep:libc", "dep:libloading", "dep:petgraph", "dep:ay-http", "dep:strum", "dep:tar", "dep:tempfile", "dep:walkdir", "dep:zip", "config"]
+runtime = ["dep:anyhow", "dep:dirs", "dep:tracing", "dep:backon", "dep:dunce", "dep:fast-glob", "dep:flate2", "dep:fs4", "dep:futures", "dep:hf-hub", "dep:libc", "dep:libloading", "dep:petgraph", "dep:fw-http", "dep:strum", "dep:tar", "dep:tempfile", "dep:walkdir", "dep:zip", "config"]
 full = ["config", "runtime", "jobs"]
 jobs = ["dep:async-trait", "dep:chrono", "dep:rusqlite", "dep:serde_json", "dep:thiserror", "dep:uuid"]
 default = []
@@ -21,7 +21,7 @@ default = []
 anyhow = { workspace = true, optional = true }
 async-trait = { workspace = true, optional = true }
 atomicwrites = { version = "0.4.4", optional = true }
-ay-http = { path = "../../../ay/crates/ay-http", default-features = false, features = ["client"], optional = true }
+fw-http = { workspace = true, features = ["client"], optional = true }
 backon = { version = "1.6.0", default-features = false, features = ["std", "tokio-sleep"], optional = true }
 chrono = { workspace = true, features = ["clock", "serde"], optional = true }
 dirs = { workspace = true, optional = true }

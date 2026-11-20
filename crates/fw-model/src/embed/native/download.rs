@@ -145,11 +145,11 @@ fn stream_to(file: &FileSpec, tmp: &Path) -> Result<()> {
         url: file.url.clone(),
         message,
     };
-    let builder = ay_http::Client::builder()
+    let builder = fw_http::Client::builder()
         .connect_timeout(Duration::from_secs(30))
         .read_timeout(Duration::from_secs(60))
         .user_agent(concat!("fw-model/", env!("CARGO_PKG_VERSION")));
-    let client = ay_http::blocking::Client::from_builder(builder).map_err(|e| download_err(e.to_string()))?;
+    let client = fw_http::blocking::Client::from_builder(builder).map_err(|e| download_err(e.to_string()))?;
     let response = client.get(file.url.as_str()).send().map_err(|e| download_err(e.to_string()))?;
     if !response.status().is_success() {
         return Err(download_err(format!("HTTP {}", response.status())));

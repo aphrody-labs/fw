@@ -11,7 +11,7 @@
 
 use std::collections::BTreeMap;
 
-use ay_config::mcp::{McpServerConfig, McpServerTransportConfig};
+use fw_config::mcp::{McpServerConfig, McpServerTransportConfig};
 
 use crate::mcp::error::{McpClientError, Result};
 

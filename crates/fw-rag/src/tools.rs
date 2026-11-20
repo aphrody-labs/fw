@@ -398,7 +398,7 @@ const WEB_API_DEFAULT_URL: &str = "http://127.0.0.1:3007";
 const WEB_API_MAX_RESPONSE_BYTES: usize = 8 * 1024 * 1024;
 
 struct WebApiConfig {
-    base_url: ay_http::Url,
+    base_url: fw_http::Url,
     token: String,
 }
 
@@ -423,7 +423,7 @@ fn web_api_config(
         .ok_or_else(|| {
             format!("{WEB_API_TOKEN_ENV} is required to ingest through Aphrody OS Web API")
         })?;
-    let base_url = ay_http::Url::parse(configured_url.as_deref().unwrap_or(WEB_API_DEFAULT_URL))
+    let base_url = fw_http::Url::parse(configured_url.as_deref().unwrap_or(WEB_API_DEFAULT_URL))
         .map_err(|_| format!("{WEB_API_URL_ENV} must be a loopback HTTP origin"))?;
     let loopback = base_url
         .host_str()
@@ -460,7 +460,7 @@ async fn fetch_os_web_markdown(
             query.append_pair("force", "true");
         }
     }
-    let client = ay_http::Client::builder()
+    let client = fw_http::Client::builder()
         .timeout(budget)
         .no_proxy()
         .redirect_none()

@@ -1,7 +1,7 @@
 use std::{sync::OnceLock, time::Duration};
 
 use anyhow::{Context, Result};
-use ay_http::Client;
+use fw_http::Client;
 use serde::{Deserialize, Serialize};
 
 const USER_AGENT: &str = concat!("fw-ml/", env!("CARGO_PKG_VERSION"));

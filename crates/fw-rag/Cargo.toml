@@ -1,6 +1,6 @@
 [package]
 name = "fw-rag"
-version = "1.4.7"
+version.workspace = true
 edition = "2024"
 rust-version = "1.97"
 license = "Apache-2.0"
@@ -36,8 +36,8 @@ path = "src/lib.rs"
 aphrody-web-index = { version = "1.4.8", optional = true, package = "bun_browser_index" }
 async-trait.workspace = true
 fw-agent = { path = "../fw-agent", default-features = false, features = ["home"], optional = true }
-ay-config = { path = "../../../ay/crates/ay-config", features = [] }
-ay-http = { path = "../../../ay/crates/ay-http", default-features = false, features = ["client"] }
+fw-config = { workspace = true }
+fw-http = { workspace = true, features = ["client"] }
 fw-model = { path = "../fw-model", default-features = false, features = ["store"] }
 fw-proc = { path = "../fw-proc", optional = true }
 fw-rag-core = { path = "../fw-rag-core", features = [] }

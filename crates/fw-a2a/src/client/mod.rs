@@ -107,7 +107,7 @@ pub(crate) fn a2a_error_from_details(
     }
 }
 
-// ay_http::Certificate and rustls are not available on wasm32 / WASI.
+// fw_http::Certificate and rustls are not available on wasm32 / WASI.
 // The `rustls-tls` feature only activate on native targets.
 #[cfg(all(
     not(target_family = "wasm"),
@@ -115,10 +115,10 @@ pub(crate) fn a2a_error_from_details(
 ))]
 pub(crate) fn build_reqwest_client_with_root_pem(
     pem: &[u8],
-) -> Result<ay_http::Client, crate::A2AError> {
-    let cert = ay_http::Certificate::from_pem(pem)
+) -> Result<fw_http::Client, crate::A2AError> {
+    let cert = fw_http::Certificate::from_pem(pem)
         .map_err(|e| crate::A2AError::internal(format!("invalid PEM certificate: {e}")))?;
-    ay_http::Client::builder()
+    fw_http::Client::builder()
         .add_root_certificate(cert)
         .build()
         .map_err(|e| crate::A2AError::internal(format!("failed to build HTTP client: {e}")))
@@ -140,8 +140,8 @@ pub(crate) mod test_utils {
     }
 
     /// Install the rustls `ring` `CryptoProvider` exactly once for the whole
-    /// test process. Required because `ay_http::Client::new()` and
-    /// `ay_http::Client::builder().build()` instantiate a rustls
+    /// test process. Required because `fw_http::Client::new()` and
+    /// `fw_http::Client::builder().build()` instantiate a rustls
     /// `ClientConfig`, and rustls 0.23+ refuses to pick a default provider
     /// implicitly. Without this every transport test panics with
     /// `No provider set` (origin: reqwest/async_impl/client.rs).

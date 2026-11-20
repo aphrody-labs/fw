@@ -249,7 +249,7 @@ pub enum HubError {
     #[error("invalid peer id: {0}")]
     InvalidPeer(String),
     #[error("hub http: {0}")]
-    Http(#[from] ay_http::Error),
+    Http(#[from] fw_http::Error),
     #[error("hub returned {status}: {body}")]
     Status { status: u16, body: String },
 }
@@ -291,13 +291,13 @@ pub fn bearer_from_lookup(
 pub struct HubClient {
     base: String,
     token: Option<String>,
-    http: ay_http::Client,
+    http: fw_http::Client,
 }
 
 impl HubClient {
     #[must_use]
     pub fn new(base: &str, token: Option<String>) -> Self {
-        let http = ay_http::Client::builder()
+        let http = fw_http::Client::builder()
             .timeout(Duration::from_secs(15))
             .build()
             .unwrap_or_default();
@@ -325,7 +325,7 @@ impl HubClient {
         &self.base
     }
 
-    fn request(&self, method: ay_http::Method, path: &str) -> ay_http::RequestBuilder {
+    fn request(&self, method: fw_http::Method, path: &str) -> fw_http::RequestBuilder {
         let request = self.http.request(method, format!("{}{path}", self.base));
         match &self.token {
             Some(token) => request.bearer_auth(token),
@@ -333,7 +333,7 @@ impl HubClient {
         }
     }
 
-    async fn json(response: ay_http::Response) -> Result<Value, HubError> {
+    async fn json(response: fw_http::Response) -> Result<Value, HubError> {
         let status = response.status();
         if !status.is_success() {
             let body = response.text().await.unwrap_or_default();
@@ -348,7 +348,7 @@ impl HubClient {
     /// Refresh this peer's presence on the hub.
     pub async fn register(&self, identity: &SelfIdentity) -> Result<PeerRecord, HubError> {
         let response = self
-            .request(ay_http::Method::POST, "/peers")
+            .request(fw_http::Method::POST, "/peers")
             .json(&Registration::from(identity))
             .send()
             .await?;
@@ -358,7 +358,7 @@ impl HubClient {
 
     /// Every peer registered on the hub, online or not.
     pub async fn peers(&self) -> Result<Vec<PeerRecord>, HubError> {
-        let response = self.request(ay_http::Method::GET, "/peers").send().await?;
+        let response = self.request(fw_http::Method::GET, "/peers").send().await?;
         let value = Self::json(response).await?;
         Ok(
             serde_json::from_value(value.get("peers").cloned().unwrap_or(json!([])))
@@ -382,7 +382,7 @@ impl HubClient {
         }
         let envelope = Envelope::new(from, to, kind, topic, body);
         let response = self
-            .request(ay_http::Method::POST, &format!("/coord/{to}/envelopes"))
+            .request(fw_http::Method::POST, &format!("/coord/{to}/envelopes"))
             .json(&envelope)
             .send()
             .await?;
@@ -397,7 +397,7 @@ impl HubClient {
         }
         let response = self
             .request(
-                ay_http::Method::GET,
+                fw_http::Method::GET,
                 &format!("/coord/{id}/envelopes?limit={limit}"),
             )
             .send()
@@ -428,7 +428,7 @@ impl HubClient {
         let mut receipt = Envelope::new(reader, sender, EnvelopeKind::Ack, "a2a.read", "read");
         receipt.re = Some(id.to_owned());
         let response = self
-            .request(ay_http::Method::POST, &format!("/coord/{sender}/envelopes"))
+            .request(fw_http::Method::POST, &format!("/coord/{sender}/envelopes"))
             .json(&receipt)
             .send()
             .await?;

@@ -43,8 +43,8 @@ pub enum GeminiError {
     Parse(String),
 }
 
-impl From<ay_http::Error> for GeminiError {
-    fn from(value: ay_http::Error) -> Self {
+impl From<fw_http::Error> for GeminiError {
+    fn from(value: fw_http::Error) -> Self {
         GeminiError::Network(value.to_string())
     }
 }

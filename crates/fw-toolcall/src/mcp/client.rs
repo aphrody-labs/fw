@@ -10,7 +10,7 @@ use std::{
     time::Duration,
 };
 
-use ay_config::mcp::{McpServerConfig, McpServerTransportConfig};
+use fw_config::mcp::{McpServerConfig, McpServerTransportConfig};
 use serde_json::Value as JsonValue;
 use tokio::sync::Mutex;
 use tracing::info;

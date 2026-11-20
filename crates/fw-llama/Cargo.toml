@@ -1,6 +1,6 @@
 [package]
 name = "fw-llama"
-version = "1.4.7"
+version.workspace = true
 edition = "2024"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/aphrody-dev/ai-os"
@@ -18,7 +18,7 @@ llguidance = ["dep:llguidance", "dep:toktrie"]
 sampler = []
 in-process = ["server", "fw-model/onnx", "dep:fw-model", "dep:fw-toolcall", "dep:async-trait", "dep:base64", "dep:bytes", "dep:chrono", "dep:futures", "dep:fw-ml", "dep:libloading", "dep:minijinja", "dep:minijinja-contrib"]
 test-support = []
-server = ["dep:fw-gemini", "dep:fw-model", "dep:fw-proc", "dep:axum", "dep:ay-http", "dep:rustls", "dep:serde", "dep:serde_json", "dep:tokio"]
+server = ["dep:fw-gemini", "dep:fw-model", "dep:fw-proc", "dep:axum", "dep:fw-http", "dep:rustls", "dep:serde", "dep:serde_json", "dep:tokio"]
 
 [lib]
 name = "fw_llama"
@@ -28,7 +28,7 @@ path = "src/lib.rs"
 async-trait = { workspace = true, optional = true }
 axum = { workspace = true, features = ["http2"], optional = true }
 fw-gemini = { path = "../fw-gemini", default-features = false, features = ["web"], optional = true }
-ay-http = { path = "../../../ay/crates/ay-http", default-features = false, features = ["client", "server"], optional = true }
+fw-http = { workspace = true, features = ["client", "server"], optional = true }
 fw-llama-sys = { path = "../fw-llama-sys" }
 fw-ml = { path = "../fw-ml", default-features = false, features = ["runtime"], optional = true }
 fw-model = { path = "../fw-model", default-features = false, features = ["client", "store"], optional = true }

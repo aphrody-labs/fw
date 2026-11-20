@@ -104,7 +104,7 @@ async fn run(args: Vec<String>) -> Result<(), String> {
                 .await
                 .map_err(|e| format!("bind {addr}: {e}"))?;
             eprintln!("fw-agent jev serving /v1/systemone on http://{addr}");
-            ay_http::server::serve_listener(listener, app(ServerState::new(router, keys, model)))
+            fw_http::server::serve_listener(listener, app(ServerState::new(router, keys, model)))
                 .await
                 .map_err(|e| e.to_string())
         }

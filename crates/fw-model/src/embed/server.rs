@@ -119,7 +119,7 @@ pub fn load_model(config: &ServerConfig) -> crate::embed::native::Result<Embedde
 }
 
 fn error(status: StatusCode, message: &str) -> Response {
-    ay_http::error::error_response(status, status.as_u16().to_string(), message, None)
+    fw_http::error::error_response(status, status.as_u16().to_string(), message, None)
 }
 
 async fn health(State(state): State<AppState>) -> Response {
@@ -204,7 +204,7 @@ pub async fn serve(config: ServerConfig) -> std::io::Result<()> {
         let _ = loader.set(status);
     });
     tracing::info!(addr = %listener.local_addr()?, model = SERVED_MODEL, "embedding server listening");
-    ay_http::server::serve_listener(listener, router(state)).await
+    fw_http::server::serve_listener(listener, router(state)).await
 }
 
 #[cfg(test)]
