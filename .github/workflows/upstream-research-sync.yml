@@ -25,6 +25,13 @@ jobs:
               "HKUDS/CLI-Anything",
               "affaan-m/ECC",
               "thedotmack/claude-mem",
+              "google-gemini/gemini-cli",
+              "googleapis/python-genai",
+              "googleapis/js-genai",
+              "google/adk-python",
+              "google-deepmind/robotics-antigravity-plugin",
+              "google-deepmind/gemma",
+              "a2aproject/A2A",
           ]
           out = {
               "synced_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
