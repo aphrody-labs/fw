@@ -19,6 +19,7 @@ on:
       - "tools/corelib.ts"
       - "corelib/**"
       - "release.toml"
+      - "packages/cf-control-plane/cf.toml"
       - ".github/workflows/edge-deploy.yml"
   pull_request:
     paths:
