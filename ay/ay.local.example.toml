@@ -21,26 +21,8 @@ gradle_home = "<Gradle user home on the build host>"      # optional; defaults t
 [paths.test]
 work = "<work volume on the test host>"
 
-[repos.aphrody]
-checkout = "../aphrody"
-[repos.bun]
-checkout = "../bun"
-[repos.nie]
-checkout = "../nie"
-[repos.shenron]
-checkout = "../shenron"
-[repos.browser]
-checkout = "../browser"
-[repos.anu]
-checkout = "../anu"
-[repos.ai-os]
-checkout = "../ai-os"
-[repos.open]
-checkout = "../open"
-[repos.rosegriffon]
-checkout = "../rosegriffon"
-[repos.standard]
-checkout = "../aphrody-labs-github"
+# [repos.<key>] checkout = "<path>" overrides the sibling ../<key> default for one repository.
+
 
 
 # Web search and page reading for agents (packages/ai-os/src/server/searxng-mcp.ts, hub server "searxng").

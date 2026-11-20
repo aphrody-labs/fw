@@ -7,7 +7,7 @@
 //   bun tools/dedup.ts <dir>...   audit these directories
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, join, relative, resolve } from "node:path";
-import { privatePath, readAy, repoRoot } from "./local.ts";
+import { privatePath, readAy, repoRoot, checkoutOf } from "./local.ts";
 
 const EXCLUDE = /(^|\/)(node_modules|target|vendor|third_party|dist|build|generated|coverage|fixtures?|testdata|legacy|archive|archived|\.git|\.cache)(\/|$)/;
 const SOURCE = /\.(rs|ts|tsx|js|mjs|py|go|sql|c|h|cpp)$/;
@@ -148,7 +148,7 @@ export function summarize(a: Audit): string {
 if (import.meta.main) {
   const args = process.argv.slice(2);
   const cfg = readAy(repoRoot) as { repos?: Record<string, { checkout?: string }> };
-  const repos: Repo[] = args.length ? args.map((d) => ({ name: basename(resolve(d)), dir: resolve(d) })) : Object.entries(cfg.repos ?? {}).flatMap(([name, r]) => (r.checkout && existsSync(resolve(repoRoot, r.checkout)) ? [{ name, dir: resolve(repoRoot, r.checkout) }] : []));
+  const repos: Repo[] = args.length ? args.map((d) => ({ name: basename(resolve(d)), dir: resolve(d) })) : Object.keys(cfg.repos ?? {}).flatMap((name) => { const dir = checkoutOf(name, cfg as Record<string, unknown>); return existsSync(dir) ? [{ name, dir }] : []; });
   const a = audit(repos);
   await Bun.write(privatePath("dedup.json", repoRoot, true), JSON.stringify(a, null, 2) + "\n");
   await Bun.write(privatePath("dedup.md", repoRoot, true), summarize(a));

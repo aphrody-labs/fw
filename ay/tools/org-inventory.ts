@@ -132,7 +132,7 @@ if (import.meta.main) {
     commands: { github: "gh repo list <owner> --limit 5000", cloudflare: "cf zones|dns records|workers|queues|r2 buckets|tunnels|d1|kv|pages list", npm: "registry.npmjs.org/-/v1/search", crates: "crates.io/api/v1" },
     github: await github(owners),
     cloudflare: await cloudflare(),
-    registries: await registries(cfg.registries?.npm ?? "@aphrody", cfg.registries?.crates ?? "aphrody-", cfg.orgs?.dev ?? ""),
+    registries: await registries(cfg.registries?.npm ?? "@aphrody", cfg.registries?.crates ?? "aphrody-", cfg.registries?.crates_owner ?? ""),
     agent: agent(),
   };
   const outIdx = process.argv.indexOf("--out");

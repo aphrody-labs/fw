@@ -386,7 +386,7 @@ if (import.meta.main) {
   };
   const ay = readAy(root) as ReturnType<typeof readToml>;
   const orgs = Object.values<string>(ay.orgs ?? {});
-  const [owner] = [ay.product?.owner ?? ""];
+  const [owner] = [ay.registries?.crates_owner ?? ""];
   const crates = await snap("crates", () => collectCrates(owner));
   const npm = await snap("npm", () => collectNpm(ay.registries?.npm ?? ""));
   const repos = await snap("repos", () => collectRepos(orgs));

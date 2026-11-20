@@ -675,7 +675,7 @@ export async function collectLiveTelemetry(opts: {
     .filter((s): s is string => Boolean(s))
     .slice(0, 6);
   const githubActions = opts.withGh
-    ? probeGithubActionsLive(repoSlugs, cfg.orgs?.dev)
+    ? probeGithubActionsLive(repoSlugs, cfg.orgs?.labs)
     : { monthlyMinutesUsed: 0, repos: [] };
 
   const vpsFleet = opts.withSsh ? probeVpsFleetLive(cfg.hosts ?? {}) : [];

@@ -1013,7 +1013,7 @@ export function summarize(res: RepoResult, rules: Map<string, Rule>, top = 10, u
 /** Repositories in scope: ay.toml [repos] (minus runtime forks) and the non-archived originals of the org inventory. */
 export function selectRepos(cfg: Json, audit: AuditConfig, inventory?: Json): { key: string; slug: string; checkout?: string }[] {
   const out = new Map<string, { key: string; slug: string; checkout?: string }>();
-  for (const [key, r] of Object.entries<Json>(cfg.repos ?? {})) if (r.kind !== "runtime") out.set(r.slug, { key, slug: r.slug, checkout: r.checkout ?? (key === cfg.product?.repo ? "." : undefined) });
+  for (const [key, r] of Object.entries<Json>(cfg.repos ?? {})) if (r.kind !== "runtime") out.set(r.slug, { key, slug: r.slug, checkout: r.checkout ?? (key === cfg.product?.repo ? "." : `../${key}`) });
   for (const [org, o] of Object.entries<Json>(inventory?.github ?? {})) {
     for (const r of o.originals ?? []) {
       const slug = `${org}/${r.name}`;

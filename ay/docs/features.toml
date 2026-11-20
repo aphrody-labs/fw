@@ -150,7 +150,7 @@ title = "Android apps through Waydroid, plus game streaming"
 reference = "https://googlebook.google/"
 layer = "os"
 status = "todo"
-owner = "aydroid"
+owner = "aphrody"
 
 [[feature]]
 product = "os"
@@ -383,7 +383,7 @@ title = "ACP between shell, editors and agents; A2A between agents"
 reference = "https://agentclientprotocol.com/"
 layer = "protocol"
 status = "todo"
-owner = "ai-os"
+owner = "fw"
 
 [[feature]]
 product = "platform"
@@ -425,7 +425,7 @@ title = "Rust for Linux kernel modules where supported"
 reference = "https://rust-for-linux.com/"
 layer = "os"
 status = "todo"
-owner = "anu"
+owner = "aphrody"
 
 [[feature]]
 product = "platform"
@@ -443,7 +443,7 @@ title = "Rust in AOSP through Soong rust_* modules"
 reference = "https://source.android.com/docs/setup/build/rust/building-rust-modules/overview"
 layer = "os"
 status = "todo"
-owner = "aydroid"
+owner = "aphrody"
 
 # Rows below were derived from docs/research/*.toml (replicate = true / os_replica = true), retrieved 2026-11-16.
 
@@ -2174,7 +2174,7 @@ title = "Craft replica of opencode.ai (2101 mirrored pages), checked against the
 reference = "https://opencode.ai/"
 layer = "ui"
 status = "todo"
-owner = "open"
+owner = "craft-anything"
 
 [[feature]]
 product = "platform"

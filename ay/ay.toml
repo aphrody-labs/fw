@@ -4,12 +4,12 @@
 name = "aphrody"
 display = "Aphrody"
 repo = "ay"
-owner = "aphrody-dev"        # GitHub account that owns this repository
+owner = "aphrody-labs"       # GitHub organization that owns this repository
 cli = "ay"
 
 [orgs]
-dev = "aphrody-dev"          # this repository and its CI
-labs = "aphrody-labs"        # forks of upstreams (bun with craft, git stack, ...)
+labs = "aphrody-labs"        # every live repository (first-party and forks) and its CI
+dev = "aphrody-dev"          # personal account: archived pre-2026-11-17 repositories and the crates.io publisher
 
 [legacy]
 # The old monorepo, renamed (not archived) on 2026-11-16; tools/legacy.ts inventories it so nothing regresses.
@@ -40,31 +40,40 @@ brand = { owner = "ay", title = "Aphrody brand", reference = "https://design.goo
 # corelib, libc and the design system. One checkout per repo locally and one repo per unit on GitHub.
 [registries]
 npm = "@aphrody"             # npm org scope for published Bun/TS packages
+crates_owner = "aphrody-dev"  # crates.io user that owns the published crates (tools/recover.ts, tools/org-inventory.ts)
 crates = "aphrody-"          # prefix of the crates the organization already published on crates.io (legacy pipeline); read by tools/bun-native.ts
 own_crates = "ay-"           # prefix of this repository's own crates and the npm unit prefix (naming.toml scheme: {id}-{unit})
 
 [repos]
-# The ordered stack of the ecosystem: the org profile shows it in this order (aphrody-labs/.github standard.toml [profile.flagships]).
-# A local `checkout` hint lives in the git-ignored ay.local.toml (a developer convenience): no tool requires it to exist, each one skips or falls back when it is absent.
-# kind: toolchain | os | sdk | runtime | craft | plugin | app | browser | unix | ai | android | nt | design | org | site | standard.
+# The live repositories, in stack order: 1 fw, 2 aphrody, 3 ay, 4 nie, 5 shenron, then satellites and runtime forks.
+# Every slug is checked live (gh api repos/<slug>: exists, not archived). A local `checkout` hint lives in the git-ignored
+# ay.local.toml; without one, tools use the sibling directory ../<key> of the shared workspace root.
+# kind: toolchain | os | sdk | game | site | library | browser | nt | runtime | craft | standard.
 # Only the os repository defines the system; the rest build on it. A row of the feature matrix names its owner by key.
-fw = { slug = "aphrody-labs/fw", kind = "toolchain" }                # toolchain and agent runtime: Fat-LTO/AOT Rust, C ABI, Wasm, MCP, CLI, upgrade daemon
-aphrody = { slug = "aphrody-dev/aphrody", kind = "os" }      # complete OS, pure Rust, source of truth
-ay = { slug = "aphrody-dev/ay", kind = "sdk" }                                             # C ABI, OpenAPI, docs, spec, corelib, libc, design system
-bun = { slug = "aphrody-labs/bun", kind = "runtime" }                 # Bun fork and its plugins
-craft-anything = { slug = "aphrody-labs/craft-anything", kind = "craft" }                 # replication engine
-nie = { slug = "aphrody-labs/nie", kind = "craft" }                  # football games built as craft jobs
-claude = { slug = "aphrody-labs/claude", kind = "plugin" }                                 # agent config and the aphrody plugin
-shenron = { slug = "aphrody-labs/shenron", kind = "app" }
-browser = { slug = "aphrody-labs/browser", kind = "browser" }   # one browser monorepo: Bun, Servo, Obscura, agent-browser, CEF, Chromium
-anu = { slug = "aphrody-dev/anu", kind = "unix" }                    # Aphrody's Not Unix: uutils, GNU, Linux on the Arch family, Nix; depends on no other Aphrody repository
-ai-os = { slug = "aphrody-dev/ai-os", kind = "ai" }               # agent kernel, ai-os (MCP, A2A), model, inference and RAG, extracted from legacy
-aydroid = { slug = "aphrody-dev/aydroid", kind = "android" }                              # AOSP with Aphrody in place of Android
-aynt = { slug = "aphrody-dev/aynt", kind = "nt" }                                          # free Windows-compatible operating system
-open = { slug = "aphrody-labs/open", kind = "app" }                  # open ecosystem monorepo (opencode, opentui, models.dev, ai-router)
-aphrody-m3 = { slug = "aphrody-labs/aphrody-m3", kind = "design" }                         # Material 3 UI packages, icons, fonts; consumes the ay token pipeline
-rosegriffon = { slug = "rose-griffon/rosegriffon", kind = "site" }  # moved to the rose-griffon org; owned by its own agent
-standard = { slug = "aphrody-labs/.github", kind = "standard" }  # org standard 1.0.0, defaults, reusable CI, profile
+# Ownership: each upstream fork is checked out by exactly one repository (relative-URL submodule or pinned git dependency).
+fw = { slug = "aphrody-labs/fw", kind = "toolchain" }              # toolchain and agent runtime: Rust CLI, MCP/ACP/A2A, inference, the agent plugin
+aphrody = { slug = "aphrody-labs/aphrody", kind = "os" }           # OS and desktop: Zed fork, GPUI, compositor, installer; owns the UI/GPU forks
+ay = { slug = "aphrody-labs/ay", kind = "sdk" }                    # SDK: C ABI, corelib, OpenAPI, design tokens, cloud/edge (ay-edge), workspace orchestration
+nie = { slug = "aphrody-labs/nie", kind = "game" }                 # game engine and recompiler (Inazuma Eleven: Victory Road first)
+shenron = { slug = "aphrody-labs/shenron", kind = "site" }         # dragonballfr.com, Bun only; owns data/ and the @aphrody/shenron-* packages
+wiki = { slug = "aphrody-labs/wiki", kind = "library" }            # Rust workspace of shenron (koharu, dragon-pixel, shenron-* crates); reads ../shenron/data
+browser = { slug = "aphrody-labs/browser", kind = "browser" }      # one browser workspace: Blink headless, Servo/Obscura lite engine, agent-browser
+fw-nt = { slug = "aphrody-labs/fw-nt", kind = "nt" }               # NT operating system around fw; owns the Windows/NT forks (forks.toml)
+bun = { slug = "aphrody-labs/bun", kind = "runtime" }              # Bun fork (oven-sh/bun)
+craft-anything = { slug = "aphrody-labs/craft-anything", kind = "craft" }  # replication engine fork (storytold/craft-anything)
+standard = { slug = "aphrody-labs/.github", kind = "standard" }    # org standard, defaults, reusable CI, profile
+
+# Repositories that left the live stack (archived on GitHub, stopped or superseded). Inventories and recovery tools still
+# recognise them; nothing builds from them and the workspace orchestrator skips them.
+[retired]
+anu = { slug = "aphrody-dev/anu", reason = "archived; the Unix layer lives in fw (fw-uutils, fw-nix)" }
+ai-os = { slug = "aphrody-dev/ai-os", reason = "archived; the agent kernel lives in fw" }
+aydroid = { slug = "aphrody-dev/aydroid", reason = "archived; Android and AOSP rows belong to aphrody" }
+open = { slug = "aphrody-labs/open", reason = "archived; replica rows belong to craft-anything" }
+aphrody-m3 = { slug = "aphrody-labs/aphrody-m3", reason = "archived; Material 3 packages live in shenron and aphrody" }
+claude = { slug = "aphrody-labs/claude", reason = "archived; the agent plugin lives in fw" }
+aynt = { slug = "aphrody-labs/aynt", reason = "ReactOS fork superseded by fw-nt (LiberNT)" }
+rosegriffon = { slug = "rose-griffon/rosegriffon", reason = "project stopped on 2026-11-19 (rose-griffon organization)" }
 
 # SDK toolchain (ADR-0008): LLVM-first and cross-target, any language that fits the unit.
 [sdk]

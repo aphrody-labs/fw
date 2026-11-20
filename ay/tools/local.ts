@@ -30,6 +30,14 @@ export function merge(base: Json, overlay: Json): Json {
   return out;
 }
 
+/** Absolute checkout of a [repos] key: the ay.local.toml `checkout` hint, this repository for its own key, else the sibling ../<key>. */
+export function checkoutOf(key: string, cfg: Json = readAy(), root = repoRoot): string {
+  const repos = (isTable(cfg.repos) ? cfg.repos : {}) as Record<string, Json>;
+  const hint = repos[key]?.checkout;
+  if (typeof hint === "string") return resolve(root, hint);
+  return key === (cfg.product as Json | undefined)?.repo ? root : resolve(root, "..", key);
+}
+
 /** ay.toml merged with the optional git-ignored ay.local.toml. */
 export function readAy(root = repoRoot): Json {
   const base = Bun.TOML.parse(readFileSync(join(root, "ay.toml"), "utf8")) as Json;
