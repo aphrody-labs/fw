@@ -67,16 +67,25 @@ jobs:
       CARGO_INCREMENTAL: "0"
       # reqwest gates its HTTP/3 client behind this cfg (see .cargo/config.toml); RUSTFLAGS replaces the config value.
       RUSTFLAGS: --cfg reqwest_unstable -D warnings
+    defaults:
+      run:
+        working-directory: ay
     steps:
+      # ay depends down the stack on the sibling fw checkout (../fw/crates/fw-*): lay both out side by side.
       - uses: actions/checkout@v7
-      - name: Checkout path-dep submodules
-        run: git submodule update --init --depth 1 third_party/browser third_party/rio third_party/rubash third_party/niubash third_party/ruline
+        with:
+          path: ay
+      - uses: actions/checkout@v7
+        with:
+          repository: aphrody-labs/fw
+          path: fw
       - uses: dtolnay/rust-toolchain@v1
         with:
           toolchain: stable
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
         with:
+          workspaces: ay
           save-if: ${{ github.ref == 'refs/heads/main' }}
       - run: cargo fmt --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
@@ -91,16 +100,25 @@ jobs:
     env:
       CARGO_INCREMENTAL: "0"
       RUSTFLAGS: --cfg reqwest_unstable
+    defaults:
+      run:
+        working-directory: ay
     steps:
+      # ay depends down the stack on the sibling fw checkout (../fw/crates/fw-*): lay both out side by side.
       - uses: actions/checkout@v7
-      - name: Checkout path-dep submodules
-        run: git submodule update --init --depth 1 third_party/browser third_party/rio third_party/rubash third_party/niubash third_party/ruline
+        with:
+          path: ay
+      - uses: actions/checkout@v7
+        with:
+          repository: aphrody-labs/fw
+          path: fw
       - uses: dtolnay/rust-toolchain@v1
         with:
           toolchain: stable
       - uses: taiki-e/install-action@cargo-hack
       - uses: Swatinem/rust-cache@v2
         with:
+          workspaces: ay
           save-if: ${{ github.ref == 'refs/heads/main' }}
       - run: >
           cargo hack check --each-feature --no-dev-deps --locked
