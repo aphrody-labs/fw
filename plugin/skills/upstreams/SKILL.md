@@ -13,14 +13,14 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | Upstream | HEAD SHA | Target | Docs |
 |---|---|---|---|
 | `ggml-org/llama.cpp` | `29b52d398b` | `crates/fw-ggml` | [docs](https://github.com/ggml-org/llama.cpp/blob/master/CONTRIBUTING.md) |
-| `cloudflare/cloudflare-os` | `659c244cc3` | `cloudflare/worker.ts` | [docs](https://developers.cloudflare.com/agents/) |
+| `cloudflare/cloudflare-os` | `b84d584292` | `cloudflare/worker.ts` | [docs](https://developers.cloudflare.com/agents/) |
 | `cloudflare/computer` | `cd0146b287` | `cloudflare/worker.ts` | [docs](https://github.com/cloudflare/computer#readme) |
 | `cloudflare/pingora` | `3f87e92c98` | `crates/fw-cluster` | [docs](https://github.com/cloudflare/pingora#readme) |
 | `cloudflare/kitesurf` | `9295cc263b` | `cloudflare/worker.ts` | [docs](https://github.com/cloudflare/kitesurf#readme) |
 | `cloudflare/lol-html` | `unknown` | `crates/fw-wasm + crates/fw-proto` | [docs](https://github.com/cloudflare/lol-html#readme) |
-| `modelcontextprotocol/rust-sdk` | `459cb4f841` | `crates/fw-hermes-claw` | [docs](https://modelcontextprotocol.io/specification) |
+| `modelcontextprotocol/rust-sdk` | `86c65108c9` | `crates/fw-hermes-claw` | [docs](https://modelcontextprotocol.io/specification) |
 | `zeroclaw-labs/zeroclaw` | `unknown` | `crates/fw-hermes-claw` | [docs](https://github.com/zeroclaw-labs/zeroclaw#readme) |
-| `zed-industries/zed` | `3463950447` | `crates/fw-ostd-wasm + flake.nix` | [docs](https://zed.dev/docs) |
+| `zed-industries/zed` | `4f5e323e25` | `crates/fw-ostd-wasm + flake.nix` | [docs](https://zed.dev/docs) |
 | `xddxdd/nix-cachyos-kernel` | `ffdb35a774` | `flake.nix + nix/hosts/` | [docs](https://github.com/xddxdd/nix-cachyos-kernel#readme) |
 | `sched-ext/scx` | `02a1666c11` | `nix/modules/vps-common.nix + os/fw-wsl` | [docs](https://github.com/sched-ext/scx#readme) |
 | `cloud-hypervisor/cloud-hypervisor` | `b4e1bbe54e` | `nix/modules/vps-common.nix` | [docs](https://github.com/cloud-hypervisor/cloud-hypervisor#readme) |
@@ -28,19 +28,19 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `HKUDS/CLI-Anything` | `34f519533b` | `plugin/skills + crates/fw-toolcall` | [docs](https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/HARNESS.md) |
 | `affaan-m/ECC` | `4adeee6732` | `plugin/skills + plugin/rules + configs/claude` | [docs](https://github.com/affaan-m/ECC#readme) |
 | `thedotmack/claude-mem` | `f1bb834527` | `crates/fw-bin (fw mem) + crates/fw-agent-context` | [docs](https://github.com/thedotmack/claude-mem#readme) |
-| `Mesh-LLM/mesh-llm` | `b54e992781` | `crates/fw-cluster + crates/fw-ggml` | [docs](https://github.com/Mesh-LLM/mesh-llm#readme) |
+| `Mesh-LLM/mesh-llm` | `7191dbffac` | `crates/fw-cluster + crates/fw-ggml` | [docs](https://github.com/Mesh-LLM/mesh-llm#readme) |
 | `CopilotKit/OpenDuet` | `b32ec102d5` | `plugin/skills + crates/fw-agent` | [docs](https://github.com/CopilotKit/OpenDuet#readme) |
 | `rtk-ai/rtk` | `1deaf9155f` | `crates/fw-bin (fw sh) + crates/fw-toolcall` | [docs](https://github.com/rtk-ai/rtk#readme) |
-| `Graphify-Labs/graphify` | `b2e0d16ae7` | `crates/fw-bin (fw graph) + crates/fw-rag` | [docs](https://github.com/Graphify-Labs/graphify#readme) |
+| `Graphify-Labs/graphify` | `b582ad401a` | `crates/fw-bin (fw graph) + crates/fw-rag` | [docs](https://github.com/Graphify-Labs/graphify#readme) |
 | `addyosmani/agent-skills` | `8c99fa36d9` | `plugin/skills` | [docs](https://github.com/addyosmani/agent-skills#readme) |
 | `ggml-org/ggml` | `d9fe7bff3d` | `crates/fw-ggml` | [docs](https://github.com/ggml-org/ggml/blob/master/docs/gguf.md) |
-| `vllm-project/vllm` | `77a2c1512c` | `crates/fw-cluster + crates/fw-compute` | [docs](https://docs.vllm.ai) |
+| `vllm-project/vllm` | `8f8aee61bd` | `crates/fw-cluster + crates/fw-compute` | [docs](https://docs.vllm.ai) |
 | `vllm-project/router` | `e8ce7eabd2` | `crates/fw-cluster` | [docs](https://github.com/vllm-project/router#readme) |
 | `llm-d/llm-d` | `d83e85c37c` | `crates/fw-cluster` | [docs](https://llm-d.ai) |
-| `llm-d/llm-d-router` | `31dadb42b0` | `crates/fw-cluster` | [docs](https://github.com/llm-d/llm-d-router#readme) |
+| `llm-d/llm-d-router` | `733d0e4ee1` | `crates/fw-cluster` | [docs](https://github.com/llm-d/llm-d-router#readme) |
 | `kubernetes-sigs/gateway-api-inference-extension` | `6faa78e599` | `crates/fw-cluster` | [docs](https://gateway-api-inference-extension.sigs.k8s.io) |
-| `ai-dynamo/dynamo` | `3939276f1d` | `crates/fw-cluster` | [docs](https://github.com/ai-dynamo/dynamo#readme) |
-| `smg-project/smg` | `3223509933` | `crates/fw-cluster` | [docs](https://github.com/smg-project/smg#readme) |
+| `ai-dynamo/dynamo` | `5712ae12cc` | `crates/fw-cluster` | [docs](https://github.com/ai-dynamo/dynamo#readme) |
+| `smg-project/smg` | `44f071c337` | `crates/fw-cluster` | [docs](https://github.com/smg-project/smg#readme) |
 | `EricLBuehler/mistral.rs` | `21da642fdd` | `crates/fw-llama` | [docs](https://github.com/EricLBuehler/mistral.rs#readme) |
 | `huggingface/candle` | `1a49dc27c1` | `crates/fw-ggml` | [docs](https://github.com/huggingface/candle#readme) |
 | `tracel-ai/cubecl` | `ed9f1fbb8a` | `crates/fw-compute` | [docs](https://github.com/tracel-ai/cubecl#readme) |
@@ -54,6 +54,6 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `google-gemini/gemini-cli` | `eecccfcd5a` | `crates/fw-gemini` | [docs](https://github.com/google-gemini/gemini-cli#readme) |
 | `google-gemini/gemini-skills` | `c4d0c62c12` | `plugin/skills` | [docs](https://github.com/google-gemini/gemini-skills#readme) |
 | `google-gemini/cookbook` | `61250eb565` | `crates/fw-gemini` | [docs](https://ai.google.dev/gemini-api/docs) |
-| `google/adk-python` | `e636d58895` | `crates/fw-agent` | [docs](https://google.github.io/adk-docs/) |
+| `google/adk-python` | `f578fcd2db` | `crates/fw-agent` | [docs](https://google.github.io/adk-docs/) |
 | `google-antigravity/antigravity-cli` | `74b5ed6a97` | `native/fw-agy` | [docs](https://github.com/google-antigravity/antigravity-cli#readme) |
 | `google-antigravity/antigravity-sdk-python` | `97c5c53d07` | `native/fw-agy` | [docs](https://github.com/google-antigravity/antigravity-sdk-python#readme) |

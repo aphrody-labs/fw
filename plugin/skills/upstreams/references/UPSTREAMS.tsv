@@ -1,13 +1,13 @@
 id	repo	branch	head_sha	fw	docs	role
 llama-cpp	ggml-org/llama.cpp	master	29b52d398b	crates/fw-ggml	https://github.com/ggml-org/llama.cpp/blob/master/CONTRIBUTING.md	GGUF v3, quantized dot/matmul, ggml-rpc, zero-bloat C/Rust discipline
-cloudflare-os	cloudflare/cloudflare-os	main	659c244cc3	cloudflare/worker.ts	https://developers.cloudflare.com/agents/	Multi-tenant AI OS, 19 gatekeepers, gadgets, Workers Static Assets
+cloudflare-os	cloudflare/cloudflare-os	main	b84d584292	cloudflare/worker.ts	https://developers.cloudflare.com/agents/	Multi-tenant AI OS, 19 gatekeepers, gadgets, Workers Static Assets
 cloudflare-computer	cloudflare/computer	main	cd0146b287	cloudflare/worker.ts	https://github.com/cloudflare/computer#readme	DO SQLite VFS (dofs), computerd FUSE over capnweb RPC, 3-tier runtime
 pingora	cloudflare/pingora	main	3f87e92c98	crates/fw-cluster	https://github.com/cloudflare/pingora#readme	Low-latency Rust L7 proxy, pooling, hybrid 3-VPS + Edge routing
 kitesurf	cloudflare/kitesurf	main	9295cc263b	cloudflare/worker.ts	https://github.com/cloudflare/kitesurf#readme	Zero-Chrome Workers Isolate browser engine
 lol-html	cloudflare/lol-html	master	unknown	crates/fw-wasm + crates/fw-proto	https://github.com/cloudflare/lol-html#readme	Zero-copy streaming Rust/Wasm HTML parser & CSS selector rewriter
-rmcp	modelcontextprotocol/rust-sdk	main	459cb4f841	crates/fw-hermes-claw	https://modelcontextprotocol.io/specification	Official MCP Rust SDK (JSON-RPC 2.0, tools/list, tools/call)
+rmcp	modelcontextprotocol/rust-sdk	main	86c65108c9	crates/fw-hermes-claw	https://modelcontextprotocol.io/specification	Official MCP Rust SDK (JSON-RPC 2.0, tools/list, tools/call)
 zeroclaw	zeroclaw-labs/zeroclaw	main	unknown	crates/fw-hermes-claw	https://github.com/zeroclaw-labs/zeroclaw#readme	Full-Rust autonomous multi-channel assistant reference
-zed	zed-industries/zed	main	3463950447	crates/fw-ostd-wasm + flake.nix	https://zed.dev/docs	GPUI retained rendering, ACP External Agents, flake-parts + crane
+zed	zed-industries/zed	main	4f5e323e25	crates/fw-ostd-wasm + flake.nix	https://zed.dev/docs	GPUI retained rendering, ACP External Agents, flake-parts + crane
 nix-cachyos-kernel	xddxdd/nix-cachyos-kernel	release	ffdb35a774	flake.nix + nix/hosts/	https://github.com/xddxdd/nix-cachyos-kernel#readme	Clang+ThinLTO CachyOS kernels (x86_64-v3 + zen4) with binary cache
 scx	sched-ext/scx	main	02a1666c11	nix/modules/vps-common.nix + os/fw-wsl	https://github.com/sched-ext/scx#readme	Rust BPF sched_ext schedulers (scx_lavd, scx_bpfland) on Linux CachyOS LTO
 cloud-hypervisor	cloud-hypervisor/cloud-hypervisor	main	b4e1bbe54e	nix/modules/vps-common.nix	https://github.com/cloud-hypervisor/cloud-hypervisor#readme	Rust KVM microVM VMM (virtio-fs, vsock, VFIO) for Tier-2 agent sandboxes
@@ -15,19 +15,19 @@ uutils-coreutils	uutils/coreutils	main	27752927d5	flake.nix + crates/fw-uutils	h
 cli-anything	HKUDS/CLI-Anything	main	34f519533b	plugin/skills + crates/fw-toolcall	https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/HARNESS.md	SOP en 7 phases qui génère des CLI Click --json autour de logiciels réels, SKILL.md par parsing ast, registre CLI-Hub
 ecc	affaan-m/ECC	main	4adeee6732	plugin/skills + plugin/rules + configs/claude	https://github.com/affaan-m/ECC#readme	Harness d'agents: hooks à profils, instincts (continuous-learning-v2), Memory Vault ecc.memory.v1, AgentShield, installateur déclaratif par modules
 claude-mem	thedotmack/claude-mem	main	f1bb834527	crates/fw-bin (fw mem) + crates/fw-agent-context	https://github.com/thedotmack/claude-mem#readme	Mémoire persistante: capture par hooks, observer LLM, SQLite FTS5, recherche MCP à 3 niveaux (search, timeline, get_observations)
-mesh-llm	Mesh-LLM/mesh-llm	main	b54e992781	crates/fw-cluster + crates/fw-ggml	https://github.com/Mesh-LLM/mesh-llm#readme	Inférence distribuée P2P en Rust (moteur Skippy, découpe par étages), API compatible OpenAI sur localhost:9337/v1
+mesh-llm	Mesh-LLM/mesh-llm	main	7191dbffac	crates/fw-cluster + crates/fw-ggml	https://github.com/Mesh-LLM/mesh-llm#readme	Inférence distribuée P2P en Rust (moteur Skippy, découpe par étages), API compatible OpenAI sur localhost:9337/v1
 openduet	CopilotKit/OpenDuet	main	b32ec102d5	plugin/skills + crates/fw-agent	https://github.com/CopilotKit/OpenDuet#readme	Agent proactif auto-hébergé (routines planifiées, mémoire, file d'approbation), exige un projet CopilotKit Intelligence
 rtk	rtk-ai/rtk	develop	1deaf9155f	crates/fw-bin (fw sh) + crates/fw-toolcall	https://github.com/rtk-ai/rtk#readme	Proxy CLI Rust qui compresse la sortie des commandes de dev (cargo test, git diff, docker logs) avant injection dans le contexte
-graphify	Graphify-Labs/graphify	v8	b2e0d16ae7	crates/fw-bin (fw graph) + crates/fw-rag	https://github.com/Graphify-Labs/graphify#readme	Graphe de connaissances interrogeable du code, des docs, schémas SQL et configs (commande graphify query)
+graphify	Graphify-Labs/graphify	v8	b582ad401a	crates/fw-bin (fw graph) + crates/fw-rag	https://github.com/Graphify-Labs/graphify#readme	Graphe de connaissances interrogeable du code, des docs, schémas SQL et configs (commande graphify query)
 agent-skills	addyosmani/agent-skills	main	8c99fa36d9	plugin/skills	https://github.com/addyosmani/agent-skills#readme	Skills d'ingénierie de production (plan, build, test, ship) à activation automatique selon le contexte
 ggml	ggml-org/ggml	master	d9fe7bff3d	crates/fw-ggml	https://github.com/ggml-org/ggml/blob/master/docs/gguf.md	Tenseur 4D, graphe, 18 backends, types de quantification, spec GGUF; ggml.h fait référence
-vllm	vllm-project/vllm	main	77a2c1512c	crates/fw-cluster + crates/fw-compute	https://docs.vllm.ai	Moteur de serving de référence (PagedAttention, spéculatif, désagrégation P/D, connecteurs KV); rust/ = frontend Rust expérimental
+vllm	vllm-project/vllm	main	8f8aee61bd	crates/fw-cluster + crates/fw-compute	https://docs.vllm.ai	Moteur de serving de référence (PagedAttention, spéculatif, désagrégation P/D, connecteurs KV); rust/ = frontend Rust expérimental
 vllm-router	vllm-project/router	main	e8ce7eabd2	crates/fw-cluster	https://github.com/vllm-project/router#readme	Routeur Rust cache-aware, désagrégation P/D, workers gRPC
 llm-d	llm-d/llm-d	main	d83e85c37c	crates/fw-cluster	https://llm-d.ai	Stack Kubernetes de serving distribué (guides well-lit paths, CNCF Sandbox)
-llm-d-router	llm-d/llm-d-router	main	31dadb42b0	crates/fw-cluster	https://github.com/llm-d/llm-d-router#readme	EPP Filter-Score-Pick, scorers préfixe+charge, pd-sidecar, indexeur KV; mode sans Kubernetes
+llm-d-router	llm-d/llm-d-router	main	733d0e4ee1	crates/fw-cluster	https://github.com/llm-d/llm-d-router#readme	EPP Filter-Score-Pick, scorers préfixe+charge, pd-sidecar, indexeur KV; mode sans Kubernetes
 gateway-api-inference-extension	kubernetes-sigs/gateway-api-inference-extension	main	6faa78e599	crates/fw-cluster	https://gateway-api-inference-extension.sigs.k8s.io	API InferencePool/InferenceObjective, base standard du routage d'inférence
-dynamo	ai-dynamo/dynamo	main	3939276f1d	crates/fw-cluster	https://github.com/ai-dynamo/dynamo#readme	Orchestration datacenter à coeur Rust: dynamo-kv-router, runtime, tokens
-smg	smg-project/smg	main	3223509933	crates/fw-cluster	https://github.com/smg-project/smg#readme	Passerelle Rust multi-moteurs, routage cache-aware par radix trees, désagrégation P/D
+dynamo	ai-dynamo/dynamo	main	5712ae12cc	crates/fw-cluster	https://github.com/ai-dynamo/dynamo#readme	Orchestration datacenter à coeur Rust: dynamo-kv-router, runtime, tokens
+smg	smg-project/smg	main	44f071c337	crates/fw-cluster	https://github.com/smg-project/smg#readme	Passerelle Rust multi-moteurs, routage cache-aware par radix trees, désagrégation P/D
 mistral-rs	EricLBuehler/mistral.rs	master	21da642fdd	crates/fw-llama	https://github.com/EricLBuehler/mistral.rs#readme	Moteur Rust le plus complet (continuous batching, PagedAttention, ISQ, GGUF, API OpenAI/Anthropic)
 candle	huggingface/candle	main	1a49dc27c1	crates/fw-ggml	https://github.com/huggingface/candle#readme	Framework tensoriel Rust (CUDA, Metal, GGUF, safetensors)
 cubecl	tracel-ai/cubecl	main	ed9f1fbb8a	crates/fw-compute	https://github.com/tracel-ai/cubecl#readme	Langage de kernels GPU Rust portable (CUDA, ROCm, Metal, Vulkan, WebGPU, CPU)
@@ -41,6 +41,6 @@ stitch-skills	google-labs-code/stitch-skills	main	62fdcd6797	plugin/skills	https
 gemini-cli	google-gemini/gemini-cli	main	eecccfcd5a	crates/fw-gemini	https://github.com/google-gemini/gemini-cli#readme	Gemini CLI agent loop, tools, extensions and MCP wiring
 gemini-skills	google-gemini/gemini-skills	main	c4d0c62c12	plugin/skills	https://github.com/google-gemini/gemini-skills#readme	Official Gemini agent skills
 gemini-cookbook	google-gemini/cookbook	main	61250eb565	crates/fw-gemini	https://ai.google.dev/gemini-api/docs	Gemini API usage patterns (Live API, function calling, files, caching)
-adk-python	google/adk-python	main	e636d58895	crates/fw-agent	https://google.github.io/adk-docs/	Agent Development Kit: agent, tool and session model used by Gemini agents
+adk-python	google/adk-python	main	f578fcd2db	crates/fw-agent	https://google.github.io/adk-docs/	Agent Development Kit: agent, tool and session model used by Gemini agents
 antigravity-cli	google-antigravity/antigravity-cli	main	74b5ed6a97	native/fw-agy	https://github.com/google-antigravity/antigravity-cli#readme	Antigravity CLI (agy) wrapped by fw-agy and the agy-knowledge skill
 antigravity-sdk-python	google-antigravity/antigravity-sdk-python	main	97c5c53d07	native/fw-agy	https://github.com/google-antigravity/antigravity-sdk-python#readme	Antigravity agent SDK: session, tool and plugin protocol
