@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-FileCopyrightText: 2026 aphrody contributors
 
-//! In-process cross-encoder reranking over `ay-embed`'s `native` engine
+//! In-process cross-encoder reranking over `ay-model/embed`'s `native` engine
 //! (no HTTP hop, no llama-server, model loaded once and shared lock-free).
 
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use ay_embed::native::{
+use ay_model::embed::native::{
     EmbedOptions, ModelFiles as _, Reranker as NativeEngine, ensure_model, find_reranker,
     require_installed,
 };

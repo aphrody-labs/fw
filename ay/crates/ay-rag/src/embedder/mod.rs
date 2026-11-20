@@ -4,19 +4,19 @@
 //! Text embedding abstraction and concrete backends.
 
 pub mod llama;
-#[cfg(feature = "native")]
+#[cfg(feature = "embed-native")]
 pub mod native;
 pub mod openai;
-#[cfg(feature = "ort")]
+#[cfg(feature = "embed-ort")]
 pub mod ort;
 pub mod stub;
 
 use async_trait::async_trait;
 pub use llama::LlamaServerEmbedder;
-#[cfg(feature = "native")]
+#[cfg(feature = "embed-native")]
 pub use native::NativeEmbedder;
 pub use openai::OpenAiCompatEmbedder;
-#[cfg(feature = "ort")]
+#[cfg(feature = "embed-ort")]
 pub use ort::OrtEmbedder;
 pub use stub::StubEmbedder;
 

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! Opt-in smoke test for a real trained SentenceTransformers ONNX export.
 
-#![cfg(feature = "ort")]
+#![cfg(feature = "embed-ort")]
 
 use ay_rag::{Embedder as _, OrtEmbedder};
 

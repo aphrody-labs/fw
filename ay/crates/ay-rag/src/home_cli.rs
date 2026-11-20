@@ -5,7 +5,7 @@
 
 use std::{ffi::OsString, path::PathBuf};
 
-use ay_store::{
+use ay_rag::localstore::{
     HomeDb,
     cli::{Command as StoreCommand, StoreArgs, run as run_store},
 };

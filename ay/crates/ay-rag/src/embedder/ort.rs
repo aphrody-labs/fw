@@ -9,7 +9,7 @@ use std::{
 };
 
 use async_trait::async_trait;
-use ay_embed::{Embedder as NativeEmbedder, EmbeddingModelKind, UserDefinedEmbedder};
+use ay_model::embed::{Embedder as NativeEmbedder, EmbeddingModelKind, UserDefinedEmbedder};
 
 use super::Embedder;
 use crate::error::{RagError, Result};

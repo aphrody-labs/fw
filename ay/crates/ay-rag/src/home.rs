@@ -10,7 +10,7 @@
 use std::collections::HashMap;
 
 use ay_rag_core::fusion::rrf;
-pub use ay_store::{HomeDb, HomeLayout, HomeScope};
+pub use ay_rag::localstore::{HomeDb, HomeLayout, HomeScope};
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -265,14 +265,14 @@ pub fn home_query_json(
 ///
 /// Home resolution or SQLite failures.
 pub fn home_status_json(profile: Option<&str>) -> Result<serde_json::Value> {
-    let args = ay_store::cli::StoreArgs {
+    let args = ay_rag::localstore::cli::StoreArgs {
         profile: match scope_for(profile) {
             HomeScope::Global => None,
             HomeScope::Profile(p) => Some(p),
         },
         state: None,
     };
-    ay_store::cli::run(&args, &ay_store::cli::Command::Status)
+    ay_rag::localstore::cli::run(&args, &ay_rag::localstore::cli::Command::Status)
         .map_err(|e| RagError::Other(e.to_string()))
 }
 

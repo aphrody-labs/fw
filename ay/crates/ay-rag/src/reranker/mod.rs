@@ -4,13 +4,13 @@
 //! Cross-encoder reranking abstraction and concrete implementations.
 
 pub mod llama;
-#[cfg(feature = "native")]
+#[cfg(feature = "embed-native")]
 pub mod native;
 pub mod noop;
 
 use async_trait::async_trait;
 pub use llama::LlamaServerReranker;
-#[cfg(feature = "native")]
+#[cfg(feature = "embed-native")]
 pub use native::NativeReranker;
 pub use noop::NoopReranker;
 

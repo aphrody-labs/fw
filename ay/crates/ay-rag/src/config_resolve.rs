@@ -86,10 +86,10 @@ fn api_key_from(env: &EnvReader<'_>) -> Option<String> {
 /// [`LocalRole::Embed`]'s catalog default (`qwen3-embedding-0.6b`, 1024-dim,
 /// served by `llama-server`). [`EmbedBackend::Ort`] is a different serving
 /// mechanism entirely — an in-process ONNX Runtime session over
-/// `ay-embed`'s small, CPU-friendly whitelist — and `LocalRole::Embed`'s
+/// `ay-model/embed`'s small, CPU-friendly whitelist — and `LocalRole::Embed`'s
 /// llama.cpp-served default is not one of the models that whitelist accepts;
 /// defaulting to it would make `OrtEmbedder::load` (feature `ort`) fail
-/// outright. `Ort` therefore defaults to `ay-embed`'s own default
+/// outright. `Ort` therefore defaults to `ay-model/embed`'s own default
 /// instead.
 fn default_embed_model(backend: EmbedBackend) -> &'static str {
     match backend {
@@ -99,14 +99,14 @@ fn default_embed_model(backend: EmbedBackend) -> &'static str {
     }
 }
 
-#[cfg(feature = "ort")]
+#[cfg(feature = "embed-ort")]
 fn default_ort_model() -> &'static str {
-    ay_embed::EmbeddingModelKind::default().as_str()
+    ay_model::embed::EmbeddingModelKind::default().as_str()
 }
 
-#[cfg(not(feature = "ort"))]
+#[cfg(not(feature = "embed-ort"))]
 fn default_ort_model() -> &'static str {
-    // Mirrors `ay_embed::EmbeddingModelKind::default()`; hard-coded here
+    // Mirrors `ay_model::embed::EmbeddingModelKind::default()`; hard-coded here
     // because a build without the `ort` feature cannot use this backend
     // regardless, so it never needs the real dependency to name its default.
     "bge-small-en-v1.5"

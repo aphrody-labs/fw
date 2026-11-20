@@ -90,7 +90,7 @@ fn ort_backend_needs_no_endpoint() {
 #[test]
 fn ort_backend_defaults_to_its_own_whitelist_not_local_role_embed() {
     // `LocalRole::Embed`'s catalog default (qwen3-embedding-0.6b, served by
-    // llama-server) is not a model `ay-embed`'s in-process ONNX Runtime
+    // llama-server) is not a model `ay-model/embed`'s in-process ONNX Runtime
     // whitelist accepts. An unconfigured Ort backend must default to that
     // whitelist's own default instead of silently picking an incompatible one.
     let config = RagConfig {

@@ -9,13 +9,13 @@ use crate::error::Result;
 
 /// Apply the canonical RAG database schema to `conn`.
 ///
-/// Open `conn` through [`ay_sql::sqlite::open`] so the standard pragmas (WAL,
+/// Open `conn` through [`ay_rag::sql::sqlite::open`] so the standard pragmas (WAL,
 /// `busy_timeout`, ...) are in force; this function only owns the DDL.
 pub fn initialize_schema(conn: &Connection) -> Result<()> {
     conn.execute_batch(
         r#"
         -- WAL, synchronous, busy_timeout, temp_store and optimize belong to the
-        -- `ay_sql::sqlite::OpenPolicy` the store opens its connections with.
+        -- `ay_rag::sql::sqlite::OpenPolicy` the store opens its connections with.
         -- Foreign keys stay here as a safety net: ON DELETE CASCADE depends on it.
         PRAGMA foreign_keys = ON;
 

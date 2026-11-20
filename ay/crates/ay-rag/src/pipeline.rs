@@ -11,8 +11,8 @@
 
 use std::{path::Path, sync::Arc};
 
-use ay_code_graph::pipeline::{BuildReport, build_graph};
-use ay_store::{HomeDb, HomeLayout, files::Stage, scan::ScanOptions};
+use ay_rag::codegraph::pipeline::{BuildReport, build_graph};
+use ay_rag::localstore::{HomeDb, HomeLayout, files::Stage, scan::ScanOptions};
 use rusqlite::params;
 use serde::{Deserialize, Serialize};
 
@@ -59,7 +59,7 @@ pub async fn run_pipeline(layout: &HomeLayout, label: &str, root: &Path) -> Resu
         Ok(report) => db
             .finish_run(
                 run,
-                ay_store::RunStatus::Succeeded,
+                ay_rag::localstore::RunStatus::Succeeded,
                 &serde_json::to_value(report)?,
                 None,
             )
@@ -67,7 +67,7 @@ pub async fn run_pipeline(layout: &HomeLayout, label: &str, root: &Path) -> Resu
         Err(error) => db
             .finish_run(
                 run,
-                ay_store::RunStatus::Failed,
+                ay_rag::localstore::RunStatus::Failed,
                 &serde_json::json!({}),
                 Some(&error.to_string()),
             )
@@ -135,7 +135,7 @@ async fn run_inner(
         .filter(|f| {
             matches!(
                 f.class,
-                ay_store::FileClass::Code | ay_store::FileClass::Doc
+                ay_rag::localstore::FileClass::Code | ay_rag::localstore::FileClass::Doc
             )
         })
         .collect();
@@ -242,7 +242,7 @@ pub async fn import_knowledge(
         let existing = HomeDb::open(layout).map_err(other)?;
         existing
             .backup(
-                &layout.backup_dir(ay_store::time::now_ms()),
+                &layout.backup_dir(ay_rag::localstore::time::now_ms()),
                 &layout.scope.label(),
                 "pre-import-knowledge",
             )
@@ -291,7 +291,7 @@ pub async fn import_knowledge(
 
 #[cfg(test)]
 mod tests {
-    use ay_store::HomeScope;
+    use ay_rag::localstore::HomeScope;
 
     use super::*;
 

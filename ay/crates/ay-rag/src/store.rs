@@ -9,7 +9,7 @@ use std::{
 };
 
 use ay_rag_core::fusion::top_k_exact;
-use ay_sql::{
+use ay_rag::sql::{
     SqlError,
     sqlite::{self, OpenPolicy},
 };

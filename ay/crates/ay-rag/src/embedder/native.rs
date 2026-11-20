@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-FileCopyrightText: 2026 aphrody contributors
 
-//! In-process, pure-Rust CPU embeddings over `ay-embed`'s `native` engine.
+//! In-process, pure-Rust CPU embeddings over `ay-model/embed`'s `native` engine.
 //!
 //! Unlike [`super::OrtEmbedder`] (fastembed/ONNX Runtime behind a `Mutex`), the
 //! native encoder is `Send + Sync` and owns a private thread pool, so one shared
@@ -12,7 +12,7 @@
 use std::{path::Path, sync::Arc};
 
 use async_trait::async_trait;
-use ay_embed::native::{
+use ay_model::embed::native::{
     EmbedOptions, Embedder as NativeEngine, ModelFiles as _, TextKind, ensure_model, find_model,
     require_installed,
 };
@@ -57,7 +57,7 @@ impl NativeEmbedder {
         Self::from_dir(&dir, &spec)
     }
 
-    fn from_dir(dir: &Path, spec: &ay_embed::native::ModelSpec) -> Result<Self> {
+    fn from_dir(dir: &Path, spec: &ay_model::embed::native::ModelSpec) -> Result<Self> {
         let engine = NativeEngine::load(dir, spec, EmbedOptions::default())
             .map_err(|error| RagError::EmbeddingFailed(error.to_string()))?;
         Ok(Self {
