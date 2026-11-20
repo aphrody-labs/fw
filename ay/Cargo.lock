@@ -336,6 +336,7 @@ checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 name = "aphrody-auto"
 version = "2026.11.5"
 dependencies = [
+ "aphrody-auto",
  "argon2",
  "axum",
  "ay-http",
@@ -1046,6 +1047,7 @@ dependencies = [
  "async-trait",
  "auto_impl",
  "axum",
+ "ay-a2a",
  "ay-http",
  "ay-proc",
  "base64 0.23.1",
@@ -1111,14 +1113,11 @@ dependencies = [
  "arc-swap",
  "async-trait",
  "axum",
+ "ay-agent",
  "ay-config",
  "ay-gemini",
- "ay-google",
- "ay-guard",
  "ay-http",
- "ay-jev",
  "ay-model",
- "ay-patch",
  "ay-proc",
  "ay-toolcall",
  "base64 0.23.1",
@@ -1128,20 +1127,24 @@ dependencies = [
  "bun_browser_service",
  "clap",
  "criterion",
+ "futures",
  "gix",
  "libc",
  "memmap2",
  "notify",
  "pretty_assertions",
+ "rustls",
  "serde",
  "serde_json",
  "sha2 0.11.1",
+ "similar",
  "sysinfo 0.40.4",
  "tempfile",
  "thiserror 2.0.21",
  "tokio",
  "tracing",
  "unicode-segmentation",
+ "url",
  "uuid",
 ]
 
@@ -1163,29 +1166,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "ay-brand"
-version = "0.1.0"
+name = "ay-build"
+version = "0.4.0"
 dependencies = [
- "material-colors",
+ "ay-build",
  "serde",
  "serde_json",
- "sha2 0.11.1",
  "thiserror 2.0.21",
- "toml 1.2.1+spec-1.1.0",
-]
-
-[[package]]
-name = "ay-build-model"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
+ "tree-sitter",
+ "tree-sitter-python",
 ]
 
 [[package]]
 name = "ay-cf"
 version = "0.4.0"
 dependencies = [
+ "ay-cf",
  "blake3",
  "etagere",
  "gltf",
@@ -1215,28 +1211,6 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 2.0.21",
-]
-
-[[package]]
-name = "ay-code-graph"
-version = "0.4.0"
-dependencies = [
- "ay-proc",
- "ay-store",
- "clap",
- "oxc_allocator",
- "oxc_ast",
- "oxc_ast_visit",
- "oxc_parser",
- "oxc_span",
- "oxc_syntax",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.21",
- "tree-sitter",
- "tree-sitter-rust",
 ]
 
 [[package]]
@@ -1309,88 +1283,29 @@ dependencies = [
 ]
 
 [[package]]
-name = "ay-deps"
-version = "0.1.0"
+name = "ay-design"
+version = "0.4.0"
 dependencies = [
- "serde",
- "serde_json",
- "thiserror 2.0.21",
- "tree-sitter",
- "tree-sitter-python",
-]
-
-[[package]]
-name = "ay-dioxus"
-version = "0.1.0"
-dependencies = [
- "ay-brand",
+ "ay-design",
  "dioxus",
  "dioxus-core",
  "dioxus-signals",
  "dioxus-ssr",
- "serde",
- "taffy",
-]
-
-[[package]]
-name = "ay-embed"
-version = "1.4.7"
-dependencies = [
- "axum",
- "ay-http",
- "ay-model",
- "base64 0.23.1",
- "candle-core",
- "candle-nn",
- "candle-transformers",
- "fastembed",
- "gemm",
- "memmap2",
- "ort",
- "rayon",
- "rustls",
- "safetensors",
+ "imagesize",
+ "material-colors",
+ "resvg 0.50.0",
+ "roxmltree 0.21.2",
  "serde",
  "serde_json",
  "sha2 0.11.1",
- "tempfile",
+ "skrifa 0.50.0",
+ "svgtypes",
+ "taffy",
  "thiserror 2.0.21",
- "tokenizers 0.23.2",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "ay-fsindex"
-version = "0.4.0"
-dependencies = [
- "rusqlite",
- "serde",
- "tempfile",
- "thiserror 2.0.21",
- "walkdir",
- "windows",
-]
-
-[[package]]
-name = "ay-gateway"
-version = "1.4.7"
-dependencies = [
- "async-trait",
- "axum",
- "ay-config",
- "ay-http",
- "ay-model",
- "bytes",
- "dirs 7.0.0",
- "futures",
- "rustls",
- "serde",
- "serde_json",
- "thiserror 2.0.21",
- "tokio",
- "url",
- "which 8.0.6",
+ "tiny-skia",
+ "toml 1.2.1+spec-1.1.0",
+ "usvg 0.50.0",
+ "woff2-patched",
 ]
 
 [[package]]
@@ -1399,12 +1314,19 @@ version = "0.4.0"
 dependencies = [
  "async-trait",
  "ay-config",
+ "ay-gemini",
  "ay-http",
- "ay-mcp-client",
+ "ay-model",
  "ay-proc",
+ "ay-toolcall",
+ "bun_browser_dom",
+ "chrono",
+ "clap",
  "dirs 7.0.0",
+ "futures",
  "futures-util",
  "regex",
+ "rusqlite",
  "rustls",
  "serde",
  "serde_json",
@@ -1430,34 +1352,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ay-google"
-version = "0.4.0"
-dependencies = [
- "ay-gemini",
- "ay-http",
- "ay-model",
- "bun_browser_dom",
- "chrono",
- "clap",
- "futures",
- "regex",
- "rusqlite",
- "rustls",
- "serde",
- "serde_json",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "ay-guard"
-version = "0.4.0"
-dependencies = [
- "libc",
- "pretty_assertions",
-]
-
-[[package]]
 name = "ay-headless"
 version = "0.1.0"
 dependencies = [
@@ -1476,6 +1370,7 @@ name = "ay-http"
 version = "0.4.0"
 dependencies = [
  "axum",
+ "ay-http",
  "bytes",
  "futures-util",
  "h3",
@@ -1497,49 +1392,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ay-infer"
-version = "1.4.7"
-dependencies = [
- "ay-model",
- "ort",
- "serde",
- "tempfile",
- "thiserror 2.0.21",
- "tracing",
-]
-
-[[package]]
-name = "ay-jev"
-version = "1.4.8"
-dependencies = [
- "axum",
- "ay-http",
- "futures",
- "rustls",
- "serde",
- "serde_json",
- "thiserror 2.0.21",
- "tokio",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "ay-jobs"
-version = "0.4.0"
-dependencies = [
- "async-trait",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.21",
- "tokio",
- "uuid",
-]
-
-[[package]]
 name = "ay-llama"
 version = "1.4.7"
 dependencies = [
@@ -1547,7 +1399,7 @@ dependencies = [
  "axum",
  "ay-gemini",
  "ay-http",
- "ay-infer",
+ "ay-llama",
  "ay-llama-sys",
  "ay-ml",
  "ay-model",
@@ -1587,54 +1439,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "ay-mcp-client"
-version = "1.4.7"
-dependencies = [
- "async-trait",
- "ay-config",
- "ay-http",
- "ay-proc",
- "ay-toolcall",
- "base64 0.23.1",
- "bun_browser_service",
- "futures-util",
- "rustls",
- "serde",
- "serde_json",
- "thiserror 2.0.21",
- "tokio",
- "tracing",
-]
-
-[[package]]
 name = "ay-media"
 version = "0.4.0"
 dependencies = [
+ "ay-media",
  "cc",
-]
-
-[[package]]
-name = "ay-memory"
-version = "1.4.7"
-dependencies = [
- "async-trait",
- "axum",
- "ay-agent",
- "ay-http",
- "ay-model",
- "ay-sql",
- "bun_browser_index",
- "chrono",
- "criterion",
- "rusqlite",
- "rustls",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.21",
- "tokio",
- "tracing",
- "uuid",
 ]
 
 [[package]]
@@ -1642,9 +1451,12 @@ name = "ay-ml"
 version = "0.4.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "atomicwrites",
  "ay-http",
+ "ay-ml",
  "backon",
+ "chrono",
  "dirs 7.0.0",
  "dunce",
  "fast-glob",
@@ -1655,13 +1467,17 @@ dependencies = [
  "libc",
  "libloading 0.9.1",
  "petgraph",
+ "rusqlite",
  "serde",
+ "serde_json",
  "strum 0.28.0",
  "tar",
  "tempfile",
+ "thiserror 2.0.21",
  "tokio",
  "toml 1.2.1+spec-1.1.0",
  "tracing",
+ "uuid",
  "walkdir",
  "zip 9.7.0",
 ]
@@ -1672,65 +1488,56 @@ version = "0.4.0"
 dependencies = [
  "async-trait",
  "axum",
+ "ay-config",
  "ay-http",
+ "ay-model",
  "ay-proc",
  "ay-secrets",
  "ay-toolcall",
  "base64 0.23.1",
  "bytes",
+ "candle-core",
+ "candle-nn",
+ "candle-transformers",
  "chrono",
  "data-encoding",
  "dirs 7.0.0",
+ "fastembed",
  "futures",
  "futures-util",
+ "gemm",
  "getrandom 0.4.3",
  "hex",
  "hf-hub 1.0.0",
  "hyper-rustls",
+ "memmap2",
  "nvml-wrapper",
+ "ort",
  "pretty_assertions",
  "prost",
  "protoc-bin-vendored",
  "rand 0.10.4",
+ "rayon",
  "regex",
  "rusqlite",
  "rustls",
+ "safetensors",
  "serde",
  "serde_json",
  "sha2 0.11.1",
  "tempfile",
  "thiserror 2.0.21",
+ "tokenizers 0.23.2",
  "tokio",
  "tonic",
  "tonic-prost",
  "tonic-prost-build",
  "tracing",
+ "url",
  "webbrowser",
+ "which 8.0.6",
  "windows-sys 0.61.2",
  "x509-parser",
-]
-
-[[package]]
-name = "ay-ocr-core"
-version = "0.4.0"
-dependencies = [
- "ay-agent",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "tracing",
-]
-
-[[package]]
-name = "ay-patch"
-version = "0.1.0"
-dependencies = [
- "pretty_assertions",
- "similar",
- "tempfile",
- "thiserror 2.0.21",
 ]
 
 [[package]]
@@ -1753,28 +1560,49 @@ name = "ay-rag"
 version = "1.4.7"
 dependencies = [
  "async-trait",
- "ay-code-graph",
+ "axum",
+ "ay-agent",
  "ay-config",
- "ay-embed",
  "ay-http",
  "ay-model",
+ "ay-proc",
+ "ay-rag",
  "ay-rag-core",
- "ay-sql",
- "ay-store",
  "ay-toolcall",
  "blake3",
+ "bun_browser_index",
+ "chrono",
  "clap",
+ "criterion",
+ "deadpool-postgres",
  "ignore",
+ "oxc_allocator",
+ "oxc_ast",
+ "oxc_ast_visit",
+ "oxc_parser",
+ "oxc_span",
+ "oxc_syntax",
+ "pgvector",
  "pretty_assertions",
  "rusqlite",
  "rustls",
+ "rustls-native-certs",
  "serde",
  "serde_json",
+ "sha2 0.11.1",
+ "sqlite-vec",
  "tempfile",
  "thiserror 2.0.21",
  "tokio",
  "tokio-postgres",
+ "tokio-postgres-rustls",
  "tracing",
+ "tree-sitter",
+ "tree-sitter-rust",
+ "uuid",
+ "walkdir",
+ "webpki-roots",
+ "windows",
 ]
 
 [[package]]
@@ -1844,20 +1672,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ay-rollout"
-version = "0.4.0"
-dependencies = [
- "pretty_assertions",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.21",
- "tokio",
- "tracing",
- "uuid",
-]
-
-[[package]]
 name = "ay-secrets"
 version = "0.4.0"
 dependencies = [
@@ -1878,81 +1692,9 @@ dependencies = [
 name = "ay-sh"
 version = "0.4.0"
 dependencies = [
+ "ay-sh",
  "niubash",
  "rio-vt",
-]
-
-[[package]]
-name = "ay-softraster"
-version = "0.1.0"
-
-[[package]]
-name = "ay-sprite-sheet"
-version = "0.1.0"
-dependencies = [
- "serde_json",
-]
-
-[[package]]
-name = "ay-sql"
-version = "0.4.0"
-dependencies = [
- "deadpool-postgres",
- "pgvector",
- "rusqlite",
- "rustls",
- "rustls-native-certs",
- "sha2 0.11.1",
- "sqlite-vec",
- "tempfile",
- "thiserror 2.0.21",
- "tokio-postgres",
- "tokio-postgres-rustls",
- "tracing",
- "webpki-roots",
-]
-
-[[package]]
-name = "ay-store"
-version = "0.4.0"
-dependencies = [
- "ay-agent",
- "ay-sql",
- "blake3",
- "clap",
- "ignore",
- "rusqlite",
- "serde",
- "serde_json",
- "sha2 0.11.1",
- "tempfile",
- "thiserror 2.0.21",
-]
-
-[[package]]
-name = "ay-subsystem"
-version = "0.4.0"
-dependencies = [
- "async-trait",
- "serde",
- "serde_json",
- "thiserror 2.0.21",
- "tokio",
-]
-
-[[package]]
-name = "ay-svg"
-version = "0.1.0"
-dependencies = [
- "imagesize",
- "resvg 0.50.0",
- "roxmltree 0.21.2",
- "skrifa 0.50.0",
- "svgtypes",
- "thiserror 2.0.21",
- "tiny-skia",
- "usvg 0.50.0",
- "woff2-patched",
 ]
 
 [[package]]
@@ -1960,12 +1702,22 @@ name = "ay-toolcall"
 version = "0.4.0"
 dependencies = [
  "async-trait",
+ "ay-config",
+ "ay-http",
+ "ay-proc",
+ "ay-toolcall",
+ "base64 0.23.1",
+ "bun_browser_service",
+ "futures-util",
  "pretty_assertions",
  "proptest",
  "regex",
+ "rustls",
  "serde",
  "serde_json",
  "thiserror 2.0.21",
+ "tokio",
+ "tracing",
 ]
 
 [[package]]
@@ -9305,6 +9057,9 @@ name = "minijinja"
 version = "3.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "509eeb2603a84eccabb4d75f6ec8ba23b46bbf441aaeb863d6b83a5887fd51e4"
+dependencies = [
+ "serde",
+]
 
 [[package]]
 name = "minijinja-contrib"
