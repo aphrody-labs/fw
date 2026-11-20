@@ -89,6 +89,15 @@ async function portal(r: Routed): Promise<Response> {
       );
     }
   }
+  if (!rows.some((x) => x.includes("<a href"))) {
+    // The aphrody pipeline published before the manifest layout existed: channels/<channel>/latest.json names one asset under /assets/.
+    const legacy = await readJson<{ product?: string; version?: string; os?: string; arch?: string; asset?: string; sha256?: string }>(r, `channels/${channel}/latest.json`);
+    if (legacy?.asset && isSegment(legacy.asset)) {
+      const href = `${origin}/assets/${channel}/latest/${legacy.asset}`;
+      rows.length = 0;
+      rows.push(`<tr><th>${esc(legacy.product ?? "aphrody")}</th><td>${esc(legacy.version ?? "")}</td><td><a href="${esc(href)}">${esc(legacy.asset)}</a></td><td>${esc(legacy.os ?? "")}/${esc(legacy.arch ?? "")}</td><td><code>${esc((legacy.sha256 ?? "").slice(0, 16))}</code></td></tr>`);
+    }
+  }
   const channels = CHANNELS.map((c) => `<a href="?channel=${c}"${c === channel ? ' aria-current="page"' : ""}>${c}</a>`).join(" ");
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -153,11 +162,16 @@ const releases: Service = async (r) => {
   if (request.method !== "GET" && request.method !== "HEAD") return new Response("method not allowed", { status: 405, headers: { allow: "GET, HEAD" } });
   if (path === "/health" || path === "/healthz") return json({ ok: true, service: "releases", channels: CHANNELS }, "no-store");
   if (path === "/" || path === "/download" || path.startsWith("/download/")) return portal(r);
-  if (path === "/manifest.json") return serveObject(r.env.RELEASES, releaseKeys.index(), request, { cache: REVALIDATE, cors: true });
+  if (path === "/manifest.json") {
+    if (!(await r.env.RELEASES.head(releaseKeys.index()))) return json(await readIndex(r), REVALIDATE);
+    return serveObject(r.env.RELEASES, releaseKeys.index(), request, { cache: REVALIDATE, cors: true });
+  }
+  if (path === "/robots.txt") return new Response("User-agent: *\nAllow: /\n", { headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "public, max-age=3600" } });
   if (path === "/api/channels") return json({ channels: CHANNELS, latest: "/api/releases/{product}/{channel}/latest" });
   if (path.startsWith("/api/releases")) return api(r, path.slice("/api/releases".length).split("/").filter(Boolean));
   if (path === "/install.sh") return serveObject(r.env.RELEASES, "scripts/install.sh", request, { cache: "public, max-age=300" });
   if (path === "/install.ps1") return serveObject(r.env.RELEASES, "scripts/install.ps1", request, { cache: "public, max-age=300" });
+  if (path === "/icon.svg" || path === "/favicon.ico" || path === "/apple-touch-icon.png") return serveObject(r.env.ASSETS, `brand${path}`, request, { cache: "public, max-age=3600", cors: true });
   if (path.startsWith("/brand/")) {
     const key = path.slice(1);
     return key.includes("..") ? NOT_FOUND() : serveObject(r.env.ASSETS, key, request, { cache: "public, max-age=3600", cors: true });

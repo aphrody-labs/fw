@@ -117,6 +117,16 @@ describe("releases service", () => {
     expect((await call("/api/channels")).status).toBe(200);
   });
 
+  test("the portal falls back to the legacy channel pointer and an empty store still has a manifest", async () => {
+    const legacy = bucket();
+    legacy.put("channels/canary/latest.json", JSON.stringify({ product: "aphrody", version: "2026.11.18-x", os: "linux", arch: "x86_64", asset: "aphrody-x86_64.tar.gz", sha256: "ab".repeat(32) }));
+    env = { ...env, RELEASES: legacy } as EdgeEnv;
+    const html = await (await call("/download?channel=canary")).text();
+    expect(html).toContain("/assets/canary/latest/aphrody-x86_64.tar.gz");
+    const empty = await (await call("/manifest.json")).json();
+    expect(empty).toMatchObject({ schema: "ay.releases.v1", products: {} });
+  });
+
   test("brand files come from the assets bucket and ay-tools from the chromium bucket", async () => {
     expect(await (await call("/brand/icon.svg")).text()).toBe("<svg/>");
     expect((await json<{ version: string }>(await call("/ay-tools/latest.json"))).version).toBe("t1");
