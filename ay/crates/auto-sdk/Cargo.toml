@@ -56,7 +56,7 @@ fw-rag-core = { workspace = true, optional = true }
 getrandom = { workspace = true, optional = true }
 hmac = { workspace = true, optional = true }
 p256 = { workspace = true, optional = true }
-rusqlite = { workspace = true, optional = true }
+rusqlite = { workspace = true, features = ["bundled"], optional = true }
 scrypt = { workspace = true, optional = true }
 serde.workspace = true
 serde_json.workspace = true
