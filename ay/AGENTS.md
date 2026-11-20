@@ -22,6 +22,8 @@ Contract for every agent working in this repository. Names come from `ay.toml`.
 - Run the repository's own checks before every push (`bun run check`, plus `cargo` checks for `crates/`).
 - Heavy builds run on the `build` host, tests on `test`, production only on `prod` (`ay.toml` [hosts]).
 - Work on `main`; no branches, worktrees, stash or reset. No AI attribution in commits.
+- One checkout per repository on each host, one monorepo, one submodule registry: never clone, copy or `git worktree add` a tree to build,
+  test or verify; fast-forward the existing checkout and run the gate there.
 - Proof is an inspected screenshot, a checked API response or a real UI test, never an HTTP status.
 - Secrets are never printed or committed; the repository is public.
 - No data about the owner's machine, the fleet or the state of the work in tracked files or agent files: hosts, host paths and local
