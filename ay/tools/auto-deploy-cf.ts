@@ -214,6 +214,7 @@ if (!verified) {
     "rollback",
     "--config",
     resolvedConfig,
+    "--yes",
     "--message",
     "Auto post-deploy healthcheck failed",
   ]);

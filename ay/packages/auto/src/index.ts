@@ -33,8 +33,4 @@ export {
   authGenerateApiKey,
   authCanPerform,
 } from "@aphrody/auto-native";
-export {
-  createAutoApp,
-  createSelfHostedServer,
-  buildOpenApiSpec,
-} from "@aphrody/auto-server";
+export { createAutoApp, createSelfHostedServer, buildOpenApiSpec } from "@aphrody/auto-server";

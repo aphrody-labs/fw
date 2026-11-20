@@ -183,3 +183,9 @@ lto = "fat"
 codegen-units = 1
 panic = "abort"
 strip = "symbols"
+
+# The Auto Wasm module (`bun tools/auto-build-native.ts`): smallest binary, wasm-bindgen then wasm-opt shrink it further.
+[profile.wasm-lto]
+inherits = "release"
+opt-level = "z"
+lto = "fat"

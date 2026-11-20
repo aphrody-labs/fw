@@ -2,28 +2,20 @@
   "ignorePatterns": [
     ".cache/**",
     "target/**",
+    "packages/auto-native/wasm/**",
     ".claude/**",
     "third_party/**",
     "node_modules/**"
   ],
   "rules": {
-    "eqeqeq": [
-      "error",
-      "smart"
-    ],
+    "eqeqeq": ["error", "smart"],
     "no-var": "error",
     "prefer-const": "error",
-    "curly": [
-      "error",
-      "multi-line"
-    ],
+    "curly": ["error", "multi-line"],
     "no-eval": "error",
     "no-implied-eval": "error",
     "@typescript-eslint/no-namespace": "error",
-    "@typescript-eslint/consistent-type-definitions": [
-      "error",
-      "interface"
-    ],
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     "import/no-mutable-exports": "error"
   }
 }

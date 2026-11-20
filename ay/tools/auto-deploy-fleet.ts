@@ -7,7 +7,11 @@ import { readAy } from "./local.ts";
 
 const repoRoot = resolve(import.meta.dir, "..");
 const roles = (readAy(repoRoot).hosts ?? {}) as Record<string, string>;
-const hosts = (Bun.argv.slice(2).find((a) => !a.startsWith("-")) ?? Bun.env.AUTO_FLEET_HOSTS ?? [roles.test, roles.prod].filter(Boolean).join(","))
+const hosts = (
+  Bun.argv.slice(2).find((a) => !a.startsWith("-")) ??
+  Bun.env.AUTO_FLEET_HOSTS ??
+  [roles.test, roles.prod].filter(Boolean).join(",")
+)
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
@@ -17,7 +21,9 @@ if (!buildHost) throw new Error("no fleet host: pass hosts, set AUTO_FLEET_HOSTS
 // Install and source directories live on the work volume of the build host role (ay.toml [paths.<role>].work) unless AUTO_REMOTE_DIR says otherwise.
 const buildRole = Object.entries(roles).find(([, alias]) => alias === buildHost)?.[0] as Role | undefined;
 const remoteDir = Bun.env.AUTO_REMOTE_DIR ?? (buildRole ? `${hostWork(buildRole, loadHosts())}/auto` : "");
-if (!remoteDir) throw new Error(`no work volume for ${buildHost}: set AUTO_REMOTE_DIR or [paths.<role>].work in ay.local.toml`);
+if (!remoteDir) {
+  throw new Error(`no work volume for ${buildHost}: set AUTO_REMOTE_DIR or [paths.<role>].work in ay.local.toml`);
+}
 const srcDir = `${remoteDir}-src`;
 const port = Number(Bun.env.AUTO_PORT ?? 3410);
 const lbPort = Number(Bun.env.AUTO_LB_PORT ?? 3420);

@@ -41,15 +41,32 @@ jobs:
   gates:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ay
     steps:
+      # ay depends down the stack on the sibling fw checkout (../fw/crates/fw-*): lay both out side by side.
       - uses: actions/checkout@v7
+        with:
+          path: ay
+      - uses: actions/checkout@v7
+        with:
+          repository: aphrody-labs/fw
+          path: fw
       - uses: dtolnay/rust-toolchain@nightly
         with:
           components: clippy, rustfmt
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
-      - run: |
-          curl -sSf https://rustwasm.github.io/wasm-bindgen/wasm-bindgen-0.2.100-x86_64-unknown-linux-gnu.tar.gz | tar -xz --strip-components=1 -C /usr/local/bin wasm-bindgen-0.2.100-x86_64-unknown-linux-gnu/wasm-bindgen || cargo install wasm-bindgen-cli --locked
+        with:
+          workspaces: ay
+      # The wasm-bindgen CLI must match the wasm-bindgen crate locked in Cargo.lock.
+      - name: Install the wasm-bindgen CLI at the locked version
+        run: |
+          v=$(awk '/^name = "wasm-bindgen"$/ { getline; gsub(/[^0-9.]/, "", $3); print $3; exit }' Cargo.lock)
+          curl -sSfL "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/$v/wasm-bindgen-$v-x86_64-unknown-linux-musl.tar.gz" \
+            | tar -xz --strip-components=1 -C ~/.cargo/bin --wildcards '*/wasm-bindgen'
+          wasm-bindgen --version
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -57,8 +74,9 @@ jobs:
       - run: cargo test --manifest-path apps/auto-ui/Cargo.toml
       - run: bun tools/auto-build-native.ts
       - run: bun run --cwd apps/auto-ui build
-      - run: bun check packages/auto packages/auto-client packages/auto-domain packages/auto-i18n packages/auto-native packages/auto-platform packages/auto-services packages/auto-store apps/auto-server apps/auto-cli apps/auto-extension apps/auto-ui/src/web apps/auto-ui/scripts/build.ts tools/auto-*.ts
-      - run: bun lint apps/auto-server apps/auto-cli apps/auto-extension apps/auto-ui packages/auto packages/auto-client packages/auto-domain packages/auto-i18n packages/auto-native packages/auto-platform packages/auto-services packages/auto-store tools/auto-*.ts
+      # The root package.json defines a `check` script; --no-script runs the type checker on the given paths instead.
+      - run: bun check --no-script packages/auto packages/auto-client packages/auto-domain packages/auto-i18n packages/auto-native packages/auto-platform packages/auto-services packages/auto-store apps/auto-server apps/auto-cli apps/auto-extension apps/auto-ui/src/web apps/auto-ui/scripts/build.ts tools/auto-*.ts
+      - run: bunx oxlint apps/auto-server apps/auto-cli apps/auto-extension apps/auto-ui packages/auto packages/auto-client packages/auto-domain packages/auto-i18n packages/auto-native packages/auto-platform packages/auto-services packages/auto-store tools/auto-*.ts
       - run: bun fmt --check apps/auto-server apps/auto-cli apps/auto-extension apps/auto-ui packages/auto packages/auto-client packages/auto-domain packages/auto-i18n packages/auto-native packages/auto-platform packages/auto-services packages/auto-store tools/auto-*.ts docs/auto
       - run: bun test --timeout 30000 ./apps/auto-server ./apps/auto-cli ./apps/auto-extension ./apps/auto-ui ./packages/auto-client ./packages/auto-domain ./packages/auto-i18n ./packages/auto-native ./packages/auto-platform ./packages/auto-services ./packages/auto-store
       - run: bun tools/auto-build-aot.ts
@@ -81,17 +99,29 @@ jobs:
             target: windows-x86_64
             ext: ".exe"
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ay
     steps:
+      # ay depends down the stack on the sibling fw checkout (../fw/crates/fw-*): lay both out side by side.
       - uses: actions/checkout@v7
+        with:
+          path: ay
+      - uses: actions/checkout@v7
+        with:
+          repository: aphrody-labs/fw
+          path: fw
       - uses: dtolnay/rust-toolchain@nightly
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ay
       - uses: oven-sh/setup-bun@v2
       - run: bun tools/auto-cargo.ts build --release -p aphrody-auto --features runtime --bin auto
       - run: bun tools/auto-cargo.ts build --release -p auto-ffi
       - uses: actions/upload-artifact@v7
         with:
           name: auto-${{ matrix.target }}
-          path: target/release/auto${{ matrix.ext }}
+          path: ay/target/release/auto${{ matrix.ext }}
 
   deploy-cloudflare-and-fleet:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'

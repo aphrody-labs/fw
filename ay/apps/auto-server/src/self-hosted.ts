@@ -101,8 +101,9 @@ export async function createSelfHostedServer(opts: SelfHostedOptions = {}) {
         const candidate = Bun.file(resolve(webDist, clean));
         if (await candidate.exists()) return new Response(candidate);
         const indexFallback = Bun.file(resolve(webDist, "index.html"));
-        if (await indexFallback.exists())
+        if (await indexFallback.exists()) {
           return new Response(indexFallback, { headers: { "content-type": "text/html; charset=utf-8" } });
+        }
       }
       return app.fetch(req);
     },
