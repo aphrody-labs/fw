@@ -32,3 +32,5 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `HKUDS/CLI-Anything` | `34f519533b` | `plugin/skills + crates/fw-toolcall` | [docs](https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/HARNESS.md) |
 | `affaan-m/ECC` | `4adeee6732` | `plugin/skills + plugin/rules + configs/claude` | [docs](https://github.com/affaan-m/ECC#readme) |
 | `thedotmack/claude-mem` | `c0f37d60b2` | `crates/fw-bin (fw mem) + crates/fw-agent-context` | [docs](https://github.com/thedotmack/claude-mem#readme) |
+| `Mesh-LLM/mesh-llm` | `b54e992781` | `crates/fw-cluster + crates/fw-ggml` | [docs](https://github.com/Mesh-LLM/mesh-llm#readme) |
+| `CopilotKit/OpenDuet` | `b32ec102d5` | `plugin/skills + crates/fw-agent` | [docs](https://github.com/CopilotKit/OpenDuet#readme) |

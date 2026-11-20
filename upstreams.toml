@@ -158,3 +158,21 @@ docs = "https://github.com/thedotmack/claude-mem#readme"
 fw = "crates/fw-bin (fw mem) + crates/fw-agent-context"
 role = "Mémoire persistante: capture par hooks, observer LLM, SQLite FTS5, recherche MCP à 3 niveaux (search, timeline, get_observations)"
 watch = true
+
+[[upstream]]
+id = "mesh-llm"
+repo = "Mesh-LLM/mesh-llm"
+branch = "main"
+docs = "https://github.com/Mesh-LLM/mesh-llm#readme"
+fw = "crates/fw-cluster + crates/fw-ggml"
+role = "Inférence distribuée P2P en Rust (moteur Skippy, découpe par étages), API compatible OpenAI sur localhost:9337/v1"
+watch = true
+
+[[upstream]]
+id = "openduet"
+repo = "CopilotKit/OpenDuet"
+branch = "main"
+docs = "https://github.com/CopilotKit/OpenDuet#readme"
+fw = "plugin/skills + crates/fw-agent"
+role = "Agent proactif auto-hébergé (routines planifiées, mémoire, file d'approbation), exige un projet CopilotKit Intelligence"
+watch = true

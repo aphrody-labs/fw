@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 // Live research snapshot of the upstreams flagged `watch = true` in upstreams.toml.
 // Writes docs/research/upstream-watch.tsv (stable path, so `git diff` shows what moved upstream).
+// Also regenerates plugin/skills/upstreams/ (same output as `cargo xtask sync-upstreams`, but needs no Cargo workspace, so CI can run it alone).
 // Usage: bun tools/upstream_watch.ts [--check]   (--check exits 1 when the snapshot changed)
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -8,7 +9,7 @@ import { join, resolve } from "node:path";
 const root = resolve(import.meta.dir, "..");
 const toml = readFileSync(join(root, "upstreams.toml"), "utf8");
 
-type Spec = { id: string; repo: string; branch: string; fw: string };
+type Spec = { id: string; repo: string; branch: string; fw: string; docs: string; role: string; watch: string };
 const specs: Spec[] = toml
   .split("[[upstream]]")
   .slice(1)
@@ -17,9 +18,10 @@ const specs: Spec[] = toml
       const m = block.match(new RegExp(`^\\s*${key}\\s*=\\s*"?([^"\\n]*)"?\\s*$`, "m"));
       return m ? m[1].trim() : "";
     };
-    return { id: get("id"), repo: get("repo"), branch: get("branch") || "main", fw: get("fw"), watch: get("watch") };
+    return { id: get("id"), repo: get("repo"), branch: get("branch") || "main", fw: get("fw"), docs: get("docs"), role: get("role"), watch: get("watch") };
   })
-  .filter((s: any) => s.watch === "true");
+  ;
+const watched = specs.filter((s) => s.watch === "true");
 
 async function gh(path: string): Promise<any> {
   const p = Bun.spawn(["gh", "api", path], { stdout: "pipe", stderr: "pipe" });
@@ -29,7 +31,7 @@ async function gh(path: string): Promise<any> {
 }
 
 const rows = await Promise.all(
-  specs.map(async (s) => {
+  watched.map(async (s) => {
     const [repo, rel, commit] = await Promise.all([
       gh(`repos/${s.repo}`),
       gh(`repos/${s.repo}/releases/latest`),
@@ -61,3 +63,26 @@ const changed = stable(before) !== stable(body);
 if (changed || !before) writeFileSync(out, body);
 console.log(JSON.stringify({ ok: true, watched: rows.length, changed }));
 if (process.argv.includes("--check") && changed) process.exit(1);
+
+// ---- catalog (plugin/skills/upstreams), mirrors xtask cmd_sync_upstreams
+const heads = await Promise.all(
+  specs.map(async (s) => {
+    const p = Bun.spawn(["git", "ls-remote", `https://github.com/${s.repo}.git`, `refs/heads/${s.branch}`], { stdout: "pipe", stderr: "pipe" });
+    const [o, code] = await Promise.all([new Response(p.stdout).text(), p.exited]);
+    return code === 0 ? (o.split(/\s+/)[0] || "unknown").slice(0, 10) : "offline";
+  }),
+);
+const refDir = join(root, "plugin", "skills", "upstreams");
+const prevTsv = existsSync(join(refDir, "references", "UPSTREAMS.tsv")) ? readFileSync(join(refDir, "references", "UPSTREAMS.tsv"), "utf8") : "";
+const prevSha = new Map(prevTsv.split("\n").slice(1).map((l) => l.split("\t")).map((c) => [c[0], c[3]]));
+const catTsv = ["id\trepo\tbranch\thead_sha\tfw\tdocs\trole"];
+const skillHead = readFileSync(join(refDir, "SKILL.md"), "utf8").split("| Upstream | HEAD SHA | Target | Docs |")[0] + "| Upstream | HEAD SHA | Target | Docs |\n|---|---|---|---|\n";
+let md = skillHead;
+specs.forEach((s, i) => {
+  const sha = heads[i] === "offline" ? prevSha.get(s.id) ?? "offline" : heads[i]; // keep the last known SHA when the network fails
+  catTsv.push([s.id, s.repo, s.branch, sha, s.fw, s.docs, s.role].join("\t"));
+  md += `| \`${s.repo}\` | \`${sha}\` | \`${s.fw}\` | [docs](${s.docs}) |\n`;
+});
+writeFileSync(join(refDir, "references", "UPSTREAMS.tsv"), catTsv.join("\n") + "\n");
+writeFileSync(join(refDir, "SKILL.md"), md);
+console.log(JSON.stringify({ catalog: specs.length }));

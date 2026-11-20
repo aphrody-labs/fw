@@ -1,4 +1,4 @@
-# Upstreams de harness d'agents: CLI-Anything, ECC, claude-mem
+# Upstreams de harness d'agents: CLI-Anything, ECC, claude-mem, mesh-llm, OpenDuet
 
 Lecture live du 2026-11-20 par `gh api` (arbres, README, releases, commits, issues). Aucun dépôt cloné. Les valeurs qui dérivent (étoiles, release, HEAD) vivent dans `docs/research/upstream-watch.tsv`, rafraîchi toutes les 6 h par `.github/workflows/sync-upstreams.yml` (`just sync-research` en local). Les trois dépôts sont déclarés dans `upstreams.toml` avec `watch = true`.
 
@@ -51,3 +51,10 @@ Lecture live du 2026-11-20 par `gh api` (arbres, README, releases, commits, issu
 1. `claude-mem`: capture par hook + observer local (OpenAI-compatible, ollama ou llama.cpp via `fw-ggml`) dans `fw mem`, FTS5 seul.
 2. `ecc`: profils de hooks et schéma d'instincts dans `plugin/rules` et `learn.ts`.
 3. `CLI-Anything`: générateur `SKILL.md` + garde de dérive dans `xtask`.
+
+## Veille 2026-11-14 (vidéo YouTube EC9rRce4DRQ), vérifiée le 2026-11-20
+
+- **mesh-llm** (`Mesh-LLM/mesh-llm`, Rust, Apache-2.0, v0.80.0 du 2026-11-16): le README annonce une API compatible OpenAI sur `http://localhost:9337/v1` et des découpes par étages du moteur Skippy pour les modèles trop gros pour une machine. Ajouté à `upstreams.toml` (cible `fw-cluster` + `fw-ggml`).
+- **OpenDuet** (`CopilotKit/OpenDuet`, TypeScript, MIT): routines planifiées, mémoire, approbation avant action, auto-hébergé. Le README exige un projet CopilotKit Intelligence pour les threads et la mémoire, donc pas 100 % local. Aucune release publiée. Ajouté à `upstreams.toml`.
+- **Nanbeige4.3-33B** (`Nanbeige/Nanbeige4.3-33B` sur Hugging Face): Apache-2.0, 33,1 G de paramètres, dernière modification 2026-10-28, quantifications GGUF tierces disponibles. La fenêtre de 512K tokens et les scores comparés à Qwen3.6-27B et Gemma 4 viennent de la vidéo et ne sont pas confirmés par la fiche lue.
+- **Non vérifiés** (aucun dépôt ou jeu de données trouvé par recherche GitHub/Hugging Face): Hallmark 2.0, Opera WebAI, les ~2 575 modèles 3D physiques NVIDIA sur Hugging Face.
