@@ -1,0 +1,1 @@
+"[\n  {\n    \"type\": \"value_error\",\n    \"loc\": [\n      \"channel\"\n    ],\n    \"msg\": \"Value error, Invalid channel: Foo\",\n    \"input\": \"Foo\",\n    \"ctx\": {\n      \"error\": \"Invalid channel: Foo\"\n    },\n    \"url\": \"https://errors.pydantic.dev/2.11/v/value_error\"\n  }\n]"
