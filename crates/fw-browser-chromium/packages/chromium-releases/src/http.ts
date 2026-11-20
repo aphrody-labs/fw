@@ -34,11 +34,20 @@ export function upstreamError(url: string, value: unknown): ApiError | undefined
   if (typeof value === "string") {
     try {
       const inner = JSON.parse(value);
-      if (Array.isArray(inner) && inner.every(e => e && typeof e === "object" && "type" in e && "msg" in e))
-        return new ApiError(url, inner.map((e: { loc?: unknown[]; msg: string }) => `${(e.loc ?? []).join(".")}: ${e.msg}`).join("; "));
+      if (Array.isArray(inner) && inner.every((e) => e && typeof e === "object" && "type" in e && "msg" in e))
+        return new ApiError(
+          url,
+          inner.map((e: { loc?: unknown[]; msg: string }) => `${(e.loc ?? []).join(".")}: ${e.msg}`).join("; "),
+        );
     } catch {}
   }
-  if (value && typeof value === "object" && !Array.isArray(value) && "error" in value && Object.keys(value).length === 1)
+  if (
+    value &&
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    "error" in value &&
+    Object.keys(value).length === 1
+  )
     return new ApiError(url, (value as { error: unknown }).error);
   return undefined;
 }
@@ -57,7 +66,10 @@ export async function getJson<T>(url: string, options: GetOptions = {}): Promise
   for (let attempt = 0; attempt <= retries; attempt++) {
     if (attempt) await Bun.sleep(300 * 2 ** (attempt - 1));
     try {
-      const res = await doFetch(url, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(options.timeoutMs ?? 30_000) });
+      const res = await doFetch(url, {
+        headers: { accept: "application/json" },
+        signal: AbortSignal.timeout(options.timeoutMs ?? 30_000),
+      });
       const text = await res.text();
       if (res.status >= 500) throw new HttpError(url, res.status, text);
       let value: unknown;

@@ -1,5 +1,5 @@
 {
-  "name": "@aphrody/ay-chromium-releases",
+  "name": "@aphrody/browser-chromium-releases",
   "version": "0.1.0",
   "description": "Chrome release channels, the Chromium Dash release/schedule/commit API and the Chrome Status feature API as one typed Bun client with a sqlite cache, a CLI and a CEF/Chromium version picker.",
   "type": "module",

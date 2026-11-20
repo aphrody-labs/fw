@@ -1,6 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { liveSource } from "../src/cache.ts";
-import { ChromiumDash, DASH_ENDPOINTS, DASH_PAGES, latestByChannel, platformsOf, scheduleGapsDays, scheduleTime } from "../src/dash.ts";
+import {
+  ChromiumDash,
+  DASH_ENDPOINTS,
+  DASH_PAGES,
+  latestByChannel,
+  platformsOf,
+  scheduleGapsDays,
+  scheduleTime,
+} from "../src/dash.ts";
 import { ApiError } from "../src/http.ts";
 import { COMMIT, FIXTURES, replayFetch } from "./fixtures.ts";
 
@@ -21,7 +29,9 @@ describe("ChromiumDash", () => {
     expect(a!.milestone).toBe(Number(a!.version.split(".")[0]));
     expect(a!.previous_version).toBe(b!.version);
     expect(a!.time).toBeGreaterThan(b!.time - 1);
-    expect(Object.keys(a!.hashes)).toEqual(expect.arrayContaining(["chromium", "v8", "skia", "angle", "dawn", "devtools", "pdfium", "webrtc"]));
+    expect(Object.keys(a!.hashes)).toEqual(
+      expect.arrayContaining(["chromium", "v8", "skia", "angle", "dawn", "devtools", "pdfium", "webrtc"]),
+    );
     expect(a!.hashes.chromium).toMatch(/^[0-9a-f]{40}$/);
   });
 
@@ -53,7 +63,9 @@ describe("ChromiumDash", () => {
     expect(value.git_hash).toBe(COMMIT);
     expect(value.first_landed).toBe("158.0.8127.37");
     expect(value.review_info?.host).toBe("chromium-review.googlesource.com");
-    expect(Object.keys(value.deployment)).toEqual(expect.arrayContaining(["stable", "beta", "dev", "canary", "extended"]));
+    expect(Object.keys(value.deployment)).toEqual(
+      expect.arrayContaining(["stable", "beta", "dev", "canary", "extended"]),
+    );
     expect(value.source_tree).toContain(COMMIT);
   });
 
@@ -72,14 +84,14 @@ describe("ChromiumDash", () => {
       expect(m.stable_date).toMatch(/^\d{4}-\d\d-\d\dT00:00:00$/);
       expect(scheduleTime(m.branch_point)!).toBeLessThan(scheduleTime(m.stable_date)!);
     }
-    expect(scheduleGapsDays(value.mstones).every(d => d % 7 === 0 && d > 0)).toBe(true);
+    expect(scheduleGapsDays(value.mstones).every((d) => d % 7 === 0 && d > 0)).toBe(true);
   });
 
   test("milestones, minibranches and ChromeOS builds", async () => {
     const { dash } = client();
     const ms = (await dash.milestones({ onlyActive: true })).value;
     expect(ms[0]).toHaveProperty("schedule_phase");
-    expect(ms.every(m => typeof m.milestone === "number")).toBe(true);
+    expect(ms.every((m) => typeof m.milestone === "number")).toBe(true);
     const mb = (await dash.minibranches()).value;
     expect(mb[0]!.chromium_minibranch).toMatch(/^\d+_\d+$/);
     const cros = (await dash.crosServingBuilds()).value;
@@ -89,15 +101,27 @@ describe("ChromiumDash", () => {
 
   test("latestByChannel and platformsOf work on live-shaped data", async () => {
     const { dash } = client();
-    const rows = (await Promise.all((["Stable", "Beta", "Dev", "Canary"] as const).map(channel => dash.releases({ channel, platform: "Windows", num: 1 })))).flatMap(r => r.value);
-    expect([...latestByChannel(rows).keys()].sort()).toEqual(["Beta/Windows", "Canary/Windows", "Dev/Windows", "Stable/Windows"]);
+    const rows = (
+      await Promise.all(
+        (["Stable", "Beta", "Dev", "Canary"] as const).map((channel) =>
+          dash.releases({ channel, platform: "Windows", num: 1 }),
+        ),
+      )
+    ).flatMap((r) => r.value);
+    expect([...latestByChannel(rows).keys()].sort()).toEqual([
+      "Beta/Windows",
+      "Canary/Windows",
+      "Dev/Windows",
+      "Stable/Windows",
+    ]);
     expect(platformsOf(rows)).toEqual(["Windows"]);
   });
 
   test("the endpoint table covers every recorded Chromium Dash URL and the SPA pages", () => {
-    const paths = new Set<string>(DASH_ENDPOINTS.map(e => e.path));
-    for (const f of FIXTURES.filter(f => f.url.includes("chromiumdash"))) expect(paths.has(new URL(f.url).pathname)).toBe(true);
-    expect(DASH_ENDPOINTS.filter(e => e.auth).map(e => e.path)).toContain("/fetch_builds");
+    const paths = new Set<string>(DASH_ENDPOINTS.map((e) => e.path));
+    for (const f of FIXTURES.filter((f) => f.url.includes("chromiumdash")))
+      expect(paths.has(new URL(f.url).pathname)).toBe(true);
+    expect(DASH_ENDPOINTS.filter((e) => e.auth).map((e) => e.path)).toContain("/fetch_builds");
     expect(DASH_PAGES).toContain("/schedule");
   });
 });

@@ -20,6 +20,13 @@ export interface Clients {
 /** Both clients over one source: sqlite-cached by default, `cache: false` for no storage, or a `Cache` you opened. */
 export function createClients(options: { cache?: Cache | false; maxAgeMs?: number } & GetOptions = {}): Clients {
   const cache = options.cache === false ? undefined : (options.cache ?? new Cache());
-  const source = cache ? cachedSource(cache, { maxAgeMs: options.maxAgeMs ?? 15 * 60_000, fetch: options.fetch, timeoutMs: options.timeoutMs, retries: options.retries }) : liveSource(options);
+  const source = cache
+    ? cachedSource(cache, {
+        maxAgeMs: options.maxAgeMs ?? 15 * 60_000,
+        fetch: options.fetch,
+        timeoutMs: options.timeoutMs,
+        retries: options.retries,
+      })
+    : liveSource(options);
   return { dash: new ChromiumDash(source), status: new ChromeStatus(source), source, cache };
 }

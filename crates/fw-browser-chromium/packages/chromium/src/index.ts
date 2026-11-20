@@ -29,31 +29,40 @@ export interface Native {
   configure(config: { cefDir?: string; helper?: string; cacheDir?: string }): void;
   cefVersion(): string;
   shutdown(): void;
-  screenshot(url: string, out: string, width?: number, height?: number, settleMs?: number, timeoutMs?: number): Promise<ScreenshotResult>;
+  screenshot(
+    url: string,
+    out: string,
+    width?: number,
+    height?: number,
+    settleMs?: number,
+    timeoutMs?: number,
+  ): Promise<ScreenshotResult>;
   evaluate(url: string, expression: string, settleMs?: number, timeoutMs?: number): Promise<string>;
 }
 
 let native: Native | undefined;
 
-/** Where the addon and the helper executable are: AY_CHROMIUM_HOME, else packages/chromium/native. */
-function home(): string {
-  return process.env.AY_CHROMIUM_HOME ?? join(import.meta.dir, "..", "native");
+/** Where the addon and the helper executable are: BROWSER_CHROMIUM_HOME, else packages/chromium/native. */
+export function home(): string {
+  return process.env.BROWSER_CHROMIUM_HOME ?? join(import.meta.dir, "..", "native");
 }
 
 function load(): Native {
   if (native) return native;
   const dir = home();
-  const addon = process.env.AY_CHROMIUM_ADDON ?? join(dir, "ay_chromium.node");
+  const addon = process.env.BROWSER_CHROMIUM_ADDON ?? join(dir, "browser_chromium.node");
   if (!existsSync(addon)) {
-    throw new Error(`ay_chromium addon not found at ${addon}; run \`bun run build\` in packages/chromium or set AY_CHROMIUM_HOME`);
+    throw new Error(
+      `browser_chromium addon not found at ${addon}; run \`bun run build\` in packages/chromium or set BROWSER_CHROMIUM_HOME`,
+    );
   }
   const module = { exports: {} as Native };
   process.dlopen(module, addon);
-  const helper = process.env.AY_CHROMIUM_HELPER ?? join(dirname(addon), "ay-chromium");
+  const helper = process.env.BROWSER_CHROMIUM_HELPER ?? join(dirname(addon), "browser-chromium");
   module.exports.configure({
     helper: existsSync(helper) ? helper : undefined,
-    cefDir: process.env.AY_CHROMIUM_CEF_DIR,
-    cacheDir: process.env.AY_CHROMIUM_CACHE_DIR,
+    cefDir: process.env.BROWSER_CHROMIUM_CEF_DIR,
+    cacheDir: process.env.BROWSER_CHROMIUM_CACHE_DIR,
   });
   native = module.exports;
   return native;
@@ -65,7 +74,11 @@ export function screenshot(url: string, out: string, options: ScreenshotOptions 
 }
 
 /** Open `url`, wait for it to load and evaluate `expression` in the page; promises are awaited and the value comes back as parsed JSON. */
-export async function evaluate<T = unknown>(url: string, expression: string, options: EvaluateOptions = {}): Promise<T> {
+export async function evaluate<T = unknown>(
+  url: string,
+  expression: string,
+  options: EvaluateOptions = {},
+): Promise<T> {
   const json = await load().evaluate(url, expression, options.settleMs, options.timeoutMs);
   return JSON.parse(json) as T;
 }
@@ -78,4 +91,9 @@ export function cefVersion(): string {
 /** Close the browsers and shut CEF down. CEF cannot be started again in this process. */
 export function shutdown(): void {
   if (native) native.shutdown();
+}
+
+/** Whether the native addon is built (`bun run build` on a host with CEF): the integration tests need it. */
+export function addonBuilt(): boolean {
+  return existsSync(process.env.BROWSER_CHROMIUM_ADDON ?? join(home(), "browser_chromium.node"));
 }

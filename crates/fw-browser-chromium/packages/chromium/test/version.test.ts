@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Cache } from "@aphrody/ay-chromium-releases";
+import { Cache } from "@aphrody/browser-chromium-releases";
 import { replayFetch } from "../../chromium-releases/test/fixtures.ts";
 import { pickVersion } from "../src/version.ts";
 
@@ -17,7 +17,8 @@ describe("pickVersion", () => {
     const { fetch } = replayFetch();
     const cache = new Cache(":memory:");
     const milestones: Record<string, number> = {};
-    for (const channel of ["stable", "beta", "dev", "canary"]) milestones[channel] = (await pickVersion({ channel, cefPlatform: "windows64", cache, fetch })).chromium.milestone;
+    for (const channel of ["stable", "beta", "dev", "canary"])
+      milestones[channel] = (await pickVersion({ channel, cefPlatform: "windows64", cache, fetch })).chromium.milestone;
     expect(milestones.beta!).toBeGreaterThanOrEqual(milestones.stable!);
     expect(milestones.dev!).toBeGreaterThanOrEqual(milestones.beta!);
     expect(milestones.canary!).toBeGreaterThanOrEqual(milestones.dev!);

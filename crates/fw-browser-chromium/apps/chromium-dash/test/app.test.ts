@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
-import { Cache, createClients } from "@aphrody/ay-chromium-releases";
+import { Cache, createClients } from "@aphrody/browser-chromium-releases";
 import { FIXTURES, COMMIT, fixturePath } from "../../../packages/chromium-releases/test/fixtures.ts";
 import { createApp } from "../src/app.ts";
 import { escape, html } from "../src/html.ts";
 import { ago, dateOf, scheduleDay, statusDate } from "../src/format.ts";
 
-const body = (name: string) => readFileSync(fixturePath(FIXTURES.find(f => f.name === name)!), "utf8");
+const body = (name: string) => readFileSync(fixturePath(FIXTURES.find((f) => f.name === name)!), "utf8");
 
 /** Answers every upstream URL from the recorded fixtures by path, so the pages render real data offline. */
 function upstream() {
@@ -18,13 +18,18 @@ function upstream() {
     const reply = (name: string, status = 200) => new Response(body(name), { status });
     if (p === "/fetch_releases") {
       const ch = u.searchParams.get("channel")?.toLowerCase();
-      return ch && ["stable", "beta", "dev", "canary", "extended"].includes(ch) ? reply(`releases-${ch}-windows`) : reply("releases-invalid-channel", 400);
+      return ch && ["stable", "beta", "dev", "canary", "extended"].includes(ch)
+        ? reply(`releases-${ch}-windows`)
+        : reply("releases-invalid-channel", 400);
     }
     if (p === "/fetch_milestones") return reply("milestones");
     if (p === "/fetch_milestone_schedule") return reply("schedule");
     if (p === "/fetch_minibranches") return reply("minibranches");
     if (p === "/fetch_version") return reply("version");
-    if (p === "/fetch_commit") return /^[0-9a-f]+$/i.test(u.searchParams.get("commit") ?? "") ? reply("commit") : reply("releases-invalid-channel", 400);
+    if (p === "/fetch_commit")
+      return /^[0-9a-f]+$/i.test(u.searchParams.get("commit") ?? "")
+        ? reply("commit")
+        : reply("releases-invalid-channel", 400);
     if (p === "/fetch_commits") return reply("commits");
     if (p === "/cros/fetch_serving_builds") return reply("cros-serving-builds");
     if (p === "/api/v0/channels") return reply("status-channels");
@@ -150,7 +155,17 @@ describe("pages", () => {
     const { app: a } = app();
     const { res, text } = await get(a, "/feature/5191490363064320");
     expect(res.status).toBe(200);
-    for (const s of ["WebRTC Encoded Transform: generateKeyFrame", "Overview", "Motivation", "Specification", "Status in Chromium", "Proposed", "Shipped/Shipping", "Review gates"]) expect(text).toContain(s);
+    for (const s of [
+      "WebRTC Encoded Transform: generateKeyFrame",
+      "Overview",
+      "Motivation",
+      "Specification",
+      "Status in Chromium",
+      "Proposed",
+      "Shipped/Shipping",
+      "Review gates",
+    ])
+      expect(text).toContain(s);
   });
 
   test("an unknown feature is a 404 page", async () => {
@@ -249,13 +264,15 @@ describe("JSON APIs", () => {
     const { app: a, calls } = app();
     await get(a, "/fetch_milestones");
     await get(a, "/fetch_milestones");
-    expect(calls.filter(c => c.includes("/fetch_milestones"))).toHaveLength(1);
+    expect(calls.filter((c) => c.includes("/fetch_milestones"))).toHaveLength(1);
   });
 });
 
 describe("helpers", () => {
   test("html escapes values but not nested templates", () => {
-    expect(html`<b>${"<i>&"}</b>${html`<u>x</u>`}${["a", html`<s/>`]}`.toString()).toBe("<b>&lt;i&gt;&amp;</b><u>x</u>a<s/>");
+    expect(html`<b>${"<i>&"}</b>${html`<u>x</u>`}${["a", html`<s />`]}`.toString()).toBe(
+      "<b>&lt;i&gt;&amp;</b><u>x</u>a<s />",
+    );
     expect(escape("\"'")).toBe("&quot;&#39;");
   });
 

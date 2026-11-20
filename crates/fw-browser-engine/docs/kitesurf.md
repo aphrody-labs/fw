@@ -1,7 +1,7 @@
 # Kitesurf in this repository
 
-`third_party/kitesurf` is the aphrody-labs fork of [cloudflare/kitesurf](https://github.com/cloudflare/kitesurf) (Apache-2.0), registered as a
-submodule (the build host fetches it; the PC does not check it out). It is an experimental browser engine in Rust and WebAssembly: Blitz for the
+aphrody-labs/kitesurf is the fork of [cloudflare/kitesurf](https://github.com/cloudflare/kitesurf) (Apache-2.0), pinned by commit in
+`tools/layout.toml` [forks] (the build host fetches it; nothing is checked out here). It is an experimental browser engine in Rust and WebAssembly: Blitz for the
 DOM and layout, Stylo for CSS, Taffy for flex and grid, Parley for text, Vello for painting, usvg for SVG and Boa for JavaScript, behind a Chrome
 DevTools Protocol endpoint, with one isolate per page. It runs on Cloudflare Workers (Dynamic Workers, Workers Paid) and locally under `wrangler dev`.
 
@@ -59,7 +59,7 @@ cryptography. The Puppeteer and Playwright expectations record 53 and 357 failur
   is applied there as one commit per patch, with its real author, on the `kitesurf` branch of the aphrody-labs fork: parley, blitz, anyrender, taffy,
   stylo (with selectors), boa, resvg (usvg), vello, ratatui-image, jpeg-encoder. Four of those forks were created for this. `tools/kitesurf-absorb.ts`
   does it (the Cargo.toml hunks, which target the normalized published manifest, are replayed on the upstream form).
-- **One prefixed workspace.** The submodule's `crates/` holds the 26 engine crates (the patched ones and the four that depend on them: glifo,
+- **One prefixed workspace.** The fork's `crates/` holds the 26 engine crates (the patched ones and the four that depend on them: glifo,
   stylo_dom, stylo_malloc_size_of, stylo_traits), named `browser-<crate>`, library names unchanged, siblings by path and version, `FEATURES.md` as the
   feature matrix. `tools/kitesurf-monorepo.ts` generates the layout from `cargo metadata` (the closure is computed, never listed). Proof on the build
   host: `cargo check` of the three wasm packages, 771 host tests of kitesurf-core passing, `cargo package` of a crate. The 26 `browser-*` names are free on crates.io; nothing is published.

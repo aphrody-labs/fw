@@ -3,7 +3,11 @@ import { join } from "node:path";
 
 const cli = join(import.meta.dir, "..", "src", "cli.ts");
 async function run(...args: string[]) {
-  const p = Bun.spawn([process.execPath, cli, ...args], { stdout: "pipe", stderr: "pipe", env: { ...process.env, AY_CHROMIUM_RELEASES_DB: ":memory:" } });
+  const p = Bun.spawn([process.execPath, cli, ...args], {
+    stdout: "pipe",
+    stderr: "pipe",
+    env: { ...process.env, BROWSER_CHROMIUM_RELEASES_DB: ":memory:" },
+  });
   const [out, err, code] = await Promise.all([new Response(p.stdout).text(), new Response(p.stderr).text(), p.exited]);
   return { out, err, code };
 }

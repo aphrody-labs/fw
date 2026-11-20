@@ -1,7 +1,15 @@
-/** Which Chromium, and which CEF build, to embed for a release channel: live Chromium Dash and CEF data through @aphrody/ay-chromium-releases. */
-import { Cache, createClients, loadCefIndex, pickChromium, type CefPlatform, type FetchLike, type Selection } from "@aphrody/ay-chromium-releases";
+/** Which Chromium, and which CEF build, to embed for a release channel: live Chromium Dash and CEF data through @aphrody/browser-chromium-releases. */
+import {
+  Cache,
+  createClients,
+  loadCefIndex,
+  pickChromium,
+  type CefPlatform,
+  type FetchLike,
+  type Selection,
+} from "@aphrody/browser-chromium-releases";
 
-export type { Selection } from "@aphrody/ay-chromium-releases";
+export type { Selection } from "@aphrody/browser-chromium-releases";
 
 export interface PickVersionOptions {
   /** `stable` (default), `extended`, `beta`, `dev` or `canary`. */
@@ -20,7 +28,10 @@ export interface PickVersionOptions {
 export async function pickVersion(options: PickVersionOptions = {}): Promise<Selection> {
   const clients = createClients({ cache: options.cache, fetch: options.fetch });
   try {
-    return await pickChromium(clients.dash, () => loadCefIndex({ cache: clients.cache, fetch: options.fetch }), { channel: options.channel, cefPlatform: options.cefPlatform });
+    return await pickChromium(clients.dash, () => loadCefIndex({ cache: clients.cache, fetch: options.fetch }), {
+      channel: options.channel,
+      cefPlatform: options.cefPlatform,
+    });
   } finally {
     if (options.cache === undefined) clients.cache?.close();
   }

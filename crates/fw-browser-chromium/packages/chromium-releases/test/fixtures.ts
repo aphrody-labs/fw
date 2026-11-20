@@ -7,7 +7,10 @@ const STATUS = "https://chromestatus.com/api/v0";
 export const COMMIT = "b8c2be851f62f6a394ec57955d7f31335d7cb6d4";
 
 type Trim = (value: any) => unknown;
-const first = (n: number): Trim => v => (Array.isArray(v) ? v.slice(0, n) : v);
+const first =
+  (n: number): Trim =>
+  (v) =>
+    Array.isArray(v) ? v.slice(0, n) : v;
 
 export interface Fixture {
   name: string;
@@ -33,7 +36,7 @@ export const FIXTURES: Fixture[] = [
   {
     name: "cros-serving-builds",
     url: `${DASH}/cros/fetch_serving_builds`,
-    trim: v => ({ ...v, builds: Object.fromEntries(Object.entries<any>(v.builds).slice(0, 2)) }),
+    trim: (v) => ({ ...v, builds: Object.fromEntries(Object.entries<any>(v.builds).slice(0, 2)) }),
   },
   { name: "status-channels", url: `${STATUS}/channels` },
   { name: "status-channels-range", url: `${STATUS}/channels?start=157&end=158` },
@@ -42,18 +45,31 @@ export const FIXTURES: Fixture[] = [
   {
     name: "status-milestone",
     url: `${STATUS}/features?milestone=158`,
-    trim: v => ({ ...v, features_by_type: Object.fromEntries(Object.entries<any[]>(v.features_by_type).map(([k, rows]) => [k, rows.slice(0, 1)])) }),
+    trim: (v) => ({
+      ...v,
+      features_by_type: Object.fromEntries(
+        Object.entries<any[]>(v.features_by_type).map(([k, rows]) => [k, rows.slice(0, 1)]),
+      ),
+    }),
   },
-  { name: "status-gates", url: `${STATUS}/features/5191490363064320/gates`, trim: v => ({ gates: v.gates.slice(0, 2) }) },
+  {
+    name: "status-gates",
+    url: `${STATUS}/features/5191490363064320/gates`,
+    trim: (v) => ({ gates: v.gates.slice(0, 2) }),
+  },
   { name: "channels-page", url: "https://www.chromium.org/getting-involved/chrome-release-channels/", ext: "html" },
   {
     name: "cef-index",
     url: "https://cef-builds.spotifycdn.com/index.json",
-    trim: v =>
+    trim: (v) =>
       Object.fromEntries(
-        ["windows64", "linux64"].map(p => [
+        ["windows64", "linux64"].map((p) => [
           p,
-          { versions: v[p].versions.slice(0, 14).map((x: any) => ({ ...x, files: x.files.filter((f: any) => f.type === "minimal") })) },
+          {
+            versions: v[p].versions
+              .slice(0, 14)
+              .map((x: any) => ({ ...x, files: x.files.filter((f: any) => f.type === "minimal") })),
+          },
         ]),
       ),
   },
@@ -64,12 +80,18 @@ export const fixturePath = (f: Fixture) => join(import.meta.dir, "fixtures", `${
 /** A fetch that answers from the recorded fixtures and fails loudly for any other URL. */
 export function replayFetch(extra: Record<string, string> = {}) {
   const calls: string[] = [];
-  const bodies = new Map<string, string>([...FIXTURES.map(f => [f.url, readFileSync(fixturePath(f), "utf8")] as const), ...Object.entries(extra)]);
+  const bodies = new Map<string, string>([
+    ...FIXTURES.map((f) => [f.url, readFileSync(fixturePath(f), "utf8")] as const),
+    ...Object.entries(extra),
+  ]);
   const fetch = async (input: string): Promise<Response> => {
     calls.push(input);
     const body = bodies.get(input);
     if (body === undefined) return new Response(`no fixture for ${input}`, { status: 599 });
-    return new Response(body, { status: 200, headers: { "content-type": input.endsWith(".html") || body.startsWith("<") ? "text/html" : "application/json" } });
+    return new Response(body, {
+      status: 200,
+      headers: { "content-type": input.endsWith(".html") || body.startsWith("<") ? "text/html" : "application/json" },
+    });
   };
   return { fetch, calls };
 }

@@ -26,7 +26,7 @@ Rust ecosystem (Boa, Nova, Ladybird) followed upstream.
 | `webkit` | JavaScriptCore | WebCore | WebKit, system GPU layer | none (WKWebView) | Bun's native engine (`Bun.WebView`, macOS) |
 | `blink` | V8 | Blink (LayoutNG) | Skia, Dawn (WebGPU) | CDP, full | Chromium checkout, `//headless:headless_shell` (`build/engines`) |
 | `blitz` | none: the host runs the script | Stylo, Taffy, Parley | Vello on wgpu | none | `DioxusLabs/blitz`, tracked; its README: "no JavaScript bindings", beta |
-| `kitesurf` | Boa (Rust) in isolates | Stylo, Taffy, Parley, Blitz patched (193 patches) | Vello (CPU) | CDP, partial | `third_party/kitesurf`, Cloudflare's engine on Blitz; see [docs/kitesurf.md](docs/kitesurf.md) |
+| `kitesurf` | Boa (Rust) in isolates | Stylo, Taffy, Parley, Blitz patched (193 patches) | Vello (CPU) | CDP, partial | fork aphrody-labs/kitesurf (pinned), Cloudflare's engine on Blitz; see [docs/kitesurf.md](docs/kitesurf.md) |
 | `servo` | SpiderMonkey (`mozjs`) | Stylo, Servo layout | WebRender, wgpu | Firefox RDP | crates in `third_party/servo` and its organisation's |
 | `obscura` | V8 | html5ever, Stylo selectors | none (optional render) | CDP, subset | fork in `third_party/obscura` |
 | `boa`, `nova` | Rust JavaScript engines | none | none | none | `track` only |
@@ -72,14 +72,14 @@ V8, Skia, Dawn and Blink are never taken as published crates or prebuilts (no ru
 
 ## Layout
 
-The tree follows Chromium. `third_party/bun` is the runtime: a git submodule of our fork (relative URL in `.gitmodules`), a
-workspace and a build of its own (`bun bd`), placed where Chromium places a dependency. `components/<crate>` is first party
-(`//components`). `third_party/<upstream>/<crate>` is everything imported, with a generated `README.chromium`. Chromium's own
+The tree follows Chromium. `components/<crate>` is first party (`//components`). Forks with a build of their own (the Bun
+runtime, kitesurf, browse, mullvad) are pinned by commit in `tools/layout.toml` [forks] and built in their own checkout, never
+submodules here; every other upstream is pinned in `tools/upstreams.toml` and fetched by Cargo, no tree on disk. Chromium's own
 checkout is `third_party/chromium` on the build host, never committed. Then `build/`, `testing/` (`//testing`), `tools/`,
 `styleguide/`, `docs/`, `DEPS` and `PRESUBMIT.ts`. One Cargo workspace for what cargo builds here, one `Cargo.lock`; a crate of ours
 that needs one of Bun's depends on it by path and stays a non-member.
 
 `tools/layout.toml` decides where everything goes (`bun tools/layout.ts` checks it), `tools/upstreams.toml` lists the upstreams,
-`tools/upstreams.lock.json` pins what is imported, `.gitmodules` and the gitlink pin Bun, `DEPS` pins Chromium,
+`tools/upstreams.lock.json` records the pinned SHAs, `tools/layout.toml` [forks] pins the forks, `DEPS` pins Chromium,
 `tools/import.py` imports and re-syncs (replayed linearly: `main` requires a linear history), `tools/flatten.py` keeps the
 workspace manifest in step.

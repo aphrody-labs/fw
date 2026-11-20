@@ -1,11 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { ApiError, getJson, HttpError, query, stripXssi, upstreamError } from "../src/http.ts";
 
-const reply = (body: string, status = 200) => async () => new Response(body, { status });
+const reply =
+  (body: string, status = 200) =>
+  async () =>
+    new Response(body, { status });
 
 describe("http", () => {
   test("stripXssi removes the Chrome Status guard only", () => {
-    expect(stripXssi(")]}'\n{\"a\":1}")).toBe('{"a":1}');
+    expect(stripXssi(')]}\'\n{"a":1}')).toBe('{"a":1}');
     expect(stripXssi('{"a":1}')).toBe('{"a":1}');
   });
 
@@ -25,7 +28,7 @@ describe("http", () => {
   });
 
   test("getJson parses XSSI-guarded bodies", async () => {
-    expect(await getJson("u", { fetch: reply(")]}'\n{\"ok\":true}") })).toEqual({ ok: true });
+    expect(await getJson("u", { fetch: reply(')]}\'\n{"ok":true}') })).toEqual({ ok: true });
   });
 
   test("getJson retries 5xx and then succeeds", async () => {

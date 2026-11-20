@@ -150,7 +150,12 @@ export interface FeatureSearch {
  */
 export const STATUS_ENDPOINTS = [
   { path: "/channels", params: "start, end (milestones)", returns: "Channels", auth: false },
-  { path: "/features", params: "q, sort, num, start, name_only, milestone, releaseNotesMilestone", returns: "FeatureList | MilestoneFeatures", auth: false },
+  {
+    path: "/features",
+    params: "q, sort, num, start, name_only, milestone, releaseNotesMilestone",
+    returns: "FeatureList | MilestoneFeatures",
+    auth: false,
+  },
   { path: "/features/{id}", params: "", returns: "Feature", auth: false },
   { path: "/features/{id}/process", params: "", returns: "process definition and stages", auth: false },
   { path: "/features/{id}/progress", params: "", returns: "field completion map", auth: false },
@@ -174,7 +179,17 @@ export const STATUS_ENDPOINTS = [
 ] as const;
 
 /** SPA routes of Chrome Status (`main.py`). */
-export const STATUS_PAGES = ["/roadmap", "/features", "/features/stale", "/newfeatures", "/feature/<id>", "/metrics", "/enterprise", "/reports/spec_mentors", "/admin/blink"] as const;
+export const STATUS_PAGES = [
+  "/roadmap",
+  "/features",
+  "/features/stale",
+  "/newfeatures",
+  "/feature/<id>",
+  "/metrics",
+  "/enterprise",
+  "/reports/spec_mentors",
+  "/admin/blink",
+] as const;
 
 export class ChromeStatus {
   constructor(
@@ -196,7 +211,10 @@ export class ChromeStatus {
   }
 
   search(q: FeatureSearch = {}) {
-    return this.source.get<FeatureList>(this.url("/features", { q: q.q, sort: q.sort, num: q.num, start: q.start, name_only: q.nameOnly }), this.ttl.features);
+    return this.source.get<FeatureList>(
+      this.url("/features", { q: q.q, sort: q.sort, num: q.num, start: q.start, name_only: q.nameOnly }),
+      this.ttl.features,
+    );
   }
 
   inMilestone(milestone: number) {
@@ -208,11 +226,17 @@ export class ChromeStatus {
   }
 
   process(id: number) {
-    return this.source.get<{ name: string; description: string; applicability: string; stages: unknown[] }>(this.url(`/features/${id}/process`), this.ttl.reference);
+    return this.source.get<{ name: string; description: string; applicability: string; stages: unknown[] }>(
+      this.url(`/features/${id}/process`),
+      this.ttl.reference,
+    );
   }
 
   releaseNotes(milestone: number) {
-    return this.source.get<{ milestone: number; features: unknown[] }>(this.url(`/releasenotes/${milestone}`), this.ttl.features);
+    return this.source.get<{ milestone: number; features: unknown[] }>(
+      this.url(`/releasenotes/${milestone}`),
+      this.ttl.features,
+    );
   }
 
   blinkComponents() {

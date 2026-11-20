@@ -1,16 +1,13 @@
 #!/usr/bin/env bun
 // Checks the tree against tools/layout.toml: nothing in the legacy src/ or upstream/, every crate of the lock where the layout puts it,
-// every first-party crate marked as such, every submodule where the layout says. Prints the problems, exit 1 if there are any.
+// every first-party crate marked as such, every fork pinned by a full commit and none checked out as a submodule. Prints the problems, exit 1 if there are any.
 //   bun tools/layout.ts [repo]
 import { join } from "node:path";
 
 const repo = Bun.argv[2] ?? ".";
 const at = (path: string) => join(repo, path);
 const layout = Bun.TOML.parse(await Bun.file(at("tools/layout.toml")).text()) as {
-  bun: { dir: string };
-  kitesurf?: { dir: string; commit?: string };
-  browse?: { dir: string; commit?: string };
-  mullvad?: { dir: string; commit?: string };
+  forks: Record<string, { repo: string; commit: string }>;
   first_party: { dir: string };
   third_party: { dir: string };
 };
@@ -42,18 +39,12 @@ for (const manifest of await tracked(`${layout.first_party.dir}/*/Cargo.toml`)) 
     problems.push(`${manifest}: first-party crates set [package.metadata.browser] native = true`);
 }
 
-const modules = (
-  await Bun.file(at(".gitmodules"))
-    .text()
-    .catch(() => "")
-).matchAll(/path = (.+)/g);
-const submodules = [...modules].map((m) => m[1].trim());
-if (!submodules.includes(layout.bun.dir)) problems.push(`${layout.bun.dir} is not a submodule`);
-if (layout.kitesurf && !submodules.includes(layout.kitesurf.dir))
-  problems.push(`${layout.kitesurf.dir} is not a submodule`);
-if (layout.browse && !submodules.includes(layout.browse.dir)) problems.push(`${layout.browse.dir} is not a submodule`);
-if (layout.mullvad && !submodules.includes(layout.mullvad.dir))
-  problems.push(`${layout.mullvad.dir} is not a submodule`);
+for (const [name, fork] of Object.entries(layout.forks ?? {})) {
+  if (!/^[\w.-]+\/[\w.-]+$/.test(fork.repo ?? "")) problems.push(`forks.${name}: repo must be owner/name`);
+  if (!/^[0-9a-f]{40}$/.test(fork.commit ?? "")) problems.push(`forks.${name}: commit must be a full SHA`);
+}
+if (await Bun.file(at(".gitmodules")).exists())
+  problems.push(".gitmodules: forks are pinned in tools/layout.toml [forks], not submodules");
 
 console.log(problems.length ? problems.join("\n") : "layout ok");
 process.exit(problems.length ? 1 : 0);

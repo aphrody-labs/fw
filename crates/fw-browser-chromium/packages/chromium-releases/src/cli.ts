@@ -3,7 +3,14 @@
 import { parseArgs } from "node:util";
 import { Cache, defaultDbPath } from "./cache.ts";
 import { CHANNELS, fetchChannelsPage, measuredStableWeeks, withReleases } from "./channels.ts";
-import { DASH_CHANNELS, DASH_ENDPOINTS, DASH_PLATFORMS, platformsOf, type DashChannel, type DashPlatform } from "./dash.ts";
+import {
+  DASH_CHANNELS,
+  DASH_ENDPOINTS,
+  DASH_PLATFORMS,
+  platformsOf,
+  type DashChannel,
+  type DashPlatform,
+} from "./dash.ts";
 import { createClients } from "./index.ts";
 import { hostPlatform, loadCefIndex, pickChromium, type CefPlatform } from "./pick.ts";
 import { STATUS_ENDPOINTS } from "./status.ts";
@@ -52,7 +59,13 @@ const print = (value: unknown) => console.log(JSON.stringify(value, null, 2));
 
 async function main(): Promise<void> {
   if (!command || values.help) return void console.log(USAGE);
-  if (command === "endpoints") return print({ chromiumdash: DASH_ENDPOINTS, chromestatus: STATUS_ENDPOINTS, channels: DASH_CHANNELS, platforms: DASH_PLATFORMS });
+  if (command === "endpoints")
+    return print({
+      chromiumdash: DASH_ENDPOINTS,
+      chromestatus: STATUS_ENDPOINTS,
+      channels: DASH_CHANNELS,
+      platforms: DASH_PLATFORMS,
+    });
   const cache = values["no-cache"] ? false : new Cache(values.db);
   const { dash, status, cache: opened } = createClients({ cache });
   try {
@@ -60,17 +73,42 @@ async function main(): Promise<void> {
       case "channels": {
         const platform = (values.platform ?? hostPlatform().dash) as DashPlatform;
         const [releases, schedule, page] = await Promise.all([
-          Promise.all(CHANNELS.map(c => dash.releases({ channel: c.dash, platform, num: 1 }).then(r => r.value))).then(r => r.flat()),
+          Promise.all(
+            CHANNELS.map((c) => dash.releases({ channel: c.dash, platform, num: 1 }).then((r) => r.value)),
+          ).then((r) => r.flat()),
           dash.schedule({ offset: -4, n: 12 }),
           fetchChannelsPage().catch(() => undefined),
         ]);
-        return print({ platform, channels: withReleases(releases, platform), stableMajorWeeksMeasured: measuredStableWeeks(schedule.value.mstones), page });
+        return print({
+          platform,
+          channels: withReleases(releases, platform),
+          stableMajorWeeksMeasured: measuredStableWeeks(schedule.value.mstones),
+          page,
+        });
       }
       case "releases":
-        return print((await dash.releases({ channel: values.channel as DashChannel, platform: values.platform as DashPlatform, milestone: int(values.milestone), num: int(values.num), offset: int(values.offset) })).value);
+        return print(
+          (
+            await dash.releases({
+              channel: values.channel as DashChannel,
+              platform: values.platform as DashPlatform,
+              milestone: int(values.milestone),
+              num: int(values.num),
+              offset: int(values.offset),
+            })
+          ).value,
+        );
       case "schedule": {
         const m = values.milestone;
-        return print((await dash.schedule({ mstone: m && !/^\d+$/.test(m) ? (m as "next") : int(m), offset: int(values.offset), n: int(values.n) })).value);
+        return print(
+          (
+            await dash.schedule({
+              mstone: m && !/^\d+$/.test(m) ? (m as "next") : int(m),
+              offset: int(values.offset),
+              n: int(values.n),
+            })
+          ).value,
+        );
       }
       case "milestones":
         return print((await dash.milestones({ onlyActive: values.active, onlyBranched: values.branched })).value);
@@ -85,19 +123,24 @@ async function main(): Promise<void> {
       case "features": {
         const m = int(values.milestone);
         if (m) return print((await status.inMilestone(m)).value);
-        return print((await status.search({ q: values.q, sort: values.sort, num: int(values.num), start: int(values.start) })).value);
+        return print(
+          (await status.search({ q: values.q, sort: values.sort, num: int(values.num), start: int(values.start) }))
+            .value,
+        );
       }
       case "roadmap":
         return print((await status.channels()).value);
       case "pick": {
         const cefPlatform = values.platform as CefPlatform | undefined;
-        return print(await pickChromium(dash, () => loadCefIndex({ cache: opened }), { channel: values.channel, cefPlatform }));
+        return print(
+          await pickChromium(dash, () => loadCefIndex({ cache: opened }), { channel: values.channel, cefPlatform }),
+        );
       }
       case "refresh": {
         const platform = (values.platform ?? hostPlatform().dash) as DashPlatform;
         const fresh = 0;
         const jobs = [
-          ...DASH_CHANNELS.map(channel => dash.releases({ channel, platform, num: 1 }, fresh)),
+          ...DASH_CHANNELS.map((channel) => dash.releases({ channel, platform, num: 1 }, fresh)),
           dash.milestones(),
           dash.schedule({ offset: -4, n: 12 }),
           dash.minibranches(),
@@ -105,7 +148,19 @@ async function main(): Promise<void> {
           loadCefIndex({ cache: opened, maxAgeMs: fresh }),
         ];
         await Promise.all(jobs);
-        return print({ db: values.db ?? defaultDbPath(), refreshed: jobs.length, keys: opened?.keys().length ?? 0, platforms: platformsOf((await dash.releases({ milestone: (await dash.schedule({ mstone: "current" })).value.mstones[0]!.mstone, num: 100 })).value) });
+        return print({
+          db: values.db ?? defaultDbPath(),
+          refreshed: jobs.length,
+          keys: opened?.keys().length ?? 0,
+          platforms: platformsOf(
+            (
+              await dash.releases({
+                milestone: (await dash.schedule({ mstone: "current" })).value.mstones[0]!.mstone,
+                num: 100,
+              })
+            ).value,
+          ),
+        });
       }
       default:
         console.error(USAGE);
@@ -121,7 +176,7 @@ function need(value: string | undefined, name: string): string {
   return value;
 }
 
-main().catch(e => {
+main().catch((e) => {
   console.error(e instanceof Error ? e.message : e);
   process.exit(1);
 });

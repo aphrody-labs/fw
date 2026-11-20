@@ -7,7 +7,8 @@ import type { DashChannel, Release, ScheduleMilestone } from "./dash.ts";
 import { scheduleGapsDays } from "./dash.ts";
 
 export const CHANNELS_PAGE = "https://www.chromium.org/getting-involved/chrome-release-channels/";
-export const CHANNELS_DOC_SOURCE = "https://chromium.googlesource.com/playground/chromium-org-site/+/b3964e3363a057a523a16d0add46a646a4263a20/chrome-release-channels.md";
+export const CHANNELS_DOC_SOURCE =
+  "https://chromium.googlesource.com/playground/chromium-org-site/+/b3964e3363a057a523a16d0add46a646a4263a20/chrome-release-channels.md";
 
 export type ChannelId = "canary" | "dev" | "beta" | "stable" | "extended";
 export type PageSection = "desktop" | "android" | "ios";
@@ -53,7 +54,8 @@ export const CHANNELS: readonly ChannelInfo[] = [
     name: "Extended Stable",
     dash: "Extended",
     stability: 0,
-    summary: "Stable for enterprises that need a slower cycle: a major release every second Stable milestone with security fixes in between.",
+    summary:
+      "Stable for enterprises that need a slower cycle: a major release every second Stable milestone with security fixes in between.",
     cadence: "A major release every eight weeks (every second Stable milestone), weekly security updates",
     lag: "One Stable milestone behind Stable between majors",
     parallelInstall: false,
@@ -90,7 +92,8 @@ export const CHANNELS: readonly ChannelInfo[] = [
     name: "Canary",
     dash: "Canary",
     stability: 3,
-    summary: "Changes as soon as they are made, with only automated testing; runs next to any other channel with its own profile.",
+    summary:
+      "Changes as soon as they are made, with only automated testing; runs next to any other channel with its own profile.",
     cadence: "Released twice daily",
     lag: "None: built from the tip of tree",
     parallelInstall: true,
@@ -100,8 +103,11 @@ export const CHANNELS: readonly ChannelInfo[] = [
 ];
 
 export function channel(id: string): ChannelInfo | undefined {
-  const key = id.toLowerCase().replace(/[\s_-]+stable$/, "").replace("extended stable", "extended");
-  return CHANNELS.find(c => c.id === key || c.dash.toLowerCase() === key || c.name.toLowerCase() === key);
+  const key = id
+    .toLowerCase()
+    .replace(/[\s_-]+stable$/, "")
+    .replace("extended stable", "extended");
+  return CHANNELS.find((c) => c.id === key || c.dash.toLowerCase() === key || c.name.toLowerCase() === key);
 }
 
 export interface ChannelsPage {
@@ -157,7 +163,7 @@ export function parseChannelsPage(html: string): ChannelsPage {
   const notes: string[] = [];
   for (const li of choose.matchAll(/<li><strong>([^<]+?):?<\/strong>([\s\S]*?)<\/li>/g)) {
     const label = decode(li[1]!).replace(/:$/, "");
-    const info = CHANNELS.find(c => c.pageLabel === label);
+    const info = CHANNELS.find((c) => c.pageLabel === label);
     const text = decode(li[2]!);
     if (info) guide[info.id] = text;
     else notes.push(`${label}: ${text}`);
@@ -180,9 +186,20 @@ export interface ChannelStatus extends ChannelInfo {
 
 /** The dataset joined with the newest live release of each channel on one platform. */
 export function withReleases(releases: Release[], platform: string): ChannelStatus[] {
-  return CHANNELS.map(c => {
-    const r = releases.filter(x => x.channel === c.dash && x.platform === platform).sort((a, b) => b.time - a.time)[0];
-    return { ...c, release: r && { version: r.version, milestone: r.milestone, platform: r.platform, time: r.time, previous_version: r.previous_version } };
+  return CHANNELS.map((c) => {
+    const r = releases
+      .filter((x) => x.channel === c.dash && x.platform === platform)
+      .sort((a, b) => b.time - a.time)[0];
+    return {
+      ...c,
+      release: r && {
+        version: r.version,
+        milestone: r.milestone,
+        platform: r.platform,
+        time: r.time,
+        previous_version: r.previous_version,
+      },
+    };
   });
 }
 

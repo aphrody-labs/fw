@@ -3,7 +3,7 @@ import { mkdtempSync, readFileSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { inflateSync } from "node:zlib";
 import { join } from "node:path";
-import { cefVersion, evaluate, screenshot, shutdown } from "../src/index.ts";
+import { addonBuilt, cefVersion, evaluate, screenshot, shutdown } from "../src/index.ts";
 
 const page = `<!doctype html><html><head><title>Ay Chromium Test</title></head>
 <body style="margin:0;background:#ff0000"><h1 id="h">hello</h1>
@@ -11,7 +11,7 @@ const page = `<!doctype html><html><head><title>Ay Chromium Test</title></head>
 
 let server: ReturnType<typeof Bun.serve>;
 let url: string;
-const dir = mkdtempSync(join(tmpdir(), "ay-chromium-test-"));
+const dir = mkdtempSync(join(tmpdir(), "browser-chromium-test-"));
 
 beforeAll(() => {
   server = Bun.serve({ port: 0, fetch: () => new Response(page, { headers: { "content-type": "text/html" } }) });
@@ -20,10 +20,11 @@ beforeAll(() => {
 
 afterAll(() => {
   server.stop(true);
-  shutdown();
+  if (addonBuilt()) shutdown();
 });
 
-describe("@aphrody/chromium", () => {
+// Integration tests of the CEF addon: they run where `bun run build` produced it (the build host) and are skipped elsewhere.
+describe.skipIf(!addonBuilt())("@aphrody/browser-chromium", () => {
   test("reports the CEF build", () => {
     expect(cefVersion()).toMatch(/^\d+\.\d+\.\d+\+g[0-9a-f]+\+chromium-\d+\./);
   });
@@ -31,7 +32,10 @@ describe("@aphrody/chromium", () => {
   test("evaluate returns JSON from the page", async () => {
     expect(await evaluate(url, "document.title")).toBe("Ay Chromium Test");
     expect(await evaluate(url, "window.answer")).toBe(42);
-    expect(await evaluate(url, "({a: [1, 2], b: document.getElementById('h').textContent})")).toEqual({ a: [1, 2], b: "hello" });
+    expect(await evaluate(url, "({a: [1, 2], b: document.getElementById('h').textContent})")).toEqual({
+      a: [1, 2],
+      b: "hello",
+    });
     expect(await evaluate(url, "window.later")).toBe("done");
   });
 
@@ -50,7 +54,7 @@ describe("@aphrody/chromium", () => {
     expect(statSync(out).size).toBeGreaterThan(200);
     // First pixel of the first scanline is its raw bytes under every PNG filter type (no left or upper neighbour).
     const idat: Buffer[] = [];
-    for (let at = 8; at < png.length; ) {
+    for (let at = 8; at < png.length;) {
       const len = png.readUInt32BE(at);
       if (png.toString("latin1", at + 4, at + 8) === "IDAT") idat.push(png.subarray(at + 8, at + 8 + len));
       at += 12 + len;

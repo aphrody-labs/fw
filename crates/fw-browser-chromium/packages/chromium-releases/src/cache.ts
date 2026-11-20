@@ -15,17 +15,22 @@ export interface Entry<T> {
 /** The CLI name from ay.toml (`[product].cli`), the directory name under the user cache. */
 function cliName(): string {
   try {
-    const toml = Bun.TOML.parse(readFileSync(join(import.meta.dir, "../../../ay.toml"), "utf8")) as { product?: { cli?: string } };
+    const toml = Bun.TOML.parse(readFileSync(join(import.meta.dir, "../../../ay.toml"), "utf8")) as {
+      product?: { cli?: string };
+    };
     return toml.product?.cli ?? "ay";
   } catch {
     return "ay";
   }
 }
 
-/** `AY_CHROMIUM_RELEASES_DB`, else `<user cache>/<cli>/chromium-releases.sqlite`. */
+/** `BROWSER_CHROMIUM_RELEASES_DB`, else `<user cache>/<cli>/chromium-releases.sqlite`. */
 export function defaultDbPath(): string {
-  if (process.env.AY_CHROMIUM_RELEASES_DB) return process.env.AY_CHROMIUM_RELEASES_DB;
-  const base = process.env.XDG_CACHE_HOME ?? (process.platform === "win32" ? process.env.LOCALAPPDATA : undefined) ?? join(homedir(), ".cache");
+  if (process.env.BROWSER_CHROMIUM_RELEASES_DB) return process.env.BROWSER_CHROMIUM_RELEASES_DB;
+  const base =
+    process.env.XDG_CACHE_HOME ??
+    (process.platform === "win32" ? process.env.LOCALAPPDATA : undefined) ??
+    join(homedir(), ".cache");
   return join(base, cliName(), "chromium-releases.sqlite");
 }
 
@@ -37,20 +42,31 @@ export class Cache {
     if (path !== ":memory:") mkdirSync(dirname(path), { recursive: true });
     this.db = new Database(path, { create: true });
     this.db.run("PRAGMA journal_mode = WAL");
-    this.db.run("CREATE TABLE IF NOT EXISTS entries (key TEXT PRIMARY KEY, body TEXT NOT NULL, fetched_at INTEGER NOT NULL)");
+    this.db.run(
+      "CREATE TABLE IF NOT EXISTS entries (key TEXT PRIMARY KEY, body TEXT NOT NULL, fetched_at INTEGER NOT NULL)",
+    );
   }
 
   read<T>(key: string): { value: T; fetchedAt: number } | undefined {
-    const row = this.db.query<{ body: string; fetched_at: number }, [string]>("SELECT body, fetched_at FROM entries WHERE key = ?").get(key);
+    const row = this.db
+      .query<{ body: string; fetched_at: number }, [string]>("SELECT body, fetched_at FROM entries WHERE key = ?")
+      .get(key);
     return row ? { value: JSON.parse(row.body) as T, fetchedAt: row.fetched_at } : undefined;
   }
 
   write(key: string, value: unknown, now = Date.now()): void {
-    this.db.query("INSERT INTO entries (key, body, fetched_at) VALUES (?1, ?2, ?3) ON CONFLICT(key) DO UPDATE SET body = ?2, fetched_at = ?3").run(key, JSON.stringify(value), now);
+    this.db
+      .query(
+        "INSERT INTO entries (key, body, fetched_at) VALUES (?1, ?2, ?3) ON CONFLICT(key) DO UPDATE SET body = ?2, fetched_at = ?3",
+      )
+      .run(key, JSON.stringify(value), now);
   }
 
   keys(): string[] {
-    return this.db.query<{ key: string }, []>("SELECT key FROM entries ORDER BY key").all().map(r => r.key);
+    return this.db
+      .query<{ key: string }, []>("SELECT key FROM entries ORDER BY key")
+      .all()
+      .map((r) => r.key);
   }
 
   /** Delete every entry older than `maxAgeMs`; returns how many went. */

@@ -2,11 +2,21 @@
 export const LANG = process.env.CHROMIUM_DASH_LANG ?? "en";
 
 /** Base direction of `LANG` from the script CLDR assigns to it. */
-export const DIR = ["Arab", "Hebr", "Thaa", "Syrc", "Adlm", "Nkoo"].includes(new Intl.Locale(LANG).maximize().script ?? "") ? "rtl" : "ltr";
+export const DIR = ["Arab", "Hebr", "Thaa", "Syrc", "Adlm", "Nkoo"].includes(
+  new Intl.Locale(LANG).maximize().script ?? "",
+)
+  ? "rtl"
+  : "ltr";
 
 /** Dates and numbers the way both dashboards show them (UTC, so pages are the same for every reader). */
 const DATE = new Intl.DateTimeFormat(LANG, { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
-const DAY = new Intl.DateTimeFormat(LANG, { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+const DAY = new Intl.DateTimeFormat(LANG, {
+  weekday: "short",
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
 
 export const dateOf = (ms: number) => DATE.format(ms);
 

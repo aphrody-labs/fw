@@ -1,6 +1,6 @@
 [package]
 name = "browser-chromium"
-version = "0.1.0"
+version.workspace = true
 edition.workspace = true
 description = "Chromium through CEF from Rust and Bun: open a URL off-screen, write a PNG screenshot, evaluate JavaScript and return JSON."
 build = "build.rs"
@@ -20,6 +20,9 @@ node = ["dep:napi", "dep:napi-derive", "dep:napi-build"]
 # cef-dll-sys is linked for the CEF symbols of `cef`; no code names it.
 [package.metadata.cargo-shear]
 ignored = ["cef-dll-sys"]
+
+[package.metadata.browser]
+native = true
 
 [dependencies]
 cef = { version = "=156.6.0", default-features = false }

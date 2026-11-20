@@ -1,5 +1,5 @@
 {
-  "name": "chromium-dash",
+  "name": "@aphrody/browser-chromium-dash",
   "version": "0.1.0",
   "description": "Chromium Dash and Chrome Status in one Bun.serve app: releases, schedule, branches, commits, roadmap, features, plus the JSON APIs of both services.",
   "type": "module",
@@ -9,7 +9,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@aphrody/ay-chromium-releases": "workspace:*",
-    "@aphrody/ay-edge-stack": "workspace:*"
+    "@aphrody/browser-chromium-releases": "workspace:*",
+    "@aphrody/ay-edge-stack": "file:../../../ay/packages/edge-stack"
   }
 }

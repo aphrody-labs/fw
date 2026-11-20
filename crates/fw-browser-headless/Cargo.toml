@@ -1,9 +1,12 @@
 [package]
 name = "browser-headless"
-version = "0.1.0"
+version.workspace = true
 edition.workspace = true
 license = "Apache-2.0"
 description = "Headless Browser + ayvpn + anomalyco/browse SDK integration for CI, crawlers, WebMCP, and Cloudflare Dynamic Workers."
+
+[package.metadata.browser]
+native = true
 
 [dependencies]
 browser-browse.workspace = true

@@ -1,26 +1,27 @@
 # Where everything lives, on the Chromium model. `tools/layout.ts`, `tools/import.py` and `tools/flatten.py` read this file;
 # nothing else knows a directory name.
 #
-#   third_party/bun/      the Bun runtime: a git submodule of our fork (relative URL in .gitmodules), a workspace and a build of its own
+#   [forks.*]             forks with a build of their own (Bun, kitesurf, browse, mullvad): pinned by commit, never checked out
+#                         here (no submodule: Cargo git fetches and the build host use the pin; the fork's own checkout builds it)
 #   components/<crate>    first-party crates, written in this repository (//components in Chromium)
 #   third_party/<name>/   one directory per upstream project: its crates as <crate> subdirectories, its other files
 #                         (CI, docs, resources, tests, licences) beside them; README.chromium describes it
 #   build/  testing/  tools/  styleguide/  docs/   build configuration, test infrastructure, developer tools, style, documentation
 
-[bun]
-dir = "third_party/bun"
+[forks.bun]
+repo = "aphrody-labs/bun"
+commit = "4407879a5f5a42535c0852292b935b5e73146a7f"
 
-[kitesurf]
-dir = "third_party/kitesurf"
-crates_dir = "third_party/kitesurf/crates"
+[forks.kitesurf]
+repo = "aphrody-labs/kitesurf"
 commit = "0e080e0988aaecd62ccdde88d4c67d8ac8acfd2f"
 
-[browse]
-dir = "third_party/browse"
+[forks.browse]
+repo = "aphrody-labs/browse"
 commit = "be5528ff2194c8defab74d41e13abb7cb149548e"
 
-[mullvad]
-dir = "third_party/mullvad"
+[forks.mullvad]
+repo = "aphrody-labs/mullvadvpn-app"
 commit = "9f48572ea0f5223591fcdd15d15059b9cc59a227"
 
 [first_party]

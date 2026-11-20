@@ -20,7 +20,7 @@ pub use browser_engine as engine;
 pub use browser_views as views;
 pub use browser_vpn as vpn;
 
-/// Launch specification synthesized for a headless browser context (`kitesurf`, `servo`, or `blink`/`ay-chromium`).
+/// Launch specification synthesized for a headless browser context (`kitesurf`, `servo`, or `blink`/`browser-chromium`).
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct HeadlessLaunchPlan {
     pub backend_id: String,

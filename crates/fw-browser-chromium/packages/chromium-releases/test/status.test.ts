@@ -34,7 +34,7 @@ describe("ChromeStatus", () => {
     expect(f.browsers.chrome.status.text).toBe("Proposed");
     expect(f.browsers.ff.view.text).toBe("Shipped/Shipping");
     expect(f.stages.length).toBeGreaterThan(0);
-    expect(f.stages.every(s => s.feature_id === f.id)).toBe(true);
+    expect(f.stages.every((s) => s.feature_id === f.id)).toBe(true);
     expect(f.standards.maturity.short_text).toBe("Working draft");
   });
 
@@ -61,10 +61,10 @@ describe("ChromeStatus", () => {
   });
 
   test("the endpoint table covers every recorded Chrome Status URL", () => {
-    const templates = STATUS_ENDPOINTS.map(e => new RegExp(`^${e.path.replace(/\{[^}]+\}/g, "[^/]+")}$`));
-    for (const f of FIXTURES.filter(f => f.url.includes("chromestatus"))) {
+    const templates = STATUS_ENDPOINTS.map((e) => new RegExp(`^${e.path.replace(/\{[^}]+\}/g, "[^/]+")}$`));
+    for (const f of FIXTURES.filter((f) => f.url.includes("chromestatus"))) {
       const path = new URL(f.url).pathname.replace("/api/v0", "");
-      expect(templates.some(re => re.test(path))).toBe(true);
+      expect(templates.some((re) => re.test(path))).toBe(true);
     }
   });
 });

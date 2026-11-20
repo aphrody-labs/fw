@@ -9,7 +9,16 @@ export type DashChannel = "Stable" | "Beta" | "Dev" | "Canary" | "Canary_asan" |
 export type DashPlatform = "Windows" | "Win32" | "Mac" | "Linux" | "Android" | "iOS" | "Webview" | "FuchsiaWebEngine";
 
 export const DASH_CHANNELS: readonly DashChannel[] = ["Stable", "Extended", "Beta", "Dev", "Canary", "Canary_asan"];
-export const DASH_PLATFORMS: readonly DashPlatform[] = ["Windows", "Win32", "Mac", "Linux", "Android", "iOS", "Webview", "FuchsiaWebEngine"];
+export const DASH_PLATFORMS: readonly DashPlatform[] = [
+  "Windows",
+  "Win32",
+  "Mac",
+  "Linux",
+  "Android",
+  "iOS",
+  "Webview",
+  "FuchsiaWebEngine",
+];
 
 export interface Release {
   channel: DashChannel;
@@ -116,7 +125,17 @@ export interface Commit extends CommitSummary {
 }
 
 export interface CrosBuilds {
-  builds: Record<string, { brandNames?: string[]; fsiMilestoneNumber?: string; isAue?: boolean; isExperimental?: boolean; pushRecoveries?: Record<string, string>; [field: string]: unknown }>;
+  builds: Record<
+    string,
+    {
+      brandNames?: string[];
+      fsiMilestoneNumber?: string;
+      isAue?: boolean;
+      isExperimental?: boolean;
+      pushRecoveries?: Record<string, string>;
+      [field: string]: unknown;
+    }
+  >;
   [field: string]: unknown;
 }
 
@@ -134,31 +153,160 @@ export interface ReleasesQuery {
  * and probed live on 2026-11-16. `auth` endpoints answer `401 {"error":"User not authenticated"}` without a Google session.
  */
 export const DASH_ENDPOINTS = [
-  { path: "/fetch_releases", method: "GET", params: "channel, platform, milestone, num, offset", used: "releases page, home", returns: "Release[]", auth: false },
-  { path: "/fetch_extra_releases", method: "GET", params: "platform", used: "releases page (Webview extra rows)", returns: "Release[]", auth: false },
-  { path: "/fetch_version", method: "GET", params: "version (N.0.N.N)", used: "version lookup", returns: "VersionInfo", auth: false },
-  { path: "/fetch_milestones", method: "GET", params: "only_active, only_branched", used: "branches page, home", returns: "Milestone[]", auth: false },
-  { path: "/fetch_milestone_schedule", method: "GET", params: "mstone (number|next|current|previous), offset, n", used: "schedule page", returns: "{mstones: ScheduleMilestone[]}", auth: false },
-  { path: "/fetch_minibranches", method: "GET", params: "", used: "branches page", returns: "Minibranch[]", auth: false },
-  { path: "/fetch_commit", method: "GET", params: "commit (hex, 1-40), platform", used: "commit lookup", returns: "Commit", auth: false },
-  { path: "/fetch_commits", method: "GET", params: "count, repo, branch, platform, ...", used: "commits page", returns: "{commits: CommitSummary[]}", auth: false },
-  { path: "/cros/fetch_serving_builds", method: "GET", params: "", used: "ChromeOS serving builds", returns: "CrosBuilds", auth: false },
-  { path: "/cros/download_serving_builds_csv", method: "GET", params: "deviceCategory", used: "ChromeOS CSV export", returns: "text/csv", auth: false },
-  { path: "/fetch_builds", method: "POST", params: "platform_group, milestone", used: "builds page", returns: "Build[]", auth: true },
-  { path: "/fetch_security_fixes", method: "POST", params: "", used: "cves page", returns: "SecurityFix[]", auth: true },
-  { path: "/fetch_stability_urls", method: "POST", params: "", used: "stability page", returns: "StabilityUrl[]", auth: true },
-  { path: "/fetch_triggered_history", method: "POST", params: "", used: "trigger-builds page", returns: "TriggeredBuild[]", auth: true },
-  { path: "/fetch_issue_query_count", method: "POST", params: "", used: "issue counters", returns: "count", auth: true },
-  { path: "/fetch_issue_query_timestamp", method: "POST", params: "", used: "issue counters", returns: "timestamp", auth: true },
+  {
+    path: "/fetch_releases",
+    method: "GET",
+    params: "channel, platform, milestone, num, offset",
+    used: "releases page, home",
+    returns: "Release[]",
+    auth: false,
+  },
+  {
+    path: "/fetch_extra_releases",
+    method: "GET",
+    params: "platform",
+    used: "releases page (Webview extra rows)",
+    returns: "Release[]",
+    auth: false,
+  },
+  {
+    path: "/fetch_version",
+    method: "GET",
+    params: "version (N.0.N.N)",
+    used: "version lookup",
+    returns: "VersionInfo",
+    auth: false,
+  },
+  {
+    path: "/fetch_milestones",
+    method: "GET",
+    params: "only_active, only_branched",
+    used: "branches page, home",
+    returns: "Milestone[]",
+    auth: false,
+  },
+  {
+    path: "/fetch_milestone_schedule",
+    method: "GET",
+    params: "mstone (number|next|current|previous), offset, n",
+    used: "schedule page",
+    returns: "{mstones: ScheduleMilestone[]}",
+    auth: false,
+  },
+  {
+    path: "/fetch_minibranches",
+    method: "GET",
+    params: "",
+    used: "branches page",
+    returns: "Minibranch[]",
+    auth: false,
+  },
+  {
+    path: "/fetch_commit",
+    method: "GET",
+    params: "commit (hex, 1-40), platform",
+    used: "commit lookup",
+    returns: "Commit",
+    auth: false,
+  },
+  {
+    path: "/fetch_commits",
+    method: "GET",
+    params: "count, repo, branch, platform, ...",
+    used: "commits page",
+    returns: "{commits: CommitSummary[]}",
+    auth: false,
+  },
+  {
+    path: "/cros/fetch_serving_builds",
+    method: "GET",
+    params: "",
+    used: "ChromeOS serving builds",
+    returns: "CrosBuilds",
+    auth: false,
+  },
+  {
+    path: "/cros/download_serving_builds_csv",
+    method: "GET",
+    params: "deviceCategory",
+    used: "ChromeOS CSV export",
+    returns: "text/csv",
+    auth: false,
+  },
+  {
+    path: "/fetch_builds",
+    method: "POST",
+    params: "platform_group, milestone",
+    used: "builds page",
+    returns: "Build[]",
+    auth: true,
+  },
+  {
+    path: "/fetch_security_fixes",
+    method: "POST",
+    params: "",
+    used: "cves page",
+    returns: "SecurityFix[]",
+    auth: true,
+  },
+  {
+    path: "/fetch_stability_urls",
+    method: "POST",
+    params: "",
+    used: "stability page",
+    returns: "StabilityUrl[]",
+    auth: true,
+  },
+  {
+    path: "/fetch_triggered_history",
+    method: "POST",
+    params: "",
+    used: "trigger-builds page",
+    returns: "TriggeredBuild[]",
+    auth: true,
+  },
+  {
+    path: "/fetch_issue_query_count",
+    method: "POST",
+    params: "",
+    used: "issue counters",
+    returns: "count",
+    auth: true,
+  },
+  {
+    path: "/fetch_issue_query_timestamp",
+    method: "POST",
+    params: "",
+    used: "issue counters",
+    returns: "timestamp",
+    auth: true,
+  },
   { path: "/fetch_user_status", method: "POST", params: "", used: "sign-in state", returns: "{identity}", auth: true },
   { path: "/_admin/fetch_milestone_for_update", method: "POST", params: "", used: "admin", returns: "", auth: true },
   { path: "/_admin/fetch_minibranches_for_update", method: "POST", params: "", used: "admin", returns: "", auth: true },
-  { path: "/_admin/fetch_security_fixes_for_update", method: "POST", params: "", used: "admin", returns: "", auth: true },
+  {
+    path: "/_admin/fetch_security_fixes_for_update",
+    method: "POST",
+    params: "",
+    used: "admin",
+    returns: "",
+    auth: true,
+  },
   { path: "/_admin/fetch_reporters", method: "POST", params: "", used: "admin", returns: "", auth: true },
 ] as const;
 
 /** Pages of the Chromium Dash single-page app (lazy webpack chunks). */
-export const DASH_PAGES = ["/home", "/releases", "/schedule", "/commits", "/branches", "/builds", "/cves", "/stability", "/trigger-builds"] as const;
+export const DASH_PAGES = [
+  "/home",
+  "/releases",
+  "/schedule",
+  "/commits",
+  "/branches",
+  "/builds",
+  "/cves",
+  "/stability",
+  "/trigger-builds",
+] as const;
 
 export class ChromiumDash {
   constructor(
@@ -185,7 +333,10 @@ export class ChromiumDash {
   }
 
   milestones(q: { onlyActive?: boolean; onlyBranched?: boolean } = {}) {
-    return this.source.get<Milestone[]>(this.url("/fetch_milestones", { only_active: q.onlyActive, only_branched: q.onlyBranched }), this.ttl.schedule);
+    return this.source.get<Milestone[]>(
+      this.url("/fetch_milestones", { only_active: q.onlyActive, only_branched: q.onlyBranched }),
+      this.ttl.schedule,
+    );
   }
 
   schedule(q: { mstone?: number | "next" | "current" | "previous"; offset?: number; n?: number } = {}) {
@@ -222,7 +373,7 @@ export function latestByChannel(releases: Release[]): Map<string, Release> {
 
 /** The platforms present in live release data, so callers never rely on a hardcoded list. */
 export function platformsOf(releases: Release[]): string[] {
-  return [...new Set(releases.map(r => r.platform))].sort();
+  return [...new Set(releases.map((r) => r.platform))].sort();
 }
 
 /** `YYYY-MM-DDT00:00:00` (UTC) to epoch milliseconds. */
@@ -231,8 +382,13 @@ export function scheduleTime(date: string | undefined): number | undefined {
 }
 
 /** Whole days between consecutive `field` dates of the schedule, ascending by milestone. */
-export function scheduleGapsDays(mstones: ScheduleMilestone[], field: keyof ScheduleMilestone = "stable_date"): number[] {
-  const times = [...mstones].sort((a, b) => a.mstone - b.mstone).map(m => scheduleTime(m[field] as string | undefined));
+export function scheduleGapsDays(
+  mstones: ScheduleMilestone[],
+  field: keyof ScheduleMilestone = "stable_date",
+): number[] {
+  const times = [...mstones]
+    .sort((a, b) => a.mstone - b.mstone)
+    .map((m) => scheduleTime(m[field] as string | undefined));
   const gaps: number[] = [];
   for (let i = 1; i < times.length; i++) {
     const a = times[i - 1];
