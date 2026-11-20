@@ -1,14 +1,57 @@
 name: Release & CD
 
+# Builds the fw binaries and the fw-wasm module, then calls the shared publish job of the ay SDK repository (checksums, release manifest,
+# provenance, GitHub Release, R2 objects served by the edge Worker). The matrix and the file names are release.toml [products.fw] of that repository.
 on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      channel:
+        description: Release channel (lts, stable, preview, canary, nightly, dev)
+        type: choice
+        default: dev
+        options: [lts, stable, preview, canary, nightly, dev]
+      version:
+        description: Version without the leading v (default yyyy.mm.dd-sha)
+        type: string
+        default: ""
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
+  meta:
+    name: Resolve version and channel
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      channel: ${{ steps.meta.outputs.channel }}
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - id: meta
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_CHANNEL: ${{ inputs.channel }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          if [ "$REF_TYPE" = tag ]; then
+            tag="$REF_NAME"
+            version="${tag#v}"
+            case "$version" in *-*) channel=preview ;; *) channel=stable ;; esac
+          else
+            channel="${INPUT_CHANNEL:-dev}"
+            version="${INPUT_VERSION:-$(date -u +%Y.%m.%d)-${GITHUB_SHA::7}}"
+            tag="${channel}-v${version}"
+          fi
+          {
+            echo "version=$version"
+            echo "channel=$channel"
+            echo "tag=$tag"
+          } >> "$GITHUB_OUTPUT"
+
   build-artifacts:
     name: Build (${{ matrix.target }})
     strategy:
@@ -19,14 +62,26 @@ jobs:
             target: x86_64-unknown-linux-musl
             bin: fw
             asset: fw-x86_64-linux-musl
+            package: fw-bin
+            cargo_args: --bin fw
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             bin: fw.exe
             asset: fw-x86_64-windows.exe
+            package: fw-bin
+            cargo_args: --bin fw
           - os: macos-latest
             target: aarch64-apple-darwin
             bin: fw
             asset: fw-aarch64-macos
+            package: fw-bin
+            cargo_args: --bin fw
+          - os: ubuntu-latest
+            target: wasm32-unknown-unknown
+            bin: fw_wasm.wasm
+            asset: fw_wasm.wasm
+            package: fw-wasm
+            cargo_args: ""
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -34,30 +89,60 @@ jobs:
         with:
           targets: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@v2
-      - name: Build release binary
-        run: cargo build --release --target ${{ matrix.target }} -p fw-bin --bin fw
+        with:
+          key: ${{ matrix.target }}
+      - name: Build release artifact
+        run: cargo build --release --target ${{ matrix.target }} -p ${{ matrix.package }} ${{ matrix.cargo_args }}
+      - name: Stage the artifact under its release name
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp "target/${{ matrix.target }}/release/${{ matrix.bin }}" "dist/${{ matrix.asset }}"
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.asset }}
-          path: target/${{ matrix.target }}/release/${{ matrix.bin }}
+          name: release-${{ matrix.asset }}
+          path: dist/${{ matrix.asset }}
+          if-no-files-found: error
+
+  publish:
+    name: Publish fw
+    needs: [meta, build-artifacts]
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    uses: aphrody-labs/ay/.github/workflows/release.yml@main
+    with:
+      product: fw
+      version: ${{ needs.meta.outputs.version }}
+      channel: ${{ needs.meta.outputs.channel }}
+      tag: ${{ needs.meta.outputs.tag }}
+      commit: ${{ github.sha }}
+      artifacts-pattern: release-*
+      tools-repository: aphrody-labs/ay
+    secrets: inherit
 
   publish-cloudflare:
     name: Deploy Cloudflare Edge Worker
+    needs: publish
     runs-on: ubuntu-latest
-    if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - name: Deploy fw-edge (Workers Static Assets + SQLite DO)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: bun run cf:deploy
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "::warning::CLOUDFLARE_API_TOKEN is not set: fw-edge is not deployed"; exit 0; fi
+          bun run cf:deploy
 
   publish-crates-io:
     name: Publish fw-* to crates.io
+    needs: publish
     runs-on: ubuntu-latest
-    if: ${{ secrets.CARGO_REGISTRY_TOKEN != '' }}
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -65,6 +150,7 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
+          if [ -z "$CARGO_REGISTRY_TOKEN" ]; then echo "::warning::CARGO_REGISTRY_TOKEN is not set: nothing published to crates.io"; exit 0; fi
           for c in fw-wasm fw-ggml fw-compute fw-cluster fw-ostd-wasm fw-uutils fw-nix fw-ui-blitz fw-unified-stack fw-wayland-wgpu fw-hermes-claw fw-proto fw-bin; do
             cargo publish -p "$c" || true
             sleep 15
