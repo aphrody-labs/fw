@@ -3,7 +3,7 @@
 //!
 //! Integrates `aphrody-labs/browser` (`browser-engine`, `browser-vpn`, `browser-browse`, `browser-views`,
 //! `browser-detect`) into `ay` for headless automation, crawlers, CI verification, and edge Dynamic Workers,
-//! while the full GPUI Chromium `//ui/views` browser lives in `aphrody-dev/aphrody` (`aphrody_browser`).
+//! while the full GPUI Chromium `//ui/views` browser lives in `aphrody-labs/aphrody` (`aphrody_browser`).
 
 use browser_browse::{
     AriaSnapshotNode, BrowseError, BrowseSessionPool, DomainPolicy, HandoffNotice, PooledTarget,
