@@ -104,6 +104,7 @@ dependencies = [
  "fw-apm",
  "fw-cluster",
  "fw-compute",
+ "fw-fx",
  "fw-ggml",
  "fw-hermes-claw",
  "fw-nix",
@@ -132,6 +133,15 @@ version = "4.2.0"
 dependencies = [
  "fw-ggml",
  "serde",
+]
+
+[[package]]
+name = "fw-fx"
+version = "4.2.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "sha2",
 ]
 
 [[package]]
@@ -170,10 +180,13 @@ dependencies = [
 name = "fw-proto"
 version = "4.2.0"
 dependencies = [
+ "fw-apm",
  "fw-cluster",
  "fw-compute",
+ "fw-fx",
  "fw-ggml",
  "fw-hermes-claw",
+ "fw-wayland-wgpu",
  "serde",
  "serde_json",
  "sha2",

@@ -92,7 +92,10 @@ pub fn hex_voice_status() -> HexVoiceStatus {
 /// Cloudflare Pingora + Quiche QUIC/H3 + Foundations + Kitesurf + Official Rust Agent SDKs summary.
 pub fn unified_v4_catalog() -> Value {
     json!({
-        "version": "4.0.0",
+        "version": "4.2.0",
+        "fxAgent": "crates/fw-fx (Pure-Rust Bun-in-Rust parity for vercel-labs/fx 0.0.17: recovery, indexer, compactor, permissions, ACP, MCP, 26 CLI + 41 slash commands)",
+        "unifiedPm": "crates/fw-apm (Unified npm + crates.io RFC 2789 sparse index + Microsoft APM pure-Rust package manager)",
+        "m3WgpuTerminal": "crates/fw-wayland-wgpu (Compose Material 3 1.5.0 Expressive + Rio pull-model + Kitty protocols + WTA ConPTY)",
         "kernel": {
             "asterinas": "os/fw-os (OSDK.toml + #![no_std] #![deny(unsafe_code)] #[ostd::main])",
             "gpuiCore": "crates/fw-ostd-wasm (Zed GPUI retained quad scene + WGSL + Cloudflare SSR)",
@@ -143,6 +146,8 @@ mod tests {
         let h = hex_voice_status();
         assert!(h.terminal_control_ready);
         let cat = unified_v4_catalog();
-        assert_eq!(cat["version"], "4.0.0");
+        assert_eq!(cat["version"], "4.2.0");
+        assert!(cat["fxAgent"].as_str().is_some());
+        assert!(cat["unifiedPm"].as_str().is_some());
     }
 }

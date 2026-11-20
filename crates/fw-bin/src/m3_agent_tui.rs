@@ -246,6 +246,36 @@ impl M3AgentTuiState {
             return true;
         }
 
+        if line == "/pm" {
+            self.active_pane = "UNIFIED-PM".into();
+            let report = fw_apm::unified_pm::scan_unified_workspace(Path::new(&self.cwd));
+            self.last_output = format!(
+                "Unified PM (npm+crates.io+apm) | total={} cargo={} npm={} apm={}",
+                report.counts.get("total").copied().unwrap_or(0),
+                report.counts.get("cargo").copied().unwrap_or(0),
+                report.counts.get("npm").copied().unwrap_or(0),
+                report.counts.get("apm").copied().unwrap_or(0)
+            );
+            self.record_audit("PM", line, &self.last_output.clone());
+            return true;
+        }
+
+        if line == "/fx" || line == "/index" {
+            self.active_pane = "FX-INDEXER".into();
+            let idx = fw_fx::indexer::WorkspaceIndexer::open(Path::new(&self.cwd));
+            let git = idx.read_git_info();
+            let sample = idx.list_files(200);
+            self.last_output = format!(
+                "fx-rust v{} | git={:?} | indexed_sample={} | tools={}",
+                fw_fx::FX_VERSION,
+                git.head_ref,
+                sample.len(),
+                fw_fx::tools::builtin_tool_specs().len()
+            );
+            self.record_audit("FX", line, &self.last_output.clone());
+            return true;
+        }
+
         if line == "/voice" {
             self.active_pane = "MULTIMODAL-VOICE".into();
             let v = hex_voice_status();

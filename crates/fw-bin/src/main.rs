@@ -4,6 +4,7 @@
 //! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
+mod features;
 mod m3_agent_tui;
 
 use fw_cluster::HybridClusterRouter;
@@ -429,21 +430,45 @@ fn main() {
         "m3-tui" | "agent-tui" | "god" => {
             m3_agent_tui::run_m3_agent_tui(&args[1..]);
         }
+        "features" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&features::build_consolidated_features_report(&cwd))
+                    .unwrap()
+            );
+        }
+        "doctor" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&features::build_consolidated_doctor(&cwd)).unwrap()
+            );
+        }
+        "help" | "--help" | "-h" => {
+            println!("fw 4.2.0 — Consolidated 15-crate Pure-Rust Agent OS");
+            for (cmd, desc) in features::CONSOLIDATED_COMMANDS {
+                println!("  {cmd:<12} {desc}");
+            }
+        }
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
             let addr: SocketAddr = addr_str.parse().expect("valid host:port");
             let rt = tokio::runtime::Runtime::new().unwrap();
-            eprintln!("fw-native v3.0 listening on http://{addr}");
+            eprintln!("fw-native v4.2 listening on http://{addr}");
             rt.block_on(async move {
                 serve(addr).await.expect("serve failed");
             });
         }
         _ => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
             println!(
                 "{}",
                 serde_json::to_string_pretty(&json!({
                     "ok": true,
-                    "usage": "fw-native <status|hardware|compute|ggml|cluster|openapi|ui|serve>"
+                    "version": "4.2.0",
+                    "usage": "fw <features|doctor|help|fx|pm|apm|m3-tui|serve|uutils|nix|hermes|cluster|hardware|compute|ggml|bench|status>",
+                    "workspace": cwd.display().to_string()
                 }))
                 .unwrap()
             );

@@ -4,11 +4,18 @@
 //! HTTP/1.1, WebSockets (RFC 6455), WebRTC DataChannel SDP signaling, GraphQL,
 //! OpenAPI 3.1, OpenAI, Gemini Decision 1, MCP, ACP, A2A, and Browser WebGPU/Wasm32 harness.
 
+use fw_apm::unified_pm::scan_unified_workspace;
 use fw_cluster::HybridClusterRouter;
 use fw_compute::{detect_hardware_profile, run_compute_smoke_bench, DEFAULT_WGSL_KERNEL};
+use fw_fx::acp::AcpServer;
+use fw_fx::cli::build_status_json;
+use fw_fx::config::FxConfig;
+use fw_fx::tools::{builtin_tool_specs, execute_builtin_tool};
 use fw_hermes_claw::{modern_cli_ranking, protocol_and_agent_ranking, ChannelKind, HermesClawAgent};
+use fw_wayland_wgpu::unified_wgpu_terminal::UnifiedWgpuTerminalApp;
 use serde_json::{json, Value};
 use std::net::SocketAddr;
+use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -251,8 +258,29 @@ pub fn dispatch_http(
         ("GET", "/health") => (
             200,
             "application/json",
-            json!({ "ok": true, "product": "fw", "version": "3.0.0", "zeroSystemDeps": true }).to_string(),
+            json!({
+                "ok": true,
+                "product": "fw",
+                "version": "4.2.0",
+                "zeroSystemDeps": true,
+                "consolidatedFeatures": ["fx-rust-agent", "unified-pm", "m3-wgpu-terminal", "kernel-mcp", "hybrid-cluster"]
+            })
+            .to_string(),
         ),
+        ("GET", "/v1/fx/status") => {
+            let cfg = FxConfig::from_env();
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            (200, "application/json", build_status_json(&cfg, &cwd).to_string())
+        }
+        ("GET", "/v1/pm/scan") => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let report = scan_unified_workspace(&cwd);
+            (200, "application/json", json!(report).to_string())
+        }
+        ("GET", "/v1/terminal/m3") => {
+            let app = UnifiedWgpuTerminalApp::new(120, 40);
+            (200, "application/json", json!(app).to_string())
+        }
         ("GET", "/hardware") => (200, "application/json", json!(detect_hardware_profile()).to_string()),
         ("GET", "/compute/bench") => (200, "application/json", json!(run_compute_smoke_bench()).to_string()),
         ("GET", "/openapi.json") => (200, "application/json", build_openapi_3_1().to_string()),
@@ -260,9 +288,10 @@ pub fn dispatch_http(
             200,
             "application/json",
             json!({
-                "name": "Fw v3.0 Hybrid Cluster Agent",
-                "version": "3.0.0",
-                "protocols": ["http", "websocket", "webrtc", "graphql", "openapi-3.1", "openai", "mcp", "acp", "a2a", "ggml-rpc", "gemini-decision-1"]
+                "name": "Fw v4.2 Consolidated Agent OS",
+                "version": "4.2.0",
+                "protocols": ["http", "websocket", "webrtc", "graphql", "openapi-3.1", "openai", "mcp", "acp", "a2a", "ggml-rpc", "gemini-decision-1"],
+                "endpoints": ["/mcp", "/acp", "/a2a", "/v1/chat/completions", "/v1/fx/status", "/v1/pm/scan", "/v1/terminal/m3", "/webgpu"]
             })
             .to_string(),
         ),
@@ -351,6 +380,22 @@ pub fn dispatch_http(
                         json!({ "jsonrpc": "2.0", "id": id, "result": res }).to_string(),
                     );
                 }
+                let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+                if name == "fw_pm_scan" {
+                    let report = scan_unified_workspace(&cwd);
+                    return (200, "application/json", json!({ "jsonrpc": "2.0", "id": id, "result": report }).to_string());
+                }
+                if name == "fw_m3_terminal_frame" {
+                    let app = UnifiedWgpuTerminalApp::new(120, 40);
+                    return (200, "application/json", json!({ "jsonrpc": "2.0", "id": id, "result": app }).to_string());
+                }
+                if builtin_tool_specs().iter().any(|s| s.name == name) {
+                    let res = match execute_builtin_tool(&cwd, name, &args) {
+                        Ok(val) => json!({ "jsonrpc": "2.0", "id": id, "result": val }),
+                        Err(e) => json!({ "jsonrpc": "2.0", "id": id, "error": { "code": -32000, "message": e } }),
+                    };
+                    return (200, "application/json", res.to_string());
+                }
             }
             let agent = HermesClawAgent::new("fw-hermes-claw");
             let mut resp = agent.mcp.handle_jsonrpc(&body_json);
@@ -364,10 +409,60 @@ pub fn dispatch_http(
                         "inProcessZeroLatency": true
                     }));
                 }
+                for spec in builtin_tool_specs() {
+                    tools.push(json!({
+                        "name": spec.name,
+                        "description": spec.description,
+                        "inputSchema": spec.parameters,
+                        "source": "fw-fx"
+                    }));
+                }
+                tools.push(json!({
+                    "name": "fw_pm_scan",
+                    "description": "Unified pure-Rust package manager scan (npm + crates.io + APM)",
+                    "source": "fw-apm"
+                }));
+                tools.push(json!({
+                    "name": "fw_m3_terminal_frame",
+                    "description": "Pure-Rust Material 3 1.5.0 + Rio/Kitty WGPU terminal frame descriptor",
+                    "source": "fw-wayland-wgpu"
+                }));
             }
             (200, "application/json", resp.to_string())
         }
-        ("POST", "/acp") | ("POST", "/a2a") => {
+        ("POST", "/acp") => {
+            let rpc_method = body_json.get("method").and_then(Value::as_str).unwrap_or("");
+            if matches!(rpc_method, "initialize" | "session/new" | "session/load" | "session/prompt" | "session/cancel") {
+                let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+                let mut acp = AcpServer::new(FxConfig::from_env(), cwd);
+                return (200, "application/json", acp.dispatch(&body_json).to_string());
+            }
+            let id = body_json.get("id").cloned().unwrap_or(json!(1));
+            let tool_name = body_json["params"]["name"].as_str().unwrap_or("");
+            let kernel_res = if !tool_name.is_empty() {
+                dispatch_kernel_mcp_tool(tool_name, &body_json["params"])
+            } else {
+                None
+            };
+            (
+                200,
+                "application/json",
+                json!({
+                    "jsonrpc": "2.0",
+                    "id": id,
+                    "result": {
+                        "ok": true,
+                        "endpoint": path,
+                        "method": rpc_method,
+                        "version": "4.2.0",
+                        "kernelMcpTools": KERNEL_MCP_TOOLS.iter().map(|(n, _)| *n).collect::<Vec<_>>(),
+                        "kernelCall": kernel_res
+                    }
+                })
+                .to_string(),
+            )
+        }
+        ("POST", "/a2a") => {
             let id = body_json.get("id").cloned().unwrap_or(json!(1));
             let rpc_method = body_json.get("method").and_then(|v| v.as_str()).unwrap_or("ping");
             let tool_name = body_json["params"]["name"].as_str().unwrap_or("");
@@ -495,5 +590,22 @@ mod tests {
         let (c_a2a, _, out_a2a) = dispatch_http(&router, "POST", "/a2a", r#"{"jsonrpc":"2.0","id":4,"method":"tasks/send","params":{"name":"windows_kernel_mcp"}}"#);
         assert_eq!(c_a2a, 200);
         assert!(out_a2a.contains("in-process-conpty"));
+
+        // Consolidated live endpoints: /v1/fx/status, /v1/pm/scan, /v1/terminal/m3, real /acp initialize, /mcp fw_pm_scan
+        let (c_fx, _, out_fx) = dispatch_http(&router, "GET", "/v1/fx/status", "");
+        assert_eq!(c_fx, 200);
+        assert!(out_fx.contains("fw-fx-rust"));
+
+        let (c_pm, _, out_pm) = dispatch_http(&router, "GET", "/v1/pm/scan", "");
+        assert_eq!(c_pm, 200);
+        assert!(out_pm.contains("fw-unified-pm"));
+
+        let (c_term, _, out_term) = dispatch_http(&router, "GET", "/v1/terminal/m3", "");
+        assert_eq!(c_term, 200);
+        assert!(out_term.contains("kitty_keyboard_flags"));
+
+        let (c_acp_init, _, out_acp_init) = dispatch_http(&router, "POST", "/acp", r#"{"jsonrpc":"2.0","id":9,"method":"initialize"}"#);
+        assert_eq!(c_acp_init, 200);
+        assert!(out_acp_init.contains("\"protocolVersion\":1"));
     }
 }
