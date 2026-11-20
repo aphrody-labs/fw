@@ -18,7 +18,7 @@ describe("@aphrody/ay-cf-control-plane", () => {
   test("validates cf.toml and FinOps savings calculation", async () => {
     const raw = Bun.TOML.parse(await Bun.file(resolve(root, "packages/cf-control-plane/cf.toml")).text());
     const manifest = AyCfManifestSchema.parse(raw);
-    expect(Object.keys(manifest.tunnels)).toEqual(["aphrody", "rosegriffon", "shenron"]);
+    expect(Object.keys(manifest.tunnels)).toEqual(["aphrody", "nie", "rosegriffon", "shenron"]);
     expect(Object.keys(manifest.buckets).length).toBe(11);
 
     const report = buildFinOpsReport(manifest, [
@@ -43,7 +43,7 @@ describe("@aphrody/ay-cf-control-plane", () => {
     expect(diffZoneSettings({ http3: "on" }, { http3: "on" })).toEqual([]);
   });
 
-  test("expands declarative multi-zone cartography to exact 81 + 60 + 20 + 30 = 191 DNS records and zero conflicts", async () => {
+  test("expands declarative multi-zone cartography to exact 81 + 60 + 20 + 31 = 192 DNS records and zero conflicts", async () => {
     const manifest = AyCfManifestSchema.parse(Bun.TOML.parse(await Bun.file(resolve(root, "packages/cf-control-plane/cf.toml")).text()));
     const aphrodyCom = expandZoneRecords("aphrody.com", manifest.zones["aphrody.com"]!);
     const aphrodyApp = expandZoneRecords("aphrody.app", manifest.zones["aphrody.app"]!);
@@ -53,8 +53,8 @@ describe("@aphrody/ay-cf-control-plane", () => {
     expect(aphrodyCom.length).toBe(81);
     expect(aphrodyApp.length).toBe(60);
     expect(dragonballfr.length).toBe(20);
-    expect(rosegriffon.length).toBe(30);
-    expect(aphrodyCom.length + aphrodyApp.length + dragonballfr.length + rosegriffon.length).toBe(191);
+    expect(rosegriffon.length).toBe(31);
+    expect(aphrodyCom.length + aphrodyApp.length + dragonballfr.length + rosegriffon.length).toBe(192);
 
     // Verify conflict fixes are baked into declarative state
     expect(manifest.zones["aphrody.com"]!.worker_domains.some((d) => d.hostname === "auto.aphrody.com" && d.service === "ay-edge")).toBe(true);

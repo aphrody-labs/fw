@@ -74,7 +74,12 @@ origin_role = "origin"
 [tunnels.aphrody]
 transport = "quic"
 connectors = 2
-ingress = ["dbfr.aphrody.com", "nie.aphrody.app", "mcp-origin.aphrody.com", "ssh-prd.aphrody.com"]
+ingress = ["dbfr.aphrody.com", "mcp-origin.aphrody.com", "ssh-prd.aphrody.com"]
+
+[tunnels.nie]
+transport = "quic"
+connectors = 2
+ingress = ["nie.aphrody.app"]
 
 [tunnels.rosegriffon]
 transport = "quic"
@@ -84,12 +89,14 @@ ingress = [
   "www.rosegriffon.fr",
   "achillea.rosegriffon.fr",
   "azalee.rosegriffon.fr",
+  "admin.rosegriffon.fr",
   "shop.rosegriffon.fr",
-  "ranked.rosegriffon.fr",
   "api.rosegriffon.fr",
+  "api-achillea.rosegriffon.fr",
+  "api-azalee.rosegriffon.fr",
+  "ranked.rosegriffon.fr",
   "bot.rosegriffon.fr",
   "mcp.rosegriffon.fr",
-  "db.rosegriffon.fr",
   "cdn.rosegriffon.fr",
 ]
 
@@ -111,7 +118,7 @@ aphrody-video = { tier = "hot-reusable", custom_domains = ["video.aphrody.app", 
 aphrody-releases = { tier = "dist", custom_domains = ["releases.aphrody.com"], abort_multipart_seconds = 86_400, public_r2_dev = false }
 aphrody-dist = { tier = "dist", custom_domains = ["dist.aphrody.app"], abort_multipart_seconds = 86_400, public_r2_dev = false }
 bun-lib = { tier = "dist", custom_domains = ["bun-lib.aphrody.app"], abort_multipart_seconds = 86_400, public_r2_dev = false }
-rosegriffon-cdn = { tier = "site-cdn", custom_domains = ["r2.rosegriffon.fr"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+rosegriffon-cdn = { tier = "site-cdn", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
 shenron-cdn = { tier = "site-cdn", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
 aphrody-backups = { tier = "cold-offload", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
 aphrody-chromium = { tier = "cold-offload", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
@@ -271,6 +278,15 @@ workers_dev = true
 previews = false
 secrets = []
 
+[workers.rosegriffon-discord]
+profile = "cdn-router"
+cpu_ms = 50
+log_sampling = 0.1
+trace_sampling = 0.05
+workers_dev = false
+previews = false
+secrets = []
+
 [workers.rosegriffon-edge]
 profile = "cdn-router"
 cpu_ms = 50
@@ -292,7 +308,7 @@ secrets = []
 # Worker routes and custom domains below belong to the unified edge Worker (script = "ay-edge", exactly the routes of apps/edge/edge.toml) or to one of these
 # scripts, which live in other repositories and stay where they are. `bun tools/edge-config.ts --check` fails on any route that is neither, or both.
 [edge]
-external_scripts = ["aphrody", "aphrody-app", "aphrody-deploy", "aphrody-mcp-gateway", "aphrody-sites", "aphrody-webos", "api-aphrody-com", "bun-video-showcase", "rosegriffon-edge"]
+external_scripts = ["aphrody", "aphrody-app", "aphrody-deploy", "aphrody-mcp-gateway", "aphrody-sites", "aphrody-webos", "api-aphrody-com", "bun-video-showcase", "rosegriffon-discord", "rosegriffon-edge"]
 
 # Zone settings of every zone below (tools/cf-reconcile.ts diffs them, `--apply-zones` writes them; a `[zones."<zone>".settings]` table overrides one key).
 # http3 serves QUIC on UDP 443 and Cloudflare advertises it in Alt-Svc; 0rtt and tls_1_3 = "zrt" allow TLS 1.3 early data; early_hints sends 103 for cached Link headers.
@@ -654,6 +670,7 @@ worker_aaaa = [
 ]
 
 [zones."aphrody.app".tunnel_cnames]
+nie = ["nie"]
 aphrody = [
   "api",
   "auth",
@@ -684,12 +701,6 @@ assets = "aphrody-assets"
 bun-lib = "bun-lib"
 dist = "aphrody-dist"
 video = "aphrody-video"
-
-[[zones."aphrody.app".direct_origins]]
-name = "nie"
-type = "A"
-target = "host:edge_proxy"
-proxied = true
 
 [[zones."aphrody.app".caa_records]]
 name = "@"
@@ -1050,19 +1061,19 @@ rosegriffon = [
   "azalee",
   "bot",
   "cdn",
-  "db",
   "mcp",
   "ranked",
   "shop",
 ]
 
-[zones."rosegriffon.fr".r2_cnames]
-r2 = "rosegriffon-cdn"
 
 [[zones."rosegriffon.fr".static_cnames]]
 name = "autoconfig"
 target = "mailconfig.ovh.net"
+  "admin",
 proxied = false
+  "api-achillea",
+  "api-azalee",
 
 [[zones."rosegriffon.fr".static_cnames]]
 name = "autodiscover"
@@ -1177,6 +1188,18 @@ required_keys = [
   "APHRODY_AI_HTTP_TOKEN",
   "APHRODY_DEPLOY_TOKEN",
   "APHRODY_GOOGLE_ADMIN_TOKEN",
+[[zones."rosegriffon.fr".worker_routes]]
+pattern = "cdn.rosegriffon.fr/fetch"
+script = "rosegriffon-edge"
+
+[[zones."rosegriffon.fr".worker_routes]]
+pattern = "cdn.rosegriffon.fr/files/*"
+script = "rosegriffon-edge"
+
+[[zones."rosegriffon.fr".worker_routes]]
+pattern = "api.rosegriffon.fr/v1/discord/interactions"
+script = "rosegriffon-discord"
+
   "APHRODY_GOOGLE_OAUTH_CLIENT_ID",
   "APHRODY_GOOGLE_OAUTH_CLIENT_SECRET",
   "APHRODY_MCP_DATABASE_URL",

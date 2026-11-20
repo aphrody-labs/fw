@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+// `--zone <name>` (repeatable) limits the run to those zones of cf.toml: the other zones are neither diffed nor written.
 // Reconciles declarative cf.toml against live Cloudflare API (dry-run by default; --backup; --apply-safe; --apply-zones; --apply-settings; --apply-all).
 // --apply-settings writes only the zone settings (never DNS or routes); --apply-zones and --apply-all include them. The settings are the zone settings of cf.toml [zone_settings] (http3, 0rtt, early_hints, tls_1_3, min_tls_version) that differ live.
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -22,8 +23,13 @@ const applySafe = applyAll || argv.includes("--apply-safe");
 const applyZones = applyAll || argv.includes("--apply-zones");
 const applySettings = applyZones || argv.includes("--apply-settings");
 const pruneDns = argv.includes("--prune");
+const onlyZones = argv.flatMap((a, i) => (a === "--zone" && argv[i + 1] ? [argv[i + 1]!] : []));
 
 const manifest = AyCfManifestSchema.parse(Bun.TOML.parse(await Bun.file(join(root, "packages/cf-control-plane/cf.toml")).text()));
+if (onlyZones.length) {
+  for (const z of onlyZones) if (!manifest.zones[z]) throw new Error(`--zone ${z}: not a zone of cf.toml`);
+  for (const z of Object.keys(manifest.zones)) if (!onlyZones.includes(z)) delete manifest.zones[z];
+}
 const localCfg = Bun.TOML.parse(await Bun.file(join(root, "cf.local.toml")).text()) as LocalCloudflareContext;
 const accountId = localCfg.cloudflare?.account_id ?? Bun.env.CLOUDFLARE_ACCOUNT_ID;
 if (!accountId) throw new Error("Run `bun tools/cf-bootstrap-local.ts` first (missing account_id)");
