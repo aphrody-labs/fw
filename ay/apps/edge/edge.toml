@@ -23,6 +23,8 @@ RELEASES = "aphrody-releases"
 ASSETS = "aphrody-assets"
 VIDEO = "aphrody-video"
 CHROMIUM = "aphrody-chromium"
+DIST = "aphrody-dist"
+BUN_LIB = "bun-lib"
 
 # Services. mode = "module": code in this repository, bundled into the Worker. mode = "service": a script that still owns code or
 # Durable Object state in another repository, reached through a service binding (script = its current name); it keeps its cron
@@ -91,3 +93,42 @@ binding = "SVC_FW"
 enabled = false
 routes = []
 note = "fw-edge is not deployed on the account: enable once it is, or when fw exports its handler as a module"
+
+# Buckets served on their own hosts, the hosts that were R2 custom domains (HTTP/2 only; routed here they speak HTTP/3). Per host: the bucket binding,
+# the CORS rule the bucket carried (read from its live configuration on 2026-11-20) and the Cache-Control sent when the object stores none.
+# video.{root} is not here: it is routed to the bun-video-showcase script, which shadows the R2 custom domain of the same name.
+[cors.read]
+origins = ["https://{app}", "https://www.{app}", "https://{root}", "https://dragonballfr.com", "https://www.dragonballfr.com"]
+headers = ["Range", "If-None-Match"]
+expose = ["ETag", "Content-Length", "Content-Range", "Accept-Ranges"]
+
+[cors.assets]
+origins = [
+  "https://{app}", "https://www.{app}", "https://{root}", "https://dragonballfr.com", "https://www.dragonballfr.com",
+  "https://app-video.{app}", "https://app-generation.{app}", "https://app-images.{app}", "https://app-vectors.{app}", "https://app-compositing.{app}",
+  "https://app-photo-processing.{app}", "https://app-pdf.{app}", "https://app-documents.{app}", "https://app-audio.{app}", "https://app-layout.{app}",
+  "https://app-cad.{app}", "https://app-slides.{app}", "https://app-tables.{app}", "https://app-interface-layouts.{app}",
+]
+headers = ["Range", "If-None-Match"]
+expose = ["ETag", "Content-Length", "Content-Range", "Accept-Ranges"]
+
+[cors.video]
+origins = ["https://{app}", "https://www.{app}", "https://{root}", "https://www.{root}", "https://video.{app}", "https://video.{root}"]
+headers = ["Range", "Content-Type", "Origin", "Accept"]
+expose = ["Accept-Ranges", "Content-Length", "Content-Range", "Content-Type", "ETag"]
+
+[services.bucket]
+mode = "module"
+routes = ["assets.{app}/*", "video.{app}/*", "dist.{app}/*", "bun-lib.{app}/*"]
+note = "R2 buckets on their own hosts: ranges, validators, CORS of the bucket, index.html for directories"
+[services.bucket.hosts."assets.{app}"]
+bucket = "ASSETS"
+cors = "assets"
+[services.bucket.hosts."video.{app}"]
+bucket = "VIDEO"
+cors = "video"
+[services.bucket.hosts."dist.{app}"]
+bucket = "DIST"
+cors = "read"
+[services.bucket.hosts."bun-lib.{app}"]
+bucket = "BUN_LIB"

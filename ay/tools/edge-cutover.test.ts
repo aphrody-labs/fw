@@ -57,7 +57,7 @@ describe("edge cutover apply and rollback", () => {
     };
     return { calls, api };
   }
-  const local = { accountId: "acc", zones: { [cfg.domains.root!]: "zone-root", [cfg.domains.shenron!]: "zone-shenron" } };
+  const local = { accountId: "acc", zones: { [cfg.domains.root!]: "zone-root", [cfg.domains.shenron!]: "zone-shenron", [cfg.domains.app!]: "zone-app" } };
 
   test("forward writes only what changes and rollback restores the previous owners", async () => {
     const { calls, api } = recorder();

@@ -52,6 +52,9 @@ function seed(): void {
   const tools = join(work, "latest.json");
   writeFileSync(tools, '{"version":"tools-1"}');
   puts.push([cfg.buckets.CHROMIUM!, "ay-tools/latest.json", tools]);
+  const clip = join(work, "clip.bin");
+  writeFileSync(clip, "0123456789abcdefghij");
+  puts.push([cfg.buckets.VIDEO!, "showcase/clip.bin", clip], [cfg.buckets.VIDEO!, "index.html", icon], [cfg.buckets.DIST!, "aphrody/SHA256SUMS.txt", clip], [cfg.buckets.BUN_LIB!, "manifest.json", tools]);
   for (const [bucket, key, file] of puts) {
     const r = run([wrangler, ...wranglerArgs, "r2", "object", "put", `${bucket}/${key}`, "--file", file, "--local", "--persist-to", persist, "-c", "wrangler.jsonc"]);
     if (r.exitCode !== 0) throw new Error(`r2 put ${bucket}/${key}: ${r.stderr.toString().slice(-300)}`);
@@ -179,6 +182,25 @@ describe.skipIf(!running)("unified Worker in workerd", () => {
 
   test("preview prefix: a module that reads the URL itself (the gateway) works under /_/<service>", async () => {
     expect(((await (await preview("assets", "/healthz")).json()) as { service: string }).service).toBe("ay-cf-gateway");
+  });
+
+  test("bucket hosts: ranges, validators, CORS and index.html from the bucket of the host", async () => {
+    const video = `video.${domains.app}`;
+    const part = await get(video, "/showcase/clip.bin", { headers: { range: "bytes=2-5", origin: `https://${rootDomain}` } });
+    expect(part.status).toBe(206);
+    expect(part.headers.get("content-range")).toBe("bytes 2-5/20");
+    expect(await part.text()).toBe("2345");
+    expect(part.headers.get("access-control-allow-origin")).toBe(`https://${rootDomain}`);
+    expect(part.headers.get("x-served-by")).toBe("ay-edge");
+    const full = await get(video, "/showcase/clip.bin");
+    const etag = full.headers.get("etag")!;
+    expect(await full.text()).toBe("0123456789abcdefghij");
+    expect((await get(video, "/showcase/clip.bin", { headers: { "if-none-match": etag } })).status).toBe(304);
+    expect((await get(video, "/")).status).toBe(200);
+    expect(await (await get(`dist.${domains.app}`, "/aphrody/SHA256SUMS.txt")).text()).toBe("0123456789abcdefghij");
+    expect(((await (await get(`bun-lib.${domains.app}`, "/manifest.json")).json()) as { version: string }).version).toBe("tools-1");
+    expect((await get(video, "/missing")).status).toBe(404);
+    expect((await get(video, "/showcase/clip.bin", { method: "OPTIONS", headers: { origin: `https://${rootDomain}`, "access-control-request-method": "GET", "access-control-request-headers": "range" } })).status).toBe(200);
   });
 
   test("unrouted requests are 404 JSON, never a service", async () => {

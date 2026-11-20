@@ -113,11 +113,11 @@ ingress = [
 
 # Active R2 buckets (tier: hot-reusable | dist | site-cdn | cold-offload)
 [buckets]
-aphrody-assets = { tier = "hot-reusable", custom_domains = ["assets.aphrody.app"], abort_multipart_seconds = 86_400, public_r2_dev = false }
-aphrody-video = { tier = "hot-reusable", custom_domains = ["video.aphrody.app", "video.aphrody.com"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-assets = { tier = "hot-reusable", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-video = { tier = "hot-reusable", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
 aphrody-releases = { tier = "dist", custom_domains = ["releases.aphrody.com"], abort_multipart_seconds = 86_400, public_r2_dev = false }
-aphrody-dist = { tier = "dist", custom_domains = ["dist.aphrody.app"], abort_multipart_seconds = 86_400, public_r2_dev = false }
-bun-lib = { tier = "dist", custom_domains = ["bun-lib.aphrody.app"], abort_multipart_seconds = 86_400, public_r2_dev = false }
+aphrody-dist = { tier = "dist", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
+bun-lib = { tier = "dist", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
 rosegriffon-cdn = { tier = "site-cdn", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
 shenron-cdn = { tier = "site-cdn", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
 aphrody-backups = { tier = "cold-offload", custom_domains = [], abort_multipart_seconds = 86_400, public_r2_dev = false }
@@ -323,7 +323,7 @@ min_tls_version = "1.2"
 # Zero literal Account IDs, Zone IDs, Tunnel UUIDs, or VPS IPs: resolved dynamically via `cf.local.toml`.
 
 [zones."aphrody.com"]
-worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases", "assets", "wasm", "learn", "auto"]
+worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases", "assets", "wasm", "learn", "auto", "video"]
 
 [zones."aphrody.com".tunnel_cnames]
 aphrody = [
@@ -370,9 +370,6 @@ aphrody = [
   "store",
   "translate",
 ]
-
-[zones."aphrody.com".r2_cnames]
-video = "aphrody-video"
 
 [[zones."aphrody.com".direct_origins]]
 name = "dbfr"
@@ -647,6 +644,10 @@ service = "ay-edge"
 
 [zones."aphrody.app"]
 worker_aaaa = [
+  "assets",
+  "bun-lib",
+  "dist",
+  "video",
   "*",
   "@",
   "www",
@@ -695,12 +696,6 @@ aphrody = [
   "app-vectors",
   "app-video",
 ]
-
-[zones."aphrody.app".r2_cnames]
-assets = "aphrody-assets"
-bun-lib = "bun-lib"
-dist = "aphrody-dist"
-video = "aphrody-video"
 
 [[zones."aphrody.app".caa_records]]
 name = "@"
@@ -818,6 +813,22 @@ script = "aphrody-webos"
 [[zones."aphrody.app".worker_routes]]
 pattern = "app-audio.aphrody.app/*"
 script = "aphrody-webos"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "assets.aphrody.app/*"
+script = "ay-edge"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "video.aphrody.app/*"
+script = "ay-edge"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "dist.aphrody.app/*"
+script = "ay-edge"
+
+[[zones."aphrody.app".worker_routes]]
+pattern = "bun-lib.aphrody.app/*"
+script = "ay-edge"
 
 [[zones."aphrody.app".worker_routes]]
 pattern = "app-video.aphrody.app/*"

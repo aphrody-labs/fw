@@ -30,11 +30,15 @@ export const NOT_FOUND = (): Response =>
   new Response("not found", { status: 404, headers: { "cache-control": "no-store", "x-content-type-options": "nosniff" } });
 
 export interface ServeOptions {
-  /** Cache-Control of a hit; defaults to immutable. */
-  cache?: string;
+  /** Cache-Control of a hit; defaults to immutable, null sends none. */
+  cache?: string | null;
   /** Content-Disposition: attachment with the file name. */
   download?: boolean;
   cors?: boolean;
+  /** Keep the Cache-Control stored with the object when it has one; `cache` is then the fallback. */
+  preferMetadata?: boolean;
+  /** Headers added to every answer (a 404 excluded), for example the CORS headers of a bucket host. */
+  extra?: Headers;
 }
 
 export async function serveObject(bucket: R2Bucket, key: string, request: Request, opts: ServeOptions = {}): Promise<Response> {
@@ -52,12 +56,18 @@ export async function serveObject(bucket: R2Bucket, key: string, request: Reques
   if (!headers.has("content-type")) headers.set("content-type", extType(key) ?? "application/octet-stream");
   headers.set("etag", object.httpEtag);
   headers.set("accept-ranges", "bytes");
-  headers.set("cache-control", opts.cache ?? IMMUTABLE);
+  if (!(opts.preferMetadata && headers.has("cache-control"))) {
+    const cache = opts.cache === undefined ? IMMUTABLE : opts.cache;
+    if (cache === null) headers.delete("cache-control");
+    else headers.set("cache-control", cache);
+  }
+  if (!headers.has("last-modified") && object.uploaded instanceof Date) headers.set("last-modified", object.uploaded.toUTCString());
   headers.set("x-content-type-options", "nosniff");
   if (opts.cors) {
     headers.set("access-control-allow-origin", "*");
     headers.set("access-control-expose-headers", "etag, content-length, content-range, accept-ranges");
   }
+  if (opts.extra) for (const [k, v] of opts.extra) headers.append(k, v);
   if (opts.download) headers.set("content-disposition", `attachment; filename="${key.slice(key.lastIndexOf("/") + 1)}"`);
   if (request.method === "HEAD") {
     headers.set("content-length", String(object.size));

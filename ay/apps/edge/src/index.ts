@@ -3,11 +3,12 @@
 import { withEdgeCache } from "./hints.ts";
 import { type Resolved, type RouteRow, type ServiceInfo, resolve } from "./router.ts";
 import assets from "./services/assets.ts";
+import bucket from "./services/bucket.ts";
 import releases from "./services/releases.ts";
 import wasm from "./services/wasm.ts";
 import type { EdgeEnv, Routed, Service } from "./types.ts";
 
-export const modules: Record<string, Service> = { releases, assets, wasm };
+export const modules: Record<string, Service> = { releases, assets, wasm, bucket };
 
 interface Table {
   rows: RouteRow[];

@@ -26,6 +26,8 @@ export interface ServiceSpec {
   enabled?: boolean;
   routes?: string[];
   custom_domains?: string[];
+  /** Bucket service: the R2 binding, CORS rule and fallback Cache-Control of each host (a host written as in `routes`, templates allowed). */
+  hosts?: Record<string, { bucket: string; cors?: string; cache?: string }>;
   /** Hints by route template exactly as written in `routes` or `custom_domains`. */
   hints?: Record<string, RouteHints>;
   note?: string;
@@ -36,6 +38,8 @@ export interface EdgeConfig {
   domains: Record<string, string>;
   buckets: Record<string, string>;
   services: Record<string, ServiceSpec>;
+  /** CORS rules of the bucket hosts by name; origins may use {root}, {app}, {shenron}. */
+  cors?: Record<string, { origins: string[]; methods?: string[]; headers?: string[]; expose?: string[]; max_age?: number }>;
 }
 
 /** One row of the table the Worker matches: host, path (prefix when `prefix`), the service that owns it. */
@@ -104,6 +108,23 @@ export function zoneOf(host: string, domains: Record<string, string>): string {
   return zones.sort((a, b) => b.length - a.length)[0]!;
 }
 
+/** vars.EDGE_BUCKETS and vars.EDGE_CORS of the bucket service, absent when edge.toml has none. */
+export function bucketVars(cfg: EdgeConfig): Json {
+  const hosts = enabledServices(cfg).flatMap(([, s]) => Object.entries(s.hosts ?? {}));
+  if (!hosts.length) return {};
+  const used = new Set(hosts.flatMap(([, h]) => (h.cors ? [h.cors] : [])));
+  return {
+    EDGE_BUCKETS: Object.fromEntries(hosts.map(([host, h]) => [expand(host, cfg.domains).toLowerCase(), { bucket: h.bucket, ...(h.cors ? { cors: h.cors } : {}), ...(h.cache ? { cache: h.cache } : {}) }])),
+    EDGE_CORS: Object.fromEntries(
+      [...used].map((name) => {
+        const r = cfg.cors?.[name];
+        if (!r) throw new Error(`edge.toml: cors rule ${name} is not declared in [cors.${name}]`);
+        return [name, { origins: r.origins.map((o) => expand(o, cfg.domains)), methods: r.methods ?? ["GET", "HEAD"], headers: r.headers ?? [], expose: r.expose ?? [], max_age: r.max_age ?? 86400 }];
+      }),
+    ),
+  };
+}
+
 export function renderWrangler(cfg: EdgeConfig, opts: { routes?: boolean } = {}): Json {
   const withRoutes = opts.routes !== false;
   const rows = routeRows(cfg);
@@ -133,6 +154,7 @@ export function renderWrangler(cfg: EdgeConfig, opts: { routes?: boolean } = {})
       }),
     vars: {
       EDGE_SERVICES: Object.fromEntries(enabledServices(cfg).map(([n, s]) => [n, { binding: s.mode === "service" ? s.binding : null }])),
+      ...bucketVars(cfg),
       EDGE_ROUTES: rows.map(({ pattern, host, path, prefix, service, hints }) => ({ pattern, host, path, prefix, service, ...(hints ? { hints } : {}) })),
     },
   };
@@ -176,6 +198,11 @@ export function checkEdge(cfg: EdgeConfig, manifest: AyCfManifest, wrangler: str
     seen.set(key, r.service);
   }
   for (const [name, spec] of Object.entries(cfg.services)) {
+    for (const [host, h] of Object.entries(spec.hosts ?? {})) {
+      if (!(spec.routes ?? []).some((rt) => rt.startsWith(`${host}/`))) bad(`edge.toml services.${name}.hosts`, `"${host}" is not the host of a route of the service`);
+      if (!(h.bucket in cfg.buckets)) bad(`edge.toml services.${name}.hosts.${host}`, `bucket ${h.bucket} is not in [buckets]`);
+      if (h.cors && !cfg.cors?.[h.cors]) bad(`edge.toml services.${name}.hosts.${host}`, `cors ${h.cors} is not in [cors]`);
+    }
     for (const key of Object.keys(spec.hints ?? {})) {
       if (![...(spec.routes ?? []), ...(spec.custom_domains ?? [])].includes(key)) bad(`edge.toml services.${name}.hints`, `"${key}" is not a route of the service`);
     }

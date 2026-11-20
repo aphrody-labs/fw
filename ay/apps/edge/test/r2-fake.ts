@@ -2,13 +2,14 @@
 export interface Stored {
   body: Uint8Array<ArrayBuffer>;
   contentType?: string;
+  cacheControl?: string;
 }
 
 export class FakeBucket {
   readonly objects = new Map<string, Stored>();
 
-  put(key: string, value: string | Uint8Array<ArrayBuffer>, contentType?: string): void {
-    this.objects.set(key, { body: typeof value === "string" ? new TextEncoder().encode(value) : value, contentType });
+  put(key: string, value: string | Uint8Array<ArrayBuffer>, contentType?: string, cacheControl?: string): void {
+    this.objects.set(key, { body: typeof value === "string" ? new TextEncoder().encode(value) : value, contentType, cacheControl });
   }
 
   private view(key: string, s: Stored, range?: { offset: number; length: number }) {
@@ -21,6 +22,7 @@ export class FakeBucket {
       range,
       writeHttpMetadata: (h: Headers) => {
         if (s.contentType) h.set("content-type", s.contentType);
+        if (s.cacheControl) h.set("cache-control", s.cacheControl);
       },
       body: new Response(slice).body,
       json: async () => JSON.parse(new TextDecoder().decode(s.body)),

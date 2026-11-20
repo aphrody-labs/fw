@@ -49,6 +49,14 @@
     {
       "binding": "CHROMIUM",
       "bucket_name": "aphrody-chromium"
+    },
+    {
+      "binding": "DIST",
+      "bucket_name": "aphrody-dist"
+    },
+    {
+      "binding": "BUN_LIB",
+      "bucket_name": "bun-lib"
     }
   ],
   "services": [
@@ -91,6 +99,118 @@
       },
       "shenron": {
         "binding": "SVC_SHENRON_CDN"
+      },
+      "bucket": {
+        "binding": null
+      }
+    },
+    "EDGE_BUCKETS": {
+      "assets.aphrody.app": {
+        "bucket": "ASSETS",
+        "cors": "assets"
+      },
+      "video.aphrody.app": {
+        "bucket": "VIDEO",
+        "cors": "video"
+      },
+      "dist.aphrody.app": {
+        "bucket": "DIST",
+        "cors": "read"
+      },
+      "bun-lib.aphrody.app": {
+        "bucket": "BUN_LIB"
+      }
+    },
+    "EDGE_CORS": {
+      "assets": {
+        "origins": [
+          "https://aphrody.app",
+          "https://www.aphrody.app",
+          "https://aphrody.com",
+          "https://dragonballfr.com",
+          "https://www.dragonballfr.com",
+          "https://app-video.aphrody.app",
+          "https://app-generation.aphrody.app",
+          "https://app-images.aphrody.app",
+          "https://app-vectors.aphrody.app",
+          "https://app-compositing.aphrody.app",
+          "https://app-photo-processing.aphrody.app",
+          "https://app-pdf.aphrody.app",
+          "https://app-documents.aphrody.app",
+          "https://app-audio.aphrody.app",
+          "https://app-layout.aphrody.app",
+          "https://app-cad.aphrody.app",
+          "https://app-slides.aphrody.app",
+          "https://app-tables.aphrody.app",
+          "https://app-interface-layouts.aphrody.app"
+        ],
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "headers": [
+          "Range",
+          "If-None-Match"
+        ],
+        "expose": [
+          "ETag",
+          "Content-Length",
+          "Content-Range",
+          "Accept-Ranges"
+        ],
+        "max_age": 86400
+      },
+      "video": {
+        "origins": [
+          "https://aphrody.app",
+          "https://www.aphrody.app",
+          "https://aphrody.com",
+          "https://www.aphrody.com",
+          "https://video.aphrody.app",
+          "https://video.aphrody.com"
+        ],
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "headers": [
+          "Range",
+          "Content-Type",
+          "Origin",
+          "Accept"
+        ],
+        "expose": [
+          "Accept-Ranges",
+          "Content-Length",
+          "Content-Range",
+          "Content-Type",
+          "ETag"
+        ],
+        "max_age": 86400
+      },
+      "read": {
+        "origins": [
+          "https://aphrody.app",
+          "https://www.aphrody.app",
+          "https://aphrody.com",
+          "https://dragonballfr.com",
+          "https://www.dragonballfr.com"
+        ],
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "headers": [
+          "Range",
+          "If-None-Match"
+        ],
+        "expose": [
+          "ETag",
+          "Content-Length",
+          "Content-Range",
+          "Accept-Ranges"
+        ],
+        "max_age": 86400
       }
     },
     "EDGE_ROUTES": [
@@ -187,6 +307,34 @@
             "swr": 86400
           }
         }
+      },
+      {
+        "pattern": "assets.aphrody.app/*",
+        "host": "assets.aphrody.app",
+        "path": "/",
+        "prefix": true,
+        "service": "bucket"
+      },
+      {
+        "pattern": "video.aphrody.app/*",
+        "host": "video.aphrody.app",
+        "path": "/",
+        "prefix": true,
+        "service": "bucket"
+      },
+      {
+        "pattern": "dist.aphrody.app/*",
+        "host": "dist.aphrody.app",
+        "path": "/",
+        "prefix": true,
+        "service": "bucket"
+      },
+      {
+        "pattern": "bun-lib.aphrody.app/*",
+        "host": "bun-lib.aphrody.app",
+        "path": "/",
+        "prefix": true,
+        "service": "bucket"
       }
     ]
   },
@@ -234,6 +382,22 @@
     {
       "pattern": "cdn.dragonballfr.com/*",
       "zone_name": "dragonballfr.com"
+    },
+    {
+      "pattern": "assets.aphrody.app/*",
+      "zone_name": "aphrody.app"
+    },
+    {
+      "pattern": "video.aphrody.app/*",
+      "zone_name": "aphrody.app"
+    },
+    {
+      "pattern": "dist.aphrody.app/*",
+      "zone_name": "aphrody.app"
+    },
+    {
+      "pattern": "bun-lib.aphrody.app/*",
+      "zone_name": "aphrody.app"
     }
   ]
 }
