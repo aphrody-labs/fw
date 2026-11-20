@@ -53,6 +53,7 @@ const TREE_SITTER_GRAMMARS = [
   "c",
   "cpp",
   "java",
+  "kotlin",
   "go",
   "json",
   "bash",
@@ -60,6 +61,12 @@ const TREE_SITTER_GRAMMARS = [
 
 const SUBCOMMANDS = [
   "status",
+  "fx",
+  "pm",
+  "apm",
+  "doctor",
+  "m3-tui",
+  "serve",
   "heretic",
   "neon",
   "ghidra",
@@ -661,6 +668,29 @@ async function main(): Promise<number> {
       return cmdPlugin(root, rest);
     case "learn":
       return cmdLearn(rest);
+    case "fx":
+    case "pm":
+    case "apm":
+    case "doctor":
+    case "m3-tui":
+    case "serve": {
+      const binName = sub === "fx" ? (process.platform === "win32" ? "fx.exe" : "fx") : (process.platform === "win32" ? "fw.exe" : "fw");
+      const targetDir = process.env.CARGO_TARGET_DIR || join(root, "target");
+      const candidates = [
+        join(targetDir, "release", binName),
+        join(root, "target", "release", binName),
+        join(root, "dist", binName),
+      ];
+      const exe = candidates.find((p) => existsSync(p));
+      if (exe) {
+        const forward = sub === "fx" ? rest : [sub, ...rest];
+        return runSubprocess([exe, ...forward], root);
+      }
+      const pkg = sub === "fx" ? "fw-fx" : "fw-bin";
+      const bin = sub === "fx" ? "fx" : "fw";
+      const forward = sub === "fx" ? rest : [sub, ...rest];
+      return runSubprocess(["cargo", "run", "--quiet", "--release", "-p", pkg, "--bin", bin, "--", ...forward], root);
+    }
     default:
       console.error(JSON.stringify({ ok: false, error: `Unknown subcommand: ${sub}` }));
       return 1;

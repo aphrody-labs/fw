@@ -36,7 +36,7 @@ import {
 import { checkUpgrade, runBenchmarks } from "./upgrade.ts";
 import { listVfsMounts, vfsList, vfsRead, vfsSnapshots, vfsWrite } from "./vfs.ts";
 import { generateFwWtaConfig, getTerminalTuiStatus, verifyFwSelfTui } from "./terminal_tui.ts";
-import { renderFwWebHtml } from "./web_ui.ts";
+import { readFwWebAsset } from "./web_ui.ts";
 
 export function createFwApiHandler(root: string) {
   const provider = new FwProvider(root);
@@ -63,15 +63,20 @@ export function createFwApiHandler(root: string) {
       });
     }
 
-    if (url.pathname === "/" || url.pathname === "/ui") {
-      return new Response(renderFwWebHtml(), {
+    const webAsset = readFwWebAsset(url.pathname);
+    if (webAsset) {
+      return new Response(webAsset.body, {
         status: 200,
-        headers: { "content-type": "text/html; charset=utf-8" },
+        headers: {
+          "content-type": webAsset.contentType,
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+        },
       });
     }
     if (url.pathname === "/health") {
       const abi = probeRustAbi(root);
-      return json({ ok: true, product: "fw", version: "2.4.0", abiLoaded: abi.loaded, abiVersion: abi.version });
+      return json({ ok: true, product: "fw", version: "4.2.0", abiLoaded: abi.loaded, abiVersion: abi.version });
     }
     if (url.pathname === "/openapi.json") {
       return json(buildOpenApiSpec(url.origin));

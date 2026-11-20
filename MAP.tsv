@@ -32,9 +32,9 @@ os/fw-os	asterinas-osdk	6	4999	bun test tests/fw_v4_os_uutils_nix.test.ts
 os/fw-wsl	wsl-zero-legacy	8	9850	bun test tests/fw_v4_os_uutils_nix.test.ts
 plugin	agy-plugin	57	247262	dist/fw.exe plugin sync --install
 plugins	misc	8	62583	just ci
-src	bun-cli-aot	18	221546	bun test
+src	bun-cli-aot	18	220766	bun test
 tests	e2e-tests	13	130513	bun test
 tools	misc	3	40727	just ci
 vercel	edge-vercel	2	1886	bun test tests/fw_decisions_vercel.test.ts
-web	control-plane-ui	1	4198	bun run cf:dry-run
+web	control-plane-ui	6	24885	bun run cf:dry-run
 xtask	rust-xtask	2	18365	cargo xtask purity
