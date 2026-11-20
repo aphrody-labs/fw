@@ -67,6 +67,13 @@ describe("env generation", () => {
     expect(ps).not.toMatch(/\b(Get|Set|Select|Test)-\w+/);
   });
 
+  test("keep vars only default when the OS environment has not set them", () => {
+    const sh = emitSh(e, win);
+    expect(sh).toContain(`[ -n "\${CARGO_HOME-}" ] || export CARGO_HOME="$_ay_h"'\\.cargo'`);
+    expect(emitPs1(e, win)).toContain("if (-not $env:CARGO_HOME) { $env:CARGO_HOME = $_ayH + '\\.cargo' }");
+    expect(sh).toContain("export PAGER='less'");
+  });
+
   test("a Linux host emits only the Linux branch", () => {
     const sh = emitSh(e, lin);
     expect(sh).toContain("export XDG_CONFIG_HOME=");
