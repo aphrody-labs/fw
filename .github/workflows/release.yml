@@ -112,7 +112,7 @@ jobs:
       contents: write
       id-token: write
       attestations: write
-    uses: aphrody-dev/ay/.github/workflows/release.yml@main
+    uses: aphrody-labs/ay/.github/workflows/release.yml@main
     with:
       product: fw
       version: ${{ needs.meta.outputs.version }}
@@ -120,7 +120,7 @@ jobs:
       tag: ${{ needs.meta.outputs.tag }}
       commit: ${{ github.sha }}
       artifacts-pattern: release-*
-      tools-repository: aphrody-dev/ay
+      tools-repository: aphrody-labs/ay
     secrets: inherit
 
   publish-cloudflare:
