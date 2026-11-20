@@ -17,6 +17,9 @@
   --auto-size-xs: 12px;
   --auto-size-sm: 14px;
   --auto-size-base: 16px;
+  --auto-size-xl: 24px;
+  --auto-motion-fast: 120ms;
+  --auto-motion-ease: cubic-bezier(0.2, 0, 0, 1);
   --auto-bg: #f5fbf7;
   --auto-surface: #ffffff;
   --auto-surface-alt: #e3eae6;

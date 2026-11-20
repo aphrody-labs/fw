@@ -1,108 +1,108 @@
-/* Popup : jetons Material 3 de @aphrody/auto-ui (tokens.css, copié à la construction), aucune couleur propre. */
+/* Popup: Material 3 tokens from tokens.css (copied into dist by scripts/build.ts); no colors of its own. */
 :root {
-  font-family: var(--auto-police-corps);
+  font-family: var(--auto-font-body);
   font-size: 16px;
 }
 body {
   margin: 0;
   width: 340px;
-  background: var(--auto-fond);
-  color: var(--auto-texte);
+  background: var(--auto-bg);
+  color: var(--auto-text);
   line-height: 1.5;
 }
 main {
   display: grid;
-  gap: var(--auto-espace-4);
-  padding: var(--auto-espace-4);
+  gap: var(--auto-space-4);
+  padding: var(--auto-space-4);
 }
 h1 {
   margin: 0;
-  font-family: var(--auto-police-titre);
-  font-size: var(--auto-taille-xl);
-  color: var(--auto-primaire);
+  font-family: var(--auto-font-display);
+  font-size: var(--auto-size-xl);
+  color: var(--auto-primary);
 }
 h2 {
   margin: 0;
-  font-size: var(--auto-taille-base);
+  font-size: var(--auto-size-base);
 }
-#etat,
+#status,
 form {
   display: grid;
-  gap: var(--auto-espace-3);
-  padding: var(--auto-espace-4);
+  gap: var(--auto-space-3);
+  padding: var(--auto-space-4);
   background: var(--auto-surface);
-  border: 1px solid var(--auto-bordure);
-  border-radius: var(--auto-rayon-lg);
+  border: 1px solid var(--auto-border);
+  border-radius: var(--auto-radius-lg);
 }
-#etat p {
+#status p {
   margin: 0;
 }
-.champ {
+.field {
   display: grid;
-  gap: var(--auto-espace-1);
+  gap: var(--auto-space-1);
 }
 label {
   font-weight: 600;
-  font-size: var(--auto-taille-sm);
+  font-size: var(--auto-size-sm);
 }
 input {
   min-height: 44px;
-  padding: 0 var(--auto-espace-3);
+  padding: 0 var(--auto-space-3);
   font: inherit;
-  color: var(--auto-texte);
+  color: var(--auto-text);
   background: var(--auto-surface);
-  border: 1px solid var(--auto-bordure-controle);
-  border-radius: var(--auto-rayon-md);
+  border: 1px solid var(--auto-border-control);
+  border-radius: var(--auto-radius-md);
 }
 input[aria-invalid="true"] {
   border-color: var(--auto-danger);
 }
-.aide {
+.help {
   margin: 0;
-  font-size: var(--auto-taille-sm);
-  color: var(--auto-texte-attenue);
+  font-size: var(--auto-size-sm);
+  color: var(--auto-text-muted);
 }
-.erreur {
+.error {
   margin: 0;
-  font-size: var(--auto-taille-sm);
+  font-size: var(--auto-size-sm);
   color: var(--auto-danger);
 }
-.bouton {
+.button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  padding: 0 var(--auto-espace-4);
+  padding: 0 var(--auto-space-4);
   font: inherit;
   font-weight: 600;
-  border-radius: var(--auto-rayon-pleine);
-  border: 1px solid var(--auto-bordure-controle);
-  color: var(--auto-primaire);
+  border-radius: var(--auto-radius-full);
+  border: 1px solid var(--auto-border-control);
+  color: var(--auto-primary);
   background: transparent;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--auto-mouvement-rapide) var(--auto-mouvement-courbe);
+  transition: background-color var(--auto-motion-fast) var(--auto-motion-ease);
 }
-.bouton-primaire {
-  color: var(--auto-sur-primaire);
-  background: var(--auto-primaire);
-  border-color: var(--auto-primaire);
+.button-primary {
+  color: var(--auto-on-primary);
+  background: var(--auto-primary);
+  border-color: var(--auto-primary);
 }
-.bouton:hover {
-  background: color-mix(in srgb, var(--auto-primaire) 8%, transparent);
+.button:hover {
+  background: color-mix(in srgb, var(--auto-primary) 8%, transparent);
 }
-.bouton-primaire:hover {
-  background: color-mix(in srgb, var(--auto-primaire) 88%, var(--auto-sur-primaire));
+.button-primary:hover {
+  background: color-mix(in srgb, var(--auto-primary) 88%, var(--auto-on-primary));
 }
-.bouton:disabled {
+.button:disabled {
   opacity: 0.5;
   cursor: progress;
 }
 :focus-visible {
-  outline: 2px solid var(--auto-focus);
+  outline: 2px solid var(--auto-primary);
   outline-offset: 2px;
 }
-.visuellement-cache {
+.visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -112,4 +112,9 @@ input[aria-invalid="true"] {
 }
 [hidden] {
   display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
 }

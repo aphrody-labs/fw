@@ -15,7 +15,7 @@ export async function buildExtension(opts: { dist?: URL; hosts?: string[] } = {}
     minify: true,
   });
   if (!res.success) throw new AggregateError(res.logs, "Extension build failed");
-  for (const f of ["popup.html", "popup.css"]) {
+  for (const f of ["popup.html", "popup.css", "tokens.css"]) {
     await Bun.write(new URL(f, dist), Bun.file(new URL(`static/${f}`, root)));
   }
   const manifest = (await Bun.file(new URL("static/manifest.json", root)).json()) as {

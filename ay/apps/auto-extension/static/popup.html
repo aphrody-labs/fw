@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Auto: Supplier Invoices</title>
+    <link rel="stylesheet" href="tokens.css" />
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
@@ -11,20 +12,20 @@
       <h1>Auto</h1>
       <section id="status" aria-live="polite">
         <p id="summary">Loading...</p>
-        <a id="open-link" class="bouton" target="_blank" rel="noopener" hidden>Open Auto</a>
+        <a id="open-link" class="button" target="_blank" rel="noopener" hidden>Open Auto</a>
       </section>
       <form id="settings-form" novalidate>
         <h2>Settings</h2>
-        <div class="champ">
+        <div class="field">
           <label for="instance">Instance URL</label>
           <input id="instance" name="instance" type="url" inputmode="url" autocomplete="url" required />
         </div>
-        <div class="champ">
+        <div class="field">
           <label for="token">API Token</label>
           <input id="token" name="token" type="password" autocomplete="off" spellcheck="false" required />
         </div>
-        <p id="error" class="erreur" role="alert" hidden></p>
-        <button type="submit" class="bouton bouton-primaire" id="save-btn">Save and test</button>
+        <p id="error" class="error" role="alert" hidden></p>
+        <button type="submit" class="button button-primary" id="save-btn">Save and test</button>
       </form>
     </main>
     <script type="module" src="popup.js"></script>
