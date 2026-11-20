@@ -165,6 +165,13 @@ export const COMMANDS: readonly CommandEntry[] = [
     summary: "Render apps/edge/wrangler.jsonc from apps/edge/edge.toml (routes, buckets, service bindings), or check it is current",
   },
   {
+    name: "hygiene",
+    category: "infra",
+    kind: "tool",
+    target: "tools/host-hygiene.ts",
+    summary: "Enforce the disk policy of ay.toml [hygiene] on every host: targets, node_modules, caches, toolchains, containers, nginx logs, journal, undeclared units",
+  },
+  {
     name: "repo-archive",
     category: "infra",
     kind: "tool",

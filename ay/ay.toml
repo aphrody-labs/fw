@@ -89,3 +89,15 @@ mirrors = ["depot_tools", "wayland-c", "steam-runtime-tools", "steamos-manager",
 # The ordered stack of the ecosystem, keys of [repos]: 1 fw, 2 aphrody, 3 ay, 4 nie, 5 shenron.
 [ecosystem]
 stack = ["fw", "aphrody", "ay", "nie", "shenron"]
+
+# Host hygiene (tools/host-hygiene.ts): limits enforced by size and idleness on every host. Paths to protect, scan roots and the
+# systemd units to keep are host data: they go in ay.local.toml [hygiene] (shape in ay.local.example.toml).
+[hygiene]
+target_cap_gb = 40            # all cargo target dirs of a host together; oldest evicted first
+target_idle_days = 2
+node_modules_idle_days = 7    # bun restores them from its hard-linked cache
+sccache_cap_gb = 20
+docker_keep_hours = 48
+journal_max = "500M"
+log_max_mb = 50
+

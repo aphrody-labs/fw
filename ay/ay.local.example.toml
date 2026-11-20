@@ -49,3 +49,11 @@ checkout = "../aphrody-labs-github"
 # via = "test"                       # optional host role: run mcp-searxng there over ssh
 # [search.env]                       # any SEARXNG_* setting of mcp-searxng (cache, timeouts, proxies, limits)
 # SEARXNG_MAX_RESULTS = "20"
+
+# [hygiene]                                  # tools/host-hygiene.ts: what the policy of ay.toml [hygiene] must never touch
+# roots = ["/home", "/root", "/srv"]         # where targets and node_modules are looked for
+# protect = ["/srv/<site>", "/var/lib/containerd"]   # deployed apps and container storage: never purged
+# keep_toolchains = []                       # extra rustup toolchains to keep besides rust-toolchain.toml
+# [hygiene.systemd]
+# keep = ["fleet-*", "nginx"]                # custom units declared on purpose; others are reported (--disable-undeclared disables them)
+

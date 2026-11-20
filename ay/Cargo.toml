@@ -170,12 +170,12 @@ unimplemented = "deny"
 split-debuginfo = "unpacked"
 incremental = true
 codegen-units = 16
-debug = "limited"
+debug = "line-tables-only"
 
 [profile.dev.build-override]
 codegen-units = 16
 split-debuginfo = "unpacked"
-debug = "limited"
+debug = "line-tables-only"
 
 [profile.release]
 opt-level = 3
