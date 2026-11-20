@@ -2612,7 +2612,18 @@ export default {
       });
     }
 
-    if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html") && env.ASSETS) {
+    const STATIC_WEB_PATHS = new Set([
+      "/",
+      "/index.html",
+      "/app.css",
+      "/app.js",
+      "/robots.txt",
+      "/sitemap.xml",
+      "/llms.txt",
+      "/install.sh",
+      "/install.ps1",
+    ]);
+    if (request.method === "GET" && STATIC_WEB_PATHS.has(url.pathname) && env.ASSETS) {
       return env.ASSETS.fetch(request);
     }
 

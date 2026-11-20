@@ -5,6 +5,20 @@ Single pure-Rust v4.2 binary (`#![forbid(unsafe_code)]`, `x86-64-v3`, `mimalloc 
 - Live Edge Worker: `https://fw-edge.aphrody-labs.workers.dev` (`cloudflare/wrangler.jsonc`, `FwOSAgent` SQLite Durable Object + `web/` UI)
 - Workspace: 15 pure-Rust crates (`crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,hermes-claw,apm,fx,bin}`) + `xtask`, 7 external crates (`serde`, `serde_json`, `sha2`, `tokio`, `flate2`, `mimalloc`, `ureq`)
 
+## Install, Update & Uninstall (Zero Manual Steps)
+
+```bash
+# Linux / macOS
+curl -fsSL https://fw-edge.aphrody-labs.workers.dev/install.sh | sh
+
+# Windows PowerShell
+irm https://fw-edge.aphrody-labs.workers.dev/install.ps1 | iex
+
+# Self-update (TLS 1.3 + SHA-256 + atomic .prev rollback) & uninstall
+fw self-update
+fw self-uninstall --purge-data
+```
+
 ## Quick Start
 
 ```bash

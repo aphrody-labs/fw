@@ -14,6 +14,7 @@ mod hf_hub;
 mod local_studio;
 mod m3_agent_tui;
 mod ml_engine;
+mod self_lifecycle;
 mod universal_agent;
 
 #[global_allocator]
@@ -697,6 +698,33 @@ fn main() {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
                     eprintln!("fw workflow: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "self-install" => {
+            match self_lifecycle::run_self_install(&args[1..]) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw self-install: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "self-update" | "update" | "upgrade" => {
+            match self_lifecycle::run_self_update(&args[1..], parsed.global.offline) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw self-update: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "self-uninstall" => {
+            match self_lifecycle::run_self_uninstall(&args[1..]) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw self-uninstall: {e}");
                     std::process::exit(1);
                 }
             }
