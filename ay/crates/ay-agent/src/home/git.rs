@@ -20,7 +20,7 @@ use crate::home::HomeError;
 
 /// Author/committer identity stamped on backup commits. Neutral, non-personal
 /// (CLAUDE.md anonymisation rule).
-const BACKUP_AUTHOR_NAME: &str = "ay-agent-home";
+const BACKUP_AUTHOR_NAME: &str = "ay-agent";
 const BACKUP_AUTHOR_EMAIL: &str = "agent-home@aphrody.local";
 
 /// Outcome of a [`backup`] call.

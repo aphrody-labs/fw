@@ -8,7 +8,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use ay_patch::{AppliedSummary, PatchFileSystem, apply_patch, parse_patch};
+use ay_agent::patch::{AppliedSummary, PatchFileSystem, apply_patch, parse_patch};
 use ay_toolcall::{
     AdditionalProperties, JsonSchema, ToolDefinition, ToolError, ToolExecutor, ToolOutput,
 };
@@ -95,7 +95,7 @@ impl<F: PatchFileSystem> PatchFileSystem for RootedFs<'_, F> {
 
 /// Applies an LLM-authored `apply_patch` document to the filesystem.
 ///
-/// The patch grammar is the one parsed by [`ay_patch::parse_patch`]
+/// The patch grammar is the one parsed by [`ay_agent::patch::parse_patch`]
 /// (add / delete / update-with-fuzzy-context / move). Application goes through
 /// a pluggable [`PatchFileSystem`]: [`DiskFs`] on real disk by default,
 /// or any injected backend (see [`ApplyPatchTool::with_fs`]) for hermetic tests

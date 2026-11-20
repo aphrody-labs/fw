@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! `ay-agent-proto` — the agent SQ/EQ protocol plus a newline-delimited
+//! `ay-agent/proto` — the agent SQ/EQ protocol plus a newline-delimited
 //! JSON (NDJSON) wire codec.
 //!
 //! This crate is the single wire shared by every aphrody surface

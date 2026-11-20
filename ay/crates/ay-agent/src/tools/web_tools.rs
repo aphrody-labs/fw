@@ -97,11 +97,11 @@ impl ToolExecutor for WebSearchTool {
         // The shared SERP client of `aphrody web search`: cookie-authenticated when a jar is
         // present, anonymous otherwise.
         let num = args.num.unwrap_or(5).clamp(1, 100);
-        let options = ay_google::search::SearchOptions {
+        let options = ay_gemini::google::search::SearchOptions {
             num: u8::try_from(num).ok(),
-            ..ay_google::search::SearchOptions::default()
+            ..ay_gemini::google::search::SearchOptions::default()
         };
-        let search = ay_google::search::search_rich(&args.query, &options);
+        let search = ay_gemini::google::search::search_rich(&args.query, &options);
         match tokio::time::timeout(self.budget, search).await {
             Ok(Ok(results)) => {
                 let mut out = format!("# Search results for: {}\n\n", args.query);

@@ -345,7 +345,7 @@ mod tests {
 
     fn run_in(state: &Path, rest: &[&str]) -> Result<Value, HomeError> {
         let s = state.to_str().unwrap();
-        let mut argv = vec!["ay-agent-home", "--state", s, "--homes-dir", "users"];
+        let mut argv = vec!["ay-agent", "--state", s, "--homes-dir", "users"];
         argv.extend_from_slice(rest);
         run(&Cli::try_parse_from(argv).unwrap())
     }

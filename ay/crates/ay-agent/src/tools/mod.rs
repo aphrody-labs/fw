@@ -11,8 +11,8 @@
 //!   `EventMsg::ExecCommandOutputDelta`
 //!   events live.
 //! - [`ApplyPatchTool`] — parses an `*** Begin Patch ... *** End Patch` document via
-//!   [`ay_patch::parse_patch`] and applies it through a pluggable
-//!   [`PatchFileSystem`](ay_patch::PatchFileSystem) (real disk by default, injectable for
+//!   [`ay_agent::patch::parse_patch`] and applies it through a pluggable
+//!   [`PatchFileSystem`](ay_agent::patch::PatchFileSystem) (real disk by default, injectable for
 //!   tests).
 //!
 //! - [`WincleanTool`] / [`WincleanGatewayTool`] — native Windows computer use and OS control
@@ -23,9 +23,9 @@
 //!
 //! Per the aphrody autonomy contract, both tools are **permissive by default**:
 //! no path jailing, and no command refusal unless explicitly opted in. The
-//! [`ShellExecTool`] consults [`ay_guard`] command-safety as an **opt-in**
+//! [`ShellExecTool`] consults [`ay_agent::guard`] command-safety as an **opt-in**
 //! backstop: only when `APHRODY_GUARD` is enabled does it refuse a
-//! provably-destructive command ([`Decision::Forbidden`](ay_guard::Decision::Forbidden)
+//! provably-destructive command ([`Decision::Forbidden`](ay_agent::guard::Decision::Forbidden)
 //! — `rm -rf /`, `git push --force`, a fork bomb, …) before spawning. With the
 //! guard off (the default), behaviour is unchanged: every command runs, so a
 //! fully-autonomous agent is never impeded. `Allow`/`Prompt` commands always run;

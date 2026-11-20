@@ -149,7 +149,7 @@ impl ToolExecutor for WincleanTool {
     }
 
     fn safety(&self, _arguments: &Value) -> ToolSafety {
-        classify(&self.definition.name, ay_guard::guardrails_enabled())
+        classify(&self.definition.name, ay_agent::guard::guardrails_enabled())
     }
 }
 
@@ -243,7 +243,7 @@ impl ToolExecutor for WincleanGatewayTool {
             .get("tool")
             .and_then(Value::as_str)
             .map_or(ToolSafety::Safe, |t| {
-                classify(t, ay_guard::guardrails_enabled())
+                classify(t, ay_agent::guard::guardrails_enabled())
             })
     }
 }

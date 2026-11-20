@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# ay-agent-proto
+# ay-agent/proto
 
 The agent Submission/Event protocol of Aphrody and its newline-delimited JSON (NDJSON) wire codec.
 Every Aphrody surface (CLI, TUI, desktop, MCP) talks to the agent engine through it.
@@ -20,13 +20,13 @@ Decoding tolerates unknown fields so newer agents can add data without breaking 
 
 ```toml
 [dependencies]
-ay-agent-proto = "1.0.0-canary"
+ay-agent/proto = "1.0.0-canary"
 ```
 
 ## Example
 
 ```rust
-use ay_agent_proto::{
+use ay_agent::proto::{
     Event, EventMsg, InputItem, Op, Submission, decode_events, decode_submission,
     encode_event, encode_submission,
 };
@@ -43,7 +43,7 @@ let stream = format!(
     encode_event(&Event::new(EventMsg::AgentMessageDelta { delta: "hi".into() }))?,
 );
 assert_eq!(decode_events(&stream).count(), 2); // blank lines are skipped
-# Ok::<(), ay_agent_proto::ProtoError>(())
+# Ok::<(), ay_agent::proto::ProtoError>(())
 ```
 
 ## Platform support

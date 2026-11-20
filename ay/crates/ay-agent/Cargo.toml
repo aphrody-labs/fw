@@ -10,30 +10,44 @@ publish.workspace = true
 
 [features]
 git = ["dep:gix"]
-home = ["dep:ay-config", "dep:ay-model", "dep:arc-swap", "dep:blake3", "dep:serde", "dep:serde_json", "dep:sha2", "dep:thiserror", "dep:tracing", "dep:unicode-segmentation", "dep:clap", "dep:memmap2", "dep:notify"]
-proto = ["dep:serde", "dep:serde_json", "dep:thiserror", "dep:uuid"]
-tools = ["dep:serde", "dep:serde_json", "dep:ay-jev", "dep:ay-patch", "dep:ay-toolcall", "dep:async-trait", "dep:axum", "dep:anyhow", "dep:ay-gemini", "dep:ay-google", "dep:ay-guard", "dep:ay-proc", "dep:aphrody-remote-desktop", "dep:aphrody-term", "dep:aphrody-web-service", "dep:aphrody-winclean", "dep:base64", "dep:obscura-net", "dep:ay-http", "dep:thiserror", "dep:tokio", "dep:tracing", "dep:libc", "dep:sysinfo"]
-default = ["home", "proto", "tools"]
+home = ["dep:ay-config", "dep:ay-model", "dep:arc-swap", "dep:blake3", "dep:sha2", "dep:unicode-segmentation", "dep:clap", "dep:memmap2", "dep:notify"]
+proto = ["dep:uuid"]
+tools = ["jev-client", "patch", "guard", "dep:ay-toolcall", "dep:axum", "dep:anyhow", "dep:ay-gemini", "dep:ay-proc", "dep:aphrody-remote-desktop", "dep:aphrody-term", "dep:aphrody-web-service", "dep:aphrody-winclean", "dep:base64", "dep:obscura-net", "dep:ay-http", "dep:tokio", "dep:sysinfo"]
+guard = []
+patch = ["dep:similar"]
+jev-client = ["jev", "dep:futures", "dep:ay-http", "dep:rustls", "dep:tokio", "dep:url"]
+jev-server = ["jev-client", "dep:axum", "tokio/rt-multi-thread", "tokio/macros", "tokio/net"]
+jev = ["dep:tokio"]
+rollout = ["dep:tokio", "dep:uuid"]
+subsystem = ["dep:tokio"]
+full = ["git", "home", "proto", "tools", "guard", "patch", "jev", "jev-client", "jev-server", "rollout", "subsystem"]
+default = []
 
 [dependencies]
 arc-swap = { version = "1.9.5", optional = true }
-async-trait = { workspace = true, optional = true }
+async-trait.workspace = true
 axum = { workspace = true, optional = true }
 ay-config = { path = "../ay-config", features = [], optional = true }
-ay-http = { path = "../ay-http", default-features = false, features = ["client"], optional = true }
-ay-jev = { path = "../ay-jev", default-features = false, features = ["client"], optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }
 ay-model = { path = "../ay-model", default-features = false, features = ["store"], optional = true }
-ay-patch = { path = "../ay-patch", features = [], optional = true }
 ay-toolcall = { path = "../ay-toolcall", default-features = false, features = [], optional = true }
 blake3 = { version = "1.8.7", default-features = false, optional = true }
-serde = { workspace = true, optional = true }
-serde_json = { workspace = true, features = ["std"], optional = true }
+futures = { workspace = true, optional = true }
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"], optional = true }
+serde.workspace = true
+serde_json = { workspace = true, features = ["std"] }
 sha2 = { workspace = true, optional = true }
-thiserror = { workspace = true, optional = true }
-tracing = { workspace = true, optional = true }
+similar = { version = "3.2.1", features = ["text"], optional = true }
+thiserror.workspace = true
+tokio = { workspace = true, features = ["process", "full"], optional = true }
+tracing.workspace = true
 unicode-segmentation = { version = "1", features = [], optional = true }
+url = { workspace = true, optional = true }
+uuid = { workspace = true, features = ["v4", "v7", "serde"], optional = true }
 
 [dev-dependencies]
+ay-agent = { path = ".", features = ["full"] }
+axum.workspace = true
 criterion = { workspace = true, features = ["html_reports"] }
 pretty_assertions.workspace = true
 tempfile.workspace = true
@@ -46,40 +60,51 @@ uuid = { version = "1.29.3", default-features = false, features = ["v4", "serde"
 anyhow = { version = "1.0.104", optional = true }
 aphrody-remote-desktop = { version = "1.4.7", features = ["vnc-client"], optional = true }
 aphrody-term = { version = "1.4.7", features = [], optional = true }
-aphrody-web-service = { version = "1.4.8", package = "bun_browser_service", features = ["render"], optional = true }
-aphrody-winclean = { version = "1.4.8", package = "bun-windows-winclean", features = [], optional = true }
-ay-gemini = { path = "../ay-gemini", default-features = false, features = ["web"], optional = true }
-ay-google = { path = "../ay-google", features = [], optional = true }
-ay-guard = { path = "../ay-guard", features = [], optional = true }
+aphrody-web-service = { version = "1.4.8", features = ["render"], optional = true, package = "bun_browser_service" }
+aphrody-winclean = { version = "1.4.8", features = [], optional = true, package = "bun-windows-winclean" }
+ay-gemini = { path = "../ay-gemini", default-features = false, features = ["web", "google"], optional = true }
 ay-proc = { path = "../ay-proc", features = ["tokio"], optional = true }
 base64 = { version = "0.23.1", optional = true }
 clap = { version = "4.6.8", features = ["derive", "env", "color"], optional = true }
 gix = { version = "0.90.0", default-features = false, features = ["sha1", "basic", "extras", "comfort", "max-performance", "revision", "index", "worktree-mutation"], optional = true }
 memmap2 = { version = "0.9.12", optional = true }
 notify = { version = "8", features = [], optional = true }
-obscura-net = { version = "1.4.8", package = "bun_browser_net", features = [], optional = true }
+obscura-net = { version = "1.4.8", features = [], optional = true, package = "bun_browser_net" }
 thiserror = { version = "2.0.21", optional = true }
 tokio = { version = "1.54.1", features = ["process", "rt-multi-thread", "macros", "time", "signal", "sync", "fs", "io-util", "full"], optional = true }
 tracing = { version = "0.1.44", optional = true }
 
 [target."cfg(unix)".dependencies]
-libc = { workspace = true, optional = true }
+libc.workspace = true
 
 [target."cfg(windows)".dependencies]
 sysinfo = { version = "0.40.4", default-features = false, features = ["system", "disk"], optional = true }
 
-[[bench]]
-name = "home_agent_home_bench"
-path = "benches/home_agent_home_bench.rs"
-harness = false
-required-features = ["home"]
+[[test]]
+name = "jev_native"
+path = "tests/jev_native.rs"
+required-features = ["jev-client"]
 
 [[test]]
-name = "home_dbfr_shenron_test"
-path = "tests/home_dbfr_shenron_test.rs"
-required-features = ["home"]
+name = "jev_protocol"
+path = "tests/jev_protocol.rs"
+required-features = ["jev"]
 
-# Agent tools call OS APIs with documented `unsafe` blocks.
+[[test]]
+name = "jev_rag"
+path = "tests/jev_rag.rs"
+required-features = ["jev-client"]
+
+[[test]]
+name = "jev_router"
+path = "tests/jev_router.rs"
+required-features = ["jev-client"]
+
+[[test]]
+name = "jev_server"
+path = "tests/jev_server.rs"
+required-features = ["jev-server"]
+
 [lints.rust]
 non_ascii_idents = "deny"
 unsafe_op_in_unsafe_fn = "deny"

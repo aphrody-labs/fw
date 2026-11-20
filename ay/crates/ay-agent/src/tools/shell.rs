@@ -225,7 +225,7 @@ impl ToolExecutor for ShellExecTool {
         // Command-safety backstop. Opt-in via APHRODY_GUARD (a no-op by default,
         // per the autonomy contract); when enabled, a provably-destructive
         // command is refused here and never spawned.
-        if let Some(refusal) = forbidden_refusal(&args.command, ay_guard::guardrails_enabled()) {
+        if let Some(refusal) = forbidden_refusal(&args.command, ay_agent::guard::guardrails_enabled()) {
             tracing::warn!(
                 command = ?args.command,
                 "shell: refused known-destructive command (APHRODY_GUARD)"
@@ -300,7 +300,7 @@ impl ToolExecutor for ShellExecTool {
         else {
             return ToolSafety::Safe;
         };
-        classify_safety(&command, ay_guard::guardrails_enabled())
+        classify_safety(&command, ay_agent::guard::guardrails_enabled())
     }
 }
 
@@ -470,7 +470,7 @@ fn push_chunk(
 ///
 /// When `guard_enabled` is `true` (i.e. `APHRODY_GUARD` is opted in) and
 /// `aphrody-guard` proves the command **known-destructive**
-/// ([`Decision::Forbidden`](ay_guard::Decision::Forbidden) — `rm -rf /`,
+/// ([`Decision::Forbidden`](ay_agent::guard::Decision::Forbidden) — `rm -rf /`,
 /// `git push --force`, `dd`, a fork bomb, …), this returns a refusal
 /// [`ToolOutput`] and the caller must not spawn it: such a command is never
 /// auto-run. `Allow` and `Prompt` commands return `None` and still run, so
@@ -496,17 +496,17 @@ fn forbidden_refusal(command: &[String], guard_enabled: bool) -> Option<ToolOutp
 /// is [`ToolSafety::Safe`], so an autonomous agent runs unimpeded. When enabled,
 /// the `aphrody-guard` classifier applies: provably read-only ⇒ `Safe`, unknown
 /// ⇒ `Escalate`, known-destructive ⇒ `Refuse`. Pure and env-free for testing;
-/// the env is read once by the caller via `ay_guard::guardrails_enabled`.
+/// the env is read once by the caller via `ay_agent::guard::guardrails_enabled`.
 fn classify_safety(command: &[String], guard_enabled: bool) -> ToolSafety {
     let decision = if guard_enabled {
-        ay_guard::classify_command(command)
+        ay_agent::guard::classify_command(command)
     } else {
-        ay_guard::Decision::Allow
+        ay_agent::guard::Decision::Allow
     };
     match decision {
-        ay_guard::Decision::Allow => ToolSafety::Safe,
-        ay_guard::Decision::Prompt => ToolSafety::Escalate,
-        ay_guard::Decision::Forbidden => ToolSafety::Refuse,
+        ay_agent::guard::Decision::Allow => ToolSafety::Safe,
+        ay_agent::guard::Decision::Prompt => ToolSafety::Escalate,
+        ay_agent::guard::Decision::Forbidden => ToolSafety::Refuse,
     }
 }
 

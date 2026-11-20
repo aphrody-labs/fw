@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! # ay-agent-home — the agent's persistent home.
+//! # ay-agent/home — the agent's persistent home.
 //!
 //! This crate centralises the **persistent identity of the agent**: its
 //! workspace, its soul (persona), its identity (name / vibe / emoji), the user

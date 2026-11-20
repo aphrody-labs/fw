@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! Criterion micro-benchmarks for ay-agent-home (AH-18).
+//! Criterion micro-benchmarks for ay-agent/home (AH-18).
 //!
 //! Three groups:
 //!   * `cold_load/mmap` vs `cold_load/read` — the zero-copy mmap path vs a plain heap read of the

@@ -3,11 +3,11 @@
 //!
 //! The agent passes a state and named questions; the tool returns only
 //! validated primitives plus the backend that served them. Routing and local
-//! failover are owned by [`ay_jev::JevRouter`].
+//! failover are owned by [`ay_agent::jev::JevRouter`].
 
 use std::{collections::BTreeMap, sync::Arc};
 
-use ay_jev::{DEFAULT_MODEL, JevError, JevRouter, Question, Request};
+use ay_agent::jev::{DEFAULT_MODEL, JevError, JevRouter, Question, Request};
 use ay_toolcall::{
     AdditionalProperties, JsonSchema, ToolDefinition, ToolError, ToolExecutor, ToolOutput,
 };
@@ -83,7 +83,7 @@ impl ToolExecutor for JevDecideTool {
             questions: args.questions,
         };
         if let Some(threshold) = args.minimum_confidence {
-            ay_jev::validate_confidence_threshold(threshold).map_err(|error| {
+            ay_agent::jev::validate_confidence_threshold(threshold).map_err(|error| {
                 ToolError::InvalidArguments {
                     tool: JEV_TOOL.into(),
                     message: error.to_string(),
@@ -92,7 +92,7 @@ impl ToolExecutor for JevDecideTool {
         }
         match self.router.decide(&request).await {
             Ok(decision) => {
-                let body = ay_jev::decision_output(&request, &decision, args.minimum_confidence)
+                let body = ay_agent::jev::decision_output(&request, &decision, args.minimum_confidence)
                     .map_err(|error| ToolError::InvalidArguments {
                         tool: JEV_TOOL.into(),
                         message: error.to_string(),
@@ -154,7 +154,7 @@ fn definition() -> ToolDefinition {
 
 #[cfg(test)]
 mod tests {
-    use ay_jev::{Endpoint, RoutingPolicy};
+    use ay_agent::jev::{Endpoint, RoutingPolicy};
     use serde_json::json;
 
     use super::*;
