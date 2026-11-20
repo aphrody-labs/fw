@@ -42,8 +42,6 @@ exclude = [
     "native/fw-world",
     "native/fw-abi",
     "native/fw-agy",
-    "core/rs/tui-test",
-    "core/rs/wta",
     "packages",
 ]
 resolver = "2"

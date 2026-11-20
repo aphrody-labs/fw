@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-//! `fw-native` (`fw-bin`) — Single unified zero-system-dependency Fat-LTO binary
+//! `fw` (`fw-bin`) — Single unified zero-system-dependency Fat-LTO binary
 //! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
@@ -254,7 +254,7 @@ fn main() {
                 "{}",
                 serde_json::to_string_pretty(&json!({
                     "ok": true,
-                    "product": "fw-native",
+                    "product": "fw",
                     "version": "3.0.0",
                     "zeroSystemDeps": true,
                     "hardware": hw,
@@ -347,7 +347,7 @@ fn main() {
         }
         "nix" => {
             let name = args.get(1).map(String::as_str).unwrap_or("fw-uutils-4.0.0");
-            let entry = compute_fixed_output_store_entry(name, b"#!/bin/sh\nexec fw-native\n", true);
+            let entry = compute_fixed_output_store_entry(name, b"#!/bin/sh\nexec fw\n", true);
             println!("{}", serde_json::to_string_pretty(&json!({ "ok": true, "entry": entry })).unwrap());
         }
         "stack" => {
