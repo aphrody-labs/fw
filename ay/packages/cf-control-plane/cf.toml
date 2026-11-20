@@ -308,7 +308,7 @@ secrets = []
 # Worker routes and custom domains below belong to the unified edge Worker (script = "ay-edge", exactly the routes of apps/edge/edge.toml) or to one of these
 # scripts, which live in other repositories and stay where they are. `bun tools/edge-config.ts --check` fails on any route that is neither, or both.
 [edge]
-external_scripts = ["aphrody", "aphrody-app", "aphrody-deploy", "aphrody-mcp-gateway", "aphrody-sites", "aphrody-webos", "api-aphrody-com", "bun-video-showcase", "rosegriffon-discord", "rosegriffon-edge"]
+external_scripts = ["aphrody", "aphrody-app", "aphrody-deploy", "aphrody-mcp-gateway", "aphrody-sites", "aphrody-webos", "api-aphrody-com", "bun-video-showcase", "aphrody-web", "rosegriffon-discord", "rosegriffon-edge"]
 
 # Zone settings of every zone below (tools/cf-reconcile.ts diffs them, `--apply-zones` writes them; a `[zones."<zone>".settings]` table overrides one key).
 # http3 serves QUIC on UDP 443 and Cloudflare advertises it in Alt-Svc; 0rtt and tls_1_3 = "zrt" allow TLS 1.3 early data; early_hints sends 103 for cached Link headers.
@@ -323,7 +323,7 @@ min_tls_version = "1.2"
 # Zero literal Account IDs, Zone IDs, Tunnel UUIDs, or VPS IPs: resolved dynamically via `cf.local.toml`.
 
 [zones."aphrody.com"]
-worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases", "assets", "wasm", "learn", "auto", "video"]
+worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases", "assets", "wasm", "learn", "auto", "video", "web"]
 
 [zones."aphrody.com".tunnel_cnames]
 aphrody = [
@@ -572,6 +572,14 @@ script = "aphrody-webos"
 [[zones."aphrody.com".worker_routes]]
 pattern = "os.aphrody.com/*"
 script = "aphrody-webos"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "web.aphrody.com/*"
+script = "aphrody-web"
+
+[[zones."aphrody.com".worker_routes]]
+pattern = "aphrody.com/web*"
+script = "aphrody-web"
 
 [[zones."aphrody.com".worker_routes]]
 pattern = "aphrody.com/*"
@@ -1062,127 +1070,9 @@ pattern = "cdn.dragonballfr.com/*"
 script = "ay-edge"
 
 
+# Owned by the rosegriffon repository (its own session rebuilds the tunnel, origin, DNS and Workers): cf-reconcile never reads or writes this zone.
 [zones."rosegriffon.fr"]
-[zones."rosegriffon.fr".tunnel_cnames]
-rosegriffon = [
-  "@",
-  "www",
-  "achillea",
-  "api",
-  "azalee",
-  "bot",
-  "cdn",
-  "mcp",
-  "ranked",
-  "shop",
-]
-
-
-[[zones."rosegriffon.fr".static_cnames]]
-name = "autoconfig"
-target = "mailconfig.ovh.net"
-  "admin",
-proxied = false
-  "api-achillea",
-  "api-azalee",
-
-[[zones."rosegriffon.fr".static_cnames]]
-name = "autodiscover"
-target = "mailconfig.ovh.net"
-proxied = false
-
-[[zones."rosegriffon.fr".static_cnames]]
-name = "imap"
-target = "ssl0.ovh.net"
-proxied = false
-
-[[zones."rosegriffon.fr".static_cnames]]
-name = "mail"
-target = "ssl0.ovh.net"
-proxied = false
-
-[[zones."rosegriffon.fr".static_cnames]]
-name = "pop3"
-target = "ssl0.ovh.net"
-proxied = false
-
-[[zones."rosegriffon.fr".static_cnames]]
-name = "smtp"
-target = "ssl0.ovh.net"
-proxied = false
-
-[[zones."rosegriffon.fr".static_cnames]]
-name = "ovhmo5380100-selector1._domainkey"
-target = "ovhmo5380100-selector1._domainkey.4076964.oh.dkim.mail.ovh.net"
-proxied = false
-
-[[zones."rosegriffon.fr".static_cnames]]
-name = "ovhmo5380100-selector2._domainkey"
-target = "ovhmo5380100-selector2._domainkey.4076963.oh.dkim.mail.ovh.net"
-proxied = false
-
-[[zones."rosegriffon.fr".mx_records]]
-name = "@"
-target = "ssl0.ovh.net"
-priority = 1
-
-[[zones."rosegriffon.fr".srv_records]]
-name = "_autodiscover._tcp"
-priority = 0
-weight = 0
-port = 443
-target = "mailconfig.ovh.net"
-
-[[zones."rosegriffon.fr".srv_records]]
-name = "_imaps._tcp"
-priority = 0
-weight = 0
-port = 993
-target = "ssl0.ovh.net"
-
-[[zones."rosegriffon.fr".srv_records]]
-name = "_submission._tcp"
-priority = 0
-weight = 0
-port = 465
-target = "ssl0.ovh.net"
-
-[[zones."rosegriffon.fr".txt_records]]
-name = "_gh-rose-griffon-o"
-content = "\"545007b9e3\""
-
-[[zones."rosegriffon.fr".txt_records]]
-name = "_github-pages-challenge-rose-griffon"
-content = "\"33a7475cc8811bf9a480f8b6a1258a\""
-
-[[zones."rosegriffon.fr".txt_records]]
-name = "google._domainkey"
-content = "\"v=DKIM1; k=rsa;  p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1xwquq6mUEUzDFDLhrVeaQi/p0EcVR7VdHGDDC7JXWyreGMQncssPaUKGoP8ruJw3Q8IAj6WuFNAR1y55gok7rwdjWvgm2z6v0QlhJla7afYaOZ7PrE/TYA2oxTFQEsPQ+zskgVjLD5HzZsrWhxTQiI9kJMKId2gZbpTVKbHaFuGWvPD3FsnWEyu9qv1QQbk\" \"QNiMEwz7K3xdfk842mz60hquwXCfxbVG1wkmmWdE61HKHcrlHK6tSfB5yMjJOGh0p6pzjpkfTFbzIAZTCVwB5BqiK7SxC6LUB8xazrwiPa+XaqJ6PftmsftB3nXkHPHAkLbSv5Hz6Fy6CqGyI5tN9QIDAQAB\""
-
-[[zones."rosegriffon.fr".txt_records]]
-name = "@"
-content = "\"google-site-verification=BJFFjSf_CgVOUoFmruO_VB79uY7qlGfLUPYoDuJ73u4\""
-
-[[zones."rosegriffon.fr".txt_records]]
-name = "@"
-content = "\"google-site-verification=58ZU3U2GX-YgqYh0Ym4x1EZoXnt7dGYnU8H1yo2mt9A\""
-
-[[zones."rosegriffon.fr".txt_records]]
-name = "@"
-content = "\"v=spf1 include:mx.ovh.com -all\""
-
-[[zones."rosegriffon.fr".worker_routes]]
-pattern = "cdn.rosegriffon.fr/"
-script = "rosegriffon-edge"
-
-[[zones."rosegriffon.fr".worker_routes]]
-pattern = "cdn.rosegriffon.fr/health"
-script = "rosegriffon-edge"
-
-[[zones."rosegriffon.fr".worker_routes]]
-pattern = "cdn.rosegriffon.fr/static/*"
-script = "rosegriffon-edge"
-
+external = true
 [secrets_store]
 store_name = "default-secrets-store"
 quota_limit = 100
@@ -1199,18 +1089,6 @@ required_keys = [
   "APHRODY_AI_HTTP_TOKEN",
   "APHRODY_DEPLOY_TOKEN",
   "APHRODY_GOOGLE_ADMIN_TOKEN",
-[[zones."rosegriffon.fr".worker_routes]]
-pattern = "cdn.rosegriffon.fr/fetch"
-script = "rosegriffon-edge"
-
-[[zones."rosegriffon.fr".worker_routes]]
-pattern = "cdn.rosegriffon.fr/files/*"
-script = "rosegriffon-edge"
-
-[[zones."rosegriffon.fr".worker_routes]]
-pattern = "api.rosegriffon.fr/v1/discord/interactions"
-script = "rosegriffon-discord"
-
   "APHRODY_GOOGLE_OAUTH_CLIENT_ID",
   "APHRODY_GOOGLE_OAUTH_CLIENT_SECRET",
   "APHRODY_MCP_DATABASE_URL",

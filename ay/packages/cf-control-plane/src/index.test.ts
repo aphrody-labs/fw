@@ -43,18 +43,18 @@ describe("@aphrody/ay-cf-control-plane", () => {
     expect(diffZoneSettings({ http3: "on" }, { http3: "on" })).toEqual([]);
   });
 
-  test("expands declarative multi-zone cartography to exact 81 + 60 + 20 + 31 = 192 DNS records and zero conflicts", async () => {
+  test("expands declarative multi-zone cartography to exact 82 + 60 + 20 + 0 (rosegriffon.fr is external) = 162 DNS records and zero conflicts", async () => {
     const manifest = AyCfManifestSchema.parse(Bun.TOML.parse(await Bun.file(resolve(root, "packages/cf-control-plane/cf.toml")).text()));
     const aphrodyCom = expandZoneRecords("aphrody.com", manifest.zones["aphrody.com"]!);
     const aphrodyApp = expandZoneRecords("aphrody.app", manifest.zones["aphrody.app"]!);
     const dragonballfr = expandZoneRecords("dragonballfr.com", manifest.zones["dragonballfr.com"]!);
     const rosegriffon = expandZoneRecords("rosegriffon.fr", manifest.zones["rosegriffon.fr"]!);
 
-    expect(aphrodyCom.length).toBe(81);
+    expect(aphrodyCom.length).toBe(82);
     expect(aphrodyApp.length).toBe(60);
     expect(dragonballfr.length).toBe(20);
-    expect(rosegriffon.length).toBe(31);
-    expect(aphrodyCom.length + aphrodyApp.length + dragonballfr.length + rosegriffon.length).toBe(192);
+    expect(rosegriffon.length).toBe(0);
+    expect(aphrodyCom.length + aphrodyApp.length + dragonballfr.length + rosegriffon.length).toBe(162);
 
     // Verify conflict fixes are baked into declarative state
     expect(manifest.zones["aphrody.com"]!.worker_domains.some((d) => d.hostname === "auto.aphrody.com" && d.service === "ay-edge")).toBe(true);

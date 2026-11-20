@@ -139,6 +139,8 @@ export const ZONE_SETTING_IDS: Record<keyof ZoneSettings, string> = {
 };
 
 export const ZoneContractSchema = z.object({
+  /** The zone belongs to another repository: nothing of it is declared here and cf-reconcile never reads or writes it. */
+  external: z.boolean().default(false),
   settings: ZoneSettingsSchema.default({}),
   tunnel_cnames: z.record(z.string(), z.array(z.string())).default({}),
   worker_aaaa: z.array(z.string()).default([]),

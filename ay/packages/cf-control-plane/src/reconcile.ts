@@ -392,7 +392,7 @@ export async function applyZoneReconciliation(
 
   for (const liveZone of snapshot.zones) {
     const spec = manifest.zones[liveZone.name];
-    if (!spec) continue;
+    if (!spec || spec.external) continue;
     const diff = diffZoneState(liveZone.name, spec, liveZone, local, effectiveZoneSettings(manifest, liveZone.name));
     zoneDiffs.push(diff);
 
