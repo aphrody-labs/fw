@@ -76,7 +76,7 @@ describe("@aphrody/ay-cf-control-plane", () => {
     expect(() => loadR2Catalog(badToml)).toThrow(/blocked SPDX/i);
   });
 
-  test("parses Wrangler JSONC with trailing commas via patched jsonc-parser", async () => {
+  test("parses Wrangler JSONC with trailing commas via Bun.JSONC", async () => {
     const wranglerRaw = await Bun.file(resolve(root, "apps/cf-gateway/wrangler.jsonc")).text();
     const parsed = parseWranglerConfig(wranglerRaw, ".jsonc");
     expect(parsed.name).toBe("ay-cf-gateway");

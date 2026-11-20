@@ -55,10 +55,6 @@ function toCssVars(p: PaletteMap): string {
   ].join("\n");
 }
 
-function escapeHtml(s: string): string {
-  return s.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-}
-
 function shellHtml(opts: {
   title: string;
   description: string;
@@ -101,11 +97,11 @@ function shellHtml(opts: {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-  <title>${escapeHtml(opts.title)}</title>
-  <meta name="description" content="${escapeHtml(opts.description)}" />
+  <title>${Bun.escapeHTML(opts.title)}</title>
+  <meta name="description" content="${Bun.escapeHTML(opts.description)}" />
   <link rel="canonical" href="${canonicalUrl}" />
-  <meta property="og:title" content="${escapeHtml(opts.title)}" />
-  <meta property="og:description" content="${escapeHtml(opts.description)}" />
+  <meta property="og:title" content="${Bun.escapeHTML(opts.title)}" />
+  <meta property="og:description" content="${Bun.escapeHTML(opts.description)}" />
   <meta property="og:url" content="${canonicalUrl}" />
   <meta property="og:type" content="website" />
   <script type="application/ld+json">${jsonLd}</script>

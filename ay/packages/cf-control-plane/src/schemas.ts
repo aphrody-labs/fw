@@ -1,4 +1,3 @@
-import { parse as parseJsonc } from "jsonc-parser";
 import { z } from "zod";
 
 export const FinOpsPolicySchema = z.object({
@@ -264,13 +263,7 @@ export function parseWranglerConfig(raw: string, ext: ".jsonc" | ".json" | ".tom
   if (ext === ".toml") {
     return WranglerConfigSchema.parse(Bun.TOML.parse(raw));
   }
-  const errors: Array<{ error: number; offset: number; length: number }> = [];
-  // Relies on our patched jsonc-parser (`allowTrailingComma: true` by default for Wrangler JSONC).
-  const parsed = parseJsonc(raw, errors);
-  if (errors.length > 0) {
-    throw new Error(`JSONC parse failed with ${errors.length} error(s)`);
-  }
-  return WranglerConfigSchema.parse(parsed);
+  return WranglerConfigSchema.parse(Bun.JSONC.parse(raw));
 }
 
 export function auditWranglerManifest(

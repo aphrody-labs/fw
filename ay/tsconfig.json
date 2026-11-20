@@ -11,6 +11,10 @@
     "paths": {
       "@aphrody/*": [
         "./packages/*/src/index.ts"
+      ],
+      "edge-wasm-registry": [
+        "./target/edge-wasm/registry.ts",
+        "./apps/edge/src/services/wasm-registry.d.ts"
       ]
     },
     "types": [

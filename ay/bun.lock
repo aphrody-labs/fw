@@ -205,7 +205,6 @@
       "version": "0.1.0",
       "dependencies": {
         "cloudflare": "7.3.0",
-        "jsonc-parser": "3.3.1",
         "zod": "4.6.7",
       },
     },
@@ -295,9 +294,6 @@
         "wck": "./src/cli.ts",
       },
     },
-  },
-  "patchedDependencies": {
-    "jsonc-parser@3.3.1": "patches/jsonc-parser@3.3.1.patch",
   },
   "catalog": {
     "@types/bun": "1.4.4",
@@ -765,8 +761,6 @@
     "jose": ["jose@6.2.17", "", {}, "sha512-wOuK9V1yujQFH5S0ZWmLcDZN7+IKh9bUCC2ZPCf2HDlol3WWHy+PPyNjEI75FXRLMp3vDKQcupP59xhVU95hcg=="],
 
     "json-schema-typed": ["json-schema-typed@8.0.2", "", {}, "sha512-fQhoXdcvc3V28x7C7BMs4P5+kNlgUURe2jmUT1T//oBRMDrqy1QPelJimwZGo7Hg9VPV3EQV5Bnq4hbFy2vetA=="],
-
-    "jsonc-parser": ["jsonc-parser@3.3.1", "", {}, "sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ=="],
 
     "kleur": ["kleur@4.1.5", "", {}, "sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ=="],
 

@@ -4,7 +4,7 @@
 //   GET /index.json                       package index (ay.wasm.v1)
 //   GET /<name>.wasm | /<sha256>.wasm     the module: application/wasm, ETag = sha256, Range, immutable
 //   GET /invoke/<fn>?pkg=<name>&...       call a pure export of a bundled corelib module and return the result as JSON
-import { index, registry, type Bundled } from "../../../../target/edge-wasm/registry.ts";
+import { index, registry, type Bundled } from "edge-wasm-registry";
 import type { Routed, Service } from "../types.ts";
 
 export interface PackageInfo {
