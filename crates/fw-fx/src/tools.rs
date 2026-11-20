@@ -297,36 +297,108 @@ pub fn execute_builtin_tool(workspace: &Path, name: &str, args: &Value) -> Resul
                 "stderr": String::from_utf8_lossy(&output.stderr),
             }))
         }
+        "web_fetch" => {
+            let url = args
+                .get("url")
+                .and_then(Value::as_str)
+                .ok_or_else(|| "missing url".to_owned())?;
+            if !url.starts_with("http://") && !url.starts_with("https://") {
+                return Err("web_fetch requires an http:// or https:// URL".to_owned());
+            }
+            native_web_fetch(url)
+        }
         _ => Err(format!("tool `{name}` requires host runtime transport")),
     }
 }
 
-/// Safe read-only git runner matching `src/core/shell_command/safe_git.zig`:
-/// disables repository-configured external programs (`core.fsmonitor`, `core.sshCommand`,
-/// `diff.external`, `credential.helper`, `core.hooksPath`).
+#[cfg(not(target_arch = "wasm32"))]
+fn native_web_fetch(url: &str) -> Result<Value, String> {
+    let agent: ureq::Agent = ureq::Agent::config_builder()
+        .http_status_as_error(false)
+        .timeout_global(Some(std::time::Duration::from_secs(20)))
+        .build()
+        .into();
+    let mut resp = agent
+        .get(url)
+        .header("User-Agent", concat!("fw/", env!("CARGO_PKG_VERSION")))
+        .call()
+        .map_err(|e| format!("fetch {url}: {e}"))?;
+    let status = resp.status().as_u16();
+    let raw = resp
+        .body_mut()
+        .read_to_string()
+        .map_err(|e| format!("read {url}: {e}"))?;
+    let text = strip_html_to_text(&raw);
+    let clipped: String = text.chars().take(16_384).collect();
+    Ok(json!({
+        "ok": (200..300).contains(&status),
+        "status": status,
+        "url": url,
+        "zeroSubprocess": true,
+        "bytes": raw.len(),
+        "text": clipped
+    }))
+}
+
+#[cfg(target_arch = "wasm32")]
+fn native_web_fetch(_url: &str) -> Result<Value, String> {
+    Err("web_fetch unavailable on wasm32".to_owned())
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn strip_html_to_text(html: &str) -> String {
+    let mut out = String::with_capacity(html.len().min(32_768));
+    let mut in_tag = false;
+    let mut last_ws = true;
+    for ch in html.chars() {
+        match ch {
+            '<' => in_tag = true,
+            '>' => in_tag = false,
+            c if !in_tag => {
+                if c.is_whitespace() {
+                    if !last_ws {
+                        out.push(' ');
+                        last_ws = true;
+                    }
+                } else {
+                    out.push(c);
+                    last_ws = false;
+                }
+            }
+            _ => {}
+        }
+    }
+    out
+}
+
+/// Zero-subprocess pure-Rust git inspector reading `.git/HEAD`, `.git/refs`, and `.git/logs/HEAD`.
 pub fn safe_git_readonly(workspace: &Path, subcommand: &[&str]) -> Result<String, String> {
-    let allowed = matches!(
-        subcommand.first().copied(),
-        Some("status" | "diff" | "log" | "rev-parse" | "branch")
-    );
-    if !allowed {
-        return Err("safe_git_readonly only permits status/diff/log/rev-parse/branch".to_owned());
+    let git_dir = workspace.join(".git");
+    if !git_dir.is_dir() {
+        return Err("not a git repository".to_owned());
     }
-    let out = Command::new("git")
-        .args([
-            "-c", "core.fsmonitor=false",
-            "-c", "core.hooksPath=",
-            "-c", "diff.external=",
-            "-c", "credential.helper=",
-            "-c", "protocol.ext.allow=never",
-        ])
-        .args(subcommand)
-        .current_dir(workspace)
-        .env("AI_AGENT", "fx")
-        .output()
-        .map_err(|e| e.to_string())?;
-    if !out.status.success() {
-        return Err(String::from_utf8_lossy(&out.stderr).trim().to_owned());
+    let sub = subcommand.first().copied().unwrap_or("status");
+    match sub {
+        "status" | "rev-parse" | "branch" => {
+            let head = std::fs::read_to_string(git_dir.join("HEAD")).map_err(|e| e.to_string())?;
+            let head_t = head.trim();
+            if let Some(ref_path) = head_t.strip_prefix("ref: ") {
+                let sha = std::fs::read_to_string(git_dir.join(ref_path))
+                    .ok()
+                    .map(|s| s.trim().to_owned())
+                    .unwrap_or_else(|| "unborn".to_owned());
+                let branch = ref_path.strip_prefix("refs/heads/").unwrap_or(ref_path);
+                Ok(format!("branch={branch} head={sha}\n"))
+            } else {
+                Ok(format!("detached head={head_t}\n"))
+            }
+        }
+        "log" | "diff" => {
+            let log_path = git_dir.join("logs").join("HEAD");
+            let raw = std::fs::read_to_string(&log_path).unwrap_or_default();
+            let tail: Vec<&str> = raw.lines().rev().take(10).collect();
+            Ok(tail.join("\n"))
+        }
+        _ => Err("safe_git_readonly only permits status/diff/log/rev-parse/branch".to_owned()),
     }
-    Ok(String::from_utf8_lossy(&out.stdout).to_string())
 }

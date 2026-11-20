@@ -1,28 +1,41 @@
 #![forbid(unsafe_code)]
 
-//! Actionable system & workspace diagnostics (`fw doctor`) — real probes only, zero showcase fluff.
+//! Zero-spawn native system & workspace diagnostics (`fw doctor`).
+//! Probes PATH binaries via `std::env::split_paths` + `fs::metadata` (zero subprocess spawns),
+//! checks `FX_HOME` writability, git repo state (data-only), API keys, and local Ollama TCP.
 
 use fw_fx::config::FxConfig;
 use fw_fx::indexer::WorkspaceIndexer;
 use serde_json::{json, Value};
 use std::net::{SocketAddr, TcpStream};
-use std::path::Path;
-use std::process::Command;
+use std::path::{Path, PathBuf};
 use std::time::Duration;
 
-fn probe_exe(name: &str, version_arg: &str) -> Value {
-    match Command::new(name).arg(version_arg).output() {
-        Ok(out) if out.status.success() => {
-            let first = String::from_utf8_lossy(&out.stdout)
-                .lines()
-                .next()
-                .unwrap_or("")
-                .trim()
-                .to_owned();
-            json!({ "tool": name, "ok": true, "version": first })
+fn find_in_path(name: &str) -> Option<PathBuf> {
+    let path_var = std::env::var_os("PATH")?;
+    let candidates: Vec<String> = if cfg!(windows) {
+        vec![format!("{name}.exe"), format!("{name}.cmd"), name.to_owned()]
+    } else {
+        vec![name.to_owned()]
+    };
+    for dir in std::env::split_paths(&path_var) {
+        for cand in &candidates {
+            let p = dir.join(cand);
+            if p.is_file() {
+                return Some(p);
+            }
         }
-        Ok(out) => json!({ "tool": name, "ok": false, "exit": out.status.code() }),
-        Err(_) => json!({ "tool": name, "ok": false, "error": "not found in PATH" }),
+    }
+    None
+}
+
+fn probe_exe_native(name: &str) -> Value {
+    match find_in_path(name) {
+        Some(path) => {
+            let bytes = std::fs::metadata(&path).map(|m| m.len()).unwrap_or(0);
+            json!({ "tool": name, "ok": true, "path": path.display().to_string(), "bytes": bytes })
+        }
+        None => json!({ "tool": name, "ok": false, "error": "not found in PATH" }),
     }
 }
 
@@ -40,15 +53,17 @@ pub fn run_doctor(cwd: &Path) -> Value {
     let ollama_reachable = probe_tcp("127.0.0.1:11434");
 
     let tools = vec![
-        probe_exe("git", "--version"),
-        probe_exe("cargo", "--version"),
-        probe_exe("bun", "--version"),
-        probe_exe(if cfg!(windows) { "curl.exe" } else { "curl" }, "--version"),
+        probe_exe_native("git"),
+        probe_exe_native("cargo"),
+        probe_exe_native("rustc"),
+        probe_exe_native("bun"),
+        probe_exe_native("uv"),
     ];
-    let all_tools_ok = tools.iter().all(|t| t["ok"].as_bool().unwrap_or(false));
+    let core_ok = tools.iter().take(2).all(|t| t["ok"].as_bool().unwrap_or(false));
 
     json!({
-        "ok": all_tools_ok && fx_home_writable,
+        "ok": core_ok && fx_home_writable,
+        "zeroSubprocess": true,
         "workspace": cwd.display().to_string(),
         "git": git,
         "fx_home": { "path": cfg.fx_home.display().to_string(), "writable": fx_home_writable },

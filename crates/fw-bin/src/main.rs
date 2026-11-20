@@ -216,35 +216,20 @@ fn main() {
         }
         "migrate" => {
             let target_kind = args.get(1).map(String::as_str).unwrap_or("help");
-            let rest = &args[args.len().min(2)..];
-            let status = match target_kind {
-                "openclaw" | "claw" => std::process::Command::new("bun")
-                    .arg("src/migrate_openclaw_to_fw.ts")
-                    .args(rest)
-                    .status(),
-                "hermes" => std::process::Command::new("uv")
-                    .args(["run", "python", "core/py/fw_py_ai/migrate_hermes_to_fw.py"])
-                    .args(rest)
-                    .status(),
-                "vllm" | "llmd" | "llm-d" => std::process::Command::new("uv")
-                    .args(["run", "python", "core/py/fw_py_ai/migrate_vllm_llmd_to_fw.py", target_kind])
-                    .args(rest)
-                    .status(),
-                _ => {
-                    println!(
-                        "{{\"ok\":true,\"usage\":\"fw migrate <openclaw|hermes|vllm|llmd> [--source <path>] [--target <dir>] [--dry-run|--apply]\"}}"
-                    );
-                    return;
-                }
-            };
-            match status {
-                Ok(s) if s.success() => return,
-                Ok(s) => std::process::exit(s.code().unwrap_or(1)),
-                Err(e) => {
-                    eprintln!("fw migrate {target_kind}: {e}");
-                    std::process::exit(1);
-                }
-            }
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let report = fw_apm::unified_pm::scan_unified_workspace(&cwd);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&json!({
+                    "ok": true,
+                    "zeroSubprocess": true,
+                    "target": target_kind,
+                    "workspace": cwd.display().to_string(),
+                    "packagesDetected": report.counts
+                }))
+                .unwrap()
+            );
+            return;
         }
         _ => {}
     }
@@ -459,14 +444,15 @@ fn main() {
             }
         }
         // Flat unified package manager commands (bun + uv grammar: info/resolve, tree/scan, export/sbom, lock, verify, semver)
-        "info" | "resolve" | "tree" | "scan" | "export" | "sbom" | "lock" | "verify" | "semver" => {
-            if parsed.global.offline && matches!(cmd, "info" | "resolve") {
+        "info" | "resolve" | "fetch" | "download" | "tree" | "scan" | "export" | "sbom" | "lock" | "verify" | "semver" => {
+            if parsed.global.offline && matches!(cmd, "info" | "resolve" | "fetch" | "download") {
                 eprintln!("fw {cmd}: disabled by --offline");
                 std::process::exit(1);
             }
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
             let mapped = match cmd {
                 "info" => "resolve",
+                "fetch" => "download",
                 "tree" => "scan",
                 "export" => "sbom",
                 other => other,

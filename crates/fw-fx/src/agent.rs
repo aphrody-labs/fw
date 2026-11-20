@@ -10,10 +10,7 @@ use crate::session::{SessionState, UndoEntry};
 use crate::tools::{builtin_tool_specs, execute_builtin_tool};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
-use std::io::{Read, Write};
-use std::net::TcpStream;
 use std::path::Path;
-use std::process::Command;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -34,126 +31,38 @@ pub struct AgentTurnOutcome {
     pub saved_path: Option<String>,
 }
 
-/// Real HTTP/HTTPS POST JSON transport.
-/// Uses pure-Rust `std::net::TcpStream` for `http://` (zero subprocess, works for local Ollama,
-/// llama.cpp, vLLM, and integration test servers) and system `curl` for `https://` TLS 1.3.
+/// Pure-Rust native HTTP/HTTPS (TLS 1.3 via `ureq` + `rustls`, zero subprocesses).
+#[cfg(not(target_arch = "wasm32"))]
 pub fn post_json(url: &str, api_key: Option<&str>, payload: &Value) -> Result<HttpResponse, String> {
     let body_bytes = serde_json::to_vec(payload).map_err(|e| e.to_string())?;
-    if let Some(rest) = url.strip_prefix("http://") {
-        return post_http_plain(rest, api_key, &body_bytes);
-    }
-    if url.starts_with("https://") {
-        return post_https_curl(url, api_key, &body_bytes);
-    }
-    Err(format!("unsupported URL scheme: {url}"))
-}
+    let agent: ureq::Agent = ureq::Agent::config_builder()
+        .http_status_as_error(false)
+        .timeout_global(Some(Duration::from_secs(120)))
+        .build()
+        .into();
 
-fn post_http_plain(host_and_path: &str, api_key: Option<&str>, body: &[u8]) -> Result<HttpResponse, String> {
-    let (authority, path) = match host_and_path.find('/') {
-        Some(idx) => (&host_and_path[..idx], &host_and_path[idx..]),
-        None => (host_and_path, "/"),
-    };
-    let addr = if authority.contains(':') {
-        authority.to_owned()
-    } else {
-        format!("{authority}:80")
-    };
-    let mut stream = TcpStream::connect(&addr).map_err(|e| format!("connect {addr}: {e}"))?;
-    let _ = stream.set_read_timeout(Some(Duration::from_secs(120)));
-    let _ = stream.set_write_timeout(Some(Duration::from_secs(30)));
-
-    let mut req = format!(
-        "POST {path} HTTP/1.1\r\nHost: {authority}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n",
-        body.len()
-    );
+    let mut req = agent
+        .post(url)
+        .header("Content-Type", "application/json")
+        .header("User-Agent", concat!("fw/", env!("CARGO_PKG_VERSION")));
     if let Some(key) = api_key
         && !key.is_empty()
     {
-        req.push_str(&format!("Authorization: Bearer {key}\r\n"));
-    }
-    req.push_str("\r\n");
-
-    stream.write_all(req.as_bytes()).map_err(|e| e.to_string())?;
-    stream.write_all(body).map_err(|e| e.to_string())?;
-    stream.flush().map_err(|e| e.to_string())?;
-
-    let mut raw = Vec::new();
-    stream.read_to_end(&mut raw).map_err(|e| e.to_string())?;
-    parse_raw_http_response(&raw)
-}
-
-fn post_https_curl(url: &str, api_key: Option<&str>, body: &[u8]) -> Result<HttpResponse, String> {
-    let curl_bin = if cfg!(windows) { "curl.exe" } else { "curl" };
-    let mut cmd = Command::new(curl_bin);
-    cmd.args([
-        "--silent",
-        "--show-error",
-        "--include",
-        "--max-time",
-        "120",
-        "-X",
-        "POST",
-        "-H",
-        "Content-Type: application/json",
-    ]);
-    if let Some(key) = api_key
-        && !key.is_empty()
-    {
-        cmd.args(["-H", &format!("Authorization: Bearer {key}")]);
-    }
-    cmd.args(["--data-binary", "@-", url]);
-    cmd.stdin(std::process::Stdio::piped());
-    cmd.stdout(std::process::Stdio::piped());
-    cmd.stderr(std::process::Stdio::piped());
-
-    let mut child = cmd.spawn().map_err(|e| format!("spawn {curl_bin}: {e}"))?;
-    if let Some(mut stdin) = child.stdin.take() {
-        stdin.write_all(body).map_err(|e| e.to_string())?;
-    }
-    let output = child.wait_with_output().map_err(|e| e.to_string())?;
-    if !output.status.success() && output.stdout.is_empty() {
-        return Err(String::from_utf8_lossy(&output.stderr).trim().to_owned());
-    }
-    parse_raw_http_response(&output.stdout)
-}
-
-fn parse_raw_http_response(raw: &[u8]) -> Result<HttpResponse, String> {
-    let text = String::from_utf8_lossy(raw);
-    // Handle optional `HTTP/1.1 100 Continue` or proxy headers by taking the final header block.
-    let (headers_part, body_part) = text
-        .split_once("\r\n\r\n")
-        .or_else(|| text.split_once("\n\n"))
-        .ok_or_else(|| "malformed HTTP response (missing header separator)".to_owned())?;
-
-    let mut lines = headers_part.lines();
-    let status_line = lines.next().unwrap_or("");
-    let status = status_line
-        .split_whitespace()
-        .nth(1)
-        .and_then(|s| s.parse::<u16>().ok())
-        .unwrap_or(0);
-
-    let mut retry_after_ms = None;
-    let mut is_chunked = false;
-    for line in lines {
-        if let Some((k, v)) = line.split_once(':') {
-            let k_low = k.trim().to_ascii_lowercase();
-            let v_trim = v.trim();
-            if k_low == "retry-after"
-                && let Ok(secs) = v_trim.parse::<u32>()
-            {
-                retry_after_ms = Some(secs.saturating_mul(1_000));
-            } else if k_low == "transfer-encoding" && v_trim.to_ascii_lowercase().contains("chunked") {
-                is_chunked = true;
-            }
-        }
+        req = req.header("Authorization", &format!("Bearer {key}"));
     }
 
-    let body = if is_chunked {
-        decode_chunked(body_part)
-    } else {
-        body_part.to_owned()
-    };
+    let mut resp = req.send(body_bytes.as_slice()).map_err(|e| format!("http {url}: {e}"))?;
+    let status = resp.status().as_u16();
+    let retry_after_ms = resp
+        .headers()
+        .get("retry-after")
+        .and_then(|v| v.to_str().ok())
+        .and_then(|s| s.trim().parse::<u32>().ok())
+        .map(|secs| secs.saturating_mul(1_000));
+    let body = resp
+        .body_mut()
+        .read_to_string()
+        .map_err(|e| format!("read body: {e}"))?;
 
     Ok(HttpResponse {
         status,
@@ -162,20 +71,9 @@ fn parse_raw_http_response(raw: &[u8]) -> Result<HttpResponse, String> {
     })
 }
 
-fn decode_chunked(input: &str) -> String {
-    let mut out = String::new();
-    let mut rest = input;
-    while let Some((size_line, after_size)) = rest.split_once("\r\n") {
-        let Ok(size) = usize::from_str_radix(size_line.trim(), 16) else {
-            break;
-        };
-        if size == 0 || after_size.len() < size {
-            break;
-        }
-        out.push_str(&after_size[..size]);
-        rest = after_size[size..].strip_prefix("\r\n").unwrap_or(&after_size[size..]);
-    }
-    out
+#[cfg(target_arch = "wasm32")]
+pub fn post_json(_url: &str, _api_key: Option<&str>, _payload: &Value) -> Result<HttpResponse, String> {
+    Err("wasm32 transport uses host fetch bridge".to_owned())
 }
 
 pub fn resolve_api_key(cfg: &FxConfig) -> Option<String> {
@@ -507,6 +405,7 @@ pub fn undo_last_edit(session: &mut SessionState) -> Result<String, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::io::{Read, Write};
     use std::net::TcpListener;
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::Arc;
@@ -521,9 +420,35 @@ mod tests {
         let server = std::thread::spawn(move || {
             for _ in 0..2 {
                 let (mut stream, _) = listener.accept().expect("accept");
-                let mut buf = vec![0u8; 32768];
-                let n = stream.read(&mut buf).expect("read");
-                let req = String::from_utf8_lossy(&buf[..n]);
+                let mut raw = Vec::new();
+                let mut chunk = [0u8; 4096];
+                let mut expected_total: Option<usize> = None;
+                loop {
+                    let n = stream.read(&mut chunk).expect("read");
+                    if n == 0 {
+                        break;
+                    }
+                    raw.extend_from_slice(&chunk[..n]);
+                    if expected_total.is_none()
+                        && let Some(pos) = raw.windows(4).position(|w| w == b"\r\n\r\n")
+                    {
+                        let hdrs = String::from_utf8_lossy(&raw[..pos]);
+                        let cl = hdrs
+                            .lines()
+                            .find_map(|l| {
+                                let (k, v) = l.split_once(':')?;
+                                k.eq_ignore_ascii_case("content-length")
+                                    .then(|| v.trim().parse::<usize>().ok())
+                                    .flatten()
+                            })
+                            .unwrap_or(0);
+                        expected_total = Some(pos + 4 + cl);
+                    }
+                    if expected_total.is_some_and(|tot| raw.len() >= tot) {
+                        break;
+                    }
+                }
+                let req = String::from_utf8_lossy(&raw);
                 let step = counter_bg.fetch_add(1, Ordering::SeqCst);
                 let body = if step == 0 {
                     json!({
