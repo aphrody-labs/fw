@@ -226,6 +226,12 @@ name = "context7"
 url = "https://mcp.context7.com/mcp"
 headers = { CONTEXT7_API_KEY = "CTX7_API_KEY" }
 
+# Web search and page reading (mcp-searxng, every upstream feature) through the SearXNG instance of ay.local.toml [search].
+# hub_call searxng__searxng_web_search | searxng__searxng_search_suggestions | searxng__searxng_instance_info | searxng__web_url_read.
+[[hub.mcp]]
+name = "searxng"
+command = ["bun", "{src}/packages/ai-os/src/server/searxng-mcp.ts"]
+
 # Package registries, read live (crates.io v1 API, docs.rs links, registry.npmjs.org): versions, dist-tags, MSRV, features,
 # yanked releases, search. hub_call registry__crates_search | registry__crate_info | registry__crate_readme |
 # registry__npm_search | registry__npm_info. Library docs come from context7; every host runs it with its own bun.
