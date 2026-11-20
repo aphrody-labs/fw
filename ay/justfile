@@ -2,7 +2,7 @@ set dotenv-load
 
 just := just_executable()
 
-# List available Pop!_OS / COSMIC-style SDK & monorepo recipes
+# List the SDK recipes (workspace-wide recipes live in workspace.just, imported by the root justfile)
 default:
     @{{ just }} --list
 

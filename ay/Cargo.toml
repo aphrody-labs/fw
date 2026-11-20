@@ -1,7 +1,7 @@
 [workspace]
 resolver = "3"
 members = ["crates/*", "crates/ay-core/capi", "crates/ay-core/jni"]
-exclude = ["third_party", "crates/ay-core/capi/py", "packages", "xtask"]
+exclude = ["third_party", "crates/ay-core/capi/py", "packages"]
 
 [workspace.package]
 edition = "2024"

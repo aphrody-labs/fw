@@ -6,8 +6,11 @@ Contract for every agent working in this repository. Names come from `ay.toml`.
 - This repository is the SDK of Aphrody: C ABI, OpenAPI, docs, spec, standards, corelib, libc and the
   design system, in whatever language fits each unit (C and its derivatives, assembly, Rust, Zig,
   WebGPU, Python, .NET, Bun). LLVM first, tree-sitter, C-ABI FFI, LTO, AOT, unified lib/MSVC, cross
-  arch/OS/GPU/platform (ADR-0008). The complete OS is `aphrody-dev/aphrody`; this SDK is independent of it
+  arch/OS/GPU/platform (ADR-0008). The complete OS is `aphrody-labs/aphrody`; this SDK is independent of it
   and versioned on its own. Satellites (`ay.toml` [repos], [registries]) build on both.
+- ay also hosts the workspace layer: `ay.toml` [repos] is the registry of the live repositories (each checked out once, side by
+  side under one root), `workspace.just` holds the root recipes (the root justfile only imports it) and `tools/workspace.ts`
+  implements them (status, audit, manifests, pull, run). Retired repositories stay in [retired] and are never checked out.
 - The products and their definition of done are in `docs/spec.md`; the tree and toolchain in
   `docs/architecture.md` and `docs/adr/`; the full scope, row by row, in `docs/features.toml`.
 - A feature is done only with a proof in the matrix (test id, screenshot path or artifact URL);
