@@ -44,7 +44,11 @@ pub struct PkcePair {
 pub fn pkce_pair_from_entropy(entropy32: &[u8]) -> PkcePair {
     let verifier = URL_SAFE_NO_PAD.encode(entropy32);
     let challenge = URL_SAFE_NO_PAD.encode(Sha256::digest(verifier.as_bytes()));
-    PkcePair { verifier, challenge, method: "S256".into() }
+    PkcePair {
+        verifier,
+        challenge,
+        method: "S256".into(),
+    }
 }
 
 pub fn build_authorize_url(
@@ -81,7 +85,9 @@ fn pct(s: &str) -> String {
     let mut out = String::with_capacity(s.len());
     for b in s.bytes() {
         match b {
-            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => out.push(b as char),
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
+                out.push(b as char)
+            }
             _ => out.push_str(&format!("%{b:02X}")),
         }
     }

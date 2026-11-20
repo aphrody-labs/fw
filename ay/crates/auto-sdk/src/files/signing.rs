@@ -1,7 +1,9 @@
 use std::collections::HashSet;
 use std::sync::Arc;
 
-use craft_pdf::cos::{Dict, Document, ObjRef, Object, PdfString, SaveOptions, write_full, write_incremental};
+use craft_pdf::cos::{
+    Dict, Document, ObjRef, Object, PdfString, SaveOptions, write_full, write_incremental,
+};
 use craft_pkcs7::{cms, keys::DigestAlg, pkcs12, x509};
 use serde::{Deserialize, Serialize};
 
@@ -53,11 +55,21 @@ pub struct VerifiedSignature {
     pub details: Vec<String>,
 }
 
-pub fn sign_pdf(pdf: &[u8], pkcs12_bytes: &[u8], opts: &SignatureOptions) -> Result<Vec<u8>, FileError> {
+pub fn sign_pdf(
+    pdf: &[u8],
+    pkcs12_bytes: &[u8],
+    opts: &SignatureOptions,
+) -> Result<Vec<u8>, FileError> {
     let id = pkcs12::open(pkcs12_bytes, &opts.password)?;
     let mut doc = Document::open(Arc::new(pdf.to_vec()))?;
     if doc.reconstructed() {
-        let normalized = write_full(&doc, &SaveOptions { object_streams: false, ..Default::default() })?;
+        let normalized = write_full(
+            &doc,
+            &SaveOptions {
+                object_streams: false,
+                ..Default::default()
+            },
+        )?;
         doc = Document::open(Arc::new(normalized))?;
     }
     let base_len = doc.bytes().len();
@@ -68,7 +80,10 @@ pub fn sign_pdf(pdf: &[u8], pkcs12_bytes: &[u8], opts: &SignatureOptions) -> Res
     }
     let page_idx = opts.page.unwrap_or(0);
     if page_idx >= pages.len() {
-        return Err(FileError::PageOutOfRange { page: page_idx + 1, total: pages.len() });
+        return Err(FileError::PageOutOfRange {
+            page: page_idx + 1,
+            total: pages.len(),
+        });
     }
     let page_ref = pages[page_idx].page_ref;
 
@@ -76,7 +91,10 @@ pub fn sign_pdf(pdf: &[u8], pkcs12_bytes: &[u8], opts: &SignatureOptions) -> Res
     sig_dict.set(b"Type".to_vec(), Object::name("Sig"));
     sig_dict.set(b"Filter".to_vec(), Object::name("Adobe.PPKLite"));
     sig_dict.set(b"SubFilter".to_vec(), Object::name("adbe.pkcs7.detached"));
-    sig_dict.set(b"Name".to_vec(), PdfString::text(&id.certificate.display_name()));
+    sig_dict.set(
+        b"Name".to_vec(),
+        PdfString::text(&id.certificate.display_name()),
+    );
     if let Some(m) = opts.date.as_deref() {
         sig_dict.set(b"M".to_vec(), PdfString::text(m));
     }
@@ -99,7 +117,10 @@ pub fn sign_pdf(pdf: &[u8], pkcs12_bytes: &[u8], opts: &SignatureOptions) -> Res
         sig_ref_dict.set(b"Type".to_vec(), Object::name("SigRef"));
         sig_ref_dict.set(b"TransformMethod".to_vec(), Object::name("DocMDP"));
         sig_ref_dict.set(b"TransformParams".to_vec(), Object::Dict(tparams));
-        sig_dict.set(b"Reference".to_vec(), Object::Array(vec![Object::Dict(sig_ref_dict)]));
+        sig_dict.set(
+            b"Reference".to_vec(),
+            Object::Array(vec![Object::Dict(sig_ref_dict)]),
+        );
     }
     sig_dict.set(
         b"ByteRange".to_vec(),
@@ -110,12 +131,20 @@ pub fn sign_pdf(pdf: &[u8], pkcs12_bytes: &[u8], opts: &SignatureOptions) -> Res
             Object::Int(999_999_999),
         ]),
     );
-    sig_dict
-        .set(b"Contents".to_vec(), Object::String(PdfString { bytes: vec![0u8; SIG_PLACEHOLDER_BYTES], hex: true }));
+    sig_dict.set(
+        b"Contents".to_vec(),
+        Object::String(PdfString {
+            bytes: vec![0u8; SIG_PLACEHOLDER_BYTES],
+            hex: true,
+        }),
+    );
     let sig_obj_ref = doc.add(sig_dict);
 
     let rect = opts.rect.unwrap_or([0.0, 0.0, 0.0, 0.0]);
-    let field_name = opts.field.clone().unwrap_or_else(|| format!("Signature{}", existing_sig_field_count(&doc) + 1));
+    let field_name = opts
+        .field
+        .clone()
+        .unwrap_or_else(|| format!("Signature{}", existing_sig_field_count(&doc) + 1));
 
     let mut widget = Dict::new();
     widget.set(b"Type".to_vec(), Object::name("Annot"));
@@ -125,29 +154,44 @@ pub fn sign_pdf(pdf: &[u8], pkcs12_bytes: &[u8], opts: &SignatureOptions) -> Res
     widget.set(b"V".to_vec(), Object::Ref(sig_obj_ref));
     widget.set(b"P".to_vec(), Object::Ref(page_ref));
     widget.set(b"F".to_vec(), Object::Int(132));
-    widget.set(b"Rect".to_vec(), Object::Array(rect.into_iter().map(Object::Real).collect()));
+    widget.set(
+        b"Rect".to_vec(),
+        Object::Array(rect.into_iter().map(Object::Real).collect()),
+    );
     let widget_ref = doc.add(widget);
 
     // Attach widget to target page /Annots.
     let annots_resolved = {
         let p_obj = doc.get(page_ref);
-        doc.dict(&p_obj).and_then(|d| d.get(b"Annots").map(|a| doc.resolve(a)))
+        doc.dict(&p_obj)
+            .and_then(|d| d.get(b"Annots").map(|a| doc.resolve(a)))
     };
-    let mut annots = annots_resolved.as_deref().and_then(Object::as_array).cloned().unwrap_or_default();
+    let mut annots = annots_resolved
+        .as_deref()
+        .and_then(Object::as_array)
+        .cloned()
+        .unwrap_or_default();
     annots.push(Object::Ref(widget_ref));
     doc.update_dict(page_ref, |d| {
         d.set(b"Annots".to_vec(), Object::Array(annots));
     })?;
 
     // Attach widget to catalog /AcroForm /Fields.
-    let root_ref = doc.root().ok_or_else(|| FileError::InvalidPdf("missing /Root".into()))?;
+    let root_ref = doc
+        .root()
+        .ok_or_else(|| FileError::InvalidPdf("missing /Root".into()))?;
     let acro_existing = {
         let r_obj = doc.get(root_ref);
-        doc.dict(&r_obj).and_then(|r| r.get(b"AcroForm").and_then(|a| doc.dict(a)))
+        doc.dict(&r_obj)
+            .and_then(|r| r.get(b"AcroForm").and_then(|a| doc.dict(a)))
     };
     let mut acro = acro_existing.unwrap_or_default();
     let fields_existing = acro.get(b"Fields").map(|f| doc.resolve(f));
-    let mut fields = fields_existing.as_deref().and_then(Object::as_array).cloned().unwrap_or_default();
+    let mut fields = fields_existing
+        .as_deref()
+        .and_then(Object::as_array)
+        .cloned()
+        .unwrap_or_default();
     fields.push(Object::Ref(widget_ref));
     acro.set(b"Fields".to_vec(), Object::Array(fields));
     acro.set(b"SigFlags".to_vec(), Object::Int(3));
@@ -161,7 +205,11 @@ pub fn sign_pdf(pdf: &[u8], pkcs12_bytes: &[u8], opts: &SignatureOptions) -> Res
         doc.set(ar, acro);
         if perms_set {
             doc.update_dict(root_ref, |r| {
-                let mut perms = r.get(b"Perms").and_then(Object::as_dict).cloned().unwrap_or_default();
+                let mut perms = r
+                    .get(b"Perms")
+                    .and_then(Object::as_dict)
+                    .cloned()
+                    .unwrap_or_default();
                 perms.set(b"DocMDP".to_vec(), Object::Ref(sig_obj_ref));
                 r.set(b"Perms".to_vec(), Object::Dict(perms));
             })?;
@@ -171,20 +219,32 @@ pub fn sign_pdf(pdf: &[u8], pkcs12_bytes: &[u8], opts: &SignatureOptions) -> Res
         doc.update_dict(root_ref, |r| {
             r.set(b"AcroForm".to_vec(), Object::Ref(ar));
             if perms_set {
-                let mut perms = r.get(b"Perms").and_then(Object::as_dict).cloned().unwrap_or_default();
+                let mut perms = r
+                    .get(b"Perms")
+                    .and_then(Object::as_dict)
+                    .cloned()
+                    .unwrap_or_default();
                 perms.set(b"DocMDP".to_vec(), Object::Ref(sig_obj_ref));
                 r.set(b"Perms".to_vec(), Object::Dict(perms));
             }
         })?;
     }
 
-    let save_opts = SaveOptions { mod_date: opts.date.clone(), object_streams: false, ..Default::default() };
+    let save_opts = SaveOptions {
+        mod_date: opts.date.clone(),
+        object_streams: false,
+        ..Default::default()
+    };
     let mut out = write_incremental(&doc, &save_opts)?;
     patch_signature_cms(&mut out, base_len, &id)?;
     Ok(out)
 }
 
-fn patch_signature_cms(out: &mut [u8], search_from: usize, id: &pkcs12::DigitalId) -> Result<(), FileError> {
+fn patch_signature_cms(
+    out: &mut [u8],
+    search_from: usize,
+    id: &pkcs12::DigitalId,
+) -> Result<(), FileError> {
     let tail_start = search_from.min(out.len());
     let br_rel = find_subslice(&out[tail_start..], BYTERANGE_SENTINEL)
         .ok_or_else(|| FileError::InvalidPdf("signature /ByteRange placeholder missing".into()))?;
@@ -202,15 +262,25 @@ fn patch_signature_cms(out: &mut [u8], search_from: usize, id: &pkcs12::DigitalI
 
     let br_text = format!("[0 {c_start} {c_end} {}]", out.len() - c_end);
     if br_text.len() > BYTERANGE_SENTINEL.len() {
-        return Err(FileError::InvalidInput("PDF too large for ByteRange placeholder".into()));
+        return Err(FileError::InvalidInput(
+            "PDF too large for ByteRange placeholder".into(),
+        ));
     }
     out[br_pos..br_pos + BYTERANGE_SENTINEL.len()].fill(b' ');
     out[br_pos..br_pos + br_text.len()].copy_from_slice(br_text.as_bytes());
 
     let digest = DigestAlg::Sha256.digest(&[&out[..c_start], &out[c_end..]]);
-    let cms_der = cms::sign_detached(&id.key, &id.certificate, &id.chain, DigestAlg::Sha256, &digest)?;
+    let cms_der = cms::sign_detached(
+        &id.key,
+        &id.certificate,
+        &id.chain,
+        DigestAlg::Sha256,
+        &digest,
+    )?;
     if cms_der.len() > SIG_PLACEHOLDER_BYTES {
-        return Err(FileError::InvalidInput("CMS SignedData exceeds signature placeholder".into()));
+        return Err(FileError::InvalidInput(
+            "CMS SignedData exceeds signature placeholder".into(),
+        ));
     }
 
     const HEX: &[u8; 16] = b"0123456789ABCDEF";
@@ -272,7 +342,12 @@ fn collect_sig_field_refs(doc: &Document) -> Vec<ObjRef> {
     out
 }
 
-fn collect_sig_fields_recursive(doc: &Document, r: ObjRef, seen: &mut HashSet<ObjRef>, out: &mut Vec<ObjRef>) {
+fn collect_sig_fields_recursive(
+    doc: &Document,
+    r: ObjRef,
+    seen: &mut HashSet<ObjRef>,
+    out: &mut Vec<ObjRef>,
+) {
     if !seen.insert(r) {
         return;
     }
@@ -295,7 +370,10 @@ fn collect_sig_fields_recursive(doc: &Document, r: ObjRef, seen: &mut HashSet<Ob
     }
 }
 
-pub fn verify_signatures(pdf: &[u8], trusted_certs_pem: &str) -> Result<Vec<VerifiedSignature>, FileError> {
+pub fn verify_signatures(
+    pdf: &[u8],
+    trusted_certs_pem: &str,
+) -> Result<Vec<VerifiedSignature>, FileError> {
     let trusted_certs = if trusted_certs_pem.trim().is_empty() {
         Vec::new()
     } else {
@@ -339,36 +417,66 @@ pub fn verify_signatures(pdf: &[u8], trusted_certs_pem: &str) -> Result<Vec<Veri
         };
 
         let Some(sig_dict) = doc.dict(v_obj) else {
-            results.push(invalid_sig_entry(field_name, "Signature /V dictionary missing"));
+            results.push(invalid_sig_entry(
+                field_name,
+                "Signature /V dictionary missing",
+            ));
             continue;
         };
 
-        let reason = sig_dict.get(b"Reason").and_then(Object::as_string).map(PdfString::to_text);
-        let location = sig_dict.get(b"Location").and_then(Object::as_string).map(PdfString::to_text);
-        let format = sig_dict.name(b"SubFilter").map(|n| String::from_utf8_lossy(n).into_owned());
-        let date_dict = sig_dict.get(b"M").and_then(Object::as_string).map(PdfString::to_text);
-        let certification =
-            sig_dict.get(b"Reference").and_then(|r| doc.resolve(r).as_array().cloned()).and_then(|arr| {
+        let reason = sig_dict
+            .get(b"Reason")
+            .and_then(Object::as_string)
+            .map(PdfString::to_text);
+        let location = sig_dict
+            .get(b"Location")
+            .and_then(Object::as_string)
+            .map(PdfString::to_text);
+        let format = sig_dict
+            .name(b"SubFilter")
+            .map(|n| String::from_utf8_lossy(n).into_owned());
+        let date_dict = sig_dict
+            .get(b"M")
+            .and_then(Object::as_string)
+            .map(PdfString::to_text);
+        let certification = sig_dict
+            .get(b"Reference")
+            .and_then(|r| doc.resolve(r).as_array().cloned())
+            .and_then(|arr| {
                 arr.into_iter().find_map(|item| {
                     let rd = doc.dict(&item)?;
                     (rd.name(b"TransformMethod") == Some(b"DocMDP"))
-                        .then(|| rd.get(b"TransformParams").and_then(|tp| doc.dict(tp))?.int(b"P"))
+                        .then(|| {
+                            rd.get(b"TransformParams")
+                                .and_then(|tp| doc.dict(tp))?
+                                .int(b"P")
+                        })
                         .flatten()
                         .and_then(|p| u8::try_from(p).ok())
                 })
             });
 
         let Some(br_vals) = extract_byterange(&doc, &sig_dict) else {
-            results.push(invalid_sig_entry(field_name, "Missing or malformed /ByteRange"));
+            results.push(invalid_sig_entry(
+                field_name,
+                "Missing or malformed /ByteRange",
+            ));
             continue;
         };
         let [a, b, c, d] = br_vals;
         if a != 0 || b > c || c.saturating_add(d) > pdf.len() {
-            results.push(invalid_sig_entry(field_name, "/ByteRange exceeds document bounds"));
+            results.push(invalid_sig_entry(
+                field_name,
+                "/ByteRange exceeds document bounds",
+            ));
             continue;
         }
 
-        let Some(raw_cms) = sig_dict.get(b"Contents").and_then(Object::as_string).map(|s| s.bytes.as_slice()) else {
+        let Some(raw_cms) = sig_dict
+            .get(b"Contents")
+            .and_then(Object::as_string)
+            .map(|s| s.bytes.as_slice())
+        else {
             results.push(invalid_sig_entry(field_name, "Missing signature /Contents"));
             continue;
         };
@@ -379,19 +487,28 @@ pub fn verify_signatures(pdf: &[u8], trusted_certs_pem: &str) -> Result<Vec<Veri
         let modifications = if covered_end == pdf.len() {
             "none".to_owned()
         } else {
-            changes.push(format!("{} byte(s) appended after signed revision", pdf.len() - covered_end));
+            changes.push(format!(
+                "{} byte(s) appended after signed revision",
+                pdf.len() - covered_end
+            ));
             "forbidden".to_owned()
         };
 
         let parsed = match cms::SignedData::parse(raw_cms) {
             Ok(sd) => sd,
             Err(e) => {
-                results.push(invalid_sig_entry(field_name, format!("Invalid CMS SignedData: {e}")));
+                results.push(invalid_sig_entry(
+                    field_name,
+                    format!("Invalid CMS SignedData: {e}"),
+                ));
                 continue;
             }
         };
 
-        let content_digest = parsed.signer.digest.digest(&[&pdf[a..b], &pdf[c..covered_end]]);
+        let content_digest = parsed
+            .signer
+            .digest
+            .digest(&[&pdf[a..b], &pdf[c..covered_end]]);
         let md_ok = match &parsed.signer.message_digest {
             Some(md) => md.as_slice() == content_digest.as_slice(),
             None => parsed.signer.signed_attrs.is_none(),
@@ -399,21 +516,33 @@ pub fn verify_signatures(pdf: &[u8], trusted_certs_pem: &str) -> Result<Vec<Veri
 
         let mut pool = parsed.certificates.clone();
         pool.extend(trusted_certs.iter().cloned());
-        let cert_opt = parsed.signer_certificate().or_else(|| trusted_certs.first());
+        let cert_opt = parsed
+            .signer_certificate()
+            .or_else(|| trusted_certs.first());
 
         let (crypto_ok, signer_name, fingerprint, trusted) = if let Some(cert) = cert_opt {
-            let sig_ok = parsed.verify_signature(cert, &content_digest).unwrap_or(false) && md_ok;
+            let sig_ok = parsed
+                .verify_signature(cert, &content_digest)
+                .unwrap_or(false)
+                && md_ok;
             let chain = x509::build_chain(cert, &pool, None);
             let is_trusted = !trusted_certs.is_empty()
-                && chain
-                    .iter()
-                    .any(|c_in_chain| trusted_certs.iter().any(|t| t.fingerprint() == c_in_chain.fingerprint()));
+                && chain.iter().any(|c_in_chain| {
+                    trusted_certs
+                        .iter()
+                        .any(|t| t.fingerprint() == c_in_chain.fingerprint())
+                });
             if !sig_ok {
                 details.push("Digest or signature mismatch".into());
             } else if !is_trusted {
                 details.push("Signer certificate not present in trusted PEM bundle".into());
             }
-            (sig_ok, Some(cert.display_name()), Some(cert.fingerprint()), is_trusted)
+            (
+                sig_ok,
+                Some(cert.display_name()),
+                Some(cert.fingerprint()),
+                is_trusted,
+            )
         } else {
             details.push("No signer certificate embedded in CMS SignedData".into());
             (false, None, None, false)
@@ -427,7 +556,11 @@ pub fn verify_signatures(pdf: &[u8], trusted_certs_pem: &str) -> Result<Vec<Veri
             "unknown"
         };
 
-        let date = parsed.signer.signing_time.map(|t| t.to_string()).or(date_dict);
+        let date = parsed
+            .signer
+            .signing_time
+            .map(|t| t.to_string())
+            .or(date_dict);
 
         results.push(VerifiedSignature {
             field: field_name,
@@ -438,7 +571,11 @@ pub fn verify_signatures(pdf: &[u8], trusted_certs_pem: &str) -> Result<Vec<Veri
             reason,
             location,
             format,
-            algorithm: Some(format!("{} / {:?}", parsed.signer.digest.name(), parsed.signer.scheme)),
+            algorithm: Some(format!(
+                "{} / {:?}",
+                parsed.signer.digest.name(),
+                parsed.signer.scheme
+            )),
             certification,
             timestamped: parsed.signer.timestamp,
             modifications,

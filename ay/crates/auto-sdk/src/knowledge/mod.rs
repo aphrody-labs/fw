@@ -1,6 +1,8 @@
 //! Knowledge base chunking and MMR cosine similarity retrieval backed by `fw-rag-core`.
 
-use fw_rag_core::{ChunkOptions, Chunker, Language, MarkdownChunker, ProseChunker, detect_language, fusion};
+use fw_rag_core::{
+    ChunkOptions, Chunker, Language, MarkdownChunker, ProseChunker, detect_language, fusion,
+};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -42,7 +44,11 @@ pub struct Neighbor {
 }
 
 /// Splits Markdown (`.md`/`.markdown`) or prose text into overlapping citation chunks.
-pub fn chunk_text(source: &str, text: &str, chunk_size: Option<usize>) -> Result<Vec<Chunk>, KnowledgeError> {
+pub fn chunk_text(
+    source: &str,
+    text: &str,
+    chunk_size: Option<usize>,
+) -> Result<Vec<Chunk>, KnowledgeError> {
     if text.len() > MAX_TEXT_BYTES {
         return Err(KnowledgeError::TextTooLarge(MAX_TEXT_BYTES));
     }
@@ -53,7 +59,11 @@ pub fn chunk_text(source: &str, text: &str, chunk_size: Option<usize>) -> Result
     if text.trim().is_empty() {
         return Ok(Vec::new());
     }
-    let opts = ChunkOptions { max_chars: size, overlap_pct: 0.15, ..ChunkOptions::default() };
+    let opts = ChunkOptions {
+        max_chars: size,
+        overlap_pct: 0.15,
+        ..ChunkOptions::default()
+    };
     let lang = detect_language(source);
     let raw_chunks = match lang {
         Language::Markdown => MarkdownChunker.chunk(source, text, &opts),
@@ -81,17 +91,25 @@ pub fn nearest_vectors(
     diversity: Option<f64>,
 ) -> Result<Vec<Neighbor>, KnowledgeError> {
     if dimension == 0 || query.len() != dimension {
-        return Err(KnowledgeError::InvalidVectors("query length must match non-zero dimension".into()));
+        return Err(KnowledgeError::InvalidVectors(
+            "query length must match non-zero dimension".into(),
+        ));
     }
     if !matrix.len().is_multiple_of(dimension) {
-        return Err(KnowledgeError::InvalidVectors("matrix length must be a multiple of dimension".into()));
+        return Err(KnowledgeError::InvalidVectors(
+            "matrix length must be a multiple of dimension".into(),
+        ));
     }
     let rows = matrix.len() / dimension;
     if rows == 0 || k == 0 {
         return Ok(Vec::new());
     }
     let k = k.min(MAX_K).min(rows);
-    let query_norm: f64 = query.iter().map(|&x| f64::from(x) * f64::from(x)).sum::<f64>().sqrt();
+    let query_norm: f64 = query
+        .iter()
+        .map(|&x| f64::from(x) * f64::from(x))
+        .sum::<f64>()
+        .sqrt();
     if query_norm <= 0.0 || !query_norm.is_finite() {
         return Ok(Vec::new());
     }
@@ -106,20 +124,32 @@ pub fn nearest_vectors(
     scored.sort_by(|a, b| b.1.total_cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
 
     let Some(lambda) = diversity.map(|l| l.clamp(0.0, 1.0)) else {
-        return Ok(scored.into_iter().take(k).map(|(index, score)| Neighbor { index, score }).collect());
+        return Ok(scored
+            .into_iter()
+            .take(k)
+            .map(|(index, score)| Neighbor { index, score })
+            .collect());
     };
 
     let pool_len = (k * 4).min(scored.len());
     let pool = &scored[..pool_len];
     let candidates: Vec<(usize, Vec<f32>, f64)> = pool
         .iter()
-        .map(|&(idx, score)| (idx, matrix[idx * dimension..(idx + 1) * dimension].to_vec(), score))
+        .map(|&(idx, score)| {
+            (
+                idx,
+                matrix[idx * dimension..(idx + 1) * dimension].to_vec(),
+                score,
+            )
+        })
         .collect();
     let picked = fusion::mmr(&candidates, lambda, k);
     Ok(picked
         .into_iter()
         .filter_map(|idx| {
-            pool.iter().find(|&&(p_idx, _)| p_idx == idx).map(|&(index, score)| Neighbor { index, score })
+            pool.iter()
+                .find(|&&(p_idx, _)| p_idx == idx)
+                .map(|&(index, score)| Neighbor { index, score })
         })
         .collect())
 }
@@ -134,7 +164,11 @@ fn cosine_similarity(query: &[f32], query_norm: f64, row: &[f32]) -> f64 {
         norm_sq += rf * rf;
     }
     let row_norm = norm_sq.sqrt();
-    if row_norm <= 0.0 { 0.0 } else { dot / (query_norm * row_norm) }
+    if row_norm <= 0.0 {
+        0.0
+    } else {
+        dot / (query_norm * row_norm)
+    }
 }
 
 #[cfg(test)]
@@ -143,11 +177,18 @@ mod tests {
 
     #[test]
     fn chunks_prose_and_markdown_cleanly() {
-        let md = "# Guide\n\n## Warranty\n\n".to_owned() + &"Coverage lasts two years on parts. ".repeat(30);
+        let md = "# Guide\n\n## Warranty\n\n".to_owned()
+            + &"Coverage lasts two years on parts. ".repeat(30);
         let chunks = chunk_text("guide.md", &md, Some(250)).unwrap();
         assert!(chunks.len() > 2);
         assert_eq!(chunks[0].index, 0);
-        assert!(chunks[0].heading.as_deref().unwrap_or("").contains("Warranty"));
+        assert!(
+            chunks[0]
+                .heading
+                .as_deref()
+                .unwrap_or("")
+                .contains("Warranty")
+        );
     }
 
     #[test]

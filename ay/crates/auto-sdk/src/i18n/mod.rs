@@ -41,14 +41,27 @@ impl Catalog {
     }
 
     /// Translates a singular/plural pair using `n`.
-    pub fn tr_plural(&self, lang: &str, one: &str, other: &str, n: u64, args: &[(&str, &str)]) -> String {
+    pub fn tr_plural(
+        &self,
+        lang: &str,
+        one: &str,
+        other: &str,
+        n: u64,
+        args: &[(&str, &str)],
+    ) -> String {
         let l = self.lang(lang);
         let tpl = self.inner.trn_plain(l, n, one, other);
         format_with(&tpl, Some(n), args)
     }
 
     /// Translates `source` and formats `{name}` placeholders cleanly without bidi isolates.
-    pub fn tr_args(&self, lang: &str, ctx: Option<&str>, source: &str, args: &[(&str, &str)]) -> String {
+    pub fn tr_args(
+        &self,
+        lang: &str,
+        ctx: Option<&str>,
+        source: &str,
+        args: &[(&str, &str)],
+    ) -> String {
         let l = self.lang(lang);
         let tpl = match ctx {
             Some(c) if !c.is_empty() => self.inner.tc(l, c, source),
@@ -108,7 +121,11 @@ pub fn resolve_lang(input: Option<&str>) -> &'static str {
     // Split Accept-Language lists (`fr-FR,fr;q=0.9,en;q=0.8`) by `,`, strip `;q=...`.
     for part in candidate.split(',') {
         let tag = part.split(';').next().unwrap_or("").trim();
-        let primary = tag.split(['-', '_', '.']).next().unwrap_or("").to_ascii_lowercase();
+        let primary = tag
+            .split(['-', '_', '.'])
+            .next()
+            .unwrap_or("")
+            .to_ascii_lowercase();
         match primary.as_str() {
             "fr" => return "fr",
             "en" => return "en",
@@ -155,7 +172,10 @@ mod tests {
         assert_eq!(resolve_lang(Some("fr")), "fr");
         assert_eq!(resolve_lang(Some("fr-FR,en-US;q=0.9")), "fr");
         assert_eq!(resolve_lang(Some("fr_CA.UTF-8")), "fr");
-        assert_eq!(resolve_lang(Some("https://example.test/doc?lang=fr&x=1")), "fr");
+        assert_eq!(
+            resolve_lang(Some("https://example.test/doc?lang=fr&x=1")),
+            "fr"
+        );
         assert_eq!(resolve_lang(Some("de-DE,en;q=0.8")), "en");
         assert_eq!(supported_langs(), &["en", "fr"]);
     }
@@ -167,9 +187,15 @@ mod tests {
         assert_eq!(cat.tr_ctx("fr", "pdf", "Invoice"), "Facture");
         assert_eq!(cat.tr("fr", "Missing key"), "Missing key");
         assert_eq!(cat.tr_plural("fr", "{n} day", "{n} days", 1, &[]), "1 jour");
-        assert_eq!(cat.tr_plural("fr", "{n} day", "{n} days", 3, &[]), "3 jours");
+        assert_eq!(
+            cat.tr_plural("fr", "{n} day", "{n} days", 3, &[]),
+            "3 jours"
+        );
         assert_eq!(cat.tr_plural("en", "{n} day", "{n} days", 1, &[]), "1 day");
-        assert_eq!(cat.tr_args("fr", None, "Payment due in {days} days", &[("days", "30")]), "Paiement sous 30 jours");
+        assert_eq!(
+            cat.tr_args("fr", None, "Payment due in {days} days", &[("days", "30")]),
+            "Paiement sous 30 jours"
+        );
     }
 
     #[test]

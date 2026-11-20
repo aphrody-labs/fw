@@ -1,10 +1,11 @@
 use std::collections::BTreeMap;
 
 use aphrody_auto::files::{
-    BulletInput, NewPresentation, NewSlide, ParagraphInput, RedactionOptions, RedactionPattern, SignatureOptions,
-    SimpleDocx, TextReplacement, create_docx, create_pptx, docx_text, docx_to_pdf, extract_pdf_pages,
-    fill_template_docx, merge_pdfs, pdf_page_count, pdf_text, pptx_text, pptx_to_pdf, read_docx, redact_pdf,
-    replace_docx, sign_pdf, template_fields_docx, verify_signatures,
+    BulletInput, NewPresentation, NewSlide, ParagraphInput, RedactionOptions, RedactionPattern,
+    SignatureOptions, SimpleDocx, TextReplacement, create_docx, create_pptx, docx_text,
+    docx_to_pdf, extract_pdf_pages, fill_template_docx, merge_pdfs, pdf_page_count, pdf_text,
+    pptx_text, pptx_to_pdf, read_docx, redact_pdf, replace_docx, sign_pdf, template_fields_docx,
+    verify_signatures,
 };
 
 #[test]
@@ -12,13 +13,24 @@ fn docx_roundtrip_templates_and_pdf() {
     let bytes = create_docx(&SimpleDocx {
         title: Some("Quote {{ number }}".into()),
         paragraphs: vec![
-            ParagraphInput { text: "For {{ customer }}, {{ customer }}".into(), style: None, bold: Some(true) },
-            ParagraphInput { text: "Keep {{ other }}".into(), style: Some("heading2".into()), bold: None },
+            ParagraphInput {
+                text: "For {{ customer }}, {{ customer }}".into(),
+                style: None,
+                bold: Some(true),
+            },
+            ParagraphInput {
+                text: "Keep {{ other }}".into(),
+                style: Some("heading2".into()),
+                bold: None,
+            },
         ],
     })
     .expect("create docx");
 
-    assert_eq!(template_fields_docx(&bytes).expect("fields"), vec!["number", "customer", "other"]);
+    assert_eq!(
+        template_fields_docx(&bytes).expect("fields"),
+        vec!["number", "customer", "other"]
+    );
 
     let mut values = BTreeMap::new();
     values.insert("number".into(), "QUO-7".into());
@@ -28,9 +40,19 @@ fn docx_roundtrip_templates_and_pdf() {
     assert_eq!(body_text, "Quote QUO-7\nFor Zoe, Zoe\nKeep {{ other }}");
     assert_eq!(read_docx(&filled).expect("read docx").len(), 3);
 
-    let replaced =
-        replace_docx(&filled, &[TextReplacement { find: "Zoe".into(), replace: "Francois".into() }]).expect("replace");
-    assert!(docx_text(&replaced).expect("replaced text").contains("For Francois, Francois"));
+    let replaced = replace_docx(
+        &filled,
+        &[TextReplacement {
+            find: "Zoe".into(),
+            replace: "Francois".into(),
+        }],
+    )
+    .expect("replace");
+    assert!(
+        docx_text(&replaced)
+            .expect("replaced text")
+            .contains("For Francois, Francois")
+    );
 
     let pdf = docx_to_pdf(&filled).expect("docx to pdf");
     assert!(pdf.starts_with(b"%PDF-"));
@@ -42,9 +64,14 @@ fn docx_roundtrip_templates_and_pdf() {
 
 #[test]
 fn pdf_merge_extract_and_redaction() {
-    let p1 =
-        docx_to_pdf(&create_docx(&SimpleDocx { title: Some("First Page".into()), paragraphs: vec![] }).expect("d1"))
-            .expect("p1");
+    let p1 = docx_to_pdf(
+        &create_docx(&SimpleDocx {
+            title: Some("First Page".into()),
+            paragraphs: vec![],
+        })
+        .expect("d1"),
+    )
+    .expect("p1");
     let p2 = docx_to_pdf(
         &create_docx(&SimpleDocx {
             title: Some("Statement".into()),
@@ -68,7 +95,10 @@ fn pdf_merge_extract_and_redaction() {
 
     let (redacted, report) = redact_pdf(
         &extracted,
-        &RedactionOptions { patterns: vec![RedactionPattern::Email, RedactionPattern::Iban], ..Default::default() },
+        &RedactionOptions {
+            patterns: vec![RedactionPattern::Email, RedactionPattern::Iban],
+            ..Default::default()
+        },
     )
     .expect("redact");
     assert_eq!(report.occurrences, 2);
@@ -82,7 +112,11 @@ fn pdf_merge_extract_and_redaction() {
 fn pdf_signing_ec_and_rsa_with_tamper_detection() {
     let doc = create_docx(&SimpleDocx {
         title: Some("Contract".into()),
-        paragraphs: vec![ParagraphInput { text: "Approved amount: 2160.00 EUR".into(), style: None, bold: None }],
+        paragraphs: vec![ParagraphInput {
+            text: "Approved amount: 2160.00 EUR".into(),
+            style: None,
+            bold: None,
+        }],
     })
     .expect("docx");
     let pdf = docx_to_pdf(&doc).expect("pdf");
@@ -117,7 +151,11 @@ fn pdf_signing_ec_and_rsa_with_tamper_detection() {
     let double_signed = sign_pdf(
         &signed_rsa,
         ec_p12,
-        &SignatureOptions { password: "test".into(), reason: Some("Countersigned".into()), ..Default::default() },
+        &SignatureOptions {
+            password: "test".into(),
+            reason: Some("Countersigned".into()),
+            ..Default::default()
+        },
     )
     .expect("countersign ec");
     let both = verify_signatures(&double_signed, rsa_pem).expect("verify both");
@@ -144,7 +182,10 @@ fn pptx_roundtrip_and_pdf() {
             title: Some("Metrics".into()),
             bullets: vec![
                 BulletInput::Text("Revenue up".into()),
-                BulletInput::Detailed { text: "Services".into(), level: Some(1) },
+                BulletInput::Detailed {
+                    text: "Services".into(),
+                    level: Some(1),
+                },
             ],
             notes: Some("Speaker memo".into()),
         }],

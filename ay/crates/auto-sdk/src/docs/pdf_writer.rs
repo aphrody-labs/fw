@@ -37,11 +37,19 @@ struct FontState<'a> {
 
 impl<'a> FontState<'a> {
     fn new(ps_name: &'static str, raw_ttf: &'static [u8]) -> Result<Self, PdfBuildError> {
-        let font = FontRef::from_index(raw_ttf, 0).map_err(|e| PdfBuildError::Font(e.to_string()))?;
+        let font =
+            FontRef::from_index(raw_ttf, 0).map_err(|e| PdfBuildError::Font(e.to_string()))?;
         let metrics = font.metrics(Size::unscaled(), LocationRef::default());
         let charmap = font.charmap();
         let glyph_metrics = font.glyph_metrics(Size::unscaled(), LocationRef::default());
-        Ok(Self { ps_name, raw_ttf, charmap, metrics, glyph_metrics, used_glyphs: BTreeMap::new() })
+        Ok(Self {
+            ps_name,
+            raw_ttf,
+            charmap,
+            metrics,
+            glyph_metrics,
+            used_glyphs: BTreeMap::new(),
+        })
     }
 
     fn upem(&self) -> f32 {
@@ -76,7 +84,10 @@ impl<'a> FontState<'a> {
 
     fn char_width(&self, ch: char, font_size: f32) -> f32 {
         let (gid, _) = self.map_char(ch);
-        let adv = self.glyph_metrics.advance_width(gid).unwrap_or(self.upem() * 0.5);
+        let adv = self
+            .glyph_metrics
+            .advance_width(gid)
+            .unwrap_or(self.upem() * 0.5);
         adv * font_size / self.upem()
     }
 
@@ -109,12 +120,20 @@ pub fn decode_logo_image(mime: &str, data_base64: &str) -> Result<EmbeddedImage,
         || raw.starts_with(&[0xFF, 0xD8])
     {
         let (width, height, components) = parse_jpeg_header(&raw)?;
-        return Ok(EmbeddedImage { width, height, components, flate: false, data: raw });
+        return Ok(EmbeddedImage {
+            width,
+            height,
+            components,
+            flate: false,
+            data: raw,
+        });
     }
     if mime.eq_ignore_ascii_case("image/png") || raw.starts_with(b"\x89PNG\r\n\x1a\n") {
         return decode_png_opaque(&raw);
     }
-    Err(PdfBuildError::Logo(format!("unsupported logo mime type: {mime}")))
+    Err(PdfBuildError::Logo(format!(
+        "unsupported logo mime type: {mime}"
+    )))
 }
 
 fn parse_jpeg_header(raw: &[u8]) -> Result<(u32, u32, u8), PdfBuildError> {
@@ -155,7 +174,9 @@ fn parse_jpeg_header(raw: &[u8]) -> Result<(u32, u32, u8), PdfBuildError> {
             if w > 0 && h > 0 && matches!(comps, 1 | 3) {
                 return Ok((w, h, comps));
             }
-            return Err(PdfBuildError::Logo("unsupported JPEG channel layout".into()));
+            return Err(PdfBuildError::Logo(
+                "unsupported JPEG channel layout".into(),
+            ));
         }
         i += seg_len;
     }
@@ -191,7 +212,9 @@ fn decode_png_opaque(raw: &[u8]) -> Result<EmbeddedImage, PdfBuildError> {
                 bit_depth = chunk[8];
                 color_type = chunk[9];
                 if chunk[12] != 0 {
-                    return Err(PdfBuildError::Logo("interlaced PNG logos are not supported".into()));
+                    return Err(PdfBuildError::Logo(
+                        "interlaced PNG logos are not supported".into(),
+                    ));
                 }
             }
             b"PLTE" => {
@@ -208,14 +231,20 @@ fn decode_png_opaque(raw: &[u8]) -> Result<EmbeddedImage, PdfBuildError> {
     }
 
     if width == 0 || height == 0 || bit_depth != 8 {
-        return Err(PdfBuildError::Logo("only 8-bit non-empty PNG logos are supported".into()));
+        return Err(PdfBuildError::Logo(
+            "only 8-bit non-empty PNG logos are supported".into(),
+        ));
     }
     let bpp: usize = match color_type {
         0 | 3 => 1,
         2 => 3,
         4 => 2,
         6 => 4,
-        other => return Err(PdfBuildError::Logo(format!("unsupported PNG color type {other}"))),
+        other => {
+            return Err(PdfBuildError::Logo(format!(
+                "unsupported PNG color type {other}"
+            )));
+        }
     };
 
     let mut inflated = Vec::new();
@@ -275,7 +304,13 @@ fn decode_png_opaque(raw: &[u8]) -> Result<EmbeddedImage, PdfBuildError> {
         prev.copy_from_slice(&curr);
     }
 
-    Ok(EmbeddedImage { width, height, components: 3, flate: true, data: rgb })
+    Ok(EmbeddedImage {
+        width,
+        height,
+        components: 3,
+        flate: true,
+        data: rgb,
+    })
 }
 
 fn paeth(a: u8, b: u8, c: u8) -> u8 {
@@ -347,7 +382,11 @@ impl<'a> PdfCanvas<'a> {
 
     /// Returns measured width in points for `text` using Regular or SemiBold Inter.
     pub fn text_width(&self, bold: bool, font_size: f32, text: &str) -> f32 {
-        if bold { self.bold.text_width(text, font_size) } else { self.regular.text_width(text, font_size) }
+        if bold {
+            self.bold.text_width(text, font_size)
+        } else {
+            self.regular.text_width(text, font_size)
+        }
     }
 
     /// Word-wraps `text` into lines fitting within `max_width` points, honoring explicit newlines.
@@ -361,7 +400,11 @@ impl<'a> PdfCanvas<'a> {
             }
             let mut line = String::new();
             for word in trimmed.split_whitespace() {
-                let candidate = if line.is_empty() { word.to_owned() } else { format!("{line} {word}") };
+                let candidate = if line.is_empty() {
+                    word.to_owned()
+                } else {
+                    format!("{line} {word}")
+                };
                 if self.text_width(bold, font_size, &candidate) <= max_width {
                     line = candidate;
                     continue;
@@ -414,7 +457,10 @@ impl<'a> PdfCanvas<'a> {
     /// Draws an image XObject placed with top-left at `(x, y_top)`.
     pub fn draw_image_top(&mut self, name: &str, x: f32, y_top: f32, w: f32, h: f32) {
         let y_bot = self.page_h - y_top - h;
-        let _ = writeln!(self.current, "q {w:.2} 0 0 {h:.2} {x:.2} {y_bot:.2} cm /{name} Do Q");
+        let _ = writeln!(
+            self.current,
+            "q {w:.2} 0 0 {h:.2} {x:.2} {y_bot:.2} cm /{name} Do Q"
+        );
     }
 
     /// Draws left-aligned text at baseline `y_top_baseline` measured downward from page top.
@@ -483,10 +529,14 @@ impl<'a> PdfCanvas<'a> {
 
         let mut doc = Document::new_empty();
         doc.set_version("1.7");
-        let root_ref = doc.root().ok_or(craft_pdf::cos::CosError::MissingObject(0))?;
+        let root_ref = doc
+            .root()
+            .ok_or(craft_pdf::cos::CosError::MissingObject(0))?;
         let root_obj = doc.get(root_ref);
-        let pages_ref =
-            root_obj.as_dict().and_then(|d| d.reference(b"Pages")).ok_or(craft_pdf::cos::CosError::MissingObject(1))?;
+        let pages_ref = root_obj
+            .as_dict()
+            .and_then(|d| d.reference(b"Pages"))
+            .ok_or(craft_pdf::cos::CosError::MissingObject(1))?;
 
         let mut font_dict = Dict::new();
         if self.regular_used {
@@ -506,7 +556,14 @@ impl<'a> PdfCanvas<'a> {
             idict.set("Width", Object::Int(i64::from(img.width)));
             idict.set("Height", Object::Int(i64::from(img.height)));
             idict.set("BitsPerComponent", Object::Int(8));
-            idict.set("ColorSpace", Object::name(if img.components == 1 { "DeviceGray" } else { "DeviceRGB" }));
+            idict.set(
+                "ColorSpace",
+                Object::name(if img.components == 1 {
+                    "DeviceGray"
+                } else {
+                    "DeviceRGB"
+                }),
+            );
             let stream = if img.flate {
                 Stream::flate(idict, &img.data)
             } else {
@@ -561,15 +618,21 @@ impl<'a> PdfCanvas<'a> {
         })?;
 
         let mut info = Dict::new();
-        info.set("Producer", Object::String(PdfString::text("auto-docs (craft-pdf/cos)")));
+        info.set(
+            "Producer",
+            Object::String(PdfString::text("auto-docs (craft-pdf/cos)")),
+        );
         if let Some(t) = title {
             info.set("Title", Object::String(PdfString::text(t)));
         }
         let info_ref = doc.add(info);
         doc.trailer_mut().set("Info", info_ref);
 
-        let opts =
-            SaveOptions { object_streams: false, id_entropy: Some(*b"auto-docs-pdf-v1"), ..SaveOptions::default() };
+        let opts = SaveOptions {
+            object_streams: false,
+            id_entropy: Some(*b"auto-docs-pdf-v1"),
+            ..SaveOptions::default()
+        };
         Ok(write_full(&doc, &opts)?)
     }
 }
@@ -588,7 +651,12 @@ fn add_cid_font(doc: &mut Document, font: &FontState<'_>) -> craft_pdf::cos::Obj
             Object::Int(font.pdf_scale(b.y_max)),
         ]
     } else {
-        vec![Object::Int(-500), Object::Int(-250), Object::Int(1200), Object::Int(1000)]
+        vec![
+            Object::Int(-500),
+            Object::Int(-250),
+            Object::Int(1200),
+            Object::Int(1000),
+        ]
     };
 
     let mut fd = Dict::new();
@@ -597,16 +665,37 @@ fn add_cid_font(doc: &mut Document, font: &FontState<'_>) -> craft_pdf::cos::Obj
     fd.set("Flags", Object::Int(4));
     fd.set("FontBBox", bbox);
     fd.set("ItalicAngle", Object::Int(0));
-    fd.set("Ascent", Object::Int(font.pdf_scale(font.metrics.ascent.abs())));
-    fd.set("Descent", Object::Int(-font.pdf_scale(font.metrics.descent.abs())));
-    fd.set("CapHeight", Object::Int(font.pdf_scale(font.metrics.cap_height.unwrap_or(font.metrics.ascent * 0.72))));
+    fd.set(
+        "Ascent",
+        Object::Int(font.pdf_scale(font.metrics.ascent.abs())),
+    );
+    fd.set(
+        "Descent",
+        Object::Int(-font.pdf_scale(font.metrics.descent.abs())),
+    );
+    fd.set(
+        "CapHeight",
+        Object::Int(
+            font.pdf_scale(
+                font.metrics
+                    .cap_height
+                    .unwrap_or(font.metrics.ascent * 0.72),
+            ),
+        ),
+    );
     fd.set("StemV", Object::Int(80));
     fd.set("FontFile2", ff_ref);
     let fd_ref = doc.add(fd);
 
     let mut sys_info = Dict::new();
-    sys_info.set("Registry", Object::String(PdfString::literal(b"Adobe".to_vec())));
-    sys_info.set("Ordering", Object::String(PdfString::literal(b"Identity".to_vec())));
+    sys_info.set(
+        "Registry",
+        Object::String(PdfString::literal(b"Adobe".to_vec())),
+    );
+    sys_info.set(
+        "Ordering",
+        Object::String(PdfString::literal(b"Identity".to_vec())),
+    );
     sys_info.set("Supplement", Object::Int(0));
 
     let mut w_arr = Vec::with_capacity(font.used_glyphs.len() * 2);

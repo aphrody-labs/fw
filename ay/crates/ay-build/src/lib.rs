@@ -1,4 +1,3 @@
-
 extern crate self as ay_build;
 
 #[cfg(feature = "deps")]

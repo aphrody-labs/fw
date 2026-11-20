@@ -1,4 +1,6 @@
-use aphrody_auto::docs::{DocParagraphStyle, DocPdfParagraph, SlidePdf, render, render_docx_pdf, render_pptx_pdf};
+use aphrody_auto::docs::{
+    DocParagraphStyle, DocPdfParagraph, SlidePdf, render, render_docx_pdf, render_pptx_pdf,
+};
 use aphrody_auto::model::{Document, DocumentType, LineItem, Party, Template};
 
 fn sample_invoice(lines: usize, locale: Option<&str>) -> Document {
@@ -74,7 +76,11 @@ fn renders_docx_and_pptx_pdfs_with_selectable_fonts() {
     let docx_pdf = render_docx_pdf(
         Some("Project Brief"),
         &[
-            DocPdfParagraph { text: "Scope".into(), style: DocParagraphStyle::Heading1, bold: true },
+            DocPdfParagraph {
+                text: "Scope".into(),
+                style: DocParagraphStyle::Heading1,
+                bold: true,
+            },
             DocPdfParagraph {
                 text: "All deliverables are on schedule.".into(),
                 style: DocParagraphStyle::Normal,
@@ -88,10 +94,17 @@ fn renders_docx_and_pptx_pdfs_with_selectable_fonts() {
     let pptx_pdf = render_pptx_pdf(
         Some("Quarterly Review"),
         &[
-            SlidePdf { title: Some("Q4 Summary".into()), bullets: vec![], notes: None },
+            SlidePdf {
+                title: Some("Q4 Summary".into()),
+                bullets: vec![],
+                notes: None,
+            },
             SlidePdf {
                 title: Some("Milestones".into()),
-                bullets: vec![("Released Wasm runtime".into(), 0), ("Verified Factur-X".into(), 1)],
+                bullets: vec![
+                    ("Released Wasm runtime".into(), 0),
+                    ("Verified Factur-X".into(), 1),
+                ],
                 notes: None,
             },
         ],

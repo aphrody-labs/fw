@@ -2,8 +2,8 @@ use std::sync::Arc;
 
 use crate::docs::{SlidePdf, render_pptx_pdf};
 use craft_pptx::{
-    Defaults, LayoutId, Paragraph, PhType, Placeholder, Plain, Presentation, Shape, ShapeId, Slide, SlideId, TextBody,
-    Xfrm, export, import, walk,
+    Defaults, LayoutId, Paragraph, PhType, Placeholder, Plain, Presentation, Shape, ShapeId, Slide,
+    SlideId, TextBody, Xfrm, export, import, walk,
 };
 use serde::{Deserialize, Serialize};
 
@@ -56,7 +56,11 @@ fn text_shape(id: u32, name: &str, xfrm: Xfrm, ph: PhType, idx: u32, body: TextB
         id: ShapeId(id),
         name: name.to_owned(),
         xfrm: Some(xfrm),
-        ph: Some(Placeholder { kind: ph, idx, ..Default::default() }),
+        ph: Some(Placeholder {
+            kind: ph,
+            idx,
+            ..Default::default()
+        }),
         text: Some(body),
         ..Default::default()
     }
@@ -69,8 +73,16 @@ pub fn create_pptx(input: &NewPresentation) -> Result<Vec<u8>, FileError> {
     pres.masters.push(Arc::new(master));
     let mut next_id = max_id.saturating_add(1);
 
-    let title_top = input.title.as_deref().map(str::trim).filter(|s| !s.is_empty());
-    let subtitle_top = input.subtitle.as_deref().map(str::trim).filter(|s| !s.is_empty());
+    let title_top = input
+        .title
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty());
+    let subtitle_top = input
+        .subtitle
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty());
     if let Some(title) = title_top {
         pres.props.title = title.to_owned();
     }
@@ -84,7 +96,13 @@ pub fn create_pptx(input: &NewPresentation) -> Result<Vec<u8>, FileError> {
             shapes.push(text_shape(
                 sid,
                 "Title",
-                Xfrm { x: 64.0, y: 150.0, w: 832.0, h: 90.0, ..Default::default() },
+                Xfrm {
+                    x: 64.0,
+                    y: 150.0,
+                    w: 832.0,
+                    h: 90.0,
+                    ..Default::default()
+                },
                 PhType::CtrTitle,
                 0,
                 TextBody::from_text(title),
@@ -96,7 +114,13 @@ pub fn create_pptx(input: &NewPresentation) -> Result<Vec<u8>, FileError> {
             shapes.push(text_shape(
                 sid,
                 "Subtitle",
-                Xfrm { x: 64.0, y: 260.0, w: 832.0, h: 64.0, ..Default::default() },
+                Xfrm {
+                    x: 64.0,
+                    y: 260.0,
+                    w: 832.0,
+                    h: 64.0,
+                    ..Default::default()
+                },
                 PhType::SubTitle,
                 1,
                 TextBody::from_text(sub),
@@ -121,7 +145,13 @@ pub fn create_pptx(input: &NewPresentation) -> Result<Vec<u8>, FileError> {
             shapes.push(text_shape(
                 sid,
                 "Title",
-                Xfrm { x: 48.0, y: 36.0, w: 864.0, h: 64.0, ..Default::default() },
+                Xfrm {
+                    x: 48.0,
+                    y: 36.0,
+                    w: 864.0,
+                    h: 64.0,
+                    ..Default::default()
+                },
                 PhType::Title,
                 0,
                 TextBody::from_text(stitle),
@@ -140,11 +170,20 @@ pub fn create_pptx(input: &NewPresentation) -> Result<Vec<u8>, FileError> {
                     p
                 })
                 .collect();
-            let body = TextBody { paragraphs, ..Default::default() };
+            let body = TextBody {
+                paragraphs,
+                ..Default::default()
+            };
             shapes.push(text_shape(
                 sid,
                 "Content",
-                Xfrm { x: 48.0, y: 112.0, w: 864.0, h: 380.0, ..Default::default() },
+                Xfrm {
+                    x: 48.0,
+                    y: 112.0,
+                    w: 864.0,
+                    h: 380.0,
+                    ..Default::default()
+                },
                 PhType::Body,
                 1,
                 body,
@@ -152,11 +191,18 @@ pub fn create_pptx(input: &NewPresentation) -> Result<Vec<u8>, FileError> {
         }
         let slide_id = next_id;
         next_id += 1;
-        let notes = item.notes.as_deref().map(TextBody::from_text).unwrap_or_default();
+        let notes = item
+            .notes
+            .as_deref()
+            .map(TextBody::from_text)
+            .unwrap_or_default();
         slides.push(Arc::new(Slide {
             id: SlideId(slide_id),
             layout: layout_id,
-            name: item.title.clone().unwrap_or_else(|| format!("Slide {}", idx + 1)),
+            name: item
+                .title
+                .clone()
+                .unwrap_or_else(|| format!("Slide {}", idx + 1)),
             shapes,
             notes,
             ..Default::default()
@@ -214,7 +260,14 @@ pub fn pptx_to_pdf(bytes: &[u8]) -> Result<Vec<u8>, FileError> {
         });
         let notes_raw = slide.notes_text();
         let notes = (!notes_raw.trim().is_empty()).then_some(notes_raw);
-        slides_pdf.push(SlidePdf { title, bullets, notes });
+        slides_pdf.push(SlidePdf {
+            title,
+            bullets,
+            notes,
+        });
     }
-    Ok(render_pptx_pdf((!pres.props.title.trim().is_empty()).then_some(pres.props.title.as_str()), &slides_pdf)?)
+    Ok(render_pptx_pdf(
+        (!pres.props.title.trim().is_empty()).then_some(pres.props.title.as_str()),
+        &slides_pdf,
+    )?)
 }

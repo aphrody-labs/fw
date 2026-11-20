@@ -46,7 +46,11 @@ impl ClientConfig {
     /// Builds an HTTPS/HTTP REST URL for an endpoint path (e.g. `routes::DOCUMENTS`).
     pub fn api_url(&self, path: &str) -> String {
         let base = self.base_url.trim_end_matches('/');
-        let rel = if path.starts_with('/') { path.to_owned() } else { format!("/{path}") };
+        let rel = if path.starts_with('/') {
+            path.to_owned()
+        } else {
+            format!("/{path}")
+        };
         format!("{base}{rel}")
     }
 
@@ -82,7 +86,11 @@ pub struct Hlc {
 
 impl Hlc {
     pub fn new(wall_ms: u64, counter: u32, node_id: impl Into<String>) -> Self {
-        Self { wall_ms, counter, node_id: node_id.into() }
+        Self {
+            wall_ms,
+            counter,
+            node_id: node_id.into(),
+        }
     }
 
     /// Generates the next monotonic HLC timestamp given the local physical clock and previous HLC.
@@ -91,36 +99,71 @@ impl Hlc {
         match last {
             Some(prev) => {
                 let wall_ms = physical_ms.max(prev.wall_ms);
-                let counter = if wall_ms == prev.wall_ms { prev.counter.saturating_add(1) } else { 0 };
-                Self { wall_ms, counter, node_id: node }
+                let counter = if wall_ms == prev.wall_ms {
+                    prev.counter.saturating_add(1)
+                } else {
+                    0
+                };
+                Self {
+                    wall_ms,
+                    counter,
+                    node_id: node,
+                }
             }
-            None => Self { wall_ms: physical_ms, counter: 0, node_id: node },
+            None => Self {
+                wall_ms: physical_ms,
+                counter: 0,
+                node_id: node,
+            },
         }
     }
 
     /// Merges a received remote HLC with the local clock before advancing locally.
-    pub fn receive(local: Option<&Hlc>, remote: &Hlc, physical_ms: u64, node_id: impl Into<String>) -> Self {
+    pub fn receive(
+        local: Option<&Hlc>,
+        remote: &Hlc,
+        physical_ms: u64,
+        node_id: impl Into<String>,
+    ) -> Self {
         let local_max = local.map_or(0, |l| l.wall_ms);
         let wall_ms = physical_ms.max(local_max).max(remote.wall_ms);
-        let counter = match (local.filter(|l| l.wall_ms == wall_ms), remote.wall_ms == wall_ms) {
+        let counter = match (
+            local.filter(|l| l.wall_ms == wall_ms),
+            remote.wall_ms == wall_ms,
+        ) {
             (Some(l), true) => l.counter.max(remote.counter).saturating_add(1),
             (Some(l), false) => l.counter.saturating_add(1),
             (None, true) => remote.counter.saturating_add(1),
             (None, false) => 0,
         };
-        Self { wall_ms, counter, node_id: node_id.into() }
+        Self {
+            wall_ms,
+            counter,
+            node_id: node_id.into(),
+        }
     }
 
     /// Parses `<wall_ms>:<counter>:<node_id>`.
     pub fn parse(raw: &str) -> Result<Self, ClientError> {
         let mut parts = raw.splitn(3, ':');
-        let wall_ms: u64 =
-            parts.next().and_then(|s| s.parse().ok()).ok_or_else(|| ClientError::InvalidHlc(raw.to_owned()))?;
-        let counter: u32 =
-            parts.next().and_then(|s| s.parse().ok()).ok_or_else(|| ClientError::InvalidHlc(raw.to_owned()))?;
-        let node_id =
-            parts.next().filter(|s| !s.is_empty()).ok_or_else(|| ClientError::InvalidHlc(raw.to_owned()))?.to_owned();
-        Ok(Self { wall_ms, counter, node_id })
+        let wall_ms: u64 = parts
+            .next()
+            .and_then(|s| s.parse().ok())
+            .ok_or_else(|| ClientError::InvalidHlc(raw.to_owned()))?;
+        let counter: u32 = parts
+            .next()
+            .and_then(|s| s.parse().ok())
+            .ok_or_else(|| ClientError::InvalidHlc(raw.to_owned()))?;
+        let node_id = parts
+            .next()
+            .filter(|s| !s.is_empty())
+            .ok_or_else(|| ClientError::InvalidHlc(raw.to_owned()))?
+            .to_owned();
+        Ok(Self {
+            wall_ms,
+            counter,
+            node_id,
+        })
     }
 
     /// Zero-padded sortable canonical string representation (`{:016}:{:06}:{}`).
@@ -187,13 +230,33 @@ pub struct SyncOp {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum WsSyncMessage {
-    Pull { since_hlc: Option<String>, limit: Option<u32> },
-    Push { node_id: String, ops: Vec<SyncOp> },
-    Ops { ops: Vec<SyncOp>, head_hlc: Option<String>, has_more: bool },
-    Ack { accepted_ids: Vec<String>, head_hlc: Option<String> },
-    Ping { ts_ms: u64 },
-    Pong { ts_ms: u64 },
-    Error { code: String, message: String },
+    Pull {
+        since_hlc: Option<String>,
+        limit: Option<u32>,
+    },
+    Push {
+        node_id: String,
+        ops: Vec<SyncOp>,
+    },
+    Ops {
+        ops: Vec<SyncOp>,
+        head_hlc: Option<String>,
+        has_more: bool,
+    },
+    Ack {
+        accepted_ids: Vec<String>,
+        head_hlc: Option<String>,
+    },
+    Ping {
+        ts_ms: u64,
+    },
+    Pong {
+        ts_ms: u64,
+    },
+    Error {
+        code: String,
+        message: String,
+    },
 }
 
 /// Lifecycle status of a commercial document.
@@ -350,9 +413,19 @@ impl UpdateManifest {
         lines.push(self.published_at.clone());
         lines.push(self.channel.clone());
         let mut sorted: Vec<&ReleaseArtifact> = self.artifacts.iter().collect();
-        sorted.sort_by(|a, b| a.platform.cmp(&b.platform).then_with(|| a.filename.cmp(&b.filename)));
+        sorted.sort_by(|a, b| {
+            a.platform
+                .cmp(&b.platform)
+                .then_with(|| a.filename.cmp(&b.filename))
+        });
         for a in sorted {
-            lines.push(format!("{}:{}:{}:{}", a.platform, a.filename, a.sha256.to_ascii_lowercase(), a.size_bytes));
+            lines.push(format!(
+                "{}:{}:{}:{}",
+                a.platform,
+                a.filename,
+                a.sha256.to_ascii_lowercase(),
+                a.size_bytes
+            ));
         }
         lines.join("\n")
     }
@@ -370,12 +443,22 @@ impl UpdateManifest {
 impl ReleaseArtifact {
     /// Canonical signing string for a single artifact: `{platform}:{filename}:{sha256}:{size_bytes}`.
     pub fn canonical_payload(&self) -> String {
-        format!("{}:{}:{}:{}", self.platform, self.filename, self.sha256.to_ascii_lowercase(), self.size_bytes)
+        format!(
+            "{}:{}:{}:{}",
+            self.platform,
+            self.filename,
+            self.sha256.to_ascii_lowercase(),
+            self.size_bytes
+        )
     }
 
     /// Verifies both the Ed25519 signature over artifact metadata and the downloaded bytes' SHA-256 digest.
     pub fn verify_bytes(&self, bytes: &[u8], public_key_hex: &str) -> Result<(), ClientError> {
-        verify_ed25519_hex(public_key_hex, &self.signature_ed25519, self.canonical_payload().as_bytes())?;
+        verify_ed25519_hex(
+            public_key_hex,
+            &self.signature_ed25519,
+            self.canonical_payload().as_bytes(),
+        )?;
         if bytes.len() as u64 != self.size_bytes {
             return Err(ClientError::UpdateVerification(format!(
                 "size mismatch: expected {} bytes, got {}",
@@ -405,7 +488,11 @@ pub fn sha256_hex(bytes: &[u8]) -> String {
 }
 
 /// Verifies an Ed25519 signature (`signature_hex`, 64 bytes) against `public_key_hex` (32 bytes) and `message`.
-pub fn verify_ed25519_hex(public_key_hex: &str, signature_hex: &str, message: &[u8]) -> Result<(), ClientError> {
+pub fn verify_ed25519_hex(
+    public_key_hex: &str,
+    signature_hex: &str,
+    message: &[u8],
+) -> Result<(), ClientError> {
     let pk_bytes = decode_hex_array::<32>(public_key_hex)
         .ok_or_else(|| ClientError::UpdateVerification("invalid Ed25519 public key hex".into()))?;
     let sig_bytes = decode_hex_array::<64>(signature_hex)
@@ -413,7 +500,8 @@ pub fn verify_ed25519_hex(public_key_hex: &str, signature_hex: &str, message: &[
     let key = VerifyingKey::from_bytes(&pk_bytes)
         .map_err(|_| ClientError::UpdateVerification("malformed Ed25519 public key".into()))?;
     let sig = Signature::from_bytes(&sig_bytes);
-    key.verify(message, &sig).map_err(|_| ClientError::UpdateVerification("Ed25519 signature check failed".into()))
+    key.verify(message, &sig)
+        .map_err(|_| ClientError::UpdateVerification("Ed25519 signature check failed".into()))
 }
 
 fn decode_hex_array<const N: usize>(hex: &str) -> Option<[u8; N]> {
@@ -511,7 +599,12 @@ mod tests {
     #[test]
     fn hlc_and_ws_sync_urls_work_for_both_modes() {
         let a = Hlc::tick(None, 1_700_000_000_000, "node-a");
-        let b = Hlc::receive(Some(&a), &Hlc::new(1_700_000_000_500, 3, "srv"), 1_699_000_000_000, "node-a");
+        let b = Hlc::receive(
+            Some(&a),
+            &Hlc::new(1_700_000_000_500, 3, "srv"),
+            1_699_000_000_000,
+            "node-a",
+        );
         assert!(b > a);
         assert!(incoming_wins(Some(&a.encode()), &b).unwrap());
         assert!(!incoming_wins(Some(&b.encode()), &a).unwrap());
@@ -523,7 +616,10 @@ mod tests {
             node_id: "desktop-1".into(),
             bearer_token: None,
         };
-        assert_eq!(cloud.ws_sync_url().unwrap(), "wss://api.example.com/v1/sync/org-1");
+        assert_eq!(
+            cloud.ws_sync_url().unwrap(),
+            "wss://api.example.com/v1/sync/org-1"
+        );
 
         let local = ClientConfig {
             mode: ServerMode::SelfHosted,
@@ -532,14 +628,25 @@ mod tests {
             node_id: "desktop-1".into(),
             bearer_token: None,
         };
-        assert_eq!(local.ws_sync_url().unwrap(), "ws://127.0.0.1:8787/v1/sync/org-1");
-        assert_eq!(local.release_manifest_url(), "http://127.0.0.1:8787/releases/manifest.json");
+        assert_eq!(
+            local.ws_sync_url().unwrap(),
+            "ws://127.0.0.1:8787/v1/sync/org-1"
+        );
+        assert_eq!(
+            local.release_manifest_url(),
+            "http://127.0.0.1:8787/releases/manifest.json"
+        );
     }
 
     #[test]
     fn verifies_signed_update_manifest_and_artifact_bytes() {
         let signing_key = SigningKey::from_bytes(&[7u8; 32]);
-        let pk_hex: String = signing_key.verifying_key().to_bytes().iter().map(|b| format!("{b:02x}")).collect();
+        let pk_hex: String = signing_key
+            .verifying_key()
+            .to_bytes()
+            .iter()
+            .map(|b| format!("{b:02x}"))
+            .collect();
         let payload = b"auto-desktop-installer-bytes";
         let sha = sha256_hex(payload);
         let mut artifact = ReleaseArtifact {
@@ -562,10 +669,21 @@ mod tests {
             manifest_signature_ed25519: None,
         };
         let msig: Signature = signing_key.sign(manifest.canonical_payload().as_bytes());
-        manifest.manifest_signature_ed25519 = Some(msig.to_bytes().iter().map(|b| format!("{b:02x}")).collect());
+        manifest.manifest_signature_ed25519 =
+            Some(msig.to_bytes().iter().map(|b| format!("{b:02x}")).collect());
 
         manifest.verify_manifest_signature(&pk_hex).unwrap();
-        manifest.artifact_for("windows-x86_64").unwrap().verify_bytes(payload, &pk_hex).unwrap();
-        assert!(manifest.artifact_for("windows-x86_64").unwrap().verify_bytes(b"tampered", &pk_hex).is_err());
+        manifest
+            .artifact_for("windows-x86_64")
+            .unwrap()
+            .verify_bytes(payload, &pk_hex)
+            .unwrap();
+        assert!(
+            manifest
+                .artifact_for("windows-x86_64")
+                .unwrap()
+                .verify_bytes(b"tampered", &pk_hex)
+                .is_err()
+        );
     }
 }

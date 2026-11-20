@@ -15,8 +15,8 @@ use serde::{Deserialize, Serialize};
 use crate::auth::{
     AuthConfig, AuthError, AuthResult, hex_encode,
     jwt::{
-        JwkSet, JwtClaims, derive_ed25519_keypair, jwk_from_verifying_key, oauth_authorization_server_metadata,
-        oauth_protected_resource_metadata, sign_jwt,
+        JwkSet, JwtClaims, derive_ed25519_keypair, jwk_from_verifying_key,
+        oauth_authorization_server_metadata, oauth_protected_resource_metadata, sign_jwt,
     },
     normalize_email,
     oauth::format_device_user_code,
@@ -29,7 +29,10 @@ use crate::auth::{
 };
 
 fn now_secs() -> i64 {
-    SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_secs() as i64).unwrap_or(0)
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|d| d.as_secs() as i64)
+        .unwrap_or(0)
 }
 
 fn now_iso() -> String {
@@ -74,21 +77,34 @@ pub struct SqlAuthStore {
 
 impl SqlAuthStore {
     pub fn open(path: &str, config: AuthConfig) -> AuthResult<Self> {
-        let conn = if path == ":memory:" { Connection::open_in_memory() } else { Connection::open(path) }
-            .map_err(|e| AuthError::Storage(e.to_string()))?;
-        let store = Self { conn: Arc::new(Mutex::new(conn)), config };
+        let conn = if path == ":memory:" {
+            Connection::open_in_memory()
+        } else {
+            Connection::open(path)
+        }
+        .map_err(|e| AuthError::Storage(e.to_string()))?;
+        let store = Self {
+            conn: Arc::new(Mutex::new(conn)),
+            config,
+        };
         store.ensure_schema()?;
         Ok(store)
     }
 
     pub fn from_connection(conn: Connection, config: AuthConfig) -> AuthResult<Self> {
-        let store = Self { conn: Arc::new(Mutex::new(conn)), config };
+        let store = Self {
+            conn: Arc::new(Mutex::new(conn)),
+            config,
+        };
         store.ensure_schema()?;
         Ok(store)
     }
 
     pub fn ensure_schema(&self) -> AuthResult<()> {
-        let guard = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let guard = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         guard
             .execute_batch(
                 r#"
@@ -173,7 +189,12 @@ impl SqlAuthStore {
         Ok(())
     }
 
-    pub fn sign_up_email(&self, email: &str, password: &str, name: &str) -> AuthResult<SessionEnvelope> {
+    pub fn sign_up_email(
+        &self,
+        email: &str,
+        password: &str,
+        name: &str,
+    ) -> AuthResult<SessionEnvelope> {
         let email = normalize_email(email);
         if !valid_email(&email) {
             return Err(AuthError::Validation("invalid email address".into()));
@@ -184,13 +205,20 @@ impl SqlAuthStore {
         let now = now_iso();
 
         {
-            let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+            let conn = self
+                .conn
+                .lock()
+                .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
             let exists: Option<String> = conn
-                .query_row("SELECT id FROM app_user WHERE email = ?1", [&email], |r| r.get(0))
+                .query_row("SELECT id FROM app_user WHERE email = ?1", [&email], |r| {
+                    r.get(0)
+                })
                 .optional()
                 .map_err(|e| AuthError::Storage(e.to_string()))?;
             if exists.is_some() {
-                return Err(AuthError::Conflict("user with this email already exists".into()));
+                return Err(AuthError::Conflict(
+                    "user with this email already exists".into(),
+                ));
             }
             conn.execute(
                 "INSERT INTO app_user (id, email, name, email_verified, two_factor_enabled, role, banned, created_at) VALUES (?1, ?2, ?3, 0, 0, 'user', 0, ?4)",
@@ -206,10 +234,18 @@ impl SqlAuthStore {
         self.create_session(&user_id, None, None)
     }
 
-    pub fn sign_in_email(&self, email: &str, password: &str, totp_code: Option<&str>) -> AuthResult<SessionEnvelope> {
+    pub fn sign_in_email(
+        &self,
+        email: &str,
+        password: &str,
+        totp_code: Option<&str>,
+    ) -> AuthResult<SessionEnvelope> {
         let email = normalize_email(email);
         let (user_id, pw_hash, banned, two_factor) = {
-            let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+            let conn = self
+                .conn
+                .lock()
+                .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
             conn.query_row(
                 "SELECT u.id, a.password, u.banned, u.two_factor_enabled FROM app_user u JOIN account a ON a.user_id = u.id AND a.provider_id = 'credential' WHERE u.email = ?1",
                 [&email],
@@ -226,7 +262,8 @@ impl SqlAuthStore {
             return Err(AuthError::Unauthorized("invalid email or password".into()));
         }
         if two_factor != 0 {
-            let code = totp_code.ok_or_else(|| AuthError::Unauthorized("2FA TOTP code required".into()))?;
+            let code = totp_code
+                .ok_or_else(|| AuthError::Unauthorized("2FA TOTP code required".into()))?;
             if !self.verify_user_totp(&user_id, code)? {
                 return Err(AuthError::Unauthorized("invalid 2FA TOTP code".into()));
             }
@@ -248,7 +285,10 @@ impl SqlAuthStore {
         let signed = sign_hmac_token(&self.config.master_secret, "auto-auth:session", &payload)?;
         let now = now_iso();
         {
-            let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+            let conn = self
+                .conn
+                .lock()
+                .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
             conn.execute(
                 "INSERT INTO session (id, user_id, token, expires_at, active_organization_id, ip_address, created_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
                 params![sid, user_id, signed, exp, active_org, ip, now],
@@ -260,11 +300,15 @@ impl SqlAuthStore {
     }
 
     pub fn get_session_by_token(&self, token: &str) -> AuthResult<Option<SessionEnvelope>> {
-        let _: serde_json::Value = match verify_hmac_token(&self.config.master_secret, "auto-auth:session", token) {
-            Ok(v) => v,
-            Err(_) => return Ok(None),
-        };
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let _: serde_json::Value =
+            match verify_hmac_token(&self.config.master_secret, "auto-auth:session", token) {
+                Ok(v) => v,
+                Err(_) => return Ok(None),
+            };
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         let row = conn
             .query_row(
                 "SELECT s.id, s.user_id, s.token, s.active_organization_id, s.expires_at, u.email, u.name, u.role, u.two_factor_enabled
@@ -306,25 +350,58 @@ impl SqlAuthStore {
             None
         };
         Ok(Some(SessionEnvelope {
-            user: AuthUser { id: uid.clone(), email, name, role, two_factor_enabled: two_fa },
-            session: AuthSession { id: sid, user_id: uid, token: tok, active_organization_id: org, expires_at: exp },
+            user: AuthUser {
+                id: uid.clone(),
+                email,
+                name,
+                role,
+                two_factor_enabled: two_fa,
+            },
+            session: AuthSession {
+                id: sid,
+                user_id: uid,
+                token: tok,
+                active_organization_id: org,
+                expires_at: exp,
+            },
             active_role,
         }))
     }
 
     pub fn sign_out(&self, token: &str) -> AuthResult<()> {
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
-        conn.execute("DELETE FROM session WHERE token = ?1", [token]).map_err(|e| AuthError::Storage(e.to_string()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        conn.execute("DELETE FROM session WHERE token = ?1", [token])
+            .map_err(|e| AuthError::Storage(e.to_string()))?;
         Ok(())
     }
 
-    pub fn create_organization(&self, owner_id: &str, name: &str, slug: &str, tax_id: &str) -> AuthResult<String> {
+    pub fn create_organization(
+        &self,
+        owner_id: &str,
+        name: &str,
+        slug: &str,
+        tax_id: &str,
+    ) -> AuthResult<String> {
         let id = format!("org_{}", random_hex(12)?);
         let mem_id = format!("mem_{}", random_hex(12)?);
         let now = now_iso();
-        let siren = tax_id.chars().filter(|c| c.is_ascii_digit()).take(9).collect::<String>();
-        let siret = tax_id.chars().filter(|c| c.is_ascii_digit()).take(14).collect::<String>();
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let siren = tax_id
+            .chars()
+            .filter(|c| c.is_ascii_digit())
+            .take(9)
+            .collect::<String>();
+        let siret = tax_id
+            .chars()
+            .filter(|c| c.is_ascii_digit())
+            .take(14)
+            .collect::<String>();
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         conn.execute(
             "INSERT INTO company (id, name, siren, siret, slug, created_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
             params![id, name.trim(), siren, siret, slug.trim(), now],
@@ -344,9 +421,13 @@ impl SqlAuthStore {
     }
 
     pub fn set_active_organization(&self, token: &str, org_id: &str) -> AuthResult<()> {
-        let sess =
-            self.get_session_by_token(token)?.ok_or_else(|| AuthError::Unauthorized("invalid session".into()))?;
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let sess = self
+            .get_session_by_token(token)?
+            .ok_or_else(|| AuthError::Unauthorized("invalid session".into()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         let is_member: Option<String> = conn
             .query_row(
                 "SELECT role FROM membership WHERE company_id = ?1 AND user_id = ?2",
@@ -356,15 +437,23 @@ impl SqlAuthStore {
             .optional()
             .map_err(|e| AuthError::Storage(e.to_string()))?;
         if is_member.is_none() {
-            return Err(AuthError::Forbidden("user is not a member of organization".into()));
+            return Err(AuthError::Forbidden(
+                "user is not a member of organization".into(),
+            ));
         }
-        conn.execute("UPDATE session SET active_organization_id = ?1 WHERE id = ?2", params![org_id, sess.session.id])
-            .map_err(|e| AuthError::Storage(e.to_string()))?;
+        conn.execute(
+            "UPDATE session SET active_organization_id = ?1 WHERE id = ?2",
+            params![org_id, sess.session.id],
+        )
+        .map_err(|e| AuthError::Storage(e.to_string()))?;
         Ok(())
     }
 
     pub fn default_organization_for_user(&self, user_id: &str) -> AuthResult<Option<String>> {
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         conn.query_row(
             "SELECT m.company_id FROM membership m JOIN company c ON c.id = m.company_id AND c.deleted_at IS NULL WHERE m.user_id = ?1 ORDER BY m.created_at ASC LIMIT 1",
             [user_id],
@@ -379,35 +468,56 @@ impl SqlAuthStore {
         let secret_b32 = encode_base32(&secret);
         let uri = otpauth_uri(&self.config.app_name, email, &secret, TotpAlgorithm::Sha1);
         let tf_id = format!("tfa_{}", random_hex(12)?);
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         conn.execute(
             "INSERT INTO two_factor (id, user_id, secret, backup_codes) VALUES (?1, ?2, ?3, '[]')
              ON CONFLICT (user_id) DO UPDATE SET secret = excluded.secret",
             params![tf_id, user_id, secret_b32],
         )
         .map_err(|e| AuthError::Storage(e.to_string()))?;
-        conn.execute("UPDATE app_user SET two_factor_enabled = 1 WHERE id = ?1", [user_id])
-            .map_err(|e| AuthError::Storage(e.to_string()))?;
+        conn.execute(
+            "UPDATE app_user SET two_factor_enabled = 1 WHERE id = ?1",
+            [user_id],
+        )
+        .map_err(|e| AuthError::Storage(e.to_string()))?;
         Ok((secret_b32, uri))
     }
 
     pub fn verify_user_totp(&self, user_id: &str, code: &str) -> AuthResult<bool> {
         let secret_b32: String = {
-            let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
-            conn.query_row("SELECT secret FROM two_factor WHERE user_id = ?1", [user_id], |r| r.get(0))
-                .optional()
-                .map_err(|e| AuthError::Storage(e.to_string()))?
-                .ok_or_else(|| AuthError::NotFound("two-factor not enabled".into()))?
+            let conn = self
+                .conn
+                .lock()
+                .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+            conn.query_row(
+                "SELECT secret FROM two_factor WHERE user_id = ?1",
+                [user_id],
+                |r| r.get(0),
+            )
+            .optional()
+            .map_err(|e| AuthError::Storage(e.to_string()))?
+            .ok_or_else(|| AuthError::NotFound("two-factor not enabled".into()))?
         };
         let raw = decode_base32(&secret_b32)?;
         verify_totp(&raw, code, now_secs() as u64, 6, 30, 1, TotpAlgorithm::Sha1)
     }
 
-    pub fn create_api_key(&self, user_id: &str, company_id: &str, name: &str) -> AuthResult<(String, String)> {
+    pub fn create_api_key(
+        &self,
+        user_id: &str,
+        company_id: &str,
+        name: &str,
+    ) -> AuthResult<(String, String)> {
         let key = generate_api_key("auto_")?;
         let id = format!("key_{}", random_hex(12)?);
         let now = now_iso();
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         conn.execute(
             "INSERT INTO apikey (id, name, start, prefix, key_hash, reference_id, user_id, enabled, created_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, 1, ?8)",
             params![id, name, key.start, key.prefix, key.sha256_b64u, company_id, user_id, now],
@@ -418,7 +528,10 @@ impl SqlAuthStore {
 
     pub fn verify_api_key(&self, raw_key: &str) -> AuthResult<Option<(String, String, Role)>> {
         let digest = sha256_b64u(raw_key.as_bytes());
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         let row = conn
             .query_row(
                 "SELECT k.user_id, k.reference_id, k.key_hash, coalesce(m.role, 'readonly')
@@ -434,7 +547,11 @@ impl SqlAuthStore {
         if let Some((uid, comp_id, hash, role_str)) = row
             && verify_api_key_digest(raw_key, &hash)
         {
-            return Ok(Some((uid, comp_id, Role::parse(&role_str).unwrap_or(Role::Readonly))));
+            return Ok(Some((
+                uid,
+                comp_id,
+                Role::parse(&role_str).unwrap_or(Role::Readonly),
+            )));
         }
         Ok(None)
     }
@@ -452,7 +569,10 @@ impl SqlAuthStore {
                 iat: now,
                 exp: now + 900,
                 active_organization_id: env.session.active_organization_id.clone(),
-                role: env.active_role.clone().or_else(|| Some(env.user.role.clone())),
+                role: env
+                    .active_role
+                    .clone()
+                    .or_else(|| Some(env.user.role.clone())),
                 email: Some(env.user.email.clone()),
             },
         )
@@ -460,7 +580,9 @@ impl SqlAuthStore {
 
     pub fn jwks(&self) -> JwkSet {
         let (signing, kid) = derive_ed25519_keypair(&self.config.master_secret, "jwt-default");
-        JwkSet { keys: vec![jwk_from_verifying_key(&signing.verifying_key(), &kid)] }
+        JwkSet {
+            keys: vec![jwk_from_verifying_key(&signing.verifying_key(), &kid)],
+        }
     }
 
     pub fn create_device_code(&self) -> AuthResult<(String, String)> {
@@ -468,7 +590,10 @@ impl SqlAuthStore {
         let user_code = format_device_user_code(&random_bytes(8)?);
         let id = format!("dev_{}", random_hex(8)?);
         let exp = now_secs() + 600;
-        let conn = self.conn.lock().map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|_| AuthError::Storage("sqlite mutex poisoned".into()))?;
         conn.execute(
             "INSERT INTO device_code (id, device_code, user_code, status, expires_at) VALUES (?1, ?2, ?3, 'pending', ?4)",
             params![id, dev, user_code, exp],
@@ -487,11 +612,17 @@ fn error_response(err: AuthError) -> Response {
         AuthError::NotFound(_) => StatusCode::NOT_FOUND,
         AuthError::Crypto(_) | AuthError::Storage(_) => StatusCode::INTERNAL_SERVER_ERROR,
     };
-    (status, Json(serde_json::json!({ "error": err.to_string() }))).into_response()
+    (
+        status,
+        Json(serde_json::json!({ "error": err.to_string() })),
+    )
+        .into_response()
 }
 
 fn extract_bearer_or_cookie(headers: &HeaderMap) -> Option<String> {
-    if let Some(auth) = headers.get(header::AUTHORIZATION).and_then(|v| v.to_str().ok())
+    if let Some(auth) = headers
+        .get(header::AUTHORIZATION)
+        .and_then(|v| v.to_str().ok())
         && let Some(tok) = auth.strip_prefix("Bearer ")
     {
         return Some(tok.trim().to_string());
@@ -559,8 +690,10 @@ struct VerifyTotpBody {
 
 fn set_session_cookie_header(token: &str, secure: bool) -> HeaderValue {
     let sec = if secure { "; Secure" } else { "" };
-    HeaderValue::from_str(&format!("auto.session_token={token}; Path=/; HttpOnly; SameSite=Lax{sec}"))
-        .unwrap_or_else(|_| HeaderValue::from_static(""))
+    HeaderValue::from_str(&format!(
+        "auto.session_token={token}; Path=/; HttpOnly; SameSite=Lax{sec}"
+    ))
+    .unwrap_or_else(|_| HeaderValue::from_static(""))
 }
 
 /// Build an Axum router exposing native Better Auth compatible routes (`/api/auth/*` & `/.well-known/*`).
@@ -581,8 +714,14 @@ pub fn auth_router(store: SqlAuthStore) -> Router {
         .route("/api/auth/device/code", post(h_device_code))
         .route("/.well-known/jwks.json", get(h_jwks))
         .route("/.well-known/oauth-authorization-server", get(h_oauth_meta))
-        .route("/.well-known/oauth-protected-resource", get(h_resource_meta))
-        .route("/.well-known/oauth-protected-resource/{*rest}", get(h_resource_meta_path))
+        .route(
+            "/.well-known/oauth-protected-resource",
+            get(h_resource_meta),
+        )
+        .route(
+            "/.well-known/oauth-protected-resource/{*rest}",
+            get(h_resource_meta_path),
+        )
         .with_state(shared)
 }
 
@@ -590,7 +729,14 @@ async fn h_sign_up(State(s): State<Arc<SqlAuthStore>>, Json(body): Json<SignUpBo
     match s.sign_up_email(&body.email, &body.password, &body.name) {
         Ok(env) => {
             let secure = s.config.base_url.starts_with("https://");
-            ([(header::SET_COOKIE, set_session_cookie_header(&env.session.token, secure))], Json(env)).into_response()
+            (
+                [(
+                    header::SET_COOKIE,
+                    set_session_cookie_header(&env.session.token, secure),
+                )],
+                Json(env),
+            )
+                .into_response()
         }
         Err(e) => error_response(e),
     }
@@ -600,7 +746,14 @@ async fn h_sign_in(State(s): State<Arc<SqlAuthStore>>, Json(body): Json<SignInBo
     match s.sign_in_email(&body.email, &body.password, body.totp_code.as_deref()) {
         Ok(env) => {
             let secure = s.config.base_url.starts_with("https://");
-            ([(header::SET_COOKIE, set_session_cookie_header(&env.session.token, secure))], Json(env)).into_response()
+            (
+                [(
+                    header::SET_COOKIE,
+                    set_session_cookie_header(&env.session.token, secure),
+                )],
+                Json(env),
+            )
+                .into_response()
         }
         Err(e) => error_response(e),
     }
@@ -654,7 +807,9 @@ async fn h_create_org(
         return error_response(AuthError::Unauthorized("invalid session".into()));
     };
     match s.create_organization(&env.user.id, &b.name, &b.slug, &b.tax_id) {
-        Ok(id) => Json(serde_json::json!({ "id": id, "name": b.name, "slug": b.slug })).into_response(),
+        Ok(id) => {
+            Json(serde_json::json!({ "id": id, "name": b.name, "slug": b.slug })).into_response()
+        }
         Err(e) => error_response(e),
     }
 }
@@ -668,7 +823,9 @@ async fn h_set_active_org(
         return error_response(AuthError::Unauthorized("missing session".into()));
     };
     match s.set_active_organization(&tok, &b.organization_id) {
-        Ok(()) => Json(serde_json::json!({ "activeOrganizationId": b.organization_id })).into_response(),
+        Ok(()) => {
+            Json(serde_json::json!({ "activeOrganizationId": b.organization_id })).into_response()
+        }
         Err(e) => error_response(e),
     }
 }
@@ -701,7 +858,9 @@ async fn h_enable_totp(State(s): State<Arc<SqlAuthStore>>, headers: HeaderMap) -
         return error_response(AuthError::Unauthorized("invalid session".into()));
     };
     match s.enable_totp(&env.user.id, &env.user.email) {
-        Ok((secret, totp_uri)) => Json(serde_json::json!({ "secret": secret, "totpURI": totp_uri })).into_response(),
+        Ok((secret, totp_uri)) => {
+            Json(serde_json::json!({ "secret": secret, "totpURI": totp_uri })).into_response()
+        }
         Err(e) => error_response(e),
     }
 }
@@ -738,11 +897,19 @@ async fn h_device_code(State(s): State<Arc<SqlAuthStore>>) -> Response {
 }
 
 async fn h_oauth_meta(State(s): State<Arc<SqlAuthStore>>) -> Response {
-    Json(oauth_authorization_server_metadata(&s.config.base_url, &s.config.base_path)).into_response()
+    Json(oauth_authorization_server_metadata(
+        &s.config.base_url,
+        &s.config.base_path,
+    ))
+    .into_response()
 }
 
 async fn h_resource_meta(State(s): State<Arc<SqlAuthStore>>) -> Response {
-    Json(oauth_protected_resource_metadata(&s.config.base_url, "/mcp")).into_response()
+    Json(oauth_protected_resource_metadata(
+        &s.config.base_url,
+        "/mcp",
+    ))
+    .into_response()
 }
 
 async fn h_resource_meta_path(
@@ -750,7 +917,11 @@ async fn h_resource_meta_path(
     Path(rest): Path<String>,
     Query(_): Query<std::collections::HashMap<String, String>>,
 ) -> Response {
-    Json(oauth_protected_resource_metadata(&s.config.base_url, &format!("/{rest}"))).into_response()
+    Json(oauth_protected_resource_metadata(
+        &s.config.base_url,
+        &format!("/{rest}"),
+    ))
+    .into_response()
 }
 
 #[cfg(test)]
@@ -773,7 +944,10 @@ mod tests {
             base_url: "https://auto.aphrody.com".into(),
             base_path: "/api/auth".into(),
             master_secret: "test-master-secret-32-chars-minimum!!".into(),
-            trusted_origins: vec!["https://auto.aphrody.com".into(), "http://localhost:*".into()],
+            trusted_origins: vec![
+                "https://auto.aphrody.com".into(),
+                "http://localhost:*".into(),
+            ],
             session_ttl_secs: 3600,
         }
     }
@@ -789,20 +963,40 @@ mod tests {
         assert!(scrypt.contains(':'));
         assert!(verify_password("LegacyBetterAuth!", &scrypt).unwrap());
 
-        let sealed = seal(&test_config().master_secret, "mail/oauth", b"refresh_tok_123").unwrap();
-        assert_eq!(open_sealed(&test_config().master_secret, "mail/oauth", &sealed).unwrap(), b"refresh_tok_123");
+        let sealed = seal(
+            &test_config().master_secret,
+            "mail/oauth",
+            b"refresh_tok_123",
+        )
+        .unwrap();
+        assert_eq!(
+            open_sealed(&test_config().master_secret, "mail/oauth", &sealed).unwrap(),
+            b"refresh_tok_123"
+        );
         assert!(open_sealed(&test_config().master_secret, "wrong-purpose", &sealed).is_err());
     }
 
     #[test]
     fn sqlite_better_auth_flow_jwt_totp_apikey_and_passkey_es256() {
         let store = SqlAuthStore::open(":memory:", test_config()).unwrap();
-        let env = store.sign_up_email("founder@example.test", "CorrectHorseBattery99!", "Founder").unwrap();
-        let org_id = store.create_organization(&env.user.id, "Aphrody SAS", "aphrody-sas", "73282932000074").unwrap();
-        store.set_active_organization(&env.session.token, &org_id).unwrap();
+        let env = store
+            .sign_up_email("founder@example.test", "CorrectHorseBattery99!", "Founder")
+            .unwrap();
+        let org_id = store
+            .create_organization(&env.user.id, "Aphrody SAS", "aphrody-sas", "73282932000074")
+            .unwrap();
+        store
+            .set_active_organization(&env.session.token, &org_id)
+            .unwrap();
 
-        let refreshed = store.get_session_by_token(&env.session.token).unwrap().unwrap();
-        assert_eq!(refreshed.session.active_organization_id.as_deref(), Some(org_id.as_str()));
+        let refreshed = store
+            .get_session_by_token(&env.session.token)
+            .unwrap()
+            .unwrap();
+        assert_eq!(
+            refreshed.session.active_organization_id.as_deref(),
+            Some(org_id.as_str())
+        );
         assert_eq!(refreshed.active_role.as_deref(), Some("owner"));
 
         let jwt = store.issue_jwt_for_session(&refreshed).unwrap();
@@ -819,7 +1013,14 @@ mod tests {
 
         let (secret_b32, uri) = store.enable_totp(&env.user.id, &env.user.email).unwrap();
         assert!(uri.starts_with("otpauth://totp/"));
-        let code = totp(&decode_base32(&secret_b32).unwrap(), now_secs() as u64, 6, 30, TotpAlgorithm::Sha1).unwrap();
+        let code = totp(
+            &decode_base32(&secret_b32).unwrap(),
+            now_secs() as u64,
+            6,
+            30,
+            TotpAlgorithm::Sha1,
+        )
+        .unwrap();
         assert!(store.verify_user_totp(&env.user.id, &code).unwrap());
 
         let (_kid, raw_key) = store.create_api_key(&env.user.id, &org_id, "cli").unwrap();
@@ -830,7 +1031,11 @@ mod tests {
 
         // WebAuthn ES256 passkey assertion check
         let p256_sk = P256SigningKey::from_bytes((&[7u8; 32]).into()).unwrap();
-        let sec1_pub = p256_sk.verifying_key().to_sec1_point(false).as_bytes().to_vec();
+        let sec1_pub = p256_sk
+            .verifying_key()
+            .to_sec1_point(false)
+            .as_bytes()
+            .to_vec();
         let challenge = URL_SAFE_NO_PAD.encode(b"challenge-123456");
         let client_json = serde_json::json!({
             "type": "webauthn.get",
@@ -851,9 +1056,14 @@ mod tests {
             signature_b64u: URL_SAFE_NO_PAD.encode(sig.to_der().as_bytes()),
             public_key_sec1: sec1_pub,
         };
-        let verified =
-            verify_passkey_assertion(&assertion, &challenge, "https://auto.aphrody.com", "auto.aphrody.com", 1)
-                .unwrap();
+        let verified = verify_passkey_assertion(
+            &assertion,
+            &challenge,
+            "https://auto.aphrody.com",
+            "auto.aphrody.com",
+            1,
+        )
+        .unwrap();
         assert_eq!(verified.sign_count, 5);
         assert!(verified.user_verified);
     }

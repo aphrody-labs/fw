@@ -6,7 +6,9 @@ use craft_pdf::cos::{Dict, Document, ObjRef, Object, PdfString, SaveOptions, Str
 use serde::{Deserialize, Serialize};
 
 use crate::files::FileError;
-use crate::files::pdf_ops::{FontDecoder, ShowOperand, collect_pages, extract_stream_lines, page_content_parts, page_fonts};
+use crate::files::pdf_ops::{
+    FontDecoder, ShowOperand, collect_pages, extract_stream_lines, page_content_parts, page_fonts,
+};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -71,7 +73,10 @@ struct MatchSpan {
     end: usize,
 }
 
-pub fn redact_pdf(pdf: &[u8], opts: &RedactionOptions) -> Result<(Vec<u8>, RedactionReport), FileError> {
+pub fn redact_pdf(
+    pdf: &[u8],
+    opts: &RedactionOptions,
+) -> Result<(Vec<u8>, RedactionReport), FileError> {
     let mut doc = Document::open(Arc::new(pdf.to_vec()))?;
     let pages = collect_pages(&doc)?;
 
@@ -84,7 +89,8 @@ pub fn redact_pdf(pdf: &[u8], opts: &RedactionOptions) -> Result<(Vec<u8>, Redac
         let parts = page_content_parts(&doc, page.page_ref)?;
         let mut page_hit = false;
 
-        let mut replacement_streams: Vec<(Option<ObjRef>, Vec<u8>)> = Vec::with_capacity(parts.len());
+        let mut replacement_streams: Vec<(Option<ObjRef>, Vec<u8>)> =
+            Vec::with_capacity(parts.len());
         let mut inline_dirty = false;
 
         for part in parts {
@@ -116,7 +122,11 @@ pub fn redact_pdf(pdf: &[u8], opts: &RedactionOptions) -> Result<(Vec<u8>, Redac
                     let hit = *gs < *ge && matched_chars[*gs..*ge].iter().any(|&v| v);
                     if hit {
                         let global_op_idx = stream_ops.len() + *op_idx;
-                        if op_redacted_slices.entry(global_op_idx).or_default().insert(*slice_idx) {
+                        if op_redacted_slices
+                            .entry(global_op_idx)
+                            .or_default()
+                            .insert(*slice_idx)
+                        {
                             report.glyphs += 1;
                         }
                         if per_line_ops.last() != Some(op_idx) {
@@ -126,7 +136,8 @@ pub fn redact_pdf(pdf: &[u8], opts: &RedactionOptions) -> Result<(Vec<u8>, Redac
                 }
                 for op_idx in per_line_ops {
                     if let Some(op) = line.operands.get(op_idx) {
-                        let approx_w = ((op.slices.len().max(1) as f32) * op.font_size * 0.5).max(18.0);
+                        let approx_w =
+                            ((op.slices.len().max(1) as f32) * op.font_size * 0.5).max(18.0);
                         overlay_boxes.push((op.x, op.y - 2.0, approx_w, op.font_size + 4.0));
                     }
                 }
@@ -187,10 +198,16 @@ pub fn redact_pdf(pdf: &[u8], opts: &RedactionOptions) -> Result<(Vec<u8>, Redac
     report.fields = redact_acroform_fields(&mut doc, opts, &mut query_counts)?;
     report.occurrences += report.fields;
     report.pages = pages_touched.into_iter().collect();
-    report.by_query = query_counts.into_iter().map(|(query, occurrences)| QueryCount { query, occurrences }).collect();
+    report.by_query = query_counts
+        .into_iter()
+        .map(|(query, occurrences)| QueryCount { query, occurrences })
+        .collect();
 
     doc.require_full_save_with_new_id();
-    let save_opts = SaveOptions { object_streams: false, ..Default::default() };
+    let save_opts = SaveOptions {
+        object_streams: false,
+        ..Default::default()
+    };
     Ok((write_full(&doc, &save_opts)?, report))
 }
 
@@ -253,7 +270,11 @@ fn write_hex_byte(out: &mut Vec<u8>, b: u8) {
     out.push(HEX[(b & 0x0F) as usize]);
 }
 
-fn apply_updated_streams(doc: &mut Document, page_ref: ObjRef, updated: &[(Option<ObjRef>, Vec<u8>)]) {
+fn apply_updated_streams(
+    doc: &mut Document,
+    page_ref: ObjRef,
+    updated: &[(Option<ObjRef>, Vec<u8>)],
+) {
     if updated.iter().all(|(r, _)| r.is_some()) {
         for (opt_ref, bytes) in updated {
             if let Some(r) = opt_ref {
@@ -262,8 +283,10 @@ fn apply_updated_streams(doc: &mut Document, page_ref: ObjRef, updated: &[(Optio
         }
         return;
     }
-    let streams: Vec<Object> =
-        updated.iter().map(|(_, bytes)| Object::Ref(doc.add(Stream::flate(Dict::new(), bytes)))).collect();
+    let streams: Vec<Object> = updated
+        .iter()
+        .map(|(_, bytes)| Object::Ref(doc.add(Stream::flate(Dict::new(), bytes))))
+        .collect();
     let _ = doc.update_dict(page_ref, |d| {
         if streams.len() == 1 {
             d.set(b"Contents".to_vec(), streams[0].clone());
@@ -384,7 +407,10 @@ fn redact_field_tree(
             for m in &matches {
                 *query_counts.entry(m.query.clone()).or_insert(0) += 1;
             }
-            d.set(b"V".to_vec(), PdfString::text(&mask_matches(&text, &matches, replacement)));
+            d.set(
+                b"V".to_vec(),
+                PdfString::text(&mask_matches(&text, &matches, replacement)),
+            );
             doc.set(r, d.clone());
         }
     }
@@ -423,21 +449,32 @@ fn find_matches(text: &str, opts: &RedactionOptions) -> Vec<MatchSpan> {
         if needle.is_empty() {
             continue;
         }
-        collect_literal_matches(text, needle, opts.case_sensitive, opts.whole_words, &mut raw);
+        collect_literal_matches(
+            text,
+            needle,
+            opts.case_sensitive,
+            opts.whole_words,
+            &mut raw,
+        );
     }
     for &pat in &opts.patterns {
         match pat {
             RedactionPattern::Email => collect_email_matches(text, pat.label(), &mut raw),
             RedactionPattern::Iban => collect_iban_matches(text, pat.label(), &mut raw),
             RedactionPattern::Phone => collect_phone_matches(text, pat.label(), &mut raw),
-            RedactionPattern::CreditCard => collect_credit_card_matches(text, pat.label(), &mut raw),
+            RedactionPattern::CreditCard => {
+                collect_credit_card_matches(text, pat.label(), &mut raw)
+            }
             RedactionPattern::Date => collect_date_matches(text, pat.label(), &mut raw),
         }
     }
     raw.sort_by(|a, b| a.start.cmp(&b.start).then(b.end.cmp(&a.end)));
     let mut non_overlapping: Vec<MatchSpan> = Vec::new();
     for span in raw {
-        if non_overlapping.last().is_none_or(|prev| span.start >= prev.end) {
+        if non_overlapping
+            .last()
+            .is_none_or(|prev| span.start >= prev.end)
+        {
             non_overlapping.push(span);
         }
     }
@@ -461,7 +498,11 @@ fn collect_literal_matches(
             let start = from + pos;
             let end = start + needle.len();
             if !whole_words || word_boundary(text, start, end) {
-                out.push(MatchSpan { query: needle.to_owned(), start, end });
+                out.push(MatchSpan {
+                    query: needle.to_owned(),
+                    start,
+                    end,
+                });
             }
             from = end;
         }
@@ -480,7 +521,11 @@ fn collect_literal_matches(
             && hay[i..i + ndl.len()].eq_ignore_ascii_case(ndl)
             && (!whole_words || word_boundary(text, i, i + ndl.len()))
         {
-            out.push(MatchSpan { query: needle.to_owned(), start: i, end: i + ndl.len() });
+            out.push(MatchSpan {
+                query: needle.to_owned(),
+                start: i,
+                end: i + ndl.len(),
+            });
             i += ndl.len();
         } else {
             i += 1;
@@ -516,7 +561,11 @@ fn collect_email_matches(text: &str, label: &str, out: &mut Vec<MatchSpan>) {
                 && text[i + 1..end].contains('.')
                 && text[i + 1..end].split('.').all(|seg| !seg.is_empty())
             {
-                out.push(MatchSpan { query: label.to_owned(), start, end });
+                out.push(MatchSpan {
+                    query: label.to_owned(),
+                    start,
+                    end,
+                });
                 i = end;
                 continue;
             }
@@ -559,7 +608,11 @@ fn collect_iban_matches(text: &str, label: &str, out: &mut Vec<MatchSpan>) {
             }
             let right_ok = last_alnum_end == b.len() || !b[last_alnum_end].is_ascii_alphanumeric();
             if compact_len >= 15 && right_ok && iban_mod97_valid(&text[i..last_alnum_end]) {
-                out.push(MatchSpan { query: label.to_owned(), start: i, end: last_alnum_end });
+                out.push(MatchSpan {
+                    query: label.to_owned(),
+                    start: i,
+                    end: last_alnum_end,
+                });
                 i = last_alnum_end;
                 continue;
             }
@@ -603,15 +656,24 @@ fn collect_phone_matches(text: &str, label: &str, out: &mut Vec<MatchSpan>) {
                     digits += 1;
                     last_digit_end = j + 1;
                     j += 1;
-                } else if matches!(b[j], b' ' | b'-' | b'.') && j + 1 < b.len() && b[j + 1].is_ascii_digit() {
+                } else if matches!(b[j], b' ' | b'-' | b'.')
+                    && j + 1 < b.len()
+                    && b[j + 1].is_ascii_digit()
+                {
                     has_sep = true;
                     j += 1;
                 } else {
                     break;
                 }
             }
-            if (b[i] == b'+' && (8..=15).contains(&digits)) || (digits == 10 && b[i] == b'0' && has_sep) {
-                out.push(MatchSpan { query: label.to_owned(), start: i, end: last_digit_end });
+            if (b[i] == b'+' && (8..=15).contains(&digits))
+                || (digits == 10 && b[i] == b'0' && has_sep)
+            {
+                out.push(MatchSpan {
+                    query: label.to_owned(),
+                    start: i,
+                    end: last_digit_end,
+                });
                 i = last_digit_end;
                 continue;
             }
@@ -633,7 +695,10 @@ fn collect_credit_card_matches(text: &str, label: &str, out: &mut Vec<MatchSpan>
                     digits.push(b[j] - b'0');
                     last_end = j + 1;
                     j += 1;
-                } else if matches!(b[j], b' ' | b'-') && j + 1 < b.len() && b[j + 1].is_ascii_digit() {
+                } else if matches!(b[j], b' ' | b'-')
+                    && j + 1 < b.len()
+                    && b[j + 1].is_ascii_digit()
+                {
                     j += 1;
                 } else {
                     break;
@@ -641,7 +706,11 @@ fn collect_credit_card_matches(text: &str, label: &str, out: &mut Vec<MatchSpan>
             }
             let right_ok = last_end == b.len() || !b[last_end].is_ascii_digit();
             if (13..=19).contains(&digits.len()) && right_ok && luhn_valid(&digits) {
-                out.push(MatchSpan { query: label.to_owned(), start: i, end: last_end });
+                out.push(MatchSpan {
+                    query: label.to_owned(),
+                    start: i,
+                    end: last_end,
+                });
                 i = last_end;
                 continue;
             }
@@ -679,7 +748,11 @@ fn collect_date_matches(text: &str, label: &str, out: &mut Vec<MatchSpan>) {
                 && b[i + 8..i + 10].iter().all(u8::is_ascii_digit)
                 && (i + 10 == b.len() || !b[i + 10].is_ascii_digit())
             {
-                out.push(MatchSpan { query: label.to_owned(), start: i, end: i + 10 });
+                out.push(MatchSpan {
+                    query: label.to_owned(),
+                    start: i,
+                    end: i + 10,
+                });
                 i += 10;
                 continue;
             }
@@ -691,7 +764,11 @@ fn collect_date_matches(text: &str, label: &str, out: &mut Vec<MatchSpan>) {
                 && b[i + 6..i + 10].iter().all(u8::is_ascii_digit)
                 && (i + 10 == b.len() || !b[i + 10].is_ascii_digit())
             {
-                out.push(MatchSpan { query: label.to_owned(), start: i, end: i + 10 });
+                out.push(MatchSpan {
+                    query: label.to_owned(),
+                    start: i,
+                    end: i + 10,
+                });
                 i += 10;
                 continue;
             }

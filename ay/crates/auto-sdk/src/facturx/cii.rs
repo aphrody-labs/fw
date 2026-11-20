@@ -8,7 +8,10 @@ const PROFILE_EN16931: &str = "urn:cen.eu:en16931:2017#conformant#urn:factur-x.e
 
 /// Generates an EN 16931 Cross Industry Invoice (D16B) XML string for `Invoice`, `Deposit`, or `CreditNote`.
 pub fn generate_cii_xml(doc: &Document) -> Result<String, FacturxError> {
-    let type_code = doc.doc_type.untdid_code().ok_or(FacturxError::QuoteNotAllowed)?;
+    let type_code = doc
+        .doc_type
+        .untdid_code()
+        .ok_or(FacturxError::QuoteNotAllowed)?;
     if doc.doc_type == DocumentType::Quote {
         return Err(FacturxError::QuoteNotAllowed);
     }
@@ -48,9 +51,17 @@ pub fn generate_cii_xml(doc: &Document) -> Result<String, FacturxError> {
         xml,
         "    <ram:IssueDateTime><udt:DateTimeString format=\"102\">{issue_102}</udt:DateTimeString></ram:IssueDateTime>"
     );
-    if let Some(notes) = doc.notes.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
-        let _ =
-            writeln!(xml, "    <ram:IncludedNote><ram:Content>{}</ram:Content></ram:IncludedNote>", escape_xml(notes));
+    if let Some(notes) = doc
+        .notes
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+    {
+        let _ = writeln!(
+            xml,
+            "    <ram:IncludedNote><ram:Content>{}</ram:Content></ram:IncludedNote>",
+            escape_xml(notes)
+        );
     }
     xml.push_str("  </rsm:ExchangedDocument>\n");
 
@@ -131,9 +142,19 @@ pub fn generate_cii_xml(doc: &Document) -> Result<String, FacturxError> {
 
     // Header delivery (BG-13 / BT-72).
     xml.push_str("    <ram:ApplicableHeaderTradeDelivery>\n");
-    if let Some(deliv) = doc.customer.delivery_address.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+    if let Some(deliv) = doc
+        .customer
+        .delivery_address
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+    {
         xml.push_str("      <ram:ShipToTradeParty>\n");
-        let _ = writeln!(xml, "        <ram:Name>{}</ram:Name>", escape_xml(&doc.customer.name));
+        let _ = writeln!(
+            xml,
+            "        <ram:Name>{}</ram:Name>",
+            escape_xml(&doc.customer.name)
+        );
         write_address(&mut xml, "        ", deliv);
         xml.push_str("      </ram:ShipToTradeParty>\n");
     }
@@ -150,22 +171,42 @@ pub fn generate_cii_xml(doc: &Document) -> Result<String, FacturxError> {
     for tax in &totals.by_rate {
         let cat = if doc.vat_exempt { "E" } else { "S" };
         xml.push_str("      <ram:ApplicableTradeTax>\n");
-        let _ = writeln!(xml, "        <ram:CalculatedAmount>{}</ram:CalculatedAmount>", format_cents(tax.vat_cents));
+        let _ = writeln!(
+            xml,
+            "        <ram:CalculatedAmount>{}</ram:CalculatedAmount>",
+            format_cents(tax.vat_cents)
+        );
         xml.push_str("        <ram:TypeCode>VAT</ram:TypeCode>\n");
         if doc.vat_exempt {
             xml.push_str("        <ram:ExemptionReason>TVA non applicable, art. 293 B du CGI</ram:ExemptionReason>\n");
         }
-        let _ = writeln!(xml, "        <ram:BasisAmount>{}</ram:BasisAmount>", format_cents(tax.base_excl_vat_cents));
+        let _ = writeln!(
+            xml,
+            "        <ram:BasisAmount>{}</ram:BasisAmount>",
+            format_cents(tax.base_excl_vat_cents)
+        );
         let _ = writeln!(xml, "        <ram:CategoryCode>{cat}</ram:CategoryCode>");
-        let _ =
-            writeln!(xml, "        <ram:RateApplicablePercent>{}</ram:RateApplicablePercent>", format_rate(tax.rate));
+        let _ = writeln!(
+            xml,
+            "        <ram:RateApplicablePercent>{}</ram:RateApplicablePercent>",
+            format_rate(tax.rate)
+        );
         xml.push_str("      </ram:ApplicableTradeTax>\n");
     }
 
     if doc.payment_terms.is_some() || due_102.is_some() {
         xml.push_str("      <ram:SpecifiedTradePaymentTerms>\n");
-        if let Some(terms) = doc.payment_terms.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
-            let _ = writeln!(xml, "        <ram:Description>{}</ram:Description>", escape_xml(terms));
+        if let Some(terms) = doc
+            .payment_terms
+            .as_deref()
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+        {
+            let _ = writeln!(
+                xml,
+                "        <ram:Description>{}</ram:Description>",
+                escape_xml(terms)
+            );
         }
         if let Some(due) = due_102 {
             let _ = writeln!(
@@ -212,17 +253,36 @@ pub fn generate_cii_xml(doc: &Document) -> Result<String, FacturxError> {
 
 fn write_party(xml: &mut String, tag: &str, party: &crate::model::Party, is_seller: bool) {
     let _ = writeln!(xml, "      <ram:{tag}>");
-    let _ = writeln!(xml, "        <ram:Name>{}</ram:Name>", escape_xml(&party.name));
-    if let Some(tax_id) = party.tax_id.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+    let _ = writeln!(
+        xml,
+        "        <ram:Name>{}</ram:Name>",
+        escape_xml(&party.name)
+    );
+    if let Some(tax_id) = party
+        .tax_id
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+    {
         let digits: String = tax_id.chars().filter(char::is_ascii_digit).collect();
-        let legal_id = if digits.len() == 14 { &digits[..9] } else { tax_id };
+        let legal_id = if digits.len() == 14 {
+            &digits[..9]
+        } else {
+            tax_id
+        };
         let _ = writeln!(
             xml,
             "        <ram:SpecifiedLegalOrganization><ram:ID schemeID=\"0002\">{}</ram:ID></ram:SpecifiedLegalOrganization>",
             escape_xml(legal_id)
         );
     }
-    if is_seller && let Some(email) = party.email.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+    if is_seller
+        && let Some(email) = party
+            .email
+            .as_deref()
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+    {
         let _ = writeln!(
             xml,
             "        <ram:DefinedTradeContact><ram:EmailURIUniversalCommunication><ram:URIID>{}</ram:URIID></ram:EmailURIUniversalCommunication></ram:DefinedTradeContact>",
@@ -230,7 +290,12 @@ fn write_party(xml: &mut String, tag: &str, party: &crate::model::Party, is_sell
         );
     }
     write_address(xml, "        ", &party.address);
-    if let Some(vat) = party.vat_number.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+    if let Some(vat) = party
+        .vat_number
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+    {
         let _ = writeln!(
             xml,
             "        <ram:SpecifiedTaxRegistration><ram:ID schemeID=\"VA\">{}</ram:ID></ram:SpecifiedTaxRegistration>",
@@ -241,19 +306,35 @@ fn write_party(xml: &mut String, tag: &str, party: &crate::model::Party, is_sell
 }
 
 fn write_address(xml: &mut String, indent: &str, raw: &str) {
-    let lines: Vec<&str> = raw.lines().map(str::trim).filter(|s| !s.is_empty()).collect();
+    let lines: Vec<&str> = raw
+        .lines()
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .collect();
     let line_one = lines.first().copied().unwrap_or("");
     let tail = lines.get(1).copied().unwrap_or("");
     let (postcode, city) = parse_postcode_city(tail);
     let _ = writeln!(xml, "{indent}<ram:PostalTradeAddress>");
     if let Some(pc) = postcode {
-        let _ = writeln!(xml, "{indent}  <ram:PostcodeCode>{}</ram:PostcodeCode>", escape_xml(pc));
+        let _ = writeln!(
+            xml,
+            "{indent}  <ram:PostcodeCode>{}</ram:PostcodeCode>",
+            escape_xml(pc)
+        );
     }
     if !line_one.is_empty() {
-        let _ = writeln!(xml, "{indent}  <ram:LineOne>{}</ram:LineOne>", escape_xml(line_one));
+        let _ = writeln!(
+            xml,
+            "{indent}  <ram:LineOne>{}</ram:LineOne>",
+            escape_xml(line_one)
+        );
     }
     if let Some(c) = city {
-        let _ = writeln!(xml, "{indent}  <ram:CityName>{}</ram:CityName>", escape_xml(c));
+        let _ = writeln!(
+            xml,
+            "{indent}  <ram:CityName>{}</ram:CityName>",
+            escape_xml(c)
+        );
     }
     let _ = writeln!(xml, "{indent}  <ram:CountryID>FR</ram:CountryID>");
     let _ = writeln!(xml, "{indent}</ram:PostalTradeAddress>");
@@ -302,7 +383,11 @@ fn format_rate(tenth_pct: u16) -> String {
 }
 
 fn format_qty(q: f64) -> String {
-    if q.fract().abs() < 1e-6 { format!("{:.4}", q) } else { format!("{q:.4}") }
+    if q.fract().abs() < 1e-6 {
+        format!("{:.4}", q)
+    } else {
+        format!("{q:.4}")
+    }
 }
 
 fn unit_to_unece(unit: Option<&str>) -> &'static str {

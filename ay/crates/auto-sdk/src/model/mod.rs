@@ -24,9 +24,17 @@ pub struct Party {
     pub tax_id: Option<String>,
     #[serde(alias = "adresse")]
     pub address: String,
-    #[serde(default, alias = "adresseLivraison", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        alias = "adresseLivraison",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub delivery_address: Option<String>,
-    #[serde(default, alias = "tvaIntracom", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        alias = "tvaIntracom",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub vat_number: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub email: Option<String>,
@@ -149,13 +157,25 @@ pub struct Invoice {
     pub customer: Party,
     #[serde(alias = "lignes")]
     pub lines: Vec<LineItem>,
-    #[serde(default, alias = "datePrestation", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        alias = "datePrestation",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub service_date: Option<String>,
     #[serde(default, alias = "echeance", skip_serializing_if = "Option::is_none")]
     pub due_date: Option<String>,
-    #[serde(default, alias = "conditionsPaiement", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        alias = "conditionsPaiement",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub payment_terms: Option<String>,
-    #[serde(default, alias = "penalitesRetard", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        alias = "penalitesRetard",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub late_penalties: Option<String>,
     #[serde(default, alias = "escompte", skip_serializing_if = "Option::is_none")]
     pub early_discount: Option<String>,
@@ -163,7 +183,11 @@ pub struct Invoice {
     pub vat_exempt: bool,
     #[serde(default, alias = "origine", skip_serializing_if = "Option::is_none")]
     pub origin: Option<String>,
-    #[serde(default, alias = "validiteJours", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        alias = "validiteJours",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub validity_days: Option<u32>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub notes: Option<String>,
@@ -221,9 +245,17 @@ impl Invoice {
         let mut by_rate = Vec::with_capacity(bases.len());
         let mut total_vat = 0i64;
         for (rate, base) in bases {
-            let vat = if self.vat_exempt || rate == 0 { 0 } else { round_js(base as f64 * f64::from(rate) / 1000.0) };
+            let vat = if self.vat_exempt || rate == 0 {
+                0
+            } else {
+                round_js(base as f64 * f64::from(rate) / 1000.0)
+            };
             total_vat += vat;
-            by_rate.push(VatBreakdown { rate, base_excl_vat_cents: base, vat_cents: vat });
+            by_rate.push(VatBreakdown {
+                rate,
+                base_excl_vat_cents: base,
+                vat_cents: vat,
+            });
         }
         Totals {
             total_excl_vat_cents: total_excl,
@@ -248,7 +280,11 @@ pub fn format_eur(cents: i64, lang: &str) -> String {
     let is_fr = crate::i18n::resolve_lang(Some(lang)) == "fr";
     let sep = if is_fr { " " } else { "," };
     let grouped = format_thousands(units, sep);
-    if is_fr { format!("{sign}{grouped},{rem:02} €") } else { format!("{sign}€{grouped}.{rem:02}") }
+    if is_fr {
+        format!("{sign}{grouped},{rem:02} €")
+    } else {
+        format!("{sign}€{grouped}.{rem:02}")
+    }
 }
 
 /// Formats a VAT rate stored in tenths of a percent (`200` -> `"20%"` / `"20 %"`, `55` -> `"5.5%"` / `"5,5 %"`).
@@ -257,7 +293,11 @@ pub fn format_percent(tenth_pct: u16, lang: &str) -> String {
     let frac = tenth_pct % 10;
     let is_fr = crate::i18n::resolve_lang(Some(lang)) == "fr";
     if frac == 0 {
-        if is_fr { format!("{whole} %") } else { format!("{whole}%") }
+        if is_fr {
+            format!("{whole} %")
+        } else {
+            format!("{whole}%")
+        }
     } else if is_fr {
         format!("{whole},{frac} %")
     } else {
@@ -271,11 +311,19 @@ pub fn format_percent_bp(bp: u16, lang: &str) -> String {
     let rem = bp % 100;
     let is_fr = crate::i18n::resolve_lang(Some(lang)) == "fr";
     if rem == 0 {
-        if is_fr { format!("{whole} %") } else { format!("{whole}%") }
+        if is_fr {
+            format!("{whole} %")
+        } else {
+            format!("{whole}%")
+        }
     } else {
         let dec = format!("{rem:02}");
         let trimmed = dec.trim_end_matches('0');
-        if is_fr { format!("{whole},{trimmed} %") } else { format!("{whole}.{trimmed}%") }
+        if is_fr {
+            format!("{whole},{trimmed} %")
+        } else {
+            format!("{whole}.{trimmed}%")
+        }
     }
 }
 

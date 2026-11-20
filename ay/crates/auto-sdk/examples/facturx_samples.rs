@@ -54,5 +54,10 @@ fn main() {
         let _ = std::fs::create_dir_all(&out_dir);
         std::fs::write(out_dir.join("invoice.xml"), cii.as_bytes()).expect("write invoice.xml");
     }
-    println!("CII={} bytes, Factur-X={} bytes, violations={:?}", cii.len(), fx.len(), checks);
+    println!(
+        "CII={} bytes, Factur-X={} bytes, violations={:?}",
+        cii.len(),
+        fx.len(),
+        checks
+    );
 }

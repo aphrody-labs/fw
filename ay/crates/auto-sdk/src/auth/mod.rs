@@ -1,4 +1,7 @@
-#![cfg_attr(not(test), deny(clippy::unwrap_used, clippy::expect_used, clippy::panic))]
+#![cfg_attr(
+    not(test),
+    deny(clippy::unwrap_used, clippy::expect_used, clippy::panic)
+)]
 
 pub mod jwt;
 pub mod oauth;
@@ -69,7 +72,10 @@ pub fn valid_email(raw: &str) -> bool {
     }
     match e.split_once('@') {
         Some((local, domain)) => {
-            !local.is_empty() && domain.contains('.') && !domain.starts_with('.') && !domain.ends_with('.')
+            !local.is_empty()
+                && domain.contains('.')
+                && !domain.starts_with('.')
+                && !domain.ends_with('.')
         }
         None => false,
     }
@@ -104,8 +110,10 @@ pub fn hex_decode(hex: &str) -> AuthResult<Vec<u8>> {
     let mut out = Vec::with_capacity(t.len() / 2);
     let (chunks, _) = t.as_bytes().as_chunks::<2>();
     for chunk in chunks {
-        let pair = std::str::from_utf8(chunk).map_err(|_| AuthError::Crypto("invalid utf-8 in hex".into()))?;
-        let byte = u8::from_str_radix(pair, 16).map_err(|_| AuthError::Crypto("invalid hex byte".into()))?;
+        let pair = std::str::from_utf8(chunk)
+            .map_err(|_| AuthError::Crypto("invalid utf-8 in hex".into()))?;
+        let byte = u8::from_str_radix(pair, 16)
+            .map_err(|_| AuthError::Crypto("invalid hex byte".into()))?;
         out.push(byte);
     }
     Ok(out)

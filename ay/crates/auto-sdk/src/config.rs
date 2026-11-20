@@ -49,7 +49,11 @@ pub struct LocalesSection {
 
 impl Default for LocalesSection {
     fn default() -> Self {
-        Self { directory: "locales".into(), format: "tsv".into(), bundles: vec!["common".into(), "auto".into()] }
+        Self {
+            directory: "locales".into(),
+            format: "tsv".into(),
+            bundles: vec!["common".into(), "auto".into()],
+        }
     }
 }
 
@@ -129,7 +133,10 @@ pub fn load_toml(path: &Path) -> SdkResult<AutoToml> {
         return Ok(AutoToml {
             app: AppSection::default(),
             locales: LocalesSection::default(),
-            modes: ModesSection { default: "auto".into(), self_hosted: SelfHostedSection::default() },
+            modes: ModesSection {
+                default: "auto".into(),
+                self_hosted: SelfHostedSection::default(),
+            },
             cluster: ClusterSection::default(),
         });
     }
@@ -139,11 +146,20 @@ pub fn load_toml(path: &Path) -> SdkResult<AutoToml> {
 
 pub fn resolve_runtime(toml_path: Option<&Path>) -> SdkResult<ResolvedRuntimeConfig> {
     let parsed = load_toml(toml_path.unwrap_or_else(|| Path::new("auto.toml")))?;
-    let mode = std::env::var("AUTO_MODE").ok().filter(|s| !s.is_empty()).unwrap_or_else(|| {
-        if parsed.modes.default.is_empty() { "self-hosted".into() } else { parsed.modes.default.clone() }
-    });
-    let host =
-        std::env::var("AUTO_HOST").ok().filter(|s| !s.is_empty()).unwrap_or(parsed.modes.self_hosted.default_host);
+    let mode = std::env::var("AUTO_MODE")
+        .ok()
+        .filter(|s| !s.is_empty())
+        .unwrap_or_else(|| {
+            if parsed.modes.default.is_empty() {
+                "self-hosted".into()
+            } else {
+                parsed.modes.default.clone()
+            }
+        });
+    let host = std::env::var("AUTO_HOST")
+        .ok()
+        .filter(|s| !s.is_empty())
+        .unwrap_or(parsed.modes.self_hosted.default_host);
     let port = std::env::var("AUTO_PORT")
         .ok()
         .and_then(|s| s.parse::<u16>().ok())
@@ -151,12 +167,33 @@ pub fn resolve_runtime(toml_path: Option<&Path>) -> SdkResult<ResolvedRuntimeCon
     let db_path = std::env::var("AUTO_DB_PATH")
         .ok()
         .filter(|s| !s.is_empty())
-        .unwrap_or_else(|| format!("{}/auto.sqlite", parsed.modes.self_hosted.default_data_dir.trim_end_matches('/')));
+        .unwrap_or_else(|| {
+            format!(
+                "{}/auto.sqlite",
+                parsed
+                    .modes
+                    .self_hosted
+                    .default_data_dir
+                    .trim_end_matches('/')
+            )
+        });
     let public_base_url = std::env::var("AUTO_URL_APP")
         .ok()
         .filter(|s| !s.is_empty())
-        .unwrap_or_else(|| format!("http://{}:{port}", if host == "0.0.0.0" { "127.0.0.1" } else { &host }));
-    let locale = std::env::var("AUTO_LOCALE").ok().filter(|s| !s.is_empty()).unwrap_or(parsed.app.default_locale);
+        .unwrap_or_else(|| {
+            format!(
+                "http://{}:{port}",
+                if host == "0.0.0.0" {
+                    "127.0.0.1"
+                } else {
+                    &host
+                }
+            )
+        });
+    let locale = std::env::var("AUTO_LOCALE")
+        .ok()
+        .filter(|s| !s.is_empty())
+        .unwrap_or(parsed.app.default_locale);
     let upstreams = std::env::var("AUTO_UPSTREAMS")
         .unwrap_or_default()
         .split(',')
@@ -169,5 +206,14 @@ pub fn resolve_runtime(toml_path: Option<&Path>) -> SdkResult<ResolvedRuntimeCon
     {
         lb.strategy = strat;
     }
-    Ok(ResolvedRuntimeConfig { mode, host, port, db_path, public_base_url, locale, upstreams, load_balancer: lb })
+    Ok(ResolvedRuntimeConfig {
+        mode,
+        host,
+        port,
+        db_path,
+        public_base_url,
+        locale,
+        upstreams,
+        load_balancer: lb,
+    })
 }

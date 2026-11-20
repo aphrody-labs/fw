@@ -53,14 +53,22 @@ pub fn default_auth_config(cfg: &ResolvedRuntimeConfig) -> AuthConfig {
     let master_secret = std::env::var("AUTO_MASTER_KEY")
         .ok()
         .filter(|s| s.len() >= 16)
-        .or_else(|| std::env::var("BETTER_AUTH_SECRET").ok().filter(|s| s.len() >= 16))
+        .or_else(|| {
+            std::env::var("BETTER_AUTH_SECRET")
+                .ok()
+                .filter(|s| s.len() >= 16)
+        })
         .unwrap_or_else(|| "auto-local-dev-master-key-32-chars!!".into());
     AuthConfig {
         app_name: "Auto".into(),
         base_url: cfg.public_base_url.clone(),
         base_path: "/api/auth".into(),
         master_secret,
-        trusted_origins: vec![cfg.public_base_url.clone(), "http://localhost:*".into(), "http://127.0.0.1:*".into()],
+        trusted_origins: vec![
+            cfg.public_base_url.clone(),
+            "http://localhost:*".into(),
+            "http://127.0.0.1:*".into(),
+        ],
         session_ttl_secs: 60 * 60 * 24 * 7,
     }
 }

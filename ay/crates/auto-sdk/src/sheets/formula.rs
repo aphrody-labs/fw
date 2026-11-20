@@ -60,7 +60,10 @@ pub type SheetSnapshot = (String, CellValues);
 pub fn recalculate_workbook(sheets: &mut [SheetGrid]) {
     for _pass in 0..8 {
         let mut changed = false;
-        let snapshot: Vec<SheetSnapshot> = sheets.iter().map(|(n, vals, _)| (n.clone(), vals.clone())).collect();
+        let snapshot: Vec<SheetSnapshot> = sheets
+            .iter()
+            .map(|(n, vals, _)| (n.clone(), vals.clone()))
+            .collect();
 
         for (s_idx, sheet) in sheets.iter_mut().enumerate() {
             let formulas = sheet.2.clone();
@@ -86,10 +89,19 @@ fn evaluate(formula: &str, current_sheet: usize, sheets: &[SheetSnapshot]) -> Op
     if src.is_empty() {
         return None;
     }
-    let mut parser = Parser { src: src.as_bytes(), pos: 0, current_sheet, sheets };
+    let mut parser = Parser {
+        src: src.as_bytes(),
+        pos: 0,
+        current_sheet,
+        sheets,
+    };
     let val = parser.parse_comparison().ok()?;
     parser.skip_ws();
-    if parser.pos == parser.src.len() { Some(val.into_value()) } else { None }
+    if parser.pos == parser.src.len() {
+        Some(val.into_value())
+    } else {
+        None
+    }
 }
 
 struct Parser<'a> {
@@ -264,7 +276,9 @@ impl<'a> Parser<'a> {
 
     fn parse_number(&mut self) -> Result<EvalVal, ()> {
         let start = self.pos;
-        while self.pos < self.src.len() && (self.src[self.pos].is_ascii_digit() || self.src[self.pos] == b'.') {
+        while self.pos < self.src.len()
+            && (self.src[self.pos].is_ascii_digit() || self.src[self.pos] == b'.')
+        {
             self.pos += 1;
         }
         let s = std::str::from_utf8(&self.src[start..self.pos]).map_err(|_| ())?;
@@ -280,7 +294,9 @@ impl<'a> Parser<'a> {
             while self.pos < self.src.len() && self.src[self.pos] != b'\'' {
                 self.pos += 1;
             }
-            let sheet_name = std::str::from_utf8(&self.src[start..self.pos]).map_err(|_| ())?.to_owned();
+            let sheet_name = std::str::from_utf8(&self.src[start..self.pos])
+                .map_err(|_| ())?
+                .to_owned();
             if self.src.get(self.pos) != Some(&b'\'') || self.src.get(self.pos + 1) != Some(&b'!') {
                 return Err(());
             }
@@ -292,11 +308,14 @@ impl<'a> Parser<'a> {
 
         let start = self.pos;
         while self.pos < self.src.len()
-            && (self.src[self.pos].is_ascii_alphanumeric() || matches!(self.src[self.pos], b'_' | b'$' | b'.'))
+            && (self.src[self.pos].is_ascii_alphanumeric()
+                || matches!(self.src[self.pos], b'_' | b'$' | b'.'))
         {
             self.pos += 1;
         }
-        let token = std::str::from_utf8(&self.src[start..self.pos]).map_err(|_| ())?.to_owned();
+        let token = std::str::from_utf8(&self.src[start..self.pos])
+            .map_err(|_| ())?
+            .to_owned();
         if token.is_empty() {
             return Err(());
         }
@@ -326,15 +345,22 @@ impl<'a> Parser<'a> {
 
     fn parse_cell_token(&mut self) -> Result<CellRef, ()> {
         let start = self.pos;
-        while self.pos < self.src.len() && (self.src[self.pos].is_ascii_alphanumeric() || self.src[self.pos] == b'$') {
+        while self.pos < self.src.len()
+            && (self.src[self.pos].is_ascii_alphanumeric() || self.src[self.pos] == b'$')
+        {
             self.pos += 1;
         }
-        let tok = std::str::from_utf8(&self.src[start..self.pos]).map_err(|_| ())?.replace('$', "");
+        let tok = std::str::from_utf8(&self.src[start..self.pos])
+            .map_err(|_| ())?
+            .replace('$', "");
         CellRef::parse(&tok).ok_or(())
     }
 
     fn resolve_sheet(&self, name: &str) -> Result<usize, ()> {
-        self.sheets.iter().position(|(n, _)| n.eq_ignore_ascii_case(name)).ok_or(())
+        self.sheets
+            .iter()
+            .position(|(n, _)| n.eq_ignore_ascii_case(name))
+            .ok_or(())
     }
 
     fn get_cell_val(&self, sheet_idx: usize, cell: CellRef) -> EvalVal {
@@ -366,7 +392,11 @@ impl<'a> Parser<'a> {
                 return Err(());
             }
             self.pos += 1;
-            return Ok(if cond.as_bool() { when_true } else { when_false });
+            return Ok(if cond.as_bool() {
+                when_true
+            } else {
+                when_false
+            });
         }
 
         let vals = self.parse_arg_series()?;
@@ -393,8 +423,12 @@ impl<'a> Parser<'a> {
                 }
             }
             "COUNT" => Ok(EvalVal::Num(nums.len() as f64)),
-            "MIN" => Ok(EvalVal::Num(nums.iter().copied().reduce(f64::min).unwrap_or(0.0))),
-            "MAX" => Ok(EvalVal::Num(nums.iter().copied().reduce(f64::max).unwrap_or(0.0))),
+            "MIN" => Ok(EvalVal::Num(
+                nums.iter().copied().reduce(f64::min).unwrap_or(0.0),
+            )),
+            "MAX" => Ok(EvalVal::Num(
+                nums.iter().copied().reduce(f64::max).unwrap_or(0.0),
+            )),
             _ => Err(()),
         }
     }
@@ -440,7 +474,9 @@ impl<'a> Parser<'a> {
             sheet_idx = self.resolve_sheet(sname)?;
         } else {
             let mut probe = self.pos;
-            while probe < self.src.len() && (self.src[probe].is_ascii_alphanumeric() || self.src[probe] == b'_') {
+            while probe < self.src.len()
+                && (self.src[probe].is_ascii_alphanumeric() || self.src[probe] == b'_')
+            {
                 probe += 1;
             }
             if self.src.get(probe) == Some(&b'!') {

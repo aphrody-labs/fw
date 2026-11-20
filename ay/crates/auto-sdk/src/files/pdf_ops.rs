@@ -1,7 +1,9 @@
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::sync::Arc;
 
-use craft_pdf::cos::{Dict, Document, MAX_PAGE_DECODED, ObjRef, Object, SaveOptions, pdfdoc_char, write_full};
+use craft_pdf::cos::{
+    Dict, Document, MAX_PAGE_DECODED, ObjRef, Object, SaveOptions, pdfdoc_char, write_full,
+};
 
 use crate::files::FileError;
 
@@ -20,14 +22,29 @@ pub(crate) struct PageContentPart {
 }
 
 pub(crate) fn collect_pages(doc: &Document) -> Result<Vec<PageNode>, FileError> {
-    let root_ref = doc.root().ok_or_else(|| FileError::InvalidPdf("missing /Root catalog".into()))?;
+    let root_ref = doc
+        .root()
+        .ok_or_else(|| FileError::InvalidPdf("missing /Root catalog".into()))?;
     let root_obj = doc.get(root_ref);
-    let root = doc.dict(&root_obj).ok_or_else(|| FileError::InvalidPdf("/Root is not a dictionary".into()))?;
-    let pages_ref = root.reference(b"Pages").ok_or_else(|| FileError::InvalidPdf("missing /Pages tree".into()))?;
+    let root = doc
+        .dict(&root_obj)
+        .ok_or_else(|| FileError::InvalidPdf("/Root is not a dictionary".into()))?;
+    let pages_ref = root
+        .reference(b"Pages")
+        .ok_or_else(|| FileError::InvalidPdf("missing /Pages tree".into()))?;
 
     let mut out = Vec::new();
     let mut visited = HashSet::new();
-    walk_pages_node(doc, pages_ref, None, None, None, None, &mut visited, &mut out)?;
+    walk_pages_node(
+        doc,
+        pages_ref,
+        None,
+        None,
+        None,
+        None,
+        &mut visited,
+        &mut out,
+    )?;
     Ok(out)
 }
 
@@ -77,7 +94,13 @@ fn walk_pages_node(
             }
         }
     } else {
-        out.push(PageNode { page_ref: node_ref, media_box, crop_box, resources, rotate });
+        out.push(PageNode {
+            page_ref: node_ref,
+            media_box,
+            crop_box,
+            resources,
+            rotate,
+        });
     }
     Ok(())
 }
@@ -113,12 +136,17 @@ pub fn extract_pdf_pages(pdf: &[u8], zero_based_pages: &[usize]) -> Result<Vec<u
     let src = Document::open(Arc::new(pdf.to_vec()))?;
     let pages = collect_pages(&src)?;
     if zero_based_pages.is_empty() {
-        return Err(FileError::InvalidInput("page selection must not be empty".into()));
+        return Err(FileError::InvalidInput(
+            "page selection must not be empty".into(),
+        ));
     }
     let total = pages.len();
     for &idx in zero_based_pages {
         if idx >= total {
-            return Err(FileError::PageOutOfRange { page: idx + 1, total });
+            return Err(FileError::PageOutOfRange {
+                page: idx + 1,
+                total,
+            });
         }
     }
 
@@ -161,9 +189,13 @@ fn finalize_merged_catalog(
     catalog.set(b"Type".to_vec(), Object::name("Catalog"));
     catalog.set(b"Pages".to_vec(), Object::Ref(root_pages_ref));
     let root_ref = dst.add(catalog);
-    dst.trailer_mut().set(b"Root".to_vec(), Object::Ref(root_ref));
+    dst.trailer_mut()
+        .set(b"Root".to_vec(), Object::Ref(root_ref));
 
-    let opts = SaveOptions { object_streams: false, ..Default::default() };
+    let opts = SaveOptions {
+        object_streams: false,
+        ..Default::default()
+    };
     Ok(write_full(dst, &opts)?)
 }
 
@@ -212,7 +244,12 @@ fn clone_page_into(
     dst_ref
 }
 
-fn clone_dict(src: &Document, dst: &mut Document, remap: &mut HashMap<ObjRef, ObjRef>, dict: &Dict) -> Dict {
+fn clone_dict(
+    src: &Document,
+    dst: &mut Document,
+    remap: &mut HashMap<ObjRef, ObjRef>,
+    dict: &Dict,
+) -> Dict {
     let mut out = Dict::new();
     for (k, v) in dict.iter() {
         out.set(k.clone(), clone_object(src, dst, remap, v));
@@ -220,12 +257,25 @@ fn clone_dict(src: &Document, dst: &mut Document, remap: &mut HashMap<ObjRef, Ob
     out
 }
 
-fn clone_object(src: &Document, dst: &mut Document, remap: &mut HashMap<ObjRef, ObjRef>, obj: &Object) -> Object {
+fn clone_object(
+    src: &Document,
+    dst: &mut Document,
+    remap: &mut HashMap<ObjRef, ObjRef>,
+    obj: &Object,
+) -> Object {
     match obj {
-        Object::Null | Object::Bool(_) | Object::Int(_) | Object::Real(_) | Object::String(_) | Object::Name(_) => {
-            obj.clone()
-        }
-        Object::Array(items) => Object::Array(items.iter().map(|item| clone_object(src, dst, remap, item)).collect()),
+        Object::Null
+        | Object::Bool(_)
+        | Object::Int(_)
+        | Object::Real(_)
+        | Object::String(_)
+        | Object::Name(_) => obj.clone(),
+        Object::Array(items) => Object::Array(
+            items
+                .iter()
+                .map(|item| clone_object(src, dst, remap, item))
+                .collect(),
+        ),
         Object::Dict(dict) => Object::Dict(clone_dict(src, dst, remap, dict)),
         Object::Stream(stream) => {
             let mut s = stream.clone();
@@ -246,7 +296,10 @@ fn clone_object(src: &Document, dst: &mut Document, remap: &mut HashMap<ObjRef, 
     }
 }
 
-pub(crate) fn page_content_parts(doc: &Document, page_ref: ObjRef) -> Result<Vec<PageContentPart>, FileError> {
+pub(crate) fn page_content_parts(
+    doc: &Document,
+    page_ref: ObjRef,
+) -> Result<Vec<PageContentPart>, FileError> {
     let page_obj = doc.get(page_ref);
     let Some(page_dict) = doc.dict(&page_obj) else {
         return Ok(Vec::new());
@@ -262,7 +315,9 @@ pub(crate) fn page_content_parts(doc: &Document, page_ref: ObjRef) -> Result<Vec
             match resolved.as_ref() {
                 Object::Stream(s) => parts.push(PageContentPart {
                     stream_ref: Some(*r),
-                    bytes: doc.with_direct_parms(s).decoded_strict_within(MAX_PAGE_DECODED)?,
+                    bytes: doc
+                        .with_direct_parms(s)
+                        .decoded_strict_within(MAX_PAGE_DECODED)?,
                 }),
                 Object::Array(arr) => collect_content_array(doc, arr, &mut parts)?,
                 _ => {}
@@ -271,21 +326,29 @@ pub(crate) fn page_content_parts(doc: &Document, page_ref: ObjRef) -> Result<Vec
         Object::Array(arr) => collect_content_array(doc, arr, &mut parts)?,
         Object::Stream(s) => parts.push(PageContentPart {
             stream_ref: None,
-            bytes: doc.with_direct_parms(s).decoded_strict_within(MAX_PAGE_DECODED)?,
+            bytes: doc
+                .with_direct_parms(s)
+                .decoded_strict_within(MAX_PAGE_DECODED)?,
         }),
         _ => {}
     }
     Ok(parts)
 }
 
-fn collect_content_array(doc: &Document, arr: &[Object], out: &mut Vec<PageContentPart>) -> Result<(), FileError> {
+fn collect_content_array(
+    doc: &Document,
+    arr: &[Object],
+    out: &mut Vec<PageContentPart>,
+) -> Result<(), FileError> {
     for item in arr {
         if let Some(r) = item.as_ref()
             && let Object::Stream(s) = doc.get(r).as_ref()
         {
             out.push(PageContentPart {
                 stream_ref: Some(r),
-                bytes: doc.with_direct_parms(s).decoded_strict_within(MAX_PAGE_DECODED)?,
+                bytes: doc
+                    .with_direct_parms(s)
+                    .decoded_strict_within(MAX_PAGE_DECODED)?,
             });
         }
     }
@@ -325,7 +388,11 @@ impl FontDecoder {
             let char_start = text.len();
             text.push_str(&decoded);
             let char_end = text.len();
-            slices.push(GlyphSlice { text_start: char_start, text_end: char_end, raw_bytes: chunk.to_vec() });
+            slices.push(GlyphSlice {
+                text_start: char_start,
+                text_end: char_end,
+                raw_bytes: chunk.to_vec(),
+            });
             pos = end;
         }
         (text, slices)
@@ -363,14 +430,21 @@ pub(crate) fn page_fonts(doc: &Document, node: &PageNode) -> FontMap {
         let Some(fdict) = doc.dict(fobj) else {
             continue;
         };
-        let two_byte = fdict.name(b"Encoding").is_some_and(|e| e == b"Identity-H" || e == b"Identity-V")
+        let two_byte = fdict
+            .name(b"Encoding")
+            .is_some_and(|e| e == b"Identity-H" || e == b"Identity-V")
             || fdict.name(b"Subtype") == Some(b"Type0");
-        let mut decoder = FontDecoder { two_byte, ..Default::default() };
+        let mut decoder = FontDecoder {
+            two_byte,
+            ..Default::default()
+        };
 
         if let Some(cmap_obj) = fdict.get(b"ToUnicode") {
             let resolved = doc.resolve(cmap_obj);
             if let Object::Stream(stream) = resolved.as_ref()
-                && let Ok(bytes) = doc.with_direct_parms(stream).decoded_strict_within(MAX_PAGE_DECODED)
+                && let Ok(bytes) = doc
+                    .with_direct_parms(stream)
+                    .decoded_strict_within(MAX_PAGE_DECODED)
             {
                 parse_tounicode_cmap(&bytes, &mut decoder);
             }
@@ -441,12 +515,15 @@ fn parse_tounicode_cmap(data: &[u8], out: &mut FontDecoder) {
                             i += 1;
                             continue;
                         } else if let Some((_, dst_bytes)) = parse_hex_bytes(&tokens[i + 2]) {
-                            let mut base =
-                                u16::from_be_bytes([*dst_bytes.first().unwrap_or(&0), *dst_bytes.get(1).unwrap_or(&0)]);
+                            let mut base = u16::from_be_bytes([
+                                *dst_bytes.first().unwrap_or(&0),
+                                *dst_bytes.get(1).unwrap_or(&0),
+                            ]);
                             let count = hi.saturating_sub(lo).min(4096);
                             for offset in 0..=count {
                                 let code = lo + offset;
-                                let s = String::from_utf16_lossy(&[base.wrapping_add(offset as u16)]);
+                                let s =
+                                    String::from_utf16_lossy(&[base.wrapping_add(offset as u16)]);
                                 register_cmap_entry(out, code, s);
                             }
                             let _ = &mut base;
@@ -463,7 +540,11 @@ fn parse_tounicode_cmap(data: &[u8], out: &mut FontDecoder) {
 fn register_cmap_entry(out: &mut FontDecoder, code: u32, s: String) {
     let mut chars = s.chars();
     if let (Some(ch), None) = (chars.next(), chars.next()) {
-        let raw = if out.two_byte { (code as u16).to_be_bytes().to_vec() } else { vec![code as u8] };
+        let raw = if out.two_byte {
+            (code as u16).to_be_bytes().to_vec()
+        } else {
+            vec![code as u8]
+        };
         out.reverse.entry(ch).or_insert(raw);
     }
     out.to_unicode.insert(code, s);
@@ -522,7 +603,9 @@ fn parse_hex_token(tok: &str) -> Option<(usize, u32)> {
     if clean.is_empty() || clean.len() > 8 {
         return None;
     }
-    u32::from_str_radix(&clean, 16).ok().map(|v| (clean.len(), v))
+    u32::from_str_radix(&clean, 16)
+        .ok()
+        .map(|v| (clean.len(), v))
 }
 
 fn parse_hex_bytes(tok: &str) -> Option<(usize, Vec<u8>)> {
@@ -533,7 +616,11 @@ fn parse_hex_bytes(tok: &str) -> Option<(usize, Vec<u8>)> {
     let mut i = 0usize;
     while i < bytes.len() {
         let hi = hex_nibble(bytes[i])?;
-        let lo = if i + 1 < bytes.len() { hex_nibble(bytes[i + 1])? } else { 0 };
+        let lo = if i + 1 < bytes.len() {
+            hex_nibble(bytes[i + 1])?
+        } else {
+            0
+        };
         out.push((hi << 4) | lo);
         i += 2;
     }
@@ -556,7 +643,13 @@ fn decode_utf16_bytes(bytes: &[u8]) -> String {
     if bytes.len() == 1 {
         return char::from(bytes[0]).to_string();
     }
-    let units: Vec<u16> = bytes.as_chunks::<2>().0.iter().copied().map(u16::from_be_bytes).collect();
+    let units: Vec<u16> = bytes
+        .as_chunks::<2>()
+        .0
+        .iter()
+        .copied()
+        .map(u16::from_be_bytes)
+        .collect();
     String::from_utf16_lossy(&units)
 }
 
@@ -595,7 +688,11 @@ pub(crate) fn tokenize_content(data: &[u8]) -> Vec<ContentToken> {
         if b == b'(' {
             let start = i;
             let raw = read_literal_bytes(data, &mut i);
-            tokens.push(ContentToken { kind: ContentTokenKind::Literal { raw }, start, end: i });
+            tokens.push(ContentToken {
+                kind: ContentTokenKind::Literal { raw },
+                start,
+                end: i,
+            });
             continue;
         }
         if b == b'<' {
@@ -617,16 +714,28 @@ pub(crate) fn tokenize_content(data: &[u8]) -> Vec<ContentToken> {
             }
             let start = i;
             let raw = read_hex_bytes(data, &mut i);
-            tokens.push(ContentToken { kind: ContentTokenKind::Hex { raw }, start, end: i });
+            tokens.push(ContentToken {
+                kind: ContentTokenKind::Hex { raw },
+                start,
+                end: i,
+            });
             continue;
         }
         if b == b'[' {
-            tokens.push(ContentToken { kind: ContentTokenKind::ArrayOpen, start: i, end: i + 1 });
+            tokens.push(ContentToken {
+                kind: ContentTokenKind::ArrayOpen,
+                start: i,
+                end: i + 1,
+            });
             i += 1;
             continue;
         }
         if b == b']' {
-            tokens.push(ContentToken { kind: ContentTokenKind::ArrayClose, start: i, end: i + 1 });
+            tokens.push(ContentToken {
+                kind: ContentTokenKind::ArrayClose,
+                start: i,
+                end: i + 1,
+            });
             i += 1;
             continue;
         }
@@ -636,7 +745,11 @@ pub(crate) fn tokenize_content(data: &[u8]) -> Vec<ContentToken> {
             while i < data.len() && !is_pdf_delim_or_ws(data[i]) {
                 i += 1;
             }
-            tokens.push(ContentToken { kind: ContentTokenKind::Name(data[start + 1..i].to_vec()), start, end: i });
+            tokens.push(ContentToken {
+                kind: ContentTokenKind::Name(data[start + 1..i].to_vec()),
+                start,
+                end: i,
+            });
             continue;
         }
         let start = i;
@@ -663,14 +776,22 @@ pub(crate) fn tokenize_content(data: &[u8]) -> Vec<ContentToken> {
             continue;
         }
         if !word.is_empty() {
-            tokens.push(ContentToken { kind: ContentTokenKind::Word(word.to_vec()), start, end: i });
+            tokens.push(ContentToken {
+                kind: ContentTokenKind::Word(word.to_vec()),
+                start,
+                end: i,
+            });
         }
     }
     tokens
 }
 
 fn is_pdf_delim_or_ws(b: u8) -> bool {
-    b.is_ascii_whitespace() || matches!(b, 0 | b'(' | b')' | b'<' | b'>' | b'[' | b']' | b'{' | b'}' | b'/' | b'%')
+    b.is_ascii_whitespace()
+        || matches!(
+            b,
+            0 | b'(' | b')' | b'<' | b'>' | b'[' | b']' | b'{' | b'}' | b'/' | b'%'
+        )
 }
 
 fn read_literal_bytes(data: &[u8], i: &mut usize) -> Vec<u8> {
@@ -809,7 +930,11 @@ pub(crate) fn extract_stream_lines(data: &[u8], fonts: &FontMap) -> Vec<TextLine
             ops.push(op);
         }
         if !combined.is_empty() {
-            out.push(TextLine { operands: ops, text: combined, char_map });
+            out.push(TextLine {
+                operands: ops,
+                text: combined,
+                char_map,
+            });
         }
     };
 
@@ -846,8 +971,10 @@ pub(crate) fn extract_stream_lines(data: &[u8], fonts: &FontMap) -> Vec<TextLine
                     }
                     b"Td" | b"TD" => {
                         if operands.len() >= 2
-                            && let (Some(dx), Some(dy)) =
-                                (token_f32(operands[operands.len() - 2]), token_f32(operands[operands.len() - 1]))
+                            && let (Some(dx), Some(dy)) = (
+                                token_f32(operands[operands.len() - 2]),
+                                token_f32(operands[operands.len() - 1]),
+                            )
                         {
                             tlm_x += dx;
                             tlm_y += dy;
@@ -863,8 +990,10 @@ pub(crate) fn extract_stream_lines(data: &[u8], fonts: &FontMap) -> Vec<TextLine
                     }
                     b"Tm" => {
                         if operands.len() >= 6
-                            && let (Some(e), Some(f)) =
-                                (token_f32(operands[operands.len() - 2]), token_f32(operands[operands.len() - 1]))
+                            && let (Some(e), Some(f)) = (
+                                token_f32(operands[operands.len() - 2]),
+                                token_f32(operands[operands.len() - 1]),
+                            )
                         {
                             tlm_x = e;
                             tlm_y = f;
@@ -890,9 +1019,14 @@ pub(crate) fn extract_stream_lines(data: &[u8], fonts: &FontMap) -> Vec<TextLine
                         }
                         if let Some(op_tok) = operands.last() {
                             let decoder = fonts.get(&current_font).unwrap_or(&default_font);
-                            if let Some(show_op) =
-                                build_show_operand(op_tok, decoder, &current_font, tx, ty, current_size)
-                            {
+                            if let Some(show_op) = build_show_operand(
+                                op_tok,
+                                decoder,
+                                &current_font,
+                                tx,
+                                ty,
+                                current_size,
+                            ) {
                                 let gap = last_y.is_some() && !cur_line.is_empty();
                                 cur_line.push((show_op, gap));
                                 last_y = Some(ty);
@@ -900,8 +1034,9 @@ pub(crate) fn extract_stream_lines(data: &[u8], fonts: &FontMap) -> Vec<TextLine
                         }
                     }
                     b"TJ" => {
-                        if let Some(open_pos) =
-                            operands.iter().rposition(|t| matches!(t.kind, ContentTokenKind::ArrayOpen))
+                        if let Some(open_pos) = operands
+                            .iter()
+                            .rposition(|t| matches!(t.kind, ContentTokenKind::ArrayOpen))
                         {
                             let decoder = fonts.get(&current_font).unwrap_or(&default_font);
                             let mut pending_gap = false;
@@ -915,9 +1050,14 @@ pub(crate) fn extract_stream_lines(data: &[u8], fonts: &FontMap) -> Vec<TextLine
                                     }
                                     continue;
                                 }
-                                if let Some(show_op) =
-                                    build_show_operand(item, decoder, &current_font, tx, ty, current_size)
-                                {
+                                if let Some(show_op) = build_show_operand(
+                                    item,
+                                    decoder,
+                                    &current_font,
+                                    tx,
+                                    ty,
+                                    current_size,
+                                ) {
                                     cur_line.push((show_op, pending_gap));
                                     pending_gap = false;
                                     last_y = Some(ty);
@@ -1051,16 +1191,29 @@ pub fn pdf_text(pdf: &[u8]) -> Result<Vec<String>, FileError> {
         for part in parts {
             let lines = extract_stream_lines(&part.bytes, &fonts);
             for line in lines {
-                let y_key = line.operands.first().map_or(fallback_order, |op| -(op.y * 10.0).round() as i64);
-                let x_key = line.operands.first().map_or(0, |op| (op.x * 10.0).round() as i64);
-                page_lines.entry(y_key).or_default().push((x_key, line.text));
+                let y_key = line
+                    .operands
+                    .first()
+                    .map_or(fallback_order, |op| -(op.y * 10.0).round() as i64);
+                let x_key = line
+                    .operands
+                    .first()
+                    .map_or(0, |op| (op.x * 10.0).round() as i64);
+                page_lines
+                    .entry(y_key)
+                    .or_default()
+                    .push((x_key, line.text));
                 fallback_order += 1;
             }
         }
         let mut text_lines = Vec::new();
         for mut row in page_lines.into_values() {
             row.sort_by_key(|(x, _)| *x);
-            let joined: String = row.into_iter().map(|(_, t)| t).collect::<Vec<_>>().join(" ");
+            let joined: String = row
+                .into_iter()
+                .map(|(_, t)| t)
+                .collect::<Vec<_>>()
+                .join(" ");
             let trimmed = joined.trim();
             if !trimmed.is_empty() {
                 text_lines.push(trimmed.to_owned());

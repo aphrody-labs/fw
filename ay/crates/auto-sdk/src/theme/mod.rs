@@ -31,14 +31,22 @@ impl RgbColor {
 
     /// Normalizes channels to `0.0..=1.0`.
     pub fn to_f32(self) -> [f32; 3] {
-        [f32::from(self.r) / 255.0, f32::from(self.g) / 255.0, f32::from(self.b) / 255.0]
+        [
+            f32::from(self.r) / 255.0,
+            f32::from(self.g) / 255.0,
+            f32::from(self.b) / 255.0,
+        ]
     }
 
     /// WCAG 2.1 relative luminance (`0.0..=1.0`).
     pub fn relative_luminance(self) -> f64 {
         fn channel(v: u8) -> f64 {
             let s = f64::from(v) / 255.0;
-            if s <= 0.03928 { s / 12.92 } else { ((s + 0.055) / 1.055).powf(2.4) }
+            if s <= 0.03928 {
+                s / 12.92
+            } else {
+                ((s + 0.055) / 1.055).powf(2.4)
+            }
         }
         0.2126 * channel(self.r) + 0.7152 * channel(self.g) + 0.0722 * channel(self.b)
     }
@@ -172,7 +180,13 @@ pub struct RadiiTokens {
     pub full: u16,
 }
 
-pub const RADII: RadiiTokens = RadiiTokens { sm: 4, md: 8, lg: 12, xl: 16, full: 9999 };
+pub const RADII: RadiiTokens = RadiiTokens {
+    sm: 4,
+    md: 8,
+    lg: 12,
+    xl: 16,
+    full: 9999,
+};
 
 /// 4px spacing scale (px).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -188,7 +202,16 @@ pub struct SpacingTokens {
     pub x4: u16,
 }
 
-pub const SPACING: SpacingTokens = SpacingTokens { xs: 4, sm: 8, md: 12, lg: 16, xl: 20, x2: 24, x3: 32, x4: 48 };
+pub const SPACING: SpacingTokens = SpacingTokens {
+    xs: 4,
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 20,
+    x2: 24,
+    x3: 32,
+    x4: 48,
+};
 
 /// Motion durations in milliseconds (0 when reduced motion is enabled).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -201,11 +224,21 @@ pub struct MotionTokens {
     pub toast_ms: u16,
 }
 
-pub const MOTION_STANDARD: MotionTokens =
-    MotionTokens { theme_switch_ms: 120, toggle_ms: 180, sheet_ms: 220, nav_stack_ms: 240, toast_ms: 180 };
+pub const MOTION_STANDARD: MotionTokens = MotionTokens {
+    theme_switch_ms: 120,
+    toggle_ms: 180,
+    sheet_ms: 220,
+    nav_stack_ms: 240,
+    toast_ms: 180,
+};
 
-pub const MOTION_REDUCED: MotionTokens =
-    MotionTokens { theme_switch_ms: 0, toggle_ms: 0, sheet_ms: 0, nav_stack_ms: 0, toast_ms: 0 };
+pub const MOTION_REDUCED: MotionTokens = MotionTokens {
+    theme_switch_ms: 0,
+    toggle_ms: 0,
+    sheet_ms: 0,
+    nav_stack_ms: 0,
+    toast_ms: 0,
+};
 
 /// Complete resolved theme bundle consumable by both `nsh` and `gpui-kit`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -232,7 +265,11 @@ pub const fn resolve(appearance: Appearance, reduced_motion: bool) -> ThemeToken
         typography: TYPOGRAPHY,
         radii: RADII,
         spacing: SPACING,
-        motion: if reduced_motion { MOTION_REDUCED } else { MOTION_STANDARD },
+        motion: if reduced_motion {
+            MOTION_REDUCED
+        } else {
+            MOTION_STANDARD
+        },
         desktop_control_height_px: 36,
         touch_target_min_px: 44,
     }
@@ -245,11 +282,26 @@ mod tests {
     #[test]
     fn palettes_meet_wcag_aa_contrast() {
         for (name, p) in [("light", LIGHT_PALETTE), ("dark", DARK_PALETTE)] {
-            assert!(p.foreground.contrast_ratio(p.background) >= 12.0, "{name} foreground/background");
-            assert!(p.muted_foreground.contrast_ratio(p.background) >= 7.0, "{name} muted/background");
-            assert!(p.primary_foreground.contrast_ratio(p.primary) >= 4.5, "{name} primary contrast");
-            assert!(p.secondary_foreground.contrast_ratio(p.secondary) >= 4.5, "{name} secondary contrast");
-            assert!(p.accent_foreground.contrast_ratio(p.accent) >= 4.5, "{name} accent contrast");
+            assert!(
+                p.foreground.contrast_ratio(p.background) >= 12.0,
+                "{name} foreground/background"
+            );
+            assert!(
+                p.muted_foreground.contrast_ratio(p.background) >= 7.0,
+                "{name} muted/background"
+            );
+            assert!(
+                p.primary_foreground.contrast_ratio(p.primary) >= 4.5,
+                "{name} primary contrast"
+            );
+            assert!(
+                p.secondary_foreground.contrast_ratio(p.secondary) >= 4.5,
+                "{name} secondary contrast"
+            );
+            assert!(
+                p.accent_foreground.contrast_ratio(p.accent) >= 4.5,
+                "{name} accent contrast"
+            );
         }
     }
 

@@ -50,7 +50,10 @@ pub fn mcp_tools_manifest() -> Vec<Value> {
 }
 
 pub fn handle_mcp_request(req: &Value) -> Option<Value> {
-    let method = req.get("method").and_then(|v| v.as_str()).unwrap_or_default();
+    let method = req
+        .get("method")
+        .and_then(|v| v.as_str())
+        .unwrap_or_default();
     if method == "notifications/initialized" {
         return None;
     }
@@ -73,8 +76,14 @@ pub fn handle_mcp_request(req: &Value) -> Option<Value> {
         })),
         "tools/call" => {
             let params = req.get("params").and_then(|v| v.as_object());
-            let name = params.and_then(|p| p.get("name")).and_then(|v| v.as_str()).unwrap_or_default();
-            let args = params.and_then(|p| p.get("arguments")).cloned().unwrap_or_else(|| json!({}));
+            let name = params
+                .and_then(|p| p.get("name"))
+                .and_then(|v| v.as_str())
+                .unwrap_or_default();
+            let args = params
+                .and_then(|p| p.get("arguments"))
+                .cloned()
+                .unwrap_or_else(|| json!({}));
             match dispatch_tool(name, &args) {
                 Ok(val) => Some(json!({
                     "jsonrpc": "2.0",
@@ -99,12 +108,14 @@ pub fn handle_mcp_request(req: &Value) -> Option<Value> {
 fn dispatch_tool(name: &str, args: &Value) -> Result<Value, String> {
     match name {
         "facturx_xml" => {
-            let doc: Document = serde_json::from_value(args["document"].clone()).map_err(|e| e.to_string())?;
+            let doc: Document =
+                serde_json::from_value(args["document"].clone()).map_err(|e| e.to_string())?;
             let xml = facturx_xml(&doc).map_err(|e| e.to_string())?;
             Ok(json!({ "xml": xml }))
         }
         "render_facturx_pdf" => {
-            let doc: Document = serde_json::from_value(args["document"].clone()).map_err(|e| e.to_string())?;
+            let doc: Document =
+                serde_json::from_value(args["document"].clone()).map_err(|e| e.to_string())?;
             let pdf = crate::docs::render(&doc).map_err(|e| e.to_string())?;
             let unix = args["unixSecs"].as_i64().unwrap_or(1_792_663_200);
             let fx = generate_facturx(&doc, &pdf, unix).map_err(|e| e.to_string())?;
@@ -135,8 +146,10 @@ fn dispatch_tool(name: &str, args: &Value) -> Result<Value, String> {
             Ok(json!({ "valid": valid }))
         }
         "auth_check_rbac" => {
-            let role = Role::parse(args["role"].as_str().ok_or("missing role")?).map_err(|e| e.to_string())?;
-            let action: Action = serde_json::from_value(args["action"].clone()).map_err(|e| e.to_string())?;
+            let role = Role::parse(args["role"].as_str().ok_or("missing role")?)
+                .map_err(|e| e.to_string())?;
+            let action: Action =
+                serde_json::from_value(args["action"].clone()).map_err(|e| e.to_string())?;
             Ok(json!({ "allowed": can_perform(role, action) }))
         }
         other => Err(format!("unknown MCP tool: {other}")),

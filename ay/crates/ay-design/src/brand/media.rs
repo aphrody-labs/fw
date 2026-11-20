@@ -7,7 +7,8 @@ pub const ZUKAN_JSON: &str = include_str!("../../../../brand/character/zukan.jso
 /// Material 3 Symbols & Aphrody era iconography CSS.
 pub const M3_SYMBOLS_CSS: &str = include_str!("../../../../brand/tokens/m3-symbols.css");
 /// Animated GIF89a cycling through IE1 (#185), GO (#2625), and Ares (#4526).
-pub const ANIMATED_ERAS_GIF: &[u8] = include_bytes!("../../../../brand/assets/zukan/aphrody-eras.gif");
+pub const ANIMATED_ERAS_GIF: &[u8] =
+    include_bytes!("../../../../brand/assets/zukan/aphrody-eras.gif");
 
 pub const IE1_SVG: &str = include_str!("../../../../brand/assets/zukan/aphrody-ie1.svg");
 pub const GO_SVG: &str = include_str!("../../../../brand/assets/zukan/aphrody-go.svg");

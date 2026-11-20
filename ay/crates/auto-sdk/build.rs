@@ -10,7 +10,10 @@ fn normalize_path(path: &Path) -> PathBuf {
         match comp {
             Component::CurDir => {}
             Component::ParentDir => {
-                if !matches!(out.components().next_back(), Some(Component::RootDir | Component::Prefix(_))) {
+                if !matches!(
+                    out.components().next_back(),
+                    Some(Component::RootDir | Component::Prefix(_))
+                ) {
                     out.pop();
                 }
             }
@@ -28,7 +31,11 @@ fn find_locales_dir() -> Option<PathBuf> {
     }
     let manifest_dir = env::var_os("CARGO_MANIFEST_DIR")?;
     let candidate = normalize_path(&PathBuf::from(manifest_dir).join("../../locales"));
-    if candidate.is_dir() { Some(candidate) } else { None }
+    if candidate.is_dir() {
+        Some(candidate)
+    } else {
+        None
+    }
 }
 
 fn main() {
@@ -41,15 +48,23 @@ fn main() {
 
     let Some(locales_dir) = find_locales_dir() else {
         if required {
-            panic!("CRAFT_I18N_REQUIRED=1 is set, but neither CRAFT_I18N_DIR nor ../../locales exists");
+            panic!(
+                "CRAFT_I18N_REQUIRED=1 is set, but neither CRAFT_I18N_DIR nor ../../locales exists"
+            );
         }
-        fs::write(&generated, "pub static CRAFT_I18N: &[(&str, &str, &str)] = &[];\n")
-            .expect("write empty embedded_locales.rs");
+        fs::write(
+            &generated,
+            "pub static CRAFT_I18N: &[(&str, &str, &str)] = &[];\n",
+        )
+        .expect("write empty embedded_locales.rs");
         return;
     };
 
     if required && !locales_dir.is_dir() {
-        panic!("CRAFT_I18N_REQUIRED=1 is set, but {} is not a directory", locales_dir.display());
+        panic!(
+            "CRAFT_I18N_REQUIRED=1 is set, but {} is not a directory",
+            locales_dir.display()
+        );
     }
 
     println!("cargo:rerun-if-changed={}", locales_dir.display());

@@ -74,12 +74,21 @@ pub fn jwk_from_verifying_key(key: &VerifyingKey, kid: &str) -> JwkOkp {
 }
 
 pub fn sign_jwt(signing: &SigningKey, kid: &str, claims: &JwtClaims) -> AuthResult<String> {
-    let header = JwtHeader { alg: "EdDSA".into(), typ: "JWT".into(), kid: kid.to_string() };
-    let h_b64 = URL_SAFE_NO_PAD.encode(serde_json::to_vec(&header).map_err(|e| AuthError::Crypto(e.to_string()))?);
-    let c_b64 = URL_SAFE_NO_PAD.encode(serde_json::to_vec(claims).map_err(|e| AuthError::Crypto(e.to_string()))?);
+    let header = JwtHeader {
+        alg: "EdDSA".into(),
+        typ: "JWT".into(),
+        kid: kid.to_string(),
+    };
+    let h_b64 = URL_SAFE_NO_PAD
+        .encode(serde_json::to_vec(&header).map_err(|e| AuthError::Crypto(e.to_string()))?);
+    let c_b64 = URL_SAFE_NO_PAD
+        .encode(serde_json::to_vec(claims).map_err(|e| AuthError::Crypto(e.to_string()))?);
     let signing_input = format!("{h_b64}.{c_b64}");
     let sig: Signature = signing.sign(signing_input.as_bytes());
-    Ok(format!("{signing_input}.{}", URL_SAFE_NO_PAD.encode(sig.to_bytes())))
+    Ok(format!(
+        "{signing_input}.{}",
+        URL_SAFE_NO_PAD.encode(sig.to_bytes())
+    ))
 }
 
 pub fn verify_jwt(
@@ -90,29 +99,40 @@ pub fn verify_jwt(
     now_unix_secs: i64,
 ) -> AuthResult<JwtClaims> {
     let mut parts = token.split('.');
-    let (Some(h_b64), Some(c_b64), Some(s_b64), None) = (parts.next(), parts.next(), parts.next(), parts.next()) else {
-        return Err(AuthError::Unauthorized("malformed JWT segment count".into()));
+    let (Some(h_b64), Some(c_b64), Some(s_b64), None) =
+        (parts.next(), parts.next(), parts.next(), parts.next())
+    else {
+        return Err(AuthError::Unauthorized(
+            "malformed JWT segment count".into(),
+        ));
     };
-    let h_raw = URL_SAFE_NO_PAD.decode(h_b64).map_err(|_| AuthError::Unauthorized("invalid JWT header".into()))?;
-    let header: JwtHeader =
-        serde_json::from_slice(&h_raw).map_err(|_| AuthError::Unauthorized("invalid JWT header json".into()))?;
+    let h_raw = URL_SAFE_NO_PAD
+        .decode(h_b64)
+        .map_err(|_| AuthError::Unauthorized("invalid JWT header".into()))?;
+    let header: JwtHeader = serde_json::from_slice(&h_raw)
+        .map_err(|_| AuthError::Unauthorized("invalid JWT header json".into()))?;
     if header.alg != "EdDSA" {
-        return Err(AuthError::Unauthorized("unsupported JWT algorithm; expected EdDSA".into()));
+        return Err(AuthError::Unauthorized(
+            "unsupported JWT algorithm; expected EdDSA".into(),
+        ));
     }
-    let sig_raw =
-        URL_SAFE_NO_PAD.decode(s_b64).map_err(|_| AuthError::Unauthorized("invalid JWT signature encoding".into()))?;
-    let sig_arr: [u8; 64] =
-        sig_raw.try_into().map_err(|_| AuthError::Unauthorized("invalid Ed25519 signature length".into()))?;
+    let sig_raw = URL_SAFE_NO_PAD
+        .decode(s_b64)
+        .map_err(|_| AuthError::Unauthorized("invalid JWT signature encoding".into()))?;
+    let sig_arr: [u8; 64] = sig_raw
+        .try_into()
+        .map_err(|_| AuthError::Unauthorized("invalid Ed25519 signature length".into()))?;
     let sig = Signature::from_bytes(&sig_arr);
     let signing_input = format!("{h_b64}.{c_b64}");
     verifying
         .verify(signing_input.as_bytes(), &sig)
         .map_err(|_| AuthError::Unauthorized("JWT signature verification failed".into()))?;
 
-    let c_raw =
-        URL_SAFE_NO_PAD.decode(c_b64).map_err(|_| AuthError::Unauthorized("invalid JWT claims encoding".into()))?;
-    let claims: JwtClaims =
-        serde_json::from_slice(&c_raw).map_err(|_| AuthError::Unauthorized("invalid JWT claims json".into()))?;
+    let c_raw = URL_SAFE_NO_PAD
+        .decode(c_b64)
+        .map_err(|_| AuthError::Unauthorized("invalid JWT claims encoding".into()))?;
+    let claims: JwtClaims = serde_json::from_slice(&c_raw)
+        .map_err(|_| AuthError::Unauthorized("invalid JWT claims json".into()))?;
     if claims.exp <= now_unix_secs {
         return Err(AuthError::Unauthorized("JWT token expired".into()));
     }

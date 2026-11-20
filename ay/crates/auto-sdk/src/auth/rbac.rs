@@ -86,7 +86,10 @@ pub fn segment_allows_path(segments: Option<&[Segment]>, path: &str, method: &st
     {
         return true;
     }
-    if clean.starts_with("/v1/customers") || clean.starts_with("/v1/documents") || clean.starts_with("/v1/products") {
+    if clean.starts_with("/v1/customers")
+        || clean.starts_with("/v1/documents")
+        || clean.starts_with("/v1/products")
+    {
         return segs.contains(&Segment::Customers) || segs.contains(&Segment::Orders);
     }
     if clean.starts_with("/v1/suppliers") || clean.starts_with("/v1/inbox") {
@@ -107,9 +110,14 @@ pub struct GeneratedApiKey {
     pub sha256_b64u: String,
 }
 
-pub fn generate_api_key_with_entropy(prefix: &str, entropy24: &[u8]) -> AuthResult<GeneratedApiKey> {
+pub fn generate_api_key_with_entropy(
+    prefix: &str,
+    entropy24: &[u8],
+) -> AuthResult<GeneratedApiKey> {
     if entropy24.len() < 24 {
-        return Err(AuthError::Crypto("API key entropy must be at least 24 bytes".into()));
+        return Err(AuthError::Crypto(
+            "API key entropy must be at least 24 bytes".into(),
+        ));
     }
     let clean_prefix = if prefix.is_empty() { "auto_" } else { prefix };
     let secret_part = URL_SAFE_NO_PAD.encode(&entropy24[..24]);

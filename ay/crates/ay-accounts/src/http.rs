@@ -201,8 +201,11 @@ impl HttpClientTransport {
     /// # Panics
     /// When the TLS backend cannot initialise.
     pub fn with_timeout(timeout: Duration) -> Self {
-        let builder = fw_http::Client::builder().timeout(timeout).user_agent("ay-accounts/1.4");
-        let client = fw_http::blocking::Client::from_builder(builder).expect("the TLS backend initialises");
+        let builder = fw_http::Client::builder()
+            .timeout(timeout)
+            .user_agent("ay-accounts/1.4");
+        let client =
+            fw_http::blocking::Client::from_builder(builder).expect("the TLS backend initialises");
         Self { client }
     }
 }
@@ -216,7 +219,8 @@ impl Default for HttpClientTransport {
 impl HttpTransport for HttpClientTransport {
     fn execute(&self, req: &HttpRequest) -> Result<HttpResponse> {
         let transport = |e: fw_http::Error| Error::Transport(e.to_string());
-        let method = fw_http::Method::from_bytes(req.method.as_bytes()).map_err(|e| Error::Transport(e.to_string()))?;
+        let method = fw_http::Method::from_bytes(req.method.as_bytes())
+            .map_err(|e| Error::Transport(e.to_string()))?;
         let mut builder = self.client.request(method, req.url.as_str());
         for (k, v) in &req.headers {
             builder = builder.header(k.as_str(), v.as_str());
@@ -224,10 +228,14 @@ impl HttpTransport for HttpClientTransport {
         match &req.body {
             Body::Empty => {}
             Body::Form(f) => {
-                builder = builder.header("Content-Type", "application/x-www-form-urlencoded").body(encode_form(f).into_bytes());
+                builder = builder
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .body(encode_form(f).into_bytes());
             }
             Body::Bytes { content_type, data } => {
-                builder = builder.header("Content-Type", content_type.as_str()).body(data.clone());
+                builder = builder
+                    .header("Content-Type", content_type.as_str())
+                    .body(data.clone());
             }
         }
         let resp = builder.send().map_err(transport)?;
@@ -235,9 +243,18 @@ impl HttpTransport for HttpClientTransport {
         let headers = resp
             .headers()
             .iter()
-            .map(|(k, v)| (k.as_str().to_owned(), v.to_str().unwrap_or_default().to_owned()))
+            .map(|(k, v)| {
+                (
+                    k.as_str().to_owned(),
+                    v.to_str().unwrap_or_default().to_owned(),
+                )
+            })
             .collect();
         let body = resp.bytes().map_err(transport)?.to_vec();
-        Ok(HttpResponse { status, headers, body })
+        Ok(HttpResponse {
+            status,
+            headers,
+            body,
+        })
     }
 }

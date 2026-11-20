@@ -3,8 +3,8 @@
 pub mod pdf_writer;
 
 use crate::model::{
-    Document, DocumentType, RECOVERY_FEE_NOTICE_FR, VAT_EXEMPT_NOTICE_FR, format_date, format_eur, format_percent,
-    format_percent_bp,
+    Document, DocumentType, RECOVERY_FEE_NOTICE_FR, VAT_EXEMPT_NOTICE_FR, format_date, format_eur,
+    format_percent, format_percent_bp,
 };
 use crate::theme::LIGHT_PALETTE;
 use pdf_writer::{PdfBuildError, PdfCanvas, decode_logo_image};
@@ -70,7 +70,12 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
     let mut logo_dims: Option<(f32, f32)> = None;
     if let Some(logo) = doc.template.as_ref().and_then(|t| t.logo.as_ref()) {
         let img = decode_logo_image(&logo.mime, &logo.data_base64)?;
-        let req_w = doc.template.as_ref().and_then(|t| t.width).unwrap_or(96.0).clamp(24.0, 180.0);
+        let req_w = doc
+            .template
+            .as_ref()
+            .and_then(|t| t.width)
+            .unwrap_or(96.0)
+            .clamp(24.0, 180.0);
         let req_h = doc
             .template
             .as_ref()
@@ -121,10 +126,18 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
     // Secondary document dates / validity / origin metadata.
     let mut meta_items: Vec<String> = Vec::new();
     if let Some(d) = doc.service_date.as_deref() {
-        meta_items.push(format!("{}: {}", tr_pdf(lang, "Service date"), format_date(d, lang)));
+        meta_items.push(format!(
+            "{}: {}",
+            tr_pdf(lang, "Service date"),
+            format_date(d, lang)
+        ));
     }
     if let Some(d) = doc.due_date.as_deref() {
-        meta_items.push(format!("{}: {}", tr_pdf(lang, "Due date"), format_date(d, lang)));
+        meta_items.push(format!(
+            "{}: {}",
+            tr_pdf(lang, "Due date"),
+            format_date(d, lang)
+        ));
     }
     if let Some(days) = doc.validity_days {
         meta_items.push(format!(
@@ -137,7 +150,14 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
         meta_items.push(format!("{}: {orig}", tr_pdf(lang, "Origin")));
     }
     if !meta_items.is_empty() {
-        canvas.draw_text_top(MARGIN, y, false, 8.8, TEXT_MUTED, &meta_items.join("   |   "));
+        canvas.draw_text_top(
+            MARGIN,
+            y,
+            false,
+            8.8,
+            TEXT_MUTED,
+            &meta_items.join("   |   "),
+        );
         y += 18.0;
     }
 
@@ -152,11 +172,37 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
     canvas.fill_rect_top(MARGIN, y, box_w, box_h, ROW_STRIPE);
     canvas.fill_rect_top(MARGIN + box_w + box_gap, y, box_w, box_h, ROW_STRIPE);
 
-    canvas.draw_text_top(MARGIN + 10.0, y + 15.0, true, 8.5, accent, tr_pdf(lang, "Issuer"));
-    canvas.draw_text_top(MARGIN + box_w + box_gap + 10.0, y + 15.0, true, 8.5, accent, tr_pdf(lang, "Bill to"));
+    canvas.draw_text_top(
+        MARGIN + 10.0,
+        y + 15.0,
+        true,
+        8.5,
+        accent,
+        tr_pdf(lang, "Issuer"),
+    );
+    canvas.draw_text_top(
+        MARGIN + box_w + box_gap + 10.0,
+        y + 15.0,
+        true,
+        8.5,
+        accent,
+        tr_pdf(lang, "Bill to"),
+    );
 
-    draw_party_block(&mut canvas, MARGIN + 10.0, y + 29.0, box_w - 20.0, &issuer_lines);
-    draw_party_block(&mut canvas, MARGIN + box_w + box_gap + 10.0, y + 29.0, box_w - 20.0, &customer_lines);
+    draw_party_block(
+        &mut canvas,
+        MARGIN + 10.0,
+        y + 29.0,
+        box_w - 20.0,
+        &issuer_lines,
+    );
+    draw_party_block(
+        &mut canvas,
+        MARGIN + box_w + box_gap + 10.0,
+        y + 29.0,
+        box_w - 20.0,
+        &customer_lines,
+    );
     y += box_h + 22.0;
 
     // Table columns layout.
@@ -170,11 +216,32 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
     let draw_table_header = |c: &mut PdfCanvas<'_>, top_y: f32| -> f32 {
         c.fill_rect_top(MARGIN, top_y, content_w, 22.0, header_tint);
         let base_y = top_y + 14.5;
-        c.draw_text_top(col_desc_x, base_y, true, 8.8, TEXT_DARK, tr_pdf(lang, "Description"));
+        c.draw_text_top(
+            col_desc_x,
+            base_y,
+            true,
+            8.8,
+            TEXT_DARK,
+            tr_pdf(lang, "Description"),
+        );
         c.draw_text_right_top(col_qty_r, base_y, true, 8.8, TEXT_DARK, tr_pdf(lang, "Qty"));
-        c.draw_text_right_top(col_unit_r, base_y, true, 8.8, TEXT_DARK, tr_pdf(lang, "Unit price"));
+        c.draw_text_right_top(
+            col_unit_r,
+            base_y,
+            true,
+            8.8,
+            TEXT_DARK,
+            tr_pdf(lang, "Unit price"),
+        );
         c.draw_text_right_top(col_vat_r, base_y, true, 8.8, TEXT_DARK, tr_pdf(lang, "VAT"));
-        c.draw_text_right_top(col_net_r, base_y, true, 8.8, TEXT_DARK, tr_pdf(lang, "Net amount"));
+        c.draw_text_right_top(
+            col_net_r,
+            base_y,
+            true,
+            8.8,
+            TEXT_DARK,
+            tr_pdf(lang, "Net amount"),
+        );
         top_y + 24.0
     };
 
@@ -184,7 +251,12 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
         let mut desc_lines = canvas.wrap_text(false, 9.2, col_desc_w, &line.description);
         if let Some(bp) = line.discount_bp.filter(|&v| v > 0) {
             let pct = format_percent_bp(bp, lang);
-            desc_lines.push(crate::i18n::tr_args(lang, Some("pdf"), "Discount {rate}", &[("rate", &pct)]));
+            desc_lines.push(crate::i18n::tr_args(
+                lang,
+                Some("pdf"),
+                "Discount {rate}",
+                &[("rate", &pct)],
+            ));
         }
         let row_h = (desc_lines.len() as f32 * 12.5 + 10.0).max(22.0);
         if y + row_h > PAGE_BODY_BOTTOM {
@@ -210,7 +282,11 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
             _ => trim_qty(line.quantity),
         };
         let unit_str = format_eur(line.unit_price_excl_vat_cents, lang);
-        let vat_str = if doc.vat_exempt { format_percent(0, lang) } else { format_percent(line.vat, lang) };
+        let vat_str = if doc.vat_exempt {
+            format_percent(0, lang)
+        } else {
+            format_percent(line.vat, lang)
+        };
         let net_str = format_eur(line.net_excl_vat_cents(), lang);
 
         let num_y = y + 14.0;
@@ -237,7 +313,14 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
     canvas.fill_rect_top(sum_x, y, sum_w, totals_h, ROW_STRIPE);
 
     let mut sy = y + 17.0;
-    canvas.draw_text_top(sum_x + 12.0, sy, false, 9.5, TEXT_DARK, tr_pdf(lang, "Total excl. VAT"));
+    canvas.draw_text_top(
+        sum_x + 12.0,
+        sy,
+        false,
+        9.5,
+        TEXT_DARK,
+        tr_pdf(lang, "Total excl. VAT"),
+    );
     canvas.draw_text_right_top(
         right_x - 12.0,
         sy,
@@ -252,14 +335,35 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
         let rate_str = format_percent(row.rate, lang);
         let label = crate::i18n::tr_args(lang, Some("pdf"), "VAT {rate}", &[("rate", &rate_str)]);
         canvas.draw_text_top(sum_x + 12.0, sy, false, 9.0, TEXT_MUTED, &label);
-        canvas.draw_text_right_top(right_x - 12.0, sy, false, 9.0, TEXT_MUTED, &format_eur(row.vat_cents, lang));
+        canvas.draw_text_right_top(
+            right_x - 12.0,
+            sy,
+            false,
+            9.0,
+            TEXT_MUTED,
+            &format_eur(row.vat_cents, lang),
+        );
         sy += 15.0;
     }
 
     canvas.hline_top(sum_x + 10.0, right_x - 10.0, sy - 4.0, 0.75, accent);
     sy += 12.0;
-    canvas.draw_text_top(sum_x + 12.0, sy, true, 11.0, accent, tr_pdf(lang, "Total incl. VAT"));
-    canvas.draw_text_right_top(right_x - 12.0, sy, true, 11.0, accent, &format_eur(totals.total_incl_vat_cents, lang));
+    canvas.draw_text_top(
+        sum_x + 12.0,
+        sy,
+        true,
+        11.0,
+        accent,
+        tr_pdf(lang, "Total incl. VAT"),
+    );
+    canvas.draw_text_right_top(
+        right_x - 12.0,
+        sy,
+        true,
+        11.0,
+        accent,
+        &format_eur(totals.total_incl_vat_cents, lang),
+    );
 
     y += totals_h + 18.0;
 
@@ -316,13 +420,23 @@ pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
         TEXT_MUTED,
         &format!("{} — {} {}", doc.issuer.name, type_label, doc.number),
     );
-    canvas.draw_text_right_top(right_x, FOOTER_TOP, false, 8.0, TEXT_MUTED, &format_date(&doc.date, lang));
+    canvas.draw_text_right_top(
+        right_x,
+        FOOTER_TOP,
+        false,
+        8.0,
+        TEXT_MUTED,
+        &format_date(&doc.date, lang),
+    );
 
     Ok(canvas.finish(Some(&title_str))?)
 }
 
 /// Renders styled paragraphs from a DOCX document to an A4 PDF with selectable embedded fonts.
-pub fn render_docx_pdf(title: Option<&str>, paragraphs: &[DocPdfParagraph]) -> Result<Vec<u8>, RenderError> {
+pub fn render_docx_pdf(
+    title: Option<&str>,
+    paragraphs: &[DocPdfParagraph],
+) -> Result<Vec<u8>, RenderError> {
     let mut canvas = PdfCanvas::new(A4_W, A4_H)?;
     let accent = LIGHT_PALETTE.primary.to_f32();
     let content_w = A4_W - 2.0 * MARGIN;
@@ -382,7 +496,11 @@ pub fn render_pptx_pdf(title: Option<&str>, slides: &[SlidePdf]) -> Result<Vec<u
 
         let mut y = 68.0;
         if let Some(st) = slide.title.as_deref().filter(|s| !s.trim().is_empty()) {
-            let size = if idx == 0 && slide.bullets.is_empty() { 30.0 } else { 24.0 };
+            let size = if idx == 0 && slide.bullets.is_empty() {
+                30.0
+            } else {
+                24.0
+            };
             for line in canvas.wrap_text(true, size, body_w, st) {
                 canvas.draw_text_top(pad_x, y, true, size, accent, &line);
                 y += size * 1.25;
@@ -411,7 +529,14 @@ pub fn render_pptx_pdf(title: Option<&str>, slides: &[SlidePdf]) -> Result<Vec<u
         }
 
         let slide_num = format!("{} / {}", idx + 1, slides.len());
-        canvas.draw_text_right_top(SLIDE_W - pad_x, SLIDE_H - 24.0, false, 10.0, TEXT_MUTED, &slide_num);
+        canvas.draw_text_right_top(
+            SLIDE_W - pad_x,
+            SLIDE_H - 24.0,
+            false,
+            10.0,
+            TEXT_MUTED,
+            &slide_num,
+        );
     }
 
     Ok(canvas.finish(title)?)
@@ -426,7 +551,12 @@ fn tr_pdf<'a>(lang: &str, key: &'a str) -> &'a str {
 
 fn format_party_lines(p: &crate::model::Party, lang: &str) -> Vec<String> {
     let mut lines = vec![p.name.clone()];
-    for part in p.address.split('\n').map(str::trim).filter(|s| !s.is_empty()) {
+    for part in p
+        .address
+        .split('\n')
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+    {
         lines.push(part.to_owned());
     }
     if let Some(tax) = p.tax_id.as_deref().filter(|s| !s.trim().is_empty()) {
@@ -435,7 +565,11 @@ fn format_party_lines(p: &crate::model::Party, lang: &str) -> Vec<String> {
     if let Some(vat) = p.vat_number.as_deref().filter(|s| !s.trim().is_empty()) {
         lines.push(format!("{}: {vat}", tr_pdf(lang, "VAT number")));
     }
-    if let Some(deliv) = p.delivery_address.as_deref().filter(|s| !s.trim().is_empty()) {
+    if let Some(deliv) = p
+        .delivery_address
+        .as_deref()
+        .filter(|s| !s.trim().is_empty())
+    {
         lines.push(format!("{}: {deliv}", tr_pdf(lang, "Ship to")));
     }
     if let Some(email) = p.email.as_deref().filter(|s| !s.trim().is_empty()) {
@@ -444,7 +578,13 @@ fn format_party_lines(p: &crate::model::Party, lang: &str) -> Vec<String> {
     lines
 }
 
-fn draw_party_block(canvas: &mut PdfCanvas<'_>, x: f32, start_y: f32, max_w: f32, lines: &[String]) {
+fn draw_party_block(
+    canvas: &mut PdfCanvas<'_>,
+    x: f32,
+    start_y: f32,
+    max_w: f32,
+    lines: &[String],
+) {
     let mut y = start_y;
     for (idx, item) in lines.iter().enumerate() {
         let bold = idx == 0;
@@ -464,17 +604,28 @@ fn parse_hex_color(raw: Option<&str>) -> Option<[f32; 3]> {
     let r = u8::from_str_radix(&hex[0..2], 16).ok()?;
     let g = u8::from_str_radix(&hex[2..4], 16).ok()?;
     let b = u8::from_str_radix(&hex[4..6], 16).ok()?;
-    Some([f32::from(r) / 255.0, f32::from(g) / 255.0, f32::from(b) / 255.0])
+    Some([
+        f32::from(r) / 255.0,
+        f32::from(g) / 255.0,
+        f32::from(b) / 255.0,
+    ])
 }
 
 fn tint_color(rgb: [f32; 3], strength: f32) -> [f32; 3] {
-    [1.0 - strength * (1.0 - rgb[0]), 1.0 - strength * (1.0 - rgb[1]), 1.0 - strength * (1.0 - rgb[2])]
+    [
+        1.0 - strength * (1.0 - rgb[0]),
+        1.0 - strength * (1.0 - rgb[1]),
+        1.0 - strength * (1.0 - rgb[2]),
+    ]
 }
 
 fn trim_qty(q: f64) -> String {
     if (q.fract()).abs() < 1e-6 {
         format!("{}", q as i64)
     } else {
-        format!("{q:.2}").trim_end_matches('0').trim_end_matches('.').to_owned()
+        format!("{q:.2}")
+            .trim_end_matches('0')
+            .trim_end_matches('.')
+            .to_owned()
     }
 }

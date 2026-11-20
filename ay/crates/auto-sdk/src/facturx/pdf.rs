@@ -2,7 +2,9 @@
 
 use crate::facturx::FacturxError;
 use chrono::{DateTime, Utc};
-use craft_pdf::cos::{Dict, Document, ObjRef, Object, PdfString, SaveOptions, Stream, pdf_date, write_full};
+use craft_pdf::cos::{
+    Dict, Document, ObjRef, Object, PdfString, SaveOptions, Stream, pdf_date, write_full,
+};
 use std::collections::HashSet;
 use std::sync::Arc;
 
@@ -35,8 +37,14 @@ pub fn assemble_facturx_pdf(
     let mut intent = Dict::new();
     intent.set("Type", Object::name("OutputIntent"));
     intent.set("S", Object::name("GTS_PDFA1"));
-    intent.set("OutputConditionIdentifier", Object::String(PdfString::text("sRGB IEC61966-2.1")));
-    intent.set("RegistryName", Object::String(PdfString::text("http://www.color.org")));
+    intent.set(
+        "OutputConditionIdentifier",
+        Object::String(PdfString::text("sRGB IEC61966-2.1")),
+    );
+    intent.set(
+        "RegistryName",
+        Object::String(PdfString::text("http://www.color.org")),
+    );
     intent.set("Info", Object::String(PdfString::text("sRGB IEC61966-2.1")));
     intent.set("DestOutputProfile", icc_ref);
     let intent_ref = doc.add(intent);
@@ -44,7 +52,10 @@ pub fn assemble_facturx_pdf(
     // 3. Embedded `factur-x.xml` file stream + FileSpec.
     let mut ef_params = Dict::new();
     ef_params.set("Size", Object::Int(xml.len() as i64));
-    ef_params.set("ModDate", Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())));
+    ef_params.set(
+        "ModDate",
+        Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())),
+    );
 
     let mut ef_dict = Dict::new();
     ef_dict.set("Type", Object::name("EmbeddedFile"));
@@ -60,14 +71,23 @@ pub fn assemble_facturx_pdf(
     filespec.set("Type", Object::name("Filespec"));
     filespec.set("F", Object::String(PdfString::text(FACTURX_FILENAME)));
     filespec.set("UF", Object::String(PdfString::text(FACTURX_FILENAME)));
-    filespec.set("Desc", Object::String(PdfString::text("Factur-X EN 16931 invoice XML")));
+    filespec.set(
+        "Desc",
+        Object::String(PdfString::text("Factur-X EN 16931 invoice XML")),
+    );
     filespec.set("AFRelationship", Object::name("Alternative"));
     filespec.set("EF", ef_map);
     let filespec_ref = doc.add(filespec);
 
     // 4. Names/EmbeddedFiles tree.
     let mut ef_tree = Dict::new();
-    ef_tree.set("Names", vec![Object::String(PdfString::text(FACTURX_FILENAME)), Object::Ref(filespec_ref)]);
+    ef_tree.set(
+        "Names",
+        vec![
+            Object::String(PdfString::text(FACTURX_FILENAME)),
+            Object::Ref(filespec_ref),
+        ],
+    );
     let ef_tree_ref = doc.add(ef_tree);
     let mut names_dict = Dict::new();
     names_dict.set("EmbeddedFiles", ef_tree_ref);
@@ -113,7 +133,10 @@ pub fn extract_xml_from_pdf(pdf_bytes: &[u8]) -> Result<Option<String>, FacturxE
     };
 
     let mut specs: Vec<ObjRef> = Vec::new();
-    if let Some(af) = cat_dict.get(b"AF").and_then(|o| doc.resolve(o).as_array().cloned()) {
+    if let Some(af) = cat_dict
+        .get(b"AF")
+        .and_then(|o| doc.resolve(o).as_array().cloned())
+    {
         for item in af {
             if let Some(r) = item.as_ref() {
                 specs.push(r);
@@ -138,7 +161,8 @@ pub fn extract_xml_from_pdf(pdf_bytes: &[u8]) -> Result<Option<String>, FacturxE
             .and_then(|o| doc.resolve(o).as_string().map(|s| s.to_text()))
             .unwrap_or_default();
         let lower = fname.to_ascii_lowercase();
-        let is_facturx_name = lower.contains("factur-x") || lower.contains("zugferd") || lower.ends_with(".xml");
+        let is_facturx_name =
+            lower.contains("factur-x") || lower.contains("zugferd") || lower.ends_with(".xml");
         if !is_facturx_name {
             continue;
         }
@@ -163,14 +187,20 @@ fn collect_name_tree_refs(doc: &Document, node: &Object, out: &mut Vec<ObjRef>) 
     let Some(dict) = doc.dict(node) else {
         return;
     };
-    if let Some(names) = dict.get(b"Names").and_then(|o| doc.resolve(o).as_array().cloned()) {
+    if let Some(names) = dict
+        .get(b"Names")
+        .and_then(|o| doc.resolve(o).as_array().cloned())
+    {
         for [_, val] in names.as_chunks::<2>().0 {
             if let Some(r) = val.as_ref() {
                 out.push(r);
             }
         }
     }
-    if let Some(kids) = dict.get(b"Kids").and_then(|o| doc.resolve(o).as_array().cloned()) {
+    if let Some(kids) = dict
+        .get(b"Kids")
+        .and_then(|o| doc.resolve(o).as_array().cloned())
+    {
         for kid in kids {
             collect_name_tree_refs(doc, &kid, out);
         }
@@ -185,8 +215,11 @@ pub fn verify_pdfa3b(pdf_bytes: &[u8]) -> Result<Vec<String>, FacturxError> {
     if doc.security().is_some() || doc.trailer().contains(b"Encrypt") {
         issues.push("PDF/A forbids document encryption".into());
     }
-    let has_id =
-        doc.trailer().get(b"ID").and_then(|o| doc.resolve(o).as_array().map(|a| a.len() >= 2)).unwrap_or(false);
+    let has_id = doc
+        .trailer()
+        .get(b"ID")
+        .and_then(|o| doc.resolve(o).as_array().map(|a| a.len() >= 2))
+        .unwrap_or(false);
     if !has_id {
         issues.push("missing trailer /ID array".into());
     }
@@ -216,7 +249,10 @@ pub fn verify_pdfa3b(pdf_bytes: &[u8]) -> Result<Vec<String>, FacturxError> {
 
     // OutputIntent & ICC profile check.
     let mut valid_intent = false;
-    if let Some(intents) = catalog.get(b"OutputIntents").and_then(|o| doc.resolve(o).as_array().cloned()) {
+    if let Some(intents) = catalog
+        .get(b"OutputIntents")
+        .and_then(|o| doc.resolve(o).as_array().cloned())
+    {
         for item in intents {
             if let Some(idict) = doc.dict(&item)
                 && idict.name(b"S") == Some(b"GTS_PDFA1")
@@ -245,20 +281,26 @@ pub fn verify_pdfa3b(pdf_bytes: &[u8]) -> Result<Vec<String>, FacturxError> {
         } else if let Ok(raw) = ms.decoded()
             && let Ok(xmp) = std::str::from_utf8(&raw)
         {
-            let has_part3 = xmp.contains("pdfaid:part=\"3\"") || xmp.contains("<pdfaid:part>3</pdfaid:part>");
-            let has_conf_b =
-                xmp.contains("pdfaid:conformance=\"B\"") || xmp.contains("<pdfaid:conformance>B</pdfaid:conformance>");
+            let has_part3 =
+                xmp.contains("pdfaid:part=\"3\"") || xmp.contains("<pdfaid:part>3</pdfaid:part>");
+            let has_conf_b = xmp.contains("pdfaid:conformance=\"B\"")
+                || xmp.contains("<pdfaid:conformance>B</pdfaid:conformance>");
             if has_part3 && has_conf_b {
                 valid_xmp = true;
             }
         }
     }
     if !valid_xmp {
-        issues.push("missing PDF/A-3b XMP metadata identification (pdfaid:part=3, conformance=B)".into());
+        issues.push(
+            "missing PDF/A-3b XMP metadata identification (pdfaid:part=3, conformance=B)".into(),
+        );
     }
 
     // Embedded files must carry AFRelationship and EF stream Subtype when present.
-    if let Some(af) = catalog.get(b"AF").and_then(|o| doc.resolve(o).as_array().cloned()) {
+    if let Some(af) = catalog
+        .get(b"AF")
+        .and_then(|o| doc.resolve(o).as_array().cloned())
+    {
         for item in af {
             if let Some(sd) = doc.dict(&item) {
                 if sd.name(b"AFRelationship").is_none() {
@@ -290,8 +332,12 @@ fn verify_page_fonts(doc: &Document, catalog: &Dict, issues: &mut Vec<String>) {
     for pref in page_refs {
         let p = doc.get(pref);
         let Some(pdict) = p.as_dict() else { continue };
-        let Some(res) = pdict.get(b"Resources").and_then(|o| doc.dict(o)) else { continue };
-        let Some(fonts) = res.get(b"Font").and_then(|o| doc.dict(o)) else { continue };
+        let Some(res) = pdict.get(b"Resources").and_then(|o| doc.dict(o)) else {
+            continue;
+        };
+        let Some(fonts) = res.get(b"Font").and_then(|o| doc.dict(o)) else {
+            continue;
+        };
         for (fname, fobj) in fonts.iter() {
             if let Some(r) = fobj.as_ref()
                 && !checked_fonts.insert(r)
@@ -299,13 +345,21 @@ fn verify_page_fonts(doc: &Document, catalog: &Dict, issues: &mut Vec<String>) {
                 continue;
             }
             if !is_font_embedded(doc, fobj) {
-                issues.push(format!("font /{} is not embedded", String::from_utf8_lossy(fname)));
+                issues.push(format!(
+                    "font /{} is not embedded",
+                    String::from_utf8_lossy(fname)
+                ));
             }
         }
     }
 }
 
-fn collect_pages(doc: &Document, node_ref: ObjRef, seen: &mut HashSet<ObjRef>, out: &mut Vec<ObjRef>) {
+fn collect_pages(
+    doc: &Document,
+    node_ref: ObjRef,
+    seen: &mut HashSet<ObjRef>,
+    out: &mut Vec<ObjRef>,
+) {
     if !seen.insert(node_ref) {
         return;
     }
@@ -314,7 +368,10 @@ fn collect_pages(doc: &Document, node_ref: ObjRef, seen: &mut HashSet<ObjRef>, o
     match dict.name(b"Type") {
         Some(b"Page") => out.push(node_ref),
         _ => {
-            if let Some(kids) = dict.get(b"Kids").and_then(|o| doc.resolve(o).as_array().cloned()) {
+            if let Some(kids) = dict
+                .get(b"Kids")
+                .and_then(|o| doc.resolve(o).as_array().cloned())
+            {
                 for kid in kids {
                     if let Some(kr) = kid.as_ref() {
                         collect_pages(doc, kr, seen, out);
@@ -326,13 +383,22 @@ fn collect_pages(doc: &Document, node_ref: ObjRef, seen: &mut HashSet<ObjRef>, o
 }
 
 fn is_font_embedded(doc: &Document, fobj: &Object) -> bool {
-    let Some(fdict) = doc.dict(fobj) else { return false };
+    let Some(fdict) = doc.dict(fobj) else {
+        return false;
+    };
     let target_dict = if fdict.name(b"Subtype") == Some(b"Type0") {
-        let Some(desc_arr) = fdict.get(b"DescendantFonts").and_then(|o| doc.resolve(o).as_array().cloned()) else {
+        let Some(desc_arr) = fdict
+            .get(b"DescendantFonts")
+            .and_then(|o| doc.resolve(o).as_array().cloned())
+        else {
             return false;
         };
-        let Some(first) = desc_arr.first() else { return false };
-        let Some(d) = doc.dict(first) else { return false };
+        let Some(first) = desc_arr.first() else {
+            return false;
+        };
+        let Some(d) = doc.dict(first) else {
+            return false;
+        };
         d
     } else {
         fdict
@@ -343,25 +409,53 @@ fn is_font_embedded(doc: &Document, fobj: &Object) -> bool {
     fd.contains(b"FontFile") || fd.contains(b"FontFile2") || fd.contains(b"FontFile3")
 }
 
-fn ensure_info_dict(doc: &mut Document, invoice_number: &str, pdf_ts: &str) -> Result<ObjRef, FacturxError> {
+fn ensure_info_dict(
+    doc: &mut Document,
+    invoice_number: &str,
+    pdf_ts: &str,
+) -> Result<ObjRef, FacturxError> {
     if let Some(info_ref) = doc.trailer().reference(b"Info") {
         doc.update_dict(info_ref, |d| {
-            d.set("Title", Object::String(PdfString::text(&format!("Factur-X {invoice_number}"))));
+            d.set(
+                "Title",
+                Object::String(PdfString::text(&format!("Factur-X {invoice_number}"))),
+            );
             d.set("Creator", Object::String(PdfString::text("auto-facturx")));
-            d.set("Producer", Object::String(PdfString::text("auto-facturx (craft-pdf/cos)")));
+            d.set(
+                "Producer",
+                Object::String(PdfString::text("auto-facturx (craft-pdf/cos)")),
+            );
             if !d.contains(b"CreationDate") {
-                d.set("CreationDate", Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())));
+                d.set(
+                    "CreationDate",
+                    Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())),
+                );
             }
-            d.set("ModDate", Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())));
+            d.set(
+                "ModDate",
+                Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())),
+            );
         })?;
         Ok(info_ref)
     } else {
         let mut d = Dict::new();
-        d.set("Title", Object::String(PdfString::text(&format!("Factur-X {invoice_number}"))));
+        d.set(
+            "Title",
+            Object::String(PdfString::text(&format!("Factur-X {invoice_number}"))),
+        );
         d.set("Creator", Object::String(PdfString::text("auto-facturx")));
-        d.set("Producer", Object::String(PdfString::text("auto-facturx (craft-pdf/cos)")));
-        d.set("CreationDate", Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())));
-        d.set("ModDate", Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())));
+        d.set(
+            "Producer",
+            Object::String(PdfString::text("auto-facturx (craft-pdf/cos)")),
+        );
+        d.set(
+            "CreationDate",
+            Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())),
+        );
+        d.set(
+            "ModDate",
+            Object::String(PdfString::literal(pdf_ts.as_bytes().to_vec())),
+        );
         Ok(doc.add(d))
     }
 }
@@ -430,7 +524,9 @@ fn build_facturx_xmp(invoice_number: &str, iso_ts: &str) -> Vec<u8> {
 }
 
 fn xml_escape(s: &str) -> String {
-    s.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;")
+    s.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
 }
 
 /// Builds a compact, self-contained ICC v2.1 sRGB profile (IEC 61966-2-1, D50 Bradford primaries).
@@ -465,7 +561,11 @@ fn srgb_icc_v2() -> Vec<u8> {
         t.extend((N as u32).to_be_bytes());
         for i in 0..N {
             let v = i as f64 / (N - 1) as f64;
-            let lin = if v <= 0.04045 { v / 12.92 } else { ((v + 0.055) / 1.055).powf(2.4) };
+            let lin = if v <= 0.04045 {
+                v / 12.92
+            } else {
+                ((v + 0.055) / 1.055).powf(2.4)
+            };
             t.extend(((lin * 65535.0).round() as u16).to_be_bytes());
         }
         t

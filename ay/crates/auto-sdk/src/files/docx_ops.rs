@@ -43,10 +43,16 @@ fn map_word_style(style: Option<&str>) -> Option<String> {
 }
 
 fn make_paragraph(text: &str, style: Option<&str>, bold: bool) -> Paragraph {
-    let char_props = CharProps { bold: bold.then_some(true), ..Default::default() };
+    let char_props = CharProps {
+        bold: bold.then_some(true),
+        ..Default::default()
+    };
     let mut para = Paragraph::with_text(text, char_props);
     if let Some(style_id) = map_word_style(style) {
-        para.props = ParaProps { style: Some(style_id), ..Default::default() };
+        para.props = ParaProps {
+            style: Some(style_id),
+            ..Default::default()
+        };
     }
     para
 }
@@ -54,12 +60,21 @@ fn make_paragraph(text: &str, style: Option<&str>, bold: bool) -> Paragraph {
 pub fn create_docx(input: &SimpleDocx) -> Result<Vec<u8>, FileError> {
     let mut doc = Document::new();
     let mut body = Vec::new();
-    if let Some(title) = input.title.as_deref().map(str::trim).filter(|t| !t.is_empty()) {
+    if let Some(title) = input
+        .title
+        .as_deref()
+        .map(str::trim)
+        .filter(|t| !t.is_empty())
+    {
         doc.core.title = title.to_owned();
         body.push(para_block(make_paragraph(title, Some("title"), true)));
     }
     for p in &input.paragraphs {
-        body.push(para_block(make_paragraph(&p.text, p.style.as_deref(), p.bold.unwrap_or(false))));
+        body.push(para_block(make_paragraph(
+            &p.text,
+            p.style.as_deref(),
+            p.bold.unwrap_or(false),
+        )));
     }
     doc.body = body;
     doc.ensure_nonempty();
@@ -82,15 +97,25 @@ pub fn template_fields_docx(bytes: &[u8]) -> Result<Vec<String>, FileError> {
     let doc = craft_docx::read(bytes)?;
     let mut fields = Vec::new();
     let mut seen = HashSet::new();
-    visit_doc_paragraphs(&doc, &mut |p| extract_placeholders(&p.text, &mut fields, &mut seen));
+    visit_doc_paragraphs(&doc, &mut |p| {
+        extract_placeholders(&p.text, &mut fields, &mut seen)
+    });
     Ok(fields)
 }
 
-pub fn fill_template_docx(bytes: &[u8], values: &BTreeMap<String, String>) -> Result<Vec<u8>, FileError> {
+pub fn fill_template_docx(
+    bytes: &[u8],
+    values: &BTreeMap<String, String>,
+) -> Result<Vec<u8>, FileError> {
     let mut doc = craft_docx::read(bytes)?;
     let replacements: Vec<(String, String)> = values
         .iter()
-        .flat_map(|(k, v)| [(format!("{{{{ {k} }}}}"), v.clone()), (format!("{{{{{k}}}}}"), v.clone())])
+        .flat_map(|(k, v)| {
+            [
+                (format!("{{{{ {k} }}}}"), v.clone()),
+                (format!("{{{{{k}}}}}"), v.clone()),
+            ]
+        })
         .collect();
     mutate_doc_paragraphs(&mut doc, &|p| {
         apply_exact_replacements(p, &replacements)?;
@@ -101,8 +126,11 @@ pub fn fill_template_docx(bytes: &[u8], values: &BTreeMap<String, String>) -> Re
 
 pub fn replace_docx(bytes: &[u8], replacements: &[TextReplacement]) -> Result<Vec<u8>, FileError> {
     let mut doc = craft_docx::read(bytes)?;
-    let pairs: Vec<(String, String)> =
-        replacements.iter().filter(|r| !r.find.is_empty()).map(|r| (r.find.clone(), r.replace.clone())).collect();
+    let pairs: Vec<(String, String)> = replacements
+        .iter()
+        .filter(|r| !r.find.is_empty())
+        .map(|r| (r.find.clone(), r.replace.clone()))
+        .collect();
     mutate_doc_paragraphs(&mut doc, &|p| apply_exact_replacements(p, &pairs))?;
     Ok(craft_docx::write(&doc)?)
 }
@@ -112,7 +140,11 @@ pub fn docx_to_pdf(bytes: &[u8]) -> Result<Vec<u8>, FileError> {
     let mut paragraphs = Vec::new();
     collect_blocks_pdf(&doc.body, &mut paragraphs);
     if paragraphs.is_empty() {
-        paragraphs.push(DocPdfParagraph { text: String::new(), style: DocParagraphStyle::Normal, bold: false });
+        paragraphs.push(DocPdfParagraph {
+            text: String::new(),
+            style: DocParagraphStyle::Normal,
+            bold: false,
+        });
     }
     let title = (!doc.core.title.trim().is_empty()).then_some(doc.core.title.as_str());
     Ok(render_docx_pdf(title, &paragraphs)?)
@@ -133,7 +165,10 @@ fn extract_placeholders(text: &str, out: &mut Vec<String>, seen: &mut HashSet<St
     }
 }
 
-fn replace_trimmed_placeholders(p: &mut Paragraph, values: &BTreeMap<String, String>) -> Result<(), FileError> {
+fn replace_trimmed_placeholders(
+    p: &mut Paragraph,
+    values: &BTreeMap<String, String>,
+) -> Result<(), FileError> {
     let mut cursor = 0usize;
     while let Some(rel_start) = p.text[cursor..].find("{{") {
         let start = cursor + rel_start;
@@ -154,7 +189,10 @@ fn replace_trimmed_placeholders(p: &mut Paragraph, values: &BTreeMap<String, Str
     Ok(())
 }
 
-fn apply_exact_replacements(p: &mut Paragraph, pairs: &[(String, String)]) -> Result<(), FileError> {
+fn apply_exact_replacements(
+    p: &mut Paragraph,
+    pairs: &[(String, String)],
+) -> Result<(), FileError> {
     for (needle, replacement) in pairs {
         if needle.is_empty() {
             continue;

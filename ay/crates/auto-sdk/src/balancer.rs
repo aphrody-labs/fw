@@ -68,7 +68,9 @@ pub struct LoadBalancer {
 impl LoadBalancer {
     pub fn new(urls: &[String], cfg: LoadBalancerConfig) -> SdkResult<Arc<Self>> {
         if urls.is_empty() {
-            return Err(SdkError::Config("load balancer requires at least one upstream URL".into()));
+            return Err(SdkError::Config(
+                "load balancer requires at least one upstream URL".into(),
+            ));
         }
         let client = fw_http::Client::builder()
             .timeout(Duration::from_secs(30))
@@ -99,8 +101,12 @@ impl LoadBalancer {
     }
 
     pub fn select_candidates(&self, affinity_key: Option<&str>) -> Vec<Arc<UpstreamNode>> {
-        let mut pool: Vec<Arc<UpstreamNode>> =
-            self.upstreams.iter().filter(|u| u.healthy.load(Ordering::Relaxed)).cloned().collect();
+        let mut pool: Vec<Arc<UpstreamNode>> = self
+            .upstreams
+            .iter()
+            .filter(|u| u.healthy.load(Ordering::Relaxed))
+            .cloned()
+            .collect();
         if pool.is_empty() {
             pool = self.upstreams.clone();
         }
@@ -184,7 +190,11 @@ pub fn lb_router(lb: Arc<LoadBalancer>) -> Router {
 }
 
 async fn h_metrics(State(lb): State<Arc<LoadBalancer>>) -> Response {
-    let healthy_count = lb.upstreams.iter().filter(|u| u.healthy.load(Ordering::Relaxed)).count();
+    let healthy_count = lb
+        .upstreams
+        .iter()
+        .filter(|u| u.healthy.load(Ordering::Relaxed))
+        .count();
     Json(serde_json::json!({
         "ok": healthy_count > 0,
         "healthyCount": healthy_count,
@@ -195,15 +205,26 @@ async fn h_metrics(State(lb): State<Arc<LoadBalancer>>) -> Response {
 }
 
 async fn h_proxy(State(lb): State<Arc<LoadBalancer>>, req: Request) -> Response {
-    let sticky = req.headers().get(lb.cfg.sticky_header.as_str()).and_then(|v| v.to_str().ok()).map(str::to_string);
-    let path_and_query = req.uri().path_and_query().map(|pq| pq.as_str().to_string()).unwrap_or_else(|| "/".into());
+    let sticky = req
+        .headers()
+        .get(lb.cfg.sticky_header.as_str())
+        .and_then(|v| v.to_str().ok())
+        .map(str::to_string);
+    let path_and_query = req
+        .uri()
+        .path_and_query()
+        .map(|pq| pq.as_str().to_string())
+        .unwrap_or_else(|| "/".into());
     let method = req.method().clone();
     let req_headers = req.headers().clone();
 
     let body_bytes = match axum::body::to_bytes(req.into_body(), 25 * 1024 * 1024).await {
         Ok(b) => b,
         Err(e) => {
-            return (StatusCode::PAYLOAD_TOO_LARGE, Json(serde_json::json!({ "error": e.to_string() })))
+            return (
+                StatusCode::PAYLOAD_TOO_LARGE,
+                Json(serde_json::json!({ "error": e.to_string() })),
+            )
                 .into_response();
         }
     };
@@ -237,8 +258,10 @@ async fn h_proxy(State(lb): State<Arc<LoadBalancer>>, req: Request) -> Response 
 
         match res {
             Ok(up_resp) => {
-                let status = StatusCode::from_u16(up_resp.status().as_u16()).unwrap_or(StatusCode::BAD_GATEWAY);
-                if status.is_server_error() && status.as_u16() >= 502 && idx + 1 < candidates.len() {
+                let status = StatusCode::from_u16(up_resp.status().as_u16())
+                    .unwrap_or(StatusCode::BAD_GATEWAY);
+                if status.is_server_error() && status.as_u16() >= 502 && idx + 1 < candidates.len()
+                {
                     node.failed_requests.fetch_add(1, Ordering::Relaxed);
                     node.healthy.store(false, Ordering::Relaxed);
                     continue;
@@ -259,7 +282,9 @@ async fn h_proxy(State(lb): State<Arc<LoadBalancer>>, req: Request) -> Response 
                 if let Ok(hv) = HeaderValue::from_str(&node.url) {
                     builder = builder.header("x-auto-upstream", hv);
                 }
-                return builder.body(Body::from(payload)).unwrap_or_else(|_| StatusCode::BAD_GATEWAY.into_response());
+                return builder
+                    .body(Body::from(payload))
+                    .unwrap_or_else(|_| StatusCode::BAD_GATEWAY.into_response());
             }
             Err(_) => {
                 node.failed_requests.fetch_add(1, Ordering::Relaxed);
@@ -268,7 +293,11 @@ async fn h_proxy(State(lb): State<Arc<LoadBalancer>>, req: Request) -> Response 
         }
     }
 
-    (StatusCode::BAD_GATEWAY, Json(serde_json::json!({ "error": "all fleet upstreams unavailable" }))).into_response()
+    (
+        StatusCode::BAD_GATEWAY,
+        Json(serde_json::json!({ "error": "all fleet upstreams unavailable" })),
+    )
+        .into_response()
 }
 
 pub fn fnv1a_32(data: &[u8]) -> u32 {
@@ -287,10 +316,12 @@ mod tests {
 
     #[tokio::test]
     async fn real_l7_balancer_failover_and_consistent_routing() {
-        let app1 =
-            Router::new().route("/health", get(|| async { "ok1" })).route("/v1/ping", get(|| async { "node-1" }));
-        let app2 =
-            Router::new().route("/health", get(|| async { "ok2" })).route("/v1/ping", get(|| async { "node-2" }));
+        let app1 = Router::new()
+            .route("/health", get(|| async { "ok1" }))
+            .route("/v1/ping", get(|| async { "node-1" }));
+        let app2 = Router::new()
+            .route("/health", get(|| async { "ok2" }))
+            .route("/v1/ping", get(|| async { "node-2" }));
 
         let l1 = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
         let a1 = l1.local_addr().unwrap();
@@ -303,8 +334,11 @@ mod tests {
             let _ = axum::serve(l2, app2).await;
         });
 
-        let lb = LoadBalancer::new(&[format!("http://{a1}"), format!("http://{a2}")], LoadBalancerConfig::default())
-            .unwrap();
+        let lb = LoadBalancer::new(
+            &[format!("http://{a1}"), format!("http://{a2}")],
+            LoadBalancerConfig::default(),
+        )
+        .unwrap();
         lb.probe_once().await;
 
         let lb_l = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
@@ -314,20 +348,32 @@ mod tests {
         });
 
         let client = fw_http::Client::new();
-        let r1 =
-            client.get(format!("http://{lb_addr}/v1/ping")).header("x-company-id", "comp_alpha").send().await.unwrap();
+        let r1 = client
+            .get(format!("http://{lb_addr}/v1/ping"))
+            .header("x-company-id", "comp_alpha")
+            .send()
+            .await
+            .unwrap();
         assert!(r1.status().is_success());
         let first_node = r1.text().await.unwrap();
 
-        let r2 =
-            client.get(format!("http://{lb_addr}/v1/ping")).header("x-company-id", "comp_alpha").send().await.unwrap();
+        let r2 = client
+            .get(format!("http://{lb_addr}/v1/ping"))
+            .header("x-company-id", "comp_alpha")
+            .send()
+            .await
+            .unwrap();
         assert_eq!(r2.text().await.unwrap(), first_node);
 
         // Shut down node 1 -> traffic fails over cleanly to node 2
         h1.abort();
         let _ = h1.await;
-        let r_failover =
-            client.get(format!("http://{lb_addr}/v1/ping")).header("x-company-id", "comp_alpha").send().await.unwrap();
+        let r_failover = client
+            .get(format!("http://{lb_addr}/v1/ping"))
+            .header("x-company-id", "comp_alpha")
+            .send()
+            .await
+            .unwrap();
         assert!(r_failover.status().is_success());
         h2.abort();
     }

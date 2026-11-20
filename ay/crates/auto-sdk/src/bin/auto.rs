@@ -1,4 +1,7 @@
-#![cfg_attr(not(test), deny(clippy::unwrap_used, clippy::expect_used, clippy::panic))]
+#![cfg_attr(
+    not(test),
+    deny(clippy::unwrap_used, clippy::expect_used, clippy::panic)
+)]
 
 use std::io::{BufRead, Write};
 use std::path::Path;
@@ -72,7 +75,10 @@ async fn run(args: &[String]) -> Result<(), String> {
         }
         "config" => {
             let cfg = resolve_runtime(None).map_err(|e| e.to_string())?;
-            println!("{}", serde_json::to_string_pretty(&cfg).map_err(|e| e.to_string())?);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&cfg).map_err(|e| e.to_string())?
+            );
             Ok(())
         }
         "auth" => cmd_auth(&args[1..]),
@@ -80,12 +86,19 @@ async fn run(args: &[String]) -> Result<(), String> {
         "facturx" => cmd_facturx(&args[1..]),
         "docx" => cmd_docx(&args[1..]),
         "chunk" => {
-            let source = args.get(1).ok_or("usage: auto chunk <source> <file> [size]")?;
-            let path = args.get(2).ok_or("usage: auto chunk <source> <file> [size]")?;
+            let source = args
+                .get(1)
+                .ok_or("usage: auto chunk <source> <file> [size]")?;
+            let path = args
+                .get(2)
+                .ok_or("usage: auto chunk <source> <file> [size]")?;
             let size = args.get(3).and_then(|s| s.parse::<usize>().ok());
             let txt = std::fs::read_to_string(path).map_err(|e| e.to_string())?;
             let chunks = knowledge::chunk_text(source, &txt, size).map_err(|e| e.to_string())?;
-            println!("{}", serde_json::to_string_pretty(&chunks).map_err(|e| e.to_string())?);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&chunks).map_err(|e| e.to_string())?
+            );
             Ok(())
         }
         "mcp" => {
@@ -96,10 +109,15 @@ async fn run(args: &[String]) -> Result<(), String> {
                 if line.trim().is_empty() {
                     continue;
                 }
-                let req: serde_json::Value = serde_json::from_str(&line).map_err(|e| e.to_string())?;
+                let req: serde_json::Value =
+                    serde_json::from_str(&line).map_err(|e| e.to_string())?;
                 if let Some(reply) = handle_mcp_request(&req) {
-                    writeln!(stdout, "{}", serde_json::to_string(&reply).map_err(|e| e.to_string())?)
-                        .map_err(|e| e.to_string())?;
+                    writeln!(
+                        stdout,
+                        "{}",
+                        serde_json::to_string(&reply).map_err(|e| e.to_string())?
+                    )
+                    .map_err(|e| e.to_string())?;
                     stdout.flush().map_err(|e| e.to_string())?;
                 }
             }
@@ -135,9 +153,16 @@ async fn run(args: &[String]) -> Result<(), String> {
             let store = SqlAuthStore::open(&cfg.db_path, auth_cfg).map_err(|e| e.to_string())?;
             let router = build_native_server_router(&cfg, store);
             let bind = format!("{}:{}", cfg.host, cfg.port);
-            let listener = tokio::net::TcpListener::bind(&bind).await.map_err(|e| e.to_string())?;
-            eprintln!("auto native server listening on http://{bind} (mode={})", cfg.mode);
-            fw_http::server::serve_listener(listener, router).await.map_err(|e| e.to_string())
+            let listener = tokio::net::TcpListener::bind(&bind)
+                .await
+                .map_err(|e| e.to_string())?;
+            eprintln!(
+                "auto native server listening on http://{bind} (mode={})",
+                cfg.mode
+            );
+            fw_http::server::serve_listener(listener, router)
+                .await
+                .map_err(|e| e.to_string())
         }
         "lb" => {
             let mut cfg = resolve_runtime(None).map_err(|e| e.to_string())?;
@@ -164,28 +189,50 @@ async fn run(args: &[String]) -> Result<(), String> {
                     _ => i += 1,
                 }
             }
-            let lb = LoadBalancer::new(&cfg.upstreams, cfg.load_balancer).map_err(|e| e.to_string())?;
+            let lb =
+                LoadBalancer::new(&cfg.upstreams, cfg.load_balancer).map_err(|e| e.to_string())?;
             lb.probe_once().await;
             let _probe_task = lb.spawn_health_loop();
-            let listener = tokio::net::TcpListener::bind(&listen).await.map_err(|e| e.to_string())?;
-            eprintln!("auto load balancer listening on http://{listen} -> {} upstreams", lb.upstreams.len());
-            fw_http::server::serve_listener(listener, lb_router(lb)).await.map_err(|e| e.to_string())
+            let listener = tokio::net::TcpListener::bind(&listen)
+                .await
+                .map_err(|e| e.to_string())?;
+            eprintln!(
+                "auto load balancer listening on http://{listen} -> {} upstreams",
+                lb.upstreams.len()
+            );
+            fw_http::server::serve_listener(listener, lb_router(lb))
+                .await
+                .map_err(|e| e.to_string())
         }
         "desktop" => {
             let exe = std::env::current_exe()
                 .ok()
                 .and_then(|p| {
-                    p.parent().map(|d| d.join(if cfg!(windows) { "auto-desktop.exe" } else { "auto-desktop" }))
+                    p.parent().map(|d| {
+                        d.join(if cfg!(windows) {
+                            "auto-desktop.exe"
+                        } else {
+                            "auto-desktop"
+                        })
+                    })
                 })
                 .filter(|p| p.exists())
                 .unwrap_or_else(|| {
-                    std::path::PathBuf::from(if cfg!(windows) { "auto-desktop.exe" } else { "auto-desktop" })
+                    std::path::PathBuf::from(if cfg!(windows) {
+                        "auto-desktop.exe"
+                    } else {
+                        "auto-desktop"
+                    })
                 });
             let status = std::process::Command::new(&exe)
                 .args(&args[1..])
                 .status()
                 .map_err(|e| format!("failed launching {}: {e}", exe.display()))?;
-            if status.success() { Ok(()) } else { Err(format!("auto-desktop exited with {status}")) }
+            if status.success() {
+                Ok(())
+            } else {
+                Err(format!("auto-desktop exited with {status}"))
+            }
         }
         other => Err(format!("unknown subcommand: {other}")),
     }
@@ -195,13 +242,19 @@ fn cmd_auth(args: &[String]) -> Result<(), String> {
     let sub = args.first().map(String::as_str).unwrap_or("");
     match sub {
         "hash-password" => {
-            let pw = args.get(1).ok_or("usage: auto auth hash-password <password>")?;
+            let pw = args
+                .get(1)
+                .ok_or("usage: auto auth hash-password <password>")?;
             println!("{}", hash_password(pw).map_err(|e| e.to_string())?);
             Ok(())
         }
         "verify-password" => {
-            let pw = args.get(1).ok_or("usage: auto auth verify-password <password> <hash>")?;
-            let hash = args.get(2).ok_or("usage: auto auth verify-password <password> <hash>")?;
+            let pw = args
+                .get(1)
+                .ok_or("usage: auto auth verify-password <password> <hash>")?;
+            let hash = args
+                .get(2)
+                .ok_or("usage: auto auth verify-password <password> <hash>")?;
             let ok = verify_password(pw, hash).map_err(|e| e.to_string())?;
             println!("{{\"valid\":{ok}}}");
             Ok(())
@@ -209,17 +262,34 @@ fn cmd_auth(args: &[String]) -> Result<(), String> {
         "keygen" => {
             let prefix = args.get(1).map(String::as_str).unwrap_or("auto_");
             let generated = generate_api_key(prefix).map_err(|e| e.to_string())?;
-            println!("{}", serde_json::to_string_pretty(&generated).map_err(|e| e.to_string())?);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&generated).map_err(|e| e.to_string())?
+            );
             Ok(())
         }
         "totp" => {
-            let secret = args.get(1).ok_or("usage: auto auth totp <base32_secret> [unix_secs]")?;
-            let secs = args.get(2).and_then(|s| s.parse::<u64>().ok()).unwrap_or_else(|| {
-                std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0)
-            });
+            let secret = args
+                .get(1)
+                .ok_or("usage: auto auth totp <base32_secret> [unix_secs]")?;
+            let secs = args
+                .get(2)
+                .and_then(|s| s.parse::<u64>().ok())
+                .unwrap_or_else(|| {
+                    std::time::SystemTime::now()
+                        .duration_since(std::time::UNIX_EPOCH)
+                        .map(|d| d.as_secs())
+                        .unwrap_or(0)
+                });
             let raw = decode_base32(secret).map_err(|e| e.to_string())?;
-            let code =
-                totp(&raw, secs, 6, 30, aphrody_auto::auth::totp::TotpAlgorithm::Sha1).map_err(|e| e.to_string())?;
+            let code = totp(
+                &raw,
+                secs,
+                6,
+                30,
+                aphrody_auto::auth::totp::TotpAlgorithm::Sha1,
+            )
+            .map_err(|e| e.to_string())?;
             println!("{code}");
             Ok(())
         }
@@ -230,10 +300,15 @@ fn cmd_auth(args: &[String]) -> Result<(), String> {
 fn cmd_pdf(args: &[String]) -> Result<(), String> {
     match args.first().map(String::as_str).unwrap_or("") {
         "render" => {
-            let json_path = args.get(1).ok_or("usage: auto pdf render <doc.json> <out.pdf>")?;
-            let out_path = args.get(2).ok_or("usage: auto pdf render <doc.json> <out.pdf>")?;
-            let doc: Document = serde_json::from_slice(&std::fs::read(json_path).map_err(|e| e.to_string())?)
-                .map_err(|e| e.to_string())?;
+            let json_path = args
+                .get(1)
+                .ok_or("usage: auto pdf render <doc.json> <out.pdf>")?;
+            let out_path = args
+                .get(2)
+                .ok_or("usage: auto pdf render <doc.json> <out.pdf>")?;
+            let doc: Document =
+                serde_json::from_slice(&std::fs::read(json_path).map_err(|e| e.to_string())?)
+                    .map_err(|e| e.to_string())?;
             let pdf = docs::render(&doc).map_err(|e| e.to_string())?;
             std::fs::write(out_path, pdf).map_err(|e| e.to_string())?;
             Ok(())
@@ -241,7 +316,10 @@ fn cmd_pdf(args: &[String]) -> Result<(), String> {
         "count" => {
             let path = args.get(1).ok_or("usage: auto pdf count <file.pdf>")?;
             let bytes = std::fs::read(path).map_err(|e| e.to_string())?;
-            println!("{}", files::pdf_page_count(&bytes).map_err(|e| e.to_string())?);
+            println!(
+                "{}",
+                files::pdf_page_count(&bytes).map_err(|e| e.to_string())?
+            );
             Ok(())
         }
         "text" => {
@@ -259,10 +337,15 @@ fn cmd_pdf(args: &[String]) -> Result<(), String> {
 fn cmd_facturx(args: &[String]) -> Result<(), String> {
     match args.first().map(String::as_str).unwrap_or("") {
         "generate" => {
-            let json_path = args.get(1).ok_or("usage: auto facturx generate <doc.json> <out.pdf>")?;
-            let out_path = args.get(2).ok_or("usage: auto facturx generate <doc.json> <out.pdf>")?;
-            let doc: Document = serde_json::from_slice(&std::fs::read(json_path).map_err(|e| e.to_string())?)
-                .map_err(|e| e.to_string())?;
+            let json_path = args
+                .get(1)
+                .ok_or("usage: auto facturx generate <doc.json> <out.pdf>")?;
+            let out_path = args
+                .get(2)
+                .ok_or("usage: auto facturx generate <doc.json> <out.pdf>")?;
+            let doc: Document =
+                serde_json::from_slice(&std::fs::read(json_path).map_err(|e| e.to_string())?)
+                    .map_err(|e| e.to_string())?;
             let pdf = docs::render(&doc).map_err(|e| e.to_string())?;
             let secs = std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
@@ -273,16 +356,28 @@ fn cmd_facturx(args: &[String]) -> Result<(), String> {
             Ok(())
         }
         "extract-xml" => {
-            let path = args.get(1).ok_or("usage: auto facturx extract-xml <file.pdf>")?;
+            let path = args
+                .get(1)
+                .ok_or("usage: auto facturx extract-xml <file.pdf>")?;
             let bytes = std::fs::read(path).map_err(|e| e.to_string())?;
-            println!("{}", facturx::extract_xml(&bytes).map_err(|e| e.to_string())?.unwrap_or_default());
+            println!(
+                "{}",
+                facturx::extract_xml(&bytes)
+                    .map_err(|e| e.to_string())?
+                    .unwrap_or_default()
+            );
             Ok(())
         }
         "verify-pdfa" => {
-            let path = args.get(1).ok_or("usage: auto facturx verify-pdfa <file.pdf>")?;
+            let path = args
+                .get(1)
+                .ok_or("usage: auto facturx verify-pdfa <file.pdf>")?;
             let bytes = std::fs::read(path).map_err(|e| e.to_string())?;
             let v = facturx::verify_pdfa(&bytes).map_err(|e| e.to_string())?;
-            println!("{}", serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?
+            );
             Ok(())
         }
         other => Err(format!("unknown facturx subcommand: {other}")),
@@ -293,16 +388,24 @@ fn cmd_docx(args: &[String]) -> Result<(), String> {
     match args.first().map(String::as_str).unwrap_or("") {
         "fields" => {
             let path = args.get(1).ok_or("usage: auto docx fields <file.docx>")?;
-            let fields = files::template_fields_docx(&std::fs::read(path).map_err(|e| e.to_string())?)
-                .map_err(|e| e.to_string())?;
-            println!("{}", serde_json::to_string_pretty(&fields).map_err(|e| e.to_string())?);
+            let fields =
+                files::template_fields_docx(&std::fs::read(path).map_err(|e| e.to_string())?)
+                    .map_err(|e| e.to_string())?;
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&fields).map_err(|e| e.to_string())?
+            );
             Ok(())
         }
         "to-pdf" => {
-            let path = args.get(1).ok_or("usage: auto docx to-pdf <file.docx> <out.pdf>")?;
-            let out = args.get(2).ok_or("usage: auto docx to-pdf <file.docx> <out.pdf>")?;
-            let pdf =
-                files::docx_to_pdf(&std::fs::read(path).map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
+            let path = args
+                .get(1)
+                .ok_or("usage: auto docx to-pdf <file.docx> <out.pdf>")?;
+            let out = args
+                .get(2)
+                .ok_or("usage: auto docx to-pdf <file.docx> <out.pdf>")?;
+            let pdf = files::docx_to_pdf(&std::fs::read(path).map_err(|e| e.to_string())?)
+                .map_err(|e| e.to_string())?;
             std::fs::write(out, pdf).map_err(|e| e.to_string())?;
             Ok(())
         }

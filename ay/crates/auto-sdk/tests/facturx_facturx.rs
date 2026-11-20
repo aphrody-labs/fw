@@ -72,7 +72,10 @@ fn embeds_and_extracts_facturx_xml_and_passes_pdfa3b_checks() {
 
 #[test]
 fn rejects_quotes_and_supports_credit_notes_and_exemptions() {
-    assert!(matches!(xml(&invoice(DocumentType::Quote, false)), Err(FacturxError::QuoteNotAllowed)));
+    assert!(matches!(
+        xml(&invoice(DocumentType::Quote, false)),
+        Err(FacturxError::QuoteNotAllowed)
+    ));
     let cn_xml = xml(&invoice(DocumentType::CreditNote, true)).unwrap();
     assert!(cn_xml.contains("<ram:TypeCode>381</ram:TypeCode>"));
     assert!(cn_xml.contains("<ram:CategoryCode>E</ram:CategoryCode>"));

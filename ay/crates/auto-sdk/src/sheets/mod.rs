@@ -5,17 +5,23 @@ mod formula;
 
 use craft_opc::{PackageOut, RelsOut};
 use craft_sheet::{CellRef, Value, col_letters};
-use craft_xlsx::{Cell, CellFormula, CellValue as XlsxCellValue, Limits, Package, Row, SheetKind, StringItem, is_xlsb};
+use craft_xlsx::{
+    Cell, CellFormula, CellValue as XlsxCellValue, Limits, Package, Row, SheetKind, StringItem,
+    is_xlsb,
+};
 use craft_xml::Writer;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
 use thiserror::Error;
 
-const CT_WORKBOOK: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml";
-const CT_WORKSHEET: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml";
+const CT_WORKBOOK: &str =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml";
+const CT_WORKSHEET: &str =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml";
 const CT_STYLES: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml";
-const CT_SHARED_STRINGS: &str = "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml";
+const CT_SHARED_STRINGS: &str =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml";
 
 const NS_SSML: &str = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 const NS_R: &str = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
@@ -165,10 +171,17 @@ pub fn read(bytes: &[u8]) -> Result<ReadResult, SheetError> {
                     .into_iter()
                     .map(|(cref, c)| (cref.row, cref.col, CellValue::from_sheet_value(&c.value)))
                     .collect();
-                ReadSheet { name: s.name, rows: materialize_grid(&cells) }
+                ReadSheet {
+                    name: s.name,
+                    rows: materialize_grid(&cells),
+                }
             })
             .collect();
-        return Ok(ReadResult { format: SpreadsheetFormat::Xls, sheets, warnings });
+        return Ok(ReadResult {
+            format: SpreadsheetFormat::Xls,
+            sheets,
+            warnings,
+        });
     }
 
     if craft_ods::is_ods(bytes) {
@@ -182,20 +195,38 @@ pub fn read(bytes: &[u8]) -> Result<ReadResult, SheetError> {
                     .into_iter()
                     .filter(|(_, c)| !c.is_blank() && !c.covered)
                     .map(|(cref, c)| {
-                        let v = c.value().map(|val| CellValue::from_sheet_value(&val)).unwrap_or_else(|| {
-                            if c.text.is_empty() { CellValue::Empty } else { CellValue::Text(c.text) }
-                        });
+                        let v = c
+                            .value()
+                            .map(|val| CellValue::from_sheet_value(&val))
+                            .unwrap_or_else(|| {
+                                if c.text.is_empty() {
+                                    CellValue::Empty
+                                } else {
+                                    CellValue::Text(c.text)
+                                }
+                            });
                         (cref.row, cref.col, v)
                     })
                     .collect();
-                ReadSheet { name: s.name, rows: materialize_grid(&cells) }
+                ReadSheet {
+                    name: s.name,
+                    rows: materialize_grid(&cells),
+                }
             })
             .collect();
-        return Ok(ReadResult { format: SpreadsheetFormat::Ods, sheets, warnings: Vec::new() });
+        return Ok(ReadResult {
+            format: SpreadsheetFormat::Ods,
+            sheets,
+            warnings: Vec::new(),
+        });
     }
 
     if bytes.starts_with(b"PK\x03\x04") {
-        let format = if is_xlsb(bytes) { SpreadsheetFormat::Xlsb } else { SpreadsheetFormat::Xlsx };
+        let format = if is_xlsb(bytes) {
+            SpreadsheetFormat::Xlsb
+        } else {
+            SpreadsheetFormat::Xlsx
+        };
         let mut pkg = Package::open(bytes, &Limits::default())?;
         let wb = pkg.workbook()?;
         let strings = pkg.shared_strings()?;
@@ -214,20 +245,33 @@ pub fn read(bytes: &[u8]) -> Result<ReadResult, SheetError> {
                 }
                 Ok(())
             })?;
-            sheets.push(ReadSheet { name: entry.name.clone(), rows: materialize_grid(&cells) });
+            sheets.push(ReadSheet {
+                name: entry.name.clone(),
+                rows: materialize_grid(&cells),
+            });
         }
         let warnings = pkg.warnings().to_vec();
-        return Ok(ReadResult { format, sheets, warnings });
+        return Ok(ReadResult {
+            format,
+            sheets,
+            warnings,
+        });
     }
 
     // Delimited text fallback (CSV / TSV).
     let text = craft_csv::decode_text(bytes);
     let delim = char::from(craft_csv::sniff_delimiter(&text, '"'));
     let raw_rows = craft_csv::records(&text, delim, '"', 1_000_000, 16_384);
-    let rows = raw_rows.into_iter().map(|rec| rec.into_iter().map(parse_csv_scalar).collect()).collect();
+    let rows = raw_rows
+        .into_iter()
+        .map(|rec| rec.into_iter().map(parse_csv_scalar).collect())
+        .collect();
     Ok(ReadResult {
         format: SpreadsheetFormat::Csv,
-        sheets: vec![ReadSheet { name: "Sheet1".into(), rows }],
+        sheets: vec![ReadSheet {
+            name: "Sheet1".into(),
+            rows,
+        }],
         warnings: Vec::new(),
     })
 }
@@ -267,7 +311,12 @@ pub fn write_xlsx(book: &Workbook) -> Result<Vec<u8>, SheetError> {
         let part_full = format!("xl/{part_rel}");
         let rid = wb_rels.add("worksheet", &part_rel, false);
         let safe_name = sanitize_sheet_name(&sheet.name, sheet_num);
-        wb_writer.tag("sheet").attr("name", &safe_name).attr("sheetId", sheet_num).attr("r:id", &rid).empty();
+        wb_writer
+            .tag("sheet")
+            .attr("name", &safe_name)
+            .attr("sheetId", sheet_num)
+            .attr("r:id", &rid)
+            .empty();
 
         let sheet_xml = build_sheet_xml(sheet, &mut intern);
         pkg.xml_part(&part_full, CT_WORKSHEET, sheet_xml);
@@ -281,7 +330,11 @@ pub fn write_xlsx(book: &Workbook) -> Result<Vec<u8>, SheetError> {
     pkg.rels("xl/workbook.xml", &wb_rels);
 
     pkg.xml_part("xl/styles.xml", CT_STYLES, build_styles_xml());
-    pkg.xml_part("xl/sharedStrings.xml", CT_SHARED_STRINGS, build_shared_strings_xml(&shared_strings));
+    pkg.xml_part(
+        "xl/sharedStrings.xml",
+        CT_SHARED_STRINGS,
+        build_shared_strings_xml(&shared_strings),
+    );
 
     Ok(pkg.finish()?)
 }
@@ -292,7 +345,10 @@ pub fn modify_xlsx(bytes: &[u8], edits: &[CellEdit]) -> Result<Vec<u8>, SheetErr
 
     for edit in edits {
         if edit.row == 0 || edit.col == 0 {
-            return Err(SheetError::InvalidCoordinates { row: edit.row, col: edit.col });
+            return Err(SheetError::InvalidCoordinates {
+                row: edit.row,
+                col: edit.col,
+            });
         }
         let target_ref = CellRef::new(edit.row - 1, edit.col - 1);
         let sheet_idx = doc
@@ -309,23 +365,45 @@ pub fn modify_xlsx(bytes: &[u8], edits: &[CellEdit]) -> Result<Vec<u8>, SheetErr
         let row_pos = match ws.rows.binary_search_by_key(&target_ref.row, |r| r.index) {
             Ok(i) => i,
             Err(i) => {
-                ws.rows.insert(i, Row { index: target_ref.row, ..Row::default() });
+                ws.rows.insert(
+                    i,
+                    Row {
+                        index: target_ref.row,
+                        ..Row::default()
+                    },
+                );
                 i
             }
         };
         let row = &mut ws.rows[row_pos];
-        let cell_pos = match row.cells.binary_search_by_key(&target_ref.col, |c| c.at.col) {
+        let cell_pos = match row
+            .cells
+            .binary_search_by_key(&target_ref.col, |c| c.at.col)
+        {
             Ok(i) => i,
             Err(i) => {
-                row.cells.insert(i, Cell { at: target_ref, ..Cell::default() });
+                row.cells.insert(
+                    i,
+                    Cell {
+                        at: target_ref,
+                        ..Cell::default()
+                    },
+                );
                 i
             }
         };
         let cell = &mut row.cells[cell_pos];
 
         if let Some(formula_text) = edit.formula.as_deref() {
-            let trimmed = formula_text.trim().strip_prefix('=').unwrap_or(formula_text.trim()).to_owned();
-            cell.formula = Some(CellFormula { text: trimmed, ..CellFormula::default() });
+            let trimmed = formula_text
+                .trim()
+                .strip_prefix('=')
+                .unwrap_or(formula_text.trim())
+                .to_owned();
+            cell.formula = Some(CellFormula {
+                text: trimmed,
+                ..CellFormula::default()
+            });
         }
         if let Some(val) = &edit.value {
             cell.value = encode_xlsx_cell_value(val, &mut doc.shared_strings);
@@ -340,7 +418,9 @@ pub fn modify_xlsx(bytes: &[u8], edits: &[CellEdit]) -> Result<Vec<u8>, SheetErr
         if let Some(Some(ws)) = doc.worksheets.get(idx) {
             for row in &ws.rows {
                 for cell in &row.cells {
-                    let v = cell.value.resolve(&doc.shared_strings, doc.workbook.date_1904);
+                    let v = cell
+                        .value
+                        .resolve(&doc.shared_strings, doc.workbook.date_1904);
                     if !v.is_empty() {
                         vals.insert((cell.at.row, cell.at.col), v);
                     }
@@ -361,9 +441,13 @@ pub fn modify_xlsx(bytes: &[u8], edits: &[CellEdit]) -> Result<Vec<u8>, SheetErr
         if formulas.is_empty() {
             continue;
         }
-        let Some(Some(ws)) = doc.worksheets.get_mut(idx) else { continue };
+        let Some(Some(ws)) = doc.worksheets.get_mut(idx) else {
+            continue;
+        };
         for (r_idx, c_idx, _) in formulas {
-            let Some(new_val) = vals.get(&(r_idx, c_idx)) else { continue };
+            let Some(new_val) = vals.get(&(r_idx, c_idx)) else {
+                continue;
+            };
             if let Ok(ri) = ws.rows.binary_search_by_key(&r_idx, |r| r.index)
                 && let Ok(ci) = ws.rows[ri].cells.binary_search_by_key(&c_idx, |c| c.at.col)
             {
@@ -392,7 +476,10 @@ fn encode_xlsx_cell_value(v: &CellValue, strings: &mut Vec<StringItem>) -> XlsxC
                 pos
             } else {
                 let pos = strings.len();
-                strings.push(StringItem { text: Arc::from(t.as_str()), ..StringItem::default() });
+                strings.push(StringItem {
+                    text: Arc::from(t.as_str()),
+                    ..StringItem::default()
+                });
                 pos
             };
             XlsxCellValue::Shared(idx as u32)
@@ -406,8 +493,19 @@ fn build_sheet_xml(sheet: &Sheet, intern: &mut impl FnMut(&str) -> usize) -> Vec
 
     // Freeze row 1.
     w.open("sheetViews", &[]);
-    w.open("sheetView", &[("tabSelected", "1"), ("workbookViewId", "0")]);
-    w.empty("pane", &[("ySplit", "1"), ("topLeftCell", "A2"), ("activePane", "bottomLeft"), ("state", "frozen")]);
+    w.open(
+        "sheetView",
+        &[("tabSelected", "1"), ("workbookViewId", "0")],
+    );
+    w.empty(
+        "pane",
+        &[
+            ("ySplit", "1"),
+            ("topLeftCell", "A2"),
+            ("activePane", "bottomLeft"),
+            ("state", "frozen"),
+        ],
+    );
     w.close();
     w.close();
 
@@ -415,7 +513,9 @@ fn build_sheet_xml(sheet: &Sheet, intern: &mut impl FnMut(&str) -> usize) -> Vec
         w.open("cols", &[]);
         for (i, col) in sheet.columns.iter().enumerate() {
             let col_num = i + 1;
-            let width = col.width.unwrap_or_else(|| (col.title.chars().count() as f64 + 6.0).clamp(12.0, 48.0));
+            let width = col
+                .width
+                .unwrap_or_else(|| (col.title.chars().count() as f64 + 6.0).clamp(12.0, 48.0));
             w.tag("col")
                 .attr("min", col_num)
                 .attr("max", col_num)
@@ -433,7 +533,11 @@ fn build_sheet_xml(sheet: &Sheet, intern: &mut impl FnMut(&str) -> usize) -> Vec
     for (c_idx, col) in sheet.columns.iter().enumerate() {
         let cell_ref = format!("{}1", col_letters(c_idx as u32));
         let s_idx = intern(&col.title);
-        w.tag("c").attr("r", &cell_ref).attr("t", "s").attr("s", "1").open();
+        w.tag("c")
+            .attr("r", &cell_ref)
+            .attr("t", "s")
+            .attr("s", "1")
+            .open();
         w.leaf("v", &[], &s_idx.to_string());
         w.close();
     }
@@ -444,7 +548,10 @@ fn build_sheet_xml(sheet: &Sheet, intern: &mut impl FnMut(&str) -> usize) -> Vec
         let r_num = r_offset + 2;
         w.tag("row").attr("r", r_num).open();
         for (c_idx, val) in row.iter().enumerate() {
-            let col_type = sheet.columns.get(c_idx).map_or(ColumnType::Text, |c| c.col_type);
+            let col_type = sheet
+                .columns
+                .get(c_idx)
+                .map_or(ColumnType::Text, |c| c.col_type);
             let cell_ref = format!("{}{r_num}", col_letters(c_idx as u32));
             let style_id = match col_type {
                 ColumnType::Text => "0",
@@ -482,14 +589,22 @@ fn build_sheet_xml(sheet: &Sheet, intern: &mut impl FnMut(&str) -> usize) -> Vec
                         w.close();
                     } else {
                         let si = intern(s);
-                        w.tag("c").attr("r", &cell_ref).attr("t", "s").attr("s", "0").open();
+                        w.tag("c")
+                            .attr("r", &cell_ref)
+                            .attr("t", "s")
+                            .attr("s", "0")
+                            .open();
                         w.leaf("v", &[], &si.to_string());
                         w.close();
                     }
                 }
                 (CellValue::Text(s), _) => {
                     let si = intern(s);
-                    w.tag("c").attr("r", &cell_ref).attr("t", "s").attr("s", "0").open();
+                    w.tag("c")
+                        .attr("r", &cell_ref)
+                        .attr("t", "s")
+                        .attr("s", "0")
+                        .open();
                     w.leaf("v", &[], &si.to_string());
                     w.close();
                 }
@@ -508,7 +623,10 @@ fn build_styles_xml() -> Vec<u8> {
     w.open("styleSheet", &[("xmlns", NS_SSML)]);
 
     w.open("numFmts", &[("count", "1")]);
-    w.empty("numFmt", &[("numFmtId", "164"), ("formatCode", "#,##0.00\\ \"€\"")]);
+    w.empty(
+        "numFmt",
+        &[("numFmtId", "164"), ("formatCode", "#,##0.00\\ \"€\"")],
+    );
     w.close();
 
     w.open("fonts", &[("count", "2")]);
@@ -547,12 +665,29 @@ fn build_styles_xml() -> Vec<u8> {
     w.close();
 
     w.open("cellStyleXfs", &[("count", "1")]);
-    w.empty("xf", &[("numFmtId", "0"), ("fontId", "0"), ("fillId", "0"), ("borderId", "0")]);
+    w.empty(
+        "xf",
+        &[
+            ("numFmtId", "0"),
+            ("fontId", "0"),
+            ("fillId", "0"),
+            ("borderId", "0"),
+        ],
+    );
     w.close();
 
     // xfs: 0=default text, 1=bold header, 2=number (0.00), 3=euros (164), 4=date (14), 5=percent (10 = 0.00%)
     w.open("cellXfs", &[("count", "6")]);
-    w.empty("xf", &[("numFmtId", "0"), ("fontId", "0"), ("fillId", "0"), ("borderId", "0"), ("xfId", "0")]);
+    w.empty(
+        "xf",
+        &[
+            ("numFmtId", "0"),
+            ("fontId", "0"),
+            ("fillId", "0"),
+            ("borderId", "0"),
+            ("xfId", "0"),
+        ],
+    );
     w.empty(
         "xf",
         &[
@@ -618,7 +753,14 @@ fn build_styles_xml() -> Vec<u8> {
 fn build_shared_strings_xml(strings: &[String]) -> Vec<u8> {
     let mut w = Writer::document();
     let count = strings.len().to_string();
-    w.open("sst", &[("xmlns", NS_SSML), ("count", &count), ("uniqueCount", &count)]);
+    w.open(
+        "sst",
+        &[
+            ("xmlns", NS_SSML),
+            ("count", &count),
+            ("uniqueCount", &count),
+        ],
+    );
     for s in strings {
         w.open("si", &[]);
         w.leaf("t", &[], s);
@@ -666,9 +808,16 @@ fn parse_csv_scalar(s: String) -> CellValue {
 }
 
 fn sanitize_sheet_name(raw: &str, idx: usize) -> String {
-    let cleaned: String =
-        raw.chars().filter(|c| !matches!(c, ':' | '\\' | '/' | '?' | '*' | '[' | ']')).take(31).collect();
-    if cleaned.trim().is_empty() { format!("Sheet{idx}") } else { cleaned }
+    let cleaned: String = raw
+        .chars()
+        .filter(|c| !matches!(c, ':' | '\\' | '/' | '?' | '*' | '[' | ']'))
+        .take(31)
+        .collect();
+    if cleaned.trim().is_empty() {
+        format!("Sheet{idx}")
+    } else {
+        cleaned
+    }
 }
 
 fn iso_date_to_excel_serial(iso: &str) -> Option<i64> {

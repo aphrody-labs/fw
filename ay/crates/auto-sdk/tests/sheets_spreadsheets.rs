@@ -1,5 +1,6 @@
 use aphrody_auto::sheets::{
-    CellEdit, CellValue, ColumnSpec, ColumnType, Sheet, SpreadsheetFormat, Workbook, modify_xlsx, read, write_xlsx,
+    CellEdit, CellValue, ColumnSpec, ColumnType, Sheet, SpreadsheetFormat, Workbook, modify_xlsx,
+    read, write_xlsx,
 };
 
 #[test]
@@ -8,10 +9,26 @@ fn writes_and_reads_styled_xlsx_and_csv() {
         sheets: vec![Sheet {
             name: "Invoices".into(),
             columns: vec![
-                ColumnSpec { title: "Number".into(), col_type: ColumnType::Text, width: Some(18.0) },
-                ColumnSpec { title: "Amount".into(), col_type: ColumnType::Euros, width: None },
-                ColumnSpec { title: "Date".into(), col_type: ColumnType::Date, width: None },
-                ColumnSpec { title: "Rate".into(), col_type: ColumnType::Percent, width: None },
+                ColumnSpec {
+                    title: "Number".into(),
+                    col_type: ColumnType::Text,
+                    width: Some(18.0),
+                },
+                ColumnSpec {
+                    title: "Amount".into(),
+                    col_type: ColumnType::Euros,
+                    width: None,
+                },
+                ColumnSpec {
+                    title: "Date".into(),
+                    col_type: ColumnType::Date,
+                    width: None,
+                },
+                ColumnSpec {
+                    title: "Rate".into(),
+                    col_type: ColumnType::Percent,
+                    width: None,
+                },
             ],
             rows: vec![vec![
                 CellValue::Text("INV-01".into()),
@@ -42,14 +59,25 @@ fn modifies_cells_and_recalculates_formulas() {
         sheets: vec![Sheet {
             name: "Budget".into(),
             columns: vec![
-                ColumnSpec { title: "Item".into(), col_type: ColumnType::Text, width: None },
-                ColumnSpec { title: "Cost".into(), col_type: ColumnType::Number, width: None },
+                ColumnSpec {
+                    title: "Item".into(),
+                    col_type: ColumnType::Text,
+                    width: None,
+                },
+                ColumnSpec {
+                    title: "Cost".into(),
+                    col_type: ColumnType::Number,
+                    width: None,
+                },
             ],
             rows: vec![
                 vec![CellValue::Text("A".into()), CellValue::Number(100.0)],
                 vec![CellValue::Text("B".into()), CellValue::Number(200.0)],
                 vec![CellValue::Text("Total".into()), CellValue::Number(0.0)],
-                vec![CellValue::Text("Status".into()), CellValue::Text(String::new())],
+                vec![
+                    CellValue::Text("Status".into()),
+                    CellValue::Text(String::new()),
+                ],
             ],
         }],
     };
@@ -57,8 +85,20 @@ fn modifies_cells_and_recalculates_formulas() {
     let updated = modify_xlsx(
         &xlsx,
         &[
-            CellEdit { sheet: "Budget".into(), row: 2, col: 2, value: Some(CellValue::Number(150.0)), formula: None },
-            CellEdit { sheet: "Budget".into(), row: 4, col: 2, value: None, formula: Some("=SUM(B2:B3)".into()) },
+            CellEdit {
+                sheet: "Budget".into(),
+                row: 2,
+                col: 2,
+                value: Some(CellValue::Number(150.0)),
+                formula: None,
+            },
+            CellEdit {
+                sheet: "Budget".into(),
+                row: 4,
+                col: 2,
+                value: None,
+                formula: Some("=SUM(B2:B3)".into()),
+            },
             CellEdit {
                 sheet: "Budget".into(),
                 row: 5,

@@ -76,17 +76,20 @@ pub fn hotp(secret: &[u8], counter: u64, digits: u32, alg: TotpAlgorithm) -> Aut
     let counter_be = counter.to_be_bytes();
     let digest: Vec<u8> = match alg {
         TotpAlgorithm::Sha1 => {
-            let mut mac = Hmac::<Sha1>::new_from_slice(secret).map_err(|e| AuthError::Crypto(e.to_string()))?;
+            let mut mac = Hmac::<Sha1>::new_from_slice(secret)
+                .map_err(|e| AuthError::Crypto(e.to_string()))?;
             mac.update(&counter_be);
             mac.finalize().into_bytes().to_vec()
         }
         TotpAlgorithm::Sha256 => {
-            let mut mac = Hmac::<Sha256>::new_from_slice(secret).map_err(|e| AuthError::Crypto(e.to_string()))?;
+            let mut mac = Hmac::<Sha256>::new_from_slice(secret)
+                .map_err(|e| AuthError::Crypto(e.to_string()))?;
             mac.update(&counter_be);
             mac.finalize().into_bytes().to_vec()
         }
         TotpAlgorithm::Sha512 => {
-            let mut mac = Hmac::<Sha512>::new_from_slice(secret).map_err(|e| AuthError::Crypto(e.to_string()))?;
+            let mut mac = Hmac::<Sha512>::new_from_slice(secret)
+                .map_err(|e| AuthError::Crypto(e.to_string()))?;
             mac.update(&counter_be);
             mac.finalize().into_bytes().to_vec()
         }
@@ -100,7 +103,13 @@ pub fn hotp(secret: &[u8], counter: u64, digits: u32, alg: TotpAlgorithm) -> Aut
     Ok(format!("{code:0width$}", width = digits as usize))
 }
 
-pub fn totp(secret: &[u8], unix_secs: u64, digits: u32, period_secs: u64, alg: TotpAlgorithm) -> AuthResult<String> {
+pub fn totp(
+    secret: &[u8],
+    unix_secs: u64,
+    digits: u32,
+    period_secs: u64,
+    alg: TotpAlgorithm,
+) -> AuthResult<String> {
     if period_secs == 0 {
         return Err(AuthError::Validation("TOTP period must be > 0".into()));
     }
@@ -151,7 +160,9 @@ fn url_encode(s: &str) -> String {
     let mut out = String::with_capacity(s.len());
     for b in s.bytes() {
         match b {
-            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => out.push(b as char),
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
+                out.push(b as char)
+            }
             _ => out.push_str(&format!("%{b:02X}")),
         }
     }

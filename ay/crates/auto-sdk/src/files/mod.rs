@@ -7,11 +7,13 @@ pub mod redaction;
 pub mod signing;
 
 pub use docx_ops::{
-    ParagraphInput, SimpleDocx, TextReplacement, create_docx, docx_text, docx_to_pdf, fill_template_docx, read_docx,
-    replace_docx, template_fields_docx,
+    ParagraphInput, SimpleDocx, TextReplacement, create_docx, docx_text, docx_to_pdf,
+    fill_template_docx, read_docx, replace_docx, template_fields_docx,
 };
 pub use pdf_ops::{extract_pdf_pages, merge_pdfs, pdf_page_count, pdf_text};
-pub use presentation::{BulletInput, NewPresentation, NewSlide, create_pptx, pptx_text, pptx_to_pdf};
+pub use presentation::{
+    BulletInput, NewPresentation, NewSlide, create_pptx, pptx_text, pptx_to_pdf,
+};
 pub use redaction::{QueryCount, RedactionOptions, RedactionPattern, RedactionReport, redact_pdf};
 pub use signing::{SignatureOptions, VerifiedSignature, sign_pdf, verify_signatures};
 

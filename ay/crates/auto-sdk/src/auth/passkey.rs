@@ -77,9 +77,16 @@ pub fn verify_passkey_assertion(
     let client: ClientDataJson = serde_json::from_slice(&client_bytes)
         .map_err(|e| AuthError::Unauthorized(format!("invalid clientDataJSON: {e}")))?;
     if client.kind != "webauthn.get" {
-        return Err(AuthError::Unauthorized("expected webauthn.get ceremony".into()));
+        return Err(AuthError::Unauthorized(
+            "expected webauthn.get ceremony".into(),
+        ));
     }
-    if !bool::from(client.challenge.as_bytes().ct_eq(expected_challenge_b64u.as_bytes())) {
+    if !bool::from(
+        client
+            .challenge
+            .as_bytes()
+            .ct_eq(expected_challenge_b64u.as_bytes()),
+    ) {
         return Err(AuthError::Unauthorized("passkey challenge mismatch".into()));
     }
     if client.origin.trim_end_matches('/') != expected_origin.trim_end_matches('/') {
@@ -90,20 +97,29 @@ pub fn verify_passkey_assertion(
         .decode(&assertion.authenticator_data_b64u)
         .map_err(|_| AuthError::Unauthorized("invalid authenticatorData encoding".into()))?;
     if auth_data.len() < 37 {
-        return Err(AuthError::Unauthorized("authenticatorData truncated".into()));
+        return Err(AuthError::Unauthorized(
+            "authenticatorData truncated".into(),
+        ));
     }
     let expected_rp_hash = Sha256::digest(expected_rp_id.as_bytes());
     if !bool::from(auth_data[..32].ct_eq(expected_rp_hash.as_slice())) {
-        return Err(AuthError::Unauthorized("passkey RP ID hash mismatch".into()));
+        return Err(AuthError::Unauthorized(
+            "passkey RP ID hash mismatch".into(),
+        ));
     }
     let flags = auth_data[32];
     if (flags & 0x01) == 0 {
-        return Err(AuthError::Unauthorized("passkey user-present flag missing".into()));
+        return Err(AuthError::Unauthorized(
+            "passkey user-present flag missing".into(),
+        ));
     }
     let user_verified = (flags & 0x04) != 0;
-    let sign_count = u32::from_be_bytes([auth_data[33], auth_data[34], auth_data[35], auth_data[36]]);
+    let sign_count =
+        u32::from_be_bytes([auth_data[33], auth_data[34], auth_data[35], auth_data[36]]);
     if min_sign_count > 0 && sign_count <= min_sign_count {
-        return Err(AuthError::Unauthorized("passkey signCount replay detected".into()));
+        return Err(AuthError::Unauthorized(
+            "passkey signCount replay detected".into(),
+        ));
     }
 
     let client_hash = Sha256::digest(&client_bytes);
@@ -119,14 +135,20 @@ pub fn verify_passkey_assertion(
     if sig_bytes.len() == 64 {
         let sig = Signature::from_slice(&sig_bytes)
             .map_err(|_| AuthError::Unauthorized("invalid raw P-256 signature".into()))?;
-        vk.verify(&signed_msg, &sig)
-            .map_err(|_| AuthError::Unauthorized("passkey ES256 signature verification failed".into()))?;
+        vk.verify(&signed_msg, &sig).map_err(|_| {
+            AuthError::Unauthorized("passkey ES256 signature verification failed".into())
+        })?;
     } else {
         let sig = DerSignature::try_from(sig_bytes.as_slice())
             .map_err(|_| AuthError::Unauthorized("invalid DER P-256 signature".into()))?;
-        vk.verify(&signed_msg, &sig)
-            .map_err(|_| AuthError::Unauthorized("passkey ES256 signature verification failed".into()))?;
+        vk.verify(&signed_msg, &sig).map_err(|_| {
+            AuthError::Unauthorized("passkey ES256 signature verification failed".into())
+        })?;
     }
 
-    Ok(VerifiedPasskey { sign_count, user_verified, rp_id_hash_hex: crate::auth::hex_encode(&expected_rp_hash) })
+    Ok(VerifiedPasskey {
+        sign_count,
+        user_verified,
+        rp_id_hash_hex: crate::auth::hex_encode(&expected_rp_hash),
+    })
 }
