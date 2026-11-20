@@ -1,0 +1,10 @@
+# mkinitcpio preset file for the 'linux-fw-rc' package
+ALL_config="/etc/mkinitcpio.conf"
+ALL_kver="/boot/vmlinuz-linux-fw-rc"
+
+PRESETS=('default' 'fallback')
+
+default_image="/boot/initramfs-linux-fw-rc.img"
+
+fallback_image="/boot/initramfs-linux-fw-rc-fallback.img"
+fallback_options="-S autodetect"

@@ -1,0 +1,35 @@
+[package]
+name = "fw-sh"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "The Aphrody shell: Bash 5.3 (rubash) with the niubash interactive host, native on Windows, Linux and macOS"
+
+# The dev-dependency on the crate itself only switches its features on for the tests.
+[package.metadata.cargo-shear]
+ignored = ["fw-sh"]
+
+[features]
+default = []
+full = ["pty"]
+pty = ["dep:rio-vt"]
+
+[dependencies]
+niubash = { path = "../../../ay/third_party/niubash" }
+rio-vt = { path = "../../../ay/third_party/rio/rio-vt", optional = true }
+
+[[bin]]
+name = "fw-sh"
+path = "src/main.rs"
+
+[[test]]
+name = "pty_session"
+path = "tests/pty_session.rs"
+required-features = ["pty"]
+
+[dev-dependencies]
+fw-sh = { path = ".", features = ["full"] }
+
+[lints]
+workspace = true

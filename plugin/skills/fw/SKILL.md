@@ -1,6 +1,6 @@
 ---
 name: fw
-description: Unified fw v4.2 monorepo, plugin, 13-crate + xtask zero-bloat Rust workspace (fw, fw-wasm, fw-hermes-claw, GPUI WebGPU/Wasm, Wayland-WGPU, uutils, NixOS store/NAR, ggml, Pingora+Dynamo+vLLM-Router), 2-tier Linux CachyOS LTO + sched_ext primary OS & microVM sandbox (Cloud Hypervisor / OpenVMM / optional Asterinas OSDK guest), Fat-LTO Rust C ABI v4, Bun AOT CLI, Cloudflare/Vercel, and continuous agy upgrade pipeline.
+description: Unified fw v4.2 monorepo, plugin, 27-crate + xtask zero-bloat Rust workspace (all AI, inference, MCP, ACP, A2A, RAG, llama/ggml, fw-wasm, fw-hermes-claw, GPUI WebGPU/Wasm, Wayland-WGPU, uutils, NixOS store/NAR, Pingora+Dynamo+vLLM-Router), 2-tier Linux CachyOS LTO + sched_ext primary OS & kernel pipeline (`os/{fw-os,fw-os-boot,fw-ostd-vfs,fw-wsl,initramfs,kernel-pipeline}`), Fat-LTO Rust C ABI v4, Bun AOT CLI, Cloudflare/Vercel, and continuous agy upgrade pipeline.
 ---
 
 # `fw` (Fw v4.2) Unified OS, Cluster & Continuous `agy` Upgrade Stack

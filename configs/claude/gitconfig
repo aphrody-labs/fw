@@ -1,0 +1,9 @@
+# Git identity and GitHub setup shared by every machine; included from the
+# global git config by `bun run setup`.
+[user]
+	name = aphrody-dev
+	email = yohanpierre15@gmail.com
+[init]
+	defaultBranch = main
+[pull]
+	ff = only

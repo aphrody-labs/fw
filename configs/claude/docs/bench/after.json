@@ -1,0 +1,288 @@
+{
+  "label": "after",
+  "date": "2026-11-17T00:46:32.377Z",
+  "bun": "1.4.5",
+  "hyperfine": "hyperfine 2.0.0",
+  "baseline": {
+    "id": "bun-startup",
+    "plugin": "runtime",
+    "event": "none",
+    "command": "bun -e 0",
+    "meanMs": 11.82,
+    "medianMs": 11.8,
+    "stddevMs": 0.18,
+    "minMs": 11.57,
+    "maxMs": 12.07,
+    "runs": 12
+  },
+  "cases": [
+    {
+      "id": "aphrody/sessionstart/config-sync-claude",
+      "plugin": "aphrody",
+      "event": "SessionStart",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/config-sync.ts\" pull claude",
+      "meanMs": 57.29,
+      "medianMs": 57.19,
+      "stddevMs": 0.79,
+      "minMs": 55.85,
+      "maxMs": 58.67,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/sessionstart/session-bridge-start",
+      "plugin": "aphrody",
+      "event": "SessionStart",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/session-bridge.ts\" start",
+      "meanMs": 43.61,
+      "medianMs": 35.85,
+      "stddevMs": 25.88,
+      "minMs": 35.36,
+      "maxMs": 125.75,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/sessionstart/learn-claude",
+      "plugin": "aphrody",
+      "event": "SessionStart",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/learn.ts\" nudge claude",
+      "meanMs": 22.92,
+      "medianMs": 22.83,
+      "stddevMs": 0.42,
+      "minMs": 22.41,
+      "maxMs": 23.74,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/userpromptsubmit/learn-claude",
+      "plugin": "aphrody",
+      "event": "UserPromptSubmit",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/learn.ts\" capture claude",
+      "meanMs": 23.33,
+      "medianMs": 23.31,
+      "stddevMs": 0.43,
+      "minMs": 22.83,
+      "maxMs": 24.3,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/userpromptsubmit/session-bridge-deliver",
+      "plugin": "aphrody",
+      "event": "UserPromptSubmit",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/session-bridge.ts\" deliver",
+      "meanMs": 23.39,
+      "medianMs": 22.14,
+      "stddevMs": 3.69,
+      "minMs": 21.69,
+      "maxMs": 34.59,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/pretooluse/auto-background-claude",
+      "plugin": "aphrody",
+      "event": "PreToolUse",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/auto-background.ts\" claude",
+      "meanMs": 21.75,
+      "medianMs": 20.71,
+      "stddevMs": 2.55,
+      "minMs": 20.21,
+      "maxMs": 29.11,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/posttooluse/typecheck-claude",
+      "plugin": "aphrody",
+      "event": "PostToolUse",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/typecheck.ts\" claude",
+      "meanMs": 82.66,
+      "medianMs": 82.36,
+      "stddevMs": 1.45,
+      "minMs": 80.81,
+      "maxMs": 85.42,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/posttooluse/learn-claude",
+      "plugin": "aphrody",
+      "event": "PostToolUse",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/learn.ts\" capture claude",
+      "meanMs": 23.18,
+      "medianMs": 22.97,
+      "stddevMs": 0.94,
+      "minMs": 22.35,
+      "maxMs": 25.85,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/posttooluse/session-bridge-deliver",
+      "plugin": "aphrody",
+      "event": "PostToolUse",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/session-bridge.ts\" deliver",
+      "meanMs": 21.65,
+      "medianMs": 21.75,
+      "stddevMs": 0.25,
+      "minMs": 21.15,
+      "maxMs": 21.95,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/sessionend/config-sync-claude",
+      "plugin": "aphrody",
+      "event": "SessionEnd",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/config-sync.ts\" push claude",
+      "meanMs": 77.74,
+      "medianMs": 77.73,
+      "stddevMs": 0.98,
+      "minMs": 76.34,
+      "maxMs": 79.36,
+      "runs": 12
+    },
+    {
+      "id": "aphrody/posttoolusefailure/learn-claude",
+      "plugin": "aphrody",
+      "event": "PostToolUseFailure",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/aphrody/hooks-handlers/learn.ts\" capture claude",
+      "meanMs": 23.02,
+      "medianMs": 23.01,
+      "stddevMs": 0.41,
+      "minMs": 22.54,
+      "maxMs": 23.63,
+      "runs": 12
+    },
+    {
+      "id": "bun/sessionstart/session-start-claude",
+      "plugin": "bun",
+      "event": "SessionStart",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/bun/hooks/session-start.ts\" claude",
+      "meanMs": 38.71,
+      "medianMs": 38.75,
+      "stddevMs": 0.57,
+      "minMs": 37.77,
+      "maxMs": 39.94,
+      "runs": 12
+    },
+    {
+      "id": "bun/pretooluse/pre-tool-use-claude",
+      "plugin": "bun",
+      "event": "PreToolUse",
+      "command": "bun --no-install --no-env-file \"~/.claude/packages/bun/hooks/pre-tool-use.ts\" claude",
+      "meanMs": 38.62,
+      "medianMs": 38.49,
+      "stddevMs": 0.79,
+      "minMs": 37.51,
+      "maxMs": 40.63,
+      "runs": 12
+    }
+  ],
+  "events": [
+    {
+      "event": "SessionStart",
+      "processes": 4,
+      "wallMs": 57.29,
+      "totalMs": 162.53
+    },
+    {
+      "event": "UserPromptSubmit",
+      "processes": 2,
+      "wallMs": 23.39,
+      "totalMs": 46.72
+    },
+    {
+      "event": "PreToolUse",
+      "processes": 2,
+      "wallMs": 38.62,
+      "totalMs": 60.37
+    },
+    {
+      "event": "PostToolUse",
+      "processes": 3,
+      "wallMs": 82.66,
+      "totalMs": 127.49000000000001
+    },
+    {
+      "event": "SessionEnd",
+      "processes": 1,
+      "wallMs": 77.74,
+      "totalMs": 77.74
+    },
+    {
+      "event": "PostToolUseFailure",
+      "processes": 1,
+      "wallMs": 23.02,
+      "totalMs": 23.02
+    }
+  ],
+  "scripts": [
+    {
+      "id": "script/statusline",
+      "plugin": "scripts",
+      "event": "script",
+      "command": "bun --no-install --no-env-file scripts/statusline.ts",
+      "meanMs": 18.76,
+      "medianMs": 18.73,
+      "stddevMs": 0.28,
+      "minMs": 18.27,
+      "maxMs": 19.41,
+      "runs": 12
+    },
+    {
+      "id": "script/memory-search",
+      "plugin": "scripts",
+      "event": "script",
+      "command": "bun --no-install --no-env-file scripts/memory.ts search fleet roles",
+      "meanMs": 21.85,
+      "medianMs": 21.16,
+      "stddevMs": 2.05,
+      "minMs": 20.13,
+      "maxMs": 27.8,
+      "runs": 12
+    },
+    {
+      "id": "script/cron-list",
+      "plugin": "scripts",
+      "event": "script",
+      "command": "bun --no-install --no-env-file scripts/cron.ts list",
+      "meanMs": 22.7,
+      "medianMs": 22.61,
+      "stddevMs": 0.27,
+      "minMs": 22.44,
+      "maxMs": 23.43,
+      "runs": 12
+    },
+    {
+      "id": "script/skills-audit",
+      "plugin": "scripts",
+      "event": "script",
+      "command": "bun --no-install --no-env-file scripts/skills.ts",
+      "meanMs": 21.52,
+      "medianMs": 21.61,
+      "stddevMs": 0.36,
+      "minMs": 20.98,
+      "maxMs": 22.05,
+      "runs": 12
+    },
+    {
+      "id": "script/graph",
+      "plugin": "scripts",
+      "event": "script",
+      "command": "bun --no-install --no-env-file scripts/graph.ts",
+      "meanMs": 30.27,
+      "medianMs": 30.12,
+      "stddevMs": 0.53,
+      "minMs": 29.77,
+      "maxMs": 31.58,
+      "runs": 12
+    },
+    {
+      "id": "script/matrix-check",
+      "plugin": "scripts",
+      "event": "script",
+      "command": "bun --no-install --no-env-file scripts/matrix.ts --check",
+      "meanMs": 16.31,
+      "medianMs": 16.23,
+      "stddevMs": 0.35,
+      "minMs": 15.86,
+      "maxMs": 17.15,
+      "runs": 12
+    }
+  ]
+}

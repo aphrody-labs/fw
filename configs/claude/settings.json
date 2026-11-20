@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 14,
+  "skillListingMaxDescChars": 120,
+  "env": {
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1000000",
+    "BASH_MAX_OUTPUT_LENGTH": "150000",
+    "MAX_MCP_OUTPUT_TOKENS": "100000",
+    "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS": "100000",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000",
+    "ENABLE_TOOL_SEARCH": "true",
+    "BASH_MAX_TIMEOUT_MS": "600000",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_ENABLE_TODO_TOOLS": "1",
+    "CLAUDE_CODE_ENABLE_FINE_GRAINED_TOOL_STREAMING": "1",
+    "CLAUDE_CODE_ENABLE_CFC": "1",
+    "CLAUDE_CODE_ENABLE_AWAY_SUMMARY": "1",
+    "CLAUDE_CODE_EFFORT_LEVEL": "auto",
+    "CLAUDE_AUTO_BACKGROUND_TASKS": "1",
+    "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "5",
+    "CLAUDE_CODE_PROMPT_CACHE_TTL": "1h",
+    "CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTL": "1h",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet",
+    "MCP_DISCOVERY_CACHE": "1"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "includeGitInstructions": false,
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
+  "model": "sonnet",
+  "fallbackModel": [
+    "haiku"
+  ],
+  "skillOverrides": {
+    "aphrody:agent-browser": "name-only",
+    "aphrody:chrome-devtools": "name-only",
+    "aphrody:no-slop-humanizer": "off"
+  },
+  "enabledPlugins": {
+    "aphrody@aphrody": true,
+    "example-skills@anthropic-agent-skills": true,
+    "claude-md-management@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "csharp-lsp@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "code-modernization@anthropic-plugin-directory": true,
+    "api-doc-generator-openapi-from-your-code@anthropic-plugin-directory": true,
+    "deep-refactor@anthropic-plugin-directory": true,
+    "kotlin-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "aphrody": {
+      "source": {
+        "source": "directory",
+        "path": "C:\\Users\\aphro\\.claude"
+      }
+    },
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/skills"
+      }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "fw": {
+      "source": {
+        "source": "directory",
+        "path": "C:\\src\\fw"
+      }
+    }
+  },
+  "outputStyle": "Autonome",
+  "spinnerTipsEnabled": false,
+  "alwaysThinkingEnabled": true,
+  "modelSettings": {
+    "claude-sonnet-5-5": {
+      "effortLevel": "high"
+    },
+    "claude-fable-5-2": {
+      "effortLevel": "low"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "fastMode": true,
+  "awaySummaryEnabled": false,
+  "pluginConfigs": {
+    "cc-plugin-agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-and-agents-md"
+      }
+    }
+  },
+  "showThinkingSummaries": true,
+  "skipDangerousModePermissionPrompt": true,
+  "crossSessionInbound": "accept",
+  "useAutoModeDuringPlan": true
+}

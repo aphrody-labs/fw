@@ -1,0 +1,11 @@
+# Names of this repository, checked by the Aphrody naming scheme (aphrody-labs/.github, naming/NAMING.md).
+id = "claude"
+kind = "config"
+org = "aphrody-labs"
+repo = "claude"
+
+[names]
+env_prefix = "CLAUDE_"
+
+[exceptions]
+I120 = "AI_OS_ROOT is the documented optional override that locates a local ai-os checkout for the relay launcher; without it the relay MCP server is skipped and nothing else changes"

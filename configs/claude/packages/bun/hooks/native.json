@@ -1,0 +1,315 @@
+{
+  "skill": "bun-aphrody",
+  "search": "https://aphrody.app/api/bun/search?q=",
+  "instead": [
+    {
+      "names": ["express", "fastify", "koa", "node:http"],
+      "use": "Bun.serve({ routes })"
+    },
+    {
+      "names": ["ws", "socket.io", "uWebSockets.js"],
+      "use": "Bun.serve({ websocket })"
+    },
+    {
+      "names": ["fs.readFile", "fs.writeFile", "fs-extra"],
+      "use": "Bun.file / Bun.write"
+    },
+    {
+      "names": ["better-sqlite3", "sqlite3", "sqlite"],
+      "use": "bun:sqlite"
+    },
+    {
+      "names": ["pg", "postgres", "mysql2"],
+      "use": "Bun.sql / Bun.SQL"
+    },
+    {
+      "names": ["ioredis", "redis"],
+      "use": "Bun.redis / Bun.RedisClient"
+    },
+    {
+      "names": ["@aws-sdk/client-s3", "aws-sdk", "minio"],
+      "use": "Bun.s3 / Bun.S3Client"
+    },
+    {
+      "names": ["execa", "shelljs", "child_process.exec"],
+      "use": "Bun.$ (Bun Shell)"
+    },
+    {
+      "names": ["child_process.spawn", "cross-spawn"],
+      "use": "Bun.spawn / Bun.spawnSync"
+    },
+    {
+      "names": ["jest", "vitest", "mocha", "chai", "ts-jest"],
+      "use": "bun:test"
+    },
+    {
+      "names": ["bcrypt", "bcryptjs", "argon2"],
+      "use": "Bun.password"
+    },
+    {
+      "names": ["crypto.createHash", "xxhash", "murmurhash"],
+      "use": "Bun.CryptoHasher / Bun.hash"
+    },
+    {
+      "names": ["glob", "fast-glob", "globby", "minimatch"],
+      "use": "Bun.Glob"
+    },
+    {
+      "names": ["dotenv", "dotenv/config", "cross-env"],
+      "use": "Bun.env (.env loaded automatically)"
+    },
+    {
+      "names": ["node-fetch", "axios", "cross-fetch", "undici"],
+      "use": "global fetch"
+    },
+    {
+      "names": ["esbuild", "webpack", "rollup", "parcel", "tsup"],
+      "use": "Bun.build / bun build"
+    },
+    {
+      "names": ["ts-node", "tsx", "nodemon", "node --watch"],
+      "use": "bun <file>.ts / bun --watch"
+    },
+    {
+      "names": ["uuid", "nanoid"],
+      "use": "crypto.randomUUID / Bun.randomUUIDv7"
+    },
+    {
+      "names": [
+        "js-yaml",
+        "yaml",
+        "@iarna/toml",
+        "toml",
+        "jsonc-parser",
+        "json5"
+      ],
+      "use": "Bun.YAML / Bun.TOML / Bun.JSONC / Bun.JSON5 (or import the file)"
+    },
+    {
+      "names": ["semver"],
+      "use": "Bun.semver"
+    },
+    {
+      "names": ["zlib.gzipSync", "pako", "node-gzip"],
+      "use": "Bun.gzipSync / Bun.zstdCompress"
+    },
+    {
+      "names": ["cheerio", "jsdom", "node-html-parser"],
+      "use": "HTMLRewriter"
+    },
+    {
+      "names": [
+        "string-width",
+        "escape-html",
+        "fast-deep-equal",
+        "strip-ansi",
+        "util.promisify(setTimeout)"
+      ],
+      "use": "Bun.stringWidth / Bun.escapeHTML / Bun.deepEquals / Bun.which / Bun.stripANSI / Bun.sleep"
+    },
+    {
+      "names": ["cookie-parser"],
+      "use": "req.cookies / Bun.CookieMap"
+    },
+    {
+      "names": ["worker_threads", "piscina"],
+      "use": "Web Worker (new Worker)"
+    },
+    {
+      "names": ["ffi-napi", "node-ffi", "koffi"],
+      "use": "bun:ffi"
+    },
+    {
+      "names": ["keytar"],
+      "use": "Bun.secrets"
+    },
+    {
+      "names": ["ffprobe-static", "video-thumbnail", "fluent-ffmpeg"],
+      "use": "Bun.Video for native metadata, transformed frames, bounded audio and MP4 remux; composition encoding uses the Bun Video package"
+    },
+    {
+      "names": ["npm install", "npx", "yarn", "pnpm", "npm run"],
+      "use": "bun install / bun fmt / bun run; bunx only for commands without a native Bun owner"
+    },
+    {
+      "names": ["isomorphic-fetch"],
+      "use": "global fetch"
+    },
+    {
+      "names": ["minimist"],
+      "use": "util.parseArgs"
+    },
+    {
+      "names": ["chalk"],
+      "use": "natif"
+    },
+    {
+      "names": ["rimraf"],
+      "use": "fs.rm"
+    },
+    {
+      "names": ["mkdirp"],
+      "use": "fs.mkdir"
+    },
+    {
+      "names": ["node-cron"],
+      "use": "Bun.cron"
+    },
+    {
+      "names": ["node-got"],
+      "use": "global fetch"
+    },
+    {
+      "names": ["superagent"],
+      "use": "global fetch"
+    },
+    {
+      "names": ["make-fetch-happen"],
+      "use": "global fetch"
+    },
+    {
+      "names": ["ky"],
+      "use": "global fetch"
+    },
+    {
+      "names": ["form-data"],
+      "use": "FormData"
+    },
+    {
+      "names": ["abort-controller"],
+      "use": "AbortController"
+    },
+    {
+      "names": ["whatwg-url"],
+      "use": "URL"
+    },
+    {
+      "names": ["node-blob"],
+      "use": "Blob"
+    },
+    {
+      "names": ["web-streams-polyfill"],
+      "use": "global"
+    },
+    {
+      "names": ["@jest/globals"],
+      "use": "bun:test"
+    },
+    {
+      "names": ["jest-circus"],
+      "use": "bun:test"
+    },
+    {
+      "names": ["esm"],
+      "use": "natif"
+    },
+    {
+      "names": ["concurrently"],
+      "use": "natif"
+    },
+    {
+      "names": ["@types/node"],
+      "use": "@types/bun"
+    },
+    {
+      "names": ["smol-toml"],
+      "use": "Bun.TOML"
+    },
+    {
+      "names": ["dns-packet"],
+      "use": "bun dns"
+    },
+    {
+      "names": ["mime"],
+      "use": "natif"
+    },
+    {
+      "names": ["mime-types"],
+      "use": "natif"
+    },
+    {
+      "names": ["tiny-glob"],
+      "use": "bun (Glob)"
+    },
+    {
+      "names": ["glob-parent"],
+      "use": "bun (Glob)"
+    },
+    {
+      "names": ["deep-equal"],
+      "use": "Bun.deepEquals"
+    },
+    {
+      "names": ["lodash.isequal"],
+      "use": "Bun.deepEquals"
+    },
+    {
+      "names": ["he"],
+      "use": "Bun.escapeHTML"
+    },
+    {
+      "names": ["lodash.escape"],
+      "use": "Bun.escapeHTML"
+    },
+    {
+      "names": ["csurf"],
+      "use": "Bun.CSRF"
+    },
+    {
+      "names": ["csrf"],
+      "use": "Bun.CSRF"
+    },
+    {
+      "names": ["marked"],
+      "use": "Bun.markdown"
+    },
+    {
+      "names": ["markdown-it"],
+      "use": "Bun.markdown"
+    },
+    {
+      "names": ["ansi-regex"],
+      "use": "Bun.stripANSI"
+    },
+    {
+      "names": ["slice-ansi"],
+      "use": "Bun.sliceAnsi"
+    },
+    {
+      "names": ["kleur"],
+      "use": "natif"
+    },
+    {
+      "names": ["colorette"],
+      "use": "natif"
+    },
+    {
+      "names": ["picocolors"],
+      "use": "natif"
+    },
+    {
+      "names": ["eventsource"],
+      "use": "Bun.EventSource"
+    },
+    {
+      "names": ["eslint"],
+      "use": "@biomejs/biome"
+    },
+    {
+      "names": ["prettier"],
+      "use": "@biomejs/biome"
+    },
+    {
+      "names": ["@typescript-eslint/parser"],
+      "use": "@biomejs/biome"
+    },
+    {
+      "names": ["@typescript-eslint/eslint-plugin"],
+      "use": "@biomejs/biome"
+    },
+    {
+      "names": ["eslint-config-prettier"],
+      "use": "@biomejs/biome"
+    }
+  ]
+}

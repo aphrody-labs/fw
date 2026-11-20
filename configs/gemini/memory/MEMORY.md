@@ -1,0 +1,44 @@
+- [windows-cmd-quoting](windows-cmd-quoting.md) — Never embed escaped `\"...\"` inside Antigravity `statusLine`, `title`, or `hooks.json` `command` strings on Windows (`cmd /c` passes literal quotes to `bun`).
+- [modern-shell-windows](modern-shell-windows.md) — Use Nushell (`nu` 0.117+), `pwsh` 7.7+, or `bun -` stdin instead of legacy PowerShell 5.1; keep global `PATH` tiered via `bun tooling/bun/shell-path-doctor.ts`.
+- [antigravity-plugins](antigravity-plugins.md) — Materialize `~/.gemini/config/plugins/<name>` as real directories (Go `os.ReadDir` skips NTFS junctions) and obey strict `plugin.json` schema.
+- [gemini-isolation](gemini-isolation.md) — `~/.gemini` owns its own templates, hooks, scripts, plugins, autonomous learning, and GPUI dashboard (`bun ~/.gemini/scripts/install.ts` + `check.ts`).
+- [bun-brain](~/.gemini/brain/bun/INDEX.md) — Compacted Bun 1.4+ APIs, types, CLI, guides, and legacy replacement matrix (indexed in `learning/memory.db`; query via `bun ~/.gemini/scripts/learn.ts search` or `bun-brain` MCP).
+- [edit-and-sqlite-hygiene](edit-and-sqlite-hygiene.md) — Read exact lines before `edit_file`, finalize `bun:sqlite` statements before `db.close()` on Windows, and guard `SRC_ROOT` with per-repo marker files.
+- [gpui-brain](~/.gemini/brain/gpui/INDEX.md) — Compacted GPUI Core, GPUI Kit 0.10, GPUI Fast 0.1.17 retained-mode/scroll-layers architecture, and unification matrix (indexed in `learning/memory.db`; query via `bun ~/.gemini/scripts/learn.ts search` or refresh with `bun ~/.gemini/scripts/import-gpui-brain.ts`).
+- [nextjs-brain](~/.gemini/brain/nextjs/INDEX.md) — Compacted Next.js 16.5+ types, `NextConfig` schema, bundled docs, and `next-devtools-mcp` / workflow skills digest (indexed in `learning/memory.db`; query via `bun ~/.gemini/scripts/learn.ts search` or `nextjs-brain` MCP).
+- [docker-brain](~/.gemini/brain/docker/INDEX.md) — Compacted official `github.com/orgs/docker` docs (`docker/docs`), 11 official `docker/skills`, `docker/mcp-gateway`, and reproducible Buildx/Bake/Compose best practices (indexed in `learning/memory.db`; query via `bun ~/.gemini/scripts/learn.ts search` or `docker-brain` MCP).
+- [vercel-brain](~/.gemini/brain/vercel/INDEX.md) — Compacted official `vercel/vercel-plugin` knowledge graph, 47 official Vercel/agent skills, `vercel.com/llms.txt` docs, `vercel-brain` local MCP + `https://mcp.vercel.com` (indexed in `learning/memory.db`; query via `bun ~/.gemini/scripts/learn.ts search` or refresh with `bun ~/.gemini/scripts/import-vercel-brain.ts --live`).
+- [cross-session-coordination](cross-session-coordination.md) — Register in `relay` (`session_register`/`session_list`), respect sibling `agy` session ownership of `/srv/xbuild`, forks, and repos, and drain `session_inbox` on every `swarm_wait` wakeup.
+- [learned-auto](learned-auto.md) — Autonomously folded corrections and tool recoveries (zero approval required).
+- [learned-cloud](learned-cloud.md) — Autonomous serverless shared memory, skills, and lean MCP convergence across Aphrody PCs and agents.
+<!-- ws-memory:begin (generated from the shared workspace memory; edit that source) -->
+- [agent-policy](~/.gemini/memory/ws-agent-policy.md) — Parallelism, cheap models, literal request diffing, inventory is not delivery, request ledger in tasks
+- [ai-os-architecture](~/.gemini/memory/ws-ai-os-architecture.md) — Reusable building blocks across OS, browser, self-hosted Google services, UI, and Bun-style logo
+- [assemble-and-reuse](~/.gemini/memory/ws-assemble-and-reuse.md) — Upstream-first assembly, restore inventory lookup, deduplication, and measured performance
+- [autonomy-nhitl](~/.gemini/memory/ws-autonomy-nhitl.md) — Blanket consent, zero `deny`/blocking gates, minimal-input goal execution, zero pauses, never hand a choice back
+- [budget-and-hosting](~/.gemini/memory/ws-budget-and-hosting.md) — Google Sheet budget ledger, Cloudflare/VPS primary hosting, $0 Vercel policy
+- [code-quality-and-design](~/.gemini/memory/ws-code-quality-and-design.md) — Code-before-docs, Google eng bar, Figma/M3 visual diffing, latest deps, real proof
+- [english-i18n-generalist](~/.gemini/memory/ws-english-i18n-generalist.md) — English code/docs baseline, pluggable i18n catalogs, registry-driven generalist design
+- [fleet-and-relay](~/.gemini/memory/ws-fleet-and-relay.md) — Fleet roles (`fr1`/`fr2`/`prd`/PC), SSH recovery, Chrome Gemini fallback
+- [git-and-workspace-map](~/.gemini/memory/ws-git-and-workspace-map.md) — `$WORKSPACE_ROOT/*` checkouts, `ay`/`aphrody`/`open`/`auto`/`rosegriffon`/`nie` split, main-only git discipline
+- [legal-and-licenses](~/.gemini/memory/ws-legal-and-licenses.md) — Never gate architecture, absorption, or asset pipelines on license speculation
+- [naming-and-privacy](~/.gemini/memory/ws-naming-and-privacy.md) — Goal-derived naming (`identity.toml`), live discovery, zero private literals in tracked files
+- [owner-accessibility](~/.gemini/memory/ws-owner-accessibility.md) — Low-vision UX for rare human-only steps (short numbered single actions, direct launch)
+- [platform-lessons](~/.gemini/memory/ws-platform-lessons.md) — Reproducible host setup, focused workspace crates, platform API depth, continuous refactoring
+- [vision](~/.gemini/memory/ws-vision.md) — Generalist core vision: OS, browser, Google self-hosted services, and Cloudflare/Vercel in any best-fit language
+- [fleet-disks](~/.gemini/memory/ws-fleet-disks.md) — fr1 $WORK 805 GB XFS LVM (~740 GB free, NFS on fr2 $WORK/shared); small roots; scan with ay tools/disks.ts
+- [ay-legacy-rebuild](~/.gemini/memory/ws-ay-legacy-rebuild.md) — aphrody-labs/ay renamed legacy, purged from PC and fr1 (2026-11-16); $WORKSPACE_ROOT/ay is aphrody-dev/ay
+- [agent-fanout-budget](~/.gemini/memory/ws-agent-fanout-budget.md) — Hard cap 3 agents; commit+push per unit; after a restart inventory repos and resume agents first
+- [ai-os-repo](~/.gemini/memory/ws-ai-os-repo.md) — ai-os + AI surface in standalone aphrody-dev/ai-os, generated by tools/extract.ts from a pinned legacy rev
+- [ay-hub-source-of-truth](~/.gemini/memory/ws-ay-hub-source-of-truth.md) — aphrody = OS (agy); ay = independent SDK, any language incl. Rust
+- [no-security-nags](~/.gemini/memory/ws-no-security-nags.md) — Use pasted secrets silently; no revoke/rotate advice
+- [agy-coordination](~/.gemini/memory/ws-agy-coordination.md) — agy finished aphrody (now ours); never spawn or drive agy.exe
+- [npm-trusted-publishing](~/.gemini/memory/ws-npm-trusted-publishing.md) — @rosegriffon publishes via OIDC, no token; new packages need one owner trust step
+- [repo-independence](~/.gemini/memory/ws-repo-independence.md) — Repos independent; coherent prefixes/scopes; naming/ in aphrody-labs/.github
+- [inventory-before-asserting](~/.gemini/memory/ws-inventory-before-asserting.md) — Target Linux 7.5 + Wayland DE (GPUI/Zed) + Android 17/18 in WSL/QEMU/Docker; read all existing work first, never contradict the goal
+- [code-standard-unified](~/.gemini/memory/ws-code-standard-unified.md) — unified code/commit/PR/review standard in aphrody-labs/.github docs/standards: tools, decisions, refresh
+- [dig-deep-for-goals](~/.gemini/memory/ws-dig-deep-for-goals.md) — Goals over published versions; dig all local and remote data, write sourced findings, turn design-deciding facts into claims
+- [private-data-store](~/.gemini/memory/ws-private-data-store.md) — No PC/VPS/work data in tracked docs; generated docs and telemetry go to a git-ignored private store (ay: .private/, ay.local.toml, private-gate)
+- [toolchain-policy-and-ay-tools](~/.gemini/memory/ws-toolchain-policy-and-ay-tools.md) — One Rust/cargo-tools/sccache/Bun policy for all repos (.github templates/toolchain.toml); ay-tools merges just, turbo, bazel, depot_tools in Rust
+- [kitesurf-engine-workspace](~/.gemini/memory/ws-kitesurf-engine-workspace.md) — kitesurf patches in ten forks, 26 browser-* crates, crates.io publish workflow, 1027 cause
+<!-- ws-memory:end -->

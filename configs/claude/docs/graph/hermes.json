@@ -1,0 +1,3935 @@
+{
+  "name": "hermes",
+  "nodes": [
+    {
+      "id": "module:acp_adapter",
+      "kind": "module",
+      "label": "acp_adapter",
+      "path": "acp_adapter"
+    },
+    {
+      "id": "module:agent",
+      "kind": "module",
+      "label": "agent",
+      "path": "agent"
+    },
+    {
+      "id": "module:apps",
+      "kind": "module",
+      "label": "apps",
+      "path": "apps"
+    },
+    {
+      "id": "module:batch_runner",
+      "kind": "module",
+      "label": "batch_runner",
+      "path": "batch_runner"
+    },
+    {
+      "id": "module:cli",
+      "kind": "module",
+      "label": "cli",
+      "path": "cli"
+    },
+    {
+      "id": "module:cron",
+      "kind": "module",
+      "label": "cron",
+      "path": "cron"
+    },
+    {
+      "id": "module:docker",
+      "kind": "module",
+      "label": "docker",
+      "path": "docker"
+    },
+    {
+      "id": "module:evals",
+      "kind": "module",
+      "label": "evals",
+      "path": "evals"
+    },
+    {
+      "id": "module:gateway",
+      "kind": "module",
+      "label": "gateway",
+      "path": "gateway"
+    },
+    {
+      "id": "module:hermes_agent",
+      "kind": "module",
+      "label": "hermes_agent",
+      "path": "hermes_agent"
+    },
+    {
+      "id": "module:hermes_bootstrap",
+      "kind": "module",
+      "label": "hermes_bootstrap",
+      "path": "hermes_bootstrap"
+    },
+    {
+      "id": "module:hermes_cli",
+      "kind": "module",
+      "label": "hermes_cli",
+      "path": "hermes_cli"
+    },
+    {
+      "id": "module:hermes_constants",
+      "kind": "module",
+      "label": "hermes_constants",
+      "path": "hermes_constants"
+    },
+    {
+      "id": "module:hermes_constants_scratch",
+      "kind": "module",
+      "label": "hermes_constants_scratch",
+      "path": "hermes_constants_scratch"
+    },
+    {
+      "id": "module:hermes_constants_scratch_detach",
+      "kind": "module",
+      "label": "hermes_constants_scratch_detach",
+      "path": "hermes_constants_scratch_detach"
+    },
+    {
+      "id": "module:hermes_constants_scratch_stuck",
+      "kind": "module",
+      "label": "hermes_constants_scratch_stuck",
+      "path": "hermes_constants_scratch_stuck"
+    },
+    {
+      "id": "module:hermes_dir_acl",
+      "kind": "module",
+      "label": "hermes_dir_acl",
+      "path": "hermes_dir_acl"
+    },
+    {
+      "id": "module:hermes_logging",
+      "kind": "module",
+      "label": "hermes_logging",
+      "path": "hermes_logging"
+    },
+    {
+      "id": "module:hermes_platform",
+      "kind": "module",
+      "label": "hermes_platform",
+      "path": "hermes_platform"
+    },
+    {
+      "id": "module:hermes_scope",
+      "kind": "module",
+      "label": "hermes_scope",
+      "path": "hermes_scope"
+    },
+    {
+      "id": "module:hermes_startup_watchdog",
+      "kind": "module",
+      "label": "hermes_startup_watchdog",
+      "path": "hermes_startup_watchdog"
+    },
+    {
+      "id": "module:hermes_state",
+      "kind": "module",
+      "label": "hermes_state",
+      "path": "hermes_state"
+    },
+    {
+      "id": "module:hermes_state_api_content",
+      "kind": "module",
+      "label": "hermes_state_api_content",
+      "path": "hermes_state_api_content"
+    },
+    {
+      "id": "module:hermes_state_common",
+      "kind": "module",
+      "label": "hermes_state_common",
+      "path": "hermes_state_common"
+    },
+    {
+      "id": "module:hermes_state_compaction_display",
+      "kind": "module",
+      "label": "hermes_state_compaction_display",
+      "path": "hermes_state_compaction_display"
+    },
+    {
+      "id": "module:hermes_state_compression",
+      "kind": "module",
+      "label": "hermes_state_compression",
+      "path": "hermes_state_compression"
+    },
+    {
+      "id": "module:hermes_state_coverage",
+      "kind": "module",
+      "label": "hermes_state_coverage",
+      "path": "hermes_state_coverage"
+    },
+    {
+      "id": "module:hermes_state_dbfile",
+      "kind": "module",
+      "label": "hermes_state_dbfile",
+      "path": "hermes_state_dbfile"
+    },
+    {
+      "id": "module:hermes_state_delegate_children",
+      "kind": "module",
+      "label": "hermes_state_delegate_children",
+      "path": "hermes_state_delegate_children"
+    },
+    {
+      "id": "module:hermes_state_detached_results",
+      "kind": "module",
+      "label": "hermes_state_detached_results",
+      "path": "hermes_state_detached_results"
+    },
+    {
+      "id": "module:hermes_state_errors",
+      "kind": "module",
+      "label": "hermes_state_errors",
+      "path": "hermes_state_errors"
+    },
+    {
+      "id": "module:hermes_state_fts",
+      "kind": "module",
+      "label": "hermes_state_fts",
+      "path": "hermes_state_fts"
+    },
+    {
+      "id": "module:hermes_state_gateway",
+      "kind": "module",
+      "label": "hermes_state_gateway",
+      "path": "hermes_state_gateway"
+    },
+    {
+      "id": "module:hermes_state_guard",
+      "kind": "module",
+      "label": "hermes_state_guard",
+      "path": "hermes_state_guard"
+    },
+    {
+      "id": "module:hermes_state_health",
+      "kind": "module",
+      "label": "hermes_state_health",
+      "path": "hermes_state_health"
+    },
+    {
+      "id": "module:hermes_state_holders",
+      "kind": "module",
+      "label": "hermes_state_holders",
+      "path": "hermes_state_holders"
+    },
+    {
+      "id": "module:hermes_state_identity",
+      "kind": "module",
+      "label": "hermes_state_identity",
+      "path": "hermes_state_identity"
+    },
+    {
+      "id": "module:hermes_state_ids",
+      "kind": "module",
+      "label": "hermes_state_ids",
+      "path": "hermes_state_ids"
+    },
+    {
+      "id": "module:hermes_state_keys",
+      "kind": "module",
+      "label": "hermes_state_keys",
+      "path": "hermes_state_keys"
+    },
+    {
+      "id": "module:hermes_state_legacy_refusal",
+      "kind": "module",
+      "label": "hermes_state_legacy_refusal",
+      "path": "hermes_state_legacy_refusal"
+    },
+    {
+      "id": "module:hermes_state_local",
+      "kind": "module",
+      "label": "hermes_state_local",
+      "path": "hermes_state_local"
+    },
+    {
+      "id": "module:hermes_state_local_lineage",
+      "kind": "module",
+      "label": "hermes_state_local_lineage",
+      "path": "hermes_state_local_lineage"
+    },
+    {
+      "id": "module:hermes_state_local_migration",
+      "kind": "module",
+      "label": "hermes_state_local_migration",
+      "path": "hermes_state_local_migration"
+    },
+    {
+      "id": "module:hermes_state_lockguard",
+      "kind": "module",
+      "label": "hermes_state_lockguard",
+      "path": "hermes_state_lockguard"
+    },
+    {
+      "id": "module:hermes_state_lockowners",
+      "kind": "module",
+      "label": "hermes_state_lockowners",
+      "path": "hermes_state_lockowners"
+    },
+    {
+      "id": "module:hermes_state_loop_guard",
+      "kind": "module",
+      "label": "hermes_state_loop_guard",
+      "path": "hermes_state_loop_guard"
+    },
+    {
+      "id": "module:hermes_state_maintenance",
+      "kind": "module",
+      "label": "hermes_state_maintenance",
+      "path": "hermes_state_maintenance"
+    },
+    {
+      "id": "module:hermes_state_media",
+      "kind": "module",
+      "label": "hermes_state_media",
+      "path": "hermes_state_media"
+    },
+    {
+      "id": "module:hermes_state_messages",
+      "kind": "module",
+      "label": "hermes_state_messages",
+      "path": "hermes_state_messages"
+    },
+    {
+      "id": "module:hermes_state_mutation_binding",
+      "kind": "module",
+      "label": "hermes_state_mutation_binding",
+      "path": "hermes_state_mutation_binding"
+    },
+    {
+      "id": "module:hermes_state_mutation_branch",
+      "kind": "module",
+      "label": "hermes_state_mutation_branch",
+      "path": "hermes_state_mutation_branch"
+    },
+    {
+      "id": "module:hermes_state_mutation_chat_pick",
+      "kind": "module",
+      "label": "hermes_state_mutation_chat_pick",
+      "path": "hermes_state_mutation_chat_pick"
+    },
+    {
+      "id": "module:hermes_state_mutation_compress",
+      "kind": "module",
+      "label": "hermes_state_mutation_compress",
+      "path": "hermes_state_mutation_compress"
+    },
+    {
+      "id": "module:hermes_state_mutation_guards",
+      "kind": "module",
+      "label": "hermes_state_mutation_guards",
+      "path": "hermes_state_mutation_guards"
+    },
+    {
+      "id": "module:hermes_state_mutation_prepared",
+      "kind": "module",
+      "label": "hermes_state_mutation_prepared",
+      "path": "hermes_state_mutation_prepared"
+    },
+    {
+      "id": "module:hermes_state_mutation_reset",
+      "kind": "module",
+      "label": "hermes_state_mutation_reset",
+      "path": "hermes_state_mutation_reset"
+    },
+    {
+      "id": "module:hermes_state_mutation_retirement",
+      "kind": "module",
+      "label": "hermes_state_mutation_retirement",
+      "path": "hermes_state_mutation_retirement"
+    },
+    {
+      "id": "module:hermes_state_mutation_transcript",
+      "kind": "module",
+      "label": "hermes_state_mutation_transcript",
+      "path": "hermes_state_mutation_transcript"
+    },
+    {
+      "id": "module:hermes_state_mutations",
+      "kind": "module",
+      "label": "hermes_state_mutations",
+      "path": "hermes_state_mutations"
+    },
+    {
+      "id": "module:hermes_state_pidns",
+      "kind": "module",
+      "label": "hermes_state_pidns",
+      "path": "hermes_state_pidns"
+    },
+    {
+      "id": "module:hermes_state_portability",
+      "kind": "module",
+      "label": "hermes_state_portability",
+      "path": "hermes_state_portability"
+    },
+    {
+      "id": "module:hermes_state_profile_repair",
+      "kind": "module",
+      "label": "hermes_state_profile_repair",
+      "path": "hermes_state_profile_repair"
+    },
+    {
+      "id": "module:hermes_state_prompt_refresh",
+      "kind": "module",
+      "label": "hermes_state_prompt_refresh",
+      "path": "hermes_state_prompt_refresh"
+    },
+    {
+      "id": "module:hermes_state_prune_rewrite",
+      "kind": "module",
+      "label": "hermes_state_prune_rewrite",
+      "path": "hermes_state_prune_rewrite"
+    },
+    {
+      "id": "module:hermes_state_readpool",
+      "kind": "module",
+      "label": "hermes_state_readpool",
+      "path": "hermes_state_readpool"
+    },
+    {
+      "id": "module:hermes_state_reconcile",
+      "kind": "module",
+      "label": "hermes_state_reconcile",
+      "path": "hermes_state_reconcile"
+    },
+    {
+      "id": "module:hermes_state_registry",
+      "kind": "module",
+      "label": "hermes_state_registry",
+      "path": "hermes_state_registry"
+    },
+    {
+      "id": "module:hermes_state_repair",
+      "kind": "module",
+      "label": "hermes_state_repair",
+      "path": "hermes_state_repair"
+    },
+    {
+      "id": "module:hermes_state_rewind",
+      "kind": "module",
+      "label": "hermes_state_rewind",
+      "path": "hermes_state_rewind"
+    },
+    {
+      "id": "module:hermes_state_runtime",
+      "kind": "module",
+      "label": "hermes_state_runtime",
+      "path": "hermes_state_runtime"
+    },
+    {
+      "id": "module:hermes_state_runtime_workers",
+      "kind": "module",
+      "label": "hermes_state_runtime_workers",
+      "path": "hermes_state_runtime_workers"
+    },
+    {
+      "id": "module:hermes_state_schema",
+      "kind": "module",
+      "label": "hermes_state_schema",
+      "path": "hermes_state_schema"
+    },
+    {
+      "id": "module:hermes_state_search",
+      "kind": "module",
+      "label": "hermes_state_search",
+      "path": "hermes_state_search"
+    },
+    {
+      "id": "module:hermes_state_session_list",
+      "kind": "module",
+      "label": "hermes_state_session_list",
+      "path": "hermes_state_session_list"
+    },
+    {
+      "id": "module:hermes_state_sessions",
+      "kind": "module",
+      "label": "hermes_state_sessions",
+      "path": "hermes_state_sessions"
+    },
+    {
+      "id": "module:hermes_state_sessions_model_config",
+      "kind": "module",
+      "label": "hermes_state_sessions_model_config",
+      "path": "hermes_state_sessions_model_config"
+    },
+    {
+      "id": "module:hermes_state_stored_reads",
+      "kind": "module",
+      "label": "hermes_state_stored_reads",
+      "path": "hermes_state_stored_reads"
+    },
+    {
+      "id": "module:hermes_state_telegram",
+      "kind": "module",
+      "label": "hermes_state_telegram",
+      "path": "hermes_state_telegram"
+    },
+    {
+      "id": "module:hermes_state_terminal",
+      "kind": "module",
+      "label": "hermes_state_terminal",
+      "path": "hermes_state_terminal"
+    },
+    {
+      "id": "module:hermes_state_timeline",
+      "kind": "module",
+      "label": "hermes_state_timeline",
+      "path": "hermes_state_timeline"
+    },
+    {
+      "id": "module:hermes_state_titles",
+      "kind": "module",
+      "label": "hermes_state_titles",
+      "path": "hermes_state_titles"
+    },
+    {
+      "id": "module:hermes_state_todo",
+      "kind": "module",
+      "label": "hermes_state_todo",
+      "path": "hermes_state_todo"
+    },
+    {
+      "id": "module:hermes_state_usage",
+      "kind": "module",
+      "label": "hermes_state_usage",
+      "path": "hermes_state_usage"
+    },
+    {
+      "id": "module:hermes_state_user_copy",
+      "kind": "module",
+      "label": "hermes_state_user_copy",
+      "path": "hermes_state_user_copy"
+    },
+    {
+      "id": "module:hermes_state_wal",
+      "kind": "module",
+      "label": "hermes_state_wal",
+      "path": "hermes_state_wal"
+    },
+    {
+      "id": "module:hermes_state_worker_compression",
+      "kind": "module",
+      "label": "hermes_state_worker_compression",
+      "path": "hermes_state_worker_compression"
+    },
+    {
+      "id": "module:hermes_state_worker_context",
+      "kind": "module",
+      "label": "hermes_state_worker_context",
+      "path": "hermes_state_worker_context"
+    },
+    {
+      "id": "module:hermes_state_worker_lifecycle",
+      "kind": "module",
+      "label": "hermes_state_worker_lifecycle",
+      "path": "hermes_state_worker_lifecycle"
+    },
+    {
+      "id": "module:hermes_state_write",
+      "kind": "module",
+      "label": "hermes_state_write",
+      "path": "hermes_state_write"
+    },
+    {
+      "id": "module:hermes_time",
+      "kind": "module",
+      "label": "hermes_time",
+      "path": "hermes_time"
+    },
+    {
+      "id": "module:hermes_yaml",
+      "kind": "module",
+      "label": "hermes_yaml",
+      "path": "hermes_yaml"
+    },
+    {
+      "id": "module:model_tools",
+      "kind": "module",
+      "label": "model_tools",
+      "path": "model_tools"
+    },
+    {
+      "id": "module:nix",
+      "kind": "module",
+      "label": "nix",
+      "path": "nix"
+    },
+    {
+      "id": "module:pm",
+      "kind": "module",
+      "label": "pm",
+      "path": "pm"
+    },
+    {
+      "id": "module:providers",
+      "kind": "module",
+      "label": "providers",
+      "path": "providers"
+    },
+    {
+      "id": "module:registration_lifecycle",
+      "kind": "module",
+      "label": "registration_lifecycle",
+      "path": "registration_lifecycle"
+    },
+    {
+      "id": "module:run_agent",
+      "kind": "module",
+      "label": "run_agent",
+      "path": "run_agent"
+    },
+    {
+      "id": "module:scripts",
+      "kind": "module",
+      "label": "scripts",
+      "path": "scripts"
+    },
+    {
+      "id": "module:setup",
+      "kind": "module",
+      "label": "setup",
+      "path": "setup"
+    },
+    {
+      "id": "module:tools",
+      "kind": "module",
+      "label": "tools",
+      "path": "tools"
+    },
+    {
+      "id": "module:toolset_distributions",
+      "kind": "module",
+      "label": "toolset_distributions",
+      "path": "toolset_distributions"
+    },
+    {
+      "id": "module:toolsets",
+      "kind": "module",
+      "label": "toolsets",
+      "path": "toolsets"
+    },
+    {
+      "id": "module:trajectory_compressor",
+      "kind": "module",
+      "label": "trajectory_compressor",
+      "path": "trajectory_compressor"
+    },
+    {
+      "id": "module:tui_gateway",
+      "kind": "module",
+      "label": "tui_gateway",
+      "path": "tui_gateway"
+    },
+    {
+      "id": "module:ui-tui",
+      "kind": "module",
+      "label": "ui-tui",
+      "path": "ui-tui"
+    },
+    {
+      "id": "module:utils",
+      "kind": "module",
+      "label": "utils",
+      "path": "utils"
+    },
+    {
+      "id": "module:website",
+      "kind": "module",
+      "label": "website",
+      "path": "website"
+    },
+    {
+      "id": "plugin:plugins/browser/browser_use",
+      "kind": "plugin",
+      "label": "plugins/browser/browser_use",
+      "path": "plugins/browser/browser_use/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/browser/browserbase",
+      "kind": "plugin",
+      "label": "plugins/browser/browserbase",
+      "path": "plugins/browser/browserbase/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/browser/firecrawl",
+      "kind": "plugin",
+      "label": "plugins/browser/firecrawl",
+      "path": "plugins/browser/firecrawl/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/computer_use/cua",
+      "kind": "plugin",
+      "label": "plugins/computer_use/cua",
+      "path": "plugins/computer_use/cua/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/config_backends/remote",
+      "kind": "plugin",
+      "label": "plugins/config_backends/remote",
+      "path": "plugins/config_backends/remote/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/cron_providers/chronos",
+      "kind": "plugin",
+      "label": "plugins/cron_providers/chronos",
+      "path": "plugins/cron_providers/chronos/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/dashboard_auth/basic",
+      "kind": "plugin",
+      "label": "plugins/dashboard_auth/basic",
+      "path": "plugins/dashboard_auth/basic/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/dashboard_auth/drain",
+      "kind": "plugin",
+      "label": "plugins/dashboard_auth/drain",
+      "path": "plugins/dashboard_auth/drain/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/dashboard_auth/nous",
+      "kind": "plugin",
+      "label": "plugins/dashboard_auth/nous",
+      "path": "plugins/dashboard_auth/nous/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/dashboard_auth/self_hosted",
+      "kind": "plugin",
+      "label": "plugins/dashboard_auth/self_hosted",
+      "path": "plugins/dashboard_auth/self_hosted/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/dashboard_auth/session_token",
+      "kind": "plugin",
+      "label": "plugins/dashboard_auth/session_token",
+      "path": "plugins/dashboard_auth/session_token/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/delegation/default",
+      "kind": "plugin",
+      "label": "plugins/delegation/default",
+      "path": "plugins/delegation/default/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/disk-cleanup",
+      "kind": "plugin",
+      "label": "plugins/disk-cleanup",
+      "path": "plugins/disk-cleanup/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/google_meet",
+      "kind": "plugin",
+      "label": "plugins/google_meet",
+      "path": "plugins/google_meet/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/image_gen/deepinfra",
+      "kind": "plugin",
+      "label": "plugins/image_gen/deepinfra",
+      "path": "plugins/image_gen/deepinfra/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/image_gen/fal",
+      "kind": "plugin",
+      "label": "plugins/image_gen/fal",
+      "path": "plugins/image_gen/fal/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/image_gen/krea",
+      "kind": "plugin",
+      "label": "plugins/image_gen/krea",
+      "path": "plugins/image_gen/krea/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/image_gen/meta-ai",
+      "kind": "plugin",
+      "label": "plugins/image_gen/meta-ai",
+      "path": "plugins/image_gen/meta-ai/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/image_gen/openai",
+      "kind": "plugin",
+      "label": "plugins/image_gen/openai",
+      "path": "plugins/image_gen/openai/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/image_gen/openai-codex",
+      "kind": "plugin",
+      "label": "plugins/image_gen/openai-codex",
+      "path": "plugins/image_gen/openai-codex/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/image_gen/openrouter",
+      "kind": "plugin",
+      "label": "plugins/image_gen/openrouter",
+      "path": "plugins/image_gen/openrouter/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/image_gen/xai",
+      "kind": "plugin",
+      "label": "plugins/image_gen/xai",
+      "path": "plugins/image_gen/xai/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/memory/byterover",
+      "kind": "plugin",
+      "label": "plugins/memory/byterover",
+      "path": "plugins/memory/byterover/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/memory/retaindb",
+      "kind": "plugin",
+      "label": "plugins/memory/retaindb",
+      "path": "plugins/memory/retaindb/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/actual",
+      "kind": "plugin",
+      "label": "plugins/model-providers/actual",
+      "path": "plugins/model-providers/actual/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/ai-gateway",
+      "kind": "plugin",
+      "label": "plugins/model-providers/ai-gateway",
+      "path": "plugins/model-providers/ai-gateway/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/alibaba",
+      "kind": "plugin",
+      "label": "plugins/model-providers/alibaba",
+      "path": "plugins/model-providers/alibaba/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/alibaba-coding-plan",
+      "kind": "plugin",
+      "label": "plugins/model-providers/alibaba-coding-plan",
+      "path": "plugins/model-providers/alibaba-coding-plan/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/anthropic",
+      "kind": "plugin",
+      "label": "plugins/model-providers/anthropic",
+      "path": "plugins/model-providers/anthropic/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/arcee",
+      "kind": "plugin",
+      "label": "plugins/model-providers/arcee",
+      "path": "plugins/model-providers/arcee/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/azure-foundry",
+      "kind": "plugin",
+      "label": "plugins/model-providers/azure-foundry",
+      "path": "plugins/model-providers/azure-foundry/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/bedrock",
+      "kind": "plugin",
+      "label": "plugins/model-providers/bedrock",
+      "path": "plugins/model-providers/bedrock/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/commandcode",
+      "kind": "plugin",
+      "label": "plugins/model-providers/commandcode",
+      "path": "plugins/model-providers/commandcode/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/custom",
+      "kind": "plugin",
+      "label": "plugins/model-providers/custom",
+      "path": "plugins/model-providers/custom/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/deepinfra",
+      "kind": "plugin",
+      "label": "plugins/model-providers/deepinfra",
+      "path": "plugins/model-providers/deepinfra/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/deepseek",
+      "kind": "plugin",
+      "label": "plugins/model-providers/deepseek",
+      "path": "plugins/model-providers/deepseek/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/fireworks",
+      "kind": "plugin",
+      "label": "plugins/model-providers/fireworks",
+      "path": "plugins/model-providers/fireworks/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/gemini",
+      "kind": "plugin",
+      "label": "plugins/model-providers/gemini",
+      "path": "plugins/model-providers/gemini/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/gmi",
+      "kind": "plugin",
+      "label": "plugins/model-providers/gmi",
+      "path": "plugins/model-providers/gmi/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/huggingface",
+      "kind": "plugin",
+      "label": "plugins/model-providers/huggingface",
+      "path": "plugins/model-providers/huggingface/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/kilocode",
+      "kind": "plugin",
+      "label": "plugins/model-providers/kilocode",
+      "path": "plugins/model-providers/kilocode/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/kimi-coding",
+      "kind": "plugin",
+      "label": "plugins/model-providers/kimi-coding",
+      "path": "plugins/model-providers/kimi-coding/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/lmstudio",
+      "kind": "plugin",
+      "label": "plugins/model-providers/lmstudio",
+      "path": "plugins/model-providers/lmstudio/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/meta-ai",
+      "kind": "plugin",
+      "label": "plugins/model-providers/meta-ai",
+      "path": "plugins/model-providers/meta-ai/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/minimax",
+      "kind": "plugin",
+      "label": "plugins/model-providers/minimax",
+      "path": "plugins/model-providers/minimax/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/nebius-token-factory",
+      "kind": "plugin",
+      "label": "plugins/model-providers/nebius-token-factory",
+      "path": "plugins/model-providers/nebius-token-factory/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/nous",
+      "kind": "plugin",
+      "label": "plugins/model-providers/nous",
+      "path": "plugins/model-providers/nous/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/novita",
+      "kind": "plugin",
+      "label": "plugins/model-providers/novita",
+      "path": "plugins/model-providers/novita/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/nvidia",
+      "kind": "plugin",
+      "label": "plugins/model-providers/nvidia",
+      "path": "plugins/model-providers/nvidia/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/ollama-cloud",
+      "kind": "plugin",
+      "label": "plugins/model-providers/ollama-cloud",
+      "path": "plugins/model-providers/ollama-cloud/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/openai-codex",
+      "kind": "plugin",
+      "label": "plugins/model-providers/openai-codex",
+      "path": "plugins/model-providers/openai-codex/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/opencode-zen",
+      "kind": "plugin",
+      "label": "plugins/model-providers/opencode-zen",
+      "path": "plugins/model-providers/opencode-zen/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/openrouter",
+      "kind": "plugin",
+      "label": "plugins/model-providers/openrouter",
+      "path": "plugins/model-providers/openrouter/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/qwen-oauth",
+      "kind": "plugin",
+      "label": "plugins/model-providers/qwen-oauth",
+      "path": "plugins/model-providers/qwen-oauth/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/router",
+      "kind": "plugin",
+      "label": "plugins/model-providers/router",
+      "path": "plugins/model-providers/router/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/solstice",
+      "kind": "plugin",
+      "label": "plugins/model-providers/solstice",
+      "path": "plugins/model-providers/solstice/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/stepfun",
+      "kind": "plugin",
+      "label": "plugins/model-providers/stepfun",
+      "path": "plugins/model-providers/stepfun/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/tencent-tokenhub",
+      "kind": "plugin",
+      "label": "plugins/model-providers/tencent-tokenhub",
+      "path": "plugins/model-providers/tencent-tokenhub/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/upstage",
+      "kind": "plugin",
+      "label": "plugins/model-providers/upstage",
+      "path": "plugins/model-providers/upstage/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/vertex",
+      "kind": "plugin",
+      "label": "plugins/model-providers/vertex",
+      "path": "plugins/model-providers/vertex/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/xai",
+      "kind": "plugin",
+      "label": "plugins/model-providers/xai",
+      "path": "plugins/model-providers/xai/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/xiaomi",
+      "kind": "plugin",
+      "label": "plugins/model-providers/xiaomi",
+      "path": "plugins/model-providers/xiaomi/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/model-providers/zai",
+      "kind": "plugin",
+      "label": "plugins/model-providers/zai",
+      "path": "plugins/model-providers/zai/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/a2a",
+      "kind": "plugin",
+      "label": "plugins/platforms/a2a",
+      "path": "plugins/platforms/a2a/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/bluebubbles",
+      "kind": "plugin",
+      "label": "plugins/platforms/bluebubbles",
+      "path": "plugins/platforms/bluebubbles/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/buzz",
+      "kind": "plugin",
+      "label": "plugins/platforms/buzz",
+      "path": "plugins/platforms/buzz/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/dingtalk",
+      "kind": "plugin",
+      "label": "plugins/platforms/dingtalk",
+      "path": "plugins/platforms/dingtalk/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/discord",
+      "kind": "plugin",
+      "label": "plugins/platforms/discord",
+      "path": "plugins/platforms/discord/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/email",
+      "kind": "plugin",
+      "label": "plugins/platforms/email",
+      "path": "plugins/platforms/email/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/feishu",
+      "kind": "plugin",
+      "label": "plugins/platforms/feishu",
+      "path": "plugins/platforms/feishu/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/google_chat",
+      "kind": "plugin",
+      "label": "plugins/platforms/google_chat",
+      "path": "plugins/platforms/google_chat/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/irc",
+      "kind": "plugin",
+      "label": "plugins/platforms/irc",
+      "path": "plugins/platforms/irc/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/line",
+      "kind": "plugin",
+      "label": "plugins/platforms/line",
+      "path": "plugins/platforms/line/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/matrix",
+      "kind": "plugin",
+      "label": "plugins/platforms/matrix",
+      "path": "plugins/platforms/matrix/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/mattermost",
+      "kind": "plugin",
+      "label": "plugins/platforms/mattermost",
+      "path": "plugins/platforms/mattermost/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/ntfy",
+      "kind": "plugin",
+      "label": "plugins/platforms/ntfy",
+      "path": "plugins/platforms/ntfy/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/photon",
+      "kind": "plugin",
+      "label": "plugins/platforms/photon",
+      "path": "plugins/platforms/photon/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/qqbot",
+      "kind": "plugin",
+      "label": "plugins/platforms/qqbot",
+      "path": "plugins/platforms/qqbot/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/raft",
+      "kind": "plugin",
+      "label": "plugins/platforms/raft",
+      "path": "plugins/platforms/raft/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/signal",
+      "kind": "plugin",
+      "label": "plugins/platforms/signal",
+      "path": "plugins/platforms/signal/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/simplex",
+      "kind": "plugin",
+      "label": "plugins/platforms/simplex",
+      "path": "plugins/platforms/simplex/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/slack",
+      "kind": "plugin",
+      "label": "plugins/platforms/slack",
+      "path": "plugins/platforms/slack/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/sms",
+      "kind": "plugin",
+      "label": "plugins/platforms/sms",
+      "path": "plugins/platforms/sms/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/teams",
+      "kind": "plugin",
+      "label": "plugins/platforms/teams",
+      "path": "plugins/platforms/teams/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/telegram",
+      "kind": "plugin",
+      "label": "plugins/platforms/telegram",
+      "path": "plugins/platforms/telegram/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/wecom",
+      "kind": "plugin",
+      "label": "plugins/platforms/wecom",
+      "path": "plugins/platforms/wecom/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/weixin",
+      "kind": "plugin",
+      "label": "plugins/platforms/weixin",
+      "path": "plugins/platforms/weixin/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/whatsapp",
+      "kind": "plugin",
+      "label": "plugins/platforms/whatsapp",
+      "path": "plugins/platforms/whatsapp/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/platforms/whatsapp_cloud",
+      "kind": "plugin",
+      "label": "plugins/platforms/whatsapp_cloud",
+      "path": "plugins/platforms/whatsapp_cloud/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/security-guidance",
+      "kind": "plugin",
+      "label": "plugins/security-guidance",
+      "path": "plugins/security-guidance/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/teams_pipeline",
+      "kind": "plugin",
+      "label": "plugins/teams_pipeline",
+      "path": "plugins/teams_pipeline/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/video_gen/deepinfra",
+      "kind": "plugin",
+      "label": "plugins/video_gen/deepinfra",
+      "path": "plugins/video_gen/deepinfra/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/video_gen/fal",
+      "kind": "plugin",
+      "label": "plugins/video_gen/fal",
+      "path": "plugins/video_gen/fal/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/video_gen/openrouter",
+      "kind": "plugin",
+      "label": "plugins/video_gen/openrouter",
+      "path": "plugins/video_gen/openrouter/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/video_gen/xai",
+      "kind": "plugin",
+      "label": "plugins/video_gen/xai",
+      "path": "plugins/video_gen/xai/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/brave_free",
+      "kind": "plugin",
+      "label": "plugins/web/brave_free",
+      "path": "plugins/web/brave_free/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/ddgs",
+      "kind": "plugin",
+      "label": "plugins/web/ddgs",
+      "path": "plugins/web/ddgs/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/exa",
+      "kind": "plugin",
+      "label": "plugins/web/exa",
+      "path": "plugins/web/exa/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/firecrawl",
+      "kind": "plugin",
+      "label": "plugins/web/firecrawl",
+      "path": "plugins/web/firecrawl/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/keenable",
+      "kind": "plugin",
+      "label": "plugins/web/keenable",
+      "path": "plugins/web/keenable/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/openai_native",
+      "kind": "plugin",
+      "label": "plugins/web/openai_native",
+      "path": "plugins/web/openai_native/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/parallel",
+      "kind": "plugin",
+      "label": "plugins/web/parallel",
+      "path": "plugins/web/parallel/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/perplexity",
+      "kind": "plugin",
+      "label": "plugins/web/perplexity",
+      "path": "plugins/web/perplexity/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/searxng",
+      "kind": "plugin",
+      "label": "plugins/web/searxng",
+      "path": "plugins/web/searxng/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/tavily",
+      "kind": "plugin",
+      "label": "plugins/web/tavily",
+      "path": "plugins/web/tavily/plugin.yaml"
+    },
+    {
+      "id": "plugin:plugins/web/xai",
+      "kind": "plugin",
+      "label": "plugins/web/xai",
+      "path": "plugins/web/xai/plugin.yaml"
+    },
+    {
+      "id": "skill:optional-skills/autonomous-ai-agents/agent-merge-conflict-arbiter/SKILL.md",
+      "kind": "skill",
+      "label": "agent-merge-conflict-arbiter",
+      "path": "optional-skills/autonomous-ai-agents/agent-merge-conflict-arbiter/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/autonomous-ai-agents/antigravity-cli/SKILL.md",
+      "kind": "skill",
+      "label": "antigravity-cli",
+      "path": "optional-skills/autonomous-ai-agents/antigravity-cli/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/autonomous-ai-agents/blackbox/SKILL.md",
+      "kind": "skill",
+      "label": "blackbox",
+      "path": "optional-skills/autonomous-ai-agents/blackbox/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/autonomous-ai-agents/dynamic-workflow/SKILL.md",
+      "kind": "skill",
+      "label": "dynamic-workflow",
+      "path": "optional-skills/autonomous-ai-agents/dynamic-workflow/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/autonomous-ai-agents/grok/SKILL.md",
+      "kind": "skill",
+      "label": "grok",
+      "path": "optional-skills/autonomous-ai-agents/grok/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/autonomous-ai-agents/opencode/SKILL.md",
+      "kind": "skill",
+      "label": "opencode",
+      "path": "optional-skills/autonomous-ai-agents/opencode/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/autonomous-ai-agents/openhands/SKILL.md",
+      "kind": "skill",
+      "label": "openhands",
+      "path": "optional-skills/autonomous-ai-agents/openhands/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/blockchain/evm/SKILL.md",
+      "kind": "skill",
+      "label": "evm",
+      "path": "optional-skills/blockchain/evm/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/blockchain/hyperliquid/SKILL.md",
+      "kind": "skill",
+      "label": "hyperliquid",
+      "path": "optional-skills/blockchain/hyperliquid/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/blockchain/solana/SKILL.md",
+      "kind": "skill",
+      "label": "solana",
+      "path": "optional-skills/blockchain/solana/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/communication/one-three-one-rule/SKILL.md",
+      "kind": "skill",
+      "label": "one-three-one-rule",
+      "path": "optional-skills/communication/one-three-one-rule/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/ai-presenter-video/SKILL.md",
+      "kind": "skill",
+      "label": "ai-presenter-video",
+      "path": "optional-skills/creative/ai-presenter-video/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/anatomy/SKILL.md",
+      "kind": "skill",
+      "label": "anatomy",
+      "path": "optional-skills/creative/anatomy/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/archify/SKILL.md",
+      "kind": "skill",
+      "label": "archify",
+      "path": "optional-skills/creative/archify/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/ascii-art/SKILL.md",
+      "kind": "skill",
+      "label": "ascii-art",
+      "path": "optional-skills/creative/ascii-art/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/auteur/SKILL.md",
+      "kind": "skill",
+      "label": "auteur",
+      "path": "optional-skills/creative/auteur/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/baoyu-article-illustrator/SKILL.md",
+      "kind": "skill",
+      "label": "baoyu-article-illustrator",
+      "path": "optional-skills/creative/baoyu-article-illustrator/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/baoyu-comic/SKILL.md",
+      "kind": "skill",
+      "label": "baoyu-comic",
+      "path": "optional-skills/creative/baoyu-comic/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/brag-slim/SKILL.md",
+      "kind": "skill",
+      "label": "brag-slim",
+      "path": "optional-skills/creative/brag-slim/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/brag/SKILL.md",
+      "kind": "skill",
+      "label": "brag",
+      "path": "optional-skills/creative/brag/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/comfyui/SKILL.md",
+      "kind": "skill",
+      "label": "comfyui",
+      "path": "optional-skills/creative/comfyui/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/concept-diagrams/SKILL.md",
+      "kind": "skill",
+      "label": "concept-diagrams",
+      "path": "optional-skills/creative/concept-diagrams/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/creative-ideation/SKILL.md",
+      "kind": "skill",
+      "label": "creative-ideation",
+      "path": "optional-skills/creative/creative-ideation/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/design-md/SKILL.md",
+      "kind": "skill",
+      "label": "design-md",
+      "path": "optional-skills/creative/design-md/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/draw-your-font/SKILL.md",
+      "kind": "skill",
+      "label": "draw-your-font",
+      "path": "optional-skills/creative/draw-your-font/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/dream-loop/SKILL.md",
+      "kind": "skill",
+      "label": "dream-loop",
+      "path": "optional-skills/creative/dream-loop/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/excalidraw/SKILL.md",
+      "kind": "skill",
+      "label": "excalidraw",
+      "path": "optional-skills/creative/excalidraw/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/heartmula/SKILL.md",
+      "kind": "skill",
+      "label": "heartmula",
+      "path": "optional-skills/creative/heartmula/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/hyperframes/SKILL.md",
+      "kind": "skill",
+      "label": "hyperframes",
+      "path": "optional-skills/creative/hyperframes/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/impeccable/SKILL.md",
+      "kind": "skill",
+      "label": "impeccable",
+      "path": "optional-skills/creative/impeccable/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/ip-as-logo/SKILL.md",
+      "kind": "skill",
+      "label": "ip-as-logo",
+      "path": "optional-skills/creative/ip-as-logo/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/kanban-video-orchestrator/SKILL.md",
+      "kind": "skill",
+      "label": "kanban-video-orchestrator",
+      "path": "optional-skills/creative/kanban-video-orchestrator/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/meme-generation/SKILL.md",
+      "kind": "skill",
+      "label": "meme-generation",
+      "path": "optional-skills/creative/meme-generation/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/mono-color/SKILL.md",
+      "kind": "skill",
+      "label": "mono-color",
+      "path": "optional-skills/creative/mono-color/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/pixel-art/SKILL.md",
+      "kind": "skill",
+      "label": "pixel-art",
+      "path": "optional-skills/creative/pixel-art/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/pretext/SKILL.md",
+      "kind": "skill",
+      "label": "pretext",
+      "path": "optional-skills/creative/pretext/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/simple-english/SKILL.md",
+      "kind": "skill",
+      "label": "simple-english",
+      "path": "optional-skills/creative/simple-english/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/sketch/SKILL.md",
+      "kind": "skill",
+      "label": "sketch",
+      "path": "optional-skills/creative/sketch/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/social-media-content-calendar/SKILL.md",
+      "kind": "skill",
+      "label": "social-media-content-calendar",
+      "path": "optional-skills/creative/social-media-content-calendar/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/system-atlas/SKILL.md",
+      "kind": "skill",
+      "label": "system-atlas",
+      "path": "optional-skills/creative/system-atlas/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/tldraw-offline/SKILL.md",
+      "kind": "skill",
+      "label": "tldraw-offline",
+      "path": "optional-skills/creative/tldraw-offline/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/creative/unreal-mcp/SKILL.md",
+      "kind": "skill",
+      "label": "unreal-mcp",
+      "path": "optional-skills/creative/unreal-mcp/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/data-science/jupyter-notebook/SKILL.md",
+      "kind": "skill",
+      "label": "jupyter-notebook",
+      "path": "optional-skills/data-science/jupyter-notebook/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/devops/actual-setup/SKILL.md",
+      "kind": "skill",
+      "label": "actual-setup",
+      "path": "optional-skills/devops/actual-setup/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/devops/docker-management/SKILL.md",
+      "kind": "skill",
+      "label": "docker-management",
+      "path": "optional-skills/devops/docker-management/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/devops/hermes-s6-container-supervision/SKILL.md",
+      "kind": "skill",
+      "label": "hermes-s6-container-supervision",
+      "path": "optional-skills/devops/hermes-s6-container-supervision/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/devops/inference-sh-cli/SKILL.md",
+      "kind": "skill",
+      "label": "inference-sh-cli",
+      "path": "optional-skills/devops/inference-sh-cli/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/devops/pinggy-tunnel/SKILL.md",
+      "kind": "skill",
+      "label": "pinggy-tunnel",
+      "path": "optional-skills/devops/pinggy-tunnel/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/devops/setup-wizard-generator/SKILL.md",
+      "kind": "skill",
+      "label": "setup-wizard-generator",
+      "path": "optional-skills/devops/setup-wizard-generator/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/devops/watchers/SKILL.md",
+      "kind": "skill",
+      "label": "watchers",
+      "path": "optional-skills/devops/watchers/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/dogfood/adversarial-ux-test/SKILL.md",
+      "kind": "skill",
+      "label": "adversarial-ux-test",
+      "path": "optional-skills/dogfood/adversarial-ux-test/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/email/agentmail/SKILL.md",
+      "kind": "skill",
+      "label": "agentmail",
+      "path": "optional-skills/email/agentmail/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/3-statement-model/SKILL.md",
+      "kind": "skill",
+      "label": "3-statement-model",
+      "path": "optional-skills/finance/3-statement-model/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/comps-analysis/SKILL.md",
+      "kind": "skill",
+      "label": "comps-analysis",
+      "path": "optional-skills/finance/comps-analysis/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/dcf-model/SKILL.md",
+      "kind": "skill",
+      "label": "dcf-model",
+      "path": "optional-skills/finance/dcf-model/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/excel-author/SKILL.md",
+      "kind": "skill",
+      "label": "excel-author",
+      "path": "optional-skills/finance/excel-author/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/lbo-model/SKILL.md",
+      "kind": "skill",
+      "label": "lbo-model",
+      "path": "optional-skills/finance/lbo-model/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/merger-model/SKILL.md",
+      "kind": "skill",
+      "label": "merger-model",
+      "path": "optional-skills/finance/merger-model/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/polymarket/SKILL.md",
+      "kind": "skill",
+      "label": "polymarket",
+      "path": "optional-skills/finance/polymarket/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/pptx-author/SKILL.md",
+      "kind": "skill",
+      "label": "pptx-author",
+      "path": "optional-skills/finance/pptx-author/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/finance/stocks/SKILL.md",
+      "kind": "skill",
+      "label": "stocks",
+      "path": "optional-skills/finance/stocks/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/gaming/minecraft-modpack-server/SKILL.md",
+      "kind": "skill",
+      "label": "minecraft-modpack-server",
+      "path": "optional-skills/gaming/minecraft-modpack-server/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/gaming/pokemon-player/SKILL.md",
+      "kind": "skill",
+      "label": "pokemon-player",
+      "path": "optional-skills/gaming/pokemon-player/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/health/fitness-nutrition/SKILL.md",
+      "kind": "skill",
+      "label": "fitness-nutrition",
+      "path": "optional-skills/health/fitness-nutrition/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/health/neuroskill-bci/SKILL.md",
+      "kind": "skill",
+      "label": "neuroskill-bci",
+      "path": "optional-skills/health/neuroskill-bci/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mcp/fastmcp/SKILL.md",
+      "kind": "skill",
+      "label": "fastmcp",
+      "path": "optional-skills/mcp/fastmcp/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mcp/mcp-oauth-remote-gateway/SKILL.md",
+      "kind": "skill",
+      "label": "mcp-oauth-remote-gateway",
+      "path": "optional-skills/mcp/mcp-oauth-remote-gateway/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mcp/mcporter/SKILL.md",
+      "kind": "skill",
+      "label": "mcporter",
+      "path": "optional-skills/mcp/mcporter/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/media/gif-search/SKILL.md",
+      "kind": "skill",
+      "label": "gif-search",
+      "path": "optional-skills/media/gif-search/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/media/songsee/SKILL.md",
+      "kind": "skill",
+      "label": "songsee",
+      "path": "optional-skills/media/songsee/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/accelerate/SKILL.md",
+      "kind": "skill",
+      "label": "accelerate",
+      "path": "optional-skills/mlops/accelerate/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/chroma/SKILL.md",
+      "kind": "skill",
+      "label": "chroma",
+      "path": "optional-skills/mlops/chroma/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/evaluation/evaluating-llms-harness/SKILL.md",
+      "kind": "skill",
+      "label": "evaluating-llms-harness",
+      "path": "optional-skills/mlops/evaluation/evaluating-llms-harness/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/faiss/SKILL.md",
+      "kind": "skill",
+      "label": "faiss",
+      "path": "optional-skills/mlops/faiss/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/flash-attention/SKILL.md",
+      "kind": "skill",
+      "label": "flash-attention",
+      "path": "optional-skills/mlops/flash-attention/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/inference/llama-cpp/SKILL.md",
+      "kind": "skill",
+      "label": "llama-cpp",
+      "path": "optional-skills/mlops/inference/llama-cpp/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/inference/serving-llms-vllm/SKILL.md",
+      "kind": "skill",
+      "label": "serving-llms-vllm",
+      "path": "optional-skills/mlops/inference/serving-llms-vllm/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/lambda-labs/SKILL.md",
+      "kind": "skill",
+      "label": "lambda-labs",
+      "path": "optional-skills/mlops/lambda-labs/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/modal/SKILL.md",
+      "kind": "skill",
+      "label": "modal",
+      "path": "optional-skills/mlops/modal/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/models/segment-anything-model/SKILL.md",
+      "kind": "skill",
+      "label": "segment-anything-model",
+      "path": "optional-skills/mlops/models/segment-anything-model/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/nemo-curator/SKILL.md",
+      "kind": "skill",
+      "label": "nemo-curator",
+      "path": "optional-skills/mlops/nemo-curator/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/obliteratus/SKILL.md",
+      "kind": "skill",
+      "label": "obliteratus",
+      "path": "optional-skills/mlops/obliteratus/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/peft/SKILL.md",
+      "kind": "skill",
+      "label": "peft",
+      "path": "optional-skills/mlops/peft/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/pytorch-fsdp/SKILL.md",
+      "kind": "skill",
+      "label": "pytorch-fsdp",
+      "path": "optional-skills/mlops/pytorch-fsdp/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/pytorch-lightning/SKILL.md",
+      "kind": "skill",
+      "label": "pytorch-lightning",
+      "path": "optional-skills/mlops/pytorch-lightning/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/research/dspy/SKILL.md",
+      "kind": "skill",
+      "label": "dspy",
+      "path": "optional-skills/mlops/research/dspy/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/saelens/SKILL.md",
+      "kind": "skill",
+      "label": "saelens",
+      "path": "optional-skills/mlops/saelens/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/simpo/SKILL.md",
+      "kind": "skill",
+      "label": "simpo",
+      "path": "optional-skills/mlops/simpo/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/slime/SKILL.md",
+      "kind": "skill",
+      "label": "slime",
+      "path": "optional-skills/mlops/slime/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/tensorrt-llm/SKILL.md",
+      "kind": "skill",
+      "label": "tensorrt-llm",
+      "path": "optional-skills/mlops/tensorrt-llm/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/torchtitan/SKILL.md",
+      "kind": "skill",
+      "label": "torchtitan",
+      "path": "optional-skills/mlops/torchtitan/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/training/axolotl/SKILL.md",
+      "kind": "skill",
+      "label": "axolotl",
+      "path": "optional-skills/mlops/training/axolotl/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/mlops/training/unsloth/SKILL.md",
+      "kind": "skill",
+      "label": "unsloth",
+      "path": "optional-skills/mlops/training/unsloth/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/payments/stripe-link-cli/SKILL.md",
+      "kind": "skill",
+      "label": "stripe-link-cli",
+      "path": "optional-skills/payments/stripe-link-cli/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/payments/stripe-projects/SKILL.md",
+      "kind": "skill",
+      "label": "stripe-projects",
+      "path": "optional-skills/payments/stripe-projects/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/box/SKILL.md",
+      "kind": "skill",
+      "label": "box",
+      "path": "optional-skills/productivity/box/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/canvas/SKILL.md",
+      "kind": "skill",
+      "label": "canvas",
+      "path": "optional-skills/productivity/canvas/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/decision-questionnaire/SKILL.md",
+      "kind": "skill",
+      "label": "decision-questionnaire",
+      "path": "optional-skills/productivity/decision-questionnaire/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/here-now/SKILL.md",
+      "kind": "skill",
+      "label": "here-now",
+      "path": "optional-skills/productivity/here-now/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/live-dashboard/SKILL.md",
+      "kind": "skill",
+      "label": "live-dashboard",
+      "path": "optional-skills/productivity/live-dashboard/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/memento-flashcards/SKILL.md",
+      "kind": "skill",
+      "label": "memento-flashcards",
+      "path": "optional-skills/productivity/memento-flashcards/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/property-listings/SKILL.md",
+      "kind": "skill",
+      "label": "property-listings",
+      "path": "optional-skills/productivity/property-listings/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/shop/SKILL.md",
+      "kind": "skill",
+      "label": "shop",
+      "path": "optional-skills/productivity/shop/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/siyuan/SKILL.md",
+      "kind": "skill",
+      "label": "siyuan",
+      "path": "optional-skills/productivity/siyuan/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/productivity/telephony/SKILL.md",
+      "kind": "skill",
+      "label": "telephony",
+      "path": "optional-skills/productivity/telephony/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/bioinformatics/SKILL.md",
+      "kind": "skill",
+      "label": "bioinformatics",
+      "path": "optional-skills/research/bioinformatics/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/blogwatcher/SKILL.md",
+      "kind": "skill",
+      "label": "blogwatcher",
+      "path": "optional-skills/research/blogwatcher/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/darwinian-evolver/SKILL.md",
+      "kind": "skill",
+      "label": "darwinian-evolver",
+      "path": "optional-skills/research/darwinian-evolver/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/domain-intel/SKILL.md",
+      "kind": "skill",
+      "label": "domain-intel",
+      "path": "optional-skills/research/domain-intel/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/drug-discovery/SKILL.md",
+      "kind": "skill",
+      "label": "drug-discovery",
+      "path": "optional-skills/research/drug-discovery/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/gitnexus-explorer/SKILL.md",
+      "kind": "skill",
+      "label": "gitnexus-explorer",
+      "path": "optional-skills/research/gitnexus-explorer/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/llm-wiki/SKILL.md",
+      "kind": "skill",
+      "label": "llm-wiki",
+      "path": "optional-skills/research/llm-wiki/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/osint-investigation/SKILL.md",
+      "kind": "skill",
+      "label": "osint-investigation",
+      "path": "optional-skills/research/osint-investigation/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/parallel-cli/SKILL.md",
+      "kind": "skill",
+      "label": "parallel-cli",
+      "path": "optional-skills/research/parallel-cli/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/qmd/SKILL.md",
+      "kind": "skill",
+      "label": "qmd",
+      "path": "optional-skills/research/qmd/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/research-paper-writing/SKILL.md",
+      "kind": "skill",
+      "label": "research-paper-writing",
+      "path": "optional-skills/research/research-paper-writing/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/rss-feeds/SKILL.md",
+      "kind": "skill",
+      "label": "rss-feeds",
+      "path": "optional-skills/research/rss-feeds/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/research/scrapling/SKILL.md",
+      "kind": "skill",
+      "label": "scrapling",
+      "path": "optional-skills/research/scrapling/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/security/1password/SKILL.md",
+      "kind": "skill",
+      "label": "1password",
+      "path": "optional-skills/security/1password/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/security/godmode/SKILL.md",
+      "kind": "skill",
+      "label": "godmode",
+      "path": "optional-skills/security/godmode/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/security/oss-forensics/SKILL.md",
+      "kind": "skill",
+      "label": "oss-forensics",
+      "path": "optional-skills/security/oss-forensics/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/security/sherlock/SKILL.md",
+      "kind": "skill",
+      "label": "sherlock",
+      "path": "optional-skills/security/sherlock/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/security/unbroker/SKILL.md",
+      "kind": "skill",
+      "label": "unbroker",
+      "path": "optional-skills/security/unbroker/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/security/web-pentest/SKILL.md",
+      "kind": "skill",
+      "label": "web-pentest",
+      "path": "optional-skills/security/web-pentest/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/smart-home/openhue/SKILL.md",
+      "kind": "skill",
+      "label": "openhue",
+      "path": "optional-skills/smart-home/openhue/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/social-media/reddit-reading/SKILL.md",
+      "kind": "skill",
+      "label": "reddit-reading",
+      "path": "optional-skills/social-media/reddit-reading/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/ast-grep/SKILL.md",
+      "kind": "skill",
+      "label": "ast-grep",
+      "path": "optional-skills/software-development/ast-grep/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/code-wiki/SKILL.md",
+      "kind": "skill",
+      "label": "code-wiki",
+      "path": "optional-skills/software-development/code-wiki/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/grill-me/SKILL.md",
+      "kind": "skill",
+      "label": "grill-me",
+      "path": "optional-skills/software-development/grill-me/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/hermes-agent-skill-authoring/SKILL.md",
+      "kind": "skill",
+      "label": "hermes-agent-skill-authoring",
+      "path": "optional-skills/software-development/hermes-agent-skill-authoring/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/inspecting-hermes-desktop-dom/SKILL.md",
+      "kind": "skill",
+      "label": "inspecting-hermes-desktop-dom",
+      "path": "optional-skills/software-development/inspecting-hermes-desktop-dom/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/node-inspect-debugger/SKILL.md",
+      "kind": "skill",
+      "label": "node-inspect-debugger",
+      "path": "optional-skills/software-development/node-inspect-debugger/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/pr-lens/SKILL.md",
+      "kind": "skill",
+      "label": "pr-lens",
+      "path": "optional-skills/software-development/pr-lens/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/python-debugpy/SKILL.md",
+      "kind": "skill",
+      "label": "python-debugpy",
+      "path": "optional-skills/software-development/python-debugpy/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/rest-graphql-debug/SKILL.md",
+      "kind": "skill",
+      "label": "rest-graphql-debug",
+      "path": "optional-skills/software-development/rest-graphql-debug/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/software-development/subagent-driven-development/SKILL.md",
+      "kind": "skill",
+      "label": "subagent-driven-development",
+      "path": "optional-skills/software-development/subagent-driven-development/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/web-development/cloudflare-temporary-deploy/SKILL.md",
+      "kind": "skill",
+      "label": "cloudflare-temporary-deploy",
+      "path": "optional-skills/web-development/cloudflare-temporary-deploy/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/web-development/har-derived-api-client/SKILL.md",
+      "kind": "skill",
+      "label": "har-derived-api-client",
+      "path": "optional-skills/web-development/har-derived-api-client/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/web-development/page-agent/SKILL.md",
+      "kind": "skill",
+      "label": "page-agent",
+      "path": "optional-skills/web-development/page-agent/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/web-development/publish-site/SKILL.md",
+      "kind": "skill",
+      "label": "publish-site",
+      "path": "optional-skills/web-development/publish-site/SKILL.md"
+    },
+    {
+      "id": "skill:optional-skills/web-development/scrollcraft/SKILL.md",
+      "kind": "skill",
+      "label": "scrollcraft",
+      "path": "optional-skills/web-development/scrollcraft/SKILL.md"
+    },
+    {
+      "id": "skill:skills/apple/apple-notes/SKILL.md",
+      "kind": "skill",
+      "label": "apple-notes",
+      "path": "skills/apple/apple-notes/SKILL.md"
+    },
+    {
+      "id": "skill:skills/apple/apple-reminders/SKILL.md",
+      "kind": "skill",
+      "label": "apple-reminders",
+      "path": "skills/apple/apple-reminders/SKILL.md"
+    },
+    {
+      "id": "skill:skills/apple/findmy/SKILL.md",
+      "kind": "skill",
+      "label": "findmy",
+      "path": "skills/apple/findmy/SKILL.md"
+    },
+    {
+      "id": "skill:skills/apple/imessage/SKILL.md",
+      "kind": "skill",
+      "label": "imessage",
+      "path": "skills/apple/imessage/SKILL.md"
+    },
+    {
+      "id": "skill:skills/autonomous-ai-agents/claude-code/SKILL.md",
+      "kind": "skill",
+      "label": "claude-code",
+      "path": "skills/autonomous-ai-agents/claude-code/SKILL.md"
+    },
+    {
+      "id": "skill:skills/autonomous-ai-agents/codex/SKILL.md",
+      "kind": "skill",
+      "label": "codex",
+      "path": "skills/autonomous-ai-agents/codex/SKILL.md"
+    },
+    {
+      "id": "skill:skills/autonomous-ai-agents/computer-use/SKILL.md",
+      "kind": "skill",
+      "label": "computer-use",
+      "path": "skills/autonomous-ai-agents/computer-use/SKILL.md"
+    },
+    {
+      "id": "skill:skills/autonomous-ai-agents/hermes-agent/SKILL.md",
+      "kind": "skill",
+      "label": "hermes-agent",
+      "path": "skills/autonomous-ai-agents/hermes-agent/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/architecture-diagram/SKILL.md",
+      "kind": "skill",
+      "label": "architecture-diagram",
+      "path": "skills/creative/architecture-diagram/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/ascii-video/SKILL.md",
+      "kind": "skill",
+      "label": "ascii-video",
+      "path": "skills/creative/ascii-video/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/baoyu-infographic/SKILL.md",
+      "kind": "skill",
+      "label": "baoyu-infographic",
+      "path": "skills/creative/baoyu-infographic/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/claude-design/SKILL.md",
+      "kind": "skill",
+      "label": "claude-design",
+      "path": "skills/creative/claude-design/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/humanizer/SKILL.md",
+      "kind": "skill",
+      "label": "humanizer",
+      "path": "skills/creative/humanizer/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/manim-video/SKILL.md",
+      "kind": "skill",
+      "label": "manim-video",
+      "path": "skills/creative/manim-video/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/p5js/SKILL.md",
+      "kind": "skill",
+      "label": "p5js",
+      "path": "skills/creative/p5js/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/popular-web-designs/SKILL.md",
+      "kind": "skill",
+      "label": "popular-web-designs",
+      "path": "skills/creative/popular-web-designs/SKILL.md"
+    },
+    {
+      "id": "skill:skills/creative/songwriting-and-ai-music/SKILL.md",
+      "kind": "skill",
+      "label": "songwriting-and-ai-music",
+      "path": "skills/creative/songwriting-and-ai-music/SKILL.md"
+    },
+    {
+      "id": "skill:skills/devops/sdlc-review/SKILL.md",
+      "kind": "skill",
+      "label": "sdlc-review",
+      "path": "skills/devops/sdlc-review/SKILL.md"
+    },
+    {
+      "id": "skill:skills/email/email-inbox-triage/SKILL.md",
+      "kind": "skill",
+      "label": "email-inbox-triage",
+      "path": "skills/email/email-inbox-triage/SKILL.md"
+    },
+    {
+      "id": "skill:skills/email/himalaya/SKILL.md",
+      "kind": "skill",
+      "label": "himalaya",
+      "path": "skills/email/himalaya/SKILL.md"
+    },
+    {
+      "id": "skill:skills/media/youtube-content/SKILL.md",
+      "kind": "skill",
+      "label": "youtube-content",
+      "path": "skills/media/youtube-content/SKILL.md"
+    },
+    {
+      "id": "skill:skills/note-taking/obsidian/SKILL.md",
+      "kind": "skill",
+      "label": "obsidian",
+      "path": "skills/note-taking/obsidian/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/document-to-action-items/SKILL.md",
+      "kind": "skill",
+      "label": "document-to-action-items",
+      "path": "skills/productivity/document-to-action-items/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/google-workspace/SKILL.md",
+      "kind": "skill",
+      "label": "google-workspace",
+      "path": "skills/productivity/google-workspace/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/maps/SKILL.md",
+      "kind": "skill",
+      "label": "maps",
+      "path": "skills/productivity/maps/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/meeting-action-items/SKILL.md",
+      "kind": "skill",
+      "label": "meeting-action-items",
+      "path": "skills/productivity/meeting-action-items/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/microsoft-office/SKILL.md",
+      "kind": "skill",
+      "label": "microsoft-office",
+      "path": "skills/productivity/microsoft-office/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/pdf/SKILL.md",
+      "kind": "skill",
+      "label": "pdf",
+      "path": "skills/productivity/pdf/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/product-price-monitor/SKILL.md",
+      "kind": "skill",
+      "label": "product-price-monitor",
+      "path": "skills/productivity/product-price-monitor/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/teams-meeting-pipeline/SKILL.md",
+      "kind": "skill",
+      "label": "teams-meeting-pipeline",
+      "path": "skills/productivity/teams-meeting-pipeline/SKILL.md"
+    },
+    {
+      "id": "skill:skills/productivity/weekly-review-planning/SKILL.md",
+      "kind": "skill",
+      "label": "weekly-review-planning",
+      "path": "skills/productivity/weekly-review-planning/SKILL.md"
+    },
+    {
+      "id": "skill:skills/research/arxiv/SKILL.md",
+      "kind": "skill",
+      "label": "arxiv",
+      "path": "skills/research/arxiv/SKILL.md"
+    },
+    {
+      "id": "skill:skills/research/competitor-news-monitor/SKILL.md",
+      "kind": "skill",
+      "label": "competitor-news-monitor",
+      "path": "skills/research/competitor-news-monitor/SKILL.md"
+    },
+    {
+      "id": "skill:skills/research/grounded-citations/SKILL.md",
+      "kind": "skill",
+      "label": "grounded-citations",
+      "path": "skills/research/grounded-citations/SKILL.md"
+    },
+    {
+      "id": "skill:skills/social-media/xurl/SKILL.md",
+      "kind": "skill",
+      "label": "xurl",
+      "path": "skills/social-media/xurl/SKILL.md"
+    },
+    {
+      "id": "skill:skills/software-development/codebase-inspection/SKILL.md",
+      "kind": "skill",
+      "label": "codebase-inspection",
+      "path": "skills/software-development/codebase-inspection/SKILL.md"
+    },
+    {
+      "id": "skill:skills/software-development/dogfood/SKILL.md",
+      "kind": "skill",
+      "label": "dogfood",
+      "path": "skills/software-development/dogfood/SKILL.md"
+    },
+    {
+      "id": "skill:skills/software-development/github/SKILL.md",
+      "kind": "skill",
+      "label": "github",
+      "path": "skills/software-development/github/SKILL.md"
+    },
+    {
+      "id": "skill:skills/software-development/requesting-code-review/SKILL.md",
+      "kind": "skill",
+      "label": "requesting-code-review",
+      "path": "skills/software-development/requesting-code-review/SKILL.md"
+    },
+    {
+      "id": "skill:skills/software-development/simplify-code/SKILL.md",
+      "kind": "skill",
+      "label": "simplify-code",
+      "path": "skills/software-development/simplify-code/SKILL.md"
+    },
+    {
+      "id": "skill:skills/software-development/spike/SKILL.md",
+      "kind": "skill",
+      "label": "spike",
+      "path": "skills/software-development/spike/SKILL.md"
+    },
+    {
+      "id": "skill:skills/software-development/systematic-debugging/SKILL.md",
+      "kind": "skill",
+      "label": "systematic-debugging",
+      "path": "skills/software-development/systematic-debugging/SKILL.md"
+    },
+    {
+      "id": "skill:skills/software-development/test-driven-development/SKILL.md",
+      "kind": "skill",
+      "label": "test-driven-development",
+      "path": "skills/software-development/test-driven-development/SKILL.md"
+    },
+    {
+      "id": "skill:skills/web/blocked-page-recovery/SKILL.md",
+      "kind": "skill",
+      "label": "blocked-page-recovery",
+      "path": "skills/web/blocked-page-recovery/SKILL.md"
+    }
+  ],
+  "edges": [
+    {
+      "from": "module:acp_adapter",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:acp_adapter",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:acp_adapter",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:acp_adapter",
+      "to": "module:hermes_state",
+      "kind": "imports"
+    },
+    {
+      "from": "module:acp_adapter",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:cron",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_bootstrap",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_dir_acl",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_logging",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_platform",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_scope",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_state_identity",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_state_ids",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_state_messages",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_state_pidns",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_time",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:hermes_yaml",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:pm",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:providers",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:agent",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:batch_runner",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:batch_runner",
+      "to": "module:model_tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:batch_runner",
+      "to": "module:run_agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:batch_runner",
+      "to": "module:toolset_distributions",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cli",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cli",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cli",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cron",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cron",
+      "to": "module:gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cron",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cron",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cron",
+      "to": "module:hermes_dir_acl",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cron",
+      "to": "module:hermes_time",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cron",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:cron",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:docker",
+      "to": "module:pm",
+      "kind": "imports"
+    },
+    {
+      "from": "module:docker",
+      "to": "module:scripts",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:hermes_state",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:hermes_state_registry",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:hermes_yaml",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:model_tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:providers",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:run_agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:evals",
+      "to": "module:tui_gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_dir_acl",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_ids",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_keys",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_local",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_local_migration",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_mutation_binding",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_mutation_guards",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_mutation_prepared",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_mutation_retirement",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_runtime_workers",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_state_terminal",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_time",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:hermes_yaml",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:pm",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:tui_gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:gateway",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_bootstrap",
+      "to": "module:hermes_agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_bootstrap",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_bootstrap",
+      "to": "module:pm",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_dir_acl",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_logging",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_platform",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state_dbfile",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state_health",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state_holders",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state_ids",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state_keys",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_state_repair",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_time",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:hermes_yaml",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:pm",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:registration_lifecycle",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:toolsets",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_cli",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_constants_scratch_detach",
+      "to": "module:hermes_constants_scratch",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_constants_scratch",
+      "to": "module:hermes_constants_scratch_stuck",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_logging",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_common",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_common",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_common",
+      "to": "module:hermes_state_keys",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_common",
+      "to": "module:hermes_state_pidns",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_compaction_display",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_compaction_display",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_compression",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_coverage",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_coverage",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_coverage",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_coverage",
+      "to": "module:hermes_state_messages",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_dbfile",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_dbfile",
+      "to": "module:hermes_state_holders",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_dbfile",
+      "to": "module:hermes_state_lockguard",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_delegate_children",
+      "to": "module:hermes_state_sessions",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_detached_results",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_fts",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_fts",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_gateway",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_gateway",
+      "to": "module:hermes_state_local",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_health",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_holders",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_identity",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_identity",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_local_lineage",
+      "to": "module:hermes_state_local",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_local_lineage",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_local_migration",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_local",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_maintenance",
+      "to": "module:hermes_startup_watchdog",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_maintenance",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_media",
+      "to": "module:hermes_state_keys",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_messages",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_messages",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_messages",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_messages",
+      "to": "module:hermes_state_compaction_display",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_messages",
+      "to": "module:hermes_state_detached_results",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_messages",
+      "to": "module:hermes_state_identity",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_messages",
+      "to": "module:hermes_state_stored_reads",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_messages",
+      "to": "module:hermes_state_todo",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_binding",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_branch",
+      "to": "module:hermes_state_local",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_branch",
+      "to": "module:hermes_state_local_lineage",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_branch",
+      "to": "module:hermes_state_mutation_guards",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_branch",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_branch",
+      "to": "module:hermes_state_titles",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_chat_pick",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_compress",
+      "to": "module:hermes_state_mutation_prepared",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_guards",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_guards",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_guards",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_prepared",
+      "to": "module:hermes_state_local",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_prepared",
+      "to": "module:hermes_state_local_lineage",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_prepared",
+      "to": "module:hermes_state_mutation_guards",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_prepared",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_reset",
+      "to": "module:hermes_state_local",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_reset",
+      "to": "module:hermes_state_local_lineage",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_reset",
+      "to": "module:hermes_state_mutation_guards",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_reset",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_retirement",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutation_transcript",
+      "to": "module:hermes_state_messages",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutations",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_mutations",
+      "to": "module:hermes_state_sessions",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_portability",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_portability",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_portability",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_portability",
+      "to": "module:hermes_state_ids",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_portability",
+      "to": "module:hermes_state_keys",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_portability",
+      "to": "module:hermes_state_local",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_portability",
+      "to": "module:hermes_state_messages",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_portability",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_profile_repair",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_prune_rewrite",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_prune_rewrite",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_prune_rewrite",
+      "to": "module:hermes_state_messages",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_registry",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_repair",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_repair",
+      "to": "module:hermes_startup_watchdog",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_repair",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_repair",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_repair",
+      "to": "module:hermes_state_holders",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_runtime",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_runtime",
+      "to": "module:hermes_state_keys",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_startup_watchdog",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_state_fts",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_state_holders",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_state_legacy_refusal",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_state_search",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:hermes_state_titles",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_schema",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_search",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_search",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_search",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_search",
+      "to": "module:hermes_state_fts",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_sessions_model_config",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_sessions",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_sessions",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_sessions",
+      "to": "module:hermes_state_compression",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_sessions",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_stored_reads",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_telegram",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_telegram",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_terminal",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_timeline",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_timeline",
+      "to": "module:hermes_state_compaction_display",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_timeline",
+      "to": "module:hermes_state_messages",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_titles",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_titles",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_user_copy",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_wal",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_wal",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_worker_compression",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_worker_compression",
+      "to": "module:hermes_state_compression",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_worker_compression",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_worker_context",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_worker_lifecycle",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state_worker_lifecycle",
+      "to": "module:hermes_state_runtime",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_dir_acl",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_api_content",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_compression",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_coverage",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_dbfile",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_errors",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_fts",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_guard",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_health",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_holders",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_lockguard",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_lockowners",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_maintenance",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_messages",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_pidns",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_portability",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_profile_repair",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_prompt_refresh",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_prune_rewrite",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_readpool",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_repair",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_rewind",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_schema",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_search",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_sessions",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_telegram",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_titles",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_usage",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_wal",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_state",
+      "to": "module:hermes_state_write",
+      "kind": "imports"
+    },
+    {
+      "from": "module:hermes_time",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:model_tools",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:model_tools",
+      "to": "module:toolsets",
+      "kind": "imports"
+    },
+    {
+      "from": "module:pm",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:providers",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:run_agent",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:run_agent",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:run_agent",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:run_agent",
+      "to": "module:model_tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:run_agent",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:run_agent",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:scripts",
+      "to": "module:hermes_agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:scripts",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:scripts",
+      "to": "module:pm",
+      "kind": "imports"
+    },
+    {
+      "from": "module:scripts",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:scripts",
+      "to": "module:tui_gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:scripts",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:toolset_distributions",
+      "to": "module:toolsets",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:cron",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:hermes_dir_acl",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:hermes_platform",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:hermes_scope",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:hermes_state_common",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:hermes_time",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:hermes_yaml",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:pm",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:toolsets",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tools",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:trajectory_compressor",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:trajectory_compressor",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:trajectory_compressor",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:trajectory_compressor",
+      "to": "module:hermes_yaml",
+      "kind": "imports"
+    },
+    {
+      "from": "module:trajectory_compressor",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:hermes_bootstrap",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:hermes_cli",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:hermes_constants",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:hermes_platform",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:hermes_state",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:hermes_state_ids",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:hermes_state_sessions",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:tools",
+      "kind": "imports"
+    },
+    {
+      "from": "module:tui_gateway",
+      "to": "module:utils",
+      "kind": "imports"
+    },
+    {
+      "from": "module:ui-tui",
+      "to": "module:agent",
+      "kind": "imports"
+    },
+    {
+      "from": "module:utils",
+      "to": "module:hermes_yaml",
+      "kind": "imports"
+    },
+    {
+      "from": "module:website",
+      "to": "module:hermes_yaml",
+      "kind": "imports"
+    }
+  ]
+}

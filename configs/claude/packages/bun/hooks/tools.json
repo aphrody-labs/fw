@@ -1,0 +1,63 @@
+{
+  "server": "bun",
+  "plugin": "bun",
+  "tools": [
+    "docs_search",
+    "docs_read",
+    "examples_search",
+    "skills_list",
+    "skill_read",
+    "memory_search",
+    "memory_read",
+    "memory_write",
+    "memory_import",
+    "graph_query",
+    "graph_symbols",
+    "graph_callers",
+    "graph_path",
+    "graph_community",
+    "graph_impact",
+    "host_inventory",
+    "host_find",
+    "vfs_find",
+    "vfs_grep",
+    "vfs_edit",
+    "vfs_apply",
+    "lsp_diagnostics",
+    "lsp_definition",
+    "lsp_references",
+    "lsp_hover",
+    "lsp_rename",
+    "lsp_symbols",
+    "run",
+    "test",
+    "html_parse",
+    "css_parse",
+    "git_ingest",
+    "deps_list",
+    "deps_info",
+    "deps_tree",
+    "deps_read",
+    "deps_search",
+    "deps_docs",
+    "yolo_decide"
+  ],
+  "prefer": [
+    {
+      "instead": "Grep",
+      "bash": "^\\s*(?:rg|grep|ag|ack|git\\s+grep)\\b",
+      "use": [
+        "graph_symbols",
+        "graph_callers",
+        "lsp_references",
+        "lsp_definition",
+        "vfs_grep"
+      ]
+    },
+    {
+      "instead": "Glob",
+      "bash": "^\\s*(?:fd|find)\\b",
+      "use": ["vfs_find", "graph_query"]
+    }
+  ]
+}

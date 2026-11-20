@@ -1,0 +1,53 @@
+{
+  "rust-analyzer": {
+    "command": "rust-analyzer",
+    "extensionToLanguage": {
+      ".rs": "rust"
+    },
+    "initializationOptions": {
+      "checkOnSave": false,
+      "cargo": {
+        "buildScripts": {
+          "enable": false
+        }
+      },
+      "procMacro": {
+        "enable": false
+      },
+      "cachePriming": {
+        "enable": false
+      },
+      "numThreads": 4,
+      "diagnostics": {
+        "experimental": {
+          "enable": false
+        },
+        "disabled": [
+          "unresolved-proc-macro",
+          "unresolved-macro-call",
+          "macro-error",
+          "inactive-code",
+          "unlinked-file"
+        ]
+      },
+      "files": {
+        "exclude": [
+          "target",
+          "node_modules",
+          "vendor",
+          "third_party",
+          "upstream",
+          "build",
+          "dist"
+        ]
+      },
+      "lru": {
+        "capacity": 32
+      }
+    },
+    "env": {
+      "CARGO_BUILD_JOBS": "2"
+    },
+    "maxRestarts": 2
+  }
+}

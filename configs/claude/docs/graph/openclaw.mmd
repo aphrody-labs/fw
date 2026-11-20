@@ -1,0 +1,72 @@
+flowchart LR
+  plugins[/"184 plugins"/]
+  skills(("141 skills"))
+  package_packages_acp_core[["@openclaw/acp-core"]]
+  package_packages_agent_core[["@openclaw/agent-core"]]
+  package_packages_ai[["@openclaw/ai"]]
+  package_packages_gateway_client[["@openclaw/gateway-client"]]
+  package_packages_gateway_protocol[["@openclaw/gateway-protocol"]]
+  package_packages_llm_core[["@openclaw/llm-core"]]
+  package_packages_markdown_core[["@openclaw/markdown-core"]]
+  package_packages_media_core[["@openclaw/media-core"]]
+  package_packages_media_generation_core[["@openclaw/media-generation-core"]]
+  package_packages_media_understanding_common[["@openclaw/media-understanding-common"]]
+  package_packages_memory_host_sdk[["@openclaw/memory-host-sdk"]]
+  package_packages_mermaid_renderer[["@openclaw/mermaid-renderer"]]
+  package_packages_model_catalog_core[["@openclaw/model-catalog-core"]]
+  package_packages_net_policy[["@openclaw/net-policy"]]
+  package_packages_normalization_core[["@openclaw/normalization-core"]]
+  package_packages_openclaw_id_protocol[["@openclaw/openclaw-id-protocol"]]
+  package_packages_plugin_package_contract[["@openclaw/plugin-package-contract"]]
+  package_packages_plugin_sdk[["@openclaw/plugin-sdk"]]
+  package_packages_retry[["@openclaw/retry"]]
+  package_packages_sdk[["@openclaw/sdk"]]
+  package_packages_session_url_contract[["@openclaw/session-url-contract"]]
+  package_packages_terminal_core[["@openclaw/terminal-core"]]
+  package_packages_tool_call_repair[["@openclaw/tool-call-repair"]]
+  package_packages_workboard_contract[["@openclaw/workboard-contract"]]
+  package_packages_worker_runtime[["@openclaw/worker-runtime"]]
+  package_tools_solid_lint[["@openclaw/solid-lint"]]
+  package_ui[["openclaw-control-ui"]]
+  package_packages_acp_core -->|depends| package_packages_normalization_core
+  package_packages_agent_core -->|depends| package_packages_ai
+  package_packages_agent_core -->|depends| package_packages_llm_core
+  package_packages_agent_core -->|depends| package_packages_normalization_core
+  package_packages_ai -->|depends| package_packages_model_catalog_core
+  package_packages_ai -->|depends| package_packages_normalization_core
+  package_packages_gateway_client -->|depends| package_packages_gateway_protocol
+  package_packages_gateway_client -->|depends| package_packages_normalization_core
+  package_packages_gateway_protocol -->|depends| package_packages_normalization_core
+  package_packages_llm_core -->|depends| package_packages_normalization_core
+  package_packages_markdown_core -->|depends| package_packages_normalization_core
+  package_packages_media_core -->|depends| package_packages_normalization_core
+  package_packages_media_generation_core -->|depends| package_packages_normalization_core
+  package_packages_memory_host_sdk -->|depends| package_packages_normalization_core
+  package_packages_memory_host_sdk -->|depends| package_packages_retry
+  package_packages_mermaid_renderer -->|depends| package_packages_normalization_core
+  package_packages_model_catalog_core -->|depends| package_packages_normalization_core
+  package_packages_net_policy -->|depends| package_packages_normalization_core
+  package_packages_sdk -->|depends| package_packages_gateway_client
+  package_packages_sdk -->|depends| package_packages_gateway_protocol
+  package_packages_sdk -->|depends| package_packages_normalization_core
+  package_packages_sdk -->|depends| package_packages_retry
+  package_packages_sdk -->|depends| package_packages_session_url_contract
+  package_packages_session_url_contract -->|depends| package_packages_normalization_core
+  package_packages_terminal_core -->|depends| package_packages_normalization_core
+  package_packages_tool_call_repair -->|depends| package_packages_normalization_core
+  package_packages_worker_runtime -->|depends| package_packages_normalization_core
+  package_ui -->|depends| package_packages_gateway_client
+  package_ui -->|depends| package_packages_gateway_protocol
+  package_ui -->|depends| package_packages_media_core
+  package_ui -->|depends| package_packages_mermaid_renderer
+  package_ui -->|depends| package_packages_model_catalog_core
+  package_ui -->|depends| package_packages_net_policy
+  package_ui -->|depends| package_packages_normalization_core
+  package_ui -->|depends| package_packages_session_url_contract
+  package_ui -->|depends| package_packages_workboard_contract
+  plugins -->|depends| package_packages_plugin_sdk
+  plugins -->|depends| package_packages_openclaw_id_protocol
+  plugins -->|depends| package_packages_gateway_protocol
+  plugins -->|depends| package_packages_gateway_client
+  plugins -->|depends| package_packages_normalization_core
+  plugins -->|depends| package_packages_workboard_contract

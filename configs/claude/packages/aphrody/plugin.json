@@ -1,0 +1,21 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "aphrody",
+  "displayName": "Aphrody",
+  "version": "1.0.0",
+  "description": "Unified cross-CLI autonomous engineering plugin: recursive agents, non-blocking Bun hooks, MCP integrations, and curated cross-project skills.",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Audit workspace conformance, toolchain health, and open blockers cleanly",
+    "Run parallel verification across Rust, TypeScript, and browser checks",
+    "Notify live sibling CLI sessions about workspace configuration updates"
+  ],
+  "author": {
+    "name": "aphrody-labs",
+    "url": "https://github.com/aphrody-labs"
+  },
+  "homepage": "https://github.com/aphrody-labs/claude",
+  "repository": "https://github.com/aphrody-labs/claude",
+  "license": "MIT",
+  "keywords": ["aphrody", "autonomous", "agents", "hooks", "mcp", "bun", "rust"]
+}

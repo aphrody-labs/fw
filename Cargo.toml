@@ -1,6 +1,20 @@
 [workspace]
 members = [
+    "crates/fw-a2a",
+    "crates/fw-agent",
+    "crates/fw-agent-context",
+    "crates/fw-gemini",
     "crates/fw-ggml",
+    "crates/fw-llama",
+    "crates/fw-llama-sys",
+    "crates/fw-ml",
+    "crates/fw-model",
+    "crates/fw-proc",
+    "crates/fw-rag",
+    "crates/fw-rag-core",
+    "crates/fw-ring3-agent",
+    "crates/fw-toolcall",
+    "crates/fw-translate-core",
     "crates/fw-compute",
     "crates/fw-cluster",
     "crates/fw-proto",
@@ -18,9 +32,10 @@ members = [
     "xtask",
 ]
 exclude = [
+    "crates/fw-sh",
     "os/fw-os",
-    "native/fw-pe",
-    "native/fw-sniff",
+    "os/fw-os-boot",
+    "os/fw-ostd-vfs",
     "native/fw-kernel",
     "native/fw-world",
     "native/fw-abi",
@@ -47,7 +62,22 @@ inefficient_to_string = "deny"
 
 [workspace.dependencies]
 # Internal publishable fw-* crates (pinned with version + path for crates.io)
+fw-a2a = { version = "4.2.0", path = "crates/fw-a2a" }
+fw-agent = { version = "4.2.0", path = "crates/fw-agent" }
+fw-agent-context = { version = "4.2.0", path = "crates/fw-agent-context" }
+fw-gemini = { version = "4.2.0", path = "crates/fw-gemini" }
 fw-ggml = { version = "4.2.0", path = "crates/fw-ggml" }
+fw-llama = { version = "4.2.0", path = "crates/fw-llama" }
+fw-llama-sys = { version = "4.2.0", path = "crates/fw-llama-sys" }
+fw-ml = { version = "4.2.0", path = "crates/fw-ml" }
+fw-model = { version = "4.2.0", path = "crates/fw-model" }
+fw-proc = { version = "4.2.0", path = "crates/fw-proc" }
+fw-rag = { version = "4.2.0", path = "crates/fw-rag" }
+fw-rag-core = { version = "4.2.0", path = "crates/fw-rag-core" }
+fw-ring3-agent = { version = "4.2.0", path = "crates/fw-ring3-agent" }
+fw-sh = { version = "4.2.0", path = "crates/fw-sh" }
+fw-toolcall = { version = "4.2.0", path = "crates/fw-toolcall" }
+fw-translate-core = { version = "4.2.0", path = "crates/fw-translate-core" }
 fw-compute = { version = "4.2.0", path = "crates/fw-compute" }
 fw-cluster = { version = "4.2.0", path = "crates/fw-cluster" }
 fw-proto = { version = "4.2.0", path = "crates/fw-proto" }
@@ -69,6 +99,56 @@ tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net", "i
 flate2 = "1.1.11"
 mimalloc = "0.1.52"
 ureq = { version = "3.5.2", default-features = false, features = ["rustls", "gzip"] }
+
+anyhow = "1.0.104"
+argh = "0.1.19"
+async-trait = "0.1.92"
+axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
+base64 = "0.23.1"
+blake3 = { version = "1.8.7", features = ["mmap", "rayon"] }
+bytes = "1.12.2"
+chrono = { version = "0.4.45", default-features = false, features = ["std"] }
+clap = { version = "4.6.8", features = ["derive", "env", "cargo", "string", "unicode"] }
+criterion = "0.8.2"
+dirs = "7.0.0"
+futures = "0.3.34"
+futures-util = "0.3"
+hex = "0.4.3"
+hf-hub = "1.0.0"
+http-body-util = "0.1"
+ignore = "0.4.34"
+libc = "0.2.191"
+libloading = "0.9.1"
+memmap2 = "0.9.12"
+oxc_allocator = "0.159.0"
+oxc_ast = "0.159.0"
+oxc_ast_visit = "0.159.0"
+oxc_parser = "0.159.0"
+oxc_span = "0.159.0"
+oxc_syntax = "0.159.0"
+pretty_assertions = "1.4.1"
+prost = "0.14.6"
+protoc-bin-vendored = "3.2.0"
+pyo3 = "0.30.1"
+rayon = "1.12.0"
+regex = "1.13.2"
+rusqlite = "0.40"
+tempfile = "3.27.0"
+thiserror = "2.0.21"
+tokio-postgres = "0.7.18"
+toml = "1.2.1"
+tonic-prost-build = "0.14.6"
+tower = "0.5"
+tracing = "0.1.44"
+tree-sitter = "0.27.2"
+tree-sitter-rust = "0.24.2"
+url = { version = "2.5.8", features = ["serde"] }
+uuid = "1.29.3"
+walkdir = "2.5.0"
+which = "8"
+windows = { version = "0.62.2", features = ["Win32_Foundation", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D12", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_DirectComposition", "Win32_System_Threading", "Win32_Security", "Win32_System_WinRT", "Win32_System_WinRT_Composition", "Win32_UI_WindowsAndMessaging", "Win32_Networking_WinSock", "System"] }
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_System_Console", "Win32_System_LibraryLoader", "Win32_System_SystemInformation", "Win32_Storage_FileSystem", "Win32_System_Performance", "Win32_Security"] }
+zerocopy = { version = "0.8.63", features = ["derive", "alloc", "simd"] }
 
 [profile.release]
 opt-level = 3

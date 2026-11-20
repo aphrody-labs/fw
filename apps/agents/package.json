@@ -1,0 +1,13 @@
+{
+  "name": "@aphrody/ay-agents",
+  "private": true,
+  "type": "module",
+  "description": "Agent harness: runner, GitHub events, plugins and host installers",
+  "scripts": {
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@aphrody/ay-ai-os": "workspace:*",
+    "@aphrody/ay-env-kit": "workspace:*"
+  }
+}

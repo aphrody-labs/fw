@@ -1,0 +1,7 @@
+# Absolute-path literals that are allowed, one repo-relative glob per line (scanner: ay/tools/paths.ts).
+scripts/hygiene.ts                         # the rules that detect stale paths
+scripts/hygiene.test.ts                    # fixtures of those rules
+scripts/lib.test.ts                        # toSlash and template fixtures
+packages/aphrody/skills/niubash/**         # documents the path dialects of the Niubash shell
+packages/bun/skills/bun-build/references/bun-build-scripts.md   # upstream docker command, container-internal path
+settings.json                              # Claude Code reads the directory marketplace path verbatim; a per-machine value

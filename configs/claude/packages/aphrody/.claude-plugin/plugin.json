@@ -1,0 +1,29 @@
+{
+  "name": "aphrody",
+  "version": "1.0.0",
+  "description": "Unified cross-CLI autonomous engineering plugin: recursive agents, non-blocking Bun hooks, MCP integrations, autonomous output style, and curated cross-project skills.",
+  "author": {
+    "name": "aphrody-labs",
+    "url": "https://github.com/aphrody-labs"
+  },
+  "homepage": "https://github.com/aphrody-labs/claude",
+  "repository": "https://github.com/aphrody-labs/claude",
+  "license": "MIT",
+  "privacyPolicyUrl": "https://github.com/aphrody-labs/claude#privacy",
+  "icon": "./assets/icon.png",
+  "keywords": [
+    "aphrody",
+    "autonomous",
+    "recursive",
+    "agents",
+    "hooks",
+    "learn",
+    "mcp",
+    "bun"
+  ],
+  "hooks": "./.claude-plugin/hooks.json",
+  "mcpServers": "./.claude-plugin/mcp.json",
+  "skills": "./skills/",
+  "agents": ["./agents/worker.md", "./agents/researcher.md"],
+  "outputStyles": "./output-styles/"
+}

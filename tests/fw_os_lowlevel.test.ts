@@ -135,7 +135,7 @@ describe("fw v2.4 polyglot OS, Fat-LTO ABI v4, NTFS, VFS, AI protocols, and low-
     expect(a2a.result.status.state).toBe("completed");
 
     const html = await (await handler(new Request("http://127.0.0.1:4379/"))).text();
-    expect(html).toContain("Fw Unified OS");
+    expect(html).toContain("Fw Chat");
 
     const tui = renderFwTui(ROOT);
     expect(tui).toContain("FW OS TUI");

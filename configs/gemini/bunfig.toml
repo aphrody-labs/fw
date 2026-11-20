@@ -1,0 +1,5 @@
+[install]
+exact = true
+
+[test]
+pathIgnorePatterns = ["antigravity-cli/**", "**/references/**/*.example.spec.ts", "**/replica-test/*.example.spec.ts"]

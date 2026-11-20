@@ -1,0 +1,45 @@
+# Agent layer of the Claude config: what turns Claude Code into a persistent, scheduled, multi-channel agent
+# (the OpenClaw / Hermes Agent model). Read by scripts/cron.ts and scripts/gateway.ts. Paths are relative to ~/.claude.
+
+[agent]
+name = "aphrody"
+model = "sonnet"
+
+# Gateway: one long-lived Claude Code session reachable from chat apps through Anthropic's official channel plugins
+# (external_plugins of claude-plugins-official). Each needs its bot token (see the plugin README) before it is listed here.
+[gateway]
+channels = []
+# Candidates: "plugin:telegram@claude-plugins-official", "plugin:discord@claude-plugins-official", "plugin:imessage@claude-plugins-official"
+
+# Scheduler: `kind = "cmd"` runs argv directly; `kind = "agent"` runs `claude -p` headless with the prompt and delivers
+# the answer (deliver = "inject" pushes it into live sessions, "log" only stores it under learning/cron/<id>/).
+# `bun scripts/cron.ts install` registers ONE OS-level tick (Task Scheduler / cron / launchd) through Bun.cron.
+
+[[cron]]
+id = "memory-index"
+schedule = "17 * * * *"
+kind = "cmd"
+argv = ["bun", "scripts/memory.ts", "index", "--sessions"]
+enabled = true
+
+[[cron]]
+id = "learn-distill"
+schedule = "*/30 * * * *"
+kind = "cmd"
+argv = ["bun", "--no-install", "packages/aphrody/hooks-handlers/learn.ts", "distill"]
+enabled = true
+
+[[cron]]
+id = "graph"
+schedule = "5 3 * * *"
+kind = "cmd"
+argv = ["bun", "scripts/graph.ts"]
+enabled = true
+
+[[cron]]
+id = "memory-curator"
+schedule = "30 3 * * *"
+kind = "agent"
+prompt = "Run the learn skill: fold the learning digests into project memory (merge, do not duplicate), delete the processed digests, rebuild MEMORY.md, run bun scripts/merge-brain.ts. Reply with one line per change."
+deliver = "log"
+enabled = false

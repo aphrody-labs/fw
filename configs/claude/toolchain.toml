@@ -1,0 +1,43 @@
+# The Aphrody toolchain: every CLI the agents rely on, pinned like a Nix derivation (exact version, fixed-output
+# sha256), installed per platform by `bun scripts/toolchain.ts`. A tool found missing during work is added here
+# first, then installed with `bun scripts/toolchain.ts install <name>`; nothing is installed by hand.
+#
+#   name        command the tool provides
+#   version     exact version; `check` must print it
+#   check       argv whose output contains `version` when the right build is installed
+#   [<name>.<platform>]   platform = "windows-x86_64", "linux-x86_64", "macos-aarch64", ...
+#     url       release asset (`{version}` is substituted)
+#     sha256    digest of that asset; a mismatch aborts the install
+#     archive   "tar.gz" or "zip" when the asset is an archive; `member` is the path of the binary inside it
+#
+# Binaries land in ~/.local/bin (on PATH on every host of the fleet).
+
+[jq]
+version = "1.8.2"
+check = ["jq", "--version"]
+role = "JSON on the command line; several scripts and agents pipe API output to it"
+
+[jq.windows-x86_64]
+url = "https://github.com/jqlang/jq/releases/download/jq-{version}/jq-windows-amd64.exe"
+sha256 = "a6fc67fedaf9128a3309a1e2ebb8b986aeccf70122ee46d2cb4849e423f0c627"
+
+[jq.linux-x86_64]
+url = "https://github.com/jqlang/jq/releases/download/jq-{version}/jq-linux-amd64"
+sha256 = "b1c22172dd303f3be49e935aa56aa48a8b7a46e0bc838b4997d3bb451495870f"
+
+[gh]
+version = "2.104.0"
+check = ["gh", "--version"]
+role = "GitHub CLI; fr1's copy had been overwritten by a 9-byte text file on 2026-11-16"
+
+[gh.linux-x86_64]
+url = "https://github.com/cli/cli/releases/download/v{version}/gh_{version}_linux_amd64.tar.gz"
+sha256 = "98cb101ad87dbbd3f6b2f2bfcbd43197ccd07643140121d8a9cfaa91eadbc24e"
+archive = "tar.gz"
+member = "gh_{version}_linux_amd64/bin/gh"
+
+[gh.windows-x86_64]
+url = "https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_amd64.zip"
+sha256 = "08c06d10482f12c478018cd259f64acbd5f625712cadf331aad19ba973c879e5"
+archive = "zip"
+member = "bin/gh.exe"
