@@ -9,22 +9,25 @@ authors.workspace = true
 publish.workspace = true
 
 [features]
-boq = ["dep:serde_json"]
-web = ["dep:serde_json", "dep:regex", "dep:serde", "dep:sha2", "dep:thiserror", "dep:tracing", "dep:url", "dep:ay-http", "dep:tokio", "boq"]
-runtime = ["dep:serde_json", "dep:serde", "dep:thiserror", "dep:url", "dep:ay-config", "dep:ay-mcp-client", "dep:ay-proc", "dep:async-trait", "dep:dirs", "dep:futures-util", "dep:ay-http", "dep:tokio", "dep:which"]
-default = ["boq", "web", "runtime"]
+boq = []
+web = ["dep:regex", "dep:sha2", "dep:thiserror", "dep:tracing", "dep:url", "dep:tokio", "boq"]
+runtime = ["dep:thiserror", "dep:url", "dep:ay-config", "dep:ay-toolcall", "dep:ay-proc", "dep:async-trait", "dep:dirs", "dep:futures-util", "dep:tokio", "dep:which"]
+google = ["web", "runtime", "dep:ay-model", "dep:bun_browser_dom", "dep:chrono", "dep:clap", "dep:futures", "dep:regex", "dep:rusqlite", "dep:rustls", "dep:tokio", "dep:url"]
+full = ["boq", "web", "runtime", "google"]
+default = []
 
 [dependencies]
 async-trait = { version = "0.1.92", default-features = false, optional = true }
 ay-config = { path = "../ay-config", optional = true }
-ay-http = { path = "../ay-http", default-features = false, features = ["client"], optional = true }
-ay-mcp-client = { path = "../ay-mcp-client", optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["client"] }
+ay-model = { path = "../ay-model", default-features = false, features = ["antigravity"], optional = true }
 ay-proc = { path = "../ay-proc", features = ["tokio"], optional = true }
+ay-toolcall = { path = "../ay-toolcall", features = ["mcp"], optional = true }
 dirs = { version = "7.0.0", default-features = false, optional = true }
 futures-util = { workspace = true, optional = true }
 regex = { version = "1.13.2", default-features = false, optional = true }
-serde = { workspace = true, optional = true }
-serde_json = { version = "1.0.154", default-features = false, features = ["std"], optional = true }
+serde.workspace = true
+serde_json = { workspace = true, features = ["std"] }
 sha2 = { version = "0.11.1", default-features = false, optional = true }
 thiserror = { version = "2.0.21", default-features = false, optional = true }
 tracing = { version = "0.1.44", default-features = false, optional = true }
@@ -32,6 +35,7 @@ url = { version = "2.5.8", default-features = false, optional = true }
 which = { workspace = true, optional = true }
 
 [dev-dependencies]
+ay-gemini = { path = ".", features = ["full"] }
 rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs"] }
 tempfile = { version = "3.27.0", default-features = false, features = ["getrandom"] }
 tokio = { version = "1.54.1", default-features = false, features = ["macros", "rt", "rt-multi-thread"] }
@@ -39,23 +43,24 @@ tokio = { version = "1.54.1", default-features = false, features = ["macros", "r
 [target."cfg(all(target_arch = \"wasm32\", target_os = \"unknown\"))".dependencies]
 tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
 
+[target."cfg(not(target_arch = \"wasm32\"))".dependencies]
+ay-model = { path = "../ay-model", default-features = false, features = ["client"], optional = true }
+bun_browser_dom = { version = "1.4.8", optional = true }
+chrono = { version = "0.4.45", default-features = false, optional = true }
+clap = { workspace = true, features = ["derive", "env"], optional = true }
+futures = { version = "0.3.34", default-features = false, features = ["std", "async-await"], optional = true }
+regex = { version = "1.13.2", default-features = false, optional = true }
+rusqlite = { workspace = true, features = ["bundled"], optional = true }
+rustls = { version = "0.23.46", default-features = false, optional = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"], optional = true }
+url = { workspace = true, optional = true }
+
 [target."cfg(not(target_family = \"wasm\"))".dependencies]
 tokio = { version = "1.54.1", default-features = false, features = ["fs", "io-util", "macros", "process", "rt", "rt-multi-thread", "sync", "time"], optional = true }
 
 [target."cfg(target_os = \"wasi\")".dependencies]
 tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
 
-[[example]]
-name = "web_smoke"
-path = "examples/web_smoke.rs"
-required-features = ["web"]
-
-[[test]]
-name = "runtime_mcp_smoke"
-path = "tests/runtime_mcp_smoke.rs"
-required-features = ["runtime"]
-
-# Tests and the runtime adapter use `set_var` (unsafe in edition 2024).
 [lints.rust]
 non_ascii_idents = "deny"
 unsafe_op_in_unsafe_fn = "deny"

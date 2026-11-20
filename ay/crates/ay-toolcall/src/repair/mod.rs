@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 #![forbid(unsafe_code)]
 #![warn(clippy::pedantic)]
-//! `ay-toolcall-repair` — weak open-source model tool-calling robustness.
+//! `ay-toolcall/repair` — weak open-source model tool-calling robustness.
 //!
 //! Small local models routinely emit tool calls and file edits that are
 //! *almost* right: JSON wrapped in markdown fences, single-quoted strings,

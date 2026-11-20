@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "owner": "aphrody-labs/bun",
-  "package": "ay-boq",
+  "package": "ay-gemini",
   "version": "1.4.4",
   "license": "Apache-2.0",
   "sourceRepository": "https://github.com/aphrody-labs/legacy",

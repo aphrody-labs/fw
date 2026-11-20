@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! MCP client facade for the Gemini runtime.
 //!
-//! The one MCP client of the workspace is [`ay_mcp_client`]. It owns the JSON-RPC framing,
+//! The one MCP client of the workspace is [`ay_toolcall::mcp`]. It owns the JSON-RPC framing,
 //! the stdio and streamable HTTP transports, header validation and the timeouts; this module no
 //! longer carries a second implementation of any of it. What remains is the public surface that
 //! `aphrody mcp` (`crates/infra/aphrody`), [`crate::runtime::tools::McpProxyTool`] and the existing tests were written
@@ -10,7 +10,7 @@
 //! `String`, and a `call_tool` that returns the raw JSON-RPC result. Everything below is
 //! delegation plus value conversion.
 //!
-//! New code should use [`ay_mcp_client::McpClient`] together with
+//! New code should use [`ay_toolcall::mcp::McpClient`] together with
 //! [`ay_config::mcp::McpServerConfig`]; this facade goes away once `aphrody mcp` migrates.
 
 use std::{
@@ -19,9 +19,9 @@ use std::{
 };
 
 // The error type is the canonical one: a single definition for every MCP caller.
-pub use ay_mcp_client::McpClientError as McpError;
+pub use ay_toolcall::mcp::McpClientError as McpError;
 // Shared with the canonical client; the values are unchanged (`2024-11-05`, 30 s).
-pub use ay_mcp_client::{DEFAULT_RPC_TIMEOUT, MCP_PROTOCOL_VERSION};
+pub use ay_toolcall::mcp::{DEFAULT_RPC_TIMEOUT, MCP_PROTOCOL_VERSION};
 use serde::{Deserialize, Serialize};
 
 /// Default timeout for connecting to / spawning an MCP server.
@@ -63,8 +63,8 @@ pub struct McpTool {
 // Conversions from the canonical client's value types
 // ---------------------------------------------------------------------------
 
-impl From<ay_mcp_client::ServerInfo> for ServerInfo {
-    fn from(info: ay_mcp_client::ServerInfo) -> Self {
+impl From<ay_toolcall::mcp::ServerInfo> for ServerInfo {
+    fn from(info: ay_toolcall::mcp::ServerInfo) -> Self {
         Self {
             name: info.name,
             version: info.version,
@@ -74,8 +74,8 @@ impl From<ay_mcp_client::ServerInfo> for ServerInfo {
     }
 }
 
-impl From<ay_mcp_client::McpTool> for McpTool {
-    fn from(tool: ay_mcp_client::McpTool) -> Self {
+impl From<ay_toolcall::mcp::McpTool> for McpTool {
+    fn from(tool: ay_toolcall::mcp::McpTool) -> Self {
         Self {
             name: tool.name,
             // The canonical descriptor keeps an absent description as `None`; this surface has
@@ -97,20 +97,20 @@ fn ordered(map: &HashMap<String, String>) -> BTreeMap<String, String> {
 // McpClient
 // ---------------------------------------------------------------------------
 
-/// A live MCP client connection. A thin wrapper over [`ay_mcp_client::McpClient`].
+/// A live MCP client connection. A thin wrapper over [`ay_toolcall::mcp::McpClient`].
 ///
 /// Created via [`McpClient::from_stdio`], [`McpClient::from_http`] or
 /// [`McpClient::from_http_headers`]. Dropping the client closes the transport: the stdio child
 /// process is killed, an HTTP client simply goes away.
 pub struct McpClient {
-    inner: ay_mcp_client::McpClient,
+    inner: ay_toolcall::mcp::McpClient,
     /// Configurable RPC timeout (default: [`DEFAULT_RPC_TIMEOUT`]). It also bounds the
     /// `initialize` handshake, as it always has on this surface.
     pub rpc_timeout: Duration,
 }
 
 impl McpClient {
-    fn wrap(inner: ay_mcp_client::McpClient) -> Self {
+    fn wrap(inner: ay_toolcall::mcp::McpClient) -> Self {
         Self {
             inner,
             rpc_timeout: DEFAULT_RPC_TIMEOUT,
@@ -141,7 +141,7 @@ impl McpClient {
     ) -> Result<Self, McpError> {
         let args: Vec<String> = args.iter().map(|arg| (*arg).to_owned()).collect();
         let env = ordered(env);
-        ay_mcp_client::McpClient::from_stdio(command, &args, Some(&env), None).map(Self::wrap)
+        ay_toolcall::mcp::McpClient::from_stdio(command, &args, Some(&env), None).map(Self::wrap)
     }
 
     /// Connect to a streamable-HTTP MCP endpoint.
@@ -154,7 +154,7 @@ impl McpClient {
     /// - [`McpError::InvalidHeader`] — the token cannot be sent as a header value.
     /// - [`McpError::Http`] — building the inner HTTP client failed.
     pub fn from_http(url: impl Into<String>, bearer: Option<String>) -> Result<Self, McpError> {
-        ay_mcp_client::McpClient::from_http(url, bearer, None).map(Self::wrap)
+        ay_toolcall::mcp::McpClient::from_http(url, bearer, None).map(Self::wrap)
     }
 
     /// Connect to a streamable-HTTP endpoint with the configured request
@@ -170,7 +170,7 @@ impl McpClient {
         headers: &HashMap<String, String>,
     ) -> Result<Self, McpError> {
         let headers = ordered(headers);
-        ay_mcp_client::McpClient::from_http(url, None, Some(&headers)).map(Self::wrap)
+        ay_toolcall::mcp::McpClient::from_http(url, None, Some(&headers)).map(Self::wrap)
     }
 
     /// Perform the MCP `initialize` handshake and the `notifications/initialized`
@@ -320,12 +320,12 @@ mod tests {
     }
 
     // JSON-RPC framing, response parsing and the transports are tested where they live, in
-    // `ay-mcp-client` (`tests/mcp_client_tests.rs`, `tests/http_transport.rs`). The tests
+    // `ay-toolcall/mcp` (`tests/mcp_client_tests.rs`, `tests/http_transport.rs`). The tests
     // below cover only what this facade adds: value conversion and the error passthrough.
 
     #[test]
     fn canonical_tool_without_description_renders_as_empty_string() {
-        let tool = ay_mcp_client::McpTool {
+        let tool = ay_toolcall::mcp::McpTool {
             name: "echo".to_owned(),
             description: None,
             input_schema: serde_json::json!({"type": "object"}),
@@ -338,7 +338,7 @@ mod tests {
 
     #[test]
     fn canonical_server_info_converts_field_for_field() {
-        let info = ay_mcp_client::ServerInfo {
+        let info = ay_toolcall::mcp::ServerInfo {
             name: "example-server".to_owned(),
             version: "1.2.3".to_owned(),
             capabilities: serde_json::json!({"tools": {}}),

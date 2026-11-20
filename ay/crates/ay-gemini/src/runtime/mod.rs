@@ -475,7 +475,7 @@ where
 // ---------------------------------------------------------------------------
 
 /// Environment override : when set to a non-empty path, takes precedence over
-/// every other resolution step. Mirrors `ay-gateway::gemini_cli::ENV_GEMINI_BIN`.
+/// every other resolution step. Mirrors `ay-model/gateway::gemini_cli::ENV_GEMINI_BIN`.
 pub const ENV_GEMINI_BIN: &str = "APHRODY_GEMINI_BIN";
 
 /// Resolve the Gemini binary path **without** invoking it.

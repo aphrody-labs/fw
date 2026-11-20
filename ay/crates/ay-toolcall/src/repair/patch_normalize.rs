@@ -3,7 +3,7 @@
 //! patch: git-style unified diffs, aider-style SEARCH/REPLACE blocks, and
 //! whole-file fenced blocks, all converted into the `*** Begin Patch` /
 //! `*** Add|Update|Delete File` / `@@` / `*** End Patch` envelope that
-//! [`ay_patch::parse_patch`](../ay_patch/fn.parse_patch.html) (a
+//! [`ay_agent::patch::parse_patch`](../ay_agent::patch/fn.parse_patch.html) (a
 //! sibling crate, used only in this crate's tests) accepts.
 
 use std::{collections::HashMap, fmt::Write as _};

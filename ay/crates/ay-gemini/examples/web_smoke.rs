@@ -8,8 +8,8 @@
 //!   * if a prompt arg is given, sends it and prints the reply.
 //!
 //! Usage:
-//!   cargo run -p ay-gemini-web --example smoke                 # read-only probe
-//!   cargo run -p ay-gemini-web --example smoke -- "your prompt" # also send
+//!   cargo run -p ay-gemini/web --example smoke                 # read-only probe
+//!   cargo run -p ay-gemini/web --example smoke -- "your prompt" # also send
 
 use ay_gemini::web::GeminiWebClient;
 

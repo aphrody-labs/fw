@@ -7,3 +7,6 @@ pub mod boq;
 pub mod web;
 #[cfg(feature = "runtime")]
 pub mod runtime;
+
+#[cfg(feature = "google")]
+pub mod google;

@@ -11,18 +11,46 @@ description = "Tool catalogue model for the aphrody agent engine: ToolDefinition
 
 [features]
 repair = ["dep:regex"]
-default = ["repair"]
+mcp = ["dep:ay-config", "dep:ay-http", "dep:base64", "dep:futures-util", "dep:tracing", "dep:aphrody-web-service", "dep:ay-proc", "dep:tokio"]
+full = ["repair", "mcp"]
+default = []
 
 [dependencies]
-async-trait = { version = "0.1.92", default-features = false }
+async-trait.workspace = true
+ay-config = { path = "../ay-config", features = [], optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["client"], optional = true }
+base64 = { workspace = true, optional = true }
+futures-util = { workspace = true, optional = true }
 regex = { workspace = true, optional = true }
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
+tracing = { workspace = true, optional = true }
 
 [dev-dependencies]
+ay-toolcall = { path = ".", features = ["full"] }
 pretty_assertions.workspace = true
 proptest = "1.12.0"
+rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"] }
+tokio = { workspace = true, features = ["process", "full"] }
+
+[target."cfg(not(target_arch = \"wasm32\"))".dependencies]
+aphrody-web-service = { version = "1.4.8", features = ["render"], optional = true, package = "bun_browser_service" }
+ay-proc = { path = "../ay-proc", features = ["tokio"], optional = true }
+tokio = { version = "1.54.1", features = ["process", "rt-multi-thread", "macros", "time", "signal", "sync", "fs", "io-util", "full"], optional = true }
+
+[target."cfg(target_arch = \"wasm32\")".dependencies]
+tokio = { version = "1.54.1", default-features = false, features = ["sync"], optional = true }
+
+[[test]]
+name = "mcp_http_transport"
+path = "tests/mcp_http_transport.rs"
+required-features = ["mcp"]
+
+[[test]]
+name = "mcp_mcp_client_tests"
+path = "tests/mcp_mcp_client_tests.rs"
+required-features = ["mcp"]
 
 [lints.rust]
 unsafe_op_in_unsafe_fn = "deny"

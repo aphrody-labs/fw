@@ -644,7 +644,7 @@ impl ToolOutput {
 ///
 /// The engine consults [`ToolExecutor::safety`] *before* dispatch to decide
 /// whether a call may auto-run, should be escalated for approval, or must be
-/// refused outright. The enum is deliberately decoupled from `ay-guard`
+/// refused outright. The enum is deliberately decoupled from `ay-agent/guard`
 /// (the generic tool contract carries no dependency on the guardrail crate); a
 /// tool that wraps a classifier maps its own verdict onto these variants.
 ///
@@ -803,3 +803,6 @@ mod tests;
 
 #[cfg(feature = "repair")]
 pub mod repair;
+
+#[cfg(feature = "mcp")]
+pub mod mcp;

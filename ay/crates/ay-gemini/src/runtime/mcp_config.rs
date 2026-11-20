@@ -39,7 +39,7 @@
 //! # One server model
 //!
 //! The typed model of an MCP server entry is [`ay_config::mcp::McpServerConfig`], the same
-//! one `config.toml` `[mcp_servers.*]` uses and [`ay_mcp_client::McpClient::from_config`]
+//! one `config.toml` `[mcp_servers.*]` uses and [`ay_toolcall::mcp::McpClient::from_config`]
 //! connects from. [`parse_mcp_servers`], [`load_mcp_servers`] and [`load_default_mcp_servers`]
 //! read this Claude Desktop / Cursor / Continue compatible JSON file straight into it, as a
 //! [`McpServers`] map keyed by server name. This module is only the *file format adapter*:

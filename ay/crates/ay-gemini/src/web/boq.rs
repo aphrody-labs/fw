@@ -4,7 +4,7 @@
 //! Wire format captured live from `gemini.google.com/_/BardChatUi` (build
 //! `boq_assistant-bard-web-server_20260511.16_p20`, 2026-05-21). Gemini and `NotebookLM` share the
 //! same Boq router, so the codec (request encoder, anti-XSSI strip, length-prefixed chunk parser,
-//! `wrb.fr` envelope extraction) has one owner, [`ay_boq`]; this module re-exports it and maps
+//! `wrb.fr` envelope extraction) has one owner, [`ay_gemini::boq`]; this module re-exports it and maps
 //! its failures to [`GeminiError`].
 
 use serde_json::Value;

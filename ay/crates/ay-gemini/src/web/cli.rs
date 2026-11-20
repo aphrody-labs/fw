@@ -69,7 +69,7 @@ async fn run() {
     let _ = writeln!(output, "{response}");
 }
 
-/// Entry point of the former `ay-gemini-web` binary, now reached through the `aphrody`
+/// Entry point of the former `ay-gemini/web` binary, now reached through the `aphrody`
 /// multi-call binary. `args[0]` is the program name (argv convention). Returns the process exit
 /// code. The arguments are ignored: the request comes from stdin.
 #[must_use]
@@ -80,7 +80,7 @@ pub fn cli_main(_args: Vec<OsString>) -> i32 {
     {
         Ok(runtime) => runtime,
         Err(error) => {
-            eprintln!("ay-gemini-web: runtime: {error}");
+            eprintln!("ay-gemini web: runtime: {error}");
             return 1;
         }
     };

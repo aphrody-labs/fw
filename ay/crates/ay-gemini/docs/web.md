@@ -19,9 +19,9 @@ your home directory; never inside the workspace.
 ## Quick start
 
 ```rust
-use ay_gemini_web::{GeminiWebClient, GeminiModel};
+use ay_gemini::web::{GeminiWebClient, GeminiModel};
 
-# async fn run() -> ay_gemini_web::Result<()> {
+# async fn run() -> ay_gemini::web::Result<()> {
 // The caller installs a rustls CryptoProvider before the first request.
 let client = GeminiWebClient::from_default_cookie_file("en").await?;
 
@@ -56,7 +56,7 @@ println!("{} (images: {:?})", follow.text, follow.generated_image_urls);
 
 ## OS process boundary
 
-`aphrody-web-ffi` in the OS repository invokes the `ay-gemini-web` binary
+`aphrody-web-ffi` in the OS repository invokes the `ay-gemini/web` binary
 through stdin/stdout JSON. Install the binary on `PATH` or set
 `APHRODY_GEMINI_WEB_BIN` to its absolute path. The request is
 `{"cookie_path":"...","prompt":"...","model":"flash"}`; the response is the
@@ -65,7 +65,7 @@ or an `error` object. The cookie path and prompt are never command-line
 arguments. This process boundary keeps OS crates independent of the AI layer.
 
 Both process clients are entries of the multi-call `aphrody` binary
-(`aphrody gemini-web`, `aphrody embed`; `ay_gemini_web::cli_main`). The current
+(`aphrody gemini-web`, `aphrody embed`; `ay_gemini::web::cli_main`). The current
 release CLI does not install the links automatically; put the matching
 link on `PATH` or configure `APHRODY_GEMINI_WEB_BIN` explicitly. Production
 installation has not been verified.

@@ -396,7 +396,7 @@ pub async fn request_token_grant(
             "application/x-www-form-urlencoded;charset=UTF-8",
         )
         .header("Accept", "*/*")
-        .header("User-Agent", "ay-gemini-runtime/1")
+        .header("User-Agent", "ay-gemini/1")
         .body(body)
         .send()
         .await?;
