@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { createFwApiHandler } from "../src/api.ts";
 import { renderCrossPlatformServices, runDaemonCycle } from "../src/daemon.ts";
@@ -13,20 +13,14 @@ describe("fw unified plugin, MCP, API, and cross-platform daemon", () => {
     const status = pluginStatus(ROOT);
     expect(status.ok).toBe(true);
     expect(status.name).toBe("fw");
-    expect(status.skills).toEqual([
-      "agy-knowledge",
-      "binary-analysis",
-      "fw",
-      "hermes-claw",
-      "learn",
-      "low-level-lto-aot",
-      "reverse-engineer-anything",
-      "rust-upstream",
-      "static-recompile",
-      "tree-sitter",
-      "tui-test",
-      "upstreams",
-    ]);
+    const onDisk = readdirSync(join(ROOT, "plugin", "skills"), { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name)
+      .sort();
+    expect(status.skills).toEqual(onDisk);
+    for (const core of ["agy-knowledge", "binary-analysis", "fw", "hermes-claw", "learn", "low-level-lto-aot", "reverse-engineer-anything", "rust-upstream", "static-recompile", "tree-sitter", "tui-test", "upstreams"]) {
+      expect(status.skills).toContain(core);
+    }
 
     const manifest = JSON.parse(readFileSync(join(ROOT, "plugin", "plugin.json"), "utf8"));
     expect(manifest.name).toBe("fw");

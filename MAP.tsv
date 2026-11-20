@@ -3,7 +3,7 @@ dir	tier	files	bytes	gate
 .agents	misc	2	2947	just ci
 .cargo	misc	1	164	just ci
 .claude-plugin	misc	1	893	just ci
-.github	misc	4	8721	just ci
+.github	misc	4	9297	just ci
 cloudflare	edge-worker	5	736157	bun run cf:dry-run
 cluster	topology-spec	2	3938	bun test tests/fw_v3_cluster_webgpu.test.ts
 configs/heretic	heretic-presets	8	31105	uvx ruff check .
@@ -33,7 +33,7 @@ os/fw-wsl	wsl-zero-legacy	8	9850	bun test tests/fw_v4_os_uutils_nix.test.ts
 plugin	agy-plugin	57	247262	dist/fw.exe plugin sync --install
 plugins	misc	8	62583	just ci
 src	bun-cli-aot	18	221546	bun test
-tests	e2e-tests	13	130252	bun test
+tests	e2e-tests	13	130437	bun test
 tools	misc	3	40727	just ci
 vercel	edge-vercel	2	1886	bun test tests/fw_decisions_vercel.test.ts
 web	control-plane-ui	1	6243	bun run cf:dry-run
