@@ -150,6 +150,8 @@ describe.skipIf(!running)("unified Worker in workerd", () => {
   test("releases: brand files from the assets bucket, ay-tools from the chromium bucket", async () => {
     expect((await get(`releases.${rootDomain}`, "/brand/icon.svg")).headers.get("content-type")).toContain("image/svg+xml");
     expect(((await (await get(`releases.${rootDomain}`, "/ay-tools/latest.json")).json()) as { version: string }).version).toBe("tools-1");
+    expect((await get(`releases.${rootDomain}`, "/health")).headers.get("x-served-by")).toBe("ay-edge");
+    expect((await get(`docs.${rootDomain}`, "/x")).headers.get("x-served-by")).toBe("ay-edge");
   });
 
   test("assets: plain keys under /r2-assets and the gateway on its host", async () => {

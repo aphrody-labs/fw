@@ -42,7 +42,18 @@ function effectiveUrl(request: Request, env: EdgeEnv): URL {
   return url;
 }
 
+/** Every response the Worker sends names it, so a route that moved can be proven from the outside. */
+const SERVED_BY = "x-served-by";
+
 export async function dispatch(inbound: Request, env: EdgeEnv, ctx: ExecutionContext): Promise<Response> {
+  const res = await route(inbound, env, ctx);
+  if (res.status === 101) return res;
+  const out = new Response(res.body, res);
+  out.headers.set(SERVED_BY, "ay-edge");
+  return out;
+}
+
+async function route(inbound: Request, env: EdgeEnv, ctx: ExecutionContext): Promise<Response> {
   const url = effectiveUrl(inbound, env);
   const request = url.href === inbound.url ? inbound : new Request(url, inbound);
   const { rows, services } = tableOf(env);
