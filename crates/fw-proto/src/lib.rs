@@ -80,6 +80,8 @@ pub fn dispatch_kernel_mcp_tool(tool_name: &str, args: &Value) -> Option<Value> 
 }
 
 pub const CONTROL_PLANE_HTML: &str = include_str!("../../../web/index.html");
+pub const CONTROL_PLANE_CSS: &str = include_str!("../../../web/app.css");
+pub const CONTROL_PLANE_JS: &str = include_str!("../../../web/app.js");
 
 pub const WEBGPU_HTML_HARNESS: &str = r#"<!doctype html>
 <html lang="en">
@@ -254,6 +256,8 @@ pub fn dispatch_http(
     let body_json: Value = serde_json::from_str(body_str).unwrap_or_else(|_| json!({}));
     match (method, path) {
         ("GET", "/") => (200, "text/html; charset=utf-8", CONTROL_PLANE_HTML.to_string()),
+        ("GET", "/app.css") => (200, "text/css; charset=utf-8", CONTROL_PLANE_CSS.to_string()),
+        ("GET", "/app.js") => (200, "text/javascript; charset=utf-8", CONTROL_PLANE_JS.to_string()),
         ("GET", "/webgpu") => (200, "text/html; charset=utf-8", WEBGPU_HTML_HARNESS.to_string()),
         ("GET", "/claw/status") => {
             let agent = HermesClawAgent::new("fw-hermes-claw");

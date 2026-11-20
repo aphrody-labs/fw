@@ -1,0 +1,11 @@
+# Fw Chat — Native Rust AI & MCP Workspace
+
+> Zero-dependency pure-Rust chat and coding agent server (`fw`) with OpenAI Chat Completions, MCP, ACP, A2A, and WebGPU compute.
+
+## Endpoints
+- `https://fw.aphrody.com/` — Native Chat UI (`llama.cpp`-style)
+- `https://fw.aphrody.com/webgpu` — WebGPU WGSL + Wasm32 harness
+- `https://fw.aphrody.com/v1/chat/completions` — OpenAI-compatible Chat Completions API
+- `https://fw.aphrody.com/mcp` — In-process JSON-RPC 2.0 MCP endpoint
+- `https://fw.aphrody.com/acp` — Agent Client Protocol JSON-RPC 2.0 endpoint
+- `https://fw.aphrody.com/openapi.json` — OpenAPI 3.1 specification

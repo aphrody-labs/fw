@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fw.aphrody.com/sitemap.xml
