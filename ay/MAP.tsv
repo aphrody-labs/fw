@@ -4,7 +4,7 @@ dir	tier	files	bytes	gate
 .claude	misc	12	23034	bun run check
 .github	misc	15	40494	bun run check
 abi	c-abi	5	15676	bun tools/abi.ts --check
-apps	program	103	1612854	bun test ./apps/ay
+apps	program	103	1613093	bun test ./apps/ay
 brand	brand	57	3675066	bun tools/tokens-compose.ts --check
 config	shell-config	21	55958	bun tools/shells.ts --check
 corelib	c-asm	50	82826	bun tools/corelib.ts
@@ -35,4 +35,4 @@ packages/py2bun	bun-package	24	136011	bun test ./packages
 packages/wck	bun-package	38	9365619	bun test ./packages
 patches	dependency-patch	1	941	bun install --frozen-lockfile
 python	python	4	9283	uv run pytest
-tools	typed-bun	113	810390	bun test ./tools/
+tools	typed-bun	113	810309	bun test ./tools/
