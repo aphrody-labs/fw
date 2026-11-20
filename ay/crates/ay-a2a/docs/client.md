@@ -1,29 +1,29 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# ay-a2a-client
+# ay-a2a/client
 
-## What is `ay-a2a-client`?
+## What is `ay-a2a/client`?
 
-`ay-a2a-client` is the high-level Rust client for the A2A v1 protocol. It
+`ay-a2a/client` is the high-level Rust client for the A2A v1 protocol. It
 sends messages (and the full A2A message / task / push-config surface) to a
 peer agent and returns typed responses. The crate provides a `Transport`
 trait, JSON-RPC and REST implementations (gRPC comes from the companion
-`ay-a2a-grpc` crate), middleware hooks, and an `AgentCard` resolver that
+`ay-a2a/grpc` crate), middleware hooks, and an `AgentCard` resolver that
 auto-selects the correct transport for a remote agent. It is imported in Rust
-as `ay_a2a_client` and also ships the native `a2a_duel_loop` example (`cargo run -p ay-a2a-client --example a2a_duel_loop`).
+as `ay_a2a::client` and also ships the native `a2a_duel_loop` example (`cargo run -p ay-a2a/client --example a2a_duel_loop`).
 
 ## Install
 
 ```toml
 [dependencies]
-ay-a2a-client = "0.1"
+ay-a2a/client = "0.1"
 ay-a2a = "0.3"
 ```
 
 ## Quick start
 
 ```rust,no_run
-use ay_a2a_client::{A2AClient, rest::RestTransport};
+use ay_a2a::client::{A2AClient, rest::RestTransport};
 use reqwest::Client;
 
 #[tokio::main]
@@ -51,7 +51,7 @@ and `wasm32-unknown-unknown` targets.
 
 - HTTP via `RestTransport` (RESTful endpoints, default) and
   `JsonRpcTransport` (JSON-RPC 2.0 envelope).
-- gRPC via `GrpcTransport` from the companion `ay-a2a-grpc` crate.
+- gRPC via `GrpcTransport` from the companion `ay-a2a/grpc` crate.
 - File-based JSONL inbox fallback: implement `Transport` against an `.coord`
   mailbox directory for offline peer-to-peer scenarios.
 
@@ -70,6 +70,6 @@ Apache-2.0. Copyright AGNTCY Contributors; aphrody-code packaging.
 
 ## Related
 
-- `ay-a2a-server` - server-side counterpart.
-- `ay-a2a-pb` - generated protobuf bindings.
-- `ay-a2a-grpc` - gRPC transport binding.
+- `ay-a2a/server` - server-side counterpart.
+- `ay-a2a/protobuf` - generated protobuf bindings.
+- `ay-a2a/grpc` - gRPC transport binding.

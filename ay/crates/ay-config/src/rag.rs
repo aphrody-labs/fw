@@ -8,9 +8,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum EmbedBackend {
-    /// Pure-Rust in-process BERT/cross-encoder via `ay-embed::native`.
+    /// Pure-Rust in-process BERT/cross-encoder via `ay-model/embed::native`.
     Native,
-    /// ONNX Runtime, in-process, via `ay-embed`.
+    /// ONNX Runtime, in-process, via `ay-model/embed`.
     Ort,
     /// A locally supervised `llama-server` instance's `/v1/embeddings`.
     LlamaServer,
@@ -107,7 +107,7 @@ pub struct RagConfig {
     pub watch: Option<bool>,
 }
 
-/// `[llama]` — local `ay-llama-server` supervisor configuration.
+/// `[llama]` — local `ay-llama/server` supervisor configuration.
 #[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LlamaConfig {
     /// How long an idle managed `llama-server` stays resident before the

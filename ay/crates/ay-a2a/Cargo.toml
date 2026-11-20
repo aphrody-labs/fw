@@ -11,12 +11,13 @@ description = "A2A v1: protocol types, protobuf conversion (pb), async client (c
 
 [features]
 # wasm32 consumers build with `default-features = false, features = ["client"]`.
-default = ["pb", "client", "server", "coordinator", "grpc", "rustls-tls"]
-pb = ["dep:pbjson", "dep:pbjson-types", "dep:prost", "dep:prost-types", "dep:tonic", "dep:tonic-prost", "dep:pbjson-build", "dep:protoc-bin-vendored", "dep:tonic-prost-build"]
-client = ["pb", "dep:async-trait", "dep:auto_impl", "dep:bytes", "dep:futures", "dep:tracing", "dep:ay-http", "ay-http/client", "dep:tokio", "dep:getrandom"]
-server = ["pb", "dep:async-trait", "dep:futures", "dep:tracing", "dep:axum", "dep:hyper", "dep:ay-http", "ay-http/client", "ay-http/server", "dep:tokio", "dep:tokio-stream", "dep:tower"]
+default = []
+full = ["protobuf", "client", "server", "coordinator", "grpc", "rustls-tls", "rustls"]
+protobuf = ["dep:pbjson", "dep:pbjson-types", "dep:prost", "dep:prost-types", "dep:tonic", "dep:tonic-prost", "dep:pbjson-build", "dep:protoc-bin-vendored", "dep:tonic-prost-build"]
+client = ["protobuf", "dep:async-trait", "dep:auto_impl", "dep:bytes", "dep:futures", "dep:tracing", "dep:ay-http", "ay-http/client", "dep:tokio", "dep:getrandom"]
+server = ["protobuf", "dep:async-trait", "dep:futures", "dep:tracing", "dep:axum", "dep:hyper", "dep:ay-http", "ay-http/client", "ay-http/server", "dep:tokio", "dep:tokio-stream", "dep:tower"]
 coordinator = ["server", "dep:ay-proc", "dep:getrandom", "dep:which"]
-grpc = ["pb", "client", "server", "dep:http", "dep:tokio-stream", "dep:tonic"]
+grpc = ["protobuf", "client", "server", "dep:http", "dep:tokio-stream", "dep:tonic"]
 # TLS: rustls is the default provider for the HTTP client; `rustls` adds the TLS listener of the server and the gRPC TLS transport.
 rustls-tls = ["dep:rustls",]
 rustls = ["rustls-tls", "dep:rcgen", "dep:tokio-rustls", "dep:tonic-tls"]
@@ -44,6 +45,7 @@ tracing = { workspace = true, optional = true }
 uuid = { version = "1.29.3", default-features = false, features = ["v4", "v7", "serde", "std"] }
 
 [dev-dependencies]
+ay-a2a = { path = ".", features = ["full"] }
 http-body-util.workspace = true
 tempfile.workspace = true
 tokio = { workspace = true, features = ["process"] }
@@ -88,7 +90,7 @@ tokio = { version = "1.54.1", default-features = false, features = ["sync", "mac
 [[test]]
 name = "pb_protojson"
 path = "tests/pb_protojson.rs"
-required-features = ["pb"]
+required-features = ["protobuf"]
 
 [[example]]
 name = "client_a2a_duel_loop"

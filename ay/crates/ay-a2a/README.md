@@ -12,7 +12,7 @@ envelopes, streaming events, error details) that every other crate in the
 typical downstream consumer writes `use ay_a2a::*;` and gets every
 protocol type plus its serde derives ready to go. There is no runtime
 dependency on tokio, axum, or reqwest: those land in the companion
-`ay-a2a-client` and `ay-a2a-server` crates.
+`ay-a2a/client` and `ay-a2a/server` crates.
 
 ## Install
 
@@ -24,10 +24,10 @@ ay-a2a = "0.3"
 For end-to-end agent loops you usually want the full stack:
 
 ```toml
-ay-a2a-client = "0.1"
-ay-a2a-server = "0.3"
-ay-a2a-grpc   = "0.2"
-ay-a2a-pb     = "0.1"
+ay-a2a/client = "0.1"
+ay-a2a/server = "0.3"
+ay-a2a/grpc   = "0.2"
+ay-a2a/protobuf     = "0.1"
 ```
 
 ## Quick start
@@ -75,10 +75,10 @@ Apache-2.0. Copyright AGNTCY Contributors; aphrody-code packaging.
 
 ## Related
 
-- `ay-a2a-pb` - prost-generated protobuf bindings and pbjson conversion helpers.
-- `ay-a2a-client` - async client with JSON-RPC / REST / gRPC transports.
-- `ay-a2a-server` - `axum`-based server framework and task store.
-- `ay-a2a-grpc` - gRPC binding layer connecting client and server over tonic.
+- `ay-a2a/protobuf` - prost-generated protobuf bindings and pbjson conversion helpers.
+- `ay-a2a/client` - async client with JSON-RPC / REST / gRPC transports.
+- `ay-a2a/server` - `axum`-based server framework and task store.
+- `ay-a2a/grpc` - gRPC binding layer connecting client and server over tonic.
 
 ## Shenron TypeScript projection
 

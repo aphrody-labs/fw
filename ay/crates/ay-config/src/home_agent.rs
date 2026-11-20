@@ -77,7 +77,7 @@ pub struct A2aConfig {
 
 /// OCR engines supported by Aphrody's native pipeline.
 ///
-/// Serialised as the `ay-models` catalog id of the default variant, so a
+/// Serialised as the `ay-model/store` catalog id of the default variant, so a
 /// `[ocr].engines` entry can be pasted straight from `aphrody model list` /
 /// `aphrody model pull`. The historical, pre-catalog names (`pp-ocr-v5`,
 /// `dots.ocr-3b`) are still accepted on read via `alias`, so a `config.toml`

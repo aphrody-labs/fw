@@ -48,9 +48,7 @@ pub fn decompile_many(path: &Path, addresses: &[u64]) -> Vec<(u64, Result<String
                 .map(|a| {
                     (
                         *a,
-                        Err(ghidra_decompiler::error::Error::from(
-                            std::io::Error::other(msg.clone()),
-                        )),
+                        Err(ghidra_decompiler::error::Error::Lowlevel(msg.clone())),
                     )
                 })
                 .collect()

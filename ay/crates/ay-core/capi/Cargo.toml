@@ -21,7 +21,7 @@ pipeline = ["core", "ay-core/pipeline"]
 ai-os = ["dep:ay-agent-context", "dep:rusqlite"]
 # aphrody_re_* : binary triage, Ghidra lifting, MinGW-REA, Lua 5.2 (ay-re).
 re = ["dep:ay-re"]
-# aphrody_* Boq parser (ay-boq).
+# aphrody_* Boq parser (ay-gemini/boq).
 web = ["dep:ay-gemini"]
 aysys-link = []
 

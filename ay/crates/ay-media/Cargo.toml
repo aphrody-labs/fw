@@ -10,12 +10,16 @@ authors.workspace = true
 publish.workspace = true
 
 [features]
-default = ["luma", "hls"]
+default = []
+full = ["luma", "hls"]
 luma = []
 hls = []
 
 [build-dependencies]
 cc.workspace = true
+
+[dev-dependencies]
+ay-media = { path = ".", features = ["full"] }
 
 [lints.rust]
 unsafe_op_in_unsafe_fn = "deny"

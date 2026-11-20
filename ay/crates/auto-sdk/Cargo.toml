@@ -7,7 +7,7 @@ license.workspace = true
 description = "Unified Aphrody Auto SDK library + single LTO/AOT executable: modern Rust Better Auth, billing/Factur-X/DOCX/XLSX/PPTX/PDF engines, HLC sync client, MCP router, and real-time L7 load balancer"
 
 [features]
-runtime = ["dep:axum", "dep:ay-http", "dep:tokio", "dep:toml", "native", "auth", "client"]
+runtime = ["dep:axum", "dep:ay-http", "dep:tokio", "dep:toml", "native", "auth", "client", "facturx", "docs", "knowledge", "files", "sheets"]
 native = ["dep:axum", "dep:getrandom", "dep:rusqlite", "dep:tokio"]
 auth = ["dep:argon2", "dep:chacha20poly1305", "dep:ed25519-dalek", "dep:hmac", "dep:p256", "dep:scrypt", "dep:sha1", "dep:subtle"]
 client = ["dep:ed25519-dalek", "model"]
@@ -19,7 +19,8 @@ knowledge = ["dep:ay-rag-core"]
 model = ["i18n"]
 sheets = ["dep:craft-csv", "dep:craft-ods", "dep:craft-opc", "dep:craft-sheet", "dep:craft-xls", "dep:craft-xlsx", "dep:craft-xml"]
 theme = []
-default = ["runtime", "native", "auth", "client", "docs", "facturx", "files", "i18n", "knowledge", "model", "sheets", "theme"]
+default = []
+full = ["runtime", "native", "auth", "client", "docs", "facturx", "files", "i18n", "knowledge", "model", "sheets", "theme"]
 
 [lib]
 name = "aphrody_auto"
@@ -102,6 +103,9 @@ required-features = ["sheets"]
 name = "sheets_spreadsheets"
 path = "tests/sheets_spreadsheets.rs"
 required-features = ["sheets"]
+
+[dev-dependencies]
+aphrody-auto = { path = ".", features = ["full"] }
 
 [lints]
 workspace = true

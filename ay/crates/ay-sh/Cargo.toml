@@ -8,7 +8,8 @@ publish.workspace = true
 description = "The Aphrody shell: Bash 5.3 (rubash) with the niubash interactive host, native on Windows, Linux and macOS"
 
 [features]
-default = ["pty"]
+default = []
+full = ["pty"]
 pty = ["dep:rio-vt"]
 
 [dependencies]
@@ -23,6 +24,9 @@ path = "src/main.rs"
 name = "pty_session"
 path = "tests/pty_session.rs"
 required-features = ["pty"]
+
+[dev-dependencies]
+ay-sh = { path = ".", features = ["full"] }
 
 [lints]
 workspace = true

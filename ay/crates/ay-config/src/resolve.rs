@@ -156,9 +156,9 @@ impl Config {
 /// an explicit `model`/`-m`, a `[profiles.*]` entry, or a caller-supplied
 /// `default_models` entry — this crate never invents a third one.
 ///
-/// These two literals must agree with `ay-llama-server`'s
+/// These two literals must agree with `ay-llama/server`'s
 /// `ensure::DEFAULT_OLLAMA_MODEL` / `DEFAULT_LMSTUDIO_MODEL`. This crate is a
-/// dependency-free leaf (no `ay-models`), so the two cannot share one
+/// dependency-free leaf (no `ay-model/store`), so the two cannot share one
 /// `const`; `gpt-oss:20b`/`openai/gpt-oss-20b` is published under those exact
 /// tags by Ollama, LM Studio and vLLM, which is why it — not a
 /// `ay_model::store::LocalRole` model family — is the value both crates agree

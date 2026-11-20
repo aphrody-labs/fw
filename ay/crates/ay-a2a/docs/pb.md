@@ -1,15 +1,15 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# ay-a2a-pb
+# ay-a2a/protobuf
 
 Generated protobuf bindings and conversion utilities for the A2A v1
 protocol, used throughout the Aphrody agent-to-agent stack.
 
-## What is `ay-a2a-pb`?
+## What is `ay-a2a/protobuf`?
 
-`ay-a2a-pb` provides the prost-generated message types and tonic gRPC
+`ay-a2a/protobuf` provides the prost-generated message types and tonic gRPC
 stubs for the A2A v1 protocol (`proto/a2a.proto`, package `lf.a2a.v1`). It is
-imported in Rust as `ay_a2a_pb`. The gRPC stubs are pre-generated in
+imported in Rust as `ay_a2a::protobuf`. The gRPC stubs are pre-generated in
 `src/gen/` and ship in the crate; the ProtoJSON types are generated into
 `OUT_DIR` by `build.rs` with a vendored `protoc` (`protoc-bin-vendored`), so a
 build needs neither a system `protoc` nor network access.
@@ -27,13 +27,13 @@ Two module surfaces are exposed:
 
 ```toml
 [dependencies]
-ay-a2a-pb = "0.1"
+ay-a2a/protobuf = "0.1"
 ```
 
 ## Generated types
 
-All types live under the `ay_a2a_pb::proto` module on native targets and
-under `ay_a2a_pb::protojson` on all targets (including wasm32). The five
+All types live under the `ay_a2a::protobuf::proto` module on native targets and
+under `ay_a2a::protobuf::protojson` on all targets (including wasm32). The five
 most important public types are:
 
 | Type | Proto message | Role |
@@ -60,7 +60,7 @@ crate types via the pbjson ProtoJSON wire format.
 To refresh the committed `src/gen/` stubs after a `.proto` change:
 
 ```bash
-A2A_PB_REGEN=1 cargo build -p ay-a2a-pb --locked
+A2A_PB_REGEN=1 cargo build -p ay-a2a/protobuf --locked
 ```
 
 Without `A2A_PB_REGEN`, `build.rs` writes only to `OUT_DIR`, as crates.io
@@ -81,5 +81,5 @@ Apache-2.0.
 ## Related crates
 
 - `ay-a2a` - canonical A2A v1 protocol types and core definitions.
-- `ay-a2a-client`, `ay-a2a-server`, `ay-a2a-grpc` - the transport
+- `ay-a2a/client`, `ay-a2a/server`, `ay-a2a/grpc` - the transport
   layers built on these bindings.

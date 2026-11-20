@@ -297,10 +297,6 @@ pub struct HubClient {
 impl HubClient {
     #[must_use]
     pub fn new(base: &str, token: Option<String>) -> Self {
-        static CRYPTO: std::sync::Once = std::sync::Once::new();
-        CRYPTO.call_once(|| {
-            let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
-        });
         let http = ay_http::Client::builder()
             .timeout(Duration::from_secs(15))
             .build()

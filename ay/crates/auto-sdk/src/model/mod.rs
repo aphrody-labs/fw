@@ -81,7 +81,7 @@ pub enum DocumentType {
 }
 
 impl DocumentType {
-    /// Localized display label (`"Quote"`, `"Invoice"`, `"Deposit"`, `"Credit note"`, or French via `auto-i18n`).
+    /// Localized display label (`"Quote"`, `"Invoice"`, `"Deposit"`, `"Credit note"`, or French via `aphrody-auto/i18n`).
     pub fn label(self, lang: &str) -> String {
         let key = self.english_label();
         crate::i18n::tr_ctx(lang, "pdf", key).into_owned()

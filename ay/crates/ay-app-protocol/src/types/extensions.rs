@@ -212,7 +212,7 @@ pub struct TurnEventsParams {
 /// Response returned by `turn/events`.
 ///
 /// `data` and `notifications` stay `serde_json::Value`: the underlying event
-/// stream (`ay-agent-proto::Event`) is `snake_case` by the documented,
+/// stream (`ay-agent/proto::Event`) is `snake_case` by the documented,
 /// deliberate exception in `docs/API.md` §1 (mirrors the upstream Codex CLI
 /// wire protocol this crate is compatible with) — re-typing it camelCase
 /// here would misrepresent what is actually on the wire.

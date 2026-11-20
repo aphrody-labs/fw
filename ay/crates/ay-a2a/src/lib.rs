@@ -29,7 +29,7 @@ pub const SVC_PARAM_VERSION: &str = "A2A-Version";
 /// Service parameter key for extensions the client wants to use.
 pub const SVC_PARAM_EXTENSIONS: &str = "A2A-Extensions";
 
-#[cfg(feature = "pb")]
+#[cfg(feature = "protobuf")]
 pub mod pb;
 #[cfg(feature = "client")]
 pub mod client;

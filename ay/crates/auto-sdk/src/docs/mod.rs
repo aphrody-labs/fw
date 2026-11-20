@@ -1,4 +1,4 @@
-//! PDF document rendering for commercial invoices/quotes (`auto-model`), plus A4 DOCX and 16:9 PPTX exports.
+//! PDF document rendering for commercial invoices/quotes (`aphrody-auto/model`), plus A4 DOCX and 16:9 PPTX exports.
 
 pub mod pdf_writer;
 
@@ -23,7 +23,7 @@ const TEXT_MUTED: [f32; 3] = [0.32, 0.39, 0.37];
 const BORDER_GRAY: [f32; 3] = [0.85, 0.88, 0.87];
 const ROW_STRIPE: [f32; 3] = [0.97, 0.98, 0.98];
 
-/// Rendering error emitted by `auto-docs`.
+/// Rendering error emitted by `aphrody-auto/docs`.
 #[derive(Debug, Error)]
 pub enum RenderError {
     #[error(transparent)]
@@ -59,7 +59,7 @@ pub struct SlidePdf {
     pub notes: Option<String>,
 }
 
-/// Renders an A4 commercial PDF (`Quote`, `Invoice`, `Deposit`, or `CreditNote`) localized via `auto-i18n`.
+/// Renders an A4 commercial PDF (`Quote`, `Invoice`, `Deposit`, or `CreditNote`) localized via `aphrody-auto/i18n`.
 pub fn render(doc: &Document) -> Result<Vec<u8>, RenderError> {
     let lang = doc.resolved_locale();
     let accent = parse_hex_color(doc.template.as_ref().and_then(|t| t.color.as_deref()))

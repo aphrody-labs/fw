@@ -9,7 +9,8 @@ authors.workspace = true
 publish.workspace = true
 
 [features]
-default = ["assets", "edge"]
+default = []
+full = ["assets", "edge"]
 assets = ["dep:blake3", "dep:etagere", "dep:gltf", "dep:http", "dep:http-range-header", "dep:ktx2", "dep:serde", "dep:serde_json", "dep:spdx", "dep:thiserror", "dep:thumbhash", "dep:url"]
 edge = ["dep:serde", "dep:thiserror", "dep:toml"]
 
@@ -27,6 +28,9 @@ thiserror = { workspace = true, optional = true }
 thumbhash = { workspace = true, optional = true }
 toml = { workspace = true, optional = true }
 url = { workspace = true, optional = true }
+
+[dev-dependencies]
+ay-cf = { path = ".", features = ["full"] }
 
 [lints]
 workspace = true

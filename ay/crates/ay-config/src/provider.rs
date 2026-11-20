@@ -22,13 +22,13 @@ pub const DEFAULT_STREAM_IDLE_TIMEOUT_MS: u64 = 300_000;
 
 /// A locally supervised inference runtime backing a `model_provider` entry.
 ///
-/// Only `llama-server` exists today (the `ay-llama-server` supervisor,
+/// Only `llama-server` exists today (the `ay-llama/server` supervisor,
 /// P2 in `docs/plans/codex-oss.md`); the enum leaves room for future managed
 /// runtimes without a breaking config shape change.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum ManagedRuntime {
-    /// Managed by `ay-llama-server`'s `Supervisor` (attach-or-spawn).
+    /// Managed by `ay-llama/server`'s `Supervisor` (attach-or-spawn).
     LlamaServer,
 }
 
@@ -158,7 +158,7 @@ pub fn builtin_providers(
         "llama".to_string(),
         ModelProviderInfo {
             name: "Managed llama-server".to_string(),
-            // Resolved at runtime by the `ay-llama-server` supervisor
+            // Resolved at runtime by the `ay-llama/server` supervisor
             // once it has picked a free port; left unset here.
             base_url: None,
             wire_api: WireApi::Chat,

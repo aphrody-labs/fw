@@ -755,7 +755,7 @@ mod auth_tests {
 async fn handle_ping() -> impl IntoResponse {
     Json(serde_json::json!({
         "ok": true,
-        "service": "ay-a2a-coord",
+        "service": "ay-a2a-coordinator",
         "a2a_version": crate::VERSION,
     }))
 }

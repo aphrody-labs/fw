@@ -1,4 +1,4 @@
-// Embedded native Axum HTTP + Better Auth (`auto-auth`) + MCP + Factur-X API runtime for `auto serve`.
+// Embedded native Axum HTTP + Better Auth (`aphrody-auto/auth`) + MCP + Factur-X API runtime for `auto serve`.
 use crate::auth::{
     AuthConfig,
     server::{SqlAuthStore, auth_router},

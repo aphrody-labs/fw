@@ -1,19 +1,19 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# ay-a2a-coord
+# ay-a2a/coordinator
 
 File-based A2A coordination and its HTTP bridge for the Aphrody agent fleet. It builds on
 [`ay-a2a`](https://crates.io/crates/aphrody-a2a) (protocol types) and
-[`ay-a2a-server`](https://crates.io/crates/aphrody-a2a-server) (JSON-RPC and REST routers).
+[`ay-a2a/server`](https://crates.io/crates/aphrody-a2a-server) (JSON-RPC and REST routers).
 
 ## Install
 
 ```toml
 [dependencies]
-ay-a2a-coord = "1.0.0-canary"
+ay-a2a/coordinator = "1.0.0-canary"
 ```
 
-The Rust import path is `ay_a2a_coord`.
+The Rust import path is `ay_a2a::coordinator`.
 
 ## What it provides
 
@@ -25,7 +25,7 @@ The Rust import path is `ay_a2a_coord`.
 | `CoordProxy` | Serve a `.coord` mailbox as an NDJSON or SSE snapshot, or follow it as a stream. |
 | `PeerInvoker`, `PeerId` | Headless dispatch to the native peer CLIs (Claude Code, Grok, agy). |
 | `PeerRegistry` | HTTP peer endpoints resolved from `APHRODY_A2A_PEER_<ID>_URL`, then from a peer catalog file (`APHRODY_A2A_PEERS_FILE`). |
-| `CoordPeerExecutor` | An `ay_a2a_server::AgentExecutor` that routes A2A tasks to the peers. |
+| `CoordPeerExecutor` | An `ay_a2a::server::AgentExecutor` that routes A2A tasks to the peers. |
 | `listener::serve`, `serve_profile`, `router_for_profile` | An axum listener exposing `/ping`, `/msg`, `/coord`, the A2A JSON-RPC and REST bindings and the agent card. |
 | `task_api::task_api_router` | Durable namespaced task CRUD and envelope mailbox routes used by serverless product agents. |
 
@@ -75,7 +75,7 @@ its own filesystem.
 ## Quick start
 
 ```rust,no_run
-use ay_a2a_coord::{AiManifest, ListenerConfig, serve};
+use ay_a2a::coordinator::{AiManifest, ListenerConfig, serve};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {

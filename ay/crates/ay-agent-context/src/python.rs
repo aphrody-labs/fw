@@ -49,6 +49,7 @@ impl PyContext {
 
     /// Returns a list of dicts: id, source, scope, title, text, at, score.
     #[pyo3(signature = (query, k=8, sources=None, scopes=None, lexical=0.8, recency=0.2))]
+    #[allow(clippy::too_many_arguments)] // the Python signature is the contract; each keyword is a parameter
     fn select<'py>(
         &self,
         py: Python<'py>,

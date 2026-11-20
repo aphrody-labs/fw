@@ -234,7 +234,7 @@ mod tests {
         let raw = include_str!("../../../../packages/cf-control-plane/cf.toml");
         let manifest = AyCfManifest::from_toml_str(raw)?;
         assert_eq!(manifest.buckets.len(), 11);
-        assert_eq!(manifest.tunnels.len(), 3);
+        assert_eq!(manifest.tunnels.len(), 4);
         assert_eq!(manifest.vpn.exit.len(), 3);
 
         let before = manifest.estimate_monthly_usd(UsageSnapshot {
