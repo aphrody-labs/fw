@@ -5,6 +5,7 @@ gate = "bun run check"
 
 ["(root)"]
 tier = "manifest"
+gate = "bun run check"
 
 [abi]
 tier = "c-abi"
@@ -16,6 +17,7 @@ gate = "bun test ./apps/ay"
 
 [brand]
 tier = "brand"
+gate = "bun tools/tokens-compose.ts --check"
 
 [corelib]
 tier = "c-asm"

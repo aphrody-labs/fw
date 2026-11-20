@@ -1,36 +1,38 @@
-# Aphrody
+# ay
 
-The Aphrody SDK and platform workspace: C ABI and freestanding corelib, Rust crates, Bun packages, AI OS runtime, shell and PTY, reverse-engineering core, Linux platform pins, and design tokens.
+The Aphrody SDK, built for agents: C ABI and corelib, Rust crates, Bun packages, the AI OS runtime, the unified edge Worker, and the design tokens. Names, hosts and domains come from `ay.toml`; the agent contract is `AGENTS.md`.
 
-| Product | Replica of | Status |
+## Layout
+
+| Path | Holds | Gate |
 |---|---|---|
-| Aphrody OS | The Googlebook experience | see [features](docs/features.md) |
-| Aphrody Browser | Chromium-based browsers | see [features](docs/features.md) |
-| Aphrody Search | google.com | see [features](docs/features.md) |
-| Aphrody Cloud | Cloudflare Workers + Vercel | see [features](docs/features.md) |
-| Craft Anything | storytold/craft-anything | see [features](docs/features.md) |
+| `abi/`, `corelib/` | C ABI, freestanding corelib (C, assembly) | `bun tools/abi.ts --check`, `bun tools/corelib.ts` |
+| `crates/` | Rust workspace (`ay-*`) | `cargo check --workspace` (on the build host) |
+| `packages/` | Bun packages (AI OS, chromium, cf-control-plane, ...) | `bun test ./packages` |
+| `apps/` | Programs: `ay` CLI, `edge` Worker, `cf-gateway`, `agents`, `ai-gateway`, `auto-*` | `bun test ./apps/ay` |
+| `tools/` | Typed Bun scripts: checks, generators, Cloudflare operations | `bun test ./tools/` |
+| `brand/` | Design tokens (Material 3) and generated themes | `bun tools/tokens-compose.ts --check` |
+| `docs/` | Spec, architecture, ADRs, feature matrix | `bun tools/features.ts --check` |
+| `os/`, `third_party/` | Linux layer, upstream submodules | `bun tools/submodules.ts --check` |
 
-## Components
-
-- **C ABI & corelib**: `abi/`, `corelib/`, `crates/ay-core/capi` ([ABI reference](docs/abi.md))
-- **AI OS & agent harness**: `packages/ai-os`, `crates/ay-a2a*`, `crates/ay-agent-*`, `crates/ay-rag*`, `crates/ay-llama*`, `crates/ay-store`, `crates/ay-vault`, `apps/agents`, `apps/ai-gateway`
-- **Shell, PTY & environment**: `crates/ay-sh`, `packages/omniu`, `config/`, `packages/env-kit`
-- **Reverse engineering & Linux platform**: `crates/ay-re`, `crates/ay-ghidra-bun`, `packages/ghidra`, `packages/py2bun`, `os/linux`, `tools/linux-*.ts`
-- **Chromium & web validation**: `crates/ay-chromium`, `packages/chromium`, `packages/chromium-releases`, `apps/chromium-dash`, `packages/wck` ([Chromium guide](docs/chromium.md), [Chromium Dash](docs/chromium-dash.md))
-
-## Documentation
-
-- [Specification](docs/spec.md), [architecture](docs/architecture.md), [ABI](docs/abi.md), [decisions](docs/adr/README.md)
-- [Feature matrix](docs/features.md): product scope, references, and verified proofs
-- [Organization standard](docs/standard.md): repository conventions and CI policy
+Per-directory tier and gate: `map.toml`. Generated output goes to the git-ignored `.private/`.
 
 ## Commands
 
 ```sh
-bun install        # install workspace dependencies
-bun run check      # feature matrix, paths, private-gate, ABI, typecheck, and Bun tests
-bun test           # run Bun test suites
-bun fmt            # format workspace files
-bun run features   # regenerate docs/features.md
+bun install        # workspace dependencies
+bun run check      # every gate: matrix, paths, private-gate, ABI, tokens, edge config, typecheck, tests
+bun run features   # regenerate docs/features.md from docs/features.toml
 bun run abi        # regenerate abi/ and docs/abi.md
+bun run map        # regenerate MAP.tsv
 ```
+
+Rust builds and tests run on the build and test hosts, never on the PC (`ay.toml` `[hosts]`).
+
+## Read first
+
+- [`docs/spec.md`](docs/spec.md): products and definition of done.
+- [`docs/architecture.md`](docs/architecture.md), [`docs/adr/`](docs/adr/README.md): tree, toolchain, decisions.
+- [`docs/features.toml`](docs/features.toml): every feature with its owner and proof (`docs/features.md` is generated).
+- [`docs/edge.md`](docs/edge.md), [`docs/release.md`](docs/release.md): the edge Worker and the release workflow.
+- [`docs/standard.md`](docs/standard.md): organization conventions and CI policy.
