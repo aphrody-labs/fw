@@ -1,0 +1,59 @@
+[package]
+name = "ay-design"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[features]
+brand = ["dep:serde", "dep:serde_json", "dep:sha2", "dep:thiserror"]
+dioxus = ["dep:serde", "dep:dioxus", "dep:dioxus-core", "dep:dioxus-signals", "dep:dioxus-ssr", "dep:taffy", "brand"]
+raster = ["svg", "dep:resvg", "dep:usvg", "dep:tiny-skia", "dep:imagesize"]
+glyph = ["svg", "dep:skrifa"]
+symbols = ["glyph", "dep:woff2"]
+svg = ["dep:thiserror", "dep:roxmltree", "dep:svgtypes"]
+softraster = []
+sprites = []
+full = ["brand", "dioxus", "raster", "glyph", "symbols", "svg", "softraster", "sprites"]
+default = []
+
+[dependencies]
+dioxus = { workspace = true, optional = true }
+dioxus-core = { workspace = true, optional = true }
+dioxus-signals = { workspace = true, optional = true }
+dioxus-ssr = { workspace = true, optional = true }
+imagesize = { version = "0.15.0", optional = true }
+resvg = { version = "0.50.0", default-features = false, features = ["text", "raster-images"], optional = true }
+roxmltree = { version = "0.21.2", optional = true }
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+sha2 = { workspace = true, optional = true }
+skrifa = { workspace = true, optional = true }
+svgtypes = { version = "0.16.2", optional = true }
+taffy = { workspace = true, optional = true }
+thiserror = { workspace = true, optional = true }
+tiny-skia = { version = "0.12.0", optional = true }
+usvg = { version = "0.50.0", optional = true }
+woff2 = { version = "0.4.0", optional = true, package = "woff2-patched" }
+
+[dev-dependencies]
+ay-design = { path = ".", features = ["full"] }
+material-colors.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+
+[[test]]
+name = "brand_character_dataset"
+path = "tests/brand_character_dataset.rs"
+required-features = ["brand"]
+
+[[test]]
+name = "svg_glyph_font"
+path = "tests/svg_glyph_font.rs"
+required-features = ["svg"]
+
+[lints]
+workspace = true
