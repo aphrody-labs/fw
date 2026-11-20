@@ -21,5 +21,5 @@ Dated source-verified audit following `context7-deep-research` (live GitHub HEAD
 3. **Container Packaging (`Dockerfile`, `compose.yaml`)** — added Alpine Linux (`rust:1.91-alpine` -> `alpine:3.22`) static musl multi-stage build (zero Debian/Ubuntu, read-only rootfs, non-root user, `/health` check).
 4. **Fullstack Control-Plane UI (`web/index.html`)** — embedded single-binary HTML/CSS/JS dashboard served at `GET /` by `fw-proto`, wired to live `/health`, `/cluster`, `/claw/status`, `/claw/ranking`, `/claw/run`, `/mcp`, and WebGPU adapter probe.
 5. **Live MCP + Hermes/OpenClaw HTTP Routes (`crates/fw-proto`)** — `POST /mcp` now executes `fw-hermes-claw::CliToMcpServer::handle_jsonrpc` directly; added `/claw/status`, `/claw/ranking`, `/claw/run`.
-6. **CI Pipeline (`.github/workflows/ci.yml`)** — upgraded to enforce `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`, `fw-bin` + `wasm32-unknown-unknown` builds, and live `fw-native claw` smoke checks.
+6. **CI Pipeline (`.github/workflows/ci.yml`)** — upgraded to enforce `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`, `fw-bin` + `wasm32-unknown-unknown` builds, and live `fw claw` smoke checks.
 7. **Plugin Completeness (`plugin/skills/hermes-claw/SKILL.md`)** — expanded Fw plugin to 10 skills.
