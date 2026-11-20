@@ -22,6 +22,7 @@ const VARIABLE_ALLOWLIST: &str = "^(GGML|GGUF|LLAMA|MTMD)_.*";
 fn main() -> Result<()> {
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed={HEADER}");
+    println!("cargo:rerun-if-changed=include/LLAMA_CPP_TAG");
     for path in PUBLIC_HEADERS {
         println!("cargo:rerun-if-changed={path}");
     }

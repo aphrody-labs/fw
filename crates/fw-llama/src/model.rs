@@ -148,7 +148,7 @@ impl LlamaModel {
     /// platforms due to llama.cpp returning a `c_int` (i32 on most platforms) which is almost certainly positive.
     #[must_use]
     pub fn n_ctx_train(&self) -> u32 {
-        let n_ctx_train = unsafe { fw_llama_sys::llama_n_ctx_train(self.model.as_ptr()) };
+        let n_ctx_train = unsafe { fw_llama_sys::llama_model_n_ctx_train(self.model.as_ptr()) };
         u32::try_from(n_ctx_train).expect("n_ctx_train fits into an u32")
     }
 
@@ -171,28 +171,28 @@ impl LlamaModel {
     /// Get the beginning of stream token.
     #[must_use]
     pub fn token_bos(&self) -> LlamaToken {
-        let token = unsafe { fw_llama_sys::llama_token_bos(self.vocab_ptr()) };
+        let token = unsafe { fw_llama_sys::llama_vocab_bos(self.vocab_ptr()) };
         LlamaToken(token)
     }
 
     /// Get the end of stream token.
     #[must_use]
     pub fn token_eos(&self) -> LlamaToken {
-        let token = unsafe { fw_llama_sys::llama_token_eos(self.vocab_ptr()) };
+        let token = unsafe { fw_llama_sys::llama_vocab_eos(self.vocab_ptr()) };
         LlamaToken(token)
     }
 
     /// Get the newline token.
     #[must_use]
     pub fn token_nl(&self) -> LlamaToken {
-        let token = unsafe { fw_llama_sys::llama_token_nl(self.vocab_ptr()) };
+        let token = unsafe { fw_llama_sys::llama_vocab_nl(self.vocab_ptr()) };
         LlamaToken(token)
     }
 
     /// Check if a token represents the end of generation (end of turn, end of sequence, etc.)
     #[must_use]
     pub fn is_eog_token(&self, token: LlamaToken) -> bool {
-        unsafe { fw_llama_sys::llama_token_is_eog(self.vocab_ptr(), token.0) }
+        unsafe { fw_llama_sys::llama_vocab_is_eog(self.vocab_ptr(), token.0) }
     }
 
     /// Get the decoder start token.
@@ -378,7 +378,7 @@ impl LlamaModel {
     /// If the token type is not known to this library.
     #[must_use]
     pub fn token_attr(&self, LlamaToken(id): LlamaToken) -> LlamaTokenAttrs {
-        let token_type = unsafe { fw_llama_sys::llama_token_get_attr(self.vocab_ptr(), id) };
+        let token_type = unsafe { fw_llama_sys::llama_vocab_get_attr(self.vocab_ptr(), id) };
         LlamaTokenAttrs::try_from(token_type).expect("token type is valid")
     }
 
@@ -564,7 +564,7 @@ impl LlamaModel {
     /// without issue.
     #[must_use]
     pub fn n_vocab(&self) -> i32 {
-        unsafe { fw_llama_sys::llama_n_vocab(self.vocab_ptr()) }
+        unsafe { fw_llama_sys::llama_vocab_n_tokens(self.vocab_ptr()) }
     }
 
     /// The type of vocab the model was trained on.
@@ -583,7 +583,7 @@ impl LlamaModel {
     /// without issue.
     #[must_use]
     pub fn n_embd(&self) -> c_int {
-        unsafe { fw_llama_sys::llama_n_embd(self.model.as_ptr()) }
+        unsafe { fw_llama_sys::llama_model_n_embd(self.model.as_ptr()) }
     }
 
     /// Returns the width of embeddings produced by the model.
@@ -764,7 +764,7 @@ impl LlamaModel {
 
         let cstr = CString::new(path)?;
         let llama_model =
-            unsafe { fw_llama_sys::llama_load_model_from_file(cstr.as_ptr(), params.params) };
+            unsafe { fw_llama_sys::llama_model_load_from_file(cstr.as_ptr(), params.params) };
 
         let model = NonNull::new(llama_model).ok_or(LlamaModelLoadError::NullResult)?;
 
@@ -816,7 +816,7 @@ impl LlamaModel {
     ) -> Result<LlamaContext<'a>, LlamaContextLoadError> {
         let context_params = params.context_params;
         let context = unsafe {
-            fw_llama_sys::llama_new_context_with_model(self.model.as_ptr(), context_params)
+            fw_llama_sys::llama_init_from_model(self.model.as_ptr(), context_params)
         };
         let context = NonNull::new(context).ok_or(LlamaContextLoadError::NullReturn)?;
 
@@ -840,7 +840,7 @@ impl LlamaModel {
         let mut context_params = params.context_params;
         context_params.ctx_other = ctx_other.context.as_ptr();
         let context = unsafe {
-            fw_llama_sys::llama_new_context_with_model(self.model.as_ptr(), context_params)
+            fw_llama_sys::llama_init_from_model(self.model.as_ptr(), context_params)
         };
         let context = NonNull::new(context).ok_or(LlamaContextLoadError::NullReturn)?;
         Ok(LlamaContext::new(self, context, params.embeddings()))
@@ -875,7 +875,7 @@ impl LlamaModel {
             context_params.n_samplers = sampler_configs.len();
         }
         let context = unsafe {
-            fw_llama_sys::llama_new_context_with_model(self.model.as_ptr(), context_params)
+            fw_llama_sys::llama_init_from_model(self.model.as_ptr(), context_params)
         };
         let context = NonNull::new(context).ok_or(LlamaContextLoadError::NullReturn)?;
         Ok(LlamaContext::with_samplers(
@@ -1003,7 +1003,7 @@ where
 
 impl Drop for LlamaModel {
     fn drop(&mut self) {
-        unsafe { fw_llama_sys::llama_free_model(self.model.as_ptr()) }
+        unsafe { fw_llama_sys::llama_model_free(self.model.as_ptr()) }
     }
 }
 

@@ -301,6 +301,7 @@ impl LlamaSampler {
     /// Lazy grammar sampler, introduced in <https://github.com/ggerganov/llama.cpp/pull/9639>
     ///
     /// This sampler enforces grammar rules only when specific trigger words or tokens are encountered.
+    /// `llama.cpp` v1.0.0 only exposes the regex form, so each word becomes the pattern `[\\s\\S]*?(<escaped word>)[\\s\\S]*`.
     pub fn grammar_lazy(
         model: &LlamaModel,
         grammar_str: &str,
@@ -308,30 +309,15 @@ impl LlamaSampler {
         trigger_words: impl IntoIterator<Item = impl AsRef<[u8]>>,
         trigger_tokens: &[LlamaToken],
     ) -> Result<Self, GrammarError> {
-        let (grammar_str, grammar_root) =
-            Self::sanitize_grammar_strings(grammar_str, grammar_root)?;
-        let trigger_words = Self::sanitize_trigger_words(trigger_words)?;
-
-        let mut trigger_word_ptrs: Vec<*const c_char> =
-            trigger_words.iter().map(|cs| cs.as_ptr()).collect();
-
-        let sampler = unsafe {
-            fw_llama_sys::llama_sampler_init_grammar_lazy(
-                model.vocab_ptr(),
-                grammar_str.as_ptr(),
-                grammar_root.as_ptr(),
-                trigger_word_ptrs.as_mut_ptr(),
-                trigger_word_ptrs.len(),
-                trigger_tokens.as_ptr().cast(),
-                trigger_tokens.len(),
-            )
-        };
-
-        if sampler.is_null() {
-            Err(GrammarError::NullGrammar)
-        } else {
-            Ok(Self { sampler })
+        let mut trigger_patterns = Vec::new();
+        for word in trigger_words {
+            if word.as_ref().contains(&b'\0') {
+                return Err(GrammarError::TriggerWordNullBytes);
+            }
+            let word = String::from_utf8_lossy(word.as_ref());
+            trigger_patterns.push(format!("[\\s\\S]*?({})[\\s\\S]*", regex_escape(&word)));
         }
+        Self::grammar_lazy_patterns(model, grammar_str, grammar_root, &trigger_patterns, trigger_tokens)
     }
 
     /// Lazy grammar sampler using regex trigger patterns.
@@ -398,22 +384,6 @@ impl LlamaSampler {
             CString::new(grammar_str).unwrap(),
             CString::new(grammar_root).unwrap(),
         ))
-    }
-
-    fn sanitize_trigger_words(
-        trigger_words: impl IntoIterator<Item = impl AsRef<[u8]>>,
-    ) -> Result<Vec<CString>, GrammarError> {
-        let trigger_words: Vec<_> = trigger_words.into_iter().collect();
-        if trigger_words
-            .iter()
-            .any(|word| word.as_ref().contains(&b'\0'))
-        {
-            return Err(GrammarError::TriggerWordNullBytes);
-        }
-        Ok(trigger_words
-            .into_iter()
-            .map(|word| CString::new(word.as_ref()).unwrap())
-            .collect())
     }
 
     fn sanitize_trigger_patterns(
@@ -603,4 +573,16 @@ impl Drop for LlamaSampler {
             fw_llama_sys::llama_sampler_free(self.sampler);
         }
     }
+}
+
+/// Escape regex metacharacters so a trigger word matches literally.
+fn regex_escape(word: &str) -> String {
+    let mut out = String::with_capacity(word.len());
+    for c in word.chars() {
+        if "\\.+*?()|[]{}^$#&-~".contains(c) {
+            out.push('\\');
+        }
+        out.push(c);
+    }
+    out
 }

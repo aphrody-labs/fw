@@ -62,16 +62,16 @@ Complète `docs/GGML_COMPATIBILITY.md` (scan ggml-org du 2026-11-19) et `rust-co
 
 | Fonction | Amont | fw | Écart |
 |---|---|---|---|
-| Types GGML | ~40 types (K, I, MXFP4, NVFP4, TQ, Q1_0, F8) | `GgmlType` : F32, F16, Q4_0/1, Q5_0/1, Q8_0/1, Q2K à Q8K, BF16 (15) | IQ*, TQ*, MXFP4, NVFP4, Q1_0, Q2_0, F8_E4M3 absents |
-| GGUF | v3, sidecars `mmproj` et `mtp`, big-endian | v2/v3 parse et encode | sidecars non traités |
+| Types GGML | ~40 types (K, I, MXFP4, NVFP4, TQ, Q1_0, F8) | `GgmlType` : 36 ids vivants de `enum ggml_type` (ggml-org/ggml master), tailles de bloc testées contre `ggml-common.h` | fait le 2026-11-20 |
+| GGUF | v3, sidecars `mmproj` et `mtp`, big-endian | v2/v3 : en-tête, métadonnées, table des tenseurs (tous les types), encodeur ; `GgufSidecar` (mmproj, mtp, dflash, eagle3, dspark) | big-endian non lu |
 | Backends | 18 | `fw-llama` délègue à llama.cpp ; `fw-ggml` définit le graphe et l'enum de backends | exécution native des kernels absente, pas de reproduction de ggml |
 | Serveur | continuous batching, router multi-modèles | `fw-llama/server` | écart à mesurer sur le mode router et les slots |
-| Routage cluster | cache-aware radix (smg, vllm-router, llm-d EPP), P/D | `fw-cluster` : Ketama, circuit breaking, `prefix_key` + `route_request`, topologie de nœuds (358 lignes, un seul fichier) | pas de scorers composables, pas d'indexeur KV alimenté par événements moteur, pas de pd-sidecar |
+| Routage cluster | cache-aware radix (smg, vllm-router, llm-d EPP), P/D | `fw-cluster::epp` : profils Filter-Score-Pick, scorers préfixe-cache (index de hachages de blocs, `observe` et `KvEvent`), charge en tokens, profondeur de file, capacité ; profil P/D prefill puis decode | pas de pd-sidecar ni de transfert KV réel ; index approximatif sur octets de prompt, pas de tokenizer |
 | Spéculatif | eagle, mtp, ngram, dflash | `prefer_user_webgpu_draft` dans le routeur | pas de pipeline spéculatif propre |
 | Frontend Rust de vLLM | workspace `vllm/rust/` (tokenizer, parsers, chat) | non couplé | source de crates à réutiliser (parsers d'outils et de raisonnement) |
 
 ## 4. Décisions
-1. **Ne pas réécrire ggml en Rust.** Garder `fw-ggml` comme couche format/graphe/RPC et `fw-llama` (llama.cpp) pour l'exécution ; assembler plutôt qu'écrire. Épingler la version llama.cpp côté `fw-llama-sys` (v1.0.0 a retiré 35 fonctions).
+1. **Ne pas réécrire ggml en Rust.** Garder `fw-ggml` comme couche format/graphe/RPC et `fw-llama` (llama.cpp) pour l'exécution ; assembler plutôt qu'écrire. Version llama.cpp épinglée côté `fw-llama-sys` : en-têtes vendus alignés sur v1.0.0 (`include/LLAMA_CPP_TAG`, `bun sync-headers.ts`) ; v1.0.0 a retiré 35 fonctions.
 2. **Étendre `GgmlType`** aux types récents (IQ*, TQ*, MXFP4, NVFP4, Q1_0, Q2_0, F8_E4M3) en lisant `ggml.h` du dépôt `ggml-org/ggml` (référence), avec tests d'octets par bloc.
 3. **Routage cluster** : faire évoluer `fw-cluster` vers le modèle EPP de llm-d (Filter, Score, Pick avec scorers préfixe-cache et charge), en s'inspirant de `smg` et `dynamo-kv-router` ; le mode sans Kubernetes de llm-d est la cible logique pour un parc de quelques hôtes.
 4. **Moteur Rust natif** : si un moteur propre est voulu, partir de `candle` ou `cubecl` + `mistral.rs` (assembler), pas de zéro.

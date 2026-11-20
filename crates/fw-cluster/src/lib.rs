@@ -13,6 +13,10 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;
 
+pub mod epp;
+
+use epp::{Endpoint, Scheduler};
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum NodeKind {
     BaseCudaPc,
@@ -35,6 +39,12 @@ pub struct ClusterNode {
     pub cpu_cores: u32,
     pub healthy: bool,
     pub inflight: u32,
+    /// Requests waiting in the engine queue.
+    #[serde(default)]
+    pub queue_depth: u32,
+    /// Estimated prompt tokens in flight.
+    #[serde(default)]
+    pub inflight_tokens: u64,
     pub prefill_score: f32,
     pub decode_score: f32,
     pub cached_prefixes: Vec<String>,
@@ -51,6 +61,8 @@ pub struct RoutingDecision {
     pub draft_user_webgpu: Option<String>,
     pub disaggregated: bool,
     pub strategy: String,
+    /// Leading prompt blocks already cached on the prefill node.
+    pub prefix_matched_blocks: usize,
 }
 
 /// Pingora-compatible LoadBalancer + KV-Cache Radix Router.
@@ -58,7 +70,11 @@ pub struct RoutingDecision {
 pub struct HybridClusterRouter {
     pub cluster_name: String,
     pub nodes: Vec<ClusterNode>,
+    /// `prefix_key` -> prefill node of the last request (compact view; the block index lives in `scheduler`).
     pub kv_prefix_index: HashMap<String, String>,
+    /// llm-d EPP pipeline: Filter -> Score -> Pick, P/D handler, block-hash KV index.
+    #[serde(skip)]
+    pub scheduler: Scheduler,
 }
 
 impl HybridClusterRouter {
@@ -78,6 +94,8 @@ impl HybridClusterRouter {
                 cpu_cores: 16,
                 healthy: true,
                 inflight: 0,
+                queue_depth: 0,
+                inflight_tokens: 0,
                 prefill_score: 1.0,
                 decode_score: 1.0,
                 cached_prefixes: Vec::new(),
@@ -93,6 +111,8 @@ impl HybridClusterRouter {
                 cpu_cores: 16,
                 healthy: true,
                 inflight: 0,
+                queue_depth: 0,
+                inflight_tokens: 0,
                 prefill_score: 1.4,
                 decode_score: 1.3,
                 cached_prefixes: Vec::new(),
@@ -108,6 +128,8 @@ impl HybridClusterRouter {
                 cpu_cores: 8,
                 healthy: true,
                 inflight: 0,
+                queue_depth: 0,
+                inflight_tokens: 0,
                 prefill_score: 1.0,
                 decode_score: 1.0,
                 cached_prefixes: Vec::new(),
@@ -123,6 +145,8 @@ impl HybridClusterRouter {
                 cpu_cores: 16,
                 healthy: true,
                 inflight: 0,
+                queue_depth: 0,
+                inflight_tokens: 0,
                 prefill_score: 1.6,
                 decode_score: 1.5,
                 cached_prefixes: Vec::new(),
@@ -138,6 +162,8 @@ impl HybridClusterRouter {
                 cpu_cores: 12,
                 healthy: true,
                 inflight: 0,
+                queue_depth: 0,
+                inflight_tokens: 0,
                 prefill_score: 0.6,
                 decode_score: 0.8,
                 cached_prefixes: Vec::new(),
@@ -153,6 +179,8 @@ impl HybridClusterRouter {
                 cpu_cores: 8,
                 healthy: true,
                 inflight: 0,
+                queue_depth: 0,
+                inflight_tokens: 0,
                 prefill_score: 0.4,
                 decode_score: 0.6,
                 cached_prefixes: Vec::new(),
@@ -168,6 +196,8 @@ impl HybridClusterRouter {
                 cpu_cores: 8,
                 healthy: true,
                 inflight: 0,
+                queue_depth: 0,
+                inflight_tokens: 0,
                 prefill_score: 0.4,
                 decode_score: 0.5,
                 cached_prefixes: Vec::new(),
@@ -183,6 +213,8 @@ impl HybridClusterRouter {
                 cpu_cores: 4,
                 healthy: true,
                 inflight: 0,
+                queue_depth: 0,
+                inflight_tokens: 0,
                 prefill_score: 0.5,
                 decode_score: 0.7,
                 cached_prefixes: Vec::new(),
@@ -192,6 +224,7 @@ impl HybridClusterRouter {
             cluster_name: "fw-hybrid-v3".into(),
             nodes,
             kv_prefix_index: HashMap::new(),
+            scheduler: Scheduler::default(),
         }
     }
 
@@ -210,6 +243,8 @@ impl HybridClusterRouter {
             cpu_cores,
             healthy: true,
             inflight: 0,
+            queue_depth: 0,
+            inflight_tokens: 0,
             prefill_score: 0.5,
             decode_score: 0.7,
             cached_prefixes: Vec::new(),
@@ -246,22 +281,18 @@ impl HybridClusterRouter {
             vps_nodes[hash_val % vps_nodes.len()].id.clone()
         };
 
-        // 2. KV-cache radix hit check for Prefill node
-        let (prefill_node, kv_hit) = if let Some(cached_id) = self.kv_prefix_index.get(&pkey) {
-            if self.nodes.iter().any(|n| &n.id == cached_id && n.healthy) {
-                (cached_id.clone(), true)
-            } else {
-                (self.pick_best_prefill(), false)
-            }
-        } else {
-            (self.pick_best_prefill(), false)
+        // 2. EPP pipeline: prefill profile (prefix-cache, token-load, queue-depth, capability), then decode profile
+        let endpoints: Vec<Endpoint> = self.nodes.iter().map(Endpoint::from).collect();
+        let (prefill_node, decode_node, kv_hit, matched) = match self.scheduler.schedule(prompt, &endpoints) {
+            Some(d) => (d.prefill.id, d.decode.id, d.prefill.prefix_matched_blocks > 0, d.prefill.prefix_matched_blocks),
+            None => ("local-direct".to_string(), "local-direct".to_string(), false, 0),
         };
+        if prefill_node != "local-direct" {
+            self.scheduler.observe(&prefill_node, prompt);
+            self.kv_prefix_index.insert(pkey.clone(), prefill_node.clone());
+        }
 
-        // 3. Disaggregated Decode node (prefer lowest inflight / highest decode score GPU or CPU fallback)
-        let decode_node = self.pick_best_decode(&prefill_node);
-        self.kv_prefix_index.insert(pkey.clone(), prefill_node.clone());
-
-        // 4. Optional End-User Browser WebGPU/FPU speculative draft peer
+        // 3. Optional End-User Browser WebGPU/FPU speculative draft peer
         let draft_user_webgpu = if prefer_user_webgpu_draft {
             self.nodes
                 .iter()
@@ -280,35 +311,22 @@ impl HybridClusterRouter {
             decode_node,
             draft_user_webgpu,
             disaggregated,
-            strategy: "pingora-consistent-hash + dynamo-kv-radix + vllm-router-pd".into(),
+            strategy: "pingora-consistent-hash + llm-d-epp(filter,score,pick) + pd-profile".into(),
+            prefix_matched_blocks: matched,
         }
     }
 
-    fn pick_best_prefill(&self) -> String {
-        self.nodes
-            .iter()
-            .filter(|n| n.healthy && matches!(n.kind, NodeKind::BaseCudaPc | NodeKind::GpuHost | NodeKind::VpsProxyLbStorageCpu))
-            .max_by(|a, b| {
-                let sa = a.prefill_score / (1.0 + a.inflight as f32);
-                let sb = b.prefill_score / (1.0 + b.inflight as f32);
-                sa.partial_cmp(&sb).unwrap_or(std::cmp::Ordering::Equal)
-            })
-            .map(|n| n.id.clone())
-            .unwrap_or_else(|| "gpu-1-pc-rtx4070".into())
+    /// Feed an engine KV-cache event (stored/removed/cleared blocks) into the prefix index.
+    pub fn apply_kv_event(&mut self, event: epp::KvEvent) {
+        self.scheduler.apply_kv_event(event);
     }
 
-    fn pick_best_decode(&self, prefill_id: &str) -> String {
-        // Prefer a distinct healthy GPU/CPU node for disaggregated P/D when available
-        self.nodes
-            .iter()
-            .filter(|n| n.healthy && n.id != prefill_id && matches!(n.kind, NodeKind::BaseCudaPc | NodeKind::GpuHost | NodeKind::VpsProxyLbStorageCpu))
-            .max_by(|a, b| {
-                let sa = a.decode_score / (1.0 + a.inflight as f32);
-                let sb = b.decode_score / (1.0 + b.inflight as f32);
-                sa.partial_cmp(&sb).unwrap_or(std::cmp::Ordering::Equal)
-            })
-            .map(|n| n.id.clone())
-            .unwrap_or_else(|| prefill_id.to_string())
+    /// Update the live load signals scorers read for one node.
+    pub fn report_load(&mut self, node_id: &str, queue_depth: u32, inflight_tokens: u64) {
+        if let Some(n) = self.nodes.iter_mut().find(|n| n.id == node_id) {
+            n.queue_depth = queue_depth;
+            n.inflight_tokens = inflight_tokens;
+        }
     }
 
     pub fn summary(&self) -> serde_json::Value {

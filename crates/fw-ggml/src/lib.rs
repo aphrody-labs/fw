@@ -1,63 +1,21 @@
 #![forbid(unsafe_code)]
 
 //! `fw-ggml` — 100% `ggml-org` (`introduction-to-ggml`, `ggml`, `llama.cpp`) compatible
-//! computation graph IR, 4D strided tensors, GGUF v3 header parser, quantized Q8_0/Q4_0
+//! computation graph IR, 4D strided tensors, GGUF v2/v3 reader/writer (all `ggml_type`s), quantized Q8_0/Q4_0
 //! dot kernels, multi-backend graph scheduler, and `ggml-rpc` binary wire protocol.
 
 use serde::{Deserialize, Serialize};
 use std::io::{self, Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
 
-/// Official GGUF magic bytes (`"GGUF"` in little-endian: 0x46554747).
-pub const GGUF_MAGIC: [u8; 4] = *b"GGUF";
-pub const GGUF_DEFAULT_ALIGNMENT: u64 = 32;
+mod gguf;
+mod types;
 
-/// GGML tensor data types matching `enum ggml_type` in `ggml.h`.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[repr(u32)]
-pub enum GgmlType {
-    F32 = 0,
-    F16 = 1,
-    Q4_0 = 2,
-    Q4_1 = 3,
-    Q5_0 = 6,
-    Q5_1 = 7,
-    Q8_0 = 8,
-    Q8_1 = 9,
-    Q2K = 10,
-    Q3K = 11,
-    Q4K = 12,
-    Q5K = 13,
-    Q6K = 14,
-    Q8K = 15,
-    BF16 = 30,
-}
-
-impl GgmlType {
-    pub fn block_size(self) -> usize {
-        match self {
-            Self::F32 | Self::F16 | Self::BF16 => 1,
-            Self::Q4_0 | Self::Q4_1 | Self::Q5_0 | Self::Q5_1 | Self::Q8_0 | Self::Q8_1 => 32,
-            Self::Q2K | Self::Q3K | Self::Q4K | Self::Q5K | Self::Q6K | Self::Q8K => 256,
-        }
-    }
-
-    pub fn type_size(self) -> usize {
-        match self {
-            Self::F32 => 4,
-            Self::F16 | Self::BF16 => 2,
-            Self::Q4_0 => 18,
-            Self::Q4_1 => 20,
-            Self::Q5_0 => 22,
-            Self::Q5_1 => 24,
-            Self::Q8_0 => 34,
-            Self::Q8_1 => 36,
-            Self::Q4K => 144,
-            Self::Q6K => 210,
-            _ => 32,
-        }
-    }
-}
+pub use gguf::{
+    encode_gguf, encode_gguf_header, parse_gguf, parse_gguf_header, GgufFile, GgufHeader, GgufSidecar,
+    GgufTensorInfo, GgufValue, GGUF_DEFAULT_ALIGNMENT, GGUF_MAGIC,
+};
+pub use types::GgmlType;
 
 /// GGML graph operations matching `enum ggml_op` in `ggml.h`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -130,7 +88,7 @@ impl GgmlGraph {
         let id = self.tensors.len();
         let ts = dtype.type_size();
         let nb0 = ts;
-        let nb1 = nb0 * ne0;
+        let nb1 = dtype.row_size(ne0).unwrap_or(nb0 * ne0);
         let nb2 = nb1 * ne1;
         let nb3 = nb2;
         self.tensors.push(GgmlTensor {
@@ -315,47 +273,6 @@ pub fn quantize_q8_0(src: &[f32]) -> (f32, Vec<i8>) {
 pub fn dot_q8_0(sa: f32, qa: &[i8], sb: f32, qb: &[i8]) -> f32 {
     let acc: i32 = qa.iter().zip(qb.iter()).map(|(&a, &b)| (a as i32) * (b as i32)).sum();
     (acc as f32) * sa * sb
-}
-
-/// GGUF v3 header descriptor (compatible with `llama.cpp` / `ggml-org/convert`).
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GgufHeader {
-    pub version: u32,
-    pub tensor_count: u64,
-    pub metadata_kv_count: u64,
-}
-
-pub fn parse_gguf_header(bytes: &[u8]) -> Result<GgufHeader, String> {
-    if bytes.len() < 24 {
-        return Err("GGUF header too short (<24 bytes)".into());
-    }
-    if bytes[0..4] != GGUF_MAGIC {
-        return Err("Invalid GGUF magic".into());
-    }
-    let version = u32::from_le_bytes([bytes[4], bytes[5], bytes[6], bytes[7]]);
-    if !(2..=3).contains(&version) {
-        return Err(format!("Unsupported GGUF version {version}"));
-    }
-    let tensor_count = u64::from_le_bytes([
-        bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15],
-    ]);
-    let metadata_kv_count = u64::from_le_bytes([
-        bytes[16], bytes[17], bytes[18], bytes[19], bytes[20], bytes[21], bytes[22], bytes[23],
-    ]);
-    Ok(GgufHeader {
-        version,
-        tensor_count,
-        metadata_kv_count,
-    })
-}
-
-pub fn encode_gguf_header(version: u32, tensor_count: u64, metadata_kv_count: u64) -> [u8; 24] {
-    let mut buf = [0u8; 24];
-    buf[0..4].copy_from_slice(&GGUF_MAGIC);
-    buf[4..8].copy_from_slice(&version.to_le_bytes());
-    buf[8..16].copy_from_slice(&tensor_count.to_le_bytes());
-    buf[16..24].copy_from_slice(&metadata_kv_count.to_le_bytes());
-    buf
 }
 
 /// `ggml-rpc` binary wire protocol command opcodes (matching `ggml/src/ggml-rpc/ggml-rpc.cpp`).
