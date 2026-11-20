@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, statSync, utimesSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, win32 } from "node:path";
 import {
   type Host,
   aySpecTarget,
@@ -143,8 +143,8 @@ describe("links", () => {
 describe("completions", () => {
   test("git completion is searched from the installed git, nearest first", () => {
     const c = gitCompletionCandidates("X:/g/mingw64/libexec/git-core\n", win);
-    expect(c[0]).toBe(join("X:\\g\\mingw64", "share", "git", "completion", "git-completion.bash"));
-    expect(c).toContain(join("P:\\pf", "Git", "ucrt64", "share", "git", "completion", "git-completion.bash"));
+    expect(c[0]).toBe(win32.join("X:\\g\\mingw64", "share", "git", "completion", "git-completion.bash"));
+    expect(c).toContain(win32.join("P:\\pf", "Git", "ucrt64", "share", "git", "completion", "git-completion.bash"));
     expect(new Set(c).size).toBe(c.length);
   });
 

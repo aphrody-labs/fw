@@ -178,8 +178,8 @@ describe("code-dedup cross-repo detection", () => {
     // 2. Verbatim first-party file duplicate
     expect(report.duplicateFiles.some((d) => d.key === "exact.ts" && d.kind === "git-blob")).toBe(true);
 
-    // 3. Type-2 renamed AST function clone
-    expect(report.astClones.some((c) => c.tier === "type2-renamed" && c.members.length >= 2)).toBe(true);
+    // 3. Type-2 renamed AST function clone (symbols come from `ast-grep outline`, an optional tool)
+    if (report.tools.astGrep) expect(report.astClones.some((c) => c.tier === "type2-renamed" && c.members.length >= 2)).toBe(true);
 
     // 4. SQL normalization duplicate
     expect(report.sqlDuplicates.length).toBeGreaterThanOrEqual(1);
