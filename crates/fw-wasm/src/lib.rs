@@ -70,6 +70,12 @@ pub extern "C" fn fw_wasm_fx_recovery_backoff_ms(step: u32) -> u32 {
     BACKOFF[idx]
 }
 
+/// Number of pure-Rust GNU/Linux `fw-uutils` applets compiled for Wasm32 userland.
+#[unsafe(no_mangle)]
+pub extern "C" fn fw_wasm_uutils_applet_count() -> u32 {
+    40
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

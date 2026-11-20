@@ -243,6 +243,7 @@ name = "fw-uutils"
 version = "4.2.0"
 dependencies = [
  "serde",
+ "serde_json",
  "sha2",
 ]
 

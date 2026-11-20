@@ -5,6 +5,7 @@
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
 mod abliterate;
+mod agent_platform;
 mod cachy_tune;
 mod cli_parser;
 mod doctor;
@@ -617,6 +618,70 @@ fn main() {
             rt.block_on(async move {
                 serve(addr).await.expect("serve failed");
             });
+        }
+        "sec" | "deepsec" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let target = args.get(1).map(|s| cwd.join(s)).unwrap_or(cwd);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&agent_platform::run_security_scan(&target)).unwrap()
+            );
+        }
+        "graph" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let md = args.iter().any(|a| a == "--md" || a == "--markdown");
+            let target = args
+                .iter()
+                .skip(1)
+                .find(|a| !a.starts_with('-'))
+                .map(|s| cwd.join(s))
+                .unwrap_or(cwd);
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&agent_platform::run_code_graph(&target, md)).unwrap()
+            );
+        }
+        "mem" | "memory" => {
+            match agent_platform::run_mem_cli(&args[1..]) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw mem: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "skills" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            match agent_platform::run_skills_cli(&args[1..], &cwd, parsed.global.offline) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw skills: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        other if SUPPORTED_APPLETS.contains(&other) => {
+            let refs: Vec<&str> = args.iter().skip(1).map(String::as_str).collect();
+            let wants_stdin = matches!(
+                other,
+                "cat" | "wc" | "head" | "tail" | "sha256sum" | "grep" | "sed"
+                | "sort" | "uniq" | "cut" | "tr" | "nl" | "rev" | "base64" | "jq"
+            ) && refs.iter().all(|a| a.starts_with('-') || !Path::new(a).is_file());
+            let stdin_buf = if wants_stdin && !std::io::IsTerminal::is_terminal(&std::io::stdin()) {
+                let mut s = String::new();
+                let _ = std::io::Read::read_to_string(&mut std::io::stdin(), &mut s);
+                s
+            } else {
+                String::new()
+            };
+            let res = run_applet(other, &refs, &stdin_buf);
+            if !res.stdout.is_empty() {
+                print!("{}", res.stdout);
+            }
+            if !res.stderr.is_empty() {
+                eprint!("{}", res.stderr);
+            }
+            std::process::exit(res.exit_code);
         }
         _ => {
             if let Some(hint) = cli_parser::suggest_command(cmd) {

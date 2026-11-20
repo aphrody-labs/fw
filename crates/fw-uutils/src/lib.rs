@@ -5,29 +5,18 @@
 #![forbid(unsafe_code)]
 
 pub mod fast_cli;
+pub mod gnu_cli;
 pub mod hardened;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 pub const SUPPORTED_APPLETS: &[&str] = &[
-    "echo",
-    "cat",
-    "wc",
-    "head",
-    "tail",
-    "sha256sum",
-    "uname",
-    "pwd",
-    "env",
-    "ls",
-    "grep",
-    "diff",
-    "sed",
-    "find",
-    "hostname",
-    "true",
-    "false",
+    "echo", "cat", "wc", "head", "tail", "sha256sum", "uname", "pwd", "env",
+    "ls", "grep", "diff", "sed", "find", "hostname", "true", "false",
+    "sort", "uniq", "cut", "tr", "nl", "rev", "seq", "basename", "dirname",
+    "realpath", "stat", "mkdir", "touch", "cp", "mv", "rm", "base64", "which",
+    "du", "tokei", "jq", "bat", "sh",
 ];
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -239,12 +228,17 @@ pub fn run_applet(applet: &str, args: &[&str], stdin: &str) -> AppletOutput {
                 },
             }
         }
-        _ => AppletOutput {
-            applet: applet.into(),
-            exit_code: 127,
-            stdout: String::new(),
-            stderr: format!("uutils: unknown applet '{applet}'\n"),
-        },
+        other => {
+            if let Some(res) = gnu_cli::run_extended_applet(other, args, stdin) {
+                return res;
+            }
+            AppletOutput {
+                applet: applet.into(),
+                exit_code: 127,
+                stdout: String::new(),
+                stderr: format!("uutils: unknown applet '{applet}'\n"),
+            }
+        }
     }
 }
 

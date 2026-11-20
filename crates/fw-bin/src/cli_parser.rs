@@ -90,6 +90,15 @@ pub const COMMANDS: &[CommandMeta] = &[
     CommandMeta { name: "repomap", aliases: &[], group: "Workspace & Protocols", usage: "fw repomap [dir]", summary: "Zero-subprocess repository symbol map (Rust, TS/JS, Python, Go, Kotlin)" },
     CommandMeta { name: "watch", aliases: &[], group: "Workspace & Protocols", usage: "fw watch <list|add|remove> ...", summary: "Manage persistent scheduled agent watchers (~/.fx/watchers.json)" },
     CommandMeta { name: "tune", aliases: &["cachy"], group: "Workspace & Protocols", usage: "fw tune <hardware|sysctl|scx|ananicy|bench>", summary: "CachyOS chwd/sysctl/scx_lavd/ananicy-cpp tuning & x86-64-v3 + mimalloc benchmarks" },
+    CommandMeta { name: "sec", aliases: &["deepsec"], group: "Workspace & Protocols", usage: "fw sec [dir]", summary: "Pure-Rust static security & secret scanner (vercel-labs/deepsec parity)" },
+    CommandMeta { name: "graph", aliases: &[], group: "Workspace & Protocols", usage: "fw graph [dir] [--md]", summary: "Deterministic codebase knowledge graph (lat.md + graphify parity)" },
+    CommandMeta { name: "mem", aliases: &["memory"], group: "Workspace & Protocols", usage: "fw mem <list|add|search|prune>", summary: "Persistent cross-session agent memory (~/.fx/memory.jsonl, openclaw/claude-mem parity)" },
+    CommandMeta { name: "skills", aliases: &[], group: "Workspace & Protocols", usage: "fw skills <list|read|install>", summary: "Native skills discovery & GitHub installer (vercel-labs/skills parity)" },
+    CommandMeta { name: "sh", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw sh -c \"cmd1 | cmd2 | cmd3\"", summary: "Zero-fork in-process POSIX pipeline shell (40 uutils applets, Wasm32 compatible)" },
+    CommandMeta { name: "jq", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw jq '<expr>' [file.json]", summary: "Pure-Rust JSON query filter (.a.b[0], keys, length)" },
+    CommandMeta { name: "tokei", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw tokei [dir]", summary: "Pure-Rust multi-language LOC counter" },
+    CommandMeta { name: "du", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw du [dir]", summary: "Pure-Rust disk usage analyzer (dust style)" },
+    CommandMeta { name: "bat", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw bat <file>", summary: "Line-numbered file viewer" },
     CommandMeta { name: "heretic", aliases: &[], group: "ML, Inference & Heretic", usage: "fw heretic <presets|inspect|abliterate> [preset] [--strength 1.0]", summary: "Heretic TOML preset inspector & directional orthogonalization (zero subprocess)" },
     CommandMeta { name: "align", aliases: &["dpo", "orpo"], group: "ML, Inference & Heretic", usage: "fw align <dpo|orpo|kto> [--beta 0.1] [--steps 60]", summary: "Native DPO / ORPO / KTO preference alignment (Burn + GGML + llama.cpp stack)" },
     // Packages & Dependencies (bun + uv grammar)
@@ -273,6 +282,7 @@ pub fn render_root_help() -> String {
         "Agent & Interactive",
         "ML, Inference & Heretic",
         "Packages & Dependencies",
+        "GNU/Linux & Wasm Userland",
         "Workspace & Protocols",
     ];
     for group in groups {
