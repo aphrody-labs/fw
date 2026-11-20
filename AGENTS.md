@@ -1,16 +1,14 @@
-# fw - Agent Contract (v4.2, Bun-in-Rust Methodology)
+# fw - Universal Autonomous Agent Contract (v4.2)
 
-- **Read First (< 600 tokens)**: `MAP.tsv` (byte-exact directory map + gates), `LIFETIMES_AND_STYLE.md` (zero-abstraction Rust rules), `.agents/workflows/bun-in-rust-loop.md` (split-context adversarial review), `docs/architecture/os-strategy-2026.md` (long-term OS decision).
-- **Token Hygiene**: `.rgignore` & `.fdignore` automatically hide vendored trees (`core/ts/neon`, `core/rs/craft-*`, `packages/`, `target/`, `uv.lock`) from default searches (`--no-ignore` only when auditing vendored trees).
-- **Root 13-crate Rust Workspace + `xtask` (`Cargo.toml`)**: `crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,hermes-claw,bin}` + `xtask` - `12/13 #![forbid(unsafe_code)]`, 5 external deps, zero Clippy warnings, zero stubs, zero skipped tests.
-- **OS Architecture (2-Tier)**:
-  - **Tier 1 Primary Host (Linux perf)**: NixOS `flake.nix` + `nix/` (`nix-cachyos-kernel` LTO `x86_64-v3`/`zen4`, `sched_ext` `scx_lavd`, `io_uring`, `uutils`, `sudo-rs`, `ntpd-rs`) + `os/fw-wsl` (custom BORE/`sched_ext`/ThinLTO/virtiofs/dxgkrnl WSL kernel).
-  - **Tier 2 Sandbox MicroVM**: `cloud-hypervisor` / `openvmm` + optional `os/fw-os` (Asterinas OSDK `v0.19.0` guest R&D only).
-- **Edge & Plugins**: `cloudflare/` (Workers Static Assets + SQLite DO), `web/`, `configs/heretic/`, `plugin/` (11 skills).
-- **Upstream Read-Only Boundary**: `%LOCALAPPDATA%\agy\bin\agy.exe` is strictly read-only.
-- **Gates (`just ci` / `cargo xtask ci`)**:
+- **First Contact (< 500 tokens)**: Run `fw onboard` (or read `MAP.tsv`, `LIFETIMES_AND_STYLE.md`, `.agents/workflows/fw-agent-journey.md`). Works identically for any autonomous agent (ACP, MCP, Claude, Gemini, Codex, Cursor, Zed, OpenCode, Windsurf, Hermes, OpenClaw).
+- **Token Hygiene**: `.rgignore` & `.fdignore` hide generated/vendored trees (`target/`, `dist/`, `uv.lock`) from default searches.
+- **Root 15-Crate Pure-Rust Workspace + `xtask` (`Cargo.toml`)**: `crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,hermes-claw,apm,fx,bin}` + `xtask` — `#![forbid(unsafe_code)]`, CachyOS `x86-64-v3` (AVX2/FMA) + `mimalloc 0.1.52`, zero Clippy warnings, zero stubs, zero skipped tests.
+- **Flat Single Binary (`fw`)**:
+  - **Agent & Protocols**: `fw` / `fw -c` (REPL), `fw ask`, `fw tool`, `fw config`, `fw mcp`, `fw acp`, `fw serve` (llama.cpp-style Fw Chat UI + `/mcp` + `/acp` + `/a2a` + `/v1/chat/completions` + `/webgpu`), `fw onboard`, `fw workflow`, `fw mem`, `fw skills`, `fw sec`, `fw graph`, `fw repomap`, `fw watch`.
+  - **Flagship ML & Abliteration**: `fw abliterate` (`plan`, `biprojected`, `ara`, `sweep`, `moe`, `strip-cot`), `fw heretic`, `fw hf` (`search`, `info`, `files`, `pull`, `datasets`, `spaces`, `papers`, `sitemap`, `safetensors`, `tokenizer`), `fw vram`, `fw infer`, `fw train`/`finetune`, `fw align` (`dpo`/`orpo`/`kto`), `fw tune` (`hardware`/`sysctl`/`scx`/`ananicy`/`bench`).
+  - **Unified Packages & GNU/Linux Wasm32 Userland**: `fw info`/`fetch`/`lock`/`verify`/`tree`/`export`/`install`/`compile`/`audit` (Cargo sparse + npm + APM) and `40` zero-fork Wasm32-compatible `fw-uutils` applets + `fw sh -c` POSIX pipe shell.
+- **Gates (`cargo xtask ci`)**:
   - `cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace`
-  - `cargo build --release -p fw-bin --bin fw && cargo build --release --target wasm32-unknown-unknown -p fw-wasm && cargo check --target x86_64-unknown-linux-musl -p fw-bin`
-  - `uvx ruff check . && bun test && bun run cf:dry-run`
-  - `cargo xtask purity && cargo xtask map` (keeps `MAP.tsv` byte-exact)
+  - `cargo build --release -p fw-bin --bin fw && cargo check --target wasm32-unknown-unknown -p fw-uutils -p fw-fx --lib && cargo build --release --target wasm32-unknown-unknown -p fw-wasm`
+  - `bun run cf:dry-run && cargo xtask map && cargo xtask purity`
 - **Git Discipline**: Commit explicit file paths on `main`; never `git stash` or `git reset --hard`; zero AI attribution trailers; keep repo private (`aphrody-labs/fw`).

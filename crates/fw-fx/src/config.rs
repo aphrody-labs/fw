@@ -194,17 +194,22 @@ pub struct SkillEntry {
     pub path: PathBuf,
 }
 
-/// Discover skills across `.fx/skills`, `~/.fx/skills`, `.claude/skills`, `.agents/skills`.
+/// Universal skills discovery across all autonomous agent conventions
+/// (`.fx/skills`, `.agents/skills`, `.claude/skills`, `.gemini/skills`, `.codex/skills`, `.cursor/skills`).
 pub fn discover_skills(workspace: &Path, fx_home: &Path) -> Vec<SkillEntry> {
     let mut dirs = vec![
         workspace.join(".fx").join("skills"),
-        workspace.join(".claude").join("skills"),
         workspace.join(".agents").join("skills"),
+        workspace.join(".claude").join("skills"),
+        workspace.join(".gemini").join("skills"),
+        workspace.join(".codex").join("skills"),
+        workspace.join(".cursor").join("skills"),
         fx_home.join("skills"),
     ];
     if let Some(parent) = fx_home.parent() {
-        dirs.push(parent.join(".claude").join("skills"));
-        dirs.push(parent.join(".agents").join("skills"));
+        for vendor in [".agents", ".claude", ".gemini", ".codex", ".cursor"] {
+            dirs.push(parent.join(vendor).join("skills"));
+        }
     }
 
     let mut by_name: BTreeMap<String, SkillEntry> = BTreeMap::new();
@@ -256,16 +261,18 @@ fn parse_skill_frontmatter(raw: &str, fallback_name: &str) -> (String, String) {
     (name, desc)
 }
 
-/// Discover `AGENTS.md` files (global `~/.fx/AGENTS.md` + workspace root).
+/// Universal agent instructions discovery (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md` in workspace & home).
 pub fn discover_agents_md(workspace: &Path, fx_home: &Path) -> Vec<PathBuf> {
     let mut out = Vec::new();
     let global = fx_home.join("AGENTS.md");
     if global.is_file() {
         out.push(global);
     }
-    let local = workspace.join("AGENTS.md");
-    if local.is_file() {
-        out.push(local);
+    for name in ["AGENTS.md", "CLAUDE.md", "GEMINI.md"] {
+        let local = workspace.join(name);
+        if local.is_file() {
+            out.push(local);
+        }
     }
     out
 }

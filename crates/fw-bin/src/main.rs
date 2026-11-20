@@ -13,6 +13,7 @@ mod hf_hub;
 mod local_studio;
 mod m3_agent_tui;
 mod ml_engine;
+mod universal_agent;
 
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
@@ -656,6 +657,26 @@ fn main() {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
                     eprintln!("fw skills: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "onboard" | "init-agent" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            match universal_agent::run_onboard(&args[1..], &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw onboard: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "workflow" | "wf" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            match universal_agent::run_workflow_cli(&args[1..], &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw workflow: {e}");
                     std::process::exit(1);
                 }
             }
