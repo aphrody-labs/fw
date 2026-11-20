@@ -6,6 +6,7 @@ members = [
     "crates/fw-gemini",
     "crates/fw-ggml",
     "crates/fw-llama",
+    "crates/fw-m3",
     "crates/fw-llama-sys",
     "crates/fw-ml",
     "crates/fw-model",
