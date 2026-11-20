@@ -43,13 +43,17 @@ state = "absent"
 name = "android-skills"
 state = "absent"
 
-# --- Aphrody plugins (kept) ---
+# --- Aphrody plugins (kept; aphrody-skills and aphrody-nhitl were merged into aphrody) ---
 [[claude.plugin]]
-id = "aphrody-skills@aphrody"
+id = "aphrody@aphrody"
 refresh = true
 
 [[claude.plugin]]
-id = "aphrody-nhitl@aphrody"
+id = "bun@aphrody"
+refresh = true
+
+[[claude.plugin]]
+id = "fw@fw"
 refresh = true
 
 # Workshop plugins (creating plugins, skills, MCP servers): installed but disabled, their skills and agents
