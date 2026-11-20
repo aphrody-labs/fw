@@ -12,6 +12,8 @@
 
 #[cfg(feature = "client")]
 pub mod altsvc;
+#[cfg(all(feature = "blocking", not(target_family = "wasm")))]
+pub mod blocking;
 #[cfg(feature = "client")]
 mod client;
 #[cfg(feature = "server")]

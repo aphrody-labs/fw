@@ -49,7 +49,8 @@ embeddings = [
 ]
 native = [
     "dep:tokenizers",
-    "dep:ureq",
+    "dep:ay-http",
+    "ay-http/blocking",
     "dep:sha2",
     "dep:serde",
     "dep:serde_json",
@@ -64,6 +65,7 @@ server = [
     "dep:axum",
     "dep:tokio",
     "dep:ay-http",
+    "ay-http/server",
 ]
 
 [lib]
@@ -106,7 +108,7 @@ required-features = ["native"]
 
 [dependencies]
 axum = { workspace = true, features = ["http2"], optional = true }
-ay-http = { path = "../ay-http", default-features = false, features = ["server"], optional = true }
+ay-http = { path = "../ay-http", default-features = false, optional = true }
 ay-model = { path = "../ay-model", default-features = false, features = ["store"] }
 base64 = { workspace = true, optional = true }
 candle-core = { version = "0.11", default-features = false, optional = true }
@@ -123,7 +125,6 @@ thiserror.workspace = true
 tokenizers = { version = "0.23.2", default-features = false, features = ["fancy-regex", "onig"], optional = true }
 tokio = { workspace = true, features = ["process", "full"], optional = true }
 tracing.workspace = true
-ureq = { version = "3.5.2", default-features = false, features = ["rustls"], optional = true }
 
 [dev-dependencies]
 rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"] }

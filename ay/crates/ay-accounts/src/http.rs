@@ -1,4 +1,4 @@
-//! Minimal blocking HTTP seam. Production uses `ureq` (rustls); tests script responses.
+//! Minimal blocking HTTP seam. Production uses `ay-http` (rustls); tests script responses.
 
 use crate::error::{Error, Result};
 use serde::de::DeserializeOwned;
@@ -185,92 +185,59 @@ pub trait HttpTransport: Send + Sync {
     fn execute(&self, req: &HttpRequest) -> Result<HttpResponse>;
 }
 
-/// Production transport over `ureq` with rustls.
+/// Production transport over the blocking facade of `ay-http` (rustls, h1, h2, h3 through Alt-Svc).
 #[derive(Clone)]
-pub struct UreqTransport {
-    agent: ureq::Agent,
+pub struct HttpClientTransport {
+    client: ay_http::blocking::Client,
 }
 
-impl UreqTransport {
-    /// Agent with a 120 s global timeout and statuses surfaced as data.
+impl HttpClientTransport {
+    /// Client with a 120 s timeout; statuses are surfaced as data.
     pub fn new() -> Self {
         Self::with_timeout(Duration::from_secs(120))
     }
-    /// Agent with a custom global timeout.
+    /// Client with a custom total timeout.
+    ///
+    /// # Panics
+    /// When the TLS backend cannot initialise.
     pub fn with_timeout(timeout: Duration) -> Self {
-        let config = ureq::Agent::config_builder()
-            .http_status_as_error(false)
-            .timeout_global(Some(timeout))
-            .user_agent("ay-accounts/1.4")
-            .build();
-        Self {
-            agent: config.into(),
-        }
+        let builder = ay_http::Client::builder().timeout(timeout).user_agent("ay-accounts/1.4");
+        let client = ay_http::blocking::Client::from_builder(builder).expect("the TLS backend initialises");
+        Self { client }
     }
 }
 
-impl Default for UreqTransport {
+impl Default for HttpClientTransport {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl HttpTransport for UreqTransport {
+impl HttpTransport for HttpClientTransport {
     fn execute(&self, req: &HttpRequest) -> Result<HttpResponse> {
-        let mut builder = ureq::http::Request::builder()
-            .method(req.method.as_str())
-            .uri(req.url.as_str());
+        let transport = |e: ay_http::Error| Error::Transport(e.to_string());
+        let method = ay_http::Method::from_bytes(req.method.as_bytes()).map_err(|e| Error::Transport(e.to_string()))?;
+        let mut builder = self.client.request(method, req.url.as_str());
         for (k, v) in &req.headers {
             builder = builder.header(k.as_str(), v.as_str());
         }
-        let (content_type, data): (Option<String>, Vec<u8>) = match &req.body {
-            Body::Empty => (None, Vec::new()),
-            Body::Form(f) => (
-                Some("application/x-www-form-urlencoded".into()),
-                encode_form(f).into_bytes(),
-            ),
-            Body::Bytes { content_type, data } => (Some(content_type.clone()), data.clone()),
-        };
-        if let Some(ct) = content_type {
-            builder = builder.header("Content-Type", ct);
+        match &req.body {
+            Body::Empty => {}
+            Body::Form(f) => {
+                builder = builder.header("Content-Type", "application/x-www-form-urlencoded").body(encode_form(f).into_bytes());
+            }
+            Body::Bytes { content_type, data } => {
+                builder = builder.header("Content-Type", content_type.as_str()).body(data.clone());
+            }
         }
-        let transport = |e: ureq::Error| Error::Transport(e.to_string());
-        let mut resp = if data.is_empty()
-            && req.method != "POST"
-            && req.method != "PUT"
-            && req.method != "PATCH"
-        {
-            let r = builder
-                .body(())
-                .map_err(|e| Error::Transport(e.to_string()))?;
-            self.agent.run(r).map_err(transport)?
-        } else {
-            let r = builder
-                .body(data)
-                .map_err(|e| Error::Transport(e.to_string()))?;
-            self.agent.run(r).map_err(transport)?
-        };
+        let resp = builder.send().map_err(transport)?;
         let status = resp.status().as_u16();
         let headers = resp
             .headers()
             .iter()
-            .map(|(k, v)| {
-                (
-                    k.as_str().to_owned(),
-                    v.to_str().unwrap_or_default().to_owned(),
-                )
-            })
+            .map(|(k, v)| (k.as_str().to_owned(), v.to_str().unwrap_or_default().to_owned()))
             .collect();
-        let body = resp
-            .body_mut()
-            .with_config()
-            .limit(2 * 1024 * 1024 * 1024)
-            .read_to_vec()
-            .map_err(transport)?;
-        Ok(HttpResponse {
-            status,
-            headers,
-            body,
-        })
+        let body = resp.bytes().map_err(transport)?.to_vec();
+        Ok(HttpResponse { status, headers, body })
     }
 }

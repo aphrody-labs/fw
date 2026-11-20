@@ -98,8 +98,7 @@ pub fn outline(file: &Path, as_json: bool) -> Result<i32, String> {
         let scope = s
             .parent_scope
             .as_deref()
-            .map(|p| format!("{p}::"))
-            .unwrap_or_default();
+            .map_or_else(String::new, |p| format!("{p}::"));
         println!(
             "{:>5}-{:<5} {:<10} {scope}{}",
             s.span.start_line,

@@ -18,7 +18,7 @@ default = []
 # (WAL, FTS5), with a Valkey cache/queue shared by the fleet (crates/ay-core/src/pipeline, docs/native/PIPELINE.md).
 pipeline = ["dep:rusqlite", "dep:zstd"]
 # The `aphrody-code` binary and `ay_core::cli`: facts queries, outlines, grammar registry and its upstream sync.
-cli = ["dep:clap", "dep:ureq", "dep:toml", "dep:zstd"]
+cli = ["dep:clap", "dep:ay-http", "dep:toml", "dep:zstd"]
 # build.rs compiles the parser.c of every third_party/tree-sitter-* clone into the registry (GRAMMARS): tens of MB of tables, so off by default.
 grammars = []
 
@@ -53,7 +53,7 @@ tree-sitter-md.workspace = true
 tree-sitter-python.workspace = true
 tree-sitter-rust.workspace = true
 tree-sitter-typescript.workspace = true
-ureq = { workspace = true, optional = true }
+ay-http = { path = "../ay-http", default-features = false, features = ["blocking"], optional = true }
 zstd = { workspace = true, optional = true }
 
 [dev-dependencies]

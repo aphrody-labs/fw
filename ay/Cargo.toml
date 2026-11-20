@@ -134,7 +134,6 @@ tree-sitter-md = "0.5.4"
 tree-sitter-python = "0.25.0"
 tree-sitter-rust = "0.24.2"
 tree-sitter-typescript = "0.23.2"
-ureq = { version = "3.5.2", features = ["json"] }
 url = { version = "2.5.8", features = ["serde"] }
 uuid = "1.29.3"
 walkdir = "2.5.0"

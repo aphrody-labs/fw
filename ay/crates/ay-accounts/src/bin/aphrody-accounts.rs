@@ -6,7 +6,7 @@
 //! `ACCOUNTS_MICROSOFT_CLIENT_ID`) through the `gcloud` CLI. Values are held in memory only and never printed.
 
 use ay_accounts::scopes::{Access, Service, scopes_for};
-use ay_accounts::{AccountManager, Provider, ProviderConfig, Tenant, TokenSource, UreqTransport};
+use ay_accounts::{AccountManager, HttpClientTransport, Provider, ProviderConfig, Tenant, TokenSource};
 use std::process::{Command, ExitCode};
 use std::sync::Arc;
 use std::time::Duration;
@@ -116,7 +116,7 @@ fn build_manager(args: &[String]) -> Result<AccountManager, String> {
     let m = AccountManager::open(
         config_dir().join("accounts.json"),
         vault,
-        Arc::new(UreqTransport::new()),
+        Arc::new(HttpClientTransport::new()),
     )
     .map_err(|e| e.to_string())?;
     let project = flag(args, "--gcloud-project");

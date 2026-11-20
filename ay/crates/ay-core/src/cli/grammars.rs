@@ -79,16 +79,18 @@ fn token() -> Option<String> {
 }
 
 fn get(url: &str) -> Result<Value, String> {
-    let mut req = ureq::get(url)
+    let mut req = ay_http::blocking::Client::new()
+        .get(url)
         .header("User-Agent", "aphrody-code")
         .header("Accept", "application/vnd.github+json");
     if let Some(t) = token() {
-        req = req.header("Authorization", format!("Bearer {t}"));
+        req = req.bearer_auth(t);
     }
-    let mut resp = req.call().map_err(|e| format!("{url}: {e}"))?;
-    resp.body_mut()
-        .read_json::<Value>()
-        .map_err(|e| format!("{url}: {e}"))
+    let resp = req.send().map_err(|e| format!("{url}: {e}"))?;
+    if !resp.status().is_success() {
+        return Err(format!("{url}: HTTP {}", resp.status()));
+    }
+    resp.json::<Value>().map_err(|e| format!("{url}: {e}"))
 }
 
 fn fetch_upstream() -> Result<Vec<Upstream>, String> {

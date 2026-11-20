@@ -25,7 +25,7 @@ pub mod token;
 pub mod vault;
 
 pub use error::{Error, Result};
-pub use http::{Body, HttpRequest, HttpResponse, HttpTransport, UreqTransport};
+pub use http::{Body, HttpClientTransport, HttpRequest, HttpResponse, HttpTransport};
 pub use manager::{Account, AccountManager, StaticToken, TokenSource};
 pub use provider::{Endpoints, Provider, ProviderConfig, Tenant};
 pub use token::{IdClaims, TokenSet};

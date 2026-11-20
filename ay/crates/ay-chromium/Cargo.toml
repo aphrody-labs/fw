@@ -18,6 +18,10 @@ path = "src/main.rs"
 # Its symbols resolve only inside the host, so never build the binary with this feature.
 node = ["dep:napi", "dep:napi-derive", "dep:napi-build"]
 
+# cef-dll-sys is linked for the CEF symbols of `cef`; no code names it.
+[package.metadata.cargo-shear]
+ignored = ["cef-dll-sys"]
+
 [dependencies]
 cef = { version = "=156.6.0", default-features = false }
 cef-dll-sys = { version = "=156.6.0", default-features = false }
