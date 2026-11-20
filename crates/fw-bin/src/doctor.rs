@@ -52,14 +52,20 @@ pub fn run_doctor(cwd: &Path) -> Value {
     let fx_home_writable = std::fs::create_dir_all(&cfg.fx_home).is_ok();
     let ollama_reachable = probe_tcp("127.0.0.1:11434");
 
-    let tools = vec![
-        probe_exe_native("git"),
-        probe_exe_native("cargo"),
-        probe_exe_native("rustc"),
-        probe_exe_native("bun"),
-        probe_exe_native("uv"),
-    ];
-    let core_ok = tools.iter().take(2).all(|t| t["ok"].as_bool().unwrap_or(false));
+    // `fw` is a native binary: only `git` (workspace state) is required to run. The build toolchains are
+    // reported as `optional`, so a host without cargo, rustc, bun or uv still gets `ok: true`.
+    let tools: Vec<Value> = [("git", false), ("cargo", true), ("rustc", true), ("bun", true), ("uv", true)]
+        .into_iter()
+        .map(|(name, optional)| {
+            let mut probe = probe_exe_native(name);
+            probe["optional"] = json!(optional);
+            probe
+        })
+        .collect();
+    let core_ok = tools
+        .iter()
+        .filter(|t| !t["optional"].as_bool().unwrap_or(false))
+        .all(|t| t["ok"].as_bool().unwrap_or(false));
 
     json!({
         "ok": core_ok && fx_home_writable,
