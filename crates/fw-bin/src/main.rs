@@ -4,6 +4,7 @@
 //! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
+mod abliterate;
 mod cli_parser;
 mod doctor;
 mod m3_agent_tui;
@@ -515,7 +516,17 @@ fn main() {
                 }
             }
         }
-        "heretic" | "abliterate" => {
+        "abliterate" | "abl" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            match abliterate::run_abliterate_cli(&args[1..], &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw abliterate: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "heretic" => {
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
             match ml_engine::run_heretic(&args[1..], &cwd) {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),

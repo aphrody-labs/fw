@@ -137,6 +137,7 @@ dependencies = [
  "fw-unified-stack",
  "fw-uutils",
  "fw-wayland-wgpu",
+ "serde",
  "serde_json",
  "sha2",
  "tokio",

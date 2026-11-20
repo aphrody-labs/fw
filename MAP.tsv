@@ -1,5 +1,5 @@
 dir	tier	files	bytes	gate
-(root)	misc	31	1110375	just ci
+(root)	misc	31	1110385	just ci
 .agents	misc	2	2947	just ci
 .cargo	misc	1	164	just ci
 .claude-plugin	misc	1	893	just ci
@@ -11,7 +11,7 @@ core	misc	36	144461	just ci
 core/py	python-core	115	2238295	uvx ruff check .
 core/rs	rust-embedded	299	7880945	cargo check --manifest-path core/rs/wta/Cargo.toml
 crates/fw-apm	rust-core	9	125488	cargo test --workspace
-crates/fw-bin	rust-core	6	98910	cargo build --release -p fw-bin --bin fw
+crates/fw-bin	rust-core	6	99646	cargo build --release -p fw-bin --bin fw
 crates/fw-cluster	rust-core	2	14422	cargo test --workspace
 crates/fw-compute	rust-core	3	26333	cargo test --workspace
 crates/fw-fx	rust-core	14	138540	cargo test --workspace
