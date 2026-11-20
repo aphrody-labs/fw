@@ -175,6 +175,10 @@ describe.skipIf(!running)("unified Worker in workerd", () => {
     expect(latest.assets[0]!.url).toContain("/_/releases/ay/9.9.9/");
   });
 
+  test("preview prefix: a module that reads the URL itself (the gateway) works under /_/<service>", async () => {
+    expect(((await (await preview("assets", "/healthz")).json()) as { service: string }).service).toBe("ay-cf-gateway");
+  });
+
   test("unrouted requests are 404 JSON, never a service", async () => {
     const res = await get("unknown.example", "/x");
     expect(res.status).toBe(404);

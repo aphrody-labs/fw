@@ -63,7 +63,15 @@ export async function dispatch(inbound: Request, env: EdgeEnv, ctx: ExecutionCon
   const handler = modules[hit.service];
   if (!handler) return json({ error: "no module for service", service: hit.service }, 501);
   const origin = hit.preview ? `${url.origin}/_/${hit.service}` : url.origin;
-  const routed: Routed = { request, url, path: hit.path, origin, env, ctx };
+  // Under the preview prefix a module sees the request as if it were routed: the mount is removed from the URL it receives.
+  let seen = url;
+  let seenRequest = request;
+  if (hit.preview) {
+    seen = new URL(url);
+    seen.pathname = hit.path;
+    seenRequest = new Request(seen, request);
+  }
+  const routed: Routed = { request: seenRequest, url: seen, path: hit.path, origin, env, ctx };
   return withEdgeCache(request, hit.preview ? undefined : hit.hints, ctx, async () => handler(routed));
 }
 
