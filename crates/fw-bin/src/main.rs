@@ -5,12 +5,16 @@
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
 mod abliterate;
+mod cachy_tune;
 mod cli_parser;
 mod doctor;
 mod hf_hub;
 mod local_studio;
 mod m3_agent_tui;
 mod ml_engine;
+
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 use fw_cluster::HybridClusterRouter;
 use fw_compute::bench_sandbox::{
@@ -573,6 +577,15 @@ fn main() {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
                     eprintln!("fw watch: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "tune" => {
+            match cachy_tune::run_tune_cli(&args[1..]) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw tune: {e}");
                     std::process::exit(1);
                 }
             }

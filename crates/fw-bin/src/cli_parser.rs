@@ -89,6 +89,7 @@ pub const COMMANDS: &[CommandMeta] = &[
     CommandMeta { name: "vram", aliases: &[], group: "ML, Inference & Heretic", usage: "fw vram [--vram-gb 12] [--model-gb 5.5] [--layers 32] [--ctx 16384] [--swa-layers 0] [--kv-type q8_0]", summary: "Exact llama.cpp VRAM, SWA KV-cache & -ngl GPU layer planner (zero subprocess)" },
     CommandMeta { name: "repomap", aliases: &[], group: "Workspace & Protocols", usage: "fw repomap [dir]", summary: "Zero-subprocess repository symbol map (Rust, TS/JS, Python, Go, Kotlin)" },
     CommandMeta { name: "watch", aliases: &[], group: "Workspace & Protocols", usage: "fw watch <list|add|remove> ...", summary: "Manage persistent scheduled agent watchers (~/.fx/watchers.json)" },
+    CommandMeta { name: "tune", aliases: &["cachy"], group: "Workspace & Protocols", usage: "fw tune <hardware|sysctl|scx|ananicy|bench>", summary: "CachyOS chwd/sysctl/scx_lavd/ananicy-cpp tuning & x86-64-v3 + mimalloc benchmarks" },
     CommandMeta { name: "heretic", aliases: &[], group: "ML, Inference & Heretic", usage: "fw heretic <presets|inspect|abliterate> [preset] [--strength 1.0]", summary: "Heretic TOML preset inspector & directional orthogonalization (zero subprocess)" },
     CommandMeta { name: "align", aliases: &["dpo", "orpo"], group: "ML, Inference & Heretic", usage: "fw align <dpo|orpo|kto> [--beta 0.1] [--steps 60]", summary: "Native DPO / ORPO / KTO preference alignment (Burn + GGML + llama.cpp stack)" },
     // Packages & Dependencies (bun + uv grammar)
