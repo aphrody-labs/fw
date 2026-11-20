@@ -19,6 +19,15 @@
 - Report shape: what changed, the evidence, what is next; at most about ten lines, no recap of earlier turns. A caveat appears only when it names a concrete failure and its evidence; no boilerplate "not verified / I touch nothing / decisions for you" lists, no alarm wording, no tasks handed to the user unless blocked by something only they can do. Standing authorizations apply: act, do not stall.
 - Accessibility: user is visually impaired; always normalize and correct typos, spelling, grammar, and lexical errors in user inputs without friction.
 
+# agy : erreurs connues à anticiper
+
+- **Blocage `blocked by content safety filters` / `Generative AI Prohibited Use policy` / variante copyright (`RECITATION`) / `Output retries exhausted after 4 attempts`** : faux positif côté serveur Google, la même réponse échoue à chaque retry et brûle le quota. Avant : sortie courte par tour, jamais de gros fichier recopié dans la réponse, écrire les contenus longs via fichier (`write_file`/script) puis ne citer que le chemin, `edit_file` en petits blocs, un seul gros chantier par tour. Au premier blocage : ne jamais renvoyer la même sortie ; réduire la taille, reformuler, découper en étapes. Au deuxième : écrire l'état dans `~/.gemini/antigravity-cli/brain/<conversation>/handoff.md` (fait, reste, commandes) et demander de changer de modèle ou d'ouvrir une nouvelle conversation. Une conversation au-delà d'environ 250 000 caractères de trajectoire augmente le risque : poser ce handoff avant d'y arriver.
+- **Checkpoint avant les opérations lourdes** (déplacements multi-dépôts, archivage GitHub, commits massifs) : committer sur `main` par chemin dès qu'un lot est vérifié, pour qu'un blocage ne laisse pas un arbre sale de milliers de fichiers.
+- **Dépôt déplacé = `.git` à recâbler** : après un `mv` d'un dépôt ou submodule, relire son fichier `.git` (`gitdir:`) et `.gitmodules`/`git config`, puis lancer `git -C <repo> status` ; un `.git` pointant vers l'ancien emplacement casse `xtask status` (`NO_REMOTE`, `missing`). Ajouter un `origin` à tout nouveau dépôt (`wiki`, `browser`).
+- **`bun` absent du PATH des serveurs MCP** (`exec: "bun": executable file not found`) : agy hérite du PATH au lancement ; `D:\cache\bun\bin` et `D:\cache\cargo\bin` doivent être dans le PATH utilisateur et agy relancé depuis un shell neuf. Ne pas réessayer l'outil MCP dans la même session, passer par `pwsh`/CLI.
+- **pwsh** : `$ErrorActionPreference = 'Stop'` rend la sortie stderr de `git clone` fatale, utiliser `'Continue'` autour de git ; `param(...)` doit être la première instruction d'un `.ps1`.
+- **Sécurité des outils** : le moniteur `agy_tool_safety` signale `unquoted_shell_operators` ; citer les opérateurs shell ou passer par un script `@' ... '@ | bun -`.
+
 # Antigravity (agy) specifics
 
 - Isolation: `~/.gemini` is 100% self-contained (`scripts/`, `rules/`, `memory/`, `plugins/`, `dashboard/`); never link or depend on external home-config directories.
@@ -38,6 +47,21 @@
   - Zero false completion & exact-read-before-edit: verify every user requirement against real tool output before reporting done; always `read_file` exact lines before `edit_file`, pass `Overwrite: true` on existing `write_file` targets, and use `@' ... '@ | bun -` + `curl.exe` + `;` on Windows PowerShell.
   - Always apply `no-slop-humanizer` (strip AI slop, binary contrasts, filler, unverified hype) before writing docs, PRs, or copy.
   - Always consult `ui-ux-pro-max` + `modern-web-guidance` (`mwg_audit` / `web_guidance`, WCAG >= 4.5:1, design tokens first) before designing or coding UI.
+
+# Google-Style Polyglot Standard (Python, Go, C, C++)
+
+- **Reference canonique locale** : `~/.gemini/brain/google/styleguide` (Python, Go, C++, Shell, Markdown, Protobuf).
+- **Python (3.15+)** : `uv` + `ruff` (formatage, lint, Google docstrings `D`, imports triés `I`, annotations strictes). Jamais `pip` nu.
+- **Go** : `gofmt` / `go vet` / `gopls` / `golangci-lint` v2 / `govulncheck`, respect du Google Go Style Guide (noms courts idiomatiques, erreurs explicites, zéro `init()` magique).
+- **C / C++ (LLVM 23 + Bazel 9 / CMake+Ninja+vcpkg)** : `clang`/`clang++` 23 + `lld`, formatage `clang-format --style=Google`, analyse statique `clang-tidy`, build `bazelisk` (Bazel 9) ou `cmake -G Ninja` + `vcpkg` manifeste (`C:\vcpkg`).
+
+# Windows Native Tooling Fallback (`pwsh` + `.NET` + `vcpkg`)
+
+- Avant d'invoquer `bun` ou `cargo`, vérifier leur présence (`Get-Command bun, cargo -ErrorAction SilentlyContinue`) ou utiliser directement `pwsh` 7.7+ et `dotnet` 10/11 lorsqu'ils sont absents.
+- **Scripting & JSON/TOML/Git** : utiliser `pwsh` pur (`ConvertFrom-Json`, `ConvertTo-Json`, `Select-String`, `Get-FileHash`, `gh api ... | ConvertFrom-Json`). Toujours parenthéser les expressions passées aux méthodes .NET (`[regex]::Escape(($a -replace '-', '_'))`).
+- **Outils compilés / performants sans Rust/Bun** : utiliser les file-based apps C# de `.NET 10/11` (`dotnet run tool.cs`) ou compiler en binaire natif AOT (`dotnet publish -c Release -r win-x64 -p:PublishAot=true`).
+- **Dépendances C/C++** : utiliser `vcpkg` en mode manifeste (`vcpkg.json`) couplé à `cmake` + `ninja`, jamais de téléchargements manuels de DLL/headers.
+- **Documentation** : consulter en priorité `~/.gemini/brain/microsoft/{PowerShell-Docs,dotnet-docs}` ou le MCP `microsoft-learn` (`https://learn.microsoft.com/api/mcp`).
 
 ## Memory
 

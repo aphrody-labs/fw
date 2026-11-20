@@ -8,6 +8,7 @@ branch = "master"
 docs = "https://github.com/ggml-org/llama.cpp/blob/master/CONTRIBUTING.md"
 fw = "crates/fw-ggml"
 role = "GGUF v3, quantized dot/matmul, ggml-rpc, zero-bloat C/Rust discipline"
+watch = true
 
 [[upstream]]
 id = "asterinas"
@@ -202,4 +203,112 @@ branch = "main"
 docs = "https://github.com/addyosmani/agent-skills#readme"
 fw = "plugin/skills"
 role = "Skills d'ingénierie de production (plan, build, test, ship) à activation automatique selon le contexte"
+watch = true
+
+[[upstream]]
+id = "ggml"
+repo = "ggml-org/ggml"
+branch = "master"
+docs = "https://github.com/ggml-org/ggml/blob/master/docs/gguf.md"
+fw = "crates/fw-ggml"
+role = "Tenseur 4D, graphe, 18 backends, types de quantification, spec GGUF; ggml.h fait référence"
+watch = true
+
+[[upstream]]
+id = "vllm"
+repo = "vllm-project/vllm"
+branch = "main"
+docs = "https://docs.vllm.ai"
+fw = "crates/fw-cluster + crates/fw-compute"
+role = "Moteur de serving de référence (PagedAttention, spéculatif, désagrégation P/D, connecteurs KV); rust/ = frontend Rust expérimental"
+watch = true
+
+[[upstream]]
+id = "vllm-router"
+repo = "vllm-project/router"
+branch = "main"
+docs = "https://github.com/vllm-project/router#readme"
+fw = "crates/fw-cluster"
+role = "Routeur Rust cache-aware, désagrégation P/D, workers gRPC"
+watch = true
+
+[[upstream]]
+id = "llm-d"
+repo = "llm-d/llm-d"
+branch = "main"
+docs = "https://llm-d.ai"
+fw = "crates/fw-cluster"
+role = "Stack Kubernetes de serving distribué (guides well-lit paths, CNCF Sandbox)"
+watch = true
+
+[[upstream]]
+id = "llm-d-router"
+repo = "llm-d/llm-d-router"
+branch = "main"
+docs = "https://github.com/llm-d/llm-d-router#readme"
+fw = "crates/fw-cluster"
+role = "EPP Filter-Score-Pick, scorers préfixe+charge, pd-sidecar, indexeur KV; mode sans Kubernetes"
+watch = true
+
+[[upstream]]
+id = "gateway-api-inference-extension"
+repo = "kubernetes-sigs/gateway-api-inference-extension"
+branch = "main"
+docs = "https://gateway-api-inference-extension.sigs.k8s.io"
+fw = "crates/fw-cluster"
+role = "API InferencePool/InferenceObjective, base standard du routage d'inférence"
+watch = true
+
+[[upstream]]
+id = "dynamo"
+repo = "ai-dynamo/dynamo"
+branch = "main"
+docs = "https://github.com/ai-dynamo/dynamo#readme"
+fw = "crates/fw-cluster"
+role = "Orchestration datacenter à coeur Rust: dynamo-kv-router, runtime, tokens"
+watch = true
+
+[[upstream]]
+id = "smg"
+repo = "smg-project/smg"
+branch = "main"
+docs = "https://github.com/smg-project/smg#readme"
+fw = "crates/fw-cluster"
+role = "Passerelle Rust multi-moteurs, routage cache-aware par radix trees, désagrégation P/D"
+watch = true
+
+[[upstream]]
+id = "mistral-rs"
+repo = "EricLBuehler/mistral.rs"
+branch = "master"
+docs = "https://github.com/EricLBuehler/mistral.rs#readme"
+fw = "crates/fw-llama"
+role = "Moteur Rust le plus complet (continuous batching, PagedAttention, ISQ, GGUF, API OpenAI/Anthropic)"
+watch = true
+
+[[upstream]]
+id = "candle"
+repo = "huggingface/candle"
+branch = "main"
+docs = "https://github.com/huggingface/candle#readme"
+fw = "crates/fw-ggml"
+role = "Framework tensoriel Rust (CUDA, Metal, GGUF, safetensors)"
+watch = true
+
+[[upstream]]
+id = "cubecl"
+repo = "tracel-ai/cubecl"
+branch = "main"
+docs = "https://github.com/tracel-ai/cubecl#readme"
+fw = "crates/fw-compute"
+role = "Langage de kernels GPU Rust portable (CUDA, ROCm, Metal, Vulkan, WebGPU, CPU)"
+watch = true
+
+[[upstream]]
+id = "llama-cpp-rs"
+repo = "utilityai/llama-cpp-rs"
+branch = "main"
+docs = "https://github.com/utilityai/llama-cpp-rs#readme"
+fw = "crates/fw-llama-sys"
+role = "Binding Rust llama.cpp de référence (llama-cpp-2), submodule épinglé"
 watch = true

@@ -1,7 +1,7 @@
 id	repo	branch	head_sha	fw	docs	role
 llama-cpp	ggml-org/llama.cpp	master	184862801a	crates/fw-ggml	https://github.com/ggml-org/llama.cpp/blob/master/CONTRIBUTING.md	GGUF v3, quantized dot/matmul, ggml-rpc, zero-bloat C/Rust discipline
 asterinas	asterinas/asterinas	main	12374d1337	os/fw-os + crates/fw-ostd-wasm	https://asterinas.github.io/book/osdk/guide/create-project.html	Optional memory-safe guest microVM sandbox (v0.19.0 pre-1.0; Linux CachyOS LTO is primary OS)
-cloudflare-os	cloudflare/cloudflare-os	main	dc2594d58a	cloudflare/worker.ts	https://developers.cloudflare.com/agents/	Multi-tenant AI OS, 19 gatekeepers, gadgets, Workers Static Assets
+cloudflare-os	cloudflare/cloudflare-os	main	0c351991c3	cloudflare/worker.ts	https://developers.cloudflare.com/agents/	Multi-tenant AI OS, 19 gatekeepers, gadgets, Workers Static Assets
 cloudflare-computer	cloudflare/computer	main	cd0146b287	cloudflare/worker.ts	https://github.com/cloudflare/computer#readme	DO SQLite VFS (dofs), computerd FUSE over capnweb RPC, 3-tier runtime
 pingora	cloudflare/pingora	main	3f87e92c98	crates/fw-cluster	https://github.com/cloudflare/pingora#readme	Low-latency Rust L7 proxy, pooling, hybrid 3-VPS + Edge routing
 kitesurf	cloudflare/kitesurf	main	c19d8354d6	cloudflare/worker.ts	https://github.com/cloudflare/kitesurf#readme	Zero-Chrome Workers Isolate browser engine
@@ -12,7 +12,7 @@ zed	zed-industries/zed	main	10d1b2a564	crates/fw-ostd-wasm + flake.nix	https://z
 nix-cachyos-kernel	xddxdd/nix-cachyos-kernel	release	ffdb35a774	flake.nix + nix/hosts/	https://github.com/xddxdd/nix-cachyos-kernel#readme	Clang+ThinLTO CachyOS kernels (x86_64-v3 + zen4) with binary cache
 openvmm	microsoft/openvmm	main	5cf28492b3	os/fw-wsl	https://openvmm.dev/guide/	Memory-safe Rust VMM replacing legacy Hyper-V/WSL C++ host layers
 ironrdp	Devolutions/IronRDP	master	63d442e8dd	os/fw-wsl	https://github.com/Devolutions/IronRDP#readme	Memory-safe Rust RDP transport replacing legacy WSLg FreeRDP C
-scx	sched-ext/scx	main	c8f241e960	nix/modules/vps-common.nix + os/fw-wsl	https://github.com/sched-ext/scx#readme	Rust BPF sched_ext schedulers (scx_lavd, scx_bpfland) on Linux CachyOS LTO
+scx	sched-ext/scx	main	1674b66b82	nix/modules/vps-common.nix + os/fw-wsl	https://github.com/sched-ext/scx#readme	Rust BPF sched_ext schedulers (scx_lavd, scx_bpfland) on Linux CachyOS LTO
 cloud-hypervisor	cloud-hypervisor/cloud-hypervisor	main	1ff2b3decc	nix/modules/vps-common.nix	https://github.com/cloud-hypervisor/cloud-hypervisor#readme	Rust KVM microVM VMM (virtio-fs, vsock, VFIO) for Tier-2 agent sandboxes
 uutils-coreutils	uutils/coreutils	main	276ffe9cc0	flake.nix + crates/fw-uutils	https://uutils.github.io/coreutils/	Cross-platform pure-Rust POSIX coreutils replacing GNU coreutils
 cli-anything	HKUDS/CLI-Anything	main	34f519533b	plugin/skills + crates/fw-toolcall	https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/HARNESS.md	SOP en 7 phases qui génère des CLI Click --json autour de logiciels réels, SKILL.md par parsing ast, registre CLI-Hub
@@ -23,3 +23,15 @@ openduet	CopilotKit/OpenDuet	main	b32ec102d5	plugin/skills + crates/fw-agent	htt
 rtk	rtk-ai/rtk	develop	5315347b56	crates/fw-bin (fw sh) + crates/fw-toolcall	https://github.com/rtk-ai/rtk#readme	Proxy CLI Rust qui compresse la sortie des commandes de dev (cargo test, git diff, docker logs) avant injection dans le contexte
 graphify	Graphify-Labs/graphify	v8	f51d46c63d	crates/fw-bin (fw graph) + crates/fw-rag	https://github.com/Graphify-Labs/graphify#readme	Graphe de connaissances interrogeable du code, des docs, schémas SQL et configs (commande graphify query)
 agent-skills	addyosmani/agent-skills	main	8c99fa36d9	plugin/skills	https://github.com/addyosmani/agent-skills#readme	Skills d'ingénierie de production (plan, build, test, ship) à activation automatique selon le contexte
+ggml	ggml-org/ggml	master	d9fe7bff3d	crates/fw-ggml	https://github.com/ggml-org/ggml/blob/master/docs/gguf.md	Tenseur 4D, graphe, 18 backends, types de quantification, spec GGUF; ggml.h fait référence
+vllm	vllm-project/vllm	main	1f41d0fb31	crates/fw-cluster + crates/fw-compute	https://docs.vllm.ai	Moteur de serving de référence (PagedAttention, spéculatif, désagrégation P/D, connecteurs KV); rust/ = frontend Rust expérimental
+vllm-router	vllm-project/router	main	e8ce7eabd2	crates/fw-cluster	https://github.com/vllm-project/router#readme	Routeur Rust cache-aware, désagrégation P/D, workers gRPC
+llm-d	llm-d/llm-d	main	fbc9d5c78b	crates/fw-cluster	https://llm-d.ai	Stack Kubernetes de serving distribué (guides well-lit paths, CNCF Sandbox)
+llm-d-router	llm-d/llm-d-router	main	4cb48fa34d	crates/fw-cluster	https://github.com/llm-d/llm-d-router#readme	EPP Filter-Score-Pick, scorers préfixe+charge, pd-sidecar, indexeur KV; mode sans Kubernetes
+gateway-api-inference-extension	kubernetes-sigs/gateway-api-inference-extension	main	6faa78e599	crates/fw-cluster	https://gateway-api-inference-extension.sigs.k8s.io	API InferencePool/InferenceObjective, base standard du routage d'inférence
+dynamo	ai-dynamo/dynamo	main	0b2d6e278b	crates/fw-cluster	https://github.com/ai-dynamo/dynamo#readme	Orchestration datacenter à coeur Rust: dynamo-kv-router, runtime, tokens
+smg	smg-project/smg	main	d6be674423	crates/fw-cluster	https://github.com/smg-project/smg#readme	Passerelle Rust multi-moteurs, routage cache-aware par radix trees, désagrégation P/D
+mistral-rs	EricLBuehler/mistral.rs	master	fb4cdc3730	crates/fw-llama	https://github.com/EricLBuehler/mistral.rs#readme	Moteur Rust le plus complet (continuous batching, PagedAttention, ISQ, GGUF, API OpenAI/Anthropic)
+candle	huggingface/candle	main	1a49dc27c1	crates/fw-ggml	https://github.com/huggingface/candle#readme	Framework tensoriel Rust (CUDA, Metal, GGUF, safetensors)
+cubecl	tracel-ai/cubecl	main	f1c9aeca19	crates/fw-compute	https://github.com/tracel-ai/cubecl#readme	Langage de kernels GPU Rust portable (CUDA, ROCm, Metal, Vulkan, WebGPU, CPU)
+llama-cpp-rs	utilityai/llama-cpp-rs	main	feebf11b8f	crates/fw-llama-sys	https://github.com/utilityai/llama-cpp-rs#readme	Binding Rust llama.cpp de référence (llama-cpp-2), submodule épinglé

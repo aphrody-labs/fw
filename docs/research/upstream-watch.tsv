@@ -1,9 +1,22 @@
 id	repo	stars	license	latest_release	release_date	head_sha	head_date	open_issues_and_prs	fw
-cli-anything	HKUDS/CLI-Anything	61119	Apache-2.0	v0.4.0	2026-06-25	34f519533b	2026-09-22	276	plugin/skills + crates/fw-toolcall
-ecc	affaan-m/ECC	307645	MIT	v2.2.3	2026-10-01	4adeee6732	2026-11-20	138	plugin/skills + plugin/rules + configs/claude
+llama-cpp	ggml-org/llama.cpp	135837	MIT	v1.0.0	2026-11-13	184862801a	2026-11-20	2610	crates/fw-ggml
+cli-anything	HKUDS/CLI-Anything	61127	Apache-2.0	v0.4.0	2026-06-25	34f519533b	2026-09-22	276	plugin/skills + crates/fw-toolcall
+ecc	affaan-m/ECC	307652	MIT	v2.2.3	2026-10-01	4adeee6732	2026-11-20	138	plugin/skills + plugin/rules + configs/claude
 claude-mem	thedotmack/claude-mem	118572	Apache-2.0	v16.0.1	2026-11-19	c0f37d60b2	2026-11-19	85	crates/fw-bin (fw mem) + crates/fw-agent-context
 mesh-llm	Mesh-LLM/mesh-llm	4179	Apache-2.0	v0.80.0	2026-11-16	b54e992781	2026-11-20	210	crates/fw-cluster + crates/fw-ggml
 openduet	CopilotKit/OpenDuet	2099	MIT	-	-	b32ec102d5	2026-11-14	21	plugin/skills + crates/fw-agent
-rtk	rtk-ai/rtk	87269	Apache-2.0	v1.2.1	2026-11-19	5315347b56	2026-11-20	1691	crates/fw-bin (fw sh) + crates/fw-toolcall
-graphify	Graphify-Labs/graphify	150997	Apache-2.0	v0.9.113	2026-11-19	f51d46c63d	2026-11-20	1681	crates/fw-bin (fw graph) + crates/fw-rag
-agent-skills	addyosmani/agent-skills	119341	MIT	0.6.17	2026-11-18	8c99fa36d9	2026-11-18	122	plugin/skills
+rtk	rtk-ai/rtk	87273	Apache-2.0	v1.2.1	2026-11-19	5315347b56	2026-11-20	1691	crates/fw-bin (fw sh) + crates/fw-toolcall
+graphify	Graphify-Labs/graphify	151007	Apache-2.0	v0.9.113	2026-11-19	f51d46c63d	2026-11-20	1681	crates/fw-bin (fw graph) + crates/fw-rag
+agent-skills	addyosmani/agent-skills	119343	MIT	0.6.17	2026-11-18	8c99fa36d9	2026-11-18	122	plugin/skills
+ggml	ggml-org/ggml	16130	MIT	v1.0.0	2026-11-13	d9fe7bff3d	2026-11-16	387	crates/fw-ggml
+vllm	vllm-project/vllm	97265	Apache-2.0	v0.34.0	2026-11-16	1f41d0fb31	2026-11-20	10772	crates/fw-cluster + crates/fw-compute
+vllm-router	vllm-project/router	527	Apache-2.0	v0.1.17	2026-11-04	e8ce7eabd2	2026-11-20	242	crates/fw-cluster
+llm-d	llm-d/llm-d	5320	Apache-2.0	v1.0.0	2026-10-20	fbc9d5c78b	2026-11-18	235	crates/fw-cluster
+llm-d-router	llm-d/llm-d-router	473	Apache-2.0	v1.0.0	2026-10-16	4cb48fa34d	2026-11-20	467	crates/fw-cluster
+gateway-api-inference-extension	kubernetes-sigs/gateway-api-inference-extension	806	Apache-2.0	v1.6.2	2026-09-17	6faa78e599	2026-11-09	27	crates/fw-cluster
+dynamo	ai-dynamo/dynamo	8539	NOASSERTION	v1.6.2	2026-11-05	0b2d6e278b	2026-11-20	2166	crates/fw-cluster
+smg	smg-project/smg	734	Apache-2.0	v1.15.0	2026-11-10	d6be674423	2026-11-20	187	crates/fw-cluster
+mistral-rs	EricLBuehler/mistral.rs	7851	MIT	v0.9.5	2026-10-19	fb4cdc3730	2026-11-09	435	crates/fw-llama
+candle	huggingface/candle	21359	Apache-2.0	-	-	1a49dc27c1	2026-11-19	1014	crates/fw-ggml
+cubecl	tracel-ai/cubecl	2510	Apache-2.0	v0.11.3	2026-10-22	f1c9aeca19	2026-11-19	263	crates/fw-compute
+llama-cpp-rs	utilityai/llama-cpp-rs	676	Apache-2.0	0.1.161	2026-11-03	feebf11b8f	2026-11-19	67	crates/fw-llama-sys
