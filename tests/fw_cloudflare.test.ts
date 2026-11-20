@@ -13,7 +13,42 @@ import worker, {
   type R2BucketLike,
   type SqlStorageLike,
   type VectorizeIndexLike,
+  COMPATIBILITY_DATE,
+  type WorkersAILike,
 } from "../cloudflare/worker.ts";
+import { readFileSync } from "node:fs";
+
+const WRANGLER_COMPAT_DATE = /"compatibility_date":\s*"([^"]+)"/.exec(readFileSync(new URL("../cloudflare/wrangler.jsonc", import.meta.url), "utf8"))?.[1];
+
+/** Workers AI double: a two-model catalog and an echoing `run`. */
+function mockAi(calls: Array<{ model: string; input: Record<string, unknown> }> = []): WorkersAILike {
+  return {
+    async models() {
+      return [
+        { name: "@cf/test/small-tools", properties: [{ property_id: "context_window", value: "8192" }, { property_id: "function_calling", value: "true" }] },
+        { name: "@cf/test/big-tools", properties: [{ property_id: "context_window", value: "131072" }, { property_id: "function_calling", value: "true" }] },
+        { name: "@cf/test/paid-tools", properties: [{ property_id: "context_window", value: "1000000" }, { property_id: "function_calling", value: "true" }, { property_id: "require_workers_paid", value: "true" }] },
+        { name: "@cf/test/old", properties: [{ property_id: "planned_deprecation_date", value: "2026-12-01" }] },
+      ];
+    },
+    async run(model, input) {
+      calls.push({ model, input });
+      if (model.includes("bge")) return { data: [[0.1, 0.2, 0.3, 0.4]] };
+      const messages = (input.messages ?? []) as Array<{ role: string; content: string }>;
+      if (input.stream) {
+        const enc = new TextEncoder();
+        return new ReadableStream<Uint8Array>({
+          start(c) {
+            c.enqueue(enc.encode('data: {"response":"str"}\n\ndata: {"choices":[{"delta":{"content":"eamed"}}]}\n\n'));
+            c.enqueue(enc.encode("data: [DONE]\n\n"));
+            c.close();
+          },
+        });
+      }
+      return { response: `echo:${messages.at(-1)?.content ?? ""}` };
+    },
+  };
+}
 
 function createSqliteDOContext(name = "sqlite-tenant"): {
   ctx: DurableObjectStateLike;
@@ -99,7 +134,8 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
     expect(health.ok).toBe(true);
     expect(health.product).toBe("fw-edge");
     expect(health.env).toBe("staging");
-    expect(health.compatibilityDate).toBe("2026-11-12");
+    expect(health.compatibilityDate).toBe(COMPATIBILITY_DATE);
+    expect(COMPATIBILITY_DATE).toBe(WRANGLER_COMPAT_DATE!);
     expect(health.bindings.AI).toBe(false);
 
     const openapi = (await (await worker.fetch(new Request("https://edge.fw.test/openapi.json"), {})).json()) as {
@@ -134,40 +170,55 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
   });
 
   test("OpenAI-compatible /v1/models, /v1/chat/completions (fallback & Workers AI), and /v1/embeddings (+ Vectorize)", async () => {
-    const models = (await (await worker.fetch(new Request("https://edge.fw.test/v1/models"), {})).json()) as {
+    const noAi = (await (await worker.fetch(new Request("https://edge.fw.test/v1/models"), {})).json()) as { data: unknown[]; error: string };
+    expect(noAi.data).toEqual([]);
+    expect(noAi.error).toContain("Workers AI");
+
+    const models = (await (await worker.fetch(new Request("https://edge.fw.test/v1/models"), { AI: mockAi() })).json()) as {
       object: string;
+      default: string;
       data: Array<{ id: string }>;
     };
     expect(models.object).toBe("list");
-    expect(models.data.some((m) => m.id === "@cf/meta/llama-3.3-70b-instruct-fp8-fast")).toBe(true);
-    expect(models.data.some((m) => m.id === "@cf/baai/bge-base-en-v1.5")).toBe(true);
+    expect(models.data.map((m) => m.id)).toEqual(["@cf/test/paid-tools", "@cf/test/big-tools", "@cf/test/small-tools"]);
+    expect(models.default).toBe("@cf/test/big-tools");
 
-    // Fallback chat without AI binding
-    const fallbackChat = (await (
-      await worker.fetch(
-        new Request("https://edge.fw.test/v1/chat/completions", {
-          method: "POST",
-          body: JSON.stringify({ messages: [{ role: "user", content: "hello edge" }] }),
-        }),
-        {},
-      )
-    ).json()) as { object: string; choices: Array<{ message: { content: string } }> };
-    expect(fallbackChat.object).toBe("chat.completion");
-    expect(fallbackChat.choices[0]?.message.content).toBe("[fw-edge] hello edge");
+    // Without the AI binding chat fails loudly instead of echoing the prompt.
+    const noAiChat = await worker.fetch(
+      new Request("https://edge.fw.test/v1/chat/completions", {
+        method: "POST",
+        body: JSON.stringify({ messages: [{ role: "user", content: "hello edge" }] }),
+      }),
+      {},
+    );
+    expect(noAiChat.status).toBe(503);
+    expect(((await noAiChat.json()) as { error: { message: string } }).error.message).toContain("Workers AI binding");
+
+    const badChat = await worker.fetch(new Request("https://edge.fw.test/v1/chat/completions", { method: "POST", body: "{}" }), { AI: mockAi() });
+    expect(badChat.status).toBe(400);
+
+    const streamed = await worker.fetch(
+      new Request("https://edge.fw.test/v1/chat/completions", {
+        method: "POST",
+        body: JSON.stringify({ stream: true, messages: [{ role: "user", content: "s" }] }),
+      }),
+      { AI: mockAi() },
+    );
+    expect(streamed.headers.get("content-type")).toContain("text/event-stream");
+    const sse = await streamed.text();
+    const deltas = sse
+      .split("\n\n")
+      .filter((f) => f.startsWith("data: {"))
+      .map((f) => JSON.parse(f.slice(6)).choices[0].delta.content ?? "")
+      .join("");
+    expect(deltas).toBe("streamed");
+    expect(sse.trim().endsWith("data: [DONE]")).toBe(true);
 
     // Live Workers AI mock
     const aiCalls: Array<{ model: string; input: Record<string, unknown> }> = [];
     const upsertedVectors: Array<{ id: string; values: number[]; metadata?: Record<string, unknown> }> = [];
     const env: FwWorkerEnv = {
-      AI: {
-        async run(model, input) {
-          aiCalls.push({ model, input });
-          if (model.includes("bge")) {
-            return { data: [[0.1, 0.2, 0.3, 0.4]] };
-          }
-          return { response: "workers-ai-live-reply" };
-        },
-      },
+      AI: mockAi(aiCalls),
       MEMORY_VEC: {
         async upsert(vectors) {
           upsertedVectors.push(...vectors);
@@ -192,8 +243,8 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
       )
     ).json()) as { object: string; choices: Array<{ message: { content: string } }>; raw: { response: string } };
     expect(aiChat.object).toBe("chat.completion");
-    expect(aiChat.choices[0]?.message.content).toBe("workers-ai-live-reply");
-    expect(aiChat.raw.response).toBe("workers-ai-live-reply");
+    expect(aiChat.choices[0]?.message.content).toBe("echo:ping ai");
+    expect(aiChat.raw.response).toBe("echo:ping ai");
 
     // Embeddings with Workers AI + Vectorize upsert
     const embAi = (await (
@@ -345,13 +396,14 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
   });
 
   test("ACP (/acp) and A2A (/a2a) JSON-RPC 2.0 full lifecycles", async () => {
+    const aiEnv: FwWorkerEnv = { AI: mockAi() };
     const acpInit = (await (
       await worker.fetch(
         new Request("https://edge.fw.test/acp", {
           method: "POST",
           body: JSON.stringify({ jsonrpc: "2.0", id: "a1", method: "initialize" }),
         }),
-        {},
+        aiEnv,
       )
     ).json()) as { result: { protocolVersion: string; agentCapabilities: { edgeTiers: number[] } } };
     expect(acpInit.result.protocolVersion).toBe("1.33.0");
@@ -364,7 +416,7 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
           headers: { "x-fw-tenant": "acp-tenant" },
           body: JSON.stringify({ jsonrpc: "2.0", id: "a2", method: "session/new", params: { cwd: "/workspace" } }),
         }),
-        {},
+        aiEnv,
       )
     ).json()) as { result: { sessionId: string; cwd: string } };
     expect(acpSession.result.sessionId.startsWith("acp_")).toBe(true);
@@ -382,7 +434,7 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
             params: { sessionId: acpSession.result.sessionId, prompt: "summarize edge os" },
           }),
         }),
-        {},
+        aiEnv,
       )
     ).json()) as { result: { stopReason: string; turns: number; output: { text: string } } };
     expect(acpPrompt.result.stopReason).toBe("end_turn");
@@ -401,7 +453,7 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
             params: { id: "task-edge-42", prompt: "audit worker" },
           }),
         }),
-        {},
+        aiEnv,
       )
     ).json()) as { result: { id: string; status: { state: string }; artifacts: Array<{ parts: Array<{ text: string }> }> } };
     expect(a2aSend.result.id).toBe("task-edge-42");
@@ -415,7 +467,7 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
           headers: { "x-fw-tenant": "a2a-tenant" },
           body: JSON.stringify({ jsonrpc: "2.0", id: "t2", method: "tasks/get", params: { id: "task-edge-42" } }),
         }),
-        {},
+        aiEnv,
       )
     ).json()) as { result: { id: string; status: { state: string } } };
     expect(a2aGet.result.id).toBe("task-edge-42");
@@ -428,7 +480,7 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
           headers: { "x-fw-tenant": "a2a-tenant" },
           body: JSON.stringify({ jsonrpc: "2.0", id: "t3", method: "tasks/get", params: { id: "missing" } }),
         }),
-        {},
+        aiEnv,
       )
     ).json()) as { error: { code: number } };
     expect(a2aMissing.error.code).toBe(-32001);

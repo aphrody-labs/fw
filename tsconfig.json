@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
+    "resolveJsonModule": true,
     "verbatimModuleSyntax": false
   },
   "include": ["src/**/*.ts", "tests/**/*.ts", "cloudflare/**/*.ts", "vercel/**/*.ts"],

@@ -615,12 +615,25 @@ fn main() {
         }
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
-            let addr: SocketAddr = addr_str.parse().expect("valid host:port");
-            let rt = tokio::runtime::Runtime::new().unwrap();
+            let addr: SocketAddr = match addr_str.parse() {
+                Ok(a) => a,
+                Err(e) => {
+                    eprintln!("fw serve: `{addr_str}` is not a host:port address ({e}); example: fw serve 127.0.0.1:4380");
+                    std::process::exit(2);
+                }
+            };
+            let rt = match tokio::runtime::Runtime::new() {
+                Ok(rt) => rt,
+                Err(e) => {
+                    eprintln!("fw serve: cannot start the async runtime: {e}");
+                    std::process::exit(1);
+                }
+            };
             eprintln!("fw v{} listening on http://{addr}", cli_parser::FW_VERSION);
-            rt.block_on(async move {
-                serve(addr).await.expect("serve failed");
-            });
+            if let Err(e) = rt.block_on(serve(addr)) {
+                eprintln!("fw serve: {addr}: {e}");
+                std::process::exit(1);
+            }
         }
         "sec" | "deepsec" => {
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#fef9eb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15140c" media="(prefers-color-scheme: dark)" />
+  <title>fw</title>
+  <meta name="description" content="Chat with fw, run its MCP tools, pick a model and check the runtime, from one Material 3 web app served by fw serve and the fw edge Worker." />
+  <link rel="canonical" href="https://fw.aphrody.com/" />
+  <meta property="og:title" content="fw" />
+  <meta property="og:description" content="Chat, tools, models and runtime status for the fw agent runtime." />
+  <meta property="og:url" content="https://fw.aphrody.com/" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@300..800&family=Google+Sans+Flex:opsz,wdth,wght,ROND@6..144,25..151,1..1000,0..100&display=swap" />
+  <link rel="stylesheet" href="/app.css" />
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-add" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></symbol>
+    <symbol id="i-build" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></symbol>
+    <symbol id="i-memory" viewBox="0 0 24 24"><path d="M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-2V7c0-1.1-.9-2-2-2h-2V3h-2v2h-2V3H9v2H7c-1.1 0-2 .9-2 2v2H3v2h2v2H3v2h2v2c0 1.1.9 2 2 2h2v2h2v-2h2v2h2v-2h2c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2zm-4 6H7V7h10v10z"/></symbol>
+    <symbol id="i-dns" viewBox="0 0 24 24"><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zM7 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zM7 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M3.4 20.4l17.45-7.48c.81-.35.81-1.49 0-1.84L3.4 3.6c-.66-.29-1.39.2-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><path d="M8 6h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></symbol>
+    <symbol id="i-delete" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></symbol>
+    <symbol id="i-tune" viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></symbol>
+    <symbol id="i-dark" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="app">
+    <nav class="rail" aria-label="Sections">
+      <button id="new-chat" class="fab" type="button" aria-label="New chat">
+        <svg class="icon"><use href="#i-add"/></svg>
+      </button>
+      <div class="rail-items">
+        <a class="dest" href="#/chat" data-view="chat"><span class="dest-pill"><svg class="icon"><use href="#i-chat"/></svg></span><span class="dest-label">Chat</span></a>
+        <a class="dest" href="#/tools" data-view="tools"><span class="dest-pill"><svg class="icon"><use href="#i-build"/></svg></span><span class="dest-label">Tools</span></a>
+        <a class="dest" href="#/models" data-view="models"><span class="dest-pill"><svg class="icon"><use href="#i-memory"/></svg></span><span class="dest-label">Models</span></a>
+        <a class="dest" href="#/system" data-view="system"><span class="dest-pill"><svg class="icon"><use href="#i-dns"/></svg></span><span class="dest-label">System</span></a>
+      </div>
+      <button id="theme-btn" class="icon-btn rail-foot" type="button" aria-label="Switch light or dark theme">
+        <svg class="icon"><use href="#i-dark"/></svg>
+      </button>
+    </nav>
+
+    <aside id="threads" class="threads" aria-label="Conversations">
+      <div class="threads-head">
+        <div class="threads-title">
+          <h2 class="title-large">Chats</h2>
+          <button id="new-chat-drawer" class="btn tonal" type="button"><svg class="icon"><use href="#i-add"/></svg>New chat</button>
+        </div>
+        <label class="search">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <input id="conv-search" type="search" placeholder="Search chats" aria-label="Search chats" />
+        </label>
+      </div>
+      <nav id="conv-list" class="conv-list" aria-label="Chat history"></nav>
+    </aside>
+
+    <main id="main" class="main" tabindex="-1">
+      <section id="view-chat" class="view" data-view="chat" aria-labelledby="chat-title">
+        <header class="top-bar">
+          <button id="toggle-threads" class="icon-btn" type="button" aria-label="Show chats" aria-controls="threads" aria-expanded="false">
+            <svg class="icon"><use href="#i-menu"/></svg>
+          </button>
+          <h1 id="chat-title" class="title-large ellipsis">New chat</h1>
+          <label class="select">
+            <span class="sr-only">Model</span>
+            <select id="model-select" aria-label="Model"></select>
+          </label>
+          <button id="settings-btn" class="icon-btn" type="button" aria-label="Chat settings">
+            <svg class="icon"><use href="#i-tune"/></svg>
+          </button>
+        </header>
+        <div id="stream" class="stream" role="log" aria-live="polite" aria-relevant="additions"></div>
+        <form id="composer" class="composer">
+          <label class="sr-only" for="prompt">Message</label>
+          <textarea id="prompt" rows="1" placeholder="Ask fw" autocomplete="off"></textarea>
+          <button id="send-btn" class="send" type="submit" aria-label="Send">
+            <svg class="icon"><use href="#i-send"/></svg>
+          </button>
+        </form>
+        <p class="composer-hint label-medium">Enter sends, Shift+Enter adds a line. Chats stay in this browser.</p>
+      </section>
+
+      <section id="view-tools" class="view page" data-view="tools" aria-labelledby="tools-title" hidden>
+        <header class="page-head">
+          <h1 id="tools-title" class="headline-large">Tools</h1>
+          <p id="tools-sub" class="body-large muted">Loading tools from /mcp</p>
+        </header>
+        <ul id="tool-list" class="list" role="list"></ul>
+      </section>
+
+      <section id="view-models" class="view page" data-view="models" aria-labelledby="models-title" hidden>
+        <header class="page-head">
+          <h1 id="models-title" class="headline-large">Models</h1>
+          <p id="models-sub" class="body-large muted">Loading models from /v1/models</p>
+        </header>
+        <ul id="model-list" class="list" role="list"></ul>
+      </section>
+
+      <section id="view-system" class="view page" data-view="system" aria-labelledby="system-title" hidden>
+        <header class="page-head">
+          <h1 id="system-title" class="headline-large">System</h1>
+          <p id="system-sub" class="body-large muted">Checking /health</p>
+          <button id="refresh-system" class="btn tonal" type="button"><svg class="icon"><use href="#i-refresh"/></svg>Check again</button>
+        </header>
+        <div id="system-body" class="system"></div>
+      </section>
+    </main>
+  </div>
+  <div id="scrim" class="scrim" hidden></div>
+
+  <dialog id="settings-dlg" class="dialog" aria-labelledby="settings-title">
+    <form method="dialog" class="dialog-body">
+      <h2 id="settings-title" class="headline-small">Chat settings</h2>
+      <label class="field">
+        <span class="label-large">Instructions for fw</span>
+        <textarea id="sys-prompt" rows="4"></textarea>
+      </label>
+      <label class="field">
+        <span class="label-large">Creativity <output id="temp-val" for="temp-input"></output></span>
+        <input id="temp-input" type="range" min="0" max="2" step="0.1" />
+      </label>
+      <label class="field">
+        <span class="label-large">Chat endpoint</span>
+        <input id="api-endpoint" type="text" spellcheck="false" />
+      </label>
+      <div class="dialog-actions">
+        <button id="clear-all" class="btn text danger" type="button">Delete all chats</button>
+        <button class="btn filled" value="save" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="tool-dlg" class="dialog wide" aria-labelledby="tool-dlg-title">
+    <form method="dialog" class="dialog-body" id="tool-form">
+      <h2 id="tool-dlg-title" class="headline-small">Run tool</h2>
+      <p id="tool-dlg-desc" class="body-medium muted"></p>
+      <label class="field">
+        <span class="label-large">Arguments (JSON)</span>
+        <textarea id="tool-args" rows="6" spellcheck="false" class="code"></textarea>
+      </label>
+      <pre id="tool-result" class="result" hidden></pre>
+      <div class="dialog-actions">
+        <button class="btn text" value="close" type="submit">Close</button>
+        <button id="tool-run" class="btn filled" type="button"><svg class="icon"><use href="#i-play"/></svg>Run</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="snackbar" class="snackbar" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

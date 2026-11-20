@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # Zero-manual installer, updater & uninstaller for fw (Linux & macOS).
-# Install / Update: curl -fsSL https://fw-edge.aphrody-labs.workers.dev/install.sh | sh
-# Uninstall:        curl -fsSL https://fw-edge.aphrody-labs.workers.dev/install.sh | sh -s -- --uninstall
+# Install / Update: curl -fsSL https://fw.aphrody.com/install.sh | sh
+# Uninstall:        curl -fsSL https://fw.aphrody.com/install.sh | sh -s -- --uninstall
 set -eu
 
 REPO="aphrody-labs/fw"

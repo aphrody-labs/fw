@@ -62,21 +62,7 @@ inefficient_to_string = "deny"
 
 [workspace.dependencies]
 # Internal publishable fw-* crates (pinned with version + path for crates.io)
-fw-a2a = { version = "4.2.0", path = "crates/fw-a2a" }
-fw-agent = { version = "4.2.0", path = "crates/fw-agent" }
-fw-agent-context = { version = "4.2.0", path = "crates/fw-agent-context" }
-fw-gemini = { version = "4.2.0", path = "crates/fw-gemini" }
 fw-ggml = { version = "4.2.0", path = "crates/fw-ggml" }
-fw-llama = { version = "4.2.0", path = "crates/fw-llama" }
-fw-llama-sys = { version = "4.2.0", path = "crates/fw-llama-sys" }
-fw-ml = { version = "4.2.0", path = "crates/fw-ml" }
-fw-model = { version = "4.2.0", path = "crates/fw-model" }
-fw-proc = { version = "4.2.0", path = "crates/fw-proc" }
-fw-rag = { version = "4.2.0", path = "crates/fw-rag" }
-fw-rag-core = { version = "4.2.0", path = "crates/fw-rag-core" }
-fw-ring3-agent = { version = "4.2.0", path = "crates/fw-ring3-agent" }
-fw-toolcall = { version = "4.2.0", path = "crates/fw-toolcall" }
-fw-translate-core = { version = "4.2.0", path = "crates/fw-translate-core" }
 fw-compute = { version = "4.2.0", path = "crates/fw-compute" }
 fw-config = { version = "4.2.0", path = "crates/fw-config" }
 fw-http = { version = "4.2.0", path = "crates/fw-http", default-features = false }

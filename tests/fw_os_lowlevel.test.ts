@@ -135,7 +135,8 @@ describe("fw v2.4 polyglot OS, Fat-LTO ABI v4, NTFS, VFS, AI protocols, and low-
     expect(a2a.result.status.state).toBe("completed");
 
     const html = await (await handler(new Request("http://127.0.0.1:4379/"))).text();
-    expect(html).toContain("Fw Chat");
+    expect(html).toContain("<title>fw</title>");
+    expect(html).toContain("/app.js");
 
     const tui = renderFwTui(ROOT);
     expect(tui).toContain("FW OS TUI");
@@ -145,16 +146,15 @@ describe("fw v2.4 polyglot OS, Fat-LTO ABI v4, NTFS, VFS, AI protocols, and low-
 
     const cfHealth = (await (await worker.fetch(new Request("https://fw.example/health"), {})).json()) as { ok: boolean };
     expect(cfHealth.ok).toBe(true);
-    const cfChat = (await (
-      await worker.fetch(
-        new Request("https://fw.example/v1/chat/completions", {
-          method: "POST",
-          body: JSON.stringify({ messages: [{ role: "user", content: "edge-ping" }] }),
-        }),
-        {},
-      )
-    ).json()) as { object: string };
-    expect(cfChat.object).toBe("chat.completion");
+    // Without a Workers AI binding the edge refuses chat explicitly (tests/fw_cloudflare.test.ts covers the live path).
+    const cfChat = await worker.fetch(
+      new Request("https://fw.example/v1/chat/completions", {
+        method: "POST",
+        body: JSON.stringify({ messages: [{ role: "user", content: "edge-ping" }] }),
+      }),
+      {},
+    );
+    expect(cfChat.status).toBe(503);
   });
 
   test("low-level cross-language & cross-architecture builds execute live (C+Asm, Wasm32, CUDA PTX, C++, WGSL, Go, Java)", async () => {

@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const WEB_ROOT = join(import.meta.dir, "..", "web");
+// Single copy of the web UI, shared with `fw serve` (include_str!) and the edge Worker (static assets).
+const WEB_ROOT = join(import.meta.dir, "..", "crates", "fw-proto", "ui");
 
 function readWebAsset(file: string): string {
   return readFileSync(join(WEB_ROOT, file), "utf8");

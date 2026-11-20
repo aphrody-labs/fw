@@ -10,8 +10,17 @@
     "packages/ai-os/engines/*",
     "packages/ai-os/protocols/*"
   ],
+  "catalog": {
+    "@types/bun": "1.4.5",
+    "typescript": "7.0.2"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "wrangler": "4.166.0"
+  },
   "scripts": {
     "check": "uvx ruff check . && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && cargo test --manifest-path native/fw-agy/Cargo.toml && bun test",
+    "test:ci": "cargo build --release -p fw-bin --bin fw && bun run build:abi && bun run build:agy && bun test --timeout=30000",
     "test": "bun test tests && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && cargo test --manifest-path native/fw-agy/Cargo.toml && uv run python -m unittest discover -s tests",
     "build:abi": "cargo build --release --manifest-path native/fw-abi/Cargo.toml",
     "build:agy": "cargo build --release --manifest-path native/fw-agy/Cargo.toml",

@@ -1,5 +1,5 @@
 # Zero-manual installer, updater & uninstaller for fw (Windows PowerShell).
-# Install / Update: irm https://fw-edge.aphrody-labs.workers.dev/install.ps1 | iex
+# Install / Update: irm https://fw.aphrody.com/install.ps1 | iex
 # Uninstall:        fw self-uninstall
 param(
     [string]$Version = "",

@@ -1,8 +1,15 @@
 #![forbid(unsafe_code)]
 
 //! `fw-proto` — Zero-system-dependency unified protocol fabric:
-//! HTTP/1.1, WebSockets (RFC 6455), WebRTC DataChannel SDP signaling, GraphQL,
+//! HTTP/1.1 control plane, WebRTC DataChannel SDP signaling, GraphQL,
 //! OpenAPI 3.1, OpenAI, Gemini Decision 1, MCP, ACP, A2A, and Browser WebGPU/Wasm32 harness.
+
+mod chat;
+mod server;
+mod ui;
+
+pub use chat::{list_models, proxy_chat_completions};
+pub use server::serve;
 
 use fw_apm::unified_pm::scan_unified_workspace;
 use fw_cluster::HybridClusterRouter;
@@ -14,12 +21,13 @@ use fw_fx::tools::{builtin_tool_specs, execute_builtin_tool};
 use fw_hermes_claw::{modern_cli_ranking, protocol_and_agent_ranking, ChannelKind, HermesClawAgent};
 use fw_wayland_wgpu::unified_wgpu_terminal::UnifiedWgpuTerminalApp;
 use serde_json::{json, Value};
-use std::net::SocketAddr;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::net::{TcpListener, TcpStream};
+
+/// Version of the running server, from the workspace manifest.
+pub const FW_VERSION: &str = env!("CARGO_PKG_VERSION");
+
 
 /// Zero-latency in-process MCP tools representing the Linux, Windows, and WebAssembly kernels.
 pub const KERNEL_MCP_TOOLS: &[(&str, &str)] = &[
@@ -79,114 +87,14 @@ pub fn dispatch_kernel_mcp_tool(tool_name: &str, args: &Value) -> Option<Value> 
     }))
 }
 
-pub const CONTROL_PLANE_HTML: &str = include_str!("../../../web/index.html");
-pub const CONTROL_PLANE_CSS: &str = include_str!("../../../web/app.css");
-pub const CONTROL_PLANE_JS: &str = include_str!("../../../web/app.js");
-
-pub const WEBGPU_HTML_HARNESS: &str = r#"<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="light dark" />
-  <title>Fw v4.2 — WebGPU &amp; Wasm32 Compute Harness</title>
-  <meta name="description" content="Live WebGPU WGSL compute shader and WebAssembly capability verification harness for Fw v4.2." />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <link rel="canonical" href="https://fw.aphrody.com/webgpu" />
-  <style>
-    :root {
-      color-scheme: light dark;
-      --md-sys-color-background: #0e1117;
-      --md-sys-color-surface: #151b23;
-      --md-sys-color-outline-variant: #2d3a4d;
-      --md-sys-color-on-surface: #f0f4f8;
-      --md-sys-color-primary: #7cd4fd;
-      --md-sys-typescale-font: "Google Sans Flex", system-ui, -apple-system, sans-serif;
-      --md-sys-typescale-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    }
-    @media (prefers-color-scheme: light) {
-      :root {
-        --md-sys-color-background: #f8fafc;
-        --md-sys-color-surface: #ffffff;
-        --md-sys-color-outline-variant: #cbd5e1;
-        --md-sys-color-on-surface: #0f172a;
-        --md-sys-color-primary: #0369a1;
-      }
-    }
-    body { margin: 0; font-family: var(--md-sys-typescale-font); background: var(--md-sys-color-background); color: var(--md-sys-color-on-surface); padding: 24px; }
-    header, main, footer { max-width: 820px; margin: 0 auto 16px; }
-    section { background: var(--md-sys-color-surface); border: 1px solid var(--md-sys-color-outline-variant); border-radius: 12px; padding: 20px; }
-    h1 { margin: 0 0 8px; font-size: 1.35rem; color: var(--md-sys-color-primary); }
-    pre { background: var(--md-sys-color-background); border: 1px solid var(--md-sys-color-outline-variant); font-family: var(--md-sys-typescale-mono); padding: 12px; border-radius: 8px; overflow: auto; }
-    a { color: var(--md-sys-color-primary); }
-    :focus-visible { outline: 2px solid var(--md-sys-color-primary); outline-offset: 2px; }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Fw v4.2 — WebGPU (Dawn/WGPU) &amp; Wasm32 Compute Harness</h1>
-  </header>
-  <main>
-    <section aria-labelledby="status">
-      <p id="status" role="status" aria-live="polite">Probing WebGPU adapter...</p>
-      <pre id="result">{}</pre>
-    </section>
-  </main>
-  <footer><a href="/">Back to Control Plane</a></footer>
-  <script>
-    window.__fwWebGpuProof = (async () => {
-      const out = { ok: true, hasNavigatorGpu: Boolean(navigator.gpu), adapter: null, computeResult: null };
-      try {
-        if (!navigator.gpu) {
-          out.fallback = 'WebGPU unavailable — graceful CPU/Wasm fallback active';
-        } else {
-          const adapter = await navigator.gpu.requestAdapter();
-          if (adapter) {
-            out.adapter = adapter.info ? { vendor: adapter.info.vendor, architecture: adapter.info.architecture } : { available: true };
-            const device = await adapter.requestDevice();
-            const wgsl = `@group(0) @binding(0) var<storage, read_write> data: array<f32>;
-              @compute @workgroup_size(4) fn main(@builtin(global_invocation_id) id: vec3<u32>) {
-                data[id.x] = data[id.x] * 2.0 + 1.0;
-              }`;
-            const module = device.createShaderModule({ code: wgsl });
-            const pipeline = device.createComputePipeline({ layout: 'auto', compute: { module, entryPoint: 'main' } });
-            const input = new Float32Array([1, 2, 3, 4]);
-            const gpuBuf = device.createBuffer({ size: 16, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST });
-            device.queue.writeBuffer(gpuBuf, 0, input);
-            const readBuf = device.createBuffer({ size: 16, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ });
-            const bindGroup = device.createBindGroup({ layout: pipeline.getBindGroupLayout(0), entries: [{ binding: 0, resource: { buffer: gpuBuf } }] });
-            const enc = device.createCommandEncoder();
-            const pass = enc.beginComputePass();
-            pass.setPipeline(pipeline);
-            pass.setBindGroup(0, bindGroup);
-            pass.dispatchWorkgroups(1);
-            pass.end();
-            enc.copyBufferToBuffer(gpuBuf, 0, readBuf, 0, 16);
-            device.queue.submit([enc.finish()]);
-            await readBuf.mapAsync(GPUMapMode.READ);
-            out.computeResult = Array.from(new Float32Array(readBuf.getMappedRange()));
-            readBuf.unmap();
-          }
-        }
-      } catch (err) {
-        out.error = String(err);
-      }
-      document.getElementById('status').textContent = out.computeResult ? 'WebGPU Compute Verified' : 'WebGPU Fallback Ready';
-      document.getElementById('result').textContent = JSON.stringify(out, null, 2);
-      return out;
-    })();
-  </script>
-</body>
-</html>
-"#;
+pub use ui::{CONTROL_PLANE_CSS, CONTROL_PLANE_HTML, CONTROL_PLANE_JS, WEBGPU_HTML_HARNESS};
 
 pub fn build_openapi_3_1() -> Value {
     json!({
         "openapi": "3.1.0",
         "info": {
-            "title": "Fw v3.0 Unified Zero-Dep Hybrid Cluster API",
-            "version": "3.0.0"
+            "title": "fw control plane",
+            "version": FW_VERSION
         },
         "paths": {
             "/health": { "get": { "summary": "Zero-dep server health" } },
@@ -300,7 +208,7 @@ pub fn dispatch_http(
             json!({
                 "ok": true,
                 "product": "fw",
-                "version": "4.2.0",
+                "version": FW_VERSION,
                 "zeroSystemDeps": true,
                 "consolidatedFeatures": ["fx-rust-agent", "unified-pm", "m3-wgpu-terminal", "kernel-mcp", "hybrid-cluster"]
             })
@@ -328,7 +236,7 @@ pub fn dispatch_http(
             "application/json",
             json!({
                 "name": "Fw v4.2 Consolidated Agent OS",
-                "version": "4.2.0",
+                "version": FW_VERSION,
                 "protocols": ["http", "websocket", "webrtc", "graphql", "openapi-3.1", "openai", "mcp", "acp", "a2a", "ggml-rpc", "gemini-decision-1"],
                 "endpoints": ["/mcp", "/acp", "/a2a", "/v1/chat/completions", "/v1/fx/status", "/v1/pm/scan", "/v1/terminal/m3", "/webgpu"]
             })
@@ -354,57 +262,15 @@ pub fn dispatch_http(
             let mut r = router.lock().unwrap_or_else(|e| e.into_inner());
             (200, "application/json", handle_webrtc_offer(&mut r, &body_json).to_string())
         }
-        ("GET", "/v1/models") => (
-            200,
-            "application/json",
-            json!({
-                "object": "list",
-                "data": [
-                    { "id": "fw-ggml-hybrid", "object": "model", "owned_by": "fw" },
-                    { "id": "gemini-decision-1", "object": "model", "owned_by": "google" }
-                ]
-            })
-            .to_string(),
-        ),
+        ("GET", "/v1/models") => {
+            let cfg = FxConfig::from_env();
+            let api_key = fw_fx::agent::resolve_api_key(&cfg);
+            (200, "application/json", list_models(&cfg, api_key.as_deref()).to_string())
+        }
         ("POST", "/v1/chat/completions") => {
-            let prompt = body_json
-                .get("messages")
-                .and_then(|m| m.as_array())
-                .and_then(|a| a.last())
-                .and_then(|m| m.get("content"))
-                .and_then(|c| c.as_str())
-                .unwrap_or("hello");
-            let requested_tool = body_json
-                .get("tool_choice")
-                .and_then(|v| v.as_str())
-                .or_else(|| {
-                    body_json
-                        .get("tools")
-                        .and_then(|t| t.as_array())
-                        .and_then(|a| a.first())
-                        .and_then(|t| t.get("function").and_then(|f| f.get("name")).or_else(|| t.get("name")))
-                        .and_then(|n| n.as_str())
-                });
-            let kernel_call = requested_tool.and_then(|name| dispatch_kernel_mcp_tool(name, &json!({ "action": "probe" })));
-            let mut r = router.lock().unwrap_or_else(|e| e.into_inner());
-            let route = r.route_request(prompt, true);
-            (
-                200,
-                "application/json",
-                json!({
-                    "id": "chatcmpl-fw-v4",
-                    "object": "chat.completion",
-                    "model": "fw-ggml-hybrid",
-                    "routing": route,
-                    "kernelToolCall": kernel_call,
-                    "choices": [{
-                        "index": 0,
-                        "message": { "role": "assistant", "content": format!("Routed via {} -> prefill={} decode={}", route.proxy_vps, route.prefill_node, route.decode_node) },
-                        "finish_reason": "stop"
-                    }]
-                })
-                .to_string(),
-            )
+            let cfg = FxConfig::from_env();
+            let api_key = fw_fx::agent::resolve_api_key(&cfg);
+            proxy_chat_completions(&cfg, api_key.as_deref(), body_json)
         }
         ("POST", "/mcp") => {
             let id = body_json.get("id").cloned().unwrap_or(json!(1));
@@ -493,7 +359,7 @@ pub fn dispatch_http(
                         "ok": true,
                         "endpoint": path,
                         "method": rpc_method,
-                        "version": "4.2.0",
+                        "version": FW_VERSION,
                         "kernelMcpTools": KERNEL_MCP_TOOLS.iter().map(|(n, _)| *n).collect::<Vec<_>>(),
                         "kernelCall": kernel_res
                     }
@@ -520,7 +386,7 @@ pub fn dispatch_http(
                         "ok": true,
                         "endpoint": path,
                         "method": rpc_method,
-                        "version": "4.2.0",
+                        "version": FW_VERSION,
                         "kernelMcpTools": KERNEL_MCP_TOOLS.iter().map(|(n, _)| *n).collect::<Vec<_>>(),
                         "kernelCall": kernel_res
                     }
@@ -533,59 +399,6 @@ pub fn dispatch_http(
             "application/json",
             json!({ "ok": false, "error": "Not found", "path": path }).to_string(),
         ),
-    }
-}
-
-async fn handle_conn(mut stream: TcpStream, router: Arc<Mutex<HybridClusterRouter>>) {
-    let mut buf = vec![0u8; 65536];
-    let n = match stream.read(&mut buf).await {
-        Ok(n) if n > 0 => n,
-        _ => return,
-    };
-    let req = String::from_utf8_lossy(&buf[..n]);
-    let mut lines = req.lines();
-    let first = lines.next().unwrap_or("");
-    let mut parts = first.split_whitespace();
-    let method = parts.next().unwrap_or("GET");
-    let raw_path = parts.next().unwrap_or("/");
-    let path = raw_path.split('?').next().unwrap_or("/");
-
-    // Detect WebSocket upgrade
-    let is_ws = req.to_ascii_lowercase().contains("upgrade: websocket");
-    if is_ws {
-        let resp = "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nX-Fw-WS: v3.0\r\n\r\n";
-        let _ = stream.write_all(resp.as_bytes()).await;
-        return;
-    }
-
-    let body = req.split("\r\n\r\n").nth(1).unwrap_or("");
-    let (status, content_type, payload) = dispatch_http(&router, method, path, body);
-    let reason = match status {
-        200 => "OK",
-        404 => "Not Found",
-        _ => "Error",
-    };
-    let csp = if path == "/webgpu" {
-        "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'"
-    } else {
-        "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
-    };
-    let resp = format!(
-        "HTTP/1.1 {status} {reason}\r\nContent-Type: {content_type}\r\nX-Content-Type-Options: nosniff\r\nReferrer-Policy: strict-origin-when-cross-origin\r\nContent-Security-Policy: {csp}\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{payload}",
-        payload.len()
-    );
-    let _ = stream.write_all(resp.as_bytes()).await;
-}
-
-pub async fn serve(addr: SocketAddr) -> std::io::Result<()> {
-    let listener = TcpListener::bind(addr).await?;
-    let router = Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster()));
-    loop {
-        let (stream, _) = listener.accept().await?;
-        let r = router.clone();
-        tokio::spawn(async move {
-            handle_conn(stream, r).await;
-        });
     }
 }
 
@@ -608,10 +421,10 @@ mod tests {
         assert_eq!(code, 200);
         assert!(html.contains("navigator.gpu"));
 
-        let (code, _, oai) = dispatch_http(&router, "POST", "/v1/chat/completions", r#"{"messages":[{"role":"user","content":"test"}],"tool_choice":"wasm_kernel_mcp"}"#);
-        assert_eq!(code, 200);
-        assert!(oai.contains("prefill="));
-        assert!(oai.contains("wasm_kernel_mcp"));
+        // Chat is answered by the configured gateway (see chat.rs tests), never synthesized here.
+        let (code, _, oai) = dispatch_http(&router, "POST", "/v1/chat/completions", r#"{"messages":[]}"#);
+        assert_eq!(code, 400);
+        assert!(oai.contains("non-empty"));
 
         // Verify zero-latency Linux, Windows, and WebAssembly kernel MCP tools over /mcp, /acp, /a2a
         let (code, _, mcp_list) = dispatch_http(&router, "POST", "/mcp", r#"{"jsonrpc":"2.0","id":1,"method":"tools/list"}"#);

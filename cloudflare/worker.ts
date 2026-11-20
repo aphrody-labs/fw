@@ -1,3 +1,5 @@
+import packageJson from "../package.json" with { type: "json" };
+
 export interface SqlStorageCursorLike<T = Record<string, unknown>> {
   toArray(): T[];
   one(): T;
@@ -103,12 +105,21 @@ export interface BasinPipelineLike {
   send(records: Array<Record<string, unknown>>): Promise<void>;
 }
 
+export interface WorkersAIModelLike {
+  name: string;
+  description?: string;
+  task?: { name?: string };
+  properties?: Array<{ property_id: string; value: unknown }>;
+}
+
 export interface WorkersAILike {
   run: (model: string, input: Record<string, unknown>) => Promise<unknown>;
+  models?: (params?: { task?: string; per_page?: number; hide_experimental?: boolean }) => Promise<WorkersAIModelLike[]>;
 }
 
 export interface FwWorkerEnv {
   ASSETS?: { fetch: (request: Request | string) => Promise<Response> };
+  CF_VERSION_METADATA?: { id: string; tag?: string; timestamp?: string };
   AI?: WorkersAILike;
   FW_OS?: DurableObjectNamespaceLike;
   LOADER?: DynamicWorkerLoaderLike;
@@ -204,17 +215,11 @@ export interface VfsExecRequest {
   input?: Record<string, unknown>;
 }
 
-const FW_VERSION = "2.5.0";
-const COMPATIBILITY_DATE = "2026-11-12";
+const FW_VERSION: string = packageJson.version;
+/** Must equal `compatibility_date` in wrangler.jsonc; tests/fw_cloudflare.test.ts enforces it. */
+export const COMPATIBILITY_DATE = "2026-11-19";
 const R2_SPILL_THRESHOLD_BYTES = 65_536;
 
-const MODELS = [
-  { id: "@cf/meta/llama-3.3-70b-instruct-fp8-fast", object: "model", owned_by: "cloudflare-ai" },
-  { id: "@cf/qwen/qwen2.5-coder-32b-instruct", object: "model", owned_by: "cloudflare-ai" },
-  { id: "@cf/baai/bge-base-en-v1.5", object: "model", owned_by: "cloudflare-ai" },
-  { id: "@cf/openai/whisper", object: "model", owned_by: "cloudflare-ai" },
-  { id: "fw-edge-router", object: "model", owned_by: "fw" },
-];
 
 export const CLOUDFLARE_EDGE_OS_CATALOG: CatalogEntry[] = [
   {
@@ -2223,17 +2228,156 @@ async function dispatchToTenantDO(
   return getLocalAgent(tenant, env).fetch(req);
 }
 
+export class InferenceUnavailableError extends Error {}
+
+type EdgeModel = { id: string; object: "model"; owned_by: string; description?: string; context_window?: number; function_calling?: boolean; reasoning?: boolean; vision?: boolean; paid?: boolean };
+
+let modelCache: { at: number; models: EdgeModel[] } | null = null;
+const MODEL_CACHE_MS = 10 * 60 * 1000;
+
+function modelProp(m: WorkersAIModelLike, id: string): unknown {
+  return m.properties?.find((p) => p.property_id === id)?.value;
+}
+
+/** Live Workers AI text-generation catalog, without deprecated, LoRA and beta models. */
+export async function listEdgeModels(env: FwWorkerEnv): Promise<EdgeModel[]> {
+  if (!env.AI?.models) return [];
+  if (modelCache && Date.now() - modelCache.at < MODEL_CACHE_MS) return modelCache.models;
+  const raw = await env.AI.models({ task: "Text Generation", per_page: 200, hide_experimental: true });
+  const models = raw
+    .filter((m) => m.name.startsWith("@cf/"))
+    .filter((m) => !["planned_deprecation_date", "lora", "beta"].some((p) => modelProp(m, p) !== undefined))
+    .map((m): EdgeModel => ({
+      id: m.name,
+      object: "model",
+      owned_by: "cloudflare-workers-ai",
+      description: m.description,
+      context_window: Number(modelProp(m, "context_window")) || undefined,
+      function_calling: modelProp(m, "function_calling") !== undefined,
+      reasoning: modelProp(m, "reasoning") !== undefined,
+      vision: modelProp(m, "vision") !== undefined,
+      paid: modelProp(m, "require_workers_paid") !== undefined,
+    }))
+    .sort((x, y) => Number(y.function_calling) - Number(x.function_calling) || (y.context_window ?? 0) - (x.context_window ?? 0) || x.id.localeCompare(y.id));
+  modelCache = { at: Date.now(), models };
+  return models;
+}
+
+/** Default chat model: the largest-context tool-calling model that runs on any plan. */
+export async function defaultEdgeModel(env: FwWorkerEnv): Promise<string> {
+  const models = await listEdgeModels(env);
+  const pick = models.find((m) => m.function_calling && !m.paid) ?? models[0];
+  if (!pick) throw new InferenceUnavailableError("Workers AI returned no text-generation models for this account");
+  return pick.id;
+}
+
+async function resolveModel(env: FwWorkerEnv, requested: unknown): Promise<string> {
+  if (typeof requested === "string" && requested.startsWith("@cf/")) return requested;
+  return defaultEdgeModel(env);
+}
+
+function requireAi(env: FwWorkerEnv): WorkersAILike {
+  if (!env.AI) {
+    throw new InferenceUnavailableError("This Worker has no Workers AI binding: add `\"ai\": { \"binding\": \"AI\" }` to wrangler.jsonc and redeploy");
+  }
+  return env.AI;
+}
+
 async function runInferenceText(
   env: FwWorkerEnv,
-  model: string,
+  requestedModel: unknown,
   messages: Array<{ role: string; content: string }>,
-): Promise<{ text: string; raw?: unknown }> {
-  if (env.AI && model.startsWith("@cf/")) {
-    const raw = await env.AI.run(model, { messages });
-    return { text: extractAiText(raw), raw };
+  options: Record<string, unknown> = {},
+): Promise<{ text: string; model: string; raw: unknown }> {
+  const ai = requireAi(env);
+  const model = await resolveModel(env, requestedModel);
+  const raw = await ai.run(model, { messages, ...options });
+  return { text: extractAiText(raw), model, raw };
+}
+
+function openAiError(status: number, type: string, message: string): Response {
+  return json({ error: { message, type } }, status);
+}
+
+/** Re-frames a Workers AI SSE stream (legacy `response` or OpenAI `choices[].delta`) as OpenAI chat chunks. */
+function toOpenAiChunks(source: ReadableStream<Uint8Array>, model: string): ReadableStream<Uint8Array> {
+  const enc = new TextEncoder();
+  const dec = new TextDecoder();
+  const id = `chatcmpl-cf-${Date.now()}`;
+  const created = Math.floor(Date.now() / 1000);
+  let buffer = "";
+  const chunk = (delta: Record<string, unknown>, finish: string | null) =>
+    enc.encode(`data: ${JSON.stringify({ id, object: "chat.completion.chunk", created, model, choices: [{ index: 0, delta, finish_reason: finish }] })}\n\n`);
+  return source.pipeThrough(
+    new TransformStream<Uint8Array, Uint8Array>({
+      start(controller) {
+        controller.enqueue(chunk({ role: "assistant" }, null));
+      },
+      transform(bytes, controller) {
+        buffer += dec.decode(bytes, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+        for (const line of lines) {
+          const data = line.startsWith("data:") ? line.slice(5).trim() : "";
+          if (!data || data === "[DONE]") continue;
+          try {
+            const ev = JSON.parse(data) as { response?: unknown; choices?: Array<{ delta?: { content?: unknown; reasoning_content?: unknown } }> };
+            const text = typeof ev.response === "string" ? ev.response : ev.choices?.[0]?.delta?.content;
+            const reasoning = ev.choices?.[0]?.delta?.reasoning_content;
+            if (typeof reasoning === "string" && reasoning) controller.enqueue(chunk({ reasoning_content: reasoning }, null));
+            if (typeof text === "string" && text) controller.enqueue(chunk({ content: text }, null));
+          } catch {
+            // Partial or non-JSON keep-alive frames carry no content.
+          }
+        }
+      },
+      flush(controller) {
+        controller.enqueue(chunk({}, "stop"));
+        controller.enqueue(enc.encode("data: [DONE]\n\n"));
+      },
+    }),
+  );
+}
+
+async function handleChatCompletions(request: Request, env: FwWorkerEnv): Promise<Response> {
+  const body = (await request.json().catch(() => null)) as {
+    model?: string;
+    messages?: Array<{ role: string; content: string }>;
+    stream?: boolean;
+    temperature?: number;
+    max_tokens?: number;
+  } | null;
+  if (!body || !Array.isArray(body.messages) || body.messages.length === 0) {
+    return openAiError(400, "invalid_request_error", "`messages` must be a non-empty array");
   }
-  const last = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
-  return { text: `[fw-edge] ${last}` };
+  const options: Record<string, unknown> = {};
+  if (typeof body.temperature === "number") options.temperature = body.temperature;
+  if (typeof body.max_tokens === "number") options.max_tokens = body.max_tokens;
+  try {
+    const ai = requireAi(env);
+    const model = await resolveModel(env, body.model);
+    if (body.stream) {
+      const stream = await ai.run(model, { messages: body.messages, stream: true, ...options });
+      if (!(stream instanceof ReadableStream)) {
+        return openAiError(502, "fw_upstream_error", `${model} did not return a stream`);
+      }
+      return new Response(toOpenAiChunks(stream, model), {
+        headers: { "content-type": "text/event-stream; charset=utf-8", "cache-control": "no-store", "access-control-allow-origin": "*" },
+      });
+    }
+    const raw = await ai.run(model, { messages: body.messages, ...options });
+    return json({
+      id: `chatcmpl-cf-${Date.now()}`,
+      object: "chat.completion",
+      created: Math.floor(Date.now() / 1000),
+      model,
+      choices: [{ index: 0, message: { role: "assistant", content: extractAiText(raw) }, finish_reason: "stop" }],
+      raw,
+    });
+  } catch (err) {
+    if (err instanceof InferenceUnavailableError) return openAiError(503, "fw_no_inference", err.message);
+    return openAiError(502, "fw_upstream_error", String(err instanceof Error ? err.message : err));
+  }
 }
 
 async function handleMcp(
@@ -2465,8 +2609,13 @@ async function handleAcp(
               .map((p) => (p && typeof p === "object" && "text" in p ? String((p as { text?: unknown }).text ?? "") : String(p)))
               .join("\n")
           : "";
-    const model = typeof params.model === "string" ? params.model : "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
-    const { text } = await runInferenceText(env, model, [{ role: "user", content: promptText }]);
+    let text: string;
+    let model: string;
+    try {
+      ({ text, model } = await runInferenceText(env, params.model, [{ role: "user", content: promptText }]));
+    } catch (err) {
+      return json({ jsonrpc: "2.0", id, error: { code: -32001, message: err instanceof Error ? err.message : String(err) } });
+    }
     return json({
       jsonrpc: "2.0",
       id,
@@ -2519,8 +2668,12 @@ async function handleA2A(
       const msg = params.message as { parts?: Array<{ text?: string }> };
       promptText = (msg.parts ?? []).map((p) => p.text ?? "").join("\n");
     }
-    const model = typeof params.model === "string" ? params.model : "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
-    const { text } = await runInferenceText(env, model, [{ role: "user", content: promptText }]);
+    let text: string;
+    try {
+      ({ text } = await runInferenceText(env, params.model, [{ role: "user", content: promptText }]));
+    } catch (err) {
+      return json({ jsonrpc: "2.0", id, error: { code: -32001, message: err instanceof Error ? err.message : String(err) } });
+    }
     const task: A2ATaskRecord = {
       id: taskId,
       tenant,
@@ -2626,6 +2779,9 @@ export default {
     if (request.method === "GET" && STATIC_WEB_PATHS.has(url.pathname) && env.ASSETS) {
       return env.ASSETS.fetch(request);
     }
+    if (request.method === "GET" && url.pathname === "/webgpu" && env.ASSETS) {
+      return env.ASSETS.fetch(new Request(new URL("/webgpu.html", url), request));
+    }
 
     if (url.pathname === "/health") {
       return json({
@@ -2635,6 +2791,7 @@ export default {
         runtime: "cloudflare-workers",
         compatibilityDate: COMPATIBILITY_DATE,
         env: env.FW_ENV ?? "production",
+        deployment: env.CF_VERSION_METADATA ?? null,
         bindings: getBindingSummary(env),
       });
     }
@@ -2671,27 +2828,19 @@ export default {
     }
 
     if (url.pathname === "/v1/models") {
-      return json({ object: "list", data: MODELS });
+      if (!env.AI) {
+        return json({ object: "list", data: [], error: "Workers AI binding `AI` is not configured" });
+      }
+      try {
+        const data = await listEdgeModels(env);
+        return json({ object: "list", data, default: await defaultEdgeModel(env) });
+      } catch (err) {
+        return openAiError(502, "fw_upstream_error", String(err instanceof Error ? err.message : err));
+      }
     }
 
     if (url.pathname === "/v1/chat/completions" && request.method === "POST") {
-      const body = (await request.json().catch(() => ({}))) as {
-        model?: string;
-        messages?: Array<{ role: string; content: string }>;
-      };
-      const model = body.model || "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
-      const messages = body.messages ?? [];
-      const created = Math.floor(Date.now() / 1000);
-      const { text, raw } = await runInferenceText(env, model, messages);
-
-      return json({
-        id: raw !== undefined ? `chatcmpl-cf-${Date.now()}` : `chatcmpl-edge-${Date.now()}`,
-        object: "chat.completion",
-        created,
-        model,
-        choices: [{ index: 0, message: { role: "assistant", content: text }, finish_reason: "stop" }],
-        ...(raw !== undefined ? { raw } : {}),
-      });
+      return handleChatCompletions(request, env);
     }
 
     if (url.pathname === "/v1/embeddings" && request.method === "POST") {
