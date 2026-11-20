@@ -1,33 +1,38 @@
 dir	tier	files	bytes	gate
-(root)	manifest	26	521674	undefined
-.cargo	misc	1	144	bun run check
-.claude	misc	10	21726	bun run check
-.github	misc	9	18961	bun run check
+(root)	manifest	39	451462	bun run check
+.cargo	misc	1	316	bun run check
+.claude	misc	12	23034	bun run check
+.github	misc	15	40494	bun run check
 abi	c-abi	5	15676	bun tools/abi.ts --check
-apps	program	62	284156	bun test ./apps/ay
-assets	misc	2	10869	bun run check
-brand	brand	56	3669872	undefined
-config	misc	30	59025	bun run check
+apps	program	103	1612854	bun test ./apps/ay
+brand	brand	57	3675066	bun tools/tokens-compose.ts --check
+config	shell-config	21	55958	bun tools/shells.ts --check
 corelib	c-asm	50	82826	bun tools/corelib.ts
-crates	rust	1138	11841264	cargo check --workspace
-docs	docs	148	1987776	bun tools/features.ts --check
-locales	misc	2	96055	bun run check
-os	os-layer	2	15127	bun tools/submodules.ts --check
-packages/ai-os	bun-package	501	3469602	bun test ./packages
-packages/automate	bun-package	15	192000	bun test ./packages
-packages/chromium	bun-package	7	10519	bun test ./packages
-packages/chromium-releases	bun-package	40	166289	bun test ./packages
-packages/core	bun-package	21	137552	bun test ./packages
-packages/edge-stack	bun-package	3	5923	bun test ./packages
+cpp	cpp	4	6374	bazelisk test //cpp/...
+crates	rust	336	4625708	cargo check --workspace
+docs	docs	115	1554174	bun tools/features.ts --check
+kotlin	kotlin	11	73514	bun tools/compose-check.ts
+locales	i18n-catalog	2	96055	bun test ./packages/auto-i18n
+packages/auto	bun-package	2	1929	bun test ./packages
+packages/auto-client	bun-package	4	25959	bun test ./packages
+packages/auto-domain	bun-package	7	35680	bun test ./packages
+packages/auto-i18n	bun-package	4	30229	bun test ./packages
+packages/auto-native	bun-package	7	6152901	bun test ./packages
+packages/auto-platform	bun-package	7	40685	bun test ./packages
+packages/auto-services	bun-package	11	79195	bun test ./packages
+packages/auto-store	bun-package	16	144383	bun test ./packages
+packages/automate	bun-package	15	192036	bun test ./packages
+packages/cf-control-plane	bun-package	12	113669	bun test ./packages
+packages/core	bun-package	21	137540	bun test ./packages
+packages/edge-stack	bun-package	5	11306	bun test ./packages
 packages/env-kit	bun-package	204	1062703	bun test ./packages
 packages/ffi	bun-package	23	91859	bun test ./packages
 packages/ghidra	bun-package	29	180908	bun test ./packages
-packages/gnu	bun-package	20	125629	bun test ./packages
 packages/node-compat	bun-package	8	18385	bun test ./packages
-packages/omniu	bun-package	417	670989	bun test ./packages
-packages/org-mirror	bun-package	50	329945	bun test ./packages
+packages/omniu	bun-package	417	670985	bun test ./packages
+packages/org-mirror	bun-package	50	330090	bun test ./packages
 packages/py2bun	bun-package	24	136011	bun test ./packages
 packages/wck	bun-package	38	9365619	bun test ./packages
-patches	misc	1	17283	bun run check
-scripts	misc	8	24673	bun run check
-tools	typed-bun	76	593593	bun test ./tools/
+patches	dependency-patch	1	941	bun install --frozen-lockfile
+python	python	4	9283	uv run pytest
+tools	typed-bun	113	810390	bun test ./tools/

@@ -1,21 +1,33 @@
 # ay
 
-Unified **`kiri` + `just`** task runner, recipe engine, and monorepo build/dev orchestrator (`https://github.com/libracoder/kiri` + `https://github.com/casey/just` model), plus Aphrody's C ABI, corelib, cloud/edge tooling, and design tokens. All OS, kernel, POSIX, Windows, AI, ML, inference, MCP, and ACP layers live in `fw`. Names, hosts and domains come from `ay.toml`; the agent contract is `AGENTS.md`.
+The SDK of Aphrody and the registry of its workspace: the C ABI and the freestanding corelib, the design tokens, the cloud and edge tooling (Cloudflare, Vercel, Bun), the reverse-engineering suite, the Auto product and the workspace orchestration over the sibling repositories (`fw`, `aphrody`, `nie`, `shenron`, ...). `ay` may depend on `fw` through sibling paths, never the reverse. Names, hosts and domains come from `ay.toml`; the agent contract is `AGENTS.md`.
 
 ## Layout
 
 | Path | Holds | Gate |
 |---|---|---|
 | `abi/`, `corelib/` | C ABI, freestanding corelib (C, assembly) | `bun tools/abi.ts --check`, `bun tools/corelib.ts` |
-| `crates/` | Rust workspace (`ay-*` core/SDK/cloud/browser/media) | `cargo check --workspace` (on the build host) |
-| `packages/` | Bun packages (chromium, cf-control-plane, edge-stack, auto-*, ...) | `bun test ./packages` |
-| `apps/` | Programs: `ay` CLI, `edge` Worker, `cf-gateway`, `chromium-dash`, `tools-release`, `auto-*` | `bun test ./apps/ay` |
-| `tools/` | Typed Bun scripts: checks, generators, Cloudflare operations | `bun test ./tools/` |
+| `crates/` | Rust workspace (`ay-core`, `ay-re`, `ay-cf`, `ay-media`, `ay-design`, `ay-vault`, `auto-*`, ...) | `cargo check --workspace` (on the build host) |
+| `packages/` | Bun packages (cf-control-plane, edge-stack, env-kit, org-mirror, auto-*, ...) | `bun test ./packages` |
+| `apps/` | Programs: `ay` CLI, `edge` Worker, `cf-gateway`, `tools-release`, `auto-*` | `bun test ./apps/ay` |
+| `python/` | Python workspace (uv): Cloudflare SDK and control-plane models | `just py-check` |
+| `cpp/` | C++23 units built with Bazel | `just cpp-check` |
+| `kotlin/` | Gradle workspace: the Aphrody Compose theme | `bun tools/compose-check.ts` |
+| `config/` | Shell and CLI configs installed by `tools/shells.ts` | `bun tools/shells.ts --check` |
+| `locales/` | Message catalogs of the Auto product | `bun test ./packages/auto-i18n` |
+| `patches/` | Bun `patchedDependencies` | `bun install --frozen-lockfile` |
+| `tools/` | Typed Bun scripts: checks, generators, Cloudflare operations, workspace orchestration | `bun test ./tools/` |
 | `brand/` | Design tokens (Material 3) and generated themes | `bun tools/tokens-compose.ts --check` |
 | `docs/` | Spec, architecture, ADRs, feature matrix | `bun tools/features.ts --check` |
-| `os/`, `third_party/` | Linux layer, upstream submodules | `bun tools/submodules.ts --check` |
+| `third_party/` | Upstream forks as submodules (`submodules.toml`, relative URLs) | `bun tools/submodules.ts --check` |
 
 Per-directory tier and gate: `map.toml`. Generated output goes to the git-ignored `.private/`.
+
+## Workspace
+
+`ay.toml` [repos] is the registry of the live repositories (one slug each, all under `aphrody-labs`; `[retired]` lists the archived ones). They are sibling
+checkouts under one root, in stack order `fw`, `aphrody`, `ay`, `nie`, `shenron`. `tools/workspace.ts` and `workspace.just` (imported by the root
+`justfile`) report their status, audit them against the registry, pull them and run one repository's recipes. Each upstream fork is checked out by exactly one repository.
 
 ## Commands
 

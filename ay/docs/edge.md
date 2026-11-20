@@ -152,8 +152,8 @@ have no DNS record yet: `cf-reconcile` lists the records to create.
 
 **HTTP/3 in Bun servers.** `Bun.serve` implements HTTP/3 itself (oven-sh/bun `docs/runtime/http/server.mdx`, experimental): `http3: true` with `tls` listens on the same port over TCP
 (HTTP/1.1, with `Alt-Svc`) and UDP (QUIC); `http1: false` makes it UDP only. `packages/edge-stack` `listenOptions()` reads `AY_TLS_CERT`, `AY_TLS_KEY` (PEM files, optional `AY_TLS_CA`) and
-`AY_HTTP3` (`1` default once TLS is set, `only`, `0`), and `apps/auto-server` (self-hosted), `apps/chromium-dash` and `packages/org-mirror` spread it into `Bun.serve`;
-`packages/edge-stack/test/serve.test.ts` proves an h3 round trip, the Alt-Svc of the TCP response, and h3-only with no TCP listener. The other Bun servers (the `ai-os` gateway, terminal and RPC servers, the ai-triad gateway, the pi-opencode UI, the env-kit OAuth callbacks) do not read these options: they are local endpoints, or reached through
+`AY_HTTP3` (`1` default once TLS is set, `only`, `0`), and `apps/auto-server` (self-hosted) and `packages/org-mirror` spread it into `Bun.serve` (as does `apps/chromium-dash` in `browser`);
+`packages/edge-stack/test/serve.test.ts` proves an h3 round trip, the Alt-Svc of the TCP response, and h3-only with no TCP listener. The other Bun servers (the env-kit OAuth callbacks, and the agent gateways and terminal servers of `fw`) do not read these options: they are local endpoints, or reached through
 the Cloudflare edge or the tunnels, which terminate HTTP/3 for them. One that must become a public listener gets `...listenOptions()` in its `Bun.serve` call. Never set
 `BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP2_CLIENT` or `BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP3_CLIENT` in the Windows environment; the tests need neither.
 

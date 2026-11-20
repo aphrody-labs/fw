@@ -19,9 +19,17 @@ gate = "bun test ./apps/ay"
 tier = "brand"
 gate = "bun tools/tokens-compose.ts --check"
 
+[config]
+tier = "shell-config"
+gate = "bun tools/shells.ts --check"
+
 [corelib]
 tier = "c-asm"
 gate = "bun tools/corelib.ts"
+
+[cpp]
+tier = "cpp"
+gate = "bazelisk test //cpp/..."
 
 [crates]
 tier = "rust"
@@ -31,13 +39,25 @@ gate = "cargo check --workspace"
 tier = "docs"
 gate = "bun tools/features.ts --check"
 
-[os]
-tier = "os-layer"
-gate = "bun tools/submodules.ts --check"
+[kotlin]
+tier = "kotlin"
+gate = "bun tools/compose-check.ts"
+
+[locales]
+tier = "i18n-catalog"
+gate = "bun test ./packages/auto-i18n"
 
 [packages]
 tier = "bun-package"
 gate = "bun test ./packages"
+
+[patches]
+tier = "dependency-patch"
+gate = "bun install --frozen-lockfile"
+
+[python]
+tier = "python"
+gate = "uv run pytest"
 
 [third_party]
 tier = "submodule"

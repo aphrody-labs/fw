@@ -113,6 +113,13 @@ export const COMMANDS: readonly CommandEntry[] = [
     summary: "Cross-platform shell environment diagnostics",
   },
   {
+    name: "workspace",
+    category: "runtime",
+    kind: "tool",
+    target: "tools/workspace.ts",
+    summary: "Workspace orchestrator: status, audit, pull and recipes across the sibling repositories of ay.toml [repos]",
+  },
+  {
     name: "ts",
     category: "runtime",
     kind: "tool",

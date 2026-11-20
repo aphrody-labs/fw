@@ -1,38 +1,45 @@
 # Architecture
 
-Updated 2026-11-19. `ay` is the SDK of Aphrody (ADR-0008): C and its derivatives, assembly, Rust, Zig, WebGPU, Python, .NET and
-Bun, each where it fits. The complete OS, in pure Rust, is `aphrody-dev/aphrody` and is the source of truth; the dependency
-points from `aphrody` to `ay`, never the other way, and `ay` embeds no checkout of another repository (one local checkout
-per repository, forks and upstreams as submodules with relative URLs). Independence rule: see below. Decisions are in `docs/adr/` (index in
-`docs/adr/README.md`).
+Updated 2026-11-20. `ay` is the SDK of Aphrody (ADR-0008): C and its derivatives, assembly, Rust, Zig, WebGPU, Python, .NET and
+Bun, each where it fits. The workspace is one root with sibling repositories, in stack order: `fw` (toolchain and agent runtime), `aphrody`
+(OS and desktop), `ay` (this SDK), `nie` (games and engine), `shenron`; `browser`, `wiki`, `fw-nt`, `bun`, `craft-anything` and `standard`
+(`aphrody-labs/.github`) are satellites (keys of `ay.toml` [repos]). `ay` may depend on `fw`, which is lower in the stack, through
+sibling paths; `fw` never depends on `ay`. Independence rule: see below. Decisions are in `docs/adr/` (index in `docs/adr/README.md`).
+
+Workspace role: `ay.toml` [repos] is the registry of the live repositories, `tools/workspace.ts` and `workspace.just` (imported by
+the root `justfile`) report the status of the sibling checkouts under one root, audit them against the registry, pull them and run recipes in them. Each upstream fork is checked out by exactly one
+repository: `fw-nt` owns the Windows/NT forks (`forks.toml`), `aphrody` the UI/GPU forks (pinned Cargo git dependencies), `ay` the
+forks of `submodules.toml`.
 
 ## Tree of this repository
 
 ```
 ay.toml          the only identity and configuration source: orgs, hosts, products, repos, sdk targets, domains
-justfile         Pop!_OS / COSMIC-style command runner (check, submodules, dedup, deploy, sessions, sync-host, plan, clean)
+justfile         SDK recipes (check, submodules, dedup, deploy, cf-*, py-check, cpp-check, sessions, sync-host, plan, clean); imports workspace.just
+workspace.just   workspace-wide recipes (status, audit, manifests, pull, tools, cache, in), driven by tools/workspace.ts
 submodules.toml  declarative pin manifest for submodules rendered into .gitmodules and 160000 gitlinks
-package.json     Bun workspace: private, workspaces = ["packages/*", "apps/*"], no root dependencies
+package.json     Bun workspace: private, workspaces = ["packages/*", "packages/env-kit/*", "apps/*"]
 abi/             the ABI spec (ay.abi.toml) and the bindings generated from it (ADR-0011); the C header is generated into corelib/include
 corelib/         the SDK corelib: freestanding C23 + assembly + WAT, the C ABI header, WIT world, conformance hosts and proofs
-packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: ai-os (agent kernel, MCP, A2A, LLM discovery, RAG), automate, cf-control-plane (Cloudflare manifest, FinOps, reconcile, cluster configs), chromium, chromium-releases, core, edge-stack (Cloudflare-OS + Vercel Bun SDK), env-kit, ffi, ghidra, gnu, node-compat, omniu, org-mirror, py2bun, wck; the Auto product keeps its own prefix: auto (SDK entry) and aphrody-auto/client, auto-domain, aphrody-auto/i18n, auto-native, auto-platform, auto-services, auto-store
-os/              OS platform pins and submodules: os/linux (kernel PKGBUILD + Rust userland map), os/nt (aynt), os/aphrody
+packages/        Bun/TypeScript packages, flat, named @aphrody/ay-<unit>: automate, cf-control-plane (Cloudflare manifest, FinOps, reconcile, cluster configs), core, edge-stack (Cloudflare-OS + Vercel Bun SDK), env-kit, ffi, ghidra, node-compat, omniu, org-mirror, py2bun, wck; the Auto product keeps its own prefix: auto (SDK entry) and auto-client, auto-domain, auto-i18n, auto-native, auto-platform, auto-services, auto-store
 config/          shell and CLI configs (env.toml, links.toml, bash, pwsh, git, helix, starship, yazi) installed by tools/shells.ts
-apps/            programs a person runs, one folder each: chromium-dash, agents (agent harness: runner, GitHub events, plugins), ai-gateway (model gateway overlay), cf-gateway and tools-release (Cloudflare Workers), auto-server, auto-ui, auto-cli, auto-extension, auto-desktop (the Auto product; auto-ui and auto-desktop are standalone Cargo workspaces)
-python/          Python workspace (uv, root pyproject.toml): ay_cf_py (Cloudflare SDK and Pydantic control-plane models)
+apps/            programs a person runs, one folder each: ay (the CLI), edge (the unified Worker), cf-gateway and tools-release (Cloudflare Workers), auto-server, auto-ui, auto-cli, auto-extension, auto-desktop (the Auto product; auto-ui and auto-desktop are standalone Cargo workspaces)
+python/          Python workspace (uv, root pyproject.toml, uv.lock): ay_cf_py (Cloudflare SDK and Pydantic control-plane models)
 cpp/             C++23 units built with Bazel (root MODULE.bazel): edge_abi
 kotlin/          Kotlin workspace (Gradle wrapper, AGP, version catalog): aphrody-theme, the Aphrody Compose theme compiled in place from brand/tokens/compose and published as com.aphrody:aphrody-theme (group from ay.toml [domains], version from Cargo.toml) to the GitHub Packages Maven registry; gate `bun tools/compose-check.ts` (runs on the build host)
 brand/           identity dataset and assets; the token pipeline (Bun) is its generator
-tools/           typed Bun scripts for every repeatable flow (features, submodules, paths, private-gate, abi, hosts, disks, listings, absorb, legacy, org-inventory, cloud-map, deploy, claude-sessions, linux-*, rust-map, shells)
+locales/         message catalogs (TSV) of the Auto product, read by packages/auto-i18n
+patches/         Bun patchedDependencies of the root package.json
+tools/           typed Bun scripts for every repeatable flow (features, submodules, workspace, paths, private-gate, abi, hosts, disks, listings, legacy, org-inventory, cloud-map, deploy, claude-sessions, shells, map)
 docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, science (cited async, recursion, compiler, OS foundations), research, guides
-third_party/     upstreams as submodules with relative URLs (DioxusLabs, Pop!_OS/COSMIC, Cloudflare including net, runtime, rust, sdk, agents and python forks, Vercel, media codecs under third_party/media, Browser+VPN, Bun, Nysh, better-auth), one checkout each; submodules.toml also records each fork upstream
-crates/          Rust crates of the SDK, directory named like the crate, hyphens only. One crate per domain, no default features on the merged ones: a feature names a capability, `full` turns them all on, and each merged crate depends on itself with `full` in `[dev-dependencies]` so `cargo test` covers every feature. `ay-a2a` (protobuf, client, server, coordinator, grpc, rustls), `ay-agent` (home, proto, tools, guard, patch, jev, jev-client, jev-server, rollout, subsystem), `ay-model` (store, client, antigravity, infer, onnx, embed, embed-native, embed-candle, embed-fastembed, embed-server, gateway), `ay-gemini` (boq, web, runtime, google), `ay-llama` (server, in-process, llguidance, sampler), `ay-ml` (config, runtime, jobs), `ay-toolcall` (repair, mcp), `ay-rag` (rag, embed-native, embed-ort, sql, sqlite, postgres, vec, localstore, codegraph, fsindex, memory, ocr), `ay-design` (brand, dioxus, svg, raster, glyph, symbols, softraster, sprites), `ay-build` (deps, siso), `ay-cf` (assets, edge), `ay-media` (luma, hls), `ay-sh` (pty), `ay-http` (client, server, blocking, selfsigned), `aphrody-auto` in `auto-sdk` (runtime, auth, client, docs, facturx, files, i18n, knowledge, model, sheets, theme). A wasm32 consumer names the features it needs with `default-features = false`. Separate crates and why: `ay-llama-sys` (FFI to llama.cpp), `auto-ffi` (cdylib, staticlib and wasm32 C ABI), `ay-core` capi and jni (C ABI, JNI), `ay-agent-context` (pyo3 cdylib, module name `agent_core`), `ay-vault` (cdylib C ABI of the vault), `ay-chromium` (cdylib, downloads CEF in its build script), `ay-ghidra-bun` (cdylib), `ay-rag-core` (I/O-free core loaded by the Bun wasm package), `ay-secrets` (wasm32-safe secret store used by `ay-model`, `ay-accounts` and the vault), `ay-config`, `ay-proc`, `ay-app-protocol` and `ay-translate-core` (wasm32-safe cores that every other crate depends on), `ay-accounts` (OS keyring OAuth, bin `ay-accounts`), `ay-ring3-agent` (Windows daemon with its own bins), `ay-headless` (browser SDK on path dependencies), `ay-core` and `ay-re` (the monorepo facts engine and the reverse-engineering suite, 52 000 lines with their own feature graph)
+third_party/     upstreams as submodules with relative URLs (`../<name>.git` in the same organization): DioxusLabs, COSMIC toolkit, Cloudflare (net, runtime, rust, sdk, agents and python forks), Vercel, media codecs under third_party/media, Bun, better-auth, one checkout each; submodules.toml also records each fork upstream. Forks owned by another repository (niubash, rubash, ruline, wgpu in `fw-nt`; taffy, accesskit, cosmic-text, mullvad, yt-dlp in `aphrody`) are not checked out here
+crates/          Rust crates of the SDK, directory named like the crate, hyphens only: `ay-core` (facts engine, C ABI capi and JNI), `ay-re` (reverse-engineering suite), `ay-ghidra-bun` (cdylib), `ay-vault` (cdylib C ABI of the vault), `ay-build` (deps, siso), `ay-cf` (assets, edge), `ay-media` (luma, hls), `ay-design` (brand, dioxus, svg, raster, glyph, symbols, softraster, sprites), `ay-accounts` (OS keyring OAuth), `ay-app-protocol`, `aphrody-auto` in `auto-sdk` and `auto-ffi` (the Auto product). The HTTP stack, configuration, secrets, agents, models, RAG and shells live in `fw`. A merged crate has no default features: a feature names a capability, `full` turns them all on, and the crate depends on itself with `full` in `[dev-dependencies]` so `cargo test` covers every feature
 ```
 
 Rules:
 - A folder exists only with a working, tested unit; manifests list only members that build.
 - Code shared by two repositories lives in a package or in `corelib/`; a product lives in the repository that owns it.
-- Upstreams are submodules, never copies. Chromium is fetched with depot_tools `gclient`.
+- Upstreams are submodules, never copies, and one repository of the workspace checks out each fork. Chromium is fetched with depot_tools `gclient` by `browser`.
 - Nothing generated is committed (logs, reports, dumps), except the artifacts a check compares (`docs/features.md`);
   generators are committed instead.
 - Hosts are named by role in `ay.toml`: builds on `build`, tests on `test`, production on `prod`; their paths come from
@@ -47,16 +54,16 @@ inventories, telemetry, research notes, the work ledger and the plan page; `AY_P
 when a tracked file repeats a value of `ay.local.toml`, a user profile or home path, an e-mail address or a public IPv4 address.
 
 ## Independence
-Every Aphrody repository, `ay` included, builds, tests and releases alone from a clean clone (scheme: `aphrody-labs/.github` `naming/NAMING.md`;
-this repository declares its own names in `naming.toml`).
-- The sibling checkouts listed under `ay.toml` [repos] (`checkout = "../x"`) are optional local hints. No tool, test or CI job of
-  `ay` requires one: a tool that can use a sibling takes it from a flag, an environment variable or the hint, and otherwise skips or
+Dependencies point down the stack (scheme: `aphrody-labs/.github` `naming/NAMING.md`; this repository declares its own names in `naming.toml`):
+`ay` may depend on `fw`, which is lower, through sibling paths (`../fw`, resolved from the workspace root, or the `checkout` hint of
+`ay.local.toml`); `fw` never depends on `ay`. Toward every other repository `ay` stays independent.
+- A tool or test of `ay` that can use another sibling takes it from a flag, an environment variable or the hint, and otherwise skips or
   falls back (`tools/recover.ts` scans only the checkouts that exist; `tools/legacy.ts` skips when the legacy checkout is absent).
-- CI never checks out, triggers or waits for another repository.
-- Another repository is used through a published version, or a pinned commit that the tool fetches itself into a gitignored cache
-  directory inside this repository, always behind a skip or a fallback; never through a path next to this repository.
-- The slugs in `[repos]` are metadata (owners of matrix rows, inventory targets), not dependencies.
-- Published names are never freed: `naming.toml` [legacy] lists them, new units use `ay-<unit>` (crates `ay-design`, `ay-chromium`,
+- CI checks out `fw` as a sibling when a job builds code that depends on it; it never triggers or waits for another repository.
+- Any other repository is used through a published version, or a pinned commit that the tool fetches itself into a gitignored cache
+  directory inside this repository, always behind a skip or a fallback.
+- The slugs in `[repos]` are the workspace registry (owners of matrix rows, inventory targets, `tools/workspace.ts`).
+- Published names are never freed: `naming.toml` [legacy] lists them, new units use `ay-<unit>` (crates `ay-design`, `ay-media`,
   npm `@aphrody/ay-<unit>`).
 
 ## Toolchain
@@ -68,28 +75,25 @@ GPUs, ABIs) are the lists in `ay.toml` [sdk]; a target is supported only when CI
 ## The ecosystem, by repository
 Keys are those of `ay.toml` [repos]; the matrix owner of every feature row is one of them.
 
-| Repository | Role | State 2026-11-18 |
-|---|---|---|
-| `aphrody-dev/aphrody` | The OS in pure Rust, source of truth; native UI (GPUI, COSMIC, `gpui_app_shell`, `os_craft`); owns `aphrody.com` and `aphrody.app` | Owned by another agent; read-only for this repository |
-| `aphrody-dev/ay` | SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc, design system | This repository |
-| `aphrody-dev/anu` | Absorbed into this repository on 2026-11-18 (`os/linux`, `tools/linux-*.ts`, `tools/rust-map.ts`) | Absorbed |
-| `aphrody-dev/ai-os` | Absorbed into this repository on 2026-11-18 (`../fw/packages/ai-os`, `crates/ay-*`, `apps/agents`, `apps/ai-gateway`); archived | Read only |
-| `aphrody-dev/aysh` | Absorbed into this repository on 2026-11-18 (`crates/ay-sh`, `crates/ay-sh`, `config/`, `packages/omniu`, `tools/shells.ts`) | Absorbed |
-| `aphrody-dev/ay-tools` | `ay-build/deps` (`crates/ay-build`, feature `deps`), `ay-re` (`crates/ay-re`, `crates/ay-ghidra-bun`), and `env-kit` (`packages/env-kit`) absorbed; archived | Read only |
-| `aphrody-dev/aydroid` | AOSP with Aphrody in place of Android | Empty repository, no content yet |
-| `aphrody-dev/aynt` | A free Windows-compatible operating system (fork of ReactOS) | Fork |
-| `aphrody-labs/browser` | One browser monorepo: Bun, Servo, Obscura, agent-browser, CEF/Chromium | Receives `ay-chromium` |
-| `aphrody-labs/bun` | The Bun fork, the Cloud edge runtime and its plugins | Fork |
-| `aphrody-labs/craft-anything` | Replication engine, consumed by `aphrody` as `vendor/craft-anything` | Fork |
-| `aphrody-labs/open` | Open ecosystem (opencode, opentui, models.dev) | Own agent |
-| `aphrody-labs/auto` | Absorbed into this repository on 2026-11-19 (`apps/auto-*`, `packages/auto*`, `crates/auto-*`, `docs/auto`, `tools/auto-*`); archived | Read only |
-| `aphrody-labs/ay-cf` | Absorbed into this repository on 2026-11-19 (`packages/cf-control-plane`, `apps/cf-gateway`, `apps/tools-release`, `tools/cf-*`, `python/`, `cpp/`, `third_party/cloudflare`); archived | Read only |
-| `aphrody-labs/ay-media` | Absorbed into this repository on 2026-11-19 (`crates/ay-media-*`, `third_party/media`); archived | Read only |
-| `aphrody-labs/aphrody-m3` | Material 3 UI packages, icons, fonts | Consumes the `ay` token pipeline |
-| `aphrody-labs/nie` | Football games built as craft jobs | Own agent |
-| `rose-griffon/rosegriffon` | Rose Griffon monorepo, moved from `aphrody-labs` to its own organization | Own agent |
-| `aphrody-labs/.github` | The organization standard 1.0.0, defaults, reusable CI, profile | See `docs/standard.md` |
-| `aphrody-labs/legacy` | The old monorepo, preserved archive, workflows disabled | Read only |
+| Repository | Role |
+|---|---|
+| `aphrody-labs/fw` | Toolchain and agent runtime: Rust CLI, MCP/ACP/A2A, inference, shells, the agent plugin; lower in the stack than `ay` |
+| `aphrody-labs/aphrody` | The OS and desktop (Zed fork, GPUI, compositor, installer); owns `aphrody.com`, `aphrody.app` and the UI/GPU forks |
+| `aphrody-labs/ay` | This repository: SDK (C ABI, corelib, OpenAPI, design tokens), cloud/edge, workspace orchestration |
+| `aphrody-labs/nie` | Game engine and recompiler (Inazuma Eleven: Victory Road first) |
+| `aphrody-labs/shenron` | dragonballfr.com, Bun only; owns `data/` and the `@aphrody/shenron-*` packages |
+| `aphrody-labs/wiki` | Rust workspace of `shenron` (koharu, dragon-pixel, shenron-* crates) |
+| `aphrody-labs/browser` | One browser workspace: Blink headless, Servo/Obscura lite engine, agent-browser, the Chromium release datasets and dashboards |
+| `aphrody-labs/fw-nt` | NT operating system around `fw`; owns the Windows/NT forks |
+| `aphrody-labs/bun` | The Bun fork, the Cloud edge runtime and its plugins |
+| `aphrody-labs/craft-anything` | Replication engine, consumed by `aphrody` as `vendor/craft-anything` |
+| `aphrody-labs/.github` | The organization standard 1.0.0, defaults, reusable CI, profile (see `docs/standard.md`) |
+
+Absorbed here and archived: `aphrody-labs/auto` (2026-11-19: `apps/auto-*`, `packages/auto*`, `crates/auto-*`, `docs/auto`, `tools/auto-*`),
+`aphrody-labs/ay-cf` (2026-11-19: `packages/cf-control-plane`, `apps/cf-gateway`, `apps/tools-release`, `tools/cf-*`, `python/`, `cpp/`,
+`third_party/cloudflare`), `aphrody-labs/ay-media` (2026-11-19: `crates/ay-media`, `third_party/media`). Repositories that left the live stack
+(`anu`, `ai-os`, `aydroid`, `open`, `aphrody-m3`, `claude`, `aynt`, `rosegriffon`) are the `[retired]` table of `ay.toml`, each with its reason; `aphrody-labs/legacy` is the
+preserved archive of the old monorepo.
 
 ## Products and their stacks
 | Product | Stack | Owner repository | ADR |
@@ -112,6 +116,6 @@ other repositories depend on `com.aphrody:aphrody-theme` and never copy it) and 
 shape, type, motion, elevation and state). Figma is the visual source and is mirrored to code through variables and Code
 Connect (`docs/mirrors.toml`). `aphrody-m3` and `aphrody` consume the output and do not regenerate it.
 
-## Native UI lives in aphrody-dev/aphrody
-GPUI, gpui-kit, COSMIC and iced, the desktop shell and the Craft native UI belong to `aphrody-dev/aphrody` (a Zed fork).
+## Native UI lives in aphrody-labs/aphrody
+GPUI, gpui-kit, COSMIC and iced, the desktop shell and the Craft native UI belong to `aphrody-labs/aphrody` (a Zed fork).
 No GPUI or COSMIC code is written here. The browser and the web products do not depend on it.

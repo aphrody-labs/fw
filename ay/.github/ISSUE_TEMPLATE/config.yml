@@ -1,5 +1,5 @@
 blank_issues_enabled: true
 contact_links:
   - name: Vulnérabilité de sécurité
-    url: https://github.com/aphrody-dev/ay/security/advisories/new
+    url: https://github.com/aphrody-labs/ay/security/advisories/new
     about: Signalement privé, jamais dans une issue publique.

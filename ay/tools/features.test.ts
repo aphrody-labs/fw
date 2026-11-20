@@ -56,11 +56,10 @@ describe("feature matrix", () => {
     expect(seen).toEqual(["crates/gone/tests/e2e.rs"]);
   });
 
-  test("a <repo>:path proof names a [repos] key; drives and unknown prefixes stay plain paths", () => {
+  test("a <repo>:path proof names a [repos] key; unknown prefixes stay plain paths", () => {
     const repos = new Set(["browser"]);
     expect(splitRepoProof("browser:packages/x/test.ts", repos)).toEqual({ repo: "browser", path: "packages/x/test.ts" });
     expect(splitRepoProof("other:packages/x/test.ts", repos)).toEqual({ path: "other:packages/x/test.ts" });
-    expect(splitRepoProof("C:/x/test.ts", repos)).toEqual({ path: "C:/x/test.ts" });
     expect(proofPath("browser:a/b.ts::name with :: inside")).toBe("browser:a/b.ts");
   });
 

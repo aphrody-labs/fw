@@ -664,7 +664,7 @@ export async function collectLiveTelemetry(opts: {
   root?: string;
 } = {}): Promise<QuotaTelemetry> {
   const cfg = readAy(opts.root ?? repoRoot) as {
-    orgs?: { dev?: string };
+    orgs?: { dev?: string; labs?: string };
     hosts?: Partial<Record<HostRole, string>>;
     repos?: Record<string, { slug?: string }>;
   };
