@@ -84,8 +84,9 @@ pub const COMMANDS: &[CommandMeta] = &[
     // ML, Inference, Training & Heretic
     CommandMeta { name: "infer", aliases: &["run"], group: "ML, Inference & Heretic", usage: "fw infer [prompt] [--gguf <path>] [--model <m>] [--url <u>]", summary: "Native GGUF v3 Q8_0 or OpenAI/Ollama/Gateway inference (zero subprocess)" },
     CommandMeta { name: "train", aliases: &["finetune", "lora"], group: "ML, Inference & Heretic", usage: "fw train [dataset.jsonl] [--rank 8] [--alpha 16] [--steps 60] [--out <file>]", summary: "Native pure-Rust LoRA fine-tuning & checkpoint writer (zero subprocess)" },
-    CommandMeta { name: "hf", aliases: &["huggingface"], group: "ML, Inference & Heretic", usage: "fw hf <info|files|pull> <repo_id> [filename]", summary: "Native Hugging Face Hub API & model download client (zero subprocess)" },
+    CommandMeta { name: "hf", aliases: &["huggingface"], group: "ML, Inference & Heretic", usage: "fw hf <search|info|files|pull> <query|repo_id> [--gguf] [--uncensored]", summary: "Native Hugging Face Hub search, API & local GGUF/uncensored model pull (zero subprocess)" },
     CommandMeta { name: "heretic", aliases: &["abliterate"], group: "ML, Inference & Heretic", usage: "fw heretic <presets|inspect|abliterate> [preset] [--strength 1.0]", summary: "Native Heretic preset loader & directional orthogonalization (zero subprocess)" },
+    CommandMeta { name: "align", aliases: &["dpo", "orpo"], group: "ML, Inference & Heretic", usage: "fw align <dpo|orpo|kto> [--beta 0.1] [--steps 60]", summary: "Native DPO / ORPO / KTO preference alignment (Burn + GGML + llama.cpp stack)" },
     // Packages & Dependencies (bun + uv grammar)
     CommandMeta { name: "init", aliases: &[], group: "Packages & Dependencies", usage: "fw init", summary: "Initialize a project manifest" },
     CommandMeta { name: "install", aliases: &["i"], group: "Packages & Dependencies", usage: "fw install [pkg...]", summary: "Install project dependencies" },

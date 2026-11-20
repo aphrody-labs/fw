@@ -525,6 +525,22 @@ fn main() {
                 }
             }
         }
+        "align" | "dpo" | "orpo" => {
+            let fwd = if matches!(cmd, "dpo" | "orpo") {
+                let mut v = vec![cmd.to_owned()];
+                v.extend_from_slice(&args[1..]);
+                v
+            } else {
+                args[1..].to_vec()
+            };
+            match ml_engine::run_align(&fwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw {cmd}: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
         "tui" | "m3-tui" | "god" => {
             m3_agent_tui::run_m3_agent_tui(&args[1..]);
         }
