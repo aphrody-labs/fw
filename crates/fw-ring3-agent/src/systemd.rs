@@ -11,7 +11,7 @@ impl SystemdUnitGenerator {
         format!(
             r#"[Unit]
 Description=Ring-3 Local AI Inference Daemon (r3d)
-Documentation=https://github.com/aphrody-dev/ring3-agent
+Documentation=https://github.com/aphrody-labs/fw/tree/main/crates/fw-ring3-agent
 DefaultDependencies=no
 After=local-fs.target
 Before=sysinit.target shutdown.target

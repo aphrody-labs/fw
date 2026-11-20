@@ -6,7 +6,7 @@ description: "Design and review recursion and recursive data structures in Rust 
 # recursion-design
 
 Derivations, measurements and sources: `$WORKSPACE_ROOT/ay/docs/science/recursion.md`; limits (halting, Rice): `.../limits.md`;
-`become` status: `.../compilers-languages.md`. Online: https://github.com/aphrody-dev/ay/tree/main/docs/science
+`become` status: `.../compilers-languages.md`. Online: https://github.com/aphrody-labs/ay/tree/main/docs/science
 
 ## Checklist
 

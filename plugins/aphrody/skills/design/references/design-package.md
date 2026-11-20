@@ -24,7 +24,7 @@ The repository is the source of truth; Drive, Figma and Calendar are mirrors. Th
 | Figma file "Aphrody" in team "ay" | Figma | skill://figma/figma-use first; create_session, use_figma, get_screenshot |
 | Milestones "ay: <product> replica" | Google Calendar | search_events, create_event, update_event |
 | Hosting inventory | cloudflare, vercel, aphrody:ovhcloud, hostinger | read-only list calls |
-| CI state | github | workflow runs of aphrody-dev/ay and aphrody-labs/bun |
+| CI state | github | workflow runs of aphrody-labs/ay and aphrody-labs/bun |
 | Reference pages | claude-in-chrome (main session only) | navigate, get_page_text, screenshot |
 
 The Drive folder "ay" holds the Doc, Sheet and Deck; its id and the file ids are recorded in `docs/mirrors.toml`

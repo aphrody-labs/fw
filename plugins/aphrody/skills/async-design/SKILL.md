@@ -6,7 +6,7 @@ description: "Design and review asynchronous code in Rust (tokio, futures, Pin) 
 # async-design
 
 Theory, measurements and sources: `$WORKSPACE_ROOT/ay/docs/science/async.md`; OS limits: `.../os.md`; open language work: `.../compilers-languages.md`.
-Online: https://github.com/aphrody-dev/ay/tree/main/docs/science. Numbers for sizing: skill `perf-math`.
+Online: https://github.com/aphrody-labs/ay/tree/main/docs/science. Numbers for sizing: skill `perf-math`.
 
 ## Checklist
 

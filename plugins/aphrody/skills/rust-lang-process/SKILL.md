@@ -6,7 +6,7 @@ description: "How rust-lang works and how to land or track a change: teams, RFC 
 # rust-upstream
 
 Facts read live on 2026-11-17 (gh api, rust-lang blog, rustc-dev-guide, forge). Blocker table and sources:
-`$WORKSPACE_ROOT/ay/docs/science/compilers-languages.md`. Online: https://github.com/aphrody-dev/ay/tree/main/docs/science
+`$WORKSPACE_ROOT/ay/docs/science/compilers-languages.md`. Online: https://github.com/aphrody-labs/ay/tree/main/docs/science
 
 ## Releases (re-check: `gh api repos/rust-lang/rust/releases`)
 

@@ -4,7 +4,7 @@ version.workspace = true
 edition = "2024"
 rust-version = "1.97"
 license = "Apache-2.0"
-repository = "https://github.com/aphrody-dev/ai-os"
+repository = "https://github.com/aphrody-labs/fw"
 description = "Unified RAG storage, embedding, vector scan, hybrid search, and agent tools for aphrody (P8)."
 
 # The dev-dependency on the crate itself only switches its features on for the tests.

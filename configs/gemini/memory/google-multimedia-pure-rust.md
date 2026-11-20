@@ -1,6 +1,6 @@
 # Google Ecosystem, Multimedia Stack & Pure-Rust Desktop Architecture
 
-Durable architectural memory saved 2026-11-20 for `aphrody` (`aphrody-dev/aphrody`) and `aphrody-labs/*`.
+Durable architectural memory saved 2026-11-20 for `aphrody` (`aphrody-labs/aphrody`) and `aphrody-labs/*`.
 
 ## Core Product Direction
 - **True Pure-Rust Desktop OS**: single codebase targeting **Wayland**, **Windows**, **macOS**, **WebAssembly (`wasm32-unknown-unknown` / `wasm32-wasip2`)**, and **Chromium WebGPU** (`gpui` + `gpui_wgpu` `wgpu 30` / `naga 30` + `aphrody_desktop` + `aphrody_browser`).

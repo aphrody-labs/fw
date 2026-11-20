@@ -22,4 +22,4 @@ metadata:
 
 **Why:** on 2026-11-16 I judged disk space from `df -h /` alone. That made Chromium look blocked and filled fr1's root, while 740 GB sat free on `$WORK`. The owner called it a bad scan.
 
-**How to apply:** run `bun tools/disks.ts` (in the aphrody-dev/ay checkout) before any large build, clone or mirror. Put work under the `→ large work` mount it names. The `disks` skill in ay covers grow and cleanup procedures.
+**How to apply:** run `bun tools/disks.ts` (in the aphrody-labs/ay checkout) before any large build, clone or mirror. Put work under the `→ large work` mount it names. The `disks` skill in ay covers grow and cleanup procedures.

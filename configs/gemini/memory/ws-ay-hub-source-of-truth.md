@@ -1,11 +1,11 @@
 ---
 name: ay-hub-source-of-truth
-description: aphrody-dev/aphrody is the complete OS and its source of truth (agy owns it); aphrody-dev/ay is the independent SDK in any best-fit language
+description: aphrody-labs/aphrody is the complete OS and its source of truth (agy owns it); aphrody-labs/ay is the independent SDK in any best-fit language
 metadata:
   type: project
 ---
 
-aphrody-dev/aphrody ($WORKSPACE_ROOT/aphrody, identity in product.toml) is the complete OS in pure Rust and the true source of truth; agy (Antigravity) is finishing it. aphrody-dev/ay ($WORKSPACE_ROOT/ay) is the SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc, design system. Satellites: craft apps (craft-anything, nie), Bun runtime/plugins (aphrody-labs/bun), agent plugin (aphrody-labs/claude), apps (shenron), npm @aphrody, crates aphrody-. Recorded in ay.toml [repos] (commit cc5ae5f).
+aphrody-labs/aphrody ($WORKSPACE_ROOT/aphrody, identity in product.toml) is the complete OS in pure Rust and the true source of truth; agy (Antigravity) is finishing it. aphrody-labs/ay ($WORKSPACE_ROOT/ay) is the SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc, design system. Satellites: craft apps (craft-anything, nie), Bun runtime/plugins (aphrody-labs/bun), agent plugin (aphrody-labs/claude), apps (shenron), npm @aphrody, crates aphrody-. Recorded in ay.toml [repos] (commit cc5ae5f).
 
 **Why:** 2026-11-16 the owner corrected me (I had called ay the hub): "ay est le sdk ... aphrody est l os complet et la vraie source of truth pure rust".
 

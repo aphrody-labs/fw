@@ -7,7 +7,7 @@ description: "Performance laws and measurement discipline for Bun and Rust work:
 
 Derivations, worked numbers and sources: `$WORKSPACE_ROOT/ay/docs/science/async.md` (section 6 laws, section 7 queueing) and
 `.../limits.md`. Calculator and tests: `bun $WORKSPACE_ROOT/ay/tools/science.ts` (prints worked examples; `fit <file>` fits the USL from
-"N X" lines). Online: https://github.com/aphrody-dev/ay/tree/main/docs/science
+"N X" lines). Online: https://github.com/aphrody-labs/ay/tree/main/docs/science
 
 ## Laws (use the smallest that answers the question)
 

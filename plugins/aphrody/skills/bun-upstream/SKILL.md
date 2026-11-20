@@ -6,7 +6,7 @@ description: "How to contribute to and optimise oven-sh/bun (and our fork aphrod
 # bun-upstream
 
 Facts read live on 2026-11-17 (re-check anything that drives a decision: `gh api repos/oven-sh/bun/releases/latest`).
-Blocker classes and numbers: `$WORKSPACE_ROOT/ay/docs/science/compilers-languages.md` (Bun section). Online: https://github.com/aphrody-dev/ay/tree/main/docs/science
+Blocker classes and numbers: `$WORKSPACE_ROOT/ay/docs/science/compilers-languages.md` (Bun section). Online: https://github.com/aphrody-labs/ay/tree/main/docs/science
 
 ## State of upstream
 

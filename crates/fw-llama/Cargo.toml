@@ -3,7 +3,7 @@ name = "fw-llama"
 version.workspace = true
 edition = "2024"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/aphrody-dev/ai-os"
+repository = "https://github.com/aphrody-labs/fw"
 publish = true
 description = "Safe Rust bindings for llama.cpp with runtime dynamic loading."
 

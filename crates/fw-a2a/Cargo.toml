@@ -4,7 +4,7 @@ version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license = "Apache-2.0"
-repository = "https://github.com/aphrody-dev/ay"
+repository = "https://github.com/aphrody-labs/ay"
 publish = true
 description = "A2A v1: protocol types, protobuf conversion (pb), async client (client), server framework (server), Aphrody coordination (coordinator) and the gRPC binding (grpc)"
 
