@@ -4,11 +4,14 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 use std::time::Duration;
 
-use browser_chromium::{Chromium, Config, EvaluateOptions, ScreenshotOptions, install_cef};
+use browser_chromium::{
+    CaptureOptions, Chromium, Config, EvaluateOptions, ScreenshotOptions, install_cef,
+};
 
 const USAGE: &str = "usage:
   browser-chromium screenshot <url> <out.png> [--width N] [--height N] [--wait MS] [--timeout S]
   browser-chromium eval <url> <expression> [--wait MS] [--timeout S]
+  browser-chromium capture <url> [--json] [--screenshot out.png] [--timeout-ms N] [--quiet-ms N]
   browser-chromium install [dir]
   browser-chromium version";
 
@@ -31,6 +34,10 @@ struct Parsed {
     height: Option<u32>,
     wait: Option<Duration>,
     timeout: Option<Duration>,
+    timeout_ms: Option<Duration>,
+    quiet_ms: Option<Duration>,
+    screenshot: Option<PathBuf>,
+    json: bool,
 }
 
 fn parse(args: &[String]) -> Result<Parsed, String> {
@@ -40,6 +47,10 @@ fn parse(args: &[String]) -> Result<Parsed, String> {
         height: None,
         wait: None,
         timeout: None,
+        timeout_ms: None,
+        quiet_ms: None,
+        screenshot: None,
+        json: false,
     };
     let mut it = args.iter();
     while let Some(arg) = it.next() {
@@ -52,6 +63,17 @@ fn parse(args: &[String]) -> Result<Parsed, String> {
             "--width" => parsed.width = Some(number("--width")? as u32),
             "--height" => parsed.height = Some(number("--height")? as u32),
             "--wait" => parsed.wait = Some(Duration::from_millis(number("--wait")?)),
+            "--timeout-ms" => {
+                parsed.timeout_ms = Some(Duration::from_millis(number("--timeout-ms")?))
+            }
+            "--quiet-ms" => parsed.quiet_ms = Some(Duration::from_millis(number("--quiet-ms")?)),
+            "--json" => parsed.json = true,
+            "--screenshot" => {
+                parsed.screenshot =
+                    Some(PathBuf::from(it.next().ok_or_else(|| {
+                        format!("--screenshot needs a path\n{USAGE}")
+                    })?));
+            }
             "--timeout" => parsed.timeout = Some(Duration::from_secs(number("--timeout")?)),
             flag if flag.starts_with("--") => {
                 return Err(format!("unknown option {flag}\n{USAGE}"));
@@ -80,6 +102,24 @@ fn run(args: Vec<String>) -> Result<(), String> {
             println!(
                 "{}",
                 serde_json::to_string(&shot).map_err(|e| e.to_string())?
+            );
+            Ok(())
+        }
+        ("capture", [url]) => {
+            let mut options = CaptureOptions::default();
+            options.timeout = parsed.timeout_ms.unwrap_or(options.timeout);
+            options.quiet = parsed.quiet_ms.unwrap_or(options.quiet);
+            options.screenshot = parsed.screenshot.is_some();
+            let chromium = Chromium::start(Config::default()).map_err(err)?;
+            let capture = chromium.capture(url, &options).map_err(err)?;
+            if let (Some(path), Some(png)) = (&parsed.screenshot, &capture.screenshot_png) {
+                std::fs::write(path, png).map_err(|e| format!("{}: {e}", path.display()))?;
+            }
+            // JSON is the only output format; `--json` is accepted for scripts that spell it out.
+            let _ = parsed.json;
+            println!(
+                "{}",
+                serde_json::to_string(&capture).map_err(|e| e.to_string())?
             );
             Ok(())
         }

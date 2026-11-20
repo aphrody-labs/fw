@@ -4,6 +4,7 @@
 //! the main frame to load; a screenshot paints a frame, an evaluation runs `Runtime.evaluate` over the DevTools
 //! protocol. [`Backend`] and [`Page`] are the engine-neutral shape; [`Chromium`] implements them.
 
+mod capture;
 mod cef_dir;
 mod engine;
 #[cfg(feature = "node")]
@@ -13,6 +14,7 @@ use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
 use std::time::Duration;
 
+pub use capture::{Capture, CaptureOptions, Heading, Link, Turn};
 pub use cef_dir::{CefDir, install_cef};
 pub use engine::subprocess_main;
 
@@ -171,6 +173,14 @@ impl Chromium {
             .screenshot(out.as_ref(), options)
     }
 
+    /// Open `url`, wait for it to settle, extract its text, headings, links and conversation turns, and close the
+    /// page. Never types or signs in: it captures what the page shows to the current profile.
+    pub fn capture(&self, url: &str, options: &CaptureOptions) -> Result<Capture> {
+        let start = std::time::Instant::now();
+        self.open_with(url, options.timeout)?
+            .capture(options, options.timeout.saturating_sub(start.elapsed()))
+    }
+
     /// Open `url`, evaluate the expression in the page and close the page.
     pub fn evaluate(
         &self,
@@ -180,6 +190,29 @@ impl Chromium {
     ) -> Result<serde_json::Value> {
         self.open_with(url, options.timeout)?
             .evaluate(expression, options)
+    }
+}
+
+impl ChromiumPage {
+    /// Settle (DOM and resource requests quiet for `options.quiet`, at most `remaining`), then extract.
+    pub fn capture(&self, options: &CaptureOptions, remaining: Duration) -> Result<Capture> {
+        // The script bounds its own wait; the evaluation gets a margin on top for the extraction itself.
+        let bound = remaining.max(options.quiet);
+        let eval = EvaluateOptions {
+            settle: Duration::ZERO,
+            timeout: bound + Duration::from_secs(15),
+        };
+        let raw = self
+            .handle
+            .evaluate(&capture::expression(options, bound), eval.timeout)?;
+        let mut capture = Capture::from_raw(&raw);
+        if options.screenshot {
+            let frame =
+                self.handle
+                    .screenshot(options.width, options.height, Duration::from_secs(30))?;
+            capture.screenshot_png = Some(encode_png(frame.width, frame.height, &frame.bgra)?);
+        }
+        Ok(capture)
     }
 }
 
@@ -212,13 +245,18 @@ impl Page for ChromiumPage {
 }
 
 fn write_png(path: &Path, width: u32, height: u32, bgra: &[u8]) -> Result<()> {
+    std::fs::write(path, encode_png(width, height, bgra)?)?;
+    Ok(())
+}
+
+fn encode_png(width: u32, height: u32, bgra: &[u8]) -> Result<Vec<u8>> {
     let mut rgba = bgra.to_vec();
     for px in rgba.as_chunks_mut::<4>().0 {
         px.swap(0, 2);
         px[3] = 255;
     }
-    let file = std::io::BufWriter::new(std::fs::File::create(path)?);
-    let mut encoder = png::Encoder::new(file, width, height);
+    let mut out = Vec::new();
+    let mut encoder = png::Encoder::new(&mut out, width, height);
     encoder.set_color(png::ColorType::Rgba);
     encoder.set_depth(png::BitDepth::Eight);
     let mut writer = encoder
@@ -226,7 +264,9 @@ fn write_png(path: &Path, width: u32, height: u32, bgra: &[u8]) -> Result<()> {
         .map_err(|e| Error::Png(e.to_string()))?;
     writer
         .write_image_data(&rgba)
-        .map_err(|e| Error::Png(e.to_string()))
+        .map_err(|e| Error::Png(e.to_string()))?;
+    writer.finish().map_err(|e| Error::Png(e.to_string()))?;
+    Ok(out)
 }
 
 #[cfg(test)]
