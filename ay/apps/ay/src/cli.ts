@@ -9,7 +9,9 @@
 import { join, resolve } from "node:path";
 import { COMMANDS, resolveCommand, type CommandCategory, type CommandEntry } from "./registry.ts";
 
-const AY_VERSION = "0.1.0";
+import pkg from "../package.json" with { type: "json" };
+
+const AY_VERSION: string = pkg.version;
 
 const CATEGORY_ORDER: readonly CommandCategory[] = [
   "core",
@@ -49,14 +51,49 @@ function findRepoRoot(startDir: string): string {
   }
 }
 
+/** Machine-readable command table for agents (`ay --help --json`): one row per command, like `fw status` and `uv --help` for tools. */
+export function commandsJson(): { version: string; bun: string; commands: Pick<CommandEntry, "name" | "aliases" | "category" | "kind" | "target" | "summary">[] } {
+  return {
+    version: AY_VERSION,
+    bun: Bun.version,
+    commands: COMMANDS.map(({ name, aliases, category, kind, target, summary }) => ({ name, aliases, category, kind, target, summary })),
+  };
+}
+
+function distance(a: string, b: string): number {
+  const row = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    let prev = row[0]!;
+    row[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const tmp = row[j]!;
+      row[j] = Math.min(row[j]! + 1, row[j - 1]! + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = tmp;
+    }
+  }
+  return row[b.length]!;
+}
+
+/** The closest command names to a mistyped one (prefix matches first, then small edit distance), as `uv` and `bun` suggest. */
+export function suggest(input: string, limit = 3): string[] {
+  const names = COMMANDS.flatMap((c) => [c.name, ...(c.aliases ?? [])]);
+  const q = input.toLowerCase();
+  const scored = names
+    .map((n) => ({ n, d: n.startsWith(q) || q.startsWith(n) ? 0 : distance(q, n) }))
+    .filter((x) => x.d <= Math.max(2, Math.floor(q.length / 3)))
+    .sort((a, b) => a.d - b.d || a.n.localeCompare(b.n));
+  return [...new Set(scored.map((x) => x.n))].slice(0, limit);
+}
+
 export function formatHelp(): string {
   const lines: string[] = [
     `ay ${AY_VERSION} — Unified Aphrody CLI (Bun ${Bun.version})`,
     "",
     "Usage:",
     "  ay <command> [args...]",
-    "  ay --help | -h",
-    "  ay --version | -v",
+    "  ay --help | -h [--json]",
+    "  ay --version | -v [--json]",
+    "  ay <command> --help",
     "",
     "Commands:",
   ];
@@ -129,7 +166,7 @@ export function generateCompletions(shell: string): string {
   }
 }
 
-async function runDoctor(repoRoot: string): Promise<number> {
+async function runDoctor(repoRoot: string, args: readonly string[] = []): Promise<number> {
   const missing: string[] = [];
   for (const cmd of COMMANDS) {
     if (cmd.kind === "builtin") continue;
@@ -139,6 +176,10 @@ async function runDoctor(repoRoot: string): Promise<number> {
     }
   }
 
+  if (args.includes("--json")) {
+    console.log(JSON.stringify({ ok: missing.length === 0, version: AY_VERSION, bun: Bun.version, root: repoRoot, commands: COMMANDS.length, missing }));
+    return missing.length === 0 ? 0 : 1;
+  }
   console.log(`ay ${AY_VERSION} | Bun ${Bun.version} | root=${repoRoot}`);
   console.log(`registered commands: ${COMMANDS.length}`);
   if (missing.length > 0) {
@@ -147,6 +188,36 @@ async function runDoctor(repoRoot: string): Promise<number> {
   }
   console.log("status: ok (all targets present)");
   return 0;
+}
+
+const git = (root: string, ...args: string[]) => {
+  const p = Bun.spawnSync(["git", ...args], { cwd: root, stdout: "pipe", stderr: "pipe" });
+  return { code: p.exitCode ?? 1, out: p.stdout.toString().trim(), err: p.stderr.toString().trim() };
+};
+
+/** `ay upgrade [--check]`: fast-forward the checkout, install the locked dependencies, verify the registry (like `bun upgrade`, `uv self update`, `fw upgrade`). */
+async function runUpgrade(root: string, args: readonly string[]): Promise<number> {
+  const check = args.includes("--check");
+  const json = args.includes("--json");
+  const say = (o: Record<string, unknown>, text: string) => console.log(json ? JSON.stringify(o) : text);
+  const fetched = git(root, "fetch", "-q", "origin");
+  if (fetched.code !== 0) { say({ ok: false, error: fetched.err }, `fetch failed: ${fetched.err}`); return 1; }
+  const behind = Number(git(root, "rev-list", "--count", "HEAD..@{u}").out || 0);
+  const ahead = Number(git(root, "rev-list", "--count", "@{u}..HEAD").out || 0);
+  if (check || behind === 0) {
+    say({ ok: true, behind, ahead, upgraded: false }, behind === 0 ? "ay is up to date" : `${behind} commit(s) behind origin`);
+    return 0;
+  }
+  if (git(root, "status", "--porcelain", "--untracked-files=no").out) {
+    say({ ok: false, error: "tracked changes in the working tree" }, "upgrade refused: tracked changes in the working tree (commit them first)");
+    return 1;
+  }
+  const pulled = git(root, "pull", "--ff-only", "-q");
+  if (pulled.code !== 0) { say({ ok: false, error: pulled.err }, `pull failed: ${pulled.err}`); return 1; }
+  const install = Bun.spawnSync([bunExecutable(), "install", "--frozen-lockfile"], { cwd: root, stdout: "inherit", stderr: "inherit" });
+  if (install.exitCode !== 0) return install.exitCode ?? 1;
+  say({ ok: true, behind, ahead, upgraded: true }, `upgraded by ${behind} commit(s)`);
+  return await runDoctor(root, json ? ["--json"] : []);
 }
 
 async function runCompile(repoRoot: string, args: string[]): Promise<number> {
@@ -208,18 +279,19 @@ export async function runCli(argv: readonly string[]): Promise<number> {
   const [first, ...rest] = argv;
 
   if (!first || first === "--help" || first === "-h" || first === "help") {
-    console.log(formatHelp());
+    console.log(rest.includes("--json") ? JSON.stringify(commandsJson()) : formatHelp());
     return 0;
   }
 
   if (first === "--version" || first === "-v" || first === "version") {
-    console.log(`ay ${AY_VERSION} (Bun ${Bun.version})`);
+    console.log(rest.includes("--json") ? JSON.stringify({ version: AY_VERSION, bun: Bun.version }) : `ay ${AY_VERSION} (Bun ${Bun.version})`);
     return 0;
   }
 
   const cmd = resolveCommand(first);
   if (!cmd) {
-    console.error(`Unknown command: ${first}\nRun 'ay --help' for usage.`);
+    const close = suggest(first);
+    console.error(`Unknown command: ${first}${close.length ? `\nDid you mean: ${close.join(", ")}?` : ""}\nRun 'ay --help' for usage.`);
     return 1;
   }
 
@@ -236,7 +308,9 @@ export async function runCli(argv: readonly string[]): Promise<number> {
         return 0;
       }
       case "doctor":
-        return await runDoctor(repoRoot());
+        return await runDoctor(repoRoot(), rest);
+      case "upgrade":
+        return await runUpgrade(repoRoot(), rest);
       case "compile":
         return await runCompile(repoRoot(), rest);
       case "wck":

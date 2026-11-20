@@ -52,6 +52,14 @@ export const COMMANDS: readonly CommandEntry[] = [
     summary: "Verify Bun runtime, workspace root, and CLI registry integrity",
   },
   {
+    name: "upgrade",
+    aliases: ["update"],
+    category: "meta",
+    kind: "builtin",
+    target: "builtin:upgrade",
+    summary: "Fast-forward this checkout, install the locked dependencies and verify the registry (--check only reports)",
+  },
+  {
     name: "wck",
     aliases: ["mwg", "web-check"],
     category: "quality",
