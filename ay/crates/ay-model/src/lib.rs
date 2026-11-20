@@ -9,3 +9,10 @@ pub mod client;
 pub mod antigravity;
 #[cfg(feature = "antigravity_model")]
 pub mod antigravity_model;
+
+#[cfg(feature = "infer")]
+pub mod infer;
+#[cfg(feature = "embed")]
+pub mod embed;
+#[cfg(feature = "gateway")]
+pub mod gateway;

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! `ay-model-client` — provider abstraction for the aphrody agent engine.
+//! `ay-model/client` — provider abstraction for the aphrody agent engine.
 //!
 //! This crate gives the turn loop a provider-agnostic surface:
 //!

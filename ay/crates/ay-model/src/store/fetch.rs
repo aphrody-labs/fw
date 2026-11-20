@@ -107,7 +107,7 @@ impl Downloader {
     pub fn new() -> Result<Self> {
         ensure_crypto_provider();
         let client = ay_http::Client::builder()
-            .user_agent(concat!("ay-models/", env!("CARGO_PKG_VERSION")))
+            .user_agent(concat!("ay-model/", env!("CARGO_PKG_VERSION")))
             // Weight files are large; the read timeout guards against a stalled
             // socket without capping total transfer time.
             .read_timeout(std::time::Duration::from_mins(2))

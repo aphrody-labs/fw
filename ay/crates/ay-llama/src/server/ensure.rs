@@ -23,7 +23,7 @@ pub const DEFAULT_OSS_MODEL: &str = LocalRole::Chat.default_model();
 ///
 /// Must agree with `ay-config`'s `hardcoded_default_model("ollama")`
 /// (`crates/aphrody-config/src/resolve.rs`): that crate is an intentionally
-/// dependency-free leaf (no `ay-models`), so the two cannot share one
+/// dependency-free leaf (no `ay-model/store`), so the two cannot share one
 /// `const` — this comment is the cross-check. `gpt-oss:20b` mirrors upstream
 /// `openai/codex`'s own OSS default and is published under this exact tag by
 /// Ollama, LM Studio and vLLM, which is why it — not a `LocalRole` model
@@ -116,7 +116,7 @@ pub enum OssReadyError {
     /// Provider is unknown or unsupported.
     #[error("unknown or unsupported provider: '{0}'")]
     UnknownProvider(String),
-    /// Error originating from [`ay_models`] (catalog, store, or download).
+    /// Error originating from [`ay_model::store`] (catalog, store, or download).
     #[error("model store error: {0}")]
     Model(#[from] ay_model::store::ModelError),
     /// HTTP transport failure.

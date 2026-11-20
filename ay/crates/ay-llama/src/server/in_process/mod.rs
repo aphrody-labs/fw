@@ -7,7 +7,7 @@
 //! [`InProcessServer`] puts a loopback OpenAI-compatible endpoint on top of it, so the
 //! HTTP-shaped entry points keep working without any child process.
 //!
-//! `libllama` itself is installed and loaded at run time by `ay-ml-runtime`; nothing is linked.
+//! `libllama` itself is installed and loaded at run time by `ay-ml/runtime`; nothing is linked.
 
 pub mod router;
 pub mod server;
@@ -508,8 +508,8 @@ fn render_jinja_prompt(
         .map(|(role, content)| json!({"role":role,"content":content}))
         .collect();
     environment.get_template("chat").map_err(|error| format!("chat template: {error}"))?
-        .render(minijinja::context! { messages, bos_token => bos, eos_token => eos,
-            add_generation_prompt => true, enable_thinking => false, tools => Vec::<serde_json::Value>::new() })
+        .render(minijinja::context! { messages => minijinja::Value::from(minijinja::value::Serde(&messages)), bos_token => bos, eos_token => eos,
+            add_generation_prompt => true, enable_thinking => false, tools => minijinja::Value::from(minijinja::value::Serde(Vec::<serde_json::Value>::new())) })
         .map_err(|error| format!("chat template: {error}"))
 }
 

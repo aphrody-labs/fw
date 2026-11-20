@@ -7,9 +7,9 @@
 //! Eight crates independently re-derived `~/.aphrody`, and they did not agree.
 //! Two readings of `$APHRODY_HOME` had grown side by side:
 //!
-//! * **the state directory itself** — `ay-models`, `ay-infer`, `aphrody-voice`,
-//!   `ay-embed`, the `job` CLI and the MCP job tools;
-//! * **the home directory**, with `.aphrody` appended — `ay-agent-home` and `oc_cmd`, whose
+//! * **the state directory itself** — `ay-model/store`, `ay-model/infer`, `aphrody-voice`,
+//!   `ay-model/embed`, the `job` CLI and the MCP job tools;
+//! * **the home directory**, with `.aphrody` appended — `ay-agent/home` and `oc_cmd`, whose
 //!   own doc comments nevertheless promised the first reading.
 //!
 //! Setting the variable therefore split the tree in two — weights under
@@ -25,13 +25,13 @@
 //!
 //! ```text
 //! <state dir>/            # $APHRODY_HOME, else ~/.aphrody
-//!   models/               # weights, registry.json      (ay-models)
-//!   runtimes/             # ORT / llama.cpp / whisper.cpp (ay-infer, -voice)
+//!   models/               # weights, registry.json      (ay-model/store)
+//!   runtimes/             # ORT / llama.cpp / whisper.cpp (ay-model/infer, -voice)
 //!   jobs/                 # jobs.db + per-job NDJSON     (aphrody-jobs)
-//!   workspace[-<profile>] # agent home                   (ay-agent-home)
+//!   workspace[-<profile>] # agent home                   (ay-agent/home)
 //! ```
 //!
-//! `ay-models` owns this because it sits at the bottom of the toolbox
+//! `ay-model/store` owns this because it sits at the bottom of the toolbox
 //! graph and depends on no other workspace crate: every consumer can reach it
 //! without inverting the layering.
 
@@ -149,7 +149,7 @@ pub fn models_dir() -> Result<PathBuf> {
 ///
 /// `$APHRODY_RUNTIMES_DIR` relocates this one directory on its own, for the
 /// case where the runtimes are large and belong on a different volume from
-/// the rest of the state. The override lived only in `ay-infer`, so
+/// the rest of the state. The override lived only in `ay-model/infer`, so
 /// `aphrody-voice` silently ignored it and went looking for whisper.cpp
 /// somewhere else; honouring it here is what makes the two agree.
 ///
@@ -280,7 +280,7 @@ mod tests {
 
     /// `$APHRODY_HOME` names the state directory itself.
     ///
-    /// This is the rule `ay-agent-home` and `oc_cmd` used to break: they
+    /// This is the rule `ay-agent/home` and `oc_cmd` used to break: they
     /// appended `.aphrody` to the override, so weights landed in
     /// `$APHRODY_HOME/models` while the agent workspace landed in
     /// `$APHRODY_HOME/.aphrody/workspace` — two trees, and no error.

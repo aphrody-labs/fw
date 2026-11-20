@@ -9,10 +9,11 @@ publish = true
 description = "Safe Rust bindings for llama.cpp with runtime dynamic loading."
 
 [features]
-default = ["server"]
+default = []
+full = ["llguidance", "sampler", "in-process", "test-support", "server"]
 llguidance = ["dep:llguidance", "dep:toktrie"]
 sampler = []
-in-process = ["server", "dep:ay-infer", "dep:ay-model", "dep:ay-toolcall", "dep:async-trait", "dep:base64", "dep:bytes", "dep:chrono", "dep:futures", "dep:ay-ml", "dep:libloading", "dep:minijinja", "dep:minijinja-contrib"]
+in-process = ["server", "ay-model/onnx", "dep:ay-model", "dep:ay-toolcall", "dep:async-trait", "dep:base64", "dep:bytes", "dep:chrono", "dep:futures", "dep:ay-ml", "dep:libloading", "dep:minijinja", "dep:minijinja-contrib"]
 test-support = []
 server = ["dep:ay-gemini", "dep:ay-model", "dep:ay-proc", "dep:axum", "dep:ay-http", "dep:rustls", "dep:serde", "dep:serde_json", "dep:tokio"]
 
@@ -25,7 +26,6 @@ async-trait = { workspace = true, optional = true }
 axum = { workspace = true, features = ["http2"], optional = true }
 ay-gemini = { path = "../ay-gemini", default-features = false, features = ["web"], optional = true }
 ay-http = { path = "../ay-http", default-features = false, features = ["client", "server"], optional = true }
-ay-infer = { path = "../ay-infer", features = ["onnx"], optional = true }
 ay-llama-sys = { path = "../ay-llama-sys" }
 ay-ml = { path = "../ay-ml", default-features = false, features = ["runtime"], optional = true }
 ay-model = { path = "../ay-model", default-features = false, features = ["client", "store"], optional = true }
@@ -39,7 +39,7 @@ enumflags2 = "0.7.12"
 futures = { workspace = true, optional = true }
 libloading = { workspace = true, optional = true }
 llguidance = { version = "1.9.1", optional = true }
-minijinja = { version = "3.1.0", features = ["json"], optional = true }
+minijinja = { version = "3.1.0", features = ["json", "serde"], optional = true }
 minijinja-contrib = { version = "3.1.0", features = ["pycompat"], optional = true }
 rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"], optional = true }
 serde = { workspace = true, optional = true }
@@ -51,6 +51,8 @@ tracing.workspace = true
 tracing-core = "0.1.36"
 
 [dev-dependencies]
+# in-process needs a real libllama; the default test run covers the managed server only.
+ay-llama = { path = ".", features = ["server"] }
 futures.workspace = true
 pretty_assertions.workspace = true
 tempfile.workspace = true

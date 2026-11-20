@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! The side channels of a running `llama-server`: health, exact token counts,
 //! LoRA hot-swap and server properties. (Inference itself goes through the
-//! OpenAI-compatible API with `ay-model-client`.)
+//! OpenAI-compatible API with `ay-model/client`.)
 
 use std::time::Duration;
 

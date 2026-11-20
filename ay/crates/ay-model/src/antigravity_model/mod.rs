@@ -4,7 +4,7 @@
 //! Provides:
 //! - Direct, streaming LLM execution via Cloud Code `streamGenerateContent` SSE endpoint.
 //! - Automatic keyless token re-read from Windows Credential Manager / agy store on HTTP 401.
-//! - Conversion between `ay-model-client` unified structures and Gemini/Antigravity requests.
+//! - Conversion between `ay-model/client` unified structures and Gemini/Antigravity requests.
 //! - Full support for tool function declarations, function calling, and reasoning traces.
 
 use std::sync::Arc;

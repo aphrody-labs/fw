@@ -6,7 +6,7 @@
 //!
 //! 1. [`provision_chat`] makes the base GGUF and every adapter present in a model store rooted
 //!    where the caller says (`<home>/models`), from catalog ids (the built-in catalog of
-//!    `ay-models`, or a catalog the product declares in the same schema) or pinned
+//!    `ay-model/store`, or a catalog the product declares in the same schema) or pinned
 //!    references, each checked against its SHA-256;
 //! 2. [`launch_chat`] reads the GGUF facts, probes the installed `llama-server`, plans the launch
 //!    for this machine and starts (or attaches to) the chat daemon under the caller's state

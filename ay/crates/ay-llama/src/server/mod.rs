@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! `ay-llama-server` — managed local inference on llama.cpp.
+//! `ay-llama/server` — managed local inference on llama.cpp.
 //!
 //! llama.cpp is **driven, never linked** (CLAUDE.md §7): this crate supervises
 //! the upstream `llama-server` binary and hands the rest of aphrody an

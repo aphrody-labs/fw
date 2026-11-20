@@ -3,8 +3,8 @@
 
 The contract an application (Shenron Studio first) uses to ship a local chat model, a chat
 router and a local memory, through the `aphrody` binary it already carries. Every command prints
-one JSON object per line on stdout; diagnostics go to stderr. Owners: `ay-llama-server`
-(`local_chat`, `router`, `chat_cli`), `ay-models` (catalog, store), `ay-memory`
+one JSON object per line on stdout; diagnostics go to stderr. Owners: `ay-llama/server`
+(`local_chat`, `router`, `chat_cli`), `ay-model/store` (catalog, store), `ay-rag/memory`
 (`local_ops`), wired by `aphrody-command`. Windows x64 and Linux x64 use the same commands;
 `llama-server` is the upstream llama.cpp binary, driven and never linked.
 
@@ -21,7 +21,7 @@ aphrody llama provision --home <dir> \
 - `<spec>` is a catalog id or a reference: `hf:owner/repo/file@<commit>`, `https://…`, or
   `file:/path` (an installer-shipped file, used in place, never copied).
 - Catalog ids resolve in the `--catalog` file first (the `catalog.json` schema of
-  `ay-models`, read by `Catalog::load`), then in the built-in catalog. The base default is
+  `ay-model/store`, read by `Catalog::load`), then in the built-in catalog. The base default is
   `qwen3-4b-instruct-2507-q4km` (Hub commit `a06e946b…`, sha256 `3605803b…`). A product declares
   what it owns, such as a fine-tuned adapter, in its own catalog, with a file role `lora`.
 - Each file is checked against its SHA-256: catalog digests, `--*-sha256` for raw references. A
@@ -128,5 +128,5 @@ aphrody memory clear  --db <file> --agent-id <id>
 - Recall is lexical and needs no embedding model. It scores the share of query words found in
   each record; CJK characters count one by one, so Japanese queries match. Records with no shared
   word are dropped. The best matches come first, newest first among equals.
-- Rust: `ay_memory::local_ops::{write, recall, list, delete, clear}` over any
+- Rust: `ay_rag::memory::local_ops::{write, recall, list, delete, clear}` over any
   `&dyn MemoryProvider`.

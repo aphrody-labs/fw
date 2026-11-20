@@ -146,7 +146,7 @@
       "title": "BGE small EN v1.5 (ONNX)",
       "task": "text-embedding",
       "backend": "onnx-runtime",
-      "summary": "384-dimension English sentence embeddings. The same checkpoint ay-embed loads through fastembed, catalogued here so it can be pre-pulled, pinned and verified like any other artefact.",
+      "summary": "384-dimension English sentence embeddings. The same checkpoint the embed module loads through fastembed, catalogued here so it can be pre-pulled, pinned and verified like any other artefact.",
       "files": [
         {
           "role": "weights",

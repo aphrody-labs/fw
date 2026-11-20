@@ -30,7 +30,7 @@
 //!   url/<url-digest>/<basename>
 //! ```
 //!
-//! The store shares the `~/.aphrody/models` root with `ay-embed`, which
+//! The store shares the `~/.aphrody/models` root with `ay-model/embed`, which
 //! parks its fastembed downloads under `embeddings/`.
 //!
 //! # Example
@@ -99,7 +99,7 @@ pub mod inspect;
 /// broke `cargo check --target wasm32-unknown-unknown` with `E0433: cannot find
 /// module or crate dirs` — and the workspace-level gate did not catch it,
 /// because every consumer of the crate already declares it host-only, so only a
-/// direct `-p ay-models --target wasm32-unknown-unknown` surfaces it.
+/// direct `-p ay-model/store --target wasm32-unknown-unknown` surfaces it.
 /// wasm32 is target #3 and non-negotiable (CLAUDE.md §0).
 #[cfg(not(target_arch = "wasm32"))]
 pub mod paths;

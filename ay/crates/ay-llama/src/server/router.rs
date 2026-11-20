@@ -2,7 +2,7 @@
 //! One loopback OpenAI-compatible endpoint over several chat models, chosen by
 //! the request's `model`: managed llama.cpp models (a base GGUF with optional
 //! LoRA adapters, see [`crate::server::local_chat`]), the Gemini web app (a signed-in
-//! cookie jar, `ay-gemini-web`) and any other OpenAI-compatible server.
+//! cookie jar, `ay-gemini/web`) and any other OpenAI-compatible server.
 //!
 //! - `GET /v1/models` lists only the models that can answer now: a llama model whose files are
 //!   on disk and whose `llama-server` was found, a Gemini model whose session bootstraps, an

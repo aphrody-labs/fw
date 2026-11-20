@@ -188,7 +188,7 @@ impl ModelStore {
     /// Root resolution, in order: `$APHRODY_MODELS_DIR`, then
     /// `<aphrody-state-dir>/models` where the state dir is `$APHRODY_HOME`,
     /// `%USERPROFILE%/.aphrody`, `$HOME/.aphrody` or the platform home. This
-    /// mirrors `ay-embed`'s cache resolution so both crates share one
+    /// mirrors `ay-model/embed`'s cache resolution so both crates share one
     /// `~/.aphrody/models` namespace.
     ///
     /// # Errors

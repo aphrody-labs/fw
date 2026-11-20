@@ -134,7 +134,7 @@ impl Hub {
     fn build(token: Option<&SecretValue>) -> Result<Self, HubError> {
         crate::store::fetch::ensure_crypto_provider();
         let http = ay_http::Client::builder()
-            .user_agent(concat!("ay-models/", env!("CARGO_PKG_VERSION")))
+            .user_agent(concat!("ay-model/", env!("CARGO_PKG_VERSION")))
             .timeout(std::time::Duration::from_secs(30))
             .connect_timeout(std::time::Duration::from_secs(10))
             .redirect_none()
@@ -145,7 +145,7 @@ impl Hub {
             .endpoint("https://huggingface.co")
             .cache_enabled(false)
             .retry_max_attempts(2)
-            .user_agent(concat!("ay-models/", env!("CARGO_PKG_VERSION")));
+            .user_agent(concat!("ay-model/", env!("CARGO_PKG_VERSION")));
         if let Some(token) = token {
             builder = builder.token(token.expose_secret());
         }

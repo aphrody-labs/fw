@@ -6,7 +6,7 @@
 //! ```text
 //! APHRODY_LLAMA_BIN=/path/to/llama-server \
 //! APHRODY_LLAMA_TEST_MODEL=/path/to/model.gguf \
-//! cargo test -p ay-llama-server --test real_server -- --ignored --nocapture
+//! cargo test -p ay-llama/server --test real_server -- --ignored --nocapture
 //! ```
 #![cfg(feature = "test-support")]
 

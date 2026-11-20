@@ -97,7 +97,7 @@ impl core::fmt::Display for ModelTask {
 #[serde(rename_all = "kebab-case")]
 #[non_exhaustive]
 pub enum Backend {
-    /// ONNX Runtime, via `ort` (what `ay-embed` already links).
+    /// ONNX Runtime, via `ort` (what `ay-model/embed` already links).
     OnnxRuntime,
     /// A llama.cpp-family runtime consuming GGUF.
     LlamaCpp,

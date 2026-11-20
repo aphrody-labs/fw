@@ -5,7 +5,7 @@
 //!
 //! ```text
 //! APHRODY_LLAMA_TEST_MODEL=/path/to/model.gguf \
-//! cargo test -p ay-llama-server --features in-process --test in_process_real -- --ignored --nocapture
+//! cargo test -p ay-llama/server --features in-process --test in_process_real -- --ignored --nocapture
 //! ```
 #![cfg(feature = "in-process")]
 
