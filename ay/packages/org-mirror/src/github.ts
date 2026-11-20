@@ -34,7 +34,7 @@ export interface GitHubOptions {
   api?: string;
 }
 
-export const USER_AGENT = "aphrody-org-mirror/0.1 (+https://github.com/aphrody-dev/ay)";
+export const USER_AGENT = "aphrody-org-mirror/0.1 (+https://github.com/aphrody-labs/ay)";
 
 /** A token from GH_TOKEN / GITHUB_TOKEN, else the one `gh auth token` holds. */
 export function discoverToken(env = process.env): string | undefined {

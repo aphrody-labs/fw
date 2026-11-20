@@ -81,7 +81,7 @@ export function buildDeployPlan(
       units.push({
         id: `gatekeeper:${gk.id}`,
         product: "cloud",
-        ownerRepo: repos.ay?.slug ?? "aphrody-dev/ay",
+        ownerRepo: repos.ay?.slug ?? "aphrody-labs/ay",
         targetKind: "cloudflare-worker",
         resourceName: workerName,
         stage,

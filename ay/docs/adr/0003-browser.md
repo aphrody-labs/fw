@@ -1,4 +1,4 @@
-# ADR-3: Browser on CEF with cef-rs and the native UI from aphrody-dev/aphrody
+# ADR-3: Browser on CEF with cef-rs and the native UI from aphrody-labs/aphrody
 
 Status: proposed, 2026-11-16; accepted after the measurements below. The audit is in `docs/research/chromium-stack.md`.
 
@@ -7,7 +7,7 @@ Status: proposed, 2026-11-16; accepted after the measurements below. The audit i
   aphrody-labs). It is the same Blink, V8, Skia and Dawn as Chrome, with no Chromium build of our own. The update
   cost is a CEF bump, and it is the only option with a maintained Rust crate.
 - **UI**: our own chrome (tabs, omnibox with AI mode, agent panel, WebMCP tools) is native UI owned by
-  `aphrody-dev/aphrody` (GPUI), embedding CEF's off-screen or windowed rendering.
+  `aphrody-labs/aphrody` (GPUI), embedding CEF's off-screen or windowed rendering.
 - **One engine interface** keeps a full Chromium fork with Views (option a) reachable if CEF limits us.
 - **Testing and agents**: Chrome for Testing and chrome-headless-shell, which Puppeteer and Chrome DevTools MCP
   support officially; craft-anything captures pages through CDP on them.

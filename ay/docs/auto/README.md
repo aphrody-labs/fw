@@ -1,6 +1,6 @@
 # Auto
 
-Auto is the workflow automation, invoicing and office suite of Aphrody, merged into [`aphrody-dev/ay`](https://github.com/aphrody-dev/ay) (the former `aphrody-labs/auto` repository is archived). Its Rust crates are `crates/auto-*`, its apps `apps/auto-*`, its TypeScript packages `packages/auto` and `packages/auto-*`; this folder holds its documentation (API, architecture, compliance, deployment, SDK, design) and licence.
+Auto is the workflow automation, invoicing and office suite of Aphrody, merged into [`aphrody-labs/ay`](https://github.com/aphrody-labs/ay) (the former `aphrody-labs/auto` repository is archived). Its Rust crates are `crates/auto-*`, its apps `apps/auto-*`, its TypeScript packages `packages/auto` and `packages/auto-*`; this folder holds its documentation (API, architecture, compliance, deployment, SDK, design) and licence.
 
 Unified billing, Factur-X compliance, HR, workflow automation, and workspace software delivered as a single LTO Rust binary (`auto`), embeddable libraries (`aphrody_auto`, `aphrody_auto::auth`, `auto_ffi`, `@aphrody/auto`), a Cloudflare Workers edge bundle, a Web UI, and a 120 FPS GPUI desktop app.
 

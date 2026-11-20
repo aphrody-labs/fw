@@ -7,7 +7,7 @@ sources = [
   "https://gitlab.gnome.org/api/v4/projects/GNOME%2Fgtk",
   "https://doc.qt.io/qt-6/",
   "https://krausest.github.io/js-framework-benchmark/",
-  "aphrody-dev/aphrody:.agents/plugins/aphrody/docs/nsh",
+  "aphrody-labs/aphrody:.agents/plugins/aphrody/docs/nsh",
 ]
 
 [[framework]]
@@ -216,9 +216,9 @@ i18n = "unknown"
 hot_reload = "TSX hot updates (README)"
 size_benchmark = "measured by NSH (docs/dev/browser-js-size.md, 2026-10-27, wasm web target): Counter 12,540,474 raw / 4,539,436 gzip / 3,425,833 brotli bytes; Gallery 13,100,520 / 4,724,712 / 3,589,333"
 startup_memory_benchmark = "unknown"
-notes = "IDENTIFIED: \"nsh\" in aphrody-dev/aphrody:.agents/plugins/aphrody/docs/nsh and skills/nsh is Native Shell, a Rust native UI framework (upstream longbridge/nsh); minimums iOS 15, Android 8, macOS 14, Windows 10 1809, GTK 4.14"
+notes = "IDENTIFIED: \"nsh\" in aphrody-labs/aphrody:.agents/plugins/aphrody/docs/nsh and skills/nsh is Native Shell, a Rust native UI framework (upstream longbridge/nsh); minimums iOS 15, Android 8, macOS 14, Windows 10 1809, GTK 4.14"
 retrieved = "2026-11-16"
-sources = ["https://github.com/longbridge/nsh/blob/main/README.md", "https://api.github.com/repos/longbridge/nsh/releases/latest", "repo:aphrody-dev/aphrody:.agents/plugins/aphrody/docs/nsh/dev/browser-js-size.md", "file:aphrody-dev/aphrody:.agents/plugins/aphrody/docs/nsh/dev/architecture.md"]
+sources = ["https://github.com/longbridge/nsh/blob/main/README.md", "https://api.github.com/repos/longbridge/nsh/releases/latest", "repo:aphrody-labs/aphrody:.agents/plugins/aphrody/docs/nsh/dev/browser-js-size.md", "file:aphrody-labs/aphrody:.agents/plugins/aphrody/docs/nsh/dev/architecture.md"]
 
 [[framework]]
 id = "flutter"

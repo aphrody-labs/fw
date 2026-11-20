@@ -19,7 +19,7 @@ never `cf.ts apply tunnels` from it.
 - **The `aphrody-sites` deploy** (`edge.yml`: build `apps/r2-site/build.ts`, then `wrangler deploy --config apps/r2-site/wrangler/aphrody-sites.toml`):
   - deploy from `main` only;
   - the token is scoped to the deploy step;
-  - secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are already set on aphrody-dev/ay.
+  - secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are already set on aphrody-labs/ay.
 - **Gateway hardening** (`~/.claude/tmp/gateway-hardening.patch` for `aphrody-mcp-gateway/index.ts`):
   - security headers on every response;
   - 405 with `Allow` on wrong methods;

@@ -20,7 +20,7 @@ repo = "aphrody-labs/legacy"
 archives = ["aphrody-labs/bun-os", "aphrody-labs/bun-distribution"]
 
 [domains]
-# Owned by the aphrody monorepo (aphrody-dev/aphrody); read-only here. Never change their DNS, zones or routes from
+# Owned by the aphrody monorepo (aphrody-labs/aphrody); read-only here. Never change their DNS, zones or routes from
 # this repository: per-domain roles are decided once, at the end, by the owner of that repository.
 root = "aphrody.com"
 app = "aphrody.app"
@@ -35,7 +35,7 @@ cloud = { owner = "aphrody", title = "Aphrody Cloud", reference = "https://devel
 craft = { owner = "craft-anything", title = "Craft Anything", reference = "https://github.com/storytold/craft-anything", keywords = ["craft", "artcraft", "canvas", "video", "image", "game", "render", "3d", "media"] }
 brand = { owner = "ay", title = "Aphrody brand", reference = "https://design.google/", keywords = ["brand", "identity", "design", "m3", "theme", "token", "font", "icon", "assets", "i18n"] }
 
-# The ecosystem (2026-11-17). aphrody-dev/aphrody is the complete OS in pure Rust and the source of truth; this
+# The ecosystem (2026-11-17). aphrody-labs/aphrody is the complete OS in pure Rust and the source of truth; this
 # repository is its SDK, in any best-fit language: C ABI, OpenAPI, docs, spec, standards,
 # corelib, libc and the design system. One checkout per repo locally and one repo per unit on GitHub.
 [registries]

@@ -239,7 +239,7 @@ export function toMarkdown(units: Unit[], meta: Record<string, string>): string 
 // ---------------------------------------------------------------- collectors
 
 export type Fetcher = (url: string) => Promise<any>;
-const UA = "ay-recover (https://github.com/aphrody-dev/ay)";
+const UA = "ay-recover (https://github.com/aphrody-labs/ay)";
 export const fetchJson: Fetcher = async url => {
   const r = await fetch(url, { headers: { "user-agent": UA, accept: "application/json" } });
   if (!r.ok) throw new Error(`${url}: ${r.status}`);

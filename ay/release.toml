@@ -46,7 +46,7 @@ rust_target = "wasm32-unknown-unknown"
 package = "fw-wasm"
 
 [products.aphrody]
-# aphrody-dev/aphrody: .github/workflows/aphrody-release.yml (build matrix). Installers and archives of the `aphrody` binary.
+# aphrody-labs/aphrody: .github/workflows/aphrody-release.yml (build matrix). Installers and archives of the `aphrody` binary.
 [[products.aphrody.targets]]
 asset = "aphrody-x86_64.tar.gz"
 os = "linux"

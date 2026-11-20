@@ -28,8 +28,8 @@ function baseTelemetry(overrides: Partial<QuotaTelemetry> = {}): QuotaTelemetry 
     githubActions: {
       monthlyMinutesUsed: 300,
       repos: [
-        { repo: "aphrody-dev/ay", cacheBytes: 1 * GIB },
-        { repo: "aphrody-dev/aphrody", cacheBytes: 2 * GIB },
+        { repo: "aphrody-labs/ay", cacheBytes: 1 * GIB },
+        { repo: "aphrody-labs/aphrody", cacheBytes: 2 * GIB },
       ],
     },
     vpsFleet: [
@@ -83,7 +83,7 @@ describe("cf-quota routing and ceiling monitor", () => {
 
   test("offloads GitHub Actions to self-hosted build role when minutes or 10 GiB repo cache crosses 75%", () => {
     const t = baseTelemetry();
-    t.githubActions.repos = [{ repo: "aphrody-dev/aphrody", cacheBytes: 8 * GIB }];
+    t.githubActions.repos = [{ repo: "aphrody-labs/aphrody", cacheBytes: 8 * GIB }];
     const res = evaluateQuotaRouting(t);
     expect(res.severity).toBe("warn");
     expect(res.exitCode).toBe(1);

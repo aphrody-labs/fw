@@ -135,7 +135,7 @@ note = "checkout, deployment or upstream tree whose content is pushed (git tree 
 origin = "crate"
 name = "^(bun-os-|bunos-|bun-(re|steam)$)"
 home = "aphrody"
-note = "Bun OS unit: OS prefix (aphrody-*) per aphrody-labs/.github naming; owned by aphrody-dev/aphrody, listed not edited"
+note = "Bun OS unit: OS prefix (aphrody-*) per aphrody-labs/.github naming; owned by aphrody-labs/aphrody, listed not edited"
 
 [[rule]]
 origin = "crate"
@@ -170,7 +170,7 @@ note = "agent kernel, tools, inference and RAG"
 origin = "crate"
 name = "^aphrody-(aarch64|ctr|switch|wii|wii-dff|wii-image|homebrew|emu-utils|emu-utils-macros|nu|toolchains|vpn|wireguard|remote-desktop|capture|ssh|kernel|kernel-client|shell-.*|term|term-caps|terminal-.*|gpu-backend|render|webos-protocol)$"
 home = "aphrody"
-note = "OS crate: belongs to aphrody-dev/aphrody (owned by its own agent), listed not edited"
+note = "OS crate: belongs to aphrody-labs/aphrody (owned by its own agent), listed not edited"
 
 [[rule]]
 origin = "crate"

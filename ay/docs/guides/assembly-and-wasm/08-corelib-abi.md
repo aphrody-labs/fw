@@ -1,6 +1,6 @@
 # 8. The corelib and its capability ABI
 
-`corelib/` is the SDK's freestanding C23 corelib: no libc dependency (`corelib/src/libc.c` carries the four `mem*` functions the compiler may call), no heap, no global state outside two tables. It is the reference implementation of the syscall and capability ABI that the Aphrody OS (`aphrody-dev/aphrody`, pure Rust) consumes through the C ABI; this repository (`ay`) owns the ABI, its C header and its conformance runs. Nothing here claims to be the OS itself. The toolchain rules are in [ADR-0008](../../adr/0008-sdk-languages-toolchain.md): LLVM first, the C ABI as the stable boundary, WebAssembly as imports and exports plus a WIT world.
+`corelib/` is the SDK's freestanding C23 corelib: no libc dependency (`corelib/src/libc.c` carries the four `mem*` functions the compiler may call), no heap, no global state outside two tables. It is the reference implementation of the syscall and capability ABI that the Aphrody OS (`aphrody-labs/aphrody`, pure Rust) consumes through the C ABI; this repository (`ay`) owns the ABI, its C header and its conformance runs. Nothing here claims to be the OS itself. The toolchain rules are in [ADR-0008](../../adr/0008-sdk-languages-toolchain.md): LLVM first, the C ABI as the stable boundary, WebAssembly as imports and exports plus a WIT world.
 
 ## Design in one page
 

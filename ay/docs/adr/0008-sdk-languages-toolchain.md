@@ -3,7 +3,7 @@
 Status: accepted, 2026-11-17 (owner decision).
 
 ## Context
-`aphrody-dev/aphrody` is the complete OS in pure Rust and the source of truth. This repository is its SDK:
+`aphrody-labs/aphrody` is the complete OS in pure Rust and the source of truth. This repository is its SDK:
 C ABI, OpenAPI, docs, spec, standards, corelib, libc and the design system. One checkout per repository,
 one repository per unit, no duplicated code across the ecosystem.
 

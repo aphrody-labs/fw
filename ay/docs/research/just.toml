@@ -787,13 +787,13 @@ defects = [
 note = "Already implements the pattern recommended below: recipes are one-line calls into bun tools/scripts (for example bun \"{{root}}/tools/agents/runner.ts\" {{cmd}} {{args}}) and into the ay CLI."
 
 [[aphrody.justfile]]
-repo = "aphrody-dev/ay/apps/nt (nested in legacy ay)"
+repo = "aphrody-labs/ay/apps/nt (nested in legacy ay)"
 files = "justfile (96 lines)"
 recipes = 21
 works = "just --list succeeds (WinUI shell, interop, msindex, tools, web)"
 
 [[aphrody.justfile]]
-repo = "aphrody-dev/ay/apps/open (own git repository)"
+repo = "aphrody-labs/ay/apps/open (own git repository)"
 files = "justfile"
 recipes = 8
 works = "just --list succeeds (check, extension, install, private, release, test-ts, upstream)"
@@ -828,12 +828,12 @@ recipes_referencing_ts = 28
 works = "yes: --list, --dump json succeed; just --dry-run check prints bun run typecheck then bun scripts/build/rust/cargo.ts ck; just test-scripts runs the Bun test suite (684 tests, 5 failures that belong to the repo's tests; the recipe wiring works); --fmt --check exits 1 (1.58.0 spacing)"
 
 [[aphrody.justfile]]
-repo = "aphrody-dev/aphrody"
+repo = "aphrody-labs/aphrody"
 files = "none first-party: all 34 justfile and .just files are vendored upstream code under vendor/ (cosmic-*, libcosmic, blitz, anyrender, taffy, cosmic-epoch). Not run."
 works = "not run, upstream files"
 
 [[aphrody.justfile]]
-repo = "aphrody-labs/bun, aphrody-dev/ay, aphrody-labs/browser"
+repo = "aphrody-labs/bun, aphrody-labs/ay, aphrody-labs/browser"
 files = "none"
 note = "ay-next has tools/*.ts (absorb, disks, features, recon, each with a *.test.ts) and a package.json with two scripts (features, check); there is no justfile yet."
 

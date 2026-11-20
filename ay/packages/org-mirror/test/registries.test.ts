@@ -49,7 +49,7 @@ describe("crates.io", () => {
     const info = await fetchCrate("opentunnel", { sleep: noSleep, fetch: async (_u, init) => { ua = (init!.headers as Record<string, string>)["user-agent"]!; return reply(doc); } });
     expect(info.status).toBe("ok");
     expect(ua).toContain("aphrody-org-mirror");
-    expect(ua).toContain("github.com/aphrody-dev/ay");
+    expect(ua).toContain("github.com/aphrody-labs/ay");
     expect(ua).not.toContain("@");
   });
 });

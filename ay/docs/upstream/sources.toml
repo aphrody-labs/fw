@@ -1,4 +1,4 @@
-# Extraction-source manifest for aphrody-dev/ay (generated 2026-11-18).
+# Extraction-source manifest for aphrody-labs/ay (generated 2026-11-18).
 #
 # Each [[source]] is an upstream repository used ONLY as an extraction source for
 # skills, docs, MCP server definitions and the code graph. Builds never use these

@@ -3,7 +3,7 @@
 
 [product]
 name = "cf"
-repo = "aphrody-dev/ay"
+repo = "aphrody-labs/ay"
 fork_org = "aphrody-labs"
 description = "Unified Cloudflare monorepo, upstream fork sync, FinOps, tunnels, Mullvad VPN, proxy VPS, and polyglot edge toolchain"
 
