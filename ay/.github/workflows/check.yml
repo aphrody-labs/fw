@@ -121,7 +121,7 @@ jobs:
           workspaces: ay
           save-if: ${{ github.ref == 'refs/heads/main' }}
       - run: >
-          cargo hack check --each-feature --no-dev-deps --locked
+          cargo hack check --each-feature --locked
           -p ay-design -p ay-build -p ay-cf -p ay-media -p aphrody-auto
 
   # SDK corelib conformance: one freestanding C23 code base, run as a native process (clang, and clang-cl on Windows locally),

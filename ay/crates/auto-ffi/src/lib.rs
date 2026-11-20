@@ -607,16 +607,16 @@ pub unsafe extern "C" fn auto_call(
     if out_len.is_null() {
         return std::ptr::null_mut();
     }
-    // SAFETY: the caller guarantees `op_ptr` is valid for `op_len` bytes when it is not null (documented contract of `auto_call`).
     let op_bytes = if op_ptr.is_null() {
         &[]
     } else {
+        // SAFETY: the caller guarantees `op_ptr` is valid for `op_len` bytes when it is not null (documented contract of `auto_call`).
         unsafe { std::slice::from_raw_parts(op_ptr, op_len) }
     };
-    // SAFETY: same contract for `in_ptr` and `in_len`.
     let input = if in_ptr.is_null() {
         &[]
     } else {
+        // SAFETY: same contract for `in_ptr` and `in_len`.
         unsafe { std::slice::from_raw_parts(in_ptr, in_len) }
     };
     let result = match std::str::from_utf8(op_bytes) {
