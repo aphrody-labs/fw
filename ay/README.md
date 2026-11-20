@@ -1,15 +1,15 @@
 # ay
 
-The Aphrody SDK, built for agents: C ABI and corelib, Rust crates, Bun packages, the AI OS runtime, the unified edge Worker, and the design tokens. Names, hosts and domains come from `ay.toml`; the agent contract is `AGENTS.md`.
+Unified **`kiri` + `just`** task runner, recipe engine, and monorepo build/dev orchestrator (`https://github.com/libracoder/kiri` + `https://github.com/casey/just` model), plus Aphrody's C ABI, corelib, cloud/edge tooling, and design tokens. All OS, kernel, POSIX, Windows, AI, ML, inference, MCP, and ACP layers live in `fw`. Names, hosts and domains come from `ay.toml`; the agent contract is `AGENTS.md`.
 
 ## Layout
 
 | Path | Holds | Gate |
 |---|---|---|
 | `abi/`, `corelib/` | C ABI, freestanding corelib (C, assembly) | `bun tools/abi.ts --check`, `bun tools/corelib.ts` |
-| `crates/` | Rust workspace (`ay-*`) | `cargo check --workspace` (on the build host) |
-| `packages/` | Bun packages (AI OS, chromium, cf-control-plane, ...) | `bun test ./packages` |
-| `apps/` | Programs: `ay` CLI, `edge` Worker, `cf-gateway`, `agents`, `ai-gateway`, `auto-*` | `bun test ./apps/ay` |
+| `crates/` | Rust workspace (`ay-*` core/SDK/cloud/browser/media) | `cargo check --workspace` (on the build host) |
+| `packages/` | Bun packages (chromium, cf-control-plane, edge-stack, auto-*, ...) | `bun test ./packages` |
+| `apps/` | Programs: `ay` CLI, `edge` Worker, `cf-gateway`, `chromium-dash`, `tools-release`, `auto-*` | `bun test ./apps/ay` |
 | `tools/` | Typed Bun scripts: checks, generators, Cloudflare operations | `bun test ./tools/` |
 | `brand/` | Design tokens (Material 3) and generated themes | `bun tools/tokens-compose.ts --check` |
 | `docs/` | Spec, architecture, ADRs, feature matrix | `bun tools/features.ts --check` |

@@ -73,7 +73,7 @@ Keys are those of `ay.toml` [repos]; the matrix owner of every feature row is on
 | `aphrody-dev/aphrody` | The OS in pure Rust, source of truth; native UI (GPUI, COSMIC, `gpui_app_shell`, `os_craft`); owns `aphrody.com` and `aphrody.app` | Owned by another agent; read-only for this repository |
 | `aphrody-dev/ay` | SDK: C ABI, OpenAPI, docs, spec, standards, corelib, libc, design system | This repository |
 | `aphrody-dev/anu` | Absorbed into this repository on 2026-11-18 (`os/linux`, `tools/linux-*.ts`, `tools/rust-map.ts`) | Absorbed |
-| `aphrody-dev/ai-os` | Absorbed into this repository on 2026-11-18 (`packages/ai-os`, `crates/ay-*`, `apps/agents`, `apps/ai-gateway`); archived | Read only |
+| `aphrody-dev/ai-os` | Absorbed into this repository on 2026-11-18 (`../fw/packages/ai-os`, `crates/ay-*`, `apps/agents`, `apps/ai-gateway`); archived | Read only |
 | `aphrody-dev/aysh` | Absorbed into this repository on 2026-11-18 (`crates/ay-sh`, `crates/ay-sh`, `config/`, `packages/omniu`, `tools/shells.ts`) | Absorbed |
 | `aphrody-dev/ay-tools` | `ay-build/deps` (`crates/ay-build`, feature `deps`), `ay-re` (`crates/ay-re`, `crates/ay-ghidra-bun`), and `env-kit` (`packages/env-kit`) absorbed; archived | Read only |
 | `aphrody-dev/aydroid` | AOSP with Aphrody in place of Android | Empty repository, no content yet |

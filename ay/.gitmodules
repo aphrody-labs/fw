@@ -6,10 +6,6 @@
 	path = third_party/blitz
 	url = ../../aphrody-labs/blitz.git
 	branch = main
-[submodule "third_party/taffy"]
-	path = third_party/taffy
-	url = ../../aphrody-labs/taffy.git
-	branch = main
 [submodule "third_party/anyrender"]
 	path = third_party/anyrender
 	url = ../../aphrody-labs/anyrender.git
@@ -22,10 +18,6 @@
 	path = third_party/dioxus-sdk
 	url = ../../aphrody-labs/dioxus-sdk.git
 	branch = main
-[submodule "third_party/wgpu"]
-	path = third_party/wgpu
-	url = ../../aphrody-labs/wgpu.git
-	branch = trunk
 [submodule "third_party/vello"]
 	path = third_party/vello
 	url = ../../aphrody-labs/vello.git
@@ -34,45 +26,21 @@
 	path = third_party/winit
 	url = ../../aphrody-labs/winit.git
 	branch = main
-[submodule "third_party/accesskit"]
-	path = third_party/accesskit
-	url = ../../aphrody-labs/accesskit.git
-	branch = main
 [submodule "third_party/nsh"]
 	path = third_party/nsh
 	url = ../../aphrody-labs/longbridge-nsh.git
 	branch = main
-[submodule "third_party/cosmic-epoch"]
-	path = third_party/cosmic-epoch
-	url = ../../aphrody-labs/cosmic-epoch.git
-	branch = master
 [submodule "third_party/libcosmic"]
 	path = third_party/libcosmic
 	url = ../../aphrody-labs/libcosmic.git
 	branch = master
-[submodule "third_party/cosmic-text"]
-	path = third_party/cosmic-text
-	url = ../../aphrody-labs/cosmic-text.git
-	branch = main
 [submodule "third_party/iced"]
 	path = third_party/iced
 	url = ../../aphrody-labs/iced.git
 	branch = master
-[submodule "third_party/browser"]
-	path = third_party/browser
-	url = ../../aphrody-labs/browser.git
-	branch = main
-[submodule "third_party/mullvad"]
-	path = third_party/mullvad
-	url = ../../aphrody-labs/mullvadvpn-app.git
-	branch = main
 [submodule "third_party/cloudflare/cloudflare-os"]
 	path = third_party/cloudflare/cloudflare-os
 	url = ../../aphrody-labs/cloudflare-os.git
-	branch = main
-[submodule "third_party/cloudflare/kitesurf"]
-	path = third_party/cloudflare/kitesurf
-	url = ../../aphrody-labs/kitesurf.git
 	branch = main
 [submodule "third_party/cloudflare/agents"]
 	path = third_party/cloudflare/agents

@@ -28,7 +28,7 @@ aysys-link = []
 [dependencies]
 ay-agent-context = { workspace = true, optional = true }
 ay-core = { workspace = true, optional = true }
-ay-gemini = { path = "../../ay-gemini", default-features = false, features = ["boq"], optional = true }
+ay-gemini = { package = "fw-gemini", path = "../../../../fw/crates/fw-gemini", default-features = false, features = ["boq"], optional = true }
 ay-re = { workspace = true, optional = true }
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
 serde.workspace = true

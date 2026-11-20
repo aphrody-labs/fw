@@ -1,7 +1,7 @@
 [workspace]
 resolver = "3"
 members = ["crates/*", "crates/ay-core/capi", "crates/ay-core/jni"]
-exclude = ["third_party", "crates/ay-core/capi/py", "packages"]
+exclude = ["third_party", "crates/ay-core/capi/py", "packages", "xtask"]
 
 [workspace.package]
 edition = "2024"
@@ -20,16 +20,16 @@ argh = "0.1.19"
 argon2 = { version = "0.6", default-features = false, features = ["alloc"] }
 async-trait = "0.1.92"
 axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
-ay-agent-context = { path = "crates/ay-agent-context" }
+ay-agent-context = { package = "fw-agent-context", path = "../fw/crates/fw-agent-context" }
 ay-core = { path = "crates/ay-core" }
 ay-re = { path = "crates/ay-re" }
 base64 = "0.23.1"
 blake3 = { version = "1.8.7", features = ["mmap", "rayon"] }
-browser-browse = { path = "third_party/browser/components/browser-browse" }
-browser-detect = { path = "third_party/browser/components/browser-detect", default-features = false }
-browser-engine = { path = "third_party/browser/components/browser-engine" }
-browser-views = { path = "third_party/browser/components/browser-views" }
-browser-vpn = { path = "third_party/browser/components/browser-vpn" }
+browser-browse = { path = "../browser/components/browser-browse" }
+browser-detect = { path = "../browser/components/browser-detect", default-features = false }
+browser-engine = { path = "../browser/components/browser-engine" }
+browser-views = { path = "../browser/components/browser-views" }
+browser-vpn = { path = "../browser/components/browser-vpn" }
 bytes = "1.12.2"
 cc = "1.11.2"
 chacha20poly1305 = { version = "0.11", default-features = false, features = ["alloc"] }

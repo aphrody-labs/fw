@@ -32,7 +32,7 @@ Any language does the job it suits. In this repository: C and its derivatives, a
   repository applies it.
 - **Feature matrix and decisions**: `docs/features.toml`, `docs/adr/`, the design package mirrored to Drive and Figma
   (`docs/mirrors.toml`).
-- **AI OS & agent harness**: `packages/ai-os`, `crates/ay-*` (`ay-a2a*`, `ay-agent-*`, `ay-rag*`, `ay-llama*`, `ay-rag/localstore`, `ay-vault`), `apps/agents`, `apps/ai-gateway`.
+- **AI OS & agent harness**: `../fw/packages/ai-os`, `crates/ay-*` (`ay-a2a*`, `ay-agent-*`, `ay-rag*`, `ay-llama*`, `ay-rag/localstore`, `ay-vault`), `apps/agents`, `apps/ai-gateway`.
 - **Shell, PTY & environment**: `crates/ay-sh`, `packages/omniu`, `config/`, `packages/env-kit`.
 - **Reverse engineering & Linux platform**: `crates/ay-re`, `crates/ay-ghidra-bun`, `packages/ghidra`, `packages/py2bun`, `os/linux`, `tools/linux-*.ts`.
 - **Release tooling**: the Chromium release datasets and dashboard (`packages/chromium*`, `apps/chromium-dash`) and the
