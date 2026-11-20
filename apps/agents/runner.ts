@@ -26,7 +26,7 @@ import {
 } from "node:fs";
 import { homedir, hostname } from "node:os";
 import { join, resolve } from "node:path";
-import { resolveExe } from "@aphrody/ay-ai-os/llm/agents";
+import { resolveExe } from "@aphrody/fw-ai-os/llm/agents";
 import { expandSync } from "../../packages/env-kit/src/discover.ts";
 import { hostAlias, hostRole } from "../../packages/env-kit/src/hosts.ts";
 import { srcRepo } from "./repo.ts";

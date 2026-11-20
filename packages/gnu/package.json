@@ -1,5 +1,5 @@
 {
-  "name": "@aphrody/ay-gnu",
+  "name": "@aphrody/fw-gnu",
   "version": "0.1.0",
   "description": "GNU upstream tracker and distributor: ftp.gnu.org, info-gnu, Savannah, GSRC, Guix and the Rust equivalents, as a JSON feed, an Atom feed, a static site and MCP tools",
   "type": "module",

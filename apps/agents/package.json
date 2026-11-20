@@ -1,5 +1,5 @@
 {
-  "name": "@aphrody/ay-agents",
+  "name": "@aphrody/fw-agents",
   "private": true,
   "type": "module",
   "description": "Agent harness: runner, GitHub events, plugins and host installers",
@@ -7,7 +7,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@aphrody/ay-ai-os": "workspace:*",
-    "@aphrody/ay-env-kit": "workspace:*"
+    "@aphrody/fw-ai-os": "workspace:*",
+    "@aphrody/ay-env-kit": "file:../../../ay/packages/env-kit"
   }
 }

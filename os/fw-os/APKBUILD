@@ -8,7 +8,7 @@ url="https://github.com/aphrody-labs/fw"
 arch="x86_64 aarch64 riscv64"
 license="MIT"
 makedepends="cargo rust"
-provides="uutils-coreutils fw-native"
+provides="uutils-coreutils fw"
 options="net !check"
 
 build() {
@@ -17,9 +17,9 @@ build() {
 }
 
 package() {
-	install -Dm755 "target/${CARCH}-unknown-linux-musl/release/fw-native" \
-		"$pkgdir/usr/bin/fw-native"
+	install -Dm755 "target/${CARCH}-unknown-linux-musl/release/fw" \
+		"$pkgdir/usr/bin/fw"
 	for applet in ls cat echo wc head tail sha256sum uname env pwd stat find grep diff sed ps hostname; do
-		ln -s /usr/bin/fw-native "$pkgdir/usr/bin/$applet"
+		ln -s /usr/bin/fw "$pkgdir/usr/bin/$applet"
 	done
 }

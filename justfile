@@ -1,4 +1,7 @@
-set windows-shell := ["pwsh", "-NoLogo", "-NoProfile", "-Command"]
+set windows-shell := ["powershell.exe", "-NoLogo", "-NoProfile", "-Command"]
+
+exe := if os() == "windows" { ".exe" } else { "" }
+fw := "./target/release/fw" + exe
 
 # Show available recipes
 default:
@@ -59,13 +62,13 @@ musl:
 
 # Run Hermes/OpenClaw Rust agent smoke checks
 claw:
-    ./target/release/fw claw status
-    ./target/release/fw claw mcp
-    ./target/release/fw claw run "Audit Rust CLI MCP skills"
+    {{fw}} claw status
+    {{fw}} claw mcp
+    {{fw}} claw run "Audit Rust CLI MCP skills"
 
 # Launch fullstack control-plane + MCP/GraphQL/WebRTC/WebGPU server
 serve addr="127.0.0.1:4380":
-    ./target/release/fw serve {{addr}}
+    {{fw}} serve {{addr}}
 
 # Build Alpine Linux static musl container image
 docker tag="fw:latest":
@@ -90,7 +93,7 @@ nix-bootstrap-vps host="fr1":
 
 # Apply tuned Windows .wslconfig + .wslgconfig for Fw-WSL (WSL 3.0.5 + RTX 4070)
 wsl-apply-configs:
-    pwsh -NoProfile -File os/fw-wsl/install-fw-wsl.ps1 -ApplyHostConfigs
+    powershell.exe -NoProfile -File os/fw-wsl/install-fw-wsl.ps1 -ApplyHostConfigs
 
 # Refresh live direct Rust competitor benchmark (TSV + Markdown)
 competitors:
@@ -102,10 +105,10 @@ rust-brain:
 
 # Universal benchmark sandbox: silicon (RAM/SWAR/MatMul/System-1/Tokens) & taxonomy
 bench-silicon:
-    ./target/release/fw.exe bench silicon --mb 16
+    {{fw}} bench silicon --mb 16
 
 bench-matrix:
-    ./target/release/fw.exe bench matrix
+    {{fw}} bench matrix
 
 # CLI migration from OpenClaw or Hermes Agent into fw
 migrate-openclaw *args:
@@ -122,7 +125,7 @@ migrate-llmd *args:
 
 # Prove fw ls/table/find/grep against eza, nu, fd, rg via hyperfine
 bench-cli:
-    hyperfine --warmup 5 --runs 25 -N "./target/release/fw.exe ls ." "eza ."
-    hyperfine --warmup 3 --runs 15 -N "./target/release/fw.exe table ." "nu -n --no-std-lib -c 'ls | select name type size'"
-    hyperfine --warmup 5 --runs 25 -N "./target/release/fw.exe find .rs crates" "fd -e rs . crates"
-    hyperfine --warmup 5 --runs 25 -N "./target/release/fw.exe grep forbid crates" "rg -F -n forbid crates"
+    hyperfine --warmup 5 --runs 25 -N "{{fw}} ls ." "eza ."
+    hyperfine --warmup 3 --runs 15 -N "{{fw}} table ." "nu -n --no-std-lib -c 'ls | select name type size'"
+    hyperfine --warmup 5 --runs 25 -N "{{fw}} find .rs crates" "fd -e rs . crates"
+    hyperfine --warmup 5 --runs 25 -N "{{fw}} grep forbid crates" "rg -F -n forbid crates"

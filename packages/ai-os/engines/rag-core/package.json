@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@aphrody/cli-wasm": "1.4.7",
-    "@aphrody/ay-env-kit": "workspace:*"
+    "@aphrody/ay-env-kit": "file:../../../../../ay/packages/env-kit"
   },
   "devDependencies": {
     "@types/bun": "catalog:"

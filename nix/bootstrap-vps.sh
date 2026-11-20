@@ -35,7 +35,7 @@ else
 fi
 
 # 4. Verify core pure-Rust userland binaries from /nix/store
-for bin in fw-native nu rg fd ast-grep jaq xh sd bat eza jj difft just sccache mold; do
+for bin in fw nu rg fd ast-grep jaq xh sd bat eza jj difft just sccache mold; do
   command -v "$bin" >/dev/null 2>&1 && echo "  OK: $(command -v "$bin")" || echo "  WARN: missing $bin"
 done
 

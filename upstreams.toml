@@ -11,14 +11,6 @@ role = "GGUF v3, quantized dot/matmul, ggml-rpc, zero-bloat C/Rust discipline"
 watch = true
 
 [[upstream]]
-id = "asterinas"
-repo = "asterinas/asterinas"
-branch = "main"
-docs = "https://asterinas.github.io/book/osdk/guide/create-project.html"
-fw = "os/fw-os + crates/fw-ostd-wasm"
-role = "Optional memory-safe guest microVM sandbox (v0.19.0 pre-1.0; Linux CachyOS LTO is primary OS)"
-
-[[upstream]]
 id = "cloudflare-os"
 repo = "cloudflare/cloudflare-os"
 branch = "main"
@@ -89,22 +81,6 @@ branch = "release"
 docs = "https://github.com/xddxdd/nix-cachyos-kernel#readme"
 fw = "flake.nix + nix/hosts/"
 role = "Clang+ThinLTO CachyOS kernels (x86_64-v3 + zen4) with binary cache"
-
-[[upstream]]
-id = "openvmm"
-repo = "microsoft/openvmm"
-branch = "main"
-docs = "https://openvmm.dev/guide/"
-fw = "os/fw-wsl"
-role = "Memory-safe Rust VMM replacing legacy Hyper-V/WSL C++ host layers"
-
-[[upstream]]
-id = "ironrdp"
-repo = "Devolutions/IronRDP"
-branch = "master"
-docs = "https://github.com/Devolutions/IronRDP#readme"
-fw = "os/fw-wsl"
-role = "Memory-safe Rust RDP transport replacing legacy WSLg FreeRDP C"
 
 [[upstream]]
 id = "scx"

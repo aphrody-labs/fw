@@ -1,4 +1,4 @@
-# @aphrody/ay-gnu
+# @aphrody/fw-gnu
 
 <!-- catalog:begin unit -->
 <!-- prettier-ignore-start -->

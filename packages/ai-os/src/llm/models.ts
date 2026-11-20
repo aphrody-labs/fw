@@ -1,6 +1,6 @@
 // Providers and models discovered at run time, never hardcoded: each provider is active if its access exists
 // (environment variable, authenticated CLI or a local server that answers) and its model list comes from its API.
-// Single model bridge of @aphrody/ay-ai-os (agent, ai-os, search, gateway): `provider/model`, OpenAI-compatible
+// Single model bridge of @aphrody/fw-ai-os (agent, ai-os, search, gateway): `provider/model`, OpenAI-compatible
 // API call (chat/completions, tools, embeddings) or by CLI; see model.ts.
 //
 //   provider      access                                        model list                                call

@@ -11,8 +11,8 @@
       pkgs = import nixpkgs { inherit system; };
     in {
       packages.${system} = {
-        fw-native = pkgs.rustPlatform.buildRustPackage {
-          pname = "fw-native";
+        fw = pkgs.rustPlatform.buildRustPackage {
+          pname = "fw";
           version = "4.0.0";
           src = ../..;
           cargoLock.lockFile = ../../Cargo.lock;
@@ -34,14 +34,14 @@
           uutils-coreutils-noprefix
           uutils-findutils
           uutils-diffutils
-          self.packages.${system}.fw-native
+          self.packages.${system}.fw
         ];
 
         systemd.services.fw-cluster = {
           description = "Fw v4.0 Zero-Dep Hybrid Cluster (Pingora + Dynamo + ggml-rpc + uutils)";
           wantedBy = [ "multi-user.target" ];
           serviceConfig = {
-            ExecStart = "${self.packages.${system}.fw-native}/bin/fw-native serve 0.0.0.0:8080";
+            ExecStart = "${self.packages.${system}.fw}/bin/fw serve 0.0.0.0:8080";
             Restart = "always";
           };
         };

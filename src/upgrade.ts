@@ -109,7 +109,7 @@ export function checkUpgrade(root: string): UpgradeCheckReport {
   const plan = [
     "cargo build --release --manifest-path native/fw-abi/Cargo.toml (Fat LTO cdylib + craft-pe + tree-sitter)",
     "cargo build --release --manifest-path native/fw-agy/Cargo.toml (Fat LTO AOT native agy launcher)",
-    "bun build --compile --aot --trim --no-compile-function-source src/fw_cli.ts --outfile dist/fw.staging.exe",
+    "bun build --compile --aot --trim --no-compile-function-source src/fw_cli.ts --outfile dist/fw-plugin.staging.exe",
     "verify gates: uvx ruff check ., cargo test (pe/abi/agy), bun test tests, staged binary smoke checks",
     "atomic promote into target/agy/ and dist/ + update target/manifest.json + target/upgrade-history.jsonl",
   ];
@@ -150,7 +150,7 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
     },
   ];
 
-  const stagedCli = join(stageDir, isWin ? "fw.exe" : "fw");
+  const stagedCli = join(stageDir, isWin ? "fw-plugin.exe" : "fw-plugin");
   steps.push({
     name: "build-cli-bun-aot-trim",
     cmd: [
@@ -348,7 +348,7 @@ export function runBenchmarks(root: string, iterations = 5) {
 
   const results = {
     fwAgyLto: measure("target/agy/agy (Rust Fat-LTO AOT)", agyTarget, ["--fw-info"]),
-    fwCliAot: measure("dist/fw (Bun AOT + trim)", cliTarget, ["status"]),
+    fwCliAot: measure("dist/fw-plugin (Bun AOT + trim)", cliTarget, ["status"]),
     upstreamAgySigned: measure("upstream signed agy.exe (--version)", upstream, ["--version"]),
     fwAbiLto: {
       label: "fw_abi (Rust Fat-LTO cdylib)",

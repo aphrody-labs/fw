@@ -20,7 +20,7 @@ function resolveFwRoot(): string {
 
 const root = resolveFwRoot();
 const isWin = process.platform === "win32";
-const exeName = isWin ? "fw.exe" : "fw";
+const exeName = isWin ? "fw-plugin.exe" : "fw-plugin";
 const targetBin = join(root, "target", "agy", exeName);
 const distBin = join(root, "dist", exeName);
 const cliEntry = join(root, "src", "fw_cli.ts");

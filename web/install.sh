@@ -26,10 +26,8 @@ fi
 OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
 ARCH="$(uname -m)"
 case "$OS-$ARCH" in
-  linux-x86_64)  ASSET="fw-x86_64-unknown-linux-musl" ;;
-  linux-aarch64|linux-arm64) ASSET="fw-aarch64-unknown-linux-musl" ;;
-  darwin-arm64|darwin-aarch64) ASSET="fw-aarch64-apple-darwin" ;;
-  darwin-x86_64) ASSET="fw-x86_64-apple-darwin" ;;
+  linux-x86_64)  ASSET="fw-x86_64-linux-musl" ;;
+  darwin-arm64|darwin-aarch64) ASSET="fw-aarch64-macos" ;;
   *) echo "Unsupported platform: $OS-$ARCH" >&2; exit 1 ;;
 esac
 

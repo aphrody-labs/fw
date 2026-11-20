@@ -1,11 +1,11 @@
 # ai-os, orchestrator, NHITL, review tribunal and ai-os recipes (imported by the root justfile).
 
-# @aphrody/ay-ai-os CLI: agent (init, run, tui, gateway, research, ...) or ai-os (`just ai-os ai-os serve`)
+# @aphrody/fw-ai-os CLI: agent (init, run, tui, gateway, research, ...) or ai-os (`just ai-os ai-os serve`)
 [group('ai-os')]
 ai-os *args:
     bun run --cwd "{{root}}/packages/ai-os" src/cli.ts {{args}}
 
-# @aphrody/ay-ai-os tests (inside the package, never `bun test` from the root)
+# @aphrody/fw-ai-os tests (inside the package, never `bun test` from the root)
 [group('ai-os')]
 ai-os-test:
     bun --cwd "{{root}}/packages/ai-os" test

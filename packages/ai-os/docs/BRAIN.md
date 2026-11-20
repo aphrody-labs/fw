@@ -1,6 +1,6 @@
 # ai-os brain
 
-One brain for Claude Code and agy (Antigravity CLI), owned by `@aphrody/ay-ai-os`.
+One brain for Claude Code and agy (Antigravity CLI), owned by `@aphrody/fw-ai-os`.
 
 ## Commands
 

@@ -1,5 +1,5 @@
 {
-  "name": "@aphrody/ay-ai-os",
+  "name": "@aphrody/fw-ai-os",
   "version": "0.2.0",
   "description": "Aphrody AI OS: Unix/GNU-like agent OS distribution unifying LLM, RAG, World Model, and System 1 decision under one C ABI (ay_core_capi)",
   "type": "module",
@@ -32,10 +32,10 @@
   },
   "dependencies": {
     "@aphrody/ai-router": "https://github.com/aphrody-labs/open/releases/download/libraries-v0.5.0/aphrody-ai-router-0.5.0.tgz",
-    "@aphrody/ay-automate": "workspace:*",
-    "@aphrody/ay-core": "workspace:*",
-    "@aphrody/ay-env-kit": "workspace:*",
-    "@aphrody/ay-wck": "workspace:*"
+    "@aphrody/ay-automate": "file:../../../ay/packages/automate",
+    "@aphrody/ay-core": "file:../../../ay/packages/core",
+    "@aphrody/ay-env-kit": "file:../../../ay/packages/env-kit",
+    "@aphrody/ay-wck": "file:../../../ay/packages/wck"
   },
   "devDependencies": {},
   "license": "MIT OR Apache-2.0",

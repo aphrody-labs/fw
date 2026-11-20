@@ -1,4 +1,4 @@
-// @aphrody/ay-ai-os: the single AI unit of src. Sub-modules are also exported separately
+// @aphrody/fw-ai-os: the single AI unit of src. Sub-modules are also exported separately
 // (./core, ./llm, ./gateway, ./research, ./ai-os).
 export * from "./core/index";
 export * as llm from "./llm/index";

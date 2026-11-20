@@ -1,4 +1,4 @@
-# @aphrody/ay-ai-os
+# @aphrody/fw-ai-os
 
 <!-- catalog:begin unit -->
 <!-- prettier-ignore-start -->
@@ -20,9 +20,11 @@ Part of Aphrody: [aphrody-labs/ay](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->
 
+The `@aphrody/ay-*` dependencies (`env-kit`, `automate`, `core`, `wck`) are not published on npm (`npm view @aphrody/ay-env-kit` answers 404); they are linked with `file:` from the sibling `ay` checkout (`../ay/packages/<name>`).
+
 Cross-platform sandboxed Unix/GNU-like operating system distribution for autonomous agents, unifying POSIX/FHS VFS, LLM runtime discovery, hybrid RAG, causal World Model, and sub-millisecond System 1 decision routing behind **one single C ABI** (`ai_os_*` in [crates/ay-core/capi](../../crates/ay-core/capi), header [ay_core.h](../../crates/ay-core/capi/include/ay_core.h)).
 
-`@aphrody/ay-ai-os` is an agent kernel and runtime distribution, not a TUI, package manager, or cron wrapper (those belong to host agent harnesses such as `agy`, Claude Code, and OpenCode). Zero third-party npm dependencies (`bun:ffi`, `bun:sqlite`, `Bun.serve`, `Bun.listen`, `Bun.spawn`, `fetch`).
+`@aphrody/fw-ai-os` is an agent kernel and runtime distribution, not a TUI, package manager, or cron wrapper (those belong to host agent harnesses such as `agy`, Claude Code, and OpenCode). Zero third-party npm dependencies (`bun:ffi`, `bun:sqlite`, `Bun.serve`, `Bun.listen`, `Bun.spawn`, `fetch`).
 
 ## FHS Virtual Layout & Unified C ABI (`ai_os_*`)
 

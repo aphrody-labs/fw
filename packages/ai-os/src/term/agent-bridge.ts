@@ -1,5 +1,5 @@
 // Unified AI-First Terminal Agent Bridge (OpenRouter, ACP v1.31.0, OpenCode, MCP Agent, A2A 1.0.1, Claude, Antigravity).
-// Zero duplicated provider discovery: builds directly on @aphrody/ay-ai-os llm/models, ai-os/acp, ai-os/a2a, ai-os/backends, and core/agent.
+// Zero duplicated provider discovery: builds directly on @aphrody/fw-ai-os llm/models, ai-os/acp, ai-os/a2a, ai-os/backends, and core/agent.
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { run as runAgent } from "../core/agent.ts";

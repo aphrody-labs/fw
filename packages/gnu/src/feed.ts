@@ -168,7 +168,7 @@ export async function buildFeed(
   const c = (f: (e: Entry) => boolean) => entries.filter(f).length;
   return {
     generated: now.toISOString(),
-    generator: "@aphrody/ay-gnu",
+    generator: "@aphrody/fw-gnu",
     sources: {
       gsrc_revno: st.gsrc.revno ?? inv.gsrcRevno,
       ftp_listing_mtime: st.ftp.mtime ?? null,
@@ -245,7 +245,7 @@ export function buildAtom(
   <updated>${feed.generated}</updated>
   <link rel="self" href="${base}/feed.atom"/>
   <link rel="alternate" href="${base}/"/>
-  <generator>@aphrody/ay-gnu</generator>
+  <generator>@aphrody/fw-gnu</generator>
 ${entries}
 </feed>
 `;

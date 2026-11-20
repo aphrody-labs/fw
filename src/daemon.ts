@@ -39,8 +39,8 @@ function xmlEscape(s: string): string {
 
 function resolveServiceExecutable(root: string): { command: string; args: string[] } {
   const isWin = process.platform === "win32";
-  const cliTarget = resolve(root, "target", "agy", isWin ? "fw.exe" : "fw");
-  const cliDist = resolve(root, "dist", isWin ? "fw.exe" : "fw");
+  const cliTarget = resolve(root, "target", "agy", isWin ? "fw-plugin.exe" : "fw-plugin");
+  const cliDist = resolve(root, "dist", isWin ? "fw-plugin.exe" : "fw-plugin");
   if (existsSync(cliTarget)) {
     return { command: cliTarget, args: ["daemon", "run", "--interval=300", "--auto-apply", "--with-learn"] };
   }
@@ -62,7 +62,7 @@ export function renderCrossPlatformServices(root: string) {
   mkdirSync(linuxDir, { recursive: true });
   mkdirSync(macDir, { recursive: true });
 
-  const winExe = resolve(root, "target", "agy", "fw.exe");
+  const winExe = resolve(root, "target", "agy", "fw-plugin.exe");
   const winArgs = "daemon run --interval=300 --auto-apply --with-learn";
   const winXml = `<?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
@@ -110,7 +110,7 @@ export function renderCrossPlatformServices(root: string) {
 `;
 
   const unixRoot = root.replaceAll("\\", "/");
-  const linuxExec = `${unixRoot}/target/agy/fw daemon run --interval=300 --auto-apply --with-learn`;
+  const linuxExec = `${unixRoot}/target/agy/fw-plugin daemon run --interval=300 --auto-apply --with-learn`;
   const linuxUnit = `[Unit]
 Description=Fw Continuous LTO/AOT Self-Upgrade & Learning Daemon for agy
 After=network-online.target
@@ -137,7 +137,7 @@ WantedBy=default.target
   <string>${xmlEscape(unixRoot)}</string>
   <key>ProgramArguments</key>
   <array>
-    <string>${xmlEscape(`${unixRoot}/target/agy/fw`)}</string>
+    <string>${xmlEscape(`${unixRoot}/target/agy/fw-plugin`)}</string>
     <string>daemon</string>
     <string>run</string>
     <string>--interval=300</string>

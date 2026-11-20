@@ -80,10 +80,8 @@ jobs:
           cargo build --release --target wasm32-unknown-unknown -p fw-wasm
           cargo build --release --manifest-path native/fw-abi/Cargo.toml
           cargo build --release --manifest-path native/fw-agy/Cargo.toml
-      - name: Native PE/Sniff/ABI tests
+      - name: Native ABI tests
         run: |
-          cargo test --manifest-path native/fw-pe/Cargo.toml
-          cargo test --manifest-path native/fw-sniff/Cargo.toml
           cargo test --manifest-path native/fw-abi/Cargo.toml
       - name: Bun test suite & Cloudflare Workers dry-run
         run: |

@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-// @aphrody/ay-ai-os entry point: `ai-os ai-os <cmd>` runs the ai-os CLI (src/server/cli.ts), `ai-os orch <cmd>` the
+// @aphrody/fw-ai-os entry point: `ai-os ai-os <cmd>` runs the ai-os CLI (src/server/cli.ts), `ai-os orch <cmd>` the
 // orchestrator (src/orch/cli.ts), `ai-os fabric <cmd>` the distributed inference fabric (src/fabric/cli.ts),
 // `ai-os nhitl <cmd>` the index of human-in-the-loop violations (src/nhitl/cli.ts), `ai-os review <target>` the
 // three-voice review tribunal (src/review/cli.ts, .private/reviews/README.md), `ai-os automate <list|run|tui>` the automations of

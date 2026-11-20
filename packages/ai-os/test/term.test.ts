@@ -25,7 +25,7 @@ const HAS_WASM = existsSync(
   ),
 );
 
-describe("@aphrody/ay-ai-os AI-First WebGPU Terminal", () => {
+describe("@aphrody/fw-ai-os AI-First WebGPU Terminal", () => {
   test("TermManager spawns real ConPTY shell, tracks VTerm text & captures OSC-133 errors", async () => {
     if (!HAS_SYS) return;
     const mgr = new TermManager();

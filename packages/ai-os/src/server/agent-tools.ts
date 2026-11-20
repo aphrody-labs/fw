@@ -1,4 +1,4 @@
-// Agent core tools served by the ai-os, the single MCP server and A2A surface of @aphrody/ay-ai-os (it replaces the
+// Agent core tools served by the ai-os, the single MCP server and A2A surface of @aphrody/fw-ai-os (it replaces the
 // former stdio server of packages/mcp): long-term memory, skills, council of agent CLIs, and a full agent run on a
 // model discovered at run time. Home: AGENT_HOME, default ~/.agent (same store as the agent CLI).
 import { existsSync, lstatSync, mkdirSync, realpathSync } from "node:fs";

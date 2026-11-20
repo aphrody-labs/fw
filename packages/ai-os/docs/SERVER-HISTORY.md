@@ -8,7 +8,7 @@ Read on 2026-11-15. Sources: `git log` in this repository, files in the working 
 
 - 29 tracked files, 6724 lines (`git ls-files`, `wc -l`, 2026-11-15).
 - 49 commits touch the folder, all between 2026-11-13 and 2026-11-15 (`git log --follow`).
-- First commit `f2df75e96` (2026-11-13, "one package @aphrody/ay-ai-os, no npm dependency") adds 14 ai-os files and 2268 lines (`git show --stat f2df75e96`).
+- First commit `f2df75e96` (2026-11-13, "one package @aphrody/fw-ai-os, no npm dependency") adds 14 ai-os files and 2268 lines (`git show --stat f2df75e96`).
 - Churn (lines added plus deleted, commits touching the file; `git log --numstat`):
 
 | File             | Churn | Commits | Lines now |

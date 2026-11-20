@@ -1,6 +1,5 @@
 id	repo	branch	head_sha	fw	docs	role
 llama-cpp	ggml-org/llama.cpp	master	184862801a	crates/fw-ggml	https://github.com/ggml-org/llama.cpp/blob/master/CONTRIBUTING.md	GGUF v3, quantized dot/matmul, ggml-rpc, zero-bloat C/Rust discipline
-asterinas	asterinas/asterinas	main	12374d1337	os/fw-os + crates/fw-ostd-wasm	https://asterinas.github.io/book/osdk/guide/create-project.html	Optional memory-safe guest microVM sandbox (v0.19.0 pre-1.0; Linux CachyOS LTO is primary OS)
 cloudflare-os	cloudflare/cloudflare-os	main	0c351991c3	cloudflare/worker.ts	https://developers.cloudflare.com/agents/	Multi-tenant AI OS, 19 gatekeepers, gadgets, Workers Static Assets
 cloudflare-computer	cloudflare/computer	main	cd0146b287	cloudflare/worker.ts	https://github.com/cloudflare/computer#readme	DO SQLite VFS (dofs), computerd FUSE over capnweb RPC, 3-tier runtime
 pingora	cloudflare/pingora	main	3f87e92c98	crates/fw-cluster	https://github.com/cloudflare/pingora#readme	Low-latency Rust L7 proxy, pooling, hybrid 3-VPS + Edge routing
@@ -10,8 +9,6 @@ rmcp	modelcontextprotocol/rust-sdk	main	459cb4f841	crates/fw-hermes-claw	https:/
 zeroclaw	zeroclaw-labs/zeroclaw	main	unknown	crates/fw-hermes-claw	https://github.com/zeroclaw-labs/zeroclaw#readme	Full-Rust autonomous multi-channel assistant reference
 zed	zed-industries/zed	main	10d1b2a564	crates/fw-ostd-wasm + flake.nix	https://zed.dev/docs	GPUI retained rendering, ACP External Agents, flake-parts + crane
 nix-cachyos-kernel	xddxdd/nix-cachyos-kernel	release	ffdb35a774	flake.nix + nix/hosts/	https://github.com/xddxdd/nix-cachyos-kernel#readme	Clang+ThinLTO CachyOS kernels (x86_64-v3 + zen4) with binary cache
-openvmm	microsoft/openvmm	main	5cf28492b3	os/fw-wsl	https://openvmm.dev/guide/	Memory-safe Rust VMM replacing legacy Hyper-V/WSL C++ host layers
-ironrdp	Devolutions/IronRDP	master	63d442e8dd	os/fw-wsl	https://github.com/Devolutions/IronRDP#readme	Memory-safe Rust RDP transport replacing legacy WSLg FreeRDP C
 scx	sched-ext/scx	main	1674b66b82	nix/modules/vps-common.nix + os/fw-wsl	https://github.com/sched-ext/scx#readme	Rust BPF sched_ext schedulers (scx_lavd, scx_bpfland) on Linux CachyOS LTO
 cloud-hypervisor	cloud-hypervisor/cloud-hypervisor	main	1ff2b3decc	nix/modules/vps-common.nix	https://github.com/cloud-hypervisor/cloud-hypervisor#readme	Rust KVM microVM VMM (virtio-fs, vsock, VFIO) for Tier-2 agent sandboxes
 uutils-coreutils	uutils/coreutils	main	276ffe9cc0	flake.nix + crates/fw-uutils	https://uutils.github.io/coreutils/	Cross-platform pure-Rust POSIX coreutils replacing GNU coreutils

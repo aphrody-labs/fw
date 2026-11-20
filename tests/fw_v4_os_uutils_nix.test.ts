@@ -27,7 +27,7 @@ describe("Fw v4.0 — Asterinas OSDK + GPUI WebGPU/Wasm + Alpine uutils + NixOS 
     expect(apkbuild).toContain("+crt-static");
   });
 
-  test("fw-native executes ostd+GPUI, uutils multicall, pure-Rust NixOS store/NAR, and unified v4 stack", () => {
+  test("fw executes ostd+GPUI, uutils multicall, pure-Rust NixOS store/NAR, and unified v4 stack", () => {
     expect(existsSync(NATIVE_BIN)).toBe(true);
 
     const ostd = JSON.parse(

@@ -181,7 +181,7 @@ fn resolve_agy_studio() -> Option<PathBuf> {
 }
 
 fn resolve_fw_cli(root: &Path) -> PathBuf {
-    let exe_name = if cfg!(windows) { "fw.exe" } else { "fw" };
+    let exe_name = if cfg!(windows) { "fw-plugin.exe" } else { "fw-plugin" };
     for candidate in [
         root.join("target").join("agy").join(exe_name),
         root.join("dist").join(exe_name),

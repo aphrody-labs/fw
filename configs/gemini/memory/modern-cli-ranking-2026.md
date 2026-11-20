@@ -37,4 +37,4 @@ Verified live from GitHub API & crates.io on 2026-11-19. Prefer these Rust binar
   1. `zeroclaw-labs/zeroclaw` (33,488★, Rust) — fast, small autonomous personal assistant infrastructure
   2. `RightNow-AI/openfang` (18,271★, Rust) — open-source Agent OS
   3. `nearai/ironclaw` (12,718★, Rust) — privacy/security/WASM-sandboxed Agent OS
-  4. **In-repo Fairwind `crates/fw-hermes-claw`** (`#![forbid(unsafe_code)]`, zero system deps): unified Hermes self-growing memory + skill distiller + OpenClaw/ZeroClaw sandboxed gateway + CLI-to-MCP JSON-RPC 2.0 server + CLI-to-Skill generator (`fairwind-native claw <status|ranking|mcp|skill-gen|run>`).
+  4. **In-repo fw `crates/fw-hermes-claw`** (`#![forbid(unsafe_code)]`, zero system deps): unified Hermes self-growing memory + skill distiller + OpenClaw/ZeroClaw sandboxed gateway + CLI-to-MCP JSON-RPC 2.0 server + CLI-to-Skill generator (`fw claw <status|ranking|mcp|skill-gen|run>`).

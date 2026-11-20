@@ -16,7 +16,7 @@ if ($Uninstall) {
     exit 0
 }
 
-$Asset = "fw-x86_64-pc-windows-msvc.exe"
+$Asset = "fw-x86_64-windows.exe"
 $Url = if ($Version) {
     "https://github.com/$Repo/releases/download/$Version/$Asset"
 } else {

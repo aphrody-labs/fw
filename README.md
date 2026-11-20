@@ -1,9 +1,9 @@
 # fw
 
-Single pure-Rust v4.2 binary (`#![forbid(unsafe_code)]`, `x86-64-v3`, `mimalloc 0.1.52`, zero subprocesses) for local LLM abliteration, Hugging Face Hub operations, autonomous agent protocols, keyless self-learning, and a 40-applet GNU/Linux Wasm32 userland.
+Single pure-Rust v4.2 binary (`x86-64-v3`, `mimalloc 0.1.52`, zero subprocesses) for local LLM abliteration, Hugging Face Hub operations, autonomous agent protocols, keyless self-learning, and a 40-applet GNU/Linux Wasm32 userland.
 
 - Live Edge Worker: `https://fw-edge.aphrody-labs.workers.dev` (`cloudflare/wrangler.jsonc`, `FwOSAgent` SQLite Durable Object + `web/` UI)
-- Workspace: 15 pure-Rust crates (`crates/fw-{ggml,compute,cluster,proto,ui-blitz,wasm,ostd-wasm,uutils,nix,unified-stack,wayland-wgpu,hermes-claw,apm,fx,bin}`) + `xtask`, 7 external crates (`serde`, `serde_json`, `sha2`, `tokio`, `flate2`, `mimalloc`, `ureq`)
+- Workspace: the `crates/fw-*` members and `xtask` of `Cargo.toml` (list: `cargo metadata --no-deps --format-version 1`); external dependencies are declared per crate manifest; per-directory tiers and gates are in `MAP.tsv` (`cargo xtask map`). `#![forbid(unsafe_code)]` is set per crate (`git grep -L "forbid(unsafe_code)" -- "crates/*/src/lib.rs"` lists the crates that do not).
 
 ## Install, Update & Uninstall (Zero Manual Steps)
 

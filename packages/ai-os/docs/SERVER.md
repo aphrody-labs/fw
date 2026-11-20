@@ -1,4 +1,4 @@
-# Relais de @aphrody/ay-ai-os (`src/server`)
+# Relais de @aphrody/fw-ai-os (`src/server`)
 
 Relais local entre Claude Code et Gemini (gemini.google.com piloté par CDP, ou Gemini CLI), avec la flotte VPS et gcloud en lecture. Un seul processus bun, jeton porteur obligatoire, liaison 127.0.0.1.
 

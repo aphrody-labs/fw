@@ -86,7 +86,6 @@
             default = rustUserland;
             rust-userland = rustUserland;
             fw = fwPkg;
-            fw-native = fwPkg;
           };
 
           devShells.default = pkgs.mkShell {

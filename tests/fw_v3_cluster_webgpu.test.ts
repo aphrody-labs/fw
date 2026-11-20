@@ -41,7 +41,7 @@ describe("Fw v3.0 unified zero-dep binary, hybrid cluster, ggml-org, Wasm32 & Bl
     expect(Math.abs(exports.fw_wasm_q8_dot4(1, 2, 3, 4, 4, 3, 2, 1, 0.5) - 10.0)).toBeLessThan(1e-5);
   });
 
-  test("fw-native zero-dep Fat-LTO binary runs status, ggml-rpc, cluster KV-route, and Blitz PNG render", () => {
+  test("fw zero-dep Fat-LTO binary runs status, ggml-rpc, cluster KV-route, and Blitz PNG render", () => {
     expect(existsSync(NATIVE_BIN)).toBe(true);
 
     const statusProc = Bun.spawnSync([NATIVE_BIN, "status"], { cwd: ROOT, stdout: "pipe", stderr: "pipe" });
