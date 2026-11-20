@@ -4,7 +4,7 @@
 //! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
 //! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
 
-mod features;
+mod doctor;
 mod m3_agent_tui;
 
 use fw_cluster::HybridClusterRouter;
@@ -430,26 +430,22 @@ fn main() {
         "m3-tui" | "agent-tui" | "god" => {
             m3_agent_tui::run_m3_agent_tui(&args[1..]);
         }
-        "features" => {
-            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&features::build_consolidated_features_report(&cwd))
-                    .unwrap()
-            );
-        }
         "doctor" => {
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
             println!(
                 "{}",
-                serde_json::to_string_pretty(&features::build_consolidated_doctor(&cwd)).unwrap()
+                serde_json::to_string_pretty(&doctor::run_doctor(&cwd)).unwrap()
             );
         }
         "help" | "--help" | "-h" => {
-            println!("fw 4.2.0 — Consolidated 15-crate Pure-Rust Agent OS");
-            for (cmd, desc) in features::CONSOLIDATED_COMMANDS {
-                println!("  {cmd:<12} {desc}");
-            }
+            println!("fw 4.2.0 — Native Rust CLI");
+            println!("  fw fx [args...]          Real coding agent (ask, REPL, tool, config, mcp, sessions, acp)");
+            println!("  fw pm <subcmd>           Unified package manager (scan, lock, verify, resolve cargo|npm <pkg>, sbom, semver)");
+            println!("  fw doctor                Probe local toolchain, FX_HOME, git, API keys, and Ollama :11434");
+            println!("  fw m3-tui                Interactive Material 3 TUI");
+            println!("  fw serve [host:port]     HTTP/MCP/ACP/A2A/OpenAI server");
+            println!("  fw uutils <applet>       Zero-fork Rust coreutils");
+            println!("  fw bench <subcmd>        Silicon/exec/compare/HTTP benchmarks");
         }
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
@@ -461,17 +457,8 @@ fn main() {
             });
         }
         _ => {
-            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&json!({
-                    "ok": true,
-                    "version": "4.2.0",
-                    "usage": "fw <features|doctor|help|fx|pm|apm|m3-tui|serve|uutils|nix|hermes|cluster|hardware|compute|ggml|bench|status>",
-                    "workspace": cwd.display().to_string()
-                }))
-                .unwrap()
-            );
+            eprintln!("unknown command; run `fw help`");
+            std::process::exit(1);
         }
     }
 }

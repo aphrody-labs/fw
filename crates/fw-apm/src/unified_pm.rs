@@ -318,7 +318,119 @@ pub fn unified_sbom_cyclonedx(lock: &UnifiedPmLockfile) -> Value {
     })
 }
 
-/// CLI entrypoint for `fw pm <scan|lock|sbom|semver|info> [args...]`.
+/// Fetches live metadata for a Cargo crate (RFC 2789 sparse index) or npm package.
+pub fn resolve_live_package(ecosystem: &str, name: &str) -> Result<Value, String> {
+    let curl_bin = if cfg!(windows) { "curl.exe" } else { "curl" };
+    match ecosystem {
+        "cargo" | "crates" | "crate" => {
+            let url = cargo_sparse_index_url(name);
+            let out = std::process::Command::new(curl_bin)
+                .args(["--silent", "--show-error", "--fail", "--max-time", "15", &url])
+                .output()
+                .map_err(|e| format!("spawn {curl_bin}: {e}"))?;
+            if !out.status.success() {
+                return Err(format!(
+                    "crates.io sparse index fetch failed for `{name}`: {}",
+                    String::from_utf8_lossy(&out.stderr).trim()
+                ));
+            }
+            let body = String::from_utf8_lossy(&out.stdout);
+            let mut latest: Option<Value> = None;
+            let mut total_versions = 0usize;
+            for line in body.lines() {
+                if let Ok(v) = serde_json::from_str::<Value>(line) {
+                    total_versions += 1;
+                    if !v.get("yanked").and_then(Value::as_bool).unwrap_or(false) {
+                        latest = Some(v);
+                    }
+                }
+            }
+            let latest = latest.ok_or_else(|| format!("no non-yanked versions for `{name}`"))?;
+            let ver = latest["vers"].as_str().unwrap_or("");
+            let cksum = latest["cksum"].as_str().unwrap_or("");
+            let deps_count = latest["deps"].as_array().map_or(0, Vec::len);
+            Ok(json!({
+                "ok": true,
+                "ecosystem": "cargo",
+                "name": name,
+                "latest": ver,
+                "sha256": cksum,
+                "depsCount": deps_count,
+                "totalVersions": total_versions,
+                "sparseIndexUrl": url,
+                "downloadUrl": format!("https://static.crates.io/crates/{name}/{name}-{ver}.crate")
+            }))
+        }
+        "npm" | "bun" => {
+            let url = format!("{}/latest", npm_registry_url(name));
+            let out = std::process::Command::new(curl_bin)
+                .args(["--silent", "--show-error", "--fail", "--max-time", "15", &url])
+                .output()
+                .map_err(|e| format!("spawn {curl_bin}: {e}"))?;
+            if !out.status.success() {
+                return Err(format!(
+                    "npm registry fetch failed for `{name}`: {}",
+                    String::from_utf8_lossy(&out.stderr).trim()
+                ));
+            }
+            let v: Value = serde_json::from_slice(&out.stdout).map_err(|e| e.to_string())?;
+            Ok(json!({
+                "ok": true,
+                "ecosystem": "npm",
+                "name": v["name"].as_str().unwrap_or(name),
+                "latest": v["version"].as_str().unwrap_or(""),
+                "integrity": v["dist"]["integrity"].as_str().unwrap_or(""),
+                "tarball": v["dist"]["tarball"].as_str().unwrap_or(""),
+                "registryUrl": url
+            }))
+        }
+        other => Err(format!("unsupported ecosystem `{other}` (expected cargo|npm)")),
+    }
+}
+
+/// Verifies an existing `fw-pm.lock.json` against the current workspace manifests.
+pub fn verify_lockfile(root: &Path) -> Result<Value, String> {
+    let lock_path = root.join("fw-pm.lock.json");
+    let raw = fs::read_to_string(&lock_path)
+        .map_err(|e| format!("cannot read {}: {e} (run `fw pm lock` first)", lock_path.display()))?;
+    let saved: UnifiedPmLockfile = serde_json::from_str(&raw).map_err(|e| e.to_string())?;
+    let current = scan_unified_workspace(root);
+
+    let saved_map: BTreeMap<(&str, &str), &str> = saved
+        .packages
+        .iter()
+        .map(|p| ((p.name.as_str(), p.version_req.as_str()), p.integrity_sha256.as_str()))
+        .collect();
+    let curr_map: BTreeMap<(&str, &str), &str> = current
+        .packages
+        .iter()
+        .map(|p| ((p.name.as_str(), p.version_req.as_str()), p.integrity_sha256.as_str()))
+        .collect();
+
+    let mut added = Vec::new();
+    let mut removed = Vec::new();
+    for k in curr_map.keys() {
+        if !saved_map.contains_key(k) {
+            added.push(format!("{}@{}", k.0, k.1));
+        }
+    }
+    for k in saved_map.keys() {
+        if !curr_map.contains_key(k) {
+            removed.push(format!("{}@{}", k.0, k.1));
+        }
+    }
+    let clean = added.is_empty() && removed.is_empty();
+    Ok(json!({
+        "ok": clean,
+        "lockfile": lock_path.display().to_string(),
+        "savedCount": saved.packages.len(),
+        "currentCount": current.packages.len(),
+        "added": added,
+        "removed": removed
+    }))
+}
+
+/// CLI entrypoint for `fw pm <scan|lock|verify|resolve|sbom|semver> [args...]`.
 pub fn run_pm_cli(args: &[&str], root: &Path) -> Result<Value, String> {
     let sub = args.first().copied().unwrap_or("scan");
     match sub {
@@ -346,6 +458,15 @@ pub fn run_pm_cli(args: &[&str], root: &Path) -> Result<Value, String> {
                 "counts": lock.counts
             }))
         }
+        "verify" => {
+            let target = args.get(1).map(Path::new).unwrap_or(root);
+            verify_lockfile(target)
+        }
+        "resolve" => {
+            let eco = args.get(1).copied().ok_or_else(|| "usage: fw pm resolve <cargo|npm> <package>".to_owned())?;
+            let pkg = args.get(2).copied().ok_or_else(|| "usage: fw pm resolve <cargo|npm> <package>".to_owned())?;
+            resolve_live_package(eco, pkg)
+        }
         "sbom" => {
             let target = args.get(1).map(Path::new).unwrap_or(root);
             let lock = scan_unified_workspace(target);
@@ -362,7 +483,7 @@ pub fn run_pm_cli(args: &[&str], root: &Path) -> Result<Value, String> {
                 "satisfies": ver.satisfies(range_s)
             }))
         }
-        other => Err(format!("unknown `fw pm` subcommand: {other} (expected scan|lock|sbom|semver|info)")),
+        other => Err(format!("unknown `fw pm` subcommand: {other} (expected scan|lock|verify|resolve|sbom|semver)")),
     }
 }
 

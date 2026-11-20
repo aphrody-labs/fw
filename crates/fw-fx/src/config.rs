@@ -33,7 +33,19 @@ pub struct FxConfig {
     pub auto_upgrade: bool,
     pub sound: bool,
     pub api_key_present: bool,
+    pub api_key_override: Option<String>,
     pub configured_providers_json: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct PersistedConfig {
+    pub model: Option<String>,
+    pub provider: Option<String>,
+    pub permission_mode: Option<String>,
+    pub effort: Option<String>,
+    pub gateway_chat_url: Option<String>,
+    pub auto_compact_percent: Option<u8>,
+    pub max_agent_steps: Option<u32>,
 }
 
 impl FxConfig {
@@ -44,8 +56,13 @@ impl FxConfig {
             .map(PathBuf::from)
             .unwrap_or_else(default_fx_home);
 
-        let model = env_or("FX_MODEL", DEFAULT_MODEL);
-        let provider = env_or("FX_PROVIDER", "gateway");
+        let persisted: PersistedConfig = std::fs::read_to_string(fx_home.join("config.json"))
+            .ok()
+            .and_then(|raw| serde_json::from_str(&raw).ok())
+            .unwrap_or_default();
+
+        let model = env_or("FX_MODEL", persisted.model.as_deref().unwrap_or(DEFAULT_MODEL));
+        let provider = env_or("FX_PROVIDER", persisted.provider.as_deref().unwrap_or("gateway"));
         let provider_order = std::env::var("FX_PROVIDER_ORDER")
             .ok()
             .map(|s| {
@@ -61,17 +78,19 @@ impl FxConfig {
         let auto_compact_percent = std::env::var("FX_AUTO_COMPACT_PERCENT")
             .ok()
             .and_then(|v| v.parse::<u8>().ok())
+            .or(persisted.auto_compact_percent)
             .map(|v| v.clamp(20, 99))
             .unwrap_or(DEFAULT_AUTO_COMPACT_PERCENT);
 
         let max_agent_steps = std::env::var("FX_MAX_AGENT_STEPS")
             .ok()
             .and_then(|v| v.parse::<u32>().ok())
+            .or(persisted.max_agent_steps)
             .unwrap_or(DEFAULT_MAX_AGENT_STEPS);
 
-        let api_key_present = std::env::var("AI_GATEWAY_API_KEY")
-            .ok()
-            .is_some_and(|v| !v.is_empty());
+        let api_key_present = ["AI_GATEWAY_API_KEY", "OPENAI_API_KEY", "OPENROUTER_API_KEY", "XAI_API_KEY", "ANTHROPIC_API_KEY"]
+            .iter()
+            .any(|k| std::env::var(k).ok().is_some_and(|v| !v.trim().is_empty()));
 
         Self {
             fx_home,
@@ -79,24 +98,59 @@ impl FxConfig {
             provider,
             provider_order,
             provider_strict: env_bool("FX_PROVIDER_STRICT", false),
-            effort: env_or("FX_EFFORT", "medium"),
+            effort: env_or("FX_EFFORT", persisted.effort.as_deref().unwrap_or("medium")),
             fast: env_bool("FX_FAST", false),
             ultrafast: env_bool("FX_ULTRAFAST", false),
-            permission_mode: env_or("FX_PERMISSION_MODE", "auto"),
+            permission_mode: env_or("FX_PERMISSION_MODE", persisted.permission_mode.as_deref().unwrap_or("auto")),
             auto_compact_percent,
             max_agent_steps,
             gateway_base_url: env_or("FX_GATEWAY_BASE_URL", DEFAULT_GATEWAY_BASE_URL),
-            gateway_chat_url: env_or("FX_GATEWAY_CHAT_URL", DEFAULT_GATEWAY_CHAT_URL),
+            gateway_chat_url: env_or("FX_GATEWAY_CHAT_URL", persisted.gateway_chat_url.as_deref().unwrap_or(DEFAULT_GATEWAY_CHAT_URL)),
             review_model: std::env::var("FX_REVIEW_MODEL").ok().filter(|v| !v.is_empty()),
             disable_keychain: env_bool("FX_DISABLE_KEYCHAIN", false),
             no_open_browser: env_bool("FX_NO_OPEN_BROWSER", false),
             auto_upgrade: env_bool("FX_AUTO_UPGRADE", true),
             sound: env_bool("FX_SOUND", false),
             api_key_present,
+            api_key_override: None,
             configured_providers_json: std::env::var("FX_CONFIGURED_PROVIDERS")
                 .ok()
                 .filter(|v| !v.is_empty()),
         }
+    }
+
+    pub fn mcp_config_file(&self) -> PathBuf {
+        self.fx_home.join("mcp.json")
+    }
+
+    pub fn set_persisted_key(&self, key: &str, value: &str) -> Result<PathBuf, String> {
+        let path = self.config_file();
+        if let Some(parent) = path.parent() {
+            std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+        }
+        let mut cfg: PersistedConfig = std::fs::read_to_string(&path)
+            .ok()
+            .and_then(|raw| serde_json::from_str(&raw).ok())
+            .unwrap_or_default();
+        match key {
+            "model" => cfg.model = Some(value.to_owned()),
+            "provider" => cfg.provider = Some(value.to_owned()),
+            "permission_mode" | "permissions" => cfg.permission_mode = Some(value.to_owned()),
+            "effort" => cfg.effort = Some(value.to_owned()),
+            "gateway_chat_url" | "url" => cfg.gateway_chat_url = Some(value.to_owned()),
+            "auto_compact_percent" => {
+                let v = value.parse::<u8>().map_err(|_| "expected integer 20..99".to_owned())?;
+                cfg.auto_compact_percent = Some(v.clamp(20, 99));
+            }
+            "max_agent_steps" => {
+                let v = value.parse::<u32>().map_err(|_| "expected positive integer".to_owned())?;
+                cfg.max_agent_steps = Some(v.max(1));
+            }
+            _ => return Err(format!("unknown config key `{key}` (valid: model, provider, permission_mode, effort, gateway_chat_url, auto_compact_percent, max_agent_steps)")),
+        }
+        let json = serde_json::to_string_pretty(&cfg).map_err(|e| e.to_string())?;
+        std::fs::write(&path, json).map_err(|e| e.to_string())?;
+        Ok(path)
     }
 
     pub fn sessions_dir(&self) -> PathBuf {

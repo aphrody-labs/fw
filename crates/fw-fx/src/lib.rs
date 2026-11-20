@@ -16,6 +16,7 @@
 //! - `cli`: all 26 `TopLevelKind` + 41 `SlashKind` commands + Program Status Protocol
 
 pub mod acp;
+pub mod agent;
 pub mod cli;
 pub mod compactor;
 pub mod config;
