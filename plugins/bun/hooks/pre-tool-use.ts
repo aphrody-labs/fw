@@ -30,6 +30,12 @@ const cwd =
       ? input.workspacePaths[0]
       : undefined;
 
+// agy and Gemini CLI read a PreToolUse result without `decision` as a deny with an empty reason.
+const passthrough = () => {
+  writeJson(harness === "agy" || harness === "gemini" ? { decision: "allow" } : {});
+  process.exit(0);
+};
+
 const isShellTool =
   tool === "Bash" ||
   tool === "run_command" ||
@@ -44,10 +50,7 @@ const cmdKey =
 const rawCmd =
   typeof toolInput[cmdKey] === "string" ? (toolInput[cmdKey] as string) : "";
 
-if (!isShellTool || !rawCmd) {
-  writeJson({});
-  process.exit(0);
-}
+if (!isShellTool || !rawCmd) passthrough();
 
 const caps = bunCapabilities();
 const rewritten = rewriteCommand(rawCmd, {
@@ -56,10 +59,7 @@ const rewritten = rewriteCommand(rawCmd, {
 });
 const hint = preferHint(rewritten?.command ?? rawCmd);
 
-if (!rewritten && !hint) {
-  writeJson({});
-  process.exit(0);
-}
+if (!rewritten && !hint) passthrough();
 
 const updated = rewritten
   ? { ...toolInput, [cmdKey]: rewritten.command }
