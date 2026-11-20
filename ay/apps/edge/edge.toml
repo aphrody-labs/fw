@@ -26,6 +26,33 @@ CHROMIUM = "aphrody-chromium"
 DIST = "aphrody-dist"
 BUN_LIB = "bun-lib"
 
+# Stores: what the modules read (apps/edge/src/store.ts guards env.<STORE> before any module runs). A store is a binding above, a key prefix inside
+# it and the keys it may serve: `allow` lists prefixes (ending in "/") and exact keys, `public = true` serves the whole bucket. A key outside the
+# allow-list answers 404 on every path of every module. Moving a store to another bucket or prefix is an edit of these tables and a deploy.
+# ASSETS: every public prefix of the bucket; learn/ (sync bundle) and auto/ (company files: Factur-X invoices and PDFs of `auto`) are private and
+# read by their own scripts through their own bindings. A prefix written by tools/r2-sync.ts that must be public is added here.
+[stores.ASSETS]
+binding = "ASSETS"
+allow = [
+  "index.html", "manifest.json",
+  "brand/", "craft/", "craft-captures/", "game/", "gamescope/", "m3/", "manifests/", "objects/", "pet/", "sha256/", "v1/", "web/", "webos/",
+]
+[stores.RELEASES]
+binding = "RELEASES"
+public = true
+[stores.VIDEO]
+binding = "VIDEO"
+public = true
+[stores.CHROMIUM]
+binding = "CHROMIUM"
+public = true
+[stores.DIST]
+binding = "DIST"
+public = true
+[stores.BUN_LIB]
+binding = "BUN_LIB"
+public = true
+
 # Services. mode = "module": code in this repository, bundled into the Worker. mode = "service": a script that still owns code or
 # Durable Object state in another repository, reached through a service binding (script = its current name); it keeps its cron
 # triggers and receives no route of its own. `routes` are Cloudflare route patterns ("host/path", a trailing * is a prefix): they are
@@ -94,7 +121,7 @@ enabled = false
 routes = []
 note = "fw-edge is not deployed on the account: enable once it is, or when fw exports its handler as a module"
 
-# Buckets served on their own hosts, the hosts that were R2 custom domains (HTTP/2 only; routed here they speak HTTP/3). Per host: the bucket binding,
+# Buckets served on their own hosts, the hosts that were R2 custom domains (HTTP/2 only; routed here they speak HTTP/3). Per host: the store,
 # the CORS rule the bucket carried (read from its live configuration on 2026-11-20) and the Cache-Control sent when the object stores none.
 # video.{root} is not here: it is routed to the bun-video-showcase script, which shadows the R2 custom domain of the same name.
 [cors.read]

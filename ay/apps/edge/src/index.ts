@@ -6,6 +6,7 @@ import assets from "./services/assets.ts";
 import bucket from "./services/bucket.ts";
 import releases from "./services/releases.ts";
 import wasm from "./services/wasm.ts";
+import { withStores } from "./store.ts";
 import type { EdgeEnv, Routed, Service } from "./types.ts";
 
 export const modules: Record<string, Service> = { releases, assets, wasm, bucket };
@@ -47,7 +48,7 @@ function effectiveUrl(request: Request, env: EdgeEnv): URL {
 const SERVED_BY = "x-served-by";
 
 export async function dispatch(inbound: Request, env: EdgeEnv, ctx: ExecutionContext): Promise<Response> {
-  const res = await route(inbound, env, ctx);
+  const res = await route(inbound, withStores(env), ctx);
   if (res.status === 101) return res;
   const out = new Response(res.body, res);
   out.headers.set(SERVED_BY, "ay-edge");

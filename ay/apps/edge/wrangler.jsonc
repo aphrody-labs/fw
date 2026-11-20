@@ -104,6 +104,43 @@
         "binding": null
       }
     },
+    "EDGE_STORES": {
+      "ASSETS": {
+        "binding": "ASSETS",
+        "allow": [
+          "index.html",
+          "manifest.json",
+          "brand/",
+          "craft/",
+          "craft-captures/",
+          "game/",
+          "gamescope/",
+          "m3/",
+          "manifests/",
+          "objects/",
+          "pet/",
+          "sha256/",
+          "v1/",
+          "web/",
+          "webos/"
+        ]
+      },
+      "RELEASES": {
+        "binding": "RELEASES"
+      },
+      "VIDEO": {
+        "binding": "VIDEO"
+      },
+      "CHROMIUM": {
+        "binding": "CHROMIUM"
+      },
+      "DIST": {
+        "binding": "DIST"
+      },
+      "BUN_LIB": {
+        "binding": "BUN_LIB"
+      }
+    },
     "EDGE_BUCKETS": {
       "assets.aphrody.app": {
         "bucket": "ASSETS",

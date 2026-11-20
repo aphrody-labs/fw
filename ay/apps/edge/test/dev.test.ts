@@ -48,7 +48,8 @@ function seed(): void {
   const icon = join(work, "icon.svg");
   writeFileSync(icon, "<svg xmlns='http://www.w3.org/2000/svg'/>");
   puts.push([cfg.buckets.ASSETS!, "brand/icon.svg", icon]);
-  puts.push([cfg.buckets.ASSETS!, "notes/readme.txt", icon]);
+  puts.push([cfg.buckets.ASSETS!, "web/readme.txt", icon]);
+  puts.push([cfg.buckets.ASSETS!, "auto/auto/assets/x/facturx.pdf", icon]);
   const tools = join(work, "latest.json");
   writeFileSync(tools, '{"version":"tools-1"}');
   puts.push([cfg.buckets.CHROMIUM!, "ay-tools/latest.json", tools]);
@@ -158,7 +159,9 @@ describe.skipIf(!running)("unified Worker in workerd", () => {
   });
 
   test("assets: plain keys under /r2-assets and the gateway on its host", async () => {
-    expect(await (await get(rootDomain, "/r2-assets/notes/readme.txt")).text()).toContain("svg");
+    expect(await (await get(rootDomain, "/r2-assets/web/readme.txt")).text()).toContain("svg");
+    expect((await get(rootDomain, "/r2-assets/auto/auto/assets/x/facturx.pdf")).status).toBe(404);
+    expect((await get(`assets.${domains.app}`, "/auto/auto/assets/x/facturx.pdf")).status).toBe(404);
     expect((await get(rootDomain, "/r2-assets/../x")).status).toBe(404);
     expect(((await (await get(`assets.${rootDomain}`, "/healthz")).json()) as { service: string }).service).toBe("ay-cf-gateway");
     expect((await get(`assets.${rootDomain}`, `/v1/icon/${"0".repeat(64)}.svg`)).status).toBe(404);

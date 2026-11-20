@@ -1,6 +1,6 @@
 // R2 buckets served on their own hosts (the hosts that used to be R2 custom domains). A custom domain of R2 answers over HTTP/2 only; the same
-// host routed to this Worker gets HTTP/3. Per host (vars.EDGE_BUCKETS, rendered from edge.toml [services.bucket.hosts]): the bucket binding, the
-// CORS rule (vars.EDGE_CORS, the rule the bucket carried) and a fallback Cache-Control. Behaviour is that of the custom domain: GET and HEAD, ranges,
+// host routed to this Worker gets HTTP/3. Per host (vars.EDGE_BUCKETS, rendered from edge.toml [services.bucket.hosts]): the store (a name of
+// edge.toml [stores], read as env.<store>), the CORS rule (vars.EDGE_CORS, the rule the bucket carried) and a fallback Cache-Control. Behaviour is that of the custom domain: GET and HEAD, ranges,
 // ETag and Last-Modified validators, "/" and directory paths answer their index.html, no listing, Vary: Origin.
 import { NOT_FOUND, serveObject } from "../r2.ts";
 import type { EdgeEnv, Routed, Service } from "../types.ts";

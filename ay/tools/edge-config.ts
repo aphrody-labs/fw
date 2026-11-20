@@ -37,9 +37,18 @@ export interface EdgeConfig {
   worker: { name: string; main: string; compatibility_date: string; compatibility_flags?: string[]; cpu_ms: number; preview_workers_dev: boolean; placement?: "smart" };
   domains: Record<string, string>;
   buckets: Record<string, string>;
+  /** What the modules read (apps/edge/src/store.ts): a binding of [buckets], a key prefix and the allow-list of served keys; `public = true` serves every key. */
+  stores?: Record<string, StoreSpec>;
   services: Record<string, ServiceSpec>;
   /** CORS rules of the bucket hosts by name; origins may use {root}, {app}, {shenron}. */
   cors?: Record<string, { origins: string[]; methods?: string[]; headers?: string[]; expose?: string[]; max_age?: number }>;
+}
+
+export interface StoreSpec {
+  binding: string;
+  prefix?: string;
+  allow?: string[];
+  public?: boolean;
 }
 
 /** One row of the table the Worker matches: host, path (prefix when `prefix`), the service that owns it. */
@@ -108,6 +117,15 @@ export function zoneOf(host: string, domains: Record<string, string>): string {
   return zones.sort((a, b) => b.length - a.length)[0]!;
 }
 
+/** vars.EDGE_STORES: the stores of edge.toml as the Worker reads them (`public` is a declaration for the check, not a runtime field). */
+export function storeVars(cfg: EdgeConfig): Json {
+  const stores = Object.entries(cfg.stores ?? {});
+  if (!stores.length) return {};
+  return {
+    EDGE_STORES: Object.fromEntries(stores.map(([name, s]) => [name, { binding: s.binding, ...(s.prefix ? { prefix: s.prefix } : {}), ...(s.allow ? { allow: s.allow } : {}) }])),
+  };
+}
+
 /** vars.EDGE_BUCKETS and vars.EDGE_CORS of the bucket service, absent when edge.toml has none. */
 export function bucketVars(cfg: EdgeConfig): Json {
   const hosts = enabledServices(cfg).flatMap(([, s]) => Object.entries(s.hosts ?? {}));
@@ -154,6 +172,7 @@ export function renderWrangler(cfg: EdgeConfig, opts: { routes?: boolean } = {})
       }),
     vars: {
       EDGE_SERVICES: Object.fromEntries(enabledServices(cfg).map(([n, s]) => [n, { binding: s.mode === "service" ? s.binding : null }])),
+      ...storeVars(cfg),
       ...bucketVars(cfg),
       EDGE_ROUTES: rows.map(({ pattern, host, path, prefix, service, hints }) => ({ pattern, host, path, prefix, service, ...(hints ? { hints } : {}) })),
     },
@@ -200,12 +219,18 @@ export function checkEdge(cfg: EdgeConfig, manifest: AyCfManifest, wrangler: str
   for (const [name, spec] of Object.entries(cfg.services)) {
     for (const [host, h] of Object.entries(spec.hosts ?? {})) {
       if (!(spec.routes ?? []).some((rt) => rt.startsWith(`${host}/`))) bad(`edge.toml services.${name}.hosts`, `"${host}" is not the host of a route of the service`);
-      if (!(h.bucket in cfg.buckets)) bad(`edge.toml services.${name}.hosts.${host}`, `bucket ${h.bucket} is not in [buckets]`);
+      if (!(h.bucket in (cfg.stores ?? {}))) bad(`edge.toml services.${name}.hosts.${host}`, `store ${h.bucket} is not in [stores]`);
       if (h.cors && !cfg.cors?.[h.cors]) bad(`edge.toml services.${name}.hosts.${host}`, `cors ${h.cors} is not in [cors]`);
     }
     for (const key of Object.keys(spec.hints ?? {})) {
       if (![...(spec.routes ?? []), ...(spec.custom_domains ?? [])].includes(key)) bad(`edge.toml services.${name}.hints`, `"${key}" is not a route of the service`);
     }
+  }
+
+  for (const [name, st] of Object.entries(cfg.stores ?? {})) {
+    if (!(st.binding in cfg.buckets)) bad(`edge.toml stores.${name}`, `binding ${st.binding} is not in [buckets]`);
+    if (st.prefix && (st.prefix.startsWith("/") || !st.prefix.endsWith("/"))) bad(`edge.toml stores.${name}`, `prefix "${st.prefix}" must be empty or look like "dir/"`);
+    if (st.public === true ? st.allow !== undefined : !st.allow?.length) bad(`edge.toml stores.${name}`, "declare either an allow-list or public = true (and not both): no store serves a bucket implicitly");
   }
 
   const zoneNames = Object.keys(manifest.zones);
