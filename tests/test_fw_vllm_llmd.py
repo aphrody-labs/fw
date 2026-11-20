@@ -8,12 +8,11 @@ import io
 import json
 import sys
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 from typing import Any
 from unittest import mock
-
-import tomllib
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 

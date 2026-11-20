@@ -10,11 +10,10 @@ and generates:
 from __future__ import annotations
 
 import re
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-
-import tomllib
 
 
 @dataclass(frozen=True, slots=True)

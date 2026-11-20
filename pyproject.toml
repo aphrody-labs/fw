@@ -4,7 +4,7 @@ version = "4.2.0"
 description = "fw Python tooling: llama.cpp/vLLM/Hermes migration helpers and the ML pipeline bridge"
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = []
 
 [project.optional-dependencies]

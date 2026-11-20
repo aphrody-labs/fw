@@ -9,11 +9,10 @@ import math
 import struct
 import sys
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 from typing import Any
-
-import tomllib
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CORE_PY = REPO_ROOT / "core" / "py"

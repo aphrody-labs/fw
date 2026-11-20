@@ -10,11 +10,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
-
-import tomllib
 
 
 def _parse_scalar(raw: str) -> Any:

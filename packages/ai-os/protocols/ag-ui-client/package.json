@@ -27,9 +27,9 @@
     "prepack": "bun run build"
   },
   "dependencies": {
-    "@ag-ui/core": "1.0.1",
-    "@ag-ui/encoder": "1.0.1",
-    "@ag-ui/proto": "1.0.1",
+    "@ag-ui/core": "1.0.5",
+    "@ag-ui/encoder": "1.0.5",
+    "@ag-ui/proto": "1.0.5",
     "compare-versions": "^6.1.1",
     "fast-json-patch": "^3.1.1",
     "rxjs": "7.8.1",
