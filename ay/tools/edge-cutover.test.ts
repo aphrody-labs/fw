@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { applySteps, missingScripts, plan, render, type Api, type Live } from "./edge-cutover.ts";
+import { applySteps, mergeSaved, missingScripts, plan, render, type Api, type Live } from "./edge-cutover.ts";
 import { loadEdgeConfig, routeRows } from "./edge-config.ts";
 
 const cfg = loadEdgeConfig();
@@ -77,5 +77,15 @@ describe("edge cutover apply and rollback", () => {
   test("an API failure stops the run with the endpoint and the error", async () => {
     const api: Api = async () => ({ success: false, errors: [{ code: 10020 }] });
     await expect(applySteps(api, local, plan(cfg, rows, live), "forward")).rejects.toThrow(/PUT zones\/zone-root\/workers\/routes\/r1.*10020/);
+  });
+});
+
+describe("resumed apply", () => {
+  test("a step an earlier run already moved keeps its original owner in the saved state", () => {
+    const first = plan(cfg, rows, live);
+    const after: Live = { ...live, routes: { ...live.routes, [root]: live.routes[root]!.map((r) => ({ ...r, script: name })) } };
+    const second = plan(cfg, rows, after);
+    const merged = mergeSaved(second, { worker: name, date: "", steps: first });
+    expect(merged.find((s) => s.pattern === `releases.${root}/*`)).toMatchObject({ action: "repoint", from: "aphrody-worker" });
   });
 });

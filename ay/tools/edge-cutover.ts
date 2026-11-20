@@ -129,7 +129,10 @@ async function apply(api: Api, local: Local, steps: Step[], direction: "forward"
     if (s.kind === "route") {
       if (!zoneId) throw new Error(`no zone id for ${s.zone}`);
       if (direction === "back" && s.action === "create") {
-        await ok(api, `zones/${zoneId}/workers/routes/${s.routeId}`, { method: "DELETE" });
+        let id = s.routeId;
+        if (!id) id = (await ok<LiveRoute[]>(api, `zones/${zoneId}/workers/routes`)).find((r) => r.pattern === s.pattern)?.id;
+        if (!id) throw new Error(`route ${s.pattern} is not live, nothing to delete`);
+        await ok(api, `zones/${zoneId}/workers/routes/${id}`, { method: "DELETE" });
         log.push(`deleted route ${s.pattern}`);
       } else if (s.action === "create") {
         const created = await ok<{ id: string }>(api, `zones/${zoneId}/workers/routes`, { method: "POST", body: { pattern: s.pattern, script: target } });
@@ -142,7 +145,7 @@ async function apply(api: Api, local: Local, steps: Step[], direction: "forward"
     } else if (direction === "back" && s.action === "create") {
       log.push(`custom domain ${s.pattern} was created by the cutover: detach it from ${s.to} in the dashboard (Workers custom domains)`);
     } else {
-      await ok(api, `accounts/${local.accountId}/workers/domains`, { method: "PUT", body: { hostname: s.pattern, service: target, zone_id: zoneId, environment: "production" } });
+      await ok(api, `accounts/${local.accountId}/workers/domains`, { method: "PUT", body: { hostname: s.pattern, service: target, zone_id: zoneId, environment: "production", override_existing_origin: true } });
       log.push(`custom domain ${s.pattern} -> ${target}`);
     }
   }
@@ -150,6 +153,14 @@ async function apply(api: Api, local: Local, steps: Step[], direction: "forward"
 }
 
 export { apply as applySteps };
+
+/** A resumed apply keeps the owner recorded before the first run: a step that was moved by an earlier run stays a repoint or create in the saved state. */
+export function mergeSaved(steps: Step[], earlier?: Saved): Step[] {
+  return steps.map((s) => {
+    const prev = earlier?.steps.find((p) => p.pattern === s.pattern && p.kind === s.kind);
+    return prev && prev.action !== "keep" && s.action === "keep" ? { ...prev, routeId: s.routeId ?? prev.routeId } : { ...s };
+  });
+}
 
 export function render(steps: Step[], missing: string[], unproxied: string[] = []): string {
   const rows = steps.map((s) => `${s.action.padEnd(8)} ${s.kind.padEnd(6)} ${s.pattern.padEnd(40)} ${(s.from ?? "(none)").padEnd(18)} -> ${s.to}`);
@@ -179,8 +190,16 @@ if (import.meta.main) {
       if (cmd === "apply") console.log("\ndry run: add --apply to move the routes");
     } else {
       if (!live.scripts.includes(cfg.worker.name)) throw new Error(`${cfg.worker.name} is not deployed: upload it first (wrangler deploy with the no-routes config)`);
-      await Bun.write(state, JSON.stringify({ worker: cfg.worker.name, date: new Date().toISOString(), steps } satisfies Saved, null, 2));
-      for (const line of await apply(api, local, steps, "forward")) console.log(line);
+      const earlier = existsSync(state) ? (JSON.parse(readFileSync(state, "utf8")) as Saved) : undefined;
+      const merged = mergeSaved(steps, earlier);
+      const save = () => Bun.write(state, JSON.stringify({ worker: cfg.worker.name, date: new Date().toISOString(), steps: merged } satisfies Saved, null, 2));
+      await save();
+      try {
+        for (const line of await apply(api, local, steps, "forward")) console.log(line);
+      } finally {
+        for (const m of merged) m.routeId = steps.find((x) => x.pattern === m.pattern)?.routeId ?? m.routeId;
+        await save();
+      }
       console.log(`previous owners saved in ${state}`);
     }
   } else if (cmd === "rollback") {
