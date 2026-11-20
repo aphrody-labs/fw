@@ -19,7 +19,7 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
-import { dirname, join, normalize, posix, resolve, win32 } from "node:path";
+import { dirname, join, normalize, resolve } from "node:path";
 
 export type Plat = "windows" | "linux" | "darwin";
 
@@ -277,19 +277,18 @@ export function gitCompletionCandidates(execPath: string | null, h: Host): strin
     ["share", "git-core", "contrib", "completion", "git-completion.bash"],
     ["share", "bash-completion", "completions", "git"],
   ];
-  const p = h.plat === "windows" ? win32 : posix; // the path flavor of the target host, not of the machine running this
   const out: string[] = [];
   if (execPath) {
     // <prefix>/libexec/git-core (or lib/git-core): share/ sits under the prefix, or one to three levels above it
     // (Git for Windows keeps it in mingw64/ or ucrt64/ next to the install root).
-    let d = p.dirname(p.dirname(p.resolve(execPath.trim())));
+    let d = dirname(dirname(resolve(execPath.trim())));
     for (let i = 0; i < 4; i++) {
-      for (const rel of shares) out.push(p.join(d, ...rel));
-      d = p.dirname(d);
+      for (const rel of shares) out.push(join(d, ...rel));
+      d = dirname(d);
     }
   }
   if (h.programfiles)
-    for (const sub of ["ucrt64", "mingw64", "clangarm64", ""]) out.push(p.join(h.programfiles, "Git", sub, ...shares[0]));
+    for (const sub of ["ucrt64", "mingw64", "clangarm64", ""]) out.push(join(h.programfiles, "Git", sub, ...shares[0]));
   return [...new Set(out)];
 }
 
