@@ -67,7 +67,7 @@ file named like the asset, so the upload step stages it:
   publish:
     needs: build-artifacts
     permissions: { contents: write, id-token: write, attestations: write }
-    uses: aphrody-dev/ay/.github/workflows/release.yml@main
+    uses: aphrody-labs/ay/.github/workflows/release.yml@main
     with:
       product: fw
       version: ${{ github.ref_name }}      # strip the v in a previous step when the tag is vX.Y.Z: ${GITHUB_REF_NAME#v}
@@ -75,7 +75,7 @@ file named like the asset, so the upload step stages it:
       tag: ${{ github.ref_name }}
       commit: ${{ github.sha }}
       artifacts-pattern: release-*
-      tools-repository: aphrody-dev/ay
+      tools-repository: aphrody-labs/ay
     secrets:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -94,7 +94,7 @@ Replace its `publish` job by the call, keeping its `resolve-metadata` outputs:
   publish:
     needs: [resolve-metadata, build]
     permissions: { contents: write, id-token: write, attestations: write }
-    uses: aphrody-dev/ay/.github/workflows/release.yml@main
+    uses: aphrody-labs/ay/.github/workflows/release.yml@main
     with:
       product: aphrody
       version: ${{ needs.resolve-metadata.outputs.version }}
@@ -102,7 +102,7 @@ Replace its `publish` job by the call, keeping its `resolve-metadata` outputs:
       tag: ${{ needs.resolve-metadata.outputs.tag }}
       commit: ${{ github.sha }}
       artifacts-pattern: release-*
-      tools-repository: aphrody-dev/ay
+      tools-repository: aphrody-labs/ay
     secrets: inherit
 ```
 
@@ -120,7 +120,7 @@ the legacy objects (`channels/`, `manifests/`, `scripts/` in the same bucket) ex
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [version, linux, windows]
     permissions: { contents: write, id-token: write, attestations: write }
-    uses: aphrody-dev/ay/.github/workflows/release.yml@main
+    uses: aphrody-labs/ay/.github/workflows/release.yml@main
     with:
       product: nie
       version: ${{ needs.version.outputs.version }}
@@ -128,7 +128,7 @@ the legacy objects (`channels/`, `manifests/`, `scripts/` in the same bucket) ex
       tag: ${{ github.ref_name }}
       commit: ${{ github.sha }}
       artifacts-pattern: release-*
-      tools-repository: aphrody-dev/ay
+      tools-repository: aphrody-labs/ay
     secrets: inherit
 ```
 

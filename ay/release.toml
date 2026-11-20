@@ -109,7 +109,7 @@ package = "nie-plugin"
 ship = false
 
 [products.ay]
-# aphrody-dev/ay: .github/workflows/release.yml. The `ay` CLI is compiled by Bun for each OS and architecture (`bun build --compile`,
+# aphrody-labs/ay: .github/workflows/release.yml. The `ay` CLI is compiled by Bun for each OS and architecture (`bun build --compile`,
 # cross-compilation from one Linux runner, `flags` are the extra `bun build` flags, run by `bun tools/release-publish.ts compile`), the corelib is built with the pinned LLVM (tools/corelib.ts buildWasm variants).
 [[products.ay.targets]]
 asset = "ay-linux-x86_64"
