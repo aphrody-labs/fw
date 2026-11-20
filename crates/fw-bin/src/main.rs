@@ -7,6 +7,7 @@
 mod cli_parser;
 mod doctor;
 mod m3_agent_tui;
+mod ml_engine;
 
 use fw_cluster::HybridClusterRouter;
 use fw_compute::bench_sandbox::{
@@ -479,6 +480,44 @@ fn main() {
             refs.push(mapped);
             refs.extend(args.iter().skip(1).map(String::as_str));
             match fw_apm::run_cli(&refs, &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw {cmd}: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "infer" | "run" => {
+            match ml_engine::run_infer(&args[1..], parsed.global.offline) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw {cmd}: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "train" | "finetune" | "lora" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            match ml_engine::run_train(&args[1..], &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw {cmd}: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "hf" | "huggingface" => {
+            match ml_engine::run_hf(&args[1..], parsed.global.offline) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw {cmd}: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "heretic" | "abliterate" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            match ml_engine::run_heretic(&args[1..], &cwd) {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
                     eprintln!("fw {cmd}: {e}");

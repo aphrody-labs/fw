@@ -138,7 +138,9 @@ dependencies = [
  "fw-uutils",
  "fw-wayland-wgpu",
  "serde_json",
+ "sha2",
  "tokio",
+ "ureq",
 ]
 
 [[package]]

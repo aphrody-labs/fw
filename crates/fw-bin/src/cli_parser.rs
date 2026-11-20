@@ -81,6 +81,11 @@ pub const COMMANDS: &[CommandMeta] = &[
     CommandMeta { name: "tool", aliases: &["x"], group: "Agent & Interactive", usage: "fw tool <name> '<json>'", summary: "Execute a workspace tool directly (read_file, write_file, edit_file, glob_files, grep_files, shell)" },
     CommandMeta { name: "tui", aliases: &["m3-tui", "god"], group: "Agent & Interactive", usage: "fw tui", summary: "Launch interactive Material 3 TUI" },
     CommandMeta { name: "serve", aliases: &["s"], group: "Agent & Interactive", usage: "fw serve [host:port]", summary: "Start Fw Chat web UI + OpenAI/MCP/ACP/A2A/WebGPU server" },
+    // ML, Inference, Training & Heretic
+    CommandMeta { name: "infer", aliases: &["run"], group: "ML, Inference & Heretic", usage: "fw infer [prompt] [--gguf <path>] [--model <m>] [--url <u>]", summary: "Native GGUF v3 Q8_0 or OpenAI/Ollama/Gateway inference (zero subprocess)" },
+    CommandMeta { name: "train", aliases: &["finetune", "lora"], group: "ML, Inference & Heretic", usage: "fw train [dataset.jsonl] [--rank 8] [--alpha 16] [--steps 60] [--out <file>]", summary: "Native pure-Rust LoRA fine-tuning & checkpoint writer (zero subprocess)" },
+    CommandMeta { name: "hf", aliases: &["huggingface"], group: "ML, Inference & Heretic", usage: "fw hf <info|files|pull> <repo_id> [filename]", summary: "Native Hugging Face Hub API & model download client (zero subprocess)" },
+    CommandMeta { name: "heretic", aliases: &["abliterate"], group: "ML, Inference & Heretic", usage: "fw heretic <presets|inspect|abliterate> [preset] [--strength 1.0]", summary: "Native Heretic preset loader & directional orthogonalization (zero subprocess)" },
     // Packages & Dependencies (bun + uv grammar)
     CommandMeta { name: "init", aliases: &[], group: "Packages & Dependencies", usage: "fw init", summary: "Initialize a project manifest" },
     CommandMeta { name: "install", aliases: &["i"], group: "Packages & Dependencies", usage: "fw install [pkg...]", summary: "Install project dependencies" },
@@ -260,6 +265,7 @@ pub fn render_root_help() -> String {
     );
     let groups = [
         "Agent & Interactive",
+        "ML, Inference & Heretic",
         "Packages & Dependencies",
         "Workspace & Protocols",
     ];
