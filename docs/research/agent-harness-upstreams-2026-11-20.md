@@ -1,4 +1,4 @@
-# Upstreams de harness d'agents: CLI-Anything, ECC, claude-mem, mesh-llm, OpenDuet
+# Upstreams de harness d'agents: CLI-Anything, ECC, claude-mem, mesh-llm, OpenDuet, RTK, Graphify, Agent Skills
 
 Lecture live du 2026-11-20 par `gh api` (arbres, README, releases, commits, issues). Aucun dépôt cloné. Les valeurs qui dérivent (étoiles, release, HEAD) vivent dans `docs/research/upstream-watch.tsv`, rafraîchi toutes les 6 h par `.github/workflows/sync-upstreams.yml` (`just sync-research` en local). Les trois dépôts sont déclarés dans `upstreams.toml` avec `watch = true`.
 
@@ -58,3 +58,10 @@ Lecture live du 2026-11-20 par `gh api` (arbres, README, releases, commits, issu
 - **OpenDuet** (`CopilotKit/OpenDuet`, TypeScript, MIT): routines planifiées, mémoire, approbation avant action, auto-hébergé. Le README exige un projet CopilotKit Intelligence pour les threads et la mémoire, donc pas 100 % local. Aucune release publiée. Ajouté à `upstreams.toml`.
 - **Nanbeige4.3-33B** (`Nanbeige/Nanbeige4.3-33B` sur Hugging Face): Apache-2.0, 33,1 G de paramètres, dernière modification 2026-10-28, quantifications GGUF tierces disponibles. La fenêtre de 512K tokens et les scores comparés à Qwen3.6-27B et Gemma 4 viennent de la vidéo et ne sont pas confirmés par la fiche lue.
 - **Non vérifiés** (aucun dépôt ou jeu de données trouvé par recherche GitHub/Hugging Face): Hallmark 2.0, Opera WebAI, les ~2 575 modèles 3D physiques NVIDIA sur Hugging Face.
+
+## Veille plugins agents 2026-11-16 (vidéo YouTube 6ebGpDRjmbE), vérifiée le 2026-11-20
+
+- **RTK** (`rtk-ai/rtk`, Rust, Apache-2.0, branche par défaut `develop`): la dernière release lue est v1.2.1 du 2026-11-19, pas la v0.34.3 de la vidéo. Le README annonce 60-90 % de tokens en moins sur les commandes de dev courantes. Il s'installe par un hook qui réécrit les commandes shell (`rtk init -g` pour Claude Code) ; `Read`, `Grep` et `Glob` passent sans compression par défaut. Windows par winget. Complément direct de `fw sh`.
+- **Graphify** (`Graphify-Labs/graphify`, ex `safishamsi/graphify`, Python, Apache-2.0, branche `v8`): v0.9.113 du 2026-11-19. Graphe interrogeable du code, des docs, des schémas SQL, des configs et des PDF. `fw graph` en reprend déjà l'idée sans dépendance.
+- **Agent Skills** (`addyosmani/agent-skills`, MIT, branche `main`): v0.6.17 du 2026-11-18, 26 dossiers dans `skills/` (la vidéo en annonce 25). À comparer avec `plugin/skills` avant tout import pour éviter les doublons.
+- Les trois sont dans `upstreams.toml` avec `watch = true`, donc suivis par le cron.

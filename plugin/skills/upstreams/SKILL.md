@@ -34,3 +34,6 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `thedotmack/claude-mem` | `c0f37d60b2` | `crates/fw-bin (fw mem) + crates/fw-agent-context` | [docs](https://github.com/thedotmack/claude-mem#readme) |
 | `Mesh-LLM/mesh-llm` | `b54e992781` | `crates/fw-cluster + crates/fw-ggml` | [docs](https://github.com/Mesh-LLM/mesh-llm#readme) |
 | `CopilotKit/OpenDuet` | `b32ec102d5` | `plugin/skills + crates/fw-agent` | [docs](https://github.com/CopilotKit/OpenDuet#readme) |
+| `rtk-ai/rtk` | `5315347b56` | `crates/fw-bin (fw sh) + crates/fw-toolcall` | [docs](https://github.com/rtk-ai/rtk#readme) |
+| `Graphify-Labs/graphify` | `f51d46c63d` | `crates/fw-bin (fw graph) + crates/fw-rag` | [docs](https://github.com/Graphify-Labs/graphify#readme) |
+| `addyosmani/agent-skills` | `8c99fa36d9` | `plugin/skills` | [docs](https://github.com/addyosmani/agent-skills#readme) |

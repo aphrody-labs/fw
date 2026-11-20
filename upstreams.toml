@@ -176,3 +176,30 @@ docs = "https://github.com/CopilotKit/OpenDuet#readme"
 fw = "plugin/skills + crates/fw-agent"
 role = "Agent proactif auto-hébergé (routines planifiées, mémoire, file d'approbation), exige un projet CopilotKit Intelligence"
 watch = true
+
+[[upstream]]
+id = "rtk"
+repo = "rtk-ai/rtk"
+branch = "develop"
+docs = "https://github.com/rtk-ai/rtk#readme"
+fw = "crates/fw-bin (fw sh) + crates/fw-toolcall"
+role = "Proxy CLI Rust qui compresse la sortie des commandes de dev (cargo test, git diff, docker logs) avant injection dans le contexte"
+watch = true
+
+[[upstream]]
+id = "graphify"
+repo = "Graphify-Labs/graphify"
+branch = "v8"
+docs = "https://github.com/Graphify-Labs/graphify#readme"
+fw = "crates/fw-bin (fw graph) + crates/fw-rag"
+role = "Graphe de connaissances interrogeable du code, des docs, schémas SQL et configs (commande graphify query)"
+watch = true
+
+[[upstream]]
+id = "agent-skills"
+repo = "addyosmani/agent-skills"
+branch = "main"
+docs = "https://github.com/addyosmani/agent-skills#readme"
+fw = "plugin/skills"
+role = "Skills d'ingénierie de production (plan, build, test, ship) à activation automatique selon le contexte"
+watch = true

@@ -4,3 +4,6 @@ ecc	affaan-m/ECC	307645	MIT	v2.2.3	2026-10-01	4adeee6732	2026-11-20	138	plugin/s
 claude-mem	thedotmack/claude-mem	118572	Apache-2.0	v16.0.1	2026-11-19	c0f37d60b2	2026-11-19	85	crates/fw-bin (fw mem) + crates/fw-agent-context
 mesh-llm	Mesh-LLM/mesh-llm	4179	Apache-2.0	v0.80.0	2026-11-16	b54e992781	2026-11-20	210	crates/fw-cluster + crates/fw-ggml
 openduet	CopilotKit/OpenDuet	2099	MIT	-	-	b32ec102d5	2026-11-14	21	plugin/skills + crates/fw-agent
+rtk	rtk-ai/rtk	87269	Apache-2.0	v1.2.1	2026-11-19	5315347b56	2026-11-20	1691	crates/fw-bin (fw sh) + crates/fw-toolcall
+graphify	Graphify-Labs/graphify	150997	Apache-2.0	v0.9.113	2026-11-19	f51d46c63d	2026-11-20	1681	crates/fw-bin (fw graph) + crates/fw-rag
+agent-skills	addyosmani/agent-skills	119341	MIT	0.6.17	2026-11-18	8c99fa36d9	2026-11-18	122	plugin/skills
