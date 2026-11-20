@@ -6,6 +6,7 @@
 
 mod abliterate;
 mod agent_platform;
+mod auto_learn;
 mod cachy_tune;
 mod cli_parser;
 mod doctor;
@@ -628,25 +629,44 @@ fn main() {
                 serde_json::to_string_pretty(&agent_platform::run_security_scan(&target)).unwrap()
             );
         }
-        "graph" => {
+        "graph" | "graphify" => {
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            let md = args.iter().any(|a| a == "--md" || a == "--markdown");
-            let target = args
-                .iter()
-                .skip(1)
-                .find(|a| !a.starts_with('-'))
-                .map(|s| cwd.join(s))
-                .unwrap_or(cwd);
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&agent_platform::run_code_graph(&target, md)).unwrap()
-            );
+            let store = auto_learn::XfsDatasetStore::resolve(None);
+            match auto_learn::run_graphify_cli(&args[1..], &cwd, &store) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw graph: {e}");
+                    std::process::exit(1);
+                }
+            }
         }
-        "mem" | "memory" => {
-            match agent_platform::run_mem_cli(&args[1..]) {
+        "mem" | "memory" | "claude-mem" => {
+            let store = auto_learn::XfsDatasetStore::resolve(None);
+            match auto_learn::run_claude_mem_cli(&args[1..], &store) {
                 Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
                 Err(e) => {
                     eprintln!("fw mem: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "docs" | "c7" | "context7" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            let store = auto_learn::XfsDatasetStore::resolve(None);
+            match auto_learn::run_context7_cli(&args[1..], &cwd, &store, parsed.global.offline) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw docs: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
+        "learn" | "autolearn" => {
+            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+            match auto_learn::run_learn_cli(&args[1..], &cwd) {
+                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
+                Err(e) => {
+                    eprintln!("fw learn: {e}");
                     std::process::exit(1);
                 }
             }
