@@ -1,6 +1,6 @@
-//! Knowledge base chunking and MMR cosine similarity retrieval backed by `ay-rag-core`.
+//! Knowledge base chunking and MMR cosine similarity retrieval backed by `fw-rag-core`.
 
-use ay_rag_core::{ChunkOptions, Chunker, Language, MarkdownChunker, ProseChunker, detect_language, fusion};
+use fw_rag_core::{ChunkOptions, Chunker, Language, MarkdownChunker, ProseChunker, detect_language, fusion};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 

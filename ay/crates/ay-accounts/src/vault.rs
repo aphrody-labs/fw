@@ -167,14 +167,14 @@ pub fn split_utf8(s: &str, max: usize) -> Vec<&str> {
 /// Argon2id) for headless hosts without a keyring daemon. Blocks on a private current-thread runtime.
 #[cfg(feature = "secrets")]
 pub struct SecretStoreVault {
-    store: std::sync::Arc<dyn ay_secrets::SecretStore>,
+    store: std::sync::Arc<dyn fw_secrets::SecretStore>,
     rt: tokio::runtime::Runtime,
 }
 
 #[cfg(feature = "secrets")]
 impl SecretStoreVault {
     /// Wrap a store.
-    pub fn new(store: std::sync::Arc<dyn ay_secrets::SecretStore>) -> Result<Self> {
+    pub fn new(store: std::sync::Arc<dyn fw_secrets::SecretStore>) -> Result<Self> {
         let rt = tokio::runtime::Builder::new_current_thread().build()?;
         Ok(Self { store, rt })
     }
@@ -190,7 +190,7 @@ impl TokenVault for SecretStoreVault {
         Ok(v.map(|s| s.expose_secret().to_owned()))
     }
     fn set(&self, key: &str, value: &str) -> Result<()> {
-        let v = ay_secrets::SecretValue::from_string(value.to_owned());
+        let v = fw_secrets::SecretValue::from_string(value.to_owned());
         self.rt
             .block_on(self.store.set(key, v))
             .map_err(|e| Error::Vault(e.to_string()))

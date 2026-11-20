@@ -1,4 +1,4 @@
-//! Minimal blocking HTTP seam. Production uses `ay-http` (rustls); tests script responses.
+//! Minimal blocking HTTP seam. Production uses `fw-http` (rustls); tests script responses.
 
 use crate::error::{Error, Result};
 use serde::de::DeserializeOwned;
@@ -185,10 +185,10 @@ pub trait HttpTransport: Send + Sync {
     fn execute(&self, req: &HttpRequest) -> Result<HttpResponse>;
 }
 
-/// Production transport over the blocking facade of `ay-http` (rustls, h1, h2, h3 through Alt-Svc).
+/// Production transport over the blocking facade of `fw-http` (rustls, h1, h2, h3 through Alt-Svc).
 #[derive(Clone)]
 pub struct HttpClientTransport {
-    client: ay_http::blocking::Client,
+    client: fw_http::blocking::Client,
 }
 
 impl HttpClientTransport {
@@ -201,8 +201,8 @@ impl HttpClientTransport {
     /// # Panics
     /// When the TLS backend cannot initialise.
     pub fn with_timeout(timeout: Duration) -> Self {
-        let builder = ay_http::Client::builder().timeout(timeout).user_agent("ay-accounts/1.4");
-        let client = ay_http::blocking::Client::from_builder(builder).expect("the TLS backend initialises");
+        let builder = fw_http::Client::builder().timeout(timeout).user_agent("ay-accounts/1.4");
+        let client = fw_http::blocking::Client::from_builder(builder).expect("the TLS backend initialises");
         Self { client }
     }
 }
@@ -215,8 +215,8 @@ impl Default for HttpClientTransport {
 
 impl HttpTransport for HttpClientTransport {
     fn execute(&self, req: &HttpRequest) -> Result<HttpResponse> {
-        let transport = |e: ay_http::Error| Error::Transport(e.to_string());
-        let method = ay_http::Method::from_bytes(req.method.as_bytes()).map_err(|e| Error::Transport(e.to_string()))?;
+        let transport = |e: fw_http::Error| Error::Transport(e.to_string());
+        let method = fw_http::Method::from_bytes(req.method.as_bytes()).map_err(|e| Error::Transport(e.to_string()))?;
         let mut builder = self.client.request(method, req.url.as_str());
         for (k, v) in &req.headers {
             builder = builder.header(k.as_str(), v.as_str());

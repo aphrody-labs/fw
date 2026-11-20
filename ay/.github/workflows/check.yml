@@ -80,9 +80,7 @@ jobs:
           save-if: ${{ github.ref == 'refs/heads/main' }}
       - run: cargo fmt --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
-      # ay-chromium downloads CEF in its build script, so clippy builds it here; its tests start Chromium and run on the
-      # test host (docs/chromium.md).
-      - run: cargo test --workspace --locked --exclude ay-chromium
+      - run: cargo test --workspace --locked
 
   # Every feature of the merged crates builds on its own (no hidden coupling between features).
   features:
@@ -106,8 +104,7 @@ jobs:
           save-if: ${{ github.ref == 'refs/heads/main' }}
       - run: >
           cargo hack check --each-feature --no-dev-deps --locked
-          -p ay-a2a -p ay-agent -p ay-model -p ay-gemini -p ay-llama -p ay-ml -p ay-toolcall -p ay-rag -p ay-design -p ay-build
-          -p ay-cf -p ay-media -p ay-sh -p ay-http -p aphrody-auto
+          -p ay-design -p ay-build -p ay-cf -p ay-media -p aphrody-auto
 
   # SDK corelib conformance: one freestanding C23 code base, run as a native process (clang, and clang-cl on Windows locally),
   # as WebAssembly (Bun, wasmtime component) and as a bare-metal x86_64 image (QEMU), plus the guide's generated listings.

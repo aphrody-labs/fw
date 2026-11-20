@@ -79,7 +79,7 @@ fn token() -> Option<String> {
 }
 
 fn get(url: &str) -> Result<Value, String> {
-    let mut req = ay_http::blocking::Client::new()
+    let mut req = fw_http::blocking::Client::new()
         .get(url)
         .header("User-Agent", "aphrody-code")
         .header("Accept", "application/vnd.github+json");

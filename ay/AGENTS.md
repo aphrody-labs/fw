@@ -24,6 +24,7 @@ Contract for every agent working in this repository. Names come from `ay.toml`.
 - Nothing hardcoded: names, hosts and domains come from `ay.toml`; versions are read live.
 - Run the repository's own checks before every push (`bun run check`, plus `cargo` checks for `crates/`).
 - Heavy builds run on the `build` host, tests on `test`, production only on `prod` (`ay.toml` [hosts]).
+- Repositories are sibling checkouts under one root, the stack is ordered 1 `fw`, 2 `aphrody`, 3 `ay`, 4 `nie`, 5 `shenron`, then satellites, and a Rust dependency between repositories may only point down the stack (to `fw` from everyone, as `../fw/crates/fw-*` through `[workspace.dependencies]`), never up and never in a cycle.
 - Work on `main`; no branches, worktrees, stash or reset. No AI attribution in commits.
 - One checkout per repository on each host, one monorepo, one submodule registry: never clone, copy or `git worktree add` a tree to build,
   test or verify; fast-forward the existing checkout and run the gate there.

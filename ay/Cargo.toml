@@ -20,16 +20,10 @@ argh = "0.1.19"
 argon2 = { version = "0.6", default-features = false, features = ["alloc"] }
 async-trait = "0.1.92"
 axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
-ay-agent-context = { package = "fw-agent-context", path = "../fw/crates/fw-agent-context" }
 ay-core = { path = "crates/ay-core" }
 ay-re = { path = "crates/ay-re" }
 base64 = "0.23.1"
 blake3 = { version = "1.8.7", features = ["mmap", "rayon"] }
-browser-browse = { path = "../browser/components/browser-browse" }
-browser-detect = { path = "../browser/components/browser-detect", default-features = false }
-browser-engine = { path = "../browser/components/browser-engine" }
-browser-views = { path = "../browser/components/browser-views" }
-browser-vpn = { path = "../browser/components/browser-vpn" }
 bytes = "1.12.2"
 cc = "1.11.2"
 chacha20poly1305 = { version = "0.11", default-features = false, features = ["alloc"] }
@@ -60,6 +54,11 @@ etagere = "0.3.0"
 flate2 = "1.1.11"
 futures = "0.3.34"
 futures-util = "0.3"
+fw-agent-context = { path = "../fw/crates/fw-agent-context" }
+fw-gemini = { path = "../fw/crates/fw-gemini", default-features = false }
+fw-http = { path = "../fw/crates/fw-http", default-features = false }
+fw-rag-core = { path = "../fw/crates/fw-rag-core", default-features = false }
+fw-secrets = { path = "../fw/crates/fw-secrets" }
 getrandom = "0.4.3"
 gltf = { version = "1.4.1", default-features = false, features = ["names", "utils"] }
 goblin = "0.10.7"
@@ -144,18 +143,11 @@ zerocopy = { version = "0.8.63", features = ["derive", "alloc", "simd"] }
 zeroize = "1.9.2"
 zstd = "0.14.4"
 
-[patch."https://github.com/unixwin/rubash.git"]
-rubash = { path = "third_party/rubash" }
-
-[patch."https://github.com/unixwin/ruline"]
-readline-abi = { path = "third_party/ruline/readline-abi" }
-
 [patch.crates-io]
-reedline = { path = "third_party/ruline" }
 # hyperium/h3 master (2026-09-20) carries fixes the 0.0.8 release lacks (send_data flushed before finish, stop_sending, request tracking);
-# reqwest's http3 client and ay-http's server both use it. Fork of hyperium/h3; drop the patch once the next release ships.
-h3 = { git = "https://github.com/aphrody-labs/h3-1", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
-h3-quinn = { git = "https://github.com/aphrody-labs/h3-1", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
+# reqwest's http3 client and fw-http's server both use it. Fork of hyperium/h3; drop the patch once the next release ships.
+h3 = { git = "https://github.com/aphrody-labs/h3", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
+h3-quinn = { git = "https://github.com/aphrody-labs/h3", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

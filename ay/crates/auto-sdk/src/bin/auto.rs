@@ -137,7 +137,7 @@ async fn run(args: &[String]) -> Result<(), String> {
             let bind = format!("{}:{}", cfg.host, cfg.port);
             let listener = tokio::net::TcpListener::bind(&bind).await.map_err(|e| e.to_string())?;
             eprintln!("auto native server listening on http://{bind} (mode={})", cfg.mode);
-            ay_http::server::serve_listener(listener, router).await.map_err(|e| e.to_string())
+            fw_http::server::serve_listener(listener, router).await.map_err(|e| e.to_string())
         }
         "lb" => {
             let mut cfg = resolve_runtime(None).map_err(|e| e.to_string())?;
@@ -169,7 +169,7 @@ async fn run(args: &[String]) -> Result<(), String> {
             let _probe_task = lb.spawn_health_loop();
             let listener = tokio::net::TcpListener::bind(&listen).await.map_err(|e| e.to_string())?;
             eprintln!("auto load balancer listening on http://{listen} -> {} upstreams", lb.upstreams.len());
-            ay_http::server::serve_listener(listener, lb_router(lb)).await.map_err(|e| e.to_string())
+            fw_http::server::serve_listener(listener, lb_router(lb)).await.map_err(|e| e.to_string())
         }
         "desktop" => {
             let exe = std::env::current_exe()

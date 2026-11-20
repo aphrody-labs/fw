@@ -194,7 +194,7 @@ pub struct ToolsListParams {
 ///
 /// `data` stays `serde_json::Value` rather than a typed tool-schema struct:
 /// it is the OpenAI-function-shaped array produced by
-/// the `ay-toolcall` tool registry (`tools.openai_functions()`), a
+/// the `fw-toolcall` tool registry (`tools.openai_functions()`), a
 /// large, evolving shape owned by that crate, not by this contract.
 #[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -212,7 +212,7 @@ pub struct TurnEventsParams {
 /// Response returned by `turn/events`.
 ///
 /// `data` and `notifications` stay `serde_json::Value`: the underlying event
-/// stream (`ay-agent/proto::Event`) is `snake_case` by the documented,
+/// stream (`fw-agent/proto::Event`) is `snake_case` by the documented,
 /// deliberate exception in `docs/API.md` §1 (mirrors the upstream Codex CLI
 /// wire protocol this crate is compatible with) — re-typing it camelCase
 /// here would misrepresent what is actually on the wire.

@@ -62,7 +62,7 @@ pub struct LoadBalancer {
     pub cfg: LoadBalancerConfig,
     pub upstreams: Vec<Arc<UpstreamNode>>,
     rr_cursor: AtomicUsize,
-    client: ay_http::Client,
+    client: fw_http::Client,
 }
 
 impl LoadBalancer {
@@ -70,7 +70,7 @@ impl LoadBalancer {
         if urls.is_empty() {
             return Err(SdkError::Config("load balancer requires at least one upstream URL".into()));
         }
-        let client = ay_http::Client::builder()
+        let client = fw_http::Client::builder()
             .timeout(Duration::from_secs(30))
             .pool_max_idle_per_host(32)
             .build()
@@ -214,7 +214,7 @@ async fn h_proxy(State(lb): State<Arc<LoadBalancer>>, req: Request) -> Response 
         node.total_requests.fetch_add(1, Ordering::Relaxed);
         let target_url = format!("{}{}", node.url, path_and_query);
         let mut builder = lb.client.request(
-            ay_http::Method::from_bytes(method.as_str().as_bytes()).unwrap_or(ay_http::Method::GET),
+            fw_http::Method::from_bytes(method.as_str().as_bytes()).unwrap_or(fw_http::Method::GET),
             &target_url,
         );
         for (name, val) in &req_headers {
@@ -222,8 +222,8 @@ async fn h_proxy(State(lb): State<Arc<LoadBalancer>>, req: Request) -> Response 
             if n.eq_ignore_ascii_case("host") || n.eq_ignore_ascii_case("content-length") {
                 continue;
             }
-            if let Ok(rn) = ay_http::header::HeaderName::from_bytes(n.as_bytes())
-                && let Ok(rv) = ay_http::header::HeaderValue::from_bytes(val.as_bytes())
+            if let Ok(rn) = fw_http::header::HeaderName::from_bytes(n.as_bytes())
+                && let Ok(rv) = fw_http::header::HeaderValue::from_bytes(val.as_bytes())
             {
                 builder = builder.header(rn, rv);
             }
@@ -313,7 +313,7 @@ mod tests {
             let _ = axum::serve(lb_l, lb_router(lb)).await;
         });
 
-        let client = ay_http::Client::new();
+        let client = fw_http::Client::new();
         let r1 =
             client.get(format!("http://{lb_addr}/v1/ping")).header("x-company-id", "comp_alpha").send().await.unwrap();
         assert!(r1.status().is_success());
