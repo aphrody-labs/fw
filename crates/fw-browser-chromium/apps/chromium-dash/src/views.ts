@@ -42,7 +42,7 @@ export function releaseCard(channel: string, rows: Release[], more?: string): Sa
           <a href="/commit/${r.hashes.chromium}" title="chromium ${r.hashes.chromium}">info</a>
         </div>`,
     )}
-    ${more ? html`<a class="more" href="${more}">Load more...</a>` : ""}
+    ${more ? html`<a class="more" href="${more}">Load more</a>` : ""}
   </section>`;
 }
 
@@ -54,7 +54,7 @@ export function home(p: {
   channels: ChannelStatus[];
   measuredWeeks?: number;
 }): Safe {
-  return html`<h1>Chromium data, all in one place.</h1>
+  return html`<h1>Chromium and Chrome releases</h1>
     <p class="lead">
       Release channels, the milestone schedule, branches and commits of Chromium and Chrome, with the Chrome Platform
       Status roadmap, read live and cached.
@@ -648,15 +648,15 @@ export function apiPage(
       <tbody>
         <tr>
           <td class="mono"><a href="/api/channels">/api/channels</a></td>
-          <td>The channel dataset joined with live releases (platform).</td>
+          <td>The channel dataset joined with live releases (platform)</td>
         </tr>
         <tr>
           <td class="mono"><a href="/api/pick?channel=stable">/api/pick</a></td>
-          <td>The Chromium and CEF build to embed (channel, platform).</td>
+          <td>The Chromium and CEF build to embed (channel, platform)</td>
         </tr>
         <tr>
           <td class="mono"><a href="/healthz">/healthz</a></td>
-          <td>Liveness.</td>
+          <td>Liveness</td>
         </tr>
       </tbody>
     </table>

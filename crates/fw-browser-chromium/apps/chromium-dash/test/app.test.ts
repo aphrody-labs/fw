@@ -61,7 +61,7 @@ describe("pages", () => {
     const { app: a } = app();
     const { res, text } = await get(a, "/");
     expect(res.status).toBe(200);
-    expect(text).toContain("Chromium data, all in one place.");
+    expect(text).toContain("Chromium and Chrome releases");
     for (const ch of ["Stable", "Beta", "Dev", "Canary"]) expect(text).toContain(`data-channel="${ch}"`);
     expect(text).toContain("data-milestone=");
     expect(text).toContain("/assets/m3-tokens.css");
