@@ -1,9 +1,0 @@
-[submodule "third_party/uv"]
-	path = third_party/uv
-	url = https://github.com/aphrody-labs/uv.git
-[submodule "third_party/ruff"]
-	path = third_party/ruff
-	url = https://github.com/aphrody-labs/ruff.git
-[submodule "third_party/pyo3"]
-	path = third_party/pyo3
-	url = https://github.com/aphrody-labs/pyo3.git
