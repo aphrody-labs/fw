@@ -8,6 +8,10 @@ repository.workspace = true
 authors.workspace = true
 publish.workspace = true
 
+# The dev-dependency on the crate itself only switches its features on for the tests.
+[package.metadata.cargo-shear]
+ignored = ["ay-ml"]
+
 [features]
 config = ["dep:anyhow", "dep:atomicwrites", "dep:dirs", "dep:toml", "dep:tracing"]
 runtime = ["dep:anyhow", "dep:dirs", "dep:tracing", "dep:backon", "dep:dunce", "dep:fast-glob", "dep:flate2", "dep:fs4", "dep:futures", "dep:hf-hub", "dep:libc", "dep:libloading", "dep:petgraph", "dep:ay-http", "dep:strum", "dep:tar", "dep:tempfile", "dep:walkdir", "dep:zip", "config"]
@@ -21,7 +25,7 @@ async-trait = { workspace = true, optional = true }
 atomicwrites = { version = "0.4.4", optional = true }
 ay-http = { path = "../ay-http", default-features = false, features = ["client"], optional = true }
 backon = { version = "1.6.0", default-features = false, features = ["std", "tokio-sleep"], optional = true }
-chrono = { workspace = true, features = ["serde"], optional = true }
+chrono = { workspace = true, features = ["clock", "serde"], optional = true }
 dirs = { workspace = true, optional = true }
 dunce = { version = "1.0.5", optional = true }
 fast-glob = { version = "1.1.2", optional = true }

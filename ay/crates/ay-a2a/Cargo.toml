@@ -9,6 +9,10 @@ authors.workspace = true
 publish = true
 description = "A2A v1: protocol types, protobuf conversion (pb), async client (client), server framework (server), Aphrody coordination (coordinator) and the gRPC binding (grpc)"
 
+# The dev-dependency on the crate itself only switches its features on for the tests.
+[package.metadata.cargo-shear]
+ignored = ["ay-a2a"]
+
 [features]
 # wasm32 consumers build with `default-features = false, features = ["client"]`.
 default = []

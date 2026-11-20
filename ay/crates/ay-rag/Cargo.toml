@@ -8,6 +8,10 @@ repository = "https://github.com/aphrody-dev/ai-os"
 authors.workspace = true
 description = "Unified RAG storage, embedding, vector scan, hybrid search, and agent tools for aphrody (P8)."
 
+# The dev-dependency on the crate itself only switches its features on for the tests.
+[package.metadata.cargo-shear]
+ignored = ["ay-rag"]
+
 [features]
 rag = ["sql", "sqlite", "postgres", "localstore", "codegraph"]
 embed-native = ["rag", "ay-model/embed-native"]

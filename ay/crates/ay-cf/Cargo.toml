@@ -8,6 +8,10 @@ repository.workspace = true
 authors.workspace = true
 publish.workspace = true
 
+# The dev-dependency on the crate itself only switches its features on for the tests.
+[package.metadata.cargo-shear]
+ignored = ["ay-cf"]
+
 [features]
 default = []
 full = ["assets", "edge"]
