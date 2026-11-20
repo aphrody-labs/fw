@@ -23,7 +23,8 @@ const WRANGLER_COMPAT_DATE = /"compatibility_date":\s*"([^"]+)"/.exec(readFileSy
 /** Workers AI double: a two-model catalog and an echoing `run`. */
 function mockAi(calls: Array<{ model: string; input: Record<string, unknown> }> = []): WorkersAILike {
   return {
-    async models() {
+    async models(params) {
+      if (params?.task === "Text Embeddings") return [{ name: "@cf/baai/bge-base-en-v1.5", properties: [{ property_id: "context_window", value: "512" }] }];
       return [
         { name: "@cf/test/small-tools", properties: [{ property_id: "context_window", value: "8192" }, { property_id: "function_calling", value: "true" }] },
         { name: "@cf/test/big-tools", properties: [{ property_id: "context_window", value: "131072" }, { property_id: "function_calling", value: "true" }] },
@@ -272,19 +273,34 @@ describe("Fw Cloudflare Edge OS Worker (Nov 2026 consolidation)", () => {
     expect(embAi.data[0]?.embedding).toEqual([0.1, 0.2, 0.3, 0.4]);
     expect(upsertedVectors[0]?.id).toBe("doc-1");
 
-    // Embeddings deterministic fallback without AI binding
-    const embFallback = (await (
-      await worker.fetch(
-        new Request("https://edge.fw.test/v1/embeddings", {
-          method: "POST",
-          body: JSON.stringify({ input: ["alpha", "beta"] }),
-        }),
-        {},
-      )
-    ).json()) as { source: string; data: Array<{ embedding: number[] }> };
-    expect(embFallback.source).toBe("deterministic-fallback");
-    expect(embFallback.data.length).toBe(2);
-    expect(embFallback.data[0]?.embedding.length).toBe(64);
+    // Without Workers AI the edge refuses embeddings instead of inventing vectors.
+    const embNoAi = await worker.fetch(
+      new Request("https://edge.fw.test/v1/embeddings", { method: "POST", body: JSON.stringify({ input: ["alpha", "beta"] }) }),
+      {},
+    );
+    expect(embNoAi.status).toBe(503);
+
+    // The default embedding model comes from the live catalog.
+    const embCalls: Array<{ model: string; input: Record<string, unknown> }> = [];
+    const catalogAi: WorkersAILike = {
+      async models(params) {
+        return params?.task === "Text Embeddings"
+          ? [
+              { name: "@cf/test/emb-small", properties: [{ property_id: "context_window", value: "512" }] },
+              { name: "@cf/test/emb-large", properties: [{ property_id: "context_window", value: "8192" }] },
+            ]
+          : [];
+      },
+      async run(model, input) {
+        embCalls.push({ model, input });
+        return { data: (input.text as string[]).map(() => [1, 0]) };
+      },
+    };
+    const embDefault = (await (
+      await worker.fetch(new Request("https://edge.fw.test/v1/embeddings", { method: "POST", body: JSON.stringify({ input: "x" }) }), { AI: catalogAi })
+    ).json()) as { model: string };
+    expect(embDefault.model).toBe("@cf/test/emb-large");
+    expect(embCalls[0]?.model).toBe("@cf/test/emb-large");
     expect(aiCalls.length).toBe(2);
   });
 

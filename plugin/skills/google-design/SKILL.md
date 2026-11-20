@@ -13,7 +13,12 @@ Sources: https://m3.material.io/blog/building-with-m3-expressive , https://desig
 ## 1. Design language (what Google Design publishes)
 
 - Google Design (https://design.google/?home) is an editorial site: nav = Community, About, Ten Years of Material (`/m10`); categories Spotlight, Perspectives, Podcasts, Conversations, Guides; links out to material.io, fonts.google.com, blog.google. No jobs/events section exists on the site (careers link lives on `/community`). Its own UI is dark, with oversized display type and one saturated hero tile; the M3 Expressive blog hero is a dark surface with large light-weight display type beside saturated lilac/lime tiles (screenshots viewed).
-- Agent-UI stance from "The Next Interface" (https://design.google/library/the-next-interface-gemini): design for people not for AI; do not funnel model capability through a plain text box (the "horse buggy" argument); voice and generative UI are first-class modalities. Cite as direction, not as a spec.
+- Agent-UI stance from "The Next Interface" (https://design.google/library/the-next-interface-gemini, read 2026-11-20): design for people, not for AI; restore agency (voice gave a user with tremor and glaucoma independence). Three shifts Google's Gemini team describes, as direction not spec:
+  1. Content is the interface: when the system understands its output, drop the card/grid container and compose editorial layouts around intent (type, hierarchy, image, white space) instead of a wall of chat text; modes (type, speak, see) should not each hide behind a toggle.
+  2. Living feedback: replace mechanical spinners with organic motion that shows what the model perceives and that it is thinking (particle clusters gathering on recognized objects).
+  3. Proactive collaboration: surface the right tool from context; design sets conditions and boundaries, not every step.
+  Editorial restraint is part of the design: write the "golden responses" and system instructions that stop filler and visual excess; decide what the model must not generate. Designers build their own instruments (live-type stress tests against real model output, in-browser editing of the live build).
+- Gemini web app shell (https://gemini.google.com/app, inspected 2026-11-20): flat left list (new chat, library, scheduled, customize; activity and settings at the bottom) collapsible from its header, chat search in that header; the empty state centres one question headline and the composer together on a soft radial glow; the composer is a full-round field with `+` (upload and tools) at the start and dictation at the end; the composer docks to the bottom once a conversation starts.
 - Seven expressive tactics (https://m3.material.io/blog/building-with-m3-expressive): (1) vary shapes, (2) rich colour with tonal surface hierarchy, (3) emphasised typography to guide attention, (4) contain content in groups with the brightest surface for the most important, (5) fluid spring motion and shape morph, (6) flexible components per context, (7) hero moments: only 1-2 per product, brief and surprising; too many overwhelm.
 
 ## 2. Colour roles and tonal surfaces
@@ -142,4 +147,6 @@ Sources: https://m3.material.io/foundations/designing/overview , https://m3.mate
 3. Shape tokens 0-48 plus full; component mapping through tokens; 1-2 hero shapes max.
 4. Motion tokens as CSS variables with the cubic-bezier table; real springs for gestures; reduced-motion branch.
 5. App shell: bar at compact, rail at medium+, list-detail at expanded, modal rail when dense.
-6. Audit: contrast, 48px targets, visible focus, landmarks/headings, reduced motion, language height.
+6. Agent surfaces: empty state = headline + composer centred, docked after the first message; tools and attachments behind a `+` menu inside the composer, filled from the live tool list; working state = ambient motion (tonal glow, morphing shape), never a bare spinner; answers render as typeset content (headings, lists, code blocks), not as bubbles.
+7. Audit: contrast, 48px targets, visible focus, landmarks/headings, reduced motion, language height.
+Reference build: `crates/fw-proto/ui` (live at https://fw.aphrody.com), Figma file `OOkkGnYgrk4DktxSpuphC2`.

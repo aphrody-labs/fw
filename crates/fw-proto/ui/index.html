@@ -88,6 +88,10 @@
         </header>
         <div id="stream" class="stream" role="log" aria-live="polite" aria-relevant="additions"></div>
         <form id="composer" class="composer">
+          <button id="tools-btn" class="icon-btn" type="button" aria-label="Run a tool" aria-haspopup="menu" aria-expanded="false" aria-controls="tools-menu">
+            <svg class="icon"><use href="#i-add"/></svg>
+          </button>
+          <div id="tools-menu" class="menu" role="menu" aria-label="Tools on this server" hidden></div>
           <label class="sr-only" for="prompt">Message</label>
           <textarea id="prompt" rows="1" placeholder="Ask fw" autocomplete="off"></textarea>
           <button id="send-btn" class="send" type="submit" aria-label="Send">

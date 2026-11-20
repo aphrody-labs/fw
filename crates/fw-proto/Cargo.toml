@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Rust protocol server and web UI: HTTP/1.1, WebRTC SDP/DataChannel signaling, GraphQL, OpenAPI 3.1, OpenAI, Decision-1, MCP, ACP, A2A, and WebGPU/Wasm browser harness"
+description = "Rust protocol server and web UI: HTTP/1.1, cluster peer registration, GraphQL, OpenAPI 3.1, OpenAI, Decision-1, MCP, ACP, A2A, and WebGPU/Wasm browser harness"
 include = ["src/**", "ui/**", "Cargo.toml"]
 
 [dependencies]

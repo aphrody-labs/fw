@@ -574,17 +574,6 @@ function parseShellTokens(command: string): string[] {
   return tokens;
 }
 
-function deterministicEmbedding(text: string, dims = 64): number[] {
-  const vec = new Array<number>(dims).fill(0);
-  const bytes = new TextEncoder().encode(text);
-  for (let i = 0; i < bytes.length; i++) {
-    const idx = (bytes[i]! * 31 + i * 17) % dims;
-    vec[idx] = (vec[idx] ?? 0) + ((bytes[i]! % 29) - 14) / 14;
-  }
-  const norm = Math.sqrt(vec.reduce((acc, v) => acc + v * v, 0)) || 1;
-  return vec.map((v) => Number((v / norm).toFixed(6)));
-}
-
 function extractAiText(aiRes: unknown): string {
   if (typeof aiRes === "string") return aiRes;
   if (aiRes && typeof aiRes === "object") {
@@ -2230,20 +2219,30 @@ async function dispatchToTenantDO(
 
 export class InferenceUnavailableError extends Error {}
 
-type EdgeModel = { id: string; object: "model"; owned_by: string; description?: string; context_window?: number; function_calling?: boolean; reasoning?: boolean; vision?: boolean; paid?: boolean };
+type EdgeModel = { id: string; object: "model"; owned_by: string; description?: string; context_window?: number; function_calling?: boolean; reasoning?: boolean; vision?: boolean; paid?: boolean; price_per_m_input?: number };
 
-let modelCache: { at: number; models: EdgeModel[] } | null = null;
+/** Catalog cache per AI binding and task: one binding per isolate in production. */
+const modelCache = new WeakMap<WorkersAILike, Map<string, { at: number; models: EdgeModel[] }>>();
 const MODEL_CACHE_MS = 10 * 60 * 1000;
 
 function modelProp(m: WorkersAIModelLike, id: string): unknown {
   return m.properties?.find((p) => p.property_id === id)?.value;
 }
 
-/** Live Workers AI text-generation catalog, without deprecated, LoRA and beta models. */
-export async function listEdgeModels(env: FwWorkerEnv): Promise<EdgeModel[]> {
+function inputPrice(price: unknown): number | undefined {
+  if (!Array.isArray(price)) return undefined;
+  const entry = price.find((p) => typeof p?.unit === "string" && p.unit.includes("input")) ?? price[0];
+  return typeof entry?.price === "number" ? entry.price : undefined;
+}
+
+/** Live Workers AI catalog for one task, without deprecated, LoRA and beta models. */
+export async function listEdgeModels(env: FwWorkerEnv, task = "Text Generation"): Promise<EdgeModel[]> {
   if (!env.AI?.models) return [];
-  if (modelCache && Date.now() - modelCache.at < MODEL_CACHE_MS) return modelCache.models;
-  const raw = await env.AI.models({ task: "Text Generation", per_page: 200, hide_experimental: true });
+  const perBinding = modelCache.get(env.AI) ?? new Map<string, { at: number; models: EdgeModel[] }>();
+  modelCache.set(env.AI, perBinding);
+  const hit = perBinding.get(task);
+  if (hit && Date.now() - hit.at < MODEL_CACHE_MS) return hit.models;
+  const raw = await env.AI.models({ task, per_page: 200, hide_experimental: true });
   const models = raw
     .filter((m) => m.name.startsWith("@cf/"))
     .filter((m) => !["planned_deprecation_date", "lora", "beta"].some((p) => modelProp(m, p) !== undefined))
@@ -2257,10 +2256,21 @@ export async function listEdgeModels(env: FwWorkerEnv): Promise<EdgeModel[]> {
       reasoning: modelProp(m, "reasoning") !== undefined,
       vision: modelProp(m, "vision") !== undefined,
       paid: modelProp(m, "require_workers_paid") !== undefined,
+      price_per_m_input: inputPrice(modelProp(m, "price")),
     }))
     .sort((x, y) => Number(y.function_calling) - Number(x.function_calling) || (y.context_window ?? 0) - (x.context_window ?? 0) || x.id.localeCompare(y.id));
-  modelCache = { at: Date.now(), models };
+  perBinding.set(task, { at: Date.now(), models });
   return models;
+}
+
+/** Default embedding model: the cheapest per input token on any plan, then the largest context. */
+export async function defaultEmbeddingModel(env: FwWorkerEnv): Promise<string> {
+  const models = (await listEdgeModels(env, "Text Embeddings")).filter((m) => !m.paid);
+  const pick = [...models].sort(
+    (x, y) => (x.price_per_m_input ?? Infinity) - (y.price_per_m_input ?? Infinity) || (y.context_window ?? 0) - (x.context_window ?? 0),
+  )[0];
+  if (!pick) throw new InferenceUnavailableError("Workers AI returned no text-embedding models for this account");
+  return pick.id;
 }
 
 /** Default chat model: the largest-context tool-calling model that runs on any plan. */
@@ -2731,7 +2741,7 @@ function buildOpenApiSpec(origin: string): Record<string, unknown> {
       "/openapi.json": { get: { summary: "OpenAPI 3.1 schema" } },
       "/.well-known/agent.json": { get: { summary: "A2A AgentCard" } },
       "/v1/models": { get: { summary: "OpenAI-compatible model list" } },
-      "/v1/chat/completions": { post: { summary: "OpenAI-compatible chat via Cloudflare Workers AI with deterministic fallback" } },
+      "/v1/chat/completions": { post: { summary: "OpenAI-compatible chat (stream or not) via Cloudflare Workers AI; 503 without the AI binding" } },
       "/v1/embeddings": { post: { summary: "OpenAI-compatible embeddings with optional Vectorize upsert" } },
       "/mcp": { post: { summary: "Streamable HTTP MCP JSON-RPC 2.0 (initialize, tools/list, tools/call)" } },
       "/acp": { post: { summary: "ACP JSON-RPC 2.0 (initialize, session/new, session/prompt)" } },
@@ -2850,28 +2860,28 @@ export default {
         upsertVectorize?: boolean;
         ids?: string[];
       };
-      const model = body.model || "@cf/baai/bge-base-en-v1.5";
       const inputs = Array.isArray(body.input)
         ? body.input.map(String)
         : typeof body.input === "string"
           ? [body.input]
           : [];
       if (inputs.length === 0) {
-        return json({ ok: false, error: "Missing embedding input" }, 400);
+        return openAiError(400, "invalid_request_error", "`input` must be a string or a non-empty array of strings");
       }
 
+      let model: string;
       let vectors: number[][];
-      let source: "workers-ai" | "deterministic-fallback" = "deterministic-fallback";
-      if (env.AI && model.startsWith("@cf/")) {
-        const aiRes = (await env.AI.run(model, { text: inputs })) as { data?: number[][] };
-        if (Array.isArray(aiRes?.data) && aiRes.data.length === inputs.length) {
-          vectors = aiRes.data;
-          source = "workers-ai";
-        } else {
-          vectors = inputs.map((t) => deterministicEmbedding(t));
+      try {
+        const ai = requireAi(env);
+        model = typeof body.model === "string" && body.model.startsWith("@cf/") ? body.model : await defaultEmbeddingModel(env);
+        const aiRes = (await ai.run(model, { text: inputs })) as { data?: number[][] };
+        if (!Array.isArray(aiRes?.data) || aiRes.data.length !== inputs.length) {
+          return openAiError(502, "fw_upstream_error", `${model} returned ${Array.isArray(aiRes?.data) ? aiRes.data.length : "no"} vectors for ${inputs.length} inputs`);
         }
-      } else {
-        vectors = inputs.map((t) => deterministicEmbedding(t));
+        vectors = aiRes.data;
+      } catch (err) {
+        if (err instanceof InferenceUnavailableError) return openAiError(503, "fw_no_inference", err.message);
+        return openAiError(502, "fw_upstream_error", String(err instanceof Error ? err.message : err));
       }
 
       let vectorizeUpserted = 0;
@@ -2890,7 +2900,7 @@ export default {
       return json({
         object: "list",
         model,
-        source,
+        source: "workers-ai",
         vectorizeUpserted,
         data: vectors.map((embedding, index) => ({ object: "embedding", index, embedding })),
         usage: { prompt_tokens: tokenEstimate, total_tokens: tokenEstimate },

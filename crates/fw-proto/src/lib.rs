@@ -1,7 +1,7 @@
 #![forbid(unsafe_code)]
 
 //! `fw-proto` — Zero-system-dependency unified protocol fabric:
-//! HTTP/1.1 control plane, WebRTC DataChannel SDP signaling, GraphQL,
+//! HTTP/1.1 control plane, cluster peer registration, GraphQL,
 //! OpenAPI 3.1, OpenAI, Gemini Decision 1, MCP, ACP, A2A, and Browser WebGPU/Wasm32 harness.
 
 mod chat;
@@ -102,7 +102,7 @@ pub fn build_openapi_3_1() -> Value {
             "/cluster": { "get": { "summary": "Hybrid 4-GPU + 3-VPS/CPU + User-WebGPU cluster topology (Pingora + Dynamo + vLLM-Router)" } },
             "/cluster/route": { "post": { "summary": "KV-cache radix + disaggregated P/D routing decision" } },
             "/graphql": { "post": { "summary": "GraphQL query endpoint" } },
-            "/rtc/offer": { "post": { "summary": "WebRTC DataChannel SDP signaling for end-user WebGPU/FPU compute peers" } },
+            "/cluster/peers": { "post": { "summary": "Register a browser WebGPU compute peer (peerId, vramGb, cpuCores)" } },
             "/v1/models": { "get": { "summary": "OpenAI-compatible models list" } },
             "/v1/chat/completions": { "post": { "summary": "OpenAI-compatible chat completion routed across hybrid cluster" } },
             "/v1beta/decisions": { "post": { "summary": "Gemini Decision 1 calibrated zero-token decisions" } },
@@ -137,22 +137,26 @@ pub fn handle_graphql(router: &HybridClusterRouter, query: &str) -> Value {
     json!({ "data": data })
 }
 
-pub fn handle_webrtc_offer(router: &mut HybridClusterRouter, body: &Value) -> Value {
+/// Registers a browser WebGPU compute peer with the cluster router. The peer reports
+/// its own id and capacity; nothing is assumed for it. Signaling (SDP/ICE) is the
+/// browser's job over its own transport, so no session description is produced here.
+pub fn register_peer(router: &mut HybridClusterRouter, body: &Value) -> Result<Value, String> {
     let peer_id = body
         .get("peerId")
-        .and_then(|v| v.as_str())
-        .unwrap_or("user-webgpu-peer-dynamic");
-    let vram_gb = body.get("vramGb").and_then(|v| v.as_u64()).unwrap_or(4) as u32;
-    let cpu_cores = body.get("cpuCores").and_then(|v| v.as_u64()).unwrap_or(4) as u32;
+        .and_then(Value::as_str)
+        .filter(|id| !id.is_empty() && id.len() <= 64 && id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_'))
+        .ok_or("`peerId` must be 1-64 characters of [A-Za-z0-9_-]")?;
+    let positive = |key: &str| {
+        body.get(key)
+            .and_then(Value::as_u64)
+            .filter(|v| (1..=u64::from(u32::MAX)).contains(v))
+            .map(|v| v as u32)
+            .ok_or(format!("`{key}` must be a positive integer"))
+    };
+    let vram_gb = positive("vramGb")?;
+    let cpu_cores = positive("cpuCores")?;
     router.register_user_webgpu_peer(peer_id, vram_gb, cpu_cores);
-    let sdp_answer = "v=0\r\no=fw-v3 1 1 IN IP4 127.0.0.1\r\ns=FwWebGpuDataChannel\r\nt=0 0\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\na=setup:active\r\na=mid:0\r\na=sctp-port:5000\r\n".to_string();
-    json!({
-        "ok": true,
-        "type": "answer",
-        "peerId": peer_id,
-        "datachannel": "fw-webgpu-compute",
-        "sdp": sdp_answer
-    })
+    Ok(json!({ "ok": true, "peerId": peer_id, "vramGb": vram_gb, "cpuCores": cpu_cores, "cluster": router.summary() }))
 }
 
 pub fn dispatch_http(
@@ -237,7 +241,7 @@ pub fn dispatch_http(
             json!({
                 "name": "Fw v4.2 Consolidated Agent OS",
                 "version": FW_VERSION,
-                "protocols": ["http", "websocket", "webrtc", "graphql", "openapi-3.1", "openai", "mcp", "acp", "a2a", "ggml-rpc", "gemini-decision-1"],
+                "protocols": ["http", "graphql", "openapi-3.1", "openai", "mcp", "acp", "a2a", "ggml-rpc", "gemini-decision-1"],
                 "endpoints": ["/mcp", "/acp", "/a2a", "/v1/chat/completions", "/v1/fx/status", "/v1/pm/scan", "/v1/terminal/m3", "/webgpu"]
             })
             .to_string(),
@@ -258,9 +262,12 @@ pub fn dispatch_http(
             let r = router.lock().unwrap_or_else(|e| e.into_inner());
             (200, "application/json", handle_graphql(&r, q).to_string())
         }
-        ("POST", "/rtc/offer") => {
+        ("POST", "/cluster/peers") => {
             let mut r = router.lock().unwrap_or_else(|e| e.into_inner());
-            (200, "application/json", handle_webrtc_offer(&mut r, &body_json).to_string())
+            match register_peer(&mut r, &body_json) {
+                Ok(v) => (200, "application/json", v.to_string()),
+                Err(e) => (400, "application/json", json!({ "ok": false, "error": e }).to_string()),
+            }
         }
         ("GET", "/v1/models") => {
             let cfg = FxConfig::from_env();
@@ -407,15 +414,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn http_graphql_webrtc_openai_mcp_acp_a2a_dispatch_cleanly() {
+    fn http_graphql_peers_openai_mcp_acp_a2a_dispatch_cleanly() {
         let router = Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster()));
         let (code, _, gql) = dispatch_http(&router, "POST", "/graphql", r#"{"query":"{ status hardware cluster wgsl }"}"#);
         assert_eq!(code, 200);
         assert!(gql.contains("fw-hybrid-v3"));
 
-        let (code, _, rtc) = dispatch_http(&router, "POST", "/rtc/offer", r#"{"peerId":"browser-rtx","vramGb":8}"#);
-        assert_eq!(code, 200);
-        assert!(rtc.contains("webrtc-datachannel"));
+        let (code, _, peer) = dispatch_http(&router, "POST", "/cluster/peers", r#"{"peerId":"browser-rtx","vramGb":8,"cpuCores":8}"#);
+        assert_eq!(code, 200, "{peer}");
+        assert!(peer.contains("\"id\":\"browser-rtx\""), "{peer}");
+        let (code, _, bad) = dispatch_http(&router, "POST", "/cluster/peers", r#"{"peerId":"browser-rtx","vramGb":8}"#);
+        assert_eq!(code, 400);
+        assert!(bad.contains("cpuCores"));
+        let (code, _, _) = dispatch_http(&router, "POST", "/rtc/offer", "{}");
+        assert_eq!(code, 404);
 
         let (code, _, html) = dispatch_http(&router, "GET", "/webgpu", "");
         assert_eq!(code, 200);

@@ -15,7 +15,7 @@ Fw v3.0 consolidates all low-level OS, inference, protocol, UI, and cluster orch
   - **Distributed GGUF v3 CAS storage & distribution**
   - **3 CPU Inference Workers** (including Linux 7.3, 12 cores, 45 GB RAM, 1 TB disk, no GPU, `ggml-cpu` AVX2/AVX-512)
 - **4 GPU Inference Hosts**: Base CUDA PC (`gpu-1-pc-rtx4070`) + 3 remote/GCloud GPU hosts (`gpu-2..4`) pooled via `ggml-rpc` + WireGuard/QUIC.
-- **End-User Federated WebGPU + FPU Pool**: Browser and desktop/mobile devices join via **WebRTC DataChannels** (`/rtc/offer`) or **WebSockets** to contribute local WebGPU WGSL & Wasm SIMD128 compute.
+- **End-User Federated WebGPU + FPU Pool**: Browser and desktop/mobile devices register with `POST /cluster/peers` (peerId, vramGb, cpuCores) to contribute local WebGPU WGSL & Wasm SIMD128 compute.
 - **Cloud Acceleration**:
   - **Cloudflare**: `cloudflare/worker.ts` (`FwOSAgent` DO SQLite, R2 GGUF CDN, Tunnels, K2/Basin)
   - **Google Cloud (`gcloud`)**: Gemini Decision 1 (`/v1beta/decisions`), GCS model mirror, GPU/TPU PJRT burst nodes.

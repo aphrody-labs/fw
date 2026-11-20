@@ -104,6 +104,8 @@ function setThreads(open) {
 
 // ---------- Conversations ----------
 function createConv() {
+  // An untouched chat is reused, so repeated clicks never stack empty entries.
+  convs = convs.filter((x) => x.messages.length);
   const c = { id: `c-${Date.now().toString(36)}`, title: "New chat", messages: [] };
   convs.unshift(c);
   activeId = c.id;
@@ -139,12 +141,9 @@ function renderThreads() {
 }
 
 function emptyState() {
-  const picks = tools.slice(0, 4);
   return `<div class="empty">
     <div class="mark" aria-hidden="true">fw</div>
     <h2>What should fw do?</h2>
-    <p class="body-large muted">Ask a question, paste code or an error. fw answers with the model picked above${tools.length ? `, and the ${tools.length} tools of this server are one click away` : ""}.</p>
-    ${picks.length ? `<div class="chips">${picks.map((t) => `<button type="button" class="chip" data-tool="${esc(t.name)}">${icon("build")}${esc(t.name)}</button>`).join("")}</div>` : ""}
   </div>`;
 }
 
@@ -153,9 +152,10 @@ function renderStream() {
   const conv = activeConv();
   $("chat-title").textContent = conv?.title ?? "New chat";
   if (!$("view-chat").hidden) document.title = `${conv?.title ?? "New chat"} - fw`;
-  if (!conv || !conv.messages.length) {
+  const empty = !conv || !conv.messages.length;
+  $("view-chat").classList.toggle("is-empty", empty);
+  if (empty) {
     el.innerHTML = emptyState();
-    el.querySelectorAll(".chip").forEach((b) => b.addEventListener("click", () => openTool(b.dataset.tool)));
     return;
   }
   el.innerHTML = "";
@@ -195,6 +195,7 @@ function renderTurn(conv, m, idx) {
 
 // ---------- Sending ----------
 function setBusy(busy) {
+  $("view-chat").classList.toggle("is-busy", busy);
   const b = $("send-btn");
   b.classList.toggle("stop", busy);
   b.setAttribute("aria-label", busy ? "Stop answer" : "Send");
@@ -336,6 +337,24 @@ function renderTools(error) {
   }
 }
 
+function renderToolsMenu(error) {
+  const menu = $("tools-menu");
+  menu.innerHTML = tools.length ? "" : `<p class="menu-empty">${error ? `Tools could not be listed: ${esc(error)}` : "This server exposes no tools."}</p>`;
+  for (const t of tools) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "menu-item"; b.setAttribute("role", "menuitem");
+    b.innerHTML = `<span class="item-name">${esc(t.name)}</span><span class="item-desc">${esc(t.description ?? "")}</span>`;
+    b.addEventListener("click", () => { setToolsMenu(false); openTool(t.name); });
+    menu.appendChild(b);
+  }
+}
+
+function setToolsMenu(open) {
+  $("tools-menu").hidden = !open;
+  $("tools-btn").setAttribute("aria-expanded", String(open));
+  if (open) $("tools-menu").querySelector("button")?.focus();
+}
+
 function openTool(name) {
   const t = tools.find((x) => x.name === name);
   if (!t) return;
@@ -451,7 +470,11 @@ async function boot() {
   if (t.status === "fulfilled") {
     tools = t.value.result?.tools ?? [];
     renderTools(t.value.error?.message);
-  } else renderTools(t.reason?.message ?? String(t.reason));
+    renderToolsMenu(t.value.error?.message);
+  } else {
+    renderTools(t.reason?.message ?? String(t.reason));
+    renderToolsMenu(t.reason?.message ?? String(t.reason));
+  }
   if (!activeConv()?.messages.length) renderStream();
 }
 
@@ -501,7 +524,12 @@ $("prompt").addEventListener("input", autosize);
 $("prompt").addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); if (!inflight) send($("prompt").value); }
 });
-addEventListener("keydown", (e) => { if (e.key === "Escape") setThreads(false); });
+$("tools-btn").addEventListener("click", () => setToolsMenu($("tools-menu").hidden));
+addEventListener("click", (e) => { if (!e.target.closest("#tools-menu, #tools-btn")) setToolsMenu(false); });
+addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  if (!$("tools-menu").hidden) { setToolsMenu(false); $("tools-btn").focus(); } else setThreads(false);
+});
 addEventListener("hashchange", route);
 
 applyTheme();

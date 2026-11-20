@@ -335,6 +335,36 @@ a { color: var(--md-sys-color-primary); }
   80% { clip-path: polygon(100.0% 50.0%,96.8% 58.3%,91.5% 65.1%,89.4% 72.8%,87.8% 81.7%,81.7% 87.8%,72.8% 89.4%,65.1% 91.5%,58.3% 96.8%,50.0% 100.0%,41.7% 96.8%,34.9% 91.5%,27.3% 89.4%,18.3% 87.8%,12.2% 81.7%,10.6% 72.8%,8.5% 65.1%,3.2% 58.3%,0.0% 50.0%,3.2% 41.7%,8.5% 34.9%,10.6% 27.2%,12.2% 18.3%,18.3% 12.2%,27.2% 10.6%,34.9% 8.5%,41.7% 3.2%,50.0% 0.0%,58.3% 3.2%,65.1% 8.5%,72.7% 10.6%,81.7% 12.2%,87.8% 18.3%,89.4% 27.3%,91.5% 34.9%,96.8% 41.7%); }
 }
 
+/* Empty chat: headline and composer sit together in the middle of the surface (the conversation
+   has not started, so the input is the page); the composer docks to the bottom on the first message.
+   Behind them a tonal glow breathes while fw is working: ambient feedback instead of a spinner. */
+#view-chat { position: relative; isolation: isolate; }
+#view-chat::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+  background: radial-gradient(60% 45% at 50% 58%, color-mix(in srgb, var(--md-sys-color-tertiary-container) 70%, transparent), transparent 70%),
+              radial-gradient(40% 30% at 50% 62%, color-mix(in srgb, var(--md-sys-color-primary-container) 60%, transparent), transparent 70%);
+  transition: opacity 600ms cubic-bezier(0.34, 0.8, 0.34, 1);
+}
+#view-chat.is-empty::before { opacity: 0.9; }
+#view-chat.is-busy::before { opacity: 0.55; background-position: 50% 100%; animation: breathe 3.2s ease-in-out infinite; }
+@keyframes breathe { 50% { opacity: 0.95; transform: scale(1.06); } }
+#view-chat.is-empty .stream { flex: 0 0 auto; margin-top: auto; overflow: visible; }
+#view-chat.is-empty .composer-hint { margin-bottom: auto; }
+#view-chat.is-empty .empty { min-height: 0; justify-items: center; text-align: center; padding: 0 0 32px; }
+.menu {
+  position: absolute; left: 8px; bottom: calc(100% + 8px); z-index: 15; width: min(360px, calc(100vw - 48px));
+  max-height: min(420px, 60vh); overflow-y: auto; padding: 8px 0; border-radius: var(--shape-l);
+  background: var(--md-sys-color-surface-container-high); box-shadow: 0 2px 6px 2px rgb(0 0 0 / 0.15), 0 1px 2px rgb(0 0 0 / 0.3);
+}
+.menu-item {
+  display: grid; gap: 2px; width: 100%; min-height: 48px; padding: 10px 16px; border: 0; text-align: left;
+  background: transparent; cursor: pointer;
+}
+.menu-item:hover, .menu-item:focus-visible { background: color-mix(in srgb, var(--md-sys-color-on-surface) var(--state-hover), transparent); outline: none; }
+.menu-item .item-name { font-family: var(--font-code); font-size: 14px; font-weight: 600; }
+.menu-item .item-desc { color: var(--md-sys-color-on-surface-variant); font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.menu-empty { padding: 12px 16px; color: var(--md-sys-color-on-surface-variant); font-size: 14px; }
+
 /* Empty chat: the brand cookie holds the wordmark. */
 .empty { max-width: var(--measure); margin: 0 auto; min-height: 100%; display: grid; align-content: center; justify-items: start; gap: 24px; padding: 32px 0; }
 .mark {
@@ -358,7 +388,7 @@ a { color: var(--md-sys-color-primary); }
 .composer {
   position: relative; display: flex; align-items: flex-end; gap: 8px;
   width: min(calc(100% - 32px), calc(var(--measure) + 32px)); margin: 0 auto;
-  padding: 8px 8px 8px 24px; border-radius: var(--shape-xl);
+  padding: 8px; border-radius: var(--shape-xl);
   background: var(--md-sys-color-surface-container-high);
   transition: border-radius var(--motion-spatial);
 }
@@ -480,6 +510,7 @@ a { color: var(--md-sys-color-primary); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
   .morph { animation: none; clip-path: circle(50%); }
+  #view-chat.is-busy::before { animation: none; }
 }
 @media (forced-colors: active) {
   .send, .fab, .dest[aria-current="page"] .dest-pill { forced-color-adjust: none; border: 2px solid CanvasText; }

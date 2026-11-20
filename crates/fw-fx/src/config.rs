@@ -6,7 +6,8 @@ use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
 pub const FX_VERSION: &str = "0.0.17";
-pub const DEFAULT_MODEL: &str = "anthropic/claude-sonnet-4.5";
+/// Vercel AI Gateway id (checked against https://ai-gateway.vercel.sh/v1/models); override with FX_MODEL or `fw config set model`.
+pub const DEFAULT_MODEL: &str = "anthropic/claude-sonnet-5.5";
 pub const DEFAULT_GATEWAY_BASE_URL: &str = "https://ai-gateway.vercel.sh";
 pub const DEFAULT_GATEWAY_CHAT_URL: &str = "https://ai-gateway.vercel.sh/v1/chat/completions";
 pub const DEFAULT_MAX_AGENT_STEPS: u32 = 100;
