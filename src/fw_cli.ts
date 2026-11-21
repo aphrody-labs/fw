@@ -118,7 +118,6 @@ type Subcommand = (typeof SUBCOMMANDS)[number];
 function resolveRoot(): string {
   const candidates = [
     process.env.FW_ROOT,
-    process.env.FAIRWIND_ROOT, // legacy fallback for units installed before the rename
     process.cwd(),
     dirname(dirname(process.execPath)),
     dirname(dirname(dirname(process.execPath))),

@@ -516,6 +516,7 @@ export interface ClusterNodeSpec {
   maxKvBlocks: number;
 }
 
+// Latency parameters below are parameters of the routing simulation, not measurements of these machines.
 export const DEFAULT_CLUSTER_NODES: readonly ClusterNodeSpec[] = [
   {
     id: "local-rtx4070",
@@ -529,7 +530,7 @@ export const DEFAULT_CLUSTER_NODES: readonly ClusterNodeSpec[] = [
   {
     id: "fr1",
     role: "prefill",
-    accelerator: "EPYC 12c / 45GB RAM / Heavy Prefill & GGUF Storage",
+    accelerator: "12 vCPU Intel Haswell, 49.3 GB RAM, no GPU (cluster/build.toml, docs/HARDWARE_MATRIX.md)",
     baseTtftMs: 28,
     msPerPrefillToken: 0.55,
     msPerDecodeToken: 12.0,
@@ -538,7 +539,7 @@ export const DEFAULT_CLUSTER_NODES: readonly ClusterNodeSpec[] = [
   {
     id: "prd",
     role: "decode",
-    accelerator: "Production Serving & Overflow Decode",
+    accelerator: "8 vCPU AMD EPYC 9354P, 33.6 GB RAM, no GPU (cluster/build.toml, docs/HARDWARE_MATRIX.md)",
     baseTtftMs: 24,
     msPerPrefillToken: 0.9,
     msPerDecodeToken: 8.5,

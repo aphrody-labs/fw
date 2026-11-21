@@ -8,7 +8,6 @@ use crate::wrangler::Service;
 use crate::{write_text, Error, Result};
 use serde_json::json;
 use std::collections::BTreeMap;
-use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone)]
@@ -79,18 +78,18 @@ fn bundled(name: &str, module: &str, flags: &[&str], class: Option<(&str, &str)>
     let mut text = format!("(name = {}, worker = (modules = [(name = {}, bundled = {})], compatibilityDate = \"2026-01-01\"", quote(name), quote(module), quote(&format!("/workerd/{module}")));
     if !flags.is_empty() {
         let list: Vec<String> = flags.iter().map(|flag| quote(flag)).collect();
-        let _ = write!(text, ", compatibilityFlags = [{}]", list.join(", "));
+        text.push_str(&format!(", compatibilityFlags = [{}]", list.join(", ")));
     }
     if let Some((_, class_name)) = class {
-        let _ = write!(text, ", durableObjectNamespaces = [(className = {}, uniqueKey = {}, enableSql = true)]", quote(class_name), quote(class_name));
+        text.push_str(&format!(", durableObjectNamespaces = [(className = {}, uniqueKey = {}, enableSql = true)]", quote(class_name), quote(class_name)));
     }
-    let _ = write!(text, ", durableObjectStorage = (localDisk = {})", quote(&format!("{name}-storage")));
+    text.push_str(&format!(", durableObjectStorage = (localDisk = {})", quote(&format!("{name}-storage"))));
     let mut all: Vec<String> = Vec::new();
     if let Some((binding, class_name)) = class {
         all.push(format!("(name = {}, durableObjectNamespace = (className = {}))", quote(binding), quote(class_name)));
     }
     all.extend(bindings.iter().cloned());
-    let _ = write!(text, ", bindings = [{}]))", all.join(", "));
+    text.push_str(&format!(", bindings = [{}]))", all.join(", ")));
     text
 }
 
@@ -273,29 +272,29 @@ pub fn render(service: &Service, bundle_files: &[String], settings: &Settings) -
     let mut out = String::new();
     out.push_str("using Workerd = import \"/workerd/workerd.capnp\";\n\nconst config :Workerd.Config = (\n  services = [\n");
     for line in &services {
-        let _ = writeln!(out, "    {line},");
+        out.push_str(&format!("    {line},\n"));
     }
     out.push_str("  ],\n  sockets = [\n");
-    let _ = writeln!(out, "    (name = \"http\", address = {}, http = (), service = \"main\"),", quote(&settings.listen_address));
+    out.push_str(&format!("    (name = \"http\", address = {}, http = (), service = \"main\"),\n", quote(&settings.listen_address)));
     out.push_str("  ],\n");
     out.push_str(");\n\nconst main :Workerd.Worker = (\n  modules = [\n");
     for line in &modules {
-        let _ = writeln!(out, "    {line},");
+        out.push_str(&format!("    {line},\n"));
     }
     out.push_str("  ],\n");
-    let _ = writeln!(out, "  compatibilityDate = {},", quote(&service.compatibility_date));
+    out.push_str(&format!("  compatibilityDate = {},\n", quote(&service.compatibility_date)));
     if !service.compatibility_flags.is_empty() {
         let flags: Vec<String> = service.compatibility_flags.iter().map(|flag| quote(flag)).collect();
-        let _ = writeln!(out, "  compatibilityFlags = [{}],", flags.join(", "));
+        out.push_str(&format!("  compatibilityFlags = [{}],\n", flags.join(", ")));
     }
-    let _ = writeln!(out, "  cacheApiOutbound = {},", quote(&format!("{name}-cache")));
+    out.push_str(&format!("  cacheApiOutbound = {},\n", quote(&format!("{name}-cache"))));
     out.push_str("  bindings = [\n");
     for line in &bindings {
-        let _ = writeln!(out, "    {line},");
+        out.push_str(&format!("    {line},\n"));
     }
     out.push_str("  ],\n");
     if !classes.is_empty() {
-        let _ = writeln!(out, "  durableObjectNamespaces = [{}],", classes.join(", "));
+        out.push_str(&format!("  durableObjectNamespaces = [{}],\n", classes.join(", ")));
     }
     out.push_str("  durableObjectStorage = (localDisk = \"state\"),\n);\n");
 

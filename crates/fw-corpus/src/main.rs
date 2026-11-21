@@ -9,7 +9,7 @@ use std::path::Path;
 const USAGE: &str = "usage: fw-corpus <sources|status|sync|search|read|systemd> [--root DIR] [--json]
   sources                      list sources and licences
   status                       per-source documents, chunks, bytes, last fetch
-  sync <id...|all> [--limit N] [--threads N] [--rate-ms N] [--force]
+  sync <id...|all> [--limit N] [--threads N] [--rate-ms N] [--force] [--only URL-TEXT]
   search <query> [--source ID] [--limit N]
   read <url-substring> [--source ID]
   systemd [--user] [--bin PATH] [--calendar SPEC] [--run-as USER] [--tmpdir DIR]   print the refresh service and timer units";
@@ -19,7 +19,7 @@ fn flag<'a>(args: &'a [String], name: &str) -> Option<&'a str> {
 }
 
 fn positional(args: &[String]) -> Vec<&str> {
-    const WITH_VALUE: &[&str] = &["--root", "--limit", "--threads", "--rate-ms", "--source", "--bin", "--calendar", "--run-as", "--tmpdir"];
+    const WITH_VALUE: &[&str] = &["--root", "--limit", "--threads", "--rate-ms", "--source", "--bin", "--calendar", "--run-as", "--tmpdir", "--only"];
     let mut out = Vec::new();
     let mut skip = false;
     for arg in args {
@@ -109,6 +109,7 @@ fn run() -> Result<Value> {
                 threads: number("--threads", 6),
                 rate_ms: number("--rate-ms", 250) as u64,
                 force: args.iter().any(|arg| arg == "--force"),
+                only: flag(&args, "--only").map(str::to_owned),
             };
             let mut reports = Vec::new();
             for id in ids {

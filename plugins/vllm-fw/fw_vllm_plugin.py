@@ -44,7 +44,7 @@ class KVConnectorConfig:
     fw_cluster_endpoint: str = "http://127.0.0.1:4379"
     kv_events_port: int = 5556
     kv_replay_port: int = 5559
-    node_id: str = "gpu-1-pc-rtx4070"
+    node_id: str = "local"
 
     def __post_init__(self) -> None:
         if isinstance(self.kv_role, str):
@@ -83,7 +83,7 @@ class KVConnectorConfig:
             ),
             kv_events_port=int(extra.get("kv_events_port", 5556)),
             kv_replay_port=int(extra.get("kv_replay_port", 5559)),
-            node_id=str(extra.get("node_id", "gpu-1-pc-rtx4070")),
+            node_id=str(extra.get("node_id", "local")),
         )
 
 

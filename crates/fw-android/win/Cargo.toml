@@ -1,0 +1,15 @@
+[package]
+name = "fw-android-win"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Windows 11 host side of fw android: Hyper-V/WSL2 Linux guest, GPU-PV probe and the Wayland-to-Win32 window bridge"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "fw-android-win"
+path = "src/main.rs"

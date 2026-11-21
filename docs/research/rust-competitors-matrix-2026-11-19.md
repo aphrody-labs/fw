@@ -61,7 +61,7 @@ Generated reproducibly by `bun tools/competitor_audit.ts` (live GitHub API + loc
 | **Kernel** | Oui (`os/fw-os` Asterinas OSDK + `fw-ostd-wasm`) | Non | Non | Non | Non | Oui (Framekernel OSTD) |
 | **Wasm** | Oui (`fw-wasm` `wasm32-unknown-unknown`) | Partiel | Partiel | Oui (Wasmtime plugins) | Oui (extensions WIT) | Non |
 | **WebGPU** | Oui (`fw-wayland-wgpu`, WGSL, probe web) | Non | Non | Non | Oui (GPUI Metal/Vulkan/DX12) | Non |
-| **Cluster / Routing** | Oui (`fw-cluster` Pingora/Dynamo/vLLM-Router) | Non | Non | Partiel (TEE nodes) | Partiel (collab server) | Non |
+| **Cluster / Routing** | Oui (`fw-cluster`: hachage coherent + EPP de style llm-d) | Non | Non | Partiel (TEE nodes) | Partiel (collab server) | Non |
 | **MCP (JSON-RPC 2.0)** | Oui (`fw-hermes-claw` + `POST /mcp`) | Oui | Oui | Oui | Oui (client MCP) | Non |
 | **ACP (Agent Client Protocol)** | Partiel (planifié) | Partiel | Non | Partiel | Oui (natif) | Non |
 | **A2A (Agent-to-Agent)** | Partiel (spec `fw-cluster`) | Partiel | Oui | Oui | Non | Non |

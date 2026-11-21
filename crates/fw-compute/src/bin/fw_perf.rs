@@ -10,7 +10,7 @@
 //! Suites: `host` (machine, load, toolchain, commit), `build` (clean and touch-rebuild per package, profile and
 //! target, then stripped size), `startup` (spawn to exit of a built binary), `link` (the same object set linked by
 //! each linker), `wasm` (raw, gzip, brotli of wasm artifacts, then wasm-bindgen and wasm-opt), `workers` (wrangler
-//! dry-run bundles of every Worker), `gpu` (gpu-bench executables: shader module, pipeline, frame time).
+//! dry-run bundles of every Worker), `shader` (naga WGSL parse, validate and emit time of every WGSL file), `gpu` (gpu-bench executables: shader module, pipeline, frame time).
 
 use std::collections::BTreeMap;
 use std::env;
@@ -105,6 +105,8 @@ mod sys {
 }
 
 enum Json {
+    /// A JSON document produced by a child tool, embedded as is.
+    Raw(String),
     Null,
     Bool(bool),
     Num(f64),
@@ -129,6 +131,7 @@ impl Json {
     fn render(&self, out: &mut String, depth: usize) {
         let pad = |out: &mut String, level: usize| out.push_str(&"  ".repeat(level));
         match self {
+            Json::Raw(document) => out.push_str(document.trim()),
             Json::Null => out.push_str("null"),
             Json::Bool(flag) => out.push_str(if *flag { "true" } else { "false" }),
             Json::Num(value) if value.is_finite() => {
@@ -308,9 +311,16 @@ fn host_record(root: &Path) -> Json {
     let dirty = capture("git", &["status", "--porcelain", "--untracked-files=no"], Some(root)).map(|s| s.lines().count()).unwrap_or(0);
     let kernel = capture("uname", &["-sr"], None).unwrap_or_else(|| env::consts::OS.to_string());
     let hostname = env::var("HOSTNAME").ok().or_else(|| env::var("COMPUTERNAME").ok()).or_else(|| capture("hostname", &[], None)).unwrap_or_default();
-    let tools: Vec<Json> = ["hyperfine", "gzip", "brotli", "zstd", "strip", "mold", "wild", "ld.lld", "wasm-opt", "wasm-bindgen", "wasm-tools", "cargo-xwin", "bun"]
+    let tools: Vec<Json> = ["hyperfine", "gzip", "brotli", "zstd", "strip", "ld.bfd", "ld.gold", "mold", "wild", "ld.lld", "wasm-opt", "wasm-bindgen", "wasm-tools", "valgrind", "bun"]
         .iter()
-        .map(|name| obj(vec![("tool", text(*name)), ("path", which(name).map(|p| text(p.display().to_string())).unwrap_or(Json::Null))]))
+        .map(|name| {
+            let version = which(name).and_then(|_| capture(name, &["--version"], None)).and_then(|v| v.lines().next().map(str::to_string));
+            obj(vec![
+                ("tool", text(*name)),
+                ("path", which(name).map(|p| text(p.display().to_string())).unwrap_or(Json::Null)),
+                ("version", version.map(text).unwrap_or(Json::Null)),
+            ])
+        })
         .collect();
     obj(vec![
         ("hostname", text(hostname)),
@@ -373,6 +383,8 @@ const BUILDS: &[Build] = &[
     Build { id: "fw-bin.release.musl", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MUSL, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
     Build { id: "fw-bin.release.msvc", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MSVC, launcher: Launcher::Xwin, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
     Build { id: "fw-bin.dev.gnu", workspace: ".", package: "fw-bin", artifact: "fw", profile: "dev", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
+    Build { id: "fw-bin.release.msvc-native", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MSVC, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
+    Build { id: "fw-bin.dev.msvc", workspace: ".", package: "fw-bin", artifact: "fw", profile: "dev", target: MSVC, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
     Build { id: "fw-wasm.release.wasm32-unknown-unknown", workspace: ".", package: "fw-wasm", artifact: "fw_wasm", profile: "release", target: WASM, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: false, entry: "crates/fw-wasm/src/lib.rs", startup: &[] },
     Build { id: "fw-wasm.release.wasm32-wasip2", workspace: ".", package: "fw-wasm", artifact: "fw_wasm", profile: "release", target: WASIP2, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: false, entry: "crates/fw-wasm/src/lib.rs", startup: &[] },
     Build { id: "aphrody.dist.gnu", workspace: "aphrody", package: "zed", artifact: "aphrody", profile: "dist", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/zed/src/main.rs", startup: APHRODY_STARTUP },
@@ -399,6 +411,8 @@ struct Options {
     exes: Vec<PathBuf>,
     startup_args: Vec<Vec<String>>,
     gpu_bench: PathBuf,
+    wgsl: Vec<PathBuf>,
+    wrangler: Option<PathBuf>,
 }
 
 struct Report {
@@ -438,6 +452,7 @@ impl Report {
 
 fn clone_json(value: &Json) -> Json {
     match value {
+        Json::Raw(document) => Json::Raw(document.clone()),
         Json::Null => Json::Null,
         Json::Bool(b) => Json::Bool(*b),
         Json::Num(n) => Json::Num(*n),
@@ -483,7 +498,7 @@ fn host_triple() -> &'static str {
 
 fn cargo_command(build: &Build, workspace: &Path, target_dir: &Path, subcommand: &[&str]) -> Command {
     let mut command = Command::new("cargo");
-    if build.launcher == Launcher::Xwin {
+    if build.launcher == Launcher::Xwin && !cfg!(windows) {
         command.arg("xwin");
     }
     command.args(subcommand);
@@ -643,6 +658,20 @@ fn run_build(build: &Build, options: &Options, report: &mut Report) -> Option<Pa
     Some(artifact)
 }
 
+/// Instruction count of one run under callgrind: deterministic, so it stays comparable on a shared host where wall and
+/// CPU time move with the load (the nodes are VMs without a hardware PMU, so `perf stat` has no instructions event).
+fn instructions(exe: &Path, arguments: &[String], scratch: &Path) -> Option<u64> {
+    which("valgrind")?;
+    fs::create_dir_all(scratch).ok();
+    let log = scratch.join("callgrind.log");
+    let mut command = Command::new("valgrind");
+    command.arg("--tool=callgrind").arg(format!("--callgrind-out-file={}", scratch.join("callgrind.out").display())).arg(exe).args(arguments);
+    measure(&mut command, Some(&log)).ok()?;
+    let content = fs::read_to_string(&log).ok()?;
+    let collected = content.lines().find_map(|l| l.split("Collected :").nth(1))?;
+    collected.split_whitespace().next()?.parse().ok()
+}
+
 fn run_startup(id: &str, exe: &Path, argument_sets: &[Vec<String>], options: &Options, report: &mut Report) {
     for arguments in argument_sets {
         let label = format!("{id} {}", arguments.join(" "));
@@ -669,9 +698,11 @@ fn run_startup(id: &str, exe: &Path, argument_sets: &[Vec<String>], options: &Op
             }
         }
         let wall = stats(&walls);
+        let instruction_count = instructions(exe, arguments, &options.work.join("scratch").join("startup-callgrind"));
         let record = obj(vec![
             ("id", text(label.clone())),
             ("suite", text("startup")),
+            ("instructions_callgrind", instruction_count.map(|n| num(n as f64)).unwrap_or(Json::Null)),
             ("status", text(if codes.iter().all(|c| *c == 0) { "ok" } else { "nonzero-exit" })),
             ("exit_codes", Json::Arr(codes.iter().take(3).map(|c| num(f64::from(*c))).collect())),
             ("command", text(format!("{} {}", exe.display(), arguments.join(" ")))),
@@ -679,7 +710,7 @@ fn run_startup(id: &str, exe: &Path, argument_sets: &[Vec<String>], options: &Op
             ("metrics", obj(vec![("wall_ms", stats_json(&walls)), ("cpu_ms", stats_json(&cpu)), ("max_rss_mib", stats_json(&rss))])),
             ("load", load_snapshot()),
         ]);
-        report.push(record, format!("| {label} | startup | n={} | wall {:.2} ms (sd {:.2}, min {:.2}) | rss {:.1} MiB |", wall.n, wall.mean, wall.stdev, wall.min, stats(&rss).mean));
+        report.push(record, format!("| {label} | startup | n={} | wall {:.2} ms (sd {:.2}, min {:.2}) | rss {:.1} MiB | {} instructions |", wall.n, wall.mean, wall.stdev, wall.min, stats(&rss).mean, instruction_count.map(|n| n.to_string()).unwrap_or_else(|| "n/a".to_string())));
     }
 }
 
@@ -691,17 +722,27 @@ fn link_symlink(target: &Path, link: &Path) {
 #[cfg(not(unix))]
 fn link_symlink(_target: &Path, _link: &Path) {}
 
+/// Quoted tokens of the link line rustc prints (`LC_ALL="C" PATH="..." "cc" "-m64" ...`): the values of leading
+/// `NAME="value"` environment assignments are dropped, so the first token is the linker program.
 fn parse_quoted(line: &str) -> Vec<String> {
     let mut arguments = Vec::new();
     let mut current = String::new();
     let mut inside = false;
+    let mut environment_value = false;
+    let mut previous = ' ';
     let mut chars = line.chars();
     while let Some(ch) = chars.next() {
         match (inside, ch) {
-            (false, '"') => inside = true,
+            (false, '"') => {
+                inside = true;
+                environment_value = previous == '=';
+            }
             (true, '"') => {
                 inside = false;
-                arguments.push(std::mem::take(&mut current));
+                let token = std::mem::take(&mut current);
+                if !environment_value {
+                    arguments.push(token);
+                }
             }
             (true, '\\') => match chars.next() {
                 Some('n') => current.push('\n'),
@@ -711,6 +752,7 @@ fn parse_quoted(line: &str) -> Vec<String> {
             (true, c) => current.push(c),
             (false, _) => {}
         }
+        previous = ch;
     }
     arguments
 }
@@ -719,8 +761,8 @@ fn parse_quoted(line: &str) -> Vec<String> {
 /// keeps the objects (`-C save-temps`); the same line is replayed with `-fuse-ld=...` swapped, so only the linker differs.
 fn run_link(build: &Build, options: &Options, report: &mut Report) {
     let id = format!("link.{}", build.id);
-    if !cfg!(target_os = "linux") {
-        let (record, summary) = failure(&id, "link", "link replay is implemented for the Linux gnu target only", "");
+    if !cfg!(any(target_os = "linux", windows)) {
+        let (record, summary) = failure(&id, "link", "link replay is implemented for Linux gnu and Windows msvc", "");
         report.push(record, summary);
         return;
     }
@@ -741,43 +783,49 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
         }
     }
     let content = fs::read_to_string(&log).unwrap_or_default();
-    let Some(link_line) = content.lines().rfind(|l| l.starts_with('"') && l.contains("\"-o\"")) else {
+    let Some(link_line) = content.lines().rfind(|l| l.contains("\"-o\"") || l.to_ascii_lowercase().contains("\"/out:")) else {
         let (record, summary) = failure(&id, "link", "no link line in rustc output", &line);
         report.push(record, summary);
         return;
     };
     let original = parse_quoted(link_line);
     let Some(linker_program) = original.first().cloned() else { return };
-    let sysroot_lld_dir = original.iter().find_map(|a| a.strip_prefix("-B").filter(|d| d.contains("gcc-ld")).map(str::to_string));
-    let wild_dir = scratch.join("wild-bin");
-    if let Some(wild) = which("wild") {
-        fs::create_dir_all(&wild_dir).ok();
-        let link = wild_dir.join("ld");
-        fs::remove_file(&link).ok();
-        link_symlink(&wild, &link);
-    }
-    let base: Vec<String> = original.iter().skip(1).filter(|a| !a.starts_with("-fuse-ld") && !a.starts_with("-B")).cloned().collect();
-    let mut linkers: Vec<(&str, Vec<String>)> = vec![("rustc-default", original.iter().skip(1).cloned().collect())];
-    for (name, flags) in [("bfd", vec!["-fuse-ld=bfd".to_string()]), ("gold", vec!["-fuse-ld=gold".to_string()]), ("lld", vec!["-fuse-ld=lld".to_string()]), ("mold", vec!["-fuse-ld=mold".to_string()])] {
-        let tool = if name == "bfd" { "ld.bfd" } else { &format!("ld.{name}") };
-        if which(tool).is_some() {
-            linkers.push((name, flags));
+    let rest: Vec<String> = original.iter().skip(1).cloned().collect();
+    // (name, program, arguments): only the linker differs between candidates.
+    let mut linkers: Vec<(String, String, Vec<String>)> = vec![("rustc-default".to_string(), linker_program.clone(), rest.clone())];
+    if cfg!(windows) {
+        let sysroot = capture("rustc", &["--print", "sysroot"], None).unwrap_or_default();
+        let host = capture("rustc", &["-vV"], None).and_then(|v| v.lines().find_map(|l| l.strip_prefix("host: ").map(str::to_string))).unwrap_or_default();
+        let rust_lld = Path::new(&sysroot).join("lib").join("rustlib").join(host).join("bin").join("rust-lld.exe");
+        if rust_lld.is_file() {
+            let mut arguments = vec!["-flavor".to_string(), "link".to_string()];
+            arguments.extend(rest.iter().cloned());
+            linkers.push(("lld-link".to_string(), rust_lld.display().to_string(), arguments));
+        }
+    } else {
+        let base: Vec<String> = rest.iter().filter(|a| !a.starts_with("-fuse-ld") && !a.starts_with("-B")).cloned().collect();
+        let with = |flags: Vec<String>| -> Vec<String> { flags.into_iter().chain(base.iter().cloned()).collect() };
+        for name in ["bfd", "gold", "lld", "mold"] {
+            if which(&format!("ld.{name}")).is_some() {
+                linkers.push((name.to_string(), linker_program.clone(), with(vec![format!("-fuse-ld={name}")])));
+            }
+        }
+        if let Some(dir) = original.iter().find_map(|a| a.strip_prefix("-B").filter(|d| d.contains("gcc-ld")).map(str::to_string)) {
+            linkers.push(("rust-lld".to_string(), linker_program.clone(), with(vec!["-fuse-ld=lld".to_string(), format!("-B{dir}")])));
+        }
+        if let Some(wild) = which("wild") {
+            let wild_dir = scratch.join("wild-bin");
+            fs::create_dir_all(&wild_dir).ok();
+            let link = wild_dir.join("ld");
+            fs::remove_file(&link).ok();
+            link_symlink(&wild, &link);
+            if link.exists() {
+                linkers.push(("wild".to_string(), linker_program.clone(), with(vec![format!("-B{}", wild_dir.display())])));
+            }
         }
     }
-    if let Some(dir) = sysroot_lld_dir {
-        linkers.push(("rust-lld", vec!["-fuse-ld=lld".to_string(), format!("-B{dir}")]));
-    }
-    if wild_dir.join("ld").exists() {
-        linkers.push(("wild", vec![format!("-B{}", wild_dir.display())]));
-    }
-    for (name, flags) in linkers {
-        let output = scratch.join(format!("out-{name}"));
-        let mut arguments: Vec<String> = Vec::new();
-        arguments.extend(flags);
-        arguments.extend(if name == "rustc-default" { Vec::new() } else { base.clone() });
-        if name == "rustc-default" {
-            arguments = original.iter().skip(1).cloned().collect();
-        }
+    for (name, program, arguments) in linkers {
+        let output = scratch.join(format!("out-{name}{}", if cfg!(windows) { ".exe" } else { "" }));
         let mut replaced = false;
         let mut final_args = Vec::new();
         let mut iterator = arguments.iter();
@@ -787,27 +835,34 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
                 final_args.push("-o".to_string());
                 final_args.push(output.display().to_string());
                 replaced = true;
+            } else if argument.to_ascii_lowercase().starts_with("/out:") {
+                final_args.push(format!("/OUT:{}", output.display()));
+                replaced = true;
             } else {
                 final_args.push(argument.clone());
             }
         }
+        let label = format!("{id}.{name}");
         if !replaced {
+            let (record, summary) = failure(&label, "link", "no output argument in the link line", &program);
+            report.push(record, summary);
             continue;
         }
+        let link_log = scratch.join(format!("link-{name}.log"));
         let mut samples = Vec::new();
         let mut failed = None;
         for run in 0..options.warmup.max(1) + options.runs {
             fs::remove_file(&output).ok();
-            let mut link = Command::new(&linker_program);
+            let mut link = Command::new(&program);
             link.args(&final_args).current_dir(&workspace);
-            match measure(&mut link, Some(&scratch.join(format!("link-{name}.log")))) {
+            match measure(&mut link, Some(&link_log)) {
                 Ok(m) if m.code == 0 => {
                     if run >= options.warmup.max(1) {
                         samples.push(m);
                     }
                 }
                 Ok(m) => {
-                    failed = Some(format!("exit {}: {}", m.code, tail(&scratch.join(format!("link-{name}.log")), 3)));
+                    failed = Some(format!("exit {}: {}", m.code, tail(&link_log, 3)));
                     break;
                 }
                 Err(error) => {
@@ -816,9 +871,8 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
                 }
             }
         }
-        let label = format!("{id}.{name}");
         if let Some(reason) = failed {
-            let (record, summary) = failure(&label, "link", &reason, &format!("{linker_program} {}", final_args.join(" ")));
+            let (record, summary) = failure(&label, "link", &reason, &format!("{program} {}", final_args.join(" ")));
             report.push(record, summary);
             continue;
         }
@@ -828,10 +882,10 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
             ("id", text(label.clone())),
             ("suite", text("link")),
             ("status", text("ok")),
-            ("linker", text(name)),
+            ("linker", text(name.as_str())),
             ("output_bytes", num(bytes as f64)),
             ("output_runs_version", Json::Bool(runs)),
-            ("command", text(format!("{linker_program} {}", final_args.join(" ")))),
+            ("command", text(format!("{program} {}", final_args.join(" ")))),
             ("metrics", obj(series(&samples))),
             ("load", load_snapshot()),
         ]);
@@ -894,7 +948,13 @@ fn discover_workers(root: &Path) -> Vec<PathBuf> {
 }
 
 fn run_workers(options: &Options, report: &mut Report) {
-    let runner: Vec<&str> = if which("bunx").is_some() { vec!["bunx"] } else if which("npx").is_some() { vec!["npx", "--yes"] } else { Vec::new() };
+    let wrangler = options.wrangler.as_ref().map(|p| p.display().to_string());
+    let runner: Vec<&str> = match (&wrangler, which("bunx"), which("npx")) {
+        (Some(path), _, _) => vec![path.as_str()],
+        (None, Some(_), _) => vec!["bunx", "wrangler"],
+        (None, None, Some(_)) => vec!["npx", "--yes", "wrangler"],
+        _ => Vec::new(),
+    };
     for config in discover_workers(&options.root) {
         let directory = config.parent().map(Path::to_path_buf).unwrap_or_default();
         let name = directory.strip_prefix(&options.root).map(|p| p.display().to_string()).unwrap_or_default().replace(['/', '\\'], "-");
@@ -909,7 +969,7 @@ fn run_workers(options: &Options, report: &mut Report) {
             continue;
         };
         let mut command = Command::new(program);
-        command.args(prefix).args(["wrangler", "deploy", "--dry-run", "--outdir"]).arg(&out_dir).arg("--config").arg(&config).current_dir(&directory);
+        command.args(prefix).args(["deploy", "--dry-run", "--outdir"]).arg(&out_dir).arg("--config").arg(&config).current_dir(&directory);
         let log = scratch.join("wrangler.log");
         let line = command_line(&command);
         match measure(&mut command, Some(&log)) {
@@ -924,6 +984,11 @@ fn run_workers(options: &Options, report: &mut Report) {
                             files.insert(entry.file_name().to_string_lossy().to_string(), sizes_json(&path, &scratch));
                         }
                     }
+                }
+                if files.is_empty() {
+                    let (record, summary) = failure(&id, "workers", &format!("wrangler exited 0 but wrote no bundle: {}", tail(&log, 2)), &line);
+                    report.push(record, summary);
+                    continue;
                 }
                 let wrangler_total = fs::read_to_string(&log).unwrap_or_default().lines().find(|l| l.contains("Total Upload")).map(|l| l.trim().to_string()).unwrap_or_default();
                 let record = obj(vec![
@@ -990,6 +1055,98 @@ fn run_gpu(options: &Options, report: &mut Report) {
     }
 }
 
+fn walk_wgsl(path: &Path) -> Vec<PathBuf> {
+    if path.is_dir() {
+        let mut entries: Vec<PathBuf> = fs::read_dir(path).map(|d| d.flatten().map(|e| e.path()).collect()).unwrap_or_default();
+        entries.sort();
+        entries.iter().flat_map(|entry| walk_wgsl(entry)).collect()
+    } else if path.extension().is_some_and(|e| e == "wgsl") {
+        vec![path.to_path_buf()]
+    } else {
+        Vec::new()
+    }
+}
+
+/// gpui_wgpu builds its shaders at run time from `shaders.wgsl` plus one suffix (wgpu_renderer.rs: storage, webgl, and
+/// storage plus subpixel behind `enable dual_source_blending;`); the parts do not parse alone, so the three composed
+/// sources are compiled instead.
+fn compose_gpui_shaders(inputs: &mut Vec<PathBuf>, composed: &Path) {
+    let Some(base_path) = inputs.iter().find(|p| p.file_name().is_some_and(|n| n == "shaders.wgsl") && p.with_file_name("shaders_storage.wgsl").is_file()).cloned() else { return };
+    let read = |name: &str| fs::read_to_string(base_path.with_file_name(name)).unwrap_or_default();
+    let (base, storage, subpixel, webgl) = (read("shaders.wgsl"), read("shaders_storage.wgsl"), read("shaders_subpixel.wgsl"), read("shaders_webgl.wgsl"));
+    fs::create_dir_all(composed).ok();
+    let variants = [
+        ("gpui_wgpu.storage.wgsl", format!("{base}{storage}")),
+        ("gpui_wgpu.webgl.wgsl", format!("{base}{webgl}")),
+        ("gpui_wgpu.subpixel.wgsl", format!("enable dual_source_blending;\n{base}{storage}{subpixel}")),
+    ];
+    let parts = ["shaders.wgsl", "shaders_storage.wgsl", "shaders_subpixel.wgsl", "shaders_webgl.wgsl"];
+    inputs.retain(|p| !(p.parent() == base_path.parent() && p.file_name().is_some_and(|n| parts.iter().any(|part| n == *part))));
+    for (name, source) in variants {
+        let path = composed.join(name);
+        if fs::write(&path, source).is_ok() {
+            inputs.push(path);
+        }
+    }
+}
+
+fn run_shader(options: &Options, report: &mut Report) {
+    let id = "shader.naga";
+    let manifest = options.gpu_bench.join("bench/wgpu/Cargo.toml");
+    let target_dir = options.work.join("target").join("shader-compile");
+    let scratch = options.work.join("scratch").join(id);
+    fs::create_dir_all(&scratch).ok();
+    if !manifest.is_file() {
+        let (record, summary) = failure(id, "shader", &format!("{} not found (gpu-bench checkout)", manifest.display()), "");
+        report.push(record, summary);
+        return;
+    }
+    let mut build = Command::new("cargo");
+    build.args(["build", "--release", "--bin", "shader_compile", "--manifest-path"]).arg(&manifest).env("CARGO_TARGET_DIR", &target_dir).env("RUSTC_WRAPPER", "");
+    let line = command_line(&build);
+    let log = scratch.join("build.log");
+    match measure(&mut build, Some(&log)) {
+        Ok(m) if m.code == 0 => {}
+        _ => {
+            let (record, summary) = failure(id, "shader", &format!("shader_compile build failed: {}", tail(&log, 3)), &line);
+            report.push(record, summary);
+            return;
+        }
+    }
+    let exe = target_dir.join("release").join(format!("shader_compile{}", env::consts::EXE_SUFFIX));
+    let mut inputs: Vec<PathBuf> = if options.wgsl.is_empty() {
+        capture("git", &["ls-files", "*.wgsl"], Some(&options.root)).unwrap_or_default().lines().map(|l| options.root.join(l)).collect()
+    } else {
+        options.wgsl.clone()
+    };
+    inputs.push(options.gpu_bench.join("wgsl"));
+    inputs = inputs.iter().flat_map(|input| walk_wgsl(input)).collect();
+    compose_gpui_shaders(&mut inputs, &scratch.join("composed"));
+    let out = scratch.join("result.json");
+    let Ok(file) = File::create(&out) else { return };
+    let mut run = Command::new(&exe);
+    run.arg("--runs").arg(options.runs.max(5).to_string()).args(&inputs).stdout(Stdio::from(file)).stderr(Stdio::null());
+    let run_line = command_line(&run);
+    let started = Instant::now();
+    if !run.status().map(|s| s.success()).unwrap_or(false) {
+        let (record, summary) = failure(id, "shader", "shader_compile failed", &run_line);
+        report.push(record, summary);
+        return;
+    }
+    let raw = fs::read_to_string(&out).unwrap_or_default();
+    let shaders = raw.matches("\"file\":").count();
+    let record = obj(vec![
+        ("id", text(id)),
+        ("suite", text("shader")),
+        ("status", text("ok")),
+        ("wall_s", num(started.elapsed().as_secs_f64())),
+        ("build_command", text(line)),
+        ("command", text(run_line)),
+        ("result", Json::Raw(raw)),
+    ]);
+    report.push(record, format!("| {id} | shader compile | {shaders} WGSL files, per-stage samples in the JSON |"));
+}
+
 fn stats_json_from(stat: &Stats) -> Json {
     obj(vec![("n", num(stat.n as f64)), ("mean", num(stat.mean)), ("stdev", num(stat.stdev)), ("min", num(stat.min)), ("p50", num(stat.p50)), ("max", num(stat.max))])
 }
@@ -1037,11 +1194,13 @@ fn parse_options() -> Result<(String, Options), String> {
     Ok((
         command,
         Options {
+            wrangler: value("--wrangler").map(PathBuf::from).or_else(|| env::var_os("FW_WRANGLER").map(PathBuf::from)),
+            wgsl: all("--wgsl").into_iter().map(PathBuf::from).collect(),
             gpu_bench: PathBuf::from(value("--gpu-bench").unwrap_or_else(|| root.join("..").join("gpu-bench").display().to_string())),
             root,
             work,
             out,
-            suites: list("--suite", "host,build,startup,link,wasm,workers"),
+            suites: list("--suite", "host,build,startup,link,wasm,workers,shader,gpu"),
             only: list("--only", ""),
             runs: number("--runs", 5),
             build_runs: number("--build-runs", 3),
@@ -1051,6 +1210,14 @@ fn parse_options() -> Result<(String, Options), String> {
             startup_args,
         },
     ))
+}
+
+/// msvc builds run natively on Windows and through cargo-xwin elsewhere; each id exists for one of the two.
+fn applicable(build: &Build) -> bool {
+    if build.target != MSVC {
+        return true;
+    }
+    (build.launcher == Launcher::Cargo) == cfg!(windows)
 }
 
 fn selected(options: &Options, id: &str) -> bool {
@@ -1072,7 +1239,7 @@ fn main() {
         return;
     }
     if command != "run" {
-        println!("usage: fw_perf <list|run> [--root DIR] [--work DIR] [--out FILE] [--suite host,build,startup,link,wasm,workers,gpu] [--only ID,...] [--runs N] [--build-runs N] [--warmup N] [--no-incremental] [--exe PATH --args \"--version\"] [--gpu-bench DIR]");
+        println!("usage: fw_perf <list|run> [--root DIR] [--work DIR] [--out FILE] [--suite host,build,startup,link,wasm,workers,shader,gpu] [--only ID,...] [--runs N] [--build-runs N] [--warmup N] [--no-incremental] [--exe PATH --args \"--version\"] [--gpu-bench DIR] [--wgsl DIR] [--wrangler PATH]");
         std::process::exit(if command == "help" { 0 } else { 2 });
     }
     fs::create_dir_all(&options.work).ok();
@@ -1088,7 +1255,10 @@ fn main() {
     if wants("gpu") {
         run_gpu(&options, &mut report);
     }
-    for build in BUILDS.iter().filter(|b| selected(&options, b.id)) {
+    if wants("shader") {
+        run_shader(&options, &mut report);
+    }
+    for build in BUILDS.iter().filter(|b| applicable(b) && selected(&options, b.id)) {
         let needs_build = wants("build") || if build.kind == Kind::Bin { wants("startup") && options.exes.is_empty() } else { wants("wasm") };
         let artifact = if needs_build { run_build(build, &options, &mut report) } else { None };
         if let Some(artifact) = artifact {
@@ -1100,7 +1270,7 @@ fn main() {
                 run_wasm_pipeline(build, &artifact, &options, &mut report);
             }
         }
-        if wants("link") && build.profile == "dev" && build.target == GNU {
+        if wants("link") && build.profile == "dev" && build.target == host_triple() {
             run_link(build, &options, &mut report);
         }
     }
@@ -1110,4 +1280,38 @@ fn main() {
     report.records.push(obj(vec![("id", text("load-after")), ("suite", text("host")), ("status", text("ok")), ("load", load_snapshot())]));
     report.flush();
     println!("{}", options.out.display());
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn link_line_drops_environment_values() {
+        let line = r#"LC_ALL="C" PATH="/a:/b" VSLANG="1033" "cc" "-m64" "-o" "/t/out" "-Wl,--as-needed""#;
+        assert_eq!(parse_quoted(line), ["cc", "-m64", "-o", "/t/out", "-Wl,--as-needed"]);
+    }
+
+    #[test]
+    fn stats_of_five_samples() {
+        let s = stats(&[1.0, 2.0, 3.0, 4.0, 5.0]);
+        assert_eq!((s.n, s.mean, s.p50, s.min, s.max), (5, 3.0, 3.0, 1.0, 5.0));
+        assert!((s.stdev - 1.5811388).abs() < 1e-6);
+    }
+
+    #[test]
+    fn gpu_metrics_reads_arrays() {
+        let raw = r#"{"metrics":{"a_ms":[1.0,3.0],"b.gpu_ms":[2.0]},"checks":{}}"#;
+        let metrics = gpu_metrics(raw);
+        assert_eq!(metrics.len(), 2);
+        assert_eq!(metrics[0].0, "a_ms");
+        assert_eq!(metrics[0].1.mean, 2.0);
+    }
+
+    #[test]
+    fn json_renders_numbers_and_escapes() {
+        let mut out = String::new();
+        obj(vec![("a", num(3.0)), ("b", text("x\"y")), ("c", Json::Arr(vec![num(1.5)]))]).render(&mut out, 0);
+        assert!(out.contains("\"a\": 3") && out.contains("x\\\"y") && out.contains("[1.500000]"));
+    }
 }

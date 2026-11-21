@@ -324,14 +324,17 @@ def _make_cluster_node(
     endpoint: str,
     kind: str = "GpuHost",
     rpc_addr: str | None = None,
-    gpu_model: str = "NVIDIA GPU (migrated)",
-    vram_gb: int = 24,
-    ram_gb: int = 64,
-    cpu_cores: int = 16,
+    gpu_model: str = "GPU (model not in the source config)",
+    vram_gb: int = 0,
+    ram_gb: int = 0,
+    cpu_cores: int = 0,
     prefill_score: float = 1.0,
     decode_score: float = 1.0,
 ) -> dict[str, Any]:
-    """Build a `ClusterNode` dict matching `crates/fw-cluster/src/lib.rs`."""
+    """Build a `ClusterNode` dict matching `crates/fw-cluster/src/lib.rs`.
+
+    vram_gb, ram_gb and cpu_cores stay 0 (not declared) unless the caller read them from the source config.
+    """
     return {
         "id": node_id,
         "kind": kind,
@@ -351,14 +354,10 @@ def _make_cluster_node(
 
 def _default_vps_proxy_node() -> dict[str, Any]:
     return _make_cluster_node(
-        node_id="vps-1-pingora-ingress",
-        endpoint="http://127.0.0.1:8080",
+        node_id="local-proxy",
+        endpoint="http://127.0.0.1:4379",
         kind="VpsProxyLbStorageCpu",
-        rpc_addr="127.0.0.1:50052",
-        gpu_model="none (Pingora Proxy/LB CPU)",
-        vram_gb=0,
-        ram_gb=32,
-        cpu_cores=8,
+        gpu_model="none",
         prefill_score=0.5,
         decode_score=0.6,
     )
@@ -513,11 +512,7 @@ def migrate_vllm_to_fw(
                 node_id=svc_name,
                 endpoint=f"http://{host}:{port}",
                 kind="BaseCudaPc" if host == "127.0.0.1" else "GpuHost",
-                rpc_addr=f"{host}:{50051 + idx}",
                 gpu_model=f"vLLM GPU (TP={tp}, PP={pp}, DP={dp})",
-                vram_gb=24 * max(1, tp),
-                ram_gb=64,
-                cpu_cores=16,
                 prefill_score=prefill_score,
                 decode_score=decode_score,
             )
@@ -708,7 +703,7 @@ def migrate_llmd_to_fw(
                 upstream_value=str(pool.get("apiVersion", "inference.networking.k8s.io/v1")),
                 fw_status="partial",
                 recommendation=(
-                    "K8s Envoy ext-proc InferencePool is replaced by Pingora consistent-hash "
+                    "K8s Envoy ext-proc InferencePool is replaced by the fw-cluster consistent-hash "
                     "ingress + plugins/llmd-fw/fw_llmd_scorer.py in fw-cluster."
                 ),
             )
@@ -734,17 +729,17 @@ def migrate_llmd_to_fw(
                 )
             )
 
+    pool_name = next(
+        (str((p.get("metadata") or {}).get("name")) for p in inference_pools if (p.get("metadata") or {}).get("name")),
+        "llm-d-modelserver",
+    )
     if is_disaggregated:
         nodes.append(
             _make_cluster_node(
                 node_id="llmd-prefill-1",
-                endpoint=f"http://10.66.0.21:{target_port}",
+                endpoint=f"http://{pool_name}-prefill:{target_port}",
                 kind="GpuHost",
-                rpc_addr="10.66.0.21:50052",
                 gpu_model=f"llm-d Prefill Pool ({model_name})",
-                vram_gb=24,
-                ram_gb=64,
-                cpu_cores=16,
                 prefill_score=1.6,
                 decode_score=0.2,
             )
@@ -752,13 +747,9 @@ def migrate_llmd_to_fw(
         nodes.append(
             _make_cluster_node(
                 node_id="llmd-decode-1",
-                endpoint="http://10.66.0.22:8200",
+                endpoint=f"http://{pool_name}-decode:{target_port}",
                 kind="GpuHost",
-                rpc_addr="10.66.0.22:50052",
                 gpu_model=f"llm-d Decode Pool ({model_name})",
-                vram_gb=24,
-                ram_gb=64,
-                cpu_cores=16,
                 prefill_score=0.2,
                 decode_score=1.6,
             )
@@ -778,13 +769,9 @@ def migrate_llmd_to_fw(
         nodes.append(
             _make_cluster_node(
                 node_id="llmd-worker-1",
-                endpoint=f"http://10.66.0.21:{target_port}",
+                endpoint=f"http://{pool_name}:{target_port}",
                 kind="GpuHost",
-                rpc_addr="10.66.0.21:50052",
                 gpu_model=f"llm-d ModelServer ({model_name})",
-                vram_gb=24,
-                ram_gb=64,
-                cpu_cores=16,
                 prefill_score=1.2,
                 decode_score=1.2,
             )

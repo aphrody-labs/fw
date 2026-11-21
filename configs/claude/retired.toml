@@ -30,8 +30,33 @@ id = "agy-tooling"
 pattern = '\bantigravity\b|\bagy\b|configs/gemini|~/\.gemini/scripts'
 reason = "agy (Antigravity CLI) is retired and its repository is archived; the plugin source targets Claude Code only"
 
+[[term]]
+id = "ci-setup-node"
+pattern = 'uses:\s*actions/setup-node@'
+reason = "Bun is the JavaScript runtime of every workflow (oven-sh/setup-bun); node and npm are not installed on the cluster runners (docs/research/modern-toolchain-2026-11.md)"
+
+[[term]]
+id = "fairwind-name"
+pattern = '\bfairwind'
+reason = "Fairwind was an invented name from the agy period; build slices and services use the fleet names (fw-build.slice)"
+
+[[term]]
+id = "invented-cluster"
+pattern = '10\.66\.0\.|fw-hybrid-v3|default_hybrid_cluster|\bgpu-\d-(pc|gcloud|tpu)|\bvps-\d-(fr1|prd|pingora)|fw-models-gguf|fw-gguf-cas|cluster/topology\.toml|cloudflare-gcloud\.toml'
+reason = "a cluster layout that was never deployed (gcloud L4/T4 hosts, a TPU node, 10.66.0.x, a bucket and an R2 store that do not exist); nodes come from cluster/build.toml and live measurement"
+
+[[term]]
+id = "invented-seed"
+pattern = 'fw-m3-tui-superblock|asterinas-ostd-superblock'
+reason = "a made-up superblock written into an empty block store so that it reported blocks it never held"
+
+[[term]]
+id = "unfinished-macro"
+pattern = '\btodo!\(|\bunimplemented!\('
+reason = "a Rust body that panics at run time; return a typed error or implement it"
+
 [[allow]]
-paths = ["docs/agents/queue/**", "docs/agents/consolidation-*.md", "docs/release/**"]
+paths = ["docs/agents/queue/**", "docs/agents/consolidation-*.md", "docs/release/**", "docs/research/fictional-purge-2026-11.md"]
 reason = "history notes of the retirement itself"
 
 [[allow]]
@@ -150,3 +175,18 @@ reason = "locale catalogs, mirrored GitHub text, a word list and generated Linux
 paths = ["packages/linux-types/**"]
 terms = ["relay-hub"]
 reason = "generated Linux UAPI identifiers (struct fields such as relay_prefixlen)"
+
+[[allow]]
+terms = ["ci-setup-node"]
+paths = ["ay/tools/bun-native.test.ts"]
+reason = "test fixture of the legacy scanner that rewrites this very line"
+
+[[allow]]
+paths = ["docs/rust-brain/**"]
+terms = ["invented-cluster"]
+reason = "generated symbol index of tools/rust_brain.ts; the next refresh drops the removed function name"
+
+[[allow]]
+paths = ["plugins/aphrody/skills/*/data/**"]
+terms = ["unfinished-macro"]
+reason = "generated indexes of upstream API text (wgpu documents a todo! example)"

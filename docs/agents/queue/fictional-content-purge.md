@@ -28,3 +28,7 @@ Order of the owner, 2026-11-21: fix everything that is fictional, a placeholder 
 ## Output
 
 `docs/research/fictional-purge-2026-11.md` holds one row per finding: file:line, what it claimed, what is true, fix commit.
+
+## Status, 2026-11-21
+
+Done (findings with evidence in `docs/research/fictional-purge-2026-11.md`): the topology and gcloud files, `default_hybrid_cluster`, the Fairwind slice, the superblock strings, the ggml-rpc opcodes, the hardware claims, the Gemini ids and star counts (checked live, real), and the CI guard (`configs/claude/retired.toml`). Open: the fixed HUD bands of `fw-ui-blitz`, the literal `zeroSystemDeps`, the latency parameters of `src/bun_native_ai.ts`, a `ggml-rpc` client that performs `HELLO`.

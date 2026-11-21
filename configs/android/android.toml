@@ -1,0 +1,50 @@
+# Pins read by `fw android` (crates/fw-android). Facts below were read live from ota.waydro.id and the GitHub API on
+# 2026-11-21; `fw android status` compares them with the channel again. The guest is Waydroid's LineageOS 20 build
+# (Android 13, AOSP-derived, x86_64): the newest Android image that has a container-ready hwcomposer, gralloc and init.
+
+schema = 1
+arch = "x86_64"
+
+[channel]
+system = "https://ota.waydro.id/system/lineage/waydroid_x86_64/VANILLA.json"
+vendor = "https://ota.waydro.id/vendor/waydroid_x86_64/MAINLINE.json"
+
+# `sha256` is the checksum of the zip as published in the OTA json ("id"); a download that differs is deleted.
+[[image]]
+role = "system"
+filename = "lineage-20.0-20260927-VANILLA-waydroid_x86_64-system.zip"
+url = "https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-20.0-20260927-VANILLA-waydroid_x86_64-system.zip/download"
+sha256 = "053552725bf4ae25e2d3f7e6f1947203294aa9d73dc17fe1f3abe646e5d3bd8a"
+size = 847449341
+member = "system.img"
+
+[[image]]
+role = "vendor"
+filename = "lineage-20.0-20261022-MAINLINE-waydroid_x86_64-vendor.zip"
+url = "https://sourceforge.net/projects/waydroid/files/images/vendor/waydroid_x86_64/lineage-20.0-20261022-MAINLINE-waydroid_x86_64-vendor.zip/download"
+sha256 = "91663c337013145208b6c533d7e1fa2a915a9864ddc8fc56966f40cd759648ac"
+size = 189818691
+member = "vendor.img"
+
+# Licenses of what the images contain, recorded where `fw android up` writes images/LICENSES.json. VANILLA carries no
+# Google apps; the GAPPS image is never fetched.
+[[license]]
+component = "LineageOS 20 (AOSP 13 base: frameworks, system, apps)"
+spdx = "Apache-2.0"
+source = "https://github.com/LineageOS/android"
+[[license]]
+component = "Waydroid vendor and hardware HALs (hwcomposer, gralloc, init rc files)"
+spdx = "Apache-2.0 per file headers; repositories declare no license in the GitHub API"
+source = "https://github.com/waydroid/android_hardware_waydroid"
+[[license]]
+component = "minigbm"
+spdx = "BSD-3-Clause"
+source = "https://github.com/waydroid/android_external_minigbm"
+[[license]]
+component = "Linux kernel UAPI used on the host (binderfs, memfd)"
+spdx = "GPL-2.0 WITH Linux-syscall-note"
+source = "https://www.kernel.org"
+[[license]]
+component = "Waydroid tools (read as behavior reference only; no code copied)"
+spdx = "GPL-3.0"
+source = "https://github.com/waydroid/waydroid"

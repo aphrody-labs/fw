@@ -1,4 +1,5 @@
 use anyhow::{anyhow, bail, Context, Result};
+use fw_estate::backup;
 use fw_estate::check::{self, Finding};
 use fw_estate::cloudflare::{Cloudflare, Live};
 use fw_estate::model::{Estate, Record};
@@ -7,11 +8,13 @@ use fw_estate::providers::{self, Ovh};
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
 
-const USAGE: &str = "fw estate <plan|apply|check|import|registrar-ds <zone>> [--estate cluster/estate.toml] [--providers] [--committed-in <repo>]
+const USAGE: &str = "fw estate <plan|apply|check|import|backup|backup-units|registrar-ds <zone>> [--estate cluster/estate.toml] [--providers] [--committed-in <repo>]
   plan          diff the live providers against the estate file and write the plan file
   apply         execute the committed plan file (tracked and unmodified, or equal to origin/main of --committed-in <repo>; equal to a fresh plan)
   check         best-practice findings; exit 1 when one is an error (--providers adds OVH and Hostinger)
   import        print zone sections (records, routes, domains) generated from live Cloudflare state
+  backup        D1 exports and an rclone mirror of every R2 bucket onto the [backup] host (--root DIR overrides the path)
+  backup-units  print the systemd service and timer for `backup`
   registrar-ds  publish the Cloudflare DS record of a zone at the OVH registrar";
 
 fn main() {
@@ -27,6 +30,16 @@ fn run() -> Result<()> {
     let estate_path = args.iter().position(|arg| arg == "--estate").and_then(|index| args.get(index + 1)).map(PathBuf::from).unwrap_or_else(|| PathBuf::from("cluster/estate.toml"));
     let with_providers = args.iter().any(|arg| arg == "--providers");
     let (estate, text) = Estate::load(&estate_path)?;
+    if command == "backup-units" {
+        let backup = estate.backup.clone().ok_or_else(|| anyhow!("the estate file has no [backup] table"))?;
+        let binary = args.iter().position(|arg| arg == "--binary").and_then(|index| args.get(index + 1)).cloned().unwrap_or_else(|| "/usr/local/bin/fw-estate".to_string());
+        let estate_arg = estate_path.display().to_string();
+        let cluster_path = estate_path.parent().unwrap_or_else(|| Path::new(".")).join(&estate.estate.cluster_file);
+        let user = backup::host_user(&backup, &std::fs::read_to_string(&cluster_path)?)?;
+        let (service, timer) = backup::units(&backup, &user, &binary, &estate_arg);
+        println!("# fw-estate-backup.service\n{service}\n# fw-estate-backup.timer\n{timer}");
+        return Ok(());
+    }
     let cloudflare = Cloudflare::from_env(&estate.estate.token_env, &estate.estate.account_env)?;
     let plan_path = estate_path.parent().unwrap_or_else(|| Path::new(".")).join(&estate.estate.plan_file);
     match command {
@@ -70,6 +83,22 @@ fn run() -> Result<()> {
                 std::process::exit(1);
             }
         }
+        "backup" => {
+            let backup = estate.backup.clone().ok_or_else(|| anyhow!("the estate file has no [backup] table"))?;
+            let cluster_path = estate_path.parent().unwrap_or_else(|| Path::new(".")).join(&estate.estate.cluster_file);
+            let root = args.iter().position(|arg| arg == "--root").and_then(|index| args.get(index + 1)).map(PathBuf::from).map(Ok).unwrap_or_else(|| backup::root(&backup, &std::fs::read_to_string(&cluster_path)?))?;
+            let stamp = backup::stamp();
+            let d1 = cloudflare.paged(&format!("/accounts/{}/d1/database", cloudflare.account))?;
+            for (id, name) in backup::d1_names(&d1) {
+                let bytes = backup::export_d1(&cloudflare, &id, &name, &root.join("d1").join(&name).join(format!("{stamp}.sql")))?;
+                println!("d1 {name}: {bytes} bytes");
+            }
+            for bucket in estate.bucket.keys().filter(|name| !backup.skip_buckets.iter().any(|skipped| skipped == *name)) {
+                backup::mirror_bucket(&backup.rclone_remote, bucket, &root, &stamp)?;
+                println!("r2 {bucket}: mirrored");
+            }
+            println!("backup finished in {}", root.display());
+        }
         "import" => import(&Live::load(&cloudflare)?),
         "registrar-ds" => {
             let zone = args.get(1).filter(|arg| !arg.starts_with("--")).ok_or_else(|| anyhow!("registrar-ds needs a zone name"))?;
@@ -106,7 +135,12 @@ fn cluster_hosts(estate_path: &Path, cluster_file: &str) -> Result<BTreeSet<Stri
     let path = estate_path.parent().unwrap_or_else(|| Path::new(".")).join(cluster_file);
     let text = std::fs::read_to_string(&path).with_context(|| format!("read {}", path.display()))?;
     let value: toml::Value = toml::from_str(&text).with_context(|| format!("parse {}", path.display()))?;
-    Ok(value.get("hosts").and_then(toml::Value::as_table).map(|table| table.keys().cloned().collect()).unwrap_or_default())
+    let mut names = BTreeSet::new();
+    for (key, host) in value.get("hosts").and_then(toml::Value::as_table).into_iter().flatten() {
+        names.insert(key.clone());
+        names.extend(host.get("aliases").and_then(toml::Value::as_array).into_iter().flatten().filter_map(|alias| alias.as_str().map(str::to_string)));
+    }
+    Ok(names)
 }
 
 fn import(live: &Live) {

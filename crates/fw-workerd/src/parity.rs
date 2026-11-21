@@ -67,6 +67,12 @@ pub struct RequestSpec {
     /// For headers that legitimately take several values across modes (a cache layer answering for the same bytes).
     #[serde(default)]
     pub allow_values: BTreeMap<String, Vec<String>>,
+    /// Headers the cloud edge adds or removes for this response (named with the reason in the spec), skipped for this request only.
+    #[serde(default)]
+    pub ignore_headers: Vec<String>,
+    /// Time this request `--repeat` more times on each side (latency per request, not over the whole list).
+    #[serde(default)]
+    pub bench: bool,
     /// `ignore` skips the body comparison for responses that carry time or randomness.
     #[serde(default)]
     pub body_compare: Option<String>,
@@ -103,12 +109,18 @@ pub struct Latency {
 }
 
 #[derive(Debug, Serialize)]
+pub struct RequestLatency {
+    pub id: String,
+    pub cloud: Latency,
+    pub selfhosted: Latency,
+}
+
+#[derive(Debug, Serialize)]
 pub struct Report {
     pub name: String,
     pub passed: bool,
     pub verdicts: Vec<Verdict>,
-    pub cloud_latency: Latency,
-    pub selfhosted_latency: Latency,
+    pub latency: Vec<RequestLatency>,
     pub allowed_differences: Vec<&'static str>,
 }
 
@@ -160,7 +172,7 @@ pub fn compare(request: &RequestSpec, cloud: &Observed, selfhosted: &Observed) -
     if cloud.status != selfhosted.status {
         differences.push(format!("status: cloud {} / self-hosted {}", cloud.status, selfhosted.status));
     }
-    for name in COMPARED {
+    for name in COMPARED.into_iter().filter(|name| !request.ignore_headers.iter().any(|ignored| ignored.as_str() == *name)) {
         let (left, right) = (cloud.headers.get(name), selfhosted.headers.get(name));
         if let Some(allowed) = request.allow_values.get(name) {
             let inside = |value: Option<&String>| value.is_some_and(|text| allowed.iter().any(|candidate| candidate == text));
@@ -172,7 +184,7 @@ pub fn compare(request: &RequestSpec, cloud: &Observed, selfhosted: &Observed) -
         }
     }
     for (name, allowed) in &request.allow_values {
-        if COMPARED.contains(&name.as_str()) {
+        if COMPARED.contains(&name.as_str()) || request.ignore_headers.contains(name) {
             continue;
         }
         let (left, right) = (cloud.headers.get(name), selfhosted.headers.get(name));
@@ -199,30 +211,31 @@ fn latency(mut samples: Vec<f64>) -> Latency {
     Latency { samples: samples.len(), min_ms: at(0.0), p50_ms: at(0.5), p95_ms: at(0.95) }
 }
 
-/// Runs the request list once per side for the verdicts, then `repeat` more times per side for the latency figures.
+/// Runs the request list once per side for the verdicts, then every request marked `bench` `repeat` more times per side for the latency figures.
 pub fn run(spec: &Spec, cloud_base: &str, selfhosted_base: &str, repeat: usize) -> Result<Report> {
     let client = agent();
     let mut verdicts = Vec::new();
-    let mut cloud_times = Vec::new();
-    let mut selfhosted_times = Vec::new();
     for request in &spec.requests {
         let cloud = fetch(&client, cloud_base, spec, request)?;
         let selfhosted = fetch(&client, selfhosted_base, spec, request)?;
         let differences = compare(request, &cloud, &selfhosted);
         verdicts.push(Verdict { id: request.id.clone(), passed: differences.is_empty(), differences, cloud, selfhosted });
     }
-    for _ in 0..repeat {
-        for request in spec.requests.iter().filter(|request| request.method == "GET") {
+    let mut measured = Vec::new();
+    for request in spec.requests.iter().filter(|request| request.bench && repeat > 0) {
+        let mut cloud_times = Vec::new();
+        let mut selfhosted_times = Vec::new();
+        for _ in 0..repeat {
             cloud_times.push(fetch(&client, cloud_base, spec, request)?.milliseconds);
             selfhosted_times.push(fetch(&client, selfhosted_base, spec, request)?.milliseconds);
         }
+        measured.push(RequestLatency { id: request.id.clone(), cloud: latency(cloud_times), selfhosted: latency(selfhosted_times) });
     }
     Ok(Report {
         name: spec.name.clone(),
         passed: verdicts.iter().all(|verdict| verdict.passed),
         verdicts,
-        cloud_latency: latency(cloud_times),
-        selfhosted_latency: latency(selfhosted_times),
+        latency: measured,
         allowed_differences: ALLOWED_DIFFERENCES.to_vec(),
     })
 }
@@ -248,6 +261,8 @@ mod tests {
             path: "/".into(),
             headers: BTreeMap::new(),
             body: None,
+            ignore_headers: Vec::new(),
+            bench: false,
             allow_values: allow.iter().map(|(name, values)| ((*name).to_owned(), values.iter().map(|value| (*value).to_owned()).collect())).collect(),
             body_compare: None,
         }
@@ -268,6 +283,16 @@ mod tests {
         assert_eq!(found.len(), 2);
         assert!(found[0].starts_with("etag"));
         assert!(found[1].starts_with("body"));
+    }
+
+    #[test]
+    fn an_ignored_header_is_skipped_for_that_request_only() {
+        let cloud = observed(206, &[("accept-ranges", "bytes")], "b");
+        let local = observed(206, &[], "b");
+        let mut with_ignore = request(&[]);
+        with_ignore.ignore_headers = vec!["accept-ranges".to_owned()];
+        assert!(compare(&with_ignore, &cloud, &local).is_empty());
+        assert_eq!(compare(&request(&[]), &cloud, &local).len(), 1);
     }
 
     #[test]

@@ -1,0 +1,15 @@
+[package]
+name = "fw-android-web"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Browser client of fw android: WebGPU (wgpu wasm) viewer for the guest surfaces"
+
+[lints]
+workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"

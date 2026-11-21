@@ -42,3 +42,6 @@ node_modules/
 
 # tools/material-cdn work directories
 .cache/
+
+# Tracked build scripts of the browser engine (not build output)
+!/crates/fw-browser-engine/build/

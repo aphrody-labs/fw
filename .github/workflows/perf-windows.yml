@@ -1,0 +1,43 @@
+name: Perf Windows
+
+# Windows numbers of the perf baseline (docs/research/perf-baseline-2026-11.md): clean and touch-rebuild time, peak RSS, binary size,
+# startup and link time per linker (link.exe and lld-link) of fw-bin on a GitHub-hosted runner. Linux and wasm numbers come from the
+# cluster nodes through `fw bench perf run`; the runner is a shared VM, so every record carries n, mean and stdev.
+on:
+  workflow_dispatch:
+    inputs:
+      dev_runs:
+        description: clean builds of the dev profile (link replay follows)
+        default: "3"
+      release_runs:
+        description: clean builds of the release profile (fat LTO)
+        default: "2"
+
+jobs:
+  perf:
+    name: fw bench perf (windows-latest)
+    runs-on: windows-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/rust-toolchain
+      - name: Harness
+        shell: bash
+        run: cargo build --release -p fw-compute --bin fw_perf --target-dir "$RUNNER_TEMP/harness"
+      # LIB and PATH of the MSVC toolchain: the link replay runs link.exe and lld-link outside cargo.
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Dev profile, link time per linker
+        shell: bash
+        run: |
+          "$RUNNER_TEMP/harness/release/fw_perf.exe" run --root . --work "$RUNNER_TEMP/work" --out "$GITHUB_WORKSPACE/perf/windows-dev.json" \
+            --suite host,build,link --only fw-bin.dev.msvc --build-runs "${{ inputs.dev_runs }}" --runs 5
+      - name: Release profile, size and startup
+        shell: bash
+        run: |
+          "$RUNNER_TEMP/harness/release/fw_perf.exe" run --root . --work "$RUNNER_TEMP/work" --out "$GITHUB_WORKSPACE/perf/windows-release.json" \
+            --suite host,build,startup --only fw-bin.release.msvc-native --build-runs "${{ inputs.release_runs }}" --runs 5
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: perf-windows
+          path: perf/

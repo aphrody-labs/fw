@@ -11,6 +11,12 @@ runs:
       env:
         TARGETS: ${{ inputs.targets }}
       run: |
+        # A cluster runner keeps its own isolated CARGO_HOME; bootstrap rustup there when it is missing.
+        if ! command -v rustup >/dev/null; then
+          curl -fsSL https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain none --profile minimal
+          echo "${CARGO_HOME:-$HOME/.cargo}/bin" >> "$GITHUB_PATH"
+          export PATH="${CARGO_HOME:-$HOME/.cargo}/bin:$PATH"
+        fi
         rustup toolchain install
         if [ -n "$TARGETS" ]; then rustup target add $TARGETS; fi
         rustc --version

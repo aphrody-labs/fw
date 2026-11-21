@@ -1,0 +1,29 @@
+[package]
+name = "fw-org"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "The aphrody-labs GitHub organization as one declarative file: profile, settings, security, Actions, secrets, labels, rulesets and repository metadata; `fw org plan|apply|check|import` diffs live state against org.toml"
+
+[lib]
+name = "fw_org"
+path = "src/fw_org.rs"
+
+[[bin]]
+name = "fw-org"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+toml.workspace = true
+ureq.workspace = true
+
+[lints]
+workspace = true

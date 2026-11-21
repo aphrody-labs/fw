@@ -275,7 +275,10 @@ pub fn dot_q8_0(sa: f32, qa: &[i8], sb: f32, qb: &[i8]) -> f32 {
     (acc as f32) * sa * sb
 }
 
-/// `ggml-rpc` binary wire protocol command opcodes (matching `ggml/src/ggml-rpc/ggml-rpc.cpp`).
+/// `ggml-rpc` protocol version of `ggml-org/ggml` `include/ggml-rpc.h` (`RPC_PROTO_*_VERSION`) the opcodes below were read from.
+pub const RPC_PROTO_VERSION: (u8, u8, u8) = (10, 0, 1);
+
+/// `ggml-rpc` command opcodes, in the order of `enum rpc_cmd` in `ggml/src/ggml-rpc/ggml-rpc.cpp` at `RPC_PROTO_VERSION`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum RpcCmd {
@@ -286,13 +289,26 @@ pub enum RpcCmd {
     FreeBuffer = 4,
     BufferClear = 5,
     SetTensor = 6,
-    GetTensor = 7,
-    CopyTensor = 8,
-    GraphCompute = 9,
-    GetDeviceMemory = 10,
+    SetTensorHash = 7,
+    GetTensor = 8,
+    CopyTensor = 9,
+    GraphCompute = 10,
+    GetDeviceMemory = 11,
+    InitTensor = 12,
+    GetAllocSize = 13,
+    Hello = 14,
+    DeviceCount = 15,
+    GraphRecompute = 16,
+    MemsetTensor = 17,
+    SetTensor2d = 18,
+    GetTensor2d = 19,
+    CommInit = 20,
+    CommAllreduce = 21,
+    CommFree = 22,
 }
 
-/// Minimal `ggml-rpc` loopback server & client for distributed GPU/CPU memory/compute pooling.
+/// Loopback `ggml-rpc` server and client for `GetDeviceMemory` and `GetAlignment` only. It does not perform the `Hello` handshake
+/// that `ggml-rpc-server` requires first, so it does not interoperate with the upstream server.
 pub fn spawn_rpc_server_once(
     free_mem_bytes: u64,
     total_mem_bytes: u64,

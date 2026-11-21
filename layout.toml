@@ -39,6 +39,7 @@ members = [
     "crates/fw-secrets",
     "crates/fw-cluster",
     "crates/fw-estate",
+    "crates/fw-org",
     "crates/fw-proto",
     "crates/fw-ui-blitz",
     "crates/fw-wasm",
@@ -1265,6 +1266,7 @@ exclude = [
     "ay",
     "ay/packages/org-mirror/test/fixtures",
     "cloudflare/material-cdn",
+    "cloudflare/media-cdn",
     "plugins/aphrody/skills/3dviz-pro-max/templates/scaffold-vite-threejs",
     "plugins/aphrody/skills/stitch/references/react-components",
     "plugins/aphrody/skills/stitch/references/react-native",
@@ -1551,6 +1553,16 @@ decision = "keep"
 why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
 
 [[area]]
+path = "org.plan.json"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "org.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
 path = "package.json"
 decision = "keep"
 why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
@@ -1664,6 +1676,9 @@ baseline = "docs/research/pure-rust-baseline.txt"
 allow = [
     "packages/linux-types/**",   # generated Linux UAPI types
     "plugins/aphrody/skills/**", # vendored third-party skill scripts and templates
+    "cloudflare/media-cdn/**",   # Worker of media.aphrody.com next to cloudflare/material-cdn: Workers run JS or wasm, the Rust port belongs to the fw-workerd lot
+    "tools/media-cdn/**",        # Bun CLIs that drive ffmpeg, vips and R2 on the cluster nodes, as tools/material-cdn does
+    "tools/hardcoded.*",         # the hardcoded-value measurement and CI check requested for Lot B, configured by tools/hardcoded.toml
 ]
 
 [[area]]

@@ -202,6 +202,7 @@ domain = [
 [zone."aphrody.com"]
 dnssec = true
 record = [
+  'AAAA media proxied | worker',
   'CAA @ | 0 issue "letsencrypt.org"',
   'CAA @ | 0 issue "pki.goog; cansignhttpexchanges=yes"',
   'CAA @ | 0 issuewild "letsencrypt.org"',
@@ -309,6 +310,7 @@ route = [
   "web.aphrody.com/* => aphrody-web",
 ]
 domain = [
+  "media.aphrody.com => media-cdn",
   "api.aphrody.com => api-aphrody-com",
   "auto.aphrody.com => ay-edge",
   "bun.aphrody.com => aphrody-app",
@@ -467,6 +469,9 @@ sampling = 1
 [worker."material-cdn"]
 source = "cloudflare/material-cdn/wrangler.jsonc"
 sampling = 1
+[worker."media-cdn"]
+source = "cloudflare/media-cdn/wrangler.jsonc"
+sampling = 1.0
 [worker."nie-sandbox"]
 source = "api-only"
 sampling = 1
@@ -492,73 +497,95 @@ sampling = 0.1
 [bucket."aphrody-assets"]
 tier = "hot"
 owner = "ay-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-backups"]
 tier = "cold"
 owner = "auto"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-chromium"]
 tier = "cold"
 owner = "ay-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-dist"]
 tier = "dist"
 owner = "ay-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-drive"]
 tier = "hot"
 owner = "fw-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-gnu"]
 tier = "cold"
 owner = "fleet"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-lore"]
 tier = "cold"
 owner = "fleet"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-material"]
 tier = "hot"
 owner = "material-cdn"
+location = "WEUR"
+abort_multipart_days = 1
+[bucket."aphrody-media"]
+tier = "hot"
+owner = "media-cdn"
+location = "EEUR"
 abort_multipart_days = 1
 [bucket."aphrody-releases"]
 tier = "dist"
 owner = "ay-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-sccache"]
 tier = "hot"
 owner = "fleet"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."aphrody-video"]
 tier = "hot"
 owner = "ay-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."bun-lib"]
 tier = "dist"
 owner = "ay-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."fw-drive"]
 tier = "hot"
 owner = "fw-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."nie-private"]
 tier = "cold"
 owner = "nie-sandbox"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."rosegriffon-cdn"]
 tier = "site-cdn"
 owner = "rosegriffon-edge"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."shenron-backups"]
 tier = "cold"
 owner = "fleet"
+location = "WEUR"
 abort_multipart_days = 1
 [bucket."shenron-cdn"]
 tier = "site-cdn"
 owner = "shenron-cdn"
+location = "WEUR"
 abort_multipart_days = 1
 
-# Services: one owner Worker per hostname. modes lists where the service runs; selfhosted_hosts are keys of [hosts.*] in build.toml.
+# Services: one owner Worker per hostname. modes lists where the service runs; selfhosted_hosts are keys or aliases of [hosts.*] in cluster/build.toml.
 [service."aphrody"]
 worker = "aphrody"
 hostnames = ["aphrody.com", "www.aphrody.com"]
@@ -588,7 +615,7 @@ bindings = ["r2:ASSETS->aphrody-assets", "r2:DIST->aphrody-dist"]
 worker = "aphrody-web"
 hostnames = ["aphrody.com/web*", "web.aphrody.com"]
 modes = ["cloud", "selfhosted"]
-selfhosted_hosts = ["fr1", "prd"]
+selfhosted_hosts = ["n1", "n2"]
 bindings = ["r2:ASSETS_BUCKET->aphrody-assets", "r2:RELEASES_BUCKET->aphrody-releases"]
 [service."aphrody-webos"]
 worker = "aphrody-webos"
@@ -600,11 +627,16 @@ worker = "api-aphrody-com"
 hostnames = ["api.aphrody.com"]
 modes = ["cloud"]
 bindings = ["r2:BUCKET->aphrody-dist"]
+[service."media-cdn"]
+worker = "media-cdn"
+hostnames = ["media.aphrody.com"]
+modes = ["cloud"]
+bindings = ["r2:MEDIA=aphrody-media", "images:IMAGES"]
 [service."ay-edge"]
 worker = "ay-edge"
 hostnames = ["aphrody.com/download*", "aphrody.com/github", "aphrody.com/r2-assets", "assets.aphrody.app", "assets.aphrody.com", "auto.aphrody.com", "bun-lib.aphrody.app", "cdn.dragonballfr.com", "dist.aphrody.app", "docs.aphrody.com", "downloads.aphrody.com", "releases.aphrody.com", "video.aphrody.app", "wasm.aphrody.com"]
 modes = ["cloud", "selfhosted"]
-selfhosted_hosts = ["fr1", "prd"]
+selfhosted_hosts = ["n1", "n2"]
 bindings = ["r2:ASSETS->aphrody-assets", "r2:BUN_LIB->bun-lib", "r2:CHROMIUM->aphrody-chromium", "r2:DIST->aphrody-dist", "r2:RELEASES->aphrody-releases", "service:SVC_APHRODY->aphrody-worker", "service:SVC_AUTO->auto", "service:SVC_SHENRON_CDN->shenron-cdn", "r2:VIDEO->aphrody-video"]
 [service."bun-video-showcase"]
 worker = "bun-video-showcase"
@@ -615,13 +647,13 @@ bindings = ["r2:SHOWCASE->aphrody-video"]
 worker = "fw-edge"
 hostnames = ["fw.aphrody.com"]
 modes = ["cloud", "selfhosted"]
-selfhosted_hosts = ["fr1", "prd"]
+selfhosted_hosts = ["n1", "n2"]
 bindings = ["ai:AI", "r2:DRIVE_CACHE->aphrody-drive", "do:FW_OS->FwOSAgent->2634715c"]
 [service."material-cdn"]
 worker = "material-cdn"
 hostnames = ["material.aphrody.com"]
 modes = ["cloud", "selfhosted"]
-selfhosted_hosts = ["fr1", "prd"]
+selfhosted_hosts = ["n1", "n2"]
 bindings = ["r2:MATERIAL->aphrody-material"]
 [service."rosegriffon-discord"]
 worker = "rosegriffon-discord"
@@ -635,3 +667,12 @@ bindings = ["r2:CDN_BUCKET->rosegriffon-cdn"]
 
 # Retired: deleted by apply when still live, and only when the Worker owns no Durable Object namespace.
 [retired.worker]
+
+# Recovery: Cloudflare data copied to our own disks. The path is `work` of the host in build.toml plus subdir; objects R2 deletes or replaces
+# move to r2-trash/<stamp>/ instead of vanishing from the copy.
+[backup]
+host = "n1"
+subdir = "backup/cloudflare"
+rclone_remote = "r2"
+skip_buckets = ["aphrody-sccache"]
+schedule = "*-*-* 03:30:00 UTC"

@@ -596,7 +596,7 @@ pub async fn serve_with(addr: SocketAddr, catalog: Arc<dyn Catalog>) -> std::io:
 /// Serves on an already bound listener; the caller reads the port it got from the operating system.
 pub async fn serve_on(listener: TcpListener, catalog: Arc<dyn Catalog>) -> std::io::Result<()> {
     let hosts = HostPolicy::for_bind(listener.local_addr()?);
-    let shared = Arc::new(Shared { router: Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster())), engine: Arc::new(Engine::new(catalog)), hosts, sessions: Sessions::default() });
+    let shared = Arc::new(Shared { router: Arc::new(Mutex::new(crate::discover_router())), engine: Arc::new(Engine::new(catalog)), hosts, sessions: Sessions::default() });
     loop {
         let (stream, _) = listener.accept().await?;
         tokio::spawn(handle_conn(stream, shared.clone()));
@@ -612,7 +612,7 @@ mod tests {
         let addr = listener.local_addr().unwrap();
         let hosts = HostPolicy::for_bind(addr);
         let shared = Arc::new(Shared {
-            router: Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster())),
+            router: Arc::new(Mutex::new(crate::discover_router())),
             engine: Arc::new(Engine::new(Arc::new(FwCatalog::from_current_dir()))),
             hosts,
             sessions: Sessions::default(),

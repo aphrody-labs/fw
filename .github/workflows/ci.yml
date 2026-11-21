@@ -4,25 +4,23 @@ on:
   push:
     # release/<M> branches of the release train (aphrody-labs/ay docs/release/model.md) get the same gates as main.
     branches: [main, "release/**"]
+    # Research notes and agent queue files gate nothing (80 of 1167 main commits since 2026-11-14 touched only these).
+    paths-ignore: ["docs/research/**", "docs/agents/**"]
   pull_request:
     branches: [main]
+    paths-ignore: ["docs/research/**", "docs/agents/**"]
 
 # Linux jobs of pushes run on our own runners (label cluster: every node of cluster/build.toml, no node preferred); pull requests, which may come from forks, stay on
-# GitHub-hosted runners. Windows stays GitHub-hosted.
+# GitHub-hosted runners. Windows runs in ci-windows.yml: its 1674 to 2531 s job in this group made every newer push replace the pending run.
 concurrency:
   group: fw-ci-${{ github.ref }}
   # Pull requests cancel superseded runs; main lets the running one finish so a busy main still gets a verdict.
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  rust-cross-os:
-    name: Rust (${{ matrix.os }})
-    strategy:
-      fail-fast: false
-      matrix:
-        # Targets for now: Windows 11, recent Linux and wasm; macOS is skipped (owner, 2026-11-21).
-        os: [linux, windows-latest]
-    runs-on: ${{ matrix.os == 'linux' && (github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster') || matrix.os }}
+  rust-linux:
+    name: Rust (linux)
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/rust-toolchain
@@ -174,6 +172,19 @@ jobs:
         run: bun configs/claude/scripts/check.ts
       - name: One product version (product.toml and every copy of it)
         run: bun tools/version.ts
+      - name: Ignore files hold no tracked path, no legacy tool is back (tools/modern-toolchain/steps.toml)
+        run: |
+          bun tools/modern-toolchain/check.ts ignore
+          bun tools/modern-toolchain/check.ts legacy
+
+  hardcoded:
+    name: Hardcoded colors, texts and icons (ratchet, tools/hardcoded.toml)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: No file holds more literal colors, user-facing strings or icon names than the baseline
+        run: bun tools/hardcoded.ts --check
 
   layout:
     name: Layout map (crate homes, dependency direction, covered paths)

@@ -21,6 +21,8 @@ pub struct Estate {
     pub service: BTreeMap<String, Service>,
     #[serde(default)]
     pub retired: Retired,
+    #[serde(default)]
+    pub backup: Option<crate::backup::Backup>,
 }
 
 #[derive(Debug, Clone, Deserialize, Default)]
@@ -73,6 +75,8 @@ pub struct Worker {
 pub struct Bucket {
     pub tier: String,
     pub owner: String,
+    /// R2 location (WEUR, EEUR, ...): sent as the location hint on creation, compared on every check.
+    pub location: String,
     #[serde(default)]
     pub abort_multipart_days: Option<u32>,
 }

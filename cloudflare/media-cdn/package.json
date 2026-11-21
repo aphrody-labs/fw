@@ -1,0 +1,13 @@
+{
+  "name": "media-cdn",
+  "private": true,
+  "type": "module",
+  "description": "media.aphrody.com Worker: serves images (AVIF, WebP, fallback), the AV1/VP9/H.264 video ladder and SVG sprites from R2, and resizes images on demand.",
+  "scripts": {
+    "test": "bun test",
+    "types": "bunx wrangler types",
+    "typecheck": "bunx wrangler types && bun check -p .",
+    "dry-run": "bunx wrangler deploy --dry-run",
+    "deploy": "bunx wrangler deploy"
+  }
+}

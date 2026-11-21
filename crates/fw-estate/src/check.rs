@@ -188,6 +188,11 @@ pub fn run(estate: &Estate, live: &Live, plan: &Plan, cluster_hosts: &BTreeSet<S
         if !estate.bucket.contains_key(name) {
             findings.push(finding("estate.undeclared-bucket", false, name, "R2 bucket exists but is not declared in the estate file"));
         }
+        if let Some(declared) = estate.bucket.get(name)
+            && !bucket["location"].as_str().unwrap_or_default().eq_ignore_ascii_case(&declared.location)
+        {
+            findings.push(finding("r2.location", true, name, format!("bucket is in {} but the estate declares {}", bucket["location"], declared.location)));
+        }
         let has_abort = live.bucket_lifecycle.get(name).and_then(|lifecycle| lifecycle["rules"].as_array()).is_some_and(|rules| rules.iter().any(|rule| rule.get("abortMultipartUploadsTransition").is_some()));
         if !has_abort {
             findings.push(finding("r2.abort-multipart", false, name, "no lifecycle rule aborting incomplete multipart uploads"));

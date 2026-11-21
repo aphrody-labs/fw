@@ -120,6 +120,8 @@ Decisions and reasons:
 | `native` | 13 | keep | freestanding kernel-mode crates outside the workspace (own targets); declared in Cargo exclude |
 | `nix` | 5 | keep | NixOS modules and host definitions referenced by flake.nix |
 | `os` | 28 | keep | operating-system crates and images outside the hosted workspace (own targets) |
+| `org.plan.json` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
+| `org.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `package.json` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `packages` | 546 | keep | Bun workspaces convention: libraries in packages/* |
 | `packages/chromium` | 7 | keep | Bun workspace members belong in packages/*, not nested in a Rust crate |

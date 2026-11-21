@@ -60,7 +60,7 @@ pub fn compute(estate: &Estate, estate_text: &str, live: &Live) -> Result<Plan> 
     let live_buckets: BTreeSet<&str> = live.buckets.iter().filter_map(|bucket| bucket["name"].as_str()).collect();
     for (name, bucket) in &estate.bucket {
         if !live_buckets.contains(name.as_str()) {
-            actions.push(action("create", "bucket", "account", name, format!("tier {}", bucket.tier), None));
+            actions.push(action("create", "bucket", "account", name, format!("tier {}, location {}", bucket.tier, bucket.location), None));
             continue;
         }
         if let Some(days) = bucket.abort_multipart_days {
@@ -266,7 +266,7 @@ pub fn apply_action(cloudflare: &Cloudflare, estate: &Estate, live: &Live, item:
         }
         ("domain", "create") | ("domain", "update") => {
             let script = item.detail.rsplit("-> ").next().unwrap_or_default();
-            cloudflare.call("PUT", &format!("/accounts/{account}/workers/domains"), Some(&json!({ "hostname": item.target, "service": script, "zone_id": zone_id, "environment": "production" })))?;
+            cloudflare.call("PUT", &format!("/accounts/{account}/workers/domains"), Some(&json!({ "hostname": item.target, "service": script, "zone_id": zone_id, "environment": "production", "override_existing_dns_record": true })))?;
         }
         ("setting", "update") => {
             let wanted = estate.zone_settings(&item.scope).get(&item.target).and_then(|value| serde_json::to_value(value).ok()).unwrap_or(Value::Null);
@@ -279,7 +279,7 @@ pub fn apply_action(cloudflare: &Cloudflare, estate: &Estate, live: &Live, item:
             cloudflare.call("DELETE", &format!("/accounts/{account}/workers/scripts/{}", item.target), None)?;
         }
         ("bucket", "create") => {
-            cloudflare.call("POST", &format!("/accounts/{account}/r2/buckets"), Some(&json!({ "name": item.target })))?;
+            cloudflare.call("POST", &format!("/accounts/{account}/r2/buckets"), Some(&json!({ "name": item.target, "locationHint": estate.bucket.get(&item.target).map(|bucket| bucket.location.to_lowercase()) })))?;
         }
         ("bucket-lifecycle", "update") => {
             let days = estate.bucket.get(&item.target).and_then(|bucket| bucket.abort_multipart_days).unwrap_or(1);

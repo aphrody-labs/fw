@@ -8,10 +8,9 @@ const NATIVE_BIN = join(ROOT, "target", "release", `fw${EXT}`);
 const WASM_BIN = join(ROOT, "target", "wasm32-unknown-unknown", "release", "fw_wasm.wasm");
 
 describe("fw binary, cluster router, ggml, wasm32 module and PNG render", () => {
-  test("cluster topology and architecture docs exist", () => {
+  test("cluster declaration and architecture docs exist", () => {
     expect(existsSync(join(ROOT, "Cargo.toml"))).toBe(true);
-    expect(existsSync(join(ROOT, "cluster", "topology.toml"))).toBe(true);
-    expect(existsSync(join(ROOT, "cluster", "cloudflare-gcloud.toml"))).toBe(true);
+    expect(existsSync(join(ROOT, "cluster", "build.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "docs", "ARCHITECTURE.md"))).toBe(true);
     expect(existsSync(join(ROOT, "docs", "GGML_COMPATIBILITY.md"))).toBe(true);
     expect(existsSync(join(ROOT, "docs", "HARDWARE_MATRIX.md"))).toBe(true);
@@ -49,9 +48,12 @@ describe("fw binary, cluster router, ggml, wasm32 module and PNG render", () => 
     const status = JSON.parse(new TextDecoder().decode(statusProc.stdout));
     expect(status.ok).toBe(true);
     expect(status.zeroSystemDeps).toBe(true);
-    expect(status.cluster.gpuHosts).toBe(4);
-    expect(status.cluster.vpsProxyLbStorageCpuHosts).toBe(2);
-    expect(status.cluster.router).toContain("pingora");
+    // The router is read from cluster/build.toml plus the measured local machine; nothing is hardcoded.
+    const declared = Object.keys((Bun.TOML.parse(readFileSync(join(ROOT, "cluster", "build.toml"), "utf8")) as { hosts: object }).hosts);
+    const localCuda = status.hardware.has_cuda === true;
+    expect(status.cluster.gpuHosts).toBe(localCuda ? 1 : 0);
+    expect(status.cluster.vpsProxyLbStorageCpuHosts).toBe(declared.length + (localCuda ? 0 : 1));
+    expect(status.cluster.router).toContain("consistent-hash");
 
     const ggmlProc = Bun.spawnSync([NATIVE_BIN, "ggml"], { cwd: ROOT, stdout: "pipe", stderr: "pipe" });
     expect(ggmlProc.exitCode).toBe(0);

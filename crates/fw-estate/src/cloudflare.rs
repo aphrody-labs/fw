@@ -124,10 +124,13 @@ impl Live {
             live.worker_settings.insert(name.to_string(), settings);
         }
         live.buckets = cloudflare.get(&format!("/accounts/{account}/r2/buckets"))?["buckets"].as_array().cloned().unwrap_or_default();
-        for bucket in &live.buckets {
-            let name = bucket["name"].as_str().unwrap_or_default();
+        for bucket in &mut live.buckets {
+            let name = bucket["name"].as_str().unwrap_or_default().to_string();
+            if let Ok(detail) = cloudflare.get(&format!("/accounts/{account}/r2/buckets/{name}")) {
+                bucket["location"] = detail["location"].clone();
+            }
             let lifecycle = cloudflare.get(&format!("/accounts/{account}/r2/buckets/{name}/lifecycle")).unwrap_or(Value::Null);
-            live.bucket_lifecycle.insert(name.to_string(), lifecycle);
+            live.bucket_lifecycle.insert(name, lifecycle);
         }
         live.tunnels = cloudflare.paged(&format!("/accounts/{account}/cfd_tunnel?is_deleted=false"))?;
         for tunnel in &live.tunnels {
@@ -180,7 +183,7 @@ fn date_window(days: u64) -> (String, String) {
 }
 
 /// Days since 1970-01-01 to a calendar date (Howard Hinnant's algorithm).
-fn civil_date(epoch_seconds: u64) -> String {
+pub fn civil_date(epoch_seconds: u64) -> String {
     let days = (epoch_seconds / 86_400) as i64 + 719_468;
     let era = days.div_euclid(146_097);
     let day_of_era = days.rem_euclid(146_097);

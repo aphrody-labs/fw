@@ -317,11 +317,11 @@ def select_pd_endpoints(
     prefer_user_webgpu_draft: bool = False,
     weights: ScorerWeights | None = None,
 ) -> PdSelectionDecision:
-    """Select Pingora VPS ingress, Prefill node, Decode node, and optional WebGPU draft peer."""
+    """Select the ingress proxy host, Prefill node, Decode node, and optional WebGPU draft peer."""
     coerced = [_coerce_endpoint(ep) for ep in endpoints]
     pkey = fw_prefix_key(prompt)
 
-    # 1. Pingora consistent-hash VPS proxy selection (parity with fw-cluster)
+    # 1. Consistent-hash proxy selection (parity with fw-cluster)
     vps_nodes = [
         ep
         for ep in coerced

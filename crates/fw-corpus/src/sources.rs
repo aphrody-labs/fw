@@ -16,6 +16,8 @@ pub struct Opts {
     pub rate_ms: u64,
     /// Ignore stored revisions.
     pub force: bool,
+    /// Sitemap sources only: fetch just the pages whose URL contains this text (prioritise a section; disables pruning).
+    pub only: Option<String>,
 }
 
 pub struct Report {
@@ -114,6 +116,7 @@ const GOOGLE: &str = "(c) Google; local search only, distilled skills must cite 
 const CC_BY_25: &str = "CC BY 2.5 (Apache-2.0 samples), Google";
 const APACHE: &str = "Apache-2.0";
 const MIT_APACHE: &str = "MIT OR Apache-2.0";
+const LLVM_LICENSE: &str = "Apache-2.0 WITH LLVM-exception";
 
 fn android_dev(url: &str) -> bool {
     const KEEP: &[&str] = &[
@@ -220,7 +223,7 @@ pub fn all() -> Vec<Source> {
         },
         Source {
             id: "rust",
-            title: "Rust book, reference, rustc dev guide, nomicon, edition guide",
+            title: "Rust book, reference, rustc book (platform support), rustdoc book, unstable book, rustc dev guide, nomicon, edition guide",
             kind: Kind::Github(Github {
                 id: "rust",
                 repos: &[
@@ -229,6 +232,10 @@ pub fn all() -> Vec<Source> {
                     Repo { repo: "rust-lang/rustc-dev-guide", prefix: "src/", map: UrlMap::MdBook("https://rustc-dev-guide.rust-lang.org"), license: MIT_APACHE },
                     Repo { repo: "rust-lang/nomicon", prefix: "src/", map: UrlMap::MdBook("https://doc.rust-lang.org/nomicon"), license: MIT_APACHE },
                     Repo { repo: "rust-lang/edition-guide", prefix: "src/", map: UrlMap::MdBook("https://doc.rust-lang.org/edition-guide"), license: MIT_APACHE },
+                    Repo { repo: "rust-lang/rust", prefix: "src/doc/rustc/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/rustc"), license: MIT_APACHE },
+                    Repo { repo: "rust-lang/rust", prefix: "src/doc/rustdoc/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/rustdoc"), license: MIT_APACHE },
+                    Repo { repo: "rust-lang/rust", prefix: "src/doc/unstable-book/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/nightly/unstable-book"), license: MIT_APACHE },
+                    Repo { repo: "rust-lang/rust", prefix: "src/doc/style-guide/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/nightly/style-guide"), license: MIT_APACHE },
                 ],
             }),
         },
@@ -236,6 +243,44 @@ pub fn all() -> Vec<Source> {
             id: "cargo",
             title: "The Cargo Book (rust-lang/cargo doc/book/src)",
             kind: Kind::Github(Github { id: "cargo", repos: &[Repo { repo: "rust-lang/cargo", prefix: "doc/book/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/cargo"), license: MIT_APACHE }] }),
+        },
+        Source {
+            id: "rust-process",
+            title: "Rust Forge, accepted RFCs and project goals",
+            kind: Kind::Github(Github {
+                id: "rust-process",
+                repos: &[
+                    Repo { repo: "rust-lang/rust-forge", prefix: "src/", map: UrlMap::MdBook("https://forge.rust-lang.org"), license: "MIT OR Apache-2.0" },
+                    Repo { repo: "rust-lang/rfcs", prefix: "text/", map: UrlMap::MdBook("https://rust-lang.github.io/rfcs"), license: "MIT OR Apache-2.0" },
+                    Repo { repo: "rust-lang/goals", prefix: "src/", map: UrlMap::MdBook("https://rust-lang.github.io/rust-project-goals"), license: "MIT" },
+                ],
+            }),
+        },
+        Source {
+            id: "rust-cross",
+            title: "Cross-compilation: cross, cargo-zigbuild, cargo-xwin, xwin",
+            kind: Kind::Github(Github {
+                id: "rust-cross",
+                repos: &[
+                    Repo { repo: "cross-rs/cross", prefix: "", map: UrlMap::Blob, license: "MIT OR Apache-2.0" },
+                    Repo { repo: "rust-cross/cargo-zigbuild", prefix: "", map: UrlMap::Blob, license: "MIT" },
+                    Repo { repo: "rust-cross/cargo-xwin", prefix: "", map: UrlMap::Blob, license: "MIT" },
+                    Repo { repo: "Jake-Shadle/xwin", prefix: "", map: UrlMap::Blob, license: "MIT OR Apache-2.0" },
+                ],
+            }),
+        },
+        Source {
+            id: "llvm",
+            title: "LLVM project docs: LLVM, Clang, lld, MLIR",
+            kind: Kind::Github(Github {
+                id: "llvm",
+                repos: &[
+                    Repo { repo: "llvm/llvm-project", prefix: "llvm/docs/", map: UrlMap::MdBook("https://llvm.org/docs"), license: LLVM_LICENSE },
+                    Repo { repo: "llvm/llvm-project", prefix: "clang/docs/", map: UrlMap::MdBook("https://clang.llvm.org/docs"), license: LLVM_LICENSE },
+                    Repo { repo: "llvm/llvm-project", prefix: "lld/docs/", map: UrlMap::MdBook("https://lld.llvm.org"), license: LLVM_LICENSE },
+                    Repo { repo: "llvm/llvm-project", prefix: "mlir/docs/", map: UrlMap::Blob, license: LLVM_LICENSE },
+                ],
+            }),
         },
         Source { id: "rust-std", title: "Rust std, core and alloc item docs from rustdoc JSON (nightly)", kind: Kind::RustStd },
     ]

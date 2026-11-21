@@ -63,11 +63,8 @@ impl Default for M3AgentTuiState {
 
 impl M3AgentTuiState {
     pub fn new() -> Self {
-        let mut disk = MlsDisk::default();
-        let _ = disk.write_block(b"fw-m3-tui-superblock:v4.2.0:compose-m3-1.5.0");
-        let mut pages = XArray::default();
-        pages.store(0, 0x1000);
-        pages.store(1, 0x2000);
+        let disk = MlsDisk::default();
+        let pages = XArray::default();
         let cwd = std::env::current_dir()
             .map(|p| p.display().to_string())
             .unwrap_or_else(|_| ".".into());
