@@ -5,8 +5,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import { constants, hostname, setPriority } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { expandSync } from "../../../env-kit/src/discover.ts";
-import { hostAlias, hostRole } from "../../../env-kit/src/hosts.ts";
+import { expandSync } from "../../../../ay/packages/env-kit/src/discover.ts";
+import { hostAlias, hostRole } from "../../../../ay/packages/env-kit/src/hosts.ts";
 
 export type Host = {
   id: string; // host role of fleet.toml: pc, build, test, prod

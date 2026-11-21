@@ -32,10 +32,10 @@
   },
   "dependencies": {
     "@aphrody/ai-router": "https://github.com/aphrody-labs/open/releases/download/libraries-v0.5.0/aphrody-ai-router-0.5.0.tgz",
-    "@aphrody/ay-automate": "file:../../../ay/packages/automate",
-    "@aphrody/ay-core": "file:../../../ay/packages/core",
-    "@aphrody/ay-env-kit": "file:../../../ay/packages/env-kit",
-    "@aphrody/ay-wck": "file:../../../ay/packages/wck"
+    "@aphrody/ay-automate": "workspace:*",
+    "@aphrody/ay-core": "workspace:*",
+    "@aphrody/ay-env-kit": "workspace:*",
+    "@aphrody/ay-wck": "workspace:*"
   },
   "devDependencies": {},
   "license": "MIT OR Apache-2.0",

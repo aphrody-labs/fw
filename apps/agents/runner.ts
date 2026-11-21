@@ -27,8 +27,8 @@ import {
 import { homedir, hostname } from "node:os";
 import { join, resolve } from "node:path";
 import { resolveExe } from "@aphrody/fw-ai-os/llm/agents";
-import { expandSync } from "../../packages/env-kit/src/discover.ts";
-import { hostAlias, hostRole } from "../../packages/env-kit/src/hosts.ts";
+import { expandSync } from "../../ay/packages/env-kit/src/discover.ts";
+import { hostAlias, hostRole } from "../../ay/packages/env-kit/src/hosts.ts";
 import { srcRepo } from "./repo.ts";
 
 type Role = { timeout_s: number; budget_usd: number; heavy?: boolean };

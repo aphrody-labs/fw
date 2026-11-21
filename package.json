@@ -12,7 +12,10 @@
     "packages/ai-os/protocols/*",
     "packages/chromium",
     "packages/chromium-releases",
-    "packages/linux-types"
+    "packages/linux-types",
+    "ay/packages/*",
+    "ay/packages/env-kit/*",
+    "ay/apps/*"
   ],
   "catalog": {
     "@types/bun": "1.4.5",

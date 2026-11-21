@@ -9,7 +9,7 @@ import {
   discoverAiCatalog,
   extractCommands,
 } from "../src/term/agent-bridge.ts";
-import { loadAySys } from "../../core/src/sys.ts";
+import { loadAySys } from "../../../ay/packages/core/src/sys.ts";
 import { createTermTools } from "../src/term/mcp-tools.ts";
 import { TermManager } from "../src/term/pty.ts";
 import { startTermServer } from "../src/term/server.ts";

@@ -4,8 +4,8 @@
 // `ay applet` multicall), packages/omniu (plugin host and bundle validator), the `ay` binary ($AY_BIN, else PATH; `ay sh` is the
 // embedded Bash engine). Skill: .agents/skills/unixwin.
 import { join } from "node:path";
-import { manifest, sh, type AyOptions } from "../../../omniu/src/ay.ts";
-import { validateAll } from "../../../omniu/src/validate.ts";
+import { manifest, sh, type AyOptions } from "../../../../ay/packages/omniu/src/ay.ts";
+import { validateAll } from "../../../../ay/packages/omniu/src/validate.ts";
 
 type Rpc = {
   jsonrpc?: string;

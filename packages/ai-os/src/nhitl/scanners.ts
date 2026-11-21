@@ -12,8 +12,8 @@ import {
   type Status,
   type Violation,
 } from "./index";
-import { expandSync } from "../../../env-kit/src/discover.ts";
-import { hostAlias } from "../../../env-kit/src/hosts.ts";
+import { expandSync } from "../../../../ay/packages/env-kit/src/discover.ts";
+import { hostAlias } from "../../../../ay/packages/env-kit/src/hosts.ts";
 
 const HOME = homedir();
 const claudeDir = () => Bun.env.CLAUDE_CONFIG_DIR ?? join(HOME, ".claude");

@@ -10,6 +10,6 @@
   },
   "dependencies": {
     "@aphrody/browser-chromium-releases": "workspace:*",
-    "@aphrody/ay-edge-stack": "file:../../../ay/packages/edge-stack"
+    "@aphrody/ay-edge-stack": "workspace:*"
   }
 }

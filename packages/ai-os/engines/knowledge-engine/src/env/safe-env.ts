@@ -5,7 +5,7 @@ import {
   loadMonorepoEnv,
   maskValue,
   type LoadedMonorepoEnv,
-} from "../../../../../env-kit/src/index.ts";
+} from "../../../../../../ay/packages/env-kit/src/index.ts";
 
 export const DEFAULT_ENV_FILE_PATH = envFile();
 

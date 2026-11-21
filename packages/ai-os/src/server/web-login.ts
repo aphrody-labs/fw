@@ -3,7 +3,7 @@
 // Nothing is typed: the owner does the sign-in in the window. Called by `<binary> auth login gemini-web`
 // (packages/env-kit/src/auth-services.ts) after the toast click.
 import { quickScript } from "../review/gemini-web.ts";
-import { writeSession } from "../../../env-kit/src/auth-paths.ts";
+import { writeSession } from "../../../../ay/packages/env-kit/src/auth-paths.ts";
 import { closeBrowser, launchBrowser, listTabs, Tab } from "./cdp.ts";
 
 const ORIGIN = "https://gemini.google.com";

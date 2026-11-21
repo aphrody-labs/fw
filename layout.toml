@@ -153,6 +153,10 @@ workspaces = [
     "packages/chromium",
     "packages/chromium-releases",
     "packages/linux-types",
+    # ay packages and apps: one Bun workspace with fw (they were linked by path from outside the repository before the merge)
+    "ay/packages/*",
+    "ay/packages/env-kit/*",
+    "ay/apps/*",
 ]
 # Own lockfile and deploy unit (wrangler); skill templates and references that are copied out, never installed from here.
 exclude = [
@@ -160,35 +164,13 @@ exclude = [
     "aphrody",
     "aphrody/**",
     "ay",
-    "ay/**",
+    "ay/packages/org-mirror/test/fixtures",
     "cloudflare/material-cdn",
     "plugins/aphrody/skills/3dviz-pro-max/templates/scaffold-vite-threejs",
     "plugins/aphrody/skills/stitch/references/react-components",
     "plugins/aphrody/skills/stitch/references/react-native",
 ]
 
-# fw (layer 0) must not depend on ay (layer 2). These packages still link ay packages by path; the fix is to move the four ay
-# packages they use (core, env-kit, automate, wck, edge-stack) down into fw or to move ai-os up into ay. Tracked here until then;
-# `check` fails when an entry no longer applies.
-[[bun.debt]]
-path = "apps/agents"
-why = "links @aphrody/ay-env-kit from ay"
-
-[[bun.debt]]
-path = "apps/chromium-dash"
-why = "links @aphrody/ay-edge-stack from ay"
-
-[[bun.debt]]
-path = "packages/ai-os"
-why = "links @aphrody/ay-automate, ay-core, ay-env-kit and ay-wck from ay"
-
-[[bun.debt]]
-path = "packages/ai-os/engines/inference"
-why = "links @aphrody/ay-env-kit from ay"
-
-[[bun.debt]]
-path = "packages/ai-os/engines/rag-core"
-why = "links @aphrody/ay-env-kit from ay"
 
 # uv: Python projects live under python/. fw-agent-context is a maturin crate (built by cargo and maturin, not synced by uv);
 # tools/google has its own lock.

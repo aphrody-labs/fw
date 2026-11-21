@@ -13,8 +13,8 @@ import {
   writeFileSync,
 } from "node:fs";
 import { join, resolve } from "node:path";
-import { expandSync } from "../../packages/env-kit/src/discover.ts";
-import { hostRole } from "../../packages/env-kit/src/hosts.ts";
+import { expandSync } from "../../ay/packages/env-kit/src/discover.ts";
+import { hostRole } from "../../ay/packages/env-kit/src/hosts.ts";
 import { srcRepo } from "./repo.ts";
 
 export type GithubEvent = {

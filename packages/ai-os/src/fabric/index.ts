@@ -18,8 +18,8 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { selfId, shq, srcRoot } from "../orch/fleet";
 import { Health } from "../orch/health";
-import { expandSync } from "../../../env-kit/src/discover.ts";
-import { hostAlias } from "../../../env-kit/src/hosts.ts";
+import { expandSync } from "../../../../ay/packages/env-kit/src/discover.ts";
+import { hostAlias } from "../../../../ay/packages/env-kit/src/hosts.ts";
 
 export type Asset = { asset: string; sha256: string };
 export type FabricNode = {

@@ -63,7 +63,7 @@ export const SELECTORS = {
   },
 } satisfies Record<string, Selector>;
 
-import { cliBinary } from "../../../env-kit/src/identity.ts";
+import { cliBinary } from "../../../../ay/packages/env-kit/src/identity.ts";
 
 /** What the owner can run by hand (the toast does it with one click); the binary name comes from tools/identity.toml. */
 export const loginCommand = () => `${cliBinary()} auth login gemini-web`;
@@ -336,11 +336,11 @@ async function run(prompt: string, o: WebOpts): Promise<WebResult> {
   if (r.cls !== "login" || !o.loginWaitMs || process.platform !== "win32")
     return r;
   const since = Date.now();
-  const paths = await import("../../../env-kit/src/auth-paths.ts");
+  const paths = await import("../../../../ay/packages/env-kit/src/auth-paths.ts");
   paths.writeSession("gemini-web", false, "login needed");
   if (o.raiseLogin) o.raiseLogin();
   else
-    (await import("../../../env-kit/src/auth-toast.ts")).raiseLogin(
+    (await import("../../../../ay/packages/env-kit/src/auth-toast.ts")).raiseLogin(
       "gemini-web",
       "Gemini",
     );

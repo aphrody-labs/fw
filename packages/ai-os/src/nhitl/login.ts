@@ -6,7 +6,7 @@
 //            <AI_OS_HOME>/device-code.txt for the https://auth.openai.com/codex/device page opened at the owner's.
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { hostAlias } from "../../../env-kit/src/hosts.ts";
+import { hostAlias } from "../../../../ay/packages/env-kit/src/hosts.ts";
 import { aiOsHome } from "../server/cdp";
 import { register, setSecret, sync } from "@aphrody/ay-env-kit/vault";
 

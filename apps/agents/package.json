@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "@aphrody/fw-ai-os": "workspace:*",
-    "@aphrody/ay-env-kit": "file:../../../ay/packages/env-kit"
+    "@aphrody/ay-env-kit": "workspace:*"
   }
 }

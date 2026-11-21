@@ -1,7 +1,7 @@
 // py2bun as a stdio MCP server (protocol 2025-11-25, one JSON message per line), reached through the ai-os hub:
 // hub_call name=py2bun__py2bun_transpile. Registered by [[hub.mcp]] py2bun in apps/agents/toolchain.toml.
 // Backend: packages/py2bun (Rust CLI py2bun-rs, $PY2BUN_BIN or system/py2bun/target).
-import { transpile } from "../../../py2bun/src/index.ts";
+import { transpile } from "../../../../ay/packages/py2bun/src/index.ts";
 
 type Rpc = {
   jsonrpc: "2.0";

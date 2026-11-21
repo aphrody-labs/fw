@@ -18,7 +18,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@aphrody/ay-env-kit": "file:../../../../../ay/packages/env-kit"
+    "@aphrody/ay-env-kit": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

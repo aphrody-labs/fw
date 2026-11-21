@@ -4,7 +4,7 @@ import { afterAll, beforeAll, expect, setDefaultTimeout, test } from "bun:test";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { readSession } from "../../../env-kit/src/auth-paths.ts";
+import { readSession } from "../../../../ay/packages/env-kit/src/auth-paths.ts";
 import { browserInfo, chromePath, closeBrowser } from "../../src/server/cdp.ts";
 import { signInGeminiWeb } from "../../src/server/web-login.ts";
 import { geminiWebAsk } from "../../src/review/gemini-web.ts";
@@ -122,7 +122,7 @@ test("a review without a session raises the notification, waits for the sign-in,
   state.signedIn = false;
   const base = `http://127.0.0.1:${server.port}`;
   let raised = 0;
-  const { writeSession } = await import("../../../env-kit/src/auth-paths.ts");
+  const { writeSession } = await import("../../../../ay/packages/env-kit/src/auth-paths.ts");
   const r = await geminiWebAsk("Review.", {
     base,
     loginWaitMs: 60_000,
