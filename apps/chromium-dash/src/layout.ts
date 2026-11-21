@@ -1,3 +1,4 @@
+import { l10n } from "./html.ts";
 import { html, raw, type Safe } from "./html.ts";
 import { DIR, LANG } from "./format.ts";
 import { APP_CSS, FONT_CSS } from "./style.ts";
@@ -9,16 +10,16 @@ export interface NavItem {
 }
 
 export const NAV: NavItem[] = [
-  { href: "/", label: "Home", group: "Chromium Dash" },
-  { href: "/releases", label: "Releases", group: "Chromium Dash" },
-  { href: "/schedule", label: "Schedule", group: "Chromium Dash" },
-  { href: "/branches", label: "Branches", group: "Chromium Dash" },
-  { href: "/commits", label: "Commits", group: "Chromium Dash" },
-  { href: "/serving-builds", label: "Serving builds", group: "Chromium Dash" },
-  { href: "/roadmap", label: "Roadmap", group: "Chrome Status" },
-  { href: "/features", label: "All features", group: "Chrome Status" },
-  { href: "/channels", label: "Release channels", group: "Reference" },
-  { href: "/api", label: "API", group: "Reference" },
+  { href: "/", label: l10n("home"), group: "Chromium Dash" },
+  { href: "/releases", label: l10n("releases"), group: "Chromium Dash" },
+  { href: "/schedule", label: l10n("schedule"), group: "Chromium Dash" },
+  { href: "/branches", label: l10n("branches"), group: "Chromium Dash" },
+  { href: "/commits", label: l10n("commits"), group: "Chromium Dash" },
+  { href: "/serving-builds", label: l10n("serving_builds"), group: "Chromium Dash" },
+  { href: "/roadmap", label: l10n("roadmap"), group: "Chrome Status" },
+  { href: "/features", label: l10n("all_features"), group: "Chrome Status" },
+  { href: "/channels", label: l10n("release_channels"), group: "Reference" },
+  { href: "/api", label: l10n("api"), group: "Reference" },
 ];
 
 export interface Page {
@@ -60,11 +61,11 @@ export function layout(p: Page): string {
           ${p.subtitle ? html`<span class="sub">${p.subtitle}</span>` : ""}
           <span class="grow"></span>
           <form action="/commits" method="get" class="search" style="margin:0">
-            <input type="search" name="q" placeholder="Commit hash" />
+            <input type="search" name="q" placeholder="${l10n("commit_hash")}" />
           </form>
         </header>
         <div class="shell">
-          <nav class="drawer" aria-label="Sections">
+          <nav class="drawer" aria-label="${l10n("sections")}">
             ${groups.map(
               (g) =>
                 html`<h2>${g}</h2>
@@ -77,7 +78,7 @@ export function layout(p: Page): string {
           </main>
         </div>
         <footer>
-          Data read live from chromiumdash.appspot.com, chromestatus.com and chromium.org, cached in sqlite.
+          ${l10n("data_read_live_from_chromiumdash_appspot_com_chr")}
         </footer>
       </body>
     </html>`.toString();

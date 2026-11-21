@@ -80,7 +80,7 @@ Keep an SSH allow rule before activating a firewall on prd.
 | GET              | `/api/domains/v1/portfolio`                           |
 | GET              | `/api/billing/v1/subscriptions`                       |
 
-Our public zones are on Cloudflare; Hostinger DNS only matters for domains still delegated to Hostinger.
+Our public zones are on Cloudflare; the Hostinger DNS API returned an empty list for `aphrody.com` on 2026-11-21. The portfolio holds only `3dland.tech` (the paid domain was `suspended`), the account has one VPS (prd) and no firewall group. See skill `edge-estate` for the estate tools and OVH.
 
 ## Tooling
 

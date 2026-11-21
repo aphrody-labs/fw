@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fw-docs",
+  "compatibility_date": "2026-11-19",
+  // Static assets only: no Worker script. The custom host docs.aphrody.com is declared in cluster/estate.toml.
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  }
+}

@@ -35,6 +35,9 @@ use std::time::Instant;
 /// Version of the running server, from the workspace manifest.
 pub const FW_VERSION: &str = env!("CARGO_PKG_VERSION");
 
+/// Whether this build links the C runtime statically (`-C target-feature=+crt-static`), read from the compiler, not claimed.
+pub const CRT_STATIC: bool = cfg!(target_feature = "crt-static");
+
 
 /// In-process MCP tools that report host facts and a static capability list for the Linux, Windows and WebAssembly targets.
 pub const KERNEL_MCP_TOOLS: &[(&str, &str)] = &[
@@ -128,7 +131,7 @@ pub fn build_openapi_3_1() -> Value {
 pub fn handle_graphql(router: &HybridClusterRouter, query: &str) -> Value {
     let mut data = serde_json::Map::new();
     if query.contains("health") || query.contains("status") {
-        data.insert("status".into(), json!({ "ok": true, "version": "3.0.0", "zeroSystemDeps": true }));
+        data.insert("status".into(), json!({ "ok": true, "version": FW_VERSION, "crtStatic": CRT_STATIC }));
     }
     if query.contains("hardware") {
         data.insert("hardware".into(), json!(detect_hardware_profile()));
@@ -140,7 +143,7 @@ pub fn handle_graphql(router: &HybridClusterRouter, query: &str) -> Value {
         data.insert("wgslBytes".into(), json!(DEFAULT_WGSL_KERNEL.len()));
     }
     if data.is_empty() {
-        data.insert("status".into(), json!({ "ok": true, "version": "3.0.0" }));
+        data.insert("status".into(), json!({ "ok": true, "version": FW_VERSION }));
     }
     json!({ "data": data })
 }
@@ -227,7 +230,7 @@ pub fn dispatch_http(
                 "ok": true,
                 "product": "fw",
                 "version": FW_VERSION,
-                "zeroSystemDeps": true,
+                "crtStatic": CRT_STATIC,
                 "consolidatedFeatures": ["fx-rust-agent", "unified-pm", "m3-wgpu-terminal", "kernel-mcp", "hybrid-cluster"]
             })
             .to_string(),

@@ -1,0 +1,26 @@
+[package]
+name = "fw-site"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.100"
+license = "MIT"
+publish = false
+description = "Docs site generator for apps/docs: MDX pages, sidebar, llms.txt and JSON-LD derived from fw --help, the MCP tool list, cargo metadata, product.toml, release.toml and the live release manifest, with a drift check for CI"
+
+[lib]
+path = "src/lib.rs"
+doctest = false
+
+[[bin]]
+name = "fw-site"
+path = "src/main.rs"
+
+# Standalone like fw-corpus: its own lockfile, no edits to the root workspace.
+[workspace]
+
+[dependencies]
+anyhow = "1"
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+sha2 = "0.11.1"
+toml = "1.2.2"
+ureq = { version = "3.5.2", default-features = false, features = ["rustls", "gzip"] }

@@ -1,3 +1,4 @@
+import { l10n } from "./html.ts";
 import { join } from "node:path";
 import {
   ApiError,
@@ -128,7 +129,7 @@ export function createApp(options: AppOptions) {
       const releases = all.flatMap((r) => (r.release ? [r.release] : []));
       const measured = measuredStableWeeks((await dash.schedule({ offset: -4, n: 12 }).then(take)).mstones);
       return page({
-        title: "Home",
+        title: l10n("home"),
         path: "/",
         body: html`${await platformTabs(u, "/")}${v.home({ platform, channelRows: rows, milestones: milestones.sort((a, b) => b.milestone - a.milestone), schedule: schedule.mstones, channels: withReleases(releases, platform), measuredWeeks: measured })}`,
       });
@@ -152,7 +153,7 @@ export function createApp(options: AppOptions) {
         }),
       );
       return page({
-        title: "Releases",
+        title: l10n("releases"),
         subtitle: platform,
         path,
         body: html`${await platformTabs(u, "/releases")}
@@ -167,7 +168,7 @@ export function createApp(options: AppOptions) {
       ).mstones;
       const first = rows[0]?.mstone ?? start ?? 0;
       return page({
-        title: "Schedule",
+        title: l10n("schedule"),
         path,
         body: v.schedule(rows, `/schedule?from=${Math.max(first - 3, 1)}`, `/schedule?from=${first + 3}`),
       });
@@ -175,7 +176,7 @@ export function createApp(options: AppOptions) {
     if (path === "/branches") {
       const [ms, mini] = await Promise.all([dash.milestones().then(take), dash.minibranches().then(take)]);
       return page({
-        title: "Branches",
+        title: l10n("branches"),
         path,
         body: v.branches(ms.sort((a, b) => b.milestone - a.milestone).slice(0, 40), mini),
       });
@@ -183,17 +184,17 @@ export function createApp(options: AppOptions) {
     if (path === "/commits" || path.startsWith("/commit/")) {
       const q = (path.startsWith("/commit/") ? path.slice("/commit/".length) : (u.searchParams.get("q") ?? "")).trim();
       const recent = take(await dash.commits({ count: 25 })).commits.slice(0, 25);
-      if (!q) return page({ title: "Commits", path: "/commits", body: v.commitsPage("", recent) });
+      if (!q) return page({ title: l10n("commits"), path: "/commits", body: v.commitsPage("", recent) });
       if (!HEX.test(q))
         return page({
-          title: "Commits",
+          title: l10n("commits"),
           path: "/commits",
           body: v.commitsPage(q, recent, undefined, "A commit hash is 1 to 40 hexadecimal digits."),
         });
       try {
         const found = take(await dash.commit(q));
         return page({
-          title: "Commit",
+          title: l10n("commit"),
           subtitle: q.slice(0, 12),
           path: "/commits",
           body: v.commitsPage(q, recent, found),
@@ -201,7 +202,7 @@ export function createApp(options: AppOptions) {
       } catch (e) {
         if (e instanceof ApiError || e instanceof HttpError)
           return page({
-            title: "Commits",
+            title: l10n("commits"),
             path: "/commits",
             body: v.commitsPage(q, recent, undefined, `No commit ${q}: ${e instanceof ApiError ? e.detail : e.status}`),
           });
@@ -209,7 +210,7 @@ export function createApp(options: AppOptions) {
       }
     }
     if (path === "/serving-builds")
-      return page({ title: "Serving builds", path, body: v.servingBuilds(take(await dash.crosServingBuilds())) });
+      return page({ title: l10n("serving_builds"), path, body: v.servingBuilds(take(await dash.crosServingBuilds())) });
     if (path === "/channels") {
       const platform = platformOf(u);
       const [rows, sched, pageData] = await Promise.all([
@@ -221,7 +222,7 @@ export function createApp(options: AppOptions) {
         fetchChannelsPage(options.fetch).catch(() => undefined),
       ]);
       return page({
-        title: "Release channels",
+        title: l10n("release_channels"),
         subtitle: platform,
         path,
         body: html`${await platformTabs(u, "/channels")}${v.channelsPage({
@@ -252,7 +253,7 @@ export function createApp(options: AppOptions) {
             features: take(await status.inMilestone(channels[k]!.mstone)),
           })),
       );
-      return page({ title: "Roadmap", path, subtitle: "Chrome Platform Status", body: v.roadmap(cols) });
+      return page({ title: l10n("roadmap"), path, subtitle: l10n("chrome_platform_status"), body: v.roadmap(cols) });
     }
     if (path === "/features") {
       const q = u.searchParams.get("q") ?? "";
@@ -261,9 +262,9 @@ export function createApp(options: AppOptions) {
       const num = int(u.searchParams.get("num"), 25, 100) || 25;
       const list = take(await status.search({ q: q || undefined, sort: sort || undefined, start, num }));
       return page({
-        title: "All features",
+        title: l10n("all_features"),
         path,
-        subtitle: "Chrome Platform Status",
+        subtitle: l10n("chrome_platform_status"),
         body: v.featuresPage({ q, sort, start, num, list }),
       });
     }
@@ -279,9 +280,9 @@ export function createApp(options: AppOptions) {
             .catch(() => ({ gates: [] })),
         ]);
         return page({
-          title: "Feature",
+          title: l10n("feature"),
           path: "/features",
-          subtitle: "Chrome Platform Status",
+          subtitle: l10n("chrome_platform_status"),
           body: v.featurePage(f, gates.gates),
         });
       } catch (e) {
@@ -290,7 +291,7 @@ export function createApp(options: AppOptions) {
       }
     }
     if (path === "/api")
-      return page({ title: "API", path, body: v.apiPage(u.origin, DASH_ENDPOINTS, STATUS_ENDPOINTS) });
+      return page({ title: l10n("api"), path, body: v.apiPage(u.origin, DASH_ENDPOINTS, STATUS_ENDPOINTS) });
     throw new NotFound(path);
   }
 
@@ -370,7 +371,7 @@ export function createApp(options: AppOptions) {
             ? json({ error: `not found: ${e.message}` }, { status: 404 })
             : new Response(
                 layout({
-                  title: "Not found",
+                  title: l10n("not_found"),
                   path: "",
                   product,
                   body: html`<p class="lead">Nothing at ${e.message}.</p>`,
@@ -382,7 +383,7 @@ export function createApp(options: AppOptions) {
         const message = e instanceof Error ? e.message : String(e);
         return wantsJson
           ? json({ error: message }, { status })
-          : new Response(layout({ title: "Error", path: "", product, body: html`<p class="stale">${message}</p>` }), {
+          : new Response(layout({ title: l10n("error"), path: "", product, body: html`<p class="stale">${message}</p>` }), {
               status,
               headers: { "content-type": "text/html; charset=utf-8" },
             });

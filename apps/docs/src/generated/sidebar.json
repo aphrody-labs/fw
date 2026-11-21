@@ -1,0 +1,1052 @@
+[
+  {
+    "label": "Get started",
+    "collapsed": false,
+    "items": [
+      {
+        "slug": "index",
+        "label": "Home"
+      },
+      {
+        "slug": "start",
+        "label": "Steps"
+      },
+      {
+        "slug": "start/install",
+        "label": "Install"
+      }
+    ]
+  },
+  {
+    "label": "Guides",
+    "collapsed": false,
+    "items": [
+      {
+        "slug": "guides",
+        "label": "Overview"
+      },
+      {
+        "slug": "guides/agents",
+        "label": "Agents"
+      },
+      {
+        "slug": "guides/learning",
+        "label": "Learning"
+      },
+      {
+        "slug": "guides/docs-site",
+        "label": "How this site is built"
+      }
+    ]
+  },
+  {
+    "label": "Products",
+    "collapsed": true,
+    "items": [
+      {
+        "slug": "products",
+        "label": "Overview"
+      },
+      {
+        "slug": "products/fw",
+        "label": "fw"
+      },
+      {
+        "slug": "products/aphrody",
+        "label": "Aphrody"
+      },
+      {
+        "slug": "products/ay",
+        "label": "ay"
+      }
+    ]
+  },
+  {
+    "label": "CLI reference",
+    "collapsed": true,
+    "items": [
+      {
+        "slug": "cli",
+        "label": "Overview"
+      },
+      {
+        "slug": "cli/ask",
+        "label": "ask"
+      },
+      {
+        "slug": "cli/tool",
+        "label": "tool"
+      },
+      {
+        "slug": "cli/tui",
+        "label": "tui"
+      },
+      {
+        "slug": "cli/serve",
+        "label": "serve"
+      },
+      {
+        "slug": "cli/convert",
+        "label": "convert"
+      },
+      {
+        "slug": "cli/google",
+        "label": "google"
+      },
+      {
+        "slug": "cli/files",
+        "label": "files"
+      },
+      {
+        "slug": "cli/infer",
+        "label": "infer"
+      },
+      {
+        "slug": "cli/train",
+        "label": "train"
+      },
+      {
+        "slug": "cli/hf",
+        "label": "hf"
+      },
+      {
+        "slug": "cli/abliterate",
+        "label": "abliterate"
+      },
+      {
+        "slug": "cli/vram",
+        "label": "vram"
+      },
+      {
+        "slug": "cli/heretic",
+        "label": "heretic"
+      },
+      {
+        "slug": "cli/align",
+        "label": "align"
+      },
+      {
+        "slug": "cli/repomap",
+        "label": "repomap"
+      },
+      {
+        "slug": "cli/watch",
+        "label": "watch"
+      },
+      {
+        "slug": "cli/tune",
+        "label": "tune"
+      },
+      {
+        "slug": "cli/sec",
+        "label": "sec"
+      },
+      {
+        "slug": "cli/cluster",
+        "label": "cluster"
+      },
+      {
+        "slug": "cli/depot",
+        "label": "depot"
+      },
+      {
+        "slug": "cli/kernel",
+        "label": "kernel"
+      },
+      {
+        "slug": "cli/graph",
+        "label": "graph"
+      },
+      {
+        "slug": "cli/mem",
+        "label": "mem"
+      },
+      {
+        "slug": "cli/docs",
+        "label": "docs"
+      },
+      {
+        "slug": "cli/corpus",
+        "label": "corpus"
+      },
+      {
+        "slug": "cli/site",
+        "label": "site"
+      },
+      {
+        "slug": "cli/learn",
+        "label": "learn"
+      },
+      {
+        "slug": "cli/skills",
+        "label": "skills"
+      },
+      {
+        "slug": "cli/onboard",
+        "label": "onboard"
+      },
+      {
+        "slug": "cli/workflow",
+        "label": "workflow"
+      },
+      {
+        "slug": "cli/self-install",
+        "label": "self-install"
+      },
+      {
+        "slug": "cli/self-update",
+        "label": "self-update"
+      },
+      {
+        "slug": "cli/self-uninstall",
+        "label": "self-uninstall"
+      },
+      {
+        "slug": "cli/config",
+        "label": "config"
+      },
+      {
+        "slug": "cli/mcp",
+        "label": "mcp"
+      },
+      {
+        "slug": "cli/acp",
+        "label": "acp"
+      },
+      {
+        "slug": "cli/sessions",
+        "label": "sessions"
+      },
+      {
+        "slug": "cli/permissions",
+        "label": "permissions"
+      },
+      {
+        "slug": "cli/models",
+        "label": "models"
+      },
+      {
+        "slug": "cli/workspace",
+        "label": "workspace"
+      },
+      {
+        "slug": "cli/pr",
+        "label": "pr"
+      },
+      {
+        "slug": "cli/doctor",
+        "label": "doctor"
+      },
+      {
+        "slug": "cli/completion",
+        "label": "completion"
+      },
+      {
+        "slug": "cli/bench",
+        "label": "bench"
+      },
+      {
+        "slug": "cli/help",
+        "label": "help"
+      },
+      {
+        "slug": "cli/sh",
+        "label": "sh"
+      },
+      {
+        "slug": "cli/jq",
+        "label": "jq"
+      },
+      {
+        "slug": "cli/tokei",
+        "label": "tokei"
+      },
+      {
+        "slug": "cli/du",
+        "label": "du"
+      },
+      {
+        "slug": "cli/bat",
+        "label": "bat"
+      },
+      {
+        "slug": "cli/init",
+        "label": "init"
+      },
+      {
+        "slug": "cli/install",
+        "label": "install"
+      },
+      {
+        "slug": "cli/add",
+        "label": "add"
+      },
+      {
+        "slug": "cli/remove",
+        "label": "remove"
+      },
+      {
+        "slug": "cli/lock",
+        "label": "lock"
+      },
+      {
+        "slug": "cli/verify",
+        "label": "verify"
+      },
+      {
+        "slug": "cli/crates",
+        "label": "crates"
+      },
+      {
+        "slug": "cli/info",
+        "label": "info"
+      },
+      {
+        "slug": "cli/fetch",
+        "label": "fetch"
+      },
+      {
+        "slug": "cli/tree",
+        "label": "tree"
+      },
+      {
+        "slug": "cli/export",
+        "label": "export"
+      },
+      {
+        "slug": "cli/audit",
+        "label": "audit"
+      },
+      {
+        "slug": "cli/compile",
+        "label": "compile"
+      },
+      {
+        "slug": "cli/semver",
+        "label": "semver"
+      }
+    ]
+  },
+  {
+    "label": "MCP tools",
+    "collapsed": true,
+    "items": [
+      {
+        "slug": "mcp",
+        "label": "Overview"
+      },
+      {
+        "slug": "mcp/crates-awesome",
+        "label": "crates_awesome"
+      },
+      {
+        "slug": "mcp/crates-compare",
+        "label": "crates_compare"
+      },
+      {
+        "slug": "mcp/crates-info",
+        "label": "crates_info"
+      },
+      {
+        "slug": "mcp/crates-search",
+        "label": "crates_search"
+      },
+      {
+        "slug": "mcp/crates-stack",
+        "label": "crates_stack"
+      },
+      {
+        "slug": "mcp/fw-ai",
+        "label": "fw_ai"
+      },
+      {
+        "slug": "mcp/fw-ast-parse",
+        "label": "fw_ast_parse"
+      },
+      {
+        "slug": "mcp/fw-bridge",
+        "label": "fw_bridge"
+      },
+      {
+        "slug": "mcp/fw-disasm",
+        "label": "fw_disasm"
+      },
+      {
+        "slug": "mcp/fw-learn",
+        "label": "fw_learn"
+      },
+      {
+        "slug": "mcp/fw-pe-inspect",
+        "label": "fw_pe_inspect"
+      },
+      {
+        "slug": "mcp/fw-status",
+        "label": "fw_status"
+      },
+      {
+        "slug": "mcp/fw-target-scan",
+        "label": "fw_target_scan"
+      },
+      {
+        "slug": "mcp/fw-tui-terminal",
+        "label": "fw_tui_terminal"
+      },
+      {
+        "slug": "mcp/fw-vfs",
+        "label": "fw_vfs"
+      },
+      {
+        "slug": "mcp/kernel-graph",
+        "label": "kernel_graph"
+      },
+      {
+        "slug": "mcp/kernel-status",
+        "label": "kernel_status"
+      }
+    ]
+  },
+  {
+    "label": "API reference",
+    "collapsed": true,
+    "items": [
+      {
+        "slug": "api",
+        "label": "Overview"
+      },
+      {
+        "slug": "api/fw-serve"
+      },
+      {
+        "slug": "api/fw-edge"
+      },
+      {
+        "slug": "api/ay"
+      },
+      {
+        "slug": "api/standards",
+        "label": "Standards"
+      }
+    ]
+  },
+  {
+    "label": "Crates",
+    "collapsed": true,
+    "items": [
+      {
+        "slug": "crates",
+        "label": "Overview"
+      },
+      {
+        "slug": "crates/list-fw",
+        "label": "All fw packages"
+      },
+      {
+        "slug": "crates/list-ay",
+        "label": "All ay packages"
+      },
+      {
+        "slug": "crates/list-aphrody",
+        "label": "All aphrody packages"
+      },
+      {
+        "label": "Aphrody crates",
+        "collapsed": true,
+        "items": [
+          {
+            "slug": "crates/aphrody",
+            "label": "aphrody"
+          },
+          {
+            "slug": "crates/aphrody_auto",
+            "label": "aphrody_auto"
+          },
+          {
+            "slug": "crates/aphrody_av",
+            "label": "aphrody_av"
+          },
+          {
+            "slug": "crates/aphrody_browser",
+            "label": "aphrody_browser"
+          },
+          {
+            "slug": "crates/aphrody_craft",
+            "label": "aphrody_craft"
+          },
+          {
+            "slug": "crates/aphrody_design",
+            "label": "aphrody_design"
+          },
+          {
+            "slug": "crates/aphrody_desktop",
+            "label": "aphrody_desktop"
+          },
+          {
+            "slug": "crates/aphrody_google",
+            "label": "aphrody_google"
+          },
+          {
+            "slug": "crates/aphrody_installer",
+            "label": "aphrody_installer"
+          },
+          {
+            "slug": "crates/aphrody_media",
+            "label": "aphrody_media"
+          },
+          {
+            "slug": "crates/aphrody_nsh",
+            "label": "aphrody_nsh"
+          },
+          {
+            "slug": "crates/aphrody_pilot",
+            "label": "aphrody_pilot"
+          },
+          {
+            "slug": "crates/aphrody_session",
+            "label": "aphrody_session"
+          },
+          {
+            "slug": "crates/aphrody_store",
+            "label": "aphrody_store"
+          },
+          {
+            "slug": "crates/aphrody_ui",
+            "label": "aphrody_ui"
+          },
+          {
+            "slug": "crates/aphrody_video",
+            "label": "aphrody_video"
+          },
+          {
+            "slug": "crates/aphrody_vpn",
+            "label": "aphrody_vpn"
+          },
+          {
+            "slug": "crates/ayvpn-daemon",
+            "label": "ayvpn-daemon"
+          },
+          {
+            "slug": "crates/bevy_gpui",
+            "label": "bevy_gpui"
+          },
+          {
+            "slug": "crates/brand",
+            "label": "brand"
+          },
+          {
+            "slug": "crates/collections",
+            "label": "collections"
+          },
+          {
+            "slug": "crates/cosmic_gpui",
+            "label": "cosmic_gpui"
+          },
+          {
+            "slug": "crates/crates_io_client",
+            "label": "crates_io_client"
+          },
+          {
+            "slug": "crates/derive_refineable",
+            "label": "derive_refineable"
+          },
+          {
+            "slug": "crates/egui_gpui",
+            "label": "egui_gpui"
+          },
+          {
+            "slug": "crates/gpui",
+            "label": "gpui"
+          },
+          {
+            "slug": "crates/gpui-base",
+            "label": "gpui-base"
+          },
+          {
+            "slug": "crates/gpui-component",
+            "label": "gpui-component"
+          },
+          {
+            "slug": "crates/gpui-component-macros",
+            "label": "gpui-component-macros"
+          },
+          {
+            "slug": "crates/gpui-fps",
+            "label": "gpui-fps"
+          },
+          {
+            "slug": "crates/gpui-kit",
+            "label": "gpui-kit"
+          },
+          {
+            "slug": "crates/gpui-kit-assets",
+            "label": "gpui-kit-assets"
+          },
+          {
+            "slug": "crates/gpui_app_shell",
+            "label": "gpui_app_shell"
+          },
+          {
+            "slug": "crates/gpui_code",
+            "label": "gpui_code"
+          },
+          {
+            "slug": "crates/gpui_macros",
+            "label": "gpui_macros"
+          },
+          {
+            "slug": "crates/gpui_ui",
+            "label": "gpui_ui"
+          },
+          {
+            "slug": "crates/html_to_markdown",
+            "label": "html_to_markdown"
+          },
+          {
+            "slug": "crates/http_client",
+            "label": "http_client"
+          },
+          {
+            "slug": "crates/iced_gpui",
+            "label": "iced_gpui"
+          },
+          {
+            "slug": "crates/livekit_api",
+            "label": "livekit_api"
+          },
+          {
+            "slug": "crates/livekit_client",
+            "label": "livekit_client"
+          },
+          {
+            "slug": "crates/nsh-base",
+            "label": "nsh-base"
+          },
+          {
+            "slug": "crates/nsh-bundler",
+            "label": "nsh-bundler"
+          },
+          {
+            "slug": "crates/nsh-cli",
+            "label": "nsh-cli"
+          },
+          {
+            "slug": "crates/nsh-core",
+            "label": "nsh-core"
+          },
+          {
+            "slug": "crates/nsh-dev",
+            "label": "nsh-dev"
+          },
+          {
+            "slug": "crates/nsh-engine",
+            "label": "nsh-engine"
+          },
+          {
+            "slug": "crates/nsh-gpui-host",
+            "label": "nsh-gpui-host"
+          },
+          {
+            "slug": "crates/nsh-i18n",
+            "label": "nsh-i18n"
+          },
+          {
+            "slug": "crates/nsh-ios-app",
+            "label": "nsh-ios-app"
+          },
+          {
+            "slug": "crates/nsh-ios-host",
+            "label": "nsh-ios-host"
+          },
+          {
+            "slug": "crates/nsh-js",
+            "label": "nsh-js"
+          },
+          {
+            "slug": "crates/nsh-linux-app",
+            "label": "nsh-linux-app"
+          },
+          {
+            "slug": "crates/nsh-linux-host",
+            "label": "nsh-linux-host"
+          },
+          {
+            "slug": "crates/nsh-macos-app",
+            "label": "nsh-macos-app"
+          },
+          {
+            "slug": "crates/nsh-macos-host",
+            "label": "nsh-macos-host"
+          },
+          {
+            "slug": "crates/nsh-macros",
+            "label": "nsh-macros"
+          },
+          {
+            "slug": "crates/nsh-package",
+            "label": "nsh-package"
+          },
+          {
+            "slug": "crates/nsh-platform-android",
+            "label": "nsh-platform-android"
+          },
+          {
+            "slug": "crates/nsh-platform-apple",
+            "label": "nsh-platform-apple"
+          },
+          {
+            "slug": "crates/nsh-platform-gpui",
+            "label": "nsh-platform-gpui"
+          },
+          {
+            "slug": "crates/nsh-platform-ios",
+            "label": "nsh-platform-ios"
+          },
+          {
+            "slug": "crates/nsh-platform-linux",
+            "label": "nsh-platform-linux"
+          },
+          {
+            "slug": "crates/nsh-platform-macos",
+            "label": "nsh-platform-macos"
+          },
+          {
+            "slug": "crates/nsh-platform-tui",
+            "label": "nsh-platform-tui"
+          },
+          {
+            "slug": "crates/nsh-platform-web",
+            "label": "nsh-platform-web"
+          },
+          {
+            "slug": "crates/nsh-platform-windows",
+            "label": "nsh-platform-windows"
+          },
+          {
+            "slug": "crates/nsh-testing",
+            "label": "nsh-testing"
+          },
+          {
+            "slug": "crates/nsh-tui-host",
+            "label": "nsh-tui-host"
+          },
+          {
+            "slug": "crates/nsh-updater",
+            "label": "nsh-updater"
+          },
+          {
+            "slug": "crates/nsh-windows-app",
+            "label": "nsh-windows-app"
+          },
+          {
+            "slug": "crates/nsh-windows-host",
+            "label": "nsh-windows-host"
+          },
+          {
+            "slug": "crates/oauth_callback_server",
+            "label": "oauth_callback_server"
+          },
+          {
+            "slug": "crates/perf",
+            "label": "perf"
+          },
+          {
+            "slug": "crates/proto",
+            "label": "proto"
+          },
+          {
+            "slug": "crates/proxy_handshake",
+            "label": "proxy_handshake"
+          },
+          {
+            "slug": "crates/refineable",
+            "label": "refineable"
+          },
+          {
+            "slug": "crates/remote",
+            "label": "remote"
+          },
+          {
+            "slug": "crates/remote_server",
+            "label": "remote_server"
+          },
+          {
+            "slug": "crates/rpc",
+            "label": "rpc"
+          },
+          {
+            "slug": "crates/sum_tree",
+            "label": "sum_tree"
+          },
+          {
+            "slug": "crates/tauri_gpui",
+            "label": "tauri_gpui"
+          },
+          {
+            "slug": "crates/util",
+            "label": "util"
+          },
+          {
+            "slug": "crates/util_macros",
+            "label": "util_macros"
+          },
+          {
+            "slug": "crates/zed",
+            "label": "zed"
+          },
+          {
+            "slug": "crates/zed_extension_api",
+            "label": "zed_extension_api"
+          }
+        ]
+      },
+      {
+        "label": "ay crates",
+        "collapsed": true,
+        "items": [
+          {
+            "slug": "crates/aphrody-auto",
+            "label": "aphrody-auto"
+          },
+          {
+            "slug": "crates/auto-ffi",
+            "label": "auto-ffi"
+          },
+          {
+            "slug": "crates/ay-accounts",
+            "label": "ay-accounts"
+          },
+          {
+            "slug": "crates/ay-app-protocol",
+            "label": "ay-app-protocol"
+          },
+          {
+            "slug": "crates/ay-build",
+            "label": "ay-build"
+          },
+          {
+            "slug": "crates/ay-cf",
+            "label": "ay-cf"
+          },
+          {
+            "slug": "crates/ay-core",
+            "label": "ay-core"
+          },
+          {
+            "slug": "crates/ay-core-capi",
+            "label": "ay-core-capi"
+          },
+          {
+            "slug": "crates/ay-core-jni",
+            "label": "ay-core-jni"
+          },
+          {
+            "slug": "crates/ay-design",
+            "label": "ay-design"
+          },
+          {
+            "slug": "crates/ay-ghidra-bun",
+            "label": "ay-ghidra-bun"
+          },
+          {
+            "slug": "crates/ay-media",
+            "label": "ay-media"
+          },
+          {
+            "slug": "crates/ay-re",
+            "label": "ay-re"
+          }
+        ]
+      },
+      {
+        "label": "fw crates",
+        "collapsed": true,
+        "items": [
+          {
+            "slug": "crates/fw-a2a",
+            "label": "fw-a2a"
+          },
+          {
+            "slug": "crates/fw-agent",
+            "label": "fw-agent"
+          },
+          {
+            "slug": "crates/fw-agent-context",
+            "label": "fw-agent-context"
+          },
+          {
+            "slug": "crates/fw-apm",
+            "label": "fw-apm"
+          },
+          {
+            "slug": "crates/fw-bin",
+            "label": "fw-bin"
+          },
+          {
+            "slug": "crates/fw-cluster",
+            "label": "fw-cluster"
+          },
+          {
+            "slug": "crates/fw-compute",
+            "label": "fw-compute"
+          },
+          {
+            "slug": "crates/fw-config",
+            "label": "fw-config"
+          },
+          {
+            "slug": "crates/fw-crates",
+            "label": "fw-crates"
+          },
+          {
+            "slug": "crates/fw-depot",
+            "label": "fw-depot"
+          },
+          {
+            "slug": "crates/fw-drive",
+            "label": "fw-drive"
+          },
+          {
+            "slug": "crates/fw-estate",
+            "label": "fw-estate"
+          },
+          {
+            "slug": "crates/fw-files",
+            "label": "fw-files"
+          },
+          {
+            "slug": "crates/fw-fx",
+            "label": "fw-fx"
+          },
+          {
+            "slug": "crates/fw-gemini",
+            "label": "fw-gemini"
+          },
+          {
+            "slug": "crates/fw-ggml",
+            "label": "fw-ggml"
+          },
+          {
+            "slug": "crates/fw-google",
+            "label": "fw-google"
+          },
+          {
+            "slug": "crates/fw-hermes-claw",
+            "label": "fw-hermes-claw"
+          },
+          {
+            "slug": "crates/fw-http",
+            "label": "fw-http"
+          },
+          {
+            "slug": "crates/fw-linux",
+            "label": "fw-linux"
+          },
+          {
+            "slug": "crates/fw-llama",
+            "label": "fw-llama"
+          },
+          {
+            "slug": "crates/fw-llama-sys",
+            "label": "fw-llama-sys"
+          },
+          {
+            "slug": "crates/fw-m3",
+            "label": "fw-m3"
+          },
+          {
+            "slug": "crates/fw-material",
+            "label": "fw-material"
+          },
+          {
+            "slug": "crates/fw-ml",
+            "label": "fw-ml"
+          },
+          {
+            "slug": "crates/fw-model",
+            "label": "fw-model"
+          },
+          {
+            "slug": "crates/fw-nix",
+            "label": "fw-nix"
+          },
+          {
+            "slug": "crates/fw-ostd-wasm",
+            "label": "fw-ostd-wasm"
+          },
+          {
+            "slug": "crates/fw-proc",
+            "label": "fw-proc"
+          },
+          {
+            "slug": "crates/fw-proto",
+            "label": "fw-proto"
+          },
+          {
+            "slug": "crates/fw-rag",
+            "label": "fw-rag"
+          },
+          {
+            "slug": "crates/fw-rag-core",
+            "label": "fw-rag-core"
+          },
+          {
+            "slug": "crates/fw-ring3-agent",
+            "label": "fw-ring3-agent"
+          },
+          {
+            "slug": "crates/fw-secrets",
+            "label": "fw-secrets"
+          },
+          {
+            "slug": "crates/fw-toolcall",
+            "label": "fw-toolcall"
+          },
+          {
+            "slug": "crates/fw-translate-core",
+            "label": "fw-translate-core"
+          },
+          {
+            "slug": "crates/fw-ui-blitz",
+            "label": "fw-ui-blitz"
+          },
+          {
+            "slug": "crates/fw-unified-stack",
+            "label": "fw-unified-stack"
+          },
+          {
+            "slug": "crates/fw-uutils",
+            "label": "fw-uutils"
+          },
+          {
+            "slug": "crates/fw-video",
+            "label": "fw-video"
+          },
+          {
+            "slug": "crates/fw-wasm",
+            "label": "fw-wasm"
+          },
+          {
+            "slug": "crates/fw-wayland-wgpu",
+            "label": "fw-wayland-wgpu"
+          },
+          {
+            "slug": "crates/fw-workerd",
+            "label": "fw-workerd"
+          },
+          {
+            "slug": "crates/xtask",
+            "label": "xtask"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Releases",
+    "collapsed": true,
+    "items": [
+      {
+        "slug": "releases"
+      }
+    ]
+  }
+]

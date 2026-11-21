@@ -29,7 +29,7 @@ pub fn build(state: &State, devices: &Devices, network_namespace: Option<&Path>)
     let mut mounts = vec![
         mount_entry("proc", "proc", "/proc", &["nosuid", "noexec", "nodev"]),
         mount_entry("sysfs", "sysfs", "/sys", &["nosuid", "noexec", "nodev", "ro"]),
-        mount_entry("cgroup2", "cgroup2", "/sys/fs/cgroup", &["nosuid", "noexec", "nodev", "ro"]),
+        mount_entry("cgroup2", "cgroup2", "/sys/fs/cgroup", &["nosuid", "noexec", "nodev"]),
         mount_entry("tmpfs", "tmpfs", "/dev", &["nosuid", "mode=755"]),
         mount_entry("devpts", "devpts", "/dev/pts", &["nosuid", "noexec", "newinstance", "ptmxmode=0666", "mode=0644"]),
         mount_entry("tmpfs", "tmpfs", "/tmp", &["nodev"]),
@@ -74,7 +74,7 @@ pub fn build(state: &State, devices: &Devices, network_namespace: Option<&Path>)
             "terminal": false,
             "user": {"uid": 0, "gid": 0},
             "args": ["/init"],
-            "env": [],
+            "env": ["PATH=/system/bin:/system/xbin:/vendor/bin"],
             "cwd": "/",
             "capabilities": {
                 "bounding": CAPABILITIES, "effective": CAPABILITIES, "permitted": CAPABILITIES, "inheritable": CAPABILITIES, "ambient": CAPABILITIES,

@@ -76,6 +76,7 @@ pub struct ZoneLive {
     pub settings: BTreeMap<String, Value>,
     pub records: Vec<Value>,
     pub routes: Vec<Value>,
+    pub header_rules: Vec<Value>,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -112,6 +113,7 @@ impl Live {
                 settings: settings.as_array().into_iter().flatten().filter_map(|entry| Some((entry["id"].as_str()?.to_string(), entry["value"].clone()))).collect(),
                 records: cloudflare.paged(&format!("/zones/{id}/dns_records"))?,
                 routes: cloudflare.paged(&format!("/zones/{id}/workers/routes"))?,
+                header_rules: cloudflare.try_get(&format!("/zones/{id}/rulesets/phases/http_response_headers_transform/entrypoint")).map(|ruleset| ruleset["rules"].as_array().cloned().unwrap_or_default()).unwrap_or_default(),
                 id,
             });
         }

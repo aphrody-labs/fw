@@ -18,6 +18,7 @@ pub struct BlitzRenderReport {
     pub height: u32,
     pub png_bytes: usize,
     pub unique_colors: usize,
+    pub cards: usize,
     pub output_path: String,
 }
 
@@ -76,44 +77,70 @@ pub fn encode_rgba_png(width: u32, height: u32, rgba: &[u8]) -> Vec<u8> {
     png
 }
 
-/// Render the hybrid cluster HUD (GPU, VPS/CPU and browser WebGPU cards) to PNG.
-pub fn render_cluster_hud_png(out_path: &Path, width: u32, height: u32) -> std::io::Result<BlitzRenderReport> {
+/// One node of the HUD: its card is drawn in the accelerator band or the CPU band, dimmed when it is not healthy.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct HudCard {
+    pub accelerated: bool,
+    pub healthy: bool,
+}
+
+fn card_color(card: HudCard) -> (u8, u8, u8) {
+    match (card.accelerated, card.healthy) {
+        (true, true) => (28, 110, 96),
+        (false, true) => (36, 44, 128),
+        (_, false) => (70, 70, 74),
+    }
+}
+
+/// Render the cluster HUD to PNG: a header bar, one card per accelerated node in the upper band and one per other
+/// node in the lower band. The cards come from the caller (the nodes of `cluster/build.toml` plus the measured local
+/// machine); with no cards the bands stay empty.
+pub fn render_cluster_hud_png(
+    out_path: &Path,
+    width: u32,
+    height: u32,
+    cards: &[HudCard],
+) -> std::io::Result<BlitzRenderReport> {
     let mut rgba = vec![0u8; (width as usize) * (height as usize) * 4];
     let mut colors = std::collections::HashSet::new();
+    let accelerated: Vec<HudCard> = cards.iter().copied().filter(|card| card.accelerated).collect();
+    let others: Vec<HudCard> = cards.iter().copied().filter(|card| !card.accelerated).collect();
+    let inner_width = width.saturating_sub(48).max(1);
+
+    let card_at = |band: &[HudCard], x: u32| -> Option<HudCard> {
+        if band.is_empty() || x < 24 || x >= width.saturating_sub(24) {
+            return None;
+        }
+        let slot_width = (inner_width / band.len() as u32).max(1);
+        let slot = ((x - 24) / slot_width) as usize;
+        let local_x = (x - 24) % slot_width;
+        if local_x <= 6 {
+            return None;
+        }
+        band.get(slot).copied()
+    };
 
     for y in 0..height {
         for x in 0..width {
             let idx = ((y * width + x) as usize) * 4;
-            // Deep navy background gradient
             let mut r = 11u8;
             let mut g = (16 + (y * 14 / height.max(1))) as u8;
             let mut b = (32 + (x * 24 / width.max(1))) as u8;
 
-            // Header bar (Blitz/WGPU card)
             if (24..72).contains(&y) && x >= 24 && x < width.saturating_sub(24) {
                 r = 18;
                 g = 34;
                 b = 68;
             }
-            // 4 GPU node cards (emerald/cyan accents)
-            if (96..196).contains(&y) && x >= 24 && x < width.saturating_sub(24) {
-                let col = ((x - 24) * 4) / (width.saturating_sub(48).max(1));
-                let local_x = (x - 24) % ((width.saturating_sub(48) / 4).max(1));
-                if local_x > 6 {
-                    r = 20 + (col as u8) * 8;
-                    g = 58 + (col as u8) * 12;
-                    b = 96;
-                }
-            }
-            // 3 VPS + User WebGPU lower band (indigo/amber accents)
-            if y >= 216 && y < height.saturating_sub(24) && x >= 24 && x < width.saturating_sub(24) {
-                let col = ((x - 24) * 4) / (width.saturating_sub(48).max(1));
-                let local_x = (x - 24) % ((width.saturating_sub(48) / 4).max(1));
-                if local_x > 6 {
-                    r = if col == 3 { 160 } else { 36 };
-                    g = if col == 3 { 110 } else { 44 };
-                    b = if col == 3 { 40 } else { 88 };
-                }
+            let band_card = if (96..196).contains(&y) {
+                card_at(&accelerated, x)
+            } else if y >= 216 && y < height.saturating_sub(24) {
+                card_at(&others, x)
+            } else {
+                None
+            };
+            if let Some(card) = band_card {
+                (r, g, b) = card_color(card);
             }
 
             rgba[idx] = r;
@@ -131,7 +158,8 @@ pub fn render_cluster_hud_png(out_path: &Path, width: u32, height: u32) -> std::
     fs::write(out_path, &png)?;
     Ok(BlitzRenderReport {
         ok: true,
-        renderer: "fw-blitz-vello-zero-dep".into(),
+        renderer: "fw-ui-blitz software rasterizer".into(),
+        cards: cards.len(),
         width,
         height,
         png_bytes: png.len(),
@@ -147,12 +175,28 @@ mod tests {
     #[test]
     fn renders_valid_non_blank_png() {
         let tmp = std::env::temp_dir().join("fw-blitz-unit.png");
-        let rep = render_cluster_hud_png(&tmp, 320, 180).unwrap();
+        let cards = [
+            HudCard { accelerated: true, healthy: true },
+            HudCard { accelerated: false, healthy: true },
+            HudCard { accelerated: false, healthy: false },
+        ];
+        let rep = render_cluster_hud_png(&tmp, 320, 180, &cards).unwrap();
         assert!(rep.ok);
+        assert_eq!(rep.cards, 3);
         assert!(rep.png_bytes > 200);
         assert!(rep.unique_colors >= 6);
         let bytes = fs::read(&tmp).unwrap();
         assert_eq!(&bytes[0..8], &[137, 80, 78, 71, 13, 10, 26, 10]);
-        let _ = fs::remove_file(&tmp);
+        fs::remove_file(&tmp).unwrap();
+    }
+
+    #[test]
+    fn cards_change_the_palette_and_no_cards_leave_the_background() {
+        let tmp = std::env::temp_dir().join("fw-blitz-unit-empty.png");
+        let rep = render_cluster_hud_png(&tmp, 320, 400, &[]).unwrap();
+        let populated = render_cluster_hud_png(&tmp, 320, 400, &[HudCard { accelerated: true, healthy: true }]).unwrap();
+        // A card paints over gradient pixels, so the palette changes; with no cards nothing is painted over.
+        assert_ne!(rep.unique_colors, populated.unique_colors);
+        fs::remove_file(&tmp).unwrap();
     }
 }

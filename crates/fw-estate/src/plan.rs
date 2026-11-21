@@ -1,5 +1,5 @@
 use crate::cloudflare::{Cloudflare, Live, ZoneLive};
-use crate::model::{normalize_content, parse_route, Estate, Record};
+use crate::model::{normalize_content, parse_route, Estate, HeaderRule, Record};
 use anyhow::{anyhow, bail, Context, Result};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -44,6 +44,7 @@ pub fn compute(estate: &Estate, estate_text: &str, live: &Live) -> Result<Plan> 
         route_actions(zone_name, &declared.route, zone, &mut actions)?;
         domain_actions(zone_name, &declared.domain, zone, live, &mut actions)?;
         setting_actions(zone_name, &estate.zone_settings(zone_name), zone, &mut actions);
+        header_rule_actions(zone_name, &declared.header_rule, zone, &mut actions);
         if declared.dnssec && zone.dnssec == "disabled" {
             actions.push(action("update", "dnssec", zone_name, zone_name, "disabled -> active".into(), Some(zone.id.clone())));
         }
@@ -173,6 +174,37 @@ fn domain_actions(zone_name: &str, lines: &[String], zone: &ZoneLive, live: &Liv
     Ok(())
 }
 
+pub const HEADER_PHASE: &str = "http_response_headers_transform";
+
+pub fn header_rule_body(rule: &HeaderRule) -> Value {
+    let headers: serde_json::Map<String, Value> = rule.set.iter().map(|(name, value)| (name.clone(), json!({ "operation": "set", "value": value }))).collect();
+    json!({ "description": rule.description, "expression": rule.expression, "action": "rewrite", "enabled": true, "action_parameters": { "headers": headers } })
+}
+
+/// The whole response-header ruleset of a zone is one object: it is replaced when any declared rule differs from the live one.
+fn header_rule_actions(zone_name: &str, declared: &[HeaderRule], zone: &ZoneLive, actions: &mut Vec<Action>) {
+    if declared.is_empty() {
+        return;
+    }
+    let mut differences = Vec::new();
+    for rule in declared {
+        let wanted = header_rule_body(rule);
+        match zone.header_rules.iter().find(|live| live["description"] == wanted["description"]) {
+            None => differences.push(format!("add {}", rule.description)),
+            Some(live) if !(contains(live, &wanted) && contains(&wanted["action_parameters"], &live["action_parameters"])) || live["enabled"] != Value::Bool(true) => differences.push(format!("change {}", rule.description)),
+            Some(_) => {}
+        }
+    }
+    for live in &zone.header_rules {
+        if !declared.iter().any(|rule| live["description"].as_str() == Some(rule.description.as_str())) {
+            differences.push(format!("remove {}", live["description"].as_str().unwrap_or("?")));
+        }
+    }
+    if !differences.is_empty() {
+        actions.push(action("update", "header-rules", zone_name, HEADER_PHASE, differences.join("; "), Some(zone.id.clone())));
+    }
+}
+
 /// Every key of the declared value must be present with the same value in the live one.
 fn contains(live: &Value, declared: &Value) -> bool {
     match (live, declared) {
@@ -274,6 +306,11 @@ pub fn apply_action(cloudflare: &Cloudflare, estate: &Estate, live: &Live, item:
         }
         ("dnssec", "update") => {
             cloudflare.call("PATCH", &format!("/zones/{zone_id}/dnssec"), Some(&json!({ "status": "active" })))?;
+        }
+        ("header-rules", "update") => {
+            let declared = estate.zone.get(&item.scope).ok_or_else(|| anyhow!("zone {} is not declared", item.scope))?;
+            let rules: Vec<Value> = declared.header_rule.iter().map(header_rule_body).collect();
+            cloudflare.call("PUT", &format!("/zones/{zone_id}/rulesets/phases/{HEADER_PHASE}/entrypoint"), Some(&json!({ "rules": rules })))?;
         }
         ("worker", "delete") => {
             cloudflare.call("DELETE", &format!("/accounts/{account}/workers/scripts/{}", item.target), None)?;

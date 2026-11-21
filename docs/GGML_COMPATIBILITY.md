@@ -2,12 +2,12 @@
 
 ## Verified `ggml-org` Ecosystem (2026-11-19)
 
-All 26 `github.com/orgs/ggml-org/repositories` were scanned live:
-- `ggml-org/llama.cpp` (135,662★): Reference LLM inference engine & `llama-server`
-- `ggml-org/whisper.cpp` (55,309★): Speech-to-text ASR on `ggml`
-- `ggml-org/ggml` (16,118★): Core tensor library with 18 hardware backends (`ggml-webgpu`, `ggml-cuda`, `ggml-cpu`, `ggml-rpc`, `ggml-vulkan`, `ggml-metal`, `ggml-opencl`, `ggml-sycl`, `ggml-hip`, `ggml-blas`, `ggml-openvino`, `ggml-cann`, `ggml-hexagon`, `ggml-musa`, `ggml-virtgpu`, `ggml-zdnn`, `ggml-zendnn`, `ggml-et`)
-- `ggml-org/convert` (70★): Automated HuggingFace/Safetensors -> GGUF v3 converter
-- `ggml-org/llama-connect` (6★, Rust): Rust-native client bridge
+All 26 `github.com/orgs/ggml-org/repositories` (`gh api orgs/ggml-org --jq .public_repos`) were scanned live; stargazer counts are not recorded here, read them with `gh api repos/<repo> --jq .stargazers_count`:
+- `ggml-org/llama.cpp`: Reference LLM inference engine & `llama-server`
+- `ggml-org/whisper.cpp`: Speech-to-text ASR on `ggml`
+- `ggml-org/ggml`: Core tensor library with 18 hardware backends (`ggml-webgpu`, `ggml-cuda`, `ggml-cpu`, `ggml-rpc`, `ggml-vulkan`, `ggml-metal`, `ggml-opencl`, `ggml-sycl`, `ggml-hip`, `ggml-blas`, `ggml-openvino`, `ggml-cann`, `ggml-hexagon`, `ggml-musa`, `ggml-virtgpu`, `ggml-zdnn`, `ggml-zendnn`, `ggml-et`)
+- `ggml-org/convert`: Automated HuggingFace/Safetensors -> GGUF v3 converter
+- `ggml-org/llama-connect` (Rust): Rust-native client bridge
 
 ## What `crates/fw-ggml` implements
 

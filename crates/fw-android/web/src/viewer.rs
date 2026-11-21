@@ -702,6 +702,39 @@ impl Viewer {
         self.app.borrow().stats()
     }
 
+    /// Renders `frames` frames back to back, waiting for the GPU to finish each one, and reports the sustained cost per
+    /// frame (animation, uploads, layout and draw) without vsync or `requestAnimationFrame` throttling in the number.
+    pub async fn benchmark(&self, frames: u32) -> Result<String, JsValue> {
+        let queue = self.app.borrow().gpu.queue.clone();
+        let (started, uploaded_before) = {
+            let app = self.app.borrow();
+            (now(), app.counters.damage_bytes)
+        };
+        let mut synthetic = started;
+        for _ in 0..frames {
+            synthetic += 1000.0 / 60.0;
+            self.app.borrow_mut().tick(synthetic);
+            let done = js_sys::Promise::new(&mut |resolve, _| {
+                let queue = queue.clone();
+                queue.on_submitted_work_done(move || {
+                    if let Err(error) = resolve.call0(&JsValue::NULL) {
+                        web_sys::console::error_2(&"fwa: benchmark resolve failed".into(), &error);
+                    }
+                });
+            });
+            wasm_bindgen_futures::JsFuture::from(done).await?;
+        }
+        let elapsed = now() - started;
+        let mut app = self.app.borrow_mut();
+        app.deltas.clear();
+        app.cpu.clear();
+        Ok(format!(
+            "{{\"frames\":{frames},\"total_ms\":{elapsed:.2},\"ms_per_frame\":{:.3},\"upload_mb_per_s\":{:.1}}}",
+            elapsed / frames.max(1) as f64,
+            (app.counters.damage_bytes - uploaded_before) as f64 / 1e6 / (elapsed / 1000.0)
+        ))
+    }
+
     /// Feeds raw fwa-stream bytes as if they arrived from the server.
     pub fn inject(&self, bytes: &[u8]) {
         self.app.borrow_mut().receive_bytes(bytes);
@@ -783,6 +816,7 @@ pub async fn start() -> Result<Viewer, JsValue> {
         .await
         .map_err(|error| error.to_string())?;
 
+    device.on_uncaptured_error(std::sync::Arc::new(|error| web_sys::console::error_1(&format!("fwa: webgpu error: {error}").into())));
     let capabilities = surface.get_capabilities(&adapter);
     let format = capabilities.formats.first().copied().ok_or("surface has no formats")?.remove_srgb_suffix();
     let ratio = web_sys::window().map_or(1.0, |window| window.device_pixel_ratio() as f32).max(1.0);
@@ -812,7 +846,7 @@ pub async fn start() -> Result<Viewer, JsValue> {
         entries: &[
             wgpu::BindGroupLayoutEntry {
                 binding: 0,
-                visibility: wgpu::ShaderStages::VERTEX,
+                visibility: wgpu::ShaderStages::VERTEX_FRAGMENT,
                 ty: wgpu::BindingType::Buffer { ty: wgpu::BufferBindingType::Uniform, has_dynamic_offset: false, min_binding_size: None },
                 count: None,
             },

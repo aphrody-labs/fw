@@ -20,6 +20,14 @@ One row per finding. "Fix" names the change (one commit); every number below was
 | `src/bun_native_ai.ts` | `fr1` is "EPYC 12c" | fr1 is Intel Haswell 12 vCPU; prd is EPYC 9354P | strings corrected; latency numbers labelled as simulation parameters |
 | `plugins/aphrody/skills/shenron-bun-mastery` | assets mirrored through "Pingora/Garage Edge Simulators" | Garage is real (shenron AGENTS.md); no Pingora simulator exists | line corrected |
 | `tools/competitor_audit.ts` and its output | `fw-cluster` is Pingora/Dynamo/vLLM-Router | none is a dependency | wording corrected |
+| `stars_nov_2026` in `fw-hermes-claw`, `fw-edge`, `cloudflare/worker.ts` | 25 star counts as constants | `gh api` returns different counts on every read (the stored hermes-agent count was 439 below the live one), so a stored count is stale on arrival | the field is removed; the rank order stays and is dated 2026-11-19 in the doc comments |
+| `docs/GGML_COMPATIBILITY.md` | dated star counts of four `ggml-org` repositories | same drift | counts removed, the page points at `gh api repos/<repo> --jq .stargazers_count` |
+| `crates/fw-ui-blitz` `render_cluster_hud_png` | fixed coloured bands labelled "4 GPU node cards" and "3 VPS" | no data behind them | takes `&[HudCard]` (accelerated, healthy) built by `fw ui` from `discover_router()`; no cards, no card colours; tests for both |
+| `fw status` and `/health` `zeroSystemDeps: true` | a literal | the compiler knows whether the C runtime is static | replaced by `crtStatic` (`cfg!(target_feature = "crt-static")`); the GraphQL status `version: "3.0.0"` literal is now `FW_VERSION` |
+| `src/bun_native_ai.ts` `DEFAULT_CLUSTER_NODES` | per-node `baseTtftMs`, `msPerPrefillToken`, `msPerDecodeToken` and a 1.5 ms KV transfer cost, labelled "simulation parameters" | fr1 and prd have no GPU and nothing ran an inference benchmark on any node | the numbers are removed; a node carries an optional measured `latency`; without it the TTFT fields of a route are `null` and stats report `null`; the test supplies a labelled fixture latency |
+| `cloudflare/wrangler.fullstack.jsonc` | D1 `database_id` and Hyperdrive `id` made of zeros | no such resources; the worker treats `META_DB` as optional and nothing reads `HYPERDRIVE` | both blocks removed, the header says where the ids come from |
+| `docs/rust-brain/agent-cards.json`, `vectors.jsonl` | `default_hybrid_cluster` and a "4gpu_3vps" test name in the `fw-cluster` symbol list | the function and the test were removed from the crate | the `fw-cluster` rows regenerated with the generator's own `extractRustSymbolsFromFile` and `embed64`; the `retired.toml` allow entry for `docs/rust-brain/**` is gone |
+| `aphrody/crates/gpui_windows` `hide_other_apps`, `unhide_other_apps` | `unimplemented!()` behind `todo(windows)` | Windows has no such operation; macOS-only concept | empty bodies |
 
 ## Findings checked and kept (real)
 
@@ -27,19 +35,22 @@ One row per finding. "Fix" names the change (one commit); every number below was
 | :--- | :--- |
 | `gemini-decision-1`, `POST /v1beta/decisions`, `noul`/`choice`/`score`, 262,144 input tokens, 0 output tokens | `https://aistudio.google.com/docs/models/gemini-decision-1.md` and `/docs/decisions-api.md` answer 200 and state them |
 | `gemini-4-neon` | `https://aistudio.google.com/docs/whats-new-gemini-4-neon.md` answers 200 |
-| star counts of `modern_cli_ranking` (dated `stars_nov_2026`) | `gh api repos/<repo> --jq .stargazers_count` returns values within 0.2 percent for all 25 repositories: snapshots, not inventions |
 | `Embedder` / `load_catalog_role` fallbacks in `fw-model` | return typed errors, no fake data |
+
+## Triage of the generic markers (scan of the tracked files of fw, aphrody, ay; nie and shenron read with `git grep`)
+
+- `TODO|FIXME|XXX|HACK`: in first-party code of fw and ay every hit is a variable named `todo`, the lint level `todo = "deny"`, a regex that strips `TODO` from model output, a fixture, a test that scans for the word, or the product's own scaffold template. No unfinished work is marked that way. nie and shenron: 0 comments of that kind outside generated wasm-bindgen glue.
+- `placeholder`: template syntax (`{{key}}`, `${NAME}`), the `placeholder` argument of the llama.cpp mtmd API, placeholders documented as such. Real fakes were the zero ids of `wrangler.fullstack.jsonc` (fixed above).
+- `stub` and `mock`: tree-sitter graph stubs, Durable Object stubs, the `StubEmbedder` of `fw-rag` and `MockComputerBackend` of `fw-agent` (both used by tests only, labelled), fallbacks that return typed errors (`fw-model` `Embedder`, `load_catalog_role`). None returns invented data to a caller in production.
+- `unimplemented!` and `todo!`: guarded by the `unfinished-macro` term in all trees. `aphrody/` is exempt for that term only, because upstream Zed uses `unimplemented!()` for trait contracts (`Item::save`) and test doubles; the two Windows ones that were real gaps are fixed above.
 
 ## Guard
 
-`configs/claude/retired.toml` (CI job `retired-surfaces`, `bun configs/claude/scripts/check.ts`) gains the terms `fairwind-name`, `invented-cluster`, `invented-seed`, `unfinished-macro`. A tracked file outside an `allow` entry that matches fails the job. Scan of the tracked files outside `aphrody/` and `ay/` at base `cd2330a612`: 0 hits after the fixes; `git grep` of the same identifiers in `aphrody/` and `ay/` found none.
+`configs/claude/retired.toml` (CI job `retired-surfaces`, `bun configs/claude/scripts/check.ts`) has the terms `fairwind-name`, `invented-cluster`, `invented-seed`, `unfinished-macro`. The `aphrody/**` allow entry is limited to `relay-hub`, `agy-tooling` and `unfinished-macro`: `fairwind-name`, `invented-cluster` and `invented-seed` are checked in `aphrody/` as in every other tree. A separate `fr2-host` entry for `aphrody/**` names the unified-cluster lot as owner.
 
 ## Open
 
-- prd: `fleet-build-worker.slice` (an intermediate name I created and then replaced by `fw-build.slice`) stays loaded until the Actions runner restarts; remove `/etc/systemd/system/fleet-build-worker.slice` afterwards.
-- The `stars_nov_2026` constants of `fw-hermes-claw` and `fw-edge` are dated snapshots (live counts drift by up to a few hundred); read them live or drop them.
-- `crates/fw-ui-blitz` `render_cluster_hud_png` paints fixed coloured bands labelled as "4 GPU node cards, 3 VPS": no data behind them.
-- `fw status` `zeroSystemDeps` is a literal `true`.
-- `src/bun_native_ai.ts` per-node latency parameters are not measurements.
 - `fw-ggml` has no `ggml-rpc` client that performs `HELLO`.
 - `m3_agent_tui.rs` commits store frame ids computed as `0x1000 * (index + 1)`.
+- The bun fork (`aphrody-labs/bun`) has no local checkout in this workspace; its scan is not done.
+- `cloudflare/wrangler.fullstack.jsonc` still names resources (`fw-vfs-blobs`, `fw-jobs`, `fw-memory`, `fw-telemetry-stream`) that `cluster/estate.toml` does not create: owner is the edge-estate lot.

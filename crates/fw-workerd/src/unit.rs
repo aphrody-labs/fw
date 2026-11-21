@@ -94,13 +94,14 @@ pub fn bootstrap_script(host: &Host, mode: &DualMode) -> String {
     script
 }
 
-pub fn plan(host_name: &str, host: &Host, mode: &DualMode, repository_root: &Path) -> Result<HostPlan> {
+pub fn plan(host: &Host, mode: &DualMode, repository_root: &Path) -> Result<HostPlan> {
+    let host_name = host.name.as_str();
     let mut files = vec![
         (format!("{host_name}/garage.toml"), garage_config(host, mode)),
         (format!("{host_name}/{GARAGE_UNIT}"), garage_unit(host, mode)),
     ];
     let mut buckets: Vec<String> = Vec::new();
-    for service in mode.services.iter().filter(|service| service.hosts.iter().any(|name| name == host_name)) {
+    for service in mode.services.iter().filter(|service| host.serves(service)) {
         let wrangler_path = repository_root.join(&service.wrangler);
         let loaded = wrangler::load(&wrangler_path, service.env.as_deref())?;
         for entry in &loaded.r2 {
@@ -134,7 +135,7 @@ mod tests {
     use crate::topology::{Garage, WorkerdPackage};
 
     fn fixture() -> (Host, DualMode) {
-        let host = Host { ssh: "h".into(), address: "10.0.0.1".into(), user: "svc".into(), work: "/srv/w".into() };
+        let host = Host { name: "h".into(), aliases: vec![], ssh: "h".into(), address: "10.0.0.1".into(), user: "svc".into(), work: "/srv/w".into() };
         let mode = DualMode {
             workerd: WorkerdPackage { package: "@cloudflare/workerd-linux-64".into(), version: "1.0.0".into() },
             garage: Garage { binary: "/usr/local/bin/garage".into(), region: "garage".into(), s3_port: 3910, rpc_port: 3912, admin_port: 3913, r2_bucket: "r2".into() },

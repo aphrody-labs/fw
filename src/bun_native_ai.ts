@@ -510,39 +510,37 @@ export interface ClusterNodeSpec {
   id: ClusterNodeId;
   role: "prefill" | "decode" | "prefill-decode";
   accelerator: string;
-  baseTtftMs: number;
-  msPerPrefillToken: number;
-  msPerDecodeToken: number;
+  /** Measured serving latency of the node; absent until someone measures it, and then no TTFT figure is reported. */
+  latency?: NodeLatency;
   maxKvBlocks: number;
 }
 
-// Latency parameters below are parameters of the routing simulation, not measurements of these machines.
+export interface NodeLatency {
+  baseTtftMs: number;
+  msPerPrefillToken: number;
+  msPerDecodeToken: number;
+  /** Cost of moving the KV blocks from the prefill node to a different decode node. */
+  kvTransferMs: number;
+}
+
+// The hardware text comes from cluster/build.toml and docs/HARDWARE_MATRIX.md. No node carries a latency: nothing measured one, so routing reports token counts and block hits only.
 export const DEFAULT_CLUSTER_NODES: readonly ClusterNodeSpec[] = [
   {
     id: "local-rtx4070",
     role: "prefill-decode",
     accelerator: "NVIDIA GeForce RTX 4070 (sm_89, 12GB VRAM)",
-    baseTtftMs: 14,
-    msPerPrefillToken: 0.35,
-    msPerDecodeToken: 6.5,
     maxKvBlocks: 4096,
   },
   {
     id: "fr1",
     role: "prefill",
     accelerator: "12 vCPU Intel Haswell, 49.3 GB RAM, no GPU (cluster/build.toml, docs/HARDWARE_MATRIX.md)",
-    baseTtftMs: 28,
-    msPerPrefillToken: 0.55,
-    msPerDecodeToken: 12.0,
     maxKvBlocks: 16384,
   },
   {
     id: "prd",
     role: "decode",
     accelerator: "8 vCPU AMD EPYC 9354P, 33.6 GB RAM, no GPU (cluster/build.toml, docs/HARDWARE_MATRIX.md)",
-    baseTtftMs: 24,
-    msPerPrefillToken: 0.9,
-    msPerDecodeToken: 8.5,
     maxKvBlocks: 8192,
   },
 ] as const;
@@ -578,10 +576,11 @@ export interface KvRouteDecision {
   uncachedPrefillTokens: number;
   kvCacheHit: boolean;
   prefixHitRatio: number;
-  baselineTtftMs: number;
-  estimatedTtftMs: number;
-  ttftReductionMs: number;
-  ttftReductionPct: number;
+  /** TTFT figures are null unless the prefill node has a measured `latency`. */
+  baselineTtftMs: number | null;
+  estimatedTtftMs: number | null;
+  ttftReductionMs: number | null;
+  ttftReductionPct: number | null;
   prefixBlockHashes: string[];
 }
 
@@ -615,7 +614,7 @@ export interface KvStoreStats {
   totalCacheHits: number;
   cacheHitRate: number;
   totalSavedPrefillTokens: number;
-  avgTtftReductionPct: number;
+  avgTtftReductionPct: number | null;
   cachedKvBlocks: number;
   ragDocuments: number;
   journalMode: string;
@@ -838,7 +837,7 @@ export class PrefixKvRagStore {
         matched_blocks INTEGER NOT NULL,
         saved_prefill_tokens INTEGER NOT NULL,
         kv_cache_hit INTEGER NOT NULL,
-        ttft_reduction_pct REAL NOT NULL,
+        ttft_reduction_pct REAL,
         created_at INTEGER NOT NULL
       );
 
@@ -917,7 +916,7 @@ export class PrefixKvRagStore {
           COUNT(*) AS total_routes,
           COALESCE(SUM(kv_cache_hit), 0) AS total_hits,
           COALESCE(SUM(saved_prefill_tokens), 0) AS total_saved_tokens,
-          COALESCE(AVG(ttft_reduction_pct), 0) AS avg_ttft_reduction_pct
+          AVG(ttft_reduction_pct) AS avg_ttft_reduction_pct
         FROM kv_route_events
       `),
     );
@@ -1052,20 +1051,20 @@ export class PrefixKvRagStore {
     const prefillSpec = this.nodes.get(prefillNode) ?? DEFAULT_CLUSTER_NODES[0]!;
     const totalTokens = tokens.length;
     const uncachedPrefillTokens = Math.max(0, totalTokens - savedPrefillTokens);
-    const baselineTtftMs = Number(
-      (prefillSpec.baseTtftMs + totalTokens * prefillSpec.msPerPrefillToken).toFixed(3),
-    );
-    const kvTransferOverheadMs = disaggregated && prefillNode !== decodeNode ? 1.5 : 0;
-    const estimatedTtftMs = Number(
-      (
-        prefillSpec.baseTtftMs +
-        uncachedPrefillTokens * prefillSpec.msPerPrefillToken +
-        kvTransferOverheadMs
-      ).toFixed(3),
-    );
-    const ttftReductionMs = Number(Math.max(0, baselineTtftMs - estimatedTtftMs).toFixed(3));
-    const ttftReductionPct =
-      baselineTtftMs > 0 ? Number(((ttftReductionMs / baselineTtftMs) * 100).toFixed(2)) : 0;
+    const latency = prefillSpec.latency;
+    let baselineTtftMs: number | null = null;
+    let estimatedTtftMs: number | null = null;
+    let ttftReductionMs: number | null = null;
+    let ttftReductionPct: number | null = null;
+    if (latency) {
+      const kvTransferMs = disaggregated && prefillNode !== decodeNode ? latency.kvTransferMs : 0;
+      baselineTtftMs = Number((latency.baseTtftMs + totalTokens * latency.msPerPrefillToken).toFixed(3));
+      estimatedTtftMs = Number(
+        (latency.baseTtftMs + uncachedPrefillTokens * latency.msPerPrefillToken + kvTransferMs).toFixed(3),
+      );
+      ttftReductionMs = Number(Math.max(0, baselineTtftMs - estimatedTtftMs).toFixed(3));
+      ttftReductionPct = baselineTtftMs > 0 ? Number(((ttftReductionMs / baselineTtftMs) * 100).toFixed(2)) : 0;
+    }
     const prefixHitRatio =
       totalTokens > 0 ? Number((savedPrefillTokens / totalTokens).toFixed(4)) : 0;
     const kvCacheHit = matchedBlocks > 0;
@@ -1201,7 +1200,7 @@ export class PrefixKvRagStore {
       total_routes: number;
       total_hits: number;
       total_saved_tokens: number;
-      avg_ttft_reduction_pct: number;
+      avg_ttft_reduction_pct: number | null;
     };
     const blockCnt = (this.stmtCountBlocks.get() as { cnt: number }).cnt;
     const docCnt = (this.stmtCountDocs.get() as { cnt: number }).cnt;
@@ -1223,7 +1222,7 @@ export class PrefixKvRagStore {
       cacheHitRate:
         agg.total_routes > 0 ? Number((agg.total_hits / agg.total_routes).toFixed(4)) : 0,
       totalSavedPrefillTokens: agg.total_saved_tokens,
-      avgTtftReductionPct: Number(agg.avg_ttft_reduction_pct.toFixed(2)),
+      avgTtftReductionPct: agg.avg_ttft_reduction_pct === null ? null : Number(agg.avg_ttft_reduction_pct.toFixed(2)),
       cachedKvBlocks: blockCnt,
       ragDocuments: docCnt,
       journalMode: modeRow?.journal_mode ?? "unknown",
@@ -1506,7 +1505,7 @@ export function createBunNativeAiHandler(options: BunNativeAiHandlerOptions = {}
         route.kvCacheHit
           ? ` kv_hit=${route.savedPrefillTokens}tok`
           : ` kv_miss=${route.totalTokens}tok`,
-        ` ttft=${route.estimatedTtftMs}ms`,
+        route.estimatedTtftMs === null ? "" : ` ttft=${route.estimatedTtftMs}ms`,
         toolOutputSummary,
       ].filter((t) => t.length > 0);
 

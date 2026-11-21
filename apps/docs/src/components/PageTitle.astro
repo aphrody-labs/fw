@@ -1,0 +1,21 @@
+---
+const { entry } = Astro.locals.starlightRoute;
+const crumbs = entry.data.breadcrumbs ?? [];
+---
+
+{
+  crumbs.length > 1 && (
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        {crumbs.map((crumb, index) =>
+          index < crumbs.length - 1 ? (
+            <li><a href={crumb.path}>{crumb.name}</a></li>
+          ) : (
+            <li aria-current="page">{crumb.name}</li>
+          ),
+        )}
+      </ol>
+    </nav>
+  )
+}
+<h1 id="_top" data-page-title>{entry.data.title}</h1>

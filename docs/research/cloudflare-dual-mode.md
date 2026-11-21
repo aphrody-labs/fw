@@ -1,6 +1,6 @@
 # Cloudflare dual mode: every service on Cloudflare and on our nodes
 
-Lot `docs/agents/queue/cloudflare-dual-mode-parity.md`. State of 2026-11-21. Every figure below comes from a command run on that day on `fr1` or `prd` (hosts from `cluster/build.toml`); `fw-workerd` is `crates/fw-workerd`, the declaration is `cluster/dual-mode.toml`.
+Lot `docs/agents/queue/cloudflare-dual-mode-parity.md`. State of 2026-11-21. `cluster/build.toml` now names the nodes `n1` (alias `fr1`) and `n2` (alias `prd`); `fw-workerd` accepts either, `cluster/dual-mode.toml` lists `n1` and `n2`, and the measurements below keep the names they were taken under (`fr1`, `prd`). `cluster/estate.toml` lists `selfhosted_hosts = ["n1", "n2"]` for fw-edge, material-cdn, ay-edge, auto and aphrody-web; `media-cdn` (bucket `aphrody-media`, bindings `MEDIA` and `IMAGES`) is cloud-only for now, and the Images binding has no self-hosted implementation. Every figure below comes from a command run on that day on `fr1` or `prd` (hosts from `cluster/build.toml`); `fw-workerd` is `crates/fw-workerd`, the declaration is `cluster/dual-mode.toml`.
 
 ## Decisions
 

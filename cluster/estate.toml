@@ -66,6 +66,9 @@ source = "https://developers.cloudflare.com/fundamentals/api/get-started/create-
 [practice."registrar.ds-missing"]
 rule = "the DS record Cloudflare generates is published at the registrar"
 source = "https://developers.cloudflare.com/dns/zone-setups/dnssec/enable-dnssec/"
+[practice."zone.isolation"]
+rule = "web and Wasm surfaces send COOP same-origin and COEP require-corp; their first-party static hosts send CORP cross-origin; verified with crossOriginIsolated === true"
+source = "https://web.dev/articles/coop-coep"
 [practice."vps.firewall"]
 rule = "a provider firewall in front of every VPS"
 source = "https://developers.hostinger.com/"
@@ -202,6 +205,7 @@ domain = [
 [zone."aphrody.com"]
 dnssec = true
 record = [
+  'CNAME vault proxied | tunnel:vault',
   'AAAA media proxied | worker',
   'CAA @ | 0 issue "letsencrypt.org"',
   'CAA @ | 0 issue "pki.goog; cansignhttpexchanges=yes"',
@@ -321,6 +325,20 @@ domain = [
   "mcp.aphrody.com => aphrody-mcp-gateway",
   "www.aphrody.com => aphrody",
 ]
+
+# Cross-origin isolation (crossOriginIsolated, SharedArrayBuffer, Wasm threads): the web surface sends COOP same-origin and COEP require-corp;
+# every first-party static host an isolated page loads from sends CORP cross-origin. Not applied to the WebOS app hosts: COOP same-origin
+# severs window.opener (OAuth popups) and COEP require-corp blocks third-party embeds, so each app needs its own test first.
+# Source: https://web.dev/articles/coop-coep and https://developers.cloudflare.com/rules/transform/response-header-modification/
+[[zone."aphrody.com".header_rule]]
+description = "cross-origin isolation of the web surface"
+expression = '(http.host eq "web.aphrody.com") or (http.host eq "aphrody.com" and starts_with(http.request.uri.path, "/web"))'
+set = { "Cross-Origin-Opener-Policy" = "same-origin", "Cross-Origin-Embedder-Policy" = "require-corp" }
+
+[[zone."aphrody.com".header_rule]]
+description = "first-party static hosts loadable from isolated pages"
+expression = 'http.host in {"web.aphrody.com" "wasm.aphrody.com" "material.aphrody.com" "media.aphrody.com" "assets.aphrody.com" "cdn.aphrody.com" "releases.aphrody.com" "downloads.aphrody.com"}'
+set = { "Cross-Origin-Resource-Policy" = "cross-origin" }
 
 [zone."dragonballfr.com"]
 dnssec = true
@@ -672,7 +690,7 @@ bindings = ["r2:CDN_BUCKET->rosegriffon-cdn"]
 # move to r2-trash/<stamp>/ instead of vanishing from the copy.
 [backup]
 host = "n1"
-subdir = "backup/cloudflare"
+subdir = "cloudflare-backup"
 rclone_remote = "r2"
 skip_buckets = ["aphrody-sccache"]
 schedule = "*-*-* 03:30:00 UTC"

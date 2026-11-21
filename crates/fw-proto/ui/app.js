@@ -447,7 +447,7 @@ async function loadSystem() {
   const facts = [
     ["Product", h.product ?? "fw"],
     ["Version", h.version ?? "unknown"],
-    ["Runtime", h.runtime ?? (h.zeroSystemDeps ? "native" : "unknown")],
+    ["Runtime", h.runtime ?? (h.crtStatic === undefined ? "unknown" : h.crtStatic ? "native, static C runtime" : "native, dynamic C runtime")],
     ["Environment", h.env ?? "local"],
   ];
   if (h.deployment?.id) facts.push(["Deployment", h.deployment.id.slice(0, 8)]);

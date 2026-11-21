@@ -56,7 +56,7 @@ impl Window {
             keys: 0,
             last_step: 0.0,
             square: (40.0, 40.0),
-            bar: 0,
+            bar: width / 2,
         };
         window.reallocate(width, height);
         window

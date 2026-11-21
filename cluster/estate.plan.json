@@ -1,13 +1,5 @@
 {
   "schema": 1,
-  "estate_sha256": "81bfebff5594a1b49e24bca6c719897658dd6e7b58a2024b4f36d79d01492769",
-  "actions": [
-    {
-      "op": "create",
-      "kind": "domain",
-      "scope": "aphrody.com",
-      "target": "media.aphrody.com",
-      "detail": "media-cdn"
-    }
-  ]
+  "estate_sha256": "326b816bb3736ecfd0ae9801c6f3f1ca2536057f09f79263a438776b2a649b20",
+  "actions": []
 }

@@ -26,7 +26,7 @@ use fw_ggml::{encode_gguf_header, parse_gguf_header, rpc_get_device_memory, spaw
 use fw_nix::compute_fixed_output_store_entry;
 use fw_ostd_wasm::{boot_ostd_gpui_snapshot, GpuiWasmScene};
 use fw_proto::{build_openapi_3_1, serve};
-use fw_ui_blitz::render_cluster_hud_png;
+use fw_ui_blitz::{render_cluster_hud_png, HudCard};
 use fw_unified_stack::{
     default_burn_rig_pipeline, encode_kitty_graphics_rgba_header, encode_kitty_keyboard_enable,
     encode_osc133_prompt_start, hex_voice_status, unified_v4_catalog, yazi_list_dir,
@@ -278,7 +278,7 @@ fn main() {
                     "ok": true,
                     "product": "fw",
                     "version": env!("CARGO_PKG_VERSION"),
-                    "zeroSystemDeps": true,
+                    "crtStatic": fw_proto::CRT_STATIC,
                     "hardware": hw,
                     "cluster": {
                         "name": cluster.cluster_name,
@@ -371,7 +371,15 @@ fn main() {
                 .and_then(|i| args.get(i + 1))
                 .map(PathBuf::from)
                 .unwrap_or_else(|| PathBuf::from("target/blitz-proof.png"));
-            match render_cluster_hud_png(&out, 640, 360) {
+            let cards: Vec<HudCard> = fw_proto::discover_router()
+                .nodes
+                .iter()
+                .map(|node| HudCard {
+                    accelerated: matches!(node.kind, fw_cluster::NodeKind::BaseCudaPc | fw_cluster::NodeKind::GpuHost),
+                    healthy: node.healthy,
+                })
+                .collect();
+            match render_cluster_hud_png(&out, 640, 360, &cards) {
                 Ok(rep) => println!("{}", serde_json::to_string_pretty(&rep).unwrap()),
                 Err(e) => {
                     eprintln!("fw ui: cannot render {}: {e}", out.display());
@@ -727,6 +735,7 @@ fn main() {
         }
         "graph" | "graphify" => std::process::exit(run_sibling("graph", "fw-graph", &args[1..])),
         "corpus" => std::process::exit(run_sibling("corpus", "fw-corpus", &args[1..])),
+        "site" => std::process::exit(run_sibling("site", "fw-site", &args[1..])),
         "mem" | "memory" | "claude-mem" => {
             let store = auto_learn::XfsDatasetStore::resolve(None);
             match auto_learn::run_claude_mem_cli(&args[1..], &store) {

@@ -9,6 +9,7 @@ import openclawFwPlugin, {
 import {
   computeChainedPrefixBlocks,
   createBunNativeAiHandler,
+  DEFAULT_CLUSTER_NODES,
   KV_BLOCK_TOKEN_SIZE,
   PrefixKvRagStore,
   RuntimeToolRegistry,
@@ -168,7 +169,12 @@ describe("Fw Bun Native AI Runtime — 3 Pillars (zero external deps)", () => {
       const dbPath = join(tmpDir, "kv-rag.sqlite");
 
       try {
-        const store = new PrefixKvRagStore(dbPath);
+        // Test fixture: the production nodes carry no latency because nothing measured one, so the TTFT figures need these.
+        const fixtureLatency = { baseTtftMs: 20, msPerPrefillToken: 0.5, msPerDecodeToken: 8, kvTransferMs: 1 };
+        const store = new PrefixKvRagStore(
+          dbPath,
+          DEFAULT_CLUSTER_NODES.map((node) => ({ ...node, latency: fixtureLatency })),
+        );
         expect(store.getStats().journalMode.toLowerCase()).toBe("wal");
 
         const coldPrompt = `${SHARED_SYSTEM_PREFIX} Compute attention latency on fr1 prefill worker.`;

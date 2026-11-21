@@ -19,7 +19,7 @@ r2_bucket = "fw-edge-r2"
 name = "material-cdn"
 wrangler = "cloudflare/material-cdn/wrangler.jsonc"
 port = 8811
-hosts = ["fr1", "prd"]
+hosts = ["n1", "n2"]
 cloud_url = "https://material.aphrody.com"
 secrets = []
 

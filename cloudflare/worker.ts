@@ -3015,19 +3015,19 @@ export default {
       return json({
         ok: true,
         modernRustClis: [
-          { rank: 1, name: "uv", stars_nov_2026: 92397 },
-          { rank: 2, name: "rg", stars_nov_2026: 70058 },
-          { rank: 3, name: "bat", stars_nov_2026: 61307 },
-          { rank: 4, name: "fd", stars_nov_2026: 45110 },
-          { rank: 5, name: "yazi", stars_nov_2026: 43515 },
-          { rank: 6, name: "nu", stars_nov_2026: 41035 },
+          { rank: 1, name: "uv" },
+          { rank: 2, name: "rg" },
+          { rank: 3, name: "bat" },
+          { rank: 4, name: "fd" },
+          { rank: 5, name: "yazi" },
+          { rank: 6, name: "nu" },
         ],
         protocolsAndAgentOs: [
-          { rank: 1, name: "openclaw", stars_nov_2026: 394799 },
-          { rank: 2, name: "hermes-agent", stars_nov_2026: 264635 },
-          { rank: 3, name: "zeroclaw", stars_nov_2026: 33488 },
-          { rank: 4, name: "agentskills", stars_nov_2026: 27455 },
-          { rank: 5, name: "rmcp", stars_nov_2026: 4125 },
+          { rank: 1, name: "openclaw" },
+          { rank: 2, name: "hermes-agent" },
+          { rank: 3, name: "zeroclaw" },
+          { rank: 4, name: "agentskills" },
+          { rank: 5, name: "rmcp" },
         ],
       });
     }
