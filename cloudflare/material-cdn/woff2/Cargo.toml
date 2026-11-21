@@ -1,0 +1,24 @@
+[package]
+name = "material-cdn-woff2"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+description = "WOFF2 encoder for the material.aphrody.com Worker: a dependency-free wasm32 module (no imports) around ttf2woff2."
+
+# Standalone: built by tools/material-cdn/wasm.ts, not part of the fw workspace.
+[workspace]
+
+[lib]
+path = "src/woff2.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+ttf2woff2 = { version = "0.14", default-features = false, features = ["portable-float"] }
+
+[profile.release]
+opt-level = "s"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true

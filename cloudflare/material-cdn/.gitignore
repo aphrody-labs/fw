@@ -1,0 +1,5 @@
+node_modules/
+.wrangler/
+wasm/
+woff2/target/
+worker-configuration.d.ts

@@ -1,0 +1,19 @@
+{
+  "name": "material-cdn",
+  "private": true,
+  "type": "module",
+  "description": "material.aphrody.com Worker: serves the Material CDN tree from R2 and builds icon and font subsets on demand (HarfBuzz hb-subset and a Rust WOFF2 encoder, both wasm).",
+  "scripts": {
+    "wasm": "bun ../../tools/material-cdn/wasm.ts",
+    "test": "bun test",
+    "deploy": "bun run wasm && wrangler deploy",
+    "typecheck": "wrangler types && tsc -p .",
+    "types": "wrangler types"
+  },
+  "dependencies": {
+    "harfbuzzjs": "1.6.4"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}
