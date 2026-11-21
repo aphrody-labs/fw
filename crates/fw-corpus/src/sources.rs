@@ -221,7 +221,7 @@ pub fn all() -> Vec<Source> {
         },
         Source {
             id: "rust",
-            title: "Rust book, reference, rustc dev guide, nomicon, edition guide",
+            title: "Rust book, reference, rustc book (platform support), rustdoc book, unstable book, rustc dev guide, nomicon, edition guide",
             kind: Kind::Github(Github {
                 id: "rust",
                 repos: &[
@@ -230,6 +230,10 @@ pub fn all() -> Vec<Source> {
                     Repo { repo: "rust-lang/rustc-dev-guide", prefix: "src/", map: UrlMap::MdBook("https://rustc-dev-guide.rust-lang.org"), license: MIT_APACHE },
                     Repo { repo: "rust-lang/nomicon", prefix: "src/", map: UrlMap::MdBook("https://doc.rust-lang.org/nomicon"), license: MIT_APACHE },
                     Repo { repo: "rust-lang/edition-guide", prefix: "src/", map: UrlMap::MdBook("https://doc.rust-lang.org/edition-guide"), license: MIT_APACHE },
+                    Repo { repo: "rust-lang/rust", prefix: "src/doc/rustc/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/rustc"), license: MIT_APACHE },
+                    Repo { repo: "rust-lang/rust", prefix: "src/doc/rustdoc/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/rustdoc"), license: MIT_APACHE },
+                    Repo { repo: "rust-lang/rust", prefix: "src/doc/unstable-book/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/nightly/unstable-book"), license: MIT_APACHE },
+                    Repo { repo: "rust-lang/rust", prefix: "src/doc/style-guide/src/", map: UrlMap::MdBook("https://doc.rust-lang.org/nightly/style-guide"), license: MIT_APACHE },
                 ],
             }),
         },
