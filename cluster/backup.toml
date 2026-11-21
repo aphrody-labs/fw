@@ -1,0 +1,48 @@
+# Off-site backup of production data to Cloudflare R2, encrypted client-side by restic (R2 also encrypts at rest).
+# Read by configs/claude/scripts/offsite-backup.ts; no host, bucket or path is named anywhere else.
+
+[offsite]
+host = "prd"                              # ssh alias of the host that holds the data and runs the job
+bucket = "shenron-backups"                # dedicated R2 bucket, never the build-cache bucket
+repository_path = "restic"                # prefix inside the bucket
+staging = "/var/lib/offsite-backup"       # root-only scratch for dumps and read-back restores
+config_dir = "/etc/offsite-backup"        # r2.env (bucket-scoped S3 credentials) and restic.password, root 0600
+schedule = "*-*-* 04:00:00 UTC"
+verify_data_subset = "5%"                 # restic check --read-data-subset, on top of the full read-back compare
+max_snapshot_age_hours = 36
+escrow_host = "fr1"                       # second copy of restic.password, so losing the data host never loses the key
+escrow_path = ".aphrody/private/offsite/restic.password"
+retired_units = ["shenron-dbfr-backup.timer"]   # replaced by this job (the DBFR target, fr2, is down)
+
+[offsite.keep]
+daily = 7
+weekly = 4
+monthly = 6
+
+# kind = "snapshot-dir": newest timestamped directory holding VERIFIED.json, gated and hash-checked before upload.
+# kind = "postgres-docker" | "postgres-host": pg_dump custom format (restore-list checked) plus plain SQL (restores into any major).
+[[sources]]
+name = "shenron-container"
+kind = "snapshot-dir"
+path = "/srv/shenron/data/backups/container"
+
+[[sources]]
+name = "shenron_site"
+kind = "postgres-docker"
+container = "shenron-postgres"
+user = "postgres"
+database = "shenron_site"
+
+[[sources]]
+name = "nie"
+kind = "postgres-docker"
+container = "nie-pg"
+user = "nie"
+database = "nie"
+
+[[sources]]
+name = "rg"
+kind = "postgres-host"
+unix_user = "postgres"
+port = 5433
+database = "rg"
