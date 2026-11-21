@@ -79,7 +79,7 @@ describe("ay unified CLI", () => {
       expect(out.exitCode).toBe(0);
       const text = out.stdout.toString();
       expect(text).toContain(`ay ${name}`);
-      expect(text).toContain(`script: tools/${name}.ts`);
+      expect(text).toContain(`script: ${name === "release-publish" ? "../" : ""}tools/${name}.ts`);
     }
   });
 

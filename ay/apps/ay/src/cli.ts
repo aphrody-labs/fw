@@ -39,7 +39,7 @@ function findRepoRoot(startDir: string): string {
   while (true) {
     if (
       Bun.file(join(current, "package.json")).size > 0 &&
-      Bun.file(join(current, "Cargo.toml")).size > 0
+      Bun.file(join(current, "ay.toml")).size > 0
     ) {
       return current;
     }
