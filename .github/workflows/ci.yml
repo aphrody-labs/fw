@@ -168,3 +168,12 @@ jobs:
         run: |
           bun test ./configs/claude/scripts/rust-stack.test.ts
           bun configs/claude/scripts/rust-stack.ts --check
+
+  retired-surfaces:
+    name: Retired surfaces and Claude config gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: No relay hub, fr2 or agy tooling outside the history notes; config script tests; claude-bridge over stdio
+        run: bun configs/claude/scripts/check.ts

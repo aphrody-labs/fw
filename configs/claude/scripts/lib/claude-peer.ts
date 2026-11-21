@@ -164,7 +164,8 @@ export function queueMail(
   const dir = mailboxDir(sessionId, home);
   mkdirSync(dir, { recursive: true });
   const at = Date.now();
-  const file = join(dir, `${String(at).padStart(15, "0")}-${randomUUID()}.json`);
+  const order = String(process.hrtime.bigint()).padStart(20, "0");
+  const file = join(dir, `${order}-${randomUUID()}.json`);
   writeFileSync(file, JSON.stringify({ from: sender, text, at } satisfies MailItem));
   return file;
 }
