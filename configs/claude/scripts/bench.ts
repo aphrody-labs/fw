@@ -280,22 +280,8 @@ export const SCRIPT_CASES: Array<{
   payload?: Record<string, unknown>;
 }> = [
   {
-    id: "memory-search",
-    command:
-      "bun --no-install --no-env-file scripts/memory.ts search fleet roles",
-  },
-  {
-    id: "cron-list",
-    command: "bun --no-install --no-env-file scripts/cron.ts list",
-  },
-  {
     id: "skills-audit",
     command: "bun --no-install --no-env-file scripts/skills.ts",
-  },
-  { id: "graph", command: "bun --no-install --no-env-file scripts/graph.ts" },
-  {
-    id: "matrix-check",
-    command: "bun --no-install --no-env-file scripts/matrix.ts --check",
   },
 ];
 
