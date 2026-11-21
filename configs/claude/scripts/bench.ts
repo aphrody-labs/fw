@@ -12,7 +12,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { discoverWorkspaceRoot, REPO_ROOT, runCmd, toSlash } from "./lib.ts";
+import { REPO_ROOT, runCmd, toSlash } from "./lib.ts";
 
 export interface HookCase {
   id: string;
@@ -279,15 +279,6 @@ export const SCRIPT_CASES: Array<{
   command: string;
   payload?: Record<string, unknown>;
 }> = [
-  {
-    id: "statusline",
-    command: "bun --no-install --no-env-file scripts/statusline.ts",
-    payload: {
-      model: { display_name: "Sonnet" },
-      cwd: discoverWorkspaceRoot(),
-      context_window: { used_percentage: 42 },
-    },
-  },
   {
     id: "memory-search",
     command:

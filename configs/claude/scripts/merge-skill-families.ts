@@ -1,8 +1,7 @@
 #!/usr/bin/env bun
 // Merges families of near-related skills of the aphrody plugin into one parent skill per family, without losing content.
-//   bun scripts/merge-skill-families.ts [--skills <dir>]... [--dry-run] [--no-backup]
-// Source of truth is ~/.gemini/plugins/aphrody/skills (scripts/align-agy.ts mirrors it into packages/aphrody/skills).
-// By default both gemini copies (plugins/aphrody and config/plugins/aphrody) are processed.
+//   bun scripts/merge-skill-families.ts --skills <dir> [--skills <dir>]... [--dry-run] [--no-backup]
+// The plugin source is plugins/aphrody/skills of the fw repository; scripts/unify.ts of that plugin runs the same merge.
 // Per family: the parent SKILL.md becomes a short router; each old SKILL.md body moves to <parent>/references/<child>.md
 // (original frontmatter kept verbatim in an HTML comment, description kept as the first line), every other file of the old
 // skill moves to <parent>/references/<child>/, and relative paths inside the moved body are rewritten to stay valid from the
@@ -563,33 +562,6 @@ export function brokenRefs(root: string, parent: string): string[] {
   return out;
 }
 
-// --- gemini scripts: keep merged names from being copied or vendored back --------------------------
-export function writeMergedList(scriptsDir: string): void {
-  const map: Record<string, string> = {};
-  for (const f of FAMILIES) for (const c of f.children) map[c] = f.parent;
-  writeFileSync(
-    join(scriptsDir, "merged-skills.json"),
-    `${JSON.stringify(map, null, 2)}\n`,
-  );
-  const vs = join(scriptsDir, "vendor-skills.ts");
-  if (!existsSync(vs)) return;
-  const t = readFileSync(vs, "utf8");
-  if (t.includes("merged-skills.json")) return;
-  const head = `import merged from "./merged-skills.json" with { type: "json" };`;
-  const decl = "export const SUPERSEDED: Record<string, string> = {\n";
-  if (!t.includes(decl))
-    throw new Error("vendor-skills.ts: SUPERSEDED declaration not found");
-  const spread = `  ...Object.fromEntries(Object.entries(merged).map(([c, p]) => [c, \`merged into the \${p} skill (references/\${c}.md)\`])),\n`;
-  writeFileSync(vs, insertImport(t, head).replace(decl, decl + spread));
-}
-
-function insertImport(t: string, line: string): string {
-  const lines = t.split("\n");
-  const last = lines.reduce((acc, l, i) => (/^import\b/.test(l) ? i : acc), -1);
-  lines.splice(last + 1, 0, line);
-  return lines.join("\n");
-}
-
 // --- cli -------------------------------------------------------------------------------------------
 async function backup(roots: string[]): Promise<string> {
   const stamp = new Date()
@@ -615,11 +587,10 @@ if (import.meta.main) {
   const roots: string[] = [];
   for (let i = 0; i < argv.length; i++)
     if (argv[i] === "--skills") roots.push(argv[++i] ?? "");
-  if (!roots.length)
-    roots.push(
-      join(HOME, ".gemini", "plugins", "aphrody", "skills"),
-      join(HOME, ".gemini", "config", "plugins", "aphrody", "skills"),
-    );
+  if (!roots.length) {
+    console.error("usage: merge-skill-families.ts --skills <dir> [--skills <dir>]... [--dry-run] [--no-backup]");
+    process.exit(1);
+  }
   const live = roots.filter((r) => existsSync(r) && statSync(r).isDirectory());
   if (!dry && !argv.includes("--no-backup"))
     console.log("backup:", await backup(live));
@@ -640,7 +611,5 @@ if (import.meta.main) {
       );
     }
   }
-  if (!dry && !argv.includes("--skills"))
-    writeMergedList(join(HOME, ".gemini", "scripts"));
   console.log("done");
 }

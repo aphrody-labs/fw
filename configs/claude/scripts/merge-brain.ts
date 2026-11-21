@@ -7,8 +7,8 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs";
-import { basename, join } from "node:path";
-import { discoverSrcRoot, HOME, REPO_ROOT } from "./lib.ts";
+import { join } from "node:path";
+import { HOME, REPO_ROOT } from "./lib.ts";
 
 const MERGED_LEGACY_FILES = new Set([
   "agent-report-vs-request.md",
@@ -56,7 +56,6 @@ const MERGED_LEGACY_FILES = new Set([
   "product-split-vitrine-launcher.md",
   "product-split.md",
   "proof-not-http-200.md",
-  "relay-down-fallbacks.md",
   "requirements-ledger.md",
   "reuse-one-year-of-work.md",
   "reuse-research-purge-perf.md",
@@ -229,23 +228,7 @@ function cleanupLegacyAndClutter(): void {
     }
   }
 
-  // 5. Clean stale empty or expired (>14d) brain dirs without touching active sessions
-  const brainDir = join(HOME, ".gemini", "antigravity-cli", "brain");
-  const cutoffMs = Date.now() - 14 * 24 * 60 * 60 * 1000;
-  if (existsSync(brainDir)) {
-    for (const entry of readdirSync(brainDir)) {
-      if (entry === process.env.ANTIGRAVITY_CONVERSATION_ID) continue;
-      const full = join(brainDir, entry);
-      const st = statSync(full);
-      if (!st.isDirectory()) continue;
-      const items = readdirSync(full);
-      if (items.length === 0 || st.mtimeMs < cutoffMs) {
-        rmSync(full, { recursive: true, force: true });
-      }
-    }
-  }
-
-  // 6. Clean broken ~/.hermes/skills symlinks, legacy ~/.agents/SOUL.md, pre-tool-guard.ts, old aphrody-skills copies
+  // 5. Clean broken ~/.hermes/skills symlinks, legacy ~/.agents/SOUL.md and pre-tool-guard.ts
   const hermesSkills = join(HOME, ".hermes", "skills");
   if (existsSync(hermesSkills)) {
     for (const entry of readdirSync(hermesSkills)) {
@@ -256,11 +239,8 @@ function cleanupLegacyAndClutter(): void {
   for (const deadPath of [
     join(HOME, ".agents", "SOUL.md"),
     join(HOME, ".agents", "scripts", "pre-tool-guard.ts"),
-    join(HOME, ".gemini", "config", "plugins", "aphrody-skills"),
-    join(HOME, ".gemini", "antigravity-cli", "plugins", "aphrody-skills"),
-    join(HOME, ".gemini", "extensions", "aphrody-skills"),
   ]) {
-    if (existsSync(deadPath) || basename(deadPath) === "aphrody-skills") {
+    if (existsSync(deadPath)) {
       try {
         rmSync(deadPath, { recursive: true, force: true });
       } catch {
@@ -269,7 +249,7 @@ function cleanupLegacyAndClutter(): void {
     }
   }
 
-  // Clean legacy Codex TOML sections and AGY CLI legacy workspace entries.
+  // Clean legacy Codex TOML sections.
   const codexToml = join(HOME, ".codex", "config.toml");
   if (existsSync(codexToml)) {
     const raw = readFileSync(codexToml, "utf8");
@@ -281,49 +261,6 @@ function cleanupLegacyAndClutter(): void {
         .replace(/\n{3,}/g, "\n\n")
         .trimEnd() + "\n";
     if (next !== raw) writeFileSync(codexToml, next, "utf8");
-  }
-
-  const agyConfigPath = join(HOME, ".gemini", "config", "config.json");
-  if (existsSync(agyConfigPath)) {
-    const srcRoot = discoverSrcRoot();
-    const srcWin = srcRoot.replaceAll("/", "\\\\");
-    const raw = readFileSync(agyConfigPath, "utf8");
-    const cleaned = raw
-      .replaceAll("C:\\\\aphrody", srcWin)
-      .replaceAll("C:/aphrody", srcRoot); // paths:ok: stale legacy root
-    if (cleaned !== raw) writeFileSync(agyConfigPath, cleaned, "utf8");
-  }
-
-  const agyCliSettings = join(
-    HOME,
-    ".gemini",
-    "antigravity-cli",
-    "settings.json",
-  );
-  if (existsSync(agyCliSettings)) {
-    try {
-      const data = JSON.parse(readFileSync(agyCliSettings, "utf8")) as {
-        trustedWorkspaces?: string[];
-      };
-      if (Array.isArray(data.trustedWorkspaces)) {
-        const filtered = data.trustedWorkspaces.filter(
-          (w) =>
-            existsSync(w) &&
-            !/[\\/](gpui-os|labs)$/i.test(w) &&
-            !/^[a-z]:[\\/]aphrody(?:[\\/]|$)/i.test(w),
-        );
-        if (filtered.length !== data.trustedWorkspaces.length) {
-          data.trustedWorkspaces = filtered;
-          writeFileSync(
-            agyCliSettings,
-            `${JSON.stringify(data, null, 2)}\n`,
-            "utf8",
-          );
-        }
-      }
-    } catch {
-      // Ignore parse error.
-    }
   }
 }
 

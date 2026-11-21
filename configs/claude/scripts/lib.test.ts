@@ -146,7 +146,6 @@ describe("templateVars", () => {
         "HOME",
         "HOME_WIN",
         "REPO_ROOT",
-        "RELAY_URL",
         "SRC_ROOT",
         "SRC_ROOT_WIN",
         "WORKSPACE_ROOT",
@@ -156,6 +155,5 @@ describe("templateVars", () => {
     expect(v.HOME).not.toContain("\\");
     expect(v.REPO_ROOT).not.toContain("\\");
     expect(v.HOME_WIN).toBe(v.HOME!.replaceAll("/", "\\"));
-    expect(v.RELAY_URL).toBe(process.env.RELAY_URL ?? "http://127.0.0.1:8790");
   });
 });

@@ -169,7 +169,6 @@ export function templateVars(): Record<string, string> {
     SRC_ROOT_WIN: srcRoot.replaceAll("/", "\\"),
     WORKSPACE_ROOT: wsRoot,
     WORKSPACE_ROOT_WIN: wsRoot.replaceAll("/", "\\"),
-    RELAY_URL: process.env.RELAY_URL ?? "http://127.0.0.1:8790",
   };
 }
 
