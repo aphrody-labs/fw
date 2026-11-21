@@ -72,7 +72,7 @@ struct Page {
 }
 
 pub fn sync(client: &Client, store: &mut Store, spec: &Sitemap, opts: &Opts) -> Result<Report> {
-    let mut report = Report::new(&spec.id);
+    let mut report = Report::new(spec.id);
     let mut all = entries(client, spec.sitemap)?;
     all.retain(|entry| !entry.loc.contains('?') && (spec.filter)(&entry.loc));
     let mut seen = HashSet::new();

@@ -150,9 +150,12 @@ pub struct Robots {
     rules: Vec<(bool, String)>,
 }
 
+/// User-agent names and the (allow, path) rules that apply to them.
+type RobotsGroup = (Vec<String>, Vec<(bool, String)>);
+
 impl Robots {
     pub fn parse(text: &str) -> Self {
-        let mut groups: Vec<(Vec<String>, Vec<(bool, String)>)> = Vec::new();
+        let mut groups: Vec<RobotsGroup> = Vec::new();
         let mut collecting_agents = false;
         for line in text.lines() {
             let line = line.split('#').next().unwrap_or("").trim();
