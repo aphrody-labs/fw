@@ -23,6 +23,7 @@ fn serve(base: &Path, name: &str) -> (String, String) {
     let work = base.join(format!("work-{name}"));
     std::fs::create_dir_all(&work).expect("mkdir");
     run(&work, &["init", "-q", "-b", "main"]);
+    run(&work, &["config", "core.autocrlf", "false"]);
     run(&work, &["config", "user.name", "test"]);
     run(&work, &["config", "user.email", "test@example.com"]);
     write(&work.join("Makefile"), "all:\n");
@@ -44,6 +45,12 @@ fn serve(base: &Path, name: &str) -> (String, String) {
     (first, second)
 }
 
+/// A `file://` URL of a local directory (`file:///C:/...` on Windows), so that git honours depth and filters.
+fn file_url(directory: &Path) -> String {
+    let path = directory.display().to_string().replace('\\', "/");
+    if path.starts_with('/') { format!("file://{path}") } else { format!("file:///{path}") }
+}
+
 fn arguments(root: &Path, rest: &[&str]) -> Vec<String> {
     let mut all = vec![rest[0].to_owned(), "--root".to_owned(), root.display().to_string()];
     all.extend(rest[1..].iter().map(|argument| (*argument).to_owned()));
@@ -55,7 +62,7 @@ fn pin_sync_and_status_follow_the_tags() {
     let temporary = tempfile::tempdir().expect("tempdir");
     let base = temporary.path().join("remotes");
     let (first, second) = serve(&base, "fork");
-    let remotes = Remotes::new(&format!("file://{}", base.display().to_string().replace('\\', "/")));
+    let remotes = Remotes::new(&file_url(&base));
 
     let root = temporary.path().join("fw");
     std::fs::create_dir_all(&root).expect("mkdir");
@@ -109,7 +116,7 @@ fn a_tag_missing_from_the_fork_is_a_problem() {
     let temporary = tempfile::tempdir().expect("tempdir");
     let base = temporary.path().join("remotes");
     let (first, _) = serve(&base, "fork");
-    let remotes = Remotes::new(&format!("file://{}", base.display().to_string().replace('\\', "/")));
+    let remotes = Remotes::new(&file_url(&base));
     let root = temporary.path().join("fw");
     std::fs::create_dir_all(&root).expect("mkdir");
     write(

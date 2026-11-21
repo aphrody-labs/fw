@@ -43,6 +43,8 @@ fn sync_tree(root: &Path, pins: &Pins, remotes: &Remotes, tree: &Tree, profile_o
     let fresh = !directory.join(".git").exists();
     if fresh {
         init(root, &directory, &tree.path)?;
+        // Kernel files are byte-exact: no end-of-line conversion whatever the user's global git config says.
+        git(Some(&directory), &["config", "core.autocrlf", "false"])?;
     }
     if git(Some(&directory), &["remote", "get-url", "origin"]).is_ok() {
         git(Some(&directory), &["remote", "set-url", "origin", &url])?;
