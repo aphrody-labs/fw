@@ -56,6 +56,7 @@ pub fn harvest(store: &Store, options: &HarvestOptions) -> Result<Value> {
     timed(&mut report, "legacy", || graph::import_legacy(store), |count| json!({ "imported": count }));
     let mut repos = Vec::new();
     for (index, path) in options.repos.iter().enumerate() {
+        let fetched = if options.remote && options.rev.is_none() { Some(products::git(path, &["fetch", "--quiet", "origin", "main"]).map_err(|error| format!("{error:#}"))) } else { None };
         let repo = Repo::open(path, options.rev.as_deref()).with_context(|| format!("open {}", path.display()))?;
         let mut entry = serde_json::Map::new();
         let tree = repo.tree()?;
@@ -66,6 +67,9 @@ pub fn harvest(store: &Store, options: &HarvestOptions) -> Result<Value> {
             store.conn.execute("INSERT INTO product(repo, id, display, description, dir, docs_url) VALUES (?1,?2,?3,?4,?5,?6)", params![repo.name, product.id, product.display, product.description, product.dir, product.docs_url])?;
         }
         entry.insert("rev".to_owned(), json!(repo.short_head()));
+        if let Some(Err(error)) = fetched {
+            entry.insert("fetchError".to_owned(), json!(error));
+        }
         entry.insert("products".to_owned(), json!(list.iter().map(|product| product.id.as_str()).collect::<Vec<_>>()));
         let limit = if index == 0 { options.max_commits } else { options.max_commits.min(5000) };
         timed(&mut entry, "commits", || git::harvest(store, &repo, &list, &areas, limit), |count| json!({ "stored": count }));
@@ -81,7 +85,8 @@ pub fn harvest(store: &Store, options: &HarvestOptions) -> Result<Value> {
                 let key = format!("graph:{}:{}", repo.name, product.id);
                 let due = store.state(&key)?.and_then(|state| state.split_once(' ').map(|(head, at)| (head.to_owned(), at.parse::<i64>().unwrap_or(0)))).is_none_or(|(head, at)| head != repo.head && now() - at >= options.graph_interval);
                 if due {
-                    timed(&mut entry, &format!("graph:{}", product.id), || graph::build(store, &repo, product, options.graph_limit), |(nodes, edges)| json!({ "nodes": nodes, "edges": edges }));
+                    let relative = graph::scan_root(store, &repo, product, &list)?;
+                    timed(&mut entry, &format!("graph:{}", product.id), || graph::build(store, &repo, product, &relative, options.graph_limit), |(nodes, edges)| json!({ "nodes": nodes, "edges": edges, "scanned": relative }));
                     if entry.get(&format!("graph:{}", product.id)).is_some_and(|value| value.get("error").is_none()) {
                         store.set_state(&key, &format!("{} {}", repo.head, now()))?;
                     }

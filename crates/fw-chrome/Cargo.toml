@@ -1,0 +1,27 @@
+[package]
+name = "fw-chrome"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "One Chrome configuration for the PC and the cluster nodes as a declarative file: `fw chrome render|apply|status` turns cluster/chrome.toml into Linux managed-policy JSON and a Windows registry file"
+
+[lib]
+name = "fw_chrome"
+path = "src/fw_chrome.rs"
+
+[[bin]]
+name = "fw-chrome"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+
+[lints]
+workspace = true

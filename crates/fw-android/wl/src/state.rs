@@ -290,7 +290,7 @@ impl State {
                         return;
                     }
                     let origin = *parent + surface::subsurface_offset(states);
-                    let Some(placement) = surface::placement(states, origin) else { return };
+                    let Some(placement) = surface::placement(states) else { return };
                     let local = point - origin.to_f64();
                     let inside = local.x >= 0.0
                         && local.y >= 0.0
@@ -448,7 +448,7 @@ impl State {
 
     pub fn window_size(&self, window: &Window) -> Option<Size<i32, Logical>> {
         with_states(window.surface(), |states| {
-            surface::placement(states, window.position).map(|placement| placement.size)
+            surface::placement(states).map(|placement| placement.size)
         })
     }
 }

@@ -51,7 +51,8 @@ fn io_error(context: &str, error: io::Error) -> String {
 }
 
 /// Attaches `image` read-only to a free loop device; the device detaches itself once its last user (the mount) is gone.
-pub fn attach_loop(image: &Path) -> Result<PathBuf, String> {
+/// The returned handle must stay open until the mount exists: with autoclear, closing the last descriptor first detaches it.
+pub fn attach_loop(image: &Path) -> Result<(PathBuf, File), String> {
     let control = OpenOptions::new().read(true).write(true).open("/dev/loop-control").map_err(|error| io_error("/dev/loop-control", error))?;
     // SAFETY: LOOP_CTL_GET_FREE takes no argument and returns the number of a free loop device.
     let number = unsafe { libc::ioctl(control.as_raw_fd(), LOOP_CTL_GET_FREE) };
@@ -86,7 +87,7 @@ pub fn attach_loop(image: &Path) -> Result<PathBuf, String> {
     if result < 0 {
         return Err(io_error("LOOP_CONFIGURE", io::Error::last_os_error()));
     }
-    Ok(device)
+    Ok((device, loop_file))
 }
 
 /// Filesystem type of an image from its superblock magic (ext4 at 1080, erofs at 1024).
@@ -118,7 +119,7 @@ pub fn mount_image(image: &Path, target: &Path) -> Result<(), String> {
     }
     fs::create_dir_all(target).map_err(|error| io_error(&target.display().to_string(), error))?;
     let filesystem = probe_filesystem(image)?;
-    let device = attach_loop(image)?;
+    let (device, _hold) = attach_loop(image)?;
     mount(Some(&device), target, Some(filesystem), MsFlags::MS_RDONLY, None::<&str>)
         .map_err(|error| format!("mount {} on {}: {error}", device.display(), target.display()))
 }

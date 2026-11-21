@@ -176,3 +176,47 @@ describe("sprites", () => {
     expect((await get(env, "/v1/sprite/none.svg")).status).toBe(404);
   });
 });
+
+describe("edge cache", () => {
+  const store = new Map<string, Response>();
+  const fake = { default: { match: async (request: Request) => store.get(request.url)?.clone(), put: async (request: Request, response: Response) => void store.set(request.url, response) } };
+  beforeEach(() => {
+    store.clear();
+    (globalThis as { caches?: unknown }).caches = fake;
+  });
+  const without = () => delete (globalThis as { caches?: unknown }).caches;
+
+  test("a plain GET of an image is stored and then answered from the edge without reading the bucket", async () => {
+    const { env, bucket } = fakeEnv();
+    const first = await get(env, "/v1/img/test-photo.avif=w600");
+    expect(first.headers.get("X-Media-Source")).toBe("r2");
+    const reads = bucket.reads.length;
+    const second = await get(env, "/v1/img/test-photo.avif=w600");
+    expect(second.headers.get("X-Media-Source")).toBe("edge-cache");
+    expect(await second.text()).toBe("test-photo w600 avif");
+    expect(second.headers.get("Cache-Control")).toContain("s-maxage=3600");
+    expect(bucket.reads.slice(reads)).not.toContain("v1/img/test-photo.aaaa1111/w600.avif");
+    without();
+  });
+
+  test("negotiated formats do not share an entry, and range or conditional requests skip the cache", async () => {
+    const { env } = fakeEnv();
+    await get(env, "/v1/img/test-photo=w600", { headers: { Accept: "image/avif" } });
+    const webp = await get(env, "/v1/img/test-photo=w600", { headers: { Accept: "image/webp" } });
+    expect(webp.headers.get("Content-Type")).toBe("image/webp");
+    expect(webp.headers.get("X-Media-Source")).toBe("r2");
+    const ranged = await get(env, "/v1/img/test-photo=w600", { headers: { Accept: "image/webp", Range: "bytes=0-3" } });
+    expect(ranged.status).toBe(206);
+    expect(ranged.headers.get("X-Media-Source")).toBe("r2");
+    without();
+  });
+
+  test("sprites are cached, video is not", async () => {
+    const { env } = fakeEnv();
+    await get(env, "/v1/sprite/ui.dddd4444.svg");
+    expect((await get(env, "/v1/sprite/ui.dddd4444.svg")).headers.get("X-Media-Source")).toBe("edge-cache");
+    await get(env, "/v1/video/test-wide.cccc3333/1920w-2x-av1.mp4");
+    expect((await get(env, "/v1/video/test-wide.cccc3333/1920w-2x-av1.mp4")).headers.get("X-Media-Source")).toBe("r2");
+    without();
+  });
+});

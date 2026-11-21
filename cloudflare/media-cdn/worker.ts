@@ -13,7 +13,7 @@
 // Images without a format extension are negotiated from Accept and answer `Vary: Accept`.
 import { GrammarError, VIDEO_BREAKPOINTS, parseImage, parseVideoFile, spriteKey, validName, videoKey } from "../../tools/media-cdn/grammar.ts";
 import { sourcesOf } from "../../tools/media-cdn/manifest.ts";
-import { IMMUTABLE, MUTABLE, problem, reply, serveObject } from "./src/http.ts";
+import { IMMUTABLE, MUTABLE, cached, problem, reply, serveObject } from "./src/http.ts";
 import { serveImage } from "./src/image.ts";
 import { imageEntry, loadManifest, spriteSha, videoEntry } from "./src/store.ts";
 
@@ -89,7 +89,7 @@ async function route(request: Request, env: Env, ctx: ExecutionContext, url: URL
     if (!validName(name)) throw new GrammarError(`invalid sprite name: ${name}`);
     const sha = await spriteSha(env.MEDIA, name, pin);
     if (!sha) return notFound(name);
-    const served = await serveObject(request, env.MEDIA, spriteKey(name, sha), { "Cache-Control": pin ? IMMUTABLE : MUTABLE, "X-Media-Source": "r2" });
+    const served = await cached(request, ctx, sha, () => serveObject(request, env.MEDIA, spriteKey(name, sha), { "Cache-Control": pin ? IMMUTABLE : MUTABLE, "X-Media-Source": "r2" }));
     return served ?? notFound(name);
   }
 

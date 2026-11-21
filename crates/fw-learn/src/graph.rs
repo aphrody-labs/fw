@@ -47,11 +47,13 @@ fn run_with_timeout(program: &Path, args: &[String], limit: Duration) -> Result<
 }
 
 /// Builds the graph of one product directory; returns `(nodes, edges)`.
-pub fn build(store: &Store, repo: &Repo, product: &Product, limit: Duration) -> Result<(u64, u64)> {
+/// `relative` is the directory below the repository root to scan (the product directory, or the densest unit directory of a
+/// root product that has nested products).
+pub fn build(store: &Store, repo: &Repo, product: &Product, relative: &str, limit: Duration) -> Result<(u64, u64)> {
     let dir = graph_dir(store, repo, product);
     std::fs::create_dir_all(&dir).with_context(|| format!("create {}", dir.display()))?;
     let report = dir.join("GRAPH_REPORT.md");
-    let root = repo.path.join(&product.dir);
+    let root = repo.path.join(relative);
     let arg = |path: &Path| path.display().to_string();
     let out = run_with_timeout(&graph_program(), &["--state".into(), arg(&dir), "build".into(), arg(&root), "--json".into(), arg(&dir.join("graph.json")), "--report".into(), arg(&report)], limit)?;
     let summary: Value = serde_json::from_str(out.trim()).context("parse fw-graph build output")?;
@@ -114,4 +116,21 @@ fn jsonl_files(dir: &Path) -> Vec<PathBuf> {
         }
     }
     files
+}
+
+/// Directory to scan for a product. A root product that contains other products must not scan their trees again, so it
+/// scans the top-level directory holding most of its own units.
+pub fn scan_root(store: &Store, repo: &Repo, product: &Product, products: &[Product]) -> Result<String> {
+    if !product.dir.is_empty() || products.len() == 1 {
+        return Ok(product.dir.clone());
+    }
+    let mut statement = store.conn.prepare("SELECT dir FROM unit WHERE repo = ?1 AND product = ?2")?;
+    let dirs: Vec<String> = statement.query_map([&repo.name, &product.id], |row| row.get(0))?.collect::<std::result::Result<_, _>>()?;
+    let mut counts: std::collections::BTreeMap<&str, usize> = std::collections::BTreeMap::new();
+    for dir in &dirs {
+        if let Some((top, _)) = dir.split_once('/') {
+            *counts.entry(top).or_default() += 1;
+        }
+    }
+    Ok(counts.into_iter().max_by_key(|(_, count)| *count).map_or_else(String::new, |(top, _)| top.to_owned()))
 }

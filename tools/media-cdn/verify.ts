@@ -101,7 +101,7 @@ for (const [name, entry] of Object.entries(manifest.images).slice(0, imageLimit)
   await Bun.sleep(1500); // the result is written after the first answer has left
   const again = await get(`/v1/img/${name}.${entry.sha}.webp=w${odd}`);
   const againBytes = new Uint8Array(await again.arrayBuffer());
-  check(`${name} on demand is stored`, again.headers.get("x-media-source") === "r2" && againBytes.byteLength === builtBytes.byteLength, String(again.headers.get("x-media-source")));
+  check(`${name} on demand is stored`, ["r2", "edge-cache"].includes(again.headers.get("x-media-source") ?? "") && againBytes.byteLength === builtBytes.byteLength, String(again.headers.get("x-media-source")));
 }
 
 // -------------------------------------------------------------------------------------------------------------------- video

@@ -39,6 +39,7 @@ members = [
     "crates/fw-secrets",
     "crates/fw-cluster",
     "crates/fw-estate",
+    "crates/fw-chrome",
     "crates/fw-toolchain",
     "crates/fw-org",
     "crates/fw-proto",
@@ -1397,6 +1398,11 @@ decision = "keep"
 why = "gitlinks to the kernel sources the kernel lot builds (update = none, shallow)"
 
 [[area]]
+path = "themes"
+decision = "keep"
+why = "theme directories (theme.toml, optional colors.toml, backgrounds, templates) read by crates/fw-theme; the user directory and FW_THEMES_DIR shadow them"
+
+[[area]]
 path = "tools"
 decision = "keep"
 why = "repository scripts (Bun) with their own tests; one script per task"
@@ -1683,6 +1689,7 @@ allow = [
     "cloudflare/media-cdn/**",   # Worker of media.aphrody.com next to cloudflare/material-cdn: Workers run JS or wasm, the Rust port belongs to the fw-workerd lot
     "tools/media-cdn/**",        # Bun CLIs that drive ffmpeg, vips and R2 on the cluster nodes, as tools/material-cdn does
     "tools/hardcoded.*",         # the hardcoded-value measurement and CI check requested for Lot B, configured by tools/hardcoded.toml
+    "tools/modern-toolchain/**", # step gates (check.ts, steps.toml) that probe nodes over SSH and parse the step table; Bun like tools/media-cdn, port to a fw subcommand with the xtask lot
 ]
 
 [[area]]

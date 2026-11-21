@@ -42,7 +42,8 @@ pub fn build(state: &State, devices: &Devices, network_namespace: Option<&Path>)
         bind(&state.binderfs().join("hwbinder"), "/dev/hwbinder", &["bind"]),
         bind(&state.wayland_socket(), "/run/xdg/wayland-0", &["bind"]),
     ];
-    for node in ["/dev/zero", "/dev/null", "/dev/full", "/dev/tty", "/dev/random", "/dev/urandom", "/dev/fuse", "/dev/uhid", "/dev/ashmem", "/dev/ion", "/dev/sw_sync"] {
+    // null, zero, full, tty, random and urandom are created by the runtime itself; binding them as well makes mknod fail.
+    for node in ["/dev/fuse", "/dev/uhid", "/dev/ashmem", "/dev/ion", "/dev/sw_sync"] {
         if Path::new(node).exists() {
             mounts.push(bind(Path::new(node), node, &["bind"]));
         }

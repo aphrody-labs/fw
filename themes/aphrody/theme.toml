@@ -1,0 +1,14 @@
+name = "aphrody"
+title = "Aphrody"
+author = "Aphrody"
+description = "The brand theme: every color, light and dark, is derived from product.toml [brand] through fw-m3."
+default = true
+mode = "both"
+
+[m3]
+seed = "brand"
+
+[icons]
+style = "outlined"
+weight = 400
+fill = false

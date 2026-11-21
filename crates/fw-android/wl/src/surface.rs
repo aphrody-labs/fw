@@ -143,7 +143,6 @@ pub fn import_buffer(buffer: &WlBuffer) -> Result<SurfaceImage, String> {
 }
 
 pub struct Placement {
-    pub origin: Point<i32, Logical>,
     pub size: Size<i32, Logical>,
     /// Source rectangle in buffer pixels as x, y, width, height.
     pub source: [f64; 4],
@@ -161,7 +160,7 @@ pub fn subsurface_offset(states: &SurfaceData) -> Point<i32, Logical> {
     }
 }
 
-pub fn placement(states: &SurfaceData, origin: Point<i32, Logical>) -> Option<Placement> {
+pub fn placement(states: &SurfaceData) -> Option<Placement> {
     let slot = states.data_map.get::<SurfaceImageSlot>()?;
     let image = slot.borrow();
     if image.pixels.is_empty() {
@@ -188,5 +187,5 @@ pub fn placement(states: &SurfaceData, origin: Point<i32, Logical>) -> Option<Pl
             ((source[3] / scale).ceil() as i32).max(1),
         ))
     });
-    Some(Placement { origin, size, source })
+    Some(Placement { size, source })
 }

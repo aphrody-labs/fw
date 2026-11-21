@@ -1,0 +1,49 @@
+# Vaultwarden (Bitwarden-compatible server) for the owner's browsers. One node, one container, reachable only through a Cloudflare
+# Tunnel behind a Cloudflare Access app; nothing listens on a public address.
+# Read by configs/claude/scripts/vault.ts; node names come from build.toml, the DNS record is owned by estate.toml
+# ("CNAME vault proxied | tunnel:vault" under zone aphrody.com).
+
+[vault]
+node = "n1"                                  # key of [hosts.*] in build.toml
+image = "ghcr.io/dani-garcia/vaultwarden"
+version = "1.37.5"                           # `bun vault.ts latest` prints the live release; bump here and run `install`
+hostname = "vault.aphrody.com"
+listen = "127.0.0.1:8222"                    # origin of the tunnel, loopback only
+data_dir = "/var/lib/vaultwarden"            # SQLite (db.sqlite3), rsa_key, attachments, sends
+config_dir = "/etc/vaultwarden"              # vaultwarden.env (ADMIN_TOKEN hash), admin.token, signups.env, backup.recipients; root 0600
+
+# Non-secret server settings, written to vaultwarden.env. SIGNUPS_ALLOWED lives in signups.env: it starts "true" (the page is
+# behind Access, owner only) and the lockdown timer flips it to "false" as soon as the first account exists.
+[settings]
+WEBSOCKET_ENABLED = "true"
+SIGNUPS_VERIFY = "false"
+INVITATIONS_ALLOWED = "true"
+SHOW_PASSWORD_HINT = "false"
+IP_HEADER = "CF-Connecting-IP"
+LOG_LEVEL = "warn"
+EXTENDED_LOGGING = "true"
+
+[tunnel]
+name = "vault"
+unit = "cloudflared-vault.service"
+token_file = "/etc/cloudflared/vault.token"
+metrics = "127.0.0.1:20250"
+
+[access]
+app = "aphrody-vault"
+policy = "vault-owner-only"
+idp = "google"
+session_duration = "168h"
+
+# Nightly: sqlite3 .backup (consistent online copy), integrity_check, tar, age (public recipient only on the node), rclone to R2.
+# The age identity (private key) is escrowed on escrow_node and never stays on the node that holds the data.
+[backup]
+remote = "r2"                                # existing rclone remote on the node
+bucket = "aphrody-backups"
+prefix = "vaultwarden"
+schedule = "*-*-* 03:15:00 UTC"
+keep_days = 35
+staging = "/var/lib/vaultwarden-backup"
+escrow_node = "n2"
+escrow_path = ".aphrody/private/vault/backup.age.key"
+rclone_config = "/home/ubuntu/.config/rclone/rclone.conf"

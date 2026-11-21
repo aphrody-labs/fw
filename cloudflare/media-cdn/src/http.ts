@@ -65,3 +65,23 @@ export async function serveObject(request: Request, bucket: R2Bucket, key: strin
   } else headers["Content-Length"] = String(body.size);
   return reply(status, body.body, headers);
 }
+
+/**
+ * Edge cache (Cache API) in front of a producer, for small objects: images and sprites. Range and conditional requests skip it, and
+ * `variant` separates the formats a negotiated URL can answer with. A hit says `X-Media-Source: edge-cache`.
+ */
+export async function cached(request: Request, ctx: ExecutionContext, variant: string, produce: () => Promise<Response | undefined>): Promise<Response | undefined> {
+  const plain = request.method === "GET" && !request.headers.has("Range") && !request.headers.has("If-None-Match") && !request.headers.has("If-Modified-Since");
+  if (!plain || typeof caches === "undefined") return produce();
+  const url = new URL(request.url);
+  const key = new Request(`${url.origin}/__edge${url.pathname}?v=${variant}`);
+  const hit = await caches.default.match(key);
+  if (hit) {
+    const again = new Response(hit.body, hit);
+    again.headers.set("X-Media-Source", "edge-cache");
+    return again;
+  }
+  const response = await produce();
+  if (response?.status === 200) ctx.waitUntil(caches.default.put(key, response.clone()));
+  return response;
+}

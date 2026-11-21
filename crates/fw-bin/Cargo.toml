@@ -26,6 +26,7 @@ fw-nix.workspace = true
 fw-unified-stack.workspace = true
 fw-wayland-wgpu.workspace = true
 fw-hermes-claw.workspace = true
+fw-theme.workspace = true
 fw-apm.workspace = true
 fw-fx.workspace = true
 mimalloc.workspace = true
