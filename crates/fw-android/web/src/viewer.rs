@@ -938,7 +938,8 @@ pub async fn start() -> Result<Viewer, JsValue> {
         listen(target, name, move |event: PointerEvent| app.borrow_mut().pointer(kind, &event))?;
     }
     listen(target, "contextmenu", |event: Event| event.prevent_default())?;
-    let window_target: &web_sys::EventTarget = web_sys::window().ok_or("no window")?.as_ref();
+    let window = web_sys::window().ok_or("no window")?;
+    let window_target: &web_sys::EventTarget = window.as_ref();
     for (name, down) in [("keydown", true), ("keyup", false)] {
         let app = app.clone();
         listen(window_target, name, move |event: KeyboardEvent| app.borrow_mut().key(&event, down))?;
@@ -964,7 +965,6 @@ pub async fn start() -> Result<Viewer, JsValue> {
             }
         }));
     }
-    let window = web_sys::window().ok_or("no window")?;
     if let Some(callback) = frame.borrow().as_ref() {
         window.request_animation_frame(callback.as_ref().unchecked_ref())?;
     }

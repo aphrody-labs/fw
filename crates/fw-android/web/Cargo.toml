@@ -13,7 +13,7 @@ host = ["dep:tokio", "dep:tokio-tungstenite", "dep:futures-util"]
 
 [dependencies]
 fw-android-stream = { path = "../stream" }
-tokio = { version = "1.54", features = ["rt-multi-thread", "net", "io-util", "macros", "signal"], optional = true }
+tokio = { version = "1.54", features = ["rt-multi-thread", "net", "io-util", "macros", "signal", "time"], optional = true }
 tokio-tungstenite = { version = "0.30", optional = true }
 futures-util = { version = "0.3", default-features = false, features = ["sink", "std"], optional = true }
 

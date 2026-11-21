@@ -2,8 +2,8 @@
 //! stores its result in `window.fwaProbePartial` before the next one runs, so a panic (the point of `?probe=1&panic=1`)
 //! cannot hide what was measured before it.
 
-use std::cell::RefCell;
-use std::rc::Rc;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{Arc, Mutex};
 
 use js_sys::{Array, Object, Reflect};
 use wasm_bindgen::prelude::*;
@@ -75,21 +75,26 @@ async fn read_back(context: &Context, texture: &wgpu::Texture) -> Result<Vec<u8>
         wgpu::Extent3d { width, height, depth_or_array_layers: 1 },
     );
     context.queue.submit([encoder.finish()]);
-    let outcome: Rc<RefCell<Option<Result<(), wgpu::BufferAsyncError>>>> = Rc::new(RefCell::new(None));
+    let outcome: Arc<Mutex<Option<Result<(), wgpu::BufferAsyncError>>>> = Arc::new(Mutex::new(None));
     let slot = outcome.clone();
-    buffer.slice(..).map_async(wgpu::MapMode::Read, move |result| *slot.borrow_mut() = Some(result));
+    buffer.slice(..).map_async(wgpu::MapMode::Read, move |result| {
+        if let Ok(mut slot) = slot.lock() {
+            *slot = Some(result);
+        }
+    });
     for _ in 0..2000 {
-        if outcome.borrow().is_some() {
+        if outcome.lock().is_ok_and(|outcome| outcome.is_some()) {
             break;
         }
         sleep(1).await;
     }
-    match outcome.borrow_mut().take() {
+    let finished = outcome.lock().map_err(|error| error.to_string())?.take();
+    match finished {
         Some(Ok(())) => {}
         Some(Err(error)) => return Err(format!("map_async: {error}")),
         None => return Err("map_async did not complete in 2 s".into()),
     }
-    let mapped = buffer.slice(..).get_mapped_range();
+    let mapped = buffer.slice(..).get_mapped_range().map_err(|error| error.to_string())?;
     let mut pixels = Vec::with_capacity((width * height * 4) as usize);
     for row in 0..height as usize {
         let start = row * stride as usize;
@@ -101,11 +106,11 @@ async fn read_back(context: &Context, texture: &wgpu::Texture) -> Result<Vec<u8>
 }
 
 async fn settle(context: &Context) {
-    let done = Rc::new(RefCell::new(false));
+    let done = Arc::new(AtomicBool::new(false));
     let flag = done.clone();
-    context.queue.on_submitted_work_done(move || *flag.borrow_mut() = true);
+    context.queue.on_submitted_work_done(move || flag.store(true, Ordering::Release));
     for _ in 0..5000 {
-        if *done.borrow() {
+        if done.load(Ordering::Acquire) {
             return;
         }
         sleep(1).await;
@@ -113,9 +118,9 @@ async fn settle(context: &Context) {
 }
 
 async fn scoped<T>(context: &Context, work: impl FnOnce() -> T) -> (T, Option<String>) {
-    context.device.push_error_scope(wgpu::ErrorFilter::Validation);
+    let guard = context.device.push_error_scope(wgpu::ErrorFilter::Validation);
     let value = work();
-    let error = context.device.pop_error_scope().await.map(|error| error.to_string());
+    let error = guard.pop().await.map(|error| error.to_string());
     (value, error)
 }
 
@@ -281,9 +286,9 @@ async fn external_images(context: &Context) -> Result<Object, JsValue> {
     set(&report, "image_bitmap", external_copy(context, "bitmap", wgpu::ExternalImageSource::ImageBitmap(bitmap), width, height).await);
 
     let init = web_sys::VideoFrameInit::new();
-    init.set_timestamp(0.0);
+    init.set_timestamp(0);
     let frame = web_sys::VideoFrame::new_with_html_canvas_element_and_video_frame_init(&canvas, &init)?;
-    set(&report, "video_frame", external_copy(context, "video_frame", wgpu::ExternalImageSource::VideoFrame(frame.clone()), width, height).await);
+    set(&report, "video_frame", external_copy(context, "video_frame", wgpu::ExternalImageSource::VideoFrame(<web_sys::VideoFrame as Clone>::clone(&frame)), width, height).await);
     frame.close();
 
     let (big_width, big_height) = (1080u32, 1920u32);
@@ -387,7 +392,7 @@ pub async fn probe() -> Result<String, JsValue> {
 
     let environment = Object::new();
     set(&environment, "user_agent", window.navigator().user_agent()?);
-    set(&environment, "cross_origin_isolated", window.cross_origin_isolated());
+    set(&environment, "cross_origin_isolated", Reflect::get(&window, &"crossOriginIsolated".into()).unwrap_or(JsValue::FALSE));
     set(&environment, "device_pixel_ratio", window.device_pixel_ratio());
     for name in ["SharedArrayBuffer", "VideoFrame", "createImageBitmap", "OffscreenCanvas", "VideoDecoder"] {
         set(&environment, &format!("has_{name}"), Reflect::has(&window, &name.into()).unwrap_or(false));

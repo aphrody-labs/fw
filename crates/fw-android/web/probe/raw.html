@@ -1,0 +1,105 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>fw android web: raw WebGPU probe</title>
+<pre id="out">running</pre>
+<script type="module">
+// Ground truth without wgpu: what the browser itself does on the paths the viewer uses.
+const report = { errors: {} };
+const attempt = async (name, work) => {
+  try { report[name] = await work(); } catch (error) { report.errors[name] = `${error.name}: ${error.message}`; }
+};
+const adapter = await navigator.gpu.requestAdapter({ powerPreference: "high-performance" });
+const features = [...adapter.features].sort();
+report.adapter = { info: Object.fromEntries(["vendor", "architecture", "device", "description", "subgroupMinSize", "subgroupMaxSize"].map((key) => [key, adapter.info[key]])), features, limits: { maxTextureDimension2D: adapter.limits.maxTextureDimension2D, maxBufferSize: adapter.limits.maxBufferSize } };
+report.preferredCanvasFormat = navigator.gpu.getPreferredCanvasFormat();
+report.crossOriginIsolated = crossOriginIsolated;
+const device = await adapter.requestDevice({ requiredFeatures: features.includes("bgra8unorm-storage") ? ["bgra8unorm-storage"] : [] });
+const settle = async () => { await device.queue.onSubmittedWorkDone(); };
+const validation = async (work) => { device.pushErrorScope("validation"); const value = await work(); const error = await device.popErrorScope(); return { value, error: error ? error.message : null }; };
+const readback = async (texture) => {
+  const stride = Math.ceil(texture.width * 4 / 256) * 256;
+  const buffer = device.createBuffer({ size: stride * texture.height, usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST });
+  const encoder = device.createCommandEncoder();
+  encoder.copyTextureToBuffer({ texture }, { buffer, bytesPerRow: stride }, [texture.width, texture.height]);
+  device.queue.submit([encoder.finish()]);
+  await buffer.mapAsync(GPUMapMode.READ);
+  const all = new Uint8Array(buffer.getMappedRange());
+  const out = new Uint8Array(texture.width * texture.height * 4);
+  for (let row = 0; row < texture.height; row++) out.set(all.subarray(row * stride, row * stride + texture.width * 4), row * texture.width * 4);
+  buffer.destroy();
+  return out;
+};
+
+await attempt("canvas_usages", async () => {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("webgpu");
+  const result = {};
+  for (const [name, usage] of Object.entries({ renderAttachment: GPUTextureUsage.RENDER_ATTACHMENT, copySrc: GPUTextureUsage.COPY_SRC, copyDst: GPUTextureUsage.COPY_DST, textureBinding: GPUTextureUsage.TEXTURE_BINDING, storageBinding: GPUTextureUsage.STORAGE_BINDING })) {
+    for (const format of ["bgra8unorm", "rgba8unorm", "rgba16float"]) {
+      const { error } = await validation(async () => context.configure({ device, format, usage: GPUTextureUsage.RENDER_ATTACHMENT | usage, alphaMode: "opaque" }));
+      result[`${format}+${name}`] = error ? "rejected" : "ok";
+    }
+  }
+  return result;
+});
+
+await attempt("write_texture_short_data", async () => {
+  const texture = device.createTexture({ size: [16, 16], format: "bgra8unorm", usage: GPUTextureUsage.COPY_DST });
+  try { device.queue.writeTexture({ texture }, new Uint8Array(16), { bytesPerRow: 64, rowsPerImage: 16 }, [16, 16]); return "no exception"; }
+  catch (error) { return `throws ${error.name}: ${error.message}`; }
+});
+
+await attempt("copy_external_closed_bitmap", async () => {
+  const canvas = Object.assign(document.createElement("canvas"), { width: 8, height: 8 });
+  canvas.getContext("2d").fillRect(0, 0, 8, 8);
+  const bitmap = await createImageBitmap(canvas);
+  bitmap.close();
+  const texture = device.createTexture({ size: [8, 8], format: "bgra8unorm", usage: GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT });
+  try { device.queue.copyExternalImageToTexture({ source: bitmap }, { texture }, [8, 8]); return "no exception"; }
+  catch (error) { return `throws ${error.name}: ${error.message}`; }
+});
+
+await attempt("copy_external_sources", async () => {
+  const canvas = Object.assign(document.createElement("canvas"), { width: 64, height: 48 });
+  const context = canvas.getContext("2d");
+  context.fillStyle = "#f00"; context.fillRect(0, 0, 64, 48);
+  const result = {};
+  const sources = { canvas, offscreen: (() => { const o = new OffscreenCanvas(64, 48); const c = o.getContext("2d"); c.fillStyle = "#f00"; c.fillRect(0, 0, 64, 48); return o; })(), bitmap: await createImageBitmap(canvas), videoFrame: new VideoFrame(canvas, { timestamp: 0 }) };
+  for (const [name, source] of Object.entries(sources)) {
+    for (const format of ["rgba8unorm", "bgra8unorm"]) {
+      const texture = device.createTexture({ size: [64, 48], format, usage: GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC });
+      const { error } = await validation(async () => device.queue.copyExternalImageToTexture({ source }, { texture }, [64, 48]));
+      result[`${name}->${format}`] = error ? `error ${error}` : Array.from((await readback(texture)).subarray(0, 4)).join(",");
+    }
+  }
+  sources.videoFrame.close();
+  return result;
+});
+
+await attempt("import_external_texture_video_frame", async () => {
+  const canvas = Object.assign(document.createElement("canvas"), { width: 64, height: 48 });
+  canvas.getContext("2d").fillRect(0, 0, 64, 48);
+  const frame = new VideoFrame(canvas, { timestamp: 0 });
+  const external = device.importExternalTexture({ source: frame });
+  frame.close();
+  return external.constructor.name;
+});
+
+await attempt("storage_bgra8", async () => {
+  const { error } = await validation(async () => device.createTexture({ size: [16, 16], format: "bgra8unorm", usage: GPUTextureUsage.STORAGE_BINDING }));
+  return error ? `rejected: ${error}` : "accepted";
+});
+
+await attempt("write_texture_1080x1920_ms", async () => {
+  const texture = device.createTexture({ size: [1080, 1920], format: "bgra8unorm", usage: GPUTextureUsage.COPY_DST | GPUTextureUsage.TEXTURE_BINDING });
+  const data = new Uint8Array(1080 * 1920 * 4);
+  const started = performance.now();
+  for (let i = 0; i < 20; i++) device.queue.writeTexture({ texture }, data, { bytesPerRow: 1080 * 4, rowsPerImage: 1920 }, [1080, 1920]);
+  const call = (performance.now() - started) / 20;
+  await settle();
+  return { call, untilGpuDone: (performance.now() - started) / 20 };
+});
+
+document.getElementById("out").textContent = JSON.stringify(report, null, 1);
+window.rawProbe = report;
+</script>
