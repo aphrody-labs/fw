@@ -376,6 +376,8 @@ const BUILDS: &[Build] = &[
     Build { id: "fw-bin.release.musl", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MUSL, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
     Build { id: "fw-bin.release.msvc", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MSVC, launcher: Launcher::Xwin, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
     Build { id: "fw-bin.dev.gnu", workspace: ".", package: "fw-bin", artifact: "fw", profile: "dev", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
+    Build { id: "fw-bin.release.msvc-native", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MSVC, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
+    Build { id: "fw-bin.dev.msvc", workspace: ".", package: "fw-bin", artifact: "fw", profile: "dev", target: MSVC, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
     Build { id: "fw-wasm.release.wasm32-unknown-unknown", workspace: ".", package: "fw-wasm", artifact: "fw_wasm", profile: "release", target: WASM, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: false, entry: "crates/fw-wasm/src/lib.rs", startup: &[] },
     Build { id: "fw-wasm.release.wasm32-wasip2", workspace: ".", package: "fw-wasm", artifact: "fw_wasm", profile: "release", target: WASIP2, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: false, entry: "crates/fw-wasm/src/lib.rs", startup: &[] },
     Build { id: "aphrody.dist.gnu", workspace: "aphrody", package: "zed", artifact: "aphrody", profile: "dist", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/zed/src/main.rs", startup: APHRODY_STARTUP },
@@ -488,7 +490,7 @@ fn host_triple() -> &'static str {
 
 fn cargo_command(build: &Build, workspace: &Path, target_dir: &Path, subcommand: &[&str]) -> Command {
     let mut command = Command::new("cargo");
-    if build.launcher == Launcher::Xwin {
+    if build.launcher == Launcher::Xwin && !cfg!(windows) {
         command.arg("xwin");
     }
     command.args(subcommand);
@@ -724,8 +726,8 @@ fn parse_quoted(line: &str) -> Vec<String> {
 /// keeps the objects (`-C save-temps`); the same line is replayed with `-fuse-ld=...` swapped, so only the linker differs.
 fn run_link(build: &Build, options: &Options, report: &mut Report) {
     let id = format!("link.{}", build.id);
-    if !cfg!(target_os = "linux") {
-        let (record, summary) = failure(&id, "link", "link replay is implemented for the Linux gnu target only", "");
+    if !cfg!(any(target_os = "linux", windows)) {
+        let (record, summary) = failure(&id, "link", "link replay is implemented for Linux gnu and Windows msvc", "");
         report.push(record, summary);
         return;
     }
@@ -746,43 +748,49 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
         }
     }
     let content = fs::read_to_string(&log).unwrap_or_default();
-    let Some(link_line) = content.lines().rfind(|l| l.starts_with('"') && l.contains("\"-o\"")) else {
+    let Some(link_line) = content.lines().rfind(|l| l.starts_with('"') && (l.contains("\"-o\"") || l.to_ascii_lowercase().contains("\"/out:"))) else {
         let (record, summary) = failure(&id, "link", "no link line in rustc output", &line);
         report.push(record, summary);
         return;
     };
     let original = parse_quoted(link_line);
     let Some(linker_program) = original.first().cloned() else { return };
-    let sysroot_lld_dir = original.iter().find_map(|a| a.strip_prefix("-B").filter(|d| d.contains("gcc-ld")).map(str::to_string));
-    let wild_dir = scratch.join("wild-bin");
-    if let Some(wild) = which("wild") {
-        fs::create_dir_all(&wild_dir).ok();
-        let link = wild_dir.join("ld");
-        fs::remove_file(&link).ok();
-        link_symlink(&wild, &link);
-    }
-    let base: Vec<String> = original.iter().skip(1).filter(|a| !a.starts_with("-fuse-ld") && !a.starts_with("-B")).cloned().collect();
-    let mut linkers: Vec<(&str, Vec<String>)> = vec![("rustc-default", original.iter().skip(1).cloned().collect())];
-    for (name, flags) in [("bfd", vec!["-fuse-ld=bfd".to_string()]), ("gold", vec!["-fuse-ld=gold".to_string()]), ("lld", vec!["-fuse-ld=lld".to_string()]), ("mold", vec!["-fuse-ld=mold".to_string()])] {
-        let tool = if name == "bfd" { "ld.bfd" } else { &format!("ld.{name}") };
-        if which(tool).is_some() {
-            linkers.push((name, flags));
+    let rest: Vec<String> = original.iter().skip(1).cloned().collect();
+    // (name, program, arguments): only the linker differs between candidates.
+    let mut linkers: Vec<(String, String, Vec<String>)> = vec![("rustc-default".to_string(), linker_program.clone(), rest.clone())];
+    if cfg!(windows) {
+        let sysroot = capture("rustc", &["--print", "sysroot"], None).unwrap_or_default();
+        let host = capture("rustc", &["-vV"], None).and_then(|v| v.lines().find_map(|l| l.strip_prefix("host: ").map(str::to_string))).unwrap_or_default();
+        let rust_lld = Path::new(&sysroot).join("lib").join("rustlib").join(host).join("bin").join("rust-lld.exe");
+        if rust_lld.is_file() {
+            let mut arguments = vec!["-flavor".to_string(), "link".to_string()];
+            arguments.extend(rest.iter().cloned());
+            linkers.push(("lld-link".to_string(), rust_lld.display().to_string(), arguments));
+        }
+    } else {
+        let base: Vec<String> = rest.iter().filter(|a| !a.starts_with("-fuse-ld") && !a.starts_with("-B")).cloned().collect();
+        let with = |flags: Vec<String>| -> Vec<String> { flags.into_iter().chain(base.iter().cloned()).collect() };
+        for name in ["bfd", "gold", "lld", "mold"] {
+            if which(&format!("ld.{name}")).is_some() {
+                linkers.push((name.to_string(), linker_program.clone(), with(vec![format!("-fuse-ld={name}")])));
+            }
+        }
+        if let Some(dir) = original.iter().find_map(|a| a.strip_prefix("-B").filter(|d| d.contains("gcc-ld")).map(str::to_string)) {
+            linkers.push(("rust-lld".to_string(), linker_program.clone(), with(vec!["-fuse-ld=lld".to_string(), format!("-B{dir}")])));
+        }
+        if let Some(wild) = which("wild") {
+            let wild_dir = scratch.join("wild-bin");
+            fs::create_dir_all(&wild_dir).ok();
+            let link = wild_dir.join("ld");
+            fs::remove_file(&link).ok();
+            link_symlink(&wild, &link);
+            if link.exists() {
+                linkers.push(("wild".to_string(), linker_program.clone(), with(vec![format!("-B{}", wild_dir.display())])));
+            }
         }
     }
-    if let Some(dir) = sysroot_lld_dir {
-        linkers.push(("rust-lld", vec!["-fuse-ld=lld".to_string(), format!("-B{dir}")]));
-    }
-    if wild_dir.join("ld").exists() {
-        linkers.push(("wild", vec![format!("-B{}", wild_dir.display())]));
-    }
-    for (name, flags) in linkers {
-        let output = scratch.join(format!("out-{name}"));
-        let mut arguments: Vec<String> = Vec::new();
-        arguments.extend(flags);
-        arguments.extend(if name == "rustc-default" { Vec::new() } else { base.clone() });
-        if name == "rustc-default" {
-            arguments = original.iter().skip(1).cloned().collect();
-        }
+    for (name, program, arguments) in linkers {
+        let output = scratch.join(format!("out-{name}{}", if cfg!(windows) { ".exe" } else { "" }));
         let mut replaced = false;
         let mut final_args = Vec::new();
         let mut iterator = arguments.iter();
@@ -792,27 +800,34 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
                 final_args.push("-o".to_string());
                 final_args.push(output.display().to_string());
                 replaced = true;
+            } else if argument.to_ascii_lowercase().starts_with("/out:") {
+                final_args.push(format!("/OUT:{}", output.display()));
+                replaced = true;
             } else {
                 final_args.push(argument.clone());
             }
         }
+        let label = format!("{id}.{name}");
         if !replaced {
+            let (record, summary) = failure(&label, "link", "no output argument in the link line", &program);
+            report.push(record, summary);
             continue;
         }
+        let link_log = scratch.join(format!("link-{name}.log"));
         let mut samples = Vec::new();
         let mut failed = None;
         for run in 0..options.warmup.max(1) + options.runs {
             fs::remove_file(&output).ok();
-            let mut link = Command::new(&linker_program);
+            let mut link = Command::new(&program);
             link.args(&final_args).current_dir(&workspace);
-            match measure(&mut link, Some(&scratch.join(format!("link-{name}.log")))) {
+            match measure(&mut link, Some(&link_log)) {
                 Ok(m) if m.code == 0 => {
                     if run >= options.warmup.max(1) {
                         samples.push(m);
                     }
                 }
                 Ok(m) => {
-                    failed = Some(format!("exit {}: {}", m.code, tail(&scratch.join(format!("link-{name}.log")), 3)));
+                    failed = Some(format!("exit {}: {}", m.code, tail(&link_log, 3)));
                     break;
                 }
                 Err(error) => {
@@ -821,9 +836,8 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
                 }
             }
         }
-        let label = format!("{id}.{name}");
         if let Some(reason) = failed {
-            let (record, summary) = failure(&label, "link", &reason, &format!("{linker_program} {}", final_args.join(" ")));
+            let (record, summary) = failure(&label, "link", &reason, &format!("{program} {}", final_args.join(" ")));
             report.push(record, summary);
             continue;
         }
@@ -833,10 +847,10 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
             ("id", text(label.clone())),
             ("suite", text("link")),
             ("status", text("ok")),
-            ("linker", text(name)),
+            ("linker", text(name.as_str())),
             ("output_bytes", num(bytes as f64)),
             ("output_runs_version", Json::Bool(runs)),
-            ("command", text(format!("{linker_program} {}", final_args.join(" ")))),
+            ("command", text(format!("{program} {}", final_args.join(" ")))),
             ("metrics", obj(series(&samples))),
             ("load", load_snapshot()),
         ]);
@@ -1151,6 +1165,14 @@ fn parse_options() -> Result<(String, Options), String> {
     ))
 }
 
+/// msvc builds run natively on Windows and through cargo-xwin elsewhere; each id exists for one of the two.
+fn applicable(build: &Build) -> bool {
+    if build.target != MSVC {
+        return true;
+    }
+    (build.launcher == Launcher::Cargo) == cfg!(windows)
+}
+
 fn selected(options: &Options, id: &str) -> bool {
     options.only.is_empty() || options.only.iter().any(|o| id.contains(o.as_str()))
 }
@@ -1189,7 +1211,7 @@ fn main() {
     if wants("shader") {
         run_shader(&options, &mut report);
     }
-    for build in BUILDS.iter().filter(|b| selected(&options, b.id)) {
+    for build in BUILDS.iter().filter(|b| applicable(b) && selected(&options, b.id)) {
         let needs_build = wants("build") || if build.kind == Kind::Bin { wants("startup") && options.exes.is_empty() } else { wants("wasm") };
         let artifact = if needs_build { run_build(build, &options, &mut report) } else { None };
         if let Some(artifact) = artifact {
@@ -1201,7 +1223,7 @@ fn main() {
                 run_wasm_pipeline(build, &artifact, &options, &mut report);
             }
         }
-        if wants("link") && build.profile == "dev" && build.target == GNU {
+        if wants("link") && build.profile == "dev" && build.target == host_triple() {
             run_link(build, &options, &mut report);
         }
     }
