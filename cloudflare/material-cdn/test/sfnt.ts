@@ -68,5 +68,5 @@ export function readSfnt(bytes: Uint8Array): FontFacts {
       axes.push(String.fromCharCode(...bytes.slice(o, o + 4)));
     }
   }
-  return { glyphs, codepoints: codepoints.sort((x, y) => x - y), ligatures, axes };
+  return { glyphs, codepoints: [...new Set(codepoints)].sort((x, y) => x - y), ligatures, axes };
 }

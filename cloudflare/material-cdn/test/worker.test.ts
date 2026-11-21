@@ -57,6 +57,13 @@ suite("generated outputs against the built tree", () => {
     expect((await get("/v1/icons.woff2?icons=home&bogusaxis=3")).status).toBe(400);
   });
 
+  test("an alias without its own SVG is drawn from the SVG of its codepoint", async () => {
+    const sprite = await (await get("/v1/icons.svg?style=outlined&icons=clear,close&ids=of")).text();
+    const paths = [...sprite.matchAll(/<symbol id="o-(clear|close)" [^>]*><path d="([^"]+)"/g)].map((m) => m[2]);
+    expect(paths).toHaveLength(2);
+    expect(paths[0]).toBe(paths[1]);
+  });
+
   test("POST takes a list too long for a URL", async () => {
     const res = await get("/v1/icons.svg?style=sharp&fill=1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ icons: ["home", "search", "settings"] }) });
     expect(res.status).toBe(200);
@@ -90,7 +97,10 @@ suite("generated outputs against the built tree", () => {
       });
       const facts = readSfnt(ttf);
       expect(facts.glyphs).toBe(1 + letters + wanted);
-      expect(facts.ligatures).toBe(icons.length);
+      // Aliases of an icon (close/clear) share its glyph and keep their own ligature.
+      const chosen = new Set(icons.map((n) => symbols.cp[symbols.index.get(n)!]!));
+      const kept = new Set(icons.join(""));
+      expect(facts.ligatures).toBe(symbols.names.filter((name, i) => chosen.has(symbols.cp[i]!) && [...name].every((c) => kept.has(c))).length);
       expect(facts.codepoints).toHaveLength(letters + icons.length);
       expect(facts.axes).toEqual(fill[1] > 0 ? ["FILL"] : []);
     }
@@ -115,19 +125,19 @@ suite("generated outputs against the built tree", () => {
     expect(axes.limit.wght).toEqual([400, 700]);
     expect(axes.pinDefault.sort()).toEqual(["ROND", "opsz", "slnt"]);
     expect((await get("/v1/fonts/google-sans-flex.woff2")).status).toBe(400);
-    expect((await get("/v1/fonts/google-sans-flex.woff2?text=a&wght=1000..2000")).status).toBe(400);
+    expect((await get("/v1/fonts/google-sans-flex.woff2?text=a&wght=1001..2000")).status).toBe(400);
     expect((await get("/v1/fonts/no-such-font.woff2?text=a")).status).toBe(400);
   });
 
   test("font css has one immutable woff2 url and unicode-range per subset", async () => {
-    const res = await get("/v1/fonts/google-sans-code.css?subsets=latin,greek&wght=400..700");
+    const res = await get("/v1/fonts/google-sans-flex.css?subsets=latin,latin-ext&wght=400..700");
     expect(res.status).toBe(200);
     const css = await res.text();
     const meta = await loadMeta(shared.env);
     expect(css.match(/@font-face/g)).toHaveLength(2);
-    expect(css).toContain(`google-sans-code.woff2?subsets=greek&wght=400..700&v=${meta.rev}`);
+    expect(css).toContain(`google-sans-flex.woff2?subsets=latin-ext&wght=400..700&v=${meta.rev}`);
     expect(css).toContain("font-weight:400 700");
-    expect(css).toMatch(/unicode-range:U\+0370-0377/);
+    expect(css).toMatch(/unicode-range:U\+0100-02BA/);
   });
 
   test("icons.css names every icon and keeps FILL as a class when it is variable", async () => {

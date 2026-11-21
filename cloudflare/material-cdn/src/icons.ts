@@ -62,12 +62,25 @@ async function materialPaths(env: Env, meta: Meta, need: Need): Promise<{ reques
   const unknown = names.filter((n) => !symbols.index.has(n));
   if (unknown.length) throw new GrammarError(`unknown Material Symbols in ${request.style}`, { unknown });
   const dir = request.wght === 400 ? "" : `w${request.wght}/`;
+  // Upstream ships one SVG per codepoint under its canonical name; aliases (local_phone for call) are looked up through their codepoint.
+  const wanted = new Set(names.map((n) => symbols.cp[symbols.index.get(n)!]!));
+  const sameGlyph = new Map<number, string[]>();
+  symbols.names.forEach((name, i) => {
+    const cp = symbols.cp[i]!;
+    if (wanted.has(cp)) sameGlyph.set(cp, [...(sameGlyph.get(cp) ?? []), name]);
+  });
   const icons = await pool(names, async (name) => {
     const paths: IconPaths["paths"] = {};
+    const candidates = [name, ...(sameGlyph.get(symbols.cp[symbols.index.get(name)!]!) ?? []).filter((n) => n !== name)];
     for (const fill of request.fills) {
-      const svg = await readText(env, `v1/icons/${request.style}/${dir}${name}${fill ? "-fill" : ""}.svg`);
-      const d = svg && PATH.exec(svg)?.[1];
-      if (d) paths[fill] = d;
+      for (const candidate of candidates) {
+        const svg = await readText(env, `v1/icons/${request.style}/${dir}${candidate}${fill ? "-fill" : ""}.svg`);
+        const d = svg && PATH.exec(svg)?.[1];
+        if (d) {
+          paths[fill] = d;
+          break;
+        }
+      }
     }
     return { name, paths };
   });
