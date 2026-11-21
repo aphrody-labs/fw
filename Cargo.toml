@@ -9,6 +9,7 @@ members = [
     "crates/fw-m3",
     "crates/fw-material",
     "crates/fw-video",
+    "crates/fw-files",
     "crates/fw-google",
     "crates/fw-drive",
     "crates/fw-llama-sys",

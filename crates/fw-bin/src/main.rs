@@ -613,6 +613,7 @@ fn main() {
         }
         "convert" | "cv" => std::process::exit(run_sibling("convert", "fw-video", &args[1..])),
         "google" => std::process::exit(run_sibling("google", "fw-google", &args[1..])),
+        "files" | "fl" => std::process::exit(run_sibling("files", "fw-files", &args[1..])),
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
             let addr: SocketAddr = match addr_str.parse() {

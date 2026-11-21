@@ -425,3 +425,12 @@ docs = "https://github.com/dermesser/yup-oauth2#readme"
 fw = "crates/fw-google"
 role = "OAuth2 for the generated Google clients: service-account and authorized-user Application Default Credentials"
 watch = true
+
+[[upstream]]
+id = "yazi"
+repo = "sxyazi/yazi"
+branch = "main"
+docs = "https://yazi-rs.github.io/docs/quick-start"
+fw = "crates/fw-files"
+role = "Terminal file manager (MIT): yazi-sftp as a git dependency on the fork aphrody-labs/yazi at tag v26.9.1, the [plugin] previewer rule table (crates/fw-files/presets/yazi-plugin.toml) and the sort, MIME and task-scheduler design behind fw files"
+watch = true
