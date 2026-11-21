@@ -54,7 +54,10 @@ const script = [
   "set -e",
   "source ~/.cargo/env 2>/dev/null || true",
   `cd ~/src/${repo}`,
-  `bun tools/sync-tree.ts . | tail -1`,
+  // The sync script itself comes from upstream, so a checkout that is far behind still syncs.
+  `git fetch -q && git show @{u}:tools/sync-tree.ts > /tmp/sync-tree-$$.ts`,
+  `res=$(bun /tmp/sync-tree-$$.ts . | tail -1); rm -f /tmp/sync-tree-$$.ts; echo "$res"`,
+  `case "$res" in *'"ok":true'*) ;; *) echo "remote sync failed" >&2; exit 1;; esac`,
   `git log --oneline -1`,
   "command -v sccache >/dev/null && export RUSTC_WRAPPER=${RUSTC_WRAPPER:-$(command -v sccache)}",
   `nice -n 5 ${remote}`,
