@@ -13,7 +13,7 @@ const USAGE: &str = "usage: fw kernel <command> [args]
   status [--check] [--strict] [--offline] [--json]   pins against kernel.org (mainline, stable, longterm, linux-next) and CachyOS; --check exits 1 on inconsistent pins, --strict also on pins that are behind
   pin <target> [--tree ID] [--no-index] [--json]   move pins: mainline | stable | longterm[:series] | cachyos | cachyos-rc | a version (7.3.5, 7.4-rc3) | a tag (v6.18.64, cachyos-7.3.5-2); updates kernel.toml and the gitlink in the index
   sync [TREE ...] [--profile NAME] [--json]   fetch the pinned commit of each tree (all when none is named), shallow, with the profile of its tree (uapi: sparse, blobless; full: whole tree)
-  graph build|stats|def|refs|callers|callees|includes|included-by|file|config|search ... [--tree ID] [--db FILE] [--limit N]   the tree-sitter code graph of a pinned tree
+  graph build|stats|def|refs|callers|callees|includes|included-by|file|config|search|path|probe ... [--tree ID] [--db FILE] [--limit N]   the tree-sitter code graph of a pinned tree
   types [--check] [--tree-dir DIR] [--out DIR]   generate (or with --check, verify) packages/linux-types from the sanitized UAPI headers of the pinned stable tree (syncs it with the uapi profile when needed; runs bun, clang, pahole, bpftool)
   help
 global: --root DIR (the fw checkout holding kernel.toml; default: nearest ancestor of the working directory or $FW_ROOT); $FW_KERNEL_GIT_BASE replaces https://github.com for the forks";

@@ -9,6 +9,8 @@ description: "Live state of the Linux mainline rc and stable kernels, Asterinas,
 
 A scheduled workflow polls the kernel sources every 5 minutes (GitHub cron: minutes of latency) into a cache-only store; nothing generated is committed. Generated pages and records live in the git-ignored private store `.private/kernel-watch/watch/` (`KERNEL_WATCH_PRIVATE_DIR` overrides it); build them locally with `bun cli.ts build` after a poll. Paths below are relative to that directory unless they start with `docs/` or `tooling/`.
 
+Pinned source trees (mainline, stable, CachyOS), their tags against kernel.org releases.json, the UAPI types and the code graph are `fw kernel` (skill `linux-kernel`); this skill is the live watch of what upstream and the distributions ship.
+
 ## Where the answer is
 
 1. `state-of-kernels.md`: condensed context (mainline rc, stable, longterm, distributions closest to the rc, one line per kernel). Start here.
