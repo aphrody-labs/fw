@@ -18,7 +18,7 @@ Reproducible latency benchmark against `https://1.1.1.1/cdn-cgi/trace` (5 runs p
 | :--- | :---: | :---: | ---: | ---: | ---: | ---: | :--- |
 | `curl` | yes | 5/5 | 57.15 | 58.52 | 62.14 | 59.16 | C `libcurl` HTTP/2 |
 | `bun-fetch` | yes | 5/5 | 75.14 | 77.39 | 221.08 | 106.33 | Bun 1.4.5 native `fetch` |
-| `xh` | yes | 5/5 | 135.01 | 152.27 | 414.30 | 240.10 | Rust `reqwest`/`hyper` (`rust/xh`) |
+| `xh` | yes | 5/5 | 135.01 | 152.27 | 414.30 | 240.10 | Rust `reqwest`/`hyper` (`third_party/xh`) |
 | `curl-http3` | no | 0/0 | 0 | 0 | 0 | 0 | `curl` binary lacks HTTP/3 |
 | `wget2` | no | 0/0 | 0 | 0 | 0 | 0 | Not installed on host |
 

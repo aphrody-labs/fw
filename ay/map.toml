@@ -51,10 +51,6 @@ gate = "bun test ./packages/auto-i18n"
 tier = "bun-package"
 gate = "bun test ./packages"
 
-[patches]
-tier = "dependency-patch"
-gate = "bun install --frozen-lockfile"
-
 [python]
 tier = "python"
 gate = "uv run pytest"

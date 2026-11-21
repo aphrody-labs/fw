@@ -45,7 +45,7 @@ to `@scope/create-name`). It generates a project that is valid before any edit:
   `bunfig.toml` with the preload, `package.json` scripts `dev`, `test`, `build`, `deploy`.
 - `.github/workflows` that call the organization's reusable workflows, so CI, security and release come from the standard.
 - `deploy` runs `cf` (never `bunx wrangler`): `workers`-target builds go to Cloudflare; `bun`-target builds go to the fleet
-  (`<prod-host>` through the ssh alias of `ay.toml` [hosts]); `containers` builds a `bun build --compile` image for Cloudflare
+  (`<prod-host>` through the ssh alias of `ay.local.toml` [hosts]); `containers` builds a `bun build --compile` image for Cloudflare
   Containers. Domain and route are read from `cloud.toml`; the generator refuses `aphrody.com` and `aphrody.app` until the
   owner's decision on the domain roles is recorded.
 - Names, scope, org and registry come from the target repository's `ay.toml`-style identity file; nothing is hardcoded.

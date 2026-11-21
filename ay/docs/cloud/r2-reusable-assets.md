@@ -1,6 +1,6 @@
 # Reusable Cloudflare R2 Media & 3D Assets in Pure Rust (`wgpu` v30 + `wasm32`)
 
-Machine-readable manifest: [packages/cf-control-plane/r2-catalog.toml](../../packages/cf-control-plane/r2-catalog.toml), enforced in Rust by `ay-cf/assets` (`spdx` + `blake3` + `gltf` + `ktx2` + `etagere` + `thumbhash` + `http-range-header`) and in TypeScript by `@ay-cf/control-plane` + `ay-cf-gateway`.
+Machine-readable manifest: [packages/cf-control-plane/r2-catalog.toml](../../packages/cf-control-plane/r2-catalog.toml), enforced in Rust by the `assets` feature of the `ay-cf` crate (`spdx` + `blake3` + `gltf` + `ktx2` + `etagere` + `thumbhash` + `http-range-header`) and in TypeScript by `@aphrody/ay-cf-control-plane` and `apps/cf-gateway`.
 
 ## Zero-Egress R2 Layout (`assets.aphrody.app` & `video.aphrody.app`)
 

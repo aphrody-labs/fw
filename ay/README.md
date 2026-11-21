@@ -1,6 +1,6 @@
 # ay
 
-The SDK of Aphrody and the registry of its workspace: the C ABI and the freestanding corelib, the design tokens, the cloud and edge tooling (Cloudflare, Vercel, Bun), the reverse-engineering suite, the Auto product and the workspace orchestration over the sibling repositories (`fw`, `aphrody`, `nie`, `shenron`, ...). `ay` may depend on `fw` through sibling paths, never the reverse. Names, hosts and domains come from `ay.toml`; the agent contract is `AGENTS.md`.
+The SDK of Aphrody and the registry of its workspace: the C ABI and the freestanding corelib, the design tokens, the cloud and edge tooling (Cloudflare, Vercel, Bun), the reverse-engineering suite, the Auto product and the workspace orchestration over the sibling repositories (`fw`, `aphrody`, `nie`, `shenron`, ...). Names and domains come from `ay.toml`; the agent contract, including the dependency direction between repositories, is `AGENTS.md`.
 
 ## Layout
 
@@ -15,7 +15,6 @@ The SDK of Aphrody and the registry of its workspace: the C ABI and the freestan
 | `kotlin/` | Gradle workspace: the Aphrody Compose theme | `bun tools/compose-check.ts` |
 | `config/` | Shell and CLI configs installed by `tools/shells.ts` | `bun tools/shells.ts --check` |
 | `locales/` | Message catalogs of the Auto product | `bun test ./packages/auto-i18n` |
-| `patches/` | Bun `patchedDependencies` | `bun install --frozen-lockfile` |
 | `tools/` | Typed Bun scripts: checks, generators, Cloudflare operations, workspace orchestration | `bun test ./tools/` |
 | `brand/` | Design tokens (Material 3) and generated themes | `bun tools/tokens-compose.ts --check` |
 | `docs/` | Spec, architecture, ADRs, feature matrix | `bun tools/features.ts --check` |
@@ -39,7 +38,7 @@ bun run abi        # regenerate abi/ and docs/abi.md
 bun run map        # regenerate MAP.tsv
 ```
 
-Rust builds and tests run on the build and test hosts, never on the PC (`ay.toml` `[hosts]`).
+Rust builds and tests run on the build and test hosts, never on the PC (`ay.local.toml` `[hosts]`).
 
 ## Read first
 

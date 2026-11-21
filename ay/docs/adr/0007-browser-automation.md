@@ -25,7 +25,7 @@ One ecosystem, **ay browser**, assembled from upstreams, in six parts.
   - `remote`: attach to any CDP endpoint (`--cdp`, cloud providers).
 - **Refs and snapshot**: one snapshot model (accessibility tree plus stable `@eN` refs, invalidated on navigation, covered-element click failure) implemented once in `ay_browser` over CDP `Accessibility` and `DOM`; obscura's in-process path maps to the same type.
 - **Router**: lite first, escalate to Blink when a page needs paint, media or a missing capability, replaying the session (the `aphrody-labs/browser` design).
-- Rust builds run on the build host (`ay.toml` [hosts]).
+- Rust builds run on the build host (`ay.local.toml` [hosts]).
 
 ### 2. `ay-chromium` becomes the Chromium (CEF) backend
 `crates/ay_chromium` (CEF 156.6.0 through cef-rs; screenshot through off-screen rendering and `Runtime.evaluate` through `execute_dev_tools_method` and a DevTools message observer, engine.rs lines 310 to 361) stays its own crate because CEF needs its helper binary and process model. It is the `cef` backend of `ay_browser` once it gains (a) a persistent browser per session instead of a fresh browser per call and (b) a raw CDP channel: send any method, receive results and events from the existing observer. Its public `screenshot` and `evaluate` then become thin calls on a session. The Node-API addon (`node` feature) is reused by the Bun package. The ADR-3 measurement list (CDP attach, extensions, WebMCP on CEF 156 and 158) gates how much of the DevTools-class toolset the `cef` backend advertises.

@@ -14,7 +14,7 @@ forks of `submodules.toml`.
 ## Tree of this repository
 
 ```
-ay.toml          the only identity and configuration source: orgs, hosts, products, repos, sdk targets, domains
+ay.toml          the only identity and configuration source: orgs, products, repos, retired repos, sdk targets, domains
 justfile         SDK recipes (check, submodules, dedup, deploy, cf-*, py-check, cpp-check, sessions, sync-host, plan, clean); imports workspace.just
 workspace.just   workspace-wide recipes (status, audit, manifests, pull, tools, cache, in), driven by tools/workspace.ts
 submodules.toml  declarative pin manifest for submodules rendered into .gitmodules and 160000 gitlinks
@@ -29,7 +29,6 @@ cpp/             C++23 units built with Bazel (root MODULE.bazel): edge_abi
 kotlin/          Kotlin workspace (Gradle wrapper, AGP, version catalog): aphrody-theme, the Aphrody Compose theme compiled in place from brand/tokens/compose and published as com.aphrody:aphrody-theme (group from ay.toml [domains], version from Cargo.toml) to the GitHub Packages Maven registry; gate `bun tools/compose-check.ts` (runs on the build host)
 brand/           identity dataset and assets; the token pipeline (Bun) is its generator
 locales/         message catalogs (TSV) of the Auto product, read by packages/auto-i18n
-patches/         Bun patchedDependencies of the root package.json
 tools/           typed Bun scripts for every repeatable flow (features, submodules, workspace, paths, private-gate, abi, hosts, disks, listings, legacy, org-inventory, cloud-map, deploy, claude-sessions, shells, map)
 docs/            spec, architecture, ADRs, feature matrix, mirrors, standard, science (cited async, recursion, compiler, OS foundations), research, guides
 third_party/     upstreams as submodules with relative URLs (`../<name>.git` in the same organization): DioxusLabs, COSMIC toolkit, Cloudflare (net, runtime, rust, sdk, agents and python forks), Vercel, media codecs under third_party/media, Bun, better-auth, one checkout each; submodules.toml also records each fork upstream. Forks owned by another repository (niubash, rubash, ruline, wgpu in `fw-nt`; taffy, accesskit, cosmic-text, mullvad, yt-dlp in `aphrody`) are not checked out here
@@ -42,8 +41,8 @@ Rules:
 - Upstreams are submodules, never copies, and one repository of the workspace checks out each fork. Chromium is fetched with depot_tools `gclient` by `browser`.
 - Nothing generated is committed (logs, reports, dumps), except the artifacts a check compares (`docs/features.md`);
   generators are committed instead.
-- Hosts are named by role in `ay.toml`: builds on `build`, tests on `test`, production on `prod`; their paths come from
-  `[paths.<role>]`, never from prose.
+- Hosts are named by role: builds on `build`, tests on `test`, production on `prod`; their aliases and paths come from
+  `ay.local.toml` `[hosts]` and `[paths.<role>]`, never from prose.
 - Rust units live in `crates/`, built by the root `Cargo.toml` and checked in CI like every other language.
 
 ## Private data
@@ -98,7 +97,7 @@ preserved archive of the old monorepo.
 ## Products and their stacks
 | Product | Stack | Owner repository | ADR |
 |---|---|---|---|
-| os | Rust OS; LFS stage-0 and Nix packages for the Linux flavour; kernel.org + CachyOS patches; Wayland desktop; Waydroid and `aydroid` | `aphrody` | ADR-4 |
+| os | Rust OS; LFS stage-0 and Nix packages for the Linux flavour; kernel.org + CachyOS patches; Wayland desktop; Waydroid | `aphrody` | ADR-4 |
 | browser | Chromium through CEF with our UI, agent panel and WebMCP | `browser` | ADR-3 |
 | search | Rust crawler, index and ranker; Bun front end; AI mode over the OpenAI-compatible model API | `aphrody` | ADR-5 |
 | cloud | Bun edge runtime with a Workers-compatible API; deploys, domains, TLS, storage, logs | `aphrody` on `bun` | ADR-6 |
@@ -109,12 +108,11 @@ ADR-3 to ADR-6 describe products that moved out of this repository; they stay he
 owner repository carries its own copy.
 
 ## Design system and tokens
-One Bun pipeline owned by `ay` generates the tokens from the brand seed and the Material 3 rules: DTCG JSON, CSS custom
-properties, a Tailwind v4 preset, a Jetpack Compose Material 3 theme (`brand/tokens/compose`, `bun tools/tokens-compose.ts`: the 48 colour roles
-of material3 1.5 in light and dark, and `AphrodyTheme` on `MaterialExpressiveTheme` with expressive motion; `kotlin/aphrody-theme` compiles that file in place into an Android library, so
-other repositories depend on `com.aphrody:aphrody-theme` and never copy it) and a C header (target; today `brand/tokens` is colour only and `aphrody-m3` holds
-shape, type, motion, elevation and state). Figma is the visual source and is mirrored to code through variables and Code
-Connect (`docs/mirrors.toml`). `aphrody-m3` and `aphrody` consume the output and do not regenerate it.
+`brand/tokens/` holds the Material 3 colour tokens: `m3-tokens.json` (light and dark roles), `m3-tokens.css` (custom properties) and
+`m3-symbols.css`. `bun tools/tokens-compose.ts` renders `brand/tokens/compose` (Compose Material 3 colour schemes and `AphrodyTheme` on
+`MaterialExpressiveTheme`), checked by `bun run check`; `kotlin/aphrody-theme` compiles that file in place into an Android library, so other
+repositories depend on `com.aphrody:aphrody-theme` and never copy it. Shape, type, motion, elevation and state are not in this tree: the Material 3
+packages live in `shenron` and `aphrody` (`ay.toml` [retired] `aphrody-m3`). The Figma variables equal `m3-tokens.json` (`docs/mirrors.toml` [figma]).
 
 ## Native UI lives in aphrody-labs/aphrody
 GPUI, gpui-kit, COSMIC and iced, the desktop shell and the Craft native UI belong to `aphrody-labs/aphrody` (a Zed fork).

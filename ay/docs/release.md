@@ -45,23 +45,11 @@ Nothing to add: pushing a tag `v*`, or running the workflow by hand, builds the 
 x86_64 and aarch64, windows x86_64, macos aarch64; corelib wasm32 `base`, `simd`, `atomics`, `component` with the LLVM pinned in
 `docs/guides/assembly-and-wasm/listings.toml`) and publishes them.
 
-### fw
+### fw, aphrody, nie
 
-`.github/workflows/release.yml` builds `fw-x86_64-linux-musl`, `fw-x86_64-windows.exe` and `fw-aarch64-macos`; the wasm module of the
-`fw-wasm` crate (`cargo build --release --target wasm32-unknown-unknown -p fw-wasm`, already built by `ci.yml`) is the fourth row. The artifact must be a
-file named like the asset, so the upload step stages it:
-
-```yaml
-      - name: Stage the asset under its release name
-        shell: bash
-        run: |
-          mkdir -p dist
-          cp "target/${{ matrix.target }}/release/${{ matrix.bin }}" "dist/${{ matrix.asset }}"
-      - uses: actions/upload-artifact@<pin>
-        with:
-          name: release-${{ matrix.asset }}
-          path: dist/${{ matrix.asset }}
-```
+All three already call the workflow from their own release workflow: `.github/workflows/release.yml` in `fw` and `nie`,
+`.github/workflows/aphrody-release.yml` in `aphrody`. Each build job uploads one artifact per asset named `release-*`, the file named like the asset, and
+a `publish` job calls this workflow (shown for `fw`):
 
 ```yaml
   publish:
@@ -70,70 +58,19 @@ file named like the asset, so the upload step stages it:
     uses: aphrody-labs/ay/.github/workflows/release.yml@main
     with:
       product: fw
-      version: ${{ github.ref_name }}      # strip the v in a previous step when the tag is vX.Y.Z: ${GITHUB_REF_NAME#v}
-      channel: stable
-      tag: ${{ github.ref_name }}
-      commit: ${{ github.sha }}
-      artifacts-pattern: release-*
-      tools-repository: aphrody-labs/ay
-    secrets:
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-```
-
-The `fw` rows of `release.toml` already name `fw_wasm.wasm`; add a matrix entry building `fw-wasm` and staging `target/wasm32-unknown-unknown/release/fw_wasm.wasm`.
-
-### aphrody
-
-`aphrody-release.yml` already uploads `release-<os>-<arch>` artifacts whose directory holds the asset (`aphrody-x86_64.tar.gz`,
-`aphrody-aarch64.tar.gz`, `Aphrody-Setup-x64.exe`, `Aphrody-arm64.dmg`), a `.sha256` and a `manifests/` directory: all three are handled (the last two are ignored).
-Replace its `publish` job by the call, keeping its `resolve-metadata` outputs:
-
-```yaml
-  publish:
-    needs: [resolve-metadata, build]
-    permissions: { contents: write, id-token: write, attestations: write }
-    uses: aphrody-labs/ay/.github/workflows/release.yml@main
-    with:
-      product: aphrody
-      version: ${{ needs.resolve-metadata.outputs.version }}
-      channel: ${{ needs.resolve-metadata.outputs.channel }}
-      tag: ${{ needs.resolve-metadata.outputs.tag }}
+      version: ${{ needs.meta.outputs.version }}
+      channel: ${{ needs.meta.outputs.channel }}
+      tag: ${{ needs.meta.outputs.tag }}
       commit: ${{ github.sha }}
       artifacts-pattern: release-*
       tools-repository: aphrody-labs/ay
     secrets: inherit
 ```
 
-Compatibility: the edge Worker keeps answering the legacy aphrody paths (`/api/releases/<channel>/latest`, `/assets/...`, `/install.sh`) while
-the legacy objects (`channels/`, `manifests/`, `scripts/` in the same bucket) exist; new releases are read from the layout above.
-
-### nie
-
-`release.yml` uploads `release-linux` (`nie-v<version>-x86_64-unknown-linux-musl.tar.gz`) and `release-windows`
-(`nie-v<version>-x86_64-pc-windows-msvc.zip`); the `{version}` of the patterns is the `version` input. Replace the `release` job (which runs
-`just ci-release-publish`) by:
-
-```yaml
-  release:
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [version, linux, windows]
-    permissions: { contents: write, id-token: write, attestations: write }
-    uses: aphrody-labs/ay/.github/workflows/release.yml@main
-    with:
-      product: nie
-      version: ${{ needs.version.outputs.version }}
-      channel: stable
-      tag: ${{ github.ref_name }}
-      commit: ${{ github.sha }}
-      artifacts-pattern: release-*
-      tools-repository: aphrody-labs/ay
-    secrets: inherit
-```
-
-`nie-plugin` and `nie-abi` are verified for `wasm32-unknown-unknown` by `targets.yml` but no module is published (`ship = false`); change the row
-and add the build when one should be.
+Asset names per product are the rows of `release.toml`. `aphrody` also uploads a `.sha256` and a `manifests/` directory per artifact; the publisher ignores both.
+The edge Worker keeps answering the legacy aphrody paths (`/api/releases/<channel>/latest`, `/assets/...`, `/install.sh`) while the legacy objects
+(`channels/`, `manifests/`, `scripts/` in the same bucket) exist; new releases are read from the layout above. `nie-plugin` and `nie-abi` are verified for
+`wasm32-unknown-unknown` by `targets.yml` but no module is published (`ship = false` in `release.toml`).
 
 ### shenron
 

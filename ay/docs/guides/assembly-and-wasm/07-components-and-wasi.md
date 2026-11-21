@@ -333,7 +333,7 @@ Composition is also where the isolation shows. The app component imports `syscal
 
 ## 7.6 Running on Wasmtime
 
-Wasmtime is not on this PC, so the run happens on the build host of `ay.toml` (`[hosts].build`, `<build-host>`). The prebuilt release was installed under `$WORK/asm-guide`:
+Wasmtime is not on this PC, so the run happens on the build host (`ay.local.toml` `[hosts].build`, `<build-host>`). The prebuilt release was installed under `$WORK/asm-guide`:
 
 ```text
 $ curl -fsSL -o wt.tar.xz https://github.com/bytecodealliance/wasmtime/releases/download/v50.0.2/wasmtime-v50.0.2-x86_64-linux.tar.xz

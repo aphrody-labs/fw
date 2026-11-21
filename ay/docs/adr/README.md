@@ -1,23 +1,23 @@
 # Architecture decision records
 
-Index updated 2026-11-17. A record is never rewritten; when a decision changes, the new record says what it supersedes and
-this table carries the current state. ADR-0011 (one ABI spec, generated bindings, tree-sitter checks) is the newest; ADR-0010 (Bun plugin to Cloudflare and create-cloud-app) precedes it; ADR-0009 (monorepo tree and build orchestration) governs the tree; ADR-0008 (SDK languages and toolchain) governs the languages.
+A record is never rewritten; when a decision changes, the new record says what it supersedes and this table carries the current state.
+ADR-0009 (monorepo tree and build orchestration) governs the tree; ADR-0008 (SDK languages and toolchain) governs the languages.
 
-| ADR | Decision | Status | Current state (2026-11-17) |
+| ADR | Decision | Status | Current state |
 |---|---|---|---|
 | [0001](0001-tree.md) | Product-first tree on upstream conventions | accepted 2026-11-16 | Partly superseded by 0008; the tree is in `docs/architecture.md` |
 | [0002](0002-build.md) | Nix for toolchains, native workspaces, one LLVM | accepted 2026-11-16 | Partly superseded by 0008: the LLVM rule stands; the Cargo workspace and Rust pins belong to `aphrody`; `flake.nix` is not in this tree |
 | [0003](0003-browser.md) | Browser on CEF with cef-rs, native UI from `aphrody` | proposed 2026-11-16 | Product owned by `aphrody-labs/browser`; the record stays until that repository carries its own copy |
-| [0004](0004-os.md) | OS on an LFS bootstrap, Nix packages, kernel.org + CachyOS | accepted 2026-11-16 | Product owned by `aphrody` (Rust OS), `anu` (Unix userland) and `aydroid` |
+| [0004](0004-os.md) | OS on an LFS bootstrap, Nix packages, kernel.org + CachyOS | accepted 2026-11-16 | Product owned by `aphrody` (Rust OS); `anu` and `aydroid` are retired (`ay.toml` [retired]); `crates/ay_os_installer` is not in this repository |
 | [0005](0005-search.md) | Search from upstream Rust components | proposed 2026-11-16 | Product owned by `aphrody`; accepted only after the index benchmark |
 | [0006](0006-cloud.md) | Cloud on a Bun edge runtime | proposed 2026-11-16 | Product owned by `aphrody` on the `bun` fork; the Cloudflare policy is in the organization standard |
-| [0007](0007-browser-automation.md) | One browser-automation ecosystem, `ay browser` | proposed 2026-11-16 | Evidence in `docs/research/browser-automation.*`; implementation moves with the browser to `aphrody-labs/browser` |
+| [0007](0007-browser-automation.md) | One browser-automation ecosystem, `ay browser` | proposed 2026-11-16 | Evidence in `docs/research/browser-automation.*`; `crates/ay_browser`, `crates/ay_chromium` and `packages/browser` are not in this repository, the implementation belongs to `aphrody-labs/browser` |
 | [0008](0008-sdk-languages-toolchain.md) | SDK languages and toolchain | accepted 2026-11-17 | In force |
 | [0009](0009-monorepo-tree.md) | Monorepo tree and native build orchestration, template for any Aphrody repository | accepted 2026-11-17 | In force; supersedes the tree of 0001 and the native-workspaces part of 0002 |
 | [0010](0010-bun-cloudflare-plugin.md) | One Bun plugin mapping every Bun feature to a Cloudflare equivalent, and a universal create-cloud-app | proposed 2026-11-17 | Map in `docs/research/bun-cloudflare.toml` (checked by `tools/cloud-map.ts`); the inventory it relies on is generated privately; extends 0006 |
 | [0011](0011-one-spec-every-binding.md) | One ABI spec generates the C header, Rust, Bun FFI, Python and docs; tree-sitter checks every output and the corelib | accepted 2026-11-17 | In force for the syscall ABI (22 constants, 8 functions); structs, asm grammar, OpenAPI and WIT generation are not done |
 | [0012](0012-cloudflare-platform.md) | Cloudflare as the edge of every product (releases, browser, crawl, tunnel, ayvpn, main page); `ay` shaped like Cloudflare's tooling | proposed 2026-11-17 | Inventory is private; nothing changed on the account; the events receiver is the first unit |
 | [0013](0013-decisions-taken.md) | Roles of repositories, domains and engines, Cloudflare and publishing choices taken by the assistant under the owner's delegation | accepted 2026-11-17 | Applied: naming registry, crates.io workflow; pending the owner's session: GitHub App event subscription, Workers Paid purchase |
-| [0014](0014-unified-edge-worker.md) | One edge Worker (`apps/edge`) for the hosts of the ecosystem; one release layout, one R2 sync tool, wasm on the edge | accepted 2026-11-19 | Built and tested locally (`docs/edge.md`); the routes move when the owner applies `tools/edge-cutover.ts` |
+| [0014](0014-unified-edge-worker.md) | One edge Worker (`apps/edge`) for the hosts of the ecosystem; one release layout, one R2 sync tool, wasm on the edge | accepted 2026-11-19 | Built; the routes were moved by `tools/edge-cutover.ts` on 2026-11-20 (`docs/edge.md`) |
 | [0015](0015-one-cluster-rust-userland.md) | One cluster, a Rust userland: hosts as labels, one base, Kiri, one rendered proxy, one service manifest | proposed 2026-11-20 | Facts read live; nothing deployed by this ADR; each step needs its proof |
 | [0016](0016-unified-platform.md) | Unified platform: one routable edge Worker (25 scripts to 9), 11 R2 buckets to 3, kiri on the fleet with a patch queue, autoscaling split between Bun policy and a Go controller, one GPUI dashboard on a Rust hub and a Go agent | proposed 2026-11-20 | Facts read live (`docs/cloud/platform-inventory-2026-11-20.md`); nothing changed on the account or the hosts; 14 work packages with gates |

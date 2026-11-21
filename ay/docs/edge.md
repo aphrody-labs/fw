@@ -29,9 +29,9 @@ receives no route of its own and is reached through a service binding. That is h
 script (below), and how code owned by another repository is used without copying it (docs/architecture.md, Independence). `fw-edge` is not deployed
 on the account (read 2026-11-19), so its row stays `enabled = false` until it is, or until `fw` exports its handler as a module.
 
-## Route table (read live 2026-11-19, `bun tools/edge-cutover.ts plan`)
+## Route table (read live 2026-11-19 before the cutover, `bun tools/edge-cutover.ts plan`; the cutover is done, see its checklist)
 
-| Route or domain | Owner today | Owner after the cutover |
+| Route or domain | Owner before the cutover | Owner after the cutover |
 |---|---|---|
 | `releases.<root>/*`, `downloads.<root>/*`, `<root>/download*` | `aphrody-worker` | `ay-edge` / `releases` |
 | `<root>/r2-assets/*` | `aphrody-worker` | `ay-edge` / `assets` |
@@ -180,7 +180,7 @@ and on this Worker only once `auto` is fused into it.
 cf.toml declares the post-cutover owner of the edge routes. `cf-reconcile` therefore shows them as route updates, which equal the `edge-cutover plan` below, and it
 never creates or moves a route or custom domain whose script is not deployed (`ay-edge` is not until its first upload): they are listed as skipped.
 
-## Cutover checklist (the owner confirms the first deploy; nothing here runs on its own)
+## Cutover checklist
 
 Status 2026-11-20: done with the owner's approval. `ay-edge` was uploaded without routes and checked on workers.dev, the proxied AAAA records of `assets.<root>` and `wasm.<root>` were created (declared in cf.toml `worker_aaaa`), `edge-cutover apply --apply` moved the 10 routes and the `auto` custom domain, and `EDGE_DEPLOY` and `EDGE_CUTOVER_DONE` are `true`. Every routed host answers with `x-served-by: ay-edge`. The 12 `rosegriffon.fr` hosts that cf.toml declares as tunnel CNAMEs have no DNS record because that tunnel was deleted on 2026-11-19: they are not created until the rosegriffon owner declares a live target. The R2 custom domains (`assets.<app>`, `video.*`, `bun-lib`, `dist`) are served by R2 directly over HTTP/2 and are not fronted by the Worker.
 

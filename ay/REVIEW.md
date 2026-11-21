@@ -1,6 +1,6 @@
 # Review checklist
 
-For reviewers and for authors before they ask for review. Rules and sources: [code-style.md](https://github.com/aphrody-labs/.github/blob/main/docs/standards/code-style.md) section 7 (RV-01 to RV-11); the IDs below point into it. Copy this file to `REVIEW.md` in a repository and extend it with local rules.
+For reviewers and for authors before they ask for review. Rules and sources: [code-style.md](https://github.com/aphrody-labs/.github/blob/main/docs/standards/code-style.md) section 7 (RV-01 to RV-11); the IDs below point into it.
 
 Standard: approve when the change definitely improves the code base, even if it is not perfect (RV-01). Label every comment `Nit:`, `Optional:`, `FYI:`, or leave it unlabeled when it is required (RV-03). Answer every thread with evidence (RV-04).
 
