@@ -1,8 +1,6 @@
 #![forbid(unsafe_code)]
 
-//! `fw` (`fw-bin`) — Single unified zero-system-dependency Fat-LTO binary
-//! across Win 11 RTX 4070 (`msvc` static CRT), Linux 7.3 12-core 45 GB RAM (`musl` static),
-//! 3 VPS Pingora/Dynamo/vLLM-Router nodes, 4 GPU hosts, and End-User WebGPU/FPU peers.
+//! `fw` (`fw-bin`): the command-line entry point. Command names, usage and summaries live in `cli_parser.rs`.
 
 mod abliterate;
 mod agent_platform;
@@ -296,7 +294,7 @@ fn main() {
             let mut router = HybridClusterRouter::default_hybrid_cluster();
             let sub = args.get(1).map(|s| s.as_str()).unwrap_or("summary");
             if sub == "route" {
-                let prompt = args.get(2).map(|s| s.as_str()).unwrap_or("Fw v3.0 hybrid inference");
+                let prompt = args.get(2).map(|s| s.as_str()).unwrap_or("hybrid inference");
                 let d1 = router.route_request(prompt, true);
                 let d2 = router.route_request(prompt, true);
                 println!(

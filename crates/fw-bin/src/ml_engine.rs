@@ -1,10 +1,11 @@
 #![forbid(unsafe_code)]
 
-//! Pure-Rust, zero-subprocess ML & AI engine for `fw`:
-//! - `hf`: Native Hugging Face Hub API (`info`, `files`, `pull`) over `ureq` TLS 1.3 + `HF_TOKEN`
-//! - `infer`: Native GGUF v3 / Q8_0 inference + OpenAI/llama-server/Ollama/Gateway completion
-//! - `train` / `finetune`: Real pure-Rust LoRA (`W + (alpha/r) * B * A`) SGD training loop + dataset validator + checkpoint writer
-//! - `heretic`: Native Heretic preset loader (`configs/heretic/*.toml`) + real directional orthogonalization (`W' = W - strength * (W u) u^T`)
+//! ML commands of `fw`. Only `hf` and the remote path of `infer` touch real models or services; the rest is reference math on synthetic data:
+//! - `hf`: Hugging Face Hub API (`info`, `files`, `pull`) over `ureq` + `HF_TOKEN`.
+//! - `infer`: a prompt goes to an OpenAI-compatible endpoint; `--gguf` only parses the GGUF header and runs a fixed Q8_0 dot product (no generation).
+//! - `train` / `finetune`: LoRA (`W + (alpha/r) * B * A`) SGD on a synthetic 32-dim layer; a dataset JSONL is validated and counted but not trained on; writes the adapter JSON.
+//! - `heretic`: preset loader (`configs/heretic/*.toml`) and directional orthogonalization (`W' = W - strength * (W u) u^T`) on synthetic vectors.
+//! - `align`: DPO, ORPO and KTO losses on one synthetic preference pair.
 
 use fw_compute::detect_hardware_profile;
 use fw_fx::agent::{post_json, resolve_api_key};
@@ -134,7 +135,7 @@ pub fn run_infer(args: &[String], offline: bool) -> Result<Value, String> {
     }))
 }
 
-/// Real pure-Rust LoRA fine-tuning step (`W' = W + (alpha/r) * B * A`) with SGD MSE reduction.
+/// LoRA step (`W' = W + (alpha/r) * B * A`) with SGD on a synthetic target mapping.
 pub fn run_lora_training(dim: usize, rank: usize, alpha: f32, lr: f32, steps: usize) -> (f32, f32, Vec<f32>, Vec<f32>) {
     let scale = alpha / (rank.max(1) as f32);
     // Deterministic initialization: A small non-zero, B zero (standard LoRA init)
@@ -278,6 +279,7 @@ pub fn run_train(args: &[String], cwd: &Path) -> Result<Value, String> {
         "ok": true,
         "zeroSubprocess": true,
         "method": "LoRA (W + (alpha/r) * B * A)",
+        "data": "synthetic (dataset rows are only counted)",
         "backend": hw.recommended_backend,
         "dataset": dataset.map(|p| p.display().to_string()),
         "datasetSamples": dataset_samples,
@@ -293,7 +295,7 @@ pub fn run_train(args: &[String], cwd: &Path) -> Result<Value, String> {
     }))
 }
 
-/// Real pure-Rust Heretic directional orthogonalization (`W' = W - strength * (W u) u^T`).
+/// Heretic directional orthogonalization (`W' = W - strength * (W u) u^T`) on synthetic activations.
 pub fn heretic_orthogonalize(dim: usize, strength: f32) -> (f32, f32, f32) {
     // Mean harmful vs harmless hidden activations -> refusal direction r_hat
     let h_harmful: Vec<f32> = (0..dim).map(|i| if i % 2 == 0 { 1.0 } else { 0.2 }).collect();
@@ -437,6 +439,7 @@ pub fn run_heretic(args: &[String], cwd: &Path) -> Result<Value, String> {
                 "engine": "fw-heretic-rust (directional orthogonalization)",
                 "preset": preset,
                 "presetExists": preset_file.is_file(),
+                "data": "synthetic",
                 "strength": strength,
                 "refusalProjectionBefore": before,
                 "refusalProjectionAfter": after,
@@ -448,7 +451,7 @@ pub fn run_heretic(args: &[String], cwd: &Path) -> Result<Value, String> {
     }
 }
 
-/// Real pure-Rust alignment engine supporting DPO, ORPO, and KTO preference optimization.
+/// DPO, ORPO and KTO losses over one synthetic preference pair (two scalar log-policy parameters).
 pub fn run_alignment_step(method: &str, beta: f32, lr: f32, steps: usize) -> (f32, f32, f32, f32) {
     // Learnable log-policy parameters theta over chosen (y_w) vs rejected (y_l) preference pairs
     let mut theta_w = 0.0f32;
@@ -516,7 +519,7 @@ pub fn run_align(args: &[String]) -> Result<Value, String> {
         "ok": true,
         "zeroSubprocess": true,
         "method": method,
-        "stack": ["burn-cubecl", "fw-ggml", "llama.cpp", "heretic"],
+        "data": "synthetic",
         "beta": beta,
         "lr": lr,
         "steps": steps,

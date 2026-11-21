@@ -77,38 +77,38 @@ pub struct CommandMeta {
 
 pub const COMMANDS: &[CommandMeta] = &[
     // Agent & Interactive
-    CommandMeta { name: "ask", aliases: &["chat"], group: "Agent & Interactive", usage: "fw ask [flags] <prompt>", summary: "Run multi-turn tool-calling coding agent (--model --url --resume --full-access --json)" },
+    CommandMeta { name: "ask", aliases: &["chat"], group: "Agent & Interactive", usage: "fw ask [flags] <prompt>", summary: "Run the multi-turn coding agent with tool calls (--model --url --resume --full-access --json)" },
     CommandMeta { name: "tool", aliases: &["x"], group: "Agent & Interactive", usage: "fw tool <name> '<json>'", summary: "Execute a workspace tool directly (read_file, write_file, edit_file, glob_files, grep_files, shell)" },
     CommandMeta { name: "tui", aliases: &["m3-tui", "god"], group: "Agent & Interactive", usage: "fw tui", summary: "Launch interactive Material 3 TUI" },
     CommandMeta { name: "convert", aliases: &["cv"], group: "Files & Media", usage: "fw convert <input> <out-dir> [--to svg,md,html,jsx,gpui] [--fps N] [--width N]", summary: "Convert a file into other files: video to SVG frames, Markdown, HTML, JSX and GPUI source (runs fw-video)" },
-    CommandMeta { name: "serve", aliases: &["s"], group: "Agent & Interactive", usage: "fw serve [host:port]", summary: "Start Fw Chat web UI + OpenAI/MCP/ACP/A2A/WebGPU server" },
+    CommandMeta { name: "serve", aliases: &["s"], group: "Agent & Interactive", usage: "fw serve [host:port]", summary: "Serve the chat web UI plus /v1/chat/completions, /mcp, /acp, /a2a and /webgpu" },
     // ML, Inference, Training & Heretic
-    CommandMeta { name: "infer", aliases: &["run"], group: "ML, Inference & Heretic", usage: "fw infer [prompt] [--gguf <path>] [--model <m>] [--url <u>]", summary: "Native GGUF v3 Q8_0 or OpenAI/Ollama/Gateway inference (zero subprocess)" },
-    CommandMeta { name: "train", aliases: &["finetune", "lora"], group: "ML, Inference & Heretic", usage: "fw train [dataset.jsonl] [--rank 8] [--alpha 16] [--steps 60] [--out <file>]", summary: "Native pure-Rust LoRA fine-tuning & checkpoint writer (zero subprocess)" },
-    CommandMeta { name: "hf", aliases: &["huggingface"], group: "ML, Inference & Heretic", usage: "fw hf <search|info|files|pull|datasets|spaces|papers|collections|whoami|sitemap|safetensors|tokenizer|cache>", summary: "Full pure-Rust Hugging Face Hub, Safetensors, Tokenizer & Sitemap client (zero subprocess)" },
-    CommandMeta { name: "abliterate", aliases: &["abl"], group: "ML, Inference & Heretic", usage: "fw abliterate <plan|biprojected|ara|sweep|moe|strip-cot|presets> [flags]", summary: "Flagship pure-Rust abliteration: 7-step plan, biprojected row-norm, ARA (Weidmann 2026), Pareto KL sweep, MoE" },
-    CommandMeta { name: "vram", aliases: &[], group: "ML, Inference & Heretic", usage: "fw vram [--vram-gb 12] [--model-gb 5.5] [--layers 32] [--ctx 16384] [--swa-layers 0] [--kv-type q8_0]", summary: "Exact llama.cpp VRAM, SWA KV-cache & -ngl GPU layer planner (zero subprocess)" },
-    CommandMeta { name: "repomap", aliases: &[], group: "Workspace & Protocols", usage: "fw repomap [dir]", summary: "Zero-subprocess repository symbol map (Rust, TS/JS, Python, Go, Kotlin)" },
+    CommandMeta { name: "infer", aliases: &["run"], group: "ML, Inference & Heretic", usage: "fw infer [prompt] [--gguf <path>] [--model <m>] [--url <u>]", summary: "Send a prompt to an OpenAI-compatible endpoint; with --gguf, read the GGUF header and run a Q8_0 dot-product sample (no token generation)" },
+    CommandMeta { name: "train", aliases: &["finetune", "lora"], group: "ML, Inference & Heretic", usage: "fw train [dataset.jsonl] [--rank 8] [--alpha 16] [--steps 60] [--out <file>]", summary: "LoRA SGD demo on a synthetic 32-dim layer; a dataset.jsonl is validated and counted, not trained on; writes an fw-lora-v1 JSON" },
+    CommandMeta { name: "hf", aliases: &["huggingface"], group: "ML, Inference & Heretic", usage: "fw hf <search|info|files|pull|datasets|spaces|papers|collections|whoami|sitemap|safetensors|tokenizer|cache>", summary: "Hugging Face Hub client: search, info, files, pull, safetensors header and tokenizer.json inspection" },
+    CommandMeta { name: "abliterate", aliases: &["abl"], group: "ML, Inference & Heretic", usage: "fw abliterate <plan|biprojected|ara|sweep|moe|strip-cot|presets> [flags]", summary: "Abliteration: `plan` sizes a 7-step pipeline; biprojected, ara, sweep and moe run reference math on synthetic vectors, not model weights" },
+    CommandMeta { name: "vram", aliases: &[], group: "ML, Inference & Heretic", usage: "fw vram [--vram-gb 12] [--model-gb 5.5] [--layers 32] [--ctx 16384] [--swa-layers 0] [--kv-type q8_0]", summary: "Estimate llama.cpp VRAM, SWA KV cache and the -ngl layer split" },
+    CommandMeta { name: "repomap", aliases: &[], group: "Workspace & Protocols", usage: "fw repomap [dir]", summary: "Repository symbol map (Rust, TS/JS, Python, Go, Kotlin)" },
     CommandMeta { name: "watch", aliases: &[], group: "Workspace & Protocols", usage: "fw watch <list|add|remove> ...", summary: "Manage persistent scheduled agent watchers (~/.fx/watchers.json)" },
-    CommandMeta { name: "tune", aliases: &["cachy"], group: "Workspace & Protocols", usage: "fw tune <hardware|sysctl|scx|ananicy|bench>", summary: "CachyOS chwd/sysctl/scx_lavd/ananicy-cpp tuning & x86-64-v3 + mimalloc benchmarks" },
-    CommandMeta { name: "sec", aliases: &["deepsec"], group: "Workspace & Protocols", usage: "fw sec [dir]", summary: "Pure-Rust static security & secret scanner (vercel-labs/deepsec parity)" },
-    CommandMeta { name: "graph", aliases: &["graphify"], group: "Workspace & Protocols", usage: "fw graph [query <term>|god-nodes|communities] [dir] [--md] [--save]", summary: "Pure-Rust keyless graphify knowledge graph (Label Propagation communities + God Nodes + XFS persistence)" },
-    CommandMeta { name: "mem", aliases: &["memory", "claude-mem"], group: "Workspace & Protocols", usage: "fw mem <add|search|timeline|get|list|stats|prune>", summary: "Pure-Rust keyless claude-mem (3-layer progressive disclosure + BM25 + XFS sharded JSONL)" },
-    CommandMeta { name: "docs", aliases: &["c7", "context7"], group: "Workspace & Protocols", usage: "fw docs <resolve|query|ingest|list> [lib] [topic] [--tokens 4000]", summary: "Pure-Rust keyless Context7 live doc resolver (crates.io/npm/PyPI/GitHub/llms.txt + XFS cache)" },
-    CommandMeta { name: "learn", aliases: &["autolearn"], group: "Workspace & Protocols", usage: "fw learn <status|harvest|distill|search|loop|systemd> [--xfs-root <dir>]", summary: "Autonomous agentless self-learning engine & infinite XFS dataset daemon for VPS" },
-    CommandMeta { name: "skills", aliases: &[], group: "Workspace & Protocols", usage: "fw skills <list|read|install>", summary: "Native skills discovery & GitHub installer (vercel-labs/skills parity)" },
-    CommandMeta { name: "onboard", aliases: &["init-agent"], group: "Workspace & Protocols", usage: "fw onboard [dir] | fw onboard export <all|mcp|opencode|zed> [--dir <dir>]", summary: "Universal autonomous agent discovery & config exporter (AGENTS/Claude/Gemini/Codex/Cursor/OpenCode/Zed/ACP/MCP)" },
-    CommandMeta { name: "workflow", aliases: &["wf"], group: "Workspace & Protocols", usage: "fw workflow <list|run> [discover|abliterate-e2e|pkg-audit|perf-check] [dir]", summary: "Run reproducible built-in end-to-end verification workflows (zero subprocess)" },
+    CommandMeta { name: "tune", aliases: &["cachy"], group: "Workspace & Protocols", usage: "fw tune <hardware|sysctl|scx|ananicy|bench>", summary: "CachyOS hardware, sysctl, scx_lavd and ananicy-cpp profiles; x86-64-v3 and mimalloc microbenchmarks" },
+    CommandMeta { name: "sec", aliases: &["deepsec"], group: "Workspace & Protocols", usage: "fw sec [dir]", summary: "Pattern-based scan for secrets and risky code" },
+    CommandMeta { name: "graph", aliases: &["graphify"], group: "Workspace & Protocols", usage: "fw graph [query <term>|god-nodes|communities] [dir] [--md] [--save]", summary: "Code knowledge graph: Label Propagation communities, god nodes, optional --save" },
+    CommandMeta { name: "mem", aliases: &["memory", "claude-mem"], group: "Workspace & Protocols", usage: "fw mem <add|search|timeline|get|list|stats|prune>", summary: "Memory store: add, then search (BM25), timeline and get; monthly JSONL shards" },
+    CommandMeta { name: "docs", aliases: &["c7", "context7"], group: "Workspace & Protocols", usage: "fw docs <resolve|query|ingest|list> [lib] [topic] [--tokens 4000]", summary: "Resolve and query library docs from crates.io, npm, PyPI, GitHub and llms.txt, cached locally" },
+    CommandMeta { name: "learn", aliases: &["autolearn"], group: "Workspace & Protocols", usage: "fw learn <status|harvest|distill|search|loop|systemd> [--xfs-root <dir>]", summary: "Harvest git history and docs into a local JSONL corpus; `systemd` prints a unit for a VPS" },
+    CommandMeta { name: "skills", aliases: &[], group: "Workspace & Protocols", usage: "fw skills <list|read|install>", summary: "List, read and install SKILL.md skills" },
+    CommandMeta { name: "onboard", aliases: &["init-agent"], group: "Workspace & Protocols", usage: "fw onboard [dir] | fw onboard export <all|mcp|opencode|zed> [--dir <dir>]", summary: "Describe the workspace for agents and export MCP, OpenCode and Zed configs" },
+    CommandMeta { name: "workflow", aliases: &["wf"], group: "Workspace & Protocols", usage: "fw workflow <list|run> [discover|abliterate-e2e|pkg-audit|perf-check] [dir]", summary: "Run a built-in workflow (discover, abliterate-e2e, pkg-audit, perf-check)" },
     CommandMeta { name: "self-install", aliases: &[], group: "Workspace & Protocols", usage: "fw self-install [--dir <bin_dir>]", summary: "Install fw binary into ~/.local/bin with SHA-256 verification" },
-    CommandMeta { name: "self-update", aliases: &["update", "upgrade"], group: "Workspace & Protocols", usage: "fw self-update [--check] [--version <tag>]", summary: "Zero-subprocess TLS 1.3 self-update from GitHub Releases with SHA-256 & atomic .prev rollback" },
-    CommandMeta { name: "self-uninstall", aliases: &[], group: "Workspace & Protocols", usage: "fw self-uninstall [--dir <bin_dir>] [--purge-data]", summary: "Cleanly uninstall fw binary (and optionally ~/.fx data)" },
-    CommandMeta { name: "sh", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw sh -c \"cmd1 | cmd2 | cmd3\"", summary: "Zero-fork in-process POSIX pipeline shell (40 uutils applets, Wasm32 compatible)" },
-    CommandMeta { name: "jq", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw jq '<expr>' [file.json]", summary: "Pure-Rust JSON query filter (.a.b[0], keys, length)" },
-    CommandMeta { name: "tokei", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw tokei [dir]", summary: "Pure-Rust multi-language LOC counter" },
-    CommandMeta { name: "du", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw du [dir]", summary: "Pure-Rust disk usage analyzer (dust style)" },
+    CommandMeta { name: "self-update", aliases: &["update", "upgrade"], group: "Workspace & Protocols", usage: "fw self-update [--check] [--version <tag>]", summary: "Update from GitHub Releases, verify SHA-256, keep the previous binary as .prev" },
+    CommandMeta { name: "self-uninstall", aliases: &[], group: "Workspace & Protocols", usage: "fw self-uninstall [--dir <bin_dir>] [--purge-data]", summary: "Remove the fw binary (--purge-data also removes ~/.fx)" },
+    CommandMeta { name: "sh", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw sh -c \"cmd1 | cmd2 | cmd3\"", summary: "In-process pipeline shell over 40 built-in applets, no child processes" },
+    CommandMeta { name: "jq", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw jq '<expr>' [file.json]", summary: "JSON query filter (.a.b[0], keys, length)" },
+    CommandMeta { name: "tokei", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw tokei [dir]", summary: "Lines-of-code counter by language" },
+    CommandMeta { name: "du", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw du [dir]", summary: "Disk usage by directory" },
     CommandMeta { name: "bat", aliases: &[], group: "GNU/Linux & Wasm Userland", usage: "fw bat <file>", summary: "Line-numbered file viewer" },
-    CommandMeta { name: "heretic", aliases: &[], group: "ML, Inference & Heretic", usage: "fw heretic <presets|inspect|abliterate> [preset] [--strength 1.0]", summary: "Heretic TOML preset inspector & directional orthogonalization (zero subprocess)" },
-    CommandMeta { name: "align", aliases: &["dpo", "orpo"], group: "ML, Inference & Heretic", usage: "fw align <dpo|orpo|kto> [--beta 0.1] [--steps 60]", summary: "Native DPO / ORPO / KTO preference alignment (Burn + GGML + llama.cpp stack)" },
+    CommandMeta { name: "heretic", aliases: &[], group: "ML, Inference & Heretic", usage: "fw heretic <presets|inspect|abliterate> [preset] [--strength 1.0]", summary: "Heretic TOML preset inspector; `abliterate` runs directional orthogonalization on synthetic vectors" },
+    CommandMeta { name: "align", aliases: &["dpo", "orpo"], group: "ML, Inference & Heretic", usage: "fw align <dpo|orpo|kto> [--beta 0.1] [--steps 60]", summary: "DPO, ORPO and KTO loss demo on one synthetic preference pair; no model is aligned" },
     // Packages & Dependencies (bun + uv grammar)
     CommandMeta { name: "init", aliases: &[], group: "Packages & Dependencies", usage: "fw init", summary: "Initialize a project manifest" },
     CommandMeta { name: "install", aliases: &["i"], group: "Packages & Dependencies", usage: "fw install [pkg...]", summary: "Install project dependencies" },
@@ -116,8 +116,8 @@ pub const COMMANDS: &[CommandMeta] = &[
     CommandMeta { name: "remove", aliases: &["rm", "uninstall"], group: "Packages & Dependencies", usage: "fw remove <pkg>", summary: "Remove a dependency from the project" },
     CommandMeta { name: "lock", aliases: &[], group: "Packages & Dependencies", usage: "fw lock [dir]", summary: "Generate deterministic fw-pm.lock.json (Cargo + npm + APM)" },
     CommandMeta { name: "verify", aliases: &[], group: "Packages & Dependencies", usage: "fw verify [dir]", summary: "Verify fw-pm.lock.json against workspace manifests" },
-    CommandMeta { name: "info", aliases: &["resolve"], group: "Packages & Dependencies", usage: "fw info <cargo|npm> <pkg>", summary: "Fetch live crates.io sparse index or npm registry metadata (zero subprocess)" },
-    CommandMeta { name: "fetch", aliases: &["download"], group: "Packages & Dependencies", usage: "fw fetch <cargo|npm> <pkg>", summary: "Download & SHA-256 verify a .crate or npm .tgz into ~/.fw/cache (zero subprocess)" },
+    CommandMeta { name: "info", aliases: &["resolve"], group: "Packages & Dependencies", usage: "fw info <cargo|npm> <pkg>", summary: "Fetch crates.io sparse index or npm registry metadata" },
+    CommandMeta { name: "fetch", aliases: &["download"], group: "Packages & Dependencies", usage: "fw fetch <cargo|npm> <pkg>", summary: "Download a .crate or npm .tgz into ~/.fw/cache and verify its SHA-256" },
     CommandMeta { name: "tree", aliases: &["scan"], group: "Packages & Dependencies", usage: "fw tree [dir]", summary: "Inspect workspace dependency graph (Cargo + npm + APM)" },
     CommandMeta { name: "export", aliases: &["sbom"], group: "Packages & Dependencies", usage: "fw export [dir]", summary: "Export CycloneDX 1.5 SBOM" },
     CommandMeta { name: "audit", aliases: &[], group: "Packages & Dependencies", usage: "fw audit", summary: "Audit installed dependencies" },
@@ -130,12 +130,12 @@ pub const COMMANDS: &[CommandMeta] = &[
     CommandMeta { name: "sessions", aliases: &["session"], group: "Workspace & Protocols", usage: "fw sessions | session <show|delete> <id>", summary: "List, inspect, or delete saved agent sessions" },
     CommandMeta { name: "permissions", aliases: &[], group: "Workspace & Protocols", usage: "fw permissions [ask|auto|full-access]", summary: "View or set agent permission mode" },
     CommandMeta { name: "models", aliases: &["provider"], group: "Workspace & Protocols", usage: "fw models", summary: "List configured LLM providers & endpoints" },
-    CommandMeta { name: "workspace", aliases: &[], group: "Workspace & Protocols", usage: "fw workspace", summary: "Inspect git & file index (zero subprocess)" },
-    CommandMeta { name: "pr", aliases: &["issue"], group: "Workspace & Protocols", usage: "fw pr", summary: "Safe read-only git status & diff snapshot" },
-    CommandMeta { name: "doctor", aliases: &[], group: "Workspace & Protocols", usage: "fw doctor", summary: "Probe toolchain, FX_HOME, git, API keys, and Ollama :11434" },
+    CommandMeta { name: "workspace", aliases: &[], group: "Workspace & Protocols", usage: "fw workspace", summary: "Show git state and the file index" },
+    CommandMeta { name: "pr", aliases: &["issue"], group: "Workspace & Protocols", usage: "fw pr", summary: "Read-only git status and diff snapshot" },
+    CommandMeta { name: "doctor", aliases: &[], group: "Workspace & Protocols", usage: "fw doctor", summary: "Check the toolchain, FX_HOME, git, API keys and Ollama on :11434" },
     CommandMeta { name: "completion", aliases: &[], group: "Workspace & Protocols", usage: "fw completion [bash|zsh|fish|pwsh]", summary: "Generate shell completion script" },
-    CommandMeta { name: "bench", aliases: &[], group: "Workspace & Protocols", usage: "fw bench <silicon|exec|compare|http>", summary: "Run local compute, exec, or HTTP benchmarks" },
-    CommandMeta { name: "help", aliases: &[], group: "Workspace & Protocols", usage: "fw help [command]", summary: "Display concise help for fw or a command" },
+    CommandMeta { name: "bench", aliases: &[], group: "Workspace & Protocols", usage: "fw bench <silicon|exec|compare|http>", summary: "Run local compute, exec or HTTP benchmarks" },
+    CommandMeta { name: "help", aliases: &[], group: "Workspace & Protocols", usage: "fw help [command]", summary: "Show help for fw or one command" },
 ];
 
 pub fn resolve_alias(cmd: &str) -> &str {
@@ -284,7 +284,7 @@ fn parse_color(val: &str) -> Result<ColorChoice, String> {
 
 pub fn render_root_help() -> String {
     let mut out = format!(
-        "fw {FW_VERSION} — Fast native Rust coding agent, package manager & server.\n\nUsage: fw [OPTIONS] [COMMAND] [ARGS...]\n\n"
+        "fw {FW_VERSION} — Rust coding agent, package manager and server.\n\nUsage: fw [OPTIONS] [COMMAND] [ARGS...]\n\n"
     );
     // Groups in the order they first appear in COMMANDS, so a new group can never be hidden.
     let mut groups: Vec<&str> = Vec::new();

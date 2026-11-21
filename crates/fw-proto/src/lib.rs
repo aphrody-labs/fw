@@ -1,8 +1,7 @@
 #![forbid(unsafe_code)]
 
-//! `fw-proto` — Zero-system-dependency unified protocol fabric:
-//! HTTP/1.1 control plane, cluster peer registration, GraphQL,
-//! OpenAPI 3.1, OpenAI, Gemini Decision 1, MCP, ACP, A2A, and Browser WebGPU/Wasm32 harness.
+//! `fw-proto`: HTTP/1.1 control plane with cluster peer registration (`POST /cluster/peers`), GraphQL,
+//! OpenAPI 3.1, OpenAI-compatible chat, Gemini Decision 1, MCP, ACP, A2A and the `/webgpu` browser page.
 
 mod chat;
 mod server;
@@ -29,23 +28,23 @@ use std::time::Instant;
 pub const FW_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 
-/// Zero-latency in-process MCP tools representing the Linux, Windows, and WebAssembly kernels.
+/// In-process MCP tools that report host facts and a static capability list for the Linux, Windows and WebAssembly targets.
 pub const KERNEL_MCP_TOOLS: &[(&str, &str)] = &[
     (
         "linux_kernel_mcp",
-        "Zero-latency Linux kernel MCP tool (Linux 7.5 / CachyOS LTO, sched_ext scx_lavd, io_uring, WSL dxgkrnl, POSIX UAPI)",
+        "Linux target probe: host OS, architecture, hardware profile and a static capability list (sched_ext scx_lavd, io_uring, cgroups-v2)",
     ),
     (
         "windows_kernel_mcp",
-        "Zero-latency Windows kernel MCP tool (Win32/NT, in-process ConPTY, SDDL NamedPipe, DX12/WGPU, DirectWrite)",
+        "Windows target probe: host OS, architecture, hardware profile and a static capability list (ConPTY, named pipes, DX12/WGPU)",
     ),
     (
         "wasm_kernel_mcp",
-        "Zero-latency WebAssembly kernel MCP tool (wasm32-unknown-unknown, wasm32-wasip2, Asterinas OSTD XArray/MlsDisk, WebGPU WGSL)",
+        "WebAssembly target probe: wasm32 targets, a static capability list and the default WGSL kernel size",
     ),
 ];
 
-/// Executes a Linux, Windows, or WebAssembly kernel MCP tool directly in-process (zero fork / zero IPC latency).
+/// Runs a Linux, Windows or WebAssembly target probe in-process.
 pub fn dispatch_kernel_mcp_tool(tool_name: &str, args: &Value) -> Option<Value> {
     let t0 = Instant::now();
     let action = args.get("action").and_then(Value::as_str).unwrap_or("probe");
@@ -81,7 +80,7 @@ pub fn dispatch_kernel_mcp_tool(tool_name: &str, args: &Value) -> Option<Value> 
     };
     Some(json!({
         "tool": tool_name,
-        "inProcessZeroLatency": true,
+        "inProcess": true,
         "latencyUs": t0.elapsed().as_micros(),
         "result": payload
     }))
@@ -97,9 +96,9 @@ pub fn build_openapi_3_1() -> Value {
             "version": FW_VERSION
         },
         "paths": {
-            "/health": { "get": { "summary": "Zero-dep server health" } },
+            "/health": { "get": { "summary": "Server health" } },
             "/hardware": { "get": { "summary": "OS UAPI/Win32/POSIX/Darwin & GPU/CPU/TPU hardware profile" } },
-            "/cluster": { "get": { "summary": "Hybrid 4-GPU + 3-VPS/CPU + User-WebGPU cluster topology (Pingora + Dynamo + vLLM-Router)" } },
+            "/cluster": { "get": { "summary": "Cluster topology and registered browser WebGPU peers" } },
             "/cluster/route": { "post": { "summary": "KV-cache radix + disaggregated P/D routing decision" } },
             "/graphql": { "post": { "summary": "GraphQL query endpoint" } },
             "/cluster/peers": { "post": { "summary": "Register a browser WebGPU compute peer (peerId, vramGb, cpuCores)" } },
@@ -110,9 +109,9 @@ pub fn build_openapi_3_1() -> Value {
             "/acp": { "post": { "summary": "Agent Client Protocol JSON-RPC 2.0" } },
             "/a2a": { "post": { "summary": "Agent-to-Agent JSON-RPC 2.0" } },
             "/claw/status": { "get": { "summary": "Hermes/OpenClaw full-Rust runtime status" } },
-            "/claw/ranking": { "get": { "summary": "Verified Nov 2026 Rust CLI and protocol rankings" } },
+            "/claw/ranking": { "get": { "summary": "Rust CLI and protocol rankings from fw-hermes-claw" } },
             "/claw/run": { "post": { "summary": "Execute Hermes/OpenClaw grounded goal loop" } },
-            "/webgpu": { "get": { "summary": "Live WebGPU WGSL + Wasm32 browser proof page (Blitz / Chromium CEF + Dawn)" } }
+            "/webgpu": { "get": { "summary": "Browser page that runs a WebGPU compute shader and reports the result" } }
         }
     })
 }
@@ -239,7 +238,7 @@ pub fn dispatch_http(
             200,
             "application/json",
             json!({
-                "name": "Fw v4.2 Consolidated Agent OS",
+                "name": "fw",
                 "version": FW_VERSION,
                 "protocols": ["http", "graphql", "openapi-3.1", "openai", "mcp", "acp", "a2a", "ggml-rpc", "gemini-decision-1"],
                 "endpoints": ["/mcp", "/acp", "/a2a", "/v1/chat/completions", "/v1/fx/status", "/v1/pm/scan", "/v1/terminal/m3", "/webgpu"]
@@ -318,7 +317,7 @@ pub fn dispatch_http(
                     tools.push(json!({
                         "name": name,
                         "description": desc,
-                        "inProcessZeroLatency": true
+                        "inProcess": true
                     }));
                 }
                 for spec in builtin_tool_specs() {
@@ -438,7 +437,7 @@ mod tests {
         assert_eq!(code, 400);
         assert!(oai.contains("non-empty"));
 
-        // Verify zero-latency Linux, Windows, and WebAssembly kernel MCP tools over /mcp, /acp, /a2a
+        // Linux, Windows and WebAssembly target probes over /mcp, /acp, /a2a
         let (code, _, mcp_list) = dispatch_http(&router, "POST", "/mcp", r#"{"jsonrpc":"2.0","id":1,"method":"tools/list"}"#);
         assert_eq!(code, 200);
         assert!(mcp_list.contains("linux_kernel_mcp"));
@@ -449,7 +448,7 @@ mod tests {
             let body = format!(r#"{{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{{"name":"{tool}","arguments":{{"action":"probe"}}}}}}"#);
             let (c, _, out) = dispatch_http(&router, "POST", "/mcp", &body);
             assert_eq!(c, 200);
-            assert!(out.contains("\"inProcessZeroLatency\":true"), "out={out}");
+            assert!(out.contains("\"inProcess\":true"), "out={out}");
         }
 
         let (c_acp, _, out_acp) = dispatch_http(&router, "POST", "/acp", r#"{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"linux_kernel_mcp"}}"#);

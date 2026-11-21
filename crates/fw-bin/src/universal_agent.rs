@@ -5,7 +5,8 @@
 //! (`AGENTS.md`, skills, MCP, ACP, persistent memory) for ANY autonomous agent runtime.
 
 use crate::abliterate::run_abliterate_cli;
-use crate::agent_platform::{run_code_graph, run_mem_cli, run_security_scan};
+use crate::agent_platform::{run_code_graph, run_security_scan};
+use crate::auto_learn::{run_claude_mem_cli, XfsDatasetStore};
 use crate::cachy_tune::run_tune_cli;
 use crate::doctor::run_doctor;
 use crate::local_studio::{build_abliterate_pipeline_plan, build_repo_map, run_vram_cli};
@@ -50,7 +51,7 @@ pub fn run_onboard(args: &[String], cwd: &Path) -> Result<Value, String> {
     let doc = run_doctor(&target);
     let skills = discover_skills(&target, &cfg.fx_home);
     let instr = discover_agents_md(&target, &cfg.fx_home);
-    let mem = run_mem_cli(&["list".to_owned()]).unwrap_or_else(|_| json!({ "count": 0 }));
+    let mem = run_claude_mem_cli(&["list".to_owned()], &XfsDatasetStore::resolve(None)).unwrap_or_else(|_| json!({ "count": 0 }));
     let tune_hw = run_tune_cli(&["hardware".to_owned()]).unwrap_or_else(|_| json!({}));
 
     Ok(json!({

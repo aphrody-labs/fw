@@ -1,14 +1,11 @@
 #![forbid(unsafe_code)]
 
-//! Vital Agent Platform Features inspired by Vercel Labs & OpenClaw (zero subprocesses):
-//! 1. **Security Scanner (`fw sec` / `deepsec`)** — `vercel-labs/deepsec` parity:
-//!    Scans workspace for leaked credentials, private keys, XSS/eval, SQLi patterns, and unsafe blocks.
-//! 2. **Deterministic Codebase Knowledge Graph (`fw graph`)** — `vercel-labs/lat.md` + `Graphify-Labs/graphify` parity:
-//!    Deterministic file/symbol/import graph without any vector store; JSON & Markdown export.
-//! 3. **Persistent Cross-Session Memory (`fw mem`)** — `openclaw/openclaw` + `thedotmack/claude-mem` parity:
-//!    Persistent JSONL memory in `~/.fx/memory.jsonl` with instant scored search and pruning.
-//! 4. **Native Skills Manager (`fw skills`)** — `vercel-labs/skills` parity:
-//!    Discovers, inspects, and pulls `SKILL.md` directly over pure-Rust TLS 1.3 (`ureq`).
+//! Agent platform commands (no subprocesses):
+//! 1. `fw sec`: scans the workspace for leaked credentials, private keys, XSS/eval, SQLi patterns and unsafe blocks.
+//! 2. `fw graph`: file/symbol/import graph without a vector store, JSON and Markdown export.
+//! 3. `fw skills`: discovers and inspects `SKILL.md` files and pulls them over HTTPS (`ureq`).
+//!
+//! `fw mem` lives in `auto_learn.rs`.
 
 use fw_fx::config::{discover_skills, FxConfig};
 use fw_fx::indexer::WorkspaceIndexer;
@@ -17,7 +14,7 @@ use serde_json::{json, Value};
 use std::collections::BTreeSet;
 use std::fs;
 use std::path::Path;
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::time::Duration;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SecurityFinding {
@@ -42,7 +39,7 @@ const SECRET_RULES: &[(&str, &str, &str)] = &[
     ("medium", "react-dangerous-html", "dangerouslySetInnerHTML"),
 ];
 
-/// `fw sec [dir]` — Pure-Rust static security scanner (`vercel-labs/deepsec` parity).
+/// `fw sec [dir]`: pattern-based static scan for secrets and unsafe code patterns.
 pub fn run_security_scan(root: &Path) -> Value {
     let idx = WorkspaceIndexer::open(root);
     let files = idx.list_files(1000);
@@ -99,7 +96,7 @@ pub fn run_security_scan(root: &Path) -> Value {
     json!({
         "ok": critical == 0 && high == 0,
         "zeroSubprocess": true,
-        "scanner": "fw-sec (vercel-labs/deepsec parity)",
+        "scanner": "fw-sec",
         "workspace": root.display().to_string(),
         "filesScanned": scanned,
         "summary": { "critical": critical, "high": high, "medium": medium, "total": findings.len() },
@@ -107,7 +104,7 @@ pub fn run_security_scan(root: &Path) -> Value {
     })
 }
 
-/// `fw graph [dir] [--md]` — Deterministic Codebase Knowledge Graph (`lat.md` + `graphify` parity).
+/// Definition and import graph from line prefixes (`pub fn`, `import`, `use`, ...), no parser.
 pub fn run_code_graph(root: &Path, markdown: bool) -> Value {
     let idx = WorkspaceIndexer::open(root);
     let files = idx.list_files(300);
@@ -170,7 +167,7 @@ pub fn run_code_graph(root: &Path, markdown: bool) -> Value {
     json!({
         "ok": true,
         "zeroSubprocess": true,
-        "engine": "fw-graph (lat.md + graphify deterministic AST/import graph)",
+        "engine": "fw-graph (line-prefix definition and import graph)",
         "workspace": root.display().to_string(),
         "nodeCount": nodes.len(),
         "edgeCount": edges.len(),
@@ -179,96 +176,7 @@ pub fn run_code_graph(root: &Path, markdown: bool) -> Value {
     })
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MemoryItem {
-    pub id: u64,
-    pub ts_unix: u64,
-    pub tags: Vec<String>,
-    pub text: String,
-}
-
-/// `fw mem <add|search|list|prune> ...` — Persistent Cross-Session Memory (`claude-mem` + `openclaw` parity).
-pub fn run_mem_cli(args: &[String]) -> Result<Value, String> {
-    let cfg = FxConfig::from_env();
-    let path = cfg.fx_home.join("memory.jsonl");
-    let mut items: Vec<MemoryItem> = fs::read_to_string(&path)
-        .ok()
-        .map(|raw| {
-            raw.lines()
-                .filter_map(|l| serde_json::from_str::<MemoryItem>(l).ok())
-                .collect()
-        })
-        .unwrap_or_default();
-
-    let sub = args.first().map(String::as_str).unwrap_or("list");
-    match sub {
-        "list" => Ok(json!({
-            "ok": true,
-            "path": path.display().to_string(),
-            "count": items.len(),
-            "items": items.iter().rev().take(25).collect::<Vec<_>>()
-        })),
-        "add" => {
-            let text = args.get(1..).map(|s| s.join(" ")).unwrap_or_default();
-            if text.trim().is_empty() {
-                return Err("usage: fw mem add <fact or decision>".to_owned());
-            }
-            let ts = SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .map_or(0, |d| d.as_secs());
-            let id = items.last().map_or(1, |m| m.id + 1);
-            let item = MemoryItem {
-                id,
-                ts_unix: ts,
-                tags: vec!["agent".to_owned()],
-                text,
-            };
-            items.push(item.clone());
-            save_memory_jsonl(&path, &items)?;
-            Ok(json!({ "ok": true, "saved": item, "total": items.len() }))
-        }
-        "search" => {
-            let query = args.get(1..).map(|s| s.join(" ")).unwrap_or_default().to_ascii_lowercase();
-            let terms: Vec<&str> = query.split_whitespace().collect();
-            let mut scored: Vec<(usize, &MemoryItem)> = items
-                .iter()
-                .filter_map(|m| {
-                    let hay = m.text.to_ascii_lowercase();
-                    let hits = terms.iter().filter(|&&t| hay.contains(t)).count();
-                    (hits > 0 || terms.is_empty()).then_some((hits, m))
-                })
-                .collect();
-            scored.sort_by_key(|(h, _)| std::cmp::Reverse(*h));
-            let results: Vec<&MemoryItem> = scored.into_iter().take(15).map(|(_, m)| m).collect();
-            Ok(json!({ "ok": true, "query": query, "count": results.len(), "results": results }))
-        }
-        "prune" => {
-            let keep: usize = args.get(1).and_then(|s| s.parse().ok()).unwrap_or(50);
-            let before = items.len();
-            if items.len() > keep {
-                let drop_n = items.len() - keep;
-                items.drain(0..drop_n);
-                save_memory_jsonl(&path, &items)?;
-            }
-            Ok(json!({ "ok": true, "before": before, "after": items.len() }))
-        }
-        other => Err(format!("unknown mem subcommand `{other}` (expected list|add|search|prune)")),
-    }
-}
-
-fn save_memory_jsonl(path: &Path, items: &[MemoryItem]) -> Result<(), String> {
-    if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent).map_err(|e| e.to_string())?;
-    }
-    let mut out = String::new();
-    for it in items {
-        out.push_str(&serde_json::to_string(it).map_err(|e| e.to_string())?);
-        out.push('\n');
-    }
-    fs::write(path, out).map_err(|e| e.to_string())
-}
-
-/// `fw skills <list|read|install> [arg]` — Native Skills Manager (`vercel-labs/skills` parity, zero subprocess).
+/// `fw skills <list|read|install> [arg]`: lists, reads and installs `SKILL.md` files.
 pub fn run_skills_cli(args: &[String], cwd: &Path, offline: bool) -> Result<Value, String> {
     let cfg = FxConfig::from_env();
     let sub = args.first().map(String::as_str).unwrap_or("list");

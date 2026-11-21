@@ -1,7 +1,7 @@
 #![forbid(unsafe_code)]
 
-//! Flagship Pure-Rust Abliteration Engine (`fw abliterate`)
-//! Implements the verified 2026 state-of-the-art ecosystem (zero subprocesses):
+//! Abliteration commands (`fw abliterate`). `plan` is a planner; the other subcommands run the math below on
+//! synthetic activations and matrices generated in this file and never read or write model weights:
 //! 1. **Biprojected Magnitude-Preserving Orthogonal Ablation** (`p-e-w/heretic` + Lai 2025):
 //!    - Orthogonalizes refusal direction against harmless direction (`r_orth = r - (r·ĝ) ĝ`)
 //!    - Applies per-layer weight distribution (`max_weight`, `max_weight_position`, `min_weight`)
@@ -414,6 +414,7 @@ pub fn run_abliterate_cli(args: &[String], cwd: &Path) -> Result<Value, String> 
             Ok(json!({
                 "ok": true,
                 "zeroSubprocess": true,
+                "data": "synthetic",
                 "method": "biprojected-magnitude-preserving-orthogonal-ablation",
                 "uploadTags": ["uncensored", "decensored", "abliterated"],
                 "report": report,
@@ -429,6 +430,7 @@ pub fn run_abliterate_cli(args: &[String], cwd: &Path) -> Result<Value, String> 
             Ok(json!({
                 "ok": true,
                 "zeroSubprocess": true,
+                "data": "synthetic",
                 "method": "ARA (Arbitrary-Rank Ablation — Weidmann 2026)",
                 "rank": rank,
                 "knn": knn,
@@ -452,6 +454,7 @@ pub fn run_abliterate_cli(args: &[String], cwd: &Path) -> Result<Value, String> 
             Ok(json!({
                 "ok": true,
                 "zeroSubprocess": true,
+                "data": "synthetic",
                 "method": "multi-objective-pareto-sweep (refusal + KL divergence)",
                 "trials": all.len(),
                 "paretoFrontierCount": frontier.len(),
@@ -469,6 +472,7 @@ pub fn run_abliterate_cli(args: &[String], cwd: &Path) -> Result<Value, String> 
             Ok(json!({
                 "ok": true,
                 "zeroSubprocess": true,
+                "data": "synthetic",
                 "method": "moe-expert-granular-abliteration (abliterix)",
                 "totalExperts": experts,
                 "abliteratedExperts": targeted,

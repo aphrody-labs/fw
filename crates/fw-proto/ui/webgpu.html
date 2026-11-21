@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
-  <title>Fw v4.2 — WebGPU &amp; Wasm32 Compute Harness</title>
-  <meta name="description" content="Live WebGPU WGSL compute shader and WebAssembly capability verification harness for Fw v4.2." />
+  <title>fw WebGPU compute check</title>
+  <meta name="description" content="Runs a small WebGPU compute shader in this browser and shows the result." />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://fw.aphrody.com/webgpu" />
   <style>
@@ -40,21 +40,21 @@
 </head>
 <body>
   <header>
-    <h1>Fw v4.2 — WebGPU (Dawn/WGPU) &amp; Wasm32 Compute Harness</h1>
+    <h1>WebGPU compute check</h1>
   </header>
   <main>
     <section aria-labelledby="status">
-      <p id="status" role="status" aria-live="polite">Probing WebGPU adapter...</p>
+      <p id="status" role="status" aria-live="polite">Checking for a WebGPU adapter...</p>
       <pre id="result">{}</pre>
     </section>
   </main>
-  <footer><a href="/">Back to Control Plane</a></footer>
+  <footer><a href="/">Back to fw</a></footer>
   <script>
     window.__fwWebGpuProof = (async () => {
       const out = { ok: true, hasNavigatorGpu: Boolean(navigator.gpu), adapter: null, computeResult: null };
       try {
         if (!navigator.gpu) {
-          out.fallback = 'WebGPU unavailable — graceful CPU/Wasm fallback active';
+          out.fallback = 'WebGPU is not available in this browser';
         } else {
           const adapter = await navigator.gpu.requestAdapter();
           if (adapter) {
@@ -85,9 +85,10 @@
           }
         }
       } catch (err) {
+        out.ok = false;
         out.error = String(err);
       }
-      document.getElementById('status').textContent = out.computeResult ? 'WebGPU Compute Verified' : 'WebGPU Fallback Ready';
+      document.getElementById('status').textContent = out.computeResult ? 'Compute shader ran on the GPU' : out.error ? 'WebGPU check failed' : 'WebGPU is not available';
       document.getElementById('result').textContent = JSON.stringify(out, null, 2);
       return out;
     })();
