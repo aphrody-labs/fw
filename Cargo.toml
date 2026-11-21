@@ -37,6 +37,7 @@ members = [
     "crates/fw-hermes-claw",
     "crates/fw-apm",
     "crates/fw-fx",
+    "crates/fw-depot",
     "crates/fw-bin",
     "xtask",
 ]
