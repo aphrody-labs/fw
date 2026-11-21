@@ -25,3 +25,6 @@ Status: sync.ts ran (lock written: icons 10ecc1479061, google/fonts 06bfe0d62a98
 - fr1 `/srv/xbuild/material-cdn/work` 1.6 GB: pinned sources; safe to delete (re-created by sync.ts). `/srv/xbuild/material-cdn/{fw,aphrody,tmp}`: copies of tools and icons, safe to delete.
 - fr1 `~/material-cdn` 152 KB of old logs; safe to delete. Old `~/material-cdn/{src,out,dl}` (about 2.5 GB) were removed from `/`.
 - PC `C:\src\fw\.cache\material-cdn` (pinned sources, about 1.3 GB) and `.cache\material-cdn-out` (partial local build, about 0.5 GB), gitignored; safe to delete. `C:\tmp\mcdn-probe`, `C:\tmp\extras-out`, `C:\tmp\fwpush`: scratch, safe to delete. `C:\src\fw\cloudflare\material-cdn\{node_modules,wasm,woff2\target}`: build artefacts, gitignored.
+
+## Note on conflicts
+origin/main gained fc1cce2b and d703622f (build.ts and fonts.py: sorted manifests, fork-independent sources, uv shebang) after my working-tree edits of `tools/material-cdn/{build.ts,fonts.py,sync.ts}` were made. Merge by hand when committing the uncommitted files: keep their determinism fixes, keep my font/meta/symbol-data changes.
