@@ -1,9 +1,9 @@
 ---
 name: upstreams
-description: "Git-pinned catalog of the 70 upstreams fw tracks"
+description: >-
+  Git-pinned catalog of the 70 upstreams fw tracks (llama-cpp, cloudflare-os, cloudflare-computer, pingora, kitesurf, lol-html, rmcp, zeroclaw, zed, nix-cachyos-kernel, scx, cloud-hypervisor, uutils-coreutils, cli-anything, ecc, claude-mem, mesh-llm, openduet, rtk, graphify, agent-skills, ggml, vllm, vllm-router, llm-d, llm-d-router, gateway-api-inference-extension, dynamo, smg, mistral-rs, candle, cubecl, llama-cpp-rs, material-color-utilities, material-theme-builder, material-web, material-design-icons, googlesans-flex, googlesans-code, stitch-skills, gemini-cli, gemini-skills, gemini-cookbook, adk-python, google-apis-rs, yup-oauth2, yazi, android-documentsui, chromium-file-manager, spacedrive, workers-rs, cloudflare-mcp, cloudflare-docs, kiri, cf-quiche, boringtun, cf-foundations, svg-hush, shellflip, wirefilter, saffron, moq-rs, web-bot-auth, cloudflared, artifact-fs, kube-rs, kubernetes-website, crates-io, rustsec-advisory-db, oha).
+  Live HEAD SHAs refresh every 6 hours (sync-upstreams workflow) or with `just sync-upstreams`.
 ---
-> (llama-cpp, cloudflare-os, cloudflare-computer, pingora, kitesurf, lol-html, rmcp, zeroclaw, zed, nix-cachyos-kernel, scx, cloud-hypervisor, uutils-coreutils, cli-anything, ecc, claude-mem, mesh-llm, openduet, rtk, graphify, agent-skills, ggml, vllm, vllm-router, llm-d, llm-d-router, gateway-api-inference-extension, dynamo, smg, mistral-rs, candle, cubecl, llama-cpp-rs, material-color-utilities, material-theme-builder, material-web, material-design-icons, googlesans-flex, googlesans-code, stitch-skills, gemini-cli, gemini-skills, gemini-cookbook, adk-python, google-apis-rs, yup-oauth2, yazi, android-documentsui, chromium-file-manager, spacedrive, workers-rs, cloudflare-mcp, cloudflare-docs, kiri, cf-quiche, boringtun, cf-foundations, svg-hush, shellflip, wirefilter, saffron, moq-rs, web-bot-auth, cloudflared, artifact-fs, kube-rs, kubernetes-website, crates-io, rustsec-advisory-db, oha). Live HEAD SHAs refresh every 6 hours (sync-upstreams workflow) or with just sync-upstreams.
-
 
 # fw upstream catalog
 
@@ -12,7 +12,7 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 
 | Upstream | HEAD SHA | Target | Docs |
 |---|---|---|---|
-| `ggml-org/llama.cpp` | `418fe97b5f` | `crates/fw-ggml` | [docs](https://github.com/ggml-org/llama.cpp/blob/master/CONTRIBUTING.md) |
+| `ggml-org/llama.cpp` | `46eb1742db` | `crates/fw-ggml` | [docs](https://github.com/ggml-org/llama.cpp/blob/master/CONTRIBUTING.md) |
 | `cloudflare/cloudflare-os` | `b84d584292` | `cloudflare/worker.ts` | [docs](https://developers.cloudflare.com/agents/) |
 | `cloudflare/computer` | `cd0146b287` | `cloudflare/worker.ts` | [docs](https://github.com/cloudflare/computer#readme) |
 | `cloudflare/pingora` | `3f87e92c98` | `crates/fw-cluster` | [docs](https://github.com/cloudflare/pingora#readme) |
@@ -24,22 +24,22 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `xddxdd/nix-cachyos-kernel` | `9809224771` | `flake.nix + nix/hosts/` | [docs](https://github.com/xddxdd/nix-cachyos-kernel#readme) |
 | `sched-ext/scx` | `0d149b2aa8` | `nix/modules/vps-common.nix + os/fw-wsl` | [docs](https://github.com/sched-ext/scx#readme) |
 | `cloud-hypervisor/cloud-hypervisor` | `f0bb015695` | `nix/modules/vps-common.nix` | [docs](https://github.com/cloud-hypervisor/cloud-hypervisor#readme) |
-| `uutils/coreutils` | `27752927d5` | `flake.nix + crates/fw-uutils` | [docs](https://uutils.github.io/coreutils/) |
+| `uutils/coreutils` | `3c4d370b13` | `flake.nix + crates/fw-uutils` | [docs](https://uutils.github.io/coreutils/) |
 | `HKUDS/CLI-Anything` | `34f519533b` | `plugin/skills + crates/fw-toolcall` | [docs](https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/HARNESS.md) |
 | `affaan-m/ECC` | `4adeee6732` | `plugin/skills + plugin/rules + configs/claude` | [docs](https://github.com/affaan-m/ECC#readme) |
 | `thedotmack/claude-mem` | `f1bb834527` | `crates/fw-bin (fw mem) + crates/fw-agent-context` | [docs](https://github.com/thedotmack/claude-mem#readme) |
-| `Mesh-LLM/mesh-llm` | `ae24e7fc7a` | `crates/fw-cluster + crates/fw-ggml` | [docs](https://github.com/Mesh-LLM/mesh-llm#readme) |
+| `Mesh-LLM/mesh-llm` | `cd2e30ca85` | `crates/fw-cluster + crates/fw-ggml` | [docs](https://github.com/Mesh-LLM/mesh-llm#readme) |
 | `CopilotKit/OpenDuet` | `b32ec102d5` | `plugin/skills + crates/fw-agent` | [docs](https://github.com/CopilotKit/OpenDuet#readme) |
 | `rtk-ai/rtk` | `ef0b734b6b` | `crates/fw-bin (fw sh) + crates/fw-toolcall` | [docs](https://github.com/rtk-ai/rtk#readme) |
 | `Graphify-Labs/graphify` | `b582ad401a` | `crates/fw-bin (fw graph) + crates/fw-rag` | [docs](https://github.com/Graphify-Labs/graphify#readme) |
 | `addyosmani/agent-skills` | `8c99fa36d9` | `plugin/skills` | [docs](https://github.com/addyosmani/agent-skills#readme) |
 | `ggml-org/ggml` | `d9fe7bff3d` | `crates/fw-ggml` | [docs](https://github.com/ggml-org/ggml/blob/master/docs/gguf.md) |
-| `vllm-project/vllm` | `ad9053380f` | `crates/fw-cluster + crates/fw-compute` | [docs](https://docs.vllm.ai) |
+| `vllm-project/vllm` | `bf151b7eb1` | `crates/fw-cluster + crates/fw-compute` | [docs](https://docs.vllm.ai) |
 | `vllm-project/router` | `e8ce7eabd2` | `crates/fw-cluster` | [docs](https://github.com/vllm-project/router#readme) |
-| `llm-d/llm-d` | `d83e85c37c` | `crates/fw-cluster` | [docs](https://llm-d.ai) |
+| `llm-d/llm-d` | `6f4b356b16` | `crates/fw-cluster` | [docs](https://llm-d.ai) |
 | `llm-d/llm-d-router` | `733d0e4ee1` | `crates/fw-cluster` | [docs](https://github.com/llm-d/llm-d-router#readme) |
 | `kubernetes-sigs/gateway-api-inference-extension` | `6faa78e599` | `crates/fw-cluster` | [docs](https://gateway-api-inference-extension.sigs.k8s.io) |
-| `ai-dynamo/dynamo` | `ccdb282719` | `crates/fw-cluster` | [docs](https://github.com/ai-dynamo/dynamo#readme) |
+| `ai-dynamo/dynamo` | `17d644feb3` | `crates/fw-cluster` | [docs](https://github.com/ai-dynamo/dynamo#readme) |
 | `smg-project/smg` | `d80499146a` | `crates/fw-cluster` | [docs](https://github.com/smg-project/smg#readme) |
 | `EricLBuehler/mistral.rs` | `21da642fdd` | `crates/fw-llama` | [docs](https://github.com/EricLBuehler/mistral.rs#readme) |
 | `huggingface/candle` | `1a49dc27c1` | `crates/fw-ggml` | [docs](https://github.com/huggingface/candle#readme) |
@@ -61,10 +61,10 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `sxyazi/yazi` | `d5e4beb6b5` | `crates/fw-files` | [docs](https://yazi-rs.github.io/docs/quick-start) |
 | `aphrody-labs/android-documentsui` | `4568ed0bc0` | `crates/fw-drive` | [docs](https://android.googlesource.com/platform/packages/apps/DocumentsUI/+/refs/tags/android-17.0.0_r1) |
 | `aphrody-labs/chromium-file-manager` | `83cee4634e` | `crates/fw-drive` | [docs](https://chromium.googlesource.com/chromium/src/+/refs/tags/159.0.8154.13/ui/file_manager) |
-| `spacedriveapp/spacedrive` | `07e095a425` | `crates/fw-drive` | [docs](https://github.com/spacedriveapp/spacedrive/blob/main/docs/core/architecture.mdx) |
+| `spacedriveapp/spacedrive` | `19357a4724` | `crates/fw-drive` | [docs](https://github.com/spacedriveapp/spacedrive/blob/main/docs/core/architecture.mdx) |
 | `cloudflare/workers-rs` | `a61be7843e` | `crates/fw-edge` | [docs](https://github.com/cloudflare/workers-rs#readme) |
 | `cloudflare/mcp` | `b8602d6d5c` | `configs/claude` | [docs](https://github.com/cloudflare/mcp#readme) |
-| `cloudflare/cloudflare-docs` | `7c4d9e7d8b` | `fw docs + fw learn` | [docs](https://developers.cloudflare.com/llms.txt) |
+| `cloudflare/cloudflare-docs` | `a1ac58e092` | `fw docs + fw learn` | [docs](https://developers.cloudflare.com/llms.txt) |
 | `libracoder/kiri` | `ac82581ca0` | `crates/fw-drive (self-hosted runs)` | [docs](https://docs.runkiri.com) |
 | `cloudflare/quiche` | `d448b6b239` | `crates/fw-http` | [docs](https://github.com/cloudflare/quiche#readme) |
 | `cloudflare/boringtun` | `6dcc889a95` | `crates/fw-cluster` | [docs](https://github.com/cloudflare/boringtun#readme) |
@@ -78,7 +78,7 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `cloudflare/cloudflared` | `518d7f7969` | `cloudflare/ + fleet` | [docs](https://github.com/cloudflare/cloudflared#readme) |
 | `cloudflare/artifact-fs` | `2b87a48691` | `fleet (fr1 clones)` | [docs](https://github.com/cloudflare/artifact-fs#readme) |
 | `kube-rs/kube` | `fc801fba6b` | `crates/fw-cluster` | [docs](https://kube.rs/getting-started/) |
-| `kubernetes/website` | `f284a9e7c8` | `fw docs + fw learn` | [docs](https://kubernetes.io/docs/) |
+| `kubernetes/website` | `f2db56e570` | `fw docs + fw learn` | [docs](https://kubernetes.io/docs/) |
 | `rust-lang/crates.io` | `e37aa705b0` | `crates/fw-crates` | [docs](https://crates.io/data-access) |
 | `rustsec/advisory-db` | `f291af9b1c` | `crates/fw-crates` | [docs](https://github.com/rustsec/advisory-db#readme) |
 | `hatoo/oha` | `780c4e6e23` | `crates/fw-crates` | [docs](https://github.com/hatoo/oha#readme) |
