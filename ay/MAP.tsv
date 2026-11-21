@@ -1,19 +1,19 @@
 dir	tier	files	bytes	gate
-(root)	manifest	39	451462	bun run check
+(root)	manifest	39	456182	bun run check
 .cargo	misc	1	316	bun run check
-.claude	misc	12	23034	bun run check
-.github	misc	15	40494	bun run check
+.claude	misc	12	18484	bun run check
+.github	misc	15	41806	bun run check
 abi	c-abi	5	15676	bun tools/abi.ts --check
-apps	program	103	1613093	bun test ./apps/ay
-brand	brand	57	3675066	bun tools/tokens-compose.ts --check
+apps	program	106	1624080	bun test ./apps/ay
+brand	brand	57	3675136	bun tools/tokens-compose.ts --check
 config	shell-config	21	55958	bun tools/shells.ts --check
 corelib	c-asm	50	82826	bun tools/corelib.ts
 cpp	cpp	4	6374	bazelisk test //cpp/...
-crates	rust	336	4625708	cargo check --workspace
-docs	docs	115	1554174	bun tools/features.ts --check
+crates	rust	336	4650721	cargo check --workspace
+docs	docs	117	1588569	bun tools/features.ts --check
 kotlin	kotlin	11	73514	bun tools/compose-check.ts
-locales	i18n-catalog	2	96055	bun test ./packages/auto-i18n
-packages/auto	bun-package	2	1929	bun test ./packages
+locales	i18n-catalog	2	102005	bun test ./packages/auto-i18n
+packages/auto	bun-package	2	1922	bun test ./packages
 packages/auto-client	bun-package	4	25959	bun test ./packages
 packages/auto-domain	bun-package	7	35680	bun test ./packages
 packages/auto-i18n	bun-package	4	30229	bun test ./packages
@@ -21,18 +21,17 @@ packages/auto-native	bun-package	7	6152901	bun test ./packages
 packages/auto-platform	bun-package	7	40685	bun test ./packages
 packages/auto-services	bun-package	11	79195	bun test ./packages
 packages/auto-store	bun-package	16	144383	bun test ./packages
-packages/automate	bun-package	15	192036	bun test ./packages
-packages/cf-control-plane	bun-package	12	113669	bun test ./packages
-packages/core	bun-package	21	137540	bun test ./packages
+packages/automate	bun-package	15	192007	bun test ./packages
+packages/cf-control-plane	bun-package	12	113266	bun test ./packages
+packages/core	bun-package	20	135909	bun test ./packages
 packages/edge-stack	bun-package	5	11306	bun test ./packages
-packages/env-kit	bun-package	204	1062703	bun test ./packages
+packages/env-kit	bun-package	204	1062444	bun test ./packages
 packages/ffi	bun-package	23	91859	bun test ./packages
 packages/ghidra	bun-package	29	180908	bun test ./packages
 packages/node-compat	bun-package	8	18385	bun test ./packages
-packages/omniu	bun-package	417	670985	bun test ./packages
-packages/org-mirror	bun-package	50	330090	bun test ./packages
-packages/py2bun	bun-package	24	136011	bun test ./packages
-packages/wck	bun-package	38	9365619	bun test ./packages
-patches	dependency-patch	1	941	bun install --frozen-lockfile
-python	python	4	9283	uv run pytest
-tools	typed-bun	113	810309	bun test ./tools/
+packages/omniu	bun-package	414	634930	bun test ./packages
+packages/org-mirror	bun-package	50	330092	bun test ./packages
+packages/py2bun	bun-package	24	135375	bun test ./packages
+packages/wck	bun-package	38	9365631	bun test ./packages
+python	python	4	9260	uv run pytest
+tools	typed-bun	115	840597	bun test ./tools/
