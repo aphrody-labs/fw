@@ -143,7 +143,6 @@ pub fn import_buffer(buffer: &WlBuffer) -> Result<SurfaceImage, String> {
 }
 
 pub struct Placement {
-    pub origin: Point<i32, Logical>,
     pub size: Size<i32, Logical>,
     /// Source rectangle in buffer pixels as x, y, width, height.
     pub source: [f64; 4],
@@ -188,5 +187,5 @@ pub fn placement(states: &SurfaceData, origin: Point<i32, Logical>) -> Option<Pl
             ((source[3] / scale).ceil() as i32).max(1),
         ))
     });
-    Some(Placement { origin, size, source })
+    Some(Placement { size, source })
 }
