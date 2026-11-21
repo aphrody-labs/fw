@@ -558,7 +558,7 @@ def migrate_vllm_to_fw(
                     fw_status="partial",
                     recommendation=(
                         "vLLM ZMQ KV-events pub/replay sockets (5556/5559) require an event "
-                        "relay adapter to push BlockStored/BlockRemoved updates into fw-cluster."
+                        "bridge adapter to push BlockStored/BlockRemoved updates into fw-cluster."
                     ),
                 )
             )

@@ -2,11 +2,12 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileS
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { applyUpgrade, checkUpgrade } from "./upgrade.ts";
+import { runLearnBridge } from "./mcp_server.ts";
 import { syncFwPlugin } from "./plugin_sync.ts";
 
-export const WINDOWS_TASK_NAME = "FwAgyContinuousUpgrade";
-export const LINUX_SERVICE_NAME = "fw-agy-upgrade.service";
-export const MACOS_LAUNCHD_LABEL = "com.aphrody.fw-agy";
+export const WINDOWS_TASK_NAME = "FwContinuousUpgrade";
+export const LINUX_SERVICE_NAME = "fw-upgrade.service";
+export const MACOS_LAUNCHD_LABEL = "com.aphrody.fw";
 
 export interface DaemonCycleOptions {
   autoApply?: boolean;
@@ -39,7 +40,7 @@ function xmlEscape(s: string): string {
 
 function resolveServiceExecutable(root: string): { command: string; args: string[] } {
   const isWin = process.platform === "win32";
-  const cliTarget = resolve(root, "target", "agy", isWin ? "fw-plugin.exe" : "fw-plugin");
+  const cliTarget = resolve(root, "target", "fw", isWin ? "fw-plugin.exe" : "fw-plugin");
   const cliDist = resolve(root, "dist", isWin ? "fw-plugin.exe" : "fw-plugin");
   if (existsSync(cliTarget)) {
     return { command: cliTarget, args: ["daemon", "run", "--interval=300", "--auto-apply", "--with-learn"] };
@@ -62,12 +63,12 @@ export function renderCrossPlatformServices(root: string) {
   mkdirSync(linuxDir, { recursive: true });
   mkdirSync(macDir, { recursive: true });
 
-  const winExe = resolve(root, "target", "agy", "fw-plugin.exe");
+  const winExe = resolve(root, "target", "fw", "fw-plugin.exe");
   const winArgs = "daemon run --interval=300 --auto-apply --with-learn";
   const winXml = `<?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
-    <Description>Fw continuous LTO/AOT self-upgrade and autonomous learning loop for agy</Description>
+    <Description>Fw continuous LTO/AOT self-upgrade and autonomous learning loop</Description>
     <Author>fw</Author>
   </RegistrationInfo>
   <Triggers>
@@ -110,9 +111,9 @@ export function renderCrossPlatformServices(root: string) {
 `;
 
   const unixRoot = root.replaceAll("\\", "/");
-  const linuxExec = `${unixRoot}/target/agy/fw-plugin daemon run --interval=300 --auto-apply --with-learn`;
+  const linuxExec = `${unixRoot}/target/fw/fw-plugin daemon run --interval=300 --auto-apply --with-learn`;
   const linuxUnit = `[Unit]
-Description=Fw Continuous LTO/AOT Self-Upgrade & Learning Daemon for agy
+Description=Fw Continuous LTO/AOT Self-Upgrade & Learning Daemon
 After=network-online.target
 
 [Service]
@@ -137,7 +138,7 @@ WantedBy=default.target
   <string>${xmlEscape(unixRoot)}</string>
   <key>ProgramArguments</key>
   <array>
-    <string>${xmlEscape(`${unixRoot}/target/agy/fw-plugin`)}</string>
+    <string>${xmlEscape(`${unixRoot}/target/fw/fw-plugin`)}</string>
     <string>daemon</string>
     <string>run</string>
     <string>--interval=300</string>
@@ -330,12 +331,9 @@ export function runDaemonCycle(root: string, opts: DaemonCycleOptions = {}): Dae
   }
 
   if (opts.withLearn !== false) {
-    const learnScript = join(homedir(), ".gemini", "scripts", "learn.ts");
-    if (existsSync(learnScript)) {
-      const res = Bun.spawnSync(["bun", learnScript, "distill-quiet"], { stdout: "pipe", stderr: "pipe" });
-      learnDistilled = res.exitCode === 0;
-      if (!learnDistilled) errors.push(`learn distill-quiet failed (exit ${res.exitCode})`);
-    }
+    const learn = runLearnBridge("distill");
+    learnDistilled = learn.ok;
+    if (!learn.ok && "exitCode" in learn) errors.push(`fw learn distill failed (exit ${learn.exitCode})`);
   }
 
   if (opts.syncPlugin) {

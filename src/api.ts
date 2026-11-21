@@ -32,7 +32,6 @@ import {
   parseAstWithAbi,
   probeRustAbi,
   readTargetManifest,
-  resolveUpstreamAgyPath,
 } from "./targets.ts";
 import { checkUpgrade, runBenchmarks } from "./upgrade.ts";
 import { listVfsMounts, vfsList, vfsRead, vfsSnapshots, vfsWrite } from "./vfs.ts";
@@ -107,8 +106,8 @@ export function createFwApiHandler(root: string) {
     }
     if (url.pathname === "/inspect") {
       const p = url.searchParams.get("path");
-      const target = p ? resolve(root, p) : resolveUpstreamAgyPath();
-      if (!target) return json({ ok: false, error: "no PE target found" }, 404);
+      if (!p) return json({ ok: false, error: "path query parameter required" }, 400);
+      const target = resolve(root, p);
       const report = inspectPeWithAbi(root, target);
       return json(report, report.ok ? 200 : 400);
     }
@@ -119,8 +118,8 @@ export function createFwApiHandler(root: string) {
     }
     if (url.pathname === "/disasm") {
       const p = url.searchParams.get("path");
-      const target = p ? resolve(root, p) : resolveUpstreamAgyPath();
-      if (!target) return json({ ok: false, error: "no PE binary found" }, 404);
+      if (!p) return json({ ok: false, error: "path query parameter required" }, 400);
+      const target = resolve(root, p);
       const max = Math.max(1, Math.min(64, Number(url.searchParams.get("max")) || 12));
       const report = disasmX64WithAbi(root, target, max);
       return json(report, report.ok ? 200 : 400);

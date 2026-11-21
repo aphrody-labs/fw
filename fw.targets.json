@@ -2,38 +2,27 @@
   "$schema": "fw.targets.v1",
   "product": "fw",
   "agent": {
-    "id": "agy",
-    "upstreamStrategy": "read-only-signed-upstream",
-    "targetDir": "target/agy",
+    "id": "fw",
+    "targetDir": "target/fw",
     "manifestPath": "target/manifest.json",
     "historyPath": "target/upgrade-history.jsonl",
     "autoUpgradeCommand": "bun run upgrade"
   },
   "artifacts": {
-    "agyNativeLto": {
-      "crate": "native/fw-agy",
-      "buildOutput": "native/fw-agy/target/release/agy.exe",
-      "buildOutputUnix": "native/fw-agy/target/release/agy",
-      "targetPath": "target/agy/agy.exe",
-      "targetPathUnix": "target/agy/agy",
-      "distPath": "dist/agy-aot.exe",
-      "distPathUnix": "dist/agy-aot",
-      "profile": "rust-fat-lto-aot"
-    },
     "fwAbiLto": {
       "crate": "native/fw-abi",
       "buildOutput": "native/fw-abi/target/release/fw_abi.dll",
       "buildOutputUnix": "native/fw-abi/target/release/libfw_abi.so",
-      "targetPath": "target/agy/fw_abi.dll",
-      "targetPathUnix": "target/agy/libfw_abi.so",
+      "targetPath": "target/fw/fw_abi.dll",
+      "targetPathUnix": "target/fw/libfw_abi.so",
       "distPath": "dist/fw_abi.dll",
       "distPathUnix": "dist/libfw_abi.so",
       "profile": "rust-fat-lto-cdylib"
     },
     "fwCliAot": {
       "entry": "src/fw_cli.ts",
-      "targetPath": "target/agy/fw-plugin.exe",
-      "targetPathUnix": "target/agy/fw-plugin",
+      "targetPath": "target/fw/fw-plugin.exe",
+      "targetPathUnix": "target/fw/fw-plugin",
       "distPath": "dist/fw-plugin.exe",
       "distPathUnix": "dist/fw-plugin",
       "profile": "bun-compile-aot-trim"
@@ -68,15 +57,6 @@
       "autoUpgrade": true
     },
     {
-      "id": "native-agy",
-      "path": "native/fw-agy",
-      "kind": "rust-bin",
-      "grammar": "rust",
-      "gate": "cargo test --manifest-path native/fw-agy/Cargo.toml",
-      "sampleFile": "native/fw-agy/src/main.rs",
-      "autoUpgrade": true
-    },
-    {
       "id": "fw-cli",
       "path": "src",
       "kind": "bun-aot-cli",
@@ -96,11 +76,11 @@
     },
     {
       "id": "fw-plugin",
-      "path": "plugin",
-      "kind": "antigravity-plugin",
+      "path": "plugins/aphrody",
+      "kind": "claude-plugin",
       "grammar": "typescript",
       "gate": "bun src/fw_cli.ts plugin status",
-      "sampleFile": "plugin/mcp/fw-mcp.ts",
+      "sampleFile": "plugins/aphrody/mcp/fw-mcp.ts",
       "autoUpgrade": true
     },
     {

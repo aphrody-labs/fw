@@ -44,7 +44,6 @@ test("no shell in provider argv, prompt intact", () => {
   for (const p of [
     "opencode",
     "pi",
-    "agy:gemini-4",
     "codex",
     "claude",
     "jules",
@@ -111,7 +110,7 @@ test("heavy roles run on the build host only, the prod host keeps light roles", 
   ]) {
     expect(FLEET.roles[r]?.heavy).toBe(true);
     expect(accepts(FLEET, "build", r)).toBe(true);
-    for (const h of ["prod", "test", "pc"])
+    for (const h of ["prod", "pc"])
       expect(accepts(FLEET, h, r)).toBe(false);
     expect(place(FLEET, r)).toBe("build");
     expect(() => place(FLEET, r, "prod")).toThrow();

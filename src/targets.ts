@@ -30,14 +30,12 @@ export interface FwTargetsConfig {
   product: string;
   agent: {
     id: string;
-    upstreamStrategy: string;
     targetDir: string;
     manifestPath: string;
     historyPath: string;
     autoUpgradeCommand: string;
   };
   artifacts: {
-    agyNativeLto: TargetArtifactConfig;
     fwAbiLto: TargetArtifactConfig;
     fwCliAot: TargetArtifactConfig;
   };
@@ -85,13 +83,6 @@ export interface TargetManifest {
     platform: string;
     arch: string;
   };
-  upstreamAgy: {
-    path: string | null;
-    exists: boolean;
-    version: string | null;
-    readOnlySignedUpstream: boolean;
-    pe: Record<string, unknown> | null;
-  };
   repoDigest: string;
   totalTrackedFiles: number;
   totalTrackedBytes: number;
@@ -123,7 +114,7 @@ let winShadowDllCache: { src: string; mtimeMs: number; shadow: string } | null =
 export function findAbiLibrary(root: string): string | null {
   const libName = process.platform === "win32" ? `fw_abi.${suffix}` : `libfw_abi.${suffix}`;
   const candidates = [
-    join(root, "target", "agy", libName),
+    join(root, "target", "fw", libName),
     join(root, "native", "fw-abi", "target", "release", libName),
     join(root, "native", "fw-abi", "target", "debug", libName),
     join(root, "dist", libName),
@@ -319,39 +310,6 @@ export function gitInspectWithAbi(root: string, repoDir = root): Record<string, 
   );
 }
 
-export function resolveUpstreamAgyPath(): string | null {
-  const explicit = process.env.AGY_UPSTREAM_BIN;
-  if (explicit && existsSync(explicit)) return resolve(explicit);
-  if (process.platform === "win32") {
-    const localApp = process.env.LOCALAPPDATA;
-    if (localApp) {
-      const p = join(localApp, "agy", "bin", "agy.exe");
-      if (existsSync(p)) return p;
-    }
-  } else {
-    const home = process.env.HOME;
-    if (home) {
-      for (const rel of [".local/share/agy/bin/agy", ".agy/bin/agy"]) {
-        const p = join(home, rel);
-        if (existsSync(p)) return p;
-      }
-    }
-  }
-  return null;
-}
-
-export function probeUpstreamAgyVersion(agyPath: string | null): string | null {
-  if (!agyPath || !existsSync(agyPath)) return null;
-  try {
-    const res = Bun.spawnSync([agyPath, "--version"], { stdout: "pipe", stderr: "pipe" });
-    if (res.exitCode !== 0) return null;
-    const text = res.stdout.toString().trim();
-    return text.length > 0 ? text.split(/\r?\n/)[0] : null;
-  } catch {
-    return null;
-  }
-}
-
 export function getGitHead(root: string): string | null {
   try {
     const res = Bun.spawnSync(["git", "rev-parse", "--short=12", "HEAD"], {
@@ -519,15 +477,7 @@ export function buildTargetManifest(root: string): TargetManifest {
     }
   }
 
-  const upstreamPath = resolveUpstreamAgyPath();
-  const upstreamExists = Boolean(upstreamPath && existsSync(upstreamPath));
-  const upstreamPe =
-    upstreamPath && upstreamExists && process.platform === "win32"
-      ? inspectPeWithAbi(root, upstreamPath)
-      : null;
-
   const artifacts: Record<string, ArtifactSnapshot> = {
-    agyNativeLto: inspectArtifact(root, "agyNativeLto", cfg.artifacts.agyNativeLto),
     fwAbiLto: inspectArtifact(root, "fwAbiLto", cfg.artifacts.fwAbiLto),
     fwCliAot: inspectArtifact(root, "fwCliAot", cfg.artifacts.fwCliAot),
   };
@@ -541,13 +491,6 @@ export function buildTargetManifest(root: string): TargetManifest {
       bun: Bun.version,
       platform: process.platform,
       arch: process.arch,
-    },
-    upstreamAgy: {
-      path: upstreamPath,
-      exists: upstreamExists,
-      version: probeUpstreamAgyVersion(upstreamPath),
-      readOnlySignedUpstream: true,
-      pe: upstreamPe,
     },
     repoDigest: repoHasher.digest("hex"),
     totalTrackedFiles,

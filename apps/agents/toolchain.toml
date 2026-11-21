@@ -1,4 +1,4 @@
-# Manifeste versionné de l'outillage agent (Claude Code, Codex, agy, OpenCode, Pi, Gemini CLI ; PC et flotte). Toute installation passe ici ;
+# Manifeste versionné de l'outillage agent (Claude Code, Codex, OpenCode, Pi, Gemini CLI ; PC et flotte). Toute installation passe ici ;
 # applier : system/machine-ts/src/toolchain.ts (`ay agents install|sync|check|list`).
 # Nettoyé le 2026-11-14 : plugins de skills tiers désinstallés ; les skills utiles (dont android-*, issues de android/skills) sont versionnées dans .agents/skills et servies par `aphrody-skills`. Outils AI : `ai-os`, `agent-desktop`, `agent-browser`.
 
@@ -106,7 +106,7 @@ hosts = ["pc"]
 
 [[claude.plugin]]
 id = "figma@claude-plugins-official"
-hosts = ["prod", "build", "test"]
+hosts = ["prod", "build"]
 state = "absent"
 
 [[claude.plugin]]
@@ -153,7 +153,7 @@ hosts = ["pc"]
 
 [[claude.plugin]]
 id = "cloudflare@anthropic-plugin-directory"
-hosts = ["prod", "build", "test"]
+hosts = ["prod", "build"]
 state = "absent"
 
 [[claude.plugin]]
@@ -177,7 +177,7 @@ name = "ai-os"
 url = "http://127.0.0.1:8790/mcp/core"
 shared_url = "http://127.0.0.1:8790/mcp"
 headers_helper = "bun {src}/packages/ai-os/src/server/headers.ts"
-# agy has neither verifiable OAuth nor a header without a plaintext secret: same server over stdio, without authorization.
+# Agents without verifiable OAuth or a header free of plaintext secrets use the same server over stdio, without authorization.
 stdio_command = ["bun", "{src}/packages/ai-os/src/server/cli.ts", "mcp-stdio"]
 hosts = ["pc"]
 
@@ -346,10 +346,6 @@ hosts = ["pc"]
 # mcp = exclusive list: any other MCP server of the agent is removed (the ai-os already exposes it).
 [codex]
 marketplace = "aphrody"
-plugins = ["aphrody-skills@aphrody"]
-mcp = ["ai-os"]
-
-[agy]
 plugins = ["aphrody-skills@aphrody"]
 mcp = ["ai-os"]
 

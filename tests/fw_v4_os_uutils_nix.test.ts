@@ -71,14 +71,13 @@ describe("Asterinas OSDK, GPUI scene, uutils multicall, NixOS store and unified-
     expect(wl.gpuiQuads).toBe(1);
   });
 
-  test("reproducible root flake.nix and nix/ 3-VPS pure-Rust userland definitions are complete", () => {
+  test("reproducible root flake.nix and nix/ 2-VPS pure-Rust userland definitions are complete", () => {
     const rootFlake = readFileSync(join(ROOT, "flake.nix"), "utf8");
     expect(rootFlake).toContain("rust-userland");
     expect(rootFlake).toContain("uutils-coreutils-noprefix");
     expect(rootFlake).toContain("xddxdd/nix-cachyos-kernel/release");
     expect(rootFlake).toContain("nixosConfigurations");
     expect(rootFlake).toContain("fr1 = mkVps ./nix/hosts/fr1.nix");
-    expect(rootFlake).toContain("fr2 = mkVps ./nix/hosts/fr2.nix");
     expect(rootFlake).toContain("prd = mkVps ./nix/hosts/prd.nix");
 
     const common = readFileSync(join(ROOT, "nix", "modules", "vps-common.nix"), "utf8");

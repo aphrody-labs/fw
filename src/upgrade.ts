@@ -5,7 +5,6 @@ import {
   buildTargetManifest,
   loadTargetsConfig,
   readTargetManifest,
-  resolveUpstreamAgyPath,
   type TargetManifest,
   writeTargetManifest,
 } from "./targets.ts";
@@ -18,10 +17,8 @@ export interface UpgradeCheckReport {
   reasons: string[];
   changedModules: string[];
   missingArtifacts: string[];
-  upstreamAgyChanged: boolean;
   previousRepoDigest: string | null;
   currentRepoDigest: string;
-  upstreamAgy: TargetManifest["upstreamAgy"];
   artifacts: TargetManifest["artifacts"];
   plan: string[];
 }
@@ -92,26 +89,12 @@ export function checkUpgrade(root: string): UpgradeCheckReport {
     reasons.push(`missing target artifacts: ${missingArtifacts.join(", ")}`);
   }
 
-  const prevUpstreamSha =
-    prev?.upstreamAgy.pe && typeof prev.upstreamAgy.pe.sha256 === "string"
-      ? prev.upstreamAgy.pe.sha256
-      : null;
-  const curUpstreamSha =
-    current.upstreamAgy.pe && typeof current.upstreamAgy.pe.sha256 === "string"
-      ? current.upstreamAgy.pe.sha256
-      : null;
-  const upstreamAgyChanged = Boolean(prev && prevUpstreamSha && curUpstreamSha && prevUpstreamSha !== curUpstreamSha);
-  if (upstreamAgyChanged) {
-    reasons.push("upstream signed agy.exe SHA-256 changed");
-  }
-
   const upgradeRequired = reasons.length > 0;
   const plan = [
     "cargo build --release --manifest-path native/fw-abi/Cargo.toml (Fat LTO cdylib + craft-pe + tree-sitter)",
-    "cargo build --release --manifest-path native/fw-agy/Cargo.toml (Fat LTO AOT native agy launcher)",
     "bun build --compile --aot --trim --no-compile-function-source src/fw_cli.ts --outfile dist/fw-plugin.staging.exe",
-    "verify gates: uvx ruff check ., cargo test (abi/agy), staged binary smoke checks",
-    "atomic promote into target/agy/ and dist/ + update target/manifest.json + target/upgrade-history.jsonl",
+    "verify gates: uvx ruff check ., cargo test (abi), staged binary smoke checks",
+    "atomic promote into target/fw/ and dist/ + update target/manifest.json + target/upgrade-history.jsonl",
   ];
 
   return {
@@ -122,10 +105,8 @@ export function checkUpgrade(root: string): UpgradeCheckReport {
     reasons,
     changedModules,
     missingArtifacts,
-    upstreamAgyChanged,
     previousRepoDigest: prev?.repoDigest ?? null,
     currentRepoDigest: current.repoDigest,
-    upstreamAgy: current.upstreamAgy,
     artifacts: current.artifacts,
     plan,
   };
@@ -143,10 +124,6 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
     {
       name: "build-abi-fat-lto",
       cmd: ["cargo", "build", "--release", "--manifest-path", "native/fw-abi/Cargo.toml"],
-    },
-    {
-      name: "build-agy-fat-lto",
-      cmd: ["cargo", "build", "--release", "--manifest-path", "native/fw-agy/Cargo.toml"],
     },
   ];
 
@@ -170,7 +147,6 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
     steps.push(
       { name: "ruff-lint", cmd: ["uvx", "ruff", "check", "."] },
       { name: "cargo-test-abi", cmd: ["cargo", "test", "--manifest-path", "native/fw-abi/Cargo.toml"] },
-      { name: "cargo-test-agy", cmd: ["cargo", "test", "--manifest-path", "native/fw-agy/Cargo.toml"] },
     );
   }
 
@@ -198,15 +174,8 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
     root,
     isWin ? cfg.artifacts.fwAbiLto.buildOutput! : cfg.artifacts.fwAbiLto.buildOutputUnix!,
   );
-  const agySrc = resolve(
-    root,
-    isWin ? cfg.artifacts.agyNativeLto.buildOutput! : cfg.artifacts.agyNativeLto.buildOutputUnix!,
-  );
 
-  for (const smoke of [
-    { name: "smoke-staged-cli", cmd: [stagedCli, "status"] },
-    { name: "smoke-staged-agy", cmd: [agySrc, "--fw-info"] },
-  ]) {
+  for (const smoke of [{ name: "smoke-staged-cli", cmd: [stagedCli, "status"] }]) {
     const res = runCaptured(smoke.cmd, root);
     gates.push({ name: smoke.name, ok: res.ok, durationMs: res.durationMs, exitCode: res.exitCode });
     if (!res.ok) {
@@ -225,7 +194,7 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
     }
   }
 
-  // Promote verified artifacts atomically into target/agy/ and dist/
+  // Promote verified artifacts atomically into target/fw/ and dist/
   const pairs: Array<{ name: string; src: string; dest: string }> = [
     {
       name: "target-abi",
@@ -236,16 +205,6 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
       name: "dist-abi",
       src: abiSrc,
       dest: resolve(root, isWin ? cfg.artifacts.fwAbiLto.distPath : cfg.artifacts.fwAbiLto.distPathUnix),
-    },
-    {
-      name: "target-agy",
-      src: agySrc,
-      dest: resolve(root, isWin ? cfg.artifacts.agyNativeLto.targetPath : cfg.artifacts.agyNativeLto.targetPathUnix),
-    },
-    {
-      name: "dist-agy",
-      src: agySrc,
-      dest: resolve(root, isWin ? cfg.artifacts.agyNativeLto.distPath : cfg.artifacts.agyNativeLto.distPathUnix),
     },
     {
       name: "target-cli",
@@ -279,7 +238,6 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
       timestamp: manifest.generatedAt,
       gitHead: manifest.gitHead,
       repoDigest: manifest.repoDigest,
-      upstreamAgyVersion: manifest.upstreamAgy.version,
       artifacts: Object.fromEntries(
         Object.entries(manifest.artifacts).map(([k, v]) => [k, { bytes: v.bytes, sha256: v.sha256 }]),
       ),
@@ -301,32 +259,11 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
   };
 }
 
-export function buildAgyUpgradePlan(root: string) {
-  const check = checkUpgrade(root);
-  const upstream = resolveUpstreamAgyPath();
-  const prompt = [
-    `Inspect the Fw monorepo at ${root} (tracked in fw.targets.json and target/manifest.json).`,
-    check.changedModules.length > 0
-      ? `Drifted modules: ${check.changedModules.join(", ")}.`
-      : "No module drift detected; audit LTO/AOT build flags, PE inspection coverage, and test gates.",
-    "Verify all changes with `bun run check`, `bun run upgrade`, and `bun run bench` before reporting.",
-  ].join(" ");
-  return {
-    ok: true,
-    upstreamAgy: upstream,
-    command: upstream ? [upstream, "--output-format", "json", "-p", prompt] : null,
-    prompt,
-    check,
-  };
-}
-
 export function runBenchmarks(root: string, iterations = 5) {
   const cfg = loadTargetsConfig(root);
   const isWin = process.platform === "win32";
-  const agyTarget = resolve(root, isWin ? cfg.artifacts.agyNativeLto.targetPath : cfg.artifacts.agyNativeLto.targetPathUnix);
   const cliTarget = resolve(root, isWin ? cfg.artifacts.fwCliAot.distPath : cfg.artifacts.fwCliAot.distPathUnix);
   const abiTarget = resolve(root, isWin ? cfg.artifacts.fwAbiLto.targetPath : cfg.artifacts.fwAbiLto.targetPathUnix);
-  const upstream = resolveUpstreamAgyPath();
 
   const measure = (label: string, bin: string | null, args: string[]) => {
     if (!bin || !existsSync(bin)) {
@@ -345,9 +282,7 @@ export function runBenchmarks(root: string, iterations = 5) {
   };
 
   const results = {
-    fwAgyLto: measure("target/agy/agy (Rust Fat-LTO AOT)", agyTarget, ["--fw-info"]),
     fwCliAot: measure("dist/fw-plugin (Bun AOT + trim)", cliTarget, ["status"]),
-    upstreamAgySigned: measure("upstream signed agy.exe (--version)", upstream, ["--version"]),
     fwAbiLto: {
       label: "fw_abi (Rust Fat-LTO cdylib)",
       path: abiTarget,
@@ -356,21 +291,9 @@ export function runBenchmarks(root: string, iterations = 5) {
     },
   };
 
-  const sizeReductionPct =
-    results.upstreamAgySigned.bytes > 0 && results.fwAgyLto.bytes > 0
-      ? Math.round((1 - results.fwAgyLto.bytes / results.upstreamAgySigned.bytes) * 10000) / 100
-      : null;
-
   return {
     ok: true,
     iterations,
     results,
-    comparisons: {
-      agyLtoVsUpstreamSizeReductionPct: sizeReductionPct,
-      agyLtoSpeedupVsUpstream:
-        results.upstreamAgySigned.medianMs && results.fwAgyLto.medianMs
-          ? Math.round((results.upstreamAgySigned.medianMs / results.fwAgyLto.medianMs) * 100) / 100
-          : null,
-    },
   };
 }

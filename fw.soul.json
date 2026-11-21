@@ -7,8 +7,8 @@
   },
   "principles": [
     "Executable verification (compile, lint, unit/integration tests, live probe) is the sole source of truth.",
-    "Preserve upstream signed binaries (Google agy.exe) strictly as read-only; accelerate and wrap via Fat-LTO/AOT in target/agy.",
-    "Maintain zero duplicate skills across fw, aphrody, and versioned ~/.gemini plugins.",
+    "Preserve upstream signed binaries strictly as read-only; build the fw ABI and CLI with Fat-LTO/AOT into target/fw.",
+    "Maintain zero duplicate skills across the fw and aphrody plugins (one source: the fw marketplace).",
     "Prevent Windows NTFS junction, long-path, and EBUSY corruption on every sync and atomic promotion.",
     "Continuously distill learnings, curate datasets, and converge skills, memory, and builds across platforms."
   ],

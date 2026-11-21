@@ -284,7 +284,7 @@ export function migrateOpenClawToFw(opts: MigrateOpenClawOptions = {}): MigrateO
     bind: typeof rawGateway.bind === "string" ? rawGateway.bind : "127.0.0.1",
     defaultModel,
     disaggregatedPD: true,
-    nodes: ["local-rtx4070", "fr1", "fr2", "prd"],
+    nodes: ["local-rtx4070", "fr1", "prd"],
   };
 
   const parityGaps: string[] = [];

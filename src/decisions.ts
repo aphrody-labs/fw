@@ -183,7 +183,7 @@ export async function evaluateDecisions(req: DecisionsRequest): Promise<Decision
  * End-to-end self-hosted AI workflow fusing:
  * 1. Gemini Decision 1 (System-1 zero-token routing, policy check, rubric score)
  * 2. Fw SQLite FTS5 Brain retrieval
- * 3. Gemma / local GGUF / Antigravity / Cloudflare AI Router selection
+ * 3. Gemma / local GGUF / Gemini API / Cloudflare AI Router selection
  * 4. Fw Soul invariants
  */
 export async function runSelfHostedAiWorkflow(root: string, taskInput: string, mode: "local" | "auto" = "local") {
@@ -202,7 +202,7 @@ export async function runSelfHostedAiWorkflow(root: string, taskInput: string, m
         criteria: {
           "gemma-local-gguf": "Fast local privacy-first generation, summarization, or self-hosted chat using Gemma/GGUF.",
           "fw-lowlevel": "Binary analysis, PE/ELF/WASM, Assembly, CUDA, WebGPU, Rust Fat-LTO compilation.",
-          "antigravity-sdk": "Multi-step autonomous coding agent orchestration, tools, MCP, ACP, and repo upgrades.",
+          "agent-orchestration": "Multi-step autonomous coding agent orchestration, tools, MCP, ACP, and repo upgrades.",
           "cloudflare-edge": "Edge Worker deployment, Durable Objects VFS, R2/D1/Vectorize, or global API serving.",
         },
       },
@@ -225,7 +225,7 @@ export async function runSelfHostedAiWorkflow(root: string, taskInput: string, m
   const modelMap: Record<string, string> = {
     "gemma-local-gguf": "gemma-3-12b-it-gguf",
     "fw-lowlevel": "fw-local",
-    "antigravity-sdk": "gemini-4-neon",
+    "agent-orchestration": "gemini-4-neon",
     "cloudflare-edge": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
   };
   const routerDecision = routeModelRequest(modelMap[selectedTrack], "chat");
@@ -234,7 +234,7 @@ export async function runSelfHostedAiWorkflow(root: string, taskInput: string, m
 
   return {
     ok: true,
-    workflow: "fw-self-hosted-gemini-gemma-agy",
+    workflow: "fw-self-hosted-gemini-gemma",
     input: taskInput,
     stage1_decisions: decisions,
     stage2_brain: brainHits,

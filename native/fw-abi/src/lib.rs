@@ -76,9 +76,6 @@ fn classify_runtime(
     file_bytes: u64,
 ) -> &'static str {
     let names: Vec<&str> = sections.iter().map(|s| s.name.as_str()).collect();
-    if names.iter().any(|n| *n == "google_i" || *n == "protodes" || *n == "flags_he") {
-        return "google-antigravity-pe";
-    }
     if names.contains(&".bun") {
         return "bun-compiled-pe";
     }

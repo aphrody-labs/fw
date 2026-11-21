@@ -504,7 +504,7 @@ export class RuntimeToolRegistry {
 // Pillar 2: Persistent llm-d / vLLM Prefix-Aware KV-Cache & Hybrid FTS5/Vector RAG
 // ============================================================================
 
-export type ClusterNodeId = "fr1" | "fr2" | "prd" | "local-rtx4070";
+export type ClusterNodeId = "fr1" | "prd" | "local-rtx4070";
 
 export interface ClusterNodeSpec {
   id: ClusterNodeId;
@@ -534,15 +534,6 @@ export const DEFAULT_CLUSTER_NODES: readonly ClusterNodeSpec[] = [
     msPerPrefillToken: 0.55,
     msPerDecodeToken: 12.0,
     maxKvBlocks: 16384,
-  },
-  {
-    id: "fr2",
-    role: "decode",
-    accelerator: "VPS Edge Decode & Pingora LB",
-    baseTtftMs: 22,
-    msPerPrefillToken: 0.85,
-    msPerDecodeToken: 8.0,
-    maxKvBlocks: 8192,
   },
   {
     id: "prd",

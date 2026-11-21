@@ -148,7 +148,7 @@ describe("Fw Bun Native AI Runtime — 3 Pillars (zero external deps)", () => {
 
   describe("Pillar 2: Persistent llm-d / vLLM Prefix KV-Cache & Hybrid FTS5/Vector RAG (bun:sqlite)", () => {
     test("16-token block-chained SHA-256 prefix hashing matches shared prefix blocks", () => {
-      const p1 = `${SHARED_SYSTEM_PREFIX} Answer with cluster telemetry for fr1 and fr2 nodes right now.`;
+      const p1 = `${SHARED_SYSTEM_PREFIX} Answer with cluster telemetry for fr1 and prd nodes right now.`;
       const p2 = `${SHARED_SYSTEM_PREFIX} Summarize KV cache savings for local rtx4070 decode queue today.`;
 
       const h1 = computeChainedPrefixBlocks(p1, "qwen3-8b", KV_BLOCK_TOKEN_SIZE);
@@ -177,8 +177,8 @@ describe("Fw Bun Native AI Runtime — 3 Pillars (zero external deps)", () => {
         expect(r1.matchedBlocks).toBe(0);
         expect(r1.savedPrefillTokens).toBe(0);
         expect(r1.prefillNode).not.toBe(r1.decodeNode);
-        expect(["fr1", "fr2", "prd", "local-rtx4070"]).toContain(r1.prefillNode);
-        expect(["fr1", "fr2", "prd", "local-rtx4070"]).toContain(r1.decodeNode);
+        expect(["fr1", "prd", "local-rtx4070"]).toContain(r1.prefillNode);
+        expect(["fr1", "prd", "local-rtx4070"]).toContain(r1.decodeNode);
 
         const warmPrompt = `${SHARED_SYSTEM_PREFIX} Stream decode tokens from edge worker with low TTFT.`;
         const r2 = store.routePrefix({ prompt: warmPrompt, model: "qwen3-8b", disaggregated: true });
@@ -244,7 +244,7 @@ describe("Fw Bun Native AI Runtime — 3 Pillars (zero external deps)", () => {
       store.upsertDocument({
         docKey: "fw-router",
         title: "Fw Disaggregated Router",
-        content: "Pingora + llm-d prefix cache routing separates prefill on fr1 from decode on fr2 and prd.",
+        content: "Pingora + llm-d prefix cache routing separates prefill on fr1 from decode on prd.",
       });
 
       const server = Bun.serve({

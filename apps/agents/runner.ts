@@ -43,7 +43,7 @@ type Task = {
   v: 1;
   id: string;
   role: string;
-  host: string; // host role: "prod" | "build" | "test" | "pc" | "any"
+  host: string; // host role: "prod" | "build" | "pc" | "any"
   prompt: string;
   providers?: string[]; // set by ai-os: "<cli>[:<model>]" or "<provider>/<model>" (ai-os)
   cwd?: string; // relative to the host src checkout
@@ -127,7 +127,7 @@ export function place(fleet: Fleet, role: string, host?: string): string {
       throw new Error(`no host accepts role ${role}`);
   } else if (!accepts(fleet, h, role))
     throw new Error(
-      `host ${h} does not take role ${role} (heavy roles run on ${FACTORY} only, prod and test keep light roles)`,
+      `host ${h} does not take role ${role} (heavy roles run on ${FACTORY} only, prod keeps light roles)`,
     );
   return h;
 }
@@ -273,12 +273,12 @@ function shellCmd(cmd: string): string[] {
 
 // ---------- providers ----------
 // A task names what runs it (ai-os decides; this file never picks):
-//   "<cli>" or "<cli>:<model>"  coding CLI (claude, codex, opencode, pi, agy), optional model
+//   "<cli>" or "<cli>:<model>"  coding CLI (claude, codex, opencode, pi), optional model
 //   "jules" or "jules:<owner/repo>"  Google Jules cloud session on GitHub (ai-os jules run --wait), ends with a PR
 //   "<provider>/<model>"         model from ai-os llm_models, answered through ai-os llm_ask (text only)
 // With no name, the ai-os's llm_models answer (available providers, ai-os order) is used as is.
 // Prompt goes on stdin where the CLI supports it (no argv length or quoting limits).
-const CLIS = new Set(["claude", "codex", "opencode", "pi", "agy", "jules"]);
+const CLIS = new Set(["claude", "codex", "opencode", "pi", "jules"]);
 export function providerCmd(
   p: string,
   t: Task,
@@ -355,17 +355,6 @@ export function providerCmd(
       };
     case "pi":
       return { cmd: argv0("pi", ["-p", ...m("--model"), t.prompt]) };
-    case "agy":
-      return {
-        cmd: argv0("agy", [
-          "-p",
-          t.prompt,
-          "--output-format",
-          "json",
-          "--dangerously-skip-permissions",
-          ...m("--model"),
-        ]),
-      };
     case "jules":
       // Remote agent (packages/ai-os/src/google): works on the GitHub repo, not on the local checkout.
       return {
@@ -944,7 +933,7 @@ function requeueOrphans() {
 
 function probe(): Record<string, string> {
   const res: Record<string, string> = {};
-  for (const p of ["claude", "codex", "opencode", "pi", "agy", "tmux"]) {
+  for (const p of ["claude", "codex", "opencode", "pi", "tmux"]) {
     if (!Bun.which(p)) {
       res[p] = "missing";
       continue;
@@ -1095,7 +1084,7 @@ function health() {
   log("health", { clis: h.clis, queue: h.queue });
   ship();
 }
-// Tasks this host must not run (heavy role on the prod or test host, role not listed here) go to the host that
+// Tasks this host must not run (heavy role on the prod host, role not listed here) go to the host that
 // takes them; the local copy ends in done/<id>@fwd-<host>.json so ciWatch and github-events dedup still see it.
 function route() {
   for (const f of readdirSync(Q.new)) {

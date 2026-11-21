@@ -1,6 +1,6 @@
 //! Absorbed `anomalyco/browse` capabilities in pure Rust (`third_party/browse`).
 //!
-//! Unifies real-browser extension pairing (`127.0.0.1:19988` relay <-> Chromium `debugger-hub`),
+//! Unifies real-browser extension pairing (`127.0.0.1:19988` bridge <-> Chromium `debugger-hub`),
 //! multiplexed CDP target/session pooling, protected-frame & authenticated-origin domain guardrails,
 //! ethical challenge detection with strict human-handoff (never solves or bypasses anti-bot gates),
 //! compact `@e1` ARIA snapshot trees with incremental diffing, redacted network capture, and WebMCP
@@ -11,8 +11,8 @@ use parking_lot::RwLock;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-/// Default local loopback port used by the `browse` extension <-> MCP relay (`anomalyco/browse`).
-pub const DEFAULT_RELAY_PORT: u16 = 19988;
+/// Default local loopback port used by the `browse` extension <-> MCP bridge (`anomalyco/browse`).
+pub const DEFAULT_BRIDGE_PORT: u16 = 19988;
 
 /// Protected URI schemes that an agent session may never attach to, script, or screenshot.
 pub const PROTECTED_SCHEMES: &[&str] = &[
@@ -39,7 +39,7 @@ pub const REDACTED_HEADERS: &[&str] = &[
     "cf-access-jwt-assertion",
 ];
 
-/// Pairing state between a real Chromium profile extension and the local MCP/CLI relay.
+/// Pairing state between a real Chromium profile extension and the local MCP/CLI bridge.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ExtensionPairing {
     pub pairing_code: String,

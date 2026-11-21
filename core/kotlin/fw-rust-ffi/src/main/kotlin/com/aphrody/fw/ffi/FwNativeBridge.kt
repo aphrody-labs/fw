@@ -229,7 +229,7 @@ class FwNativeBridge(private val libraryPath: Path) : AutoCloseable {
                 add(Path.of("C:/data/cache/cargo-target/release", libName))
                 add(Path.of("C:/data/cache/cargo-target/debug", libName))
                 for (r in roots) {
-                    add(r.resolve("target/agy").resolve(libName))
+                    add(r.resolve("target/fw").resolve(libName))
                     add(r.resolve("dist").resolve(libName))
                     add(r.resolve("native/fw-abi/target/release").resolve(libName))
                     add(r.resolve("native/fw-abi/target/debug").resolve(libName))

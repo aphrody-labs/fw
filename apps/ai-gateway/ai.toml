@@ -309,16 +309,3 @@ params = { vertex_location = "env:GOOGLE_CLOUD_LOCATION" }
 id = "anthropic"
 route = "anthropic"
 key = "ANTHROPIC_API_KEY"
-
-# Outside LiteLLM: authenticated Antigravity CLI (models listed by the CLI).
-[[provider]]
-id = "antigravity"
-cli = { models = ["agy", "models"], ask = [
-  "agy",
-  "-p",
-  "{prompt}",
-  "--mode",
-  "plan",
-  "--model",
-  "{model}",
-] }

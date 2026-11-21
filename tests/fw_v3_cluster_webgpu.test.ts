@@ -50,7 +50,7 @@ describe("fw binary, cluster router, ggml, wasm32 module and PNG render", () => 
     expect(status.ok).toBe(true);
     expect(status.zeroSystemDeps).toBe(true);
     expect(status.cluster.gpuHosts).toBe(4);
-    expect(status.cluster.vpsProxyLbStorageCpuHosts).toBe(3);
+    expect(status.cluster.vpsProxyLbStorageCpuHosts).toBe(2);
     expect(status.cluster.router).toContain("pingora");
 
     const ggmlProc = Bun.spawnSync([NATIVE_BIN, "ggml"], { cwd: ROOT, stdout: "pipe", stderr: "pipe" });

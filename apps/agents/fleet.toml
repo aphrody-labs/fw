@@ -1,9 +1,9 @@
 # Agent fleet: which roles run on which host, with per-role timeout and budget.
 # No provider list here: ai-os (packages/ai-os) names the CLI/model in each task (`providers`),
 # otherwise the runner asks the ai-os (llm_models). growth tasks are drafts only (approval = owner).
-# Hosts are named by role: build, test, prod (the ssh aliases are `[hosts]` of ay.local.toml, see packages/env-kit/src/hosts.ts).
-# heavy = true: builds/tests/training, the build host only (enforced by runner.ts at enqueue and claim; the prod and test
-# hosts never run them, tasks landing there are forwarded to the build host by health). The prod host keeps light prod roles only.
+# Hosts are named by role: build, prod (the ssh aliases are `[hosts]` of ay.local.toml, see packages/env-kit/src/hosts.ts).
+# heavy = true: builds/tests/training, the build host only (enforced by runner.ts at enqueue and claim; the prod
+# host never runs them, tasks landing there are forwarded to the build host by health). The prod host keeps light prod roles only.
 # Read by apps/agents/runner.ts. Doc: docs/agents/AGENT-FIRST.md.
 
 [roles.coder]
@@ -88,12 +88,6 @@ ssh = [
   "agent@@@hosts.build.mesh_ip@@",
   "agent@@@hosts.build.public_ip@@",
 ]
-
-[hosts.test]
-# Edge/proxy/CDN host, 11 GB RAM: minimal, sre only.
-roles = ["sre"]
-src = "~/agents/src"
-ssh = ["agent@@@hosts.test.ssh@@-mesh", "agent@@@hosts.test.ssh@@", "agent@@@hosts.test.mesh_ip@@", "agent@@@hosts.test.public_ip@@"]
 
 [hosts.pc]
 # No heavy builds on the PC.

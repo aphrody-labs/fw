@@ -68,7 +68,7 @@ fn role_for(dir: &str) -> (&'static str, &'static str) {
         "web" => ("control-plane-ui", "bun run cf:dry-run"),
         "src" => ("bun-cli-aot", "bun test"),
         "tests" => ("e2e-tests", "bun test"),
-        "plugin" => ("agy-plugin", "dist/fw-plugin.exe plugin sync --install"),
+        "plugins" => ("claude-plugin", "dist/fw-plugin.exe plugin sync --install"),
         "cluster" => ("topology-spec", "bun test tests/fw_v3_cluster_webgpu.test.ts"),
         "configs/heretic" => ("heretic-presets", "uvx ruff check ."),
         "docs" => ("architecture-docs", "read-only"),
@@ -190,7 +190,7 @@ fn cmd_ci(root: &Path, mode: &str) -> ExitCode {
         ("rust-clippy", "cargo", vec!["clippy", "--workspace", "--all-targets", "--", "-D", "warnings"]),
         ("rust-test", "cargo", vec!["test", "--workspace"]),
         ("python-ruff", "uvx", vec!["ruff", "check", "."]),
-        // The bun suite drives the release `fw`, the native ABI and `agy`: build them first.
+        // The bun suite drives the release `fw` and the native ABI: build them first.
         ("bun-test", "bun", vec!["run", "test:ci"]),
     ];
     if mode != "fast" {

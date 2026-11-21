@@ -38,7 +38,7 @@ pub fn is_link_local_or_metadata(ip: IpAddr) -> bool {
 
 /// True when `ip` must never be the target of an unprivileged outbound request:
 /// loopback, RFC1918 private, CGNAT (`100.64.0.0/10`), link-local, broadcast, documentation,
-/// benchmarking (`198.18.0.0/15`), 6to4 relay (`192.88.99.0/24`), special-purpose `192.0.0.0/24`
+/// benchmarking (`198.18.0.0/15`), 6to4 anycast (`192.88.99.0/24`), special-purpose `192.0.0.0/24`
 /// (except PCP anycast `.9` and `.10`), reserved `240.0.0.0/4`, unspecified (`0.0.0.0` / `::`),
 /// multicast, IPv6 unique-local (`fc00::/7`), NAT64 (`64:ff9b::/96` & `64:ff9b:1::/48`), 6to4,
 /// Teredo (`2001:0::/32`), discard (`100::/64`), and documentation (`2001:db8::/32`, `3fff::/20`).

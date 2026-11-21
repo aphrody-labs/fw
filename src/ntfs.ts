@@ -38,7 +38,7 @@ export function normalizeNtfsKey(p: string): string {
 
 /**
  * Detects NTFS directory junctions, symbolic links, and reparse points without
- * following them (fixes Go os.ReadDir / Antigravity junction-skip bug on Windows).
+ * following them (fixes the Go os.ReadDir junction-skip bug on Windows).
  */
 export function isReparseOrSymlink(targetPath: string): boolean {
   try {

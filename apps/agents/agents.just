@@ -22,7 +22,7 @@ agents-install host:
     timeout 120 ssh "$(bun "{{root}}/packages/env-kit/src/hosts.ts" alias {{host}})" 'sudo sh -s' < "{{root}}/apps/agents/bootstrap-user.sh"
     timeout 1800 ssh "agent@$(bun "{{root}}/packages/env-kit/src/hosts.ts" alias {{host}})" 'sh -s' < "{{root}}/apps/agents/install.sh"
 
-# Agent tooling (apps/agents/toolchain.toml): skills, plugins, MCP for Claude Code, Codex, agy, Gemini CLI (usage: just agents-sync [--check])
+# Agent tooling (apps/agents/toolchain.toml): skills, plugins, MCP for Claude Code, Codex, Gemini CLI (usage: just agents-sync [--check])
 [group('agents')]
 agents-sync *args:
     bun "{{root}}/system/machine-ts/src/toolchain.ts" {{args}}

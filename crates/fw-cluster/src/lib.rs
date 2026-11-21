@@ -171,23 +171,6 @@ impl HybridClusterRouter {
                 cached_prefixes: Vec::new(),
             },
             ClusterNode {
-                id: "vps-2-fr2-cpu-lb".into(),
-                kind: NodeKind::VpsProxyLbStorageCpu,
-                endpoint: "http://10.66.0.12:8080".into(),
-                rpc_addr: Some("10.66.0.12:50052".into()),
-                gpu_model: "none (CPU)".into(),
-                vram_gb: 0,
-                ram_gb: 32,
-                cpu_cores: 8,
-                healthy: true,
-                inflight: 0,
-                queue_depth: 0,
-                inflight_tokens: 0,
-                prefill_score: 0.4,
-                decode_score: 0.6,
-                cached_prefixes: Vec::new(),
-            },
-            ClusterNode {
                 id: "vps-3-prd-edge-proxy".into(),
                 kind: NodeKind::VpsProxyLbStorageCpu,
                 endpoint: "http://10.66.0.13:8080".into(),
@@ -399,7 +382,7 @@ mod tests {
         let mut router = HybridClusterRouter::default_hybrid_cluster();
         let s = router.summary();
         assert_eq!(s["gpuHosts"], 4);
-        assert_eq!(s["vpsProxyLbStorageCpuHosts"], 3);
+        assert_eq!(s["vpsProxyLbStorageCpuHosts"], 2);
         assert_eq!(s["userWebGpuFpuPeers"], 1);
 
         let d1 = router.route_request("System prompt: Fw v3.0 ggml-rpc hybrid cluster", true);

@@ -80,11 +80,11 @@ pub struct BrowserLayout {
 /// Side panel surfaces hosted by Chromium's `SidePanelCoordinator`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum SidePanelEntry {
-    /// `anomalyco/browse` live agent relay, `@e1` ARIA snapshot & pairing controls.
+    /// `anomalyco/browse` live agent bridge, `@e1` ARIA snapshot & pairing controls.
     BrowseAgent,
     /// `navigator.modelContext` WebMCP tools exposed by the active tab.
     WebMcp,
-    /// Fused `ayvpn` Mullvad/WireGuard exit relay selector, DAITA & DNS shield toggles.
+    /// Fused `ayvpn` Mullvad/WireGuard exit server selector, DAITA & DNS shield toggles.
     VpnShield,
     /// Embedded CDP DevTools inspector.
     DevTools,

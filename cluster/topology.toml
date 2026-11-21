@@ -71,7 +71,7 @@ rpc_addr = "10.66.0.23:50052"
 prefill_weight = 1.6
 decode_weight = 1.5
 
-# 3 VPS Nodes: Pingora Proxy + KV Load Balancer + GGUF Storage + 3 CPU Inference Workers
+# 2 VPS Nodes: Pingora Proxy + KV Load Balancer + GGUF Storage + 2 CPU Inference Workers
 [[nodes]]
 id = "vps-1-fr1-cpu-storage"
 role = "vps-proxy-lb-storage-cpu"
@@ -88,23 +88,6 @@ rpc_addr = "10.66.0.11:50052"
 proxy_addr = "0.0.0.0:8080"
 prefill_weight = 0.6
 decode_weight = 0.8
-
-[[nodes]]
-id = "vps-2-fr2-cpu-lb"
-role = "vps-proxy-lb-storage-cpu"
-tier = "vps-cpu"
-os = "linux-7.3"
-arch = "x86_64-unknown-linux-musl"
-backends = ["ggml-cpu", "ggml-rpc", "pingora-lb"]
-gpu = "none"
-vram_gb = 0
-ram_gb = 32
-disk_gb = 500
-cpu_cores = 8
-rpc_addr = "10.66.0.12:50052"
-proxy_addr = "0.0.0.0:8080"
-prefill_weight = 0.4
-decode_weight = 0.6
 
 [[nodes]]
 id = "vps-3-prd-edge-proxy"

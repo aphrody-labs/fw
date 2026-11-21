@@ -4,7 +4,7 @@ import { dirname, join, resolve } from "node:path";
 
 export interface RouterProviderEntry {
   id: string;
-  kind: "local-gguf" | "openai-compatible" | "cloudflare-ai" | "antigravity-agy" | "ollama";
+  kind: "local-gguf" | "openai-compatible" | "cloudflare-ai" | "ollama";
   baseUrl: string;
   models: string[];
   priority: number;
@@ -29,12 +29,12 @@ export const DEFAULT_ROUTER_PROVIDERS: RouterProviderEntry[] = [
     capabilities: ["chat", "embeddings"],
   },
   {
-    id: "antigravity-agy",
-    kind: "antigravity-agy",
-    baseUrl: "local://agy",
+    id: "gemini-api",
+    kind: "openai-compatible",
+    baseUrl: "https://generativelanguage.googleapis.com/v1beta/openai",
     models: ["gemini-4-neon", "gemini-3.8-flash"],
     priority: 3,
-    capabilities: ["chat", "agent", "acp", "mcp"],
+    capabilities: ["chat", "agent", "mcp"],
   },
   {
     id: "cloudflare-workers-ai",
@@ -112,7 +112,6 @@ export function brainIndexRepo(root: string) {
     { id: "agents", kind: "rule", title: "Fw AGENTS", path: "AGENTS.md" },
     { id: "readme", kind: "doc", title: "Fw README", path: "README.md" },
     { id: "plugin-fw", kind: "skill", title: "Fw Skill", path: "plugins/aphrody/skills/fw/SKILL.md" },
-    { id: "plugin-agy", kind: "skill", title: "Antigravity Knowledge", path: "plugins/aphrody/skills/agy-knowledge/SKILL.md" },
     { id: "plugin-learn", kind: "skill", title: "Autonomous Learn", path: "plugins/aphrody/skills/learn/SKILL.md" },
     { id: "plugin-lowlevel", kind: "skill", title: "Low-Level LTO AOT", path: "plugins/aphrody/skills/low-level-lto-aot/SKILL.md" },
   ];
@@ -193,7 +192,7 @@ export function buildA2AAgentCard(baseUrl = "http://127.0.0.1:4379") {
       { id: "pe-inspect", name: "PE/COFF & Disassembly", description: "craft-pe + iced-x86 Fat-LTO binary inspection" },
       { id: "ast-polyglot", name: "Tree-sitter 11-Grammar AST", description: "Parse, extract symbols, and run queries" },
       { id: "lowlevel-lto-aot", name: "Low-Level LTO/AOT Builder", description: "Rust/C/C++/Asm/Wasm/CUDA/WGSL/Go/Java/Bun" },
-      { id: "self-upgrade", name: "Continuous agy Auto-Upgrade", description: "Gated target/agy promotion & learning loop" },
+      { id: "self-upgrade", name: "Continuous Auto-Upgrade", description: "Gated target/fw promotion & learning loop" },
     ],
   };
 }

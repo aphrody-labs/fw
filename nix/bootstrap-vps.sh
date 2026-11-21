@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Reproducible full-stack Rust userland Nix bootstrapper for all 3 VPS (fr1, fr2, prd).
-# Works identically on Ubuntu 26.10 (fr1/fr2) and Arch Linux (prd) with zero drift.
+# Reproducible full-stack Rust userland Nix bootstrapper for both VPS (fr1, prd).
+# Works identically on Ubuntu 26.10 (fr1) and Arch Linux (prd) with zero drift.
 #
 # Usage:
-#   ./nix/bootstrap-vps.sh <fr1|fr2|prd> [flake-ref]
+#   ./nix/bootstrap-vps.sh <fr1|prd> [flake-ref]
 set -euo pipefail
 
 ROLE="${1:-$(hostname -s)}"

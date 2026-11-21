@@ -7,8 +7,8 @@ import { GET as vercelGet, POST as vercelPost } from "../vercel/api/fw.ts";
 
 const ROOT = process.cwd();
 
-describe("fw Gemini Decision 1, self-hosted workflow, Antigravity SDK fork, Auto core, and Vercel cross-cloud", () => {
-  test("Antigravity Python SDK is not vendored, fw-kernel and fw-world are present (auto-* deduplicated to aphrody-labs/ay)", () => {
+describe("fw Gemini Decision 1, self-hosted workflow, Auto core, and Vercel cross-cloud", () => {
+  test("Google SDK copies are not vendored, fw-kernel and fw-world are present (auto-* deduplicated to aphrody-labs/ay)", () => {
     expect(existsSync(join(ROOT, "core", "py", "google"))).toBe(false);
     expect(existsSync(join(ROOT, "core", "rs", "auto"))).toBe(false);
     expect(existsSync(join(ROOT, "native", "fw-kernel", "Cargo.toml"))).toBe(true);

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { findAbiLibrary } from "../src/targets.ts";
 
 const ROOT = process.cwd();
 const IS_WIN = process.platform === "win32";
@@ -16,7 +17,6 @@ describe("fw unified product", () => {
     expect(existsSync(join(ROOT, "native", "fw-pe"))).toBe(false);
     expect(existsSync(join(ROOT, "native", "fw-sniff"))).toBe(false);
     expect(existsSync(join(ROOT, "native", "fw-abi", "Cargo.toml"))).toBe(true);
-    expect(existsSync(join(ROOT, "native", "fw-agy", "Cargo.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "fw.targets.json"))).toBe(true);
     expect(existsSync(join(ROOT, ".agents", "rules", "fw-auto-upgrade.md"))).toBe(true);
   });
@@ -63,9 +63,9 @@ describe("fw unified product", () => {
 
   test("fw_cli.ts inspect parses PE binaries via craft-pe C ABI on Windows", () => {
     if (!IS_WIN) return;
-    const agyBin = join(ROOT, "native", "fw-agy", "target", "release", "agy.exe");
-    expect(existsSync(agyBin)).toBe(true);
-    const proc = Bun.spawnSync(["bun", "src/fw_cli.ts", "inspect", agyBin], {
+    const abiBin = findAbiLibrary(ROOT);
+    expect(abiBin).not.toBeNull();
+    const proc = Bun.spawnSync(["bun", "src/fw_cli.ts", "inspect", abiBin!], {
       cwd: ROOT,
       stdout: "pipe",
       stderr: "pipe",

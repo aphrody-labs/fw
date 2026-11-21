@@ -37,12 +37,11 @@ import {
   parseAstWithAbi,
   probeRustAbi,
   readTargetManifest,
-  resolveUpstreamAgyPath,
   writeTargetManifest,
 } from "./targets.ts";
 import { generateFwWtaConfig, getTerminalTuiStatus, runTuiTestVerify, verifyFwSelfTui } from "./terminal_tui.ts";
 import { renderFwTui } from "./tui.ts";
-import { applyUpgrade, buildAgyUpgradePlan, checkUpgrade, runBenchmarks } from "./upgrade.ts";
+import { applyUpgrade, checkUpgrade, runBenchmarks } from "./upgrade.ts";
 import { listVfsMounts, vfsList, vfsRead, vfsSnapshot, vfsSnapshots, vfsWrite } from "./vfs.ts";
 
 const TREE_SITTER_GRAMMARS = [
@@ -165,7 +164,7 @@ function cmdStatus(root: string): number {
   const abi = probeRustAbi(root);
   const manifest = readTargetManifest(root);
   const isWin = process.platform === "win32";
-  const agyTargetPath = join(root, "target", "agy", isWin ? "agy.exe" : "agy");
+  const cliTargetPath = join(root, "target", "fw", isWin ? "fw-plugin.exe" : "fw-plugin");
   printJson({
     ok: true,
     product: "fw",
@@ -178,8 +177,8 @@ function cmdStatus(root: string): number {
     ltoAot: {
       cliProfile: "bun-compile-aot-trim",
       abiProfile: abi.health?.lto === "fat" ? "rust-fat-lto" : (abi.health?.profile ?? "unknown"),
-      agyTargetBinary: agyTargetPath,
-      agyTargetReady: existsSync(agyTargetPath),
+      cliTargetBinary: cliTargetPath,
+      cliTargetReady: existsSync(cliTargetPath),
       manifestReady: Boolean(manifest),
       repoDigest: manifest?.repoDigest ?? null,
     },
@@ -296,11 +295,11 @@ function cmdAst(root: string, args: string[]): number {
 }
 
 function cmdInspect(root: string, args: string[]): number {
-  const targetPath = args[0] ? resolve(root, args[0]) : resolveUpstreamAgyPath();
-  if (!targetPath) {
-    printJson({ ok: false, error: "No PE binary specified and upstream agy.exe was not found" });
+  if (!args[0]) {
+    printJson({ ok: false, error: "No PE binary specified", usage: "fw inspect <pe-file>" });
     return 1;
   }
+  const targetPath = resolve(root, args[0]);
   const report = inspectPeWithAbi(root, targetPath);
   printJson({ bridge: "craft-pe-fat-lto-abi", ...report });
   return report.ok ? 0 : 1;
@@ -342,18 +341,6 @@ function cmdTarget(root: string, args: string[]): number {
 function cmdUpgrade(root: string, args: string[]): number {
   const apply = args.includes("--apply");
   const skipTests = args.includes("--skip-tests");
-  const withAgy = args.includes("--with-agy");
-  const dryRun = args.includes("--dry-run");
-
-  if (withAgy) {
-    const plan = buildAgyUpgradePlan(root);
-    if (dryRun || !plan.command) {
-      printJson({ ...plan, mode: "with-agy-dry-run" });
-      return plan.command ? 0 : 1;
-    }
-    const res = Bun.spawnSync(plan.command, { cwd: root, stdout: "inherit", stderr: "inherit" });
-    return res.exitCode ?? 1;
-  }
 
   if (apply) {
     const report = applyUpgrade(root, { skipTests });
@@ -485,22 +472,22 @@ async function main(): Promise<number> {
     case "inspect":
       return cmdInspect(root, rest);
     case "identify": {
-      const target = rest[0] ? resolve(root, rest[0]) : resolveUpstreamAgyPath();
-      if (!target) {
+      if (!rest[0]) {
         printJson({ ok: false, error: "no target file specified" });
         return 1;
       }
+      const target = resolve(root, rest[0]);
       const res = identifyFileWithAbi(root, target);
       printJson(res);
       return res.ok ? 0 : 1;
     }
     case "disasm": {
-      const target = rest[0] ? resolve(root, rest[0]) : resolveUpstreamAgyPath();
       const max = rest[1] ? Number(rest[1]) || 12 : 12;
-      if (!target) {
+      if (!rest[0]) {
         printJson({ ok: false, error: "no PE binary specified" });
         return 1;
       }
+      const target = resolve(root, rest[0]);
       const res = disasmX64WithAbi(root, target, max);
       printJson(res);
       return res.ok ? 0 : 1;

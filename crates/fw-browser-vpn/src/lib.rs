@@ -82,7 +82,7 @@ pub enum TunnelProtocol {
     MasqueQuic,
     /// WireGuard over Shadowsocks or UDP-over-TCP fallback for restrictive networks.
     ShadowsocksTcp,
-    /// Local SOCKS5 multiplex endpoint bound per exit relay (`127.0.0.1:<port>` or `10.64.0.1:1080`).
+    /// Local SOCKS5 multiplex endpoint bound per exit server (`127.0.0.1:<port>` or `10.64.0.1:1080`).
     Socks5Exit,
 }
 
@@ -151,7 +151,7 @@ pub struct ExitProfile {
     pub purpose: String,
     /// Two-letter ISO-3166 country code (`"us"`, `"jp"`).
     pub country: String,
-    /// Three-letter Mullvad city relay code (`"qas"` Ashburn, `"tyo"` Tokyo, `"got"` Gothenburg).
+    /// Three-letter Mullvad city server code (`"qas"` Ashburn, `"tyo"` Tokyo, `"got"` Gothenburg).
     pub city: String,
     /// Optional Linux UID policy-routing isolation (`2001`, `2002`).
     pub uid: Option<u32>,

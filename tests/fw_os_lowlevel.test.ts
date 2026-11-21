@@ -11,6 +11,7 @@ import {
   astSymbolsWithAbi,
   cryptoDigestWithAbi,
   disasmX64WithAbi,
+  findAbiLibrary,
   gitInspectWithAbi,
   identifyFileWithAbi,
 } from "../src/targets.ts";
@@ -52,8 +53,8 @@ describe("polyglot OS, C ABI, NTFS, VFS, AI protocols and low-level LTO/AOT", ()
     expect(git.branch).toBe("main");
 
     if (IS_WIN) {
-      const agyBin = join(ROOT, "native", "fw-agy", "target", "release", "agy.exe");
-      const dis = disasmX64WithAbi(ROOT, agyBin, 8) as { ok: boolean; count: number; bitness: number };
+      const abiBin = findAbiLibrary(ROOT)!;
+      const dis = disasmX64WithAbi(ROOT, abiBin, 8) as { ok: boolean; count: number; bitness: number };
       expect(dis.ok).toBe(true);
       expect(dis.bitness).toBe(64);
       expect(dis.count).toBeGreaterThan(0);

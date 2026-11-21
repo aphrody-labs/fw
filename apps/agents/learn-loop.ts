@@ -131,25 +131,6 @@ async function collect(since: number, prev: State) {
   counts.T.note = `${tFiles} files`;
   T.slice(-25).forEach((s) => add("T", s));
 
-  // A: agy (Antigravity) conversations
-  cnt("A");
-  try {
-    const { Database } = await import("bun:sqlite");
-    const db = new Database(`${HOME}/.gemini/antigravity-cli/conversation_summaries.db`, { readonly: true });
-    const rows = db.query("select conversation_id,title,preview,step_count,status,last_modified_time from conversation_summaries").all() as any[];
-    db.close();
-    const recent = rows.filter((r) => Date.parse(r.last_modified_time) >= since);
-    counts.A.seen = recent.length;
-    recent.slice(-12).forEach((r) =>
-      add("A", { cite: `agy conversation ${r.conversation_id}`, text: clip(`${r.title} | ${r.preview} | steps=${r.step_count} status=${r.status}`, 300) }),
-    );
-  } catch (e) {
-    counts.A.note = `unavailable: ${String(e).slice(0, 80)}`;
-  }
-  const brain = walk(`${HOME}/.gemini/antigravity-cli/brain`, ".md", [], 3).filter((f) => mt(f) >= since);
-  cnt("AB").seen = brain.length;
-  brain.slice(-6).forEach((f) => add("AB", { cite: `agy brain ${f.split("brain/")[1]}`, text: clip(readFileSync(f, "utf8"), 300) }));
-
   // B: background agent task outputs
   cnt("B");
   const tmp = `${process.env.TEMP ?? `${HOME}/AppData/Local/Temp`}`.replaceAll("\\", "/") + "/claude";

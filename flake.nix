@@ -1,5 +1,5 @@
 {
-  description = "fw userland and the fr1, fr2 and prd host configurations";
+  description = "fw userland and the fr1 and prd host configurations";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -30,7 +30,7 @@
             doCheck = true;
           };
 
-          # Identical pure-Rust full-stack userland closure deployed to fr1, fr2, prd, and WSL
+          # Identical pure-Rust full-stack userland closure deployed to fr1, prd, and WSL
           userlandPackages = (with pkgs; [
             fwPkg
             # Pure-Rust POSIX coreutils (replaces GNU coreutils)
@@ -120,7 +120,6 @@
           };
         in {
           fr1 = mkVps ./nix/hosts/fr1.nix;
-          fr2 = mkVps ./nix/hosts/fr2.nix;
           prd = mkVps ./nix/hosts/prd.nix;
           wsl-fw = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";

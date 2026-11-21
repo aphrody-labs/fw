@@ -15,7 +15,7 @@ export const LOW_LEVEL_LTO_AOT_MATRIX: LowLevelTargetRecipe[] = [
     arch: "x86_64 | aarch64 | riscv64 | wasm32-wasip2",
     compiler: "rustc / cargo",
     ltoAotFlags: "opt-level=3, lto='fat', codegen-units=1, panic='abort', strip='symbols'",
-    sourceExample: "native/fw-agy/Cargo.toml",
+    sourceExample: "native/fw-abi/Cargo.toml",
   },
   {
     lang: "c",
