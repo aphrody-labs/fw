@@ -311,9 +311,16 @@ fn host_record(root: &Path) -> Json {
     let dirty = capture("git", &["status", "--porcelain", "--untracked-files=no"], Some(root)).map(|s| s.lines().count()).unwrap_or(0);
     let kernel = capture("uname", &["-sr"], None).unwrap_or_else(|| env::consts::OS.to_string());
     let hostname = env::var("HOSTNAME").ok().or_else(|| env::var("COMPUTERNAME").ok()).or_else(|| capture("hostname", &[], None)).unwrap_or_default();
-    let tools: Vec<Json> = ["hyperfine", "gzip", "brotli", "zstd", "strip", "mold", "wild", "ld.lld", "wasm-opt", "wasm-bindgen", "wasm-tools", "cargo-xwin", "bun"]
+    let tools: Vec<Json> = ["hyperfine", "gzip", "brotli", "zstd", "strip", "ld.bfd", "ld.gold", "mold", "wild", "ld.lld", "wasm-opt", "wasm-bindgen", "wasm-tools", "valgrind", "bun"]
         .iter()
-        .map(|name| obj(vec![("tool", text(*name)), ("path", which(name).map(|p| text(p.display().to_string())).unwrap_or(Json::Null))]))
+        .map(|name| {
+            let version = which(name).and_then(|_| capture(name, &["--version"], None)).and_then(|v| v.lines().next().map(str::to_string));
+            obj(vec![
+                ("tool", text(*name)),
+                ("path", which(name).map(|p| text(p.display().to_string())).unwrap_or(Json::Null)),
+                ("version", version.map(text).unwrap_or(Json::Null)),
+            ])
+        })
         .collect();
     obj(vec![
         ("hostname", text(hostname)),
@@ -715,17 +722,27 @@ fn link_symlink(target: &Path, link: &Path) {
 #[cfg(not(unix))]
 fn link_symlink(_target: &Path, _link: &Path) {}
 
+/// Quoted tokens of the link line rustc prints (`LC_ALL="C" PATH="..." "cc" "-m64" ...`): the values of leading
+/// `NAME="value"` environment assignments are dropped, so the first token is the linker program.
 fn parse_quoted(line: &str) -> Vec<String> {
     let mut arguments = Vec::new();
     let mut current = String::new();
     let mut inside = false;
+    let mut environment_value = false;
+    let mut previous = ' ';
     let mut chars = line.chars();
     while let Some(ch) = chars.next() {
         match (inside, ch) {
-            (false, '"') => inside = true,
+            (false, '"') => {
+                inside = true;
+                environment_value = previous == '=';
+            }
             (true, '"') => {
                 inside = false;
-                arguments.push(std::mem::take(&mut current));
+                let token = std::mem::take(&mut current);
+                if !environment_value {
+                    arguments.push(token);
+                }
             }
             (true, '\\') => match chars.next() {
                 Some('n') => current.push('\n'),
@@ -735,6 +752,7 @@ fn parse_quoted(line: &str) -> Vec<String> {
             (true, c) => current.push(c),
             (false, _) => {}
         }
+        previous = ch;
     }
     arguments
 }
@@ -765,7 +783,7 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
         }
     }
     let content = fs::read_to_string(&log).unwrap_or_default();
-    let Some(link_line) = content.lines().rfind(|l| l.starts_with('"') && (l.contains("\"-o\"") || l.to_ascii_lowercase().contains("\"/out:"))) else {
+    let Some(link_line) = content.lines().rfind(|l| l.contains("\"-o\"") || l.to_ascii_lowercase().contains("\"/out:")) else {
         let (record, summary) = failure(&id, "link", "no link line in rustc output", &line);
         report.push(record, summary);
         return;
@@ -1262,4 +1280,38 @@ fn main() {
     report.records.push(obj(vec![("id", text("load-after")), ("suite", text("host")), ("status", text("ok")), ("load", load_snapshot())]));
     report.flush();
     println!("{}", options.out.display());
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn link_line_drops_environment_values() {
+        let line = r#"LC_ALL="C" PATH="/a:/b" VSLANG="1033" "cc" "-m64" "-o" "/t/out" "-Wl,--as-needed""#;
+        assert_eq!(parse_quoted(line), ["cc", "-m64", "-o", "/t/out", "-Wl,--as-needed"]);
+    }
+
+    #[test]
+    fn stats_of_five_samples() {
+        let s = stats(&[1.0, 2.0, 3.0, 4.0, 5.0]);
+        assert_eq!((s.n, s.mean, s.p50, s.min, s.max), (5, 3.0, 3.0, 1.0, 5.0));
+        assert!((s.stdev - 1.5811388).abs() < 1e-6);
+    }
+
+    #[test]
+    fn gpu_metrics_reads_arrays() {
+        let raw = r#"{"metrics":{"a_ms":[1.0,3.0],"b.gpu_ms":[2.0]},"checks":{}}"#;
+        let metrics = gpu_metrics(raw);
+        assert_eq!(metrics.len(), 2);
+        assert_eq!(metrics[0].0, "a_ms");
+        assert_eq!(metrics[0].1.mean, 2.0);
+    }
+
+    #[test]
+    fn json_renders_numbers_and_escapes() {
+        let mut out = String::new();
+        obj(vec![("a", num(3.0)), ("b", text("x\"y")), ("c", Json::Arr(vec![num(1.5)]))]).render(&mut out, 0);
+        assert!(out.contains("\"a\": 3") && out.contains("x\\\"y") && out.contains("[1.500000]"));
+    }
 }
