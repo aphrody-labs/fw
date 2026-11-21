@@ -32,7 +32,9 @@ struct RemoveOnDrop(PathBuf);
 
 impl Drop for RemoveOnDrop {
     fn drop(&mut self) {
-        if let Err(error) = std::fs::remove_file(&self.0) {
+        if let Err(error) = std::fs::remove_file(&self.0)
+            && error.kind() != std::io::ErrorKind::NotFound
+        {
             eprintln!("fw-android-wl: removing {} failed: {error}", self.0.display());
         }
     }
@@ -122,8 +124,11 @@ fn run(options: &Options) -> Result<(), String> {
         state.describe_globals()
     );
 
+    let mut socket_lock = options.socket.clone().into_os_string();
+    socket_lock.push(".lock");
     let listener = ListeningSocket::bind_absolute(options.socket.clone())
         .map_err(|error| format!("wayland socket {}: {error}", options.socket.display()))?;
+    let _socket_cleanup = [RemoveOnDrop(options.socket.clone()), RemoveOnDrop(PathBuf::from(socket_lock))];
     std::fs::set_permissions(&options.socket, std::fs::Permissions::from_mode(0o777))
         .map_err(|error| format!("chmod {}: {error}", options.socket.display()))?;
 
