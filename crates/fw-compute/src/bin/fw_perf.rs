@@ -10,7 +10,7 @@
 //! Suites: `host` (machine, load, toolchain, commit), `build` (clean and touch-rebuild per package, profile and
 //! target, then stripped size), `startup` (spawn to exit of a built binary), `link` (the same object set linked by
 //! each linker), `wasm` (raw, gzip, brotli of wasm artifacts, then wasm-bindgen and wasm-opt), `workers` (wrangler
-//! dry-run bundles of every Worker), `gpu` (gpu-bench executables: shader module, pipeline, frame time).
+//! dry-run bundles of every Worker), `shader` (naga WGSL parse, validate and emit time of every WGSL file), `gpu` (gpu-bench executables: shader module, pipeline, frame time).
 
 use std::collections::BTreeMap;
 use std::env;
@@ -105,6 +105,8 @@ mod sys {
 }
 
 enum Json {
+    /// A JSON document produced by a child tool, embedded as is.
+    Raw(String),
     Null,
     Bool(bool),
     Num(f64),
@@ -129,6 +131,7 @@ impl Json {
     fn render(&self, out: &mut String, depth: usize) {
         let pad = |out: &mut String, level: usize| out.push_str(&"  ".repeat(level));
         match self {
+            Json::Raw(document) => out.push_str(document.trim()),
             Json::Null => out.push_str("null"),
             Json::Bool(flag) => out.push_str(if *flag { "true" } else { "false" }),
             Json::Num(value) if value.is_finite() => {
@@ -399,6 +402,7 @@ struct Options {
     exes: Vec<PathBuf>,
     startup_args: Vec<Vec<String>>,
     gpu_bench: PathBuf,
+    wgsl: Vec<PathBuf>,
 }
 
 struct Report {
@@ -438,6 +442,7 @@ impl Report {
 
 fn clone_json(value: &Json) -> Json {
     match value {
+        Json::Raw(document) => Json::Raw(document.clone()),
         Json::Null => Json::Null,
         Json::Bool(b) => Json::Bool(*b),
         Json::Num(n) => Json::Num(*n),
@@ -990,6 +995,98 @@ fn run_gpu(options: &Options, report: &mut Report) {
     }
 }
 
+fn walk_wgsl(path: &Path) -> Vec<PathBuf> {
+    if path.is_dir() {
+        let mut entries: Vec<PathBuf> = fs::read_dir(path).map(|d| d.flatten().map(|e| e.path()).collect()).unwrap_or_default();
+        entries.sort();
+        entries.iter().flat_map(|entry| walk_wgsl(entry)).collect()
+    } else if path.extension().is_some_and(|e| e == "wgsl") {
+        vec![path.to_path_buf()]
+    } else {
+        Vec::new()
+    }
+}
+
+/// gpui_wgpu builds its shaders at run time from `shaders.wgsl` plus one suffix (wgpu_renderer.rs: storage, webgl, and
+/// storage plus subpixel behind `enable dual_source_blending;`); the parts do not parse alone, so the three composed
+/// sources are compiled instead.
+fn compose_gpui_shaders(inputs: &mut Vec<PathBuf>, composed: &Path) {
+    let Some(base_path) = inputs.iter().find(|p| p.file_name().is_some_and(|n| n == "shaders.wgsl") && p.with_file_name("shaders_storage.wgsl").is_file()).cloned() else { return };
+    let read = |name: &str| fs::read_to_string(base_path.with_file_name(name)).unwrap_or_default();
+    let (base, storage, subpixel, webgl) = (read("shaders.wgsl"), read("shaders_storage.wgsl"), read("shaders_subpixel.wgsl"), read("shaders_webgl.wgsl"));
+    fs::create_dir_all(composed).ok();
+    let variants = [
+        ("gpui_wgpu.storage.wgsl", format!("{base}{storage}")),
+        ("gpui_wgpu.webgl.wgsl", format!("{base}{webgl}")),
+        ("gpui_wgpu.subpixel.wgsl", format!("enable dual_source_blending;\n{base}{storage}{subpixel}")),
+    ];
+    let parts = ["shaders.wgsl", "shaders_storage.wgsl", "shaders_subpixel.wgsl", "shaders_webgl.wgsl"];
+    inputs.retain(|p| !(p.parent() == base_path.parent() && p.file_name().is_some_and(|n| parts.iter().any(|part| n == *part))));
+    for (name, source) in variants {
+        let path = composed.join(name);
+        if fs::write(&path, source).is_ok() {
+            inputs.push(path);
+        }
+    }
+}
+
+fn run_shader(options: &Options, report: &mut Report) {
+    let id = "shader.naga";
+    let manifest = options.gpu_bench.join("bench/wgpu/Cargo.toml");
+    let target_dir = options.work.join("target").join("shader-compile");
+    let scratch = options.work.join("scratch").join(id);
+    fs::create_dir_all(&scratch).ok();
+    if !manifest.is_file() {
+        let (record, summary) = failure(id, "shader", &format!("{} not found (gpu-bench checkout)", manifest.display()), "");
+        report.push(record, summary);
+        return;
+    }
+    let mut build = Command::new("cargo");
+    build.args(["build", "--release", "--bin", "shader_compile", "--manifest-path"]).arg(&manifest).env("CARGO_TARGET_DIR", &target_dir).env("RUSTC_WRAPPER", "");
+    let line = command_line(&build);
+    let log = scratch.join("build.log");
+    match measure(&mut build, Some(&log)) {
+        Ok(m) if m.code == 0 => {}
+        _ => {
+            let (record, summary) = failure(id, "shader", &format!("shader_compile build failed: {}", tail(&log, 3)), &line);
+            report.push(record, summary);
+            return;
+        }
+    }
+    let exe = target_dir.join("release").join(format!("shader_compile{}", env::consts::EXE_SUFFIX));
+    let mut inputs: Vec<PathBuf> = if options.wgsl.is_empty() {
+        capture("git", &["ls-files", "*.wgsl"], Some(&options.root)).unwrap_or_default().lines().map(|l| options.root.join(l)).collect()
+    } else {
+        options.wgsl.clone()
+    };
+    inputs.push(options.gpu_bench.join("wgsl"));
+    inputs = inputs.iter().flat_map(|input| walk_wgsl(input)).collect();
+    compose_gpui_shaders(&mut inputs, &scratch.join("composed"));
+    let out = scratch.join("result.json");
+    let Ok(file) = File::create(&out) else { return };
+    let mut run = Command::new(&exe);
+    run.arg("--runs").arg(options.runs.max(5).to_string()).args(&inputs).stdout(Stdio::from(file)).stderr(Stdio::null());
+    let run_line = command_line(&run);
+    let started = Instant::now();
+    if !run.status().map(|s| s.success()).unwrap_or(false) {
+        let (record, summary) = failure(id, "shader", "shader_compile failed", &run_line);
+        report.push(record, summary);
+        return;
+    }
+    let raw = fs::read_to_string(&out).unwrap_or_default();
+    let shaders = raw.matches("\"file\":").count();
+    let record = obj(vec![
+        ("id", text(id)),
+        ("suite", text("shader")),
+        ("status", text("ok")),
+        ("wall_s", num(started.elapsed().as_secs_f64())),
+        ("build_command", text(line)),
+        ("command", text(run_line)),
+        ("result", Json::Raw(raw)),
+    ]);
+    report.push(record, format!("| {id} | shader compile | {shaders} WGSL files, per-stage samples in the JSON |"));
+}
+
 fn stats_json_from(stat: &Stats) -> Json {
     obj(vec![("n", num(stat.n as f64)), ("mean", num(stat.mean)), ("stdev", num(stat.stdev)), ("min", num(stat.min)), ("p50", num(stat.p50)), ("max", num(stat.max))])
 }
@@ -1037,6 +1134,7 @@ fn parse_options() -> Result<(String, Options), String> {
     Ok((
         command,
         Options {
+            wgsl: all("--wgsl").into_iter().map(PathBuf::from).collect(),
             gpu_bench: PathBuf::from(value("--gpu-bench").unwrap_or_else(|| root.join("..").join("gpu-bench").display().to_string())),
             root,
             work,
@@ -1072,7 +1170,7 @@ fn main() {
         return;
     }
     if command != "run" {
-        println!("usage: fw_perf <list|run> [--root DIR] [--work DIR] [--out FILE] [--suite host,build,startup,link,wasm,workers,gpu] [--only ID,...] [--runs N] [--build-runs N] [--warmup N] [--no-incremental] [--exe PATH --args \"--version\"] [--gpu-bench DIR]");
+        println!("usage: fw_perf <list|run> [--root DIR] [--work DIR] [--out FILE] [--suite host,build,startup,link,wasm,workers,shader,gpu] [--only ID,...] [--runs N] [--build-runs N] [--warmup N] [--no-incremental] [--exe PATH --args \"--version\"] [--gpu-bench DIR] [--wgsl DIR]");
         std::process::exit(if command == "help" { 0 } else { 2 });
     }
     fs::create_dir_all(&options.work).ok();
@@ -1087,6 +1185,9 @@ fn main() {
     }
     if wants("gpu") {
         run_gpu(&options, &mut report);
+    }
+    if wants("shader") {
+        run_shader(&options, &mut report);
     }
     for build in BUILDS.iter().filter(|b| selected(&options, b.id)) {
         let needs_build = wants("build") || if build.kind == Kind::Bin { wants("startup") && options.exes.is_empty() } else { wants("wasm") };
