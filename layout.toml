@@ -1679,3 +1679,13 @@ why = "a Gradle build has one root with settings.gradle.kts, a version catalog a
 path = "release.toml"
 decision = "keep"
 why = "declarative root file: the release matrix of every product and the release train (tools/release-plan.ts, tools/release-publish.ts, docs/release/model.md); moved from ay"
+
+# GitHub reads workflows and actions only from the root .github; the nested copies of the imported trees were ported to the root
+# (ay-*.yml, bun-native.yml, release-publish.yml, aphrody-ci.yml, aphrody-release.yml) and must not come back.
+[[forbidden]]
+path = "ay/.github/workflows"
+why = "GitHub ignores it; the workflows live in .github/workflows (ay-*.yml, bun-native.yml, release-publish.yml)"
+
+[[forbidden]]
+path = "ay/.github/actions"
+why = "GitHub ignores it; the composite action is .github/actions/ay-llvm-pinned"

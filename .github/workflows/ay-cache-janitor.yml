@@ -1,4 +1,4 @@
-name: quota-and-cache-janitor
+name: ay quota-and-cache-janitor
 
 on:
   schedule:
@@ -12,6 +12,10 @@ concurrency:
 permissions:
   actions: write
   contents: read
+
+defaults:
+  run:
+    working-directory: ay
 
 jobs:
   janitor:

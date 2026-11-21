@@ -37,6 +37,7 @@ type Config = {
   cmake?: { projects: string[] };
   area?: Area[];
   moved?: Moved[];
+  forbidden?: { path: string; why: string }[];
   rustonly?: { baseline: string; allow?: string[]; extensions?: string[] };
 };
 
@@ -529,6 +530,7 @@ function rustOnlyCheck() {
   if (added.length) fail(`${added.length} new non-Rust source files outside the baseline and the deliberate list (write it in Rust, or add a deliberate [rustonly] allow entry with the reason): ${added.slice(0, 8).join(", ")}${added.length > 8 ? ", ..." : ""}`);
 }
 function policyCheck() {
+  for (const rule of config.forbidden ?? []) if (tracked.some((f) => f === rule.path || f.startsWith(`${rule.path}/`))) fail(`${rule.path} must not exist: ${rule.why}`);
   if (config.policy?.no_submodules && trackedSet.has(".gitmodules")) fail(".gitmodules is tracked; this repository forbids submodules (pinned git dependencies only)");
   if (config.policy?.no_vendor && tracked.some((f) => f.startsWith("vendor/"))) fail("vendor/ is tracked; this repository forbids a vendor directory");
 }

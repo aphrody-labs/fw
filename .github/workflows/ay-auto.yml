@@ -1,4 +1,4 @@
-name: auto
+name: ay auto
 
 # Auto (workflow automation, invoicing and office suite): its Bun units (apps/auto-*, packages/auto-*), the Wasm FFI module and the
 # Cloudflare and fleet deploy. The Rust workspace itself (crates/auto-*) is formatted, linted and tested by check.yml.
@@ -6,22 +6,22 @@ on:
   push:
     branches: [main]
     paths:
-      - "apps/auto-*/**"
-      - "packages/auto/**"
-      - "packages/auto-*/**"
-      - "crates/auto-*/**"
-      - "tools/auto-*"
-      - "locales/**"
-      - ".github/workflows/auto.yml"
+      - "ay/apps/auto-*/**"
+      - "ay/packages/auto/**"
+      - "ay/packages/auto-*/**"
+      - "ay/crates/auto-*/**"
+      - "ay/tools/auto-*"
+      - "ay/locales/**"
+      - "ay/.github/workflows/auto.yml"
   pull_request:
     paths:
-      - "apps/auto-*/**"
-      - "packages/auto/**"
-      - "packages/auto-*/**"
-      - "crates/auto-*/**"
-      - "tools/auto-*"
-      - "locales/**"
-      - ".github/workflows/auto.yml"
+      - "ay/apps/auto-*/**"
+      - "ay/packages/auto/**"
+      - "ay/packages/auto-*/**"
+      - "ay/crates/auto-*/**"
+      - "ay/tools/auto-*"
+      - "ay/locales/**"
+      - "ay/.github/workflows/auto.yml"
   workflow_dispatch:
 
 permissions:
@@ -37,22 +37,19 @@ env:
   RUSTUP_TOOLCHAIN: nightly
   RUSTC_WRAPPER: ""
 
+defaults:
+  run:
+    working-directory: ay
+
 jobs:
   gates:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     defaults:
       run:
-        working-directory: ay
+        working-directory: ay/ay
     steps:
-      # ay depends down the stack on the sibling fw checkout (../fw/crates/fw-*): lay both out side by side.
       - uses: actions/checkout@v7
-        with:
-          path: ay
-      - uses: actions/checkout@v7
-        with:
-          repository: aphrody-labs/fw
-          path: fw
       - uses: dtolnay/rust-toolchain@nightly
         with:
           components: clippy, rustfmt
@@ -71,6 +68,7 @@ jobs:
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
+        working-directory: .
       - run: cargo test --manifest-path apps/auto-ui/Cargo.toml
       - run: bun tools/auto-build-native.ts
       - run: bun run --cwd apps/auto-ui build
@@ -98,16 +96,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        working-directory: ay
+        working-directory: ay/ay
     steps:
-      # ay depends down the stack on the sibling fw checkout (../fw/crates/fw-*): lay both out side by side.
       - uses: actions/checkout@v7
-        with:
-          path: ay
-      - uses: actions/checkout@v7
-        with:
-          repository: aphrody-labs/fw
-          path: fw
       - uses: dtolnay/rust-toolchain@nightly
       - uses: Swatinem/rust-cache@v2
         with:
@@ -128,6 +119,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
+        working-directory: .
       - name: Build and deploy the Cloudflare Worker, D1 and static assets with automatic rollback
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
