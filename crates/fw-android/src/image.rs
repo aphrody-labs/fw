@@ -85,13 +85,20 @@ pub fn extract(image: &Image, archive: &Path, images: &Path) -> Result<PathBuf, 
     Ok(target)
 }
 
-/// Fetches and unpacks every pinned image under `state` and writes `images/LICENSES.json`. Returns the image paths.
+/// Fetches and unpacks every pinned image under `state` (an image whose `<role>.img.sha256` marker equals the pin is kept as is) and writes `images/LICENSES.json`. Returns the image paths.
 pub fn ensure(pins: &Pins, state: &Path) -> Result<Vec<PathBuf>, String> {
     let images_dir = state.join("images");
     let mut paths = Vec::new();
     for image in &pins.images {
+        let unpacked = images_dir.join(format!("{}.img", image.role));
+        let marker = images_dir.join(format!("{}.img.sha256", image.role));
+        if unpacked.is_file() && fs::read_to_string(&marker).map(|text| text.trim() == image.sha256).unwrap_or(false) {
+            paths.push(unpacked);
+            continue;
+        }
         let archive = download(image, &state.join("downloads"))?;
         paths.push(extract(image, &archive, &images_dir)?);
+        fs::write(&marker, &image.sha256).map_err(|error| error.to_string())?;
     }
     let record = serde_json::json!({
         "images": pins.images.iter().map(|image| serde_json::json!({
