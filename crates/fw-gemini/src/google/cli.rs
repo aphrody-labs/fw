@@ -21,29 +21,6 @@ enum Command {
     Env,
     /// Validate the resolved project mapping and required local roots.
     Doctor,
-    /// Sign in to Google with the existing PKCE flow and save credentials securely.
-    Login,
-    /// Report whether Google AI credentials are available, without printing them.
-    AuthStatus,
-    /// Print the signed-in Google account profile (email and name only).
-    Whoami,
-    /// List Gemini models available to the authenticated account as JSON.
-    Models,
-    /// Generate one Gemini response with the authenticated Antigravity account.
-    Generate {
-        /// Model identifier, for example gemini-2.5-flash.
-        #[arg(long, default_value = "gemini-2.5-flash")]
-        model: String,
-        /// User prompt.
-        #[arg(long)]
-        prompt: String,
-    },
-    /// Stream one Gemini response from stdin as plain text chunks.
-    GenerateStream {
-        /// Model identifier.
-        #[arg(long, default_value = "gemini-2.5-flash")]
-        model: String,
-    },
 }
 
 #[derive(Debug, Serialize)]
@@ -88,10 +65,7 @@ fn resolved_home(runtime: &GoogleRuntime) -> Option<PathBuf> {
     Some(PathBuf::from(&runtime.home))
 }
 
-async fn run(cli: Cli) -> Result<i32, Box<dyn std::error::Error>> {
-    rustls::crypto::aws_lc_rs::default_provider()
-        .install_default()
-        .ok();
+fn run(cli: Cli) -> Result<i32, Box<dyn std::error::Error>> {
     let runtime = GoogleRuntime::from_env();
     match cli.command.unwrap_or(Command::Status) {
         Command::Status => {
@@ -122,80 +96,6 @@ async fn run(cli: Cli) -> Result<i32, Box<dyn std::error::Error>> {
             println!("home={}", home.display());
             println!("capabilities=vertex,gemini-oauth,gemini-web,google-web,mcp,bxc");
         }
-        Command::Login => {
-            let token = crate::google::antigravity::login().await?;
-            crate::google::antigravity::persist(&token)?;
-            println!("APHRODY_GOOGLE_LOGIN=PASS");
-        }
-        Command::AuthStatus => match crate::google::antigravity::token_from_credential_manager() {
-            Ok(_) => println!("APHRODY_GOOGLE_AUTH=AVAILABLE"),
-            Err(error) => {
-                println!("APHRODY_GOOGLE_AUTH=UNAVAILABLE");
-                eprintln!("{error}");
-                return Ok(1);
-            }
-        },
-        Command::Whoami => {
-            let client = crate::google::authenticated_client()?;
-            let user = client.userinfo().await?;
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&serde_json::json!({
-                    "name": user.get("name"),
-                    "email": user.get("email"),
-                    "picture": user.get("picture"),
-                }))?
-            );
-        }
-        Command::Models => {
-            let client = crate::google::authenticated_client()?;
-            let models = client
-                .fetch_available_models_typed(
-                    &crate::google::antigravity::FetchAvailableModelsRequest::default(),
-                )
-                .await?;
-            println!("{}", serde_json::to_string_pretty(&models)?);
-        }
-        Command::Generate { model, prompt } => {
-            let client = crate::google::authenticated_client()?;
-            let request = crate::google::antigravity::GenerateContentRequest::from_prompt(prompt);
-            let response = client
-                .generate_content_vertex(&model, runtime.project.id(), &runtime.location, &request)
-                .await?;
-            println!("{}", serde_json::to_string_pretty(&response)?);
-        }
-        Command::GenerateStream { model } => {
-            use futures::StreamExt as _;
-            use std::io::Read as _;
-
-            let mut prompt = String::new();
-            std::io::stdin().read_to_string(&mut prompt)?;
-            rustls::crypto::aws_lc_rs::default_provider()
-                .install_default()
-                .ok();
-            let client = crate::google::authenticated_client()?;
-            let request = crate::google::antigravity::GenerateContentRequest::from_prompt(prompt);
-            let project = client
-                .resolve_cloudcode_project()
-                .await?
-                .unwrap_or_else(|| runtime.project.id().to_owned());
-            let stream = client
-                .stream_generate_content_cloud_code(
-                    crate::google::antigravity::CloudCodeEndpoint::Daily,
-                    &model,
-                    &project,
-                    &request,
-                )
-                .await?;
-            futures::pin_mut!(stream);
-            while let Some(chunk) = stream.next().await {
-                if let Some(text) = chunk?.first_text() {
-                    print!("{text}");
-                    use std::io::Write as _;
-                    std::io::stdout().flush()?;
-                }
-            }
-        }
     }
     Ok(0)
 }
@@ -212,17 +112,7 @@ pub fn cli_main(args: Vec<OsString>) -> i32 {
             return error.exit_code();
         }
     };
-    let runtime = match tokio::runtime::Builder::new_current_thread()
-        .enable_all()
-        .build()
-    {
-        Ok(runtime) => runtime,
-        Err(error) => {
-            eprintln!("fw-gemini google: runtime: {error}");
-            return 1;
-        }
-    };
-    match runtime.block_on(run(cli)) {
+    match run(cli) {
         Ok(code) => code,
         Err(error) => {
             eprintln!("Error: {error}");

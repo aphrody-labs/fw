@@ -13,10 +13,6 @@ ignored = ["fw-model"]
 [features]
 store = ["dep:hex", "dep:sha2", "dep:fw-secrets", "dep:chrono", "dep:dirs", "dep:futures-util", "dep:hf-hub", "dep:nvml-wrapper", "dep:rustls"]
 client = ["dep:fw-toolcall", "dep:tokio"]
-grpc = ["dep:prost", "dep:tonic", "dep:tonic-prost", "dep:tonic-prost-build", "dep:protoc-bin-vendored"]
-local-ls = ["grpc", "dep:fw-proc", "dep:regex", "dep:rustls", "dep:hyper-rustls", "dep:x509-parser", "tokio/process", "tokio/rt-multi-thread"]
-antigravity = ["dep:sha2", "dep:base64", "dep:data-encoding", "dep:rand", "dep:webbrowser", "dep:getrandom", "dep:tokio", "dep:rusqlite", "dep:windows-sys"]
-antigravity_model = ["dep:fw-toolcall", "dep:tokio", "antigravity", "client"]
 infer = ["store"]
 onnx = ["infer", "dep:ort"]
 embed = ["store"]
@@ -25,7 +21,7 @@ embed-native = ["embed", "dep:tokenizers", "fw-http/blocking", "dep:sha2", "dep:
 embed-candle = ["embed-native", "dep:candle-core", "dep:candle-nn", "dep:candle-transformers"]
 embed-server = ["embed-native", "dep:axum", "dep:tokio", "fw-http/server"]
 gateway = ["client", "fw-http/server", "dep:axum", "dep:tokio", "dep:fw-config", "dep:dirs", "dep:url", "dep:which"]
-full = ["store", "client", "grpc", "local-ls", "antigravity", "antigravity_model", "infer", "onnx", "embed", "embed-fastembed", "embed-native", "embed-candle", "embed-server", "gateway"]
+full = ["store", "client", "infer", "onnx", "embed", "embed-fastembed", "embed-native", "embed-candle", "embed-server", "gateway"]
 default = []
 
 [dependencies]
@@ -33,20 +29,17 @@ async-trait.workspace = true
 axum = { workspace = true, features = ["http2"], optional = true }
 fw-config = { workspace = true, optional = true }
 fw-http = { workspace = true, features = ["client"] }
-fw-proc = { path = "../fw-proc", features = ["tokio"], optional = true }
 fw-toolcall = { path = "../fw-toolcall", default-features = false, features = [], optional = true }
 base64 = { workspace = true, optional = true }
 bytes.workspace = true
 candle-core = { version = "0.11", default-features = false, optional = true }
 candle-nn = { version = "0.11", default-features = false, optional = true }
 candle-transformers = { version = "0.11", default-features = false, optional = true }
-data-encoding = { version = "2.11.1", optional = true }
 dirs = { workspace = true, optional = true }
 futures = { workspace = true, features = ["std", "async-await"] }
 gemm = { version = "0.19", default-features = false, features = ["std", "rayon", "x86-v4"], optional = true }
 hex = { workspace = true, optional = true }
 memmap2 = { workspace = true, optional = true }
-rand = { version = "0.10.4", default-features = false, features = ["thread_rng"], optional = true }
 rayon = { workspace = true, optional = true }
 safetensors = { version = "0.8.0", optional = true }
 serde.workspace = true
@@ -56,12 +49,11 @@ thiserror.workspace = true
 tokenizers = { version = "0.23.2", default-features = false, features = ["fancy-regex", "onig"], optional = true }
 tracing.workspace = true
 url = { workspace = true, optional = true }
-webbrowser = { version = "1.2", optional = true }
 which = { workspace = true, optional = true }
 
 [dev-dependencies]
-# Native runtimes (ONNX Runtime, candle, fastembed) and the gRPC local language server stay out of the default test run.
-fw-model = { path = ".", features = ["store", "client", "antigravity", "antigravity_model", "infer", "embed", "gateway"] }
+# Native runtimes (ONNX Runtime, candle, fastembed) stay out of the default test run.
+fw-model = { path = ".", features = ["store", "client", "infer", "embed", "gateway"] }
 axum = { workspace = true, features = ["http2"] }
 pretty_assertions.workspace = true
 rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"] }
@@ -69,12 +61,7 @@ serde_json.workspace = true
 tempfile = { workspace = true, features = ["getrandom"] }
 tokio = { workspace = true, features = ["process", "full"] }
 
-[build-dependencies]
-protoc-bin-vendored = { workspace = true, optional = true }
-tonic-prost-build = { workspace = true, optional = true }
-
 [target."cfg(all(target_arch = \"wasm32\", target_os = \"unknown\"))".dependencies]
-getrandom = { version = "0.4.3", default-features = false, features = ["wasm_js"], optional = true }
 tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
 
 [target."cfg(not(target_arch = \"wasm32\"))".dependencies]
@@ -89,21 +76,10 @@ ort = { version = "=2.0.0-rc.12", default-features = false, features = ["std", "
 rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"], optional = true }
 
 [target."cfg(not(target_family = \"wasm\"))".dependencies]
-hyper-rustls = { version = "0.27", default-features = false, features = ["http1", "http2", "aws-lc-rs", "tls12"], optional = true }
-prost = { version = "0.14.6", optional = true }
-regex = { version = "1.13.2", default-features = false, optional = true }
-rusqlite = { version = "0.40", optional = true }
-rustls = { version = "0.23.46", default-features = false, optional = true }
 tokio = { version = "1.54.1", features = ["full"], optional = true }
-tonic = { version = "0.14.9", optional = true }
-tonic-prost = { version = "0.14.9", optional = true }
-x509-parser = { version = "0.18", optional = true }
 
 [target."cfg(target_os = \"wasi\")".dependencies]
 tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
-
-[target."cfg(target_os = \"windows\")".dependencies]
-windows-sys = { workspace = true, features = ["Win32_Security_Credentials"], optional = true }
 
 [[example]]
 name = "embed_embed_smoke"

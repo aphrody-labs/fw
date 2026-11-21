@@ -16,7 +16,6 @@ fn builtin_ids_are_exactly_the_documented_set() {
         ids,
         vec![
             "anthropic",
-            "antigravity",
             "chatgpt",
             "llama",
             "lmstudio",
@@ -141,14 +140,6 @@ fn vllm_retains_chat_aliases_and_keyless_local_default() {
     );
     assert_eq!(providers["vllm"].env_key.as_deref(), Some("VLLM_API_KEY"));
     assert_eq!(builtin_providers(&no_env)["vllm"].env_key, None);
-}
-
-#[test]
-fn antigravity_is_keyless() {
-    let providers = builtin_providers(&no_env);
-    let antigravity = &providers["antigravity"];
-    assert_eq!(antigravity.env_key, None);
-    assert_eq!(antigravity.wire_api, WireApi::Antigravity);
 }
 
 #[test]

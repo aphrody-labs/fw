@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //! The OpenAI-compatible chat-completions client shared by every gateway adapter that speaks that
-//! wire format (BYOK proxy, Vercel AI Gateway, Cloudflare AI Gateway, Google Antigravity).
+//! wire format (BYOK proxy, Vercel AI Gateway, Cloudflare AI Gateway).
 //!
 //! An adapter owns its configuration (key, base URL, endpoint path, model normalisation) and hands
 //! the resolved endpoint and bearer token to [`chat`] / [`chat_stream`]; the request body, the

@@ -146,8 +146,7 @@ fn oss_base_url(env: &dyn Fn(&str) -> Option<String>, default_port: u16) -> Stri
 /// `&|key| std::env::var(key).ok()` in production. Mirrors
 /// `openai/codex` `codex-rs/model-provider-info/src/lib.rs`
 /// `built_in_model_providers` / `create_oss_provider`, extended with
-/// aphrody's managed `llama` runtime, `antigravity` (keyless), and
-/// `anthropic`.
+/// aphrody's managed `llama` runtime and `anthropic`.
 #[must_use]
 pub fn builtin_providers(
     env: &dyn Fn(&str) -> Option<String>,
@@ -202,18 +201,6 @@ pub fn builtin_providers(
                 .resolve_source_with(env)
                 .map(str::to_owned),
             wire_api: WireApi::Chat,
-            ..ModelProviderInfo::default()
-        },
-    );
-
-    providers.insert(
-        "antigravity".to_string(),
-        ModelProviderInfo {
-            name: "Google Antigravity".to_string(),
-            base_url: None,
-            wire_api: WireApi::Antigravity,
-            // Keyless: identity comes from the Antigravity desktop app's
-            // credential store, never a `config.toml` secret.
             ..ModelProviderInfo::default()
         },
     );

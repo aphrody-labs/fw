@@ -198,9 +198,8 @@ fn select_provider_id(
 ///
 /// `default_provider` is the provider id used when neither `-C`/
 /// `--model-provider`, `--oss`, nor `config.toml`'s `model_provider` name
-/// one (the caller resolves this once per process, typically `"antigravity"`
-/// when its credential store is present, else `"llama"` — this crate does
-/// not itself probe credential stores). `default_models` is a caller-owned
+/// one (the caller resolves this once per process, typically `"llama"` —
+/// this crate does not itself probe credential stores). `default_models` is a caller-owned
 /// per-provider fallback model map; the only defaults this crate invents on
 /// top of it are `ollama` and `lmstudio`'s upstream-documented OSS defaults.
 ///

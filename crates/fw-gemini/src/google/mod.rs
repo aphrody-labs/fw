@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! Aphrody OS Google facade: public search (SERP, discovery, cache), the language atlas and the
 //! project contract, plus the OS integrations that need model clients and credentials:
-//! Antigravity, Gemini, the `google` CLI, routes, detection, rate limits and translation.
+//! Gemini, the `google` CLI, routes, detection, rate limits and translation.
 
 #![allow(
     clippy::disallowed_methods,
@@ -56,7 +56,6 @@ impl GoogleRuntime {
     }
 }
 
-pub use fw_model::antigravity as antigravity;
 #[cfg(not(target_arch = "wasm32"))]
 pub use crate::runtime as gemini_runtime;
 pub use crate::web as gemini_web;
@@ -74,21 +73,6 @@ pub mod rate_limit;
 pub mod routes;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod translate;
-
-/// Create an authenticated Antigravity client from the platform credential
-/// store. The token is kept inside the SDK client and is never serialized.
-pub fn authenticated_client() -> Result<antigravity::AntigravityClient, antigravity::SdkError> {
-    antigravity::AntigravityClient::from_credential_manager()
-}
-
-/// Create an authenticated client from a completed OAuth PKCE login and persist
-/// the credentials using the platform's protected credential store (host-only: the loopback
-/// redirect listener and the credential store do not exist in a browser).
-#[cfg(not(target_arch = "wasm32"))]
-pub async fn login() -> Result<(), antigravity::SdkError> {
-    let token = antigravity::login().await?;
-    antigravity::persist(&token)
-}
 
 #[cfg(test)]
 mod tests {

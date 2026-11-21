@@ -21,7 +21,6 @@ default = []
 [dependencies]
 async-trait = { version = "0.1.92", default-features = false, optional = true }
 fw-http = { workspace = true, features = ["client"] }
-fw-model = { path = "../fw-model", default-features = false, features = ["antigravity"], optional = true }
 fw-proc = { path = "../fw-proc", features = ["tokio"], optional = true }
 fw-toolcall = { path = "../fw-toolcall", features = ["mcp"], optional = true }
 dirs = { version = "7.0.0", default-features = false, optional = true }

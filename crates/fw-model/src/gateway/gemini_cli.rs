@@ -67,7 +67,7 @@ pub struct GeminiCliCredentials {
     /// Token expiry, in milliseconds since the Unix epoch.
     pub expiry_date: Option<i64>,
 
-    /// Optional Google Cloud project id (Antigravity / Vertex routes use this).
+    /// Optional Google Cloud project id (Vertex routes use this).
     pub project_id: Option<String>,
 
     /// Token type as reported by Google OAuth (typically `"Bearer"`).

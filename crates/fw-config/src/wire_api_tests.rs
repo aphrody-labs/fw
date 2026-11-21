@@ -21,12 +21,7 @@ fn accepts_chat_unlike_upstream() {
 
 #[test]
 fn round_trips_every_variant() {
-    for api in [
-        WireApi::Chat,
-        WireApi::Responses,
-        WireApi::Antigravity,
-        WireApi::Anthropic,
-    ] {
+    for api in [WireApi::Chat, WireApi::Responses, WireApi::Anthropic] {
         let json = serde_json::to_string(&api).expect("serialize");
         let back: WireApi = serde_json::from_str(&json).expect("deserialize");
         assert_eq!(back, api);
@@ -41,5 +36,5 @@ fn rejects_unknown_variant() {
 
 #[test]
 fn display_matches_serde_name() {
-    assert_eq!(WireApi::Antigravity.to_string(), "antigravity");
+    assert_eq!(WireApi::Anthropic.to_string(), "anthropic");
 }

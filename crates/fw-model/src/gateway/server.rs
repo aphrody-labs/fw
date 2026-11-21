@@ -2,7 +2,7 @@
 //! HTTP OpenAI-compatible AI Gateway Server.
 //!
 //! Provides a unified OpenAI-compatible wire API (`/v1/chat/completions`, `/v1/models`)
-//! backed by any [`GatewayAdapter`] (Google Antigravity, Gemini CLI, BYOK Anthropic/Gemini,
+//! backed by any [`GatewayAdapter`] (Gemini CLI, BYOK Anthropic/Gemini,
 //! Cloudflare, Vercel, or custom OpenAI proxy).
 //!
 //! Includes full CORS support for browser frontends (including `aphrody-site` :8083 and Tauri).

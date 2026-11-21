@@ -211,7 +211,6 @@ chrome.com
 chromium.org
 android.com
 material.io
-antigravity.google
 design.google
 gemini.google
 geminicli.com

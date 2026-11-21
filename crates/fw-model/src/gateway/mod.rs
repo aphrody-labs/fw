@@ -19,8 +19,6 @@
 
 pub mod cloudflare;
 pub mod gemini_cli;
-#[path = "google_antigravity.rs"]
-pub mod google_antigravity;
 mod model_client;
 mod openai_compat;
 pub mod openai_proxy;

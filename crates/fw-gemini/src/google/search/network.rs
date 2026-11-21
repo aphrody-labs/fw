@@ -694,7 +694,6 @@ mod tests {
         for domain in [
             "gemini.google.com",
             "geminicli.com",
-            "antigravity.google",
             "design.google",
             "m3.material.io",
             "gemini.google",

@@ -108,13 +108,8 @@ fn oss_flag_falls_back_to_llama_with_no_oss_provider_configured() {
         oss: true,
         ..CliOverrides::default()
     };
-    let (config, _) = resolve(
-        vec![builtin_layer()],
-        &overrides,
-        "antigravity",
-        &default_models(),
-    )
-    .expect("resolve");
+    let (config, _) = resolve(vec![builtin_layer()], &overrides, "openai", &default_models())
+        .expect("resolve");
     assert_eq!(config.provider.id, "llama");
 }
 

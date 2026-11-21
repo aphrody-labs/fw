@@ -3,8 +3,8 @@
 //!
 //! This crate gives the turn loop a provider-agnostic surface:
 //!
-//! - [`ModelClient`] — an `async_trait` object-safe trait every backend (Gemini REST, gemini-web,
-//!   agy) implements.
+//! - [`ModelClient`] — an `async_trait` object-safe trait every backend (Gemini REST, gemini-web)
+//!   implements.
 //! - [`ModelStreamEvent`] — a unified streaming event (text delta, reasoning delta, tool call,
 //!   completion with token usage) that hides the wire format of the underlying API.
 //! - Neutral request types ([`ChatTurn`], [`ChatMessage`], [`Part`], …) that describe a

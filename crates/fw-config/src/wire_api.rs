@@ -20,8 +20,6 @@ pub enum WireApi {
     /// `OpenAI` Responses API (`/v1/responses`), used by `OpenAI`, `ChatGPT`
     /// backend, and llama-server's newer front end.
     Responses,
-    /// Google Antigravity / Cloud Code `streamGenerateContent` backend.
-    Antigravity,
     /// Anthropic Messages API (`/v1/messages`).
     Anthropic,
 }
@@ -33,7 +31,6 @@ impl WireApi {
         match self {
             Self::Chat => "chat",
             Self::Responses => "responses",
-            Self::Antigravity => "antigravity",
             Self::Anthropic => "anthropic",
         }
     }
@@ -63,11 +60,10 @@ impl<'de> Deserialize<'de> for WireApi {
         match raw.as_str() {
             "chat" => Ok(Self::Chat),
             "responses" => Ok(Self::Responses),
-            "antigravity" => Ok(Self::Antigravity),
             "anthropic" => Ok(Self::Anthropic),
             other => Err(serde::de::Error::unknown_variant(
                 other,
-                &["chat", "responses", "antigravity", "anthropic"],
+                &["chat", "responses", "anthropic"],
             )),
         }
     }
