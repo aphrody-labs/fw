@@ -342,11 +342,6 @@ impl Connection {
         }
     }
 
-    pub fn cancel_all(&self) {
-        for cancel in lock(&self.in_flight).values() {
-            cancel.cancel();
-        }
-    }
 }
 
 /// The request metadata the Streamable HTTP binding mirrors into headers.
@@ -579,13 +574,13 @@ impl Engine {
             None => None,
             Some(level) => Some(level.as_str().and_then(LogLevel::parse).ok_or_else(|| invalid("_meta.io.modelcontextprotocol/logLevel is not a log level"))?),
         };
-        if let Some(mirrored) = http {
-            if mirrored.protocol_version.as_deref() != Some(version) {
-                return Err(RpcError::header_mismatch(format!(
-                    "Header mismatch: MCP-Protocol-Version header value '{}' does not match body value '{version}'",
-                    mirrored.protocol_version.as_deref().unwrap_or_default()
-                )));
-            }
+        if let Some(mirrored) = http
+            && mirrored.protocol_version.as_deref() != Some(version)
+        {
+            return Err(RpcError::header_mismatch(format!(
+                "Header mismatch: MCP-Protocol-Version header value '{}' does not match body value '{version}'",
+                mirrored.protocol_version.as_deref().unwrap_or_default()
+            )));
         }
         if version != MODERN_VERSION {
             return Err(RpcError::unsupported_version(version));
@@ -870,7 +865,7 @@ fn decode_header(raw: &str) -> Option<String> {
 /// Standard Base64 with mandatory padding; anything else is rejected.
 fn base64_decode(input: &str) -> Option<Vec<u8>> {
     let digits = input.trim_end_matches('=');
-    if input.len() % 4 != 0 || input.len() - digits.len() > 2 {
+    if !input.len().is_multiple_of(4) || input.len() - digits.len() > 2 {
         return None;
     }
     let mut out = Vec::with_capacity(input.len() * 3 / 4);
@@ -1075,12 +1070,14 @@ fn write_line<W: Write>(output: &Mutex<W>, message: &Value) {
 }
 
 /// Serves newline-delimited JSON-RPC until `input` ends. Requests run on their own threads so a
-/// `notifications/cancelled` that arrives while one runs reaches it; on end of input every request in
-/// flight is cancelled and awaited.
+/// `notifications/cancelled` that arrives while one runs reaches it. At end of input the open
+/// `subscriptions/listen` streams end and the other requests in flight finish and answer, so
+/// `echo '<request>' | fw mcp` returns its answer.
 pub fn serve_stdio<R: BufRead, W: Write + Send + 'static>(engine: &Arc<Engine>, input: R, output: W) -> std::io::Result<()> {
     let output = Arc::new(Mutex::new(output));
     let connection = Arc::new(Connection::default());
     let mut workers: Vec<std::thread::JoinHandle<()>> = Vec::new();
+    let mut listeners: Vec<Cancel> = Vec::new();
     for line in input.lines() {
         let line = line?;
         if line.trim().is_empty() {
@@ -1103,6 +1100,9 @@ pub fn serve_stdio<R: BufRead, W: Write + Send + 'static>(engine: &Arc<Engine>, 
             continue;
         };
         let cancel = connection.begin(&id);
+        if message.get("method").and_then(Value::as_str) == Some("subscriptions/listen") {
+            listeners.push(cancel.clone());
+        }
         let (engine, connection, output) = (engine.clone(), connection.clone(), output.clone());
         workers.retain(|worker| !worker.is_finished());
         workers.push(std::thread::spawn(move || {
@@ -1117,7 +1117,9 @@ pub fn serve_stdio<R: BufRead, W: Write + Send + 'static>(engine: &Arc<Engine>, 
             }
         }));
     }
-    connection.cancel_all();
+    for listener in &listeners {
+        listener.cancel();
+    }
     for worker in workers {
         if worker.join().is_err() {
             eprintln!("fw mcp: a request handler panicked");
