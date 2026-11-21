@@ -1,0 +1,40 @@
+[package]
+name = "fw-drive"
+description = "A Google Drive style file service in Rust: folders, uploads into content-addressed blobs, trash, stars, search, inherited sharing, quota, a JSON API and HTML pages, behind Cloudflare Access"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[features]
+default = ["server"]
+server = ["dep:axum", "dep:fw-http", "dep:tokio", "dep:futures-util", "dep:serde_json", "dep:clap"]
+
+[dependencies]
+blake3 = { workspace = true }
+rusqlite = { workspace = true, features = ["bundled"] }
+serde = { workspace = true }
+thiserror = { workspace = true }
+uuid = { workspace = true, features = ["v4"] }
+axum = { workspace = true, features = ["form", "multipart"], optional = true }
+clap = { workspace = true, optional = true }
+futures-util = { workspace = true, optional = true }
+fw-http = { workspace = true, features = ["server"], optional = true }
+serde_json = { workspace = true, optional = true }
+tokio = { workspace = true, features = ["fs"], optional = true }
+
+[dev-dependencies]
+http-body-util = { workspace = true }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["fs"] }
+tower = { workspace = true, features = ["util"] }
+
+[[bin]]
+name = "fw-drive"
+required-features = ["server"]
+
+[lints]
+workspace = true

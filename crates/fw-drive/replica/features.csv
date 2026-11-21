@@ -1,0 +1,25 @@
+feature,area,priority,original,clone,notes
+Browse My Drive as a sortable table,browse,must,yes,no,name modified size; folders first
+Open folders with breadcrumb,browse,must,yes,no,
+Upload files (multipart and streaming),upload,must,yes,no,content-addressed blobs
+Create folder,organise,must,yes,no,
+Rename,organise,must,yes,no,
+Move with cycle check,organise,must,yes,no,
+Star and Starred view,organise,should,yes,no,
+Copy,organise,could,yes,no,
+Trash restore delete forever empty trash,trash,must,yes,no,blob GC by refcount
+Download with Range and ETag,files,must,yes,no,
+Preview images text pdf video,files,should,yes,no,
+Search by name with type and modified filters,search,must,yes,no,
+Recent view,browse,should,yes,no,
+Share with a user and a role,share,must,yes,no,inherited down the tree
+Share with anyone with the link,share,should,yes,no,
+Shared with me view,share,should,yes,no,
+Storage quota and largest files,storage,should,yes,no,
+Grid view,browse,could,yes,no,
+Folder upload,upload,could,yes,no,
+JSON API for agents,api,must,no,no,fw addition
+Sign-in through Cloudflare Access,auth,must,no,no,fw addition
+Docs Sheets Slides editors,editors,skip,yes,skip,separate products
+Gemini in Drive,ai,skip,yes,skip,
+Desktop sync client,sync,skip,yes,skip,
