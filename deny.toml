@@ -1,0 +1,64 @@
+# cargo-deny gate: `cargo deny check` (advisories, bans, licenses, sources). Run in CI by the rust-hygiene job and on fr1 by configs/claude/scripts/rust-audit.ts.
+[graph]
+all-features = true
+
+[advisories]
+version = 2
+yanked = "deny"
+# Unmaintained notices are enforced for direct dependencies only; transitive ones (paste, pin-utils, serial, ttf-parser, rustybuzz, humantime) have no fw-side fix.
+unmaintained = "workspace"
+ignore = [
+    { id = "RUSTSEC-2026-0543", reason = "chrono is unmaintained; direct dependency of 7 crates, the move to jiff is not done" },
+    { id = "RUSTSEC-2025-0066", reason = "google-apis-common is unmaintained; the generated google-*3 crates of fw-google depend on it" },
+    { id = "RUSTSEC-2026-0459", reason = "fixed in libsqlite3-sys 0.39 (rusqlite 0.43); blocked because bun-windows-winclean 1.4.8 pins rusqlite 0.40 and only one package may link sqlite3" },
+    { id = "RUSTSEC-2023-0071", reason = "rsa 0.10.0-rc.18 comes from russh 0.63.1; the fix needs russh 0.65 but yazi-sftp (aphrody-labs/yazi tag v26.9.1) pins russh 0.63.1 and pkcs1 =0.8.0-rc.4" },
+    { id = "RUSTSEC-2026-0495", reason = "russh 0.63.3 agent-server advisory (fixed in 0.65); same yazi-sftp pin, and fw-files uses russh as a client only" },
+    { id = "RUSTSEC-2026-0367", reason = "zip 8.6.0 comes from aphrody-wireguard 1.4.7 via aphrody-remote-desktop; fixed in zip 9, fw's own zip dependency is 9.x" },
+    { id = "RUSTSEC-2026-0368", reason = "zip 8.6.0 via aphrody-wireguard, fixed in zip 9" },
+    { id = "RUSTSEC-2026-0369", reason = "zip 8.6.0 via aphrody-wireguard, fixed in zip 9" },
+    { id = "RUSTSEC-2026-0429", reason = "zip 8.6.0 via aphrody-wireguard, fixed in zip 9" },
+    { id = "RUSTSEC-2026-0545", reason = "zip 8.6.0 via aphrody-wireguard, fixed in zip 9" },
+    { id = "RUSTSEC-2026-0546", reason = "zip 8.6.0 via aphrody-wireguard, fixed in zip 9" },
+    { id = "RUSTSEC-2026-0547", reason = "zip 8.6.0 via aphrody-wireguard, fixed in zip 9" },
+    { id = "RUSTSEC-2026-0548", reason = "zip 8.6.0 via aphrody-wireguard, fixed in zip 9.0.5" },
+]
+
+[licenses]
+version = 2
+confidence-threshold = 0.9
+allow = [
+    "0BSD",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-1-Clause",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "CC0-1.0",
+    "CDLA-Permissive-2.0",
+    "IJG",
+    "ISC",
+    "MIT",
+    "MIT-0",
+    "MPL-2.0",
+    "NCSA",
+    "Unicode-3.0",
+    "Unlicense",
+    "Zlib",
+]
+
+[bans]
+multiple-versions = "warn"
+# crates marked publish = true (fw-a2a, fw-llama) and their path-only dependencies are the findings: crates.io needs a version next to each path.
+wildcards = "warn"
+allow-wildcard-paths = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = [
+    "https://github.com/aphrody-labs/craft-libs",
+    "https://github.com/aphrody-labs/h3",
+    "https://github.com/aphrody-labs/yazi",
+]
