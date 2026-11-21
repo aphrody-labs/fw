@@ -157,6 +157,9 @@ fn upload_dry_run_prints_the_push_and_pushes_nothing() {
 fn a_change_id_is_added_once() {
     let directory = tempfile::tempdir().expect("tempdir");
     git(directory.path(), &["init", "-q", "-b", "main"]);
+    // ensure_change_id amends with the system git, which has no identity on CI runners: give the repo one.
+    git(directory.path(), &["config", "user.name", "t"]);
+    git(directory.path(), &["config", "user.email", "t@t"]);
     std::fs::write(directory.path().join("f"), "x").expect("write");
     git(directory.path(), &["add", "-A"]);
     git(directory.path(), &["commit", "-q", "-m", "subject"]);
