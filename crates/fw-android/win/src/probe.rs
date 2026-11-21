@@ -376,3 +376,50 @@ pub fn run(distro: &str) -> Probe {
         verdict,
     }
 }
+
+impl Probe {
+    /// The human reading of the report; `--json` prints the full structure.
+    pub fn summary(&self) -> String {
+        let yes = |value: bool| if value { "yes" } else { "no" };
+        let mut lines = vec![
+            format!(
+                "windows   {} {} build {}.{}",
+                self.windows.product, self.windows.display_version, self.windows.build, self.windows.ubr
+            ),
+            format!(
+                "hypervisor {} (WHP {})",
+                self.hypervisor.cpuid_vendor,
+                self.hypervisor.whp_present.map_or("unavailable", |present| yes(present))
+            ),
+        ];
+        lines.extend(self.features.iter().map(|(name, state)| format!("feature   {name}: {state}")));
+        lines.extend(self.gpus.iter().map(|gpu| {
+            format!(
+                "gpu       {} {} MiB driver {}",
+                gpu.name,
+                gpu.dedicated_video_memory_mib,
+                gpu.nvidia_driver.as_deref().or(gpu.umd_version.as_deref()).unwrap_or("?")
+            )
+        }));
+        lines.push(format!("wsl       {}", self.wsl.version_lines.first().map_or("not installed", String::as_str)));
+        match &self.guest {
+            Some(guest) => lines.push(format!(
+                "guest     {} kernel {} dxg {} binder {}",
+                guest.distro,
+                guest.kernel_release,
+                yes(guest.dev_dxg),
+                guest.config.get("ANDROID_BINDER_IPC").map_or("?", String::as_str)
+            )),
+            None => lines.push("guest     not imported (fw-android-win guest up)".into()),
+        }
+        lines.push(format!(
+            "gpu-pv    wsl2 {}, native hyper-v without elevation {}",
+            yes(self.verdict.wsl2_gpu_pv),
+            yes(self.verdict.native_hyperv_without_elevation)
+        ));
+        if !self.verdict.missing_optional_features.is_empty() {
+            lines.push(format!("missing   {}", self.verdict.missing_optional_features.join(", ")));
+        }
+        lines.join("\n") + "\n"
+    }
+}

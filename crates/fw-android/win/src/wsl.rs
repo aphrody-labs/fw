@@ -11,17 +11,17 @@ use serde::Serialize;
 use sha2::{Digest, Sha256};
 
 pub const DISTRO: &str = "fw-android";
-// Placeholder rootfs until the fw Linux rootfs of the Linux side ships; pinned by URL and sha256, replaced with `--rootfs`.
-const ROOTFS_URL: &str = "https://cloud-images.ubuntu.com/wsl/releases/24.04/current/ubuntu-noble-wsl-amd64-wsl.rootfs.tar.gz";
-const ROOTFS_SHA256: &str = "8251e27ffff381a4af5f41dcb94d867de3e0d9774a9241908ab34555d99315ea";
+// Placeholder rootfs until the fw Linux rootfs of the Linux side ships, pinned by URL and sha256 (the dated Arch Linux WSL
+// image; replaced with `--rootfs`). Arch because its Mesa ships Dozen (Vulkan on D3D12), which Ubuntu 24.04's does not.
+const ROOTFS_URL: &str = "https://geo.mirror.pkgbuild.com/wsl/latest/archlinux-2026.11.01.182233.wsl";
+const ROOTFS_SHA256: &str = "f8b934f77d0afcbe6e3730d6e4f378e8ee3c90d51479395004e1d92fe3b3c9b1";
 const DETACHED_PROCESS: u32 = 0x0000_0008;
 const CREATE_NO_WINDOW: u32 = 0x0800_0000;
-const PACKAGES: &str = "mesa-utils vulkan-tools mesa-vulkan-drivers libgl1-mesa-dri libegl1 binutils";
+const PACKAGES: &str = "mesa mesa-utils vulkan-dzn vulkan-icd-loader vulkan-tools";
 
-/// Environment that routes Mesa to the host GPU through Microsoft's d3d12 stack; without `GALLIUM_DRIVER` Mesa 25.2 falls
-/// back to llvmpipe on WSLg because there is no DRI render node.
-pub const GPU_ENVIRONMENT: [(&str, &str); 3] =
-    [("LD_LIBRARY_PATH", "/usr/lib/wsl/lib"), ("GALLIUM_DRIVER", "d3d12"), ("MESA_D3D12_DEFAULT_ADAPTER_NAME", "NVIDIA")];
+/// Environment that points the guest's Mesa (d3d12 Gallium and Dozen) at the host GPU: the WSL user-mode libraries live in
+/// `/usr/lib/wsl/lib` and the adapter name keeps Mesa off the Microsoft Basic Render Driver on multi-adapter machines.
+pub const GPU_ENVIRONMENT: [(&str, &str); 2] = [("LD_LIBRARY_PATH", "/usr/lib/wsl/lib"), ("MESA_D3D12_DEFAULT_ADAPTER_NAME", "NVIDIA")];
 
 #[derive(Serialize)]
 pub struct WslInfo {
@@ -213,7 +213,7 @@ fn fetch_rootfs(destination: &Path) -> Result<(), String> {
 fn provision(distro: &str) -> Result<(), String> {
     let environment: String = GPU_ENVIRONMENT.iter().map(|(key, value)| format!("export {key}={value}\n")).collect();
     let script = format!(
-        "set -e; export DEBIAN_FRONTEND=noninteractive; apt-get update -qq; apt-get install -y -qq {PACKAGES}; \
+        "set -e; pacman-key --init; pacman-key --populate archlinux; pacman -Sy --noconfirm --needed {PACKAGES}; \
          printf '%s' '{environment}' > /etc/profile.d/fw-android-gpu.sh"
     );
     let output = guest_command(distro, "root", &["sh", "-c", &script]).stdin(Stdio::null()).output().map_err(|error| error.to_string())?;
@@ -230,7 +230,7 @@ pub fn up(rootfs: Option<&Path>) -> Result<(), String> {
         let archive = match rootfs {
             Some(path) => path.to_path_buf(),
             None => {
-                let path = home().join("cache").join("rootfs.tar.gz");
+                let path = home().join("cache").join(ROOTFS_URL.rsplit('/').next().unwrap_or("rootfs.tar"));
                 fetch_rootfs(&path)?;
                 path
             }
@@ -309,6 +309,7 @@ pub struct GpuReport {
     pub accelerated: bool,
     pub renderer: String,
     pub gl_version: String,
+    pub vulkan_device: String,
     pub nvidia_smi: String,
     pub renderer_without_environment: String,
 }
@@ -333,12 +334,22 @@ pub fn gpu_report(distro: &str) -> GpuReport {
             .output()
             .map(|output| String::from_utf8_lossy(&output.stdout).trim().to_string())
             .unwrap_or_default();
+    let vulkan = guest_command(distro, "root", &["vulkaninfo", "--summary"])
+        .stdin(Stdio::null())
+        .output()
+        .map(|output| String::from_utf8_lossy(&output.stdout).into_owned())
+        .unwrap_or_default();
     let renderer = field_after(&tuned, "OpenGL renderer string:");
     GpuReport {
-        accelerated: field_after(&tuned, "Accelerated:") == "yes" && renderer.contains("NVIDIA"),
+        accelerated: field_after(&tuned, "Accelerated:") == "yes" && renderer.contains("NVIDIA") && vulkan_ok(&vulkan),
         gl_version: field_after(&tuned, "OpenGL version string:"),
+        vulkan_device: field_after(&vulkan, "deviceName").trim_start_matches('=').trim().to_string(),
         renderer,
         nvidia_smi,
         renderer_without_environment: field_after(&plain, "OpenGL renderer string:"),
     }
+}
+
+fn vulkan_ok(summary: &str) -> bool {
+    summary.contains("NVIDIA") && !summary.contains("llvmpipe")
 }

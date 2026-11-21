@@ -51,12 +51,11 @@ fn run(arguments: &[String]) -> Result<i32, String> {
         Some("probe") => {
             let distro = flag_value(rest(), "--distro").unwrap_or(wsl::DISTRO);
             let report = probe::run(distro);
-            let text = if rest().iter().any(|argument| argument == "--json") {
-                serde_json::to_string_pretty(&report)
+            if rest().iter().any(|argument| argument == "--json") {
+                println!("{}", serde_json::to_string_pretty(&report).map_err(|error| error.to_string())?);
             } else {
-                serde_json::to_string(&report)
-            };
-            println!("{}", text.map_err(|error| error.to_string())?);
+                print!("{}", report.summary());
+            }
             Ok(0)
         }
         Some("guest") => guest(rest()),
