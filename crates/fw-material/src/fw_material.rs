@@ -213,6 +213,19 @@ mod tests {
         assert_eq!(outline[(px * px - 1) as usize], 0);
     }
 
+    #[cfg(all(feature = "rounded", feature = "sharp"))]
+    #[test]
+    fn every_style_has_the_same_icons() {
+        let names = |s| table(s, false).iter().map(|(n, _)| *n).collect::<Vec<_>>();
+        assert_eq!(SOURCE, "cdn");
+        assert_eq!(names(Style::Rounded), names(Style::Outlined));
+        assert_eq!(names(Style::Sharp), names(Style::Outlined));
+        assert_ne!(
+            path(Style::Rounded, "home", false),
+            path(Style::Sharp, "home", false)
+        );
+    }
+
     #[test]
     fn sprite_reports_unknown_names() {
         let (s, missing) = sprite(

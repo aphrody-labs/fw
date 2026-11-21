@@ -8,6 +8,7 @@ SPEC.json: [{"slug": "...", "ttf": "path", "pin": {"slnt": 0, "wdth": 100}, "ran
 Prints a JSON report on stdout: [{"slug", "ttf", "axes", "files": [{"subset", "file", "bytes", "range"}]}].
 Subsets keep every layout feature and every variation axis; hinting is dropped (variable fonts render unhinted).
 """
+
 import json
 import os
 import sys
@@ -47,17 +48,29 @@ def subset_font(ttf: str, out: str, unicodes: set[int]) -> None:
 def main() -> None:
     out_dir, spec_path = sys.argv[1], sys.argv[2]
     report = []
-    for spec in json.load(open(spec_path)):
+    with open(spec_path) as fh:
+        specs = json.load(fh)
+    for spec in specs:
         src = spec["ttf"]
         if spec.get("pin"):
-            limits = {k: (tuple(v) if isinstance(v, list) else v) for k, v in spec["pin"].items()}
-            pinned = instancer.instantiateVariableFont(TTFont(src), limits)
+            limits = {
+                k: (tuple(v) if isinstance(v, list) else v)
+                for k, v in spec["pin"].items()
+            }
+            pinned = instancer.instantiateVariableFont(
+                TTFont(src, recalcTimestamp=False), limits
+            )
             src = os.path.join(out_dir, "_pin_" + spec["slug"] + ".ttf")
             pinned.save(src)
-        font = TTFont(src)
+        font = TTFont(src, recalcTimestamp=False)
         cmap = set(font.getBestCmap().keys())
         axes = [
-            {"tag": a.axisTag, "min": a.minValue, "default": a.defaultValue, "max": a.maxValue}
+            {
+                "tag": a.axisTag,
+                "min": a.minValue,
+                "default": a.defaultValue,
+                "max": a.maxValue,
+            }
             for a in (font["fvar"].axes if "fvar" in font else [])
         ]
         files = []
@@ -66,15 +79,38 @@ def main() -> None:
         full = os.path.join(d, "full.woff2")
         font.flavor = "woff2"
         font.save(full)
-        files.append({"subset": "full", "file": full, "bytes": os.path.getsize(full), "range": None})
+        files.append(
+            {
+                "subset": "full",
+                "file": full,
+                "bytes": os.path.getsize(full),
+                "range": None,
+            }
+        )
         for name, rng in spec["ranges"].items():
             want = parse_ranges(rng)
             if not (want & cmap):
                 continue
             path = os.path.join(d, f"{name}.woff2")
             subset_font(src, path, want)
-            files.append({"subset": name, "file": path, "bytes": os.path.getsize(path), "range": rng})
-        report.append({"slug": spec["slug"], "ttf": spec["ttf"], "pin": spec.get("pin"), "axes": axes, "glyphs": len(font.getGlyphOrder()), "files": files})
+            files.append(
+                {
+                    "subset": name,
+                    "file": path,
+                    "bytes": os.path.getsize(path),
+                    "range": rng,
+                }
+            )
+        report.append(
+            {
+                "slug": spec["slug"],
+                "ttf": spec["ttf"],
+                "pin": spec.get("pin"),
+                "axes": axes,
+                "glyphs": len(font.getGlyphOrder()),
+                "files": files,
+            }
+        )
     json.dump(report, sys.stdout)
 
 

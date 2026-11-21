@@ -3911,6 +3911,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "fw-material"
+version = "0.1.0"
+dependencies = [
+ "resvg",
+ "sha2",
+ "toml",
+]
+
+[[package]]
 name = "fw-ml"
 version = "4.2.0"
 dependencies = [

@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // material-cdn step 3: upload the built /v1 tree to the R2 bucket behind cloudflare/material-cdn (S3 API, no REST rate limit).
-//   CLOUDFLARE_API_TOKEN=... bun tools/material-cdn/publish.ts [--out DIR] [--bucket NAME] [--dry] [--prune] [--concurrency N]
+//   CLOUDFLARE_API_TOKEN=... bun tools/material-cdn/publish.ts [--out DIR] [--bucket NAME] [--dry] [--prune] [--force] [--concurrency N]
 // Only changed objects are written (ETag = MD5 compared with the bucket listing); index.json goes last so a release is
 // visible only once everything it references exists. Content-addressed fonts and versioned tarballs are never deleted.
 // R2 S3 credentials are derived from the API token as documented by Cloudflare: access key id = token id, secret = SHA-256(token).
@@ -84,6 +84,12 @@ await Promise.all(
     }
   }),
 );
+// Content-addressed fonts and versioned tarballs are served as immutable: an existing key must never change bytes.
+const IMMUTABLE_KEY = /(\.[0-9a-f]{8}\.woff2|^v1\/rust\/\d+\.\d+\.\d+\.tar\.gz(\.sha256)?)$/;
+const clobbered = todo.filter((t) => IMMUTABLE_KEY.test(t.key) && existing.has(t.key));
+if (clobbered.length && !args.includes("--force")) {
+  throw new Error(`refusing to overwrite immutable objects (content changed under the same name): ${clobbered.map((t) => t.key).join(", ")}; pass --force to replace them`);
+}
 todo.sort((a, b) => (a.p === index ? 1 : b.p === index ? -1 : 0)); // index.json last
 console.log(`unchanged ${same}, to upload ${todo.length} (${todo.reduce((n, t) => n + t.body.length, 0)} bytes)${dry ? " [dry run]" : ""}`);
 
