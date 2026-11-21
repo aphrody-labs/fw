@@ -14,6 +14,8 @@ use sha2::{Digest, Sha256};
 use std::collections::HashMap;
 
 pub mod epp;
+#[cfg(feature = "kube")]
+pub mod k8s;
 
 use epp::{Endpoint, Scheduler};
 
@@ -228,6 +230,16 @@ impl HybridClusterRouter {
         }
     }
 
+    /// A router over the given nodes (for example the nodes of a Kubernetes cluster, see `k8s::router_nodes`).
+    pub fn from_nodes(cluster_name: &str, nodes: Vec<ClusterNode>) -> Self {
+        Self {
+            cluster_name: cluster_name.into(),
+            nodes,
+            kv_prefix_index: HashMap::new(),
+            scheduler: Scheduler::default(),
+        }
+    }
+
     pub fn register_user_webgpu_peer(&mut self, peer_id: &str, vram_gb: u32, cpu_cores: u32) {
         if self.nodes.iter().any(|n| n.id == peer_id) {
             return;
@@ -265,7 +277,11 @@ impl HybridClusterRouter {
     }
 
     /// Select Pingora ingress VPS, KV-affinity Prefill node, Decode node, and optional User WebGPU draft node.
-    pub fn route_request(&mut self, prompt: &str, prefer_user_webgpu_draft: bool) -> RoutingDecision {
+    pub fn route_request(
+        &mut self,
+        prompt: &str,
+        prefer_user_webgpu_draft: bool,
+    ) -> RoutingDecision {
         let pkey = Self::prefix_key(prompt);
 
         // 1. Pingora consistent-hash VPS proxy selection across the 3 VPS nodes
@@ -283,13 +299,25 @@ impl HybridClusterRouter {
 
         // 2. EPP pipeline: prefill profile (prefix-cache, token-load, queue-depth, capability), then decode profile
         let endpoints: Vec<Endpoint> = self.nodes.iter().map(Endpoint::from).collect();
-        let (prefill_node, decode_node, kv_hit, matched) = match self.scheduler.schedule(prompt, &endpoints) {
-            Some(d) => (d.prefill.id, d.decode.id, d.prefill.prefix_matched_blocks > 0, d.prefill.prefix_matched_blocks),
-            None => ("local-direct".to_string(), "local-direct".to_string(), false, 0),
-        };
+        let (prefill_node, decode_node, kv_hit, matched) =
+            match self.scheduler.schedule(prompt, &endpoints) {
+                Some(d) => (
+                    d.prefill.id,
+                    d.decode.id,
+                    d.prefill.prefix_matched_blocks > 0,
+                    d.prefill.prefix_matched_blocks,
+                ),
+                None => (
+                    "local-direct".to_string(),
+                    "local-direct".to_string(),
+                    false,
+                    0,
+                ),
+            };
         if prefill_node != "local-direct" {
             self.scheduler.observe(&prefill_node, prompt);
-            self.kv_prefix_index.insert(pkey.clone(), prefill_node.clone());
+            self.kv_prefix_index
+                .insert(pkey.clone(), prefill_node.clone());
         }
 
         // 3. Optional End-User Browser WebGPU/FPU speculative draft peer
@@ -330,9 +358,21 @@ impl HybridClusterRouter {
     }
 
     pub fn summary(&self) -> serde_json::Value {
-        let gpu_count = self.nodes.iter().filter(|n| matches!(n.kind, NodeKind::BaseCudaPc | NodeKind::GpuHost)).count();
-        let vps_cpu_count = self.nodes.iter().filter(|n| n.kind == NodeKind::VpsProxyLbStorageCpu).count();
-        let user_webgpu_count = self.nodes.iter().filter(|n| n.kind == NodeKind::UserWebGpuFpu).count();
+        let gpu_count = self
+            .nodes
+            .iter()
+            .filter(|n| matches!(n.kind, NodeKind::BaseCudaPc | NodeKind::GpuHost))
+            .count();
+        let vps_cpu_count = self
+            .nodes
+            .iter()
+            .filter(|n| n.kind == NodeKind::VpsProxyLbStorageCpu)
+            .count();
+        let user_webgpu_count = self
+            .nodes
+            .iter()
+            .filter(|n| n.kind == NodeKind::UserWebGpuFpu)
+            .count();
         let total_vram_gb: u32 = self.nodes.iter().map(|n| n.vram_gb).sum();
         let total_ram_gb: u32 = self.nodes.iter().map(|n| n.ram_gb).sum();
         let total_cpu_cores: u32 = self.nodes.iter().map(|n| n.cpu_cores).sum();

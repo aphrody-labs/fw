@@ -293,6 +293,9 @@ fn main() {
         "cluster" => {
             let mut router = HybridClusterRouter::default_hybrid_cluster();
             let sub = args.get(1).map(|s| s.as_str()).unwrap_or("summary");
+            if sub == "k8s" {
+                std::process::exit(run_sibling("cluster k8s", "fw-k8s", &args[2..]));
+            }
             if sub == "route" {
                 let prompt = args.get(2).map(|s| s.as_str()).unwrap_or("hybrid inference");
                 let d1 = router.route_request(prompt, true);
