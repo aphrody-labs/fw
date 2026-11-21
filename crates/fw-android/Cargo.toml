@@ -1,8 +1,8 @@
 # `fw android`: Android apps on Linux and Windows without WSA. Its own Cargo workspace (not a member of the root one),
 # so the container, compositor and Windows/browser clients lock their own dependency trees; see docs/android/README.md.
 [workspace]
-members = [".", "wl", "win", "web"]
-default-members = [".", "wl"]
+members = [".", "stream", "wl", "win", "web"]
+default-members = [".", "stream", "wl"]
 resolver = "3"
 
 [workspace.package]

@@ -1,0 +1,11 @@
+[package]
+name = "fw-android-stream"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "fwa-stream v1: the window stream protocol between the fw android compositor and its Win32 and WebGPU clients (length-prefixed binary messages, no I/O, wasm-safe)"
+
+[lints]
+workspace = true
