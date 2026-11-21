@@ -109,7 +109,8 @@ pub fn run_with(arguments: &[String], remotes: &Remotes) -> Result<u8> {
             let tree = pins.tree(tree_id)?;
             let label = tree.tag.clone().unwrap_or_else(|| tree.commit[..tree.commit.len().min(12)].to_owned());
             let database = std::env::var_os("FW_KERNEL_GRAPH_DB").map(PathBuf::from).unwrap_or_else(|| root.join(".cache").join("kernel-graph").join(format!("{tree_id}-{label}.db")));
-            let forwarded = strip_flag(rest, "tree");
+            // The graph prints JSON only and takes its own flags; the global ones are consumed here.
+            let forwarded: Vec<String> = strip_flag(&strip_flag(rest, "tree"), "root").into_iter().filter(|argument| argument != "--json").collect();
             let value = graph::cli(&forwarded, &root.join(&tree.path), &database)?;
             println!("{}", serde_json::to_string_pretty(&value)?);
             Ok(0)
