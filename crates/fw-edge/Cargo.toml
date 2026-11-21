@@ -1,0 +1,42 @@
+[package]
+name = "fw-edge"
+description = "The single Cloudflare Worker fw-edge (fw.aphrody.com) in Rust: Edge OS routes, AI gateway, MCP/ACP/A2A, the Drive CDN and fw-drive on D1 + R2, built with workers-rs"
+version = "4.2.0"
+edition = "2024"
+rust-version = "1.100"
+license = "MIT"
+repository = "https://github.com/aphrody-labs/fw"
+publish = false
+
+# Not a member of the fw workspace: wasm32-unknown-unknown only, built by `worker-build` (see wrangler.jsonc).
+[workspace]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+axum = { version = "0.8.9", default-features = false, features = ["json", "query", "form"] }
+base64 = "0.23.1"
+futures-util = "0.3.34"
+http = "1.5.0"
+js-sys = "0.3.107"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.11.1"
+tower-service = "0.3.3"
+wasm-bindgen = "0.2.130"
+wasm-bindgen-futures = "0.4.80"
+web-sys = { version = "0.3.107", features = ["Crypto", "SubtleCrypto", "CryptoKey"] }
+worker = { version = "0.9.0", features = ["http", "d1", "axum"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true

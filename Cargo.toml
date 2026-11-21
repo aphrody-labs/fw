@@ -49,6 +49,7 @@ exclude = [
     "native/fw-abi",
     "native/fw-agy",
     "packages",
+    "crates/fw-edge",
 ]
 resolver = "2"
 
