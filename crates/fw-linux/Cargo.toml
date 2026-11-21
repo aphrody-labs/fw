@@ -1,0 +1,34 @@
+[package]
+name = "fw-linux"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "The Linux kernel as pinned files: kernel.toml pins (mainline, stable, CachyOS) against kernel.org releases.json, shallow sparse submodule sync, and a tree-sitter code graph of the kernel source in one SQLite file; ships `fw-linux` (run by `fw kernel`)"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+toml.workspace = true
+ureq.workspace = true
+rayon.workspace = true
+ignore.workspace = true
+rusqlite = { workspace = true, features = ["bundled"] }
+tree-sitter.workspace = true
+tree-sitter-c = "0.24.2"
+tree-sitter-kconfig = "1.3.0"
+tree-sitter-make = "1.1.1"
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[[bin]]
+name = "fw-linux"
+path = "src/bin/fw-linux.rs"
+
+[lints]
+workspace = true
