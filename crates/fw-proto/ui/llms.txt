@@ -9,3 +9,4 @@
 - `https://fw.aphrody.com/mcp` — In-process JSON-RPC 2.0 MCP endpoint
 - `https://fw.aphrody.com/acp` — Agent Client Protocol JSON-RPC 2.0 endpoint
 - `https://fw.aphrody.com/openapi.json` — OpenAPI 3.1 specification
+- `https://fw.aphrody.com/drive/<path>` — Drive CDN behind Cloudflare Access: folders list as JSON (`?format=json`), files stream from R2 with Range and ETag, Google Docs export to Markdown (`?export=<mime>` for other formats). People sign in with Google; agents and apps send `CF-Access-Client-Id` and `CF-Access-Client-Secret` (service token `aphrody-agents`).

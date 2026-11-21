@@ -6,7 +6,10 @@
   "compatibility_flags": ["nodejs_compat"],
   "upload_source_maps": true,
   "observability": {
-    "enabled": true
+    "enabled": true,
+    "traces": {
+      "enabled": true
+    }
   },
   "assets": {
     "directory": "../crates/fw-proto/ui",
@@ -41,7 +44,18 @@
       "custom_domain": true
     }
   ],
+  // /drive: Drive CDN behind Cloudflare Access app fw-drive (Google IdP for people, aphrody-agents service token for agents).
+  // Service-account key: `wrangler secret put GOOGLE_SA_KEY` (drive-cdn@aphrody.iam.gserviceaccount.com, Drive read-only).
+  "r2_buckets": [
+    {
+      "binding": "DRIVE_CACHE",
+      "bucket_name": "aphrody-drive"
+    }
+  ],
   "vars": {
-    "FW_ENV": "production"
+    "FW_ENV": "production",
+    "DRIVE_ROOT_ID": "1FjPbSD2mmh1vAgHoV6ASZ8YAiO9jtwoI",
+    "ACCESS_TEAM_DOMAIN": "https://aphrody-labs.cloudflareaccess.com",
+    "ACCESS_AUD": "b4d74c629f0e9f1fba9042ebe81651ced63303130341faf3b16b944078efdb6b"
   }
 }

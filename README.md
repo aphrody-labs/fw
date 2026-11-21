@@ -3,6 +3,7 @@
 Rust toolchain and agent runtime: one `fw` binary (x86-64-v3, mimalloc) with a coding agent, a Hugging Face Hub client, MCP/ACP/A2A servers, a package manager, local learning and memory stores, and a 40-applet userland that runs in-process.
 
 - Edge Worker: `https://fw.aphrody.com` (`cloudflare/wrangler.jsonc`, `FwOSAgent` SQLite Durable Object, static UI from `crates/fw-proto/ui`).
+- Drive CDN: `https://fw.aphrody.com/drive/` serves the shared Aphrody Drive folder through Cloudflare Access (Google sign-in for people, `aphrody-agents` service token for agents and apps), an R2 cache (`aphrody-drive`) and the `drive-cdn@aphrody` service account (`cloudflare/drive.ts`).
 - Workspace: the `crates/fw-*` members and `xtask` of `Cargo.toml` (`cargo metadata --no-deps --format-version 1`). Per-directory tiers and gates are in `MAP.tsv` (`cargo xtask map`). Crates without `#![forbid(unsafe_code)]`: `git grep -L "forbid(unsafe_code)" -- "crates/*/src/lib.rs"`.
 - Subprocesses: most commands run in-process; `fw ask` (shell tool), `fw convert` (runs `fw-video`) and the `fw-agent`, `fw-gemini`, `fw-llama` and `fw-a2a` crates spawn child processes.
 

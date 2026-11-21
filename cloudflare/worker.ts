@@ -1,3 +1,4 @@
+import { DRIVE_PREFIX, handleDrive, type DriveEnv, type WaitUntilContext } from "./drive.ts";
 import packageJson from "../package.json" with { type: "json" };
 
 export interface SqlStorageCursorLike<T = Record<string, unknown>> {
@@ -117,7 +118,7 @@ export interface WorkersAILike {
   models?: (params?: { task?: string; per_page?: number; hide_experimental?: boolean }) => Promise<WorkersAIModelLike[]>;
 }
 
-export interface FwWorkerEnv {
+export interface FwWorkerEnv extends DriveEnv {
   ASSETS?: { fetch: (request: Request | string) => Promise<Response> };
   CF_VERSION_METADATA?: { id: string; tag?: string; timestamp?: string };
   AI?: WorkersAILike;
@@ -2756,13 +2757,20 @@ function buildOpenApiSpec(origin: string): Record<string, unknown> {
       "/os/gatekeeper": { get: { summary: "List Gatekeeper capability rules" }, post: { summary: "Evaluate or upsert Gatekeeper capability policies" } },
       "/api/learn/events": { get: { summary: "List autonomous learning log events" }, post: { summary: "Append learning event (DO SQLite + K2 + Basin Pipelines)" } },
       "/api/learn/status": { get: { summary: "Autonomous learning log metrics and sink readiness" } },
+      "/drive/{path}": { get: { summary: "Drive CDN behind Cloudflare Access: folder listing (JSON or HTML) or file bytes from the R2 cache, Range and ETag aware" } },
+      "/drive/_id/{fileId}": { get: { summary: "Drive CDN by file id, limited to the shared root folder" } },
+      "/drive/_whoami": { get: { summary: "Identity from the Cloudflare Access token (user email or service-token client id)" } },
     },
   };
 }
 
 export default {
-  async fetch(request: Request, env: FwWorkerEnv = {}): Promise<Response> {
+  async fetch(request: Request, env: FwWorkerEnv = {}, ctx?: WaitUntilContext): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.pathname === DRIVE_PREFIX || url.pathname.startsWith(`${DRIVE_PREFIX}/`)) {
+      return handleDrive(request, env, ctx);
+    }
 
     if (request.method === "OPTIONS") {
       return new Response(null, {
