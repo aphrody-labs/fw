@@ -1,0 +1,1 @@
+#define FIXTURE_MAGIC 0x1234

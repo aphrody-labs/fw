@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: GPL-2.0
+
+config BTRFS_FS
+	tristate "Btrfs filesystem support"
+	select LIBFS
+	select CRC32
+	depends on FS_RW
+
+config BTRFS_FS_POSIX_ACL
+	bool "Btrfs POSIX Access Control Lists"
+	depends on BTRFS_FS

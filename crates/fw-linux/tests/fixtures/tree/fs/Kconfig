@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: GPL-2.0-only
+menu "File systems"
+
+config BLOCK
+	bool "Enable the block layer"
+	default y
+
+config LIBFS
+	tristate
+
+config FS_RW
+	tristate "Read and write support"
+	depends on BLOCK && !UML
+	select LIBFS
+	imply FS_ACL if BLOCK
+	default y if SMP
+	default n
+	help
+	  Plain read and write.
+
+if BLOCK
+
+source "fs/btrfs/Kconfig"
+
+endif # BLOCK
+
+endmenu
