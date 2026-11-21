@@ -150,7 +150,7 @@ fn fetch_page(client: &Client, spec: &Sitemap, chrome: &str, entry: &Entry, stor
     let make_rev = |validator: Option<String>| entry.lastmod.clone().or(validator).unwrap_or_else(|| crate::iso(crate::now_unix()));
     if spec.fetch == Fetch::Chrome {
         let dom = render::dump_dom(chrome, &entry.loc, 20_000)?;
-        let (title, markdown) = html::to_markdown(&dom)?;
+        let (title, markdown) = html::to_markdown(&html::strip_huge_attributes(&dom))?;
         return Ok(Some(Page { url: entry.loc.clone(), title, markdown, rev: make_rev(None) }));
     }
     if spec.fetch == Fetch::MarkdownText {
