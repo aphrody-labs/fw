@@ -40,7 +40,7 @@ function seed(): void {
   mkdirSync(art, { recursive: true });
   for (const [name, body] of [["ay-linux-x86_64", "linux-binary"], ["ay-linux-aarch64", "arm-binary"], ["ay-windows-x86_64.exe", "win-binary"]]) writeFileSync(join(art, name!), body!);
   const p = Bun.spawnSync(
-    ["bun", join(root, "tools/release-publish.ts"), "publish", "--product", "ay", "--version", "9.9.9", "--channel", "stable", "--tag", "v9.9.9", "--commit", "0123abc", "--dir", art, "--out", layout],
+    ["bun", join(root, "..", "tools/release-publish.ts"), "publish", "--product", "ay", "--version", "9.9.9", "--channel", "stable", "--tag", "v9.9.9", "--commit", "0123abc", "--dir", art, "--out", layout],
     { cwd: root, stdout: "pipe", stderr: "pipe" },
   );
   if (p.exitCode !== 0) throw new Error(`release-publish failed: ${p.stderr.toString()}${p.stdout.toString()}`);

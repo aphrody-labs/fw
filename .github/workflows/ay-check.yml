@@ -96,7 +96,7 @@ jobs:
       RUSTFLAGS: --cfg reqwest_unstable -D warnings
     defaults:
       run:
-        working-directory: ay/ay
+        working-directory: ay
     steps:
       - uses: actions/checkout@v7
       - name: ay workspace members
@@ -126,7 +126,7 @@ jobs:
       RUSTFLAGS: --cfg reqwest_unstable
     defaults:
       run:
-        working-directory: ay/ay
+        working-directory: ay
     steps:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@v1

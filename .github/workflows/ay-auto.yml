@@ -47,7 +47,7 @@ jobs:
     timeout-minutes: 30
     defaults:
       run:
-        working-directory: ay/ay
+        working-directory: ay
     steps:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@nightly
@@ -96,7 +96,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        working-directory: ay/ay
+        working-directory: ay
     steps:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@nightly

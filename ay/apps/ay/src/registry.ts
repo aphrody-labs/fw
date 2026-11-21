@@ -189,7 +189,7 @@ export const COMMANDS: readonly CommandEntry[] = [
     name: "release-publish",
     category: "cloud",
     kind: "tool",
-    target: "tools/release-publish.ts",
+    target: "../tools/release-publish.ts",
     summary: "Publish a release (assets, SHA256SUMS, manifests) into the releases bucket layout",
   },
   {

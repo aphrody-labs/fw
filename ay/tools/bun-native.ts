@@ -785,7 +785,13 @@ export async function scanRepo(dir: string, sc: Scanner, exclude: Set<string>): 
   const hasLock = (d: string) => {
     for (let cur = d; ; cur = dirname(cur)) {
       if (fileSet.has(cur === "." ? "bun.lock" : `${cur}/bun.lock`) || fileSet.has(cur === "." ? "bun.lockb" : `${cur}/bun.lockb`)) return true;
-      if (cur === ".") return false;
+      // The scanned tree can sit inside a larger workspace (ay/ in the fw monorepo): a lockfile above it, up to the repository top, counts.
+      if (cur === ".") {
+        for (let up = resolve(dir, ".."); ; up = dirname(up)) {
+          if (existsSync(join(up, "bun.lock")) || existsSync(join(up, "bun.lockb"))) return true;
+          if (existsSync(join(up, ".git")) || up === dirname(up)) return false;
+        }
+      }
     }
   };
 
