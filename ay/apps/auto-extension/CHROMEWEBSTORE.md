@@ -42,13 +42,13 @@ Français
 
 ## Graphics & Assets
 
-| Asset            | Dimensions  | Status | Filename                                                                 |
-| ---------------- | ----------- | ------ | ------------------------------------------------------------------------ |
-| Store Icon       | 128×128 PNG | Ready  | `dist/icons/icon-128.png` (généré par `bun run build`)                   |
-| Screenshot 1     | 1280×800    | Ready  | `store/capture-1.png` (figée, sans script de génération)                     |
-| Screenshot 2     | 1280×800    | Ready  | `store/capture-2.png`                                                    |
-| Screenshot 3     | 1280×800    | Ready  | `store/capture-3.png`                                                    |
-| Small Promo Tile | 440×280     | Ready  | `store/promo-440x280.png`                                                |
+| Asset            | Dimensions  | Status | Filename                                                 |
+| ---------------- | ----------- | ------ | -------------------------------------------------------- |
+| Store Icon       | 128×128 PNG | Ready  | `dist/icons/icon-128.png` (généré par `bun run build`)   |
+| Screenshot 1     | 1280×800    | Ready  | `store/capture-1.png` (figée, sans script de génération) |
+| Screenshot 2     | 1280×800    | Ready  | `store/capture-2.png`                                    |
+| Screenshot 3     | 1280×800    | Ready  | `store/capture-3.png`                                    |
+| Small Promo Tile | 440×280     | Ready  | `store/promo-440x280.png`                                |
 
 ### Screenshot Notes
 
@@ -61,16 +61,16 @@ si souhaité (capture d'écran de Chrome au moment du clic droit).
 
 ## Permissions Justification
 
-| Permission                                 | Type                      | Justification                                                                                                                                                                                                                                                              |
-| ------------------------------------------ | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Permission                                 | Type                      | Justification                                                                                                                                                                                                                                                         |
+| ------------------------------------------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `activeTab`                                | permissions               | Quand l'utilisateur choisit « Send invoice to Auto » dans le menu du clic droit, l'extension télécharge le fichier de facture de la page en cours avec les droits de connexion de l'utilisateur sur ce site (espaces clients fournisseurs). Aucun accès sans ce clic. |
-| `contextMenus`                             | permissions               | Ajoute l'entrée « Send invoice to Auto » au clic droit sur un lien, et « Send current document to Auto » sur une facture PDF ou XML ouverte dans le navigateur.                                                                                                                                         |
-| `storage`                                  | permissions               | Conserve sur l'appareil l'adresse de l'instance auto, le jeton API de l'utilisateur et le dernier nombre de factures à vérifier.                                                                                                                                           |
-| `alarms`                                   | permissions               | Met à jour toutes les 15 minutes le compteur de factures à vérifier affiché sur l'icône.                                                                                                                                                                                   |
-| `notifications`                            | permissions               | Confirme chaque envoi (facture enregistrée, à vérifier, déjà reçue) ou en explique l'échec ; sans cela, l'action du clic droit serait silencieuse.                                                                                                                         |
-| `https://auto.aphrody.com/*`               | host_permissions          | Envoi des factures et lecture du compteur sur le service auto, avec le jeton de l'utilisateur.                                                                                                                                                                             |
-| `https://*/*`                              | optional_host_permissions | Demandée site par site, au moment où l'utilisateur envoie une facture hébergée sur un autre site que la page ouverte, ou quand il configure une instance auto auto-hébergée. Jamais demandée en bloc.                                                                      |
-| `http://localhost/*`, `http://127.0.0.1/*` | optional_host_permissions | Instance auto installée sur le poste de l'utilisateur (auto-hébergement, essais).                                                                                                                                                                                          |
+| `contextMenus`                             | permissions               | Ajoute l'entrée « Send invoice to Auto » au clic droit sur un lien, et « Send current document to Auto » sur une facture PDF ou XML ouverte dans le navigateur.                                                                                                       |
+| `storage`                                  | permissions               | Conserve sur l'appareil l'adresse de l'instance auto, le jeton API de l'utilisateur et le dernier nombre de factures à vérifier.                                                                                                                                      |
+| `alarms`                                   | permissions               | Met à jour toutes les 15 minutes le compteur de factures à vérifier affiché sur l'icône.                                                                                                                                                                              |
+| `notifications`                            | permissions               | Confirme chaque envoi (facture enregistrée, à vérifier, déjà reçue) ou en explique l'échec ; sans cela, l'action du clic droit serait silencieuse.                                                                                                                    |
+| `https://auto.aphrody.com/*`               | host_permissions          | Envoi des factures et lecture du compteur sur le service auto, avec le jeton de l'utilisateur.                                                                                                                                                                        |
+| `https://*/*`                              | optional_host_permissions | Demandée site par site, au moment où l'utilisateur envoie une facture hébergée sur un autre site que la page ouverte, ou quand il configure une instance auto auto-hébergée. Jamais demandée en bloc.                                                                 |
+| `http://localhost/*`, `http://127.0.0.1/*` | optional_host_permissions | Instance auto installée sur le poste de l'utilisateur (auto-hébergement, essais).                                                                                                                                                                                     |
 
 ## Privacy & Data Use
 
