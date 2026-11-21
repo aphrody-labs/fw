@@ -31,6 +31,7 @@ members = [
     "crates/fw-rag",
     "crates/fw-rag-core",
     "crates/fw-ring3-agent",
+    "crates/fw-theme",
     "crates/fw-toolcall",
     "crates/fw-translate-core",
     "crates/fw-compute",
