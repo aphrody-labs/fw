@@ -1,0 +1,29 @@
+name: Learn
+
+on:
+  push:
+    branches: [main]
+    paths: ["crates/fw-learn/**", ".github/workflows/learn.yml"]
+  pull_request:
+    branches: [main]
+    paths: ["crates/fw-learn/**", ".github/workflows/learn.yml"]
+
+concurrency:
+  group: fw-learn-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  fw-learn:
+    name: fw-learn (clippy and tests)
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/rust-toolchain
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: crates/fw-learn
+      # fw-learn is a standalone crate (own lockfile, like fw-corpus), so the workspace jobs of ci.yml do not build it.
+      - name: Zero-warning Clippy
+        run: cargo clippy --manifest-path crates/fw-learn/Cargo.toml --all-targets -- -D warnings
+      - name: Tests (a throwaway repository with a bare origin)
+        run: cargo test --manifest-path crates/fw-learn/Cargo.toml

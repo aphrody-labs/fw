@@ -83,12 +83,14 @@ export const FW_MCP_TOOLS = [
   {
     name: "fw_learn",
     description:
-      "Run `fw learn` (status, harvest, distill, search, loop).",
+      "Run `fw learn`: the corpus of every product (git history, manifests, docs, code graph, CI runs, releases, issues, pull requests). `search` first, before re-deriving a known fact; `rules` prints the distilled rules; `publish` writes them to AGENTS.md, CLAUDE.md and llms.txt (a dry run unless push is true).",
     inputSchema: {
       type: "object",
       properties: {
-        action: { type: "string", enum: ["status", "harvest", "distill", "search", "loop"], description: "fw learn action." },
+        action: { type: "string", enum: ["status", "harvest", "distill", "search", "rules", "publish", "loop"], description: "fw learn action." },
         query: { type: "string", description: "Search query when action is 'search'." },
+        product: { type: "string", description: "Restrict search or rules to one product id." },
+        push: { type: "boolean", description: "With action 'publish': commit the generated files to origin/main instead of a dry run." },
       },
       required: ["action"],
     },
@@ -168,11 +170,13 @@ function textResult(
   return isError ? { content: [{ type: "text", text }], isError: true } : { content: [{ type: "text", text }] };
 }
 
-export function runLearnBridge(action: string, query?: string) {
+export function runLearnBridge(action: string, query?: string, options: { product?: string; push?: boolean } = {}) {
   const fw = process.env.FW_BIN || Bun.which("fw");
   if (!fw) return { ok: false, error: "the fw binary is not on PATH (set FW_BIN)" };
   const args =
-    action === "search" ? ["learn", "search", ...(query ? query.trim().split(/\s+/) : ["fw"])] : ["learn", action];
+    action === "search"
+      ? ["learn", "search", ...(query ? query.trim().split(/\s+/) : ["fw"]), ...(options.product ? ["--product", options.product] : [])]
+      : ["learn", action, ...(options.product && action === "rules" ? ["--product", options.product] : []), ...(action === "publish" && !options.push ? ["--dry-run"] : [])];
   const proc = Bun.spawnSync([fw, ...args], { stdout: "pipe", stderr: "pipe" });
   const stdout = proc.stdout.toString().trim();
   const stderr = proc.stderr.toString().trim();
@@ -248,7 +252,7 @@ export function handleFwToolCall(
     case "fw_learn": {
       const action = typeof args.action === "string" ? args.action : "status";
       const query = typeof args.query === "string" ? args.query : undefined;
-      const res = runLearnBridge(action, query);
+      const res = runLearnBridge(action, query, { product: typeof args.product === "string" ? args.product : undefined, push: args.push === true });
       return textResult(res, !res.ok);
     }
     case "fw_bridge": {

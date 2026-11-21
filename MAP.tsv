@@ -44,6 +44,7 @@ crates/fw-ggml	rust-core	4	37486	cargo test --workspace
 crates/fw-google	rust-core	27	92944	cargo test --workspace
 crates/fw-hermes-claw	rust-core	2	30933	cargo test --workspace
 crates/fw-http	rust-core	14	85244	cargo test --workspace
+crates/fw-learn	rust-core	14	127697	cargo test --workspace
 crates/fw-linux	rust-core	38	223526	cargo test --workspace
 crates/fw-llama	rust-core	50	628324	cargo test --workspace
 crates/fw-llama-sys	rust-core	16	321801	cargo test --workspace

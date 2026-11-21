@@ -337,14 +337,8 @@ fn main() {
         "estate" => {
             std::process::exit(run_sibling("estate", "fw-estate", &args[1..]));
         }
-        "toolchain" => {
-            std::process::exit(run_sibling("toolchain", "fw-toolchain", &args[1..]));
-        }
         "kernel" | "linux" => {
             std::process::exit(run_sibling("kernel", "fw-linux", &args[1..]));
-        }
-        "android" => {
-            std::process::exit(run_sibling("android", "fw-android", &args[1..]));
         }
         "cluster" => {
             let mut router = fw_proto::discover_router();
@@ -750,16 +744,7 @@ fn main() {
                 }
             }
         }
-        "learn" | "autolearn" => {
-            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            match auto_learn::run_learn_cli(&args[1..], &cwd) {
-                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
-                Err(e) => {
-                    eprintln!("fw learn: {e}");
-                    std::process::exit(1);
-                }
-            }
-        }
+        "learn" | "autolearn" => std::process::exit(run_sibling("learn", "fw-learn", &args[1..])),
         "skills" => {
             let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
             match agent_platform::run_skills_cli(&args[1..], &cwd, parsed.global.offline) {
@@ -855,8 +840,8 @@ fn main() {
 fn sibling_build_args(name: &str) -> String {
     match name {
         "fw-graph" => "-p fw-rag --features codegraph --bin fw-graph".to_owned(),
+        "fw-learn" => "--manifest-path crates/fw-learn/Cargo.toml".to_owned(),
         "fw-k8s" => "-p fw-cluster --features kube --bin fw-k8s".to_owned(),
-        "fw-android" => "--manifest-path crates/fw-android/Cargo.toml -p fw-android -p fw-android-wl".to_owned(),
         other => format!("-p {other}"),
     }
 }

@@ -1,17 +1,14 @@
 #![forbid(unsafe_code)]
 
-//! Pure-Rust Keyless Autonomous Self-Learning Engine (`fw learn`, `fw mem`, `fw graph`, `fw docs`/`c7`):
-//! - **claude-mem parity**: Structured observations, 3-layer progressive disclosure (`search` -> `timeline` -> `get`),
-//!   BM25 + recency ranking, SHA-256 content-addressed deduplication, append-only sharded XFS JSONL.
-//! - **Code graph**: `fw graph` and `fw learn harvest` run the `fw-graph` binary (crates/fw-rag codegraph: tree-sitter
-//!   Rust, oxc TS/JS, Markdown), stored per project in `graphs/<project>/` with `graph.json` and `GRAPH_REPORT.md`.
-//! - **context7 parity (100% keyless)**: Live TLS 1.3 resolver for crates.io, npm, PyPI, GitHub raw docs, and `llms.txt` /
-//!   `llms-full.txt`, heading-based semantic chunking, BM25 token-budgeted retrieval, permanent XFS cache.
-//! - **Infinite XFS Dataset & Agentless Loop**: Sharded `observations/YYYY-MM.jsonl`, `graphs/`, `docs/`, `corpus/YYYY-MM.jsonl`,
-//!   `rules/learned-auto.md`, continuous `fw learn loop` + hardened `systemd` unit for 24/7 VPS learning without agents.
+//! Pure-Rust keyless memory and docs stores (`fw mem`, `fw docs`/`c7`):
+//! - **claude-mem parity**: structured observations, 3-layer progressive disclosure (`search` -> `timeline` -> `get`),
+//!   BM25 + recency ranking, SHA-256 content-addressed deduplication, append-only sharded JSONL.
+//! - **context7 parity (100% keyless)**: live TLS 1.3 resolver for crates.io, npm, PyPI, GitHub raw docs, and `llms.txt` /
+//!   `llms-full.txt`, heading-based semantic chunking, BM25 token-budgeted retrieval, permanent cache.
+//!
+//! `fw learn` (harvest, distill, search, publish) is the `fw-learn` sibling binary (`crates/fw-learn`).
 
 use fw_fx::config::FxConfig;
-use fw_fx::indexer::WorkspaceIndexer;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
@@ -431,144 +428,6 @@ pub fn run_claude_mem_cli(args: &[String], store: &XfsDatasetStore) -> Result<Va
 }
 
 // ============================================================================
-// 3. Code graph: the `fw-graph` binary (crates/fw-rag codegraph: tree-sitter Rust, oxc TS/JS, Markdown)
-// ============================================================================
-
-/// `fw-graph` next to the running `fw`, else on PATH.
-pub fn fw_graph_program() -> PathBuf {
-    let exe = format!("fw-graph{}", std::env::consts::EXE_SUFFIX);
-    std::env::current_exe()
-        .ok()
-        .and_then(|p| p.parent().map(|d| d.join(&exe)))
-        .filter(|p| p.is_file())
-        .unwrap_or_else(|| PathBuf::from(exe))
-}
-
-/// Runs `fw-graph` and returns its stdout.
-pub fn run_fw_graph(args: &[String]) -> Result<String, String> {
-    let program = fw_graph_program();
-    let out = std::process::Command::new(&program).args(args).output().map_err(|e| {
-        format!(
-            "cannot run `{}` ({e}); build it with `cargo build --release -p fw-rag --features codegraph --bin fw-graph` and keep it next to `fw`",
-            program.display()
-        )
-    })?;
-    if !out.status.success() {
-        return Err(format!("fw-graph {}: {}", args.join(" "), String::from_utf8_lossy(&out.stderr).trim()));
-    }
-    Ok(String::from_utf8_lossy(&out.stdout).into_owned())
-}
-
-/// One code graph per project: `<store>/graphs/<project>/` holds the fw-graph database, `graph.json` and `GRAPH_REPORT.md`.
-pub fn graph_dir(store: &XfsDatasetStore, project: &str) -> PathBuf {
-    store.root.join("graphs").join(sanitize_slug(project))
-}
-
-#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
-pub struct GraphSnapshot {
-    pub nodes: u64,
-    pub edges: u64,
-    pub communities: Option<u64>,
-    pub god_nodes: Vec<String>,
-    pub report: PathBuf,
-}
-
-/// Reads the community count and the god nodes (`- name (N edges) - path`) from a `GRAPH_REPORT.md`.
-pub fn parse_graph_report(md: &str) -> (Option<u64>, Vec<String>) {
-    let communities = md.lines().find_map(|l| {
-        let l = l.trim_start_matches("- ");
-        let (_, rest) = l.split_once(" edges, ")?;
-        rest.strip_suffix(" communities")?.parse().ok()
-    });
-    let mut gods = Vec::new();
-    let mut in_gods = false;
-    for line in md.lines() {
-        if line.starts_with("## ") {
-            in_gods = line == "## God nodes";
-            continue;
-        }
-        if in_gods && let Some(item) = line.strip_prefix("- ") {
-            let name = item.split(" (").next().unwrap_or(item).trim();
-            if !name.is_empty() {
-                gods.push(name.to_owned());
-            }
-        }
-    }
-    (communities, gods)
-}
-
-/// Builds (incrementally) the code graph of `root` into the learning store.
-pub fn build_code_graph(store: &XfsDatasetStore, root: &Path, project: &str) -> Result<GraphSnapshot, String> {
-    store.ensure_layout()?;
-    let dir = graph_dir(store, project);
-    fs::create_dir_all(&dir).map_err(|e| format!("{}: {e}", dir.display()))?;
-    let report = dir.join("GRAPH_REPORT.md");
-    let arg = |p: &Path| p.display().to_string();
-    let out = run_fw_graph(&[
-        "--state".into(),
-        arg(&dir),
-        "build".into(),
-        arg(root),
-        "--json".into(),
-        arg(&dir.join("graph.json")),
-        "--report".into(),
-        arg(&report),
-    ])?;
-    let v: Value = serde_json::from_str(out.trim()).map_err(|e| format!("fw-graph build output: {e}"))?;
-    let (communities, god_nodes) = parse_graph_report(&fs::read_to_string(&report).unwrap_or_default());
-    Ok(GraphSnapshot {
-        nodes: v["nodes"].as_u64().unwrap_or(0),
-        edges: v["edges"].as_u64().unwrap_or(0),
-        communities,
-        god_nodes,
-        report,
-    })
-}
-
-/// Code-graph hits for a query across every project graph in the store (`NODE` lines of `fw-graph query`).
-fn code_graph_hits(store: &XfsDatasetStore, query: &str, limit: usize) -> Vec<Value> {
-    let mut hits = Vec::new();
-    let Ok(rd) = fs::read_dir(store.root.join("graphs")) else {
-        return hits;
-    };
-    for ent in rd.flatten() {
-        let dir = ent.path();
-        if !dir.join("GRAPH_REPORT.md").is_file() {
-            continue;
-        }
-        let project = ent.file_name().to_string_lossy().into_owned();
-        let args = ["--state".to_owned(), dir.display().to_string(), "query".to_owned(), query.to_owned(), "--budget".to_owned(), "600".to_owned()];
-        let Ok(out) = run_fw_graph(&args) else {
-            continue;
-        };
-        for line in out.lines().filter_map(|l| l.strip_prefix("NODE ")).take(limit.saturating_sub(hits.len())) {
-            hits.push(json!({ "pillar": "codegraph", "project": project, "node": line }));
-        }
-        if hits.len() >= limit {
-            break;
-        }
-    }
-    hits
-}
-
-/// Hits from the `fw-corpus` SQLite FTS5 stores (`fw corpus search`); empty when the sibling binary or the corpus is absent.
-fn corpus_hits(query: &str, limit: usize) -> Vec<Value> {
-    let exe = format!("fw-corpus{}", std::env::consts::EXE_SUFFIX);
-    let program = std::env::current_exe()
-        .ok()
-        .and_then(|p| p.parent().map(|d| d.join(&exe)))
-        .filter(|p| p.is_file())
-        .unwrap_or_else(|| PathBuf::from(exe));
-    let Ok(out) = std::process::Command::new(program).args(["search", query, "--limit", &limit.to_string()]).output() else {
-        return Vec::new();
-    };
-    serde_json::from_slice::<Value>(&out.stdout)
-        .ok()
-        .and_then(|v| v["hits"].as_array().cloned())
-        .unwrap_or_default()
-}
-
-// ============================================================================
 // 4. Pure-Rust Keyless `context7` (`fw docs` / `fw c7`)
 // ============================================================================
 
@@ -909,286 +768,6 @@ pub fn run_context7_cli(
 }
 
 // ============================================================================
-// 5. Autonomous Agentless Self-Learning Engine (`fw learn`)
-// ============================================================================
-
-/// Runs ONE complete agentless learning cycle (zero LLM calls, zero human/agent needed).
-pub fn run_agentless_harvest(cwd: &Path, store: &XfsDatasetStore) -> Result<Value, String> {
-    store.ensure_layout()?;
-    let project = cwd
-        .file_name()
-        .and_then(|s| s.to_str())
-        .unwrap_or("workspace");
-
-    // 1. Harvest recent git commits directly from `.git/logs/HEAD` (zero subprocess!)
-    let mut git_obs_added = 0usize;
-    let git_log_path = cwd.join(".git").join("logs").join("HEAD");
-    if let Ok(raw) = fs::read_to_string(&git_log_path) {
-        for line in raw.lines().rev().take(15) {
-            if let Some((_, msg)) = line.split_once('\t') {
-                let msg = msg.trim();
-                if msg.is_empty() {
-                    continue;
-                }
-                let (_, created) = add_observation(
-                    store,
-                    "change",
-                    project,
-                    msg,
-                    &format!("Git history event in {project}: {msg}"),
-                    vec![format!("commit:{msg}")],
-                    Vec::new(),
-                )?;
-                if created {
-                    git_obs_added += 1;
-                    let _ = store.append_corpus_pair("git-reflog", &format!("Recent change in {project}"), msg);
-                }
-            }
-        }
-    }
-
-    // 2. Rebuild the code graph and distill its god nodes into claude-mem + corpus. A missing `fw-graph`
-    //    binary is reported in the result instead of failing the other pillars.
-    let graph_snapshot = match build_code_graph(store, cwd, project) {
-        Ok(graph) => {
-            let god_summary = format!(
-                "Project {project}: {} nodes, {} edges, {} communities. God nodes: {}",
-                graph.nodes,
-                graph.edges,
-                graph.communities.map_or_else(|| "?".to_owned(), |c| c.to_string()),
-                graph.god_nodes.join(", ")
-            );
-            let (_, created) = add_observation(
-                store,
-                "discovery",
-                project,
-                &format!("Code graph snapshot ({project})"),
-                &god_summary,
-                graph.god_nodes.clone(),
-                graph.god_nodes.clone(),
-            )?;
-            let _ = store.append_corpus_pair("codegraph", &format!("Architecture and god nodes of {project}"), &god_summary);
-            json!({
-                "report": graph.report.display().to_string(),
-                "nodes": graph.nodes,
-                "edges": graph.edges,
-                "communities": graph.communities,
-                "godNodes": graph.god_nodes,
-                "observationCreated": created
-            })
-        }
-        Err(e) => json!({ "error": e }),
-    };
-
-    // 3. Ingest local Markdown / SKILL.md / AGENTS.md / llms.txt into keyless Context7 store
-    let idx = WorkspaceIndexer::open(cwd);
-    let mut docs_saved = 0usize;
-    for rel in idx.list_files(300) {
-        if !(rel.ends_with(".md") || rel.ends_with("llms.txt")) {
-            continue;
-        }
-        if let Ok(raw) = fs::read_to_string(cwd.join(&rel)) {
-            let chunks = chunk_markdown_docs(project, "workspace-md", &rel, &raw);
-            docs_saved += save_doc_chunks(store, &chunks)?;
-        }
-    }
-
-    Ok(json!({
-        "ok": true,
-        "zeroSubprocess": true,
-        "agentless": true,
-        "keyless": true,
-        "xfsRoot": store.root.display().to_string(),
-        "project": project,
-        "gitObservationsAdded": git_obs_added,
-        "graphSnapshot": graph_snapshot,
-        "docChunksAdded": docs_saved,
-        "dataset": store.stats()
-    }))
-}
-
-pub fn run_distill(store: &XfsDatasetStore) -> Result<Value, String> {
-    store.ensure_layout()?;
-    let obs = load_all_observations(store);
-    let docs = load_doc_chunks(store, None);
-
-    let mut md = String::from("# Fw Autonomous Learned Memory (Pure-Rust Keyless XFS)\n\n");
-    md.push_str(&format!(
-        "- Observations: {}\n- Keyless Context7 Doc Chunks: {}\n- XFS Store: `{}`\n\n## Recent High-Signal Observations\n",
-        obs.len(),
-        docs.len(),
-        store.root.display()
-    ));
-    for o in obs.iter().rev().take(40) {
-        md.push_str(&format!("- **[{}]** `{}` — {}\n", o.obs_type, o.project, o.title));
-    }
-
-    let rules_path = store.root.join("rules").join("learned-auto.md");
-    fs::write(&rules_path, &md).map_err(|e| e.to_string())?;
-    Ok(json!({
-        "ok": true,
-        "zeroSubprocess": true,
-        "rulesPath": rules_path.display().to_string(),
-        "observationsDistilled": obs.len(),
-        "docChunksIndexed": docs.len(),
-        "bytes": md.len()
-    }))
-}
-
-/// Unified keyless search across the 3 pillars: `claude-mem`, the code graph and `context7`.
-pub fn run_unified_search(query: &str, store: &XfsDatasetStore, limit: usize) -> Value {
-    let obs = load_all_observations(store);
-    let docs = load_doc_chunks(store, None);
-
-    let obs_texts: Vec<String> = obs.iter().map(Observation::searchable_text).collect();
-    let obs_hits: Vec<Value> = bm25_rank(&obs_texts, query)
-        .into_iter()
-        .take(limit)
-        .map(|(i, s)| {
-            let o = &obs[i];
-            json!({
-                "pillar": "claude-mem",
-                "id": o.id,
-                "type": o.obs_type,
-                "title": o.title,
-                "score": (s * 1000.0).round() / 1000.0
-            })
-        })
-        .collect();
-
-    let doc_texts: Vec<String> = docs.iter().map(|d| format!("{} {} {}", d.lib, d.heading, d.content)).collect();
-    let doc_hits: Vec<Value> = bm25_rank(&doc_texts, query)
-        .into_iter()
-        .take(limit)
-        .map(|(i, s)| {
-            let d = &docs[i];
-            json!({
-                "pillar": "context7-keyless",
-                "lib": d.lib,
-                "heading": d.heading,
-                "source": d.source_url,
-                "score": (s * 1000.0).round() / 1000.0,
-                "snippet": d.content.chars().take(180).collect::<String>()
-            })
-        })
-        .collect();
-
-    let graph_hits = code_graph_hits(store, query, limit);
-
-    json!({
-        "ok": true,
-        "keyless": true,
-        "zeroSubprocess": true,
-        "query": query,
-        "xfsRoot": store.root.display().to_string(),
-        "claudeMemHits": obs_hits,
-        "context7Hits": doc_hits,
-        "codeGraphHits": graph_hits,
-        "corpusHits": corpus_hits(query, limit)
-    })
-}
-
-pub fn render_systemd_unit(xfs_root: &Path, interval_secs: u64, watch_dir: &Path) -> String {
-    format!(
-        "[Unit]\n\
-Description=Fw Autonomous Agentless Self-Learning Daemon (Pure-Rust Keyless XFS)\n\
-After=network-online.target local-fs.target\n\
-Wants=network-online.target\n\
-\n\
-[Service]\n\
-Type=simple\n\
-Environment=FW_LEARN_XFS_ROOT={}\n\
-ExecStart=/usr/local/bin/fw learn loop --interval {} --cycles 0 --dir {} --xfs-root {}\n\
-Restart=always\n\
-RestartSec=15\n\
-Nice=19\n\
-IOSchedulingClass=idle\n\
-MemoryHigh=512M\n\
-MemoryMax=1G\n\
-\n\
-[Install]\n\
-WantedBy=multi-user.target\n",
-        xfs_root.display(),
-        interval_secs,
-        watch_dir.display(),
-        xfs_root.display()
-    )
-}
-
-/// `fw learn <status|harvest|distill|search|loop|systemd>`
-pub fn run_learn_cli(args: &[String], cwd: &Path) -> Result<Value, String> {
-    let xfs_override = flag_str(args, "--xfs-root").map(Path::new);
-    let store = XfsDatasetStore::resolve(xfs_override);
-    let sub = args.first().map(String::as_str).unwrap_or("status");
-
-    match sub {
-        "status" => Ok(store.stats()),
-        "harvest" => {
-            let target = args
-                .get(1)
-                .filter(|a| !a.starts_with('-'))
-                .map(|s| cwd.join(s))
-                .unwrap_or_else(|| cwd.to_path_buf());
-            run_agentless_harvest(&target, &store)
-        }
-        "distill" => run_distill(&store),
-        "search" => {
-            let limit = flag_usize(args, "--limit", 10);
-            let query = collect_positional(&args[1..]).join(" ");
-            if query.trim().is_empty() {
-                return Err("usage: fw learn search <query> [--limit 10]".to_owned());
-            }
-            Ok(run_unified_search(&query, &store, limit))
-        }
-        "loop" => {
-            let interval = flag_usize(args, "--interval", 300) as u64;
-            let cycles = flag_usize(args, "--cycles", 1);
-            let dir = flag_str(args, "--dir")
-                .map(|s| cwd.join(s))
-                .unwrap_or_else(|| cwd.to_path_buf());
-            let mut completed = 0usize;
-            let mut last = json!({});
-            loop {
-                last = run_agentless_harvest(&dir, &store)?;
-                let _ = run_distill(&store)?;
-                completed += 1;
-                if cycles > 0 && completed >= cycles {
-                    break;
-                }
-                std::thread::sleep(Duration::from_secs(interval.max(1)));
-            }
-            Ok(json!({
-                "ok": true,
-                "agentless": true,
-                "cyclesCompleted": completed,
-                "intervalSecs": interval,
-                "xfsRoot": store.root.display().to_string(),
-                "lastCycle": last
-            }))
-        }
-        "systemd" => {
-            let interval = flag_usize(args, "--interval", 300) as u64;
-            let xfs = flag_str(args, "--xfs-root")
-                .map(PathBuf::from)
-                .unwrap_or_else(|| PathBuf::from("/srv/xbuild/fw-learn"));
-            let dir = flag_str(args, "--dir")
-                .map(PathBuf::from)
-                .unwrap_or_else(|| PathBuf::from("/srv/xbuild"));
-            let unit = render_systemd_unit(&xfs, interval, &dir);
-            Ok(json!({
-                "ok": true,
-                "unitName": "fw-learn.service",
-                "xfsRoot": xfs.display().to_string(),
-                "unit": unit
-            }))
-        }
-        other => Err(format!(
-            "unknown learn subcommand `{other}` (expected status|harvest|distill|search|loop|systemd)"
-        )),
-    }
-}
-
-// ============================================================================
 // 6. Pure-Rust BM25 Ranking & Helpers (Zero External Dependencies)
 // ============================================================================
 
@@ -1330,7 +909,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn claude_mem_codegraph_context7_and_agentless_learn_e2e() {
+    fn claude_mem_and_context7_e2e() {
         let tmp = std::env::temp_dir().join(format!("fw_xfs_learn_test_{}", now_unix()));
         let _ = fs::remove_dir_all(&tmp);
         let store = XfsDatasetStore::resolve(Some(&tmp));
@@ -1358,15 +937,9 @@ mod tests {
         let full = run_claude_mem_cli(&["get".to_owned(), id.to_string()], &store).unwrap();
         assert_eq!(full["count"], 1);
 
-        // 2. code graph report parsing (the graph itself is built by the fw-graph binary)
         let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-        let (communities, gods) = parse_graph_report(
-            "# Graph Report\n\n## Summary\n- 28235 nodes, 58390 edges, 692 communities\n\n## God nodes\n- Drive (120 edges) - crates/fw-drive/src/lib.rs\n- router (90 edges)\n\n## Communities\n- 0: Drive (10 nodes)\n",
-        );
-        assert_eq!(communities, Some(692));
-        assert_eq!(gods, ["Drive", "router"]);
 
-        // 3. keyless context7 chunking + token-budgeted query
+        // 2. keyless context7 chunking + token-budgeted query
         let chunks = chunk_markdown_docs(
             "burn",
             "cargo",
@@ -1384,14 +957,6 @@ mod tests {
         )
         .unwrap();
         assert!(!q["results"].as_array().unwrap().is_empty());
-
-        // 4. Agentless harvest + distill + unified search
-        let h = run_agentless_harvest(root, &store).unwrap();
-        assert_eq!(h["agentless"], true);
-        let d = run_distill(&store).unwrap();
-        assert_eq!(d["ok"], true);
-        let u = run_unified_search("autodiff", &store, 5);
-        assert!(!u["context7Hits"].as_array().unwrap().is_empty());
 
         let _ = fs::remove_dir_all(&tmp);
     }
