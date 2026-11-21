@@ -169,5 +169,6 @@ describe("polyglot OS, C ABI, NTFS, VFS, AI protocols and low-level LTO/AOT", ()
     if (byName.has("cuda-nvptx64-ptx")) expect(byName.get("cuda-nvptx64-ptx")?.ok).toBe(true);
     if (byName.has("go-test")) expect(byName.get("go-test")?.ok).toBe(true);
     if (byName.has("java-ghidra-bridge")) expect(byName.get("java-ghidra-bridge")?.ok).toBe(true);
-  }, 30_000);
+    // A cold Go build cache compiles the standard library inside `go test` (12 s on a 12-core host, measured with an empty GOCACHE); warm it takes 0.3 s.
+  }, 120_000);
 });
