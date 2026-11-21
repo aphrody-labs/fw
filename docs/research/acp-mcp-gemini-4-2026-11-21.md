@@ -19,8 +19,8 @@ Source: the retired `agy-knowledge` skill (verified 2026-11-19). Every line belo
 Read from the Vertex AI publisher catalog (`GET https://aiplatform.googleapis.com/v1beta1/publishers/google/models`, 36 models) on 2026-11-21:
 
 - Present: `gemini-4-argon`, `gemini-4-carbon`, `gemini-4-hydrogen`, `gemini-4-neon` (`GET .../models/gemini-4-neon` answers 200, launch stage GA), and also `gemini-3.8-flash`, `gemini-3.7-flash`, `gemini-omni-1.2-flash`.
-- Absent: `gemini-decision-1` (`GET .../models/gemini-decision-1` answers 404, not in the list). The Gemini API route `GET https://generativelanguage.googleapis.com/v1beta/decisions` answers 404.
-- The Gemini API (`generativelanguage.googleapis.com`) model list could not be read: the available credentials are service-account and user OAuth tokens, which that API rejects with `ACCESS_TOKEN_SCOPE_INSUFFICIENT`, and no `GEMINI_API_KEY` exists in the environment. Re-run it with a key when one is provisioned.
+- `gemini-decision-1` is not in the Vertex catalog (`GET .../models/gemini-decision-1` answers 404). It is a Gemini API (AI Studio) model: the live pages https://aistudio.google.com/docs/models/gemini-decision-1.md and https://aistudio.google.com/docs/decisions-api.md answer 200 and document `POST https://generativelanguage.googleapis.com/v1beta/decisions` with `"model": "gemini-decision-1"`. `gemini-4-neon` and `gemini-decision-1` therefore both exist; no code or config naming them was deleted.
+- The Gemini API (`generativelanguage.googleapis.com`) model list itself could not be read, so existence rests on the published docs: the available credentials are service-account and user OAuth tokens, which that API rejects with `ACCESS_TOKEN_SCOPE_INSUFFICIENT`, and no `GEMINI_API_KEY` exists in the environment. Re-run it with a key when one is provisioned.
 
 ## Not kept
 
