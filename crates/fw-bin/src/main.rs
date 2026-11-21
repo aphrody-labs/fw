@@ -727,6 +727,7 @@ fn main() {
         }
         "graph" | "graphify" => std::process::exit(run_sibling("graph", "fw-graph", &args[1..])),
         "corpus" => std::process::exit(run_sibling("corpus", "fw-corpus", &args[1..])),
+        "site" => std::process::exit(run_sibling("site", "fw-site", &args[1..])),
         "mem" | "memory" | "claude-mem" => {
             let store = auto_learn::XfsDatasetStore::resolve(None);
             match auto_learn::run_claude_mem_cli(&args[1..], &store) {
