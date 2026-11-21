@@ -33,8 +33,7 @@ fn run(arguments: &[String]) -> Result<ExitCode> {
         Some("compile") => {
             let mode = topology::load_dual_mode(&root.join("cluster/dual-mode.toml"))?;
             let hosts = topology::load_hosts(&root.join("cluster/build.toml"))?;
-            let host_name = required(arguments, "--host")?;
-            let host = hosts.get(&host_name).ok_or_else(|| Error::Invalid(format!("no host `{host_name}` in cluster/build.toml")))?;
+            let host = topology::find_host(&hosts, &required(arguments, "--host")?)?;
             let edge = mode.service(&required(arguments, "--service")?)?;
             let service = wrangler::load(&root.join(&edge.wrangler), edge.env.as_deref())?;
             let settings = unit::settings(host, &mode, edge, root.join(&edge.wrangler).parent().map(PathBuf::from).unwrap_or_default())?;
@@ -47,10 +46,9 @@ fn run(arguments: &[String]) -> Result<ExitCode> {
         Some("units") => {
             let mode = topology::load_dual_mode(&root.join("cluster/dual-mode.toml"))?;
             let hosts = topology::load_hosts(&root.join("cluster/build.toml"))?;
-            let host_name = required(arguments, "--host")?;
-            let host = hosts.get(&host_name).ok_or_else(|| Error::Invalid(format!("no host `{host_name}` in cluster/build.toml")))?;
+            let host = topology::find_host(&hosts, &required(arguments, "--host")?)?;
             let out = PathBuf::from(required(arguments, "--out")?);
-            let plan = unit::plan(&host_name, host, &mode, &root)?;
+            let plan = unit::plan(host, &mode, &root)?;
             for (name, content) in &plan.files {
                 write_text(&out.join(name), content)?;
                 println!("{}", out.join(name).display());
