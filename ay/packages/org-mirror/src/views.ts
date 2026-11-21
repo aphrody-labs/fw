@@ -1,6 +1,16 @@
 /** HTML pages. Each view takes the same data object the JSON twin serves, so the two can never disagree. */
 import type { Row } from "./db.ts";
 import { ext, fmtBytes, fmtDate, fmtNum, html, pager, tabs, withParams, type Page, type Safe } from "./html.ts";
+import catalog from "../locales.toml";
+
+// Messages: locales.toml has one [locales.<tag>.messages] table per language (the shape of aphrody/assets/os/locales.toml that
+// fw-theme Catalog reads). FW_LOCALE, then LANG, picks the language; a missing message falls back to the default locale, then to its id.
+type Messages = Record<string, string>;
+const locales = catalog.locales as unknown as { default_locale: string } & Record<string, { messages: Messages }>;
+const requested = (process.env.FW_LOCALE ?? process.env.LANG ?? "").split(".")[0].replace("_", "-");
+const fallback = locales[locales.default_locale]?.messages ?? {};
+const messages = locales[requested]?.messages ?? locales[requested.split("-")[0]]?.messages ?? fallback;
+export const l10n = (id: string): string => messages[id] ?? fallback[id] ?? id;
 
 export interface Paged<T> {
   total: number;
@@ -132,7 +142,7 @@ function searchForm(url: URL, placeholder: string, keep: string[] = []): Safe {
   return html`<form class="search" method="get">
 <input type="search" name="q" value="${url.searchParams.get("q") ?? ""}" placeholder="${placeholder}" aria-label="${placeholder}">
 ${keep.map(k => (url.searchParams.get(k) ? html`<input type="hidden" name="${k}" value="${url.searchParams.get(k)}">` : ""))}
-<button type="submit">Search</button></form>`;
+<button type="submit">${l10n("search")}</button></form>`;
 }
 
 function repoTabs(name: string, current: string): Safe {
@@ -142,8 +152,8 @@ function repoTabs(name: string, current: string): Safe {
 
 function repoTable(items: RepoItem[]): Safe {
   if (!items.length) return empty("repositories");
-  return html`<div class="scroll"><table><thead><tr><th>Repository</th><th class="num">Stars</th><th>Language</th><th>Tags</th><th>Pushed</th><th class="num">Issues</th><th class="num">PRs</th></tr></thead><tbody>
-${items.map(r => html`<tr><td><a href="${repoHref(r.name)}">${r.name}</a>${flag(r.is_archived) ? html` <span class="chip">archived</span>` : ""}${flag(r.is_fork) ? html` <span class="chip">fork</span>` : ""}<div class="muted">${r.description}</div></td>
+  return html`<div class="scroll"><table><thead><tr><th>${l10n("repository")}</th><th class="num">${l10n("stars")}</th><th>${l10n("language")}</th><th>${l10n("tags")}</th><th>${l10n("pushed")}</th><th class="num">${l10n("issues")}</th><th class="num">${l10n("prs")}</th></tr></thead><tbody>
+${items.map(r => html`<tr><td><a href="${repoHref(r.name)}">${r.name}</a>${flag(r.is_archived) ? html` <span class="chip">${l10n("archived")}</span>` : ""}${flag(r.is_fork) ? html` <span class="chip">${l10n("fork")}</span>` : ""}<div class="muted">${r.description}</div></td>
 <td class="num">${fmtNum(r.stars)}</td><td>${r.primary_language}</td><td><div class="chips">${r.tags.map(tagChip)}</div></td><td>${fmtDate(r.pushed_at)}</td>
 <td class="num"><a href="${repoHref(r.name, "/issues")}">${fmtNum(r.open_issues)}</a></td><td class="num"><a href="${repoHref(r.name, "/pulls")}">${fmtNum(r.open_prs)}</a></td></tr>`)}
 </tbody></table></div>`;
@@ -153,12 +163,12 @@ export function overview(d: Overview, v: View): Page {
   const links: Record<string, string> = { repos: "/repos", packages: "/packages" };
   return {
     title: d.org,
-    subtitle: "A replica of the GitHub organization: repositories, history, pull requests, issues, releases, changelogs and packages.",
+    subtitle: l10n("a_replica_of_the_github_organization_repositorie"),
     path: v.url.pathname,
     body: html`<div class="stats">${Object.entries(d.totals).map(([k, n]) => html`<div class="stat"><b>${fmtNum(n)}</b>${links[k] ? html`<a href="${links[k]}">${k}</a>` : html`<span>${k}</span>`}</div>`)}</div>
-<h2>Ecosystems</h2>
+<h2>${l10n("ecosystems")}</h2>
 <div class="chips">${d.tags.map(t => html`<a class="chip tag" href="/repos?tag=${enc(t.tag)}">${t.tag}<b>${fmtNum(t.n)}</b></a>`)}</div>
-<h2>Repositories by last push</h2>
+<h2>${l10n("repositories_by_last_push")}</h2>
 ${repoTable(d.items)}${pager(v.url, d)}`,
   };
 }
@@ -166,7 +176,7 @@ ${repoTable(d.items)}${pager(v.url, d)}`,
 export function repos(d: Paged<RepoItem>, v: View): Page {
   const tag = v.url.searchParams.get("tag");
   return {
-    title: "Repositories",
+    title: l10n("repositories"),
     subtitle: tag ? `Tagged ${tag}.` : undefined,
     path: v.url.pathname,
     body: html`${searchForm(v.url, "Name or description", ["tag"])}${tag ? html`<p><a href="${withParams(v.url, { tag: null, page: null })}">Clear the ${tag} filter</a></p>` : ""}${repoTable(d.items)}${pager(v.url, d)}`,
@@ -176,13 +186,13 @@ export function repos(d: Paged<RepoItem>, v: View): Page {
 function langBar(langs: Row[]): Safe {
   const sum = langs.reduce((a, l) => a + Number(l.share), 0) || 1;
   const segs = langs.map((l, i) => ({ name: str(l.language), pct: (Number(l.share) / sum) * 100, c: `l${i % 6}` }));
-  return html`<div class="langbar" role="img" aria-label="Language share">${segs.map(s => html`<span class="${s.c}" style="width:${s.pct.toFixed(2)}%" title="${s.name}"></span>`)}</div>
+  return html`<div class="langbar" role="img" aria-label="${l10n("language_share")}">${segs.map(s => html`<span class="${s.c}" style="width:${s.pct.toFixed(2)}%" title="${s.name}"></span>`)}</div>
 <ul class="legend">${segs.map(s => html`<li><i class="${s.c}"></i>${s.name} <span class="muted">${s.pct.toFixed(1)}%</span></li>`)}</ul>`;
 }
 
 function compare(label: string, stored: number | null, github: number | null, href?: string): Safe {
   const delta = stored != null && github != null ? stored - github : null;
-  const cell = delta === null ? "" : delta === 0 ? html`<span class="ok">complete</span>` : html`<span class="delta">${delta > 0 ? "+" : ""}${fmtNum(delta)}</span>`;
+  const cell = delta === null ? "" : delta === 0 ? html`<span class="ok">${l10n("complete")}</span>` : html`<span class="delta">${delta > 0 ? "+" : ""}${fmtNum(delta)}</span>`;
   return html`<tr><td>${href ? html`<a href="${href}">${label}</a>` : label}</td><td class="num">${fmtNum(stored)}</td><td class="num">${fmtNum(github)}</td><td>${cell}</td></tr>`;
 }
 
@@ -195,7 +205,7 @@ export function repo(d: RepoDetail, v: View): Page {
     subtitle: str(r.description),
     path: v.url.pathname,
     body: html`${repoTabs(name, "")}
-<div class="chips">${flag(r.is_fork) ? html`<span class="chip">fork</span>` : ""}${flag(r.is_archived) ? html`<span class="chip">archived</span>` : ""}${flag(r.is_private) ? html`<span class="chip">private</span>` : ""}${flag(r.is_template) ? html`<span class="chip">template</span>` : ""}${d.tags.map(t => tagChip(str(t.tag)))}${d.topics.map(t => html`<span class="chip">${t}</span>`)}</div>
+<div class="chips">${flag(r.is_fork) ? html`<span class="chip">${l10n("fork")}</span>` : ""}${flag(r.is_archived) ? html`<span class="chip">${l10n("archived")}</span>` : ""}${flag(r.is_private) ? html`<span class="chip">${l10n("private")}</span>` : ""}${flag(r.is_template) ? html`<span class="chip">${l10n("template")}</span>` : ""}${d.tags.map(t => tagChip(str(t.tag)))}${d.topics.map(t => html`<span class="chip">${t}</span>`)}</div>
 ${dl([
   ["GitHub", ext(str(r.url), str(r.url))],
   ["Homepage", ext(str(r.homepage), str(r.homepage))],
@@ -213,18 +223,18 @@ ${dl([
   ["Pushed", fmtDate(str(r.pushed_at))],
   ["Last sync", fmtDate(str(r.synced_at))],
 ])}
-<h2>Languages</h2>
+<h2>${l10n("languages")}</h2>
 ${d.languages.length ? langBar(d.languages) : empty("language data")}
-<h2>Stored vs GitHub</h2>
-<div class="scroll"><table><thead><tr><th>Data</th><th class="num">Stored</th><th class="num">GitHub</th><th>Status</th></tr></thead><tbody>
+<h2>${l10n("stored_vs_github")}</h2>
+<div class="scroll"><table><thead><tr><th>${l10n("data")}</th><th class="num">${l10n("stored")}</th><th class="num">${l10n("github")}</th><th>${l10n("status")}</th></tr></thead><tbody>
 ${compare("Issues", c.issues.stored, c.issues.github, repoHref(name, "/issues?state=all"))}
 ${compare("Pull requests", c.pulls.stored, c.pulls.github, repoHref(name, "/pulls?state=all"))}
 ${compare("Releases", c.releases.stored, c.releases.github, repoHref(name, "/releases"))}
 ${compare("Default-branch commits (git)", c.commits.git, c.commits.github)}
 ${compare("Commits in the database", c.commits.stored, null, repoHref(name, "/commits"))}
 </tbody></table></div>
-<h2>Latest releases</h2>
-${d.releases.length ? html`<ul class="items">${d.releases.map(x => html`<li class="item"><a class="title" href="${repoHref(name, `/releases/${enc(str(x.tag))}`)}">${str(x.name) || str(x.tag)}</a> <span class="mono muted">${x.tag}</span> ${flag(x.is_prerelease) ? html`<span class="chip">pre-release</span>` : ""}<div class="meta">${fmtDate(str(x.published_at))}</div></li>`)}</ul>` : empty("releases")}`,
+<h2>${l10n("latest_releases")}</h2>
+${d.releases.length ? html`<ul class="items">${d.releases.map(x => html`<li class="item"><a class="title" href="${repoHref(name, `/releases/${enc(str(x.tag))}`)}">${str(x.name) || str(x.tag)}</a> <span class="mono muted">${x.tag}</span> ${flag(x.is_prerelease) ? html`<span class="chip">${l10n("pre_release")}</span>` : ""}<div class="meta">${fmtDate(str(x.published_at))}</div></li>`)}</ul>` : empty("releases")}`,
   };
 }
 
@@ -271,8 +281,8 @@ export function threads(d: Paged<ThreadItem>, v: View, kind: "issue" | "pr"): Pa
     body: html`${repoTabs(name, sub)}
 ${tabs(STATES.filter(s => kind === "pr" || s !== "merged").map(s => ({ href: withParams(v.url, { state: s, page: null }), label: s, current: s === state })))}
 ${searchForm(v.url, "Title", ["state", "label"])}
-${label ? html`<p>Label <span class="chip label">${label}</span> <a href="${withParams(v.url, { label: null, page: null })}">clear</a></p>` : ""}
-${d.items.length ? html`<ul class="items">${d.items.map(x => html`<li class="item"><a class="title" href="${repoHref(name, `${sub}/${x.number}`)}">#${x.number} ${x.title}</a> ${stateChip(x.state)}${flag(x.is_draft) ? html` <span class="chip">draft</span>` : ""}${labelChips(x.labels, v.url)}
+${label ? html`<p>${l10n("label")} <span class="chip label">${label}</span> <a href="${withParams(v.url, { label: null, page: null })}">${l10n("clear")}</a></p>` : ""}
+${d.items.length ? html`<ul class="items">${d.items.map(x => html`<li class="item"><a class="title" href="${repoHref(name, `${sub}/${x.number}`)}">#${x.number} ${x.title}</a> ${stateChip(x.state)}${flag(x.is_draft) ? html` <span class="chip">${l10n("draft")}</span>` : ""}${labelChips(x.labels, v.url)}
 <div class="meta">${x.author} opened ${fmtDate(x.created_at)}, updated ${fmtDate(x.updated_at)} - ${fmtNum(x.comments_count)} comments</div></li>`)}</ul>` : empty(kind === "pr" ? "pull requests" : "issues")}
 ${pager(v.url, d)}`,
   };
@@ -297,7 +307,7 @@ export function thread(d: ThreadDetail, v: View): Page {
     title: `#${it.number} ${str(it.title)}`,
     path: v.url.pathname,
     body: html`${repoTabs(name, sub)}
-<p>${stateChip(d.state)}${flag(it.is_draft) ? html` <span class="chip">draft</span>` : ""}${d.labels.map(l => html` <a class="chip label" href="${repoHref(name, `${sub}?state=all&label=${enc(l)}`)}">${l}</a>`)}</p>
+<p>${stateChip(d.state)}${flag(it.is_draft) ? html` <span class="chip">${l10n("draft")}</span>` : ""}${d.labels.map(l => html` <a class="chip label" href="${repoHref(name, `${sub}?state=all&label=${enc(l)}`)}">${l}</a>`)}</p>
 ${dl([
   ["Author", it.author],
   ["Opened", fmtDate(str(it.created_at))],
@@ -318,13 +328,13 @@ ${dl([
       ] as [string, unknown][])
     : []),
 ])}
-<h2>Description</h2>
+<h2>${l10n("description")}</h2>
 ${bodyOf(it.body)}
-${pr ? html`<h2>Reviews</h2>${d.reviews.length ? d.reviews.map(r => html`<article class="comment"><header><b>${r.author}</b><span>${r.state}</span><span class="muted">${fmtDate(str(r.submitted_at))}</span></header>${r.body ? bodyOf(r.body) : ""}</article>`) : empty("reviews")}` : ""}
-<h2>Comments</h2>
+${pr ? html`<h2>${l10n("reviews")}</h2>${d.reviews.length ? d.reviews.map(r => html`<article class="comment"><header><b>${r.author}</b><span>${r.state}</span><span class="muted">${fmtDate(str(r.submitted_at))}</span></header>${r.body ? bodyOf(r.body) : ""}</article>`) : empty("reviews")}` : ""}
+<h2>${l10n("comments")}</h2>
 ${d.comments.length ? d.comments.map(c => html`<article class="comment" id="comment-${c.id}"><header><b>${c.author}</b><span class="muted">${fmtDate(str(c.created_at))}</span></header>${bodyOf(c.body)}</article>`) : empty("comments")}
-<h2>Timeline</h2>
-${d.events.length ? html`<div class="scroll"><table><thead><tr><th>Event</th><th>Actor</th><th>Date</th><th>Details</th></tr></thead><tbody>${d.events.map(e => html`<tr><td>${e.type}</td><td>${e.actor}</td><td>${fmtDate(e.created_at)}</td><td>${summarize(e.data)}</td></tr>`)}</tbody></table></div>` : empty("timeline events")}`,
+<h2>${l10n("timeline")}</h2>
+${d.events.length ? html`<div class="scroll"><table><thead><tr><th>${l10n("event")}</th><th>${l10n("actor")}</th><th>${l10n("date")}</th><th>${l10n("details")}</th></tr></thead><tbody>${d.events.map(e => html`<tr><td>${e.type}</td><td>${e.actor}</td><td>${fmtDate(e.created_at)}</td><td>${summarize(e.data)}</td></tr>`)}</tbody></table></div>` : empty("timeline events")}`,
   };
 }
 
@@ -334,7 +344,7 @@ export function releases(d: Paged<ReleaseItem>, v: View): Page {
     title: `${name} releases`,
     path: v.url.pathname,
     body: html`${repoTabs(name, "/releases")}
-${d.items.length ? html`<ul class="items">${d.items.map(x => html`<li class="item"><a class="title" href="${repoHref(name, `/releases/${enc(x.tag)}`)}">${x.name || x.tag}</a> <code>${x.tag}</code>${flag(x.is_latest) ? html` <span class="chip tag">latest</span>` : ""}${flag(x.is_prerelease) ? html` <span class="chip">pre-release</span>` : ""}${flag(x.is_draft) ? html` <span class="chip">draft</span>` : ""}
+${d.items.length ? html`<ul class="items">${d.items.map(x => html`<li class="item"><a class="title" href="${repoHref(name, `/releases/${enc(x.tag)}`)}">${x.name || x.tag}</a> <code>${x.tag}</code>${flag(x.is_latest) ? html` <span class="chip tag">${l10n("latest_2")}</span>` : ""}${flag(x.is_prerelease) ? html` <span class="chip">${l10n("pre_release")}</span>` : ""}${flag(x.is_draft) ? html` <span class="chip">${l10n("draft")}</span>` : ""}
 <div class="meta">${fmtDate(x.published_at)} by ${x.author} - ${fmtNum(x.assets)} assets, ${fmtNum(x.downloads)} downloads</div></li>`)}</ul>` : empty("releases")}
 ${pager(v.url, d)}`,
   };
@@ -353,10 +363,10 @@ ${dl([
   ["Author", r.author],
   ["Source", ext(str(r.url), str(r.url))],
 ])}
-<h2>Notes</h2>
+<h2>${l10n("notes")}</h2>
 ${bodyOf(r.body)}
-<h2>Assets</h2>
-${d.assets.length ? html`<div class="scroll"><table><thead><tr><th>Name</th><th class="num">Size</th><th class="num">Downloads</th><th>Type</th></tr></thead><tbody>${d.assets.map(a => html`<tr><td>${ext(str(a.url), str(a.name))}</td><td class="num">${fmtBytes(Number(a.size))}</td><td class="num">${fmtNum(Number(a.downloads))}</td><td>${a.content_type}</td></tr>`)}</tbody></table></div>` : empty("assets")}`,
+<h2>${l10n("assets")}</h2>
+${d.assets.length ? html`<div class="scroll"><table><thead><tr><th>${l10n("name")}</th><th class="num">${l10n("size")}</th><th class="num">${l10n("downloads")}</th><th>${l10n("type")}</th></tr></thead><tbody>${d.assets.map(a => html`<tr><td>${ext(str(a.url), str(a.name))}</td><td class="num">${fmtBytes(Number(a.size))}</td><td class="num">${fmtNum(Number(a.downloads))}</td><td>${a.content_type}</td></tr>`)}</tbody></table></div>` : empty("assets")}`,
   };
 }
 
@@ -368,8 +378,8 @@ export function changelog(d: ChangelogPage, v: View): Page {
     title: `${name} changelog`,
     path: v.url.pathname,
     body: html`${repoTabs(name, "/changelog")}
-${d.files.length ? html`<div class="scroll"><table><thead><tr><th>File</th><th class="num">Versions</th><th class="num">Tag snapshots</th><th>Latest</th></tr></thead><tbody>${d.files.map(f => html`<tr><td><a href="${withParams(v.url, { path: f.path, page: null })}">${f.path}</a></td><td class="num">${fmtNum(f.entries)}</td><td class="num">${fmtNum(f.snapshots)}</td><td>${f.latest}</td></tr>`)}</tbody></table></div>` : empty("changelog files")}
-${path ? html`<p><a href="${withParams(v.url, { path: null, page: null })}">Show every file</a></p>` : ""}
+${d.files.length ? html`<div class="scroll"><table><thead><tr><th>${l10n("file")}</th><th class="num">${l10n("versions")}</th><th class="num">${l10n("tag_snapshots")}</th><th>${l10n("latest")}</th></tr></thead><tbody>${d.files.map(f => html`<tr><td><a href="${withParams(v.url, { path: f.path, page: null })}">${f.path}</a></td><td class="num">${fmtNum(f.entries)}</td><td class="num">${fmtNum(f.snapshots)}</td><td>${f.latest}</td></tr>`)}</tbody></table></div>` : empty("changelog files")}
+${path ? html`<p><a href="${withParams(v.url, { path: null, page: null })}">${l10n("show_every_file")}</a></p>` : ""}
 ${paths.map(p => html`<h2>${p}</h2>${d.items.filter(e => e.path === p).map(e => html`<article class="comment"><header><b>${e.version}</b><span class="muted">${fmtDate(str(e.date))}</span></header>${bodyOf(e.body)}</article>`)}`)}
 ${pager(v.url, d)}`,
   };
@@ -382,12 +392,12 @@ export function packages(d: PackagesPage, v: View): Page {
   const eco = v.url.searchParams.get("ecosystem");
   const groups = [...new Set(d.items.map(p => str(p.ecosystem)))];
   return {
-    title: "Packages",
-    subtitle: "Packages published from the repositories of the organization.",
+    title: l10n("packages"),
+    subtitle: l10n("packages_published_from_the_repositories_of_the_"),
     path: v.url.pathname,
     body: html`${tabs([{ href: withParams(v.url, { ecosystem: null, page: null }), label: "all", current: !eco }, ...d.ecosystems.map(e => ({ href: withParams(v.url, { ecosystem: e.ecosystem, page: null }), label: `${e.ecosystem} (${e.n})`, current: e.ecosystem === eco }))])}
 ${searchForm(v.url, "Package name", ["ecosystem"])}
-${groups.map(g => html`<h2>${g}</h2><div class="scroll"><table><thead><tr><th>Name</th><th>Latest</th><th>Last published</th><th class="num">Versions</th><th class="num">Recent downloads</th><th>Status</th></tr></thead><tbody>
+${groups.map(g => html`<h2>${g}</h2><div class="scroll"><table><thead><tr><th>${l10n("name")}</th><th>${l10n("latest")}</th><th>${l10n("last_published")}</th><th class="num">${l10n("versions")}</th><th class="num">${l10n("recent_downloads")}</th><th>${l10n("status")}</th></tr></thead><tbody>
 ${d.items.filter(p => p.ecosystem === g).map(p => html`<tr><td><a href="${packageHref(g, str(p.name))}">${p.name}</a></td><td>${p.latest}</td><td>${fmtDate(str(p.last_published))}</td><td class="num">${fmtNum(Number(p.versions_count))}</td><td class="num">${downloads(p)}</td><td>${p.status}</td></tr>`)}</tbody></table></div>`)}
 ${d.items.length ? "" : empty("packages")}
 ${pager(v.url, d)}`,
@@ -417,18 +427,18 @@ ${dl([
   ["Error", p.error],
 ])}
 <h2>Versions (${fmtNum(d.total)})</h2>
-${d.items.length ? html`<div class="scroll"><table><thead><tr><th>Version</th><th>Published</th><th class="num">Downloads</th><th>Yanked</th></tr></thead><tbody>${d.items.map(x => html`<tr><td><code>${x.version}</code></td><td>${fmtDate(str(x.published_at))}</td><td class="num">${x.downloads == null ? "" : fmtNum(Number(x.downloads))}</td><td>${flag(x.yanked) ? "yanked" : ""}</td></tr>`)}</tbody></table></div>` : empty("versions")}
+${d.items.length ? html`<div class="scroll"><table><thead><tr><th>${l10n("version")}</th><th>${l10n("published")}</th><th class="num">${l10n("downloads")}</th><th>${l10n("yanked")}</th></tr></thead><tbody>${d.items.map(x => html`<tr><td><code>${x.version}</code></td><td>${fmtDate(str(x.published_at))}</td><td class="num">${x.downloads == null ? "" : fmtNum(Number(x.downloads))}</td><td>${flag(x.yanked) ? "yanked" : ""}</td></tr>`)}</tbody></table></div>` : empty("versions")}
 ${pager(v.url, d)}`,
   };
 }
 
 export function apiIndex(endpoints: Endpoint[], v: View): Page {
   return {
-    title: "API",
-    subtitle: "Every page has a JSON twin under /api. Lists accept ?page=N&per=N (per is capped at 100) and answer { total, page, per, items }.",
+    title: l10n("api"),
+    subtitle: l10n("every_page_has_a_json_twin_under_api_lists_accep"),
     path: v.url.pathname,
-    body: html`<div class="scroll"><table><thead><tr><th>JSON endpoint</th><th>Page</th><th>Description</th></tr></thead><tbody>${endpoints.map(e => html`<tr><td><code>${e.api}</code></td><td><code>${e.page}</code></td><td>${e.doc}</td></tr>`)}</tbody></table></div>`,
+    body: html`<div class="scroll"><table><thead><tr><th>${l10n("json_endpoint")}</th><th>${l10n("page")}</th><th>${l10n("description")}</th></tr></thead><tbody>${endpoints.map(e => html`<tr><td><code>${e.api}</code></td><td><code>${e.page}</code></td><td>${e.doc}</td></tr>`)}</tbody></table></div>`,
   };
 }
 
-export const notFound = (what: string, path: string): Page => ({ title: "Not found", path, body: html`<p class="lead">Nothing at ${what}.</p><p><a href="/">Back to the overview</a></p>` });
+export const notFound = (what: string, path: string): Page => ({ title: l10n("not_found"), path, body: html`<p class="lead">Nothing at ${what}.</p><p><a href="/">${l10n("back_to_the_overview")}</a></p>` });

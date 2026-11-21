@@ -1,3 +1,4 @@
+import { l10n } from "./html.ts";
 import {
   type ChannelStatus,
   type ChannelsPage,
@@ -39,10 +40,10 @@ export function releaseCard(channel: string, rows: Release[], more?: string): Sa
         html`<div class="row">
           ${chip(r.milestone)}<span class="grow mono">${r.version}</span>
           <span class="meta">${r.chromium_main_branch_position ?? ""} @ ${dateOf(r.time)}</span>
-          <a href="/commit/${r.hashes.chromium}" title="chromium ${r.hashes.chromium}">info</a>
+          <a href="/commit/${r.hashes.chromium}" title="chromium ${r.hashes.chromium}">${l10n("info")}</a>
         </div>`,
     )}
-    ${more ? html`<a class="more" href="${more}">Load more</a>` : ""}
+    ${more ? html`<a class="more" href="${more}">${l10n("load_more")}</a>` : ""}
   </section>`;
 }
 
@@ -54,14 +55,13 @@ export function home(p: {
   channels: ChannelStatus[];
   measuredWeeks?: number;
 }): Safe {
-  return html`<h1>Chromium and Chrome releases</h1>
+  return html`<h1>${l10n("chromium_and_chrome_releases")}</h1>
     <p class="lead">
-      Release channels, the milestone schedule, branches and commits of Chromium and Chrome, with the Chrome Platform
-      Status roadmap, read live and cached.
+      ${l10n("release_channels_the_milestone_schedule_branches")}
     </p>
-    <h2>Has it shipped?</h2>
+    <h2>${l10n("has_it_shipped")}</h2>
     <p class="lead">
-      Look a commit up on the <a href="/commits">commits</a> page to see the first Chrome version that carries it.
+      ${l10n("look_a_commit_up_on_the")} <a href="/commits">${l10n("commits_2")}</a> ${l10n("page_to_see_the_first_chrome_version_that_carrie")}
     </p>
     <div class="tabs">
       <span class="muted">Newest on ${p.platform}</span>${p.channelRows.map(
@@ -71,27 +71,27 @@ export function home(p: {
           >`,
       )}
     </div>
-    <h2>Schedule and branches</h2>
+    <h2>${l10n("schedule_and_branches")}</h2>
     <p class="lead">
-      Which branch is which milestone is on <a href="/branches">branches</a>; the upcoming dates are on
-      <a href="/schedule">schedule</a>.
+      ${l10n("which_branch_is_which_milestone_is_on")} <a href="/branches">${l10n("branches_2")}</a>; the upcoming dates are on
+      <a href="/schedule">${l10n("schedule_2")}</a>.
     </p>
     <div class="sched">${p.schedule.slice(0, 3).map((m) => scheduleCard(m, false))}</div>
-    <h2>Milestones</h2>
+    <h2>${l10n("milestones")}</h2>
     ${milestoneTable(p.milestones.slice(0, 6))}
-    <h2>Release channels</h2>
+    <h2>${l10n("release_channels")}</h2>
     <p class="lead">
       ${p.measuredWeeks ? `Stable has shipped a major version every ${p.measuredWeeks} weeks on the live schedule. ` : ""}<a
         href="/channels"
-        >Channels, cadence and how to switch</a
+        >${l10n("channels_cadence_and_how_to_switch")}</a
       >.
     </p>
     <table>
       <thead>
         <tr>
-          <th>Channel</th>
+          <th>${l10n("channel")}</th>
           <th>Newest on ${p.platform}</th>
-          <th>Cadence</th>
+          <th>${l10n("cadence")}</th>
         </tr>
       </thead>
       <tbody>
@@ -111,13 +111,13 @@ export function milestoneTable(rows: Milestone[]): Safe {
   return html`<table>
     <thead>
       <tr>
-        <th>Milestone</th>
-        <th>Chromium</th>
-        <th>Skia</th>
+        <th>${l10n("milestone")}</th>
+        <th>${l10n("chromium")}</th>
+        <th>${l10n("skia")}</th>
         <th>V8</th>
-        <th>WebRTC</th>
-        <th>PDFium</th>
-        <th>Phase</th>
+        <th>${l10n("webrtc")}</th>
+        <th>${l10n("pdfium")}</th>
+        <th>${l10n("phase")}</th>
       </tr>
     </thead>
     <tbody>
@@ -166,20 +166,20 @@ export function schedule(rows: ScheduleMilestone[], prev: string, next: string):
 }
 
 export function branches(ms: Milestone[], mini: Minibranch[]): Safe {
-  return html`<p class="lead">Which branch of each repository belongs to which milestone.</p>
+  return html`<p class="lead">${l10n("which_branch_of_each_repository_belongs_to_which")}</p>
     <table>
       <thead>
         <tr>
-          <th>Milestone</th>
-          <th>Chromium</th>
-          <th>Skia</th>
+          <th>${l10n("milestone")}</th>
+          <th>${l10n("chromium")}</th>
+          <th>${l10n("skia")}</th>
           <th>V8</th>
-          <th>WebRTC</th>
-          <th>ANGLE</th>
-          <th>Dawn</th>
-          <th>DevTools</th>
-          <th>PDFium</th>
-          <th>Branch point</th>
+          <th>${l10n("webrtc")}</th>
+          <th>${l10n("angle")}</th>
+          <th>${l10n("dawn")}</th>
+          <th>${l10n("devtools")}</th>
+          <th>${l10n("pdfium")}</th>
+          <th>${l10n("branch_point")}</th>
         </tr>
       </thead>
       <tbody>
@@ -202,15 +202,15 @@ export function branches(ms: Milestone[], mini: Minibranch[]): Safe {
         )}
       </tbody>
     </table>
-    <h2>Minibranches</h2>
+    <h2>${l10n("minibranches")}</h2>
     <table>
       <thead>
         <tr>
-          <th>Milestone</th>
-          <th>Chromium</th>
-          <th>Skia</th>
+          <th>${l10n("milestone")}</th>
+          <th>${l10n("chromium")}</th>
+          <th>${l10n("skia")}</th>
           <th>V8</th>
-          <th>Expires</th>
+          <th>${l10n("expires")}</th>
         </tr>
       </thead>
       <tbody>
@@ -230,20 +230,20 @@ export function branches(ms: Milestone[], mini: Minibranch[]): Safe {
 
 export function commitsPage(q: string, recent: CommitSummary[], found?: Commit, error?: string): Safe {
   return html`<form class="search" action="/commits" method="get">
-      <input type="search" name="q" value="${q}" placeholder="Commit hash (1 to 40 hex digits)" /><button>
-        Look up
+      <input type="search" name="q" value="${q}" placeholder="${l10n("commit_hash_1_to_40_hex_digits")}" /><button>
+        ${l10n("look_up")}
       </button>
     </form>
     ${error ? html`<p class="stale">${error}</p>` : ""} ${found ? commitBody(found) : ""}
-    <h2>Recent commits</h2>
+    <h2>${l10n("recent_commits")}</h2>
     <table>
       <thead>
         <tr>
-          <th>Commit</th>
-          <th>Repo</th>
-          <th>Branch</th>
-          <th>Title</th>
-          <th>Date</th>
+          <th>${l10n("commit")}</th>
+          <th>${l10n("repo")}</th>
+          <th>${l10n("branch")}</th>
+          <th>${l10n("title")}</th>
+          <th>${l10n("date")}</th>
         </tr>
       </thead>
       <tbody>
@@ -266,33 +266,33 @@ export function commitBody(c: Commit): Safe {
   return html`<div class="panel">
     <h2>${c.title}</h2>
     <dl class="kv">
-      <dt>Commit</dt>
+      <dt>${l10n("commit")}</dt>
       <dd class="mono">${c.git_hash}</dd>
-      <dt>Repository</dt>
+      <dt>${l10n("repository")}</dt>
       <dd>${c.repo} (${c.branch}${c.position ? ` @{#${c.position}}` : ""})</dd>
-      <dt>Author</dt>
+      <dt>${l10n("author")}</dt>
       <dd>${c.author}</dd>
-      <dt>Date</dt>
+      <dt>${l10n("date")}</dt>
       <dd>${dateOf(c.time)}</dd>
-      <dt>First landed in</dt>
+      <dt>${l10n("first_landed_in")}</dt>
       <dd>${c.first_landed ? html`<b>${c.first_landed}</b>` : "not in a release yet"}</dd>
-      <dt>Earliest release</dt>
+      <dt>${l10n("earliest_release")}</dt>
       <dd>${c.earliest ?? "none"}</dd>
       ${deploy.map(
         ([ch, v]) =>
           html`<dt>${ch}</dt>
             <dd>${v ?? "not shipped"}</dd>`,
       )}
-      <dt>Source</dt>
+      <dt>${l10n("source")}</dt>
       <dd><a href="${c.source_tree}">${c.source_tree}</a></dd>
       ${
         c.review_info
-          ? html`<dt>Review</dt>
+          ? html`<dt>${l10n("review")}</dt>
               <dd><a href="${c.review_info.code_review_url}">${c.review_info.change_id}</a></dd>`
           : ""
       }
     </dl>
-    <h2>Message</h2>
+    <h2>${l10n("message")}</h2>
     <pre class="mono" style="white-space:pre-wrap">${c.message}</pre>
   </div>`;
 }
@@ -305,10 +305,10 @@ export function servingBuilds(b: CrosBuilds): Safe {
     <table>
       <thead>
         <tr>
-          <th>Board</th>
-          <th>Devices</th>
-          <th>First milestone</th>
-          <th>Auto-update expired</th>
+          <th>${l10n("board")}</th>
+          <th>${l10n("devices")}</th>
+          <th>${l10n("first_milestone")}</th>
+          <th>${l10n("auto_update_expired")}</th>
         </tr>
       </thead>
       <tbody>
@@ -336,32 +336,32 @@ export function channelsPage(p: {
       Chrome rolls changes out through channels, from the daily Canary build to Stable.
       ${p.page ? html`The chromium.org page says: ${p.page.intro}` : ""}
     </p>
-    ${p.measuredWeeks ? html`<p class="lead">Measured on the live schedule: a new Stable major every <b>${p.measuredWeeks} weeks</b>${p.page?.stableMajorWeeks && p.page.stableMajorWeeks !== p.measuredWeeks ? html` (the chromium.org page still says ${p.page.stableMajorWeeks})` : ""}.</p>` : ""}
+    ${p.measuredWeeks ? html`<p class="lead">${l10n("measured_on_the_live_schedule_a_new_stable_major")} <b>${p.measuredWeeks} weeks</b>${p.page?.stableMajorWeeks && p.page.stableMajorWeeks !== p.measuredWeeks ? html` (the chromium.org page still says ${p.page.stableMajorWeeks})` : ""}.</p>` : ""}
     <div class="cards">
       ${p.channels.map(
         (c) =>
           html`<section class="card ${c.id}" data-channel="${c.id}">
             <header><span>${c.name}</span><span class="mono">${c.release?.version ?? ""}</span></header>
             <div class="row"><span class="grow">${c.summary}</span></div>
-            <div class="row"><span>Cadence</span><span class="meta">${c.cadence}</span></div>
-            <div class="row"><span>Lag</span><span class="meta">${c.lag}</span></div>
+            <div class="row"><span>${l10n("cadence")}</span><span class="meta">${c.cadence}</span></div>
+            <div class="row"><span>${l10n("lag")}</span><span class="meta">${c.lag}</span></div>
             <div class="row">
-              <span>Side by side</span
+              <span>${l10n("side_by_side")}</span
               ><span class="meta"
                 >${c.parallelInstall ? "own profile, runs next to other channels" : "managed by enterprise policy"}</span
               >
             </div>
             <div class="row">
-              <span>Where</span
+              <span>${l10n("where")}</span
               ><span class="meta"
                 >${(["desktop", "android", "ios"] as const).filter((s) => c.availability[s]).join(", ")}</span
               >
             </div>
-            ${p.page ? (["desktop", "android", "ios"] as const).filter((s) => p.page!.downloads[s][c.id]).map((s) => html`<div class="row"><span>Get it on ${s}</span><a href="${p.page!.downloads[s][c.id]!}">install</a></div>`) : ""}
+            ${p.page ? (["desktop", "android", "ios"] as const).filter((s) => p.page!.downloads[s][c.id]).map((s) => html`<div class="row"><span>Get it on ${s}</span><a href="${p.page!.downloads[s][c.id]!}">${l10n("install")}</a></div>`) : ""}
           </section>`,
       )}
     </div>
-    <h2>How to switch channels</h2>
+    <h2>${l10n("how_to_switch_channels")}</h2>
     <ol>
       <li>Back up your profile (the <code>User Data\\Default</code> directory) before you change.</li>
       <li>
@@ -372,22 +372,21 @@ export function channelsPage(p: {
         Moving to a more stable channel puts you on an earlier version: you get no updates until that channel passes the
         version you run. A profile written by a newer version may not open on an older one; keep the backup.
       </li>
-      <li>Turn on anonymous usage statistics so your channel's stability is measured.</li>
+      <li>${l10n("turn_on_anonymous_usage_statistics_so_your_chann")}</li>
       <li>
-        Report Dev and Canary problems at <a href="https://crbug.com/new">crbug.com/new</a> after reading the
-        bug-reporting guidelines.
+        ${l10n("report_dev_and_canary_problems_at")} <a href="https://crbug.com/new">${l10n("crbug_com_new")}</a> ${l10n("after_reading_the_bug_reporting_guidelines")}
       </li>
     </ol>
     ${
       p.page?.notes.length
-        ? html`<h2>Notes</h2>
+        ? html`<h2>${l10n("notes")}</h2>
             <ul>
               ${p.page.notes.map((n) => html`<li>${n}</li>`)}
             </ul>`
         : ""
     }
     <p class="muted">
-      Sources: <a href="${p.source.page}">chromium.org page</a>, <a href="${p.source.doc}">the original markdown</a>,
+      ${l10n("sources")} <a href="${p.source.page}">${l10n("chromium_org_page")}</a>, <a href="${p.source.doc}">${l10n("the_original_markdown")}</a>,
       releases from Chromium Dash for ${p.platform}.
     </p>`;
 }
@@ -420,8 +419,8 @@ export function roadmap(
         <div class="head">
           <div class="tag">${tag}</div>
           <div class="big">Chrome ${sched.mstone}</div>
-          <div><b>Beta</b> ${scheduleDay(sched.earliest_beta)} - ${scheduleDay(sched.latest_beta)}</div>
-          <div><b>Stable</b> ${when ? `${ago(when, now)} (${dateOf(when)})` : ""}</div>
+          <div><b>${l10n("beta")}</b> ${scheduleDay(sched.earliest_beta)} - ${scheduleDay(sched.latest_beta)}</div>
+          <div><b>${l10n("stable")}</b> ${when ? `${ago(when, now)} (${dateOf(when)})` : ""}</div>
         </div>
         <div class="head" style="padding-top:0">
           <span class="muted">${features.total_count} features in this milestone</span>
@@ -447,8 +446,8 @@ export function featuresPage(p: { q: string; sort: string; start: number; num: n
         type="search"
         name="q"
         value="${p.q}"
-        placeholder="Search features, e.g. webrtc or browser:chrome"
-      /><button>Search</button>
+        placeholder="${l10n("search_features_e_g_webrtc_or_browser_chrome")}"
+      /><button>${l10n("search")}</button>
     </form>
     <p class="muted">${p.list.total_count} features${p.list.total_count ? `, showing ${p.start + 1} to ${end}` : ""}</p>
     ${p.list.features.map(featureRow)}
@@ -467,57 +466,57 @@ export function featurePage(f: Feature, gates: Gate[]): Safe {
   return html`<p><a href="/features">&larr; All features</a></p>
     <h1>${f.name}</h1>
     <div class="panel">
-      <h2>Overview</h2>
+      <h2>${l10n("overview")}</h2>
       <p style="white-space:pre-wrap">${f.summary}</p>
       <dl class="kv">
-        <dt>Category</dt>
+        <dt>${l10n("category")}</dt>
         <dd>${f.category}</dd>
-        <dt>Feature type</dt>
+        <dt>${l10n("feature_type")}</dt>
         <dd>${f.feature_type}</dd>
-        <dt>Intent stage</dt>
+        <dt>${l10n("intent_stage")}</dt>
         <dd>${f.intent_stage}</dd>
-        <dt>Blink components</dt>
+        <dt>${l10n("blink_components")}</dt>
         <dd>${f.blink_components.map((c) => html`<span class="pill">${c}</span> `)}</dd>
-        <dt>Owners</dt>
+        <dt>${l10n("owners")}</dt>
         <dd>${f.owner_emails.join(", ")}</dd>
-        <dt>Created</dt>
+        <dt>${l10n("created")}</dt>
         <dd>${statusDate(f.created.when)} by ${f.created.by}</dd>
-        <dt>Last updated</dt>
+        <dt>${l10n("last_updated")}</dt>
         <dd>${statusDate(f.updated.when)}</dd>
       </dl>
     </div>
     ${
       f.motivation
         ? html`<div class="panel">
-            <h2>Motivation</h2>
+            <h2>${l10n("motivation")}</h2>
             <p style="white-space:pre-wrap">${f.motivation}</p>
           </div>`
         : ""
     }
     <div class="panel">
-      <h2>Specification</h2>
+      <h2>${l10n("specification")}</h2>
       <dl class="kv">
-        <dt>Spec</dt>
+        <dt>${l10n("spec")}</dt>
         <dd>${f.standards.spec ? html`<a href="${f.standards.spec}">${f.standards.spec}</a>` : "none"}</dd>
-        <dt>Spec status</dt>
+        <dt>${l10n("spec_status")}</dt>
         <dd>${f.standards.maturity.text ?? ""}</dd>
-        <dt>Explainers</dt>
+        <dt>${l10n("explainers")}</dt>
         <dd>${links(f.explainer_links)}</dd>
-        <dt>Web platform tests</dt>
+        <dt>${l10n("web_platform_tests")}</dt>
         <dd>
           ${f.wpt === null ? "" : f.wpt ? "yes" : "no"}${f.wpt_descr ? html` <a href="${f.wpt_descr}">${f.wpt_descr}</a>` : ""}
         </dd>
       </dl>
     </div>
     <div class="panel">
-      <h2>Status in Chromium</h2>
+      <h2>${l10n("status_in_chromium")}</h2>
       <dl class="kv">
-        <dt>Status</dt>
+        <dt>${l10n("status")}</dt>
         <dd>
           ${chrome.status.text}
           ${chrome.status.milestone_str && chrome.status.milestone_str !== chrome.status.text ? `(${chrome.status.milestone_str})` : ""}
         </dd>
-        <dt>Tracking bug</dt>
+        <dt>${l10n("tracking_bug")}</dt>
         <dd>${chrome.bug ? html`<a href="${chrome.bug}">${chrome.bug}</a>` : ""}</dd>
         ${MS.map((k) =>
           chrome[k]
@@ -528,28 +527,28 @@ export function featurePage(f: Feature, gates: Gate[]): Safe {
       </dl>
     </div>
     <div class="panel">
-      <h2>Consensus and standardization</h2>
+      <h2>${l10n("consensus_and_standardization")}</h2>
       <dl class="kv">
-        <dt>Firefox</dt>
+        <dt>${l10n("firefox")}</dt>
         <dd>${view(f.browsers.ff)}</dd>
-        <dt>Safari</dt>
+        <dt>${l10n("safari")}</dt>
         <dd>${view(f.browsers.safari)}</dd>
-        <dt>Web developers</dt>
+        <dt>${l10n("web_developers")}</dt>
         <dd>${view(f.browsers.webdev)}</dd>
       </dl>
     </div>
     <div class="panel">
-      <h2>Stages</h2>
+      <h2>${l10n("stages")}</h2>
       <table>
         <thead>
           <tr>
-            <th>Stage</th>
-            <th>Type</th>
-            <th>Desktop</th>
-            <th>Android</th>
-            <th>iOS</th>
-            <th>WebView</th>
-            <th>Intent</th>
+            <th>${l10n("stage")}</th>
+            <th>${l10n("type")}</th>
+            <th>${l10n("desktop")}</th>
+            <th>${l10n("android")}</th>
+            <th>${l10n("ios")}</th>
+            <th>${l10n("webview")}</th>
+            <th>${l10n("intent")}</th>
           </tr>
         </thead>
         <tbody>
@@ -562,20 +561,20 @@ export function featurePage(f: Feature, gates: Gate[]): Safe {
                 <td>${s.android_first ?? ""}</td>
                 <td>${s.ios_first ?? ""}</td>
                 <td>${s.webview_first ?? ""}</td>
-                <td>${s.intent_thread_url ? html`<a href="${s.intent_thread_url}">thread</a>` : ""}</td>
+                <td>${s.intent_thread_url ? html`<a href="${s.intent_thread_url}">${l10n("thread")}</a>` : ""}</td>
               </tr>`,
           )}
         </tbody>
       </table>
     </div>
     <div class="panel">
-      <h2>Review gates</h2>
+      <h2>${l10n("review_gates")}</h2>
       <table>
         <thead>
           <tr>
-            <th>Team</th>
-            <th>Gate</th>
-            <th>State</th>
+            <th>${l10n("team")}</th>
+            <th>${l10n("gate")}</th>
+            <th>${l10n("state")}</th>
           </tr>
         </thead>
         <tbody>
@@ -598,17 +597,16 @@ export function apiPage(
   status: readonly { path: string; params: string; auth: boolean }[],
 ): Safe {
   return html`<p class="lead">
-      Both services' public JSON, served from the cache at the same paths. Endpoints marked auth need a signed-in
-      account upstream and are not served.
+      ${l10n("both_services_public_json_served_from_the_cache_")}
     </p>
-    <h2>Chromium Dash</h2>
+    <h2>${l10n("chromium_dash")}</h2>
     <table>
       <thead>
         <tr>
-          <th>Path</th>
-          <th>Method</th>
-          <th>Parameters</th>
-          <th>Served</th>
+          <th>${l10n("path")}</th>
+          <th>${l10n("method")}</th>
+          <th>${l10n("parameters")}</th>
+          <th>${l10n("served")}</th>
         </tr>
       </thead>
       <tbody>
@@ -627,9 +625,9 @@ export function apiPage(
     <table>
       <thead>
         <tr>
-          <th>Path</th>
-          <th>Parameters</th>
-          <th>Served</th>
+          <th>${l10n("path")}</th>
+          <th>${l10n("parameters")}</th>
+          <th>${l10n("served")}</th>
         </tr>
       </thead>
       <tbody>
@@ -643,20 +641,20 @@ export function apiPage(
         )}
       </tbody>
     </table>
-    <h2>Added here</h2>
+    <h2>${l10n("added_here")}</h2>
     <table>
       <tbody>
         <tr>
-          <td class="mono"><a href="/api/channels">/api/channels</a></td>
+          <td class="mono"><a href="/api/channels">${l10n("api_channels")}</a></td>
           <td>The channel dataset joined with live releases (platform)</td>
         </tr>
         <tr>
-          <td class="mono"><a href="/api/pick?channel=stable">/api/pick</a></td>
+          <td class="mono"><a href="/api/pick?channel=stable">${l10n("api_pick")}</a></td>
           <td>The Chromium and CEF build to embed (channel, platform)</td>
         </tr>
         <tr>
-          <td class="mono"><a href="/healthz">/healthz</a></td>
-          <td>Liveness</td>
+          <td class="mono"><a href="/healthz">${l10n("healthz")}</a></td>
+          <td>${l10n("liveness")}</td>
         </tr>
       </tbody>
     </table>
