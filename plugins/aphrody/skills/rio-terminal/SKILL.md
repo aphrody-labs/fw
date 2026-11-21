@@ -20,7 +20,7 @@ Verified live against `aphrody-labs/rio` (`0.6.0`, synced with `raphamorim/rio` 
 
 ## 2. Build & Verification Commands
 
-- `cargo clippy --manifest-path C:\src\rio\Cargo.toml -p rio-ai --all-targets -- -D warnings`
-- `cargo test --manifest-path C:\src\rio\Cargo.toml -p rio-ai`
-- `cargo build --release --manifest-path C:\src\rio\Cargo.toml -p rioterm` (native GPU terminal)
-- `cargo build --release --target wasm32-unknown-unknown --manifest-path C:\src\rio\Cargo.toml -p librio-wasm` (WebGPU/Wasm edge build)
+- `cargo clippy --manifest-path $WORKSPACE_ROOT/rio/Cargo.toml -p rio-ai --all-targets -- -D warnings`
+- `cargo test --manifest-path $WORKSPACE_ROOT/rio/Cargo.toml -p rio-ai`
+- `cargo build --release --manifest-path $WORKSPACE_ROOT/rio/Cargo.toml -p rioterm` (native GPU terminal)
+- `cargo build --release --target wasm32-unknown-unknown --manifest-path $WORKSPACE_ROOT/rio/Cargo.toml -p librio-wasm` (WebGPU/Wasm edge build)

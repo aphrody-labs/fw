@@ -22,7 +22,7 @@ Verified live on `2026-11-19` per `/aphrody:microsoft` truth protocol against `g
 
 ## 3. Rio GPU Terminal Update (`aphrody-labs/rio` — `rio-ai`)
 
-Added `#![forbid(unsafe_code)]` workspace crate `rio-ai` (`C:\src\rio\rio-ai`) providing:
+Added `#![forbid(unsafe_code)]` workspace crate `rio-ai` (`$WORKSPACE_ROOT/rio/rio-ai`) providing:
 - **Full AI features**: Per-tab pre-warmed agent pane stash/restore without wiping ACP session state, OSC 7501 status updates, OSC 133 command-failure autofix queueing, and Session MCP JSON-RPC 2.0 dispatcher.
 - **Native Windows High Support**: In-process ConPTY, per-window NamedPipe (`\\.\pipe\rio-ai-master-<id>`) with current-user SDDL (`D:(A;;GA;;;OW)`), `wgpu-dx12` + DirectWrite, Win32 clipboard DIB->PNG, and Job Object kill-on-close.
 - **Cloudflare High Support**: Workers AI + AI Gateway (`gateway.ai.cloudflare.com/v1`), Streamable HTTP `/mcp`, `/acp`, `/a2a`, Zero Trust Access + `CF-Connecting-IP` restoration, and `librio-wasm` Workers Static Assets edge profile.
