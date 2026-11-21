@@ -100,8 +100,14 @@ pub struct Node {
     pub community: Option<i64>,
     /// Community name.
     pub community_name: Option<String>,
-    /// Package of the node file: Rust crate identifier or npm package name.
+    /// Package of the node file: Rust crate identifier or npm package name; for an external
+    /// node, the crate or package it belongs to.
     pub package: Option<String>,
+    /// A symbol of a crate or package outside the corpus (`serde_json::Value`, `node:fs`): one
+    /// node per item, never attributed to a file, left out of hubs and community detection.
+    pub external: bool,
+    /// The node comes from a generated file that was included in the build on request.
+    pub generated: bool,
 }
 
 impl Node {
@@ -119,6 +125,8 @@ impl Node {
             community: None,
             community_name: None,
             package: None,
+            external: false,
+            generated: false,
         }
     }
 }
@@ -171,6 +179,8 @@ pub struct GraphMeta {
     pub root: Option<String>,
     /// `HEAD` of the tree at build time.
     pub built_at_commit: Option<String>,
+    /// Generated files left out of the graph (see `extract::generated`).
+    pub generated_skipped: Option<usize>,
 }
 
 /// A graph with adjacency lists in both directions.
@@ -251,7 +261,9 @@ impl Graph {
         {
             let mut stmt = db.conn().prepare(
                 "SELECT n.node_id, n.label, n.kind, n.file_path, n.loc, n.lang, n.community, c.name,
-                        json_extract(n.attrs_json, '$.package')
+                        json_extract(n.attrs_json, '$.package'),
+                        COALESCE(json_extract(n.attrs_json, '$.external'), 0),
+                        COALESCE(json_extract(n.attrs_json, '$.generated'), 0)
                  FROM graph_nodes n
                  LEFT JOIN graph_communities c ON c.source_id = n.source_id AND c.id = n.community
                  WHERE n.source_id = ?1 ORDER BY n.pk",
@@ -269,6 +281,8 @@ impl Graph {
                     community: r.get(6)?,
                     community_name: r.get(7)?,
                     package: r.get(8)?,
+                    external: r.get::<_, i64>(9)? != 0,
+                    generated: r.get::<_, i64>(10)? != 0,
                 })
             })?;
             for row in rows {
@@ -309,12 +323,15 @@ impl Graph {
         }
         drop(index);
         let meta = db.conn().query_row(
-            "SELECT root, json_extract(meta_json, '$.built_at_commit') FROM sources WHERE id = ?1",
+            "SELECT root, json_extract(meta_json, '$.built_at_commit'),
+                    json_extract(meta_json, '$.generated_skipped')
+             FROM sources WHERE id = ?1",
             [source],
             |r| {
                 Ok(GraphMeta {
                     root: r.get(0)?,
                     built_at_commit: r.get(1)?,
+                    generated_skipped: r.get::<_, Option<i64>>(2)?.and_then(|n| usize::try_from(n).ok()),
                 })
             },
         )?;
@@ -341,7 +358,10 @@ impl Graph {
         {
             let mut node = tx.prepare(
                 "INSERT INTO graph_nodes (source_id, node_id, label, kind, file_path, loc, lang, community, attrs_json)
-                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, CASE WHEN ?9 IS NULL THEN '{}' ELSE json_object('package', ?9) END)",
+                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8,
+                         json_patch(json_patch(CASE WHEN ?9 IS NULL THEN '{}' ELSE json_object('package', ?9) END,
+                                               CASE WHEN ?10 THEN '{\"external\":1}' ELSE '{}' END),
+                                    CASE WHEN ?11 THEN '{\"generated\":1}' ELSE '{}' END))",
             )?;
             for n in &self.nodes {
                 node.execute(params![
@@ -353,7 +373,9 @@ impl Graph {
                     n.loc,
                     n.lang,
                     n.community,
-                    n.package
+                    n.package,
+                    n.external,
+                    n.generated
                 ])?;
             }
             let mut edge = tx.prepare(
@@ -438,6 +460,32 @@ mod tests {
         let nodes = vec![Node::code("a", "A", None), Node::code("a", "dup", None)];
         let g = Graph::from_parts(nodes, vec![Edge::extracted(0, 5, "calls")]);
         assert_eq!((g.nodes.len(), g.edges.len()), (1, 0));
+    }
+
+    #[test]
+    fn external_and_generated_flags_survive_a_round_trip() {
+        let mut db = HomeDb::open_in_memory().unwrap();
+        let mut g = sample();
+        g.nodes[3].external = true;
+        g.nodes[3].package = Some("serde_json".into());
+        g.nodes[4].generated = true;
+        g.save(&mut db, "graph:flags", None).unwrap();
+        let loaded = Graph::load(&db, "graph:flags").unwrap();
+        let flags: Vec<(bool, bool, Option<&str>)> = loaded
+            .nodes
+            .iter()
+            .map(|n| (n.external, n.generated, n.package.as_deref()))
+            .collect();
+        assert_eq!(
+            flags,
+            [
+                (false, false, None),
+                (false, false, None),
+                (false, false, None),
+                (true, false, Some("serde_json")),
+                (false, true, None)
+            ]
+        );
     }
 
     #[test]

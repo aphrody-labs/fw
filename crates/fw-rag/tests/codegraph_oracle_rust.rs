@@ -79,6 +79,17 @@ fn nodes_and_edges_match_the_graphify_oracle_on_the_fixture() {
             )
         })
         .collect();
+    // Graphify labels an imported symbol of another crate by its lower-case leaf (`hashmap`); the
+    // native graph has one external node per item (`std::collections::HashMap`), compared here
+    // under the Graphify label.
+    let label = |i: usize| {
+        let n = &graph.nodes[i];
+        if n.external {
+            n.label.rsplit("::").next().unwrap_or(&n.label).to_lowercase()
+        } else {
+            n.label.clone()
+        }
+    };
     let edges: BTreeSet<String> = graph
         .edges
         .iter()
@@ -86,8 +97,8 @@ fn nodes_and_edges_match_the_graphify_oracle_on_the_fixture() {
             format!(
                 "{}|{}|{}|{}",
                 e.relation,
-                graph.nodes[e.src].label,
-                graph.nodes[e.dst].label,
+                label(e.src),
+                label(e.dst),
                 e.confidence.as_str()
             )
         })
@@ -107,8 +118,9 @@ fn nodes_and_edges_match_the_graphify_oracle_on_the_fixture() {
         "node jaccard {node_j:.3}: missing {missing_nodes:?} extra {extra_nodes:?}"
     );
     // Graphify resolves neither qualified (`store::Store::open`, `net::client::fetch_into`) nor
-    // typed-receiver (`store.insert`) calls, nor every name of a `use` list; these edges are
-    // checked by hand against the fixture and are the only extras allowed.
+    // typed-receiver (`store.insert`) calls, nor every name of a `use` list (and it labels the
+    // imported function `count` a concept, the native graph links the `count()` node itself);
+    // these edges are checked by hand against the fixture and are the only extras allowed.
     let enrichment: BTreeSet<&str> = [
         "calls|fetch_into()|.put()|INFERRED",
         "calls|helper()|.insert()|INFERRED",
@@ -116,7 +128,7 @@ fn nodes_and_edges_match_the_graphify_oracle_on_the_fixture() {
         "calls|run()|.open()|INFERRED",
         "calls|run()|fetch_into()|INFERRED",
         "imports_from|client.rs|Backend|EXTRACTED",
-        "imports_from|client.rs|count|EXTRACTED",
+        "imports_from|client.rs|count()|EXTRACTED",
     ]
     .into_iter()
     .collect();

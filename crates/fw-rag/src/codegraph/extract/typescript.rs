@@ -10,7 +10,7 @@ use std::collections::{HashMap, HashSet};
 
 use oxc_allocator::Allocator;
 use oxc_ast::ast::{
-    Argument, BindingPattern, CallExpression, Class, ExportAllDeclaration, Expression, Function,
+    Argument, BindingIdentifier, BindingPattern, CallExpression, Class, ExportAllDeclaration, Expression, Function,
     ImportDeclaration, ImportDeclarationSpecifier, MethodDefinition, ModuleExportName, PropertyKey,
     TSInterfaceDeclaration, TSMethodSignature, TSTypeAliasDeclaration, VariableDeclarator,
 };
@@ -35,6 +35,8 @@ struct Extractor<'a> {
     owners: Vec<String>,
     /// Local binding -> (module specifier, imported name; `*` for a namespace).
     imported: HashMap<String, (String, String)>,
+    /// Every name the file binds (parameters, variables, catch clauses, ...).
+    bindings: HashSet<String>,
 }
 
 fn require_specifier<'a>(init: Option<&Expression<'a>>) -> Option<&'a str> {
@@ -82,6 +84,7 @@ impl Extractor<'_> {
                 file: self.rel.to_owned(),
                 loc,
                 context: None,
+                path: None,
             });
         }
         id
@@ -116,6 +119,7 @@ impl Extractor<'_> {
                 file: self.rel.to_owned(),
                 loc,
                 context: None,
+                path: None,
             });
         }
         id
@@ -144,11 +148,17 @@ impl Extractor<'_> {
             loc,
             path: None,
             module,
+            bound: false,
+            inline: 0,
         });
     }
 }
 
 impl<'a> Visit<'a> for Extractor<'a> {
+    fn visit_binding_identifier(&mut self, identifier: &BindingIdentifier<'a>) {
+        self.bindings.insert(identifier.name.to_string());
+    }
+
     fn visit_variable_declarator(&mut self, declaration: &VariableDeclarator<'a>) {
         if let Some(specifier) = require_specifier(declaration.init.as_ref()) {
             let specifier = specifier.to_owned();
@@ -428,6 +438,7 @@ pub fn extract(rel_path: &str, source: &[u8]) -> FileExtract {
         seen: HashSet::new(),
         owners: Vec::new(),
         imported: HashMap::new(),
+        bindings: HashSet::new(),
     };
     extractor.seen.insert(file_id.clone());
     extractor.out.nodes.push(RawNode {
@@ -438,6 +449,20 @@ pub fn extract(rel_path: &str, source: &[u8]) -> FileExtract {
         class: NodeClass::File,
     });
     extractor.visit_program(&parsed.program);
+    // A plain call to a name the file binds but never declares as a function or class goes
+    // through a local value (a parameter, a callback variable).
+    let declared: HashSet<String> = extractor
+        .out
+        .nodes
+        .iter()
+        .map(|n| n.label.trim_end_matches("()").to_owned())
+        .collect();
+    for call in &mut extractor.out.calls {
+        call.bound = call.module.is_none()
+            && !call.method
+            && extractor.bindings.contains(&call.name)
+            && !declared.contains(&call.name);
+    }
     extractor.out
 }
 

@@ -102,6 +102,7 @@ pub fn extract(rel_path: &str, source: &[u8]) -> FileExtract {
                         file: rel_path.to_owned(),
                         loc: loc.clone(),
                         context: Some("heading".into()),
+                        path: None,
                     });
                 }
             }

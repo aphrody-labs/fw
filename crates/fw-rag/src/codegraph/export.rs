@@ -23,7 +23,7 @@ impl Graph {
             if i > 0 {
                 w.write_all(b",").map_err(io)?;
             }
-            let value = json!({
+            let mut value = json!({
                 "id": n.id,
                 "label": n.label,
                 "norm_label": n.norm_label,
@@ -34,6 +34,15 @@ impl Graph {
                 "community_name": n.community_name,
                 "package": n.package,
             });
+            // Extra keys only when set, so a graph without externals stays Graphify-shaped.
+            if let Some(object) = value.as_object_mut() {
+                if n.external {
+                    object.insert("external".into(), true.into());
+                }
+                if n.generated {
+                    object.insert("generated".into(), true.into());
+                }
+            }
             serde_json::to_writer(&mut w, &value)?;
         }
         w.write_all(b"],\"links\":[").map_err(io)?;
@@ -113,6 +122,16 @@ mod tests {
         assert_eq!(value["hyperedges"][0]["id"], "package:rag");
         assert_eq!(value["hyperedges"][0]["nodes"].as_array().unwrap().len(), 2);
         assert_eq!(value["built_at_commit"], "def");
+
+        let mut flagged = sample();
+        flagged.nodes[3].external = true;
+        flagged.nodes[4].generated = true;
+        let mut with_flags = Vec::new();
+        flagged.write_graph_json(&mut with_flags, None).unwrap();
+        let value: serde_json::Value = serde_json::from_slice(&with_flags).unwrap();
+        assert_eq!(value["nodes"][3]["external"], true);
+        assert_eq!(value["nodes"][4]["generated"], true);
+        assert!(value["nodes"][0].get("external").is_none(), "flags only when set");
 
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("graph.json");

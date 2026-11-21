@@ -7,7 +7,7 @@ use std::collections::{HashMap, HashSet};
 use tree_sitter::{Node, Parser};
 
 use super::{
-    FileExtract, NodeClass, RawCall, RawEdge, RawNode, decode_text,
+    FileExtract, NodeClass, RawCall, RawEdge, RawNode, RawUse, decode_text,
     ids::{file_stem, make_id},
 };
 use crate::codegraph::graph::Confidence;
@@ -136,11 +136,29 @@ pub fn is_blocklisted(name: &str) -> bool {
 /// Path roots of the standard library; calls through them are never corpus calls.
 const STD_QUALIFIERS: &[&str] = &["std", "core", "alloc"];
 
+/// Primitive types: `u32::try_from(x)` is a std call.
+const PRIMITIVES: &[&str] = &[
+    "u8", "u16", "u32", "u64", "u128", "usize", "i8", "i16", "i32", "i64", "i128", "isize", "f32",
+    "f64", "bool", "char", "str",
+];
+
+/// Path words that name a place, never a symbol.
+const PATH_KEYWORDS: &[&str] = &["crate", "self", "super", "Self"];
+
+/// Whether a path root is the standard library or a primitive type.
+#[must_use]
+pub fn is_std_root(root: &str) -> bool {
+    STD_QUALIFIERS.contains(&root) || PRIMITIVES.contains(&root)
+}
+
 /// Associated functions whose result is the type they are called on (`T::new()`).
 fn is_constructor(name: &str) -> bool {
-    name.starts_with("new")
-        || name.starts_with("with_")
-        || matches!(name, "default" | "create" | "open" | "init" | "builder")
+    is_plain_constructor(name) || matches!(name, "create" | "open" | "init")
+}
+
+/// Constructors whose result is the plain type; the others usually return a `Result`.
+fn is_plain_constructor(name: &str) -> bool {
+    name.starts_with("new") || name.starts_with("with_") || name == "default"
 }
 
 /// `&mut Foo<T>` or `Foo::<T>` gives `Foo`; generic arguments anywhere in a path are dropped.
@@ -175,10 +193,11 @@ fn last_segment(path: &str) -> &str {
     path.rsplit("::").next().unwrap_or(path)
 }
 
-/// `std::fs`, `core::mem::take`, or a bare std/prelude type such as `Vec`.
-fn is_std_path(path: &str) -> bool {
+/// `std::fs`, `core::mem::take`, `u32::try_from`, or a bare std/prelude type such as `Vec`.
+#[must_use]
+pub fn is_std_path(path: &str) -> bool {
     let first = path.split("::").next().unwrap_or(path);
-    STD_QUALIFIERS.contains(&first) || (!path.contains("::") && BUILTIN_TYPES.contains(&path))
+    is_std_root(first) || (!path.contains("::") && BUILTIN_TYPES.contains(&path))
 }
 
 fn join_path(head: &str, rest: &str) -> String {
@@ -193,14 +212,11 @@ fn join_path(head: &str, rest: &str) -> String {
     }
 }
 
-/// Record the `use` aliases of a declaration (local name to full path) and its glob roots.
-fn collect_uses(
-    node: Node<'_>,
-    src: &[u8],
-    prefix: &str,
-    aliases: &mut HashMap<String, String>,
-    globs: &mut Vec<String>,
-) {
+/// One name of a `use` declaration: `(local name, full path, glob)`.
+type UseLeaf = (String, String, bool);
+
+/// Record the names a `use` declaration brings into scope.
+fn collect_uses(node: Node<'_>, src: &[u8], prefix: &str, out: &mut Vec<UseLeaf>) {
     match node.kind() {
         "scoped_use_list" => {
             let path = node
@@ -208,13 +224,13 @@ fn collect_uses(
                 .map_or("", |n| text(n, src));
             let full = join_path(prefix, path);
             if let Some(list) = node.child_by_field_name("list") {
-                collect_uses(list, src, &full, aliases, globs);
+                collect_uses(list, src, &full, out);
             }
         }
         "use_list" => {
             let mut cursor = node.walk();
             for child in node.named_children(&mut cursor) {
-                collect_uses(child, src, prefix, aliases, globs);
+                collect_uses(child, src, prefix, out);
             }
         }
         "use_as_clause" => {
@@ -223,24 +239,24 @@ fn collect_uses(
                 node.child_by_field_name("alias"),
             ) {
                 let full = join_path(prefix, text(path, src));
-                aliases.insert(text(alias, src).to_owned(), full);
+                out.push((text(alias, src).to_owned(), full, false));
             }
         }
         "use_wildcard" => {
             let path = text(node, src).trim_end_matches('*').trim_end_matches("::");
-            globs.push(join_path(prefix, path));
+            out.push((String::new(), join_path(prefix, path), true));
         }
-        "scoped_identifier" | "identifier" => {
+        "scoped_identifier" | "identifier" | "crate" | "super" => {
             let full = join_path(prefix, text(node, src));
             let name = last_segment(&full).to_owned();
-            if !matches!(name.as_str(), "crate" | "super" | "self") {
-                aliases.insert(name, full);
+            if !PATH_KEYWORDS.contains(&name.as_str()) || full.contains("::") {
+                out.push((name, full, false));
             }
         }
         "self" => {
             let name = last_segment(prefix).to_owned();
-            if !prefix.is_empty() && !matches!(name.as_str(), "crate" | "super" | "self") {
-                aliases.insert(name, prefix.to_owned());
+            if !prefix.is_empty() {
+                out.push((name, prefix.to_owned(), false));
             }
         }
         _ => {}
@@ -253,6 +269,21 @@ struct Body<'a> {
     func: Node<'a>,
     body: Node<'a>,
     impl_type: Option<String>,
+    inline: u8,
+}
+
+/// A type reference of a signature or a field.
+struct TypeRef {
+    name: String,
+    generic: bool,
+    /// The path the file spells for it, expanded through its `use` aliases.
+    path: Option<String>,
+}
+
+/// The type of an expression: `wrapped` when it is a `Result` or `Option` of `ty`.
+struct Typed {
+    ty: String,
+    wrapped: bool,
 }
 
 struct Ctx<'a> {
@@ -272,8 +303,18 @@ struct Ctx<'a> {
     aliases: HashMap<String, String>,
     /// Types of the bindings of the current body (`self`, typed parameters, typed `let`s).
     locals: HashMap<String, String>,
+    /// Names bound in the current body (parameters, `let`, closures, `for`, `match` arms).
+    bound: HashSet<String>,
     /// Base type of the impl block being walked.
     impl_type: Option<String>,
+    /// Generic parameter names declared in the file (`T`, `S`): never types of the corpus.
+    generics: HashSet<String>,
+    /// Field types of the structs of this file: `(struct, field)` to the type path.
+    fields: HashMap<(String, String), String>,
+    /// Return types of the functions of this file: `(impl type, name)` to the type.
+    rets: HashMap<(Option<String>, String), Typed>,
+    /// Inline `mod` blocks around the node being visited.
+    inline: u8,
 }
 
 fn text<'a>(node: Node<'_>, src: &'a [u8]) -> &'a str {
@@ -285,53 +326,9 @@ fn line(node: Node<'_>) -> usize {
     node.start_position().row + 1
 }
 
-fn import_targets(node: Node<'_>, src: &[u8], prefix: &str, out: &mut Vec<String>) {
-    match node.kind() {
-        "scoped_use_list" => {
-            let path = node
-                .child_by_field_name("path")
-                .map(|n| text(n, src))
-                .unwrap_or("");
-            let full = if prefix.is_empty() {
-                path.to_owned()
-            } else {
-                format!("{prefix}::{path}")
-            };
-            if let Some(list) = node.child_by_field_name("list") {
-                import_targets(list, src, &full, out);
-            }
-        }
-        "use_list" => {
-            let mut cursor = node.walk();
-            for child in node.named_children(&mut cursor) {
-                import_targets(child, src, prefix, out);
-            }
-        }
-        "use_as_clause" => {
-            if let Some(path) = node.child_by_field_name("path") {
-                import_targets(path, src, prefix, out);
-            }
-        }
-        "use_wildcard" => {
-            if !prefix.is_empty() {
-                out.push(prefix.to_owned());
-            } else {
-                let path = text(node, src).trim_end_matches("::*");
-                if !path.is_empty() {
-                    out.push(path.to_owned());
-                }
-            }
-        }
-        "scoped_identifier" => {
-            let value = text(node, src);
-            out.push(value.rsplit("::").next().unwrap_or(value).to_owned());
-        }
-        "identifier" | "self" | "super" | "crate" => {
-            let value = text(node, src);
-            out.push(value.to_owned());
-        }
-        _ => {}
-    }
+/// Smart pointers a method call sees through.
+fn is_pointer(name: &str) -> bool {
+    matches!(name, "Arc" | "Rc" | "Box")
 }
 
 impl<'a> Ctx<'a> {
@@ -364,6 +361,7 @@ impl<'a> Ctx<'a> {
             file: self.rel.to_owned(),
             loc: format!("L{line}"),
             context: context.map(str::to_owned),
+            path: None,
         });
     }
 
@@ -394,31 +392,74 @@ impl<'a> Ctx<'a> {
         stub
     }
 
-    fn type_refs(&self, node: Option<Node<'_>>, generic: bool, out: &mut Vec<(String, bool)>) {
+    /// Whether a type name is worth a node: not a keyword, a generic parameter or a std type.
+    fn keep(&self, name: &str, path: Option<&str>) -> bool {
+        if name.is_empty() || PATH_KEYWORDS.contains(&name) {
+            return false;
+        }
+        if self.local_types.contains(name) {
+            return true;
+        }
+        if self.generics.contains(name) {
+            return false;
+        }
+        match path {
+            Some(path) => !is_std_path(path),
+            None => !BUILTIN_TYPES.contains(&name),
+        }
+    }
+
+    fn type_refs(&self, node: Option<Node<'_>>, generic: bool, out: &mut Vec<TypeRef>) {
         let Some(node) = node else { return };
-        let keep = |t: &str| {
-            !t.is_empty() && (!BUILTIN_TYPES.contains(&t) || self.local_types.contains(t))
-        };
         match node.kind() {
             "primitive_type" => {}
+            // `Stream<Item = T>`: the name is an associated type, only `T` is a reference.
+            "type_binding" => self.type_refs(node.child_by_field_name("type"), true, out),
+            // `<T as Trait>::Out`: the type and the trait are references, `Out` is not.
+            "qualified_type" => {
+                for field in ["type", "alias"] {
+                    self.type_refs(node.child_by_field_name(field), generic, out);
+                }
+            }
             "type_identifier" => {
                 let t = text(node, self.src);
-                if keep(t) {
-                    out.push((t.to_owned(), generic));
+                let path = self.aliases.get(t).cloned();
+                if self.keep(t, path.as_deref()) {
+                    out.push(TypeRef {
+                        name: t.to_owned(),
+                        generic,
+                        path,
+                    });
                 }
             }
             "scoped_type_identifier" => {
-                let t = text(node, self.src).rsplit("::").next().unwrap_or("");
-                if keep(t) {
-                    out.push((t.to_owned(), generic));
+                if let Some(path) = node
+                    .child_by_field_name("path")
+                    .filter(|p| p.kind() == "bracketed_type")
+                {
+                    // `<T as Trait>::Out`: the qualifying types are references, `Out` is not.
+                    self.type_refs(Some(path), generic, out);
+                    return;
+                }
+                let full = text(node, self.src);
+                let first = full.split("::").next().unwrap_or(full);
+                if first == "Self" || (self.generics.contains(first) && !self.local_types.contains(first)) {
+                    // `Self::Item` and `T::Output` are associated types, not types of the corpus.
+                    return;
+                }
+                let t = last_segment(full);
+                let path = self.expand(full);
+                if self.keep(t, Some(&path)) {
+                    out.push(TypeRef {
+                        name: t.to_owned(),
+                        generic,
+                        path: Some(path),
+                    });
                 }
             }
             "generic_type" => {
                 if let Some(name) = node.child_by_field_name("type") {
-                    let t = text(name, self.src).rsplit("::").next().unwrap_or("");
-                    if keep(t) {
-                        out.push((t.to_owned(), generic));
-                    }
+                    self.type_refs(Some(name), generic, out);
                 }
                 let mut cursor = node.walk();
                 for child in node.children(&mut cursor) {
@@ -444,43 +485,84 @@ impl<'a> Ctx<'a> {
         }
     }
 
+    /// A `references`-like edge to the type of `tr`, carrying the path the file spelled for it.
+    fn ref_edge(&mut self, src: &str, tr: &TypeRef, relation: &str, context: &str, at: usize) {
+        let target = self.named(&tr.name);
+        if target == src {
+            return;
+        }
+        let path = tr
+            .path
+            .clone()
+            .filter(|_| target != make_id(&[self.stem, &tr.name]));
+        self.out.edges.push(RawEdge {
+            src: src.to_owned(),
+            dst: target,
+            relation: relation.to_owned(),
+            confidence: Confidence::Extracted,
+            score: 1.0,
+            file: self.rel.to_owned(),
+            loc: format!("L{at}"),
+            context: (!context.is_empty()).then(|| context.to_owned()),
+            path,
+        });
+    }
+
     fn signature_refs(&mut self, func: Node<'a>, func_nid: &str, at: usize) {
-        let mut refs: Vec<(String, bool)> = Vec::new();
-        let mut contexts: Vec<&str> = Vec::new();
+        let mut refs: Vec<(TypeRef, &str)> = Vec::new();
         if let Some(params) = func.child_by_field_name("parameters") {
             let mut cursor = params.walk();
             for p in params.children(&mut cursor) {
                 if p.kind() == "parameter" {
-                    let before = refs.len();
-                    self.type_refs(p.child_by_field_name("type"), false, &mut refs);
-                    contexts.extend(std::iter::repeat_n("parameter_type", refs.len() - before));
+                    let mut found = Vec::new();
+                    self.type_refs(p.child_by_field_name("type"), false, &mut found);
+                    refs.extend(found.into_iter().map(|t| (t, "parameter_type")));
                 }
             }
         }
-        let before = refs.len();
-        self.type_refs(func.child_by_field_name("return_type"), false, &mut refs);
-        contexts.extend(std::iter::repeat_n("return_type", refs.len() - before));
-        for ((name, generic), ctx) in refs.into_iter().zip(contexts) {
-            let target = self.named(&name);
-            if target != func_nid {
-                self.add_edge(
-                    func_nid,
-                    &target,
-                    "references",
-                    at,
-                    Some(if generic { "generic_arg" } else { ctx }),
-                );
-            }
+        let mut found = Vec::new();
+        self.type_refs(func.child_by_field_name("return_type"), false, &mut found);
+        refs.extend(found.into_iter().map(|t| (t, "return_type")));
+        for (tr, ctx) in refs {
+            let context = if tr.generic { "generic_arg" } else { ctx };
+            self.ref_edge(func_nid, &tr, "references", context, at);
         }
     }
 
+    /// First pass: local types, generic parameters, `use` declarations and declared modules.
     fn scan_local_types(&mut self, node: Node<'a>) {
-        if matches!(
-            node.kind(),
-            "struct_item" | "enum_item" | "trait_item" | "union_item" | "type_item"
-        ) && let Some(name) = node.child_by_field_name("name")
-        {
-            self.local_types.insert(text(name, self.src).to_owned());
+        match node.kind() {
+            "struct_item" | "enum_item" | "trait_item" | "union_item" | "type_item" => {
+                if let Some(name) = node.child_by_field_name("name") {
+                    self.local_types.insert(text(name, self.src).to_owned());
+                }
+            }
+            "type_parameter" | "optional_type_parameter" | "const_parameter" => {
+                if let Some(name) = node.child_by_field_name("name") {
+                    self.generics.insert(text(name, self.src).to_owned());
+                }
+            }
+            "constrained_type_parameter" => {
+                if let Some(name) = node.child_by_field_name("left") {
+                    self.generics.insert(text(name, self.src).to_owned());
+                }
+            }
+            "use_declaration" => self.record_use(node),
+            "mod_item" => {
+                if let Some(name) = node.child_by_field_name("name") {
+                    let name = text(name, self.src).to_owned();
+                    if !self.out.mods.contains(&name) {
+                        self.out.mods.push(name);
+                    }
+                }
+                if let Some(body) = node.child_by_field_name("body") {
+                    self.inline = self.inline.saturating_add(1);
+                    self.scan_local_types(body);
+                    self.inline = self.inline.saturating_sub(1);
+                }
+                return;
+            }
+            _ => {}
         }
         let mut cursor = node.walk();
         for child in node.children(&mut cursor) {
@@ -488,20 +570,133 @@ impl<'a> Ctx<'a> {
         }
     }
 
+    fn record_use(&mut self, node: Node<'a>) {
+        let Some(arg) = node.child_by_field_name("argument") else {
+            return;
+        };
+        let mut cursor = node.walk();
+        let public = node
+            .children(&mut cursor)
+            .any(|c| c.kind() == "visibility_modifier");
+        let mut leaves = Vec::new();
+        collect_uses(arg, self.src, "", &mut leaves);
+        for (local, path, glob) in leaves {
+            if path.is_empty() {
+                continue;
+            }
+            if !glob && local != "_" {
+                self.aliases.insert(local.clone(), path.clone());
+            }
+            let entry = RawUse {
+                local,
+                path,
+                glob,
+                public,
+                inline: self.inline,
+                loc: format!("L{}", line(node)),
+            };
+            if !self.out.uses.contains(&entry) {
+                self.out.uses.push(entry);
+            }
+        }
+    }
+
+    /// Second pass: field types of structs and return types of functions, once the local types
+    /// and the `use` aliases are known.
+    fn scan_signatures(&mut self, node: Node<'a>) {
+        match node.kind() {
+            "struct_item" => {
+                if let Some(name) = node.child_by_field_name("name") {
+                    let name = text(name, self.src).to_owned();
+                    self.scan_fields(node, &name);
+                }
+            }
+            "impl_item" => {
+                let outer = self.impl_type.take();
+                self.impl_type = node
+                    .child_by_field_name("type")
+                    .map(|t| strip_generics(text(t, self.src)));
+                if let Some(body) = node.child_by_field_name("body") {
+                    self.scan_signatures(body);
+                }
+                self.impl_type = outer;
+                return;
+            }
+            "function_item" | "function_signature_item" => {
+                if let Some(name) = node.child_by_field_name("name") {
+                    let name = text(name, self.src).to_owned();
+                    if let Some(ret) = self.return_type(node) {
+                        self.rets.insert((self.impl_type.clone(), name), ret);
+                    }
+                }
+                return;
+            }
+            "trait_item" => return,
+            _ => {}
+        }
+        let mut cursor = node.walk();
+        for child in node.children(&mut cursor) {
+            self.scan_signatures(child);
+        }
+    }
+
+    fn scan_fields(&mut self, node: Node<'a>, owner: &str) {
+        let mut cursor = node.walk();
+        let lists: Vec<Node<'a>> = node.children(&mut cursor).collect();
+        for list in lists {
+            let mut inner = list.walk();
+            match list.kind() {
+                "field_declaration_list" => {
+                    for field in list.children(&mut inner) {
+                        if field.kind() == "field_declaration"
+                            && let (Some(name), Some(ty)) = (
+                                field.child_by_field_name("name"),
+                                field.child_by_field_name("type"),
+                            )
+                            && let Some(path) = self.type_path(ty)
+                        {
+                            self.fields
+                                .insert((owner.to_owned(), text(name, self.src).to_owned()), path);
+                        }
+                    }
+                }
+                "ordered_field_declaration_list" => {
+                    for (index, ty) in list.children(&mut inner).filter(|n| n.is_named()).enumerate() {
+                        if let Some(path) = self.type_path(ty) {
+                            self.fields.insert((owner.to_owned(), index.to_string()), path);
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    /// Declared return type of a function: `Self` and `T` give `T`; `Result<T, _>` and
+    /// `Option<T>` give `T` marked wrapped.
+    fn return_type(&self, func: Node<'_>) -> Option<Typed> {
+        let ret = func.child_by_field_name("return_type")?;
+        if ret.kind() == "generic_type"
+            && let Some(name) = ret.child_by_field_name("type")
+            && matches!(last_segment(&strip_generics(text(name, self.src))), "Result" | "Option")
+        {
+            let mut cursor = ret.walk();
+            let args = ret
+                .children(&mut cursor)
+                .find(|c| c.kind() == "type_arguments")?;
+            let mut inner = args.walk();
+            let first = args.children(&mut inner).find(|c| c.is_named())?;
+            return self.type_path(first).map(|ty| Typed { ty, wrapped: true });
+        }
+        self.type_path(ret).map(|ty| Typed { ty, wrapped: false })
+    }
+
     fn emit_type_refs(&mut self, owner: &str, node: Option<Node<'a>>, at: usize) {
         let mut refs = Vec::new();
         self.type_refs(node, false, &mut refs);
-        for (name, generic) in refs {
-            let target = self.named(&name);
-            if target != owner {
-                self.add_edge(
-                    owner,
-                    &target,
-                    "references",
-                    at,
-                    Some(if generic { "generic_arg" } else { "field" }),
-                );
-            }
+        for tr in refs {
+            let context = if tr.generic { "generic_arg" } else { "field" };
+            self.ref_edge(owner, &tr, "references", context, at);
         }
     }
 
@@ -617,6 +812,7 @@ impl<'a> Ctx<'a> {
                             func: node,
                             body,
                             impl_type,
+                            inline: self.inline,
                         });
                     }
                 }
@@ -654,11 +850,8 @@ impl<'a> Ctx<'a> {
                             if child.kind() == "trait_bounds" {
                                 let mut refs = Vec::new();
                                 self.type_refs(Some(child), false, &mut refs);
-                                for (base, _) in refs {
-                                    let target = self.named(&base);
-                                    if target != nid {
-                                        self.add_edge(&nid, &target, "inherits", at, None);
-                                    }
+                                for tr in refs {
+                                    self.ref_edge(&nid, &tr, "inherits", "", at);
                                 }
                             }
                         }
@@ -666,6 +859,17 @@ impl<'a> Ctx<'a> {
                             self.walk_children(body, Some(&nid));
                         }
                     }
+                }
+            }
+            "type_item" if impl_nid.is_none() => {
+                if let Some(name) = node.child_by_field_name("name") {
+                    let name = text(name, self.src).to_owned();
+                    let at = line(node);
+                    let nid = make_id(&[self.stem, &name]);
+                    self.add_node(&nid, &name, at, NodeClass::Type);
+                    let file = self.file_nid.clone();
+                    self.add_edge(&file, &nid, "contains", at, None);
+                    self.emit_type_refs(&nid, node.child_by_field_name("type"), at);
                 }
             }
             "impl_item" => {
@@ -679,15 +883,11 @@ impl<'a> Ctx<'a> {
                 if let Some(tr) = node.child_by_field_name("trait") {
                     let mut trefs = Vec::new();
                     self.type_refs(Some(tr), false, &mut trefs);
-                    for (idx, (name, _)) in trefs.iter().enumerate() {
-                        let target = self.named(name);
-                        if target == nid {
-                            continue;
-                        }
+                    for (idx, tr) in trefs.iter().enumerate() {
                         if idx == 0 {
-                            self.add_edge(&nid, &target, "implements", at, None);
+                            self.ref_edge(&nid, tr, "implements", "", at);
                         } else {
-                            self.add_edge(&nid, &target, "references", at, Some("generic_arg"));
+                            self.ref_edge(&nid, tr, "references", "generic_arg", at);
                         }
                     }
                 }
@@ -719,31 +919,12 @@ impl<'a> Ctx<'a> {
                     self.emit_type_refs(&nid, node.child_by_field_name("type"), at);
                 }
             }
-            "use_declaration" => {
-                if let Some(arg) = node.child_by_field_name("argument") {
-                    let mut globs = Vec::new();
-                    collect_uses(arg, self.src, "", &mut self.aliases, &mut globs);
-                    for glob in globs {
-                        if !glob.is_empty() && !self.out.globs.contains(&glob) {
-                            self.out.globs.push(glob);
-                        }
-                    }
-                    let mut targets = Vec::new();
-                    import_targets(arg, self.src, "", &mut targets);
-                    targets.sort();
-                    targets.dedup();
-                    for name in targets.into_iter().filter(|name| !name.is_empty()) {
-                        // The target is resolved at corpus level (a type, a file, or a concept
-                        // node); it is not a node of this file, so calls never match it.
-                        let target = make_id(&[&name]);
-                        let file = self.file_nid.clone();
-                        self.add_edge(&file, &target, "imports_from", line(node), Some("import"));
-                    }
-                }
-            }
+            "use_declaration" => {}
             "mod_item" => {
                 if let Some(body) = node.child_by_field_name("body") {
+                    self.inline = self.inline.saturating_add(1);
                     self.walk_children(body, None);
+                    self.inline = self.inline.saturating_sub(1);
                 }
             }
             _ => self.walk_children(node, impl_nid),
@@ -800,13 +981,26 @@ impl<'a> Ctx<'a> {
             && (self.local_types.contains(last) || self.impl_type.as_deref() == Some(last))
     }
 
-    /// Type path of a type node (`&mut Foo<T>` gives `Foo`), `None` for std or primitive types.
+    /// Type path of a type node (`&mut Foo<T>` gives `Foo`, `Arc<Foo>` too), `None` for std,
+    /// primitive or generic-parameter types.
     fn type_path(&self, node: Node<'_>) -> Option<String> {
         let raw = match node.kind() {
             "reference_type" | "pointer_type" => {
                 return self.type_path(node.child_by_field_name("type")?);
             }
-            "generic_type" => text(node.child_by_field_name("type")?, self.src),
+            "generic_type" => {
+                let name = text(node.child_by_field_name("type")?, self.src);
+                if is_pointer(last_segment(&strip_generics(name))) {
+                    let mut cursor = node.walk();
+                    let args = node
+                        .children(&mut cursor)
+                        .find(|c| c.kind() == "type_arguments")?;
+                    let mut inner = args.walk();
+                    let first = args.children(&mut inner).find(|c| c.is_named())?;
+                    return self.type_path(first);
+                }
+                name
+            }
             "type_identifier" | "scoped_type_identifier" => text(node, self.src),
             _ => return None,
         };
@@ -819,6 +1013,7 @@ impl<'a> Ctx<'a> {
         let last = last_segment(&path);
         if path.is_empty()
             || is_std_path(&path)
+            || self.generics.contains(&path)
             || (BUILTIN_TYPES.contains(&last) && !self.local_types.contains(last))
         {
             return None;
@@ -826,23 +1021,45 @@ impl<'a> Ctx<'a> {
         Some(path)
     }
 
-    /// Type of a `let` initialiser when it is obvious: `T { .. }`, `T::new(..)` (also behind `?`,
-    /// `.await`, `.unwrap()`), or another typed binding.
-    fn value_type(&self, node: Node<'_>) -> Option<String> {
+    /// Type of an expression when it is obvious: a typed binding, `self`, `T { .. }`,
+    /// `T::new(..)`, a field of a struct of this file, a call to a function of this file with a
+    /// declared return type, and what `?`, `.await`, `.unwrap()` and `.clone()` make of those.
+    fn typed(&self, node: Node<'_>) -> Option<Typed> {
+        let plain = |ty: String| Typed { ty, wrapped: false };
         match node.kind() {
-            "try_expression"
-            | "await_expression"
-            | "parenthesized_expression"
-            | "reference_expression" => {
+            "await_expression" | "parenthesized_expression" | "reference_expression" => {
                 let mut cursor = node.walk();
                 let inner = node.named_children(&mut cursor).last()?;
-                self.value_type(inner)
+                self.typed(inner)
             }
-            "struct_expression" => self.type_path(node.child_by_field_name("name")?),
-            "identifier" => self.locals.get(text(node, self.src)).cloned(),
+            "try_expression" => {
+                let mut cursor = node.walk();
+                let inner = node.named_children(&mut cursor).last()?;
+                self.typed(inner).map(|t| plain(t.ty))
+            }
+            "struct_expression" => self.type_path(node.child_by_field_name("name")?).map(plain),
+            "identifier" | "self" => self.locals.get(text(node, self.src)).cloned().map(plain),
+            "field_expression" => {
+                let base = self.typed(node.child_by_field_name("value")?)?;
+                let field = text(node.child_by_field_name("field")?, self.src);
+                if base.wrapped || !self.is_local_type(&base.ty) {
+                    return None;
+                }
+                self.fields
+                    .get(&(last_segment(&base.ty).to_owned(), field.to_owned()))
+                    .cloned()
+                    .map(plain)
+            }
             "call_expression" => {
                 let func = node.child_by_field_name("function")?;
                 match func.kind() {
+                    "identifier" => {
+                        let ret = self.rets.get(&(None, text(func, self.src).to_owned()))?;
+                        Some(Typed {
+                            ty: ret.ty.clone(),
+                            wrapped: ret.wrapped,
+                        })
+                    }
                     "scoped_identifier" => {
                         let name = text(func.child_by_field_name("name")?, self.src);
                         let path =
@@ -852,19 +1069,39 @@ impl<'a> Ctx<'a> {
                         } else {
                             path
                         };
+                        if let Some(ret) = self.rets.get(&(Some(path.clone()), name.to_owned()))
+                            && self.is_local_type(&path)
+                        {
+                            return Some(Typed {
+                                ty: ret.ty.clone(),
+                                wrapped: ret.wrapped,
+                            });
+                        }
                         let last = last_segment(&path);
                         (is_constructor(name)
                             && last.starts_with(char::is_uppercase)
                             && !is_std_path(&path))
-                        .then_some(path)
+                        .then(|| Typed {
+                            ty: path,
+                            wrapped: !is_plain_constructor(name),
+                        })
                     }
                     "field_expression" => {
                         let field = text(func.child_by_field_name("field")?, self.src);
-                        if matches!(field, "unwrap" | "expect" | "unwrap_or_default") {
-                            self.value_type(func.child_by_field_name("value")?)
-                        } else {
-                            None
+                        let receiver = self.typed(func.child_by_field_name("value")?)?;
+                        if matches!(field, "unwrap" | "expect" | "unwrap_or_default" | "clone") {
+                            return Some(plain(receiver.ty));
                         }
+                        if receiver.wrapped || !self.is_local_type(&receiver.ty) {
+                            return None;
+                        }
+                        let ret = self
+                            .rets
+                            .get(&(Some(last_segment(&receiver.ty).to_owned()), field.to_owned()))?;
+                        Some(Typed {
+                            ty: ret.ty.clone(),
+                            wrapped: ret.wrapped,
+                        })
                     }
                     _ => None,
                 }
@@ -914,6 +1151,34 @@ impl<'a> Ctx<'a> {
         }
     }
 
+    /// Names a body binds: parameters, `let`, closure parameters, `for` and `match` patterns.
+    fn collect_bound(&mut self, node: Node<'_>) {
+        let patterns: Vec<Node<'_>> = match node.kind() {
+            "parameter" | "let_declaration" | "for_expression" | "let_condition" | "match_arm" => {
+                node.child_by_field_name("pattern").into_iter().collect()
+            }
+            "closure_expression" => node.child_by_field_name("parameters").into_iter().collect(),
+            _ => Vec::new(),
+        };
+        for pattern in patterns {
+            self.collect_identifiers(pattern);
+        }
+        let mut cursor = node.walk();
+        for child in node.children(&mut cursor) {
+            self.collect_bound(child);
+        }
+    }
+
+    fn collect_identifiers(&mut self, node: Node<'_>) {
+        if node.kind() == "identifier" {
+            self.bound.insert(text(node, self.src).to_owned());
+        }
+        let mut cursor = node.walk();
+        for child in node.children(&mut cursor) {
+            self.collect_identifiers(child);
+        }
+    }
+
     fn defer_call(
         &mut self,
         from: &str,
@@ -930,6 +1195,8 @@ impl<'a> Ctx<'a> {
             loc: format!("L{at}"),
             path,
             module: None,
+            bound: !method && self.bound.contains(name),
+            inline: self.inline,
         });
     }
 
@@ -953,11 +1220,27 @@ impl<'a> Ctx<'a> {
         true
     }
 
+    /// A tuple struct or enum variant used as a constructor: a reference to its type.
+    fn constructor_ref(&mut self, from: &str, name: &str, path: Option<String>, at: usize) {
+        let tr = TypeRef {
+            name: name.to_owned(),
+            generic: false,
+            path,
+        };
+        if self.keep(&tr.name, tr.path.as_deref()) {
+            let key = (from.to_owned(), make_id(&[name]));
+            if self.pairs.insert(key) {
+                self.ref_edge(from, &tr, "references", "constructor", at);
+            }
+        }
+    }
+
     /// Resolve the calls of one function body: a name defined in this file is an EXTRACTED
     /// `calls` edge (a `references` edge for a type used as a constructor). Everything else is
     /// kept for corpus resolution with what the file knows about it: the `use` path of a plain
     /// call, the expanded qualifier of `path::name()`, or the receiver type of `x.name()` when
-    /// `x` is `self`, a typed parameter or an obviously typed `let` binding.
+    /// the receiver is `self`, a typed parameter, a field of a struct of this file or an
+    /// obviously typed `let` binding.
     fn collect_calls(&mut self, from: &str, node: Node<'a>) {
         if node.kind() == "function_item" {
             return;
@@ -970,7 +1253,9 @@ impl<'a> Ctx<'a> {
                 .and_then(|t| self.type_path(t))
                 .or_else(|| {
                     node.child_by_field_name("value")
-                        .and_then(|v| self.value_type(v))
+                        .and_then(|v| self.typed(v))
+                        .filter(|t| !t.wrapped)
+                        .map(|t| t.ty)
                 });
             if let Some(ty) = ty {
                 self.bind_pattern(pattern, ty);
@@ -1006,15 +1291,27 @@ impl<'a> Ctx<'a> {
         match func.kind() {
             "identifier" => {
                 let name = text(func, self.src).to_owned();
-                let builtin =
-                    BUILTIN_TYPES.contains(&name.as_str()) && !self.local_types.contains(&name);
-                if !name.is_empty() && !builtin && !self.label_edge(from, &name, at) {
-                    let path = self
-                        .aliases
-                        .get(&name)
-                        .and_then(|full| full.rsplit_once("::").map(|(p, _)| p.to_owned()));
-                    if path.is_some() || !is_blocklisted(&name.to_lowercase()) {
-                        self.defer_call(from, &name, false, path, at);
+                if name.is_empty() {
+                    return;
+                }
+                if name.starts_with(char::is_uppercase) {
+                    // `Wrapper(x)`: a tuple struct (or imported variant) used as a constructor.
+                    if !self.label_edge(from, &name, at) {
+                        let path = self.aliases.get(&name).cloned();
+                        self.constructor_ref(from, &name, path, at);
+                    }
+                    return;
+                }
+                if !self.label_edge(from, &name, at) {
+                    let (callee, path) = match self.aliases.get(&name) {
+                        Some(full) => match full.rsplit_once("::") {
+                            Some((module, leaf)) => (leaf.to_owned(), Some(module.to_owned())),
+                            None => (name.clone(), None),
+                        },
+                        None => (name.clone(), None),
+                    };
+                    if path.is_some() || !is_blocklisted(&callee.to_lowercase()) {
+                        self.defer_call(from, &callee, false, path, at);
                     }
                 }
             }
@@ -1028,6 +1325,30 @@ impl<'a> Ctx<'a> {
                         .map_or("", |n| text(n, self.src)),
                 );
                 if name.is_empty() || qualifier.is_empty() {
+                    return;
+                }
+                if name.starts_with(char::is_uppercase) {
+                    // `Type::Variant(x)`: a constructor, a reference to the type.
+                    let path = self.expand(&qualifier);
+                    if self.is_local_type(&qualifier) || qualifier == "Self" {
+                        let ty = if qualifier == "Self" {
+                            self.impl_type.clone().unwrap_or_default()
+                        } else {
+                            qualifier
+                        };
+                        if let Some(variant) = self.local_method(&ty, &name) {
+                            // A variant of an enum of this file: the call reaches its node.
+                            self.call_edge(from, &variant, "calls", "call", at);
+                        } else if !ty.is_empty() {
+                            self.constructor_ref(from, &ty, None, at);
+                        }
+                    } else if !is_std_path(&path) {
+                        self.constructor_ref(from, last_segment(&path), Some(path.clone()), at);
+                    }
+                    return;
+                }
+                if self.generics.contains(&qualifier) && !self.local_types.contains(&qualifier) {
+                    // `E::custom(..)` on a generic parameter dispatches through its bounds.
                     return;
                 }
                 if self.is_local_type(&qualifier) || qualifier == "Self" {
@@ -1057,12 +1378,11 @@ impl<'a> Ctx<'a> {
                 if name.is_empty() {
                     return;
                 }
-                let receiver =
-                    func.child_by_field_name("value")
-                        .and_then(|recv| match recv.kind() {
-                            "self" | "identifier" => self.locals.get(text(recv, self.src)).cloned(),
-                            _ => None,
-                        });
+                let receiver = func
+                    .child_by_field_name("value")
+                    .and_then(|recv| self.typed(recv))
+                    .filter(|t| !t.wrapped)
+                    .map(|t| t.ty);
                 match receiver {
                     Some(ty) if self.is_local_type(&ty) => {
                         if let Some(target) = self.local_method(&ty, &name) {
@@ -1126,18 +1446,27 @@ pub fn extract(rel_path: &str, source: &[u8]) -> FileExtract {
         pairs: HashSet::new(),
         aliases: HashMap::new(),
         locals: HashMap::new(),
+        bound: HashSet::new(),
         impl_type: None,
+        generics: HashSet::new(),
+        fields: HashMap::new(),
+        rets: HashMap::new(),
+        inline: 0,
     };
     let file_name = rel_path.rsplit('/').next().unwrap_or(rel_path);
     ctx.add_node(&file_nid, file_name, 1, NodeClass::File);
     let root = tree.root_node();
     ctx.scan_local_types(root);
+    ctx.scan_signatures(root);
     ctx.walk(root, None);
     ctx.prepare_resolution();
     let bodies = std::mem::take(&mut ctx.bodies);
     for body in bodies {
         ctx.impl_type = body.impl_type;
+        ctx.inline = body.inline;
         ctx.bind_parameters(body.func);
+        ctx.bound.clear();
+        ctx.collect_bound(body.func);
         ctx.collect_calls(&body.nid, body.body);
     }
     ctx.out
@@ -1226,23 +1555,47 @@ fn helper(q: &str) -> Hit { Hit }
                 .iter()
                 .any(|e| e.relation == "implements" && e.dst == "crates_ai_rag_src_store_embedder")
         );
-        assert!(f.edges.iter().any(|e| e.relation == "imports_from"));
+        let used: Vec<(&str, &str)> = f
+            .uses
+            .iter()
+            .map(|u| (u.local.as_str(), u.path.as_str()))
+            .collect();
+        assert_eq!(
+            used,
+            [
+                ("HashMap", "std::collections::HashMap"),
+                ("sqlite", "crate::sql::sqlite"),
+                ("OpenPolicy", "crate::sql::sqlite::OpenPolicy"),
+            ]
+        );
         // `Embedder: Send` — Send is a builtin and does not become an edge.
         assert!(!f.edges.iter().any(|e| e.relation == "inherits"));
     }
 
     #[test]
-    fn grouped_imports_emit_each_leaf_and_wildcards_keep_their_module() {
-        let src = b"use std::path::{Path, PathBuf};\nuse crate::codegraph::{model::Model, store::Store as KvStore};\nuse std::fmt::*;\n";
+    fn grouped_imports_record_each_leaf_alias_glob_and_reexport() {
+        let src = b"use std::path::{Path, PathBuf};\nuse crate::codegraph::{model::Model, store::Store as KvStore};\nuse std::fmt::*;\npub use self::inner::Thing;\nmod inner { use super::*; }\n";
         let f = extract("imports.rs", src);
-        let mut targets: Vec<&str> = f
-            .edges
+        let uses: Vec<(&str, &str, bool, bool, u8)> = f
+            .uses
             .iter()
-            .filter(|e| e.relation == "imports_from")
-            .map(|e| e.dst.as_str())
+            .map(|u| (u.local.as_str(), u.path.as_str(), u.glob, u.public, u.inline))
             .collect();
-        targets.sort_unstable();
-        assert_eq!(targets, ["model", "path", "pathbuf", "std_fmt", "store"]);
+        assert_eq!(
+            uses,
+            [
+                ("Path", "std::path::Path", false, false, 0),
+                ("PathBuf", "std::path::PathBuf", false, false, 0),
+                ("Model", "crate::codegraph::model::Model", false, false, 0),
+                ("KvStore", "crate::codegraph::store::Store", false, false, 0),
+                ("", "std::fmt", true, false, 0),
+                ("Thing", "inner::Thing", false, true, 0),
+                ("", "super", true, false, 1),
+            ]
+        );
+        assert_eq!(f.mods, ["inner"]);
+        // Imports are resolved at assembly: the file itself emits no `imports_from` edge.
+        assert!(!f.edges.iter().any(|e| e.relation == "imports_from"));
     }
 
     #[test]
@@ -1319,7 +1672,11 @@ fn helper(q: &str) -> Hit { Hit }
                 ("read", true, Some("bun_sys::File"))
             ]
         );
-        assert_eq!(f.globs, ["crate::codegraph::store"]);
+        assert!(
+            f.uses
+                .iter()
+                .any(|u| u.glob && u.path == "crate::codegraph::store")
+        );
     }
 
     #[test]
@@ -1362,6 +1719,121 @@ fn helper(q: &str) -> Hit { Hit }
             f.edges
                 .iter()
                 .any(|e| e.context.as_deref() == Some("generic_arg") && e.dst.ends_with("item"))
+        );
+    }
+
+    #[test]
+    fn associated_type_bindings_and_paths_are_not_type_references() {
+        let src = b"fn f<T: Tr>(s: impl Stream<Item = Chunk>, i: Self::Item, o: <T as Tr>::Out, v: Vec<T::Output>) {}\n";
+        let f = extract("src/a.rs", src);
+        let mut stubs: Vec<&str> = f
+            .nodes
+            .iter()
+            .filter(|n| n.file.is_empty())
+            .map(|n| n.label.as_str())
+            .collect();
+        stubs.sort_unstable();
+        assert_eq!(stubs, ["Chunk", "Stream", "Tr"], "{stubs:?}");
+    }
+
+    #[test]
+    fn keywords_and_generic_parameters_are_never_nodes() {
+        let src = b"use super::*;\nuse crate::a::B;\nstruct Pair<A, B2> { a: A, b: B2, c: Config }\nfn run<T, const N: usize>(t: T, c: Config, s: Wrapper<S>) -> Self { }\nimpl<X> Holder<X> { fn get(&self, x: X, k: Key) -> Self { } }\n";
+        let f = extract("src/g.rs", src);
+        let stubs: Vec<&str> = f
+            .nodes
+            .iter()
+            .filter(|n| n.file.is_empty())
+            .map(|n| n.label.as_str())
+            .collect();
+        for forbidden in ["super", "self", "crate", "Self", "A", "B2", "T", "X", "N"] {
+            assert!(!stubs.contains(&forbidden), "{forbidden} in {stubs:?}");
+        }
+        let mut wanted: Vec<&str> = stubs.clone();
+        wanted.sort_unstable();
+        assert_eq!(wanted, ["Config", "Key", "S", "Wrapper"]);
+    }
+
+    #[test]
+    fn type_references_carry_the_path_the_file_spells() {
+        let src = b"use serde_json::Value;\nuse crate::config::Config as Cfg;\nfn a(v: Value, c: &Cfg, m: serde_json::Map<String, Value>, f: std::fmt::Formatter) {}\n";
+        let f = extract("src/p.rs", src);
+        let mut refs: Vec<(&str, Option<&str>)> = f
+            .edges
+            .iter()
+            .filter(|e| e.relation == "references")
+            .map(|e| (e.dst.as_str(), e.path.as_deref()))
+            .collect();
+        refs.sort_unstable();
+        assert_eq!(
+            refs,
+            [
+                ("cfg", Some("crate::config::Config")),
+                ("map", Some("serde_json::Map")),
+                ("value", Some("serde_json::Value")),
+                ("value", Some("serde_json::Value")),
+            ],
+            "std types carry no edge"
+        );
+    }
+
+    #[test]
+    fn receivers_are_typed_through_fields_return_types_and_pointers() {
+        let src = b"use std::sync::Arc;\nuse crate::db::Db;\nstruct Runner;\nimpl Runner { fn run(&self) {} fn make() -> Runner { Runner } }\nstruct Store { db: Db, runner: Arc<Runner> }\nfn helper() -> Runner { Runner }\nfn opt() -> Option<Runner> { None }\nimpl Store {\n fn go(&self) {\n  self.db.query();\n  self.runner.run();\n  let r = helper();\n  r.run();\n  let o = opt();\n  o.run();\n  let m = Runner::make();\n  m.run();\n }\n}\n";
+        let f = extract("src/s.rs", src);
+        let calls_to = |dst: &str| {
+            f.edges
+                .iter()
+                .filter(|e| e.relation == "calls" && e.src == "src_s_store_go" && e.dst == dst)
+                .count()
+        };
+        assert_eq!(calls_to("src_s_runner_run"), 1, "deduplicated per caller");
+        let pending: Vec<(&str, Option<&str>)> = f
+            .calls
+            .iter()
+            .map(|c| (c.name.as_str(), c.path.as_deref()))
+            .collect();
+        assert_eq!(
+            pending,
+            [("query", Some("crate::db::Db"))],
+            "`o` is an Option: its `run` is not Runner's"
+        );
+    }
+
+    #[test]
+    fn calls_through_local_bindings_are_marked_and_constructors_become_references() {
+        let src = b"struct W(u8);\nenum Mode { Custom(u8) }\nfn f(cb: fn()) {\n cb();\n let g = |x| x;\n g(1);\n real();\n W(1);\n Mode::Custom(2);\n}\n";
+        let f = extract("src/b.rs", src);
+        let calls: Vec<(&str, bool)> = f.calls.iter().map(|c| (c.name.as_str(), c.bound)).collect();
+        assert_eq!(calls, [("cb", true), ("g", true), ("real", false)]);
+        let ctor: Vec<&str> = f
+            .edges
+            .iter()
+            .filter(|e| e.context.as_deref() == Some("constructor"))
+            .map(|e| e.dst.as_str())
+            .collect();
+        assert_eq!(ctor, ["src_b_w"]);
+        assert!(
+            f.edges
+                .iter()
+                .any(|e| e.relation == "calls" && e.dst == "src_b_mode_custom"),
+            "`Mode::Custom(2)` reaches the variant"
+        );
+    }
+
+    #[test]
+    fn an_alias_names_the_real_function_and_inline_modules_are_counted() {
+        let src = b"use a::b::original as renamed;\nfn f() { renamed(); }\nmod tests { use super::*; fn t() { super::f(); } }\n";
+        let f = extract("src/c.rs", src);
+        let first = &f.calls[0];
+        assert_eq!(
+            (first.name.as_str(), first.path.as_deref(), first.inline),
+            ("original", Some("a::b"), 0)
+        );
+        let second = &f.calls[1];
+        assert_eq!(
+            (second.name.as_str(), second.path.as_deref(), second.inline),
+            ("f", Some("super"), 1)
         );
     }
 }

@@ -4,20 +4,30 @@
 //!
 //! Call resolution never links a call to an arbitrary homonym of another package:
 //! - a call to a name defined in the same file resolves there (EXTRACTED);
-//! - a Rust call carrying a path (`use` alias, `crate::codegraph::m::f()`, `bun_sys::open()`, `Type::f()`,
-//!   `x.f()` on a receiver of known type) resolves inside the named crate, module or type
-//!   (INFERRED);
-//! - a plain Rust call resolves to a unique definition of the same crate, then of a glob import;
+//! - a Rust call carrying a path (`use` alias, `crate::a::b::f()`, `super::f()`, `bun_sys::open()`,
+//!   `Type::f()`, `x.f()` on a receiver of known type) is located in the module tree
+//!   ([`rpath`](super::rpath)), through `pub use` re-exports, and resolves inside the named
+//!   module or type (INFERRED); a path into a crate outside the corpus is external;
+//! - a plain Rust call resolves through a glob import, then to a unique definition of the same
+//!   crate;
 //! - a JS/TS call to an imported name resolves inside the module its specifier names
-//!   (EXTRACTED for a relative specifier); a built-in or package specifier is external;
+//!   (EXTRACTED for a relative or `tsconfig` specifier); a built-in or package specifier is
+//!   external;
 //! - a plain JS/TS call resolves only to an ambient `.d.ts` declaration.
+//!
+//! Symbols of crates and packages outside the corpus become one external node per item
+//! (`serde_json::Value`, `node:fs::readFileSync`), marked [`Node::external`]; the standard
+//! library and the JS globals are counted but get no call edges. A type reference never
+//! folds onto an enum variant, and a keyword or generic parameter is never a node.
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 
 use super::{
     FileExtract, ImportKind, NodeClass, RawCall, RawEdge, RawImport,
-    ids::{file_stem, make_id},
+    ids::make_id,
+    rpath::{Loc, ModIndex, Res, Want, module_segments},
     rust::{is_blocklisted, strip_generics},
+    tsconfig::{TsConfig, join_relative},
 };
 use crate::codegraph::graph::{Confidence, Edge, Graph, Node, NodeKind};
 
@@ -30,11 +40,18 @@ pub struct AssembleStats {
     pub same_file: usize,
     /// Resolved to a definition in another file.
     pub cross_file: usize,
-    /// Calls into an external module (Node/Bun built-ins, npm packages).
+    /// Calls into code outside the corpus: Rust crates, the standard library, Node/Bun
+    /// built-ins, npm packages and JS globals.
     #[serde(default)]
     pub external: usize,
+    /// Calls through a local value (a parameter, a `let`, a closure) that nothing defines.
+    #[serde(default)]
+    pub local: usize,
     /// Left unresolved (unknown, ambiguous or too generic).
     pub unresolved: usize,
+    /// Why calls stayed unresolved.
+    #[serde(default)]
+    pub unresolved_by: BTreeMap<String, usize>,
     /// Stubs folded onto a definition.
     pub stubs_folded: usize,
     /// JS/TS imports and Markdown links resolved to a file of the corpus.
@@ -43,6 +60,21 @@ pub struct AssembleStats {
     /// JS/TS imports of an external module.
     #[serde(default)]
     pub imports_external: usize,
+    /// Rust `use` names resolved to a definition or module of the corpus.
+    #[serde(default)]
+    pub uses_resolved: usize,
+    /// Rust `use` names of a crate outside the corpus.
+    #[serde(default)]
+    pub uses_external: usize,
+    /// Rust `use` names that lead nowhere known (macros, enum variants, generated code).
+    #[serde(default)]
+    pub uses_unresolved: usize,
+    /// External nodes of the graph.
+    #[serde(default)]
+    pub external_nodes: usize,
+    /// Nodes of generated files included on request.
+    #[serde(default)]
+    pub generated_nodes: usize,
 }
 
 /// Corpus facts the per-file extractions cannot know.
@@ -53,6 +85,10 @@ pub struct AssembleContext {
     /// Directory of each package manifest, relative to the root (`src/sys`), so a Rust file's
     /// module path is known (`src/sys/lib.rs` is the crate root, `src/sys/fd.rs` is `fd`).
     pub package_dir: HashMap<String, String>,
+    /// Dependency identifiers declared by each Rust crate manifest (`serde_json`), by package.
+    pub package_deps: HashMap<String, HashSet<String>>,
+    /// `tsconfig.json` settings (`baseUrl`, `paths`) of the corpus.
+    pub ts_configs: Vec<TsConfig>,
 }
 
 fn lang_of(file: &str) -> Option<String> {
@@ -195,21 +231,6 @@ fn parent_dir(path: &str) -> &str {
     path.rsplit_once('/').map_or("", |(d, _)| d)
 }
 
-/// `a/b` + `../c/d` gives `a/c/d`; `None` when it escapes the root.
-fn join_relative(dir: &str, rel: &str) -> Option<String> {
-    let mut parts: Vec<&str> = dir.split('/').filter(|p| !p.is_empty()).collect();
-    for part in rel.split('/') {
-        match part {
-            "" | "." => {}
-            ".." => {
-                parts.pop()?;
-            }
-            p => parts.push(p),
-        }
-    }
-    Some(parts.join("/"))
-}
-
 /// Where an import specifier points.
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Target {
@@ -229,10 +250,12 @@ struct Files {
     /// Lower-case file name without extension to paths.
     by_stem: HashMap<String, Vec<String>>,
     cache: HashMap<(String, String), Option<Target>>,
+    /// `tsconfig.json` settings, deepest directory first.
+    configs: Vec<TsConfig>,
 }
 
 impl Files {
-    fn new(paths: impl Iterator<Item = String>) -> Self {
+    fn new(paths: impl Iterator<Item = String>, configs: &[TsConfig]) -> Self {
         let all: HashSet<String> = paths.collect();
         let mut by_stem: HashMap<String, Vec<String>> = HashMap::new();
         for p in &all {
@@ -245,10 +268,13 @@ impl Files {
         for v in by_stem.values_mut() {
             v.sort();
         }
+        let mut configs = configs.to_vec();
+        configs.sort_by(|a, b| b.dir.len().cmp(&a.dir.len()).then_with(|| a.dir.cmp(&b.dir)));
         Self {
             all,
             by_stem,
             cache: HashMap::new(),
+            configs,
         }
     }
 
@@ -277,6 +303,22 @@ impl Files {
         None
     }
 
+    /// The file a non-relative specifier names through the nearest `tsconfig.json`
+    /// (`baseUrl`, `paths`).
+    fn configured(&self, importer: &str, spec: &str) -> Option<String> {
+        if is_builtin_module(spec) {
+            return None;
+        }
+        let dir = parent_dir(importer);
+        let config = self.configs.iter().find(|c| {
+            c.dir.is_empty() || dir == c.dir || dir.starts_with(&format!("{}/", c.dir))
+        })?;
+        config
+            .candidates(spec)
+            .iter()
+            .find_map(|base| self.probe(base))
+    }
+
     fn module(&mut self, importer: &str, spec: &str) -> Option<Target> {
         let key = (parent_dir(importer).to_owned(), spec.to_owned());
         if let Some(hit) = self.cache.get(&key) {
@@ -288,6 +330,8 @@ impl Files {
             join_relative(parent_dir(importer), spec)
                 .and_then(|base| self.probe(&base))
                 .map(|p| Target::File(p, true))
+        } else if let Some(path) = self.configured(importer, spec) {
+            Some(Target::File(path, true))
         } else if is_builtin_module(spec) {
             Some(Target::External)
         } else if spec.contains('/') && !spec.starts_with('@') {
@@ -353,32 +397,6 @@ impl Files {
     }
 }
 
-/// Module path segments of a Rust file inside its crate directory `dir` (`fs/mod.rs` gives
-/// `["fs"]`, `lib.rs` gives `[]`); without a known directory, every path segment counts.
-fn module_segments<'f>(file: &'f str, dir: Option<&str>) -> Vec<&'f str> {
-    let inside = dir
-        .filter(|d| !d.is_empty())
-        .and_then(|d| file.strip_prefix(d).and_then(|rest| rest.strip_prefix('/')))
-        .unwrap_or(file);
-    let inside = inside.strip_prefix("src/").unwrap_or(inside);
-    let mut segs: Vec<&str> = inside
-        .strip_suffix(".rs")
-        .unwrap_or(inside)
-        .split('/')
-        .filter(|s| !s.is_empty())
-        .collect();
-    if segs
-        .last()
-        .is_some_and(|last| matches!(*last, "lib" | "main" | "mod"))
-    {
-        segs.pop();
-    }
-    if dir.is_none() {
-        segs.retain(|s| *s != "src");
-    }
-    segs
-}
-
 /// How well a definition file matches the module path of a call: the crate root for a bare
 /// `krate::f()`, a file whose module path ends with (or contains) the named modules otherwise.
 fn module_score(file: &str, dir: Option<&str>, modules: &[&str]) -> usize {
@@ -404,7 +422,9 @@ struct Resolver<'a> {
     package_of: &'a HashMap<String, String>,
     package_dir: &'a HashMap<String, String>,
     crates: HashSet<String>,
-    globs: HashMap<String, Vec<String>>,
+    rust: ModIndex,
+    /// Base label of every type node.
+    type_label: HashMap<String, String>,
 }
 
 impl Resolver<'_> {
@@ -497,12 +517,301 @@ impl Resolver<'_> {
         if let [only] = local.as_slice() {
             return Some((only.id.clone(), 0.8));
         }
-        for glob in self.globs.get(&call.file).into_iter().flatten() {
-            if let Some((id, _)) = self.rust_path(call, glob) {
+        if let Some(Res::Item { id, .. }) = self.rust.bare(&call.file, &call.name, Want::Function) {
+            return Some((id, 0.8));
+        }
+        for glob in self.rust.uses_of(&call.file).iter().filter(|u| u.glob) {
+            if let Some((id, _)) = self.rust_path(call, &glob.path) {
                 return Some((id, 0.7));
             }
         }
         None
+    }
+
+    /// The same-file definition a call names, when it is unique.
+    fn same_file(&self, call: &RawCall, rust: bool) -> Option<String> {
+        let found = self.defs.get(&call.name)?;
+        let same: Vec<&Def> = found
+            .iter()
+            .filter(|d| d.file == call.file && (d.method == call.method || !rust))
+            .collect();
+        if let [only] = same.as_slice() {
+            Some(only.id.clone())
+        } else {
+            None
+        }
+    }
+
+    fn missing(&self, call: &RawCall) -> Outcome {
+        if call.file.ends_with(".rs") && RUST_PRELUDE_FNS.contains(&call.name.as_str()) {
+            return Outcome::External(None);
+        }
+        let named = self
+            .defs
+            .get(&call.name)
+            .is_some_and(|found| found.iter().any(|d| d.method == call.method));
+        Outcome::Unresolved(if named { "ambiguous" } else { "no_definition" })
+    }
+
+    /// The method `name` of the type node `type_id` (a definition in `type_file`).
+    fn method_of(&self, type_id: &str, type_file: &str, name: &str) -> Outcome {
+        let (Some(label), Some(found)) = (self.type_label.get(type_id), self.defs.get(name)) else {
+            return Outcome::Unresolved("method_not_found");
+        };
+        let krate = self.package(type_file);
+        let methods: Vec<&Def> = found
+            .iter()
+            .filter(|d| {
+                d.method && d.owner.as_deref() == Some(label) && self.package(&d.file) == krate
+            })
+            .collect();
+        // Several types of one crate share a name (`Client`, `blocking::Client`): the impl of
+        // the type usually sits in the file that defines it.
+        let beside: Vec<&&Def> = methods.iter().filter(|d| d.file == type_file).collect();
+        match (methods.as_slice(), beside.as_slice()) {
+            (_, [only]) => Outcome::Edge(only.id.clone(), Confidence::Inferred, 0.9),
+            ([only], _) => Outcome::Edge(only.id.clone(), Confidence::Inferred, 0.9),
+            ([], _) if is_blocklisted(name) => Outcome::External(None),
+            ([], _) => Outcome::Unresolved("method_not_found"),
+            _ => Outcome::Unresolved("ambiguous"),
+        }
+    }
+
+    /// A Rust call that carries a path: located in the module tree first, then by the module
+    /// score of the crate's definitions.
+    fn rust_path_call(&self, call: &RawCall, path: &str) -> Outcome {
+        let segs: Vec<&str> = path.split("::").filter(|s| !s.is_empty()).collect();
+        let external = |krate: String, std: bool| {
+            if std {
+                Outcome::External(None)
+            } else {
+                let item = if call.method {
+                    path.to_owned()
+                } else {
+                    format!("{path}::{}", call.name)
+                };
+                Outcome::External(Some(("rs", krate, item)))
+            }
+        };
+        match self.rust.locate(&call.file, call.inline, &segs) {
+            Loc::External { krate, std } => return external(krate, std),
+            // The path is placed in a module of the corpus: what that module does not define
+            // (a macro, generated code, an unresolved re-export) is not guessed from a homonym
+            // elsewhere.
+            Loc::Internal { pkg, module, rest } => {
+                let found = if call.method {
+                    self.rust.in_module(&pkg, &module, &rest, Want::Type, 0)
+                } else if rest.is_empty() {
+                    self.rust.in_module(
+                        &pkg,
+                        &module,
+                        std::slice::from_ref(&call.name),
+                        Want::Function,
+                        0,
+                    )
+                } else {
+                    Res::Unknown
+                };
+                return match found {
+                    Res::Item { id, file } if call.method => self.method_of(&id, &file, &call.name),
+                    Res::Item { id, .. } => Outcome::Edge(id, Confidence::Inferred, 0.9),
+                    Res::External { krate, std } => external(krate, std),
+                    Res::Module { .. } | Res::Unknown if call.method && is_blocklisted(&call.name) => {
+                        Outcome::External(None)
+                    }
+                    Res::Module { .. } | Res::Unknown => Outcome::Unresolved("path_unresolved"),
+                };
+            }
+            Loc::Unknown => {}
+        }
+        match self.rust_path(call, path) {
+            Some((id, score)) => Outcome::Edge(id, Confidence::Inferred, score),
+            // `Type::default()` of a type the corpus does not define: a derive or a std trait.
+            None if call.method && is_blocklisted(&call.name) => Outcome::External(None),
+            None => Outcome::Unresolved("path_unresolved"),
+        }
+    }
+
+    fn rust_call(&self, call: &RawCall) -> Outcome {
+        if let Some(path) = &call.path {
+            return self.rust_path_call(call, path);
+        }
+        if let Some(id) = self.same_file(call, true) {
+            return Outcome::Edge(id, Confidence::Extracted, 0.85);
+        }
+        if call.method {
+            return Outcome::Unresolved("method_receiver_unknown");
+        }
+        if call.bound {
+            return Outcome::Local;
+        }
+        if is_blocklisted(&call.name) {
+            return Outcome::Unresolved("generic_name");
+        }
+        match self.rust_plain(call) {
+            Some((id, score)) => Outcome::Edge(id, Confidence::Inferred, score),
+            None => self.missing(call),
+        }
+    }
+
+    /// Resolve one call site.
+    fn call(
+        &self,
+        call: &RawCall,
+        module_of: &HashMap<(String, String), Option<Target>>,
+    ) -> Outcome {
+        if let Some(module) = &call.module {
+            return match module_of
+                .get(&(call.file.clone(), module.clone()))
+                .cloned()
+                .flatten()
+            {
+                Some(Target::File(path, relative)) => {
+                    let found = self.defs.get(&call.name).map(|found| {
+                        found
+                            .iter()
+                            .filter(|d| d.file == path && !d.method)
+                            .collect::<Vec<&Def>>()
+                    });
+                    match found.as_deref() {
+                        Some([only]) if relative => {
+                            Outcome::Edge(only.id.clone(), Confidence::Extracted, 1.0)
+                        }
+                        Some([only]) => Outcome::Edge(only.id.clone(), Confidence::Inferred, 0.85),
+                        _ => Outcome::Unresolved("not_exported"),
+                    }
+                }
+                Some(Target::External) => Outcome::External(Some((
+                    "ts",
+                    npm_package(module),
+                    format!("{module}::{}", call.name),
+                ))),
+                None => Outcome::Unresolved("module_unresolved"),
+            };
+        }
+        if call.file.ends_with(".rs") {
+            return self.rust_call(call);
+        }
+        if let Some(id) = self.same_file(call, false) {
+            return Outcome::Edge(id, Confidence::Extracted, 0.85);
+        }
+        if call.method {
+            return Outcome::Unresolved("method_receiver_unknown");
+        }
+        // JS/TS: a name neither local nor imported is a global; only an ambient declaration
+        // (`declare function` in a `.d.ts`) can define it.
+        let ambient: Vec<&Def> = self
+            .defs
+            .get(&call.name)
+            .map(|found| {
+                found
+                    .iter()
+                    .filter(|d| d.file.ends_with(".d.ts") && !d.method)
+                    .collect()
+            })
+            .unwrap_or_default();
+        if let [only] = ambient.as_slice() {
+            return Outcome::Edge(only.id.clone(), Confidence::Inferred, 0.6);
+        }
+        if call.bound {
+            return Outcome::Local;
+        }
+        if JS_GLOBALS.contains(&call.name.as_str()) {
+            return Outcome::External(None);
+        }
+        self.missing(call)
+    }
+}
+
+/// JS globals called as plain functions: calls to them are external, not unresolved.
+const JS_GLOBALS: &[&str] = &[
+    "String",
+    "Number",
+    "Boolean",
+    "BigInt",
+    "Symbol",
+    "Array",
+    "Object",
+    "Date",
+    "Error",
+    "TypeError",
+    "RangeError",
+    "RegExp",
+    "Function",
+    "Promise",
+    "parseInt",
+    "parseFloat",
+    "isNaN",
+    "isFinite",
+    "encodeURIComponent",
+    "decodeURIComponent",
+    "encodeURI",
+    "decodeURI",
+    "escape",
+    "unescape",
+    "setTimeout",
+    "setInterval",
+    "setImmediate",
+    "clearTimeout",
+    "clearInterval",
+    "queueMicrotask",
+    "structuredClone",
+    "fetch",
+    "atob",
+    "btoa",
+    "eval",
+    "alert",
+    "require",
+];
+
+/// Functions of the Rust prelude that a plain call may name.
+const RUST_PRELUDE_FNS: &[&str] = &["drop", "size_of", "size_of_val", "align_of", "align_of_val"];
+
+/// A symbol outside the corpus.
+struct ExternalNode {
+    label: String,
+    package: String,
+}
+
+/// External nodes, one per item.
+#[derive(Default)]
+struct Externals {
+    nodes: BTreeMap<String, ExternalNode>,
+}
+
+impl Externals {
+    /// The node of `path` (`serde_json::Value`) in `package`, created on first use.
+    fn node(&mut self, lang: &str, package: &str, path: &str) -> String {
+        let id = make_id(&["external", lang, path]);
+        self.nodes.entry(id.clone()).or_insert_with(|| ExternalNode {
+            label: path.to_owned(),
+            package: package.to_owned(),
+        });
+        id
+    }
+}
+
+/// How a call site ends up.
+enum Outcome {
+    Edge(String, Confidence, f64),
+    /// Into code outside the corpus; `Some((language, package, path))` gets an external node.
+    External(Option<(&'static str, String, String)>),
+    /// Through a local value.
+    Local,
+    Unresolved(&'static str),
+}
+
+fn raw_edge(src: &str, dst: &str, relation: &str, file: &str, loc: &str, context: &str) -> RawEdge {
+    RawEdge {
+        src: src.to_owned(),
+        dst: dst.to_owned(),
+        relation: relation.to_owned(),
+        confidence: Confidence::Extracted,
+        score: 1.0,
+        file: file.to_owned(),
+        loc: loc.to_owned(),
+        context: Some(context.to_owned()),
+        path: None,
     }
 }
 
@@ -518,18 +827,44 @@ pub fn assemble(files: Vec<FileExtract>) -> (Graph, AssembleStats) {
 #[allow(clippy::too_many_lines)]
 pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Graph, AssembleStats) {
     let mut stats = AssembleStats::default();
+    let mut externals = Externals::default();
     // 1. Merge nodes: a sourced definition replaces a stub with the same id.
     let mut nodes: BTreeMap<String, super::RawNode> = BTreeMap::new();
     let mut edges: Vec<RawEdge> = Vec::new();
     let mut calls = Vec::new();
     let mut imports: Vec<(String, RawImport)> = Vec::new();
-    let mut globs: HashMap<String, Vec<String>> = HashMap::new();
+    let mut generated_files: HashSet<String> = HashSet::new();
+    let crates: HashSet<String> = context
+        .package_of
+        .iter()
+        .filter(|(file, _)| file.ends_with(".rs"))
+        .map(|(_, krate)| krate.clone())
+        .collect();
+    let mut rust = ModIndex::new(crates.clone(), context.package_deps.clone());
+    let mut rust_uses: Vec<(String, super::RawUse)> = Vec::new();
     for f in files {
         let file = f
             .nodes
             .iter()
             .find(|n| n.class == NodeClass::File)
             .map(|n| n.file.clone());
+        if let Some(file) = &file {
+            if file.ends_with(".rs") {
+                let package = context.package_of.get(file).map_or("", String::as_str);
+                rust.add_file(
+                    file,
+                    package,
+                    context.package_dir.get(package).map(String::as_str),
+                    &f.nodes,
+                    &f.uses,
+                    &f.mods,
+                );
+                rust_uses.extend(f.uses.iter().map(|u| (file.clone(), u.clone())));
+            }
+            if f.generated.is_some() {
+                generated_files.insert(file.clone());
+            }
+        }
         for n in f.nodes {
             match nodes.get_mut(&n.id) {
                 Some(existing) if existing.file.is_empty() && n.file.is_empty() => {
@@ -548,89 +883,124 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
         calls.extend(f.calls);
         if let Some(file) = file {
             imports.extend(f.imports.into_iter().map(|i| (file.clone(), i)));
-            if !f.globs.is_empty() {
-                globs.insert(file, f.globs);
-            }
         }
     }
+    rust.finish();
 
-    // 2. Fold sourceless stubs onto a unique sourced node of the same label (types only).
+    // 2. Rust type references that name a stub: follow the path the file spelled (a definition
+    // of the corpus, or one external node per item); the rest fold onto a unique type of the
+    // same crate, then of the corpus. Variants never absorb a type reference.
     let mut by_label: HashMap<String, Vec<String>> = HashMap::new();
     for n in nodes
         .values()
-        .filter(|n| matches!(n.class, NodeClass::Type | NodeClass::Variant))
+        .filter(|n| n.class == NodeClass::Type && !n.file.is_empty())
     {
         by_label
-            .entry(n.label.to_lowercase())
+            .entry(strip_generics(&n.label).to_lowercase())
             .or_default()
             .push(n.id.clone());
     }
-    let mut rewire: HashMap<String, String> = HashMap::new();
-    for n in nodes.values().filter(|n| n.file.is_empty()) {
-        if let Some(candidates) = by_label.get(&n.label.to_lowercase())
-            && let [only] = candidates.as_slice()
-        {
-            rewire.insert(n.id.clone(), only.clone());
-        }
-    }
-    stats.stubs_folded = rewire.len();
-    for e in &mut edges {
-        if let Some(t) = rewire.get(&e.dst) {
-            e.dst.clone_from(t);
-        }
-    }
-    for id in rewire.keys() {
-        nodes.remove(id);
-    }
-
-    // 2b. Rust import targets: a unique type with that name, else a unique file with that stem,
-    // else a concept node labelled by the imported name.
-    let mut by_stem: HashMap<String, Vec<String>> = HashMap::new();
-    for n in nodes.values().filter(|n| n.class == NodeClass::File) {
-        let stem = file_stem(n.file.rsplit('/').next().unwrap_or(&n.file));
-        by_stem
-            .entry(stem.to_lowercase())
-            .or_default()
-            .push(n.id.clone());
-    }
-    let mut import_targets: HashMap<String, String> = HashMap::new();
-    let mut concepts: Vec<String> = Vec::new();
-    for e in edges
-        .iter()
-        .filter(|e| e.relation == "imports_from" && !nodes.contains_key(&e.dst))
-    {
-        if import_targets.contains_key(&e.dst) {
+    let package_of_node = |id: &str, nodes: &BTreeMap<String, super::RawNode>| -> String {
+        nodes
+            .get(id)
+            .and_then(|n| context.package_of.get(&n.file))
+            .cloned()
+            .unwrap_or_default()
+    };
+    let mut folded: HashSet<String> = HashSet::new();
+    let mut dropped: HashSet<usize> = HashSet::new();
+    for (i, e) in edges.iter_mut().enumerate() {
+        let is_stub = nodes.get(&e.dst).is_some_and(|n| n.file.is_empty());
+        if !is_stub || !matches!(e.relation.as_str(), "references" | "implements" | "inherits") {
             continue;
         }
-        let resolved = match (
-            by_label.get(&e.dst).map(Vec::as_slice),
-            by_stem.get(&e.dst).map(Vec::as_slice),
-        ) {
-            (Some([only]), _) | (None | Some([]), Some([only])) => only.clone(),
-            _ => {
-                concepts.push(e.dst.clone());
-                e.dst.clone()
+        let stub = e.dst.clone();
+        let label = nodes[&stub].label.clone();
+        let mut target: Option<String> = None;
+        if let Some(path) = &e.path {
+            match rust.resolve(&e.file, 0, path, Want::Type) {
+                Res::Item { id, .. } => target = Some(id),
+                Res::External { std: true, .. } => {
+                    dropped.insert(i);
+                    continue;
+                }
+                Res::External { krate, .. } => {
+                    e.dst = externals.node("rs", &krate, path);
+                    continue;
+                }
+                Res::Module { .. } | Res::Unknown => {}
             }
-        };
-        import_targets.insert(e.dst.clone(), resolved);
-    }
-    for e in &mut edges {
-        if e.relation == "imports_from"
-            && let Some(t) = import_targets.get(&e.dst)
+        }
+        if target.is_none()
+            && let Some(Res::Item { id, .. }) = rust.bare(&e.file, &label, Want::Type)
         {
-            e.dst.clone_from(t);
+            target = Some(id);
+        }
+        if target.is_none()
+            && let Some(candidates) = by_label.get(&label.to_lowercase())
+        {
+            target = match candidates.as_slice() {
+                [only] => Some(only.clone()),
+                many => {
+                    let own = rust.package_of(&e.file).unwrap_or_default().to_owned();
+                    let same: Vec<&String> = many
+                        .iter()
+                        .filter(|id| package_of_node(id, &nodes) == own)
+                        .collect();
+                    match same.as_slice() {
+                        [only] if !own.is_empty() => Some((*only).clone()),
+                        _ => None,
+                    }
+                }
+            };
+        }
+        if let Some(target) = target {
+            folded.insert(stub);
+            e.dst = target;
         }
     }
-    for id in concepts {
-        nodes.entry(id.clone()).or_insert(super::RawNode {
-            id: id.clone(),
-            label: id,
-            file: String::new(),
-            loc: String::new(),
-            class: NodeClass::Stub,
-        });
+    stats.stubs_folded = folded.len();
+    let mut kept = 0;
+    edges.retain(|_| {
+        kept += 1;
+        !dropped.contains(&(kept - 1))
+    });
+
+    // 2b. Rust `use` declarations: a file imports the definition, the module or the external
+    // item each name leads to.
+    let mut import_pairs: HashSet<(String, String)> = HashSet::new();
+    for (file, u) in &rust_uses {
+        let from = make_id(&[file]);
+        let res = if u.glob {
+            match rust.resolve(file, u.inline, &u.path, Want::Any) {
+                res @ (Res::Module { .. } | Res::External { .. }) => res,
+                _ => Res::Unknown,
+            }
+        } else {
+            rust.resolve(file, u.inline, &u.path, Want::Any)
+        };
+        let (target, external) = match res {
+            Res::Item { id, file: def } if &def != file => (id, false),
+            Res::Module { file: def } if &def != file => (make_id(&[&def]), false),
+            Res::Item { .. } | Res::Module { .. } => {
+                stats.uses_resolved += 1;
+                continue;
+            }
+            Res::External { krate, .. } => (externals.node("rs", &krate, &u.path), true),
+            Res::Unknown => {
+                stats.uses_unresolved += 1;
+                continue;
+            }
+        };
+        if external {
+            stats.uses_external += 1;
+        } else {
+            stats.uses_resolved += 1;
+        }
+        if import_pairs.insert((from.clone(), target.clone())) {
+            edges.push(raw_edge(&from, &target, "imports_from", file, &u.loc, "import"));
+        }
     }
-    stats.stubs_folded += import_targets.len();
 
     // 3. JS/TS imports and Markdown links.
     let mut file_index = Files::new(
@@ -638,6 +1008,7 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
             .values()
             .filter(|n| n.class == NodeClass::File)
             .map(|n| n.file.clone()),
+        &context.ts_configs,
     );
     let mut symbols_by_file: HashMap<(String, String), String> = HashMap::new();
     for n in nodes
@@ -670,6 +1041,7 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
                     file: file.clone(),
                     loc: import.loc.clone(),
                     context: Some("link".into()),
+                    path: None,
                 });
             }
             continue;
@@ -693,6 +1065,7 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
                     file: file.clone(),
                     loc: import.loc.clone(),
                     context: Some("import".into()),
+                    path: None,
                 });
                 for name in &import.names {
                     if let Some(symbol) = symbols_by_file.get(&(path.clone(), name.clone())) {
@@ -705,11 +1078,32 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
                             file: file.clone(),
                             loc: import.loc.clone(),
                             context: Some("import".into()),
+                            path: None,
                         });
                     }
                 }
             }
-            Some(Target::External) => stats.imports_external += 1,
+            Some(Target::External) => {
+                stats.imports_external += 1;
+                let package = npm_package(&import.specifier);
+                let module = externals.node("ts", &package, &import.specifier);
+                edges.push(raw_edge(
+                    &from,
+                    &module,
+                    "imports_from",
+                    file,
+                    &import.loc,
+                    "import",
+                ));
+                for name in &import.names {
+                    let item = externals.node(
+                        "ts",
+                        &package,
+                        &format!("{}::{name}", import.specifier),
+                    );
+                    edges.push(raw_edge(&from, &item, "imports", file, &import.loc, "import"));
+                }
+            }
             None => {}
         }
     }
@@ -739,96 +1133,46 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
             });
         }
     }
-    let crates: HashSet<String> = context
-        .package_of
-        .iter()
-        .filter(|(file, _)| file.ends_with(".rs"))
-        .map(|(_, krate)| krate.clone())
+    let type_label: HashMap<String, String> = nodes
+        .values()
+        .filter(|n| n.class == NodeClass::Type)
+        .map(|n| (n.id.clone(), strip_generics(&n.label)))
         .collect();
     let resolver = Resolver {
         defs,
         package_of: &context.package_of,
         package_dir: &context.package_dir,
         crates,
-        globs,
+        rust,
+        type_label,
     };
     let mut seen_calls: HashSet<(String, String)> = HashSet::new();
     for call in calls {
         stats.calls += 1;
-        let rust = call.file.ends_with(".rs");
-        let same_file = || -> Option<String> {
-            let found = resolver.defs.get(&call.name)?;
-            let same: Vec<&Def> = found
-                .iter()
-                .filter(|d| d.file == call.file && (d.method == call.method || !rust))
-                .collect();
-            if let [only] = same.as_slice() {
-                Some(only.id.clone())
-            } else {
-                None
-            }
-        };
-        let resolved: Option<(String, Confidence, f64)> = if let Some(module) = &call.module {
-            match module_of
-                .get(&(call.file.clone(), module.clone()))
-                .cloned()
-                .flatten()
-            {
-                Some(Target::File(path, relative)) => {
-                    resolver.defs.get(&call.name).and_then(|found| {
-                        let in_module: Vec<&Def> = found
-                            .iter()
-                            .filter(|d| d.file == path && !d.method)
-                            .collect();
-                        match in_module.as_slice() {
-                            [only] if relative => {
-                                Some((only.id.clone(), Confidence::Extracted, 1.0))
-                            }
-                            [only] => Some((only.id.clone(), Confidence::Inferred, 0.85)),
-                            _ => None,
-                        }
-                    })
+        let outcome = resolver.call(&call, &module_of);
+        let (target, confidence, score) = match outcome {
+            Outcome::Edge(target, confidence, score) => (target, confidence, score),
+            Outcome::External(node) => {
+                stats.external += 1;
+                if let Some((lang, package, path)) = node {
+                    let target = externals.node(lang, &package, &path);
+                    if seen_calls.insert((call.from.clone(), target.clone())) {
+                        edges.push(raw_edge(
+                            &call.from, &target, "calls", &call.file, &call.loc, "call",
+                        ));
+                    }
                 }
-                Some(Target::External) => {
-                    stats.external += 1;
-                    continue;
-                }
-                None => None,
+                continue;
             }
-        } else if let Some(path) = &call.path {
-            resolver
-                .rust_path(&call, path)
-                .map(|(id, score)| (id, Confidence::Inferred, score))
-        } else if let Some(id) = same_file() {
-            Some((id, Confidence::Extracted, 0.85))
-        } else if call.method {
-            None
-        } else if rust {
-            if is_blocklisted(&call.name) {
-                None
-            } else {
-                resolver
-                    .rust_plain(&call)
-                    .map(|(id, score)| (id, Confidence::Inferred, score))
+            Outcome::Local => {
+                stats.local += 1;
+                continue;
             }
-        } else {
-            // JS/TS: a name neither local nor imported is a global; only an ambient declaration
-            // (`declare function` in a `.d.ts`) can define it.
-            resolver.defs.get(&call.name).and_then(|found| {
-                let ambient: Vec<&Def> = found
-                    .iter()
-                    .filter(|d| d.file.ends_with(".d.ts") && !d.method)
-                    .collect();
-                if let [only] = ambient.as_slice() {
-                    Some((only.id.clone(), Confidence::Inferred, 0.6))
-                } else {
-                    None
-                }
-            })
-        };
-        let Some((target, confidence, score)) = resolved else {
-            stats.unresolved += 1;
-            continue;
+            Outcome::Unresolved(reason) => {
+                stats.unresolved += 1;
+                *stats.unresolved_by.entry(reason.to_owned()).or_insert(0) += 1;
+                continue;
+            }
         };
         if target == call.from || !seen_calls.insert((call.from.clone(), target.clone())) {
             continue;
@@ -851,14 +1195,22 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
             file: call.file,
             loc: call.loc,
             context: Some("call".into()),
+            path: None,
         });
     }
 
-    // 5. Build the graph; edges to nodes that do not exist are dropped (imports to stubs stay
-    // because stubs remain nodes).
+    // 5. Build the graph; edges to nodes that do not exist are dropped, and so are stubs nothing
+    // points at any more.
+    let used: HashSet<&str> = edges
+        .iter()
+        .flat_map(|e| [e.src.as_str(), e.dst.as_str()])
+        .collect();
     let mut index: HashMap<String, usize> = HashMap::new();
     let mut graph_nodes: Vec<Node> = Vec::new();
     for (id, n) in &nodes {
+        if n.class == NodeClass::Stub && n.file.is_empty() && !used.contains(id.as_str()) {
+            continue;
+        }
         index.insert(id.clone(), graph_nodes.len());
         let mut node = Node::code(
             id,
@@ -883,9 +1235,22 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
             Some(n.loc.clone())
         };
         node.package = context.package_of.get(&n.file).cloned();
+        if generated_files.contains(&n.file) {
+            node.generated = true;
+            stats.generated_nodes += 1;
+        }
         graph_nodes.push(node);
     }
     disambiguate_file_labels(&mut graph_nodes);
+    stats.external_nodes = externals.nodes.len();
+    for (id, external) in externals.nodes {
+        index.insert(id.clone(), graph_nodes.len());
+        let mut node = Node::code(&id, &external.label, None);
+        node.kind = NodeKind::Concept;
+        node.package = Some(external.package);
+        node.external = true;
+        graph_nodes.push(node);
+    }
     let mut graph_edges = Vec::new();
     for e in edges {
         let (Some(&s), Some(&d)) = (index.get(&e.src), index.get(&e.dst)) else {
@@ -906,10 +1271,23 @@ pub fn assemble_with(files: Vec<FileExtract>, context: &AssembleContext) -> (Gra
     (Graph::from_parts(graph_nodes, graph_edges), stats)
 }
 
+/// Package name of an npm specifier: `@scope/name/sub` gives `@scope/name`, `lodash/fp` gives
+/// `lodash`, `node:fs` stays.
+fn npm_package(spec: &str) -> String {
+    let mut parts = spec.split('/');
+    match parts.next() {
+        Some(scope) if scope.starts_with('@') => {
+            format!("{scope}/{}", parts.next().unwrap_or_default())
+        }
+        Some(head) => head.to_owned(),
+        None => spec.to_owned(),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::codegraph::extract::extract_file;
+    use crate::codegraph::extract::{extract_file, tsconfig::TsConfig};
 
     fn edge<'g>(g: &'g Graph, from: &str, to: &str) -> Option<&'g Edge> {
         g.edges.iter().find(|e| {
@@ -961,6 +1339,7 @@ mod tests {
         AssembleContext {
             package_of,
             package_dir,
+            ..AssembleContext::default()
         }
     }
 
@@ -968,7 +1347,7 @@ mod tests {
     fn rust_calls_cross_crates_through_use_paths_qualified_names_and_receiver_types() {
         let sys = extract_file(
             "src/sys/lib.rs",
-            b"pub fn open(p: &str) {}\npub fn close() {}\n",
+            b"pub mod file;\npub use file::File;\npub fn open(p: &str) {}\npub fn close() {}\n",
         );
         let file = extract_file(
             "src/sys/file.rs",
@@ -1163,6 +1542,311 @@ mod tests {
             !g.nodes
                 .iter()
                 .any(|n| n.file.is_none() && n.label == "Thing")
+        );
+    }
+
+    /// One crate `app` rooted at `src` (module paths strip the `src/` prefix).
+    fn app(deps: &[&str]) -> AssembleContext {
+        let mut context = AssembleContext::default();
+        context
+            .package_deps
+            .insert("app".into(), deps.iter().map(|d| (*d).to_owned()).collect());
+        context.package_dir.insert("app".into(), String::new());
+        context
+    }
+
+    fn assemble_app(files: &[(&str, &str)], deps: &[&str]) -> (Graph, AssembleStats) {
+        let mut context = app(deps);
+        let extracts = files
+            .iter()
+            .map(|(path, source)| {
+                context.package_of.insert((*path).to_owned(), "app".into());
+                extract_file(path, source.as_bytes())
+            })
+            .collect();
+        assemble_with(extracts, &context)
+    }
+
+    /// `(source label, source file, target label, target file, confidence)` of every `calls` or
+    /// `imports_from` edge between nodes of the corpus.
+    fn dependency_edges(g: &Graph) -> Vec<String> {
+        let mut out: Vec<String> = g
+            .edges
+            .iter()
+            .filter(|e| matches!(e.relation.as_str(), "calls" | "imports_from"))
+            .map(|e| {
+                let (s, d) = (&g.nodes[e.src], &g.nodes[e.dst]);
+                format!(
+                    "{} {}|{}|{}|{}|{}",
+                    e.relation,
+                    s.label,
+                    s.file.as_deref().unwrap_or("-"),
+                    d.label,
+                    d.file.as_deref().unwrap_or("-"),
+                    e.confidence.as_str()
+                )
+            })
+            .collect();
+        out.sort();
+        out
+    }
+
+    #[test]
+    fn rust_paths_follow_modules_supers_aliases_reexports_and_typed_receivers() {
+        let (g, stats) = assemble_app(
+            &[
+                (
+                    "src/lib.rs",
+                    "pub mod net;\npub mod util;\nmod store;\npub use store::Store;\n\
+                     pub fn start() {\n util::helper();\n net::client::connect();\n let s = Store::new();\n s.save();\n}\n",
+                ),
+                (
+                    "src/store.rs",
+                    "pub struct Store { cache: Cache }\npub struct Cache;\nimpl Cache { pub fn hit(&self) {} }\n\
+                     impl Store {\n pub fn new() -> Self { Store { cache: Cache } }\n pub fn save(&self) { self.cache.hit(); }\n}\n",
+                ),
+                ("src/util.rs", "pub fn helper() {}\npub fn other() {}\n"),
+                ("src/net/mod.rs", "pub mod client;\n"),
+                (
+                    "src/net/client.rs",
+                    "use crate::util::helper;\nuse super::super::util as u;\npub fn connect() {\n helper();\n crate::util::other();\n u::other();\n}\n",
+                ),
+                ("src/elsewhere.rs", "pub fn helper() {}\npub fn other() {}\npub struct Store;\nimpl Store { pub fn save(&self) {} }\n"),
+            ],
+            &[],
+        );
+        let wanted = [
+            "calls connect()|src/net/client.rs|helper()|src/util.rs|INFERRED",
+            "calls connect()|src/net/client.rs|other()|src/util.rs|INFERRED",
+            "calls start()|src/lib.rs|.new()|src/store.rs|INFERRED",
+            "calls start()|src/lib.rs|.save()|src/store.rs|INFERRED",
+            "calls start()|src/lib.rs|connect()|src/net/client.rs|INFERRED",
+            "calls start()|src/lib.rs|helper()|src/util.rs|INFERRED",
+        ];
+        let calls: Vec<String> = dependency_edges(&g)
+            .into_iter()
+            .filter(|e| e.starts_with("calls"))
+            .collect();
+        // `.save()` of `store.rs` calls `.hit()` through the typed field: an EXTRACTED edge of
+        // the extractor, listed with the rest.
+        let mut expected: Vec<String> = wanted.iter().map(|w| (*w).to_owned()).collect();
+        expected.push("calls .save()|src/store.rs|.hit()|src/store.rs|EXTRACTED".into());
+        expected.sort();
+        assert_eq!(calls, expected);
+        assert!(
+            !g.edges.iter().any(|e| g.nodes[e.dst].file.as_deref() == Some("src/elsewhere.rs")
+                && e.relation == "calls"),
+            "no homonym of another module"
+        );
+        assert_eq!(stats.unresolved, 0, "{stats:?}");
+    }
+
+    #[test]
+    fn rust_imports_link_files_to_definitions_modules_and_external_items() {
+        let (g, stats) = assemble_app(
+            &[
+                ("src/lib.rs", "mod a;\nmod b;\nuse a::Thing;\nuse serde::Serialize;\nuse std::collections::HashMap;\nuse b::*;\n"),
+                ("src/a.rs", "pub struct Thing;\n"),
+                ("src/b.rs", "use super::Thing;\npub fn from_b() {}\n#[cfg(test)] mod tests { use super::*; }\n"),
+            ],
+            &["serde"],
+        );
+        assert_eq!(
+            dependency_edges(&g),
+            [
+                "imports_from b.rs|src/b.rs|Thing|src/a.rs|EXTRACTED",
+                "imports_from lib.rs|src/lib.rs|Thing|src/a.rs|EXTRACTED",
+                "imports_from lib.rs|src/lib.rs|b.rs|src/b.rs|EXTRACTED",
+                "imports_from lib.rs|src/lib.rs|serde::Serialize|-|EXTRACTED",
+                "imports_from lib.rs|src/lib.rs|std::collections::HashMap|-|EXTRACTED",
+            ],
+            "{stats:?}"
+        );
+        assert_eq!((stats.uses_external, stats.uses_unresolved), (2, 0), "{stats:?}");
+    }
+
+    #[test]
+    fn external_symbols_are_one_node_per_item_never_a_file_and_never_a_variant() {
+        let (g, stats) = assemble_app(
+            &[
+                (
+                    "src/error.rs",
+                    "pub enum Error { Serialize(String), Deserialize(String) }\n",
+                ),
+                (
+                    "src/lib.rs",
+                    "mod error;\nuse serde::Deserialize;\nuse serde_json::Value;\n\
+                     pub struct B;\nimpl Deserialize for B {}\n\
+                     fn parse(v: Value, w: serde_json::Value) -> serde_json::Value {\n let x: Value = serde_json::from_str(\"1\").unwrap();\n std::fs::read(\"a\"); tokio::spawn(async {});\n x\n}\n",
+                ),
+            ],
+            &["serde", "serde_json"],
+        );
+        let external: Vec<&str> = g
+            .nodes
+            .iter()
+            .filter(|n| n.external)
+            .map(|n| n.label.as_str())
+            .collect();
+        assert_eq!(
+            external,
+            ["serde::Deserialize", "serde_json::from_str", "serde_json::Value"],
+            "one node per item"
+        );
+        assert!(g.nodes.iter().filter(|n| n.external).all(|n| n.file.is_none() && n.package.is_some()));
+        let to = |relation: &str, label: &str| {
+            g.edges
+                .iter()
+                .filter(|e| e.relation == relation && g.nodes[e.dst].label == label)
+                .count()
+        };
+        assert_eq!(to("implements", "serde::Deserialize"), 1);
+        assert_eq!(to("references", "serde_json::Value"), 3);
+        assert_eq!(to("calls", "serde_json::from_str"), 1);
+        assert!(
+            !g.edges.iter().any(|e| {
+                matches!(e.relation.as_str(), "references" | "implements" | "imports_from")
+                    && g.nodes[e.dst].label == "Deserialize"
+                    && g.nodes[e.dst].file.is_some()
+            }),
+            "a type reference never folds onto an enum variant"
+        );
+        // `std::fs::read` is never a call of the corpus; `tokio` is no dependency of the crate.
+        assert_eq!(stats.external, 1, "{stats:?}");
+        assert_eq!(stats.unresolved_by.get("path_unresolved"), Some(&1), "{stats:?}");
+    }
+
+    #[test]
+    fn calls_through_local_bindings_and_std_derives_are_not_unresolved() {
+        let (g, stats) = assemble_app(
+            &[(
+                "src/lib.rs",
+                "#[derive(Default, Clone)]\npub struct Opts;\n\
+                 fn f(cb: fn(), o: &Opts) {\n cb();\n drop(o);\n let a = Opts::default();\n let b = Opts::clone(o);\n missing();\n}\n",
+            )],
+            &[],
+        );
+        assert_eq!(stats.local, 1, "{stats:?}");
+        assert_eq!(stats.external, 3, "drop, default and clone: {stats:?}");
+        assert_eq!(stats.unresolved_by.get("no_definition"), Some(&1), "{stats:?}");
+        assert!(!g.nodes.iter().any(|n| n.label == "Opts" && n.file.is_none()));
+    }
+
+    #[test]
+    fn keywords_and_generic_parameters_never_become_nodes() {
+        let (g, _) = assemble_app(
+            &[
+                ("src/lib.rs", "mod inner;\nuse self::inner::Item;\nfn run<T>(t: T, i: Item) {}\n"),
+                ("src/inner.rs", "use super::*;\nuse crate::run;\npub struct Item<A> { a: A }\n"),
+            ],
+            &[],
+        );
+        for n in &g.nodes {
+            assert!(
+                !matches!(n.label.as_str(), "super" | "self" | "crate" | "Self" | "T" | "A"),
+                "{n:?}"
+            );
+        }
+        assert!(
+            g.nodes.iter().all(|n| n.file.is_some() || n.external),
+            "nothing is left without a file: {:?}",
+            g.nodes.iter().filter(|n| n.file.is_none()).collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn a_type_alias_is_a_definition_references_resolve_to() {
+        let (g, _) = assemble_app(
+            &[
+                ("src/lib.rs", "mod error;\nuse error::Result;\npub fn f() -> Result<u8> { Ok(1) }\n"),
+                ("src/error.rs", "pub type Result<T> = std::result::Result<T, String>;\n"),
+            ],
+            &[],
+        );
+        assert!(g.edges.iter().any(|e| {
+            e.relation == "references"
+                && g.nodes[e.src].label == "f()"
+                && g.nodes[e.dst].file.as_deref() == Some("src/error.rs")
+        }));
+    }
+
+    fn ts_app(files: &[(&str, &str)], configs: Vec<TsConfig>) -> (Graph, AssembleStats) {
+        let extracts = files
+            .iter()
+            .map(|(path, source)| extract_file(path, source.as_bytes()))
+            .collect();
+        assemble_with(
+            extracts,
+            &AssembleContext {
+                ts_configs: configs,
+                ..AssembleContext::default()
+            },
+        )
+    }
+
+    #[test]
+    fn tsconfig_paths_and_base_url_resolve_non_relative_specifiers() {
+        let files = [
+            (
+                "apps/web/src/main.ts",
+                "import { helper } from '@lib/util';\nimport { other } from 'shared/other';\nexport function run() { helper(); other(); }\n",
+            ),
+            ("apps/web/src/lib/util.ts", "export function helper() {}\n"),
+            ("apps/web/shared/other.ts", "export function other() {}\n"),
+            ("packages/x/src/lib/util.ts", "export function helper() {}\n"),
+        ];
+        let config = TsConfig::parse(
+            "apps/web",
+            r#"{"compilerOptions":{"baseUrl":".","paths":{"@lib/*":["src/lib/*"]}}}"#,
+            None,
+        )
+        .unwrap();
+        let (g, stats) = ts_app(&files, vec![config]);
+        assert_eq!(
+            dependency_edges(&g)
+                .into_iter()
+                .filter(|e| e.starts_with("calls"))
+                .collect::<Vec<_>>(),
+            [
+                "calls run()|apps/web/src/main.ts|helper()|apps/web/src/lib/util.ts|EXTRACTED",
+                "calls run()|apps/web/src/main.ts|other()|apps/web/shared/other.ts|EXTRACTED",
+            ]
+        );
+        assert_eq!((stats.imports_resolved, stats.imports_external), (2, 0), "{stats:?}");
+        // Without the config both are packages outside the corpus.
+        let (g, stats) = ts_app(&files, Vec::new());
+        assert_eq!(stats.imports_external, 1, "`shared/other` is a unique path suffix: {stats:?}");
+        assert!(g.nodes.iter().any(|n| n.external && n.label == "@lib/util"));
+    }
+
+    #[test]
+    fn js_globals_and_callbacks_are_not_unresolved_and_packages_become_external_items() {
+        let (g, stats) = ts_app(
+            &[(
+                "src/a.ts",
+                "import { Hono } from 'hono';\nimport * as path from 'node:path';\nexport function f(cb: () => void) {\n cb();\n String(1);\n parseInt('2');\n path.join('a');\n real();\n}\n",
+            )],
+            Vec::new(),
+        );
+        assert_eq!(
+            (stats.local, stats.external, stats.unresolved),
+            (1, 3, 1),
+            "{stats:?}"
+        );
+        let external: Vec<(&str, Option<&str>)> = g
+            .nodes
+            .iter()
+            .filter(|n| n.external)
+            .map(|n| (n.label.as_str(), n.package.as_deref()))
+            .collect();
+        assert_eq!(
+            external,
+            [
+                ("hono", Some("hono")),
+                ("hono::Hono", Some("hono")),
+                ("node:path", Some("node:path")),
+                ("node:path::join", Some("node:path")),
+            ]
         );
     }
 }

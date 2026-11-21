@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! Markdown report of a graph (summary, provenance, confidence split, relations, languages,
-//! packages and their dependencies, top files, god nodes, communities).
+//! per-crate summaries and their dependencies, external dependencies, top files, god nodes,
+//! communities).
 
 use std::{
     collections::{BTreeMap, HashMap},
@@ -54,6 +55,20 @@ impl Graph {
             self.edges.len(),
             sizes.len()
         );
+        let external = self.nodes.iter().filter(|n| n.external).count();
+        let generated = self.nodes.iter().filter(|n| n.generated).count();
+        if external > 0 {
+            let _ = writeln!(
+                out,
+                "- External symbols: {external} nodes (outside the corpus; no community, never a hub)"
+            );
+        }
+        if let Some(skipped) = self.meta.generated_skipped.filter(|n| *n > 0) {
+            let _ = writeln!(out, "- Generated files left out: {skipped}");
+        }
+        if generated > 0 {
+            let _ = writeln!(out, "- Generated nodes included on request: {generated}");
+        }
         let share = |label: &str| confidence.get(label).copied().unwrap_or(0) * 100 / total;
         let _ = writeln!(
             out,
@@ -76,6 +91,7 @@ impl Graph {
             let _ = writeln!(out, "- {name}: {n}");
         }
         self.write_languages_and_packages(&mut out, top);
+        self.write_externals(&mut out, top);
         let _ = writeln!(out, "\n## Top files");
         for (file, symbols, degree) in self.top_files(top) {
             let _ = writeln!(out, "- {file}: {symbols} nodes, {degree} edges");
@@ -85,8 +101,9 @@ impl Graph {
             let n = &self.nodes[i];
             let _ = writeln!(
                 out,
-                "- {} ({degree} edges){}",
+                "- {} ({degree} dependency edges, {} files){}",
                 n.label,
+                self.hub_files(i),
                 n.file
                     .as_ref()
                     .map_or_else(String::new, |f| format!(" - {f}"))
@@ -151,13 +168,8 @@ impl Graph {
         if packages.is_empty() {
             return;
         }
-        let _ = writeln!(out, "\n## Packages ({})", packages.len());
-        let mut ranked: Vec<_> = packages.into_iter().collect();
-        ranked.sort_by(|a, b| b.1.1.cmp(&a.1.1).then_with(|| a.0.cmp(b.0)));
-        for (package, (files, nodes)) in ranked.iter().take(top) {
-            let _ = writeln!(out, "- {package}: {files} files, {nodes} nodes");
-        }
         let mut deps: BTreeMap<(&str, &str), usize> = BTreeMap::new();
+        let mut external: BTreeMap<&str, BTreeMap<&str, usize>> = BTreeMap::new();
         for e in &self.edges {
             if !matches!(
                 e.relation.as_str(),
@@ -165,13 +177,82 @@ impl Graph {
             ) {
                 continue;
             }
-            if let (Some(a), Some(b)) = (
-                self.nodes[e.src].package.as_deref(),
-                self.nodes[e.dst].package.as_deref(),
-            ) && a != b
-            {
+            let (src, dst) = (&self.nodes[e.src], &self.nodes[e.dst]);
+            let (Some(a), Some(b)) = (src.package.as_deref(), dst.package.as_deref()) else {
+                continue;
+            };
+            if src.external {
+                continue;
+            }
+            if dst.external {
+                *external.entry(a).or_default().entry(b).or_insert(0) += 1;
+            } else if a != b {
                 *deps.entry((a, b)).or_insert(0) += 1;
             }
+        }
+        let mut hubs: BTreeMap<&str, Vec<(usize, usize)>> = BTreeMap::new();
+        for (i, n) in self.nodes.iter().enumerate() {
+            if n.external || n.generated || self.is_file_node(i) {
+                continue;
+            }
+            if let Some(package) = n.package.as_deref() {
+                let degree = self.hub_degree(i);
+                if degree > 0 {
+                    hubs.entry(package).or_default().push((i, degree));
+                }
+            }
+        }
+        let ranked_counts = |counts: Vec<(&str, usize)>| -> String {
+            let mut counts = counts;
+            counts.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(b.0)));
+            counts
+                .iter()
+                .take(3)
+                .map(|(name, n)| format!("{name} ({n})"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        };
+        let _ = writeln!(out, "\n## Packages ({})", packages.len());
+        let mut ranked: Vec<_> = packages.into_iter().collect();
+        ranked.sort_by(|a, b| b.1.1.cmp(&a.1.1).then_with(|| a.0.cmp(b.0)));
+        for (package, (files, nodes)) in ranked.iter().take(top) {
+            let mut line = format!("- {package}: {files} files, {nodes} nodes");
+            let mut top_hubs = hubs.remove(package).unwrap_or_default();
+            top_hubs.sort_by(|a, b| {
+                b.1.cmp(&a.1)
+                    .then_with(|| self.nodes[a.0].id.cmp(&self.nodes[b.0].id))
+            });
+            if !top_hubs.is_empty() {
+                let names: Vec<String> = top_hubs
+                    .iter()
+                    .take(3)
+                    .map(|&(i, d)| format!("{} ({d})", self.nodes[i].label))
+                    .collect();
+                let _ = write!(line, "; hubs: {}", names.join(", "));
+            }
+            let uses = ranked_counts(
+                deps.iter()
+                    .filter(|((a, _), _)| a == package)
+                    .map(|((_, b), n)| (*b, *n))
+                    .collect(),
+            );
+            if !uses.is_empty() {
+                let _ = write!(line, "; uses: {uses}");
+            }
+            let used_by = ranked_counts(
+                deps.iter()
+                    .filter(|((_, b), _)| b == package)
+                    .map(|((a, _), n)| (*a, *n))
+                    .collect(),
+            );
+            if !used_by.is_empty() {
+                let _ = write!(line, "; used by: {used_by}");
+            }
+            if let Some(counts) = external.get(package) {
+                let ext = ranked_counts(counts.iter().map(|(k, v)| (*k, *v)).collect());
+                let _ = write!(line, "; external: {ext}");
+            }
+            let _ = writeln!(out, "{line}");
         }
         if deps.is_empty() {
             return;
@@ -181,6 +262,27 @@ impl Graph {
         ranked.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
         for ((from, to), n) in ranked.iter().take(top) {
             let _ = writeln!(out, "- {from} -> {to}: {n} edges");
+        }
+    }
+
+    /// The crates and packages outside the corpus the code leans on most.
+    fn write_externals(&self, out: &mut String, top: usize) {
+        let mut packages: BTreeMap<&str, (usize, usize)> = BTreeMap::new();
+        for (i, n) in self.nodes.iter().enumerate() {
+            if let (true, Some(package)) = (n.external, n.package.as_deref()) {
+                let entry = packages.entry(package).or_default();
+                entry.0 += 1;
+                entry.1 += self.degree(i);
+            }
+        }
+        if packages.is_empty() {
+            return;
+        }
+        let _ = writeln!(out, "\n## External dependencies ({})", packages.len());
+        let mut ranked: Vec<_> = packages.into_iter().collect();
+        ranked.sort_by(|a, b| b.1.1.cmp(&a.1.1).then_with(|| a.0.cmp(b.0)));
+        for (package, (items, edges)) in ranked.iter().take(top) {
+            let _ = writeln!(out, "- {package}: {items} items, {edges} edges");
         }
     }
 }
@@ -198,7 +300,7 @@ mod tests {
         assert!(r.contains("5 nodes, 4 edges"));
         assert!(r.contains("75 % EXTRACTED, 25 % INFERRED"));
         assert!(r.contains("INFERRED average confidence: 0.80"));
-        assert!(r.contains("- .upsert_doc() (3 edges)"));
+        assert!(r.contains("- .upsert_doc() (2 dependency edges, 0 files) - store.rs"), "{r}");
         assert!(r.contains("- calls: 2"));
         assert!(r.contains("Built at commit: unknown"));
         assert!(
@@ -223,5 +325,37 @@ mod tests {
             "{r}"
         );
         assert!(r.contains("- rag -> sql: 1 edges"), "{r}");
+    }
+
+    #[test]
+    fn crates_get_a_summary_and_external_dependencies_are_listed() {
+        let mut g = sample();
+        for (i, package) in [(0, "rag"), (1, "rag"), (2, "rag")] {
+            g.nodes[i].package = Some(package.into());
+        }
+        g.nodes[3].file = Some("sql.rs".into());
+        g.nodes[3].package = Some("sql".into());
+        let mut ext = crate::codegraph::graph::Node::code("ext", "serde_json::Value", None);
+        ext.external = true;
+        ext.package = Some("serde_json".into());
+        g.nodes.push(ext);
+        g.by_id.insert("ext".into(), 5);
+        g.out_adj.push(Vec::new());
+        g.in_adj.push(Vec::new());
+        g.edges.push(crate::codegraph::graph::Edge::extracted(1, 5, "calls"));
+        g.out_adj[1].push(g.edges.len() - 1);
+        g.in_adj[5].push(g.edges.len() - 1);
+        g.detect_communities();
+        let r = g.report("sample", 5);
+        assert!(
+            r.contains("- rag: 1 files, 3 nodes; hubs: .upsert_doc() (2), RagStore (1), .open() (1); uses: sql (1); external: serde_json (1)"),
+            "{r}"
+        );
+        assert!(r.contains("- External symbols: 1 nodes"), "{r}");
+        assert!(r.contains("## External dependencies (1)\n- serde_json: 1 items, 1 edges"), "{r}");
+        let gods = r.split("## God nodes\n").nth(1).unwrap().split("\n\n").next().unwrap();
+        assert!(!gods.contains("serde_json"), "{gods}");
+        // The line the learning loop parses: `<n> nodes, <m> edges, <k> communities`.
+        assert!(r.lines().any(|l| l.ends_with(" communities") && l.contains(" edges, ")));
     }
 }

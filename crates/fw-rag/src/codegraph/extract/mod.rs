@@ -6,10 +6,13 @@
 //! normalised path including its extension, a symbol is the normalised file stem plus its name.
 //! Labels: `name()` for a function, `.name()` for a method, the bare name for a type.
 
+pub mod generated;
 pub mod ids;
 pub mod markdown;
 pub mod resolve;
+pub mod rpath;
 pub mod rust;
+pub mod tsconfig;
 pub mod typescript;
 
 use serde::{Deserialize, Serialize};
@@ -17,7 +20,7 @@ use serde::{Deserialize, Serialize};
 use crate::codegraph::graph::Confidence;
 
 /// Version of the per-file extraction format; cached rows of another version are re-extracted.
-pub const EXTRACT_VERSION: u32 = 3;
+pub const EXTRACT_VERSION: u32 = 4;
 
 /// Decode one textual source file without silently replacing or dropping malformed bytes.
 pub(super) fn decode_text(source: &[u8]) -> Result<&str, String> {
@@ -82,6 +85,11 @@ pub struct RawEdge {
     pub loc: String,
     /// Context.
     pub context: Option<String>,
+    /// Rust: path of the referenced type as the file spells it, expanded through its `use`
+    /// aliases; it lets assembly aim a reference at the right definition or external item
+    /// instead of folding by name.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub path: Option<String>,
 }
 
 /// A call site whose target is resolved against the whole corpus.
@@ -105,6 +113,39 @@ pub struct RawCall {
     /// JS/TS: module specifier the callee was imported from.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub module: Option<String>,
+    /// The callee name is also a binding of the file (a parameter, a `let`, a closure): when
+    /// nothing in the corpus defines it, the call goes through a local value.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub bound: bool,
+    /// Rust: number of inline `mod` blocks around the call (`super::` from a `mod tests` block
+    /// stays in the file).
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub inline: u8,
+}
+
+#[allow(clippy::trivially_copy_pass_by_ref)]
+fn is_zero(n: &u8) -> bool {
+    *n == 0
+}
+
+/// One name a Rust `use` declaration brings into scope.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RawUse {
+    /// Name bound in the file (the alias, else the last segment); empty for a glob.
+    pub local: String,
+    /// Full path as written, from `crate`, `self`, `super` or the first segment.
+    pub path: String,
+    /// `use path::*`.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub glob: bool,
+    /// `pub use` (a re-export).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub public: bool,
+    /// Number of inline `mod` blocks around the declaration.
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub inline: u8,
+    /// `Lnn`.
+    pub loc: String,
 }
 
 /// What an import record points at.
@@ -148,9 +189,18 @@ pub struct FileExtract {
     /// JS/TS imports and Markdown links, resolved at assembly.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub imports: Vec<RawImport>,
-    /// Rust glob imports (`use a::b::*` gives `a::b`), searched for plain calls.
+    /// Rust `use` declarations, one entry per name (globs included), resolved at assembly.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub globs: Vec<String>,
+    pub uses: Vec<RawUse>,
+    /// Rust modules declared in the file (`mod a;`, `mod b { .. }`).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub mods: Vec<String>,
+    /// Why the file counts as generated code (see [`generated`]), when it does.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub generated: Option<String>,
+    /// The file is generated and was left out of the graph: only this record is stored.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub skipped: bool,
     /// Parse problem, if any (the file contributes nothing then).
     pub error: Option<String>,
     /// [`EXTRACT_VERSION`] of the extractor that produced this record.
