@@ -62,7 +62,7 @@ fn run(arguments: &[String]) -> Result<i32, String> {
         Some("kernel") => match rest().first().map(String::as_str) {
             Some("install") => {
                 let bzimage = rest().get(1).ok_or("kernel install needs the path of a bzImage")?;
-                let backup = wsl::set_kernel(Some(std::path::Path::new(bzimage)))?;
+                let backup = wsl::install_kernel(std::path::Path::new(bzimage))?;
                 println!("kernel set; WSL shut down; original .wslconfig saved as {backup}; undo with `fw-android-win kernel stock`");
                 Ok(0)
             }

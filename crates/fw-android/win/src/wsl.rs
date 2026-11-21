@@ -278,6 +278,15 @@ pub fn down() -> Result<(), String> {
     if ok { Ok(()) } else { Err(format!("wsl --terminate failed: {error}")) }
 }
 
+/// Copies `bzimage` under the guest home (a path that outlives the build directory) and makes it the WSL2 kernel.
+pub fn install_kernel(bzimage: &Path) -> Result<String, String> {
+    let directory = home().join("kernel");
+    fs::create_dir_all(&directory).map_err(|error| format!("create {}: {error}", directory.display()))?;
+    let target = directory.join("bzImage-fwa");
+    fs::copy(bzimage, &target).map_err(|error| format!("copy {}: {error}", bzimage.display()))?;
+    set_kernel(Some(&target))
+}
+
 /// Points the global `kernel=` of `%UserProfile%\.wslconfig` at `bzimage` (or removes it with `None`), keeping every other
 /// line and a one-time backup beside the file. WSL has no per-distro kernel, so this applies to every WSL2 distro.
 pub fn set_kernel(bzimage: Option<&Path>) -> Result<String, String> {
