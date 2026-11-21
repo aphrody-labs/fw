@@ -1,0 +1,73 @@
+# Rust à l'Ère de l'IA : Écosystème, Réécriture de Bun, Daemon rustd & Toolchain Officielle
+
+> Base de connaissances complète et index documentaire pour LLM couvrant l'adoption de Rust par les entreprises d'IA en 2026, l'étude de cas de la réécriture de Bun de Zig vers Rust par agents IA (Bun 1.4), le daemon de compilation ultra-rapide `rustd` de DioxusLabs, et la toolchain officielle Rust (`rustc`, `cargo`, `rustdoc`).
+
+## Contexte & Synthèse Stratégique (2026)
+
+L'adoption de Rust s'accélère fortement chez les acteurs majeurs de l'IA (Anthropic, xAI, GitHub, Hugging Face) pour quatre raisons structurelles :
+1. **Performance et distribution des outils IA** : Temps de démarrage quasi instantané, faible consommation mémoire sans Garbage Collector, et compilation en un binaire unique facile à distribuer (CLI, agents de code comme Claude Code / OpenCode, serveurs MCP).
+2. **Sécurité mémoire par construction** : Le modèle d'Ownership, de Borrowing et de nettoyage RAII (`Drop`) élimine à la compilation les classes de bugs critiques (*use-after-free*, *double-free*, fuites dans les chemins d'erreur, *data races*).
+3. **Synergie avec les agents de code IA** : Les erreurs strictes du compilateur `rustc` fournissent une boucle de rétroaction déterministe bien supérieure aux guides de style ou à la revue humaine seule.
+4. **Complémentarité avec Python** : Python reste incontournable pour la recherche ML, l'entraînement et le prototypage ; Rust s'impose pour la couche système, les runtimes, les moteurs d'inférence, les wrappers d'API haute performance et les serveurs MCP.
+
+## Ressources Principales & Index Documentaire
+
+### Vidéo de référence & Apprentissage Rust en 2026
+- [I Spent 1000+ Hours Learning Rust. This Is What I Learned (@maddyzhang)](https://www.youtube.com/watch?v=QRnfDHVSwZI): Analyse complète sur l'essor de Rust dans l'IA (xAI, GitHub, Anthropic, Hugging Face), comparaison Rust vs Go vs Zig vs Python, explication de la sécurité mémoire, setup de l'environnement (`rustup`, `cargo`, `rust-analyzer`, `clippy`), apprentissage sain avec l'IA sans dépendance excessive, et idées de projets pratiques (intégrations d'API IA, serveurs MCP).
+
+### Étude de Cas : Réécriture de Bun en Rust (Bun 1.4)
+- [Rewriting Bun in Rust — Jarred Sumner (Bun Blog, 8 juillet 2026)](https://bun.com/blog/bun-in-rust): Récit technique détaillé de la migration de Bun (acquis par Anthropic en décembre 2025) de 535 496 lignes de Zig vers Rust.
+  - **Problème initial** : Mélanger un moteur JS avec GC (JavaScriptCore) et une gestion mémoire manuelle en Zig (`defer`/`errdefer`) générait des bugs récurrents (*use-after-free* sur callbacks JS réentrants, *double-free*, fuites mémoire dans `node:zlib`, `node:http2`, `UDPSocket`, `crypto.scrypt`, `tls`, `fs.watch`) malgré ASAN, ReleaseSafe et fuzzing 24/7 (Fuzzilli).
+  - **Pourquoi Rust** : Le borrow checker et `Drop` transforment ces bugs en erreurs de compilation plutôt qu'en règles de guide de style.
+  - **Stratégie de migration** : Portage mécanique global (*all-at-once*) guidé par `PORTING.md` et `LIFETIMES.tsv` plutôt qu'une réécriture incrémentale. Suite de tests TypeScript (>1 million d'assertions) conservée intacte comme oracle indépendant du langage.
+  - **Orchestration IA** : ~50 workflows dynamiques Claude Code exécutés en continu sur 11 jours (jusqu'à 64 agents Claude Fable 5 en parallèle : 4 *worktrees* × 16 agents), ~1 009 000 lignes de diff, 6 778 commits.
+  - **Revue Adversariale** : Séparation stricte des fenêtres de contexte (1 implémenteur + 2+ reviewers adversariaux ne voyant que le diff et mandatés pour supposer que le code est faux). Règle clé : *corriger le workflow qui génère le code, jamais le diff à la main*.
+  - **Résultats** : 128 bugs mémoire corrigés, fuites instrumentables éliminées, 1 517+ tests Node.js supplémentaires réussis, 2 900+ issues résolues depuis Bun 1.3 ; ~4 % de code `unsafe` initialement, réduit progressivement après la sortie de Bun 1.4.
+
+### Accélération de Compilation : DioxusLabs `rustd`
+- [DioxusLabs/rustd (GitHub)](https://github.com/dioxusLabs/rustd): Daemon de compilation Rust conçu pour des boucles d'édition jusqu'à 25× plus rapides, pensé pour les développeurs et les agents IA travaillant sur plusieurs *git worktrees*.
+  - **Architecture** : Maintient l'analyse de `rust-analyzer` (parsing, résolution de noms, inférence de types, MIR, monomorphisation, layout via `rustc_abi`) en mémoire et met en cache les fonctions compilées sur disque (`~/.cache/rustd/store`, jusqu'à 8 GiB) ou sur un bucket S3 distant.
+  - **Backends** : Compile uniquement les fonctions modifiées avec **Cranelift** (inclus dans les binaires officiels) ou **LLVM 20** (compilation depuis les sources), puis lie ou injecte (*splice*) directement dans l'exécutable.
+  - **Commandes clés** : `cargo rustd build`, `cargo rustd run`, `cargo rustd test`, `cargo rustd check` (invoque `cargo check` pour le borrow checker), `cargo rustd status`, `cargo rustd stop`, `rustd enable`/`disable`.
+  - **Contraintes & Statut** : Prototype épinglé à **Rust 1.99.0** (`--component rust-src`). Pas de borrow checker dans la boucle d'édition rapide (utiliser `cargo rustd check` pour la validation `rustc`), pas d'inlining inter-fonctions, aucun fallback silencieux vers `cargo`. Testé par fuzzing différentiel avec `rustc` comme oracle (*« When they differ, rustd is wrong »*).
+  - **Expérimentation WASM** : [docs/playground.md](https://github.com/DioxusLabs/rustd/blob/main/docs/playground.md) — compilation Rust vers WebAssembly directement dans le navigateur (single-file `#![no_std]` + `core`, récompilation d'une fonction en 40–100 ms).
+
+### Dépôts & Documentation Officielle Rust
+- [rust-lang/rust (GitHub)](https://github.com/rust-lang/rust): Dépôt principal du langage Rust (Rust 1.100.0 en novembre 2026) incluant le compilateur `rustc`, la bibliothèque standard (`core`, `alloc`, `std`), le système de bootstrap `x.py`, `AGENTS.md` et la politique d'utilisation des LLM pour les contributions. Double licence MIT / Apache-2.0.
+- [rust-lang/cargo (GitHub)](https://github.com/rust-lang/cargo): Gestionnaire de paquets et outil de build officiel de Rust. Gère le téléchargement des dépendances, la résolution (`Cargo.toml` / `Cargo.lock`), les workspaces, les builds vendored (OpenSSL, libcurl, libgit2, zlib-rs) et l'extensibilité par sous-commandes tierces (`cargo-*`).
+- [The rustc Book](https://doc.rust-lang.org/rustc/index.html): Documentation officielle du compilateur `rustc`. Couvre l'unité de traduction (le crate root passé à `rustc`), les arguments CLI, l'inspection des appels via `cargo build --verbose`, les options de génération de code, les lints et l'intégration dans des systèmes de build personnalisés.
+- [The rustdoc Book](https://doc.rust-lang.org/rustdoc/index.html): Documentation officielle de `rustdoc`. Couvre la génération HTML/CSS/JS à partir d'un crate ou de fichiers Markdown autonomes, l'intégration Cargo (`cargo doc --open`), les commentaires externes (`///`) et internes (`//!`), l'attribut `#[doc]`, les liens intra-doc par nom, les *documentation tests* (doctests exécutés par `cargo test`) et les lints spécifiques à la documentation.
+
+## Commandes de Référence Rapide
+
+```bash
+# Installation & mise à jour de l'écosystème officiel
+rustup update
+rustup component add clippy rustfmt rust-src
+
+# Cycle de développement standard Cargo
+cargo new my_app && cd my_app
+cargo check
+cargo test
+cargo clippy --all-targets -- -D warnings
+cargo doc --open
+cargo build --release
+
+# Cycle ultra-rapide avec rustd (Toolchain 1.99.0)
+rustup toolchain install 1.99.0 --component rust-src
+curl -fsSL https://dioxuslabs.github.io/rustd/install.sh | sh
+cargo rustd build
+cargo rustd run
+cargo rustd check    # Validation complète par rustc + borrow checker
+cargo rustd status
+
+# Invocation directe rustc & rustdoc
+rustc src/main.rs
+rustdoc src/lib.rs --crate-name my_crate
+rustdoc README.md
+```
+
+## Notes d'Architecture pour Agents IA
+- **Invariants de test** : Toujours conserver une suite de tests externe ou indépendante de l'implémentation lors d'un portage de langage.
+- **Validation stricte** : Ne jamais se fier uniquement à la compilation rapide de `rustd` pour garantir la sûreté mémoire ; toujours exécuter `cargo rustd check` ou `cargo check` avant de finaliser.
+- **Séparation des rôles** : Sur les refactorisations ou migrations critiques, séparer l'agent implémenteur des agents reviewers adversariaux dans des contextes isolés.
