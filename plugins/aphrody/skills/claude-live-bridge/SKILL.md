@@ -1,23 +1,28 @@
 ---
 name: claude-live-bridge
-description: "Push real-time context and action updates to live Claude Code sessions via their native named pipe (\\\\.\\pipe\\LOCAL\\cc-msg-*) with Relay hook-mailbox fallback."
+description: "Push real-time context and action updates to live Claude Code sessions through their native messaging pipe (\\\\.\\pipe\\LOCAL\\cc-msg-*) with a mailbox fallback"
 ---
 
-# Real-Time Context Injection to Live Claude Sessions
+# Real-time context injection into live Claude Code sessions
 
-Use this bridge to communicate your ongoing actions, coordinate disjoint file scopes, or wake idle/active Claude Code sessions immediately without waiting for them to restart.
+Use this bridge to tell other running sessions what you are doing, to split disjoint file scopes, or to wake an idle session without waiting for it to restart.
 
-## 1. Via MCP (`claude-bridge`)
+## 1. MCP server `claude-bridge` (plugin `aphrody`)
 
-- `claude_sessions`: lists active Claude PIDs, `sessionId`, `name`, `cwd`, `status`, and `pipeReady`.
+- `claude_sessions`: live sessions with `pid`, `sessionId`, `name`, `cwd`, `status` and `pipeReady`.
 - `claude_inject { message, target?, sender?, cwd?, urgent? }`:
-  - Pushes immediately over Claude Code's authenticated IPC pipe (`type: "auth"` + `type: "user"` NDJSON frame) when `messagingSocketPath` is open (~2ms, mid-turn or idle).
-  - Falls back automatically to the Relay SQLite mailbox (`sessions.db` + `<session_id>.pending`) delivered by `session-bridge.ts` on the session's next hook event (`SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`).
+  - Writes to the session's authenticated messaging pipe: an `auth` NDJSON frame with the peer token from `~/.claude/sessions/<pid>.<hash>.key`, then a `user` frame wrapped in `<cross-session-message from-name="...">`. Mid-turn or idle, the pipe delivers at once.
+  - Claude Code accepts a pipe message only from a sender it knows as a live session. When the sender is not one (a script, CI), or the pipe write fails, the message goes to the mailbox `~/.claude/mailbox/<sessionId>/` and the plugin hook `UserPromptSubmit` (`hooks/mailbox.ts`) hands it to the session on its next prompt.
+  - A broadcast (`target: "all"`) skips the calling session.
 
-## 2. Via CLI (`scripts/notify.ts`)
+## 2. CLI `notify.ts`
 
 ```sh
-bun ~/.gemini/scripts/notify.ts --list
-bun ~/.gemini/scripts/notify.ts --to all --from agy "Updated global ~/.gemini config and restarted AphrodyRelay."
-bun ~/.gemini/scripts/notify.ts --to <sessionId|name|pid> --urgent "Pause edits on shared config while check runs."
+bun ~/.claude/scripts/notify.ts --list
+bun ~/.claude/scripts/notify.ts --to all "Config updated, re-read settings."
+bun ~/.claude/scripts/notify.ts --to <sessionId|name|pid|cwd-basename> --urgent "Pause edits on the shared file."
 ```
+
+`--from <name>` sets the sender (default: the calling session's name, else `notify`); `--cwd <path>` limits the targets; `--mailbox` also queues the mailbox copy. The result is a JSON array of `{target, sessionId, channel: "pipe"|"mailbox", ok}`; the pipe sends no acknowledgement, so `ok` means the frames were written.
+
+The implementation is `configs/claude/scripts/lib/claude-peer.ts` of the fw repository; `configs/claude/scripts/deploy.ts` copies it to `~/.claude/scripts`.
