@@ -76,7 +76,7 @@ jobs:
         env:
           FW_LINUX_BIN: ${{ github.workspace }}/target/release/fw-linux
         run: |
-          bun install --frozen-lockfile
+          bun install --frozen-lockfile --filter @aphrody/linux-types
           bun run headers --out "$RUNNER_TEMP/linux-headers"
       - name: Typecheck
         working-directory: packages/linux-types
