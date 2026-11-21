@@ -45,13 +45,16 @@ Libc-supplied types the kernel headers expect (`struct sockaddr`, `struct sockad
 
 ## Regenerate and gate
 
-Heavy: runs on `fr1` (clang, pahole, bpftool).
+Heavy: runs on `fr1` (clang, pahole, bpftool, make, gcc). `bun run headers` reads the tree from `kernel.toml` (the `uapi` sparse profile that `fw kernel sync` makes, at `third_party/<tree path>`); when that tree is not at the pinned commit it calls `$FW_LINUX_BIN`, else `fw-linux`, else `fw kernel` to sync it, and fails with a message when none exists. `--tree-dir <dir>` uses an already synced tree. `make headers_install` runs with `O=` and `INSTALL_HDR_PATH=` outside the tree (an in-tree build reused for a second arch produced an incomplete arm64 syscall table).
 
 ```sh
-bun tools/fr1.ts run -- bash -c 'cd packages/linux-types && bun install --frozen-lockfile && bun run headers --out /srv/xbuild/scratch/linux-types/headers && bun run gen --headers /srv/xbuild/scratch/linux-types/headers'
-bun run check                                   # type check (bun check) of src, gen and test
-bun run test                                    # codecs, kernel calls over bun:ffi, layouts against clang
-bun run gen --check --headers <dir>             # drift: regenerate to a temp dir, diff against src/
+cd packages/linux-types
+bun install --frozen-lockfile
+bun run headers --out "$HEADERS"                 # [--tree-dir DIR]; writes $HEADERS/x86_64 and $HEADERS/aarch64
+bun run gen --headers "$HEADERS"                 # regenerate src/<arch>/
+bun run check                                    # type check (bun check) of src, gen and test
+bun run test                                     # codecs, kernel calls over bun:ffi, layouts against clang
+bun run gen --check --headers "$HEADERS"         # drift: regenerate to a temp dir, diff against src/
 ```
 
-`headers` fetches the commit pinned in `kernel.toml` as a sparse partial clone and runs `make headers_install` for each arch; no kernel is built. `gen` runs, per arch: an all-headers translation unit (headers that cannot be combined are pruned and listed in `meta`), `clang -g -fno-eliminate-unused-debug-types`, `pahole -J` (BTF), `bpftool -j btf dump`, macro evaluation by clang, then a cross-check of every record size and every named member offset against `sizeof` / `offsetof` evaluated by clang (a mismatch fails the run). Output is deterministic: no timestamps, no absolute paths.
+`gen` runs, per arch: an all-headers translation unit (headers that cannot be combined are pruned and listed in `meta`), `clang -g -fno-eliminate-unused-debug-types`, `pahole -J` (BTF), `bpftool -j btf dump`, macro evaluation by clang, then a cross-check of every record size and every named member offset against `sizeof` / `offsetof` evaluated by clang (a mismatch fails the run). Output is deterministic: no timestamps, no absolute paths.
