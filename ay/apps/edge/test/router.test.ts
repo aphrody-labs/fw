@@ -24,7 +24,7 @@ describe("route table", () => {
   test("hosts select services, case-insensitively", () => {
     expect(matchRoute(rows, `RELEASES.${root}`, "/manifest.json")?.service).toBe("releases");
     expect(matchRoute(rows, `docs.${root}`, "/x")?.service).toBe("aphrody");
-    expect(matchRoute(rows, `learn.${root}`, "/")?.service).toBe("learn");
+    expect(matchRoute(rows, `learn.${root}`, "/")).toBeUndefined();
     expect(matchRoute(rows, `cdn.${cfg.domains.shenron}`, "/a.png")?.service).toBe("shenron");
     expect(matchRoute(rows, `auto.${root}`, "/api")?.service).toBe("auto");
   });

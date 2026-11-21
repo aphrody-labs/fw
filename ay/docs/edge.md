@@ -19,7 +19,6 @@ request -> route table (host, longest path) -> module service     code of this r
 | `assets` | module | content-addressed `v1/<kind>/<sha256>`, agent-skills index, plain keys under `/r2-assets` | `apps/edge/src/services/assets.ts`, `apps/cf-gateway` reused |
 | `wasm` | module | wasm32 packages: index, raw module, invoke | `apps/edge/src/services/wasm.ts` |
 | `aphrody` | service `aphrody-worker` | docs proxy, GitHub webhook intake into the `github-events` queue | `aphrody` repository |
-| `learn` | service `aphrody-learn` | learn sync | `aphrody` repository |
 | `auto` | service `auto` | the auto app: D1, `CompanyDO`, the automation Workflow | `apps/auto-server` |
 | `shenron` | service `shenron-cdn` | R2 `shenron-cdn`, manifests, import state | `shenron` repository |
 | `fw` | service `fw-edge`, disabled | static assets and the `FwOSAgent` Durable Object | `fw` repository |
@@ -38,7 +37,6 @@ on the account (read 2026-11-19), so its row stays `enabled = false` until it is
 | `assets.<root>/*` | none (and no DNS record) | `ay-edge` / `assets` (gateway) |
 | `wasm.<root>/*` | none (and no DNS record) | `ay-edge` / `wasm` |
 | `docs.<root>/*`, `<root>/github` | `aphrody-worker` | `ay-edge` -> `aphrody-worker` |
-| `learn.<root>/*` | `aphrody-learn` | `ay-edge` -> `aphrody-learn` |
 | `auto.<root>` (custom domain) | `auto` | `ay-edge` -> `auto` |
 | `cdn.<shenron>/*` | `shenron-cdn` | `ay-edge` -> `shenron-cdn` |
 | `ay-cf-gateway`, `ay-tools-release` (no route) | workers.dev or nothing | `assets.<root>/*`, `releases.<root>/ay-tools/*` |
@@ -56,7 +54,7 @@ and `<shenron>` are the values of `[domains]`. Workers that belong to the aphrod
 | `ASSETS` | R2 | `aphrody-assets` | `ASSETS` of ay-cf-gateway, `ASSETS_BUCKET` of aphrody-worker, `FILES` of auto |
 | `VIDEO` | R2 | `aphrody-video` | `VIDEO` of ay-cf-gateway |
 | `CHROMIUM` | R2 | `aphrody-chromium` | `RELEASES` of ay-tools-release |
-| `SVC_APHRODY`, `SVC_LEARN`, `SVC_AUTO`, `SVC_SHENRON_CDN` | service | `aphrody-worker`, `aphrody-learn`, `auto`, `shenron-cdn` | their routes |
+| `SVC_APHRODY`, `SVC_AUTO`, `SVC_SHENRON_CDN` | service | `aphrody-worker`, `auto`, `shenron-cdn` | their routes |
 | `EDGE_ROUTES`, `EDGE_SERVICES` | vars | rendered table | |
 
 Stay on their script (service mode): D1 `auto` (`DB`), Durable Object `CompanyDO` (`COMPANY_DO`), Workflow `AutomationWorkflow`, `AI`, the `auto`
@@ -196,7 +194,7 @@ of 2026-11-19 authorizes the move, and `edge-cutover` changes nothing without `-
 5. `bun tools/edge-cutover.ts plan`, then `bun tools/edge-cutover.ts apply --apply`. Previous owners are saved in `.private/edge-cutover.json`.
    Routes move one by one; the custom domain `auto.<root>` is re-attached to `ay-edge`.
 6. Set `EDGE_CUTOVER_DONE=true`. From now on every push deploys the full config.
-7. Smoke: `releases.<root>/health`, `/manifest.json`, `docs.<root>`, `learn.<root>`, `auto.<root>`, `cdn.<shenron>`.
+7. Smoke: `releases.<root>/health`, `/manifest.json`, `docs.<root>`, `auto.<root>`, `cdn.<shenron>`.
 8. Rollback at any step: `bun tools/edge-cutover.ts rollback --apply` restores the previous owners; the old scripts were never deleted.
 9. Later, one at a time and only after a week of traffic: retire `ay-cf-gateway` and `ay-tools-release` (their code is reused by `ay-edge`), then the
    routes-less parts of `aphrody-worker`; fuse `auto` and `fw-edge` as described above.

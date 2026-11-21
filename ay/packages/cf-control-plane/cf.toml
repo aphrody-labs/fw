@@ -323,7 +323,7 @@ min_tls_version = "1.2"
 # Zero literal Account IDs, Zone IDs, Tunnel UUIDs, or VPS IPs: resolved dynamically via `cf.local.toml`.
 
 [zones."aphrody.com"]
-worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases", "assets", "wasm", "learn", "auto", "video", "web"]
+worker_aaaa = ["www", "api", "bun", "cdn", "creator", "downloads", "mcp", "releases", "assets", "wasm", "auto", "video", "web"]
 
 [zones."aphrody.com".tunnel_cnames]
 aphrody = [
@@ -611,10 +611,6 @@ script = "ay-edge"
 
 [[zones."aphrody.com".worker_routes]]
 pattern = "wasm.aphrody.com/*"
-script = "ay-edge"
-
-[[zones."aphrody.com".worker_routes]]
-pattern = "learn.aphrody.com/*"
 script = "ay-edge"
 
 [[zones."aphrody.com".worker_routes]]

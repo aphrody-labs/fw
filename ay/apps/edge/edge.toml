@@ -79,13 +79,6 @@ mode = "module"
 routes = ["wasm.{root}/*"]
 note = "WebAssembly packages: instantiated in the Worker and served from R2"
 
-[services.learn]
-mode = "service"
-script = "aphrody-learn"
-binding = "SVC_LEARN"
-routes = ["learn.{root}/*"]
-note = "aphrody-learn: learn sync, cron stays on the script"
-
 [services.aphrody]
 mode = "service"
 script = "aphrody-worker"

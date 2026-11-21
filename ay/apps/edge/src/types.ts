@@ -11,7 +11,6 @@ export interface EdgeEnv {
   CHROMIUM: R2Bucket;
   /** Service bindings to the scripts that still own state or code in another repository. */
   SVC_APHRODY?: Fetcher;
-  SVC_LEARN?: Fetcher;
   SVC_AUTO?: Fetcher;
   SVC_SHENRON_CDN?: Fetcher;
   SVC_FW?: Fetcher;

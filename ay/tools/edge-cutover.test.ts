@@ -17,7 +17,7 @@ const live: Live = {
     [cfg.domains.shenron!]: [{ id: "r9", pattern: `cdn.${cfg.domains.shenron}/*`, script: "shenron-cdn" }],
   },
   domains: [{ hostname: `auto.${root}`, service: "auto" }],
-  scripts: ["aphrody-worker", "aphrody-learn", "auto", "shenron-cdn"],
+  scripts: ["aphrody-worker", "auto", "shenron-cdn"],
   unproxied: [`wasm.${root}`],
 };
 
@@ -42,7 +42,7 @@ describe("edge cutover plan", () => {
 
   test("scripts the Worker binds to are checked against the account", () => {
     expect(missingScripts(cfg, live)).toEqual([]);
-    expect(missingScripts(cfg, { ...live, scripts: ["auto"] })).toEqual(["aphrody-learn", "aphrody-worker", "shenron-cdn"]);
+    expect(missingScripts(cfg, { ...live, scripts: ["auto"] })).toEqual(["aphrody-worker", "shenron-cdn"]);
     expect(render(steps, ["x"], live.unproxied)).toContain("missing service scripts");
     expect(render(steps, [], live.unproxied)).toContain(`no proxied DNS record, add one before the route can serve: wasm.${root}`);
   });

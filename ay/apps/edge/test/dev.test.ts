@@ -172,7 +172,6 @@ describe.skipIf(!running)("unified Worker in workerd", () => {
     const via = async (host: string, path: string) => (await (await get(host, path)).json()) as { stub: string; host: string; path: string };
     expect(await via(`docs.${rootDomain}`, "/guide")).toMatchObject({ stub: "aphrody-worker", host: `docs.${rootDomain}`, path: "/guide" });
     expect((await via(rootDomain, "/github")).stub).toBe("aphrody-worker");
-    expect((await via(`learn.${rootDomain}`, "/api/learn")).stub).toBe("aphrody-learn");
     expect((await via(`auto.${rootDomain}`, "/api/x")).stub).toBe("auto");
     expect((await via(`cdn.${domains.shenron}`, "/img/a.png")).stub).toBe("shenron-cdn");
   });

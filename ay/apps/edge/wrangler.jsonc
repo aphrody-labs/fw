@@ -61,10 +61,6 @@
   ],
   "services": [
     {
-      "binding": "SVC_LEARN",
-      "service": "aphrody-learn"
-    },
-    {
       "binding": "SVC_APHRODY",
       "service": "aphrody-worker"
     },
@@ -87,9 +83,6 @@
       },
       "wasm": {
         "binding": null
-      },
-      "learn": {
-        "binding": "SVC_LEARN"
       },
       "aphrody": {
         "binding": "SVC_APHRODY"
@@ -299,13 +292,6 @@
         "service": "wasm"
       },
       {
-        "pattern": "learn.aphrody.com/*",
-        "host": "learn.aphrody.com",
-        "path": "/",
-        "prefix": true,
-        "service": "learn"
-      },
-      {
         "pattern": "docs.aphrody.com/*",
         "host": "docs.aphrody.com",
         "path": "/",
@@ -398,10 +384,6 @@
     },
     {
       "pattern": "wasm.aphrody.com/*",
-      "zone_name": "aphrody.com"
-    },
-    {
-      "pattern": "learn.aphrody.com/*",
       "zone_name": "aphrody.com"
     },
     {
