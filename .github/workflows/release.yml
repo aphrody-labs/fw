@@ -69,12 +69,6 @@ jobs:
             asset: fw-x86_64-windows.exe
             package: fw-bin
             cargo_args: --bin fw
-          - os: macos-latest
-            target: aarch64-apple-darwin
-            bin: fw
-            asset: fw-aarch64-macos
-            package: fw-bin
-            cargo_args: --bin fw
           - os: ubuntu-latest
             target: wasm32-unknown-unknown
             bin: fw_wasm.wasm
