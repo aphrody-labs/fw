@@ -635,3 +635,12 @@ bindings = ["r2:CDN_BUCKET->rosegriffon-cdn"]
 
 # Retired: deleted by apply when still live, and only when the Worker owns no Durable Object namespace.
 [retired.worker]
+
+# Recovery: Cloudflare data copied to our own disks. The path is `work` of the host in build.toml plus subdir; objects R2 deletes or replaces
+# move to r2-trash/<stamp>/ instead of vanishing from the copy.
+[backup]
+host = "fr1"
+subdir = "backup/cloudflare"
+rclone_remote = "r2"
+skip_buckets = ["aphrody-sccache"]
+schedule = "*-*-* 03:30:00 UTC"
