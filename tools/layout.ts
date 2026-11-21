@@ -7,6 +7,7 @@
 //   bun tools/layout.ts adopt   [--root DIR]   write layout.toml [cargo] from the manifests as they are today
 //   bun tools/layout.ts areas   [--root DIR]   print tracked paths grouped by top and second level, with their area (or none)
 //   bun tools/layout.ts move    [--root DIR]   execute the area entries whose decision is "move" and not blocked (git mv, references rewritten), then sync
+//   bun tools/layout.ts rustonly [--root DIR]  rewrite the baseline of non-Rust source files ([rustonly] in layout.toml)
 //   bun tools/layout.ts doc     [--root DIR]   write the generated tables of docs/architecture/layout-2026.md (area decisions, move table)
 //
 // Why one file per repository and not one shared file: the dependency direction is fw <- aphrody <- ay, so a lower repo
@@ -36,6 +37,7 @@ type Config = {
   cmake?: { projects: string[] };
   area?: Area[];
   moved?: Moved[];
+  rustonly?: { baseline: string; allow?: string[]; extensions?: string[] };
 };
 
 const args = Bun.argv.slice(2);
@@ -275,7 +277,12 @@ function memberViolations(): Violation[] {
         if (target === member.dir) continue;
         if (target.startsWith("..")) out.push({ file, key, message: `${key} leaves the repository (path ${value.path}); declare it in layout.toml [cargo.crate.${key}] and use workspace = true` });
         else if (byName.has(real)) out.push({ file, key, message: `${key} names path ${value.path}; use ${key}.workspace = true` });
-      } else if (value.git && byName.has(real)) out.push({ file, key, message: `${key} names a git source; use workspace = true` });
+      } else if (value.git && byName.has(real)) {
+        // A member may keep its own git source when the workspace entry points at another revision (one lane per origin).
+        const home = cargo.crate?.[key];
+        const sameSource = !home?.git || (home.git === value.git && home.rev === value.rev && home.tag === value.tag);
+        if (sameSource) out.push({ file, key, message: `${key} names a git source; use workspace = true` });
+      }
     }
   }
   return out;
@@ -498,6 +505,21 @@ async function staleReferences() {
     for (const hit of hits) if (boundary.test(hit.replace(/^[^:]+:\d+:/, ""))) fail(`stale reference to moved path ${moved.from} (now ${moved.to}): ${hit.slice(0, 160)}`);
   }
 }
+const NON_RUST = ["ts", "tsx", "mts", "cts", "js", "jsx", "mjs", "cjs", "py", "java"];
+function nonRustSources() {
+  const cfg = config.rustonly!;
+  const extensions = new Set(cfg.extensions ?? NON_RUST);
+  const allow = (cfg.allow ?? []).map(globToRegExp);
+  return tracked.filter((f) => extensions.has(f.slice(f.lastIndexOf(".") + 1)) && !allow.some((p) => p.test(f))).sort();
+}
+// Pure Rust is the direction: a non-Rust source file must be in the baseline (what exists today, shrinking as ports land) or match a
+// deliberate allow entry (generated kernel types, vendored third-party scripts); anything else is new and fails.
+function rustOnlyCheck() {
+  if (!config.rustonly) return;
+  const baseline = new Set(existsSync(join(root, config.rustonly.baseline)) ? read(config.rustonly.baseline).split("\n").filter(Boolean) : []);
+  const added = nonRustSources().filter((f) => !baseline.has(f));
+  if (added.length) fail(`${added.length} new non-Rust source files outside the baseline and the deliberate list (write it in Rust, or add a deliberate [rustonly] allow entry with the reason): ${added.slice(0, 8).join(", ")}${added.length > 8 ? ", ..." : ""}`);
+}
 function policyCheck() {
   if (config.policy?.no_submodules && trackedSet.has(".gitmodules")) fail(".gitmodules is tracked; this repository forbids submodules (pinned git dependencies only)");
   if (config.policy?.no_vendor && tracked.some((f) => f.startsWith("vendor/"))) fail("vendor/ is tracked; this repository forbids a vendor directory");
@@ -544,6 +566,7 @@ if (command === "adopt") {
     ecosystemCheck();
     coverageCheck();
     policyCheck();
+    rustOnlyCheck();
     await staleReferences();
   }
 } else if (command === "fix") {
@@ -647,6 +670,12 @@ if (command === "adopt") {
     text = text.replace(/\n*$/, "\n\n") + hostArea;
   }
   writeFileSync(layoutPath, text.replace(/\n*$/, "\n") + recorded.join(""));
+} else if (command === "rustonly") {
+  if (!config.rustonly) { console.error("no [rustonly] in layout.toml"); process.exit(2); }
+  const files = nonRustSources();
+  mkdirSync(dirname(join(root, config.rustonly.baseline)), { recursive: true });
+  writeFileSync(join(root, config.rustonly.baseline), files.join("\n") + "\n");
+  console.log(JSON.stringify({ baseline: config.rustonly.baseline, files: files.length }));
 } else if (command === "doc") {
   const file = "docs/architecture/layout-2026.md";
   const counts = new Map<Area | undefined, number>();

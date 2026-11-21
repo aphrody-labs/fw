@@ -84,3 +84,20 @@ test("an area map rejects uncovered tracked paths", () => {
   run(root, "sync");
   expect(run(root, "check").err).toContain("not covered by an [[area]]");
 });
+
+test("a new non-Rust source file fails until it is in the baseline or deliberately allowed", () => {
+  const root = repo({
+    "Cargo.toml": workspace,
+    "layout.toml": `${layout}\n[rustonly]\nbaseline = "baseline.txt"\nallow = ["vendored/**"]\n`,
+    "crates/a/Cargo.toml": manifest("a"),
+    "scripts/old.ts": "export {};\n",
+    "vendored/tool.py": "x = 1\n",
+  });
+  run(root, "sync");
+  expect(run(root, "check").err).toContain("scripts/old.ts");
+  expect(run(root, "rustonly").code).toBe(0);
+  expect(readFileSync(join(root, "baseline.txt"), "utf8")).toBe("scripts/old.ts\n");
+  writeFileSync(join(root, "scripts/new.ts"), "export {};\n");
+  Bun.spawnSync(["git", "add", "-A"], { cwd: root });
+  expect(run(root, "check").err).toContain("scripts/new.ts");
+});

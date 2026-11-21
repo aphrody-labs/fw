@@ -40,6 +40,7 @@ Sources fetched on 2026-11-21; each rule below cites one.
 3. Dependency direction fw <- aphrody <- ay; no lower repository names a higher one. aphrody pins git dependencies and has no submodules and no `vendor/`.
 4. Targets: Windows 11, recent Linux and wasm32. macOS is out of scope; no macOS-only work is added.
 5. Prefer the upstream leader over in-house code: the decision per module is recorded below and executed in order.
+6. Pure Rust is the direction (owner decision, audit in `docs/research/pure-rust-audit-2026-11-21.md`): a TypeScript, JavaScript, Python or Java source file that is not in `docs/research/pure-rust-baseline.txt` and not under a deliberate `[rustonly] allow` entry fails `bun tools/layout.ts check`. The baseline only shrinks as ports land; a port goes to its final Rust home (fw subcommand, workers-rs Worker, crate), so the move table never relocates code that is about to be replaced.
 
 ## Proof of relocation safety
 
@@ -67,7 +68,7 @@ Decisions and reasons:
 
 ## Decision for every tracked path
 
-<!-- layout:begin generated (bun tools/layout.ts doc, from layout.toml and git ls-files of 16595 paths) -->
+<!-- layout:begin generated (bun tools/layout.ts doc, from layout.toml and git ls-files of 16600 paths) -->
 
 ### Every tracked path, by area
 
@@ -79,7 +80,7 @@ Decisions and reasons:
 | `.editorconfig` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `.fdignore` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `.gitattributes` | 1 | keep | Git reads these from the repository root |
-| `.github` | 13 | keep | GitHub reads workflows, actions, CODEOWNERS and dependabot from .github |
+| `.github` | 14 | keep | GitHub reads workflows, actions, CODEOWNERS and dependabot from .github |
 | `.gitignore` | 1 | keep | Git reads these from the repository root |
 | `.gitmessage` | 1 | keep | Git reads these from the repository root |
 | `.gitmodules` | 1 | keep | Git reads these from the repository root |
@@ -105,7 +106,7 @@ Decisions and reasons:
 | `crates` | 1168 | keep | Cargo convention: flat crates/* members, one directory per crate |
 | `deny.toml` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
 | `Dockerfile` | 1 | keep | Docker tooling reads these from the build context root |
-| `docs` | 274 | keep | documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract |
+| `docs` | 277 | keep | documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract |
 | `dotnet` | 6 | keep | .NET projects get one root with Directory.Build.props, Directory.Packages.props (central package management) and a .slnx |
 | `flake.nix` | 1 | keep | Nix flakes and legacy entry points are looked up at the root |
 | `fw.soul.json` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
@@ -134,7 +135,7 @@ Decisions and reasons:
 | `tests` | 16 | move -> `packages/fw/test` (blocked) | tests move with the package they test Blocked: moves together with src |
 | `third_party` | 5 | keep | gitlinks to the kernel sources the kernel lot builds (update = none, shallow) |
 | `THIRD_PARTY_NOTICES.md` | 1 | keep | repository front matter and legal files, read by GitHub and package registries at the root |
-| `tools` | 55 | keep | repository scripts (Bun) with their own tests; one script per task |
+| `tools` | 56 | keep | repository scripts (Bun) with their own tests; one script per task |
 | `tsconfig.json` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `upstreams.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `uv.lock` | 1 | keep | uv reads the Python project, workspace and pin from the root |
