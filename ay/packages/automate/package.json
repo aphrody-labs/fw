@@ -20,7 +20,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aphrody-dev/ai-os.git",
+    "url": "git+https://github.com/aphrody-labs/ay.git",
     "directory": "packages/automate"
   },
   "publishConfig": {

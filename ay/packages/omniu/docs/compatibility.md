@@ -101,9 +101,9 @@ Every published release must include:
 - `CHANGELOG.md`
 - `docs/compatibility.md`
 
-The zip must be produced by `tools/package_bundle.py` so file ordering,
+The zip is produced by `bun src/cli.ts package` so file ordering,
 timestamps, and permissions stay deterministic. Consistency of
-`index.toml` with the bundle and pack manifests is enforced by this
-repository's own validator (`tools/validate_bundle.py`); the SHA-256
-checksum is for manual verification of downloaded release zips, since
-current Niubash performs no host-side bundle install or lock switch.
+`index.toml` with the bundle and pack manifests is enforced by
+`bun src/cli.ts validate`; the SHA-256 checksum is for manual verification
+of downloaded release zips, since current Niubash performs no host-side
+bundle install or lock switch.

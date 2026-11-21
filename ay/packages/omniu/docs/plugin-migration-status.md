@@ -31,7 +31,7 @@ Posh where that helps users:
 
 | Feature | Directory Plugin | Status | Notes |
 | --- | --- | --- | --- |
-| Prompt API / Git status prompt | `plugins/prompt-core` | Directory + host bridge + gitstatus helper landed | Owns prompt API and Git prompt entry points; Niubash consumes plugin-selected prompt templates and host-provided Git snapshots when TOML prompt fields are unset. |
+| Prompt API / Git status prompt | `plugins/prompt-core` | Directory landed | Owns prompt API and Git prompt entry points; its precmd hook renders `NIU_PROMPT_LEFT` into `PS1` from the framework-maintained `NIU_PROMPT_GIT` snapshot. |
 | Git workflow | `plugins/git` | Directory landed | Owns aliases/functions/completion metadata reference; no longer claims prompt ownership. |
 | Common aliases | `plugins/common-aliases` | Started | Small Oh My-style navigation/listing aliases with matching alias asset metadata. |
 | Docker | `plugins/docker` | Started | Loads alias asset and shell helpers. |
@@ -124,6 +124,6 @@ Posh where that helps users:
    once segment/provider contracts are stable.
 3. Convert bridge plugins to real plugins when Reedline/provider APIs are
    stable enough.
-5. Keep reducing `PluginKind::Builtin` for first-party behavior; leave host
+4. Keep reducing `PluginKind::Builtin` for first-party behavior; leave host
    ownership only for Reedline-bound completion/highlighting/keybinding
    frontends until a real provider API exists.

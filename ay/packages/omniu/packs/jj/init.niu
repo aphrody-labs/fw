@@ -1,7 +1,7 @@
 # Oh My Niu jj plugin: Jujutsu VCS helpers.
 #
 # - completions/jj.toml is generated from the official
-#   `jj util completion bash` output (see tools/convert_jj_completions.py)
+#   `jj util completion bash` output (see src/convert-jj.ts)
 #   and regenerated per jj release, so it tracks upstream flags.
 # - jj_prompt_segment renders a VCS segment for PS1/PROMPT_COMMAND wiring.
 #   The cache is the oplog head file compared with `test -nt` (a builtin:

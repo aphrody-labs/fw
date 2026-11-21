@@ -37,7 +37,7 @@ Installed at `~/.local/bin/env-kit.exe` (`env-kit.cmd` shim):
 
 ```powershell
 env-kit doctor                       # Masked audit of all credentials, NTFS ACLs, and editors
-env-kit accounts status [--json]     # 3-principal gcloud configs, rclone, and 10 org provider surfaces
+env-kit accounts status [--json]     # 3-principal gcloud configs, rclone, and org provider surfaces
 env-kit accounts init-gcloud         # Idempotently configure ai-agent, owner, org-contact, sa-automation
 env-kit accounts switch <principal>  # Switch active gcloud config (<ai|owner|org|sa>)
 env-kit accounts iam-bindings        # Print idempotent IAM policy bindings for project aphrody (#<gcp-project-numbers>)
@@ -73,15 +73,14 @@ Library API for other tools (AI provider keys included): `secretSet`, `secretGet
 
 ## Fleet Authentication (`env-kit auth`, `ay auth`)
 
-`status`, `repair [--browser]`, `gh-secrets`, `tunnels`, `rotate cloudflare`.
-Fleet inventory in `apps/agents/fleet.toml`.
+`status`, `repair [--browser]`, `gh-secrets`, `tunnels`, `rotate cloudflare`; the full list is in `env-kit --help`.
+The inventory is the `[nodes.*]` and `[auth.*]` tables of `device/deploy.toml` (read by `src/auth.ts`).
 
 ## Multi-Language Loaders
 
 | Language / Runtime            | Path                                                      | Native CLI Flag / Usage                                                  |
 | :---------------------------- | :-------------------------------------------------------- | :----------------------------------------------------------------------- |
-| **Bun v1.4.4 / TypeScript**   | `packages/env-kit/src/index.ts`                    | `bun --env-file=.env` or `loadMonorepoEnv({ service, required })` |
-| **Rust 2024 (`aphrody-env`)** | `crates/ay-vault` and `packages/env-kit` | `aphrody_env::load_monorepo_env(LoadOptions::default())`                 |
+| **Bun / TypeScript**          | `packages/env-kit/src/index.ts`                    | `bun --env-file=.env` or `loadMonorepoEnv({ service, required })` |
 | **Python 3.12+ / `uv`**       | `packages/env-kit/loaders/python/sovereign_env.py` | `uv run --env-file .env` or `sovereign_env.load_monorepo_env()`   |
 | **C11 / C++23**               | `packages/env-kit/loaders/cpp/sovereign_env.hpp`   | `sovereign_env::load()` / `sovereign_env_load_file(NULL, 0)`             |
 | **.NET 10/11 C#**             | `packages/env-kit/loaders/dotnet/SovereignEnv.cs`  | `Aphrody.EnvKit.SovereignEnv.Load()`                                     |

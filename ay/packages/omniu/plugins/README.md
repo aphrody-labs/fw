@@ -15,5 +15,5 @@ plugins/name/
 
 The older `packs/`, `aliases/`, `completions/`, `prompts/`, and `themes/`
 directories remain transitional bundle assets. New user-visible behavior should
-start here first, then expose metadata through `plugin.toml` when packaging,
-permission review, or managed updates need it.
+start here first, then expose metadata through `plugin.toml` when packaging
+or permission review needs it.

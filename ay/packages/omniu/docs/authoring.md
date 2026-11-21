@@ -41,16 +41,15 @@ the host plugin CLI, verified once at install time.
 4. Add any exported assets under `aliases/`, `completions/`, `prompts/`,
    `keybindings/`, `themes/`, or `wasm/`; source packs also add
    `packs/<name>/init.niu`.
-5. Run the CI-safe checks:
+5. Run the checks from the package directory:
 
 ```sh
-python tools/validate_bundle.py
-python tools/package_bundle.py --check
+bun src/cli.ts validate
+bun src/cli.ts package --check
 ```
 
-6. Smoke the result with the framework harness (see Validation in the
-   README): `niubash tools/smoke_framework.niu .` against the target
-   Niubash build.
+6. Smoke the result with the framework harness:
+   `niubash tools/smoke_framework.niu .` against the target Niubash build.
 
 There is no host-side review or install step for this bundle. The host
 plugin CLI (`niu plugin ...`) manages only the external ecosystem
@@ -65,18 +64,16 @@ keeps no trust state afterwards.
 
 ## Scaffolding a New Pack
 
-A pack is wired into four directories and three registries; missing any of
-them fails Bundle CI only after the fact. Use the scaffolder so every piece
-lands together and the validator runs before you commit:
+A pack is wired into several directories and registries. Use the scaffolder
+so every piece lands together:
 
 ```sh
-python tools/new_pack.py add mypack --summary "One line."     --required-binary mypack --with-completions
-python tools/new_pack.py remove mypack   # reverse everything cleanly
+bun src/cli.ts new-pack add mypack --summary "One line." --required-binary mypack --with-completions
+bun src/cli.ts new-pack remove mypack
 ```
 
-Both commands run `tools/validate_bundle.py` at the end and fail loudly if
-a registration anchor drifted. The jj pack (PR #10) landed with exactly the
-wiring mistakes this tool now prevents.
+Both commands run the bundle validator at the end and fail if a registration
+anchor drifted.
 
 ## Bundle Metadata
 
@@ -289,8 +286,8 @@ reviewers.
 
 ## Release Checklist
 
-- `python tools/validate_bundle.py`
-- `python tools/package_bundle.py --check`
+- `bun src/cli.ts validate`
+- `bun src/cli.ts package --check`
 - `niubash tools/smoke_framework.niu .` against the target Niubash build
 - Changelog entry for any permission, default, runtime, or exported asset
   change.

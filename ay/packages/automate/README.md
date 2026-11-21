@@ -20,7 +20,7 @@ Part of Aphrody: [aphrody-labs/ay](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->
 
-Workflow automation engine extracted from apps/auto, consumed by every front end (web, CLI, TUI, desktop, mobile).
+Workflow automation engine. Identifiers are French (`valider`, `executer`, `resoudre`).
 
 - `Definition` (zod schema), `valider(def)`: static validation of a workflow.
 - `MODELES` / `catalogueJson()`: bundled templates and the node catalog.

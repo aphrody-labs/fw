@@ -15,8 +15,8 @@ The smoke currently verifies:
 - default framework load: `prompt-core git`;
 - prompt API functions: `niubash_prompt_render_left` and
   `niubash_prompt_git_info`;
-- all official theme plugins: `minimal`, `classic`, `pure`, `compact`,
-  `cyberpunk`, `forest`, and `ocean`;
+- every official theme plugin listed in the `for theme in` loop of
+  `tools/smoke_framework.niu`;
 - Git prompt snapshot contract: `prompt-core` sets `NIU_PROMPT_GIT`, and
   `niubash_prompt_git_info` reads that snapshot;
 - devtool plugin aliases/functions from `git`, `docker`, `kubectl`, and `npm`;

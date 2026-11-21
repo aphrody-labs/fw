@@ -1,7 +1,7 @@
 # Oh My Niu Framework Design
 
-Status: active direction. This replaces the retired manifest-first bundle design
-in `docs/design-manifest-first-retired.md`.
+Status: active direction. It replaces an earlier manifest-first bundle design
+(removed from the tree; see git history).
 
 ## Product Thesis
 

@@ -21,8 +21,8 @@ Part of Aphrody: [aphrody-labs/ay](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->
 
-Compile-Time Web Validator and Modern Web Guidance (MWG) RAG engine for the `src` monorepo.
-100% pure Bun (`zero` external npm dependencies) paired with a Pure C23 LLVM native core (`crates/ay-core/capi/c/mwg_core.c` -> `native/mwg_capi.dll`) via `bun:ffi`.
+Compile-time web validator and Modern Web Guidance (MWG) search engine. No npm dependencies.
+An optional native core (`crates/ay-core/capi/c/mwg_core.c`, library `mwg_capi`) is loaded through `bun:ffi` from `$APHRODY_MWG_LIB`, `native/` or `~/.local/bin`; without it a TypeScript fallback runs.
 
 ## Capabilities
 
@@ -40,7 +40,7 @@ Compile-Time Web Validator and Modern Web Guidance (MWG) RAG engine for the `src
    - Reciprocal Rank Fusion (RRF) over `data/gen/guide-chunks.*` and 252 compressed guides (`data/gen/guides.json.gz`)
 3. **Baseline & Feature Gates** (`.mwgrc`, `wck baselinestatus <query>`, `wck set-allow-origin-trials`, `wck set-allow-volatile-features`, `wck set-baseline <target>`)
 4. **Legacy Pattern Scanner** (`wck legacy-scan [<path>] [--json] [--guide=<id>]`)
-5. **MDX & Native C23 FFI** (`wck mdx <file>`, `src/mwg-ffi.ts` -> `mwg_capi.dll` with deterministic Bun fallback)
+5. **MDX and native FFI** (`wck mdx <file>`, `src/mwg-ffi.ts` with the TypeScript fallback)
 
 ## Verification
 

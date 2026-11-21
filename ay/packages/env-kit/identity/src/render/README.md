@@ -5,7 +5,8 @@ Dessine les frames du pet depuis l'atlas `spritesheet.webp`. WebGPU quand la pag
 ## API
 
 ```ts
-import { createPetRenderer } from "@aphrody/ay-identity/render";
+// `src/render/index.ts`; not listed in the package `exports`
+import { createPetRenderer } from "./index.ts";
 
 const renderer = await createPetRenderer(canvas, {
   mode: "2d", // "2d" | "3d"

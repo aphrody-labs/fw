@@ -1,8 +1,8 @@
 # Alias Assets
 
-This directory owns first-party alias tables for builtin packs. Niubash loads
-these files from the active `oh-my-niu` bundle first and falls back to its
-compiled alias tables only when the bundle is absent or invalid.
+This directory owns first-party alias tables. The framework loads
+`aliases/<pack>.toml` for a plugin through `niubash_load_alias_asset`
+(`lib/aliases.niu`); a missing file is skipped.
 
 Each file is named after the exporting pack:
 

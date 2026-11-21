@@ -20,22 +20,10 @@ Part of Aphrody: [aphrody-labs/ay](../../README.md).
 
 Python 3 to Bun TypeScript transpiler, built for Ghidra (PyGhidra) scripts.
 
-- Rust CLI (`py2bun-rs`): resolved via `PY2BUN_BIN` or `PATH` (parser `ruff_python_parser` 0.0.22).
+- Rust CLI (`py2bun-rs`): resolved via `PY2BUN_BIN` or `PATH`. Its sources are not in this repository (no `Cargo.toml` under `packages/py2bun`; `pyproject.toml` points `manifest-path` at `../py2bun/Cargo.toml`).
 - PyO3 module (abi3, `py2bun._py2bun`): `py2bun.transpile(source, mode="auto") -> str` (raises `SyntaxError` with all diagnostics), `py2bun.transpile_with_diagnostics(source, mode="auto") -> (ts, [(line, col, severity, message)])`.
 - Bun runtime: `@aphrody/ay-py2bun/runtime` (builtins, operators, `str`/`list`/`dict` methods), plus `runtime/{math,json,os,sys,re,time,string,struct,random}`.
 - Bun wrapper: `import { transpile } from "@aphrody/ay-py2bun"` shells to the Rust CLI `py2bun-rs`.
-
-## Existing tools (searched 2026-11-15)
-
-| Tool | Verdict |
-|---|---|
-| py2many 0.9 (PyPI, 1347 stars) | Targets Rust, C++, Go, Zig, Mojo, no TypeScript/Bun target; no Ghidra idioms. |
-| sebastian-software/python2ts (2 stars) | TypeScript-written transpiler, not embeddable from PyO3/Rust, no Java/Ghidra mapping. |
-| Transcrypt 3.9.5 (PyPI) | Python to JavaScript with its own runtime (browser oriented), Python-side tool, no Bun TypeScript, no Ghidra idioms. |
-| rustpython-parser 0.4.0 | Parser only, last release 2024-08. |
-| ruff_python_parser 0.0.22 | Parser only, published 2026-11-12: chosen as the front end. |
-
-No existing tool emits Bun-runnable TypeScript with Ghidra FlatAPI and Java namespace mapping, embeddable from Rust and PyO3.
 
 ## Usage
 
