@@ -248,7 +248,9 @@ async function buildSprite(name: string, dir: string): Promise<SpriteEntry> {
 
 // ---------------------------------------------------------------------------------------------------------------- main
 
-const manifest: Manifest = { schema: 1, revision: "", images: {}, video: {}, sprites: {} };
+// A run with --only keeps what earlier runs built: the manifest starts from the one already in the output tree.
+const previous = (await Bun.file(tree("v1/manifest.json")).json().catch(() => undefined)) as Manifest | undefined;
+const manifest: Manifest = { schema: 1, revision: "", images: { ...previous?.images }, video: { ...previous?.video }, sprites: { ...previous?.sprites } };
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif"]);
 const VIDEO_EXT = new Set([".mp4", ".mov", ".mkv", ".webm"]);
 const started = performance.now();
