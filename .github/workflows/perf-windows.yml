@@ -13,10 +13,6 @@ on:
         description: clean builds of the release profile (fat LTO)
         default: "2"
 
-# Cargo checks out git dependencies (mullvadvpn-app) with paths longer than MAX_PATH: short CARGO_HOME and long paths in git.
-env:
-  CARGO_HOME: C:\cch
-
 jobs:
   perf:
     name: fw bench perf (windows-latest)
@@ -24,9 +20,6 @@ jobs:
     timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
-      - name: Long paths
-        shell: bash
-        run: git config --global core.longpaths true
       - uses: ./.github/actions/rust-toolchain
       - name: Harness
         shell: bash

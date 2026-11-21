@@ -5,7 +5,29 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Browser client of fw android: WebGPU (wgpu wasm) viewer for the guest surfaces"
+description = "Browser client of fw android: WebGPU (wgpu wasm) viewer for the guest surfaces, WebSocket-to-TCP relay and the build/pack tool"
+
+[features]
+# The relay (`fwa-ws-relay`): host-only dependencies, never built for wasm.
+host = ["dep:tokio", "dep:tokio-tungstenite", "dep:futures-util"]
+
+[dependencies]
+fw-android-stream = { path = "../stream" }
+tokio = { version = "1.54", features = ["rt-multi-thread", "net", "io-util", "macros", "signal"], optional = true }
+tokio-tungstenite = { version = "0.30", optional = true }
+futures-util = { version = "0.3", default-features = false, features = ["sink", "std"], optional = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wgpu = { version = "30.0.2", default-features = false, features = ["webgpu", "wgsl"] }
+wasm-bindgen = "0.2.130"
+wasm-bindgen-futures = "0.4.80"
+js-sys = "0.3.107"
+web-sys = { version = "0.3.107", features = [
+  "BinaryType", "CanvasRenderingContext2d", "CloseEvent", "Document", "Element", "Event", "EventTarget", "HtmlCanvasElement",
+  "HtmlElement", "KeyboardEvent", "Location", "MessageEvent", "MouseEvent", "Navigator", "Performance", "PointerEvent",
+  "UrlSearchParams", "WebSocket", "Window", "console", "ImageBitmap", "VideoFrame", "VideoFrameInit", "OffscreenCanvas",
+  "WheelEvent", "Gpu", "WorkerGlobalScope",
+] }
 
 [lints]
 workspace = true
@@ -13,3 +35,12 @@ workspace = true
 [lib]
 crate-type = ["cdylib", "rlib"]
 path = "src/lib.rs"
+
+[[bin]]
+name = "fwa-ws-relay"
+path = "src/bin/fwa-ws-relay.rs"
+required-features = ["host"]
+
+[[bin]]
+name = "fwa-web-pack"
+path = "src/bin/fwa-web-pack.rs"

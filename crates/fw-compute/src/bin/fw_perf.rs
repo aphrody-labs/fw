@@ -805,15 +805,9 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
     } else {
         let base: Vec<String> = rest.iter().filter(|a| !a.starts_with("-fuse-ld") && !a.starts_with("-B")).cloned().collect();
         let with = |flags: Vec<String>| -> Vec<String> { flags.into_iter().chain(base.iter().cloned()).collect() };
-        // mold and wild fork a child to link and let the parent return, which hides the work from wait4 (CPU and RSS read 0);
-        // --no-fork keeps it in the measured process.
         for name in ["bfd", "gold", "lld", "mold"] {
             if which(&format!("ld.{name}")).is_some() {
-                let mut flags = vec![format!("-fuse-ld={name}")];
-                if name == "mold" {
-                    flags.push("-Wl,--no-fork".to_string());
-                }
-                linkers.push((name.to_string(), linker_program.clone(), with(flags)));
+                linkers.push((name.to_string(), linker_program.clone(), with(vec![format!("-fuse-ld={name}")])));
             }
         }
         if let Some(dir) = original.iter().find_map(|a| a.strip_prefix("-B").filter(|d| d.contains("gcc-ld")).map(str::to_string)) {
@@ -826,7 +820,7 @@ fn run_link(build: &Build, options: &Options, report: &mut Report) {
             fs::remove_file(&link).ok();
             link_symlink(&wild, &link);
             if link.exists() {
-                linkers.push(("wild".to_string(), linker_program.clone(), with(vec![format!("-B{}", wild_dir.display()), "-Wl,--no-fork".to_string()])));
+                linkers.push(("wild".to_string(), linker_program.clone(), with(vec![format!("-B{}", wild_dir.display())])));
             }
         }
     }
