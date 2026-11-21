@@ -331,6 +331,9 @@ fn main() {
         "depot" | "gclient" => {
             std::process::exit(run_sibling("depot", "fw-depot", &args[1..]));
         }
+        "org" => {
+            std::process::exit(run_sibling("org", "fw-org", &args[1..]));
+        }
         "estate" => {
             std::process::exit(run_sibling("estate", "fw-estate", &args[1..]));
         }

@@ -1,0 +1,353 @@
+# The aphrody-labs GitHub organization as one declarative file. `fw org plan|apply|check|import` (crates/fw-org) diffs the live
+# organization against it; the plan file is committed before `apply` runs it. Names, kinds and the root domain come from the
+# identity file (ay/ay.toml) and product.toml; nothing here is a secret or a value of the machine that runs the tool.
+# Every `profile`, `settings`, `workflow` and security `settings` table is sent to GitHub as written: its keys are API field names.
+# Forks keep their upstream LICENSE and authorship: no class below writes a file into a fork.
+
+[org]
+name = "aphrody-labs"                  # must equal product.toml `organization`
+user = "aphrody-dev"                   # the owner account that holds the token
+token_env = "GH_TOKEN"                 # falls back to `gh auth token`; never printed, never in an argument list
+plan_file = "org.plan.json"
+identity_file = "ay/ay.toml"           # [repos] kinds, [retired] repositories to archive, [domains] root
+# A fork keeps GitHub Actions only while it runs workflows of its own: a run of one of these events inside the window.
+fork_actions_events = ["push", "workflow_dispatch", "pull_request", "release"]
+fork_actions_window_days = 30
+
+# ---------------------------------------------------------------------------------------------
+# Organization: PATCH /orgs/{org}
+# ---------------------------------------------------------------------------------------------
+[profile]
+description = "Aphrody: an OS with self-hosted services, open-source tools and web platforms"
+blog = "https://aphrody.com"
+email = "contact@aphrody.com"
+default_repository_permission = "read"
+members_can_create_repositories = false
+members_can_create_public_repositories = false
+members_can_create_private_repositories = false
+members_can_fork_private_repositories = false
+web_commit_signoff_required = false
+
+# PUT /orgs/{org}/actions/permissions/workflow
+[actions.workflow]
+default_workflow_permissions = "read"
+can_approve_pull_request_reviews = false
+
+# ---------------------------------------------------------------------------------------------
+# Classes, derived from the API: private, fork, original (first match wins). Archived repositories are never written.
+# ---------------------------------------------------------------------------------------------
+[class.original]
+security = "aphrody-originals"
+labels = true
+rulesets = ["main-integrity", "tags-immutable"]
+[class.original.settings]
+has_issues = true
+has_projects = false
+has_wiki = false                       # kept while the wiki has pages (check reports it)
+has_discussions = false                # [repo.<name>] discussions = true switches it on
+delete_branch_on_merge = true
+allow_auto_merge = true
+allow_update_branch = true
+allow_squash_merge = true
+allow_rebase_merge = true
+allow_merge_commit = false
+squash_merge_commit_title = "PR_TITLE"
+squash_merge_commit_message = "PR_BODY"
+web_commit_signoff_required = false
+[class.original.workflow]
+default_workflow_permissions = "read"
+can_approve_pull_request_reviews = false
+
+[class.fork]
+security = "aphrody-forks"
+actions_enabled = false
+[class.fork.settings]
+has_issues = false
+has_projects = false
+has_wiki = false
+
+# Private repositories: free-plan limits (no rulesets, no secret scanning, no org secrets) leave only these toggles.
+[class.private]
+[class.private.settings]
+has_wiki = false
+has_projects = false
+[class.private.workflow]
+default_workflow_permissions = "read"
+can_approve_pull_request_reviews = false
+
+# ---------------------------------------------------------------------------------------------
+# Security configurations: POST /orgs/{org}/code-security/configurations, attached per repository
+# ---------------------------------------------------------------------------------------------
+[security.aphrody-originals]
+description = "Public originals: secret scanning, push protection, Dependabot, CodeQL default setup, private vulnerability reporting"
+[security.aphrody-originals.settings]
+advanced_security = "enabled"
+dependency_graph = "enabled"
+dependabot_alerts = "enabled"
+dependabot_security_updates = "enabled"
+code_scanning_default_setup = "enabled"
+secret_scanning = "enabled"
+secret_scanning_push_protection = "enabled"
+secret_scanning_non_provider_patterns = "disabled"
+secret_scanning_validity_checks = "disabled"
+private_vulnerability_reporting = "enabled"
+enforcement = "enforced"
+
+[security.aphrody-forks]
+description = "Forks and mirrors: secret scanning, push protection, Dependabot alerts; no CodeQL"
+default_for_new_repos = "public"
+[security.aphrody-forks.settings]
+advanced_security = "enabled"
+dependency_graph = "enabled"
+dependabot_alerts = "enabled"
+dependabot_security_updates = "disabled"
+code_scanning_default_setup = "not_set"
+secret_scanning = "enabled"
+secret_scanning_push_protection = "enabled"
+private_vulnerability_reporting = "disabled"
+enforcement = "unenforced"
+
+# ---------------------------------------------------------------------------------------------
+# Organization secrets: names only. A secret is `selected` and goes to the originals whose workflows read it (`secrets.NAME`
+# or `secrets: inherit`), found in the plan from the live workflows; never `all`, because forks would read it too.
+# ---------------------------------------------------------------------------------------------
+[secret.APHRODY_APP_KEY]
+visibility = "selected"
+[secret.SUBMODULES_APP_KEY]
+visibility = "selected"
+[secret.NPM_TOKEN]
+visibility = "selected"
+[secret.CARGO_REGISTRY_TOKEN]
+visibility = "selected"
+[secret.HOSTINGER_API_TOKEN]
+visibility = "selected"
+
+[team.aphrody]
+description = "Owner team for publishing Shenron crates and maintaining the Shenron repository."
+privacy = "closed"
+
+# ---------------------------------------------------------------------------------------------
+# Rulesets of the originals (POST /repos/{owner}/{repo}/rulesets). Nobody rewrites main or a release tag. No pull-request rule:
+# agents push fast-forwards to main directly (solo maintainer). fw keeps merge commits because it follows Zed and its own imports
+# through subtree merges (docs/architecture/layout-2026.md, decision 4), so it takes main-integrity-merge instead of main-integrity.
+# ---------------------------------------------------------------------------------------------
+[ruleset.main-integrity]
+description = "No deletion, no force push, linear history on the default branch. No bypass: nobody rewrites main."
+target = "branch"
+enforcement = "active"
+include = ["~DEFAULT_BRANCH"]
+rules = [{ type = "deletion" }, { type = "non_fast_forward" }, { type = "required_linear_history" }]
+
+[ruleset.main-integrity-merge]
+description = "No deletion and no force push on the default branch; merge commits allowed (subtree merges of upstreams). No bypass."
+target = "branch"
+enforcement = "active"
+include = ["~DEFAULT_BRANCH"]
+rules = [{ type = "deletion" }, { type = "non_fast_forward" }]
+
+[ruleset.tags-immutable]
+description = "Release tags v* cannot be moved or deleted (tags are v<version> of the release train, ay docs/release/model.md)."
+target = "tag"
+enforcement = "active"
+include = ["refs/tags/v*"]
+rules = [{ type = "deletion" }, { type = "update" }, { type = "non_fast_forward" }]
+
+# Role topic of a product repository, by its `kind` in the identity file.
+[topic_by_kind]
+toolchain = "aphrody-runtime"
+os = "aphrody-platform"
+sdk = "aphrody-runtime"
+game = "aphrody-games"
+site = "aphrody-runtime"
+library = "aphrody-tools"
+browser = "aphrody-runtime"
+nt = "aphrody-platform"
+runtime = "aphrody-runtime"
+craft = "aphrody-craft"
+standard = "aphrody-tools"
+
+# Findings of `fw org check` cite the page they follow.
+[practice.secret-visibility-all]
+source = "https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions"
+[practice.actions-allowed-all]
+source = "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions"
+[practice.two-factor]
+source = "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization"
+[practice.security-default]
+source = "https://docs.github.com/en/rest/code-security/configurations"
+[practice.drift]
+source = "https://docs.github.com/en/rest/orgs/orgs"
+
+# ---------------------------------------------------------------------------------------------
+# Repository metadata. Description, homepage and topics only where the live value is missing or wrong; topics are added, never removed.
+# ---------------------------------------------------------------------------------------------
+[repo.fw]
+rulesets = ["main-integrity-merge", "tags-immutable"]
+description = "Toolchain and agent runtime of the aphrody stack: Rust CLI, MCP/ACP/A2A server, inference, cluster builds and the agent plugin, in one monorepo with the aphrody OS and the ay SDK"
+homepage = "https://aphrody.com"
+
+[repo.ay]
+discussions = true
+homepage = "https://aphrody.com"
+
+[repo.aphrody]
+homepage = "https://aphrody.com"
+
+[repo.nie]
+homepage = "https://aphrody.com"
+topics = ["aphrody-games"]
+
+[repo.shenron]
+homepage = "https://dragonballfr.com"
+
+[repo.".github"]
+homepage = "https://aphrody.com"
+
+[repo.wiki]
+description = "Rust workspace of shenron: koharu, dragon-pixel and the shenron-* crates; reads shenron/data"
+topics = ["aphrody-tools"]
+
+[repo.fw-nt]
+homepage = "https://aphrody.com"
+topics = ["aphrody-platform"]
+
+[repo.gpu-bench]
+topics = ["aphrody-tools"]
+[repo.android-lab]
+topics = ["aphrody-tools"]
+[repo.assets-lab]
+topics = ["aphrody-tools"]
+[repo.agent-sessions]
+topics = ["aphrody-tools"]
+[repo.ay-web]
+topics = ["aphrody-platform"]
+[repo.android-documentsui]
+topics = ["aphrody-tools"]
+[repo.chromium-file-manager]
+topics = ["aphrody-tools"]
+
+# Aggregated trees Dependabot cannot update (vendored manifests): the forks configuration, alerts only.
+[repo.browser]
+discussions = true
+security = "aphrody-forks"
+
+# Forks that build in their own workflows on the cluster runners.
+[repo.bun]
+actions = true
+
+[[labels]]
+name = "bug"
+color = "d73a4a"
+description = "Something does not work as documented"
+
+[[labels]]
+name = "feature"
+color = "0e8a16"
+description = "New capability or behavior"
+
+[[labels]]
+name = "docs"
+color = "0075ca"
+description = "Documentation only"
+
+[[labels]]
+name = "chore"
+color = "ededed"
+description = "Maintenance, refactor, tooling, no behavior change"
+
+[[labels]]
+name = "security"
+color = "b60205"
+description = "Vulnerability or hardening; report privately first (SECURITY.md)"
+
+[[labels]]
+name = "question"
+color = "d876e3"
+description = "Usage question; prefer Discussions or SUPPORT.md"
+
+[[labels]]
+name = "needs-triage"
+color = "fbca04"
+description = "Not yet reviewed"
+
+[[labels]]
+name = "blocked"
+color = "5319e7"
+description = "Waiting on an external change"
+
+[[labels]]
+name = "duplicate"
+color = "cfd3d7"
+description = "Already tracked elsewhere"
+
+[[labels]]
+name = "wontfix"
+color = "ffffff"
+description = "Out of scope or declined"
+
+[[labels]]
+name = "good first issue"
+color = "7057ff"
+description = "Small, well specified, safe to start with"
+
+[[labels]]
+name = "help wanted"
+color = "008672"
+description = "Extra hands welcome"
+
+[[labels]]
+name = "p0"
+color = "b60205"
+description = "Production down or data loss"
+
+[[labels]]
+name = "p1"
+color = "d93f0b"
+description = "Major breakage, fix next"
+
+[[labels]]
+name = "p2"
+color = "fbca04"
+description = "Normal priority"
+
+[[labels]]
+name = "p3"
+color = "c2e0c6"
+description = "Low priority"
+
+[[labels]]
+name = "breaking"
+color = "b60205"
+description = "Breaking change; goes under Breaking in release notes"
+
+[[labels]]
+name = "skip-changelog"
+color = "ededed"
+description = "Excluded from generated release notes"
+
+[[labels]]
+name = "dependencies"
+color = "0366d6"
+description = "Dependency update"
+
+[[labels]]
+name = "github_actions"
+color = "000000"
+description = "Workflow action update"
+
+[[labels]]
+name = "bun"
+color = "f9f1e1"
+description = "Bun or npm dependency update"
+
+[[labels]]
+name = "rust"
+color = "dea584"
+description = "Cargo dependency update"
+
+
+# Labels GitHub creates by default that the standard replaces.
+[labels_rename]
+enhancement = "feature"
+documentation = "docs"
+invalid = "wontfix"

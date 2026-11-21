@@ -31,6 +31,7 @@ members = [
     "crates/fw-secrets",
     "crates/fw-cluster",
     "crates/fw-estate",
+    "crates/fw-org",
     "crates/fw-proto",
     "crates/fw-ui-blitz",
     "crates/fw-wasm",

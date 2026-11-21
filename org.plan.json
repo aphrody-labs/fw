@@ -1,0 +1,3702 @@
+{
+  "schema": 1,
+  "org_sha256": "47d69bd77dac30f79efe0e53f6d126a5a92f4db7671ebeb900a974a4ad1da135",
+  "actions": [
+    {
+      "op": "archive",
+      "kind": "repository",
+      "scope": "aphrody-labs",
+      "target": "aynt",
+      "detail": "ReactOS fork superseded by fw-nt (LiberNT)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "A2A",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "DirectX-Headers",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "DirectXShaderCompiler",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "DirectXTK12",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "IronRDP",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "JetStream",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "LiberNT",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "PowerShell",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "WSL2-Linux-Kernel",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "WindowsAppSDK",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "YouTube.js",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "a2a-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "a2ui",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "accessibility-cli",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "accesskit",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "adk-go",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "adk-java",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "adk-js",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "adk-python",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "adk-rust",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "agent-browser",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "agents",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ai",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "androidx",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "anyrender",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "apt-transport-cloudflared",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "artifact-fs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "asterinas",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "awesome-dioxus",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "base-ui",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "bedina",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "better-auth",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "boringtun",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "browse",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "browser-run",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cargo",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cargo-xwin",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cargo-zigbuild",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cbpfc",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "certinel",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cfssl",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cfssl_trust",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cli",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "clip",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cloudflare-ai",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cloudflare-computer",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cloudflare-mcp",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cloudflare-os",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cloudflare-templates",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cloudflared",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "computer-use-preview",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cosmic-epoch",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cosmic-text",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "craft-anything",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "crates.io",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "cross",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dawn",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "deadbolt",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "deploy-action",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "diffusers",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dioxus-ai",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dioxus-code",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dioxus-components",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dioxus-html-macro",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dioxus-icons",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dioxus-sdk",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dioxus-template",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dioxus-test",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "docsite",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dotnet",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "dxvk",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ebpf_exporter",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "effectcraft",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "egui",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "flicks",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "fluentui",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "fluentui-system-icons",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "fx",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "gemini-cli",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "gemini-rust",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "gemini-skills",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "genkit",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ggml",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ghidra",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "gitingest",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "go",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "go-genai",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "gogcli",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "gokeyless",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "google-apis-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "google-cloud-rust",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "google-workspace-cli",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "google_workspace_mcp",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "googlesans-flex",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "gpu-unlock",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "h3",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "hickory-dns",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "hokum",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "huggingface.js",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "hyperfine",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "isocast",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "java-genai",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "js-genai",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "jules-action",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "just",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "just-bash",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "kube",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "kumo",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "libcosmic",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "libreget",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "lightcraft",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "linux",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "linux-cachyos-kernel",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "linux-stable",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "litellm",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "live-api-web-console",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "llvm-project",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "lol-html",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "longbridge-nsh",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "markdown",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "matched-data-cli",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "material-components-android",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "material-design-icons",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "mcp",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "mcp-server-cloudflare",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "mcp-toolbox",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "microsoft-ui-xaml",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "mmproxy",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "mochi-desktop",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "models.dev",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "moq-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "mpp-proxy",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "mullvadvpn-app",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "nel-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "networkquality-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ngtcp2",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "niu-git",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "nowinandroid",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "obscura",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "octopus",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "odoh-client-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "odoh-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "omniget",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "openauth",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "opencode-pty",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "openpets",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "opentunnel",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "openvmm",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "pear-desktop",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "pingora",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "pmtud",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "pp-browser-extension",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "privacy-gateway-client-library",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "privacy-gateway-server-go",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "privacypass-attester",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "privacypass-config",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "privacypass-issuer",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "privacypass-origin",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "privacypass-ts",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "proton-cachyos",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "python-genai",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "quiche",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "rakelimit",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "rclone",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "react-native-windows",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "remotion",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "rift",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "rsrpc",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ruline",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "rune",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "rust",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "rust-clippy",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "rustup",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "sandbox",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "sandbox-sdk",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "sdk",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "skia",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "skills",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "sonora",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "soundcraft",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "spacedrive",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "speedtest",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "stitch-sdk",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "strobe",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "svg-hush",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "tailwindcss",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "terminal-control",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "three.js",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "tls-tris",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "tokenizers",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "transformers",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "trl",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "tubular",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "turborepo",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ui",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ui-ux-pro-max-skill",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "unbound",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "vello",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "vinext",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "vkd3d-proton",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "vllm",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "warnings",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "wasm-bindgen-wry",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "watch-skill",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "web-adapters",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "weston-mirror",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "whisper.cpp",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "windows-drivers-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "wine-cachyos",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "winit",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "wirefilter",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "workerd",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "workerd-cxx",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "workers-rs",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "workers-sdk",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "workflow",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "wry",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "wslg",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "wterm",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "xdpcap",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "xh",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "xwin",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "yazi",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "youtube",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "youtui",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "yt-dlp",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "ytmusicapi",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "zed",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "original",
+      "target": ".github",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "original",
+      "target": "browser",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "original",
+      "target": "fw",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "original",
+      "target": "nie",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "original",
+      "target": "shenron",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "private",
+      "target": "agent-sessions",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "private",
+      "target": "android-documentsui",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "private",
+      "target": "assets-lab",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "private",
+      "target": "ay-web",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "private",
+      "target": "chromium-file-manager",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "actions-workflow",
+      "scope": "private",
+      "target": "wiki",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "bug"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "duplicate"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "good first issue"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "help wanted"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "question"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "rename documentation -> docs"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "rename enhancement -> feature"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "wontfix"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "bug"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "duplicate"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "good first issue"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "help wanted"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "question"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "rename documentation -> docs"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "rename enhancement -> feature"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "wontfix"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "bug"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "duplicate"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "good first issue"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "help wanted"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "question"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "rename documentation -> docs"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "rename enhancement -> feature"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "wontfix"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "bug"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "duplicate"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "good first issue"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "help wanted"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "question"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "rename documentation -> docs"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "rename enhancement -> feature"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "wontfix"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "bug"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "duplicate"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "good first issue"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "help wanted"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "question"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "rename documentation -> docs"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "rename enhancement -> feature"
+    },
+    {
+      "op": "update",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "wontfix"
+    },
+    {
+      "op": "update",
+      "kind": "org-actions",
+      "scope": "aphrody-labs",
+      "target": "workflow permissions",
+      "detail": "default_workflow_permissions \"write\" -> \"read\""
+    },
+    {
+      "op": "update",
+      "kind": "org-profile",
+      "scope": "aphrody-labs",
+      "target": "aphrody-labs",
+      "detail": "description \"Aphrody: an OS with self-hosted  services, open-source tools and web platforms\" -> \"Aphrody: an OS with self-hosted services, open-source tools and web platforms\", members_can_create_private_repositories true -> false, members_can_create_public_repositories true -> false, members_can_create_repositories true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "DirectXTK12",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "IronRDP",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "JetStream",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "LiberNT",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "WSL2-Linux-Kernel",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "WindowsAppSDK",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "YouTube.js",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "a2a-rs",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "a2ui",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "adk-go",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "adk-java",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "adk-rust",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "aphrody",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "apt-transport-cloudflared",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "artifact-fs",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "browser-run",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cargo-xwin",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cargo-zigbuild",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cbpfc",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "certinel",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cfssl",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cfssl_trust",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cloudflare-computer",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cloudflare-mcp",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cloudflare-os",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cloudflare-templates",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cloudflared",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "computer-use-preview",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "cross",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "diffusers",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "dioxus-sdk",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "dotnet",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "ebpf_exporter",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "gemini-rust",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "gemini-skills",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "genkit",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "ggml",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "go",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "go-genai",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "gogcli",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "gokeyless",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "google-apis-rs",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "google-cloud-rust",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "google-workspace-cli",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "google_workspace_mcp",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "googlesans-flex",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "gpu-unlock",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "h3",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "hickory-dns",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "huggingface.js",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "java-genai",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "just",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "kiri",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "kube",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "kumo",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "libreget",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "linux-cachyos-kernel",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "linux-stable",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "live-api-web-console",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "llama.cpp",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "llvm-project",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "matched-data-cli",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "material-components-android",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "mcp-toolbox",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "mmproxy",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "moq-rs",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "mpp-proxy",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "nel-rs",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "networkquality-rs",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "ngtcp2",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "nowinandroid",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "octopus",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "odoh-client-rs",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "odoh-rs",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "omniget",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "openpets",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "pear-desktop",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "pmtud",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "pp-browser-extension",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "privacy-gateway-client-library",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "privacy-gateway-server-go",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "privacypass-attester",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "privacypass-config",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "privacypass-issuer",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "privacypass-origin",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "privacypass-ts",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "proton-cachyos",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "proxy-everything",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "python-genai",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "quiche",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "rakelimit",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "remotion",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "rust-clippy",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "rustup",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "sandbox-sdk",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "serge",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "skia",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "sonora",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "speedtest",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "svg-hush",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "tls-tris",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "tokenizers",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "transformers",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "trl",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "tubular",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "unbound",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "vllm",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "watch-skill",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "weston-mirror",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "whisper.cpp",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "wine-cachyos",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "wirefilter",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "workerd-cxx",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "workers-rs",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "wslg",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "xdpcap",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "xh",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "xwin",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "yazi",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "youtube",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "youtui",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "yt-dlp",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "ytmusicapi",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": ".github",
+      "detail": "homepage null -> \"https://aphrody.com\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "allow_auto_merge false -> true, allow_merge_commit true -> false, allow_update_branch false -> true, delete_branch_on_merge false -> true, has_projects true -> false, has_wiki true -> false, squash_merge_commit_message \"COMMIT_MESSAGES\" -> \"PR_BODY\", squash_merge_commit_title \"COMMIT_OR_PR_TITLE\" -> \"PR_TITLE\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "ay",
+      "detail": "homepage null -> \"https://aphrody.com\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "fw",
+      "detail": "allow_auto_merge false -> true, allow_merge_commit true -> false, allow_update_branch false -> true, delete_branch_on_merge false -> true, description \"Pure-Rust v4.2 flat binary: flagship LLM abliteration, keyless claude-mem/graphify/context7, 40-applet GNU/Linux Wasm32 userland, MCP/ACP, Cloudflare Workers & XFS agentless learning\" -> \"Toolchain and agent runtime of the aphrody stack: Rust CLI, MCP/ACP/A2A server, inference, cluster builds and the agent plugin, in one monorepo with the aphrody OS and the ay SDK\", has_projects true -> false, homepage \"https://fw-edge.aphrody-labs.workers.dev\" -> \"https://aphrody.com\", squash_merge_commit_message \"COMMIT_MESSAGES\" -> \"PR_BODY\", squash_merge_commit_title \"COMMIT_OR_PR_TITLE\" -> \"PR_TITLE\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "allow_auto_merge false -> true, allow_merge_commit true -> false, allow_update_branch false -> true, delete_branch_on_merge false -> true, has_projects true -> false, has_wiki true -> false, homepage null -> \"https://aphrody.com\", squash_merge_commit_message \"COMMIT_MESSAGES\" -> \"PR_BODY\", squash_merge_commit_title \"COMMIT_OR_PR_TITLE\" -> \"PR_TITLE\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "allow_auto_merge false -> true, allow_merge_commit true -> false, allow_update_branch false -> true, delete_branch_on_merge false -> true, has_projects true -> false, has_wiki true -> false, squash_merge_commit_message \"COMMIT_MESSAGES\" -> \"PR_BODY\", squash_merge_commit_title \"COMMIT_OR_PR_TITLE\" -> \"PR_TITLE\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "nie",
+      "detail": "allow_auto_merge false -> true, allow_merge_commit true -> false, allow_update_branch false -> true, delete_branch_on_merge false -> true, has_projects true -> false, has_wiki true -> false, homepage null -> \"https://aphrody.com\", squash_merge_commit_message \"COMMIT_MESSAGES\" -> \"PR_BODY\", squash_merge_commit_title \"COMMIT_OR_PR_TITLE\" -> \"PR_TITLE\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "shenron",
+      "detail": "homepage null -> \"https://dragonballfr.com\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "private",
+      "target": "agent-sessions",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "private",
+      "target": "android-documentsui",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "private",
+      "target": "assets-lab",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "private",
+      "target": "ay-web",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "private",
+      "target": "chromium-file-manager",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "private",
+      "target": "wiki",
+      "detail": "description null -> \"Rust workspace of shenron: koharu, dragon-pixel and the shenron-* crates; reads shenron/data\", has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "secret-repositories",
+      "scope": "aphrody-labs",
+      "target": "APHRODY_APP_KEY",
+      "detail": "repositories: fw, fw-nt, nie"
+    },
+    {
+      "op": "update",
+      "kind": "secret-visibility",
+      "scope": "aphrody-labs",
+      "target": "CARGO_REGISTRY_TOKEN",
+      "detail": "visibility all -> selected: fw, nie"
+    },
+    {
+      "op": "update",
+      "kind": "secret-visibility",
+      "scope": "aphrody-labs",
+      "target": "HOSTINGER_API_TOKEN",
+      "detail": "visibility all -> selected: fw, nie"
+    },
+    {
+      "op": "update",
+      "kind": "secret-visibility",
+      "scope": "aphrody-labs",
+      "target": "NPM_TOKEN",
+      "detail": "visibility all -> selected: fw, nie"
+    },
+    {
+      "op": "update",
+      "kind": "secret-visibility",
+      "scope": "aphrody-labs",
+      "target": "SUBMODULES_APP_KEY",
+      "detail": "visibility all -> selected: fw, nie"
+    },
+    {
+      "op": "update",
+      "kind": "security-attach",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "attach aphrody-originals"
+    },
+    {
+      "op": "update",
+      "kind": "security-attach",
+      "scope": "original",
+      "target": "ay",
+      "detail": "attach aphrody-originals"
+    },
+    {
+      "op": "update",
+      "kind": "security-attach",
+      "scope": "original",
+      "target": "fw",
+      "detail": "attach aphrody-originals"
+    },
+    {
+      "op": "update",
+      "kind": "security-attach",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "attach aphrody-originals"
+    },
+    {
+      "op": "update",
+      "kind": "security-attach",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "attach aphrody-originals"
+    },
+    {
+      "op": "update",
+      "kind": "security-attach",
+      "scope": "original",
+      "target": "nie",
+      "detail": "attach aphrody-originals"
+    },
+    {
+      "op": "update",
+      "kind": "security-attach",
+      "scope": "original",
+      "target": "shenron",
+      "detail": "attach aphrody-originals"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "fork",
+      "target": "aphrody",
+      "detail": "add aphrody-platform"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "fork",
+      "target": "bun",
+      "detail": "add aphrody-runtime"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "fork",
+      "target": "craft-anything",
+      "detail": "add aphrody-craft"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "add aphrody-tools"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "original",
+      "target": "fw",
+      "detail": "add aphrody-runtime"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "add aphrody-platform"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "add aphrody-tools"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "original",
+      "target": "nie",
+      "detail": "add aphrody-games"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "private",
+      "target": "agent-sessions",
+      "detail": "add aphrody-tools"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "private",
+      "target": "android-documentsui",
+      "detail": "add aphrody-tools"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "private",
+      "target": "assets-lab",
+      "detail": "add aphrody-tools"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "private",
+      "target": "ay-web",
+      "detail": "add aphrody-platform"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "private",
+      "target": "chromium-file-manager",
+      "detail": "add aphrody-tools"
+    },
+    {
+      "op": "update",
+      "kind": "topics",
+      "scope": "private",
+      "target": "wiki",
+      "detail": "add aphrody-tools"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "blocked"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "breaking"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "bun"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "chore"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "dependencies"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "github_actions"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "needs-triage"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "p0"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "p1"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "p2"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "p3"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "rust"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "security"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "skip-changelog"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "blocked"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "breaking"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "bun"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "chore"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "dependencies"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "github_actions"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "needs-triage"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "p0"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "p1"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "p2"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "p3"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "rust"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "security"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw",
+      "detail": "skip-changelog"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "blocked"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "breaking"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "bun"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "chore"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "dependencies"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "github_actions"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "needs-triage"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "p0"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "p1"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "p2"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "p3"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "rust"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "security"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "skip-changelog"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "blocked"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "breaking"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "bun"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "chore"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "dependencies"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "github_actions"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "needs-triage"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "p0"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "p1"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "p2"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "p3"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "rust"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "security"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "skip-changelog"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "blocked"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "breaking"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "bun"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "chore"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "dependencies"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "github_actions"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "needs-triage"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "p0"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "p1"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "p2"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "p3"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "rust"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "security"
+    },
+    {
+      "op": "create",
+      "kind": "label",
+      "scope": "original",
+      "target": "nie",
+      "detail": "skip-changelog"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "main-integrity"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "tags-immutable"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "fw",
+      "detail": "main-integrity"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "fw",
+      "detail": "tags-immutable"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "main-integrity"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "fw-nt",
+      "detail": "tags-immutable"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "main-integrity"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "tags-immutable"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "nie",
+      "detail": "main-integrity"
+    },
+    {
+      "op": "create",
+      "kind": "ruleset",
+      "scope": "original",
+      "target": "nie",
+      "detail": "tags-immutable"
+    }
+  ]
+}

@@ -39,6 +39,7 @@ members = [
     "crates/fw-secrets",
     "crates/fw-cluster",
     "crates/fw-estate",
+    "crates/fw-org",
     "crates/fw-proto",
     "crates/fw-ui-blitz",
     "crates/fw-wasm",
@@ -1548,6 +1549,16 @@ why = "declarative product, naming, release and layout configuration: the single
 
 [[area]]
 path = "layout.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "org.plan.json"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "org.toml"
 decision = "keep"
 why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
 
