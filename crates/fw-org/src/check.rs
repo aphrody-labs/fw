@@ -83,7 +83,7 @@ pub fn run(org: &Org, live: &Live, plan: &Plan, identity: &Identity) -> Vec<Find
             }
         }
         if secret["visibility"] == "all" {
-            findings.push(finding("secret-visibility-all", name, "visible to every repository, forks included", true));
+            findings.push(finding("secret-visibility-all", name, format!("visible to every repository, forks included; the API cannot narrow it without the value: change it in the organization settings to selected ({})", secret_users(live, name, &org.secret.get(name).map(|declared| declared.extra_repos.clone()).unwrap_or_default()).iter().map(|repo| repo.name.as_str()).collect::<Vec<_>>().join(", ")), true));
         }
     }
     for declared in org.team.keys() {

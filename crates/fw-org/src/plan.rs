@@ -178,10 +178,12 @@ fn secrets(org: &Org, live: &Live, steps: &mut Vec<Step>) -> Result<()> {
         let users = secret_users(live, name, &declared.extra_repos);
         let ids: BTreeSet<u64> = users.iter().map(|repo| repo.id).collect();
         let names = users.iter().map(|repo| repo.name.as_str()).collect::<Vec<_>>().join(", ");
+        // Switching a secret from `all` to `selected` needs its encrypted value (PUT without it answers 422), which nobody can read back:
+        // `check` reports the secret as an error until it is changed in the organization settings or set again.
         if existing["visibility"] != "selected" {
-            let body = json!({ "visibility": "selected", "selected_repository_ids": ids });
-            steps.push(step("update", "secret-visibility", owner, name, format!("visibility {} -> selected: {names}", existing["visibility"].as_str().unwrap_or("?")), vec![call("PUT", format!("/orgs/{owner}/actions/secrets/{name}"), Some(body))]));
-        } else if live.secret_repos.get(name).map(|list| list.iter().copied().collect::<BTreeSet<u64>>()).as_ref() != Some(&ids) {
+            continue;
+        }
+        if live.secret_repos.get(name).map(|list| list.iter().copied().collect::<BTreeSet<u64>>()).as_ref() != Some(&ids) {
             steps.push(step("update", "secret-repositories", owner, name, format!("repositories: {names}"), vec![call("PUT", format!("/orgs/{owner}/actions/secrets/{name}/repositories"), Some(json!({ "selected_repository_ids": ids })))]));
         }
     }
