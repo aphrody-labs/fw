@@ -83,7 +83,8 @@ await Bun.write(rootCargo, cargo);
 await $`git -C ${fw} add Cargo.toml`;
 
 // Path dependencies that pointed at the sibling fw checkout now point inside the monorepo.
-const offenders = (await $`git -C ${fw} grep -l -E ${'path *= *"\\.\\./fw/'} -- ${repos.map((repo) => `${repo}/**/Cargo.toml`)}`.nothrow().text()).split("\n").filter(Boolean);
+// `:(glob)` makes `**/` match zero or more directories, so `<repo>/Cargo.toml` itself is included.
+const offenders = (await $`git -C ${fw} grep -l -E ${'path *= *"\\.\\./fw/'} -- ${repos.map((repo) => `:(glob)${repo}/**/Cargo.toml`)}`.nothrow().text()).split("\n").filter(Boolean);
 for (const file of offenders) {
   const depth = file.split("/").length - 1;
   const up = "../".repeat(depth);

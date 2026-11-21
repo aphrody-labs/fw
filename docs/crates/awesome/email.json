@@ -1,0 +1,950 @@
+{
+  "category": {
+    "crates": 734,
+    "description": "Crates to help with sending, receiving, formatting, and parsing email.",
+    "name": "Email",
+    "slug": "email"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "email",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5287,
+        "downloads": 0.7777,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2015-10-21",
+      "dependents": 528,
+      "description": "Email client",
+      "downloads": 25170297,
+      "edition": "2024",
+      "keywords": [
+        "email",
+        "mailer",
+        "message",
+        "sendmail",
+        "smtp"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "lettre",
+      "owners": 2,
+      "recent_downloads": 9619149,
+      "releases_365d": 5,
+      "repository": "https://github.com/lettre/lettre",
+      "score": 81.56,
+      "version": "0.11.24",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "email",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.4325,
+        "downloads": 0.7212,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.965,
+        "security": 1.0
+      },
+      "created": "2021-11-01",
+      "dependents": 168,
+      "description": "Fast and robust e-mail parsing library for Rust",
+      "downloads": 6093018,
+      "edition": "2024",
+      "keywords": [
+        "email",
+        "mail",
+        "mime",
+        "parse",
+        "parser"
+      ],
+      "last_release": "2026-11-02",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.98",
+      "name": "mail-parser",
+      "owners": 1,
+      "recent_downloads": 2991217,
+      "releases_365d": 10,
+      "repository": "https://github.com/stalwartlabs/mail-parser",
+      "score": 76.32,
+      "version": "1.0.1",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "cryptography",
+        "email"
+      ],
+      "components": {
+        "dependents": 0.3839,
+        "downloads": 0.7094,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9823,
+        "security": 1.0
+      },
+      "created": "2017-09-16",
+      "dependents": 94,
+      "description": "OpenPGP implementation in Rust",
+      "downloads": 8085456,
+      "edition": "2021",
+      "keywords": [
+        "email",
+        "encryption",
+        "gpg",
+        "openpgp",
+        "pgp"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "pgp",
+      "owners": 1,
+      "recent_downloads": 2343819,
+      "releases_365d": 4,
+      "repository": "https://github.com/rpgp/rpgp",
+      "score": 75.07,
+      "version": "0.21.1",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "email",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.3978,
+        "downloads": 0.7391,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9146,
+        "security": 1.0
+      },
+      "created": "2016-06-19",
+      "dependents": 111,
+      "description": "A simple parser for MIME e-mail messages",
+      "downloads": 16604292,
+      "edition": "2024",
+      "keywords": [
+        "email",
+        "maildir",
+        "mime",
+        "parser",
+        "rfc822"
+      ],
+      "last_release": "2026-10-05",
+      "license": "0BSD",
+      "msrv": "1.85.0",
+      "name": "mailparse",
+      "owners": 1,
+      "recent_downloads": 4337954,
+      "releases_365d": 2,
+      "repository": "https://github.com/staktrace/mailparse",
+      "score": 72.14,
+      "version": "0.18.0",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "email",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.352,
+        "downloads": 0.6723,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9072,
+        "security": 1.0
+      },
+      "created": "2019-11-11",
+      "dependents": 64,
+      "description": "Async IMAP client for Rust",
+      "downloads": 2403418,
+      "edition": "2024",
+      "keywords": [
+        "email",
+        "imap"
+      ],
+      "last_release": "2026-09-30",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "async-imap",
+      "owners": 2,
+      "recent_downloads": 1089711,
+      "releases_365d": 3,
+      "repository": "https://github.com/async-email/async-imap",
+      "score": 71.71,
+      "version": "0.12.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "email"
+      ],
+      "components": {
+        "dependents": 0.3891,
+        "downloads": 0.6215,
+        "license": 0.75,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9316,
+        "security": 1.0
+      },
+      "created": "2018-11-24",
+      "dependents": 100,
+      "description": "OpenPGP data types and associated machinery",
+      "downloads": 2135675,
+      "edition": "2021",
+      "keywords": [
+        "cryptography",
+        "encryption",
+        "openpgp",
+        "pgp",
+        "signing"
+      ],
+      "last_release": "2026-10-14",
+      "license": "LGPL-2.0-or-later",
+      "msrv": "1.85",
+      "name": "sequoia-openpgp",
+      "owners": 2,
+      "recent_downloads": 381055,
+      "releases_365d": 5,
+      "repository": "https://gitlab.com/sequoia-pgp/sequoia",
+      "score": 70.74,
+      "version": "2.4.2",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "email",
+        "network-programming",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.7074,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9034,
+        "security": 1.0
+      },
+      "created": "2017-11-02",
+      "dependents": 32,
+      "description": "IMAP protocol parser and data structures",
+      "downloads": 4986979,
+      "edition": "2021",
+      "keywords": [
+        "email",
+        "imap"
+      ],
+      "last_release": "2026-09-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "imap-proto",
+      "owners": 1,
+      "recent_downloads": 2251215,
+      "releases_365d": 2,
+      "repository": "https://github.com/djc/imap-proto",
+      "score": 68.61,
+      "version": "0.17.0",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "email",
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.7763,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9799,
+        "security": 1.0
+      },
+      "created": "2022-04-02",
+      "dependents": 2,
+      "description": "Low level email encoding RFCs implementations",
+      "downloads": 22546514,
+      "edition": "2024",
+      "keywords": [
+        "email",
+        "rfc2047",
+        "rfc2231"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "email-encoding",
+      "owners": 2,
+      "recent_downloads": 9355276,
+      "releases_365d": 2,
+      "repository": "https://github.com/lettre/email-encoding",
+      "score": 67.42,
+      "version": "0.4.3",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "email"
+      ],
+      "components": {
+        "dependents": 0.3067,
+        "downloads": 0.6758,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.965,
+        "security": 1.0
+      },
+      "created": "2022-01-24",
+      "dependents": 37,
+      "description": "E-mail builder library for Rust",
+      "downloads": 2292765,
+      "edition": "2024",
+      "keywords": [
+        "e-mail",
+        "email",
+        "mail",
+        "mime"
+      ],
+      "last_release": "2026-11-02",
+      "license": "Apache-2.0 OR MIT",
+      "name": "mail-builder",
+      "owners": 1,
+      "recent_downloads": 1171532,
+      "releases_365d": 4,
+      "repository": "https://github.com/stalwartlabs/mail-builder",
+      "score": 67.04,
+      "version": "2.0.1",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "email",
+        "encoding",
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3784,
+        "downloads": 0.8348,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.8137,
+        "security": 1.0
+      },
+      "created": "2018-07-22",
+      "dependents": 88,
+      "description": "Streaming transcoding for encoding_rs",
+      "downloads": 58061306,
+      "keywords": [
+        "encoding",
+        "io",
+        "read",
+        "stream",
+        "transcoding"
+      ],
+      "last_release": "2026-08-04",
+      "license": "MIT OR Apache-2.0",
+      "name": "encoding_rs_io",
+      "owners": 1,
+      "recent_downloads": 31348830,
+      "releases_365d": 1,
+      "repository": "https://github.com/BurntSushi/encoding_rs_io",
+      "score": 66.04,
+      "version": "0.1.8",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "email",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.566,
+        "license": 1.0,
+        "maintenance": 0.7133,
+        "msrv": 1.0,
+        "recency": 0.997,
+        "security": 1.0
+      },
+      "created": "2026-06-03",
+      "dependents": 7,
+      "description": "IMAP client library for Rust",
+      "downloads": 123054,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "email",
+        "imap",
+        "io-free",
+        "std"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "io-imap",
+      "owners": 1,
+      "recent_downloads": 121010,
+      "releases_365d": 18,
+      "repository": "https://github.com/pimalaya/io-imap",
+      "score": 64.19,
+      "version": "0.12.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "email",
+        "network-programming",
+        "parser-implementations",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3452,
+        "downloads": 0.7035,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.8017,
+        "security": 1.0
+      },
+      "created": "2022-02-18",
+      "dependents": 59,
+      "description": "MIME Media-type parsing",
+      "downloads": 8963196,
+      "edition": "2021",
+      "keywords": [
+        "media-extensions",
+        "media-type",
+        "media-types",
+        "mime"
+      ],
+      "last_release": "2026-07-27",
+      "license": "MIT",
+      "name": "mediatype",
+      "owners": 1,
+      "recent_downloads": 2074865,
+      "releases_365d": 2,
+      "repository": "https://github.com/picoHz/mediatype",
+      "score": 63.24,
+      "version": "0.23.0",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "email",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.6259,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9961,
+        "security": 1.0
+      },
+      "created": "2023-07-10",
+      "dependents": 8,
+      "description": "Resend's Official Rust SDK.",
+      "downloads": 972393,
+      "edition": "2024",
+      "keywords": [
+        "email",
+        "resend"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "name": "resend-rs",
+      "owners": 1,
+      "recent_downloads": 416895,
+      "releases_365d": 34,
+      "repository": "https://github.com/resend/resend-rust",
+      "score": 63.22,
+      "version": "0.37.0",
+      "versions": 81
+    },
+    {
+      "categories": [
+        "email"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.5834,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9638,
+        "security": 1.0
+      },
+      "created": "2022-05-30",
+      "dependents": 16,
+      "description": "E-mail delivery library with SMTP and DKIM support",
+      "downloads": 671424,
+      "edition": "2024",
+      "keywords": [
+        "dkim",
+        "email",
+        "mail",
+        "mime",
+        "smtp"
+      ],
+      "last_release": "2026-11-01",
+      "license": "Apache-2.0 OR MIT",
+      "name": "mail-send",
+      "owners": 1,
+      "recent_downloads": 173419,
+      "releases_365d": 4,
+      "repository": "https://github.com/stalwartlabs/mail-send",
+      "score": 63.01,
+      "version": "0.7.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "authentication",
+        "command-line-utilities",
+        "cryptography",
+        "email"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.5213,
+        "license": 0.75,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8948,
+        "security": 1.0
+      },
+      "created": "2023-03-02",
+      "dependents": 10,
+      "description": "A certificate database interface.",
+      "downloads": 291921,
+      "edition": "2021",
+      "keywords": [
+        "cryptography",
+        "database",
+        "keyring",
+        "openpgp"
+      ],
+      "last_release": "2026-09-23",
+      "license": "LGPL-2.0-or-later",
+      "msrv": "1.85",
+      "name": "sequoia-cert-store",
+      "owners": 2,
+      "recent_downloads": 48002,
+      "releases_365d": 5,
+      "repository": "https://gitlab.com/sequoia-pgp/sequoia-cert-store",
+      "score": 63.01,
+      "version": "0.7.6",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "authentication",
+        "email"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.6055,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.96,
+        "security": 1.0
+      },
+      "created": "2022-12-01",
+      "dependents": 12,
+      "description": "DKIM, ARC, SPF and DMARC library for Rust",
+      "downloads": 725780,
+      "edition": "2024",
+      "keywords": [
+        "arc",
+        "dkim",
+        "dmarc",
+        "mail",
+        "spf"
+      ],
+      "last_release": "2026-10-30",
+      "license": "Apache-2.0 OR MIT",
+      "name": "mail-auth",
+      "owners": 1,
+      "recent_downloads": 273662,
+      "releases_365d": 21,
+      "repository": "https://github.com/stalwartlabs/mail-auth",
+      "score": 62.94,
+      "version": "0.15.1",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "email",
+        "encoding"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.6092,
+        "license": 1.0,
+        "maintenance": 0.5814,
+        "msrv": 1.0,
+        "recency": 0.9105,
+        "security": 1.0
+      },
+      "created": "2026-09-28",
+      "dependents": 7,
+      "description": "Fast Base64, Base32, Quoted-Printable, RFC 2047, UTF-7 and PEM encoding and decoding",
+      "downloads": 294342,
+      "edition": "2024",
+      "keywords": [
+        "base32",
+        "base64",
+        "email",
+        "mime",
+        "quoted-printable"
+      ],
+      "last_release": "2026-10-02",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "encodify",
+      "owners": 1,
+      "recent_downloads": 295243,
+      "releases_365d": 3,
+      "repository": "https://github.com/stalwartlabs/encodify",
+      "score": 61.99,
+      "version": "1.0.2",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "email",
+        "encoding",
+        "network-programming",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5976,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9659,
+        "security": 1.0
+      },
+      "created": "2021-02-22",
+      "dependents": 6,
+      "description": "Rock-solid and complete codec for IMAP",
+      "downloads": 324722,
+      "edition": "2021",
+      "keywords": [
+        "codec",
+        "email",
+        "imap",
+        "no-std",
+        "parser"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "name": "imap-codec",
+      "owners": 1,
+      "recent_downloads": 232573,
+      "releases_365d": 4,
+      "repository": "https://github.com/duesee/imap-codec",
+      "score": 61.53,
+      "version": "1.0.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "email"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5224,
+        "license": 0.75,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9316,
+        "security": 1.0
+      },
+      "created": "2021-01-21",
+      "dependents": 12,
+      "description": "Network services for OpenPGP",
+      "downloads": 306713,
+      "edition": "2021",
+      "keywords": [
+        "cryptography",
+        "hkp",
+        "keyserver",
+        "openpgp",
+        "pgp"
+      ],
+      "last_release": "2026-10-14",
+      "license": "LGPL-2.0-or-later",
+      "msrv": "1.85",
+      "name": "sequoia-net",
+      "owners": 2,
+      "recent_downloads": 49092,
+      "releases_365d": 2,
+      "repository": "https://gitlab.com/sequoia-pgp/sequoia",
+      "score": 60.94,
+      "version": "0.31.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "email",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4681,
+        "license": 1.0,
+        "maintenance": 0.7133,
+        "msrv": 1.0,
+        "recency": 0.997,
+        "security": 1.0
+      },
+      "created": "2026-06-03",
+      "dependents": 4,
+      "description": "SMTP client and server library for Rust",
+      "downloads": 18736,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "email",
+        "io-free",
+        "smtp",
+        "std"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "io-smtp",
+      "owners": 1,
+      "recent_downloads": 15983,
+      "releases_365d": 14,
+      "repository": "https://github.com/pimalaya/io-smtp",
+      "score": 60.75,
+      "version": "0.10.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "email",
+        "network-programming",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.4797,
+        "license": 1.0,
+        "maintenance": 0.7232,
+        "msrv": 1.0,
+        "recency": 0.8772,
+        "security": 1.0
+      },
+      "created": "2026-04-28",
+      "dependents": 8,
+      "description": "Environment-independent SMTP client core for WASM and other constrained runtimes.",
+      "downloads": 22567,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "client",
+        "email",
+        "smtp",
+        "wasm"
+      ],
+      "last_release": "2026-09-13",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "wasm-smtp",
+      "owners": 1,
+      "recent_downloads": 20310,
+      "releases_365d": 23,
+      "repository": "https://github.com/nabbisen/wasm-smtp",
+      "score": 60.63,
+      "version": "0.18.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "email",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5942,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9082,
+        "security": 1.0
+      },
+      "created": "2023-01-27",
+      "dependents": 6,
+      "description": "SMTP protocol parser",
+      "downloads": 721619,
+      "edition": "2024",
+      "keywords": [
+        "lmtp",
+        "parser",
+        "protocol",
+        "smtp"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0 OR MIT",
+      "name": "smtp-proto",
+      "owners": 1,
+      "recent_downloads": 216506,
+      "releases_365d": 5,
+      "repository": "https://github.com/stalwartlabs/smtp-proto",
+      "score": 60.58,
+      "version": "0.2.5",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "email",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4443,
+        "license": 1.0,
+        "maintenance": 0.7128,
+        "msrv": 1.0,
+        "recency": 0.9954,
+        "security": 1.0
+      },
+      "created": "2026-06-05",
+      "dependents": 4,
+      "description": "JMAP client library for Rust",
+      "downloads": 12578,
+      "edition": "2024",
+      "keywords": [
+        "coroutine",
+        "email",
+        "io-free",
+        "jmap",
+        "no-std"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "io-jmap",
+      "owners": 1,
+      "recent_downloads": 9760,
+      "releases_365d": 14,
+      "repository": "https://github.com/pimalaya/io-jmap",
+      "score": 60.12,
+      "version": "0.10.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "email",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4229,
+        "license": 1.0,
+        "maintenance": 0.7018,
+        "msrv": 1.0,
+        "recency": 0.9977,
+        "security": 1.0
+      },
+      "created": "2026-07-15",
+      "dependents": 5,
+      "description": "Microsoft Graph API client library for Rust",
+      "downloads": 8304,
+      "edition": "2024",
+      "keywords": [
+        "coroutine",
+        "graph",
+        "io-free",
+        "microsoft",
+        "no-std"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "io-msgraph",
+      "owners": 1,
+      "recent_downloads": 6277,
+      "releases_365d": 24,
+      "repository": "https://github.com/pimalaya/io-msgraph",
+      "score": 59.84,
+      "version": "0.9.4",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "email",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.794,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.6292,
+        "security": 1.0
+      },
+      "created": "2016-05-29",
+      "dependents": 25,
+      "description": "A simple encoder/decoder for quoted-printable data",
+      "downloads": 47707169,
+      "edition": "2018",
+      "keywords": [
+        "decode",
+        "encode",
+        "printable",
+        "quoted"
+      ],
+      "last_release": "2026-03-22",
+      "license": "0BSD",
+      "name": "quoted_printable",
+      "owners": 1,
+      "recent_downloads": 13481119,
+      "releases_365d": 1,
+      "repository": "https://github.com/staktrace/quoted-printable",
+      "score": 59.66,
+      "version": "0.5.2",
+      "versions": 19
+    }
+  ],
+  "score_version": 1
+}

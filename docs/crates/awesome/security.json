@@ -1,0 +1,944 @@
+{
+  "category": {
+    "crates": 487,
+    "description": "Crates related to cybersecurity, penetration testing, code review, vulnerability research, and reverse engineering.",
+    "name": "Security",
+    "slug": "security"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "parser-implementations",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.637,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9408,
+        "security": 1.0
+      },
+      "created": "2016-02-05",
+      "dependents": 23,
+      "description": "KeePass .kdbx database file parser",
+      "downloads": 869448,
+      "edition": "2018",
+      "keywords": [
+        "kdb",
+        "kdbx",
+        "keepass",
+        "password"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "keepass",
+      "owners": 2,
+      "recent_downloads": 525221,
+      "releases_365d": 66,
+      "repository": "https://github.com/sseemayer/keepass-rs",
+      "score": 70.74,
+      "version": "0.17.0",
+      "versions": 155
+    },
+    {
+      "categories": [
+        "cryptography",
+        "network-programming",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.692,
+        "license": 1.0,
+        "maintenance": 0.8483,
+        "msrv": 1.0,
+        "recency": 0.9514,
+        "security": 1.0
+      },
+      "created": "2025-09-27",
+      "dependents": 15,
+      "description": "DTLS 1.2/1.3 implementation (Sans‑IO, Sync)",
+      "downloads": 2433489,
+      "edition": "2024",
+      "keywords": [
+        "dtls",
+        "psk",
+        "tls",
+        "webrtc"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "dimpl",
+      "owners": 2,
+      "recent_downloads": 1638001,
+      "releases_365d": 26,
+      "repository": "https://github.com/algesten/dimpl",
+      "score": 70.14,
+      "version": "0.9.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "authentication",
+        "external-ffi-bindings",
+        "os",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5411,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9391,
+        "security": 1.0
+      },
+      "created": "2022-07-23",
+      "dependents": 1,
+      "description": "Simplified PAM module creation in Rust",
+      "downloads": 178416,
+      "edition": "2024",
+      "keywords": [
+        "authentication",
+        "ffi",
+        "linux",
+        "pam"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "pam-bindings",
+      "owners": 2,
+      "recent_downloads": 72304,
+      "releases_365d": 4,
+      "repository": "https://github.com/lvkv/pam-rs",
+      "score": 63.08,
+      "version": "0.4.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "network-programming",
+        "security",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.5999,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7834,
+        "security": 1.0
+      },
+      "created": "2022-08-04",
+      "dependents": 7,
+      "description": "Binary HTTP messages (RFC 9292)",
+      "downloads": 894500,
+      "edition": "2024",
+      "keywords": [
+        "bhttp",
+        "http",
+        "ietf",
+        "ohttp"
+      ],
+      "last_release": "2026-07-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86.0",
+      "name": "bhttp",
+      "owners": 1,
+      "recent_downloads": 243760,
+      "releases_365d": 2,
+      "repository": "https://github.com/martinthomson/ohttp",
+      "score": 61.13,
+      "version": "0.8.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "network-programming",
+        "security",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5624,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7834,
+        "security": 1.0
+      },
+      "created": "2022-08-04",
+      "dependents": 6,
+      "description": "Oblivious HTTP",
+      "downloads": 516084,
+      "edition": "2024",
+      "keywords": [
+        "bhttp",
+        "http",
+        "ietf",
+        "ohttp"
+      ],
+      "last_release": "2026-07-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86.0",
+      "name": "ohttp",
+      "owners": 1,
+      "recent_downloads": 112172,
+      "releases_365d": 2,
+      "repository": "https://github.com/martinthomson/ohttp",
+      "score": 59.91,
+      "version": "0.8.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "filesystem",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4362,
+        "license": 1.0,
+        "maintenance": 0.7562,
+        "msrv": 1.0,
+        "recency": 0.9805,
+        "security": 1.0
+      },
+      "created": "2025-12-29",
+      "dependents": 3,
+      "description": "A secure filesystem sandbox. Restricts paths to a root directory, preventing traversal attacks.",
+      "downloads": 17155,
+      "edition": "2021",
+      "keywords": [
+        "filesystem",
+        "path",
+        "sandbox",
+        "security",
+        "traversal"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "path_jail",
+      "owners": 1,
+      "recent_downloads": 8254,
+      "releases_365d": 8,
+      "repository": "https://github.com/tenuo-ai/path_jail",
+      "score": 59.88,
+      "version": "0.6.0",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "data-structures",
+        "parser-implementations",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4934,
+        "license": 1.0,
+        "maintenance": 0.8378,
+        "msrv": 1.0,
+        "recency": 0.8727,
+        "security": 1.0
+      },
+      "created": "2025-11-04",
+      "dependents": 1,
+      "description": "A Rust library for representing and deserializing CVSS (Common Vulnerability Scoring System) data.",
+      "downloads": 41457,
+      "edition": "2024",
+      "keywords": [
+        "cvss",
+        "scoring",
+        "security",
+        "vulnerability"
+      ],
+      "last_release": "2026-09-10",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "cvss-rs",
+      "owners": 2,
+      "recent_downloads": 26922,
+      "releases_365d": 5,
+      "repository": "https://github.com/scm-rs/cvss-rs",
+      "score": 59.45,
+      "version": "0.5.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "security"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3659,
+        "license": 1.0,
+        "maintenance": 0.7115,
+        "msrv": 1.0,
+        "recency": 0.9954,
+        "security": 1.0
+      },
+      "created": "2026-06-10",
+      "dependents": 6,
+      "description": "SDK for credstore gear: API traits, models, and error definitions",
+      "downloads": 2695,
+      "edition": "2024",
+      "keywords": [
+        "cf-gears",
+        "cf-gears-system",
+        "constructorfabric"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "cf-gears-credstore-sdk",
+      "owners": 1,
+      "recent_downloads": 1931,
+      "releases_365d": 30,
+      "repository": "https://github.com/constructorfabric/gears-rust",
+      "score": 58.85,
+      "version": "0.2.24",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "security"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3601,
+        "license": 1.0,
+        "maintenance": 0.7115,
+        "msrv": 1.0,
+        "recency": 0.9954,
+        "security": 1.0
+      },
+      "created": "2026-06-10",
+      "dependents": 4,
+      "description": "credstore gear module",
+      "downloads": 2339,
+      "edition": "2024",
+      "keywords": [
+        "cf-gears",
+        "cf-gears-system",
+        "constructorfabric"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "cf-gears-credstore",
+      "owners": 1,
+      "recent_downloads": 1712,
+      "releases_365d": 30,
+      "repository": "https://github.com/constructorfabric/gears-rust",
+      "score": 58.0,
+      "version": "0.8.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.465,
+        "license": 1.0,
+        "maintenance": 0.7053,
+        "msrv": 1.0,
+        "recency": 0.9318,
+        "security": 1.0
+      },
+      "created": "2025-07-02",
+      "dependents": 1,
+      "description": "A blazing-fast secret scanner for your codebase",
+      "downloads": 17882,
+      "edition": "2021",
+      "keywords": [
+        "credentials",
+        "detection",
+        "scanner",
+        "secrets",
+        "security"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "secretscan",
+      "owners": 1,
+      "recent_downloads": 14968,
+      "releases_365d": 3,
+      "repository": "https://github.com/adventurewave-labs/secret-scan",
+      "score": 57.64,
+      "version": "0.2.5",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "network-programming",
+        "security",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4029,
+        "license": 1.0,
+        "maintenance": 0.6953,
+        "msrv": 1.0,
+        "recency": 0.9652,
+        "security": 1.0
+      },
+      "created": "2026-08-08",
+      "dependents": 2,
+      "description": "Portable rules and matchers for blocking common vulnerability-scanner paths.",
+      "downloads": 4973,
+      "edition": "2024",
+      "keywords": [
+        "denylist",
+        "firewall",
+        "http",
+        "security",
+        "waf"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "msrv": "1.97",
+      "name": "towershield-core",
+      "owners": 1,
+      "recent_downloads": 4151,
+      "releases_365d": 4,
+      "repository": "https://github.com/bnomei/towershield",
+      "score": 57.3,
+      "version": "0.1.3",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "cryptography",
+        "development-tools",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3797,
+        "license": 1.0,
+        "maintenance": 0.708,
+        "msrv": 1.0,
+        "recency": 0.9369,
+        "security": 1.0
+      },
+      "created": "2026-06-23",
+      "dependents": 3,
+      "description": "Provenance Layer — receipt assembly and certification, with an optional crypto trust plane (signatures, post-quantum, key custody). Verify a witness against a format standard; never decide honesty.",
+      "downloads": 8379,
+      "edition": "2021",
+      "keywords": [
+        "blake3",
+        "post-quantum",
+        "provenance",
+        "receipt",
+        "signature"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "affidavit",
+      "owners": 1,
+      "recent_downloads": 2566,
+      "releases_365d": 4,
+      "repository": "https://github.com/seanchatmangpt/affidavit",
+      "score": 57.09,
+      "version": "26.10.17",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "authentication",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.6715,
+        "license": 1.0,
+        "maintenance": 0.8534,
+        "msrv": 0.0,
+        "recency": 0.5827,
+        "security": 1.0
+      },
+      "created": "2025-09-08",
+      "dependents": 4,
+      "description": "Detects ambient OIDC credentials in a variety of environments",
+      "downloads": 1920696,
+      "edition": "2024",
+      "keywords": [
+        "identity",
+        "oidc",
+        "sigstore",
+        "trusted-publishing"
+      ],
+      "last_release": "2026-02-09",
+      "license": "MIT OR Apache-2.0",
+      "name": "ambient-id",
+      "owners": 2,
+      "recent_downloads": 1070017,
+      "releases_365d": 5,
+      "repository": "https://github.com/astral-sh/ambient-id",
+      "score": 56.72,
+      "version": "0.0.11",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "security"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3618,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9717,
+        "security": 1.0
+      },
+      "created": "2024-08-28",
+      "dependents": 5,
+      "description": "Idiomatic bindings to IDA SDK",
+      "downloads": 15099,
+      "edition": "2024",
+      "keywords": [
+        "ida",
+        "ida-pro",
+        "idalib",
+        "reverse-engineering"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT OR Apache-2.0",
+      "name": "idalib-build",
+      "owners": 2,
+      "recent_downloads": 1771,
+      "releases_365d": 7,
+      "repository": "https://github.com/idalib-rs/idalib",
+      "score": 56.4,
+      "version": "0.11.1+9.5.261026",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "algorithms",
+        "security",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.389,
+        "license": 1.0,
+        "maintenance": 0.7935,
+        "msrv": 1.0,
+        "recency": 0.985,
+        "security": 1.0
+      },
+      "created": "2025-08-15",
+      "dependents": 0,
+      "description": "Deterministic, configurable string analysis primitives for security tooling",
+      "downloads": 6875,
+      "edition": "2024",
+      "keywords": [
+        "forensics",
+        "malware",
+        "security",
+        "string-analysis",
+        "threat-detection"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "msrv": "1.95.0",
+      "name": "threatflux-string-analysis",
+      "owners": 1,
+      "recent_downloads": 3114,
+      "releases_365d": 5,
+      "repository": "https://github.com/ThreatFlux/threatflux-string-analysis",
+      "score": 56.4,
+      "version": "0.2.5",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "security"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3599,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9717,
+        "security": 1.0
+      },
+      "created": "2024-08-28",
+      "dependents": 4,
+      "description": "Idiomatic bindings to IDA SDK",
+      "downloads": 16373,
+      "edition": "2024",
+      "keywords": [
+        "ida",
+        "ida-pro",
+        "idalib",
+        "reverse-engineering"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT OR Apache-2.0",
+      "name": "idalib",
+      "owners": 2,
+      "recent_downloads": 1705,
+      "releases_365d": 7,
+      "repository": "https://github.com/idalib-rs/idalib",
+      "score": 55.97,
+      "version": "0.11.1+9.5.261026",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "security",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3578,
+        "license": 1.0,
+        "maintenance": 0.8092,
+        "msrv": 1.0,
+        "recency": 0.9768,
+        "security": 1.0
+      },
+      "created": "2025-06-18",
+      "dependents": 0,
+      "description": "A simple and highly customizable rate limiter for actix-web 4",
+      "downloads": 8031,
+      "edition": "2024",
+      "keywords": [
+        "actix",
+        "actix-web",
+        "limit",
+        "rate",
+        "ratelimit"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "actix-web-ratelimit",
+      "owners": 1,
+      "recent_downloads": 1633,
+      "releases_365d": 4,
+      "repository": "https://github.com/bigyao25/actix-web-ratelimit",
+      "score": 55.74,
+      "version": "0.2.3",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "os",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3535,
+        "license": 1.0,
+        "maintenance": 0.6405,
+        "msrv": 1.0,
+        "recency": 0.9252,
+        "security": 1.0
+      },
+      "created": "2025-02-24",
+      "dependents": 4,
+      "description": "Dynamically invoke arbitrary code in Rust",
+      "downloads": 17001,
+      "edition": "2024",
+      "keywords": [
+        "dinvoke",
+        "hacking",
+        "redteam",
+        "rust",
+        "windows"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "dinvk",
+      "owners": 1,
+      "recent_downloads": 1493,
+      "releases_365d": 2,
+      "repository": "https://github.com/joaoviictorti/dinvk",
+      "score": 55.72,
+      "version": "0.5.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.5264,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9662,
+        "security": 1.0
+      },
+      "created": "2024-10-27",
+      "dependents": 0,
+      "description": "Static analysis for GitHub Actions",
+      "downloads": 281103,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "github-actions",
+        "security",
+        "static-analysis"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "name": "zizmor",
+      "owners": 1,
+      "recent_downloads": 53285,
+      "releases_365d": 34,
+      "repository": "https://github.com/zizmorcore/zizmor",
+      "score": 55.65,
+      "version": "1.32.0",
+      "versions": 91
+    },
+    {
+      "categories": [
+        "memory-management",
+        "no-std",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.3353,
+        "license": 1.0,
+        "maintenance": 0.8019,
+        "msrv": 0.0,
+        "recency": 0.9932,
+        "security": 1.0
+      },
+      "created": "2025-07-15",
+      "dependents": 10,
+      "description": "Secure data types that protect sensitive data in memory via locking and zeroization.",
+      "downloads": 6932,
+      "edition": "2024",
+      "keywords": [
+        "memory",
+        "no_std",
+        "secure",
+        "security",
+        "zeroize"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "name": "secure-types",
+      "owners": 1,
+      "recent_downloads": 1025,
+      "releases_365d": 8,
+      "repository": "https://github.com/greekfetacheese/secure-types",
+      "score": 55.36,
+      "version": "0.6.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "os::linux-apis",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3599,
+        "license": 1.0,
+        "maintenance": 0.8307,
+        "msrv": 1.0,
+        "recency": 0.8266,
+        "security": 1.0
+      },
+      "created": "2025-11-30",
+      "dependents": 1,
+      "description": "Rust bindings for GrapheneOS allocator",
+      "downloads": 8899,
+      "edition": "2021",
+      "keywords": [
+        "sandbox",
+        "security"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT",
+      "msrv": "1.78.0",
+      "name": "hardened-malloc-sys",
+      "owners": 2,
+      "recent_downloads": 1703,
+      "releases_365d": 29,
+      "repository": "https://git.sr.ht/~alip/syd",
+      "score": 55.32,
+      "version": "16.0.2026071503",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "os::linux-apis",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3577,
+        "license": 1.0,
+        "maintenance": 0.8307,
+        "msrv": 1.0,
+        "recency": 0.8266,
+        "security": 1.0
+      },
+      "created": "2025-11-30",
+      "dependents": 1,
+      "description": "Global allocator using GrapheneOS allocator",
+      "downloads": 8706,
+      "edition": "2021",
+      "keywords": [
+        "sandbox",
+        "security"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT",
+      "msrv": "1.78.0",
+      "name": "hardened-malloc",
+      "owners": 2,
+      "recent_downloads": 1629,
+      "releases_365d": 28,
+      "repository": "https://git.sr.ht/~alip/syd",
+      "score": 55.26,
+      "version": "16.0.2026071503",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools",
+        "security"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3709,
+        "license": 1.0,
+        "maintenance": 0.7461,
+        "msrv": 1.0,
+        "recency": 0.9812,
+        "security": 1.0
+      },
+      "created": "2026-02-04",
+      "dependents": 0,
+      "description": "Semantic SBOM diff and analysis tool",
+      "downloads": 3731,
+      "edition": "2024",
+      "keywords": [
+        "cyclonedx",
+        "diff",
+        "sbom",
+        "security",
+        "spdx"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "sbom-tools",
+      "owners": 1,
+      "recent_downloads": 2141,
+      "releases_365d": 26,
+      "repository": "https://github.com/sbom-tool/sbom-tools",
+      "score": 55.18,
+      "version": "0.4.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "security"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3633,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9717,
+        "security": 1.0
+      },
+      "created": "2024-08-28",
+      "dependents": 2,
+      "description": "Idiomatic bindings to IDA SDK",
+      "downloads": 17060,
+      "edition": "2024",
+      "keywords": [
+        "ida",
+        "ida-pro",
+        "idalib",
+        "reverse-engineering"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT OR Apache-2.0",
+      "name": "idalib-sys",
+      "owners": 2,
+      "recent_downloads": 1829,
+      "releases_365d": 7,
+      "repository": "https://github.com/idalib-rs/idalib",
+      "score": 54.97,
+      "version": "0.11.1+9.5.261026",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "network-programming",
+        "security",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4019,
+        "license": 1.0,
+        "maintenance": 0.6953,
+        "msrv": 1.0,
+        "recency": 0.9652,
+        "security": 1.0
+      },
+      "created": "2026-08-08",
+      "dependents": 0,
+      "description": "Tower middleware that blocks common vulnerability-scanner paths before they reach your application.",
+      "downloads": 4874,
+      "edition": "2024",
+      "keywords": [
+        "axum",
+        "middleware",
+        "security",
+        "tower",
+        "waf"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "msrv": "1.97",
+      "name": "towershield",
+      "owners": 1,
+      "recent_downloads": 4062,
+      "releases_365d": 4,
+      "repository": "https://github.com/bnomei/towershield",
+      "score": 54.95,
+      "version": "0.1.3",
+      "versions": 4
+    }
+  ],
+  "score_version": 1
+}

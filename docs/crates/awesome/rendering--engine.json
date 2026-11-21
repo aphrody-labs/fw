@@ -1,0 +1,969 @@
+{
+  "category": {
+    "crates": 248,
+    "description": "High-level solutions for rendering on the screen.",
+    "name": "Rendering::Rendering engine",
+    "slug": "rendering::engine"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "embedded",
+        "gui",
+        "no-std",
+        "rendering::engine",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.4154,
+        "downloads": 0.6761,
+        "license": 0.5,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2022-02-01",
+      "dependents": 137,
+      "description": "Declarative GUI toolkit to build native user interfaces for desktop, Android, iOS, the web, and embedded devices, from microcontrollers to embedded Linux",
+      "downloads": 2693665,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "framework",
+        "gui",
+        "hmi",
+        "ui"
+      ],
+      "last_release": "2026-11-16",
+      "license": "GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0",
+      "msrv": "1.95",
+      "name": "slint",
+      "owners": 2,
+      "recent_downloads": 1177299,
+      "releases_365d": 9,
+      "repository": "https://github.com/slint-ui/slint",
+      "score": 71.15,
+      "version": "1.19.0",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "gui",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.3866,
+        "downloads": 0.6742,
+        "license": 0.5,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2022-02-10",
+      "dependents": 97,
+      "description": "Compile .slint UI files to Rust code from a Cargo build script",
+      "downloads": 2568712,
+      "edition": "2024",
+      "keywords": [
+        "build-script",
+        "codegen",
+        "gui",
+        "ui"
+      ],
+      "last_release": "2026-11-16",
+      "license": "GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0",
+      "msrv": "1.95",
+      "name": "slint-build",
+      "owners": 2,
+      "recent_downloads": 1131451,
+      "releases_365d": 9,
+      "repository": "https://github.com/slint-ui/slint",
+      "score": 70.38,
+      "version": "1.19.0",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "rendering",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.6295,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9362,
+        "security": 1.0
+      },
+      "created": "2018-10-19",
+      "dependents": 28,
+      "description": "Rust ffi bindings and idiomatic wrapper for mesh optimizer",
+      "downloads": 907984,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "cache",
+        "mesh",
+        "optimize",
+        "rendering"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "meshopt",
+      "owners": 4,
+      "recent_downloads": 449396,
+      "releases_365d": 1,
+      "repository": "https://github.com/gwihlidal/meshopt-rs",
+      "score": 67.38,
+      "version": "0.7.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "rendering",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5032,
+        "license": 1.0,
+        "maintenance": 0.8501,
+        "msrv": 1.0,
+        "recency": 0.9485,
+        "security": 1.0
+      },
+      "created": "2025-01-20",
+      "dependents": 3,
+      "description": "Texture block compression using WGPU compute shader",
+      "downloads": 54266,
+      "edition": "2021",
+      "keywords": [
+        "compress",
+        "image",
+        "texture",
+        "wgpu"
+      ],
+      "last_release": "2026-10-24",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "block_compression",
+      "owners": 1,
+      "recent_downloads": 32997,
+      "releases_365d": 6,
+      "repository": "https://github.com/hasenbanck/block_compression",
+      "score": 62.48,
+      "version": "0.11.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.3969,
+        "license": 1.0,
+        "maintenance": 0.6931,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-08-16",
+      "dependents": 18,
+      "description": "A 2D render engine on wgpu: display lists, planned GPU passes, and a Skia-shaped text stack",
+      "downloads": 3724,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo",
+      "owners": 1,
+      "recent_downloads": 3664,
+      "releases_365d": 40,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 61.43,
+      "version": "0.26.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.2225,
+        "downloads": 0.4078,
+        "license": 1.0,
+        "maintenance": 0.6931,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-08-16",
+      "dependents": 13,
+      "description": "Pure 2D math for valo: points, rects, paths, 4x4 matrices, strokes, color",
+      "downloads": 4701,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-geometry",
+      "owners": 1,
+      "recent_downloads": 4593,
+      "releases_365d": 40,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 61.06,
+      "version": "0.26.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "development-tools",
+        "gui",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4938,
+        "license": 0.5,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2022-02-10",
+      "dependents": 7,
+      "description": "Load .slint UI files at run time, without compiling them ahead of time",
+      "downloads": 108483,
+      "edition": "2024",
+      "keywords": [
+        "gui",
+        "hot-reload",
+        "interpreter",
+        "ui"
+      ],
+      "last_release": "2026-11-16",
+      "license": "GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0",
+      "msrv": "1.95",
+      "name": "slint-interpreter",
+      "owners": 2,
+      "recent_downloads": 27198,
+      "releases_365d": 9,
+      "repository": "https://github.com/slint-ui/slint",
+      "score": 60.6,
+      "version": "1.19.0",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.4065,
+        "license": 1.0,
+        "maintenance": 0.6931,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-08-16",
+      "dependents": 8,
+      "description": "Fonts, shaping and glyph raster for valo: font collections and fallback, harfrust shaping, glyph masks, SDF, COLR",
+      "downloads": 4580,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-text",
+      "owners": 1,
+      "recent_downloads": 4472,
+      "releases_365d": 40,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 60.09,
+      "version": "0.26.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4031,
+        "license": 1.0,
+        "maintenance": 0.6931,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-08-16",
+      "dependents": 5,
+      "description": "Display-list recording for valo, with the record-time oracle the renderer replays",
+      "downloads": 4262,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-dl",
+      "owners": 1,
+      "recent_downloads": 4169,
+      "releases_365d": 40,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 59.15,
+      "version": "0.26.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.3596,
+        "license": 1.0,
+        "maintenance": 0.6864,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-09-10",
+      "dependents": 9,
+      "description": "Image decoding for Valo: a decoder interface, ordered fallback, and inline or worker-thread execution",
+      "downloads": 1691,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-codec",
+      "owners": 1,
+      "recent_downloads": 1695,
+      "releases_365d": 33,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 59.04,
+      "version": "0.26.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.387,
+        "license": 1.0,
+        "maintenance": 0.6931,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-08-16",
+      "dependents": 5,
+      "description": "The platform's installed fonts as valo's FontSource, over a valo-fontmgr font manager",
+      "downloads": 3041,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-system-fonts",
+      "owners": 1,
+      "recent_downloads": 2984,
+      "releases_365d": 40,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 58.75,
+      "version": "0.26.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3891,
+        "license": 1.0,
+        "maintenance": 0.6874,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-09-06",
+      "dependents": 5,
+      "description": "Installed fonts, found the way Skia's SkFontMgr finds them: by family and style, by the character to cover, and the platform's own UI font",
+      "downloads": 3114,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-fontmgr",
+      "owners": 1,
+      "recent_downloads": 3118,
+      "releases_365d": 35,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 58.72,
+      "version": "0.26.0",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.3478,
+        "license": 1.0,
+        "maintenance": 0.6864,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-09-10",
+      "dependents": 7,
+      "description": "Portable image codecs for Valo: PNG, JPEG, GIF, WebP and BMP decoded on the CPU",
+      "downloads": 1324,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-codec-software",
+      "owners": 1,
+      "recent_downloads": 1328,
+      "releases_365d": 33,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 58.27,
+      "version": "0.26.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4303,
+        "license": 1.0,
+        "maintenance": 0.6928,
+        "msrv": 1.0,
+        "recency": 0.9988,
+        "security": 1.0
+      },
+      "created": "2026-08-17",
+      "dependents": 1,
+      "description": "Backend-agnostic 2D scene renderer for data visualization.",
+      "downloads": 7335,
+      "edition": "2021",
+      "keywords": [
+        "graphics",
+        "plotting",
+        "renderer",
+        "vello",
+        "visualization"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.86",
+      "name": "hephaestus",
+      "owners": 1,
+      "recent_downloads": 7309,
+      "releases_365d": 6,
+      "repository": "https://github.com/posit-dev/hephaestus",
+      "score": 57.59,
+      "version": "0.5.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.339,
+        "license": 1.0,
+        "maintenance": 0.7704,
+        "msrv": 1.0,
+        "recency": 0.8138,
+        "security": 1.0
+      },
+      "created": "2025-11-07",
+      "dependents": 8,
+      "description": "A cross-platform data-oriented game engine.",
+      "downloads": 7489,
+      "edition": "2024",
+      "keywords": [
+        "ecs",
+        "engine",
+        "gamedev",
+        "webgpu",
+        "wgpu"
+      ],
+      "last_release": "2026-08-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97",
+      "name": "nightshade",
+      "owners": 1,
+      "recent_downloads": 1105,
+      "releases_365d": 120,
+      "repository": "https://github.com/matthewjberger/nightshade",
+      "score": 56.87,
+      "version": "0.57.0",
+      "versions": 148
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3991,
+        "license": 1.0,
+        "maintenance": 0.6931,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-08-16",
+      "dependents": 1,
+      "description": "The wgpu core of valo: frame planner, encoder, pipelines, glyph atlases, caches",
+      "downloads": 3906,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-renderer",
+      "owners": 1,
+      "recent_downloads": 3833,
+      "releases_365d": 40,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 56.73,
+      "version": "0.26.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3544,
+        "license": 1.0,
+        "maintenance": 0.6716,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-11-03",
+      "dependents": 1,
+      "description": "Styled paragraphs for valo: spans, font fallback, bidi, wrapping, and recording into a display list",
+      "downloads": 1517,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "gpu",
+        "graphics",
+        "renderer",
+        "wgpu"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "valo-paragraph",
+      "owners": 1,
+      "recent_downloads": 1521,
+      "releases_365d": 14,
+      "repository": "https://github.com/seedeai/valo",
+      "score": 55.29,
+      "version": "0.26.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3499,
+        "license": 1.0,
+        "maintenance": 0.6809,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2026-09-29",
+      "dependents": 0,
+      "description": "A Flutter-class 2D renderer: Vulkan and GLES backends, WSI and DRM/KMS presentation.",
+      "downloads": 1326,
+      "edition": "2021",
+      "keywords": [
+        "flutter",
+        "gles",
+        "graphics",
+        "renderer",
+        "vulkan"
+      ],
+      "last_release": "2026-11-20",
+      "license": "BSD-3-Clause",
+      "msrv": "1.85",
+      "name": "emblema",
+      "owners": 1,
+      "recent_downloads": 1387,
+      "releases_365d": 12,
+      "repository": "https://github.com/jwinarske/emblema",
+      "score": 53.95,
+      "version": "0.3.8",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "rendering",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.615,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 0.0,
+        "recency": 0.3822,
+        "security": 1.0
+      },
+      "created": "2022-03-15",
+      "dependents": 11,
+      "description": "Rust bindings for Intel's ISPC texture compressor.",
+      "downloads": 916895,
+      "edition": "2021",
+      "keywords": [
+        "compress",
+        "image",
+        "intel",
+        "ispc",
+        "texture"
+      ],
+      "last_release": "2025-07-02",
+      "license": "MIT/Apache-2.0",
+      "name": "intel_tex_2",
+      "owners": 2,
+      "recent_downloads": 332988,
+      "releases_365d": 0,
+      "repository": "https://github.com/Traverse-Research/intel-tex-rs-2",
+      "score": 49.35,
+      "version": "0.5.0",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "graphics",
+        "gui",
+        "rendering::engine",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3342,
+        "license": 1.0,
+        "maintenance": 0.5366,
+        "msrv": 1.0,
+        "recency": 0.7249,
+        "security": 1.0
+      },
+      "created": "2026-03-10",
+      "dependents": 1,
+      "description": "High-performance financial charting engine for egui — candlesticks, 95 drawing tools, 130+ indicators, and a full design-token theme system",
+      "downloads": 1413,
+      "edition": "2024",
+      "keywords": [
+        "candlestick",
+        "charts",
+        "egui",
+        "finance",
+        "trading"
+      ],
+      "last_release": "2026-06-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "egui-charts",
+      "owners": 1,
+      "recent_downloads": 1002,
+      "releases_365d": 2,
+      "repository": "https://github.com/userFRM/egui-charts",
+      "score": 48.74,
+      "version": "0.2.0",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "graphics",
+        "rendering::engine",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4359,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.8098,
+        "security": 1.0
+      },
+      "created": "2024-05-07",
+      "dependents": 1,
+      "description": "Draw to the terminal like an HTML Canvas.",
+      "downloads": 24702,
+      "edition": "2024",
+      "keywords": [
+        "braille",
+        "canvas",
+        "drawing",
+        "terminal-graphics",
+        "visualization"
+      ],
+      "last_release": "2026-08-01",
+      "license": "MIT OR Apache-2.0",
+      "name": "textcanvas",
+      "owners": 1,
+      "recent_downloads": 8208,
+      "releases_365d": 1,
+      "repository": "https://github.com/qrichert/textcanvas.git",
+      "score": 48.01,
+      "version": "3.9.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "rendering",
+        "rendering::engine",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.4954,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 0.0,
+        "recency": 0.4127,
+        "security": 1.0
+      },
+      "created": "2018-12-11",
+      "dependents": 19,
+      "description": "Rust ffi bindings and idiomatic wrapper for AMD Vulkan Memory Allocator (VMA)",
+      "downloads": 189799,
+      "edition": "2021",
+      "keywords": [
+        "allocator",
+        "ash",
+        "memory",
+        "vk",
+        "vulkan"
+      ],
+      "last_release": "2025-08-12",
+      "license": "MIT/Apache-2.0",
+      "name": "vk-mem",
+      "owners": 2,
+      "recent_downloads": 28067,
+      "releases_365d": 0,
+      "repository": "https://github.com/gwihlidal/vk-mem-rs",
+      "score": 47.89,
+      "version": "0.5.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "rendering",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5066,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 0.0,
+        "recency": 0.0075,
+        "security": 1.0
+      },
+      "created": "2018-11-20",
+      "dependents": 5,
+      "description": "Reflection API in rust for SPIR-V shader byte code, intended for Vulkan applications.",
+      "downloads": 543268,
+      "edition": "2018",
+      "keywords": [
+        "glsl",
+        "hlsl",
+        "reflect",
+        "shader",
+        "spirv"
+      ],
+      "last_release": "2019-11-03",
+      "license": "MIT/Apache-2.0",
+      "name": "spirv-reflect",
+      "owners": 1,
+      "recent_downloads": 35440,
+      "releases_365d": 0,
+      "repository": "https://github.com/gwihlidal/spirv-reflect-rs",
+      "score": 38.56,
+      "version": "0.2.3",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "rendering",
+        "rendering::engine",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3602,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 0.0,
+        "recency": 0.3378,
+        "security": 1.0
+      },
+      "created": "2021-10-23",
+      "dependents": 2,
+      "description": "Simplification of core Vulkan synchronization mechanisms such as pipeline barriers and events. Forked off of the original vk-sync crate which is currently unmaintained.",
+      "downloads": 18670,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "ash",
+        "graphics",
+        "vk",
+        "vulkan"
+      ],
+      "last_release": "2025-04-28",
+      "license": "MIT/Apache-2.0",
+      "name": "vk-sync-fork",
+      "owners": 1,
+      "recent_downloads": 1714,
+      "releases_365d": 0,
+      "repository": "https://github.com/expenses/vk-sync-rs",
+      "score": 38.39,
+      "version": "0.5.2",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "game-development",
+        "game-engines",
+        "graphics",
+        "multimedia",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.3466,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 0.0,
+        "recency": 0.1516,
+        "security": 1.0
+      },
+      "created": "2021-01-17",
+      "dependents": 7,
+      "description": "Rendering framework built on an extensible asset pipeline",
+      "downloads": 61938,
+      "edition": "2021",
+      "keywords": [
+        "game",
+        "graphics",
+        "rendering"
+      ],
+      "last_release": "2024-03-02",
+      "license": "MIT OR Apache-2.0",
+      "name": "rafx-base",
+      "owners": 1,
+      "recent_downloads": 1294,
+      "releases_365d": 0,
+      "repository": "https://github.com/aclysma/rafx",
+      "score": 37.32,
+      "version": "0.0.16",
+      "versions": 15
+    }
+  ],
+  "score_version": 1
+}

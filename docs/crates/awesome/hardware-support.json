@@ -1,0 +1,943 @@
+{
+  "category": {
+    "crates": 5569,
+    "description": "Crates to interface with specific CPU or other hardware features.",
+    "name": "Hardware support",
+    "slug": "hardware-support"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "concurrency",
+        "embedded",
+        "hardware-support",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5325,
+        "downloads": 0.9249,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8218,
+        "security": 1.0
+      },
+      "created": "2022-02-24",
+      "dependents": 552,
+      "description": "Portable atomic types including support for 128-bit atomics, atomic float, etc.\n",
+      "downloads": 611050641,
+      "edition": "2018",
+      "keywords": [
+        "atomic"
+      ],
+      "last_release": "2026-08-09",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.34",
+      "name": "portable-atomic",
+      "owners": 1,
+      "recent_downloads": 201835044,
+      "releases_365d": 5,
+      "repository": "https://github.com/taiki-e/portable-atomic",
+      "score": 81.76,
+      "version": "1.15.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.603,
+        "downloads": 0.7104,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9462,
+        "security": 1.0
+      },
+      "created": "2016-09-28",
+      "dependents": 1275,
+      "description": "Low level access to Cortex-M processors",
+      "downloads": 14734495,
+      "edition": "2024",
+      "keywords": [
+        "arm",
+        "cortex-m",
+        "peripheral",
+        "register"
+      ],
+      "last_release": "2026-10-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "cortex-m",
+      "owners": 3,
+      "recent_downloads": 2394689,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-embedded/cortex-m",
+      "score": 80.53,
+      "version": "0.7.10",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "data-structures",
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.5058,
+        "downloads": 0.8377,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8799,
+        "security": 1.0
+      },
+      "created": "2019-09-21",
+      "dependents": 402,
+      "description": "A crate to help you go wide.",
+      "downloads": 100663887,
+      "edition": "2024",
+      "keywords": [
+        "lokathor",
+        "simd",
+        "wide"
+      ],
+      "last_release": "2026-09-14",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "wide",
+      "owners": 1,
+      "recent_downloads": 33272090,
+      "releases_365d": 12,
+      "repository": "https://github.com/Lokathor/wide",
+      "score": 79.79,
+      "version": "1.7.1",
+      "versions": 87
+    },
+    {
+      "categories": [
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.394,
+        "downloads": 0.7987,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9513,
+        "security": 1.0
+      },
+      "created": "2018-10-19",
+      "dependents": 106,
+      "description": "Safer and easier SIMD",
+      "downloads": 18564376,
+      "edition": "2024",
+      "keywords": [
+        "simd"
+      ],
+      "last_release": "2026-10-25",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "fearless_simd",
+      "owners": 3,
+      "recent_downloads": 14863655,
+      "releases_365d": 10,
+      "repository": "https://github.com/linebender/fearless_simd",
+      "score": 79.09,
+      "version": "1.2.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.9333,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9857,
+        "security": 1.0
+      },
+      "created": "2018-12-10",
+      "dependents": 21,
+      "description": "UEFI Reference Specification Protocol Constants and Definitions",
+      "downloads": 534498543,
+      "edition": "2018",
+      "keywords": [
+        "boot",
+        "efi",
+        "firmware",
+        "specification",
+        "uefi"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0 OR LGPL-2.1-or-later",
+      "msrv": "1.68",
+      "name": "r-efi",
+      "owners": 1,
+      "recent_downloads": 240515395,
+      "releases_365d": 4,
+      "repository": "https://github.com/r-efi/r-efi",
+      "score": 77.63,
+      "version": "7.2.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3803,
+        "downloads": 0.9674,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8488,
+        "security": 1.0
+      },
+      "created": "2021-04-26",
+      "dependents": 90,
+      "description": "Lightweight runtime CPU feature detection for aarch64, loongarch64, and x86/x86_64 targets,\nwith no_std support and support for mobile targets including Android and iOS\n",
+      "downloads": 1340742871,
+      "edition": "2024",
+      "keywords": [
+        "cpuid",
+        "target-feature"
+      ],
+      "last_release": "2026-08-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "cpufeatures",
+      "owners": 2,
+      "recent_downloads": 485817979,
+      "releases_365d": 2,
+      "repository": "https://github.com/RustCrypto/utils",
+      "score": 77.42,
+      "version": "0.3.1",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.7922,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9448,
+        "security": 1.0
+      },
+      "created": "2019-09-10",
+      "dependents": 46,
+      "description": "Easy function multiversioning",
+      "downloads": 26849704,
+      "edition": "2021",
+      "last_release": "2026-10-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86",
+      "name": "multiversion",
+      "owners": 1,
+      "recent_downloads": 12979945,
+      "releases_365d": 4,
+      "repository": "https://github.com/calebzulawski/multiversion",
+      "score": 75.09,
+      "version": "0.9.2",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.4258,
+        "downloads": 0.7191,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.857,
+        "security": 1.0
+      },
+      "created": "2017-05-17",
+      "dependents": 155,
+      "description": "A safe and ergonomic Rust wrapper for the NVIDIA Management Library",
+      "downloads": 8332136,
+      "edition": "2021",
+      "keywords": [
+        "gpu",
+        "hardware",
+        "managment",
+        "monitoring",
+        "nvidia"
+      ],
+      "last_release": "2026-08-31",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60.0",
+      "name": "nvml-wrapper",
+      "owners": 3,
+      "recent_downloads": 2864563,
+      "releases_365d": 3,
+      "repository": "https://github.com/Cldfire/nvml-wrapper",
+      "score": 74.98,
+      "version": "0.13.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.435,
+        "downloads": 0.6737,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9497,
+        "security": 1.0
+      },
+      "created": "2023-10-08",
+      "dependents": 173,
+      "description": "Cross-platform low-level access to USB devices in pure Rust",
+      "downloads": 2342397,
+      "edition": "2021",
+      "keywords": [
+        "hardware",
+        "usb"
+      ],
+      "last_release": "2026-10-24",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "nusb",
+      "owners": 1,
+      "recent_downloads": 1120439,
+      "releases_365d": 8,
+      "repository": "https://github.com/kevinmehall/nusb",
+      "score": 74.96,
+      "version": "0.2.9",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "network-programming",
+        "os",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.8084,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9532,
+        "security": 1.0
+      },
+      "created": "2021-11-07",
+      "dependents": 29,
+      "description": "Cross platform serial ports",
+      "downloads": 27019091,
+      "edition": "2021",
+      "keywords": [
+        "com-port",
+        "rs232",
+        "serial",
+        "serial-port",
+        "tty"
+      ],
+      "last_release": "2026-10-26",
+      "license": "BSD-2-Clause OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "serial2",
+      "owners": 1,
+      "recent_downloads": 18149846,
+      "releases_365d": 6,
+      "repository": "https://github.com/de-vri-es/serial2-rs",
+      "score": 74.68,
+      "version": "0.2.39",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography",
+        "external-ffi-bindings",
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.352,
+        "downloads": 0.6908,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8828,
+        "security": 1.0
+      },
+      "created": "2021-03-18",
+      "dependents": 64,
+      "description": "Rust-native wrapper around the PKCS #11 API",
+      "downloads": 3846655,
+      "edition": "2021",
+      "keywords": [
+        "cryptoki",
+        "hsm",
+        "pkcs11"
+      ],
+      "last_release": "2026-09-16",
+      "license": "Apache-2.0",
+      "msrv": "1.77",
+      "name": "cryptoki",
+      "owners": 4,
+      "recent_downloads": 1596308,
+      "releases_365d": 5,
+      "repository": "https://github.com/parallaxsecond/rust-cryptoki",
+      "score": 74.31,
+      "version": "0.12.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.5246,
+        "downloads": 0.7388,
+        "license": 0.75,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.8701,
+        "security": 1.0
+      },
+      "created": "2016-12-23",
+      "dependents": 503,
+      "description": "A cross-platform low-level serial port library.",
+      "downloads": 21811770,
+      "edition": "2021",
+      "keywords": [
+        "hardware",
+        "rs232",
+        "serial",
+        "system"
+      ],
+      "last_release": "2026-09-08",
+      "license": "MPL-2.0",
+      "msrv": "1.59.0",
+      "name": "serialport",
+      "owners": 3,
+      "recent_downloads": 4307912,
+      "releases_365d": 2,
+      "repository": "https://github.com/serialport/serialport-rs",
+      "score": 74.14,
+      "version": "4.10.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.405,
+        "downloads": 0.5997,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8862,
+        "security": 1.0
+      },
+      "created": "2023-10-11",
+      "dependents": 121,
+      "description": "Bare-metal HAL for Espressif devices",
+      "downloads": 1116460,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "embedded-hal",
+        "esp32",
+        "espressif",
+        "hal"
+      ],
+      "last_release": "2026-09-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "esp-hal",
+      "owners": 3,
+      "recent_downloads": 242569,
+      "releases_365d": 8,
+      "repository": "https://github.com/esp-rs/esp-hal",
+      "score": 73.41,
+      "version": "1.2.2",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "hardware-support",
+        "memory-management",
+        "no-std",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.4999,
+        "downloads": 0.7466,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8966,
+        "security": 1.0
+      },
+      "created": "2022-09-16",
+      "dependents": 375,
+      "description": "Safe and minimal CUDA bindings",
+      "downloads": 12394696,
+      "edition": "2021",
+      "keywords": [
+        "cublas",
+        "cuda",
+        "cudnn",
+        "gpu",
+        "nvidia"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT OR Apache-2.0",
+      "name": "cudarc",
+      "owners": 1,
+      "recent_downloads": 5056318,
+      "releases_365d": 12,
+      "repository": "https://github.com/chelsea0x3b/cudarc",
+      "score": 72.61,
+      "version": "0.19.10",
+      "versions": 89
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4803,
+        "downloads": 0.7144,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7149,
+        "security": 1.0
+      },
+      "created": "2017-09-19",
+      "dependents": 297,
+      "description": "Low level access to RISC-V processors",
+      "downloads": 11815366,
+      "edition": "2021",
+      "keywords": [
+        "peripheral",
+        "register",
+        "riscv"
+      ],
+      "last_release": "2026-05-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "riscv",
+      "owners": 2,
+      "recent_downloads": 2599293,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-embedded/riscv",
+      "score": 71.59,
+      "version": "0.16.1",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.3021,
+        "downloads": 0.634,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9348,
+        "security": 1.0
+      },
+      "created": "2018-05-21",
+      "dependents": 35,
+      "description": "Simple yet highly configurable low-level driver for 16550 UART devices,\ntypically known and used as serial ports or COM ports. Easy integration into\nRust while providing fine-grained control where needed (e.g., for kernel\ndrivers).\n",
+      "downloads": 2446035,
+      "edition": "2024",
+      "keywords": [
+        "com",
+        "driver",
+        "serial",
+        "tty",
+        "uart-16550"
+      ],
+      "last_release": "2026-10-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91.0",
+      "name": "uart_16550",
+      "owners": 2,
+      "recent_downloads": 493071,
+      "releases_365d": 6,
+      "repository": "https://github.com/rust-osdev/uart_16550",
+      "score": 71.43,
+      "version": "0.9.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "encoding",
+        "hardware-support",
+        "no-std",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.4208,
+        "downloads": 0.6952,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9624,
+        "security": 1.0
+      },
+      "created": "2019-11-23",
+      "dependents": 146,
+      "description": "iced-x86 is a blazing fast and correct x86/x64 disassembler, assembler and instruction decoder written in Rust",
+      "downloads": 4610910,
+      "edition": "2021",
+      "keywords": [
+        "amd64",
+        "assembler",
+        "disassembler",
+        "x86",
+        "x86_64"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT",
+      "msrv": "1.64.0",
+      "name": "iced-x86",
+      "owners": 1,
+      "recent_downloads": 1747840,
+      "releases_365d": 1,
+      "repository": "https://github.com/icedland/iced",
+      "score": 70.83,
+      "version": "1.22.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3765,
+        "downloads": 0.6931,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.8898,
+        "security": 1.0
+      },
+      "created": "2021-05-18",
+      "dependents": 86,
+      "description": "A Storage Abstraction Layer for Embedded Systems",
+      "downloads": 10207525,
+      "edition": "2024",
+      "keywords": [
+        "storage"
+      ],
+      "last_release": "2026-09-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "embedded-storage",
+      "owners": 3,
+      "recent_downloads": 1675394,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-embedded-community/embedded-storage",
+      "score": 70.59,
+      "version": "0.3.2",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "network-programming",
+        "os",
+        "os::linux-apis",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.6631,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9863,
+        "security": 1.0
+      },
+      "created": "2021-02-02",
+      "dependents": 14,
+      "description": "Library for AMD SEV",
+      "downloads": 2852374,
+      "edition": "2018",
+      "keywords": [
+        "amd",
+        "sev"
+      ],
+      "last_release": "2026-11-13",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "sev",
+      "owners": 3,
+      "recent_downloads": 900318,
+      "releases_365d": 3,
+      "repository": "https://github.com/virtee/sev",
+      "score": 70.58,
+      "version": "9.0.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.6151,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9207,
+        "security": 1.0
+      },
+      "created": "2024-08-21",
+      "dependents": 19,
+      "description": "Bluetooth HCI data types",
+      "downloads": 1012500,
+      "edition": "2021",
+      "keywords": [
+        "ble",
+        "bluetooth",
+        "hci"
+      ],
+      "last_release": "2026-10-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "bt-hci",
+      "owners": 3,
+      "recent_downloads": 333997,
+      "releases_365d": 7,
+      "repository": "https://github.com/embassy-rs/bt-hci",
+      "score": 70.5,
+      "version": "0.11.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "cryptography",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.8942,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7155,
+        "security": 1.0
+      },
+      "created": "2022-02-11",
+      "dependents": 4,
+      "description": "Conditional move CPU intrinsics which are guaranteed on major platforms (ARM32/ARM64, x86/x86_64,\nRISC-V) to execute in constant-time and not be rewritten as branches by the compiler. Provides\nwrappers for the CMOV family of instructions on x86/x86_64 and CSEL on AArch64, along with a\nportable \"best-effort\" pure Rust fallback implementation.\n",
+      "downloads": 161477155,
+      "edition": "2024",
+      "keywords": [
+        "constant-time",
+        "crypto",
+        "intrinsics"
+      ],
+      "last_release": "2026-05-28",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "cmov",
+      "owners": 2,
+      "recent_downloads": 107120091,
+      "releases_365d": 9,
+      "repository": "https://github.com/RustCrypto/utils",
+      "score": 70.48,
+      "version": "0.5.4",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "algorithms",
+        "encoding",
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.3438,
+        "downloads": 0.8472,
+        "license": 1.0,
+        "maintenance": 0.8281,
+        "msrv": 1.0,
+        "recency": 0.5402,
+        "security": 1.0
+      },
+      "created": "2025-04-11",
+      "dependents": 58,
+      "description": "World's fastest generic CRC16, CRC32, and CRC64 calculator using SIMD. Supplies a C-compatible shared library for use in other languages.",
+      "downloads": 85479925,
+      "edition": "2021",
+      "keywords": [
+        "accelerated",
+        "checksum",
+        "crc",
+        "fast",
+        "simd"
+      ],
+      "last_release": "2025-12-31",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "crc-fast",
+      "owners": 1,
+      "recent_downloads": 40482311,
+      "releases_365d": 4,
+      "repository": "https://github.com/awesomized/crc-fast-rust",
+      "score": 70.3,
+      "version": "1.10.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.8367,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8297,
+        "security": 1.0
+      },
+      "created": "2020-04-29",
+      "dependents": 12,
+      "description": "Crate that exposes `core::arch` safely via `#[cfg()]`.",
+      "downloads": 99051566,
+      "edition": "2024",
+      "keywords": [
+        "intrinsics",
+        "simd"
+      ],
+      "last_release": "2026-08-14",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "safe_arch",
+      "owners": 1,
+      "recent_downloads": 32587114,
+      "releases_365d": 3,
+      "repository": "https://github.com/Lokathor/safe_arch",
+      "score": 70.27,
+      "version": "1.2.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "development-tools",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3131,
+        "downloads": 0.6067,
+        "license": 1.0,
+        "maintenance": 0.8168,
+        "msrv": 1.0,
+        "recency": 0.9998,
+        "security": 1.0
+      },
+      "created": "2026-01-20",
+      "dependents": 40,
+      "description": "Safely invoke your intrinsic power, using the tokens granted to you by the CPU. Cast primitive magics faster than any mage alive.",
+      "downloads": 504743,
+      "edition": "2024",
+      "keywords": [
+        "avx",
+        "neon",
+        "safe",
+        "simd",
+        "wasm"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "archmage",
+      "owners": 2,
+      "recent_downloads": 280751,
+      "releases_365d": 52,
+      "repository": "https://github.com/imazen/archmage",
+      "score": 70.24,
+      "version": "0.9.32",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.3191,
+        "downloads": 0.5588,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8812,
+        "security": 1.0
+      },
+      "created": "2019-08-02",
+      "dependents": 43,
+      "description": "A Hardware abstraction layer for Espressif's ESP family of microcontrollers based on the ESP-IDF framework.",
+      "downloads": 888007,
+      "edition": "2021",
+      "keywords": [
+        "esp-idf",
+        "esp32",
+        "hal",
+        "idf"
+      ],
+      "last_release": "2026-09-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82",
+      "name": "esp-idf-hal",
+      "owners": 4,
+      "recent_downloads": 104189,
+      "releases_365d": 4,
+      "repository": "https://github.com/esp-rs/esp-idf-hal",
+      "score": 70.16,
+      "version": "0.47.0",
+      "versions": 88
+    }
+  ],
+  "score_version": 1
+}

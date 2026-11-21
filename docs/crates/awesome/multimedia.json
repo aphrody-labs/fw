@@ -1,0 +1,962 @@
+{
+  "category": {
+    "crates": 2386,
+    "description": "Crates that provide audio, video, and image processing or rendering engines.",
+    "name": "Multimedia",
+    "slug": "multimedia"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.4642,
+        "downloads": 0.7322,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2015-03-09",
+      "dependents": 245,
+      "description": "Rust bindings for GStreamer",
+      "downloads": 13514639,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gnome",
+        "gstreamer",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "gstreamer",
+      "owners": 3,
+      "recent_downloads": 3759416,
+      "releases_365d": 9,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 78.28,
+      "version": "0.25.4",
+      "versions": 128
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.5216,
+        "downloads": 0.7883,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 485,
+      "description": "Pure Rust media container and audio decoding library.",
+      "downloads": 22883004,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "media",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia",
+      "owners": 1,
+      "recent_downloads": 11978915,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 75.65,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.394,
+        "downloads": 0.6951,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2017-08-31",
+      "dependents": 106,
+      "description": "Rust bindings for GStreamer Video library",
+      "downloads": 8920346,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gnome",
+        "gstreamer",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "gstreamer-video",
+      "owners": 3,
+      "recent_downloads": 1744370,
+      "releases_365d": 8,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 75.6,
+      "version": "0.25.4",
+      "versions": 77
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.3558,
+        "downloads": 0.7299,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2017-11-26",
+      "dependents": 67,
+      "description": "Rust bindings for GStreamer Base library",
+      "downloads": 12314629,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gnome",
+        "gstreamer",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "gstreamer-base",
+      "owners": 3,
+      "recent_downloads": 3580196,
+      "releases_365d": 8,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 75.51,
+      "version": "0.25.4",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "game-engines",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.4617,
+        "downloads": 0.6575,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 238,
+      "description": "SDL2 bindings for Rust",
+      "downloads": 5812050,
+      "edition": "2015",
+      "keywords": [
+        "api",
+        "engine",
+        "graphics",
+        "sdl",
+        "windowing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "sdl2",
+      "owners": 3,
+      "recent_downloads": 801142,
+      "releases_365d": 2,
+      "repository": "https://github.com/Rust-SDL2/rust-sdl2",
+      "score": 74.91,
+      "version": "0.39.0",
+      "versions": 100
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia",
+        "multimedia::audio",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3883,
+        "downloads": 0.6914,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9937,
+        "security": 1.0
+      },
+      "created": "2015-04-13",
+      "dependents": 99,
+      "description": "A library for reading and writing ID3 metadata",
+      "downloads": 13155639,
+      "edition": "2024",
+      "keywords": [
+        "aiff",
+        "id3",
+        "metadata",
+        "mp3",
+        "wav"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "id3",
+      "owners": 1,
+      "recent_downloads": 1617151,
+      "releases_365d": 6,
+      "repository": "https://codeberg.org/polyfloyd/rust-id3",
+      "score": 74.9,
+      "version": "1.17.4",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "computer-vision",
+        "external-ffi-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.3874,
+        "downloads": 0.6861,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9761,
+        "security": 1.0
+      },
+      "created": "2015-05-14",
+      "dependents": 98,
+      "description": "Rust bindings for OpenCV",
+      "downloads": 5310667,
+      "edition": "2024",
+      "keywords": [
+        "cv",
+        "opencv",
+        "vision"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "opencv",
+      "owners": 1,
+      "recent_downloads": 1448378,
+      "releases_365d": 10,
+      "repository": "https://github.com/twistedfall/opencv-rust",
+      "score": 74.48,
+      "version": "0.102.0",
+      "versions": 224
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.4252,
+        "downloads": 0.6557,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9513,
+        "security": 1.0
+      },
+      "created": "2021-04-23",
+      "dependents": 154,
+      "description": "Audio metadata library",
+      "downloads": 1660283,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "id3",
+        "metadata",
+        "tags",
+        "vorbis"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "lofty",
+      "owners": 1,
+      "recent_downloads": 772674,
+      "releases_365d": 7,
+      "repository": "https://github.com/Serial-ATA/lofty-rs",
+      "score": 74.29,
+      "version": "0.25.5",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.2998,
+        "downloads": 0.7321,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2017-04-06",
+      "dependents": 34,
+      "description": "FFI bindings to libgstreamer-1.0",
+      "downloads": 13212509,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "gnome",
+        "gstreamer",
+        "multimedia"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "gstreamer-sys",
+      "owners": 3,
+      "recent_downloads": 3748441,
+      "releases_365d": 7,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 74.17,
+      "version": "0.25.4",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "encoding",
+        "filesystem",
+        "graphics",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.8257,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9773,
+        "security": 1.0
+      },
+      "created": "2020-02-15",
+      "dependents": 30,
+      "description": "Read and write OpenEXR files without any unsafe code",
+      "downloads": 92033614,
+      "edition": "2018",
+      "keywords": [
+        "binary",
+        "exr",
+        "file",
+        "io",
+        "openexr"
+      ],
+      "last_release": "2026-11-08",
+      "license": "BSD-3-Clause",
+      "msrv": "1.83.0",
+      "name": "exr",
+      "owners": 1,
+      "recent_downloads": 25973475,
+      "releases_365d": 3,
+      "repository": "https://github.com/johannesvollmer/exrs",
+      "score": 74.04,
+      "version": "1.74.3",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.311,
+        "downloads": 0.696,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2017-08-31",
+      "dependents": 39,
+      "description": "Rust bindings for GStreamer Audio library",
+      "downloads": 4413050,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gnome",
+        "gstreamer",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "gstreamer-audio",
+      "owners": 3,
+      "recent_downloads": 1778160,
+      "releases_365d": 8,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 73.55,
+      "version": "0.25.4",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "multimedia",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.6885,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.967,
+        "security": 1.0
+      },
+      "created": "2023-03-17",
+      "dependents": 36,
+      "description": "WebRTC library in Sans-IO style",
+      "downloads": 3324646,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "media",
+        "streaming",
+        "video",
+        "webrtc"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "str0m",
+      "owners": 2,
+      "recent_downloads": 1522519,
+      "releases_365d": 22,
+      "repository": "https://github.com/algesten/str0m",
+      "score": 73.33,
+      "version": "0.25.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.3803,
+        "downloads": 0.7278,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.6923,
+        "security": 1.0
+      },
+      "created": "2017-08-31",
+      "dependents": 90,
+      "description": "Rust bindings for GStreamer App library",
+      "downloads": 10977602,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gnome",
+        "gstreamer",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-05-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "gstreamer-app",
+      "owners": 3,
+      "recent_downloads": 3427417,
+      "releases_365d": 6,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 73.09,
+      "version": "0.25.2",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.7094,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9658,
+        "security": 1.0
+      },
+      "created": "2023-08-21",
+      "dependents": 23,
+      "description": "Safe Rust bindings for Apple's ScreenCaptureKit framework - screen and audio capture on macOS",
+      "downloads": 3682468,
+      "edition": "2021",
+      "keywords": [
+        "audio",
+        "macos",
+        "screen-capture",
+        "screencapturekit",
+        "video"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82",
+      "name": "screencapturekit",
+      "owners": 1,
+      "recent_downloads": 2346419,
+      "releases_365d": 40,
+      "repository": "https://github.com/doom-fish/screencapturekit-rs",
+      "score": 71.92,
+      "version": "11.1.2",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.3756,
+        "downloads": 0.7081,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.8368,
+        "security": 1.0
+      },
+      "created": "2019-08-13",
+      "dependents": 85,
+      "description": "Rust bindings for PipeWire",
+      "downloads": 3781762,
+      "edition": "2021",
+      "keywords": [
+        "audio",
+        "multimedia",
+        "pipewire",
+        "video"
+      ],
+      "last_release": "2026-08-19",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "pipewire",
+      "owners": 6,
+      "recent_downloads": 2284343,
+      "releases_365d": 2,
+      "repository": "https://gitlab.freedesktop.org/pipewire/pipewire-rs",
+      "score": 71.64,
+      "version": "0.10.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.416,
+        "downloads": 0.7161,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 0.0,
+        "recency": 0.9825,
+        "security": 1.0
+      },
+      "created": "2018-09-20",
+      "dependents": 138,
+      "description": "Safe FFmpeg wrapper (FFmpeg 4 compatible fork of the ffmpeg crate)",
+      "downloads": 9180283,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "ffmpeg",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-11-11",
+      "license": "WTFPL",
+      "name": "ffmpeg-next",
+      "owners": 3,
+      "recent_downloads": 2692848,
+      "releases_365d": 3,
+      "repository": "https://github.com/zmwangx/rust-ffmpeg",
+      "score": 71.54,
+      "version": "9.1.0",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.7299,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2017-04-09",
+      "dependents": 9,
+      "description": "FFI bindings to libgstbase-1.0",
+      "downloads": 12379691,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "gnome",
+        "gstreamer",
+        "multimedia"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "gstreamer-base-sys",
+      "owners": 3,
+      "recent_downloads": 3582100,
+      "releases_365d": 7,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 71.47,
+      "version": "0.25.4",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.7895,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 51,
+      "description": "Project Symphonia shared structs, traits, and features.",
+      "downloads": 23446779,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "media",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-core",
+      "owners": 1,
+      "recent_downloads": 12274424,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 70.97,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "graphics",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.3264,
+        "downloads": 0.7161,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7248,
+        "security": 1.0
+      },
+      "created": "2024-09-04",
+      "dependents": 47,
+      "description": "A high-level crate for creating PDF files.",
+      "downloads": 4181019,
+      "edition": "2021",
+      "keywords": [
+        "pdf"
+      ],
+      "last_release": "2026-06-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "krilla",
+      "owners": 2,
+      "recent_downloads": 2692588,
+      "releases_365d": 5,
+      "repository": "https://github.com/LaurenzV/krilla",
+      "score": 70.93,
+      "version": "0.8.2",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.4263,
+        "downloads": 0.5803,
+        "license": 1.0,
+        "maintenance": 0.7263,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2026-04-17",
+      "dependents": 156,
+      "description": "Core types and registries for oxideav — timestamps, packets, frames, codec/container/source/filter registries (pure Rust, no C deps)",
+      "downloads": 274178,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "multimedia",
+        "pure-rust",
+        "video"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-core",
+      "owners": 1,
+      "recent_downloads": 162366,
+      "releases_365d": 49,
+      "repository": "https://github.com/OxideAV/oxideav-core",
+      "score": 70.65,
+      "version": "0.1.43",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "game-development",
+        "graphics",
+        "gui",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.4274,
+        "downloads": 0.7999,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.5222,
+        "security": 1.0
+      },
+      "created": "2022-01-20",
+      "dependents": 158,
+      "description": "Cross-platform software buffer",
+      "downloads": 35768311,
+      "edition": "2021",
+      "keywords": [
+        "framebuffer",
+        "windowing"
+      ],
+      "last_release": "2025-12-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "softbuffer",
+      "owners": 7,
+      "recent_downloads": 15240279,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-windowing/softbuffer",
+      "score": 70.51,
+      "version": "0.4.8",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.6951,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2017-04-09",
+      "dependents": 8,
+      "description": "FFI bindings to libgstvideo-1.0",
+      "downloads": 8911005,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "gnome",
+        "gstreamer",
+        "multimedia"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "gstreamer-video-sys",
+      "owners": 3,
+      "recent_downloads": 1743446,
+      "releases_365d": 8,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 70.38,
+      "version": "0.25.4",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.6499,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.939,
+        "security": 1.0
+      },
+      "created": "2023-02-15",
+      "dependents": 21,
+      "description": "Wrap a standalone FFmpeg binary in an intuitive Iterator interface.",
+      "downloads": 2353563,
+      "edition": "2021",
+      "keywords": [
+        "ffmpeg",
+        "video"
+      ],
+      "last_release": "2026-10-18",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "ffmpeg-sidecar",
+      "owners": 1,
+      "recent_downloads": 684645,
+      "releases_365d": 6,
+      "repository": "https://github.com/nathanbabcock/ffmpeg-sidecar",
+      "score": 69.85,
+      "version": "2.7.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.5879,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2018-03-20",
+      "dependents": 22,
+      "description": "Rust bindings for GStreamer Base Utils library",
+      "downloads": 872362,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gnome",
+        "gstreamer",
+        "multimedia",
+        "pbutils"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "gstreamer-pbutils",
+      "owners": 3,
+      "recent_downloads": 190228,
+      "releases_365d": 7,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 69.68,
+      "version": "0.25.4",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "game-development",
+        "multimedia",
+        "no-std",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.5938,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9698,
+        "security": 1.0
+      },
+      "created": "2023-01-23",
+      "dependents": 18,
+      "description": "Low level Rust bindings for SDL 3",
+      "downloads": 434999,
+      "edition": "2024",
+      "keywords": [
+        "gamedev",
+        "graphics",
+        "multimedia",
+        "sdl",
+        "windowing"
+      ],
+      "last_release": "2026-11-04",
+      "license": "Zlib",
+      "msrv": "1.85",
+      "name": "sdl3-sys",
+      "owners": 2,
+      "recent_downloads": 214915,
+      "releases_365d": 16,
+      "repository": "https://codeberg.org/maia/sdl3-sys-rs",
+      "score": 69.6,
+      "version": "0.7.3+SDL-3.4.20",
+      "versions": 55
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,127 @@
+{
+  "/health": {
+    "get": {
+      "summary": "Edge OS health and active bindings"
+    }
+  },
+  "/openapi.json": {
+    "get": {
+      "summary": "OpenAPI 3.1 schema"
+    }
+  },
+  "/.well-known/agent.json": {
+    "get": {
+      "summary": "A2A AgentCard"
+    }
+  },
+  "/v1/models": {
+    "get": {
+      "summary": "OpenAI-compatible model list"
+    }
+  },
+  "/v1/chat/completions": {
+    "post": {
+      "summary": "OpenAI-compatible chat (stream or not) via Cloudflare Workers AI; 503 without the AI binding"
+    }
+  },
+  "/v1/embeddings": {
+    "post": {
+      "summary": "OpenAI-compatible embeddings with optional Vectorize upsert"
+    }
+  },
+  "/mcp": {
+    "post": {
+      "summary": "Streamable HTTP MCP JSON-RPC 2.0 (initialize, tools/list, tools/call)"
+    }
+  },
+  "/acp": {
+    "post": {
+      "summary": "ACP JSON-RPC 2.0 (initialize, session/new, session/prompt)"
+    }
+  },
+  "/a2a": {
+    "post": {
+      "summary": "A2A JSON-RPC 2.0 (tasks/send, tasks/get)"
+    }
+  },
+  "/os/catalog": {
+    "get": {
+      "summary": "Verified Nov 2026 Cloudflare Edge OS ecosystem catalog"
+    }
+  },
+  "/os/tiers": {
+    "get": {
+      "summary": "3-tier execution architecture and live binding readiness"
+    }
+  },
+  "/os/vfs/ls": {
+    "get": {
+      "summary": "List tenant SQLite VFS entries"
+    },
+    "post": {
+      "summary": "List tenant SQLite VFS entries"
+    }
+  },
+  "/os/vfs/read": {
+    "get": {
+      "summary": "Read file from tenant SQLite VFS / R2 spillover"
+    },
+    "post": {
+      "summary": "Read file from tenant SQLite VFS / R2 spillover"
+    }
+  },
+  "/os/vfs/write": {
+    "post": {
+      "summary": "Write file to tenant SQLite VFS with Gatekeeper check"
+    }
+  },
+  "/os/vfs/stat": {
+    "get": {
+      "summary": "Stat tenant SQLite VFS path"
+    },
+    "post": {
+      "summary": "Stat tenant SQLite VFS path"
+    }
+  },
+  "/os/vfs/exec": {
+    "post": {
+      "summary": "3-tier execution router (Tier-0 DO POSIX, Tier-1 LOADER CodeMode, Tier-2 Sandbox microVM)"
+    }
+  },
+  "/os/gatekeeper": {
+    "get": {
+      "summary": "List Gatekeeper capability rules"
+    },
+    "post": {
+      "summary": "Evaluate or upsert Gatekeeper capability policies"
+    }
+  },
+  "/api/learn/events": {
+    "get": {
+      "summary": "List autonomous learning log events"
+    },
+    "post": {
+      "summary": "Append learning event (DO SQLite + K2 + Basin Pipelines)"
+    }
+  },
+  "/api/learn/status": {
+    "get": {
+      "summary": "Autonomous learning log metrics and sink readiness"
+    }
+  },
+  "/drive/{path}": {
+    "get": {
+      "summary": "Drive CDN behind Cloudflare Access: folder listing (JSON or HTML) or file bytes from the R2 cache, Range and ETag aware"
+    }
+  },
+  "/drive/_id/{fileId}": {
+    "get": {
+      "summary": "Drive CDN by file id, limited to the shared root folder"
+    }
+  },
+  "/drive/_whoami": {
+    "get": {
+      "summary": "Identity from the Cloudflare Access token (user email or service-token client id)"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "tier": 0,
+    "id": "do-posix-shell",
+    "name": "Tier-0: In-DO Virtual POSIX Shell",
+    "coldStartMs": 0,
+    "isolation": "Durable Object V8 isolate + SQLite VFS + Gatekeeper",
+    "primitives": [
+      "cloudflare/computer",
+      "@cloudflare/dofs",
+      "just-bash@3.6.1"
+    ],
+    "capabilities": [
+      "vfs:read",
+      "vfs:write",
+      "exec:tier0"
+    ]
+  },
+  {
+    "tier": 1,
+    "id": "dynamic-worker-loader",
+    "name": "Tier-1: Dynamic Worker Loader (CodeMode Isolate)",
+    "coldStartMs": 2,
+    "isolation": "Ephemeral V8 isolate via env.LOADER.load() with globalOutbound: null",
+    "primitives": [
+      "@cloudflare/codemode@0.5.6",
+      "worker_loaders",
+      "cloudflare/vibesdk"
+    ],
+    "capabilities": [
+      "exec:tier1",
+      "net:egress (denied by default)"
+    ]
+  },
+  {
+    "tier": 2,
+    "id": "cloudflare-sandbox-microvm",
+    "name": "Tier-2: Cloudflare Sandbox 1.0 Container MicroVM",
+    "coldStartMs": 250,
+    "isolation": "Dedicated Linux container microVM via env.SANDBOX argv process handles",
+    "primitives": [
+      "@cloudflare/sandbox@1.0.3",
+      "@cloudflare/containers@0.3.7",
+      "cloudflare/moltworker"
+    ],
+    "capabilities": [
+      "exec:tier2",
+      "net:egress (policy-gated)"
+    ]
+  }
+]

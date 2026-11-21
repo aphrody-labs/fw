@@ -1,0 +1,950 @@
+{
+  "category": {
+    "crates": 14175,
+    "description": "Crates related to solving problems involving physics, chemistry, biology, geoscience, and other scientific fields.",
+    "name": "Science",
+    "slug": "science"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5929,
+        "downloads": 0.9093,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9514,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 1132,
+      "description": "Wrappers for total ordering on floats",
+      "downloads": 560963624,
+      "edition": "2021",
+      "keywords": [
+        "f32",
+        "f64",
+        "no_std",
+        "ord",
+        "sort"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "ordered-float",
+      "owners": 3,
+      "recent_downloads": 146327888,
+      "releases_365d": 5,
+      "repository": "https://github.com/reem/rust-ordered-float",
+      "score": 86.83,
+      "version": "5.5.1",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "data-structures",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.6546,
+        "downloads": 0.854,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.859,
+        "security": 1.0
+      },
+      "created": "2016-11-16",
+      "dependents": 2352,
+      "description": "Decimal number implementation written in pure Rust suitable for financial and fixed-precision calculations.",
+      "downloads": 180504154,
+      "edition": "2021",
+      "keywords": [
+        "decimal",
+        "financial",
+        "fixed",
+        "number",
+        "precision"
+      ],
+      "last_release": "2026-09-02",
+      "license": "MIT",
+      "msrv": "1.67.1",
+      "name": "rust_decimal",
+      "owners": 1,
+      "recent_downloads": 46617526,
+      "releases_365d": 5,
+      "repository": "https://github.com/paupino/rust-decimal",
+      "score": 83.6,
+      "version": "1.43.0",
+      "versions": 107
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.6592,
+        "downloads": 0.9314,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.768,
+        "security": 1.0
+      },
+      "created": "2016-04-14",
+      "dependents": 2484,
+      "description": "Big integer implementation for Rust",
+      "downloads": 773879191,
+      "edition": "2021",
+      "keywords": [
+        "bignum",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-07-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "num-bigint",
+      "owners": 1,
+      "recent_downloads": 231093685,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-num/num-bigint",
+      "score": 81.28,
+      "version": "0.5.1",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5062,
+        "downloads": 0.7851,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9329,
+        "security": 1.0
+      },
+      "created": "2017-05-10",
+      "dependents": 404,
+      "description": "PyO3-based Rust bindings of the NumPy C-API",
+      "downloads": 56642393,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "numpy",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-15",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "numpy",
+      "owners": 5,
+      "recent_downloads": 11221747,
+      "releases_365d": 4,
+      "repository": "https://github.com/PyO3/rust-numpy",
+      "score": 81.28,
+      "version": "0.30.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5555,
+        "downloads": 0.7832,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9397,
+        "security": 1.0
+      },
+      "created": "2022-11-26",
+      "dependents": 726,
+      "description": "A safe Rust wrapper for ONNX Runtime 1.31 - Optimize and accelerate machine learning inference & training",
+      "downloads": 27109605,
+      "edition": "2024",
+      "keywords": [
+        "ai",
+        "machine-learning",
+        "ml",
+        "onnxruntime"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "ort",
+      "owners": 1,
+      "recent_downloads": 10777290,
+      "releases_365d": 5,
+      "repository": "https://github.com/pykeio/ort",
+      "score": 80.56,
+      "version": "2.0.0-rc.15",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.6453,
+        "downloads": 0.8106,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.7099,
+        "security": 1.0
+      },
+      "created": "2014-11-22",
+      "dependents": 2107,
+      "description": "General-purpose linear algebra library with transformations and statically-sized or dynamically-sized matrices.",
+      "downloads": 104095042,
+      "edition": "2024",
+      "keywords": [
+        "algebra",
+        "linear",
+        "math",
+        "matrix",
+        "vector"
+      ],
+      "last_release": "2026-05-24",
+      "license": "Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "nalgebra",
+      "owners": 2,
+      "recent_downloads": 19006723,
+      "releases_365d": 3,
+      "repository": "https://github.com/dimforge/nalgebra",
+      "score": 79.55,
+      "version": "0.35.0",
+      "versions": 124
+    },
+    {
+      "categories": [
+        "embedded",
+        "no-std",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5004,
+        "downloads": 0.6744,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9789,
+        "security": 1.0
+      },
+      "created": "2022-07-27",
+      "dependents": 377,
+      "description": "Flexible and Comprehensive Deep Learning Framework in Rust",
+      "downloads": 2400668,
+      "edition": "2024",
+      "keywords": [
+        "autodiff",
+        "deep-learning",
+        "machine-learning",
+        "pytorch",
+        "tensor"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "burn",
+      "owners": 3,
+      "recent_downloads": 1137619,
+      "releases_365d": 20,
+      "repository": "https://github.com/tracel-ai/burn",
+      "score": 79.05,
+      "version": "0.22.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "science"
+      ],
+      "components": {
+        "dependents": 0.6074,
+        "downloads": 0.8759,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7916,
+        "security": 1.0
+      },
+      "created": "2016-09-30",
+      "dependents": 1344,
+      "description": "Numeric syntax extensions",
+      "downloads": 291355923,
+      "edition": "2021",
+      "keywords": [
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-07-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "num-derive",
+      "owners": 1,
+      "recent_downloads": 73274151,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-num/num-derive",
+      "score": 78.96,
+      "version": "0.5.1",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5569,
+        "downloads": 0.9317,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8254,
+        "security": 1.0
+      },
+      "created": "2016-04-14",
+      "dependents": 738,
+      "description": "Integer traits and functions",
+      "downloads": 870245779,
+      "edition": "2018",
+      "keywords": [
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.31",
+      "name": "num-integer",
+      "owners": 1,
+      "recent_downloads": 232302057,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-num/num-integer",
+      "score": 78.09,
+      "version": "0.1.47",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5514,
+        "downloads": 0.747,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9613,
+        "security": 1.0
+      },
+      "created": "2023-08-02",
+      "dependents": 691,
+      "description": "Minimalist ML framework.",
+      "downloads": 12341440,
+      "edition": "2021",
+      "keywords": [
+        "blas",
+        "machine-learning",
+        "tensor"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT OR Apache-2.0",
+      "name": "candle-core",
+      "owners": 3,
+      "recent_downloads": 5104073,
+      "releases_365d": 7,
+      "repository": "https://github.com/huggingface/candle",
+      "score": 76.88,
+      "version": "0.11.1",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "data-structures",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.6746,
+        "downloads": 0.8442,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.5507,
+        "security": 1.0
+      },
+      "created": "2015-12-20",
+      "dependents": 2985,
+      "description": "An n-dimensional array for general elements and for numerics. Lightweight array views and slicing; views support chunking and splitting.",
+      "downloads": 150959315,
+      "edition": "2021",
+      "keywords": [
+        "array",
+        "blas",
+        "data-structure",
+        "matrix",
+        "multidimensional"
+      ],
+      "last_release": "2026-01-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.64",
+      "name": "ndarray",
+      "owners": 3,
+      "recent_downloads": 38106975,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-ndarray/ndarray",
+      "score": 76.73,
+      "version": "0.17.2",
+      "versions": 93
+    },
+    {
+      "categories": [
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5309,
+        "downloads": 0.7373,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9613,
+        "security": 1.0
+      },
+      "created": "2023-08-02",
+      "dependents": 542,
+      "description": "Minimalist ML framework.",
+      "downloads": 9257644,
+      "edition": "2021",
+      "keywords": [
+        "blas",
+        "machine-learning",
+        "tensor"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT OR Apache-2.0",
+      "name": "candle-nn",
+      "owners": 3,
+      "recent_downloads": 4171303,
+      "releases_365d": 7,
+      "repository": "https://github.com/huggingface/candle",
+      "score": 76.12,
+      "version": "0.11.1",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5155,
+        "downloads": 0.7926,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8249,
+        "security": 1.0
+      },
+      "created": "2016-08-11",
+      "dependents": 451,
+      "description": "Statistical computing library for Rust",
+      "downloads": 48449709,
+      "edition": "2024",
+      "keywords": [
+        "distribution",
+        "math",
+        "probability",
+        "statistics",
+        "stats"
+      ],
+      "last_release": "2026-08-11",
+      "license": "MIT",
+      "msrv": "1.89.0",
+      "name": "statrs",
+      "owners": 2,
+      "recent_downloads": 13100115,
+      "releases_365d": 2,
+      "repository": "https://github.com/statrs-dev/statrs",
+      "score": 76.07,
+      "version": "0.19.1",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.7188,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2022-07-28",
+      "dependents": 36,
+      "description": "A columnar data format that is 100x faster than Parquet for random access.",
+      "downloads": 5311732,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance",
+      "owners": 8,
+      "recent_downloads": 2849102,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 75.42,
+      "version": "14.0.3",
+      "versions": 192
+    },
+    {
+      "categories": [
+        "science"
+      ],
+      "components": {
+        "dependents": 0.3993,
+        "downloads": 0.6945,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9707,
+        "security": 1.0
+      },
+      "created": "2018-11-02",
+      "dependents": 113,
+      "description": "Tiny, no-nonsense, self contained, TensorFlow and ONNX inference",
+      "downloads": 4324239,
+      "edition": "2024",
+      "keywords": [
+        "neuralnetworks",
+        "onnx",
+        "tensorflow"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "tract-onnx",
+      "owners": 1,
+      "recent_downloads": 1723462,
+      "releases_365d": 28,
+      "repository": "https://github.com/sonos/tract",
+      "score": 74.91,
+      "version": "0.23.10",
+      "versions": 175
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.7194,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2023-10-11",
+      "dependents": 26,
+      "description": "Lance indices implementation",
+      "downloads": 5284200,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-index",
+      "owners": 7,
+      "recent_downloads": 2884545,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 74.77,
+      "version": "14.0.3",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "science"
+      ],
+      "components": {
+        "dependents": 0.4757,
+        "downloads": 0.8549,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6253,
+        "security": 1.0
+      },
+      "created": "2015-06-17",
+      "dependents": 281,
+      "description": "Geometry primitives",
+      "downloads": 105270690,
+      "edition": "2021",
+      "keywords": [
+        "geometry",
+        "linear-algebra",
+        "matrix",
+        "vector"
+      ],
+      "last_release": "2026-03-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63.0",
+      "name": "euclid",
+      "owners": 6,
+      "recent_downloads": 47482291,
+      "releases_365d": 2,
+      "repository": "https://github.com/servo/euclid",
+      "score": 74.64,
+      "version": "0.22.14",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.7202,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2023-10-11",
+      "dependents": 24,
+      "description": "Lance Columnar Format -- Core Library",
+      "downloads": 5373613,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-core",
+      "owners": 7,
+      "recent_downloads": 2932507,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 74.63,
+      "version": "14.0.3",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.72,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2024-01-24",
+      "dependents": 19,
+      "description": "I/O utilities for Lance",
+      "downloads": 5292735,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-io",
+      "owners": 7,
+      "recent_downloads": 2918065,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 74.15,
+      "version": "14.0.3",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2973,
+        "downloads": 0.7832,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9397,
+        "security": 1.0
+      },
+      "created": "2023-11-12",
+      "dependents": 33,
+      "description": "Unsafe Rust bindings for ONNX Runtime 1.31 - Optimize and Accelerate Machine Learning Inferencing",
+      "downloads": 26729309,
+      "edition": "2024",
+      "keywords": [
+        "ai",
+        "machine-learning",
+        "ml",
+        "onnxruntime",
+        "sys"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "ort-sys",
+      "owners": 1,
+      "recent_downloads": 10778344,
+      "releases_365d": 5,
+      "repository": "https://github.com/pykeio/ort",
+      "score": 74.11,
+      "version": "2.0.0-rc.15",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5017,
+        "downloads": 0.711,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9613,
+        "security": 1.0
+      },
+      "created": "2023-08-02",
+      "dependents": 383,
+      "description": "Minimalist ML framework.",
+      "downloads": 5538039,
+      "edition": "2021",
+      "keywords": [
+        "blas",
+        "machine-learning",
+        "tensor"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT OR Apache-2.0",
+      "name": "candle-transformers",
+      "owners": 2,
+      "recent_downloads": 2423564,
+      "releases_365d": 7,
+      "repository": "https://github.com/huggingface/candle",
+      "score": 73.74,
+      "version": "0.11.1",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.7202,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2024-01-24",
+      "dependents": 15,
+      "description": "Utilities for the Lance file format",
+      "downloads": 5306973,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-file",
+      "owners": 6,
+      "recent_downloads": 2931284,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 73.68,
+      "version": "14.0.3",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "filesystem",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.3606,
+        "downloads": 0.654,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9531,
+        "security": 1.0
+      },
+      "created": "2024-08-08",
+      "dependents": 71,
+      "description": "Thread-safe Rust bindings for the HDF5 library.",
+      "downloads": 3007209,
+      "edition": "2024",
+      "keywords": [
+        "hdf5"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.1",
+      "name": "hdf5-metno",
+      "owners": 2,
+      "recent_downloads": 746504,
+      "releases_365d": 13,
+      "repository": "https://github.com/metno/hdf5-rust",
+      "score": 73.66,
+      "version": "0.15.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "compilers",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.4441,
+        "downloads": 0.7056,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7863,
+        "security": 1.0
+      },
+      "created": "2023-03-21",
+      "dependents": 193,
+      "description": "A new markup-based typesetting system that is powerful and easy to learn.",
+      "downloads": 4318339,
+      "edition": "2024",
+      "keywords": [
+        "markup",
+        "typesetting",
+        "typst"
+      ],
+      "last_release": "2026-07-17",
+      "license": "Apache-2.0",
+      "msrv": "1.92",
+      "name": "typst",
+      "owners": 1,
+      "recent_downloads": 2167941,
+      "releases_365d": 5,
+      "repository": "https://github.com/typst/typst",
+      "score": 73.54,
+      "version": "0.15.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.7194,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2024-01-24",
+      "dependents": 14,
+      "description": "Utilities for the Lance table format",
+      "downloads": 5248000,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-table",
+      "owners": 7,
+      "recent_downloads": 2886594,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 73.53,
+      "version": "14.0.3",
+      "versions": 109
+    }
+  ],
+  "score_version": 1
+}

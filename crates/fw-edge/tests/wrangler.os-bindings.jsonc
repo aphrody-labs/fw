@@ -1,0 +1,16 @@
+{
+  // Test-only: the production wrangler.jsonc plus the optional Edge OS bindings the production worker does not configure
+  // (R2 VFS_BLOBS spill, D1 META_DB learn sink, Dynamic Worker Loader). tests/os.test.ts starts `wrangler dev --local` on it.
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  "name": "fw-edge-os-bindings-test",
+  "main": "../build/worker/shim.mjs",
+  "compatibility_date": "2026-11-19",
+  "assets": { "directory": "../../fw-proto/ui", "binding": "ASSETS", "run_worker_first": true },
+  "durable_objects": { "bindings": [{ "name": "FW_OS", "class_name": "FwOSAgent" }] },
+  "exports": { "FwOSAgent": { "type": "durable-object", "storage": "sqlite" } },
+  "version_metadata": { "binding": "CF_VERSION_METADATA" },
+  "r2_buckets": [{ "binding": "VFS_BLOBS", "bucket_name": "fw-os-test-blobs" }],
+  "d1_databases": [{ "binding": "META_DB", "database_name": "fw-os-test-meta", "database_id": "00000000-0000-0000-0000-000000000001" }],
+  "worker_loaders": [{ "binding": "LOADER" }],
+  "vars": { "FW_ENV": "bindings-test" }
+}

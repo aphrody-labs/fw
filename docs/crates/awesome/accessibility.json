@@ -1,0 +1,965 @@
+{
+  "category": {
+    "crates": 781,
+    "description": "Assistive technology that helps overcome disabilities and impairments to make software usable by as many people as possible.",
+    "name": "Accessibility",
+    "slug": "accessibility"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "accessibility",
+        "development-tools::testing",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.6928,
+        "license": 1.0,
+        "maintenance": 0.9263,
+        "msrv": 1.0,
+        "recency": 0.9332,
+        "security": 1.0
+      },
+      "created": "2024-12-16",
+      "dependents": 16,
+      "description": "Testing library for egui based on kittest and AccessKit",
+      "downloads": 2293588,
+      "edition": "2024",
+      "keywords": [
+        "accesskit",
+        "egui",
+        "gui",
+        "immediate",
+        "testing"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui_kittest",
+      "owners": 2,
+      "recent_downloads": 1662984,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui",
+      "score": 71.18,
+      "version": "0.37.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "accessibility",
+        "api-bindings"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.7751,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.6862,
+        "security": 1.0
+      },
+      "created": "2022-10-03",
+      "dependents": 28,
+      "description": "Pure-Rust, zbus-based AT-SPI2 protocol implementation.",
+      "downloads": 20613858,
+      "edition": "2021",
+      "keywords": [
+        "a11y",
+        "accessibility",
+        "linux",
+        "screen-reader",
+        "tts"
+      ],
+      "last_release": "2026-05-06",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.77.2",
+      "name": "atspi",
+      "owners": 1,
+      "recent_downloads": 9119814,
+      "releases_365d": 1,
+      "repository": "https://github.com/odilia-app/atspi",
+      "score": 65.27,
+      "version": "0.30.0",
+      "versions": 63
+    },
+    {
+      "categories": [
+        "accessibility",
+        "api-bindings",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.6462,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9991,
+        "security": 1.0
+      },
+      "created": "2022-03-03",
+      "dependents": 16,
+      "description": "UI Automation Framework for Windows",
+      "downloads": 1139695,
+      "edition": "2024",
+      "keywords": [
+        "rpa",
+        "uiautomation",
+        "windows"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0",
+      "name": "uiautomation",
+      "owners": 1,
+      "recent_downloads": 635107,
+      "releases_365d": 5,
+      "repository": "https://github.com/leexgone/uiautomation-rs",
+      "score": 65.11,
+      "version": "0.25.2",
+      "versions": 123
+    },
+    {
+      "categories": [
+        "accessibility",
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.6507,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8636,
+        "security": 1.0
+      },
+      "created": "2022-02-04",
+      "dependents": 25,
+      "description": "Python tqdm in Rust",
+      "downloads": 3736862,
+      "edition": "2021",
+      "keywords": [
+        "iterator",
+        "progress",
+        "tqdm"
+      ],
+      "last_release": "2026-09-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.75",
+      "name": "tqdm",
+      "owners": 1,
+      "recent_downloads": 696673,
+      "releases_365d": 1,
+      "repository": "https://github.com/mrlazy1708/tqdm",
+      "score": 64.59,
+      "version": "0.8.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "accessibility",
+        "development-tools::testing",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.591,
+        "license": 1.0,
+        "maintenance": 0.7073,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2026-06-25",
+      "dependents": 6,
+      "description": "Protocol and egui::Plugin for inspection of egui apps",
+      "downloads": 269485,
+      "edition": "2024",
+      "keywords": [
+        "accesskit",
+        "egui",
+        "gui",
+        "inspector",
+        "mcp"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui_inspection",
+      "owners": 1,
+      "recent_downloads": 202560,
+      "releases_365d": 5,
+      "repository": "https://github.com/emilk/egui",
+      "score": 63.48,
+      "version": "0.37.0",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "accessibility",
+        "development-tools::testing",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.7038,
+        "license": 1.0,
+        "maintenance": 0.6597,
+        "msrv": 1.0,
+        "recency": 0.9153,
+        "security": 1.0
+      },
+      "created": "2024-12-16",
+      "dependents": 1,
+      "description": "Automated GUI testing using AccessKit",
+      "downloads": 2865825,
+      "edition": "2024",
+      "keywords": [
+        "accessibility",
+        "accesskit",
+        "egui",
+        "gui",
+        "testing"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "kittest",
+      "owners": 1,
+      "recent_downloads": 2088867,
+      "releases_365d": 2,
+      "repository": "https://github.com/rerun-io/kittest",
+      "score": 62.68,
+      "version": "0.5.0",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "accessibility",
+        "api-bindings"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.775,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.6862,
+        "security": 1.0
+      },
+      "created": "2023-06-16",
+      "dependents": 6,
+      "description": "Primitive types used for sending and receiving Linux accessibility events.",
+      "downloads": 19773309,
+      "edition": "2021",
+      "keywords": [
+        "accessibility",
+        "macros"
+      ],
+      "last_release": "2026-05-06",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.77.2",
+      "name": "atspi-common",
+      "owners": 1,
+      "recent_downloads": 9100900,
+      "releases_365d": 1,
+      "repository": "https://github.com/odilia-app/atspi",
+      "score": 62.27,
+      "version": "0.14.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "accessibility",
+        "api-bindings"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.7749,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.6862,
+        "security": 1.0
+      },
+      "created": "2023-06-16",
+      "dependents": 5,
+      "description": "AT-SPI2 proxies to query or manipulate UI objects",
+      "downloads": 19750931,
+      "edition": "2021",
+      "keywords": [
+        "a11y",
+        "accessibility",
+        "linux",
+        "screen-reader",
+        "tts"
+      ],
+      "last_release": "2026-05-06",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.77.2",
+      "name": "atspi-proxies",
+      "owners": 1,
+      "recent_downloads": 9079636,
+      "releases_365d": 1,
+      "repository": "https://github.com/odilia-app/atspi",
+      "score": 61.94,
+      "version": "0.14.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "accessibility",
+        "multimedia::audio",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4717,
+        "license": 1.0,
+        "maintenance": 0.6921,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2026-08-20",
+      "dependents": 6,
+      "description": "Hybrid grapheme-to-phoneme: memory-mapped FST lexicons with pluggable OOV fallback",
+      "downloads": 18418,
+      "edition": "2021",
+      "keywords": [
+        "accessibility",
+        "phonemizer",
+        "speech",
+        "ssml",
+        "tts"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.97",
+      "name": "floravox-g2p",
+      "owners": 1,
+      "recent_downloads": 17209,
+      "releases_365d": 17,
+      "repository": "https://github.com/willwade/floravox",
+      "score": 61.24,
+      "version": "0.8.13",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "accessibility",
+        "development-tools",
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3735,
+        "license": 1.0,
+        "maintenance": 0.8306,
+        "msrv": 1.0,
+        "recency": 0.9949,
+        "security": 1.0
+      },
+      "created": "2025-04-01",
+      "dependents": 6,
+      "description": "A full-text search library using the BM25 ranking algorithm in Rust.",
+      "downloads": 15341,
+      "edition": "2024",
+      "keywords": [
+        "ai-agent",
+        "database",
+        "hnsw",
+        "object_store"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "anda_db_tfs",
+      "owners": 1,
+      "recent_downloads": 2256,
+      "releases_365d": 25,
+      "repository": "https://github.com/ldclabs/anda-db/tree/main/rs/anda_db_tfs",
+      "score": 60.82,
+      "version": "0.14.2",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "accessibility",
+        "command-line-interface",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4523,
+        "license": 1.0,
+        "maintenance": 0.7056,
+        "msrv": 1.0,
+        "recency": 0.9817,
+        "security": 1.0
+      },
+      "created": "2026-07-01",
+      "dependents": 6,
+      "description": "Generate well-structured Markdown documentation from a clap CLI.",
+      "downloads": 15455,
+      "edition": "2024",
+      "keywords": [
+        "clap",
+        "cli",
+        "documentation",
+        "markdown",
+        "mdbook"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "clapdown",
+      "owners": 1,
+      "recent_downloads": 11529,
+      "releases_365d": 4,
+      "repository": "https://github.com/jolars/clapdown",
+      "score": 60.72,
+      "version": "0.3.1",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "accessibility",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4223,
+        "license": 1.0,
+        "maintenance": 0.684,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2026-09-18",
+      "dependents": 7,
+      "description": "Document model abstraction for accessibility rules: a DOM-shaped tree trait plus opt-in capability tiers for semantics, rendering and interaction.",
+      "downloads": 6199,
+      "edition": "2024",
+      "keywords": [
+        "a11y",
+        "abstraction",
+        "accessibility",
+        "dom",
+        "tree"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "a11y-dom",
+      "owners": 1,
+      "recent_downloads": 6199,
+      "releases_365d": 61,
+      "repository": "https://github.com/casoon/barrierlab",
+      "score": 60.11,
+      "version": "0.30.12",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "accessibility",
+        "multimedia::audio",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4394,
+        "license": 1.0,
+        "maintenance": 0.6921,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2026-08-20",
+      "dependents": 5,
+      "description": "Zero-copy SSML parser with byte- and char-exact source span tracking",
+      "downloads": 9508,
+      "edition": "2021",
+      "keywords": [
+        "accessibility",
+        "phonemizer",
+        "speech",
+        "ssml",
+        "tts"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.97",
+      "name": "floravox-ssml",
+      "owners": 1,
+      "recent_downloads": 8828,
+      "releases_365d": 16,
+      "repository": "https://github.com/willwade/floravox",
+      "score": 60.11,
+      "version": "0.8.13",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "accessibility",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4204,
+        "license": 1.0,
+        "maintenance": 0.684,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2026-09-18",
+      "dependents": 7,
+      "description": "Shared finding and report model for accessibility tooling: four outcome states, severity, WCAG mapping and a stable JSON contract.",
+      "downloads": 5952,
+      "edition": "2024",
+      "keywords": [
+        "a11y",
+        "accessibility",
+        "audit",
+        "report",
+        "wcag"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "a11y-report",
+      "owners": 1,
+      "recent_downloads": 5955,
+      "releases_365d": 61,
+      "repository": "https://github.com/casoon/barrierlab",
+      "score": 60.06,
+      "version": "0.30.12",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "accessibility",
+        "asynchronous",
+        "development-tools",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.3935,
+        "license": 1.0,
+        "maintenance": 0.7249,
+        "msrv": 1.0,
+        "recency": 0.9935,
+        "security": 1.0
+      },
+      "created": "2026-04-22",
+      "dependents": 7,
+      "description": "iced engine for the Snora GUI framework. Consumes snora-core vocabulary.",
+      "downloads": 6040,
+      "edition": "2024",
+      "keywords": [
+        "framework",
+        "gui",
+        "iced",
+        "rtl",
+        "ui"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "snora",
+      "owners": 1,
+      "recent_downloads": 3415,
+      "releases_365d": 85,
+      "repository": "https://github.com/nabbisen/snora",
+      "score": 60.0,
+      "version": "0.65.0",
+      "versions": 85
+    },
+    {
+      "categories": [
+        "accessibility",
+        "authentication",
+        "config"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.637,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.9718,
+        "security": 1.0
+      },
+      "created": "2023-11-28",
+      "dependents": 3,
+      "description": "Creating a Machine ID hash for MacOS/Windows/Linux/iOS",
+      "downloads": 2084705,
+      "edition": "2024",
+      "keywords": [
+        "hardware-id",
+        "hwid",
+        "machineid",
+        "machineuid",
+        "uuid"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "name": "mid",
+      "owners": 1,
+      "recent_downloads": 525236,
+      "releases_365d": 3,
+      "repository": "https://github.com/doroved/mid",
+      "score": 59.92,
+      "version": "5.1.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "accessibility",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.3457,
+        "license": 1.0,
+        "maintenance": 0.677,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2026-10-14",
+      "dependents": 15,
+      "description": "Brand-neutral desktop automation: observe and act on any app (macOS AX, Windows UIA) through a four-tier input ladder with safety, focus guard, and evidence receipts.",
+      "downloads": 1271,
+      "edition": "2021",
+      "keywords": [
+        "accessibility",
+        "automation",
+        "desktop",
+        "input",
+        "uia"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98.0",
+      "name": "rightkit-automation",
+      "owners": 1,
+      "recent_downloads": 1271,
+      "releases_365d": 14,
+      "repository": "https://github.com/bogusyogi/rightkit",
+      "score": 59.64,
+      "version": "0.7.3",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "accessibility"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.728,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.6862,
+        "security": 1.0
+      },
+      "created": "2023-06-16",
+      "dependents": 2,
+      "description": "A method of connecting, querying, sending and receiving over AT-SPI.",
+      "downloads": 12096168,
+      "edition": "2021",
+      "keywords": [
+        "a11y",
+        "accessibility",
+        "linux",
+        "screen-reader"
+      ],
+      "last_release": "2026-05-06",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.77.2",
+      "name": "atspi-connection",
+      "owners": 1,
+      "recent_downloads": 3442060,
+      "releases_365d": 1,
+      "repository": "https://github.com/odilia-app/atspi/",
+      "score": 59.31,
+      "version": "0.14.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "accessibility",
+        "multimedia::audio",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.438,
+        "license": 1.0,
+        "maintenance": 0.6921,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2026-08-20",
+      "dependents": 3,
+      "description": "ONNX synthesis orchestration: duration folding, sample-accurate event timeline, streaming API",
+      "downloads": 9232,
+      "edition": "2021",
+      "keywords": [
+        "accessibility",
+        "phonemizer",
+        "speech",
+        "ssml",
+        "tts"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.97",
+      "name": "floravox-core",
+      "owners": 1,
+      "recent_downloads": 8578,
+      "releases_365d": 17,
+      "repository": "https://github.com/willwade/floravox",
+      "score": 59.22,
+      "version": "0.8.13",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "accessibility",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4175,
+        "license": 1.0,
+        "maintenance": 0.684,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2026-09-18",
+      "dependents": 4,
+      "description": "WAI-ARIA Accessible Name and Description Computation in Rust, generic over the document model.",
+      "downloads": 5611,
+      "edition": "2024",
+      "keywords": [
+        "a11y",
+        "accessibility",
+        "accname",
+        "aria",
+        "wai-aria"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "accname",
+      "owners": 1,
+      "recent_downloads": 5611,
+      "releases_365d": 61,
+      "repository": "https://github.com/casoon/barrierlab",
+      "score": 59.0,
+      "version": "0.30.12",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "accessibility",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4174,
+        "license": 1.0,
+        "maintenance": 0.684,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2026-09-18",
+      "dependents": 4,
+      "description": "Accessibility rules generic over the document model: one rule set for build-time, CI and in-page surfaces.",
+      "downloads": 5596,
+      "edition": "2024",
+      "keywords": [
+        "a11y",
+        "accessibility",
+        "audit",
+        "rules",
+        "wcag"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "a11y-rules",
+      "owners": 1,
+      "recent_downloads": 5596,
+      "releases_365d": 61,
+      "repository": "https://github.com/casoon/barrierlab",
+      "score": 58.99,
+      "version": "0.30.12",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "accessibility",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5055,
+        "license": 1.0,
+        "maintenance": 0.5347,
+        "msrv": 1.0,
+        "recency": 0.9787,
+        "security": 1.0
+      },
+      "created": "2026-03-17",
+      "dependents": 3,
+      "description": "WCAG contrast, APCA, OKLCH, and accessible palette generation",
+      "downloads": 35408,
+      "edition": "2024",
+      "keywords": [
+        "a11y",
+        "accessibility",
+        "color",
+        "contrast",
+        "wcag"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "perceive-color",
+      "owners": 1,
+      "recent_downloads": 34635,
+      "releases_365d": 2,
+      "repository": "https://github.com/perceive-a11y/perceive",
+      "score": 58.26,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "accessibility",
+        "development-tools",
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3727,
+        "license": 1.0,
+        "maintenance": 0.8304,
+        "msrv": 1.0,
+        "recency": 0.9949,
+        "security": 1.0
+      },
+      "created": "2025-04-02",
+      "dependents": 1,
+      "description": "A high-performance vector search library in Rust.",
+      "downloads": 13772,
+      "edition": "2024",
+      "keywords": [
+        "ai-agent",
+        "database",
+        "hnsw",
+        "object_store"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "anda_db_hnsw",
+      "owners": 1,
+      "recent_downloads": 2223,
+      "releases_365d": 15,
+      "repository": "https://github.com/ldclabs/anda-db/tree/main/rs/anda_db_hnsw",
+      "score": 58.16,
+      "version": "0.14.1",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "accessibility",
+        "development-tools",
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3729,
+        "license": 1.0,
+        "maintenance": 0.8279,
+        "msrv": 1.0,
+        "recency": 0.9949,
+        "security": 1.0
+      },
+      "created": "2025-04-11",
+      "dependents": 1,
+      "description": "A B-tree index library in Rust.",
+      "downloads": 15459,
+      "edition": "2024",
+      "keywords": [
+        "ai-agent",
+        "database",
+        "hnsw",
+        "object_store"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "anda_db_btree",
+      "owners": 1,
+      "recent_downloads": 2231,
+      "releases_365d": 21,
+      "repository": "https://github.com/ldclabs/anda-db/tree/main/rs/anda_db_btree",
+      "score": 58.13,
+      "version": "0.14.2",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "accessibility",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3361,
+        "license": 1.0,
+        "maintenance": 0.6865,
+        "msrv": 1.0,
+        "recency": 0.994,
+        "security": 1.0
+      },
+      "created": "2026-09-09",
+      "dependents": 6,
+      "description": "What a thing in a Telar interface is: the roles a screen reader, a document and a terminal all describe the same box with.",
+      "downloads": 1041,
+      "edition": "2024",
+      "keywords": [
+        "accessibility",
+        "aria",
+        "gui",
+        "semantics",
+        "telar"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "telar-semantics-core",
+      "owners": 1,
+      "recent_downloads": 1041,
+      "releases_365d": 4,
+      "repository": "https://github.com/AdrielGBM/telar",
+      "score": 57.71,
+      "version": "0.2.3",
+      "versions": 4
+    }
+  ],
+  "score_version": 1
+}

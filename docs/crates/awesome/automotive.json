@@ -1,0 +1,497 @@
+{
+  "category": {
+    "crates": 49,
+    "description": "Crates related to the automotive industry, including vehicle control and diagnostics.",
+    "name": "Automotive",
+    "slug": "automotive"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "automotive",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3766,
+        "license": 1.0,
+        "maintenance": 0.8271,
+        "msrv": 1.0,
+        "recency": 0.9545,
+        "security": 1.0
+      },
+      "created": "2025-04-14",
+      "dependents": 0,
+      "description": "Eclipse Ankaios Rust SDK - provides a convenient Rust interface for interacting with the Ankaios platform.",
+      "downloads": 17203,
+      "edition": "2024",
+      "keywords": [
+        "ankaios",
+        "automotive",
+        "container",
+        "orchestration",
+        "sdk"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "ankaios_sdk",
+      "owners": 1,
+      "recent_downloads": 2407,
+      "releases_365d": 4,
+      "repository": "https://github.com/eclipse-ankaios/ank-sdk-rust",
+      "score": 56.14,
+      "version": "1.1.1",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "automotive",
+        "embedded",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.349,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.8935,
+        "security": 1.0
+      },
+      "created": "2021-03-18",
+      "dependents": 2,
+      "description": "CAN DBC code-gen for embedded Rust",
+      "downloads": 38201,
+      "edition": "2024",
+      "keywords": [
+        "automotive",
+        "can",
+        "codegen",
+        "dbc",
+        "embedded"
+      ],
+      "last_release": "2026-09-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "dbc-codegen",
+      "owners": 5,
+      "recent_downloads": 1361,
+      "releases_365d": 1,
+      "repository": "https://github.com/oxibus/dbc-codegen",
+      "score": 54.94,
+      "version": "0.4.0",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "automotive",
+        "hardware-support",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3978,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.8933,
+        "security": 1.0
+      },
+      "created": "2022-06-15",
+      "dependents": 4,
+      "description": "Safe rust bindings for VISA(Virtual Instrument Software Architecture) library",
+      "downloads": 28686,
+      "edition": "2021",
+      "keywords": [
+        "control",
+        "instrument",
+        "visa"
+      ],
+      "last_release": "2026-09-22",
+      "license": "MIT OR Apache-2.0",
+      "name": "visa-rs",
+      "owners": 1,
+      "recent_downloads": 3735,
+      "releases_365d": 3,
+      "repository": "https://github.com/TsuITOAR/visa-rs",
+      "score": 53.24,
+      "version": "0.7.1",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "automotive",
+        "development-tools",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.3547,
+        "license": 0.25,
+        "maintenance": 0.7253,
+        "msrv": 1.0,
+        "recency": 0.9366,
+        "security": 1.0
+      },
+      "created": "2026-04-20",
+      "dependents": 9,
+      "description": "Foundation layer for ACE: codec traits (FrameRead, FrameWrite, Writer), bounded storage, and the time, addressing, transport, randomness, and diagnostic-node abstractions every other ace-* crate builds on. no_std, no allocator required.",
+      "downloads": 2415,
+      "edition": "2024",
+      "keywords": [
+        "diagnostics",
+        "standards",
+        "vehicle"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT or Apache-2.0",
+      "msrv": "1.88",
+      "name": "ace-core",
+      "owners": 1,
+      "recent_downloads": 1530,
+      "releases_365d": 14,
+      "repository": "https://github.com/samp-reston/ace",
+      "score": 51.15,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "automotive",
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3957,
+        "license": 1.0,
+        "maintenance": 0.7728,
+        "msrv": 1.0,
+        "recency": 0.636,
+        "security": 1.0
+      },
+      "created": "2025-10-29",
+      "dependents": 0,
+      "description": "Host library for CAN adapters",
+      "downloads": 9940,
+      "edition": "2024",
+      "keywords": [
+        "can",
+        "pcan",
+        "socketcan"
+      ],
+      "last_release": "2026-03-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "host-can",
+      "owners": 1,
+      "recent_downloads": 3575,
+      "releases_365d": 4,
+      "repository": "https://gitlab.com/mfairman/host-can",
+      "score": 51.02,
+      "version": "0.1.5",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "automotive",
+        "development-tools",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.352,
+        "license": 0.25,
+        "maintenance": 0.7253,
+        "msrv": 1.0,
+        "recency": 0.9366,
+        "security": 1.0
+      },
+      "created": "2026-04-20",
+      "dependents": 7,
+      "description": "Raw frame wrappers with no protocol knowledge. Provides UDS, DoIP, and CAN Frames with mutable variants.",
+      "downloads": 2178,
+      "edition": "2024",
+      "keywords": [
+        "diagnostics",
+        "standards",
+        "vehicle"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT or Apache-2.0",
+      "msrv": "1.88",
+      "name": "ace-proto",
+      "owners": 1,
+      "recent_downloads": 1448,
+      "releases_365d": 14,
+      "repository": "https://github.com/samp-reston/ace",
+      "score": 50.61,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "automotive",
+        "development-tools",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3509,
+        "license": 0.25,
+        "maintenance": 0.7253,
+        "msrv": 1.0,
+        "recency": 0.9366,
+        "security": 1.0
+      },
+      "created": "2026-04-20",
+      "dependents": 4,
+      "description": "Proc-macro crate. Provides FrameCodec which generates FrameRead and FrameWrite impls for structs and enums.",
+      "downloads": 2078,
+      "edition": "2024",
+      "keywords": [
+        "diagnostics",
+        "standards",
+        "vehicle"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT or Apache-2.0",
+      "msrv": "1.88",
+      "name": "ace-macros",
+      "owners": 1,
+      "recent_downloads": 1415,
+      "releases_365d": 14,
+      "repository": "https://github.com/samp-reston/ace",
+      "score": 49.59,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "automotive",
+        "development-tools",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3498,
+        "license": 0.25,
+        "maintenance": 0.7253,
+        "msrv": 1.0,
+        "recency": 0.9366,
+        "security": 1.0
+      },
+      "created": "2026-04-20",
+      "dependents": 4,
+      "description": "UDS typed message layer implementing ISO 14229-1.",
+      "downloads": 1983,
+      "edition": "2024",
+      "keywords": [
+        "diagnostics",
+        "standards",
+        "vehicle"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT or Apache-2.0",
+      "msrv": "1.88",
+      "name": "ace-uds",
+      "owners": 1,
+      "recent_downloads": 1384,
+      "releases_365d": 14,
+      "repository": "https://github.com/samp-reston/ace",
+      "score": 49.57,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "automotive",
+        "development-tools",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3455,
+        "license": 0.25,
+        "maintenance": 0.7253,
+        "msrv": 1.0,
+        "recency": 0.9366,
+        "security": 1.0
+      },
+      "created": "2026-04-20",
+      "dependents": 2,
+      "description": "DoIP typed message and session layer implementing ISO 13400-2.",
+      "downloads": 1596,
+      "edition": "2024",
+      "keywords": [
+        "diagnostics",
+        "standards",
+        "vehicle"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT or Apache-2.0",
+      "msrv": "1.88",
+      "name": "ace-doip",
+      "owners": 1,
+      "recent_downloads": 1266,
+      "releases_365d": 13,
+      "repository": "https://github.com/samp-reston/ace",
+      "score": 48.38,
+      "version": "0.6.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "automotive",
+        "development-tools",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3451,
+        "license": 0.25,
+        "maintenance": 0.7253,
+        "msrv": 1.0,
+        "recency": 0.9366,
+        "security": 1.0
+      },
+      "created": "2026-04-20",
+      "dependents": 2,
+      "description": "UDS tester client state machine.",
+      "downloads": 1590,
+      "edition": "2024",
+      "keywords": [
+        "diagnostics",
+        "standards",
+        "vehicle"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT or Apache-2.0",
+      "msrv": "1.88",
+      "name": "ace-client",
+      "owners": 1,
+      "recent_downloads": 1254,
+      "releases_365d": 13,
+      "repository": "https://github.com/samp-reston/ace",
+      "score": 48.37,
+      "version": "0.6.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "automotive",
+        "embedded",
+        "encoding",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4188,
+        "license": 1.0,
+        "maintenance": 0.7768,
+        "msrv": 0.0,
+        "recency": 0.7143,
+        "security": 1.0
+      },
+      "created": "2025-10-15",
+      "dependents": 0,
+      "description": "Decode and encode CAN frames into messages/signals in a fast and easy way.",
+      "downloads": 7773,
+      "edition": "2024",
+      "keywords": [
+        "can",
+        "dbc",
+        "decode",
+        "ecu",
+        "encode"
+      ],
+      "last_release": "2026-05-27",
+      "license": "MIT",
+      "name": "can_decode",
+      "owners": 1,
+      "recent_downloads": 5762,
+      "releases_365d": 8,
+      "repository": "https://github.com/PurdueElectricRacing/can_decode",
+      "score": 47.84,
+      "version": "0.7.2",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "automotive",
+        "embedded"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3406,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 0.0,
+        "recency": 0.746,
+        "security": 1.0
+      },
+      "created": "2026-03-22",
+      "dependents": 0,
+      "description": "DBC code generator for CAN bus messages",
+      "downloads": 1397,
+      "edition": "2024",
+      "keywords": [
+        "automotive",
+        "can",
+        "codegen",
+        "dbc",
+        "embedded"
+      ],
+      "last_release": "2026-06-19",
+      "license": "MIT",
+      "name": "dbc-codegen2",
+      "owners": 2,
+      "recent_downloads": 1142,
+      "releases_365d": 10,
+      "repository": "https://github.com/iColgateZz/dbc-codegen2",
+      "score": 46.7,
+      "version": "0.1.9",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "automotive"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4568,
+        "license": 1.0,
+        "maintenance": 0.5266,
+        "msrv": 0.0,
+        "recency": 0.6419,
+        "security": 1.0
+      },
+      "created": "2025-04-16",
+      "dependents": 0,
+      "description": "The Rust SDK for the Eclipse KUKSA Databroker.",
+      "downloads": 27904,
+      "edition": "2021",
+      "keywords": [
+        "automotive",
+        "eclipse",
+        "kuksa",
+        "sdk",
+        "sdv"
+      ],
+      "last_release": "2026-04-01",
+      "license": "Apache-2.0",
+      "name": "kuksa-rust-sdk",
+      "owners": 1,
+      "recent_downloads": 12637,
+      "releases_365d": 1,
+      "repository": "https://github.com/eclipse-kuksa/kuksa-rust-sdk",
+      "score": 43.95,
+      "version": "0.2.2",
+      "versions": 7
+    }
+  ],
+  "score_version": 1
+}

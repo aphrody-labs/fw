@@ -1,0 +1,114 @@
+[
+  {
+    "id": "allow-admin-all",
+    "capability": "*",
+    "effect": "allow",
+    "principal": "admin",
+    "pathPrefix": null,
+    "reason": "Admin principal authorized across capabilities (subject to explicit deny rules)"
+  },
+  {
+    "id": "allow-ai-infer",
+    "capability": "ai:infer",
+    "effect": "allow",
+    "principal": "*",
+    "pathPrefix": null,
+    "reason": "Workers AI inference permitted"
+  },
+  {
+    "id": "allow-exec-tier0",
+    "capability": "exec:tier0",
+    "effect": "allow",
+    "principal": "*",
+    "pathPrefix": null,
+    "reason": "Tier-0 in-DO virtual POSIX shell is sandboxed to tenant VFS"
+  },
+  {
+    "id": "allow-exec-tier1",
+    "capability": "exec:tier1",
+    "effect": "allow",
+    "principal": "*",
+    "pathPrefix": null,
+    "reason": "Tier-1 Dynamic Worker Loader runs in isolated V8 sandbox"
+  },
+  {
+    "id": "allow-exec-tier2-agent",
+    "capability": "exec:tier2",
+    "effect": "allow",
+    "principal": "agent",
+    "pathPrefix": null,
+    "reason": "Authenticated agent principal may dispatch Tier-2 Sandbox microVMs"
+  },
+  {
+    "id": "allow-exec-tier2-default",
+    "capability": "exec:tier2",
+    "effect": "allow",
+    "principal": "default",
+    "pathPrefix": null,
+    "reason": "Default tenant principal may dispatch Tier-2 Sandbox microVMs"
+  },
+  {
+    "id": "allow-learn-write",
+    "capability": "learn:write",
+    "effect": "allow",
+    "principal": "*",
+    "pathPrefix": null,
+    "reason": "Autonomous learning log append permitted"
+  },
+  {
+    "id": "allow-vfs-read",
+    "capability": "vfs:read",
+    "effect": "allow",
+    "principal": "*",
+    "pathPrefix": null,
+    "reason": "Tenant VFS read allowed within isolated Durable Object"
+  },
+  {
+    "id": "allow-vfs-write",
+    "capability": "vfs:write",
+    "effect": "allow",
+    "principal": "*",
+    "pathPrefix": null,
+    "reason": "Tenant VFS write allowed outside protected system prefixes"
+  },
+  {
+    "id": "deny-default-egress",
+    "capability": "net:egress",
+    "effect": "deny",
+    "principal": "default",
+    "pathPrefix": null,
+    "reason": "Outbound network egress is fail-closed by default (CodeMode globalOutbound: null)"
+  },
+  {
+    "id": "deny-guest-egress",
+    "capability": "net:egress",
+    "effect": "deny",
+    "principal": "guest",
+    "pathPrefix": null,
+    "reason": "Guest principals have no outbound network egress"
+  },
+  {
+    "id": "deny-guest-tier2",
+    "capability": "exec:tier2",
+    "effect": "deny",
+    "principal": "guest",
+    "pathPrefix": null,
+    "reason": "Guest principals cannot launch Tier-2 container microVMs"
+  },
+  {
+    "id": "deny-proc-keys-write",
+    "capability": "vfs:write",
+    "effect": "deny",
+    "principal": "*",
+    "pathPrefix": "/proc/keys",
+    "reason": "Kernel keyring path is read-only"
+  },
+  {
+    "id": "deny-secrets-write",
+    "capability": "vfs:write",
+    "effect": "deny",
+    "principal": "*",
+    "pathPrefix": "/etc/secrets",
+    "reason": "Protected secret store cannot be mutated through VFS write"
+  }
+]

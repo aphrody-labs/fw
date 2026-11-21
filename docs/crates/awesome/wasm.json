@@ -1,0 +1,914 @@
+{
+  "category": {
+    "crates": 5565,
+    "description": "Crates for use when targeting WebAssembly, or for manipulating WebAssembly.",
+    "name": "WebAssembly",
+    "slug": "wasm"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "data-structures",
+        "no-std",
+        "parser-implementations",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.847,
+        "downloads": 0.9397,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9924,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 23069,
+      "description": "A library to generate and parse UUIDs.",
+      "downloads": 1018989605,
+      "edition": "2021",
+      "keywords": [
+        "guid",
+        "unique",
+        "uuid"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89.0",
+      "name": "uuid",
+      "owners": 1,
+      "recent_downloads": 274276223,
+      "releases_365d": 21,
+      "repository": "https://github.com/uuid-rs/uuid",
+      "score": 92.55,
+      "version": "1.29.3",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "wasm",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.8746,
+        "downloads": 0.9408,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8702,
+        "security": 1.0
+      },
+      "created": "2016-10-16",
+      "dependents": 32000,
+      "description": "higher level HTTP client library",
+      "downloads": 940453617,
+      "edition": "2021",
+      "keywords": [
+        "client",
+        "http",
+        "request"
+      ],
+      "last_release": "2026-09-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "reqwest",
+      "owners": 1,
+      "recent_downloads": 280502329,
+      "releases_365d": 11,
+      "repository": "https://github.com/seanmonstar/reqwest",
+      "score": 91.44,
+      "version": "0.13.5",
+      "versions": 126
+    },
+    {
+      "categories": [
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.7356,
+        "downloads": 0.9216,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9594,
+        "security": 1.0
+      },
+      "created": "2018-03-06",
+      "dependents": 6150,
+      "description": "Easy support for interacting between JS and Rust.\n",
+      "downloads": 678669504,
+      "edition": "2021",
+      "last_release": "2026-10-30",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "wasm-bindgen",
+      "owners": 4,
+      "recent_downloads": 188725660,
+      "releases_365d": 20,
+      "repository": "https://github.com/wasm-bindgen/wasm-bindgen",
+      "score": 90.82,
+      "version": "0.2.130",
+      "versions": 130
+    },
+    {
+      "categories": [
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.6936,
+        "downloads": 0.9182,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9594,
+        "security": 1.0
+      },
+      "created": "2018-07-19",
+      "dependents": 3739,
+      "description": "Bindings for all JS global objects and functions in all JS environments like\nNode.js and browsers, built on `#[wasm_bindgen]` using the `wasm-bindgen` crate.\n",
+      "downloads": 631799475,
+      "edition": "2021",
+      "last_release": "2026-10-30",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "js-sys",
+      "owners": 4,
+      "recent_downloads": 175976203,
+      "releases_365d": 20,
+      "repository": "https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys",
+      "score": 89.69,
+      "version": "0.3.107",
+      "versions": 115
+    },
+    {
+      "categories": [
+        "internationalization",
+        "localization",
+        "os",
+        "value-formatting",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5223,
+        "downloads": 0.8886,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8253,
+        "security": 1.0
+      },
+      "created": "2017-08-04",
+      "dependents": 489,
+      "description": "Rust library for getting information about the current user and environment",
+      "downloads": 287513497,
+      "edition": "2021",
+      "keywords": [
+        "detect",
+        "platform",
+        "user",
+        "username",
+        "whoami"
+      ],
+      "last_release": "2026-08-11",
+      "license": "Apache-2.0 OR BSL-1.0 OR MIT",
+      "msrv": "1.75",
+      "name": "whoami",
+      "owners": 2,
+      "recent_downloads": 95297501,
+      "releases_365d": 8,
+      "repository": "https://github.com/ardaku/whoami",
+      "score": 81.65,
+      "version": "2.1.3",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "embedded",
+        "no-std",
+        "parser-implementations",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5072,
+        "downloads": 0.7449,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9437,
+        "security": 1.0
+      },
+      "created": "2016-03-14",
+      "dependents": 409,
+      "description": "Embedded scripting for Rust",
+      "downloads": 15315491,
+      "edition": "2021",
+      "keywords": [
+        "embedded",
+        "scripting",
+        "scripting-engine",
+        "scripting-language"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66.0",
+      "name": "rhai",
+      "owners": 3,
+      "recent_downloads": 4884457,
+      "releases_365d": 6,
+      "repository": "https://github.com/rhaiscript/rhai",
+      "score": 80.46,
+      "version": "1.27.0",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5006,
+        "downloads": 0.7443,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9992,
+        "security": 1.0
+      },
+      "created": "2019-08-21",
+      "dependents": 378,
+      "description": "WASI implementation in Rust",
+      "downloads": 14854247,
+      "edition": "2024",
+      "keywords": [
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "msrv": "1.97.0",
+      "name": "wasmtime-wasi",
+      "owners": 2,
+      "recent_downloads": 4828292,
+      "releases_365d": 90,
+      "repository": "https://github.com/bytecodealliance/wasmtime",
+      "score": 80.11,
+      "version": "51.0.0",
+      "versions": 250
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.6453,
+        "downloads": 0.8106,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.7099,
+        "security": 1.0
+      },
+      "created": "2014-11-22",
+      "dependents": 2107,
+      "description": "General-purpose linear algebra library with transformations and statically-sized or dynamically-sized matrices.",
+      "downloads": 104095042,
+      "edition": "2024",
+      "keywords": [
+        "algebra",
+        "linear",
+        "math",
+        "matrix",
+        "vector"
+      ],
+      "last_release": "2026-05-24",
+      "license": "Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "nalgebra",
+      "owners": 2,
+      "recent_downloads": 19006723,
+      "releases_365d": 3,
+      "repository": "https://github.com/dimforge/nalgebra",
+      "score": 79.55,
+      "version": "0.35.0",
+      "versions": 124
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.4999,
+        "downloads": 0.8316,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9894,
+        "security": 1.0
+      },
+      "created": "2019-09-13",
+      "dependents": 375,
+      "description": "Convenience crate for working with JavaScript timers",
+      "downloads": 132131252,
+      "edition": "2024",
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "gloo-timers",
+      "owners": 2,
+      "recent_downloads": 29342773,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustwasm/gloo/tree/master/crates/timers",
+      "score": 79.13,
+      "version": "0.4.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "embedded",
+        "no-std",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5004,
+        "downloads": 0.6744,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9789,
+        "security": 1.0
+      },
+      "created": "2022-07-27",
+      "dependents": 377,
+      "description": "Flexible and Comprehensive Deep Learning Framework in Rust",
+      "downloads": 2400668,
+      "edition": "2024",
+      "keywords": [
+        "autodiff",
+        "deep-learning",
+        "machine-learning",
+        "pytorch",
+        "tensor"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "burn",
+      "owners": 3,
+      "recent_downloads": 1137619,
+      "releases_365d": 20,
+      "repository": "https://github.com/tracel-ai/burn",
+      "score": 79.05,
+      "version": "0.22.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.4213,
+        "downloads": 0.7626,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9972,
+        "security": 1.0
+      },
+      "created": "2018-01-26",
+      "dependents": 147,
+      "description": "WebAssembly interpreter",
+      "downloads": 28725622,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.86",
+      "name": "wasmi",
+      "owners": 1,
+      "recent_downloads": 7041589,
+      "releases_365d": 25,
+      "repository": "https://github.com/wasmi-labs/wasmi",
+      "score": 77.56,
+      "version": "2.0.2",
+      "versions": 142
+    },
+    {
+      "categories": [
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.7946,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9992,
+        "security": 1.0
+      },
+      "created": "2018-08-03",
+      "dependents": 49,
+      "description": "Standalone environment support for WebAssembly code in Cranelift",
+      "downloads": 46572244,
+      "edition": "2024",
+      "keywords": [
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "msrv": "1.97.0",
+      "name": "wasmtime-environ",
+      "owners": 2,
+      "recent_downloads": 13650805,
+      "releases_365d": 90,
+      "repository": "https://github.com/bytecodealliance/wasmtime",
+      "score": 77.1,
+      "version": "51.0.0",
+      "versions": 250
+    },
+    {
+      "categories": [
+        "encoding",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.4853,
+        "downloads": 0.6325,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9965,
+        "security": 1.0
+      },
+      "created": "2020-05-14",
+      "dependents": 315,
+      "description": "Candid is an interface description language (IDL) for interacting with canisters running on the Internet Computer.",
+      "downloads": 5371980,
+      "edition": "2021",
+      "keywords": [
+        "candid",
+        "dfinity",
+        "idl",
+        "internet-computer"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.78.0",
+      "name": "candid",
+      "owners": 2,
+      "recent_downloads": 478378,
+      "releases_365d": 20,
+      "repository": "https://github.com/dfinity/candid",
+      "score": 76.89,
+      "version": "0.10.41",
+      "versions": 125
+    },
+    {
+      "categories": [
+        "no-std",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.8516,
+        "license": 1.0,
+        "maintenance": 0.8531,
+        "msrv": 1.0,
+        "recency": 0.9552,
+        "security": 1.0
+      },
+      "created": "2025-09-09",
+      "dependents": 41,
+      "description": "WASIp3 API bindings for Rust",
+      "downloads": 124213650,
+      "edition": "2021",
+      "keywords": [
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "msrv": "1.87.0",
+      "name": "wasip3",
+      "owners": 2,
+      "recent_downloads": 44326005,
+      "releases_365d": 10,
+      "repository": "https://github.com/bytecodealliance/wasi-rs",
+      "score": 76.29,
+      "version": "0.10.0+wasi-0.3.2",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "wasm",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.4325,
+        "downloads": 0.7575,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9894,
+        "security": 1.0
+      },
+      "created": "2022-03-11",
+      "dependents": 168,
+      "description": "HTTP requests library for WASM Apps",
+      "downloads": 27693036,
+      "edition": "2024",
+      "keywords": [
+        "http",
+        "requests",
+        "wasm",
+        "websockets"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "gloo-net",
+      "owners": 2,
+      "recent_downloads": 6338272,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustwasm/gloo",
+      "score": 75.59,
+      "version": "0.8.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "no-std",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.901,
+        "license": 1.0,
+        "maintenance": 0.8531,
+        "msrv": 1.0,
+        "recency": 0.8934,
+        "security": 1.0
+      },
+      "created": "2025-09-09",
+      "dependents": 24,
+      "description": "WASIp2 API bindings for Rust",
+      "downloads": 284659485,
+      "edition": "2021",
+      "keywords": [
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-09-22",
+      "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "msrv": "1.87.0",
+      "name": "wasip2",
+      "owners": 2,
+      "recent_downloads": 123275335,
+      "releases_365d": 5,
+      "repository": "https://github.com/bytecodealliance/wasi-rs",
+      "score": 75.51,
+      "version": "2.0.1+wasi-0.2.12",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3803,
+        "downloads": 0.7777,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9894,
+        "security": 1.0
+      },
+      "created": "2021-10-24",
+      "dependents": 90,
+      "description": "Convenience crate for common `web_sys` features",
+      "downloads": 42397250,
+      "edition": "2024",
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "gloo-utils",
+      "owners": 2,
+      "recent_downloads": 9632369,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustwasm/gloo/tree/master/crates/utils",
+      "score": 74.79,
+      "version": "0.3.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.4178,
+        "downloads": 0.6673,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9082,
+        "security": 1.0
+      },
+      "created": "2018-10-24",
+      "dependents": 141,
+      "description": "High-performance WebAssembly runtime",
+      "downloads": 9171013,
+      "edition": "2024",
+      "keywords": [
+        "runtime",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT",
+      "msrv": "1.96",
+      "name": "wasmer",
+      "owners": 2,
+      "recent_downloads": 981160,
+      "releases_365d": 24,
+      "repository": "https://github.com/wasmerio/wasmer",
+      "score": 74.75,
+      "version": "7.5.0",
+      "versions": 114
+    },
+    {
+      "categories": [
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.7463,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9992,
+        "security": 1.0
+      },
+      "created": "2020-03-12",
+      "dependents": 26,
+      "description": "Runtime components of wiggle code generator",
+      "downloads": 16223576,
+      "edition": "2024",
+      "keywords": [
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "msrv": "1.97.0",
+      "name": "wiggle",
+      "owners": 2,
+      "recent_downloads": 5025719,
+      "releases_365d": 90,
+      "repository": "https://github.com/bytecodealliance/wasmtime",
+      "score": 74.59,
+      "version": "51.0.0",
+      "versions": 242
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia::images",
+        "visualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3715,
+        "downloads": 0.7045,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9629,
+        "security": 1.0
+      },
+      "created": "2022-01-12",
+      "dependents": 81,
+      "description": "A high-level idiomatic Rust wrapper around Pdfium, the C++ PDF library used by the Google Chromium project.",
+      "downloads": 4159968,
+      "edition": "2021",
+      "keywords": [
+        "pdf",
+        "pdfium"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "pdfium-render",
+      "owners": 1,
+      "recent_downloads": 2121158,
+      "releases_365d": 7,
+      "repository": "https://github.com/ajrcarey/pdfium-render",
+      "score": 74.34,
+      "version": "0.9.5",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3281,
+        "downloads": 0.6813,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2019-07-18",
+      "dependents": 48,
+      "description": "WASI implementation in Rust",
+      "downloads": 6333768,
+      "edition": "2024",
+      "keywords": [
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "msrv": "1.94.0",
+      "name": "wasi-common",
+      "owners": 2,
+      "recent_downloads": 1311809,
+      "releases_365d": 58,
+      "repository": "https://github.com/bytecodealliance/wasmtime",
+      "score": 74.2,
+      "version": "46.0.3",
+      "versions": 222
+    },
+    {
+      "categories": [
+        "database",
+        "development-tools::ffi",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.7902,
+        "license": 1.0,
+        "maintenance": 0.8562,
+        "msrv": 1.0,
+        "recency": 0.9794,
+        "security": 1.0
+      },
+      "created": "2024-12-29",
+      "dependents": 24,
+      "description": "`wasm32-unknown-unknown` bindings to the libsqlite3 library.",
+      "downloads": 18880275,
+      "edition": "2021",
+      "keywords": [
+        "javascript",
+        "sqlite",
+        "sqlite-wasm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.81.0",
+      "name": "sqlite-wasm-rs",
+      "owners": 1,
+      "recent_downloads": 12466638,
+      "releases_365d": 11,
+      "repository": "https://github.com/Spxg/sqlite-wasm-rs",
+      "score": 74.07,
+      "version": "0.6.3",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "data-structures",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3394,
+        "downloads": 0.6687,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9082,
+        "security": 1.0
+      },
+      "created": "2020-08-15",
+      "dependents": 55,
+      "description": "Wasmer Common Types",
+      "downloads": 9524820,
+      "edition": "2024",
+      "keywords": [
+        "types",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT OR Apache-2.0 WITH LLVM-exception",
+      "msrv": "1.96",
+      "name": "wasmer-types",
+      "owners": 3,
+      "recent_downloads": 1009928,
+      "releases_365d": 24,
+      "repository": "https://github.com/wasmerio/wasmer",
+      "score": 73.82,
+      "version": "7.5.0",
+      "versions": 113
+    },
+    {
+      "categories": [
+        "network-programming",
+        "wasm",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.6743,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2021-09-03",
+      "dependents": 49,
+      "description": "Minimal HTTP client for both native and WASM",
+      "downloads": 4435755,
+      "edition": "2018",
+      "keywords": [
+        "http",
+        "native",
+        "wasm",
+        "web"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "ehttp",
+      "owners": 2,
+      "recent_downloads": 1135882,
+      "releases_365d": 5,
+      "repository": "https://github.com/emilk/ehttp",
+      "score": 73.62,
+      "version": "0.7.3",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography",
+        "wasm",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.311,
+        "downloads": 0.6895,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9959,
+        "security": 1.0
+      },
+      "created": "2020-08-28",
+      "dependents": 39,
+      "description": "JWT authentication with JSON Web Token signing and verification (JWS), encryption (JWE), and custom claims. Supports RSA, ECDSA, Ed25519, and ML-DSA.",
+      "downloads": 7443994,
+      "edition": "2018",
+      "keywords": [
+        "authentication",
+        "jwe",
+        "jws",
+        "jwt",
+        "tokens"
+      ],
+      "last_release": "2026-11-18",
+      "license": "ISC",
+      "msrv": "1.89",
+      "name": "jwt-simple",
+      "owners": 1,
+      "recent_downloads": 1553559,
+      "releases_365d": 10,
+      "repository": "https://github.com/jedisct1/rust-jwt-simple",
+      "score": 72.95,
+      "version": "0.15.1",
+      "versions": 76
+    }
+  ],
+  "score_version": 1
+}

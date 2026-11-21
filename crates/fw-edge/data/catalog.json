@@ -1,0 +1,149 @@
+[
+  {
+    "id": "cloudflare-os",
+    "name": "cloudflare/cloudflare-os",
+    "version": "2026.11",
+    "layer": "os-control-plane",
+    "url": "https://github.com/cloudflare/cloudflare-os",
+    "role": "Multi-worker AI OS workspace, gadget sandboxing, Access SSO, and Gatekeeper capability policies",
+    "fwWiring": "Gatekeeper policy engine in FwOSAgent (/os/gatekeeper) and multi-tenant DO isolation"
+  },
+  {
+    "id": "cloudflare-computer-dofs",
+    "name": "cloudflare/computer + @cloudflare/dofs",
+    "version": "2026.11",
+    "layer": "vfs-kernel",
+    "url": "https://github.com/cloudflare/computer",
+    "docsUrl": "https://www.npmjs.com/package/@cloudflare/dofs",
+    "role": "Authoritative per-tenant SQLite VFS inside Durable Objects with pluggable execution runtimes",
+    "fwWiring": "FwOSAgent SQLite vfs_nodes table + R2 blob spillover via /os/vfs/{ls,read,write,stat,exec}"
+  },
+  {
+    "id": "cloudflare-agents",
+    "name": "cloudflare/agents",
+    "version": "0.33.0",
+    "layer": "agent-runtime",
+    "url": "https://github.com/cloudflare/agents",
+    "docsUrl": "https://developers.cloudflare.com/agents/",
+    "role": "Durable Object Agent runtime with SQLite state, @callable RPC, runFiber/stash, scheduling, and MCP handlers",
+    "fwWiring": "Per-tenant FwOSAgent DO coordination model with SQLite schema init via blockConcurrencyWhile"
+  },
+  {
+    "id": "cloudflare-codemode",
+    "name": "@cloudflare/codemode",
+    "version": "0.5.6",
+    "layer": "execution-tier",
+    "url": "https://github.com/cloudflare/agents/tree/main/packages/codemode",
+    "docsUrl": "https://www.npmjs.com/package/@cloudflare/codemode",
+    "role": "Code-mode LLM tool orchestration using DynamicWorkerExecutor with globalOutbound: null",
+    "fwWiring": "Tier-1 execution path in /os/vfs/exec dispatching isolated ES modules via env.LOADER.load()"
+  },
+  {
+    "id": "cloudflare-sandbox",
+    "name": "@cloudflare/sandbox",
+    "version": "1.0.3",
+    "layer": "execution-tier",
+    "url": "https://github.com/cloudflare/sandbox-sdk",
+    "docsUrl": "https://developers.cloudflare.com/sandbox/",
+    "role": "Isolated Linux microVMs on Cloudflare Containers with argv process handles, output/waitForExit, and terminals",
+    "fwWiring": "Tier-2 execution path in /os/vfs/exec routing explicit argv payloads to env.SANDBOX Durable Object"
+  },
+  {
+    "id": "cloudflare-containers",
+    "name": "@cloudflare/containers",
+    "version": "0.3.7",
+    "layer": "execution-tier",
+    "url": "https://github.com/cloudflare/containers",
+    "docsUrl": "https://developers.cloudflare.com/containers/",
+    "role": "Durable Object-backed container lifecycle, routing, sleepAfter, and preview isolation",
+    "fwWiring": "Full-stack container binding topology in cloudflare/wrangler.fullstack.jsonc"
+  },
+  {
+    "id": "cloudflare-workers-rs",
+    "name": "cloudflare/workers-rs",
+    "version": "worker@0.9.0",
+    "layer": "vfs-kernel",
+    "url": "https://github.com/cloudflare/workers-rs",
+    "docsUrl": "https://crates.io/crates/worker",
+    "role": "Native Rust-to-WebAssembly Workers SDK for low-level crypto, PE/ELF parsing, and Wasm edge kernels",
+    "fwWiring": "Wasm ABI companion target alongside Fw Fat-LTO Rust crates (native/fw-abi)"
+  },
+  {
+    "id": "browser-run-kitesurf",
+    "name": "Browser Run + Kitesurf",
+    "version": "2026.11",
+    "layer": "browser",
+    "url": "https://github.com/cloudflare/kitesurf",
+    "docsUrl": "https://developers.cloudflare.com/browser-rendering/",
+    "role": "Managed headless Chromium plus Kitesurf Rust/Wasm (Blitz + Stylo) stateless CDP browser on V8 isolates",
+    "fwWiring": "Optional env.BROWSER binding declared in FwWorkerEnv and wrangler.fullstack.jsonc"
+  },
+  {
+    "id": "cloudflare-vibesdk",
+    "name": "cloudflare/vibesdk",
+    "version": "2026.11",
+    "layer": "os-control-plane",
+    "url": "https://github.com/cloudflare/vibesdk",
+    "role": "Vibe-coding platform combining SpaceDO workspaces, Dynamic Workers, and preview deployments",
+    "fwWiring": "Dynamic Worker preview & tenant workspace isolation pattern mirrored in Tier-1 + DO VFS"
+  },
+  {
+    "id": "cloudflare-moltworker",
+    "name": "cloudflare/moltworker",
+    "version": "2026.11",
+    "layer": "agent-runtime",
+    "url": "https://github.com/cloudflare/moltworker",
+    "role": "Self-hosted personal AI agent middleware on Workers, Sandbox microVMs, and R2 storage",
+    "fwWiring": "Personal agent state + R2 spillover (env.VFS_BLOBS) + Sandbox tier dispatch"
+  },
+  {
+    "id": "hono",
+    "name": "hono",
+    "version": "4.13",
+    "layer": "web-protocol",
+    "url": "https://github.com/honojs/hono",
+    "docsUrl": "https://hono.dev/",
+    "role": "Web Standards router and middleware for Workers HTTP APIs and OpenAPI gateways",
+    "fwWiring": "Zero-dependency Web Standards Fetch router contract compatible with Hono mounting"
+  },
+  {
+    "id": "just-bash",
+    "name": "just-bash",
+    "version": "3.6.1",
+    "layer": "execution-tier",
+    "url": "https://github.com/vercel-labs/just-bash",
+    "docsUrl": "https://www.npmjs.com/package/just-bash",
+    "role": "In-isolate virtual POSIX bash interpreter executing against an in-memory/DO filesystem",
+    "fwWiring": "Tier-0 virtual POSIX shell inside FwOSAgent (/vfs/exec tier=0) with zero container cold start"
+  },
+  {
+    "id": "mcp-server-sdk",
+    "name": "@modelcontextprotocol/server",
+    "version": "2.x",
+    "layer": "web-protocol",
+    "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+    "docsUrl": "https://modelcontextprotocol.io/",
+    "role": "MCP v2 Streamable HTTP JSON-RPC 2.0 server contract (initialize, tools/list, tools/call)",
+    "fwWiring": "Native Streamable HTTP MCP gateway at POST /mcp backed by FwOSAgent tools"
+  },
+  {
+    "id": "cloudflare-basin",
+    "name": "Cloudflare Basin (Pipelines, Catalog, SQL)",
+    "version": "GA 2026",
+    "layer": "data-stream",
+    "url": "https://developers.cloudflare.com/basin/",
+    "docsUrl": "https://developers.cloudflare.com/basin-pipelines/",
+    "role": "1 GB/s streaming ingestion (pipelines[].stream) into R2 Apache Iceberg tables queried via Basin SQL",
+    "fwWiring": "Optional env.TELEMETRY_PIPELINE.send() sink on autonomous learning and audit events"
+  },
+  {
+    "id": "cloudflare-k2",
+    "name": "Cloudflare K2 Streams",
+    "version": "Beta 2026",
+    "layer": "data-stream",
+    "url": "https://developers.cloudflare.com/k2/",
+    "docsUrl": "https://developers.cloudflare.com/k2/features/produce/",
+    "role": "Durable at-least-once event log (k2[].stream) for decoupled producers, subscriptions, and replay",
+    "fwWiring": "Optional env.EVENT_LOG produce sink on /api/learn/events for durable cross-agent learning replay"
+  }
+]

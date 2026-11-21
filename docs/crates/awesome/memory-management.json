@@ -1,0 +1,968 @@
+{
+  "category": {
+    "crates": 1611,
+    "description": "Crates to help with allocation, memory mapping, garbage collection, reference counting, or interfaces to foreign memory managers.",
+    "name": "Memory management",
+    "slug": "memory-management"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "cryptography",
+        "memory-management",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.7336,
+        "downloads": 0.9401,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9934,
+        "security": 1.0
+      },
+      "created": "2018-10-03",
+      "dependents": 6004,
+      "description": "Securely clear secrets from memory with a simple trait built on\nstable Rust primitives which guarantee memory is zeroed using an\noperation will not be 'optimized away' by the compiler.\nUses a portable pure Rust implementation that works everywhere,\neven WASM, with `asm!` optimizations on select platforms\n",
+      "downloads": 912728153,
+      "edition": "2024",
+      "keywords": [
+        "memory",
+        "memset",
+        "secure",
+        "volatile",
+        "zero"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "zeroize",
+      "owners": 2,
+      "recent_downloads": 276736400,
+      "releases_365d": 3,
+      "repository": "https://github.com/RustCrypto/utils",
+      "score": 89.24,
+      "version": "1.9.2",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5281,
+        "downloads": 0.9281,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9863,
+        "security": 1.0
+      },
+      "created": "2018-11-24",
+      "dependents": 524,
+      "description": "A fast bump allocation arena for Rust.",
+      "downloads": 750396867,
+      "edition": "2021",
+      "keywords": [
+        "allocator",
+        "arena",
+        "bump"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.1",
+      "name": "bumpalo",
+      "owners": 2,
+      "recent_downloads": 215700230,
+      "releases_365d": 5,
+      "repository": "https://github.com/fitzgen/bumpalo",
+      "score": 85.2,
+      "version": "3.20.4",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "data-structures",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.6513,
+        "downloads": 0.9014,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9788,
+        "security": 1.0
+      },
+      "created": "2018-04-16",
+      "dependents": 2262,
+      "description": "Atomically swappable Arc",
+      "downloads": 423241922,
+      "edition": "2018",
+      "keywords": [
+        "arc",
+        "atomic"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "name": "arc-swap",
+      "owners": 2,
+      "recent_downloads": 124314858,
+      "releases_365d": 9,
+      "repository": "https://github.com/vorner/arc-swap",
+      "score": 82.5,
+      "version": "1.9.5",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "memory-management",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.7606,
+        "downloads": 0.9587,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.6178,
+        "security": 1.0
+      },
+      "created": "2018-08-02",
+      "dependents": 8273,
+      "description": "Single assignment cells and lazy values.",
+      "downloads": 1572493982,
+      "edition": "2021",
+      "keywords": [
+        "lazy",
+        "static"
+      ],
+      "last_release": "2026-03-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "once_cell",
+      "owners": 2,
+      "recent_downloads": 405885069,
+      "releases_365d": 1,
+      "repository": "https://github.com/matklad/once_cell",
+      "score": 81.75,
+      "version": "1.21.4",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.357,
+        "downloads": 0.9425,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-19",
+      "dependents": 68,
+      "description": "Zero-copy vector backed by a byte array",
+      "downloads": 800332686,
+      "edition": "2021",
+      "keywords": [
+        "memory-efficiency",
+        "serde",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.83",
+      "name": "zerovec",
+      "owners": 2,
+      "recent_downloads": 290887730,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.67,
+      "version": "0.11.9",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3986,
+        "downloads": 0.9426,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-05-01",
+      "dependents": 112,
+      "description": "Abstraction allowing borrowed data to be carried along with the backing data it borrows from",
+      "downloads": 812160756,
+      "edition": "2021",
+      "keywords": [
+        "memory-efficiency",
+        "self-referential",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.82",
+      "name": "yoke",
+      "owners": 2,
+      "recent_downloads": 291125732,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.21,
+      "version": "0.8.4",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.7777,
+        "downloads": 0.9403,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9081,
+        "security": 1.0
+      },
+      "created": "2014-11-23",
+      "dependents": 10137,
+      "description": "A macro for declaring lazily evaluated statics in Rust.",
+      "downloads": 1203052210,
+      "keywords": [
+        "lazy",
+        "macro",
+        "static"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT OR Apache-2.0",
+      "name": "lazy_static",
+      "owners": 1,
+      "recent_downloads": 277722528,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-lang-nursery/lazy-static.rs",
+      "score": 80.07,
+      "version": "1.5.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "concurrency",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3993,
+        "downloads": 0.9304,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-11-26",
+      "dependents": 113,
+      "description": "Epoch-based garbage collection",
+      "downloads": 838657288,
+      "edition": "2021",
+      "keywords": [
+        "atomic",
+        "garbage",
+        "lock-free",
+        "rcu"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "crossbeam-epoch",
+      "owners": 4,
+      "recent_downloads": 226386950,
+      "releases_365d": 3,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 79.72,
+      "version": "0.9.21",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6082,
+        "downloads": 0.8378,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2015-08-27",
+      "dependents": 1357,
+      "description": "Tools for concurrent programming",
+      "downloads": 164108568,
+      "edition": "2021",
+      "keywords": [
+        "atomic",
+        "garbage",
+        "lock-free",
+        "non-blocking",
+        "rcu"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "crossbeam",
+      "owners": 5,
+      "recent_downloads": 33341408,
+      "releases_365d": 1,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 79.63,
+      "version": "0.8.5",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "encoding",
+        "memory-management",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5379,
+        "downloads": 0.8833,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7804,
+        "security": 1.0
+      },
+      "created": "2021-09-20",
+      "dependents": 589,
+      "description": "A memory efficient string type that transparently stores strings on the stack, when possible",
+      "downloads": 224362333,
+      "edition": "2021",
+      "keywords": [
+        "compact",
+        "memory",
+        "mutable",
+        "small",
+        "string"
+      ],
+      "last_release": "2026-07-13",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "compact_str",
+      "owners": 1,
+      "recent_downloads": 85415000,
+      "releases_365d": 3,
+      "repository": "https://github.com/ParkMyCar/compact_str",
+      "score": 78.74,
+      "version": "0.10.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "caching",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.357,
+        "downloads": 0.7737,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9894,
+        "security": 1.0
+      },
+      "created": "2024-09-13",
+      "dependents": 68,
+      "description": "Determine the size in bytes an object occupies inside RAM.",
+      "downloads": 14801551,
+      "edition": "2024",
+      "keywords": [
+        "get-size",
+        "heap",
+        "memory",
+        "ram",
+        "size"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "get-size2",
+      "owners": 1,
+      "recent_downloads": 8868230,
+      "releases_365d": 11,
+      "repository": "https://github.com/bircni/get-size2",
+      "score": 76.11,
+      "version": "0.12.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.9423,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-12-11",
+      "dependents": 6,
+      "description": "Custom derive for the zerovec crate",
+      "downloads": 793873209,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "macros",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.83",
+      "name": "zerovec-derive",
+      "owners": 2,
+      "recent_downloads": 289621245,
+      "releases_365d": 6,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 75.84,
+      "version": "0.11.7",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5418,
+        "downloads": 0.9464,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.5727,
+        "security": 1.0
+      },
+      "created": "2015-06-15",
+      "dependents": 617,
+      "description": "Pre-allocated storage for a uniform data type",
+      "downloads": 1168978742,
+      "edition": "2018",
+      "keywords": [
+        "allocator",
+        "no_std",
+        "slab"
+      ],
+      "last_release": "2026-01-31",
+      "license": "MIT",
+      "msrv": "1.51",
+      "name": "slab",
+      "owners": 2,
+      "recent_downloads": 315101250,
+      "releases_365d": 1,
+      "repository": "https://github.com/tokio-rs/slab",
+      "score": 75.3,
+      "version": "0.4.12",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.9422,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9068,
+        "security": 1.0
+      },
+      "created": "2021-07-02",
+      "dependents": 16,
+      "description": "Custom derive for the yoke crate",
+      "downloads": 802181684,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "macros",
+        "self-referential",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-09-30",
+      "license": "Unicode-3.0",
+      "msrv": "1.82",
+      "name": "yoke-derive",
+      "owners": 2,
+      "recent_downloads": 289078954,
+      "releases_365d": 2,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.13,
+      "version": "0.8.4",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.5886,
+        "downloads": 0.8317,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.7071,
+        "security": 1.0
+      },
+      "created": "2019-06-24",
+      "dependents": 1075,
+      "description": "Performance and security oriented drop-in allocator",
+      "downloads": 79502431,
+      "edition": "2018",
+      "keywords": [
+        "allocator",
+        "encrypted-heap",
+        "mimalloc",
+        "performance"
+      ],
+      "last_release": "2026-05-22",
+      "license": "MIT",
+      "name": "mimalloc",
+      "owners": 1,
+      "recent_downloads": 29382677,
+      "releases_365d": 4,
+      "repository": "https://github.com/purpleprotocol/mimalloc_rust",
+      "score": 74.11,
+      "version": "0.1.52",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "memory-management",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3594,
+        "downloads": 0.7276,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2016-11-06",
+      "dependents": 70,
+      "description": "Cross-platform virtual memory API",
+      "downloads": 21827856,
+      "edition": "2024",
+      "keywords": [
+        "lock",
+        "maps",
+        "page",
+        "protect",
+        "region"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "region",
+      "owners": 1,
+      "recent_downloads": 3416005,
+      "releases_365d": 3,
+      "repository": "https://github.com/darfink/region-rs",
+      "score": 73.64,
+      "version": "4.0.2",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.8193,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2024-04-14",
+      "dependents": 7,
+      "description": "Scalable lock-free delayed memory reclaimer",
+      "downloads": 104312214,
+      "edition": "2024",
+      "keywords": [
+        "concurrent",
+        "epoch",
+        "garbage",
+        "lock-free",
+        "memory"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "sdd",
+      "owners": 1,
+      "recent_downloads": 22765643,
+      "releases_365d": 34,
+      "repository": "https://codeberg.org/wvwwvwwv/scalable-delayed-dealloc",
+      "score": 72.74,
+      "version": "4.10.3",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "hardware-support",
+        "memory-management",
+        "no-std",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.4999,
+        "downloads": 0.7466,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8966,
+        "security": 1.0
+      },
+      "created": "2022-09-16",
+      "dependents": 375,
+      "description": "Safe and minimal CUDA bindings",
+      "downloads": 12394696,
+      "edition": "2021",
+      "keywords": [
+        "cublas",
+        "cuda",
+        "cudnn",
+        "gpu",
+        "nvidia"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT OR Apache-2.0",
+      "name": "cudarc",
+      "owners": 1,
+      "recent_downloads": 5056318,
+      "releases_365d": 12,
+      "repository": "https://github.com/chelsea0x3b/cudarc",
+      "score": 72.61,
+      "version": "0.19.10",
+      "versions": 89
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.5353,
+        "downloads": 0.8495,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.5149,
+        "security": 1.0
+      },
+      "created": "2018-07-02",
+      "dependents": 571,
+      "description": "Slotmap data structure",
+      "downloads": 138843276,
+      "edition": "2018",
+      "keywords": [
+        "allocator",
+        "arena",
+        "reference",
+        "slotmap",
+        "storage"
+      ],
+      "last_release": "2025-12-06",
+      "license": "Zlib",
+      "msrv": "1.58.0",
+      "name": "slotmap",
+      "owners": 1,
+      "recent_downloads": 42477785,
+      "releases_365d": 2,
+      "repository": "https://github.com/orlp/slotmap",
+      "score": 72.34,
+      "version": "1.1.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "cryptography",
+        "memory-management",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.8988,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7361,
+        "security": 1.0
+      },
+      "created": "2019-03-23",
+      "dependents": 28,
+      "description": "Custom derive support for zeroize",
+      "downloads": 352529123,
+      "edition": "2024",
+      "keywords": [
+        "memory",
+        "memset",
+        "secure",
+        "volatile",
+        "zero"
+      ],
+      "last_release": "2026-06-12",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "zeroize_derive",
+      "owners": 2,
+      "recent_downloads": 117777877,
+      "releases_365d": 2,
+      "repository": "https://github.com/RustCrypto/utils",
+      "score": 71.61,
+      "version": "1.5.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "embedded",
+        "memory-management",
+        "no-std",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3089,
+        "downloads": 0.6773,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8712,
+        "security": 1.0
+      },
+      "created": "2023-07-21",
+      "dependents": 38,
+      "description": "A fast and flexible allocator for no_std and WebAssembly",
+      "downloads": 2686931,
+      "edition": "2021",
+      "keywords": [
+        "allocator",
+        "memory",
+        "no_std",
+        "wasm"
+      ],
+      "last_release": "2026-09-09",
+      "license": "MIT",
+      "msrv": "1.64.0",
+      "name": "talc",
+      "owners": 1,
+      "recent_downloads": 1208285,
+      "releases_365d": 9,
+      "repository": "https://github.com/SFBdragon/talc",
+      "score": 70.72,
+      "version": "5.1.1",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "data-structures",
+        "encoding",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.4496,
+        "downloads": 0.8397,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.5282,
+        "security": 1.0
+      },
+      "created": "2016-06-01",
+      "dependents": 206,
+      "description": "Official FlatBuffers Rust runtime library.",
+      "downloads": 129220083,
+      "edition": "2018",
+      "keywords": [
+        "flatbuffers",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2025-12-19",
+      "license": "Apache-2.0",
+      "msrv": "1.51",
+      "name": "flatbuffers",
+      "owners": 4,
+      "recent_downloads": 34696809,
+      "releases_365d": 1,
+      "repository": "https://github.com/google/flatbuffers",
+      "score": 70.66,
+      "version": "25.12.19",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.9404,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8819,
+        "security": 1.0
+      },
+      "created": "2022-04-06",
+      "dependents": 3,
+      "description": "Custom derive for the zerofrom crate",
+      "downloads": 773044600,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "macros",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-09-15",
+      "license": "Unicode-3.0",
+      "msrv": "1.71.1",
+      "name": "zerofrom-derive",
+      "owners": 2,
+      "recent_downloads": 278382694,
+      "releases_365d": 2,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 70.66,
+      "version": "0.1.8",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.6194,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9691,
+        "security": 1.0
+      },
+      "created": "2024-04-30",
+      "dependents": 10,
+      "description": "Memory use tracking and quota utilities, used by Tor software",
+      "downloads": 1037259,
+      "edition": "2024",
+      "keywords": [
+        "arti",
+        "tor"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "tor-memquota",
+      "owners": 4,
+      "recent_downloads": 364549,
+      "releases_365d": 12,
+      "repository": "https://gitlab.torproject.org/tpo/core/arti.git/",
+      "score": 70.08,
+      "version": "0.48.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "data-structures",
+        "memory-management",
+        "no-std",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.8089,
+        "license": 1.0,
+        "maintenance": 0.695,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2026-08-09",
+      "dependents": 5,
+      "description": "An immutable, cheaply cloneable string type with borrowed, static and shared variants",
+      "downloads": 18869825,
+      "edition": "2024",
+      "keywords": [
+        "borrowed",
+        "cow",
+        "str",
+        "string",
+        "zero-copy"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "zcheapstr",
+      "owners": 1,
+      "recent_downloads": 18349850,
+      "releases_365d": 6,
+      "repository": "https://github.com/z-galaxy/zcheapstr/",
+      "score": 69.41,
+      "version": "1.4.0",
+      "versions": 6
+    }
+  ],
+  "score_version": 1
+}

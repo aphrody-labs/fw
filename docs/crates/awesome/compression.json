@@ -1,0 +1,909 @@
+{
+  "category": {
+    "crates": 1812,
+    "description": "Algorithms for making data smaller.",
+    "name": "Compression",
+    "slug": "compression"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.7593,
+        "downloads": 0.9347,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9725,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 8150,
+      "description": "DEFLATE compression and decompression exposed as Read/BufRead/Write streams.\nSupports miniz_oxide and multiple zlib implementations. Supports zlib, gzip,\nand raw deflate streams.\n",
+      "downloads": 877945997,
+      "edition": "2018",
+      "keywords": [
+        "deflate",
+        "encoding",
+        "gzip",
+        "zlib",
+        "zlib-ng"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.67.0",
+      "name": "flate2",
+      "owners": 1,
+      "recent_downloads": 247319338,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-lang/flate2-rs",
+      "score": 89.94,
+      "version": "1.1.11",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "compression",
+        "filesystem",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.706,
+        "downloads": 0.8959,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9986,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 4331,
+      "description": "Library to support the reading and writing of zip files.",
+      "downloads": 356197472,
+      "edition": "2024",
+      "keywords": [
+        "archive",
+        "compression",
+        "zip"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "zip",
+      "owners": 2,
+      "recent_downloads": 110773783,
+      "releases_365d": 46,
+      "repository": "https://github.com/zip-rs/zip2",
+      "score": 89.03,
+      "version": "9.8.1",
+      "versions": 159
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.6671,
+        "downloads": 0.9044,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2016-02-22",
+      "dependents": 2728,
+      "description": "Binding for the zstd compression library.",
+      "downloads": 494715185,
+      "edition": "2018",
+      "keywords": [
+        "compression",
+        "zstandard",
+        "zstd"
+      ],
+      "last_release": "2026-11-12",
+      "license": "BSD-3-Clause",
+      "msrv": "1.64",
+      "name": "zstd",
+      "owners": 1,
+      "recent_downloads": 132312443,
+      "releases_365d": 7,
+      "repository": "https://github.com/gyscos/zstd-rs",
+      "score": 87.05,
+      "version": "0.14.4",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "compression",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5422,
+        "downloads": 0.8903,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9899,
+        "security": 1.0
+      },
+      "created": "2015-11-30",
+      "dependents": 620,
+      "description": "A brotli compressor and decompressor that with an interface avoiding the rust stdlib. This makes it suitable for embedded devices and kernels. It is designed with a pluggable allocator so that the standard lib's allocator may be employed. The default build also includes a stdlib allocator and stream interface. Disable this with --features=no-stdlib. All included code is safe.",
+      "downloads": 341337675,
+      "edition": "2015",
+      "keywords": [
+        "brotli",
+        "decompression",
+        "huffman",
+        "lz77",
+        "nostd"
+      ],
+      "last_release": "2026-11-15",
+      "license": "BSD-3-Clause AND MIT",
+      "msrv": "1.59.0",
+      "name": "brotli",
+      "owners": 3,
+      "recent_downloads": 98834885,
+      "releases_365d": 7,
+      "repository": "https://github.com/dropbox/rust-brotli",
+      "score": 85.66,
+      "version": "9.1.3",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.5039,
+        "downloads": 0.8809,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9652,
+        "security": 1.0
+      },
+      "created": "2019-05-14",
+      "dependents": 393,
+      "description": "Adaptors between compression crates and Rust's modern asynchronous IO types.\n",
+      "downloads": 282375656,
+      "edition": "2018",
+      "keywords": [
+        "async-io",
+        "compression",
+        "decompression",
+        "futures-io",
+        "tokio"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.83",
+      "name": "async-compression",
+      "owners": 4,
+      "recent_downloads": 81245790,
+      "releases_365d": 18,
+      "repository": "https://github.com/Nullus157/async-compression",
+      "score": 84.1,
+      "version": "0.4.52",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.3506,
+        "downloads": 0.9002,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2017-03-24",
+      "dependents": 63,
+      "description": "Low-level bindings for the zstd compression library.",
+      "downloads": 453415318,
+      "edition": "2018",
+      "keywords": [
+        "compression",
+        "zstandard",
+        "zstd"
+      ],
+      "last_release": "2026-11-12",
+      "license": "BSD-3-Clause AND BSD-2-Clause",
+      "msrv": "1.64",
+      "name": "zstd-sys",
+      "owners": 1,
+      "recent_downloads": 121136136,
+      "releases_365d": 5,
+      "repository": "https://github.com/gyscos/zstd-rs",
+      "score": 79.03,
+      "version": "2.1.3+zstd.1.5.7",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.3438,
+        "downloads": 0.9059,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2017-06-05",
+      "dependents": 58,
+      "description": "Safe low-level bindings for the zstd compression library.",
+      "downloads": 505779653,
+      "edition": "2018",
+      "keywords": [
+        "compression",
+        "zstandard",
+        "zstd"
+      ],
+      "last_release": "2026-11-12",
+      "license": "BSD-3-Clause",
+      "msrv": "1.64",
+      "name": "zstd-safe",
+      "owners": 1,
+      "recent_downloads": 136398643,
+      "releases_365d": 7,
+      "repository": "https://github.com/gyscos/zstd-rs",
+      "score": 79.0,
+      "version": "8.3.0",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.4924,
+        "downloads": 0.8202,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9259,
+        "security": 1.0
+      },
+      "created": "2019-11-04",
+      "dependents": 343,
+      "description": "A decoder for the zstd compression format",
+      "downloads": 83034579,
+      "edition": "2018",
+      "keywords": [
+        "decompression",
+        "zstandard",
+        "zstd"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "ruzstd",
+      "owners": 1,
+      "recent_downloads": 23185485,
+      "releases_365d": 3,
+      "repository": "https://github.com/KillingSpark/zstd-rs",
+      "score": 78.2,
+      "version": "0.9.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "compression",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4225,
+        "downloads": 0.8052,
+        "license": 1.0,
+        "maintenance": 0.8406,
+        "msrv": 1.0,
+        "recency": 0.9638,
+        "security": 1.0
+      },
+      "created": "2025-02-24",
+      "dependents": 149,
+      "description": "LZMA / LZMA2 / LZIP / XZ compression ported from 'tukaani xz for java'",
+      "downloads": 35690637,
+      "edition": "2024",
+      "keywords": [
+        "lzip",
+        "lzma",
+        "xz"
+      ],
+      "last_release": "2026-11-01",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "lzma-rust2",
+      "owners": 1,
+      "recent_downloads": 16986678,
+      "releases_365d": 24,
+      "repository": "https://github.com/hasenbanck/lzma-rust2/",
+      "score": 77.76,
+      "version": "0.25.0",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.4097,
+        "downloads": 0.7778,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9393,
+        "security": 1.0
+      },
+      "created": "2023-09-24",
+      "dependents": 128,
+      "description": "Rust bindings to liblzma providing Read/Write streams as well as low-level\nin-memory encoding/decoding. forked from xz2.\n",
+      "downloads": 28895332,
+      "edition": "2021",
+      "keywords": [
+        "encoding",
+        "lzma",
+        "wasm",
+        "xz"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "liblzma",
+      "owners": 1,
+      "recent_downloads": 9654647,
+      "releases_365d": 4,
+      "repository": "https://github.com/portable-network-archive/liblzma-rs",
+      "score": 76.78,
+      "version": "0.4.9",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "compression",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.4247,
+        "downloads": 0.8525,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9795,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 153,
+      "description": "Low-level bindings to the system libz library (also known as zlib).",
+      "downloads": 265916164,
+      "edition": "2018",
+      "keywords": [
+        "zlib",
+        "zlib-ng"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "name": "libz-sys",
+      "owners": 1,
+      "recent_downloads": 45176182,
+      "releases_365d": 9,
+      "repository": "https://github.com/rust-lang/libz-sys",
+      "score": 74.62,
+      "version": "1.1.33",
+      "versions": 73
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.8718,
+        "license": 1.0,
+        "maintenance": 0.9248,
+        "msrv": 1.0,
+        "recency": 0.9652,
+        "security": 1.0
+      },
+      "created": "2025-08-22",
+      "dependents": 5,
+      "description": "Adaptors for various compression algorithms.\n",
+      "downloads": 143867150,
+      "edition": "2018",
+      "keywords": [
+        "brotli",
+        "codec",
+        "compression",
+        "gzip",
+        "zstd"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.83",
+      "name": "compression-codecs",
+      "owners": 3,
+      "recent_downloads": 67387806,
+      "releases_365d": 15,
+      "repository": "https://github.com/Nullus157/async-compression",
+      "score": 73.92,
+      "version": "0.4.47",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.6502,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 69,
+      "description": "Blocked gzip format (BGZF) reader and writer",
+      "downloads": 1902647,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-bgzf",
+      "owners": 1,
+      "recent_downloads": 689046,
+      "releases_365d": 9,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 73.2,
+      "version": "0.53.0",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.3629,
+        "downloads": 0.6477,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8603,
+        "security": 1.0
+      },
+      "created": "2016-03-03",
+      "dependents": 73,
+      "description": "A lossless PNG compression optimizer",
+      "downloads": 2471432,
+      "edition": "2024",
+      "keywords": [
+        "image-compression",
+        "lossless",
+        "multi-threading",
+        "optimization",
+        "png"
+      ],
+      "last_release": "2026-09-02",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "oxipng",
+      "owners": 3,
+      "recent_downloads": 654635,
+      "releases_365d": 5,
+      "repository": "https://github.com/oxipng/oxipng",
+      "score": 73.17,
+      "version": "10.2.1",
+      "versions": 82
+    },
+    {
+      "categories": [
+        "compression",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.8691,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9264,
+        "security": 1.0
+      },
+      "created": "2016-03-09",
+      "dependents": 26,
+      "description": "A Rust implementation of the Zopfli compression algorithm.",
+      "downloads": 171219962,
+      "edition": "2021",
+      "keywords": [
+        "compression"
+      ],
+      "last_release": "2026-10-11",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "zopfli",
+      "owners": 4,
+      "recent_downloads": 63717701,
+      "releases_365d": 1,
+      "repository": "https://github.com/zopfli-rs/zopfli",
+      "score": 73.07,
+      "version": "0.8.4",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.3347,
+        "downloads": 0.6025,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-05-20",
+      "dependents": 52,
+      "description": "Vortex errors",
+      "downloads": 522302,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-error",
+      "owners": 4,
+      "recent_downloads": 257059,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 73.02,
+      "version": "0.93.0",
+      "versions": 121
+    },
+    {
+      "categories": [
+        "algorithms",
+        "compression",
+        "multimedia::encoding",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.4524,
+        "downloads": 0.7539,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9532,
+        "security": 1.0
+      },
+      "created": "2020-06-17",
+      "dependents": 213,
+      "description": "Real-to-complex forward FFT and complex-to-real inverse FFT for Rust",
+      "downloads": 21317876,
+      "edition": "2018",
+      "keywords": [
+        "dft",
+        "discrete",
+        "fft",
+        "fourier",
+        "transform"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT",
+      "msrv": "1.61",
+      "name": "realfft",
+      "owners": 1,
+      "recent_downloads": 5889991,
+      "releases_365d": 1,
+      "repository": "https://github.com/HEnquist/realfft",
+      "score": 72.96,
+      "version": "3.5.1",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.6021,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-05-20",
+      "dependents": 44,
+      "description": "A byte buffer implementation for Vortex",
+      "downloads": 519378,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-buffer",
+      "owners": 4,
+      "recent_downloads": 255050,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 72.67,
+      "version": "0.93.0",
+      "versions": 121
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.3171,
+        "downloads": 0.6014,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-03-05",
+      "dependents": 42,
+      "description": "Vortex in memory columnar data format",
+      "downloads": 498551,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-array",
+      "owners": 4,
+      "recent_downloads": 251191,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 72.56,
+      "version": "0.93.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.5295,
+        "downloads": 0.9458,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 0.0,
+        "recency": 0.6184,
+        "security": 1.0
+      },
+      "created": "2017-10-10",
+      "dependents": 533,
+      "description": "DEFLATE compression and decompression library rewritten in Rust based on miniz",
+      "downloads": 1150724761,
+      "edition": "2021",
+      "keywords": [
+        "deflate",
+        "encoding",
+        "miniz",
+        "zlib"
+      ],
+      "last_release": "2026-03-13",
+      "license": "MIT OR Zlib OR Apache-2.0",
+      "name": "miniz_oxide",
+      "owners": 2,
+      "recent_downloads": 311355109,
+      "releases_365d": 2,
+      "repository": "https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide",
+      "score": 72.16,
+      "version": "0.9.1",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "compression",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.7198,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9406,
+        "security": 1.0
+      },
+      "created": "2022-09-12",
+      "dependents": 44,
+      "description": "A library for reading and writing MCAP files",
+      "downloads": 11950309,
+      "edition": "2021",
+      "keywords": [
+        "foxglove",
+        "mcap"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT",
+      "msrv": "1.81",
+      "name": "mcap",
+      "owners": 1,
+      "recent_downloads": 2904941,
+      "releases_365d": 3,
+      "repository": "https://github.com/foxglove/mcap",
+      "score": 71.63,
+      "version": "0.26.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.6021,
+        "license": 1.0,
+        "maintenance": 0.9832,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2025-01-21",
+      "dependents": 30,
+      "description": "Vortex Mask - sorted, unique, non-negative integers",
+      "downloads": 478344,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-mask",
+      "owners": 6,
+      "recent_downloads": 255193,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 71.63,
+      "version": "0.93.0",
+      "versions": 82
+    },
+    {
+      "categories": [
+        "compression",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4305,
+        "downloads": 0.7859,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8662,
+        "security": 1.0
+      },
+      "created": "2016-10-16",
+      "dependents": 164,
+      "description": "A Rust implementation of DEFLATE algorithm and related formats (ZLIB, GZIP)",
+      "downloads": 57343415,
+      "edition": "2024",
+      "keywords": [
+        "deflate",
+        "gzip",
+        "zlib"
+      ],
+      "last_release": "2026-09-06",
+      "license": "MIT",
+      "name": "libflate",
+      "owners": 1,
+      "recent_downloads": 11405876,
+      "releases_365d": 4,
+      "repository": "https://github.com/sile/libflate",
+      "score": 71.4,
+      "version": "2.3.2",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.5406,
+        "downloads": 0.8543,
+        "license": 1.0,
+        "maintenance": 0.6,
+        "msrv": 1.0,
+        "recency": 0.4674,
+        "security": 1.0
+      },
+      "created": "2014-11-13",
+      "dependents": 608,
+      "description": "Bindings to libbzip2 for bzip2 compression and decompression exposed as\nReader/Writer streams.\n",
+      "downloads": 200382230,
+      "edition": "2021",
+      "keywords": [
+        "bzip",
+        "encoding"
+      ],
+      "last_release": "2025-10-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82.0",
+      "name": "bzip2",
+      "owners": 3,
+      "recent_downloads": 46918768,
+      "releases_365d": 0,
+      "repository": "https://github.com/trifectatechfoundation/bzip2-rs",
+      "score": 70.88,
+      "version": "0.6.1",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "compression",
+        "encoding"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.6693,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9665,
+        "security": 1.0
+      },
+      "created": "2023-07-07",
+      "dependents": 19,
+      "description": "Good compression for numerical sequences",
+      "downloads": 2462472,
+      "edition": "2021",
+      "keywords": [
+        "compression",
+        "delta",
+        "numerical"
+      ],
+      "last_release": "2026-11-03",
+      "license": "Apache-2.0",
+      "msrv": "1.87.0",
+      "name": "pco",
+      "owners": 1,
+      "recent_downloads": 1024477,
+      "releases_365d": 9,
+      "repository": "https://github.com/pcodec/pcodec",
+      "score": 70.55,
+      "version": "1.1.0",
+      "versions": 34
+    }
+  ],
+  "score_version": 1
+}

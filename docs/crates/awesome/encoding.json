@@ -1,0 +1,943 @@
+{
+  "category": {
+    "crates": 8577,
+    "description": "Encoding and/or decoding data from one data format to another.",
+    "name": "Encoding",
+    "slug": "encoding"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.9805,
+        "downloads": 0.9644,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9261,
+        "security": 1.0
+      },
+      "created": "2015-08-07",
+      "dependents": 112408,
+      "description": "A JSON serialization file format",
+      "downloads": 1660008322,
+      "edition": "2021",
+      "keywords": [
+        "json",
+        "serde",
+        "serialization"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "serde_json",
+      "owners": 2,
+      "recent_downloads": 457167943,
+      "releases_365d": 9,
+      "repository": "https://github.com/serde-rs/json",
+      "score": 96.52,
+      "version": "1.0.154",
+      "versions": 186
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.8407,
+        "downloads": 0.9494,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 21410,
+      "description": "A native Rust encoder and decoder of TOML-formatted files and streams. Provides\nimplementations of the standard Serialize/Deserialize traits for TOML data to\nfacilitate deserializing and serializing Rust structures.\n",
+      "downloads": 1173287918,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "no_std",
+        "toml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml",
+      "owners": 2,
+      "recent_downloads": 335185988,
+      "releases_365d": 23,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 93.35,
+      "version": "1.2.1+spec-1.1.0",
+      "versions": 124
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "parser-implementations",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.8264,
+        "downloads": 0.9404,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9998,
+        "security": 1.0
+      },
+      "created": "2014-11-14",
+      "dependents": 18072,
+      "description": "URL library for Rust, based on the WHATWG URL Standard",
+      "downloads": 1094905391,
+      "edition": "2018",
+      "keywords": [
+        "parser",
+        "url"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "url",
+      "owners": 5,
+      "recent_downloads": 278242134,
+      "releases_365d": 2,
+      "repository": "https://github.com/servo/rust-url",
+      "score": 91.17,
+      "version": "2.5.9",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 1.0,
+        "downloads": 0.9641,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7885,
+        "security": 1.0
+      },
+      "created": "2014-12-05",
+      "dependents": 141576,
+      "description": "A generic serialization/deserialization framework",
+      "downloads": 1752708743,
+      "edition": "2021",
+      "keywords": [
+        "no_std",
+        "serde",
+        "serialization"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.56",
+      "name": "serde",
+      "owners": 2,
+      "recent_downloads": 454062629,
+      "releases_365d": 1,
+      "repository": "https://github.com/serde-rs/serde",
+      "score": 90.43,
+      "version": "1.0.229",
+      "versions": 316
+    },
+    {
+      "categories": [
+        "encoding"
+      ],
+      "components": {
+        "dependents": 0.7205,
+        "downloads": 0.9205,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9843,
+        "security": 1.0
+      },
+      "created": "2017-06-25",
+      "dependents": 5143,
+      "description": "A Protocol Buffers implementation for the Rust Language.",
+      "downloads": 729999058,
+      "edition": "2021",
+      "keywords": [
+        "protobuf",
+        "serialization"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "prost",
+      "owners": 2,
+      "recent_downloads": 184372261,
+      "releases_365d": 4,
+      "repository": "https://github.com/tokio-rs/prost",
+      "score": 89.79,
+      "version": "0.14.6",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.6527,
+        "downloads": 0.9446,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2017-12-17",
+      "dependents": 2300,
+      "description": "Yet another format-preserving TOML parser.",
+      "downloads": 1057115241,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "toml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml_edit",
+      "owners": 3,
+      "recent_downloads": 303232529,
+      "releases_365d": 24,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 89.52,
+      "version": "0.25.19+spec-1.1.0",
+      "versions": 132
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.7483,
+        "downloads": 0.9381,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9282,
+        "security": 1.0
+      },
+      "created": "2019-08-08",
+      "dependents": 7154,
+      "description": "Generate JSON Schemas from Rust code",
+      "downloads": 677115729,
+      "edition": "2021",
+      "keywords": [
+        "json-schema",
+        "rust",
+        "serde"
+      ],
+      "last_release": "2026-10-12",
+      "license": "MIT",
+      "msrv": "1.74",
+      "name": "schemars",
+      "owners": 1,
+      "recent_downloads": 265568130,
+      "releases_365d": 4,
+      "repository": "https://github.com/GREsau/schemars",
+      "score": 89.08,
+      "version": "1.2.3",
+      "versions": 98
+    },
+    {
+      "categories": [
+        "encoding"
+      ],
+      "components": {
+        "dependents": 0.8385,
+        "downloads": 0.9746,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8137,
+        "security": 1.0
+      },
+      "created": "2015-12-04",
+      "dependents": 20853,
+      "description": "encodes and decodes base64 as bytes or utf8",
+      "downloads": 2029909925,
+      "edition": "2021",
+      "keywords": [
+        "base64",
+        "decode",
+        "encode",
+        "no_std",
+        "utf8"
+      ],
+      "last_release": "2026-08-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "base64",
+      "owners": 2,
+      "recent_downloads": 563950019,
+      "releases_365d": 2,
+      "repository": "https://github.com/marshallpierce/rust-base64",
+      "score": 88.53,
+      "version": "0.23.1",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.6744,
+        "downloads": 0.9214,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8425,
+        "security": 1.0
+      },
+      "created": "2016-02-01",
+      "dependents": 2977,
+      "description": "High performance xml reader and writer",
+      "downloads": 567282139,
+      "edition": "2024",
+      "keywords": [
+        "html",
+        "parser",
+        "serde",
+        "writer",
+        "xml"
+      ],
+      "last_release": "2026-08-22",
+      "license": "MIT",
+      "msrv": "1.86",
+      "name": "quick-xml",
+      "owners": 3,
+      "recent_downloads": 187712535,
+      "releases_365d": 9,
+      "repository": "https://github.com/tafia/quick-xml",
+      "score": 87.53,
+      "version": "0.42.0",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6788,
+        "downloads": 0.8988,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9978,
+        "security": 1.0
+      },
+      "created": "2017-08-17",
+      "dependents": 3135,
+      "description": "Custom de/serialization functions for Rust's serde",
+      "downloads": 456295178,
+      "edition": "2021",
+      "keywords": [
+        "deserialization",
+        "serde",
+        "serialization",
+        "utilities"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "serde_with",
+      "owners": 1,
+      "recent_downloads": 117672654,
+      "releases_365d": 10,
+      "repository": "https://github.com/jonasbb/serde_with/",
+      "score": 87.41,
+      "version": "3.25.0",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "embedded",
+        "encoding",
+        "no-std::no-alloc",
+        "parsing",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5746,
+        "downloads": 0.9518,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9299,
+        "security": 1.0
+      },
+      "created": "2018-08-15",
+      "dependents": 911,
+      "description": "Zerocopy makes zero-cost memory manipulation effortless. We write \"unsafe\" so you don't have to.",
+      "downloads": 1182012711,
+      "edition": "2021",
+      "keywords": [
+        "cast",
+        "convert",
+        "transmutation",
+        "transmute",
+        "type-punning"
+      ],
+      "last_release": "2026-10-13",
+      "license": "BSD-2-Clause OR Apache-2.0 OR MIT",
+      "msrv": "1.56.0",
+      "name": "zerocopy",
+      "owners": 2,
+      "recent_downloads": 352251028,
+      "releases_365d": 41,
+      "repository": "https://github.com/google/zerocopy",
+      "score": 86.11,
+      "version": "0.8.63",
+      "versions": 174
+    },
+    {
+      "categories": [
+        "encoding",
+        "internationalization",
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.62,
+        "downloads": 0.9152,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9601,
+        "security": 1.0
+      },
+      "created": "2016-07-09",
+      "dependents": 1560,
+      "description": "A Gecko-oriented implementation of the Encoding Standard",
+      "downloads": 658801208,
+      "edition": "2024",
+      "keywords": [
+        "charset",
+        "encoding",
+        "unicode",
+        "web"
+      ],
+      "last_release": "2026-10-30",
+      "license": "(Apache-2.0 OR MIT) AND BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "encoding_rs",
+      "owners": 1,
+      "recent_downloads": 165228981,
+      "releases_365d": 5,
+      "repository": "https://github.com/hsivonen/encoding_rs",
+      "score": 85.78,
+      "version": "0.8.44",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "encoding",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.547,
+        "downloads": 0.9051,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9958,
+        "security": 1.0
+      },
+      "created": "2018-10-09",
+      "dependents": 656,
+      "description": "A string type that is not required to be valid UTF-8.",
+      "downloads": 522228330,
+      "edition": "2021",
+      "keywords": [
+        "byte",
+        "bytes",
+        "str",
+        "string",
+        "text"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "bstr",
+      "owners": 1,
+      "recent_downloads": 134217182,
+      "releases_365d": 5,
+      "repository": "https://github.com/BurntSushi/bstr",
+      "score": 84.24,
+      "version": "1.14.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "encoding",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.5126,
+        "downloads": 0.9183,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9515,
+        "security": 1.0
+      },
+      "created": "2020-12-17",
+      "dependents": 436,
+      "description": "Pure Rust embedded-friendly implementation of the Distinguished Encoding Rules\n(DER) for Abstract Syntax Notation One (ASN.1) as described in ITU X.690 with\nfull support for heapless `no_std`/`no_alloc` targets\n",
+      "downloads": 599211556,
+      "edition": "2024",
+      "keywords": [
+        "asn1",
+        "crypto",
+        "itu",
+        "no-alloc",
+        "pkcs"
+      ],
+      "last_release": "2026-10-25",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "der",
+      "owners": 2,
+      "recent_downloads": 176334474,
+      "releases_365d": 5,
+      "repository": "https://github.com/RustCrypto/formats",
+      "score": 84.05,
+      "version": "0.8.3",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "caching",
+        "encoding",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5738,
+        "downloads": 0.8296,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9838,
+        "security": 1.0
+      },
+      "created": "2019-04-29",
+      "dependents": 902,
+      "description": "Kubernetes client and async controller runtime",
+      "downloads": 95084854,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "cncf",
+        "kubernetes",
+        "runtime"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "kube",
+      "owners": 2,
+      "recent_downloads": 28138715,
+      "releases_365d": 7,
+      "repository": "https://github.com/kube-rs/kube",
+      "score": 83.84,
+      "version": "5.1.0",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "data-structures",
+        "encoding",
+        "os::unix-apis",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.5571,
+        "downloads": 0.8515,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2020-07-07",
+      "dependents": 740,
+      "description": "API for D-Bus communication and its wire format",
+      "downloads": 118539541,
+      "edition": "2024",
+      "keywords": [
+        "d-bus",
+        "dbus",
+        "ipc",
+        "serde"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "zbus",
+      "owners": 1,
+      "recent_downloads": 44272907,
+      "releases_365d": 16,
+      "repository": "https://github.com/z-galaxy/zbus/",
+      "score": 83.21,
+      "version": "6.5.0",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "encoding",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6158,
+        "downloads": 0.8797,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.849,
+        "security": 1.0
+      },
+      "created": "2019-08-16",
+      "dependents": 1485,
+      "description": "Binary Object Representation Serializer for Hashing\n",
+      "downloads": 252291995,
+      "edition": "2018",
+      "last_release": "2026-08-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77.0",
+      "name": "borsh",
+      "owners": 1,
+      "recent_downloads": 79349347,
+      "releases_365d": 5,
+      "repository": "https://github.com/near/borsh-rs",
+      "score": 83.12,
+      "version": "1.8.1",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "encoding"
+      ],
+      "components": {
+        "dependents": 0.5759,
+        "downloads": 0.8236,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9559,
+        "security": 1.0
+      },
+      "created": "2017-07-30",
+      "dependents": 925,
+      "description": "Rusty Object Notation",
+      "downloads": 131876056,
+      "edition": "2021",
+      "keywords": [
+        "parser",
+        "serde",
+        "serialization"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.64.0",
+      "name": "ron",
+      "owners": 3,
+      "recent_downloads": 24882171,
+      "releases_365d": 3,
+      "repository": "https://github.com/ron-rs/ron",
+      "score": 82.83,
+      "version": "0.12.3",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5091,
+        "downloads": 0.8326,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9991,
+        "security": 1.0
+      },
+      "created": "2022-03-12",
+      "dependents": 418,
+      "description": "Pure Rust implementation of the X.509 Public Key Infrastructure Certificate\nformat as described in RFC 5280\n",
+      "downloads": 63864117,
+      "edition": "2024",
+      "keywords": [
+        "crypto"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "x509-cert",
+      "owners": 2,
+      "recent_downloads": 29926963,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/formats",
+      "score": 82.53,
+      "version": "0.3.1",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.5064,
+        "downloads": 0.8533,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.992,
+        "security": 1.0
+      },
+      "created": "2015-08-04",
+      "dependents": 405,
+      "description": "A rusty plist parser. Supports Serde serialization.",
+      "downloads": 103795255,
+      "edition": "2024",
+      "keywords": [
+        "parser",
+        "plist"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "plist",
+      "owners": 1,
+      "recent_downloads": 45913150,
+      "releases_365d": 6,
+      "repository": "https://github.com/ebarnard/rust-plist/",
+      "score": 81.87,
+      "version": "1.10.4",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "encoding",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4907,
+        "downloads": 0.7676,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9645,
+        "security": 1.0
+      },
+      "created": "2016-11-09",
+      "dependents": 336,
+      "description": "An Excel/OpenDocument Spreadsheet reader and deserializer in pure Rust",
+      "downloads": 19239555,
+      "edition": "2021",
+      "keywords": [
+        "excel",
+        "ods",
+        "xls",
+        "xlsb",
+        "xlsx"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "calamine",
+      "owners": 3,
+      "recent_downloads": 7809794,
+      "releases_365d": 7,
+      "repository": "https://github.com/tafia/calamine",
+      "score": 80.93,
+      "version": "0.38.0",
+      "versions": 84
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5716,
+        "downloads": 0.9147,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.812,
+        "security": 1.0
+      },
+      "created": "2015-12-05",
+      "dependents": 879,
+      "description": "Efficient and customizable data-encoding functions like base64, base32, and hex",
+      "downloads": 545907391,
+      "edition": "2018",
+      "keywords": [
+        "base32",
+        "base64",
+        "hex",
+        "no_std"
+      ],
+      "last_release": "2026-08-03",
+      "license": "MIT",
+      "msrv": "1.48",
+      "name": "data-encoding",
+      "owners": 1,
+      "recent_downloads": 163708013,
+      "releases_365d": 3,
+      "repository": "https://github.com/ia0/data-encoding",
+      "score": 80.84,
+      "version": "2.11.1",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5198,
+        "downloads": 0.8024,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9757,
+        "security": 1.0
+      },
+      "created": "2020-06-26",
+      "dependents": 475,
+      "description": "This library is for encoding/escaping special characters in HTML and decoding/unescaping HTML entities as well.",
+      "downloads": 53170329,
+      "edition": "2021",
+      "keywords": [
+        "decode",
+        "encode",
+        "escape",
+        "html",
+        "unescape"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.58",
+      "name": "html-escape",
+      "owners": 1,
+      "recent_downloads": 16045159,
+      "releases_365d": 4,
+      "repository": "https://github.com/magiclen/html-escape",
+      "score": 80.69,
+      "version": "0.3.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5654,
+        "downloads": 0.8506,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8152,
+        "security": 1.0
+      },
+      "created": "2020-11-11",
+      "dependents": 816,
+      "description": "Zero-copy deserialization framework for Rust",
+      "downloads": 188814064,
+      "edition": "2021",
+      "keywords": [
+        "archive",
+        "no_std",
+        "rkyv",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-08-05",
+      "license": "MIT",
+      "msrv": "1.81",
+      "name": "rkyv",
+      "owners": 1,
+      "recent_downloads": 43487010,
+      "releases_365d": 7,
+      "repository": "https://github.com/rkyv/rkyv",
+      "score": 80.63,
+      "version": "0.8.18",
+      "versions": 95
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.7504,
+        "downloads": 0.8844,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.6157,
+        "security": 1.0
+      },
+      "created": "2014-11-20",
+      "dependents": 7330,
+      "description": "Imaging library. Provides basic image processing and encoders/decoders for common image formats.",
+      "downloads": 260336466,
+      "edition": "2021",
+      "last_release": "2026-03-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "image",
+      "owners": 4,
+      "recent_downloads": 87460970,
+      "releases_365d": 1,
+      "repository": "https://github.com/image-rs/image",
+      "score": 80.61,
+      "version": "0.25.10",
+      "versions": 118
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,919 @@
+{
+  "category": {
+    "crates": 1564,
+    "description": "Applications for editing text.",
+    "name": "Text editors",
+    "slug": "text-editors"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.6521,
+        "downloads": 0.8226,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2018-05-18",
+      "dependents": 2284,
+      "description": "Rust bindings to the Tree-sitter parsing library",
+      "downloads": 58521609,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter",
+      "owners": 3,
+      "recent_downloads": 24361622,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 86.48,
+      "version": "0.27.2",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.4148,
+        "downloads": 0.6636,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2019-02-20",
+      "dependents": 136,
+      "description": "Library for performing syntax highlighting with Tree-sitter",
+      "downloads": 4836637,
+      "edition": "2024",
+      "keywords": [
+        "highlighting",
+        "incremental",
+        "parsing",
+        "syntax"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-highlight",
+      "owners": 3,
+      "recent_downloads": 910210,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 76.58,
+      "version": "0.27.2",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "text-editors",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4284,
+        "downloads": 0.6591,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9618,
+        "security": 1.0
+      },
+      "created": "2023-09-15",
+      "dependents": 160,
+      "description": "ratatui-textarea is a simple yet powerful text editor widget for ratatui.\nMulti-line text editor can be easily put as part of your TUI application.\n",
+      "downloads": 1265749,
+      "edition": "2024",
+      "keywords": [
+        "editor",
+        "input",
+        "ratatui",
+        "textarea",
+        "tui"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT",
+      "msrv": "1.86.0",
+      "name": "ratatui-textarea",
+      "owners": 1,
+      "recent_downloads": 828454,
+      "releases_365d": 6,
+      "repository": "https://github.com/ratatui/ratatui-textarea",
+      "score": 74.61,
+      "version": "0.9.4",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.4374,
+        "downloads": 0.7124,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9854,
+        "security": 1.0
+      },
+      "created": "2023-06-06",
+      "dependents": 178,
+      "description": "Scala grammar for tree-sitter",
+      "downloads": 6551622,
+      "edition": "2021",
+      "keywords": [
+        "incremental",
+        "parsing",
+        "scala",
+        "tree-sitter"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "name": "tree-sitter-scala",
+      "owners": 4,
+      "recent_downloads": 2495260,
+      "releases_365d": 16,
+      "repository": "https://github.com/tree-sitter/tree-sitter-scala",
+      "score": 73.53,
+      "version": "0.26.13",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.4988,
+        "downloads": 0.7238,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 0.0,
+        "recency": 0.9954,
+        "security": 1.0
+      },
+      "created": "2020-10-28",
+      "dependents": 370,
+      "description": "C# grammar for tree-sitter",
+      "downloads": 8487503,
+      "edition": "2021",
+      "keywords": [
+        "c-sharp",
+        "incremental",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "name": "tree-sitter-c-sharp",
+      "owners": 3,
+      "recent_downloads": 3161342,
+      "releases_365d": 2,
+      "repository": "https://github.com/tree-sitter/tree-sitter-c-sharp",
+      "score": 72.5,
+      "version": "0.24.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.5984,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2020-05-12",
+      "dependents": 21,
+      "description": "Library for extracting tag information",
+      "downloads": 1368205,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing",
+        "syntax",
+        "tagging"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-tags",
+      "owners": 3,
+      "recent_downloads": 236412,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 71.09,
+      "version": "0.27.2",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.4855,
+        "downloads": 0.7175,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.9973,
+        "security": 1.0
+      },
+      "created": "2023-11-18",
+      "dependents": 316,
+      "description": "PHP grammar for tree-sitter",
+      "downloads": 7154843,
+      "edition": "2021",
+      "keywords": [
+        "incremental",
+        "parsing",
+        "php",
+        "tree-sitter"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "name": "tree-sitter-php",
+      "owners": 1,
+      "recent_downloads": 2774828,
+      "releases_365d": 2,
+      "repository": "https://github.com/tree-sitter/tree-sitter-php",
+      "score": 70.04,
+      "version": "0.25.2",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.4675,
+        "downloads": 0.7223,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.913,
+        "security": 1.0
+      },
+      "created": "2022-01-14",
+      "dependents": 255,
+      "description": "swift grammar for the tree-sitter parsing library",
+      "downloads": 7609729,
+      "edition": "2018",
+      "keywords": [
+        "incremental",
+        "parsing",
+        "swift"
+      ],
+      "last_release": "2026-10-04",
+      "license": "MIT",
+      "name": "tree-sitter-swift",
+      "owners": 1,
+      "recent_downloads": 3060073,
+      "releases_365d": 3,
+      "repository": "https://github.com/alex-pinkus/tree-sitter-swift",
+      "score": 69.94,
+      "version": "0.7.4",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.7284,
+        "license": 1.0,
+        "maintenance": 0.93,
+        "msrv": 0.0,
+        "recency": 0.9561,
+        "security": 1.0
+      },
+      "created": "2024-12-03",
+      "dependents": 46,
+      "description": "A Powershell grammar for tree-sitter",
+      "downloads": 5603353,
+      "edition": "2021",
+      "keywords": [
+        "incremental",
+        "parsing",
+        "powershell",
+        "tree-sitter"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT",
+      "name": "tree-sitter-powershell",
+      "owners": 2,
+      "recent_downloads": 3470937,
+      "releases_365d": 5,
+      "repository": "https://github.com/airbus-cert/tree-sitter-powershell",
+      "score": 69.62,
+      "version": "0.26.6",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.4284,
+        "downloads": 0.6849,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 0.0,
+        "recency": 0.9488,
+        "security": 1.0
+      },
+      "created": "2022-04-26",
+      "dependents": 160,
+      "description": "Markdown grammar for tree-sitter",
+      "downloads": 2736549,
+      "edition": "2021",
+      "keywords": [
+        "incremental",
+        "markdown",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-10-24",
+      "license": "MIT",
+      "name": "tree-sitter-md",
+      "owners": 2,
+      "recent_downloads": 1412056,
+      "releases_365d": 3,
+      "repository": "https://github.com/tree-sitter-grammars/tree-sitter-markdown",
+      "score": 69.56,
+      "version": "0.5.4",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.5859,
+        "downloads": 0.7734,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 0.0,
+        "recency": 0.6361,
+        "security": 1.0
+      },
+      "created": "2021-03-04",
+      "dependents": 1041,
+      "description": "Rust grammar for tree-sitter",
+      "downloads": 26112767,
+      "edition": "2021",
+      "keywords": [
+        "incremental",
+        "parsing",
+        "rust",
+        "tree-sitter"
+      ],
+      "last_release": "2026-03-27",
+      "license": "MIT",
+      "name": "tree-sitter-rust",
+      "owners": 2,
+      "recent_downloads": 8809847,
+      "releases_365d": 2,
+      "repository": "https://github.com/tree-sitter/tree-sitter-rust",
+      "score": 69.52,
+      "version": "0.24.2",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3131,
+        "downloads": 0.6254,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9097,
+        "security": 1.0
+      },
+      "created": "2022-04-19",
+      "dependents": 40,
+      "description": "GraphQL grammar for tree-sitter",
+      "downloads": 667684,
+      "edition": "2024",
+      "keywords": [
+        "graphql",
+        "incremental",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-10-02",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-graphql",
+      "owners": 1,
+      "recent_downloads": 413290,
+      "releases_365d": 3,
+      "repository": "https://github.com/joowani/tree-sitter-graphql",
+      "score": 68.61,
+      "version": "0.3.0",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "text-editors",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.3131,
+        "downloads": 0.5766,
+        "license": 1.0,
+        "maintenance": 0.7422,
+        "msrv": 1.0,
+        "recency": 0.9801,
+        "security": 1.0
+      },
+      "created": "2026-02-18",
+      "dependents": 40,
+      "description": "tui-textarea is a simple yet powerful text editor widget for ratatui. Multi-line\ntext editor can be easily put as part of your TUI application.\n",
+      "downloads": 256540,
+      "edition": "2024",
+      "keywords": [
+        "editor",
+        "input",
+        "ratatui",
+        "textarea",
+        "tui"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "tui-textarea-2",
+      "owners": 1,
+      "recent_downloads": 150696,
+      "releases_365d": 14,
+      "repository": "https://github.com/srothgan/tui-textarea",
+      "score": 68.08,
+      "version": "0.14.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3784,
+        "downloads": 0.6698,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 0.0,
+        "recency": 0.9508,
+        "security": 1.0
+      },
+      "created": "2023-01-19",
+      "dependents": 88,
+      "description": "Dart grammar for tree-sitter",
+      "downloads": 1773226,
+      "edition": "2021",
+      "keywords": [
+        "dart",
+        "incremental",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT",
+      "name": "tree-sitter-dart",
+      "owners": 2,
+      "recent_downloads": 1033458,
+      "releases_365d": 3,
+      "repository": "https://github.com/nielsenko/tree-sitter-dart",
+      "score": 67.97,
+      "version": "0.3.0",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.6306,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.995,
+        "security": 1.0
+      },
+      "created": "2022-10-20",
+      "dependents": 41,
+      "description": "erlang grammar for the tree-sitter parsing library",
+      "downloads": 812459,
+      "edition": "2018",
+      "keywords": [
+        "erlang",
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "name": "tree-sitter-erlang",
+      "owners": 2,
+      "recent_downloads": 460219,
+      "releases_365d": 7,
+      "repository": "https://github.com/WhatsApp/tree-sitter-erlang",
+      "score": 67.57,
+      "version": "0.22.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3264,
+        "downloads": 0.651,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9931,
+        "security": 1.0
+      },
+      "created": "2024-10-24",
+      "dependents": 47,
+      "description": "Parser for proto2 and proto3 files",
+      "downloads": 1236283,
+      "edition": "2021",
+      "keywords": [
+        "incremental",
+        "parsing",
+        "proto",
+        "tree-sitter"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "name": "tree-sitter-proto",
+      "owners": 1,
+      "recent_downloads": 700812,
+      "releases_365d": 4,
+      "repository": "https://github.com/coder3101/tree-sitter-proto",
+      "score": 67.33,
+      "version": "0.6.1",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.6399,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9607,
+        "security": 1.0
+      },
+      "created": "2022-07-05",
+      "dependents": 49,
+      "description": "CMake grammar for tree-sitter",
+      "downloads": 1121006,
+      "edition": "2021",
+      "keywords": [
+        "cmake",
+        "incremental",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-10-30",
+      "license": "MIT",
+      "name": "tree-sitter-cmake",
+      "owners": 1,
+      "recent_downloads": 556756,
+      "releases_365d": 4,
+      "repository": "https://github.com/uyha/tree-sitter-cmake",
+      "score": 66.65,
+      "version": "0.7.6",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3948,
+        "downloads": 0.6749,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.9807,
+        "security": 1.0
+      },
+      "created": "2024-07-26",
+      "dependents": 107,
+      "description": "Tree-sitter Grammar for SQL",
+      "downloads": 1937946,
+      "edition": "2021",
+      "keywords": [
+        "incremental",
+        "parsing",
+        "sql",
+        "tree-sitter"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "name": "tree-sitter-sequel",
+      "owners": 1,
+      "recent_downloads": 1148736,
+      "releases_365d": 2,
+      "repository": "https://github.com/derekstride/tree-sitter-sql.git",
+      "score": 66.45,
+      "version": "0.3.13",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.5268,
+        "downloads": 0.735,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 0.0,
+        "recency": 0.6676,
+        "security": 1.0
+      },
+      "created": "2021-09-15",
+      "dependents": 516,
+      "description": "C grammar for tree-sitter",
+      "downloads": 14005841,
+      "edition": "2021",
+      "keywords": [
+        "c",
+        "incremental",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-04-22",
+      "license": "MIT",
+      "name": "tree-sitter-c",
+      "owners": 2,
+      "recent_downloads": 3981112,
+      "releases_365d": 1,
+      "repository": "https://github.com/tree-sitter/tree-sitter-c",
+      "score": 66.06,
+      "version": "0.24.2",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3673,
+        "downloads": 0.6598,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 0.0,
+        "recency": 0.8781,
+        "security": 1.0
+      },
+      "created": "2021-03-09",
+      "dependents": 77,
+      "description": "OCaml grammar for tree-sitter",
+      "downloads": 1453311,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "ocaml",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-09-13",
+      "license": "MIT",
+      "name": "tree-sitter-ocaml",
+      "owners": 2,
+      "recent_downloads": 841247,
+      "releases_365d": 2,
+      "repository": "https://github.com/tree-sitter/tree-sitter-ocaml",
+      "score": 64.85,
+      "version": "0.26.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.616,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9955,
+        "security": 1.0
+      },
+      "created": "2024-09-05",
+      "dependents": 18,
+      "description": "fsharp grammar for the tree-sitter parsing library",
+      "downloads": 567104,
+      "edition": "2021",
+      "keywords": [
+        "fsharp",
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "name": "tree-sitter-fsharp",
+      "owners": 1,
+      "recent_downloads": 339652,
+      "releases_365d": 13,
+      "repository": "https://github.com/ionide/tree-sitter-fsharp",
+      "score": 64.54,
+      "version": "0.3.13",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.4927,
+        "downloads": 0.7974,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 0.0,
+        "recency": 0.5112,
+        "security": 1.0
+      },
+      "created": "2021-03-04",
+      "dependents": 344,
+      "description": "Bash grammar for tree-sitter",
+      "downloads": 24560842,
+      "edition": "2021",
+      "keywords": [
+        "bash",
+        "incremental",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2025-12-02",
+      "license": "MIT",
+      "name": "tree-sitter-bash",
+      "owners": 2,
+      "recent_downloads": 14456481,
+      "releases_365d": 1,
+      "repository": "https://github.com/tree-sitter/tree-sitter-bash",
+      "score": 64.42,
+      "version": "0.25.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.5731,
+        "license": 1.0,
+        "maintenance": 0.7617,
+        "msrv": 1.0,
+        "recency": 0.8518,
+        "security": 1.0
+      },
+      "created": "2025-12-09",
+      "dependents": 14,
+      "description": "Rust bindings to the Tree-sitter parsing library (vendored for arborium WASM support)",
+      "downloads": 309808,
+      "edition": "2021",
+      "last_release": "2026-08-28",
+      "license": "MIT",
+      "msrv": "1.76",
+      "name": "arborium-tree-sitter",
+      "owners": 1,
+      "recent_downloads": 139893,
+      "releases_365d": 52,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 64.24,
+      "version": "2.18.2",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.3839,
+        "downloads": 0.6834,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9069,
+        "security": 1.0
+      },
+      "created": "2024-02-26",
+      "dependents": 94,
+      "description": "Haskell grammar for tree-sitter",
+      "downloads": 3890354,
+      "edition": "2021",
+      "keywords": [
+        "haskell",
+        "incremental",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-09-30",
+      "license": "MIT",
+      "name": "tree-sitter-haskell",
+      "owners": 1,
+      "recent_downloads": 1370753,
+      "releases_365d": 1,
+      "repository": "https://github.com/tree-sitter/tree-sitter-haskell",
+      "score": 63.79,
+      "version": "0.24.1",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.4383,
+        "downloads": 0.7107,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 0.0,
+        "recency": 0.6019,
+        "security": 1.0
+      },
+      "created": "2021-08-05",
+      "dependents": 180,
+      "description": "Lua grammar for tree-sitter",
+      "downloads": 5793782,
+      "edition": "2021",
+      "keywords": [
+        "incremental",
+        "lua",
+        "parsing",
+        "tree-sitter"
+      ],
+      "last_release": "2026-02-26",
+      "license": "MIT",
+      "name": "tree-sitter-lua",
+      "owners": 2,
+      "recent_downloads": 2410615,
+      "releases_365d": 2,
+      "repository": "https://github.com/tree-sitter-grammars/tree-sitter-lua",
+      "score": 63.75,
+      "version": "0.5.0",
+      "versions": 23
+    }
+  ],
+  "score_version": 1
+}

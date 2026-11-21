@@ -1,0 +1,839 @@
+{
+  "category": {
+    "crates": 32,
+    "description": "Crates for molecular representations, descriptors, chemical graph algorithms, file format parsing, and QSAR tooling.",
+    "name": "Science::Computational Chemistry::Cheminformatics",
+    "slug": "science::computational-chemistry::cheminformatics"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "data-structures",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.4902,
+        "license": 1.0,
+        "maintenance": 0.7156,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-26",
+      "dependents": 19,
+      "description": "Core types (Atom, Bond, Molecule) for chematic — pure-Rust RDKit alternative, WASM-compatible",
+      "downloads": 32406,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "molecule",
+        "smiles",
+        "wasm"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-core",
+      "owners": 1,
+      "recent_downloads": 25233,
+      "releases_365d": 152,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 63.52,
+      "version": "1.2.1",
+      "versions": 152
+    },
+    {
+      "categories": [
+        "algorithms",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.4877,
+        "license": 1.0,
+        "maintenance": 0.7156,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-26",
+      "dependents": 15,
+      "description": "SSSR ring perception and Hückel aromaticity for chematic — pure-Rust RDKit alternative",
+      "downloads": 30512,
+      "edition": "2024",
+      "keywords": [
+        "aromaticity",
+        "cheminformatics",
+        "chemistry",
+        "rings",
+        "sssr"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-perception",
+      "owners": 1,
+      "recent_downloads": 23938,
+      "releases_365d": 152,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 62.98,
+      "version": "1.2.1",
+      "versions": 152
+    },
+    {
+      "categories": [
+        "algorithms",
+        "parser-implementations",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.4843,
+        "license": 1.0,
+        "maintenance": 0.7156,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-26",
+      "dependents": 12,
+      "description": "OpenSMILES parser, writer and canonical SMILES for chematic — pure Rust, WASM-compatible",
+      "downloads": 28435,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "parser",
+        "rdkit",
+        "smiles",
+        "wasm"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-smiles",
+      "owners": 1,
+      "recent_downloads": 22315,
+      "releases_365d": 152,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 62.46,
+      "version": "1.2.1",
+      "versions": 152
+    },
+    {
+      "categories": [
+        "algorithms",
+        "parser-implementations",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.4842,
+        "license": 1.0,
+        "maintenance": 0.7156,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-26",
+      "dependents": 9,
+      "description": "SMARTS parser, VF2 subgraph isomorphism and MCS for chematic — pure-Rust RDKit alternative",
+      "downloads": 28340,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "mcs",
+        "smarts",
+        "substructure",
+        "vf2"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-smarts",
+      "owners": 1,
+      "recent_downloads": 22286,
+      "releases_365d": 151,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 61.9,
+      "version": "1.2.1",
+      "versions": 151
+    },
+    {
+      "categories": [
+        "algorithms",
+        "parser-implementations",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.4832,
+        "license": 1.0,
+        "maintenance": 0.7155,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-26",
+      "dependents": 8,
+      "description": "Reaction SMILES/SMIRKS parser and writer for chematic — pure-Rust RDKit alternative",
+      "downloads": 27647,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "reaction",
+        "smiles",
+        "smirks"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-rxn",
+      "owners": 1,
+      "recent_downloads": 21825,
+      "releases_365d": 151,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 61.66,
+      "version": "1.2.1",
+      "versions": 151
+    },
+    {
+      "categories": [
+        "mathematics",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4512,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 7,
+      "description": "Molecular descriptors: MW, LogP, TPSA, QED, Gasteiger charges, CIP stereo, Murcko scaffold, tautomers, BRICS fragmentation — pure-Rust",
+      "downloads": 16498,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "descriptors",
+        "lipinski",
+        "logp",
+        "tpsa"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-chem",
+      "owners": 1,
+      "recent_downloads": 11263,
+      "releases_365d": 150,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 60.61,
+      "version": "1.2.1",
+      "versions": 150
+    },
+    {
+      "categories": [
+        "algorithms",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4536,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 6,
+      "description": "ECFP4/6, MACCS 166-bit and topological path fingerprints with Tanimoto/Dice similarity for chematic",
+      "downloads": 17233,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "ecfp",
+        "fingerprints",
+        "morgan",
+        "tanimoto"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-fp",
+      "owners": 1,
+      "recent_downloads": 11832,
+      "releases_365d": 151,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 60.38,
+      "version": "1.2.1",
+      "versions": 151
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::computational-chemistry::cheminformatics",
+        "science::computational-chemistry::molecular-simulation",
+        "visualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4422,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 6,
+      "description": "A pure-Rust cheminformatics toolkit: SMILES/SMARTS, SDF/MOL V3000, ECFP/MACCS fingerprints, LogP/TPSA/QED, CIP stereo, MCS, 2D SVG depiction — no C/C++ dependencies, runs in the browser via WebAssembly.",
+      "downloads": 13638,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "drug-discovery",
+        "smiles",
+        "wasm"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic",
+      "owners": 1,
+      "recent_downloads": 9341,
+      "releases_365d": 150,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 60.1,
+      "version": "1.2.1",
+      "versions": 150
+    },
+    {
+      "categories": [
+        "rendering::data-formats",
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4592,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 4,
+      "description": "2D molecular structure depiction as SVG: ring templates, wedge/dash stereo bonds, CPK coloring, grid layout — pure-Rust, no C/C++ dependencies",
+      "downloads": 16216,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "cheminformatics",
+        "chemistry",
+        "depiction",
+        "svg"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-depict",
+      "owners": 1,
+      "recent_downloads": 13293,
+      "releases_365d": 150,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 59.82,
+      "version": "1.2.1",
+      "versions": 150
+    },
+    {
+      "categories": [
+        "encoding",
+        "parser-implementations",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4188,
+        "license": 1.0,
+        "maintenance": 0.7156,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-26",
+      "dependents": 5,
+      "description": "MOL/SDF V2000 and V3000 parser and writer for chematic — pure-Rust RDKit alternative",
+      "downloads": 9037,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "ctfile",
+        "mol",
+        "sdf"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-mol",
+      "owners": 1,
+      "recent_downloads": 5757,
+      "releases_365d": 151,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 59.19,
+      "version": "1.2.1",
+      "versions": 151
+    },
+    {
+      "categories": [
+        "algorithms",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4527,
+        "license": 1.0,
+        "maintenance": 0.7126,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-06-06",
+      "dependents": 3,
+      "description": "Local IUPAC name generation for chematic — pure-Rust, no network required",
+      "downloads": 16492,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "iupac",
+        "nomenclature",
+        "systematic-name"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-iupac",
+      "owners": 1,
+      "recent_downloads": 11610,
+      "releases_365d": 143,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 59.14,
+      "version": "1.2.1",
+      "versions": 143
+    },
+    {
+      "categories": [
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "science::computational-chemistry::molecular-simulation",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4093,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 4,
+      "description": "3D coordinate generation, DREIDING force field, velocity Verlet MD, PDB/XYZ I/O, conformer RMSD — pure Rust, WASM-compatible",
+      "downloads": 7717,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "cheminformatics",
+        "coordinates",
+        "pdb",
+        "xyz"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-3d",
+      "owners": 1,
+      "recent_downloads": 4733,
+      "releases_365d": 149,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 58.57,
+      "version": "1.2.1",
+      "versions": 149
+    },
+    {
+      "categories": [
+        "algorithms",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.453,
+        "license": 1.0,
+        "maintenance": 0.7014,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-07-17",
+      "dependents": 2,
+      "description": "Low-level accurate CIP (Cahn-Ingold-Prelog) digraph engine for chematic -- most applications should use chematic_chem::assign_cip_with_mode instead. Experimental, may have breaking 0.x changes.",
+      "downloads": 13937,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "cip",
+        "stereochemistry"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-cip",
+      "owners": 1,
+      "recent_downloads": 11684,
+      "releases_365d": 99,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 58.37,
+      "version": "1.2.1",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "encoding",
+        "parser-implementations",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4191,
+        "license": 1.0,
+        "maintenance": 0.712,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-06-08",
+      "dependents": 3,
+      "description": "Pure Rust InChI/InChIKey generation (WASM-compatible) + optional IUPAC-standard InChI via native-inchi feature",
+      "downloads": 8282,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "inchi",
+        "molecular",
+        "smiles"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-inchi",
+      "owners": 1,
+      "recent_downloads": 5796,
+      "releases_365d": 135,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 58.29,
+      "version": "1.2.1",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "science::computational-chemistry::molecular-simulation"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4126,
+        "license": 1.0,
+        "maintenance": 0.7124,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-06-07",
+      "dependents": 2,
+      "description": "DREIDING force field atom typing and parameters for chematic — pure-Rust cheminformatics",
+      "downloads": 7747,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "dreiding",
+        "force-field",
+        "molecular-dynamics",
+        "wasm"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-ff",
+      "owners": 1,
+      "recent_downloads": 5066,
+      "releases_365d": 138,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 57.53,
+      "version": "1.2.1",
+      "versions": 138
+    },
+    {
+      "categories": [
+        "science::bioinformatics::genomics",
+        "science::bioinformatics::proteomics",
+        "science::bioinformatics::sequence-analysis",
+        "science::computational-biology::structural-modeling",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3988,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9831,
+        "security": 1.0
+      },
+      "created": "2024-10-06",
+      "dependents": 6,
+      "description": "DNA, RNA, and amino acid sequence types and functions",
+      "downloads": 26264,
+      "edition": "2024",
+      "keywords": [
+        "biology",
+        "dna",
+        "pcr",
+        "primer"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "na_seq",
+      "owners": 1,
+      "recent_downloads": 3808,
+      "releases_365d": 7,
+      "repository": "https://github.com/David-OConnor/seq",
+      "score": 56.82,
+      "version": "0.3.16",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "science::bioinformatics",
+        "science::computational-biology::structural-modeling",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3705,
+        "license": 1.0,
+        "maintenance": 0.8188,
+        "msrv": 0.0,
+        "recency": 0.9831,
+        "security": 1.0
+      },
+      "created": "2025-05-14",
+      "dependents": 4,
+      "description": "Interact with biology and chemistry databases and APIs",
+      "downloads": 10679,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "biology",
+        "cheminformatics",
+        "molecule"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bio_apis",
+      "owners": 1,
+      "recent_downloads": 2121,
+      "releases_365d": 11,
+      "repository": "https://github.com/David-OConnor/bio_apis",
+      "score": 54.68,
+      "version": "0.3.1",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "science::bioinformatics::genomics",
+        "science::bioinformatics::proteomics",
+        "science::bioinformatics::sequence-analysis",
+        "science::computational-biology::structural-modeling",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3528,
+        "license": 1.0,
+        "maintenance": 0.8124,
+        "msrv": 0.0,
+        "recency": 0.9848,
+        "security": 1.0
+      },
+      "created": "2025-06-06",
+      "dependents": 4,
+      "description": "Save and load common biology file formats",
+      "downloads": 15540,
+      "edition": "2024",
+      "keywords": [
+        "biology",
+        "dynamics",
+        "molecule"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bio_files",
+      "owners": 1,
+      "recent_downloads": 1472,
+      "releases_365d": 21,
+      "repository": "https://github.com/David-OConnor/bio_files",
+      "score": 54.17,
+      "version": "0.5.5",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "mathematics",
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "science::computational-chemistry::molecular-simulation"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3468,
+        "license": 1.0,
+        "maintenance": 0.7124,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-06-07",
+      "dependents": 0,
+      "description": "Smooth Particle Mesh Ewald (SPME) electrostatics: real-space erfc Coulomb, reciprocal-space FFT, periodic boundary conditions — pure Rust",
+      "downloads": 2406,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "electrostatics",
+        "ewald",
+        "molecular-dynamics",
+        "pme"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-ewald",
+      "owners": 1,
+      "recent_downloads": 1300,
+      "releases_365d": 134,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 53.57,
+      "version": "1.2.1",
+      "versions": 134
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3445,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 0,
+      "description": "WebAssembly bindings for chematic — use chematic from JavaScript/TypeScript",
+      "downloads": 2051,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "smiles",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-wasm",
+      "owners": 1,
+      "recent_downloads": 1239,
+      "releases_365d": 117,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 53.55,
+      "version": "1.2.1",
+      "versions": 117
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "science",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3446,
+        "license": 1.0,
+        "maintenance": 0.7101,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-06-15",
+      "dependents": 0,
+      "description": "MCP (Model Context Protocol) server for chematic — AI-agent-ready cheminformatics tools",
+      "downloads": 2120,
+      "edition": "2024",
+      "keywords": [
+        "ai",
+        "cheminformatics",
+        "chemistry",
+        "mcp",
+        "smiles"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-mcp",
+      "owners": 1,
+      "recent_downloads": 1241,
+      "releases_365d": 121,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 53.48,
+      "version": "1.2.1",
+      "versions": 121
+    }
+  ],
+  "score_version": 1
+}

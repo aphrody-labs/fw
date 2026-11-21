@@ -1,0 +1,313 @@
+{
+  "category": {
+    "crates": 25,
+    "description": "Bindings to Android-specific APIs.",
+    "name": "Operating systems::Android APIs",
+    "slug": "os::android-apis"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "gui",
+        "os::android-apis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5326,
+        "license": 0.5,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2023-11-10",
+      "dependents": 3,
+      "description": "Android backend for Slint",
+      "downloads": 131912,
+      "edition": "2024",
+      "keywords": [
+        "android",
+        "gui",
+        "mobile",
+        "native-activity",
+        "ui"
+      ],
+      "last_release": "2026-11-16",
+      "license": "GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0",
+      "msrv": "1.95",
+      "name": "i-slint-backend-android-activity",
+      "owners": 2,
+      "recent_downloads": 60593,
+      "releases_365d": 9,
+      "repository": "https://github.com/slint-ui/slint",
+      "score": 60.1,
+      "version": "1.19.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "os::android-apis",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4326,
+        "license": 1.0,
+        "maintenance": 0.7691,
+        "msrv": 1.0,
+        "recency": 0.9715,
+        "security": 1.0
+      },
+      "created": "2025-11-12",
+      "dependents": 2,
+      "description": "Library for working with AXML and ARSC in APK files",
+      "downloads": 12393,
+      "edition": "2024",
+      "keywords": [
+        "android",
+        "apk",
+        "arsc",
+        "axml",
+        "resources"
+      ],
+      "last_release": "2026-11-05",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "apk-info-axml",
+      "owners": 1,
+      "recent_downloads": 7665,
+      "releases_365d": 7,
+      "repository": "https://github.com/delvinru/apk-info",
+      "score": 59.24,
+      "version": "1.1.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "os::android-apis",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.389,
+        "license": 1.0,
+        "maintenance": 0.7691,
+        "msrv": 1.0,
+        "recency": 0.9715,
+        "security": 1.0
+      },
+      "created": "2025-11-12",
+      "dependents": 3,
+      "description": "Fast, malware-robust parser for Android apk/xapk/apkm/apks files",
+      "downloads": 5093,
+      "edition": "2024",
+      "keywords": [
+        "android",
+        "apk",
+        "arsc",
+        "axml",
+        "malware"
+      ],
+      "last_release": "2026-11-05",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "apk-info",
+      "owners": 1,
+      "recent_downloads": 3114,
+      "releases_365d": 7,
+      "repository": "https://github.com/delvinru/apk-info",
+      "score": 58.76,
+      "version": "1.1.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::android-apis"
+      ],
+      "components": {
+        "dependents": 0.4001,
+        "downloads": 0.7579,
+        "license": 1.0,
+        "maintenance": 0.6,
+        "msrv": 0.0,
+        "recency": 0.3801,
+        "security": 1.0
+      },
+      "created": "2016-02-23",
+      "dependents": 114,
+      "description": "A logging implementation for `log` which hooks to android log output.\n",
+      "downloads": 30213200,
+      "edition": "2021",
+      "keywords": [
+        "android",
+        "bindings",
+        "log",
+        "logger"
+      ],
+      "last_release": "2025-06-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "android_logger",
+      "owners": 5,
+      "recent_downloads": 6392002,
+      "releases_365d": 0,
+      "repository": "https://github.com/rust-mobile/android_logger-rs",
+      "score": 58.65,
+      "version": "0.15.1",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "os::android-apis"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3491,
+        "license": 1.0,
+        "maintenance": 0.7038,
+        "msrv": 1.0,
+        "recency": 0.987,
+        "security": 1.0
+      },
+      "created": "2026-07-08",
+      "dependents": 1,
+      "description": "Pure Rust USB serial drivers for Android (and Linux), built on nusb",
+      "downloads": 1943,
+      "edition": "2021",
+      "keywords": [
+        "android",
+        "nusb",
+        "serial",
+        "serialport",
+        "usb"
+      ],
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "android-usb-serial",
+      "owners": 1,
+      "recent_downloads": 1363,
+      "releases_365d": 6,
+      "repository": "https://github.com/s00d/tauri-plugin-serialplugin",
+      "score": 55.55,
+      "version": "0.1.5",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::android-apis"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3364,
+        "license": 1.0,
+        "maintenance": 0.67,
+        "msrv": 1.0,
+        "recency": 0.999,
+        "security": 1.0
+      },
+      "created": "2026-11-09",
+      "dependents": 1,
+      "description": "Android Live Updates from Rust",
+      "downloads": 1048,
+      "edition": "2024",
+      "keywords": [
+        "android",
+        "jni",
+        "live-updates",
+        "notifications",
+        "rust"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.90",
+      "name": "liveupdate",
+      "owners": 1,
+      "recent_downloads": 1049,
+      "releases_365d": 24,
+      "repository": "https://github.com/1eedaegon/liveupdate-rs",
+      "score": 54.91,
+      "version": "0.8.2",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "no-std",
+        "os::android-apis"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4884,
+        "license": 1.0,
+        "maintenance": 0.4039,
+        "msrv": 1.0,
+        "recency": 0.3863,
+        "security": 1.0
+      },
+      "created": "2025-07-08",
+      "dependents": 0,
+      "description": "JNI_GetCreatedJavaVMs for Android API 30 or lower",
+      "downloads": 58858,
+      "edition": "2021",
+      "keywords": [
+        "android",
+        "java",
+        "jni"
+      ],
+      "last_release": "2025-07-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.73",
+      "name": "jvm-getter",
+      "owners": 1,
+      "recent_downloads": 24317,
+      "releases_365d": 0,
+      "repository": "https://github.com/gobley/jvm-getter",
+      "score": 44.06,
+      "version": "0.1.0",
+      "versions": 1
+    },
+    {
+      "categories": [
+        "gui",
+        "os",
+        "os::android-apis"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.532,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 0.0,
+        "recency": 0.2406,
+        "security": 1.0
+      },
+      "created": "2024-05-20",
+      "dependents": 9,
+      "description": "Rust access to Android state (native Java objects) managed by UI toolkits",
+      "downloads": 94165,
+      "edition": "2021",
+      "keywords": [
+        "android",
+        "environment",
+        "java",
+        "jni",
+        "robius"
+      ],
+      "last_release": "2024-10-31",
+      "license": "MIT",
+      "name": "robius-android-env",
+      "owners": 1,
+      "recent_downloads": 59876,
+      "releases_365d": 0,
+      "repository": "https://github.com/project-robius/robius-android-env",
+      "score": 43.76,
+      "version": "0.2.0",
+      "versions": 2
+    }
+  ],
+  "score_version": 1
+}

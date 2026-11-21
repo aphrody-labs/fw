@@ -1,0 +1,856 @@
+{
+  "category": {
+    "crates": 292,
+    "description": "Crates for processing large-scale biological data.",
+    "name": "Science::Bioinformatics",
+    "slug": "science::bioinformatics"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.4202,
+        "downloads": 0.5716,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 145,
+      "description": "Bioinformatics I/O libraries",
+      "downloads": 639853,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles",
+      "owners": 1,
+      "recent_downloads": 135619,
+      "releases_365d": 18,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 72.79,
+      "version": "0.120.0",
+      "versions": 123
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.6463,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 27,
+      "description": "Coordinate-sorted index (CSI) format reader and writer",
+      "downloads": 1730507,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-csi",
+      "owners": 1,
+      "recent_downloads": 636303,
+      "releases_365d": 11,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 71.17,
+      "version": "0.63.0",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.3171,
+        "downloads": 0.5693,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 42,
+      "description": "Sequence Alignment/Map (SAM) format reader and writer",
+      "downloads": 537610,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-sam",
+      "owners": 1,
+      "recent_downloads": 129428,
+      "releases_365d": 14,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 70.15,
+      "version": "0.94.0",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.6365,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 18,
+      "description": "Variant Call Format (VCF) reader and writer",
+      "downloads": 1453602,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-vcf",
+      "owners": 1,
+      "recent_downloads": 519523,
+      "releases_365d": 15,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 70.11,
+      "version": "0.97.0",
+      "versions": 103
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.5668,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 32,
+      "description": "Binary Alignment/Map (BAM) format reader and writer",
+      "downloads": 487468,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-bam",
+      "owners": 1,
+      "recent_downloads": 122982,
+      "releases_365d": 15,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 69.53,
+      "version": "0.99.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.6478,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 46,
+      "description": "Shared utilities when working with noodles",
+      "downloads": 1815887,
+      "edition": "2024",
+      "last_release": "2026-10-01",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-core",
+      "owners": 1,
+      "recent_downloads": 656829,
+      "releases_365d": 3,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 69.44,
+      "version": "0.21.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.6388,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 12,
+      "description": "Tabix (TBI) format reader and writer",
+      "downloads": 1478580,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-tabix",
+      "owners": 1,
+      "recent_downloads": 544764,
+      "releases_365d": 11,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 69.37,
+      "version": "0.69.0",
+      "versions": 76
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.5682,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 26,
+      "description": "FASTA format reader and writer",
+      "downloads": 546141,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-fasta",
+      "owners": 1,
+      "recent_downloads": 126511,
+      "releases_365d": 12,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 69.14,
+      "version": "0.69.0",
+      "versions": 78
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.4268,
+        "downloads": 0.5685,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9276,
+        "security": 1.0
+      },
+      "created": "2015-01-31",
+      "dependents": 157,
+      "description": "A bioinformatics library for Rust. This library provides implementations of many algorithms and data structures that are useful for bioinformatics, but also in other fields.",
+      "downloads": 1199455,
+      "edition": "2018",
+      "keywords": [
+        "alignment",
+        "bioinformatics",
+        "fasta",
+        "pattern-matching",
+        "suffix-array"
+      ],
+      "last_release": "2026-10-12",
+      "license": "MIT",
+      "name": "bio",
+      "owners": 2,
+      "recent_downloads": 127425,
+      "releases_365d": 6,
+      "repository": "https://github.com/rust-bio/rust-bio",
+      "score": 67.8,
+      "version": "4.2.2",
+      "versions": 102
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.5282,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 8,
+      "description": "Generic Feature Format (GFF) reader and writer",
+      "downloads": 261231,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-gff",
+      "owners": 1,
+      "recent_downloads": 55366,
+      "releases_365d": 11,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 65.83,
+      "version": "0.64.0",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.5162,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 8,
+      "description": "CRAM format reader and writer",
+      "downloads": 282867,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-cram",
+      "owners": 1,
+      "recent_downloads": 43186,
+      "releases_365d": 16,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 65.53,
+      "version": "0.103.0",
+      "versions": 112
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.5093,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 8,
+      "description": "Binary Call Format (BCF) reader and writer",
+      "downloads": 257626,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-bcf",
+      "owners": 1,
+      "recent_downloads": 37469,
+      "releases_365d": 16,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 65.36,
+      "version": "0.95.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.424,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2022-10-20",
+      "dependents": 12,
+      "description": "noodles support utilities",
+      "downloads": 93282,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-util",
+      "owners": 1,
+      "recent_downloads": 6418,
+      "releases_365d": 18,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 64.0,
+      "version": "0.89.0",
+      "versions": 93
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5015,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2021-11-11",
+      "dependents": 4,
+      "description": "Gene Transfer Format (GTF) reader and writer",
+      "downloads": 165439,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-gtf",
+      "owners": 1,
+      "recent_downloads": 31860,
+      "releases_365d": 11,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 63.92,
+      "version": "0.59.0",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4761,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2022-02-17",
+      "dependents": 4,
+      "description": "BED (Browser Extensible Data) reader and writer",
+      "downloads": 142025,
+      "edition": "2024",
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-bed",
+      "owners": 1,
+      "recent_downloads": 18838,
+      "releases_365d": 12,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 63.29,
+      "version": "0.41.0",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5161,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2021-07-14",
+      "dependents": 5,
+      "description": "FASTQ format reader and writer",
+      "downloads": 224099,
+      "edition": "2024",
+      "last_release": "2026-10-01",
+      "license": "MIT",
+      "msrv": "1.91.0",
+      "name": "noodles-fastq",
+      "owners": 1,
+      "recent_downloads": 43130,
+      "releases_365d": 3,
+      "repository": "https://github.com/zaeleus/noodles",
+      "score": 61.81,
+      "version": "0.24.0",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "data-structures",
+        "encoding",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.4755,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9041,
+        "security": 1.0
+      },
+      "created": "2024-11-15",
+      "dependents": 14,
+      "description": "A library for efficient nucleotide sequence manipulation using 2-bit encoding",
+      "downloads": 49510,
+      "edition": "2024",
+      "keywords": [
+        "2bit",
+        "bioinformatics",
+        "dna",
+        "nucleotide",
+        "sequence"
+      ],
+      "last_release": "2026-09-28",
+      "license": "MIT",
+      "name": "bitnuc",
+      "owners": 1,
+      "recent_downloads": 18631,
+      "releases_365d": 11,
+      "repository": "https://github.com/noamteyssier/bitnuc",
+      "score": 59.16,
+      "version": "0.5.7",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.437,
+        "license": 1.0,
+        "maintenance": 0.9145,
+        "msrv": 0.0,
+        "recency": 0.9524,
+        "security": 1.0
+      },
+      "created": "2025-01-28",
+      "dependents": 11,
+      "description": "Constructing and iterating packed DNA sequences using SIMD",
+      "downloads": 26597,
+      "edition": "2021",
+      "keywords": [
+        "bioinformatics",
+        "dna",
+        "packed",
+        "simd"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT",
+      "name": "packed-seq",
+      "owners": 2,
+      "recent_downloads": 8393,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-seq/packed-seq",
+      "score": 59.16,
+      "version": "5.1.1",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4292,
+        "license": 1.0,
+        "maintenance": 0.9144,
+        "msrv": 0.0,
+        "recency": 0.9524,
+        "security": 1.0
+      },
+      "created": "2025-01-29",
+      "dependents": 11,
+      "description": "A SIMD-accelerated library to compute random minimizers",
+      "downloads": 18518,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "dna",
+        "minimizers",
+        "simd"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT",
+      "name": "simd-minimizers",
+      "owners": 2,
+      "recent_downloads": 7144,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-seq/simd-minimizers",
+      "score": 58.97,
+      "version": "3.1.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "data-structures",
+        "encoding",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.447,
+        "license": 1.0,
+        "maintenance": 0.8286,
+        "msrv": 0.0,
+        "recency": 0.9646,
+        "security": 1.0
+      },
+      "created": "2025-04-08",
+      "dependents": 11,
+      "description": "A high efficiency binary format for sequencing data",
+      "downloads": 28881,
+      "edition": "2024",
+      "keywords": [
+        "binary",
+        "fastq",
+        "genomics",
+        "nucleotide",
+        "sequencing"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "name": "binseq",
+      "owners": 1,
+      "recent_downloads": 10322,
+      "releases_365d": 16,
+      "repository": "https://github.com/noamteyssier/binseq",
+      "score": 58.31,
+      "version": "0.11.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4409,
+        "license": 1.0,
+        "maintenance": 0.7659,
+        "msrv": 0.0,
+        "recency": 0.9934,
+        "security": 1.0
+      },
+      "created": "2025-11-23",
+      "dependents": 11,
+      "description": "Various vector search algorithms in Rust. Designed specifically for single cell & computational biology applications.",
+      "downloads": 16476,
+      "edition": "2021",
+      "keywords": [
+        "hnsw",
+        "knn",
+        "nearest-neighbor",
+        "similarity-search",
+        "vector-search"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "name": "ann-search-rs",
+      "owners": 1,
+      "recent_downloads": 9101,
+      "releases_365d": 57,
+      "repository": "https://github.com/GregorLueg/ann-search-rs",
+      "score": 57.65,
+      "version": "0.13.1",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "science::bioinformatics"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.369,
+        "license": 1.0,
+        "maintenance": 0.7337,
+        "msrv": 1.0,
+        "recency": 0.9743,
+        "security": 1.0
+      },
+      "created": "2026-03-21",
+      "dependents": 1,
+      "description": "Fast antibody and T-cell receptor numbering in Rust and Python",
+      "downloads": 2571,
+      "edition": "2021",
+      "keywords": [
+        "antibody",
+        "imgt",
+        "numbering",
+        "python",
+        "schemes"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "immunum",
+      "owners": 1,
+      "recent_downloads": 2056,
+      "releases_365d": 11,
+      "repository": "https://github.com/ENPICOM/immunum",
+      "score": 56.31,
+      "version": "2.1.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "science::bioinformatics",
+        "science::bioinformatics::genomics",
+        "science::bioinformatics::proteomics",
+        "science::bioinformatics::sequence-analysis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.335,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8938,
+        "security": 1.0
+      },
+      "created": "2021-06-28",
+      "dependents": 3,
+      "description": "Bit packed and well-typed biological sequences",
+      "downloads": 27559,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "dna",
+        "genomics",
+        "kmer",
+        "sequence"
+      ],
+      "last_release": "2026-09-22",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "bio-seq",
+      "owners": 1,
+      "recent_downloads": 1017,
+      "releases_365d": 3,
+      "repository": "https://github.com/jeff-k/bio-seq",
+      "score": 56.2,
+      "version": "0.15.2",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "science::bioinformatics",
+        "science::bioinformatics::sequence-analysis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3439,
+        "license": 1.0,
+        "maintenance": 0.6807,
+        "msrv": 1.0,
+        "recency": 0.9111,
+        "security": 1.0
+      },
+      "created": "2026-09-30",
+      "dependents": 3,
+      "description": "Sequence and quality primitives for Brust: IUPAC reverse complement and matching, codon translation, and Phred means.",
+      "downloads": 1223,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "codon",
+        "dna",
+        "iupac",
+        "phred"
+      ],
+      "last_release": "2026-10-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96",
+      "name": "brust-seq",
+      "owners": 1,
+      "recent_downloads": 1224,
+      "releases_365d": 4,
+      "repository": "https://github.com/Amekn/brust",
+      "score": 55.4,
+      "version": "0.4.0",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "science::bioinformatics",
+        "science::computational-biology::structural-modeling",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3705,
+        "license": 1.0,
+        "maintenance": 0.8188,
+        "msrv": 0.0,
+        "recency": 0.9831,
+        "security": 1.0
+      },
+      "created": "2025-05-14",
+      "dependents": 4,
+      "description": "Interact with biology and chemistry databases and APIs",
+      "downloads": 10679,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "biology",
+        "cheminformatics",
+        "molecule"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bio_apis",
+      "owners": 1,
+      "recent_downloads": 2121,
+      "releases_365d": 11,
+      "repository": "https://github.com/David-OConnor/bio_apis",
+      "score": 54.68,
+      "version": "0.3.1",
+      "versions": 23
+    }
+  ],
+  "score_version": 1
+}

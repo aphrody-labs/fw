@@ -1,0 +1,948 @@
+{
+  "category": {
+    "crates": 760,
+    "description": "Crates for comprehending the world from video or images.",
+    "name": "Computer vision",
+    "slug": "computer-vision"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "computer-vision",
+        "external-ffi-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.3874,
+        "downloads": 0.6861,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9761,
+        "security": 1.0
+      },
+      "created": "2015-05-14",
+      "dependents": 98,
+      "description": "Rust bindings for OpenCV",
+      "downloads": 5310667,
+      "edition": "2024",
+      "keywords": [
+        "cv",
+        "opencv",
+        "vision"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "opencv",
+      "owners": 1,
+      "recent_downloads": 1448378,
+      "releases_365d": 10,
+      "repository": "https://github.com/twistedfall/opencv-rust",
+      "score": 74.48,
+      "version": "0.102.0",
+      "versions": 224
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.6472,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9858,
+        "security": 1.0
+      },
+      "created": "2020-08-11",
+      "dependents": 56,
+      "description": "The Rerun Rust SDK: log images, point clouds, etc, and visualize them effortlessly",
+      "downloads": 2503303,
+      "edition": "2024",
+      "keywords": [
+        "mesh",
+        "plotting",
+        "point-cloud",
+        "robotics",
+        "visualization"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "rerun",
+      "owners": 2,
+      "recent_downloads": 648494,
+      "releases_365d": 83,
+      "repository": "https://github.com/rerun-io/rerun",
+      "score": 73.49,
+      "version": "0.43.2",
+      "versions": 277
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6528,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9857,
+        "security": 1.0
+      },
+      "created": "2023-02-12",
+      "dependents": 6,
+      "description": "Rerun logging SDK",
+      "downloads": 2794767,
+      "edition": "2024",
+      "keywords": [
+        "mesh",
+        "plotting",
+        "point-cloud",
+        "robotics",
+        "visualization"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "re_sdk",
+      "owners": 1,
+      "recent_downloads": 727734,
+      "releases_365d": 88,
+      "repository": "https://github.com/rerun-io/rerun",
+      "score": 68.21,
+      "version": "0.43.2",
+      "versions": 308
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5259,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9992,
+        "security": 1.0
+      },
+      "created": "2021-01-08",
+      "dependents": 6,
+      "description": "Wasmtime implementation of the wasi-nn API",
+      "downloads": 356886,
+      "edition": "2024",
+      "keywords": [
+        "neural-network",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "msrv": "1.97.0",
+      "name": "wasmtime-wasi-nn",
+      "owners": 2,
+      "recent_downloads": 52795,
+      "releases_365d": 90,
+      "repository": "https://github.com/bytecodealliance/wasmtime",
+      "score": 66.24,
+      "version": "51.0.0",
+      "versions": 233
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5566,
+        "license": 1.0,
+        "maintenance": 0.7975,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2025-07-31",
+      "dependents": 12,
+      "description": "An Optical Character Recognition (OCR) and Document Layout Analysis library written in Rust.",
+      "downloads": 369965,
+      "edition": "2024",
+      "keywords": [
+        "computer-vision",
+        "machine-learning",
+        "ocr",
+        "onnx",
+        "text-recognition"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "oar-ocr",
+      "owners": 1,
+      "recent_downloads": 99528,
+      "releases_365d": 25,
+      "repository": "https://github.com/greatv/oar-ocr",
+      "score": 66.21,
+      "version": "0.11.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5589,
+        "license": 1.0,
+        "maintenance": 0.7534,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2026-01-08",
+      "dependents": 3,
+      "description": "Core types and predictors for oar-ocr",
+      "downloads": 156240,
+      "edition": "2024",
+      "keywords": [
+        "computer-vision",
+        "machine-learning",
+        "ocr",
+        "onnx",
+        "text-recognition"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "oar-ocr-core",
+      "owners": 1,
+      "recent_downloads": 104427,
+      "releases_365d": 20,
+      "repository": "https://github.com/greatv/oar-ocr",
+      "score": 63.12,
+      "version": "0.11.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "graphics",
+        "rendering",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4461,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9499,
+        "security": 1.0
+      },
+      "created": "2023-09-28",
+      "dependents": 3,
+      "description": "bevy gaussian splatting render pipeline plugin",
+      "downloads": 50631,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "gaussian-splatting",
+        "ply",
+        "render-pipeline"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy_gaussian_splatting",
+      "owners": 1,
+      "recent_downloads": 10134,
+      "releases_365d": 9,
+      "repository": "https://github.com/mosure/bevy_gaussian_splatting",
+      "score": 61.32,
+      "version": "9.0.0",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "external-ffi-bindings",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5194,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8082,
+        "security": 1.0
+      },
+      "created": "2024-10-14",
+      "dependents": 3,
+      "description": "Rust bindings for Tesseract OCR with optional built-in compilation",
+      "downloads": 118154,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "computer-vision",
+        "ocr",
+        "tesseract",
+        "text-recognition"
+      ],
+      "last_release": "2026-07-31",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tesseract-rs",
+      "owners": 1,
+      "recent_downloads": 46122,
+      "releases_365d": 4,
+      "repository": "https://github.com/cafercangundogdu/tesseract-rs",
+      "score": 61.03,
+      "version": "0.4.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "embedded",
+        "mathematics",
+        "no-std",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.407,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.993,
+        "security": 1.0
+      },
+      "created": "2024-10-04",
+      "dependents": 3,
+      "description": "A transform library to track reference frames and provide transforms between them.",
+      "downloads": 29946,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "coordinate",
+        "robotics",
+        "transform"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "transforms",
+      "owners": 1,
+      "recent_downloads": 4513,
+      "releases_365d": 20,
+      "repository": "https://github.com/deniz-hofmeister/transforms",
+      "score": 60.99,
+      "version": "2.4.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4069,
+        "license": 1.0,
+        "maintenance": 0.7564,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2025-12-28",
+      "dependents": 7,
+      "description": "Core types and utilities for calibration target detection",
+      "downloads": 8082,
+      "edition": "2021",
+      "keywords": [
+        "calibration",
+        "chessboard",
+        "computer-vision",
+        "geometry",
+        "homography"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "calib-targets-core",
+      "owners": 1,
+      "recent_downloads": 4509,
+      "releases_365d": 43,
+      "repository": "https://github.com/VitalyVorobyev/calib-targets-rs",
+      "score": 60.81,
+      "version": "0.16.3",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.5767,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8296,
+        "security": 1.0
+      },
+      "created": "2020-10-24",
+      "dependents": 15,
+      "description": "Semantic Computer Vision",
+      "downloads": 304545,
+      "edition": "2021",
+      "keywords": [
+        "computer-graphics",
+        "computer-vision"
+      ],
+      "last_release": "2026-08-14",
+      "license": "MIT OR Apache-2.0",
+      "name": "visioncortex",
+      "owners": 1,
+      "recent_downloads": 150917,
+      "releases_365d": 5,
+      "repository": "https://github.com/visioncortex/visioncortex/",
+      "score": 60.71,
+      "version": "0.9.3",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4078,
+        "license": 1.0,
+        "maintenance": 0.8553,
+        "msrv": 1.0,
+        "recency": 0.9004,
+        "security": 1.0
+      },
+      "created": "2025-01-01",
+      "dependents": 5,
+      "description": "3d point cloud processing library",
+      "downloads": 35263,
+      "edition": "2021",
+      "last_release": "2026-09-26",
+      "license": "Apache-2.0",
+      "msrv": "1.89",
+      "name": "kornia-3d",
+      "owners": 1,
+      "recent_downloads": 4586,
+      "releases_365d": 5,
+      "repository": "https://github.com/kornia/kornia-rs",
+      "score": 60.31,
+      "version": "0.2.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "algorithms",
+        "computer-vision",
+        "multimedia",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.4278,
+        "license": 1.0,
+        "maintenance": 0.7139,
+        "msrv": 1.0,
+        "recency": 0.7468,
+        "security": 1.0
+      },
+      "created": "2026-06-01",
+      "dependents": 36,
+      "description": "Domain-neutral runtime surface contracts and adapter helpers.",
+      "downloads": 8264,
+      "edition": "2021",
+      "keywords": [
+        "analysis",
+        "audio",
+        "image",
+        "multimodal",
+        "video"
+      ],
+      "last_release": "2026-06-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "moritzbrantner-runtime-core",
+      "owners": 1,
+      "recent_downloads": 6947,
+      "releases_365d": 4,
+      "repository": "https://github.com/moritzbrantner/rust-packages",
+      "score": 60.22,
+      "version": "0.2.0",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "algorithms",
+        "computer-vision",
+        "multimedia",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.3923,
+        "license": 1.0,
+        "maintenance": 0.7332,
+        "msrv": 1.0,
+        "recency": 0.9078,
+        "security": 1.0
+      },
+      "created": "2026-03-23",
+      "dependents": 14,
+      "description": "SIMD-accelerated tensor library with f32/f16/bf16 support and 80+ operations",
+      "downloads": 4516,
+      "edition": "2024",
+      "keywords": [
+        "computer-vision",
+        "deep-learning",
+        "image-processing",
+        "onnx",
+        "video"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.94",
+      "name": "yscv-tensor",
+      "owners": 1,
+      "recent_downloads": 3331,
+      "releases_365d": 11,
+      "repository": "https://github.com/enthropy7/yscv",
+      "score": 60.13,
+      "version": "0.2.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "external-ffi-bindings",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4838,
+        "license": 1.0,
+        "maintenance": 0.774,
+        "msrv": 1.0,
+        "recency": 0.9971,
+        "security": 1.0
+      },
+      "created": "2026-06-25",
+      "dependents": 1,
+      "description": "Rust bindings for Tesseract OCR with cross-compilation, C++17, and caching improvements",
+      "downloads": 29496,
+      "edition": "2024",
+      "keywords": [
+        "bindings",
+        "ocr",
+        "recognition",
+        "tesseract",
+        "vision"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.99",
+      "name": "xberg-tesseract",
+      "owners": 2,
+      "recent_downloads": 22077,
+      "releases_365d": 83,
+      "repository": "https://github.com/xberg-io/xberg",
+      "score": 60.12,
+      "version": "1.4.2",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3657,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 1.0,
+        "security": 1.0
+      },
+      "created": "2024-06-28",
+      "dependents": 3,
+      "description": "bevy zeroverse synthetic dataset generator",
+      "downloads": 30609,
+      "edition": "2021",
+      "keywords": [
+        "bevy",
+        "machine-learning",
+        "synthetic-data",
+        "zeroverse"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.97.1",
+      "name": "bevy_zeroverse",
+      "owners": 1,
+      "recent_downloads": 1922,
+      "releases_365d": 85,
+      "repository": "https://github.com/mosure/bevy_zeroverse",
+      "score": 60.06,
+      "version": "0.65.0",
+      "versions": 118
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4779,
+        "license": 1.0,
+        "maintenance": 0.774,
+        "msrv": 1.0,
+        "recency": 0.9971,
+        "security": 1.0
+      },
+      "created": "2026-06-25",
+      "dependents": 1,
+      "description": "PaddleOCR via ONNX Runtime for Xberg - high-performance text recognition",
+      "downloads": 26254,
+      "edition": "2024",
+      "keywords": [
+        "detection",
+        "ocr",
+        "onnx",
+        "paddle",
+        "recognition"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.99",
+      "name": "xberg-paddle-ocr",
+      "owners": 2,
+      "recent_downloads": 19543,
+      "releases_365d": 83,
+      "repository": "https://github.com/xberg-io/xberg",
+      "score": 59.97,
+      "version": "1.4.2",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5021,
+        "license": 1.0,
+        "maintenance": 0.6967,
+        "msrv": 1.0,
+        "recency": 0.9635,
+        "security": 1.0
+      },
+      "created": "2026-08-03",
+      "dependents": 2,
+      "description": "Rust reimplementation of EasyOCR (CRAFT detection + gen2 CRNN recognition) over ONNX.",
+      "downloads": 34819,
+      "edition": "2024",
+      "keywords": [
+        "craft",
+        "easyocr",
+        "ocr",
+        "onnx",
+        "text-recognition"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "sceptre",
+      "owners": 1,
+      "recent_downloads": 32236,
+      "releases_365d": 14,
+      "repository": "https://github.com/xberg-io/sceptre",
+      "score": 59.77,
+      "version": "0.10.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3994,
+        "license": 1.0,
+        "maintenance": 0.7564,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2025-12-28",
+      "dependents": 4,
+      "description": "Invariant-first chessboard detector built on top of ChESS corners",
+      "downloads": 7201,
+      "edition": "2021",
+      "keywords": [
+        "calibration",
+        "chessboard",
+        "computer-vision",
+        "detection",
+        "grid"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "calib-targets-chessboard",
+      "owners": 1,
+      "recent_downloads": 3860,
+      "releases_365d": 42,
+      "repository": "https://github.com/VitalyVorobyev/calib-targets-rs",
+      "score": 59.63,
+      "version": "0.16.3",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4685,
+        "license": 1.0,
+        "maintenance": 0.7534,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2026-01-08",
+      "dependents": 1,
+      "description": "Vision-Language models for oar-ocr",
+      "downloads": 57131,
+      "edition": "2024",
+      "keywords": [
+        "computer-vision",
+        "machine-learning",
+        "ocr",
+        "text-recognition",
+        "vlm"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "oar-ocr-vl",
+      "owners": 1,
+      "recent_downloads": 16103,
+      "releases_365d": 20,
+      "repository": "https://github.com/greatv/oar-ocr",
+      "score": 59.4,
+      "version": "0.11.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4213,
+        "license": 1.0,
+        "maintenance": 0.6914,
+        "msrv": 1.0,
+        "recency": 0.9773,
+        "security": 1.0
+      },
+      "created": "2026-08-22",
+      "dependents": 5,
+      "description": "Star detection, PSF fitting, and sensor tilt analysis for astronomical images",
+      "downloads": 6120,
+      "edition": "2024",
+      "keywords": [
+        "astronomy",
+        "astrophotography",
+        "psf",
+        "star-detection"
+      ],
+      "last_release": "2026-11-08",
+      "license": "Apache-2.0",
+      "msrv": "1.92",
+      "name": "seiza-stars",
+      "owners": 1,
+      "recent_downloads": 6073,
+      "releases_365d": 9,
+      "repository": "https://github.com/theatrus/seiza",
+      "score": 59.34,
+      "version": "0.6.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.402,
+        "license": 1.0,
+        "maintenance": 0.7564,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2025-12-28",
+      "dependents": 3,
+      "description": "Embedded ArUco/AprilTag dictionaries and fast marker decoding on rectified grids",
+      "downloads": 7077,
+      "edition": "2021",
+      "keywords": [
+        "apriltag",
+        "aruco",
+        "calibration",
+        "computer-vision",
+        "marker"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "calib-targets-aruco",
+      "owners": 1,
+      "recent_downloads": 4074,
+      "releases_365d": 42,
+      "repository": "https://github.com/VitalyVorobyev/calib-targets-rs",
+      "score": 59.22,
+      "version": "0.16.3",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4331,
+        "license": 1.0,
+        "maintenance": 0.7175,
+        "msrv": 1.0,
+        "recency": 0.9004,
+        "security": 1.0
+      },
+      "created": "2026-05-19",
+      "dependents": 6,
+      "description": "Algebraic types for kornia-rs",
+      "downloads": 15497,
+      "edition": "2021",
+      "last_release": "2026-09-26",
+      "license": "Apache-2.0",
+      "msrv": "1.89",
+      "name": "kornia-algebra",
+      "owners": 1,
+      "recent_downloads": 7748,
+      "releases_365d": 5,
+      "repository": "https://github.com/kornia/kornia-rs",
+      "score": 59.2,
+      "version": "0.2.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "algorithms",
+        "computer-vision",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4121,
+        "license": 1.0,
+        "maintenance": 0.7314,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2026-03-29",
+      "dependents": 3,
+      "description": "Image-free, target-agnostic projective grid recovery: label 2D feature points with (i, j) lattice coordinates under perspective",
+      "downloads": 8480,
+      "edition": "2021",
+      "keywords": [
+        "calibration",
+        "computer-vision",
+        "geometry",
+        "grid",
+        "homography"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "projective-grid",
+      "owners": 1,
+      "recent_downloads": 5020,
+      "releases_365d": 26,
+      "repository": "https://github.com/VitalyVorobyev/calib-targets-rs",
+      "score": 59.1,
+      "version": "0.14.5",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.542,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8524,
+        "security": 1.0
+      },
+      "created": "2020-10-31",
+      "dependents": 8,
+      "description": "A vectorization framework that converts raster images into vector graphics: pluggable frontends, curve fitters, color fitting, and output optimization.",
+      "downloads": 150819,
+      "edition": "2021",
+      "keywords": [
+        "computer-graphics",
+        "svg",
+        "vectorization"
+      ],
+      "last_release": "2026-08-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "vtracer",
+      "owners": 1,
+      "recent_downloads": 73545,
+      "releases_365d": 4,
+      "repository": "https://github.com/visioncortex/vtracer/",
+      "score": 58.97,
+      "version": "0.6.5",
+      "versions": 16
+    }
+  ],
+  "score_version": 1
+}

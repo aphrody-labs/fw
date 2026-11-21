@@ -1,0 +1,923 @@
+{
+  "category": {
+    "crates": 1007,
+    "description": "Crates related to robotics.",
+    "name": "Science::Robotics",
+    "slug": "science::robotics"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "hardware-support",
+        "network-programming",
+        "os",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.8084,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9532,
+        "security": 1.0
+      },
+      "created": "2021-11-07",
+      "dependents": 29,
+      "description": "Cross platform serial ports",
+      "downloads": 27019091,
+      "edition": "2021",
+      "keywords": [
+        "com-port",
+        "rs232",
+        "serial",
+        "serial-port",
+        "tty"
+      ],
+      "last_release": "2026-10-26",
+      "license": "BSD-2-Clause OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "serial2",
+      "owners": 1,
+      "recent_downloads": 18149846,
+      "releases_365d": 6,
+      "repository": "https://github.com/de-vri-es/serial2-rs",
+      "score": 74.68,
+      "version": "0.2.39",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "compression",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.7198,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9406,
+        "security": 1.0
+      },
+      "created": "2022-09-12",
+      "dependents": 44,
+      "description": "A library for reading and writing MCAP files",
+      "downloads": 11950309,
+      "edition": "2021",
+      "keywords": [
+        "foxglove",
+        "mcap"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT",
+      "msrv": "1.81",
+      "name": "mcap",
+      "owners": 1,
+      "recent_downloads": 2904941,
+      "releases_365d": 3,
+      "repository": "https://github.com/foxglove/mcap",
+      "score": 71.63,
+      "version": "0.26.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.3822,
+        "downloads": 0.479,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9979,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 92,
+      "description": "Copper Runtime prelude crate. Copper is a Rust engine for robotics.",
+      "downloads": 66941,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29",
+      "owners": 1,
+      "recent_downloads": 19998,
+      "releases_365d": 26,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 69.5,
+      "version": "1.3.3",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "network-programming",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5462,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9523,
+        "security": 1.0
+      },
+      "created": "2022-03-17",
+      "dependents": 12,
+      "description": "ROS2 client library based on RustDDS",
+      "downloads": 315652,
+      "edition": "2024",
+      "keywords": [
+        "dds",
+        "network",
+        "protocol",
+        "rtps"
+      ],
+      "last_release": "2026-10-26",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "ros2-client",
+      "owners": 1,
+      "recent_downloads": 80337,
+      "releases_365d": 6,
+      "repository": "https://github.com/Atostek/ros2-client/",
+      "score": 66.35,
+      "version": "0.12.1",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "network-programming",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.5512,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9577,
+        "security": 1.0
+      },
+      "created": "2020-11-17",
+      "dependents": 9,
+      "description": "Native Rust DDS implementation with RTPS",
+      "downloads": 461337,
+      "edition": "2021",
+      "keywords": [
+        "dds",
+        "network",
+        "protocol",
+        "rtps"
+      ],
+      "last_release": "2026-10-29",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "rustdds",
+      "owners": 1,
+      "recent_downloads": 89020,
+      "releases_365d": 10,
+      "repository": "https://github.com/Atostek/RustDDS",
+      "score": 66.0,
+      "version": "0.15.1",
+      "versions": 81
+    },
+    {
+      "categories": [
+        "embedded",
+        "no-std",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.623,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9351,
+        "security": 1.0
+      },
+      "created": "2024-03-26",
+      "dependents": 14,
+      "description": "FFI bindings to VEXos system APIs.",
+      "downloads": 1681195,
+      "edition": "2021",
+      "keywords": [
+        "robotics",
+        "vex",
+        "vex-robotics",
+        "vex-v5"
+      ],
+      "last_release": "2026-10-16",
+      "license": "MIT",
+      "name": "vex-sdk",
+      "owners": 4,
+      "recent_downloads": 392996,
+      "releases_365d": 4,
+      "repository": "https://github.com/vexide/vex-sdk/",
+      "score": 65.31,
+      "version": "0.29.0",
+      "versions": 49
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "no-std",
+        "os",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.3799,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9772,
+        "security": 1.0
+      },
+      "created": "2024-05-11",
+      "dependents": 17,
+      "description": "Open-source Rust runtime for VEX robots.",
+      "downloads": 32253,
+      "edition": "2024",
+      "keywords": [
+        "bindings",
+        "robotics",
+        "v5",
+        "vex"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.92.0",
+      "name": "vexide",
+      "owners": 4,
+      "recent_downloads": 2575,
+      "releases_365d": 4,
+      "repository": "https://github.com/vexide/vexide",
+      "score": 65.25,
+      "version": "0.8.0",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4802,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9979,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 11,
+      "description": "Copper Robot Clock implementation. It is a monotonic high precision clock for real time applications. It has a mock feature for testing time dependent behaviors. It is part of the Copper project but can be used independently.",
+      "downloads": 69335,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-clock",
+      "owners": 1,
+      "recent_downloads": 20509,
+      "releases_365d": 19,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 65.21,
+      "version": "1.3.3",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.4801,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9424,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 14,
+      "description": "Common systems and robotics traits designed to decouple the components of your robotic system. These can be used independently from the Copper project.",
+      "downloads": 69338,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-20",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-traits",
+      "owners": 1,
+      "recent_downloads": 20454,
+      "releases_365d": 17,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 64.85,
+      "version": "1.3.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.3191,
+        "downloads": 0.4631,
+        "license": 1.0,
+        "maintenance": 0.6953,
+        "msrv": 1.0,
+        "recency": 0.9322,
+        "security": 1.0
+      },
+      "created": "2026-08-08",
+      "dependents": 43,
+      "description": "Build-script support for Copper crates and applications.",
+      "downloads": 14692,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-15",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-build",
+      "owners": 1,
+      "recent_downloads": 14412,
+      "releases_365d": 6,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 63.97,
+      "version": "1.3.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.4794,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9322,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 8,
+      "description": "This is part of the text logging runtime for Copper. It cannot be used independently from the copper project.",
+      "downloads": 68183,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-15",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-log",
+      "owners": 1,
+      "recent_downloads": 20157,
+      "releases_365d": 16,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 63.6,
+      "version": "1.3.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4794,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9424,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 7,
+      "description": "This is part the runtime part of the text logger for Copper. It cannot be used independently from the Copper project.",
+      "downloads": 67688,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-20",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-log-runtime",
+      "owners": 1,
+      "recent_downloads": 20169,
+      "releases_365d": 17,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 63.5,
+      "version": "1.3.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4795,
+        "license": 1.0,
+        "maintenance": 0.8498,
+        "msrv": 1.0,
+        "recency": 0.9979,
+        "security": 1.0
+      },
+      "created": "2025-01-21",
+      "dependents": 5,
+      "description": "Copper Runtime Runtime crate. Copper is an engine for robotics.",
+      "downloads": 58222,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-runtime",
+      "owners": 1,
+      "recent_downloads": 20224,
+      "releases_365d": 23,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 63.48,
+      "version": "1.3.3",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "data-structures",
+        "encoding",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.4122,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9545,
+        "security": 1.0
+      },
+      "created": "2023-04-25",
+      "dependents": 14,
+      "description": "Customizable conversions for working with sensor_msgs/PointCloud2.",
+      "downloads": 31400,
+      "edition": "2021",
+      "keywords": [
+        "message",
+        "pointcloud",
+        "pointcloud2",
+        "ros"
+      ],
+      "last_release": "2026-10-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "ros_pointcloud2",
+      "owners": 1,
+      "recent_downloads": 5028,
+      "releases_365d": 7,
+      "repository": "https://codeberg.org/stelzo/ros_pointcloud2/",
+      "score": 63.33,
+      "version": "0.6.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4792,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9322,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 6,
+      "description": "This is part of the text logging macros Copper. It cannot be used independently from the copper project.",
+      "downloads": 67594,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-15",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-log-derive",
+      "owners": 1,
+      "recent_downloads": 20084,
+      "releases_365d": 16,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 63.06,
+      "version": "1.3.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4796,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9772,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 4,
+      "description": "The super quick, linear, unified logging system (text + task data) used by Copper. This crate can be used independently from the Copper project.",
+      "downloads": 67427,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-11-08",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-unifiedlog",
+      "owners": 1,
+      "recent_downloads": 20254,
+      "releases_365d": 19,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 63.04,
+      "version": "1.3.2",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.3523,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9437,
+        "security": 1.0
+      },
+      "created": "2024-11-15",
+      "dependents": 24,
+      "description": "Those are standardized payloads for the Copper sensors. Feel free to contribute your own.",
+      "downloads": 11272,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-21",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu-sensor-payloads",
+      "owners": 1,
+      "recent_downloads": 1457,
+      "releases_365d": 18,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 62.75,
+      "version": "1.3.1",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4794,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9322,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 5,
+      "description": "This is a fork of Value with custom types added for Copper like the time and units.",
+      "downloads": 68472,
+      "edition": "2024",
+      "keywords": [
+        "serde"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "cu29-value",
+      "owners": 1,
+      "recent_downloads": 20187,
+      "releases_365d": 16,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 62.74,
+      "version": "1.3.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.3896,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9322,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 16,
+      "description": "Compatibility stub for the retired cu29-helpers crate. Depending on it emits migration guidance for the App builder API.",
+      "downloads": 35376,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-15",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-helpers",
+      "owners": 1,
+      "recent_downloads": 3149,
+      "releases_365d": 16,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 62.69,
+      "version": "1.3.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4792,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9322,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 3,
+      "description": "This is loader for the intern strings logged at build time by Copper. It can be used independently from the copper project.",
+      "downloads": 67306,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-15",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-intern-strs",
+      "owners": 1,
+      "recent_downloads": 20085,
+      "releases_365d": 16,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 61.88,
+      "version": "1.3.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "hardware-support",
+        "network-programming",
+        "os",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.5472,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9533,
+        "security": 1.0
+      },
+      "created": "2023-10-06",
+      "dependents": 14,
+      "description": "cross platform serial ports for tokio based on the serial2 crate",
+      "downloads": 222486,
+      "edition": "2021",
+      "keywords": [
+        "com-port",
+        "rs232",
+        "serial",
+        "serial-port",
+        "tty"
+      ],
+      "last_release": "2026-10-26",
+      "license": "BSD-2-Clause OR Apache-2.0",
+      "name": "serial2-tokio",
+      "owners": 1,
+      "recent_downloads": 81990,
+      "releases_365d": 7,
+      "repository": "https://github.com/de-vri-es/serial2-tokio-rs",
+      "score": 61.69,
+      "version": "0.1.26",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.3941,
+        "license": 1.0,
+        "maintenance": 0.7623,
+        "msrv": 1.0,
+        "recency": 0.9932,
+        "security": 1.0
+      },
+      "created": "2025-12-06",
+      "dependents": 12,
+      "description": "Primitives for a Minot network.",
+      "downloads": 6783,
+      "edition": "2024",
+      "keywords": [
+        "robotics"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "mt_sea",
+      "owners": 1,
+      "recent_downloads": 3456,
+      "releases_365d": 28,
+      "repository": "https://codeberg.org/stelzo/minot.git",
+      "score": 61.59,
+      "version": "0.15.2",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.3796,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9424,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 8,
+      "description": "This is the library support to build log exports for the copper project. It cannot be used independently from the copper project.",
+      "downloads": 17379,
+      "edition": "2024",
+      "keywords": [
+        "copper",
+        "middleware",
+        "real-time",
+        "robotics"
+      ],
+      "last_release": "2026-10-20",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "cu29-export",
+      "owners": 1,
+      "recent_downloads": 2561,
+      "releases_365d": 17,
+      "repository": "https://github.com/copper-project/copper-rs",
+      "score": 61.26,
+      "version": "1.3.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "embedded",
+        "mathematics",
+        "no-std",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.407,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.993,
+        "security": 1.0
+      },
+      "created": "2024-10-04",
+      "dependents": 3,
+      "description": "A transform library to track reference frames and provide transforms between them.",
+      "downloads": 29946,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "coordinate",
+        "robotics",
+        "transform"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "transforms",
+      "owners": 1,
+      "recent_downloads": 4513,
+      "releases_365d": 20,
+      "repository": "https://github.com/deniz-hofmeister/transforms",
+      "score": 60.99,
+      "version": "2.4.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.3977,
+        "license": 1.0,
+        "maintenance": 0.7623,
+        "msrv": 1.0,
+        "recency": 0.9932,
+        "security": 1.0
+      },
+      "created": "2025-12-06",
+      "dependents": 8,
+      "description": "Network communication types and pub/sub resolution in Minot.",
+      "downloads": 7407,
+      "edition": "2024",
+      "keywords": [
+        "robotics"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "mt_net",
+      "owners": 1,
+      "recent_downloads": 3722,
+      "releases_365d": 28,
+      "repository": "https://codeberg.org/stelzo/minot.git",
+      "score": 60.91,
+      "version": "0.15.2",
+      "versions": 30
+    }
+  ],
+  "score_version": 1
+}

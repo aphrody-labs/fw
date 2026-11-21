@@ -1,0 +1,168 @@
+{
+  "category": {
+    "crates": 82,
+    "description": "Crates for research tools and processing of data related to the brain and nervous system.",
+    "name": "Science::Neuroscience",
+    "slug": "science::neuroscience"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "computer-vision",
+        "multimedia::images",
+        "science",
+        "science::neuroscience"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.3465,
+        "license": 1.0,
+        "maintenance": 0.6966,
+        "msrv": 0.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-08-03",
+      "dependents": 27,
+      "description": "Validated spatial geometry and coordinate transforms for RITK",
+      "downloads": 1551,
+      "edition": "2024",
+      "keywords": [
+        "dicom",
+        "image-processing",
+        "itk",
+        "medical-imaging",
+        "registration"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "name": "ritk-spatial",
+      "owners": 1,
+      "recent_downloads": 1291,
+      "releases_365d": 6,
+      "repository": "https://github.com/ryancinsight/ritk",
+      "score": 56.13,
+      "version": "0.6.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "multimedia::images",
+        "science",
+        "science::neuroscience"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.3387,
+        "license": 1.0,
+        "maintenance": 0.6966,
+        "msrv": 0.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-08-03",
+      "dependents": 22,
+      "description": "Native medical image storage and metadata for RITK",
+      "downloads": 1321,
+      "edition": "2024",
+      "keywords": [
+        "dicom",
+        "image-processing",
+        "itk",
+        "medical-imaging",
+        "registration"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "name": "ritk-image",
+      "owners": 1,
+      "recent_downloads": 1098,
+      "releases_365d": 5,
+      "repository": "https://github.com/ryancinsight/ritk",
+      "score": 55.52,
+      "version": "0.6.0",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "encoding",
+        "network-programming",
+        "science::neuroscience"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3794,
+        "license": 1.0,
+        "maintenance": 0.4847,
+        "msrv": 1.0,
+        "recency": 0.9522,
+        "security": 1.0
+      },
+      "created": "2026-09-16",
+      "dependents": 0,
+      "description": "Spike and neuromodulator wire protocol and IPC transports for Limen-Neural SNN runtimes.",
+      "downloads": 2550,
+      "edition": "2024",
+      "keywords": [
+        "ipc",
+        "neuromorphic",
+        "snn",
+        "spiking",
+        "zmq"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "corpus-ipc",
+      "owners": 1,
+      "recent_downloads": 2551,
+      "releases_365d": 2,
+      "repository": "https://github.com/Limen-Neural/corpus-ipc",
+      "score": 51.04,
+      "version": "0.2.1",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "multimedia::images",
+        "science",
+        "science::neuroscience"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3383,
+        "license": 1.0,
+        "maintenance": 0.5966,
+        "msrv": 0.0,
+        "recency": 0.9406,
+        "security": 1.0
+      },
+      "created": "2026-08-03",
+      "dependents": 4,
+      "description": "GPU compatibility contracts for RITK",
+      "downloads": 1321,
+      "edition": "2024",
+      "keywords": [
+        "dicom",
+        "image-processing",
+        "itk",
+        "medical-imaging",
+        "registration"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "name": "ritk-wgpu-compat",
+      "owners": 1,
+      "recent_downloads": 1091,
+      "releases_365d": 3,
+      "repository": "https://github.com/ryancinsight/ritk",
+      "score": 49.91,
+      "version": "0.2.1",
+      "versions": 3
+    }
+  ],
+  "score_version": 1
+}

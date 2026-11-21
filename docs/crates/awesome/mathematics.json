@@ -1,0 +1,950 @@
+{
+  "category": {
+    "crates": 5974,
+    "description": "Crates with a mathematical aspect.",
+    "name": "Mathematics",
+    "slug": "mathematics"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "data-structures",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.6546,
+        "downloads": 0.854,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.859,
+        "security": 1.0
+      },
+      "created": "2016-11-16",
+      "dependents": 2352,
+      "description": "Decimal number implementation written in pure Rust suitable for financial and fixed-precision calculations.",
+      "downloads": 180504154,
+      "edition": "2021",
+      "keywords": [
+        "decimal",
+        "financial",
+        "fixed",
+        "number",
+        "precision"
+      ],
+      "last_release": "2026-09-02",
+      "license": "MIT",
+      "msrv": "1.67.1",
+      "name": "rust_decimal",
+      "owners": 1,
+      "recent_downloads": 46617526,
+      "releases_365d": 5,
+      "repository": "https://github.com/paupino/rust-decimal",
+      "score": 83.6,
+      "version": "1.43.0",
+      "versions": 107
+    },
+    {
+      "categories": [
+        "algorithms",
+        "cryptography",
+        "data-structures",
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4446,
+        "downloads": 0.892,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9771,
+        "security": 1.0
+      },
+      "created": "2021-04-30",
+      "dependents": 194,
+      "description": "Pure Rust implementation of a big integer library which has been designed from the ground-up for use\nin cryptographic applications. Provides constant-time, `no_std`/`no_alloc`-friendly implementations\nof modern formulas using const generics. Also includes optional support for heap-backed integers.\n",
+      "downloads": 356815285,
+      "edition": "2024",
+      "keywords": [
+        "arbitrary",
+        "bignum",
+        "crypto",
+        "integer",
+        "precision"
+      ],
+      "last_release": "2026-11-08",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "crypto-bigint",
+      "owners": 2,
+      "recent_downloads": 102374259,
+      "releases_365d": 20,
+      "repository": "https://github.com/RustCrypto/crypto-bigint",
+      "score": 82.07,
+      "version": "0.7.11",
+      "versions": 112
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5555,
+        "downloads": 0.7832,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9397,
+        "security": 1.0
+      },
+      "created": "2022-11-26",
+      "dependents": 726,
+      "description": "A safe Rust wrapper for ONNX Runtime 1.31 - Optimize and accelerate machine learning inference & training",
+      "downloads": 27109605,
+      "edition": "2024",
+      "keywords": [
+        "ai",
+        "machine-learning",
+        "ml",
+        "onnxruntime"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "ort",
+      "owners": 1,
+      "recent_downloads": 10777290,
+      "releases_365d": 5,
+      "repository": "https://github.com/pykeio/ort",
+      "score": 80.56,
+      "version": "2.0.0-rc.15",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.6453,
+        "downloads": 0.8106,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.7099,
+        "security": 1.0
+      },
+      "created": "2014-11-22",
+      "dependents": 2107,
+      "description": "General-purpose linear algebra library with transformations and statically-sized or dynamically-sized matrices.",
+      "downloads": 104095042,
+      "edition": "2024",
+      "keywords": [
+        "algebra",
+        "linear",
+        "math",
+        "matrix",
+        "vector"
+      ],
+      "last_release": "2026-05-24",
+      "license": "Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "nalgebra",
+      "owners": 2,
+      "recent_downloads": 19006723,
+      "releases_365d": 3,
+      "repository": "https://github.com/dimforge/nalgebra",
+      "score": 79.55,
+      "version": "0.35.0",
+      "versions": 124
+    },
+    {
+      "categories": [
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.4078,
+        "downloads": 0.7794,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9477,
+        "security": 1.0
+      },
+      "created": "2022-05-15",
+      "dependents": 125,
+      "description": "Unsigned integer type with const-generic bit length",
+      "downloads": 36076892,
+      "edition": "2024",
+      "keywords": [
+        "uint"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "ruint",
+      "owners": 4,
+      "recent_downloads": 9965478,
+      "releases_365d": 7,
+      "repository": "https://github.com/alloy-rs/ruint",
+      "score": 78.89,
+      "version": "1.21.1",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "gui",
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.3131,
+        "downloads": 0.7841,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-01-17",
+      "dependents": 40,
+      "description": "Minimal 2D math library for GUI work",
+      "downloads": 33819560,
+      "edition": "2024",
+      "keywords": [
+        "gui",
+        "math"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "emath",
+      "owners": 2,
+      "recent_downloads": 10997925,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/emath",
+      "score": 75.43,
+      "version": "0.37.0",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "algorithms",
+        "graphics",
+        "mathematics",
+        "no-std",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.7523,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.99,
+        "security": 1.0
+      },
+      "created": "2023-08-28",
+      "dependents": 56,
+      "description": "Boolean Operations for 2D Polygons: Supports intersection, union, difference, xor, and self-intersections for all polygon varieties.",
+      "downloads": 12783298,
+      "edition": "2024",
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "i_overlay",
+      "owners": 1,
+      "recent_downloads": 5698336,
+      "releases_365d": 26,
+      "repository": "https://github.com/iShape-Rust/iOverlay",
+      "score": 75.18,
+      "version": "9.2.0",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2973,
+        "downloads": 0.7832,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9397,
+        "security": 1.0
+      },
+      "created": "2023-11-12",
+      "dependents": 33,
+      "description": "Unsafe Rust bindings for ONNX Runtime 1.31 - Optimize and Accelerate Machine Learning Inferencing",
+      "downloads": 26729309,
+      "edition": "2024",
+      "keywords": [
+        "ai",
+        "machine-learning",
+        "ml",
+        "onnxruntime",
+        "sys"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "ort-sys",
+      "owners": 1,
+      "recent_downloads": 10778344,
+      "releases_365d": 5,
+      "repository": "https://github.com/pykeio/ort",
+      "score": 74.11,
+      "version": "2.0.0-rc.15",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "encoding",
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.7828,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2022-12-08",
+      "dependents": 21,
+      "description": "Color structs and color conversion utilities",
+      "downloads": 31819571,
+      "edition": "2024",
+      "keywords": [
+        "color",
+        "conversion",
+        "gamedev",
+        "gui",
+        "images"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "ecolor",
+      "owners": 2,
+      "recent_downloads": 10700848,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui",
+      "score": 74.08,
+      "version": "0.37.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5389,
+        "downloads": 0.8478,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.9029,
+        "security": 1.0
+      },
+      "created": "2017-04-05",
+      "dependents": 596,
+      "description": "Arbitrary precision decimal numbers",
+      "downloads": 150582351,
+      "edition": "2015",
+      "keywords": [
+        "arbitrary-precision",
+        "bignum",
+        "decimal",
+        "numerics"
+      ],
+      "last_release": "2026-09-28",
+      "license": "MIT/Apache-2.0",
+      "name": "bigdecimal",
+      "owners": 1,
+      "recent_downloads": 40978283,
+      "releases_365d": 2,
+      "repository": "https://github.com/akubera/bigdecimal-rs",
+      "score": 73.21,
+      "version": "0.4.11",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2225,
+        "downloads": 0.8082,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9296,
+        "security": 1.0
+      },
+      "created": "2022-02-02",
+      "dependents": 13,
+      "description": "Implementation of efficient integer division and modular arithmetic operations with generic number types.\nSupports various backends including num-bigint, etc..\n",
+      "downloads": 47332932,
+      "edition": "2018",
+      "keywords": [
+        "mathematics",
+        "modular",
+        "montgomery",
+        "number-theory",
+        "numeric"
+      ],
+      "last_release": "2026-10-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "num-modular",
+      "owners": 1,
+      "recent_downloads": 18067400,
+      "releases_365d": 5,
+      "repository": "https://github.com/cmpute/num-modular",
+      "score": 72.71,
+      "version": "0.7.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.7378,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9097,
+        "security": 1.0
+      },
+      "created": "2022-07-10",
+      "dependents": 32,
+      "description": "Arbitrary-precision integer math library for Rust, balancing ergonomics and efficiency. Provides UBig and IBig (unsigned and signed), with small values inlined on the stack. Efficient arithmetic, modular arithmetic, and number theory (pow, ilog, gcd, gcd_ext); two's-complement bit operations; parsing and formatting in base 2-36; optional serde, rand, num-traits, rkyv, and zeroize.",
+      "downloads": 7158984,
+      "edition": "2021",
+      "keywords": [
+        "arbitrary-precision",
+        "bigint",
+        "integer",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-10-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "dashu-int",
+      "owners": 1,
+      "recent_downloads": 4218517,
+      "releases_365d": 9,
+      "repository": "https://github.com/cmpute/dashu",
+      "score": 72.46,
+      "version": "0.6.2",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.649,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9241,
+        "security": 1.0
+      },
+      "created": "2020-08-19",
+      "dependents": 69,
+      "description": "3-dimensional physics engine in Rust.",
+      "downloads": 2178715,
+      "edition": "2024",
+      "keywords": [
+        "dynamics",
+        "impulse_joints",
+        "physics",
+        "real-time",
+        "rigid"
+      ],
+      "last_release": "2026-10-10",
+      "license": "Apache-2.0",
+      "msrv": "1.86",
+      "name": "rapier3d",
+      "owners": 1,
+      "recent_downloads": 672618,
+      "releases_365d": 13,
+      "repository": "https://github.com/dimforge/rapier",
+      "score": 72.04,
+      "version": "0.36.1",
+      "versions": 72
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.4148,
+        "downloads": 0.6738,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9789,
+        "security": 1.0
+      },
+      "created": "2024-04-19",
+      "dependents": 136,
+      "description": "Multi-platform high-performance compute language extension for Rust.",
+      "downloads": 2170388,
+      "edition": "2024",
+      "keywords": [
+        "cuda",
+        "gpgpu",
+        "gpu",
+        "tensor",
+        "wgpu"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "name": "cubecl",
+      "owners": 3,
+      "recent_downloads": 1122983,
+      "releases_365d": 21,
+      "repository": "https://github.com/tracel-ai/cubecl",
+      "score": 71.9,
+      "version": "0.11.4",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.7378,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8976,
+        "security": 1.0
+      },
+      "created": "2022-07-10",
+      "dependents": 22,
+      "description": "Common trait definitions, error types, and utilities shared by the dashu math crates (integers, floats, rationals, and complex numbers). Defines the core abstractions the library builds on — Approximation, AbsOrd, Signed, SquareRoot, CubicRoot, EstimatedLog2, BitTest, and FloatEncoding — plus the Sign type and conversion errors.",
+      "downloads": 7155504,
+      "edition": "2021",
+      "keywords": [
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-09-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "dashu-base",
+      "owners": 1,
+      "recent_downloads": 4215501,
+      "releases_365d": 9,
+      "repository": "https://github.com/cmpute/dashu",
+      "score": 71.52,
+      "version": "0.6.1",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.8754,
+        "license": 1.0,
+        "maintenance": 0.8081,
+        "msrv": 1.0,
+        "recency": 0.7697,
+        "security": 1.0
+      },
+      "created": "2025-06-22",
+      "dependents": 11,
+      "description": "Fast and accurate math",
+      "downloads": 133944880,
+      "edition": "2024",
+      "keywords": [
+        "libm",
+        "math"
+      ],
+      "last_release": "2026-07-06",
+      "license": "BSD-3-Clause OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pxfm",
+      "owners": 1,
+      "recent_downloads": 72580630,
+      "releases_365d": 5,
+      "repository": "https://github.com/awxkee/pxfm",
+      "score": 70.79,
+      "version": "0.1.30",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "compilers",
+        "cryptography",
+        "mathematics",
+        "wasm",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3379,
+        "downloads": 0.4923,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9927,
+        "security": 1.0
+      },
+      "created": "2020-01-24",
+      "dependents": 54,
+      "description": "A decentralized virtual machine",
+      "downloads": 803662,
+      "edition": "2024",
+      "keywords": [
+        "aleo",
+        "blockchain",
+        "cryptography",
+        "decentralized",
+        "zero-knowledge"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "snarkvm",
+      "owners": 4,
+      "recent_downloads": 26349,
+      "releases_365d": 18,
+      "repository": "https://github.com/ProvableHQ/snarkVM",
+      "score": 70.64,
+      "version": "4.13.1",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "data-structures",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.5804,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9932,
+        "security": 1.0
+      },
+      "created": "2021-07-07",
+      "dependents": 29,
+      "description": "Generalized (hyper) dual numbers for the calculation of exact (partial) derivatives",
+      "downloads": 385750,
+      "edition": "2024",
+      "keywords": [
+        "differentiation",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "num-dual",
+      "owners": 2,
+      "recent_downloads": 162947,
+      "releases_365d": 14,
+      "repository": "https://github.com/itt-ustutt/num-dual",
+      "score": 70.58,
+      "version": "0.16.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.357,
+        "downloads": 0.6782,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9789,
+        "security": 1.0
+      },
+      "created": "2024-07-19",
+      "dependents": 68,
+      "description": "Common crate for CubeCL",
+      "downloads": 2395860,
+      "edition": "2024",
+      "keywords": [
+        "cuda",
+        "gpu",
+        "wgpu"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "name": "cubecl-common",
+      "owners": 3,
+      "recent_downloads": 1229903,
+      "releases_365d": 21,
+      "repository": "https://github.com/tracel-ai/cubecl/tree/main/crates/cubecl-common",
+      "score": 70.56,
+      "version": "0.11.4",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2567,
+        "downloads": 0.6831,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9097,
+        "security": 1.0
+      },
+      "created": "2022-09-13",
+      "dependents": 20,
+      "description": "Arbitrary-precision float math library for Rust with arbitrary base and arbitrary rounding mode. Provides FBig, DBig, and CachedFBig with efficient base conversion, the hexadecimal float format used by C++ programs, and parsing and formatting in base 2-36. Transcendentals (exp, ln, trig, hyperbolic, powers, roots, pi) are correctly rounded; optional serde, rand, num-traits, rkyv, and zeroize.",
+      "downloads": 3962329,
+      "edition": "2021",
+      "keywords": [
+        "arbitrary-precision",
+        "decimal",
+        "floating-point",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-10-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "dashu-float",
+      "owners": 1,
+      "recent_downloads": 1360917,
+      "releases_365d": 11,
+      "repository": "https://github.com/cmpute/dashu",
+      "score": 70.14,
+      "version": "0.6.2",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.5938,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9241,
+        "security": 1.0
+      },
+      "created": "2020-08-19",
+      "dependents": 49,
+      "description": "2-dimensional physics engine in Rust.",
+      "downloads": 1130955,
+      "edition": "2024",
+      "keywords": [
+        "dynamics",
+        "impulse_joints",
+        "physics",
+        "real-time",
+        "rigid"
+      ],
+      "last_release": "2026-10-10",
+      "license": "Apache-2.0",
+      "msrv": "1.86",
+      "name": "rapier2d",
+      "owners": 1,
+      "recent_downloads": 214962,
+      "releases_365d": 13,
+      "repository": "https://github.com/dimforge/rapier",
+      "score": 69.95,
+      "version": "0.36.1",
+      "versions": 72
+    },
+    {
+      "categories": [
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.7282,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9297,
+        "security": 1.0
+      },
+      "created": "2022-10-18",
+      "dependents": 28,
+      "description": "Arbitrary-precision arithmetic, with efficient algorithms partially derived from GMP, FLINT, and MPFR.",
+      "downloads": 12206425,
+      "edition": "2024",
+      "keywords": [
+        "bignum",
+        "math",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-10-13",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.90.0",
+      "name": "malachite",
+      "owners": 1,
+      "recent_downloads": 3459054,
+      "releases_365d": 9,
+      "repository": "https://github.com/mhogrefe/malachite",
+      "score": 69.75,
+      "version": "0.14.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std",
+        "parsing",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.6499,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9097,
+        "security": 1.0
+      },
+      "created": "2022-07-10",
+      "dependents": 24,
+      "description": "A pure-Rust library set of arbitrary-precision numbers (big numbers) for math and numerics, a native alternative to GNU GMP + MPFR + MPC. Ergonomics and readability come first, with speed and memory usage optimized enough for real workloads. Full no_std, MSRV 1.68; integers, floats, rationals, and complex numbers with configurable precision and rounding, literal macros, and optional serde, rand, num-traits, rkyv, zeroize.",
+      "downloads": 2573391,
+      "edition": "2021",
+      "keywords": [
+        "bignum",
+        "math",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-10-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "dashu",
+      "owners": 1,
+      "recent_downloads": 685116,
+      "releases_365d": 11,
+      "repository": "https://github.com/cmpute/dashu",
+      "score": 69.68,
+      "version": "0.6.2",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.7515,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8881,
+        "security": 1.0
+      },
+      "created": "2023-08-28",
+      "dependents": 7,
+      "description": "This fixed float math library provides an efficient and deterministic solution for arithmetic and geometric operations.",
+      "downloads": 12494721,
+      "edition": "2024",
+      "last_release": "2026-09-19",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "i_float",
+      "owners": 1,
+      "recent_downloads": 5604566,
+      "releases_365d": 5,
+      "repository": "https://github.com/iShape-Rust/iFloat",
+      "score": 69.49,
+      "version": "5.0.0",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "algorithms",
+        "cryptography",
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.7843,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.6326,
+        "security": 1.0
+      },
+      "created": "2022-07-10",
+      "dependents": 27,
+      "description": "Fixed-size integer types with generic signedness, bit width and overflow behaviour.",
+      "downloads": 24598233,
+      "edition": "2024",
+      "keywords": [
+        "arbitrary",
+        "bignum",
+        "int",
+        "maths",
+        "uint"
+      ],
+      "last_release": "2026-03-24",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87.0",
+      "name": "bnum",
+      "owners": 1,
+      "recent_downloads": 11033404,
+      "releases_365d": 5,
+      "repository": "https://github.com/isaacholt100/bnum",
+      "score": 69.12,
+      "version": "0.14.4",
+      "versions": 21
+    }
+  ],
+  "score_version": 1
+}

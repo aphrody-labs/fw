@@ -38,6 +38,7 @@ fw workflow run discover
 - ML reference math: `fw abliterate`, `fw heretic`, `fw train`, `fw align` and `fw infer --gguf` run on synthetic data and do not read or modify model weights. `fw abliterate plan` and `fw vram` are planners; `fw infer <prompt>` forwards to an OpenAI-compatible endpoint.
 - Memory and learning: `fw learn`, `fw mem <add|search|timeline|get|list|stats|prune>`, `fw graph`, `fw docs`/`fw c7` (resolves crates.io, npm, PyPI, GitHub README and `llms.txt` docs), `fw repomap`, `fw sec`, `fw skills`, `fw watch`.
 - Packages: `fw info`, `fetch`, `lock`, `verify`, `tree`, `export` (CycloneDX 1.5), `install`, `audit`, `compile` over the Cargo sparse index, npm and APM.
+- Crate intelligence: `fw crates <search|info|compare|rank|awesome|bench|stack|sync>` ranks every crates.io crate from the daily database dump (documented score in `docs/crates/RANKING.md`), writes per-category awesome lists (`docs/crates/awesome`), load-tests Rust web frameworks (`docs/crates/bench`), and generates a Cargo skeleton for a goal; also `GET /v1/crates/*` and the `crates_*` MCP tools on `fw serve` and in the Bun plugin (`crates/fw-crates).
 - Userland: `fw sh -c "cmd1 | cmd2"` and 40 applets (`ls`, `grep`, `sort`, `jq`, `tokei`, `du`, `bat`, `base64`, `sha256sum`, `cp`, `mv`, `rm`, and others listed in `crates/fw-uutils/src/lib.rs`).
 - Host: `fw tune <hardware|sysctl|scx|ananicy|bench>` (CachyOS profiles and x86-64-v3 and mimalloc microbenchmarks, `core/cpp/fw_cachy_simd.cpp`).
 

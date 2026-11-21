@@ -1,0 +1,967 @@
+{
+  "category": {
+    "crates": 1810,
+    "description": "Crates for dealing with money. Accounting, trading, investments, taxes, banking and payment processing using government-backed currencies.",
+    "name": "Finance",
+    "slug": "finance"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "finance"
+      ],
+      "components": {
+        "dependents": 0.2225,
+        "downloads": 0.5722,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9718,
+        "security": 1.0
+      },
+      "created": "2023-04-08",
+      "dependents": 13,
+      "description": "An unofficial Rust client for the Interactive Brokers TWS API: market data, orders, and account data, with async (Tokio) and blocking clients for TWS and IB Gateway.",
+      "downloads": 310369,
+      "edition": "2021",
+      "keywords": [
+        "algo-trading",
+        "ibkr",
+        "interactive-brokers",
+        "trading",
+        "tws"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "ibapi",
+      "owners": 1,
+      "recent_downloads": 137357,
+      "releases_365d": 39,
+      "repository": "https://github.com/wboayue/rust-ibapi/",
+      "score": 67.44,
+      "version": "5.7.0",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.3281,
+        "downloads": 0.5138,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 48,
+      "description": "Core functionality for the Nautilus trading engine",
+      "downloads": 62504,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-core",
+      "owners": 2,
+      "recent_downloads": 41096,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 66.71,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.5116,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 46,
+      "description": "Domain model for the Nautilus trading engine",
+      "downloads": 59758,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-model",
+      "owners": 2,
+      "recent_downloads": 39288,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 66.57,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.507,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 41,
+      "description": "Common functionality and machinery for the Nautilus trading engine",
+      "downloads": 53128,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-common",
+      "owners": 2,
+      "recent_downloads": 35688,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 66.21,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography::cryptocurrencies",
+        "finance",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5847,
+        "license": 1.0,
+        "maintenance": 0.8577,
+        "msrv": 1.0,
+        "recency": 0.9841,
+        "security": 1.0
+      },
+      "created": "2026-04-24",
+      "dependents": 5,
+      "description": "Polymarket CLOB (Central Limit Order Book) API client SDK",
+      "downloads": 348889,
+      "edition": "2024",
+      "keywords": [
+        "clob",
+        "orderbook",
+        "polymarket",
+        "prediction-market",
+        "trading"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "polymarket_client_sdk_v2",
+      "owners": 3,
+      "recent_downloads": 177851,
+      "releases_365d": 8,
+      "repository": "https://github.com/Polymarket/rs-clob-client-v2",
+      "score": 66.02,
+      "version": "0.9.1",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "data-structures",
+        "finance"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.5301,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9949,
+        "security": 1.0
+      },
+      "created": "2024-08-21",
+      "dependents": 7,
+      "description": "OptionStratLib facade: option pricing, Greeks, option chains, P&L, risk, strategies, simulation, backtesting and charts for trading and strategy development, re-exported from its nine component crates with one feature per capability.",
+      "downloads": 116316,
+      "edition": "2024",
+      "keywords": [
+        "finance",
+        "options",
+        "trading"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "optionstratlib",
+      "owners": 1,
+      "recent_downloads": 57582,
+      "releases_365d": 42,
+      "repository": "https://github.com/joaquinbejar/OptionStratLib",
+      "score": 65.56,
+      "version": "0.24.6",
+      "versions": 91
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.5012,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 25,
+      "description": "System orchestration for the Nautilus trading engine",
+      "downloads": 44603,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-system",
+      "owners": 2,
+      "recent_downloads": 31675,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 65.06,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.491,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 26,
+      "description": "Network communication machinery for the Nautilus trading engine",
+      "downloads": 37341,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-network",
+      "owners": 2,
+      "recent_downloads": 25628,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 64.88,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.4862,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 24,
+      "description": "Core live trading components and machinery for the Nautilus trading engine",
+      "downloads": 34044,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-live",
+      "owners": 2,
+      "recent_downloads": 23215,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 64.6,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "data-structures",
+        "finance"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5535,
+        "license": 1.0,
+        "maintenance": 0.8313,
+        "msrv": 1.0,
+        "recency": 0.9857,
+        "security": 1.0
+      },
+      "created": "2025-03-30",
+      "dependents": 4,
+      "description": "A high-performance, lock-free price level implementation for limit order books in Rust. This library provides the building blocks for creating efficient trading systems with support for multiple order types and concurrent access patterns.",
+      "downloads": 138465,
+      "edition": "2024",
+      "keywords": [
+        "finance",
+        "orderbook",
+        "trading"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "orderbook-rs",
+      "owners": 1,
+      "recent_downloads": 93452,
+      "releases_365d": 29,
+      "repository": "https://github.com/joaquinbejar/OrderBook-rs",
+      "score": 64.49,
+      "version": "0.16.0",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "finance",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.5361,
+        "license": 1.0,
+        "maintenance": 0.7169,
+        "msrv": 1.0,
+        "recency": 0.9559,
+        "security": 1.0
+      },
+      "created": "2026-05-21",
+      "dependents": 15,
+      "description": "Core streaming-first technical indicators engine for the Wickra library",
+      "downloads": 75336,
+      "edition": "2021",
+      "keywords": [
+        "finance",
+        "indicators",
+        "ta",
+        "technical-analysis",
+        "trading"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86",
+      "name": "wickra-core",
+      "owners": 1,
+      "recent_downloads": 65135,
+      "releases_365d": 81,
+      "repository": "https://github.com/wickra-lib/wickra",
+      "score": 64.34,
+      "version": "2.1.1",
+      "versions": 81
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5049,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 12,
+      "description": "Core execution machinery for the Nautilus trading engine",
+      "downloads": 49573,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-execution",
+      "owners": 2,
+      "recent_downloads": 34162,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 63.69,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "data-structures",
+        "finance"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5504,
+        "license": 1.0,
+        "maintenance": 0.7417,
+        "msrv": 1.0,
+        "recency": 0.9969,
+        "security": 1.0
+      },
+      "created": "2026-02-20",
+      "dependents": 5,
+      "description": "Core financial type definitions for trading systems: asset types, trading actions, position sides, and option styles.",
+      "downloads": 116394,
+      "edition": "2024",
+      "keywords": [
+        "finance",
+        "options",
+        "trading",
+        "types"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "financial_types",
+      "owners": 1,
+      "recent_downloads": 87616,
+      "releases_365d": 9,
+      "repository": "https://github.com/joaquinbejar/financial_types",
+      "score": 63.62,
+      "version": "0.3.3",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "finance"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.6036,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9134,
+        "security": 1.0
+      },
+      "created": "2024-02-12",
+      "dependents": 7,
+      "description": "High level binding to quickfix C++ library",
+      "downloads": 594655,
+      "edition": "2021",
+      "keywords": [
+        "finance",
+        "fix-protocol",
+        "quickfix"
+      ],
+      "last_release": "2026-10-04",
+      "license": "MIT OR Apache-1.1",
+      "msrv": "1.86.0",
+      "name": "quickfix",
+      "owners": 1,
+      "recent_downloads": 263153,
+      "releases_365d": 2,
+      "repository": "https://github.com/arthurlm/quickfix-rs",
+      "score": 63.17,
+      "version": "0.2.2",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "finance"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6375,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9954,
+        "security": 1.0
+      },
+      "created": "2023-08-03",
+      "dependents": 6,
+      "description": "Official Databento client library",
+      "downloads": 1280665,
+      "edition": "2021",
+      "keywords": [
+        "historical",
+        "market-data",
+        "real-time",
+        "tick-data",
+        "trading"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "name": "databento",
+      "owners": 1,
+      "recent_downloads": 530108,
+      "releases_365d": 29,
+      "repository": "https://github.com/databento/databento-rs",
+      "score": 62.97,
+      "version": "0.65.0",
+      "versions": 81
+    },
+    {
+      "categories": [
+        "cryptography::cryptocurrencies",
+        "finance",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5006,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7966,
+        "security": 1.0
+      },
+      "created": "2024-01-05",
+      "dependents": 12,
+      "description": "Uniswap V3 SDK for Rust",
+      "downloads": 221799,
+      "edition": "2024",
+      "keywords": [
+        "ethereum",
+        "sdk",
+        "uniswap-v3"
+      ],
+      "last_release": "2026-07-24",
+      "license": "MIT",
+      "msrv": "1.91",
+      "name": "uniswap-v3-sdk",
+      "owners": 1,
+      "recent_downloads": 31280,
+      "releases_365d": 6,
+      "repository": "https://github.com/shuhuiluo/uniswap-v3-sdk-rs",
+      "score": 62.87,
+      "version": "7.0.0",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5029,
+        "license": 1.0,
+        "maintenance": 0.6897,
+        "msrv": 1.0,
+        "recency": 0.9556,
+        "security": 1.0
+      },
+      "created": "2026-08-28",
+      "dependents": 12,
+      "description": "Streaming-native backtest engine core (strategy spec, rules, execution, portfolio) built on wickra-core.",
+      "downloads": 32761,
+      "edition": "2021",
+      "keywords": [
+        "backtesting",
+        "quant",
+        "streaming",
+        "technical-analysis",
+        "trading"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86",
+      "name": "wickra-backtest-core",
+      "owners": 1,
+      "recent_downloads": 32778,
+      "releases_365d": 12,
+      "repository": "https://github.com/wickra-lib/wickra-backtest",
+      "score": 62.66,
+      "version": "0.2.1",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "cryptography::cryptocurrencies",
+        "finance",
+        "network-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.5338,
+        "license": 1.0,
+        "maintenance": 0.7467,
+        "msrv": 1.0,
+        "recency": 0.7791,
+        "security": 1.0
+      },
+      "created": "2026-02-01",
+      "dependents": 17,
+      "description": "Core types for x402 payments: chain identifiers, protocol messages, and facilitator traits",
+      "downloads": 96844,
+      "edition": "2024",
+      "keywords": [
+        "blockchain",
+        "http-402",
+        "payments",
+        "stablecoin",
+        "x402"
+      ],
+      "last_release": "2026-07-12",
+      "license": "Apache-2.0",
+      "msrv": "1.93.0",
+      "name": "x402-types",
+      "owners": 1,
+      "recent_downloads": 62152,
+      "releases_365d": 24,
+      "repository": "https://github.com/x402-rs/x402-rs",
+      "score": 62.33,
+      "version": "2.0.2",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "finance",
+        "localization",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5102,
+        "license": 1.0,
+        "maintenance": 0.7886,
+        "msrv": 1.0,
+        "recency": 0.9786,
+        "security": 1.0
+      },
+      "created": "2025-09-01",
+      "dependents": 3,
+      "description": "ISO 10383 Types",
+      "downloads": 159921,
+      "edition": "2024",
+      "keywords": [
+        "iso10383",
+        "mic"
+      ],
+      "last_release": "2026-11-09",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "iso10383-types",
+      "owners": 1,
+      "recent_downloads": 38109,
+      "releases_365d": 12,
+      "repository": "https://github.com/jcape/iso10383",
+      "score": 62.18,
+      "version": "0.7.1",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4899,
+        "license": 0.75,
+        "maintenance": 0.8298,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 11,
+      "description": "Serialization functionality for the Nautilus trading engine",
+      "downloads": 37139,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-serialization",
+      "owners": 1,
+      "recent_downloads": 25059,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 62.14,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "data-structures",
+        "finance",
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5402,
+        "license": 1.0,
+        "maintenance": 0.7573,
+        "msrv": 1.0,
+        "recency": 0.9153,
+        "security": 1.0
+      },
+      "created": "2025-12-25",
+      "dependents": 4,
+      "description": "A type-safe wrapper for guaranteed positive decimal values",
+      "downloads": 104906,
+      "edition": "2024",
+      "keywords": [
+        "decimal",
+        "financial",
+        "numeric",
+        "positive",
+        "type-safe"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "positive",
+      "owners": 1,
+      "recent_downloads": 70988,
+      "releases_365d": 17,
+      "repository": "https://github.com/joaquinbejar/positive",
+      "score": 61.99,
+      "version": "0.8.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5017,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 5,
+      "description": "Strategy machinery and controllers for the Nautilus trading engine",
+      "downloads": 45718,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-trading",
+      "owners": 2,
+      "recent_downloads": 31990,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 61.98,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5003,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 5,
+      "description": "Portfolio components and functionality for the Nautilus trading engine",
+      "downloads": 45359,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-portfolio",
+      "owners": 2,
+      "recent_downloads": 31085,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 61.94,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "data-structures",
+        "finance"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.4925,
+        "license": 1.0,
+        "maintenance": 0.6781,
+        "msrv": 1.0,
+        "recency": 0.9727,
+        "security": 1.0
+      },
+      "created": "2026-10-10",
+      "dependents": 9,
+      "description": "Core domain model of OptionStratLib: options, positions, legs, trades, checked Decimal helpers and their errors. Re-exported by the optionstratlib facade on every feature set.",
+      "downloads": 26458,
+      "edition": "2024",
+      "keywords": [
+        "decimal",
+        "finance",
+        "options",
+        "trading"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "optionstratlib-core",
+      "owners": 1,
+      "recent_downloads": 26458,
+      "releases_365d": 4,
+      "repository": "https://github.com/joaquinbejar/OptionStratLib",
+      "score": 61.93,
+      "version": "0.24.0",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "finance",
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4923,
+        "license": 1.0,
+        "maintenance": 0.6781,
+        "msrv": 1.0,
+        "recency": 0.9949,
+        "security": 1.0
+      },
+      "created": "2026-10-10",
+      "dependents": 7,
+      "description": "Option pricing models, Greeks and implied volatility of OptionStratLib, on Decimal and Positive boundaries. Re-exported by the optionstratlib facade under its `pricing` feature.",
+      "downloads": 26356,
+      "edition": "2024",
+      "keywords": [
+        "finance",
+        "greeks",
+        "options",
+        "pricing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "optionstratlib-pricing",
+      "owners": 1,
+      "recent_downloads": 26356,
+      "releases_365d": 8,
+      "repository": "https://github.com/joaquinbejar/OptionStratLib",
+      "score": 61.79,
+      "version": "0.24.4",
+      "versions": 8
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,956 @@
+{
+  "category": {
+    "crates": 761,
+    "description": "Crates to allow an application to format values for display to a user, potentially adapting the display to various languages and regions.",
+    "name": "Value formatting",
+    "slug": "value-formatting"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "date-and-time",
+        "no-std",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.7439,
+        "downloads": 0.9372,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8088,
+        "security": 1.0
+      },
+      "created": "2014-11-13",
+      "dependents": 6792,
+      "description": "Date and time library. Fully interoperable with the standard library. Mostly compatible with #![no_std].",
+      "downloads": 1103680211,
+      "edition": "2024",
+      "keywords": [
+        "calendar",
+        "date",
+        "duration",
+        "time"
+      ],
+      "last_release": "2026-08-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "time",
+      "owners": 1,
+      "recent_downloads": 260461074,
+      "releases_365d": 9,
+      "repository": "https://github.com/time-rs/time",
+      "score": 87.16,
+      "version": "0.3.55",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "embedded",
+        "no-std",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.606,
+        "downloads": 0.8872,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2020-08-14",
+      "dependents": 1322,
+      "description": "A highly efficient logging framework that targets resource-constrained devices, like microcontrollers",
+      "downloads": 122608519,
+      "edition": "2021",
+      "keywords": [
+        "formatter",
+        "formatting",
+        "knurling",
+        "logger",
+        "logging"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "defmt",
+      "owners": 4,
+      "recent_downloads": 92695743,
+      "releases_365d": 4,
+      "repository": "https://github.com/knurling-rs/defmt",
+      "score": 86.33,
+      "version": "1.2.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.5676,
+        "downloads": 0.9638,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9774,
+        "security": 1.0
+      },
+      "created": "2016-06-25",
+      "dependents": 838,
+      "description": "Fast integer primitive to string conversion",
+      "downloads": 1693066626,
+      "edition": "2021",
+      "keywords": [
+        "integer"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "itoa",
+      "owners": 1,
+      "recent_downloads": 451624685,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/itoa",
+      "score": 85.95,
+      "version": "1.0.19",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "internationalization",
+        "localization",
+        "os",
+        "value-formatting",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5223,
+        "downloads": 0.8886,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8253,
+        "security": 1.0
+      },
+      "created": "2017-08-04",
+      "dependents": 489,
+      "description": "Rust library for getting information about the current user and environment",
+      "downloads": 287513497,
+      "edition": "2021",
+      "keywords": [
+        "detect",
+        "platform",
+        "user",
+        "username",
+        "whoami"
+      ],
+      "last_release": "2026-08-11",
+      "license": "Apache-2.0 OR BSL-1.0 OR MIT",
+      "msrv": "1.75",
+      "name": "whoami",
+      "owners": 2,
+      "recent_downloads": 95297501,
+      "releases_365d": 8,
+      "repository": "https://github.com/ardaku/whoami",
+      "score": 81.65,
+      "version": "2.1.3",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.594,
+        "downloads": 0.7553,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9904,
+        "security": 1.0
+      },
+      "created": "2021-06-24",
+      "dependents": 1146,
+      "description": "inquire is a library for building interactive prompts on terminals",
+      "downloads": 25306464,
+      "edition": "2018",
+      "keywords": [
+        "ask",
+        "cli",
+        "interactive",
+        "prompt",
+        "question"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "msrv": "1.85.0",
+      "name": "inquire",
+      "owners": 1,
+      "recent_downloads": 6060140,
+      "releases_365d": 4,
+      "repository": "https://github.com/mikaelmello/inquire",
+      "score": 81.59,
+      "version": "0.9.5",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "no-std",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.4247,
+        "downloads": 0.8194,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8836,
+        "security": 1.0
+      },
+      "created": "2023-05-01",
+      "dependents": 153,
+      "description": "Fast byte array to hex string conversion",
+      "downloads": 75746363,
+      "edition": "2021",
+      "keywords": [
+        "bytes",
+        "fmt",
+        "hex"
+      ],
+      "last_release": "2026-09-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.64",
+      "name": "const-hex",
+      "owners": 1,
+      "recent_downloads": 22819282,
+      "releases_365d": 6,
+      "repository": "https://github.com/danipopes/const-hex",
+      "score": 77.36,
+      "version": "1.19.3",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.4064,
+        "downloads": 0.9552,
+        "license": 1.0,
+        "maintenance": 0.7592,
+        "msrv": 1.0,
+        "recency": 0.7804,
+        "security": 1.0
+      },
+      "created": "2025-12-18",
+      "dependents": 123,
+      "description": "A double-to-string conversion algorithm based on Schubfach and xjb",
+      "downloads": 727035580,
+      "edition": "2021",
+      "keywords": [
+        "float"
+      ],
+      "last_release": "2026-07-13",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "zmij",
+      "owners": 1,
+      "recent_downloads": 377756176,
+      "releases_365d": 37,
+      "repository": "https://github.com/dtolnay/zmij",
+      "score": 77.13,
+      "version": "1.0.23",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "no-std",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.4548,
+        "downloads": 0.7631,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8779,
+        "security": 1.0
+      },
+      "created": "2018-07-29",
+      "dependents": 219,
+      "description": "A library for interacting with units of bytes.",
+      "downloads": 45751199,
+      "edition": "2024",
+      "keywords": [
+        "byte",
+        "gb",
+        "kb",
+        "mb",
+        "unit"
+      ],
+      "last_release": "2026-09-13",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "byte-unit",
+      "owners": 1,
+      "recent_downloads": 7120442,
+      "releases_365d": 7,
+      "repository": "https://github.com/magiclen/byte-unit",
+      "score": 76.62,
+      "version": "5.2.6",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.5079,
+        "downloads": 0.9459,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.5818,
+        "security": 1.0
+      },
+      "created": "2018-07-28",
+      "dependents": 412,
+      "description": "Fast floating point to string conversion",
+      "downloads": 1370259788,
+      "edition": "2021",
+      "keywords": [
+        "float"
+      ],
+      "last_release": "2026-02-08",
+      "license": "Apache-2.0 OR BSL-1.0",
+      "msrv": "1.71",
+      "name": "ryu",
+      "owners": 1,
+      "recent_downloads": 311490755,
+      "releases_365d": 3,
+      "repository": "https://github.com/dtolnay/ryu",
+      "score": 76.57,
+      "version": "1.0.23",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.4091,
+        "downloads": 0.8317,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.7765,
+        "security": 1.0
+      },
+      "created": "2020-07-13",
+      "dependents": 127,
+      "description": "Fast floating point to string conversion, ECMAScript compliant.",
+      "downloads": 58407661,
+      "edition": "2021",
+      "keywords": [
+        "float"
+      ],
+      "last_release": "2026-07-10",
+      "license": "Apache-2.0 OR BSL-1.0",
+      "msrv": "1.71",
+      "name": "ryu-js",
+      "owners": 3,
+      "recent_downloads": 29415876,
+      "releases_365d": 1,
+      "repository": "https://github.com/boa-dev/ryu-js",
+      "score": 73.17,
+      "version": "1.0.3",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "algorithms",
+        "api-bindings",
+        "development-tools::debugging",
+        "os::unix-apis",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7399,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9565,
+        "security": 1.0
+      },
+      "created": "2022-07-12",
+      "dependents": 12,
+      "description": "blazesym is a library for address symbolization and related tasks.",
+      "downloads": 11205946,
+      "edition": "2021",
+      "keywords": [
+        "dwarf",
+        "elf",
+        "gsym",
+        "stacktrace",
+        "tracing"
+      ],
+      "last_release": "2026-10-28",
+      "license": "BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "blazesym",
+      "owners": 2,
+      "recent_downloads": 4410163,
+      "releases_365d": 6,
+      "repository": "https://github.com/libbpf/blazesym",
+      "score": 72.25,
+      "version": "0.2.7",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "mathematics",
+        "no-std",
+        "parsing",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.6499,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9097,
+        "security": 1.0
+      },
+      "created": "2022-07-10",
+      "dependents": 24,
+      "description": "A pure-Rust library set of arbitrary-precision numbers (big numbers) for math and numerics, a native alternative to GNU GMP + MPFR + MPC. Ergonomics and readability come first, with speed and memory usage optimized enough for real workloads. Full no_std, MSRV 1.68; integers, floats, rationals, and complex numbers with configurable precision and rounding, literal macros, and optional serde, rand, num-traits, rkyv, zeroize.",
+      "downloads": 2573391,
+      "edition": "2021",
+      "keywords": [
+        "bignum",
+        "math",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-10-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "dashu",
+      "owners": 1,
+      "recent_downloads": 685116,
+      "releases_365d": 11,
+      "repository": "https://github.com/cmpute/dashu",
+      "score": 69.68,
+      "version": "0.6.2",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "text-processing",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.3131,
+        "downloads": 0.7149,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9404,
+        "security": 1.0
+      },
+      "created": "2022-02-25",
+      "dependents": 40,
+      "description": "Rust package to pluralize or singularize any word based on a count, inspired by the pluralize NPM package",
+      "downloads": 4229345,
+      "edition": "2021",
+      "keywords": [
+        "pluralize",
+        "plurals",
+        "singular"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "pluralizer",
+      "owners": 1,
+      "recent_downloads": 2626362,
+      "releases_365d": 1,
+      "repository": "https://github.com/KennethGomez/pluralizer",
+      "score": 68.31,
+      "version": "0.6.0",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "no-std",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.6092,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8714,
+        "security": 1.0
+      },
+      "created": "2023-10-22",
+      "dependents": 16,
+      "description": "a small crate to work with NEAR token values ergonomically and efficiently (NEAR Protocol)",
+      "downloads": 938247,
+      "edition": "2024",
+      "last_release": "2026-09-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "near-token",
+      "owners": 2,
+      "recent_downloads": 295149,
+      "releases_365d": 4,
+      "repository": "https://github.com/near/near-token",
+      "score": 68.27,
+      "version": "0.3.6",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "data-structures",
+        "date-and-time",
+        "encoding",
+        "parsing",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.7564,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9684,
+        "security": 1.0
+      },
+      "created": "2018-04-07",
+      "dependents": 18,
+      "description": "A highly performant unique identifier generator.",
+      "downloads": 53960027,
+      "edition": "2021",
+      "keywords": [
+        "guid",
+        "nuid",
+        "uuid"
+      ],
+      "last_release": "2026-11-04",
+      "license": "Apache-2.0",
+      "msrv": "1.63",
+      "name": "nuid",
+      "owners": 1,
+      "recent_downloads": 6199783,
+      "releases_365d": 1,
+      "repository": "https://github.com/casualjim/rs-nuid.git",
+      "score": 68.14,
+      "version": "0.7.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "no-std",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6096,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2023-07-11",
+      "dependents": 9,
+      "description": "a small crate to work with NEAR Gas unit values ergonomically and efficiently (NEAR Protocol)",
+      "downloads": 978255,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "near-gas",
+      "owners": 3,
+      "recent_downloads": 297538,
+      "releases_365d": 5,
+      "repository": "https://github.com/near/near-gas",
+      "score": 68.02,
+      "version": "0.3.7",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "data-structures",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.6071,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8979,
+        "security": 1.0
+      },
+      "created": "2023-09-05",
+      "dependents": 18,
+      "description": "A node-semver compliant semver implementation in Rust.",
+      "downloads": 886074,
+      "edition": "2024",
+      "keywords": [
+        "node",
+        "nodejs",
+        "npm",
+        "parser",
+        "semver"
+      ],
+      "last_release": "2026-09-25",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "nodejs-semver",
+      "owners": 1,
+      "recent_downloads": 282742,
+      "releases_365d": 4,
+      "repository": "https://github.com/cijiugechu/nodejs-semver",
+      "score": 67.85,
+      "version": "7.0.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "no-std",
+        "science",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.4496,
+        "downloads": 0.7212,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.5881,
+        "security": 1.0
+      },
+      "created": "2017-02-26",
+      "dependents": 206,
+      "description": "Units of measurement",
+      "downloads": 15237266,
+      "edition": "2021",
+      "keywords": [
+        "dimensional-analysis",
+        "measurement",
+        "no_std",
+        "si",
+        "units"
+      ],
+      "last_release": "2026-02-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.68.0",
+      "name": "uom",
+      "owners": 1,
+      "recent_downloads": 2992336,
+      "releases_365d": 1,
+      "repository": "https://github.com/iliekturtles/uom",
+      "score": 66.59,
+      "version": "0.38.0",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.8624,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.5356,
+        "security": 1.0
+      },
+      "created": "2016-06-27",
+      "dependents": 51,
+      "description": "Fast floating point primitive to string conversion",
+      "downloads": 199219487,
+      "edition": "2021",
+      "keywords": [
+        "float"
+      ],
+      "last_release": "2025-12-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "dtoa",
+      "owners": 1,
+      "recent_downloads": 55524066,
+      "releases_365d": 1,
+      "repository": "https://github.com/dtolnay/dtoa",
+      "score": 66.42,
+      "version": "1.0.11",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "localization",
+        "no-std",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.7092,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7579,
+        "security": 1.0
+      },
+      "created": "2018-11-23",
+      "dependents": 6,
+      "description": "Convert primitive numbers to Chinese numbers, or parse Chinese numbers to primitive numbers.",
+      "downloads": 4843556,
+      "edition": "2024",
+      "keywords": [
+        "chinese",
+        "float",
+        "integer",
+        "money",
+        "number"
+      ],
+      "last_release": "2026-06-28",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "chinese-number",
+      "owners": 1,
+      "recent_downloads": 2334815,
+      "releases_365d": 4,
+      "repository": "https://github.com/magiclen/chinese-number",
+      "score": 66.2,
+      "version": "0.8.2",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "no-std",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5874,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9873,
+        "security": 1.0
+      },
+      "created": "2018-09-01",
+      "dependents": 6,
+      "description": "This library is designed for validating and modeling user input. The crate includes models, functions, traits, errors, and other dependencies.",
+      "downloads": 2279784,
+      "edition": "2024",
+      "keywords": [
+        "rocket",
+        "serde",
+        "user",
+        "validation",
+        "validator"
+      ],
+      "last_release": "2026-11-14",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "validators",
+      "owners": 1,
+      "recent_downloads": 188354,
+      "releases_365d": 3,
+      "repository": "https://github.com/magiclen/validators",
+      "score": 65.1,
+      "version": "0.27.0",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "algorithms",
+        "api-bindings",
+        "development-tools::debugging",
+        "os::unix-apis",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.6594,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9566,
+        "security": 1.0
+      },
+      "created": "2023-11-21",
+      "dependents": 0,
+      "description": "C bindings for blazesym",
+      "downloads": 5090702,
+      "edition": "2021",
+      "keywords": [
+        "dwarf",
+        "elf",
+        "gsym",
+        "stacktrace",
+        "tracing"
+      ],
+      "last_release": "2026-10-28",
+      "license": "BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "blazesym-c",
+      "owners": 2,
+      "recent_downloads": 834860,
+      "releases_365d": 6,
+      "repository": "https://github.com/libbpf/blazesym",
+      "score": 64.83,
+      "version": "0.1.11",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "parsing",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.364,
+        "downloads": 0.8415,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4454,
+        "security": 1.0
+      },
+      "created": "2018-12-15",
+      "dependents": 74,
+      "description": "Lexical, to- and from-string conversion routines.",
+      "downloads": 178920215,
+      "edition": "2021",
+      "keywords": [
+        "encoding",
+        "lexical",
+        "no_std",
+        "parsing"
+      ],
+      "last_release": "2025-09-21",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.60.0",
+      "name": "lexical-core",
+      "owners": 2,
+      "recent_downloads": 35987463,
+      "releases_365d": 0,
+      "repository": "https://github.com/Alexhuszagh/rust-lexical",
+      "score": 64.82,
+      "version": "1.0.6",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "data-structures",
+        "date-and-time",
+        "encoding",
+        "parsing",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.5617,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9875,
+        "security": 1.0
+      },
+      "created": "2018-04-09",
+      "dependents": 14,
+      "description": "Rust ULID (Universally Unique Lexicographically Sortable Identifier) generation and processing",
+      "downloads": 1399120,
+      "edition": "2024",
+      "keywords": [
+        "identifier",
+        "sortable",
+        "ulid",
+        "uuid"
+      ],
+      "last_release": "2026-11-14",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.95",
+      "name": "rusty_ulid",
+      "owners": 1,
+      "recent_downloads": 110689,
+      "releases_365d": 2,
+      "repository": "https://github.com/huxi/rusty_ulid",
+      "score": 64.56,
+      "version": "2.0.2",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "data-structures",
+        "encoding",
+        "parsing",
+        "text-processing",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5258,
+        "license": 1.0,
+        "maintenance": 0.8852,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2025-05-15",
+      "dependents": 3,
+      "description": "ASIMOV Software Development Kit (SDK) for Rust",
+      "downloads": 98441,
+      "edition": "2024",
+      "keywords": [
+        "ai",
+        "asimov",
+        "osint",
+        "sdk"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Unlicense",
+      "msrv": "1.97.1",
+      "name": "asimov-prompt",
+      "owners": 2,
+      "recent_downloads": 52612,
+      "releases_365d": 23,
+      "repository": "https://github.com/asimov-platform/asimov.rs",
+      "score": 64.21,
+      "version": "25.9.1",
+      "versions": 45
+    }
+  ],
+  "score_version": 1
+}

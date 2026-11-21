@@ -614,3 +614,30 @@ docs = "https://kubernetes.io/docs/"
 fw = "fw docs + fw learn"
 role = "Kubernetes documentation (CC-BY-4.0, no llms.txt on kubernetes.io): concept and RBAC pages read from content/en/docs and cached by `fw docs` as kubernetes, not vendored"
 watch = true
+
+[[upstream]]
+id = "crates-io"
+repo = "rust-lang/crates.io"
+branch = "main"
+docs = "https://crates.io/data-access"
+fw = "crates/fw-crates"
+role = "Registry behind crates.io: the daily database dump (static.crates.io/db-dump.tar.gz) and the sparse index feed `fw crates sync` (ranking, awesome lists); crawler policy honoured (one request per second, named User-Agent, dump for bulk)"
+watch = true
+
+[[upstream]]
+id = "rustsec-advisory-db"
+repo = "rustsec/advisory-db"
+branch = "main"
+docs = "https://github.com/rustsec/advisory-db#readme"
+fw = "crates/fw-crates"
+role = "RustSec advisories (CC0-1.0): open vulnerabilities and unmaintained or unsound notices lower a crate's score in `fw crates`; the commit used is recorded in docs/crates/meta.json"
+watch = true
+
+[[upstream]]
+id = "oha"
+repo = "hatoo/oha"
+branch = "master"
+docs = "https://github.com/hatoo/oha#readme"
+fw = "crates/fw-crates"
+role = "Rust HTTP load generator (MIT): the benchmark harness of `fw crates bench` drives every framework with it on fr1 and records its version"
+watch = true

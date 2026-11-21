@@ -1,0 +1,950 @@
+{
+  "category": {
+    "crates": 2967,
+    "description": "Crates that record, output, or process audio.",
+    "name": "Multimedia::Audio",
+    "slug": "multimedia::audio"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.5535,
+        "downloads": 0.7862,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8328,
+        "security": 1.0
+      },
+      "created": "2014-12-17",
+      "dependents": 709,
+      "description": "Low-level cross-platform audio I/O library.",
+      "downloads": 29972239,
+      "edition": "2021",
+      "keywords": [
+        "audio",
+        "cross-platform",
+        "playback",
+        "recording",
+        "sound"
+      ],
+      "last_release": "2026-08-16",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "cpal",
+      "owners": 2,
+      "recent_downloads": 11482661,
+      "releases_365d": 6,
+      "repository": "https://github.com/RustAudio/cpal",
+      "score": 79.99,
+      "version": "0.18.2",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.4736,
+        "downloads": 0.7576,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9847,
+        "security": 1.0
+      },
+      "created": "2020-05-06",
+      "dependents": 274,
+      "description": "Asynchronous resampling library intended for audio data",
+      "downloads": 16159002,
+      "edition": "2021",
+      "keywords": [
+        "interpolation",
+        "resampling"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "rubato",
+      "owners": 1,
+      "recent_downloads": 6350822,
+      "releases_365d": 8,
+      "repository": "https://github.com/HEnquist/rubato",
+      "score": 78.55,
+      "version": "5.1.0",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.5216,
+        "downloads": 0.7883,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 485,
+      "description": "Pure Rust media container and audio decoding library.",
+      "downloads": 22883004,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "media",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia",
+      "owners": 1,
+      "recent_downloads": 11978915,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 75.65,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia",
+        "multimedia::audio",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3883,
+        "downloads": 0.6914,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9937,
+        "security": 1.0
+      },
+      "created": "2015-04-13",
+      "dependents": 99,
+      "description": "A library for reading and writing ID3 metadata",
+      "downloads": 13155639,
+      "edition": "2024",
+      "keywords": [
+        "aiff",
+        "id3",
+        "metadata",
+        "mp3",
+        "wav"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "id3",
+      "owners": 1,
+      "recent_downloads": 1617151,
+      "releases_365d": 6,
+      "repository": "https://codeberg.org/polyfloyd/rust-id3",
+      "score": 74.9,
+      "version": "1.17.4",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.4252,
+        "downloads": 0.6557,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9513,
+        "security": 1.0
+      },
+      "created": "2021-04-23",
+      "dependents": 154,
+      "description": "Audio metadata library",
+      "downloads": 1660283,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "id3",
+        "metadata",
+        "tags",
+        "vorbis"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "lofty",
+      "owners": 1,
+      "recent_downloads": 772674,
+      "releases_365d": 7,
+      "repository": "https://github.com/Serial-ATA/lofty-rs",
+      "score": 74.29,
+      "version": "0.25.5",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.7895,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 51,
+      "description": "Project Symphonia shared structs, traits, and features.",
+      "downloads": 23446779,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "media",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-core",
+      "owners": 1,
+      "recent_downloads": 12274424,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 70.97,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.3363,
+        "downloads": 0.7284,
+        "license": 1.0,
+        "maintenance": 0.7741,
+        "msrv": 1.0,
+        "recency": 0.8394,
+        "security": 1.0
+      },
+      "created": "2025-10-24",
+      "dependents": 53,
+      "description": "A selection of wrappers and buffers for audio data",
+      "downloads": 5198778,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "buffer",
+        "dsp",
+        "pcm",
+        "sample"
+      ],
+      "last_release": "2026-08-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "audioadapter-buffers",
+      "owners": 1,
+      "recent_downloads": 3471545,
+      "releases_365d": 6,
+      "repository": "https://github.com/HEnquist/audioadapter-buffers-rs",
+      "score": 70.82,
+      "version": "5.2.0",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.7284,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8081,
+        "security": 1.0
+      },
+      "created": "2024-10-16",
+      "dependents": 21,
+      "description": "A library for making it easier to work with buffers of audio data",
+      "downloads": 5210570,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "buffer",
+        "dsp",
+        "pcm",
+        "sample"
+      ],
+      "last_release": "2026-07-31",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "audioadapter",
+      "owners": 1,
+      "recent_downloads": 3471116,
+      "releases_365d": 5,
+      "repository": "https://github.com/HEnquist/audioadapter-rs",
+      "score": 69.85,
+      "version": "5.0.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.7892,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 11,
+      "description": "Project Symphonia multimedia tag and metadata readers.",
+      "downloads": 23273021,
+      "edition": "2024",
+      "keywords": [
+        "id3v1",
+        "id3v2",
+        "media",
+        "metadata",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-metadata",
+      "owners": 1,
+      "recent_downloads": 12216085,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 67.88,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.7824,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 0.0,
+        "recency": 0.8075,
+        "security": 1.0
+      },
+      "created": "2015-06-08",
+      "dependents": 56,
+      "description": "Thin but safe wrappers for ALSA (Linux sound API)",
+      "downloads": 30272024,
+      "edition": "2021",
+      "keywords": [
+        "alsa",
+        "audio",
+        "sound"
+      ],
+      "last_release": "2026-07-31",
+      "license": "Apache-2.0/MIT",
+      "name": "alsa",
+      "owners": 2,
+      "recent_downloads": 10602812,
+      "releases_365d": 3,
+      "repository": "https://github.com/diwic/alsa-rs",
+      "score": 67.69,
+      "version": "0.12.1",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "multimedia::audio",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.7813,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.8075,
+        "security": 1.0
+      },
+      "created": "2014-12-16",
+      "dependents": 16,
+      "description": "FFI bindings for the ALSA project (Advanced Linux Sound Architecture)",
+      "downloads": 28324840,
+      "edition": "2021",
+      "keywords": [
+        "alsa",
+        "audio",
+        "sound"
+      ],
+      "last_release": "2026-07-31",
+      "license": "MIT",
+      "name": "alsa-sys",
+      "owners": 3,
+      "recent_downloads": 10374905,
+      "releases_365d": 4,
+      "repository": "https://github.com/diwic/alsa-sys",
+      "score": 67.62,
+      "version": "0.6.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "multimedia::audio",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6067,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9734,
+        "security": 1.0
+      },
+      "created": "2021-06-05",
+      "dependents": 9,
+      "description": "Bindings for the Wasapi API on Windows",
+      "downloads": 563402,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "sound",
+        "wasapi",
+        "windows"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "wasapi",
+      "owners": 1,
+      "recent_downloads": 280505,
+      "releases_365d": 6,
+      "repository": "https://github.com/HEnquist/wasapi-rs",
+      "score": 67.62,
+      "version": "0.27.0",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "encoding",
+        "external-ffi-bindings",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.6061,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9668,
+        "security": 1.0
+      },
+      "created": "2022-12-10",
+      "dependents": 32,
+      "description": "High level bindings to mp3lame encoder",
+      "downloads": 1257874,
+      "edition": "2024",
+      "keywords": [
+        "codec",
+        "lame",
+        "libmp3lame",
+        "mp3",
+        "mp3lame"
+      ],
+      "last_release": "2026-11-03",
+      "license": "LGPL-3.0",
+      "msrv": "1.85",
+      "name": "mp3lame-encoder",
+      "owners": 1,
+      "recent_downloads": 277066,
+      "releases_365d": 5,
+      "repository": "https://github.com/DoumanAsh/mp3lame-encoder",
+      "score": 67.52,
+      "version": "0.3.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.7597,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2021-02-28",
+      "dependents": 11,
+      "description": "Pure Rust AAC decoder (a part of project Symphonia).",
+      "downloads": 13408585,
+      "edition": "2024",
+      "keywords": [
+        "aac",
+        "audio",
+        "codec",
+        "decoder",
+        "m4a"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-codec-aac",
+      "owners": 1,
+      "recent_downloads": 6631083,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 67.14,
+      "version": "0.6.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.6854,
+        "license": 1.0,
+        "maintenance": 0.6441,
+        "msrv": 1.0,
+        "recency": 0.9744,
+        "security": 1.0
+      },
+      "created": "2026-02-11",
+      "dependents": 12,
+      "description": "WebRTC Audio Processing — pure Rust port with echo cancellation, noise suppression, and AGC",
+      "downloads": 1441173,
+      "edition": "2024",
+      "keywords": [
+        "agc",
+        "audio",
+        "echo-cancellation",
+        "noise-suppression",
+        "webrtc"
+      ],
+      "last_release": "2026-11-07",
+      "license": "BSD-3-Clause",
+      "msrv": "1.91",
+      "name": "sonora",
+      "owners": 1,
+      "recent_downloads": 1427981,
+      "releases_365d": 3,
+      "repository": "https://github.com/dignifiedquire/sonora",
+      "score": 66.82,
+      "version": "0.3.0",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "game-development",
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.6141,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9554,
+        "security": 1.0
+      },
+      "created": "2020-11-18",
+      "dependents": 72,
+      "description": "Expressive audio library for games",
+      "downloads": 1204073,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gamedev",
+        "music"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "name": "kira",
+      "owners": 1,
+      "recent_downloads": 326964,
+      "releases_365d": 7,
+      "repository": "https://github.com/tesselode/kira",
+      "score": 66.73,
+      "version": "0.12.6",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.7284,
+        "license": 1.0,
+        "maintenance": 0.7741,
+        "msrv": 1.0,
+        "recency": 0.8394,
+        "security": 1.0
+      },
+      "created": "2025-10-24",
+      "dependents": 6,
+      "description": "A library for making it easier to work with audio data",
+      "downloads": 5198912,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "dsp",
+        "pcm",
+        "sample"
+      ],
+      "last_release": "2026-08-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "audioadapter-sample",
+      "owners": 1,
+      "recent_downloads": 3470834,
+      "releases_365d": 6,
+      "repository": "https://github.com/HEnquist/audioadapter-sample-rs",
+      "score": 66.51,
+      "version": "5.2.0",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.4064,
+        "downloads": 0.638,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.924,
+        "security": 1.0
+      },
+      "created": "2015-08-10",
+      "dependents": 123,
+      "description": "A cross-platform, realtime MIDI processing library, inspired by RtMidi.",
+      "downloads": 1214621,
+      "edition": "2021",
+      "keywords": [
+        "audio",
+        "midi",
+        "music",
+        "sound"
+      ],
+      "last_release": "2026-10-10",
+      "license": "MIT",
+      "name": "midir",
+      "owners": 1,
+      "recent_downloads": 535371,
+      "releases_365d": 3,
+      "repository": "https://github.com/Boddlnagg/midir",
+      "score": 66.47,
+      "version": "0.11.1",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.7846,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 5,
+      "description": "Pure Rust MP1, MP2, and MP3 demuxer and decoder (a part of project Symphonia).",
+      "downloads": 21130558,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "mp3",
+        "mpeg"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-bundle-mp3",
+      "owners": 1,
+      "recent_downloads": 11102061,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 66.3,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.7652,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2021-09-21",
+      "dependents": 5,
+      "description": "Pure Rust Vorbis decoder (a part of project Symphonia).",
+      "downloads": 15664900,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "vorbis"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-codec-vorbis",
+      "owners": 1,
+      "recent_downloads": 7437689,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 65.81,
+      "version": "0.6.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "game-development",
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.528,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9299,
+        "security": 1.0
+      },
+      "created": "2021-02-13",
+      "dependents": 12,
+      "description": "Bevy plugin for dynamic audio",
+      "downloads": 571508,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "bevy",
+        "gamedev",
+        "music"
+      ],
+      "last_release": "2026-10-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96",
+      "name": "bevy_kira_audio",
+      "owners": 1,
+      "recent_downloads": 55131,
+      "releases_365d": 7,
+      "repository": "https://github.com/NiklasEi/bevy_kira_audio",
+      "score": 65.56,
+      "version": "0.27.1",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.7777,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 3,
+      "description": "Pure Rust OGG demuxer (a part of project Symphonia).",
+      "downloads": 17636103,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "demuxer",
+        "media",
+        "ogg"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-format-ogg",
+      "owners": 1,
+      "recent_downloads": 9625804,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 65.27,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.6575,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9512,
+        "security": 1.0
+      },
+      "created": "2021-06-27",
+      "dependents": 3,
+      "description": "A simple OGG page reader",
+      "downloads": 2298570,
+      "edition": "2024",
+      "keywords": [
+        "ogg",
+        "xiph"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "ogg_pager",
+      "owners": 1,
+      "recent_downloads": 801590,
+      "releases_365d": 3,
+      "repository": "https://github.com/Serial-ATA/lofty-rs",
+      "score": 65.13,
+      "version": "0.8.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "multimedia::audio",
+        "multimedia::encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.7154,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8353,
+        "security": 1.0
+      },
+      "created": "2024-03-31",
+      "dependents": 8,
+      "description": "Audio codec algorithms: A-law, μ-law and IMA ADPCM",
+      "downloads": 3232045,
+      "edition": "2024",
+      "keywords": [
+        "a-law",
+        "adpcm",
+        "audio",
+        "u-law"
+      ],
+      "last_release": "2026-08-18",
+      "license": "0BSD OR Apache-2.0",
+      "msrv": "1.87.0",
+      "name": "audio-codec-algorithms",
+      "owners": 1,
+      "recent_downloads": 2654723,
+      "releases_365d": 2,
+      "repository": "https://github.com/karip/audio-codec-algorithms",
+      "score": 65.05,
+      "version": "0.8.1",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7457,
+        "license": 0.75,
+        "maintenance": 0.7329,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2026-03-24",
+      "dependents": 12,
+      "description": "Project Symphonia utilities for codecs and formats.",
+      "downloads": 5800826,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "media",
+        "multimedia",
+        "xiph"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-common",
+      "owners": 1,
+      "recent_downloads": 4964934,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 64.95,
+      "version": "0.6.1",
+      "versions": 4
+    }
+  ],
+  "score_version": 1
+}

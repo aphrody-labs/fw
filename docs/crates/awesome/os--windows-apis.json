@@ -1,0 +1,831 @@
+{
+  "category": {
+    "crates": 811,
+    "description": "Bindings to Windows-specific APIs.",
+    "name": "Operating systems::Windows APIs",
+    "slug": "os::windows-apis"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "asynchronous",
+        "os",
+        "os::unix-apis",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.4786,
+        "downloads": 0.7477,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.996,
+        "security": 1.0
+      },
+      "created": "2020-08-05",
+      "dependents": 291,
+      "description": "Interprocess communication toolkit",
+      "downloads": 18410110,
+      "edition": "2021",
+      "keywords": [
+        "ipc",
+        "pipe"
+      ],
+      "last_release": "2026-11-18",
+      "license": "0BSD OR Apache-2.0",
+      "msrv": "1.75",
+      "name": "interprocess",
+      "owners": 1,
+      "recent_downloads": 5178890,
+      "releases_365d": 12,
+      "repository": "https://github.com/kotauskas/interprocess",
+      "score": 78.6,
+      "version": "2.4.9",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "development-tools",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.434,
+        "downloads": 0.8229,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9171,
+        "security": 1.0
+      },
+      "created": "2017-01-30",
+      "dependents": 171,
+      "description": "A Cargo library to handle compilation and inclusion of Windows resources in the most resilient fashion imaginable",
+      "downloads": 58155463,
+      "edition": "2021",
+      "keywords": [
+        "build",
+        "cargo",
+        "manifest",
+        "resource",
+        "windows"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT",
+      "msrv": "1.76",
+      "name": "embed-resource",
+      "owners": 1,
+      "recent_downloads": 24500504,
+      "releases_365d": 5,
+      "repository": "https://github.com/nabijaczleweli/rust-embed-resource",
+      "score": 78.18,
+      "version": "3.0.12",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.4745,
+        "downloads": 0.918,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2021-11-15",
+      "dependents": 277,
+      "description": "Core type support for COM and Windows",
+      "downloads": 562614488,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-core",
+      "owners": 1,
+      "recent_downloads": 175285247,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 76.24,
+      "version": "0.100.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.6877,
+        "downloads": 0.9725,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.4588,
+        "security": 1.0
+      },
+      "created": "2021-10-18",
+      "dependents": 3485,
+      "description": "Rust for Windows",
+      "downloads": 1979861518,
+      "edition": "2021",
+      "last_release": "2025-10-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "windows-sys",
+      "owners": 1,
+      "recent_downloads": 539942443,
+      "releases_365d": 0,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 75.39,
+      "version": "0.61.2",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.514,
+        "downloads": 0.8626,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.6207,
+        "security": 1.0
+      },
+      "created": "2015-04-17",
+      "dependents": 443,
+      "description": "Rust bindings to MS Windows Registry API",
+      "downloads": 261126523,
+      "edition": "2021",
+      "keywords": [
+        "registry",
+        "windows",
+        "winsdk"
+      ],
+      "last_release": "2026-03-14",
+      "license": "MIT",
+      "msrv": "1.60",
+      "name": "winreg",
+      "owners": 1,
+      "recent_downloads": 55734579,
+      "releases_365d": 2,
+      "repository": "https://github.com/gentoo90/winreg-rs",
+      "score": 73.72,
+      "version": "0.56.0",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3812,
+        "downloads": 0.696,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8958,
+        "security": 1.0
+      },
+      "created": "2019-05-14",
+      "dependents": 91,
+      "description": "library for working with NTFS junctions",
+      "downloads": 6944959,
+      "edition": "2024",
+      "keywords": [
+        "junction",
+        "symlink"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "junction",
+      "owners": 1,
+      "recent_downloads": 1778823,
+      "releases_365d": 5,
+      "repository": "https://github.com/tesuji/junction",
+      "score": 73.37,
+      "version": "2.1.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.411,
+        "downloads": 0.8597,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2024-02-15",
+      "dependents": 130,
+      "description": "Windows registry",
+      "downloads": 168362996,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-registry",
+      "owners": 1,
+      "recent_downloads": 52437609,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 73.19,
+      "version": "0.100.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3347,
+        "downloads": 0.9275,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2024-07-17",
+      "dependents": 52,
+      "description": "Linking for Windows",
+      "downloads": 588016529,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "windows-link",
+      "owners": 1,
+      "recent_downloads": 213214147,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 72.98,
+      "version": "0.100.0",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.6565,
+        "downloads": 0.8993,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.4588,
+        "security": 1.0
+      },
+      "created": "2019-01-15",
+      "dependents": 2406,
+      "description": "Rust for Windows",
+      "downloads": 420549970,
+      "edition": "2021",
+      "last_release": "2025-10-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82",
+      "name": "windows",
+      "owners": 1,
+      "recent_downloads": 118873756,
+      "releases_365d": 0,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 72.78,
+      "version": "0.62.2",
+      "versions": 81
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.9168,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2024-02-02",
+      "dependents": 51,
+      "description": "Windows error handling",
+      "downloads": 489896626,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-result",
+      "owners": 1,
+      "recent_downloads": 170724604,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 72.67,
+      "version": "0.100.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3651,
+        "downloads": 0.8714,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2023-05-15",
+      "dependents": 75,
+      "description": "Windows numeric types",
+      "downloads": 145838460,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-numerics",
+      "owners": 1,
+      "recent_downloads": 66800494,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 72.34,
+      "version": "0.100.0",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.2973,
+        "downloads": 0.799,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8582,
+        "security": 1.0
+      },
+      "created": "2019-10-28",
+      "dependents": 33,
+      "description": "Windows API and GUI in safe, idiomatic Rust.",
+      "downloads": 58844205,
+      "edition": "2024",
+      "keywords": [
+        "com",
+        "ffi",
+        "gui",
+        "win32",
+        "windows"
+      ],
+      "last_release": "2026-09-01",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "winsafe",
+      "owners": 1,
+      "recent_downloads": 14967831,
+      "releases_365d": 3,
+      "repository": "https://github.com/rodrigocfd/winsafe",
+      "score": 71.78,
+      "version": "0.0.29",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.8716,
+        "license": 1.0,
+        "maintenance": 0.5443,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2025-02-10",
+      "dependents": 49,
+      "description": "Windows async types",
+      "downloads": 146717581,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-future",
+      "owners": 1,
+      "recent_downloads": 67038295,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 71.12,
+      "version": "0.100.0",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3493,
+        "downloads": 0.795,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.6164,
+        "security": 1.0
+      },
+      "created": "2021-09-06",
+      "dependents": 62,
+      "description": "Rust bindings for the WebView2 COM APIs",
+      "downloads": 31614808,
+      "edition": "2021",
+      "keywords": [
+        "webview2",
+        "win32"
+      ],
+      "last_release": "2026-03-11",
+      "license": "MIT",
+      "msrv": "1.82",
+      "name": "webview2-com",
+      "owners": 1,
+      "recent_downloads": 13755276,
+      "releases_365d": 4,
+      "repository": "https://github.com/wravery/webview2-rs",
+      "score": 70.85,
+      "version": "0.39.1",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.9134,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2024-02-02",
+      "dependents": 18,
+      "description": "Windows string types",
+      "downloads": 444969542,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-strings",
+      "owners": 1,
+      "recent_downloads": 159261995,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 70.47,
+      "version": "0.100.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.2998,
+        "downloads": 0.8714,
+        "license": 1.0,
+        "maintenance": 0.5454,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2025-02-06",
+      "dependents": 34,
+      "description": "Windows collection types",
+      "downloads": 145828102,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-collections",
+      "owners": 1,
+      "recent_downloads": 66800100,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 70.38,
+      "version": "0.100.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3629,
+        "downloads": 0.827,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.9467,
+        "security": 1.0
+      },
+      "created": "2015-07-12",
+      "dependents": 73,
+      "description": "Provides simple way to interact with Windows clipboard.",
+      "downloads": 80640835,
+      "edition": "2018",
+      "keywords": [
+        "clipboard",
+        "winapi",
+        "windows"
+      ],
+      "last_release": "2026-10-23",
+      "license": "BSL-1.0",
+      "name": "clipboard-win",
+      "owners": 1,
+      "recent_downloads": 26684398,
+      "releases_365d": 2,
+      "repository": "https://github.com/DoumanAsh/clipboard-win",
+      "score": 68.95,
+      "version": "5.4.3",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.9077,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2022-01-27",
+      "dependents": 7,
+      "description": "The implement macro for the Windows crates",
+      "downloads": 401785079,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-implement",
+      "owners": 1,
+      "recent_downloads": 141406458,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 68.5,
+      "version": "0.100.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.8008,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2023-03-07",
+      "dependents": 27,
+      "description": "Windows version information",
+      "downloads": 35302086,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-version",
+      "owners": 1,
+      "recent_downloads": 15510790,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 68.47,
+      "version": "0.100.0",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.907,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2022-02-18",
+      "dependents": 5,
+      "description": "The interface macro for the Windows crates",
+      "downloads": 394254169,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-interface",
+      "owners": 1,
+      "recent_downloads": 139380578,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 67.88,
+      "version": "0.100.0",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3948,
+        "downloads": 0.7261,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.6885,
+        "security": 1.0
+      },
+      "created": "2018-06-04",
+      "dependents": 107,
+      "description": "A crate that provides facilities for management and implementation of windows services",
+      "downloads": 9750495,
+      "edition": "2021",
+      "keywords": [
+        "daemon",
+        "service",
+        "windows"
+      ],
+      "last_release": "2026-05-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "windows-service",
+      "owners": 2,
+      "recent_downloads": 3310912,
+      "releases_365d": 1,
+      "repository": "https://github.com/mullvad/windows-service-rs",
+      "score": 67.85,
+      "version": "0.8.1",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "multimedia::audio",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6067,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9734,
+        "security": 1.0
+      },
+      "created": "2021-06-05",
+      "dependents": 9,
+      "description": "Bindings for the Wasapi API on Windows",
+      "downloads": 563402,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "sound",
+        "wasapi",
+        "windows"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "wasapi",
+      "owners": 1,
+      "recent_downloads": 280505,
+      "releases_365d": 6,
+      "repository": "https://github.com/HEnquist/wasapi-rs",
+      "score": 67.62,
+      "version": "0.27.0",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.8708,
+        "license": 1.0,
+        "maintenance": 0.5229,
+        "msrv": 1.0,
+        "recency": 0.8617,
+        "security": 1.0
+      },
+      "created": "2025-04-29",
+      "dependents": 8,
+      "description": "Windows threading",
+      "downloads": 140603804,
+      "edition": "2024",
+      "last_release": "2026-09-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "windows-threading",
+      "owners": 1,
+      "recent_downloads": 65925098,
+      "releases_365d": 1,
+      "repository": "https://github.com/microsoft/windows-rs",
+      "score": 67.17,
+      "version": "0.100.0",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.8205,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.6203,
+        "security": 1.0
+      },
+      "created": "2018-12-06",
+      "dependents": 46,
+      "description": "Unix Domain Sockets for Windows!",
+      "downloads": 63391170,
+      "edition": "2021",
+      "keywords": [
+        "domain",
+        "sockets",
+        "uds",
+        "unix",
+        "windows"
+      ],
+      "last_release": "2026-03-14",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "uds_windows",
+      "owners": 1,
+      "recent_downloads": 23310833,
+      "releases_365d": 1,
+      "repository": "https://github.com/haraldh/rust_uds_windows",
+      "score": 66.43,
+      "version": "1.2.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "accessibility",
+        "api-bindings",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.6462,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9991,
+        "security": 1.0
+      },
+      "created": "2022-03-03",
+      "dependents": 16,
+      "description": "UI Automation Framework for Windows",
+      "downloads": 1139695,
+      "edition": "2024",
+      "keywords": [
+        "rpa",
+        "uiautomation",
+        "windows"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0",
+      "name": "uiautomation",
+      "owners": 1,
+      "recent_downloads": 635107,
+      "releases_365d": 5,
+      "repository": "https://github.com/leexgone/uiautomation-rs",
+      "score": 65.11,
+      "version": "0.25.2",
+      "versions": 123
+    }
+  ],
+  "score_version": 1
+}

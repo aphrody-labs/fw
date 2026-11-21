@@ -1,0 +1,48 @@
+name: Crates sync
+
+# Daily: download the crates.io database dump (https://static.crates.io/db-dump.tar.gz, published about 02:00 UTC) and the
+# latest rustsec/advisory-db, rank every crate (crates/fw-crates/src/rank.rs, method in docs/crates/RANKING.md), and
+# regenerate docs/crates: the search index, the per-category awesome lists (JSON and MDX) and the metadata that names
+# the dump date. Commits straight to main, no branch, and only when an output file changed.
+#
+# The dump is streamed through the job (never stored) and crates.io is contacted for nothing else: no API crawling.
+# Benchmarks are not run here; they need a quiet machine and are recorded from fr1 (docs/crates/bench).
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fw-crates-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/rust-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - name: Build the sync engine (dump ingestion only, no uutils)
+        run: cargo build --release -p fw-crates --no-default-features --features sync
+      - name: Rank the dump and publish docs/crates
+        run: ./target/release/fw-crates sync --out .cache/crates --publish docs/crates
+      - name: Commit changed outputs to main
+        run: |
+          if [ -z "$(git status --porcelain -- docs/crates)" ]; then
+            echo "docs/crates unchanged"
+            exit 0
+          fi
+          date=$(jq -r .dump_date docs/crates/meta.json)
+          git config user.name "fw-sync"
+          git config user.email "fw-sync@users.noreply.github.com"
+          git add -- docs/crates
+          git commit -m "chore(crates): refresh the ranking and awesome lists from the crates.io dump of $date"
+          git pull --rebase origin main
+          git push origin HEAD:main

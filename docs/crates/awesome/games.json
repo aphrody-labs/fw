@@ -1,0 +1,901 @@
+{
+  "category": {
+    "crates": 1510,
+    "description": "Applications for fun and entertainment. If Rust the video game were implemented in Rust the programming language, it would belong in this category. Libraries to help create video games are in the Game engines category.",
+    "name": "Games",
+    "slug": "games"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "games",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.311,
+        "downloads": 0.5588,
+        "license": 0.5,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9978,
+        "security": 1.0
+      },
+      "created": "2017-03-13",
+      "dependents": 39,
+      "description": "Chess and chess variant rules and operations",
+      "downloads": 481862,
+      "edition": "2024",
+      "keywords": [
+        "chess",
+        "lichess"
+      ],
+      "last_release": "2026-11-19",
+      "license": "GPL-3.0-or-later",
+      "msrv": "1.97",
+      "name": "shakmaty",
+      "owners": 1,
+      "recent_downloads": 104264,
+      "releases_365d": 4,
+      "repository": "https://github.com/niklasf/shakmaty",
+      "score": 64.71,
+      "version": "0.30.3",
+      "versions": 88
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.5869,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6846,
+        "security": 1.0
+      },
+      "created": "2018-02-27",
+      "dependents": 23,
+      "description": "Provides rust friendly bindings to the steamworks sdk",
+      "downloads": 433029,
+      "edition": "2021",
+      "keywords": [
+        "gamedev",
+        "steam"
+      ],
+      "last_release": "2026-05-05",
+      "license": "MIT / Apache-2.0",
+      "msrv": "1.80.0",
+      "name": "steamworks",
+      "owners": 4,
+      "recent_downloads": 186300,
+      "releases_365d": 2,
+      "repository": "https://github.com/Noxime/steamworks-rs",
+      "score": 63.64,
+      "version": "0.13.1",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "games",
+        "graphics",
+        "rendering::data-formats",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3726,
+        "downloads": 0.6605,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.81,
+        "security": 1.0
+      },
+      "created": "2015-04-19",
+      "dependents": 82,
+      "description": "A lightweight OBJ loader in the spirit of tinyobjloader",
+      "downloads": 3426815,
+      "edition": "2021",
+      "keywords": [
+        "3d",
+        "graphics",
+        "obj",
+        "parser",
+        "wavefront"
+      ],
+      "last_release": "2026-08-02",
+      "license": "MIT",
+      "name": "tobj",
+      "owners": 1,
+      "recent_downloads": 853707,
+      "releases_365d": 2,
+      "repository": "https://github.com/Twinklebear/tobj",
+      "score": 62.98,
+      "version": "4.0.5",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "game-development",
+        "games"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4243,
+        "license": 1.0,
+        "maintenance": 0.8359,
+        "msrv": 1.0,
+        "recency": 0.9528,
+        "security": 1.0
+      },
+      "created": "2025-03-13",
+      "dependents": 4,
+      "description": "Process glTF extras when spawning Scenes to insert Components using Reflection, such as when using Blender as an editor",
+      "downloads": 30437,
+      "edition": "2024",
+      "keywords": [
+        "bevy"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "bevy_skein",
+      "owners": 1,
+      "recent_downloads": 6461,
+      "releases_365d": 6,
+      "repository": "https://github.com/rust-adventure/skein",
+      "score": 60.83,
+      "version": "0.7.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "game-development",
+        "games"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5734,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.9336,
+        "security": 1.0
+      },
+      "created": "2022-01-23",
+      "dependents": 12,
+      "description": "A powerful, flexible and ergonomic way to manage action-input keybindings for the Bevy game engine.",
+      "downloads": 659539,
+      "edition": "2024",
+      "keywords": [
+        "bevy"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "name": "leafwing-input-manager",
+      "owners": 1,
+      "recent_downloads": 140956,
+      "releases_365d": 3,
+      "repository": "https://github.com/leafwing-studios/leafwing-input-manager",
+      "score": 60.25,
+      "version": "0.22.0",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "game-development",
+        "games"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4079,
+        "license": 1.0,
+        "maintenance": 0.849,
+        "msrv": 1.0,
+        "recency": 0.9309,
+        "security": 1.0
+      },
+      "created": "2025-01-24",
+      "dependents": 3,
+      "description": "Bevy UI styling using CSS",
+      "downloads": 12221,
+      "edition": "2024",
+      "keywords": [
+        "animations",
+        "bevy",
+        "css",
+        "style"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "bevy_flair_core",
+      "owners": 1,
+      "recent_downloads": 4601,
+      "releases_365d": 4,
+      "repository": "https://github.com/eckz/bevy_flair",
+      "score": 59.82,
+      "version": "0.9.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "games",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.487,
+        "license": 0.5,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9978,
+        "security": 1.0
+      },
+      "created": "2017-09-28",
+      "dependents": 14,
+      "description": "Fast non-allocating and streaming reader for chess games in PGN notation",
+      "downloads": 196303,
+      "edition": "2024",
+      "keywords": [
+        "chess",
+        "pgn"
+      ],
+      "last_release": "2026-11-19",
+      "license": "GPL-3.0-or-later",
+      "msrv": "1.97",
+      "name": "pgn-reader",
+      "owners": 1,
+      "recent_downloads": 23584,
+      "releases_365d": 3,
+      "repository": "https://github.com/niklasf/shakmaty",
+      "score": 59.35,
+      "version": "0.29.2",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "game-development",
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4063,
+        "license": 1.0,
+        "maintenance": 0.849,
+        "msrv": 1.0,
+        "recency": 0.9309,
+        "security": 1.0
+      },
+      "created": "2025-01-24",
+      "dependents": 2,
+      "description": "Bevy UI styling using CSS",
+      "downloads": 11288,
+      "edition": "2024",
+      "keywords": [
+        "animations",
+        "bevy",
+        "css",
+        "style"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy_flair",
+      "owners": 1,
+      "recent_downloads": 4453,
+      "releases_365d": 4,
+      "repository": "https://github.com/eckz/bevy_flair",
+      "score": 59.17,
+      "version": "0.9.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "game-development",
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4007,
+        "license": 1.0,
+        "maintenance": 0.849,
+        "msrv": 1.0,
+        "recency": 0.9309,
+        "security": 1.0
+      },
+      "created": "2025-01-24",
+      "dependents": 2,
+      "description": "Bevy UI styling using CSS",
+      "downloads": 11327,
+      "edition": "2024",
+      "keywords": [
+        "animations",
+        "bevy",
+        "css",
+        "style"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "bevy_flair_style",
+      "owners": 1,
+      "recent_downloads": 3959,
+      "releases_365d": 4,
+      "repository": "https://github.com/eckz/bevy_flair",
+      "score": 59.03,
+      "version": "0.9.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "game-development",
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4064,
+        "license": 1.0,
+        "maintenance": 0.849,
+        "msrv": 1.0,
+        "recency": 0.9309,
+        "security": 1.0
+      },
+      "created": "2025-01-24",
+      "dependents": 1,
+      "description": "Bevy UI styling using CSS",
+      "downloads": 11483,
+      "edition": "2024",
+      "keywords": [
+        "animations",
+        "bevy",
+        "css",
+        "style"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "bevy_flair_css_parser",
+      "owners": 1,
+      "recent_downloads": 4458,
+      "releases_365d": 4,
+      "repository": "https://github.com/eckz/bevy_flair",
+      "score": 58.32,
+      "version": "0.9.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3694,
+        "license": 1.0,
+        "maintenance": 0.7905,
+        "msrv": 1.0,
+        "recency": 0.9382,
+        "security": 1.0
+      },
+      "created": "2025-08-25",
+      "dependents": 1,
+      "description": "Developer-oriented crate for launching Minecraft quickly and reliably with included support for Mojang versions and popular mod loaders. See portablemc-cli for the reference implementation.",
+      "downloads": 19093,
+      "edition": "2024",
+      "last_release": "2026-10-18",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "portablemc",
+      "owners": 1,
+      "recent_downloads": 2075,
+      "releases_365d": 11,
+      "repository": "https://github.com/theorzr/portablemc",
+      "score": 56.63,
+      "version": "5.0.6",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "algorithms",
+        "games",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3561,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-03-22",
+      "dependents": 1,
+      "description": "Prototype core poker library.",
+      "downloads": 4829,
+      "edition": "2024",
+      "keywords": [
+        "cards",
+        "equity",
+        "holdem",
+        "omaha",
+        "poker"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.99.0",
+      "name": "pkcore",
+      "owners": 1,
+      "recent_downloads": 1574,
+      "releases_365d": 76,
+      "repository": "https://github.com/ImperialBower/pkcore.git",
+      "score": 56.26,
+      "version": "0.20.10",
+      "versions": 76
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.347,
+        "license": 1.0,
+        "maintenance": 0.7008,
+        "msrv": 1.0,
+        "recency": 0.9758,
+        "security": 1.0
+      },
+      "created": "2026-07-19",
+      "dependents": 1,
+      "description": "Reusable Rust shogi primitives for board state, move generation, legality, and record parsing.",
+      "downloads": 1666,
+      "edition": "2024",
+      "keywords": [
+        "shogi"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "rsshogi",
+      "owners": 1,
+      "recent_downloads": 1306,
+      "releases_365d": 23,
+      "repository": "https://github.com/nyoki-mtl/rsshogi",
+      "score": 55.29,
+      "version": "1.7.5",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "games",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3638,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.99,
+        "security": 1.0
+      },
+      "created": "2023-02-12",
+      "dependents": 1,
+      "description": "A nom parser for the MoPaQ archive format",
+      "downloads": 16536,
+      "edition": "2024",
+      "keywords": [
+        "mopaq",
+        "mpq",
+        "sc2replay",
+        "starcraft2"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "name": "nom-mpq",
+      "owners": 1,
+      "recent_downloads": 1849,
+      "releases_365d": 7,
+      "repository": "https://github.com/sebosp/nom-mpq",
+      "score": 53.41,
+      "version": "2.0.14",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3667,
+        "license": 0.5,
+        "maintenance": 0.8893,
+        "msrv": 1.0,
+        "recency": 0.9441,
+        "security": 1.0
+      },
+      "created": "2025-04-30",
+      "dependents": 1,
+      "description": "Types for loading and reading Gatelogue data",
+      "downloads": 10851,
+      "edition": "2021",
+      "keywords": [
+        "gatelogue",
+        "mrt"
+      ],
+      "last_release": "2026-10-21",
+      "license": "GPL-3.0-only",
+      "msrv": "1.85",
+      "name": "gatelogue-types",
+      "owners": 2,
+      "recent_downloads": 1961,
+      "releases_365d": 24,
+      "repository": "https://github.com/mrt-map/gatelogue",
+      "score": 53.13,
+      "version": "3.1.5+13",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4194,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8639,
+        "security": 1.0
+      },
+      "created": "2019-11-27",
+      "dependents": 1,
+      "description": "Library to help with coding regret minimization.",
+      "downloads": 22123,
+      "edition": "2024",
+      "keywords": [
+        "cards",
+        "cfr",
+        "poker",
+        "regret-minimization"
+      ],
+      "last_release": "2026-09-05",
+      "license": "Apache-2.0",
+      "name": "little-sorry",
+      "owners": 1,
+      "recent_downloads": 5837,
+      "releases_365d": 8,
+      "repository": "https://github.com/elliottneilclark/little-sorry",
+      "score": 52.91,
+      "version": "5.0.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "games",
+        "mathematics",
+        "science",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.608,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.6635,
+        "security": 1.0
+      },
+      "created": "2020-05-10",
+      "dependents": 5,
+      "description": "Library for 3D geographic coordinate transformation",
+      "downloads": 1221086,
+      "edition": "2018",
+      "keywords": [
+        "3d",
+        "coordinate",
+        "geographic",
+        "map",
+        "transformation"
+      ],
+      "last_release": "2026-04-19",
+      "license": "Apache-2.0",
+      "name": "map_3d",
+      "owners": 1,
+      "recent_downloads": 287908,
+      "releases_365d": 1,
+      "repository": "https://github.com/gberrante/map_3d",
+      "score": 52.43,
+      "version": "0.1.7",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "game-development",
+        "games",
+        "internationalization",
+        "localization"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4181,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 0.0,
+        "recency": 0.9526,
+        "security": 1.0
+      },
+      "created": "2021-03-11",
+      "dependents": 0,
+      "description": "Bevy plugin for localization using Fluent",
+      "downloads": 54225,
+      "edition": "2021",
+      "keywords": [
+        "bevy",
+        "gamedev",
+        "internationalization",
+        "localization",
+        "plugin"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT OR Apache-2.0",
+      "name": "bevy_fluent",
+      "owners": 2,
+      "recent_downloads": 5675,
+      "releases_365d": 3,
+      "repository": "https://github.com/kgv/bevy_fluent",
+      "score": 52.24,
+      "version": "0.16.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "algorithms",
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3565,
+        "license": 1.0,
+        "maintenance": 0.5413,
+        "msrv": 1.0,
+        "recency": 0.9858,
+        "security": 1.0
+      },
+      "created": "2026-02-21",
+      "dependents": 0,
+      "description": "Fast Sudoku generator & solver — classic 9×9 plus configurable grids — with unique puzzles, CLI, and REST server.",
+      "downloads": 4808,
+      "edition": "2024",
+      "keywords": [
+        "game",
+        "generator",
+        "puzzle",
+        "solver",
+        "sudoku"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "rumenx-sudoku",
+      "owners": 1,
+      "recent_downloads": 1588,
+      "releases_365d": 2,
+      "repository": "https://github.com/rumendamyanov/rust-sudoku",
+      "score": 51.82,
+      "version": "1.0.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4869,
+        "license": 0.5,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7459,
+        "security": 1.0
+      },
+      "created": "2018-04-12",
+      "dependents": 4,
+      "description": "Probe Syzygy endgame tablebases",
+      "downloads": 110391,
+      "edition": "2024",
+      "keywords": [
+        "chess",
+        "syzygy",
+        "tablebase"
+      ],
+      "last_release": "2026-06-19",
+      "license": "GPL-3.0-or-later",
+      "msrv": "1.95",
+      "name": "shakmaty-syzygy",
+      "owners": 1,
+      "recent_downloads": 23581,
+      "releases_365d": 2,
+      "repository": "https://github.com/niklasf/shakmaty",
+      "score": 51.75,
+      "version": "0.28.1",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "games"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3455,
+        "license": 1.0,
+        "maintenance": 0.6881,
+        "msrv": 0.0,
+        "recency": 0.9562,
+        "security": 1.0
+      },
+      "created": "2026-09-03",
+      "dependents": 3,
+      "description": "The fastest chess engine and move generator in Rust (100% MIT). 540M nodes/s perft, PEXT / Fancy Magic bitboards, 16-bit binary replay, Shakmaty drop-in compat.",
+      "downloads": 1252,
+      "edition": "2021",
+      "keywords": [
+        "bitboard",
+        "chess",
+        "movegen",
+        "pext",
+        "zobrist"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT",
+      "name": "gigachess",
+      "owners": 1,
+      "recent_downloads": 1265,
+      "releases_365d": 11,
+      "repository": "https://github.com/itshak/gigachess-rs",
+      "score": 51.22,
+      "version": "0.1.10",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "games",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3344,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9901,
+        "security": 1.0
+      },
+      "created": "2023-02-12",
+      "dependents": 0,
+      "description": "A parser for Starcraft II - Replay format, exports to different target formats",
+      "downloads": 35212,
+      "edition": "2024",
+      "keywords": [
+        "arrow",
+        "mpq",
+        "polars",
+        "sc2replay",
+        "starcraft2"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "name": "s2protocol",
+      "owners": 1,
+      "recent_downloads": 1006,
+      "releases_365d": 19,
+      "repository": "https://github.com/sebosp/s2protocol-rs",
+      "score": 51.21,
+      "version": "6.0.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3537,
+        "license": 1.0,
+        "maintenance": 0.814,
+        "msrv": 0.0,
+        "recency": 0.9885,
+        "security": 1.0
+      },
+      "created": "2025-06-01",
+      "dependents": 0,
+      "description": "Allows you to use VRM and VRMA in Bevy",
+      "downloads": 8251,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "game",
+        "vrm",
+        "vrma"
+      ],
+      "last_release": "2026-11-14",
+      "license": "MIT OR Apache-2.0",
+      "name": "bevy_vrm1",
+      "owners": 1,
+      "recent_downloads": 1498,
+      "releases_365d": 19,
+      "repository": "https://github.com/not-elm/bevy_vrm1",
+      "score": 50.88,
+      "version": "0.11.1",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4407,
+        "license": 0.5,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.6836,
+        "security": 1.0
+      },
+      "created": "2017-10-15",
+      "dependents": 1,
+      "description": "A cross-platform library for manipulating the load order and active status of plugins for the Elder Scrolls and Fallout games.",
+      "downloads": 58843,
+      "edition": "2021",
+      "last_release": "2026-05-04",
+      "license": "GPL-3.0",
+      "msrv": "1.82",
+      "name": "libloadorder",
+      "owners": 1,
+      "recent_downloads": 9071,
+      "releases_365d": 4,
+      "repository": "https://github.com/Ortham/libloadorder.git",
+      "score": 50.73,
+      "version": "18.8.2",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "games"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.467,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.8283,
+        "security": 1.0
+      },
+      "created": "2017-04-06",
+      "dependents": 1,
+      "description": "A library to help with any Rust code dealing with poker. This includes card values, suits, hands, hand ranks, 5 card hand strength calculation, 7 card hand strength calulcation, and monte carlo game simulation helpers.",
+      "downloads": 105770,
+      "edition": "2024",
+      "keywords": [
+        "cards",
+        "poker"
+      ],
+      "last_release": "2026-08-13",
+      "license": "Apache-2.0",
+      "name": "rs_poker",
+      "owners": 1,
+      "recent_downloads": 15602,
+      "releases_365d": 2,
+      "repository": "https://github.com/elliottneilclark/rs-poker",
+      "score": 50.56,
+      "version": "5.1.0",
+      "versions": 71
+    }
+  ],
+  "score_version": 1
+}

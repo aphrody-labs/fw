@@ -1,0 +1,900 @@
+{
+  "category": {
+    "crates": 1736,
+    "description": "Crates to help you write procedural macros in Rust.",
+    "name": "Development tools::Procedural macro helpers",
+    "slug": "development-tools::procedural-macro-helpers"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.8332,
+        "downloads": 0.9996,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9778,
+        "security": 1.0
+      },
+      "created": "2016-09-07",
+      "dependents": 19573,
+      "description": "Parser for Rust source code",
+      "downloads": 3140468459,
+      "edition": "2021",
+      "keywords": [
+        "macros",
+        "syn"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "syn",
+      "owners": 1,
+      "recent_downloads": 945656027,
+      "releases_365d": 20,
+      "repository": "https://github.com/dtolnay/syn",
+      "score": 93.49,
+      "version": "3.0.10",
+      "versions": 363
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.8307,
+        "downloads": 0.97,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7886,
+        "security": 1.0
+      },
+      "created": "2016-09-03",
+      "dependents": 19005,
+      "description": "Quasi-quoting macro quote!(...)",
+      "downloads": 2014569731,
+      "edition": "2021",
+      "keywords": [
+        "macros",
+        "syn"
+      ],
+      "last_release": "2026-07-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "quote",
+      "owners": 1,
+      "recent_downloads": 513165674,
+      "releases_365d": 5,
+      "repository": "https://github.com/dtolnay/quote",
+      "score": 89.85,
+      "version": "1.0.47",
+      "versions": 95
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.8219,
+        "downloads": 0.9693,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7886,
+        "security": 1.0
+      },
+      "created": "2017-07-06",
+      "dependents": 17123,
+      "description": "A substitute implementation of the compiler's `proc_macro` API to decouple token-based libraries from the procedural macro use case.",
+      "downloads": 2004413876,
+      "edition": "2021",
+      "keywords": [
+        "macros",
+        "syn"
+      ],
+      "last_release": "2026-07-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "proc-macro2",
+      "owners": 1,
+      "recent_downloads": 505877034,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/proc-macro2",
+      "score": 89.61,
+      "version": "1.0.107",
+      "versions": 163
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6091,
+        "downloads": 0.8563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9196,
+        "security": 1.0
+      },
+      "created": "2015-07-22",
+      "dependents": 1371,
+      "description": "Typed distributed plugin registration",
+      "downloads": 166194811,
+      "edition": "2021",
+      "keywords": [
+        "linkage"
+      ],
+      "last_release": "2026-10-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "inventory",
+      "owners": 1,
+      "recent_downloads": 48940758,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/inventory",
+      "score": 83.43,
+      "version": "0.3.25",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.4711,
+        "downloads": 0.9676,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.927,
+        "security": 1.0
+      },
+      "created": "2021-10-02",
+      "dependents": 266,
+      "description": "Determine whether characters have the XID_Start or XID_Continue properties according to Unicode Standard Annex #31",
+      "downloads": 1757388801,
+      "edition": "2021",
+      "keywords": [
+        "unicode",
+        "xid"
+      ],
+      "last_release": "2026-10-12",
+      "license": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "msrv": "1.71",
+      "name": "unicode-ident",
+      "owners": 1,
+      "recent_downloads": 488515165,
+      "releases_365d": 5,
+      "repository": "https://github.com/dtolnay/unicode-ident",
+      "score": 82.87,
+      "version": "1.0.27",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.4142,
+        "downloads": 0.933,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9981,
+        "security": 1.0
+      },
+      "created": "2020-05-03",
+      "dependents": 135,
+      "description": "Parse command line argument by defining a struct, derive crate.",
+      "downloads": 944916289,
+      "edition": "2024",
+      "keywords": [
+        "clap",
+        "cli",
+        "derive",
+        "parse",
+        "proc_macro"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clap_derive",
+      "owners": 2,
+      "recent_downloads": 238808743,
+      "releases_365d": 9,
+      "repository": "https://github.com/clap-rs/clap",
+      "score": 82.65,
+      "version": "4.6.9",
+      "versions": 95
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "embedded",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5101,
+        "downloads": 0.8778,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9867,
+        "security": 1.0
+      },
+      "created": "2018-12-06",
+      "dependents": 423,
+      "description": "Global, no_std-compatible constructors for all platforms that run before main (like C/C++ __attribute__((constructor)))",
+      "downloads": 253969184,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.60",
+      "name": "ctor",
+      "owners": 1,
+      "recent_downloads": 76206996,
+      "releases_365d": 28,
+      "repository": "https://github.com/mmastrac/linktime",
+      "score": 82.5,
+      "version": "1.0.14",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.7197,
+        "downloads": 0.9257,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.5972,
+        "security": 1.0
+      },
+      "created": "2017-02-12",
+      "dependents": 5097,
+      "description": "Helpful macros for working with enums and strings",
+      "downloads": 793459692,
+      "edition": "2021",
+      "keywords": [
+        "enum",
+        "macros",
+        "proc-macros",
+        "string"
+      ],
+      "last_release": "2026-02-22",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "strum",
+      "owners": 1,
+      "recent_downloads": 205470198,
+      "releases_365d": 1,
+      "repository": "https://github.com/Peternator7/strum",
+      "score": 78.6,
+      "version": "0.28.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5039,
+        "downloads": 0.7927,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9775,
+        "security": 1.0
+      },
+      "created": "2019-01-27",
+      "dependents": 393,
+      "description": "Safe cross-platform linker shenanigans",
+      "downloads": 42427735,
+      "edition": "2021",
+      "keywords": [
+        "linkage"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "linkme",
+      "owners": 1,
+      "recent_downloads": 13124874,
+      "releases_365d": 3,
+      "repository": "https://github.com/dtolnay/linkme",
+      "score": 78.58,
+      "version": "0.3.38",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.6928,
+        "downloads": 0.9159,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.5306,
+        "security": 1.0
+      },
+      "created": "2016-03-28",
+      "dependents": 3703,
+      "description": "Adds #[derive(x)] macros for more traits",
+      "downloads": 612403136,
+      "edition": "2021",
+      "keywords": [
+        "add",
+        "derive",
+        "display",
+        "from",
+        "intoiterator"
+      ],
+      "last_release": "2025-12-22",
+      "license": "MIT",
+      "msrv": "1.81.0",
+      "name": "derive_more",
+      "owners": 1,
+      "recent_downloads": 167500441,
+      "releases_365d": 2,
+      "repository": "https://github.com/JelteF/derive_more",
+      "score": 78.18,
+      "version": "2.1.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.6453,
+        "downloads": 0.9261,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.5972,
+        "security": 1.0
+      },
+      "created": "2017-02-12",
+      "dependents": 2107,
+      "description": "Helpful macros for working with enums and strings",
+      "downloads": 802329181,
+      "edition": "2021",
+      "keywords": [
+        "enum",
+        "macros",
+        "proc-macros",
+        "string"
+      ],
+      "last_release": "2026-02-22",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "strum_macros",
+      "owners": 1,
+      "recent_downloads": 207127713,
+      "releases_365d": 1,
+      "repository": "https://github.com/Peternator7/strum",
+      "score": 76.74,
+      "version": "0.28.0",
+      "versions": 49
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.5875,
+        "downloads": 0.9208,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.6085,
+        "security": 1.0
+      },
+      "created": "2019-02-11",
+      "dependents": 1061,
+      "description": "Replacement for crate (macro_rules keyword) in proc-macros\n",
+      "downloads": 679442776,
+      "edition": "2021",
+      "keywords": [
+        "crate",
+        "macro",
+        "macro-rules",
+        "proc-macro"
+      ],
+      "last_release": "2026-03-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82.0",
+      "name": "proc-macro-crate",
+      "owners": 1,
+      "recent_downloads": 185502246,
+      "releases_365d": 1,
+      "repository": "https://github.com/bkchr/proc-macro-crate",
+      "score": 75.33,
+      "version": "3.5.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3883,
+        "downloads": 0.881,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9276,
+        "security": 1.0
+      },
+      "created": "2021-05-24",
+      "dependents": 99,
+      "description": "Parse and inspect Rust literals (i.e. tokens in the Rust programming language\nrepresenting fixed values). Particularly useful for proc macros, but can also\nbe used outside of a proc-macro context.\n",
+      "downloads": 224797753,
+      "edition": "2021",
+      "keywords": [
+        "literal",
+        "parsing",
+        "proc-macro",
+        "procedural",
+        "type"
+      ],
+      "last_release": "2026-10-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.56",
+      "name": "litrs",
+      "owners": 1,
+      "recent_downloads": 81539086,
+      "releases_365d": 1,
+      "repository": "https://github.com/LukasKalbertodt/litrs",
+      "score": 74.15,
+      "version": "1.0.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "embedded",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.8339,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9867,
+        "security": 1.0
+      },
+      "created": "2024-02-27",
+      "dependents": 9,
+      "description": "Global, no_std-compatible destructors for all platforms that run after main (like C/C++ __attribute__((destructor)))",
+      "downloads": 75380373,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.60",
+      "name": "dtor",
+      "owners": 1,
+      "recent_downloads": 30788841,
+      "releases_365d": 21,
+      "repository": "https://github.com/mmastrac/linktime",
+      "score": 73.5,
+      "version": "1.0.7",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.6913,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9559,
+        "security": 1.0
+      },
+      "created": "2021-12-01",
+      "dependents": 11,
+      "description": "Internal crate for zenoh.",
+      "downloads": 4187473,
+      "edition": "2021",
+      "last_release": "2026-10-28",
+      "license": "EPL-2.0 OR Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "zenoh-macros",
+      "owners": 4,
+      "recent_downloads": 1611599,
+      "releases_365d": 8,
+      "repository": "https://github.com/eclipse-zenoh/zenoh",
+      "score": 71.86,
+      "version": "1.10.2",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.311,
+        "downloads": 0.7985,
+        "license": 1.0,
+        "maintenance": 0.7121,
+        "msrv": 1.0,
+        "recency": 0.8554,
+        "security": 1.0
+      },
+      "created": "2026-06-08",
+      "dependents": 39,
+      "description": "Almost drop-in replacement to panics in proc-macros",
+      "downloads": 17183905,
+      "edition": "2021",
+      "keywords": [
+        "error",
+        "errors",
+        "proc-macro"
+      ],
+      "last_release": "2026-08-30",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "proc-macro-error3",
+      "owners": 1,
+      "recent_downloads": 14803839,
+      "releases_365d": 5,
+      "repository": "https://github.com/gamma0987/proc-macro-error3",
+      "score": 71.25,
+      "version": "3.1.1",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.7941,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.93,
+        "security": 1.0
+      },
+      "created": "2023-04-16",
+      "dependents": 41,
+      "description": "proc macro error handling à la anyhow x proc-macro-error",
+      "downloads": 27349415,
+      "edition": "2021",
+      "keywords": [
+        "error",
+        "error-handling",
+        "proc-macro"
+      ],
+      "last_release": "2026-10-13",
+      "license": "MIT OR Apache-2.0",
+      "name": "manyhow",
+      "owners": 1,
+      "recent_downloads": 13502638,
+      "releases_365d": 5,
+      "repository": "https://github.com/ModProg/manyhow",
+      "score": 69.68,
+      "version": "0.14.1",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "embedded",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.8005,
+        "license": 1.0,
+        "maintenance": 0.7319,
+        "msrv": 1.0,
+        "recency": 0.9867,
+        "security": 1.0
+      },
+      "created": "2026-03-27",
+      "dependents": 4,
+      "description": "Link-time initialized slices for Rust, with full support for Linux, macOS, Windows, WASM and many more platforms.",
+      "downloads": 21461005,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "link-section",
+      "owners": 1,
+      "recent_downloads": 15417764,
+      "releases_365d": 32,
+      "repository": "https://github.com/mmastrac/linktime",
+      "score": 69.18,
+      "version": "0.19.4",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.7988,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8873,
+        "security": 1.0
+      },
+      "created": "2022-05-20",
+      "dependents": 27,
+      "description": "Determine whether characters have the ID_Start or ID_Continue properties according to Unicode Standard Annex #31",
+      "downloads": 47187187,
+      "edition": "2018",
+      "keywords": [
+        "id",
+        "unicode"
+      ],
+      "last_release": "2026-09-19",
+      "license": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "msrv": "1.31",
+      "name": "unicode-id-start",
+      "owners": 1,
+      "recent_downloads": 14881556,
+      "releases_365d": 1,
+      "repository": "https://github.com/Boshen/unicode-id-start",
+      "score": 68.8,
+      "version": "1.5.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.774,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7911,
+        "security": 1.0
+      },
+      "created": "2020-05-15",
+      "dependents": 27,
+      "description": "A serde deserializer for proc_macro::TokenStreams",
+      "downloads": 43844004,
+      "edition": "2024",
+      "keywords": [
+        "proc_macro",
+        "serde",
+        "tokenstream"
+      ],
+      "last_release": "2026-07-20",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "serde_tokenstream",
+      "owners": 1,
+      "recent_downloads": 8920257,
+      "releases_365d": 2,
+      "repository": "https://github.com/oxidecomputer/serde_tokenstream",
+      "score": 68.24,
+      "version": "0.3.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.6846,
+        "license": 1.0,
+        "maintenance": 0.8581,
+        "msrv": 1.0,
+        "recency": 0.9628,
+        "security": 1.0
+      },
+      "created": "2025-08-22",
+      "dependents": 5,
+      "description": "Parser for Rust source code extended to support Verus",
+      "downloads": 1600462,
+      "edition": "2021",
+      "keywords": [
+        "macros",
+        "syn"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "verus_syn",
+      "owners": 2,
+      "recent_downloads": 1404473,
+      "releases_365d": 13,
+      "repository": "https://github.com/dtolnay/syn",
+      "score": 68.2,
+      "version": "0.0.0-2026-11-01-0251",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.532,
+        "downloads": 0.8077,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.7336,
+        "security": 1.0
+      },
+      "created": "2017-06-02",
+      "dependents": 549,
+      "description": "Getset, we're ready to go!\n\nA procedural macro for generating the most basic getters and setters on fields.\n",
+      "downloads": 90082576,
+      "edition": "2018",
+      "keywords": [
+        "getter",
+        "getters",
+        "macro",
+        "setter",
+        "setters"
+      ],
+      "last_release": "2026-06-10",
+      "license": "MIT",
+      "name": "getset",
+      "owners": 1,
+      "recent_downloads": 17888622,
+      "releases_365d": 1,
+      "repository": "https://github.com/jbaublitz/getset",
+      "score": 68.0,
+      "version": "0.1.7",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.8163,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.794,
+        "security": 1.0
+      },
+      "created": "2021-03-28",
+      "dependents": 28,
+      "description": "Parse Rust's attribute arguments by defining a struct.",
+      "downloads": 63710025,
+      "edition": "2024",
+      "keywords": [
+        "attribute",
+        "derive",
+        "parse",
+        "syn",
+        "totokens"
+      ],
+      "last_release": "2026-07-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "structmeta",
+      "owners": 1,
+      "recent_downloads": 21362475,
+      "releases_365d": 1,
+      "repository": "https://github.com/frozenlib/structmeta",
+      "score": 67.91,
+      "version": "0.4.0",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.6181,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9148,
+        "security": 1.0
+      },
+      "created": "2019-04-06",
+      "dependents": 26,
+      "description": "Design-by-contract attributes",
+      "downloads": 1825344,
+      "edition": "2021",
+      "keywords": [
+        "design-by-contract",
+        "invariant",
+        "postcondition",
+        "precondition",
+        "verification"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MPL-2.0",
+      "msrv": "1.77",
+      "name": "contracts",
+      "owners": 1,
+      "recent_downloads": 355205,
+      "releases_365d": 4,
+      "repository": "https://github.com/x52dev/contracts",
+      "score": 66.62,
+      "version": "0.6.11",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7801,
+        "license": 1.0,
+        "maintenance": 0.6467,
+        "msrv": 1.0,
+        "recency": 0.7884,
+        "security": 1.0
+      },
+      "created": "2025-02-02",
+      "dependents": 12,
+      "description": "Eager evaluation of macros like `concat!` and `env!`",
+      "downloads": 27126709,
+      "edition": "2021",
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "macro-string",
+      "owners": 1,
+      "recent_downloads": 10109586,
+      "releases_365d": 2,
+      "repository": "https://github.com/dtolnay/macro-string",
+      "score": 66.43,
+      "version": "0.3.0",
+      "versions": 8
+    }
+  ],
+  "score_version": 1
+}

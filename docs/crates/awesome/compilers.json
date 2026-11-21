@@ -1,0 +1,952 @@
+{
+  "category": {
+    "crates": 3302,
+    "description": "Compiler implementations, including interpreters and transpilers.",
+    "name": "Compilers",
+    "slug": "compilers"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4839,
+        "downloads": 0.7565,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 310,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12154726,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_allocator",
+      "owners": 1,
+      "recent_downloads": 6216238,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.88,
+      "version": "0.159.0",
+      "versions": 216
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4831,
+        "downloads": 0.7564,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-07-06",
+      "dependents": 307,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12130187,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_span",
+      "owners": 1,
+      "recent_downloads": 6202797,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.86,
+      "version": "0.159.0",
+      "versions": 214
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4695,
+        "downloads": 0.7563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 261,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12102271,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_ast",
+      "owners": 1,
+      "recent_downloads": 6182159,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.51,
+      "version": "0.159.0",
+      "versions": 220
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4682,
+        "downloads": 0.7557,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 257,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 11990454,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_parser",
+      "owners": 1,
+      "recent_downloads": 6112931,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.47,
+      "version": "0.159.0",
+      "versions": 220
+    },
+    {
+      "categories": [
+        "compilers",
+        "config"
+      ],
+      "components": {
+        "dependents": 0.3839,
+        "downloads": 0.7416,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9919,
+        "security": 1.0
+      },
+      "created": "2023-05-10",
+      "dependents": 94,
+      "description": "Cedar is a language for defining permissions as policies, which describe who should have access to what.",
+      "downloads": 12446632,
+      "edition": "2021",
+      "keywords": [
+        "authorization",
+        "cedar",
+        "policy",
+        "security"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "msrv": "1.89",
+      "name": "cedar-policy",
+      "owners": 7,
+      "recent_downloads": 4566694,
+      "releases_365d": 33,
+      "repository": "https://github.com/cedar-policy/cedar",
+      "score": 78.02,
+      "version": "4.15.0",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4057,
+        "downloads": 0.7563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-07-06",
+      "dependents": 122,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12099681,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_syntax",
+      "owners": 1,
+      "recent_downloads": 6182911,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 76.92,
+      "version": "0.159.0",
+      "versions": 214
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4154,
+        "downloads": 0.7431,
+        "license": 1.0,
+        "maintenance": 0.8395,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2025-02-28",
+      "dependents": 137,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 6909694,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_ast_visit",
+      "owners": 1,
+      "recent_downloads": 4711692,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 76.43,
+      "version": "0.159.0",
+      "versions": 129
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4057,
+        "downloads": 0.7253,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 122,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 6374946,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_semantic",
+      "owners": 1,
+      "recent_downloads": 3258060,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 76.15,
+      "version": "0.159.0",
+      "versions": 219
+    },
+    {
+      "categories": [
+        "compilers"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.7514,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9875,
+        "security": 1.0
+      },
+      "created": "2020-01-09",
+      "dependents": 51,
+      "description": "A parser and interpreter for the Common Expression Language (CEL)",
+      "downloads": 6626926,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "MIT",
+      "msrv": "1.86.0",
+      "name": "cel",
+      "owners": 2,
+      "recent_downloads": 5592907,
+      "releases_365d": 10,
+      "repository": "https://github.com/cel-rust/cel-rust",
+      "score": 75.93,
+      "version": "0.16.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3423,
+        "downloads": 0.7563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 57,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12113313,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_diagnostics",
+      "owners": 1,
+      "recent_downloads": 6183931,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 75.34,
+      "version": "0.159.0",
+      "versions": 220
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3746,
+        "downloads": 0.6946,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-11-06",
+      "dependents": 84,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 4455278,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_codegen",
+      "owners": 1,
+      "recent_downloads": 1725810,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 74.6,
+      "version": "0.159.0",
+      "versions": 208
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools::build-utils",
+        "encoding"
+      ],
+      "components": {
+        "dependents": 0.45,
+        "downloads": 0.7696,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9194,
+        "security": 1.0
+      },
+      "created": "2022-07-25",
+      "dependents": 207,
+      "description": "A rust implementation of the protobuf compiler.",
+      "downloads": 21901863,
+      "edition": "2021",
+      "keywords": [
+        "protobuf",
+        "serialization"
+      ],
+      "last_release": "2026-10-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "protox",
+      "owners": 1,
+      "recent_downloads": 8148408,
+      "releases_365d": 2,
+      "repository": "https://github.com/andrewhickman/protox",
+      "score": 74.28,
+      "version": "0.10.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3908,
+        "downloads": 0.6645,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-07-06",
+      "dependents": 102,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 2304843,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc",
+      "owners": 1,
+      "recent_downloads": 927699,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 74.25,
+      "version": "0.159.0",
+      "versions": 215
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.789,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9423,
+        "security": 1.0
+      },
+      "created": "2021-02-22",
+      "dependents": 11,
+      "description": "The diplomat FFI generation macro",
+      "downloads": 17516061,
+      "edition": "2021",
+      "keywords": [
+        "codegen",
+        "ffi"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "diplomat",
+      "owners": 3,
+      "recent_downloads": 12158645,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-diplomat/diplomat",
+      "score": 74.1,
+      "version": "0.17.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.7892,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9423,
+        "security": 1.0
+      },
+      "created": "2021-08-02",
+      "dependents": 11,
+      "description": "Common runtime utilities used by diplomat codegen",
+      "downloads": 17622218,
+      "edition": "2021",
+      "keywords": [
+        "codegen",
+        "ffi"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "diplomat-runtime",
+      "owners": 3,
+      "recent_downloads": 12212132,
+      "releases_365d": 5,
+      "repository": "https://github.com/rust-diplomat/diplomat",
+      "score": 74.1,
+      "version": "0.16.1",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compilers"
+      ],
+      "components": {
+        "dependents": 0.4769,
+        "downloads": 0.7704,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.991,
+        "security": 1.0
+      },
+      "created": "2021-11-08",
+      "dependents": 285,
+      "description": "JSON schema to rust type code generator",
+      "downloads": 35674713,
+      "edition": "2024",
+      "keywords": [
+        "json",
+        "proc_macro",
+        "schema"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "name": "typify",
+      "owners": 1,
+      "recent_downloads": 8276523,
+      "releases_365d": 10,
+      "repository": "https://github.com/oxidecomputer/typify",
+      "score": 74.05,
+      "version": "0.10.1",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "compilers",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3831,
+        "downloads": 0.6915,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9435,
+        "security": 1.0
+      },
+      "created": "2021-05-19",
+      "dependents": 93,
+      "description": "Interpreter for the jaq language",
+      "downloads": 4911328,
+      "edition": "2021",
+      "keywords": [
+        "jq",
+        "json",
+        "query"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT",
+      "msrv": "1.69",
+      "name": "jaq-core",
+      "owners": 1,
+      "recent_downloads": 1618601,
+      "releases_365d": 6,
+      "repository": "https://github.com/01mf02/jaq",
+      "score": 74.02,
+      "version": "3.1.2",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.7547,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2024-10-19",
+      "dependents": 26,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 9590855,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_ecmascript",
+      "owners": 1,
+      "recent_downloads": 5986559,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 73.68,
+      "version": "0.159.0",
+      "versions": 154
+    },
+    {
+      "categories": [
+        "compilers",
+        "config"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.7477,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9919,
+        "security": 1.0
+      },
+      "created": "2023-05-10",
+      "dependents": 10,
+      "description": "Core implementation of the Cedar policy language",
+      "downloads": 13627753,
+      "edition": "2021",
+      "keywords": [
+        "authorization",
+        "cedar",
+        "policy",
+        "security"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "msrv": "1.89",
+      "name": "cedar-policy-core",
+      "owners": 7,
+      "recent_downloads": 5177069,
+      "releases_365d": 33,
+      "repository": "https://github.com/cedar-policy/cedar",
+      "score": 73.63,
+      "version": "4.15.0",
+      "versions": 87
+    },
+    {
+      "categories": [
+        "compilers",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.4441,
+        "downloads": 0.7056,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7863,
+        "security": 1.0
+      },
+      "created": "2023-03-21",
+      "dependents": 193,
+      "description": "A new markup-based typesetting system that is powerful and easy to learn.",
+      "downloads": 4318339,
+      "edition": "2024",
+      "keywords": [
+        "markup",
+        "typesetting",
+        "typst"
+      ],
+      "last_release": "2026-07-17",
+      "license": "Apache-2.0",
+      "msrv": "1.92",
+      "name": "typst",
+      "owners": 1,
+      "recent_downloads": 2167941,
+      "releases_365d": 5,
+      "repository": "https://github.com/typst/typst",
+      "score": 73.54,
+      "version": "0.15.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.7549,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2024-10-03",
+      "dependents": 19,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 9508199,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_data_structures",
+      "owners": 1,
+      "recent_downloads": 6012364,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 73.06,
+      "version": "0.159.0",
+      "versions": 156
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.748,
+        "license": 1.0,
+        "maintenance": 0.7487,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2026-01-25",
+      "dependents": 49,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 6748293,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_str",
+      "owners": 1,
+      "recent_downloads": 5208804,
+      "releases_365d": 50,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 73.05,
+      "version": "0.159.0",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.6797,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-11-06",
+      "dependents": 44,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 2548986,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_transformer",
+      "owners": 1,
+      "recent_downloads": 1268311,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 72.89,
+      "version": "0.159.0",
+      "versions": 208
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2225,
+        "downloads": 0.7562,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2024-10-19",
+      "dependents": 13,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 10653566,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_estree",
+      "owners": 1,
+      "recent_downloads": 6172953,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 72.34,
+      "version": "0.159.0",
+      "versions": 154
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compilers"
+      ],
+      "components": {
+        "dependents": 0.364,
+        "downloads": 0.7072,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9961,
+        "security": 1.0
+      },
+      "created": "2021-06-19",
+      "dependents": 74,
+      "description": "An OpenAPI client generator",
+      "downloads": 7005273,
+      "edition": "2024",
+      "keywords": [
+        "generator",
+        "openapi",
+        "openapiv3",
+        "proc_macro",
+        "sdk"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MPL-2.0",
+      "msrv": "1.97",
+      "name": "progenitor",
+      "owners": 1,
+      "recent_downloads": 2239351,
+      "releases_365d": 9,
+      "repository": "https://github.com/oxidecomputer/progenitor.git",
+      "score": 72.22,
+      "version": "0.17.0",
+      "versions": 25
+    }
+  ],
+  "score_version": 1
+}

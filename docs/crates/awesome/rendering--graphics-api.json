@@ -1,0 +1,970 @@
+{
+  "category": {
+    "crates": 395,
+    "description": "Crates that provide direct access to the hardware's or the operating system's rendering capabilities.",
+    "name": "Rendering::Graphics APIs",
+    "slug": "rendering::graphics-api"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.7011,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2019-08-05",
+      "dependents": 72,
+      "description": "Safe Skia Bindings for Rust",
+      "downloads": 5449560,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "skia-safe",
+      "owners": 2,
+      "recent_downloads": 1975346,
+      "releases_365d": 12,
+      "repository": "https://github.com/rust-skia/rust-skia",
+      "score": 75.08,
+      "version": "0.157.0",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.7008,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2019-08-05",
+      "dependents": 6,
+      "description": "Skia Bindings for Rust",
+      "downloads": 5424223,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "skia-bindings",
+      "owners": 2,
+      "recent_downloads": 1963682,
+      "releases_365d": 11,
+      "repository": "https://github.com/rust-skia/rust-skia",
+      "score": 70.14,
+      "version": "0.157.0",
+      "versions": 101
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.6969,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9177,
+        "security": 1.0
+      },
+      "created": "2018-08-03",
+      "dependents": 2,
+      "description": "Vulkan specification parser",
+      "downloads": 3876133,
+      "edition": "2015",
+      "keywords": [
+        "parser",
+        "vulkan"
+      ],
+      "last_release": "2026-10-06",
+      "license": "Apache-2.0/MIT",
+      "msrv": "1.40",
+      "name": "vk-parse",
+      "owners": 1,
+      "recent_downloads": 1810408,
+      "releases_365d": 5,
+      "repository": "https://github.com/krolli/vk-parse",
+      "score": 66.5,
+      "version": "0.22.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.6244,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7235,
+        "security": 1.0
+      },
+      "created": "2020-01-11",
+      "dependents": 24,
+      "description": "Cross-platform window context and rendering library.\n",
+      "downloads": 2309620,
+      "edition": "2018",
+      "keywords": [
+        "3d",
+        "gamedev",
+        "graphics",
+        "opengl",
+        "windowing"
+      ],
+      "last_release": "2026-06-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "miniquad",
+      "owners": 1,
+      "recent_downloads": 404707,
+      "releases_365d": 3,
+      "repository": "https://github.com/not-fl3/miniquad",
+      "score": 64.75,
+      "version": "0.4.11",
+      "versions": 141
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "game-development",
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5653,
+        "license": 1.0,
+        "maintenance": 0.9075,
+        "msrv": 1.0,
+        "recency": 0.8185,
+        "security": 1.0
+      },
+      "created": "2025-10-24",
+      "dependents": 5,
+      "description": "Vulkan bindings for Rust",
+      "downloads": 227765,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "gamedev",
+        "graphics",
+        "vulkan"
+      ],
+      "last_release": "2026-08-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.69.0",
+      "name": "tracel-ash",
+      "owners": 3,
+      "recent_downloads": 119131,
+      "releases_365d": 6,
+      "repository": "https://github.com/tracel-ai/tracel-ash",
+      "score": 63.8,
+      "version": "0.39.5+sdk1.4.357",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "rendering",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.3466,
+        "downloads": 0.8029,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4499,
+        "security": 1.0
+      },
+      "created": "2020-11-09",
+      "dependents": 60,
+      "description": "Memory allocator for GPU memory in Vulkan and DirectX 12",
+      "downloads": 33164104,
+      "edition": "2021",
+      "keywords": [
+        "allocator",
+        "memory",
+        "vulkan"
+      ],
+      "last_release": "2025-09-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "gpu-allocator",
+      "owners": 2,
+      "recent_downloads": 16208800,
+      "releases_365d": 0,
+      "repository": "https://github.com/Traverse-Research/gpu-allocator",
+      "score": 63.49,
+      "version": "0.28.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "game-development",
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.5008,
+        "downloads": 0.8153,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.1605,
+        "security": 1.0
+      },
+      "created": "2016-12-09",
+      "dependents": 379,
+      "description": "Vulkan bindings for Rust",
+      "downloads": 54264207,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "gamedev",
+        "graphics",
+        "vulkan"
+      ],
+      "last_release": "2024-04-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.69.0",
+      "name": "ash",
+      "owners": 2,
+      "recent_downloads": 20955348,
+      "releases_365d": 0,
+      "repository": "https://github.com/ash-rs/ash",
+      "score": 63.31,
+      "version": "0.38.0+1.3.281",
+      "versions": 72
+    },
+    {
+      "categories": [
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.3874,
+        "downloads": 0.6935,
+        "license": 1.0,
+        "maintenance": 0.6,
+        "msrv": 1.0,
+        "recency": 0.4165,
+        "security": 1.0
+      },
+      "created": "2016-04-30",
+      "dependents": 98,
+      "description": "Safe wrapper for the Vulkan graphics API",
+      "downloads": 3782803,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "gpu",
+        "graphics",
+        "rendering",
+        "vulkan"
+      ],
+      "last_release": "2025-08-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "vulkano",
+      "owners": 5,
+      "recent_downloads": 1686555,
+      "releases_365d": 0,
+      "repository": "https://github.com/vulkano-rs/vulkano/tree/master/vulkano",
+      "score": 62.27,
+      "version": "0.35.2",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "gui",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.3993,
+        "license": 1.0,
+        "maintenance": 0.6873,
+        "msrv": 1.0,
+        "recency": 0.9261,
+        "security": 1.0
+      },
+      "created": "2026-09-06",
+      "dependents": 22,
+      "description": "Generational slotmap arena, widget traits, and node graph for Martensite.",
+      "downloads": 3847,
+      "edition": "2021",
+      "keywords": [
+        "gui",
+        "reactive",
+        "ui",
+        "vello",
+        "wgpu"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "martensite-core",
+      "owners": 1,
+      "recent_downloads": 3847,
+      "releases_365d": 23,
+      "repository": "https://github.com/jxoesneon/martensite",
+      "score": 60.79,
+      "version": "0.22.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4989,
+        "license": 1.0,
+        "maintenance": 0.7377,
+        "msrv": 1.0,
+        "recency": 0.9624,
+        "security": 1.0
+      },
+      "created": "2026-03-06",
+      "dependents": 2,
+      "description": "Safe Skia Bindings for Rust",
+      "downloads": 45974,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "freya-skia-safe",
+      "owners": 1,
+      "recent_downloads": 30202,
+      "releases_365d": 27,
+      "repository": "https://github.com/marc2332/rust-skia",
+      "score": 60.29,
+      "version": "0.104.0",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.499,
+        "license": 1.0,
+        "maintenance": 0.7377,
+        "msrv": 1.0,
+        "recency": 0.9624,
+        "security": 1.0
+      },
+      "created": "2026-03-06",
+      "dependents": 1,
+      "description": "Skia Bindings for Rust",
+      "downloads": 46102,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "freya-skia-bindings",
+      "owners": 1,
+      "recent_downloads": 30242,
+      "releases_365d": 28,
+      "repository": "https://github.com/marc2332/rust-skia",
+      "score": 59.44,
+      "version": "0.104.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.3645,
+        "license": 1.0,
+        "maintenance": 0.6809,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2026-09-29",
+      "dependents": 10,
+      "description": "Rendering hardware abstraction layer for emblema.",
+      "downloads": 1815,
+      "edition": "2021",
+      "keywords": [
+        "gles",
+        "graphics",
+        "hal",
+        "renderer",
+        "vulkan"
+      ],
+      "last_release": "2026-11-20",
+      "license": "BSD-3-Clause",
+      "msrv": "1.85",
+      "name": "emblema-hal",
+      "owners": 1,
+      "recent_downloads": 1876,
+      "releases_365d": 12,
+      "repository": "https://github.com/jwinarske/emblema",
+      "score": 59.37,
+      "version": "0.3.8",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "gui",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.4013,
+        "license": 1.0,
+        "maintenance": 0.6873,
+        "msrv": 1.0,
+        "recency": 0.9261,
+        "security": 1.0
+      },
+      "created": "2026-09-06",
+      "dependents": 9,
+      "description": "Fine-grained push-pull reactive signal DAG for Martensite.",
+      "downloads": 4010,
+      "edition": "2021",
+      "keywords": [
+        "gui",
+        "reactive",
+        "ui",
+        "vello",
+        "wgpu"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "martensite-reactive",
+      "owners": 1,
+      "recent_downloads": 4010,
+      "releases_365d": 23,
+      "repository": "https://github.com/jxoesneon/martensite",
+      "score": 59.09,
+      "version": "0.22.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.6307,
+        "license": 1.0,
+        "maintenance": 0.6,
+        "msrv": 1.0,
+        "recency": 0.4266,
+        "security": 1.0
+      },
+      "created": "2019-01-29",
+      "dependents": 28,
+      "description": "An abstraction for 2D graphics.",
+      "downloads": 2206821,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "graphics"
+      ],
+      "last_release": "2025-08-29",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "piet",
+      "owners": 4,
+      "recent_downloads": 460791,
+      "releases_365d": 0,
+      "repository": "https://github.com/linebender/piet",
+      "score": 58.26,
+      "version": "0.8.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4407,
+        "license": 1.0,
+        "maintenance": 0.6897,
+        "msrv": 1.0,
+        "recency": 0.9196,
+        "security": 1.0
+      },
+      "created": "2026-08-29",
+      "dependents": 3,
+      "description": "Zero-copy import of externally produced GPU frames into wgpu textures: Linux DMA-BUF, Android AHardwareBuffer, macOS and iOS IOSurface, and Windows shared handles",
+      "downloads": 9051,
+      "edition": "2024",
+      "keywords": [
+        "dmabuf",
+        "interop",
+        "iosurface",
+        "wgpu",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-07",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.95",
+      "name": "wgpu-external-frame",
+      "owners": 1,
+      "recent_downloads": 9054,
+      "releases_365d": 5,
+      "repository": "https://github.com/water-rs/wgpu-external-frame",
+      "score": 58.08,
+      "version": "0.4.0",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "graphics",
+        "gui",
+        "rendering",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.4439,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.6264,
+        "security": 1.0
+      },
+      "created": "2019-09-07",
+      "dependents": 9,
+      "description": "A wgpu render backend for imgui-rs.",
+      "downloads": 139632,
+      "edition": "2021",
+      "keywords": [
+        "graphics",
+        "gui",
+        "imgui",
+        "wgpu"
+      ],
+      "last_release": "2026-03-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "imgui-wgpu",
+      "owners": 2,
+      "recent_downloads": 9693,
+      "releases_365d": 3,
+      "repository": "https://github.com/Yatekii/imgui-wgpu-rs",
+      "score": 57.85,
+      "version": "0.28.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "game-development",
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4007,
+        "license": 1.0,
+        "maintenance": 0.749,
+        "msrv": 1.0,
+        "recency": 0.9991,
+        "security": 1.0
+      },
+      "created": "2026-01-24",
+      "dependents": 1,
+      "description": "Vulkan bindings for Rust",
+      "downloads": 14107,
+      "edition": "2024",
+      "keywords": [
+        "bindings",
+        "gamedev",
+        "graphics",
+        "vulkan"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.90.0",
+      "name": "jay-ash",
+      "owners": 1,
+      "recent_downloads": 3964,
+      "releases_365d": 24,
+      "repository": "https://github.com/mahkoh/jay-ash",
+      "score": 57.7,
+      "version": "0.25.0+1.4.369",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "gui",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3871,
+        "license": 1.0,
+        "maintenance": 0.6873,
+        "msrv": 1.0,
+        "recency": 0.9261,
+        "security": 1.0
+      },
+      "created": "2026-09-06",
+      "dependents": 5,
+      "description": "Semantic design tokens, Oklab perceptual uniform GPU blending, and 150ms spring transitions.",
+      "downloads": 2990,
+      "edition": "2021",
+      "keywords": [
+        "gui",
+        "reactive",
+        "ui",
+        "vello",
+        "wgpu"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "martensite-theme",
+      "owners": 1,
+      "recent_downloads": 2990,
+      "releases_365d": 23,
+      "repository": "https://github.com/jxoesneon/martensite",
+      "score": 57.65,
+      "version": "0.22.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3581,
+        "license": 1.0,
+        "maintenance": 0.6809,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2026-09-30",
+      "dependents": 3,
+      "description": "WGSL shader sources for emblema, translated at build time by naga.",
+      "downloads": 1582,
+      "edition": "2021",
+      "keywords": [
+        "glsl",
+        "naga",
+        "shader",
+        "spirv",
+        "wgsl"
+      ],
+      "last_release": "2026-11-20",
+      "license": "BSD-3-Clause",
+      "msrv": "1.85",
+      "name": "emblema-shaders",
+      "owners": 1,
+      "recent_downloads": 1643,
+      "releases_365d": 12,
+      "repository": "https://github.com/jwinarske/emblema",
+      "score": 57.08,
+      "version": "0.3.8",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "gui",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.3555,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9141,
+        "security": 1.0
+      },
+      "created": "2020-12-05",
+      "dependents": 18,
+      "description": "RAUI application layer",
+      "downloads": 152652,
+      "edition": "2024",
+      "keywords": [
+        "agnostic",
+        "gamedev",
+        "interface",
+        "renderer",
+        "ui"
+      ],
+      "last_release": "2026-10-04",
+      "license": "MIT OR Apache-2.0",
+      "name": "raui-core",
+      "owners": 1,
+      "recent_downloads": 1557,
+      "releases_365d": 9,
+      "repository": "https://github.com/RAUI-labs/raui",
+      "score": 56.81,
+      "version": "0.70.19",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "gui",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3432,
+        "license": 1.0,
+        "maintenance": 0.6873,
+        "msrv": 1.0,
+        "recency": 0.9261,
+        "security": 1.0
+      },
+      "created": "2026-09-06",
+      "dependents": 5,
+      "description": "Hardware-agnostic PaintList command stream and TinySkia CPU fallback backend.",
+      "downloads": 1206,
+      "edition": "2021",
+      "keywords": [
+        "gui",
+        "reactive",
+        "ui",
+        "vello",
+        "wgpu"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "martensite-render",
+      "owners": 1,
+      "recent_downloads": 1206,
+      "releases_365d": 23,
+      "repository": "https://github.com/jxoesneon/martensite",
+      "score": 56.56,
+      "version": "0.22.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3541,
+        "license": 1.0,
+        "maintenance": 0.6809,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2026-09-30",
+      "dependents": 2,
+      "description": "Vulkan rendering backend for emblema.",
+      "downloads": 1450,
+      "edition": "2021",
+      "keywords": [
+        "backend",
+        "graphics",
+        "hal",
+        "renderer",
+        "vulkan"
+      ],
+      "last_release": "2026-11-20",
+      "license": "BSD-3-Clause",
+      "msrv": "1.85",
+      "name": "emblema-hal-vulkan",
+      "owners": 1,
+      "recent_downloads": 1511,
+      "releases_365d": 12,
+      "repository": "https://github.com/jwinarske/emblema",
+      "score": 56.37,
+      "version": "0.3.8",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "rendering",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5167,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9262,
+        "security": 1.0
+      },
+      "created": "2024-02-09",
+      "dependents": 1,
+      "description": "Raw bindings to SPIRV-Cross",
+      "downloads": 138879,
+      "edition": "2021",
+      "keywords": [
+        "shaders",
+        "spirv"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "name": "spirv-cross-sys",
+      "owners": 1,
+      "recent_downloads": 43627,
+      "releases_365d": 7,
+      "repository": "https://github.com/SnowflakePowered/spirv-cross2",
+      "score": 56.27,
+      "version": "0.7.4+aa217ae",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "game-development",
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4151,
+        "license": 1.0,
+        "maintenance": 0.7306,
+        "msrv": 1.0,
+        "recency": 0.9727,
+        "security": 1.0
+      },
+      "created": "2026-04-01",
+      "dependents": 0,
+      "description": "Better Vulkan bindings for Rust",
+      "downloads": 7981,
+      "edition": "2024",
+      "keywords": [
+        "bindings",
+        "gamedev",
+        "graphics",
+        "vulkan"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "msrv": "1.85.0",
+      "name": "pyronyx",
+      "owners": 1,
+      "recent_downloads": 5339,
+      "releases_365d": 16,
+      "repository": "https://github.com/unschlagbar/pyronyx",
+      "score": 55.93,
+      "version": "0.5.1+1.4.363",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "game-development",
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.3379,
+        "downloads": 0.6401,
+        "license": 1.0,
+        "maintenance": 0.6,
+        "msrv": 1.0,
+        "recency": 0.1605,
+        "security": 1.0
+      },
+      "created": "2019-10-11",
+      "dependents": 54,
+      "description": "Interop library between ash and raw-window-handle",
+      "downloads": 1781673,
+      "edition": "2021",
+      "keywords": [
+        "ash",
+        "graphics",
+        "raw-window-handle",
+        "vulkan",
+        "windowing"
+      ],
+      "last_release": "2024-04-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.69.0",
+      "name": "ash-window",
+      "owners": 3,
+      "recent_downloads": 559889,
+      "releases_365d": 0,
+      "repository": "https://github.com/ash-rs/ash",
+      "score": 55.86,
+      "version": "0.13.0",
+      "versions": 15
+    }
+  ],
+  "score_version": 1
+}
