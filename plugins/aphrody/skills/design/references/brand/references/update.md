@@ -53,7 +53,7 @@ Edit `docs/brand-guidelines.md`:
 Run the sync script:
 
 ```bash
-bun skills/brand/scripts/sync-brand-to-tokens.cjs
+node skills/brand/scripts/sync-brand-to-tokens.cjs
 ```
 
 This will:
@@ -67,7 +67,7 @@ Confirm all files are updated:
 
 ```bash
 # Check brand context extraction
-bun skills/brand/scripts/inject-brand-context.cjs --json | head -30
+node skills/brand/scripts/inject-brand-context.cjs --json | head -30
 
 # Check CSS variables
 grep "primary" assets/design-tokens.css | head -5

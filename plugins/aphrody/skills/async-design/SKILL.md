@@ -1,9 +1,7 @@
 ---
 name: "async-design"
-description: "Design and review asynchronous code in Rust (tokio, futures, Pin) and Bun/JavaScript (Bun.serve. Use when writing or reviewing an async server, scheduler, channel pipeline or event-loop code."
+description: "Design and review asynchronous code in Rust (tokio, futures, Pin) and Bun/JavaScript (Bun.serve, promises, streams, workers): structured concurrency, future size, cancellation, backpressure, work stealing, readiness versus completion I/O, io_uring and IOCP choices. Use when writing or reviewing an async server, scheduler, channel pipeline or event-loop code."
 ---
-> promises, streams, workers): structured concurrency, future size, cancellation, backpressure, work stealing, readiness versus completion I/O, io_uring and IOCP choices.
-
 
 # async-design
 

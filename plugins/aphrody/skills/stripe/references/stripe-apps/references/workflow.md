@@ -74,7 +74,7 @@ This creates a new V2 workspace with the correct directory structure, `stripe-ap
 ### Step 3 — Install dependencies
 
 ```bash
-bun install
+pnpm install
 ```
 
 ### Step 4 — Build and test
@@ -82,8 +82,8 @@ bun install
 For apps with a UI extension, compile TypeScript and run tests:
 
 ```bash
-bun run build
-bun run test
+pnpm build
+pnpm test
 ```
 
 Backend-only apps without TypeScript can skip this step.

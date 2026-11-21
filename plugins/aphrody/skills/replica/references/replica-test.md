@@ -49,8 +49,8 @@ Use roles and labels for selectors (`getByRole('button', { name: 'Book' })`),
 never CSS classes. See `references/replica-test/e2e.example.spec.ts`.
 
 ```bash
-bun add --dev @playwright/test && bunx playwright install chromium
-bunx playwright test
+npm i -D @playwright/test && npx playwright install chromium
+npx playwright test
 ```
 
 Add to every spec: fail on console errors, fail on any 5xx response, and an

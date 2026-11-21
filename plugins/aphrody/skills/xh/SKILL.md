@@ -1,9 +1,7 @@
 ---
 name: xh
-description: "Send HTTP/HTTPS/HTTP3 requests, inspect APIs, translate to curl, manage sessions/auth/RFC 9421 signatures, download/resume files, and navigate the xh Rust codebase (code graph, CLI help, man page"
+description: Send HTTP/HTTPS/HTTP3 requests, inspect APIs, translate to curl, manage sessions/auth/RFC 9421 signatures, download/resume files, and navigate the xh Rust codebase (code graph, CLI help, man page, and 16 use cases).
 ---
-> , and 16 use cases).
-
 
 # xh — Friendly HTTP Client, CLI Reference & Code Graph
 

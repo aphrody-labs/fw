@@ -1,9 +1,7 @@
 ---
 name: stripe
-description: "Stripe and billing: integration decisions (Checkout vs PaymentIntents, Connect, sandboxes), Connect platform setup and connected-account verification requirements, Stripe Apps and extensions"
+description: "Stripe and billing: integration decisions (Checkout vs PaymentIntents, Connect, sandboxes), Connect platform setup and connected-account verification requirements, Stripe Apps and extensions, API and SDK version upgrades, docs.stripe.com lookup, Stripe Projects provisioning, paying Stripe businesses, the Stripe directory, and Metronome usage-based billing."
 ---
-> , API and SDK version upgrades, docs.stripe.com lookup, Stripe Projects provisioning, paying Stripe businesses, the Stripe directory, and Metronome usage-based billing.
-
 # Stripe and billing
 
 Pick the reference that matches the task and read it in full before acting.

@@ -29,21 +29,21 @@ Brand identity, voice, messaging, asset management, and consistency frameworks.
 **Inject brand context into prompts:**
 
 ```bash
-bun references/brand/scripts/inject-brand-context.cjs
-bun references/brand/scripts/inject-brand-context.cjs --json
+node references/brand/scripts/inject-brand-context.cjs
+node references/brand/scripts/inject-brand-context.cjs --json
 ```
 
 **Validate an asset:**
 
 ```bash
-bun references/brand/scripts/validate-asset.cjs <asset-path>
+node references/brand/scripts/validate-asset.cjs <asset-path>
 ```
 
 **Extract/compare colors:**
 
 ```bash
-bun references/brand/scripts/extract-colors.cjs --palette
-bun references/brand/scripts/extract-colors.cjs <image-path>
+node references/brand/scripts/extract-colors.cjs --palette
+node references/brand/scripts/extract-colors.cjs <image-path>
 ```
 
 ## Brand Sync Workflow
@@ -51,9 +51,9 @@ bun references/brand/scripts/extract-colors.cjs <image-path>
 ```bash
 # 1. Edit docs/brand-guidelines.md (or use /brand update)
 # 2. Sync to design tokens
-bun references/brand/scripts/sync-brand-to-tokens.cjs
+node references/brand/scripts/sync-brand-to-tokens.cjs
 # 3. Verify
-bun references/brand/scripts/inject-brand-context.cjs --json | head -20
+node references/brand/scripts/inject-brand-context.cjs --json | head -20
 ```
 
 **Files synced:**

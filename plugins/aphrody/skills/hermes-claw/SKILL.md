@@ -1,9 +1,10 @@
 ---
 name: hermes-claw
-description: "Full-Rust Hermes Agent + OpenClaw/ZeroClaw runtime in Fw (crates/fw-hermes-claw), zero-dependency CLI-to-MCP JSON-RPC 2.0 server, agentskills.io CLI-to-Skill generator"
+description: >-
+  Full-Rust Hermes Agent + OpenClaw/ZeroClaw runtime in Fw (`crates/fw-hermes-claw`),
+  zero-dependency CLI-to-MCP JSON-RPC 2.0 server, `agentskills.io` CLI-to-Skill generator,
+  and verified November 2026 modern Rust CLI & protocol rankings replacing bash/pwsh.
 ---
-> , and verified November 2026 modern Rust CLI & protocol rankings replacing bash/pwsh.
-
 
 # Fw Hermes Agent + OpenClaw (`fw-hermes-claw`)
 

@@ -171,7 +171,7 @@ The `validate-asset.cjs` script can auto-check:
 - Naming convention
 - Basic metadata
 
-Run: `bun skills/brand/scripts/validate-asset.cjs <asset-path>`
+Run: `node skills/brand/scripts/validate-asset.cjs <asset-path>`
 
 ## Archival
 

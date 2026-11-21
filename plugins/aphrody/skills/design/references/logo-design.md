@@ -15,20 +15,20 @@ AI-powered logo design with 55+ styles, 30 color palettes, 25 industry guides. U
 ### Design Brief (Start Here)
 
 ```bash
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "tech startup modern" --design-brief -p "BrandName"
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "tech startup modern" --design-brief -p "BrandName"
 ```
 
 ### Search Domains
 
 ```bash
 # Styles
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "minimalist clean" --domain style
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "minimalist clean" --domain style
 
 # Color palettes
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "tech professional" --domain color
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "tech professional" --domain color
 
 # Industry guidelines
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "healthcare medical" --domain industry
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "healthcare medical" --domain industry
 ```
 
 ### Generate Logo
@@ -36,8 +36,8 @@ uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "healthcar
 **ALWAYS** use white background for output logos.
 
 ```bash
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/generate.py --brand "TechFlow" --style minimalist --industry tech
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/generate.py --prompt "coffee shop vintage badge" --style vintage
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/generate.py --brand "TechFlow" --style minimalist --industry tech
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/generate.py --prompt "coffee shop vintage badge" --style vintage
 ```
 
 Options: `--style`, `--industry`, `--prompt`
@@ -88,5 +88,5 @@ Options: `--style`, `--industry`, `--prompt`
 
 ```bash
 export GEMINI_API_KEY="your-key"
-uv pip install google-genai
+pip install google-genai
 ```

@@ -1,9 +1,7 @@
 ---
 name: shenron-bun-mastery
-description: "Canonical agent skill and operational playbook for Shenron (dragonballfr.com). Integrates AgentSkills.io, Vercel-Labs Skills"
+description: Canonical agent skill and operational playbook for Shenron (dragonballfr.com). Integrates AgentSkills.io, Vercel-Labs Skills, and Bun docs native systems to exploit 100% of Bun v1.4.4+ features across all monorepo layers (Bun.SQL, bun:sqlite, Bun.S3Client, Bun.Archive, Bun.Image, Bun.CSRF, Bun.cron, Bun.markdown, Bun.CryptoHasher, Bun.password, Bun.semver, Bun.color, Bun.Transpiler, bun:ffi, bun check, bun fmt, bun test, bun build --compile --bytecode).
 ---
-> , and Bun docs native systems to exploit 100% of Bun v1.4.4+ features across all monorepo layers (Bun.SQL, bun:sqlite, Bun.S3Client, Bun.Archive, Bun.Image, Bun.CSRF, Bun.cron, Bun.markdown, Bun.CryptoHasher, Bun.password, Bun.semver, Bun.color, Bun.Transpiler, bun:ffi, bun check, bun fmt, bun test, bun build --compile --bytecode).
-
 
 # Shenron Bun Mastery (`shenron-bun-mastery`)
 

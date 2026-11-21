@@ -1,9 +1,7 @@
 ---
 name: kotlin-compose-m3
-description: "Compose Material 3 1.5.0 stable (Expressive), Jetpack Compose 1.13 (BOM 2026.11.01), pure WGPU/WGSL M3 renderer, Android CLI, official Android skills, Kotlin LSP"
+description: Compose Material 3 1.5.0 stable (Expressive), Jetpack Compose 1.13 (BOM 2026.11.01), pure WGPU/WGSL M3 renderer, Android CLI, official Android skills, Kotlin LSP, and Tree-sitter Kotlin for fw and aphrody-labs.
 ---
-> , and Tree-sitter Kotlin for fw and aphrody-labs.
-
 
 # Kotlin, Compose Material 3 1.5.0 & Pure WGPU Toolkit
 

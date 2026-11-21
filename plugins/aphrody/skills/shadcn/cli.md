@@ -20,7 +20,7 @@ Configuration is read from `components.json`.
 ### `init` — Initialize or create a project
 
 ```bash
-bunx shadcn@latest init [components...] [options]
+npx shadcn@latest init [components...] [options]
 ```
 
 Initializes shadcn/ui in an existing project or creates a new project (when `--name` is provided). Optionally installs components in the same step.
@@ -40,12 +40,12 @@ Initializes shadcn/ui in an existing project or creates a new project (when `--n
 | `--monorepo`            |       | Scaffold a monorepo project                               | —       |
 | `--no-monorepo`         |       | Skip the monorepo prompt                                  | —       |
 
-`bunx shadcn@latest create` is an alias for `bunx shadcn@latest init`.
+`npx shadcn@latest create` is an alias for `npx shadcn@latest init`.
 
 ### `apply` — Apply a preset to an existing project
 
 ```bash
-bunx shadcn@latest apply [preset] [options]
+npx shadcn@latest apply [preset] [options]
 ```
 
 Applies a preset to an existing project, overwriting preset-driven config, fonts, CSS variables, and detected UI components.
@@ -65,7 +65,7 @@ If no preset is provided, the CLI offers to open the custom preset builder on `u
 > **IMPORTANT:** To compare local components against upstream or to preview changes, ALWAYS use `npx shadcn@latest add <component> --dry-run`, `--diff`, or `--view`. NEVER fetch raw files from GitHub or other sources manually. The CLI handles registry resolution, file paths, and CSS diffing automatically.
 
 ```bash
-bunx shadcn@latest add [components...] [options]
+npx shadcn@latest add [components...] [options]
 ```
 
 Accepts component names, registry-prefixed names (`@magicui/shimmer-button`),
@@ -89,28 +89,28 @@ Use `--dry-run` to preview what `add` would do without writing any files. `--dif
 
 ```bash
 # Preview all changes.
-bunx shadcn@latest add button --dry-run
+npx shadcn@latest add button --dry-run
 
 # Show diffs for all files (top 5).
-bunx shadcn@latest add button --diff
+npx shadcn@latest add button --diff
 
 # Show the diff for a specific file.
-bunx shadcn@latest add button --diff button.tsx
+npx shadcn@latest add button --diff button.tsx
 
 # Show contents for all files (top 5).
-bunx shadcn@latest add button --view
+npx shadcn@latest add button --view
 
 # Show the full content of a specific file.
-bunx shadcn@latest add button --view button.tsx
+npx shadcn@latest add button --view button.tsx
 
 # Works with URLs too.
-bunx shadcn@latest add https://api.npoint.io/abc123 --dry-run
+npx shadcn@latest add https://api.npoint.io/abc123 --dry-run
 
 # Works with public GitHub registries too.
-bunx shadcn@latest add owner/repo/item --dry-run
+npx shadcn@latest add owner/repo/item --dry-run
 
 # CSS diffs.
-bunx shadcn@latest add button --diff globals.css
+npx shadcn@latest add button --diff globals.css
 ```
 
 **When to use dry-run:**
@@ -130,10 +130,10 @@ See [Updating Components in SKILL.md](./SKILL.md#updating-components) for the fu
 ### `search` — Search registries
 
 ```bash
-bunx shadcn@latest search [registries...] [options]
+npx shadcn@latest search [registries...] [options]
 ```
 
-Fuzzy search across registries. Also aliased as `bunx shadcn@latest list`.
+Fuzzy search across registries. Also aliased as `npx shadcn@latest list`.
 Supports namespaces (`@acme`), public GitHub registry sources (`owner/repo`),
 and registry catalog URLs. Without `-q`, lists all items. When no registries are
 passed, searches every registry configured in `components.json`.
@@ -150,22 +150,22 @@ passed, searches every registry configured in `components.json`.
 ### `view` — View item details
 
 ```bash
-bunx shadcn@latest view <items...> [options]
+npx shadcn@latest view <items...> [options]
 ```
 
 Displays item info including file contents. Examples:
-`bunx shadcn@latest view @shadcn/button`,
-`bunx shadcn@latest view owner/repo/item`.
+`npx shadcn@latest view @shadcn/button`,
+`npx shadcn@latest view owner/repo/item`.
 
 ### `docs` — Get component documentation URLs
 
 ```bash
-bunx shadcn@latest docs <components...> [options]
+npx shadcn@latest docs <components...> [options]
 ```
 
 Outputs resolved URLs for component documentation, examples, and API references. Accepts one or more component names. Fetch the URLs to get the actual content.
 
-Example output for `bunx shadcn@latest docs input button`:
+Example output for `npx shadcn@latest docs input button`:
 
 ```
 base  radix
@@ -183,12 +183,12 @@ Some components include an `api` link to the underlying library (e.g. `cmdk` for
 
 ### `diff` — Check for updates
 
-Do not use this command. Use `bunx shadcn@latest add --diff` instead.
+Do not use this command. Use `npx shadcn@latest add --diff` instead.
 
 ### `info` — Project information
 
 ```bash
-bunx shadcn@latest info [options]
+npx shadcn@latest info [options]
 ```
 
 Displays project info and `components.json` configuration. Run this first to discover the project's framework, aliases, Tailwind version, and resolved paths.
@@ -233,12 +233,12 @@ Displays project info and `components.json` configuration. Run this first to dis
 
 **Links fields:**
 
-The `info` output includes a **Links** section with templated URLs for component docs, source, and examples. For resolved URLs, use `bunx shadcn@latest docs <component>` instead.
+The `info` output includes a **Links** section with templated URLs for component docs, source, and examples. For resolved URLs, use `npx shadcn@latest docs <component>` instead.
 
 ### `build` — Build a custom registry
 
 ```bash
-bunx shadcn@latest build [registry] [options]
+npx shadcn@latest build [registry] [options]
 ```
 
 Builds `registry.json` into individual JSON files for distribution. Default input: `./registry.json`, default output: `./public/r`.
@@ -277,7 +277,7 @@ Three ways to specify a preset via `--preset`:
 3. **URL:** `--preset "https://ui.shadcn.com/init?base=radix&style=nova&..."`
 
 > **IMPORTANT:** Never try to decode, fetch, or resolve preset codes manually. Preset codes are opaque — pass them directly to `npx shadcn@latest init --preset <code>` and let the CLI handle resolution.
-> Use `bunx shadcn@latest apply --preset <code>` when overwriting an existing project's preset.
+> Use `npx shadcn@latest apply --preset <code>` when overwriting an existing project's preset.
 
 ## Switching Presets
 

@@ -25,14 +25,14 @@ When planning an upgrade, separate guidance for the currently installed version 
 
 ## Setup Workflow
 
-1. Install: `bun add better-auth`
+1. Install: `npm install better-auth`
 2. Set env vars: `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL`
 3. Create `auth.ts` with database + config
 4. Create route handler for your framework
 5. Run migrations:
-   - **Built-in adapter:** `bunx auth@latest migrate`
-   - **Drizzle:** `bunx auth@latest generate --output src/db/auth-schema.ts` then `bunx drizzle-kit push` (dev) or `bunx drizzle-kit generate && bunx drizzle-kit migrate` (prod)
-   - **Prisma:** `bunx auth@latest generate --output prisma/schema.prisma` then `bunx prisma migrate dev`
+   - **Built-in adapter:** `npx auth@latest migrate`
+   - **Drizzle:** `npx auth@latest generate --output src/db/auth-schema.ts` then `npx drizzle-kit push` (dev) or `npx drizzle-kit generate && npx drizzle-kit migrate` (prod)
+   - **Prisma:** `npx auth@latest generate --output prisma/schema.prisma` then `npx prisma migrate dev`
 6. Verify: call `GET /api/auth/ok` — should return `{ status: "ok" }`
 
 ---
@@ -49,9 +49,9 @@ Only define `baseURL`/`secret` in config if env vars are NOT set.
 CLI looks for `auth.ts` in: `./`, `./lib`, `./utils`, or under `./src`. Use `--config` for custom path.
 
 ### CLI Commands
-- `bunx auth@latest migrate` - Apply schema (built-in adapter)
-- `bunx auth@latest generate` - Generate schema for Prisma/Drizzle
-- `bunx auth@latest mcp --cursor` - Add MCP to AI tools
+- `npx auth@latest migrate` - Apply schema (built-in adapter)
+- `npx auth@latest generate` - Generate schema for Prisma/Drizzle
+- `npx auth@latest mcp --cursor` - Add MCP to AI tools
 
 **Re-run after adding/changing plugins.**
 

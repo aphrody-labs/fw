@@ -16,49 +16,49 @@ Corporate Identity Program design with 50+ deliverables, 20 styles, 20 industrie
 ### CIP Brief (Start Here)
 
 ```bash
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "tech startup" --cip-brief -b "BrandName"
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "tech startup" --cip-brief -b "BrandName"
 ```
 
 ### Search Domains
 
 ```bash
 # Deliverables
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "business card letterhead" --domain deliverable
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "business card letterhead" --domain deliverable
 
 # Design styles
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "luxury premium elegant" --domain style
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "luxury premium elegant" --domain style
 
 # Industry guidelines
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "hospitality hotel" --domain industry
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "hospitality hotel" --domain industry
 
 # Mockup contexts
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "office reception" --domain mockup
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "office reception" --domain mockup
 ```
 
 ### Generate Mockups
 
 ```bash
 # With logo (RECOMMENDED - uses image editing)
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo /path/to/logo.png --deliverable "business card" --industry "consulting"
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo /path/to/logo.png --deliverable "business card" --industry "consulting"
 
 # Full CIP set with logo
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo /path/to/logo.png --industry "consulting" --set
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo /path/to/logo.png --industry "consulting" --set
 
 # Pro model for 4K text rendering
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo logo.png --deliverable "business card" --model pro
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo logo.png --deliverable "business card" --model pro
 
 # Custom deliverables with aspect ratio
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "GreenLeaf" --logo logo.png --industry "organic food" --deliverables "letterhead,packaging,vehicle" --ratio 16:9
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "GreenLeaf" --logo logo.png --industry "organic food" --deliverables "letterhead,packaging,vehicle" --ratio 16:9
 
 # Without logo (AI generates interpretation)
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TechFlow" --deliverable "business card" --no-logo-prompt
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TechFlow" --deliverable "business card" --no-logo-prompt
 ```
 
 ### Render HTML Presentation
 
 ```bash
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/render-html.py --brand "TopGroup" --industry "consulting" --images /path/to/cip-output
-uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/render-html.py --brand "TopGroup" --industry "consulting" --images ./topgroup-cip --output presentation.html
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/render-html.py --brand "TopGroup" --industry "consulting" --images /path/to/cip-output
+python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/render-html.py --brand "TopGroup" --industry "consulting" --images ./topgroup-cip --output presentation.html
 ```
 
 ## Models
@@ -117,5 +117,5 @@ uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/render-html.py --bran
 
 ```bash
 export GEMINI_API_KEY="your-key"
-uv pip install google-genai pillow
+pip install google-genai pillow
 ```

@@ -1,9 +1,7 @@
 ---
 name: filmcraft
-description: "Video editing, timeline manipulation, clip cutting, audio mixing, rendering. Use when the user asks to edit video, cut clips, export sequence, inspect timeline, or automate FilmCraft."
+description: Video editing, timeline manipulation, clip cutting, audio mixing, rendering, and export automation using FilmCraft CLI and MCP server. Use when the user asks to edit video, cut clips, export sequence, inspect timeline, or automate FilmCraft.
 ---
-> and export automation using FilmCraft CLI and MCP server.
-
 
 # FilmCraft
 

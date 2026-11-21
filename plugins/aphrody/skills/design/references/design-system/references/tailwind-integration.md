@@ -242,16 +242,16 @@ This configuration aligns with shadcn/ui conventions:
 - Same CSS variable naming
 - Same HSL format
 - Same color scale structure
-- Compatible with `bunx shadcn@latest add` commands
+- Compatible with `npx shadcn@latest add` commands
 
 ### Using with shadcn/ui
 
 ```bash
 # Initialize (uses same token structure)
-bunx shadcn@latest init
+npx shadcn@latest init
 
 # Add components (styled with these tokens)
-bunx shadcn@latest add button card input
+npx shadcn@latest add button card input
 ```
 
 Components will automatically use your design system tokens.

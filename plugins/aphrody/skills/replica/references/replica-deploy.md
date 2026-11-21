@@ -33,11 +33,11 @@ Reads everything in `replica/`. Writes `replica/deploy.md` (the checklist in
 Run every check and paste the results into `deploy.md`:
 
 ```bash
-bunx playwright test                                                  # replica-test
-uv run ../replica-diff/parity.py replica/features.csv               # must-haves done
-uv run ../replica-brand/sweep.py . --config replica/brand.json      # exit 0: clean
-uv run ../replica-launch/listing.py replica/launch/listing.json     # if shipping to stores
-bun run build                                                        # production build passes
+npx playwright test                                                  # replica-test
+python3 ../replica-diff/parity.py replica/features.csv               # must-haves done
+python3 ../replica-brand/sweep.py . --config replica/brand.json      # exit 0: clean
+python3 ../replica-launch/listing.py replica/launch/listing.json     # if shipping to stores
+npm run build                                                        # production build passes
 ```
 
 (Paths are relative to wherever the pack is installed. Under

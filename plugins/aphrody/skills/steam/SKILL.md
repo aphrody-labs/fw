@@ -1,9 +1,7 @@
 ---
 name: steam
-description: "Steam on Bun OS through bun-steam - client config, steamcmd with the cached session, libraries, Proton (GE, CachyOS, Valve, official anti-cheat runtimes) and launch tuning, Remote Play, VDF, depots"
+description: Steam on Bun OS through bun-steam - client config, steamcmd with the cached session, libraries, Proton (GE, CachyOS, Valve, official anti-cheat runtimes) and launch tuning, Remote Play, VDF, depots, and the local Steam index (SQLite).
 ---
-> , and the local Steam index (SQLite).
-
 
 Use `bun-steam <command> [--json]` (`bun packages/bun-steam/src/cli.ts`, also `re steam <command>`) or the `steam_*` tools of the `re` MCP server. `bun-steam --help` lists client, steamcmd, libraries, proton, launch, remoteplay, vdf and depot commands. Index commands:
 

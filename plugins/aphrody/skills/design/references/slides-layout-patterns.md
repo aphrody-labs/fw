@@ -131,10 +131,10 @@
 
 ```bash
 # Find layout for specific use
-uv run skills/design-system/scripts/search-slides.py "metrics dashboard" -d layout
+python skills/design-system/scripts/search-slides.py "metrics dashboard" -d layout
 
 # Contextual recommendation
-uv run skills/design-system/scripts/search-slides.py "traction slide" \
+python skills/design-system/scripts/search-slides.py "traction slide" \
   --context --position 4 --total 10
 ```
 

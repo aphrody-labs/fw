@@ -1,0 +1,31 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "modern-web",
+  "displayName": "Modern Web",
+  "version": "1.0.0",
+  "description": "Source-generated web platform references kept in sync: Bun upstream and the Aphrody fork, Modern Web Guidance (via bunx), WebGPU/WGSL and wgpu/Naga, WebAssembly/WASI/wasm-bindgen, and the W3C/WHATWG specs they rely on, with repo@commit and spec URL citations.",
+  "suggestedPrompts": [
+    "How do I resize a WebGPU canvas without losing the drawing buffer? Cite the spec section",
+    "Which Bun API serves static routes and WebSockets? Cite bun-types",
+    "Find the Modern Web Guidance guide for a light-dismiss dialog"
+  ],
+  "author": {
+    "name": "aphrody-labs",
+    "url": "https://github.com/aphrody-labs"
+  },
+  "homepage": "https://github.com/aphrody-labs/fw/tree/main/plugins/modern-web",
+  "repository": "https://github.com/aphrody-labs/fw",
+  "license": "MIT",
+  "keywords": [
+    "bun",
+    "web",
+    "webgpu",
+    "wgsl",
+    "wgpu",
+    "webassembly",
+    "wasi",
+    "whatwg",
+    "w3c",
+    "modern-web-guidance"
+  ]
+}

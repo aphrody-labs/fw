@@ -11,7 +11,7 @@ description: Configure multi-tenant organizations, manage members and invitation
 
 1. Add `organization()` plugin to server config
 2. Add `organizationClient()` plugin to client config
-3. Run `bunx auth@latest migrate` (built-in adapter) or generate + push for Drizzle/Prisma
+3. Run `npx auth@latest migrate` (built-in adapter) or generate + push for Drizzle/Prisma
 4. Verify: check that organization, member, invitation tables exist in your database
 
 ```ts

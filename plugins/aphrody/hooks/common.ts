@@ -1,5 +1,4 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { existsSync, readFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 
 export type Harness = "claude" | "agy" | "gemini";
@@ -71,29 +70,26 @@ export function isBunCheckout(cwd?: string): boolean {
 }
 
 let cachedCaps: { uv: boolean; mcp: boolean } | undefined;
-/** Whether this bun carries `bun uv` and `bun mcp`; probed once per binary (two spawns) and cached in the temp dir. */
 export function bunCapabilities(): { uv: boolean; mcp: boolean } {
   if (cachedCaps) return cachedCaps;
-  const key = `${process.execPath}|${Bun.version_with_sha}`;
-  const cacheFile = join(tmpdir(), "aphrody-bun-capabilities.json");
-  try {
-    const cached = JSON.parse(readFileSync(cacheFile, "utf8")) as { key?: string; uv?: boolean; mcp?: boolean };
-    if (cached.key === key && typeof cached.uv === "boolean" && typeof cached.mcp === "boolean") {
-      return (cachedCaps = { uv: cached.uv, mcp: cached.mcp });
-    }
-  } catch {
-    // No cache yet: probe below.
-  }
-  const url = (process.release as { sourceUrl?: string } | undefined)?.sourceUrl ?? "";
+  const url =
+    (process.release as { sourceUrl?: string } | undefined)?.sourceUrl ?? "";
   const isFork = url.includes("aphrody-labs/bun");
-  const probe = (command: string): boolean =>
-    isFork || Bun.spawnSync([process.execPath, command, "--help"], { stdout: "ignore", stderr: "ignore", stdin: "ignore" }).exitCode === 0;
-  cachedCaps = { uv: probe("uv"), mcp: probe("mcp") };
-  try {
-    writeFileSync(cacheFile, JSON.stringify({ key, ...cachedCaps }));
-  } catch {
-    // A read-only temp dir only costs the probe next time.
-  }
+  const hasMcp =
+    isFork ||
+    Bun.spawnSync([process.execPath, "mcp", "--help"], {
+      stdout: "ignore",
+      stderr: "ignore",
+      stdin: "ignore",
+    }).exitCode === 0;
+  const hasUv =
+    isFork ||
+    Bun.spawnSync([process.execPath, "uv", "--help"], {
+      stdout: "ignore",
+      stderr: "ignore",
+      stdin: "ignore",
+    }).exitCode === 0;
+  cachedCaps = { uv: hasUv, mcp: hasMcp };
   return cachedCaps;
 }
 

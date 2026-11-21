@@ -6,7 +6,7 @@
 
 | Capability | Legacy `wasm-pack 0.15.1` | Aphrody `tooling/bun/web-build.ts` |
 | :--- | :--- | :--- |
-| **Target Ecosystem** | Assumes single-bundle `bun install` / `webpack` packaging (`pkg/` + `package.json`) | Produces multi-cohort web distributions (`baseline`, `simd-baseline`, opt-in `multithreaded`) + runtime WebGPU/SIMD probe HTML |
+| **Target Ecosystem** | Assumes single-bundle `npm` / `webpack` packaging (`pkg/` + `package.json`) | Produces multi-cohort web distributions (`baseline`, `simd-baseline`, opt-in `multithreaded`) + runtime WebGPU/SIMD probe HTML |
 | **CLI <-> Lockfile Lock** | Can download arbitrary `wasm-bindgen` binaries via `binary-install` | `verifyBindgenVersion()` fails fast unless `wasm-bindgen` CLI (0.2.129) strictly equals `Cargo.lock` (0.2.129) |
 | **Windows `web-sys` Build Fix** | Inherits `~/.cargo/config.toml` `sccache`, overflowing Windows `CreateProcess` 32 KB argv limit | Explicitly clears `RUSTC_WRAPPER=""` for `wasm32` builds (`web-build.ts:173`) while preserving native `sccache` |
 | **COOP / COEP Isolation** | Single build flag forces either zero threads or broken third-party embeds | Keeps `baseline` + `simd-baseline` free of shared memory (verified via `WebAssembly.Module.imports`) and gates `+atomics` behind opt-in `--coi` / `--threads` |

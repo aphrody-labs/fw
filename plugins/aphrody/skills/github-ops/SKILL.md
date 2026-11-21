@@ -1,9 +1,12 @@
 ---
 name: github-ops
-description: "GitHub repository automation for aphrody-labs/aphrody: Issues, Wiki sync, PR templates, Renovate. Use when modifying.github/workflows, labels, Wiki pages, or triage/sync ops."
+description: >-
+  GitHub repository automation for aphrody-labs/aphrody: Issues, Wiki sync, PR
+  templates, Renovate, scheduled upstream syncs from zed-industries/zed,
+  longbridge/nsh, longbridge/gpui-kit, gfx-rs/wgpu, and aphrody-labs/bun,
+  automated PR approval and auto-merge, and automated issue-fix/triage workflows.
+  Use when modifying .github/workflows, labels, Wiki pages, or triage/sync ops.
 ---
-> scheduled upstream syncs from zed-industries/zed, longbridge/nsh, longbridge/gpui-kit, gfx-rs/wgpu, and aphrody-labs/bun, automated PR approval and auto-merge, and automated issue-fix/triage workflows.
-
 
 # GitHub Automation & Upstream Sync for aphrody-labs/aphrody
 

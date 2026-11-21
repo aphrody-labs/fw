@@ -1,9 +1,7 @@
 ---
 name: tailwind-v4
-description: "Tailwind CSS v4 conventions for the Shenron site (CSS-first config in apps/site/src/app/globals.css. Use when writing or reviewing className utilities, editing globals.css, adding design tokens"
+description: Tailwind CSS v4 conventions for the Shenron site (CSS-first config in apps/site/src/app/globals.css, @theme inline tokens, --color-dbz-* runtime theming, kit design rules). Use when writing or reviewing className utilities, editing globals.css, adding design tokens, or styling components in apps/site.
 ---
-> @theme inline tokens, --color-dbz-* runtime theming, kit design rules). , or styling components in apps/site.
-
 
 # Tailwind CSS v4 in Shenron
 

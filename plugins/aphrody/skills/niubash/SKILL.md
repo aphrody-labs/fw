@@ -1,9 +1,7 @@
 ---
 name: niubash
-description: "Run Windows tasks in Niubash, the GNU Bash-compatible Windows-native shell. Use when the active shell is Niubash (the niu prompt), when editing ~/.niubashrc or the external plugin manifest"
+description: Run Windows tasks in Niubash, the GNU Bash-compatible Windows-native shell. Use when the active shell is Niubash (the `niu` prompt), when editing ~/.niubashrc or the external plugin manifest, when installing Unix commands with wpm, or for any Windows task where bash syntax should run natively — no PowerShell, WSL, Git Bash, or MSYS involved, and no path-conversion environment variables required.
 ---
-> when installing Unix commands with wpm, or for any Windows task where bash syntax should run natively — no PowerShell, WSL, Git Bash, or MSYS involved, and no path-conversion environment variables required.
-
 
 # Niubash
 
@@ -183,7 +181,7 @@ is the GNU bashdb starter path.
 | Task                                                                            | Use                                                            |
 | ------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | Anything with bash syntax (loops, pipes, substitution, globs, scripts)          | **niu** — directly in-session                                  |
-| Running Windows-native programs (`git.exe`, `bun`, `cargo.exe`)            | **niu** — your PATH is your PATH, no heuristic conversion step |
+| Running Windows-native programs (`git.exe`, `node.exe`, `cargo.exe`)            | **niu** — your PATH is your PATH, no heuristic conversion step |
 | `cmd`-specific quirks (batch files needing `cmd` semantics, `reg` legacy forms) | `cmd /c ...` from niu, but prefer native equivalents           |
 | .NET/COM, Windows management, registry scripting, remoting                      | **powershell** — call it from niu when needed                  |
 | Linux-only tooling, systemd, Linux binaries                                     | **WSL** — niubash does not emulate Linux                       |

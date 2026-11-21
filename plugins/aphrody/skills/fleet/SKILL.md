@@ -1,9 +1,7 @@
 ---
 name: fleet
-description: "Run a command, schedule builds, deploy or check on the fleet (fr1 heavy builds, prd production), gcloud Cloud Build. Use for any remote ssh/scp/systemctl/build; never a heavy build on the PC CPU."
+description: "Run a command, schedule builds, deploy or check on the fleet (`fr1` heavy builds, `prd` production), gcloud Cloud Build, Cloudflare compute and the local RTX 4070; `fr2` is out of service. Use for any remote ssh/scp/systemctl/build; never a heavy build on the PC CPU."
 ---
-> Cloudflare compute and the local RTX 4070; fr2 is out of service.
-
 
 1. Always check live capacity and peer locks first: inspect `fleet_status` (or `bun run fleet:lb probe --all`) and `relay` `session_list` / `session_inbox` before writing under the shared build dir (`<work>` of the host) or launching heavy Cargo/C++ builds on `fr1`.
 2. Launch every long remote command (builds, installs, syncs, benchmarks, kernel compiles) directly inside a detached `tmux` session via `bun "$HOME/.gemini/scripts/tmux-run.ts" start <host> <job> "<cmd>"` and inspect non-blockingly with `status <host> <job>`. For short one-liners, pipe single-quoted heredocs through `@' ... '@ | ssh <host> "tr -d '\r' | bash"`.

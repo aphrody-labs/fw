@@ -24,7 +24,7 @@ wpm list               # full catalog with install state
 ```
 
 WPM is the package manager for GNU/POSIX command packages (`rg`, `fd`,
-`bat`, `jq`, `bun`, ...); WinuxCmd owns the real `/usr/bin` tree that
+`bat`, `jq`, `node`, ...); WinuxCmd owns the real `/usr/bin` tree that
 routes them. `niubash --self-update` updates Niubash and is separate from
 `wpm` updates.
 

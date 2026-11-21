@@ -276,7 +276,7 @@ Extract repeated utility patterns:
 ### Official Plugins
 
 ```bash
-bun add --dev @tailwindcss/typography @tailwindcss/forms @tailwindcss/container-queries
+npm install -D @tailwindcss/typography @tailwindcss/forms @tailwindcss/container-queries
 ```
 
 ```javascript

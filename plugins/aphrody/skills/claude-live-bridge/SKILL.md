@@ -1,6 +1,6 @@
 ---
 name: claude-live-bridge
-description: "Push real-time context and action updates to live Claude Code sessions via their native named pipe (\\\\.\\pipe\\LOCAL\\cc-msg-*) with Relay hook-mailbox fallback."
+description: Push real-time context and action updates to live Claude Code sessions via their native named pipe (`\\.\pipe\LOCAL\cc-msg-*`) with Relay hook-mailbox fallback.
 ---
 
 # Real-Time Context Injection to Live Claude Sessions

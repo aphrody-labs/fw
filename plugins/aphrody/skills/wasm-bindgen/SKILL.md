@@ -1,9 +1,12 @@
 ---
 name: wasm-bindgen
-description: "Authoritative wasm-bindgen, js-sys, web-sys, wasm-bindgen-futures, walrus, weedle, ts-gen. Use when editing crates/gpui_web, crates/aphrody_desktop web builds, tooling/bun/web-build.ts"
+description: >-
+  Authoritative wasm-bindgen, js-sys, web-sys, wasm-bindgen-futures, walrus,
+  weedle, ts-gen, and Browser Wasm FFI skill for aphrody. Use when editing
+  crates/gpui_web, crates/aphrody_desktop web builds, tooling/bun/web-build.ts,
+  wasm32-unknown-unknown exports, Closure lifetimes, Uint8Array views, or
+  optimizing Wasm binaries with walrus + wasm-opt.
 ---
-> and Browser Wasm FFI skill for aphrody. , wasm32-unknown-unknown exports, Closure lifetimes, Uint8Array views, or optimizing Wasm binaries with walrus + wasm-opt.
-
 
 # wasm-bindgen Ecosystem & Browser FFI (`aphrody`)
 

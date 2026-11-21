@@ -58,13 +58,13 @@ Component (component-specific)
 **Generate tokens:**
 
 ```bash
-bun references/design-system/scripts/generate-tokens.cjs --config tokens.json -o tokens.css
+node references/design-system/scripts/generate-tokens.cjs --config tokens.json -o tokens.css
 ```
 
 **Validate usage:**
 
 ```bash
-bun references/design-system/scripts/validate-tokens.cjs --dir src/
+node references/design-system/scripts/validate-tokens.cjs --dir src/
 ```
 
 ## References
@@ -129,15 +129,15 @@ Brand-compliant presentations using design tokens + Chart.js + contextual decisi
 
 ```bash
 # Basic search (auto-detect domain)
-uv run references/design-system/scripts/search-slides.py "investor pitch"
+python references/design-system/scripts/search-slides.py "investor pitch"
 
 # Domain-specific search
-uv run references/design-system/scripts/search-slides.py "problem agitation" -d copy
-uv run references/design-system/scripts/search-slides.py "revenue growth" -d chart
+python references/design-system/scripts/search-slides.py "problem agitation" -d copy
+python references/design-system/scripts/search-slides.py "revenue growth" -d chart
 
 # Contextual search (Premium System)
-uv run references/design-system/scripts/search-slides.py "problem slide" --context --position 2 --total 9
-uv run references/design-system/scripts/search-slides.py "cta" --context --position 9 --prev-emotion frustration
+python references/design-system/scripts/search-slides.py "problem slide" --context --position 2 --total 9
+python references/design-system/scripts/search-slides.py "cta" --context --position 9 --prev-emotion frustration
 ```
 
 ### Decision System CSVs

@@ -1,9 +1,7 @@
 ---
 name: learn
-description: "Continuous autonomous serverless self-learning unified inside Fw across Antigravity, Codex, and Aphrody Labs agents via Cloudflare (https://learn.aphrody.com) and Fw's persistent boot-startup daemon"
+description: Continuous autonomous serverless self-learning unified inside Fw across Antigravity, Codex, and Aphrody Labs agents via Cloudflare (`https://learn.aphrody.com`) and Fw's persistent boot-startup daemon: zero human approval, automatic distillation, promotion, FTS5 indexing, and cross-PC bundle convergence.
 ---
-> : zero human approval, automatic distillation, promotion, FTS5 indexing, and cross-PC bundle convergence.
-
 
 # Continuous Autonomous Self-Learning Loop (Fw Unified)
 

@@ -1,9 +1,7 @@
 ---
 name: google-design
-description: "Google Design / Material 3 Expressive rule set for building web UIs (chat and agent apps): colour roles and tonal surfaces, type scale with Google Sans Flex / Roboto Flex, shape scale and morphing"
+description: Google Design / Material 3 Expressive rule set for building web UIs (chat and agent apps): colour roles and tonal surfaces, type scale with Google Sans Flex / Roboto Flex, shape scale and morphing, spring motion tokens with web cubic-bezier conversions, breakpoints and navigation rail, component specs, accessibility minimums. Values verified live in Nov 2026.
 ---
-> , spring motion tokens with web cubic-bezier conversions, breakpoints and navigation rail, component specs, accessibility minimums. Values verified live in Nov 2026.
-
 
 # Google Design: Material 3 Expressive for the Web
 

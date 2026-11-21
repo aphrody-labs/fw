@@ -1,12 +1,10 @@
 ---
 name: humanizer
-description: "Remove AI writing tics from a text (French or English) without changing what it says. Use before shipping any public text of src and during the anti-slop review of an interface. Absorbs"
+description: Remove AI writing tics from a text (French or English) without changing what it says - interface text, pages, docs, READMEs, commit messages, release notes. Use before shipping any public text of src and during the anti-slop review of an interface. Absorbs blader/humanizer (MIT).
 license: MIT
 metadata:
   upstream: "blader/humanizer@b48c832f0f80 (fork aphrody-labs/humanizer)"
 ---
-> interface text, pages, docs, READMEs, commit messages, release notes. blader/humanizer (MIT).
-
 
 # humanizer
 

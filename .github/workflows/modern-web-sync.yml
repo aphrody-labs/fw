@@ -1,0 +1,50 @@
+name: Sync modern-web plugin
+
+# Daily refresh of plugins/modern-web (Bun upstream and fork, Modern Web Guidance, gpuweb, wgpu, WebAssembly, WASI,
+# wasm-bindgen, w3c/webref and the WHATWG/W3C spec repositories it selects). Regenerates skills/ (with each skill's data/) and the lock
+# file, then commits straight to main, no branch.
+on:
+  schedule:
+    - cron: "41 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fw-modern-web-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MODERN_WEB_CACHE: ${{ runner.temp }}/modern-web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Sync upstreams and regenerate
+        working-directory: plugins/modern-web
+        run: bun scripts/sync.ts
+      - name: Smoke-test the index
+        working-directory: plugins/modern-web
+        run: |
+          bun scripts/query.ts "canvas context sizing" --domain webgpu --limit 1
+          bun scripts/query.ts "Bun.serve routes" --domain bun --limit 1
+      - name: Commit changes to main
+        run: |
+          paths="plugins/modern-web/skills plugins/modern-web/modern-web.lock.json"
+          git add -- $paths
+          if git diff --cached --quiet; then
+            echo "modern-web unchanged"
+            exit 0
+          fi
+          git config user.name "fw-sync"
+          git config user.email "fw-sync@users.noreply.github.com"
+          git commit -m "chore(modern-web): sync upstream references and lock"
+          git pull --rebase origin main
+          git push origin HEAD:main

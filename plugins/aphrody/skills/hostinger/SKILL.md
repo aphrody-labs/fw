@@ -1,9 +1,7 @@
 ---
 name: hostinger
-description: "Manage Hostinger resources (VPS list/start/stop/restart, snapshots, backups, firewall rules, DNS zones and DNS snapshots, domains"
+description: "Manage Hostinger resources (VPS list/start/stop/restart, snapshots, backups, firewall rules, DNS zones and DNS snapshots, domains, subscriptions) through the Hostinger public API at https://developers.hostinger.com with the HOSTINGER_API_TOKEN bearer token, the hostinger-api MCP server, or the hostinger CLI."
 ---
-> , subscriptions) through the Hostinger public API at https://developers.hostinger.com with the HOSTINGER_API_TOKEN bearer token, the hostinger-api MCP server, or the hostinger CLI.
-
 
 # Hostinger API
 
@@ -84,6 +82,6 @@ Our public zones are on Cloudflare; Hostinger DNS only matters for domains still
 
 ## Tooling
 
-- MCP: hosted `https://mcp.hostinger.com` (OAuth, wired in the plugin as `hostinger`; tools `search`, `execute`, `multi-execute`). Local stdio: `bun add -g @hostinger/mcp`, binary `hostinger-api-mcp`, with `HOSTINGER_API_TOKEN` (bypasses OAuth); `--http` mode requires the token.
+- MCP: hosted `https://mcp.hostinger.com` (OAuth, wired in the plugin as `hostinger`; tools `search`, `execute`, `multi-execute`). Local stdio: `npm i -g @hostinger/mcp`, binary `hostinger-api-mcp`, with `HOSTINGER_API_TOKEN` (bypasses OAuth); `--http` mode requires the token.
 - CLI: `hostinger/api-cli` (release binary or `brew install hostinger/tap/hostinger`); `hostinger auth login` or `HOSTINGER_API_TOKEN` (takes precedence); the token comes from hPanel, API.
 - SDK: `hostinger/api-typescript-sdk`. Upstream skills: `hostinger/hostinger-agent-skills`.

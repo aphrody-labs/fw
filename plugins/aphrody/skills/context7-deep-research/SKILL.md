@@ -1,9 +1,7 @@
 ---
 name: context7-deep-research
-description: "Research an upstream library, API or tool before using or citing it in src - Context7 docs through the relay hub. Use for unfamiliar APIs, version facts, or checking a doc claim."
+description: Research an upstream library, API or tool before using or citing it in src - Context7 docs through the relay hub, live GitHub source through gh api, and the repo itself. Use for unfamiliar APIs, version facts, or checking a doc claim.
 ---
-> live GitHub source through gh api, and the repo itself.
-
 
 # Context7 and source research
 

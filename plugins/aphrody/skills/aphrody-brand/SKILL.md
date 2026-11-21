@@ -1,9 +1,11 @@
 ---
 name: aphrody-brand
-description: "Reproducible declarative identity pipeline for aphrody driven by product.toml, crates/brand. Use whenever changing product names, domains, URLs, app IDs, SVG/PNG/ICO icons, installer manifests"
+description: >-
+  Reproducible declarative identity pipeline for aphrody driven by product.toml,
+  crates/brand, and `cargo xtask brand apply|check`. Use whenever changing product
+  names, domains, URLs, app IDs, SVG/PNG/ICO icons, installer manifests, or
+  verifying brand & Zed compatibility alignment.
 ---
-> and cargo xtask brand apply|check. , or verifying brand & Zed compatibility alignment.
-
 
 # Aphrody Declarative Brand Pipeline
 

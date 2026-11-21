@@ -1,9 +1,7 @@
 ---
 name: rio-terminal
-description: "Rio GPU Terminal (v0.6.0, aphrody-labs/rio) architecture, Sugarloaf WebGPU/Wasm renderer, rio-vt, librio C ABI pull model, librio-wasm, rio-ai (ACP/OSC 7501/Session MCP), Native Windows ConPTY/DX12"
+description: Rio GPU Terminal (v0.6.0, aphrody-labs/rio) architecture, Sugarloaf WebGPU/Wasm renderer, rio-vt, librio C ABI pull model, librio-wasm, rio-ai (ACP/OSC 7501/Session MCP), Native Windows ConPTY/DX12, and Cloudflare Edge high support.
 ---
-> , and Cloudflare Edge high support.
-
 
 # Rio GPU Terminal (`aphrody-labs/rio`) Skill
 

@@ -37,20 +37,20 @@ If the DESIGN.md path can't be read (macOS privacy blocks `~/Downloads` and `~/D
 With a preset code from the user:
 
 ```bash
-bunx shadcn@latest init --preset <code> --template vite --name <app> --no-monorepo
+npx shadcn@latest init --preset <code> --template vite --name <app> --no-monorepo -y
 ```
 
 Without one, pick the style whose geometry is closest to the DESIGN.md and pass it with `--base`:
 
 ```bash
-bunx shadcn@latest init --base base --preset <style> --template vite --name <app> --no-monorepo
+npx shadcn@latest init --base base --preset <style> --template vite --name <app> --no-monorepo -y
 ```
 
 Then:
 
 ```bash
 cd <app>
-bunx shadcn@latest info --json
+npx shadcn@latest info --json
 ```
 
 `init` with neither `--preset` nor `--base` stops at an interactive library prompt, even with `-y`. Always pass one of them, plus `--no-monorepo`.
@@ -75,7 +75,7 @@ State the choice and the reason in one line ("Picked maia: 40px controls, 12–1
 ## Step 2: Install Everything
 
 ```bash
-bunx shadcn@latest add --all
+npx shadcn@latest add --all -y
 ls <resolvedPaths.ui>/*.tsx | wc -l
 ```
 
@@ -89,8 +89,8 @@ Then wire up the providers in the app root:
 Then typecheck the app sources. In Vite apps, the root `tsc --noEmit` checks nothing because the root tsconfig only has project references:
 
 ```bash
-bun check --package=tsconfig.app.json --noEmit   # Vite.
-bun check --noEmit                        # Next.js.
+npx tsc -p tsconfig.app.json --noEmit   # Vite.
+npx tsc --noEmit                        # Next.js.
 ```
 
 Fix generated files that fail strict checks (for example, an unused `React` import) before moving on, or `vite build` will fail.
@@ -211,7 +211,7 @@ Override Tailwind's shadow scale in `@theme`, not `@theme inline`. Copy multi-la
 Brand fonts are usually licensed. Use the substitutes the DESIGN.md names, installed from Fontsource with the project's package manager, and import every face you reference at the top of the CSS file:
 
 ```bash
-bun add @fontsource-variable/inter @fontsource-variable/cormorant-garamond @fontsource-variable/jetbrains-mono
+npm install @fontsource-variable/inter @fontsource-variable/cormorant-garamond @fontsource-variable/jetbrains-mono
 ```
 
 ```css
@@ -355,8 +355,8 @@ Copy the helpers from `assets/showcase/` (`preview-states.css`, `state-matrix.ts
 ### Coverage check
 
 ```bash
-bun <skill-dir>/scripts/showcase-coverage.mjs src/components/ui src   # Vite.
-bun <skill-dir>/scripts/showcase-coverage.mjs components/ui app      # Next.js.
+node <skill-dir>/scripts/showcase-coverage.mjs src/components/ui src   # Vite.
+node <skill-dir>/scripts/showcase-coverage.mjs components/ui app      # Next.js.
 ```
 
 It lists every component file that no showcase file imports. Fix the list until it's empty. `add --all` installs both `toast` and `sonner` in Base UI projects; show `sonner` in Feedback next to `toast` so the list can reach zero.

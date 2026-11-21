@@ -1,9 +1,7 @@
 ---
 name: low-level-lto-aot
-description: "Build and verify low-level Fat-LTO and AOT binaries across Assembly (x86-64/ARM64/RISC-V), WebAssembly (wasm32/WASI), CUDA/NVPTX64, WebGPU/WGSL, Rust (MSVC/Linux musl/Asterinas OSDK), C, C++, Go"
+description: Build and verify low-level Fat-LTO and AOT binaries across Assembly (x86-64/ARM64/RISC-V), WebAssembly (wasm32/WASI), CUDA/NVPTX64, WebGPU/WGSL, Rust (MSVC/Linux musl/Asterinas OSDK), C, C++, Go, Java, Kotlin, Python, and Bun for every architecture inside Fw.
 ---
-> , Java, Kotlin, Python, and Bun for every architecture inside Fw.
-
 
 # Fw Low-Level Cross-Language & Cross-Architecture LTO/AOT Guide
 

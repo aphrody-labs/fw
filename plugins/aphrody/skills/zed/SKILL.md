@@ -1,9 +1,11 @@
 ---
 name: zed
-description: "Architecture, full Zed ecosystem compatibility invariants, extension WIT ABI. Use when modifying Zed-derived crates, extensions, settings schemas, onboarding, CLI compatibility"
+description: >-
+  Architecture, full Zed ecosystem compatibility invariants, extension WIT ABI,
+  settings/keymap/theme schemas, xtask conformity, and upstream cherry-pick/sync
+  procedures for aphrody. Use when modifying Zed-derived crates, extensions,
+  settings schemas, onboarding, CLI compatibility, or upstream syncs.
 ---
-> settings/keymap/theme schemas, xtask conformity, and upstream cherry-pick/sync procedures for aphrody. , or upstream syncs.
-
 
 # Zed Ecosystem Architecture & Compatibility in aphrody
 

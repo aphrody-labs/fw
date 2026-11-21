@@ -1,9 +1,7 @@
 ---
 name: gpui
-description: "Native UI in Rust with GPUI: core framework (entities, render, elements, Taffy layout, focus, actions, backends). Use before designing or editing native UI, windows, events or GPUI crate internals."
+description: "Native UI in Rust with GPUI: core framework (entities, render, elements, Taffy layout, focus, actions, backends), GPUI Kit apps and their design guides, GPUI Fast retained views, gpui::test and Criterion benchmarks. Use before designing or editing native UI, windows, events or GPUI crate internals."
 ---
-> GPUI Kit apps and their design guides, GPUI Fast retained views, gpui::test and Criterion benchmarks.
-
 # GPUI: native UI in Rust
 
 `references/core.md` is the former body of this skill (core GPUI): read it first, then the reference for the layer you touch.

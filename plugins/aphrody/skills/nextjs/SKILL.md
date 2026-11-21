@@ -1,9 +1,7 @@
 ---
 name: nextjs
-description: "Next.js 16.5+ work: App Router architecture and proxy.ts, next.config and caching. Use for any Next.js code, config, performance or debugging task. Cloudflare deployment is the cloudflare"
+description: "Next.js 16.5+ work: App Router architecture and proxy.ts, next.config and caching, runtime MCP and devtools, verifying a change in a running dev server, bundle-size audits, adopting Cache Components and Partial Prefetching and optimizing what they surface. Use for any Next.js code, config, performance or debugging task. Cloudflare deployment is the cloudflare plugin's nextjs-on-cloudflare."
 ---
-> runtime MCP and devtools, verifying a change in a running dev server, bundle-size audits, adopting Cache Components and Partial Prefetching and optimizing what they surface. plugin's nextjs-on-cloudflare.
-
 # Next.js 16.5+
 
 Architecture and config first (`nextjs-app-router`, `nextjs-config-caching`), then the runtime loop, then the optimization references.

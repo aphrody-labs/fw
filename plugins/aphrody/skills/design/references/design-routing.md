@@ -173,21 +173,21 @@ Application Code
 **Brand:**
 
 ```bash
-bun skills/brand/scripts/inject-brand-context.cjs
-bun skills/brand/scripts/validate-asset.cjs <path>
+node skills/brand/scripts/inject-brand-context.cjs
+node skills/brand/scripts/validate-asset.cjs <path>
 ```
 
 **Tokens:**
 
 ```bash
-bun skills/design-system/scripts/generate-tokens.cjs -c tokens.json
-bun skills/design-system/scripts/validate-tokens.cjs -d src/
+node skills/design-system/scripts/generate-tokens.cjs -c tokens.json
+node skills/design-system/scripts/validate-tokens.cjs -d src/
 ```
 
 **Components:**
 
 ```bash
-bunx shadcn@latest add button card input
+npx shadcn@latest add button card input
 ```
 
 ## When to Use Multiple Skills

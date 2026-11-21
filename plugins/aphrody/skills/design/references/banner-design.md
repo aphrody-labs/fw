@@ -68,7 +68,7 @@ For each art direction option:
    **a) Search prompt inspiration** (6000+ examples in ai-artist):
 
    ```bash
-   uv run skills/ai-artist/scripts/search.py "<banner style keywords>"
+   python3 skills/ai-artist/scripts/search.py "<banner style keywords>"
    ```
 
    **b) Generate with Standard model** (fast, good for backgrounds/patterns):
@@ -116,7 +116,7 @@ After designing HTML banners, export each to PNG using `chrome-devtools` skill:
 2. **Screenshot each banner** at exact platform dimensions:
    ```bash
    # Export banner to PNG at exact dimensions
-   bun skills/chrome-devtools/scripts/screenshot.js \
+   node skills/chrome-devtools/scripts/screenshot.js \
      --url "http://localhost:8765/banner-01-minimalist.html" \
      --width 1500 --height 500 \
      --output "assets/banners/{campaign}/{variant}-{size}.png"
@@ -124,7 +124,7 @@ After designing HTML banners, export each to PNG using `chrome-devtools` skill:
 3. **Auto-compress** if >5MB (Sharp compression built-in):
    ```bash
    # With custom max size threshold
-   bun skills/chrome-devtools/scripts/screenshot.js \
+   node skills/chrome-devtools/scripts/screenshot.js \
      --url "http://localhost:8765/banner-02-gradient.html" \
      --width 1500 --height 500 --max-size 3 \
      --output "assets/banners/{campaign}/{variant}-{size}.png"

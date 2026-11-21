@@ -1,9 +1,13 @@
 ---
 name: zed-ai
-description: "Authoritative Zed AI documentation reference distilled from zed-industries/zed/docs/src/ai (28 files): Zed Agent, External Agents (ACP & ACP Registry), Terminal Threads"
+description: >-
+  Authoritative Zed AI documentation reference distilled from zed-industries/zed/docs/src/ai
+  (28 files): Zed Agent, External Agents (ACP & ACP Registry), Terminal Threads, Parallel
+  Agents (Git worktrees), Skills & Instructions (replacing Rules), Built-in Tools,
+  Tool Permissions (v0.224+), OS Sandboxing (Seatbelt/Bubblewrap), MCP context servers,
+  Edit Prediction (Zeta/Copilot/Codestral/Mercury/local), LLM Providers, Gateways,
+  Local Models (llama.cpp/Ollama/LM Studio), Subscriptions, and AI Privacy.
 ---
-> , Parallel Agents (Git worktrees), Skills & Instructions (replacing Rules), Built-in Tools, Tool Permissions (v0.224+), OS Sandboxing (Seatbelt/Bubblewrap), MCP context servers, Edit Prediction (Zeta/Copilot/Codestral/Mercury/local), LLM Providers, Gateways, Local Models (llama.cpp/Ollama/LM Studio), Subscriptions, and AI Privacy.
-
 
 # Zed AI Architecture & Configuration (`zed-industries/zed/docs/src/ai`)
 

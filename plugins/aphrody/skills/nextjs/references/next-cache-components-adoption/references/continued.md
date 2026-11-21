@@ -16,7 +16,7 @@ Before invoking the codemod, grep for `^export const (revalidate|dynamic|fetchCa
 The codemod refuses to run on a dirty working tree. Commit or stash unrelated work first, or pass `--force` to let its edits land alongside your WIP. Common false positive: if you recently upgraded Next.js, `package.json` and the lockfile will already be dirty — commit those first.
 
 ```bash
-bunx @next/codemod@latest cache-components-instant-false ./app
+npx @next/codemod@latest cache-components-instant-false ./app
 ```
 
 Pass the app directory you resolved in [requires](#requires). A wrong path is not an error: it reports `0 ok` and exits `0`, so read the file count and treat zero as a failed run, not an adopted app.
