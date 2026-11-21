@@ -57,7 +57,7 @@ jobs:
             --write-report target/mcp-conformance/report.md
       - name: Keep the logs, transcripts and report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mcp-conformance
           path: target/mcp-conformance
