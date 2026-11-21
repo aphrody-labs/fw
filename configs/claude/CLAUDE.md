@@ -7,7 +7,7 @@
 - Nothing hardcoded: derive frameworks, languages, OSes, locales, paths, hosts and accounts from manifests, identity files and live discovery.
 - Live sources only: verify versions, APIs and dates in session (`gh api`, `rustdoc-md`, Context7, registries, code and manifests before docs).
 - Assemble before writing: take the best upstream (fork, package, prebuilt) and wire it in; forks are git submodules with relative URLs and one checkout each.
-- Fleet roles (`ssh -G <host>`): `fr1` builds/CI/heavy agents, `prd` production plus a build and agent slice (docs/research/cluster-stack-2026-11-21.md), gcloud Cloud Build and Cloudflare (Workers, R2, containers) as extra compute, the local RTX 4070 for GPU work; heavy CPU builds stay off the PC.
+- Cluster (`cluster/build.toml`, `ssh -G <node>`): equal nodes `n1` and `n2`, role-free names (`fr1` and `prd` stay secondary aliases until every reference is migrated); every node builds (sccache-dist), runs CI runners, agents and services; `bun configs/claude/scripts/build-cluster.ts place` picks the node from live load, memory and disk; gcloud Cloud Build and Cloudflare (Workers, R2, containers) as burst compute, the local RTX 4070 for GPU work; heavy CPU builds stay off the PC.
 - Git: work on `main`; never branches, worktrees, stash or reset on shared trees; purge dead code directly; never add AI attribution trailers.
 - Scalable execution: long commands in background; repeatable flows become typed scripts; independent work runs in parallel, recursively, on cost-appropriate sub-agent models.
 - Cross-session real-time sync: broadcast ongoing actions to live Claude Code sessions via `claude_inject` MCP or `bun ~/.claude/scripts/notify.ts` (direct IPC pipe with hook mailbox fallback).

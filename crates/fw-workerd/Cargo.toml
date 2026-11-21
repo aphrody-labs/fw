@@ -1,0 +1,33 @@
+[package]
+name = "fw-workerd"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Self-hosted Cloudflare mode: compiles a wrangler config to a workerd config (R2 over S3, D1/KV/Queues over Durable Object SQLite), renders the systemd units and the Garage bootstrap for the nodes of cluster/build.toml, and runs the differential parity suite against the cloud and the self-hosted URL; ships `fw-workerd`"
+
+[lib]
+name = "fw_workerd"
+path = "src/fw_workerd.rs"
+
+[[bin]]
+name = "fw-workerd"
+path = "src/main.rs"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+thiserror.workspace = true
+toml.workspace = true
+ureq.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

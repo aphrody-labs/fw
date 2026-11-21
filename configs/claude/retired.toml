@@ -17,7 +17,13 @@ reason = "the relay hub was removed on 2026-11-16; cross-session delivery is the
 [[term]]
 id = "fr2-host"
 pattern = '\bfr2\b'
-reason = "fr2 is out of service; fleet roles are fr1 (builds, CI, heavy agents) and prd"
+reason = "fr2 is out of service; the cluster nodes are n1 and n2 (cluster/build.toml)"
+
+[[term]]
+id = "cluster-role-names"
+# Case-sensitive on purpose: PRD (product requirements) and similar words are not the old ssh alias.
+pattern = '\b(?-i:fr1|prd)\b'
+reason = "nodes are named <node_prefix><index> in cluster/build.toml (n1, n2) and have equal roles; fr1 and prd stay as secondary ssh aliases until every reference is migrated, so new references use the node names"
 
 [[term]]
 id = "agy-tooling"
@@ -27,6 +33,59 @@ reason = "agy (Antigravity CLI) is retired and its repository is archived; the p
 [[allow]]
 paths = ["docs/agents/queue/**", "docs/agents/consolidation-*.md", "docs/release/**"]
 reason = "history notes of the retirement itself"
+
+[[allow]]
+terms = ["cluster-role-names"]
+paths = [
+  # The declaration of the aliases and the files that exercise them.
+  "cluster/build.toml",
+  "configs/claude/scripts/build-cluster.test.ts",
+  "configs/claude/CLAUDE.md",
+  # Not yet migrated to the node names, owned by other lots (see the unified-cluster lot, remaining: remove the old aliases).
+  "aphrody/**",
+  "ay/**",
+  "crates/**",
+  "docs/**",
+  "nix/**",
+  "os/**",
+  "packages/**",
+  "src/**",
+  "tests/**",
+  "tools/**",
+  ".github/**",
+  "AGENTS.md",
+  "deny.toml",
+  "flake.nix",
+  "justfile",
+  "layout.toml",
+  "upstreams.toml",
+  "cluster/dns-removed-2026-11-21.json",
+  "cluster/estate.plan.json",
+  "cluster/estate.toml",
+  "cluster/topology.toml",
+  "configs/claude/scripts/rust-audit.ts",
+  "configs/claude/toolchain.toml",
+  "plugins/aphrody/skills/ai-os-orchestrator/SKILL.md",
+  "plugins/aphrody/skills/bun-reference/data/**",
+  "plugins/aphrody/skills/bun-upstream/SKILL.md",
+  "plugins/aphrody/skills/context7-deep-research/SKILL.md",
+  "plugins/aphrody/skills/depot-tools/SKILL.md",
+  "plugins/aphrody/skills/emscripten/references/**",
+  "plugins/aphrody/skills/fleet/SKILL.md",
+  "plugins/aphrody/skills/formal-verification/references/**",
+  "plugins/aphrody/skills/gpui/references/**",
+  "plugins/aphrody/skills/hostinger/SKILL.md",
+  "plugins/aphrody/skills/ie-game-formats/SKILL.md",
+  "plugins/aphrody/skills/learn/SKILL.md",
+  "plugins/aphrody/skills/linux-kernel/SKILL.md",
+  "plugins/aphrody/skills/modern-web/data/**",
+  "plugins/aphrody/skills/rust-cargo/**",
+  "plugins/aphrody/skills/rust-lang-process/SKILL.md",
+  "plugins/aphrody/skills/upstreams/**",
+  "plugins/aphrody/skills/wasm-bindgen/SKILL.md",
+  "plugins/aphrody/skills/web-quality/**",
+]
+reason = "the files below still carry the old ssh aliases fr1 and prd: the allow list shrinks as each is migrated, and anything new outside it fails"
 
 [[allow]]
 paths = ["configs/claude/retired.toml", "configs/claude/scripts/retired.ts", "configs/claude/scripts/retired.test.ts"]

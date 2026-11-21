@@ -1,12 +1,34 @@
-# One source of truth for the build cluster: hosts, mesh addresses, ports, paths, resource policy.
+# One source of truth for the build cluster: node names, mesh addresses, ports, paths, resource policy.
 # Read by configs/claude/scripts/build-cluster.ts; nothing else carries these names or addresses.
+# Nodes are equal: no node has a role by name. Every node runs the same units from the same policy; the one thing
+# pinned here is where the sccache-dist and NativeLink schedulers live, and moving them is one line plus `apply`.
+
+[cluster]
+name = "fw"
+# A node is <node_prefix><index>: the ssh alias, the system hostname and the mesh DNS name are all derived from it.
+node_prefix = "n"
+mesh_domain = "mesh"
 
 [mesh]
 cidr = "10.200.77.0/24"
 
-# Hub: runs the sccache-dist scheduler and the NativeLink scheduler.
 [scheduler]
-host = "fr1"
+host = "n1"
+
+[policy]
+# Same resource policy on every node: build bursts (sccache-dist servers) run in this slice, sized from the node's RAM.
+build_slice = "fw-build.slice"
+cpu_weight = 50
+io_weight = 50
+memory_high_percent = 40
+memory_max_percent = 55
+
+[runners]
+# GitHub Actions runners per node, sized by core count: ceil(vcpu / cores_per_runner). A runner is <node>-<name>-<k>.
+org = "aphrody-labs"
+cores_per_runner = 6
+labels = ["cluster"]
+dir_prefix = "org-"                  # under each node's <work>/runners
 
 [sccache_dist]
 scheduler_port = 10600
@@ -14,11 +36,19 @@ server_port = 10501
 version = "0.19.0"
 # Built with `--features dist-client dist-server`; target-cpu is the lowest tier of the hosts that run it.
 build_target_cpu = "x86-64-v3"
-tools_dir = "tools/sccache"          # under the scheduler host's work dir
+tools_dir = "tools/sccache"          # under each node's work dir
 
 [nativelink]
+scheduler = "n1"
 scheduler_port = 50051
 cas_port = 50061
+
+# ELF linkers, built from source on each node for its own ISA (docs/research/mold-audit-2026-11-21.md).
+# The toolchain is the channel of the workspace rust-toolchain.toml.
+[linkers]
+mold = "3.0.0"
+wild = "0.11.0"
+tools_dir = "tools/linkers"          # under each node's work dir
 
 # Reference build used by `build-cluster.ts bench`: one commit, cold target dir.
 [bench]
@@ -27,23 +57,26 @@ package = "fw-bin"
 profile_lto = "thin"
 codegen_units = 16
 
-[hosts.fr1]
-ssh = "fr1"
+# Secondary aliases keep the previous names resolving until every reference is migrated; the retired-surfaces check
+# (configs/claude/retired.toml) lists the files that still carry them.
+[hosts.n1]
+index = 1
+aliases = ["fr1"]
+ssh = "n1"
 address = "10.200.77.1"
 user = "ubuntu"
 work = "/srv/xbuild"
 vcpu = 12
 target_cpu = "x86-64-v3"
-slice = ""                           # dedicated factory host: no cgroup cap
-roles = ["scheduler", "server", "nativelink-scheduler", "nativelink-worker"]
+roles = ["server", "nativelink-worker"]
 
-[hosts.prd]
-ssh = "prd"
+[hosts.n2]
+index = 2
+aliases = ["prd"]
+ssh = "n2"
 address = "10.200.77.5"
 user = "builduser"
 work = "/srv/build"
 vcpu = 8
 target_cpu = "znver4"
-# Production shares the host: build bursts run in this slice (CPUWeight 15, MemoryHigh 12G) so services keep priority.
-slice = "fairwind-build-worker.slice"
 roles = ["server", "nativelink-worker"]

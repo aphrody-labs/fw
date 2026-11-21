@@ -12381,6 +12381,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "fw-workerd"
+version = "2026.11.0"
+dependencies = [
+ "hex",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+ "thiserror 2.0.21",
+ "toml",
+ "ureq",
+]
+
+[[package]]
 name = "gaoya"
 version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
