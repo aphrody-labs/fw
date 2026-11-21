@@ -1,0 +1,181 @@
+[
+  {
+    "name": "vfs_ls",
+    "description": "List files and directories under a prefix in the tenant SQLite VFS.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "default": "/"
+        }
+      }
+    }
+  },
+  {
+    "name": "vfs_read",
+    "description": "Read a file from the tenant SQLite VFS (with transparent R2 spillover hydration).",
+    "inputSchema": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "vfs_write",
+    "description": "Write a file to the tenant SQLite VFS after Gatekeeper policy verification.",
+    "inputSchema": {
+      "type": "object",
+      "required": [
+        "path",
+        "content"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "vfs_stat",
+    "description": "Return metadata, size, and SHA-256 digest for a VFS path.",
+    "inputSchema": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "vfs_exec",
+    "description": "Execute a command or code snippet via Fw 3-tier routing (0=DO POSIX, 1=CodeMode LOADER, 2=Sandbox microVM).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string"
+        },
+        "argv": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "code": {
+          "type": "string"
+        },
+        "tier": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            {
+              "type": "string",
+              "enum": [
+                "auto"
+              ]
+            }
+          ]
+        },
+        "cwd": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "gatekeeper_check",
+    "description": "Evaluate a Cloudflare OS Gatekeeper capability check for a principal and optional path.",
+    "inputSchema": {
+      "type": "object",
+      "required": [
+        "capability"
+      ],
+      "properties": {
+        "capability": {
+          "type": "string"
+        },
+        "principal": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "os_catalog",
+    "description": "Return the verified Nov 2026 Cloudflare Edge OS / Computer / Agents / Sandbox / Basin / K2 catalog.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "layer": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "learn_log",
+    "description": "Append an autonomous learning event to the tenant DO log (and K2 / Basin Pipelines if bound).",
+    "inputSchema": {
+      "type": "object",
+      "required": [
+        "kind",
+        "summary"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "payload": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  {
+    "name": "learn_status",
+    "description": "Inspect autonomous learning log counts and connected streaming sinks.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  }
+]
