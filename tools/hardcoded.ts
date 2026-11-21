@@ -17,9 +17,9 @@ type Lang = "rust" | "ts" | "css" | "kotlin" | "html";
 type Kind = "color" | "string" | "icon";
 const KINDS: Kind[] = ["color", "string", "icon"];
 type Counts = Record<Kind, number>;
-type Hit = { kind: Kind; line: number; text: string };
+type Hit = { kind: Kind; line: number; text: string; span?: [number, number] };
 
-const root = resolve(import.meta.dir, "..");
+export const root = resolve(import.meta.dir, "..");
 const configPath = join(root, "tools", "hardcoded.toml");
 const cfg = Bun.TOML.parse(readFileSync(configPath, "utf8")) as any;
 
@@ -30,12 +30,14 @@ const matchesAny = (list: Bun.Glob[], path: string) => list.some((g) => g.match(
 
 // ---------------------------------------------------------------- lexing
 
-type Lexed = { code: string; strings: [number, number][] };
+/** `[from, to, template]`: string literal ranges; `template` marks the literal text of a JS template (not its `${}` code). */
+type Range = [number, number, boolean?];
+type Lexed = { code: string; strings: Range[] };
 
 /** Replaces comments by spaces (keeping newlines, so offsets and lines stay) and records string literal ranges. */
 function lex(text: string, lang: Lang): Lexed {
   const out = text.split("");
-  const strings: [number, number][] = [];
+  const strings: Range[] = [];
   const n = text.length;
   const blank = (from: number, to: number) => {
     for (let k = from; k < to; k++) if (out[k] !== "\n") out[k] = " ";
@@ -46,63 +48,99 @@ function lex(text: string, lang: Lang): Lexed {
   }
   const lineComments = lang !== "css";
   const nested = lang === "rust" || lang === "kotlin";
-  let i = 0;
-  while (i < n) {
-    const c = text[i];
-    const next = text[i + 1];
-    if (lineComments && c === "/" && next === "/") {
-      let j = i;
-      while (j < n && text[j] !== "\n") j++;
-      blank(i, j);
-      i = j;
-    } else if (c === "/" && next === "*") {
-      let depth = 1;
-      let j = i + 2;
-      while (j < n && depth > 0) {
-        if (nested && text[j] === "/" && text[j + 1] === "*") { depth++; j += 2; }
-        else if (text[j] === "*" && text[j + 1] === "/") { depth--; j += 2; }
-        else j++;
-      }
-      blank(i, j);
-      i = j;
-    } else if (lang === "rust" && (c === "r" || (c === "b" && next === "r")) && /^b?r#*"/.test(text.slice(i, i + 12)) && !/\w/.test(text[i - 1] ?? " ")) {
-      const m = /^b?r(#*)"/.exec(text.slice(i, i + 12))!;
-      const close = `"${m[1]}`;
-      const end = text.indexOf(close, i + m[0].length);
-      const stop = end < 0 ? n : end + close.length;
-      strings.push([i, stop]);
-      i = stop;
-    } else if (lang === "kotlin" && c === '"' && text.startsWith('"""', i)) {
-      const end = text.indexOf('"""', i + 3);
-      const stop = end < 0 ? n : end + 3;
-      strings.push([i, stop]);
-      i = stop;
-    } else if (c === '"' || (c === "'" && lang !== "rust" && lang !== "kotlin") || (c === "`" && lang === "ts")) {
-      const multiline = lang === "rust" || lang === "kotlin" || c === "`";
-      let j = i + 1;
-      while (j < n && text[j] !== c) {
-        if (text[j] === "\\") j++;
-        else if (!multiline && text[j] === "\n") break;
-        j++;
-      }
-      const stop = Math.min(j + 1, n);
-      strings.push([i, stop]);
-      i = stop;
-    } else if (c === "'" && (lang === "rust" || lang === "kotlin")) {
-      // character literal, or a lifetime (no closing quote right after one character)
-      if (next === "\\") {
-        const end = text.indexOf("'", i + 3);
-        i = end < 0 ? i + 1 : end + 1;
-      } else if (text[i + 2] === "'") i += 3;
-      else i++;
-    } else i++;
-  }
+
+  /** A JS template literal starting at the backtick `i`: literal text segments are ranges, `${}` bodies are code. */
+  const template = (i: number): number => {
+    let from = i;
+    let j = i + 1;
+    while (j < n) {
+      if (text[j] === "\\") j += 2;
+      else if (text[j] === "`") {
+        strings.push([from, j + 1, true]);
+        return j + 1;
+      } else if (text[j] === "$" && text[j + 1] === "{") {
+        strings.push([from, j, true]);
+        j = code(j + 2, true);
+        from = j;
+      } else j++;
+    }
+    strings.push([from, n, true]);
+    return n;
+  };
+
+  /** Lexes code from `i`; with `stopAtBrace` returns after the `}` that closes the enclosing `${`. */
+  const code = (start: number, stopAtBrace: boolean): number => {
+    let i = start;
+    let depth = 0;
+    while (i < n) {
+      const c = text[i];
+      const next = text[i + 1];
+      if (lineComments && c === "/" && next === "/") {
+        let j = i;
+        while (j < n && text[j] !== "\n") j++;
+        blank(i, j);
+        i = j;
+      } else if (c === "/" && next === "*") {
+        let level = 1;
+        let j = i + 2;
+        while (j < n && level > 0) {
+          if (nested && text[j] === "/" && text[j + 1] === "*") { level++; j += 2; }
+          else if (text[j] === "*" && text[j + 1] === "/") { level--; j += 2; }
+          else j++;
+        }
+        blank(i, j);
+        i = j;
+      } else if (lang === "rust" && (c === "r" || (c === "b" && next === "r")) && /^b?r#*"/.test(text.slice(i, i + 12)) && !/\w/.test(text[i - 1] ?? " ")) {
+        const m = /^b?r(#*)"/.exec(text.slice(i, i + 12))!;
+        const close = `"${m[1]}`;
+        const end = text.indexOf(close, i + m[0].length);
+        const stop = end < 0 ? n : end + close.length;
+        strings.push([i, stop]);
+        i = stop;
+      } else if (lang === "kotlin" && c === '"' && text.startsWith('"""', i)) {
+        const end = text.indexOf('"""', i + 3);
+        const stop = end < 0 ? n : end + 3;
+        strings.push([i, stop]);
+        i = stop;
+      } else if (c === "`" && lang === "ts") {
+        i = template(i);
+      } else if (c === '"' || (c === "'" && lang !== "rust" && lang !== "kotlin")) {
+        const multiline = lang === "rust" || lang === "kotlin";
+        let j = i + 1;
+        while (j < n && text[j] !== c) {
+          if (text[j] === "\\") j++;
+          else if (!multiline && text[j] === "\n") break;
+          j++;
+        }
+        const stop = Math.min(j + 1, n);
+        strings.push([i, stop]);
+        i = stop;
+      } else if (c === "'" && (lang === "rust" || lang === "kotlin")) {
+        // character literal, or a lifetime (no closing quote right after one character)
+        if (next === "\\") {
+          const end = text.indexOf("'", i + 3);
+          i = end < 0 ? i + 1 : end + 1;
+        } else if (text[i + 2] === "'") i += 3;
+        else i++;
+      } else if (stopAtBrace && c === "{") {
+        depth++;
+        i++;
+      } else if (stopAtBrace && c === "}") {
+        if (depth === 0) return i + 1;
+        depth--;
+        i++;
+      } else i++;
+    }
+    return n;
+  };
+
+  code(0, false);
   if (lang === "rust") blankTestModules(text, out, strings);
   return { code: out.join(""), strings };
 }
 
 /** Blanks `#[cfg(test)] mod name { ... }` bodies: test code is not shipped UI. */
-function blankTestModules(text: string, out: string[], strings: [number, number][]) {
+function blankTestModules(text: string, out: string[], strings: Range[]) {
   const start = /#\[cfg\(test\)\]\s*(?:pub(?:\([^)]*\))?\s+)?mod\s+\w+\s*\{/g;
   let m: RegExpExecArray | null;
   while ((m = start.exec(text))) {
@@ -120,7 +158,23 @@ function blankTestModules(text: string, out: string[], strings: [number, number]
   }
 }
 
-const inRanges = (ranges: [number, number][], at: number) => {
+/** Blanks the blocks between the begin and end markers of generated token output (`[scan] generated_blocks`). */
+function blankGenerated(code: string): string {
+  let out = code;
+  for (const [begin, end] of cfg.scan.generated_blocks as [string, string][]) {
+    let from = out.indexOf(begin);
+    while (from >= 0) {
+      const to = out.indexOf(end, from + begin.length);
+      if (to < 0) break;
+      const stop = to + end.length;
+      out = out.slice(0, from) + out.slice(from, stop).replace(/[^\n]/g, " ") + out.slice(stop);
+      from = out.indexOf(begin, stop);
+    }
+  }
+  return out;
+}
+
+const rangeAt = (ranges: Range[], at: number): Range | undefined => {
   let lo = 0;
   let hi = ranges.length - 1;
   while (lo <= hi) {
@@ -128,10 +182,11 @@ const inRanges = (ranges: [number, number][], at: number) => {
     const [a, b] = ranges[mid];
     if (at < a) hi = mid - 1;
     else if (at >= b) lo = mid + 1;
-    else return true;
+    else return ranges[mid];
   }
-  return false;
+  return undefined;
 };
+const inRanges = (ranges: Range[], at: number) => rangeAt(ranges, at) !== undefined;
 
 // ---------------------------------------------------------------- rules
 
@@ -141,22 +196,22 @@ const alt = (list: string[]) => list.map(escapeRe).join("|");
 const colorNamed = new Set<string>(cfg.color.named);
 const RE = {
   hex: /(?<![\w&/#-])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})(?![\w-])/g,
-  fn: new RegExp(`(?<![\\w-])(?:${alt(cfg.color.functions)})\\(\\s*[-.\\d]`, "g"),
+  fn: new RegExp(`(?<![\\w-])(?:${alt(cfg.color.functions)})\\(\\s*[-.\\d]`, "gd"),
   namedDecl: new RegExp(`(?<![\\w-])(?:${alt(cfg.color.properties)})["']?\\s*[:=]\\s*["']?([a-z]+)\\b(?!\\s*\\()`, "gi"),
   kotlinColor: /\bColor\(\s*0x[0-9a-fA-F]+/g,
-  kotlinNamed: new RegExp(`\\bColor\\.(?:${alt(cfg.color.kotlin_named)})\\b`, "g"),
-  rustCall: new RegExp(`(?<![\\w:])(?:${alt(cfg.string.rust_calls)})\\((?:[^"()]*,\\s*)?"((?:[^"\\\\]|\\\\.)*)"`, "g"),
-  rustMethod: new RegExp(`\\.(?:${alt(cfg.string.rust_methods)})\\(\\s*"((?:[^"\\\\]|\\\\.)*)"\\s*[,)]`, "g"),
-  tsKey: new RegExp(`(?<![\\w.])(?:${alt(cfg.string.ts_keys)})\\s*:\\s*(?:"((?:[^"\\\\\\n]|\\\\.)*)"|'((?:[^'\\\\\\n]|\\\\.)*)'|\`([^\`$\\n]*)\`)`, "g"),
-  attr: new RegExp(`(?<![\\w-])(?:${alt(cfg.string.html_attributes)})=(?:"([^"]*)"|'([^']*)')`, "g"),
-  textNode: />\s*([^<>{}\n&][^<>{}]*?)\s*</g,
-  kotlinArg: new RegExp(`(?<![\\w.])(?:${alt(cfg.string.kotlin_arguments)})\\s*=\\s*"((?:[^"\\\\]|\\\\.)*)"`, "g"),
-  kotlinCall: new RegExp(`(?<![\\w.])(?:${alt(cfg.string.kotlin_calls)})\\(\\s*"((?:[^"\\\\]|\\\\.)*)"`, "g"),
+  kotlinNamed: new RegExp(`\\bColor\\.(?:${alt(cfg.color.kotlin_named)})\\b`, "gd"),
+  rustCall: new RegExp(`(?<![\\w:])(?:${alt(cfg.string.rust_calls)})\\((?:[^"()]*,\\s*)?"((?:[^"\\\\]|\\\\.)*)"`, "gd"),
+  rustMethod: new RegExp(`\\.(?:${alt(cfg.string.rust_methods)})\\(\\s*"((?:[^"\\\\]|\\\\.)*)"\\s*[,)]`, "gd"),
+  tsKey: new RegExp(`(?<![\\w.])(?:${alt(cfg.string.ts_keys)})\\s*:\\s*(?:"((?:[^"\\\\\\n]|\\\\.)*)"|'((?:[^'\\\\\\n]|\\\\.)*)'|\`([^\`$\\n]*)\`)`, "gd"),
+  attr: new RegExp(`(?<![\\w-])(?:${alt(cfg.string.html_attributes)})=(?:"([^"]*)"|'([^']*)')`, "gd"),
+  textNode: /(?<![=-])>\s*([^<>{}\n&`][^<>{}`]*?)\s*</gd,
+  kotlinArg: new RegExp(`(?<![\\w.])(?:${alt(cfg.string.kotlin_arguments)})\\s*=\\s*"((?:[^"\\\\]|\\\\.)*)"`, "gd"),
+  kotlinCall: new RegExp(`(?<![\\w.])(?:${alt(cfg.string.kotlin_calls)})\\(\\s*"((?:[^"\\\\]|\\\\.)*)"`, "gd"),
   cssContent: /content\s*:\s*"([^"]+)"/g,
-  iconKey: new RegExp(`(?<![\\w.])(?:${alt(cfg.icon.keys)})["']?\\s*[:=]\\s*["'\`]([^"'\`$\\n]+)["'\`]`, "g"),
-  iconCall: new RegExp(`(?<![\\w:])(?:${alt(cfg.icon.rust_calls)})\\(\\s*"([^"]+)"`, "g"),
-  iconPath: new RegExp(`"([^"\\n]+(?:${alt(cfg.icon.path_suffixes)})|(?:${alt(cfg.icon.path_prefixes)})[^"\\n]*)"`, "g"),
-  ligature: new RegExp(`<(?:(?:${alt(cfg.icon.ligature_elements)})[^>]*|\\w+[^>]*class=["'][^"']*(?:${alt(cfg.icon.ligature_classes)})[^"']*["'][^>]*)>\\s*([a-z][a-z0-9_]*)\\s*<`, "g"),
+  iconKey: new RegExp(`(?<![\\w.])(?:${alt(cfg.icon.keys)})["']?\\s*[:=]\\s*["'\`]([^"'\`$\\n]+)["'\`]`, "gd"),
+  iconCall: new RegExp(`(?<![\\w:])(?:${alt(cfg.icon.rust_calls)})\\(\\s*"([^"]+)"`, "gd"),
+  iconPath: new RegExp(`"([^"\\n]+(?:${alt(cfg.icon.path_suffixes)})|(?:${alt(cfg.icon.path_prefixes)})[^"\\n]*)"`, "gd"),
+  ligature: new RegExp(`<(?:(?:${alt(cfg.icon.ligature_elements)})[^>]*|\\w+[^>]*class=["'][^"']*(?:${alt(cfg.icon.ligature_classes)})[^"']*["'][^>]*)>\\s*([a-z][a-z0-9_]*)\\s*<`, "gd"),
   kotlinIcons: /\bIcons\.(?:Default|Filled|Outlined|Rounded|Sharp|TwoTone|AutoMirrored)(?:\.\w+)+/g,
 };
 
@@ -165,8 +220,16 @@ const userFacing = (value: string) => {
   return v.length >= 2 && /\p{L}/u.test(v) && (/\s/.test(v) || /^\p{Lu}/u.test(v));
 };
 
-function scan(text: string, lang: Lang, jsx: boolean): Hit[] {
-  const { code, strings } = lex(text, lang);
+/** Source offsets of the first capture group that matched (needs the `d` flag). */
+function groupSpan(m: RegExpExecArray): [number, number] | undefined {
+  const indices = (m as RegExpExecArray & { indices?: ([number, number] | undefined)[] }).indices;
+  return indices?.slice(1).find((range) => range !== undefined);
+}
+
+export function scan(text: string, lang: Lang, jsx: boolean): Hit[] {
+  const lexed = lex(blankGenerated(text), lang);
+  const code = lexed.code;
+  const strings = lexed.strings;
   const lineStarts = [0];
   for (let k = 0; k < text.length; k++) if (text.charCodeAt(k) === 10) lineStarts.push(k + 1);
   const lineOf = (at: number) => {
@@ -179,13 +242,14 @@ function scan(text: string, lang: Lang, jsx: boolean): Hit[] {
     }
     return lo + 1;
   };
+  const inTemplate = (at: number) => rangeAt(strings, at)?.[2] === true;
   const hits: Hit[] = [];
   const seen = new Set<string>();
-  const add = (kind: Kind, at: number, text: string) => {
+  const add = (kind: Kind, at: number, text: string, span?: [number, number]) => {
     const key = `${kind}:${at}`;
     if (seen.has(key)) return;
     seen.add(key);
-    hits.push({ kind, line: lineOf(at), text: text.slice(0, 80) });
+    hits.push({ kind, line: lineOf(at), text: text.slice(0, 80), span });
   };
   const each = (re: RegExp, fn: (m: RegExpExecArray) => void) => {
     re.lastIndex = 0;
@@ -213,21 +277,23 @@ function scan(text: string, lang: Lang, jsx: boolean): Hit[] {
 
   // strings
   const text1 = (kind: Kind, m: RegExpExecArray, value: string | undefined) => {
-    if (value !== undefined && userFacing(value)) add(kind, m.index, value);
+    if (value !== undefined && userFacing(value)) add(kind, m.index, value, groupSpan(m));
   };
   if (lang === "rust") {
     each(RE.rustCall, (m) => text1("string", m, m[1]));
     each(RE.rustMethod, (m) => text1("string", m, m[1]));
   } else if (lang === "ts") {
     each(RE.tsKey, (m) => text1("string", m, m[1] ?? m[2] ?? m[3]));
-    each(RE.attr, (m) => text1("string", m, m[1] ?? m[2]));
+    each(RE.attr, (m) => {
+      if (jsx || inTemplate(m.index)) text1("string", m, m[1] ?? m[2]);
+    });
     each(RE.textNode, (m) => {
-      if ((jsx || inRanges(strings, m.index)) && /\p{L}{2}/u.test(m[1]) && !/[=;(){}]|=>/.test(m[1])) add("string", m.index, m[1]);
+      if ((jsx || inTemplate(m.index)) && /\p{L}{2}/u.test(m[1]) && !/[=;(){}]|=>/.test(m[1])) add("string", m.index, m[1], groupSpan(m));
     });
   } else if (lang === "html") {
     each(RE.attr, (m) => text1("string", m, m[1] ?? m[2]));
     each(RE.textNode, (m) => {
-      if (/\p{L}{2}/u.test(m[1]) && !/[{};]/.test(m[1])) add("string", m.index, m[1]);
+      if (/\p{L}{2}/u.test(m[1]) && !/[{};]/.test(m[1])) add("string", m.index, m[1], groupSpan(m));
     });
   } else if (lang === "kotlin") {
     each(RE.kotlinArg, (m) => text1("string", m, m[1]));
@@ -404,7 +470,7 @@ async function main() {
   console.log(`total ${total(sum)} (color ${sum.color}, string ${sum.string}, icon ${sum.icon}); inside allowlisted token/catalog/theme files: ${total(allowedSum)} in ${allowedFiles.size} files`);
   console.log(`by ${by}:`);
   for (const [key, c] of rows.slice(0, top)) console.log(`${String(total(c)).padStart(7)}  color ${String(c.color).padStart(6)}  string ${String(c.string).padStart(6)}  icon ${String(c.icon).padStart(5)}  ${key}`);
-  if (wantHits) for (const { path, hit } of hitsOut.slice(0, 200)) console.log(`${path}:${hit.line}: ${hit.kind}: ${hit.text}`);
+  if (wantHits) for (const { path, hit } of hitsOut.filter((h) => h.path.includes(flag("--only") ?? "")).slice(0, Number(flag("--limit") ?? 200))) console.log(`${path}:${hit.line}: ${hit.kind}: ${hit.text}`);
 }
 
-await main();
+if (import.meta.main) await main();
