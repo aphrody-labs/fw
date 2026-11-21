@@ -155,12 +155,12 @@ craft-wordmodel = { git = "https://github.com/storytold/craft-libs", rev = "ccbc
 craft-xls = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
 craft-xlsx = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
 craft-xml = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
-fw-agent-context = { path = "../fw/crates/fw-agent-context" }
-fw-depot = { path = "../fw/crates/fw-depot", default-features = false }
-fw-gemini = { path = "../fw/crates/fw-gemini", default-features = false }
-fw-http = { path = "../fw/crates/fw-http", default-features = false }
-fw-rag-core = { path = "../fw/crates/fw-rag-core", default-features = false }
-fw-secrets = { path = "../fw/crates/fw-secrets" }
+fw-agent-context = { path = "../crates/fw-agent-context" }
+fw-depot = { path = "../crates/fw-depot", default-features = false }
+fw-gemini = { path = "../crates/fw-gemini", default-features = false }
+fw-http = { path = "../crates/fw-http", default-features = false }
+fw-rag-core = { path = "../crates/fw-rag-core", default-features = false }
+fw-secrets = { path = "../crates/fw-secrets" }
 # layout:end cargo.dependencies
 
 [workspace.lints.rust]

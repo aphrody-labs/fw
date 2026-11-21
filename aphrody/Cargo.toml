@@ -1061,8 +1061,8 @@ fs = { path = "crates/fs" }
 fs_benchmarks = { path = "crates/fs_benchmarks" }
 fuzzy = { path = "crates/fuzzy" }
 fuzzy_nucleo = { path = "crates/fuzzy_nucleo" }
-fw-m3 = { path = "../fw/crates/fw-m3" }
-fw-video = { path = "../fw/crates/fw-video" }
+fw-m3 = { path = "../crates/fw-m3" }
+fw-video = { path = "../crates/fw-video" }
 getrandom-stdlib = { version = "0.4", package = "getrandom", default-features = false }
 gh-workflow = { git = "https://github.com/zed-industries/gh-workflow", rev = "37f3c0575d379c218a9c455ee67585184e40d43f" }
 git = { path = "crates/git" }

@@ -43,16 +43,7 @@ members = [
     "crates/fw-bin",
     "xtask",
 ]
-exclude = [
-    "os/fw-os",
-    "os/fw-os-boot",
-    "os/fw-ostd-vfs",
-    "native/fw-kernel",
-    "native/fw-world",
-    "native/fw-abi",
-    "packages",
-    "crates/fw-edge",
-]
+exclude = ["os/fw-os", "os/fw-os-boot", "os/fw-ostd-vfs", "native/fw-kernel", "native/fw-world", "native/fw-abi", "packages", "crates/fw-edge", "aphrody", "ay"]
 resolver = "2"
 
 [workspace.package]
