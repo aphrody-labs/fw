@@ -494,7 +494,7 @@ function coverageCheck() {
 async function staleReferences() {
   for (const moved of config.moved ?? []) {
     const hits = (await $`git -C ${root} grep -nIF -e ${moved.from} -- . ${":(exclude)layout.toml"} ${":(exclude)docs/architecture/layout-2026.md"}`.quiet().nothrow().text()).split("\n").filter(Boolean);
-    const boundary = new RegExp(`(^|[^\\w./-])${moved.from.replace(/[.+?^${}()|[\]\\]/g, "\\$&")}(/|$|[^\\w-])`);
+    const boundary = new RegExp(`(^|[^\\w./-])/?${moved.from.replace(/[.+?^${}()|[\]\\]/g, "\\$&")}(/|$|[^\\w-])`);
     for (const hit of hits) if (boundary.test(hit.replace(/^[^:]+:\d+:/, ""))) fail(`stale reference to moved path ${moved.from} (now ${moved.to}): ${hit.slice(0, 160)}`);
   }
 }
@@ -630,7 +630,7 @@ if (command === "adopt") {
     await $`git -C ${root} mv ${area.path} ${area.to!}`;
     console.log(`${area.path} -> ${area.to}`);
     const escaped = area.path.replace(/[.+?^${}()|[\]\\]/g, "\\$&");
-    const boundary = new RegExp(`(^|[^\\w./-])${escaped}(?=/|$|[^\\w-])`, "g");
+    const boundary = new RegExp(`(^|[^\\w./-])(/?)${escaped}(?=/|$|[^\\w-])`, "g");
     const files = (await $`git -C ${root} ls-files`.quiet().text()).split("\n").filter((f) => f && !f.endsWith(".lock") && f !== "layout.toml" && f !== "docs/architecture/layout-2026.md");
     for (const file of files) {
       const full = join(root, file);
@@ -638,7 +638,7 @@ if (command === "adopt") {
       const buffer = readFileSync(full);
       if (buffer.includes(0)) continue;
       const original = buffer.toString("utf8");
-      const rewritten = original.replace(boundary, (_m, lead: string) => `${lead}${area.to}`);
+      const rewritten = original.replace(boundary, (_m, lead: string, slash: string) => `${lead}${slash}${area.to}`);
       if (rewritten !== original) { const mode = statSync(full).mode & 0o777; writeFileSync(full, rewritten); chmodSync(full, mode); }
     }
     recorded.push(`\n[[moved]]\nfrom = ${quote(area.path)}\nto = ${quote(area.to!)}\nwhy = ${quote(area.why)}\n`);
