@@ -1257,6 +1257,13 @@ fn main() {
     report.flush();
     let wants = |suite: &str| options.suites.iter().any(|s| s == suite);
 
+    if wants("startup") {
+        // The cost of starting any process on this host: a binary cannot start faster than this.
+        let floor = if cfg!(windows) { PathBuf::from(env::var("SystemRoot").unwrap_or_else(|_| "C:\\Windows".to_string())).join("System32").join("hostname.exe") } else { which("true").unwrap_or_else(|| PathBuf::from("/bin/true")) };
+        if floor.is_file() {
+            run_startup("floor", &floor, &[Vec::new()], &options, &mut report);
+        }
+    }
     for exe in &options.exes {
         run_startup(&exe.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default(), exe, &options.startup_args, &options, &mut report);
     }
