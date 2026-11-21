@@ -1,6 +1,6 @@
 # fw-rag/codegraph
 
-Native code graph (nodes, EXTRACTED and INFERRED edges with confidence, communities, god nodes, query, path and explain, report, graph.json) stored in the home database. Own implementation of the Graphify concepts (Apache-2.0, see NOTICE). Ships the `ai-os-graph` binary.
+Native code graph (nodes, EXTRACTED and INFERRED edges with confidence, communities, god nodes, query, path and explain, report, graph.json) stored in the home database. Own implementation of the Graphify concepts (Apache-2.0, see NOTICE). Ships the `fw-graph` binary, which `fw graph` runs.
 
 Legacy name: this unit was published on crates.io as `aphrody-code-graph`. It is restored here as `fw-rag/codegraph` (`publish = false`; nothing is published from this repository by hand).
 

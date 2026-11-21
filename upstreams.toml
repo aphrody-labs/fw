@@ -434,3 +434,30 @@ docs = "https://yazi-rs.github.io/docs/quick-start"
 fw = "crates/fw-files"
 role = "Terminal file manager (MIT): yazi-sftp as a git dependency on the fork aphrody-labs/yazi at tag v26.9.1, the [plugin] previewer rule table (crates/fw-files/presets/yazi-plugin.toml) and the sort, MIME and task-scheduler design behind fw files"
 watch = true
+
+[[upstream]]
+id = "android-documentsui"
+repo = "aphrody-labs/android-documentsui"
+branch = "android17-release"
+docs = "https://android.googlesource.com/platform/packages/apps/DocumentsUI/+/refs/tags/android-17.0.0_r1"
+fw = "crates/fw-drive"
+role = "Android 17 Files app (AOSP DocumentsUI, Material 3 Expressive flag use_material3): measured design source for fw-drive; pinned tag android-17.0.0_r1 = 4568ed0bc0a62f71d4126503ef92a91f42a22c4e; private mirror of platform/packages/apps/DocumentsUI, Apache-2.0"
+watch = true
+
+[[upstream]]
+id = "chromium-file-manager"
+repo = "aphrody-labs/chromium-file-manager"
+branch = "main"
+docs = "https://chromium.googlesource.com/chromium/src/+/refs/tags/159.0.8154.13/ui/file_manager"
+fw = "crates/fw-drive"
+role = "ChromeOS Files app (chromium/src ui/file_manager, ui/chromeos/styles cros tokens, ash/webui/file_manager): measured design source for fw-drive; pinned tag 159.0.8154.13 = 4d790f9eb4c8abe65b8aaa3feba664e7c734ba56; private subtree extract, BSD-3-Clause"
+watch = true
+
+[[upstream]]
+id = "spacedrive"
+repo = "spacedriveapp/spacedrive"
+branch = "main"
+docs = "https://github.com/spacedriveapp/spacedrive/blob/main/docs/core/architecture.mdx"
+fw = "crates/fw-drive"
+role = "Rust virtual distributed filesystem: record/source store, content identity (sampled then full blake3), indexer jobs, thumbnail tiles, tag assertions, HLC sync; ideas and permitted Apache-2.0 reuse for fw-drive, pinned 18c7689644a397fb96c8b66d1176ffa11d17834f; fork aphrody-labs/spacedrive"
+watch = true

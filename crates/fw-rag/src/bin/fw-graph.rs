@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! Transitional entry point of the code graph; the verbs live under `aphrody graph`.
+//! `fw-graph`: the code graph binary that `fw graph` runs (build, query, explain, path, report, export).
 
 fn main() -> std::process::ExitCode {
     let code = fw_rag::codegraph::cli::cli_main(std::env::args_os().collect());

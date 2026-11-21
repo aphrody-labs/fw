@@ -3,8 +3,8 @@
 //! Pure-Rust Keyless Autonomous Self-Learning Engine (`fw learn`, `fw mem`, `fw graph`, `fw docs`/`c7`):
 //! - **claude-mem parity**: Structured observations, 3-layer progressive disclosure (`search` -> `timeline` -> `get`),
 //!   BM25 + recency ranking, SHA-256 content-addressed deduplication, append-only sharded XFS JSONL.
-//! - **graphify parity**: Multi-language AST/symbol/import graph, deterministic Label Propagation community detection,
-//!   God Nodes (centrality hubs), cross-community bridges, persistent `graphs/<project>.json` + `GRAPH_REPORT.md`.
+//! - **Code graph**: `fw graph` and `fw learn harvest` run the `fw-graph` binary (crates/fw-rag codegraph: tree-sitter
+//!   Rust, oxc TS/JS, Markdown), stored per project in `graphs/<project>/` with `graph.json` and `GRAPH_REPORT.md`.
 //! - **context7 parity (100% keyless)**: Live TLS 1.3 resolver for crates.io, npm, PyPI, GitHub raw docs, and `llms.txt` /
 //!   `llms-full.txt`, heading-based semantic chunking, BM25 token-budgeted retrieval, permanent XFS cache.
 //! - **Infinite XFS Dataset & Agentless Loop**: Sharded `observations/YYYY-MM.jsonl`, `graphs/`, `docs/`, `corpus/YYYY-MM.jsonl`,
@@ -15,7 +15,7 @@ use fw_fx::indexer::WorkspaceIndexer;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
-use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -431,321 +431,124 @@ pub fn run_claude_mem_cli(args: &[String], store: &XfsDatasetStore) -> Result<Va
 }
 
 // ============================================================================
-// 3. Pure-Rust Keyless `graphify` (Knowledge Graph + Communities + God Nodes)
+// 3. Code graph: the `fw-graph` binary (crates/fw-rag codegraph: tree-sitter Rust, oxc TS/JS, Markdown)
 // ============================================================================
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GraphNode {
-    pub id: String,
-    pub defines: Vec<String>,
-    pub community: usize,
-    pub degree: usize,
+/// `fw-graph` next to the running `fw`, else on PATH.
+pub fn fw_graph_program() -> PathBuf {
+    let exe = format!("fw-graph{}", std::env::consts::EXE_SUFFIX);
+    std::env::current_exe()
+        .ok()
+        .and_then(|p| p.parent().map(|d| d.join(&exe)))
+        .filter(|p| p.is_file())
+        .unwrap_or_else(|| PathBuf::from(exe))
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GraphEdge {
-    pub from: String,
-    pub to: String,
-    pub kind: String,
-    pub confidence: String,
+/// Runs `fw-graph` and returns its stdout.
+pub fn run_fw_graph(args: &[String]) -> Result<String, String> {
+    let program = fw_graph_program();
+    let out = std::process::Command::new(&program).args(args).output().map_err(|e| {
+        format!(
+            "cannot run `{}` ({e}); build it with `cargo build --release -p fw-rag --features codegraph --bin fw-graph` and keep it next to `fw`",
+            program.display()
+        )
+    })?;
+    if !out.status.success() {
+        return Err(format!("fw-graph {}: {}", args.join(" "), String::from_utf8_lossy(&out.stderr).trim()));
+    }
+    Ok(String::from_utf8_lossy(&out.stdout).into_owned())
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct KnowledgeGraph {
-    pub workspace: String,
-    pub nodes: Vec<GraphNode>,
-    pub edges: Vec<GraphEdge>,
+/// One code graph per project: `<store>/graphs/<project>/` holds the fw-graph database, `graph.json` and `GRAPH_REPORT.md`.
+pub fn graph_dir(store: &XfsDatasetStore, project: &str) -> PathBuf {
+    store.root.join("graphs").join(sanitize_slug(project))
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
+pub struct GraphSnapshot {
+    pub nodes: u64,
+    pub edges: u64,
+    pub communities: Option<u64>,
     pub god_nodes: Vec<String>,
-    pub community_count: usize,
-    pub cross_community_bridges: usize,
+    pub report: PathBuf,
 }
 
-pub fn build_graphify_graph(root: &Path) -> KnowledgeGraph {
-    let idx = WorkspaceIndexer::open(root);
-    let files = idx.list_files(400);
-    let mut nodes: Vec<GraphNode> = Vec::new();
-    let mut raw_imports: Vec<(usize, BTreeSet<String>)> = Vec::new();
-
-    for rel in files {
-        let ext = Path::new(&rel).extension().and_then(|s| s.to_str()).unwrap_or("");
-        if !matches!(ext, "rs" | "ts" | "tsx" | "js" | "mjs" | "py" | "go" | "c" | "cpp" | "h") {
+/// Reads the community count and the god nodes (`- name (N edges) - path`) from a `GRAPH_REPORT.md`.
+pub fn parse_graph_report(md: &str) -> (Option<u64>, Vec<String>) {
+    let communities = md.lines().find_map(|l| {
+        let l = l.trim_start_matches("- ");
+        let (_, rest) = l.split_once(" edges, ")?;
+        rest.strip_suffix(" communities")?.parse().ok()
+    });
+    let mut gods = Vec::new();
+    let mut in_gods = false;
+    for line in md.lines() {
+        if line.starts_with("## ") {
+            in_gods = line == "## God nodes";
             continue;
         }
-        let Ok(raw) = fs::read_to_string(root.join(&rel)) else {
+        if in_gods && let Some(item) = line.strip_prefix("- ") {
+            let name = item.split(" (").next().unwrap_or(item).trim();
+            if !name.is_empty() {
+                gods.push(name.to_owned());
+            }
+        }
+    }
+    (communities, gods)
+}
+
+/// Builds (incrementally) the code graph of `root` into the learning store.
+pub fn build_code_graph(store: &XfsDatasetStore, root: &Path, project: &str) -> Result<GraphSnapshot, String> {
+    store.ensure_layout()?;
+    let dir = graph_dir(store, project);
+    fs::create_dir_all(&dir).map_err(|e| format!("{}: {e}", dir.display()))?;
+    let report = dir.join("GRAPH_REPORT.md");
+    let arg = |p: &Path| p.display().to_string();
+    let out = run_fw_graph(&[
+        "--state".into(),
+        arg(&dir),
+        "build".into(),
+        arg(root),
+        "--json".into(),
+        arg(&dir.join("graph.json")),
+        "--report".into(),
+        arg(&report),
+    ])?;
+    let v: Value = serde_json::from_str(out.trim()).map_err(|e| format!("fw-graph build output: {e}"))?;
+    let (communities, god_nodes) = parse_graph_report(&fs::read_to_string(&report).unwrap_or_default());
+    Ok(GraphSnapshot {
+        nodes: v["nodes"].as_u64().unwrap_or(0),
+        edges: v["edges"].as_u64().unwrap_or(0),
+        communities,
+        god_nodes,
+        report,
+    })
+}
+
+/// Code-graph hits for a query across every project graph in the store (`NODE` lines of `fw-graph query`).
+fn code_graph_hits(store: &XfsDatasetStore, query: &str, limit: usize) -> Vec<Value> {
+    let mut hits = Vec::new();
+    let Ok(rd) = fs::read_dir(store.root.join("graphs")) else {
+        return hits;
+    };
+    for ent in rd.flatten() {
+        let dir = ent.path();
+        if !dir.join("GRAPH_REPORT.md").is_file() {
+            continue;
+        }
+        let project = ent.file_name().to_string_lossy().into_owned();
+        let args = ["--state".to_owned(), dir.display().to_string(), "query".to_owned(), query.to_owned(), "--budget".to_owned(), "600".to_owned()];
+        let Ok(out) = run_fw_graph(&args) else {
             continue;
         };
-        let mut defines = Vec::new();
-        let mut imports = BTreeSet::new();
-        for line in raw.lines() {
-            let t = line.trim();
-            if let Some(rest) = t
-                .strip_prefix("pub fn ")
-                .or_else(|| t.strip_prefix("pub async fn "))
-                .or_else(|| t.strip_prefix("pub struct "))
-                .or_else(|| t.strip_prefix("pub enum "))
-                .or_else(|| t.strip_prefix("pub trait "))
-                .or_else(|| t.strip_prefix("export function "))
-                .or_else(|| t.strip_prefix("export class "))
-                .or_else(|| t.strip_prefix("def "))
-                .or_else(|| t.strip_prefix("func "))
-                && let Some(name) = rest.split(['(', '<', '{', ':', ' ']).next()
-                && !name.is_empty()
-            {
-                defines.push(name.to_owned());
-            }
-            if let Some(u) = t.strip_prefix("use ") {
-                if let Some(target) = u.split([':', ';', ' ']).next()
-                    && !matches!(target, "std" | "core" | "super" | "self" | "crate" | "")
-                {
-                    imports.insert(target.to_owned());
-                } else if let Some(rest) = u.strip_prefix("crate::")
-                    && let Some(mod_name) = rest.split([':', ';', ' ']).next()
-                    && !mod_name.is_empty()
-                {
-                    imports.insert(mod_name.to_owned());
-                }
-            } else if t.starts_with("import ")
-                && let Some((_, rhs)) = t.split_once(" from ")
-            {
-                let target = rhs.trim().trim_end_matches(';').trim_matches(['"', '\'']);
-                if !target.is_empty() {
-                    imports.insert(target.to_owned());
-                }
-            } else if let Some(inc) = t.strip_prefix("#include ") {
-                let target = inc.trim().trim_matches(['"', '<', '>']);
-                if !target.is_empty() {
-                    imports.insert(target.to_owned());
-                }
-            }
+        for line in out.lines().filter_map(|l| l.strip_prefix("NODE ")).take(limit.saturating_sub(hits.len())) {
+            hits.push(json!({ "pillar": "codegraph", "project": project, "node": line }));
         }
-        let node_idx = nodes.len();
-        nodes.push(GraphNode {
-            id: rel,
-            defines: defines.into_iter().take(12).collect(),
-            community: node_idx,
-            degree: 0,
-        });
-        raw_imports.push((node_idx, imports));
-    }
-
-    // Build edges + adjacency list (resolving internal module stems to actual node indices when possible)
-    let mut stem_to_idx: HashMap<String, usize> = HashMap::new();
-    for (i, n) in nodes.iter().enumerate() {
-        if let Some(stem) = Path::new(&n.id).file_stem().and_then(|s| s.to_str()) {
-            stem_to_idx.insert(stem.to_owned(), i);
-        }
-    }
-
-    let mut edges = Vec::new();
-    let mut adj: Vec<Vec<usize>> = vec![Vec::new(); nodes.len()];
-    for (from_idx, imps) in raw_imports {
-        let from_id = nodes[from_idx].id.clone();
-        for imp in imps {
-            if let Some(&to_idx) = stem_to_idx.get(&imp)
-                && to_idx != from_idx
-            {
-                adj[from_idx].push(to_idx);
-                adj[to_idx].push(from_idx);
-                edges.push(GraphEdge {
-                    from: from_id.clone(),
-                    to: nodes[to_idx].id.clone(),
-                    kind: "internal_import".to_owned(),
-                    confidence: "EXTRACTED".to_owned(),
-                });
-            } else {
-                edges.push(GraphEdge {
-                    from: from_id.clone(),
-                    to: imp,
-                    kind: "external_import".to_owned(),
-                    confidence: "EXTRACTED".to_owned(),
-                });
-            }
-            nodes[from_idx].degree += 1;
-        }
-    }
-
-    // Deterministic Label Propagation (Louvain-style community detection, 8 iterations)
-    let mut labels: Vec<usize> = (0..nodes.len()).collect();
-    for _ in 0..8 {
-        let mut changed = false;
-        for u in 0..nodes.len() {
-            if adj[u].is_empty() {
-                continue;
-            }
-            let mut freq: BTreeMap<usize, usize> = BTreeMap::new();
-            for &v in &adj[u] {
-                *freq.entry(labels[v]).or_insert(0) += 1;
-            }
-            if let Some((&best_lbl, _)) = freq.iter().max_by_key(|&(&lbl, &cnt)| (cnt, std::cmp::Reverse(lbl)))
-                && labels[u] != best_lbl
-            {
-                labels[u] = best_lbl;
-                changed = true;
-            }
-        }
-        if !changed {
+        if hits.len() >= limit {
             break;
         }
     }
-
-    // Compact community IDs to 0..K
-    let mut remap: BTreeMap<usize, usize> = BTreeMap::new();
-    for (i, &lbl) in labels.iter().enumerate() {
-        let next_id = remap.len();
-        let cid = *remap.entry(lbl).or_insert(next_id);
-        nodes[i].community = cid;
-    }
-
-    // Count cross-community bridges
-    let mut bridges = 0usize;
-    for (u, nbrs) in adj.iter().enumerate() {
-        for &v in nbrs {
-            if u < v && nodes[u].community != nodes[v].community {
-                bridges += 1;
-            }
-        }
-    }
-
-    // God Nodes: top 8 highest-degree architectural hubs
-    let mut by_deg: Vec<(usize, usize)> = nodes.iter().enumerate().map(|(i, n)| (n.degree + n.defines.len(), i)).collect();
-    by_deg.sort_by_key(|a| std::cmp::Reverse(a.0));
-    let god_nodes: Vec<String> = by_deg.into_iter().take(8).map(|(_, i)| nodes[i].id.clone()).collect();
-
-    KnowledgeGraph {
-        workspace: root.display().to_string(),
-        nodes,
-        edges,
-        god_nodes,
-        community_count: remap.len(),
-        cross_community_bridges: bridges,
-    }
-}
-
-pub fn persist_graphify(store: &XfsDatasetStore, graph: &KnowledgeGraph, project: &str) -> Result<PathBuf, String> {
-    store.ensure_layout()?;
-    let safe = sanitize_slug(project);
-    let json_path = store.root.join("graphs").join(format!("{safe}.json"));
-    let md_path = store.root.join("graphs").join(format!("{safe}.md"));
-    fs::write(&json_path, serde_json::to_string_pretty(graph).map_err(|e| e.to_string())?)
-        .map_err(|e| e.to_string())?;
-    fs::write(&md_path, render_graph_markdown(graph)).map_err(|e| e.to_string())?;
-    Ok(json_path)
-}
-
-fn render_graph_markdown(g: &KnowledgeGraph) -> String {
-    let mut md = format!(
-        "# Graphify Knowledge Graph ({})\n\n- Nodes: {}\n- Edges: {}\n- Communities: {}\n- Cross-Community Bridges: {}\n\n## God Nodes\n",
-        g.workspace, g.nodes.len(), g.edges.len(), g.community_count, g.cross_community_bridges
-    );
-    for gn in &g.god_nodes {
-        md.push_str(&format!("- `{gn}`\n"));
-    }
-    md.push_str("\n## Top Nodes\n");
-    for n in g.nodes.iter().take(30) {
-        md.push_str(&format!(
-            "- `{}` (community {}, degree {}, {} symbols)\n",
-            n.id,
-            n.community,
-            n.degree,
-            n.defines.len()
-        ));
-    }
-    md
-}
-
-/// `fw graph [query <term> | god-nodes | communities] [dir] [--md] [--save]`
-pub fn run_graphify_cli(args: &[String], cwd: &Path, store: &XfsDatasetStore) -> Result<Value, String> {
-    let sub = args.first().map(String::as_str).unwrap_or("");
-    let md = args.iter().any(|a| a == "--md" || a == "--markdown");
-    let save = args.iter().any(|a| a == "--save");
-
-    if sub == "query" {
-        let term = args.get(1).ok_or_else(|| "usage: fw graph query <term> [dir]".to_owned())?;
-        let target = args.get(2).filter(|a| !a.starts_with('-')).map(|s| cwd.join(s)).unwrap_or_else(|| cwd.to_path_buf());
-        let g = build_graphify_graph(&target);
-        let q = term.to_ascii_lowercase();
-        let matched_nodes: Vec<&GraphNode> = g
-            .nodes
-            .iter()
-            .filter(|n| n.id.to_ascii_lowercase().contains(&q) || n.defines.iter().any(|d| d.to_ascii_lowercase().contains(&q)))
-            .take(20)
-            .collect();
-        let matched_ids: HashSet<&str> = matched_nodes.iter().map(|n| n.id.as_str()).collect();
-        let neighbors: Vec<&GraphEdge> = g
-            .edges
-            .iter()
-            .filter(|e| matched_ids.contains(e.from.as_str()) || matched_ids.contains(e.to.as_str()))
-            .take(40)
-            .collect();
-        return Ok(json!({
-            "ok": true,
-            "engine": "fw-graph (pure-Rust keyless graphify)",
-            "query": term,
-            "matchedNodes": matched_nodes,
-            "neighbors": neighbors
-        }));
-    }
-
-    let dir_arg = match sub {
-        "god-nodes" | "communities" => args.get(1),
-        _ => args.iter().find(|a| !a.starts_with('-')),
-    };
-    let target = dir_arg.map(|s| cwd.join(s)).unwrap_or_else(|| cwd.to_path_buf());
-    let g = build_graphify_graph(&target);
-
-    if save {
-        let project = target.file_name().and_then(|s| s.to_str()).unwrap_or("workspace");
-        let _ = persist_graphify(store, &g, project);
-    }
-
-    if sub == "god-nodes" {
-        return Ok(json!({
-            "ok": true,
-            "engine": "fw-graph (graphify God Nodes)",
-            "workspace": g.workspace,
-            "godNodes": g.god_nodes,
-            "communities": g.community_count,
-            "crossCommunityBridges": g.cross_community_bridges
-        }));
-    }
-    if sub == "communities" {
-        let mut by_comm: BTreeMap<usize, Vec<String>> = BTreeMap::new();
-        for n in &g.nodes {
-            by_comm.entry(n.community).or_default().push(n.id.clone());
-        }
-        return Ok(json!({
-            "ok": true,
-            "engine": "fw-graph (graphify Label Propagation communities)",
-            "communityCount": g.community_count,
-            "communities": by_comm
-        }));
-    }
-    if md {
-        return Ok(json!({
-            "ok": true,
-            "format": "markdown",
-            "nodeCount": g.nodes.len(),
-            "edgeCount": g.edges.len(),
-            "communityCount": g.community_count,
-            "godNodes": g.god_nodes,
-            "markdown": render_graph_markdown(&g)
-        }));
-    }
-
-    Ok(json!({
-        "ok": true,
-        "zeroSubprocess": true,
-        "keyless": true,
-        "engine": "fw-graph (pure-Rust keyless graphify + lat.md)",
-        "workspace": g.workspace,
-        "nodeCount": g.nodes.len(),
-        "edgeCount": g.edges.len(),
-        "communityCount": g.community_count,
-        "crossCommunityBridges": g.cross_community_bridges,
-        "godNodes": g.god_nodes,
-        "nodes": g.nodes.into_iter().take(40).collect::<Vec<_>>(),
-        "edges": g.edges.into_iter().take(80).collect::<Vec<_>>()
-    }))
+    hits
 }
 
 // ============================================================================
@@ -1127,27 +930,38 @@ pub fn run_agentless_harvest(cwd: &Path, store: &XfsDatasetStore) -> Result<Valu
         }
     }
 
-    // 2. Rebuild Graphify Knowledge Graph + distill God Nodes into claude-mem + corpus
-    let graph = build_graphify_graph(cwd);
-    let graph_path = persist_graphify(store, &graph, project)?;
-    let god_summary = format!(
-        "Project {project}: {} nodes, {} edges, {} communities, {} cross-community bridges. God Nodes: {}",
-        graph.nodes.len(),
-        graph.edges.len(),
-        graph.community_count,
-        graph.cross_community_bridges,
-        graph.god_nodes.join(", ")
-    );
-    let (_, graph_obs_created) = add_observation(
-        store,
-        "discovery",
-        project,
-        &format!("Graphify architecture snapshot ({project})"),
-        &god_summary,
-        graph.god_nodes.clone(),
-        graph.god_nodes.clone(),
-    )?;
-    let _ = store.append_corpus_pair("graphify", &format!("Architecture and God Nodes of {project}"), &god_summary);
+    // 2. Rebuild the code graph and distill its god nodes into claude-mem + corpus. A missing `fw-graph`
+    //    binary is reported in the result instead of failing the other pillars.
+    let graph_snapshot = match build_code_graph(store, cwd, project) {
+        Ok(graph) => {
+            let god_summary = format!(
+                "Project {project}: {} nodes, {} edges, {} communities. God nodes: {}",
+                graph.nodes,
+                graph.edges,
+                graph.communities.map_or_else(|| "?".to_owned(), |c| c.to_string()),
+                graph.god_nodes.join(", ")
+            );
+            let (_, created) = add_observation(
+                store,
+                "discovery",
+                project,
+                &format!("Code graph snapshot ({project})"),
+                &god_summary,
+                graph.god_nodes.clone(),
+                graph.god_nodes.clone(),
+            )?;
+            let _ = store.append_corpus_pair("codegraph", &format!("Architecture and god nodes of {project}"), &god_summary);
+            json!({
+                "report": graph.report.display().to_string(),
+                "nodes": graph.nodes,
+                "edges": graph.edges,
+                "communities": graph.communities,
+                "godNodes": graph.god_nodes,
+                "observationCreated": created
+            })
+        }
+        Err(e) => json!({ "error": e }),
+    };
 
     // 3. Ingest local Markdown / SKILL.md / AGENTS.md / llms.txt into keyless Context7 store
     let idx = WorkspaceIndexer::open(cwd);
@@ -1170,14 +984,7 @@ pub fn run_agentless_harvest(cwd: &Path, store: &XfsDatasetStore) -> Result<Valu
         "xfsRoot": store.root.display().to_string(),
         "project": project,
         "gitObservationsAdded": git_obs_added,
-        "graphSnapshot": {
-            "path": graph_path.display().to_string(),
-            "nodes": graph.nodes.len(),
-            "edges": graph.edges.len(),
-            "communities": graph.community_count,
-            "godNodes": graph.god_nodes,
-            "observationCreated": graph_obs_created
-        },
+        "graphSnapshot": graph_snapshot,
         "docChunksAdded": docs_saved,
         "dataset": store.stats()
     }))
@@ -1211,7 +1018,7 @@ pub fn run_distill(store: &XfsDatasetStore) -> Result<Value, String> {
     }))
 }
 
-/// Unified keyless BM25 search across ALL 3 pillars (`claude-mem` + `graphify` + `context7`).
+/// Unified keyless search across the 3 pillars: `claude-mem`, the code graph and `context7`.
 pub fn run_unified_search(query: &str, store: &XfsDatasetStore, limit: usize) -> Value {
     let obs = load_all_observations(store);
     let docs = load_doc_chunks(store, None);
@@ -1249,35 +1056,7 @@ pub fn run_unified_search(query: &str, store: &XfsDatasetStore, limit: usize) ->
         })
         .collect();
 
-    // Also scan persisted graphify JSONs for matching nodes/God Nodes
-    let q = query.to_ascii_lowercase();
-    let mut graph_hits = Vec::new();
-    if let Ok(rd) = fs::read_dir(store.root.join("graphs")) {
-        for ent in rd.flatten() {
-            let p = ent.path();
-            if p.extension().and_then(|s| s.to_str()) == Some("json")
-                && let Ok(raw) = fs::read_to_string(&p)
-                && let Ok(g) = serde_json::from_str::<KnowledgeGraph>(&raw)
-            {
-                for n in g.nodes {
-                    if n.id.to_ascii_lowercase().contains(&q)
-                        || n.defines.iter().any(|d| d.to_ascii_lowercase().contains(&q))
-                    {
-                        graph_hits.push(json!({
-                            "pillar": "graphify",
-                            "node": n.id,
-                            "community": n.community,
-                            "degree": n.degree,
-                            "defines": n.defines.into_iter().take(6).collect::<Vec<_>>()
-                        }));
-                        if graph_hits.len() >= limit {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    let graph_hits = code_graph_hits(store, query, limit);
 
     json!({
         "ok": true,
@@ -1287,7 +1066,7 @@ pub fn run_unified_search(query: &str, store: &XfsDatasetStore, limit: usize) ->
         "xfsRoot": store.root.display().to_string(),
         "claudeMemHits": obs_hits,
         "context7Hits": doc_hits,
-        "graphifyHits": graph_hits
+        "codeGraphHits": graph_hits
     })
 }
 
@@ -1533,7 +1312,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn claude_mem_graphify_context7_and_agentless_learn_e2e() {
+    fn claude_mem_codegraph_context7_and_agentless_learn_e2e() {
         let tmp = std::env::temp_dir().join(format!("fw_xfs_learn_test_{}", now_unix()));
         let _ = fs::remove_dir_all(&tmp);
         let store = XfsDatasetStore::resolve(Some(&tmp));
@@ -1561,12 +1340,13 @@ mod tests {
         let full = run_claude_mem_cli(&["get".to_owned(), id.to_string()], &store).unwrap();
         assert_eq!(full["count"], 1);
 
-        // 2. graphify communities + God Nodes
+        // 2. code graph report parsing (the graph itself is built by the fw-graph binary)
         let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-        let g = build_graphify_graph(root);
-        assert!(g.nodes.len() >= 8);
-        assert!(!g.god_nodes.is_empty());
-        assert!(g.community_count >= 1);
+        let (communities, gods) = parse_graph_report(
+            "# Graph Report\n\n## Summary\n- 28235 nodes, 58390 edges, 692 communities\n\n## God nodes\n- Drive (120 edges) - crates/fw-drive/src/lib.rs\n- router (90 edges)\n\n## Communities\n- 0: Drive (10 nodes)\n",
+        );
+        assert_eq!(communities, Some(692));
+        assert_eq!(gods, ["Drive", "router"]);
 
         // 3. keyless context7 chunking + token-budgeted query
         let chunks = chunk_markdown_docs(

@@ -101,8 +101,8 @@ path = "src/bin/ai-os-store.rs"
 required-features = ["localstore"]
 
 [[bin]]
-name = "ai-os-graph"
-path = "src/bin/ai-os-graph.rs"
+name = "fw-graph"
+path = "src/bin/fw-graph.rs"
 required-features = ["codegraph"]
 
 [[test]]

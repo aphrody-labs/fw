@@ -16,7 +16,11 @@ use crate::codegraph::{
 
 /// Code graph tooling.
 #[derive(Debug, Parser)]
-#[command(name = "aphrody graph", version, about)]
+#[command(
+    name = "fw graph",
+    version,
+    about = "Code graph of a source tree (tree-sitter Rust, oxc TS/JS, Markdown): build, query, explain, path, report, export"
+)]
 pub struct Cli {
     #[command(flatten)]
     store: StoreArgs,
@@ -270,7 +274,7 @@ pub fn cli_main(args: Vec<OsString>) -> i32 {
             0
         }
         Err(error) => {
-            eprintln!("aphrody graph: {error}");
+            eprintln!("fw graph: {error}");
             1
         }
     }

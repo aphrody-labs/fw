@@ -644,17 +644,7 @@ fn main() {
                 serde_json::to_string_pretty(&agent_platform::run_security_scan(&target)).unwrap()
             );
         }
-        "graph" | "graphify" => {
-            let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-            let store = auto_learn::XfsDatasetStore::resolve(None);
-            match auto_learn::run_graphify_cli(&args[1..], &cwd, &store) {
-                Ok(out) => println!("{}", serde_json::to_string_pretty(&out).unwrap()),
-                Err(e) => {
-                    eprintln!("fw graph: {e}");
-                    std::process::exit(1);
-                }
-            }
-        }
+        "graph" | "graphify" => std::process::exit(run_sibling("graph", "fw-graph", &args[1..])),
         "mem" | "memory" | "claude-mem" => {
             let store = auto_learn::XfsDatasetStore::resolve(None);
             match auto_learn::run_claude_mem_cli(&args[1..], &store) {
