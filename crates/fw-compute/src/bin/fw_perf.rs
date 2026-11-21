@@ -650,6 +650,20 @@ fn run_build(build: &Build, options: &Options, report: &mut Report) -> Option<Pa
     Some(artifact)
 }
 
+/// Instruction count of one run under callgrind: deterministic, so it stays comparable on a shared host where wall and
+/// CPU time move with the load (the nodes are VMs without a hardware PMU, so `perf stat` has no instructions event).
+fn instructions(exe: &Path, arguments: &[String], scratch: &Path) -> Option<u64> {
+    which("valgrind")?;
+    fs::create_dir_all(scratch).ok();
+    let log = scratch.join("callgrind.log");
+    let mut command = Command::new("valgrind");
+    command.arg("--tool=callgrind").arg(format!("--callgrind-out-file={}", scratch.join("callgrind.out").display())).arg(exe).args(arguments);
+    measure(&mut command, Some(&log)).ok()?;
+    let content = fs::read_to_string(&log).ok()?;
+    let collected = content.lines().find_map(|l| l.split("Collected :").nth(1))?;
+    collected.split_whitespace().next()?.parse().ok()
+}
+
 fn run_startup(id: &str, exe: &Path, argument_sets: &[Vec<String>], options: &Options, report: &mut Report) {
     for arguments in argument_sets {
         let label = format!("{id} {}", arguments.join(" "));
@@ -676,9 +690,11 @@ fn run_startup(id: &str, exe: &Path, argument_sets: &[Vec<String>], options: &Op
             }
         }
         let wall = stats(&walls);
+        let instruction_count = instructions(exe, arguments, &options.work.join("scratch").join("startup-callgrind"));
         let record = obj(vec![
             ("id", text(label.clone())),
             ("suite", text("startup")),
+            ("instructions_callgrind", instruction_count.map(|n| num(n as f64)).unwrap_or(Json::Null)),
             ("status", text(if codes.iter().all(|c| *c == 0) { "ok" } else { "nonzero-exit" })),
             ("exit_codes", Json::Arr(codes.iter().take(3).map(|c| num(f64::from(*c))).collect())),
             ("command", text(format!("{} {}", exe.display(), arguments.join(" ")))),
@@ -686,7 +702,7 @@ fn run_startup(id: &str, exe: &Path, argument_sets: &[Vec<String>], options: &Op
             ("metrics", obj(vec![("wall_ms", stats_json(&walls)), ("cpu_ms", stats_json(&cpu)), ("max_rss_mib", stats_json(&rss))])),
             ("load", load_snapshot()),
         ]);
-        report.push(record, format!("| {label} | startup | n={} | wall {:.2} ms (sd {:.2}, min {:.2}) | rss {:.1} MiB |", wall.n, wall.mean, wall.stdev, wall.min, stats(&rss).mean));
+        report.push(record, format!("| {label} | startup | n={} | wall {:.2} ms (sd {:.2}, min {:.2}) | rss {:.1} MiB | {} instructions |", wall.n, wall.mean, wall.stdev, wall.min, stats(&rss).mean, instruction_count.map(|n| n.to_string()).unwrap_or_else(|| "n/a".to_string())));
     }
 }
 
@@ -1153,7 +1169,7 @@ fn parse_options() -> Result<(String, Options), String> {
             root,
             work,
             out,
-            suites: list("--suite", "host,build,startup,link,wasm,workers"),
+            suites: list("--suite", "host,build,startup,link,wasm,workers,shader,gpu"),
             only: list("--only", ""),
             runs: number("--runs", 5),
             build_runs: number("--build-runs", 3),
