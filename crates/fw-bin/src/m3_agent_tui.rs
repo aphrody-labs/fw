@@ -1,7 +1,7 @@
 #![forbid(unsafe_code)]
 
 //! `m3_agent_tui` — Pure Material 3 `1.5.0` Expressive Multimodal TUI Coding Agent
-//! combining full AGY feature parity (`HermesClawAgent`, MCP, ACP, A2A, skills, goals),
+//! combining full agent feature parity (`HermesClawAgent`, MCP, ACP, A2A, skills, goals),
 //! Unix-accelerated Fat-LTO shell (`fw-uutils`), Asterinas OSTD VFS (`MlsDisk` + `XArray` + Yazi),
 //! audited `sudo` God Mode, Pure WGPU/WGSL M3 `1.5.0` + Parametric Prototyping, Kitty Graphics/Keyboard
 //! + OSC 133 GPU terminal protocols, and `fw-ui-blitz` headless PNG visual proof export.
@@ -72,7 +72,7 @@ impl M3AgentTuiState {
             .map(|p| p.display().to_string())
             .unwrap_or_else(|_| ".".into());
         Self {
-            agent: HermesClawAgent::new("fw-m3-agy-god"),
+            agent: HermesClawAgent::new("fw-m3-agent"),
             vfs_disk: disk,
             vfs_pages: pages,
             parametric: M3ParametricConfig {
@@ -85,7 +85,7 @@ impl M3AgentTuiState {
             sudo_god_mode: false,
             kitty_graphics: false,
             progress: 0.72,
-            active_pane: "AGY+SHELL+VFS+WGPU".into(),
+            active_pane: "AGENT+SHELL+VFS+WGPU".into(),
             cwd,
             last_output: "Ready. Type /goal <task>, /shell <applet args>, /vfs, /sudo on, /wgpu, /mcp, /keylines on, /help, or /quit.".into(),
             audit_log: Vec::new(),
@@ -114,17 +114,17 @@ impl M3AgentTuiState {
         }
 
         if let Some(rest) = line.strip_prefix("/goal ") {
-            self.active_pane = "AGY-GOAL".into();
+            self.active_pane = "AGENT-GOAL".into();
             let rep = self.agent.run_goal(ChannelKind::Cli, rest.trim());
             self.progress = 1.0;
             self.last_output = format!(
-                "AGY Goal OK | channel=cli | steps={} | skills={} | memories={} | goal={}",
+                "Agent Goal OK | channel=cli | steps={} | skills={} | memories={} | goal={}",
                 rep.steps.len(),
                 self.agent.skills.len(),
                 self.agent.memories.len(),
                 rep.goal
             );
-            self.record_audit("AGY-GOAL", line, &self.last_output.clone());
+            self.record_audit("AGENT-GOAL", line, &self.last_output.clone());
             return true;
         }
 
@@ -320,11 +320,11 @@ impl M3AgentTuiState {
             return true;
         }
 
-        // Default: treat plain input as an AGY coding-agent prompt
-        self.active_pane = "AGY-CHAT".into();
+        // Default: treat plain input as an coding-agent prompt
+        self.active_pane = "AGENT-CHAT".into();
         let rep = self.agent.run_goal(ChannelKind::Cli, line);
-        self.last_output = format!("AGY Agent => ok={} steps={} goal={}", rep.ok, rep.steps.len(), rep.goal);
-        self.record_audit("AGY-CHAT", line, &self.last_output.clone());
+        self.last_output = format!("Agent => ok={} steps={} goal={}", rep.ok, rep.steps.len(), rep.goal);
+        self.record_audit("AGENT-CHAT", line, &self.last_output.clone());
         true
     }
 
@@ -361,7 +361,7 @@ impl M3AgentTuiState {
         let mut out = String::with_capacity(4096);
         out.push_str(encode_osc133_prompt_start());
         out.push_str(&format!(
-            "{BG_PRIMARY_CONTAINER}{BOLD}{FG_ON_SURFACE}  FW M3 1.5.0 EXPRESSIVE TUI CODING AGENT  |  AGY + UNIX-LTO + VFS + WGPU + MULTIMODAL  {RESET}\n"
+            "{BG_PRIMARY_CONTAINER}{BOLD}{FG_ON_SURFACE}  FW M3 1.5.0 EXPRESSIVE TUI CODING AGENT  |  AGENT + UNIX-LTO + VFS + WGPU + MULTIMODAL  {RESET}\n"
         ));
         out.push_str(&format!(
             "{BG_SURFACE_VARIANT} {FG_PRIMARY}Pane:{RESET} {FG_ON_SURFACE}{}{RESET}  {}  {}  {FG_SECONDARY}[WGPU:{}B]{RESET}  {FG_MUTED}frame=#{}{RESET}\n",
@@ -376,7 +376,7 @@ impl M3AgentTuiState {
         ));
         out.push_str("------------------------------------------------------------------------------------------\n");
         out.push_str(&format!(
-            "{BOLD}{FG_PRIMARY}[1] AGY Coding Agent{RESET}    agent={} | mcp_tools={} | skills={} | memories={}\n",
+            "{BOLD}{FG_PRIMARY}[1] Coding Agent{RESET}    agent={} | mcp_tools={} | skills={} | memories={}\n",
             self.agent.name,
             self.agent.mcp.tools.len(),
             self.agent.skills.len(),
@@ -421,7 +421,7 @@ impl M3AgentTuiState {
             "kittyGraphics": self.kitty_graphics,
             "activePane": self.active_pane,
             "frameCount": self.frame_count,
-            "agy": {
+            "agent_status": {
                 "agent": self.agent.name,
                 "mcpTools": self.agent.mcp.tools.len(),
                 "skills": self.agent.skills.len(),
@@ -507,7 +507,7 @@ pub fn render_m3_tui_png(
                 }
             }
 
-            // 4 Segmented ListItem cards (AGY, Unix LTO, VFS, WGPU+Voice)
+            // 4 Segmented ListItem cards (Agent, Unix LTO, VFS, WGPU+Voice)
             if (176..440).contains(&y) && x >= 24 && x < width.saturating_sub(24) {
                 let row = (y - 176) / 66;
                 let local_y = (y - 176) % 66;
@@ -518,7 +518,7 @@ pub fn render_m3_tui_png(
                     // Left accent bar per modality
                     if x < 34 {
                         match row {
-                            0 => { r = 165; g = 180; b = 252; } // AGY Primary
+                            0 => { r = 165; g = 180; b = 252; } // Agent primary
                             1 => { r = 94; g = 234; b = 212; }  // Unix LTO Secondary
                             2 => { r = 253; g = 186; b = 116; } // VFS Tertiary
                             _ => { r = 129; g = 140; b = 248; } // WGPU M3
@@ -627,7 +627,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn m3_agent_tui_executes_agy_unix_vfs_sudo_wgpu_and_png_end_to_end() {
+    fn m3_agent_tui_executes_agent_unix_vfs_sudo_wgpu_and_png_end_to_end() {
         let mut tui = M3AgentTuiState::new();
         assert!(tui.execute_command("/sudo on"));
         assert!(tui.sudo_god_mode);

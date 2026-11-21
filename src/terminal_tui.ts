@@ -91,16 +91,15 @@ export function getTerminalTuiStatus(root: string): TerminalTuiStatus {
 }
 
 export function generateFwWtaConfig(root: string) {
-  const agyPath = join(root, "target", "agy", process.platform === "win32" ? "agy.exe" : "agy");
-  const fwPath = join(root, "target", "agy", process.platform === "win32" ? "fw-plugin.exe" : "fw-plugin");
+  const fwPath = join(root, "target", "fw", process.platform === "win32" ? "fw-plugin.exe" : "fw-plugin");
   return {
     schema: "fw.intelligent-terminal.wta.v1",
-    acpAgent: "antigravity",
+    acpAgent: "claude",
     acpModel: "gemini-2.5-pro",
     acpCustomCommand: `${fwPath} mcp`,
     delegateAgent: "gemini",
     delegateModel: "gemini-decision-1",
-    delegateCustomCommand: `${agyPath} --fw-info`,
+    delegateCustomCommand: `${fwPath} status`,
     agentPanePosition: "bottom",
     autoErrorDetectionEnabled: true,
     autoFixEnabled: true,

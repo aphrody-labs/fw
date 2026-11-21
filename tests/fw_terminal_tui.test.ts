@@ -22,7 +22,7 @@ describe("Fw Intelligent Terminal (WTA) + tui-test integration", () => {
 
   test("Fw WTA config routes ACP/MCP and Gemini Decision 1 autofix", () => {
     const cfg = generateFwWtaConfig(ROOT);
-    expect(cfg.acpAgent).toBe("antigravity");
+    expect(cfg.acpAgent).toBe("claude");
     expect(cfg.delegateModel).toBe("gemini-decision-1");
     expect(cfg.autoErrorDetectionEnabled).toBe(true);
     expect(cfg.autoFixEnabled).toBe(true);

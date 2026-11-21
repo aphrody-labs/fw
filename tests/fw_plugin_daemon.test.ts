@@ -36,9 +36,9 @@ describe("fw unified plugin, MCP, API, and cross-platform daemon", () => {
         if (arg.startsWith("${CLAUDE_PLUGIN_ROOT}/")) expect(existsSync(join(pluginDir, arg.slice("${CLAUDE_PLUGIN_ROOT}/".length)))).toBe(true);
       }
     }
-    // agy is retired: no Antigravity manifest or gemini path ships in the plugin.
-    for (const retired of ["plugin.json", "gemini-extension.json", "mcp_config.json", join("skills", "agy-knowledge")]) {
-      expect(existsSync(join(pluginDir, retired))).toBe(false);
+    // The plugin ships for Claude only: the one manifest is .claude-plugin/plugin.json.
+    for (const foreign of ["plugin.json", "gemini-extension.json", "mcp_config.json"]) {
+      expect(existsSync(join(pluginDir, foreign))).toBe(false);
     }
   });
 
