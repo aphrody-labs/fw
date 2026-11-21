@@ -161,6 +161,8 @@ const fetchDrive = async (path: string, init: RequestInit & { claims?: Record<st
   const { claims, anonymous, headers, ...rest } = init;
   const h = new Headers(headers);
   if (!anonymous && !h.has("cookie")) h.set("cf-access-jwt-assertion", await jwt(claims ?? userClaims()));
+  // workerd gzips compressible types for clients that accept it and then drops Content-Length.
+  if (!h.has("accept-encoding")) h.set("accept-encoding", "identity");
   return fetch(`${edge.url}${path}`, { redirect: "manual", ...rest, headers: h });
 };
 const sha = async (buf: ArrayBuffer | Uint8Array) => b64url(new Uint8Array(await crypto.subtle.digest("SHA-256", buf)));
@@ -186,8 +188,15 @@ beforeAll(async () => {
   });
 }, 300_000);
 
+let mainStopped = false;
+const stopMain = async () => {
+  if (!edge || mainStopped) return;
+  mainStopped = true;
+  await edge.stop();
+};
+
 afterAll(async () => {
-  await edge?.stop();
+  await stopMain();
   await rm(state, { recursive: true, force: true });
 });
 
@@ -238,6 +247,20 @@ describe("drive CDN: Cloudflare Access", () => {
     for (let i = 0; i < 3; i++) await (await fetchDrive("/drive/_whoami")).arrayBuffer();
     expect(certCalls).toBe(before);
     expect(certCalls).toBeGreaterThan(0);
+  });
+
+  test("RS256 verification stays cheap in wasm (mean ms per request, verified minus refused)", async () => {
+    const token = await jwt(userClaims());
+    const mean = async (init: RequestInit) => {
+      for (let i = 0; i < 5; i++) await (await fetch(`${base()}/_whoami`, init)).arrayBuffer();
+      const t0 = performance.now();
+      for (let i = 0; i < 50; i++) await (await fetch(`${base()}/_whoami`, init)).arrayBuffer();
+      return (performance.now() - t0) / 50;
+    };
+    const verified = await mean({ headers: { "cf-access-jwt-assertion": token } });
+    const refused = await mean({ method: "PUT", body: "x" });
+    console.log(`access: verified ${verified.toFixed(2)} ms, refused ${refused.toFixed(2)} ms, RS256 verify ~${(verified - refused).toFixed(2)} ms`);
+    expect(verified - refused).toBeLessThan(50);
   });
 
   test("writes are refused before anything else", async () => {
@@ -296,9 +319,9 @@ describe("drive CDN: folders", () => {
   });
 
   test("ids resolve only inside the shared root", async () => {
-    const ok = await fetchDrive("/drive/_id/img");
+    const ok = await fetchDrive("/drive/_id/m2");
     expect(ok.status).toBe(200);
-    expect(await ok.text()).toBe("0123456789");
+    expect(await ok.text()).toBe("2");
     const folder = await (await fetchDrive("/drive/_id/sub")).json();
     expect(folder).toMatchObject({ ok: true, path: "/", id: "sub", name: "art" });
     expect(folder.entries.map((e: { href: string }) => e.href)).toContain("/drive/logo.svg");
@@ -546,7 +569,7 @@ describe("drive CDN: unconfigured Access fails closed", () => {
   let bare: Edge;
   let bareState: string;
   beforeAll(async () => {
-    await edge.stop();
+    await stopMain();
     bareState = await mkdtemp(join(tmpdir(), "fw-edge-drive-bare-"));
     bare = await startEdge({ persistTo: bareState, vars: { ACCESS_TEAM_DOMAIN: "", ACCESS_AUD: "" } });
   }, 300_000);
