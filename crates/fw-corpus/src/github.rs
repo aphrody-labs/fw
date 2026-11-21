@@ -161,9 +161,20 @@ pub fn sync_orgs(client: &Client, store: &mut Store, id: &str, orgs: &[&str], op
     let mut report = Report::new(id);
     let token = token();
     let mut keep = HashSet::new();
+    let login = api(client, token.as_deref(), "user").ok().and_then(|user| user["login"].as_str().map(str::to_owned));
     for org in orgs {
+        // The owner may be an organisation or a personal account; a personal account is listed through `user/repos` when it is
+        // the authenticated one (private repositories included), else through its public listing.
+        let kind = api(client, token.as_deref(), &format!("users/{org}"))?["type"].as_str().unwrap_or_default().to_owned();
+        let listing = if kind == "Organization" {
+            format!("orgs/{org}/repos?per_page=100&type=all")
+        } else if login.as_deref() == Some(org) {
+            "user/repos?per_page=100&affiliation=owner".to_owned()
+        } else {
+            format!("users/{org}/repos?per_page=100&type=owner")
+        };
         for page in 1.. {
-            let repos = api(client, token.as_deref(), &format!("orgs/{org}/repos?per_page=100&type=all&page={page}"))?;
+            let repos = api(client, token.as_deref(), &format!("{listing}&page={page}"))?;
             let Some(repos) = repos.as_array().filter(|repos| !repos.is_empty()) else { break };
             for repo in repos {
                 report.listed += 1;
