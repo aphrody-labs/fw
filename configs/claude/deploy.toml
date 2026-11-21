@@ -1,0 +1,12 @@
+# What `bun configs/claude/scripts/deploy.ts` copies from this directory into the live Claude Code config (~/.claude, or
+# CLAUDE_CONFIG_DIR). `src` is relative to configs/claude; a directory is copied file by file. Files that exist only in the
+# destination are left alone; `exclude` is a list of Bun.Glob patterns relative to `src`.
+
+[[copy]]
+src = "CLAUDE.md"
+dest = "CLAUDE.md"
+
+[[copy]]
+src = "scripts"
+dest = "scripts"
+exclude = ["**/*.test.ts"]
