@@ -639,11 +639,7 @@ name = "ay-build"
 version = "0.4.0"
 dependencies = [
  "ay-build",
- "serde",
- "serde_json",
- "thiserror 2.0.21",
- "tree-sitter",
- "tree-sitter-python",
+ "fw-depot",
 ]
 
 [[package]]
@@ -3072,6 +3068,17 @@ name = "fw-agent-context"
 version = "4.2.0"
 dependencies = [
  "rusqlite",
+]
+
+[[package]]
+name = "fw-depot"
+version = "4.2.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror 2.0.21",
+ "tree-sitter",
+ "tree-sitter-python",
 ]
 
 [[package]]

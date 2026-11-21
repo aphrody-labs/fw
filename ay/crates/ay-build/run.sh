@@ -11,11 +11,10 @@ SISO=${SISO:-$OUT/../../third_party/siso/cipd/siso}
 here=$(cd "$(dirname "$0")" && pwd)
 ssh "$BUILD_HOST" "set -e; mkdir -p /tmp/bm; cd $OUT; nice -n 19 $SISO query graph -C . | nice -n 19 gzip -1 > /tmp/bm/graph.jsonl.gz;
   cp siso_metrics.0.json siso_metrics.json /tmp/bm/; cp ../re-test/siso_metrics.json /tmp/bm/retest_metrics.json"
-tar cf - -C "$here" Cargo.toml src | ssh "$PROD_HOST" 'mkdir -p ~/bm/build-model && tar xf - -C ~/bm/build-model'
 ssh "$PROD_HOST" "set -e; mkdir -p ~/bm/data; cd ~/bm/data; ssh \"${BUILD_HOST}-wireguard\" \"cd /tmp/bm && tar cf - .\" | tar xf -
   zcat graph.jsonl.gz > graph.jsonl
-  cd ~/bm/build-model && nice cargo +nightly test --release && nice cargo +nightly build --release
-  cd ~/bm && nice build-model/target/release/build-model --graph data/graph.jsonl \\
+  cd \"\${FW_DIR:-\$HOME/src/fw}\" && nice cargo build --release -p fw-depot --bin fw-depot
+  cd ~/bm && nice \"\${FW_DIR:-\$HOME/src/fw}/target/release/fw-depot\" model --graph data/graph.jsonl \\
     --run1 data/siso_metrics.0.json --run2 data/siso_metrics.json --retest data/retest_metrics.json \\
     --pool \"mid=build:14:0.857:0,prod:4:1.077:0.025,test:3:0.819:0.025\" \\
     --pool \"opt=build:14:0.857:0,prod:4:1.612:0.025,test:3:1.226:0.025\" \\

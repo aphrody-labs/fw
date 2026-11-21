@@ -55,6 +55,7 @@ flate2 = "1.1.11"
 futures = "0.3.34"
 futures-util = "0.3"
 fw-agent-context = { path = "../fw/crates/fw-agent-context" }
+fw-depot = { path = "../fw/crates/fw-depot", default-features = false }
 fw-gemini = { path = "../fw/crates/fw-gemini", default-features = false }
 fw-http = { path = "../fw/crates/fw-http", default-features = false }
 fw-rag-core = { path = "../fw/crates/fw-rag-core", default-features = false }

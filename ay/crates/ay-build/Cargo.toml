@@ -12,31 +12,18 @@ publish.workspace = true
 [package.metadata.cargo-shear]
 ignored = ["ay-build"]
 
+# The DEPS reader and the build model are in fw (crates/fw-depot, `fw depot`); this crate keeps the `ay_build::deps` and `ay_build::siso` paths.
 [features]
-deps = ["dep:serde", "dep:serde_json", "dep:thiserror", "dep:tree-sitter", "dep:tree-sitter-python"]
-siso = ["dep:serde", "dep:serde_json"]
+deps = ["dep:fw-depot", "fw-depot/deps"]
+siso = ["dep:fw-depot", "fw-depot/siso"]
 full = ["deps", "siso"]
 default = []
 
 [dependencies]
-serde = { workspace = true, optional = true }
-serde_json = { workspace = true, optional = true }
-thiserror = { workspace = true, optional = true }
-tree-sitter = { workspace = true, optional = true }
-tree-sitter-python = { workspace = true, optional = true }
+fw-depot = { workspace = true, optional = true }
 
 [dev-dependencies]
 ay-build = { path = ".", features = ["full"] }
-
-[[bin]]
-name = "ay-deps"
-path = "src/bin/ay-deps.rs"
-required-features = ["deps"]
-
-[[bin]]
-name = "ay-build-model"
-path = "src/bin/ay-build-model.rs"
-required-features = ["siso"]
 
 [lints]
 workspace = true
