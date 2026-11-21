@@ -8,7 +8,8 @@ on:
 
 concurrency:
   group: fw-ci-${{ github.ref }}
-  cancel-in-progress: true
+  # Pull requests cancel superseded runs; main lets the running one finish so a busy main still gets a verdict.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   rust-cross-os:
