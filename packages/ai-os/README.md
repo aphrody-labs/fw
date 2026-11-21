@@ -24,7 +24,7 @@ The `@aphrody/ay-*` dependencies (`env-kit`, `automate`, `core`, `wck`) are not 
 
 Cross-platform sandboxed Unix/GNU-like operating system distribution for autonomous agents, unifying POSIX/FHS VFS, LLM runtime discovery, hybrid RAG, causal World Model, and sub-millisecond System 1 decision routing behind **one single C ABI** (`ai_os_*` in [crates/ay-core/capi](../../crates/ay-core/capi), header [ay_core.h](../../crates/ay-core/capi/include/ay_core.h)).
 
-`@aphrody/fw-ai-os` is an agent kernel and runtime distribution, not a TUI, package manager, or cron wrapper (those belong to host agent harnesses such as `agy`, Claude Code, and OpenCode). Zero third-party npm dependencies (`bun:ffi`, `bun:sqlite`, `Bun.serve`, `Bun.listen`, `Bun.spawn`, `fetch`).
+`@aphrody/fw-ai-os` is an agent kernel and runtime distribution, not a TUI, package manager, or cron wrapper (those belong to host agent harnesses such as Claude Code and OpenCode). Zero third-party npm dependencies (`bun:ffi`, `bun:sqlite`, `Bun.serve`, `Bun.listen`, `Bun.spawn`, `fetch`).
 
 ## FHS Virtual Layout & Unified C ABI (`ai_os_*`)
 
@@ -41,7 +41,7 @@ Cross-platform sandboxed Unix/GNU-like operating system distribution for autonom
 | Path                   | Export                | Role                                                                                                                                                                                                           |
 | :--------------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/core`             | `./core`              | Unified C ABI bridge (`cabi.ts`), agent loop, confined tools, `OverlaySandbox` / `runSandboxedJs`, `runJustBash`, `Context` multi-head selection, `Memory`, `Skills`, `council`, secret redaction              |
-| `src/llm`              | `./llm`               | Runtime provider & model discovery (`openai`, `anthropic`, `google`, `openrouter`, `huggingface`, `vercel`, `cloudflare`, `ollama`, `fabric`, `AI_OS_OPENAI_ENDPOINTS`, plus CLIs `agy`, `claude`, `opencode`) |
+| `src/llm`              | `./llm`               | Runtime provider & model discovery (`openai`, `anthropic`, `google`, `openrouter`, `huggingface`, `vercel`, `cloudflare`, `ollama`, `fabric`, `AI_OS_OPENAI_ENDPOINTS`, plus CLIs `claude`, `opencode`) |
 | `src/server`           | `./ai-os`             | Unified protocol daemon over HTTP/WS/TCP/TLS/stdio: MCP (`2026-07-28` stateless `server/discover` + `2025-11-25`), A2A `1.0.1`, ACP `schema-v1.31.0`, OAuth 2.1 PKCE/DCR/Device                                |
 | `src/gateway`          | `./gateway`           | OpenAI-compatible `/v1/chat/completions`, Vercel AI SDK v7 `UIMessageStream` SSE, WebSocket sessions, channel webhooks                                                                                         |
 | `src/orch`             | -                     | Fleet orchestrator (`<build-host>` build/training, `<prod-host>` production, `<test-host>` edge), health, task classification & lifecycle                                                                      |

@@ -560,10 +560,10 @@ The Sovereign Monorepo (\`<workspace>\`) unifies **${appCount} production apps**
 
 <CardGroup cols={3}>
   <Card title="Knowledge Engine (ske)" icon="book">
-    Native Context7 v2 SQLite WAL cache, 5-channel parallel Deep Research, deterministic Fact-Checker, and continuous AGY session reviewer.
+    Native Context7 v2 SQLite WAL cache, 5-channel parallel Deep Research, deterministic Fact-Checker and a Context7-backed docs generator.
   </Card>
   <Card title="AI Triad (:4319)" icon="layers">
-    Unified Codex, Antigravity, and Claude Code orchestration over MCP 2025-03-26, OAuth 2.1 PKCE, and multi-protocol HTTP gateways.
+    Unified Codex, Gemini, and Claude Code orchestration over MCP 2025-03-26, OAuth 2.1 PKCE, and multi-protocol HTTP gateways.
   </Card>
   <Card title="Pure-Rust & Go FFI (:4320)" icon="cpu">
     Sub-microsecond \`rs_blake3_hex\` (228 ns/call), Pure-Rust Better-Auth + \`shadcn_rs\`, and Go 1.27 OCI v1.1 + Cloudflare R2 S3v4 deployment.

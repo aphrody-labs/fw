@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { envFile, workspaceRoot } from "../../../src/core/paths.ts";
 
 export type TriadAgentId =
-  "claude" | "codex" | "agy" | "gemini" | "pi-opencode" | "ai-os";
+  "claude" | "codex" | "gemini" | "pi-opencode" | "ai-os";
 
 export interface BinaryInfo {
   id: string;
@@ -156,8 +156,6 @@ export function resolveBinaryCatalog(home = homedir()): Record<
 > {
   const isWin = process.platform === "win32";
   const localBin = join(home, ".local", "bin");
-  const localAppData =
-    process.env.LOCALAPPDATA ?? join(home, "AppData", "Local");
 
   return {
     claude: {
@@ -173,15 +171,6 @@ export function resolveBinaryCatalog(home = homedir()): Record<
       executable: resolveCodexExecutable(home),
       shimPath: isWin ? join(localBin, "codex.cmd") : undefined,
       configDir: join(home, ".codex"),
-      versionArgs: ["--version"],
-    },
-    agy: {
-      label: "Google Antigravity CLI",
-      executable: isWin
-        ? join(localAppData, "agy", "bin", "agy.exe")
-        : join(localBin, "agy"),
-      shimPath: isWin ? join(localBin, "agy.cmd") : undefined,
-      configDir: join(home, ".gemini", "antigravity-cli"),
       versionArgs: ["--version"],
     },
     gemini: {

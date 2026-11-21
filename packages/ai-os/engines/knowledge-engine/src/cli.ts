@@ -10,13 +10,9 @@ import { syncKernelStoryMdx } from "./generators/kernel-crawler.ts";
 import { generateWorkspaceSkills } from "./generators/skills-gen.ts";
 import { getKnowledgeEngineStatus, runKnowledgeMcpStdio } from "./mcp/stdio.ts";
 import { runDeepResearch } from "./research/deep-research.ts";
-import {
-  auditAllAgySessions,
-  runContinuousWatchLoop,
-} from "./reviewer/agy-session-auditor.ts";
 
 const HELP_TEXT = `Sovereign Knowledge Engine CLI (@aphrody/knowledge-engine v1.0.0)
-Unified Context7 v2 + 5-Channel Deep Research + Deterministic Fact-Checker + Monorepo Docs & Skills Generator + Continuous AGY Session Reviewer.
+Unified Context7 v2 + 5-Channel Deep Research + Deterministic Fact-Checker + Monorepo Docs & Skills Generator.
 
 Usage:
   ske <command> [options]
@@ -26,9 +22,7 @@ Commands:
   factcheck <claim-or-file> [--json]    Verify paths, binaries, versions, repos, Context7 symbols, secrets & System32 safety
   ctx7 <library> [query] [--tokens N]   Resolve library via Context7 v2 + SQLite WAL Blake3 cache and fetch official docs
   gen-docs [--offline]                  Generate docs/MONOREPO_ATLAS.md and third_party/bun/docs/sovereign/index.mdx
-  gen-skills                            Synthesize and validate the 5 sovereign workspace SKILL.md definitions
-  review-sessions [--json] [--limit N]  Incrementally audit all AGY brain transcripts (< 30ms cached) -> AGY_SESSIONS_CONTINUOUS_REVIEW.md
-  watch [--interval 30] [--once]        Continuous reviewer loop over active transcripts, docs/*.md, and SKILL.md
+  gen-skills                            Synthesize and validate the 4 sovereign workspace SKILL.md definitions
   mcp-stdio                             Run MCP 2025-03-26 JSON-RPC 2.0 server over stdio
   status | doctor                       Show SQLite WAL table metrics, rust_stack_ffi.dll Blake3 status, and masked API readiness
   help | --help                         Show this usage reference
@@ -48,13 +42,7 @@ function positionalArgs(args: string[]): string[] {
   for (let i = 0; i < args.length; i++) {
     const cur = args[i]!;
     if (cur.startsWith("--")) {
-      if (
-        (cur === "--interval" ||
-          cur === "--limit" ||
-          cur === "--tokens" ||
-          cur === "--session") &&
-        i + 1 < args.length
-      ) {
+      if (cur === "--tokens" && i + 1 < args.length) {
         i++;
       }
       continue;
@@ -180,39 +168,6 @@ export async function runCli(argv = process.argv.slice(2)): Promise<number> {
     });
     process.stdout.write(
       `[ske:crawl-kernel] latest_stable=${res.latestStable} wrote=${res.targetFile}\n`,
-    );
-    return 0;
-  }
-
-  if (cmd === "review-sessions") {
-    const limitStr = parseFlagValue(rest, "--limit");
-    const sessionIdFilter = parseFlagValue(rest, "--session");
-    const report = auditAllAgySessions({
-      limit: limitStr ? Number.parseInt(limitStr, 10) : undefined,
-      sessionIdFilter,
-    });
-    if (rest.includes("--json")) {
-      process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
-    } else {
-      process.stdout.write(
-        `[ske:review-sessions] sessions=${report.totalSessions} (transcripts=${report.sessionsWithTranscripts}) cached=${report.cacheHits} reindexed=${report.reindexedCount} latency=${report.durationMs.toFixed(2)}ms\n`,
-      );
-      process.stdout.write(
-        `  steps=${report.totals.steps} tools=${report.totals.toolCalls} mcp=${report.totals.mcpCalls} secrets=${report.totals.secretLeaks} sys32=${report.totals.system32Violations}\n`,
-      );
-      process.stdout.write(`  report: ${report.markdownReportPath}\n`);
-      process.stdout.write(`  ledger: ${report.jsonLedgerPath}\n`);
-    }
-    return 0;
-  }
-
-  if (cmd === "watch") {
-    const intervalStr = parseFlagValue(rest, "--interval");
-    const intervalSeconds = intervalStr ? Number.parseInt(intervalStr, 10) : 30;
-    const once = rest.includes("--once");
-    const summary = await runContinuousWatchLoop({ intervalSeconds, once });
-    process.stdout.write(
-      `[ske:watch] initial pass complete in ${summary.durationMs.toFixed(1)}ms (reindexed=${summary.reindexedSessions}, factChecked=${summary.factCheckedFiles.length}, regenAtlas=${summary.regeneratedAtlas})\n`,
     );
     return 0;
   }

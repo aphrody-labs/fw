@@ -2,7 +2,7 @@
 
 <!-- catalog:begin unit -->
 
-> Autonomous-agent memory: AGY sessions merged into a redacted Obsidian vault, graphify code graph, Google Drive sync for NotebookLM sources
+> Autonomous-agent memory: redacted Obsidian vault with graphify code graph and Google Drive sync for NotebookLM sources
 
 | Type        | Path                           |
 | :---------- | :----------------------------- |

@@ -33,5 +33,4 @@ CNgdBe, I4z33b, cYRIkd, cCSu7, L5adhe, ku4Jyf.
 - Aller-retour mesuré : 10,5 s.
 
 L'API interne (batchexecute, `processSession`) est protégée par l'attestation `Waa` et par des jetons de page. Le relais ne
-l'appelle donc pas directement : il passe par l'interface (CDP), et par Antigravity (`agy`) pour les modèles Gemini 4 sans
-navigateur.
+l'appelle donc pas directement : il passe par l'interface (CDP).

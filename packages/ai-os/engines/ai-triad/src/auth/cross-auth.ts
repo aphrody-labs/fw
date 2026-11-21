@@ -428,40 +428,29 @@ export async function inspectCrossAuthStatus(options?: {
         : "Run `codex login --device-auth` or set OPENAI_API_KEY",
   });
 
-  // 3. Google Antigravity + Gemini + ADC
+  // 3. Google Gemini + ADC
   const adcPath =
     process.platform === "win32"
       ? join(appData, "gcloud", "application_default_credentials.json")
       : join(home, ".config", "gcloud", "application_default_credentials.json");
-  const agyStatePath = join(
-    home,
-    ".gemini",
-    "antigravity-cli",
-    "jetski_state.pbtxt",
-  );
   const geminiOauthPath = join(home, ".gemini", "oauth_creds.json");
   const adcInfo = inspectJsonKeysOnly(adcPath);
   const geminiOauthInfo = inspectJsonKeysOnly(geminiOauthPath);
-  const agyStateExists = existsSync(agyStatePath);
   const geminiKey = env.GEMINI_API_KEY ?? env.GOOGLE_API_KEY;
   results.push({
-    provider: "antigravity-gemini",
-    label: "Google Antigravity & Gemini",
+    provider: "gemini",
+    label: "Google Gemini",
     ready:
-      agyStateExists ||
       adcInfo.exists ||
       geminiOauthInfo.exists ||
       Boolean(geminiKey),
-    mechanism: agyStateExists
-      ? "Antigravity Session + Gemini API/ADC"
-      : adcInfo.exists
-        ? "Google ADC OAuth2"
-        : geminiKey
-          ? "GEMINI_API_KEY"
-          : "unauthenticated",
+    mechanism: adcInfo.exists
+      ? "Google ADC OAuth2"
+      : geminiKey
+        ? "GEMINI_API_KEY"
+        : "unauthenticated",
     envStatus: `GEMINI_API_KEY=${redactSecret(geminiKey)}`,
     credentialStore: [
-      agyStateExists ? "agy:present" : "agy:absent",
       adcInfo.exists ? "adc:present" : "adc:absent",
       geminiOauthInfo.exists ? "gemini-oauth:present" : "gemini-oauth:absent",
     ].join(", "),

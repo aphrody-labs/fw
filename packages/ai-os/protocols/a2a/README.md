@@ -43,7 +43,7 @@ const answer = await client.sendMessage("@claude: summarise PLAN.md");
 console.log(responseText(answer)); // task artifacts, else the agent message
 
 for await (const event of client.sendStreamingMessage(
-  "@agy: review the diff",
+  "@codex: review the diff",
 )) {
   if (event.statusUpdate) console.log(event.statusUpdate.status.state);
 }

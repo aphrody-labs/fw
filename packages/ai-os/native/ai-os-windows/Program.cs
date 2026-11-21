@@ -1,5 +1,5 @@
 // Windows service "AphrodyAiOs": supervises `bun <cli.ts> serve`.
-// The ai-os must act with the user's identity (agy/Antigravity sessions, Claude Code, gcloud, ssh keys
+// The ai-os must act with the user's identity (Claude Code, gcloud, ssh keys
 // protected by DPAPI or ACLs) without storing any password: the service (LocalSystem) launches the ai-os in
 // the active console session with the user's token (WTSQueryUserToken + CreateProcessAsUserW, technique documented
 // for services: Learn "WTSQueryUserToken"). With no open session, it waits for one to open.

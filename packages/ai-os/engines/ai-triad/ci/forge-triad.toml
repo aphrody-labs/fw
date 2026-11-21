@@ -5,7 +5,11 @@ workspace = "packages/ai-os/engines/ai-triad"
 
 [[stages]]
 name = "static-verification"
-commands = ["bun fmt --check", "bun check", "bun test"]
+commands = [
+  "bun fmt --check",
+  "bun check",
+  "bun test"
+]
 
 [[stages]]
 name = "triad-council-audit"
@@ -13,5 +17,5 @@ commands = [
   "triad doctor",
   "claude --dangerously-skip-permissions -p \"Verify zero secret leaks and strict TypeScript types\" --output-format json",
   "codex exec \"Verify Rust and Bun ABI boundaries\" --json --skip-git-repo-check",
-  "agy -p \"Verify MCP 2025-03-26 and ACP protocol conformance\" --output-format json --mode plan",
+  "gemini -p \"Verify MCP 2025-03-26 and ACP protocol conformance\" -o json"
 ]

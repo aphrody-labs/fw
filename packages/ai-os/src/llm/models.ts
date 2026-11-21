@@ -12,10 +12,9 @@
 //   huggingface   HF_TOKEN                                      GET router.huggingface.co/v1/models        router /v1/chat/completions
 //   vercel        AI_GATEWAY_API_KEY                            GET ai-gateway.vercel.sh/v1/models         /v1/chat/completions
 //   cloudflare    CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID  GET /ai/models/search (Text Generation)    /ai/v1/chat/completions
-//   antigravity   authenticated agy CLI                         agy models                                 agy -p
 //   claude        authenticated claude CLI                      (CLI alias)                                claude -p
 import { outboundFetch } from "../server/outbound.ts";
-import { agy, claude, opencode } from "./agents";
+import { claude, opencode } from "./agents";
 
 export type Model = {
   id: string;
@@ -235,33 +234,6 @@ export function providers(): Provider[] {
       },
     });
   }
-  out.push({
-    id: "antigravity",
-    available: async () => !!Bun.which("agy"),
-    list: async () => {
-      if (env("AI_OS_AGY_MODELS") !== "1") {
-        return [
-          {
-            id: "antigravity/default",
-            provider: "antigravity",
-            name: "Antigravity default model",
-          },
-        ];
-      }
-      const r = await run(["agy", "models"]);
-      if (r.code !== 0) throw new Error(`agy models : code ${r.code}`);
-      return r.out
-        .split(/\r?\n/)
-        .map((l) => l.split("\t"))
-        .filter((c) => c.length >= 2 && /^[\w.-]+$/.test(c[0]!))
-        .map(([id, name]) => ({
-          id: `antigravity/${id}`,
-          provider: "antigravity",
-          name,
-        }));
-    },
-    ask: async (model, prompt) => (await agy(prompt, model || undefined)).text,
-  });
   out.push({
     id: "claude",
     available: async () => !!Bun.which("claude"),

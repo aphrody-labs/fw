@@ -1,6 +1,6 @@
 # AI OS history and target (packages/ai-os/src/server)
 
-Read on 2026-11-15. Sources: `git log` in this repository, files in the working tree, crates.io API, `bun info`, the agy summaries database. Where a fact was not read, the document says so.
+Read on 2026-11-15. Sources: `git log` in this repository, files in the working tree, crates.io API, `bun info`. Where a fact was not read, the document says so.
 
 ## 1. Git history
 
@@ -50,7 +50,6 @@ Read on 2026-11-15. Sources: `git log` in this repository, files in the working 
 ## 2. Agent sessions
 
 - Claude Code transcripts searched by commit hash: the hits are the sessions that investigated or used the ai-os later (mailbox commit `d02787c93` appears in session `8a42912e`); none shows which session wrote `f2df75e96` and the first ai-os commits. Not established.
-- agy (`conversation_summaries.db`): 398 rows, 283 dated 2026-11-13 to 2026-11-15, none titled; no conversation could be matched to ai-os code.
 
 ## 3. Documents against code
 

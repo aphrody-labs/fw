@@ -26,13 +26,13 @@ export const SESSION_TOOLS: Tool[] = [
   {
     name: "session_register",
     description:
-      "Register (or rename) an agent session in the ai-os mailbox. Claude Code sessions are registered by their SessionStart hook; other agents (Codex, agy, OpenCode, Pi) call this once with a stable id.",
+      "Register (or rename) an agent session in the ai-os mailbox. Claude Code sessions are registered by their SessionStart hook; other agents (Codex, OpenCode, Pi) call this once with a stable id.",
     inputSchema: obj(
       {
         id: str("stable session id"),
         name: str("unique human name (optional)"),
         kind: str(
-          "claude-code | codex | agy | opencode | pi | other (optional)",
+          "claude-code | codex | opencode | pi | other (optional)",
         ),
         cwd: str("working directory (optional)"),
       },

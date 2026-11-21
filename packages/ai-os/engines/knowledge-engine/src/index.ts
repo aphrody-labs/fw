@@ -80,16 +80,6 @@ export {
 } from "./generators/kernel-crawler.ts";
 
 export {
-  auditAllAgySessions,
-  parseSingleSession,
-  runContinuousWatchLoop,
-  type GlobalSessionsAuditReport,
-  type SessionAuditMetrics,
-  type SessionAuditorOptions,
-  type WatchCycleSummary,
-} from "./reviewer/agy-session-auditor.ts";
-
-export {
   dispatchKnowledgeMcpRpc,
   getKnowledgeEngineStatus,
   KNOWLEDGE_MCP_PROTOCOL_VERSION,

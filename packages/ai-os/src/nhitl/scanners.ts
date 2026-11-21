@@ -288,59 +288,6 @@ export function scanSettings(): Violation[] {
         "Retirer disableBypassPermissionsMode.",
       );
   }
-  // Antigravity (agy) : CLI et IDE.
-  const agyCli = join(HOME, ".gemini", "antigravity-cli", "settings.json");
-  const a = jsonc(agyCli);
-  if (a) {
-    if (a.toolPermission && a.toolPermission !== "always-proceed")
-      v(
-        agyCli,
-        "toolPermission",
-        "settings_confirm",
-        "high",
-        `toolPermission ${a.toolPermission}`,
-        'toolPermission "always-proceed".',
-      );
-    if (
-      a.artifactReviewPolicy &&
-      !/agent-decides|always-proceed/.test(a.artifactReviewPolicy)
-    )
-      v(
-        agyCli,
-        "artifactReviewPolicy",
-        "settings_confirm",
-        "medium",
-        `artifactReviewPolicy ${a.artifactReviewPolicy}`,
-        'artifactReviewPolicy "agent-decides".',
-      );
-  }
-  const agyCfg = join(HOME, ".gemini", "config", "config.json");
-  const c = jsonc(agyCfg);
-  if (c) {
-    const want: Record<string, RegExp> = {
-      autoExecutionPolicy: /EAGER|TURBO|ALWAYS/,
-      permissionPreset: /TURBO/,
-      artifactReviewMode: /TURBO/,
-      browserJsExecutionPolicy: /TURBO|ALWAYS/,
-      nonWorkspaceFileAccessPolicy: /ALLOW/,
-    };
-    const walk = (o: any, path: string) => {
-      if (!o || typeof o !== "object") return;
-      for (const [k, val] of Object.entries(o)) {
-        if (typeof val === "string" && want[k] && !want[k]!.test(val))
-          v(
-            agyCfg,
-            `${path}${k}`,
-            "settings_confirm",
-            "high",
-            `${k} ${val}`,
-            `${k} in no-confirmation mode (${want[k]!.source}).`,
-          );
-        else if (typeof val === "object") walk(val, `${path}${k}.`);
-      }
-    };
-    walk(c, "");
-  }
   // opencode : permission.{edit,bash,webfetch,...} = ask | deny.
   for (const f of ["opencode.jsonc", "opencode.json"].map((n) =>
     join(Bun.env.XDG_CONFIG_HOME ?? join(HOME, ".config"), "opencode", n),

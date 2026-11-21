@@ -13,7 +13,6 @@ import { getBlake3EngineInfo } from "../ffi/blake3.ts";
 import { generateMonorepoDocs } from "../generators/docs-gen.ts";
 import { generateWorkspaceSkills } from "../generators/skills-gen.ts";
 import { runDeepResearch } from "../research/deep-research.ts";
-import { auditAllAgySessions } from "../reviewer/agy-session-auditor.ts";
 
 export const KNOWLEDGE_MCP_PROTOCOL_VERSION = "2025-03-26";
 
@@ -35,7 +34,6 @@ export interface KnowledgeMcpOptions {
   dbPath?: string;
   envPath?: string;
   srcRoot?: string;
-  brainRootDir?: string;
   fetchImpl?: typeof fetch;
 }
 
@@ -103,7 +101,7 @@ export const KNOWLEDGE_MCP_TOOLS = [
   {
     name: "generate_docs_and_skills",
     description:
-      "Regenerate docs/MONOREPO_ATLAS.md, third_party/bun/docs/sovereign/index.mdx, and/or the 5 sovereign workspace SKILL.md definitions.",
+      "Regenerate docs/MONOREPO_ATLAS.md, third_party/bun/docs/sovereign/index.mdx, and/or the 4 sovereign workspace SKILL.md definitions.",
     inputSchema: {
       type: "object",
       properties: {
@@ -111,24 +109,6 @@ export const KNOWLEDGE_MCP_TOOLS = [
           type: "string",
           enum: ["all", "docs", "skills"],
           description: "Generation scope (default: 'all')",
-        },
-      },
-    },
-  },
-  {
-    name: "review_agy_sessions",
-    description:
-      "Incrementally audit Antigravity CLI (agy) brain transcripts and Markdown artifacts (< 30ms warm via SQLite WAL) for tool usage, failed commands, broken file:/// links, secret hygiene, and System32 safety.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        sessionId: {
-          type: "string",
-          description: "Optional specific conversation UUID to audit",
-        },
-        limit: {
-          type: "number",
-          description: "Optional max number of recent sessions to return",
         },
       },
     },
@@ -363,46 +343,6 @@ export async function dispatchKnowledgeMcpRpc(
             jsonrpc: "2.0",
             id,
             result: textResult(JSON.stringify(out, null, 2)),
-          };
-        }
-
-        case "review_agy_sessions": {
-          const sessionIdFilter =
-            typeof args.sessionId === "string" && args.sessionId.trim()
-              ? args.sessionId.trim()
-              : undefined;
-          const limit =
-            typeof args.limit === "number" && args.limit > 0
-              ? args.limit
-              : undefined;
-          const report = auditAllAgySessions({
-            srcRoot: options.srcRoot,
-            brainRootDir: options.brainRootDir,
-            dbPath: options.dbPath,
-            envPath: options.envPath,
-            sessionIdFilter,
-            limit,
-            writeOutputs: !sessionIdFilter && !limit,
-          });
-          return {
-            jsonrpc: "2.0",
-            id,
-            result: textResult(
-              JSON.stringify(
-                {
-                  generatedAt: report.generatedAt,
-                  totalSessions: report.totalSessions,
-                  cacheHits: report.cacheHits,
-                  reindexedCount: report.reindexedCount,
-                  durationMs: Number(report.durationMs.toFixed(2)),
-                  totals: report.totals,
-                  markdownReportPath: report.markdownReportPath,
-                  sessions: report.sessions.slice(0, limit ?? 15),
-                },
-                null,
-                2,
-              ),
-            ),
           };
         }
 

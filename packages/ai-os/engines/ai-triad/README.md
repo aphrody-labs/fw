@@ -2,7 +2,7 @@
 
 <!-- catalog:begin unit -->
 
-> Cross-AI CLI, TUI, GUI, OAuth 2.1/PKCE/Device-Code, MCP & Multi-Protocol Gateway across OpenAI Codex, Google Antigravity/Gemini, Anthropic Claude Code, OpenCode, Pi, and Zed
+> Cross-AI CLI, TUI, GUI, OAuth 2.1/PKCE/Device-Code, MCP & Multi-Protocol Gateway across OpenAI Codex, Google Gemini, Anthropic Claude Code, OpenCode, Pi, and Zed
 
 | Type        | Path                              |
 | :---------- | :-------------------------------- |
@@ -24,7 +24,7 @@ bun run --cwd packages/ai-os/engines/ai-triad fmt
 Part of Aphrody: [aphrody-labs/ay](../../../../README.md).
 <!-- catalog:end -->
 
-Cross-AI CLI, TUI, WebGUI, OAuth 2.1 / PKCE / RFC 8628 Device Authorization, MCP `2025-03-26`, ACP v1, and Multi-Protocol Gateway uniting **OpenAI Codex (`codex`)**, **Google Antigravity (`agy` + `gemini`)**, **Anthropic Claude Code (`claude`)**, **OpenCode**, **Pi**, and **Zed** in pure **Bun v1.4.4**.
+Cross-AI CLI, TUI, WebGUI, OAuth 2.1 / PKCE / RFC 8628 Device Authorization, MCP `2025-03-26`, ACP v1, and Multi-Protocol Gateway uniting **OpenAI Codex (`codex`)**, **Google Gemini (`gemini`)**, **Anthropic Claude Code (`claude`)**, **OpenCode**, **Pi**, and **Zed** in pure **Bun v1.4.4**.
 
 ## Quick Commands
 
@@ -38,7 +38,7 @@ triad auth-status
 # Start HTTP + WebGUI + OpenAI (/v1/chat/completions, /v1/responses) + Anthropic (/v1/messages) + MCP (/mcp) server
 triad serve --port 4319
 
-# Run MCP 2025-03-26 server over stdio (wired into Claude, Codex, Antigravity, OpenCode, and Zed)
+# Run MCP 2025-03-26 server over stdio (wired into Claude, Codex, Gemini, OpenCode, and Zed)
 triad mcp-stdio
 
 # Generate GitHub Actions, Sovereign Forge, PowerShell, and POSIX CI pipelines
@@ -52,5 +52,4 @@ triad capture-help
 
 - [CLAUDE_CLI_HELP.md](./docs/CLAUDE_CLI_HELP.md)
 - [CODEX_CLI_HELP.md](./docs/CODEX_CLI_HELP.md)
-- [AGY_GEMINI_CLI_HELP.md](./docs/AGY_GEMINI_CLI_HELP.md)
 - [CROSS_PROVIDER_ARCHITECTURE.md](./docs/CROSS_PROVIDER_ARCHITECTURE.md)

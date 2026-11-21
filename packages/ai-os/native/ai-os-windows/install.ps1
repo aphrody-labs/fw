@@ -1,6 +1,6 @@
 # Installs the ai-os on Windows (PowerShell 7, elevated session), with no password or interaction:
 #   service "AphrodyAiOs" (aphrody-ai-os-svc.exe, CI artifact ai-os-service) as LocalSystem; it launches `bun ai-os serve`
-#   in the active console session with the user's token (WTSQueryUserToken), hence with their agy sessions,
+#   in the active console session with the user's token (WTSQueryUserToken), hence with
 #   Claude Code, gcloud, ssh and Chrome. The ai-os's Chrome is started on demand by the ai-os itself.
 # Usage : pwsh -File install.ps1 -ServiceExe <chemin\aphrody-ai-os-svc.exe> [-Uninstall]
 param([string]$ServiceExe, [switch]$Uninstall)

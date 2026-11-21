@@ -2,7 +2,7 @@
 //   resolveModel("provider/model")  any id returned by listModels()/llm_models
 //   resolveModel()                  AGENT_MODEL, else the first model of the first active provider
 //   providerEmbedder("provider/model")  /v1/embeddings (core/model.ts resolveEmbedder: AGENT_EMBEDDER=hash|provider/model)
-// OpenAI-compatible providers get native tool calling; CLI providers (antigravity, claude) answer in text only.
+// OpenAI-compatible providers get native tool calling; CLI providers (claude, opencode) answer in text only.
 import { outboundFetch } from "../server/outbound.ts";
 import {
   isRetryableStatus,
@@ -244,7 +244,7 @@ export function echoModel(name = "echo"): LanguageModel {
 
 /** First model of the first active provider, in providers() order (local servers first). */
 /** First discovered model, preferring providers with a tool-calling chat API (the agent loop needs
- * tools; CLI-backed providers such as agy or claude only answer prompts). */
+ * tools; CLI-backed providers such as claude or opencode only answer prompts). */
 export async function defaultModelId(): Promise<string> {
   const all = await listModels();
   const chat = new Set(
@@ -255,7 +255,7 @@ export async function defaultModelId(): Promise<string> {
   for (const r of [...all.filter((x) => chat.has(x.provider)), ...all])
     if (r.available && r.models[0]) return r.models[0].id;
   throw new Error(
-    "no model discovered (see llm_models: Ollama, AI_OS_OPENAI_ENDPOINTS, API keys or agy/claude CLI)",
+    "no model discovered (see llm_models: Ollama, AI_OS_OPENAI_ENDPOINTS, API keys or claude/opencode CLI)",
   );
 }
 

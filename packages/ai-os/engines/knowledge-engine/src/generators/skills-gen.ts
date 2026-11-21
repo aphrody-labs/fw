@@ -85,8 +85,8 @@ Activate this skill before implementing unfamiliar upstream APIs, auditing archi
   {
     name: "ai-triad-orchestrator",
     description:
-      "Orchestrate OpenAI Codex CLI, Google Antigravity CLI (agy/gemini), and Anthropic Claude Code via @aphrody/ai-triad (triad CLI, :4319 multi-protocol gateway, parallel Council consensus, OAuth 2.1 PKCE, and sync-configs).",
-    bodyMarkdown: `# Sovereign AI Triad Orchestrator (\`Codex + AGY + Claude\`)
+      "Orchestrate OpenAI Codex CLI, Google Gemini CLI, and Anthropic Claude Code via @aphrody/ai-triad (triad CLI, :4319 multi-protocol gateway, parallel Council consensus, OAuth 2.1 PKCE, and sync-configs).",
+    bodyMarkdown: `# Sovereign AI Triad Orchestrator (\`Codex + Gemini + Claude\`)
 
 Activate this skill when coordinating multi-agent tasks, running parallel code reviews across OpenAI/Google/Anthropic models, or synchronizing MCP/provider configurations across AI editors.
 
@@ -98,7 +98,7 @@ Activate this skill when coordinating multi-agent tasks, running parallel code r
    triad auth-status --fast
    \`\`\`
 2. **Synchronize All Client Configs Idempotently**:
-   Updates Antigravity CLI, Gemini CLI, Codex (\`~/.codex/config.toml\`), Claude Code (\`~/.claude.json\`, \`mcp_sovereign.json\`), OpenCode, and Zed with \`ai-os\`, \`ai-triad\`, \`context7\`, and \`knowledge-engine\`:
+   Updates Gemini CLI, Codex (\`~/.codex/config.toml\`), Claude Code (\`~/.claude.json\`, \`mcp_sovereign.json\`), OpenCode, and Zed with \`ai-os\`, \`ai-triad\`, \`context7\`, and \`knowledge-engine\`:
    \`\`\`powershell
    triad sync-configs
    \`\`\`
@@ -117,13 +117,13 @@ Activate this skill when coordinating multi-agent tasks, running parallel code r
         content: `# AI Triad Gateway (:4319) & MCP Federation
 
 ## Multi-Protocol Endpoints (\`http://127.0.0.1:4319\`)
-- \`POST /v1/chat/completions\` — OpenAI Chat Completions wire translation (\`triad/auto\`, \`triad/claude\`, \`triad/codex\`, \`triad/agy\`, \`triad/council\`).
+- \`POST /v1/chat/completions\` — OpenAI Chat Completions wire translation (\`triad/auto\`, \`triad/claude\`, \`triad/codex\`, \`triad/gemini\`, \`triad/council\`).
 - \`POST /v1/responses\` — OpenAI Responses API for Codex custom \`model_providers\`.
 - \`POST /v1/messages\` — Anthropic Messages v1 wire translation.
-- \`POST /mcp\` & \`triad mcp-stdio\` — MCP \`2025-03-26\` server exposing \`triad_ask_claude\`, \`triad_ask_codex\`, \`triad_ask_agy\`, \`triad_council_review\`, and \`triad_auth_status\`.
+- \`POST /mcp\` & \`triad mcp-stdio\` — MCP \`2025-03-26\` server exposing \`triad_ask_claude\`, \`triad_ask_codex\`, \`triad_ask_gemini\`, \`triad_council_review\`, and \`triad_auth_status\`.
 
 ## Automatic Quota Fallback
-\`routeTask\` automatically detects HTTP \`429\` / \`resource_exhausted\` responses and fails over across \`agy -> claude -> codex\` without dropping context.
+\`routeTask\` automatically detects HTTP \`429\` / \`resource_exhausted\` responses and fails over across \`gemini -> claude -> codex\` without dropping context.
 `,
       },
     ],
@@ -217,56 +217,6 @@ Writes deterministic \`oci-layout\`, \`index.json\`, config blobs, and tar layer
 - \`GoSignR2S3v4AuthHeader(...)\` — Pure-Go Cloudflare R2 S3v4 signature generator.
 - \`GoComputeOciDigest(buffer)\` — Deterministic SHA-256 OCI layer digest.
 - Tested end-to-end across Rust, Bun, and Go in \`infra/ffi-bridge/polyglot.test.ts\`.
-`,
-      },
-    ],
-  },
-  {
-    name: "agy-continuous-reviewer",
-    description:
-      "Audit historical and live Antigravity CLI (agy) sessions via ske review-sessions, ske watch, and .agents/hooks.json (PreToolUse, PostToolUse, Stop) for broken file:/// links, failed commands, emoji violations, secret leaks, and System32 safety.",
-    bodyMarkdown: `# Continuous AGY Session Reviewer & Lifecycle Hooks
-
-Activate this skill when auditing \`agy\` transcripts (\`transcript.jsonl\`), configuring \`.agents/hooks.json\`, or running real-time workspace quality gates.
-
-## Commands (\`ske\`)
-
-1. **Incremental Full-Brain Session Audit (\`< 30ms\` cached)**:
-   Scans \`%USERPROFILE%\\.gemini\\antigravity-cli\\brain\\*\\.system_generated\\logs\\transcript.jsonl\` and writes \`docs/AGY_SESSIONS_CONTINUOUS_REVIEW.md\` + \`var/reports/agy-sessions-audit.json\`:
-   \`\`\`powershell
-   ske review-sessions
-   \`\`\`
-2. **Continuous Watcher Loop**:
-   Incrementally audits active transcripts, fact-checks modified \`docs/*.md\` and \`SKILL.md\` files, and refreshes \`MONOREPO_ATLAS.md\`:
-   \`\`\`powershell
-   ske watch --interval 30
-   ske watch --once
-   \`\`\`
-
-## Antigravity \`hooks.json\` Contract Invariants
-- \`PreToolUse\` (\`pre-tool-guard.ts\`): Returns \`{"decision":"allow"}\` or \`{"decision":"deny","reason":"..."}\`. Blocks Windows System32 mutations, raw \`.env\` git staging, and raw token commits.
-- \`PostToolUse\` (\`post-tool-tracker.ts\`): Logs turn events to \`var/knowledge.sqlite\` (\`live_turn_events\`) in \`< 15ms\` and returns \`{}\`.
-- \`Stop\` (\`stop-session-reviewer.ts\`): Audits the active turn in \`< 40ms\`, appends to \`continuous-review-stream.jsonl\`, and returns \`{"decision":"stop"}\` (or \`{"decision":"continue","reason":"..."}\` strictly when \`terminationReason === "NO_TOOL_CALL"\`, \`executionNum <= 1\`, and a critical safety violation occurred).
-
-## Progressive Disclosure Reference
-- Transcript JSONL schema and SQLite incremental indexing columns: see [\`references/transcript-schema-and-hooks.md\`](./references/transcript-schema-and-hooks.md).
-`,
-    references: [
-      {
-        filename: "transcript-schema-and-hooks.md",
-        content: `# AGY \`transcript.jsonl\` Schema & Incremental SQLite Index
-
-## JSONL Step Record Fields
-Each line in \`brain/<conversation-id>/.system_generated/logs/transcript.jsonl\` contains:
-- \`step_index\`: Monotonic 0-based integer step index.
-- \`source\`: \`"USER"\` | \`"MODEL"\` | \`"SYSTEM"\`.
-- \`type\`: \`"USER_INPUT"\` | \`"PLANNER_RESPONSE"\` | \`"SYSTEM_MESSAGE"\` | \`"GENERIC"\`.
-- \`status\`: \`"DONE"\` | \`"ERROR"\` | \`"CANCELLED"\`.
-- \`tool_calls\`: Optional array of \`{ name: string, args: Record<string, unknown> }\` (including \`invoke_subagent\`, \`run_command\`, \`write_file\`, \`edit_file\`, \`call_mcp_tool\`).
-- \`input_tokens\`, \`output_tokens\`, \`cache_read_tokens\`.
-
-## Incremental Indexing (\`agy_session_reviews\`)
-Keyed by \`session_id\` storing \`transcript_mtime_ms\`, \`transcript_size\`, and \`artifacts_sig\`. Unchanged sessions bypass disk reads completely, keeping full 47+ session re-audits under \`30 ms\`.
 `,
       },
     ],

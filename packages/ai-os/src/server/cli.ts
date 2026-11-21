@@ -3,7 +3,7 @@
 //   ai-os serve                  HTTP (rpc, mcp, a2a, ws), TCP, TLS
 //   ai-os browser [--headful]    ai-os Chrome (dedicated profile, CDP 127.0.0.1:AI_OS_CDP_PORT)
 //   ai-os login                  visible ai-os Chrome: Google sign-in (the owner-facing entry point is `<binary> auth login gemini-web`)
-//   ai-os ask <prompt…>          question to Gemini (Antigravity, --web: gemini.google.com); --claude for headless Claude Code
+//   ai-os ask <prompt…>          question to Gemini (gemini.google.com); --claude for headless Claude Code
 //   ai-os review <file>          Gemini review of a file, scored /20
 //   ai-os inspect                survey of the Gemini selectors (diagnostic)
 //   ai-os acp                    ACP agent over stdio
@@ -44,7 +44,7 @@ switch (cmd) {
   case "ask": {
     const a = flag("--claude")
       ? await claude(words)
-      : await gemini(words, { engine: flag("--web") ? "web" : undefined });
+      : await gemini(words);
     console.log(a.text);
     console.error(`[${a.engine} ${a.ms} ms${a.chat ? ` ${a.chat}` : ""}]`);
     break;

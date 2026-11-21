@@ -16,7 +16,7 @@ function fixture() {
   const proj = join(h, ".claude", "projects", "C--aphrody");
   mkdirSync(join(proj, "memory"), { recursive: true });
   mkdirSync(join(h, ".agent"), { recursive: true });
-  mkdirSync(join(h, ".gemini", "antigravity-cli"), { recursive: true });
+  mkdirSync(join(h, ".gemini"), { recursive: true });
   return { h, proj };
 }
 
@@ -57,8 +57,6 @@ test("sync replaces the managed block once and sets NHITL keys", async () => {
   const g = await Bun.file(join(h, ".gemini", "GEMINI.md")).text();
   expect(g.split("ai-os brain sync: begin").length).toBe(2);
   expect(g).toContain("rule $& $1");
-  const s = await Bun.file(
-    join(h, ".gemini", "antigravity-cli", "settings.json"),
-  ).json();
-  expect(s.toolPermission).toBe("always-proceed");
+  const s = await Bun.file(join(h, ".claude", "settings.json")).json();
+  expect(s.permissions.defaultMode).toBe("bypassPermissions");
 });

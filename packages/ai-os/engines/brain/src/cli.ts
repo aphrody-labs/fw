@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-// brain: merge AGY sessions into a redacted Obsidian vault, build the code graph (graphify), sync to Google Drive.
+// brain: build the code graph (graphify) into a redacted Obsidian vault, sync it to Google Drive.
 // The Google OAuth consent for the agent account is done by a human (see `brain auth-drive`); nothing here handles passwords.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { homedir } from "node:os";
@@ -94,11 +94,6 @@ export function leakScan(dir: string): string[] {
 function main() {
   const cmd = process.argv[2] ?? "status";
   switch (cmd) {
-    case "merge":
-      process.exit(
-        run("bun", ["run", join(import.meta.dir, "merge-sessions.ts")])
-          .status ?? 1,
-      );
     case "graph": {
       for (const d of GRAPH_ROOTS)
         run("graphify", ["update", join(workspaceRoot(), d)]);

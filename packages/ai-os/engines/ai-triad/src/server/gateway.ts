@@ -77,22 +77,17 @@ export const TRIAD_MCP_TOOLS = [
     },
   },
   {
-    name: "triad_ask_agy",
+    name: "triad_ask_gemini",
     description:
-      "Invoke Google Antigravity CLI headlessly (`agy -p --output-format json --mode accept-edits`) or Gemini CLI.",
+      "Invoke Google Gemini CLI headlessly (`gemini -p -o json`).",
     inputSchema: {
       type: "object",
       properties: {
         prompt: {
           type: "string",
-          description: "Prompt to send to Antigravity CLI",
+          description: "Prompt to send to Gemini CLI",
         },
-        model: { type: "string", description: "Optional Gemini/AGY model" },
-        mode: {
-          type: "string",
-          enum: ["accept-edits", "auto", "plan"],
-          default: "accept-edits",
-        },
+        model: { type: "string", description: "Optional Gemini model" },
         cwd: { type: "string", description: "Working directory" },
       },
       required: ["prompt"],
@@ -101,7 +96,7 @@ export const TRIAD_MCP_TOOLS = [
   {
     name: "triad_council_review",
     description:
-      "Run OpenAI Codex, Google Antigravity, and Anthropic Claude Code in parallel and synthesize a structured multi-model consensus report.",
+      "Run OpenAI Codex, Google Gemini, and Anthropic Claude Code in parallel and synthesize a structured multi-model consensus report.",
     inputSchema: {
       type: "object",
       properties: {
@@ -113,9 +108,9 @@ export const TRIAD_MCP_TOOLS = [
           type: "array",
           items: {
             type: "string",
-            enum: ["codex", "agy", "claude", "gemini", "pi-opencode", "ai-os"],
+            enum: ["codex", "gemini", "claude", "pi-opencode", "ai-os"],
           },
-          default: ["codex", "agy", "claude"],
+          default: ["codex", "gemini", "claude"],
         },
         cwd: { type: "string" },
       },
@@ -125,7 +120,7 @@ export const TRIAD_MCP_TOOLS = [
   {
     name: "triad_auth_status",
     description:
-      "Inspect redacted read-only authentication readiness across Claude Code, Codex, Antigravity/Gemini, Sovereign Rust Auth, GitHub, Cloudflare, GCP, and Vercel.",
+      "Inspect redacted read-only authentication readiness across Claude Code, Codex, Gemini, Sovereign Rust Auth, GitHub, Cloudflare, GCP, and Vercel.",
     inputSchema: {
       type: "object",
       properties: {
@@ -271,7 +266,7 @@ async function executeTriadModelRoute(
   const normalized = model.toLowerCase();
 
   if (normalized === "triad/council" || normalized === "council") {
-    const council = await runCouncil(prompt, ["codex", "agy", "claude"], {
+    const council = await runCouncil(prompt, ["codex", "gemini", "claude"], {
       executor: execAgent,
     });
     return {
@@ -310,18 +305,6 @@ async function executeTriadModelRoute(
       text: res.ok ? res.output : `Error: ${res.error ?? "codex failed"}`,
       resolvedModel: model,
       agent: "codex",
-    };
-  }
-
-  if (
-    normalized.startsWith("triad/agy") ||
-    normalized.includes("antigravity")
-  ) {
-    const res = await execAgent("agy", { prompt, systemPrompt });
-    return {
-      text: res.ok ? res.output : `Error: ${res.error ?? "agy failed"}`,
-      resolvedModel: model,
-      agent: "agy",
     };
   }
 
@@ -493,7 +476,7 @@ export async function dispatchTriadMcpRpc(
         const prompt = String(args.prompt ?? "");
         const agents = Array.isArray(args.agents)
           ? (args.agents as TriadAgentId[])
-          : (["codex", "agy", "claude"] as TriadAgentId[]);
+          : (["codex", "gemini", "claude"] as TriadAgentId[]);
         const report = await runCouncil(prompt, agents, {
           cwd: typeof args.cwd === "string" ? args.cwd : undefined,
           executor: execAgent,
@@ -511,7 +494,7 @@ export async function dispatchTriadMcpRpc(
       const agentMap: Record<string, TriadAgentId> = {
         triad_ask_claude: "claude",
         triad_ask_codex: "codex",
-        triad_ask_agy: "agy",
+        triad_ask_gemini: "gemini",
       };
       const target = agentMap[toolName];
       if (!target) {
@@ -530,10 +513,6 @@ export async function dispatchTriadMcpRpc(
         effort:
           typeof args.effort === "string"
             ? (args.effort as TriadRunRequest["effort"])
-            : undefined,
-        mode:
-          typeof args.mode === "string"
-            ? (args.mode as TriadRunRequest["mode"])
             : undefined,
       });
 
@@ -705,7 +684,7 @@ function renderWebGuiHtml(): string {
 </head>
 <body>
   <header>
-    <h1>Sovereign AI Triad Gateway (Codex + Antigravity + Claude Code)</h1>
+    <h1>Sovereign AI Triad Gateway (Codex + Gemini + Claude Code)</h1>
     <span class="badge">OpenAI + Anthropic + Responses + MCP 2025-03-26</span>
   </header>
   <main>
@@ -728,11 +707,11 @@ function renderWebGuiHtml(): string {
       <table>
         <thead><tr><th>Model Route</th><th>Protocol</th><th>Target / Fallback</th></tr></thead>
         <tbody>
-          <tr><td>triad/auto</td><td>Chat / Responses / Messages</td><td>agy -&gt; claude -&gt; codex -&gt; rust-gateway -&gt; ring3-local</td></tr>
+          <tr><td>triad/auto</td><td>Chat / Responses / Messages</td><td>gemini -&gt; claude -&gt; codex -&gt; rust-gateway -&gt; ring3-local</td></tr>
           <tr><td>triad/claude</td><td>claude.exe -p --output-format json</td><td>Anthropic Claude Code v2.1+</td></tr>
           <tr><td>triad/codex</td><td>codex.exe exec --json</td><td>OpenAI Codex CLI (Rust)</td></tr>
-          <tr><td>triad/agy</td><td>agy.exe -p --output-format json</td><td>Google Antigravity CLI + ACP</td></tr>
-          <tr><td>triad/council</td><td>Parallel Consensus</td><td>codex + agy + claude parallel synthesis</td></tr>
+          <tr><td>triad/gemini</td><td>gemini.exe -p -o json</td><td>Google Gemini CLI</td></tr>
+          <tr><td>triad/council</td><td>Parallel Consensus</td><td>codex + gemini + claude parallel synthesis</td></tr>
         </tbody>
       </table>
     </section>
@@ -742,10 +721,10 @@ function renderWebGuiHtml(): string {
       <div style="display:flex; gap:10px; align-items:center;">
         <select id="model-select">
           <option value="triad/auto">triad/auto (Quota-Aware Fallback)</option>
-          <option value="triad/council">triad/council (Parallel Codex + AGY + Claude)</option>
+          <option value="triad/council">triad/council (Parallel Codex + Gemini + Claude)</option>
           <option value="triad/claude">triad/claude</option>
           <option value="triad/codex">triad/codex</option>
-          <option value="triad/agy">triad/agy</option>
+          <option value="triad/gemini">triad/gemini</option>
         </select>
         <button id="run-btn" type="button">Execute Prompt</button>
       </div>
@@ -842,7 +821,6 @@ export function createGatewayFetchHandler(hooks?: GatewayExecutorHooks) {
         "triad/auto",
         "triad/claude",
         "triad/codex",
-        "triad/agy",
         "triad/gemini",
         "triad/council",
       ].map((id) => ({

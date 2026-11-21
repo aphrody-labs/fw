@@ -45,7 +45,7 @@ jobs:
           bun check
           bun test
 
-      - name: Headless Multi-CLI Review (Claude + Codex + Antigravity)
+      - name: Headless Multi-CLI Review (Claude + Codex + Gemini)
         env:
           ANTHROPIC_API_KEY: \${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: \${{ secrets.OPENAI_API_KEY }}
@@ -57,8 +57,8 @@ jobs:
           if command -v codex >/dev/null 2>&1 && [ -n "\${OPENAI_API_KEY:-}" ]; then
             codex exec review --json > codex-review.jsonl || true
           fi
-          if command -v agy >/dev/null 2>&1 && [ -n "\${GEMINI_API_KEY:-}" ]; then
-            agy -p "\${{ inputs.prompt || 'Audit PR diff for regressions' }}" --output-format json --mode plan > agy-review.json
+          if command -v gemini >/dev/null 2>&1 && [ -n "\${GEMINI_API_KEY:-}" ]; then
+            gemini -p "\${{ inputs.prompt || 'Audit PR diff for regressions' }}" -o json > gemini-review.json
           fi
 `;
 
@@ -81,7 +81,7 @@ commands = [
   "triad doctor",
   "claude --dangerously-skip-permissions -p \\"Verify zero secret leaks and strict TypeScript types\\" --output-format json",
   "codex exec \\"Verify Rust and Bun ABI boundaries\\" --json --skip-git-repo-check",
-  "agy -p \\"Verify MCP 2025-03-26 and ACP protocol conformance\\" --output-format json --mode plan"
+  "gemini -p \\"Verify MCP 2025-03-26 and ACP protocol conformance\\" -o json"
 ]
 `;
 
@@ -90,15 +90,15 @@ param(
   [string]$Prompt = "Run concise security and type-safety review of current git diff."
 )
 
-Write-Host "[Triad CI] Running headless Claude, Codex, and Antigravity checks..."
+Write-Host "[Triad CI] Running headless Claude, Codex, and Gemini checks..."
 if (Get-Command claude.exe -ErrorAction SilentlyContinue) {
   & claude.exe --dangerously-skip-permissions -p $Prompt --output-format json | Out-File -Encoding utf8 triad-claude.json
 }
 if (Get-Command codex.cmd -ErrorAction SilentlyContinue) {
   & codex.cmd exec $Prompt --json --skip-git-repo-check | Out-File -Encoding utf8 triad-codex.jsonl
 }
-if (Get-Command agy.cmd -ErrorAction SilentlyContinue) {
-  & agy.cmd -p $Prompt --output-format json --mode plan | Out-File -Encoding utf8 triad-agy.json
+if (Get-Command gemini.exe -ErrorAction SilentlyContinue) {
+  & gemini.exe -p $Prompt -o json | Out-File -Encoding utf8 triad-gemini.json
 }
 Write-Host "[Triad CI] Completed."
 `;
@@ -107,15 +107,15 @@ Write-Host "[Triad CI] Completed."
 set -eu
 PROMPT="\${1:-Run concise security and type-safety review of current git diff.}"
 
-echo "[Triad CI] Running headless Claude, Codex, and Antigravity checks..."
+echo "[Triad CI] Running headless Claude, Codex, and Gemini checks..."
 if command -v claude >/dev/null 2>&1; then
   claude --dangerously-skip-permissions -p "$PROMPT" --output-format json > triad-claude.json
 fi
 if command -v codex >/dev/null 2>&1; then
   codex exec "$PROMPT" --json --skip-git-repo-check > triad-codex.jsonl
 fi
-if command -v agy >/dev/null 2>&1; then
-  agy -p "$PROMPT" --output-format json --mode plan > triad-agy.json
+if command -v gemini >/dev/null 2>&1; then
+  gemini -p "$PROMPT" -o json > triad-gemini.json
 fi
 echo "[Triad CI] Completed."
 `;

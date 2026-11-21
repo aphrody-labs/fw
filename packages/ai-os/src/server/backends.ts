@@ -2,18 +2,16 @@
 //   gemini-web : gemini.google.com driven over CDP in the ai-os's Chrome (selectors surveyed on 2026-11-13:
 //                rich-textarea .ql-editor, button aria-label "Send message" / "Envoyer un message", model-response message-content,
 //                stop button present while generation runs; measured round trip: 10.5 s).
-//   antigravity : Antigravity CLI headless (`agy -p … --output-format json`), the user's Antigravity session, Gemini 4 models.
 //   claude     : headless Claude Code (`claude -p --output-format json`), the CLI's existing authentication.
 import {
   type Answer,
-  agy,
   claude,
   claudeWithTools,
   opencode,
 } from "../llm/agents.ts";
 import { Tab, launchBrowser } from "./cdp.ts";
 
-export { type Answer, agy, claude, claudeWithTools, opencode };
+export { type Answer, claude, claudeWithTools, opencode };
 
 const GEMINI = "https://gemini.google.com/";
 let queue: Promise<unknown> = Promise.resolve();
@@ -166,12 +164,10 @@ export function notebookAsk(
   });
 }
 
-/** Gemini: Antigravity (agy) by default; "web" = gemini.google.com in the ai-os's Chrome. AI_OS_GEMINI=agy|web. */
+/** Gemini: gemini.google.com in the ai-os's Chrome. */
 export async function gemini(
   prompt: string,
-  opts: { chat?: string; engine?: string } = {},
+  opts: { chat?: string } = {},
 ): Promise<Answer> {
-  const engine = opts.engine ?? Bun.env.AI_OS_GEMINI ?? "agy";
-  if (engine === "web") return geminiWeb(prompt, opts);
-  return agy(prompt, undefined, opts.chat);
+  return geminiWeb(prompt, opts);
 }

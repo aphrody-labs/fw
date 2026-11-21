@@ -21,7 +21,7 @@ Hosts: `apps/agents/fleet.toml` (`[hosts.*]`, roles, runner checkout), cross-ref
 ```sh
 just orch hosts                       # hosts, runner state (heartbeat, CLI probe, cooldowns)
 just orch engines --edit              # candidates and computed `providers` list, per host
-just orch engines --model agy:<model>
+just orch engines --model codex:<model>
 just orch health                      # cooldowns and observed outcomes (host, provider)
 just orch run fixtures/orch/proof.json
 just orch plan "<goal>"               # a planner produces the graph, which is then run
@@ -107,7 +107,7 @@ A step describes its needs in `needs`. No model list is written in the code.
 
 Building the candidate list:
 
-- the CLIs the runner knows how to launch (`claude`, `codex`, `opencode`, `pi`, `agy`), present on the host: runner probe `state/health.json`, otherwise `command -v`;
+- the CLIs the runner knows how to launch (`claude`, `codex`, `opencode`, `pi`), present on the host: runner probe `state/health.json`, otherwise `command -v`;
 - on the local host, the models from `llm_models`, enriched by `https://models.dev/api.json` (24 h cache in `$AGENT_HOME`).
 
 Sorting relies on the health learned per host and per provider (`$AGENT_HOME/orch.sqlite`): smoothed success rate, p50 latency, cost. Excluded:

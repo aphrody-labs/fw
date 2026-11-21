@@ -1,4 +1,4 @@
-// Unified AI-First Terminal Agent Bridge (OpenRouter, ACP v1.31.0, OpenCode, MCP Agent, A2A 1.0.1, Claude, Antigravity).
+// Unified AI-First Terminal Agent Bridge (OpenRouter, ACP v1.31.0, OpenCode, MCP Agent, A2A 1.0.1, Claude, Gemini web).
 // Zero duplicated provider discovery: builds directly on @aphrody/fw-ai-os llm/models, ai-os/acp, ai-os/a2a, ai-os/backends, and core/agent.
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -8,7 +8,7 @@ import { llmAsk } from "../llm/model.ts";
 import { listModels, providers } from "../llm/models.ts";
 import { a2aHttp } from "../server/a2a.ts";
 import { handle as acpHandle } from "../server/acp.ts";
-import { agy, claude, gemini, opencode } from "../server/backends.ts";
+import { claude, gemini, opencode } from "../server/backends.ts";
 import { outboundFetch } from "../server/outbound.ts";
 import type { TermManager } from "./pty.ts";
 
@@ -21,7 +21,6 @@ export interface TermAskRequest {
     | "mcp"
     | "a2a"
     | "claude"
-    | "agy"
     | "gemini";
   model?: string;
   prompt: string;
@@ -87,11 +86,6 @@ export function discoverAiCatalogFast() {
       { id: "mcp", label: "AI-OS MCP Agent", available: true },
       { id: "a2a", label: "A2A 1.0.1", available: true },
       {
-        id: "agy",
-        label: "Antigravity (Gemini 4)",
-        available: Boolean(Bun.which("agy")),
-      },
-      {
         id: "claude",
         label: "Claude Code",
         available: Boolean(Bun.which("claude")),
@@ -132,11 +126,6 @@ export async function discoverAiCatalog(timeoutMs = 2500) {
     },
     { id: "mcp", label: "AI-OS MCP Agent", available: flat.length > 0 },
     { id: "a2a", label: "A2A 1.0.1", available: true },
-    {
-      id: "agy",
-      label: "Antigravity (Gemini 4)",
-      available: Boolean(Bun.which("agy")),
-    },
     {
       id: "claude",
       label: "Claude Code",
@@ -239,7 +228,6 @@ export async function askTerminalAgent(
     const models = await listModels().catch(() => []);
     if (models.length > 0) return "mcp";
     if (Bun.which("opencode")) return "opencode";
-    if (Bun.which("agy")) return "agy";
     if (Bun.which("claude")) return "claude";
     return "acp";
   };
@@ -270,9 +258,7 @@ export async function askTerminalAgent(
           ? "openrouter"
           : Bun.which("opencode")
             ? "opencode"
-            : Bun.which("agy")
-              ? "gemini"
-              : "claude",
+            : "claude",
         model: req.model,
       });
       text = res.text;
@@ -344,12 +330,6 @@ export async function askTerminalAgent(
       protocol = "claude-cli";
       break;
     }
-    case "agy": {
-      const res = await agy(fullPrompt, req.model);
-      text = res.text;
-      protocol = "antigravity-cli";
-      break;
-    }
     case "gemini": {
       const res = await gemini(fullPrompt);
       text = res.text;
@@ -398,7 +378,6 @@ export async function streamTerminalAgent(
       const models = await listModels().catch(() => []);
       if (models.length > 0) engine = "mcp";
       else if (Bun.which("opencode")) engine = "opencode";
-      else if (Bun.which("agy")) engine = "agy";
       else if (Bun.which("claude")) engine = "claude";
       else engine = "acp";
     }
@@ -475,9 +454,7 @@ export async function streamTerminalAgent(
       ? "openrouter"
       : Bun.which("opencode")
         ? "opencode"
-        : Bun.which("agy")
-          ? "gemini"
-          : "claude";
+        : "claude";
     emit({
       type: "meta",
       engine,
@@ -594,7 +571,7 @@ export async function streamTerminalAgent(
     }
   }
 
-  // Fallback for MCP, A2A, Claude, Agy, Gemini
+  // Fallback for MCP, A2A, Claude, Gemini
   const res = await askTerminalAgent(manager, req);
   emit({
     type: "meta",

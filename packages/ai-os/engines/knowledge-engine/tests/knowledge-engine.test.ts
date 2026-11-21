@@ -10,7 +10,6 @@ import {
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import {
-  auditAllAgySessions,
   blake3Hex,
   canonicalizeUrl,
   closeAllKnowledgeDatabases,
@@ -126,7 +125,7 @@ describe("@aphrody/knowledge-engine core verification", () => {
     const tmpSkills = mkdtempSync(join(tmpdir(), "ske-skills-"));
     try {
       const rep = generateWorkspaceSkills({ skillsRootDir: tmpSkills });
-      expect(rep.generatedSkills.length).toBeGreaterThanOrEqual(5);
+      expect(rep.generatedSkills.length).toBeGreaterThanOrEqual(4);
       for (const sk of rep.generatedSkills) {
         expect(existsSync(sk.skillMdPath)).toBe(true);
         const content = readFileSync(sk.skillMdPath, "utf8");
@@ -138,7 +137,7 @@ describe("@aphrody/knowledge-engine core verification", () => {
     }
   });
 
-  test("Monorepo docs generator, AGY session auditor, and MCP JSON-RPC dispatch succeed", async () => {
+  test("Monorepo docs generator and MCP JSON-RPC dispatch succeed", async () => {
     const tmpOut = mkdtempSync(join(tmpdir(), "ske-out-"));
     try {
       const atlasPath = join(tmpOut, "ATLAS.md");
@@ -152,42 +151,6 @@ describe("@aphrody/knowledge-engine core verification", () => {
       });
       expect(docsRep.entitiesCount).toBeGreaterThanOrEqual(15);
       expect(existsSync(atlasPath)).toBe(true);
-
-      const brain = join(tmpOut, "brain");
-      const logs = join(
-        brain,
-        "11111111-2222-3333-4444-555555555555",
-        ".system_generated",
-        "logs",
-      );
-      mkdirSync(logs, { recursive: true });
-      writeFileSync(
-        join(logs, "transcript.jsonl"),
-        [
-          {
-            step_index: 0,
-            type: "SYSTEM_MESSAGE",
-            content: "start",
-            created_at: "2026-11-11T10:00:00Z",
-          },
-          {
-            step_index: 1,
-            type: "USER_INPUT",
-            content: "audit this",
-            created_at: "2026-11-11T10:01:00Z",
-          },
-        ]
-          .map((s) => JSON.stringify(s))
-          .join("\n"),
-      );
-      const sessRep = auditAllAgySessions({
-        brainRootDir: brain,
-        dbPath: ":memory:",
-        limit: 5,
-        markdownOutPath: join(tmpOut, "REVIEW.md"),
-        jsonOutPath: join(tmpOut, "ledger.json"),
-      });
-      expect(sessRep.totalSessions).toBeGreaterThan(0);
 
       expect(KNOWLEDGE_MCP_TOOLS.length).toBeGreaterThanOrEqual(5);
       const initRes = await dispatchKnowledgeMcpRpc({

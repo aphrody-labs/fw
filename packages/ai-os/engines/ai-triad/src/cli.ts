@@ -11,7 +11,7 @@ import { runTriadMcpStdio, startTriadGatewayServer } from "./server/gateway.ts";
 import { renderTriadDashboard } from "./tui/dashboard.ts";
 
 const HELP_TEXT = `Sovereign AI Triad CLI (@aphrody/ai-triad v1.0.0)
-Bidirectional Cross-AI CLI / TUI / GUI / OAuth / MCP / CI Hub for Codex, Antigravity, Claude Code, OpenCode, Pi, and Zed.
+Bidirectional Cross-AI CLI / TUI / GUI / OAuth / MCP / CI Hub for Codex, Gemini, Claude Code, OpenCode, Pi, and Zed.
 
 Usage:
   triad <command> [options]
@@ -23,8 +23,8 @@ Commands:
   capture-help                 Capture live --help & subcommand corpus into docs/*.md
   serve [--port 4319]          Start HTTP + WebGUI + OpenAI/Anthropic/Responses/MCP Gateway
   mcp-stdio                    Run MCP 2025-03-26 JSON-RPC server over stdio
-  ask <agent> <prompt>         Run headless agent (claude | codex | agy | gemini | auto)
-  council <prompt>             Run codex, agy, and claude in parallel and print consensus summary
+  ask <agent> <prompt>         Run headless agent (claude | codex | gemini | auto)
+  council <prompt>             Run codex, gemini, and claude in parallel and print consensus summary
   ci-gen [--out DIR]           Generate GitHub Actions, Sovereign Forge, PowerShell, and POSIX CI templates
   help | --help                Show this help text
 `;
@@ -153,7 +153,7 @@ export async function runCli(argv = process.argv.slice(2)): Promise<number> {
     const prompt = argv.slice(2).join(" ").trim();
     if (!prompt) {
       process.stderr.write(
-        "Usage: triad ask <claude|codex|agy|gemini|auto> <prompt>\n",
+        "Usage: triad ask <claude|codex|gemini|auto> <prompt>\n",
       );
       return 1;
     }

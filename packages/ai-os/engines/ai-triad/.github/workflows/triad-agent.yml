@@ -34,7 +34,7 @@ jobs:
           bun check
           bun test
 
-      - name: Headless Multi-CLI Review (Claude + Codex + Antigravity)
+      - name: Headless Multi-CLI Review (Claude + Codex + Gemini)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -46,6 +46,6 @@ jobs:
           if command -v codex >/dev/null 2>&1 && [ -n "${OPENAI_API_KEY:-}" ]; then
             codex exec review --json > codex-review.jsonl || true
           fi
-          if command -v agy >/dev/null 2>&1 && [ -n "${GEMINI_API_KEY:-}" ]; then
-            agy -p "${{ inputs.prompt || 'Audit PR diff for regressions' }}" --output-format json --mode plan > agy-review.json
+          if command -v gemini >/dev/null 2>&1 && [ -n "${GEMINI_API_KEY:-}" ]; then
+            gemini -p "${{ inputs.prompt || 'Audit PR diff for regressions' }}" -o json > gemini-review.json
           fi

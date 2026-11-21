@@ -52,19 +52,19 @@ test("routing: preferred model followed by its CLI, cooldown and exclusions", ()
   const h = new Health(join(process.env.AGENT_HOME!, "rank.sqlite"));
   const all = [
     { id: "claude", kind: "cli" as const, why: "" },
-    { id: "agy", kind: "cli" as const, why: "" },
+    { id: "codex", kind: "cli" as const, why: "" },
     { id: "ollama/m", kind: "model" as const, why: "", cost: 0, context: 8000 },
   ];
-  expect(rank("pc", all, { models: ["agy:x-high"] }, h).slice(0, 2)).toEqual([
-    "agy:x-high",
-    "agy",
+  expect(rank("pc", all, { models: ["codex:x-high"] }, h).slice(0, 2)).toEqual([
+    "codex:x-high",
+    "codex",
   ]);
   expect(rank("pc", all, { edit: true }, h)).not.toContain("ollama/m");
   expect(rank("pc", all, { context: 100_000 }, h)).toContain("claude");
   expect(rank("pc", all, { context: 100_000 }, h)).not.toContain("ollama/m");
   h.record("pc", "claude", false, "auth", 10);
   expect(rank("pc", all, {}, h)).not.toContain("claude");
-  expect(rank("pc", all, {}, h, ["agy"])).not.toContain("agy");
+  expect(rank("pc", all, {}, h, ["codex"])).not.toContain("codex");
   expect(rank("pc", all, { only: ["^ollama/"] }, h)).toEqual(["ollama/m"]);
   // Observed reliability: the engine that succeeds comes first.
   for (let i = 0; i < 3; i++) h.record("pc", "ollama/m", true, null, 100);
@@ -246,10 +246,10 @@ test("queue v1: atomic drop, final result read, output of the accepted attempt",
   expect(await Q.output(local, r!)).toBe("sortie");
   mkdirSync(join(base, "state"), { recursive: true });
   writeFileSync(join(base, "state", "heartbeat-coder"), "1");
-  writeFileSync(join(base, "state", "cooldown-agy_x"), "1");
+  writeFileSync(join(base, "state", "cooldown-codex_x"), "1");
   const s = await Q.runnerState(local);
   expect(s.roles).toEqual(["coder"]);
-  expect(s.cooling).toEqual(["agy_x"]);
+  expect(s.cooling).toEqual(["codex_x"]);
 });
 
 test("review: dated Retry-After, HTTP codes without context, balanced JSON", async () => {

@@ -26,10 +26,9 @@
       "label": "Gemini",
       "stance": "Google voice: Chromium (styleguide, depot_tools, gn), Google eng-practices, Google style guides, Python, Go, Android, ChromiumOS, Bazel. You defend Google practices and cite the official rule that grounds each grievance.",
       "tasks": ["ci-review", "judge"],
-      "only": ["^agy(:|$)", "gemini", "gemma"],
+      "only": ["gemini", "gemma"],
       "engines": ["gemini-web"],
       "ignore": ["^google/"],
-      "prefer": ["^agy(:|$)"],
       "model": "gemini-4-carbon",
       "fallback": ["^codex(:|$)", "^opencode(:|$)"]
     },

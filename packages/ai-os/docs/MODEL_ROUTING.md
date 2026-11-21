@@ -9,7 +9,7 @@ Sources:
 - [G1] https://aistudio.google.com/docs/pricing (redirect target of ai.google.dev/gemini-api/docs/pricing)
 - [G2] https://aistudio.google.com/docs/models
 - [G3] https://aistudio.google.com/docs/thinking
-- [L1] ai-os `llm_models` (antigravity, claude providers), `claude --help`, `agy --help`
+- [L1] ai-os `llm_models` (claude provider), `claude --help`
 
 ## Claude (Anthropic API), ranked by output price
 
@@ -49,7 +49,6 @@ Web picker mapping (confirmed by G2): Flash-Lite 3.5 = `gemini-3.5-flash-lite`, 
 
 ## Reachable locally (L1)
 
-- antigravity (`agy`): gemini-4-{carbon,argon}-{low,medium,high}, gemini-4-hydrogen-{low,medium,high,xhigh}, gemini-3.8-flash-{low,medium,high}, claude-opus-5-5-{low,medium,high}, claude-sonnet-5-5-{low,medium,high}, gpt-oss-120b-medium. No Flash-Lite, no Haiku.
 - claude CLI: `--model`, `--effort low|medium|high|xhigh|max`, `--fallback-model`; ai-os exposes only `claude/default`.
 - Also present: ollama gemma4:e2b, fabric qwen3-0.6b, ~40 Cloudflare Workers AI models (not ranked here).
 
@@ -58,7 +57,7 @@ Web picker mapping (confirmed by G2): Flash-Lite 3.5 = `gemini-3.5-flash-lite`, 
 - Gemini 4 Carbon/Argon prices double on 2026-12-01; Gemini 3.8/3.6 Flash double on 2027-01-01 (G1). Recheck routing then: after 2026-12-01 Carbon High costs as much as Opus 5.5 per output token.
 - Haiku 5.5 (0.10/0.50) is cheaper than every Gemini Flash-Lite except 2.5 Flash-Lite, but its price jumps 5x above 100k prompt tokens (A1).
 - G2 states no context window for Flash/Flash-Lite models; long-context routes use only models with a stated 1M window.
-- Haiku 5.5 and Gemini Flash-Lite are not reachable via `agy`; they need direct API keys (`llm_ask` providers or SDK).
+- Haiku 5.5 and Gemini Flash-Lite are not reachable through a CLI provider; they need direct API keys (`llm_ask` providers or SDK).
 - Haiku 5.5 has no server-side refusal fallback (A2); fallback is handled by our router.
 - `gemini-2.5-flash` / `-pro` are deprecated and reroute on 2026-12-01 (G2); not used.
 

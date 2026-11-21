@@ -169,7 +169,7 @@ describe("Cross-Auth Redaction & Leak Safety", () => {
 });
 
 describe("Quota-Aware Router, Council Consensus & CLI Command Builders", () => {
-  test("builds official CLI headless commands for claude, codex, agy, and gemini", () => {
+  test("builds official CLI headless commands for claude, codex, and gemini", () => {
     const claudeCmd = buildAgentCommand("claude", {
       prompt: "Audit file",
       outputFormat: "json",
@@ -199,19 +199,11 @@ describe("Quota-Aware Router, Council Consensus & CLI Command Builders", () => {
       ]),
     );
 
-    const agyCmd = buildAgentCommand("agy", {
+    const geminiCmd = buildAgentCommand("gemini", {
       prompt: "Plan architecture",
-      mode: "plan",
     });
-    expect(agyCmd).toEqual(
-      expect.arrayContaining([
-        "-p",
-        "Plan architecture",
-        "--output-format",
-        "json",
-        "--mode",
-        "plan",
-      ]),
+    expect(geminiCmd).toEqual(
+      expect.arrayContaining(["-p", "Plan architecture", "-o", "json"]),
     );
   });
 
@@ -219,13 +211,13 @@ describe("Quota-Aware Router, Council Consensus & CLI Command Builders", () => {
     const res = await routeTask(
       { prompt: "Implement parser" },
       {
-        chain: ["agy", "claude", "codex"],
+        chain: ["gemini", "claude", "codex"],
         executor: async (backend) => {
-          if (backend === "agy") {
+          if (backend === "gemini") {
             return {
               ok: false,
-              agent: "agy",
-              model: "agy",
+              agent: "gemini",
+              model: "gemini",
               output: "",
               exitCode: 429,
               durationMs: 12,
@@ -247,13 +239,13 @@ describe("Quota-Aware Router, Council Consensus & CLI Command Builders", () => {
 
     expect(res.ok).toBe(true);
     expect(res.agent).toBe("claude");
-    expect(res.fallbackTrail).toEqual(["agy:quota-429", "claude:ok"]);
+    expect(res.fallbackTrail).toEqual(["gemini:quota-429", "claude:ok"]);
   });
 
-  test("runCouncil executes codex, agy, and claude in parallel and synthesizes consensus", async () => {
+  test("runCouncil executes codex, gemini, and claude in parallel and synthesizes consensus", async () => {
     const report = await runCouncil(
       "Review memory safety",
-      ["codex", "agy", "claude"],
+      ["codex", "gemini", "claude"],
       {
         executor: async (agent) => ({
           ok: true,
@@ -268,7 +260,7 @@ describe("Quota-Aware Router, Council Consensus & CLI Command Builders", () => {
 
     expect(report.succeededCount).toBe(3);
     expect(report.consensusSummary).toContain("[CODEX]");
-    expect(report.consensusSummary).toContain("[AGY]");
+    expect(report.consensusSummary).toContain("[GEMINI]");
     expect(report.consensusSummary).toContain("[CLAUDE]");
   });
 });
@@ -291,9 +283,9 @@ describe("Gateway Multi-Protocol Translation & MCP 2025-03-26", () => {
     }),
     routeTaskFn: async (req: TriadRunRequest): Promise<TriadRunResult> => ({
       ok: true,
-      agent: "agy",
+      agent: "gemini",
       model: "triad/auto",
-      output: `[auto->agy] processed: ${req.prompt}`,
+      output: `[auto->gemini] processed: ${req.prompt}`,
       exitCode: 0,
       durationMs: 5,
     }),
@@ -366,7 +358,7 @@ describe("Gateway Multi-Protocol Translation & MCP 2025-03-26", () => {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        model: "triad/agy",
+        model: "triad/gemini",
         instructions: "System rule",
         input: "Verify WebGPU shader",
       }),
@@ -379,7 +371,7 @@ describe("Gateway Multi-Protocol Translation & MCP 2025-03-26", () => {
     };
     expect(json.object).toBe("response");
     expect(json.status).toBe("completed");
-    expect(json.output_text).toContain("[agy] processed: Verify WebGPU shader");
+    expect(json.output_text).toContain("[gemini] processed: Verify WebGPU shader");
   });
 
   test("handles MCP 2025-03-26 initialize, tools/list, and tools/call over HTTP and direct RPC", async () => {
@@ -404,7 +396,7 @@ describe("Gateway Multi-Protocol Translation & MCP 2025-03-26", () => {
       expect.arrayContaining([
         "triad_ask_claude",
         "triad_ask_codex",
-        "triad_ask_agy",
+        "triad_ask_gemini",
         "triad_council_review",
         "triad_auth_status",
       ]),
@@ -442,7 +434,7 @@ describe("Gateway Multi-Protocol Translation & MCP 2025-03-26", () => {
       "claude --dangerously-skip-permissions -p",
     );
     expect(ci.githubActionsYaml).toContain("codex exec");
-    expect(ci.githubActionsYaml).toContain("agy -p");
+    expect(ci.githubActionsYaml).toContain("gemini -p");
   });
 });
 
@@ -455,7 +447,7 @@ describe("CLI discovery", () => {
       const missing = Object.fromEntries(
         discoverBinaries(home).map((b) => [b.id, b]),
       );
-      for (const id of ["claude", "codex", "agy", "gemini"]) {
+      for (const id of ["claude", "codex", "gemini"]) {
         expect(missing[id]?.installed).toBe(false);
         expect(missing[id]?.version).toBe("not-installed");
       }
@@ -463,7 +455,7 @@ describe("CLI discovery", () => {
       // The test runtime stands in for each CLI: any executable that prints a version line is discoverable.
       const catalog = resolveBinaryCatalog(home);
       let first: string | undefined;
-      for (const id of ["claude", "codex", "agy", "gemini"]) {
+      for (const id of ["claude", "codex", "gemini"]) {
         // A catalog entry that is not installed may be a bare command name: the fixture goes under the home.
         const listed = catalog[id]!.executable;
         const exe = isAbsolute(listed)
@@ -482,7 +474,7 @@ describe("CLI discovery", () => {
       const found = Object.fromEntries(
         discoverBinaries(home).map((b) => [b.id, b]),
       );
-      for (const id of ["claude", "codex", "agy", "gemini"]) {
+      for (const id of ["claude", "codex", "gemini"]) {
         expect(found[id]?.installed).toBe(true);
         expect(found[id]?.version).toMatch(/\d+\.\d+/);
       }

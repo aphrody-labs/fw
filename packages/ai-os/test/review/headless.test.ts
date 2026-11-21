@@ -257,7 +257,7 @@ test("fallback: billing then quota failures move to the next engine, sampling an
         cls: classify("HTTP 429 Quota exceeded"),
         ms: 1,
       };
-    if (p === "agy") return { ok: true, text: "Score: 18/20", ms: 1 }; // markdown refused in strict mode
+    if (p === "opencode") return { ok: true, text: "Score: 18/20", ms: 1 }; // markdown refused in strict mode
     return {
       ok: true,
       text: JSON.stringify({ ...good, score: 17, findings: [] }),
@@ -272,7 +272,7 @@ test("fallback: billing then quota failures move to the next engine, sampling an
     providers: async () => [
       "google-vertex/gemini-4-carbon",
       "google/gemini-4-carbon",
-      "agy",
+      "opencode",
       "codex",
     ],
     sources: null,
@@ -285,7 +285,7 @@ test("fallback: billing then quota failures move to the next engine, sampling an
   expect(v.attempts.map((a) => [a.provider, a.cls])).toEqual([
     ["google-vertex/gemini-4-carbon", "quota"],
     ["google/gemini-4-carbon", "quota"],
-    ["agy", "task"],
+    ["opencode", "task"],
     ["codex", undefined],
   ]);
   expect(v.attempts[2]!.note).toContain("structured output");
@@ -327,7 +327,7 @@ test("engine order: gemini-web first, then ranked and fallback families; cooling
   const health = new Health(join(d, "h.sqlite"));
   const host = { id: "t", local: true, src: ".", roles: [], maxAgents: 1 };
   const all = [
-    { id: "agy", kind: "cli" as const, why: "x" },
+    { id: "opencode", kind: "cli" as const, why: "x" },
     { id: "codex", kind: "cli" as const, why: "x" },
     { id: "claude", kind: "cli" as const, why: "x" },
     { id: "openai/gemini-4-carbon", kind: "model" as const, why: "x" },
@@ -337,30 +337,30 @@ test("engine order: gemini-web first, then ranked and fallback families; cooling
     label: "G",
     stance: "s",
     engines: ["gemini-web"],
-    only: ["^agy(:|$)", "gemini"],
+    only: ["^opencode(:|$)", "gemini"],
     ignore: ["^google/"],
-    prefer: ["^agy(:|$)"],
+    prefer: ["^opencode(:|$)"],
     model: "gemini-4-carbon",
     fallback: ["^codex(:|$)"],
   };
   const order = await enginesFor(v, host, health, all);
   expect(order[0]).toBe("gemini-web");
-  expect(order[1]).toBe("agy");
+  expect(order[1]).toBe("opencode");
   expect(order.at(-1)).toBe("codex");
   expect(order).not.toContain("claude");
   expect(order).not.toContain("google/gemini-4-carbon");
   health.record("t", "gemini-web", false, "login", 1);
-  health.record("t", "agy", false, "quota", 1);
+  health.record("t", "opencode", false, "quota", 1);
   const skipped: Skipped[] = [];
   const next = await enginesFor(v, host, health, all, undefined, skipped);
   expect(next).not.toContain("gemini-web");
-  expect(next).not.toContain("agy");
+  expect(next).not.toContain("opencode");
   expect(skipped).toContainEqual({
     provider: "gemini-web",
     reason: "cooling down after login",
   });
   expect(skipped).toContainEqual({
-    provider: "agy",
+    provider: "opencode",
     reason: "cooling down after quota",
   });
   health.close();

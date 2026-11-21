@@ -1,8 +1,6 @@
-import { existsSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
 
-// Command-line agents serving as model providers (Antigravity `agy`, Claude Code `claude`):
+// Command-line agents serving as model providers (Claude Code `claude`, OpenCode `opencode`):
 // shared by the model bridge (models.ts) and the ai-os (ai-os/backends.ts). Shell-free execution, bounded timeout.
 
 export type Answer = {
@@ -27,7 +25,7 @@ export const CLAUDE_ENV = () =>
     "ANTHROPIC_WORKSPACE_ID",
   );
 
-/** On Windows, a CLI installed as a .cmd shim (agy.cmd, codex.cmd) would pass its arguments through cmd.exe, which
+/** On Windows, a CLI installed as a .cmd shim (codex.cmd) would pass its arguments through cmd.exe, which
  * interprets & | < > ^ %: Bun then refuses the call, and forcing it through cmd.exe would allow an injection through the
  * instruction. So the executable the shim calls is launched (line `"<exe>" %*`, `set "X=…"` variables and
  * environment variables resolved). If the shim does not resolve, the command is returned as is. */
@@ -85,49 +83,6 @@ export async function cli(
     text = pick(JSON.parse(out));
   } catch {}
   return { text, engine, ms: Math.round(performance.now() - t0) };
-}
-
-/** Long instruction for an agent that reads files (agy): written to a private temporary file, the command line
- * carries only the order to read it (Windows: 32,767 characters, ENAMETOOLONG; Linux: 128 KiB per argument).
- * Shared by agy() and the orchestrator's direct execution (orch/inline.ts). */
-export function viaFile(prompt: string): string {
-  const file = join(mkdtempSync(join(tmpdir(), "agy-")), "prompt.md");
-  writeFileSync(file, prompt, { mode: 0o600 });
-  return `Read in full the file ${file} (${prompt.length} characters) and answer the request it contains, as if its content were this message.`;
-}
-
-/** Headless Antigravity CLI (`agy -p … --output-format json --mode plan`, 1.5.7): Antigravity session already open,
- * Gemini 4 models. Requested model (argument or AI_OS_AGY_MODEL, e.g. gemini-4-carbon-high); if exhausted
- * (RESOURCE_EXHAUSTED, insufficient credits), retry with the account's default model. Measured: 1.96 s. */
-export async function agy(
-  prompt: string,
-  model?: string,
-  conversation?: string,
-): Promise<Answer> {
-  // Windows caps a command line at 32767 characters (ENAMETOOLONG): a long prompt goes to a private temp file
-  // and agy (an agent with file access) is told to read it. Mode plan: it reads, it does not edit.
-  const p = prompt.length > 8000 ? viaFile(prompt) : prompt;
-  const argv = (m?: string) => [
-    "agy",
-    "-p",
-    p,
-    "--output-format",
-    "json",
-    "--mode",
-    "plan",
-    ...(m ? ["--model", m] : []),
-    ...(conversation ? ["--conversation", conversation] : []),
-  ];
-  const pick = (j: any) => String(j.response ?? "").trim();
-  const wanted = model ?? Bun.env.AI_OS_AGY_MODEL;
-  try {
-    return await cli("antigravity", argv(wanted), pick);
-  } catch (e: any) {
-    if (!wanted || !/RESOURCE_EXHAUSTED|credits balance/i.test(e.message))
-      throw e;
-    const a = await cli("antigravity", argv(), pick);
-    return { ...a, engine: `antigravity (fallback: ${wanted} exhausted)` };
-  }
 }
 
 /** Headless Claude Code limited to the listed tools (e.g. claude.ai Google connectors), without any other permission. */

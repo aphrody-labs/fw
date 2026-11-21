@@ -300,6 +300,6 @@
     "https://aistudio.google.com/docs/pricing",
     "https://aistudio.google.com/docs/models",
     "https://aistudio.google.com/docs/thinking",
-    "ai-os llm_models, claude --help, agy --help"
+    "ai-os llm_models, claude --help"
   ]
 }

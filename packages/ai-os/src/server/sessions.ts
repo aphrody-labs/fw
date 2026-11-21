@@ -1,4 +1,4 @@
-// Bidirectional messaging between agent sessions (Claude Code, Codex, agy, OpenCode, Pi, ...) through the ai-os.
+// Bidirectional messaging between agent sessions (Claude Code, Codex, OpenCode, Pi, ...) through the ai-os.
 // Store: bun:sqlite in <aiOsHome>/sessions/sessions.db (WAL, shared by the ai-os and the Claude Code hooks).
 // A recipient with unread mail has <aiOsHome>/sessions/<id>.pending, so hooks test one file before starting bun.
 // Surfaces:

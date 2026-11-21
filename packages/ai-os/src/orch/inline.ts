@@ -2,7 +2,7 @@
 // on the host: same addressing as the queue ("cli[:model]" or "provider/model"), CLIs in plan / read-only
 // sandbox mode, with no internal fallback added (switching belongs to the orchestrator). Steps that modify
 // files always go through the runner queue (commit bounded to paths, acceptance check).
-import { resolveExe, viaFile } from "../llm/agents";
+import { resolveExe } from "../llm/agents";
 import { llmAsk } from "../llm/model";
 import { classify, type FailClass } from "./classify";
 import { exec, type Host } from "./fleet";
@@ -27,15 +27,11 @@ function argvFor(
   model: string | undefined,
   prompt: string,
   winLocal: boolean,
-  local = winLocal,
 ): { argv: string[]; stdin?: string } | string {
   const m = (flag: string) => (model ? [flag, model] : []);
-  // agy reads files: locally, a long instruction goes through a private file (llm/agents.ts viaFile).
-  const file = cli === "agy" && local && prompt.length > 8000;
   // Windows command line is bounded: an instruction too long is never silently truncated, the engine is discarded.
-  if (cli !== "claude" && !file && winLocal && prompt.length > ARGV_MAX)
+  if (cli !== "claude" && winLocal && prompt.length > ARGV_MAX)
     return `instruction of ${prompt.length} characters: too long for the Windows command line of ${cli}`;
-  const p = file ? viaFile(prompt) : prompt;
   switch (cli) {
     case "claude":
       return {
@@ -50,19 +46,6 @@ function argvFor(
         ],
         stdin: prompt,
       };
-    case "agy":
-      return {
-        argv: [
-          "agy",
-          "-p",
-          p,
-          "--output-format",
-          "json",
-          "--mode",
-          "plan",
-          ...m("--model"),
-        ],
-      };
     case "codex":
       return {
         argv: [
@@ -72,20 +55,20 @@ function argvFor(
           "--sandbox",
           "read-only",
           ...m("-m"),
-          p,
+          prompt,
         ],
       };
     case "opencode":
-      return { argv: ["opencode", "run", "--agent", "plan", ...m("-m"), p] };
+      return { argv: ["opencode", "run", "--agent", "plan", ...m("-m"), prompt] };
     case "fx":
-      return { argv: ["fx", "ask", p] };
+      return { argv: ["fx", "ask", prompt] };
     default:
       // pi has no read-only mode: it only goes through the runner queue.
       return `${cli}: no read-only mode for direct execution`;
   }
 }
 
-/** JSON response of the CLIs (claude: result/is_error/usage; agy: response) or plain text. */
+/** JSON response of the CLIs (claude: result/is_error/usage) or plain text. */
 function parse(out: string): {
   text: string;
   error?: boolean;
@@ -220,7 +203,6 @@ export async function inline(
     model || undefined,
     prompt,
     h.local && process.platform === "win32",
-    h.local,
   );
   if (typeof spec === "string")
     return { ok: false, text: spec, cls: "missing", ms: 0, tokens: 0 };

@@ -39,7 +39,7 @@ const OFFERS = [
   }),
   offer("c/mid", { arena: 1400, priceIn: 1, priceOut: 3, context: 1_000_000 }),
   offer("d/big", { arena: 1500, priceIn: 4, priceOut: 12 }),
-  offer("agy/cli", { cli: true, tools: false, arena: 1600 }),
+  offer("codex/cli", { cli: true, tools: false, arena: 1600 }),
 ];
 const ids = (l: Offer[]) => l.map((o) => o.id);
 const ok = (text = "pong") =>
@@ -114,7 +114,7 @@ describe("policy", () => {
       "a/big",
       "c/mid",
       "b/small",
-      "agy/cli",
+      "codex/cli",
     ]);
   });
   test("auto:cheap, auto:long", () => {
@@ -178,7 +178,7 @@ describe("policy", () => {
     ]);
   });
   test("tools filter, cooling offers last, unhealthy demoted, budget filter", () => {
-    expect(pol("auto", { tools: true })).not.toContain("agy/cli");
+    expect(pol("auto", { tools: true })).not.toContain("codex/cli");
     const s = new Store(":memory:");
     s.cooldown("d/big", Date.now() + 60_000);
     expect(pol("auto", {}, s.stats()).at(-1)).toBe("d/big");

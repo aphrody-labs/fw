@@ -8,11 +8,11 @@
   },
   "steps": [
     {
-      "id": "pc-gemini",
+      "id": "pc-codex",
       "do": "agent",
       "role": "reviewer",
       "hosts": ["pc"],
-      "needs": { "models": ["agy:gemini-4-carbon-high"], "only": ["^agy"] },
+      "needs": { "only": ["^codex$"] },
       "prompt": "En une phrase, sans préambule : à quoi sert un graphe de tâches dans un orchestrateur d'agents ?"
     },
     {
@@ -28,7 +28,7 @@
       "do": "agent",
       "role": "reviewer",
       "hosts": ["prod", "pc"],
-      "needs": { "ignore": ["^agy", "^ollama/"] },
+      "needs": { "ignore": ["^ollama/"] },
       "prompt": "Réponds exactement : relu"
     },
     {
@@ -39,28 +39,21 @@
       "run": "echo host=$(hostname) nproc=$(nproc) nice=$(nice); tmux -V; bun --version"
     },
     {
-      "id": "fr2-sys",
-      "do": "cmd",
-      "hosts": ["test"],
-      "repo": false,
-      "run": "echo host=$(hostname) nproc=$(nproc) nice=$(nice); tmux -V; bun --version"
-    },
-    {
       "id": "plan",
       "do": "agent",
       "role": "reviewer",
       "hosts": ["pc"],
       "needs": { "only": ["^claude$"] },
       "expand": true,
-      "prompt": "Recopie exactement ce bloc, sans rien d'autre :\n```json\n{\"steps\":[{\"id\":\"disk-prd\",\"do\":\"cmd\",\"hosts\":[\"prod\"],\"repo\":false,\"run\":\"df -h / | tail -1\"},{\"id\":\"disk-fr2\",\"do\":\"cmd\",\"hosts\":[\"test\"],\"repo\":false,\"run\":\"df -h / | tail -1\"}]}\n```"
+      "prompt": "Recopie exactement ce bloc, sans rien d'autre :\n```json\n{\"steps\":[{\"id\":\"disk-prd\",\"do\":\"cmd\",\"hosts\":[\"prod\"],\"repo\":false,\"run\":\"df -h / | tail -1\"}]}\n```"
     },
     {
       "id": "publish",
       "do": "agent",
       "role": "growth",
-      "deps": ["pc-gemini"],
+      "deps": ["pc-codex"],
       "effect": "external",
-      "prompt": "Publier : {{pc-gemini}}"
+      "prompt": "Publier : {{pc-codex}}"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Gemini review: ai-os brain (2026-11-13)
 
-Engine antigravity (ai-os gemini_review), score 8/20 before fixes.
+Engine: ai-os gemini_review (headless Gemini CLI), score 8/20 before fixes.
 
 Fixed: --days validated (NaN would pack and delete everything), blob committed in a transaction and decompressed and hash-compared before rmSync, WAL + busy_timeout, restore by exact path or directory prefix with escaped LIKE, bounded to home, no overwrite, mtime reapplied, GEMINI.md block replaced by indexOf (no $-pattern expansion), VACUUM only when something was packed.
 
@@ -16,4 +16,4 @@ Score 13/20. Then fixed: --days must match a decimal number (empty string reject
 
 Two submissions (full file 10.9 KB, then 3.9 KB excerpt, conversation bd5c00274ae51689): both ended with an empty answer after "Searching the web". No score obtained.
 Third attempt (1.8 KB excerpt, conversation 9ac440bdd3f59022): empty answer again after "Searching the web". Carbon High on the web is unusable for reviews today.
-agy --model gemini-4-carbon-high: "Your AI credits balance is too low to continue" (RESOURCE_EXHAUSTED 429). Carbon validation blocked until the owner tops up AI credits; likely cause of the empty web answers.
+Headless call with model gemini-4-carbon-high: "Your AI credits balance is too low to continue" (RESOURCE_EXHAUSTED 429). Carbon validation blocked until the owner tops up AI credits; likely cause of the empty web answers.

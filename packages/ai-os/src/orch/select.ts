@@ -18,7 +18,7 @@ import type { Health } from "./health";
 import type { RunnerState } from "./queue";
 
 /** CLIs the runner can launch (apps/agents/runner.ts providerCmd), addressed "cli" or "cli:model". */
-export const AGENT_CLIS = ["claude", "codex", "opencode", "pi", "agy"];
+export const AGENT_CLIS = ["claude", "codex", "opencode", "pi"];
 /** Remote runner provider ("jules[:owner/repo]", ai-os jules run --wait): never chosen without a request. */
 export const JULES = "jules";
 
@@ -143,8 +143,8 @@ export async function candidates(
     const reg = await modelsDev();
     for (const p of await listModels().catch(() => [])) {
       if (!p.available) continue;
-      // The bridge's CLI providers (antigravity, claude) are already covered by the runner's CLIs.
-      if (p.provider === "antigravity" || p.provider === "claude") continue;
+      // The bridge's CLI providers (claude) are already covered by the runner's CLIs.
+      if (p.provider === "claude") continue;
       for (const m of p.models) {
         const md = meta(reg, m.id);
         out.push({
@@ -237,7 +237,7 @@ export function rank(
 }
 
 /** Price/quality table per task class (config/model-routing.json, live sources): primary "cli:model" then fallback.
- * anthropic goes through the claude CLI, google through agy. Unknown = empty list (the usual ranking applies). */
+ * anthropic goes through the claude CLI; other providers have no CLI. Unknown = empty list (the usual ranking applies). */
 export async function taskModels(task: string | undefined): Promise<string[]> {
   if (!task) return [];
   const f = Bun.file(
@@ -246,7 +246,7 @@ export async function taskModels(task: string | undefined): Promise<string[]> {
   if (!(await f.exists())) return [];
   const t = (await f.json()).tasks?.[task];
   if (!t) throw new Error(`unknown task class: ${task}`);
-  const cli: Record<string, string> = { anthropic: "claude", google: "agy" };
+  const cli: Record<string, string> = { anthropic: "claude" };
   return [t.primary, ...(t.fallback ?? [])]
     .filter((r: any) => cli[r.provider])
     .map((r: any) => `${cli[r.provider]}:${r.model}`);

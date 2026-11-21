@@ -265,7 +265,7 @@ export async function output(
   return extractText(text).slice(-max);
 }
 
-/** Response text in a CLI's raw log: single JSON (claude `result`, agy `response`) or JSONL stream
+/** Response text in a CLI's raw log: single JSON (claude `result`) or JSONL stream
  * (opencode `part.text`, codex `item.text` of agent messages); plain text otherwise. stderr removed. */
 export function extractText(log: string): string {
   const body = log.split("\n[stderr]\n")[0]!.trim();

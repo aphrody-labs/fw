@@ -17,7 +17,6 @@ export interface TriadRunRequest {
   mcpConfigPath?: string;
   worktree?: string | boolean;
   effort?: "low" | "medium" | "high" | "xhigh" | "max";
-  mode?: "accept-edits" | "auto" | "plan";
   review?: boolean;
   timeoutMs?: number;
 }
@@ -56,7 +55,7 @@ const QUOTA_ERROR_RE =
   /(rate[ _-]?limit|429|quota|insufficient_quota|credit balance|too many requests|resource_exhausted|overloaded)/i;
 
 export function buildAgentCommand(
-  agent: "claude" | "codex" | "agy" | "gemini",
+  agent: "claude" | "codex" | "gemini",
   req: TriadRunRequest,
   home = homedir(),
 ): string[] {
@@ -98,21 +97,6 @@ export function buildAgentCommand(
       return args;
     }
 
-    case "agy": {
-      const args = [
-        catalog.agy!.executable,
-        "-p",
-        fullPrompt,
-        "--output-format",
-        fmt,
-        "--mode",
-        req.mode ?? "accept-edits",
-      ];
-      if (req.model) args.push("--model", req.model);
-      if (req.effort) args.push("--effort", req.effort);
-      return args;
-    }
-
     case "gemini": {
       const args = [catalog.gemini!.executable, "-p", fullPrompt, "-o", fmt];
       if (req.model) args.push("-m", req.model);
@@ -128,7 +112,7 @@ function extractTextFromCliOutput(
   const trimmed = rawStdout.trim();
   if (!trimmed) return { text: "" };
 
-  // Handle single JSON object (claude --output-format json, agy --output-format json, gemini -o json)
+  // Handle single JSON object (claude --output-format json, gemini -o json)
   if (trimmed.startsWith("{")) {
     try {
       const parsed = JSON.parse(trimmed) as Record<string, unknown>;
@@ -189,7 +173,7 @@ function extractTextFromCliOutput(
 }
 
 export async function runCliSubprocess(
-  agent: "claude" | "codex" | "agy" | "gemini",
+  agent: "claude" | "codex" | "gemini",
   req: TriadRunRequest,
   home = homedir(),
 ): Promise<TriadRunResult> {
@@ -254,135 +238,6 @@ export async function runCliSubprocess(
         ? `Timed out after ${timeoutMs}ms`
         : redactTextSecrets(rawErr.trim() || `Exited with code ${exitCode}`),
   };
-}
-
-export async function runAgyAcpPrompt(
-  prompt: string,
-  options?: { cwd?: string; timeoutMs?: number; home?: string },
-): Promise<TriadRunResult> {
-  const started = Date.now();
-  const catalog = resolveBinaryCatalog(options?.home ?? homedir());
-  const agyExe = catalog.agy!.executable;
-  if (!existsSync(agyExe)) {
-    return {
-      ok: false,
-      agent: "agy",
-      model: "agy-acp",
-      output: "",
-      exitCode: 127,
-      durationMs: Date.now() - started,
-      error: `AGY binary not found at ${agyExe}`,
-    };
-  }
-
-  const proc = Bun.spawn([agyExe, "acp"], {
-    stdin: "pipe",
-    stdout: "pipe",
-    stderr: "pipe",
-    cwd: options?.cwd ?? process.cwd(),
-    env: loadMergedEnv(),
-  });
-
-  const timeoutMs = options?.timeoutMs ?? 30_000;
-  const timer = setTimeout(() => proc.kill(), timeoutMs);
-
-  try {
-    const initMsg = JSON.stringify({
-      jsonrpc: "2.0",
-      id: 1,
-      method: "initialize",
-      params: {
-        protocolVersion: 1,
-        clientInfo: { name: "ai-triad-acp-bridge", version: "1.0.0" },
-        clientCapabilities: {},
-      },
-    });
-    const newSessMsg = JSON.stringify({
-      jsonrpc: "2.0",
-      id: 2,
-      method: "session/new",
-      params: { cwd: options?.cwd ?? process.cwd(), mcpServers: [] },
-    });
-
-    proc.stdin.write(`${initMsg}\n${newSessMsg}\n`);
-    await proc.stdin.flush();
-
-    const decoder = new TextDecoder();
-    let buffer = "";
-    let sessionId = "";
-    const textChunks: string[] = [];
-
-    for await (const chunk of proc.stdout as unknown as AsyncIterable<Uint8Array>) {
-      buffer += decoder.decode(chunk, { stream: true });
-      let idx: number;
-      while ((idx = buffer.indexOf("\n")) >= 0) {
-        const line = buffer.slice(0, idx).trim();
-        buffer = buffer.slice(idx + 1);
-        if (!line.startsWith("{")) continue;
-        const msg = JSON.parse(line) as Record<string, unknown>;
-        if (
-          msg.id === 2 &&
-          msg.result &&
-          typeof (msg.result as Record<string, unknown>).sessionId === "string"
-        ) {
-          sessionId = (msg.result as Record<string, unknown>)
-            .sessionId as string;
-          const promptRpc = JSON.stringify({
-            jsonrpc: "2.0",
-            id: 3,
-            method: "session/prompt",
-            params: {
-              sessionId,
-              prompt: [{ type: "text", text: prompt }],
-            },
-          });
-          proc.stdin.write(`${promptRpc}\n`);
-          await proc.stdin.flush();
-        } else if (msg.method === "session/update" && msg.params) {
-          const update = (msg.params as Record<string, unknown>).update as
-            Record<string, unknown> | undefined;
-          const content = update?.content as
-            Record<string, unknown> | undefined;
-          if (typeof content?.text === "string") {
-            textChunks.push(content.text);
-          }
-        } else if (msg.id === 3) {
-          proc.kill();
-          clearTimeout(timer);
-          return {
-            ok: true,
-            agent: "agy",
-            model: "agy-acp-stdio",
-            output: redactTextSecrets(textChunks.join("")),
-            exitCode: 0,
-            durationMs: Date.now() - started,
-          };
-        }
-      }
-    }
-
-    clearTimeout(timer);
-    return {
-      ok: textChunks.length > 0,
-      agent: "agy",
-      model: "agy-acp-stdio",
-      output: redactTextSecrets(textChunks.join("")),
-      exitCode: 0,
-      durationMs: Date.now() - started,
-    };
-  } catch (err) {
-    clearTimeout(timer);
-    proc.kill();
-    return {
-      ok: false,
-      agent: "agy",
-      model: "agy-acp-stdio",
-      output: "",
-      exitCode: 1,
-      durationMs: Date.now() - started,
-      error: err instanceof Error ? err.message : String(err),
-    };
-  }
 }
 
 export async function runHttpOpenAiCompatible(
@@ -462,12 +317,7 @@ export async function runAgent(
   agent: TriadAgentId,
   req: TriadRunRequest,
 ): Promise<TriadRunResult> {
-  if (
-    agent === "claude" ||
-    agent === "codex" ||
-    agent === "agy" ||
-    agent === "gemini"
-  ) {
+  if (agent === "claude" || agent === "codex" || agent === "gemini") {
     return runCliSubprocess(agent, req);
   }
   if (agent === "ai-os") {
@@ -486,7 +336,7 @@ export type RouteBackendExecutor = (
 ) => Promise<TriadRunResult>;
 
 export const DEFAULT_FALLBACK_CHAIN = [
-  "agy",
+  "gemini",
   "claude",
   "codex",
   "rust-gateway",
@@ -512,7 +362,6 @@ export async function routeTask(
     options?.executor ??
     (async (backend, r) => {
       switch (backend) {
-        case "agy":
         case "claude":
         case "codex":
         case "gemini":
@@ -580,7 +429,7 @@ export async function routeTask(
 
 export async function runCouncil(
   prompt: string,
-  agents: TriadAgentId[] = ["codex", "agy", "claude"],
+  agents: TriadAgentId[] = ["codex", "gemini", "claude"],
   options?: {
     cwd?: string;
     timeoutMs?: number;

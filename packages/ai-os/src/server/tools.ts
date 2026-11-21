@@ -24,7 +24,6 @@ import {
   claude,
   claudeWithTools,
   gemini,
-  agy,
   notebookAsk,
 } from "./backends.ts";
 
@@ -105,17 +104,16 @@ export const TOOLS: Tool[] = [
   {
     name: "gemini_ask",
     description:
-      "Ask Gemini (gemini.google.com in the ai-os browser, or Gemini CLI). Returns the answer and the chat URL.",
+      "Ask Gemini (gemini.google.com in the ai-os browser). Returns the answer and the chat URL.",
     inputSchema: obj(
       {
         prompt: str("Prompt"),
         chat: str("Existing chat id or URL (optional)"),
-        engine: { type: "string", enum: ["agy", "web"] },
       },
       ["prompt"],
     ),
     readOnly: false,
-    run: (a) => gemini(String(a.prompt), { chat: a.chat, engine: a.engine }),
+    run: (a) => gemini(String(a.prompt), { chat: a.chat }),
   },
   {
     name: "gemini_review",
@@ -235,7 +233,7 @@ export const TOOLS: Tool[] = [
   {
     name: "llm_models",
     description:
-      "Models of every active provider, discovered live (Ollama, OpenAI-compatible local servers such as llama.cpp/vLLM/mistral.rs/LiteLLM, OpenRouter, Hugging Face, Vercel AI Gateway, Cloudflare Workers AI, Antigravity, Claude). Nothing hardcoded.",
+      "Models of every active provider, discovered live (Ollama, OpenAI-compatible local servers such as llama.cpp/vLLM/mistral.rs/LiteLLM, OpenRouter, Hugging Face, Vercel AI Gateway, Cloudflare Workers AI, Claude). Nothing hardcoded.",
     inputSchema: obj({ filter: str("Regex on provider/model id (optional)") }),
     readOnly: true,
     run: (a) => listModels(a.filter),
@@ -350,21 +348,6 @@ export const TOOLS: Tool[] = [
     ),
     readOnly: false,
     run: (a) => claudeWithTools(String(a.prompt), ["mcp__figma"]),
-  },
-  {
-    name: "agy_ask",
-    description:
-      "Ask Antigravity (agy CLI, Gemini 4 models) headless in plan mode; optional model and conversation id to continue.",
-    inputSchema: obj(
-      {
-        prompt: str("Prompt"),
-        model: str("e.g. gemini-4-carbon-high (optional)"),
-        conversation: str("Conversation id to continue (optional)"),
-      },
-      ["prompt"],
-    ),
-    readOnly: false,
-    run: (a) => agy(String(a.prompt), a.model, a.conversation),
   },
   {
     name: "fleet_status",

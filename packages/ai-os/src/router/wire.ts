@@ -1,4 +1,4 @@
-// Anthropic Messages <-> OpenAI chat/completions (request, response, SSE), so Claude Code, Codex, OpenCode and agy
+// Anthropic Messages <-> OpenAI chat/completions (request, response, SSE), so Claude Code, Codex and OpenCode
 // can use the ai-os as an Anthropic base URL while the router speaks OpenAI to every provider.
 const text = (c: unknown): string =>
   typeof c === "string"

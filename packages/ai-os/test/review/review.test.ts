@@ -11,7 +11,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import {
   cachedEngine,
   collect,
@@ -31,7 +31,6 @@ import {
   SourceCache,
   topicsOf,
 } from "../../src/review/sources.ts";
-import { viaFile } from "../../src/llm/agents.ts";
 import { software } from "../../src/orch/lifecycle.ts";
 import { srcRoot } from "../../src/orch/fleet.ts";
 
@@ -356,16 +355,12 @@ test("mining: scores of the real verdicts in .private/reviews", () => {
   expect(m.byVoice.gemini!.n).toBeGreaterThan(10);
 });
 
-test("orchestrateur : le cycle software passe par le tribunal, consigne agy longue par fichier", () => {
+test("orchestrateur : le cycle software passe par le tribunal", () => {
   const wf = software({ paths: ["packages/ai-os"] });
   const r = wf.steps.find((s) => s.id === "review")!;
   expect(r.tool).toBe("review");
   expect(wf.steps.find((s) => s.id === "fix")!.deps).toEqual(["review"]);
   expect(wf.steps.some((s) => s.tool === "gemini_review")).toBe(false);
-  const msg = viaFile("x".repeat(9000));
-  const file = msg.match(/file (.+?) \(/)![1]!;
-  expect(readFileSync(file, "utf8")).toHaveLength(9000);
-  rmSync(dirname(file), { recursive: true, force: true });
 });
 
 test("guardrails: confined slug, secrets dropped and redacted, defects table only (legacy French heading), truncated review never compliant", async () => {
