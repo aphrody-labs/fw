@@ -21,6 +21,8 @@ pub struct Estate {
     pub service: BTreeMap<String, Service>,
     #[serde(default)]
     pub retired: Retired,
+    #[serde(default)]
+    pub backup: Option<crate::backup::Backup>,
 }
 
 #[derive(Debug, Clone, Deserialize, Default)]

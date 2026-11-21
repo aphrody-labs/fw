@@ -180,7 +180,7 @@ fn date_window(days: u64) -> (String, String) {
 }
 
 /// Days since 1970-01-01 to a calendar date (Howard Hinnant's algorithm).
-fn civil_date(epoch_seconds: u64) -> String {
+pub fn civil_date(epoch_seconds: u64) -> String {
     let days = (epoch_seconds / 86_400) as i64 + 719_468;
     let era = days.div_euclid(146_097);
     let day_of_era = days.rem_euclid(146_097);
