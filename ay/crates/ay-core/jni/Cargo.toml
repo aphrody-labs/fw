@@ -20,7 +20,7 @@ re = ["dep:ay-re"]
 
 [dependencies]
 ay-core.workspace = true
-ay-re = { workspace = true, optional = true }
+ay-re = { workspace = true, optional = true, default-features = true }
 jni = "0.22.4"
 serde_json.workspace = true
 

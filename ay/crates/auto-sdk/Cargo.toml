@@ -109,7 +109,7 @@ path = "tests/sheets_spreadsheets.rs"
 required-features = ["sheets"]
 
 [dev-dependencies]
-aphrody-auto = { path = ".", features = ["full"] }
+aphrody-auto = { workspace = true, features = ["full"], default-features = true }
 
 [lints]
 workspace = true

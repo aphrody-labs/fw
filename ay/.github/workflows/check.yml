@@ -193,3 +193,16 @@ jobs:
           path: |
             ${{ runner.temp }}/qemu-boot.log
             ${{ runner.temp }}/wasmtime-boot.log
+
+  layout:
+    runs-on: ubuntu-latest
+    steps:
+      # The layout map resolves fw crates through the sibling checkout, like the path dependencies do.
+      - name: Check out fw beside ay
+        run: git clone --depth 1 https://github.com/aphrody-labs/fw.git "$GITHUB_WORKSPACE/../fw"
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+      - name: layout.toml generates every manifest it owns, no stale or uncovered path
+        run: bun ../fw/tools/layout.ts check

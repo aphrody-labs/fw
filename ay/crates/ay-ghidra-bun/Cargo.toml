@@ -17,7 +17,7 @@ default = []
 decompile = ["ay-re/decompile"]
 
 [dependencies]
-ay-re = { path = "../ay-re", default-features = false }
+ay-re.workspace = true
 bun-native-plugin = "0.2.0"
 napi = { workspace = true, features = ["napi4"] }
 napi-derive.workspace = true

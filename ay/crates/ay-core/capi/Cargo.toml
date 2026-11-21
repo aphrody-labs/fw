@@ -27,7 +27,7 @@ aysys-link = []
 
 [dependencies]
 ay-core = { workspace = true, optional = true }
-ay-re = { workspace = true, optional = true }
+ay-re = { workspace = true, optional = true, default-features = true }
 fw-agent-context = { workspace = true, optional = true }
 fw-gemini = { workspace = true, features = ["boq"], optional = true }
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
