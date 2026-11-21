@@ -74,7 +74,7 @@ if (!existsSync(join(iconsDir, ".git"))) {
 }
 const iconsSha = await run(["git", "rev-parse", "HEAD"], iconsDir);
 const iconsDate = await run(["git", "log", "-1", "--format=%cs"], iconsDir);
-sources.icons = { repo: fromUpstream ? "google/material-design-icons" : `${ORG}/material-design-icons`, upstream: "google/material-design-icons", sha: iconsSha, date: iconsDate };
+sources.icons = { repo: "google/material-design-icons", sha: iconsSha, date: iconsDate };
 console.log(`icons ${iconsSha.slice(0, 12)} ${iconsDate}`);
 
 // fonts: latest upstream release zip + OFL from the fork.
@@ -94,7 +94,7 @@ async function fetchFont(id: "flex" | "code", assetRe: RegExp) {
   const ofl = await fetch(`https://raw.githubusercontent.com/${fromUpstream ? f.upstream : `${ORG}/${f.repo}`}/${f.branch}/OFL.txt`);
   if (!ofl.ok) throw new Error(`OFL.txt of ${ORG}/${f.repo}: ${ofl.status}`);
   await writeFile(join(dir, "OFL.txt"), await ofl.text());
-  sources[id] = { repo: fromUpstream ? f.upstream : `${ORG}/${f.repo}`, upstream: f.upstream, tag: rel.tag_name, asset: asset.name, zipSha256: await sha256(zip) };
+  sources[id] = { repo: f.upstream, tag: rel.tag_name, asset: asset.name, zipSha256: await sha256(zip) };
   console.log(`${id} ${rel.tag_name} ${asset.name}`);
 }
 await fetchFont("flex", /^GoogleSansFlex-v[\d.]+\.zip$/);

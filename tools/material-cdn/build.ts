@@ -414,7 +414,7 @@ await rm(stage, { recursive: true, force: true });
 // ---------------------------------------------------------------- manifests and index
 const manifestInfo: Record<string, { path: string; files: number; sha256: string; bytes: number }> = {};
 for (const style of STYLES) {
-  const body = JSON.stringify({ version, style, files: manifests[style] });
+  const body = JSON.stringify({ version, style, files: Object.fromEntries(Object.entries(manifests[style]!).sort(([x], [y]) => (x < y ? -1 : x > y ? 1 : 0))) });
   await writeFile(join(v1, "manifest", `${style}.json`), body);
   manifestInfo[style] = { path: `manifest/${style}.json`, files: Object.keys(manifests[style]!).length, sha256: sha256(body), bytes: Buffer.byteLength(body) };
 }

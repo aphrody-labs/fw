@@ -106,6 +106,8 @@ async function put(key: string, body: Uint8Array, type: string) {
   }
 }
 
+if (todo.length > 0 && todo.length <= 50) console.log(todo.map((t) => `  ${t.key} ${t.body.length}`).join("\n"));
+
 if (!dry) {
   const rest = todo.filter((t) => t.p !== index);
   let done = 0;
