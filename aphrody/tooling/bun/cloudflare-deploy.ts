@@ -232,7 +232,7 @@ async function ensureInfra(): Promise<Record<string, unknown>> {
   if (!zoneId) throw new Error("Cloudflare zone aphrody.com not found");
 
   let dnsCreated = false;
-  for (const host of ["releases.aphrody.com", "learn.aphrody.com", "web.aphrody.com"]) {
+  for (const host of ["releases.aphrody.com", "web.aphrody.com"]) {
     const dnsResp = await fetch(
       `https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records?name=${host}`,
       { headers: { Authorization: `Bearer ${token}` } },

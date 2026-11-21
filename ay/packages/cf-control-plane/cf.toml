@@ -351,10 +351,8 @@ aphrody = [
   "mig-commons",
   "mig-depot",
   "mig-downloads",
-  "mig-test",
   "n2b",
   "nie",
-  "open-origin",
   "os",
   "pdf",
   "photos",
@@ -473,20 +471,6 @@ priority = 0
 weight = 0
 port = 443
 target = "zimbra1.mail.ovh.net"
-
-[[zones."aphrody.com".srv_records]]
-name = "_nativelink-cas._tcp"
-priority = 10
-weight = 10
-port = 50061
-target = "fr1.mesh"
-
-[[zones."aphrody.com".srv_records]]
-name = "_nativelink-scheduler._tcp"
-priority = 10
-weight = 10
-port = 50051
-target = "fr1.mesh"
 
 [[zones."aphrody.com".txt_records]]
 name = "@"

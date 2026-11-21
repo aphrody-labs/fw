@@ -1,0 +1,637 @@
+# The edge estate: the single source of names for Cloudflare zones, DNS, Worker routes and domains, Workers, R2 buckets and services,
+# with the OVH (registrar, mail) and Hostinger (prd VPS) facts read by `fw estate check --providers`.
+#
+#   fw estate plan     diff live state against this file, write estate.plan.json
+#   fw estate apply    execute the committed plan (tracked, unmodified, equal to a fresh plan)
+#   fw estate check    best-practice findings, each with its source document
+#
+# It replaces the zone cartography of ay/packages/cf-control-plane/cf.toml (records, routes, custom domains, zone settings): cf.toml kept
+# one table per record kind and `${host:...}` placeholders that only its TypeScript reconciler understood, and it declared records the
+# zones no longer hold or should not (three private .mesh SRV names). The records here carry the live values; tunnels and Workers are
+# named, never identified by UUID. cf.toml keeps the FinOps and policy tables until they move here.
+# Deletions are the records, routes and domains a zone no longer lists; they run only from a committed plan.
+# Record syntax: "TYPE name [proxied] [prio=N] [ttl=N] | content"; content `tunnel:<name>` is that tunnel's cfargotunnel.com name and
+# `worker` the placeholder address of a Worker-only hostname.
+
+[estate]
+schema = 1
+account_env = "CLOUDFLARE_ACCOUNT_ID"
+token_env = "CLOUDFLARE_API_TOKEN"
+hostinger_token_env = "HOSTINGER_API_TOKEN"
+ovh_config_env = "OVH_CONFIG"
+cluster_file = "build.toml"
+plan_file = "estate.plan.json"
+compat_max_age_days = 120
+
+# Best practices, each with the document it comes from. `check` prints the source next to the finding that carries the same id.
+[practice."zone.dnssec"]
+rule = "DNSSEC active on every delegated zone, DS record published at the registrar"
+source = "https://developers.cloudflare.com/dns/zone-setups/dnssec/"
+[practice."dns.caa"]
+rule = "CAA at the apex limits which CAs may issue"
+source = "https://developers.cloudflare.com/ssl/edge-certificates/caa-records/"
+[practice."dns.spf"]
+rule = "SPF on every zone that receives mail"
+source = "https://developers.cloudflare.com/dns/manage-dns-records/reference/dns-record-types/#txt"
+[practice."dns.dmarc"]
+rule = "DMARC on every zone that receives mail, reports to a mailbox we read"
+source = "https://developers.cloudflare.com/dmarc-management/"
+[practice."zone.hsts"]
+rule = "HSTS with includeSubDomains and preload"
+source = "https://developers.cloudflare.com/ssl/edge-certificates/additional-options/http-strict-transport-security/"
+[practice."dns.dead-origin"]
+rule = "a proxied hostname must reach a Worker route, a Worker custom domain or a tunnel ingress rule; otherwise visitors get 522 or the catch-all 404"
+source = "https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-522/"
+[practice."dns.wildcard"]
+rule = "no wildcard record without a route that serves it"
+source = "https://developers.cloudflare.com/dns/manage-dns-records/reference/wildcard-dns-records/"
+[practice."dns.private-target"]
+rule = "public DNS carries no private names or addresses"
+source = "https://developers.cloudflare.com/dns/manage-dns-records/reference/dns-record-types/"
+[practice."worker.observability"]
+rule = "Workers Logs on, head sampling set per profile"
+source = "https://developers.cloudflare.com/workers/observability/logs/workers-logs/"
+[practice."worker.compat-date"]
+rule = "compatibility_date recent so the runtime fixes apply"
+source = "https://developers.cloudflare.com/workers/configuration/compatibility-dates/"
+[practice."worker.dangling-binding"]
+rule = "every binding resolves to an existing resource"
+source = "https://developers.cloudflare.com/workers/runtime-apis/bindings/"
+[practice."r2.abort-multipart"]
+rule = "lifecycle rule aborting incomplete multipart uploads"
+source = "https://developers.cloudflare.com/r2/buckets/object-lifecycles/"
+[practice."token.no-expiry"]
+rule = "API tokens carry an expiry and the least scope their job needs"
+source = "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/"
+[practice."registrar.ds-missing"]
+rule = "the DS record Cloudflare generates is published at the registrar"
+source = "https://developers.cloudflare.com/dns/zone-setups/dnssec/enable-dnssec/"
+[practice."vps.firewall"]
+rule = "a provider firewall in front of every VPS"
+source = "https://developers.hostinger.com/"
+
+# Zone settings applied to every zone (a zone table may override a key).
+# min_tls_version stays 1.2 except where the 7-day clientSSLMap shows under 1% of requests on TLS 1.2 (aphrody.app: 564 of 155,579).
+[zone_defaults]
+ssl = "strict"
+always_use_https = "on"
+automatic_https_rewrites = "on"
+http3 = "on"
+"0rtt" = "on"
+tls_1_3 = "zrt"
+early_hints = "on"
+brotli = "on"
+opportunistic_encryption = "on"
+min_tls_version = "1.2"
+security_header = { strict_transport_security = { enabled = true, max_age = 63072000, include_subdomains = true, preload = true, nosniff = true } }
+
+[zone."aphrody.app"]
+dnssec = true
+settings = { min_tls_version = "1.3" }
+record = [
+  'TXT rosegriffon.fr._report._dmarc | v=DMARC1',
+  "AAAA @ proxied | worker",
+  'CAA @ | 0 iodef "mailto:contact@aphrody.com"',
+  'CAA @ | 0 issue "letsencrypt.org"',
+  'CAA @ | 0 issue "pki.goog; cansignhttpexchanges=yes"',
+  'CAA @ | 0 issue "ssl.com"',
+  'CAA @ | 0 issuewild "letsencrypt.org"',
+  'CAA @ | 0 issuewild "pki.goog; cansignhttpexchanges=yes"',
+  'CAA @ | 0 issuewild "ssl.com"',
+  "MX @ prio=72 | route1.mx.cloudflare.net",
+  "MX @ prio=80 | route3.mx.cloudflare.net",
+  "MX @ prio=94 | route2.mx.cloudflare.net",
+  "TXT @ | v=spf1 include:_spf.mx.cloudflare.net include:_spf.google.com include:resend.com ip4:51.77.147.152 ip4:72.60.186.43 ~all",
+  "TXT _dmarc | v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@aphrody.app; aspf=r; adkim=r",
+  "CNAME api proxied | tunnel:aphrody",
+  "CNAME app-audio proxied | tunnel:aphrody",
+  "CNAME app-cad proxied | tunnel:aphrody",
+  "CNAME app-compositing proxied | tunnel:aphrody",
+  "CNAME app-documents proxied | tunnel:aphrody",
+  "CNAME app-generation proxied | tunnel:aphrody",
+  "CNAME app-images proxied | tunnel:aphrody",
+  "CNAME app-interface-layouts proxied | tunnel:aphrody",
+  "CNAME app-layout proxied | tunnel:aphrody",
+  "CNAME app-pdf proxied | tunnel:aphrody",
+  "CNAME app-photo-processing proxied | tunnel:aphrody",
+  "CNAME app-slides proxied | tunnel:aphrody",
+  "CNAME app-tables proxied | tunnel:aphrody",
+  "CNAME app-vectors proxied | tunnel:aphrody",
+  "CNAME app-video proxied | tunnel:aphrody",
+  "AAAA apt proxied | worker",
+  "AAAA artcraft proxied | worker",
+  "AAAA assets proxied | worker",
+  "CNAME auth proxied | tunnel:aphrody",
+  "AAAA bun proxied | worker",
+  "AAAA bun-lib proxied | worker",
+  "AAAA cadcraft proxied | worker",
+  'TXT cf2024-1._domainkey | "v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiweykoi+o48IOGuP7GR3X0MOExCUDY/BCRHoWBnh3rChl7WhdyCxW3jgq1daEjPPqoi7sJvdg5hEQVsgVRQP4DcnQDVjGMbASQtrY4WmB1VebF+RPJB2ECPsEDTpeiI5ZyUAwJaVX7r6bznU67g7LvFq35yIo4sdlmtZGV+i0H4cpYH9+3JJ78k" "m4KXwaf9xUJCWF6nxeD+qG6Fyruw1Qlbds2r85U9dkNDVAS3gioCvELryh1TxKGiVTkg4wqHTyHfWsp7KD3WQHYJn0RyfJJu6YEmL77zonn7p2SRMvTMP3ZEXibnC9gz3nnhR6wcYL8Q7zXypKTMD58bTixDSJwIDAQAB"',
+  "CNAME craft proxied | tunnel:aphrody",
+  "AAAA deckcraft proxied | worker",
+  "CNAME deploy proxied | tunnel:aphrody",
+  "AAAA designcraft proxied | worker",
+  "CNAME desktop proxied | tunnel:aphrody",
+  "AAAA dist proxied | worker",
+  "AAAA effectcraft proxied | worker",
+  "AAAA figcraft proxied | worker",
+  "AAAA filmcraft proxied | worker",
+  "CNAME git proxied | tunnel:aphrody",
+  "AAAA gridcraft proxied | worker",
+  "AAAA lightcraft proxied | worker",
+  "CNAME nie proxied | tunnel:nie",
+  "AAAA pdfcraft proxied | worker",
+  "AAAA photocraft proxied | worker",
+  "CNAME play proxied | tunnel:aphrody",
+  "AAAA shell proxied | worker",
+  "AAAA soundcraft proxied | worker",
+  "CNAME source proxied | tunnel:aphrody",
+  "AAAA vectorcraft proxied | worker",
+  "AAAA video proxied | worker",
+  "AAAA wordcraft proxied | worker",
+  "AAAA www proxied | worker",
+]
+route = [
+  "api.aphrody.app/* => aphrody-deploy",
+  "app-audio.aphrody.app/* => aphrody-webos",
+  "app-cad.aphrody.app/* => aphrody-webos",
+  "app-compositing.aphrody.app/* => aphrody-webos",
+  "app-documents.aphrody.app/* => aphrody-webos",
+  "app-generation.aphrody.app/* => aphrody-webos",
+  "app-images.aphrody.app/* => aphrody-webos",
+  "app-interface-layouts.aphrody.app/* => aphrody-webos",
+  "app-layout.aphrody.app/* => aphrody-webos",
+  "app-pdf.aphrody.app/* => aphrody-webos",
+  "app-photo-processing.aphrody.app/* => aphrody-webos",
+  "app-slides.aphrody.app/* => aphrody-webos",
+  "app-tables.aphrody.app/* => aphrody-webos",
+  "app-vectors.aphrody.app/* => aphrody-webos",
+  "app-video.aphrody.app/* => aphrody-webos",
+  "assets.aphrody.app/* => ay-edge",
+  "auth.aphrody.app/* => aphrody-deploy",
+  "bun-lib.aphrody.app/* => ay-edge",
+  "craft.aphrody.app/* => aphrody-deploy",
+  "deploy.aphrody.app/* => aphrody-deploy",
+  "dist.aphrody.app/* => ay-edge",
+  "git.aphrody.app/* => aphrody-deploy",
+  "play.aphrody.app/ => aphrody-webos",
+  "source.aphrody.app/* => aphrody-deploy",
+  "video.aphrody.app/* => ay-edge",
+]
+domain = [
+  "aphrody.app => aphrody-deploy",
+  "apt.aphrody.app => aphrody-webos",
+  "artcraft.aphrody.app => aphrody-webos",
+  "bun.aphrody.app => aphrody-app",
+  "cadcraft.aphrody.app => aphrody-webos",
+  "deckcraft.aphrody.app => aphrody-webos",
+  "designcraft.aphrody.app => aphrody-webos",
+  "effectcraft.aphrody.app => aphrody-webos",
+  "figcraft.aphrody.app => aphrody-webos",
+  "filmcraft.aphrody.app => aphrody-webos",
+  "gridcraft.aphrody.app => aphrody-webos",
+  "lightcraft.aphrody.app => aphrody-webos",
+  "pdfcraft.aphrody.app => aphrody-webos",
+  "photocraft.aphrody.app => aphrody-webos",
+  "shell.aphrody.app => aphrody-sites",
+  "soundcraft.aphrody.app => aphrody-webos",
+  "vectorcraft.aphrody.app => aphrody-webos",
+  "wordcraft.aphrody.app => aphrody-webos",
+  "www.aphrody.app => aphrody-deploy",
+]
+
+[zone."aphrody.com"]
+dnssec = true
+record = [
+  'CAA @ | 0 issue "letsencrypt.org"',
+  'CAA @ | 0 issue "pki.goog; cansignhttpexchanges=yes"',
+  'CAA @ | 0 issuewild "letsencrypt.org"',
+  'CAA @ | 0 issuewild "pki.goog; cansignhttpexchanges=yes"',
+  "CNAME @ proxied | tunnel:aphrody",
+  "MX @ prio=1 ttl=3600 | mx0.mail.ovh.net",
+  "MX @ prio=100 ttl=3600 | mx3.mail.ovh.net",
+  "MX @ prio=5 ttl=3600 | mx1.mail.ovh.net",
+  "MX @ prio=50 ttl=3600 | mx2.mail.ovh.net",
+  "TXT @ | v=spf1 include:mx.ovh.com include:_spf.google.com include:resend.com ip4:51.77.147.152 ip4:72.60.186.43 ~all",
+  "SRV _autodiscover._tcp prio=0 ttl=3600 | 0 443 zimbra1.mail.ovh.net",
+  "TXT _dmarc | v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@aphrody.com; aspf=r; adkim=r",
+  "CNAME admin proxied | tunnel:aphrody",
+  "CNAME ai proxied | tunnel:aphrody",
+  "AAAA api proxied | worker",
+  "CNAME art proxied | tunnel:aphrody",
+  "AAAA assets proxied | worker",
+  "CNAME auth proxied | tunnel:aphrody",
+  "AAAA auto proxied | worker",
+  "CNAME bot proxied | tunnel:aphrody",
+  "AAAA bun proxied | worker",
+  "CNAME bxc proxied | tunnel:aphrody",
+  "CNAME cad proxied | tunnel:aphrody",
+  "CNAME calendar proxied | tunnel:aphrody",
+  "AAAA cdn proxied | worker",
+  "CNAME chat proxied | tunnel:aphrody",
+  "CNAME console proxied | tunnel:aphrody",
+  "CNAME control proxied | tunnel:aphrody",
+  "AAAA creator proxied | worker",
+  "CNAME dbfr proxied | tunnel:aphrody",
+  "CNAME design proxied | tunnel:aphrody",
+  "CNAME docs proxied | tunnel:aphrody",
+  "AAAA downloads proxied | worker",
+  "CNAME drive proxied | tunnel:aphrody",
+  "CNAME fig proxied | tunnel:aphrody",
+  "AAAA fw proxied | worker",
+  "CNAME gnu proxied | tunnel:aphrody",
+  "CNAME inacord proxied | tunnel:aphrody",
+  "CNAME mail proxied | tunnel:aphrody",
+  "CNAME maps proxied | tunnel:aphrody",
+  "AAAA material proxied | worker",
+  "AAAA mcp proxied | worker",
+  "CNAME mcp-origin proxied | tunnel:aphrody",
+  "CNAME meet proxied | tunnel:aphrody",
+  "CNAME mig-commons proxied | tunnel:aphrody",
+  "CNAME mig-depot proxied | tunnel:aphrody",
+  "CNAME mig-downloads proxied | tunnel:aphrody",
+  "CNAME n2b proxied | tunnel:aphrody",
+  "CNAME nie proxied | tunnel:aphrody",
+  "CNAME os proxied | tunnel:aphrody",
+  "CNAME ovhmo-selector-1._domainkey ttl=3600 | ovhmo-selector-1._domainkey.4861041.dp.dkim.mail.ovh.net",
+  "CNAME ovhmo-selector-2._domainkey ttl=3600 | ovhmo-selector-2._domainkey.4861042.dp.dkim.mail.ovh.net",
+  "CNAME pdf proxied | tunnel:aphrody",
+  "CNAME photos proxied | tunnel:aphrody",
+  "CNAME play proxied | tunnel:aphrody",
+  "AAAA releases proxied | worker",
+  'TXT resend._domainkey ttl=3600 | "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDYpYTrAwdzYxp+RA8jFQnaKCh86RLtMsIcRA3/ePi7aG+JXmSMjhmzmNeuG095IAPx5qbp9aiNE6HQRl9QdcT3H0iTXITCNAFoNNI3lCtKAbPpbPU2lhkPLla2lKQBugY7nbpVeaXmsN2Nyy7+eOfrufwr3IJ7rLH6tchJ47uAFwIDAQAB"',
+  "TXT resend._domainkey.notifications | p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDI0HowbH8NacV8VXSC/N/dc7QR/QzV8KLElkpWQcMFZGjONQ1o7nTxw6f+nIxhmgf3J5a1LqAFnGoz53ngoFgzkroqDF/NQM06q3uvXMe62M9TivfWudR5HObaIgMUldtD6rR3fOJ9x29kEBKZmHXH3pkeIHkHvVt14YEVtaRBZQIDAQAB",
+  "CNAME rsend ttl=3600 | rsend-euw1.forge.rmta.net",
+  "CNAME rsend.notifications | rsend-euw1.forge.rmta.net",
+  "CNAME search proxied | tunnel:aphrody",
+  "CNAME send ttl=3600 | send.forge.rmta.net",
+  "CNAME send.notifications | send.forge.rmta.net",
+  "CNAME sheets proxied | tunnel:aphrody",
+  "CNAME slides proxied | tunnel:aphrody",
+  "CNAME sound proxied | tunnel:aphrody",
+  "CNAME ssh-fr2 proxied | tunnel:aphrody",
+  "CNAME ssh-prd proxied | tunnel:aphrody",
+  "CNAME status proxied | tunnel:aphrody",
+  "CNAME store proxied | tunnel:aphrody",
+  "CNAME translate proxied | tunnel:aphrody",
+  "AAAA video proxied | worker",
+  "A vps ttl=300 | 51.77.147.152",
+  "AAAA vps ttl=3600 | 2001:41d0:404:200::4d8e",
+  "AAAA wasm proxied | worker",
+  "AAAA web proxied | worker",
+  "AAAA www proxied | worker",
+]
+route = [
+  "aphrody.com/* => aphrody",
+  "aphrody.com/download* => ay-edge",
+  "aphrody.com/github => ay-edge",
+  "aphrody.com/r2-assets/* => ay-edge",
+  "aphrody.com/web* => aphrody-web",
+  "art.aphrody.com/* => aphrody-webos",
+  "assets.aphrody.com/* => ay-edge",
+  "cad.aphrody.com/* => aphrody-webos",
+  "calendar.aphrody.com/* => aphrody-webos",
+  "console.aphrody.com/* => aphrody-webos",
+  "design.aphrody.com/* => aphrody-webos",
+  "docs.aphrody.com/* => ay-edge",
+  "downloads.aphrody.com/* => ay-edge",
+  "fig.aphrody.com/* => aphrody-webos",
+  "maps.aphrody.com/* => aphrody-webos",
+  "os.aphrody.com/* => aphrody-webos",
+  "pdf.aphrody.com/* => aphrody-webos",
+  "photos.aphrody.com/* => aphrody-webos",
+  "play.aphrody.com/* => aphrody-webos",
+  "releases.aphrody.com/* => ay-edge",
+  "sheets.aphrody.com/* => aphrody-webos",
+  "slides.aphrody.com/* => aphrody-webos",
+  "sound.aphrody.com/* => aphrody-webos",
+  "video.aphrody.com/* => bun-video-showcase",
+  "wasm.aphrody.com/* => ay-edge",
+  "web.aphrody.com/* => aphrody-web",
+]
+domain = [
+  "api.aphrody.com => api-aphrody-com",
+  "auto.aphrody.com => ay-edge",
+  "bun.aphrody.com => aphrody-app",
+  "cdn.aphrody.com => aphrody-sites",
+  "creator.aphrody.com => aphrody-sites",
+  "fw.aphrody.com => fw-edge",
+  "material.aphrody.com => material-cdn",
+  "mcp.aphrody.com => aphrody-mcp-gateway",
+  "www.aphrody.com => aphrody",
+]
+
+[zone."dragonballfr.com"]
+dnssec = true
+record = [
+  "A @ proxied | 72.60.186.43",
+  'CAA @ | 0 issue "letsencrypt.org"',
+  'CAA @ | 0 issue "pki.goog; cansignhttpexchanges=yes"',
+  'CAA @ | 0 issuewild "letsencrypt.org"',
+  'CAA @ | 0 issuewild "pki.goog; cansignhttpexchanges=yes"',
+  "MX @ prio=1 ttl=3600 | mx1.mail.ovh.net",
+  "MX @ prio=100 ttl=3600 | mx3.mail.ovh.net",
+  "MX @ prio=5 ttl=3600 | mx2.mail.ovh.net",
+  'TXT @ ttl=3600 | "v=spf1 include:mx.ovh.com -all"',
+  "TXT _dmarc | v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@dragonballfr.com; aspf=r; adkim=r",
+  "A bot proxied | 72.60.186.43",
+  "A cdn proxied | 72.60.186.43",
+  "A mcp proxied | 72.60.186.43",
+  "A origin-cdn proxied | 72.60.186.43",
+  "A tv proxied | 72.60.186.43",
+  "A www proxied | 72.60.186.43",
+]
+route = [
+  "cdn.dragonballfr.com/* => ay-edge",
+]
+domain = [
+]
+
+[zone."ostendis.fr"]
+dnssec = false
+record = [
+]
+route = [
+]
+domain = [
+]
+
+[zone."rosegriffon.fr"]
+dnssec = true
+# mail, imap, smtp and pop3 are DNS-only CNAMEs to OVH hosts whose certificates do not cover them: includeSubDomains would turn their certificate errors into hard failures.
+settings = { security_header = { strict_transport_security = { enabled = true, max_age = 63072000, include_subdomains = false, preload = false, nosniff = true } } }
+record = [
+  'TXT _dmarc | v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@aphrody.app; aspf=r; adkim=r',
+  'CAA @ | 0 issue "letsencrypt.org"',
+  'CAA @ | 0 issuewild "letsencrypt.org"',
+  'CAA @ | 0 issue "pki.goog; cansignhttpexchanges=yes"',
+  'CAA @ | 0 issuewild "pki.goog; cansignhttpexchanges=yes"',
+  "CNAME @ proxied | tunnel:rosegriffon",
+  "MX @ prio=1 ttl=3600 | ssl0.ovh.net",
+  'TXT @ ttl=3600 | "google-site-verification=58ZU3U2GX-YgqYh0Ym4x1EZoXnt7dGYnU8H1yo2mt9A"',
+  'TXT @ ttl=3600 | "google-site-verification=BJFFjSf_CgVOUoFmruO_VB79uY7qlGfLUPYoDuJ73u4"',
+  'TXT @ ttl=600 | "v=spf1 include:mx.ovh.com -all"',
+  "SRV _autodiscover._tcp prio=0 ttl=3600 | 0 443 mailconfig.ovh.net",
+  'TXT _gh-rose-griffon-o ttl=3600 | "545007b9e3"',
+  'TXT _github-pages-challenge-rose-griffon ttl=3600 | "33a7475cc8811bf9a480f8b6a1258a"',
+  "SRV _imaps._tcp prio=0 ttl=3600 | 0 993 ssl0.ovh.net",
+  "SRV _submission._tcp prio=0 ttl=3600 | 0 465 ssl0.ovh.net",
+  "CNAME achillea proxied | tunnel:rosegriffon",
+  "CNAME admin proxied | tunnel:rosegriffon",
+  "CNAME api proxied | tunnel:rosegriffon",
+  "CNAME api-achillea proxied | tunnel:rosegriffon",
+  "CNAME api-azalee proxied | tunnel:rosegriffon",
+  "CNAME autoconfig ttl=3600 | mailconfig.ovh.net",
+  "CNAME autodiscover ttl=3600 | mailconfig.ovh.net",
+  "CNAME azalee proxied | tunnel:rosegriffon",
+  "CNAME bot proxied | tunnel:rosegriffon",
+  "CNAME cdn proxied | tunnel:rosegriffon",
+  'TXT google._domainkey ttl=3600 | "v=DKIM1; k=rsa;  p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1xwquq6mUEUzDFDLhrVeaQi/p0EcVR7VdHGDDC7JXWyreGMQncssPaUKGoP8ruJw3Q8IAj6WuFNAR1y55gok7rwdjWvgm2z6v0QlhJla7afYaOZ7PrE/TYA2oxTFQEsPQ+zskgVjLD5HzZsrWhxTQiI9kJMKId2gZbpTVKbHaFuGWvPD3FsnWEyu9qv1QQbk" "QNiMEwz7K3xdfk842mz60hquwXCfxbVG1wkmmWdE61HKHcrlHK6tSfB5yMjJOGh0p6pzjpkfTFbzIAZTCVwB5BqiK7SxC6LUB8xazrwiPa+XaqJ6PftmsftB3nXkHPHAkLbSv5Hz6Fy6CqGyI5tN9QIDAQAB"',
+  "CNAME imap ttl=3600 | ssl0.ovh.net",
+  "CNAME mail ttl=3600 | ssl0.ovh.net",
+  "CNAME mcp proxied | tunnel:rosegriffon",
+  "CNAME ovhmo5380100-selector1._domainkey ttl=3600 | ovhmo5380100-selector1._domainkey.4076964.oh.dkim.mail.ovh.net",
+  "CNAME ovhmo5380100-selector2._domainkey ttl=3600 | ovhmo5380100-selector2._domainkey.4076963.oh.dkim.mail.ovh.net",
+  "CNAME pop3 ttl=3600 | ssl0.ovh.net",
+  "CNAME ranked proxied | tunnel:rosegriffon",
+  "CNAME shop proxied | tunnel:rosegriffon",
+  "CNAME smtp ttl=3600 | ssl0.ovh.net",
+  "CNAME www proxied | tunnel:rosegriffon",
+]
+route = [
+  "api.rosegriffon.fr/v1/discord/interactions => rosegriffon-discord",
+  "cdn.rosegriffon.fr/ => rosegriffon-edge",
+  "cdn.rosegriffon.fr/fetch => rosegriffon-edge",
+  "cdn.rosegriffon.fr/files/* => rosegriffon-edge",
+  "cdn.rosegriffon.fr/health => rosegriffon-edge",
+  "cdn.rosegriffon.fr/static/* => rosegriffon-edge",
+]
+domain = [
+]
+
+
+# Workers. `source` is the wrangler config in this repository; api-only means the script was uploaded through the API and no config in this repository deploys it.
+[worker."aphrody"]
+source = "api-only"
+sampling = 0.1
+[worker."aphrody-app"]
+source = "api-only"
+sampling = 0.25
+[worker."aphrody-deploy"]
+source = "api-only"
+sampling = 0.1
+[worker."aphrody-github"]
+source = "api-only"
+sampling = 1
+[worker."aphrody-mcp-gateway"]
+source = "api-only"
+sampling = 0.25
+[worker."aphrody-releases"]
+source = "api-only"
+sampling = 0.1
+[worker."aphrody-sites"]
+source = "api-only"
+sampling = 0.1
+[worker."aphrody-web"]
+source = "api-only"
+sampling = 1
+[worker."aphrody-webos"]
+source = "api-only"
+sampling = 0.1
+[worker."aphrody-worker"]
+source = "aphrody/.cloudflare/aphrody-worker/wrangler.toml"
+sampling = 1
+[worker."api-aphrody-com"]
+source = "api-only"
+sampling = 0.25
+[worker."auto"]
+source = "ay/apps/auto-server/wrangler.jsonc"
+sampling = 0.1
+[worker."ay-cf-gateway"]
+source = "ay/apps/cf-gateway/wrangler.jsonc"
+sampling = 0.1
+[worker."ay-edge"]
+source = "ay/apps/edge/wrangler.jsonc"
+sampling = 0.1
+[worker."ay-tools-release"]
+source = "ay/apps/tools-release/wrangler.jsonc"
+sampling = 0.1
+[worker."bun-video-showcase"]
+source = "api-only"
+sampling = 0.1
+[worker."docs-proxy"]
+source = "api-only"
+sampling = 0.1
+[worker."fw-edge"]
+source = "crates/fw-edge/wrangler.jsonc"
+sampling = 1
+[worker."material-cdn"]
+source = "cloudflare/material-cdn/wrangler.jsonc"
+sampling = 1
+[worker."nie-sandbox"]
+source = "api-only"
+sampling = 1
+[worker."open-source-website-assets"]
+source = "api-only"
+sampling = 0.1
+[worker."ostendis-preview"]
+source = "api-only"
+[worker."rosegriffon-discord"]
+source = "api-only"
+sampling = 0.1
+[worker."rosegriffon-edge"]
+source = "api-only"
+sampling = 0.1
+[worker."rosegriffon-maintenance"]
+source = "api-only"
+sampling = 0.1
+[worker."shenron-cdn"]
+source = "api-only"
+sampling = 0.1
+
+# R2 buckets. Data is never deleted by apply; a bucket that leaves this list is only reported.
+[bucket."aphrody-assets"]
+tier = "hot"
+owner = "ay-edge"
+abort_multipart_days = 1
+[bucket."aphrody-backups"]
+tier = "cold"
+owner = "auto"
+abort_multipart_days = 1
+[bucket."aphrody-chromium"]
+tier = "cold"
+owner = "ay-edge"
+abort_multipart_days = 1
+[bucket."aphrody-dist"]
+tier = "dist"
+owner = "ay-edge"
+abort_multipart_days = 1
+[bucket."aphrody-drive"]
+tier = "hot"
+owner = "fw-edge"
+abort_multipart_days = 1
+[bucket."aphrody-gnu"]
+tier = "cold"
+owner = "fleet"
+abort_multipart_days = 1
+[bucket."aphrody-lore"]
+tier = "cold"
+owner = "fleet"
+abort_multipart_days = 1
+[bucket."aphrody-material"]
+tier = "hot"
+owner = "material-cdn"
+abort_multipart_days = 1
+[bucket."aphrody-releases"]
+tier = "dist"
+owner = "ay-edge"
+abort_multipart_days = 1
+[bucket."aphrody-sccache"]
+tier = "hot"
+owner = "fleet"
+abort_multipart_days = 1
+[bucket."aphrody-video"]
+tier = "hot"
+owner = "ay-edge"
+abort_multipart_days = 1
+[bucket."bun-lib"]
+tier = "dist"
+owner = "ay-edge"
+abort_multipart_days = 1
+[bucket."fw-drive"]
+tier = "hot"
+owner = "fw-edge"
+abort_multipart_days = 1
+[bucket."nie-private"]
+tier = "cold"
+owner = "nie-sandbox"
+abort_multipart_days = 1
+[bucket."rosegriffon-cdn"]
+tier = "site-cdn"
+owner = "rosegriffon-edge"
+abort_multipart_days = 1
+[bucket."shenron-backups"]
+tier = "cold"
+owner = "fleet"
+abort_multipart_days = 1
+[bucket."shenron-cdn"]
+tier = "site-cdn"
+owner = "shenron-cdn"
+abort_multipart_days = 1
+
+# Services: one owner Worker per hostname. modes lists where the service runs; selfhosted_hosts are keys of [hosts.*] in build.toml.
+[service."aphrody"]
+worker = "aphrody"
+hostnames = ["aphrody.com", "www.aphrody.com"]
+modes = ["cloud"]
+bindings = ["r2:BUCKET->aphrody-dist", "images:IMAGES", "do:INSIGHTS->Insights->4db9ea12"]
+[service."aphrody-app"]
+worker = "aphrody-app"
+hostnames = ["bun.aphrody.app", "bun.aphrody.com"]
+modes = ["cloud"]
+bindings = ["ai:AI", "r2:APHRODY->aphrody-assets", "vectorize:BUN_NATIVE", "kv:CACHE->ab11db38", "d1:DB->6875cbdc", "workflow:INGEST->Ingest", "queue:JOBS->aphrody-app-jobs", "ratelimit:RAG_LIMITER->1002", "do:ROOMS->Room->222f137d", "ratelimit:WRITE_LIMITER->1001", "ratelimit:YOLO_LIMITER->1003"]
+[service."aphrody-deploy"]
+worker = "aphrody-deploy"
+hostnames = ["aphrody.app", "api.aphrody.app", "auth.aphrody.app", "craft.aphrody.app", "deploy.aphrody.app", "git.aphrody.app", "source.aphrody.app", "www.aphrody.app"]
+modes = ["cloud"]
+bindings = ["r2:BUCKET->aphrody-dist", "images:IMAGES", "do:INSIGHTS->Insights->4db9ea12"]
+[service."aphrody-mcp-gateway"]
+worker = "aphrody-mcp-gateway"
+hostnames = ["mcp.aphrody.com"]
+modes = ["cloud"]
+bindings = ["r2:ARCHIVE->aphrody-backups"]
+[service."aphrody-sites"]
+worker = "aphrody-sites"
+hostnames = ["cdn.aphrody.com", "creator.aphrody.com", "shell.aphrody.app"]
+modes = ["cloud"]
+bindings = ["r2:ASSETS->aphrody-assets", "r2:DIST->aphrody-dist"]
+[service."aphrody-web"]
+worker = "aphrody-web"
+hostnames = ["aphrody.com/web*", "web.aphrody.com"]
+modes = ["cloud", "selfhosted"]
+selfhosted_hosts = ["fr1", "prd"]
+bindings = ["r2:ASSETS_BUCKET->aphrody-assets", "r2:RELEASES_BUCKET->aphrody-releases"]
+[service."aphrody-webos"]
+worker = "aphrody-webos"
+hostnames = ["app-audio.aphrody.app", "app-cad.aphrody.app", "app-compositing.aphrody.app", "app-documents.aphrody.app", "app-generation.aphrody.app", "app-images.aphrody.app", "app-interface-layouts.aphrody.app", "app-layout.aphrody.app", "app-pdf.aphrody.app", "app-photo-processing.aphrody.app", "app-slides.aphrody.app", "app-tables.aphrody.app", "app-vectors.aphrody.app", "app-video.aphrody.app", "apt.aphrody.app", "art.aphrody.com", "artcraft.aphrody.app", "cad.aphrody.com", "cadcraft.aphrody.app", "calendar.aphrody.com", "console.aphrody.com", "deckcraft.aphrody.app", "design.aphrody.com", "designcraft.aphrody.app", "effectcraft.aphrody.app", "fig.aphrody.com", "figcraft.aphrody.app", "filmcraft.aphrody.app", "gridcraft.aphrody.app", "lightcraft.aphrody.app", "maps.aphrody.com", "os.aphrody.com", "pdf.aphrody.com", "pdfcraft.aphrody.app", "photocraft.aphrody.app", "photos.aphrody.com", "play.aphrody.app/", "play.aphrody.com", "sheets.aphrody.com", "slides.aphrody.com", "sound.aphrody.com", "soundcraft.aphrody.app", "vectorcraft.aphrody.app", "wordcraft.aphrody.app"]
+modes = ["cloud"]
+bindings = ["service:LEGACY->aphrody-app", "r2:VM->aphrody-assets"]
+[service."api-aphrody-com"]
+worker = "api-aphrody-com"
+hostnames = ["api.aphrody.com"]
+modes = ["cloud"]
+bindings = ["r2:BUCKET->aphrody-dist"]
+[service."ay-edge"]
+worker = "ay-edge"
+hostnames = ["aphrody.com/download*", "aphrody.com/github", "aphrody.com/r2-assets", "assets.aphrody.app", "assets.aphrody.com", "auto.aphrody.com", "bun-lib.aphrody.app", "cdn.dragonballfr.com", "dist.aphrody.app", "docs.aphrody.com", "downloads.aphrody.com", "releases.aphrody.com", "video.aphrody.app", "wasm.aphrody.com"]
+modes = ["cloud", "selfhosted"]
+selfhosted_hosts = ["fr1", "prd"]
+bindings = ["r2:ASSETS->aphrody-assets", "r2:BUN_LIB->bun-lib", "r2:CHROMIUM->aphrody-chromium", "r2:DIST->aphrody-dist", "r2:RELEASES->aphrody-releases", "service:SVC_APHRODY->aphrody-worker", "service:SVC_AUTO->auto", "service:SVC_SHENRON_CDN->shenron-cdn", "r2:VIDEO->aphrody-video"]
+[service."bun-video-showcase"]
+worker = "bun-video-showcase"
+hostnames = ["video.aphrody.com"]
+modes = ["cloud"]
+bindings = ["r2:SHOWCASE->aphrody-video"]
+[service."fw-edge"]
+worker = "fw-edge"
+hostnames = ["fw.aphrody.com"]
+modes = ["cloud", "selfhosted"]
+selfhosted_hosts = ["fr1", "prd"]
+bindings = ["ai:AI", "r2:DRIVE_CACHE->aphrody-drive", "do:FW_OS->FwOSAgent->2634715c"]
+[service."material-cdn"]
+worker = "material-cdn"
+hostnames = ["material.aphrody.com"]
+modes = ["cloud", "selfhosted"]
+selfhosted_hosts = ["fr1", "prd"]
+bindings = ["r2:MATERIAL->aphrody-material"]
+[service."rosegriffon-discord"]
+worker = "rosegriffon-discord"
+hostnames = ["api.rosegriffon.fr/v1/discord/interactions"]
+modes = ["cloud"]
+[service."rosegriffon-edge"]
+worker = "rosegriffon-edge"
+hostnames = ["cdn.rosegriffon.fr/", "cdn.rosegriffon.fr/fetch", "cdn.rosegriffon.fr/files", "cdn.rosegriffon.fr/health", "cdn.rosegriffon.fr/static"]
+modes = ["cloud"]
+bindings = ["r2:CDN_BUCKET->rosegriffon-cdn"]
+
+# Retired: deleted by apply when still live, and only when the Worker owns no Durable Object namespace.
+[retired.worker]

@@ -1,0 +1,29 @@
+[package]
+name = "fw-estate"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "The edge estate as one declarative file: Cloudflare zones, DNS, Worker routes and domains, R2 buckets, tunnels, plus read-only OVH and Hostinger facts; `fw estate plan|apply|check|import` diffs live state against cluster/estate.toml"
+
+[lib]
+name = "fw_estate"
+path = "src/fw_estate.rs"
+
+[[bin]]
+name = "fw-estate"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+toml.workspace = true
+ureq.workspace = true
+
+[lints]
+workspace = true

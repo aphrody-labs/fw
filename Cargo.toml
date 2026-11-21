@@ -26,6 +26,7 @@ members = [
     "crates/fw-http",
     "crates/fw-secrets",
     "crates/fw-cluster",
+    "crates/fw-estate",
     "crates/fw-proto",
     "crates/fw-ui-blitz",
     "crates/fw-wasm",
@@ -139,6 +140,7 @@ fw-compute = { version = "2026.11.0", path = "crates/fw-compute" }
 fw-config = { version = "2026.11.0", path = "crates/fw-config" }
 fw-crates = { version = "2026.11.0", path = "crates/fw-crates", default-features = false, features = ["live"] }
 fw-depot = { path = "crates/fw-depot" }
+fw-estate = { path = "crates/fw-estate" }
 fw-drive = { path = "crates/fw-drive" }
 fw-files = { path = "crates/fw-files" }
 fw-fx = { version = "2026.11.0", path = "crates/fw-fx" }
