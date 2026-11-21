@@ -21,8 +21,8 @@ default = []
 [dependencies]
 async-trait = { version = "0.1.92", default-features = false, optional = true }
 fw-http = { workspace = true, features = ["client"] }
-fw-proc = { path = "../fw-proc", features = ["tokio"], optional = true }
-fw-toolcall = { path = "../fw-toolcall", features = ["mcp"], optional = true }
+fw-proc = { workspace = true, features = ["tokio"], optional = true }
+fw-toolcall = { workspace = true, features = ["mcp"], optional = true, default-features = true }
 dirs = { version = "7.0.0", default-features = false, optional = true }
 futures-util = { workspace = true, optional = true }
 regex = { version = "1.13.2", default-features = false, optional = true }
@@ -34,7 +34,7 @@ url = { version = "2.5.8", default-features = false, optional = true }
 which = { workspace = true, optional = true }
 
 [dev-dependencies]
-fw-gemini = { path = ".", features = ["full"] }
+fw-gemini = { workspace = true, features = ["full"], default-features = true }
 rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs"] }
 tempfile = { version = "3.27.0", default-features = false, features = ["getrandom"] }
 tokio = { version = "1.54.1", default-features = false, features = ["macros", "rt", "rt-multi-thread"] }
@@ -43,7 +43,7 @@ tokio = { version = "1.54.1", default-features = false, features = ["macros", "r
 tokio = { version = "1.54.1", default-features = false, features = ["sync", "macros", "rt", "time"], optional = true }
 
 [target."cfg(not(target_arch = \"wasm32\"))".dependencies]
-fw-model = { path = "../fw-model", default-features = false, features = ["client"], optional = true }
+fw-model = { workspace = true, features = ["client"], optional = true }
 bun_browser_dom = { version = "1.4.8", optional = true }
 chrono = { version = "0.4.45", default-features = false, optional = true }
 clap = { workspace = true, features = ["derive", "env"], optional = true }

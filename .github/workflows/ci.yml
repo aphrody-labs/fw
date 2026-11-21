@@ -183,3 +183,12 @@ jobs:
         run: bun configs/claude/scripts/check.ts
       - name: One product version (product.toml and every copy of it)
         run: bun tools/version.ts
+
+  layout:
+    name: Layout map (crate homes, dependency direction, covered paths)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: layout.toml generates every manifest it owns, no stale or uncovered path
+        run: bun tools/layout.ts check

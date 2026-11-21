@@ -35,13 +35,13 @@ path = "src/lib.rs"
 [dependencies]
 aphrody-web-index = { version = "1.4.8", optional = true, package = "bun_browser_index" }
 async-trait.workspace = true
-fw-agent = { path = "../fw-agent", default-features = false, features = ["home"], optional = true }
+fw-agent = { workspace = true, features = ["home"], optional = true }
 fw-config = { workspace = true }
 fw-http = { workspace = true, features = ["client"] }
-fw-model = { path = "../fw-model", default-features = false, features = ["store"] }
-fw-proc = { path = "../fw-proc", optional = true }
-fw-rag-core = { path = "../fw-rag-core", features = [] }
-fw-toolcall = { path = "../fw-toolcall", default-features = false, features = [] }
+fw-model = { workspace = true, features = ["store"] }
+fw-proc = { workspace = true, optional = true }
+fw-rag-core = { workspace = true, features = [] }
+fw-toolcall = { workspace = true, features = [] }
 blake3.workspace = true
 chrono = { workspace = true, features = ["serde"], optional = true }
 clap = { workspace = true, features = ["color"] }

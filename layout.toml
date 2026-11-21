@@ -1,0 +1,142 @@
+repo = "fw"
+
+[repos.fw]
+layer = 0
+path = "."
+url = "https://github.com/aphrody-labs/fw"
+
+[policy]
+pinned_git = true
+
+[cargo]
+members = [
+    "crates/fw-a2a",
+    "crates/fw-agent",
+    "crates/fw-agent-context",
+    "crates/fw-gemini",
+    "crates/fw-ggml",
+    "crates/fw-llama",
+    "crates/fw-m3",
+    "crates/fw-material",
+    "crates/fw-video",
+    "crates/fw-files",
+    "crates/fw-google",
+    "crates/fw-drive",
+    "crates/fw-llama-sys",
+    "crates/fw-ml",
+    "crates/fw-model",
+    "crates/fw-proc",
+    "crates/fw-rag",
+    "crates/fw-rag-core",
+    "crates/fw-ring3-agent",
+    "crates/fw-toolcall",
+    "crates/fw-translate-core",
+    "crates/fw-compute",
+    "crates/fw-config",
+    "crates/fw-http",
+    "crates/fw-secrets",
+    "crates/fw-cluster",
+    "crates/fw-proto",
+    "crates/fw-ui-blitz",
+    "crates/fw-wasm",
+    "crates/fw-ostd-wasm",
+    "crates/fw-uutils",
+    "crates/fw-nix",
+    "crates/fw-unified-stack",
+    "crates/fw-wayland-wgpu",
+    "crates/fw-hermes-claw",
+    "crates/fw-apm",
+    "crates/fw-fx",
+    "crates/fw-depot",
+    "crates/fw-crates",
+    "crates/fw-linux",
+    "crates/fw-bin",
+    "xtask",
+]
+
+[cargo.crate.fw-ggml]
+version = "auto"
+why = "Internal publishable fw-* crates (pinned with version + path for crates.io)"
+
+[cargo.crate.fw-compute]
+version = "auto"
+
+[cargo.crate.fw-config]
+version = "auto"
+
+[cargo.crate.fw-http]
+version = "auto"
+default-features = false
+
+[cargo.crate.fw-secrets]
+version = "auto"
+
+[cargo.crate.fw-cluster]
+version = "auto"
+
+[cargo.crate.fw-proto]
+version = "auto"
+
+[cargo.crate.fw-ui-blitz]
+version = "auto"
+
+[cargo.crate.fw-ostd-wasm]
+version = "auto"
+
+[cargo.crate.fw-uutils]
+version = "auto"
+
+[cargo.crate.fw-nix]
+version = "auto"
+
+[cargo.crate.fw-unified-stack]
+version = "auto"
+
+[cargo.crate.fw-wayland-wgpu]
+version = "auto"
+
+[cargo.crate.fw-hermes-claw]
+version = "auto"
+
+[cargo.crate.fw-apm]
+version = "auto"
+
+[cargo.crate.fw-crates]
+version = "auto"
+default-features = false
+features = ["live"]
+
+[cargo.crate.fw-fx]
+version = "auto"
+
+[cargo.crate.fw-model]
+default-features = false
+
+[cargo.crate.fw-toolcall]
+default-features = false
+
+[cargo.crate.fw-gemini]
+default-features = false
+
+[cargo.crate.fw-ml]
+default-features = false
+
+[cargo.crate.fw-agent]
+default-features = false
+
+[[cargo.patch]]
+source = "crates-io"
+crate = "h3"
+git = "https://github.com/aphrody-labs/h3"
+rev = "43745ad87e95b0c035ac9c547aad467303213425"
+why = """
+hyperium/h3 master carries fixes the 0.0.8 release lacks (send_data flushed before finish, stop_sending, request tracking);
+fw-http's client (through reqwest) and server both use it. Fork of hyperium/h3; drop the patch once the next release ships.
+"""
+
+[[cargo.patch]]
+source = "crates-io"
+crate = "h3-quinn"
+git = "https://github.com/aphrody-labs/h3"
+rev = "43745ad87e95b0c035ac9c547aad467303213425"
+

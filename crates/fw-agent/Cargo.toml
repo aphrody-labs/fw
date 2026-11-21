@@ -31,8 +31,8 @@ async-trait.workspace = true
 axum = { workspace = true, optional = true }
 fw-config = { workspace = true, optional = true }
 fw-http = { workspace = true, features = ["client"], optional = true }
-fw-model = { path = "../fw-model", default-features = false, features = ["store"], optional = true }
-fw-toolcall = { path = "../fw-toolcall", default-features = false, features = [], optional = true }
+fw-model = { workspace = true, features = ["store"], optional = true }
+fw-toolcall = { workspace = true, features = [], optional = true }
 blake3 = { version = "1.8.7", default-features = false, optional = true }
 futures = { workspace = true, optional = true }
 rustls = { version = "0.23.46", default-features = false, features = ["aws_lc_rs", "std", "tls12"], optional = true }
@@ -46,7 +46,7 @@ unicode-segmentation = { version = "1", features = [], optional = true }
 url = { workspace = true, optional = true }
 
 [dev-dependencies]
-fw-agent = { path = ".", features = ["full"] }
+fw-agent = { workspace = true, features = ["full"], default-features = true }
 axum.workspace = true
 criterion = { workspace = true, features = ["html_reports"] }
 pretty_assertions.workspace = true
@@ -62,8 +62,8 @@ aphrody-remote-desktop = { version = "1.4.7", features = ["vnc-client"], optiona
 aphrody-term = { version = "1.4.7", features = [], optional = true }
 aphrody-web-service = { version = "1.4.8", features = ["render"], optional = true, package = "bun_browser_service" }
 aphrody-winclean = { version = "1.4.8", features = [], optional = true, package = "bun-windows-winclean" }
-fw-gemini = { path = "../fw-gemini", default-features = false, features = ["web", "google"], optional = true }
-fw-proc = { path = "../fw-proc", features = ["tokio"], optional = true }
+fw-gemini = { workspace = true, features = ["web", "google"], optional = true }
+fw-proc = { workspace = true, features = ["tokio"], optional = true }
 base64 = { version = "0.23.1", optional = true }
 clap = { version = "4.6.8", features = ["derive", "env", "color"], optional = true }
 gix = { version = "0.90.0", default-features = false, features = ["sha1", "basic", "extras", "comfort", "max-performance", "revision", "index", "worktree-mutation"], optional = true }
