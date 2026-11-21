@@ -70,10 +70,10 @@ fn run(arguments: &[String]) -> Result<ExitCode> {
                 project_directory: path.parent().map(PathBuf::from).unwrap_or_default(),
             };
             for (index, argument) in arguments.iter().enumerate() {
-                if argument == "--link" {
-                    if let Some((name, address)) = arguments.get(index + 1).and_then(|pair| pair.split_once('=')) {
-                        settings.linked_services.insert(name.to_owned(), address.to_owned());
-                    }
+                if argument == "--link"
+                    && let Some((name, address)) = arguments.get(index + 1).and_then(|pair| pair.split_once('='))
+                {
+                    settings.linked_services.insert(name.to_owned(), address.to_owned());
                 }
             }
             let (_, report) = fw_workerd::compile::render(&service, &[], &settings)?;
