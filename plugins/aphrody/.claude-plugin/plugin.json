@@ -1,6 +1,6 @@
 {
   "name": "aphrody",
-  "version": "1.1.0-a19b158a",
+  "version": "1.1.0-b82a6e38",
   "description": "Unified Aphrody plugin: fw MCP, Bun-native hooks, recursive agents, and one deduplicated skill set absorbed from every upstream (sources.toml).",
   "author": {
     "name": "aphrody-labs",

@@ -10,7 +10,7 @@ sibling sub-skill (the sub-skills are always installed side by side).
 
 This test extracts every `python|python3|node|bash <path>` invocation from every
 markdown file under both trees and asserts that the path is skill-relative and names a
-file that ships. The core skill's `${CLAUDE_PLUGIN_ROOT}/.claude/skills/...` form is
+file that ships. The core skill's `${CLAUDE_PLUGIN_ROOT}/skills/...` form is
 resolved against the repository root, which is what that variable denotes under a
 plugin install - and accepted only in that file, because the sub-skills also ship
 through the CLI, where the variable does not exist. The grep-based path contract in check-asset-sync.yml is the negative

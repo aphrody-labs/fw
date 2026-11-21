@@ -1,7 +1,9 @@
 ---
 name: depot-tools
-description: "depot_tools and AOSP repo in Rust: fw depot (gclient sync, revinfo, getdep, setdep, runhooks, fetch, CIPD, autoninja, git cl, presubmit, repo, lunch). Use for Chromium, V8, WebRTC or Android checkouts, pinned gn, ninja, siso, clang-format and Rust toolchain installs, DEPS and manifest analysis"
+description: "depot_tools and AOSP repo in Rust: fw depot. Use for Chromium, V8, WebRTC or Android checkouts, pinned gn, ninja, siso"
 ---
+> (gclient sync, revinfo, getdep, setdep, runhooks, fetch, CIPD, autoninja, git cl, presubmit, repo, lunch). , clang-format and Rust toolchain installs, DEPS and manifest analysis
+
 > `fw depot` replaces the Python depot_tools (pinned ec77017, the revision Chromium 160.0.8167.0 uses) and Google's `repo` for the commands below. Code: `crates/fw-depot` (library plus the `fw-depot` binary that `fw depot` runs). ay consumes it through `ay-build`.
 
 # depot-tools (fw depot)

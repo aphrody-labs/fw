@@ -1,7 +1,9 @@
 ---
 name: edge-estate
-description: "Edit, plan, apply and check the edge estate (Cloudflare zones, DNS, Worker routes and domains, R2, tunnels) and read OVH and Hostinger facts. Use before touching any DNS record, subdomain, route, Worker, R2 bucket or registrar setting; never edit these by hand in a dashboard or API call."
+description: "Edit, plan, apply and check the edge estate. Use before touching any DNS record, subdomain, route, Worker, R2 bucket or registrar setting"
 ---
+> (Cloudflare zones, DNS, Worker routes and domains, R2, tunnels) and read OVH and Hostinger facts. ; never edit these by hand in a dashboard or API call.
+
 
 # Edge estate
 

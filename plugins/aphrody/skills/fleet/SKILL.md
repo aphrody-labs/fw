@@ -1,7 +1,9 @@
 ---
 name: fleet
-description: "Run a command, schedule builds, deploy or check on the fleet (equal nodes n1 and n2, load placed live), gcloud Cloud Build. Use for any remote ssh/scp/systemctl/build; never a heavy build on the PC CPU."
+description: "Run a command, schedule builds, deploy or check on the fleet (equal nodes n1 and n2, load placed live). Use for any remote ssh/scp/systemctl/build; never a heavy build on the PC CPU."
 ---
+> gcloud Cloud Build.
+
 
 1. Always check live capacity and peer locks first: run `bun configs/claude/scripts/fleet-inventory.ts` (every node of `cluster/build.toml`) and `bun configs/claude/scripts/build-cluster.ts measure` (or `ssh <host> uptime`) and list live peer sessions with the `claude_sessions` MCP tool (`bun ~/.claude/scripts/notify.ts --list`) before writing under the shared build dir (`<work>` of the host) or launching heavy Cargo/C++ builds; `bun configs/claude/scripts/build-cluster.ts place [--mem G] [--disk G]` names the node with the most free cores that has the memory and disk, `run [--mem G] -- <cmd>` places and runs.
 2. Launch every long remote command (builds, installs, syncs, benchmarks, kernel compiles) directly inside a detached `tmux` session (`ssh <host> "tmux new-session -d -s <job> '<cmd>'"`; inside a repository checkout `bun tools/fr1.ts run -- <cmd>` syncs by git and runs it) and inspect non-blockingly with `ssh <host> "tmux has-session -t <job>; tmux capture-pane -p -t <job> | tail -20"`. Announce a heavy build to the live sessions with `claude_inject` (or `bun ~/.claude/scripts/notify.ts --to all "<message>"`). For short one-liners, pipe single-quoted heredocs through `@' ... '@ | ssh <host> "tr -d '\r' | bash"`.

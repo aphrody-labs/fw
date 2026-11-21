@@ -1,6 +1,6 @@
 ---
 name: rust-ai-engineering-ecosystem
-description: Guide opérationnel complet pour développer, documenter, compiler à haute vélocité (rustd) et migrer des bases de code vers Rust avec des agents IA (méthodologie Bun 1.4, revue adversariale, toolchain rustc/cargo/rustdoc).
+description: "Guide opérationnel complet pour développer, documenter, compiler à haute vélocité (rustd) et migrer des bases de code vers Rust avec des agents IA"
 version: 1.0.0
 tags:
   - rust
@@ -21,6 +21,8 @@ sources:
   - https://doc.rust-lang.org/rustc/index.html
   - https://doc.rust-lang.org/rustdoc/index.html
 ---
+> (méthodologie Bun 1.4, revue adversariale, toolchain rustc/cargo/rustdoc).
+
 
 # Skill : Ingénierie Rust à l'Ère des Agents IA (2026)
 

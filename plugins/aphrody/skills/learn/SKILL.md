@@ -1,7 +1,9 @@
 ---
 name: learn
-description: "Local autonomous learning in fw: harvest git history, manifests, docs, code graph, CI runs, releases, issues and pull requests of every product into one store, search it, distill rules and publish them to AGENTS.md and llms.txt (`fw learn`, MCP `fw_learn`)"
+description: "Local autonomous learning in fw: harvest git history, manifests, docs, code graph, CI runs, releases, issues and pull requests of every product into one store, search it"
 ---
+> , distill rules and publish them to AGENTS.md and llms.txt (fw learn, MCP fw_learn)
+
 
 # Learning loop (one store: fw)
 

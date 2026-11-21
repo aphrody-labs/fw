@@ -1,7 +1,9 @@
 ---
 name: formal-verification
-description: "Formal specification and verification of real code with AI agents: Lean 4 specs and proofs, machine-code semantics (AArch64), crypto protocol security proofs, spec-writer / prover / gatekeeper agent pipelines, and the acceptance-gate lessons for our own multi-agent work. Use before planning a verification campaign or designing an agent done-gate."
+description: "Formal specification and verification of real code with AI agents: Lean 4 specs and proofs. Use before planning a verification campaign or designing an agent done-gate."
 ---
+> machine-code semantics (AArch64), crypto protocol security proofs, spec-writer / prover / gatekeeper agent pipelines, and the acceptance-gate lessons for our own multi-agent work.
+
 
 # Formal verification with agent teams (AlphaProof Code method)
 

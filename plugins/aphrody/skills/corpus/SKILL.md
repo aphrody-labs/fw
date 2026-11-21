@@ -1,7 +1,9 @@
 ---
 name: corpus
-description: "Search the local docs corpus on fr1 (design.google, Material 3, developer.android.com, source.android.com, Chromium and AOSP docs, GitHub docs, Kotlin, Compose Multiplatform, Rust book/reference/rustc guide, Cargo, std rustdoc) with `fw corpus` and `fw learn search`. Use before answering from memory about any of those"
+description: "Search the local docs corpus on fr1. Use before answering from memory about any of those"
 ---
+> (design.google, Material 3, developer.android.com, source.android.com, Chromium and AOSP docs, GitHub docs, Kotlin, Compose Multiplatform, Rust book/reference/rustc guide, Cargo, std rustdoc) with fw corpus and fw learn search.
+
 
 # Docs corpus (`fw corpus`)
 

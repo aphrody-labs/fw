@@ -1,7 +1,9 @@
 ---
 name: no-slop-humanizer
-description: Detect and remove slop before it is produced, in prose, code, design and reasoning. Use before any reply, report, commit, README, UI copy, code change or plan; the checks are concrete patterns seen in real agent sessions, not style advice.
+description: "Detect and remove slop before it is produced, in prose, code, design and reasoning. Use before any reply, report, commit, README, UI copy, code change or plan"
 ---
+> the checks are concrete patterns seen in real agent sessions, not style advice.
+
 
 # No slop: writing, code, design, thinking
 

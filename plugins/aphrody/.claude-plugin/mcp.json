@@ -8,10 +8,6 @@
         "${CLAUDE_PLUGIN_ROOT}/mcp/fw-mcp.ts"
       ]
     },
-    "huggingface-skills": {
-      "type": "http",
-      "url": "https://huggingface.co/mcp?login"
-    },
     "claude-bridge": {
       "command": "bun",
       "args": [
@@ -19,6 +15,10 @@
         "--no-env-file",
         "${CLAUDE_PLUGIN_ROOT}/mcp/claude-bridge.ts"
       ]
+    },
+    "huggingface-skills": {
+      "type": "http",
+      "url": "https://huggingface.co/mcp?login"
     }
   }
 }
