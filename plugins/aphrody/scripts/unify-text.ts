@@ -194,8 +194,15 @@ export function rewriteMarkdown(text: string): Rewritten {
       return next === span ? whole : `\`${next}\``;
     });
   });
-  return { text: out.join("\n"), changes };
+  // Native and vendored skills both pass here; their `<root>/.claude/skills/` paths point at the source plugin layout.
+  const rewritten = out.join("\n").replace(PLUGIN_SKILL_PATH, () => {
+    changes++;
+    return "${CLAUDE_PLUGIN_ROOT}/skills/";
+  });
+  return { text: rewritten, changes };
 }
+
+const PLUGIN_SKILL_PATH = /\$\{CLAUDE_PLUGIN_ROOT\}\/\.claude\/skills\//g;
 
 export function rewriteFrontmatterPermissions(value: string): string {
   return TOOL_PERMISSIONS.reduce((acc, [pattern, replacement]) => acc.replace(pattern, replacement), value);
@@ -230,6 +237,9 @@ export function replaceDescription(text: string, description: string): string {
 }
 
 const LOOSE: Array<[RegExp, string]> = [
+  // Vendored skills reference their own plugin layout (`<root>/.claude/skills/<name>/...`); in the unified plugin
+  // every skill lives at `<root>/skills/<name>/...`.
+  [/\$\{CLAUDE_PLUGIN_ROOT\}\/\.claude\/skills\//g, "${CLAUDE_PLUGIN_ROOT}/skills/"],
   [/\b(?:npx|pnpx)\s+(?:-y\s+|--yes\s+)?(?:tsx|ts-node)\s+/g, "bun "],
   [/\b(?:npx|pnpx)\s+(?:-y\s+|--yes\s+)?(?:jest|vitest|mocha)\b/g, "bun test"],
   [/\b(?:npx|pnpx)\s+(?:-y\s+|--yes\s+)?(?:eslint)\b/g, "bun lint"],
