@@ -389,9 +389,9 @@ aphrody/tooling/xtask/src/tasks/workflows/bump_zed_version.rs	0	1	0
 aphrody/tooling/xtask/src/tasks/workflows/deploy_docs.rs	0	2	0
 aphrody/tooling/xtask/src/tasks/workflows/extension_workflow_rollout.rs	0	2	0
 aphrody/tooling/xtask/src/tasks/workflows/publish_extension_cli.rs	0	1	0
-apps/chromium-dash/src/app.ts	0	19	4
-apps/chromium-dash/src/layout.ts	0	13	3
-apps/chromium-dash/src/views.ts	0	128	0
+apps/chromium-dash/src/app.ts	0	0	4
+apps/chromium-dash/src/layout.ts	0	0	3
+apps/chromium-dash/src/views.ts	0	2	0
 ay/.claude/workflows/design-package.js	0	9	0
 ay/apps/auto-cli/src/cli.ts	0	3	0
 ay/apps/auto-desktop/src/workspace.rs	0	9	0
@@ -434,7 +434,6 @@ ay/packages/omniu/src/cli.ts	0	1	0
 ay/packages/org-mirror/src/cli.ts	0	2	0
 ay/packages/org-mirror/src/html.ts	0	12	2
 ay/packages/org-mirror/src/server.ts	0	0	2
-ay/packages/org-mirror/src/views.ts	0	73	0
 ay/packages/wck/src/cli.ts	0	6	0
 ay/packages/wck/src/legacy-scan.ts	0	8	0
 ay/packages/wck/src/specs/aiseo.ts	0	11	0
@@ -535,7 +534,6 @@ packages/chromium-releases/src/cli.ts	0	3	0
 packages/gnu/site/app.ts	0	28	0
 packages/gnu/src/cli.ts	0	1	0
 packages/gnu/src/feed.ts	0	4	0
-packages/gnu/src/site.ts	22	37	0
 packages/gnu/src/tools.ts	0	6	0
 plugins/aphrody/lib/bun-legacy-scanner.ts	0	74	0
 plugins/aphrody/scripts/sync-modern-web.ts	0	1	0
