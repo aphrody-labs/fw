@@ -105,6 +105,60 @@ pub fn router(app: Arc<App>) -> Router {
         .with_state(app)
 }
 
+/// The same router mounted under `base` (for example `/files`): routes move under the prefix, and the
+/// root-absolute links, form actions and redirects the pages emit follow them.
+pub fn router_at(app: Arc<App>, base: &str) -> Router {
+    let base: Arc<str> = base.trim_end_matches('/').into();
+    Router::new()
+        .nest(&base, router(app))
+        .layer(middleware::from_fn_with_state(base, rebase))
+}
+
+async fn rebase(State(base): State<Arc<str>>, req: Request, next: Next) -> Response {
+    let res = next.run(req).await;
+    let (mut parts, body) = res.into_parts();
+    if let Some(loc) = parts
+        .headers
+        .get(header::LOCATION)
+        .and_then(|v| v.to_str().ok())
+        .filter(|l| l.starts_with('/') && !l.starts_with("//"))
+        .and_then(|l| HeaderValue::from_str(&format!("{base}{l}")).ok())
+    {
+        parts.headers.insert(header::LOCATION, loc);
+    }
+    let html = parts
+        .headers
+        .get(header::CONTENT_TYPE)
+        .and_then(|v| v.to_str().ok())
+        .is_some_and(|t| t.starts_with("text/html"));
+    if !html {
+        return Response::from_parts(parts, body);
+    }
+    let Ok(bytes) = axum::body::to_bytes(body, 8 << 20).await else {
+        return StatusCode::INTERNAL_SERVER_ERROR.into_response();
+    };
+    let text = String::from_utf8_lossy(&bytes);
+    let mut out = String::with_capacity(text.len() + 256);
+    let mut rest: &str = &text;
+    while let Some((at, attr)) = ["href=\"/", "action=\"/", "src=\"/", "data-drop=\"/"]
+        .iter()
+        .filter_map(|a| rest.find(a).map(|i| (i, *a)))
+        .min_by_key(|(i, _)| *i)
+    {
+        let end = at + attr.len();
+        out.push_str(&rest[..end - 1]);
+        // `//host/path` is protocol-relative, not a path of this site.
+        if !rest[end..].starts_with('/') {
+            out.push_str(&base);
+        }
+        out.push('/');
+        rest = &rest[end..];
+    }
+    out.push_str(rest);
+    parts.headers.remove(header::CONTENT_LENGTH);
+    Response::from_parts(parts, Body::from(out))
+}
+
 /// Browser writes must come from this origin (Access cookies would otherwise allow cross-site forms).
 /// Requests without `Origin` and `Sec-Fetch-Site` are non-browser clients (agents, curl) and pass.
 async fn same_origin_writes(req: Request, next: Next) -> Response {

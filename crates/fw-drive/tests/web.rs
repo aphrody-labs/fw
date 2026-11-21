@@ -1,6 +1,6 @@
 use axum::body::{Body, to_bytes};
 use axum::http::{Request, StatusCode, header};
-use fw_drive::web::{App, Auth, Verified, parse_range, router};
+use fw_drive::web::{App, Auth, Verified, parse_range, router, router_at};
 use fw_drive::{Drive, User};
 use serde_json::Value;
 use std::sync::Arc;
@@ -318,4 +318,49 @@ async fn verified_identity_comes_from_the_host_not_from_headers() {
     let (s, _, b) = call(&r, req).await;
     assert_eq!(s, StatusCode::OK);
     assert_eq!(json(&b)["user"], "me@example.com");
+}
+
+#[tokio::test]
+async fn mounted_under_a_prefix_links_and_redirects_follow() {
+    let dir = tempfile::tempdir().unwrap();
+    let drive = Drive::open(dir.path(), None).unwrap();
+    let r = router_at(
+        Arc::new(App {
+            drive,
+            auth: owner(),
+        }),
+        "/files",
+    );
+    let (s, h, _) = call(&r, Request::get("/files").body(Body::empty()).unwrap()).await;
+    assert!(s.is_redirection(), "{s}");
+    let folder = h[header::LOCATION].to_str().unwrap().to_owned();
+    assert!(folder.starts_with("/files/folders/"), "{folder}");
+
+    let (s, _, b) = call(&r, Request::get(&folder).body(Body::empty()).unwrap()).await;
+    let html = String::from_utf8(b).unwrap();
+    assert_eq!(s, StatusCode::OK);
+    for link in [
+        r#"href="/files/drive.css""#,
+        r#"href="/files/recent""#,
+        r#"action="/files/search""#,
+        r#"data-drop="/files/folders/"#,
+    ] {
+        assert!(html.contains(link), "missing {link}");
+    }
+    assert!(!html.contains(r#"href="/recent""#));
+
+    let (s, ..) = call(
+        &r,
+        Request::get("/files/drive.css")
+            .body(Body::empty())
+            .unwrap(),
+    )
+    .await;
+    assert_eq!(s, StatusCode::OK);
+    let (s, ..) = call(&r, Request::get("/recent").body(Body::empty()).unwrap()).await;
+    assert_eq!(
+        s,
+        StatusCode::NOT_FOUND,
+        "nothing is served outside the prefix"
+    );
 }
