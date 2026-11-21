@@ -167,6 +167,7 @@ pub fn sync(config: Config, host: &Platform, options: &Options) -> Result<(Graph
                 match &dep.kind {
                     Kind::Git => {
                         let Some((url, revision)) = dep.git() else {
+                            expand_from_disk(&mut graph, &root, index, &mut ready)?;
                             continue;
                         };
                         let overridden = options
@@ -432,14 +433,21 @@ fn extract(artifact: &Path, dir: &Path) -> Result<Option<Vec<String>>> {
         Compression::Xz => Box::new(lzma_rust2::XzReader::new(open()?, false)),
         Compression::None => Box::new(open()?),
     };
+    if matches!(compression, Compression::None) && !is_tar(artifact) {
+        return Ok(None);
+    }
     let mut archive = tar::Archive::new(reader);
     let mut names = Vec::new();
     let entries = match archive.entries() {
         Ok(entries) => entries,
         Err(_) => return Ok(None),
     };
-    for entry in entries {
-        let mut entry = entry.map_err(|source| Error::io(artifact, source))?;
+    for (position, entry) in entries.enumerate() {
+        let mut entry = match entry {
+            Ok(entry) => entry,
+            Err(_) if position == 0 => return Ok(None),
+            Err(source) => return Err(Error::io(artifact, source)),
+        };
         let name = entry
             .path()
             .map_err(|source| Error::io(artifact, source))?
@@ -458,6 +466,15 @@ fn extract(artifact: &Path, dir: &Path) -> Result<Option<Vec<String>>> {
         names.push(name);
     }
     Ok(Some(names))
+}
+
+/// A tar header carries `ustar` at offset 257.
+fn is_tar(path: &Path) -> bool {
+    let mut header = [0u8; 262];
+    std::fs::File::open(path)
+        .and_then(|mut file| file.read_exact(&mut header))
+        .is_ok()
+        && &header[257..262] == b"ustar"
 }
 
 fn extract_zip(artifact: &Path, dir: &Path) -> Result<Vec<String>> {
@@ -488,9 +505,7 @@ fn make_executable(_path: &Path) -> Result<()> {
 fn write_entries(graph: &Graph, root: &Path) -> Result<()> {
     let mut text = String::from("entries = {\n");
     for line in graph.revinfo() {
-        if let Some((name, url)) = line.split_once(": ")
-            && graph.deps.iter().any(|dep| dep.name == name && dep.kind == Kind::Git)
-        {
+        if let Some((name, url)) = line.split_once(": ") {
             text.push_str(&format!("  '{name}': '{url}',\n"));
         }
     }
@@ -635,4 +650,54 @@ pub fn skeleton(config: Config, host: &Platform) -> Result<usize> {
         graph.expand(index, &text)?;
     }
     Ok(written)
+}
+
+/// The tools Chromium pins as CIPD packages or GCS objects, which `fw depot tools` installs by default.
+pub const CHROMIUM_TOOLS: &[&str] = &[
+    "buildtools/linux64",
+    "third_party/ninja",
+    "third_party/siso",
+    "buildtools/linux64-format",
+    "third_party/rust-toolchain",
+    "third_party/llvm-libclang",
+];
+
+/// Installs the CIPD and GCS dependencies of one DEPS file whose path contains one of `patterns`, below `root`, without any Git checkout. The
+/// DEPS file is that of a project whose paths start at `root` (for Chromium, the `src` directory is `root/src`).
+pub fn install_tools(
+    deps_text: &str,
+    solution: &str,
+    root: &Path,
+    host: &Platform,
+    patterns: &[String],
+    jobs: usize,
+) -> Result<Report> {
+    let started = Instant::now();
+    let source = format!("solutions = [{{'name': '{solution}', 'url': 'file:///none'}}]\n");
+    let config = Config::parse(&source, root)?;
+    let mut graph = Graph::new(config, host);
+    graph.expand(0, deps_text)?;
+    let matches = |path: &str| patterns.iter().any(|pattern| path.contains(pattern.as_str()));
+    let mut report = Report::default();
+    let wants: Vec<Want> = cipd_wants(&graph, &[]).into_iter().filter(|want| matches(&want.subdir)).collect();
+    if !wants.is_empty() {
+        report.cipd = Client::new(cipd::DEFAULT_SERVICE).ensure(root, &wants, jobs)?;
+    }
+    let objects: Vec<&crate::gclient::Dep> = graph
+        .deps
+        .iter()
+        .filter(|dep| matches(&dep.path) && matches!(dep.kind, Kind::Gcs { .. }))
+        .collect();
+    let outcomes = cipd::parallel(&objects, jobs, |dep| {
+        let Kind::Gcs { bucket, object_name, sha256sum, size_bytes, output_file } = &dep.kind else {
+            return Ok(false);
+        };
+        gcs_task(&root.join(&dep.path), bucket, object_name, sha256sum, *size_bytes, output_file.as_deref(), false)
+            .map_err(|error| Error::message(format!("{}: {error}", dep.name)))
+    })?;
+    for (dep, changed) in objects.iter().zip(outcomes) {
+        report.gcs.push((dep.name.clone(), changed));
+    }
+    report.elapsed = started.elapsed();
+    Ok(report)
 }

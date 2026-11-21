@@ -251,7 +251,8 @@ impl Client {
                     std::fs::File::create(&target).map_err(|source| Error::io(&target, source))?;
                 std::io::copy(&mut entry, &mut output).map_err(|source| Error::io(&target, source))?;
                 drop(output);
-                set_mode(&target, mode)?;
+                // cipd installs files read-only: 0555 for an executable, 0444 otherwise.
+                set_mode(&target, if mode & 0o111 != 0 { 0o555 } else { 0o444 })?;
             }
             created.push(name);
         }

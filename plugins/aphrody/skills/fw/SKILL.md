@@ -9,6 +9,7 @@ description: "Orientation for the fw monorepo: the Rust workspace under crates/f
 
 - **Rust workspace** (`Cargo.toml`): `crates/fw-*` and `xtask`. List members with `cargo metadata --no-deps --format-version 1`; tiers and gates per directory are in `MAP.tsv`.
 - **`fw` binary** (`crates/fw-bin`): `fw --help` lists commands. It also keeps older subcommands: `status | hardware | compute | ggml | cluster [route] | openapi | ui [--out] | ostd | uutils <applet> | nix <name> | stack | wayland | claw | serve [addr]`, and `uutils` `argv[0]` multicall dispatch.
+- **depot_tools in Rust** (`crates/fw-depot`, binary `fw-depot`, run as `fw depot`): gclient `sync` `revinfo` `getdep` `setdep` `runhooks`, `fetch`, CIPD, `autoninja`, `git cl`, `presubmit`, AOSP `repo`, `lunch`; command map and parity in the `depot-tools` skill.
 - **Automation** (`xtask/`): `cargo xtask ci [fast|all]`, `purity`, `map`, `package`, `doctor`, `sync-upstreams`, `ship`.
 - **WebAssembly**: `target/wasm32-unknown-unknown/release/fw_wasm.wasm` (`crates/fw-wasm`), used by the Cloudflare Worker and the browser UI.
 - **OS work** (`docs/architecture/os-strategy-2026.md`): NixOS `flake.nix` and `nix/` (CachyOS LTO kernel, `scx_lavd`, `uutils-coreutils-noprefix`, `sudo-rs`, `ntpd-rs`), `os/fw-wsl` (WSL kernel), `cloud-hypervisor` MicroVM sandbox, and `os/fw-os` (Asterinas OSDK guest, research only).

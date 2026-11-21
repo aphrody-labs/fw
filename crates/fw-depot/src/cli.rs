@@ -24,6 +24,7 @@ const USAGE: &str = "usage: fw depot <command> [args]
   presubmit (canned [--base REV] [--max-len N] | python [--base REV] [--depot-tools DIR])   PRESUBMIT checks
   repo (init -u URL -b REV [-m NAME] | sync | list | manifest) [-g groups] [-j N] [--partial|--shallow|--metadata-only]   AOSP repo
   lunch PRODUCT[-RELEASE-VARIANT] [--top DIR]   the environment `lunch` sets, as export lines
+  tools [--chromium TAG | --deps FILE] [--root DIR] [--match PATH ...]   install the pinned gn, ninja, siso, clang-format and Rust toolchain without a checkout
   skeleton   write the DEPS files of every recursed dependency into the checkout, without cloning (for offline revinfo)
   deps list DEPS [--host-os os] [--host-cpu cpu] [--os os] [--cpu cpu] [--var name=value]   JSON of a DEPS file for a target
   model --graph FILE --run1 FILE --run2 FILE ...   work/span model of a siso build
@@ -92,6 +93,7 @@ pub fn run(arguments: &[String]) -> Result<u8> {
         "revinfo" => revinfo(rest),
         "deps" => deps(rest),
         "sync" => sync(rest),
+        "tools" => tools(rest),
         "skeleton" => {
             let config = Config::find(&current_directory()?)?;
             let count = sync::skeleton(config, &Platform::detect())?;
@@ -695,5 +697,30 @@ fn lunch(arguments: &[String]) -> Result<u8> {
     for note in &result.unresolved {
         eprintln!("not computed without Soong: {note}");
     }
+    Ok(0)
+}
+
+fn tools(arguments: &[String]) -> Result<u8> {
+    let options = Options::parse(arguments, &[]);
+    let root = PathBuf::from(options.value("root").unwrap_or("."));
+    let text = match (options.value("chromium"), options.value("deps")) {
+        (Some(tag), _) => sync::remote_file("https://chromium.googlesource.com/chromium/src.git", tag, "DEPS")?
+            .ok_or_else(|| Error::message(format!("chromium/src has no DEPS at {tag}")))?,
+        (None, Some(file)) => fs::read_to_string(Path::new(file))?,
+        (None, None) => return Err(Error::message("tools needs --chromium TAG or --deps FILE")),
+    };
+    let mut patterns: Vec<String> = options.values("match").iter().map(|item| (*item).to_owned()).collect();
+    if patterns.is_empty() {
+        patterns = sync::CHROMIUM_TOOLS.iter().map(|item| (*item).to_owned()).collect();
+    }
+    let jobs = options.value("jobs").and_then(|jobs| jobs.parse().ok()).unwrap_or(8);
+    let report = sync::install_tools(&text, options.value("solution").unwrap_or("src"), &root, &Platform::detect(), &patterns, jobs)?;
+    for (want, instance, changed) in &report.cipd {
+        println!("cipd  {:<9} {}:{} {}", if *changed { "installed" } else { "unchanged" }, want.subdir, want.package, instance.id);
+    }
+    for (name, changed) in &report.gcs {
+        println!("gcs   {:<9} {name}", if *changed { "fetched" } else { "unchanged" });
+    }
+    println!("tools took {:.1}s", report.elapsed.as_secs_f64());
     Ok(0)
 }

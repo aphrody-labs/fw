@@ -84,37 +84,53 @@ pub fn resolve(name: &str, properties: &[(String, String)]) -> Result<Spec> {
         })
         .collect();
     let mut extra = Vec::new();
-    if name == "chromium" {
-        if let Some(solution) = solutions.first_mut()
-            && let Some((_, Value::Dict(vars))) = solution.iter_mut().find(|(key, _)| key == "custom_vars")
-        {
+    let mut custom_vars: Vec<(String, Value)> = Vec::new();
+    let truthy = |key: &str| property(properties, key).as_deref() == Some("True");
+    match name {
+        "chromium" => {
             if property(properties, "webkit_revision").as_deref() == Some("ToT") {
-                vars.push(("webkit_revision".to_owned(), Value::Str(String::new())));
+                custom_vars.push(("webkit_revision".to_owned(), Value::Str(String::new())));
             }
-            if property(properties, "internal").as_deref() == Some("True") {
-                vars.push(("checkout_src_internal".to_owned(), Value::Bool(true)));
+            if truthy("internal") {
+                custom_vars.push(("checkout_src_internal".to_owned(), Value::Bool(true)));
             }
         }
-        if let Some(os) = property(properties, "target_os") {
-            extra.push((
-                "target_os".to_owned(),
-                Value::List(os.split(',').map(|item| Value::Str(item.to_owned())).collect()),
-            ));
+        "angle" if truthy("internal") => {
+            custom_vars.push(("checkout_angle_internal".to_owned(), Value::Bool(true)));
         }
-        if let Some(only) = property(properties, "target_os_only") {
-            extra.push(("target_os_only".to_owned(), Value::Str(only)));
+        "infra_superproject" if truthy("checkout_internal") => {
+            custom_vars.push(("checkout_internal".to_owned(), Value::Bool(true)));
         }
+        "pdfium" => {
+            if let Some(configuration) = property(properties, "checkout_configuration") {
+                custom_vars.push(("checkout_configuration".to_owned(), Value::Str(configuration)));
+            }
+        }
+        _ => {}
     }
-    if name == "webrtc" {
-        if let Some(os) = property(properties, "target_os") {
-            extra.push((
-                "target_os".to_owned(),
-                Value::List(os.split(',').map(|item| Value::Str(item.to_owned())).collect()),
-            ));
-        }
-        if let Some(directory) = property(properties, "cache_dir") {
-            extra.push(("cache_dir".to_owned(), Value::Str(directory)));
-        }
+    if !custom_vars.is_empty()
+        && let Some(solution) = solutions.first_mut()
+        && let Some((_, Value::Dict(vars))) = solution.iter_mut().find(|(key, _)| key == "custom_vars")
+    {
+        vars.extend(custom_vars);
+    }
+    if matches!(name, "chromium" | "webrtc" | "angle" | "breakpad" | "dart" | "naclports" | "nacl" | "pdfium")
+        && let Some(os) = property(properties, "target_os")
+    {
+        extra.push((
+            "target_os".to_owned(),
+            Value::List(os.split(',').map(|item| Value::Str(item.to_owned())).collect()),
+        ));
+    }
+    if matches!(name, "chromium" | "breakpad" | "naclports" | "nacl" | "pdfium")
+        && let Some(only) = property(properties, "target_os_only")
+    {
+        extra.push(("target_os_only".to_owned(), Value::Str(only)));
+    }
+    if name == "webrtc"
+        && let Some(directory) = property(properties, "cache_dir")
+    {
+        extra.push(("cache_dir".to_owned(), Value::Str(directory)));
     }
     Ok(Spec {
         solutions,

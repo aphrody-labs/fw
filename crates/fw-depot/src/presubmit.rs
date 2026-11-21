@@ -22,10 +22,11 @@ pub struct Affected {
 
 /// `git diff -U0 <base>` of the working tree: the files and added lines of a change.
 pub fn change(repo: &Path, base: &str) -> Result<Vec<Affected>> {
-    let diff = git::run(repo, &["diff", "-U0", "--no-color", "--no-ext-diff", "--no-renames", base, "--"])?;
+    let diff = git::run_raw(repo, &["diff", "-U0", "--no-color", "--no-ext-diff", "--no-renames", base, "--"])?;
     let mut files: Vec<Affected> = Vec::new();
     let mut line_number = 0usize;
-    for line in diff.lines() {
+    for line in diff.split('\n') {
+        let line = line.strip_suffix('\r').unwrap_or(line);
         if let Some(path) = line.strip_prefix("+++ b/") {
             files.push(Affected {
                 path: path.to_owned(),
@@ -122,9 +123,10 @@ pub fn check_no_tabs(changed: &[Affected]) -> Vec<Finding> {
     out
 }
 
+/// Applies to every file of the change: `CheckChangeHasNoStrayWhitespace` is called without a source file filter.
 pub fn check_no_stray_whitespace(changed: &[Affected]) -> Vec<Finding> {
     let mut out = Vec::new();
-    for file in files(changed) {
+    for file in changed {
         for (number, text) in &file.added {
             if text.trim_end() != text {
                 out.push(Finding {
@@ -268,16 +270,13 @@ pub fn run_python(repo: &Path, depot_tools: &Path, upstream: &str, files: &[Stri
         return Err(Error::message(format!("{}: no presubmit_support.py", depot_tools.display())));
     }
     let (program, mut prefix): (String, Vec<String>) = if which("uv") {
-        ("uv".to_owned(), vec!["run".into(), "--no-project".into(), "python".into()])
+        ("uv".to_owned(), vec!["run".into(), "--no-project".into(), "--with".into(), "requests".into(), "python".into()])
     } else {
         ("python3".to_owned(), Vec::new())
     };
     prefix.push(script.display().to_string());
     prefix.extend(["--root".into(), repo.display().to_string(), "--upstream".into(), upstream.to_owned(), "--upload".into()]);
-    if !files.is_empty() {
-        prefix.push("--files".into());
-        prefix.extend(files.iter().cloned());
-    }
+    prefix.extend(files.iter().cloned());
     let status = Command::new(&program)
         .args(&prefix)
         .current_dir(repo)

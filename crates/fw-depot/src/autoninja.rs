@@ -449,7 +449,17 @@ pub fn plan(arguments: &[String], context: &Context, notes: &mut Vec<String>) ->
         ninja_args.extend(["-d".to_owned(), "stats".to_owned()]);
     }
     ninja_args.extend(remaining);
-    ninja_plan(&ninja_args, &context.cwd, &context.env)
+    // autoninja exports its build id before it runs Ninja, which is how ninja.py knows it was started by autoninja.
+    let mut env = context.env.clone();
+    env.entry("AUTONINJA_BUILD_ID".to_owned()).or_insert_with(build_id);
+    ninja_plan(&ninja_args, &context.cwd, &env)
+}
+
+fn build_id() -> String {
+    let nanos = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_or(0, |elapsed| elapsed.as_nanos());
+    format!("{:032x}", nanos ^ (u128::from(std::process::id()) << 96))
 }
 
 fn candidate_roots(output: &Path, cwd: &Path) -> Vec<PathBuf> {

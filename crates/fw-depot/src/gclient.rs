@@ -286,7 +286,7 @@ impl Graph {
         while next < self.deps.len() {
             let index = next;
             next += 1;
-            if !self.deps[index].recurse || self.deps[index].url.is_none() {
+            if !self.deps[index].recurse {
                 continue;
             }
             let file = self
@@ -346,7 +346,12 @@ impl Graph {
         }
 
         let mut entries: Vec<(String, Value)> = deps.deps.clone();
-        for (name, url) in &self.config.solutions[solution].custom_deps {
+        let own_custom = if self.deps[index].is_solution {
+            self.config.solutions[solution].custom_deps.clone()
+        } else {
+            BTreeMap::new()
+        };
+        for (name, url) in &own_custom {
             if let Some(url) = url
                 && !url.ends_with("@unmanaged")
                 && !entries.iter().any(|(key, _)| key == name)
@@ -500,7 +505,7 @@ impl Graph {
                     };
                     let url = self.lookup_custom(solution, &key, url);
                     let url = url.map(|url| self.absolute_url(index, &url)).transpose()?;
-                    let recurse = recursedeps.contains_key(&key) && url.is_some();
+                    let recurse = recursedeps.contains_key(&key);
                     let file = recursedeps.get(&key).cloned().unwrap_or_else(|| own_file.clone());
                     self.push(
                         index,
@@ -785,9 +790,7 @@ impl Graph {
         } else {
             self.config.root.clone()
         };
-        let mut text = lines.join("\n");
-        text.push('\n');
-        Ok(Some((base.join(file), text)))
+        Ok(Some((base.join(file), lines.join("\n"))))
     }
 }
 

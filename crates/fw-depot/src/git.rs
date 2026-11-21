@@ -1,4 +1,4 @@
-//! Git through the `git` executable. Measured against gitoxide in `docs/depot-tools.md`: the executable handles partial and shallow fetches of
+//! Git through the `git` executable. Measured against gitoxide 0.61 (see the `depot-tools` skill): the executable handles partial and shallow fetches of
 //! a pinned object from googlesource, which is what every dependency of a DEPS file needs.
 
 use std::path::Path;
@@ -8,6 +8,11 @@ use crate::error::{Error, Result};
 
 /// Runs `git <args>` in `dir` and returns trimmed stdout.
 pub fn run(dir: &Path, args: &[&str]) -> Result<String> {
+    run_raw(dir, args).map(|text| text.trim().to_owned())
+}
+
+/// Runs `git <args>` in `dir` and returns stdout as it is (a diff keeps the trailing whitespace of its last line).
+pub fn run_raw(dir: &Path, args: &[&str]) -> Result<String> {
     let output = Command::new("git")
         .args(args)
         .current_dir(dir)
@@ -16,7 +21,7 @@ pub fn run(dir: &Path, args: &[&str]) -> Result<String> {
         .output()
         .map_err(|source| Error::io(Path::new("git"), source))?;
     if output.status.success() {
-        return Ok(String::from_utf8_lossy(&output.stdout).trim().to_owned());
+        return Ok(String::from_utf8_lossy(&output.stdout).into_owned());
     }
     Err(Error::Command {
         command: format!("git {}", args.join(" ")),
