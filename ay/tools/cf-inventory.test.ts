@@ -89,8 +89,8 @@ describe("summary", () => {
 // The reproduction gate of ADR-16 WP1: the saved snapshot of 2026-11-20 (git-ignored, with ids) summarizes to the figures of the inventory document.
 const saved = join(repoRoot, ".private", "cf", "inventory-2026-11-20.json");
 describe.skipIf(!existsSync(saved))("snapshot of 2026-11-20", () => {
-  const s = summarize(JSON.parse(readFileSync(saved, "utf8")) as Raw);
   test("25 Workers, 12 buckets and the figures of the inventory", () => {
+    const s = summarize(JSON.parse(readFileSync(saved, "utf8")) as Raw);
     expect(s.totals).toMatchObject({ workers: 25, buckets: 12, routes: 59, domains: 26, requests: 954029, objects: 265805 });
     const dist = s.buckets.find((b) => b.name === "aphrody-dist")!;
     expect([dist.objects, dist.bytes]).toEqual([40986, 18328252275]);
