@@ -241,9 +241,10 @@ impl Remote {
 
     /// First `max` bytes of a remote file, and whether more follows.
     pub async fn read_head(&self, path: &str, max: usize) -> io::Result<(Vec<u8>, bool)> {
-        let mut file = self.op.open(path, Flags::READ, &Attrs::default()).await?;
+        let file = self.op.open(path, Flags::READ, &Attrs::default()).await?;
+        let file = std::pin::pin!(file);
         let mut buf = Vec::with_capacity(max.min(1 << 20) + 1);
-        (&mut file).take(max as u64 + 1).read_to_end(&mut buf).await?;
+        file.take(max as u64 + 1).read_to_end(&mut buf).await?;
         let more = buf.len() > max;
         buf.truncate(max);
         Ok((buf, more))

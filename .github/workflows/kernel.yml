@@ -1,0 +1,89 @@
+name: Kernel
+
+# kernel.toml pins against kernel.org and CachyOS, and the Linux UAPI types for Bun. Nothing here clones a kernel:
+# `fw kernel sync` fetches the pinned commit as a blobless sparse checkout (about 32 MB), enough for `make headers_install`.
+# Daily, because kernel.org and CachyOS move without a commit here: a red `Pins` job means the pins are inconsistent,
+# the `Pins behind` annotation means a newer release exists (`fw kernel pin <moniker>` moves them).
+on:
+  push:
+    branches: [main]
+    paths:
+      - kernel.toml
+      - .gitmodules
+      - third_party/linux*
+      - crates/fw-linux/**
+      - packages/linux-types/**
+      - src/kernel.ts
+      - .github/workflows/kernel.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - kernel.toml
+      - .gitmodules
+      - third_party/linux*
+      - crates/fw-linux/**
+      - packages/linux-types/**
+      - src/kernel.ts
+      - .github/workflows/kernel.yml
+  schedule:
+    - cron: "23 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fw-kernel-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  pins:
+    name: Pins
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/rust-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release -p fw-linux
+      - name: fw kernel status --check
+        run: ./target/release/fw-linux status --check --json | tee kernel-status.json
+      - name: Pins behind
+        if: always()
+        run: |
+          ./target/release/fw-linux status --check --strict > kernel-status.txt || true
+          grep '^behind:' kernel-status.txt | while read -r line; do echo "::warning title=Kernel pin behind::$line"; done || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kernel-status
+          path: kernel-status.json
+
+  types:
+    name: Linux types for Bun
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: ./.github/actions/rust-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - name: Tools the generator runs (clang, pahole, bpftool) and headers_install needs (make, gcc, rsync)
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends clang llvm dwarves bpftool make gcc rsync
+      - run: cargo build --release -p fw-linux
+      - name: Pinned UAPI headers (sparse blobless checkout, no full clone)
+        working-directory: packages/linux-types
+        env:
+          FW_LINUX_BIN: ${{ github.workspace }}/target/release/fw-linux
+        run: |
+          bun install --frozen-lockfile
+          bun run headers --out "$RUNNER_TEMP/linux-headers"
+      - name: Typecheck
+        working-directory: packages/linux-types
+        run: bunx tsc -p .
+      - name: Tests (real syscalls and ioctls over bun:ffi, layouts against clang)
+        working-directory: packages/linux-types
+        run: bun run test
+      - name: Generated files match the pinned kernel
+        working-directory: packages/linux-types
+        run: bun run gen --check --headers "$RUNNER_TEMP/linux-headers"
