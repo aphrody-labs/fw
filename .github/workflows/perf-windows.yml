@@ -36,7 +36,7 @@ jobs:
         run: |
           "$RUNNER_TEMP/harness/release/fw_perf.exe" run --root . --work "$RUNNER_TEMP/work" --out "$GITHUB_WORKSPACE/perf/windows-release.json" \
             --suite host,build,startup --only fw-bin.release.msvc-native --build-runs "${{ inputs.release_runs }}" --runs 5
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: perf-windows

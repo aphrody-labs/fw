@@ -103,7 +103,7 @@ jobs:
           mkdir -p dist
           cp "target/${{ matrix.target }}/release/${{ matrix.bin }}" "dist/${{ matrix.asset }}"
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-${{ matrix.asset }}
           path: dist/${{ matrix.asset }}
@@ -133,7 +133,7 @@ jobs:
             --fw dist/fw-x86_64-linux-musl \
             --fixture target/debug/examples/mcp_fixture_server \
             --out target/mcp-conformance
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: mcp-gate

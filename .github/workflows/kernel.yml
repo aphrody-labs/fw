@@ -53,7 +53,7 @@ jobs:
         run: |
           ./target/release/fw-linux status --check --strict > kernel-status.txt || true
           grep '^behind:' kernel-status.txt | while read -r line; do echo "::warning title=Kernel pin behind::$line"; done || true
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: kernel-status
