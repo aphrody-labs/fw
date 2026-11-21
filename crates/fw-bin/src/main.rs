@@ -343,6 +343,9 @@ fn main() {
         "kernel" | "linux" => {
             std::process::exit(run_sibling("kernel", "fw-linux", &args[1..]));
         }
+        "android" => {
+            std::process::exit(run_sibling("android", "fw-android", &args[1..]));
+        }
         "cluster" => {
             let mut router = fw_proto::discover_router();
             let sub = args.get(1).map(|s| s.as_str()).unwrap_or("summary");
@@ -853,6 +856,7 @@ fn sibling_build_args(name: &str) -> String {
     match name {
         "fw-graph" => "-p fw-rag --features codegraph --bin fw-graph".to_owned(),
         "fw-k8s" => "-p fw-cluster --features kube --bin fw-k8s".to_owned(),
+        "fw-android" => "--manifest-path crates/fw-android/Cargo.toml -p fw-android -p fw-android-wl".to_owned(),
         other => format!("-p {other}"),
     }
 }
