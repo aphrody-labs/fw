@@ -503,17 +503,15 @@ class McpClient {
 function mcpRoot(): string {
   const root = join(SANDBOX, "mcp-root");
   mkdirSync(root, { recursive: true });
-  for (const entry of ["src", "fw.targets.json", "fw.soul.json", "package.json", "configs/heretic", "core/ts/neon", "plugins/aphrody/.claude-plugin", "plugins/aphrody/hooks.json", "plugins/aphrody/plugin.json"]) {
+  for (const entry of ["src", "fw.targets.json", "fw.soul.json", "package.json", "configs/heretic", "core/ts/neon", "plugins/aphrody/.claude-plugin"]) {
     const from = join(ROOT, entry);
     if (existsSync(from)) cpSync(from, join(root, entry), { recursive: true });
   }
   const abi = findAbi();
   if (abi) {
-    mkdirSync(join(root, "target", "agy"), { recursive: true });
-    copyFileSync(abi, join(root, "target", "agy", basename(abi)));
+    mkdirSync(join(root, "target", "fw"), { recursive: true });
+    copyFileSync(abi, join(root, "target", "fw", basename(abi)));
   }
-  mkdirSync(join(HOME_DIR, ".gemini", "scripts"), { recursive: true });
-  writeFileSync(join(HOME_DIR, ".gemini", "scripts", "learn.ts"), 'console.log(JSON.stringify({ ok: true, stub: "e2e", argv: process.argv.slice(2) }));\n');
   return root;
 }
 
@@ -524,7 +522,7 @@ function basename(p: string): string {
 /** The C ABI library: --abi, then the places src/targets.ts searches in the checkout. */
 function findAbi(): string | undefined {
   const lib = IS_WIN ? "fw_abi.dll" : process.platform === "darwin" ? "libfw_abi.dylib" : "libfw_abi.so";
-  const candidates = [flag("--abi"), process.env.FW_ABI, ...["target/agy", "native/fw-abi/target/release", "native/fw-abi/target/debug", "dist"].map((d) => join(ROOT, d, lib))];
+  const candidates = [flag("--abi"), process.env.FW_ABI, ...["target/fw", "native/fw-abi/target/release", "native/fw-abi/target/debug", "dist"].map((d) => join(ROOT, d, lib))];
   return candidates.find((p): p is string => Boolean(p) && existsSync(p as string));
 }
 
@@ -682,13 +680,6 @@ async function hooksSection(): Promise<void> {
   const hso = (o: unknown) => (o as { hookSpecificOutput?: Record<string, unknown> }).hookSpecificOutput;
   const cases: HookCase[] = [
     {
-      name: "session-start agy",
-      script: "session-start.ts",
-      args: ["agy"],
-      stdin: JSON.stringify({ conversationId: "e2e", workspacePaths: [WORK] }),
-      check: (o) => (JSON.stringify(o).includes("systemMessage") ? undefined : "no injectSteps.systemMessage"),
-    },
-    {
       name: "session-start claude",
       script: "session-start.ts",
       args: ["claude"],
@@ -739,20 +730,6 @@ async function hooksSection(): Promise<void> {
       args: ["claude"],
       stdin: "{not json",
       check: (o) => (JSON.stringify(o) === "{}" ? undefined : `expected {}, got ${JSON.stringify(o)}`),
-    },
-    {
-      name: "pre-tool-use agy run_command",
-      script: "pre-tool-use.ts",
-      args: ["agy"],
-      stdin: JSON.stringify({ conversationId: "e2e", workspacePaths: [WORK], toolCall: { id: "1", name: "run_command", args: { CommandLine: "pnpm add zod" } } }),
-      check: (o) => ((o as { decision?: string }).decision === "allow" ? undefined : `no allow decision: ${JSON.stringify(o)}`),
-    },
-    {
-      name: "pre-tool-use gemini",
-      script: "pre-tool-use.ts",
-      args: ["gemini"],
-      stdin: JSON.stringify({ cwd: WORK, tool_name: "run_shell_command", tool_input: { command: "yarn add zod" } }),
-      check: (o) => ((o as { decision?: string }).decision === "allow" ? undefined : `no allow decision: ${JSON.stringify(o)}`),
     },
   ];
   for (const c of cases) await hookCase(c);
@@ -816,27 +793,27 @@ async function rewriteUnit(): Promise<void> {
   writeFileSync(
     script,
     `import { rewriteCommand } from ${JSON.stringify(join(PLUGIN, "hooks", "rewrite.ts").replaceAll("\\", "/"))};
-import { bunCapabilities, detectHarness, isBunCheckout } from ${JSON.stringify(join(PLUGIN, "hooks", "common.ts").replaceAll("\\", "/"))};
+import { bunCapabilities, isBunCheckout } from ${JSON.stringify(join(PLUGIN, "hooks", "common.ts").replaceAll("\\", "/"))};
 const opts = { bunCheckout: false, aphrody: false };
 const rewritten = ["npm install express", "npx tsc", "yarn add zod", "pnpm run build", "node index.js"].map((c) => [c, rewriteCommand(c, opts)?.command ?? null]);
 const untouched = ["ls -la", "git status", "echo npm install"].map((c) => [c, rewriteCommand(c, opts)?.command ?? null]);
-console.log(JSON.stringify({ rewritten, untouched, caps: bunCapabilities(), harness: detectHarness("agy"), checkout: isBunCheckout(${JSON.stringify(WORK.replaceAll("\\", "/"))}) }));
+console.log(JSON.stringify({ rewritten, untouched, caps: bunCapabilities(), checkout: isBunCheckout(${JSON.stringify(WORK.replaceAll("\\", "/"))}) }));
 `,
   );
   const r = await runProcess([process.execPath, "--no-install", "--no-env-file", script], { cwd: PLUGIN, timeoutMs: 30_000 });
   let note: string | undefined;
   try {
-    const v = JSON.parse(r.out) as { rewritten: [string, string | null][]; untouched: [string, string | null][]; caps: { uv: boolean; mcp: boolean }; harness: string; checkout: boolean };
+    const v = JSON.parse(r.out) as { rewritten: [string, string | null][]; untouched: [string, string | null][]; caps: { uv: boolean; mcp: boolean }; checkout: boolean };
     const noRewrite = v.rewritten.filter(([, out]) => !out).map(([c]) => c);
     const wrongly = v.untouched.filter(([, out]) => out).map(([c]) => c);
     if (noRewrite.length) note = `no rewrite for ${noRewrite.join(" | ")}`;
     else if (wrongly.length) note = `rewrote ${wrongly.join(" | ")}`;
     else if (typeof v.caps.uv !== "boolean" || typeof v.caps.mcp !== "boolean") note = "bunCapabilities() malformed";
-    else if (v.harness !== "agy" || v.checkout) note = "detectHarness/isBunCheckout wrong";
+    else if (v.checkout) note = "isBunCheckout wrong";
   } catch {
     note = `unit script failed: ${short(r.err || r.out)}`;
   }
-  record("hooks", "rewrite.ts + common.ts", "rewriteCommand / bunCapabilities / detectHarness", note ? "fail" : "ok", r.ms, note ?? "rewrites and passthroughs as specified");
+  record("hooks", "rewrite.ts + common.ts", "rewriteCommand / bunCapabilities / isBunCheckout", note ? "fail" : "ok", r.ms, note ?? "rewrites and passthroughs as specified");
 }
 
 // ---- upgrade ---------------------------------------------------------------------------------------------------
