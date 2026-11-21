@@ -1,0 +1,168 @@
+{
+  "$defs": {
+    "IconSpec": {
+      "additionalProperties": false,
+      "description": "Icon set of the theme: Material Symbols as served by material.aphrody.com and compiled into `fw-material`.",
+      "properties": {
+        "fill": {
+          "default": false,
+          "type": "boolean"
+        },
+        "style": {
+          "$ref": "#/$defs/IconStyle",
+          "default": "outlined"
+        },
+        "weight": {
+          "default": 400,
+          "description": "Symbol weight, 100 to 700.",
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "IconStyle": {
+      "enum": [
+        "outlined",
+        "rounded",
+        "sharp"
+      ],
+      "type": "string"
+    },
+    "M3Spec": {
+      "additionalProperties": false,
+      "description": "Material 3 seed of the theme. Without it the `accent` color is the seed, and without that the brand seed.",
+      "properties": {
+        "seed": {
+          "description": "`#rrggbb`, or `brand` for `product.toml` [brand].",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "variant": {
+          "description": "Scheme variant slug (tonal-spot, vibrant, expressive, fidelity, content, neutral, monochrome, rainbow, fruit-salad).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "ModeSpec": {
+      "description": "Modes a theme provides. `both` derives a light and a dark scheme from the seed; an explicit palette needs one mode.",
+      "enum": [
+        "dark",
+        "light",
+        "both"
+      ],
+      "type": "string"
+    },
+    "WallpaperSpec": {
+      "additionalProperties": false,
+      "description": "A wallpaper: a file relative to the theme directory, or a URL. Without it the first file of `backgrounds/` is used.",
+      "properties": {
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "`theme.toml`.",
+  "properties": {
+    "author": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "colors": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {},
+      "description": "Explicit palette with the omarchy `colors.toml` names (background, foreground, accent, red, bright_red, ...), `#rrggbb`.",
+      "type": "object"
+    },
+    "default": {
+      "default": false,
+      "description": "The theme used when settings name none (one shipped theme sets it).",
+      "type": "boolean"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "icons": {
+      "$ref": "#/$defs/IconSpec",
+      "default": {
+        "fill": false,
+        "style": "outlined",
+        "weight": 400
+      }
+    },
+    "m3": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/M3Spec"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "mode": {
+      "$ref": "#/$defs/ModeSpec",
+      "default": "both"
+    },
+    "name": {
+      "type": "string"
+    },
+    "terminal": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {},
+      "description": "Explicit terminal colors (black .. bright_white, cursor, selection_background, selection_foreground).",
+      "type": "object"
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "wallpaper": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WallpaperSpec"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "title": "fw theme.toml",
+  "type": "object"
+}

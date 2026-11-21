@@ -1398,6 +1398,11 @@ decision = "keep"
 why = "gitlinks to the kernel sources the kernel lot builds (update = none, shallow)"
 
 [[area]]
+path = "themes"
+decision = "keep"
+why = "theme directories (theme.toml, optional colors.toml, backgrounds, templates) read by crates/fw-theme; the user directory and FW_THEMES_DIR shadow them"
+
+[[area]]
 path = "tools"
 decision = "keep"
 why = "repository scripts (Bun) with their own tests; one script per task"

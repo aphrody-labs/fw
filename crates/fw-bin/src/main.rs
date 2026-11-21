@@ -448,6 +448,7 @@ fn main() {
                 .unwrap()
             );
         }
+        "theme" => std::process::exit(fw_theme::cli::run(&args[1..])),
         "claw" | "hermes" => {
             let sub = args.get(1).map(String::as_str).unwrap_or("status");
             let mut agent = HermesClawAgent::new("fw-hermes-claw");

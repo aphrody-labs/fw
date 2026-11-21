@@ -1,0 +1,80 @@
+# How a theme becomes a complete palette. Every color of a theme is either written in its theme.toml or derived here
+# from the Material 3 roles of its seed; nothing in the code names a color.
+
+# Hues that also get a `bright_` variant (the omarchy palette set).
+bright = ["red", "yellow", "green", "cyan", "blue", "magenta"]
+
+# ANSI and accent hues as HCT hue (degrees) and chroma. Each is harmonized toward the seed hue (at most 15 degrees,
+# material-color-utilities blend) and placed at the tone of the active mode, so a theme keeps its character and every
+# terminal color keeps readable contrast.
+[hues]
+red = { hue = 25.0, chroma = 56.0 }
+orange = { hue = 55.0, chroma = 54.0 }
+yellow = { hue = 95.0, chroma = 52.0 }
+green = { hue = 145.0, chroma = 50.0 }
+cyan = { hue = 205.0, chroma = 44.0 }
+blue = { hue = 260.0, chroma = 52.0 }
+magenta = { hue = 330.0, chroma = 50.0 }
+brown = { hue = 55.0, chroma = 22.0 }
+
+[tone]
+dark_normal = 72.0
+dark_bright = 82.0
+light_normal = 40.0
+light_bright = 50.0
+
+# Palette key (omarchy colors.toml names) <- Material 3 role of the active mode.
+[palette]
+background = "surface"
+dark_background = "surface-container-lowest"
+darker_background = "surface-dim"
+lighter_background = "surface-container-high"
+foreground = "on-surface"
+dark_foreground = "outline"
+light_foreground = "on-surface-variant"
+bright_foreground = "on-background"
+accent = "primary"
+selection = "secondary-container"
+muted = "outline-variant"
+
+# Terminal key <- palette key. Keys of the form `<hue>` and `bright_<hue>` are the derived or explicit hue colors.
+[terminal]
+black = "background"
+red = "red"
+green = "green"
+yellow = "yellow"
+blue = "blue"
+magenta = "magenta"
+cyan = "cyan"
+white = "light_foreground"
+bright_black = "muted"
+bright_red = "bright_red"
+bright_green = "bright_green"
+bright_yellow = "bright_yellow"
+bright_blue = "bright_blue"
+bright_magenta = "bright_magenta"
+bright_cyan = "bright_cyan"
+bright_white = "bright_foreground"
+cursor = "accent"
+selection_background = "selection"
+selection_foreground = "foreground"
+
+# A theme that writes its palette explicitly (omarchy colors.toml) overrides these Material 3 roles of its own mode,
+# so CSS and GPUI outputs agree with the terminal and the compositor. Role <- palette key.
+[roles]
+background = "background"
+surface = "background"
+on-background = "foreground"
+on-surface = "foreground"
+surface-dim = "darker_background"
+surface-container-lowest = "darker_background"
+surface-container-low = "dark_background"
+surface-container = "background"
+surface-container-high = "lighter_background"
+surface-container-highest = "selection"
+secondary-container = "selection"
+on-surface-variant = "light_foreground"
+outline = "dark_foreground"
+outline-variant = "muted"
+primary = "accent"
+error = "red"

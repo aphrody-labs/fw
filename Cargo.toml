@@ -11,6 +11,7 @@ members = [
     "crates/fw-ggml",
     "crates/fw-llama",
     "crates/fw-m3",
+    "crates/fw-theme",
     "crates/fw-material",
     "crates/fw-video",
     "crates/fw-files",
@@ -737,6 +738,7 @@ fw-hermes-claw = { version = "2026.11.0", path = "crates/fw-hermes-claw" }
 fw-http = { version = "2026.11.0", path = "crates/fw-http", default-features = false }
 fw-llama-sys = { path = "crates/fw-llama-sys" }
 fw-m3 = { path = "crates/fw-m3" }
+fw-material = { path = "crates/fw-material" }
 fw-ml = { path = "crates/fw-ml", default-features = false }
 fw-model = { path = "crates/fw-model", default-features = false }
 fw-nix = { version = "2026.11.0", path = "crates/fw-nix" }
@@ -745,6 +747,7 @@ fw-proc = { path = "crates/fw-proc" }
 fw-proto = { version = "2026.11.0", path = "crates/fw-proto" }
 fw-rag-core = { path = "crates/fw-rag-core", default-features = false }
 fw-secrets = { version = "2026.11.0", path = "crates/fw-secrets" }
+fw-theme = { path = "crates/fw-theme" }
 fw-toolcall = { path = "crates/fw-toolcall", default-features = false }
 fw-toolchain = { version = "2026.11.0", path = "crates/fw-toolchain" }
 fw-ui-blitz = { version = "2026.11.0", path = "crates/fw-ui-blitz" }

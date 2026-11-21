@@ -11754,6 +11754,7 @@ dependencies = [
  "fw-nix",
  "fw-ostd-wasm",
  "fw-proto",
+ "fw-theme",
  "fw-ui-blitz",
  "fw-unified-stack",
  "fw-uutils",
@@ -12324,6 +12325,22 @@ dependencies = [
  "thiserror 2.0.21",
  "tokio",
  "zeroize",
+]
+
+[[package]]
+name = "fw-theme"
+version = "2026.11.0"
+dependencies = [
+ "fw-m3",
+ "fw-material",
+ "material-colors",
+ "notify 9.0.0",
+ "schemars 1.2.3",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.21",
+ "toml 1.2.2+spec-1.1.0",
 ]
 
 [[package]]

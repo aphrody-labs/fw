@@ -1,0 +1,188 @@
+{
+  "$defs": {
+    "Density": {
+      "enum": [
+        "compact",
+        "default",
+        "comfortable"
+      ],
+      "type": "string"
+    },
+    "IconSettings": {
+      "additionalProperties": false,
+      "description": "Overrides of the icon set of the active theme.",
+      "properties": {
+        "fill": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IconStyle"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "weight": {
+          "description": "Symbol weight, 100 to 700.",
+          "format": "uint16",
+          "maximum": 700,
+          "minimum": 100,
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "IconStyle": {
+      "enum": [
+        "outlined",
+        "rounded",
+        "sharp"
+      ],
+      "type": "string"
+    },
+    "ModePreference": {
+      "description": "Which mode of a theme to use; `system` lets the theme pick (dark when it provides both).",
+      "enum": [
+        "system",
+        "light",
+        "dark"
+      ],
+      "type": "string"
+    },
+    "MotionSettings": {
+      "additionalProperties": false,
+      "properties": {
+        "reduced": {
+          "default": false,
+          "description": "Replace spring motion by instant changes.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "TargetName": {
+      "enum": [
+        "css",
+        "gpui",
+        "rio",
+        "hyprland",
+        "web"
+      ],
+      "type": "string"
+    },
+    "ThemeSettings": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/ModePreference",
+          "default": "system"
+        },
+        "name": {
+          "default": null,
+          "description": "Name of a theme directory (`fw theme list`); the default theme when unset.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "description": "The settings file.",
+  "properties": {
+    "density": {
+      "$ref": "#/$defs/Density",
+      "default": "default",
+      "x-group": "appearance",
+      "x-icon": "density_medium"
+    },
+    "hooks": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "default": {},
+      "description": "Commands run after a render, by target slug (css, gpui, rio, hyprland, web) or `all`; they see FW_THEME_NAME,\nFW_THEME_MODE and FW_THEME_DIR.",
+      "type": "object",
+      "x-group": "advanced",
+      "x-icon": "terminal",
+      "x-restart-required": false
+    },
+    "icons": {
+      "$ref": "#/$defs/IconSettings",
+      "default": {
+        "fill": null,
+        "style": null,
+        "weight": null
+      },
+      "x-group": "appearance",
+      "x-icon": "interests"
+    },
+    "locale": {
+      "default": null,
+      "description": "BCP 47 language tag of the interface; the environment locale when unset.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "x-group": "language",
+      "x-icon": "language"
+    },
+    "motion": {
+      "$ref": "#/$defs/MotionSettings",
+      "default": {
+        "reduced": false
+      },
+      "x-group": "accessibility",
+      "x-icon": "animation"
+    },
+    "targets": {
+      "default": null,
+      "description": "Targets rendered on every theme change; all of them when unset.",
+      "items": {
+        "$ref": "#/$defs/TargetName"
+      },
+      "type": [
+        "array",
+        "null"
+      ],
+      "x-group": "appearance",
+      "x-icon": "output"
+    },
+    "theme": {
+      "$ref": "#/$defs/ThemeSettings",
+      "default": {
+        "mode": "system",
+        "name": null
+      },
+      "x-group": "appearance",
+      "x-icon": "palette"
+    },
+    "wallpaper": {
+      "default": null,
+      "description": "Wallpaper file or URL; the theme's own wallpaper when unset.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "x-group": "appearance",
+      "x-icon": "wallpaper"
+    }
+  },
+  "title": "fw settings",
+  "type": "object"
+}
