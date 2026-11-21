@@ -32,6 +32,7 @@ rust_target = "x86_64-pc-windows-msvc"
 [[products.fw.targets]]
 asset = "fw-aarch64-macos"
 os = "macos"
+ship = false # macOS is skipped for now: targets are Windows 11, recent Linux and wasm (2026-11-21)
 arch = "aarch64"
 kind = "binary"
 runner = "macos-latest"
@@ -74,6 +75,7 @@ rust_target = "x86_64-pc-windows-msvc"
 [[products.aphrody.targets]]
 asset = "Aphrody-arm64.dmg"
 os = "macos"
+ship = false # macOS is skipped for now: targets are Windows 11, recent Linux and wasm (2026-11-21)
 arch = "aarch64"
 kind = "installer"
 runner = "macos-latest"
@@ -144,6 +146,7 @@ bun_target = "bun-windows-x64"
 [[products.ay.targets]]
 asset = "ay-macos-aarch64"
 os = "macos"
+ship = false # macOS is skipped for now: targets are Windows 11, recent Linux and wasm (2026-11-21)
 arch = "aarch64"
 kind = "binary"
 runner = "ubuntu-latest"
