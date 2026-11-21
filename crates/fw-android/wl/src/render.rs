@@ -80,7 +80,7 @@ fn draw_tree(canvas: &mut Canvas, root: &WlSurface, origin: Point<i32, Logical>,
         },
         |_, states, parent| {
             let origin = *parent + surface::subsurface_offset(states);
-            let Some(placement) = surface::placement(states, origin) else { return };
+            let Some(placement) = surface::placement(states) else { return };
             let Some(slot) = states.data_map.get::<SurfaceImageSlot>() else { return };
             canvas.blit(
                 &slot.borrow(),
@@ -97,7 +97,7 @@ fn draw_tree(canvas: &mut Canvas, root: &WlSurface, origin: Point<i32, Logical>,
 
 fn root_size(window: &Window) -> Option<Size<i32, Logical>> {
     with_states(window.surface(), |states| {
-        surface::placement(states, Point::from((0, 0))).map(|placement| placement.size)
+        surface::placement(states).map(|placement| placement.size)
     })
 }
 
