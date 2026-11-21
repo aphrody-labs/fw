@@ -184,34 +184,34 @@ source = "https://ladybird.org/"
 repo = "LadybirdBrowser/ladybird"
 branch = "master"
 
-# Bun and Kitesurf are submodules of our forks: the pin is their gitlink.
+# Bun, Kitesurf, browse and mullvad are our forks: the pin is their commit in tools/layout.toml [forks].
 [track.bun]
 kind = "runtime"
 source = "https://github.com/aphrody-labs/bun"
 repo = "aphrody-labs/bun"
 branch = "main"
-pin_submodule = "third_party/bun"
+pin_fork = "bun"
 
 [track.kitesurf]
 kind = "engine"
 source = "https://github.com/aphrody-labs/kitesurf"
 repo = "aphrody-labs/kitesurf"
 branch = "main"
-pin_submodule = "third_party/kitesurf"
+pin_fork = "kitesurf"
 
 [track.browse]
 kind = "tool"
 source = "https://github.com/aphrody-labs/browse"
 repo = "aphrody-labs/browse"
 branch = "dev"
-pin_submodule = "third_party/browse"
+pin_fork = "browse"
 
 [track.mullvad]
 kind = "tool"
 source = "https://github.com/aphrody-labs/mullvadvpn-app"
 repo = "aphrody-labs/mullvadvpn-app"
 branch = "main"
-pin_submodule = "third_party/mullvad"
+pin_fork = "mullvad"
 
 [track.boa]
 kind = "js"

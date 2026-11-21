@@ -213,6 +213,16 @@ describe("plumbing", () => {
     expect(peak).toBe(3);
   });
 
+  test("every pin_fork of acceptance.toml is a fork pinned by commit in tools/layout.toml", async () => {
+    const read = async (path: string) => Bun.TOML.parse(await Bun.file(new URL(path, import.meta.url)).text()) as any;
+    const tracked = Object.entries<any>((await read("../../testing/acceptance.toml")).track).filter(
+      ([, e]) => e.pin_fork,
+    );
+    const forks = (await read("../../tools/layout.toml")).forks;
+    expect(tracked.length).toBeGreaterThan(0);
+    for (const [, e] of tracked) expect(forks[e.pin_fork]?.commit).toMatch(/^[0-9a-f]{40}$/);
+  });
+
   test("table", () => {
     const rows: Tracked[] = [
       {
