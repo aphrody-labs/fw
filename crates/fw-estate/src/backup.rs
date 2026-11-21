@@ -22,22 +22,22 @@ pub struct Backup {
     pub schedule: String,
 }
 
+/// The `[hosts.*]` table whose key or one of whose `aliases` is `name`.
+pub fn find_host<'a>(cluster: &'a toml::Value, name: &str) -> Option<&'a toml::Value> {
+    cluster.get("hosts")?.as_table()?.iter().find(|(key, host)| key.as_str() == name || host.get("aliases").and_then(toml::Value::as_array).is_some_and(|aliases| aliases.iter().any(|alias| alias.as_str() == Some(name)))).map(|(_, host)| host)
+}
+
 /// `<work of the backup host>/<subdir>`, read from the cluster file.
 pub fn root(backup: &Backup, cluster_text: &str) -> Result<PathBuf> {
     let cluster: toml::Value = toml::from_str(cluster_text).context("parse the cluster file")?;
-    let work = cluster
-        .get("hosts")
-        .and_then(|hosts| hosts.get(&backup.host))
-        .and_then(|host| host.get("work"))
-        .and_then(toml::Value::as_str)
-        .ok_or_else(|| anyhow!("cluster file has no hosts.{}.work", backup.host))?;
+    let work = find_host(&cluster, &backup.host).and_then(|host| host.get("work")).and_then(toml::Value::as_str).ok_or_else(|| anyhow!("cluster file has no host {} with a work path", backup.host))?;
     Ok(Path::new(work).join(&backup.subdir))
 }
 
 /// `hosts.<host>.user` of the cluster file: the account that owns the rclone configuration.
 pub fn host_user(backup: &Backup, cluster_text: &str) -> Result<String> {
     let cluster: toml::Value = toml::from_str(cluster_text).context("parse the cluster file")?;
-    cluster.get("hosts").and_then(|hosts| hosts.get(&backup.host)).and_then(|host| host.get("user")).and_then(toml::Value::as_str).map(str::to_string).ok_or_else(|| anyhow!("cluster file has no hosts.{}.user", backup.host))
+    find_host(&cluster, &backup.host).and_then(|host| host.get("user")).and_then(toml::Value::as_str).map(str::to_string).ok_or_else(|| anyhow!("cluster file has no host {} with a user", backup.host))
 }
 
 pub fn export_d1(cloudflare: &Cloudflare, id: &str, name: &str, destination: &Path) -> Result<u64> {
@@ -102,7 +102,7 @@ mod tests {
     #[test]
     fn root_comes_from_the_cluster_file() {
         let backup = Backup { host: "fr1".into(), subdir: "backup/cloudflare".into(), rclone_remote: "r2".into(), skip_buckets: vec![], schedule: "daily".into() };
-        let root = root(&backup, "[hosts.fr1]\nwork = \"/srv/xbuild\"\n").expect("root");
+        let root = root(&backup, "[hosts.n1]\naliases = [\"fr1\"]\nwork = \"/srv/xbuild\"\n").expect("root");
         assert_eq!(root, Path::new("/srv/xbuild").join("backup/cloudflare"));
         assert!(super::root(&backup, "[hosts.prd]\nwork = \"/x\"\n").is_err());
     }

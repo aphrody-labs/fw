@@ -1,5 +1,13 @@
 {
   "schema": 1,
-  "estate_sha256": "940408ca4b2309d9339d9413345a4c02f8f20bc036bf5eb831308427716f4205",
-  "actions": []
+  "estate_sha256": "08a2c94f068d714184ffe1155460602705f232c30dcc3cbb818ed6f10576e1f6",
+  "actions": [
+    {
+      "op": "create",
+      "kind": "bucket",
+      "scope": "account",
+      "target": "aphrody-media",
+      "detail": "tier hot"
+    }
+  ]
 }

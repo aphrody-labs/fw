@@ -30,6 +30,16 @@ fn run() -> Result<()> {
     let estate_path = args.iter().position(|arg| arg == "--estate").and_then(|index| args.get(index + 1)).map(PathBuf::from).unwrap_or_else(|| PathBuf::from("cluster/estate.toml"));
     let with_providers = args.iter().any(|arg| arg == "--providers");
     let (estate, text) = Estate::load(&estate_path)?;
+    if command == "backup-units" {
+        let backup = estate.backup.clone().ok_or_else(|| anyhow!("the estate file has no [backup] table"))?;
+        let binary = args.iter().position(|arg| arg == "--binary").and_then(|index| args.get(index + 1)).cloned().unwrap_or_else(|| "/usr/local/bin/fw-estate".to_string());
+        let estate_arg = estate_path.display().to_string();
+        let cluster_path = estate_path.parent().unwrap_or_else(|| Path::new(".")).join(&estate.estate.cluster_file);
+        let user = backup::host_user(&backup, &std::fs::read_to_string(&cluster_path)?)?;
+        let (service, timer) = backup::units(&backup, &user, &binary, &estate_arg);
+        println!("# fw-estate-backup.service\n{service}\n# fw-estate-backup.timer\n{timer}");
+        return Ok(());
+    }
     let cloudflare = Cloudflare::from_env(&estate.estate.token_env, &estate.estate.account_env)?;
     let plan_path = estate_path.parent().unwrap_or_else(|| Path::new(".")).join(&estate.estate.plan_file);
     match command {
@@ -89,15 +99,6 @@ fn run() -> Result<()> {
             }
             println!("backup finished in {}", root.display());
         }
-        "backup-units" => {
-            let backup = estate.backup.clone().ok_or_else(|| anyhow!("the estate file has no [backup] table"))?;
-            let binary = args.iter().position(|arg| arg == "--binary").and_then(|index| args.get(index + 1)).cloned().unwrap_or_else(|| "/usr/local/bin/fw-estate".to_string());
-            let estate_arg = estate_path.display().to_string();
-            let cluster_path = estate_path.parent().unwrap_or_else(|| Path::new(".")).join(&estate.estate.cluster_file);
-            let user = backup::host_user(&backup, &std::fs::read_to_string(&cluster_path)?)?;
-            let (service, timer) = backup::units(&backup, &user, &binary, &estate_arg);
-            println!("# fw-estate-backup.service\n{service}\n# fw-estate-backup.timer\n{timer}");
-        }
         "import" => import(&Live::load(&cloudflare)?),
         "registrar-ds" => {
             let zone = args.get(1).filter(|arg| !arg.starts_with("--")).ok_or_else(|| anyhow!("registrar-ds needs a zone name"))?;
@@ -134,7 +135,12 @@ fn cluster_hosts(estate_path: &Path, cluster_file: &str) -> Result<BTreeSet<Stri
     let path = estate_path.parent().unwrap_or_else(|| Path::new(".")).join(cluster_file);
     let text = std::fs::read_to_string(&path).with_context(|| format!("read {}", path.display()))?;
     let value: toml::Value = toml::from_str(&text).with_context(|| format!("parse {}", path.display()))?;
-    Ok(value.get("hosts").and_then(toml::Value::as_table).map(|table| table.keys().cloned().collect()).unwrap_or_default())
+    let mut names = BTreeSet::new();
+    for (key, host) in value.get("hosts").and_then(toml::Value::as_table).into_iter().flatten() {
+        names.insert(key.clone());
+        names.extend(host.get("aliases").and_then(toml::Value::as_array).into_iter().flatten().filter_map(|alias| alias.as_str().map(str::to_string)));
+    }
+    Ok(names)
 }
 
 fn import(live: &Live) {

@@ -521,6 +521,10 @@ abort_multipart_days = 1
 tier = "hot"
 owner = "material-cdn"
 abort_multipart_days = 1
+[bucket."aphrody-media"]
+tier = "hot"
+owner = "media-cdn"
+abort_multipart_days = 1
 [bucket."aphrody-releases"]
 tier = "dist"
 owner = "ay-edge"
@@ -558,7 +562,7 @@ tier = "site-cdn"
 owner = "shenron-cdn"
 abort_multipart_days = 1
 
-# Services: one owner Worker per hostname. modes lists where the service runs; selfhosted_hosts are keys of [hosts.*] in build.toml.
+# Services: one owner Worker per hostname. modes lists where the service runs; selfhosted_hosts are keys or aliases of [hosts.*] in cluster/build.toml.
 [service."aphrody"]
 worker = "aphrody"
 hostnames = ["aphrody.com", "www.aphrody.com"]
@@ -588,7 +592,7 @@ bindings = ["r2:ASSETS->aphrody-assets", "r2:DIST->aphrody-dist"]
 worker = "aphrody-web"
 hostnames = ["aphrody.com/web*", "web.aphrody.com"]
 modes = ["cloud", "selfhosted"]
-selfhosted_hosts = ["fr1", "prd"]
+selfhosted_hosts = ["n1", "n2"]
 bindings = ["r2:ASSETS_BUCKET->aphrody-assets", "r2:RELEASES_BUCKET->aphrody-releases"]
 [service."aphrody-webos"]
 worker = "aphrody-webos"
@@ -604,7 +608,7 @@ bindings = ["r2:BUCKET->aphrody-dist"]
 worker = "ay-edge"
 hostnames = ["aphrody.com/download*", "aphrody.com/github", "aphrody.com/r2-assets", "assets.aphrody.app", "assets.aphrody.com", "auto.aphrody.com", "bun-lib.aphrody.app", "cdn.dragonballfr.com", "dist.aphrody.app", "docs.aphrody.com", "downloads.aphrody.com", "releases.aphrody.com", "video.aphrody.app", "wasm.aphrody.com"]
 modes = ["cloud", "selfhosted"]
-selfhosted_hosts = ["fr1", "prd"]
+selfhosted_hosts = ["n1", "n2"]
 bindings = ["r2:ASSETS->aphrody-assets", "r2:BUN_LIB->bun-lib", "r2:CHROMIUM->aphrody-chromium", "r2:DIST->aphrody-dist", "r2:RELEASES->aphrody-releases", "service:SVC_APHRODY->aphrody-worker", "service:SVC_AUTO->auto", "service:SVC_SHENRON_CDN->shenron-cdn", "r2:VIDEO->aphrody-video"]
 [service."bun-video-showcase"]
 worker = "bun-video-showcase"
@@ -615,13 +619,13 @@ bindings = ["r2:SHOWCASE->aphrody-video"]
 worker = "fw-edge"
 hostnames = ["fw.aphrody.com"]
 modes = ["cloud", "selfhosted"]
-selfhosted_hosts = ["fr1", "prd"]
+selfhosted_hosts = ["n1", "n2"]
 bindings = ["ai:AI", "r2:DRIVE_CACHE->aphrody-drive", "do:FW_OS->FwOSAgent->2634715c"]
 [service."material-cdn"]
 worker = "material-cdn"
 hostnames = ["material.aphrody.com"]
 modes = ["cloud", "selfhosted"]
-selfhosted_hosts = ["fr1", "prd"]
+selfhosted_hosts = ["n1", "n2"]
 bindings = ["r2:MATERIAL->aphrody-material"]
 [service."rosegriffon-discord"]
 worker = "rosegriffon-discord"
@@ -639,7 +643,7 @@ bindings = ["r2:CDN_BUCKET->rosegriffon-cdn"]
 # Recovery: Cloudflare data copied to our own disks. The path is `work` of the host in build.toml plus subdir; objects R2 deletes or replaces
 # move to r2-trash/<stamp>/ instead of vanishing from the copy.
 [backup]
-host = "fr1"
+host = "n1"
 subdir = "backup/cloudflare"
 rclone_remote = "r2"
 skip_buckets = ["aphrody-sccache"]
