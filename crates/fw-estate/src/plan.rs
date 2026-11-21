@@ -266,7 +266,7 @@ pub fn apply_action(cloudflare: &Cloudflare, estate: &Estate, live: &Live, item:
         }
         ("domain", "create") | ("domain", "update") => {
             let script = item.detail.rsplit("-> ").next().unwrap_or_default();
-            cloudflare.call("PUT", &format!("/accounts/{account}/workers/domains"), Some(&json!({ "hostname": item.target, "service": script, "zone_id": zone_id, "environment": "production" })))?;
+            cloudflare.call("PUT", &format!("/accounts/{account}/workers/domains"), Some(&json!({ "hostname": item.target, "service": script, "zone_id": zone_id, "environment": "production", "override_existing_dns_record": true })))?;
         }
         ("setting", "update") => {
             let wanted = estate.zone_settings(&item.scope).get(&item.target).and_then(|value| serde_json::to_value(value).ok()).unwrap_or(Value::Null);

@@ -4,13 +4,6 @@
   "actions": [
     {
       "op": "create",
-      "kind": "dns",
-      "scope": "aphrody.com",
-      "target": "AAAA media.aphrody.com",
-      "detail": "AAAA media proxied | 100::"
-    },
-    {
-      "op": "create",
       "kind": "domain",
       "scope": "aphrody.com",
       "target": "media.aphrody.com",
