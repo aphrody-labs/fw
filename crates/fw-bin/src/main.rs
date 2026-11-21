@@ -216,9 +216,32 @@ fn main() {
                         }
                     }
                 }
+                "perf" => {
+                    // The harness is a sibling binary (crates/fw-compute/src/bin/fw_perf.rs), so it adds no bytes to the `fw` it measures.
+                    let forwarded: Vec<&String> = args.iter().skip(2).collect();
+                    let sibling = std::env::current_exe()
+                        .ok()
+                        .and_then(|exe| exe.parent().map(|dir| dir.join(format!("fw_perf{}", std::env::consts::EXE_SUFFIX))))
+                        .filter(|path| path.is_file());
+                    let mut command = match sibling {
+                        Some(path) => std::process::Command::new(path),
+                        None => {
+                            let mut cargo = std::process::Command::new("cargo");
+                            cargo.args(["run", "--release", "--quiet", "-p", "fw-compute", "--bin", "fw_perf", "--"]);
+                            cargo
+                        }
+                    };
+                    match command.args(forwarded).status() {
+                        Ok(status) => std::process::exit(status.code().unwrap_or(1)),
+                        Err(e) => {
+                            eprintln!("fw bench perf: {e}");
+                            std::process::exit(1);
+                        }
+                    }
+                }
                 _ => {
                     println!(
-                        "{{\"ok\":true,\"usage\":\"fw bench <silicon|matrix|exec|compare|http> [--warmup N] [--runs N] [--sandbox]\"}}"
+                        "{{\"ok\":true,\"usage\":\"fw bench <silicon|matrix|exec|compare|http|perf> [--warmup N] [--runs N] [--sandbox]\"}}"
                     );
                 }
             }

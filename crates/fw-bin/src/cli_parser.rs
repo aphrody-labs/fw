@@ -141,7 +141,7 @@ pub const COMMANDS: &[CommandMeta] = &[
     CommandMeta { name: "pr", aliases: &["issue"], group: "Workspace & Protocols", usage: "fw pr", summary: "Read-only git status and diff snapshot" },
     CommandMeta { name: "doctor", aliases: &[], group: "Workspace & Protocols", usage: "fw doctor", summary: "Check the toolchain, FX_HOME, git, API keys and Ollama on :11434" },
     CommandMeta { name: "completion", aliases: &[], group: "Workspace & Protocols", usage: "fw completion [bash|zsh|fish|pwsh]", summary: "Generate shell completion script" },
-    CommandMeta { name: "bench", aliases: &[], group: "Workspace & Protocols", usage: "fw bench <silicon|exec|compare|http>", summary: "Run local compute, exec or HTTP benchmarks" },
+    CommandMeta { name: "bench", aliases: &[], group: "Workspace & Protocols", usage: "fw bench <silicon|exec|compare|http|perf>", summary: "Run local compute, exec or HTTP benchmarks; `perf run` is the monorepo build, size, startup, link, wasm, Workers and GPU harness" },
     CommandMeta { name: "help", aliases: &[], group: "Workspace & Protocols", usage: "fw help [command]", summary: "Show help for fw or one command" },
 ];
 
