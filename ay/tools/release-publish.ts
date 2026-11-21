@@ -2,7 +2,7 @@
 // Publishes the artifacts of one release into the releases bucket layout of apps/edge/src/manifest.ts: the assets, SHA256SUMS, release.json,
 // the channel pointer and the refreshed global index. The matrix that classifies an artifact (os, arch, abi, kind) is release.toml.
 //   bun tools/release-publish.ts publish --product <key> --version <v> --channel <c> --tag <t> --commit <sha> --dir <artifacts>
-//        [--out <dir>] [--force] [--date <iso>]        without --out the objects go to R2 (CLOUDFLARE_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY)
+//        [--out <dir>] [--force] [--date <iso>]        without --out the objects go to R2 (CLOUDFLARE_ACCOUNT_ID plus R2_ACCESS_KEY_ID and R2_SECRET_ACCESS_KEY, or CLOUDFLARE_API_TOKEN)
 //   bun tools/release-publish.ts matrix --product <key>   the build targets of a product as a GitHub Actions matrix (JSON on stdout)
 //   bun tools/release-publish.ts compile --product <key> --asset <name> [--outdir dist]   `bun build --compile` of one bun-compile target
 // Immutable objects (assets, SHA256SUMS, release.json) are written once: a second run with the same bytes is a no-op, different bytes fail
@@ -164,9 +164,37 @@ export function r2Store(client: S3Client): Store {
   };
 }
 
+// The Cloudflare REST object API, for runners that hold an API token with R2 write but no S3 key pair.
+export function r2ApiStore(accountId: string, token: string, bucket: string, fetcher: typeof fetch = fetch): Store {
+  const url = (key: string) =>
+    `https://api.cloudflare.com/client/v4/accounts/${accountId}/r2/buckets/${bucket}/objects/${key.split("/").map(encodeURIComponent).join("/")}`;
+  const headers = { authorization: `Bearer ${token}` };
+  const read = async (key: string) => {
+    const response = await fetcher(url(key), { headers });
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error(`R2 GET ${key}: ${response.status} ${await response.text()}`);
+    return new Uint8Array(await response.arrayBuffer());
+  };
+  return {
+    async head(key) {
+      const bytes = await read(key);
+      return bytes ? { size: bytes.byteLength } : null;
+    },
+    get: read,
+    async put(key, body, type) {
+      const payload: BodyInit = typeof body === "object" && "path" in body ? Bun.file(body.path) : typeof body === "string" ? body : new Blob([body as Uint8Array<ArrayBuffer>]);
+      const response = await fetcher(url(key), { method: "PUT", headers: { ...headers, ...(type ? { "content-type": type } : {}) }, body: payload });
+      if (!response.ok) throw new Error(`R2 PUT ${key}: ${response.status} ${await response.text()}`);
+    },
+  };
+}
+
 export function r2StoreFromEnv(bucket: string, env: Record<string, string | undefined> = process.env): Store {
+  if (env.CLOUDFLARE_ACCOUNT_ID && env.CLOUDFLARE_API_TOKEN && !(env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY)) {
+    return r2ApiStore(env.CLOUDFLARE_ACCOUNT_ID, env.CLOUDFLARE_API_TOKEN, bucket);
+  }
   const missing = ["CLOUDFLARE_ACCOUNT_ID", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY"].filter((k) => !env[k]);
-  if (missing.length) throw new Error(`R2 credentials missing in the environment: ${missing.join(", ")} (or pass --out <dir>)`);
+  if (missing.length) throw new Error(`R2 credentials missing in the environment: ${missing.join(", ")}, or CLOUDFLARE_API_TOKEN (or pass --out <dir>)`);
   return r2Store(
     new S3Client({
       accessKeyId: env.R2_ACCESS_KEY_ID!,

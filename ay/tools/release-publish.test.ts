@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { type IndexManifest, type ReleaseManifest, pickAsset, releaseKeys, validateRelease } from "../apps/edge/src/manifest.ts";
-import { actionsMatrix, compileArgv, fsStore, patternRegex, planRelease, publishRelease, readMatrix, releasesBucket } from "./release-publish.ts";
+import { actionsMatrix, compileArgv, fsStore, patternRegex, planRelease, publishRelease, r2ApiStore, r2StoreFromEnv, readMatrix, releasesBucket } from "./release-publish.ts";
 
 const dirs: string[] = [];
 const tmp = () => {
@@ -146,5 +146,37 @@ describe("publish", () => {
       ["windows", "x86_64", "msvc", "archive"],
       ["linux", "x86_64", "musl", "archive"],
     ]);
+  });
+});
+
+describe("r2ApiStore", () => {
+  test("puts, reads back and reports missing objects through the Cloudflare object API with the bearer token", async () => {
+    const objects = new Map<string, { body: Uint8Array; type: string | null }>();
+    const seen: string[] = [];
+    const fetcher = (async (input: string | URL | Request, init?: RequestInit) => {
+      const url = String(input);
+      const headers = new Headers(init?.headers);
+      expect(headers.get("authorization")).toBe("Bearer token-1");
+      const key = url.split("/objects/")[1]!;
+      seen.push(`${init?.method ?? "GET"} ${url.split("/client/v4/")[1]}`);
+      if (init?.method === "PUT") {
+        objects.set(key, { body: new Uint8Array(await new Response(init.body).arrayBuffer()), type: headers.get("content-type") });
+        return new Response("{}", { status: 200 });
+      }
+      const hit = objects.get(key);
+      return hit ? new Response(new Blob([hit.body as Uint8Array<ArrayBuffer>])) : new Response("not found", { status: 404 });
+    }) as typeof fetch;
+    const store = r2ApiStore("acct", "token-1", "aphrody-releases", fetcher);
+    expect(await store.head("aphrody/1.0.0/a b.json")).toBeNull();
+    await store.put("aphrody/1.0.0/a b.json", '{"ok":true}', "application/json");
+    expect(await store.head("aphrody/1.0.0/a b.json")).toEqual({ size: 11 });
+    expect(new TextDecoder().decode((await store.get("aphrody/1.0.0/a b.json"))!)).toBe('{"ok":true}');
+    expect(objects.get("aphrody/1.0.0/a%20b.json")?.type).toBe("application/json");
+    expect(seen[1]).toBe("PUT accounts/acct/r2/buckets/aphrody-releases/objects/aphrody/1.0.0/a%20b.json");
+  });
+
+  test("r2StoreFromEnv takes the API token when no S3 key pair is set, and names every missing variable otherwise", () => {
+    expect(() => r2StoreFromEnv("b", { CLOUDFLARE_ACCOUNT_ID: "a", CLOUDFLARE_API_TOKEN: "t" })).not.toThrow();
+    expect(() => r2StoreFromEnv("b", {})).toThrow(/CLOUDFLARE_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, or CLOUDFLARE_API_TOKEN/);
   });
 });

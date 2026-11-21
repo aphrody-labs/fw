@@ -46,6 +46,8 @@ on:
     secrets:
       CLOUDFLARE_ACCOUNT_ID:
         required: false
+      CLOUDFLARE_API_TOKEN:
+        required: false
       R2_ACCESS_KEY_ID:
         required: false
       R2_SECRET_ACCESS_KEY:
@@ -183,6 +185,7 @@ jobs:
       COMMIT: ${{ inputs.commit || github.sha }}
       PATTERN: ${{ inputs.artifacts-pattern || 'release-*' }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
       GH_TOKEN: ${{ github.token }}
@@ -218,7 +221,8 @@ jobs:
       - name: Upload to R2 (immutable objects, then channel pointer and manifest.json)
         run: |
           set -euo pipefail
-          if [ -z "$R2_ACCESS_KEY_ID" ] || [ -z "$R2_SECRET_ACCESS_KEY" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+          # An S3 key pair or, failing that, the Cloudflare API token (R2 object API) uploads the release.
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || { [ -z "$CLOUDFLARE_API_TOKEN" ] && { [ -z "$R2_ACCESS_KEY_ID" ] || [ -z "$R2_SECRET_ACCESS_KEY" ]; }; }; then
             echo "::warning::R2 credentials are not configured for this repository: the release is on GitHub only"
             exit 0
           fi
