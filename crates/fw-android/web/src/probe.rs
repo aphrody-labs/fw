@@ -126,21 +126,21 @@ async fn scoped<T>(context: &Context, work: impl FnOnce() -> T) -> (T, Option<St
 
 fn limits_object(limits: &wgpu::Limits) -> Object {
     let object = Object::new();
-    set(&object, "max_texture_dimension_2d", limits.max_texture_dimension_2d);
-    set(&object, "max_texture_array_layers", limits.max_texture_array_layers);
-    set(&object, "max_bind_groups", limits.max_bind_groups);
+    set(&object, "max_texture_dimension_2d", limits.max_texture_dimension_2d as f64);
+    set(&object, "max_texture_array_layers", limits.max_texture_array_layers as f64);
+    set(&object, "max_bind_groups", limits.max_bind_groups as f64);
     set(&object, "max_buffer_size", limits.max_buffer_size as f64);
-    set(&object, "max_uniform_buffer_binding_size", limits.max_uniform_buffer_binding_size);
-    set(&object, "max_storage_buffer_binding_size", limits.max_storage_buffer_binding_size);
-    set(&object, "max_sampled_textures_per_shader_stage", limits.max_sampled_textures_per_shader_stage);
-    set(&object, "max_compute_invocations_per_workgroup", limits.max_compute_invocations_per_workgroup);
+    set(&object, "max_uniform_buffer_binding_size", limits.max_uniform_buffer_binding_size as f64);
+    set(&object, "max_storage_buffer_binding_size", limits.max_storage_buffer_binding_size as f64);
+    set(&object, "max_sampled_textures_per_shader_stage", limits.max_sampled_textures_per_shader_stage as f64);
+    set(&object, "max_compute_invocations_per_workgroup", limits.max_compute_invocations_per_workgroup as f64);
     set(&object, "min_uniform_buffer_offset_alignment", limits.min_uniform_buffer_offset_alignment);
     limits_extra(&object, limits);
     object
 }
 
 fn limits_extra(object: &Object, limits: &wgpu::Limits) {
-    set(object, "max_color_attachment_bytes_per_sample", limits.max_color_attachment_bytes_per_sample);
+    set(object, "max_color_attachment_bytes_per_sample", limits.max_color_attachment_bytes_per_sample as f64);
 }
 
 /// Window sized rectangles written with `queue.write_texture` at non-zero origins and unaligned row strides must land
