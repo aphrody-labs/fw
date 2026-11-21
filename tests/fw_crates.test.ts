@@ -9,7 +9,9 @@ const ROOT = process.cwd();
 
 describe("fw crates in the Bun plugin", () => {
   test("MCP tools/list exposes the five crates tools next to the fw tools", () => {
-    const res = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 1, method: "tools/list" });
+    // MCP 2026-07-28 is stateless: every request carries its protocol version and client capabilities in _meta.
+    const _meta = { "io.modelcontextprotocol/protocolVersion": "2026-07-28", "io.modelcontextprotocol/clientCapabilities": {} };
+    const res = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 1, method: "tools/list", params: { _meta } });
     const names = (res?.result as { tools: Array<{ name: string }> }).tools.map((t) => t.name);
     for (const n of ["crates_search", "crates_info", "crates_compare", "crates_awesome", "crates_stack"]) expect(names).toContain(n);
     expect(names).toContain("fw_status");
