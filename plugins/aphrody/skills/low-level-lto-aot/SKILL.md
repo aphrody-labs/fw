@@ -12,6 +12,7 @@ Use `fw lowlevel matrix` and `fw lowlevel verify` to inspect and verify real nat
 ## 1. Compiler & Flag Matrix
 
 - **Rust Static Zero-Dep (`x86_64-pc-windows-msvc`, `x86_64-unknown-linux-musl`, `aarch64`, `riscv64`)**: `opt-level = 3`, `lto = "fat"`, `codegen-units = 1`, `panic = "abort"`, `strip = true`, `+crt-static` (enforced with `cargo clippy --workspace --all-targets -- -D warnings`).
+- **Browser Wasm (aphrody `[profile.web]`: `opt-level = "z"`, thin LTO, `codegen-units = 1`, `panic = "abort"`)**: `cargo build` -> `wasm-bindgen 0.2.130` -> `wasm-opt 133 -Oz`; pins and the measured flag sets are in the `wasm-bindgen` skill (`toolchain.toml` group `wasm`).
 - **Rust WebAssembly (`crates/fw-wasm`)**: `cargo build --release --target wasm32-unknown-unknown -p fw-wasm` (~872 B), verified live via `WebAssembly.instantiate(...)`.
 - **Asterinas OSDK Framekernel (`os/fw-os`)**: `nightly-2026-11-16`, `#![no_std]`, `#![deny(unsafe_code)]`, `#[ostd::main]`, `OSDK.toml` (`grub-rescue-iso`, `microvm`, `virtio-gpu`, `tdx`).
 - **C / C++ (`x86_64`, `aarch64`, `riscv64`, `bpf`)**: `clang -O3 -flto=full -fuse-ld=lld` / `clang++ -std=c++23 -O3 -flto=full`.

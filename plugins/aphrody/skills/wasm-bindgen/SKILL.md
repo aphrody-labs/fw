@@ -7,7 +7,7 @@ description: "Authoritative wasm-bindgen, js-sys, web-sys, wasm-bindgen-futures,
 
 # wasm-bindgen Ecosystem & Browser FFI (`aphrody`)
 
-Aphrody pins `wasm-bindgen` at **`0.2.129`** (`Cargo.lock` == `wasm-bindgen` CLI `0.2.129`, `wasm-bindgen-futures 0.4.79`, `js-sys 0.3.106`, `web-sys 0.3.106`) and optimizes release browser binaries with **`v133`** via [`tooling/bun/web-build.ts`](../../../../../tooling/bun/web-build.ts).
+Aphrody pins `wasm-bindgen` at **`0.2.130`** (`Cargo.lock` == `wasm-bindgen` CLI `0.2.130`, `wasm-bindgen-futures`, `js-sys`, `web-sys` from the same lock) and optimizes release browser binaries with **`v133`** via [`tooling/bun/web-build.ts`](../../../../../tooling/bun/web-build.ts).
 
 ## Progressive Disclosure References
 
@@ -25,7 +25,7 @@ Resolve all paths relative to `.agents/plugins/aphrody/skills/wasm-bindgen/`:
 ## Non-Negotiable Engineering Rules
 
 1. **Exact CLI <-> `Cargo.lock` Lockstep**:
-   `wasm-bindgen` CLI version MUST equal `Cargo.lock` (`0.2.129`). Never mix CLI and crate versions — `web-build.ts` aborts on mismatch because `__wbindgen_placeholder__` intrinsics and JS glue evolve across patch releases.
+   `wasm-bindgen` CLI version MUST equal `Cargo.lock` (`0.2.130`). Never mix CLI and crate versions — `web-build.ts` aborts on mismatch because `__wbindgen_placeholder__` intrinsics and JS glue evolve across patch releases.
 2. **Never Leak `Closure`s Unless Process-Lifetime**:
    - Repeating DOM listeners (`window`, `document`, `ResizeObserver`, `MediaQueryList`): wrap in `EventListenerHandle` (`Drop` calls `remove_event_listener_with_callback`, see [`crates/gpui_web/src/events.rs`](../../../../../crates/gpui_web/src/events.rs)) or store the `Closure` on the owning struct (`WebWindow`).
    - One-shot callbacks (`setTimeout`, `queueMicrotask`, `requestIdleCallback`): prefer `Closure::once_into_js`; never call `.forget()` in per-event or per-frame loops.
@@ -53,3 +53,22 @@ bun tooling/bun/wasm-bindgen-ingest.ts all
 # Run unit + link integrity tests for the wasm-bindgen ingestion pipeline
 bun test tooling/bun/wasm-bindgen-ingest.test.ts
 ```
+
+## Pinned WebAssembly toolchain
+
+`configs/claude/toolchain.toml` (group `wasm`, installed and verified by `bun configs/claude/scripts/toolchain.ts check|install --group wasm`, sha256 per asset, fails on drift) pins: wasm-bindgen 0.2.130 (`lock` = `aphrody/Cargo.lock`), Binaryen 133 (wasm-opt, wasm-merge, wasm-metadce, wasm-split, wasm-dis, wasm-as; `lock` = `BINARYEN_VERSION` in `aphrody-ci.yml`), wasm-tools 1.263.0, WABT 1.0.42, wit-bindgen 0.63.0, wasmtime 51.0.0, wasmer 7.5.0, twiggy 0.8.0 (built from the crates.io source), wasi-sdk 34.0, emsdk 7.0.0 (fleet; `7.0.1-git` is the development head, 7.0.0 the latest tag), cargo-component 0.21.1 (fleet). Not pinned: wasm-pack (no script calls it), jco (unused), wasm-snip (last release 2019-09-12).
+
+## wasm-opt flag sets measured (fr1, wasm-opt 133, `--profile web`, `--slim --webgpu-only`, baseline cohort, wasm-bindgen output 25,935,137 B before optimization)
+
+| flags (plus `--strip-producers --low-memory-unused --strip-debug`, the `--enable-*` set) | raw B | brotli B | gzip B | s |
+| :--- | ---: | ---: | ---: | ---: |
+| `-Oz --vacuum --dce` (web-build.ts today) | 10,101,565 | 2,856,362 | 3,882,655 | 175 |
+| `-Oz --converge` | 10,081,472 | 2,845,756 | 3,870,345 | 316 |
+| `-Oz --reorder-functions --reorder-locals --reorder-globals` | 10,082,380 | 2,843,109 | 3,799,110 | 92 |
+| `-Oz --gufa-optimizing` | 10,103,255 | 2,856,662 | 3,883,162 | 140 |
+| `-Oz --ignore-implicit-traps` | 10,088,576 | 2,854,128 | 3,875,604 | 127 |
+| `-Os` | 10,311,386 | 2,854,709 | 3,882,678 | 174 |
+| `-O3` | 10,360,493 | 2,857,669 | 3,894,807 | 119 |
+| `-O4` | 10,368,451 | 2,871,596 | 3,900,959 | 126 |
+
+Flag sets move brotli by at most 0.5 %; `--reorder-functions` is the only cheap gain (gzip -2.2 %). Larger wins have to come from the code itself (twiggy), not from Binaryen. `--traps-never-happen`, `--monomorphize`, `--inlining-optimizing`, their combinations, the SIMD cohort and the `build-std` and `panic_immediate_abort` builds were not measured.
