@@ -2,7 +2,7 @@ use std::{fs::File, io::BufWriter, path::Path};
 
 use smithay::{
     reexports::wayland_server::protocol::wl_surface::WlSurface,
-    utils::{Logical, Point},
+    utils::{Logical, Point, Size},
     wayland::compositor::{TraversalAction, with_states, with_surface_tree_upward},
 };
 
@@ -71,25 +71,10 @@ fn physical(logical: i32, scale: f64) -> i32 {
     (f64::from(logical) * scale).round() as i32
 }
 
-fn draw_window(canvas: &mut Canvas, window: &Window, scale: f64) -> bool {
-    let root: &WlSurface = window.surface();
-    let mut rect = None;
-    with_states(root, |states| {
-        if let Some(placement) = surface::placement(states, window.position) {
-            rect = Some((placement.origin, placement.size));
-        }
-    });
-    let Some((origin, size)) = rect else { return false };
-    canvas.fill_rect(
-        physical(origin.x, scale) - 1,
-        physical(origin.y, scale) - 1,
-        physical(origin.x + size.w, scale) + 1,
-        physical(origin.y + size.h, scale) + 1,
-        BORDER,
-    );
+fn draw_tree(canvas: &mut Canvas, root: &WlSurface, origin: Point<i32, Logical>, scale: f64) {
     with_surface_tree_upward(
         root,
-        window.position,
+        origin,
         |_, states, parent: &Point<i32, Logical>| {
             TraversalAction::DoChildren(*parent + surface::subsurface_offset(states))
         },
@@ -108,7 +93,35 @@ fn draw_window(canvas: &mut Canvas, window: &Window, scale: f64) -> bool {
         },
         |_, _, _| true,
     );
+}
+
+fn root_size(window: &Window) -> Option<Size<i32, Logical>> {
+    with_states(window.surface(), |states| {
+        surface::placement(states, Point::from((0, 0))).map(|placement| placement.size)
+    })
+}
+
+fn draw_window(canvas: &mut Canvas, window: &Window, scale: f64) -> bool {
+    let Some(size) = root_size(window) else { return false };
+    let origin = window.position;
+    canvas.fill_rect(
+        physical(origin.x, scale) - 1,
+        physical(origin.y, scale) - 1,
+        physical(origin.x + size.w, scale) + 1,
+        physical(origin.y + size.h, scale) + 1,
+        BORDER,
+    );
+    draw_tree(canvas, window.surface(), origin, scale);
     true
+}
+
+/// Renders one window at its own origin, clipped to its root surface, transparent where nothing is drawn.
+pub fn render_window(window: &Window, scale: f64) -> Option<Canvas> {
+    let size = root_size(window)?;
+    let (width, height) = (physical(size.w, scale), physical(size.h, scale));
+    let mut canvas = Canvas { width, height, pixels: vec![0; (width * height).max(0) as usize] };
+    draw_tree(&mut canvas, window.surface(), Point::from((0, 0)), scale);
+    Some(canvas)
 }
 
 pub fn compose(state: &State) -> (Canvas, usize) {

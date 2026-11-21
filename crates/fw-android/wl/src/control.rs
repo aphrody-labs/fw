@@ -1,11 +1,7 @@
 use std::path::Path;
 
 use serde_json::json;
-use smithay::{
-    backend::input::KeyState,
-    input::keyboard::{FilterResult, Keycode},
-    utils::{Point, SERIAL_COUNTER},
-};
+use smithay::utils::Point;
 
 use crate::{render, state::State};
 
@@ -67,7 +63,7 @@ fn pointer(state: &mut State, x: Option<&str>, y: Option<&str>, button: Option<&
         _ => return "err usage: pointer <x> <y> <left|none>".into(),
     };
     state.pointer_motion(Point::from((x / state.scale, y / state.scale)));
-    state.pointer_button(pressed);
+    state.pointer_buttons(u8::from(pressed));
     "ok".into()
 }
 
@@ -76,21 +72,12 @@ fn key(state: &mut State, code: Option<&str>, direction: Option<&str>) -> String
         return "err usage: key <linux-keycode> <down|up>".into();
     };
     let key_state = match direction {
-        Some("down") => KeyState::Pressed,
-        Some("up") => KeyState::Released,
+        Some("down") => true,
+        Some("up") => false,
         _ => return "err usage: key <linux-keycode> <down|up>".into(),
     };
-    let Some(keyboard) = state.seat.get_keyboard() else {
-        return "err keyboard capability unavailable".into();
-    };
-    let time = state.now_ms();
-    keyboard.input::<(), _>(
-        state,
-        Keycode::new(code + 8),
-        key_state,
-        SERIAL_COUNTER.next_serial(),
-        time,
-        |_, _, _| FilterResult::Forward,
-    );
-    "ok".into()
+    match state.key_input(code, key_state) {
+        Ok(()) => "ok".into(),
+        Err(why) => format!("err {why}"),
+    }
 }

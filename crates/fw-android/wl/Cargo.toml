@@ -11,6 +11,7 @@ description = "Headless smithay Wayland compositor that surfaces the windows of 
 smithay = { version = "0.7.0", default-features = false, features = ["wayland_frontend"] }
 calloop = { version = "0.14", features = ["signals"] }
 png = "0.18"
+fw-android-stream = { path = "../stream" }
 serde_json = "1"
 libc = "0.2"
 rustix = { version = "1", features = ["time"] }

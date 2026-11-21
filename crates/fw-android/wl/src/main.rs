@@ -1,10 +1,12 @@
 mod control;
 mod render;
 mod state;
+mod stream;
 mod surface;
 
 use std::{
     io::{Read, Write},
+    net::TcpListener,
     os::{fd::AsFd, unix::{fs::PermissionsExt, net::{UnixListener, UnixStream}}},
     path::PathBuf,
     process::ExitCode,
@@ -13,17 +15,21 @@ use std::{
 };
 
 use calloop::{
-    EventLoop, Interest, Mode, PostAction,
+    EventLoop, Interest, LoopHandle, Mode, PostAction,
     generic::Generic,
     signals::{Signal, Signals},
 };
 use smithay::reexports::wayland_server::{Display, ListeningSocket};
 
 use state::{ClientState, State};
+use stream::Socket;
+
+const IDLE_TIMEOUT: Duration = Duration::from_millis(250);
 
 struct Options {
     socket: PathBuf,
     ctl: PathBuf,
+    streams: Vec<String>,
     size: (i32, i32),
     scale: f64,
 }
@@ -48,6 +54,7 @@ struct LoopData {
 fn parse_options() -> Result<Options, String> {
     let mut socket = None;
     let mut ctl = None;
+    let mut streams = Vec::new();
     let mut size = (1280, 720);
     let mut scale = 1.0;
     let mut args = std::env::args().skip(1);
@@ -56,6 +63,7 @@ fn parse_options() -> Result<Options, String> {
         match flag.as_str() {
             "--socket" => socket = Some(PathBuf::from(value)),
             "--ctl" => ctl = Some(PathBuf::from(value)),
+            "--stream" => streams.push(value),
             "--size" => {
                 let (width, height) = value.split_once('x').ok_or("--size expects WxH")?;
                 size = (
@@ -78,6 +86,7 @@ fn parse_options() -> Result<Options, String> {
     Ok(Options {
         socket: socket.ok_or("--socket is required")?,
         ctl: ctl.ok_or("--ctl is required")?,
+        streams,
         size,
         scale,
     })
@@ -106,6 +115,99 @@ fn handle_control(state: &mut State, stream: &UnixStream, pending: &mut Vec<u8>)
         writer.write_all(b"\n")?;
     }
     Ok(PostAction::Continue)
+}
+
+fn attach_stream(handle: &LoopHandle<'static, LoopData>, data: &mut LoopData, socket: Socket) {
+    if let Err(error) = socket.prepare() {
+        eprintln!("fw-android-wl: stream connection setup failed: {error}");
+        return;
+    }
+    let reader = match socket.try_clone() {
+        Ok(reader) => reader,
+        Err(error) => {
+            eprintln!("fw-android-wl: stream connection clone failed: {error}");
+            return;
+        }
+    };
+    let id = data.state.stream_attach(socket);
+    let result = handle.insert_source(Generic::new(reader, Interest::READ, Mode::Level), move |_, socket, data| {
+        let mut chunk = vec![0u8; 64 * 1024];
+        let mut reader: &Socket = socket;
+        loop {
+            match reader.read(&mut chunk) {
+                Ok(0) => break,
+                Ok(read) => {
+                    if !data.state.stream_input(id, &chunk[..read]) {
+                        break;
+                    }
+                }
+                Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => return Ok(PostAction::Continue),
+                Err(error) if error.kind() == std::io::ErrorKind::Interrupted => {}
+                Err(error) => {
+                    eprintln!("fw-android-wl: stream client #{id} read failed: {error}");
+                    break;
+                }
+            }
+        }
+        data.state.stream_detach(id);
+        Ok(PostAction::Remove)
+    });
+    if let Err(error) = result {
+        eprintln!("fw-android-wl: stream reader rejected: {error}");
+        data.state.stream_detach(id);
+    }
+}
+
+fn listen_stream(handle: &LoopHandle<'static, LoopData>, spec: &str) -> Result<Option<RemoveOnDrop>, String> {
+    let accepting = handle.clone();
+    if let Some(path) = spec.strip_prefix("unix:") {
+        let path = PathBuf::from(path);
+        if path.exists() {
+            std::fs::remove_file(&path).map_err(|error| format!("{}: {error}", path.display()))?;
+        }
+        let listener = UnixListener::bind(&path).map_err(|error| format!("stream {}: {error}", path.display()))?;
+        let cleanup = RemoveOnDrop(path);
+        listener.set_nonblocking(true).map_err(|error| error.to_string())?;
+        handle
+            .insert_source(Generic::new(listener, Interest::READ, Mode::Level), move |_, listener, data| {
+                loop {
+                    match listener.accept() {
+                        Ok((stream, _)) => attach_stream(&accepting, data, Socket::Unix(stream)),
+                        Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => break,
+                        Err(error) => {
+                            eprintln!("fw-android-wl: stream accept failed: {error}");
+                            break;
+                        }
+                    }
+                }
+                Ok(PostAction::Continue)
+            })
+            .map_err(|error| error.to_string())?;
+        eprintln!("fw-android-wl: stream listening on unix:{}", cleanup.0.display());
+        return Ok(Some(cleanup));
+    }
+    let listener = TcpListener::bind(spec).map_err(|error| format!("stream {spec}: {error}"))?;
+    listener.set_nonblocking(true).map_err(|error| error.to_string())?;
+    handle
+        .insert_source(Generic::new(listener, Interest::READ, Mode::Level), move |_, listener, data| {
+            loop {
+                match listener.accept() {
+                    Ok((stream, peer)) => {
+                        eprintln!("fw-android-wl: stream tcp connection from {peer}");
+                        attach_stream(&accepting, data, Socket::Tcp(stream));
+                    }
+                    Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => break,
+                    Err(error) => {
+                        eprintln!("fw-android-wl: stream accept failed: {error}");
+                        break;
+                    }
+                }
+            }
+            Ok(PostAction::Continue)
+        })
+        .map_err(|error| error.to_string())?;
+    eprintln!("fw-android-wl: stream listening on tcp:{spec}");
+    Ok(None)
 }
 
 fn run(options: &Options) -> Result<(), String> {
@@ -208,17 +310,22 @@ fn run(options: &Options) -> Result<(), String> {
         })
         .map_err(|error| error.to_string())?;
 
+    let mut stream_cleanup = Vec::new();
+    for spec in &options.streams {
+        stream_cleanup.extend(listen_stream(&handle, spec)?);
+    }
+
     eprintln!(
         "fw-android-wl: listening wayland={} ctl={}",
         options.socket.display(),
         options.ctl.display()
     );
     let mut data = LoopData { state, display };
+    let mut timeout = IDLE_TIMEOUT;
     while !data.state.quit {
-        event_loop
-            .dispatch(Some(Duration::from_millis(250)), &mut data)
-            .map_err(|error| error.to_string())?;
+        event_loop.dispatch(Some(timeout), &mut data).map_err(|error| error.to_string())?;
         data.display.dispatch_clients(&mut data.state).map_err(|error| error.to_string())?;
+        timeout = data.state.stream_tick().map_or(IDLE_TIMEOUT, |wake| wake.min(IDLE_TIMEOUT));
         data.display.flush_clients().map_err(|error| error.to_string())?;
     }
     Ok(())
@@ -229,7 +336,7 @@ fn main() -> ExitCode {
         Ok(options) => options,
         Err(error) => {
             eprintln!("fw-android-wl: {error}");
-            eprintln!("usage: fw-android-wl --socket <path> --ctl <path> [--size WxH] [--scale N]");
+            eprintln!("usage: fw-android-wl --socket <path> --ctl <path> [--size WxH] [--scale N] [--stream <host:port>|unix:<path>]...");
             return ExitCode::from(2);
         }
     };

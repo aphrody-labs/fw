@@ -5,10 +5,11 @@ use smithay::{
     delegate_compositor, delegate_data_device, delegate_dmabuf, delegate_fractional_scale,
     delegate_idle_inhibit, delegate_output, delegate_pointer_constraints, delegate_presentation,
     delegate_relative_pointer, delegate_seat, delegate_shm, delegate_viewporter, delegate_xdg_shell,
+    backend::input::{ButtonState, KeyState},
     input::{
         Seat, SeatHandler, SeatState,
-        keyboard::XkbConfig,
-        pointer::{CursorImageStatus, MotionEvent, PointerHandle},
+        keyboard::{FilterResult, Keycode, XkbConfig},
+        pointer::{ButtonEvent, CursorImageStatus, MotionEvent, PointerHandle},
     },
     output::{Mode, Output, PhysicalProperties, Scale, Subpixel},
     reexports::{
@@ -55,7 +56,10 @@ use smithay::{
     },
 };
 
-use crate::surface::{self, SurfaceImageSlot};
+use crate::{
+    stream::{StreamHub, WindowFeed},
+    surface::{self, SurfaceImageSlot},
+};
 
 pub const BACKGROUND: u32 = 0xFF20_2124;
 
@@ -79,6 +83,7 @@ pub struct Window {
     pub toplevel: ToplevelSurface,
     pub position: Point<i32, Logical>,
     pub announced: bool,
+    pub feed: WindowFeed,
 }
 
 impl Window {
@@ -112,9 +117,10 @@ pub struct State {
     pub quit: bool,
     pub windows: Vec<Window>,
     pub next_window_id: u32,
-    pub pointer_down: bool,
+    pub pointer_mask: u8,
     pub pointer_position: Point<f64, Logical>,
     pub presentation_sequence: u64,
+    pub stream: StreamHub,
     pub seat: Seat<State>,
     pub output: Output,
     pub compositor_state: CompositorState,
@@ -187,9 +193,10 @@ impl State {
             quit: false,
             windows: Vec::new(),
             next_window_id: 1,
-            pointer_down: false,
+            pointer_mask: 0,
             pointer_position: Point::from((0.0, 0.0)),
             presentation_sequence: 0,
+            stream: StreamHub::default(),
             seat,
             output,
             compositor_state,
@@ -319,28 +326,65 @@ impl State {
         }
     }
 
-    pub fn pointer_button(&mut self, pressed: bool) {
-        if pressed == self.pointer_down {
-            return;
+    pub fn pointer_buttons(&mut self, mask: u8) {
+        let changed = mask ^ self.pointer_mask;
+        self.pointer_mask = mask;
+        for (bit, code) in [(1u8, 0x110u32), (2, 0x111), (4, 0x112)] {
+            if changed & bit == 0 {
+                continue;
+            }
+            let pressed = mask & bit != 0;
+            if pressed && let Some((index, _, _)) = self.surface_at(self.pointer_position) {
+                self.raise_and_focus(index);
+            }
+            if let Some(pointer) = self.seat.get_pointer() {
+                let event = ButtonEvent {
+                    serial: SERIAL_COUNTER.next_serial(),
+                    time: self.now_ms(),
+                    button: code,
+                    state: if pressed { ButtonState::Pressed } else { ButtonState::Released },
+                };
+                pointer.button(self, &event);
+                pointer.frame(self);
+            }
         }
-        self.pointer_down = pressed;
-        if pressed && let Some((index, _, _)) = self.surface_at(self.pointer_position) {
-            self.raise_and_focus(index);
-        }
-        if let Some(pointer) = self.seat.get_pointer() {
-            let event = smithay::input::pointer::ButtonEvent {
-                serial: SERIAL_COUNTER.next_serial(),
-                time: self.now_ms(),
-                button: 0x110,
-                state: if pressed {
-                    smithay::backend::input::ButtonState::Pressed
-                } else {
-                    smithay::backend::input::ButtonState::Released
-                },
-            };
-            pointer.button(self, &event);
-            pointer.frame(self);
-        }
+    }
+
+    pub fn key_input(&mut self, code: u32, down: bool) -> Result<(), &'static str> {
+        let keyboard = self.seat.get_keyboard().ok_or("keyboard capability unavailable")?;
+        let time = self.now_ms();
+        keyboard.input::<(), _>(
+            self,
+            Keycode::new(code + 8),
+            if down { KeyState::Pressed } else { KeyState::Released },
+            SERIAL_COUNTER.next_serial(),
+            time,
+            |_, _, _| FilterResult::Forward,
+        );
+        Ok(())
+    }
+
+    pub fn resize_window(&mut self, index: usize, width: u32, height: u32) {
+        let Some(window) = self.windows.get(index) else { return };
+        let size = Size::from((
+            ((f64::from(width) / self.scale).round() as i32).max(1),
+            ((f64::from(height) / self.scale).round() as i32).max(1),
+        ));
+        window.toplevel.with_pending_state(|state| {
+            state.states.unset(xdg_toplevel::State::Maximized);
+            state.states.unset(xdg_toplevel::State::Fullscreen);
+            state.size = Some(size);
+        });
+        window.toplevel.send_pending_configure();
+        self.refresh_position(index);
+    }
+
+    pub fn window_pixels(&self, window: &Window) -> Option<(u32, u32)> {
+        let size = self.window_size(window)?;
+        Some((
+            (f64::from(size.w) * self.scale).round() as u32,
+            (f64::from(size.h) * self.scale).round() as u32,
+        ))
     }
 
     fn present_commit(&mut self, surface: &WlSurface) {
@@ -445,9 +489,11 @@ impl CompositorHandler for State {
         if !toplevel.is_initial_configure_sent() {
             self.send_configure(&toplevel);
         }
+        self.windows[index].feed.dirty = true;
         let mapped = self.windows.get(index).is_some_and(|window| self.is_mapped(window));
         if mapped && !self.windows[index].announced {
             self.windows[index].announced = true;
+            self.stream_window_opened(index);
             let (app_id, title) = self.windows[index].labels();
             let size = self.window_size(&self.windows[index]);
             eprintln!(
@@ -479,7 +525,7 @@ impl XdgShellHandler for State {
         let id = self.next_window_id;
         self.next_window_id += 1;
         eprintln!("fw-android-wl: toplevel #{id} created on {:?}", surface.wl_surface().id());
-        self.windows.push(Window { id, toplevel: surface, position: Point::from((0, 0)), announced: false });
+        self.windows.push(Window { id, toplevel: surface, position: Point::from((0, 0)), announced: false, feed: WindowFeed::default() });
         let index = self.windows.len() - 1;
         self.refresh_position(index);
     }
@@ -537,6 +583,9 @@ impl XdgShellHandler for State {
     fn toplevel_destroyed(&mut self, surface: ToplevelSurface) {
         if let Some(index) = self.window_index(surface.wl_surface()) {
             let window = self.windows.remove(index);
+            if window.announced {
+                self.stream_window_closed(window.id);
+            }
             eprintln!("fw-android-wl: toplevel #{} destroyed", window.id);
             if let Some(top) = self.windows.len().checked_sub(1) {
                 self.raise_and_focus(top);
@@ -555,6 +604,7 @@ impl XdgShellHandler for State {
     fn title_changed(&mut self, surface: ToplevelSurface) {
         if let Some(index) = self.window_index(surface.wl_surface()) {
             eprintln!("fw-android-wl: toplevel #{} title={:?}", self.windows[index].id, self.windows[index].labels().1);
+            self.stream_title(index);
         }
     }
 }
