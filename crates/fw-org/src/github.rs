@@ -43,7 +43,7 @@ impl Github {
         let url = if path.starts_with("https://") { path.to_string() } else { format!("{BASE}{path}") };
         let authorization = format!("Bearer {}", self.token);
         let mutating = method != "GET";
-        for attempt in 0..4u32 {
+        for attempt in 0..6u32 {
             if mutating {
                 let mut last = self.last_write.lock().map_err(|_| anyhow!("write pacing lock poisoned"))?;
                 let wait = WRITE_SPACING.saturating_sub(last.elapsed());
@@ -63,8 +63,8 @@ impl Github {
             let next = response.headers().get("link").and_then(|value| value.to_str().ok()).and_then(next_link);
             let retry_after = response.headers().get("retry-after").and_then(|value| value.to_str().ok()).and_then(|value| value.parse::<u64>().ok());
             let text = response.body_mut().read_to_string().with_context(|| format!("read body of {method} {path}"))?;
-            let limited = status == 429 || (status == 403 && (text.contains("rate limit") || text.contains("secondary")));
-            if (limited || status >= 500) && attempt < 3 {
+            let limited = status == 429 || (status == 403 && (text.contains("rate limit") || text.contains("secondary"))) || (status == 409 && text.contains("in progress"));
+            if (limited || status >= 500) && attempt < 5 {
                 std::thread::sleep(Duration::from_secs(retry_after.unwrap_or(30 * u64::from(attempt + 1)).min(120)));
                 continue;
             }
