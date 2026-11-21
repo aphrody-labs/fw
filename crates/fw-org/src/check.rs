@@ -136,7 +136,7 @@ pub fn run(org: &Org, live: &Live, plan: &Plan, identity: &Identity) -> Vec<Find
         if let Some(reason) = identity.retired.get(name) {
             findings.push(finding("retired-live", name, format!("retired in the identity file and not archived: {reason}"), false));
         }
-        if class_name != "fork" {
+        if class_name != "fork" && !org.repo.get(name).is_some_and(|row| row.mirror) {
             let declaration = org.repo.get(name);
             if summary["description"].as_str().unwrap_or_default().is_empty() && declaration.and_then(|row| row.description.as_ref()).is_none() {
                 findings.push(finding("description-missing", name, "original without a description; declare [repo.<name>] description", false));

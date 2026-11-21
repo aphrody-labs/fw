@@ -212,8 +212,10 @@ homepage = "https://aphrody.com"
 topics = ["aphrody-platform"]
 
 [repo.gpu-bench]
+homepage = "https://aphrody.com"
 topics = ["aphrody-tools"]
 [repo.android-lab]
+homepage = "https://aphrody.com"
 topics = ["aphrody-tools"]
 [repo.assets-lab]
 topics = ["aphrody-tools"]
@@ -222,12 +224,15 @@ topics = ["aphrody-tools"]
 [repo.ay-web]
 topics = ["aphrody-platform"]
 [repo.android-documentsui]
+mirror = true
 topics = ["aphrody-tools"]
 [repo.chromium-file-manager]
+mirror = true
 topics = ["aphrody-tools"]
 
 # Aggregated trees Dependabot cannot update (vendored manifests): the forks configuration, alerts only.
 [repo.browser]
+homepage = "https://aphrody.com"
 discussions = true
 security = "aphrody-forks"
 
