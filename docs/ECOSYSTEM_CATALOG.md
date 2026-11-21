@@ -31,7 +31,6 @@ Repositories, package versions and community fixes that fw integrates or tracks,
 - `vercel@66.2.0`, `@vercel/functions@3.11.3`, `ai@7.0.177`, `@vercel/sandbox@4.0.0`, `workflow@5.6.1`, `next@16.4.6`.
 - Fw `vercel/` targets **Bun 1.4.x Fluid Compute** (`bunVersion: "1.4.x"`, zero legacy `runtime: "edge"`, zero TS decorators per `vercel#17712`, `globalStore = false` per `vercel#17711`, REST/Node24 isolation for Sandbox until `vercel/sandbox#479` lands).
 
-## 5. Google Gemini / Gemma / Antigravity
-- `google-antigravity` Python SDK is consumed from PyPI (Apache-2.0), not vendored.
+## 5. Google Gemini / Gemma
 - `gemini-decision-1` (`POST /v1beta/decisions`) dual-mode implementation (`src/decisions.ts`): official remote API when `GEMINI_API_KEY` is set + zero-output-token calibrated local System-1 fallback (`noul`, `choice`, `score`).
 - Cross-OS kernel crates in this repository: `native/fw-kernel` (OS telemetry) and `native/fw-world` (`no_std` System-1 and world model).

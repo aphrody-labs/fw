@@ -11,7 +11,7 @@ Live snapshot fetched via `gh api` on `2026-11-20`.
 
 ## 2. affaan-m/ECC (`v2.2.3`, 307,644 stars)
 - **Core idea**: Harness performance optimization system for coding agents — `skills/`, `agents/`, `hooks/`, `rules/`, `contexts/`, `scaffolds/`, `manifests/`, `mcp-configs/`, and `ecc2/` runtime.
-- **Multi-harness distribution**: Targets `.antigravity-plugin/`, `.claude-plugin/`, `.codex-plugin/`, `.cursor/`, `.gemini/`, `.hermes/`, `.openclaw/`, `.opencode/`, `.zed/`, `install.ps1`, and `install.sh` from one shared source tree.
+- **Multi-harness distribution**: Targets, among others, `.claude-plugin/`, `.codex-plugin/`, `.cursor/`, `.gemini/`, `.hermes/`, `.openclaw/`, `.opencode/`, `.zed/`, `install.ps1`, and `install.sh` from one shared source tree.
 - **Takeaways for `fw`**:
   - Use `fw/configs/{gemini,claude}` as the single source of truth for rules, hooks, skills, and manifests, mirroring ECC's `install.ps1` / `install.sh` + `manifests/` pattern.
   - Adopt ECC's instinct/memory distillation and security-guide checks inside `fw` CI gates.

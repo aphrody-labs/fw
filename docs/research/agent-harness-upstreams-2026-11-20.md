@@ -25,9 +25,9 @@ Lecture live du 2026-11-20 par `gh api` (arbres, README, releases, commits, issu
 
 ## ECC
 
-- Plugin Claude Code (`.claude-plugin/plugin.json`, marketplace `ecc`): 328 skills, 72 agents, 99 commandes, 122 règles en 25 packs, 28 entrées de hooks (comptés dans l'arbre). Adaptateurs pour Codex, Cursor, OpenCode, Gemini, Zed, Antigravity et d'autres.
+- Plugin Claude Code (`.claude-plugin/plugin.json`, marketplace `ecc`): 328 skills, 72 agents, 99 commandes, 122 règles en 25 packs, 28 entrées de hooks (comptés dans l'arbre). Adaptateurs pour Codex, Cursor, OpenCode, Gemini, Zed et d'autres.
 - Hooks à profils: `scripts/hooks/run-with-flags.js` + `ECC_HOOK_PROFILE` + `ECC_DISABLED_HOOKS`, schéma `schemas/hooks.schema.json`, validation `scripts/ci/validate-hooks.js`, `hook-watchdog.js`.
-- Instincts (`skills/continuous-learning-v2/`): hooks Pre/PostToolUse, observateur Haiku, instincts atomiques avec confiance 0.3-0.9, portée projet puis promotion globale quand l'instinct apparaît dans 2 projets. Proche de `~/.gemini/scripts/learn.ts`.
+- Instincts (`skills/continuous-learning-v2/`): hooks Pre/PostToolUse, observateur Haiku, instincts atomiques avec confiance 0.3-0.9, portée projet puis promotion globale quand l'instinct apparaît dans 2 projets. Proche de la boucle d'apprentissage du skill `learn`.
 - Mémoire portable `ecc.memory.v1` (Memory Vault Markdown, `scripts/memory.js`, `memory-mcp.mjs`), exige `npm i -g ecc-universal`.
 - Sécurité: AgentShield (`ecc-agentshield`), `gateguard-fact-force.js` (refuse la première édition tant que les faits ne sont pas cités), scans supply-chain et unicode en CI.
 - Installateur déclaratif: `manifests/install-modules.json` (49 modules), `install-profiles.json`, `scripts/doctor.js`, `repair.js`.

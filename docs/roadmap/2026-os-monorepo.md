@@ -16,7 +16,7 @@ Every phase ends on an **acceptance gate**. A gate is a job independent of the i
 | ay (SDK, Bun tooling, cloud/edge) | 29 packages and apps | 245 commits, 24 MiB | Rust 1.100.0 |
 | fw (core: toolchain, agents, CLI, MCP) | ~40 crates (+ fw-browser-* merged, not yet members) | 261 commits, 71 MiB | Rust 1.100.0 |
 
-Infrastructure: fr1 (Haswell, 12 vCPU, 45 GB, `$WORK=/srv/xbuild` 805 GB, NativeLink), prd (EPYC Zen 4, 8 vCPU, 31 GB, CachyOS kernel, production being moved to Cloudflare), Cloudflare (Workers, R2, tunnels), gcloud (12 projects, one open billing account, credits not yet read), a PC with RTX 4070 (i7-13700F, 32 GB). fr2 is out of service.
+Infrastructure: fr1 (Haswell, 12 vCPU, 45 GB, `$WORK=/srv/xbuild` 805 GB, NativeLink), prd (EPYC Zen 4, 8 vCPU, 31 GB, CachyOS kernel, production being moved to Cloudflare), Cloudflare (Workers, R2, tunnels), gcloud (12 projects, one open billing account, credits not yet read), a PC with RTX 4070 (i7-13700F, 32 GB).
 
 ## Decisions
 

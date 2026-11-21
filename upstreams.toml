@@ -289,7 +289,7 @@ fw = "crates/fw-llama-sys"
 role = "Binding Rust llama.cpp de référence (llama-cpp-2), submodule épinglé"
 watch = true
 
-# Google design, Material, Stitch, Gemini and Antigravity (verified with `gh api repos/...` on 2026-11-20).
+# Google design, Material, Stitch and Gemini (verified with `gh api repos/...` on 2026-11-20).
 
 [[upstream]]
 id = "material-color-utilities"
@@ -391,24 +391,6 @@ role = "Agent Development Kit: agent, tool and session model used by Gemini agen
 watch = true
 
 [[upstream]]
-id = "antigravity-cli"
-repo = "google-antigravity/antigravity-cli"
-branch = "main"
-docs = "https://github.com/google-antigravity/antigravity-cli#readme"
-fw = "native/fw-agy"
-role = "Antigravity CLI (agy) wrapped by fw-agy and the agy-knowledge skill"
-watch = true
-
-[[upstream]]
-id = "antigravity-sdk-python"
-repo = "google-antigravity/antigravity-sdk-python"
-branch = "main"
-docs = "https://github.com/google-antigravity/antigravity-sdk-python#readme"
-fw = "native/fw-agy"
-role = "Antigravity agent SDK: session, tool and plugin protocol"
-watch = true
-
-[[upstream]]
 id = "google-apis-rs"
 repo = "Byron/google-apis-rs"
 branch = "main"
@@ -476,7 +458,7 @@ id = "cloudflare-mcp"
 repo = "cloudflare/mcp"
 branch = "main"
 docs = "https://github.com/cloudflare/mcp#readme"
-fw = "configs/claude + configs/gemini"
+fw = "configs/claude"
 role = "Code Mode MCP server for the whole Cloudflare API (search and execute over 2500 endpoints) at https://mcp.cloudflare.com/mcp; fork aphrody-labs/mcp, Apache-2.0"
 watch = true
 

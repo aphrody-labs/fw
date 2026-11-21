@@ -18,7 +18,7 @@ Verified live on `2026-11-19` per `/aphrody:microsoft` truth protocol against `g
 - Purged `618 MiB` of stale `third_party/intelligent-terminal/tools/wta/target/` build cache and dead `src/test_support.rs` + dangling `#[cfg(test)]` declarations in `src/main.rs`.
 - Exposed reusable library target `[lib] name = "wta_core"` (`third_party/intelligent-terminal/tools/wta/src/lib.rs`) exporting:
   - `osc52` — OSC 52 base64 clipboard escape sequences
-  - `rio_bridge` (`third_party/intelligent-terminal/tools/wta/src/rio_bridge.rs`) — OSC 7501 program status codec, built-in ACP agent registry (`copilot`, `claude`, `codex`, `gemini`, `opencode`, `antigravity`), Session MCP tool catalog (`run_command_in_current_shell`, `create_workspace`, `delegate_task_in_new_workspace`, `request_user_input`), Native Windows ConPTY + NamedPipe SDDL config, and Cloudflare Workers AI / AI Gateway edge config.
+  - `rio_bridge` (`third_party/intelligent-terminal/tools/wta/src/rio_bridge.rs`) — OSC 7501 program status codec, built-in ACP agent registry (`copilot`, `claude`, `codex`, `gemini`, `opencode` and others), Session MCP tool catalog (`run_command_in_current_shell`, `create_workspace`, `delegate_task_in_new_workspace`, `request_user_input`), Native Windows ConPTY + NamedPipe SDDL config, and Cloudflare Workers AI / AI Gateway edge config.
 
 ## 3. Rio GPU Terminal Update (`aphrody-labs/rio` — `rio-ai`)
 

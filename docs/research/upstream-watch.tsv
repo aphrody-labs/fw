@@ -1,34 +1,59 @@
 id	repo	stars	license	latest_release	release_date	head_sha	head_date	open_issues_and_prs	fw
-llama-cpp	ggml-org/llama.cpp	135864	MIT	v1.0.0	2026-11-13	29b52d398b	2026-11-20	2616	crates/fw-ggml
-cli-anything	HKUDS/CLI-Anything	61363	Apache-2.0	v0.4.0	2026-06-25	34f519533b	2026-09-22	278	plugin/skills + crates/fw-toolcall
-ecc	affaan-m/ECC	307846	MIT	v2.2.3	2026-10-01	4adeee6732	2026-11-20	147	plugin/skills + plugin/rules + configs/claude
-claude-mem	thedotmack/claude-mem	118635	Apache-2.0	v16.0.2	2026-11-20	f1bb834527	2026-11-20	71	crates/fw-bin (fw mem) + crates/fw-agent-context
-mesh-llm	Mesh-LLM/mesh-llm	4183	Apache-2.0	v0.80.0	2026-11-16	7191dbffac	2026-11-20	210	crates/fw-cluster + crates/fw-ggml
-openduet	CopilotKit/OpenDuet	2100	MIT	-	-	b32ec102d5	2026-11-14	21	plugin/skills + crates/fw-agent
-rtk	rtk-ai/rtk	87305	Apache-2.0	v1.2.1	2026-11-19	1deaf9155f	2026-11-20	1689	crates/fw-bin (fw sh) + crates/fw-toolcall
-graphify	Graphify-Labs/graphify	151171	Apache-2.0	v0.9.114	2026-11-20	b582ad401a	2026-11-20	1687	crates/fw-bin (fw graph) + crates/fw-rag
-agent-skills	addyosmani/agent-skills	119394	MIT	0.6.17	2026-11-18	8c99fa36d9	2026-11-18	123	plugin/skills
-ggml	ggml-org/ggml	16134	MIT	v1.0.0	2026-11-13	d9fe7bff3d	2026-11-16	387	crates/fw-ggml
-vllm	vllm-project/vllm	97281	Apache-2.0	v0.34.0	2026-11-16	8f8aee61bd	2026-11-20	10783	crates/fw-cluster + crates/fw-compute
+llama-cpp	ggml-org/llama.cpp	135882	MIT	v1.0.0	2026-11-13	418fe97b5f	2026-11-21	2606	crates/fw-ggml
+cli-anything	HKUDS/CLI-Anything	61504	Apache-2.0	v0.4.0	2026-06-25	34f519533b	2026-09-22	278	plugin/skills + crates/fw-toolcall
+ecc	affaan-m/ECC	307933	MIT	v2.2.3	2026-10-01	4adeee6732	2026-11-20	149	plugin/skills + plugin/rules + configs/claude
+claude-mem	thedotmack/claude-mem	118689	Apache-2.0	v16.0.2	2026-11-20	f1bb834527	2026-11-20	73	crates/fw-bin (fw mem) + crates/fw-agent-context
+mesh-llm	Mesh-LLM/mesh-llm	4185	Apache-2.0	v0.80.0	2026-11-16	ae24e7fc7a	2026-11-21	211	crates/fw-cluster + crates/fw-ggml
+openduet	CopilotKit/OpenDuet	2101	MIT	-	-	b32ec102d5	2026-11-14	21	plugin/skills + crates/fw-agent
+rtk	rtk-ai/rtk	87318	Apache-2.0	v1.2.1	2026-11-19	ef0b734b6b	2026-11-21	1689	crates/fw-bin (fw sh) + crates/fw-toolcall
+graphify	Graphify-Labs/graphify	151246	Apache-2.0	v0.9.114	2026-11-20	b582ad401a	2026-11-20	1689	crates/fw-bin (fw graph) + crates/fw-rag
+agent-skills	addyosmani/agent-skills	119423	MIT	0.6.17	2026-11-18	8c99fa36d9	2026-11-18	123	plugin/skills
+ggml	ggml-org/ggml	16135	MIT	v1.0.0	2026-11-13	d9fe7bff3d	2026-11-16	387	crates/fw-ggml
+vllm	vllm-project/vllm	97290	Apache-2.0	v0.34.0	2026-11-16	ad9053380f	2026-11-21	10803	crates/fw-cluster + crates/fw-compute
 vllm-router	vllm-project/router	528	Apache-2.0	v0.1.17	2026-11-04	e8ce7eabd2	2026-11-20	243	crates/fw-cluster
-llm-d	llm-d/llm-d	5323	Apache-2.0	v1.0.0	2026-10-20	d83e85c37c	2026-11-20	235	crates/fw-cluster
-llm-d-router	llm-d/llm-d-router	473	Apache-2.0	v1.0.0	2026-10-16	733d0e4ee1	2026-11-20	465	crates/fw-cluster
+llm-d	llm-d/llm-d	5324	Apache-2.0	v1.0.0	2026-10-20	d83e85c37c	2026-11-20	235	crates/fw-cluster
+llm-d-router	llm-d/llm-d-router	473	Apache-2.0	v1.0.0	2026-10-16	733d0e4ee1	2026-11-20	466	crates/fw-cluster
 gateway-api-inference-extension	kubernetes-sigs/gateway-api-inference-extension	806	Apache-2.0	v1.6.2	2026-09-17	6faa78e599	2026-11-09	27	crates/fw-cluster
-dynamo	ai-dynamo/dynamo	8541	NOASSERTION	v1.6.2	2026-11-05	5712ae12cc	2026-11-20	2146	crates/fw-cluster
-smg	smg-project/smg	735	Apache-2.0	v1.15.0	2026-11-10	44f071c337	2026-11-20	159	crates/fw-cluster
+dynamo	ai-dynamo/dynamo	8542	NOASSERTION	v1.6.2	2026-11-05	ccdb282719	2026-11-21	2155	crates/fw-cluster
+smg	smg-project/smg	735	Apache-2.0	v1.15.0	2026-11-10	d80499146a	2026-11-21	171	crates/fw-cluster
 mistral-rs	EricLBuehler/mistral.rs	7852	MIT	v0.9.5	2026-10-19	21da642fdd	2026-11-20	434	crates/fw-llama
-candle	huggingface/candle	21363	Apache-2.0	-	-	1a49dc27c1	2026-11-19	1013	crates/fw-ggml
-cubecl	tracel-ai/cubecl	2512	Apache-2.0	v0.11.3	2026-10-22	ed9f1fbb8a	2026-11-20	260	crates/fw-compute
+candle	huggingface/candle	21364	Apache-2.0	-	-	1a49dc27c1	2026-11-19	1013	crates/fw-ggml
+cubecl	tracel-ai/cubecl	2512	Apache-2.0	v0.11.3	2026-10-22	ed9f1fbb8a	2026-11-20	262	crates/fw-compute
 llama-cpp-rs	utilityai/llama-cpp-rs	676	Apache-2.0	0.1.161	2026-11-03	feebf11b8f	2026-11-19	67	crates/fw-llama-sys
 material-color-utilities	material-foundation/material-color-utilities	2306	Apache-2.0	-	-	dca2d34221	2026-11-20	107	crates/fw-m3
 material-theme-builder	material-foundation/material-theme-builder	593	Apache-2.0	-	-	8e4e50ba4a	2024-08-15	141	crates/fw-m3
-material-web	material-components/material-web	11460	Apache-2.0	v2.5.0	2026-07-15	a0bab1d944	2026-11-20	195	crates/fw-proto/ui
-material-design-icons	google/material-design-icons	54340	Apache-2.0	4.0.0	2020-08-31	10ecc14790	2026-10-23	431	crates/fw-proto/ui
+material-web	material-components/material-web	11461	Apache-2.0	v2.5.0	2026-07-15	a0bab1d944	2026-11-20	196	crates/fw-proto/ui
+material-design-icons	google/material-design-icons	54342	Apache-2.0	4.0.0	2020-08-31	10ecc14790	2026-10-23	431	crates/fw-proto/ui
 googlesans-flex	googlefonts/googlesans-flex	36	OFL-1.1	v5.000	2026-10-09	9c3785b85d	2026-11-16	31	crates/fw-m3
-stitch-skills	google-labs-code/stitch-skills	11021	Apache-2.0	v1.0	2026-05-18	62fdcd6797	2026-11-20	24	plugin/skills
-gemini-cli	google-gemini/gemini-cli	108960	Apache-2.0	v0.70.0	2026-11-19	eecccfcd5a	2026-11-20	729	crates/fw-gemini
-gemini-skills	google-gemini/gemini-skills	4531	Apache-2.0	-	-	c4d0c62c12	2026-11-18	15	plugin/skills
+googlesans-code	googlefonts/googlesans-code	2579	OFL-1.1	v7.001	2026-06-09	b8ec358c92	2026-11-02	11	crates/fw-proto/ui
+stitch-skills	google-labs-code/stitch-skills	11100	Apache-2.0	v1.0	2026-05-18	62fdcd6797	2026-11-20	25	plugin/skills
+gemini-cli	google-gemini/gemini-cli	108956	Apache-2.0	v0.70.0	2026-11-19	eecccfcd5a	2026-11-20	718	crates/fw-gemini
+gemini-skills	google-gemini/gemini-skills	4533	Apache-2.0	-	-	c4d0c62c12	2026-11-18	15	plugin/skills
 gemini-cookbook	google-gemini/cookbook	17966	Apache-2.0	-	-	61250eb565	2026-11-19	26	crates/fw-gemini
-adk-python	google/adk-python	22287	Apache-2.0	v2.15.0	2026-11-19	f578fcd2db	2026-11-20	555	crates/fw-agent
-antigravity-cli	google-antigravity/antigravity-cli	2939	-	1.5.13	2026-11-19	74b5ed6a97	2026-11-19	1043	native/fw-agy
-antigravity-sdk-python	google-antigravity/antigravity-sdk-python	4129	Apache-2.0	-	-	97c5c53d07	2026-11-18	37	native/fw-agy
+adk-python	google/adk-python	22289	Apache-2.0	v2.15.0	2026-11-19	f578fcd2db	2026-11-20	557	crates/fw-agent
+google-apis-rs	Byron/google-apis-rs	1139	NOASSERTION	google-clis-common-v7.0.0	2024-10-15	78b8ced0f9	2026-10-17	36	crates/fw-google
+yup-oauth2	dermesser/yup-oauth2	246	Apache-2.0	-	-	0bbe68c95b	2026-01-07	34	crates/fw-google
+yazi	sxyazi/yazi	43550	MIT	v26.9.1	2026-09-01	d5e4beb6b5	2026-11-12	77	crates/fw-files
+android-documentsui	aphrody-labs/android-documentsui	0	-	-	-	4568ed0bc0	2026-04-16	0	crates/fw-drive
+chromium-file-manager	aphrody-labs/chromium-file-manager	0	BSD-3-Clause	-	-	83cee4634e	2026-11-21	0	crates/fw-drive
+spacedrive	spacedriveapp/spacedrive	39571	Apache-2.0	0.4.3	2025-03-24	07e095a425	2026-11-21	66	crates/fw-drive
+workers-rs	cloudflare/workers-rs	3802	Apache-2.0	v0.9.0	2026-11-11	a61be7843e	2026-11-17	197	crates/fw-edge
+cloudflare-mcp	cloudflare/mcp	1133	Apache-2.0	-	-	b8602d6d5c	2026-11-19	53	configs/claude
+cloudflare-docs	cloudflare/cloudflare-docs	5502	CC-BY-4.0	-	-	7c4d9e7d8b	2026-11-21	450	fw docs + fw learn
+kiri	libracoder/kiri	11735	Apache-2.0	v0.2.2	2026-11-19	ac82581ca0	2026-11-20	191	crates/fw-drive (self-hosted runs)
+cf-quiche	cloudflare/quiche	12883	BSD-2-Clause	0.30.1	2026-11-10	d448b6b239	2026-11-18	414	crates/fw-http
+boringtun	cloudflare/boringtun	7273	BSD-3-Clause	boringtun-cli-0.5.2	2022-07-20	6dcc889a95	2026-06-15	116	crates/fw-cluster
+cf-foundations	cloudflare/foundations	1725	BSD-3-Clause	v3.4.0	2024-10-07	c93d6bf9b7	2026-11-20	28	crates/fw-cluster + crates/fw-drive
+svg-hush	cloudflare/svg-hush	442	MIT	0.9.5	2025-02-21	fba34edcbb	2026-08-25	0	crates/fw-drive + cloudflare/drive.ts
+shellflip	cloudflare/shellflip	536	BSD-3-Clause	v2.1.2	2025-03-24	216b6eeff1	2026-10-14	3	crates/fw-drive + crates/fw-proto
+wirefilter	cloudflare/wirefilter	1182	MIT	-	-	a101f7c0fc	2026-11-16	29	cloudflare/worker.ts (gatekeeper)
+saffron	cloudflare/saffron	250	BSD-3-Clause	-	-	90c2af8610	2025-12-29	17	crates/fw-bin (fw watch)
+moq-rs	cloudflare/moq-rs	187	-	moq-relay-ietf-v0.8.1	2026-11-10	f9d1880f62	2026-11-10	79	crates/fw-video
+web-bot-auth	cloudflare/web-bot-auth	185	Apache-2.0	-	-	ce5e54fd7e	2026-11-14	22	crates/fw-agent
+cloudflared	cloudflare/cloudflared	16679	Apache-2.0	2026.11.1	2026-11-17	518d7f7969	2026-11-17	592	cloudflare/ + fleet
+artifact-fs	cloudflare/artifact-fs	1226	Apache-2.0	-	-	2b87a48691	2026-08-12	15	fleet (fr1 clones)
+kube-rs	kube-rs/kube	3867	Apache-2.0	5.1.0	2026-11-12	fc801fba6b	2026-11-12	112	crates/fw-cluster
+kubernetes-website	kubernetes/website	5431	CC-BY-4.0	snapshot-initial-v1.37	2026-08-26	f284a9e7c8	2026-11-21	1296	fw docs + fw learn
+crates-io	rust-lang/crates.io	3765	Apache-2.0	-	-	e37aa705b0	2026-11-20	116	crates/fw-crates
+rustsec-advisory-db	rustsec/advisory-db	1207	NOASSERTION	-	-	f291af9b1c	2026-11-20	172	crates/fw-crates
+oha	hatoo/oha	10707	MIT	v1.17.0	2026-11-14	780c4e6e23	2026-11-18	58	crates/fw-crates

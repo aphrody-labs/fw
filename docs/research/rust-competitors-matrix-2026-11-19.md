@@ -63,8 +63,8 @@ Generated reproducibly by `bun tools/competitor_audit.ts` (live GitHub API + loc
 | **WebGPU** | Oui (`fw-wayland-wgpu`, WGSL, probe web) | Non | Non | Non | Oui (GPUI Metal/Vulkan/DX12) | Non |
 | **Cluster / Routing** | Oui (`fw-cluster` Pingora/Dynamo/vLLM-Router) | Non | Non | Partiel (TEE nodes) | Partiel (collab server) | Non |
 | **MCP (JSON-RPC 2.0)** | Oui (`fw-hermes-claw` + `POST /mcp`) | Oui | Oui | Oui | Oui (client MCP) | Non |
-| **ACP (Agent Client Protocol)** | Partiel (planifié / pont `agy`) | Partiel | Non | Partiel | Oui (natif) | Non |
-| **A2A (Agent-to-Agent)** | Partiel (spec `fw-cluster` / relay) | Partiel | Oui | Oui | Non | Non |
+| **ACP (Agent Client Protocol)** | Partiel (planifié) | Partiel | Non | Partiel | Oui (natif) | Non |
+| **A2A (Agent-to-Agent)** | Partiel (spec `fw-cluster`) | Partiel | Oui | Oui | Non | Non |
 | **Cloudflare Edge** | Oui (`cloudflare/` Workers + SQLite DO) | Non | Non | Non | Non | Non |
 | **Nix** | Oui (`flake.nix` flake-parts + crane + NixOS) | Partiel | Non | Non | Oui (`nix/` flake-parts + crane) | Partiel (dev env) |
 | **WSL** | Oui (`os/fw-wsl` tuning WSL + GPU) | Non | Non | Non | Oui (WSL remote) | Non |

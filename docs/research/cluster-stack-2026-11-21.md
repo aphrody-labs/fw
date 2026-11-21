@@ -1,12 +1,11 @@
 # Cluster stack (2026-11-21)
 
-Scope: fr1 (OVH, Haswell x86-64-v3, 12 vCPU, 45 GB, root 300 GB plus `$WORK=/srv/xbuild` 805 GB XFS on LVM) and prd (Hostinger, EPYC 9354P Zen 4, x86-64-v4, 8 vCPU, 31 GB, 400 GB). The two hosts are linked by a WireGuard mesh `10.200.77.0/24`. Around them sit Cloudflare (Workers, R2, containers), gcloud (Cloud Build, Batch, spot GPU) and the owner's RTX 4070 PC. Production is moving from prd to Cloudflare, so both VPS become build and agent hosts. fr2 is out of service.
+Scope: fr1 (OVH, Haswell x86-64-v3, 12 vCPU, 45 GB, root 300 GB plus `$WORK=/srv/xbuild` 805 GB XFS on LVM) and prd (Hostinger, EPYC 9354P Zen 4, x86-64-v4, 8 vCPU, 31 GB, 400 GB). The two hosts are linked by a WireGuard mesh `10.200.77.0/24`. Around them sit Cloudflare (Workers, R2, containers), gcloud (Cloud Build, Batch, spot GPU) and the owner's RTX 4070 PC. Production is moving from prd to Cloudflare, so both VPS become build and agent hosts.
 
 Sources read today:
 - the `gh api repos/<r>/releases/latest` results for each component (versions in the table);
 - Context7 `/k3s-io/docs` (distributed-multicloud.md, advanced.md);
 - the `fleet`, `disks`, `ai-os-orchestrator` and `work` skills;
-- `~/.gemini/memory/ws-fleet-disks.md`;
 - the fw crate `fw-cluster`: `fw-k8s`, kube 5.1.0.
 
 ## Decision
@@ -15,10 +14,10 @@ Sources read today:
 |---|---|---|---|
 | Distributed Rust and C/C++ compile | `sccache-dist` scheduler on fr1, servers on fr1 and on prd inside a systemd slice (`Nice=19`, `CPUWeight=15`, `MemoryHigh=12G`) | sccache from the pinned toolchain | Cargo has no RE-API; this is the only way to use both VPS for one cargo build. It is already named in the fleet skill. |
 | Remote execution and cache (Bazel, siso/Chromium, Buck2, reclient) | NativeLink: server and worker already running on fr1, plus a worker on prd | v1.8.7 (2026-11-20) | Already installed. Gives Chromium/siso builds cache hits across hosts. |
-| Agent and job queue | existing `tools/agents/runner.ts` (ai-os) plus `~/.gemini/scripts/tmux-run.ts`, fan-out ≤ 3 | in-repo | Already the documented path; no new scheduler. |
+| Agent and job queue | existing `apps/agents/runner.ts` (detached `tmux` sessions on the hosts), fan-out ≤ 3 | in-repo | Already the documented path; no new scheduler. |
 | CI runners | self-hosted GitHub Actions runners as systemd services on fr1 (one already serves shenron) and in a prd slice | n/a | ARC (gha-runner-scale-set 0.15.1) needs Kubernetes, which is not worth it for 2 nodes. |
 | Mesh | keep the WireGuard `10.200.77.0/24` | kernel | Works today; NetBird 0.83.2 / Headscale 0.29.7 only if more nodes join. |
-| Shared trees (zero copy) | one checkout per repo at `$WORK/src/<repo>` on fr1, NFSv4.2 export over the mesh to prd (the same pattern fr2 used), `cp --reflink=auto` on XFS | kernel | One checkout per repo, zero duplication. |
+| Shared trees (zero copy) | one checkout per repo at `$WORK/src/<repo>` on fr1, NFSv4.2 export over the mesh to prd, `cp --reflink=auto` on XFS | kernel | One checkout per repo, zero duplication. |
 | Cloud and DNS IaC | OpenTofu with Cloudflare, Google and OVH providers | v1.13.9 (2026-11-05) | Declarative, open licence (Terraform is BSL). |
 | Secrets | SOPS + age in the repos; Cloudflare and GCP secret stores for runtime | sops v3.13.3 | No server to run. OpenBao 2.7.3 only if dynamic secrets are needed. |
 | Metrics and logs | VictoriaMetrics + VictoriaLogs (single binaries) + Grafana; OTel collector on each host | VM v1.156.0, VL v1.54.0, Grafana 13.3.1, otelcol 0.165.0 | Smallest footprint for 2 hosts. |
