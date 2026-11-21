@@ -2,8 +2,8 @@
 /*
  * Canonical Material 3 fusion tokens (M3 + shadcn/ui + Tailwind v4), light + dark.
  * Scheme: tonal-spot from seed #e2dbad.
- * GENERATED - do not hand-edit. Source: Material crates/m3-tokens/src/sheets.rs.
- * Regenerate with: bun run generate
+ * Kept with m3-tokens.json (same seed). Its former generator, the m3-tokens crate of the retired aphrody-m3 repository, is not
+ * in this workspace: no command regenerates this file here.
  */
 
 :root {

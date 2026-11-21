@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-// Centralizes, deduplicates, and synchronizes all credentials, .env files, and systemd-creds across the PC and the fleet hosts (ay.toml [hosts])
+// Centralizes, deduplicates, and synchronizes all credentials, .env files, and systemd-creds across the PC and the fleet hosts (ay.local.toml [hosts])
 // into Cloudflare Secrets Store + Worker Secret Bindings + `.private/master-secrets.env` (0o600).
 // NEVER prints or logs secret values — only key names, byte lengths, and sync counts.
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -91,7 +91,7 @@ export function collectAllCredentials(
     }
   }
 
-  // 3. Remote fleet hosts (ay.toml [hosts])
+  // 3. Remote fleet hosts (ay.local.toml [hosts])
   if (opts.withVps) {
     const remoteScript = `
 for f in $(find /root /home /opt /srv /etc -maxdepth 4 \\( -name '.env' -o -name '.env.production' -o -name '.env.local' -o -name '*.env' \\) 2>/dev/null); do

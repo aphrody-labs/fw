@@ -2,7 +2,7 @@
 // Recovery inventory: everything the legacy monorepo cleanup may have lost, from every place it can survive.
 // Sources: crates.io (crates owned by the owner account of ay.toml), npm (the registry org scope and the packages of the
 // logged-in npm account), GitHub (archived repositories and non-fork originals of the orgs of ay.toml), the legacy
-// inventory (.private/legacy-inventory.toml) and the trees under /opt and /srv of the hosts of ay.toml [hosts].
+// inventory (.private/legacy-inventory.toml) and the trees under /opt and /srv of the hosts of ay.local.toml [hosts].
 // Each unit is classified against the manifests of the current repositories (ay.toml [repos] checkouts):
 //   live  the unit exists in a current repository (`where`), or is an upstream fork that is tracked as such
 //   lost  our own code that survives only in a registry, an archive, the legacy repository or a host tree (`home` says

@@ -2,7 +2,7 @@
 // Live inventory of the Cloudflare account: Workers (routes, domains, bindings, crons, requests and non-OK of the window), R2 buckets (objects, bytes,
 // operations, custom and managed domains, CORS, lifecycle), D1, queues, KV, Durable Objects, Workflows and tunnels. Read-only. It reproduces the
 // snapshot of docs/cloud/platform-inventory-2026-11-20.md (ADR-16): the raw output keeps ids and goes to .private/cf/, the summary has none.
-// The hub and tools/edge-retire.ts reuse the GraphQL helpers below, so one implementation reads the analytics datasets.
+// The GraphQL helpers below are exported so that one implementation reads the analytics datasets.
 //   bun tools/cf-inventory.ts [--days 7] [--out .private/cf/inventory-<date>T<hhmm>.json] [--md <file>] [--json] [--from <raw.json>]
 //   --from summarizes a saved raw file instead of reading the account. Credentials: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID (or cf.local.toml).
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -69,7 +69,7 @@ export interface Gql {
   errors?: unknown;
 }
 
-// ---- GraphQL analytics (shared with edge-retire) ---------------------------------------------------------------------------------------------
+// ---- GraphQL analytics ---------------------------------------------------------------------------------------------
 
 const GRAPHQL = "https://api.cloudflare.com/client/v4/graphql";
 

@@ -3,7 +3,7 @@
 // machine that calls this tool. The working tree (kotlin/, brand/tokens, ay.toml, Cargo.toml) is streamed over ssh into a scratch
 // directory of the build host's work volume and `gradlew test assembleRelease publishToMavenLocal` runs there against androidx material3.
 //   bun tools/compose-check.ts [gradle tasks...]      defaults to: test assembleRelease publishToMavenLocal
-// Host alias and layout come from ay.toml [hosts] / [paths.build] (work, optional android_sdk and gradle_home), so no host path is
+// Host alias and layout come from ay.local.toml [hosts] / [paths.build] (work, optional android_sdk and gradle_home), so no host path is
 // tracked. On a CI runner (CI=true) the build runs in place.
 import { spawnSync } from "node:child_process";
 import { hostAlias, hostWork, loadHosts } from "./hosts.ts";

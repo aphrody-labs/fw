@@ -1,4 +1,4 @@
-"""Battle-tested Pydantic v2 and official Cloudflare SDK models for ay-cf."""
+"""Pydantic v2 and Cloudflare SDK models for ay-cf."""
 
 from __future__ import annotations
 

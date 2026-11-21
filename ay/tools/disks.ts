@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // Disk inventory of the fleet: every block device, partition, LVM volume, network mount and filesystem, with free
-// space, and where to put large work (builds, caches, mirrors). Reads hosts from ay.toml [hosts].
+// space, and where to put large work (builds, caches, mirrors). Reads hosts from ay.local.toml [hosts].
 //   bun tools/disks.ts                 table per host + the best place for large work
 //   bun tools/disks.ts --json          machine-readable result
 //   bun tools/disks.ts <build-host> <prod-host>         only these hosts

@@ -1,5 +1,5 @@
-// Reproducible self-hosted fleet deployer for the test and production hosts (ay.toml [hosts]) + Linux binary build + live L7 LB.
-// Zero hardcoded IPs or secrets in tracked source: resolves SSH aliases from the CLI, the environment or ay.toml [hosts] and probes the WireGuard mesh at runtime.
+// Reproducible self-hosted fleet deployer for the test and production hosts (ay.local.toml [hosts]) + Linux binary build + live L7 LB.
+// Zero hardcoded IPs or secrets in tracked source: resolves SSH aliases from the CLI, the environment or ay.local.toml [hosts] and probes the WireGuard mesh at runtime.
 import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { hostWork, loadHosts, type Role } from "./hosts.ts";
@@ -18,7 +18,7 @@ const hosts = (
 
 const buildHost = Bun.env.AUTO_BUILD_HOST ?? hosts[0];
 if (!buildHost) throw new Error("no fleet host: pass hosts, set AUTO_FLEET_HOSTS or define [hosts] in ay.local.toml");
-// Install and source directories live on the work volume of the build host role (ay.toml [paths.<role>].work) unless AUTO_REMOTE_DIR says otherwise.
+// Install and source directories live on the work volume of the build host role (ay.local.toml [paths.<role>].work) unless AUTO_REMOTE_DIR says otherwise.
 const buildRole = Object.entries(roles).find(([, alias]) => alias === buildHost)?.[0] as Role | undefined;
 const remoteDir = Bun.env.AUTO_REMOTE_DIR ?? (buildRole ? `${hostWork(buildRole, loadHosts())}/auto` : "");
 if (!remoteDir) {

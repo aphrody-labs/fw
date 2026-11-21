@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 // Absorb the community's work into our forks: rank open upstream PRs and active forks, then merge only what builds
-// and passes the tests. Hosts come from ay.toml [hosts], the work volume from tools/disks.ts, every decision is
+// and passes the tests. Hosts come from ay.local.toml [hosts], the work volume from tools/disks.ts, every decision is
 // appended to docs/research/absorbed.toml.
 //   bun tools/absorb.ts candidates <owner/repo> [--green] [--rust] [--fix] [--max 90] [--forks 10] [--top 15] [--json]
 //   bun tools/absorb.ts try <fork-checkout> <pr-number|fork:branch> --test "<cmd>" [--host <build-host>] [--timeout 5400]
