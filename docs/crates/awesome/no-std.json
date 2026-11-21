@@ -1,0 +1,929 @@
+{
+  "category": {
+    "crates": 15217,
+    "description": "Crates that are able to function without the Rust standard library.",
+    "name": "No standard library",
+    "slug": "no-std"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.9805,
+        "downloads": 0.9644,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9261,
+        "security": 1.0
+      },
+      "created": "2015-08-07",
+      "dependents": 112408,
+      "description": "A JSON serialization file format",
+      "downloads": 1660008322,
+      "edition": "2021",
+      "keywords": [
+        "json",
+        "serde",
+        "serialization"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "serde_json",
+      "owners": 2,
+      "recent_downloads": 457167943,
+      "releases_365d": 9,
+      "repository": "https://github.com/serde-rs/json",
+      "score": 96.52,
+      "version": "1.0.154",
+      "versions": 186
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.8596,
+        "downloads": 0.9832,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9896,
+        "security": 1.0
+      },
+      "created": "2015-02-03",
+      "dependents": 26767,
+      "description": "Random number generators and other randomness functionality.\n",
+      "downloads": 2246974371,
+      "edition": "2024",
+      "keywords": [
+        "random",
+        "rng"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "rand",
+      "owners": 2,
+      "recent_downloads": 674822403,
+      "releases_365d": 15,
+      "repository": "https://github.com/rust-random/rand",
+      "score": 94.91,
+      "version": "0.10.4",
+      "versions": 95
+    },
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.954,
+        "downloads": 0.9742,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8953,
+        "security": 1.0
+      },
+      "created": "2019-10-09",
+      "dependents": 82063,
+      "description": "derive(Error)",
+      "downloads": 1909118609,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "error",
+        "error-handling"
+      ],
+      "last_release": "2026-09-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "thiserror",
+      "owners": 1,
+      "recent_downloads": 559953559,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/thiserror",
+      "score": 94.64,
+      "version": "2.0.21",
+      "versions": 92
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.8537,
+        "downloads": 0.9591,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9281,
+        "security": 1.0
+      },
+      "created": "2016-05-06",
+      "dependents": 24963,
+      "description": "Pure Rust implementation of the SHA-2 hash function family\nincluding SHA-224, SHA-256, SHA-384, and SHA-512.\n",
+      "downloads": 1272318828,
+      "edition": "2024",
+      "keywords": [
+        "digest",
+        "hash",
+        "sha2"
+      ],
+      "last_release": "2026-10-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "sha2",
+      "owners": 3,
+      "recent_downloads": 409681208,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/hashes",
+      "score": 94.24,
+      "version": "0.11.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std",
+        "parser-implementations",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.847,
+        "downloads": 0.9397,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9924,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 23069,
+      "description": "A library to generate and parse UUIDs.",
+      "downloads": 1018989605,
+      "edition": "2021",
+      "keywords": [
+        "guid",
+        "unique",
+        "uuid"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89.0",
+      "name": "uuid",
+      "owners": 1,
+      "recent_downloads": 274276223,
+      "releases_365d": 21,
+      "repository": "https://github.com/uuid-rs/uuid",
+      "score": 92.55,
+      "version": "1.29.3",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.8291,
+        "downloads": 0.9699,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9355,
+        "security": 1.0
+      },
+      "created": "2015-01-15",
+      "dependents": 18646,
+      "description": "Raw FFI bindings to platform libraries like libc.",
+      "downloads": 2029208207,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "ffi",
+        "libc",
+        "operating",
+        "system"
+      ],
+      "last_release": "2026-10-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "libc",
+      "owners": 1,
+      "recent_downloads": 512253165,
+      "releases_365d": 18,
+      "repository": "https://github.com/rust-lang/libc",
+      "score": 92.01,
+      "version": "0.2.191",
+      "versions": 209
+    },
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.9131,
+        "downloads": 0.9453,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7884,
+        "security": 1.0
+      },
+      "created": "2019-10-05",
+      "dependents": 50480,
+      "description": "Flexible concrete Error type built on std::error::Error",
+      "downloads": 1201053491,
+      "edition": "2021",
+      "keywords": [
+        "error",
+        "error-handling"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "anyhow",
+      "owners": 1,
+      "recent_downloads": 307783670,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/anyhow",
+      "score": 91.28,
+      "version": "1.0.104",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "parser-implementations",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.8264,
+        "downloads": 0.9404,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9998,
+        "security": 1.0
+      },
+      "created": "2014-11-14",
+      "dependents": 18072,
+      "description": "URL library for Rust, based on the WHATWG URL Standard",
+      "downloads": 1094905391,
+      "edition": "2018",
+      "keywords": [
+        "parser",
+        "url"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "url",
+      "owners": 5,
+      "recent_downloads": 278242134,
+      "releases_365d": 2,
+      "repository": "https://github.com/servo/rust-url",
+      "score": 91.17,
+      "version": "2.5.9",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 1.0,
+        "downloads": 0.9641,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7885,
+        "security": 1.0
+      },
+      "created": "2014-12-05",
+      "dependents": 141576,
+      "description": "A generic serialization/deserialization framework",
+      "downloads": 1752708743,
+      "edition": "2021",
+      "keywords": [
+        "no_std",
+        "serde",
+        "serialization"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.56",
+      "name": "serde",
+      "owners": 2,
+      "recent_downloads": 454062629,
+      "releases_365d": 1,
+      "repository": "https://github.com/serde-rs/serde",
+      "score": 90.43,
+      "version": "1.0.229",
+      "versions": 316
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.7446,
+        "downloads": 0.9698,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.864,
+        "security": 1.0
+      },
+      "created": "2018-01-30",
+      "dependents": 6848,
+      "description": "A hash table with consistent order and fast iteration.",
+      "downloads": 1938819843,
+      "edition": "2024",
+      "keywords": [
+        "hashmap",
+        "no_std"
+      ],
+      "last_release": "2026-09-05",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "indexmap",
+      "owners": 2,
+      "recent_downloads": 510979890,
+      "releases_365d": 5,
+      "repository": "https://github.com/indexmap-rs/indexmap",
+      "score": 89.82,
+      "version": "2.14.2",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "cryptography",
+        "memory-management",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.7336,
+        "downloads": 0.9401,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9934,
+        "security": 1.0
+      },
+      "created": "2018-10-03",
+      "dependents": 6004,
+      "description": "Securely clear secrets from memory with a simple trait built on\nstable Rust primitives which guarantee memory is zeroed using an\noperation will not be 'optimized away' by the compiler.\nUses a portable pure Rust implementation that works everywhere,\neven WASM, with `asm!` optimizations on select platforms\n",
+      "downloads": 912728153,
+      "edition": "2024",
+      "keywords": [
+        "memory",
+        "memset",
+        "secure",
+        "volatile",
+        "zero"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "zeroize",
+      "owners": 2,
+      "recent_downloads": 276736400,
+      "releases_365d": 3,
+      "repository": "https://github.com/RustCrypto/utils",
+      "score": 89.24,
+      "version": "1.9.2",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.7483,
+        "downloads": 0.9381,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9282,
+        "security": 1.0
+      },
+      "created": "2019-08-08",
+      "dependents": 7154,
+      "description": "Generate JSON Schemas from Rust code",
+      "downloads": 677115729,
+      "edition": "2021",
+      "keywords": [
+        "json-schema",
+        "rust",
+        "serde"
+      ],
+      "last_release": "2026-10-12",
+      "license": "MIT",
+      "msrv": "1.74",
+      "name": "schemars",
+      "owners": 1,
+      "recent_downloads": 265568130,
+      "releases_365d": 4,
+      "repository": "https://github.com/GREsau/schemars",
+      "score": 89.08,
+      "version": "1.2.3",
+      "versions": 98
+    },
+    {
+      "categories": [
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.7276,
+        "downloads": 0.9794,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8721,
+        "security": 1.0
+      },
+      "created": "2015-01-15",
+      "dependents": 5593,
+      "description": "A macro to generate structures which behave like bitflags.\n",
+      "downloads": 2332021914,
+      "edition": "2021",
+      "keywords": [
+        "bit",
+        "bitflags",
+        "bitmask",
+        "flags"
+      ],
+      "last_release": "2026-09-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.56.0",
+      "name": "bitflags",
+      "owners": 1,
+      "recent_downloads": 623855713,
+      "releases_365d": 6,
+      "repository": "https://github.com/bitflags/bitflags",
+      "score": 88.76,
+      "version": "2.13.2",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.7375,
+        "downloads": 0.9951,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7431,
+        "security": 1.0
+      },
+      "created": "2019-01-19",
+      "dependents": 6289,
+      "description": "A small cross-platform library for retrieving random data from system source",
+      "downloads": 2694519861,
+      "edition": "2024",
+      "last_release": "2026-06-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "getrandom",
+      "owners": 2,
+      "recent_downloads": 862568586,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-random/getrandom",
+      "score": 88.46,
+      "version": "0.4.3",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6615,
+        "downloads": 0.9831,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8595,
+        "security": 1.0
+      },
+      "created": "2017-09-14",
+      "dependents": 2555,
+      "description": "Core random number generator traits and tools for implementation.\n",
+      "downloads": 2267581390,
+      "edition": "2024",
+      "keywords": [
+        "random",
+        "rng"
+      ],
+      "last_release": "2026-09-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "rand_core",
+      "owners": 2,
+      "recent_downloads": 673286679,
+      "releases_365d": 12,
+      "repository": "https://github.com/rust-lang-nursery/rand",
+      "score": 88.01,
+      "version": "0.10.1",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6183,
+        "downloads": 0.9483,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9175,
+        "security": 1.0
+      },
+      "created": "2015-09-14",
+      "dependents": 1529,
+      "description": "The enum `Either` with variants `Left` and `Right` is a general purpose sum type with two cases.\n",
+      "downloads": 1262834633,
+      "edition": "2021",
+      "keywords": [
+        "data-structure",
+        "no_std"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63.0",
+      "name": "either",
+      "owners": 3,
+      "recent_downloads": 327676332,
+      "releases_365d": 4,
+      "repository": "https://github.com/rayon-rs/either",
+      "score": 87.93,
+      "version": "1.19.0",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6788,
+        "downloads": 0.8988,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9978,
+        "security": 1.0
+      },
+      "created": "2017-08-17",
+      "dependents": 3135,
+      "description": "Custom de/serialization functions for Rust's serde",
+      "downloads": 456295178,
+      "edition": "2021",
+      "keywords": [
+        "deserialization",
+        "serde",
+        "serialization",
+        "utilities"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "serde_with",
+      "owners": 1,
+      "recent_downloads": 117672654,
+      "releases_365d": 10,
+      "repository": "https://github.com/jonasbb/serde_with/",
+      "score": 87.41,
+      "version": "3.25.0",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "no-std",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.7439,
+        "downloads": 0.9372,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8088,
+        "security": 1.0
+      },
+      "created": "2014-11-13",
+      "dependents": 6792,
+      "description": "Date and time library. Fully interoperable with the standard library. Mostly compatible with #![no_std].",
+      "downloads": 1103680211,
+      "edition": "2024",
+      "keywords": [
+        "calendar",
+        "date",
+        "duration",
+        "time"
+      ],
+      "last_release": "2026-08-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "time",
+      "owners": 1,
+      "recent_downloads": 260461074,
+      "releases_365d": 9,
+      "repository": "https://github.com/time-rs/time",
+      "score": 87.16,
+      "version": "0.3.55",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.86,
+        "downloads": 0.9295,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8196,
+        "security": 1.0
+      },
+      "created": "2019-07-23",
+      "dependents": 26890,
+      "description": "Type erasure for async trait methods",
+      "downloads": 837390729,
+      "edition": "2021",
+      "keywords": [
+        "async"
+      ],
+      "last_release": "2026-08-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "async-trait",
+      "owners": 1,
+      "recent_downloads": 222241314,
+      "releases_365d": 2,
+      "repository": "https://github.com/dtolnay/async-trait",
+      "score": 87.03,
+      "version": "0.1.92",
+      "versions": 93
+    },
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5929,
+        "downloads": 0.9093,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9514,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 1132,
+      "description": "Wrappers for total ordering on floats",
+      "downloads": 560963624,
+      "edition": "2021",
+      "keywords": [
+        "f32",
+        "f64",
+        "no_std",
+        "ord",
+        "sort"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "ordered-float",
+      "owners": 3,
+      "recent_downloads": 146327888,
+      "releases_365d": 5,
+      "repository": "https://github.com/reem/rust-ordered-float",
+      "score": 86.83,
+      "version": "5.5.1",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6256,
+        "downloads": 0.9053,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9654,
+        "security": 1.0
+      },
+      "created": "2016-10-06",
+      "dependents": 1668,
+      "description": "Pure Rust implementation of the Advanced Encryption Standard (a.k.a. Rijndael)",
+      "downloads": 426505654,
+      "edition": "2024",
+      "keywords": [
+        "aes",
+        "block-cipher",
+        "rijndael"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "aes",
+      "owners": 2,
+      "recent_downloads": 134694002,
+      "releases_365d": 6,
+      "repository": "https://github.com/RustCrypto/block-ciphers",
+      "score": 86.75,
+      "version": "0.9.4",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6475,
+        "downloads": 0.9031,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9942,
+        "security": 1.0
+      },
+      "created": "2024-02-17",
+      "dependents": 2164,
+      "description": "A date-time library that encourages you to jump into the pit of success.\n\nThis library is heavily inspired by the Temporal project.\n",
+      "downloads": 295810250,
+      "edition": "2024",
+      "keywords": [
+        "calendar",
+        "date",
+        "duration",
+        "time",
+        "zone"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.85",
+      "name": "jiff",
+      "owners": 1,
+      "recent_downloads": 128616142,
+      "releases_365d": 31,
+      "repository": "https://github.com/BurntSushi/jiff",
+      "score": 86.68,
+      "version": "1.0.1",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6212,
+        "downloads": 0.9373,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9795,
+        "security": 1.0
+      },
+      "created": "2018-11-13",
+      "dependents": 1584,
+      "description": "Fast, SIMD-accelerated CRC32 (IEEE) checksum computation",
+      "downloads": 896935067,
+      "edition": "2021",
+      "keywords": [
+        "crc",
+        "crc32",
+        "fast",
+        "hash",
+        "simd"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "crc32fast",
+      "owners": 1,
+      "recent_downloads": 260951238,
+      "releases_365d": 5,
+      "repository": "https://github.com/srijs/rust-crc32fast",
+      "score": 86.66,
+      "version": "1.5.5",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.667,
+        "downloads": 0.933,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.7761,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 2727,
+      "description": "SHA-1 hash function",
+      "downloads": 708613383,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "digest",
+        "hash",
+        "sha1"
+      ],
+      "last_release": "2026-07-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "sha1",
+      "owners": 3,
+      "recent_downloads": 238858398,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/hashes",
+      "score": 86.64,
+      "version": "0.11.0",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "embedded",
+        "no-std",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.606,
+        "downloads": 0.8872,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2020-08-14",
+      "dependents": 1322,
+      "description": "A highly efficient logging framework that targets resource-constrained devices, like microcontrollers",
+      "downloads": 122608519,
+      "edition": "2021",
+      "keywords": [
+        "formatter",
+        "formatting",
+        "knurling",
+        "logger",
+        "logging"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "defmt",
+      "owners": 4,
+      "recent_downloads": 92695743,
+      "releases_365d": 4,
+      "repository": "https://github.com/knurling-rs/defmt",
+      "score": 86.33,
+      "version": "1.2.0",
+      "versions": 31
+    }
+  ],
+  "score_version": 1
+}

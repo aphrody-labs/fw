@@ -1,0 +1,956 @@
+{
+  "category": {
+    "crates": 797,
+    "description": "Crates that encode or decode binary data in multimedia formats.",
+    "name": "Multimedia::Encoding",
+    "slug": "multimedia::encoding"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "encoding",
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.7504,
+        "downloads": 0.8844,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.6157,
+        "security": 1.0
+      },
+      "created": "2014-11-20",
+      "dependents": 7330,
+      "description": "Imaging library. Provides basic image processing and encoders/decoders for common image formats.",
+      "downloads": 260336466,
+      "edition": "2021",
+      "last_release": "2026-03-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "image",
+      "owners": 4,
+      "recent_downloads": 87460970,
+      "releases_365d": 1,
+      "repository": "https://github.com/image-rs/image",
+      "score": 80.61,
+      "version": "0.25.10",
+      "versions": 118
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.5216,
+        "downloads": 0.7883,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 485,
+      "description": "Pure Rust media container and audio decoding library.",
+      "downloads": 22883004,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "media",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia",
+      "owners": 1,
+      "recent_downloads": 11978915,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 75.65,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.4142,
+        "downloads": 0.8615,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.5832,
+        "security": 1.0
+      },
+      "created": "2018-06-18",
+      "dependents": 135,
+      "description": "TIFF decoding and encoding library in pure Rust",
+      "downloads": 162208343,
+      "edition": "2021",
+      "last_release": "2026-02-10",
+      "license": "MIT",
+      "msrv": "1.85.0",
+      "name": "tiff",
+      "owners": 3,
+      "recent_downloads": 54462595,
+      "releases_365d": 4,
+      "repository": "https://github.com/image-rs/image-tiff",
+      "score": 75.64,
+      "version": "0.11.3",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.3705,
+        "downloads": 0.8771,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8189,
+        "security": 1.0
+      },
+      "created": "2023-02-25",
+      "dependents": 80,
+      "description": "Core utilities for image processing in the zune family of crates",
+      "downloads": 168902168,
+      "edition": "2021",
+      "keywords": [
+        "image"
+      ],
+      "last_release": "2026-08-07",
+      "license": "MIT OR Apache-2.0 OR Zlib",
+      "msrv": "1.75.0",
+      "name": "zune-core",
+      "owners": 1,
+      "recent_downloads": 75178972,
+      "releases_365d": 2,
+      "repository": "https://github.com/etemesi254/zune-image",
+      "score": 73.47,
+      "version": "0.5.3",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "algorithms",
+        "compression",
+        "multimedia::encoding",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.4524,
+        "downloads": 0.7539,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9532,
+        "security": 1.0
+      },
+      "created": "2020-06-17",
+      "dependents": 213,
+      "description": "Real-to-complex forward FFT and complex-to-real inverse FFT for Rust",
+      "downloads": 21317876,
+      "edition": "2018",
+      "keywords": [
+        "dft",
+        "discrete",
+        "fft",
+        "fourier",
+        "transform"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT",
+      "msrv": "1.61",
+      "name": "realfft",
+      "owners": 1,
+      "recent_downloads": 5889991,
+      "releases_365d": 1,
+      "repository": "https://github.com/HEnquist/realfft",
+      "score": 72.96,
+      "version": "3.5.1",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.445,
+        "downloads": 0.7477,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.971,
+        "security": 1.0
+      },
+      "created": "2016-12-31",
+      "dependents": 195,
+      "description": "Exif parsing library written in pure Rust",
+      "downloads": 17848487,
+      "edition": "2021",
+      "keywords": [
+        "exif",
+        "jpeg",
+        "parser",
+        "reader",
+        "tiff"
+      ],
+      "last_release": "2026-11-05",
+      "license": "BSD-2-Clause",
+      "msrv": "1.60",
+      "name": "kamadak-exif",
+      "owners": 1,
+      "recent_downloads": 5178410,
+      "releases_365d": 1,
+      "repository": "https://github.com/kamadak/exif-rs",
+      "score": 72.88,
+      "version": "0.6.2",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.7895,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 51,
+      "description": "Project Symphonia shared structs, traits, and features.",
+      "downloads": 23446779,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "media",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-core",
+      "owners": 1,
+      "recent_downloads": 12274424,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 70.97,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.688,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9674,
+        "security": 1.0
+      },
+      "created": "2020-04-01",
+      "dependents": 36,
+      "description": "Low level crate for reading and writing Jpeg, Png and RIFF image containers",
+      "downloads": 11895160,
+      "edition": "2021",
+      "keywords": [
+        "exif",
+        "icc",
+        "jpeg",
+        "no_std",
+        "png"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "img-parts",
+      "owners": 1,
+      "recent_downloads": 1505845,
+      "releases_365d": 2,
+      "repository": "https://github.com/paolobarbolini/img-parts",
+      "score": 69.32,
+      "version": "0.4.2",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.6322,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9698,
+        "security": 1.0
+      },
+      "created": "2024-09-02",
+      "dependents": 11,
+      "description": "A MP4/ISOBMFF atom decoder and encoder",
+      "downloads": 740119,
+      "edition": "2021",
+      "keywords": [
+        "audio",
+        "isobmff",
+        "mp4",
+        "mp4box",
+        "video"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "mp4-atom",
+      "owners": 1,
+      "recent_downloads": 475474,
+      "releases_365d": 14,
+      "repository": "https://github.com/kixelated/mp4-atom",
+      "score": 68.59,
+      "version": "0.17.1",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.7892,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 11,
+      "description": "Project Symphonia multimedia tag and metadata readers.",
+      "downloads": 23273021,
+      "edition": "2024",
+      "keywords": [
+        "id3v1",
+        "id3v2",
+        "media",
+        "metadata",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-metadata",
+      "owners": 1,
+      "recent_downloads": 12216085,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 67.88,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "encoding",
+        "external-ffi-bindings",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.6061,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9668,
+        "security": 1.0
+      },
+      "created": "2022-12-10",
+      "dependents": 32,
+      "description": "High level bindings to mp3lame encoder",
+      "downloads": 1257874,
+      "edition": "2024",
+      "keywords": [
+        "codec",
+        "lame",
+        "libmp3lame",
+        "mp3",
+        "mp3lame"
+      ],
+      "last_release": "2026-11-03",
+      "license": "LGPL-3.0",
+      "msrv": "1.85",
+      "name": "mp3lame-encoder",
+      "owners": 1,
+      "recent_downloads": 277066,
+      "releases_365d": 5,
+      "repository": "https://github.com/DoumanAsh/mp3lame-encoder",
+      "score": 67.52,
+      "version": "0.3.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.7597,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2021-02-28",
+      "dependents": 11,
+      "description": "Pure Rust AAC decoder (a part of project Symphonia).",
+      "downloads": 13408585,
+      "edition": "2024",
+      "keywords": [
+        "aac",
+        "audio",
+        "codec",
+        "decoder",
+        "m4a"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-codec-aac",
+      "owners": 1,
+      "recent_downloads": 6631083,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 67.14,
+      "version": "0.6.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "algorithms",
+        "compression",
+        "multimedia::encoding",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5392,
+        "downloads": 0.7888,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.4428,
+        "security": 1.0
+      },
+      "created": "2015-01-25",
+      "dependents": 598,
+      "description": "High-performance FFT library written in pure Rust.",
+      "downloads": 37921623,
+      "edition": "2021",
+      "keywords": [
+        "dft",
+        "discrete",
+        "fft",
+        "fourier",
+        "transform"
+      ],
+      "last_release": "2025-09-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "rustfft",
+      "owners": 1,
+      "recent_downloads": 12115988,
+      "releases_365d": 0,
+      "repository": "https://github.com/ejmahler/RustFFT",
+      "score": 66.84,
+      "version": "6.4.1",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.7846,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 5,
+      "description": "Pure Rust MP1, MP2, and MP3 demuxer and decoder (a part of project Symphonia).",
+      "downloads": 21130558,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "mp3",
+        "mpeg"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-bundle-mp3",
+      "owners": 1,
+      "recent_downloads": 11102061,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 66.3,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.7652,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2021-09-21",
+      "dependents": 5,
+      "description": "Pure Rust Vorbis decoder (a part of project Symphonia).",
+      "downloads": 15664900,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "vorbis"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-codec-vorbis",
+      "owners": 1,
+      "recent_downloads": 7437689,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 65.81,
+      "version": "0.6.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.3347,
+        "downloads": 0.8181,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.5593,
+        "security": 1.0
+      },
+      "created": "2020-09-14",
+      "dependents": 52,
+      "description": "rav1e-based pure Rust library for encoding images in AVIF format (powers the `cavif` tool)",
+      "downloads": 63599962,
+      "edition": "2024",
+      "keywords": [
+        "av1",
+        "avif",
+        "cav1f",
+        "convert",
+        "rav1f"
+      ],
+      "last_release": "2026-01-19",
+      "license": "BSD-3-Clause",
+      "msrv": "1.85",
+      "name": "ravif",
+      "owners": 1,
+      "recent_downloads": 22211389,
+      "releases_365d": 1,
+      "repository": "https://github.com/kornelski/cavif-rs",
+      "score": 65.71,
+      "version": "0.13.0",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.7777,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 3,
+      "description": "Pure Rust OGG demuxer (a part of project Symphonia).",
+      "downloads": 17636103,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "demuxer",
+        "media",
+        "ogg"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-format-ogg",
+      "owners": 1,
+      "recent_downloads": 9625804,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 65.27,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia::audio",
+        "multimedia::encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.7154,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8353,
+        "security": 1.0
+      },
+      "created": "2024-03-31",
+      "dependents": 8,
+      "description": "Audio codec algorithms: A-law, μ-law and IMA ADPCM",
+      "downloads": 3232045,
+      "edition": "2024",
+      "keywords": [
+        "a-law",
+        "adpcm",
+        "audio",
+        "u-law"
+      ],
+      "last_release": "2026-08-18",
+      "license": "0BSD OR Apache-2.0",
+      "msrv": "1.87.0",
+      "name": "audio-codec-algorithms",
+      "owners": 1,
+      "recent_downloads": 2654723,
+      "releases_365d": 2,
+      "repository": "https://github.com/karip/audio-codec-algorithms",
+      "score": 65.05,
+      "version": "0.8.1",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7457,
+        "license": 0.75,
+        "maintenance": 0.7329,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2026-03-24",
+      "dependents": 12,
+      "description": "Project Symphonia utilities for codecs and formats.",
+      "downloads": 5800826,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "media",
+        "multimedia",
+        "xiph"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-common",
+      "owners": 1,
+      "recent_downloads": 4964934,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 64.95,
+      "version": "0.6.1",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.7619,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 3,
+      "description": "Pure Rust FLAC demuxer and decoder (a part of project Symphonia).",
+      "downloads": 14578797,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "flac"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-bundle-flac",
+      "owners": 1,
+      "recent_downloads": 6945406,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 64.88,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression",
+        "encoding",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.3695,
+        "downloads": 0.7175,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.8442,
+        "security": 1.0
+      },
+      "created": "2016-02-26",
+      "dependents": 79,
+      "description": "Safe Rust bindings for libopus",
+      "downloads": 4336023,
+      "edition": "2015",
+      "keywords": [
+        "audio",
+        "codec",
+        "opus",
+        "sound",
+        "voice"
+      ],
+      "last_release": "2026-08-23",
+      "license": "MIT/Apache-2.0",
+      "name": "opus",
+      "owners": 1,
+      "recent_downloads": 2774250,
+      "releases_365d": 2,
+      "repository": "https://github.com/SpaceManiac/opus-rs",
+      "score": 64.84,
+      "version": "0.4.0",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.3848,
+        "downloads": 0.8579,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.4247,
+        "security": 1.0
+      },
+      "created": "2024-02-04",
+      "dependents": 95,
+      "description": "WebP encoding and decoding in pure Rust",
+      "downloads": 115365579,
+      "edition": "2021",
+      "last_release": "2025-08-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.80.1",
+      "name": "image-webp",
+      "owners": 1,
+      "recent_downloads": 50556870,
+      "releases_365d": 0,
+      "repository": "https://github.com/image-rs/image-webp",
+      "score": 64.44,
+      "version": "0.2.4",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6818,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.7142,
+        "security": 1.0
+      },
+      "created": "2019-07-25",
+      "dependents": 6,
+      "description": "A pure Rust PNG/APNG encoder & decoder",
+      "downloads": 11807848,
+      "edition": "2024",
+      "keywords": [
+        "apng",
+        "decoder",
+        "encoder",
+        "image",
+        "png"
+      ],
+      "last_release": "2026-05-27",
+      "license": "(Apache-2.0 OR BSL-1.0 OR MIT) AND Zlib",
+      "msrv": "1.91",
+      "name": "png_pong",
+      "owners": 2,
+      "recent_downloads": 1323966,
+      "releases_365d": 3,
+      "repository": "https://github.com/AldaronLau/png_pong",
+      "score": 64.36,
+      "version": "0.12.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.7652,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2021-02-28",
+      "dependents": 2,
+      "description": "Pure Rust ISO/MP4 demuxer (a part of project Symphonia).",
+      "downloads": 14174544,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "demuxer",
+        "iso",
+        "media",
+        "mp4"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia-format-isomp4",
+      "owners": 1,
+      "recent_downloads": 7431290,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 64.35,
+      "version": "0.6.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6405,
+        "license": 1.0,
+        "maintenance": 0.5985,
+        "msrv": 1.0,
+        "recency": 0.9987,
+        "security": 1.0
+      },
+      "created": "2026-07-27",
+      "dependents": 6,
+      "description": "Pure-Rust HEIF/HEIC still-image decoder (ISOBMFF container + HEVC via rust_h265). Decodes iPhone photos — grid tiles, 10-bit, Display P3 — with no C dependencies.",
+      "downloads": 640941,
+      "edition": "2021",
+      "keywords": [
+        "decoder",
+        "heic",
+        "heif",
+        "hevc",
+        "image"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "heif-oxide",
+      "owners": 1,
+      "recent_downloads": 564628,
+      "releases_365d": 3,
+      "repository": "https://github.com/dan335/heif-oxide",
+      "score": 64.07,
+      "version": "0.2.0",
+      "versions": 3
+    }
+  ],
+  "score_version": 1
+}

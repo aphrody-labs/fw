@@ -1,0 +1,990 @@
+{
+  "category": {
+    "crates": 607,
+    "description": "Crates to communicate over the WebSocket protocol.",
+    "name": "Web programming::WebSocket",
+    "slug": "web-programming::websocket"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.6239,
+        "downloads": 0.7957,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9926,
+        "security": 1.0
+      },
+      "created": "2017-10-23",
+      "dependents": 1635,
+      "description": "Actix Web is a powerful, pragmatic, and extremely fast web framework for Rust",
+      "downloads": 91966821,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "http",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-web",
+      "owners": 4,
+      "recent_downloads": 13956987,
+      "releases_365d": 12,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 85.38,
+      "version": "4.20.0",
+      "versions": 165
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.6879,
+        "downloads": 0.9011,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7775,
+        "security": 1.0
+      },
+      "created": "2017-03-17",
+      "dependents": 3494,
+      "description": "Tokio binding for Tungstenite, the Lightweight stream-based WebSocket implementation",
+      "downloads": 373491110,
+      "edition": "2018",
+      "keywords": [
+        "io",
+        "web",
+        "websocket"
+      ],
+      "last_release": "2026-07-11",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "tokio-tungstenite",
+      "owners": 2,
+      "recent_downloads": 123467406,
+      "releases_365d": 2,
+      "repository": "https://github.com/snapview/tokio-tungstenite",
+      "score": 82.39,
+      "version": "0.30.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.4471,
+        "downloads": 0.796,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.993,
+        "security": 1.0
+      },
+      "created": "2019-03-28",
+      "dependents": 200,
+      "description": "HTTP types and services for the Actix ecosystem",
+      "downloads": 91748200,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "futures",
+        "http"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-http",
+      "owners": 4,
+      "recent_downloads": 14047336,
+      "releases_365d": 28,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 80.97,
+      "version": "3.22.0",
+      "versions": 118
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.5571,
+        "downloads": 0.9061,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7775,
+        "security": 1.0
+      },
+      "created": "2017-03-17",
+      "dependents": 740,
+      "description": "Lightweight stream-based WebSocket implementation",
+      "downloads": 416018748,
+      "edition": "2021",
+      "keywords": [
+        "io",
+        "web",
+        "websocket"
+      ],
+      "last_release": "2026-07-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "tungstenite",
+      "owners": 2,
+      "recent_downloads": 136854697,
+      "releases_365d": 2,
+      "repository": "https://github.com/snapview/tungstenite-rs",
+      "score": 79.24,
+      "version": "0.30.0",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.4446,
+        "downloads": 0.7806,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8027,
+        "security": 1.0
+      },
+      "created": "2019-11-15",
+      "dependents": 194,
+      "description": "Async binding for Tungstenite, the Lightweight stream-based WebSocket implementation",
+      "downloads": 34049075,
+      "edition": "2018",
+      "keywords": [
+        "async-std",
+        "io",
+        "tokio",
+        "web",
+        "websocket"
+      ],
+      "last_release": "2026-07-28",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "async-tungstenite",
+      "owners": 2,
+      "recent_downloads": 10212919,
+      "releases_365d": 5,
+      "repository": "https://github.com/sdroege/async-tungstenite",
+      "score": 76.67,
+      "version": "0.35.0",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.3908,
+        "downloads": 0.6723,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2020-02-04",
+      "dependents": 102,
+      "description": "Salvo is a powerful web framework that can make your work easier.\n",
+      "downloads": 13486691,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo",
+      "owners": 4,
+      "recent_downloads": 1088277,
+      "releases_365d": 27,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 76.47,
+      "version": "1.2.1",
+      "versions": 256
+    },
+    {
+      "categories": [
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.6519,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.976,
+        "security": 1.0
+      },
+      "created": "2020-04-25",
+      "dependents": 69,
+      "description": "WebSockets for Actix Web, without actors",
+      "downloads": 3840406,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "streaming",
+        "web",
+        "websocket",
+        "websockets"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-ws",
+      "owners": 3,
+      "recent_downloads": 714131,
+      "releases_365d": 3,
+      "repository": "https://github.com/actix/actix-extras",
+      "score": 73.39,
+      "version": "0.4.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.3171,
+        "downloads": 0.7796,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.7546,
+        "security": 1.0
+      },
+      "created": "2022-12-06",
+      "dependents": 42,
+      "description": "High performance, strict, tokio-util based WebSockets implementation",
+      "downloads": 21759562,
+      "edition": "2024",
+      "last_release": "2026-06-25",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "tokio-websockets",
+      "owners": 3,
+      "recent_downloads": 10005605,
+      "releases_365d": 3,
+      "repository": "https://github.com/Gelbpunkt/tokio-websockets/",
+      "score": 72.24,
+      "version": "0.13.3",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.352,
+        "downloads": 0.5787,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2020-02-17",
+      "dependents": 64,
+      "description": "Framework for composable network services",
+      "downloads": 1192977,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "futures",
+        "networking",
+        "ntex"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97",
+      "name": "ntex",
+      "owners": 2,
+      "recent_downloads": 157318,
+      "releases_365d": 86,
+      "repository": "https://github.com/ntex-rs/ntex",
+      "score": 72.23,
+      "version": "4.9.3",
+      "versions": 286
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.6023,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2020-02-21",
+      "dependents": 27,
+      "description": "Salvo is a powerful web framework that can make your work easier.\n",
+      "downloads": 4814745,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo_core",
+      "owners": 4,
+      "recent_downloads": 255942,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 71.97,
+      "version": "1.2.1",
+      "versions": 259
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.3021,
+        "downloads": 0.6243,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9245,
+        "security": 1.0
+      },
+      "created": "2022-01-03",
+      "dependents": 35,
+      "description": "In-progress extractors and middleware for Actix Web",
+      "downloads": 3379378,
+      "edition": "2024",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "http",
+        "web"
+      ],
+      "last_release": "2026-10-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "actix-web-lab",
+      "owners": 1,
+      "recent_downloads": 403542,
+      "releases_365d": 10,
+      "repository": "https://github.com/robjtede/actix-web-lab",
+      "score": 70.03,
+      "version": "0.29.5",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.3908,
+        "downloads": 0.6749,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 0.0,
+        "recency": 0.9479,
+        "security": 1.0
+      },
+      "created": "2019-03-28",
+      "dependents": 102,
+      "description": "Async HTTP and WebSocket client library",
+      "downloads": 13613270,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "http",
+        "web"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "name": "awc",
+      "owners": 4,
+      "recent_downloads": 1149799,
+      "releases_365d": 3,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 69.36,
+      "version": "3.11.0",
+      "versions": 70
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.6275,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.964,
+        "security": 1.0
+      },
+      "created": "2023-05-24",
+      "dependents": 14,
+      "description": "Socket IO server implementation in rust as a Tower Service.",
+      "downloads": 1584766,
+      "edition": "2024",
+      "keywords": [
+        "axum",
+        "hyper",
+        "socketio",
+        "tower",
+        "websocket"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT",
+      "msrv": "1.94.0",
+      "name": "socketioxide",
+      "owners": 1,
+      "recent_downloads": 431429,
+      "releases_365d": 9,
+      "repository": "https://github.com/totodore/socketioxide",
+      "score": 68.86,
+      "version": "0.18.9",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6237,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.964,
+        "security": 1.0
+      },
+      "created": "2024-10-20",
+      "dependents": 9,
+      "description": "Core of the socketioxide library. Contains basic types and interfaces for the socketioxide crate and all other related sub-crates.",
+      "downloads": 1076984,
+      "edition": "2024",
+      "keywords": [
+        "axum",
+        "hyper",
+        "socketio",
+        "tower",
+        "websocket"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT",
+      "msrv": "1.94.0",
+      "name": "socketioxide-core",
+      "owners": 1,
+      "recent_downloads": 398882,
+      "releases_365d": 6,
+      "repository": "https://github.com/totodore/socketioxide",
+      "score": 67.91,
+      "version": "0.20.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6536,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2022-09-28",
+      "dependents": 1,
+      "description": "CORS support for salvo web server framework.\n",
+      "downloads": 8013348,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-cors",
+      "owners": 3,
+      "recent_downloads": 739683,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 67.69,
+      "version": "1.2.1",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5917,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2020-02-04",
+      "dependents": 3,
+      "description": "Salvo is a powerful web framework that can make your work easier.\n",
+      "downloads": 4539080,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo_extra",
+      "owners": 3,
+      "recent_downloads": 205662,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 67.61,
+      "version": "1.2.1",
+      "versions": 237
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6333,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2022-09-28",
+      "dependents": 1,
+      "description": "CSRF support for salvo web server framework.\n",
+      "downloads": 5187186,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-csrf",
+      "owners": 3,
+      "recent_downloads": 486419,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 67.19,
+      "version": "1.2.1",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6319,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2022-10-10",
+      "dependents": 1,
+      "description": "HTTP proxy support for the Salvo web server framework. Provides flexible proxy middleware\nfor forwarding requests to upstream servers.\n",
+      "downloads": 4461694,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-proxy",
+      "owners": 3,
+      "recent_downloads": 472644,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 67.15,
+      "version": "1.2.1",
+      "versions": 126
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6535,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2023-07-10",
+      "dependents": 1,
+      "description": "Jwt auth support for salvo web server framework.\n",
+      "downloads": 7431488,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-jwt-auth",
+      "owners": 2,
+      "recent_downloads": 738447,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 66.69,
+      "version": "1.2.1",
+      "versions": 113
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6099,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2024-09-23",
+      "dependents": 1,
+      "description": "Salvo Handler modular craft macros.",
+      "downloads": 3002111,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-craft-macros",
+      "owners": 3,
+      "recent_downloads": 299761,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 66.6,
+      "version": "1.2.1",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.609,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2022-10-03",
+      "dependents": 1,
+      "description": "Cache middleware for Salvo web server framework.\n",
+      "downloads": 3265410,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-cache",
+      "owners": 3,
+      "recent_downloads": 294329,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 66.58,
+      "version": "1.2.1",
+      "versions": 134
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6076,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2024-09-23",
+      "dependents": 1,
+      "description": "Salvo Handler modular craft.",
+      "downloads": 3036786,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-craft",
+      "owners": 3,
+      "recent_downloads": 285705,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 66.54,
+      "version": "1.2.1",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5884,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2022-09-28",
+      "dependents": 3,
+      "description": "Session support for salvo web server framework.\r\n",
+      "downloads": 2179073,
+      "edition": "2024",
+      "keywords": [
+        "framework",
+        "http",
+        "server",
+        "session",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-session",
+      "owners": 2,
+      "recent_downloads": 192281,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 66.53,
+      "version": "1.2.1",
+      "versions": 134
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.6007,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9637,
+        "security": 1.0
+      },
+      "created": "2020-08-30",
+      "dependents": 16,
+      "description": "Discord Gateway implementation for the Twilight ecosystem.",
+      "downloads": 764031,
+      "edition": "2024",
+      "keywords": [
+        "discord",
+        "discord-api",
+        "twilight"
+      ],
+      "last_release": "2026-11-01",
+      "license": "ISC",
+      "msrv": "1.89",
+      "name": "twilight-gateway",
+      "owners": 2,
+      "recent_downloads": 247551,
+      "releases_365d": 2,
+      "repository": "https://github.com/twilight-rs/twilight.git",
+      "score": 66.44,
+      "version": "0.18.0",
+      "versions": 73
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6388,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2023-02-19",
+      "dependents": 1,
+      "description": "Serve static assets for salvo web server framework.\n",
+      "downloads": 5281704,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-serve-static",
+      "owners": 2,
+      "recent_downloads": 545056,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 66.32,
+      "version": "1.2.1",
+      "versions": 123
+    }
+  ],
+  "score_version": 1
+}

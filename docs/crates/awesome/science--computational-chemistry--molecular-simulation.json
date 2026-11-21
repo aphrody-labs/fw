@@ -1,0 +1,172 @@
+{
+  "category": {
+    "crates": 11,
+    "description": "Crates for molecular dynamics, Monte Carlo, force fields, and statistical mechanics simulations.",
+    "name": "Science::Computational Chemistry::Molecular Simulation",
+    "slug": "science::computational-chemistry::molecular-simulation"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "parser-implementations",
+        "science::computational-chemistry::cheminformatics",
+        "science::computational-chemistry::molecular-simulation",
+        "visualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4422,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 6,
+      "description": "A pure-Rust cheminformatics toolkit: SMILES/SMARTS, SDF/MOL V3000, ECFP/MACCS fingerprints, LogP/TPSA/QED, CIP stereo, MCS, 2D SVG depiction — no C/C++ dependencies, runs in the browser via WebAssembly.",
+      "downloads": 13638,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "chemistry",
+        "drug-discovery",
+        "smiles",
+        "wasm"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic",
+      "owners": 1,
+      "recent_downloads": 9341,
+      "releases_365d": 150,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 60.1,
+      "version": "1.2.1",
+      "versions": 150
+    },
+    {
+      "categories": [
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "science::computational-chemistry::molecular-simulation",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4093,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 4,
+      "description": "3D coordinate generation, DREIDING force field, velocity Verlet MD, PDB/XYZ I/O, conformer RMSD — pure Rust, WASM-compatible",
+      "downloads": 7717,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "cheminformatics",
+        "coordinates",
+        "pdb",
+        "xyz"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-3d",
+      "owners": 1,
+      "recent_downloads": 4733,
+      "releases_365d": 149,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 58.57,
+      "version": "1.2.1",
+      "versions": 149
+    },
+    {
+      "categories": [
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "science::computational-chemistry::molecular-simulation"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4126,
+        "license": 1.0,
+        "maintenance": 0.7124,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-06-07",
+      "dependents": 2,
+      "description": "DREIDING force field atom typing and parameters for chematic — pure-Rust cheminformatics",
+      "downloads": 7747,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "dreiding",
+        "force-field",
+        "molecular-dynamics",
+        "wasm"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-ff",
+      "owners": 1,
+      "recent_downloads": 5066,
+      "releases_365d": 138,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 57.53,
+      "version": "1.2.1",
+      "versions": 138
+    },
+    {
+      "categories": [
+        "mathematics",
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "science::computational-chemistry::molecular-simulation"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3468,
+        "license": 1.0,
+        "maintenance": 0.7124,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-06-07",
+      "dependents": 0,
+      "description": "Smooth Particle Mesh Ewald (SPME) electrostatics: real-space erfc Coulomb, reciprocal-space FFT, periodic boundary conditions — pure Rust",
+      "downloads": 2406,
+      "edition": "2024",
+      "keywords": [
+        "cheminformatics",
+        "electrostatics",
+        "ewald",
+        "molecular-dynamics",
+        "pme"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-ewald",
+      "owners": 1,
+      "recent_downloads": 1300,
+      "releases_365d": 134,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 53.57,
+      "version": "1.2.1",
+      "versions": 134
+    }
+  ],
+  "score_version": 1
+}

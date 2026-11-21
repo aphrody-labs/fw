@@ -1,0 +1,936 @@
+{
+  "category": {
+    "crates": 938,
+    "description": "Crates designed to combine templates with data to produce result documents, usually with an emphasis on processing text.",
+    "name": "Template engine",
+    "slug": "template-engine"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.5679,
+        "downloads": 0.8052,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9751,
+        "security": 1.0
+      },
+      "created": "2021-09-23",
+      "dependents": 841,
+      "description": "a powerful template engine for Rust with minimal dependencies",
+      "downloads": 47512788,
+      "edition": "2021",
+      "keywords": [
+        "jinja",
+        "jinja2",
+        "template",
+        "templates"
+      ],
+      "last_release": "2026-11-07",
+      "license": "Apache-2.0",
+      "msrv": "1.70",
+      "name": "minijinja",
+      "owners": 1,
+      "recent_downloads": 17002851,
+      "releases_365d": 25,
+      "repository": "https://github.com/mitsuhiko/minijinja",
+      "score": 81.95,
+      "version": "3.1.0",
+      "versions": 124
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.5331,
+        "downloads": 0.81,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.863,
+        "security": 1.0
+      },
+      "created": "2017-02-15",
+      "dependents": 556,
+      "description": "Type-safe, compiled Jinja-like templates for Rust",
+      "downloads": 63599511,
+      "edition": "2024",
+      "keywords": [
+        "html",
+        "jinja2",
+        "markup",
+        "template"
+      ],
+      "last_release": "2026-09-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "askama",
+      "owners": 4,
+      "recent_downloads": 18766734,
+      "releases_365d": 9,
+      "repository": "https://github.com/askama-rs/askama",
+      "score": 81.52,
+      "version": "0.16.1",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "template-engine",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5681,
+        "downloads": 0.8103,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8256,
+        "security": 1.0
+      },
+      "created": "2014-12-27",
+      "dependents": 843,
+      "description": "Handlebars templating implemented in Rust.",
+      "downloads": 107379624,
+      "edition": "2024",
+      "keywords": [
+        "handlebars",
+        "templating",
+        "web"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "handlebars",
+      "owners": 1,
+      "recent_downloads": 18890519,
+      "releases_365d": 5,
+      "repository": "https://github.com/sunng87/handlebars-rust",
+      "score": 79.84,
+      "version": "6.4.4",
+      "versions": 187
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "template-engine",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4578,
+        "downloads": 0.7206,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8952,
+        "security": 1.0
+      },
+      "created": "2019-05-18",
+      "dependents": 227,
+      "description": "Markdown Renderer for the Terminal",
+      "downloads": 9679491,
+      "edition": "2021",
+      "keywords": [
+        "markdown",
+        "parser",
+        "renderer",
+        "terminal",
+        "tui"
+      ],
+      "last_release": "2026-09-23",
+      "license": "MIT",
+      "msrv": "1.56",
+      "name": "termimad",
+      "owners": 1,
+      "recent_downloads": 2953671,
+      "releases_365d": 7,
+      "repository": "https://github.com/Canop/termimad",
+      "score": 75.89,
+      "version": "0.35.5",
+      "versions": 146
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.5739,
+        "downloads": 0.7701,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8746,
+        "security": 1.0
+      },
+      "created": "2016-04-04",
+      "dependents": 903,
+      "description": "A template engine for Rust based on Jinja2/Django",
+      "downloads": 44305901,
+      "edition": "2024",
+      "keywords": [
+        "django",
+        "html",
+        "jinja2",
+        "markup",
+        "template"
+      ],
+      "last_release": "2026-09-11",
+      "license": "MIT",
+      "name": "tera",
+      "owners": 1,
+      "recent_downloads": 8230495,
+      "releases_365d": 15,
+      "repository": "https://github.com/Keats/tera",
+      "score": 74.72,
+      "version": "2.4.0",
+      "versions": 128
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.8077,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.863,
+        "security": 1.0
+      },
+      "created": "2023-09-29",
+      "dependents": 4,
+      "description": "Parser for Askama templates",
+      "downloads": 54993298,
+      "edition": "2024",
+      "keywords": [
+        "html",
+        "jinja2",
+        "markup",
+        "template"
+      ],
+      "last_release": "2026-09-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "askama_parser",
+      "owners": 3,
+      "recent_downloads": 17903463,
+      "releases_365d": 9,
+      "repository": "https://github.com/askama-rs/askama",
+      "score": 71.53,
+      "version": "0.16.1",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "internationalization",
+        "localization",
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.6122,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8146,
+        "security": 1.0
+      },
+      "created": "2020-04-26",
+      "dependents": 36,
+      "description": "Templating for the Fluent localization framework",
+      "downloads": 1393494,
+      "edition": "2021",
+      "keywords": [
+        "fluent",
+        "handlebars",
+        "internationalization",
+        "localization",
+        "tera"
+      ],
+      "last_release": "2026-08-05",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.70.0",
+      "name": "fluent-templates",
+      "owners": 1,
+      "recent_downloads": 314072,
+      "releases_365d": 4,
+      "repository": "https://github.com/XAMPPRocky/fluent-templates",
+      "score": 68.13,
+      "version": "0.15.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.6679,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2024-07-13",
+      "dependents": 27,
+      "description": "Small wrapper for typst that makes it easier to use it as a templating engine",
+      "downloads": 1796472,
+      "edition": "2024",
+      "keywords": [
+        "template",
+        "typst"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "name": "typst-as-lib",
+      "owners": 1,
+      "recent_downloads": 993756,
+      "releases_365d": 9,
+      "repository": "https://github.com/Relacibo/typst-as-lib",
+      "score": 66.62,
+      "version": "0.18.0",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.588,
+        "license": 1.0,
+        "maintenance": 0.9746,
+        "msrv": 1.0,
+        "recency": 0.6774,
+        "security": 1.0
+      },
+      "created": "2025-02-21",
+      "dependents": 23,
+      "description": "A compatibility add-on for Askama to support many different web frameworks",
+      "downloads": 543690,
+      "edition": "2024",
+      "keywords": [
+        "html",
+        "jinja2",
+        "markup",
+        "template"
+      ],
+      "last_release": "2026-04-29",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "askama_web",
+      "owners": 3,
+      "recent_downloads": 190480,
+      "releases_365d": 5,
+      "repository": "https://github.com/askama-rs/askama_web/",
+      "score": 66.18,
+      "version": "0.16.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.311,
+        "downloads": 0.6387,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9189,
+        "security": 1.0
+      },
+      "created": "2017-10-04",
+      "dependents": 39,
+      "description": "A whitespace-aware quasiquoter for beautiful code generation.",
+      "downloads": 3473670,
+      "edition": "2018",
+      "keywords": [
+        "code-generation",
+        "template"
+      ],
+      "last_release": "2026-10-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "genco",
+      "owners": 1,
+      "recent_downloads": 544004,
+      "releases_365d": 1,
+      "repository": "https://github.com/udoprog/genco",
+      "score": 66.03,
+      "version": "0.20.0",
+      "versions": 111
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "compilers",
+        "encoding",
+        "parser-implementations",
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4934,
+        "license": 1.0,
+        "maintenance": 0.8828,
+        "msrv": 1.0,
+        "recency": 0.96,
+        "security": 1.0
+      },
+      "created": "2025-05-24",
+      "dependents": 11,
+      "description": "jq.rs transforms JSON using the jq language",
+      "downloads": 33737,
+      "edition": "2024",
+      "keywords": [
+        "filter",
+        "jq",
+        "json"
+      ],
+      "last_release": "2026-10-30",
+      "license": "Unlicense",
+      "msrv": "1.97",
+      "name": "jq",
+      "owners": 2,
+      "recent_downloads": 26961,
+      "releases_365d": 4,
+      "repository": "https://github.com/dryrust/jq.rs",
+      "score": 65.21,
+      "version": "0.3.1",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.5629,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.953,
+        "security": 1.0
+      },
+      "created": "2020-06-05",
+      "dependents": 25,
+      "description": "Simple, small, and extremely fast template engine for Rust",
+      "downloads": 801443,
+      "edition": "2024",
+      "keywords": [
+        "html",
+        "markup",
+        "template"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT",
+      "name": "sailfish",
+      "owners": 2,
+      "recent_downloads": 113453,
+      "releases_365d": 11,
+      "repository": "https://github.com/rust-sailfish/sailfish",
+      "score": 64.24,
+      "version": "0.11.9",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.4912,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7631,
+        "security": 1.0
+      },
+      "created": "2022-12-22",
+      "dependents": 28,
+      "description": "A new-fashioned quote! macro implementation with pretty template-engine-like syntax",
+      "downloads": 77117,
+      "edition": "2021",
+      "keywords": [
+        "codegen",
+        "macros",
+        "proc-macro",
+        "quote",
+        "template"
+      ],
+      "last_release": "2026-07-01",
+      "license": "MIT",
+      "msrv": "1.56",
+      "name": "template-quote",
+      "owners": 1,
+      "recent_downloads": 25765,
+      "releases_365d": 3,
+      "repository": "https://github.com/yasuo-ozu/template_quote",
+      "score": 62.33,
+      "version": "0.5.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "template-engine",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.3906,
+        "license": 1.0,
+        "maintenance": 0.8656,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2026-03-26",
+      "dependents": 7,
+      "description": "Core rust handler for WebUI framework",
+      "downloads": 4699,
+      "edition": "2021",
+      "keywords": [
+        "rendering",
+        "server-side",
+        "ssr",
+        "templates",
+        "webui"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.99.1",
+      "name": "microsoft-webui-handler",
+      "owners": 3,
+      "recent_downloads": 3213,
+      "releases_365d": 38,
+      "repository": "https://github.com/microsoft/webui",
+      "score": 62.12,
+      "version": "3.2.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "encoding",
+        "parser-implementations",
+        "template-engine",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4727,
+        "license": 1.0,
+        "maintenance": 0.8012,
+        "msrv": 1.0,
+        "recency": 0.9667,
+        "security": 1.0
+      },
+      "created": "2026-03-18",
+      "dependents": 4,
+      "description": "Standards-compliant URI handling with templating, validation, and data classification",
+      "downloads": 18645,
+      "edition": "2024",
+      "keywords": [
+        "oxidizer",
+        "parsing",
+        "templates",
+        "uri",
+        "url"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "templated_uri",
+      "owners": 2,
+      "recent_downloads": 17556,
+      "releases_365d": 17,
+      "repository": "https://github.com/microsoft/oxidizer/tree/main/crates/templated_uri",
+      "score": 61.73,
+      "version": "0.7.1",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.5684,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7987,
+        "security": 1.0
+      },
+      "created": "2022-03-26",
+      "dependents": 27,
+      "description": "A simple, powerful template engine with minimal dependencies and configurable delimiters",
+      "downloads": 562860,
+      "edition": "2021",
+      "keywords": [
+        "handlebars",
+        "jinja2",
+        "liquid",
+        "mustache",
+        "template"
+      ],
+      "last_release": "2026-07-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66",
+      "name": "upon",
+      "owners": 1,
+      "recent_downloads": 127099,
+      "releases_365d": 1,
+      "repository": "https://github.com/rossmacarthur/upon",
+      "score": 61.71,
+      "version": "0.11.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "template-engine",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.7075,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 0.0,
+        "recency": 0.7385,
+        "security": 1.0
+      },
+      "created": "2021-01-17",
+      "dependents": 24,
+      "description": "Work with references: Literature database management, storage, and citation formatting",
+      "downloads": 4736751,
+      "edition": "2024",
+      "keywords": [
+        "bibliography",
+        "bibtex",
+        "citation",
+        "literature",
+        "reference"
+      ],
+      "last_release": "2026-06-14",
+      "license": "MIT OR Apache-2.0",
+      "name": "hayagriva",
+      "owners": 2,
+      "recent_downloads": 2256463,
+      "releases_365d": 2,
+      "repository": "https://github.com/typst/hayagriva",
+      "score": 61.55,
+      "version": "0.10.1",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4302,
+        "license": 1.0,
+        "maintenance": 0.8529,
+        "msrv": 1.0,
+        "recency": 0.9962,
+        "security": 1.0
+      },
+      "created": "2026-05-11",
+      "dependents": 3,
+      "description": "Open Job Description expression language — types, evaluation, and path mapping",
+      "downloads": 16067,
+      "edition": "2021",
+      "keywords": [
+        "evaluator",
+        "expression-language",
+        "openjd",
+        "openjobdescription",
+        "parser"
+      ],
+      "last_release": "2026-11-19",
+      "license": "(Apache-2.0 OR MIT)",
+      "msrv": "1.97.0",
+      "name": "openjd-expr",
+      "owners": 4,
+      "recent_downloads": 7301,
+      "releases_365d": 21,
+      "repository": "https://github.com/OpenJobDescription/openjd-rs",
+      "score": 61.42,
+      "version": "0.17.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "development-tools",
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4931,
+        "license": 1.0,
+        "maintenance": 0.7371,
+        "msrv": 1.0,
+        "recency": 0.993,
+        "security": 1.0
+      },
+      "created": "2026-03-08",
+      "dependents": 3,
+      "description": "Standalone template composition library.",
+      "downloads": 31764,
+      "edition": "2024",
+      "keywords": [
+        "compose",
+        "jinja",
+        "prompt",
+        "template"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.94.1",
+      "name": "sc-composer",
+      "owners": 1,
+      "recent_downloads": 26765,
+      "releases_365d": 22,
+      "repository": "https://github.com/randlee/sc-compose",
+      "score": 61.2,
+      "version": "1.9.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "template-engine",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3833,
+        "license": 1.0,
+        "maintenance": 0.8656,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2026-03-26",
+      "dependents": 4,
+      "description": "Programmatic API for the WebUI build-time rendering framework",
+      "downloads": 3942,
+      "edition": "2021",
+      "keywords": [
+        "rendering",
+        "server-side",
+        "ssr",
+        "templates",
+        "webui"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.99.1",
+      "name": "microsoft-webui",
+      "owners": 3,
+      "recent_downloads": 2764,
+      "releases_365d": 39,
+      "repository": "https://github.com/microsoft/webui",
+      "score": 60.95,
+      "version": "3.2.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "rust-patterns",
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.6167,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.7903,
+        "security": 1.0
+      },
+      "created": "2022-08-03",
+      "dependents": 12,
+      "description": "A macro for formatting non literal strings at runtime",
+      "downloads": 1275045,
+      "edition": "2024",
+      "keywords": [
+        "format",
+        "runtime",
+        "string",
+        "template"
+      ],
+      "last_release": "2026-07-20",
+      "license": "MIT OR Apache-2.0",
+      "name": "formatx",
+      "owners": 1,
+      "recent_downloads": 344840,
+      "releases_365d": 4,
+      "repository": "https://github.com/clitic/formatx",
+      "score": 60.68,
+      "version": "0.4.2",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "template-engine",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3876,
+        "license": 1.0,
+        "maintenance": 0.8656,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2026-03-26",
+      "dependents": 3,
+      "description": "Core parser for WebUI framework",
+      "downloads": 4496,
+      "edition": "2021",
+      "keywords": [
+        "html",
+        "parser",
+        "ssr",
+        "templates",
+        "webui"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.99.1",
+      "name": "microsoft-webui-parser",
+      "owners": 3,
+      "recent_downloads": 3020,
+      "releases_365d": 38,
+      "repository": "https://github.com/microsoft/webui",
+      "score": 60.58,
+      "version": "3.2.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5669,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.849,
+        "security": 1.0
+      },
+      "created": "2024-06-13",
+      "dependents": 12,
+      "description": "Additional filters, functions and tests for the Tera template engine",
+      "downloads": 165517,
+      "edition": "2024",
+      "keywords": [
+        "jinja2",
+        "template",
+        "tera"
+      ],
+      "last_release": "2026-08-26",
+      "license": "MIT",
+      "name": "tera-contrib",
+      "owners": 1,
+      "recent_downloads": 123184,
+      "releases_365d": 8,
+      "repository": "https://github.com/Keats/tera",
+      "score": 60.31,
+      "version": "0.3.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "config",
+        "template-engine"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4504,
+        "license": 1.0,
+        "maintenance": 0.7223,
+        "msrv": 1.0,
+        "recency": 0.8601,
+        "security": 1.0
+      },
+      "created": "2026-05-02",
+      "dependents": 11,
+      "description": "Tera templating + smart [vars] handling for self-rendering TOML configs",
+      "downloads": 20011,
+      "edition": "2024",
+      "keywords": [
+        "config",
+        "template",
+        "tera",
+        "toml"
+      ],
+      "last_release": "2026-09-02",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "teravars",
+      "owners": 1,
+      "recent_downloads": 11085,
+      "releases_365d": 9,
+      "repository": "https://github.com/yukimemi/teravars",
+      "score": 60.23,
+      "version": "0.2.2",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "encoding",
+        "parser-implementations",
+        "template-engine",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4728,
+        "license": 1.0,
+        "maintenance": 0.8012,
+        "msrv": 1.0,
+        "recency": 0.9666,
+        "security": 1.0
+      },
+      "created": "2026-03-18",
+      "dependents": 1,
+      "description": "Macros for the templated_uri crate.",
+      "downloads": 18713,
+      "edition": "2024",
+      "keywords": [
+        "oxidizer",
+        "parsing",
+        "templates",
+        "uri",
+        "url"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "templated_uri_macros",
+      "owners": 2,
+      "recent_downloads": 17615,
+      "releases_365d": 14,
+      "repository": "https://github.com/microsoft/oxidizer/tree/main/crates/templated_uri_macros",
+      "score": 59.8,
+      "version": "0.7.1",
+      "versions": 14
+    }
+  ],
+  "score_version": 1
+}

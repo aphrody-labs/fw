@@ -1,0 +1,394 @@
+{
+  "category": {
+    "crates": 16,
+    "description": "Crates for computational modeling and simulation of biological systems, including structural modeling and systems-level modeling.",
+    "name": "Science::Computational Biology",
+    "slug": "science::computational-biology"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4409,
+        "license": 1.0,
+        "maintenance": 0.7659,
+        "msrv": 0.0,
+        "recency": 0.9934,
+        "security": 1.0
+      },
+      "created": "2025-11-23",
+      "dependents": 11,
+      "description": "Various vector search algorithms in Rust. Designed specifically for single cell & computational biology applications.",
+      "downloads": 16476,
+      "edition": "2021",
+      "keywords": [
+        "hnsw",
+        "knn",
+        "nearest-neighbor",
+        "similarity-search",
+        "vector-search"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "name": "ann-search-rs",
+      "owners": 1,
+      "recent_downloads": 9101,
+      "releases_365d": 57,
+      "repository": "https://github.com/GregorLueg/ann-search-rs",
+      "score": 57.65,
+      "version": "0.13.1",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3974,
+        "license": 1.0,
+        "maintenance": 0.6756,
+        "msrv": 0.0,
+        "recency": 0.9846,
+        "security": 1.0
+      },
+      "created": "2026-10-19",
+      "dependents": 5,
+      "description": "The bixverse single cell data layer: binary sparse format, streaming readers and h5ad, 10x h5 and MTX ingestion.",
+      "downloads": 3698,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "h5ad",
+        "single-cell",
+        "sparse"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bixverse-sc-data",
+      "owners": 1,
+      "recent_downloads": 3699,
+      "releases_365d": 11,
+      "repository": "https://github.com/GregorLueg/bixverse-rs",
+      "score": 53.61,
+      "version": "0.10.3",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.3606,
+        "license": 1.0,
+        "maintenance": 0.6756,
+        "msrv": 0.0,
+        "recency": 0.9846,
+        "security": 1.0
+      },
+      "created": "2026-10-19",
+      "dependents": 7,
+      "description": "Core numerics for bixverse: sparse structures, linear algebra, statistics, SIMD and clustering.",
+      "downloads": 1727,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "linear-algebra",
+        "sparse",
+        "statistics"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bixverse-core",
+      "owners": 1,
+      "recent_downloads": 1728,
+      "releases_365d": 11,
+      "repository": "https://github.com/GregorLueg/bixverse-rs",
+      "score": 53.3,
+      "version": "0.10.3",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3971,
+        "license": 1.0,
+        "maintenance": 0.6745,
+        "msrv": 0.0,
+        "recency": 0.9846,
+        "security": 1.0
+      },
+      "created": "2026-10-23",
+      "dependents": 3,
+      "description": "Compressed sparse structures for bixverse: CSR/CSC storage, transposition and sparse arithmetic, with no dense linear algebra dependency.",
+      "downloads": 3675,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "csr",
+        "sparse"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bixverse-sparse",
+      "owners": 1,
+      "recent_downloads": 3676,
+      "releases_365d": 8,
+      "repository": "https://github.com/GregorLueg/bixverse-rs",
+      "score": 52.74,
+      "version": "0.10.3",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4115,
+        "license": 1.0,
+        "maintenance": 0.7465,
+        "msrv": 0.0,
+        "recency": 0.9846,
+        "security": 1.0
+      },
+      "created": "2026-02-02",
+      "dependents": 1,
+      "description": "A Rust library with various utilities for computational biology and single cell. Facade over the bixverse-* crates.",
+      "downloads": 9082,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "genomics",
+        "gpu",
+        "single-cell",
+        "statistics"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bixverse-rs",
+      "owners": 1,
+      "recent_downloads": 4952,
+      "releases_365d": 58,
+      "repository": "https://github.com/GregorLueg/bixverse-rs",
+      "score": 52.71,
+      "version": "0.10.3",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3577,
+        "license": 1.0,
+        "maintenance": 0.6756,
+        "msrv": 0.0,
+        "recency": 0.9846,
+        "security": 1.0
+      },
+      "created": "2026-10-19",
+      "dependents": 5,
+      "description": "Bulk omics methods for bixverse: enrichment, graphs, ontologies, matrix factorisation and differential expression.",
+      "downloads": 1626,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "enrichment",
+        "graph",
+        "gsea",
+        "nmf"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bixverse-methods",
+      "owners": 1,
+      "recent_downloads": 1628,
+      "releases_365d": 11,
+      "repository": "https://github.com/GregorLueg/bixverse-rs",
+      "score": 52.62,
+      "version": "0.10.3",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "algorithms",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3763,
+        "license": 1.0,
+        "maintenance": 0.6824,
+        "msrv": 0.0,
+        "recency": 0.9933,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 3,
+      "description": "Tree representations of high-dimensional data under Brownian motion. A clean-room Rust implementation of the Bonsai algorithm for single cell and computational biology applications.",
+      "downloads": 2394,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "phylogenetics",
+        "single-cell",
+        "tree",
+        "visualisation"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "name": "bonsai-rs",
+      "owners": 1,
+      "recent_downloads": 2395,
+      "releases_365d": 9,
+      "repository": "https://github.com/GregorLueg/bonsai-rs",
+      "score": 52.47,
+      "version": "0.3.3",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3375,
+        "license": 1.0,
+        "maintenance": 0.6756,
+        "msrv": 0.0,
+        "recency": 0.9846,
+        "security": 1.0
+      },
+      "created": "2026-10-19",
+      "dependents": 3,
+      "description": "Single cell and metacell analysis for bixverse: processing, batch correction, annotation, trajectories and differential expression.",
+      "downloads": 1071,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "harmony",
+        "metacells",
+        "single-cell"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bixverse-sc",
+      "owners": 1,
+      "recent_downloads": 1072,
+      "releases_365d": 11,
+      "repository": "https://github.com/GregorLueg/bixverse-rs",
+      "score": 51.26,
+      "version": "0.10.3",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "algorithms",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3787,
+        "license": 1.0,
+        "maintenance": 0.6825,
+        "msrv": 0.0,
+        "recency": 0.9282,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 1,
+      "description": "Bayesian inference of gene expression states from single cell UMI counts. A clean-room Rust implementation of the Sanity method, returning posterior log expression levels and their error bars.",
+      "downloads": 2511,
+      "edition": "2024",
+      "keywords": [
+        "bayesian",
+        "bioinformatics",
+        "normalisation",
+        "rna-seq",
+        "single-cell"
+      ],
+      "last_release": "2026-10-12",
+      "license": "MIT",
+      "name": "sanity-sc-rs",
+      "owners": 1,
+      "recent_downloads": 2512,
+      "releases_365d": 6,
+      "repository": "https://github.com/GregorLueg/sanity-sc-rs",
+      "score": 50.09,
+      "version": "0.4.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science::bioinformatics",
+        "science::computational-biology"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.346,
+        "license": 1.0,
+        "maintenance": 0.6756,
+        "msrv": 0.0,
+        "recency": 0.9846,
+        "security": 1.0
+      },
+      "created": "2026-10-19",
+      "dependents": 0,
+      "description": "R bindings layer for bixverse: extendr conversions for the bixverse-* crates. Re-exports bixverse-rs.",
+      "downloads": 1276,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "extendr",
+        "r",
+        "single-cell"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bixverse-r",
+      "owners": 1,
+      "recent_downloads": 1278,
+      "releases_365d": 11,
+      "repository": "https://github.com/GregorLueg/bixverse-rs",
+      "score": 48.55,
+      "version": "0.10.3",
+      "versions": 11
+    }
+  ],
+  "score_version": 1
+}

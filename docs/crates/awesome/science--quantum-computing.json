@@ -1,0 +1,694 @@
+{
+  "category": {
+    "crates": 27,
+    "description": "Crates for quantum computing, including circuit construction, simulation, quantum algorithms, intermediate representations, and interfaces to quantum hardware backends.",
+    "name": "Science::Quantum Computing",
+    "slug": "science::quantum-computing"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.5405,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9829,
+        "security": 1.0
+      },
+      "created": "2024-05-29",
+      "dependents": 7,
+      "description": "Quantinuum's Hierarchical Unified Graph Representation",
+      "downloads": 261834,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "hugr-core",
+      "owners": 3,
+      "recent_downloads": 71340,
+      "releases_365d": 28,
+      "repository": "https://github.com/quantinuum/hugr",
+      "score": 67.64,
+      "version": "0.31.0",
+      "versions": 69
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5396,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9829,
+        "security": 1.0
+      },
+      "created": "2024-04-04",
+      "dependents": 5,
+      "description": "Quantinuum's Hierarchical Unified Graph Representation",
+      "downloads": 263963,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "hugr",
+      "owners": 3,
+      "recent_downloads": 70102,
+      "releases_365d": 28,
+      "repository": "https://github.com/quantinuum/hugr",
+      "score": 67.01,
+      "version": "0.31.0",
+      "versions": 74
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5381,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9829,
+        "security": 1.0
+      },
+      "created": "2024-10-09",
+      "dependents": 2,
+      "description": "Data model for Quantinuum's HUGR intermediate representation",
+      "downloads": 207456,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "hugr-model",
+      "owners": 3,
+      "recent_downloads": 67952,
+      "releases_365d": 28,
+      "repository": "https://github.com/quantinuum/hugr",
+      "score": 65.51,
+      "version": "0.31.0",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5136,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9829,
+        "security": 1.0
+      },
+      "created": "2024-05-29",
+      "dependents": 2,
+      "description": "Compiler passes for Quantinuum's HUGR",
+      "downloads": 192951,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "hugr-cli",
+      "owners": 3,
+      "recent_downloads": 40933,
+      "releases_365d": 28,
+      "repository": "https://github.com/quantinuum/hugr",
+      "score": 64.9,
+      "version": "0.31.0",
+      "versions": 68
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5018,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9829,
+        "security": 1.0
+      },
+      "created": "2024-07-10",
+      "dependents": 1,
+      "description": "A general and extensible crate for lowering HUGRs into LLVM IR",
+      "downloads": 159839,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "hugr-llvm",
+      "owners": 4,
+      "recent_downloads": 32044,
+      "releases_365d": 28,
+      "repository": "https://github.com/quantinuum/hugr",
+      "score": 63.75,
+      "version": "0.31.0",
+      "versions": 63
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5181,
+        "license": 1.0,
+        "maintenance": 0.9423,
+        "msrv": 1.0,
+        "recency": 0.9843,
+        "security": 1.0
+      },
+      "created": "2025-06-19",
+      "dependents": 1,
+      "description": "Quantinuum's TKET Quantum Compiler",
+      "downloads": 99601,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tket",
+      "owners": 3,
+      "recent_downloads": 44927,
+      "releases_365d": 13,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 63.31,
+      "version": "0.23.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4759,
+        "license": 1.0,
+        "maintenance": 0.9325,
+        "msrv": 1.0,
+        "recency": 0.9843,
+        "security": 1.0
+      },
+      "created": "2025-07-25",
+      "dependents": 0,
+      "description": "TKET tool for preparing and validating `Hugr`s for compilation targeting Quantinuum H-series  quantum computers",
+      "downloads": 67190,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tket-qsystem",
+      "owners": 3,
+      "recent_downloads": 18756,
+      "releases_365d": 14,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 60.65,
+      "version": "0.30.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.3745,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 11,
+      "description": "Core types and pass interfaces for Pauli graphs",
+      "downloads": 2302,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-core",
+      "owners": 3,
+      "recent_downloads": 2303,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 57.47,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3729,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 5,
+      "description": "Rewrite operations and tableau interfaces for Pauli graphs",
+      "downloads": 2228,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-ir-kernels",
+      "owners": 3,
+      "recent_downloads": 2229,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 55.97,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3732,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 5,
+      "description": "Shared utilities for the pg-libs crates",
+      "downloads": 2245,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-utils",
+      "owners": 3,
+      "recent_downloads": 2246,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 55.97,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3724,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 5,
+      "description": "Clifford tableaux with a qubit major memory layout",
+      "downloads": 2208,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-qm-tableau",
+      "owners": 3,
+      "recent_downloads": 2209,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 55.95,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3716,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 4,
+      "description": "Canonical form transformations for Pauli graphs",
+      "downloads": 2169,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-canonical-form",
+      "owners": 3,
+      "recent_downloads": 2170,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 55.55,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.373,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 3,
+      "description": "Clifford conjugation kernels for packed Pauli representations",
+      "downloads": 2233,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-bitpacked",
+      "owners": 3,
+      "recent_downloads": 2234,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 55.11,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3713,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 3,
+      "description": "Optimization passes for Pauli graphs",
+      "downloads": 2156,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-optimize",
+      "owners": 3,
+      "recent_downloads": 2157,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 55.07,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3709,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 2,
+      "description": "Greedy synthesis passes for Pauli graphs",
+      "downloads": 2138,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-greedy-synth",
+      "owners": 3,
+      "recent_downloads": 2139,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 54.45,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3709,
+        "license": 1.0,
+        "maintenance": 0.6157,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 2,
+      "description": "Rebasing passes for Pauli graphs",
+      "downloads": 2138,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-rebase",
+      "owners": 3,
+      "recent_downloads": 2139,
+      "releases_365d": 2,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 54.45,
+      "version": "0.1.1",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "compilers",
+        "science",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3905,
+        "license": 1.0,
+        "maintenance": 0.7495,
+        "msrv": 1.0,
+        "recency": 0.8584,
+        "security": 1.0
+      },
+      "created": "2026-01-22",
+      "dependents": 0,
+      "description": "QIR to Quantinuum QIS (Quantum Instruction Set) compiler",
+      "downloads": 4694,
+      "edition": "2024",
+      "keywords": [
+        "compiler",
+        "qir",
+        "qis",
+        "quantinuum",
+        "quantum"
+      ],
+      "last_release": "2026-09-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "qir-qis",
+      "owners": 1,
+      "recent_downloads": 3207,
+      "releases_365d": 12,
+      "repository": "https://github.com/quantinuum/qir-qis/",
+      "score": 53.88,
+      "version": "0.1.11",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "compilers",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3702,
+        "license": 1.0,
+        "maintenance": 0.4471,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2026-10-01",
+      "dependents": 2,
+      "description": "T-count optimization passes for Pauli graphs",
+      "downloads": 2108,
+      "edition": "2024",
+      "keywords": [
+        "quantinuum",
+        "quantum",
+        "tket"
+      ],
+      "last_release": "2026-10-01",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "tk-pg-t-optimize",
+      "owners": 2,
+      "recent_downloads": 2109,
+      "releases_365d": 1,
+      "repository": "https://github.com/quantinuum/tket2",
+      "score": 51.91,
+      "version": "0.1.1",
+      "versions": 1
+    },
+    {
+      "categories": [
+        "encoding",
+        "science",
+        "science::quantum-computing"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3735,
+        "license": 1.0,
+        "maintenance": 0.3824,
+        "msrv": 1.0,
+        "recency": 0.8967,
+        "security": 1.0
+      },
+      "created": "2026-09-24",
+      "dependents": 0,
+      "description": "Rust implementation of the QIR labeled results formatter",
+      "downloads": 2257,
+      "edition": "2024",
+      "keywords": [
+        "formatter",
+        "qir",
+        "quantum",
+        "results"
+      ],
+      "last_release": "2026-09-24",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "qir-formatter",
+      "owners": 1,
+      "recent_downloads": 2257,
+      "releases_365d": 1,
+      "repository": "https://github.com/Quantinuum/qir-formatter",
+      "score": 48.52,
+      "version": "0.3.0",
+      "versions": 1
+    }
+  ],
+  "score_version": 1
+}

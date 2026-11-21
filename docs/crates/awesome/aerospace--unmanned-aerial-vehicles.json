@@ -1,0 +1,428 @@
+{
+  "category": {
+    "crates": 42,
+    "description": "Crates related to Unmanned aerial vehicles like Multicopters, Fixed wing, VTOL (Vertical Takeoff and Landing), Airships/Balloons, Rovers, Boats, Submersibles.",
+    "name": "Aerospace::Unmanned aerial vehicles",
+    "slug": "aerospace::unmanned-aerial-vehicles"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "aerospace::drones",
+        "aerospace::unmanned-aerial-vehicles",
+        "embedded",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3401,
+        "license": 1.0,
+        "maintenance": 0.7899,
+        "msrv": 1.0,
+        "recency": 0.95,
+        "security": 1.0
+      },
+      "created": "2025-08-28",
+      "dependents": 0,
+      "description": "A `no_std` Rust library for parsing the TBS Crossfire protocol, designed for embedded environments",
+      "downloads": 6582,
+      "edition": "2021",
+      "last_release": "2026-10-25",
+      "license": "Apache-2.0",
+      "msrv": "1.87.0",
+      "name": "uf-crsf",
+      "owners": 1,
+      "recent_downloads": 1132,
+      "releases_365d": 5,
+      "repository": "https://github.com/jettify/uf-crsf",
+      "score": 54.6,
+      "version": "0.7.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::drones",
+        "aerospace::protocols",
+        "aerospace::unmanned-aerial-vehicles",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.504,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9575,
+        "security": 1.0
+      },
+      "created": "2023-11-06",
+      "dependents": 3,
+      "description": "Library for parsing MAVLink XML definitions",
+      "downloads": 127804,
+      "edition": "2021",
+      "keywords": [
+        "drones",
+        "mavlink",
+        "parser",
+        "uav"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "mavinspect",
+      "owners": 1,
+      "recent_downloads": 33545,
+      "releases_365d": 1,
+      "repository": "https://gitlab.com/mavka/libs/mavinspect",
+      "score": 53.38,
+      "version": "0.6.6",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "aerospace::drones",
+        "aerospace::protocols",
+        "aerospace::unmanned-aerial-vehicles",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5078,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9576,
+        "security": 1.0
+      },
+      "created": "2023-12-26",
+      "dependents": 2,
+      "description": "Rust code generation module for MAVSpec.",
+      "downloads": 126170,
+      "edition": "2021",
+      "keywords": [
+        "code-generator",
+        "drones",
+        "mavlink",
+        "parser",
+        "uav"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "mavspec_rust_gen",
+      "owners": 1,
+      "recent_downloads": 36262,
+      "releases_365d": 1,
+      "repository": "https://gitlab.com/mavka/libs/mavspec",
+      "score": 52.87,
+      "version": "0.6.7",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "aerospace::drones",
+        "aerospace::protocols",
+        "aerospace::unmanned-aerial-vehicles",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5026,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9576,
+        "security": 1.0
+      },
+      "created": "2024-01-25",
+      "dependents": 2,
+      "description": "Procedural macros for MAVSpec's Rust code generation toolchain.",
+      "downloads": 95458,
+      "edition": "2021",
+      "keywords": [
+        "drones",
+        "mavlink",
+        "uav"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "mavspec_rust_derive",
+      "owners": 1,
+      "recent_downloads": 32569,
+      "releases_365d": 1,
+      "repository": "https://gitlab.com/mavka/libs/mavspec",
+      "score": 52.74,
+      "version": "0.6.7",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "aerospace::drones",
+        "aerospace::protocols",
+        "aerospace::unmanned-aerial-vehicles",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5026,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9576,
+        "security": 1.0
+      },
+      "created": "2023-12-26",
+      "dependents": 2,
+      "description": "Core interfaces for MAVSpec's Rust code generation toolchain.",
+      "downloads": 105786,
+      "edition": "2021",
+      "keywords": [
+        "drones",
+        "mavlink",
+        "uav"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "mavspec_rust_spec",
+      "owners": 1,
+      "recent_downloads": 32593,
+      "releases_365d": 1,
+      "repository": "https://gitlab.com/mavka/libs/mavspec",
+      "score": 52.74,
+      "version": "0.6.7",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::drones",
+        "aerospace::protocols",
+        "aerospace::unmanned-aerial-vehicles",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5072,
+        "license": 1.0,
+        "maintenance": 0.5415,
+        "msrv": 0.0,
+        "recency": 0.9576,
+        "security": 1.0
+      },
+      "created": "2025-02-20",
+      "dependents": 2,
+      "description": "MAVLink message definitions in MAVInspect format",
+      "downloads": 93431,
+      "edition": "2021",
+      "keywords": [
+        "drones",
+        "mavlink",
+        "parser",
+        "uav"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "mavlink-message-definitions",
+      "owners": 1,
+      "recent_downloads": 35836,
+      "releases_365d": 1,
+      "repository": "https://gitlab.com/mavka/spec/protocols/mavlink/mavspec-definitions",
+      "score": 52.48,
+      "version": "0.6.7",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "aerospace::drones",
+        "aerospace::protocols",
+        "aerospace::unmanned-aerial-vehicles",
+        "command-line-utilities",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5076,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9576,
+        "security": 1.0
+      },
+      "created": "2023-12-06",
+      "dependents": 1,
+      "description": "A set of code generation utilities for MAVLink protocol.",
+      "downloads": 131453,
+      "edition": "2021",
+      "keywords": [
+        "drones",
+        "mavlink",
+        "parser",
+        "uav"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "mavspec",
+      "owners": 1,
+      "recent_downloads": 36151,
+      "releases_365d": 1,
+      "repository": "https://gitlab.com/mavka/libs/mavspec",
+      "score": 52.01,
+      "version": "0.6.7",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "aerospace::drones",
+        "aerospace::protocols",
+        "aerospace::unmanned-aerial-vehicles",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5018,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9576,
+        "security": 1.0
+      },
+      "created": "2023-12-30",
+      "dependents": 1,
+      "description": "Minimalistic MAVLink client that supports `no-std` and `no-alloc` targets.",
+      "downloads": 91228,
+      "edition": "2021",
+      "keywords": [
+        "drones",
+        "mavlink",
+        "uav"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "mavio",
+      "owners": 1,
+      "recent_downloads": 32029,
+      "releases_365d": 1,
+      "repository": "https://gitlab.com/mavka/libs/mavio",
+      "score": 51.87,
+      "version": "0.5.10",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::drones",
+        "aerospace::protocols",
+        "aerospace::unmanned-aerial-vehicles",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5069,
+        "license": 1.0,
+        "maintenance": 0.5415,
+        "msrv": 0.0,
+        "recency": 0.9576,
+        "security": 1.0
+      },
+      "created": "2025-02-20",
+      "dependents": 1,
+      "description": "A set of code generation utilities for MAVLink protocol.",
+      "downloads": 92144,
+      "edition": "2021",
+      "keywords": [
+        "drones",
+        "mavlink",
+        "parser",
+        "uav"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "name": "mavlink-dialects",
+      "owners": 1,
+      "recent_downloads": 35626,
+      "releases_365d": 1,
+      "repository": "https://gitlab.com/mavka/libs/mavspec",
+      "score": 51.62,
+      "version": "0.6.7",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "aerospace::unmanned-aerial-vehicles",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3654,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.631,
+        "security": 1.0
+      },
+      "created": "2024-07-29",
+      "dependents": 0,
+      "description": "A simple library for parsing UAS KLV data from raw data.",
+      "downloads": 6172,
+      "edition": "2021",
+      "keywords": [
+        "klv",
+        "parser",
+        "uas"
+      ],
+      "last_release": "2026-03-23",
+      "license": "MIT",
+      "name": "klv-uas",
+      "owners": 1,
+      "recent_downloads": 1909,
+      "releases_365d": 1,
+      "repository": "https://github.com/GrimOutlook/klv-uas",
+      "score": 42.1,
+      "version": "0.1.2",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "aerospace::drones",
+        "aerospace::unmanned-aerial-vehicles",
+        "encoding",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3445,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.3286,
+        "security": 1.0
+      },
+      "created": "2022-12-14",
+      "dependents": 0,
+      "description": "Ergonomic parser for BetaFlight blackbox logs",
+      "downloads": 14490,
+      "edition": "2021",
+      "keywords": [
+        "betaflight",
+        "blackbox"
+      ],
+      "last_release": "2025-04-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "blackbox-log",
+      "owners": 1,
+      "recent_downloads": 1238,
+      "releases_365d": 0,
+      "repository": "https://github.com/blackbox-log/blackbox-log",
+      "score": 40.54,
+      "version": "0.4.3",
+      "versions": 9
+    }
+  ],
+  "score_version": 1
+}

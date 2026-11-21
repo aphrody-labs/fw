@@ -1,0 +1,910 @@
+{
+  "category": {
+    "crates": 7413,
+    "description": "Crates to deal with the complexities of human language when expressed in textual form.",
+    "name": "Text processing",
+    "slug": "text-processing"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.8526,
+        "downloads": 0.9511,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9944,
+        "security": 1.0
+      },
+      "created": "2014-12-13",
+      "dependents": 24637,
+      "description": "An implementation of regular expressions for Rust. This implementation uses\nfinite automata and guarantees linear time matching on all inputs.\n",
+      "downloads": 1426884478,
+      "edition": "2021",
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "regex",
+      "owners": 1,
+      "recent_downloads": 347121397,
+      "releases_365d": 5,
+      "repository": "https://github.com/rust-lang/regex",
+      "score": 93.01,
+      "version": "1.13.2",
+      "versions": 170
+    },
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.6447,
+        "downloads": 0.8785,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9596,
+        "security": 1.0
+      },
+      "created": "2015-06-04",
+      "dependents": 2093,
+      "description": "A pull parser for CommonMark",
+      "downloads": 215823927,
+      "edition": "2021",
+      "keywords": [
+        "commonmark",
+        "markdown"
+      ],
+      "last_release": "2026-10-30",
+      "license": "MIT",
+      "msrv": "1.71.1",
+      "name": "pulldown-cmark",
+      "owners": 3,
+      "recent_downloads": 77307023,
+      "releases_365d": 6,
+      "repository": "https://github.com/raphlinus/pulldown-cmark",
+      "score": 87.47,
+      "version": "0.13.6",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5495,
+        "downloads": 0.8968,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9827,
+        "security": 1.0
+      },
+      "created": "2017-02-05",
+      "dependents": 676,
+      "description": "An implementation of regexes, supporting a relatively rich set of features, including backreferences and look-around. Aims to be compatible with Oniguruma syntax when the relevant flag is set.",
+      "downloads": 318012524,
+      "edition": "2021",
+      "last_release": "2026-11-11",
+      "license": "MIT",
+      "msrv": "1.66",
+      "name": "fancy-regex",
+      "owners": 4,
+      "recent_downloads": 112971012,
+      "releases_365d": 8,
+      "repository": "https://github.com/fancy-regex/fancy-regex",
+      "score": 85.9,
+      "version": "0.20.2",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "encoding",
+        "internationalization",
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.62,
+        "downloads": 0.9152,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9601,
+        "security": 1.0
+      },
+      "created": "2016-07-09",
+      "dependents": 1560,
+      "description": "A Gecko-oriented implementation of the Encoding Standard",
+      "downloads": 658801208,
+      "edition": "2024",
+      "keywords": [
+        "charset",
+        "encoding",
+        "unicode",
+        "web"
+      ],
+      "last_release": "2026-10-30",
+      "license": "(Apache-2.0 OR MIT) AND BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "encoding_rs",
+      "owners": 1,
+      "recent_downloads": 165228981,
+      "releases_365d": 5,
+      "repository": "https://github.com/hsivonen/encoding_rs",
+      "score": 85.78,
+      "version": "0.8.44",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "internationalization",
+        "no-std::no-alloc",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.6907,
+        "downloads": 0.9336,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9553,
+        "security": 1.0
+      },
+      "created": "2015-04-14",
+      "dependents": 3611,
+      "description": "Determine displayed width of `char` and `str` types\naccording to Unicode Standard Annex #11 rules.\n",
+      "downloads": 993245187,
+      "edition": "2021",
+      "keywords": [
+        "text",
+        "unicode",
+        "width"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66",
+      "name": "unicode-width",
+      "owners": 5,
+      "recent_downloads": 241668550,
+      "releases_365d": 1,
+      "repository": "https://github.com/unicode-rs/unicode-width",
+      "score": 85.44,
+      "version": "0.2.3",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "encoding",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.547,
+        "downloads": 0.9051,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9958,
+        "security": 1.0
+      },
+      "created": "2018-10-09",
+      "dependents": 656,
+      "description": "A string type that is not required to be valid UTF-8.",
+      "downloads": 522228330,
+      "edition": "2021",
+      "keywords": [
+        "byte",
+        "bytes",
+        "str",
+        "string",
+        "text"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "bstr",
+      "owners": 1,
+      "recent_downloads": 134217182,
+      "releases_365d": 5,
+      "repository": "https://github.com/BurntSushi/bstr",
+      "score": 84.24,
+      "version": "1.14.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4675,
+        "downloads": 0.9555,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9944,
+        "security": 1.0
+      },
+      "created": "2019-01-02",
+      "dependents": 255,
+      "description": "Automata construction and matching using regular expressions.",
+      "downloads": 1544839790,
+      "edition": "2021",
+      "keywords": [
+        "automata",
+        "automaton",
+        "dfa",
+        "nfa",
+        "regex"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "regex-automata",
+      "owners": 1,
+      "recent_downloads": 380299424,
+      "releases_365d": 6,
+      "repository": "https://github.com/rust-lang/regex",
+      "score": 83.49,
+      "version": "0.4.19",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4907,
+        "downloads": 0.8369,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2023-04-08",
+      "dependents": 336,
+      "description": "Metadata reader and glyph scaler for OpenType fonts.",
+      "downloads": 54070254,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "skrifa",
+      "owners": 7,
+      "recent_downloads": 32708541,
+      "releases_365d": 16,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 82.9,
+      "version": "0.50.0",
+      "versions": 89
+    },
+    {
+      "categories": [
+        "encoding",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4907,
+        "downloads": 0.7676,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9645,
+        "security": 1.0
+      },
+      "created": "2016-11-09",
+      "dependents": 336,
+      "description": "An Excel/OpenDocument Spreadsheet reader and deserializer in pure Rust",
+      "downloads": 19239555,
+      "edition": "2021",
+      "keywords": [
+        "excel",
+        "ods",
+        "xls",
+        "xlsb",
+        "xlsx"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "calamine",
+      "owners": 3,
+      "recent_downloads": 7809794,
+      "releases_365d": 7,
+      "repository": "https://github.com/tafia/calamine",
+      "score": 80.93,
+      "version": "0.38.0",
+      "versions": 84
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4902,
+        "downloads": 0.7316,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9981,
+        "security": 1.0
+      },
+      "created": "2017-04-07",
+      "dependents": 334,
+      "description": "A 100% CommonMark-compatible GitHub Flavored Markdown parser and formatter",
+      "downloads": 10753064,
+      "edition": "2024",
+      "keywords": [
+        "commonmark",
+        "markdown"
+      ],
+      "last_release": "2026-11-20",
+      "license": "BSD-2-Clause",
+      "msrv": "1.89",
+      "name": "comrak",
+      "owners": 3,
+      "recent_downloads": 3708982,
+      "releases_365d": 15,
+      "repository": "https://github.com/kivikakk/comrak",
+      "score": 80.52,
+      "version": "1.1.0",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5081,
+        "downloads": 0.8007,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9682,
+        "security": 1.0
+      },
+      "created": "2016-12-23",
+      "dependents": 413,
+      "description": "A Rust library for PDF document manipulation.",
+      "downloads": 31796422,
+      "edition": "2024",
+      "keywords": [
+        "editing",
+        "manipulation",
+        "merge",
+        "pdf"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "lopdf",
+      "owners": 1,
+      "recent_downloads": 15486708,
+      "releases_365d": 9,
+      "repository": "https://github.com/J-F-Liu/lopdf.git",
+      "score": 80.24,
+      "version": "0.47.0",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.3765,
+        "downloads": 0.8389,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2022-10-07",
+      "dependents": 86,
+      "description": "Reading OpenType font files.",
+      "downloads": 57082043,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "read-fonts",
+      "owners": 7,
+      "recent_downloads": 34148068,
+      "releases_365d": 19,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 80.1,
+      "version": "0.47.0",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4879,
+        "downloads": 0.7531,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2021-07-10",
+      "dependents": 325,
+      "description": "A parser library for humans with powerful error recovery",
+      "downloads": 32507314,
+      "edition": "2021",
+      "keywords": [
+        "combinator",
+        "language",
+        "parser",
+        "syntax",
+        "token"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "chumsky",
+      "owners": 2,
+      "recent_downloads": 5783487,
+      "releases_365d": 5,
+      "repository": "https://codeberg.org/zesterer/chumsky",
+      "score": 79.93,
+      "version": "0.14.2",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4029,
+        "downloads": 0.8013,
+        "license": 1.0,
+        "maintenance": 0.9448,
+        "msrv": 1.0,
+        "recency": 0.9977,
+        "security": 1.0
+      },
+      "created": "2025-06-10",
+      "dependents": 118,
+      "description": "A complete HarfBuzz shaping algorithm port to Rust.",
+      "downloads": 21934942,
+      "edition": "2021",
+      "keywords": [
+        "opentype",
+        "shaping",
+        "text",
+        "truetype"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "harfrust",
+      "owners": 4,
+      "recent_downloads": 15688821,
+      "releases_365d": 24,
+      "repository": "https://github.com/harfbuzz/harfrust",
+      "score": 79.24,
+      "version": "0.16.1",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6106,
+        "downloads": 0.7853,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9433,
+        "security": 1.0
+      },
+      "created": "2016-01-17",
+      "dependents": 1396,
+      "description": "HTML parsing and querying with CSS selectors",
+      "downloads": 37569547,
+      "edition": "2024",
+      "keywords": [
+        "css",
+        "html",
+        "scraping",
+        "selector"
+      ],
+      "last_release": "2026-10-21",
+      "license": "ISC",
+      "name": "scraper",
+      "owners": 3,
+      "recent_downloads": 11267994,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-scraper/scraper",
+      "score": 79.05,
+      "version": "0.29.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4392,
+        "downloads": 0.7707,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9852,
+        "security": 1.0
+      },
+      "created": "2015-09-04",
+      "dependents": 182,
+      "description": "HTML Sanitization",
+      "downloads": 22621874,
+      "edition": "2021",
+      "keywords": [
+        "html",
+        "sanitization",
+        "security",
+        "xss"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "ammonia",
+      "owners": 2,
+      "recent_downloads": 8334634,
+      "releases_365d": 19,
+      "repository": "https://github.com/rust-ammonia/ammonia",
+      "score": 79.03,
+      "version": "4.2.5",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5569,
+        "downloads": 0.8748,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8784,
+        "security": 1.0
+      },
+      "created": "2016-12-17",
+      "dependents": 738,
+      "description": "Library for word wrapping, indenting, and dedenting strings. Has optional support for Unicode and emojis as well as machine hyphenation.",
+      "downloads": 480885205,
+      "edition": "2021",
+      "keywords": [
+        "formatting",
+        "hyphenation",
+        "text",
+        "typesetting",
+        "wrap"
+      ],
+      "last_release": "2026-09-13",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "textwrap",
+      "owners": 1,
+      "recent_downloads": 71722753,
+      "releases_365d": 2,
+      "repository": "https://github.com/mgeisler/textwrap",
+      "score": 78.97,
+      "version": "0.16.4",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "no-std",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5308,
+        "downloads": 0.8524,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9476,
+        "security": 1.0
+      },
+      "created": "2020-08-17",
+      "dependents": 541,
+      "description": "Compile-time string formatting",
+      "downloads": 184171249,
+      "edition": "2021",
+      "keywords": [
+        "concat",
+        "format",
+        "no-std"
+      ],
+      "last_release": "2026-10-23",
+      "license": "Zlib",
+      "msrv": "1.71.0",
+      "name": "const_format",
+      "owners": 1,
+      "recent_downloads": 45080680,
+      "releases_365d": 2,
+      "repository": "https://github.com/rodrimati1992/const_format_crates/",
+      "score": 78.79,
+      "version": "0.2.37",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "encoding",
+        "memory-management",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5379,
+        "downloads": 0.8833,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7804,
+        "security": 1.0
+      },
+      "created": "2021-09-20",
+      "dependents": 589,
+      "description": "A memory efficient string type that transparently stores strings on the stack, when possible",
+      "downloads": 224362333,
+      "edition": "2021",
+      "keywords": [
+        "compact",
+        "memory",
+        "mutable",
+        "small",
+        "string"
+      ],
+      "last_release": "2026-07-13",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "compact_str",
+      "owners": 1,
+      "recent_downloads": 85415000,
+      "releases_365d": 3,
+      "repository": "https://github.com/ParkMyCar/compact_str",
+      "score": 78.74,
+      "version": "0.10.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5551,
+        "downloads": 0.9533,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8121,
+        "security": 1.0
+      },
+      "created": "2015-06-12",
+      "dependents": 722,
+      "description": "Fast multiple substring searching.",
+      "downloads": 1422786452,
+      "edition": "2021",
+      "keywords": [
+        "multi",
+        "pattern",
+        "search",
+        "string",
+        "text"
+      ],
+      "last_release": "2026-08-03",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.60.0",
+      "name": "aho-corasick",
+      "owners": 1,
+      "recent_downloads": 363215704,
+      "releases_365d": 1,
+      "repository": "https://github.com/BurntSushi/aho-corasick",
+      "score": 78.39,
+      "version": "1.1.5",
+      "versions": 63
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.557,
+        "downloads": 0.8786,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9225,
+        "security": 1.0
+      },
+      "created": "2016-03-19",
+      "dependents": 739,
+      "description": "Indented document literals",
+      "downloads": 380473785,
+      "edition": "2021",
+      "keywords": [
+        "heredoc",
+        "literal",
+        "multiline",
+        "nowdoc",
+        "string"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "indoc",
+      "owners": 1,
+      "recent_downloads": 77575729,
+      "releases_365d": 1,
+      "repository": "https://github.com/dtolnay/indoc",
+      "score": 78.23,
+      "version": "2.0.8",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4798,
+        "downloads": 0.7816,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9116,
+        "security": 1.0
+      },
+      "created": "2019-10-07",
+      "dependents": 295,
+      "description": "lazy static regular expressions checked at compile time",
+      "downloads": 49443788,
+      "edition": "2021",
+      "keywords": [
+        "lazy",
+        "macro",
+        "regex",
+        "static"
+      ],
+      "last_release": "2026-10-03",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "lazy-regex",
+      "owners": 1,
+      "recent_downloads": 10438990,
+      "releases_365d": 5,
+      "repository": "https://github.com/Canop/lazy-regex",
+      "score": 78.21,
+      "version": "3.6.2",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.3379,
+        "downloads": 0.7666,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2022-10-07",
+      "dependents": 54,
+      "description": "Writing font files.",
+      "downloads": 12883172,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "write-fonts",
+      "owners": 7,
+      "recent_downloads": 7660047,
+      "releases_365d": 15,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 77.32,
+      "version": "0.56.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.6007,
+        "downloads": 0.9193,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.8499,
+        "security": 1.0
+      },
+      "created": "2020-04-17",
+      "dependents": 1241,
+      "description": "Convert strings into any case",
+      "downloads": 667238692,
+      "edition": "2021",
+      "keywords": [
+        "case",
+        "casing",
+        "string"
+      ],
+      "last_release": "2026-08-27",
+      "license": "MIT",
+      "name": "convert_case",
+      "owners": 1,
+      "recent_downloads": 179895872,
+      "releases_365d": 3,
+      "repository": "https://github.com/rutrum/convert-case",
+      "score": 77.25,
+      "version": "0.12.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.441,
+        "downloads": 0.7878,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8189,
+        "security": 1.0
+      },
+      "created": "2023-07-04",
+      "dependents": 186,
+      "description": "Extra syntax and theme definitions for syntect",
+      "downloads": 18158607,
+      "edition": "2021",
+      "keywords": [
+        "extra",
+        "syntaxes",
+        "syntect",
+        "themes"
+      ],
+      "last_release": "2026-08-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.79.0",
+      "name": "two-face",
+      "owners": 1,
+      "recent_downloads": 11870806,
+      "releases_365d": 4,
+      "repository": "https://codeberg.org/CosmicHarper/two-face",
+      "score": 76.01,
+      "version": "0.5.2+bat-0.26.1",
+      "versions": 14
+    }
+  ],
+  "score_version": 1
+}

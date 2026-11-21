@@ -13,6 +13,7 @@ include = ["src/**", "ui/**", "Cargo.toml"]
 [dependencies]
 fw-apm.workspace = true
 fw-cluster.workspace = true
+fw-crates.workspace = true
 fw-compute.workspace = true
 fw-fx.workspace = true
 fw-ggml.workspace = true

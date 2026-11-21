@@ -1,0 +1,914 @@
+{
+  "category": {
+    "crates": 12016,
+    "description": "Crates to create applications for the web.",
+    "name": "Web programming",
+    "slug": "web-programming"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "parser-implementations",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.8264,
+        "downloads": 0.9404,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9998,
+        "security": 1.0
+      },
+      "created": "2014-11-14",
+      "dependents": 18072,
+      "description": "URL library for Rust, based on the WHATWG URL Standard",
+      "downloads": 1094905391,
+      "edition": "2018",
+      "keywords": [
+        "parser",
+        "url"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "url",
+      "owners": 5,
+      "recent_downloads": 278242134,
+      "releases_365d": 2,
+      "repository": "https://github.com/servo/rust-url",
+      "score": 91.17,
+      "version": "2.5.9",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6964,
+        "downloads": 0.8998,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2018-07-18",
+      "dependents": 3863,
+      "description": "A gRPC over HTTP/2 implementation focused on high performance, interoperability, and flexibility.\n",
+      "downloads": 485752563,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "futures",
+        "grpc",
+        "protobuf",
+        "rpc"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic",
+      "owners": 3,
+      "recent_downloads": 120162837,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 89.28,
+      "version": "0.14.9",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.7644,
+        "downloads": 0.9515,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8046,
+        "security": 1.0
+      },
+      "created": "2014-11-20",
+      "dependents": 8654,
+      "description": "A set of types for representing HTTP requests and responses.\n",
+      "downloads": 1290709096,
+      "edition": "2021",
+      "keywords": [
+        "http"
+      ],
+      "last_release": "2026-07-29",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.57.0",
+      "name": "http",
+      "owners": 2,
+      "recent_downloads": 350313748,
+      "releases_365d": 4,
+      "repository": "https://github.com/hyperium/http",
+      "score": 88.97,
+      "version": "1.5.0",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6944,
+        "downloads": 0.9323,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8567,
+        "security": 1.0
+      },
+      "created": "2017-03-10",
+      "dependents": 3774,
+      "description": "Tower middleware and utilities for HTTP clients and servers",
+      "downloads": 644426512,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "futures",
+        "http",
+        "io",
+        "service"
+      ],
+      "last_release": "2026-08-31",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "tower-http",
+      "owners": 2,
+      "recent_downloads": 235496940,
+      "releases_365d": 7,
+      "repository": "https://github.com/tower-rs/tower-http",
+      "score": 87.52,
+      "version": "0.7.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "encoding",
+        "internationalization",
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.62,
+        "downloads": 0.9152,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9601,
+        "security": 1.0
+      },
+      "created": "2016-07-09",
+      "dependents": 1560,
+      "description": "A Gecko-oriented implementation of the Encoding Standard",
+      "downloads": 658801208,
+      "edition": "2024",
+      "keywords": [
+        "charset",
+        "encoding",
+        "unicode",
+        "web"
+      ],
+      "last_release": "2026-10-30",
+      "license": "(Apache-2.0 OR MIT) AND BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "encoding_rs",
+      "owners": 1,
+      "recent_downloads": 165228981,
+      "releases_365d": 5,
+      "repository": "https://github.com/hsivonen/encoding_rs",
+      "score": 85.78,
+      "version": "0.8.44",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5948,
+        "downloads": 0.8522,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 1.0,
+        "security": 1.0
+      },
+      "created": "2020-03-29",
+      "dependents": 1157,
+      "description": "JSON schema validaton library",
+      "downloads": 127727669,
+      "edition": "2021",
+      "keywords": [
+        "jsonschema",
+        "validation"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.85.0",
+      "name": "jsonschema",
+      "owners": 1,
+      "recent_downloads": 44951571,
+      "releases_365d": 70,
+      "repository": "https://github.com/Stranger6667/jsonschema",
+      "score": 84.17,
+      "version": "0.62.0",
+      "versions": 145
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4692,
+        "downloads": 0.9332,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9174,
+        "security": 1.0
+      },
+      "created": "2017-03-09",
+      "dependents": 260,
+      "description": "An HTTP/2 client and server",
+      "downloads": 1001505678,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "http",
+        "non-blocking"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT",
+      "msrv": "1.63",
+      "name": "h2",
+      "owners": 3,
+      "recent_downloads": 239945239,
+      "releases_365d": 8,
+      "repository": "https://github.com/hyperium/h2",
+      "score": 83.82,
+      "version": "0.4.20",
+      "versions": 88
+    },
+    {
+      "categories": [
+        "filesystem",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6,
+        "downloads": 0.8193,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9815,
+        "security": 1.0
+      },
+      "created": "2017-03-16",
+      "dependents": 1231,
+      "description": "Rust Custom Derive Macro which loads files into the rust binary at compile time during release and loads the file from the fs during dev",
+      "downloads": 70382872,
+      "edition": "2018",
+      "keywords": [
+        "http",
+        "rocket",
+        "server",
+        "static",
+        "web"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT",
+      "msrv": "1.80.0",
+      "name": "rust-embed",
+      "owners": 1,
+      "recent_downloads": 22746520,
+      "releases_365d": 4,
+      "repository": "https://pyrossh.dev/repos/rust-embed",
+      "score": 83.2,
+      "version": "8.14.0",
+      "versions": 69
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.512,
+        "downloads": 0.8685,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8803,
+        "security": 1.0
+      },
+      "created": "2015-06-15",
+      "dependents": 433,
+      "description": "High-performance browser-grade HTML5 parser",
+      "downloads": 157787707,
+      "edition": "2021",
+      "keywords": [
+        "html",
+        "html5",
+        "parser",
+        "parsing"
+      ],
+      "last_release": "2026-09-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "html5ever",
+      "owners": 6,
+      "recent_downloads": 62862703,
+      "releases_365d": 6,
+      "repository": "https://github.com/servo/html5ever",
+      "score": 82.72,
+      "version": "0.40.1",
+      "versions": 77
+    },
+    {
+      "categories": [
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6782,
+        "downloads": 0.931,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8263,
+        "security": 1.0
+      },
+      "created": "2022-10-25",
+      "dependents": 3114,
+      "description": "Combinators and adapters for HTTP request or response bodies.\n",
+      "downloads": 643853195,
+      "edition": "2018",
+      "keywords": [
+        "http"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT",
+      "msrv": "1.61",
+      "name": "http-body-util",
+      "owners": 1,
+      "recent_downloads": 229238003,
+      "releases_365d": 2,
+      "repository": "https://github.com/hyperium/http-body",
+      "score": 82.63,
+      "version": "0.1.5",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "gui",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.566,
+        "downloads": 0.8122,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2019-11-27",
+      "dependents": 822,
+      "description": "Make tiny, secure apps for all desktop platforms with Tauri",
+      "downloads": 46568611,
+      "edition": "2024",
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "tauri",
+      "owners": 1,
+      "recent_downloads": 19664023,
+      "releases_365d": 28,
+      "repository": "https://github.com/tauri-apps/tauri",
+      "score": 82.38,
+      "version": "2.12.7",
+      "versions": 236
+    },
+    {
+      "categories": [
+        "gui",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5314,
+        "downloads": 0.8049,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2024-02-03",
+      "dependents": 545,
+      "description": "Build script and runtime Tauri plugin definitions",
+      "downloads": 38086313,
+      "edition": "2024",
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "tauri-plugin",
+      "owners": 1,
+      "recent_downloads": 16891229,
+      "releases_365d": 17,
+      "repository": "https://github.com/tauri-apps/tauri",
+      "score": 81.33,
+      "version": "2.7.4",
+      "versions": 65
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5105,
+        "downloads": 0.7979,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9817,
+        "security": 1.0
+      },
+      "created": "2021-08-20",
+      "dependents": 425,
+      "description": "High level server designed to be used with axum framework.",
+      "downloads": 47660976,
+      "edition": "2021",
+      "keywords": [
+        "http",
+        "https",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT",
+      "msrv": "1.82",
+      "name": "axum-server",
+      "owners": 3,
+      "recent_downloads": 14605502,
+      "releases_365d": 3,
+      "repository": "https://github.com/programatik29/axum-server",
+      "score": 80.93,
+      "version": "0.9.2",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6008,
+        "downloads": 0.9449,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.7807,
+        "security": 1.0
+      },
+      "created": "2019-04-04",
+      "dependents": 1242,
+      "description": "Trait representing an asynchronous, streaming, HTTP request or response body.\n",
+      "downloads": 1112104456,
+      "edition": "2018",
+      "keywords": [
+        "http"
+      ],
+      "last_release": "2026-07-13",
+      "license": "MIT",
+      "msrv": "1.61",
+      "name": "http-body",
+      "owners": 3,
+      "recent_downloads": 305085978,
+      "releases_365d": 1,
+      "repository": "https://github.com/hyperium/http-body",
+      "score": 80.85,
+      "version": "1.1.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6411,
+        "downloads": 0.8226,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8938,
+        "security": 1.0
+      },
+      "created": "2022-01-27",
+      "dependents": 2004,
+      "description": "Compile time generated OpenAPI documentation for Rust",
+      "downloads": 66119582,
+      "edition": "2021",
+      "keywords": [
+        "auto-generate",
+        "compile-time",
+        "documentation",
+        "openapi",
+        "rest-api"
+      ],
+      "last_release": "2026-09-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "utoipa",
+      "owners": 1,
+      "recent_downloads": 24361711,
+      "releases_365d": 2,
+      "repository": "https://github.com/juhaku/utoipa",
+      "score": 80.0,
+      "version": "6.0.0",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "template-engine",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5681,
+        "downloads": 0.8103,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8256,
+        "security": 1.0
+      },
+      "created": "2014-12-27",
+      "dependents": 843,
+      "description": "Handlebars templating implemented in Rust.",
+      "downloads": 107379624,
+      "edition": "2024",
+      "keywords": [
+        "handlebars",
+        "templating",
+        "web"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "handlebars",
+      "owners": 1,
+      "recent_downloads": 18890519,
+      "releases_365d": 5,
+      "repository": "https://github.com/sunng87/handlebars-rust",
+      "score": 79.84,
+      "version": "6.4.4",
+      "versions": 187
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "database",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5099,
+        "downloads": 0.7479,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2015-05-22",
+      "dependents": 422,
+      "description": "The official MongoDB driver for Rust",
+      "downloads": 21309839,
+      "edition": "2024",
+      "keywords": [
+        "bson",
+        "database",
+        "mongo",
+        "mongodb",
+        "nosql"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "mongodb",
+      "owners": 1,
+      "recent_downloads": 5195053,
+      "releases_365d": 13,
+      "repository": "https://github.com/mongodb/mongo-rust-driver",
+      "score": 79.4,
+      "version": "3.10.2",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6106,
+        "downloads": 0.7853,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9433,
+        "security": 1.0
+      },
+      "created": "2016-01-17",
+      "dependents": 1396,
+      "description": "HTML parsing and querying with CSS selectors",
+      "downloads": 37569547,
+      "edition": "2024",
+      "keywords": [
+        "css",
+        "html",
+        "scraping",
+        "selector"
+      ],
+      "last_release": "2026-10-21",
+      "license": "ISC",
+      "name": "scraper",
+      "owners": 3,
+      "recent_downloads": 11267994,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-scraper/scraper",
+      "score": 79.05,
+      "version": "0.29.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4392,
+        "downloads": 0.7707,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9852,
+        "security": 1.0
+      },
+      "created": "2015-09-04",
+      "dependents": 182,
+      "description": "HTML Sanitization",
+      "downloads": 22621874,
+      "edition": "2021",
+      "keywords": [
+        "html",
+        "sanitization",
+        "security",
+        "xss"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "ammonia",
+      "owners": 2,
+      "recent_downloads": 8334634,
+      "releases_365d": 19,
+      "repository": "https://github.com/rust-ammonia/ammonia",
+      "score": 79.03,
+      "version": "4.2.5",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4839,
+        "downloads": 0.7565,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 310,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12154726,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_allocator",
+      "owners": 1,
+      "recent_downloads": 6216238,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.88,
+      "version": "0.159.0",
+      "versions": 216
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4831,
+        "downloads": 0.7564,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-07-06",
+      "dependents": 307,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12130187,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_span",
+      "owners": 1,
+      "recent_downloads": 6202797,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.86,
+      "version": "0.159.0",
+      "versions": 214
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4695,
+        "downloads": 0.7563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 261,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12102271,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_ast",
+      "owners": 1,
+      "recent_downloads": 6182159,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.51,
+      "version": "0.159.0",
+      "versions": 220
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4682,
+        "downloads": 0.7557,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 257,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 11990454,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_parser",
+      "owners": 1,
+      "recent_downloads": 6112931,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.47,
+      "version": "0.159.0",
+      "versions": 220
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3848,
+        "downloads": 0.8688,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8747,
+        "security": 1.0
+      },
+      "created": "2017-02-25",
+      "dependents": 95,
+      "description": "Common code for xml5ever and html5ever",
+      "downloads": 159154429,
+      "edition": "2021",
+      "last_release": "2026-09-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "markup5ever",
+      "owners": 2,
+      "recent_downloads": 63357439,
+      "releases_365d": 5,
+      "repository": "https://github.com/servo/html5ever",
+      "score": 78.46,
+      "version": "0.40.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "gui",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4043,
+        "downloads": 0.8128,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2021-04-14",
+      "dependents": 120,
+      "description": "build time code to pair with https://crates.io/crates/tauri",
+      "downloads": 46408947,
+      "edition": "2024",
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "tauri-build",
+      "owners": 1,
+      "recent_downloads": 19886617,
+      "releases_365d": 21,
+      "repository": "https://github.com/tauri-apps/tauri",
+      "score": 78.36,
+      "version": "2.7.6",
+      "versions": 130
+    }
+  ],
+  "score_version": 1
+}

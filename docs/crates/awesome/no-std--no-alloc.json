@@ -1,0 +1,934 @@
+{
+  "category": {
+    "crates": 1745,
+    "description": "Crates that are able to function without the Rust alloc crate.",
+    "name": "No standard library::No dynamic allocation",
+    "slug": "no-std::no-alloc"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 1.0,
+        "downloads": 0.9641,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7885,
+        "security": 1.0
+      },
+      "created": "2014-12-05",
+      "dependents": 141576,
+      "description": "A generic serialization/deserialization framework",
+      "downloads": 1752708743,
+      "edition": "2021",
+      "keywords": [
+        "no_std",
+        "serde",
+        "serialization"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.56",
+      "name": "serde",
+      "owners": 2,
+      "recent_downloads": 454062629,
+      "releases_365d": 1,
+      "repository": "https://github.com/serde-rs/serde",
+      "score": 90.43,
+      "version": "1.0.229",
+      "versions": 316
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6788,
+        "downloads": 0.8988,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9978,
+        "security": 1.0
+      },
+      "created": "2017-08-17",
+      "dependents": 3135,
+      "description": "Custom de/serialization functions for Rust's serde",
+      "downloads": 456295178,
+      "edition": "2021",
+      "keywords": [
+        "deserialization",
+        "serde",
+        "serialization",
+        "utilities"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "serde_with",
+      "owners": 1,
+      "recent_downloads": 117672654,
+      "releases_365d": 10,
+      "repository": "https://github.com/jonasbb/serde_with/",
+      "score": 87.41,
+      "version": "3.25.0",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "embedded",
+        "encoding",
+        "no-std::no-alloc",
+        "parsing",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5746,
+        "downloads": 0.9518,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9299,
+        "security": 1.0
+      },
+      "created": "2018-08-15",
+      "dependents": 911,
+      "description": "Zerocopy makes zero-cost memory manipulation effortless. We write \"unsafe\" so you don't have to.",
+      "downloads": 1182012711,
+      "edition": "2021",
+      "keywords": [
+        "cast",
+        "convert",
+        "transmutation",
+        "transmute",
+        "type-punning"
+      ],
+      "last_release": "2026-10-13",
+      "license": "BSD-2-Clause OR Apache-2.0 OR MIT",
+      "msrv": "1.56.0",
+      "name": "zerocopy",
+      "owners": 2,
+      "recent_downloads": 352251028,
+      "releases_365d": 41,
+      "repository": "https://github.com/google/zerocopy",
+      "score": 86.11,
+      "version": "0.8.63",
+      "versions": 174
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.6121,
+        "downloads": 0.9117,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2019-01-08",
+      "dependents": 1421,
+      "description": "A crate for safe and ergonomic pin-projection.\n",
+      "downloads": 701357584,
+      "edition": "2021",
+      "keywords": [
+        "attribute",
+        "macros",
+        "pin"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "pin-project",
+      "owners": 1,
+      "recent_downloads": 153600275,
+      "releases_365d": 4,
+      "repository": "https://github.com/taiki-e/pin-project",
+      "score": 86.05,
+      "version": "1.2.0",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.5676,
+        "downloads": 0.9638,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9774,
+        "security": 1.0
+      },
+      "created": "2016-06-25",
+      "dependents": 838,
+      "description": "Fast integer primitive to string conversion",
+      "downloads": 1693066626,
+      "edition": "2021",
+      "keywords": [
+        "integer"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "itoa",
+      "owners": 1,
+      "recent_downloads": 451624685,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/itoa",
+      "score": 85.95,
+      "version": "1.0.19",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "internationalization",
+        "no-std::no-alloc",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.6907,
+        "downloads": 0.9336,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9553,
+        "security": 1.0
+      },
+      "created": "2015-04-14",
+      "dependents": 3611,
+      "description": "Determine displayed width of `char` and `str` types\naccording to Unicode Standard Annex #11 rules.\n",
+      "downloads": 993245187,
+      "edition": "2021",
+      "keywords": [
+        "text",
+        "unicode",
+        "width"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66",
+      "name": "unicode-width",
+      "owners": 5,
+      "recent_downloads": 241668550,
+      "releases_365d": 1,
+      "repository": "https://github.com/unicode-rs/unicode-width",
+      "score": 85.44,
+      "version": "0.2.3",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.7606,
+        "downloads": 0.9677,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.7416,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 8273,
+      "description": "Extra iterator adaptors, iterator methods, free functions, and macros.",
+      "downloads": 1891203906,
+      "edition": "2018",
+      "keywords": [
+        "data-structure",
+        "iterator",
+        "product",
+        "zip"
+      ],
+      "last_release": "2026-06-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63.0",
+      "name": "itertools",
+      "owners": 3,
+      "recent_downloads": 489118081,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-itertools/itertools",
+      "score": 84.83,
+      "version": "0.15.0",
+      "versions": 131
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.6327,
+        "downloads": 0.9506,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2019-10-22",
+      "dependents": 1815,
+      "description": "A lightweight version of pin-project written with declarative macros.\n",
+      "downloads": 1292675526,
+      "edition": "2018",
+      "keywords": [
+        "macros",
+        "pin"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.37",
+      "name": "pin-project-lite",
+      "owners": 1,
+      "recent_downloads": 343535459,
+      "releases_365d": 2,
+      "repository": "https://github.com/taiki-e/pin-project-lite",
+      "score": 84.54,
+      "version": "0.2.18",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.7348,
+        "downloads": 0.9627,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7885,
+        "security": 1.0
+      },
+      "created": "2016-08-29",
+      "dependents": 6091,
+      "description": "Macros 1.1 implementation of #[derive(Serialize, Deserialize)]",
+      "downloads": 1666591678,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "no_std",
+        "serde",
+        "serialization"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "serde_derive",
+      "owners": 2,
+      "recent_downloads": 441691542,
+      "releases_365d": 1,
+      "repository": "https://github.com/serde-rs/serde",
+      "score": 83.77,
+      "version": "1.0.229",
+      "versions": 271
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "data-structures",
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5771,
+        "downloads": 0.8328,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9467,
+        "security": 1.0
+      },
+      "created": "2024-06-30",
+      "dependents": 938,
+      "description": "Next-gen compile-time-checked builder generator, named function's arguments, and more!",
+      "downloads": 81291941,
+      "edition": "2024",
+      "keywords": [
+        "builder",
+        "constructor",
+        "derive",
+        "macro",
+        "setter"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "bon",
+      "owners": 2,
+      "recent_downloads": 30069062,
+      "releases_365d": 9,
+      "repository": "https://github.com/elastio/bon",
+      "score": 83.45,
+      "version": "3.10.3",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6091,
+        "downloads": 0.8563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9196,
+        "security": 1.0
+      },
+      "created": "2015-07-22",
+      "dependents": 1371,
+      "description": "Typed distributed plugin registration",
+      "downloads": 166194811,
+      "edition": "2021",
+      "keywords": [
+        "linkage"
+      ],
+      "last_release": "2026-10-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "inventory",
+      "owners": 1,
+      "recent_downloads": 48940758,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/inventory",
+      "score": 83.43,
+      "version": "0.3.25",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.4711,
+        "downloads": 0.9676,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.927,
+        "security": 1.0
+      },
+      "created": "2021-10-02",
+      "dependents": 266,
+      "description": "Determine whether characters have the XID_Start or XID_Continue properties according to Unicode Standard Annex #31",
+      "downloads": 1757388801,
+      "edition": "2021",
+      "keywords": [
+        "unicode",
+        "xid"
+      ],
+      "last_release": "2026-10-12",
+      "license": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "msrv": "1.71",
+      "name": "unicode-ident",
+      "owners": 1,
+      "recent_downloads": 488515165,
+      "releases_365d": 5,
+      "repository": "https://github.com/dtolnay/unicode-ident",
+      "score": 82.87,
+      "version": "1.0.27",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "embedded",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5101,
+        "downloads": 0.8778,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9867,
+        "security": 1.0
+      },
+      "created": "2018-12-06",
+      "dependents": 423,
+      "description": "Global, no_std-compatible constructors for all platforms that run before main (like C/C++ __attribute__((constructor)))",
+      "downloads": 253969184,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.60",
+      "name": "ctor",
+      "owners": 1,
+      "recent_downloads": 76206996,
+      "releases_365d": 28,
+      "repository": "https://github.com/mmastrac/linktime",
+      "score": 82.5,
+      "version": "1.0.14",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "concurrency",
+        "embedded",
+        "hardware-support",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5325,
+        "downloads": 0.9249,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8218,
+        "security": 1.0
+      },
+      "created": "2022-02-24",
+      "dependents": 552,
+      "description": "Portable atomic types including support for 128-bit atomics, atomic float, etc.\n",
+      "downloads": 611050641,
+      "edition": "2018",
+      "keywords": [
+        "atomic"
+      ],
+      "last_release": "2026-08-09",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.34",
+      "name": "portable-atomic",
+      "owners": 1,
+      "recent_downloads": 201835044,
+      "releases_365d": 5,
+      "repository": "https://github.com/taiki-e/portable-atomic",
+      "score": 81.76,
+      "version": "1.15.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5654,
+        "downloads": 0.8506,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8152,
+        "security": 1.0
+      },
+      "created": "2020-11-11",
+      "dependents": 816,
+      "description": "Zero-copy deserialization framework for Rust",
+      "downloads": 188814064,
+      "edition": "2021",
+      "keywords": [
+        "archive",
+        "no_std",
+        "rkyv",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-08-05",
+      "license": "MIT",
+      "msrv": "1.81",
+      "name": "rkyv",
+      "owners": 1,
+      "recent_downloads": 43487010,
+      "releases_365d": 7,
+      "repository": "https://github.com/rkyv/rkyv",
+      "score": 80.63,
+      "version": "0.8.18",
+      "versions": 95
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6158,
+        "downloads": 0.8555,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8504,
+        "security": 1.0
+      },
+      "created": "2020-08-25",
+      "dependents": 1484,
+      "description": "Zero-allocation terminal colors that'll make people go owo",
+      "downloads": 202148119,
+      "edition": "2021",
+      "keywords": [
+        "ansi_term",
+        "cli",
+        "color",
+        "no-std",
+        "terminal"
+      ],
+      "last_release": "2026-08-27",
+      "license": "MIT",
+      "msrv": "1.83",
+      "name": "owo-colors",
+      "owners": 2,
+      "recent_downloads": 48085020,
+      "releases_365d": 2,
+      "repository": "https://github.com/owo-colors/owo-colors",
+      "score": 80.54,
+      "version": "4.4.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5891,
+        "downloads": 0.8617,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9896,
+        "security": 1.0
+      },
+      "created": "2020-10-15",
+      "dependents": 1082,
+      "description": "Implementation of xxhash",
+      "downloads": 148221963,
+      "edition": "2018",
+      "keywords": [
+        "hash",
+        "hasher",
+        "no-std",
+        "xxh3",
+        "xxhash"
+      ],
+      "last_release": "2026-11-15",
+      "license": "BSL-1.0",
+      "name": "xxhash-rust",
+      "owners": 1,
+      "recent_downloads": 54646722,
+      "releases_365d": 6,
+      "repository": "https://github.com/DoumanAsh/xxhash-rust",
+      "score": 79.11,
+      "version": "0.8.21",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5039,
+        "downloads": 0.7927,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9775,
+        "security": 1.0
+      },
+      "created": "2019-01-27",
+      "dependents": 393,
+      "description": "Safe cross-platform linker shenanigans",
+      "downloads": 42427735,
+      "edition": "2021",
+      "keywords": [
+        "linkage"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "linkme",
+      "owners": 1,
+      "recent_downloads": 13124874,
+      "releases_365d": 3,
+      "repository": "https://github.com/dtolnay/linkme",
+      "score": 78.58,
+      "version": "0.3.38",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.557,
+        "downloads": 0.8786,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9225,
+        "security": 1.0
+      },
+      "created": "2016-03-19",
+      "dependents": 739,
+      "description": "Indented document literals",
+      "downloads": 380473785,
+      "edition": "2021",
+      "keywords": [
+        "heredoc",
+        "literal",
+        "multiline",
+        "nowdoc",
+        "string"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "indoc",
+      "owners": 1,
+      "recent_downloads": 77575729,
+      "releases_365d": 1,
+      "repository": "https://github.com/dtolnay/indoc",
+      "score": 78.23,
+      "version": "2.0.8",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "graphics",
+        "no-std",
+        "no-std::no-alloc",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3924,
+        "downloads": 0.8067,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9965,
+        "security": 1.0
+      },
+      "created": "2020-12-13",
+      "dependents": 104,
+      "description": "Zero-allocation CSS color parser library. Supports absolute and relative color formats.",
+      "downloads": 38123303,
+      "edition": "2024",
+      "keywords": [
+        "color",
+        "colour",
+        "css",
+        "parser"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "csscolorparser",
+      "owners": 1,
+      "recent_downloads": 17546873,
+      "releases_365d": 7,
+      "repository": "https://github.com/mazznoer/csscolorparser-rs",
+      "score": 77.93,
+      "version": "0.9.2",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6011,
+        "downloads": 0.8914,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7884,
+        "security": 1.0
+      },
+      "created": "2019-01-13",
+      "dependents": 1247,
+      "description": "Derive Serialize and Deserialize that delegates to the underlying repr of a C-like enum.",
+      "downloads": 356590225,
+      "edition": "2021",
+      "keywords": [
+        "integer",
+        "serde",
+        "serialization"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "serde_repr",
+      "owners": 1,
+      "recent_downloads": 101068151,
+      "releases_365d": 1,
+      "repository": "https://github.com/dtolnay/serde-repr",
+      "score": 77.64,
+      "version": "0.1.21",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.4064,
+        "downloads": 0.9552,
+        "license": 1.0,
+        "maintenance": 0.7592,
+        "msrv": 1.0,
+        "recency": 0.7804,
+        "security": 1.0
+      },
+      "created": "2025-12-18",
+      "dependents": 123,
+      "description": "A double-to-string conversion algorithm based on Schubfach and xjb",
+      "downloads": 727035580,
+      "edition": "2021",
+      "keywords": [
+        "float"
+      ],
+      "last_release": "2026-07-13",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "zmij",
+      "owners": 1,
+      "recent_downloads": 377756176,
+      "releases_365d": 37,
+      "repository": "https://github.com/dtolnay/zmij",
+      "score": 77.13,
+      "version": "1.0.23",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.5079,
+        "downloads": 0.9459,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.5818,
+        "security": 1.0
+      },
+      "created": "2018-07-28",
+      "dependents": 412,
+      "description": "Fast floating point to string conversion",
+      "downloads": 1370259788,
+      "edition": "2021",
+      "keywords": [
+        "float"
+      ],
+      "last_release": "2026-02-08",
+      "license": "Apache-2.0 OR BSL-1.0",
+      "msrv": "1.71",
+      "name": "ryu",
+      "owners": 1,
+      "recent_downloads": 311490755,
+      "releases_365d": 3,
+      "repository": "https://github.com/dtolnay/ryu",
+      "score": 76.57,
+      "version": "1.0.23",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5058,
+        "downloads": 0.9438,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7709,
+        "security": 1.0
+      },
+      "created": "2019-07-08",
+      "dependents": 402,
+      "description": "Conditional compilation according to rustc compiler version",
+      "downloads": 995903968,
+      "edition": "2018",
+      "last_release": "2026-07-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.31",
+      "name": "rustversion",
+      "owners": 1,
+      "recent_downloads": 298302966,
+      "releases_365d": 1,
+      "repository": "https://github.com/dtolnay/rustversion",
+      "score": 76.3,
+      "version": "1.0.23",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.4305,
+        "downloads": 0.9111,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8367,
+        "security": 1.0
+      },
+      "created": "2017-10-09",
+      "dependents": 164,
+      "description": "Safely cast &T to &U where the struct U contains a single field of type T.",
+      "downloads": 369821154,
+      "edition": "2021",
+      "last_release": "2026-08-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "ref-cast",
+      "owners": 1,
+      "recent_downloads": 151702714,
+      "releases_365d": 2,
+      "repository": "https://github.com/dtolnay/ref-cast",
+      "score": 76.09,
+      "version": "1.0.27",
+      "versions": 37
+    }
+  ],
+  "score_version": 1
+}

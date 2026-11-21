@@ -1,0 +1,927 @@
+{
+  "category": {
+    "crates": 16842,
+    "description": "Crates dealing with higher-level network protocols such as FTP, HTTP, or SSH, or lower-level network protocols such as TCP or UDP.",
+    "name": "Network programming",
+    "slug": "network-programming"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.9415,
+        "downloads": 0.9478,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9443,
+        "security": 1.0
+      },
+      "created": "2016-07-01",
+      "dependents": 70753,
+      "description": "An event-driven, non-blocking I/O platform for writing asynchronous I/O\nbacked applications.\n",
+      "downloads": 1224457287,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "futures",
+        "io",
+        "non-blocking"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "tokio",
+      "owners": 3,
+      "recent_downloads": 324366938,
+      "releases_365d": 23,
+      "repository": "https://github.com/tokio-rs/tokio",
+      "score": 96.4,
+      "version": "1.54.1",
+      "versions": 201
+    },
+    {
+      "categories": [
+        "data-structures",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.827,
+        "downloads": 0.9514,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9939,
+        "security": 1.0
+      },
+      "created": "2015-01-30",
+      "dependents": 18188,
+      "description": "Types and traits for working with bytes",
+      "downloads": 1312675179,
+      "edition": "2021",
+      "keywords": [
+        "buffers",
+        "io",
+        "zero-copy"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.57",
+      "name": "bytes",
+      "owners": 3,
+      "recent_downloads": 349351609,
+      "releases_365d": 4,
+      "repository": "https://github.com/tokio-rs/bytes",
+      "score": 94.37,
+      "version": "1.12.2",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "cryptography",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.7293,
+        "downloads": 0.944,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2016-08-27",
+      "dependents": 5706,
+      "description": "Rustls is a modern TLS library written in Rust.",
+      "downloads": 1152117697,
+      "edition": "2021",
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0 OR ISC OR MIT",
+      "msrv": "1.71",
+      "name": "rustls",
+      "owners": 3,
+      "recent_downloads": 299896219,
+      "releases_365d": 15,
+      "repository": "https://github.com/rustls/rustls",
+      "score": 91.59,
+      "version": "0.23.46",
+      "versions": 119
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.7281,
+        "downloads": 0.9443,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9174,
+        "security": 1.0
+      },
+      "created": "2014-11-22",
+      "dependents": 5631,
+      "description": "A protective and efficient HTTP library for all.",
+      "downloads": 1158803937,
+      "edition": "2021",
+      "keywords": [
+        "http",
+        "hyper",
+        "hyperium"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT",
+      "msrv": "1.63",
+      "name": "hyper",
+      "owners": 2,
+      "recent_downloads": 301417504,
+      "releases_365d": 6,
+      "repository": "https://github.com/hyperium/hyper",
+      "score": 89.57,
+      "version": "1.12.0",
+      "versions": 253
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6964,
+        "downloads": 0.8998,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2018-07-18",
+      "dependents": 3863,
+      "description": "A gRPC over HTTP/2 implementation focused on high performance, interoperability, and flexibility.\n",
+      "downloads": 485752563,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "futures",
+        "grpc",
+        "protobuf",
+        "rpc"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic",
+      "owners": 3,
+      "recent_downloads": 120162837,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 89.28,
+      "version": "0.14.9",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6944,
+        "downloads": 0.9323,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8567,
+        "security": 1.0
+      },
+      "created": "2017-03-10",
+      "dependents": 3774,
+      "description": "Tower middleware and utilities for HTTP clients and servers",
+      "downloads": 644426512,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "futures",
+        "http",
+        "io",
+        "service"
+      ],
+      "last_release": "2026-08-31",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "tower-http",
+      "owners": 2,
+      "recent_downloads": 235496940,
+      "releases_365d": 7,
+      "repository": "https://github.com/tower-rs/tower-http",
+      "score": 87.52,
+      "version": "0.7.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "filesystem",
+        "network-programming",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.6477,
+        "downloads": 0.9565,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9535,
+        "security": 1.0
+      },
+      "created": "2021-10-29",
+      "dependents": 2168,
+      "description": "Safe Rust bindings to POSIX/Unix/Linux/Winsock-like syscalls",
+      "downloads": 1444292688,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "file",
+        "network",
+        "safe",
+        "syscall"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "msrv": "1.65",
+      "name": "rustix",
+      "owners": 1,
+      "recent_downloads": 388033759,
+      "releases_365d": 4,
+      "repository": "https://github.com/bytecodealliance/rustix",
+      "score": 87.41,
+      "version": "1.1.6",
+      "versions": 171
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5801,
+        "downloads": 0.9347,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9805,
+        "security": 1.0
+      },
+      "created": "2023-08-31",
+      "dependents": 972,
+      "description": "Shared types for the rustls PKI ecosystem",
+      "downloads": 707976837,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "rustls-pki-types",
+      "owners": 2,
+      "recent_downloads": 247358596,
+      "releases_365d": 8,
+      "repository": "https://github.com/rustls/pki-types",
+      "score": 86.58,
+      "version": "1.16.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6256,
+        "downloads": 0.9581,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.7809,
+        "security": 1.0
+      },
+      "created": "2017-06-07",
+      "dependents": 1668,
+      "description": "Utilities for handling networking sockets with a maximal amount of configuration\npossible intended.\n",
+      "downloads": 1529670492,
+      "edition": "2021",
+      "keywords": [
+        "io",
+        "network",
+        "socket"
+      ],
+      "last_release": "2026-07-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "socket2",
+      "owners": 4,
+      "recent_downloads": 401300757,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-lang/socket2",
+      "score": 86.31,
+      "version": "0.6.5",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5841,
+        "downloads": 0.8723,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2019-09-10",
+      "dependents": 1019,
+      "description": "Codegen module of `tonic` gRPC implementation.\n",
+      "downloads": 298326120,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "codegen",
+        "grpc",
+        "protobuf",
+        "rpc"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic-build",
+      "owners": 3,
+      "recent_downloads": 68049093,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 85.79,
+      "version": "0.14.9",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "cryptography",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6581,
+        "downloads": 0.9364,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9031,
+        "security": 1.0
+      },
+      "created": "2017-02-22",
+      "dependents": 2452,
+      "description": "Asynchronous TLS/SSL streams for Tokio using Rustls.",
+      "downloads": 970031743,
+      "edition": "2021",
+      "last_release": "2026-09-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "tokio-rustls",
+      "owners": 3,
+      "recent_downloads": 256226529,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustls/tokio-rustls",
+      "score": 85.41,
+      "version": "0.26.6",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.6239,
+        "downloads": 0.7957,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9926,
+        "security": 1.0
+      },
+      "created": "2017-10-23",
+      "dependents": 1635,
+      "description": "Actix Web is a powerful, pragmatic, and extremely fast web framework for Rust",
+      "downloads": 91966821,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "http",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-web",
+      "owners": 4,
+      "recent_downloads": 13956987,
+      "releases_365d": 12,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 85.38,
+      "version": "4.20.0",
+      "versions": 165
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.6791,
+        "downloads": 0.9311,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8968,
+        "security": 1.0
+      },
+      "created": "2022-01-15",
+      "dependents": 3147,
+      "description": "hyper utilities",
+      "downloads": 660154422,
+      "edition": "2024",
+      "keywords": [
+        "http",
+        "hyper",
+        "hyperium"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "hyper-util",
+      "owners": 1,
+      "recent_downloads": 229708093,
+      "releases_365d": 3,
+      "repository": "https://github.com/hyperium/hyper-util",
+      "score": 85.21,
+      "version": "0.1.21",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "cryptography",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.574,
+        "downloads": 0.9243,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9292,
+        "security": 1.0
+      },
+      "created": "2019-11-04",
+      "dependents": 904,
+      "description": "rustls-native-certs allows rustls to use the platform native certificate store",
+      "downloads": 707228880,
+      "edition": "2021",
+      "last_release": "2026-10-13",
+      "license": "Apache-2.0 OR ISC OR MIT",
+      "msrv": "1.71",
+      "name": "rustls-native-certs",
+      "owners": 3,
+      "recent_downloads": 199673210,
+      "releases_365d": 3,
+      "repository": "https://github.com/rustls/rustls-native-certs",
+      "score": 84.9,
+      "version": "0.8.5",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.7726,
+        "downloads": 0.9179,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6576,
+        "security": 1.0
+      },
+      "created": "2021-07-22",
+      "dependents": 9540,
+      "description": "HTTP routing and request handling library that focuses on ergonomics and modularity",
+      "downloads": 610544793,
+      "edition": "2021",
+      "keywords": [
+        "http",
+        "routing",
+        "web"
+      ],
+      "last_release": "2026-04-14",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "axum",
+      "owners": 4,
+      "recent_downloads": 174895965,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/axum",
+      "score": 84.13,
+      "version": "0.8.9",
+      "versions": 94
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "caching",
+        "encoding",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5738,
+        "downloads": 0.8296,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9838,
+        "security": 1.0
+      },
+      "created": "2019-04-29",
+      "dependents": 902,
+      "description": "Kubernetes client and async controller runtime",
+      "downloads": 95084854,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "cncf",
+        "kubernetes",
+        "runtime"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "kube",
+      "owners": 2,
+      "recent_downloads": 28138715,
+      "releases_365d": 7,
+      "repository": "https://github.com/kube-rs/kube",
+      "score": 83.84,
+      "version": "5.1.0",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4692,
+        "downloads": 0.9332,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9174,
+        "security": 1.0
+      },
+      "created": "2017-03-09",
+      "dependents": 260,
+      "description": "An HTTP/2 client and server",
+      "downloads": 1001505678,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "http",
+        "non-blocking"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT",
+      "msrv": "1.63",
+      "name": "h2",
+      "owners": 3,
+      "recent_downloads": 239945239,
+      "releases_365d": 8,
+      "repository": "https://github.com/hyperium/h2",
+      "score": 83.82,
+      "version": "0.4.20",
+      "versions": 88
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6077,
+        "downloads": 0.8745,
+        "license": 1.0,
+        "maintenance": 0.7983,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2025-07-28",
+      "dependents": 1349,
+      "description": "Prost codec implementation for tonic",
+      "downloads": 155613057,
+      "edition": "2024",
+      "keywords": [
+        "grpc",
+        "prost",
+        "protobuf",
+        "rpc",
+        "tonic"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic-prost",
+      "owners": 1,
+      "recent_downloads": 71168084,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 83.41,
+      "version": "0.14.9",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "encoding",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6158,
+        "downloads": 0.8797,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.849,
+        "security": 1.0
+      },
+      "created": "2019-08-16",
+      "dependents": 1485,
+      "description": "Binary Object Representation Serializer for Hashing\n",
+      "downloads": 252291995,
+      "edition": "2018",
+      "last_release": "2026-08-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77.0",
+      "name": "borsh",
+      "owners": 1,
+      "recent_downloads": 79349347,
+      "releases_365d": 5,
+      "repository": "https://github.com/near/borsh-rs",
+      "score": 83.12,
+      "version": "1.8.1",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.6879,
+        "downloads": 0.9011,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7775,
+        "security": 1.0
+      },
+      "created": "2017-03-17",
+      "dependents": 3494,
+      "description": "Tokio binding for Tungstenite, the Lightweight stream-based WebSocket implementation",
+      "downloads": 373491110,
+      "edition": "2018",
+      "keywords": [
+        "io",
+        "web",
+        "websocket"
+      ],
+      "last_release": "2026-07-11",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "tokio-tungstenite",
+      "owners": 2,
+      "recent_downloads": 123467406,
+      "releases_365d": 2,
+      "repository": "https://github.com/snapview/tokio-tungstenite",
+      "score": 82.39,
+      "version": "0.30.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.4745,
+        "downloads": 0.797,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9916,
+        "security": 1.0
+      },
+      "created": "2018-12-11",
+      "dependents": 277,
+      "description": "Tokio-based single-threaded async runtime for the Actix ecosystem",
+      "downloads": 94125589,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "futures",
+        "io",
+        "runtime"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-rt",
+      "owners": 4,
+      "recent_downloads": 14351998,
+      "releases_365d": 5,
+      "repository": "https://github.com/actix/actix-net/tree/main/actix-rt",
+      "score": 81.66,
+      "version": "2.16.0",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "email",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5287,
+        "downloads": 0.7777,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2015-10-21",
+      "dependents": 528,
+      "description": "Email client",
+      "downloads": 25170297,
+      "edition": "2024",
+      "keywords": [
+        "email",
+        "mailer",
+        "message",
+        "sendmail",
+        "smtp"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "lettre",
+      "owners": 2,
+      "recent_downloads": 9619149,
+      "releases_365d": 5,
+      "repository": "https://github.com/lettre/lettre",
+      "score": 81.56,
+      "version": "0.11.24",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.476,
+        "downloads": 0.7989,
+        "license": 1.0,
+        "maintenance": 0.9763,
+        "msrv": 1.0,
+        "recency": 0.9825,
+        "security": 1.0
+      },
+      "created": "2025-02-15",
+      "dependents": 282,
+      "description": "Google Cloud Client Libraries for Rust - Well Known Types",
+      "downloads": 30387430,
+      "edition": "2024",
+      "keywords": [
+        "gcp",
+        "google-cloud",
+        "google-cloud-rust",
+        "sdk"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0",
+      "msrv": "1.91.0",
+      "name": "google-cloud-wkt",
+      "owners": 8,
+      "recent_downloads": 14916886,
+      "releases_365d": 11,
+      "repository": "https://github.com/googleapis/google-cloud-rust/tree/main",
+      "score": 81.25,
+      "version": "1.11.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::build-utils",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5379,
+        "downloads": 0.8472,
+        "license": 1.0,
+        "maintenance": 0.7983,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2025-07-28",
+      "dependents": 589,
+      "description": "Prost build integration for tonic",
+      "downloads": 83861787,
+      "edition": "2024",
+      "keywords": [
+        "grpc",
+        "prost",
+        "protobuf",
+        "rpc",
+        "tonic"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic-prost-build",
+      "owners": 1,
+      "recent_downloads": 40542891,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 80.98,
+      "version": "0.14.9",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.4471,
+        "downloads": 0.796,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.993,
+        "security": 1.0
+      },
+      "created": "2019-03-28",
+      "dependents": 200,
+      "description": "HTTP types and services for the Actix ecosystem",
+      "downloads": 91748200,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "futures",
+        "http"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-http",
+      "owners": 4,
+      "recent_downloads": 14047336,
+      "releases_365d": 28,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 80.97,
+      "version": "3.22.0",
+      "versions": 118
+    }
+  ],
+  "score_version": 1
+}

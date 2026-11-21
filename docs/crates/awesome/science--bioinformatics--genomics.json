@@ -1,0 +1,168 @@
+{
+  "category": {
+    "crates": 68,
+    "description": "Crates for processing genetic data, including sequences, abdundance, variants and analysis.",
+    "name": "Science::Bioinformatics::Genomics",
+    "slug": "science::bioinformatics::genomics"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "science::bioinformatics::genomics",
+        "science::bioinformatics::proteomics",
+        "science::bioinformatics::sequence-analysis",
+        "science::computational-biology::structural-modeling",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3988,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9831,
+        "security": 1.0
+      },
+      "created": "2024-10-06",
+      "dependents": 6,
+      "description": "DNA, RNA, and amino acid sequence types and functions",
+      "downloads": 26264,
+      "edition": "2024",
+      "keywords": [
+        "biology",
+        "dna",
+        "pcr",
+        "primer"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "na_seq",
+      "owners": 1,
+      "recent_downloads": 3808,
+      "releases_365d": 7,
+      "repository": "https://github.com/David-OConnor/seq",
+      "score": 56.82,
+      "version": "0.3.16",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "algorithms",
+        "science::bioinformatics::genomics",
+        "science::bioinformatics::sequence-analysis"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3474,
+        "license": 1.0,
+        "maintenance": 0.8869,
+        "msrv": 1.0,
+        "recency": 0.9603,
+        "security": 1.0
+      },
+      "created": "2025-05-09",
+      "dependents": 0,
+      "description": "A nightly library for viral genomics",
+      "downloads": 8632,
+      "edition": "2024",
+      "keywords": [
+        "alignment",
+        "distance",
+        "kmer",
+        "search",
+        "simd"
+      ],
+      "last_release": "2026-10-30",
+      "license": "Apache-2.0",
+      "msrv": "1.100",
+      "name": "zoe",
+      "owners": 2,
+      "recent_downloads": 1317,
+      "releases_365d": 14,
+      "repository": "https://github.com/CDCgov/zoe",
+      "score": 56.39,
+      "version": "0.0.36",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "science::bioinformatics",
+        "science::bioinformatics::genomics",
+        "science::bioinformatics::proteomics",
+        "science::bioinformatics::sequence-analysis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.335,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8938,
+        "security": 1.0
+      },
+      "created": "2021-06-28",
+      "dependents": 3,
+      "description": "Bit packed and well-typed biological sequences",
+      "downloads": 27559,
+      "edition": "2024",
+      "keywords": [
+        "bioinformatics",
+        "dna",
+        "genomics",
+        "kmer",
+        "sequence"
+      ],
+      "last_release": "2026-09-22",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "bio-seq",
+      "owners": 1,
+      "recent_downloads": 1017,
+      "releases_365d": 3,
+      "repository": "https://github.com/jeff-k/bio-seq",
+      "score": 56.2,
+      "version": "0.15.2",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "science::bioinformatics::genomics",
+        "science::bioinformatics::proteomics",
+        "science::bioinformatics::sequence-analysis",
+        "science::computational-biology::structural-modeling",
+        "science::computational-chemistry::cheminformatics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3528,
+        "license": 1.0,
+        "maintenance": 0.8124,
+        "msrv": 0.0,
+        "recency": 0.9848,
+        "security": 1.0
+      },
+      "created": "2025-06-06",
+      "dependents": 4,
+      "description": "Save and load common biology file formats",
+      "downloads": 15540,
+      "edition": "2024",
+      "keywords": [
+        "biology",
+        "dynamics",
+        "molecule"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "name": "bio_files",
+      "owners": 1,
+      "recent_downloads": 1472,
+      "releases_365d": 21,
+      "repository": "https://github.com/David-OConnor/bio_files",
+      "score": 54.17,
+      "version": "0.5.5",
+      "versions": 53
+    }
+  ],
+  "score_version": 1
+}

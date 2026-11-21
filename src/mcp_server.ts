@@ -9,6 +9,7 @@ import {
   loadSoul,
   routeModelRequest,
 } from "./ai_stack.ts";
+import { callCratesTool, CRATES_TOOL_NAMES, CRATES_TOOLS } from "./crates.ts";
 import {
   installService,
   renderCrossPlatformServices,
@@ -205,6 +206,7 @@ export const FW_MCP_TOOLS = [
       required: ["action"],
     },
   },
+  ...CRATES_TOOLS,
 ] as const;
 
 function textResult(
@@ -251,6 +253,10 @@ export function handleFwToolCall(
   name: string,
   args: Record<string, unknown> = {},
 ): { content: Array<{ type: "text"; text: string }>; isError?: boolean } {
+  if (CRATES_TOOL_NAMES.includes(name)) {
+    const res = callCratesTool(root, name, args);
+    return textResult(res.payload, !res.ok);
+  }
   switch (name) {
     case "fw_status": {
       const abi = probeRustAbi(root);

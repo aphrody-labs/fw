@@ -51,7 +51,8 @@ async fn read_request(stream: &mut TcpStream) -> Result<Request, ReadError> {
     let (Some(method), Some(target)) = (first.next(), first.next()) else {
         return Err(ReadError::Reject(400, "malformed request line"));
     };
-    let path = target.split('?').next().unwrap_or("/").to_owned();
+    // The query string stays: `/v1/crates/*` reads its arguments from it.
+    let path = target.to_owned();
 
     let mut content_length = 0usize;
     for line in lines {
@@ -98,6 +99,7 @@ fn reason(status: u16) -> &'static str {
 
 /// The UI loads its fonts (Google Sans Flex and Code, tools/material-cdn) from the Aphrody CDN; everything else is same-origin.
 fn content_security_policy(path: &str) -> &'static str {
+    let path = path.split('?').next().unwrap_or(path);
     if path == "/webgpu" {
         "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'"
     } else {

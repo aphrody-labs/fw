@@ -1,0 +1,955 @@
+{
+  "category": {
+    "crates": 1081,
+    "description": "Crates to help you better interface with other languages. This includes binding generators and helpful language constructs.",
+    "name": "Development tools::FFI",
+    "slug": "development-tools::ffi"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.6566,
+        "downloads": 0.8786,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9318,
+        "security": 1.0
+      },
+      "created": "2017-07-23",
+      "dependents": 2411,
+      "description": "Bindings to Python interpreter",
+      "downloads": 312540790,
+      "edition": "2024",
+      "keywords": [
+        "cpython",
+        "ffi",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pyo3",
+      "owners": 3,
+      "recent_downloads": 77545993,
+      "releases_365d": 8,
+      "repository": "https://github.com/pyo3/pyo3",
+      "score": 87.36,
+      "version": "0.30.1",
+      "versions": 117
+    },
+    {
+      "categories": [
+        "development-tools::ffi",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.6801,
+        "downloads": 0.896,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8694,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 3185,
+      "description": "Automatically generates Rust FFI bindings to C and C++ libraries.",
+      "downloads": 476338252,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "code-generation",
+        "ffi"
+      ],
+      "last_release": "2026-09-08",
+      "license": "BSD-3-Clause",
+      "msrv": "1.71.0",
+      "name": "bindgen",
+      "owners": 1,
+      "recent_downloads": 111054471,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-lang/rust-bindgen",
+      "score": 83.94,
+      "version": "0.73.2",
+      "versions": 129
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.6155,
+        "downloads": 0.874,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9158,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 1479,
+      "description": "Objective-C interface and runtime bindings",
+      "downloads": 170142668,
+      "edition": "2021",
+      "keywords": [
+        "ios",
+        "macos",
+        "objc",
+        "objc_msgsend",
+        "objective-c"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "objc2",
+      "owners": 2,
+      "recent_downloads": 70575231,
+      "releases_365d": 3,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 83.47,
+      "version": "0.6.5",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.562,
+        "downloads": 0.821,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.921,
+        "security": 1.0
+      },
+      "created": "2024-08-26",
+      "dependents": 784,
+      "description": "The tree-sitter Language type, used by the library and by language implementations",
+      "downloads": 49611326,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-10-08",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-language",
+      "owners": 3,
+      "recent_downloads": 23581364,
+      "releases_365d": 4,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 83.39,
+      "version": "0.1.9",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5062,
+        "downloads": 0.7851,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9329,
+        "security": 1.0
+      },
+      "created": "2017-05-10",
+      "dependents": 404,
+      "description": "PyO3-based Rust bindings of the NumPy C-API",
+      "downloads": 56642393,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "numpy",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-15",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "numpy",
+      "owners": 5,
+      "recent_downloads": 11221747,
+      "releases_365d": 4,
+      "repository": "https://github.com/PyO3/rust-numpy",
+      "score": 81.28,
+      "version": "0.30.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.4315,
+        "downloads": 0.8799,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9318,
+        "security": 1.0
+      },
+      "created": "2021-05-25",
+      "dependents": 166,
+      "description": "Build configuration for the PyO3 ecosystem",
+      "downloads": 322995701,
+      "edition": "2024",
+      "keywords": [
+        "cpython",
+        "ffi",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pyo3-build-config",
+      "owners": 2,
+      "recent_downloads": 79636860,
+      "releases_365d": 10,
+      "repository": "https://github.com/pyo3/pyo3",
+      "score": 80.76,
+      "version": "0.30.1",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5039,
+        "downloads": 0.7941,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.925,
+        "security": 1.0
+      },
+      "created": "2019-12-28",
+      "dependents": 393,
+      "description": "Safe interop between Rust and C++",
+      "downloads": 87996205,
+      "edition": "2024",
+      "keywords": [
+        "c++",
+        "ffi"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "cxx",
+      "owners": 1,
+      "recent_downloads": 13501291,
+      "releases_365d": 16,
+      "repository": "https://github.com/dtolnay/cxx",
+      "score": 79.32,
+      "version": "1.0.205",
+      "versions": 252
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.4795,
+        "downloads": 0.7912,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.925,
+        "security": 1.0
+      },
+      "created": "2020-04-30",
+      "dependents": 294,
+      "description": "C++ code generator for integrating `cxx` crate into a Cargo build.",
+      "downloads": 82104266,
+      "edition": "2024",
+      "keywords": [
+        "build-dependencies",
+        "ffi"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "cxx-build",
+      "owners": 1,
+      "recent_downloads": 12722824,
+      "releases_365d": 16,
+      "repository": "https://github.com/dtolnay/cxx",
+      "score": 78.64,
+      "version": "1.0.205",
+      "versions": 237
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.394,
+        "downloads": 0.775,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2024-10-04",
+      "dependents": 106,
+      "description": "PyO3 bridges from Rust runtimes to Python's Asyncio library",
+      "downloads": 29542562,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "asyncio",
+        "ffi",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-15",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "pyo3-async-runtimes",
+      "owners": 1,
+      "recent_downloads": 9099996,
+      "releases_365d": 3,
+      "repository": "https://github.com/PyO3/pyo3-async-runtimes",
+      "score": 74.72,
+      "version": "0.30.0",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.8783,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9318,
+        "security": 1.0
+      },
+      "created": "2022-02-27",
+      "dependents": 11,
+      "description": "Python-API bindings for the PyO3 ecosystem",
+      "downloads": 298243630,
+      "edition": "2024",
+      "keywords": [
+        "cpython",
+        "ffi",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pyo3-ffi",
+      "owners": 1,
+      "recent_downloads": 76978397,
+      "releases_365d": 10,
+      "repository": "https://github.com/pyo3/pyo3",
+      "score": 74.17,
+      "version": "0.30.1",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "database",
+        "development-tools::ffi",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.7902,
+        "license": 1.0,
+        "maintenance": 0.8562,
+        "msrv": 1.0,
+        "recency": 0.9794,
+        "security": 1.0
+      },
+      "created": "2024-12-29",
+      "dependents": 24,
+      "description": "`wasm32-unknown-unknown` bindings to the libsqlite3 library.",
+      "downloads": 18880275,
+      "edition": "2021",
+      "keywords": [
+        "javascript",
+        "sqlite",
+        "sqlite-wasm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.81.0",
+      "name": "sqlite-wasm-rs",
+      "owners": 1,
+      "recent_downloads": 12466638,
+      "releases_365d": 11,
+      "repository": "https://github.com/Spxg/sqlite-wasm-rs",
+      "score": 74.07,
+      "version": "0.6.3",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "data-structures",
+        "development-tools::ffi",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4383,
+        "downloads": 0.6286,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8814,
+        "security": 1.0
+      },
+      "created": "2020-10-02",
+      "dependents": 180,
+      "description": "Canister Developer Kit for the Internet Computer.",
+      "downloads": 5385361,
+      "edition": "2024",
+      "keywords": [
+        "canister",
+        "cdk",
+        "dfinity",
+        "internet-computer",
+        "types"
+      ],
+      "last_release": "2026-09-15",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "ic-cdk",
+      "owners": 2,
+      "recent_downloads": 441603,
+      "releases_365d": 4,
+      "repository": "https://github.com/dfinity/cdk-rs",
+      "score": 73.89,
+      "version": "0.20.3",
+      "versions": 98
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4812,
+        "downloads": 0.8606,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.6018,
+        "security": 1.0
+      },
+      "created": "2022-10-01",
+      "dependents": 300,
+      "description": "Bindings and wrappers for Apple's Grand Central Dispatch (GCD)",
+      "downloads": 107400457,
+      "edition": "2021",
+      "keywords": [
+        "dispatch",
+        "gcd",
+        "ios",
+        "libdispatch",
+        "macos"
+      ],
+      "last_release": "2026-02-26",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "dispatch2",
+      "owners": 3,
+      "recent_downloads": 53473704,
+      "releases_365d": 1,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 73.07,
+      "version": "0.3.1",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.8783,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9318,
+        "security": 1.0
+      },
+      "created": "2020-12-20",
+      "dependents": 3,
+      "description": "Proc macros for PyO3 package",
+      "downloads": 309424986,
+      "edition": "2024",
+      "keywords": [
+        "cpython",
+        "ffi",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pyo3-macros",
+      "owners": 2,
+      "recent_downloads": 77114569,
+      "releases_365d": 10,
+      "repository": "https://github.com/pyo3/pyo3",
+      "score": 72.86,
+      "version": "0.30.1",
+      "versions": 70
+    },
+    {
+      "categories": [
+        "development-tools::ffi",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.5166,
+        "downloads": 0.8154,
+        "license": 0.75,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.732,
+        "security": 1.0
+      },
+      "created": "2017-04-12",
+      "dependents": 457,
+      "description": "A tool for generating C bindings to Rust code.",
+      "downloads": 119116153,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "code-generation",
+        "ffi"
+      ],
+      "last_release": "2026-06-09",
+      "license": "MPL-2.0",
+      "msrv": "1.74",
+      "name": "cbindgen",
+      "owners": 2,
+      "recent_downloads": 21003239,
+      "releases_365d": 2,
+      "repository": "https://github.com/mozilla/cbindgen",
+      "score": 72.78,
+      "version": "0.29.4",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.6898,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9889,
+        "security": 1.0
+      },
+      "created": "2022-02-26",
+      "dependents": 26,
+      "description": "High level Ruby bindings. Write Ruby extension gems in Rust, or call Ruby code from a Rust binary.",
+      "downloads": 7160796,
+      "edition": "2024",
+      "keywords": [
+        "extension",
+        "gem",
+        "ruby",
+        "rubygem"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "magnus",
+      "owners": 1,
+      "recent_downloads": 1564011,
+      "releases_365d": 8,
+      "repository": "https://github.com/matsadler/magnus",
+      "score": 72.03,
+      "version": "0.9.4",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "development-tools::ffi",
+        "filesystem",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.6565,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9531,
+        "security": 1.0
+      },
+      "created": "2024-08-08",
+      "dependents": 26,
+      "description": "Native bindings to the HDF5 library.",
+      "downloads": 3145012,
+      "edition": "2024",
+      "keywords": [
+        "hdf5"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.1",
+      "name": "hdf5-metno-sys",
+      "owners": 2,
+      "recent_downloads": 785403,
+      "releases_365d": 11,
+      "repository": "https://github.com/metno/hdf5-rust",
+      "score": 71.66,
+      "version": "0.12.5",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.6014,
+        "downloads": 0.8668,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 1252,
+      "description": "Bindings to the Foundation framework",
+      "downloads": 133891843,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "objc2-foundation",
+      "owners": 2,
+      "recent_downloads": 60761850,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 71.56,
+      "version": "0.3.2",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.8784,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9318,
+        "security": 1.0
+      },
+      "created": "2020-12-20",
+      "dependents": 1,
+      "description": "Code generation for PyO3 package",
+      "downloads": 309352002,
+      "edition": "2024",
+      "keywords": [
+        "cpython",
+        "ffi",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pyo3-macros-backend",
+      "owners": 2,
+      "recent_downloads": 77201857,
+      "releases_365d": 10,
+      "repository": "https://github.com/pyo3/pyo3",
+      "score": 71.4,
+      "version": "0.30.1",
+      "versions": 70
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::ffi",
+        "wasm",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5158,
+        "downloads": 0.7866,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.5729,
+        "security": 1.0
+      },
+      "created": "2020-12-15",
+      "dependents": 453,
+      "description": "generate typescript bindings from rust types",
+      "downloads": 24444381,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "ts",
+        "ts-rs",
+        "typescript",
+        "wasm"
+      ],
+      "last_release": "2026-01-31",
+      "license": "MIT",
+      "msrv": "1.78.0",
+      "name": "ts-rs",
+      "owners": 1,
+      "recent_downloads": 11569535,
+      "releases_365d": 2,
+      "repository": "https://github.com/Aleph-Alpha/ts-rs",
+      "score": 71.15,
+      "version": "12.0.1",
+      "versions": 49
+    },
+    {
+      "categories": [
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.3191,
+        "downloads": 0.6635,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.8301,
+        "security": 1.0
+      },
+      "created": "2016-06-06",
+      "dependents": 43,
+      "description": "Rust bindings for libffi",
+      "downloads": 4188652,
+      "edition": "2021",
+      "keywords": [
+        "c",
+        "closure",
+        "ffi",
+        "libffi"
+      ],
+      "last_release": "2026-08-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.78",
+      "name": "libffi",
+      "owners": 4,
+      "recent_downloads": 907728,
+      "releases_365d": 3,
+      "repository": "https://github.com/libffi-rs/libffi-rs",
+      "score": 70.52,
+      "version": "5.2.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.5485,
+        "downloads": 0.8685,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 668,
+      "description": "Apple's C language extension of blocks",
+      "downloads": 150571735,
+      "edition": "2021",
+      "keywords": [
+        "blocks",
+        "ios",
+        "macos",
+        "objective-c"
+      ],
+      "last_release": "2025-10-04",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "block2",
+      "owners": 2,
+      "recent_downloads": 62959464,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 70.28,
+      "version": "0.6.2",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "development-tools::ffi",
+        "encoding",
+        "os",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.8135,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7843,
+        "security": 1.0
+      },
+      "created": "2019-11-28",
+      "dependents": 44,
+      "description": "Lossless functionality for platform-native strings\n",
+      "downloads": 211488565,
+      "edition": "2021",
+      "keywords": [
+        "bytes",
+        "osstr",
+        "osstring",
+        "path",
+        "windows"
+      ],
+      "last_release": "2026-07-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81.0",
+      "name": "os_str_bytes",
+      "owners": 1,
+      "recent_downloads": 20183092,
+      "releases_365d": 2,
+      "repository": "https://github.com/dylni/os_str_bytes",
+      "score": 70.13,
+      "version": "7.2.1",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.3171,
+        "downloads": 0.6556,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9685,
+        "security": 1.0
+      },
+      "created": "2017-03-06",
+      "dependents": 42,
+      "description": "Cargo build script for the `cpp` crate",
+      "downloads": 13947186,
+      "edition": "2021",
+      "keywords": [
+        "build-dependencies",
+        "c",
+        "compiler",
+        "cxx",
+        "ffi"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "cpp_build",
+      "owners": 2,
+      "recent_downloads": 771356,
+      "releases_365d": 2,
+      "repository": "https://github.com/mystor/rust-cpp",
+      "score": 69.85,
+      "version": "0.5.12",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.5478,
+        "downloads": 0.8514,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2024-04-17",
+      "dependents": 662,
+      "description": "Bindings to the AppKit framework",
+      "downloads": 93852743,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-app-kit",
+      "owners": 2,
+      "recent_downloads": 44209339,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 69.83,
+      "version": "0.3.2",
+      "versions": 5
+    }
+  ],
+  "score_version": 1
+}

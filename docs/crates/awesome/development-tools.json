@@ -1,0 +1,967 @@
+{
+  "category": {
+    "crates": 27507,
+    "description": "Crates that provide developer-facing features such as testing, debugging, linting, performance profiling, autocompletion, formatting, and more.",
+    "name": "Development tools",
+    "slug": "development-tools"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "development-tools",
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.5927,
+        "downloads": 0.8866,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8806,
+        "security": 1.0
+      },
+      "created": "2021-02-23",
+      "dependents": 1129,
+      "description": "UTF-8 paths",
+      "downloads": 334792166,
+      "edition": "2021",
+      "keywords": [
+        "filesystem",
+        "paths",
+        "unicode",
+        "utf8"
+      ],
+      "last_release": "2026-09-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61.0",
+      "name": "camino",
+      "owners": 2,
+      "recent_downloads": 91527328,
+      "releases_365d": 5,
+      "repository": "https://github.com/camino-rs/camino",
+      "score": 84.19,
+      "version": "1.2.6",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "development-tools",
+        "filesystem",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5261,
+        "downloads": 0.8277,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.81,
+        "security": 1.0
+      },
+      "created": "2015-04-19",
+      "dependents": 512,
+      "description": "Semantic wrapper for byte count representations",
+      "downloads": 125115965,
+      "edition": "2021",
+      "keywords": [
+        "byte",
+        "byte-size",
+        "format",
+        "human-readable",
+        "utility"
+      ],
+      "last_release": "2026-08-02",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "bytesize",
+      "owners": 2,
+      "recent_downloads": 27085121,
+      "releases_365d": 5,
+      "repository": "https://github.com/bytesize-rs/bytesize",
+      "score": 80.0,
+      "version": "2.7.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4839,
+        "downloads": 0.7565,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 310,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12154726,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_allocator",
+      "owners": 1,
+      "recent_downloads": 6216238,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.88,
+      "version": "0.159.0",
+      "versions": 216
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.4532,
+        "downloads": 0.7834,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2015-02-12",
+      "dependents": 215,
+      "description": "Generate 'cargo:rustc-env' instructions via 'build.rs' for use in your code via the 'env!' macro",
+      "downloads": 59939854,
+      "edition": "2024",
+      "keywords": [
+        "build",
+        "cargo",
+        "instructions",
+        "tool"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "vergen",
+      "owners": 1,
+      "recent_downloads": 10822494,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustyhorde/vergen",
+      "score": 78.88,
+      "version": "10.0.4",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4831,
+        "downloads": 0.7564,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-07-06",
+      "dependents": 307,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12130187,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_span",
+      "owners": 1,
+      "recent_downloads": 6202797,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.86,
+      "version": "0.159.0",
+      "versions": 214
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4695,
+        "downloads": 0.7563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 261,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12102271,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_ast",
+      "owners": 1,
+      "recent_downloads": 6182159,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.51,
+      "version": "0.159.0",
+      "versions": 220
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4682,
+        "downloads": 0.7557,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 257,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 11990454,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_parser",
+      "owners": 1,
+      "recent_downloads": 6112931,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 78.47,
+      "version": "0.159.0",
+      "versions": 220
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.6928,
+        "downloads": 0.9159,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.5306,
+        "security": 1.0
+      },
+      "created": "2016-03-28",
+      "dependents": 3703,
+      "description": "Adds #[derive(x)] macros for more traits",
+      "downloads": 612403136,
+      "edition": "2021",
+      "keywords": [
+        "add",
+        "derive",
+        "display",
+        "from",
+        "intoiterator"
+      ],
+      "last_release": "2025-12-22",
+      "license": "MIT",
+      "msrv": "1.81.0",
+      "name": "derive_more",
+      "owners": 1,
+      "recent_downloads": 167500441,
+      "releases_365d": 2,
+      "repository": "https://github.com/JelteF/derive_more",
+      "score": 78.18,
+      "version": "2.1.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "development-tools",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.434,
+        "downloads": 0.8229,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9171,
+        "security": 1.0
+      },
+      "created": "2017-01-30",
+      "dependents": 171,
+      "description": "A Cargo library to handle compilation and inclusion of Windows resources in the most resilient fashion imaginable",
+      "downloads": 58155463,
+      "edition": "2021",
+      "keywords": [
+        "build",
+        "cargo",
+        "manifest",
+        "resource",
+        "windows"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT",
+      "msrv": "1.76",
+      "name": "embed-resource",
+      "owners": 1,
+      "recent_downloads": 24500504,
+      "releases_365d": 5,
+      "repository": "https://github.com/nabijaczleweli/rust-embed-resource",
+      "score": 78.18,
+      "version": "3.0.12",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.4335,
+        "downloads": 0.7157,
+        "license": 1.0,
+        "maintenance": 0.9327,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2025-07-24",
+      "dependents": 170,
+      "description": "Core protocol types and traits for the Agent Client Protocol",
+      "downloads": 6530641,
+      "edition": "2024",
+      "keywords": [
+        "acp",
+        "agent",
+        "ai",
+        "protocol"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "agent-client-protocol",
+      "owners": 3,
+      "recent_downloads": 2668910,
+      "releases_365d": 41,
+      "repository": "https://github.com/agentclientprotocol/rust-sdk",
+      "score": 77.65,
+      "version": "5.4.0",
+      "versions": 91
+    },
+    {
+      "categories": [
+        "development-tools",
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.8606,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9411,
+        "security": 1.0
+      },
+      "created": "2022-08-25",
+      "dependents": 69,
+      "description": "Provides typed variants of Path and PathBuf for Unix and Windows",
+      "downloads": 81217289,
+      "edition": "2021",
+      "keywords": [
+        "filesystem",
+        "paths",
+        "unicode",
+        "utf8"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65.0",
+      "name": "typed-path",
+      "owners": 1,
+      "recent_downloads": 53458772,
+      "releases_365d": 5,
+      "repository": "https://github.com/chipsenkbeil/typed-path",
+      "score": 77.59,
+      "version": "0.13.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.5686,
+        "downloads": 0.9155,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7884,
+        "security": 1.0
+      },
+      "created": "2022-01-04",
+      "dependents": 848,
+      "description": "A minimal `syn` syntax tree pretty-printer",
+      "downloads": 625833644,
+      "edition": "2021",
+      "keywords": [
+        "rustfmt"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "prettyplease",
+      "owners": 1,
+      "recent_downloads": 166324203,
+      "releases_365d": 1,
+      "repository": "https://github.com/dtolnay/prettyplease",
+      "score": 77.43,
+      "version": "0.3.0",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4057,
+        "downloads": 0.7563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-07-06",
+      "dependents": 122,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12099681,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_syntax",
+      "owners": 1,
+      "recent_downloads": 6182911,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 76.92,
+      "version": "0.159.0",
+      "versions": 214
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4154,
+        "downloads": 0.7431,
+        "license": 1.0,
+        "maintenance": 0.8395,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2025-02-28",
+      "dependents": 137,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 6909694,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_ast_visit",
+      "owners": 1,
+      "recent_downloads": 4711692,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 76.43,
+      "version": "0.159.0",
+      "versions": 129
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4057,
+        "downloads": 0.7253,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 122,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 6374946,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_semantic",
+      "owners": 1,
+      "recent_downloads": 3258060,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 76.15,
+      "version": "0.159.0",
+      "versions": 219
+    },
+    {
+      "categories": [
+        "development-tools",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.4831,
+        "downloads": 0.8814,
+        "license": 1.0,
+        "maintenance": 0.7369,
+        "msrv": 1.0,
+        "recency": 0.704,
+        "security": 1.0
+      },
+      "created": "2025-03-09",
+      "dependents": 307,
+      "description": "Macros for all your token pasting needs. Successor of paste.",
+      "downloads": 141851079,
+      "edition": "2018",
+      "keywords": [
+        "macros"
+      ],
+      "last_release": "2026-05-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.54",
+      "name": "pastey",
+      "owners": 1,
+      "recent_downloads": 82078717,
+      "releases_365d": 3,
+      "repository": "https://github.com/as1100k/pastey",
+      "score": 75.72,
+      "version": "0.2.3",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.7188,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2022-07-28",
+      "dependents": 36,
+      "description": "A columnar data format that is 100x faster than Parquet for random access.",
+      "downloads": 5311732,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance",
+      "owners": 8,
+      "recent_downloads": 2849102,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 75.42,
+      "version": "14.0.3",
+      "versions": 192
+    },
+    {
+      "categories": [
+        "config",
+        "data-structures",
+        "development-tools",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.751,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8968,
+        "security": 1.0
+      },
+      "created": "2019-11-18",
+      "dependents": 46,
+      "description": "Track and query Cargo dependency graphs.",
+      "downloads": 20562396,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "dependencies",
+        "graph",
+        "guppy"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "guppy",
+      "owners": 3,
+      "recent_downloads": 5540986,
+      "releases_365d": 6,
+      "repository": "https://github.com/guppy-rs/guppy",
+      "score": 75.34,
+      "version": "0.19.1",
+      "versions": 78
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3423,
+        "downloads": 0.7563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-03-30",
+      "dependents": 57,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 12113313,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_diagnostics",
+      "owners": 1,
+      "recent_downloads": 6183931,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 75.34,
+      "version": "0.159.0",
+      "versions": 220
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.7362,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2017-02-26",
+      "dependents": 26,
+      "description": "Client library for the RustSec security advisory database",
+      "downloads": 16152620,
+      "edition": "2024",
+      "keywords": [
+        "advisory",
+        "audit",
+        "rustsec",
+        "security",
+        "vulnerability"
+      ],
+      "last_release": "2026-11-10",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88",
+      "name": "rustsec",
+      "owners": 5,
+      "recent_downloads": 4085317,
+      "releases_365d": 4,
+      "repository": "https://github.com/rustsec/rustsec",
+      "score": 75.07,
+      "version": "0.34.1",
+      "versions": 93
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.3558,
+        "downloads": 0.7259,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2024-01-30",
+      "dependents": 67,
+      "description": "Generate 'cargo:rustc-env' instructions via 'build.rs' for use in your code via the 'env!' macro",
+      "downloads": 10172455,
+      "edition": "2024",
+      "keywords": [
+        "build",
+        "cargo",
+        "instructions",
+        "tool"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "vergen-gitcl",
+      "owners": 1,
+      "recent_downloads": 3301543,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustyhorde/vergen",
+      "score": 75.01,
+      "version": "10.0.4",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.7194,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2023-10-11",
+      "dependents": 26,
+      "description": "Lance indices implementation",
+      "downloads": 5284200,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-index",
+      "owners": 7,
+      "recent_downloads": 2884545,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 74.77,
+      "version": "14.0.3",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.7202,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2023-10-11",
+      "dependents": 24,
+      "description": "Lance Columnar Format -- Core Library",
+      "downloads": 5373613,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-core",
+      "owners": 7,
+      "recent_downloads": 2932507,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 74.63,
+      "version": "14.0.3",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3746,
+        "downloads": 0.6946,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9913,
+        "security": 1.0
+      },
+      "created": "2023-11-06",
+      "dependents": 84,
+      "description": "A collection of JavaScript tools written in Rust.",
+      "downloads": 4455278,
+      "edition": "2024",
+      "keywords": [
+        "javascript",
+        "linter",
+        "minifier",
+        "parser",
+        "typescript"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "oxc_codegen",
+      "owners": 1,
+      "recent_downloads": 1725810,
+      "releases_365d": 61,
+      "repository": "https://github.com/oxc-project/oxc",
+      "score": 74.6,
+      "version": "0.159.0",
+      "versions": 208
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.7058,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.939,
+        "security": 1.0
+      },
+      "created": "2015-07-19",
+      "dependents": 72,
+      "description": "Test your Rust markdown documentation via Cargo",
+      "downloads": 16638194,
+      "edition": "2021",
+      "keywords": [
+        "documentation",
+        "markdown",
+        "testing"
+      ],
+      "last_release": "2026-10-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "skeptic",
+      "owners": 3,
+      "recent_downloads": 2174812,
+      "releases_365d": 3,
+      "repository": "https://github.com/budziq/rust-skeptic",
+      "score": 74.27,
+      "version": "0.14.2",
+      "versions": 29
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,162 @@
+{
+  "category": {
+    "crates": 19,
+    "description": "Bindings to FreeBSD-specific APIs.",
+    "name": "Operating systems::FreeBSD APIs",
+    "slug": "os::freebsd-apis"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "os::freebsd-apis"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3537,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9924,
+        "security": 1.0
+      },
+      "created": "2024-06-02",
+      "dependents": 2,
+      "description": "Rust bindings for FreeBSD's md devices\n",
+      "downloads": 7871,
+      "edition": "2024",
+      "keywords": [
+        "freebsd",
+        "md",
+        "memory-disk"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.85",
+      "name": "mdconfig",
+      "owners": 1,
+      "recent_downloads": 1498,
+      "releases_365d": 2,
+      "repository": "https://github.com/asomers/mdconfig-rs",
+      "score": 56.04,
+      "version": "0.2.2",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "os::freebsd-apis",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3906,
+        "license": 1.0,
+        "maintenance": 0.8093,
+        "msrv": 1.0,
+        "recency": 0.7448,
+        "security": 1.0
+      },
+      "created": "2025-06-18",
+      "dependents": 2,
+      "description": "Bindings to Linux' input device APIs: evdev and uinput",
+      "downloads": 10711,
+      "edition": "2024",
+      "keywords": [
+        "gamepad",
+        "joystick",
+        "keyboard",
+        "mouse",
+        "touchscreen"
+      ],
+      "last_release": "2026-06-18",
+      "license": "0BSD",
+      "msrv": "1.85",
+      "name": "evdevil",
+      "owners": 1,
+      "recent_downloads": 3214,
+      "releases_365d": 10,
+      "repository": "https://github.com/SludgePhD/evdevil",
+      "score": 55.39,
+      "version": "0.5.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "network-programming",
+        "os::freebsd-apis",
+        "os::linux-apis",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3632,
+        "license": 1.0,
+        "maintenance": 0.5699,
+        "msrv": 1.0,
+        "recency": 0.9785,
+        "security": 1.0
+      },
+      "created": "2026-11-09",
+      "dependents": 1,
+      "description": "Raw layer-2 Ethernet I/O: AF_PACKET with zero-copy rings, hardware receive and transmit timestamps, SO_TXTIME and classic BPF on Linux; BPF devices on macOS and FreeBSD.",
+      "downloads": 1824,
+      "edition": "2024",
+      "keywords": [
+        "af-packet",
+        "bpf",
+        "ethernet",
+        "raw-socket",
+        "tsn"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "rawether",
+      "owners": 1,
+      "recent_downloads": 1824,
+      "releases_365d": 3,
+      "repository": "https://github.com/hupe1980/rawether",
+      "score": 53.77,
+      "version": "0.2.0",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "os::freebsd-apis"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.3499,
+        "license": 0.75,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7517,
+        "security": 1.0
+      },
+      "created": "2016-06-11",
+      "dependents": 4,
+      "description": "Simple intuitive Rust bindings for the FreeBSD capsicum framework\n",
+      "downloads": 21869,
+      "edition": "2021",
+      "keywords": [
+        "capsicum",
+        "freebsd",
+        "sandbox"
+      ],
+      "last_release": "2026-06-23",
+      "license": "MPL-2.0",
+      "msrv": "1.82.0",
+      "name": "capsicum",
+      "owners": 2,
+      "recent_downloads": 1386,
+      "releases_365d": 1,
+      "repository": "https://github.com/dlrobertson/capsicum-rs",
+      "score": 50.42,
+      "version": "0.4.5",
+      "versions": 12
+    }
+  ],
+  "score_version": 1
+}

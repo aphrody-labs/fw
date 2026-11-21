@@ -1,0 +1,986 @@
+{
+  "category": {
+    "crates": 674,
+    "description": "Bindings to macOS-specific APIs.",
+    "name": "Operating systems::macOS APIs",
+    "slug": "os::macos-apis"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.6155,
+        "downloads": 0.874,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9158,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 1479,
+      "description": "Objective-C interface and runtime bindings",
+      "downloads": 170142668,
+      "edition": "2021",
+      "keywords": [
+        "ios",
+        "macos",
+        "objc",
+        "objc_msgsend",
+        "objective-c"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "objc2",
+      "owners": 2,
+      "recent_downloads": 70575231,
+      "releases_365d": 3,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 83.47,
+      "version": "0.6.5",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4504,
+        "downloads": 0.9006,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.5942,
+        "security": 1.0
+      },
+      "created": "2015-11-27",
+      "dependents": 208,
+      "description": "Security.framework bindings for macOS and iOS",
+      "downloads": 462970684,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "ios",
+        "keychain",
+        "ssl",
+        "tls"
+      ],
+      "last_release": "2026-02-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "security-framework",
+      "owners": 2,
+      "recent_downloads": 122302766,
+      "releases_365d": 2,
+      "repository": "https://github.com/kornelski/rust-security-framework",
+      "score": 73.69,
+      "version": "3.7.0",
+      "versions": 77
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.8625,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8247,
+        "security": 1.0
+      },
+      "created": "2018-02-01",
+      "dependents": 49,
+      "description": "Bindings to SystemConfiguration framework for macOS",
+      "downloads": 228992203,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "configuration",
+        "macos",
+        "system"
+      ],
+      "last_release": "2026-08-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.64.0",
+      "name": "system-configuration",
+      "owners": 2,
+      "recent_downloads": 55621188,
+      "releases_365d": 2,
+      "repository": "https://github.com/mullvad/system-configuration-rs",
+      "score": 73.18,
+      "version": "0.8.0",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4812,
+        "downloads": 0.8606,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.6018,
+        "security": 1.0
+      },
+      "created": "2022-10-01",
+      "dependents": 300,
+      "description": "Bindings and wrappers for Apple's Grand Central Dispatch (GCD)",
+      "downloads": 107400457,
+      "edition": "2021",
+      "keywords": [
+        "dispatch",
+        "gcd",
+        "ios",
+        "libdispatch",
+        "macos"
+      ],
+      "last_release": "2026-02-26",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "dispatch2",
+      "owners": 3,
+      "recent_downloads": 53473704,
+      "releases_365d": 1,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 73.07,
+      "version": "0.3.1",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.357,
+        "downloads": 0.7403,
+        "license": 1.0,
+        "maintenance": 0.718,
+        "msrv": 1.0,
+        "recency": 0.9565,
+        "security": 1.0
+      },
+      "created": "2026-05-17",
+      "dependents": 68,
+      "description": "Framework-agnostic FFI utilities shared by the doom-fish Apple-SDK Rust bindings: async/sync completion handlers, FFI string helpers, FourCharCode, panic-safe extern-C wrappers, and executor-agnostic bounded async streams.",
+      "downloads": 4514736,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "async",
+        "doom-fish",
+        "ffi",
+        "macos"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82",
+      "name": "doom-fish-utils",
+      "owners": 1,
+      "recent_downloads": 4443989,
+      "releases_365d": 12,
+      "repository": "https://github.com/doom-fish/doom-fish-utils",
+      "score": 72.55,
+      "version": "0.4.3",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.7094,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9658,
+        "security": 1.0
+      },
+      "created": "2023-08-21",
+      "dependents": 23,
+      "description": "Safe Rust bindings for Apple's ScreenCaptureKit framework - screen and audio capture on macOS",
+      "downloads": 3682468,
+      "edition": "2021",
+      "keywords": [
+        "audio",
+        "macos",
+        "screen-capture",
+        "screencapturekit",
+        "video"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82",
+      "name": "screencapturekit",
+      "owners": 1,
+      "recent_downloads": 2346419,
+      "releases_365d": 40,
+      "repository": "https://github.com/doom-fish/screencapturekit-rs",
+      "score": 71.92,
+      "version": "11.1.2",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.6014,
+        "downloads": 0.8668,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 1252,
+      "description": "Bindings to the Foundation framework",
+      "downloads": 133891843,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "objc2-foundation",
+      "owners": 2,
+      "recent_downloads": 60761850,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 71.56,
+      "version": "0.3.2",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.3067,
+        "downloads": 0.7393,
+        "license": 1.0,
+        "maintenance": 0.7186,
+        "msrv": 1.0,
+        "recency": 0.9539,
+        "security": 1.0
+      },
+      "created": "2026-05-15",
+      "dependents": 37,
+      "description": "Safe Rust bindings for Apple's shared Core* frameworks (CoreFoundation, CoreMedia, CoreVideo, CoreGraphics, IOSurface, Dispatch).",
+      "downloads": 4385795,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "coregraphics",
+        "dispatch",
+        "iosurface",
+        "macos"
+      ],
+      "last_release": "2026-10-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82",
+      "name": "apple-cf",
+      "owners": 1,
+      "recent_downloads": 4351676,
+      "releases_365d": 26,
+      "repository": "https://github.com/doom-fish/apple-cf-rs",
+      "score": 71.24,
+      "version": "0.11.7",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.348,
+        "downloads": 0.8918,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.5942,
+        "security": 1.0
+      },
+      "created": "2015-11-27",
+      "dependents": 61,
+      "description": "Apple `Security.framework` low-level FFI bindings",
+      "downloads": 384782994,
+      "edition": "2021",
+      "keywords": [
+        "crypto",
+        "ffi",
+        "ios",
+        "ssl",
+        "tls"
+      ],
+      "last_release": "2026-02-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "security-framework-sys",
+      "owners": 2,
+      "recent_downloads": 101801951,
+      "releases_365d": 2,
+      "repository": "https://github.com/kornelski/rust-security-framework",
+      "score": 70.91,
+      "version": "2.17.0",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.5368,
+        "downloads": 0.9156,
+        "license": 1.0,
+        "maintenance": 0.6,
+        "msrv": 1.0,
+        "recency": 0.3562,
+        "security": 1.0
+      },
+      "created": "2015-02-12",
+      "dependents": 581,
+      "description": "Bindings to Core Foundation for macOS",
+      "downloads": 573852394,
+      "edition": "2021",
+      "keywords": [
+        "framework",
+        "macos",
+        "objc"
+      ],
+      "last_release": "2025-05-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "core-foundation",
+      "owners": 5,
+      "recent_downloads": 166470458,
+      "releases_365d": 0,
+      "repository": "https://github.com/servo/core-foundation-rs",
+      "score": 70.65,
+      "version": "0.10.1",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.5485,
+        "downloads": 0.8685,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 668,
+      "description": "Apple's C language extension of blocks",
+      "downloads": 150571735,
+      "edition": "2021",
+      "keywords": [
+        "blocks",
+        "ios",
+        "macos",
+        "objective-c"
+      ],
+      "last_release": "2025-10-04",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "block2",
+      "owners": 2,
+      "recent_downloads": 62959464,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 70.28,
+      "version": "0.6.2",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.5478,
+        "downloads": 0.8514,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2024-04-17",
+      "dependents": 662,
+      "description": "Bindings to the AppKit framework",
+      "downloads": 93852743,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-app-kit",
+      "owners": 2,
+      "recent_downloads": 44209339,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 69.83,
+      "version": "0.3.2",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.5298,
+        "downloads": 0.8692,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2024-05-04",
+      "dependents": 535,
+      "description": "Bindings to the CoreFoundation framework",
+      "downloads": 133075438,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-core-foundation",
+      "owners": 2,
+      "recent_downloads": 63812800,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 69.83,
+      "version": "0.3.2",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "graphics",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.739,
+        "license": 1.0,
+        "maintenance": 0.7184,
+        "msrv": 1.0,
+        "recency": 0.9538,
+        "security": 1.0
+      },
+      "created": "2026-05-16",
+      "dependents": 9,
+      "description": "Safe Rust bindings for Apple's Metal framework — devices, resources, command encoding, advanced GPU objects, and IOSurface interop on macOS, backed by a Swift bridge",
+      "downloads": 4361939,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "gpu",
+        "iosurface",
+        "macos",
+        "metal"
+      ],
+      "last_release": "2026-10-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82",
+      "name": "apple-metal",
+      "owners": 1,
+      "recent_downloads": 4328904,
+      "releases_365d": 24,
+      "repository": "https://github.com/doom-fish/apple-metal-rs",
+      "score": 68.41,
+      "version": "0.10.4",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4649,
+        "downloads": 0.8447,
+        "license": 1.0,
+        "maintenance": 0.5281,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2024-12-10",
+      "dependents": 247,
+      "description": "Bindings to the CoreGraphics framework",
+      "downloads": 74966963,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-core-graphics",
+      "owners": 2,
+      "recent_downloads": 38488432,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 67.52,
+      "version": "0.3.2",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4837,
+        "downloads": 0.8227,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2024-04-17",
+      "dependents": 309,
+      "description": "Bindings to the Metal framework",
+      "downloads": 53604306,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-metal",
+      "owners": 2,
+      "recent_downloads": 24422006,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 67.51,
+      "version": "0.3.2",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4315,
+        "downloads": 0.849,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2024-04-17",
+      "dependents": 166,
+      "description": "Bindings to the QuartzCore/CoreAnimation framework",
+      "downloads": 92019100,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-quartz-core",
+      "owners": 2,
+      "recent_downloads": 42038857,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 66.87,
+      "version": "0.3.2",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4289,
+        "downloads": 0.8364,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2024-04-17",
+      "dependents": 161,
+      "description": "Bindings to the UIKit framework",
+      "downloads": 66902259,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-ui-kit",
+      "owners": 2,
+      "recent_downloads": 32369566,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 66.49,
+      "version": "0.3.2",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.3532,
+        "downloads": 0.8436,
+        "license": 1.0,
+        "maintenance": 0.5281,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2024-12-10",
+      "dependents": 65,
+      "description": "Bindings to the IOSurface framework",
+      "downloads": 73357715,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-io-surface",
+      "owners": 2,
+      "recent_downloads": 37639085,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 64.7,
+      "version": "0.3.2",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.3493,
+        "downloads": 0.8299,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2024-04-18",
+      "dependents": 62,
+      "description": "Bindings to the UserNotifications framework",
+      "downloads": 56219001,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-user-notifications",
+      "owners": 2,
+      "recent_downloads": 28348127,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 64.34,
+      "version": "0.3.2",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4148,
+        "downloads": 0.7647,
+        "license": 1.0,
+        "maintenance": 0.5282,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2024-12-09",
+      "dependents": 136,
+      "description": "Bindings to the CoreVideo framework",
+      "downloads": 15043560,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-core-video",
+      "owners": 2,
+      "recent_downloads": 7355780,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 64.26,
+      "version": "0.3.2",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.3394,
+        "downloads": 0.8207,
+        "license": 1.0,
+        "maintenance": 0.5281,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2024-12-10",
+      "dependents": 55,
+      "description": "Bindings to the CoreText framework",
+      "downloads": 44970205,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-core-text",
+      "owners": 2,
+      "recent_downloads": 23400625,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 63.78,
+      "version": "0.3.2",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "multimedia::video",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.348,
+        "downloads": 0.6944,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.7311,
+        "security": 1.0
+      },
+      "created": "2024-03-21",
+      "dependents": 61,
+      "description": "Safe bindings to CoreVideo framework",
+      "downloads": 2687399,
+      "edition": "2021",
+      "keywords": [
+        "corevideo"
+      ],
+      "last_release": "2026-06-09",
+      "license": "MIT OR Apache-2.0",
+      "name": "core-video",
+      "owners": 1,
+      "recent_downloads": 1720016,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-media/apple-media-rs",
+      "score": 63.53,
+      "version": "0.6.1",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.3423,
+        "downloads": 0.8085,
+        "license": 1.0,
+        "maintenance": 0.4954,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2025-04-08",
+      "dependents": 57,
+      "description": "Bindings to the IOKit framework",
+      "downloads": 44177834,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-io-kit",
+      "owners": 2,
+      "recent_downloads": 18199909,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 63.06,
+      "version": "0.3.2",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.7885,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.457,
+        "security": 1.0
+      },
+      "created": "2024-04-17",
+      "dependents": 46,
+      "description": "Bindings to the WebKit framework",
+      "downloads": 25427713,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "objc2-web-kit",
+      "owners": 2,
+      "recent_downloads": 12024126,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 62.68,
+      "version": "0.3.2",
+      "versions": 5
+    }
+  ],
+  "score_version": 1
+}

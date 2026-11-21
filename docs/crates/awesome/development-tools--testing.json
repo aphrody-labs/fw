@@ -1,0 +1,920 @@
+{
+  "category": {
+    "crates": 3436,
+    "description": "Crates to help you verify the correctness of your code.",
+    "name": "Development tools::Testing",
+    "slug": "development-tools::testing"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.5491,
+        "downloads": 0.8816,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9245,
+        "security": 1.0
+      },
+      "created": "2017-06-18",
+      "dependents": 673,
+      "description": "Hypothesis-like property-based testing and shrinking.\n",
+      "downloads": 255139884,
+      "edition": "2021",
+      "keywords": [
+        "fuzz",
+        "hypothesis",
+        "property",
+        "quickcheck",
+        "testing"
+      ],
+      "last_release": "2026-10-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "proptest",
+      "owners": 3,
+      "recent_downloads": 82433247,
+      "releases_365d": 3,
+      "repository": "https://github.com/proptest-rs/proptest",
+      "score": 83.14,
+      "version": "1.12.0",
+      "versions": 49
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.5742,
+        "downloads": 0.8646,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.9179,
+        "security": 1.0
+      },
+      "created": "2017-05-08",
+      "dependents": 906,
+      "description": "The trait for generating structured data from unstructured data",
+      "downloads": 205064442,
+      "edition": "2021",
+      "keywords": [
+        "arbitrary",
+        "testing"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "arbitrary",
+      "owners": 2,
+      "recent_downloads": 58044737,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-fuzz/arbitrary/",
+      "score": 79.24,
+      "version": "1.5.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3891,
+        "downloads": 0.8494,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9111,
+        "security": 1.0
+      },
+      "created": "2019-01-13",
+      "dependents": 100,
+      "description": "A snapshot testing library for Rust",
+      "downloads": 133505216,
+      "edition": "2021",
+      "keywords": [
+        "approval",
+        "jest",
+        "snapshot",
+        "testing"
+      ],
+      "last_release": "2026-10-03",
+      "license": "Apache-2.0",
+      "msrv": "1.66.0",
+      "name": "insta",
+      "owners": 2,
+      "recent_downloads": 42356476,
+      "releases_365d": 13,
+      "repository": "https://github.com/mitsuhiko/insta",
+      "score": 78.63,
+      "version": "1.49.0",
+      "versions": 122
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.416,
+        "downloads": 0.8127,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8161,
+        "security": 1.0
+      },
+      "created": "2018-08-24",
+      "dependents": 138,
+      "description": "A library for integration-testing against docker containers from within Rust.",
+      "downloads": 56200142,
+      "edition": "2021",
+      "keywords": [
+        "docker",
+        "docker-compose",
+        "testcontainers"
+      ],
+      "last_release": "2026-08-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "testcontainers",
+      "owners": 3,
+      "recent_downloads": 19835889,
+      "releases_365d": 9,
+      "repository": "https://github.com/testcontainers/testcontainers-rs",
+      "score": 77.96,
+      "version": "0.28.0",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.411,
+        "downloads": 0.8483,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7989,
+        "security": 1.0
+      },
+      "created": "2018-12-30",
+      "dependents": 130,
+      "description": "Allows for the creation of serialised Rust tests",
+      "downloads": 182641224,
+      "edition": "2018",
+      "keywords": [
+        "parallel",
+        "sequential",
+        "testing"
+      ],
+      "last_release": "2026-07-25",
+      "license": "MIT",
+      "msrv": "1.93.1",
+      "name": "serial_test",
+      "owners": 1,
+      "recent_downloads": 41458318,
+      "releases_365d": 5,
+      "repository": "https://github.com/palfrey/serial_test/",
+      "score": 76.47,
+      "version": "4.0.1",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.8172,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9908,
+        "security": 1.0
+      },
+      "created": "2019-05-06",
+      "dependents": 41,
+      "description": "Test harness for ui tests of compiler diagnostics",
+      "downloads": 83564798,
+      "edition": "2024",
+      "keywords": [
+        "dev-dependencies",
+        "macros",
+        "testing"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "trybuild",
+      "owners": 1,
+      "recent_downloads": 21800505,
+      "releases_365d": 11,
+      "repository": "https://github.com/dtolnay/trybuild",
+      "score": 76.17,
+      "version": "1.0.125",
+      "versions": 126
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.4392,
+        "downloads": 0.818,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.6925,
+        "security": 1.0
+      },
+      "created": "2018-05-28",
+      "dependents": 182,
+      "description": "Test CLI Applications.",
+      "downloads": 100335682,
+      "edition": "2024",
+      "keywords": [
+        "assert",
+        "cli",
+        "command",
+        "duct",
+        "test"
+      ],
+      "last_release": "2026-05-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "assert_cmd",
+      "owners": 2,
+      "recent_downloads": 22155008,
+      "releases_365d": 5,
+      "repository": "https://github.com/assert-rs/assert_cmd.git",
+      "score": 75.82,
+      "version": "2.2.2",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.4142,
+        "downloads": 0.8493,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9388,
+        "security": 1.0
+      },
+      "created": "2018-10-14",
+      "dependents": 135,
+      "description": "Rust fixture based test framework. It use procedural macro\nto implement fixtures and table based tests.\n",
+      "downloads": 154401244,
+      "edition": "2021",
+      "keywords": [
+        "fixture",
+        "test"
+      ],
+      "last_release": "2026-10-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "rstest",
+      "owners": 1,
+      "recent_downloads": 42283207,
+      "releases_365d": 2,
+      "repository": "https://github.com/la10736/rstest",
+      "score": 75.67,
+      "version": "0.28.0",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.4274,
+        "downloads": 0.7634,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9245,
+        "security": 1.0
+      },
+      "created": "2017-12-18",
+      "dependents": 158,
+      "description": "Custom-derive for the Arbitrary trait of proptest.\n",
+      "downloads": 30843195,
+      "edition": "2021",
+      "keywords": [
+        "arbitrary",
+        "derive",
+        "proptest",
+        "quickcheck",
+        "testing"
+      ],
+      "last_release": "2026-10-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "proptest-derive",
+      "owners": 3,
+      "recent_downloads": 7167948,
+      "releases_365d": 2,
+      "repository": "https://github.com/proptest-rs/proptest",
+      "score": 75.64,
+      "version": "0.9.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.4919,
+        "downloads": 0.8426,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.759,
+        "security": 1.0
+      },
+      "created": "2019-07-03",
+      "dependents": 341,
+      "description": "A powerful mock object library for Rust.\n",
+      "downloads": 196486289,
+      "edition": "2021",
+      "keywords": [
+        "mock",
+        "mocking",
+        "testing"
+      ],
+      "last_release": "2026-06-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77.0",
+      "name": "mockall",
+      "owners": 1,
+      "recent_downloads": 36834797,
+      "releases_365d": 2,
+      "repository": "https://github.com/asomers/mockall",
+      "score": 74.75,
+      "version": "0.15.0",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3756,
+        "downloads": 0.82,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8979,
+        "security": 1.0
+      },
+      "created": "2019-02-21",
+      "dependents": 85,
+      "description": "Testing utilities for Tokio- and futures-based code\n",
+      "downloads": 112035180,
+      "edition": "2021",
+      "last_release": "2026-09-25",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "tokio-test",
+      "owners": 2,
+      "recent_downloads": 23068014,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tokio",
+      "score": 74.36,
+      "version": "0.4.6",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.7058,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.939,
+        "security": 1.0
+      },
+      "created": "2015-07-19",
+      "dependents": 72,
+      "description": "Test your Rust markdown documentation via Cargo",
+      "downloads": 16638194,
+      "edition": "2021",
+      "keywords": [
+        "documentation",
+        "markdown",
+        "testing"
+      ],
+      "last_release": "2026-10-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "skeptic",
+      "owners": 3,
+      "recent_downloads": 2174812,
+      "releases_365d": 3,
+      "repository": "https://github.com/budziq/rust-skeptic",
+      "score": 74.27,
+      "version": "0.14.2",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::testing",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.3191,
+        "downloads": 0.6518,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9869,
+        "security": 1.0
+      },
+      "created": "2019-11-30",
+      "dependents": 43,
+      "description": "Thirtyfour is a Selenium / WebDriver library for Rust, for automated website UI testing.\n\nTested on Chrome and Firefox, but any webdriver-capable browser should work.\n",
+      "downloads": 2461943,
+      "edition": "2024",
+      "keywords": [
+        "automation",
+        "chromedriver",
+        "geckodriver",
+        "selenium",
+        "webdriver"
+      ],
+      "last_release": "2026-11-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "thirtyfour",
+      "owners": 2,
+      "recent_downloads": 713297,
+      "releases_365d": 17,
+      "repository": "https://github.com/stevepryde/thirtyfour",
+      "score": 73.08,
+      "version": "0.38.3",
+      "versions": 119
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.7984,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9643,
+        "security": 1.0
+      },
+      "created": "2019-09-27",
+      "dependents": 24,
+      "description": "Provides #[test_case(...)] procedural macro attribute for generating parametrized test cases easily",
+      "downloads": 74128847,
+      "edition": "2024",
+      "keywords": [
+        "case",
+        "test",
+        "testing",
+        "tests",
+        "unit"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "test-case",
+      "owners": 2,
+      "recent_downloads": 14779824,
+      "releases_365d": 2,
+      "repository": "https://github.com/frondeus/test-case",
+      "score": 72.21,
+      "version": "3.4.1",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3848,
+        "downloads": 0.716,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9708,
+        "security": 1.0
+      },
+      "created": "2020-10-04",
+      "dependents": 95,
+      "description": "A library for testing concurrent Rust code",
+      "downloads": 7812340,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "concurrency",
+        "lock",
+        "thread"
+      ],
+      "last_release": "2026-11-05",
+      "license": "Apache-2.0",
+      "name": "shuttle",
+      "owners": 3,
+      "recent_downloads": 2685176,
+      "releases_365d": 11,
+      "repository": "https://github.com/awslabs/shuttle",
+      "score": 72.08,
+      "version": "0.9.10",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::profiling",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.7646,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2022-12-15",
+      "dependents": 7,
+      "description": "Core instrumentation library for CodSpeed",
+      "downloads": 20250058,
+      "edition": "2021",
+      "keywords": [
+        "benchmark",
+        "codspeed"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "codspeed",
+      "owners": 1,
+      "recent_downloads": 7349466,
+      "releases_365d": 14,
+      "repository": "https://github.com/CodSpeedHQ/codspeed-rust",
+      "score": 71.49,
+      "version": "6.1.0",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.6991,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8717,
+        "security": 1.0
+      },
+      "created": "2020-01-09",
+      "dependents": 23,
+      "description": "assert!(...) and check!(...) macros inspired by Catch2, now with diffs!",
+      "downloads": 5573364,
+      "edition": "2021",
+      "keywords": [
+        "assert",
+        "check",
+        "test",
+        "unit-test"
+      ],
+      "last_release": "2026-09-09",
+      "license": "BSD-2-Clause",
+      "msrv": "1.71",
+      "name": "assert2",
+      "owners": 2,
+      "recent_downloads": 1896531,
+      "releases_365d": 4,
+      "repository": "https://github.com/de-vri-es/assert2-rs",
+      "score": 71.25,
+      "version": "0.4.1",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "accessibility",
+        "development-tools::testing",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.6928,
+        "license": 1.0,
+        "maintenance": 0.9263,
+        "msrv": 1.0,
+        "recency": 0.9332,
+        "security": 1.0
+      },
+      "created": "2024-12-16",
+      "dependents": 16,
+      "description": "Testing library for egui based on kittest and AccessKit",
+      "downloads": 2293588,
+      "edition": "2024",
+      "keywords": [
+        "accesskit",
+        "egui",
+        "gui",
+        "immediate",
+        "testing"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui_kittest",
+      "owners": 2,
+      "recent_downloads": 1662984,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui",
+      "score": 71.18,
+      "version": "0.37.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "development-tools::testing",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.7522,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8458,
+        "security": 1.0
+      },
+      "created": "2023-01-17",
+      "dependents": 22,
+      "description": "Easy E2E testing for Axum",
+      "downloads": 18646065,
+      "edition": "2024",
+      "keywords": [
+        "axum",
+        "test",
+        "testing"
+      ],
+      "last_release": "2026-08-24",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "axum-test",
+      "owners": 1,
+      "recent_downloads": 5683413,
+      "releases_365d": 14,
+      "repository": "https://github.com/JosephLenton/axum-test",
+      "score": 71.1,
+      "version": "21.1.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "config",
+        "development-tools",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3558,
+        "downloads": 0.7951,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7184,
+        "security": 1.0
+      },
+      "created": "2021-06-29",
+      "dependents": 67,
+      "description": "A replacement of the #[test] attribute that initializes logging and/or\ntracing infrastructure before running tests.\n",
+      "downloads": 76482125,
+      "edition": "2021",
+      "keywords": [
+        "env_logger",
+        "log",
+        "logging",
+        "testing",
+        "tracing"
+      ],
+      "last_release": "2026-05-30",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "test-log",
+      "owners": 1,
+      "recent_downloads": 13793150,
+      "releases_365d": 3,
+      "repository": "https://github.com/d-e-s-o/test-log.git",
+      "score": 71.05,
+      "version": "0.2.21",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.7333,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2024-05-10",
+      "dependents": 5,
+      "description": "Rust SDK for the Antithesis autonomous software testing platform.\n",
+      "downloads": 8529290,
+      "edition": "2021",
+      "keywords": [
+        "antithesis",
+        "fuzzing",
+        "quality",
+        "testing"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.62.1",
+      "name": "antithesis_sdk",
+      "owners": 2,
+      "recent_downloads": 3843940,
+      "releases_365d": 5,
+      "repository": "https://github.com/antithesishq/antithesis-sdk-rust",
+      "score": 70.82,
+      "version": "0.4.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::profiling",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.6586,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9844,
+        "security": 1.0
+      },
+      "created": "2022-12-06",
+      "dependents": 18,
+      "description": "Rust bindings to \"Valgrind Client Request\" interface",
+      "downloads": 1637991,
+      "edition": "2021",
+      "keywords": [
+        "cachegrind",
+        "callgrind",
+        "client-requests",
+        "memcheck",
+        "valgrind"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "crabgrind",
+      "owners": 1,
+      "recent_downloads": 819658,
+      "releases_365d": 10,
+      "repository": "https://github.com/2dav/crabgrind",
+      "score": 70.44,
+      "version": "0.6.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.7633,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9425,
+        "security": 1.0
+      },
+      "created": "2019-09-22",
+      "dependents": 27,
+      "description": "HTTP mocking library for Rust",
+      "downloads": 34924720,
+      "edition": "2024",
+      "keywords": [
+        "http",
+        "mock",
+        "test"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "httpmock",
+      "owners": 1,
+      "recent_downloads": 7154051,
+      "releases_365d": 2,
+      "repository": "https://github.com/httpmock/httpmock",
+      "score": 70.24,
+      "version": "0.9.0",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::testing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.434,
+        "downloads": 0.7138,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.6009,
+        "security": 1.0
+      },
+      "created": "2020-12-13",
+      "dependents": 171,
+      "description": "Library for interacting with a chrome instance with the chrome devtools protocol",
+      "downloads": 6110041,
+      "edition": "2024",
+      "keywords": [
+        "automation",
+        "chrome",
+        "chromedriver",
+        "puppeteer"
+      ],
+      "last_release": "2026-02-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "chromiumoxide",
+      "owners": 2,
+      "recent_downloads": 2570131,
+      "releases_365d": 3,
+      "repository": "https://github.com/mattsse/chromiumoxide",
+      "score": 70.21,
+      "version": "0.9.1",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.8373,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9179,
+        "security": 1.0
+      },
+      "created": "2018-10-13",
+      "dependents": 9,
+      "description": "Derives arbitrary traits",
+      "downloads": 140538208,
+      "edition": "2021",
+      "keywords": [
+        "arbitrary",
+        "derive",
+        "macro",
+        "testing"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "derive_arbitrary",
+      "owners": 4,
+      "recent_downloads": 33019758,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-fuzz/arbitrary",
+      "score": 70.05,
+      "version": "1.5.0",
+      "versions": 34
+    }
+  ],
+  "score_version": 1
+}

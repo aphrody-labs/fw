@@ -1,0 +1,934 @@
+{
+  "category": {
+    "crates": 2898,
+    "description": "Crates to facilitate configuration management for applications.",
+    "name": "Configuration",
+    "slug": "config"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.8407,
+        "downloads": 0.9494,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 21410,
+      "description": "A native Rust encoder and decoder of TOML-formatted files and streams. Provides\nimplementations of the standard Serialize/Deserialize traits for TOML data to\nfacilitate deserializing and serializing Rust structures.\n",
+      "downloads": 1173287918,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "no_std",
+        "toml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml",
+      "owners": 2,
+      "recent_downloads": 335185988,
+      "releases_365d": 23,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 93.35,
+      "version": "1.2.1+spec-1.1.0",
+      "versions": 124
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.6527,
+        "downloads": 0.9446,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2017-12-17",
+      "dependents": 2300,
+      "description": "Yet another format-preserving TOML parser.",
+      "downloads": 1057115241,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "toml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml_edit",
+      "owners": 3,
+      "recent_downloads": 303232529,
+      "releases_365d": 24,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 89.52,
+      "version": "0.25.19+spec-1.1.0",
+      "versions": 132
+    },
+    {
+      "categories": [
+        "config"
+      ],
+      "components": {
+        "dependents": 0.6245,
+        "downloads": 0.8223,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9059,
+        "security": 1.0
+      },
+      "created": "2015-04-16",
+      "dependents": 1647,
+      "description": "Layered configuration system for Rust applications.",
+      "downloads": 132089628,
+      "edition": "2024",
+      "keywords": [
+        "config",
+        "configuration",
+        "env",
+        "environment",
+        "settings"
+      ],
+      "last_release": "2026-09-30",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "config",
+      "owners": 5,
+      "recent_downloads": 24219044,
+      "releases_365d": 8,
+      "repository": "https://github.com/rust-cli/config-rs",
+      "score": 84.76,
+      "version": "0.15.27",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.5064,
+        "downloads": 0.8533,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.992,
+        "security": 1.0
+      },
+      "created": "2015-08-04",
+      "dependents": 405,
+      "description": "A rusty plist parser. Supports Serde serialization.",
+      "downloads": 103795255,
+      "edition": "2024",
+      "keywords": [
+        "parser",
+        "plist"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "plist",
+      "owners": 1,
+      "recent_downloads": 45913150,
+      "releases_365d": 6,
+      "repository": "https://github.com/ebarnard/rust-plist/",
+      "score": 81.87,
+      "version": "1.10.4",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "config",
+        "encoding",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.5431,
+        "downloads": 0.8047,
+        "license": 1.0,
+        "maintenance": 0.7815,
+        "msrv": 1.0,
+        "recency": 0.9955,
+        "security": 1.0
+      },
+      "created": "2025-09-27",
+      "dependents": 626,
+      "description": "YAML (de)serializer for Serde, emphasizing panic-free parsing, fast builds and good error reporting. Supports properties, include, tag and comment capture",
+      "downloads": 21660202,
+      "edition": "2024",
+      "keywords": [
+        "config",
+        "ros",
+        "serde",
+        "wasm",
+        "yaml"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "serde-saphyr",
+      "owners": 1,
+      "recent_downloads": 16806681,
+      "releases_365d": 31,
+      "repository": "https://github.com/bourumir-wyngs/serde-saphyr",
+      "score": 80.35,
+      "version": "2.2.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.9536,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2022-10-21",
+      "dependents": 30,
+      "description": "A TOML-compatible datetime type",
+      "downloads": 1077462161,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "no_std",
+        "toml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml_datetime",
+      "owners": 2,
+      "recent_downloads": 365669222,
+      "releases_365d": 8,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 79.67,
+      "version": "1.1.3+spec-1.1.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.9379,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2023-01-20",
+      "dependents": 18,
+      "description": "Serde-compatible spanned Value",
+      "downloads": 782496887,
+      "edition": "2024",
+      "keywords": [
+        "serde",
+        "span"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "serde_spanned",
+      "owners": 2,
+      "recent_downloads": 264422735,
+      "releases_365d": 5,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 78.25,
+      "version": "1.1.3",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "compilers",
+        "config"
+      ],
+      "components": {
+        "dependents": 0.3839,
+        "downloads": 0.7416,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9919,
+        "security": 1.0
+      },
+      "created": "2023-05-10",
+      "dependents": 94,
+      "description": "Cedar is a language for defining permissions as policies, which describe who should have access to what.",
+      "downloads": 12446632,
+      "edition": "2021",
+      "keywords": [
+        "authorization",
+        "cedar",
+        "policy",
+        "security"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "msrv": "1.89",
+      "name": "cedar-policy",
+      "owners": 7,
+      "recent_downloads": 4566694,
+      "releases_365d": 33,
+      "repository": "https://github.com/cedar-policy/cedar",
+      "score": 78.02,
+      "version": "4.15.0",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2998,
+        "downloads": 0.9259,
+        "license": 1.0,
+        "maintenance": 0.8705,
+        "msrv": 1.0,
+        "recency": 0.9216,
+        "security": 1.0
+      },
+      "created": "2025-07-08",
+      "dependents": 34,
+      "description": "Yet another format-preserving TOML parser.",
+      "downloads": 454007722,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "no_std",
+        "toml"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml_parser",
+      "owners": 2,
+      "recent_downloads": 206064447,
+      "releases_365d": 12,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 77.52,
+      "version": "1.1.5+spec-1.1.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "config",
+        "data-structures",
+        "development-tools",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.751,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8968,
+        "security": 1.0
+      },
+      "created": "2019-11-18",
+      "dependents": 46,
+      "description": "Track and query Cargo dependency graphs.",
+      "downloads": 20562396,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "dependencies",
+        "graph",
+        "guppy"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "guppy",
+      "owners": 3,
+      "recent_downloads": 5540986,
+      "releases_365d": 6,
+      "repository": "https://github.com/guppy-rs/guppy",
+      "score": 75.34,
+      "version": "0.19.1",
+      "versions": 78
+    },
+    {
+      "categories": [
+        "config",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.8001,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9493,
+        "security": 1.0
+      },
+      "created": "2023-02-17",
+      "dependents": 23,
+      "description": "A git-config file parser and editor from the gitoxide project",
+      "downloads": 64746903,
+      "edition": "2024",
+      "keywords": [
+        "config",
+        "git",
+        "git-config",
+        "gitoxide"
+      ],
+      "last_release": "2026-10-24",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "gix-config",
+      "owners": 1,
+      "recent_downloads": 15306869,
+      "releases_365d": 17,
+      "repository": "https://github.com/GitoxideLabs/gitoxide",
+      "score": 73.94,
+      "version": "0.62.2",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "compilers",
+        "config"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.7477,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9919,
+        "security": 1.0
+      },
+      "created": "2023-05-10",
+      "dependents": 10,
+      "description": "Core implementation of the Cedar policy language",
+      "downloads": 13627753,
+      "edition": "2021",
+      "keywords": [
+        "authorization",
+        "cedar",
+        "policy",
+        "security"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "msrv": "1.89",
+      "name": "cedar-policy-core",
+      "owners": 7,
+      "recent_downloads": 5177069,
+      "releases_365d": 33,
+      "repository": "https://github.com/cedar-policy/cedar",
+      "score": 73.63,
+      "version": "4.15.0",
+      "versions": 87
+    },
+    {
+      "categories": [
+        "config"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.6229,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9691,
+        "security": 1.0
+      },
+      "created": "2021-06-24",
+      "dependents": 27,
+      "description": "Low-level configuration for the Arti Tor implementation",
+      "downloads": 1301173,
+      "edition": "2024",
+      "keywords": [
+        "arti",
+        "tor"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "tor-config",
+      "owners": 4,
+      "recent_downloads": 392191,
+      "releases_365d": 12,
+      "repository": "https://gitlab.torproject.org/tpo/core/arti.git/",
+      "score": 72.13,
+      "version": "0.48.0",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.4104,
+        "downloads": 0.7314,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8665,
+        "security": 1.0
+      },
+      "created": "2020-06-09",
+      "dependents": 129,
+      "description": "A simple configuration parsing utility with no dependencies that allows you to parse INI and ini-style syntax. You can use this to write Rust programs which can be customized by end users easily.",
+      "downloads": 30411148,
+      "edition": "2024",
+      "keywords": [
+        "config",
+        "configuration",
+        "ini",
+        "parser",
+        "settings"
+      ],
+      "last_release": "2026-09-06",
+      "license": "MIT OR LGPL-3.0-or-later",
+      "msrv": "1.85",
+      "name": "configparser",
+      "owners": 1,
+      "recent_downloads": 3694975,
+      "releases_365d": 2,
+      "repository": "https://github.com/QEDK/configparser-rs",
+      "score": 71.54,
+      "version": "3.3.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3493,
+        "downloads": 0.6774,
+        "license": 1.0,
+        "maintenance": 0.7199,
+        "msrv": 1.0,
+        "recency": 0.9979,
+        "security": 1.0
+      },
+      "created": "2026-05-10",
+      "dependents": 62,
+      "description": "A pure Rust YAML library with zero unsafe code and full serde integration",
+      "downloads": 1474694,
+      "edition": "2024",
+      "keywords": [
+        "parser",
+        "safe",
+        "serde",
+        "serialization",
+        "yaml"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "noyalib",
+      "owners": 1,
+      "recent_downloads": 1210812,
+      "releases_365d": 60,
+      "repository": "https://github.com/sebastienrousseau/noyalib",
+      "score": 71.44,
+      "version": "0.0.63",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "config",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.762,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.91,
+        "security": 1.0
+      },
+      "created": "2024-02-20",
+      "dependents": 30,
+      "description": "Toml parser and deserializer that preserves span information",
+      "downloads": 20668212,
+      "edition": "2021",
+      "last_release": "2026-10-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "toml-span",
+      "owners": 1,
+      "recent_downloads": 6962759,
+      "releases_365d": 3,
+      "repository": "https://github.com/EmbarkStudios/toml-span",
+      "score": 71.44,
+      "version": "0.7.2",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "compilers",
+        "config"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.7374,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9919,
+        "security": 1.0
+      },
+      "created": "2023-05-10",
+      "dependents": 3,
+      "description": "Policy formatter for the Cedar Policy Language.",
+      "downloads": 10259191,
+      "edition": "2021",
+      "keywords": [
+        "authorization",
+        "cedar",
+        "policy",
+        "security"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "msrv": "1.89",
+      "name": "cedar-policy-formatter",
+      "owners": 7,
+      "recent_downloads": 4181512,
+      "releases_365d": 33,
+      "repository": "https://github.com/cedar-policy/cedar",
+      "score": 71.24,
+      "version": "4.15.0",
+      "versions": 82
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "config",
+        "development-tools",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3558,
+        "downloads": 0.7951,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7184,
+        "security": 1.0
+      },
+      "created": "2021-06-29",
+      "dependents": 67,
+      "description": "A replacement of the #[test] attribute that initializes logging and/or\ntracing infrastructure before running tests.\n",
+      "downloads": 76482125,
+      "edition": "2021",
+      "keywords": [
+        "env_logger",
+        "log",
+        "logging",
+        "testing",
+        "tracing"
+      ],
+      "last_release": "2026-05-30",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "test-log",
+      "owners": 1,
+      "recent_downloads": 13793150,
+      "releases_365d": 3,
+      "repository": "https://github.com/d-e-s-o/test-log.git",
+      "score": 71.05,
+      "version": "0.2.21",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "config",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.3899,
+        "downloads": 0.5396,
+        "license": 1.0,
+        "maintenance": 0.9079,
+        "msrv": 1.0,
+        "recency": 0.9265,
+        "security": 1.0
+      },
+      "created": "2025-10-23",
+      "dependents": 101,
+      "description": "Shared primitives for Greentic: TenantCtx, InvocationEnvelope, NodeError, ids.",
+      "downloads": 185612,
+      "edition": "2024",
+      "keywords": [
+        "ctx",
+        "envelope",
+        "greentic",
+        "tenant",
+        "wasm"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "greentic-types",
+      "owners": 3,
+      "recent_downloads": 70061,
+      "releases_365d": 112,
+      "repository": "https://github.com/greenticai/greentic-types",
+      "score": 70.75,
+      "version": "1.2.38173118925",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "config"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.622,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9692,
+        "security": 1.0
+      },
+      "created": "2021-10-29",
+      "dependents": 12,
+      "description": "Persistent state for the Arti Tor implementation",
+      "downloads": 1275701,
+      "edition": "2024",
+      "keywords": [
+        "arti",
+        "tor"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "tor-persist",
+      "owners": 4,
+      "recent_downloads": 385212,
+      "releases_365d": 12,
+      "repository": "https://gitlab.torproject.org/tpo/core/arti.git/",
+      "score": 70.49,
+      "version": "0.48.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "config"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.619,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9691,
+        "security": 1.0
+      },
+      "created": "2024-10-31",
+      "dependents": 9,
+      "description": "Low-level file path handling for configuration of the Arti Tor implementation",
+      "downloads": 1003355,
+      "edition": "2024",
+      "keywords": [
+        "arti",
+        "tor"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "tor-config-path",
+      "owners": 4,
+      "recent_downloads": 361769,
+      "releases_365d": 12,
+      "repository": "https://gitlab.torproject.org/tpo/core/arti.git/",
+      "score": 69.87,
+      "version": "0.48.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "config"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7007,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9734,
+        "security": 1.0
+      },
+      "created": "2017-03-30",
+      "dependents": 12,
+      "description": "Implementation of the YAML merge key extension.\n\nhttp://yaml.org/type/merge.html\n",
+      "downloads": 16021970,
+      "edition": "2024",
+      "keywords": [
+        "yaml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.85",
+      "name": "yaml-merge-keys",
+      "owners": 2,
+      "recent_downloads": 1958572,
+      "releases_365d": 2,
+      "repository": "https://gitlab.kitware.com/utils/rust-yaml-merge-keys",
+      "score": 68.52,
+      "version": "0.9.1",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "config"
+      ],
+      "components": {
+        "dependents": 0.4695,
+        "downloads": 0.858,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4782,
+        "security": 1.0
+      },
+      "created": "2020-05-16",
+      "dependents": 261,
+      "description": "An unopinionated library for obtaining configuration, data, cache, & other directories",
+      "downloads": 147666834,
+      "edition": "2024",
+      "keywords": [
+        "basedir",
+        "directories",
+        "dirs",
+        "path",
+        "xdg"
+      ],
+      "last_release": "2025-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87.0",
+      "name": "etcetera",
+      "owners": 2,
+      "recent_downloads": 50600817,
+      "releases_365d": 0,
+      "repository": "https://github.com/lunacookies/etcetera",
+      "score": 68.36,
+      "version": "0.11.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "config",
+        "embedded",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.6061,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9082,
+        "security": 1.0
+      },
+      "created": "2023-01-12",
+      "dependents": 19,
+      "description": "A crate for storing data in flash with minimal erase cycles.",
+      "downloads": 968890,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "flash",
+        "no_std",
+        "storage"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "sequential-storage",
+      "owners": 1,
+      "recent_downloads": 277082,
+      "releases_365d": 7,
+      "repository": "https://github.com/tweedegolf/sequential-storage",
+      "score": 68.09,
+      "version": "8.0.2",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "config"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.5386,
+        "license": 1.0,
+        "maintenance": 0.7374,
+        "msrv": 1.0,
+        "recency": 0.9795,
+        "security": 1.0
+      },
+      "created": "2026-03-08",
+      "dependents": 41,
+      "description": "Shikumi (仕組み) — config discovery, hot-reload, and ArcSwap store for Nix-managed desktop apps",
+      "downloads": 99958,
+      "edition": "2024",
+      "keywords": [
+        "arcswap",
+        "config",
+        "figment",
+        "hot-reload",
+        "nix"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.89.0",
+      "name": "shikumi",
+      "owners": 1,
+      "recent_downloads": 68605,
+      "releases_365d": 878,
+      "repository": "https://github.com/pleme-io/shikumi",
+      "score": 67.1,
+      "version": "0.1.1086",
+      "versions": 878
+    }
+  ],
+  "score_version": 1
+}

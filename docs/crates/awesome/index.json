@@ -1,0 +1,1095 @@
+{
+  "categories": [
+    {
+      "entries": 25,
+      "file": "accessibility",
+      "name": "Accessibility",
+      "slug": "accessibility",
+      "top": [
+        "egui_kittest",
+        "atspi",
+        "uiautomation"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "aerospace",
+      "name": "Aerospace",
+      "slug": "aerospace",
+      "top": [
+        "mavlink",
+        "mavlink-core",
+        "mavlink-bindgen"
+      ]
+    },
+    {
+      "entries": 13,
+      "file": "aerospace--drones",
+      "name": "Aerospace::Drones",
+      "slug": "aerospace::drones",
+      "top": [
+        "signal-filters",
+        "remoteid",
+        "uf-crsf"
+      ]
+    },
+    {
+      "entries": 14,
+      "file": "aerospace--protocols",
+      "name": "Aerospace::Aerospace protocols",
+      "slug": "aerospace::protocols",
+      "top": [
+        "mavlink",
+        "mavlink-core",
+        "mavlink-bindgen"
+      ]
+    },
+    {
+      "entries": 5,
+      "file": "aerospace--space-protocols",
+      "name": "Aerospace::Space protocols",
+      "slug": "aerospace::space-protocols",
+      "top": [
+        "spacepackets",
+        "raptor-code",
+        "dvb-gse"
+      ]
+    },
+    {
+      "entries": 11,
+      "file": "aerospace--unmanned-aerial-vehicles",
+      "name": "Aerospace::Unmanned aerial vehicles",
+      "slug": "aerospace::unmanned-aerial-vehicles",
+      "top": [
+        "uf-crsf",
+        "mavinspect",
+        "mavspec_rust_gen"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "algorithms",
+      "name": "Algorithms",
+      "slug": "algorithms",
+      "top": [
+        "rand",
+        "rand_core",
+        "crc32fast"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "api-bindings",
+      "name": "API bindings",
+      "slug": "api-bindings",
+      "top": [
+        "flate2",
+        "pyo3",
+        "zstd"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "artificial-intelligence",
+      "name": "Artificial intelligence",
+      "slug": "artificial-intelligence",
+      "top": [
+        "hf-xet",
+        "xet-core-structures",
+        "xet-runtime"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "asynchronous",
+      "name": "Asynchronous",
+      "slug": "asynchronous",
+      "top": [
+        "tokio",
+        "tokio-util",
+        "tonic"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "authentication",
+      "name": "Authentication",
+      "slug": "authentication",
+      "top": [
+        "argon2",
+        "pbkdf2",
+        "ssh-key"
+      ]
+    },
+    {
+      "entries": 13,
+      "file": "automotive",
+      "name": "Automotive",
+      "slug": "automotive",
+      "top": [
+        "ankaios_sdk",
+        "dbc-codegen",
+        "visa-rs"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "caching",
+      "name": "Caching",
+      "slug": "caching",
+      "top": [
+        "lru",
+        "kube",
+        "moka"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "command-line-interface",
+      "name": "Command-line interface",
+      "slug": "command-line-interface",
+      "top": [
+        "clap",
+        "clap_complete",
+        "ratatui"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "command-line-utilities",
+      "name": "Command line utilities",
+      "slug": "command-line-utilities",
+      "top": [
+        "comrak",
+        "serde-saphyr",
+        "uucore"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "compilers",
+      "name": "Compilers",
+      "slug": "compilers",
+      "top": [
+        "oxc_allocator",
+        "oxc_span",
+        "oxc_ast"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "compression",
+      "name": "Compression",
+      "slug": "compression",
+      "top": [
+        "flate2",
+        "zip",
+        "zstd"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "computer-vision",
+      "name": "Computer vision",
+      "slug": "computer-vision",
+      "top": [
+        "opencv",
+        "rerun",
+        "re_sdk"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "concurrency",
+      "name": "Concurrency",
+      "slug": "concurrency",
+      "top": [
+        "parking_lot",
+        "crossbeam-channel",
+        "pollster"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "config",
+      "name": "Configuration",
+      "slug": "config",
+      "top": [
+        "toml",
+        "toml_edit",
+        "config"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "cryptography",
+      "name": "Cryptography",
+      "slug": "cryptography",
+      "top": [
+        "sha2",
+        "rustls",
+        "zeroize"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "cryptography--cryptocurrencies",
+      "name": "Cryptography::Cryptocurrencies",
+      "slug": "cryptography::cryptocurrencies",
+      "top": [
+        "alloy-primitives",
+        "k256",
+        "alloy-sol-types"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "data-structures",
+      "name": "Data structures",
+      "slug": "data-structures",
+      "top": [
+        "bytes",
+        "uuid",
+        "indexmap"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "database",
+      "name": "Database interfaces",
+      "slug": "database",
+      "top": [
+        "rusqlite",
+        "diesel",
+        "sea-orm"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "database-implementations",
+      "name": "Database implementations",
+      "slug": "database-implementations",
+      "top": [
+        "tantivy",
+        "lancedb",
+        "lance"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "date-and-time",
+      "name": "Date and time",
+      "slug": "date-and-time",
+      "top": [
+        "rustix",
+        "time",
+        "jiff"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "development-tools",
+      "name": "Development tools",
+      "slug": "development-tools",
+      "top": [
+        "camino",
+        "bytesize",
+        "oxc_allocator"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "development-tools--build-utils",
+      "name": "Development tools::Build Utils",
+      "slug": "development-tools::build-utils",
+      "top": [
+        "cc",
+        "inventory",
+        "ctor"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "development-tools--cargo-plugins",
+      "name": "Development tools::Cargo plugins",
+      "slug": "development-tools::cargo-plugins",
+      "top": [
+        "clap-cargo",
+        "cargo-edit",
+        "cargo-audit"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "development-tools--debugging",
+      "name": "Development tools::Debugging",
+      "slug": "development-tools::debugging",
+      "top": [
+        "log",
+        "env_logger",
+        "defmt"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "development-tools--ffi",
+      "name": "Development tools::FFI",
+      "slug": "development-tools::ffi",
+      "top": [
+        "pyo3",
+        "bindgen",
+        "objc2"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "development-tools--procedural-macro-helpers",
+      "name": "Development tools::Procedural macro helpers",
+      "slug": "development-tools::procedural-macro-helpers",
+      "top": [
+        "syn",
+        "quote",
+        "proc-macro2"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "development-tools--profiling",
+      "name": "Development tools::Profiling",
+      "slug": "development-tools::profiling",
+      "top": [
+        "tracing",
+        "opentelemetry",
+        "opentelemetry-otlp"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "development-tools--testing",
+      "name": "Development tools::Testing",
+      "slug": "development-tools::testing",
+      "top": [
+        "proptest",
+        "arbitrary",
+        "insta"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "email",
+      "name": "Email",
+      "slug": "email",
+      "top": [
+        "lettre",
+        "mail-parser",
+        "pgp"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "embedded",
+      "name": "Embedded development",
+      "slug": "embedded",
+      "top": [
+        "defmt",
+        "zerocopy",
+        "icu_properties"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "emulators",
+      "name": "Emulators",
+      "slug": "emulators",
+      "top": [
+        "bitfields",
+        "miden-core",
+        "miden-processor"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "encoding",
+      "name": "Encoding",
+      "slug": "encoding",
+      "top": [
+        "serde_json",
+        "toml",
+        "url"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "external-ffi-bindings",
+      "name": "External FFI bindings",
+      "slug": "external-ffi-bindings",
+      "top": [
+        "libc",
+        "tree-sitter",
+        "openssl-sys"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "filesystem",
+      "name": "Filesystem",
+      "slug": "filesystem",
+      "top": [
+        "zip",
+        "notify",
+        "rustix"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "finance",
+      "name": "Finance",
+      "slug": "finance",
+      "top": [
+        "ibapi",
+        "nautilus-core",
+        "nautilus-model"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "game-development",
+      "name": "Game development",
+      "slug": "game-development",
+      "top": [
+        "egui",
+        "eframe",
+        "egui_extras"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "game-engines",
+      "name": "Game engines",
+      "slug": "game-engines",
+      "top": [
+        "glam",
+        "bevy",
+        "bevy_ecs"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "games",
+      "name": "Games",
+      "slug": "games",
+      "top": [
+        "shakmaty",
+        "steamworks",
+        "tobj"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "graphics",
+      "name": "Graphics",
+      "slug": "graphics",
+      "top": [
+        "skrifa",
+        "bevy",
+        "read-fonts"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "gui",
+      "name": "GUI",
+      "slug": "gui",
+      "top": [
+        "winit",
+        "egui",
+        "tauri"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "hardware-support",
+      "name": "Hardware support",
+      "slug": "hardware-support",
+      "top": [
+        "portable-atomic",
+        "cortex-m",
+        "wide"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "internationalization",
+      "name": "Internationalization (i18n)",
+      "slug": "internationalization",
+      "top": [
+        "encoding_rs",
+        "unicode-width",
+        "icu_properties"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "localization",
+      "name": "Localization (L10n)",
+      "slug": "localization",
+      "top": [
+        "icu_properties",
+        "icu_provider",
+        "whoami"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "mathematics",
+      "name": "Mathematics",
+      "slug": "mathematics",
+      "top": [
+        "rust_decimal",
+        "crypto-bigint",
+        "ort"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "memory-management",
+      "name": "Memory management",
+      "slug": "memory-management",
+      "top": [
+        "zeroize",
+        "bumpalo",
+        "arc-swap"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "multimedia",
+      "name": "Multimedia",
+      "slug": "multimedia",
+      "top": [
+        "gstreamer",
+        "symphonia",
+        "gstreamer-video"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "multimedia--audio",
+      "name": "Multimedia::Audio",
+      "slug": "multimedia::audio",
+      "top": [
+        "cpal",
+        "rubato",
+        "symphonia"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "multimedia--encoding",
+      "name": "Multimedia::Encoding",
+      "slug": "multimedia::encoding",
+      "top": [
+        "image",
+        "symphonia",
+        "tiff"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "multimedia--images",
+      "name": "Multimedia::Images",
+      "slug": "multimedia::images",
+      "top": [
+        "usvg",
+        "image",
+        "zune-jpeg"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "multimedia--video",
+      "name": "Multimedia::Video",
+      "slug": "multimedia::video",
+      "top": [
+        "symphonia",
+        "yuv",
+        "openh264"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "network-programming",
+      "name": "Network programming",
+      "slug": "network-programming",
+      "top": [
+        "tokio",
+        "bytes",
+        "rustls"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "no-std",
+      "name": "No standard library",
+      "slug": "no-std",
+      "top": [
+        "serde_json",
+        "rand",
+        "thiserror"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "no-std--no-alloc",
+      "name": "No standard library::No dynamic allocation",
+      "slug": "no-std::no-alloc",
+      "top": [
+        "serde",
+        "serde_with",
+        "zerocopy"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "os",
+      "name": "Operating systems",
+      "slug": "os",
+      "top": [
+        "libc",
+        "zeroize",
+        "getrandom"
+      ]
+    },
+    {
+      "entries": 8,
+      "file": "os--android-apis",
+      "name": "Operating systems::Android APIs",
+      "slug": "os::android-apis",
+      "top": [
+        "i-slint-backend-android-activity",
+        "apk-info-axml",
+        "apk-info"
+      ]
+    },
+    {
+      "entries": 4,
+      "file": "os--freebsd-apis",
+      "name": "Operating systems::FreeBSD APIs",
+      "slug": "os::freebsd-apis",
+      "top": [
+        "mdconfig",
+        "evdevil",
+        "rawether"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "os--linux-apis",
+      "name": "Operating systems::Linux APIs",
+      "slug": "os::linux-apis",
+      "top": [
+        "landlock",
+        "ashpd",
+        "oo7"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "os--macos-apis",
+      "name": "Operating systems::macOS APIs",
+      "slug": "os::macos-apis",
+      "top": [
+        "objc2",
+        "security-framework",
+        "system-configuration"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "os--unix-apis",
+      "name": "Operating systems::Unix APIs",
+      "slug": "os::unix-apis",
+      "top": [
+        "nix",
+        "rustix",
+        "zbus"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "os--windows-apis",
+      "name": "Operating systems::Windows APIs",
+      "slug": "os::windows-apis",
+      "top": [
+        "interprocess",
+        "embed-resource",
+        "windows-core"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "parser-implementations",
+      "name": "Parser implementations",
+      "slug": "parser-implementations",
+      "top": [
+        "serde_json",
+        "syn",
+        "toml"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "parsing",
+      "name": "Parsing tools",
+      "slug": "parsing",
+      "top": [
+        "toml",
+        "toml_edit",
+        "quick-xml"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "rendering",
+      "name": "Rendering",
+      "slug": "rendering",
+      "top": [
+        "bevy",
+        "vello_cpu",
+        "vello_common"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "rendering--data-formats",
+      "name": "Rendering::Data formats",
+      "slug": "rendering::data-formats",
+      "top": [
+        "openusd",
+        "hexasphere",
+        "geozero"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "rendering--engine",
+      "name": "Rendering::Rendering engine",
+      "slug": "rendering::engine",
+      "top": [
+        "slint",
+        "slint-build",
+        "meshopt"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "rendering--graphics-api",
+      "name": "Rendering::Graphics APIs",
+      "slug": "rendering::graphics-api",
+      "top": [
+        "skia-safe",
+        "skia-bindings",
+        "vk-parse"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "rust-patterns",
+      "name": "Rust patterns",
+      "slug": "rust-patterns",
+      "top": [
+        "thiserror",
+        "anyhow",
+        "ordered-float"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "science",
+      "name": "Science",
+      "slug": "science",
+      "top": [
+        "ordered-float",
+        "rust_decimal",
+        "num-bigint"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "science--bioinformatics",
+      "name": "Science::Bioinformatics",
+      "slug": "science::bioinformatics",
+      "top": [
+        "noodles",
+        "noodles-csi",
+        "noodles-sam"
+      ]
+    },
+    {
+      "entries": 4,
+      "file": "science--bioinformatics--genomics",
+      "name": "Science::Bioinformatics::Genomics",
+      "slug": "science::bioinformatics::genomics",
+      "top": [
+        "na_seq",
+        "zoe",
+        "bio-seq"
+      ]
+    },
+    {
+      "entries": 3,
+      "file": "science--bioinformatics--proteomics",
+      "name": "Science::Bioinformatics::Proteomics",
+      "slug": "science::bioinformatics::proteomics",
+      "top": [
+        "na_seq",
+        "bio-seq",
+        "bio_files"
+      ]
+    },
+    {
+      "entries": 7,
+      "file": "science--bioinformatics--sequence-analysis",
+      "name": "Science::Bioinformatics::Sequence analysis",
+      "slug": "science::bioinformatics::sequence-analysis",
+      "top": [
+        "na_seq",
+        "zoe",
+        "bio-seq"
+      ]
+    },
+    {
+      "entries": 10,
+      "file": "science--computational-biology",
+      "name": "Science::Computational Biology",
+      "slug": "science::computational-biology",
+      "top": [
+        "ann-search-rs",
+        "bixverse-sc-data",
+        "bixverse-core"
+      ]
+    },
+    {
+      "entries": 3,
+      "file": "science--computational-biology--structural-modeling",
+      "name": "Science::Computational Biology::Structural Modeling",
+      "slug": "science::computational-biology::structural-modeling",
+      "top": [
+        "na_seq",
+        "bio_apis",
+        "bio_files"
+      ]
+    },
+    {
+      "entries": 21,
+      "file": "science--computational-chemistry--cheminformatics",
+      "name": "Science::Computational Chemistry::Cheminformatics",
+      "slug": "science::computational-chemistry::cheminformatics",
+      "top": [
+        "chematic-core",
+        "chematic-perception",
+        "chematic-smiles"
+      ]
+    },
+    {
+      "entries": 4,
+      "file": "science--computational-chemistry--molecular-simulation",
+      "name": "Science::Computational Chemistry::Molecular Simulation",
+      "slug": "science::computational-chemistry::molecular-simulation",
+      "top": [
+        "chematic",
+        "chematic-3d",
+        "chematic-ff"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "science--geo",
+      "name": "Science::Geospatial",
+      "slug": "science::geo",
+      "top": [
+        "rstar",
+        "i_overlay",
+        "geo"
+      ]
+    },
+    {
+      "entries": 4,
+      "file": "science--neuroscience",
+      "name": "Science::Neuroscience",
+      "slug": "science::neuroscience",
+      "top": [
+        "ritk-spatial",
+        "ritk-image",
+        "corpus-ipc"
+      ]
+    },
+    {
+      "entries": 19,
+      "file": "science--quantum-computing",
+      "name": "Science::Quantum Computing",
+      "slug": "science::quantum-computing",
+      "top": [
+        "hugr-core",
+        "hugr",
+        "hugr-model"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "science--robotics",
+      "name": "Science::Robotics",
+      "slug": "science::robotics",
+      "top": [
+        "serial2",
+        "mcap",
+        "cu29"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "security",
+      "name": "Security",
+      "slug": "security",
+      "top": [
+        "keepass",
+        "dimpl",
+        "pam-bindings"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "simulation",
+      "name": "Simulation",
+      "slug": "simulation",
+      "top": [
+        "rapier3d",
+        "rapier2d",
+        "nautilus-core"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "template-engine",
+      "name": "Template engine",
+      "slug": "template-engine",
+      "top": [
+        "minijinja",
+        "askama",
+        "handlebars"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "text-editors",
+      "name": "Text editors",
+      "slug": "text-editors",
+      "top": [
+        "tree-sitter",
+        "tree-sitter-highlight",
+        "ratatui-textarea"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "text-processing",
+      "name": "Text processing",
+      "slug": "text-processing",
+      "top": [
+        "regex",
+        "pulldown-cmark",
+        "fancy-regex"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "value-formatting",
+      "name": "Value formatting",
+      "slug": "value-formatting",
+      "top": [
+        "time",
+        "defmt",
+        "itoa"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "virtualization",
+      "name": "Virtualization",
+      "slug": "virtualization",
+      "top": [
+        "landlock",
+        "wasmi",
+        "wasmi_core"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "visualization",
+      "name": "Visualization",
+      "slug": "visualization",
+      "top": [
+        "egui_plot",
+        "skia-safe",
+        "pdfium-render"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "wasm",
+      "name": "WebAssembly",
+      "slug": "wasm",
+      "top": [
+        "uuid",
+        "reqwest",
+        "wasm-bindgen"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "web-programming",
+      "name": "Web programming",
+      "slug": "web-programming",
+      "top": [
+        "url",
+        "tonic",
+        "http"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "web-programming--http-client",
+      "name": "Web programming::HTTP client",
+      "slug": "web-programming::http-client",
+      "top": [
+        "reqwest",
+        "hyper",
+        "ureq"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "web-programming--http-server",
+      "name": "Web programming::HTTP server",
+      "slug": "web-programming::http-server",
+      "top": [
+        "hyper",
+        "actix-web",
+        "hyper-util"
+      ]
+    },
+    {
+      "entries": 25,
+      "file": "web-programming--websocket",
+      "name": "Web programming::WebSocket",
+      "slug": "web-programming::websocket",
+      "top": [
+        "actix-web",
+        "tokio-tungstenite",
+        "actix-http"
+      ]
+    }
+  ],
+  "dump_date": "2026-11-21",
+  "score_version": 1
+}

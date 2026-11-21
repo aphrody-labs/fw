@@ -1,0 +1,937 @@
+{
+  "category": {
+    "crates": 2320,
+    "description": "Crates to help you figure out what is going on with your code such as logging, tracing, or assertions.",
+    "name": "Development tools::Debugging",
+    "slug": "development-tools::debugging"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.8764,
+        "downloads": 0.9598,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9606,
+        "security": 1.0
+      },
+      "created": "2014-12-13",
+      "dependents": 32694,
+      "description": "A lightweight logging facade for Rust\n",
+      "downloads": 1574894244,
+      "edition": "2021",
+      "keywords": [
+        "logging"
+      ],
+      "last_release": "2026-10-30",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "log",
+      "owners": 1,
+      "recent_downloads": 415728661,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-lang/log",
+      "score": 93.31,
+      "version": "0.4.35",
+      "versions": 65
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.7571,
+        "downloads": 0.8928,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2015-01-27",
+      "dependents": 7939,
+      "description": "A logging implementation for `log` which is configured via an environment\nvariable.\n",
+      "downloads": 637457712,
+      "edition": "2024",
+      "keywords": [
+        "log",
+        "logger",
+        "logging"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "env_logger",
+      "owners": 5,
+      "recent_downloads": 103901631,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-cli/env_logger",
+      "score": 91.24,
+      "version": "0.11.12",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "embedded",
+        "no-std",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.606,
+        "downloads": 0.8872,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2020-08-14",
+      "dependents": 1322,
+      "description": "A highly efficient logging framework that targets resource-constrained devices, like microcontrollers",
+      "downloads": 122608519,
+      "edition": "2021",
+      "keywords": [
+        "formatter",
+        "formatting",
+        "knurling",
+        "logger",
+        "logging"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "defmt",
+      "owners": 4,
+      "recent_downloads": 92695743,
+      "releases_365d": 4,
+      "repository": "https://github.com/knurling-rs/defmt",
+      "score": 86.33,
+      "version": "1.2.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.9104,
+        "downloads": 0.9423,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.5268,
+        "security": 1.0
+      },
+      "created": "2017-11-27",
+      "dependents": 48944,
+      "description": "Application-level tracing for Rust.\n",
+      "downloads": 1078489609,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "logging",
+        "metrics",
+        "tracing"
+      ],
+      "last_release": "2025-12-18",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing",
+      "owners": 3,
+      "recent_downloads": 289565257,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 86.22,
+      "version": "0.1.44",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.6373,
+        "downloads": 0.8885,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2019-11-08",
+      "dependents": 1916,
+      "description": "OpenTelemetry API for Rust",
+      "downloads": 340780462,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry",
+      "owners": 3,
+      "recent_downloads": 95088940,
+      "releases_365d": 3,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry",
+      "score": 85.49,
+      "version": "0.33.1",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.5881,
+        "downloads": 0.867,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2020-08-14",
+      "dependents": 1069,
+      "description": "Exporter for the OpenTelemetry Collector",
+      "downloads": 202012589,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "otlp",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-otlp",
+      "owners": 3,
+      "recent_downloads": 61000210,
+      "releases_365d": 4,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-otlp",
+      "score": 85.22,
+      "version": "0.33.1",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.8177,
+        "downloads": 0.9258,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6189,
+        "security": 1.0
+      },
+      "created": "2019-06-27",
+      "dependents": 16290,
+      "description": "Utilities for implementing and composing `tracing` subscribers.\n",
+      "downloads": 768494479,
+      "edition": "2018",
+      "keywords": [
+        "logging",
+        "metrics",
+        "subscriber",
+        "tracing"
+      ],
+      "last_release": "2026-03-13",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing-subscriber",
+      "owners": 3,
+      "recent_downloads": 205908623,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 84.87,
+      "version": "0.3.23",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.592,
+        "downloads": 0.8727,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.8945,
+        "security": 1.0
+      },
+      "created": "2019-11-20",
+      "dependents": 1120,
+      "description": "OpenTelemetry integration for tracing",
+      "downloads": 258622204,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "jaeger",
+        "opentelemetry",
+        "tracing",
+        "zipkin"
+      ],
+      "last_release": "2026-09-23",
+      "license": "MIT",
+      "msrv": "1.75.0",
+      "name": "tracing-opentelemetry",
+      "owners": 4,
+      "recent_downloads": 68697437,
+      "releases_365d": 3,
+      "repository": "https://github.com/tokio-rs/tracing-opentelemetry",
+      "score": 83.54,
+      "version": "0.34.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.4853,
+        "downloads": 0.8534,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2020-10-16",
+      "dependents": 315,
+      "description": "Semantic conventions for OpenTelemetry",
+      "downloads": 174129453,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-semantic-conventions",
+      "owners": 3,
+      "recent_downloads": 46013719,
+      "releases_365d": 4,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-semantic-conventions",
+      "score": 82.31,
+      "version": "0.33.1",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.4104,
+        "downloads": 0.8742,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2022-09-13",
+      "dependents": 129,
+      "description": "Protobuf generated files and transformations.",
+      "downloads": 213932542,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "otlp",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-proto",
+      "owners": 3,
+      "recent_downloads": 70770831,
+      "releases_365d": 3,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-proto",
+      "score": 79.46,
+      "version": "0.33.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.3021,
+        "downloads": 0.8737,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2024-01-19",
+      "dependents": 35,
+      "description": "Filter log events using environment variables\n",
+      "downloads": 251467903,
+      "edition": "2024",
+      "keywords": [
+        "log",
+        "logger",
+        "logging"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "env_filter",
+      "owners": 2,
+      "recent_downloads": 70009332,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-cli/env_logger",
+      "score": 78.39,
+      "version": "2.1.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.4508,
+        "downloads": 0.7531,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9953,
+        "security": 1.0
+      },
+      "created": "2015-07-12",
+      "dependents": 209,
+      "description": "An easy-to-configure and flexible logger that writes logs to stderr or stdout and/or to files. It allows custom logline formats, and it allows changing the log specification at runtime. It also allows defining additional log streams, e.g. for alert or security messages.",
+      "downloads": 28575023,
+      "edition": "2021",
+      "keywords": [
+        "file",
+        "logger"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91.0",
+      "name": "flexi_logger",
+      "owners": 1,
+      "recent_downloads": 5782911,
+      "releases_365d": 4,
+      "repository": "https://github.com/emabee/flexi_logger",
+      "score": 78.03,
+      "version": "0.32.0",
+      "versions": 153
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.3775,
+        "downloads": 0.8926,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8089,
+        "security": 1.0
+      },
+      "created": "2016-12-03",
+      "dependents": 87,
+      "description": "A cross-platform symbolication library written in Rust, using `gimli`",
+      "downloads": 593711075,
+      "edition": "2018",
+      "keywords": [
+        "atos",
+        "debug",
+        "dwarf",
+        "elf",
+        "symbolicate"
+      ],
+      "last_release": "2026-08-01",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88",
+      "name": "addr2line",
+      "owners": 2,
+      "recent_downloads": 103627569,
+      "releases_365d": 4,
+      "repository": "https://github.com/gimli-rs/addr2line",
+      "score": 77.89,
+      "version": "0.27.1",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.6096,
+        "downloads": 0.8573,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.6616,
+        "security": 1.0
+      },
+      "created": "2020-05-05",
+      "dependents": 1379,
+      "description": "Provides utilities for file appenders and making non-blocking writers.\n",
+      "downloads": 153799861,
+      "edition": "2018",
+      "keywords": [
+        "file-appender",
+        "logging",
+        "non-blocking-writer",
+        "tracing"
+      ],
+      "last_release": "2026-04-17",
+      "license": "MIT",
+      "msrv": "1.63.0",
+      "name": "tracing-appender",
+      "owners": 2,
+      "recent_downloads": 49883915,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 77.59,
+      "version": "0.2.5",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.6105,
+        "downloads": 0.835,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.6953,
+        "security": 1.0
+      },
+      "created": "2015-09-03",
+      "dependents": 1394,
+      "description": "A lightweight metrics facade.",
+      "downloads": 132591457,
+      "edition": "2018",
+      "keywords": [
+        "facade",
+        "metrics"
+      ],
+      "last_release": "2026-05-13",
+      "license": "MIT",
+      "msrv": "1.71.1",
+      "name": "metrics",
+      "owners": 2,
+      "recent_downloads": 31446610,
+      "releases_365d": 2,
+      "repository": "https://github.com/metrics-rs/metrics",
+      "score": 77.57,
+      "version": "0.24.6",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "development-tools::profiling",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.4548,
+        "downloads": 0.9,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7539,
+        "security": 1.0
+      },
+      "created": "2016-06-15",
+      "dependents": 219,
+      "description": "A library for reading and writing the DWARF debugging format.",
+      "downloads": 654987457,
+      "edition": "2024",
+      "keywords": [
+        "debug",
+        "dwarf",
+        "eh_frame",
+        "elf"
+      ],
+      "last_release": "2026-06-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "gimli",
+      "owners": 2,
+      "recent_downloads": 120609238,
+      "releases_365d": 2,
+      "repository": "https://github.com/gimli-rs/gimli",
+      "score": 76.18,
+      "version": "0.34.0",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.7278,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2020-10-16",
+      "dependents": 72,
+      "description": "Prometheus exporter for OpenTelemetry",
+      "downloads": 16772117,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "metrics",
+        "opentelemetry",
+        "prometheus"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.81.0",
+      "name": "opentelemetry-prometheus",
+      "owners": 3,
+      "recent_downloads": 3432169,
+      "releases_365d": 4,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-prometheus",
+      "score": 76.08,
+      "version": "0.33.1",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.5045,
+        "downloads": 0.8231,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7146,
+        "security": 1.0
+      },
+      "created": "2016-05-13",
+      "dependents": 396,
+      "description": "An impish, cross-platform, ELF, Mach-o, and PE binary parsing and loading crate",
+      "downloads": 91273677,
+      "edition": "2024",
+      "keywords": [
+        "archive",
+        "binary",
+        "elf",
+        "mach",
+        "pe"
+      ],
+      "last_release": "2026-05-28",
+      "license": "MIT",
+      "msrv": "1.85.0",
+      "name": "goblin",
+      "owners": 1,
+      "recent_downloads": 24605722,
+      "releases_365d": 3,
+      "repository": "https://github.com/m4b/goblin",
+      "score": 75.41,
+      "version": "0.10.7",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.5002,
+        "downloads": 0.9422,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.5268,
+        "security": 1.0
+      },
+      "created": "2019-06-20",
+      "dependents": 376,
+      "description": "Core primitives for application-level tracing.\n",
+      "downloads": 1088761844,
+      "edition": "2018",
+      "keywords": [
+        "logging",
+        "profiling",
+        "tracing"
+      ],
+      "last_release": "2025-12-18",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing-core",
+      "owners": 2,
+      "recent_downloads": 289078948,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 74.96,
+      "version": "0.1.36",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.5196,
+        "downloads": 0.8094,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.6782,
+        "security": 1.0
+      },
+      "created": "2020-06-17",
+      "dependents": 474,
+      "description": "A metrics-compatible exporter for sending metrics to Prometheus.",
+      "downloads": 61417104,
+      "edition": "2018",
+      "keywords": [
+        "metrics",
+        "prometheus",
+        "telemetry"
+      ],
+      "last_release": "2026-04-30",
+      "license": "MIT AND Apache-2.0",
+      "msrv": "1.71.1",
+      "name": "metrics-exporter-prometheus",
+      "owners": 1,
+      "recent_downloads": 18531927,
+      "releases_365d": 3,
+      "repository": "https://github.com/metrics-rs/metrics",
+      "score": 74.9,
+      "version": "0.18.3",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.3831,
+        "downloads": 0.747,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2023-07-29",
+      "dependents": 93,
+      "description": "An OpenTelemetry exporter for stdout",
+      "downloads": 36648803,
+      "edition": "2021",
+      "keywords": [
+        "logs",
+        "metrics",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-stdout",
+      "owners": 2,
+      "recent_downloads": 5104586,
+      "releases_365d": 3,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-stdout",
+      "score": 74.6,
+      "version": "0.33.1",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.7287,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9617,
+        "security": 1.0
+      },
+      "created": "2020-07-09",
+      "dependents": 56,
+      "description": "Logging bridge from pyo3 native extension to python",
+      "downloads": 18914064,
+      "edition": "2018",
+      "keywords": [
+        "logging",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-31",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.74",
+      "name": "pyo3-log",
+      "owners": 2,
+      "recent_downloads": 3493390,
+      "releases_365d": 3,
+      "repository": "https://github.com/vorner/pyo3-log",
+      "score": 73.66,
+      "version": "0.13.5",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.3651,
+        "downloads": 0.6847,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8072,
+        "security": 1.0
+      },
+      "created": "2024-07-16",
+      "dependents": 75,
+      "description": "A high-performance timeline tracing library for Rust",
+      "downloads": 8041386,
+      "edition": "2024",
+      "keywords": [
+        "opentelemetry",
+        "span",
+        "tracing"
+      ],
+      "last_release": "2026-07-31",
+      "license": "Apache-2.0",
+      "msrv": "1.91.0",
+      "name": "fastrace",
+      "owners": 2,
+      "recent_downloads": 1408127,
+      "releases_365d": 5,
+      "repository": "https://github.com/fast/fastrace",
+      "score": 72.35,
+      "version": "0.7.19",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "algorithms",
+        "api-bindings",
+        "development-tools::debugging",
+        "os::unix-apis",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7399,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9565,
+        "security": 1.0
+      },
+      "created": "2022-07-12",
+      "dependents": 12,
+      "description": "blazesym is a library for address symbolization and related tasks.",
+      "downloads": 11205946,
+      "edition": "2021",
+      "keywords": [
+        "dwarf",
+        "elf",
+        "gsym",
+        "stacktrace",
+        "tracing"
+      ],
+      "last_release": "2026-10-28",
+      "license": "BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "blazesym",
+      "owners": 2,
+      "recent_downloads": 4410163,
+      "releases_365d": 6,
+      "repository": "https://github.com/libbpf/blazesym",
+      "score": 72.25,
+      "version": "0.2.7",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.3839,
+        "downloads": 0.8255,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.6953,
+        "security": 1.0
+      },
+      "created": "2019-04-23",
+      "dependents": 94,
+      "description": "Helper types/functions used by the metrics ecosystem.",
+      "downloads": 111453616,
+      "edition": "2018",
+      "keywords": [
+        "metrics",
+        "percentile",
+        "quantile"
+      ],
+      "last_release": "2026-05-13",
+      "license": "MIT",
+      "msrv": "1.71.1",
+      "name": "metrics-util",
+      "owners": 1,
+      "recent_downloads": 25855235,
+      "releases_365d": 3,
+      "repository": "https://github.com/metrics-rs/metrics",
+      "score": 72.17,
+      "version": "0.20.4",
+      "versions": 50
+    }
+  ],
+  "score_version": 1
+}

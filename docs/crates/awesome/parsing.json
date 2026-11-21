@@ -1,0 +1,933 @@
+{
+  "category": {
+    "crates": 6058,
+    "description": "Crates to help create parsers of binary and text formats. Format-specific parsers belong in other, more specific categories.",
+    "name": "Parsing tools",
+    "slug": "parsing"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.8407,
+        "downloads": 0.9494,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 21410,
+      "description": "A native Rust encoder and decoder of TOML-formatted files and streams. Provides\nimplementations of the standard Serialize/Deserialize traits for TOML data to\nfacilitate deserializing and serializing Rust structures.\n",
+      "downloads": 1173287918,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "no_std",
+        "toml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml",
+      "owners": 2,
+      "recent_downloads": 335185988,
+      "releases_365d": 23,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 93.35,
+      "version": "1.2.1+spec-1.1.0",
+      "versions": 124
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.6527,
+        "downloads": 0.9446,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2017-12-17",
+      "dependents": 2300,
+      "description": "Yet another format-preserving TOML parser.",
+      "downloads": 1057115241,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "toml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml_edit",
+      "owners": 3,
+      "recent_downloads": 303232529,
+      "releases_365d": 24,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 89.52,
+      "version": "0.25.19+spec-1.1.0",
+      "versions": 132
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.6744,
+        "downloads": 0.9214,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8425,
+        "security": 1.0
+      },
+      "created": "2016-02-01",
+      "dependents": 2977,
+      "description": "High performance xml reader and writer",
+      "downloads": 567282139,
+      "edition": "2024",
+      "keywords": [
+        "html",
+        "parser",
+        "serde",
+        "writer",
+        "xml"
+      ],
+      "last_release": "2026-08-22",
+      "license": "MIT",
+      "msrv": "1.86",
+      "name": "quick-xml",
+      "owners": 3,
+      "recent_downloads": 187712535,
+      "releases_365d": 9,
+      "repository": "https://github.com/tafia/quick-xml",
+      "score": 87.53,
+      "version": "0.42.0",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.6521,
+        "downloads": 0.8226,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2018-05-18",
+      "dependents": 2284,
+      "description": "Rust bindings to the Tree-sitter parsing library",
+      "downloads": 58521609,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter",
+      "owners": 3,
+      "recent_downloads": 24361622,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 86.48,
+      "version": "0.27.2",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "embedded",
+        "encoding",
+        "no-std::no-alloc",
+        "parsing",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5746,
+        "downloads": 0.9518,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9299,
+        "security": 1.0
+      },
+      "created": "2018-08-15",
+      "dependents": 911,
+      "description": "Zerocopy makes zero-cost memory manipulation effortless. We write \"unsafe\" so you don't have to.",
+      "downloads": 1182012711,
+      "edition": "2021",
+      "keywords": [
+        "cast",
+        "convert",
+        "transmutation",
+        "transmute",
+        "type-punning"
+      ],
+      "last_release": "2026-10-13",
+      "license": "BSD-2-Clause OR Apache-2.0 OR MIT",
+      "msrv": "1.56.0",
+      "name": "zerocopy",
+      "owners": 2,
+      "recent_downloads": 352251028,
+      "releases_365d": 41,
+      "repository": "https://github.com/google/zerocopy",
+      "score": 86.11,
+      "version": "0.8.63",
+      "versions": 174
+    },
+    {
+      "categories": [
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.6043,
+        "downloads": 0.8877,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9798,
+        "security": 1.0
+      },
+      "created": "2016-04-24",
+      "dependents": 1295,
+      "description": "The Elegant Parser",
+      "downloads": 401728522,
+      "edition": "2024",
+      "keywords": [
+        "grammar",
+        "parser",
+        "peg",
+        "pest"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "pest",
+      "owners": 2,
+      "recent_downloads": 93504395,
+      "releases_365d": 12,
+      "repository": "https://github.com/pest-parser/pest",
+      "score": 86.0,
+      "version": "2.9.6",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.5973,
+        "downloads": 0.8817,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9798,
+        "security": 1.0
+      },
+      "created": "2017-08-15",
+      "dependents": 1192,
+      "description": "pest's derive macro",
+      "downloads": 352338226,
+      "edition": "2024",
+      "keywords": [
+        "grammar",
+        "parser",
+        "peg",
+        "pest"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "pest_derive",
+      "owners": 2,
+      "recent_downloads": 82680729,
+      "releases_365d": 12,
+      "repository": "https://github.com/pest-parser/pest",
+      "score": 85.67,
+      "version": "2.9.6",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.5186,
+        "downloads": 0.9578,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.97,
+        "security": 1.0
+      },
+      "created": "2023-02-22",
+      "dependents": 468,
+      "description": "A byte-oriented, zero-copy, parser combinators library",
+      "downloads": 1214978984,
+      "edition": "2021",
+      "keywords": [
+        "bit",
+        "parser",
+        "parser-combinators",
+        "parsing",
+        "streaming"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "winnow",
+      "owners": 1,
+      "recent_downloads": 398439897,
+      "releases_365d": 8,
+      "repository": "https://github.com/winnow-rs/winnow",
+      "score": 84.46,
+      "version": "1.0.5",
+      "versions": 112
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.562,
+        "downloads": 0.821,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.921,
+        "security": 1.0
+      },
+      "created": "2024-08-26",
+      "dependents": 784,
+      "description": "The tree-sitter Language type, used by the library and by language implementations",
+      "downloads": 49611326,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-10-08",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-language",
+      "owners": 3,
+      "recent_downloads": 23581364,
+      "releases_365d": 4,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 83.39,
+      "version": "0.1.9",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "data-structures",
+        "encoding",
+        "os::unix-apis",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.5571,
+        "downloads": 0.8515,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2020-07-07",
+      "dependents": 740,
+      "description": "API for D-Bus communication and its wire format",
+      "downloads": 118539541,
+      "edition": "2024",
+      "keywords": [
+        "d-bus",
+        "dbus",
+        "ipc",
+        "serde"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "zbus",
+      "owners": 1,
+      "recent_downloads": 44272907,
+      "releases_365d": 16,
+      "repository": "https://github.com/z-galaxy/zbus/",
+      "score": 83.21,
+      "version": "6.5.0",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4907,
+        "downloads": 0.8369,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2023-04-08",
+      "dependents": 336,
+      "description": "Metadata reader and glyph scaler for OpenType fonts.",
+      "downloads": 54070254,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "skrifa",
+      "owners": 7,
+      "recent_downloads": 32708541,
+      "releases_365d": 16,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 82.9,
+      "version": "0.50.0",
+      "versions": 89
+    },
+    {
+      "categories": [
+        "encoding",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4907,
+        "downloads": 0.7676,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9645,
+        "security": 1.0
+      },
+      "created": "2016-11-09",
+      "dependents": 336,
+      "description": "An Excel/OpenDocument Spreadsheet reader and deserializer in pure Rust",
+      "downloads": 19239555,
+      "edition": "2021",
+      "keywords": [
+        "excel",
+        "ods",
+        "xls",
+        "xlsb",
+        "xlsx"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "calamine",
+      "owners": 3,
+      "recent_downloads": 7809794,
+      "releases_365d": 7,
+      "repository": "https://github.com/tafia/calamine",
+      "score": 80.93,
+      "version": "0.38.0",
+      "versions": 84
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4902,
+        "downloads": 0.7316,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9981,
+        "security": 1.0
+      },
+      "created": "2017-04-07",
+      "dependents": 334,
+      "description": "A 100% CommonMark-compatible GitHub Flavored Markdown parser and formatter",
+      "downloads": 10753064,
+      "edition": "2024",
+      "keywords": [
+        "commonmark",
+        "markdown"
+      ],
+      "last_release": "2026-11-20",
+      "license": "BSD-2-Clause",
+      "msrv": "1.89",
+      "name": "comrak",
+      "owners": 3,
+      "recent_downloads": 3708982,
+      "releases_365d": 15,
+      "repository": "https://github.com/kivikakk/comrak",
+      "score": 80.52,
+      "version": "1.1.0",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.3765,
+        "downloads": 0.8389,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2022-10-07",
+      "dependents": 86,
+      "description": "Reading OpenType font files.",
+      "downloads": 57082043,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "read-fonts",
+      "owners": 7,
+      "recent_downloads": 34148068,
+      "releases_365d": 19,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 80.1,
+      "version": "0.47.0",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4879,
+        "downloads": 0.7531,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9936,
+        "security": 1.0
+      },
+      "created": "2021-07-10",
+      "dependents": 325,
+      "description": "A parser library for humans with powerful error recovery",
+      "downloads": 32507314,
+      "edition": "2021",
+      "keywords": [
+        "combinator",
+        "language",
+        "parser",
+        "syntax",
+        "token"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "chumsky",
+      "owners": 2,
+      "recent_downloads": 5783487,
+      "releases_365d": 5,
+      "repository": "https://codeberg.org/zesterer/chumsky",
+      "score": 79.93,
+      "version": "0.14.2",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.9536,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2022-10-21",
+      "dependents": 30,
+      "description": "A TOML-compatible datetime type",
+      "downloads": 1077462161,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "no_std",
+        "toml"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml_datetime",
+      "owners": 2,
+      "recent_downloads": 365669222,
+      "releases_365d": 8,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 79.67,
+      "version": "1.1.3+spec-1.1.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.482,
+        "downloads": 0.8213,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9404,
+        "security": 1.0
+      },
+      "created": "2015-07-26",
+      "dependents": 303,
+      "description": "Runtime library for parsers generated by LALRPOP",
+      "downloads": 103448468,
+      "edition": "2024",
+      "keywords": [
+        "generator",
+        "grammar",
+        "lr",
+        "parser",
+        "yacc"
+      ],
+      "last_release": "2026-10-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.86",
+      "name": "lalrpop-util",
+      "owners": 2,
+      "recent_downloads": 23691403,
+      "releases_365d": 3,
+      "repository": "https://github.com/lalrpop/lalrpop",
+      "score": 79.19,
+      "version": "0.23.2",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "encoding",
+        "memory-management",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5379,
+        "downloads": 0.8833,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7804,
+        "security": 1.0
+      },
+      "created": "2021-09-20",
+      "dependents": 589,
+      "description": "A memory efficient string type that transparently stores strings on the stack, when possible",
+      "downloads": 224362333,
+      "edition": "2021",
+      "keywords": [
+        "compact",
+        "memory",
+        "mutable",
+        "small",
+        "string"
+      ],
+      "last_release": "2026-07-13",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "compact_str",
+      "owners": 1,
+      "recent_downloads": 85415000,
+      "releases_365d": 3,
+      "repository": "https://github.com/ParkMyCar/compact_str",
+      "score": 78.74,
+      "version": "0.10.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.7197,
+        "downloads": 0.9257,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.5972,
+        "security": 1.0
+      },
+      "created": "2017-02-12",
+      "dependents": 5097,
+      "description": "Helpful macros for working with enums and strings",
+      "downloads": 793459692,
+      "edition": "2021",
+      "keywords": [
+        "enum",
+        "macros",
+        "proc-macros",
+        "string"
+      ],
+      "last_release": "2026-02-22",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "strum",
+      "owners": 1,
+      "recent_downloads": 205470198,
+      "releases_365d": 1,
+      "repository": "https://github.com/Peternator7/strum",
+      "score": 78.6,
+      "version": "0.28.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.4742,
+        "downloads": 0.8028,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9404,
+        "security": 1.0
+      },
+      "created": "2015-07-26",
+      "dependents": 276,
+      "description": "convenient LR(1) parser generator",
+      "downloads": 81552203,
+      "edition": "2024",
+      "keywords": [
+        "generator",
+        "grammar",
+        "lr",
+        "parser",
+        "yacc"
+      ],
+      "last_release": "2026-10-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.86",
+      "name": "lalrpop",
+      "owners": 2,
+      "recent_downloads": 16176093,
+      "releases_365d": 3,
+      "repository": "https://github.com/lalrpop/lalrpop",
+      "score": 78.53,
+      "version": "0.23.2",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.9379,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2023-01-20",
+      "dependents": 18,
+      "description": "Serde-compatible spanned Value",
+      "downloads": 782496887,
+      "edition": "2024",
+      "keywords": [
+        "serde",
+        "span"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "serde_spanned",
+      "owners": 2,
+      "recent_downloads": 264422735,
+      "releases_365d": 5,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 78.25,
+      "version": "1.1.3",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.8817,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9798,
+        "security": 1.0
+      },
+      "created": "2018-09-30",
+      "dependents": 25,
+      "description": "pest meta language parser and validator",
+      "downloads": 350514721,
+      "edition": "2024",
+      "keywords": [
+        "meta",
+        "optimizer",
+        "parser",
+        "pest"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "pest_meta",
+      "owners": 2,
+      "recent_downloads": 82669081,
+      "releases_365d": 12,
+      "repository": "https://github.com/pest-parser/pest",
+      "score": 77.61,
+      "version": "2.9.6",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.4008,
+        "downloads": 0.8798,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9352,
+        "security": 1.0
+      },
+      "created": "2017-06-29",
+      "dependents": 115,
+      "description": "Parse integers directly from `[u8]` slices in safe code",
+      "downloads": 256746127,
+      "edition": "2024",
+      "keywords": [
+        "atoi",
+        "conversion",
+        "integer"
+      ],
+      "last_release": "2026-10-16",
+      "license": "MIT",
+      "msrv": "1.86.0",
+      "name": "atoi",
+      "owners": 1,
+      "recent_downloads": 79509835,
+      "releases_365d": 3,
+      "repository": "https://github.com/pacman82/atoi-rs",
+      "score": 77.54,
+      "version": "3.1.1",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "config",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2998,
+        "downloads": 0.9259,
+        "license": 1.0,
+        "maintenance": 0.8705,
+        "msrv": 1.0,
+        "recency": 0.9216,
+        "security": 1.0
+      },
+      "created": "2025-07-08",
+      "dependents": 34,
+      "description": "Yet another format-preserving TOML parser.",
+      "downloads": 454007722,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "no_std",
+        "toml"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "toml_parser",
+      "owners": 2,
+      "recent_downloads": 206064447,
+      "releases_365d": 12,
+      "repository": "https://github.com/toml-rs/toml",
+      "score": 77.52,
+      "version": "1.1.5+spec-1.1.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.3379,
+        "downloads": 0.7666,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2022-10-07",
+      "dependents": 54,
+      "description": "Writing font files.",
+      "downloads": 12883172,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "write-fonts",
+      "owners": 7,
+      "recent_downloads": 7660047,
+      "releases_365d": 15,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 77.32,
+      "version": "0.56.0",
+      "versions": 105
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,939 @@
+{
+  "category": {
+    "crates": 13110,
+    "description": "Crates to help you deal with events independently of the main program flow, using techniques like futures, promises, waiting, or eventing.",
+    "name": "Asynchronous",
+    "slug": "asynchronous"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.9415,
+        "downloads": 0.9478,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9443,
+        "security": 1.0
+      },
+      "created": "2016-07-01",
+      "dependents": 70753,
+      "description": "An event-driven, non-blocking I/O platform for writing asynchronous I/O\nbacked applications.\n",
+      "downloads": 1224457287,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "futures",
+        "io",
+        "non-blocking"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "tokio",
+      "owners": 3,
+      "recent_downloads": 324366938,
+      "releases_365d": 23,
+      "repository": "https://github.com/tokio-rs/tokio",
+      "score": 96.4,
+      "version": "1.54.1",
+      "versions": 201
+    },
+    {
+      "categories": [
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.7618,
+        "downloads": 0.9358,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9222,
+        "security": 1.0
+      },
+      "created": "2018-02-01",
+      "dependents": 8396,
+      "description": "Additional utilities for working with Tokio.\n",
+      "downloads": 979885468,
+      "edition": "2021",
+      "last_release": "2026-10-09",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "tokio-util",
+      "owners": 3,
+      "recent_downloads": 252826680,
+      "releases_365d": 3,
+      "repository": "https://github.com/tokio-rs/tokio",
+      "score": 89.77,
+      "version": "0.7.20",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6964,
+        "downloads": 0.8998,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2018-07-18",
+      "dependents": 3863,
+      "description": "A gRPC over HTTP/2 implementation focused on high performance, interoperability, and flexibility.\n",
+      "downloads": 485752563,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "futures",
+        "grpc",
+        "protobuf",
+        "rpc"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic",
+      "owners": 3,
+      "recent_downloads": 120162837,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 89.28,
+      "version": "0.14.9",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.8559,
+        "downloads": 0.931,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8246,
+        "security": 1.0
+      },
+      "created": "2016-07-31",
+      "dependents": 25642,
+      "description": "An implementation of futures and streams featuring zero allocations,\ncomposability, and iterator-like interfaces.\n",
+      "downloads": 961865471,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "future",
+        "futures"
+      ],
+      "last_release": "2026-08-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "futures",
+      "owners": 1,
+      "recent_downloads": 228888941,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-lang/futures-rs",
+      "score": 88.54,
+      "version": "0.3.34",
+      "versions": 75
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "encoding",
+        "parser-implementations",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.6744,
+        "downloads": 0.9214,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8425,
+        "security": 1.0
+      },
+      "created": "2016-02-01",
+      "dependents": 2977,
+      "description": "High performance xml reader and writer",
+      "downloads": 567282139,
+      "edition": "2024",
+      "keywords": [
+        "html",
+        "parser",
+        "serde",
+        "writer",
+        "xml"
+      ],
+      "last_release": "2026-08-22",
+      "license": "MIT",
+      "msrv": "1.86",
+      "name": "quick-xml",
+      "owners": 3,
+      "recent_downloads": 187712535,
+      "releases_365d": 9,
+      "repository": "https://github.com/tafia/quick-xml",
+      "score": 87.53,
+      "version": "0.42.0",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6944,
+        "downloads": 0.9323,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8567,
+        "security": 1.0
+      },
+      "created": "2017-03-10",
+      "dependents": 3774,
+      "description": "Tower middleware and utilities for HTTP clients and servers",
+      "downloads": 644426512,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "futures",
+        "http",
+        "io",
+        "service"
+      ],
+      "last_release": "2026-08-31",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "tower-http",
+      "owners": 2,
+      "recent_downloads": 235496940,
+      "releases_365d": 7,
+      "repository": "https://github.com/tower-rs/tower-http",
+      "score": 87.52,
+      "version": "0.7.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.86,
+        "downloads": 0.9295,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8196,
+        "security": 1.0
+      },
+      "created": "2019-07-23",
+      "dependents": 26890,
+      "description": "Type erasure for async trait methods",
+      "downloads": 837390729,
+      "edition": "2021",
+      "keywords": [
+        "async"
+      ],
+      "last_release": "2026-08-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "async-trait",
+      "owners": 1,
+      "recent_downloads": 222241314,
+      "releases_365d": 2,
+      "repository": "https://github.com/dtolnay/async-trait",
+      "score": 87.03,
+      "version": "0.1.92",
+      "versions": 93
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.9104,
+        "downloads": 0.9423,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.5268,
+        "security": 1.0
+      },
+      "created": "2017-11-27",
+      "dependents": 48944,
+      "description": "Application-level tracing for Rust.\n",
+      "downloads": 1078489609,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "logging",
+        "metrics",
+        "tracing"
+      ],
+      "last_release": "2025-12-18",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing",
+      "owners": 3,
+      "recent_downloads": 289565257,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 86.22,
+      "version": "0.1.44",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.5426,
+        "downloads": 0.9501,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9861,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 623,
+      "description": "Lightweight non-blocking I/O.",
+      "downloads": 1298353499,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "io",
+        "non-blocking"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "mio",
+      "owners": 2,
+      "recent_downloads": 340061305,
+      "releases_365d": 7,
+      "repository": "https://github.com/tokio-rs/mio",
+      "score": 86.11,
+      "version": "1.2.5",
+      "versions": 82
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5841,
+        "downloads": 0.8723,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2019-09-10",
+      "dependents": 1019,
+      "description": "Codegen module of `tonic` gRPC implementation.\n",
+      "downloads": 298326120,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "codegen",
+        "grpc",
+        "protobuf",
+        "rpc"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic-build",
+      "owners": 3,
+      "recent_downloads": 68049093,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 85.79,
+      "version": "0.14.9",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.6373,
+        "downloads": 0.8885,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2019-11-08",
+      "dependents": 1916,
+      "description": "OpenTelemetry API for Rust",
+      "downloads": 340780462,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry",
+      "owners": 3,
+      "recent_downloads": 95088940,
+      "releases_365d": 3,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry",
+      "score": 85.49,
+      "version": "0.33.1",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "cryptography",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6581,
+        "downloads": 0.9364,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9031,
+        "security": 1.0
+      },
+      "created": "2017-02-22",
+      "dependents": 2452,
+      "description": "Asynchronous TLS/SSL streams for Tokio using Rustls.",
+      "downloads": 970031743,
+      "edition": "2021",
+      "last_release": "2026-09-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "tokio-rustls",
+      "owners": 3,
+      "recent_downloads": 256226529,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustls/tokio-rustls",
+      "score": 85.41,
+      "version": "0.26.6",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.6239,
+        "downloads": 0.7957,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9926,
+        "security": 1.0
+      },
+      "created": "2017-10-23",
+      "dependents": 1635,
+      "description": "Actix Web is a powerful, pragmatic, and extremely fast web framework for Rust",
+      "downloads": 91966821,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "http",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-web",
+      "owners": 4,
+      "recent_downloads": 13956987,
+      "releases_365d": 12,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 85.38,
+      "version": "4.20.0",
+      "versions": 165
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.5881,
+        "downloads": 0.867,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2020-08-14",
+      "dependents": 1069,
+      "description": "Exporter for the OpenTelemetry Collector",
+      "downloads": 202012589,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "otlp",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-otlp",
+      "owners": 3,
+      "recent_downloads": 61000210,
+      "releases_365d": 4,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-otlp",
+      "score": 85.22,
+      "version": "0.33.1",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.8177,
+        "downloads": 0.9258,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6189,
+        "security": 1.0
+      },
+      "created": "2019-06-27",
+      "dependents": 16290,
+      "description": "Utilities for implementing and composing `tracing` subscribers.\n",
+      "downloads": 768494479,
+      "edition": "2018",
+      "keywords": [
+        "logging",
+        "metrics",
+        "subscriber",
+        "tracing"
+      ],
+      "last_release": "2026-03-13",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing-subscriber",
+      "owners": 3,
+      "recent_downloads": 205908623,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 84.87,
+      "version": "0.3.23",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.7163,
+        "downloads": 0.915,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.7936,
+        "security": 1.0
+      },
+      "created": "2020-12-03",
+      "dependents": 4894,
+      "description": "Utilities to work with `Stream` and `tokio`.\n",
+      "downloads": 600384260,
+      "edition": "2021",
+      "last_release": "2026-07-22",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "tokio-stream",
+      "owners": 3,
+      "recent_downloads": 164588449,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tokio",
+      "score": 84.69,
+      "version": "0.1.19",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.7726,
+        "downloads": 0.9179,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6576,
+        "security": 1.0
+      },
+      "created": "2021-07-22",
+      "dependents": 9540,
+      "description": "HTTP routing and request handling library that focuses on ergonomics and modularity",
+      "downloads": 610544793,
+      "edition": "2021",
+      "keywords": [
+        "http",
+        "routing",
+        "web"
+      ],
+      "last_release": "2026-04-14",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "axum",
+      "owners": 4,
+      "recent_downloads": 174895965,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/axum",
+      "score": 84.13,
+      "version": "0.8.9",
+      "versions": 94
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.5039,
+        "downloads": 0.8809,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9652,
+        "security": 1.0
+      },
+      "created": "2019-05-14",
+      "dependents": 393,
+      "description": "Adaptors between compression crates and Rust's modern asynchronous IO types.\n",
+      "downloads": 282375656,
+      "edition": "2018",
+      "keywords": [
+        "async-io",
+        "compression",
+        "decompression",
+        "futures-io",
+        "tokio"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.83",
+      "name": "async-compression",
+      "owners": 4,
+      "recent_downloads": 81245790,
+      "releases_365d": 18,
+      "repository": "https://github.com/Nullus157/async-compression",
+      "score": 84.1,
+      "version": "0.4.52",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4692,
+        "downloads": 0.9332,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9174,
+        "security": 1.0
+      },
+      "created": "2017-03-09",
+      "dependents": 260,
+      "description": "An HTTP/2 client and server",
+      "downloads": 1001505678,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "http",
+        "non-blocking"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT",
+      "msrv": "1.63",
+      "name": "h2",
+      "owners": 3,
+      "recent_downloads": 239945239,
+      "releases_365d": 8,
+      "repository": "https://github.com/hyperium/h2",
+      "score": 83.82,
+      "version": "0.4.20",
+      "versions": 88
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.6075,
+        "downloads": 0.8217,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.996,
+        "security": 1.0
+      },
+      "created": "2020-04-07",
+      "dependents": 1346,
+      "description": "Synchronously block the thread until a future completes",
+      "downloads": 51553113,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "block_on",
+        "executor",
+        "minimal",
+        "runtime"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.69",
+      "name": "pollster",
+      "owners": 1,
+      "recent_downloads": 23923274,
+      "releases_365d": 4,
+      "repository": "https://github.com/zesterer/pollster",
+      "score": 83.67,
+      "version": "1.0.3",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.592,
+        "downloads": 0.8727,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.8945,
+        "security": 1.0
+      },
+      "created": "2019-11-20",
+      "dependents": 1120,
+      "description": "OpenTelemetry integration for tracing",
+      "downloads": 258622204,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "jaeger",
+        "opentelemetry",
+        "tracing",
+        "zipkin"
+      ],
+      "last_release": "2026-09-23",
+      "license": "MIT",
+      "msrv": "1.75.0",
+      "name": "tracing-opentelemetry",
+      "owners": 4,
+      "recent_downloads": 68697437,
+      "releases_365d": 3,
+      "repository": "https://github.com/tokio-rs/tracing-opentelemetry",
+      "score": 83.54,
+      "version": "0.34.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "data-structures",
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5771,
+        "downloads": 0.8328,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9467,
+        "security": 1.0
+      },
+      "created": "2024-06-30",
+      "dependents": 938,
+      "description": "Next-gen compile-time-checked builder generator, named function's arguments, and more!",
+      "downloads": 81291941,
+      "edition": "2024",
+      "keywords": [
+        "builder",
+        "constructor",
+        "derive",
+        "macro",
+        "setter"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "bon",
+      "owners": 2,
+      "recent_downloads": 30069062,
+      "releases_365d": 9,
+      "repository": "https://github.com/elastio/bon",
+      "score": 83.45,
+      "version": "3.10.3",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6077,
+        "downloads": 0.8745,
+        "license": 1.0,
+        "maintenance": 0.7983,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2025-07-28",
+      "dependents": 1349,
+      "description": "Prost codec implementation for tonic",
+      "downloads": 155613057,
+      "edition": "2024",
+      "keywords": [
+        "grpc",
+        "prost",
+        "protobuf",
+        "rpc",
+        "tonic"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic-prost",
+      "owners": 1,
+      "recent_downloads": 71168084,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 83.41,
+      "version": "0.14.9",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.6879,
+        "downloads": 0.9011,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7775,
+        "security": 1.0
+      },
+      "created": "2017-03-17",
+      "dependents": 3494,
+      "description": "Tokio binding for Tungstenite, the Lightweight stream-based WebSocket implementation",
+      "downloads": 373491110,
+      "edition": "2018",
+      "keywords": [
+        "io",
+        "web",
+        "websocket"
+      ],
+      "last_release": "2026-07-11",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "tokio-tungstenite",
+      "owners": 2,
+      "recent_downloads": 123467406,
+      "releases_365d": 2,
+      "repository": "https://github.com/snapview/tokio-tungstenite",
+      "score": 82.39,
+      "version": "0.30.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.4853,
+        "downloads": 0.8534,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2020-10-16",
+      "dependents": 315,
+      "description": "Semantic conventions for OpenTelemetry",
+      "downloads": 174129453,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-semantic-conventions",
+      "owners": 3,
+      "recent_downloads": 46013719,
+      "releases_365d": 4,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-semantic-conventions",
+      "score": 82.31,
+      "version": "0.33.1",
+      "versions": 27
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,72 @@
+# Web framework suite: every contestant serves the same two endpoints on 127.0.0.1:<port> (argv[1]) and is
+# built in one Cargo workspace with the same release profile. Dependencies are `*`: cargo resolves the newest
+# release the toolchain supports, and the run records what it resolved next to the live sparse-index latest.
+title = "Rust web frameworks"
+category = "web"
+
+[profile]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+
+[[endpoint]]
+name = "hello"
+path = "/hello"
+contains = "Hello, World!"
+
+[[endpoint]]
+name = "json"
+path = "/json"
+contains = "\"message\""
+
+[common]
+deps = ['serde = { version = "*", features = ["derive"] }', 'serde_json = "*"']
+
+[[contestant]]
+name = "axum"
+crate = "axum"
+source = "axum.rs"
+deps = ['axum = "*"', 'tokio = { version = "*", features = ["rt-multi-thread", "macros", "net"] }']
+
+[[contestant]]
+name = "actix-web"
+crate = "actix-web"
+source = "actix_web.rs"
+deps = ['actix-web = "*"']
+
+[[contestant]]
+name = "salvo"
+crate = "salvo"
+source = "salvo.rs"
+deps = ['salvo = "*"', 'tokio = { version = "*", features = ["rt-multi-thread", "macros", "net"] }']
+
+[[contestant]]
+name = "poem"
+crate = "poem"
+source = "poem.rs"
+deps = ['poem = "*"', 'tokio = { version = "*", features = ["rt-multi-thread", "macros", "net"] }']
+
+[[contestant]]
+name = "rocket"
+crate = "rocket"
+source = "rocket.rs"
+deps = ['rocket = { version = "*", features = ["json"] }']
+
+[[contestant]]
+name = "warp"
+crate = "warp"
+source = "warp.rs"
+deps = ['warp = { version = "*", features = ["server"] }', 'tokio = { version = "*", features = ["rt-multi-thread", "macros", "net"] }']
+
+[[contestant]]
+name = "ntex"
+crate = "ntex"
+source = "ntex.rs"
+deps = ['ntex = "*"']
+
+[[contestant]]
+name = "may-minihttp"
+crate = "may_minihttp"
+source = "may_minihttp.rs"
+deps = ['may_minihttp = "*"', 'may = "*"']

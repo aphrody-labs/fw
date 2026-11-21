@@ -1,0 +1,964 @@
+{
+  "category": {
+    "crates": 532,
+    "description": "For the creation and management of virtual environments and resources of any form including containerization systems.",
+    "name": "Virtualization",
+    "slug": "virtualization"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "filesystem",
+        "os::linux-apis",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.4476,
+        "downloads": 0.768,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2021-04-14",
+      "dependents": 201,
+      "description": "Safe abstraction for Linux Landlock sandboxing",
+      "downloads": 22085121,
+      "edition": "2021",
+      "keywords": [
+        "access-control",
+        "linux",
+        "sandbox",
+        "security"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "landlock",
+      "owners": 1,
+      "recent_downloads": 7874288,
+      "releases_365d": 4,
+      "repository": "https://github.com/landlock-lsm/rust-landlock",
+      "score": 78.38,
+      "version": "0.4.8",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.4213,
+        "downloads": 0.7626,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9972,
+        "security": 1.0
+      },
+      "created": "2018-01-26",
+      "dependents": 147,
+      "description": "WebAssembly interpreter",
+      "downloads": 28725622,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.86",
+      "name": "wasmi",
+      "owners": 1,
+      "recent_downloads": 7041589,
+      "releases_365d": 25,
+      "repository": "https://github.com/wasmi-labs/wasmi",
+      "score": 77.56,
+      "version": "2.0.2",
+      "versions": 142
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.7668,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9972,
+        "security": 1.0
+      },
+      "created": "2022-07-24",
+      "dependents": 7,
+      "description": "Core primitives for the wasmi WebAssembly interpreter",
+      "downloads": 26905467,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.86",
+      "name": "wasmi_core",
+      "owners": 1,
+      "recent_downloads": 7690603,
+      "releases_365d": 30,
+      "repository": "https://github.com/wasmi-labs/wasmi",
+      "score": 71.51,
+      "version": "2.0.2",
+      "versions": 97
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.7579,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9972,
+        "security": 1.0
+      },
+      "created": "2024-05-02",
+      "dependents": 1,
+      "description": "Specialized data structures for the Wasmi interpreter",
+      "downloads": 17757536,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.86",
+      "name": "wasmi_collections",
+      "owners": 1,
+      "recent_downloads": 6388614,
+      "releases_365d": 32,
+      "repository": "https://github.com/wasmi-labs/wasmi",
+      "score": 68.37,
+      "version": "2.0.2",
+      "versions": 77
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.753,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9972,
+        "security": 1.0
+      },
+      "created": "2024-09-30",
+      "dependents": 1,
+      "description": "WebAssembly interpreter internal bytecode representation",
+      "downloads": 12962774,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.86",
+      "name": "wasmi_ir",
+      "owners": 1,
+      "recent_downloads": 5774017,
+      "releases_365d": 32,
+      "repository": "https://github.com/wasmi-labs/wasmi",
+      "score": 68.24,
+      "version": "2.0.2",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.5518,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9972,
+        "security": 1.0
+      },
+      "created": "2023-01-04",
+      "dependents": 9,
+      "description": "WASI library support for the wasmi interpreter",
+      "downloads": 286383,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.86",
+      "name": "wasmi_wasi",
+      "owners": 1,
+      "recent_downloads": 90187,
+      "releases_365d": 32,
+      "repository": "https://github.com/wasmi-labs/wasmi",
+      "score": 66.61,
+      "version": "2.0.2",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "compilers",
+        "embedded",
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4245,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9637,
+        "security": 1.0
+      },
+      "created": "2023-12-09",
+      "dependents": 3,
+      "description": "A tiny WebAssembly interpreter",
+      "downloads": 29482,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "no-std",
+        "tinywasm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "tinywasm",
+      "owners": 1,
+      "recent_downloads": 6481,
+      "releases_365d": 8,
+      "repository": "https://github.com/explodingcamera/tinywasm",
+      "score": 60.99,
+      "version": "0.11.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "network-programming",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4883,
+        "license": 1.0,
+        "maintenance": 0.7159,
+        "msrv": 1.0,
+        "recency": 0.9981,
+        "security": 1.0
+      },
+      "created": "2026-05-25",
+      "dependents": 3,
+      "description": "Zero-copy L2/L3 packet handling toolkit. Frames, packets, hubs, adapters, NAT, virtual TCP/IP, WireGuard, OpenVPN, QEMU networking, TUN/TAP, AF_XDP — all gated behind opt-in cargo features.",
+      "downloads": 24283,
+      "edition": "2024",
+      "keywords": [
+        "networking",
+        "packet",
+        "tcp",
+        "tun",
+        "wireguard"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "pktkit",
+      "owners": 1,
+      "recent_downloads": 24245,
+      "releases_365d": 13,
+      "repository": "https://github.com/KarpelesLab/pktkit-rs",
+      "score": 60.84,
+      "version": "0.1.12",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4405,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9972,
+        "security": 1.0
+      },
+      "created": "2024-07-24",
+      "dependents": 1,
+      "description": "Support macros for the `wasmi_c_api_impl` crate",
+      "downloads": 109990,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.86",
+      "name": "wasmi_c_api_macros",
+      "owners": 1,
+      "recent_downloads": 9034,
+      "releases_365d": 32,
+      "repository": "https://github.com/wasmi-labs/wasmi",
+      "score": 60.43,
+      "version": "2.0.2",
+      "versions": 63
+    },
+    {
+      "categories": [
+        "compilers",
+        "embedded",
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4252,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9637,
+        "security": 1.0
+      },
+      "created": "2023-12-09",
+      "dependents": 2,
+      "description": "Shared runtime, module, and archive types for TinyWasm",
+      "downloads": 30222,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "no-std",
+        "tinywasm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "tinywasm-types",
+      "owners": 1,
+      "recent_downloads": 6584,
+      "releases_365d": 8,
+      "repository": "https://github.com/explodingcamera/tinywasm",
+      "score": 60.4,
+      "version": "0.11.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "no-std",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.3805,
+        "license": 1.0,
+        "maintenance": 0.6982,
+        "msrv": 1.0,
+        "recency": 0.9988,
+        "security": 1.0
+      },
+      "created": "2026-07-28",
+      "dependents": 11,
+      "description": "Transport-independent accelerator lifecycle traits",
+      "downloads": 2915,
+      "edition": "2024",
+      "keywords": [
+        "accelerator",
+        "no-std",
+        "npu",
+        "protocol",
+        "virtio"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "virtio-accel-core",
+      "owners": 1,
+      "recent_downloads": 2609,
+      "releases_365d": 17,
+      "repository": "https://github.com/MicroPerceptron/virtio-accel",
+      "score": 60.2,
+      "version": "0.5.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.668,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.9302,
+        "security": 1.0
+      },
+      "created": "2022-07-29",
+      "dependents": 7,
+      "description": "Soroban fork of Parity WebAssembly interpreter",
+      "downloads": 2140002,
+      "edition": "2021",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-10-13",
+      "license": "MIT/Apache-2.0",
+      "name": "soroban-wasmi",
+      "owners": 1,
+      "recent_downloads": 996248,
+      "releases_365d": 2,
+      "repository": "https://github.com/stellar/wasmi",
+      "score": 60.04,
+      "version": "29.0.0",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "no-std",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4279,
+        "license": 1.0,
+        "maintenance": 0.6982,
+        "msrv": 1.0,
+        "recency": 0.9988,
+        "security": 1.0
+      },
+      "created": "2026-07-28",
+      "dependents": 5,
+      "description": "Portable descriptor-chain and virtqueue port contracts",
+      "downloads": 7360,
+      "edition": "2024",
+      "keywords": [
+        "accelerator",
+        "no-std",
+        "npu",
+        "protocol",
+        "virtio"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "virtio-accel-transport",
+      "owners": 1,
+      "recent_downloads": 6961,
+      "releases_365d": 17,
+      "repository": "https://github.com/MicroPerceptron/virtio-accel",
+      "score": 59.93,
+      "version": "0.5.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "compilers",
+        "embedded",
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4248,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9637,
+        "security": 1.0
+      },
+      "created": "2023-12-09",
+      "dependents": 1,
+      "description": "Parser and lowering pipeline for TinyWasm",
+      "downloads": 30377,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "no-std",
+        "tinywasm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "tinywasm-parser",
+      "owners": 1,
+      "recent_downloads": 6530,
+      "releases_365d": 8,
+      "repository": "https://github.com/explodingcamera/tinywasm",
+      "score": 59.54,
+      "version": "0.11.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "no-std",
+        "virtualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4435,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9972,
+        "security": 1.0
+      },
+      "created": "2024-07-24",
+      "dependents": 0,
+      "description": "C bindings for the Wasmi WebAssembly interpreter",
+      "downloads": 109782,
+      "edition": "2024",
+      "keywords": [
+        "interpreter",
+        "vm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.86",
+      "name": "wasmi_c_api_impl",
+      "owners": 1,
+      "recent_downloads": 9608,
+      "releases_365d": 32,
+      "repository": "https://github.com/wasmi-labs/wasmi",
+      "score": 59.05,
+      "version": "2.0.2",
+      "versions": 63
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "no-std",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4168,
+        "license": 1.0,
+        "maintenance": 0.6982,
+        "msrv": 1.0,
+        "recency": 0.9988,
+        "security": 1.0
+      },
+      "created": "2026-07-28",
+      "dependents": 3,
+      "description": "Pointer-free portable virtio accelerator protocol 1.0 ABI",
+      "downloads": 5835,
+      "edition": "2024",
+      "keywords": [
+        "accelerator",
+        "no-std",
+        "npu",
+        "protocol",
+        "virtio"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "virtio-accel-proto",
+      "owners": 1,
+      "recent_downloads": 5533,
+      "releases_365d": 17,
+      "repository": "https://github.com/MicroPerceptron/virtio-accel",
+      "score": 58.8,
+      "version": "0.5.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "os",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.352,
+        "license": 1.0,
+        "maintenance": 0.7029,
+        "msrv": 1.0,
+        "recency": 0.9753,
+        "security": 1.0
+      },
+      "created": "2026-07-11",
+      "dependents": 7,
+      "description": "Draupnir — the nordisk boot/provisioning library: fire up a runtime from one BootSpec across three backends (KVM via tunnr · OCI container · Redfish bare-metal virtual-media) and drive its power lifecycle. Odin's ring that drips eight identical copies → boot a fleet of identical machines from one ISO.",
+      "downloads": 1722,
+      "edition": "2021",
+      "keywords": [
+        "boot",
+        "container",
+        "kvm",
+        "provisioning",
+        "redfish"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "draupnir",
+      "owners": 1,
+      "recent_downloads": 1448,
+      "releases_365d": 14,
+      "repository": "https://git.gunnar.rs/mikronova/draupnir",
+      "score": 58.36,
+      "version": "0.3.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "no-std",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3458,
+        "license": 1.0,
+        "maintenance": 0.6941,
+        "msrv": 1.0,
+        "recency": 0.9988,
+        "security": 1.0
+      },
+      "created": "2026-08-12",
+      "dependents": 6,
+      "description": "Safe, bounded TOSA artifacts and zero-copy graph views for virtio-accel",
+      "downloads": 1407,
+      "edition": "2024",
+      "keywords": [
+        "accelerator",
+        "no-std",
+        "npu",
+        "protocol",
+        "virtio"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "virtio-accel-tosa",
+      "owners": 1,
+      "recent_downloads": 1274,
+      "releases_365d": 17,
+      "repository": "https://github.com/MicroPerceptron/virtio-accel",
+      "score": 58.14,
+      "version": "0.5.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "no-std",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4101,
+        "license": 1.0,
+        "maintenance": 0.6982,
+        "msrv": 1.0,
+        "recency": 0.9988,
+        "security": 1.0
+      },
+      "created": "2026-07-28",
+      "dependents": 1,
+      "description": "Transport-neutral virtio accelerator device state",
+      "downloads": 5070,
+      "edition": "2024",
+      "keywords": [
+        "accelerator",
+        "no-std",
+        "npu",
+        "protocol",
+        "virtio"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "virtio-accel-device",
+      "owners": 1,
+      "recent_downloads": 4816,
+      "releases_365d": 17,
+      "repository": "https://github.com/MicroPerceptron/virtio-accel",
+      "score": 57.17,
+      "version": "0.5.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3859,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8169,
+        "security": 1.0
+      },
+      "created": "2022-07-04",
+      "dependents": 0,
+      "description": "A container network stack",
+      "downloads": 46157,
+      "edition": "2021",
+      "last_release": "2026-08-06",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "netavark",
+      "owners": 3,
+      "recent_downloads": 2919,
+      "releases_365d": 4,
+      "repository": "https://github.com/containers/netavark",
+      "score": 56.9,
+      "version": "2.1.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "development-tools",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3788,
+        "license": 1.0,
+        "maintenance": 0.6763,
+        "msrv": 1.0,
+        "recency": 0.986,
+        "security": 1.0
+      },
+      "created": "2026-10-16",
+      "dependents": 2,
+      "description": "The Isothrum runner: executes the run manifest Isoloom writes next to a target's files (lifecycle, state and locks, drivers, checks, events).",
+      "downloads": 2519,
+      "edition": "2024",
+      "keywords": [
+        "environment",
+        "infrastructure",
+        "isothrum",
+        "runner"
+      ],
+      "last_release": "2026-11-13",
+      "license": "Apache-2.0",
+      "msrv": "1.90",
+      "name": "isothrum-runner",
+      "owners": 1,
+      "recent_downloads": 2519,
+      "releases_365d": 17,
+      "repository": "https://github.com/Isothrum/isothrum",
+      "score": 56.72,
+      "version": "2.1.7",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "config",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4043,
+        "license": 1.0,
+        "maintenance": 0.6763,
+        "msrv": 1.0,
+        "recency": 0.9857,
+        "security": 1.0
+      },
+      "created": "2026-10-16",
+      "dependents": 1,
+      "description": "The Docker Compose backend of Isoloom (docker, hosted).",
+      "downloads": 4267,
+      "edition": "2024",
+      "keywords": [
+        "compose",
+        "docker",
+        "iac",
+        "isoloom"
+      ],
+      "last_release": "2026-11-13",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "isoloom-compose",
+      "owners": 1,
+      "recent_downloads": 4267,
+      "releases_365d": 23,
+      "repository": "https://github.com/isoloom/isoloom",
+      "score": 56.5,
+      "version": "2.1.9",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "config",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4044,
+        "license": 1.0,
+        "maintenance": 0.6763,
+        "msrv": 1.0,
+        "recency": 0.9857,
+        "security": 1.0
+      },
+      "created": "2026-10-16",
+      "dependents": 1,
+      "description": "The Vagrant backends of Isoloom (vagrant, docker-vm, hybrid).",
+      "downloads": 4277,
+      "edition": "2024",
+      "keywords": [
+        "iac",
+        "isoloom",
+        "vagrant",
+        "vm"
+      ],
+      "last_release": "2026-11-13",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "isoloom-vagrant",
+      "owners": 1,
+      "recent_downloads": 4277,
+      "releases_365d": 23,
+      "repository": "https://github.com/isoloom/isoloom",
+      "score": 56.5,
+      "version": "2.1.9",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3625,
+        "license": 1.0,
+        "maintenance": 0.6752,
+        "msrv": 1.0,
+        "recency": 0.9984,
+        "security": 1.0
+      },
+      "created": "2026-10-20",
+      "dependents": 2,
+      "description": "NVX's library of mechanisms and value types for OpenVMM microVMs: launch, snapshots and restores, verified connections, and the guest's side of capture and guest restore",
+      "downloads": 1791,
+      "edition": "2024",
+      "keywords": [
+        "microvm",
+        "openvmm",
+        "sandbox",
+        "virtualization"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "nvx",
+      "owners": 1,
+      "recent_downloads": 1799,
+      "releases_365d": 23,
+      "repository": "https://github.com/microsoft/nvx",
+      "score": 56.48,
+      "version": "0.2.0-alpha.3",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "automotive",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3766,
+        "license": 1.0,
+        "maintenance": 0.8271,
+        "msrv": 1.0,
+        "recency": 0.9545,
+        "security": 1.0
+      },
+      "created": "2025-04-14",
+      "dependents": 0,
+      "description": "Eclipse Ankaios Rust SDK - provides a convenient Rust interface for interacting with the Ankaios platform.",
+      "downloads": 17203,
+      "edition": "2024",
+      "keywords": [
+        "ankaios",
+        "automotive",
+        "container",
+        "orchestration",
+        "sdk"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "ankaios_sdk",
+      "owners": 1,
+      "recent_downloads": 2407,
+      "releases_365d": 4,
+      "repository": "https://github.com/eclipse-ankaios/ank-sdk-rust",
+      "score": 56.14,
+      "version": "1.1.1",
+      "versions": 8
+    }
+  ],
+  "score_version": 1
+}

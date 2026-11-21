@@ -1,0 +1,936 @@
+{
+  "category": {
+    "crates": 2329,
+    "description": "Crates to make HTTP network requests.",
+    "name": "Web programming::HTTP client",
+    "slug": "web-programming::http-client"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "wasm",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.8746,
+        "downloads": 0.9408,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8702,
+        "security": 1.0
+      },
+      "created": "2016-10-16",
+      "dependents": 32000,
+      "description": "higher level HTTP client library",
+      "downloads": 940453617,
+      "edition": "2021",
+      "keywords": [
+        "client",
+        "http",
+        "request"
+      ],
+      "last_release": "2026-09-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "reqwest",
+      "owners": 1,
+      "recent_downloads": 280502329,
+      "releases_365d": 11,
+      "repository": "https://github.com/seanmonstar/reqwest",
+      "score": 91.44,
+      "version": "0.13.5",
+      "versions": 126
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.7281,
+        "downloads": 0.9443,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9174,
+        "security": 1.0
+      },
+      "created": "2014-11-22",
+      "dependents": 5631,
+      "description": "A protective and efficient HTTP library for all.",
+      "downloads": 1158803937,
+      "edition": "2021",
+      "keywords": [
+        "http",
+        "hyper",
+        "hyperium"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT",
+      "msrv": "1.63",
+      "name": "hyper",
+      "owners": 2,
+      "recent_downloads": 301417504,
+      "releases_365d": 6,
+      "repository": "https://github.com/hyperium/hyper",
+      "score": 89.57,
+      "version": "1.12.0",
+      "versions": 253
+    },
+    {
+      "categories": [
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.7186,
+        "downloads": 0.8874,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9838,
+        "security": 1.0
+      },
+      "created": "2018-06-22",
+      "dependents": 5026,
+      "description": "Simple, safe HTTP client",
+      "downloads": 276632823,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "http",
+        "https",
+        "request",
+        "web"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "ureq",
+      "owners": 2,
+      "recent_downloads": 92956096,
+      "releases_365d": 10,
+      "repository": "https://github.com/algesten/ureq",
+      "score": 88.91,
+      "version": "3.5.2",
+      "versions": 119
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.6791,
+        "downloads": 0.9311,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8968,
+        "security": 1.0
+      },
+      "created": "2022-01-15",
+      "dependents": 3147,
+      "description": "hyper utilities",
+      "downloads": 660154422,
+      "edition": "2024",
+      "keywords": [
+        "http",
+        "hyper",
+        "hyperium"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "hyper-util",
+      "owners": 1,
+      "recent_downloads": 229708093,
+      "releases_365d": 3,
+      "repository": "https://github.com/hyperium/hyper-util",
+      "score": 85.21,
+      "version": "0.1.21",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.4789,
+        "downloads": 0.7293,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9623,
+        "security": 1.0
+      },
+      "created": "2020-04-12",
+      "dependents": 292,
+      "description": "A modern, extensible GitHub API client.",
+      "downloads": 20282549,
+      "edition": "2018",
+      "keywords": [
+        "github",
+        "github-api"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "octocrab",
+      "owners": 1,
+      "recent_downloads": 3538790,
+      "releases_365d": 26,
+      "repository": "https://github.com/XAMPPRocky/octocrab.git",
+      "score": 77.64,
+      "version": "0.54.9",
+      "versions": 127
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.5779,
+        "downloads": 0.8304,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9558,
+        "security": 1.0
+      },
+      "created": "2018-06-30",
+      "dependents": 947,
+      "description": "Bindings for the Kubernetes client API",
+      "downloads": 97411610,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "http",
+        "k8s",
+        "kubernetes"
+      ],
+      "last_release": "2026-10-28",
+      "license": "Apache-2.0",
+      "name": "k8s-openapi",
+      "owners": 1,
+      "recent_downloads": 28600003,
+      "releases_365d": 5,
+      "repository": "https://github.com/Arnavion/k8s-openapi",
+      "score": 77.54,
+      "version": "0.29.0",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "caching",
+        "network-programming",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.8095,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9838,
+        "security": 1.0
+      },
+      "created": "2020-07-19",
+      "dependents": 26,
+      "description": "Kubernetes controller runtime",
+      "downloads": 72863625,
+      "edition": "2024",
+      "keywords": [
+        "controller",
+        "kubernetes",
+        "reflector",
+        "runtime",
+        "watcher"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "kube-runtime",
+      "owners": 2,
+      "recent_downloads": 18586908,
+      "releases_365d": 7,
+      "repository": "https://github.com/kube-rs/kube",
+      "score": 75.94,
+      "version": "5.1.0",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "wasm",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.4325,
+        "downloads": 0.7575,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9894,
+        "security": 1.0
+      },
+      "created": "2022-03-11",
+      "dependents": 168,
+      "description": "HTTP requests library for WASM Apps",
+      "downloads": 27693036,
+      "edition": "2024",
+      "keywords": [
+        "http",
+        "requests",
+        "wasm",
+        "websockets"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "gloo-net",
+      "owners": 2,
+      "recent_downloads": 6338272,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustwasm/gloo",
+      "score": 75.59,
+      "version": "0.8.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.3662,
+        "downloads": 0.737,
+        "license": 1.0,
+        "maintenance": 0.9102,
+        "msrv": 1.0,
+        "recency": 0.8918,
+        "security": 1.0
+      },
+      "created": "2025-10-14",
+      "dependents": 76,
+      "description": "A Tower-based Rust implementation of the ConnectRPC protocol",
+      "downloads": 10026534,
+      "edition": "2024",
+      "keywords": [
+        "connectrpc",
+        "grpc",
+        "protobuf",
+        "rpc",
+        "tower"
+      ],
+      "last_release": "2026-09-21",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "connectrpc",
+      "owners": 3,
+      "recent_downloads": 4149751,
+      "releases_365d": 18,
+      "repository": "https://github.com/connectrpc/connect-rust",
+      "score": 74.61,
+      "version": "0.9.1",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.4117,
+        "downloads": 0.6783,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9438,
+        "security": 1.0
+      },
+      "created": "2019-08-03",
+      "dependents": 131,
+      "description": "The practical HTTP client that is fun to use.",
+      "downloads": 18309921,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "client",
+        "curl",
+        "http",
+        "request"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "isahc",
+      "owners": 1,
+      "recent_downloads": 1233627,
+      "releases_365d": 7,
+      "repository": "https://github.com/sagebind/isahc",
+      "score": 74.41,
+      "version": "2.0.2",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "network-programming",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.8293,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9838,
+        "security": 1.0
+      },
+      "created": "2021-10-14",
+      "dependents": 8,
+      "description": "Kubernetes client",
+      "downloads": 93768388,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "kubernetes"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "kube-client",
+      "owners": 2,
+      "recent_downloads": 27978487,
+      "releases_365d": 7,
+      "repository": "https://github.com/kube-rs/kube",
+      "score": 74.12,
+      "version": "5.1.0",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "authentication",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7364,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9967,
+        "security": 1.0
+      },
+      "created": "2022-03-12",
+      "dependents": 12,
+      "description": "Signing HTTP requests for AWS, Azure, Google, Huawei, Aliyun, Tencent and Oracle services",
+      "downloads": 18357646,
+      "edition": "2024",
+      "keywords": [
+        "aws",
+        "azure",
+        "http",
+        "requests",
+        "signing"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.86.0",
+      "name": "reqsign",
+      "owners": 3,
+      "recent_downloads": 4097245,
+      "releases_365d": 9,
+      "repository": "https://github.com/apache/reqsign",
+      "score": 73.77,
+      "version": "0.20.8",
+      "versions": 84
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::testing",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.3191,
+        "downloads": 0.6518,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9869,
+        "security": 1.0
+      },
+      "created": "2019-11-30",
+      "dependents": 43,
+      "description": "Thirtyfour is a Selenium / WebDriver library for Rust, for automated website UI testing.\n\nTested on Chrome and Firefox, but any webdriver-capable browser should work.\n",
+      "downloads": 2461943,
+      "edition": "2024",
+      "keywords": [
+        "automation",
+        "chromedriver",
+        "geckodriver",
+        "selenium",
+        "webdriver"
+      ],
+      "last_release": "2026-11-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "thirtyfour",
+      "owners": 2,
+      "recent_downloads": 713297,
+      "releases_365d": 17,
+      "repository": "https://github.com/stevepryde/thirtyfour",
+      "score": 73.08,
+      "version": "0.38.3",
+      "versions": 119
+    },
+    {
+      "categories": [
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.5356,
+        "downloads": 0.8255,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 0.0,
+        "recency": 0.7032,
+        "security": 1.0
+      },
+      "created": "2021-08-12",
+      "dependents": 573,
+      "description": "Wrapper around reqwest to allow for client middleware chains.",
+      "downloads": 101163432,
+      "edition": "2018",
+      "keywords": [
+        "http",
+        "middleware",
+        "reqwest"
+      ],
+      "last_release": "2026-05-19",
+      "license": "MIT OR Apache-2.0",
+      "name": "reqwest-middleware",
+      "owners": 4,
+      "recent_downloads": 25843512,
+      "releases_365d": 3,
+      "repository": "https://github.com/TrueLayer/reqwest-middleware",
+      "score": 73.07,
+      "version": "0.5.2",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.3775,
+        "downloads": 0.6552,
+        "license": 1.0,
+        "maintenance": 0.8137,
+        "msrv": 1.0,
+        "recency": 0.9983,
+        "security": 1.0
+      },
+      "created": "2025-06-02",
+      "dependents": 87,
+      "description": "An ergonomic, privacy-aware Rust HTTP Client",
+      "downloads": 2572620,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "http",
+        "ja3",
+        "ja4",
+        "websocket"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0",
+      "msrv": "1.98",
+      "name": "wreq",
+      "owners": 1,
+      "recent_downloads": 764254,
+      "releases_365d": 16,
+      "repository": "https://github.com/0x676e67/wreq",
+      "score": 73.0,
+      "version": "0.16.4",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "caching",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.6697,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9825,
+        "security": 1.0
+      },
+      "created": "2022-01-16",
+      "dependents": 36,
+      "description": "http-cache middleware implementation for reqwest",
+      "downloads": 4345584,
+      "edition": "2021",
+      "keywords": [
+        "cache",
+        "http",
+        "middleware",
+        "reqwest"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82.0",
+      "name": "http-cache-reqwest",
+      "owners": 1,
+      "recent_downloads": 1031475,
+      "releases_365d": 8,
+      "repository": "https://github.com/06chaynes/http-cache",
+      "score": 72.09,
+      "version": "0.16.0",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "caching",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.6749,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9825,
+        "security": 1.0
+      },
+      "created": "2018-09-01",
+      "dependents": 14,
+      "description": "An HTTP caching middleware",
+      "downloads": 5394150,
+      "edition": "2021",
+      "keywords": [
+        "cache",
+        "http",
+        "middleware"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82.0",
+      "name": "http-cache",
+      "owners": 2,
+      "recent_downloads": 1150056,
+      "releases_365d": 7,
+      "repository": "https://github.com/06chaynes/http-cache",
+      "score": 71.32,
+      "version": "0.21.0",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.2973,
+        "downloads": 0.7172,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8377,
+        "security": 1.0
+      },
+      "created": "2024-09-04",
+      "dependents": 33,
+      "description": "rama service core code, used by rama and service authors",
+      "downloads": 4471510,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "io",
+        "non-blocking",
+        "rama",
+        "service"
+      ],
+      "last_release": "2026-08-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "rama-core",
+      "owners": 1,
+      "recent_downloads": 2757476,
+      "releases_365d": 4,
+      "repository": "https://github.com/plabayo/rama",
+      "score": 70.93,
+      "version": "0.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.4225,
+        "downloads": 0.6892,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7401,
+        "security": 1.0
+      },
+      "created": "2018-03-18",
+      "dependents": 149,
+      "description": "Simple, minimal-dependency HTTP client",
+      "downloads": 7787322,
+      "edition": "2021",
+      "keywords": [
+        "client",
+        "http",
+        "https",
+        "json",
+        "request"
+      ],
+      "last_release": "2026-06-15",
+      "license": "ISC",
+      "msrv": "1.63",
+      "name": "minreq",
+      "owners": 1,
+      "recent_downloads": 1544276,
+      "releases_365d": 3,
+      "repository": "https://github.com/neonmoe/minreq",
+      "score": 70.39,
+      "version": "3.0.0",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.4798,
+        "downloads": 0.7579,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.9208,
+        "security": 1.0
+      },
+      "created": "2014-12-16",
+      "dependents": 295,
+      "description": "Rust bindings to libcurl for making HTTP requests",
+      "downloads": 50134219,
+      "edition": "2018",
+      "last_release": "2026-10-08",
+      "license": "MIT",
+      "name": "curl",
+      "owners": 1,
+      "recent_downloads": 6395428,
+      "releases_365d": 2,
+      "repository": "https://github.com/sagebind/curl-rust",
+      "score": 69.75,
+      "version": "0.4.51",
+      "versions": 103
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.693,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9637,
+        "security": 1.0
+      },
+      "created": "2020-08-30",
+      "dependents": 23,
+      "description": "Discord REST API client for the Twilight ecosystem.",
+      "downloads": 4055240,
+      "edition": "2024",
+      "keywords": [
+        "discord",
+        "discord-api",
+        "twilight"
+      ],
+      "last_release": "2026-11-01",
+      "license": "ISC",
+      "msrv": "1.89",
+      "name": "twilight-http",
+      "owners": 2,
+      "recent_downloads": 1670466,
+      "releases_365d": 2,
+      "repository": "https://github.com/twilight-rs/twilight.git",
+      "score": 69.48,
+      "version": "0.18.0",
+      "versions": 96
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.3908,
+        "downloads": 0.6749,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 0.0,
+        "recency": 0.9479,
+        "security": 1.0
+      },
+      "created": "2019-03-28",
+      "dependents": 102,
+      "description": "Async HTTP and WebSocket client library",
+      "downloads": 13613270,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "http",
+        "web"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "name": "awc",
+      "owners": 4,
+      "recent_downloads": 1149799,
+      "releases_365d": 3,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 69.36,
+      "version": "3.11.0",
+      "versions": 70
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::testing",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.3347,
+        "downloads": 0.6423,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9895,
+        "security": 1.0
+      },
+      "created": "2017-05-28",
+      "dependents": 52,
+      "description": "High-level API for programmatically interacting with web pages through WebDriver.",
+      "downloads": 4261358,
+      "edition": "2021",
+      "keywords": [
+        "automation",
+        "chromedriver",
+        "geckodriver",
+        "phantomjs",
+        "webdriver"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.67.0",
+      "name": "fantoccini",
+      "owners": 1,
+      "recent_downloads": 585029,
+      "releases_365d": 2,
+      "repository": "https://github.com/jonhoo/fantoccini.git",
+      "score": 69.27,
+      "version": "0.22.2",
+      "versions": 77
+    },
+    {
+      "categories": [
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.6012,
+        "license": 1.0,
+        "maintenance": 0.8416,
+        "msrv": 1.0,
+        "recency": 0.9925,
+        "security": 1.0
+      },
+      "created": "2025-10-21",
+      "dependents": 18,
+      "description": "Simple, minimal-dependency HTTP client",
+      "downloads": 615109,
+      "edition": "2021",
+      "keywords": [
+        "client",
+        "http",
+        "https",
+        "json",
+        "request"
+      ],
+      "last_release": "2026-11-17",
+      "license": "ISC",
+      "msrv": "1.75.0",
+      "name": "bitreq",
+      "owners": 2,
+      "recent_downloads": 250462,
+      "releases_365d": 13,
+      "repository": "https://git.rust-bitcoin.org/rust-bitcoin/corepc",
+      "score": 68.75,
+      "version": "0.4.4",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "web-programming",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.4172,
+        "downloads": 0.8349,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.5905,
+        "security": 1.0
+      },
+      "created": "2019-01-10",
+      "dependents": 140,
+      "description": "Implementation of Cookie storage and retrieval",
+      "downloads": 103685655,
+      "edition": "2021",
+      "keywords": [
+        "cookie",
+        "http",
+        "jar",
+        "store"
+      ],
+      "last_release": "2026-02-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "cookie_store",
+      "owners": 1,
+      "recent_downloads": 31390365,
+      "releases_365d": 1,
+      "repository": "https://github.com/pfernie/cookie_store",
+      "score": 68.66,
+      "version": "0.22.1",
+      "versions": 29
+    }
+  ],
+  "score_version": 1
+}

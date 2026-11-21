@@ -1,0 +1,922 @@
+{
+  "category": {
+    "crates": 4540,
+    "description": "Crates for graphics libraries and applications, including raster and vector graphics primitives such as geometry, curves, and color.",
+    "name": "Graphics",
+    "slug": "graphics"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4907,
+        "downloads": 0.8369,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2023-04-08",
+      "dependents": 336,
+      "description": "Metadata reader and glyph scaler for OpenType fonts.",
+      "downloads": 54070254,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "skrifa",
+      "owners": 7,
+      "recent_downloads": 32708541,
+      "releases_365d": 16,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 82.9,
+      "version": "0.50.0",
+      "versions": 89
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.6367,
+        "downloads": 0.7061,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.957,
+        "security": 1.0
+      },
+      "created": "2020-01-18",
+      "dependents": 1902,
+      "description": "A refreshingly simple data-driven game engine and app framework",
+      "downloads": 9095023,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "engine",
+        "game",
+        "gamedev",
+        "graphics"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy",
+      "owners": 2,
+      "recent_downloads": 2189391,
+      "releases_365d": 13,
+      "repository": "https://github.com/bevyengine/bevy",
+      "score": 81.92,
+      "version": "0.20.1",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.3765,
+        "downloads": 0.8389,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2022-10-07",
+      "dependents": 86,
+      "description": "Reading OpenType font files.",
+      "downloads": 57082043,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "read-fonts",
+      "owners": 7,
+      "recent_downloads": 34148068,
+      "releases_365d": 19,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 80.1,
+      "version": "0.47.0",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "graphics",
+        "gui",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4142,
+        "downloads": 0.7359,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9837,
+        "security": 1.0
+      },
+      "created": "2024-05-01",
+      "dependents": 135,
+      "description": "Parley provides an API for implementing rich text layout.",
+      "downloads": 6493974,
+      "edition": "2024",
+      "keywords": [
+        "layout",
+        "text"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88",
+      "name": "parley",
+      "owners": 7,
+      "recent_downloads": 4059999,
+      "releases_365d": 8,
+      "repository": "https://github.com/linebender/parley",
+      "score": 78.51,
+      "version": "0.13.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "graphics",
+        "no-std",
+        "no-std::no-alloc",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3924,
+        "downloads": 0.8067,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9965,
+        "security": 1.0
+      },
+      "created": "2020-12-13",
+      "dependents": 104,
+      "description": "Zero-allocation CSS color parser library. Supports absolute and relative color formats.",
+      "downloads": 38123303,
+      "edition": "2024",
+      "keywords": [
+        "color",
+        "colour",
+        "css",
+        "parser"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "csscolorparser",
+      "owners": 1,
+      "recent_downloads": 17546873,
+      "releases_365d": 7,
+      "repository": "https://github.com/mazznoer/csscolorparser-rs",
+      "score": 77.93,
+      "version": "0.9.2",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "graphics",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.3379,
+        "downloads": 0.7666,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2022-10-07",
+      "dependents": 54,
+      "description": "Writing font files.",
+      "downloads": 12883172,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "write-fonts",
+      "owners": 7,
+      "recent_downloads": 7660047,
+      "releases_365d": 15,
+      "repository": "https://github.com/googlefonts/fontations",
+      "score": 77.32,
+      "version": "0.56.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "graphics",
+        "multimedia::images",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.4949,
+        "downloads": 0.8508,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.6008,
+        "security": 1.0
+      },
+      "created": "2016-06-18",
+      "dependents": 353,
+      "description": "`struct RGB/RGBA/etc.` for sharing pixels between crates + convenience methods for color manipulation.\nAllows no-copy high-level interoperability. Also adds common convenience methods and implements standard Rust traits to make `RGB`/`RGBA` pixels and slices first-class Rust objects.",
+      "downloads": 152737912,
+      "edition": "2021",
+      "keywords": [
+        "bgra",
+        "color",
+        "pixel",
+        "rgb",
+        "rgba"
+      ],
+      "last_release": "2026-02-25",
+      "license": "MIT",
+      "msrv": "1.64",
+      "name": "rgb",
+      "owners": 3,
+      "recent_downloads": 43678591,
+      "releases_365d": 3,
+      "repository": "https://github.com/kornelski/rust-rgb",
+      "score": 76.15,
+      "version": "0.8.53",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.3021,
+        "downloads": 0.7819,
+        "license": 1.0,
+        "maintenance": 0.9535,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2025-05-09",
+      "dependents": 35,
+      "description": "A CPU-based renderer for Vello, optimized for SIMD and multithreaded execution.",
+      "downloads": 13136459,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "vector-graphics"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "vello_cpu",
+      "owners": 5,
+      "recent_downloads": 10495016,
+      "releases_365d": 9,
+      "repository": "https://github.com/linebender/vello",
+      "score": 76.14,
+      "version": "0.4.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.5022,
+        "downloads": 0.8367,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6953,
+        "security": 1.0
+      },
+      "created": "2018-12-27",
+      "dependents": 385,
+      "description": "A 2D curves library",
+      "downloads": 71555380,
+      "edition": "2024",
+      "keywords": [
+        "bezier",
+        "curve",
+        "curves",
+        "geometry",
+        "graphics"
+      ],
+      "last_release": "2026-05-13",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "kurbo",
+      "owners": 9,
+      "recent_downloads": 32583307,
+      "releases_365d": 2,
+      "repository": "https://github.com/linebender/kurbo",
+      "score": 75.9,
+      "version": "0.13.1",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.7945,
+        "license": 1.0,
+        "maintenance": 0.9535,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2025-05-09",
+      "dependents": 25,
+      "description": "Core data structures and utilities shared across the Vello rendering, including geometry processing and tiling logic.",
+      "downloads": 16526327,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "vector-graphics"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "vello_common",
+      "owners": 5,
+      "recent_downloads": 13623407,
+      "releases_365d": 9,
+      "repository": "https://github.com/linebender/vello",
+      "score": 75.77,
+      "version": "0.4.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "graphics",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.7826,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-01-17",
+      "dependents": 41,
+      "description": "Minimal 2D graphics library for GUI work",
+      "downloads": 32589076,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "graphics",
+        "gui"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "epaint",
+      "owners": 2,
+      "recent_downloads": 10651735,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/epaint",
+      "score": 75.44,
+      "version": "0.37.0",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.3899,
+        "downloads": 0.6346,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2024-03-04",
+      "dependents": 101,
+      "description": "A GPU compute-centric 2D renderer.",
+      "downloads": 1240262,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "vector-graphics"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "vello",
+      "owners": 7,
+      "recent_downloads": 499769,
+      "releases_365d": 6,
+      "repository": "https://github.com/linebender/vello",
+      "score": 75.35,
+      "version": "0.12.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "algorithms",
+        "graphics",
+        "mathematics",
+        "no-std",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.7523,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.99,
+        "security": 1.0
+      },
+      "created": "2023-08-28",
+      "dependents": 56,
+      "description": "Boolean Operations for 2D Polygons: Supports intersection, union, difference, xor, and self-intersections for all polygon varieties.",
+      "downloads": 12783298,
+      "edition": "2024",
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "i_overlay",
+      "owners": 1,
+      "recent_downloads": 5698336,
+      "releases_365d": 26,
+      "repository": "https://github.com/iShape-Rust/iOverlay",
+      "score": 75.18,
+      "version": "9.2.0",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.7011,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2019-08-05",
+      "dependents": 72,
+      "description": "Safe Skia Bindings for Rust",
+      "downloads": 5449560,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "skia-safe",
+      "owners": 2,
+      "recent_downloads": 1975346,
+      "releases_365d": 12,
+      "repository": "https://github.com/rust-skia/rust-skia",
+      "score": 75.08,
+      "version": "0.157.0",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "graphics",
+        "multimedia::images",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5099,
+        "downloads": 0.8292,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8109,
+        "security": 1.0
+      },
+      "created": "2016-01-12",
+      "dependents": 422,
+      "description": "Convert and manage colors with a focus on correctness, flexibility and ease of use.",
+      "downloads": 44068430,
+      "edition": "2021",
+      "keywords": [
+        "color",
+        "conversion",
+        "linear",
+        "pixel",
+        "rgb"
+      ],
+      "last_release": "2026-08-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "palette",
+      "owners": 1,
+      "recent_downloads": 27922428,
+      "releases_365d": 1,
+      "repository": "https://github.com/Ogeon/palette",
+      "score": 74.14,
+      "version": "0.7.7",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "encoding",
+        "filesystem",
+        "graphics",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.8257,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9773,
+        "security": 1.0
+      },
+      "created": "2020-02-15",
+      "dependents": 30,
+      "description": "Read and write OpenEXR files without any unsafe code",
+      "downloads": 92033614,
+      "edition": "2018",
+      "keywords": [
+        "binary",
+        "exr",
+        "file",
+        "io",
+        "openexr"
+      ],
+      "last_release": "2026-11-08",
+      "license": "BSD-3-Clause",
+      "msrv": "1.83.0",
+      "name": "exr",
+      "owners": 1,
+      "recent_downloads": 25973475,
+      "releases_365d": 3,
+      "repository": "https://github.com/johannesvollmer/exrs",
+      "score": 74.04,
+      "version": "1.74.3",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "graphics",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.7769,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2024-09-26",
+      "dependents": 18,
+      "description": "Default fonts for use in epaint / egui",
+      "downloads": 19992502,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "graphics",
+        "gui"
+      ],
+      "last_release": "2026-10-15",
+      "license": "(MIT OR Apache-2.0) AND OFL-1.1 AND Ubuntu-font-1.0",
+      "msrv": "1.95",
+      "name": "epaint_default_fonts",
+      "owners": 2,
+      "recent_downloads": 9465792,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/epaint_default_fonts",
+      "score": 73.62,
+      "version": "0.37.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "graphics",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.7746,
+        "license": 1.0,
+        "maintenance": 0.8519,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2026-05-15",
+      "dependents": 17,
+      "description": "Glifo provides APIs for efficiently rendering text.",
+      "downloads": 9893627,
+      "edition": "2024",
+      "keywords": [
+        "layout",
+        "text"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "glifo",
+      "owners": 5,
+      "recent_downloads": 9029449,
+      "releases_365d": 6,
+      "repository": "https://github.com/linebender/vello",
+      "score": 72.97,
+      "version": "0.5.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "algorithms",
+        "command-line-interface",
+        "graphics",
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.8111,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9337,
+        "security": 1.0
+      },
+      "created": "2024-10-04",
+      "dependents": 9,
+      "description": "A rust layout solver for GUIs, based on the Cassowary algorithm.\nA fork of the unmaintained cassowary-rs crate with improvments and bug fixes.\nKasuari is the indonesian name for the cassowary bird.\n",
+      "downloads": 35351958,
+      "edition": "2021",
+      "keywords": [
+        "cassowary",
+        "layout",
+        "solver",
+        "tui"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "kasuari",
+      "owners": 4,
+      "recent_downloads": 19208235,
+      "releases_365d": 3,
+      "repository": "https://github.com/ratatui/kasuari",
+      "score": 72.64,
+      "version": "0.4.13",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.4268,
+        "downloads": 0.7805,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6973,
+        "security": 1.0
+      },
+      "created": "2024-02-14",
+      "dependents": 157,
+      "description": "Primitive types for styling vector graphics",
+      "downloads": 14191799,
+      "edition": "2024",
+      "keywords": [
+        "graphics",
+        "style",
+        "vector"
+      ],
+      "last_release": "2026-05-15",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "peniko",
+      "owners": 5,
+      "recent_downloads": 10205083,
+      "releases_365d": 2,
+      "repository": "https://github.com/linebender/peniko",
+      "score": 72.64,
+      "version": "0.6.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.6746,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9541,
+        "security": 1.0
+      },
+      "created": "2020-09-28",
+      "dependents": 17,
+      "description": "Antialiased 2D vector drawing library",
+      "downloads": 3516527,
+      "edition": "2021",
+      "keywords": [
+        "canvas",
+        "drawing",
+        "gpu",
+        "graphics",
+        "vector"
+      ],
+      "last_release": "2026-10-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "femtovg",
+      "owners": 2,
+      "recent_downloads": 1141280,
+      "releases_365d": 16,
+      "repository": "https://github.com/femtovg/femtovg",
+      "score": 71.27,
+      "version": "0.28.0",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "algorithms",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.8099,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.812,
+        "security": 1.0
+      },
+      "created": "2024-11-18",
+      "dependents": 8,
+      "description": "A simple crate implementing line and polygon clipping algorithms.",
+      "downloads": 33765428,
+      "edition": "2024",
+      "keywords": [
+        "algorithm",
+        "clipping",
+        "line",
+        "polygon"
+      ],
+      "last_release": "2026-08-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "line-clipping",
+      "owners": 2,
+      "recent_downloads": 18752196,
+      "releases_365d": 4,
+      "repository": "https://github.com/ratatui/line-clipping",
+      "score": 71.06,
+      "version": "0.3.8",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "graphics",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.3264,
+        "downloads": 0.7161,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7248,
+        "security": 1.0
+      },
+      "created": "2024-09-04",
+      "dependents": 47,
+      "description": "A high-level crate for creating PDF files.",
+      "downloads": 4181019,
+      "edition": "2021",
+      "keywords": [
+        "pdf"
+      ],
+      "last_release": "2026-06-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "krilla",
+      "owners": 2,
+      "recent_downloads": 2692588,
+      "releases_365d": 5,
+      "repository": "https://github.com/LaurenzV/krilla",
+      "score": 70.93,
+      "version": "0.8.2",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "graphics",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4383,
+        "downloads": 0.7724,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 0.0,
+        "recency": 0.7866,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 180,
+      "description": "Font introspection, complex text shaping and glyph rendering.",
+      "downloads": 19965778,
+      "edition": "2021",
+      "keywords": [
+        "font",
+        "glyph",
+        "shape",
+        "text"
+      ],
+      "last_release": "2026-07-17",
+      "license": "Apache-2.0 OR MIT",
+      "name": "swash",
+      "owners": 3,
+      "recent_downloads": 8625843,
+      "releases_365d": 3,
+      "repository": "https://github.com/dfrg/swash",
+      "score": 70.57,
+      "version": "0.2.10",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "game-development",
+        "graphics",
+        "gui",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.4274,
+        "downloads": 0.7999,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.5222,
+        "security": 1.0
+      },
+      "created": "2022-01-20",
+      "dependents": 158,
+      "description": "Cross-platform software buffer",
+      "downloads": 35768311,
+      "edition": "2021",
+      "keywords": [
+        "framebuffer",
+        "windowing"
+      ],
+      "last_release": "2025-12-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "softbuffer",
+      "owners": 7,
+      "recent_downloads": 15240279,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-windowing/softbuffer",
+      "score": 70.51,
+      "version": "0.4.8",
+      "versions": 18
+    }
+  ],
+  "score_version": 1
+}

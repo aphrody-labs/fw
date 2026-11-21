@@ -1,0 +1,909 @@
+{
+  "category": {
+    "crates": 4020,
+    "description": "Crates to help create command line interfaces, such as argument parsers, line-editing, or output coloring and formatting.",
+    "name": "Command-line interface",
+    "slug": "command-line-interface"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.9133,
+        "downloads": 0.9443,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9981,
+        "security": 1.0
+      },
+      "created": "2015-03-01",
+      "dependents": 50654,
+      "description": "A simple to use, efficient, and full-featured Command Line Argument Parser",
+      "downloads": 1367305877,
+      "edition": "2024",
+      "keywords": [
+        "arg",
+        "argument",
+        "cli",
+        "parse",
+        "parser"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clap",
+      "owners": 3,
+      "recent_downloads": 301427280,
+      "releases_365d": 18,
+      "repository": "https://github.com/clap-rs/clap",
+      "score": 96.41,
+      "version": "4.6.9",
+      "versions": 464
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.7017,
+        "downloads": 0.8462,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9923,
+        "security": 1.0
+      },
+      "created": "2021-12-31",
+      "dependents": 4113,
+      "description": "Generate shell completion scripts for your clap::Command",
+      "downloads": 144701805,
+      "edition": "2024",
+      "keywords": [
+        "bash",
+        "clap",
+        "cli",
+        "completion"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clap_complete",
+      "owners": 3,
+      "recent_downloads": 39695954,
+      "releases_365d": 19,
+      "repository": "https://github.com/clap-rs/clap",
+      "score": 88.58,
+      "version": "4.6.12",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.746,
+        "downloads": 0.8297,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.7454,
+        "security": 1.0
+      },
+      "created": "2023-02-08",
+      "dependents": 6961,
+      "description": "A library that's all about cooking up terminal user interfaces",
+      "downloads": 73714973,
+      "edition": "2024",
+      "keywords": [
+        "dashboard",
+        "terminal",
+        "tui"
+      ],
+      "last_release": "2026-06-19",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "ratatui",
+      "owners": 4,
+      "recent_downloads": 28200665,
+      "releases_365d": 4,
+      "repository": "https://github.com/ratatui/ratatui",
+      "score": 85.57,
+      "version": "0.30.2",
+      "versions": 87
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "internationalization",
+        "no-std::no-alloc",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.6907,
+        "downloads": 0.9336,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9553,
+        "security": 1.0
+      },
+      "created": "2015-04-14",
+      "dependents": 3611,
+      "description": "Determine displayed width of `char` and `str` types\naccording to Unicode Standard Annex #11 rules.\n",
+      "downloads": 993245187,
+      "edition": "2021",
+      "keywords": [
+        "text",
+        "unicode",
+        "width"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66",
+      "name": "unicode-width",
+      "owners": 5,
+      "recent_downloads": 241668550,
+      "releases_365d": 1,
+      "repository": "https://github.com/unicode-rs/unicode-width",
+      "score": 85.44,
+      "version": "0.2.3",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.7272,
+        "downloads": 0.8645,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.7629,
+        "security": 1.0
+      },
+      "created": "2017-04-26",
+      "dependents": 5566,
+      "description": "A progress bar and cli reporting library for Rust",
+      "downloads": 261114754,
+      "edition": "2021",
+      "keywords": [
+        "cli",
+        "colors",
+        "pb",
+        "progress",
+        "progressbar"
+      ],
+      "last_release": "2026-07-01",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "indicatif",
+      "owners": 2,
+      "recent_downloads": 57934795,
+      "releases_365d": 3,
+      "repository": "https://github.com/console-rs/indicatif",
+      "score": 83.74,
+      "version": "0.18.6",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.5798,
+        "downloads": 0.7519,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9923,
+        "security": 1.0
+      },
+      "created": "2022-02-08",
+      "dependents": 968,
+      "description": "A manpage generator for clap",
+      "downloads": 19870372,
+      "edition": "2024",
+      "keywords": [
+        "clap",
+        "cli",
+        "generate",
+        "manpage"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clap_mangen",
+      "owners": 3,
+      "recent_downloads": 5650051,
+      "releases_365d": 7,
+      "repository": "https://github.com/clap-rs/clap",
+      "score": 83.18,
+      "version": "0.3.4",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "development-tools::procedural-macro-helpers"
+      ],
+      "components": {
+        "dependents": 0.4142,
+        "downloads": 0.933,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9981,
+        "security": 1.0
+      },
+      "created": "2020-05-03",
+      "dependents": 135,
+      "description": "Parse command line argument by defining a struct, derive crate.",
+      "downloads": 944916289,
+      "edition": "2024",
+      "keywords": [
+        "clap",
+        "cli",
+        "derive",
+        "parse",
+        "proc_macro"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clap_derive",
+      "owners": 2,
+      "recent_downloads": 238808743,
+      "releases_365d": 9,
+      "repository": "https://github.com/clap-rs/clap",
+      "score": 82.65,
+      "version": "4.6.9",
+      "versions": 95
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.594,
+        "downloads": 0.7553,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9904,
+        "security": 1.0
+      },
+      "created": "2021-06-24",
+      "dependents": 1146,
+      "description": "inquire is a library for building interactive prompts on terminals",
+      "downloads": 25306464,
+      "edition": "2018",
+      "keywords": [
+        "ask",
+        "cli",
+        "interactive",
+        "prompt",
+        "question"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "msrv": "1.85.0",
+      "name": "inquire",
+      "owners": 1,
+      "recent_downloads": 6060140,
+      "releases_365d": 4,
+      "repository": "https://github.com/mikaelmello/inquire",
+      "score": 81.59,
+      "version": "0.9.5",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.9386,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9923,
+        "security": 1.0
+      },
+      "created": "2022-04-15",
+      "dependents": 30,
+      "description": "Minimal, flexible command line parser",
+      "downloads": 1083054981,
+      "edition": "2024",
+      "keywords": [
+        "arg",
+        "argument",
+        "cli",
+        "parse",
+        "parser"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clap_lex",
+      "owners": 3,
+      "recent_downloads": 267882268,
+      "releases_365d": 6,
+      "repository": "https://github.com/clap-rs/clap",
+      "score": 80.59,
+      "version": "1.1.2",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6158,
+        "downloads": 0.8555,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8504,
+        "security": 1.0
+      },
+      "created": "2020-08-25",
+      "dependents": 1484,
+      "description": "Zero-allocation terminal colors that'll make people go owo",
+      "downloads": 202148119,
+      "edition": "2021",
+      "keywords": [
+        "ansi_term",
+        "cli",
+        "color",
+        "no-std",
+        "terminal"
+      ],
+      "last_release": "2026-08-27",
+      "license": "MIT",
+      "msrv": "1.83",
+      "name": "owo-colors",
+      "owners": 2,
+      "recent_downloads": 48085020,
+      "releases_365d": 2,
+      "repository": "https://github.com/owo-colors/owo-colors",
+      "score": 80.54,
+      "version": "4.4.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.5636,
+        "downloads": 0.9559,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7007,
+        "security": 1.0
+      },
+      "created": "2015-06-22",
+      "dependents": 799,
+      "description": "Split a string into shell words, like Python's shlex.",
+      "downloads": 1133290551,
+      "edition": "2018",
+      "last_release": "2026-05-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.46.0",
+      "name": "shlex",
+      "owners": 2,
+      "recent_downloads": 383407133,
+      "releases_365d": 2,
+      "repository": "https://github.com/comex/rust-shlex",
+      "score": 79.5,
+      "version": "2.0.1",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.5569,
+        "downloads": 0.8748,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8784,
+        "security": 1.0
+      },
+      "created": "2016-12-17",
+      "dependents": 738,
+      "description": "Library for word wrapping, indenting, and dedenting strings. Has optional support for Unicode and emojis as well as machine hyphenation.",
+      "downloads": 480885205,
+      "edition": "2021",
+      "keywords": [
+        "formatting",
+        "hyphenation",
+        "text",
+        "typesetting",
+        "wrap"
+      ],
+      "last_release": "2026-09-13",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "textwrap",
+      "owners": 1,
+      "recent_downloads": 71722753,
+      "releases_365d": 2,
+      "repository": "https://github.com/mgeisler/textwrap",
+      "score": 78.97,
+      "version": "0.16.4",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.4388,
+        "downloads": 0.7383,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9923,
+        "security": 1.0
+      },
+      "created": "2022-10-30",
+      "dependents": 181,
+      "description": "A generator library used with clap for Nushell completion scripts",
+      "downloads": 17573472,
+      "edition": "2024",
+      "keywords": [
+        "clap",
+        "cli",
+        "completion",
+        "nushell"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clap_complete_nushell",
+      "owners": 2,
+      "recent_downloads": 4259654,
+      "releases_365d": 5,
+      "repository": "https://github.com/clap-rs/clap",
+      "score": 78.31,
+      "version": "4.6.3",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.9381,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.88,
+        "security": 1.0
+      },
+      "created": "2023-03-28",
+      "dependents": 22,
+      "description": "A simple to use, efficient, and full-featured Command Line Argument Parser",
+      "downloads": 957138012,
+      "edition": "2024",
+      "keywords": [
+        "arg",
+        "argument",
+        "cli",
+        "parse",
+        "parser"
+      ],
+      "last_release": "2026-09-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clap_builder",
+      "owners": 3,
+      "recent_downloads": 265516221,
+      "releases_365d": 13,
+      "repository": "https://github.com/clap-rs/clap",
+      "score": 78.26,
+      "version": "4.6.7",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.4424,
+        "downloads": 0.8109,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.7454,
+        "security": 1.0
+      },
+      "created": "2024-09-27",
+      "dependents": 189,
+      "description": "    Core types and traits for the Ratatui Terminal UI library.\n    Widget libraries should use this crate. Applications should use the main Ratatui crate.\n",
+      "downloads": 35300028,
+      "edition": "2024",
+      "keywords": [
+        "dashboard",
+        "terminal",
+        "tui"
+      ],
+      "last_release": "2026-06-19",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "ratatui-core",
+      "owners": 4,
+      "recent_downloads": 19144078,
+      "releases_365d": 4,
+      "repository": "https://github.com/ratatui/ratatui",
+      "score": 77.51,
+      "version": "0.1.2",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "encoding"
+      ],
+      "components": {
+        "dependents": 0.4714,
+        "downloads": 0.7844,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9397,
+        "security": 1.0
+      },
+      "created": "2016-04-28",
+      "dependents": 267,
+      "description": "Library for parsing terminal data",
+      "downloads": 21116792,
+      "edition": "2024",
+      "keywords": [
+        "terminal",
+        "vt100"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "vt100",
+      "owners": 1,
+      "recent_downloads": 11045550,
+      "releases_365d": 3,
+      "repository": "https://github.com/doy/vt100-rust",
+      "score": 76.99,
+      "version": "0.18.1",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.5999,
+        "downloads": 0.801,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 0.0,
+        "recency": 0.9363,
+        "security": 1.0
+      },
+      "created": "2015-09-05",
+      "dependents": 1229,
+      "description": "Rustyline, a readline implementation based on Antirez's Linenoise",
+      "downloads": 61674331,
+      "edition": "2024",
+      "keywords": [
+        "readline"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT",
+      "name": "rustyline",
+      "owners": 2,
+      "recent_downloads": 15578142,
+      "releases_365d": 3,
+      "repository": "https://github.com/kkawakam/rustyline",
+      "score": 76.56,
+      "version": "19.0.0",
+      "versions": 49
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.5488,
+        "downloads": 0.9371,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.6193,
+        "security": 1.0
+      },
+      "created": "2022-05-18",
+      "dependents": 670,
+      "description": "ANSI text styling",
+      "downloads": 939018891,
+      "edition": "2021",
+      "keywords": [
+        "ansi",
+        "color",
+        "no_std",
+        "terminal"
+      ],
+      "last_release": "2026-03-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66.0",
+      "name": "anstyle",
+      "owners": 2,
+      "recent_downloads": 259653173,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-cli/anstyle.git",
+      "score": 75.94,
+      "version": "1.0.14",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.5195,
+        "downloads": 0.8486,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9135,
+        "security": 1.0
+      },
+      "created": "2020-02-02",
+      "dependents": 473,
+      "description": "A drop-in replacement for std::fs with more helpful error messages.",
+      "downloads": 165080065,
+      "edition": "2018",
+      "last_release": "2026-10-04",
+      "license": "MIT OR Apache-2.0",
+      "name": "fs-err",
+      "owners": 1,
+      "recent_downloads": 41710603,
+      "releases_365d": 5,
+      "repository": "https://github.com/andrewhickman/fs-err",
+      "score": 75.9,
+      "version": "3.3.2",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "template-engine",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4578,
+        "downloads": 0.7206,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8952,
+        "security": 1.0
+      },
+      "created": "2019-05-18",
+      "dependents": 227,
+      "description": "Markdown Renderer for the Terminal",
+      "downloads": 9679491,
+      "edition": "2021",
+      "keywords": [
+        "markdown",
+        "parser",
+        "renderer",
+        "terminal",
+        "tui"
+      ],
+      "last_release": "2026-09-23",
+      "license": "MIT",
+      "msrv": "1.56",
+      "name": "termimad",
+      "owners": 1,
+      "recent_downloads": 2953671,
+      "releases_365d": 7,
+      "repository": "https://github.com/Canop/termimad",
+      "score": 75.89,
+      "version": "0.35.5",
+      "versions": 146
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.4029,
+        "downloads": 0.7192,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9843,
+        "security": 1.0
+      },
+      "created": "2022-03-10",
+      "dependents": 118,
+      "description": "A simple Command Line Argument Parser with parser combinators",
+      "downloads": 10227754,
+      "edition": "2021",
+      "keywords": [
+        "args",
+        "arguments",
+        "cli",
+        "parse",
+        "parser"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "bpaf",
+      "owners": 1,
+      "recent_downloads": 2871205,
+      "releases_365d": 9,
+      "repository": "https://github.com/pacak/bpaf",
+      "score": 75.82,
+      "version": "0.9.29",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.3594,
+        "downloads": 0.8096,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.7454,
+        "security": 1.0
+      },
+      "created": "2024-01-19",
+      "dependents": 70,
+      "description": "A collection of Ratatui widgets for building terminal user interfaces using Ratatui.",
+      "downloads": 33625014,
+      "edition": "2024",
+      "keywords": [
+        "dashboard",
+        "terminal",
+        "tui"
+      ],
+      "last_release": "2026-06-19",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "ratatui-widgets",
+      "owners": 4,
+      "recent_downloads": 18631633,
+      "releases_365d": 4,
+      "repository": "https://github.com/ratatui/ratatui",
+      "score": 75.41,
+      "version": "0.3.2",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.4944,
+        "downloads": 0.7142,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.6431,
+        "security": 1.0
+      },
+      "created": "2018-04-15",
+      "dependents": 351,
+      "description": "Panic messages for humans",
+      "downloads": 15300671,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "panic"
+      ],
+      "last_release": "2026-04-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "human-panic",
+      "owners": 5,
+      "recent_downloads": 2587309,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-cli/human-panic",
+      "score": 74.86,
+      "version": "2.0.8",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.5223,
+        "downloads": 0.9323,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.5848,
+        "security": 1.0
+      },
+      "created": "2023-03-16",
+      "dependents": 489,
+      "description": "IO stream adapters for writing colored text that will gracefully degrade according to your terminal's capabilities.",
+      "downloads": 864783811,
+      "edition": "2021",
+      "keywords": [
+        "ansi",
+        "color",
+        "strip",
+        "terminal",
+        "wincon"
+      ],
+      "last_release": "2026-02-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66.0",
+      "name": "anstream",
+      "owners": 2,
+      "recent_downloads": 235558495,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-cli/anstyle.git",
+      "score": 74.64,
+      "version": "1.0.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "command-line-interface"
+      ],
+      "components": {
+        "dependents": 0.3089,
+        "downloads": 0.8091,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.7454,
+        "security": 1.0
+      },
+      "created": "2024-09-27",
+      "dependents": 38,
+      "description": "Crossterm backend for the Ratatui Terminal UI library.",
+      "downloads": 33293616,
+      "edition": "2024",
+      "keywords": [
+        "dashboard",
+        "terminal",
+        "tui"
+      ],
+      "last_release": "2026-06-19",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "ratatui-crossterm",
+      "owners": 4,
+      "recent_downloads": 18412910,
+      "releases_365d": 4,
+      "repository": "https://github.com/ratatui/ratatui",
+      "score": 74.13,
+      "version": "0.1.2",
+      "versions": 12
+    }
+  ],
+  "score_version": 1
+}

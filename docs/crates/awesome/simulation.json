@@ -1,0 +1,983 @@
+{
+  "category": {
+    "crates": 2838,
+    "description": "Crates used to model or construct models for some activity, e.g. to. simulate a networking protocol.",
+    "name": "Simulation",
+    "slug": "simulation"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.649,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9241,
+        "security": 1.0
+      },
+      "created": "2020-08-19",
+      "dependents": 69,
+      "description": "3-dimensional physics engine in Rust.",
+      "downloads": 2178715,
+      "edition": "2024",
+      "keywords": [
+        "dynamics",
+        "impulse_joints",
+        "physics",
+        "real-time",
+        "rigid"
+      ],
+      "last_release": "2026-10-10",
+      "license": "Apache-2.0",
+      "msrv": "1.86",
+      "name": "rapier3d",
+      "owners": 1,
+      "recent_downloads": 672618,
+      "releases_365d": 13,
+      "repository": "https://github.com/dimforge/rapier",
+      "score": 72.04,
+      "version": "0.36.1",
+      "versions": 72
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.5938,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9241,
+        "security": 1.0
+      },
+      "created": "2020-08-19",
+      "dependents": 49,
+      "description": "2-dimensional physics engine in Rust.",
+      "downloads": 1130955,
+      "edition": "2024",
+      "keywords": [
+        "dynamics",
+        "impulse_joints",
+        "physics",
+        "real-time",
+        "rigid"
+      ],
+      "last_release": "2026-10-10",
+      "license": "Apache-2.0",
+      "msrv": "1.86",
+      "name": "rapier2d",
+      "owners": 1,
+      "recent_downloads": 214962,
+      "releases_365d": 13,
+      "repository": "https://github.com/dimforge/rapier",
+      "score": 69.95,
+      "version": "0.36.1",
+      "versions": 72
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.3281,
+        "downloads": 0.5138,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 48,
+      "description": "Core functionality for the Nautilus trading engine",
+      "downloads": 62504,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-core",
+      "owners": 2,
+      "recent_downloads": 41096,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 66.71,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.5116,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 46,
+      "description": "Domain model for the Nautilus trading engine",
+      "downloads": 59758,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-model",
+      "owners": 2,
+      "recent_downloads": 39288,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 66.57,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.507,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 41,
+      "description": "Common functionality and machinery for the Nautilus trading engine",
+      "downloads": 53128,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-common",
+      "owners": 2,
+      "recent_downloads": 35688,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 66.21,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "game-development",
+        "science",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.3558,
+        "downloads": 0.592,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.941,
+        "security": 1.0
+      },
+      "created": "2024-05-27",
+      "dependents": 67,
+      "description": "An ECS-driven physics engine for the Bevy game engine",
+      "downloads": 529718,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "gamedev",
+        "physics",
+        "simulation"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "name": "avian3d",
+      "owners": 1,
+      "recent_downloads": 207042,
+      "releases_365d": 6,
+      "repository": "https://github.com/avianphysics/avian",
+      "score": 65.81,
+      "version": "0.8.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.5012,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 25,
+      "description": "System orchestration for the Nautilus trading engine",
+      "downloads": 44603,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-system",
+      "owners": 2,
+      "recent_downloads": 31675,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 65.06,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "mathematics",
+        "science",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2567,
+        "downloads": 0.5499,
+        "license": 1.0,
+        "maintenance": 0.7572,
+        "msrv": 1.0,
+        "recency": 0.9001,
+        "security": 1.0
+      },
+      "created": "2025-12-25",
+      "dependents": 20,
+      "description": "World's first subpolynomial dynamic min-cut: self-healing networks, AI optimization, real-time graph analysis",
+      "downloads": 219956,
+      "edition": "2021",
+      "keywords": [
+        "dynamic-graph",
+        "graph",
+        "minimum-cut",
+        "network-analysis",
+        "self-healing"
+      ],
+      "last_release": "2026-09-26",
+      "license": "MIT",
+      "msrv": "1.77",
+      "name": "ruvector-mincut",
+      "owners": 1,
+      "recent_downloads": 86751,
+      "releases_365d": 12,
+      "repository": "https://github.com/ruvnet/ruvector",
+      "score": 65.02,
+      "version": "2.3.1",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.5479,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9241,
+        "security": 1.0
+      },
+      "created": "2021-01-24",
+      "dependents": 7,
+      "description": "3-dimensional physics engine in Rust.",
+      "downloads": 4559470,
+      "edition": "2024",
+      "keywords": [
+        "dynamics",
+        "impulse_joints",
+        "physics",
+        "real-time",
+        "rigid"
+      ],
+      "last_release": "2026-10-10",
+      "license": "Apache-2.0",
+      "msrv": "1.86",
+      "name": "rapier3d-f64",
+      "owners": 1,
+      "recent_downloads": 83117,
+      "releases_365d": 13,
+      "repository": "https://github.com/dimforge/rapier",
+      "score": 64.94,
+      "version": "0.36.1",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.491,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 26,
+      "description": "Network communication machinery for the Nautilus trading engine",
+      "downloads": 37341,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-network",
+      "owners": 2,
+      "recent_downloads": 25628,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 64.88,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.4862,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 24,
+      "description": "Core live trading components and machinery for the Nautilus trading engine",
+      "downloads": 34044,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-live",
+      "owners": 2,
+      "recent_downloads": 23215,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 64.6,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5049,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 12,
+      "description": "Core execution machinery for the Nautilus trading engine",
+      "downloads": 49573,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-execution",
+      "owners": 2,
+      "recent_downloads": 34162,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 63.69,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "science",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.4169,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9453,
+        "security": 1.0
+      },
+      "created": "2021-02-04",
+      "dependents": 15,
+      "description": "qoqo-calculator is the calculator backend of the qoqo quantum computing toolkit by HQS Quantum Simulations",
+      "downloads": 258738,
+      "edition": "2021",
+      "last_release": "2026-10-22",
+      "license": "Apache-2.0",
+      "msrv": "1.76",
+      "name": "qoqo_calculator",
+      "owners": 1,
+      "recent_downloads": 5542,
+      "releases_365d": 4,
+      "repository": "https://github.com/HQSquantumsimulations/qoqo_calculator",
+      "score": 63.45,
+      "version": "1.9.1",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5029,
+        "license": 1.0,
+        "maintenance": 0.6897,
+        "msrv": 1.0,
+        "recency": 0.9556,
+        "security": 1.0
+      },
+      "created": "2026-08-28",
+      "dependents": 12,
+      "description": "Streaming-native backtest engine core (strategy spec, rules, execution, portfolio) built on wickra-core.",
+      "downloads": 32761,
+      "edition": "2021",
+      "keywords": [
+        "backtesting",
+        "quant",
+        "streaming",
+        "technical-analysis",
+        "trading"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86",
+      "name": "wickra-backtest-core",
+      "owners": 1,
+      "recent_downloads": 32778,
+      "releases_365d": 12,
+      "repository": "https://github.com/wickra-lib/wickra-backtest",
+      "score": 62.66,
+      "version": "0.2.1",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4899,
+        "license": 0.75,
+        "maintenance": 0.8298,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 11,
+      "description": "Serialization functionality for the Nautilus trading engine",
+      "downloads": 37139,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-serialization",
+      "owners": 1,
+      "recent_downloads": 25059,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 62.14,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "game-development",
+        "science",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.5538,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.941,
+        "security": 1.0
+      },
+      "created": "2024-05-27",
+      "dependents": 17,
+      "description": "An ECS-driven physics engine for the Bevy game engine",
+      "downloads": 307016,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "gamedev",
+        "physics",
+        "simulation"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "name": "avian2d",
+      "owners": 1,
+      "recent_downloads": 94049,
+      "releases_365d": 6,
+      "repository": "https://github.com/avianphysics/avian",
+      "score": 62.05,
+      "version": "0.8.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::testing",
+        "hardware-support",
+        "os",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.4097,
+        "downloads": 0.6965,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.426,
+        "security": 1.0
+      },
+      "created": "2017-01-29",
+      "dependents": 128,
+      "description": "Cross-platform (Linux, Windows, macOS & BSD) library to simulate keyboard and mouse events",
+      "downloads": 4218380,
+      "edition": "2024",
+      "keywords": [
+        "automation",
+        "input",
+        "keyboard",
+        "mouse",
+        "simulate"
+      ],
+      "last_release": "2025-08-28",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "enigo",
+      "owners": 2,
+      "recent_downloads": 1794807,
+      "releases_365d": 0,
+      "repository": "https://github.com/enigo-rs/enigo",
+      "score": 62.05,
+      "version": "0.6.1",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5017,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 5,
+      "description": "Strategy machinery and controllers for the Nautilus trading engine",
+      "downloads": 45718,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-trading",
+      "owners": 2,
+      "recent_downloads": 31990,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 61.98,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5003,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 5,
+      "description": "Portfolio components and functionality for the Nautilus trading engine",
+      "downloads": 45359,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-portfolio",
+      "owners": 2,
+      "recent_downloads": 31085,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 61.94,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "development-tools",
+        "network-programming",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4458,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9551,
+        "security": 1.0
+      },
+      "created": "2020-08-24",
+      "dependents": 1,
+      "description": "Viceroy implementation details.",
+      "downloads": 101383,
+      "edition": "2024",
+      "keywords": [
+        "fastly",
+        "wasm"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "msrv": "1.95",
+      "name": "viceroy-lib",
+      "owners": 7,
+      "recent_downloads": 10070,
+      "releases_365d": 13,
+      "repository": "https://github.com/fastly/Viceroy",
+      "score": 61.93,
+      "version": "0.22.0",
+      "versions": 68
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4679,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 7,
+      "description": "Data persistence and storage for the Nautilus trading engine",
+      "downloads": 24954,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-persistence",
+      "owners": 2,
+      "recent_downloads": 15898,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 61.74,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5028,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 3,
+      "description": "Performance analysis and statistics for the Nautilus trading engine",
+      "downloads": 47395,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-analysis",
+      "owners": 2,
+      "recent_downloads": 32752,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 61.15,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5016,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 3,
+      "description": "Core data handling machinery for the Nautilus trading engine",
+      "downloads": 45566,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-data",
+      "owners": 2,
+      "recent_downloads": 31907,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 61.12,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "finance",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4989,
+        "license": 0.75,
+        "maintenance": 0.8965,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2025-04-04",
+      "dependents": 3,
+      "description": "Core risk management machinery for the Nautilus trading engine",
+      "downloads": 43754,
+      "edition": "2024",
+      "keywords": [
+        "algorithmic-trading",
+        "finance",
+        "quantitative-finance",
+        "trading",
+        "trading-platform"
+      ],
+      "last_release": "2026-11-10",
+      "license": "LGPL-3.0-only",
+      "msrv": "1.99.1",
+      "name": "nautilus-risk",
+      "owners": 2,
+      "recent_downloads": 30189,
+      "releases_365d": 17,
+      "repository": "https://github.com/nautechsystems/nautilus_trader",
+      "score": 61.05,
+      "version": "0.68.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "no-std",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.4709,
+        "license": 1.0,
+        "maintenance": 0.6846,
+        "msrv": 1.0,
+        "recency": 0.9319,
+        "security": 1.0
+      },
+      "created": "2026-09-16",
+      "dependents": 8,
+      "description": "Cross-platform bit-exact f32/f64 transcendentals (sin, cos, exp, ln, atan2, ...) — scalar and SIMD, no_std",
+      "downloads": 16929,
+      "edition": "2021",
+      "keywords": [
+        "bit-exact",
+        "deterministic",
+        "libm",
+        "no_std",
+        "simd"
+      ],
+      "last_release": "2026-10-14",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "alice-det-math",
+      "owners": 1,
+      "recent_downloads": 16938,
+      "releases_365d": 9,
+      "repository": "https://github.com/ext-sakamoro/ALICE-DetMath",
+      "score": 60.65,
+      "version": "0.5.1",
+      "versions": 9
+    }
+  ],
+  "score_version": 1
+}

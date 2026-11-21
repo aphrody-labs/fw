@@ -1,0 +1,961 @@
+{
+  "category": {
+    "crates": 878,
+    "description": "Emulators allow one computer to behave like another, often to allow running software that is not natively available on the host computer. Video game systems are commonly emulated.",
+    "name": "Emulators",
+    "slug": "emulators"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "data-structures",
+        "embedded",
+        "emulators",
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.7155,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9805,
+        "security": 1.0
+      },
+      "created": "2018-08-08",
+      "dependents": 22,
+      "description": "Macro for for generating bitfields from structs and enum bitflags for defining packed binary schemas in low-level systems (e.g. embedded development or emulators)",
+      "downloads": 4719203,
+      "edition": "2021",
+      "keywords": [
+        "bit",
+        "bitfield",
+        "bitfields",
+        "struct"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.83.0",
+      "name": "bitfields",
+      "owners": 1,
+      "recent_downloads": 2658496,
+      "releases_365d": 17,
+      "repository": "https://github.com/gregorygaines/bitfields-rs",
+      "score": 72.2,
+      "version": "3.2.4",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "emulators",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.568,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2021-11-16",
+      "dependents": 41,
+      "description": "Miden VM core components",
+      "downloads": 598145,
+      "edition": "2024",
+      "keywords": [
+        "instruction-set",
+        "miden",
+        "program"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.1",
+      "name": "miden-core",
+      "owners": 2,
+      "recent_downloads": 125913,
+      "releases_365d": 44,
+      "repository": "https://github.com/0xMiden/miden-vm",
+      "score": 71.01,
+      "version": "0.36.5",
+      "versions": 92
+    },
+    {
+      "categories": [
+        "emulators",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.5651,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2021-11-16",
+      "dependents": 17,
+      "description": "Miden VM processor",
+      "downloads": 545676,
+      "edition": "2024",
+      "keywords": [
+        "miden",
+        "virtual-machine"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.1",
+      "name": "miden-processor",
+      "owners": 2,
+      "recent_downloads": 118603,
+      "releases_365d": 44,
+      "repository": "https://github.com/0xMiden/miden-vm",
+      "score": 69.15,
+      "version": "0.36.5",
+      "versions": 94
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.6162,
+        "license": 1.0,
+        "maintenance": 0.7002,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-07-21",
+      "dependents": 17,
+      "description": "A secure, snapshotable Python sandbox written in Rust.",
+      "downloads": 357556,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "interpreter",
+        "python",
+        "sandbox"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "monty-types",
+      "owners": 1,
+      "recent_downloads": 341524,
+      "releases_365d": 18,
+      "repository": "https://github.com/pydantic/monty/",
+      "score": 67.0,
+      "version": "1.6.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "data-structures",
+        "embedded",
+        "emulators",
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.7154,
+        "license": 1.0,
+        "maintenance": 0.8597,
+        "msrv": 1.0,
+        "recency": 0.9805,
+        "security": 1.0
+      },
+      "created": "2024-12-16",
+      "dependents": 1,
+      "description": "Macro for generating flexible bitfields. Useful for low-level code (embedded or emulators).",
+      "downloads": 4679582,
+      "edition": "2021",
+      "keywords": [
+        "bit",
+        "bitfield",
+        "bitfields",
+        "struct"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.83.0",
+      "name": "bitfields-impl",
+      "owners": 1,
+      "recent_downloads": 2657008,
+      "releases_365d": 17,
+      "repository": "https://github.com/gregorygaines/bitfields-rs",
+      "score": 66.95,
+      "version": "3.2.4",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "cryptography",
+        "emulators",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5552,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2022-08-08",
+      "dependents": 5,
+      "description": "Miden VM prover",
+      "downloads": 490911,
+      "edition": "2024",
+      "keywords": [
+        "miden",
+        "prover",
+        "stark",
+        "zkp"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.1",
+      "name": "miden-prover",
+      "owners": 2,
+      "recent_downloads": 96643,
+      "releases_365d": 44,
+      "repository": "https://github.com/0xMiden/miden-vm",
+      "score": 66.58,
+      "version": "0.36.5",
+      "versions": 89
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.5944,
+        "license": 1.0,
+        "maintenance": 0.7556,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2025-12-31",
+      "dependents": 11,
+      "description": "A secure, snapshotable Python sandbox written in Rust.",
+      "downloads": 234708,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "interpreter",
+        "python",
+        "sandbox"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "monty",
+      "owners": 1,
+      "recent_downloads": 217682,
+      "releases_365d": 21,
+      "repository": "https://github.com/pydantic/monty/",
+      "score": 66.43,
+      "version": "1.6.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5837,
+        "license": 1.0,
+        "maintenance": 0.7065,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-06-28",
+      "dependents": 6,
+      "description": "A secure, snapshotable Python sandbox written in Rust.",
+      "downloads": 174923,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "interpreter",
+        "python",
+        "sandbox"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "monty-proto",
+      "owners": 1,
+      "recent_downloads": 174334,
+      "releases_365d": 20,
+      "repository": "https://github.com/pydantic/monty/",
+      "score": 64.29,
+      "version": "1.6.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "development-tools::testing",
+        "embedded",
+        "emulators",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2567,
+        "downloads": 0.6171,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8246,
+        "security": 1.0
+      },
+      "created": "2023-08-28",
+      "dependents": 20,
+      "description": "Low-level bolts to create fuzzers and so much more",
+      "downloads": 554779,
+      "edition": "2024",
+      "keywords": [
+        "fuzzing",
+        "security",
+        "testing"
+      ],
+      "last_release": "2026-08-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.93.1",
+      "name": "libafl_bolts",
+      "owners": 1,
+      "recent_downloads": 348078,
+      "releases_365d": 2,
+      "repository": "https://github.com/AFLplusplus/LibAFL/",
+      "score": 64.22,
+      "version": "0.16.1",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "development-tools::testing",
+        "embedded",
+        "emulators",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.6174,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8246,
+        "security": 1.0
+      },
+      "created": "2021-04-30",
+      "dependents": 19,
+      "description": "Slot your own fuzzers together and extend their features using Rust",
+      "downloads": 620760,
+      "edition": "2024",
+      "keywords": [
+        "fuzzing",
+        "security",
+        "testing"
+      ],
+      "last_release": "2026-08-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.93.1",
+      "name": "libafl",
+      "owners": 1,
+      "recent_downloads": 350040,
+      "releases_365d": 2,
+      "repository": "https://github.com/AFLplusplus/LibAFL/",
+      "score": 64.12,
+      "version": "0.16.1",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "compilers",
+        "emulators",
+        "parser-implementations",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5122,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9696,
+        "security": 1.0
+      },
+      "created": "2021-10-19",
+      "dependents": 3,
+      "description": "Rust tooling for Quil (Quantum Instruction Language)",
+      "downloads": 601102,
+      "edition": "2021",
+      "keywords": [
+        "quantum",
+        "quil",
+        "rigetti"
+      ],
+      "last_release": "2026-11-04",
+      "license": "Apache-2.0",
+      "msrv": "1.93",
+      "name": "quil-rs",
+      "owners": 1,
+      "recent_downloads": 39760,
+      "releases_365d": 17,
+      "repository": "https://github.com/rigetti/quil-rs",
+      "score": 63.27,
+      "version": "0.37.3",
+      "versions": 187
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5852,
+        "license": 1.0,
+        "maintenance": 0.7008,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-07-19",
+      "dependents": 3,
+      "description": "A secure, snapshotable Python sandbox written in Rust.",
+      "downloads": 189200,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "interpreter",
+        "python",
+        "sandbox"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "monty-fs",
+      "owners": 1,
+      "recent_downloads": 179808,
+      "releases_365d": 17,
+      "repository": "https://github.com/pydantic/monty/",
+      "score": 63.06,
+      "version": "1.6.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5763,
+        "license": 1.0,
+        "maintenance": 0.7065,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-06-28",
+      "dependents": 3,
+      "description": "A secure, snapshotable Python sandbox written in Rust.",
+      "downloads": 150178,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "interpreter",
+        "python",
+        "sandbox"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "monty-pool",
+      "owners": 1,
+      "recent_downloads": 149721,
+      "releases_365d": 20,
+      "repository": "https://github.com/pydantic/monty/",
+      "score": 62.92,
+      "version": "1.6.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "development-tools::testing",
+        "emulators",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.5551,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9207,
+        "security": 1.0
+      },
+      "created": "2023-10-12",
+      "dependents": 15,
+      "description": "PocketIC: A Canister Smart Contract Testing Platform",
+      "downloads": 516445,
+      "edition": "2024",
+      "keywords": [
+        "canister",
+        "icp",
+        "internet-computer",
+        "smart-contract",
+        "testing"
+      ],
+      "last_release": "2026-10-08",
+      "license": "Apache-2.0",
+      "name": "pocket-ic",
+      "owners": 2,
+      "recent_downloads": 96417,
+      "releases_365d": 7,
+      "repository": "https://github.com/dfinity/ic",
+      "score": 62.53,
+      "version": "16.1.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5395,
+        "license": 1.0,
+        "maintenance": 0.6959,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-08-06",
+      "dependents": 4,
+      "description": "Global allocator enforcing a Monty worker's hard memory ceiling.",
+      "downloads": 70198,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "interpreter",
+        "python",
+        "sandbox"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "monty-alloc",
+      "owners": 1,
+      "recent_downloads": 69871,
+      "releases_365d": 14,
+      "repository": "https://github.com/pydantic/monty/",
+      "score": 62.31,
+      "version": "1.6.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "compilers",
+        "cryptography",
+        "embedded",
+        "emulators",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4668,
+        "license": 1.0,
+        "maintenance": 0.7651,
+        "msrv": 1.0,
+        "recency": 0.982,
+        "security": 1.0
+      },
+      "created": "2025-11-26",
+      "dependents": 3,
+      "description": "Functional registry-based RISC virtual machine",
+      "downloads": 41775,
+      "edition": "2021",
+      "keywords": [
+        "edge-computing",
+        "emulator",
+        "functional",
+        "risc",
+        "virtual-machine"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "rgb-aluvm",
+      "owners": 1,
+      "recent_downloads": 15542,
+      "releases_365d": 7,
+      "repository": "https://github.com/rgb-protocol/rgb-aluvm",
+      "score": 60.8,
+      "version": "0.11.1",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5088,
+        "license": 1.0,
+        "maintenance": 0.7065,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-06-28",
+      "dependents": 2,
+      "description": "A secure, snapshotable Python sandbox written in Rust.",
+      "downloads": 39024,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "interpreter",
+        "python",
+        "sandbox"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "monty-type-checking",
+      "owners": 1,
+      "recent_downloads": 37052,
+      "releases_365d": 20,
+      "repository": "https://github.com/pydantic/monty/",
+      "score": 60.63,
+      "version": "1.6.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5089,
+        "license": 1.0,
+        "maintenance": 0.7537,
+        "msrv": 1.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2026-01-07",
+      "dependents": 1,
+      "description": "A safe Rust M68000 family CPU emulator",
+      "downloads": 43690,
+      "edition": "2024",
+      "keywords": [
+        "68000",
+        "emulation",
+        "m68k",
+        "motorola"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.93",
+      "name": "m68k",
+      "owners": 1,
+      "recent_downloads": 37159,
+      "releases_365d": 79,
+      "repository": "https://github.com/benletchford/m68k-rs",
+      "score": 60.42,
+      "version": "0.17.1",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "cryptography",
+        "emulators",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3575,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2023-02-28",
+      "dependents": 2,
+      "description": "Miden virtual machine",
+      "downloads": 33247,
+      "edition": "2024",
+      "keywords": [
+        "miden",
+        "stark",
+        "virtual-machine",
+        "zkp"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.1",
+      "name": "miden-vm",
+      "owners": 2,
+      "recent_downloads": 1621,
+      "releases_365d": 44,
+      "repository": "https://github.com/0xMiden/miden-vm",
+      "score": 60.18,
+      "version": "0.36.5",
+      "versions": 87
+    },
+    {
+      "categories": [
+        "development-tools::testing",
+        "embedded",
+        "emulators",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5725,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8246,
+        "security": 1.0
+      },
+      "created": "2021-04-30",
+      "dependents": 4,
+      "description": "Derive proc-macro crate for LibAFL",
+      "downloads": 396955,
+      "edition": "2024",
+      "keywords": [
+        "fuzzing",
+        "testing"
+      ],
+      "last_release": "2026-08-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.93.1",
+      "name": "libafl_derive",
+      "owners": 1,
+      "recent_downloads": 138446,
+      "releases_365d": 2,
+      "repository": "https://github.com/AFLplusplus/LibAFL/",
+      "score": 60.08,
+      "version": "0.16.1",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5085,
+        "license": 1.0,
+        "maintenance": 0.7065,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2026-06-28",
+      "dependents": 1,
+      "description": "A secure, snapshotable Python sandbox written in Rust.",
+      "downloads": 38808,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "interpreter",
+        "python",
+        "sandbox"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "monty-typeshed",
+      "owners": 1,
+      "recent_downloads": 36793,
+      "releases_365d": 21,
+      "repository": "https://github.com/pydantic/monty/",
+      "score": 59.76,
+      "version": "1.6.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "concurrency",
+        "cryptography::cryptocurrencies",
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.5294,
+        "license": 0.25,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9737,
+        "security": 1.0
+      },
+      "created": "2022-12-15",
+      "dependents": 17,
+      "description": "Tx client and schema specification.",
+      "downloads": 632670,
+      "edition": "2024",
+      "keywords": [
+        "blockchain",
+        "cryptocurrencies",
+        "fuel-vm",
+        "vm"
+      ],
+      "last_release": "2026-11-07",
+      "license": "BUSL-1.1",
+      "msrv": "1.95.0",
+      "name": "fuel-core-client",
+      "owners": 1,
+      "recent_downloads": 56714,
+      "releases_365d": 7,
+      "repository": "https://github.com/FuelLabs/fuel-core",
+      "score": 59.43,
+      "version": "0.48.4",
+      "versions": 97
+    },
+    {
+      "categories": [
+        "emulators"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3957,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2024-05-16",
+      "dependents": 1,
+      "description": "A NES Emulator written in Rust",
+      "downloads": 10430,
+      "edition": "2024",
+      "keywords": [
+        "emulator",
+        "nes"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "tetanes-core",
+      "owners": 1,
+      "recent_downloads": 3573,
+      "releases_365d": 9,
+      "repository": "https://github.com/lukexor/tetanes.git",
+      "score": 59.34,
+      "version": "0.18.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "development-tools::testing",
+        "embedded",
+        "emulators",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.4841,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8246,
+        "security": 1.0
+      },
+      "created": "2021-04-30",
+      "dependents": 8,
+      "description": "Common code for target instrumentation that can be used combined with LibAFL",
+      "downloads": 106467,
+      "edition": "2024",
+      "keywords": [
+        "fuzzing",
+        "testing"
+      ],
+      "last_release": "2026-08-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.93.1",
+      "name": "libafl_targets",
+      "owners": 1,
+      "recent_downloads": 22240,
+      "releases_365d": 2,
+      "repository": "https://github.com/AFLplusplus/LibAFL/",
+      "score": 59.1,
+      "version": "0.16.1",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "embedded",
+        "emulators",
+        "network-programming",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.6893,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.6156,
+        "security": 1.0
+      },
+      "created": "2020-03-29",
+      "dependents": 36,
+      "description": "An implementation of the GDB Remote Serial Protocol in Rust",
+      "downloads": 6597872,
+      "edition": "2018",
+      "keywords": [
+        "debugging",
+        "emulation",
+        "gdb",
+        "no_std"
+      ],
+      "last_release": "2026-03-10",
+      "license": "MIT OR Apache-2.0",
+      "name": "gdbstub",
+      "owners": 1,
+      "recent_downloads": 1547355,
+      "releases_365d": 2,
+      "repository": "https://github.com/daniel5151/gdbstub",
+      "score": 59.08,
+      "version": "0.7.10",
+      "versions": 32
+    }
+  ],
+  "score_version": 1
+}

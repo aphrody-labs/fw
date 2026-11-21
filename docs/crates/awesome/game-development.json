@@ -1,0 +1,967 @@
+{
+  "category": {
+    "crates": 4733,
+    "description": "For crates that focus on some individual part of accelerating the development of games.",
+    "name": "Game development",
+    "slug": "game-development"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.6123,
+        "downloads": 0.7824,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2020-05-30",
+      "dependents": 1425,
+      "description": "An easy-to-use immediate mode GUI that runs on both web and native",
+      "downloads": 32618231,
+      "edition": "2024",
+      "keywords": [
+        "gamedev",
+        "gui",
+        "imgui",
+        "immediate",
+        "portable"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui",
+      "owners": 2,
+      "recent_downloads": 10619380,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui",
+      "score": 82.87,
+      "version": "0.37.0",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.58,
+        "downloads": 0.7737,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-01-04",
+      "dependents": 971,
+      "description": "egui framework - write GUI apps that compiles to web and/or natively",
+      "downloads": 25825098,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gamedev",
+        "gui"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "eframe",
+      "owners": 2,
+      "recent_downloads": 8864448,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/eframe",
+      "score": 81.84,
+      "version": "0.37.0",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4861,
+        "downloads": 0.7266,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9332,
+        "security": 1.0
+      },
+      "created": "2022-02-22",
+      "dependents": 318,
+      "description": "Extra functionality and widgets for the egui GUI library",
+      "downloads": 14066518,
+      "edition": "2024",
+      "keywords": [
+        "gamedev",
+        "gui",
+        "imgui",
+        "immediate",
+        "portable"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui_extras",
+      "owners": 2,
+      "recent_downloads": 3345565,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui",
+      "score": 78.31,
+      "version": "0.37.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4196,
+        "downloads": 0.7712,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-04-10",
+      "dependents": 144,
+      "description": "Bindings for using egui natively using the wgpu library",
+      "downloads": 18997445,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gamedev",
+        "gui",
+        "wgpu"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui-wgpu",
+      "owners": 2,
+      "recent_downloads": 8408972,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/egui-wgpu",
+      "score": 77.77,
+      "version": "0.37.0",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4001,
+        "downloads": 0.7767,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-04-05",
+      "dependents": 114,
+      "description": "Bindings for using egui with winit",
+      "downloads": 27863306,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gamedev",
+        "gui",
+        "winit"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui-winit",
+      "owners": 2,
+      "recent_downloads": 9426431,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/egui-winit",
+      "score": 77.41,
+      "version": "0.37.0",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.2922,
+        "downloads": 0.7737,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-10-24",
+      "dependents": 31,
+      "description": "Bindings for using egui natively using the glow library",
+      "downloads": 26064551,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gamedev",
+        "glow",
+        "gui"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui_glow",
+      "owners": 2,
+      "recent_downloads": 8856731,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/egui_glow",
+      "score": 74.64,
+      "version": "0.37.0",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.649,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9241,
+        "security": 1.0
+      },
+      "created": "2020-08-19",
+      "dependents": 69,
+      "description": "3-dimensional physics engine in Rust.",
+      "downloads": 2178715,
+      "edition": "2024",
+      "keywords": [
+        "dynamics",
+        "impulse_joints",
+        "physics",
+        "real-time",
+        "rigid"
+      ],
+      "last_release": "2026-10-10",
+      "license": "Apache-2.0",
+      "msrv": "1.86",
+      "name": "rapier3d",
+      "owners": 1,
+      "recent_downloads": 672618,
+      "releases_365d": 13,
+      "repository": "https://github.com/dimforge/rapier",
+      "score": 72.04,
+      "version": "0.36.1",
+      "versions": 72
+    },
+    {
+      "categories": [
+        "game-development",
+        "graphics",
+        "gui",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.4274,
+        "downloads": 0.7999,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.5222,
+        "security": 1.0
+      },
+      "created": "2022-01-20",
+      "dependents": 158,
+      "description": "Cross-platform software buffer",
+      "downloads": 35768311,
+      "edition": "2021",
+      "keywords": [
+        "framebuffer",
+        "windowing"
+      ],
+      "last_release": "2025-12-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "softbuffer",
+      "owners": 7,
+      "recent_downloads": 15240279,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-windowing/softbuffer",
+      "score": 70.51,
+      "version": "0.4.8",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.6105,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9991,
+        "security": 1.0
+      },
+      "created": "2022-08-06",
+      "dependents": 26,
+      "description": "Docking system for egui - an immediate-mode GUI library for Rust",
+      "downloads": 4963758,
+      "edition": "2024",
+      "keywords": [
+        "dock",
+        "egui",
+        "gui",
+        "layout",
+        "tile"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "egui_dock",
+      "owners": 1,
+      "recent_downloads": 303630,
+      "releases_365d": 7,
+      "repository": "https://github.com/anhosh/egui_dock",
+      "score": 70.2,
+      "version": "0.22.0",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3298,
+        "downloads": 0.5938,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9241,
+        "security": 1.0
+      },
+      "created": "2020-08-19",
+      "dependents": 49,
+      "description": "2-dimensional physics engine in Rust.",
+      "downloads": 1130955,
+      "edition": "2024",
+      "keywords": [
+        "dynamics",
+        "impulse_joints",
+        "physics",
+        "real-time",
+        "rigid"
+      ],
+      "last_release": "2026-10-10",
+      "license": "Apache-2.0",
+      "msrv": "1.86",
+      "name": "rapier2d",
+      "owners": 1,
+      "recent_downloads": 214962,
+      "releases_365d": 13,
+      "repository": "https://github.com/dimforge/rapier",
+      "score": 69.95,
+      "version": "0.36.1",
+      "versions": 72
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "game-development",
+        "multimedia",
+        "no-std",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.5938,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9698,
+        "security": 1.0
+      },
+      "created": "2023-01-23",
+      "dependents": 18,
+      "description": "Low level Rust bindings for SDL 3",
+      "downloads": 434999,
+      "edition": "2024",
+      "keywords": [
+        "gamedev",
+        "graphics",
+        "multimedia",
+        "sdl",
+        "windowing"
+      ],
+      "last_release": "2026-11-04",
+      "license": "Zlib",
+      "msrv": "1.85",
+      "name": "sdl3-sys",
+      "owners": 2,
+      "recent_downloads": 214915,
+      "releases_365d": 16,
+      "repository": "https://codeberg.org/maia/sdl3-sys-rs",
+      "score": 69.6,
+      "version": "0.7.3+SDL-3.4.20",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "game-development",
+        "graphics",
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.6347,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9923,
+        "security": 1.0
+      },
+      "created": "2021-08-20",
+      "dependents": 7,
+      "description": "Set of simple easing functions",
+      "downloads": 1773873,
+      "edition": "2024",
+      "keywords": [
+        "animation",
+        "easing",
+        "interpolation",
+        "transition",
+        "tween"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "simple-easing",
+      "owners": 1,
+      "recent_downloads": 500978,
+      "releases_365d": 5,
+      "repository": "https://github.com/chpio/simple-easing.git",
+      "score": 68.14,
+      "version": "1.1.2",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "game-development",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.5435,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9563,
+        "security": 1.0
+      },
+      "created": "2024-11-07",
+      "dependents": 19,
+      "description": "IO abstraction primitives for `aeronet`",
+      "downloads": 176183,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "gamedev",
+        "network"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "aeronet_io",
+      "owners": 1,
+      "recent_downloads": 76009,
+      "releases_365d": 7,
+      "repository": "https://github.com/aecsocket/aeronet",
+      "score": 67.25,
+      "version": "0.22.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "game-development",
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.6141,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9554,
+        "security": 1.0
+      },
+      "created": "2020-11-18",
+      "dependents": 72,
+      "description": "Expressive audio library for games",
+      "downloads": 1204073,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gamedev",
+        "music"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "name": "kira",
+      "owners": 1,
+      "recent_downloads": 326964,
+      "releases_365d": 7,
+      "repository": "https://github.com/tesselode/kira",
+      "score": 66.73,
+      "version": "0.12.6",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3131,
+        "downloads": 0.6764,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8868,
+        "security": 1.0
+      },
+      "created": "2021-01-24",
+      "dependents": 40,
+      "description": "3 dimensional collision detection library in Rust.",
+      "downloads": 3478684,
+      "edition": "2021",
+      "keywords": [
+        "collision",
+        "convex",
+        "distance",
+        "geometry",
+        "ray"
+      ],
+      "last_release": "2026-09-18",
+      "license": "Apache-2.0",
+      "name": "parry3d",
+      "owners": 1,
+      "recent_downloads": 1185614,
+      "releases_365d": 11,
+      "repository": "https://github.com/dimforge/parry",
+      "score": 66.04,
+      "version": "0.31.1",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "game-development",
+        "science",
+        "simulation"
+      ],
+      "components": {
+        "dependents": 0.3558,
+        "downloads": 0.592,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.941,
+        "security": 1.0
+      },
+      "created": "2024-05-27",
+      "dependents": 67,
+      "description": "An ECS-driven physics engine for the Bevy game engine",
+      "downloads": 529718,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "gamedev",
+        "physics",
+        "simulation"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "name": "avian3d",
+      "owners": 1,
+      "recent_downloads": 207042,
+      "releases_365d": 6,
+      "repository": "https://github.com/avianphysics/avian",
+      "score": 65.81,
+      "version": "0.8.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "game-development",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.5331,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9431,
+        "security": 1.0
+      },
+      "created": "2023-02-04",
+      "dependents": 11,
+      "description": "Server-client networking library for the Bevy game engine with modular architecture",
+      "downloads": 179067,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "gamedev",
+        "multiplayer",
+        "netcode",
+        "networking"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "lightyear",
+      "owners": 1,
+      "recent_downloads": 61252,
+      "releases_365d": 11,
+      "repository": "https://github.com/cBournhonesque/lightyear",
+      "score": 65.71,
+      "version": "0.31.0",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "game-development"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.5359,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.93,
+        "security": 1.0
+      },
+      "created": "2021-05-19",
+      "dependents": 11,
+      "description": "Bevy plugin for asset loading",
+      "downloads": 692399,
+      "edition": "2024",
+      "keywords": [
+        "asset",
+        "assets",
+        "bevy",
+        "gamedev"
+      ],
+      "last_release": "2026-10-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "bevy_asset_loader",
+      "owners": 1,
+      "recent_downloads": 64929,
+      "releases_365d": 9,
+      "repository": "https://github.com/NiklasEi/bevy_asset_loader",
+      "score": 65.59,
+      "version": "0.28.1",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "game-development",
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.528,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9299,
+        "security": 1.0
+      },
+      "created": "2021-02-13",
+      "dependents": 12,
+      "description": "Bevy plugin for dynamic audio",
+      "downloads": 571508,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "bevy",
+        "gamedev",
+        "music"
+      ],
+      "last_release": "2026-10-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96",
+      "name": "bevy_kira_audio",
+      "owners": 1,
+      "recent_downloads": 55131,
+      "releases_365d": 7,
+      "repository": "https://github.com/NiklasEi/bevy_kira_audio",
+      "score": 65.56,
+      "version": "0.27.1",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "simulation",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.5479,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9241,
+        "security": 1.0
+      },
+      "created": "2021-01-24",
+      "dependents": 7,
+      "description": "3-dimensional physics engine in Rust.",
+      "downloads": 4559470,
+      "edition": "2024",
+      "keywords": [
+        "dynamics",
+        "impulse_joints",
+        "physics",
+        "real-time",
+        "rigid"
+      ],
+      "last_release": "2026-10-10",
+      "license": "Apache-2.0",
+      "msrv": "1.86",
+      "name": "rapier3d-f64",
+      "owners": 1,
+      "recent_downloads": 83117,
+      "releases_365d": 13,
+      "repository": "https://github.com/dimforge/rapier",
+      "score": 64.94,
+      "version": "0.36.1",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.6641,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8868,
+        "security": 1.0
+      },
+      "created": "2021-01-24",
+      "dependents": 21,
+      "description": "3 dimensional collision detection library in Rust. 64-bits precision version.",
+      "downloads": 7408913,
+      "edition": "2021",
+      "keywords": [
+        "collision",
+        "convex",
+        "distance",
+        "geometry",
+        "ray"
+      ],
+      "last_release": "2026-09-18",
+      "license": "Apache-2.0",
+      "name": "parry3d-f64",
+      "owners": 1,
+      "recent_downloads": 920028,
+      "releases_365d": 11,
+      "repository": "https://github.com/dimforge/parry",
+      "score": 64.42,
+      "version": "0.31.1",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.311,
+        "downloads": 0.6673,
+        "license": 1.0,
+        "maintenance": 0.7544,
+        "msrv": 0.0,
+        "recency": 0.8852,
+        "security": 1.0
+      },
+      "created": "2026-01-04",
+      "dependents": 39,
+      "description": "Extensions for glam: Pose2, Pose3, Rot2, and matrix utilities.",
+      "downloads": 1431698,
+      "edition": "2021",
+      "keywords": [
+        "geometry",
+        "glam",
+        "math",
+        "pose",
+        "rotation"
+      ],
+      "last_release": "2026-09-17",
+      "license": "MIT OR Apache-2.0",
+      "name": "glamx",
+      "owners": 1,
+      "recent_downloads": 982046,
+      "releases_365d": 7,
+      "repository": "https://github.com/dimforge/glamx",
+      "score": 64.05,
+      "version": "0.3.1",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "game-development",
+        "graphics",
+        "rendering::graphics-api"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5653,
+        "license": 1.0,
+        "maintenance": 0.9075,
+        "msrv": 1.0,
+        "recency": 0.8185,
+        "security": 1.0
+      },
+      "created": "2025-10-24",
+      "dependents": 5,
+      "description": "Vulkan bindings for Rust",
+      "downloads": 227765,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "gamedev",
+        "graphics",
+        "vulkan"
+      ],
+      "last_release": "2026-08-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.69.0",
+      "name": "tracel-ash",
+      "owners": 3,
+      "recent_downloads": 119131,
+      "releases_365d": 6,
+      "repository": "https://github.com/tracel-ai/tracel-ash",
+      "score": 63.8,
+      "version": "0.39.5+sdk1.4.357",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "game-development",
+        "mathematics",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.6227,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8868,
+        "security": 1.0
+      },
+      "created": "2021-01-24",
+      "dependents": 25,
+      "description": "2 dimensional collision detection library in Rust.",
+      "downloads": 1973646,
+      "edition": "2021",
+      "keywords": [
+        "collision",
+        "convex",
+        "distance",
+        "geometry",
+        "ray"
+      ],
+      "last_release": "2026-09-18",
+      "license": "Apache-2.0",
+      "name": "parry2d",
+      "owners": 1,
+      "recent_downloads": 390896,
+      "releases_365d": 11,
+      "repository": "https://github.com/dimforge/parry",
+      "score": 63.74,
+      "version": "0.31.1",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "game-development",
+        "gui",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.5929,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.9368,
+        "security": 1.0
+      },
+      "created": "2021-01-18",
+      "dependents": 51,
+      "description": "Inspector plugin for the bevy game engine",
+      "downloads": 1624013,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "editor",
+        "egui",
+        "inspector",
+        "reflect"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT OR Apache-2.0",
+      "name": "bevy-inspector-egui",
+      "owners": 1,
+      "recent_downloads": 210962,
+      "releases_365d": 3,
+      "repository": "https://github.com/jakobhellermann/bevy-inspector-egui/",
+      "score": 63.7,
+      "version": "0.38.0",
+      "versions": 71
+    }
+  ],
+  "score_version": 1
+}
