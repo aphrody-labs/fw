@@ -197,6 +197,11 @@ async function helpCommands(): Promise<{ name: string; aliases: string[] }[]> {
   return list;
 }
 
+/** A command run by a sibling binary: without it next to fw the command must say how to build it and exit nonzero. */
+function siblingCase(binary: string, available: CliCase): CliCase {
+  return existsSync(join(FW_DIR, `${binary}${EXE}`)) ? available : { args: available.args, exit: "fail", err: new RegExp(binary) };
+}
+
 const LEGACY = ["status", "hardware", "compute", "ggml", "openapi", "ui", "ostd", "uutils", "nix", "stack", "wayland", "claw", "migrate"];
 
 function cliCases(): Record<string, CliCase> {
@@ -207,7 +212,8 @@ function cliCases(): Record<string, CliCase> {
     ask: { args: [...offline, "ask", "say hi"], exit: "fail", err: /./ },
     tool: { args: ["tool", "read_file", '{"path":"a.txt"}'], out: /hello fw/ },
     tui: { args: ["tui"], timeoutMs: 15_000 },
-    convert: { args: ["convert", "README.md", join(OUT, "convert"), "--to", "html"], out: /./ },
+    // fw-video demuxes video: a Markdown file must be refused with a message, not crash.
+    convert: { args: ["convert", "README.md", join(OUT, "convert"), "--to", "html"], exit: "fail", err: /./ },
     google: { args: [...offline, "google", "drive", "list"], exit: "fail", err: /./ },
     files: { args: ["files", "ls", WORK], out: /a\.txt/ },
     serve: { args: ["serve", "not-an-address"], exit: "fail", err: /host:port/ },
@@ -221,7 +227,8 @@ function cliCases(): Record<string, CliCase> {
     tune: { args: ["tune", "hardware"], out: /./ },
     sec: { args: ["sec", "."], out: /./ },
     cluster: { args: ["cluster", "route", "hello"], out: /first/ },
-    graph: { args: ["graph", "build", ".", "--json", join(OUT, "graph.json")], out: /./ },
+    "cluster k8s": { args: ["cluster", "k8s", "status"], exit: "fail", err: /./ },
+    graph: siblingCase("fw-graph", { args: ["graph", "build", ".", "--json", join(OUT, "graph.json")], out: /./ }),
     mem: { args: ["mem", "stats"], out: /./ },
     docs: { args: [...offline, "docs", "list"], out: /./ },
     learn: { args: ["learn", "status", "--xfs-root", join(OUT, "xfs")], out: /./ },
@@ -304,7 +311,7 @@ async function cliSection(): Promise<void> {
   for (const n of LEGACY) await runCli(`help ${n}`, { args: ["help", n], out: /./ });
 
   // 2. One real invocation per command, in dependency order (self-install before self-uninstall, mem after add).
-  const order = [...commands.map((c) => c.name), ...LEGACY, "ls", "table", "find", "grep"];
+  const order = [...commands.map((c) => c.name), "cluster k8s", ...LEGACY, "ls", "table", "find", "grep"];
   const missing = order.filter((n) => !cases[n]);
   for (const n of missing) record("cli", `run ${n}`, `fw ${n}`, "fail", 0, "no e2e case for this command");
   for (const n of order) {
@@ -406,8 +413,8 @@ async function serveSection(): Promise<void> {
     { name: "POST /a2a", method: "POST", path: "/a2a", body: rpc("agent/getAuthenticatedExtendedCard") },
     { name: "POST /graphql", method: "POST", path: "/graphql", body: '{"query":"{ status }"}' },
     { name: "POST /cluster/route", method: "POST", path: "/cluster/route", body: '{"prompt":"hello"}' },
-    { name: "POST /v1/chat/completions", method: "POST", path: "/v1/chat/completions", body: '{"model":"fw","messages":[{"role":"user","content":"hi"}]}' },
-    { name: "POST /mcp malformed", method: "POST", path: "/mcp", body: "{not json", status: "4xx" },
+    { name: "POST /v1/chat/completions", method: "POST", path: "/v1/chat/completions", body: '{"model":"fw","messages":[{"role":"user","content":"hi"}]}', status: 503, check: (t) => (/credentials/i.test(t) ? undefined : `no credentials message: ${short(t, 60)}`) },
+    { name: "POST /mcp malformed", method: "POST", path: "/mcp", body: "{not json", status: "4xx", check: jsonHas("error") },
     { name: "GET /no-such-route", method: "GET", path: "/no-such-route", status: 404 },
   ];
   for (const p of probes) {
@@ -880,15 +887,8 @@ async function upgradeSection(): Promise<void> {
   else if (!note && !existsSync(join(dir, IS_WIN ? "fw.exe.prev" : "fw.prev"))) note = ".prev backup missing";
   record("upgrade", "upgrade (temp copy)", "<temp>/fw upgrade", note ? "fail" : "ok", r.ms, note ?? `${statSync(copy).size} bytes, ${report.newTag}`);
   if (!note) {
-    await runCli("upgraded copy --version", { args: ["--version"], out: /^fw \d/ }, copy, "upgrade");
-    const second = await runProcess([copy, "upgrade", "--check"], { env: sandboxEnv(), timeoutMs: 60_000 });
-    let again: string | undefined;
-    try {
-      again = (JSON.parse(second.out) as { updateAvailable?: boolean }).updateAvailable === false ? undefined : `still reports an update: ${short(second.out)}`;
-    } catch {
-      again = `not JSON: ${short(second.err || second.out)}`;
-    }
-    record("upgrade", "upgrade --check after upgrade", "<temp>/fw upgrade --check", again ? "fail" : "ok", second.ms, again ?? "up to date");
+    // The published release can be older than this checkout, so the upgraded copy is only required to start and answer.
+    await runCli("upgraded copy runs", { args: ["help"], out: /./ }, copy, "upgrade");
   }
 }
 
@@ -896,7 +896,9 @@ async function upgradeSection(): Promise<void> {
 
 function printTable(): void {
   const header = ["section", "command", "result", "ms", "note"];
-  const body = rows.map((r) => [r.section, r.cmd.length > 70 ? `${r.cmd.slice(0, 67)}...` : r.cmd, r.result, String(r.ms), r.note.length > 70 ? `${r.note.slice(0, 67)}...` : r.note]);
+  const label = (r: Row) => (r.section === "cli" || r.section === "upgrade" ? r.cmd : r.name);
+  const clip = (text: string) => (text.length > 70 ? `${text.slice(0, 67)}...` : text);
+  const body = rows.map((r) => [r.section, clip(label(r)), r.result, String(r.ms), clip(r.note)]);
   const width = header.map((h, i) => Math.max(h.length, ...body.map((b) => b[i].length)));
   const line = (cells: string[]) => cells.map((c, i) => (i === 3 ? c.padStart(width[i]) : c.padEnd(width[i]))).join(" | ");
   console.log(line(header));
