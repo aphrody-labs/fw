@@ -44,17 +44,22 @@ fn token_of(request: &Request) -> Option<String> {
     query.split('&').find_map(|pair| pair.strip_prefix("token=")).map(str::to_string)
 }
 
-async fn serve(socket: TcpStream, target: &str, token: Option<&str>) -> Result<(), String> {
-    let websocket = tokio_tungstenite::accept_hdr_async(socket, |request: &Request, response: Response| match token {
+#[expect(clippy::result_large_err, reason = "the error type is fixed by tungstenite's handshake callback")]
+fn check_token(request: &Request, response: Response, token: Option<&str>) -> Result<Response, ErrorResponse> {
+    match token {
         Some(expected) if token_of(request).as_deref() != Some(expected) => {
             let mut denied = ErrorResponse::new(Some("token required".to_string()));
             *denied.status_mut() = StatusCode::UNAUTHORIZED;
             Err(denied)
         }
         _ => Ok(response),
-    })
-    .await
-    .map_err(|error| format!("websocket handshake: {error}"))?;
+    }
+}
+
+async fn serve(socket: TcpStream, target: &str, token: Option<&str>) -> Result<(), String> {
+    let websocket = tokio_tungstenite::accept_hdr_async(socket, |request: &Request, response: Response| check_token(request, response, token))
+        .await
+        .map_err(|error| format!("websocket handshake: {error}"))?;
     let upstream = TcpStream::connect(target).await.map_err(|error| format!("connect {target}: {error}"))?;
     upstream.set_nodelay(true).map_err(|error| error.to_string())?;
     let (mut tcp_read, mut tcp_write) = upstream.into_split();
