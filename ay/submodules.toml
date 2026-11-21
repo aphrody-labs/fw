@@ -850,15 +850,6 @@ role = "video-dev/hls.js fork, sdk"
 upstream = "video-dev/hls.js"
 
 [[submodule]]
-path = "third_party/media/hyperframe"
-repo = "aphrody-labs/hyperframe"
-branch = "master"
-sha = "632e309bf6d76d6a3cd04e3cbc0b006eddbf7056"
-domain = "media"
-role = "python-hyper/hyperframe fork, python"
-upstream = "python-hyper/hyperframe"
-
-[[submodule]]
 path = "third_party/media/rav1e"
 repo = "aphrody-labs/rav1e"
 branch = "master"

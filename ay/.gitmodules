@@ -382,10 +382,6 @@
 	path = third_party/media/hls.js
 	url = ../hls.js.git
 	branch = master
-[submodule "third_party/media/hyperframe"]
-	path = third_party/media/hyperframe
-	url = ../hyperframe.git
-	branch = master
 [submodule "third_party/media/rav1e"]
 	path = third_party/media/rav1e
 	url = ../rav1e.git
