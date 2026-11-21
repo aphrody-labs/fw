@@ -238,7 +238,7 @@ record = [
   "AAAA creator proxied | worker",
   "CNAME dbfr proxied | tunnel:aphrody",
   "CNAME design proxied | tunnel:aphrody",
-  "CNAME docs proxied | tunnel:aphrody",
+  'AAAA docs proxied | worker',
   "AAAA downloads proxied | worker",
   "CNAME drive proxied | tunnel:aphrody",
   "CNAME fig proxied | tunnel:aphrody",
@@ -297,7 +297,6 @@ route = [
   "calendar.aphrody.com/* => aphrody-webos",
   "console.aphrody.com/* => aphrody-webos",
   "design.aphrody.com/* => aphrody-webos",
-  "docs.aphrody.com/* => ay-edge",
   "downloads.aphrody.com/* => ay-edge",
   "fig.aphrody.com/* => aphrody-webos",
   "maps.aphrody.com/* => aphrody-webos",
@@ -314,6 +313,7 @@ route = [
   "web.aphrody.com/* => aphrody-web",
 ]
 domain = [
+  "docs.aphrody.com => fw-docs",
   "media.aphrody.com => media-cdn",
   "api.aphrody.com => api-aphrody-com",
   "auto.aphrody.com => ay-edge",
@@ -481,6 +481,9 @@ sampling = 0.1
 [worker."docs-proxy"]
 source = "api-only"
 sampling = 0.1
+[worker."fw-docs"]
+source = "apps/docs/wrangler.jsonc"
+sampling = 1.0
 [worker."fw-edge"]
 source = "crates/fw-edge/wrangler.jsonc"
 sampling = 1
@@ -652,7 +655,7 @@ modes = ["cloud"]
 bindings = ["r2:MEDIA=aphrody-media", "images:IMAGES"]
 [service."ay-edge"]
 worker = "ay-edge"
-hostnames = ["aphrody.com/download*", "aphrody.com/github", "aphrody.com/r2-assets", "assets.aphrody.app", "assets.aphrody.com", "auto.aphrody.com", "bun-lib.aphrody.app", "cdn.dragonballfr.com", "dist.aphrody.app", "docs.aphrody.com", "downloads.aphrody.com", "releases.aphrody.com", "video.aphrody.app", "wasm.aphrody.com"]
+hostnames = ["aphrody.com/download*", "aphrody.com/github", "aphrody.com/r2-assets", "assets.aphrody.app", "assets.aphrody.com", "auto.aphrody.com", "bun-lib.aphrody.app", "cdn.dragonballfr.com", "dist.aphrody.app", "downloads.aphrody.com", "releases.aphrody.com", "video.aphrody.app", "wasm.aphrody.com"]
 modes = ["cloud", "selfhosted"]
 selfhosted_hosts = ["n1", "n2"]
 bindings = ["r2:ASSETS->aphrody-assets", "r2:BUN_LIB->bun-lib", "r2:CHROMIUM->aphrody-chromium", "r2:DIST->aphrody-dist", "r2:RELEASES->aphrody-releases", "service:SVC_APHRODY->aphrody-worker", "service:SVC_AUTO->auto", "service:SVC_SHENRON_CDN->shenron-cdn", "r2:VIDEO->aphrody-video"]
@@ -661,6 +664,10 @@ worker = "bun-video-showcase"
 hostnames = ["video.aphrody.com"]
 modes = ["cloud"]
 bindings = ["r2:SHOWCASE->aphrody-video"]
+[service."fw-docs"]
+worker = "fw-docs"
+hostnames = ["docs.aphrody.com"]
+modes = ["cloud"]
 [service."fw-edge"]
 worker = "fw-edge"
 hostnames = ["fw.aphrody.com"]

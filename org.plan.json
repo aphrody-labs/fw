@@ -1,5 +1,111 @@
 {
   "schema": 1,
-  "org_sha256": "47d69bd77dac30f79efe0e53f6d126a5a92f4db7671ebeb900a974a4ad1da135",
-  "actions": []
+  "org_sha256": "92ff569ab3a145ac96a0af54a8848793908ae2929e5642716badc6b2c2108847",
+  "actions": [
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "agent-access",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "bw_web_builds",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "clients",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "sdk-sm",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "vaultwarden",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "actions",
+      "scope": "fork",
+      "target": "vw_web_builds",
+      "detail": "enabled true -> false (no run of a watched event in the window)"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "agent-access",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "bw_web_builds",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "clients",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "sdk-sm",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "vaultwarden",
+      "detail": "has_projects true -> false, has_wiki true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "fork",
+      "target": "vw_web_builds",
+      "detail": "has_projects true -> false"
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "android-lab",
+      "detail": "homepage null -> \"https://aphrody.com\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "browser",
+      "detail": "homepage null -> \"https://aphrody.com\""
+    },
+    {
+      "op": "update",
+      "kind": "repository",
+      "scope": "original",
+      "target": "gpu-bench",
+      "detail": "homepage null -> \"https://aphrody.com\""
+    }
+  ]
 }

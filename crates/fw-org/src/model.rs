@@ -137,6 +137,9 @@ pub struct RepoDeclaration {
     pub security: Option<String>,
     /// Rulesets of this repository instead of the class ones.
     pub rulesets: Option<Vec<String>>,
+    /// A mirror of an upstream tree at a pinned branch: no default-branch, license or homepage findings.
+    #[serde(default)]
+    pub mirror: bool,
     /// Keeps Actions enabled on a fork regardless of its recent runs.
     #[serde(default)]
     pub actions: Option<bool>,
