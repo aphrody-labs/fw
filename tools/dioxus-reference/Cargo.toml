@@ -1,0 +1,37 @@
+[package]
+name = "dioxuslabs-reference"
+version = "0.0.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+description = "Owner reference app for Dioxus 0.7 and 0.8 (signals, typed router, #[server], Manganis); built and tested by check.sh."
+
+# Standalone: built on the cluster by check.sh, not part of the fw workspace.
+[workspace]
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "dioxuslabs-reference"
+path = "src/main.rs"
+
+[dependencies]
+dioxus = { version = "=0.7.10", features = ["fullstack", "router"] }
+serde = { version = "1.0", features = ["derive"] }
+
+[features]
+default = []
+web = ["dioxus/web"]
+server = ["dioxus/server"]
+desktop = ["dioxus/desktop"]
+
+# The profile recommended by the reference header, with strip = "debuginfo": strip = true removes the wasm-bindgen custom sections and dx build fails ("failed to read wasm-bindgen data").
+[profile.release]
+opt-level = "z"
+debug = false
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "debuginfo"
+incremental = false

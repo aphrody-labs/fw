@@ -1,0 +1,26 @@
+# Inputs of the DioxusLabs snapshot. The repositories to read in depth are not listed here: they are the
+# `DioxusLabs/*` entries of the root upstreams.toml. Everything below is only what upstreams.toml cannot say.
+
+org = "DioxusLabs"
+
+# crates.io crates read for max and stable versions, downloads and update date. The comparison crates
+# (gpui, wgpu) are here so the Dioxus vs GPUI study reads the same live source for both sides.
+crates = [
+    "dioxus", "dioxus-cli", "dioxus-core", "dioxus-signals", "dioxus-router", "dioxus-fullstack",
+    "dioxus-desktop", "dioxus-web", "dioxus-native", "dioxus-components",
+    "blitz-dom", "blitz-html", "blitz-paint", "blitz-shell", "blitz-traits", "blitz-net",
+    "taffy", "anyrender", "anyrender_vello", "anyrender_skia", "stylo", "parley", "vello",
+    "subsecond", "manganis", "rustd",
+    "gpui", "gpui_platform", "wgpu", "accesskit",
+]
+
+# Repository whose notes/architecture/*.md list and AGENTS.md are read.
+architecture_repo = "dioxus"
+since = "2026-01-01"
+
+# Skill that cites issues as `dioxus#NNNN` or `DioxusLabs/<repo>#NNNN`; each is re-read live so the skill never carries a stale title or state.
+skill = "plugins/aphrody/skills/dioxus/SKILL.md"
+
+# Repositories on the other side of a comparison, with the path whose history counts as that project's own activity.
+[compare]
+"zed-industries/zed" = "crates/gpui"

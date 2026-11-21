@@ -1,0 +1,5 @@
+.app-shell { font-family: system-ui, sans-serif; margin: 0 auto; max-width: 64rem; }
+.topbar { padding: 1rem; border-bottom: 1px solid #888; }
+.repo-list { list-style: none; padding: 0; display: grid; gap: 1rem; }
+.repo-card { border: 1px solid #888; border-radius: 0.5rem; padding: 1rem; }
+.error-banner, .audit-error { color: #b00020; }

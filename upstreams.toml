@@ -623,3 +623,102 @@ docs = "https://github.com/hatoo/oha#readme"
 fw = "crates/fw-crates"
 role = "Rust HTTP load generator (MIT): the benchmark harness of `fw crates bench` drives every framework with it on fr1 and records its version"
 watch = true
+
+[[upstream]]
+id = "dioxus"
+repo = "DioxusLabs/dioxus"
+branch = "main"
+docs = "https://github.com/DioxusLabs/dioxus/tree/main/notes/architecture"
+fw = "plugins/aphrody/skills/dioxus + docs/research/dioxus-vs-gpui-2026-11.md"
+role = "Dioxus (Apache-2.0): signals, typed router, fullstack #[server], Subsecond hot-patching and the dx CLI; the web/WASM and fullstack candidate measured against GPUI by tools/dioxus-snapshot"
+watch = true
+
+[[upstream]]
+id = "blitz"
+repo = "DioxusLabs/blitz"
+branch = "main"
+docs = "https://github.com/DioxusLabs/blitz/blob/main/AGENTS.md"
+fw = "crates/fw-ui-blitz"
+role = "Blitz (Apache-2.0): modular HTML/CSS engine on Stylo, Taffy, Parley and anyrender, the renderer behind Dioxus Native; WPT results are its correctness signal"
+watch = true
+
+[[upstream]]
+id = "taffy"
+repo = "DioxusLabs/taffy"
+branch = "main"
+docs = "https://github.com/DioxusLabs/taffy#readme"
+fw = "aphrody/crates/gpui"
+role = "Taffy (MIT): block, flexbox, grid layout shared by GPUI, Blitz and Bevy UI; aphrody pins the aphrody-labs/taffy fork"
+watch = true
+
+[[upstream]]
+id = "anyrender"
+repo = "DioxusLabs/anyrender"
+branch = "main"
+docs = "https://github.com/DioxusLabs/anyrender#readme"
+fw = "crates/fw-ui-blitz"
+role = "anyrender (Apache-2.0): 2D drawing abstraction with Vello, Vello CPU, Skia and tiny-skia backends, the paint layer of Blitz"
+watch = true
+
+[[upstream]]
+id = "rustd"
+repo = "DioxusLabs/rustd"
+branch = "main"
+docs = "https://github.com/DioxusLabs/rustd#readme"
+fw = "docs/research/dioxus-vs-gpui-2026-11.md"
+role = "rustd (Apache-2.0): Rust compiler daemon advertised as up to 25x faster cargo builds; tracked as a build-speed upstream for the cluster nodes"
+watch = true
+
+[[upstream]]
+id = "accessibility-cli"
+repo = "DioxusLabs/accessibility-cli"
+branch = "main"
+docs = "https://github.com/DioxusLabs/accessibility-cli/blob/main/AGENTS.md"
+fw = "plugins/aphrody/skills/agent-desktop"
+role = "accessibility-cli (Apache-2.0): cross-platform CLI for computer use across macOS, Windows, Linux and Android; compared with agent-desktop"
+watch = true
+
+[[upstream]]
+id = "dioxus-components"
+repo = "DioxusLabs/dioxus-components"
+branch = "main"
+docs = "https://github.com/DioxusLabs/dioxus-components#readme"
+fw = "plugins/aphrody/skills/dioxus"
+role = "dioxus-components (Apache-2.0): accessible unstyled primitives for Dioxus, the Radix and shadcn equivalent on the Dioxus side"
+watch = true
+
+[[upstream]]
+id = "dioxus-sdk"
+repo = "DioxusLabs/sdk"
+branch = "main"
+docs = "https://github.com/DioxusLabs/sdk#readme"
+fw = "plugins/aphrody/skills/dioxus"
+role = "Dioxus SDK (Apache-2.0): cross-platform hooks for clipboard, geolocation, storage, channels and i18n"
+watch = true
+
+[[upstream]]
+id = "vello"
+repo = "linebender/vello"
+branch = "main"
+docs = "https://github.com/linebender/vello#readme"
+fw = "crates/fw-ui-blitz"
+role = "Vello (Apache-2.0 OR MIT): GPU and CPU 2D renderer behind anyrender_vello and Blitz; the DioxusLabs/vello repository is only a fork of it"
+watch = true
+
+[[upstream]]
+id = "parley"
+repo = "linebender/parley"
+branch = "main"
+docs = "https://github.com/linebender/parley#readme"
+fw = "crates/fw-ui-blitz"
+role = "Parley (Apache-2.0 OR MIT): rich text layout used by Blitz; the DioxusLabs/parley repository is only a fork of it"
+watch = true
+
+[[upstream]]
+id = "stylo"
+repo = "servo/stylo"
+branch = "main"
+docs = "https://github.com/servo/stylo#readme"
+fw = "crates/fw-ui-blitz"
+role = "Stylo (MPL-2.0): the Servo and Firefox CSS engine Blitz uses for style resolution; the DioxusLabs/stylo repository is only a fork of it"
+watch = true

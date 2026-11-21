@@ -1,6 +1,6 @@
-//! Owner-provided reference app (2026-11-21), kept verbatim as input for the dioxus-gpui lot.
-//! Not built yet: the lot compiles it against dioxus 0.7.10 and 0.8.0-alpha.3 and fixes what does not compile.
-//! Its catalog figures (stars, forks, issues, PRs) are a snapshot from the owner's paste; live values come from the generator.
+//! Owner-provided reference app (2026-11-21), built and tested by `tools/dioxus-reference/check.sh` against dioxus 0.7.10 and 0.8.0-alpha.3.
+//! The changes from the owner's file are this header, the test `signal_guard_in_call_arguments_panics_and_copying_first_is_safe`, the crate-level `unreachable_code` allow for DioxusLabs/dioxus#6095, one collapsed `if` (clippy) and `strip = "debuginfo"` in the recommended profile.
+//! Its catalog figures (stars, forks, issues, PRs) are a snapshot from the owner's paste; live values are in docs/research/dioxuslabs-ecosystem.json.
 //!
 //! # DioxusLabs 2026 Production Reference Architecture
 //!
@@ -16,11 +16,13 @@
 //! lto = true
 //! codegen-units = 1
 //! panic = "abort"
-//! strip = true
+//! strip = "debuginfo" # strip = true removes the wasm-bindgen custom sections: `dx build --web` then fails (checked on dx 0.7.10 with wasm-bindgen 0.2.130)
 //! incremental = false
 //! ```
 
 #![deny(clippy::unwrap_used, clippy::expect_used, unsafe_code)]
+// Rust 1.100.0 makes `#[derive(Routable)]` warn "unreachable call" for String dynamic segments (DioxusLabs/dioxus#6095); the derive output is not reachable by an item-level allow.
+#![allow(unreachable_code)]
 
 use dioxus::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -268,10 +270,10 @@ pub fn OverviewPage() -> Element {
             if require_agents && !item.has_agents_md {
                 continue;
             }
-            if let Some(cat) = category_filter {
-                if item.category != cat {
-                    continue;
-                }
+            if let Some(cat) = category_filter
+                && item.category != cat
+            {
+                continue;
             }
             total_stars = total_stars.saturating_add(item.stars);
             total_prs = total_prs.saturating_add(item.open_prs);
@@ -418,6 +420,7 @@ pub fn launch_application() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::atomic::AtomicBool;
 
     #[test]
     fn rejects_cwe22_path_traversal_slugs() {
@@ -446,5 +449,42 @@ mod tests {
             assert!(seen.insert(repo.slug.as_str()), "Slug dupliqué détecté : {}", repo.slug);
             assert!(validate_safe_slug(&repo.slug).is_ok());
         }
+    }
+
+    static UNSAFE_FORM_COMPLETED: AtomicBool = AtomicBool::new(false);
+    static SAFE_FORM_COMPLETED: AtomicBool = AtomicBool::new(false);
+
+    fn store_through_copied_handle(mut count: Signal<i32>, value: i32) {
+        count.set(value);
+    }
+
+    fn guard_in_call_arguments() -> Element {
+        let count = use_signal(|| 0);
+        use_hook(move || {
+            // DioxusLabs/dioxus#6058: the peek() guard is a temporary that lives to the end of the statement.
+            store_through_copied_handle(count, *count.peek() + 1);
+            UNSAFE_FORM_COMPLETED.store(true, Ordering::SeqCst);
+        });
+        rsx! { "{count}" }
+    }
+
+    fn value_copied_before_the_call() -> Element {
+        let count = use_signal(|| 0);
+        use_hook(move || {
+            let next = *count.peek() + 1;
+            store_through_copied_handle(count, next);
+            store_through_copied_handle(count, count() + 1);
+            SAFE_FORM_COMPLETED.store(true, Ordering::SeqCst);
+        });
+        rsx! { "{count}" }
+    }
+
+    /// The runtime catches a panic raised while a component renders, so the test observes whether the hook ran to its end.
+    #[test]
+    fn signal_guard_in_call_arguments_panics_and_copying_first_is_safe() {
+        VirtualDom::new(guard_in_call_arguments).rebuild_in_place();
+        assert!(!UNSAFE_FORM_COMPLETED.load(Ordering::SeqCst), "a guard alive in the arguments must hit AlreadyBorrowed");
+        VirtualDom::new(value_copied_before_the_call).rebuild_in_place();
+        assert!(SAFE_FORM_COMPLETED.load(Ordering::SeqCst), "copying the value out before the call must not panic");
     }
 }

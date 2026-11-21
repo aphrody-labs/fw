@@ -1,7 +1,7 @@
 name: Sync upstreams
 
 # Cron refresh (bun only: the Cargo workspace needs the sibling ay repository, absent in CI) of the live upstream catalog (plugins/aphrody/skills/upstreams/) and of the research snapshot
-# (docs/research/upstream-watch.tsv) for every upstream declared in upstreams.toml. Commits straight to main, no branch.
+# (docs/research/upstream-watch.tsv) for every upstream declared in upstreams.toml, and of the DioxusLabs snapshot (docs/research/dioxuslabs-ecosystem.*, tools/dioxus-snapshot). Commits straight to main, no branch.
 on:
   schedule:
     - cron: "17 */6 * * *"
@@ -25,9 +25,12 @@ jobs:
       - name: Refresh catalog and research snapshot
         run: |
           bun tools/upstream_watch.ts
+      - name: Refresh the DioxusLabs snapshot
+        run: |
+          cargo run --release --manifest-path tools/dioxus-snapshot/Cargo.toml
       - name: Commit changes to main
         run: |
-          paths="plugins/aphrody/skills/upstreams docs/research/upstream-watch.tsv"
+          paths="plugins/aphrody/skills/upstreams docs/research/upstream-watch.tsv docs/research/dioxuslabs-ecosystem.json docs/research/dioxuslabs-ecosystem.md"
           if git diff --quiet -- $paths; then
             echo "upstreams unchanged"
             exit 0

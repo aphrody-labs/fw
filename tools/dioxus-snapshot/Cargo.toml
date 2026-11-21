@@ -1,0 +1,25 @@
+[package]
+name = "dioxus-snapshot"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+description = "Live snapshot of the DioxusLabs organisation (repositories, releases, crates.io, AGENTS.md, architecture notes, tracked issues) written to docs/research/."
+
+# Standalone: run by .github/workflows/sync-upstreams.yml and by hand, not part of the fw workspace.
+[workspace]
+
+[[bin]]
+name = "dioxus-snapshot"
+path = "src/main.rs"
+
+[dependencies]
+serde_json = "1.0.154"
+toml = "1.2.2"
+ureq = { version = "3.5.2", default-features = false, features = ["rustls", "gzip", "json"] }
+
+[profile.release]
+opt-level = "s"
+lto = true
+panic = "abort"
+strip = true

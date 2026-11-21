@@ -1,0 +1,1790 @@
+{
+  "architecture_notes": [
+    {
+      "blob": "8528d23998c71a5a4b885936c33cdee1de0282e2",
+      "bytes": 5284,
+      "path": "notes/architecture/00-OVERVIEW.md"
+    },
+    {
+      "blob": "21b5e9fe53424e3bcbfaf0b70771d16208555adf",
+      "bytes": 10209,
+      "path": "notes/architecture/01-CORE.md"
+    },
+    {
+      "blob": "dde0e1e92524eebea97334675ff81ea6d6ef0819",
+      "bytes": 7789,
+      "path": "notes/architecture/02-CLI.md"
+    },
+    {
+      "blob": "0e75d3387bfa1551ba2fd72a73b879f05092938f",
+      "bytes": 8241,
+      "path": "notes/architecture/03-RSX.md"
+    },
+    {
+      "blob": "494a180b4543c19bfccd2505d0f11238dcc7837e",
+      "bytes": 8277,
+      "path": "notes/architecture/04-SIGNALS.md"
+    },
+    {
+      "blob": "759e0e584a7fc30ce1c34dc825adff9f98dd0f6c",
+      "bytes": 7622,
+      "path": "notes/architecture/05-FULLSTACK.md"
+    },
+    {
+      "blob": "253896008536050569261f72d88e7880c80a1520",
+      "bytes": 9660,
+      "path": "notes/architecture/06-RENDERERS.md"
+    },
+    {
+      "blob": "50d207c455eb48bb9c00403dd7e57e970748c0a0",
+      "bytes": 8029,
+      "path": "notes/architecture/07-HOTRELOAD.md"
+    },
+    {
+      "blob": "a6790f223bc3e4a1257bf9fb3d14f7c6ba2ac8df",
+      "bytes": 8462,
+      "path": "notes/architecture/08-ASSETS.md"
+    },
+    {
+      "blob": "34157535ada01fa280cdec6e29f8018ef9a631f3",
+      "bytes": 9503,
+      "path": "notes/architecture/09-ROUTER.md"
+    },
+    {
+      "blob": "05aae622072eaa8d8de1be19e06ca16485466154",
+      "bytes": 8213,
+      "path": "notes/architecture/10-WASM-SPLIT.md"
+    },
+    {
+      "blob": "373ff6d29d912abeab3d6095f04135752a31c65b",
+      "bytes": 4320,
+      "path": "notes/architecture/11-NATIVE-PLUGIN-FFI.md"
+    },
+    {
+      "blob": "036d9e85d40df1c1241baf5313827eb62aec9c11",
+      "bytes": 8400,
+      "path": "notes/architecture/12-MANIFEST-SYSTEM.md"
+    }
+  ],
+  "cited_issues": [
+    {
+      "created": "2025-05-15",
+      "kind": "issue",
+      "ref": "dioxus#4124",
+      "state": "open",
+      "title": "A general issue with signals \"Already Borrowed\""
+    },
+    {
+      "created": "2026-10-31",
+      "kind": "issue",
+      "ref": "dioxus#6046",
+      "state": "open",
+      "title": "Bug: Path traversal in ISR cache: a .. route writes files outside static_dir (CWE-22)"
+    },
+    {
+      "created": "2026-11-01",
+      "kind": "pull_request",
+      "ref": "dioxus#6047",
+      "state": "open",
+      "title": "fix(server): keep ISR file cache paths inside static_dir"
+    },
+    {
+      "created": "2026-11-02",
+      "kind": "issue",
+      "ref": "dioxus#6058",
+      "state": "open",
+      "title": "Reading a signal in a call's arguments panics when the call writes the same signal through a copied handle"
+    },
+    {
+      "created": "2026-11-18",
+      "kind": "issue",
+      "ref": "dioxus#6095",
+      "state": "open",
+      "title": "\"Unreachable call\"  warning from derive Routable and `String` dynamic segments"
+    }
+  ],
+  "compared": {
+    "zed-industries/zed": {
+      "commits_since": 7064,
+      "forks": 11789,
+      "head": "2f808b3c2de049ecfdbad0fdb26763cebfcaa3b4",
+      "latest_release": {
+        "date": "2026-11-20",
+        "tag": "v1.30.2-pre"
+      },
+      "license": "NOASSERTION",
+      "merged_prs_since": 8020,
+      "path": "crates/gpui",
+      "path_commits_since": 493,
+      "stars": 95454
+    }
+  },
+  "crates": {
+    "accesskit": {
+      "downloads": 37119440,
+      "max_stable_version": "0.25.2",
+      "max_version": "0.25.2",
+      "newest_version": "0.25.2",
+      "recent_downloads": 13272222,
+      "repository": "https://github.com/AccessKit/accesskit",
+      "updated": "2026-10-25"
+    },
+    "anyrender": {
+      "downloads": 322571,
+      "max_stable_version": "0.15.0",
+      "max_version": "0.15.0",
+      "newest_version": "0.15.0",
+      "recent_downloads": 220458,
+      "repository": "https://github.com/dioxuslabs/anyrender",
+      "updated": "2026-11-16"
+    },
+    "anyrender_skia": {
+      "downloads": 14186,
+      "max_stable_version": "0.13.0",
+      "max_version": "0.13.0",
+      "newest_version": "0.13.0",
+      "recent_downloads": 9459,
+      "repository": "https://github.com/dioxuslabs/anyrender",
+      "updated": "2026-11-16"
+    },
+    "anyrender_vello": {
+      "downloads": 147054,
+      "max_stable_version": "0.16.0",
+      "max_version": "0.16.0",
+      "newest_version": "0.16.0",
+      "recent_downloads": 82608,
+      "repository": "https://github.com/dioxuslabs/anyrender",
+      "updated": "2026-11-16"
+    },
+    "blitz-dom": {
+      "downloads": 350777,
+      "max_stable_version": "0.2.4",
+      "max_version": "0.3.0-beta.4",
+      "newest_version": "0.3.0-beta.4",
+      "recent_downloads": 111615,
+      "repository": "https://github.com/dioxuslabs/blitz",
+      "updated": "2026-10-16"
+    },
+    "blitz-html": {
+      "downloads": 321009,
+      "max_stable_version": "0.2.0",
+      "max_version": "0.3.0-beta.4",
+      "newest_version": "0.3.0-beta.4",
+      "recent_downloads": 123995,
+      "repository": "https://github.com/dioxuslabs/blitz",
+      "updated": "2026-10-16"
+    },
+    "blitz-net": {
+      "downloads": 88231,
+      "max_stable_version": "0.2.1",
+      "max_version": "0.3.0-beta.4",
+      "newest_version": "0.3.0-beta.4",
+      "recent_downloads": 31250,
+      "repository": "https://github.com/dioxuslabs/blitz",
+      "updated": "2026-10-16"
+    },
+    "blitz-paint": {
+      "downloads": 161475,
+      "max_stable_version": "0.2.1",
+      "max_version": "0.3.0-beta.4",
+      "newest_version": "0.3.0-beta.4",
+      "recent_downloads": 94552,
+      "repository": "https://github.com/dioxuslabs/blitz",
+      "updated": "2026-10-16"
+    },
+    "blitz-shell": {
+      "downloads": 69777,
+      "max_stable_version": "0.2.3",
+      "max_version": "0.3.0-beta.4",
+      "newest_version": "0.3.0-beta.4",
+      "recent_downloads": 19687,
+      "repository": "https://github.com/dioxuslabs/blitz",
+      "updated": "2026-10-16"
+    },
+    "blitz-traits": {
+      "downloads": 314339,
+      "max_stable_version": "0.2.0",
+      "max_version": "0.3.0-beta.4",
+      "newest_version": "0.3.0-beta.4",
+      "recent_downloads": 136333,
+      "repository": "https://github.com/dioxuslabs/blitz",
+      "updated": "2026-10-16"
+    },
+    "dioxus": {
+      "downloads": 3862615,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 1460709,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "dioxus-cli": {
+      "downloads": 395423,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 67815,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "dioxus-components": {
+      "downloads": 3195,
+      "max_stable_version": "0.1.2",
+      "max_version": "0.1.2",
+      "newest_version": "0.1.2",
+      "recent_downloads": 972,
+      "repository": "https://github.com/LeTri234/dioxus_component",
+      "updated": "2025-11-18"
+    },
+    "dioxus-core": {
+      "downloads": 4599022,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 1674348,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "dioxus-desktop": {
+      "downloads": 1435599,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 429359,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "dioxus-fullstack": {
+      "downloads": 2721288,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 1097069,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "dioxus-native": {
+      "downloads": 49887,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 21066,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "dioxus-router": {
+      "downloads": 2276881,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 864635,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "dioxus-signals": {
+      "downloads": 4138339,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 1627946,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "dioxus-web": {
+      "downloads": 3346018,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 1355500,
+      "repository": "https://github.com/DioxusLabs/dioxus/",
+      "updated": "2026-10-16"
+    },
+    "gpui": {
+      "downloads": 535593,
+      "max_stable_version": "0.2.2",
+      "max_version": "0.2.2",
+      "newest_version": "0.2.2",
+      "recent_downloads": 310424,
+      "repository": "https://github.com/zed-industries/zed",
+      "updated": "2026-10-30"
+    },
+    "manganis": {
+      "downloads": 2893331,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 1231568,
+      "repository": "https://github.com/DioxusLabs/dioxus/tree/main/packages/manganis/manganis",
+      "updated": "2026-10-16"
+    },
+    "parley": {
+      "downloads": 6511302,
+      "max_stable_version": "0.13.0",
+      "max_version": "0.13.0",
+      "newest_version": "0.13.0",
+      "recent_downloads": 4056051,
+      "repository": "https://github.com/linebender/parley",
+      "updated": "2026-11-12"
+    },
+    "rustd": {
+      "downloads": 604,
+      "max_stable_version": "0.1.0",
+      "max_version": "0.1.0",
+      "newest_version": "0.1.0",
+      "recent_downloads": 6,
+      "updated": "2025-05-04"
+    },
+    "stylo": {
+      "downloads": 580274,
+      "max_stable_version": "0.24.0",
+      "max_version": "0.24.0",
+      "newest_version": "0.24.0",
+      "recent_downloads": 293821,
+      "repository": "https://github.com/servo/stylo",
+      "updated": "2026-11-11"
+    },
+    "subsecond": {
+      "downloads": 3238337,
+      "max_stable_version": "0.7.10",
+      "max_version": "0.8.0-alpha.3",
+      "newest_version": "0.8.0-alpha.3",
+      "recent_downloads": 1578524,
+      "repository": "https://github.com/DioxusLabs/dioxus/tree/main/packages/subsecond",
+      "updated": "2026-10-16"
+    },
+    "taffy": {
+      "downloads": 21219117,
+      "max_stable_version": "0.15.1",
+      "max_version": "0.15.1",
+      "newest_version": "0.15.1",
+      "recent_downloads": 9545579,
+      "repository": "https://github.com/DioxusLabs/taffy",
+      "updated": "2026-10-25"
+    },
+    "vello": {
+      "downloads": 1241918,
+      "max_stable_version": "0.12.0",
+      "max_version": "0.12.0",
+      "newest_version": "0.12.0",
+      "recent_downloads": 495102,
+      "repository": "https://github.com/linebender/vello",
+      "updated": "2026-11-11"
+    },
+    "wgpu": {
+      "downloads": 53066736,
+      "max_stable_version": "30.0.2",
+      "max_version": "30.0.2",
+      "newest_version": "30.0.2",
+      "recent_downloads": 20785149,
+      "repository": "https://github.com/gfx-rs/wgpu",
+      "updated": "2026-11-12"
+    }
+  },
+  "date": "2026-11-21",
+  "organisation": "DioxusLabs",
+  "repositories": {
+    "count": 78,
+    "list": [
+      {
+        "agents_md_bytes": 3939,
+        "archived": false,
+        "commits_since": 235,
+        "description": "Fullstack app framework for web, desktop, and mobile.",
+        "discussions": 519,
+        "fork": false,
+        "forks": 1978,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "dioxus",
+        "open_issues": 676,
+        "open_prs": 250,
+        "pushed": "2026-11-13",
+        "stars": 39866
+      },
+      {
+        "agents_md_bytes": 4850,
+        "archived": false,
+        "commits_since": 1027,
+        "description": "A radically modular HTML/CSS rendering engine",
+        "discussions": 0,
+        "fork": false,
+        "forks": 285,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "blitz",
+        "open_issues": 136,
+        "open_prs": 352,
+        "pushed": "2026-11-20",
+        "stars": 4497
+      },
+      {
+        "archived": false,
+        "commits_since": 274,
+        "description": "A high performance rust-powered UI layout library",
+        "discussions": 42,
+        "fork": false,
+        "forks": 280,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "taffy",
+        "open_issues": 88,
+        "open_prs": 107,
+        "pushed": "2026-11-18",
+        "stars": 3803
+      },
+      {
+        "archived": true,
+        "commits_since": 0,
+        "description": "Featured Dioxus projects on how to build clean user interfaces in Rust",
+        "discussions": 0,
+        "fork": false,
+        "forks": 59,
+        "language": "Rust",
+        "name": "example-projects",
+        "open_issues": 10,
+        "open_prs": 0,
+        "pushed": "2024-05-14",
+        "stars": 527
+      },
+      {
+        "archived": false,
+        "commits_since": 71,
+        "description": "Accessible, unstyled, foundational components for Dioxus.",
+        "discussions": 0,
+        "fork": false,
+        "forks": 89,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "dioxus-components",
+        "open_issues": 30,
+        "open_prs": 25,
+        "pushed": "2026-11-16",
+        "stars": 357
+      },
+      {
+        "archived": false,
+        "commits_since": 16,
+        "description": "An awesome list of Dioxus-related content and resources",
+        "discussions": 0,
+        "fork": false,
+        "forks": 65,
+        "name": "awesome-dioxus",
+        "open_issues": 1,
+        "open_prs": 23,
+        "pushed": "2026-08-04",
+        "stars": 324
+      },
+      {
+        "archived": false,
+        "commits_since": 6,
+        "description": "A library to provide abstractions to access common utilities when developing Dioxus applications.",
+        "discussions": 0,
+        "fork": false,
+        "forks": 58,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "sdk",
+        "open_issues": 26,
+        "open_prs": 9,
+        "pushed": "2026-10-16",
+        "stars": 310
+      },
+      {
+        "archived": false,
+        "commits_since": 70,
+        "description": "a rust compiler daemon for up to 25x faster cargo builds",
+        "discussions": 0,
+        "fork": false,
+        "forks": 13,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "rustd",
+        "open_issues": 13,
+        "open_prs": 8,
+        "pushed": "2026-11-03",
+        "stars": 249
+      },
+      {
+        "archived": false,
+        "commits_since": 26,
+        "description": "Dioxuslabs.com documentation site",
+        "discussions": 0,
+        "fork": false,
+        "forks": 214,
+        "language": "Rust",
+        "name": "docsite",
+        "open_issues": 94,
+        "open_prs": 35,
+        "pushed": "2026-09-12",
+        "stars": 206
+      },
+      {
+        "archived": false,
+        "commits_since": 207,
+        "description": "Rust 2D drawing abstraction",
+        "discussions": 0,
+        "fork": false,
+        "forks": 48,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "anyrender",
+        "open_issues": 13,
+        "open_prs": 32,
+        "pushed": "2026-11-20",
+        "stars": 122
+      },
+      {
+        "archived": true,
+        "commits_since": 0,
+        "description": "Build reactive terminal user interfaces using Rust and Dioxus.",
+        "discussions": 0,
+        "fork": false,
+        "forks": 6,
+        "language": "Rust",
+        "name": "rink",
+        "open_issues": 6,
+        "open_prs": 0,
+        "pushed": "2022-05-03",
+        "stars": 119
+      },
+      {
+        "agents_md_bytes": 2629,
+        "archived": false,
+        "commits_since": 111,
+        "description": "Cross platform CLI for computer use across macos, windows, linux and android ",
+        "discussions": 0,
+        "fork": false,
+        "forks": 5,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "accessibility-cli",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-10",
+        "stars": 101
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "a template for starting a dioxus project to be used with dioxus-cli",
+        "discussions": 0,
+        "fork": false,
+        "forks": 38,
+        "language": "Rust",
+        "name": "dioxus-template",
+        "open_issues": 9,
+        "open_prs": 16,
+        "pushed": "2026-10-16",
+        "stars": 74
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "Convert markdown to dioxus vnodes",
+        "discussions": 0,
+        "fork": false,
+        "forks": 13,
+        "language": "Rust",
+        "name": "markdown",
+        "open_issues": 0,
+        "open_prs": 1,
+        "pushed": "2024-08-15",
+        "stars": 55
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "discussions": 0,
+        "fork": false,
+        "forks": 4,
+        "language": "Rust",
+        "name": "dioxus-ai",
+        "open_issues": 1,
+        "open_prs": 0,
+        "pushed": "2024-11-26",
+        "stars": 40
+      },
+      {
+        "archived": false,
+        "commits_since": 3,
+        "description": "An html macro for dioxus applications.",
+        "discussions": 0,
+        "fork": false,
+        "forks": 6,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "dioxus-html-macro",
+        "open_issues": 1,
+        "open_prs": 0,
+        "pushed": "2026-04-30",
+        "stars": 36
+      },
+      {
+        "archived": false,
+        "commits_since": 72,
+        "description": "A tiny (50kb) programming language detection model - Like guesslang, but smaller",
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "language": "Python",
+        "license": "MIT",
+        "name": "betlang",
+        "open_issues": 0,
+        "open_prs": 1,
+        "pushed": "2026-09-08",
+        "stars": 28
+      },
+      {
+        "archived": false,
+        "commits_since": 288,
+        "description": "Taking the wasm out of wasm-bindgen",
+        "discussions": 0,
+        "fork": false,
+        "forks": 7,
+        "language": "Rust",
+        "name": "wasm-bindgen-wry",
+        "open_issues": 3,
+        "open_prs": 6,
+        "pushed": "2026-10-30",
+        "stars": 27
+      },
+      {
+        "archived": true,
+        "commits_since": 0,
+        "description": "[moved!] Include mdbooks at compile time in your Rust project",
+        "discussions": 0,
+        "fork": false,
+        "forks": 6,
+        "language": "Rust",
+        "name": "include_mdbook",
+        "open_issues": 3,
+        "open_prs": 0,
+        "pushed": "2025-02-05",
+        "stars": 25
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "Deploy your dioxus-web app",
+        "discussions": 0,
+        "fork": false,
+        "forks": 12,
+        "license": "MIT",
+        "name": "deploy-action",
+        "open_issues": 2,
+        "open_prs": 1,
+        "pushed": "2025-01-22",
+        "stars": 21
+      },
+      {
+        "agents_md_bytes": 3767,
+        "archived": false,
+        "commits_since": 16,
+        "description": "The simplest Rust RPC library",
+        "discussions": 0,
+        "fork": false,
+        "forks": 5,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "rsrpc",
+        "open_issues": 0,
+        "open_prs": 1,
+        "pushed": "2026-01-02",
+        "stars": 15
+      },
+      {
+        "archived": true,
+        "commits_since": 0,
+        "description": "[moved] A playground akin to the Rust playground but for Dioxus.",
+        "discussions": 0,
+        "fork": false,
+        "forks": 2,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "playground",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2025-02-05",
+        "stars": 13
+      },
+      {
+        "archived": true,
+        "commits_since": 0,
+        "description": "[moved]: Integrate a search index into your dioxus projects",
+        "discussions": 0,
+        "fork": false,
+        "forks": 2,
+        "language": "Rust",
+        "name": "dioxus-search",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2025-02-05",
+        "stars": 13
+      },
+      {
+        "agents_md_bytes": 1658,
+        "archived": false,
+        "commits_since": 26,
+        "description": "An icon library for dioxus with rich documentation",
+        "discussions": 0,
+        "fork": false,
+        "forks": 6,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "dioxus-icons",
+        "open_issues": 1,
+        "open_prs": 2,
+        "pushed": "2026-10-16",
+        "stars": 11
+      },
+      {
+        "archived": false,
+        "commits_since": 106,
+        "description": "An experimental testing library for dioxus",
+        "discussions": 0,
+        "fork": false,
+        "forks": 2,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "dioxus-test",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-14",
+        "stars": 8
+      },
+      {
+        "archived": false,
+        "commits_since": 5,
+        "description": "Bevy <-> Dioxus Native integration",
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "license": "Apache-2.0",
+        "name": "bedina",
+        "open_issues": 1,
+        "open_prs": 0,
+        "pushed": "2026-10-15",
+        "stars": 8
+      },
+      {
+        "archived": false,
+        "commits_since": 75,
+        "description": "Bundle size friendly code highlighting component for dioxus",
+        "discussions": 0,
+        "fork": false,
+        "forks": 3,
+        "language": "CSS",
+        "license": "MIT",
+        "name": "dioxus-code",
+        "open_issues": 1,
+        "open_prs": 2,
+        "pushed": "2026-10-16",
+        "stars": 7
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "A fork of Monokai Vibrant customized for Rust code!",
+        "discussions": 0,
+        "fork": true,
+        "forks": 2,
+        "license": "MIT",
+        "name": "monokai-vibrant-rust",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2024-12-12",
+        "stars": 7
+      },
+      {
+        "archived": false,
+        "commits_since": 141,
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "language": "Rust",
+        "name": "blitz-website",
+        "open_issues": 0,
+        "open_prs": 4,
+        "pushed": "2026-11-20",
+        "stars": 5
+      },
+      {
+        "archived": false,
+        "commits_since": 1,
+        "description": "🔎 Impossibly fast web search, made for static sites.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 2,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "stork",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-04-02",
+        "stars": 5
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "discussions": 0,
+        "fork": false,
+        "forks": 2,
+        "language": "Rust",
+        "name": "warnings",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2024-11-11",
+        "stars": 5
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "a helpful github bot that manages your large oss organization",
+        "discussions": 0,
+        "fork": false,
+        "forks": 2,
+        "language": "Rust",
+        "name": "doxie-bot",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2024-04-26",
+        "stars": 5
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "Format Rust code without Rustfmt, supports custom proc macro printers",
+        "discussions": 0,
+        "fork": true,
+        "forks": 1,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "prettier-please",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2023-07-19",
+        "stars": 5
+      },
+      {
+        "archived": false,
+        "commits_since": 1237,
+        "description": "Archive of WPT test results for Blitz",
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "language": "Rust",
+        "name": "blitz-wpt-results",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-20",
+        "stars": 4
+      },
+      {
+        "archived": false,
+        "commits_since": 772,
+        "discussions": 0,
+        "fork": true,
+        "forks": 1,
+        "language": "Rust",
+        "name": "stylo",
+        "open_issues": 0,
+        "open_prs": 12,
+        "pushed": "2026-11-20",
+        "stars": 4
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "Fullstack and LiveView adapters for various frameworks",
+        "discussions": 0,
+        "fork": false,
+        "forks": 2,
+        "language": "Rust",
+        "name": "web-adapters",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2024-02-16",
+        "stars": 4
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "Status of dioxus org, all builds, versions, performance, and more",
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "language": "Rust",
+        "name": "status",
+        "open_issues": 0,
+        "open_prs": 1,
+        "pushed": "2026-10-15",
+        "stars": 4
+      },
+      {
+        "archived": false,
+        "commits_since": 127,
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "platform-apis",
+        "open_issues": 0,
+        "open_prs": 6,
+        "pushed": "2026-07-26",
+        "stars": 3
+      },
+      {
+        "archived": false,
+        "commits_since": 16,
+        "description": "Github CI workflows for dioxus including nightly github pages builds for every pr",
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "license": "MIT",
+        "name": "dioxus-ci",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-07-06",
+        "stars": 3
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "Logos, brand, images, and more",
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "name": "brand",
+        "open_issues": 1,
+        "open_prs": 0,
+        "pushed": "2025-01-21",
+        "stars": 3
+      },
+      {
+        "archived": true,
+        "commits_since": 0,
+        "description": "Plugin library for Dioxus CLI",
+        "discussions": 0,
+        "fork": false,
+        "forks": 0,
+        "language": "Lua",
+        "license": "MIT",
+        "name": "cli-plugin-library",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2023-04-19",
+        "stars": 3
+      },
+      {
+        "archived": false,
+        "commits_since": 24,
+        "description": "Async-friendly WebTransport implementation in Rust",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "wtransport",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-18",
+        "stars": 2
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "An integration to render SVG files with Vello.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "vello_svg",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2024-10-06",
+        "stars": 2
+      },
+      {
+        "archived": false,
+        "commits_since": 286,
+        "description": "web-platform-tests dashboard",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Go",
+        "license": "NOASSERTION",
+        "name": "wpt.fyi",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-09-30",
+        "stars": 1
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "High performance, low level 2D path rasterization library in pure Rust.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "zeno",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-10-27",
+        "stars": 1
+      },
+      {
+        "archived": false,
+        "commits_since": 51,
+        "description": "Pure rust WOFF and WOFF2 decoding",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "C++",
+        "license": "MIT",
+        "name": "wuff",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-09-01",
+        "stars": 1
+      },
+      {
+        "archived": false,
+        "commits_since": 17,
+        "description": "Rng that finds or avoids your code",
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "language": "Rust",
+        "name": "dowsing",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-09-21",
+        "stars": 1
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "A simple webpage that shows which CSS-properties are currently supported by Blitz",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "HTML",
+        "name": "blitz-css-properties",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2024-12-15",
+        "stars": 1
+      },
+      {
+        "archived": false,
+        "commits_since": 2,
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "name": "screenshots",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-19",
+        "stars": 1
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "name": ".github",
+        "open_issues": 2,
+        "open_prs": 0,
+        "pushed": "2025-04-23",
+        "stars": 1
+      },
+      {
+        "archived": false,
+        "commits_since": 9,
+        "description": "A tiny Skia subset ported to Rust",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "BSD-3-Clause",
+        "name": "tiny-skia",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-20",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 487,
+        "description": "Toolkit for real-time, low latency, programmable video and audio mixing.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "NOASSERTION",
+        "name": "smelter",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-10",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 8,
+        "description": "A minimal build of the Chrome DevTools frontend, for inspecting Blitz documents",
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "language": "Python",
+        "license": "BSD-3-Clause",
+        "name": "blitz-chrome-devtools-frontend",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-06",
+        "stars": 0
+      },
+      {
+        "agents_md_bytes": 50734,
+        "archived": false,
+        "commits_since": 1016,
+        "description": "A malleable and verifiable Web engine",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "formal-web",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-02",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 74,
+        "description": "Easily write an image to a window",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "softbuffer",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-02",
+        "stars": 0
+      },
+      {
+        "agents_md_bytes": 3370,
+        "archived": false,
+        "commits_since": 538,
+        "description": "Rust Bindings for the Skia Graphics Library",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "rust-skia",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-02",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 656,
+        "description": "Build fast web applications with Rust.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "leptos",
+        "open_issues": 0,
+        "open_prs": 1,
+        "pushed": "2026-10-28",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 133,
+        "description": "Window handling library in pure Rust",
+        "discussions": 0,
+        "fork": true,
+        "forks": 1,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "winit",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-10-24",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 61,
+        "description": "A GitHub Action that implements smart caching for rust/cargo projects ",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "TypeScript",
+        "license": "LGPL-3.0",
+        "name": "rust-cache",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-10-16",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "A Rust Wrapper of Facebook's Yoga, a Flexbox layout engine",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "yoga-rs",
+        "open_issues": 0,
+        "open_prs": 1,
+        "pushed": "2026-10-15",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 8,
+        "description": "CSS inline layout in Rust, with platform font matching and fallback.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "winkin",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-18",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "releases-rs",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-09-28",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 695,
+        "description": "Solving i18n for client-side and resource-constrained environments.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "NOASSERTION",
+        "name": "icu4x",
+        "open_issues": 0,
+        "open_prs": 2,
+        "pushed": "2026-09-26",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 234,
+        "discussions": 0,
+        "fork": false,
+        "forks": 1,
+        "language": "Rust",
+        "name": "browser-wpt-results",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-11-21",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 5008,
+        "description": "Test suites for Web platform specs — including WHATWG, W3C, and others",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "HTML",
+        "license": "NOASSERTION",
+        "name": "wpt",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-31",
+        "stars": 0
+      },
+      {
+        "agents_md_bytes": 5473,
+        "archived": false,
+        "commits_since": 46285,
+        "description": "The official repository of Mozilla's Firefox web browser.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "JavaScript",
+        "license": "NOASSERTION",
+        "name": "firefox",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-19",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 109,
+        "description": "HarfBuzz port to Rust",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "harfrust",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-13",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 8,
+        "description": "A WHATWG-compliant HTML5 tokenizer and tag soup parser",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MIT",
+        "name": "html5gum",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-09",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 36,
+        "description": "A Rust library for manipulating curves",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "kurbo",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-10-30",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 15,
+        "description": "Primitive types for styling vector graphics.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "peniko",
+        "open_issues": 0,
+        "open_prs": 1,
+        "pushed": "2026-08-10",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 0,
+        "description": "A GPU-based renderer for the web",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MPL-2.0",
+        "name": "webrender",
+        "open_issues": 0,
+        "open_prs": 1,
+        "pushed": "2026-10-28",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 41,
+        "description": "An SVG rendering library.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 1,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "resvg",
+        "open_issues": 0,
+        "open_prs": 3,
+        "pushed": "2026-11-15",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 3640,
+        "description": "Servo aims to empower developers with a lightweight, high-performance alternative for embedding web technologies in applications.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "MPL-2.0",
+        "name": "servo",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-25",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 521,
+        "description": "Reading and writing font files",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "fontations",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-08-10",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 37,
+        "description": "High-performance browser-grade HTML5 parser",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "NOASSERTION",
+        "name": "html5ever",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-07-26",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 304,
+        "description": "Rich text layout library",
+        "discussions": 0,
+        "fork": true,
+        "forks": 0,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "parley",
+        "open_issues": 0,
+        "open_prs": 40,
+        "pushed": "2026-11-20",
+        "stars": 0
+      },
+      {
+        "agents_md_bytes": 4781,
+        "archived": false,
+        "commits_since": 489,
+        "description": "A GPU compute-centric 2D renderer.",
+        "discussions": 0,
+        "fork": true,
+        "forks": 1,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "vello",
+        "open_issues": 0,
+        "open_prs": 8,
+        "pushed": "2026-11-18",
+        "stars": 0
+      },
+      {
+        "archived": false,
+        "commits_since": 3,
+        "description": "Facilitating high-level interactions between Wasm modules and JavaScript",
+        "discussions": 0,
+        "fork": true,
+        "forks": 1,
+        "language": "Rust",
+        "license": "Apache-2.0",
+        "name": "wasm-bindgen",
+        "open_issues": 0,
+        "open_prs": 0,
+        "pushed": "2026-05-27",
+        "stars": 0
+      }
+    ],
+    "organisation": {
+      "created": "2021-02-18",
+      "name": "Dioxus Labs",
+      "total": 78
+    }
+  },
+  "schema": 1,
+  "since": "2026-01-01",
+  "tracked": {
+    "accessibility-cli": {
+      "agents_md": {
+        "bytes": 2629,
+        "text": "# accessibility-cli\n\nCross-platform accessibility tree reading, querying, and automation, plus a\nlive iOS Simulator stream.\n\n## Build and verify\n\n```sh\ncargo build --workspace\ncargo clippy --workspace --all-targets\ncargo test --workspace --lib          # unit tests, all green\ncargo test -p accessibility-cli --test cli_smoke\n```\n\n### Tests that need a permitted GUI session\n\n`packages/accessibility-cli/tests/cli_macos.rs` drives the real macOS\naccessibility API: it launches Calculator and reads its window tree. It fails\nwith \"Accessibility permissions not granted\" or \"Calculator never opened a\nwindow\" unless the terminal running the tests has been granted\nSystem Settings > Privacy & Security > Accessibility. These failures are\nenvironmental, not regressions.\n\n## iOS Simulator work\n\nAnything touching the simulator needs Xcode (not just Command Line Tools) and\na booted device:\n\n```sh\nexport DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer\nxcrun simctl list devices booted\n```\n\n`xcode-select -p` on this machine points at `/Library/Developer/CommandLineTools`,\nwhich has no simulator frameworks, so `DEVELOPER_DIR` matters.\n\nVerify the capture and encode pipeline end to end without a browser:\n\n```sh\ncargo run -p accessibility-ios-sys --example framebuffer_probe\n```\n\nServe it:\n\n```sh\ncargo run -p accessibility-cli -- serve-sim --port 3200\n```\n\n### Hard-won specifics live in skills\n\nThe simulator work depends on a lot of private-framework behaviour that fails\nsilently rather than erroring. Rather than carry all of it here, it is split\ninto focused skills under `.devin/skills/`, which are loaded when relevant:\n\n| Skill | Covers |\n|---|---|\n| `ios-simulator-internals` | CoreSimulator and SimulatorKit mechanics: remote proxies, block signatures, framebuffer port discovery, IOSurface lifetime |\n| `ios-simulator-input` | The two coordinate spaces, USB HID keycodes, system edge gestures, orientation, device settings |\n| `ios-simulator-video` | Bits per pixel, VideoToolbox rate control, pixel transfer, MP4 recording, browser-side WebCodecs |\n| `ios-simulator-accessibility` | Bridge delegate tokens, backdrops, app versus display scope, reaching web content |\n\nRead the relevant one before changing that area. Each is short, and every note\nin them cost real debugging time.\n\n## Longer-form notes\n\n- `docs/IDB_LEARNINGS.md` — what Meta's idb does differently and what is worth\n  taking from it\n- `docs/WEB_CONTENT_ACCESSIBILITY_PLAN.md` — why web content is invisible to\n  the tree and how the point-grid sweep addresses it\n- `docs/SERVE_SIM_BACKLOG.md` — known gaps, ordered by how soon they bite\n"
+      },
+      "branch": "main",
+      "head": "eb58eb69182064d153c1cf7ac4577fc0f311549f",
+      "head_date": "2026-11-10",
+      "merged_prs_since": 19,
+      "opened_issues_since": 0,
+      "opened_prs_since": 20,
+      "releases": [
+        {
+          "date": "2026-05-01",
+          "prerelease": true,
+          "tag": "main-ed44e3d55c65"
+        },
+        {
+          "date": "2026-04-30",
+          "prerelease": true,
+          "tag": "main"
+        },
+        {
+          "date": "2026-05-01",
+          "prerelease": true,
+          "tag": "main-7c00dac86d3e"
+        },
+        {
+          "date": "2026-05-01",
+          "prerelease": true,
+          "tag": "main-be0effb41d0a"
+        },
+        {
+          "date": "2026-05-01",
+          "prerelease": true,
+          "tag": "main-333092795983"
+        },
+        {
+          "date": "2026-04-30",
+          "prerelease": true,
+          "tag": "main-5d3d1d92abdf"
+        }
+      ],
+      "upstream_id": "accessibility-cli"
+    },
+    "anyrender": {
+      "branch": "main",
+      "head": "539815c73ebaabbfca0e0a39ae43ee3beb314a8e",
+      "head_date": "2026-11-20",
+      "merged_prs_since": 143,
+      "opened_issues_since": 12,
+      "opened_prs_since": 192,
+      "releases": [
+        {
+          "date": "2026-11-16",
+          "prerelease": false,
+          "tag": "v0.15.0"
+        },
+        {
+          "date": "2026-11-16",
+          "prerelease": false,
+          "tag": "v0.14.0"
+        },
+        {
+          "date": "2026-08-16",
+          "prerelease": false,
+          "tag": "v0.13.0"
+        },
+        {
+          "date": "2026-08-16",
+          "prerelease": false,
+          "tag": "v0.12.0"
+        },
+        {
+          "date": "2026-08-16",
+          "prerelease": false,
+          "tag": "v0.11.0"
+        },
+        {
+          "date": "2026-08-16",
+          "prerelease": false,
+          "tag": "v0.10.0"
+        }
+      ],
+      "upstream_id": "anyrender"
+    },
+    "blitz": {
+      "agents_md": {
+        "bytes": 4850,
+        "text": "# AGENTS.md — Blitz\n\nBlitz is a modular HTML/CSS rendering engine (Stylo for style, Taffy for layout, Parley for text, anyrender/Vello/Skia for paint) used by Dioxus Native. Rust workspace.\n\n## Build, lint, test\nLinux needs `build-essential pkg-config python3 libssl-dev libfontconfig-dev` (see CONTRIBUTING.MD).\n\nBefore pushing, run what CI runs:\n- `cargo fmt --all --check`\n- `cargo clippy --workspace -- -D warnings`\n- `cargo clippy -p blitz-dom --no-default-features --features svg,woff,accessibility,system-fonts,file-input,custom-widget --all-targets -- -D warnings`\n- `cargo test --workspace`\n- `RUSTDOCFLAGS=\"-D warnings\" cargo doc` and, if you touched `Cargo.toml`, `cargo deny --workspace --all-features --locked check licenses`\n- If you touched `.github/scripts`: `python3 -m unittest discover -s .github/scripts`\n\nDon't use `--all-features` for clippy/test: `rdme/avif` needs system dav1d >= 1.3 and `accesskit_xplat/tokio` conflicts with `accesskit_xplat/async-io`. Pass an explicit feature list instead.\n\nRun `apps/browser` with `cargo run -p browser` (not the built binary directly), or its `asset!` stylesheet doesn't load.\n\nHeadless machines: the default GPU renderer has no adapter. Prefer rendering to an image (`cargo run --release --example screenshot <file-or-url>`); for a window use the softbuffer CPU renderer (`--no-default-features --features cpu-softbuffer`; the `cpu` just recipes use `cpu-pixels`, which still requires wgpu).\n\n## Web Platform Tests\nWPT is the main correctness signal; results are deterministic.\n- Don't add tests for features WPT already covers (most style, layout and rendering changes). The WPT results are the test.\n- Clone https://github.com/web-platform-tests/wpt and check out the commit in `wpt/WPT_COMMIT`, then `WPT_DIR=<path> cargo run -rp wpt <test paths or globs>` (or `just wpt ...`). Arguments are paths/globs, not filename prefixes. Report and rendered PNGs land in `wpt/output/`.\n- `RUST_LOG=warn` shows uncaught JS errors in testharness tests. A very low subtest count usually means the test failed before reporting.\n- Tests that a change newly makes reach an unsupported feature and time out go in `wpt/runner/timeout-quarantine.txt` (`<path> <reason>`, reusing an existing reason) in the same PR. They're skipped unless `--run-quarantined`.\n- CI posts a WPT diff into the PR description between `<!-- wpt-results-start -->` / `<!-- wpt-results-end -->`. Don't remove those markers when you edit a PR body.\n- To check what browsers do: `https://wpt.fyi/api/search?q=<path>&label=master&label=stable&product=chrome&product=firefox&product=safari`.\n\n## Other tests\n- Where a change needs a test WPT doesn't provide, put it in `tests/blitz-tests` rather than in crate unit tests, wherever possible.\n- Keep tests minimal: a few focused cases, not a generated suite.\n\n## Engine gotchas\n- Avoid whole-tree passes (loops over every node) where possible, especially on hot paths like `resolve()`. Incremental rendering performance depends on doing work proportional to what changed: track dirty nodes or use existing damage/flags instead.\n- Attribute changes only get layout damage from the computed-style diff. If box construction or layout reads an attribute directly (inline SVG source, `<col span>`, form attributes, ...), add it to the `read_by_layout` list in `restyle_for_attribute_change` (`mutator.rs`), or invalidation silently breaks. The `*-change`/`*-invalidation` reftests catch this.\n- Facts about a node derived from its children belong in box-tree construction flags (`NodeFlags`, reset in `reset_construction_flags`), not recomputed at paint time.\n- There's no CSS 2.1 block-in-inline split: an inline box containing blocks is laid out as a block. Inline `img`/`svg`/`input` still paint through `render_element`.\n- `apps/browser` paints pages as sub-documents (`draw_sub_document` runs its own `paint_scene`). Any extra top-level paint pass also has to run per sub-document, or it works in examples but not in the browser.\n- Generated form-control content must be layout-only anonymous content, not real DOM children (those are visible to selectors/scripts and break WPT).\n\n## Pull requests\n- Human-written PR descriptions are preferred. Write a short plain-prose explanation of what changed and why, the way a person would. Skip generated boilerplate, heading templates and file-by-file change lists.\n- One feature per PR; follow-ups go in a new PR. Don't implement unrelated features to fix WPT losses. Note the losses in the PR description instead.\n- Search existing PRs before starting on a missing feature (`gh pr list --state all --search <feature>`); there are often stacks already open.\n- Don't add `Co-Authored-By: Claude` or similar AI-attribution git trailers to commits.\n- Fixes in Taffy/Parley/anyrender/Stylo go upstream in those repos, not patched in Blitz.\n"
+      },
+      "branch": "main",
+      "head": "6636442d30ebe29289ebfbb8a3bf53ddfd640a0e",
+      "head_date": "2026-11-20",
+      "merged_prs_since": 670,
+      "opened_issues_since": 185,
+      "opened_prs_since": 1176,
+      "upstream_id": "blitz"
+    },
+    "dioxus": {
+      "agents_md": {
+        "bytes": 3939,
+        "text": "# Dioxus Agent Guide\n\nDioxus is a cross-platform UI framework for Rust, similar to React. It compiles to web (WASM), desktop (webview), mobile (iOS/Android), and native (GPU-rendered).\n\n## Quick Overview\n\n- **Language**: Rust (stable toolchain)\n- **UI Model**: React-like with VirtualDOM, components, hooks, signals\n- **Syntax**: JSX-like `rsx!` macro for declaring UI\n- **Platforms**: Web, Desktop (Windows/macOS/Linux), Mobile, Native, LiveView (server-rendered)\n\n## Workspace Structure\n\n```\npackages/\n├── dioxus/           # Main re-export crate users depend on\n├── core/             # VirtualDOM, components, diffing, scheduling\n├── rsx/              # RSX macro parsing and code generation\n├── rsx-hotreload/    # Template diffing for hot-reload\n├── signals/          # Reactive state (Signal, Memo, Store)\n├── hooks/            # Built-in hooks (use_signal, use_effect, etc.)\n├── router/           # Type-safe routing with #[derive(Routable)]\n├── fullstack/        # SSR, hydration, #[server] functions\n├── dx/               # `dx` build tool, dev server, bundling\n├── web/              # WASM renderer\n├── desktop/          # Wry/Tao webview renderer\n├── native/           # Blitz/Vello GPU renderer\n├── liveview/         # WebSocket streaming renderer\n├── manganis/         # asset!() macro for compile-time assets\n├── subsecond/        # Hot-patching system (jump table indirection)\n├── devtools/         # Dev server communication protocol\n├── interpreter/      # Sledgehammer JS for DOM mutations\n└── wasm-split/       # WASM code splitting\n```\n\n## Architecture Documentation\n\nFor deeper understanding, see `notes/architecture/`:\n\n| When working on...                         | Read...            |\n| ------------------------------------------ | ------------------ |\n| VirtualDOM, components, diffing, events    | `01-CORE.md`       |\n| CLI, build system, bundling, dev server    | `02-CLI.md`        |\n| RSX macro, parsing, formatting             | `03-RSX.md`        |\n| Signals, state management, reactivity      | `04-SIGNALS.md`    |\n| Server functions, SSR, hydration           | `05-FULLSTACK.md`  |\n| Web/desktop/native/liveview renderers      | `06-RENDERERS.md`  |\n| Hot-reload, hot-patching, devtools         | `07-HOTRELOAD.md`  |\n| Asset macro, manganis, const serialization | `08-ASSETS.md`     |\n| Router, navigation, nested routes          | `09-ROUTER.md`     |\n| WASM code splitting                        | `10-WASM-SPLIT.md` |\n\n## Key Concepts\n\n- **VirtualDOM**: Tree of `VNode` with templates, dynamic nodes, and attributes\n- **Signals**: Copy-able reactive primitives via generational-box (generation-based validity)\n- **WriteMutations**: Trait that renderers implement to apply DOM changes\n- **RSX**: Proc macro that compiles JSX-like syntax to `VNode` construction\n- **Server Functions**: `#[server]` macro generates client RPC stubs and server handlers\n- **Subsecond**: Hot-patches Rust code via jump table indirection (no memory modification)\n- **Manganis**: `asset!(\"/main.css\")` macro for including assets by embedding data via linker symbols\n\n## Common Patterns\n\n**Component definition**:\n```rust\n#[component]\nfn MyComponent(name: String) -> Element {\n    let mut count = use_signal(|| 0);\n    rsx! {\n        button { onclick: move |_| count += 1, \"{name}: {count}\" }\n    }\n}\n```\n\n## Notes for Agents\n\n1. The `dioxus` crate re-exports from other crates - most implementation is in `packages/vdom`, `packages/signals`, etc.\n2. RSX macro expansion happens in `packages/rsx` - look there for syntax questions\n3. Each renderer implements `WriteMutations` differently - see `06-RENDERERS.md`\n4. Hot-reload has two systems: RSX template diffing (fast) and Subsecond code patching (full Rust)\n5. Assets use link sections and binary patching - the `asset!()` macro creates symbols the CLI processes\n"
+      },
+      "branch": "main",
+      "head": "97adf7915e1adfef4e2da436c9bd0b6add0dfa39",
+      "head_date": "2026-11-11",
+      "merged_prs_since": 213,
+      "opened_issues_since": 335,
+      "opened_prs_since": 529,
+      "releases": [
+        {
+          "date": "2026-10-16",
+          "prerelease": true,
+          "tag": "v0.8.0-alpha.3"
+        },
+        {
+          "date": "2026-10-14",
+          "prerelease": true,
+          "tag": "v0.8.0-alpha.2"
+        },
+        {
+          "date": "2026-07-31",
+          "prerelease": true,
+          "tag": "v0.8.0-alpha.1"
+        },
+        {
+          "date": "2026-07-30",
+          "prerelease": false,
+          "tag": "v0.7.10"
+        },
+        {
+          "date": "2026-05-19",
+          "prerelease": true,
+          "tag": "v0.8.0-alpha.0"
+        },
+        {
+          "date": "2026-05-08",
+          "prerelease": false,
+          "tag": "v0.7.9"
+        }
+      ],
+      "upstream_id": "dioxus"
+    },
+    "dioxus-components": {
+      "branch": "main",
+      "head": "9a758255ea26e2b20c8cecf4c1c946feb9e71da7",
+      "head_date": "2026-09-08",
+      "merged_prs_since": 60,
+      "opened_issues_since": 48,
+      "opened_prs_since": 95,
+      "upstream_id": "dioxus-components"
+    },
+    "rustd": {
+      "branch": "main",
+      "head": "ebcd234a02f769e380875b8b80e18164bba1b353",
+      "head_date": "2026-10-21",
+      "merged_prs_since": 5,
+      "opened_issues_since": 13,
+      "opened_prs_since": 15,
+      "releases": [
+        {
+          "date": "2026-10-21",
+          "prerelease": true,
+          "tag": "nightly"
+        }
+      ],
+      "upstream_id": "rustd"
+    },
+    "sdk": {
+      "branch": "main",
+      "head": "551cd800827dbc330876511737226cc894f7aae7",
+      "head_date": "2026-07-02",
+      "merged_prs_since": 3,
+      "opened_issues_since": 6,
+      "opened_prs_since": 11,
+      "releases": [
+        {
+          "date": "2026-10-16",
+          "prerelease": true,
+          "tag": "v0.8.0-alpha.3"
+        },
+        {
+          "date": "2025-04-19",
+          "prerelease": true,
+          "tag": "v0.7.0-alpha.1"
+        },
+        {
+          "date": "2024-12-07",
+          "prerelease": false,
+          "tag": "v0.6.0"
+        },
+        {
+          "date": "2024-10-27",
+          "prerelease": false,
+          "tag": "v0.5.1"
+        },
+        {
+          "date": "2024-04-05",
+          "prerelease": false,
+          "tag": "v0.5.0"
+        },
+        {
+          "date": "2024-01-19",
+          "prerelease": false,
+          "tag": "v0.4.2"
+        }
+      ],
+      "upstream_id": "dioxus-sdk"
+    },
+    "taffy": {
+      "branch": "main",
+      "head": "1abd8eeaf6059336a7026c31e0f1b769d2f04a3a",
+      "head_date": "2026-11-13",
+      "merged_prs_since": 280,
+      "opened_issues_since": 52,
+      "opened_prs_since": 431,
+      "releases": [
+        {
+          "date": "2026-10-25",
+          "prerelease": false,
+          "tag": "v0.15.1"
+        },
+        {
+          "date": "2026-10-17",
+          "prerelease": false,
+          "tag": "v0.15.0"
+        },
+        {
+          "date": "2026-08-24",
+          "prerelease": false,
+          "tag": "v0.14.0"
+        },
+        {
+          "date": "2026-08-08",
+          "prerelease": false,
+          "tag": "v0.13.0"
+        },
+        {
+          "date": "2026-07-19",
+          "prerelease": false,
+          "tag": "v0.12.2"
+        },
+        {
+          "date": "2026-07-03",
+          "prerelease": false,
+          "tag": "v0.12.1"
+        }
+      ],
+      "upstream_id": "taffy"
+    }
+  }
+}
