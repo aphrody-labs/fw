@@ -30,7 +30,7 @@ serde.workspace = true
 serde_json = { workspace = true, features = ["std"] }
 sha2 = { version = "0.11.1", default-features = false, optional = true }
 thiserror = { version = "2.0.21", default-features = false, optional = true }
-url = { version = "2.5.8", default-features = false, optional = true }
+url = { version = "2.5.9", default-features = false, optional = true }
 which = { workspace = true, optional = true }
 
 [dev-dependencies]

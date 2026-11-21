@@ -84,7 +84,7 @@ tower = { version = "0.5", features = ["util"], optional = true }
 which = { version = "8", optional = true }
 
 [target."cfg(not(target_family = \"wasm\"))".dev-dependencies]
-clap = { version = "4.6.8", features = ["derive", "env", "color"] }
+clap = { version = "4.6.9", features = ["derive", "env", "color"] }
 hex = "0.4.3"
 rcgen = { version = "0.14", default-features = false, features = ["crypto", "pem", "aws_lc_rs"] }
 

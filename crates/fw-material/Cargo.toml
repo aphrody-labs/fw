@@ -24,7 +24,7 @@ toml.workspace = true
 
 [dev-dependencies]
 serde_json.workspace = true
-resvg = { version = "0.48", default-features = false }
+resvg = { version = "0.50", default-features = false }
 
 [lints]
 workspace = true

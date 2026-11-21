@@ -58,7 +58,7 @@ futures.workspace = true
 pretty_assertions.workspace = true
 tempfile.workspace = true
 tokio = { workspace = true, features = ["process", "full"] }
-tracing-subscriber = { version = "0.3.22", features = ["env-filter", "fmt", "json", "regex", "registry"] }
+tracing-subscriber = { version = "0.3.23", features = ["env-filter", "fmt", "json", "regex", "registry"] }
 
 [[bin]]
 name = "aphrody-fake-llama-server"

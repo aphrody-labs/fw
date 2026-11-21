@@ -36,3 +36,17 @@ Not done: windows and windows-sys lanes (not touched, they do not conflict in th
 
 1. Decide what to do with aphrody's 15 failing units: fix them (fixtures, `Observed` bounds, nsh-cli prune.rs) or run the root CI with `--exclude` for them; `cargo clippy --workspace --all-targets` and `cargo test --workspace` in `.github/workflows/ci.yml` fail on them today, so a push would turn main red.
 2. `cargo nextest run --workspace` (aphrody tests included), the wasm gate, then push path-scoped and read `gh run list -R aphrody-labs/fw --workflow ci.yml --branch main`.
+
+## Dependency lane (fw)
+
+Measured on fr1 2026-11-21 with `cargo upgrade --incompatible --pinned`, `cargo update --dry-run --verbose` and `cargo tree -i`. Every other requirement of the fw workspace is at its newest release (notify 9, resvg 0.50, russh 0.65.2, yazi-sftp v26.9.1-aphrody.20261121, clap, toml, url, zip, tracing-subscriber, zerocopy, walkdir, protoc-bin-vendored, tonic-prost-build; oxc 0.159.0 and craft-libs v0.1.0-aphrody.20261120.2 are the newest releases and tags).
+
+Held back by one first-party crate, `bun-windows-winclean` 1.4.8 (aphrody-labs/bun `packages/os/bun-windows-winclean`, pulled by fw-agent feature `tools` as `aphrody-winclean`):
+- rusqlite 0.40.2 (newest 0.43.0): winclean requires `rusqlite = "^0.40"`; with fw on 0.43 cargo fails with `package libsqlite3-sys v0.40.0 ... conflicts with a previous package which links to sqlite3` (winclean's rusqlite needs libsqlite3-sys `^0.38.0`).
+- ort 2.0.0-rc.12 (newest rc.15) and fastembed 5.17.3 (newest 7.7.1; 5.17.4 and 6.0.0 need ort =rc.13, 7.7.1 needs =rc.15): winclean declares `ort = "=2.0.0-rc.12"` under `cfg(windows)`, and cargo resolves every target. Cargo error with ort rc.15: `failed to select a version for ort ... required by package bun-windows-winclean v1.4.8 ... versions that meet the requirements =2.0.0-rc.12 are: 2.0.0-rc.12`.
+- Fix: bump rusqlite to 0.43 and ort to =2.0.0-rc.15 in `packages/os/bun-windows-winclean/Cargo.toml` of aphrody-labs/bun, publish the next version, then raise fw-model (fastembed 7.7.1, ort =2.0.0-rc.15) and the workspace rusqlite to 0.43.
+
+Held back by first-party crates published only as 1.4.7:
+- zip 8.6.0 (newest 9.8.1; five open Dependabot alerts on zip, patched in 9.0.0 and 9.0.5): `cargo tree -i zip@8.6.0` gives zip 8.6.0 <- aphrody-wireguard 1.4.7 <- aphrody-remote-desktop 1.4.7 <- fw-agent (feature `tools`, crates/fw-agent/src/tools/computer_use.rs). The zip use is `zip::ZipArchive` in aphrody-wireguard `driver.rs::install_from_archive`. computer_use.rs uses `rd::target` (tunnel inventory resolution over the embedded aphrody-tunnel.json), `rd::tokens`, `rd::vnc::client::VncSession` (vnc-rs, keymap, JPEG encode) and `rd::backend::MouseButton`; no upstream crate provides the inventory model, so replacing the crate means moving about 1800 lines (target, tokens, vnc client, keymap, encode) plus the inventory into fw-agent. Fix: publish aphrody-wireguard and aphrody-remote-desktop with zip 9 (their source is in no workspace of aphrody-labs/aphrody, aphrody-labs/ay or aphrody-labs/fw), or move that remote model into fw-agent.
+- resvg 0.48.1 (second copy next to fw-material's 0.50): `bun_browser_render 1.4.8 <- bun_browser_js 1.4.8`.
+- deno_error 0.7.1 (newest 0.7.3): required by `deno_core 0.412.0` and `bun_browser_js 1.4.8`.
