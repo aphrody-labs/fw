@@ -362,6 +362,8 @@ struct Build {
     kind: Kind,
     /// wasm-bindgen (target web) then wasm-opt on a wasm artifact.
     bindgen: bool,
+    /// Cargo features the target needs (`--features`), empty for none.
+    features: &'static str,
     /// Entry file touched for the incremental rebuild, relative to the workspace.
     entry: &'static str,
     /// Argument sets timed by the startup suite after the build, host-runnable targets only.
@@ -379,23 +381,23 @@ const AY_STARTUP: &[&[&str]] = &[&["--version"]];
 
 #[rustfmt::skip]
 const BUILDS: &[Build] = &[
-    Build { id: "fw-bin.release.gnu", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
-    Build { id: "fw-bin.release.musl", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MUSL, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
-    Build { id: "fw-bin.release.msvc", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MSVC, launcher: Launcher::Xwin, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
-    Build { id: "fw-bin.dev.gnu", workspace: ".", package: "fw-bin", artifact: "fw", profile: "dev", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
-    Build { id: "fw-bin.release.msvc-native", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MSVC, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
-    Build { id: "fw-bin.dev.msvc", workspace: ".", package: "fw-bin", artifact: "fw", profile: "dev", target: MSVC, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/fw-bin/src/main.rs", startup: &[] },
-    Build { id: "fw-wasm.release.wasm32-unknown-unknown", workspace: ".", package: "fw-wasm", artifact: "fw_wasm", profile: "release", target: WASM, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: false, entry: "crates/fw-wasm/src/lib.rs", startup: &[] },
-    Build { id: "fw-wasm.release.wasm32-wasip2", workspace: ".", package: "fw-wasm", artifact: "fw_wasm", profile: "release", target: WASIP2, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: false, entry: "crates/fw-wasm/src/lib.rs", startup: &[] },
-    Build { id: "aphrody.dist.gnu", workspace: "aphrody", package: "zed", artifact: "aphrody", profile: "dist", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/zed/src/main.rs", startup: APHRODY_STARTUP },
-    Build { id: "aphrody.release.gnu", workspace: "aphrody", package: "zed", artifact: "aphrody", profile: "release", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/zed/src/main.rs", startup: &[] },
-    Build { id: "aphrody.dist.msvc", workspace: "aphrody", package: "zed", artifact: "aphrody", profile: "dist", target: MSVC, launcher: Launcher::Xwin, kind: Kind::Bin, bindgen: false, entry: "crates/zed/src/main.rs", startup: &[] },
-    Build { id: "nsh-web.web-lto.wasm32-unknown-unknown", workspace: "aphrody", package: "nsh-platform-web", artifact: "nsh_platform_web", profile: "web-lto", target: WASM, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: true, entry: "crates/nsh-platform-web/src/lib.rs", startup: &[] },
-    Build { id: "ay-auto.release.gnu", workspace: "ay", package: "aphrody-auto", artifact: "auto", profile: "release", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/auto-sdk/src/bin/auto.rs", startup: AY_STARTUP },
-    Build { id: "ay-auto.release.musl", workspace: "ay", package: "aphrody-auto", artifact: "auto", profile: "release", target: MUSL, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/auto-sdk/src/bin/auto.rs", startup: &[] },
-    Build { id: "ay-auto.release.msvc", workspace: "ay", package: "aphrody-auto", artifact: "auto", profile: "release", target: MSVC, launcher: Launcher::Xwin, kind: Kind::Bin, bindgen: false, entry: "crates/auto-sdk/src/bin/auto.rs", startup: &[] },
-    Build { id: "ay-auto.dev.gnu", workspace: "ay", package: "aphrody-auto", artifact: "auto", profile: "dev", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, entry: "crates/auto-sdk/src/bin/auto.rs", startup: &[] },
-    Build { id: "ay-auto-ffi.wasm-lto.wasm32-unknown-unknown", workspace: "ay", package: "auto-ffi", artifact: "auto_ffi", profile: "wasm-lto", target: WASM, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: true, entry: "crates/auto-ffi/src/lib.rs", startup: &[] },
+    Build { id: "fw-bin.release.gnu", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
+    Build { id: "fw-bin.release.musl", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MUSL, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
+    Build { id: "fw-bin.release.msvc", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MSVC, launcher: Launcher::Xwin, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/fw-bin/src/main.rs", startup: &[] },
+    Build { id: "fw-bin.dev.gnu", workspace: ".", package: "fw-bin", artifact: "fw", profile: "dev", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/fw-bin/src/main.rs", startup: &[] },
+    Build { id: "fw-bin.release.msvc-native", workspace: ".", package: "fw-bin", artifact: "fw", profile: "release", target: MSVC, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/fw-bin/src/main.rs", startup: FW_STARTUP },
+    Build { id: "fw-bin.dev.msvc", workspace: ".", package: "fw-bin", artifact: "fw", profile: "dev", target: MSVC, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/fw-bin/src/main.rs", startup: &[] },
+    Build { id: "fw-wasm.release.wasm32-unknown-unknown", workspace: ".", package: "fw-wasm", artifact: "fw_wasm", profile: "release", target: WASM, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: false, features: "", entry: "crates/fw-wasm/src/lib.rs", startup: &[] },
+    Build { id: "fw-wasm.release.wasm32-wasip2", workspace: ".", package: "fw-wasm", artifact: "fw_wasm", profile: "release", target: WASIP2, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: false, features: "", entry: "crates/fw-wasm/src/lib.rs", startup: &[] },
+    Build { id: "aphrody.dist.gnu", workspace: "aphrody", package: "zed", artifact: "aphrody", profile: "dist", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/zed/src/main.rs", startup: APHRODY_STARTUP },
+    Build { id: "aphrody.release.gnu", workspace: "aphrody", package: "zed", artifact: "aphrody", profile: "release", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/zed/src/main.rs", startup: &[] },
+    Build { id: "aphrody.dist.msvc", workspace: "aphrody", package: "zed", artifact: "aphrody", profile: "dist", target: MSVC, launcher: Launcher::Xwin, kind: Kind::Bin, bindgen: false, features: "", entry: "crates/zed/src/main.rs", startup: &[] },
+    Build { id: "nsh-web.web-lto.wasm32-unknown-unknown", workspace: "aphrody", package: "nsh-platform-web", artifact: "nsh_platform_web", profile: "web-lto", target: WASM, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: true, features: "", entry: "crates/nsh-platform-web/src/lib.rs", startup: &[] },
+    Build { id: "ay-auto.release.gnu", workspace: "ay", package: "aphrody-auto", artifact: "auto", profile: "release", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "runtime", entry: "crates/auto-sdk/src/bin/auto.rs", startup: AY_STARTUP },
+    Build { id: "ay-auto.release.musl", workspace: "ay", package: "aphrody-auto", artifact: "auto", profile: "release", target: MUSL, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "runtime", entry: "crates/auto-sdk/src/bin/auto.rs", startup: &[] },
+    Build { id: "ay-auto.release.msvc", workspace: "ay", package: "aphrody-auto", artifact: "auto", profile: "release", target: MSVC, launcher: Launcher::Xwin, kind: Kind::Bin, bindgen: false, features: "runtime", entry: "crates/auto-sdk/src/bin/auto.rs", startup: &[] },
+    Build { id: "ay-auto.dev.gnu", workspace: "ay", package: "aphrody-auto", artifact: "auto", profile: "dev", target: GNU, launcher: Launcher::Cargo, kind: Kind::Bin, bindgen: false, features: "runtime", entry: "crates/auto-sdk/src/bin/auto.rs", startup: &[] },
+    Build { id: "ay-auto-ffi.wasm-lto.wasm32-unknown-unknown", workspace: "ay", package: "auto-ffi", artifact: "auto_ffi", profile: "wasm-lto", target: WASM, launcher: Launcher::Cargo, kind: Kind::Wasm, bindgen: true, features: "", entry: "crates/auto-ffi/src/lib.rs", startup: &[] },
 ];
 
 struct Options {
@@ -503,6 +505,9 @@ fn cargo_command(build: &Build, workspace: &Path, target_dir: &Path, subcommand:
     }
     command.args(subcommand);
     command.args(["--locked", "--profile", build.profile, "-p", build.package, "--target", build.target]);
+    if !build.features.is_empty() {
+        command.args(["--features", build.features]);
+    }
     if build.kind == Kind::Bin {
         command.args(["--bin", build.artifact]);
     } else {
@@ -909,16 +914,14 @@ fn run_wasm_pipeline(build: &Build, artifact: &Path, options: &Options, report: 
     let mut final_file = artifact.to_path_buf();
     if build.bindgen {
         if which("wasm-bindgen").is_none() {
-            let (record, summary) = failure(&id, "wasm", "wasm-bindgen is not installed", "");
-            report.push(record, summary);
-            return;
+            stages.push(("wasm-bindgen-error", text("wasm-bindgen is not installed on this host")));
         }
         let out_dir = scratch.join("bindgen");
         fs::remove_dir_all(&out_dir).ok();
         let mut command = Command::new("wasm-bindgen");
         command.args(["--target", "web", "--no-typescript", "--out-dir"]).arg(&out_dir).arg(artifact);
         let log = scratch.join("bindgen.log");
-        match measure(&mut command, Some(&log)) {
+        match if which("wasm-bindgen").is_some() { measure(&mut command, Some(&log)) } else { Err("not installed".to_string()) } {
             Ok(m) if m.code == 0 => {
                 let produced = fs::read_dir(&out_dir).ok().and_then(|d| d.flatten().map(|e| e.path()).find(|p| p.extension().is_some_and(|x| x == "wasm")));
                 if let Some(produced) = produced {
@@ -926,11 +929,8 @@ fn run_wasm_pipeline(build: &Build, artifact: &Path, options: &Options, report: 
                     final_file = produced;
                 }
             }
-            _ => {
-                let (record, summary) = failure(&id, "wasm", &format!("wasm-bindgen failed: {}", tail(&log, 3)), &command_line(&command));
-                report.push(record, summary);
-                return;
-            }
+            Err(_) if which("wasm-bindgen").is_none() => {}
+            _ => stages.push(("wasm-bindgen-error", text(format!("{}: {}", command_line(&command), tail(&log, 3))))),
         }
     }
     if which("wasm-opt").is_some() {
