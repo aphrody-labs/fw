@@ -461,3 +461,39 @@ docs = "https://github.com/spacedriveapp/spacedrive/blob/main/docs/core/architec
 fw = "crates/fw-drive"
 role = "Rust virtual distributed filesystem: record/source store, content identity (sampled then full blake3), indexer jobs, thumbnail tiles, tag assertions, HLC sync; ideas and permitted Apache-2.0 reuse for fw-drive, pinned 18c7689644a397fb96c8b66d1176ffa11d17834f; fork aphrody-labs/spacedrive"
 watch = true
+
+[[upstream]]
+id = "workers-rs"
+repo = "cloudflare/workers-rs"
+branch = "main"
+docs = "https://github.com/cloudflare/workers-rs#readme"
+fw = "crates/fw-edge"
+role = "Cloudflare Workers in Rust (crate `worker` 0.9.0): the Rust build of the single fw-edge Worker, fw-drive on D1 + R2; fork aphrody-labs/workers-rs, Apache-2.0"
+watch = true
+
+[[upstream]]
+id = "cloudflare-mcp"
+repo = "cloudflare/mcp"
+branch = "main"
+docs = "https://github.com/cloudflare/mcp#readme"
+fw = "configs/claude + configs/gemini"
+role = "Code Mode MCP server for the whole Cloudflare API (search and execute over 2500 endpoints) at https://mcp.cloudflare.com/mcp; fork aphrody-labs/mcp, Apache-2.0"
+watch = true
+
+[[upstream]]
+id = "cloudflare-docs"
+repo = "cloudflare/cloudflare-docs"
+branch = "production"
+docs = "https://developers.cloudflare.com/llms.txt"
+fw = "fw docs + fw learn"
+role = "Cloudflare documentation (MDX, CC-BY-4.0): read through developers.cloudflare.com llms.txt per product and cached by `fw docs ingest`, not vendored"
+watch = true
+
+[[upstream]]
+id = "kiri"
+repo = "libracoder/kiri"
+branch = "main"
+docs = "https://docs.runkiri.com"
+fw = "crates/fw-drive (self-hosted runs)"
+role = "Rust container runtime compatible with the docker CLI, Compose and buildx, plus tunnels: candidate to run fw-drive and fleet services without Docker Desktop; fork aphrody-labs/kiri, Apache-2.0"
+watch = true
