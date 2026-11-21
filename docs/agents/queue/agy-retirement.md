@@ -1,6 +1,6 @@
 # agy-retirement: remove the retired Antigravity surfaces from fw and the live config (queued)
 
-Phase 0. Owner: the Claude Desktop session "Audit et déploiement du framework" (it owns `C:\src\fw`). Release v2026.11.0: not blocking; do it before the plugin freeze so the release ships no dead rules.
+Phase 0. Owner: the Claude Desktop session "Audit et déploiement du framework" (it owns `$WORKSPACE_ROOT/fw`). Release v2026.11.0: not blocking; do it before the plugin freeze so the release ships no dead rules.
 
 ## Goal
 agy (Antigravity CLI) was killed on 2026-11-21 and its repo is archived. Everything in fw that installs, documents or relies on it, and every rule that contradicts the current stack, is removed or regenerated from code.

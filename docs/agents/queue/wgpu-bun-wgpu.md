@@ -1,7 +1,7 @@
 # wgpu merge, vendor/wgpu submodule, bun:wgpu (queued, nothing pushed)
 
 ## Goal
-1. Merge gfx-rs/wgpu trunk and the best open upstream PRs into aphrody-labs/wgpu `main`, ledger in `aphrody/upstream-ledger.json`, new tag `v30.0.0-aphrody.<date>`, bump the aphrody pin (`C:\src\aphrody\Cargo.toml`, tag `v30.0.0-aphrody.20261120`, lines ~1312, 1534, 1734-1739, plus Cargo.lock wgpu entries) through a temporary index on origin/main.
+1. Merge gfx-rs/wgpu trunk and the best open upstream PRs into aphrody-labs/wgpu `main`, ledger in `aphrody/upstream-ledger.json`, new tag `v30.0.0-aphrody.<date>`, bump the aphrody pin (`$WORKSPACE_ROOT/aphrody/Cargo.toml`, tag `v30.0.0-aphrody.20261120`, lines ~1312, 1534, 1734-1739, plus Cargo.lock wgpu entries) through a temporary index on origin/main.
 2. aphrody-labs/bun: submodule `vendor/wgpu` (URL `../wgpu.git`) plus a complete `bun:wgpu` module (Rust crates, JS surface, types, docs, tests: triangle readback + vector add), built and tested on fr1 with lavapipe, optionally the triangle on the PC RTX 4070.
 3. Report: upstream commit, PRs merged/dropped, tag, pin commit, Bun commits, pixel output, bytes added to the Bun binary.
 
@@ -13,7 +13,7 @@
   - submodule `.gitmodules` + gitlink `vendor/wgpu` (currently checked out at upstream trunk, must be repointed to the new fork tag commit); `scripts/build/deps/wgpu.ts` (`source.kind: "local"`, `build: none`, same mechanism as lolhtml/rust-argon2 but submodule), registered in `deps/index.ts`, `source.ts` DepName, `bun.ts` (resolveDep before emitRust, vendorStamps).
   - `Cargo.toml`: members `src/wgpu`, `src/wgpu_jsc`; workspace deps `wgpu`/`naga` (path `vendor/wgpu/...`, features std, wgsl, serde / wgsl-in), `bun_wgpu`, `bun_wgpu_jsc`; `src/runtime/Cargo.toml` + `src/runtime/lib.rs` (`bun_wgpu_jsc as _`); `scripts/build/rust.ts` generatedFilesReadBy.
   - `src/wgpu` (`bun_wgpu`, no JS types: handle table, JSON descriptors, command replay, naga diagnostics, tests.rs with compute and triangle tests, per-OS backends vulkan/dx12/metal); `src/wgpu_jsc` (bindgen `wgpu.bind.ts` namespace + `wgpu_native.rs`); `src/js/bun/wgpu.ts` (WebGPU IDL classes); registration in `HardcodedModule.rs` (3 places), `isBuiltinModule.cpp`, `src/js/private.d.ts`, `src/codegen/builtins/data/module-exports.txt`; `packages/bun-types/wgpu.d.ts` (NOT yet referenced from `index.d.ts`); `docs/runtime/wgpu.mdx` (NOT yet in `docs/docs.json`); `test/js/bun/wgpu/wgpu.test.ts`.
-  - Same files are copied in `C:\src\_work\bunwgpu\` on the PC (source of truth for the new files).
+  - Same files are copied in `$WORKSPACE_ROOT/_work/bunwgpu/` on the PC (source of truth for the new files).
 - Findings that will bite: `cargo check -p bun_wgpu` failed in `wgpu-sync` because Bun's Cargo.lock resolved `lock_api` 0.5.0 while wgpu-sync needs the 0.4 API (the fork's own lock pins 0.4.14); `cargo update -p lock_api --precise 0.4.14` was attempted, Cargo.lock still shows 0.5.0, so the pin failed and must be solved (pin via a different route, or tighten `lock_api` to `<0.5` in the fork's workspace Cargo.toml as part of the fork commit). The rust code of `src/wgpu` has never been compiled: expect wgpu v30 signature fixes (`InstanceDescriptor::with_env`, `Features::iter_names`/`as_str`, `PipelineCompilationOptions.constants`, `MipmapFilterMode`, `DeviceDescriptor`, `RenderBundleEncoderDescriptor`, `device.set_device_lost_callback`). The Bun build workspace has `warnings = deny`, `unreachable_pub`, `dead_code` deny.
 
 ## Remaining
@@ -40,5 +40,5 @@ fr1:
 - symlinks `~/ci/bun-wgpu`, `~/ci/wgpu` to the two clones; logs `~/ci/bun-wgpu-build0.log` 72 KB, `~/ci/bwgpu-check.log` 16 KB, `~/ci/wgpu-base.log`, `~/ci/wgpu-prs.log`, `~/ci/wgpu-gate.sh`, `~/ci/wgpu-prs.sh` (all safe to delete)
 - `/dev/shm/bwgpu-target` was removed; no process of mine is running.
 - Outside my scope but done: removed the stale `~/target-ci` (25 GB, last touched 14 h earlier) and old `~/src/fw/target/debug/incremental` entries; `sudo apt-get install spirv-cross`.
-PC: `C:\src\_work\bunwgpu` (a few hundred KB of source; safe to delete once the work is committed).
+PC: `$WORKSPACE_ROOT/_work/bunwgpu` (a few hundred KB of source; safe to delete once the work is committed).
 prd: nothing.

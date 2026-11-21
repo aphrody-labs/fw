@@ -16,7 +16,7 @@ Two artifacts of the installation the user owns are the only sources of truth:
   `data/dx11/{chr, effect, event, font, map, menu, movie, shader, text}`.
 
 Everything else (docs, typed JSON, PNG/GLB/WAV/MP4 exports, wiki rows, HTTP routes, MCP tools) is
-derived from those two. Repository: `aphrody-labs/nie` (`C:\src\nie`);
+derived from those two. Repository: `aphrody-labs/nie` (`$WORKSPACE_ROOT/nie`);
 iecode (`iecode/dotnet`, `iecode/cpp` submodules) consumes nie's VFS through the C ABI. Never copy
 or commit a game file.
 
@@ -49,7 +49,7 @@ nie convert <asset>               # exchange formats
 ## Services
 
 - `nie mcp` (stdio, bin `nie-mcp`): one `cli_*` tool per CLI command plus `vfs_*`, `asset_get`,
-  `re_*`, `explorer_*`. Configured in `C:\src\nie\.mcp.json`.
+  `re_*`, `explorer_*`. Configured in `$WORKSPACE_ROOT/nie/.mcp.json`.
 - `nie serve` and `nie-model-serve` on port 8790, images `ghcr.io/aphrody-labs/nie` and
   `ghcr.io/aphrody-labs/nie-model-serve` (public), built from the root `Dockerfile` and `compose.yaml`, deployed on prd as compose project `nie` and public at https://nie.aphrody.app; routes in `docs/serve.md`. `/health` is JSON
   with `vfsReady`. The CDN origin for `cdn.rosegriffon.fr/dx11/**` is nie-model-serve `/tex/dx11/**`.

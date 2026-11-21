@@ -59,4 +59,4 @@ fw learn search "feature resolver"      # after fw-bin is rebuilt with the wirin
 - `/srv/xbuild/fw-corpus-target/` on fr1: was 158 MB, deleted by someone else's disk cleanup; rebuild takes ~12 min on a loaded host. Safe to delete.
 - `/srv/xbuild/src/fw/crates/fw-corpus` (also `~/src/fw/crates/fw-corpus`): a copy of the crate synced by tar, same as git. Safe to delete after `git pull`.
 - `~/.rustup/toolchains/nightly-*/share/doc/rust/json/` on fr1: 130 MB from `rust-docs-json`; required by `rust-std`.
-- PC: `C:\Users\aphro\AppData\Local\Temp\fw-push` (clone used to push, safe to delete), probe files in `C:\Users\aphro\AppData\Local\Temp\` (`sitemap_*_of_10.xml`, `aurls.txt`, `chr.html`, `m3.html`).
+- PC: `~/AppData/Local/Temp/fw-push` (clone used to push, safe to delete), probe files in `~/AppData/Local/Temp/` (`sitemap_*_of_10.xml`, `aurls.txt`, `chr.html`, `m3.html`).

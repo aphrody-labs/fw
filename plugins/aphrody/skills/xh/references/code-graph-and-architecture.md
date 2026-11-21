@@ -1,6 +1,6 @@
 # xh Code Graph & Rust Architecture (`v0.26.3`)
 
-Generated with `ay graph build` (Tree-sitter AST) across `C:\src\xh`.
+Generated with `ay graph build` (Tree-sitter AST) across `$WORKSPACE_ROOT/xh`.
 
 ## Graph Metrics
 
