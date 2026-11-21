@@ -290,6 +290,9 @@ fn main() {
                 .unwrap()
             );
         }
+        "depot" | "gclient" => {
+            std::process::exit(run_sibling("depot", "fw-depot", &args[1..]));
+        }
         "cluster" => {
             let mut router = HybridClusterRouter::default_hybrid_cluster();
             let sub = args.get(1).map(|s| s.as_str()).unwrap_or("summary");

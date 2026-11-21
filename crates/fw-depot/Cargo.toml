@@ -1,0 +1,46 @@
+[package]
+name = "fw-depot"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "depot_tools in Rust: gclient (DEPS, sync, revinfo, getdep/setdep, hooks), a CIPD client, fetch, autoninja, git-cl and Gerrit, presubmit, and the AOSP repo manifest, plus the work/span model of a ninja/siso build; ships `fw-depot` (run by `fw depot`)"
+
+[features]
+default = ["tools"]
+# The DEPS reader and resolver alone (a Python-subset grammar), for crates that only read DEPS files.
+deps = ["dep:serde", "dep:serde_json", "dep:thiserror", "dep:tree-sitter", "dep:tree-sitter-python"]
+# The work/span scheduling model of a ninja/siso build.
+siso = ["dep:serde", "dep:serde_json"]
+# Everything that talks to the network or the file system: sync, CIPD, Gerrit, repo, and the `fw-depot` binary.
+tools = ["deps", "siso", "dep:ureq", "dep:sha2", "dep:hex", "dep:base64", "dep:zip", "dep:flate2", "dep:tar", "dep:roxmltree", "dep:lzma-rust2"]
+
+[dependencies]
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+thiserror = { workspace = true, optional = true }
+tree-sitter = { workspace = true, optional = true }
+tree-sitter-python = { version = "0.25.0", optional = true }
+ureq = { workspace = true, optional = true }
+sha2 = { workspace = true, optional = true }
+hex = { workspace = true, optional = true }
+base64 = { workspace = true, optional = true }
+flate2 = { workspace = true, optional = true }
+tar = { version = "0.4.46", optional = true }
+zip = { version = "9.8.1", default-features = false, features = ["deflate"], optional = true }
+roxmltree = { version = "0.21.2", optional = true }
+lzma-rust2 = { version = "0.25.0", default-features = false, features = ["std", "xz", "optimization"], optional = true }
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[[bin]]
+name = "fw-depot"
+path = "src/bin/fw-depot.rs"
+required-features = ["tools"]
+
+[lints]
+workspace = true
