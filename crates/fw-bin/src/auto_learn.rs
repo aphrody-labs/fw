@@ -551,6 +551,23 @@ fn code_graph_hits(store: &XfsDatasetStore, query: &str, limit: usize) -> Vec<Va
     hits
 }
 
+/// Hits from the `fw-corpus` SQLite FTS5 stores (`fw corpus search`); empty when the sibling binary or the corpus is absent.
+fn corpus_hits(query: &str, limit: usize) -> Vec<Value> {
+    let exe = format!("fw-corpus{}", std::env::consts::EXE_SUFFIX);
+    let program = std::env::current_exe()
+        .ok()
+        .and_then(|p| p.parent().map(|d| d.join(&exe)))
+        .filter(|p| p.is_file())
+        .unwrap_or_else(|| PathBuf::from(exe));
+    let Ok(out) = std::process::Command::new(program).args(["search", query, "--limit", &limit.to_string()]).output() else {
+        return Vec::new();
+    };
+    serde_json::from_slice::<Value>(&out.stdout)
+        .ok()
+        .and_then(|v| v["hits"].as_array().cloned())
+        .unwrap_or_default()
+}
+
 // ============================================================================
 // 4. Pure-Rust Keyless `context7` (`fw docs` / `fw c7`)
 // ============================================================================
@@ -1066,7 +1083,8 @@ pub fn run_unified_search(query: &str, store: &XfsDatasetStore, limit: usize) ->
         "xfsRoot": store.root.display().to_string(),
         "claudeMemHits": obs_hits,
         "context7Hits": doc_hits,
-        "codeGraphHits": graph_hits
+        "codeGraphHits": graph_hits,
+        "corpusHits": corpus_hits(query, limit)
     })
 }
 
