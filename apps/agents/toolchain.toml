@@ -2,10 +2,10 @@
 # applier : system/machine-ts/src/toolchain.ts (`ay agents install|sync|check|list`).
 # Nettoyé le 2026-11-14 : plugins de skills tiers désinstallés ; les skills utiles (dont android-*, issues de android/skills) sont versionnées dans .agents/skills et servies par `aphrody-skills`. Outils AI : `ai-os`, `agent-desktop`, `agent-browser`.
 
-# Global Claude Code config, versioned in apps/agents/claude ({src} and {home} substituted).
+# Global Claude Code config ({src} and {home} substituted): CLAUDE.md from configs/claude, output style and settings from apps/agents/claude.
 # settings.json: merge of the managed keys only (model, effort, fast mode and plugins stay at the workstation's choice).
 [[claude.home]]
-src = "apps/agents/claude/CLAUDE.md"
+src = "configs/claude/CLAUDE.md"
 dest = "{home}/.claude/CLAUDE.md"
 
 [[claude.home]]
