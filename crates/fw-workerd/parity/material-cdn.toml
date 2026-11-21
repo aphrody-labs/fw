@@ -12,6 +12,7 @@ path = "/v1/"
 
 [[request]]
 id = "meta"
+bench = true
 path = "/v1/meta.json"
 
 [[request]]
@@ -20,6 +21,7 @@ path = "/v1/index.json"
 
 [[request]]
 id = "static-css"
+bench = true
 path = "/v1/fonts/material-symbols.css"
 
 [[request]]
@@ -28,6 +30,7 @@ path = "/v1/tokens/m3.css"
 
 [[request]]
 id = "icon-svg"
+bench = true
 path = "/v1/icons/outlined/home.svg"
 
 [[request]]
@@ -36,12 +39,15 @@ path = "/v1/sprites/outlined.svg"
 
 [[request]]
 id = "variable-font"
+bench = true
 path = "/v1/fonts/material-symbols-outlined/variable.3ae08513.woff2"
 
+# Cloudflare's edge drops Accept-Ranges from a 206; the Worker sets it on every static response.
 [[request]]
 id = "range"
 path = "/v1/fonts/material-symbols-outlined/variable.3ae08513.woff2"
 headers = { range = "bytes=0-1023" }
+ignore_headers = ["accept-ranges"]
 
 [[request]]
 id = "head"
@@ -84,6 +90,7 @@ allow_values = { x-material-source = ["built", "r2", "edge-cache"] }
 
 [[request]]
 id = "generated-text-font"
+bench = true
 path = "/v1/fonts/google-sans-flex.woff2?text=Aphrody&wght=400..700"
 allow_values = { x-material-source = ["built", "r2", "edge-cache"] }
 

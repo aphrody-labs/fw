@@ -11,6 +11,8 @@ const USAGE: &str = "fw-workerd <command>
       wrangler config + `wrangler deploy --dry-run --outdir <dir>` bundle -> <out>/<name>.capnp, shim modules, <name>.report.json
   units --host <host> --out <dir> [--root <repo>]
       systemd units, Garage config and the bootstrap script of one node from cluster/dual-mode.toml and cluster/build.toml
+  bindings --wrangler <file> [--env <name>] [--link <service>=<addr>...]
+      what the compiler wires for that wrangler config and what it cannot (JSON report, no bundle needed)
   probe --out <dir>
       writes the probe Worker (worker.js and wrangler.jsonc) that exercises every wired binding
   parity --spec <file.toml> --cloud <url> --self <url> [--repeat <n>] [--json <file>]
@@ -56,6 +58,28 @@ fn run(arguments: &[String]) -> Result<ExitCode> {
             println!("buckets: {}", plan.buckets.join(", "));
             Ok(ExitCode::SUCCESS)
         }
+        Some("bindings") => {
+            let path = PathBuf::from(required(arguments, "--wrangler")?);
+            let service = wrangler::load(&path, option(arguments, "--env").as_deref())?;
+            let mut settings = fw_workerd::compile::Settings {
+                listen_address: "127.0.0.1:0".to_owned(),
+                state_directory: "state".to_owned(),
+                storage: fw_workerd::compile::Storage::S3Bridge { bucket: "r2".to_owned(), endpoint: "127.0.0.1:0".to_owned(), region: "garage".to_owned() },
+                linked_services: std::collections::BTreeMap::new(),
+                secrets: Vec::new(),
+                project_directory: path.parent().map(PathBuf::from).unwrap_or_default(),
+            };
+            for (index, argument) in arguments.iter().enumerate() {
+                if argument == "--link" {
+                    if let Some((name, address)) = arguments.get(index + 1).and_then(|pair| pair.split_once('=')) {
+                        settings.linked_services.insert(name.to_owned(), address.to_owned());
+                    }
+                }
+            }
+            let (_, report) = fw_workerd::compile::render(&service, &[], &settings)?;
+            println!("{}", serde_json::to_string_pretty(&report).map_err(|error| Error::Invalid(error.to_string()))?);
+            Ok(ExitCode::SUCCESS)
+        }
         Some("probe") => {
             let out = PathBuf::from(required(arguments, "--out")?);
             write_text(&out.join("worker.js"), fw_workerd::probe::WORKER)?;
@@ -77,10 +101,12 @@ fn run(arguments: &[String]) -> Result<ExitCode> {
                     println!("     {difference}");
                 }
             }
-            println!(
-                "latency cloud p50 {:.1} ms p95 {:.1} ms ({} samples) / self-hosted p50 {:.1} ms p95 {:.1} ms ({} samples)",
-                report.cloud_latency.p50_ms, report.cloud_latency.p95_ms, report.cloud_latency.samples, report.selfhosted_latency.p50_ms, report.selfhosted_latency.p95_ms, report.selfhosted_latency.samples
-            );
+            for entry in &report.latency {
+                println!(
+                    "latency {}: cloud p50 {:.1} ms p95 {:.1} ms / self-hosted p50 {:.1} ms p95 {:.1} ms ({} samples each)",
+                    entry.id, entry.cloud.p50_ms, entry.cloud.p95_ms, entry.selfhosted.p50_ms, entry.selfhosted.p95_ms, entry.cloud.samples
+                );
+            }
             Ok(if report.passed { ExitCode::SUCCESS } else { ExitCode::FAILURE })
         }
         _ => {
