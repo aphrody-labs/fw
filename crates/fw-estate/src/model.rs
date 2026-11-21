@@ -60,6 +60,17 @@ pub struct Zone {
     pub route: Vec<String>,
     #[serde(default)]
     pub domain: Vec<String>,
+    #[serde(default)]
+    pub header_rule: Vec<HeaderRule>,
+}
+
+/// A response-header transform rule: `set` headers on the responses whose request matches `expression`.
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct HeaderRule {
+    pub description: String,
+    pub expression: String,
+    pub set: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize, Default)]

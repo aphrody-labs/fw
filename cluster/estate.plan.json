@@ -1,13 +1,21 @@
 {
   "schema": 1,
-  "estate_sha256": "81bfebff5594a1b49e24bca6c719897658dd6e7b58a2024b4f36d79d01492769",
+  "estate_sha256": "bc20f4ae77e5a2b279dd63502557bb3ec6776aa1e7332bfc4cdf96d2acd9274a",
   "actions": [
     {
-      "op": "create",
-      "kind": "domain",
+      "op": "update",
+      "kind": "header-rules",
       "scope": "aphrody.com",
-      "target": "media.aphrody.com",
-      "detail": "media-cdn"
+      "target": "http_response_headers_transform",
+      "detail": "add cross-origin isolation of the web surface; add first-party static hosts loadable from isolated pages",
+      "id": "963461271f885bc3f3c2bfd586f2b7ba"
+    },
+    {
+      "op": "create",
+      "kind": "dns",
+      "scope": "aphrody.com",
+      "target": "CNAME vault.aphrody.com",
+      "detail": "CNAME vault proxied | 021d576a-131e-4814-80eb-cb16d4a15090.cfargotunnel.com"
     }
   ]
 }
