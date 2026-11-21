@@ -80,4 +80,6 @@ hoisted = { version = "=1.3.2", features = ["sourcemap"] }
 hoisted = { version = "9" }
 
 [upgrade]
-packages = ["oxc", "oxc_allocator", "oxc_ast", "oxc_ast_visit", "oxc_parser", "oxc_span", "oxc_syntax"]
+packages = ["oxc", "oxc_allocator", "oxc_ast", "oxc_ast_visit", "oxc_parser", "oxc_span", "oxc_syntax", "async-tungstenite"]
+
+# jupyter-websocket-client 3.0.1 (newest) speaks async-tungstenite 0.35; aphrody's repl hands it the stream of its own connection, so both move to 0.35 (async-tungstenite is in [upgrade] above).

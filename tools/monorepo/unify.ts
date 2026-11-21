@@ -228,7 +228,9 @@ for (const o of ORIGINS)
     if (!profile[name]) profile[name] = settings;
     else {
       for (const [k, v] of Object.entries<any>(settings)) {
-        if (profile[name][k] === undefined) profile[name][k] = v;
+        // a profile name taken by an earlier origin keeps that origin settings whole (an added debug or lto key would change its binaries); only per-package overrides are added
+        if (profile[name][k] === undefined && k !== "package") note(`profile ${name}.${k}: ${o} sets ${JSON.stringify(v)}, not applied (the first origin owns ${name})`);
+        else if (profile[name][k] === undefined) profile[name][k] = v;
         else if (!equal(profile[name][k], v) && k !== "package") note(`profile ${name}.${k}: ${o} has ${JSON.stringify(v)}, kept ${JSON.stringify(profile[name][k])}`);
         else if (k === "package") profile[name].package = { ...v, ...profile[name].package };
       }
