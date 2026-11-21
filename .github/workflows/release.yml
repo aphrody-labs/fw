@@ -85,13 +85,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      # The toolchain pinned by rust-toolchain.toml, with the target added to that same toolchain (a stable install would miss it).
+      - uses: ./.github/actions/rust-toolchain
         with:
           targets: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@v2
         with:
           key: ${{ matrix.target }}
+      - name: musl C toolchain for crates with C build scripts
+        if: endsWith(matrix.target, '-musl')
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends musl-tools
       - name: Build release artifact
+        env:
+          CC_x86_64_unknown_linux_musl: musl-gcc
         run: cargo build --release --target ${{ matrix.target }} -p ${{ matrix.package }} ${{ matrix.cargo_args }}
       - name: Stage the artifact under its release name
         shell: bash
@@ -145,7 +151,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: ./.github/actions/rust-toolchain
       - name: Publish in dependency order (product.toml)
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
