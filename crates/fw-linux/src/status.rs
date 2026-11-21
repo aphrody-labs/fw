@@ -4,7 +4,7 @@ use std::path::Path;
 
 use serde::Serialize;
 
-use crate::error::Result;
+use crate::error::{Error, Result};
 use crate::pins::{Pins, Tree};
 use crate::releases::Releases;
 use crate::repo::{self, Remotes};
@@ -67,28 +67,29 @@ pub fn compute(root: &Path, pins: &Pins, remotes: &Remotes, options: &Options) -
     let mut problems: Vec<String> = Vec::new();
     let mut behind: Vec<String> = Vec::new();
 
-    let releases = if options.offline {
-        None
-    } else {
-        match Releases::fetch(&pins.releases) {
-            Ok(releases) => Some(releases),
-            Err(error) => {
-                problems.push(format!("releases feed unreachable: {error}"));
-                None
-            }
+    let remote = if options.offline { None } else { Some(fetch_remote(pins, remotes)) };
+    let (releases, cachyos, mut tag_lookups) = match remote {
+        Some(Remote { releases, cachyos, tags }) => {
+            let releases = match releases {
+                Ok(releases) => Some(releases),
+                Err(error) => {
+                    problems.push(format!("releases feed unreachable: {error}"));
+                    None
+                }
+            };
+            let cachyos = match cachyos {
+                Some(Ok(view)) => Some(view),
+                Some(Err(error)) => {
+                    problems.push(format!("CachyOS tags unreachable: {error}"));
+                    None
+                }
+                None => None,
+            };
+            (releases, cachyos, tags)
         }
+        None => (None, None, Vec::new()),
     };
-
-    let cachyos = match (options.offline, pins.trees.iter().find(|tree| tree.id == "cachyos")) {
-        (false, Some(tree)) => match cachyos_view(remotes, tree, pins) {
-            Ok(view) => Some(view),
-            Err(error) => {
-                problems.push(format!("CachyOS tags unreachable: {error}"));
-                None
-            }
-        },
-        _ => None,
-    };
+    tag_lookups.reverse();
 
     let in_checkout = repo::is_work_tree(root);
     let mut trees = Vec::new();
@@ -115,8 +116,9 @@ pub fn compute(root: &Path, pins: &Pins, remotes: &Remotes, options: &Options) -
         let checkout = repo::checkout_head(&root.join(&tree.path));
         let checkout_matches = checkout.as_ref().map(|head| *head == tree.commit);
 
-        let (remote_commit, remote_matches) = match (options.offline, &tree.tag) {
-            (false, Some(tag)) => match repo::remote_tag(&remotes.url(&tree.repo), tag) {
+        let lookup = tag_lookups.pop().flatten();
+        let (remote_commit, remote_matches) = match (lookup, &tree.tag) {
+            (Some(lookup), Some(tag)) => match lookup {
                 Ok(Some(found)) => {
                     let matches = found.commit == tree.commit;
                     if !matches {
@@ -246,4 +248,32 @@ pub fn render(status: &Status) -> String {
         text.push_str(&format!("behind: {line}\n"));
     }
     text
+}
+
+/// Everything that needs the network, fetched at once: the feed, the CachyOS tags and one tag lookup per tree.
+struct Remote {
+    releases: Result<Releases>,
+    cachyos: Option<Result<CachyosView>>,
+    tags: Vec<Option<Result<Option<repo::RemoteTag>>>>,
+}
+
+fn fetch_remote(pins: &Pins, remotes: &Remotes) -> Remote {
+    let joined = |error: Box<dyn std::any::Any + Send>| Error::message(format!("remote lookup panicked: {error:?}"));
+    std::thread::scope(|scope| {
+        let releases = scope.spawn(|| Releases::fetch(&pins.releases));
+        let cachyos = pins.trees.iter().find(|tree| tree.id == "cachyos").map(|tree| scope.spawn(move || cachyos_view(remotes, tree, pins)));
+        let mut handles = Vec::new();
+        for tree in &pins.trees {
+            handles.push(tree.tag.as_ref().map(|tag| scope.spawn(move || repo::remote_tag(&remotes.url(&tree.repo), tag))));
+        }
+        let mut tags = Vec::new();
+        for handle in handles {
+            tags.push(handle.map(|handle| handle.join().map_err(joined).and_then(|result| result)));
+        }
+        Remote {
+            releases: releases.join().map_err(joined).and_then(|result| result),
+            cachyos: cachyos.map(|handle| handle.join().map_err(joined).and_then(|result| result)),
+            tags,
+        }
+    })
 }
