@@ -1,12 +1,9 @@
 ---
 name: directx
-description: >-
-  Architect, build, debug, validate, compile, and profile DirectX 12 (D3D12) and HLSL
-  rendering and compute infrastructure in aphrody. Use whenever working on D3D12
-  swapchains, Enhanced Barriers, Root Signatures, Descriptor Heaps, Agility SDK integration,
-  DXC SM 6.0–6.9 DXIL compilation, Naga HLSL backend translation, gpui_windows Direct2D/DirectWrite/D3D11/DX12
-  interop, DirectComposition, or PIX GPU event profiling on Windows.
+description: "Architect, build, debug, validate, compile, and profile DirectX 12 (D3D12) and HLSL rendering and. Use whenever working on D3D12 swapchains, Enhanced Barriers, Root Signatures, Descriptor Heaps"
 ---
+> compute infrastructure in aphrody. , Agility SDK integration, DXC SM 6.0–6.9 DXIL compilation, Naga HLSL backend translation, gpui_windows Direct2D/DirectWrite/D3D11/DX12 interop, DirectComposition, or PIX GPU event profiling on Windows.
+
 
 # DirectX 12 & HLSL Architecture (`aphrody`)
 

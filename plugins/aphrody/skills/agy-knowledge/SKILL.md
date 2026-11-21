@@ -1,7 +1,9 @@
 ---
 name: agy-knowledge
-description: Verified operational knowledge base for the complete Google Antigravity stack (Desktop App, agy CLI, IDE extensions, ACP JSON-RPC, localharness Python SDK, community Go/TS ports, Managed Agents Cloud API, MCP, rules, skills, hooks, plugins, sidecars, and dynamic workflows) unified inside Fw. Load whenever any LLM needs to operate, automate, debug, or extend Google Antigravity without schema errors or version traps.
+description: "Verified operational knowledge base for the complete Google Antigravity stack (Desktop App, agy CLI, IDE extensions, ACP JSON-RPC, localharness Python SDK, community Go/TS ports"
 ---
+> , Managed Agents Cloud API, MCP, rules, skills, hooks, plugins, sidecars, and dynamic workflows) unified inside Fw. Load whenever any LLM needs to operate, automate, debug, or extend Google Antigravity without schema errors or version traps.
+
 
 # agy-knowledge — Verified Antigravity Stack Operating Spec (Fw Unified)
 
@@ -11,7 +13,7 @@ Reference JSON: `references/agy-knowledge.verified.json` and `references/protoco
 - **Antigravity CLI (`agy`)**: Zero-dependency Google-signed native binary (`%LOCALAPPDATA%\agy\bin\agy.exe`, verified `v1.5.13`). Default mode since **v1.5.7** is **`auto`** (including `-p` headless runs); pin `"agentMode": ""` in `~/.gemini/antigravity-cli/settings.json` to restore `default`. Inside Fw, `target/agy/agy.exe` (Rust Fat-LTO AOT) wraps and accelerates Fw operations while leaving Google's signed binary strictly read-only.
 - **Antigravity App**: Standalone GUI supporting multi-agent orchestration, built-in Chromium, Marketplace plugins, and **Sidecars** (App-only; NOT supported in CLI or standalone IDE).
 - **Antigravity IDE / Extensions**: Local Language Server on `127.0.0.1` over **ConnectRPC** with ephemeral per-session **CSRF token**; local state in SQLite `state.vscdb` (Electron ABI v140 / Node v22.21.1 breaks native `better-sqlite3` — use WASM `sql.js`).
-- **Antigravity Python SDK (`google-antigravity`)**: Only official Google SDK (Apache-2.0; Go and TS on roadmap per Issue #125). Install via `pip install google-antigravity` (`localharness` ships only in PyPI wheels). Default model: `gemini-3.8-flash`.
+- **Antigravity Python SDK (`google-antigravity`)**: Only official Google SDK (Apache-2.0; Go and TS on roadmap per Issue #125). Install via `uv pip install google-antigravity` (`localharness` ships only in PyPI wheels). Default model: `gemini-3.8-flash`.
 - **Managed Cloud Agents API (`google-genai` `v1beta`)**: Hosted isolated Linux sandbox via `agent="antigravity-preview-09-2026"` (`1,048,576` input window auto-compacted at `~135k`; `65,536` output limit; text+image input, text output).
 
 ## 2. CLI (`agy`), Headless NDJSON & ACP Contracts

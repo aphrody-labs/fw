@@ -68,7 +68,7 @@ Use when:
 **Install shadcn/ui with Tailwind:**
 
 ```bash
-npx shadcn@latest init
+bunx shadcn@latest init
 ```
 
 CLI prompts for framework, TypeScript, paths, and theme preferences. This configures both shadcn/ui and Tailwind CSS.
@@ -76,7 +76,7 @@ CLI prompts for framework, TypeScript, paths, and theme preferences. This config
 **Add components:**
 
 ```bash
-npx shadcn@latest add button card dialog form
+bunx shadcn@latest add button card dialog form
 ```
 
 **Use components with utility styling:**
@@ -109,7 +109,7 @@ export function Dashboard() {
 **Vite projects:**
 
 ```bash
-npm install -D tailwindcss @tailwindcss/vite
+bun add --dev tailwindcss @tailwindcss/vite
 ```
 
 ```javascript
@@ -236,7 +236,7 @@ Covers:
 Add shadcn/ui components with dependency handling:
 
 ```bash
-python references/ui-styling/scripts/shadcn_add.py button card dialog
+uv run references/ui-styling/scripts/shadcn_add.py button card dialog
 ```
 
 ### tailwind_config_gen.py
@@ -244,7 +244,7 @@ python references/ui-styling/scripts/shadcn_add.py button card dialog
 Generate tailwind.config.js with custom theme:
 
 ```bash
-python references/ui-styling/scripts/tailwind_config_gen.py --colors brand:blue --fonts display:Inter
+uv run references/ui-styling/scripts/tailwind_config_gen.py --colors brand:blue --fonts display:Inter
 ```
 
 ## Best Practices

@@ -1,7 +1,9 @@
 ---
 name: work
-description: "Autonomous end-to-end work loop for the Bun fork monorepo: pick the next lot, code it, gate it, commit by path, push, prove it is on origin/main, repeat. Use for any multi-step change or when asked to keep working without a human in the loop."
+description: "Autonomous end-to-end work loop for the Bun fork monorepo: pick the next lot, code it, gate it. Use for any multi-step change or when asked to keep working without a human in the loop."
 ---
+> commit by path, push, prove it is on origin/main, repeat.
+
 
 One entry point: `bun scripts/aphrody/work.ts <command>`. The queue is `scripts/aphrody/work-queue.json` (lots: id, goal, paths, status todo|active|done|blocked). No command asks a question; the exit code is the answer.
 

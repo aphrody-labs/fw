@@ -1,7 +1,9 @@
 ---
 name: yazi
-description: yazi (sxyazi/yazi, Rust terminal file manager, fork aphrody-labs/yazi) as used by fw: `fw files` (ls, mime, preview, cp, mv, rm, rules over JSON lines, sftp:// paths), which yazi crates are usable as libraries and which are not, yazi's previewer rule table, image preview protocols, DDS, VFS providers. Use when working on file listing, MIME or preview logic, file-operation task queues, SFTP, or porting something from yazi.
+description: "yazi (sxyazi/yazi, Rust terminal file manager, fork aphrody-labs/yazi) as used by fw: fw files (ls, mime. Use when working on file listing, MIME or preview logic, file-operation task queues, SFTP"
 ---
+> preview, cp, mv, rm, rules over JSON lines, sftp:// paths), which yazi crates are usable as libraries and which are not, yazi's previewer rule table, image preview protocols, DDS, VFS providers. , or porting something from yazi.
+
 
 # yazi in fw
 

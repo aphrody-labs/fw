@@ -48,15 +48,15 @@ Unified design skill: brand, tokens, UI, logo, CIP, slides, banners, social phot
 ### Logo: Generate Design Brief
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "tech startup modern" --design-brief -p "BrandName"
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "tech startup modern" --design-brief -p "BrandName"
 ```
 
 ### Logo: Search Styles/Colors/Industries
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "minimalist clean" --domain style
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "tech professional" --domain color
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "healthcare medical" --domain industry
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "minimalist clean" --domain style
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "tech professional" --domain color
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "healthcare medical" --domain industry
 ```
 
 ### Logo: Generate with AI
@@ -64,8 +64,8 @@ python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/search.py "healthca
 **ALWAYS** generate output logo images with white background.
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/generate.py --brand "TechFlow" --style minimalist --industry tech
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/logo/generate.py --prompt "coffee shop vintage badge" --style vintage
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/generate.py --brand "TechFlow" --style minimalist --industry tech
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/logo/generate.py --prompt "coffee shop vintage badge" --style vintage
 ```
 
 **IMPORTANT:** When scripts fail, try to fix them directly.
@@ -79,32 +79,32 @@ After generation, **ALWAYS** ask user about HTML preview via `AskUserQuestion`. 
 ### CIP: Generate Brief
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "tech startup" --cip-brief -b "BrandName"
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "tech startup" --cip-brief -b "BrandName"
 ```
 
 ### CIP: Search Domains
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "business card letterhead" --domain deliverable
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "luxury premium elegant" --domain style
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "hospitality hotel" --domain industry
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "office reception" --domain mockup
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "business card letterhead" --domain deliverable
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "luxury premium elegant" --domain style
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "hospitality hotel" --domain industry
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/search.py "office reception" --domain mockup
 ```
 
 ### CIP: Generate Mockups
 
 ```bash
 # With logo (RECOMMENDED)
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo /path/to/logo.png --deliverable "business card" --industry "consulting"
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo /path/to/logo.png --deliverable "business card" --industry "consulting"
 
 # Full CIP set
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo /path/to/logo.png --industry "consulting" --set
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo /path/to/logo.png --industry "consulting" --set
 
 # Pro model (4K text)
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo logo.png --deliverable "business card" --model pro
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TopGroup" --logo logo.png --deliverable "business card" --model pro
 
 # Without logo
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TechFlow" --deliverable "business card" --no-logo-prompt
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/generate.py --brand "TechFlow" --deliverable "business card" --no-logo-prompt
 ```
 
 Models: `flash` (default, `gemini-2.5-flash-image`), `pro` (`gemini-3-pro-image-preview`)
@@ -112,7 +112,7 @@ Models: `flash` (default, `gemini-2.5-flash-image`), `pro` (`gemini-3-pro-image-
 ### CIP: Render HTML Presentation
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/cip/render-html.py --brand "TopGroup" --industry "consulting" --images /path/to/cip-output
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/cip/render-html.py --brand "TopGroup" --industry "consulting" --images /path/to/cip-output
 ```
 
 **Tip:** If no logo exists, use Logo Design section above first.
@@ -187,21 +187,21 @@ Load `references/banner-sizes-and-styles.md` for complete sizes and styles refer
 ### Icon: Generate Single Icon
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --prompt "settings gear" --style outlined
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --prompt "shopping cart" --style filled --color "#6366F1"
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --name "dashboard" --category navigation --style duotone
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --prompt "settings gear" --style outlined
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --prompt "shopping cart" --style filled --color "#6366F1"
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --name "dashboard" --category navigation --style duotone
 ```
 
 ### Icon: Generate Batch Variations
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --prompt "cloud upload" --batch 4 --output-dir ./icons
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --prompt "cloud upload" --batch 4 --output-dir ./icons
 ```
 
 ### Icon: Multi-size Export
 
 ```bash
-python3 ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --prompt "user profile" --sizes "16,24,32,48" --output-dir ./icons
+uv run ~/.gemini/plugins/aphrody/skills/design/scripts/icon/generate.py --prompt "user profile" --sizes "16,24,32,48" --output-dir ./icons
 ```
 
 ### Icon: Top Styles
@@ -307,7 +307,7 @@ python3 --version || python --version
 
 ```bash
 export GEMINI_API_KEY="your-key"  # https://aistudio.google.com/apikey
-pip install google-genai pillow
+uv pip install google-genai pillow
 ```
 
 > **Note for Windows:** Use `python` instead of `pip` where needed (e.g., `python -m pip install ...`).

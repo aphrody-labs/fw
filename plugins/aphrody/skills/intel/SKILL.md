@@ -1,11 +1,9 @@
 ---
 name: intel
-description: >-
-  Architect, build, compile, and optimize Intel CPU SIMD (AVX2/AVX-512) & Intel Arc Xe/Xe2 GPU infrastructure in aphrody.
-  Use whenever targeting Intel hardware (vendor ID 0x8086), Core / Xeon / EPYC SIMD vectorization,
-  Intel SPMD Program Compiler (ispc CLI), oneAPI Level Zero runtime (ze_api.h, ze_loader),
-  OpenCL CPU/GPU runtimes (clinfo, rusticl, compute-runtime), or vendor/wgpu Intel quirks.
+description: "Architect, build, compile, and optimize Intel CPU SIMD (AVX2/AVX-512) & Intel Arc Xe/Xe2 GPU. Use whenever targeting Intel hardware (vendor ID 0x8086), Core / Xeon / EPYC SIMD vectorization"
 ---
+> infrastructure in aphrody. , Intel SPMD Program Compiler (ispc CLI), oneAPI Level Zero runtime (ze_api.h, ze_loader), OpenCL CPU/GPU runtimes (clinfo, rusticl, compute-runtime), or vendor/wgpu Intel quirks.
+
 
 # Intel SIMD & Xe GPU Architecture (`aphrody`)
 

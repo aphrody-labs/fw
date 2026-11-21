@@ -1,7 +1,9 @@
 ---
 name: replica
-description: "Clone an existing app end to end: recon map, stack and schema, design tokens, screen-by-screen build, backend, tests, parity diff, user-review research, rebrand, launch copy and deploy. Use when the user says replicate, clone, rebuild or copy an app, or names a stage (recon, architect, design, build, backend, test, diff, entrepreneur, brand, launch, deploy)."
+description: "Clone an existing app end to end: recon map, stack and schema, design tokens. Use when the user says replicate, clone, rebuild or copy an app, or names a stage (recon, architect, design"
 ---
+> screen-by-screen build, backend, tests, parity diff, user-review research, rebrand, launch copy and deploy. , build, backend, test, diff, entrepreneur, brand, launch, deploy).
+
 # Replica: clone an app end to end
 
 Replica is a pipeline. Run the stages in this order and pass each stage's output file to the next: recon, architect, design, build, backend, test, diff, entrepreneur, brand, launch, deploy.

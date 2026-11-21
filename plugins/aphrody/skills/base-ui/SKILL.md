@@ -1,7 +1,9 @@
 ---
 name: base-ui
-description: Official Base UI (@base-ui/react v1.9+) reference and composition patterns for building accessible, unstyled React primitives. Use when working with @base-ui/react components, render props, data attributes, forms, or TypeScript types.
+description: "Official Base UI (@base-ui/react v1.9+) reference and composition patterns for building. Use when working with @base-ui/react components, render props, data attributes, forms, or TypeScript types."
 ---
+> accessible, unstyled React primitives.
+
 
 # Base UI (@base-ui/react)
 

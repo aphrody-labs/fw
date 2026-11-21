@@ -1,11 +1,6 @@
 ---
 name: emscripten
-description: >-
-  Authoritative Emscripten 7.0.1-git toolchain, emsdk, and C/C++-to-WebAssembly engineering
-  skill for aphrody. Use whenever compiling C/C++ with emcc/em++, targeting
-  wasm32-unknown-emscripten alongside wasm32-unknown-unknown and wasm32-wasip2,
-  wiring Emdawnwebgpu (--use-port=emdawnwebgpu), configuring -sMODULARIZE -sEXPORT_ES6,
-  JSPI/Asyncify, Embind/EM_JS/EM_ASM, pthreads with COOP/COEP, or -msimd128.
+description: "Authoritative Emscripten 7.0.1-git toolchain, emsdk, and C/C++-to-WebAssembly engineering skill for aphrody. Use whenever compiling C/C++ with emcc/em++, targeting wasm32-unknown-emscripten alongside"
 license: Apache-2.0
 compatibility: >-
   Compliant with agentskills.io, Claude Code, and Aphrody plugin discovery.
@@ -16,6 +11,8 @@ metadata:
   ingested-repos: "12"
   generator: "tooling/bun/emscripten-crawl.ts"
 ---
+> wasm32-unknown-unknown and wasm32-wasip2, wiring Emdawnwebgpu (--use-port=emdawnwebgpu), configuring -sMODULARIZE -sEXPORT_ES6, JSPI/Asyncify, Embind/EM_JS/EM_ASM, pthreads with COOP/COEP, or -msimd128.
+
 
 # Emscripten (7.0.1-git) & C/C++ WebAssembly Engineering
 

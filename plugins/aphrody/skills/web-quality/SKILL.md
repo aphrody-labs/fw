@@ -1,7 +1,9 @@
 ---
 name: web-quality
-description: Measure and fix web performance and quality with Lighthouse, Core Web Vitals (web-vitals) and modern web best practices, and check feature support/Baseline with MDN browser-compat-data. Use when the user says "lighthouse", "audit the page", "Core Web Vitals", "LCP / INP / CLS / TTFB / TBT", "page is slow", "perf score", "web-vitals", "attribution", "Baseline", "can I use", "browser support", "best practices", "accessibility/SEO audit", or runs headless benches (chrome-headless-shell) on fr1, normative src specs for WCAG 2.2 AA accessibility, technical SEO and CWV (web-a11y-seo-cwv), and the wck / Modern Web Guidance gate. Use also BEFORE creating or reviewing any web page, dashboard or HTML/CSS/JS component, or to set a focus, contrast, meta/canonical/robots/sitemap/hreflang rule or performance budget.
+description: "Measure and fix web performance and quality with Lighthouse. Use when the user says \"lighthouse\", \"audit the page\", \"Core Web Vitals\", \"LCP / INP / CLS / TTFB / TBT\""
 ---
+> Core Web Vitals (web-vitals) and modern web best practices, and check feature support/Baseline with MDN browser-compat-data. , "page is slow", "perf score", "web-vitals", "attribution", "Baseline", "can I use", "browser support", "best practices", "accessibility/SEO audit", or runs headless benches (chrome-headless-shell) on fr1, normative src specs for WCAG 2.2 AA accessibility, technical SEO and CWV (web-a11y-seo-cwv), and the wck / Modern Web Guidance gate. Use also BEFORE creating or reviewing any web page, dashboard or HTML/CSS/JS component, or to set a focus, contrast, meta/canonical/robots/sitemap/hreflang rule or performance budget.
+
 
 # web-quality
 

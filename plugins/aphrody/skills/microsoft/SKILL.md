@@ -1,7 +1,9 @@
 ---
 name: microsoft
-description: "Method and references for any Microsoft topic (Windows, DirectX/D3D12, .NET 10/11, C#, MSVC/STL, Microsoft's Rust, WinUI/WinAppSDK, Edge/WebGPU, Azure, GitHub org microsoft). Use BEFORE asserting a Microsoft version, API, feature, date or recommendation: the model's knowledge is assumed stale (it is November 2026)."
+description: "Method and references for any Microsoft topic (Windows, DirectX/D3D12,.NET 10/11, C#. Use BEFORE asserting a Microsoft version, API, feature, date or recommendation: the model's knowledge is"
 ---
+> MSVC/STL, Microsoft's Rust, WinUI/WinAppSDK, Edge/WebGPU, Azure, GitHub org microsoft). assumed stale (it is November 2026).
+
 
 # Microsoft: truth protocol
 

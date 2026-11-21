@@ -1,7 +1,9 @@
 ---
 name: kitty-protocols
-description: Kitty terminal protocols (aphrody-labs/kitty synced with kovidgoyal/kitty): Graphics Protocol (APC), Keyboard Protocol (CSI u), Shell Integration (OSC 133), Remote Control, OSC 8 hyperlinks, OSC 52 clipboard, OSC 99 notifications, and DEC 2026 synchronized output.
+description: "Kitty terminal protocols (aphrody-labs/kitty synced with kovidgoyal/kitty): Graphics Protocol (APC), Keyboard Protocol (CSI u), Shell Integration (OSC 133), Remote Control, OSC 8 hyperlinks"
 ---
+> , OSC 52 clipboard, OSC 99 notifications, and DEC 2026 synchronized output.
+
 
 # Kitty Terminal Protocols (`aphrody-labs/kitty`) Skill
 

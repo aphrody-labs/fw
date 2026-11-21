@@ -1,0 +1,41 @@
+name: Unify aphrody plugin
+
+# Cron regeneration of plugins/aphrody from plugins/aphrody/sources.toml (every upstream skill, agent, MCP and LSP config,
+# rewritten to the Aphrody toolchain, deduped, merged into families, descriptions compacted). Commits straight to main.
+on:
+  schedule:
+    - cron: "41 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fw-unify-plugin
+  cancel-in-progress: false
+
+jobs:
+  unify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Generator tests
+        run: bun test plugins/aphrody/scripts
+      - name: Regenerate from upstream heads
+        env:
+          UNIFY_CACHE: ${{ runner.temp }}/aphrody-unify
+        run: bun plugins/aphrody/scripts/unify.ts --update
+      - name: Commit changes to main
+        run: |
+          paths="plugins/aphrody .claude-plugin/marketplace.json"
+          if [ -z "$(git status --porcelain -- $paths)" ]; then
+            echo "plugin unchanged"
+            exit 0
+          fi
+          git config user.name "fw-unify"
+          git config user.email "fw-unify@users.noreply.github.com"
+          git add -- $paths
+          git commit -m "chore: regenerate aphrody plugin from its sources"
+          git pull --rebase origin main
+          git push origin HEAD:main

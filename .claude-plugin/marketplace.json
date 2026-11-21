@@ -14,12 +14,23 @@
       "name": "aphrody",
       "source": "./plugins/aphrody",
       "description": "Unified Aphrody plugin: fw MCP, Bun-native hooks, agents, and one deduplicated skill set absorbed from every upstream (plugins/aphrody/sources.toml).",
-      "version": "1.0.0",
+      "version": "1.1.0-f71f4858",
       "author": {
         "name": "aphrody-labs",
         "url": "https://github.com/aphrody-labs"
       },
       "homepage": "https://github.com/aphrody-labs/fw"
+    },
+    {
+      "name": "modern-web",
+      "source": "./plugins/modern-web",
+      "description": "Source-generated, auto-synced references with citations: Bun upstream and fork, Modern Web Guidance (bunx), WebGPU/WGSL and wgpu, WebAssembly/WASI/wasm-bindgen, W3C/WHATWG specs.",
+      "version": "1.0.0",
+      "author": {
+        "name": "aphrody-labs",
+        "url": "https://github.com/aphrody-labs"
+      },
+      "homepage": "https://github.com/aphrody-labs/fw/tree/main/plugins/modern-web"
     }
   ]
 }

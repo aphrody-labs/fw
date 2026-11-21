@@ -1,7 +1,9 @@
 ---
 name: nsh
-description: "Build, run, test and package Native Shell (NSH) apps in Rust, TSX or both. Use for NSH development requests and projects with nsh.json, nsh-* crate dependencies or imports from nsh modules. Covers NSH reactivity, components, styling and tooling, with Coding Guides and working app recipes. Includes the normative NSH design guides."
+description: "Build, run, test and package Native Shell (NSH) apps in Rust, TSX or both. Use for NSH development requests and projects with nsh.json, nsh-* crate dependencies or imports from nsh modules. Covers"
 ---
+> NSH reactivity, components, styling and tooling, with Coding Guides and working app recipes. Includes the normative NSH design guides.
+
 # NSH: Native Shell apps
 
 `references/core.md` is the former body of this skill: read it first. Design guides live in `references/nsh-design-guides.md`.

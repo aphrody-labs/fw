@@ -1,7 +1,9 @@
 ---
 name: chromium
-description: Screenshot a URL or evaluate JavaScript in a real Chromium page from Rust, the `ay-chromium` CLI or Bun (`@aphrody/chromium`), through CEF off-screen rendering. Use when a task needs a rendered page as a PNG, a value computed inside a live page (document.title, DOM state, a promise), a browser proof of a web UI, or when building on the CEF embedding of the browser product (ADR-3).
+description: "Screenshot a URL or evaluate JavaScript in a real Chromium page from Rust. Use when a task needs a rendered page as a PNG, a value computed inside a live page (document.title"
 ---
+> the ay-chromium CLI or Bun (@aphrody/chromium), through CEF off-screen rendering. , DOM state, a promise), a browser proof of a web UI, or when building on the CEF embedding of the browser product (ADR-3).
+
 
 # Chromium (CEF) from Rust and Bun
 

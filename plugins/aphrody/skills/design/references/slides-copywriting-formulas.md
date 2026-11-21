@@ -74,10 +74,10 @@
 
 ```bash
 # Find formula for slide type
-python skills/design-system/scripts/search-slides.py "problem agitation" -d copy
+uv run skills/design-system/scripts/search-slides.py "problem agitation" -d copy
 
 # Get emotion-appropriate formula
-python skills/design-system/scripts/search-slides.py "urgency cta" -d copy
+uv run skills/design-system/scripts/search-slides.py "urgency cta" -d copy
 ```
 
 ## Quick Reference

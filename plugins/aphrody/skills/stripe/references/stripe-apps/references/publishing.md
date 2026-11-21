@@ -112,7 +112,7 @@ Your app has been uploaded to version 0.0.1.
 | Error                                     | Cause                                                               | Fix                                                                     |
 | ----------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | `Invalid manifest` / validation failed    | Missing required fields or malformed YAML                           | Check indentation; ensure `id:`, `version:`, `name:` are present        |
-| `Build failed` / TypeScript errors        | UI component has type/import errors                                 | Run `pnpm build` locally first to see the exact error                   |
+| `Build failed` / TypeScript errors        | UI component has type/import errors                                 | Run `bun run build` locally first to see the exact error                   |
 | `Version already exists`                  | Already uploaded this version number                                | Bump `version` in stripe-app.yaml (for example, 0.0.1 → 0.0.2)          |
 | `Permission denied` / `Not authenticated` | CLI not logged in or wrong account                                  | Run `stripe login` and verify with `stripe config --list`               |
 | `connect-src` / CSP error                 | App calls a URL not declared in content_security_policy             | Add the URL to `content_security_policy.connect-src` in stripe-app.yaml |
@@ -122,7 +122,7 @@ Your app has been uploaded to version 0.0.1.
 **Debugging steps when upload fails:**
 
 1. Read the full error message — it usually says exactly what’s wrong
-2. Run `pnpm build` to check for TypeScript/build errors locally
+2. Run `bun run build` to check for TypeScript/build errors locally
 3. Validate your stripe-app.yaml has all required fields (id, version, name, declarations)
 4. Check that file paths match (ui/src/views/App.tsx, not a renamed file)
 5. If still stuck: `stripe apps upload --verbose` for detailed output

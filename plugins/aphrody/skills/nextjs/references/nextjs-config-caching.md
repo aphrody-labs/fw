@@ -29,7 +29,7 @@ Execution order on every request:
 
 - Put multi-tenant / subdomain host rewrites (`has: [{ type: 'host', value: '(?<sub>[^.]+)\\.example\\.com' }]`) in `rewrites.beforeFiles` so root or static paths resolve to tenant routes before filesystem matching.
 - Turbopack is default (`next dev`, `next build`). Use top-level `turbopack: { resolveAlias, rules, root, debugIds }`, not deprecated `experimental.turbopack`.
-- `next lint` and `eslint` config key are removed; configure ESLint Flat Config (`eslint-config-next@16+`) or Biome directly. `serverRuntimeConfig` and `publicRuntimeConfig` are removed; read `process.env` dynamically after `await connection()` or `await io()`.
+- `next lint` and `bun lint` config key are removed; configure ESLint Flat Config (`eslint-config-next@16+`) or Biome directly. `serverRuntimeConfig` and `publicRuntimeConfig` are removed; read `process.env` dynamically after `await connection()` or `await io()`.
 
 ## `next/image` 16.x Breaking Defaults
 

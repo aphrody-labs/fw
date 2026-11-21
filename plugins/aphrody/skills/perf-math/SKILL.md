@@ -1,7 +1,9 @@
 ---
 name: "perf-math"
-description: "Performance laws and measurement discipline for Bun and Rust work: Little's law, Amdahl, Gustafson, Universal Scalability Law, queueing (M/M/1/K, M/M/c, M/G/1), work-span, plus how to measure with hyperfine, criterion and Bun mitata scripts. Use before claiming a speedup, sizing a worker pool, setting a queue bound, or interpreting a load test."
+description: "Performance laws and measurement discipline for Bun and Rust work: Little's law, Amdahl. Use before claiming a speedup, sizing a worker pool, setting a queue bound, or interpreting a load test."
 ---
+> Gustafson, Universal Scalability Law, queueing (M/M/1/K, M/M/c, M/G/1), work-span, plus how to measure with hyperfine, criterion and Bun mitata scripts.
+
 
 # perf-math
 

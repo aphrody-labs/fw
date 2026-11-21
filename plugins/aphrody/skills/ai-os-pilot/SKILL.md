@@ -1,7 +1,9 @@
 ---
 name: ai-os-pilot
-description: Control the entire Aphrody GPUI OS (COSMIC compositor, workspaces, ArtCraft studio, AccessKit UI trees) and external native applications (Windows UIA, Linux AT-SPI2/X11, macOS AXUIElement) through one unified MCP/CLI control plane (`aphrody-os pilot` / `aphrody_craft` MCP).
+description: "Control the entire Aphrody GPUI OS (COSMIC compositor, workspaces, ArtCraft studio, AccessKit UI trees) and external native applications (Windows UIA, Linux AT-SPI2/X11"
 ---
+> , macOS AXUIElement) through one unified MCP/CLI control plane (aphrody-os pilot / aphrody_craft MCP).
+
 
 # AI OS Pilot (`aphrody_pilot` + `aphrody_craft` MCP + `aphrody-os`)
 

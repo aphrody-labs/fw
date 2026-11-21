@@ -154,7 +154,7 @@ At the end of implementation, guide users thoroughly on remaining next steps (e.
 
 ## Installation
 
-**Core:** `npm install better-auth`
+**Core:** `bun add better-auth`
 
 **Scoped packages (as needed):**
 | Package | Use case |
@@ -238,10 +238,10 @@ Add OAuth secrets as needed: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `GOOGLE
 
 | Adapter | Command |
 |---------|---------|
-| Built-in Kysely | `npx auth@latest migrate` (applies directly) |
-| Prisma | `npx auth@latest generate --output prisma/schema.prisma` then `npx prisma migrate dev` |
-| Drizzle (dev) | `npx auth@latest generate --output src/db/auth-schema.ts` then `npx drizzle-kit push` |
-| Drizzle (prod) | `npx auth@latest generate --output src/db/auth-schema.ts` then `npx drizzle-kit generate` then `npx drizzle-kit migrate` |
+| Built-in Kysely | `bunx auth@latest migrate` (applies directly) |
+| Prisma | `bunx auth@latest generate --output prisma/schema.prisma` then `bunx prisma migrate dev` |
+| Drizzle (dev) | `bunx auth@latest generate --output src/db/auth-schema.ts` then `bunx drizzle-kit push` |
+| Drizzle (prod) | `bunx auth@latest generate --output src/db/auth-schema.ts` then `bunx drizzle-kit generate` then `bunx drizzle-kit migrate` |
 
 > **Note:** `drizzle-kit push` skips migration files and is only safe for development. Use `drizzle-kit generate` + `drizzle-kit migrate` in production.
 

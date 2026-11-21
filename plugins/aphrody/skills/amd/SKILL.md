@@ -1,11 +1,9 @@
 ---
 name: amd
-description: >-
-  Architect, build, analyze, compile, and optimize AMD Radeon GPU & EPYC/Ryzen SIMD infrastructure in aphrody.
-  Use whenever targeting AMD hardware (vendor IDs 0x1002 / 0x1022), RDNA 3 / RDNA 4 / CDNA architectures,
-  AMD GPU Services (AGS SDK v6.3.0, amd_ags_x64.dll), Radeon GPU Analyzer (rga CLI),
-  wavefront execution (Wave32 vs Wave64), cross-lane wave intrinsics, or vendor/wgpu AMD quirks.
+description: "Architect, build, analyze, compile, and optimize AMD Radeon GPU & EPYC/Ryzen SIMD infrastructure. Use whenever targeting AMD hardware (vendor IDs 0x1002 / 0x1022), RDNA 3 / RDNA 4 / CDNA architectures"
 ---
+> in aphrody. , AMD GPU Services (AGS SDK v6.3.0, amd_ags_x64.dll), Radeon GPU Analyzer (rga CLI), wavefront execution (Wave32 vs Wave64), cross-lane wave intrinsics, or vendor/wgpu AMD quirks.
+
 
 # AMD GPU & SIMD Architecture (`aphrody`)
 

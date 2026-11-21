@@ -7,6 +7,10 @@
         "--no-env-file",
         "${CLAUDE_PLUGIN_ROOT}/mcp/fw-mcp.ts"
       ]
+    },
+    "huggingface-skills": {
+      "type": "http",
+      "url": "https://huggingface.co/mcp?login"
     }
   }
 }

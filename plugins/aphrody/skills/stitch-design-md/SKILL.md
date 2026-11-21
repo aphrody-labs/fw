@@ -1,6 +1,6 @@
 ---
 name: stitch-design-md
-description: Native Google Stitch (stitch.withgoogle.com), stitch-sdk, stitch-skills, and google-labs-code/design.md workflow inside Aphrody (`aphrody_design` + `aphrody_nsh` + `gpui-wgpu design`).
+description: "Native Google Stitch (stitch.withgoogle.com), stitch-sdk, stitch-skills, and google-labs-code/design.md workflow inside Aphrody (aphrody_design + aphrody_nsh + gpui-wgpu design)."
 ---
 
 # Stitch & DESIGN.md Integration

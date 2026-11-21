@@ -1,7 +1,9 @@
 ---
 name: tui-test
-description: "Control, inspect, test, and record real terminal apps with the tui-test CLI or its Rust, Python, and JavaScript APIs. Use for shells, TUI apps, text and style locators, keyboard or mouse input, terminal state, clipboard waits, screenshots, recordings, snapshots, and live terminal sessions."
+description: "Control, inspect, test, and record real terminal apps with the tui-test CLI or its Rust. Use for shells, TUI apps, text and style locators, keyboard or mouse input, terminal state, clipboard waits"
 ---
+> Python, and JavaScript APIs. , screenshots, recordings, snapshots, and live terminal sessions.
+
 
 # tui-test
 

@@ -116,7 +116,7 @@ Stripe.js uses an evergreen model with major releases (Acacia, Basil, Clover, Da
 **Via npm:**
 
 ```bash
-npm install @stripe/stripe-js
+bun add @stripe/stripe-js
 ```
 
 Major npm versions correspond to specific Stripe.js versions.
@@ -166,7 +166,7 @@ All mobile SDKs work with any Stripe API version you use on your backend unless 
 
 1. Review the [API changelog](https://docs.stripe.com/changelog.md) for changes between your current and target versions
 2. Check the [API upgrades guide](https://docs.stripe.com/upgrades.md) for migration guidance
-3. Update server-side SDK package version (for example, `npm update stripe`, `pip install --upgrade stripe`)
+3. Update server-side SDK package version (for example, `bun update stripe`, `uv pip install --upgrade stripe`)
 4. Update the `apiVersion` parameter in your Stripe client initialization
 5. Test your integration against the new API version using the `Stripe-Version` header
 6. For each destination that receives snapshot events, review its configured API version. For webhook endpoints, follow [webhook versioning](https://docs.stripe.com/webhooks/versioning.md). For every v2 snapshot event destination — including webhook endpoints, Amazon EventBridge, and Azure Event Grid destinations — inspect [snapshot_api_version](https://docs.stripe.com/api/v2/core/event-destinations/object.md#v2_event_destination_object-snapshot_api_version) and, if it differs from the target, create and test a replacement destination because you can’t change it after creation. For a replacement webhook endpoint, save its new signing secret and configure the handler to accept both secrets during testing and cutover. After cutover, disable or delete the old destination to avoid duplicate delivery. Leave thin event destinations unchanged

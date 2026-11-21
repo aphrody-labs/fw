@@ -1,13 +1,9 @@
 ---
 name: wgpu
-description: >-
-  Build, debug, validate, transpile, and benchmark WGPU v30.0.0 and Naga v30.0.0
-  GPU rendering and compute code in aphrody. Use whenever writing or modifying
-  WGSL shaders, Naga IR validation/cross-compilation (HLSL/MSL/SPIR-V/GLSL),
-  crates/gpui_wgpu rendering pipelines or texture atlases, NSH shader views/effects/transitions
-  (nsh-core/nsh-engine), vendor/wgpu internals (wgpu, wgpu-core, wgpu-hal, wgpu-types),
-  or running GPU adapter diagnostics, headless renders, and compute tests with gpui-wgpu.
+description: "Build, debug, validate, transpile, and benchmark WGPU v30.0.0 and Naga v30.0.0 GPU. Use whenever writing or modifying WGSL shaders, Naga IR validation/cross-compilation (HLSL/MSL/SPIR-V/GLSL)"
 ---
+> rendering and compute code in aphrody. , crates/gpui_wgpu rendering pipelines or texture atlases, NSH shader views/effects/transitions (nsh-core/nsh-engine), vendor/wgpu internals (wgpu, wgpu-core, wgpu-hal, wgpu-types), or running GPU adapter diagnostics, headless renders, and compute tests with gpui-wgpu.
+
 
 # WGPU & Naga (`aphrody` v30.0.0)
 

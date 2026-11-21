@@ -1,10 +1,9 @@
 ---
 name: rust-upstream
-description: >-
-  Live Rust, Cargo, libc, rustup, rust-analyzer, Clippy, Miri, Cranelift, Tree-sitter, Zed AST,
-  Wild, Mold, and sccache knowledge brain via Agent Cards, TSV matrix, and 64-dim vector index.
-  Refresh anytime via `just rust-brain` (`bun tools/rust_brain.ts`).
+description: "Live Rust, Cargo, libc, rustup, rust-analyzer, Clippy, Miri, Cranelift, Tree-sitter, Zed AST, Wild, Mold, and sccache knowledge brain via Agent Cards, TSV matrix"
 ---
+> , and 64-dim vector index. Refresh anytime via just rust-brain (bun tools/rust_brain.ts).
+
 
 # Rust Upstream & Toolchain Brain (`fw`)
 

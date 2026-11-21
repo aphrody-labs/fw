@@ -1,9 +1,9 @@
 ---
 name: upstreams
-description: >-
-  Git-pinned catalog of the 48 upstreams fw tracks (llama-cpp, cloudflare-os, cloudflare-computer, pingora, kitesurf, lol-html, rmcp, zeroclaw, zed, nix-cachyos-kernel, scx, cloud-hypervisor, uutils-coreutils, cli-anything, ecc, claude-mem, mesh-llm, openduet, rtk, graphify, agent-skills, ggml, vllm, vllm-router, llm-d, llm-d-router, gateway-api-inference-extension, dynamo, smg, mistral-rs, candle, cubecl, llama-cpp-rs, material-color-utilities, material-theme-builder, material-web, material-design-icons, googlesans-flex, googlesans-code, stitch-skills, gemini-cli, gemini-skills, gemini-cookbook, adk-python, antigravity-cli, antigravity-sdk-python, google-apis-rs, yup-oauth2).
-  Live HEAD SHAs refresh every 6 hours (sync-upstreams workflow) or with `just sync-upstreams`.
+description: "Git-pinned catalog of the 48 upstreams fw tracks (llama-cpp, cloudflare-os, cloudflare-computer, pingora, kitesurf, lol-html, rmcp, zeroclaw, zed, nix-cachyos-kernel, scx, cloud-hypervisor"
 ---
+> , uutils-coreutils, cli-anything, ecc, claude-mem, mesh-llm, openduet, rtk, graphify, agent-skills, ggml, vllm, vllm-router, llm-d, llm-d-router, gateway-api-inference-extension, dynamo, smg, mistral-rs, candle, cubecl, llama-cpp-rs, material-color-utilities, material-theme-builder, material-web, material-design-icons, googlesans-flex, googlesans-code, stitch-skills, gemini-cli, gemini-skills, gemini-cookbook, adk-python, antigravity-cli, antigravity-sdk-python, google-apis-rs, yup-oauth2). Live HEAD SHAs refresh every 6 hours (sync-upstreams workflow) or with just sync-upstreams.
+
 
 # fw upstream catalog
 

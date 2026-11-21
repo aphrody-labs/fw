@@ -1,0 +1,102 @@
+{
+  "sources": {
+    "3dviz-pro-max": {
+      "git": "viettranx/3dviz-pro-max",
+      "ref": "main",
+      "commit": "d077e0e68915c25be8e71d74684d3144fd1c2aca",
+      "license": "MIT"
+    },
+    "agent-desktop": {
+      "git": "vercel-labs/agent-desktop",
+      "ref": "main",
+      "commit": "e8934a5e95e1d212c74ead95cd3e4701c04eca31",
+      "license": "Apache-2.0"
+    },
+    "android-skills": {
+      "git": "android/skills",
+      "ref": "main",
+      "commit": "c72942584fff970dac86ced78b367fce0c441e52",
+      "license": "Apache-2.0"
+    },
+    "claude-md-management": {
+      "git": "anthropics/claude-plugins-official",
+      "ref": "main",
+      "commit": "73c8cf3ea7e296057b467990f2f5d61b4c922260",
+      "license": "Apache-2.0"
+    },
+    "code-modernization": {
+      "git": "anthropics/claude-plugins-official",
+      "ref": "main",
+      "commit": "73c8cf3ea7e296057b467990f2f5d61b4c922260",
+      "license": "Apache-2.0"
+    },
+    "deep-refactor": {
+      "git": "cedricfarinazzo/agile-skills",
+      "ref": "master",
+      "commit": "5f163e1c0720bcc8f5c9caf4e675c301585b3b29",
+      "license": "MIT"
+    },
+    "gemini-skills": {
+      "git": "google-gemini/gemini-skills",
+      "ref": "main",
+      "commit": "c4d0c62c1240e08a90546186bf320600ab6a039a",
+      "license": "Apache-2.0"
+    },
+    "huggingface-skills": {
+      "git": "huggingface/skills",
+      "ref": "main",
+      "commit": "5291c2b9365e06b175dc04817610c778623f4836",
+      "license": "Apache-2.0"
+    },
+    "kotlin-lsp": {
+      "git": "anthropics/claude-plugins-official",
+      "ref": "main",
+      "commit": "73c8cf3ea7e296057b467990f2f5d61b4c922260",
+      "license": "Apache-2.0"
+    },
+    "modern-web": {
+      "git": "local:plugins/modern-web",
+      "ref": "",
+      "commit": "c02526f5d253",
+      "license": "Apache-2.0"
+    },
+    "stitch-skills": {
+      "git": "google-labs-code/stitch-skills",
+      "ref": "main",
+      "commit": "62fdcd679747aca0792e5dd6591b10ddfad56825",
+      "license": "Apache-2.0"
+    }
+  },
+  "managed": {
+    "skills": {
+      "3dviz-pro-max": "bc7998bdf03d4868037a355a427d81be0a41fa90ac802c5ed663c8ce0144784f",
+      "agent-desktop": "105ecf76b51de706675b4d9eb2de90555ed339e4eed2000b65e217a31f88db0b",
+      "android": "fef51bbf781b9ef5f74962c37188ac1ac771292fc66d95a77f46fbae0031d7f6",
+      "android-ai": "f732f8c2c89fd682c811410830bbcc692f364b48be1d99e6c4604d80bcb827fa",
+      "android-compose": "4be4edde2ed9a85130b02e73f0cb772f5714a9cb7f84b0f8dadf2a09bbeea040",
+      "claude-md": "7f5851622f7771b7f90d6dad5bf9589cf7a04134fa9fe1b5a6e03c8ccc8b682d",
+      "gemini-api": "4ccda12ed0eed74b367e3e2696dd45c9bc0dec652989e6cb351352ef063b8bb0",
+      "huggingface": "e315492ef96cecad9e6176977c8b72ea3c716f5cd10dd00e2b16725ad17d9139",
+      "huggingface-sagemaker": "e8a790ead70491a73184946691f918f69b8e2b42976bdabab39d7deb1432a729",
+      "modernize": "863dfd3942e7f136d215380a8ed5e732608acc031ab095c3b21bd6d5ff062cd6",
+      "refactor": "623bbce2f1157dbff75bf640294a79bd63114dc38834a088fd5226807de36983",
+      "stitch": "542212085dfc12d82b74eafaa4f194401498bcf78a7c9b8a32fc59e4e85e9d2c"
+    },
+    "agents": [
+      "architecture-critic.md",
+      "business-rules-extractor.md",
+      "legacy-analyst.md",
+      "scaffolder.md",
+      "security-auditor.md",
+      "test-engineer.md",
+      "uplift-migrator.md",
+      "version-delta-analyst.md"
+    ],
+    "mcp": [
+      "huggingface-skills"
+    ],
+    "lsp": [
+      "kotlin-lsp"
+    ]
+  }
+}

@@ -19,10 +19,10 @@ description: >-
 Two tools in this folder, both standard-library Python, no installs:
 
 ```bash
-python3 references/replica-diff/parity.py replica/features.csv                         # feature parity + missing list
-python3 references/replica-diff/imgdiff.py replica/screens/S07.png replica/clone-screens/S07.png --out diff-S07.png
-python3 references/replica-diff/imgdiff.py a.png b.png --json > replica/diffs/S07.json # for references/replica-diff/parity.py --visual
-python3 references/replica-diff/parity.py replica/features.csv --visual replica/diffs/*.json --markdown > replica/parity.md
+uv run references/replica-diff/parity.py replica/features.csv                         # feature parity + missing list
+uv run references/replica-diff/imgdiff.py replica/screens/S07.png replica/clone-screens/S07.png --out diff-S07.png
+uv run references/replica-diff/imgdiff.py a.png b.png --json > replica/diffs/S07.json # for references/replica-diff/parity.py --visual
+uv run references/replica-diff/parity.py replica/features.csv --visual replica/diffs/*.json --markdown > replica/parity.md
 ```
 
 ## What parity means here
@@ -41,7 +41,7 @@ Make sure `replica/features.csv` is current: every row's `clone` column is
 `yes`, `partial` (with a note), `no`, or `skip` (with a reason). Then:
 
 ```bash
-python3 references/replica-diff/parity.py replica/features.csv
+uv run references/replica-diff/parity.py replica/features.csv
 ```
 
 It weights must 3, should 2, could 1, counts partial as half, leaves out
@@ -58,7 +58,7 @@ user's own account, saved in `replica/screens/`. The clone's go in
 `replica/clone-screens/`.
 
 ```bash
-python3 references/replica-diff/imgdiff.py replica/screens/S07.png replica/clone-screens/S07.png --out replica/diffs/S07.png
+uv run references/replica-diff/imgdiff.py replica/screens/S07.png replica/clone-screens/S07.png --out replica/diffs/S07.png
 ```
 
 Layout mode (default) turns both into edge maps, cuts them into a grid, and
