@@ -1,60 +1,29 @@
-# Modern toolchain at every step (2026-11-21)
+# Modern toolchain at every step, measured 2026-11-21
 
-Lot of `docs/agents/queue/modern-toolchain-every-step.md`. One row per step: current, candidates, numbers, decision. Every number below was produced by a command run on 2026-11-21 on the nodes (prd: AMD EPYC 9354P, 8 cores, build slice; fr1: 12 cores) or on the PC. Raw benchmark scripts are not kept in the repository; the commands are named in each row.
+Lot: `docs/agents/queue/modern-toolchain-every-step.md`. Gates: `bun tools/modern-toolchain/check.ts ignore | legacy | userland`
+(decisions in `tools/modern-toolchain/steps.toml`). Numbers below come from commands run on 2026-11-21: node n2 (8 cores, Arch,
+git 2.56.1, zstd 1.5.7, brotli 1.2.1, xz 5.8.4, gzip 1.15, rustc 1.100.0, AMD EPYC 9354P) for git, compression, parsing and
+CLI loops; the Windows PC for SSH. Best or median of 5 to 7 runs unless a single run is stated.
 
-| Step | Current | Candidates measured | Numbers | Decision |
-|---|---|---|---|---|
-| 1 SSH | Windows OpenSSH 10.0p2; the PC config probed the mesh with `Match ... exec "ping -n 1 -w 1000 <mesh address>"` before every connection | ControlMaster (absent on Windows OpenSSH), probe by route table | `ssh fr1 true` 1366, 1536, 1421 ms with the ping probe (mesh down), 686, 578, 588 ms with a `route print ... findstr` probe; kex negotiated is `mlkem768x25519-sha256`, auth is ed25519, agent forwarding off | Probe by route table (PC-local `~/.ssh/config`, not tracked). Key types and kex are already modern. A persistent multiplexed client stays open (see remaining) |
-| 2 git and VCS | git 2.56.1 (prd), 2.55.0 (fr1), 2.56.0 (PC) | full, blobless, treeless, depth 1 clone; commit-graph; sparse cone; jj 0.46.0 | clone of aphrody-labs/fw (82,820 commits, 16,614 files): full 40.8 s / 586 MB, blobless 22.5 s / 172 MB, treeless 22.8 s / 133 MB, depth 1 11.4 s / 78 MB; `git blame README.md`: full 103 ms, blobless 9,210 ms, treeless 160,664 ms; `rev-list --count HEAD` 678 ms without commit-graph, 74 ms with it; sparse cone `crates tools docs` leaves 1,549 of 16,614 files; PC `git status` 98 ms vs `jj st` 170 ms, `jj commit README.md` 262 ms vs `git add` 55 ms + `git commit` 362 ms | CI keeps `actions/checkout` depth 1 (cheapest clone). Persistent checkouts get blobless at most; treeless is rejected (blame 160 s). Commit-graph written with `fetch.writeCommitGraph` and `feature.manyFiles` on fr1 (global config) and a one-time `commit-graph write --reachable --changed-paths` on its 5 full checkouts (`/home/ubuntu/src/bun`: rev-list 1,169 ms without, 87 ms with). jj gives no gain over the git plumbing flow of the agents: not adopted |
-| 3 ignore files | 30 tracked ignore files, no root `.dockerignore` | `git ls-files -ci --exclude-standard` on a fresh clone | 6 tracked paths matched an ignore rule: 3 `ay/crates/auto-sdk/tests/data/*` (`*.p12`, `*.pem`) and 3 `crates/fw-browser-engine/build/engines/*` (`build/`); 1 tracked executable (`aphrody/crates/zed/resources/windows/bin/x64/OpenConsole.exe`, a vendored resource) | Negations added in `ay/.gitignore` and `.gitignore`; root `.dockerignore` added (no `.git`, `target`, `node_modules`, caches, keys). Verified in a throwaway repo that the six paths are no longer ignored and `target/` and other `*.pem` still are |
-| 4 compression | `tar -czf` release archives, `zstd -d --long=30` for the LLVM archive | gzip -9, xz -9, zstd 3/19/22, brotli 5/9/11 on the real `fw` ELF (5,677,752 B), a 6,113,607 B wasm and a 21,647,360 B source tar | see the table below | Linux archives: tar + zstd -19 (decode 30 to 76 ms, ratio 2.86 ELF, 6.73 sources); web assets: brotli 11 at build time, zstd at the edge. Live check: `aphrody.com` and `dragonballfr.com` answer `Content-Encoding: zstd` and `alt-svc: h3`. Release asset rename is not done (see remaining) |
-| 5 parsing | `serde_json` 1.0.154, `toml` 1.2.2 (plus 0.9.12, 0.8.23, 0.5.11), `toml_edit` 0.25.20 (plus 3 older), `pulldown-cmark` 0.13.6, `zip` 9.8.1 and 8.6.0, `zstd` 0.14.4 and 0.13.5 | sonic-rs 0.5.12, simd-json 0.19.0, toml, toml_edit, comrak 1.1.0 (same host, 11,543-line 7.4 MB jsonl, 880 KB Cargo.lock, 835 KB markdown, median of 7) | see the table below | JSON: `sonic-rs` for read-heavy bulk loads (1.9x serde_json on `Value`); `serde_json` stays where `serde_json::Value` is the API. `simd-json` is slower than `serde_json` here: not adopted. TOML and Markdown: current crates are the fastest of the set. Duplicates found are a manifest job of `crates-map` (aphrody crates on toml 0.9.12 and zstd 0.13.5) |
-| 6 build tooling | mold and wild linkers and sccache on the nodes (wild absent on prd, nextest absent on prd), `cargo test` in CI | `cargo nextest` | not measured: the cold build of nextest plus three fw crates on prd ran 25 min at node load 23 to 47 and was stopped to free the node | unchanged; `cargo test` stays until nextest is measured on a warm target (see remaining) |
-| 7 CI/CD | `ci.yml` held a Windows job of 1,674 to 2,531 s in the group of all jobs | split workflow, path filters | `gh api` over 7 days: workflow CI 51 runs, 44 cancelled before a job started, 0 success; with `cancel-in-progress: false` on main a pending run is replaced by each newer push. 80 of 1,167 main commits since 2026-11-14 touched only `docs/research` or `docs/agents` | `ci-windows.yml` with its own group and `cancel-in-progress: true`; `ci.yml` Linux jobs unchanged; `paths-ignore` for `docs/research/**` and `docs/agents/**` on both. Linux (cluster) jobs measured in run 44880209087: Rust (linux) 363 s, Kotlin 139 s, Wasm/musl/OCI 94 s, crates.io packaging 59 s, hygiene 35 s |
-| 8 containers | root `Dockerfile`: `rust:1.100-alpine` builder, `alpine:3.22` runtime, musl static binary | podman and buildah (present on fr1, absent on prd) | root `.dockerignore` was missing: the build context included `target/` and `node_modules/` | `.dockerignore` added. Distroless/Wolfi, SBOM and provenance not measured (see remaining) |
-| 9 browser product | zstd + h3 at the edge (live headers above) | Lighthouse, AVIF, font subsetting | not measured this run | belongs to the web-quality and material-cdn lots (see remaining) |
-| 10 agent CLIs | manifest `packages/ai-os/data/tools.toml` (already declares rg, fd, jaq, sd, xh, jj, sccache, nextest, deny, machete, shear, typos, ruff, ty and others) | install state per host against that manifest | missing on fr1: bat, ollama, servoshell, chrome-devtools-mcp, playwright-mcp, apify; missing on prd: 25 entries including cargo-nextest, cargo-deny, cargo-machete, cargo-shear, ruff, ty, typos, oha; missing on the PC: wrangler, cargo-zigbuild, cargo-binstall, cargo-nextest, gix, cargo-deny, cargo-hack and others | No second manifest: the existing one is the source. A legacy gate was added to `configs/claude/retired.toml` (`ci-setup-node`) |
-
-## Compression of real artifacts (prd, 2026-11-21; zstd 1.5.7, brotli 1.2.1, xz 5.8.4, gzip 1.15)
-
-| File | Codec | Output B | Ratio | Compress ms | Decompress ms |
+| Step | Current | Candidates | Numbers | Decision | State |
 |---|---|---|---|---|---|
-| fw ELF 5,677,752 B | gzip -9 | 2,556,359 | 2.22 | 782 | 46 |
-| | xz -9 | 1,855,388 | 3.06 | 3,770 | 123 |
-| | zstd -3 | 2,379,086 | 2.39 | 128 | 33 |
-| | zstd -19 | 1,983,349 | 2.86 | 2,869 | 30 |
-| | brotli -q 9 | 2,068,776 | 2.74 | 1,051 | 50 |
-| | brotli -q 11 | 1,885,193 | 3.01 | 18,767 | 60 |
-| wasm 6,113,607 B | gzip -9 | 2,644,168 | 2.31 | 634 | 41 |
-| | xz -9 | 1,863,712 | 3.28 | 4,127 | 115 |
-| | zstd -19 | 2,063,593 | 2.96 | 3,759 | 35 |
-| | brotli -q 11 | 1,947,642 | 3.14 | 19,651 | 121 |
-| sources tar 21,647,360 B | gzip -9 | 4,764,078 | 4.54 | 1,599 | 66 |
-| | xz -9 | 3,123,972 | 6.93 | 14,267 | 162 |
-| | zstd -19 | 3,218,837 | 6.73 | 12,154 | 76 |
-| | brotli -q 11 | 3,087,827 | 7.01 | 44,858 | 98 |
+| 1 SSH | Windows OpenSSH 10.0p2 (LibreSSL 4.2.0), n1 and n2 on OpenSSH 10.5p1 and 10.6p2, `mlkem768x25519-sha256` negotiated, ed25519 keys, no agent forwarding | route-table probe instead of `ping -w 1000` in the `Match exec` mesh-first blocks; ControlMaster is absent in Windows OpenSSH | `ssh n1 true` 1590, 1430, 1500 ms and `ssh n2 true` 1160 ms before; `ping -n 1 -w 1000` to the down mesh address alone 990 to 1003 ms; `route print` probe 39 ms; after: n1 658, 633, 904 ms, n2 390 to 403 ms; probe also tested to return true when a route exists (127.0.0.0) and false when not | probe replaced in `~/.ssh/config` (backup `config.bak-modern-toolchain`); `legacy` gate forbids `ping -n 1 -w 1000` in tracked files | done; connection reuse alternatives (persistent tunnel, Rust client) not measured |
+| 2 Git | git 2.56.1 on n2; full clone | blobless, treeless, depth 1, commit-graph, sparse cone (fw: 16,614 files, 82,820 commits) | clone full 40.8 s / 586 MB; blobless 22.5 s / 172 MB; treeless 22.8 s / 133 MB; depth 1 11.4 s / 78 MB. `git blame README.md`: full 103 ms, blobless 9.2 s, treeless 160.7 s. Commit-graph: `rev-list --count HEAD` 678 to 74 ms, `log --since` 195 to 42 ms; task run 846 ms. Sparse cone `crates tools docs`: 1,549 files, 858 ms | CI and one-shot gate checkouts: `--depth=1`; agent working clones: blobless (never treeless: blame is 1,500 times slower); `git maintenance run --task=commit-graph` on every long-lived checkout | measured; wiring into the node checkout scripts open |
+| 3 Ignore files | 30 ignore files; Dockerfile without root `.dockerignore` at the start of the run | generated set derived from the layout map | at 97378dfe: 6 tracked files matched an ignore rule (`ay/crates/auto-sdk/tests/data/*.p12`, `rsa.crt.pem`, `crates/fw-browser-engine/build/engines/*`), 1 vendored `.exe` | negations and a root `.dockerignore` landed (68c560a8fe by another lane); `check.ts ignore` fails on tracked-but-ignored files, tracked build output, and a Dockerfile without `.git`, `target`, `node_modules` excluded; passes on 9137034461 | done; `.npmignore` and cargo `exclude` lists not generated |
+| 4 Compression | `tar -czf` for the Linux release assets (`aphrody-release.yml` lines 115 and 121); brotli on the CDN | zstd, brotli, xz | ELF `fw` 5,677,752 B: gzip -9 2,556,359; xz -9 1,855,388; zstd -19 1,983,349 (decompress 30 ms); brotli q11 1,885,193 (60 ms). wasm 6,113,607 B: gzip 2,644,168; xz 1,863,712; zstd -19 2,063,593; brotli q11 1,947,642. Source tar 21,647,360 B: gzip 4,764,078; xz 3,123,972; zstd -19 3,218,837 (76 ms); zstd -3 4,501,237 in 131 ms; brotli q11 3,087,827 in 44.9 s | Linux archives `tar.zst` at level 19 (xz ratio within 3 to 6 percent, decompress 1.5 to 4 times faster); static web assets brotli q11 (5.6 percent smaller than zstd -19 on wasm), zstd -3 for dynamic responses | measured; the release workflow belongs to the release train, switch returned to the coordinator |
+| 5 Parsing | serde_json 1.0.154, toml 1.2.2, toml_edit 0.25.20, pulldown-cmark 0.13.6 | sonic-rs 0.5.12, simd-json 0.19.0, comrak 1.1.0 (release, thin LTO, 7.4 MB JSONL of 11,543 lines, 880 KB Cargo.lock, 835 KB markdown) | JSON `Value`: serde_json 14.8 ms, sonic-rs 7.8 ms, simd-json 18.6 ms; skip-only: serde_json 5.2 ms, sonic-rs 2.9 ms. TOML: `toml::Table` 19.0 ms, `DocumentMut` 28.6 ms, `ImDocument` 20.9 ms. Markdown html: pulldown-cmark 5.8 ms, comrak 6.8 ms | sonic-rs for hot JSON loads of 1 MB and more; simd-json rejected; keep toml and pulldown-cmark; no blanket swap | measured; applying sonic-rs belongs to the crates lane |
+| 5b Duplicate parsers | Cargo.lock at origin/main | one version each | toml 0.5.11, 0.8.23, 0.9.12 (about 20 aphrody crates), 1.2.2 (fw, ay); toml_edit 4 versions (3 from proc-macro-crate); zstd 0.13.5 (Zed crates, nsh) and 0.14.4 (ay-core); zip 8.6.0 (aphrody-wireguard) and 9.8.1; brotli 7.0.0 (woff2-patched) and 9.1.3; pulldown-cmark 0.10.3 (mdbook) and 0.13.6; flate2 1.1.11 | align the aphrody crates on the workspace toml and zstd | returned to the crates lane |
+| 6 Build tooling | mold and wild linkers, sccache, cargo-nextest on n1 | already decided by the crate lot | not measured this run | none | open |
+| 7 CI/CD | 23 workflow files; `CI` ran 51 times in 7 days | job-level and workflow-level concurrency, path filters | 44 of 51 `CI` runs cancelled before any job started, 0 success, 3 failure; `Rust (windows-latest)` 1,674 to 2,531 s and failing, it held the main concurrency group; Linux jobs 9 to 368 s on GitHub-hosted runners; one run's `Rust (linux)` on an n1 runner 4,856 s versus 363 and 368 s hosted | Windows in its own workflow and group (68c560a8fe by another lane); gates added to the `retired-surfaces` job | partly done; path filters, cluster load policy and one release workflow open |
+| 8 Containers | `Dockerfile`: `rust:1.100-alpine` builder, `alpine:3.22` runtime with `wget` healthcheck; podman and buildah present on n1 only | distroless or static runtime, SBOM, provenance | no image built this run | none | open |
+| 9 Browser product | gpui web and nsh web builds | Lighthouse, AVIF, font subsetting | not measured this run | none | open |
+| 10 Agent CLIs | grep, find, jq, sed | rg 15.2.0, fd 10.5.0, jaq 3.2.0, sd 1.0.0 (fw tree, 16,614 files; `jq` on 7.4 MB JSONL) | `grep -rIl` 426 ms vs `rg -l` 221 ms; `find -name '*.toml'` 117 ms vs `fd -e toml` 107 ms; `jq -c .` 200 ms vs `jaq -c .` 94 ms; `sed s///g` on Cargo.lock 17 ms vs `sd` 25 ms | adopt rg, jaq, fd, zstd, brotli on every node; sd rejected (slower on the common small edit); `userland` gate checks the nodes from `cluster/build.toml` | done on the nodes; the Windows PC lacks `zstd` (`userland --local`) |
 
-## Parsers (prd, median of 7, release build, thin LTO)
+## Additions measured later on 2026-11-21
 
-| Task | Crate | Median ms | MB/s |
-|---|---|---|---|
-| JSON lines to `Value` (7,443,266 B) | serde_json | 14.83 | 501.8 |
-| | sonic-rs | 7.84 | 949.2 |
-| | simd-json borrowed | 18.59 | 400.3 |
-| JSON lines validated only (`IgnoredAny`) | serde_json | 5.16 | 1,443.0 |
-| | sonic-rs | 2.91 | 2,560.9 |
-| Cargo.lock (880,526 B) | toml `Table` | 19.00 | 46.4 |
-| | toml_edit `DocumentMut` | 28.58 | 30.8 |
-| | toml_edit `ImDocument` | 20.92 | 42.1 |
-| Markdown (834,879 B) | pulldown-cmark events | 3.90 | 214.0 |
-| | pulldown-cmark html | 5.83 | 143.3 |
-| | comrak html | 6.75 | 123.6 |
-
-## Remaining
-
-- Release archives: `aphrody-<arch>.tar.gz` is named in `.github/workflows/aphrody-release.yml` and in `aphrody/.cloudflare/aphrody-worker/src/releases.ts`; moving to tar.zst needs both and the installer in one commit, owner: release train.
-- `cargo nextest` against `cargo test` on a warm target, and nextest, `cargo-deny`, `cargo-machete`, `cargo-shear`, `wild` on prd (25 manifest entries missing there): blocked by prd load 23 to 47 during this run.
-- Persistent multiplexed SSH client for the PC (Windows OpenSSH has no ControlMaster): not measured.
-- Containers: distroless or Wolfi runtime, SBOM and provenance, podman/buildah on prd.
-- Browser product: Lighthouse, AVIF, font subsetting (web-quality and material-cdn lots).
-- Duplicate crate versions (toml 0.9.12 vs 1.2.2, zstd 0.13.5 vs 0.14.4, zip 8.6.0 vs 9.8.1, brotli 7.0.0 vs 9.1.3) and `retired.toml` failures that predate this lot (agy-tooling, relay-hub hits in `docs/research/pure-rust-baseline.txt` and `Cargo.lock`): other lots.
+- Git: `fetch.writeCommitGraph` and `feature.manyFiles` set in the global config of n1; `commit-graph write --reachable --changed-paths` run on its 5 full checkouts under `~/src`. On the bun checkout `rev-list --count HEAD` takes 1,169 ms without the graph and 87 ms with it.
+- jj 0.46.0 against git on the PC, fw clone of 4,840 files: `jj st` 170 ms vs `git status` 98 ms; `jj commit README.md` 262 ms vs `git add` 55 ms plus `git commit` 362 ms. No gain over the temporary-index plumbing flow of the agents: not adopted.
+- CDN encodings (live `curl -I` with `Accept-Encoding: zstd, br, gzip`): `aphrody.com` and `dragonballfr.com` answer `Content-Encoding: zstd` and `alt-svc: h3`.
+- Agent CLI manifest coverage (`packages/ai-os/data/tools.toml`, probed per host): missing on n1: bat, ollama, servoshell, chrome-devtools-mcp, playwright-mcp, apify; missing on n2: 25 entries, among them cargo-nextest, cargo-deny, cargo-machete, cargo-shear, ruff, ty, typos, oha; missing on the PC: wrangler, cargo-zigbuild, cargo-binstall, cargo-nextest, gix, cargo-deny, cargo-hack.
+- Step 6: a cold build of cargo-nextest plus three fw crates on n2 ran 25 minutes at node load 23 to 47 (CI and cluster jobs) and was stopped; nextest against `cargo test` stays unmeasured until a warm target exists.
+- `retired.toml` gained `ci-setup-node` (no `uses: actions/setup-node@` in workflows; Bun is the runtime).
