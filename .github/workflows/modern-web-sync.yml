@@ -21,7 +21,6 @@ jobs:
     timeout-minutes: 45
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MODERN_WEB_CACHE: ${{ runner.temp }}/modern-web
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -29,6 +28,8 @@ jobs:
           bun-version: latest
       - name: Sync upstreams and regenerate
         working-directory: plugins/modern-web
+        env:
+          MODERN_WEB_CACHE: ${{ runner.temp }}/modern-web
         run: bun scripts/sync.ts
       - name: Smoke-test the index
         working-directory: plugins/modern-web
