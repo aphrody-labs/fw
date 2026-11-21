@@ -7,6 +7,8 @@ on:
   pull_request:
     branches: [main]
 
+# Linux jobs of pushes run on our own runners (label fr1, cluster/build.toml); pull requests, which may come from forks, stay on
+# GitHub-hosted runners. Windows stays GitHub-hosted.
 concurrency:
   group: fw-ci-${{ github.ref }}
   # Pull requests cancel superseded runs; main lets the running one finish so a busy main still gets a verdict.
@@ -19,8 +21,8 @@ jobs:
       fail-fast: false
       matrix:
         # Targets for now: Windows 11, recent Linux and wasm; macOS is skipped (owner, 2026-11-21).
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+        os: [linux, windows-latest]
+    runs-on: ${{ matrix.os == 'linux' && (github.event_name == 'pull_request' && 'ubuntu-latest' || 'fr1') || matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/rust-toolchain
@@ -37,7 +39,7 @@ jobs:
 
   wasm-musl-container:
     name: Wasm32 + Linux musl + Alpine OCI
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'fr1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/rust-toolchain
@@ -55,7 +57,7 @@ jobs:
 
   crates-io-package:
     name: crates.io Packaging
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'fr1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/rust-toolchain
@@ -66,7 +68,7 @@ jobs:
 
   bun-edge-and-native:
     name: Bun + Cloudflare Edge + Native ABI
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'fr1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -93,7 +95,7 @@ jobs:
 
   kotlin-compose:
     name: Kotlin + Compose Material 3 (theme from ay)
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'fr1' }}
     steps:
       - uses: actions/checkout@v4
       - name: Pinned ay source (public repository, no registry credentials)
@@ -136,7 +138,7 @@ jobs:
 
   python-and-purity:
     name: Python + Repo Map & Purity
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'fr1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
@@ -152,7 +154,7 @@ jobs:
 
   rust-hygiene:
     name: Rust hygiene (deny, machete, shear, rust-stack)
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'fr1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -173,7 +175,7 @@ jobs:
 
   retired-surfaces:
     name: Retired surfaces and Claude config gate
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'fr1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
