@@ -8,7 +8,7 @@ use smithay::{
     input::{
         Seat, SeatHandler, SeatState,
         keyboard::XkbConfig,
-        pointer::{CursorImageStatus, MotionEvent},
+        pointer::{CursorImageStatus, MotionEvent, PointerHandle},
     },
     output::{Mode, Output, PhysicalProperties, Scale, Subpixel},
     reexports::{
@@ -606,7 +606,7 @@ impl FractionalScaleHandler for State {
 }
 
 impl PointerConstraintsHandler for State {
-    fn new_constraint(&mut self, surface: &WlSurface, pointer: &smithay::input::pointer::PointerHandle<Self>) {
+    fn new_constraint(&mut self, surface: &WlSurface, pointer: &PointerHandle<Self>) {
         with_pointer_constraint(surface, pointer, |constraint| {
             if let Some(constraint) = constraint {
                 constraint.activate();
@@ -614,6 +614,8 @@ impl PointerConstraintsHandler for State {
         });
         eprintln!("fw-android-wl: pointer constraint activated on {:?}", surface.id());
     }
+
+    fn cursor_position_hint(&mut self, _surface: &WlSurface, _pointer: &PointerHandle<Self>, _location: Point<f64, Logical>) {}
 }
 
 impl IdleInhibitHandler for State {
