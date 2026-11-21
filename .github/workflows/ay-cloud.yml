@@ -17,7 +17,7 @@ on:
       - "ay/MODULE.bazel"
       - "ay/.bazelrc"
       - "ay/.bazelversion"
-      - "ay/.github/workflows/cloud.yml"
+      - ".github/workflows/ay-cloud.yml"
   pull_request:
     paths:
       - "ay/packages/cf-control-plane/**"
@@ -31,7 +31,7 @@ on:
       - "ay/MODULE.bazel"
       - "ay/.bazelrc"
       - "ay/.bazelversion"
-      - "ay/.github/workflows/cloud.yml"
+      - ".github/workflows/ay-cloud.yml"
   workflow_dispatch:
 
 permissions:

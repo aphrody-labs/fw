@@ -12,7 +12,7 @@ on:
       - "ay/crates/auto-*/**"
       - "ay/tools/auto-*"
       - "ay/locales/**"
-      - "ay/.github/workflows/auto.yml"
+      - ".github/workflows/ay-auto.yml"
   pull_request:
     paths:
       - "ay/apps/auto-*/**"
@@ -21,7 +21,7 @@ on:
       - "ay/crates/auto-*/**"
       - "ay/tools/auto-*"
       - "ay/locales/**"
-      - "ay/.github/workflows/auto.yml"
+      - ".github/workflows/ay-auto.yml"
   workflow_dispatch:
 
 permissions:

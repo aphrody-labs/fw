@@ -12,14 +12,14 @@ on:
       - "ay/brand/tokens/**"
       - "ay/tools/compose-check.ts"
       - "ay/tools/tokens-compose.ts"
-      - "ay/.github/workflows/kotlin.yml"
+      - ".github/workflows/ay-kotlin.yml"
   pull_request:
     paths:
       - "ay/kotlin/**"
       - "ay/brand/tokens/**"
       - "ay/tools/compose-check.ts"
       - "ay/tools/tokens-compose.ts"
-      - "ay/.github/workflows/kotlin.yml"
+      - ".github/workflows/ay-kotlin.yml"
   release:
     types: [published]
   workflow_dispatch:
