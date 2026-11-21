@@ -172,7 +172,7 @@ impl State {
         output.set_preferred(mode);
         output.create_global::<Self>(&display_handle);
 
-        let mut seat = seat_state.new_seat("seat0");
+        let mut seat = seat_state.new_wl_seat(&display_handle, "seat0");
         seat.add_pointer();
         seat.add_touch();
         if let Err(error) = seat.add_keyboard(XkbConfig::default(), 200, 25) {
