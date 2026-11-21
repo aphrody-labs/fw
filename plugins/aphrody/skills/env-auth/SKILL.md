@@ -7,7 +7,7 @@ description: "Safe cross-language loading of.env (Bun, Rust, uv/Python, C/C++,.N
 
 # `.env` & Multi-Registry Auth (`system/env-kit`)
 
-Activate this skill whenever wiring environment variables, API keys, cloud/registry tokens, or editor AI provider configs (`OpenCode`, `Zed`, `Pi`, `Antigravity`).
+Activate this skill whenever wiring environment variables, API keys, cloud/registry tokens, or editor AI provider configs (`OpenCode`, `Zed`, `Pi`).
 
 ## Mandatory Safety Rules
 

@@ -21,7 +21,7 @@ metadata; `src/install.ts` owns adapter installation. The source policy is
 
 `src/hooks/rewrite.ts` owns command conversion. Hooks and callback adapters
 delegate to that owner; they do not choose a provider or change authentication.
-Antigravity and Gemini have distinct schemas. The local bundle makes resources
+The local bundle makes resources
 available to a compatible harness without downloading models or assuming
 client lifecycle events. See `docs/agent-adapters.md` for adapter contracts.
 

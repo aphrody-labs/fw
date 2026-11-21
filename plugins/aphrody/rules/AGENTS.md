@@ -9,14 +9,14 @@
 - Nothing hardcoded: derive frameworks, languages, OSes, locales, paths, hosts and accounts from manifests, identity files and live discovery.
 - Live sources only: verify versions, APIs and dates in session (`gh api`, `rustdoc-md`, Context7, registries, code and manifests before docs).
 - Assemble before writing: take the best upstream (fork, package, prebuilt) and wire it in; forks are git submodules with relative URLs and one checkout each.
-- Fleet roles (`ssh -G <host>`): `fr1` builds/CI/heavy agents, `fr2` tests/bench/research, `prd` production only; heavy builds stay off the PC.
+- Fleet roles (`ssh -G <host>`): `fr1` builds/CI/heavy agents, `prd` production plus a build/agent slice; heavy builds stay off the PC.
 - Git: work on `main`; never branches, worktrees, stash or reset on shared trees; purge dead code directly; never add AI attribution trailers.
 - Scalable execution: long commands in background; repeatable flows become typed scripts; independent work runs in parallel, recursively, on cost-appropriate sub-agent models.
 - Cross-session real-time sync: broadcast ongoing actions to live Claude Code sessions via `claude_inject` MCP or `bun ~/.claude/scripts/notify.ts` (direct IPC pipe with hook mailbox fallback).
 - Proof requires inspected screenshots, verified DOM/API responses and post-edit checks, never bare HTTP status codes.
 - Report discipline: every number, price, date, name or state in a report comes from a command or API output seen this turn; sub-agent findings and compaction summaries are leads, re-check the load-bearing ones before stating them or drop them; copy hostnames and ids from source, never retype; never fill a gap from memory (prices, versions, sizes).
 - Report shape: what changed, the evidence, what is next; at most about ten lines, no recap of earlier turns. A caveat appears only when it names a concrete failure and its evidence; no boilerplate "not verified / I touch nothing / decisions for you" lists, no alarm wording, no tasks handed to the user unless blocked by something only they can do. Standing authorizations apply: act, do not stall.
-- Windows env & shell sync: never set `BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP2_CLIENT` or `BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP3_CLIENT` in Windows User/Machine env (causes `HTTP2StreamReset` in `claude.exe`; scope per-command only and restart/resume active sessions from a fresh shell after clearing); sync `pwsh`/`bash`/`agy`/`claude` via `bun C:\src\ay\tools\shells.ts`, `bun ~/.gemini/scripts/install.ts`, and `bun --no-install --no-env-file ~/.claude/scripts/align-agy.ts`.
+- Windows env & shell sync: never set `BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP2_CLIENT` or `BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP3_CLIENT` in Windows User/Machine env (causes `HTTP2StreamReset` in `claude.exe`; scope per-command only and restart/resume active sessions from a fresh shell after clearing); sync `pwsh`/`bash` via `bun C:\src\ay\tools\shells.ts`.
 - Accessibility: user is visually impaired; always normalize and correct typos, spelling, grammar, and lexical errors in user inputs without friction.
 
 ## Memory (C--src)
@@ -28,7 +28,6 @@
 - [budget-and-hosting](~/.claude/projects/C--src/memory/budget-and-hosting.md) - Google Sheet budget ledger, Cloudflare/VPS primary hosting, $0 Vercel policy
 - [code-quality-and-design](~/.claude/projects/C--src/memory/code-quality-and-design.md) - Code-before-docs, Google eng bar, Figma/M3 visual diffing, latest deps, real proof
 - [english-i18n-generalist](~/.claude/projects/C--src/memory/english-i18n-generalist.md) - English code/docs baseline, pluggable i18n catalogs, registry-driven generalist design
-- [fleet-and-relay](~/.claude/projects/C--src/memory/fleet-and-relay.md) - Fleet roles (`fr1`/`fr2`/`prd`/PC), SSH recovery, Chrome Gemini fallback
 - [git-and-workspace-map](~/.claude/projects/C--src/memory/git-and-workspace-map.md) - `$WORKSPACE_ROOT/*` checkouts, `ay`/`aphrody`/`open`/`auto`/`rosegriffon`/`nie` split, main-only git discipline
 - [language-and-tooling](~/.claude/projects/C--src/memory/language-and-tooling.md) - Generalist unrestricted CLI/language tooling, rustdoc-md, Windows path/shell quirks, `%TEMP%` sandboxes
 - [legal-and-licenses](~/.claude/projects/C--src/memory/legal-and-licenses.md) - Never gate architecture, absorption, or asset pipelines on license speculation
@@ -37,16 +36,15 @@
 - [platform-lessons](~/.claude/projects/C--src/memory/platform-lessons.md) - Reproducible host setup, focused workspace crates, platform API depth, continuous refactoring
 - [vision](~/.claude/projects/C--src/memory/vision.md) - Generalist core vision: OS, browser, Google self-hosted services, and Cloudflare/Vercel in any best-fit language
 - [push-checks-and-shared-writers](~/.claude/projects/C--src/memory/push-checks-and-shared-writers.md) - 2026-11-16 errors: run repo gates before push, low-disk build flags, check other writers on shared config, deliver the approved plan
-- [fleet-disks](~/.claude/projects/C--src/memory/fleet-disks.md) - fr1 $WORK 805 GB XFS LVM (~740 GB free, NFS on fr2 $WORK/shared); small roots; scan with ay tools/disks.ts
+- [fleet-disks](~/.claude/projects/C--src/memory/fleet-disks.md) - fr1 $WORK 805 GB XFS LVM (~740 GB free); small roots; scan with ay tools/disks.ts
 - [ay-legacy-rebuild](~/.claude/projects/C--src/memory/ay-legacy-rebuild.md) - aphrody-labs/ay renamed legacy, purged from PC and fr1 (2026-11-16); $WORKSPACE_ROOT/ay is aphrody-labs/ay
 - [agent-fanout-budget](~/.claude/projects/C--src/memory/agent-fanout-budget.md) - Hard cap 3 agents; commit+push per unit; after a restart inventory repos and resume agents first
 - [ai-os-repo](~/.claude/projects/C--src/memory/ai-os-repo.md) - ai-os archived (2026-11-17); agent kernel and AI surface live in fw
-- [ay-hub-source-of-truth](~/.claude/projects/C--src/memory/ay-hub-source-of-truth.md) - aphrody = OS (agy); ay = independent SDK, any language incl. Rust
+- [ay-hub-source-of-truth](~/.claude/projects/C--src/memory/ay-hub-source-of-truth.md) - aphrody = OS; ay = independent SDK, any language incl. Rust
 - [no-security-nags](~/.claude/projects/C--src/memory/no-security-nags.md) - Use pasted secrets silently; no revoke/rotate advice
-- [agy-coordination](~/.claude/projects/C--src/memory/agy-coordination.md) - agy finished aphrody (now ours); never spawn or drive agy.exe
 - [npm-trusted-publishing](~/.claude/projects/C--src/memory/npm-trusted-publishing.md) - @rosegriffon publishes via OIDC, no token; new packages need one owner trust step
 - [repo-independence](~/.claude/projects/C--src/memory/repo-independence.md) - Repos independent; coherent prefixes/scopes; naming/ in aphrody-labs/.github
-- [pc-no-local-builds](~/.claude/projects/C--src/memory/pc-no-local-builds.md) - No cargo/builds on the PC; rust-analyzer LSP kept passive (2026-11-17 freeze); compile on fr1/fr2
+- [pc-no-local-builds](~/.claude/projects/C--src/memory/pc-no-local-builds.md) - No cargo/builds on the PC; rust-analyzer LSP kept passive (2026-11-17 freeze); compile on fr1
 - [claude-ai-connectors](~/.claude/projects/C--src/memory/claude-ai-connectors.md) - Owner disabled the eight claude.ai MCP connectors (2026-11-17, per project); do not rely on them unless asked
 - [inventory-before-asserting](~/.claude/projects/C--src/memory/inventory-before-asserting.md) - Target Linux 7.5 + Wayland DE (GPUI/Zed) + Android 17/18 in WSL/QEMU/Docker; read all existing work first, never contradict the goal
 - [code-standard-unified](~/.claude/projects/C--src/memory/code-standard-unified.md) - unified code/commit/PR/review standard in aphrody-labs/.github docs/standards: tools, decisions, refresh
@@ -87,7 +85,6 @@
 
 - [Licensing decided by Level-5 partner](~/.claude/projects/C--src-rosegriffon/memory/licensing-decided-by-level5-partner.md) - agents never decide licenses/legal; flag for the partner review after each full deploy
 - [nie UI stack decision](~/.claude/projects/C--src-rosegriffon/memory/nie-ui-stack-decision.md) - Bevy for game/web, NSH for tools, Dioxus and egui retired
-- [Gemini and agy brain import](~/.claude/projects/C--src-rosegriffon/memory/gemini-agy-brain-import.md) - index/search command, raw session locations, how to spot a running agy session on a shared tree
 - [Multi-agent shared git index](~/.claude/projects/C--src-rosegriffon/memory/multi-agent-shared-git-index.md) - commit with explicit pathspecs; staged files get swept by other agents' commits
 - [prd deploy and GitOps facts](~/.claude/projects/C--src-rosegriffon/memory/prd-deploy-gitops-facts.md) - tick, flock, verify retries, no-op deploy.yml, lockfile and nginx reload paths
 - [Next.js 404 status and streaming](~/.claude/projects/C--src-rosegriffon/memory/nextjs-404-status-and-streaming.md) - loading.tsx gives 200, #418 from force-static, redirect healing trap
@@ -95,7 +92,6 @@
 - [Level-5 content policy](~/.claude/projects/C--src-rosegriffon/memory/level5-content-policy.md) - rosegriffon.fr community only; game content moved to nie
 - [nie engine facts](~/.claude/projects/C--src-rosegriffon/memory/nie-engine-facts.md) - images, env, health, ACL, 9 VFS languages
 - [Tooling gotchas (Windows/bash)](~/.claude/projects/C--src-rosegriffon/memory/tooling-gotchas-windows-bash.md) - quoting, gitleaks forms, background polling
-- [OVH rosegriffon.fr account](~/.claude/projects/C--src-rosegriffon/memory/ovh-rosegriffon-account.md) - credential lives on fr2, domain+redirect only, no VPS
 - [Report discipline](~/.claude/projects/C--src-rosegriffon/memory/feedback-report-discipline.md) - evidence-only, short, no alarm or filler caveats, re-check sub-agent claims
 - [Final decision: end of the project](~/.claude/projects/C--src-rosegriffon/memory/project-end-decision.md) - 2026-11-19 full purge, only DNS CF/OVH, data and secrets kept
 ## Memory (C--src-shenron)
@@ -105,7 +101,6 @@
 - [Headless browser only](~/.claude/projects/C--src-shenron/memory/headless-browser-only.md) - Aphrody blink headless over CDP; no claude-in-chrome tabs, no agent-browser
 - [Agent loop method](~/.claude/projects/C--src-shenron/memory/agent-loop-method.md) - implementer + 2 adversarial reviewers, trial run, no stubs, fix the loop
 - [Parallel, no roadmaps](~/.claude/projects/C--src-shenron/memory/parallel-no-roadmaps.md) - launch all independent work at once; no ordered next-steps lists
-- [SearXNG research](~/.claude/projects/C--src-shenron/memory/searxng-research.md) - self-hosted search MCP on fr2 for planning and fact checks
 ## Memory (shared)
 
 # Shared Memory

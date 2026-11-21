@@ -7,7 +7,7 @@ metadata:
 
 # Current skill router
 
-Updated 2026-10-13. Claude, Codex, Antigravity, Gemini, OpenCode and local-model harnesses receive the same skill sources. Names below are semantic routes; inspect the generated skill index from the selected checkout for live availability.
+Updated 2026-10-13. Claude, Codex, Gemini, OpenCode and local-model harnesses receive the same skill sources. Names below are semantic routes; inspect the generated skill index from the selected checkout for live availability.
 
 | Task                                                          | Skill or reference                  |
 | ------------------------------------------------------------- | ----------------------------------- |

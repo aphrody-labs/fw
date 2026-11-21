@@ -18,7 +18,7 @@ description: "Write Bun-native code for Bun 1.4.5: Bun APIs before Node.js modul
 - Tests: bun:test (test, expect, mock, spyOn) run by `bun test`, never jest/vitest/mocha.
 - Native media: Bun.Video probes, decodes and remuxes; Bun.Image transforms and encodes extracted frames. Use the bun-video skill for bounds and composition/browser/FFmpeg requirements.
 - Also built in: fetch, Bun.s3, Bun.password, Bun.hash, Bun.CryptoHasher, Bun.Glob, Bun.build, Bun.YAML/TOML/JSONC, Bun.semver, HTMLRewriter, bun:ffi, Worker; .env is loaded without dotenv; TypeScript runs without ts-node/tsx.
-- Unsure of an API? Query `bun_brain_search` / `bun_types_lookup` (`bun-brain` MCP), `~/.gemini/brain/bun/RUNTIME_APIS.md`, or `bun ~/.gemini/scripts/learn.ts search <terms>`.
+- Unsure of an API? Query `bun mcp` (`docs_search`, `examples_search`), or `references/bun-runtime.md` and `references/bun-docs.md`.
 
 ## Instead of X, use Y
 
@@ -61,8 +61,3 @@ description: "Write Bun-native code for Bun 1.4.5: Bun APIs before Node.js modul
 
 See [bun-native-idioms](references/bun-native/references/bun-native-idioms.md) for complete TypeScript idioms across HTTP/WS, SQL/Redis/S3, Shell/Spawn, `bun:test`, Workers, `bun:ffi`, `Bun.Video`, and `HTMLRewriter`.
 
-## More references
-
-- Compacted Bun brain in `~/.gemini/brain/bun/` (`INDEX.md`, `RUNTIME_APIS.md`, `TYPES_DIGEST.md`, `CLI_TOOLING.md`, `GUIDES_SKILLS_DIGEST.md`, `LEGACY_REPLACEMENT.md`);
-- `bun-brain` MCP (`plugins/bun/mcp/bun-mcp.ts`): `bun_brain_search`, `bun_types_lookup`, `bun_api_matrix`, `bun_legacy_scan`, `bun_migrate_plan`;
-- FTS5 index: `bun ~/.gemini/scripts/learn.ts search <query>`.

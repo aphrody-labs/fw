@@ -1,6 +1,6 @@
 # GPUI Benchmark Profiling, Responsiveness & Review Checklist
 
-Detailed reference guide extracted from the main `gpui-bench` skill so the skill stays concise within Antigravity's 24 KB limit.
+Detailed reference guide extracted from the main `gpui-bench` skill so the skill stays concise.
 
 ## Headless rendering and frame data
 

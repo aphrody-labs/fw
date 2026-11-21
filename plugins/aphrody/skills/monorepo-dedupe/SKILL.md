@@ -11,7 +11,7 @@ description: >-
 
 ## 1. Pre-Flight Coordination & Ownership
 
-1. Before touching sibling repositories (`$WORKSPACE_ROOT/fw`, `$WORKSPACE_ROOT/aphrody`, `$WORKSPACE_ROOT/ay`, etc.), check `relay` `session_list` + `session_inbox` and register via `session_register` so no active peer session is disrupted.
+1. Before touching sibling repositories (`$WORKSPACE_ROOT/fw`, `$WORKSPACE_ROOT/aphrody`, `$WORKSPACE_ROOT/ay`, etc.), list live peer sessions with the `claude_sessions` MCP tool (`bun ~/.claude/scripts/notify.ts --list`) and announce the scope with `claude_inject` so no active peer session is disrupted.
 2. Verify clean `git status --short` and `git branch --show-current` on every target repo before editing.
 3. Establish a **single canonical owner** for every shared crate, package, skill, or doc tree before deleting any duplicate copy.
 
@@ -51,5 +51,5 @@ Never delete a directory on directory-name similarity alone:
    - Rust: `cargo clippy --workspace --all-targets -- -D warnings` + `cargo test --workspace`
    - TS/Bun: `bun test` + `bun check`
    - Python: `uvx ruff check .`
-   - Plugins: `agy plugin validate <dir> --strict` + `bun "$HOME/.gemini/scripts/check.ts"`
+   - Plugins: `claude plugin validate <dir>`
 3. Re-run `monorepo-dedupe-audit.ts` after cleanup and report exact before/after metrics (`trackedFiles`, `trackedMB`, `crossRepoDupFiles`, `duplicateCrates`, `duplicateSkills`), commit SHA on `main`, and `0 dirty`.

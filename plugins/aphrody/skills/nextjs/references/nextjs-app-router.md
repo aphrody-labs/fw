@@ -14,7 +14,6 @@ Use this skill when building or refactoring Next.js App Router routes, layouts, 
 ## Lookup Order
 
 1. Project-local docs: `node_modules/next/dist/docs/01-app/` (exact match to installed Next.js).
-2. Compacted brain: `nextjs_brain_search`, `nextjs_types_lookup`, `nextjs_docs_lookup` (`nextjs-brain` MCP) or `bun ~/.gemini/scripts/learn.ts search "<terms>"`.
 
 ## Request Boundary (`proxy.ts`)
 

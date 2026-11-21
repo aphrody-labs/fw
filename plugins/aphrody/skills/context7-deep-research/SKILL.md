@@ -1,6 +1,6 @@
 ---
 name: context7-deep-research
-description: "Research an upstream library, API or tool before using or citing it in src - Context7 docs through the relay hub. Use for unfamiliar APIs, version facts, or checking a doc claim."
+description: "Research an upstream library, API or tool before using or citing it in src - Context7 docs through its MCP server. Use for unfamiliar APIs, version facts, or checking a doc claim."
 ---
 > live GitHub source through gh api, and the repo itself.
 
@@ -9,15 +9,14 @@ description: "Research an upstream library, API or tool before using or citing i
 
 Every fact keeps its source (library id, repo plus commit, file:line, command output) and the date it was read.
 
-## 1. Context7, through the relay hub
+## 1. Context7 MCP server
 
-`context7` is a hub server declared in `tools/agents/toolchain.toml` (`[[hub.mcp]]`, `https://mcp.context7.com/mcp`, no key). Claude Code reaches it through the relay:
+`context7` is a remote MCP server (`https://mcp.context7.com/mcp`, streamable HTTP; anonymous use has a monthly quota, the `CONTEXT7_API_KEY` header lifts it). In Claude Code its tools are `resolve-library-id` and `query-docs` (prefixed `mcp__<server>__` in the tool list). If they are not loaded, add the server with `claude mcp add --transport http context7 https://mcp.context7.com/mcp`.
 
-1. `hub_tools` with `query: "context7"` lists the tools: `context7__resolve-library-id` and `context7__query-docs`.
-2. `hub_call` with `name: "context7__resolve-library-id"` and `arguments: { libraryName, query }` returns ids such as `/oven-sh/bun`.
-3. `hub_call` with `name: "context7__query-docs"` and `arguments: { libraryId, query }` returns the docs.
+1. `resolve-library-id` with `{ libraryName, query }` returns ids such as `/oven-sh/bun`.
+2. `query-docs` with `{ libraryId, query }` returns the docs.
 
-If the `hub_*` tools are not loaded in the session, POST JSON-RPC `tools/call` to `http://127.0.0.1:8790/mcp/core`. Take the headers from `bun frameworks/ai-os/src/relay/headers.ts`, and never print them.
+Without a loaded MCP client, POST JSON-RPC `tools/list` and `tools/call` to the same URL with `content-type: application/json` and `accept: application/json, text/event-stream`.
 
 ## 2. Live source, which beats docs
 

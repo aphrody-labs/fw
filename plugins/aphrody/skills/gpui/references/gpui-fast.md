@@ -31,4 +31,3 @@ GPUI Fast speeds up immediate-mode GPUI frames (-73% to -94% main-thread CPU in 
 - **Never** mutate unrelated entities or write globals / call `cx.notify()` during `render()`, `prepaint()`, or `paint()` unless the underlying value genuinely changed.
 - **Always** mutate view state via `entity.update(cx, ...)` (not unnotified `Rc<RefCell>`), use domain-derived `ElementId`s, and scroll via `ScrollHandle` / `ListState`.
 - **Debug / Oracle flags** (`test-support`): `GPUI_VIEW_RETENTION=0`, `GPUI_SCROLL_LAYERS=0`, `GPUI_A11Y_ACTIVE=1`; in UI unit tests call `window.refresh()` before `window.draw(cx)` when testing side-channel render effects.
-- **Full digested reference**: read `~/.gemini/brain/gpui/GPUI_FAST.md` or run `bun ~/.gemini/scripts/learn.ts search "<topic>"`.

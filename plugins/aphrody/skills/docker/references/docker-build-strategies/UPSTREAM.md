@@ -1,1 +1,1 @@
-Vendored from https://github.com/docker/skills/tree/a65ae5b65d22f0613375d6c3e5ea8bb287698cc0/skills/docker-build-strategies (Apache-2.0). Refreshed by configs/gemini/scripts/vendor-skills.ts; edit upstream, not here.
+Vendored from https://github.com/docker/skills/tree/a65ae5b65d22f0613375d6c3e5ea8bb287698cc0/skills/docker-build-strategies (Apache-2.0). Edit upstream, not here.

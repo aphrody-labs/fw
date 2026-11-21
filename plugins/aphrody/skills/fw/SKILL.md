@@ -1,6 +1,6 @@
 ---
 name: fw
-description: "Orientation for the fw monorepo: the Rust workspace under crates/fw-* and xtask, the fw binary, the Bun plugin CLI, the native agy launcher and C ABI, and the Cloudflare and Vercel adapters."
+description: "Orientation for the fw monorepo: the Rust workspace under crates/fw-* and xtask, the fw binary, the Bun plugin CLI, the native C ABI, and the Cloudflare and Vercel adapters."
 ---
 
 # fw
@@ -16,9 +16,8 @@ description: "Orientation for the fw monorepo: the Rust workspace under crates/f
 
 ## Native and Bun targets
 
-- `native/fw-agy`: `target/agy/agy.exe` launcher; the signed Google `agy.exe` stays read-only.
-- `src/fw_cli.ts`: Bun CLI compiled to `dist/fw-plugin.exe` and `target/agy/fw-plugin.exe` (`bun build --compile --aot --trim`).
-- `native/fw-abi`: C ABI cdylib (`target/agy/fw_abi.dll`): 12 Tree-sitter grammars, `craft-pe`, `craft-sniff`, `iced-x86`, hashing, SSH, Git, OCI, GGUF/GGML. On Windows `src/targets.ts` shadow-copies the DLL to `%TEMP%\fw-abi-shadow\` before loading, so `cargo build --release` does not hit file locks.
+- `src/fw_cli.ts`: Bun CLI compiled with `bun build --compile --aot --trim` (output paths in `fw.targets.json`).
+- `native/fw-abi`: C ABI cdylib (output paths in `fw.targets.json`): 12 Tree-sitter grammars, `craft-pe`, `craft-sniff`, `iced-x86`, hashing, SSH, Git, OCI, GGUF/GGML. On Windows `src/targets.ts` shadow-copies the DLL to `%TEMP%\fw-abi-shadow\` before loading, so `cargo build --release` does not hit file locks.
 - Decisions: `fw decide`, `POST /v1beta/decisions` (`src/decisions.ts`).
 - Terminal: `fw tui status|wta-config|verify-self|verify`, MCP tool `fw_tui_terminal`.
 - Cloud: `cloudflare/worker.ts` (`FwOSAgent` Durable Object on SQLite) and `vercel/api/fw.ts`.
