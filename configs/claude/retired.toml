@@ -62,3 +62,8 @@ reason = "generated Material Symbols tables: the glyph is named antigravity"
 paths = ["docs/research/acp-mcp-gemini-4-2026-11-21.md", "docs/research/rust-stack.md", "docs/research/rust-stack.toml"]
 terms = ["agy-tooling"]
 reason = "research notes that record what the retirement removed"
+
+[[allow]]
+paths = ["crates/fw-gemini/src/google/atlas.json"]
+terms = ["agy-tooling"]
+reason = "measured audit snapshot of Google hosts: antigravity.google is one audited host and its counts are pinned to the source"
