@@ -1,22 +1,44 @@
 ---
 name: no-slop-humanizer
-description: Detect and strip AI writing slop, filler, binary contrasts, and synthetic prose patterns (unifying humanizer-skill, humanize-skill, and ai-slop-detector best practices).
+description: Detect and remove slop before it is produced, in prose, code, design and reasoning. Use before any reply, report, commit, README, UI copy, code change or plan; the checks are concrete patterns seen in real agent sessions, not style advice.
 ---
 
-# No-Slop Humanizer & AI Slop Detector
+# No slop: writing, code, design, thinking
 
-Apply this two-pass filter before finalizing documentation, READMEs, PR descriptions, or UI copy.
+Run the four checks before producing anything, not after. Each item is a pattern that has actually shipped and had to be undone.
 
-## Pass 1: Slop Detection (Audit)
+## 1. Thinking
 
-Flag and remove:
-1. **Binary contrasts & false profundity**: "Not just X, but Y", "It's not about A; it's about B", "delve into", "tapestry", "testament to", "game-changer".
-2. **Throat-clearing & meta-filler**: "In today's fast-paced world", "Let's dive in", "It is worth noting that", "Importantly,".
-3. **Punctuation & cadence tells**: Excessive em-dashes (`—`), triadic synonym cycling, uniform sentence lengths, and dramatic one-line closers.
-4. **Hype & unverified claims**: "revolutionary", "seamless", "cutting-edge", "blazingly fast" without concrete benchmark numbers.
+- **Look before building.** Search what exists first: `fw --help`, `fw graph query "<topic>"`, `cargo metadata --no-deps`, grep the crates, list the Cloudflare Workers. Two implementations of one capability (two code graphs, a second Worker, a second Docker skill) is the most expensive slop.
+- **Read the API, then write the call.** Query `fw docs query <lib> "<topic>"` or the crate source before using a function. Guessing (`Redirect::see_other`, a made-up `thiserror_lite::Error` derive) costs a build cycle each time.
+- **Finish one thing before fanning out.** Launching agents, registering repos or adding catalog entries is not progress until something is wired, tested and verified live.
+- **An agent's report is a lead, not a fact.** Check the commit, the test output or the live response before repeating it.
 
-## Pass 2: Direct Rewrite
+## 2. Code
 
-- Replace abstract nouns with concrete verbs and measured facts.
-- Vary sentence length naturally; prefer active voice and short paragraphs.
-- Keep technical terms exact; never invent metrics or benchmarks.
+- **Tests that cannot fail are slop.** `assert_eq!(s, X.min(Y).max(s))` always passes. Every assertion must fail on a plausible bug.
+- **No invented items:** modules, derives, methods, flags, features or config keys that were not read in the source or docs this session.
+- **Name collisions and shadowing:** a second `fn quota` on the same type, a helper that hides a public method.
+- **State transitions:** for every flag a function sets, check every path that should clear it (trash/restore left `trashed_by_ancestor` set).
+- **String literals that carry syntax:** raw strings containing `"#` need `r##`.
+- **Shell on Windows:** strip `\r`, never feed backslash paths to `sed`/`xargs`, never `pkill -f` a pattern that matches the current command line.
+- **Git on a shared tree:** check `git diff --cached --name-only` before every commit (another agent may have staged files); never replace a whole `Cargo.lock` from another checkout without diffing package names first.
+
+## 3. Writing (replies, reports, commits, docs)
+
+- **Write in the reader's language.** A French message gets a French reply.
+- **Report shape:** what changed, the evidence, what is next; about ten lines. No tables or bold-label lists for a three-fact answer, no "Status:" preamble, no recap of earlier turns, no restating the plan.
+- **No questions when the decision has a sensible default** and the user said to act; decide and say what was decided.
+- **Claims match the state.** "Tracked" is not "integrated"; "uploaded" is not "live"; a number comes from a command run in this turn.
+- **Prose tells:** binary contrasts ("not just X, but Y"), throat-clearing ("It is worth noting"), hype ("seamless", "blazingly fast") without a measured number, em-dash cadence, triads of synonyms, dramatic one-line closers.
+
+## 4. Design
+
+- **Measure first, then decide.** Record computed values from the reference (sizes, radii, colours) and write down which ones you changed and why (for example 32px nav items raised to 48px targets).
+- **No placeholder glyphs or labels as content:** "—" in data cells, "Error" as a page title, an icon plus a generic sentence as every empty state. Say what is missing and what to do.
+- **Tokens, never literals:** colours, radii and fonts come from the generated tokens (`fw-m3`), not hex typed into CSS.
+- **Check the result rendered** at the target viewport sizes before calling it done.
+
+## Rewrite pass
+
+Replace abstractions with the concrete verb and the measured fact, cut what the reader already knows, keep technical terms exact, and never invent a metric.

@@ -1,0 +1,3 @@
+[submodule "third_party/gpu-unlock"]
+	path = third_party/gpu-unlock
+	url = ../gpu-unlock.git

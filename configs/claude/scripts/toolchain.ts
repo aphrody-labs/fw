@@ -2,28 +2,59 @@
 /**
  * Applies toolchain.toml: pinned CLIs, fixed-output downloads, one install directory.
  *
- *   bun scripts/toolchain.ts check [name...]     # exit 1 when a tool is missing or not at its pinned version
- *   bun scripts/toolchain.ts install [name...]   # download, verify sha256, install the tools that fail `check`
+ *   bun scripts/toolchain.ts check [--group g] [name...]     # exit 1 when a tool is missing, not at its pinned version, or drifts from its lock
+ *   bun scripts/toolchain.ts install [--group g] [name...]   # download, verify sha256, install the tools that fail `check`
  *
  * Without names, every tool that has an entry for this platform. Install never touches a tool that already passes.
  */
 
-import { chmodSync, mkdirSync, mkdtempSync, renameSync, rmSync } from "node:fs";
-import { homedir } from "node:os";
+import { createHash } from "node:crypto";
+import {
+  chmodSync,
+  copyFileSync,
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+} from "node:fs";
+import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
+
+export const ARCHIVES = ["tar.gz", "tar.xz", "zip"] as const;
 
 export interface Source {
   url: string;
   sha256: string;
-  archive?: "tar.gz" | "zip";
+  archive?: (typeof ARCHIVES)[number];
+  /** The binary inside the archive; with `dir` the folder to keep; with `cargo` the crate's source folder. */
   member?: string;
+  /** Keep the `member` folder as ~/.local/opt/<dir> (SDK trees) instead of one binary in ~/.local/bin. */
+  dir?: string;
+  /** Build the extracted crate with `cargo install --locked` (crates that ship no release binary). */
+  cargo?: boolean;
+  /** Commands run inside the installed `dir` (argv lists), for example an SDK's own download step. */
+  post?: string[][];
+}
+
+/** A value pinned elsewhere that must equal the tool's version: the first capture group of `pattern` in `file`. */
+export interface Lock {
+  /** Relative to the workspace root (the folder holding this repository and its siblings). */
+  file: string;
+  pattern: string;
 }
 
 export interface Tool {
   version: string;
   check: string[];
   role: string;
-  [platform: string]: Source | string | string[];
+  /** What `check` must print when it differs from `version` (a build number, an install path). */
+  expect?: string;
+  group?: string;
+  lock?: Lock;
+  [platform: string]: Source | Lock | string | string[] | undefined;
 }
 
 export type Manifest = Record<string, Tool>;
@@ -47,14 +78,25 @@ export function substitute(text: string, version: string): string {
   return text.replaceAll("{version}", version);
 }
 
+const optDir = join(homedir(), ".local", "opt");
+
+/** `check` and `post` arguments: `{version}`, `{opt}` (the SDK tree folder) and `{home}`. */
+export function expand(text: string, version: string): string {
+  return substitute(text, version)
+    .replaceAll("{opt}", optDir)
+    .replaceAll("{home}", homedir());
+}
+
 /** The source of `tool` for `platform`, with `{version}` resolved, or undefined when the tool has none there. */
 export function sourceFor(tool: Tool, platform: string): Source | undefined {
   const raw = tool[platform];
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return undefined;
+  const src = raw as Source;
   return {
-    ...raw,
-    url: substitute(raw.url, tool.version),
-    member: raw.member && substitute(raw.member, tool.version),
+    ...src,
+    url: substitute(src.url, tool.version),
+    member: src.member && substitute(src.member, tool.version),
+    dir: src.dir && substitute(src.dir, tool.version),
   };
 }
 
@@ -67,8 +109,11 @@ export function problems(manifest: Manifest): string[] {
     if (!Array.isArray(tool.check) || tool.check.length === 0)
       out.push(`${name}: no check command`);
     if (!tool.role?.trim()) out.push(`${name}: no role`);
+    if (tool.lock && (!tool.lock.file || !tool.lock.pattern))
+      out.push(`${name}: a lock names its file and pattern`);
     for (const [key, value] of Object.entries(tool)) {
-      if (typeof value !== "object" || Array.isArray(value)) continue;
+      if (key === "lock" || typeof value !== "object" || Array.isArray(value))
+        continue;
       const src = value as Source;
       if (!/^https:\/\//.test(src.url))
         out.push(`${name}.${key}: url is not https`);
@@ -76,8 +121,14 @@ export function problems(manifest: Manifest): string[] {
         out.push(`${name}.${key}: sha256 is not 64 hex digits`);
       if (src.archive && !src.member)
         out.push(`${name}.${key}: an archive names its member`);
-      if (src.archive && !["tar.gz", "zip"].includes(src.archive))
+      if (src.archive && !ARCHIVES.includes(src.archive))
         out.push(`${name}.${key}: unknown archive ${src.archive}`);
+      if ((src.dir || src.cargo) && (!src.archive || !src.member))
+        out.push(`${name}.${key}: a dir or cargo source names its archive and member`);
+      if (src.dir && src.cargo)
+        out.push(`${name}.${key}: dir and cargo are exclusive`);
+      if (src.post && !src.dir)
+        out.push(`${name}.${key}: post runs inside a dir install`);
     }
   }
   return out;
@@ -102,17 +153,77 @@ export async function load(
   return manifest;
 }
 
-/** Whether the tool on PATH prints its pinned version, with what it printed. */
+const workspaceRoot = resolve(root, "..", "..", "..");
+
+/** The value pinned by the tool's lock (a sibling repository's lockfile or workflow), or undefined when that file is absent here. */
+export function lockedVersion(tool: Tool, base = workspaceRoot): string | undefined {
+  if (!tool.lock) return undefined;
+  const file = resolve(base, tool.lock.file);
+  if (!existsSync(file)) return undefined;
+  return new RegExp(tool.lock.pattern).exec(readFileSync(file, "utf8"))?.[1];
+}
+
+/** Whether the tool on PATH prints its pinned version, with its first line of output. */
 async function passes(tool: Tool): Promise<{ ok: boolean; seen: string }> {
   try {
-    const p = Bun.spawnSync(tool.check, { stdout: "pipe", stderr: "pipe" });
-    const seen =
-      `${p.stdout.toString()}${p.stderr.toString()}`.trim().split("\n")[0] ??
-      "";
-    return { ok: p.exitCode === 0 && seen.includes(tool.version), seen };
+    const argv = tool.check.map((arg) => expand(arg, tool.version));
+    const p = Bun.spawnSync(argv, { stdout: "pipe", stderr: "pipe" });
+    const text = `${p.stdout.toString()}${p.stderr.toString()}`.trim();
+    const needle = expand(tool.expect ?? tool.version, tool.version);
+    return {
+      ok: p.exitCode === 0 && text.includes(needle),
+      seen: text.split("\n")[0] ?? "",
+    };
   } catch {
     return { ok: false, seen: "not found" };
   }
+}
+
+const downloads = new Map<string, string>();
+let downloadDir: string | undefined;
+
+async function sha256Of(file: string): Promise<string> {
+  const hash = createHash("sha256");
+  for await (const chunk of createReadStream(file)) hash.update(chunk);
+  return hash.digest("hex");
+}
+
+/**
+ * The asset at `src.url` as a file, checked against its pinned digest; archives shared by several tools download once.
+ * curl streams to disk with retries: large SDK archives do not fit comfortably in memory and Bun's fetch stalls on them.
+ */
+async function download(name: string, src: Source): Promise<string> {
+  const known = downloads.get(src.url);
+  if (known) return known;
+  if (!downloadDir) {
+    downloadDir = mkdtempSync(join(tmpdir(), "toolchain-"));
+    process.once("exit", cleanDownloads);
+  }
+  const file = join(downloadDir, `${downloads.size}.download`);
+  const p = Bun.spawnSync(
+    ["curl", "-fsSL", "--retry", "3", "--connect-timeout", "20", "-o", file, src.url],
+    { stdout: "inherit", stderr: "pipe" },
+  );
+  if (p.exitCode !== 0)
+    throw new Error(`${name}: ${src.url} failed: ${p.stderr.toString().trim()}`);
+  const digest = await sha256Of(file);
+  if (digest !== src.sha256)
+    throw new Error(
+      `${name}: sha256 ${digest} does not match the pinned ${src.sha256}`,
+    );
+  downloads.set(src.url, file);
+  return file;
+}
+
+function run(name: string, argv: string[], cwd?: string): void {
+  const p = Bun.spawnSync(argv, { cwd, stdout: "inherit", stderr: "pipe" });
+  if (p.exitCode !== 0)
+    throw new Error(`${name}: ${argv[0]} failed: ${p.stderr.toString().trim()}`);
+}
+
+function unpack(name: string, archive: string, into: string, platform: string): void {
+  const zipOnUnix = archive.endsWith(".zip") && !platform.startsWith("windows");
+  run(name, zipOnUnix ? ["unzip", "-q", archive, "-d", into] : ["tar", "-xf", archive, "-C", into]);
 }
 
 async function install(
@@ -122,46 +233,56 @@ async function install(
 ): Promise<void> {
   const src = sourceFor(tool, platform);
   if (!src) throw new Error(`${name}: no source for ${platform}`);
-  const res = await fetch(src.url);
-  if (!res.ok) throw new Error(`${name}: ${src.url} answered ${res.status}`);
-  const bytes = new Uint8Array(await res.arrayBuffer());
-  const digest = new Bun.CryptoHasher("sha256").update(bytes).digest("hex");
-  if (digest !== src.sha256)
-    throw new Error(
-      `${name}: sha256 ${digest} does not match the pinned ${src.sha256}`,
-    );
+  const file = await download(name, src);
 
-  mkdirSync(installDir, { recursive: true });
-  const target = bin(installDir, name, platform);
+  const parent = src.dir ? optDir : installDir;
+  mkdirSync(parent, { recursive: true });
   // Staged next to the target: a rename across file systems fails, and a rename on one replaces the target atomically.
-  const work = mkdtempSync(join(installDir, `.toolchain-${name}-`));
+  const work = mkdtempSync(join(parent, `.toolchain-${name}-`));
   try {
     let built = join(work, "download");
-    await Bun.write(built, bytes);
     if (src.archive) {
-      const unpack =
-        src.archive === "zip" && !platform.startsWith("windows")
-          ? ["unzip", "-q", built, "-d", work]
-          : ["tar", "-xf", built, "-C", work];
-      const p = Bun.spawnSync(unpack, { stdout: "ignore", stderr: "pipe" });
-      if (p.exitCode !== 0)
-        throw new Error(
-          `${name}: ${unpack[0]} failed: ${p.stderr.toString().trim()}`,
-        );
+      unpack(name, file, work, platform);
       built = join(work, src.member!);
+    } else {
+      copyFileSync(file, built);
     }
+    if (src.cargo) {
+      const root = join(work, "root");
+      run(name, ["cargo", "install", "--locked", "--path", built, "--root", root, "--target-dir", join(work, "target")]);
+      built = bin(join(root, "bin"), name, platform);
+    }
+    if (src.dir) {
+      const dest = join(optDir, src.dir);
+      rmSync(dest, { recursive: true, force: true });
+      renameSync(built, dest);
+      for (const argv of src.post ?? [])
+        run(name, argv.map((arg) => expand(arg, tool.version)), dest);
+      console.log(`${name} ${tool.version} -> ${dest}`);
+      return;
+    }
+    const target = bin(installDir, name, platform);
     chmodSync(built, 0o755);
     renameSync(built, target);
+    console.log(`${name} ${tool.version} -> ${target}`);
   } finally {
     rmSync(work, { recursive: true, force: true });
   }
-  console.log(`${name} ${tool.version} -> ${target}`);
+}
+
+function cleanDownloads(): void {
+  if (downloadDir) rmSync(downloadDir, { recursive: true, force: true });
 }
 
 if (import.meta.main) {
-  const [step = "check", ...names] = process.argv.slice(2);
+  const argv = process.argv.slice(2);
+  const flag = argv.indexOf("--group");
+  const group = flag >= 0 ? argv.splice(flag, 2)[1] : undefined;
+  const [step = "check", ...names] = argv;
   if (step !== "check" && step !== "install") {
-    console.error("usage: bun scripts/toolchain.ts <check|install> [name...]");
+    console.error(
+      "usage: bun scripts/toolchain.ts <check|install> [--group g] [name...]",
+    );
     process.exit(2);
   }
   const manifest = await load();
@@ -169,12 +290,20 @@ if (import.meta.main) {
   const unknown = names.filter((n) => !manifest[n]);
   if (unknown.length)
     throw new Error(`not in toolchain.toml: ${unknown.join(", ")}`);
-  const selected = (names.length ? names : Object.keys(manifest)).filter((n) =>
-    sourceFor(manifest[n]!, platform),
-  );
+  const selected = (names.length ? names : Object.keys(manifest))
+    .filter((n) => !group || manifest[n]!.group === group)
+    .filter((n) => sourceFor(manifest[n]!, platform));
   let failed = 0;
   for (const name of selected) {
     const tool = manifest[name]!;
+    const locked = lockedVersion(tool);
+    if (locked !== undefined && locked !== tool.version) {
+      console.log(
+        `drift    ${name} pinned ${tool.version}, ${tool.lock!.file} says ${locked}`,
+      );
+      failed++;
+      continue;
+    }
     const before = await passes(tool);
     if (before.ok) {
       console.log(`ok       ${name} ${tool.version}`);

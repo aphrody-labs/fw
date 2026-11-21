@@ -123,6 +123,14 @@ ref = "main"
 license = "MIT"
 skills = ["skills/3dviz-pro-max/SKILL.md"]
 
+# Dawn vs wgpu and three.js vs Bevy benchmark suite; the skill lives next to the harness it documents.
+[[source]]
+id = "gpu-bench"
+git = "aphrody-labs/gpu-bench"
+ref = "main"
+license = "MIT"
+skills = ["skills/*/SKILL.md"]
+
 # Another session maintains plugins/modern-web (scripts/sync-modern-web.ts there); absorbed as is once it is committed.
 [[source]]
 id = "modern-web"
