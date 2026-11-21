@@ -1,0 +1,79 @@
+name: aphrody Upstream Sync
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+    # Zed and GPUI move several times a day (stable and preview weekly, main continuously): every hour, zed only.
+    - cron: '23 * * * *'
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Upstream target to sync
+        required: false
+        default: all
+        type: choice
+        options: [all, gpui-kit, nsh, bun, zed, wgpu, store, agent-browser, agent-desktop, multimedia-forks]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  sync-consolidated-upstreams:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 500
+          submodules: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: oven-sh/setup-bun@v2
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Run consolidated upstream sync & deterministic conflict resolver
+        id: sync
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TARGET="${{ github.event.inputs.target || (github.event.schedule == '23 * * * *' && 'zed') || 'all' }}"
+          if [ "$TARGET" = "store" ]; then
+            bun tooling/bun/awesome-gpui-store.ts sync-all
+            exit 0
+          fi
+          if [ "$TARGET" = "wgpu" ]; then
+            bun tooling/bun/upstream-sync.ts status --json
+            exit 0
+          fi
+          if [ "$TARGET" = "multimedia-forks" ]; then
+            bun tooling/bun/multimedia-forks-audit.ts --sync
+            exit 0
+          fi
+          bun tooling/bun/upstream-sync.ts sync --target "$TARGET"
+          bun tooling/bun/multimedia-forks-audit.ts --sync
+      - name: Verify repo hygiene and workflow integrity
+        run: bun tooling/bun/repo-hygiene.ts
+      - name: Open or update automated upstream-sync PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Already synchronized with all upstreams."
+            exit 0
+          fi
+          BRANCH="sync/upstreams-auto"
+          git checkout -B "$BRANCH"
+          git add -A
+          git commit -m "chore(sync): consolidated sync zed, nsh, gpui-kit, and bun"
+          git push --force origin "$BRANCH"
+          if ! gh pr list --repo "${{ github.repository }}" --head "$BRANCH" --state open --json number --jq '.[0].number' | grep -q .; then
+            gh pr create \
+              --repo "${{ github.repository }}" \
+              --head "$BRANCH" \
+              --base main \
+              --title "chore(sync): consolidated upstream sync (zed / nsh / gpui-kit / bun)" \
+              --body "Automated consolidated sync and conflict resolution via tooling/bun/upstream-sync.ts.\n\nRelease Notes:\n\n- N/A" \
+              --label "upstream-sync,auto-merge,zed,gpui-kit,nsh"
+          fi

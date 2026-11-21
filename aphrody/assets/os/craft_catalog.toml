@@ -1,0 +1,221 @@
+schema_version = 1
+
+[workspaces]
+default_names = ["Studio", "Code", "Inspect", "System"]
+default_layout = "dwindle"
+
+[[apps]]
+id = "photocraft"
+name = "Photo"
+tagline = "Layered raster editor, RAW color pipelines, and non-destructive adjustments"
+category = "image"
+icon = "image"
+upstream = "../../aphrody-labs/photocraft.git"
+extensions = ["psd", "psb", "png", "jpg", "jpeg", "webp", "tiff", "tif", "heif", "avif"]
+sniff_families = ["image"]
+tools = ["crop", "levels", "curves", "heal", "mask", "export"]
+inspector_groups = ["canvas", "layers", "histogram", "color_profile"]
+
+[[apps]]
+id = "vectorcraft"
+name = "Vector"
+tagline = "Precision Bezier graphics, boolean path ops, and SVG/EPS mastering"
+category = "vector"
+icon = "pencil"
+upstream = "../../aphrody-labs/vectorcraft.git"
+extensions = ["svg", "svgz", "eps", "ai"]
+sniff_families = ["vector", "image"]
+tools = ["pen", "node", "boolean", "stroke", "align", "export"]
+inspector_groups = ["canvas", "path_geometry", "fill_stroke", "constraints"]
+
+[[apps]]
+id = "filmcraft"
+name = "Film"
+tagline = "Multi-track timeline editing, EXR color grading, and AAF/EDL interchange"
+category = "motion"
+icon = "play_filled"
+upstream = "../../aphrody-labs/filmcraft.git"
+extensions = ["mp4", "mov", "mkv", "webm", "exr", "dpx", "aaf"]
+sniff_families = ["video", "image"]
+tools = ["razor", "ripple", "grade", "keyframe", "render"]
+inspector_groups = ["timeline", "scopes", "lut_grade", "audio_bus"]
+
+[[apps]]
+id = "lightcraft"
+name = "Light"
+tagline = "Camera RAW cataloging, lens telemetry, and high-bit-depth batch development"
+category = "image"
+icon = "sparkle"
+upstream = "../../aphrody-labs/lightcraft.git"
+extensions = ["cr2", "cr3", "nef", "arw", "dng", "raf", "orf", "exr", "hdr"]
+sniff_families = ["image"]
+tools = ["exposure", "white_balance", "tone_curve", "denoise", "batch_export"]
+inspector_groups = ["histogram", "exif_lens", "tone_mapping"]
+
+[[apps]]
+id = "pdfcraft"
+name = "PDF"
+tagline = "PDF inspection, object stream editor, redaction, and vector flattener"
+category = "office"
+icon = "file_doc"
+upstream = "../../aphrody-labs/pdfcraft.git"
+extensions = ["pdf"]
+sniff_families = ["document"]
+tools = ["annotate", "redact", "merge", "split", "optimize", "sign"]
+inspector_groups = ["pages", "fonts_streams", "security_signature"]
+
+[[apps]]
+id = "effectcraft"
+name = "Effects"
+tagline = "Node-based WGSL shader compositing, motion effects, and particle graph"
+category = "motion"
+icon = "bolt_filled"
+upstream = "../../aphrody-labs/effectcraft.git"
+extensions = ["wgsl", "ecproj", "exr", "png"]
+sniff_families = ["image", "text"]
+tools = ["node_graph", "shader_edit", "keyframe", "preview_gpu"]
+inspector_groups = ["shader_uniforms", "node_inputs", "render_stats"]
+
+[[apps]]
+id = "anicraft"
+name = "Motion"
+tagline = "Frame-by-frame cel & skeletal vector animation with onion-skinning"
+category = "motion"
+icon = "play_outlined"
+upstream = "../../aphrody-labs/anicraft.git"
+extensions = ["aniproj", "lottie", "json", "gif", "webp"]
+sniff_families = ["image", "text"]
+tools = ["brush", "tween", "onion_skin", "rig", "export_gif"]
+inspector_groups = ["frame_timing", "onion_skin", "rig_bones"]
+
+[[apps]]
+id = "designcraft"
+name = "Layout"
+tagline = "Multi-page layout, typography grids, CMYK prepress, and IDML compatibility"
+category = "layout"
+icon = "book"
+upstream = "../../aphrody-labs/designcraft.git"
+extensions = ["dcproj", "idml", "pdf", "eps"]
+sniff_families = ["document"]
+tools = ["text_frame", "master_page", "grid_guide", "preflight", "export_pdf"]
+inspector_groups = ["page_grid", "typography", "prepress_inks"]
+
+[[apps]]
+id = "figcraft"
+name = "Design Canvas"
+tagline = "Interface components, M3 design token binding, auto-layout, and Figma import"
+category = "layout"
+icon = "blocks"
+upstream = "../../aphrody-labs/figcraft.git"
+extensions = ["fig", "json"]
+sniff_families = ["archive", "text"]
+tools = ["frame", "auto_layout", "component", "token_bind", "prototype"]
+inspector_groups = ["constraints", "tokens_m3", "layout_taffy"]
+
+[[apps]]
+id = "texturecraft"
+name = "Texture"
+tagline = "Procedural tileable PBR map generator (albedo, normal, roughness, AO)"
+category = "image"
+icon = "box"
+upstream = "../../aphrody-labs/texturecraft.git"
+extensions = ["ktx2", "dds", "tga", "exr", "png"]
+sniff_families = ["image"]
+tools = ["noise_graph", "normal_bake", "seamless_tile", "mip_preview"]
+inspector_groups = ["maps_pbr", "tiling", "texel_budget"]
+
+[[apps]]
+id = "materialcraft"
+name = "Materials"
+tagline = "Physically based MaterialX / USD shader authoring and sphere viewport"
+category = "engineering"
+icon = "control"
+upstream = "../../aphrody-labs/materialcraft.git"
+extensions = ["mtlx", "usdz", "usd", "usda", "usdc"]
+sniff_families = ["model", "text"]
+tools = ["brdf_edit", "hdri_env", "shader_compile", "export_mtlx"]
+inspector_groups = ["brdf_params", "ibl_lighting", "wgsl_stage"]
+
+[[apps]]
+id = "soundcraft"
+name = "Audio"
+tagline = "Spectral waveform editor, polyphonic mixer, SF2 instruments, and VST/CLAP host"
+category = "audio"
+icon = "audio_on"
+upstream = "../../aphrody-labs/soundcraft.git"
+extensions = ["wav", "flac", "ogg", "mp3", "mid", "midi", "sf2"]
+sniff_families = ["audio"]
+tools = ["trim", "spectrum", "eq_filter", "normalize", "export_wav"]
+inspector_groups = ["waveform", "eq_bands", "loudness_lufs"]
+
+[[apps]]
+id = "wordcraft"
+name = "Docs"
+tagline = "Structured Markdown, DOCX, and typographic document authoring with track changes"
+category = "office"
+icon = "file_text_outlined"
+upstream = "../../aphrody-labs/wordcraft.git"
+extensions = ["md", "docx", "rtf", "txt"]
+sniff_families = ["document", "archive", "text"]
+tools = ["heading", "citation", "review_diff", "export_pdf"]
+inspector_groups = ["document_outline", "typography", "statistics"]
+
+[[apps]]
+id = "deckcraft"
+name = "Slides"
+tagline = "Slide deck composer with PPTX import, M3 themes, and speaker telemetry"
+category = "office"
+icon = "screen"
+upstream = "../../aphrody-labs/deckcraft.git"
+extensions = ["pptx", "deck", "pdf"]
+sniff_families = ["document", "archive"]
+tools = ["slide", "master", "transition", "presenter_view"]
+inspector_groups = ["slide_layout", "transition_motion", "speaker_notes"]
+
+[[apps]]
+id = "cadcraft"
+name = "CAD"
+tagline = "2D/3D parametric drafting for DWG, DXF, SHX typography, and CAM G-code"
+category = "engineering"
+icon = "tool_hammer"
+upstream = "../../aphrody-labs/cadcraft.git"
+extensions = ["dwg", "dxf", "gcode", "nc"]
+sniff_families = ["model", "text"]
+tools = ["polyline", "dimension", "extrude", "toolpath", "export_dxf"]
+inspector_groups = ["units_snap", "layer_lineweight", "gcode_feed"]
+
+[[apps]]
+id = "gridcraft"
+name = "Sheets"
+tagline = "Formula engine, CSV/XLSX/ODS analytics, and GPU-accelerated table views"
+category = "office"
+icon = "table"
+upstream = "../../aphrody-labs/gridcraft.git"
+extensions = ["xlsx", "ods", "csv", "tsv"]
+sniff_families = ["archive", "text"]
+tools = ["formula", "pivot", "chart", "filter", "export_csv"]
+inspector_groups = ["cell_format", "formula_ast", "summary_stats"]
+
+[[apps]]
+id = "craft-anything"
+name = "Inspector"
+tagline = "Clean-room reverse engineering, binary/Wasm/APK inspection, and evidence MCP workbench"
+category = "engineering"
+icon = "binary"
+upstream = "../../aphrody-labs/craft-anything.git"
+extensions = ["exe", "dll", "so", "dylib", "wasm", "elf", "apk", "ipa", "js", "asar"]
+sniff_families = ["executable", "archive"]
+tools = ["sniff", "disasm", "sections", "strings", "evidence_mcp"]
+inspector_groups = ["header_abi", "entropy_sections", "evidence_ledger"]
+
+[[apps]]
+id = "unrealcraft"
+name = "Unreal Bevy 5.8"
+tagline = "ECS 3D/2D world editor, Nanite meshlets, Solari GI, MaterialX->WGSL, OpenUSD, and Mocap"
+category = "engineering"
+icon = "box"
+upstream = "https://github.com/bevyengine/bevy"
+extensions = ["usd", "usda", "usdc", "usdz", "gltf", "glb", "mtlx", "bvh"]
+sniff_families = ["model", "text"]
+tools = ["select_actor", "translate_gizmo", "nanite_meshlets", "solari_gi", "materialx_wgsl", "mocap_play"]
+inspector_groups = ["world_outliner", "transform_ecs", "solari_lighting", "nanite_clusters"]

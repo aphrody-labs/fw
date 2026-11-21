@@ -1,0 +1,42 @@
+[package]
+name = "aphrody_ui"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+license = "GPL-3.0-or-later"
+description = "Unified GPUI OS toolkit combining Iced-style reactive programs, Egui-style immediate inspectors/charts, and Libcosmic theme/config/nav abstractions with WCAG AA verification."
+
+[lints]
+workspace = true
+
+[lib]
+path = "src/aphrody_ui.rs"
+doctest = false
+
+[features]
+default = []
+test-support = ["gpui/test-support", "theme/test-support"]
+
+[dependencies]
+anyhow.workspace = true
+backdrop-blur-core.workspace = true
+brand = { workspace = true, features = ["serde"] }
+dirs.workspace = true
+aphrody_design.workspace = true
+gpui.workspace = true
+log.workspace = true
+lucide-static-svg.workspace = true
+material-colors.workspace = true
+md-icons.workspace = true
+aphrody_session.workspace = true
+palette.workspace = true
+serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
+syntax_theme.workspace = true
+theme.workspace = true
+toml.workspace = true
+ui.workspace = true
+
+[target.'cfg(any(target_os = "windows", target_os = "macos"))'.dependencies]
+raw-window-handle.workspace = true
+window-vibrancy.workspace = true

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommitsEnabled",
+    ":separateMultipleMajorReleases",
+    "helpers:pinGitHubActionDigests",
+    "group:serdeMonorepo"
+  ],
+  "dependencyDashboard": true,
+  "timezone": "UTC",
+  "schedule": ["at any time"],
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true,
+  "addLabels": ["dependencies", "auto-merge"],
+  "prFooter": "Release Notes:\n\n- N/A",
+  "ignorePaths": ["**/node_modules/**"],
+  "packageRules": [
+    {
+      "description": "Group wasmtime crates together.",
+      "groupName": "wasmtime",
+      "matchPackageNames": ["wasmtime{/,}**"]
+    },
+    {
+      "description": "Never auto-bump wgpu crates: the aphrody-labs/wgpu fork is pinned by git tag.",
+      "matchPackageNames": ["wgpu{/,}**", "naga{/,}**"],
+      "enabled": false
+    }
+  ]
+}

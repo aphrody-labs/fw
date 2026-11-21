@@ -1,0 +1,37 @@
+@@uname-r
+7.0.3-arch1-1
+@@uname-v
+#1 SMP PREEMPT_DYNAMIC Mon, 01 Jun 2026 00:00:00 +0000
+@@proc-version
+Linux version 7.0.3-arch1-1 (linux@archlinux) (gcc (GCC) 16.1.1 20260501, GNU ld (GNU Binutils) 2.46) #1 SMP PREEMPT_DYNAMIC Mon, 01 Jun 2026 00:00:00 +0000
+@@installed
+linux 7.0.3.arch1-1
+@@sync-list
+core linux 7.1.0.arch1-1
+core linux-lts 6.18.50-1
+extra linux-hardened 7.1.0.hardened1-1
+extra linux-zen 7.1.0.zen1-1
+@@sync-age
+core 1790000000
+extra 1790003600
+@@repos
+core
+extra
+@@pending
+examplepkg 1.0-1 -> 1.1-1
+linux 7.0.3.arch1-1 -> 7.3.4.arch1-2
+otherpkg 2.0-1 -> 2.0-2
+@@boot
+firmware bios
+virt kvm
+cmdline BOOT_IMAGE=/boot/vmlinuz-linux root=UUID=00000000-0000-0000-0000-000000000000 rw console=tty0 console=ttyS0,115200
+grub-cfg yes
+boot-files grub initramfs-linux.img vmlinuz-linux
+root btrfs
+vfat sda2/300M/unmounted
+mkinitcpio-hooks HOOKS=(base systemd autodetect modconf kms keyboard block filesystems fsck)
+mkinitcpio-presets linux.preset
+btrfs-subvolumes swap var/lib/machines
+serial ttyS0
+boot-free-mb 800
+@@end

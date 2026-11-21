@@ -1,0 +1,118 @@
+---
+name: Aphrody Google Design System
+source_of_truth: https://design.google/
+system: Material 3 Expressive
+stitch_url: https://stitch.withgoogle.com/
+sans_flex_family: Google Sans Flex
+colors:
+  surface: "#131314"
+  surface-dim: "#0F0F0F"
+  surface-bright: "#3A3A3A"
+  surface-container-lowest: "#0C0C0C"
+  surface-container-low: "#1C1C1C"
+  surface-container: "#1E1F20"
+  surface-container-high: "#282A2C"
+  surface-container-highest: "#333537"
+  on-surface: "#E3E3E3"
+  on-surface-variant: "#C4C7C5"
+  outline: "#8E918F"
+  outline-variant: "#444746"
+  primary: "#A8C7FA"
+  on-primary: "#003352"
+  primary-container: "#004B75"
+  on-primary-container: "#CEE5FF"
+  secondary: "#7FCFFF"
+  on-secondary: "#1D3248"
+  secondary-container: "#34485F"
+  on-secondary-container: "#D2E4FF"
+  tertiary: "#C6C2FF"
+  on-tertiary: "#2C295F"
+  tertiary-container: "#434077"
+  on-tertiary-container: "#E2DFFF"
+  error: "#FFB4AB"
+  on-error: "#690005"
+  error-container: "#93000A"
+  on-error-container: "#FFDAD6"
+  background: "#0F0F0F"
+  on-background: "#E3E3E3"
+  light-surface: "#FAF9F9"
+  light-on-surface: "#1F1F1F"
+  light-primary: "#1A73E8"
+  light-on-primary: "#FFFFFF"
+typography:
+  display-lg:
+    fontFamily: "Google Sans Flex"
+    fontSize: 57px
+    fontWeight: "400"
+    lineHeight: 64px
+    letterSpacing: -0.004em
+  headline-lg:
+    fontFamily: "Google Sans Flex"
+    fontSize: 32px
+    fontWeight: "500"
+    lineHeight: 40px
+  body-md:
+    fontFamily: "Google Sans Flex"
+    fontSize: 14px
+    fontWeight: "400"
+    lineHeight: 20px
+  code-mono:
+    fontFamily: "JetBrains Mono"
+    fontSize: 13px
+    fontWeight: "400"
+    lineHeight: 20px
+rounded:
+  none: 0px
+  xs: 4px
+  sm: 8px
+  md: 12px
+  lg: 16px
+  xl: 28px
+  full: 9999px
+spacing:
+  gap: 8px
+  section: 16px
+  touch-min: 44px
+motion:
+  spatial-fast: { stiffness: 1400, dampingRatio: 0.9 }
+  spatial-default: { stiffness: 700, dampingRatio: 0.9 }
+  effects-default: { stiffness: 1600, dampingRatio: 1.0 }
+---
+
+# Aphrody Visual Identity (`DESIGN.md`)
+
+> Authoritative design system specification anchored to [`https://design.google/`](https://design.google/) (**Material 3 Expressive**), **Google Sans Flex**, [`google-labs-code/design.md`](https://github.com/google-labs-code/design.md), [`GoogleChrome/modern-web-guidance-src`](https://github.com/GoogleChrome/modern-web-guidance-src), and [**Google Stitch**](https://stitch.withgoogle.com/).
+
+## Design Thesis: Code Is a Design Material
+
+Inspired by [*Code is a Design Material*](https://design.google/library/code-is-a-design-material), Aphrody treats live Rust GPUI views, NSH TSX surfaces, and WGSL WebGPU shaders as malleable design materials unified by semantic tokens rather than hand-coded hex literals.
+
+## Google Sans Flex Variable Axes & Code Pairings
+
+Derived from [*Google Sans: Evolving Google's Typeface*](https://design.google/library/google-sans-flex-font):
+- **UI Display & Controls**: `Google Sans Flex` with continuous axes `opsz` (6..144), `wght` (100..1000), `wdth` (25..151), `GRAD` (-50..200), `slnt` (-10..0), and `ROND` (0..100).
+- **Code & Terminal Buffers**: `JetBrains Mono` / `Roboto Mono` / `.AphrodyMono` for unambiguous code legibility where proportional sans stops.
+
+## Mirrored References (native GPUI)
+
+Each reference resolves to tokens in `fw/crates/fw-m3/tokens/google_design_tokens.toml` and a `RenderOnce` component in `crates/aphrody_ui/src/google_design_components.rs`:
+
+| Reference | Tokens | GPUI component |
+| --- | --- | --- |
+| [Transparent Screens](https://design.google/library/transparent-screens) | `ref.palette.glimmer_*`, `comp.glimmer_hud` | `TransparentHudCard` |
+| [Gemini visual design](https://design.google/library/gemini-ai-visual-design) | `ref.palette.gemini_*`, `comp.gemini_spectrum` | `GeminiSpectrumCard` |
+| [YouTube new red](https://design.google/library/youtube-new-red-color) | `ref.palette.youtube_*`, `comp.youtube_scrubber` | `YoutubeGradientScrubber` |
+| [Googlebook](https://googlebook.google/) | `ref.palette.googlebook_*`, `comp.googlebook_glowbar` | `GlowbarShellCard` |
+| [OpenBook](https://openbook.page/) / [Quire](https://github.com/Mhsbrian/OpenBook) | `ref.palette.quire_*`, `sys.motion.springs.quire_*`, `comp.quire_glass_note` | `QuireGlassNote` |
+| [Angular Material](https://material.angular.dev/components/categories), [Flutter Material](https://docs.flutter.dev/ui/widgets/material), [Compose Material](https://developer.android.com/jetpack/androidx/releases/compose-material), [Figma M3 kit](https://www.figma.com/design/vEr6T5SQaJfMpLxjMUfD55/Material-3-Design-Kit--Community-?node-id=11-1833) | `sys.color.*`, `sys.shape.*` | `MaterialComponentMatrix` |
+
+```yaml
+stitch:
+  preserve_data_stitch_id: true
+  default_viewport_px: 1440
+  modern_web_baseline: true
+  components:
+    primary_button: "{comp.button.container_shape}"
+    surface_card: "{comp.card.container_color_role}"
+    shader_canvas: "{comp.shader_canvas.accent_color_role}"
+```

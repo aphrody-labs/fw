@@ -1,0 +1,88 @@
+# Test lanes of the kernel watch: what is probed or built where. Hosts are ssh aliases resolved by the local ssh config at run time;
+# nothing here names a machine address or account. Roles come from the fleet rules: production is read-only, builds run on the build host.
+
+[probe]
+# Kernel package names looked at in the Arch repositories (the archlinux.org package API also answers for core-testing and extra-testing).
+packages = ["linux", "linux-lts", "linux-zen", "linux-hardened", "linux-rt", "linux-rt-lts"]
+# AUR package names looked at through the AUR RPC.
+aur = ["linux-mainline", "linux-rc", "linux-git", "linux-cachyos-rc", "linux-xanmod", "linux-tkg"]
+# CachyOS repository directories searched for these package names.
+cachyos_packages = ["linux-cachyos", "linux-cachyos-rc"]
+arch_api = "https://archlinux.org/packages/search/json/"
+aur_rpc = "https://aur.archlinux.org/rpc/v5/info"
+timeout = "60s"
+
+  [[probe.cachyos]]
+  id = "cachyos"
+  url = "https://mirror.cachyos.org/repo/x86_64/cachyos/"
+  [[probe.cachyos]]
+  id = "cachyos-v3"
+  url = "https://mirror.cachyos.org/repo/x86_64_v3/cachyos-v3/"
+  [[probe.cachyos]]
+  id = "cachyos-v4"
+  url = "https://mirror.cachyos.org/repo/x86_64_v4/cachyos-v4/"
+  [[probe.cachyos]]
+  id = "cachyos-znver4"
+  url = "https://mirror.cachyos.org/repo/x86_64_v4/cachyos-znver4/"
+
+  # Read-only probe targets. The probe only runs the fixed command list in probe.ts (uname, pacman -Q/-Sl/-Qu, pacman-conf, stat, cat).
+  [[probe.host]]
+  id = "production"
+  ssh = "prd"
+  label = "production Arch host (read-only)"
+
+# ------------------------------------------------------------------------------------------------ rc lane (build host)
+# Builds or fetches each rc kernel, boots it in QEMU/KVM against an Arch root filesystem, runs the smoke suite and writes one record per
+# kernel. Everything lives under a root directory given on the command line (--root), on the build host; nothing is cached on the PC.
+
+[lane]
+ssh = "fr1"
+repo_url = "https://github.com/aphrody-labs/aphrody.git"
+image = "archlinux:latest"
+aur_git = "https://aur.archlinux.org/linux-mainline.git"
+kernel_git = "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
+testing_repos = ["core-testing", "extra-testing"]
+vm_cpus = 4
+vm_memory_mb = 3072
+disk_gb = 6
+boot_timeout = "20m"
+build_timeout = "4h"
+refresh_rootfs_days = 7
+# systemd OnCalendar of the user timer that runs "run --if-new" (a version that already has a passing record is skipped).
+timer = "*-*-* 00/6:20:00"
+kselftest_targets = ["exec", "membarrier", "clone3", "kcmp", "mincore", "sigaltstack", "mqueue"]
+
+  # source = "repo": pacman -S <package> from the Arch repositories in the guest (the stable baseline the rc is compared with).
+  # source = "aur": makepkg of the AUR PKGBUILD in an archlinux container with the testing repositories enabled.
+  # source = "cachyos": the newest package among the listed CachyOS repositories that the build host CPU can run (probe.cachyos ids).
+  [[lane.kernel]]
+  id = "arch-baseline"
+  name = "Arch linux (stable baseline)"
+  kernel = "arch"
+  channel = "core/linux"
+  source = "repo"
+  package = "linux"
+  [[lane.kernel]]
+  id = "arch-mainline"
+  name = "Arch linux-mainline (AUR, rc)"
+  kernel = "arch"
+  channel = "aur/linux-mainline"
+  source = "aur"
+  package = "linux-mainline"
+  [[lane.kernel]]
+  id = "cachyos-rc"
+  name = "CachyOS linux-cachyos-rc"
+  kernel = "cachyos"
+  channel = "linux-cachyos-rc"
+  source = "cachyos"
+  package = "linux-cachyos-rc"
+  repos = ["cachyos-v3", "cachyos"]
+
+  # source = "tree": a kernel built from a source tree (kconfig/merge.sh, make LLVM=1) and staged with kconfig/stage.sh into <root>/out/<id>.
+  [[lane.kernel]]
+  id = "next-aphrody"
+  name = "linux-next, aphrody config fragments"
+  kernel = "linux"
+  channel = "next"
+  source = "tree"
+  package = "linux-next-aphrody"

@@ -1,0 +1,97 @@
+// This crate was essentially pulled out verbatim from main `zed` crate to avoid having to run RustEmbed macro whenever zed has to be rebuilt. It saves a second or two on an incremental build.
+
+use gpui::{App, AssetSource, Result, SharedString};
+
+// Release builds embed the assets; dev builds read them from the checkout at
+// runtime so edits show up on the next launch without a rebuild and no
+// build-time path is baked in (which corgi's sandbox rejects). See
+// `util::fs_embed!`.
+#[cfg(not(feature = "web-slim"))]
+util::fs_embed! {
+    pub struct Assets,
+    crate_relative = "../../assets",
+    root_relative = "assets",
+    include = [
+        "fonts/**/*",
+        "icons/**/*",
+        "images/**/*",
+        "os/**/*",
+        "themes/**/*",
+        "sounds/**/*",
+        "prompts/**/*",
+        "*.md",
+    ],
+    exclude = ["themes/src/*", "*.DS_Store"],
+}
+
+// Slim Wasm bundle: keep core Regular sans + monospace fonts, vector icons, and
+// runtime design/theme/craft manifests while omitting ~2.7 MiB of extra font
+// weights, desktop themes, sounds, prompts, and offline catalog snapshots.
+#[cfg(feature = "web-slim")]
+util::fs_embed! {
+    pub struct Assets,
+    crate_relative = "../../assets",
+    root_relative = "assets",
+    include = [
+        "fonts/ibm-plex-sans/IBMPlexSans-Regular.ttf",
+        "fonts/google-sans-code/GoogleSansCode-Variable.ttf",
+        "icons/**/*",
+        "os/themes.json",
+        "os/craft_catalog.toml",
+        "os/m3_compose_catalog.json",
+    ],
+    exclude = ["*.DS_Store"],
+}
+
+impl AssetSource for Assets {
+    fn load(&self, path: &str) -> Result<Option<std::borrow::Cow<'static, [u8]>>> {
+        if let Some(file) = Self::get(path) {
+            return Ok(Some(file.data));
+        }
+        // Fallback for non-boot runtime assets offloaded to R2 and optionally hydrated into target/r2-cache/.
+        let cache_rel = std::path::Path::new("target/r2-cache/assets").join(path);
+        if cache_rel.is_file() {
+            return Ok(Some(std::borrow::Cow::Owned(std::fs::read(&cache_rel)?)));
+        }
+        anyhow::bail!("loading asset at path {path:?}")
+    }
+
+    fn list(&self, path: &str) -> Result<Vec<SharedString>> {
+        Ok(Self::iter()
+            .filter_map(|p| {
+                if p.starts_with(path) {
+                    Some(p.into())
+                } else {
+                    None
+                }
+            })
+            .collect())
+    }
+}
+
+impl Assets {
+    /// Populate the [`TextSystem`] of the given [`AppContext`] with all `.ttf` fonts in the `fonts` directory.
+    pub fn load_fonts(&self, cx: &App) -> anyhow::Result<()> {
+        let font_paths = self.list("fonts")?;
+        let mut embedded_fonts = Vec::new();
+        for font_path in font_paths {
+            if font_path.ends_with(".ttf") {
+                let font_bytes = cx
+                    .asset_source()
+                    .load(&font_path)?
+                    .expect("Assets should never return None");
+                embedded_fonts.push(font_bytes);
+            }
+        }
+
+        cx.text_system().add_fonts(embedded_fonts)
+    }
+
+    pub fn load_test_fonts(&self, cx: &App) {
+        cx.text_system()
+            .add_fonts(vec![
+                self.load("fonts/lilex/Lilex-Regular.ttf").unwrap().unwrap(),
+            ])
+            .unwrap()
+    }
+}

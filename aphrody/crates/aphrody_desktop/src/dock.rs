@@ -1,0 +1,377 @@
+//! COSMIC Epoch bottom dock (`cosmic-dock`) renderer with adaptive compact layout & active indicators.
+
+use gpui::{AnyElement, Context, Role, SharedString, div, prelude::*, px};
+use aphrody_ui::{AdaptiveViewport, OsTheme};
+use ui::{Icon, IconName, IconSize, Tooltip, h_flex};
+
+use crate::shell::OsDesktopShell;
+use crate::windows::WindowKind;
+
+pub struct DockTileSpec {
+    pub id: &'static str,
+    pub icon: IconName,
+    pub label: SharedString,
+    pub kind: Option<WindowKind>,
+    pub craft_id: Option<&'static str>,
+}
+
+/// Renders the interactive `cosmic-dock` launcher strip at the bottom of the shell.
+pub fn render_cosmic_dock(
+    shell: &OsDesktopShell,
+    theme: &OsTheme,
+    dock_h: f32,
+    vw: f32,
+    cx: &mut Context<OsDesktopShell>,
+) -> AnyElement {
+    let compact_dock = AdaptiveViewport::from_size(vw, dock_h).compact_dock;
+    let items: Vec<DockTileSpec> = if compact_dock {
+        vec![
+            DockTileSpec {
+                id: "dock-launcher",
+                icon: IconName::Command,
+                label: SharedString::from("Launcher"),
+                kind: None,
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-studio",
+                icon: IconName::Image,
+                label: SharedString::from("Studio"),
+                kind: Some(WindowKind::Studio),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-craft-anything",
+                icon: IconName::Binary,
+                label: SharedString::from("Inspector"),
+                kind: None,
+                craft_id: Some("craft-anything"),
+            },
+            DockTileSpec {
+                id: "dock-browser",
+                icon: IconName::ToolWeb,
+                label: SharedString::from("Browser"),
+                kind: Some(WindowKind::Browser),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-vpn",
+                icon: IconName::VpnShield,
+                label: SharedString::from("WireGuard VPN"),
+                kind: Some(WindowKind::Vpn),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-google-workspace",
+                icon: IconName::Sparkle,
+                label: SharedString::from("Google Workspace & AI"),
+                kind: Some(WindowKind::GoogleWorkspace),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-youtube",
+                icon: IconName::PlayFilled,
+                label: SharedString::from("YouTube & Media"),
+                kind: Some(WindowKind::YouTube),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-youtube-music",
+                icon: IconName::AudioOn,
+                label: SharedString::from("YouTube Music"),
+                kind: Some(WindowKind::YouTubeMusic),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-video",
+                icon: IconName::Screen,
+                label: SharedString::from("Aphrody Video"),
+                kind: Some(WindowKind::Video),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-design",
+                icon: IconName::Sparkle,
+                label: SharedString::from("Design & Hub"),
+                kind: Some(WindowKind::Design),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-files",
+                icon: IconName::FolderOpen,
+                label: SharedString::from("Files"),
+                kind: Some(WindowKind::Files),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-settings",
+                icon: IconName::Settings,
+                label: SharedString::from("Settings"),
+                kind: Some(WindowKind::Settings),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-monitor",
+                icon: IconName::Server,
+                label: SharedString::from("Monitor"),
+                kind: Some(WindowKind::Monitor),
+                craft_id: None,
+            },
+        ]
+    } else {
+        vec![
+            DockTileSpec {
+                id: "dock-launcher",
+                icon: IconName::Command,
+                label: SharedString::from("Launcher"),
+                kind: None,
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-studio",
+                icon: IconName::Image,
+                label: SharedString::from("Studio"),
+                kind: Some(WindowKind::Studio),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-photocraft",
+                icon: IconName::Sparkle,
+                label: SharedString::from("Photo"),
+                kind: None,
+                craft_id: Some("photocraft"),
+            },
+            DockTileSpec {
+                id: "dock-vectorcraft",
+                icon: IconName::Pencil,
+                label: SharedString::from("Vector"),
+                kind: None,
+                craft_id: Some("vectorcraft"),
+            },
+            DockTileSpec {
+                id: "dock-craft-anything",
+                icon: IconName::Binary,
+                label: SharedString::from("Inspector"),
+                kind: None,
+                craft_id: Some("craft-anything"),
+            },
+            DockTileSpec {
+                id: "dock-browser",
+                icon: IconName::ToolWeb,
+                label: SharedString::from("Browser"),
+                kind: Some(WindowKind::Browser),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-vpn",
+                icon: IconName::VpnShield,
+                label: SharedString::from("WireGuard VPN"),
+                kind: Some(WindowKind::Vpn),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-google-workspace",
+                icon: IconName::Sparkle,
+                label: SharedString::from("Google Workspace & AI"),
+                kind: Some(WindowKind::GoogleWorkspace),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-youtube",
+                icon: IconName::PlayFilled,
+                label: SharedString::from("YouTube & Media"),
+                kind: Some(WindowKind::YouTube),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-youtube-music",
+                icon: IconName::AudioOn,
+                label: SharedString::from("YouTube Music"),
+                kind: Some(WindowKind::YouTubeMusic),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-video",
+                icon: IconName::Screen,
+                label: SharedString::from("Aphrody Video"),
+                kind: Some(WindowKind::Video),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-design",
+                icon: IconName::Sparkle,
+                label: SharedString::from("Design & Hub"),
+                kind: Some(WindowKind::Design),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-files",
+                icon: IconName::FolderOpen,
+                label: SharedString::from("Files"),
+                kind: Some(WindowKind::Files),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-settings",
+                icon: IconName::Settings,
+                label: SharedString::from("Settings"),
+                kind: Some(WindowKind::Settings),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-monitor",
+                icon: IconName::Server,
+                label: SharedString::from("Monitor"),
+                kind: Some(WindowKind::Monitor),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-term",
+                icon: IconName::Terminal,
+                label: SharedString::from("Terminal"),
+                kind: Some(WindowKind::Term),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-edit",
+                icon: IconName::FileCode,
+                label: SharedString::from("Editor"),
+                kind: Some(WindowKind::Edit),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-store",
+                icon: IconName::Download,
+                label: SharedString::from("Store"),
+                kind: Some(WindowKind::Store),
+                craft_id: None,
+            },
+            DockTileSpec {
+                id: "dock-installer",
+                icon: IconName::Code,
+                label: SharedString::from("Installer / DE"),
+                kind: Some(WindowKind::Installer),
+                craft_id: None,
+            },
+        ]
+    };
+
+    let tile_size = if compact_dock {
+        38.0
+    } else {
+        theme.layout.min_touch_target
+    };
+
+    let active_kind = shell
+        .compositor
+        .focused_toplevel
+        .and_then(|id| shell.window_kinds.get(&id).copied());
+
+    let glass = shell.glass_preset();
+    let dock_opacity = (glass.tint_alpha() + 0.24).clamp(0.68, 0.94);
+    let border_opacity = (glass.specular_intensity() + 0.22).clamp(0.35, 0.72);
+    let mut dock_row = h_flex()
+        .px_3()
+        .py_1p5()
+        .gap_1p5()
+        .items_center()
+        .rounded_full()
+        .bg(theme.colors.surface_container_high.opacity(dock_opacity))
+        .border_1()
+        .border_color(theme.colors.outline_variant.opacity(border_opacity))
+        .shadow_lg();
+
+    for (idx, item) in items.into_iter().enumerate() {
+        let is_active = match (item.kind, item.craft_id) {
+            (Some(kind), _) => active_kind == Some(kind),
+            (None, Some(cid)) => {
+                shell.studio.active_app_id == cid && active_kind == Some(WindowKind::Studio)
+            }
+            (None, None) => shell.launcher_open,
+        };
+        let entity = cx.entity();
+        let ring = theme.colors.primary;
+        let bg = if is_active {
+            theme.colors.primary_container
+        } else {
+            theme.colors.surface_container.opacity(0.55)
+        };
+        let hover_bg = if is_active {
+            theme.colors.primary_container
+        } else {
+            theme.colors.surface_container_highest
+        };
+        let fg = if is_active {
+            theme.colors.on_primary_container
+        } else {
+            theme.colors.on_surface
+        };
+        let border = if is_active {
+            theme.colors.primary.opacity(0.70)
+        } else {
+            gpui::transparent_black()
+        };
+        let kind_opt = item.kind;
+        let craft_id = item.craft_id;
+        let label = item.label.clone();
+
+        dock_row = dock_row.child(
+            div()
+                .id(item.id)
+                .min_w(px(tile_size))
+                .min_h(px(tile_size))
+                .flex()
+                .flex_col()
+                .items_center()
+                .justify_center()
+                .gap_0p5()
+                .rounded_full()
+                .bg(bg)
+                .text_color(fg)
+                .border_1()
+                .border_color(border)
+                .hover(move |s| s.bg(hover_bg))
+                .cursor_pointer()
+                .focusable()
+                .tab_index((700 + idx) as isize)
+                .tab_stop(true)
+                .role(Role::Button)
+                .aria_label(label.clone())
+                .tooltip(Tooltip::text(label.clone()))
+                .focus_visible(move |s| s.border_2().border_color(ring))
+                .on_click(move |_, _w, cx| {
+                    entity.update(cx, |s, cx| {
+                        if let Some(kind) = kind_opt {
+                            s.open_or_focus_window(kind, label.as_ref(), cx);
+                        } else if let Some(cid) = craft_id {
+                            s.select_craft_app(cid, cx);
+                        } else {
+                            s.toggle_launcher(cx);
+                        }
+                    });
+                })
+                .child(Icon::new(item.icon).size(IconSize::Medium))
+                .when(is_active, |el| {
+                    el.child(
+                        div()
+                            .w(px(12.0))
+                            .h(px(3.0))
+                            .rounded_full()
+                            .bg(theme.colors.primary),
+                    )
+                }),
+        );
+    }
+
+    h_flex()
+        .id("os-bottom-dock")
+        .role(Role::Toolbar)
+        .aria_label("Desktop Application Dock")
+        .w_full()
+        .h(px(dock_h))
+        .justify_center()
+        .items_center()
+        .bg(theme.colors.background)
+        .child(dock_row)
+        .into_any_element()
+}

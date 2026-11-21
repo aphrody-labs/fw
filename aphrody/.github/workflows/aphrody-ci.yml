@@ -1,0 +1,291 @@
+name: aphrody CI
+
+on:
+  pull_request:
+    branches: ['**']
+  push:
+    # release/<M> branches of the release train (aphrody-labs/ay docs/release/model.md) get the same gates as main.
+    branches: [main, "release/**"]
+  merge_group:
+    types: [checks_requested]
+  workflow_dispatch:
+
+concurrency:
+  group: aphrody-ci-${{ github.ref }}
+  # Main runs deploy web.aphrody.com, so a newer push waits instead of killing the running
+  # deploy; GitHub keeps only the newest pending run, so main still ships its latest commit.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: '1'
+  CARGO_PROFILE_DEV_DEBUG: '0'
+  CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG: '0'
+
+permissions:
+  contents: read
+
+jobs:
+  plugin-and-config:
+    runs-on: ubuntu-latest
+    steps:
+      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
+      - name: Check out fw beside aphrody
+        shell: bash
+        run: |
+          fw="$GITHUB_WORKSPACE/../fw"
+          if [ -d "$fw/.git" ]; then git -C "$fw" fetch --depth 1 origin main && git -C "$fw" checkout --force FETCH_HEAD; else git clone --depth 1 https://github.com/aphrody-labs/fw.git "$fw"; fi
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+      - name: Layout map (crate homes, dependency direction, pinned git, no submodules or vendor)
+        run: bun ../fw/tools/layout.ts check
+      - name: Read pinned Rust toolchain
+        id: toolchain
+        run: bun -e 'console.log(`channel=${Bun.TOML.parse(await Bun.file("rust-toolchain.toml").text()).toolchain.channel}`)' >> "$GITHUB_OUTPUT"
+      # tooling/bun/toolchain-audit.test.ts probes rustc and cargo; without the pinned toolchain rustup downloads it mid-test.
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.toolchain.outputs.channel }}
+      - name: Validate product manifest, plugin manifests, workflow YAML, and Bun hooks
+        run: |
+          bun -e '
+            import { Glob } from "bun";
+            import { readFileSync } from "node:fs";
+            const product = Bun.TOML.parse(readFileSync("product.toml", "utf8")) as {
+              plugin: { name: string };
+            };
+            const pluginDir = `.agents/plugins/${product.plugin.name}`;
+            for (const f of [
+              ".agents/plugins.json",
+              `${pluginDir}/plugin.json`,
+              `${pluginDir}/hooks.json`,
+              ".github/renovate.json",
+            ]) {
+              JSON.parse(readFileSync(f, "utf8"));
+            }
+            for (const y of [
+              ...new Glob(".github/workflows/*.yml").scanSync("."),
+              ...new Glob(".github/ISSUE_TEMPLATE/*.yml").scanSync("."),
+              ...new Glob(".github/DISCUSSION_TEMPLATE/*.yml").scanSync("."),
+            ]) {
+              Bun.YAML.parse(readFileSync(y, "utf8"));
+            }
+            console.log(`PLUGIN_DIR=${pluginDir}`);
+          ' > cfg.env
+          PLUGIN_DIR=$(cut -d= -f2 cfg.env)
+          rm -f cfg.env
+          cd "$PLUGIN_DIR"
+          echo '{"cwd":"'"$GITHUB_WORKSPACE"'"}' | bun ./hooks/session-start.ts
+          echo '{"toolCall":{"name":"write_file","args":{"Path":"crates/example/src/lib.rs"}}}' | bun ./hooks/post-edit-check.ts
+          cd "$GITHUB_WORKSPACE"
+          bun run hygiene
+          bun run test:tooling
+
+  brand-and-sdk-linux:
+    runs-on: ubuntu-latest
+    steps:
+      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
+      - name: Check out fw beside aphrody
+        shell: bash
+        run: |
+          fw="$GITHUB_WORKSPACE/../fw"
+          if [ -d "$fw/.git" ]; then git -C "$fw" fetch --depth 1 origin main && git -C "$fw" checkout --force FETCH_HEAD; else git clone --depth 1 https://github.com/aphrody-labs/fw.git "$fw"; fi
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake pkg-config clang libclang-dev lld \
+            libasound2-dev libfontconfig-dev libfreetype-dev libgit2-dev libglib2.0-dev \
+            libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+            libgtk-3-dev libsoup-3.0-dev libsqlite3-dev libssl-dev libva-dev \
+            libvulkan1 libwayland-dev libwebkit2gtk-4.1-dev \
+            libx11-xcb-dev libxcb1-dev libxcb-shape0-dev libxcb-xfixes0-dev \
+            libxkbcommon-dev libxkbcommon-x11-dev libzstd-dev
+      - uses: oven-sh/setup-bun@v2
+      - name: Read toolchain and workspace config via Bun
+        id: cfg
+        shell: bash
+        run: |
+          bun -e '
+            import { readFileSync } from "node:fs";
+            const rt = Bun.TOML.parse(readFileSync("rust-toolchain.toml", "utf8")) as any;
+            const pm = Bun.TOML.parse(readFileSync("product.toml", "utf8")) as any;
+            const feat = pm.features;
+            const lines = [
+              `toolchain=${rt.toolchain.channel}`,
+              `app_bin=${pm.product.slug}`,
+              `app_features=${feat.default_app_features.join(",")}`,
+              `ui_crate=${feat.modular_ui_crate}`,
+              `ui_features=${feat.modular_ui_features}`,
+              `code_crate=${feat.modular_code_crate}`,
+              `shell_crate=${feat.modular_shell_crate}`,
+              `shell_features=${feat.modular_shell_features}`,
+              `wgpu_pkg=${feat.wgpu_cli_package}`,
+            ];
+            for (const l of lines) console.log(l);
+          ' >> "$GITHUB_OUTPUT"
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.cfg.outputs.toolchain }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Brand manifest & icon consistency check
+        run: |
+          cargo xtask brand check
+          cargo test -j 4 -p brand
+          cargo test -j 4 -p xtask --bins
+      - name: Modular GPUI & WGPU SDK checks
+        run: |
+          cargo check -j 4 -p "${{ steps.cfg.outputs.ui_crate }}" --features "${{ steps.cfg.outputs.ui_features }}"
+          cargo check -j 4 -p "${{ steps.cfg.outputs.code_crate }}" --no-default-features
+          cargo check -j 4 -p "${{ steps.cfg.outputs.shell_crate }}" --features "${{ steps.cfg.outputs.shell_features }}"
+          cargo test -j 4 -p "${{ steps.cfg.outputs.wgpu_pkg }}" --bins
+          cargo check -j 4 -p "${{ steps.cfg.outputs.wgpu_pkg }}" --examples
+
+  wasm-webgpu-first:
+    runs-on: ubuntu-latest
+    steps:
+      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
+      - name: Check out fw beside aphrody
+        shell: bash
+        run: |
+          fw="$GITHUB_WORKSPACE/../fw"
+          if [ -d "$fw/.git" ]; then git -C "$fw" fetch --depth 1 origin main && git -C "$fw" checkout --force FETCH_HEAD; else git clone --depth 1 https://github.com/aphrody-labs/fw.git "$fw"; fi
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - name: Install Linux fontconfig dependencies
+        run: sudo apt-get update && sudo apt-get install -y libfontconfig-dev pkg-config libxkbcommon-dev libxkbcommon-x11-dev libwayland-dev libasound2-dev libvulkan-dev libxcb1-dev libxcb-shape0-dev libxcb-xfixes0-dev
+      - uses: oven-sh/setup-bun@v2
+      - name: Read toolchain and pinned wasm-bindgen version
+        id: cfg
+        run: |
+          bun -e '
+            import { readFileSync } from "node:fs";
+            const rt = Bun.TOML.parse(readFileSync("rust-toolchain.toml", "utf8")) as any;
+            const lock = readFileSync("Cargo.lock", "utf8");
+            const wb = lock.match(/name = "wasm-bindgen"\r?\nversion = "([^"]+)"/)?.[1] ?? "0.2.129";
+            console.log(`toolchain=${rt.toolchain.channel}`);
+            console.log(`wasm_bindgen=${wb}`);
+          ' >> "$GITHUB_OUTPUT"
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.cfg.outputs.toolchain }}
+          targets: wasm32-unknown-unknown,wasm32-wasip2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-bindgen@${{ steps.cfg.outputs.wasm_bindgen }}
+      - name: Install binaryen (wasm-opt)
+        # The distro package is years behind and rejects the `--enable-*` flags that tooling/bun/web-build.ts passes.
+        env:
+          BINARYEN_VERSION: version_133
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          archive="binaryen-${BINARYEN_VERSION}-x86_64-linux.tar.gz"
+          gh release download "$BINARYEN_VERSION" -R WebAssembly/binaryen -p "$archive" -p "$archive.sha256" -D "$RUNNER_TEMP"
+          (cd "$RUNNER_TEMP" && sha256sum -c "$archive.sha256")
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/binaryen-${BINARYEN_VERSION}/bin" >> "$GITHUB_PATH"
+      - uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: wasm-webgpu-v1
+      - name: Check full monorepo WebAssembly & WASI Preview 2 targets
+        run: bun run web:check
+      - name: Build & audit optimized WebGPU cohorts (baseline + simd128)
+        # WebGPU only with the slim asset set (one sans and one mono font, icons): the simd cohort ships
+        # 2,827,411 B brotli instead of 4,477,344 B with the full set and the WebGL backend (fr1, 2026-11-21).
+        run: bun run web:build:release --slim --webgpu-only
+      - name: Validate WGSL shaders & WGPU adapter tooling
+        run: cargo test -j 4 -p aphrody_cli --bins
+      # Every push to main ships the web build it just verified: assets to R2, then the
+      # aphrody-web Worker, then a live check. Workers scale per request on their own.
+      - name: Deploy web.aphrody.com
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          bun tooling/bun/cloudflare-deploy.ts publish-web --dist target/web-dist --app aphrody_desktop
+          bun tooling/bun/cloudflare-deploy.ts deploy --env web
+          bun tooling/bun/cloudflare-deploy.ts smoke-web --base-url https://web.aphrody.com --dist target/web-dist
+
+  windows-aphrody-and-gpu:
+    runs-on: windows-latest
+    steps:
+      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
+      - name: Check out fw beside aphrody
+        shell: bash
+        run: |
+          fw="$GITHUB_WORKSPACE/../fw"
+          if [ -d "$fw/.git" ]; then git -C "$fw" fetch --depth 1 origin main && git -C "$fw" checkout --force FETCH_HEAD; else git clone --depth 1 https://github.com/aphrody-labs/fw.git "$fw"; fi
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+      - name: Read toolchain and workspace config via Bun
+        id: cfg
+        shell: bash
+        run: |
+          bun -e '
+            import { readFileSync } from "node:fs";
+            const rt = Bun.TOML.parse(readFileSync("rust-toolchain.toml", "utf8")) as any;
+            const pm = Bun.TOML.parse(readFileSync("product.toml", "utf8")) as any;
+            const feat = pm.features;
+            const lines = [
+              `toolchain=${rt.toolchain.channel}`,
+              `app_bin=${pm.product.slug}`,
+              `app_features=${feat.default_app_features.join(",")}`,
+              `wgpu_pkg=${feat.wgpu_cli_package}`,
+            ];
+            for (const l of lines) console.log(l);
+          ' >> "$GITHUB_OUTPUT"
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.cfg.outputs.toolchain }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Enable long paths for git dependency checkouts (mullvadvpn-app desktop tree exceeds MAX_PATH)
+        shell: bash
+        run: git config --global core.longpaths true
+      - name: Brand check & Windows compilation
+        shell: bash
+        run: |
+          cargo xtask brand check
+          cargo test -j 4 -p brand
+          cargo test -j 4 -p "${{ steps.cfg.outputs.wgpu_pkg }}" --bins
+          cargo check -j 4 -p "${{ steps.cfg.outputs.wgpu_pkg }}" --examples
+          cargo check -j 4 -p zed --bin "${{ steps.cfg.outputs.app_bin }}" --features "${{ steps.cfg.outputs.app_features }}"
+          cargo check -j 4 -p cli --bin cli
+
+  cloudflare-and-framework:
+    runs-on: ubuntu-latest
+    steps:
+      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
+      - name: Check out fw beside aphrody
+        shell: bash
+        run: |
+          fw="$GITHUB_WORKSPACE/../fw"
+          if [ -d "$fw/.git" ]; then git -C "$fw" fetch --depth 1 origin main && git -C "$fw" checkout --force FETCH_HEAD; else git clone --depth 1 https://github.com/aphrody-labs/fw.git "$fw"; fi
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - name: Install Linux fontconfig dependencies
+        run: sudo apt-get update && sudo apt-get install -y libfontconfig-dev pkg-config libxkbcommon-dev libxkbcommon-x11-dev libwayland-dev libasound2-dev libvulkan-dev libxcb1-dev libxcb-shape0-dev libxcb-xfixes0-dev
+      - uses: oven-sh/setup-bun@v2
+      - name: Validate Cloudflare Workers and fleet deploy manifests
+        run: bun tooling/bun/cloudflare-deploy.ts audit --dry-run
+      - name: Read toolchain via Bun
+        id: cfg
+        run: bun -e 'import { readFileSync } from "node:fs"; console.log(`toolchain=${(Bun.TOML.parse(readFileSync("rust-toolchain.toml","utf8")) as any).toolchain.channel}`);' >> "$GITHUB_OUTPUT"
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.cfg.outputs.toolchain }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Check aphrody fullstack facade, backends, and clippy hygiene
+        run: |
+          cargo clippy -j 4 --no-deps -p aphrody -p aphrody_session -p aphrody_design -p aphrody_pilot -p aphrody_craft -p aphrody_installer -p aphrody_cli -p iced_gpui -p tauri_gpui -p cosmic_gpui -p egui_gpui -p bevy_gpui -- -D warnings
+          cargo test -j 4 --lib -p brand -p aphrody -p aphrody_session -p aphrody_design -p aphrody_pilot -p aphrody_craft -p aphrody_installer -p cosmic_gpui -p iced_gpui -p egui_gpui -p bevy_gpui -p tauri_gpui

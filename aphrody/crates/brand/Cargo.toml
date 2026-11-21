@@ -1,0 +1,27 @@
+[package]
+name = "brand"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+license = "Apache-2.0"
+description = "Compile-time and runtime product identity constants generated from root product.toml with full Zed ecosystem compatibility."
+
+[lints]
+workspace = true
+
+[lib]
+path = "src/brand.rs"
+doctest = false
+
+[features]
+default = []
+serde = ["dep:serde", "fw-m3/serde"]
+schemars = ["dep:schemars", "fw-m3/schemars"]
+
+[dependencies]
+fw-m3.workspace = true
+serde = { workspace = true, features = ["derive"], optional = true }
+schemars = { workspace = true, optional = true }
+
+[build-dependencies]
+toml.workspace = true

@@ -1,0 +1,128 @@
+# Single Source of Truth for Product Identity & Zed Ecosystem Compatibility.
+# Edit this manifest and run `cargo xtask brand apply` (verify with `cargo xtask brand check`)
+# to deterministically synchronize all binaries, bundles, icons, OS manifests, and runtime constants.
+
+[product]
+name = "Aphrody"
+slug = "aphrody"
+tagline = "OS and desktop (Zed fork, GPUI)"
+description = "Local-first OS and desktop: GPUI desktop shell, compositor, installer and the Aphrody Studio editor, 100% compatible with the Zed ecosystem."
+authors = ["Aphrody Labs <dev@aphrody.com>"]
+company_name = "Aphrody Labs"
+copyright = "Copyright 2026 Aphrody Labs"
+identifier_prefix = "com.aphrody.Aphrody"
+windows_app_id_prefix = "Aphrody-Studio"
+url_scheme = "aphrody"
+cli_url_scheme = "aphrody-cli"
+dock_action_scheme = "aphrody-dock-action"
+legacy_url_schemes = ["zed"]
+legacy_cli_url_schemes = ["zed-cli"]
+legacy_dock_action_schemes = ["zed-dock-action"]
+
+[paths]
+local_settings_folder = ".aphrody"
+legacy_local_settings_folder = ".zed"
+remote_server_folder = ".aphrody_server"
+legacy_remote_server_folder = ".zed_server"
+remote_wsl_server_folder = ".aphrody_wsl_server"
+legacy_remote_wsl_server_folder = ".zed_wsl_server"
+
+[urls]
+homepage = "https://aphrody.com"
+repository = "https://github.com/aphrody-labs/aphrody"
+docs = "https://docs.aphrody.com"
+status = "https://status.aphrody.com"
+store = "https://aphrody.com/store"
+server = "https://zed.dev"
+extension_registry = "https://api.zed.dev"
+releases = "https://releases.aphrody.com"
+download = "https://aphrody.com/download"
+
+[env]
+prefix = "APHRODY"
+legacy_prefix = "ZED"
+
+[fonts]
+sans_alias = ".AphrodySans"
+mono_alias = ".AphrodyMono"
+legacy_sans_alias = ".ZedSans"
+legacy_mono_alias = ".ZedMono"
+
+[assets]
+logo_svg = "assets/images/aphrody_logo.svg"
+
+[plugin]
+name = "aphrody"
+version = "1.30.0"
+scope = "@aphrody"
+
+[git]
+default_branch = "main"
+upstream_zed = "https://github.com/zed-industries/zed.git"
+upstream_zed_branch = "main"
+upstream_nsh = "https://github.com/longbridge/nsh.git"
+upstream_gpui_kit = "https://github.com/longbridge/gpui-kit.git"
+upstream_wgpu = "https://github.com/gfx-rs/wgpu.git"
+upstream_awesome_gpui = "https://github.com/zed-industries/awesome-gpui.git"
+upstream_extensions = "https://github.com/zed-industries/extensions.git"
+upstream_winget_pkgs = "https://github.com/zed-industries/winget-pkgs.git"
+upstream_modern_web_guidance = "https://github.com/GoogleChrome/modern-web-guidance-src.git"
+upstream_design_md = "https://github.com/google-labs-code/design.md.git"
+upstream_stitch_sdk = "https://github.com/google-labs-code/stitch-sdk.git"
+upstream_stitch_skills = "https://github.com/google-labs-code/stitch-skills.git"
+upstream_agent_browser = "https://github.com/aphrody-labs/agent-browser.git"
+upstream_agent_desktop = "https://github.com/aphrody-labs/agent-desktop.git"
+submodule_bun = "https://github.com/aphrody-labs/bun"
+
+[features]
+default_app_features = ["nsh"]
+modular_ui_crate = "gpui_ui"
+modular_ui_features = "nsh-full"
+modular_code_crate = "gpui_code"
+modular_shell_crate = "gpui_app_shell"
+modular_shell_features = "nsh"
+wgpu_cli_package = "aphrody_cli"
+wgpu_cli_bin = "gpui-wgpu"
+
+[design]
+source_of_truth = "https://design.google/"
+system = "Material 3 Expressive"
+spec_url = "https://m3.material.io/"
+fonts_url = "https://fonts.google.com/"
+stitch_url = "https://stitch.withgoogle.com/"
+sans_flex_family = "Google Sans Flex"
+design_md = "DESIGN.md"
+tokens_manifest = "../fw/crates/fw-m3/tokens/google_design_tokens.toml"
+themes_manifest = "assets/os/themes.json"
+seed_hex = "#135B82"
+variant = "expressive"
+
+[colors.channels.lts]
+top = [14, 30, 48, 255]
+bottom = [8, 16, 28, 255]
+foreground = [186, 230, 253, 255]
+
+[colors.channels.stable]
+top = [18, 22, 36, 255]
+bottom = [10, 12, 20, 255]
+foreground = [236, 244, 255, 255]
+
+[colors.channels.preview]
+top = [38, 20, 62, 255]
+bottom = [18, 10, 32, 255]
+foreground = [233, 213, 255, 255]
+
+[colors.channels.canary]
+top = [54, 18, 36, 255]
+bottom = [26, 8, 18, 255]
+foreground = [251, 207, 232, 255]
+
+[colors.channels.nightly]
+top = [42, 28, 14, 255]
+bottom = [20, 14, 8, 255]
+foreground = [253, 224, 138, 255]
+
+[colors.channels.dev]
+top = [14, 38, 36, 255]
+bottom = [8, 20, 20, 255]
+foreground = [153, 246, 228, 255]

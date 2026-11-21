@@ -1,0 +1,79 @@
+name: aphrody-kernel-watch
+
+# Polls the kernel sources of tooling/kernel-watch/sources.toml, regenerates docs/aphrody/watch and commits only when the output changed.
+# GitHub cron runs at best every 5 minutes and starts late under load, so "real time" here is minutes, not seconds.
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  push:
+    branches: [main]
+    paths:
+      - tooling/kernel-watch/**
+      - .github/workflows/aphrody-kernel-watch.yml
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Ignore per-source intervals and poll every source
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: false
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - run: bun tooling/kernel-watch/cli.ts validate
+      - run: bun test tooling/kernel-watch
+
+  watch:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: write
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      FORCE: ${{ inputs.force }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - name: Restore the store
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: tooling/kernel-watch/.store
+          key: kernel-watch-store-${{ github.run_id }}
+          restore-keys: kernel-watch-store-
+      - name: Validate the manifest
+        run: bun tooling/kernel-watch/cli.ts validate
+      - name: Poll
+        run: bun tooling/kernel-watch/cli.ts poll --budget 240 ${{ env.FORCE == 'true' && '--force' || '' }}
+      - name: Save the store
+        if: always()
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: tooling/kernel-watch/.store
+          key: kernel-watch-store-${{ github.run_id }}
+      - name: Check that the views build
+        run: bun tooling/kernel-watch/cli.ts build --out "$RUNNER_TEMP/watch"
+      - name: Keep the three newest store caches
+        run: |
+          gh cache list --key kernel-watch-store- --sort created_at --order desc --limit 100 --json id --jq '.[3:][].id' \
+            | xargs -r -n1 gh cache delete
+        env:
+          GH_TOKEN: ${{ github.token }}

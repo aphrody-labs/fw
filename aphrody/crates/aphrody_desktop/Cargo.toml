@@ -1,0 +1,85 @@
+[package]
+name = "aphrody_desktop"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+license = "GPL-3.0-or-later"
+description = "Pure-Rust Desktop OS shell (Wayland, Windows, macOS, Wasm, Chromium WebGPU) with Material 3 Expressive (Android 17/18) Liquid Glass, Google Workspace, YouTube/Music, and Media Studio."
+
+[lints]
+workspace = true
+
+[lib]
+path = "src/aphrody_desktop.rs"
+doctest = false
+
+[[bin]]
+name = "aphrody-os"
+path = "src/main.rs"
+required-features = ["cli"]
+
+[[example]]
+name = "web_os"
+path = "examples/web_os.rs"
+
+[features]
+default = ["desktop", "cli", "webgl-fallback"]
+desktop = [
+    "gpui_ui/desktop",
+    "aphrody_craft/storytold-suite",
+    "aphrody_craft/native-inspect",
+    "aphrody_google/native",
+]
+webgl-fallback = [
+    "gpui_platform/webgl-fallback",
+    "gpui_ui/webgl-fallback",
+    "aphrody_store/webgl-fallback",
+]
+web = ["webgl-fallback"]
+web-slim = ["assets/web-slim", "aphrody_store/slim"]
+web-slim-webgl = ["web-slim", "webgl-fallback"]
+mobile = []
+cli = ["dep:clap", "dep:env_logger"]
+shell-module = ["dep:gpui_app_shell"]
+vpn = ["shell-module", "dep:aphrody_vpn"]
+
+[dependencies]
+anyhow.workspace = true
+aphrody_auto.workspace = true
+assets.workspace = true
+brand.workspace = true
+clap = { workspace = true, optional = true }
+chrono.workspace = true
+env_logger = { workspace = true, optional = true }
+gpui.workspace = true
+gpui_app_shell = { workspace = true, optional = true }
+gpui_platform = { workspace = true, default-features = false }
+gpui_ui = { workspace = true, default-features = false }
+icons.workspace = true
+log.workspace = true
+aphrody_craft = { workspace = true, default-features = false, features = ["codecs", "wasm-inspect"] }
+aphrody_browser.workspace = true
+aphrody_google.workspace = true
+aphrody_installer.workspace = true
+aphrody_media.workspace = true
+aphrody_pilot.workspace = true
+aphrody_session.workspace = true
+aphrody_store = { workspace = true, default-features = false }
+aphrody_ui.workspace = true
+serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
+theme.workspace = true
+ui.workspace = true
+aphrody_vpn = { workspace = true, optional = true }
+web-time.workspace = true
+
+# Aphrody Video decodes local media files, which the wasm build cannot read.
+[target.'cfg(not(target_family = "wasm"))'.dependencies]
+aphrody_video.workspace = true
+
+[target.'cfg(not(target_family = "wasm"))'.dev-dependencies]
+gpui = { workspace = true, features = ["test-support"] }
+gpui_platform = { workspace = true, features = ["test-support"] }
+gpui_wgpu = { workspace = true, features = ["test-support"] }
+image.workspace = true
+tempfile.workspace = true
