@@ -1,0 +1,30 @@
+{
+ "total": 21,
+ "objects": [
+  {
+   "package": {
+    "name": "@opentunnel/protocol"
+   }
+  },
+  {
+   "package": {
+    "name": "@opentunnel/client"
+   }
+  },
+  {
+   "package": {
+    "name": "opentunnel"
+   }
+  },
+  {
+   "package": {
+    "name": "opentunnel-cli"
+   }
+  },
+  {
+   "package": {
+    "name": "@otun/sdk"
+   }
+  }
+ ]
+}

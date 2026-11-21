@@ -1,0 +1,154 @@
+# The only source of the unified edge Worker (apps/edge): worker identity, buckets, hosts, routes and the services behind them.
+# tools/edge-config.ts renders wrangler.jsonc from it, with the domains of ay.toml [domains] and the account of cf.local.toml
+# (git-ignored); tools/edge-cutover.ts re-points the live routes. Nothing else names a host, a bucket or a script.
+#   {root} = ay.toml [domains].root     {app} = ay.toml [domains].app     {shenron} = [domains].shenron below
+
+[worker]
+name = "ay-edge"
+main = "src/index.ts"
+compatibility_date = "2026-11-18"
+compatibility_flags = ["nodejs_compat"]
+cpu_ms = 50
+# placement = "smart" is not set: the modules read R2 (global) and the rest is forwarded over service bindings, so pulling the whole Worker toward one
+# region would slow every host. Smart Placement pays for a backend with single-region state (the D1 database and CompanyDO of `auto`); it belongs on that
+# script today, and here (`placement = "smart"`, rendered as placement.mode) only once `auto` is fused into this Worker (docs/edge.md, Latency).
+preview_workers_dev = true  # the config without routes (pre-cutover upload) answers on workers.dev under /_/<service>/...; the routed config sets workers_dev = false
+
+[domains]
+shenron = "dragonballfr.com"  # zone of the shenron repository; its zone id comes from cf.local.toml
+
+[buckets]
+# binding = bucket name. One layout per bucket: apps/edge/src/manifest.ts for releases, tools/r2-sync.ts for the others.
+RELEASES = "aphrody-releases"
+ASSETS = "aphrody-assets"
+VIDEO = "aphrody-video"
+CHROMIUM = "aphrody-chromium"
+DIST = "aphrody-dist"
+BUN_LIB = "bun-lib"
+
+# Stores: what the modules read (apps/edge/src/store.ts guards env.<STORE> before any module runs). A store is a binding above, a key prefix inside
+# it and the keys it may serve: `allow` lists prefixes (ending in "/") and exact keys, `public = true` serves the whole bucket. A key outside the
+# allow-list answers 404 on every path of every module. Moving a store to another bucket or prefix is an edit of these tables and a deploy.
+# ASSETS: every public prefix of the bucket; learn/ (sync bundle) and auto/ (company files: Factur-X invoices and PDFs of `auto`) are private and
+# read by their own scripts through their own bindings. A prefix written by tools/r2-sync.ts that must be public is added here.
+[stores.ASSETS]
+binding = "ASSETS"
+allow = [
+  "index.html", "manifest.json",
+  "brand/", "craft/", "craft-captures/", "game/", "gamescope/", "m3/", "manifests/", "objects/", "pet/", "sha256/", "v1/", "web/", "webos/",
+]
+[stores.RELEASES]
+binding = "RELEASES"
+public = true
+[stores.VIDEO]
+binding = "VIDEO"
+public = true
+[stores.CHROMIUM]
+binding = "CHROMIUM"
+public = true
+[stores.DIST]
+binding = "DIST"
+public = true
+[stores.BUN_LIB]
+binding = "BUN_LIB"
+public = true
+
+# Services. mode = "module": code in this repository, bundled into the Worker. mode = "service": a script that still owns code or
+# Durable Object state in another repository, reached through a service binding (script = its current name); it keeps its cron
+# triggers and receives no route of its own. `routes` are Cloudflare route patterns ("host/path", a trailing * is a prefix): they are
+# rendered into wrangler.jsonc and are also the table the router matches, the longest pattern winning, so the two never drift.
+# `custom_domains` are rendered as Workers Custom Domains instead of routes. `[services.<name>.hints."<route as written>"]` are latency hints of one route,
+# rendered into vars.EDGE_ROUTES and applied by apps/edge/src/hints.ts: cache = { ttl, swr } (edge cache for cacheable GETs, and s-maxage when the
+# service set no cache-control) and early_hints = ["<Link value>"] (preload/preconnect, sent as 103 once the zone setting early_hints is on).
+
+[services.releases]
+mode = "module"
+routes = ["releases.{root}/*", "downloads.{root}/*", "{root}/download*"]
+note = "downloads (latest and versioned, per os and arch), manifest, aphrody legacy channel API, installers, ay-tools builds"
+# The portal and its icon: the page links /brand/icon.svg, so the browser can fetch it while the Worker renders.
+[services.releases.hints."{root}/download*"]
+early_hints = ["</brand/icon.svg>; rel=preload; as=image"]
+
+[services.assets]
+mode = "module"
+routes = ["assets.{root}/*", "{root}/r2-assets/*"]
+note = "ay-cf-gateway (content-addressed v1/<kind>/<sha256>, agent-skills index) and plain keys of the assets bucket. assets.{app} stays an R2 custom domain"
+
+[services.wasm]
+mode = "module"
+routes = ["wasm.{root}/*"]
+note = "WebAssembly packages: instantiated in the Worker and served from R2"
+
+[services.aphrody]
+mode = "service"
+script = "aphrody-worker"
+binding = "SVC_APHRODY"
+routes = ["docs.{root}/*", "{root}/github"]
+note = "aphrody-worker: docs proxy, GitHub webhook intake into the github-events queue; cron and queue producer stay on the script"
+# Docs pages change on deploy, not per request: five minutes at the edge, stale for an hour. The webhook (`{root}/github`, POST) has no hint and is never cached.
+[services.aphrody.hints."docs.{root}/*"]
+cache = { ttl = 300, swr = 3600 }
+
+[services.auto]
+mode = "service"
+script = "auto"
+binding = "SVC_AUTO"
+custom_domains = ["auto.{root}"]
+note = "auto: D1, Durable Object CompanyDO (sqlite), Workflow and cron stay on the script until the transfer migration (docs/edge.md)"
+
+[services.shenron]
+mode = "service"
+script = "shenron-cdn"
+binding = "SVC_SHENRON_CDN"
+routes = ["cdn.{shenron}/*"]
+note = "shenron-cdn: R2 shenron-cdn, manifests and import state"
+# Immutable media of the community CDN: cached at the edge for an hour, served stale for a day while it revalidates (a response with its own cache-control keeps it).
+[services.shenron.hints."cdn.{shenron}/*"]
+cache = { ttl = 3600, swr = 86400 }
+
+[services.fw]
+mode = "service"
+script = "fw-edge"
+binding = "SVC_FW"
+enabled = false
+routes = []
+note = "fw-edge is not deployed on the account: enable once it is, or when fw exports its handler as a module"
+
+# Buckets served on their own hosts, the hosts that were R2 custom domains (HTTP/2 only; routed here they speak HTTP/3). Per host: the store,
+# the CORS rule the bucket carried (read from its live configuration on 2026-11-20) and the Cache-Control sent when the object stores none.
+# video.{root} is not here: it is routed to the bun-video-showcase script, which shadows the R2 custom domain of the same name.
+[cors.read]
+origins = ["https://{app}", "https://www.{app}", "https://{root}", "https://dragonballfr.com", "https://www.dragonballfr.com"]
+headers = ["Range", "If-None-Match"]
+expose = ["ETag", "Content-Length", "Content-Range", "Accept-Ranges"]
+
+[cors.assets]
+origins = [
+  "https://{app}", "https://www.{app}", "https://{root}", "https://dragonballfr.com", "https://www.dragonballfr.com",
+  "https://app-video.{app}", "https://app-generation.{app}", "https://app-images.{app}", "https://app-vectors.{app}", "https://app-compositing.{app}",
+  "https://app-photo-processing.{app}", "https://app-pdf.{app}", "https://app-documents.{app}", "https://app-audio.{app}", "https://app-layout.{app}",
+  "https://app-cad.{app}", "https://app-slides.{app}", "https://app-tables.{app}", "https://app-interface-layouts.{app}",
+]
+headers = ["Range", "If-None-Match"]
+expose = ["ETag", "Content-Length", "Content-Range", "Accept-Ranges"]
+
+[cors.video]
+origins = ["https://{app}", "https://www.{app}", "https://{root}", "https://www.{root}", "https://video.{app}", "https://video.{root}"]
+headers = ["Range", "Content-Type", "Origin", "Accept"]
+expose = ["Accept-Ranges", "Content-Length", "Content-Range", "Content-Type", "ETag"]
+
+[services.bucket]
+mode = "module"
+routes = ["assets.{app}/*", "video.{app}/*", "dist.{app}/*", "bun-lib.{app}/*"]
+note = "R2 buckets on their own hosts: ranges, validators, CORS of the bucket, index.html for directories"
+[services.bucket.hosts."assets.{app}"]
+bucket = "ASSETS"
+cors = "assets"
+[services.bucket.hosts."video.{app}"]
+bucket = "VIDEO"
+cors = "video"
+[services.bucket.hosts."dist.{app}"]
+bucket = "DIST"
+cors = "read"
+[services.bucket.hosts."bun-lib.{app}"]
+bucket = "BUN_LIB"

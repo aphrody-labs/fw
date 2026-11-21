@@ -1,0 +1,13 @@
+// Subset of wasi:cli@0.2.12 (crates/wasi/src/p2/wit/deps/cli.wit in bytecodealliance/wasmtime v50.0.2):
+// `stdout` and `run`, signatures unchanged.
+package wasi:cli@0.2.12;
+
+interface stdout {
+  use wasi:io/streams@0.2.12.{output-stream};
+
+  get-stdout: func() -> output-stream;
+}
+
+interface run {
+  run: func() -> result;
+}

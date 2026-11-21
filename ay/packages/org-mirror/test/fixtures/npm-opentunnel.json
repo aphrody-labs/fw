@@ -1,0 +1,40 @@
+{
+ "_id": "opentunnel",
+ "_rev": "34-41bac307ea44ebabee838354c603a421",
+ "name": "opentunnel",
+ "dist-tags": {
+  "latest": "0.6.2"
+ },
+ "versions": {
+  "0.6.0": {
+   "name": "opentunnel",
+   "version": "0.6.0"
+  },
+  "0.6.1": {
+   "name": "opentunnel",
+   "version": "0.6.1"
+  },
+  "0.6.2": {
+   "name": "opentunnel",
+   "version": "0.6.2"
+  }
+ },
+ "time": {
+  "created": "2020-03-05T06:28:13.662Z",
+  "modified": "2026-11-04T14:09:30.992Z",
+  "0.6.0": "2026-10-22T13:15:14.762Z",
+  "0.6.1": "2026-10-23T13:31:06.603Z",
+  "0.6.2": "2026-11-04T14:09:30.618Z"
+ },
+ "bugs": {
+  "url": "https://github.com/anomalyco/opentunnel/issues"
+ },
+ "license": "MIT",
+ "homepage": "https://github.com/anomalyco/opentunnel#readme",
+ "repository": {
+  "url": "git+https://github.com/anomalyco/opentunnel.git",
+  "type": "git"
+ },
+ "description": "Blind TLS tunnels: expose local services without the relay seeing plaintext",
+ "readmeFilename": "README.md"
+}

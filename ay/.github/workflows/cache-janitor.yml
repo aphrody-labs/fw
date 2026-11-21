@@ -1,0 +1,50 @@
+name: quota-and-cache-janitor
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: quota-janitor
+  cancel-in-progress: true
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  janitor:
+    runs-on: ubuntu-slim
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+      - name: Check Actions cache size and prune stale entries above 7 GiB
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bun -e '
+            const repo = process.env.GITHUB_REPOSITORY!;
+            const usage = JSON.parse(Bun.spawnSync(["gh", "api", `/repos/${repo}/actions/cache/usage`]).stdout.toString());
+            const bytes = Number(usage.active_caches_size_in_bytes ?? 0);
+            console.log(`Cache usage: ${(bytes / (1024 ** 3)).toFixed(2)} GiB (${usage.active_caches_count} entries)`);
+            const list = JSON.parse(Bun.spawnSync(["gh", "api", `/repos/${repo}/actions/caches?per_page=100`]).stdout.toString());
+            const caches = (list.actions_caches ?? []).sort((a: any, b: any) => new Date(b.last_accessed_at).getTime() - new Date(a.last_accessed_at).getTime());
+            let kept = 0;
+            let keepBytes = 0;
+            const MAX_KEEP_BYTES = 7 * 1024 ** 3;
+            for (const c of caches) {
+              if (kept < 4 && keepBytes + c.size_in_bytes <= MAX_KEEP_BYTES) {
+                kept++;
+                keepBytes += c.size_in_bytes;
+                continue;
+              }
+              const del = Bun.spawnSync(["gh", "api", "-X", "DELETE", `/repos/${repo}/actions/caches/${c.id}`]);
+              console.log(`Deleted cache ${c.id} (${c.key}, ${(c.size_in_bytes / (1024 ** 2)).toFixed(1)} MiB) -> exit ${del.exitCode}`);
+            }
+          '
+      - name: Quota routing baseline check
+        run: bun test ./tools/cf-quota.test.ts

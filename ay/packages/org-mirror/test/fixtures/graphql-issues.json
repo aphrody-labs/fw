@@ -1,0 +1,516 @@
+[
+ {
+  "data": {
+   "repository": {
+    "items": {
+     "pageInfo": {
+      "hasNextPage": true,
+      "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0xMS0wNFQxNTo1ODo0MVrPAAAAAXEczeQ="
+     },
+     "nodes": [
+      {
+       "id": "I_kwDOR0TnfM8AAAABddlhZw",
+       "number": 67,
+       "title": "Custom domain support?",
+       "body": "Hi, \ndou you have any plans for custom domains?\n\n- CNAME on my domain to the <id>.opentunnel.xyz\n- `opentunnel route add 3000 --domain mynas.example.com`\n- optionally pin the certificate in my DNS, so it will mitigate MITM by your infra\n\nCurrently I do such thing on $2 VPS (nginx -> Tailscale -> NAS), but I prefer to pay it to you, so I don't need to manage the VPS.",
+       "state": "OPEN",
+       "createdAt": "2026-11-08T14:52:34Z",
+       "updatedAt": "2026-11-10T10:54:46Z",
+       "closedAt": null,
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/issues/67",
+       "author": {
+        "login": "iBobik"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 2,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpHPAAAAAZNBRFc="
+        },
+        "nodes": [
+         {
+          "id": "IC_kwDOR0TnfM8AAAABkdk5Rw",
+          "author": {
+           "login": "thdxr"
+          },
+          "body": "not today, tunnels only get `<route>.<id>.opentunnel.xyz` names. it fits how things work though: tls already ends on your machine, so the server would just need to route a verified hostname (cname plus a txt record to prove you own it) to your tunnel, and the client would get the cert for it. a CAA record pinned to your own acme account would cover the mitm part. checking with the team whether we ",
+          "createdAt": "2026-11-09T14:00:20Z",
+          "updatedAt": "2026-11-09T14:00:20Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/67#issuecomment-6741899591"
+         },
+         {
+          "id": "IC_kwDOR0TnfM8AAAABk0FEVw",
+          "author": {
+           "login": "iBobik"
+          },
+          "body": "Btw, I see market for this feature in the NAS users, especially in Home Assistant community. Theere are some easy to use solutions, but none has this privacy benefit - TLS termination on the NAS and IP hidden from the clients.\n\nI would write addon for the Home Assistant OS for this.",
+          "createdAt": "2026-11-10T10:54:46Z",
+          "updatedAt": "2026-11-10T10:54:46Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/67#issuecomment-6765495383"
+         }
+        ]
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "stateReason": null
+      },
+      {
+       "id": "I_kwDOR0TnfM8AAAABdWKSrQ",
+       "number": 66,
+       "title": "deleted",
+       "body": "deleted",
+       "state": "CLOSED",
+       "createdAt": "2026-11-07T21:27:39Z",
+       "updatedAt": "2026-11-07T21:41:00Z",
+       "closedAt": "2026-11-07T21:33:06Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/issues/66",
+       "author": {
+        "login": "autowert66"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABobf1KeABqzM1NDYxMjI5OTk3"
+        },
+        "nodes": [
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABdWKSrc8AAAAIQaK3rw",
+          "createdAt": "2026-11-07T21:33:06Z",
+          "actor": {
+           "login": "autowert66"
+          }
+         },
+         {
+          "__typename": "RenamedTitleEvent",
+          "id": "RTE_lADOR0TnfM8AAAABdWKSrc8AAAAIQadtrQ",
+          "createdAt": "2026-11-07T21:41:00Z",
+          "actor": {
+           "login": "autowert66"
+          },
+          "previousTitle": "Relay intermittently closes visitor connections right after the ClientHello (no ServerHello -> browser ERR_FAILED)",
+          "currentTitle": "deleted"
+         }
+        ]
+       },
+       "stateReason": "NOT_PLANNED"
+      },
+      {
+       "id": "I_kwDOR0TnfM8AAAABcRzN5A",
+       "number": 64,
+       "title": "Server: support DNS-01 providers other than Cloudflare (Route 53, or a generic hook)",
+       "body": "### Summary\n\nDNS-01 challenges only work against Cloudflare: `DNS_PROVIDER` is `cloudflare` or `challtestsrv`. Every tunnel gets a wildcard certificate, so DNS-01 is mandatory, and a self-hosted `opentunnel-server` needs its tunnel domain on Cloudflare. For a deployment in AWS with the zone in Route 53, that means moving or delegating the zone to Cloudflare only for challenge records.\n\nI understan",
+       "state": "CLOSED",
+       "createdAt": "2026-11-03T22:58:04Z",
+       "updatedAt": "2026-11-04T15:58:41Z",
+       "closedAt": "2026-11-04T15:44:03Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/issues/64",
+       "author": {
+        "login": "sebdanielsson"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 3,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpHPAAAAAYt_r34="
+        },
+        "nodes": [
+         {
+          "id": "IC_kwDOR0TnfM8AAAABi1j0dA",
+          "author": {
+           "login": "thdxr"
+          },
+          "body": "makes sense. the hook provider looks like the cleaner option to me since it covers every provider. self-hosting the server isn't something we've really supported so far, so i want to check with the team before adding to it. leaving this open for now.\n\n— from 𝕺𝖕𝖊𝖓𝕮𝖔𝖉𝖊",
+          "createdAt": "2026-11-04T14:11:13Z",
+          "updatedAt": "2026-11-04T14:11:13Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/64#issuecomment-6632830068"
+         },
+         {
+          "id": "IC_kwDOR0TnfM8AAAABi3qFiA",
+          "author": {
+           "login": "thdxr"
+          },
+          "body": "went with the hook. it's on master (36ffded): set `DNS_PROVIDER=exec` and `DNS_HOOK=/path/to/hook`, and the server runs `<hook> create <name> <value>` / `<hook> delete <name> <value>` with no shell. exit 0 means success; on failure the error includes the exit status and the end of stderr.\n\none thing to watch: a hostname and its wildcard share `_acme-challenge.<host>`, so the same name can hold two",
+          "createdAt": "2026-11-04T15:44:02Z",
+          "updatedAt": "2026-11-04T15:44:02Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/64#issuecomment-6635029896"
+         },
+         {
+          "id": "IC_kwDOR0TnfM8AAAABi3-vfg",
+          "author": {
+           "login": "sebdanielsson"
+          },
+          "body": "> went with the hook. it's on master (36ffded): set `DNS_PROVIDER=exec` and `DNS_HOOK=/path/to/hook`, and the server runs `<hook> create <name> <value>` / `<hook> delete <name> <value>` with no shell. exit 0 means success; on failure the error includes the exit status and the end of stderr.\n> \n> one thing to watch: a hostname and its wildcard share `_acme-challenge.<host>`, so the same name can ho",
+          "createdAt": "2026-11-04T15:58:41Z",
+          "updatedAt": "2026-11-04T15:58:41Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/64#issuecomment-6635368318"
+         }
+        ]
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABoac7SbgBqzM1MTQ1OTAyMDg2"
+        },
+        "nodes": [
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABcRzN5M8AAAAILtvoBg",
+          "createdAt": "2026-11-04T15:44:03Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         }
+        ]
+       },
+       "stateReason": "COMPLETED"
+      }
+     ]
+    }
+   },
+   "rateLimit": {
+    "cost": 1,
+    "remaining": 4786
+   }
+  }
+ },
+ {
+  "data": {
+   "repository": {
+    "items": {
+     "pageInfo": {
+      "hasNextPage": false,
+      "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0xMC0yM1QxMzozNDoyNFrPAAAAAWSCGig="
+     },
+     "nodes": [
+      {
+       "id": "I_kwDOR0TnfM8AAAABcRzNEQ",
+       "number": 63,
+       "title": "SDK: read the API URL from `OPENTUNNEL_API` when `api` is not passed",
+       "body": "### Summary\n\nThe TypeScript SDK only talks to a server other than `https://opentunnel.xyz` when the app passes `api` to `OpenTunnelClient.layer()`. Apps that embed the SDK usually don't expose that, so their users can't point them at a self-hosted server. The CLI already reads `OPENTUNNEL_API` (the hidden `--api` flag); the SDK has no equivalent.\n\n### Example\n\nopencode's remote access (`opencode p",
+       "state": "CLOSED",
+       "createdAt": "2026-11-03T22:58:03Z",
+       "updatedAt": "2026-11-04T14:11:12Z",
+       "closedAt": "2026-11-04T14:11:12Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/issues/63",
+       "author": {
+        "login": "sebdanielsson"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 1,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpHPAAAAAYtY8HE="
+        },
+        "nodes": [
+         {
+          "id": "IC_kwDOR0TnfM8AAAABi1jwcQ",
+          "author": {
+           "login": "thdxr"
+          },
+          "body": "added in 0.6.2: the sdk now uses `OPENTUNNEL_API` when `api` isn't passed, and an explicit `api` still wins. it's documented in the readme for both the cli and the sdk. i checked the published package against a local server and requests go to the env url.\n\nopencode picks it up once it bumps `@opentunnel/client` to 0.6.2.\n\ni didn't do the profile part (recording the api url in `tunnel.json`). for n",
+          "createdAt": "2026-11-04T14:11:11Z",
+          "updatedAt": "2026-11-04T14:11:11Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/63#issuecomment-6632829041"
+         }
+        ]
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABoabmSAABqzM1MTM2MzkwNjU3"
+        },
+        "nodes": [
+         {
+          "__typename": "CrossReferencedEvent",
+          "id": "CRE_kwDOR0TnfM8AAAAEnNxgBQ",
+          "createdAt": "2026-11-04T14:02:44Z",
+          "actor": {
+           "login": "github-actions"
+          },
+          "isCrossRepository": false,
+          "source": {
+           "__typename": "PullRequest",
+           "number": 65,
+           "repository": {
+            "nameWithOwner": "anomalyco/opentunnel"
+           }
+          }
+         },
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABcRzNEc8AAAAILkrGAQ",
+          "createdAt": "2026-11-04T14:11:12Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         }
+        ]
+       },
+       "stateReason": "COMPLETED"
+      },
+      {
+       "id": "I_kwDOR0TnfM8AAAABaHAJnw",
+       "number": 61,
+       "title": "UDP routes: forward local UDP services (games, WireGuard, DNS) over the tunnel",
+       "body": "## Proposal\n\nSupport UDP services alongside TLS routes:\n\n```bash\nopentunnel route add 27015 --udp\n# Added route 5f1c0e2a9b7d4e36 → 127.0.0.1:27015 (udp)\n# udp://<id>.opentunnel.xyz:40123\n```\n\nUDP has no SNI to route by, so each UDP route gets a public UDP port of its own, and its datagrams are carried over the existing bridge WebSocket. I know the project doesn't take pull requests, so here is a c",
+       "state": "CLOSED",
+       "createdAt": "2026-10-26T19:57:51Z",
+       "updatedAt": "2026-10-29T14:25:34Z",
+       "closedAt": "2026-10-29T14:25:34Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/issues/61",
+       "author": {
+        "login": "mweinbach"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 2,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpHPAAAAAYNkEao="
+        },
+        "nodes": [
+         {
+          "id": "IC_kwDOR0TnfM8AAAABg0XoZg",
+          "author": {
+           "login": "thdxr"
+          },
+          "body": "Thanks for the detailed proposal and for working out a full reference implementation. It answers most of the questions we'd have asked.\n\nUDP routes would be a real change in what OpenTunnel is. Today every route is TLS that ends on your own machine and is routed by hostname. UDP needs dedicated public ports, a port allocator, a new kind of frame on the bridge, and routes that aren't end-to-end enc",
+          "createdAt": "2026-10-29T13:00:28Z",
+          "updatedAt": "2026-10-29T13:00:28Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/61#issuecomment-6497364070"
+         },
+         {
+          "id": "IC_kwDOR0TnfM8AAAABg2QRqg",
+          "author": {
+           "login": "thdxr"
+          },
+          "body": "An update from the maintainers: we're not sure about UDP. The core promise of OpenTunnel is that traffic stays end-to-end encrypted, with TLS ending on your own machine and our servers only ever passing ciphertext. UDP routes couldn't keep that promise, since there's no TLS to terminate, so they'd only be as private as whatever protocol runs inside them. That makes it feel like a different product",
+          "createdAt": "2026-10-29T14:25:32Z",
+          "updatedAt": "2026-10-29T14:25:32Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/61#issuecomment-6499340714"
+         }
+        ]
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABoYgNRzABqzM0NTk1NTI3MTI3"
+        },
+        "nodes": [
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABaHAJn88AAAAIDg3Z1w",
+          "createdAt": "2026-10-29T14:25:34Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         }
+        ]
+       },
+       "stateReason": "NOT_PLANNED"
+      },
+      {
+       "id": "I_kwDOR0TnfM8AAAABZIIaKA",
+       "number": 59,
+       "title": "TypeScript SDK bridge WebSocket ignores HTTP(S)_PROXY / ALL_PROXY (breaks opencode remote access behind a proxy)",
+       "body": "### Summary\n\nThe TypeScript SDK's bridge WebSocket does not honor proxy environment variables. In the same process, `fetch()` goes through the proxy, so tunnel creation and certificate issuance succeed; the `wss://opentunnel.xyz/api/tunnel/<id>/connect` bridge then dials the origin directly. On an egress-controlled network the bridge never attaches and the tunnel is unusable.\n\nThis is the path ope",
+       "state": "CLOSED",
+       "createdAt": "2026-10-22T14:22:12Z",
+       "updatedAt": "2026-10-23T13:34:24Z",
+       "closedAt": "2026-10-23T13:34:24Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/issues/59",
+       "author": {
+        "login": "BlacKSnowDot0"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 2,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpHPAAAAAXtzVSM="
+        },
+        "nodes": [
+         {
+          "id": "IC_kwDOR0TnfM8AAAABe2mLaQ",
+          "author": {
+           "login": "thdxr"
+          },
+          "body": "Thanks for the thorough report. Your root cause is exactly right: the bridge WebSocket is created without a `proxy` option, and Bun's `WebSocket` doesn't read the proxy environment variables the way `fetch` does, so setup goes through the proxy and the bridge goes direct.\n\nA fix is in progress. The bridge will resolve the proxy the way `fetch` does: `HTTPS_PROXY` then `ALL_PROXY` for `wss://`, `HT",
+          "createdAt": "2026-10-23T13:01:30Z",
+          "updatedAt": "2026-10-23T13:01:30Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/59#issuecomment-6365481833"
+         },
+         {
+          "id": "IC_kwDOR0TnfM8AAAABe3NVIw",
+          "author": {
+           "login": "thdxr"
+          },
+          "body": "Fixed in **0.6.1**, out now on npm (`@opentunnel/client`), crates.io, Homebrew, AUR and GitHub releases.\n\nThe bridge now goes through the same proxy as the API calls:\n- **Bun:** the SDK resolves the proxy for the bridge itself, the way `fetch` does (`HTTPS_PROXY` then `ALL_PROXY` for `wss://`, `HTTP_PROXY` for `ws://`, with `NO_PROXY` covering domains, IPs, CIDR ranges and ports), and passes it to",
+          "createdAt": "2026-10-23T13:34:22Z",
+          "updatedAt": "2026-10-23T13:34:22Z",
+          "url": "https://github.com/anomalyco/opentunnel/issues/59#issuecomment-6366123299"
+         }
+        ]
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABoWkJw5ACqzE3NDE3OTA1MTQy"
+        },
+        "nodes": [
+         {
+          "__typename": "CrossReferencedEvent",
+          "id": "CRE_kwDOR0TnfM8AAAAEDeH1CQ",
+          "createdAt": "2026-10-23T13:21:51Z",
+          "actor": {
+           "login": "github-actions"
+          },
+          "isCrossRepository": false,
+          "source": {
+           "__typename": "PullRequest",
+           "number": 60,
+           "repository": {
+            "nameWithOwner": "anomalyco/opentunnel"
+           }
+          }
+         },
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABZIIaKM8AAAAH7d4bQQ",
+          "createdAt": "2026-10-23T13:34:24Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         },
+         {
+          "__typename": "CrossReferencedEvent",
+          "id": "CRE_kwDOOiiGL88AAAAEDgI8cQ",
+          "createdAt": "2026-10-23T13:34:45Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "isCrossRepository": true,
+          "source": {
+           "__typename": "Issue",
+           "number": 58462,
+           "repository": {
+            "nameWithOwner": "anomalyco/opencode"
+           }
+          }
+         }
+        ]
+       },
+       "stateReason": "COMPLETED"
+      }
+     ]
+    }
+   },
+   "rateLimit": {
+    "cost": 1,
+    "remaining": 4684
+   }
+  }
+ }
+]

@@ -1,0 +1,72 @@
+[package]
+name = "ay-re"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Unified Aphrody reverse engineering core: PE/ELF/Mach-O triage, byte-exact PE64 forge/COFF, .pdata/minidump/ASAR/Electron/Go/Android/SteamStub inspection, Ghidra P-Code/Pseudo-C & ghidra-decompiler, MinGW-REA, Lua 5.2, CRIWARE CPK/CRILAYLA, DBXV2 formats, AOB/live memory, YARA-X, Magika"
+keywords = [
+  "reverse-engineering",
+  "ghidra",
+  "disassembler",
+  "pe",
+  "binary-analysis",
+]
+categories = ["development-tools::debugging", "parser-implementations"]
+
+[features]
+default = ["game", "pipeline"]
+game = ["dep:memmap2"]
+pipeline = ["dep:tempfile", "dep:process-wrap"]
+decompile = ["dep:ghidra-decompiler"]
+magika = ["dep:magika", "dep:ort"]
+# Binary stages of the monorepo index pipeline (triage, ghidra, magika detector) over ay-core.
+index = ["dep:ay-core"]
+leveldb = ["dep:rusty-leveldb", "dep:tempfile"]
+yara = ["dep:yara-x"]
+# Compat alias for consumers expecting yolo-re-core/shenron-re wasm gating
+wasm = ["dep:wasm-bindgen"]
+
+[dependencies]
+aes = "0.9.4"
+anyhow.workspace = true
+ay-core = { workspace = true, features = ["pipeline"], optional = true }
+blake3.workspace = true
+crc32fast.workspace = true
+flate2.workspace = true
+ghidra-decompiler = { version = "2.1.0", optional = true }
+goblin.workspace = true
+hashbrown = { version = "0.17.1", default-features = false, features = ["default-hasher", "inline-more"] }
+hex.workspace = true
+iced-x86.workspace = true
+magika = { version = "1.1.0", optional = true }
+md5 = { version = "0.11.0", package = "md-5" }
+memchr = "2.8.3"
+memmap2 = { workspace = true, optional = true }
+ort = { version = "=2.0.0-rc.12", default-features = false, features = ["download-binaries", "tls-rustls"], optional = true }
+process-wrap = { version = "10.0.1", default-features = false, features = ["std", "process-group", "job-object"], optional = true }
+regex.workspace = true
+rustc-hash.workspace = true
+rusty-leveldb = { version = "4.0.2", default-features = false, features = ["fs"], optional = true }
+serde.workspace = true
+serde_json.workspace = true
+sha1.workspace = true
+sha2.workspace = true
+tempfile = { workspace = true, optional = true }
+thiserror.workspace = true
+walkdir.workspace = true
+wasm-bindgen = { workspace = true, optional = true }
+yara-x = { version = "1.23.0", default-features = false, optional = true }
+zerocopy.workspace = true
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+unused_must_use = "deny"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"

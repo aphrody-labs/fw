@@ -1,0 +1,115 @@
+version = 1
+retrieved = "2026-11-16"
+sources = [
+  "https://developers.googleblog.com/stitch-a-new-way-to-design-uis/",
+  "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/",
+  "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-design-md/",
+  "https://github.com/google-labs-code/stitch-sdk",
+  "https://github.com/google-labs-code/stitch-skills",
+  "https://github.com/google-labs-code/design.md",
+  "https://stitch.google.com/",
+  "https://stitch.withgoogle.com/sitemap.xml",
+]
+
+[stitch]
+name = "Stitch"
+what = "Google Labs tool that turns natural-language descriptions (and images) into UI designs for mobile and web; per Google in March 2026 an AI-native software design canvas."
+owner = "Google Labs"
+site = "https://stitch.withgoogle.com/"
+site_redirects_to = "https://stitch.google.com/"
+site_title = "Stitch - Design with AI"
+site_description = "Stitch generates UIs for mobile and web applications, making design ideation fast and easy."
+site_source = "https://stitch.google.com/ (retrieved 2026-11-16)"
+launched = "2025-05-20"
+launched_source = "https://developers.googleblog.com/stitch-a-new-way-to-design-uis/ (retrieved 2026-11-16)"
+launch_model = "Gemini 2.5 Pro"
+redesign_post = "2026-03-18"
+redesign_source = "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/ (retrieved 2026-11-16)"
+pricing = "unknown"
+current_model = "unknown"
+rendering = "Pages are a JavaScript single-page app: the static HTML of stitch.google.com is a 32951-byte shell with only the title and meta tags; no feature text is in the HTML (curl, retrieved 2026-11-16)."
+sitemap_urls = ["https://stitch.withgoogle.com/", "https://stitch.withgoogle.com/home", "https://stitch.withgoogle.com/create", "https://stitch.withgoogle.com/privacy"]
+robots = "User-agent: *, Allow: /, Disallow: /settings (https://stitch.google.com/robots.txt, retrieved 2026-11-16)"
+
+[[feature]]
+name = "Prompt to UI"
+detail = "Describe the application in plain English, including color palettes or the desired user experience, and Stitch creates an interface."
+since = "2025-05-20"
+source = "https://developers.googleblog.com/stitch-a-new-way-to-design-uis/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Image or wireframe to UI"
+detail = "Upload a whiteboard sketch, UI screenshot or rough wireframe and Stitch produces a corresponding digital UI."
+since = "2025-05-20"
+source = "https://developers.googleblog.com/stitch-a-new-way-to-design-uis/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Variants and iteration"
+detail = "Generates multiple variants of an interface to test layouts, components and styles; refine with image inputs, interactive chat and theme selectors."
+since = "2025-05-20"
+source = "https://developers.googleblog.com/stitch-a-new-way-to-design-uis/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Paste to Figma"
+detail = "Copy the generated design into Figma for further editing and team collaboration."
+since = "2025-05-20"
+source = "https://developers.googleblog.com/stitch-a-new-way-to-design-uis/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Front-end code export"
+detail = "Generates front-end code based on the design."
+since = "2025-05-20"
+source = "https://developers.googleblog.com/stitch-a-new-way-to-design-uis/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "AI-native infinite canvas"
+detail = "Redesigned workspace where ideas grow from early sketches to working prototypes; images, text or code can be brought in as context."
+since = "2026-03-18"
+source = "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Design agent and Agent manager"
+detail = "A design agent that reasons across the project's full history; the Agent manager tracks progress and lets several design directions run in parallel."
+since = "2026-03-18"
+source = "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Design system extraction"
+detail = "Extracts a design system from any URL."
+since = "2026-03-18"
+source = "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "DESIGN.md"
+detail = "Agent-friendly markdown file (YAML design tokens plus prose rationale) to export or import design rules between Stitch and other tools; draft spec open-sourced 2026-04-21 (Apache-2.0), CLI 'npx @google/design.md lint DESIGN.md' checks token references and WCAG contrast."
+since = "2026-03-18"
+source = "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-design-md/ ; https://github.com/google-labs-code/design.md (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Interactive prototyping"
+detail = "Links screens together and previews user flows with a Play button; generates likely next screens from a click."
+since = "2026-03-18"
+source = "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Voice"
+detail = "Speak to the canvas to receive design critiques, have a landing page designed through an interview, and request live changes."
+since = "2026-03-18"
+source = "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/ (retrieved 2026-11-16)"
+
+[[feature]]
+name = "MCP server, SDK and skills"
+detail = "Stitch MCP server and SDK; @google/stitch-sdk (Apache-2.0) generates screens from prompts and returns HTML and screenshot download URLs, supports screen.edit, screen.variants (variantCount 1-5, default 3), callTool/listTools and Vercel AI SDK tools; stitch-skills is a library of Agent Skills for Antigravity, Gemini CLI, Claude Code, Cursor and Codex."
+since = "2026-03-18"
+source = "https://github.com/google-labs-code/stitch-sdk ; https://github.com/google-labs-code/stitch-skills (retrieved 2026-11-16)"
+
+[[feature]]
+name = "Export to developer tools"
+detail = "Sends designs to developer tools such as AI Studio and Antigravity."
+since = "2026-03-18"
+source = "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/ (retrieved 2026-11-16)"
+
+[unknown]
+quotas = "unknown (no primary source read for generation limits)"
+pricing = "unknown"
+docs = "https://stitch.withgoogle.com/docs is a JavaScript app (25005-byte shell via curl); content not readable without rendering"

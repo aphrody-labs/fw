@@ -1,0 +1,2184 @@
+# Cloudflare product catalog for Aphrody Cloud scoping. Retrieved 2026-11-16.
+version = 1
+sources = [
+  "https://developers.cloudflare.com/products/ (retrieved 2026-11-16): product directory, names, groups, one-line functions, docs paths",
+  "https://developers.cloudflare.com/<product>/llms.txt and /index.md (retrieved 2026-11-16): per-product page indexes, API and binding sections, plan statements",
+  "https://developers.cloudflare.com/<product>/platform/pricing/, /platform/limits/, /plans/ and similar pages (retrieved 2026-11-16): free-plan evidence where such a page exists",
+  "https://raw.githubusercontent.com/cloudflare/api-schemas/main/openapi.json (retrieved 2026-11-16): Cloudflare REST API schema v4.0.0 with 2352 paths, used for rest_paths counts",
+  "https://www.cloudflare.com/sitemap.xml and https://www.cloudflare.com/plans/ (retrieved 2026-11-16): marketing sitemap and plan comparison, consulted for cross-checking only",
+]
+retrieved = "2026-11-16"
+product_count = 138
+
+# Field notes
+#   category      primary directory group; groups lists every directory group
+#   rest_paths    OpenAPI path count matched by an Aphrody-side mapping of the product to path prefixes; -1 means no mapping, API surface unknown from the schema
+#   api_docs      section headings of the product llms.txt that expose an API, binding, SDK, GraphQL or CLI surface, plus the REST reference link when listed
+#   free_plan     yes | limited | no | add-on | enterprise-add-on | enterprise-only | beta | n/a | unknown
+#   replicate     Aphrody Cloud decision (design decision, not an upstream fact), with replicate_reason
+
+[[product]]
+name = "1.1.1.1"
+category = "Network security"
+groups = ["Consumer services", "Network security", "Privacy"]
+function = "A blazing fast DNS resolver built for private browsing"
+rest_paths = -1
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Directory page for 1.1.1.1 states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/1.1.1.1/"
+docs_url = "https://developers.cloudflare.com/1.1.1.1/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Access"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Authenticate users for self-hosted, SaaS, and private applications, and log every request"
+rest_paths = 99
+rest_path_examples = ["/accounts/{id}/access/ai-controls/mcp/analytics/portals/{id}/tool-calls/timeseries", "/accounts/{id}/access/ai-controls/mcp/analytics/servers/{id}/tool-calls/timeseries"]
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "Zero Trust offers Free and Paid plans per the Cloudflare One page; the per-product split was not found in fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/access-controls/policies/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/access-controls/policies/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Zero Trust identity-aware access and secure web gateway; fits the self-hosted identity stack"
+
+[[product]]
+name = "Account"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Manage your Cloudflare account and contacts"
+rest_paths = -1
+api_docs = []
+free_plan = "n/a"
+free_plan_note = "Account control-plane documentation"
+free_plan_source = "https://developers.cloudflare.com/fundamentals/account/"
+docs_url = "https://developers.cloudflare.com/fundamentals/account/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Control-plane primitives (accounts, members, billing, tenants, tags) are required by every product"
+
+[[product]]
+name = "Agent Lee"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "An AI co-pilot built into the Cloudflare dashboard that helps you navigate, configure, and take actions on Cloudflare services"
+rest_paths = -1
+api_docs = []
+free_plan = "beta"
+free_plan_note = "Beta; available to accounts on a Free plan and select Enterprise customers"
+free_plan_source = "https://developers.cloudflare.com/agent-lee/"
+docs_url = "https://developers.cloudflare.com/agent-lee/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Dashboard AI co-pilot over the control-plane API; built once the API exists; later phase"
+
+[[product]]
+name = "Agent Memory"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Persistent AI-powered memory for agents and applications — automatically extract, classify, and recall knowledge from conversations"
+rest_paths = 11
+rest_path_examples = ["/accounts/{id}/agent-memory/namespaces", "/accounts/{id}/agent-memory/namespaces/{id}"]
+api_docs = ["API"]
+free_plan = "beta"
+free_plan_note = "Private beta; not billed during private beta"
+free_plan_source = "https://developers.cloudflare.com/agent-memory/"
+docs_url = "https://developers.cloudflare.com/agent-memory/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "AI agent building blocks; later phase"
+
+[[product]]
+name = "Agents"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Build AI-powered agents to perform tasks, persist state, browse the web, and communicate in real-time"
+rest_paths = 20
+rest_path_examples = ["/accounts/{id}/workers/scripts", "/accounts/{id}/workers/scripts-search"]
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/agents/"
+docs_url = "https://developers.cloudflare.com/agents/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Agent runtime on Workers and Durable Objects"
+
+[[product]]
+name = "AI"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Run AI models on Cloudflare's global network"
+rest_paths = 14
+rest_path_examples = ["/accounts/{id}/ai/authors/search", "/accounts/{id}/ai/finetunes"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/ai/"
+docs_url = "https://developers.cloudflare.com/ai/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Umbrella for model-run APIs; same surface as Workers AI"
+
+[[product]]
+name = "AI controls"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Centralize MCP servers behind a single endpoint and apply Access policies to AI tool traffic"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/access-controls/ai-controls/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/access-controls/ai-controls/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "MCP server aggregation under Access policies; fits the agent stack; later phase"
+
+[[product]]
+name = "AI Crawl Control"
+category = "Core platform"
+groups = ["Core platform", "AI"]
+function = "Analyze and control third-party AI crawlers in your website"
+rest_paths = 12
+rest_path_examples = ["/accounts/{id}/pay-per-crawl/crawler/stripe", "/accounts/{id}/pay-per-crawl/crawlers"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/ai-crawl-control/"
+docs_url = "https://developers.cloudflare.com/ai-crawl-control/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Agentic payments and crawler metering are product surfaces for an AI-first cloud; later phase"
+
+[[product]]
+name = "AI Gateway"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Observe and control your AI applications"
+rest_paths = 37
+rest_path_examples = ["/accounts/{id}/ai-gateway/billing/credit-balance", "/accounts/{id}/ai-gateway/billing/invoice-history"]
+api_docs = ["REST API reference", "REST reference: https://developers.cloudflare.com/api/resources/ai_gateway/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'; free plan 10 gateways per account (limits table)"
+free_plan_source = "https://developers.cloudflare.com/ai-gateway/"
+docs_url = "https://developers.cloudflare.com/ai-gateway/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Proxy, cache, log and rate-limit for model calls; fits the AI router"
+
+[[product]]
+name = "AI Search"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Create fully managed RAG pipelines for your AI applications"
+rest_paths = 35
+rest_path_examples = ["/accounts/{id}/ai-search/instances", "/accounts/{id}/ai-search/instances/{id}"]
+api_docs = ["API", "Wrangler CLI", "REST API", "REST reference: https://developers.cloudflare.com/api/resources/ai_search/index.md"]
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'; Workers Free limit 100 instances per account"
+free_plan_source = "https://developers.cloudflare.com/ai-search/"
+docs_url = "https://developers.cloudflare.com/ai-search/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Managed RAG pipelines; builds on R2, Vectorize and Workers AI"
+
+[[product]]
+name = "Analytics"
+category = "Core platform"
+groups = ["Core platform", "Analytics"]
+function = "Visualize the performance, security, and reliability data collected by Cloudflare products"
+rest_paths = -1
+api_docs = ["GraphQL Analytics API", "SQL API"]
+free_plan = "n/a"
+free_plan_note = "Documentation collection that spans analytics products"
+free_plan_source = "https://developers.cloudflare.com/analytics/"
+docs_url = "https://developers.cloudflare.com/analytics/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Documentation collection, not a runtime service"
+
+[[product]]
+name = "API documentation"
+category = "Core platform"
+groups = ["Core platform", "Docs collections"]
+function = "Cloudflare's API tokens allow you to make calls to our API to alter different settings"
+rest_paths = -1
+api_docs = ["API Reference"]
+free_plan = "n/a"
+free_plan_note = "Documentation collection"
+free_plan_source = "https://developers.cloudflare.com/api/"
+docs_url = "https://developers.cloudflare.com/api/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Documentation collection, not a runtime service"
+
+[[product]]
+name = "API Shield"
+category = "Application security"
+groups = ["Application security"]
+function = "Identify and address your API vulnerabilities"
+rest_paths = 41
+rest_path_examples = ["/zones/{id}/api_gateway/configuration", "/zones/{id}/api_gateway/discovery"]
+api_docs = ["Get started with API Shield", "API Gateway"]
+free_plan = "enterprise-add-on"
+free_plan_note = "Unless a feature page says otherwise, features need the paid API Shield add-on on an Enterprise plan; mTLS with a Cloudflare-managed CA is open to anyone"
+free_plan_source = "https://developers.cloudflare.com/api-shield/"
+docs_url = "https://developers.cloudflare.com/api-shield/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Schema validation, mTLS and token validation are standard API gateway features; later phase"
+
+[[product]]
+name = "Argo Smart Routing"
+category = "Application performance"
+groups = ["Application performance"]
+function = "Route web traffic across the fastest, most reliable network paths"
+rest_paths = 4
+rest_path_examples = ["/accounts/{id}/argo/count_zones_enabled", "/user/argo/count_zones_enabled"]
+api_docs = []
+free_plan = "add-on"
+free_plan_note = "Docs mark it as an add-on feature"
+free_plan_source = "https://developers.cloudflare.com/argo-smart-routing/"
+docs_url = "https://developers.cloudflare.com/argo-smart-routing/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Artifacts"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Store, version, and share filesystem artifacts across Workers, APIs, and git-compatible tools"
+rest_paths = 15
+rest_path_examples = ["/accounts/{id}/artifacts/namespaces", "/accounts/{id}/artifacts/namespaces/{id}"]
+api_docs = ["API"]
+free_plan = "no"
+free_plan_note = "Requires Workers Paid; usage not available on Workers Free"
+free_plan_source = "https://developers.cloudflare.com/artifacts/"
+docs_url = "https://developers.cloudflare.com/artifacts/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Versioned git-compatible artifact storage on top of R2"
+
+[[product]]
+name = "Automatic Platform Optimization"
+category = "Application performance"
+groups = ["Application performance"]
+function = "Improve WordPress site performance by serving it from Cloudflare's global network"
+rest_paths = 1
+rest_path_examples = ["/zones/{id}/settings/automatic_platform_optimization"]
+api_docs = []
+free_plan = "add-on"
+free_plan_note = "APO must be purchased by users on the free plan before installing the WordPress plugin"
+free_plan_source = "https://developers.cloudflare.com/automatic-platform-optimization/"
+docs_url = "https://developers.cloudflare.com/automatic-platform-optimization/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "WordPress-specific optimization; low value for Aphrody Cloud"
+
+[[product]]
+name = "Basin"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "Ingest, manage, and query analytics data stored in R2"
+rest_paths = 24
+rest_path_examples = ["/accounts/{id}/basin-catalog", "/accounts/{id}/basin-catalog/{id}"]
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "Pricing page lists allowances (for example 50 GB SQL transforms); plan gating not stated in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/basin/"
+docs_url = "https://developers.cloudflare.com/basin/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Data pipeline, Iceberg catalog, SQL and event stream on R2-class storage; later phase"
+
+[[product]]
+name = "Basin Catalog"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "Create, manage, and query Iceberg tables stored in R2"
+rest_paths = 14
+rest_path_examples = ["/accounts/{id}/basin-catalog", "/accounts/{id}/basin-catalog/{id}"]
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "Pricing table lists included allowances; plan gating not stated in fetched pages"
+free_plan_source = "https://developers.cloudflare.com/basin-catalog/"
+docs_url = "https://developers.cloudflare.com/basin-catalog/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Data pipeline, Iceberg catalog, SQL and event stream on R2-class storage; later phase"
+
+[[product]]
+name = "Basin Pipelines"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Ingest real time data streams and load into R2"
+rest_paths = 10
+rest_path_examples = ["/accounts/{id}/pipelines", "/accounts/{id}/pipelines/v1/pipelines"]
+api_docs = ["REST reference: https://developers.cloudflare.com/api/resources/pipelines/index.md"]
+free_plan = "no"
+free_plan_note = "Docs state 'Available on Workers Paid plan'"
+free_plan_source = "https://developers.cloudflare.com/basin-pipelines/"
+docs_url = "https://developers.cloudflare.com/basin-pipelines/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Data pipeline, Iceberg catalog, SQL and event stream on R2-class storage; later phase"
+
+[[product]]
+name = "Basin SQL"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Cloudflare's serverless, distributed query engine for data stored in Basin Catalog"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "Pricing lists $0.0025 per GB scanned; plan gating not stated in fetched pages"
+free_plan_source = "https://developers.cloudflare.com/basin-sql/"
+docs_url = "https://developers.cloudflare.com/basin-sql/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Data pipeline, Iceberg catalog, SQL and event stream on R2-class storage; later phase"
+
+[[product]]
+name = "Billing"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Manage billing, plans, and subscriptions for your account"
+rest_paths = 26
+rest_path_examples = ["/accounts/{id}/billable-usage", "/accounts/{id}/billable-usage/info"]
+api_docs = []
+free_plan = "n/a"
+free_plan_note = "Account control-plane documentation; payment methods and plans"
+free_plan_source = "https://developers.cloudflare.com/billing/"
+docs_url = "https://developers.cloudflare.com/billing/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Control-plane primitives (accounts, members, billing, tenants, tags) are required by every product"
+
+[[product]]
+name = "Bots"
+category = "Application security"
+groups = ["Application security"]
+function = "Protect your domain from bad bot traffic"
+rest_paths = 2
+rest_path_examples = ["/zones/{id}/bot_management", "/zones/{id}/bot_management/feedback"]
+api_docs = []
+free_plan = "limited"
+free_plan_note = "Docs page states 'Available on all plans' while the bot-protection availability row names Business and Enterprise customers; Free split not stated"
+free_plan_source = "https://developers.cloudflare.com/bots/"
+docs_url = "https://developers.cloudflare.com/bots/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Bot scoring and fraud sequences need large traffic datasets and models; start with rate limiting and Turnstile"
+
+[[product]]
+name = "Browser Isolation"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Execute active webpage content in a secure, isolated browser"
+rest_paths = -1
+api_docs = []
+free_plan = "add-on"
+free_plan_note = "Available as an add-on to Zero Trust Pay-as-you-go and Enterprise plans (not Free)"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/remote-browser-isolation/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/remote-browser-isolation/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs a remote-render fleet and streaming protocol; Browser Run covers the headless case"
+
+[[product]]
+name = "Browser Run"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Control and interact with headless browser instances programmatically"
+rest_paths = 28
+rest_path_examples = ["/accounts/{id}/browser-rendering/accessibilityTree", "/accounts/{id}/browser-rendering/content"]
+api_docs = ["REST reference: https://developers.cloudflare.com/api/resources/browser_rendering/index.md"]
+free_plan = "yes"
+free_plan_note = "Available on Free and Paid plans; Workers Free browser hours: 10 minutes per day"
+free_plan_source = "https://developers.cloudflare.com/browser-run/"
+docs_url = "https://developers.cloudflare.com/browser-run/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Headless browser as a service; maps to a Chromium fleet"
+
+[[product]]
+name = "BYOIP"
+category = "Network security"
+groups = ["Network security", "Application performance"]
+function = "Get Cloudflare's security and performance while using your own IPs"
+rest_paths = 22
+rest_path_examples = ["/accounts/{id}/addressing/address_maps", "/accounts/{id}/addressing/address_maps/{id}"]
+api_docs = ["IP address service bindings"]
+free_plan = "enterprise-only"
+free_plan_note = "Docs mark Enterprise-only"
+free_plan_source = "https://developers.cloudflare.com/byoip/"
+docs_url = "https://developers.cloudflare.com/byoip/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Cache"
+category = "Application performance"
+groups = ["Application performance"]
+function = "Make websites faster by caching content across our global server network"
+rest_paths = 11
+rest_path_examples = ["/zones/{id}/cache/cache_reserve", "/zones/{id}/cache/cache_reserve_clear"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/cache/"
+docs_url = "https://developers.cloudflare.com/cache/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "CDN caching on the proxy tier with a purge API"
+
+[[product]]
+name = "Cache Reserve"
+category = "Application performance"
+groups = ["Application performance"]
+function = "Cache your website content on a persistent data store"
+rest_paths = 3
+rest_path_examples = ["/zones/{id}/cache/cache_reserve", "/zones/{id}/cache/cache_reserve_clear"]
+api_docs = []
+free_plan = "no"
+free_plan_note = "Docs: Cache Reserve requires a paid plan; CDN without Cache Reserve stays free"
+free_plan_source = "https://developers.cloudflare.com/cache/advanced-configuration/cache-reserve/"
+docs_url = "https://developers.cloudflare.com/cache/advanced-configuration/cache-reserve/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Persistent cache storage on an R2-class store"
+
+[[product]]
+name = "CASB"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Scan SaaS applications and cloud environments for data security issues"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/integrations/cloud-and-saas/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/integrations/cloud-and-saas/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs SaaS integrations, content-inspection engines or detection corpora; defer"
+
+[[product]]
+name = "Challenges"
+category = "Application security"
+groups = ["Application security"]
+function = "Verify visitors are not bots with lightweight challenges"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-challenges/"
+docs_url = "https://developers.cloudflare.com/cloudflare-challenges/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Managed challenge pages are the base of Turnstile and WAF actions"
+
+[[product]]
+name = "China Network"
+category = "Application security"
+groups = ["Application performance", "Application security"]
+function = "Fast, global network serving visitors inside and outside of China"
+rest_paths = -1
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Separate subscription for Enterprise plan customers"
+free_plan_source = "https://developers.cloudflare.com/china-network/"
+docs_url = "https://developers.cloudflare.com/china-network/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Client-side security"
+category = "Application security"
+groups = ["Application security"]
+function = "Provide client-side protection for your website visitors"
+rest_paths = 9
+rest_path_examples = ["/zones/{id}/page_shield", "/zones/{id}/page_shield/connections"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Availability row: Free Yes (script monitoring only on Free)"
+free_plan_source = "https://developers.cloudflare.com/client-side-security/"
+docs_url = "https://developers.cloudflare.com/client-side-security/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs a global script-reputation dataset or attack-surface intelligence feeds; defer"
+
+[[product]]
+name = "Cloud Workload Security"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Apply request-level policies to cloud API traffic through a proxy in your environment"
+rest_paths = 30
+rest_path_examples = ["/accounts/{id}/cws/basic-auth-credentials", "/accounts/{id}/cws/basic-auth-credentials/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Requires a Zero Trust subscription; the Zero Trust Free plan is sufficient"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/cloud-workload-security/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/cloud-workload-security/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs device agents, a synthetic test fleet or Gateway; follows Access and Gateway"
+
+[[product]]
+name = "Cloudflare CLI"
+category = "Developer platform"
+groups = ["Core platform", "Developer platform"]
+function = "Manage Cloudflare resources from one command-line interface"
+rest_paths = -1
+api_docs = ["cf for Wrangler users"]
+free_plan = "n/a"
+free_plan_note = "Beta command-line tool (cf), not a plan-gated service"
+free_plan_source = "https://developers.cloudflare.com/cf/"
+docs_url = "https://developers.cloudflare.com/cf/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Operator tooling must target the Aphrody Cloud API"
+
+[[product]]
+name = "Cloudflare for Platforms"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Build your own multi-tenant platform using Cloudflare as infrastructure"
+rest_paths = 18
+rest_path_examples = ["/accounts/{id}/workers/dispatch/namespaces", "/accounts/{id}/workers/dispatch/namespaces/{id}"]
+api_docs = ["REST reference: https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Availability row: Free Yes; extra hostnames $0.10 each"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-for-platforms/"
+docs_url = "https://developers.cloudflare.com/cloudflare-for-platforms/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Umbrella of multi-tenant building blocks (Workers for Platforms, custom hostnames)"
+
+[[product]]
+name = "Cloudflare for SaaS"
+category = "Application security"
+groups = ["Application performance", "Application security"]
+function = "Extend Cloudflare's security and performance to your customers"
+rest_paths = 5
+rest_path_examples = ["/zones/{id}/custom_hostnames", "/zones/{id}/custom_hostnames/fallback_origin"]
+api_docs = ["API reference", "REST reference: https://developers.cloudflare.com/api/resources/custom_hostnames/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Availability row: Free Yes; extra hostnames $0.10 each"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/"
+docs_url = "https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Custom hostnames with automatic TLS for tenants"
+
+[[product]]
+name = "Cloudflare Fundamentals"
+category = "Core platform"
+groups = ["Core platform", "Docs collections"]
+function = "Learn about using Cloudflare and features that span across Cloudflare products"
+rest_paths = -1
+api_docs = ["Cloudflare's API"]
+free_plan = "n/a"
+free_plan_note = "Documentation collection"
+free_plan_source = "https://developers.cloudflare.com/fundamentals/"
+docs_url = "https://developers.cloudflare.com/fundamentals/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Documentation collection, not a runtime service"
+
+[[product]]
+name = "Cloudflare Images"
+category = "Developer platform"
+groups = ["Developer platform", "Media"]
+function = "Store, transform, optimize, and deliver images at scale"
+rest_paths = 24
+rest_path_examples = ["/accounts/{id}/images/v1", "/accounts/{id}/images/v1/direct_upload"]
+api_docs = ["Images API Reference", "REST reference: https://developers.cloudflare.com/api/resources/images/subresources/v1/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Available on Free and Paid plans; Free includes transformations of images stored elsewhere, storage in Images needs Paid"
+free_plan_source = "https://developers.cloudflare.com/images/"
+docs_url = "https://developers.cloudflare.com/images/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Image storage and on-the-fly transforms; maps to the native image pipeline"
+
+[[product]]
+name = "Cloudflare Mesh"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Connect services and devices with post-quantum encrypted mesh networking"
+rest_paths = -1
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Requires a Zero Trust organization with an active subscription, including the Free plan"
+free_plan_source = "https://developers.cloudflare.com/mesh/"
+docs_url = "https://developers.cloudflare.com/mesh/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Overlay network between devices and servers; fits a Tunnel and WireGuard-class stack; later phase"
+
+[[product]]
+name = "Cloudflare Network Firewall"
+category = "Cloudflare One"
+groups = ["Cloudflare One", "Network security"]
+function = "Protect your enterprise network with advanced firewall-as-a-service protection"
+rest_paths = -1
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Docs mark Enterprise-only"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-network-firewall/"
+docs_url = "https://developers.cloudflare.com/cloudflare-network-firewall/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Cloudflare Observability"
+category = "Core platform"
+groups = ["Core platform", "Analytics"]
+function = "Find Cloudflare documentation for logs, traces, analytics, alerts, telemetry export, and dashboards"
+rest_paths = 30
+rest_path_examples = ["/accounts/{id}/observability/usage/limit", "/accounts/{id}/workers/observability/agents/traces"]
+api_docs = []
+free_plan = "limited"
+free_plan_note = "Workers Logs included in Workers Free and Paid; extra ingestion not available on Free (pricing table)"
+free_plan_source = "https://developers.cloudflare.com/observability/"
+docs_url = "https://developers.cloudflare.com/observability/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Logs, traces and metrics for deployed Workers"
+
+[[product]]
+name = "Cloudflare OHTTP Relay"
+category = "Developer platform"
+groups = ["Developer platform", "Privacy"]
+function = "Implement the Oblivious HTTP IETF standard to improve client privacy"
+rest_paths = -1
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Closed beta for select privacy-oriented partners; docs mark Enterprise-only"
+free_plan_source = "https://developers.cloudflare.com/ohttp-relay/"
+docs_url = "https://developers.cloudflare.com/ohttp-relay/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Cloudflare One"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Replace legacy security perimeters with Cloudflare's network to protect your organization"
+rest_paths = 47
+rest_path_examples = ["/accounts/{id}/connectivity/directory/services", "/accounts/{id}/connectivity/directory/services/{id}"]
+api_docs = ["API and Terraform"]
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'; Zero Trust offers Free and Paid plans"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Zero Trust identity-aware access and secure web gateway; fits the self-hosted identity stack"
+
+[[product]]
+name = "Cloudflare One Appliance"
+category = "Cloudflare One"
+groups = ["Cloudflare One", "Network security"]
+function = "Connect branch sites to Cloudflare One with a managed hardware or virtual appliance"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-wan/configuration/appliance/"
+docs_url = "https://developers.cloudflare.com/cloudflare-wan/configuration/appliance/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Cloudflare One Client"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Send device traffic to Cloudflare and report device health for posture checks (formerly WARP)"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Cloudflare Tunnel"
+category = "Developer platform"
+groups = ["Core platform", "Network security", "Application security", "Developer platform"]
+function = "Connect your origin servers, APIs, and services to Cloudflare without a publicly routable IP address"
+rest_paths = 21
+rest_path_examples = ["/accounts/{id}/cfd_tunnel", "/accounts/{id}/cfd_tunnel/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/tunnel/"
+docs_url = "https://developers.cloudflare.com/tunnel/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Outbound-only connectors to expose private origins; reusable from self-hosted nodes"
+
+[[product]]
+name = "Cloudflare Tunnel for SASE"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Connect private networks to Cloudflare with outbound-only tunnels, without exposing a public IP"
+rest_paths = 20
+rest_path_examples = ["/accounts/{id}/cfd_tunnel", "/accounts/{id}/cfd_tunnel/{id}"]
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "Tunnel itself is on all plans; the SASE-specific split is not stated in fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Cloudflare Wallets"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Reserve a wallet handle and give your account and its agents a stable, human-readable identity for agentic payments"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/wallets/"
+docs_url = "https://developers.cloudflare.com/wallets/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Agentic payments and crawler metering are product surfaces for an AI-first cloud; later phase"
+
+[[product]]
+name = "Cloudflare WAN"
+category = "Cloudflare One"
+groups = ["Cloudflare One", "Network security"]
+function = "Replace legacy WAN and securely connect any traffic source to Cloudflare's network"
+rest_paths = 57
+rest_path_examples = ["/accounts/{id}/magic/advanced_dns_protection/configs/dns_protection/rules", "/accounts/{id}/magic/advanced_dns_protection/configs/dns_protection/rules/{id}"]
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Docs mark Enterprise-only"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-wan/"
+docs_url = "https://developers.cloudflare.com/cloudflare-wan/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Cloudflare Web Analytics"
+category = "Developer platform"
+groups = ["Application performance", "Analytics", "Developer platform"]
+function = "Get vital web analytics for your website"
+rest_paths = 9
+rest_path_examples = ["/accounts/{id}/rum/site_info", "/accounts/{id}/rum/site_info/list"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/web-analytics/"
+docs_url = "https://developers.cloudflare.com/web-analytics/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Privacy-friendly site analytics"
+
+[[product]]
+name = "Containers"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Enhance your Workers with serverless containers"
+rest_paths = 12
+rest_path_examples = ["/accounts/{id}/containers/applications", "/accounts/{id}/containers/applications/{id}"]
+api_docs = ["API"]
+free_plan = "no"
+free_plan_note = "Docs state 'Available on Workers Paid plan'"
+free_plan_source = "https://developers.cloudflare.com/containers/"
+docs_url = "https://developers.cloudflare.com/containers/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Container instances controlled by Workers; maps to Docker or Podman on the fleet"
+
+[[product]]
+name = "D1"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "Create managed, serverless databases with SQL semantics"
+rest_paths = 11
+rest_path_examples = ["/accounts/{id}/d1/database", "/accounts/{id}/d1/database/{id}"]
+api_docs = ["Workers Binding API", "SQL API", "Wrangler commands", "REST API", "REST reference: https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/create/index.md"]
+free_plan = "yes"
+free_plan_note = "Available on Free and Paid plans; Free allows 10 databases per account"
+free_plan_source = "https://developers.cloudflare.com/d1/"
+docs_url = "https://developers.cloudflare.com/d1/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Serverless SQLite; maps to SQLite or libSQL behind the same REST and binding API"
+
+[[product]]
+name = "Data Localization Suite"
+category = "Developer platform"
+groups = ["Cloudflare One", "Analytics", "Application performance", "Application security", "Developer platform", "Network security", "Storage"]
+function = "Control where Cloudflare stores and inspects data"
+rest_paths = 6
+rest_path_examples = ["/accounts/{id}/dls/regional_services/prefix_bindings", "/accounts/{id}/dls/regional_services/prefix_bindings/{id}"]
+api_docs = []
+free_plan = "enterprise-add-on"
+free_plan_note = "Docs mark Enterprise-only paid add-on"
+free_plan_source = "https://developers.cloudflare.com/data-localization/"
+docs_url = "https://developers.cloudflare.com/data-localization/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Data Loss Prevention"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Scan your web traffic and SaaS applications for sensitive data"
+rest_paths = 87
+rest_path_examples = ["/accounts/{id}/data-security/posture/asset_schemas", "/accounts/{id}/data-security/posture/asset_schemas/{id}"]
+api_docs = []
+free_plan = "enterprise-add-on"
+free_plan_note = "Available as an add-on to Zero Trust Enterprise plans"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/data-loss-prevention/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/data-loss-prevention/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs SaaS integrations, content-inspection engines or detection corpora; defer"
+
+[[product]]
+name = "DDoS Protection"
+category = "Application security"
+groups = ["Application security", "Network security"]
+function = "Protect against DDoS attacks automatically with uncompromised performance"
+rest_paths = -1
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Availability row: Free Yes"
+free_plan_source = "https://developers.cloudflare.com/ddos-protection/"
+docs_url = "https://developers.cloudflare.com/ddos-protection/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Basic L7 flood mitigation at the proxy; volumetric L3/L4 mitigation depends on the upstream network"
+
+[[product]]
+name = "Digital Experience Monitoring"
+category = "Cloudflare One"
+groups = ["Cloudflare One", "Analytics"]
+function = "Monitor device, network, and application health across your Zero Trust organization"
+rest_paths = 26
+rest_path_examples = ["/accounts/{id}/dex/colos", "/accounts/{id}/dex/commands"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Available on all Cloudflare Zero Trust and SASE plans; Zero Trust Free: 10 DEX tests per account"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/insights/dex/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/insights/dex/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs device agents, a synthetic test fleet or Gateway; follows Access and Gateway"
+
+[[product]]
+name = "DMARC Management"
+category = "Application security"
+groups = ["Application security"]
+function = "Protect your email domain and stop brand impersonation"
+rest_paths = -1
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Available to all Cloudflare customers with Cloudflare DNS"
+free_plan_source = "https://developers.cloudflare.com/dmarc-management/"
+docs_url = "https://developers.cloudflare.com/dmarc-management/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs a mail-report aggregation and reputation dataset; integrate external DMARC tooling"
+
+[[product]]
+name = "DNS"
+category = "Application performance"
+groups = ["Application performance"]
+function = "Deliver excellent performance and reliability to your domain"
+rest_paths = 49
+rest_path_examples = ["/accounts/{id}/custom_ns", "/accounts/{id}/custom_ns/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/dns/"
+docs_url = "https://developers.cloudflare.com/dns/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Authoritative DNS is a base service of the control plane"
+
+[[product]]
+name = "DNS Firewall"
+category = "Application security"
+groups = ["Application performance", "Application security"]
+function = "Speed up and protect entire authoritative nameservers"
+rest_paths = 5
+rest_path_examples = ["/accounts/{id}/dns_firewall", "/accounts/{id}/dns_firewall/{id}"]
+api_docs = []
+free_plan = "enterprise-add-on"
+free_plan_note = "Docs mark Enterprise-only paid add-on"
+free_plan_source = "https://developers.cloudflare.com/dns/dns-firewall/"
+docs_url = "https://developers.cloudflare.com/dns/dns-firewall/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Durable Objects"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "A special kind of Cloudflare Worker combining compute with storage"
+rest_paths = 4
+rest_path_examples = ["/accounts/{id}/workers/durable_objects/namespaces", "/accounts/{id}/workers/durable_objects/namespaces/{id}/export"]
+api_docs = ["Workers Binding API", "REST API", "REST reference: https://developers.cloudflare.com/api/resources/durable_objects/subresources/namespaces/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Available on Free and Paid plans; SQLite-backed Durable Objects on Workers Free"
+free_plan_source = "https://developers.cloudflare.com/durable-objects/"
+docs_url = "https://developers.cloudflare.com/durable-objects/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Stateful actors with SQLite storage; needed by Agents, Workflows and realtime products"
+
+[[product]]
+name = "Dynamic Workers"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Spin up isolated Workers on demand to execute code"
+rest_paths = -1
+api_docs = ["API reference"]
+free_plan = "no"
+free_plan_note = "Currently only on the Workers Paid plan"
+free_plan_source = "https://developers.cloudflare.com/dynamic-workers/"
+docs_url = "https://developers.cloudflare.com/dynamic-workers/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "On-demand isolates for running generated code"
+
+[[product]]
+name = "Email security"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Detect and block phishing, malware, and impersonation across inbound and outbound email"
+rest_paths = 43
+rest_path_examples = ["/accounts/{id}/email-security/analytics/monthly_report", "/accounts/{id}/email-security/investigate"]
+api_docs = ["Email security API", "REST reference: https://developers.cloudflare.com/api/resources/email_security/index.md"]
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/email-security/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/email-security/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs SaaS integrations, content-inspection engines or detection corpora; defer"
+
+[[product]]
+name = "Email Service"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Send transactional emails at scale with Cloudflare Email Service"
+rest_paths = 71
+rest_path_examples = ["/accounts/{id}/email-security/analytics/monthly_report", "/accounts/{id}/email-security/investigate"]
+api_docs = ["API", "REST reference: https://developers.cloudflare.com/api/resources/email_routing/index.md"]
+free_plan = "limited"
+free_plan_note = "Email Routing is on Free and Paid plans; Email Sending (beta) to arbitrary recipients requires Workers Paid"
+free_plan_source = "https://developers.cloudflare.com/email-service/"
+docs_url = "https://developers.cloudflare.com/email-service/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Email routing and transactional sending"
+
+[[product]]
+name = "Flagship"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Feature flags evaluated at the edge for Cloudflare Workers"
+rest_paths = 7
+rest_path_examples = ["/accounts/{id}/flagship/apps", "/accounts/{id}/flagship/apps/{id}"]
+api_docs = ["API tokens", "Binding API", "OpenFeature SDK", "REST reference: https://developers.cloudflare.com/api/resources/flagship/index.md"]
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/flagship/"
+docs_url = "https://developers.cloudflare.com/flagship/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Feature flags evaluated in Workers; small surface"
+
+[[product]]
+name = "Fraud Detection"
+category = "Application security"
+groups = ["Application security"]
+function = "Sequence rules use cookies to track the order and timing of requests"
+rest_paths = 1
+rest_path_examples = ["/zones/{id}/fraud_detection/settings"]
+api_docs = []
+free_plan = "beta"
+free_plan_note = "Sequence rules in private beta; contact account team"
+free_plan_source = "https://developers.cloudflare.com/bots/additional-configurations/sequence-rules/"
+docs_url = "https://developers.cloudflare.com/bots/additional-configurations/sequence-rules/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Bot scoring and fraud sequences need large traffic datasets and models; start with rate limiting and Turnstile"
+
+[[product]]
+name = "Gateway"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Set up policies to inspect DNS, Network, HTTP, and Egress traffic"
+rest_paths = 31
+rest_path_examples = ["/accounts/{id}/gateway", "/accounts/{id}/gateway/app_types"]
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "Zero Trust offers Free and Paid plans per the Cloudflare One page; the per-product split was not found in fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/traffic-controls/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/traffic-controls/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Zero Trust identity-aware access and secure web gateway; fits the self-hosted identity stack"
+
+[[product]]
+name = "Geo Key Manager"
+category = "Application security"
+groups = ["Application security"]
+function = "Control SSL/TLS key storage for compliance and security"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/ssl/edge-certificates/geokey-manager/"
+docs_url = "https://developers.cloudflare.com/ssl/edge-certificates/geokey-manager/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Google tag gateway for advertisers"
+category = "Application performance"
+groups = ["Application performance", "Privacy"]
+function = "Add a layer of data security and privacy controls when using Google Tag Manager"
+rest_paths = -1
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs state it is free to use"
+free_plan_source = "https://developers.cloudflare.com/google-tag-gateway/"
+docs_url = "https://developers.cloudflare.com/google-tag-gateway/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "GraphQL Analytics API"
+category = "Core platform"
+groups = ["Core platform", "Analytics"]
+function = "Access data on HTTP requests and Cloudflare products"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/analytics/graphql-api/"
+docs_url = "https://developers.cloudflare.com/analytics/graphql-api/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Analytics query API over request, Workers and storage metrics; follows Analytics Engine"
+
+[[product]]
+name = "Health Checks"
+category = "Application performance"
+groups = ["Application performance"]
+function = "Monitor IPs or hostnames and get notified of issues"
+rest_paths = 4
+rest_path_examples = ["/zones/{id}/healthchecks", "/zones/{id}/healthchecks/preview"]
+api_docs = []
+free_plan = "no"
+free_plan_note = "Availability row: Free No; Pro Yes"
+free_plan_source = "https://developers.cloudflare.com/health-checks/"
+docs_url = "https://developers.cloudflare.com/health-checks/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Origin monitoring feeding load balancing and notifications"
+
+[[product]]
+name = "Hyperdrive"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "Accelerate database queries to make databases fast globally"
+rest_paths = 4
+rest_path_examples = ["/accounts/{id}/hyperdrive/configs", "/accounts/{id}/hyperdrive/configs/{id}"]
+api_docs = ["Hyperdrive REST API", "REST reference: https://developers.cloudflare.com/api/resources/hyperdrive/subresources/configs/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Included in both Free and Paid Workers plans"
+free_plan_source = "https://developers.cloudflare.com/hyperdrive/"
+docs_url = "https://developers.cloudflare.com/hyperdrive/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Database connection pooling and caching for Workers"
+
+[[product]]
+name = "Internal DNS"
+category = "Cloudflare One"
+groups = ["Application performance", "Cloudflare One"]
+function = "Simplify private network management with Cloudflare DNS for internal resources"
+rest_paths = 6
+rest_path_examples = ["/accounts/{id}/dns_settings", "/accounts/{id}/dns_settings/nameserver_sets"]
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Docs mark Enterprise-only; included with Gateway for Enterprise"
+free_plan_source = "https://developers.cloudflare.com/dns/internal-dns/"
+docs_url = "https://developers.cloudflare.com/dns/internal-dns/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "K2"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "A durable event stream"
+rest_paths = 3
+rest_path_examples = ["/accounts/{id}/k2/streams", "/accounts/{id}/k2/streams/{id}"]
+api_docs = []
+free_plan = "no"
+free_plan_note = "Public beta on Workers Paid; 10 GB per account cap during beta"
+free_plan_source = "https://developers.cloudflare.com/k2/"
+docs_url = "https://developers.cloudflare.com/k2/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Data pipeline, Iceberg catalog, SQL and event stream on R2-class storage; later phase"
+
+[[product]]
+name = "Key Transparency Auditor"
+category = "Application security"
+groups = ["Application security", "Privacy"]
+function = "Secure the distribution of public keys in E2EE messaging systems"
+rest_paths = -1
+api_docs = ["API"]
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/key-transparency/"
+docs_url = "https://developers.cloudflare.com/key-transparency/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Keyless SSL"
+category = "Application security"
+groups = ["Application performance", "Application security"]
+function = "Use Cloudflare SSL while keeping exclusive access to your private keys"
+rest_paths = 2
+rest_path_examples = ["/zones/{id}/keyless_certificates", "/zones/{id}/keyless_certificates/{id}"]
+api_docs = []
+free_plan = "enterprise-add-on"
+free_plan_note = "Availability row: Free No, Pro No, Business No, Enterprise paid add-on"
+free_plan_source = "https://developers.cloudflare.com/ssl/keyless-ssl/"
+docs_url = "https://developers.cloudflare.com/ssl/keyless-ssl/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "KV"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "Global, low-latency, key-value data storage"
+rest_paths = 8
+rest_path_examples = ["/accounts/{id}/storage/kv/namespaces", "/accounts/{id}/storage/kv/namespaces/{id}"]
+api_docs = ["Workers Binding API", "KV REST API", "REST reference: https://developers.cloudflare.com/api/resources/kv/index.md"]
+free_plan = "yes"
+free_plan_note = "Included in both Free and Paid Workers plans"
+free_plan_source = "https://developers.cloudflare.com/kv/"
+docs_url = "https://developers.cloudflare.com/kv/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Key-value store; maps to a Redis- or SQLite-backed store with the same binding API"
+
+[[product]]
+name = "Leaked credentials detection"
+category = "Application security"
+groups = ["Application security"]
+function = "Detect previously leaked credentials in incoming requests"
+rest_paths = 3
+rest_path_examples = ["/zones/{id}/leaked-credential-checks", "/zones/{id}/leaked-credential-checks/detections"]
+api_docs = ["Common API calls", "Terraform configuration examples"]
+free_plan = "limited"
+free_plan_note = "Page says 'Available on all plans' and also 'Only available for Enterprise customers' for a sub-feature; split not resolved"
+free_plan_source = "https://developers.cloudflare.com/waf/detections/leaked-credentials/"
+docs_url = "https://developers.cloudflare.com/waf/detections/leaked-credentials/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs a leaked-credential corpus; integrate an external breach API"
+
+[[product]]
+name = "Learning Paths"
+category = "Docs collections"
+groups = ["Docs collections"]
+function = "Guided modules and projects to help you get started with Cloudflare"
+rest_paths = -1
+api_docs = []
+free_plan = "n/a"
+free_plan_note = "Documentation collection"
+free_plan_source = "https://developers.cloudflare.com/learning-paths/"
+docs_url = "https://developers.cloudflare.com/learning-paths/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Documentation collection, not a runtime service"
+
+[[product]]
+name = "Load Balancing"
+category = "Cloudflare One"
+groups = ["Application performance", "Cloudflare One"]
+function = "Maximize application performance and availability"
+rest_paths = 33
+rest_path_examples = ["/accounts/{id}/load_balancers", "/accounts/{id}/load_balancers/monitor_groups"]
+api_docs = ["API reference", "REST reference: https://developers.cloudflare.com/api/resources/load_balancers/methods/get/index.md"]
+free_plan = "add-on"
+free_plan_note = "Docs mark it as an add-on feature"
+free_plan_source = "https://developers.cloudflare.com/load-balancing/"
+docs_url = "https://developers.cloudflare.com/load-balancing/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Health-checked traffic steering across origins"
+
+[[product]]
+name = "Log Explorer"
+category = "Core platform"
+groups = ["Core platform", "Analytics"]
+function = "Store and explore your logs in the Cloudflare dashboard or API"
+rest_paths = -1
+api_docs = ["Log Explorer API"]
+free_plan = "no"
+free_plan_note = "Paid add-on; docs state there is no free version or trial"
+free_plan_source = "https://developers.cloudflare.com/observability/logs/log-explorer/"
+docs_url = "https://developers.cloudflare.com/observability/logs/log-explorer/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Query logs stored by Logs; later phase"
+
+[[product]]
+name = "Logs"
+category = "Core platform"
+groups = ["Core platform", "Analytics"]
+function = "Access detailed logs with metadata from Cloudflare products"
+rest_paths = 42
+rest_path_examples = ["/accounts/{id}/logpush/datasets/{id}/fields", "/accounts/{id}/logpush/datasets/{id}/jobs"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Logpush self-service usage-based pricing on Free, Pro and Business; 25 GB internal-destination export included per account"
+free_plan_source = "https://developers.cloudflare.com/logs/"
+docs_url = "https://developers.cloudflare.com/logs/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Log export (Logpush-style) is needed for operations"
+
+[[product]]
+name = "Magic Transit"
+category = "Network security"
+groups = ["Network security"]
+function = "Network functions at Cloudflare scale for on-premise, cloud-hosted, and hybrid networks"
+rest_paths = 57
+rest_path_examples = ["/accounts/{id}/magic/advanced_dns_protection/configs/dns_protection/rules", "/accounts/{id}/magic/advanced_dns_protection/configs/dns_protection/rules/{id}"]
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Docs mark Enterprise-only"
+free_plan_source = "https://developers.cloudflare.com/magic-transit/"
+docs_url = "https://developers.cloudflare.com/magic-transit/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Monetization Gateway"
+category = "Core platform"
+groups = ["Core platform", "AI"]
+function = "Define monetization policies to charge any visitor accessing APIs, MCP tools, web pages, or datasets."
+rest_paths = 4
+rest_path_examples = ["/accounts/{id}/monetization", "/zones/{id}/monetization"]
+api_docs = []
+free_plan = "beta"
+free_plan_note = "Closed beta; request access in dashboard"
+free_plan_source = "https://developers.cloudflare.com/monetization-gateway/"
+docs_url = "https://developers.cloudflare.com/monetization-gateway/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Agentic payments and crawler metering are product surfaces for an AI-first cloud; later phase"
+
+[[product]]
+name = "MoQ"
+category = "Developer platform"
+groups = ["Developer platform", "Media"]
+function = "Protocol for live media"
+rest_paths = 4
+rest_path_examples = ["/accounts/{id}/moq/relays", "/accounts/{id}/moq/relays/{id}"]
+api_docs = ["Use the MoQ API"]
+free_plan = "beta"
+free_plan_note = "Free to use during the beta period"
+free_plan_source = "https://developers.cloudflare.com/moq/"
+docs_url = "https://developers.cloudflare.com/moq/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Media-over-QUIC relay for live media; later phase alongside Stream"
+
+[[product]]
+name = "Network"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Manage Cloudflare network settings for your website"
+rest_paths = -1
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/network/"
+docs_url = "https://developers.cloudflare.com/network/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Network Error Logging"
+category = "Network security"
+groups = ["Network security", "Analytics"]
+function = "Review connectivity issues to learn when and where an incident is happening and its impact"
+rest_paths = -1
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Available to users on all plan types"
+free_plan_source = "https://developers.cloudflare.com/network-error-logging/"
+docs_url = "https://developers.cloudflare.com/network-error-logging/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Browser-reported connectivity errors collected by the proxy tier; small surface; later phase"
+
+[[product]]
+name = "Network Flow"
+category = "Network security"
+groups = ["Network security", "Analytics"]
+function = "Visibility into your network and cloud traffic by analyzing network flow data"
+rest_paths = -1
+api_docs = ["API"]
+free_plan = "yes"
+free_plan_note = "Available to all users with a Cloudflare account; free version for home, lab and business networks"
+free_plan_source = "https://developers.cloudflare.com/network-flow/"
+docs_url = "https://developers.cloudflare.com/network-flow/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Network Interconnect"
+category = "Network security"
+groups = ["Network security"]
+function = "Faster, more reliable, and more secure than connecting over the Internet"
+rest_paths = 10
+rest_path_examples = ["/accounts/{id}/cni/cnis", "/accounts/{id}/cni/cnis/{id}"]
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Docs mark Enterprise-only"
+free_plan_source = "https://developers.cloudflare.com/network-interconnect/"
+docs_url = "https://developers.cloudflare.com/network-interconnect/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Network visibility"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Record and analyze raw network traffic with packet captures to diagnose connectivity and security issues"
+rest_paths = 14
+rest_path_examples = ["/accounts/{id}/mnm/config", "/accounts/{id}/mnm/config/full"]
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/insights/network-visibility/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/insights/network-visibility/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Notifications"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Define what you want to be notified about and how"
+rest_paths = 14
+rest_path_examples = ["/accounts/{id}/alerting/v3/available_alerts", "/accounts/{id}/alerting/v3/destinations/eligible"]
+api_docs = ["API reference", "REST reference: https://developers.cloudflare.com/api/resources/alerting/subresources/available_alerts/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Email and webhooks available on all plans"
+free_plan_source = "https://developers.cloudflare.com/notifications/"
+docs_url = "https://developers.cloudflare.com/notifications/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Alerting and webhooks for control-plane events"
+
+[[product]]
+name = "OAuth documentation"
+category = "Core platform"
+groups = ["Core platform", "Docs collections"]
+function = "Create and integrate with Cloudflare using OAuth"
+rest_paths = 4
+rest_path_examples = ["/accounts/{id}/oauth_clients", "/accounts/{id}/oauth_clients/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Availability row: Free Yes"
+free_plan_source = "https://developers.cloudflare.com/fundamentals/oauth/"
+docs_url = "https://developers.cloudflare.com/fundamentals/oauth/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "OAuth client and token API is needed for third-party integrations with the control plane"
+
+[[product]]
+name = "Pages"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Build full-stack, serverless applications globally with minimal configuration"
+rest_paths = 17
+rest_path_examples = ["/accounts/{id}/pages/projects", "/accounts/{id}/pages/projects/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'; 500 deploys per month on Free"
+free_plan_source = "https://developers.cloudflare.com/pages/"
+docs_url = "https://developers.cloudflare.com/pages/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Static plus Functions hosting; maps onto Workers static assets plus a git build pipeline"
+
+[[product]]
+name = "Posture checks"
+category = "Cloudflare One"
+groups = ["Cloudflare One"]
+function = "Require a managed or healthy device before granting access, using Cloudflare One Client and third-party signals"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-one/reusable-components/posture-checks/"
+docs_url = "https://developers.cloudflare.com/cloudflare-one/reusable-components/posture-checks/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs device agents, a synthetic test fleet or Gateway; follows Access and Gateway"
+
+[[product]]
+name = "Privacy Pass"
+category = "Developer platform"
+groups = ["Developer platform", "Privacy"]
+function = "Privacy Pass tokens let users prove a claim without revealing their identity or being tracked across requests."
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/privacy-pass/"
+docs_url = "https://developers.cloudflare.com/privacy-pass/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Privacy Proxy"
+category = "Developer platform"
+groups = ["Developer platform", "Privacy"]
+function = "A MASQUE-based forward proxy that protects user privacy while preserving geolocation accuracy"
+rest_paths = -1
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Managed service for Enterprise customers"
+free_plan_source = "https://developers.cloudflare.com/privacy-proxy/"
+docs_url = "https://developers.cloudflare.com/privacy-proxy/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Public to private"
+category = "Cloudflare One"
+groups = ["Application performance", "Cloudflare One"]
+function = "Proxy public hostnames to origins on your private network"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/dns/private-origins/"
+docs_url = "https://developers.cloudflare.com/dns/private-origins/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Pulumi"
+category = "Developer platform"
+groups = ["Core platform", "Developer platform"]
+function = "Create, deploy, and manage Cloudflare resources in various programming languages"
+rest_paths = -1
+api_docs = []
+free_plan = "n/a"
+free_plan_note = "Infrastructure-as-code provider, not plan-gated"
+free_plan_source = "https://developers.cloudflare.com/pulumi/"
+docs_url = "https://developers.cloudflare.com/pulumi/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Operator tooling must target the Aphrody Cloud API"
+
+[[product]]
+name = "Queues"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "Reliably send and receive messages without the egress fees"
+rest_paths = 17
+rest_path_examples = ["/accounts/{id}/event_subscriptions/subscriptions", "/accounts/{id}/event_subscriptions/subscriptions/{id}"]
+api_docs = ["Queues REST API", "REST reference: https://developers.cloudflare.com/api/resources/queues/methods/create/index.md"]
+free_plan = "yes"
+free_plan_note = "Available on Free and Paid plans; Free retention fixed at 24 hours"
+free_plan_source = "https://developers.cloudflare.com/queues/"
+docs_url = "https://developers.cloudflare.com/queues/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Message queue with Worker consumers; needed for background jobs"
+
+[[product]]
+name = "R2"
+category = "Developer platform"
+groups = ["Developer platform", "Storage"]
+function = "Store large amounts of unstructured data without egress fees"
+rest_paths = 42
+rest_path_examples = ["/accounts/{id}/event_notifications/r2/{id}/configuration", "/accounts/{id}/event_notifications/r2/{id}/configuration/queues/{id}"]
+api_docs = ["API"]
+free_plan = "yes"
+free_plan_note = "Pricing page documents a free tier and paid tier"
+free_plan_source = "https://developers.cloudflare.com/r2/"
+docs_url = "https://developers.cloudflare.com/r2/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "S3-compatible object storage; maps to a self-hosted S3-compatible store"
+
+[[product]]
+name = "Radar"
+category = "Consumer services"
+groups = ["Consumer services", "Analytics"]
+function = "Investigate Internet usage around the world using Cloudflare's data"
+rest_paths = 279
+rest_path_examples = ["/radar/agent_readiness/summary/{id}", "/radar/ai/bots/summary/user_agent"]
+api_docs = ["API reference", "REST reference: https://developers.cloudflare.com/api/resources/radar/index.md"]
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/radar/"
+docs_url = "https://developers.cloudflare.com/radar/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Randomness Beacon"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Explore drand, a distributed service providing randomness to applications"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/randomness-beacon/"
+docs_url = "https://developers.cloudflare.com/randomness-beacon/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Rate limiting"
+category = "Application security"
+groups = ["Application security"]
+function = "Control the rate of incoming requests matching an expression"
+rest_paths = 2
+rest_path_examples = ["/zones/{id}/rate_limits", "/zones/{id}/rate_limits/{id}"]
+api_docs = ["Create a rate limiting rule via API", "Create using Terraform"]
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'; feature table has a Free column"
+free_plan_source = "https://developers.cloudflare.com/waf/rate-limiting-rules/"
+docs_url = "https://developers.cloudflare.com/waf/rate-limiting-rules/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Request throttling on the proxy tier; baseline abuse protection"
+
+[[product]]
+name = "Realtime"
+category = "Developer platform"
+groups = ["Developer platform", "Media"]
+function = "RealtimeKit, SFU and TURN"
+rest_paths = 46
+rest_path_examples = ["/accounts/{id}/calls/apps", "/accounts/{id}/calls/apps/{id}"]
+api_docs = ["REST reference: https://developers.cloudflare.com/api/resources/realtime_kit/index.md"]
+free_plan = "yes"
+free_plan_note = "Included usage applies to all accounts, including Free"
+free_plan_source = "https://developers.cloudflare.com/realtime/"
+docs_url = "https://developers.cloudflare.com/realtime/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "WebRTC SFU, SDK and TURN relay for real-time audio and video"
+
+[[product]]
+name = "Realtime SFU"
+category = "Developer platform"
+groups = ["Developer platform", "Media"]
+function = "Infrastructure for real-time serverless video, audio, and data applications"
+rest_paths = 4
+rest_path_examples = ["/accounts/{id}/calls/apps", "/accounts/{id}/calls/apps/{id}"]
+api_docs = ["Connection API"]
+free_plan = "yes"
+free_plan_note = "First 1,000 GB egress per month is free, shared with TURN"
+free_plan_source = "https://developers.cloudflare.com/realtime/sfu/"
+docs_url = "https://developers.cloudflare.com/realtime/sfu/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "WebRTC SFU, SDK and TURN relay for real-time audio and video"
+
+[[product]]
+name = "RealtimeKit"
+category = "Developer platform"
+groups = ["Developer platform", "Media"]
+function = "SDKs and APIs to build real-time applications with lowest latency at any scale"
+rest_paths = 42
+rest_path_examples = ["/accounts/{id}/realtime/kit/apps", "/accounts/{id}/realtime/kit/apps/{id}"]
+api_docs = ["REST API Reference", "REST reference: https://developers.cloudflare.com/api/resources/realtime_kit/index.md"]
+free_plan = "yes"
+free_plan_note = "Included usage applies to all accounts, including Free"
+free_plan_source = "https://developers.cloudflare.com/realtime/realtimekit/"
+docs_url = "https://developers.cloudflare.com/realtime/realtimekit/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "WebRTC SFU, SDK and TURN relay for real-time audio and video"
+
+[[product]]
+name = "Reference Architecture"
+category = "Core platform"
+groups = ["Core platform", "Docs collections"]
+function = "Guides and diagrams explain Cloudflare products and how to integrate with IT architectures"
+rest_paths = -1
+api_docs = []
+free_plan = "n/a"
+free_plan_note = "Documentation collection"
+free_plan_source = "https://developers.cloudflare.com/reference-architecture/"
+docs_url = "https://developers.cloudflare.com/reference-architecture/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Documentation collection, not a runtime service"
+
+[[product]]
+name = "Registrar"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Buy and renew your domain at cost, add another layer of security to your DNS records for free"
+rest_paths = 19
+rest_path_examples = ["/accounts/{id}/registrar-sandbox/domain-check", "/accounts/{id}/registrar-sandbox/domain-search"]
+api_docs = ["Registrar API", "API reference", "REST reference: https://developers.cloudflare.com/api/resources/registrar/index.md"]
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/registrar/"
+docs_url = "https://developers.cloudflare.com/registrar/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Requires ICANN registrar accreditation and registry relationships; Aphrody Cloud integrates an external registrar instead"
+
+[[product]]
+name = "Resource Tagging"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Attach key-value metadata to Cloudflare resources for organization, access control, and billing attribution"
+rest_paths = 24
+rest_path_examples = ["/accounts/{id}/access/tags", "/accounts/{id}/access/tags/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/resource-tagging/"
+docs_url = "https://developers.cloudflare.com/resource-tagging/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Control-plane primitives (accounts, members, billing, tenants, tags) are required by every product"
+
+[[product]]
+name = "Rules"
+category = "Application security"
+groups = ["Core platform", "Application performance", "Application security", "Network security"]
+function = "Modify incoming requests, change Cloudflare settings, or trigger actions"
+rest_paths = 35
+rest_path_examples = ["/accounts/{id}/rules/lists", "/accounts/{id}/rules/lists/bulk_operations/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/rules/"
+docs_url = "https://developers.cloudflare.com/rules/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Ruleset engine underpins WAF, rate limiting, redirects and transforms"
+
+[[product]]
+name = "Ruleset Engine"
+category = "Application security"
+groups = ["Core platform", "Application performance", "Application security", "Network security"]
+function = "Create rulesets and rules for different Cloudflare products"
+rest_paths = 20
+rest_path_examples = ["/accounts/{id}/rulesets", "/accounts/{id}/rulesets/phases/{id}/entrypoint"]
+api_docs = ["Basic API operations", "Rulesets API"]
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/ruleset-engine/"
+docs_url = "https://developers.cloudflare.com/ruleset-engine/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Ruleset engine underpins WAF, rate limiting, redirects and transforms"
+
+[[product]]
+name = "Sandboxes"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Isolated execution on Cloudflare using Containers and Dynamic Workers"
+rest_paths = -1
+api_docs = ["Sandbox SDK 0.x"]
+free_plan = "no"
+free_plan_note = "Docs state 'Available on Workers Paid plan'"
+free_plan_source = "https://developers.cloudflare.com/sandbox/"
+docs_url = "https://developers.cloudflare.com/sandbox/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Isolated code execution for agents; builds on Containers and Dynamic Workers"
+
+[[product]]
+name = "Secrets Store"
+category = "Developer platform"
+groups = ["Application security", "Developer platform"]
+function = "Encrypt and store sensitive information as secrets that are securely reusable across an account"
+rest_paths = 6
+rest_path_examples = ["/accounts/{id}/secrets_store/quota", "/accounts/{id}/secrets_store/stores"]
+api_docs = ["Secrets Store REST API", "REST reference: https://developers.cloudflare.com/api/resources/secrets_store/index.md"]
+free_plan = "beta"
+free_plan_note = "Open beta; plan gating not stated"
+free_plan_source = "https://developers.cloudflare.com/secrets-store/"
+docs_url = "https://developers.cloudflare.com/secrets-store/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Account-level secrets bound to Workers"
+
+[[product]]
+name = "Security Center"
+category = "Application security"
+groups = ["Application security", "Analytics"]
+function = "Enhance your security posture with a range of security products and one-click solutions"
+rest_paths = 27
+rest_path_examples = ["/accounts/{id}/security-center/insights", "/accounts/{id}/security-center/insights/audit-log"]
+api_docs = ["Threat Intelligence APIs"]
+free_plan = "yes"
+free_plan_note = "Available to customers on all plans; manual scans need a Business or Enterprise zone"
+free_plan_source = "https://developers.cloudflare.com/security-center/"
+docs_url = "https://developers.cloudflare.com/security-center/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Needs a global script-reputation dataset or attack-surface intelligence feeds; defer"
+
+[[product]]
+name = "Smart Shield"
+category = "Application security"
+groups = ["Application performance", "Application security", "Network security"]
+function = "Safeguard your origin with just a few clicks."
+rest_paths = 4
+rest_path_examples = ["/zones/{id}/smart_shield", "/zones/{id}/smart_shield/cache_reserve_clear"]
+api_docs = []
+free_plan = "limited"
+free_plan_note = "Available to all customers as opt-in; some features Enterprise-only (Regional Tiered Cache, Dedicated CDN Egress IPs)"
+free_plan_source = "https://developers.cloudflare.com/smart-shield/"
+docs_url = "https://developers.cloudflare.com/smart-shield/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Tiered caching and origin shielding on the proxy tier"
+
+[[product]]
+name = "Spectrum"
+category = "Application security"
+groups = ["Application performance", "Application security"]
+function = "Secure and accelerate any TCP or UDP-based application"
+rest_paths = 7
+rest_path_examples = ["/user/spectrum_analytics/zones/report", "/zones/{id}/spectrum/analytics/aggregate/current"]
+api_docs = []
+free_plan = "no"
+free_plan_note = "Docs state 'Available on Paid plans'; custom TCP/UDP needs Enterprise add-on"
+free_plan_source = "https://developers.cloudflare.com/spectrum/"
+docs_url = "https://developers.cloudflare.com/spectrum/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Depends on an own Anycast network, carrier interconnects, enterprise hardware or enterprise contracts that the VPS fleet does not provide"
+
+[[product]]
+name = "Speed"
+category = "Application performance"
+groups = ["Application performance"]
+function = "Improve the performance of your website or web application"
+rest_paths = 6
+rest_path_examples = ["/zones/{id}/speed_api/availabilities", "/zones/{id}/speed_api/pages"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/speed/"
+docs_url = "https://developers.cloudflare.com/speed/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Performance features (minify, early hints, image and script optimizations) on the proxy tier"
+
+[[product]]
+name = "SSL/TLS"
+category = "Application security"
+groups = ["Application performance", "Application security"]
+function = "Encrypt your web traffic to prevent data theft and other tampering"
+rest_paths = 31
+rest_path_examples = ["/accounts/{id}/mtls_certificates", "/accounts/{id}/mtls_certificates/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/ssl/"
+docs_url = "https://developers.cloudflare.com/ssl/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Certificate issuance and termination are required for every hostname"
+
+[[product]]
+name = "Stream"
+category = "Developer platform"
+groups = ["Developer platform", "Media"]
+function = "Store, encode, deliver, and play videos on sites and applications"
+rest_paths = 30
+rest_path_examples = ["/accounts/{id}/stream", "/accounts/{id}/stream/clip"]
+api_docs = ["Stream API Reference", "REST reference: https://developers.cloudflare.com/api/resources/stream/subresources/live_inputs/methods/list/index.md"]
+free_plan = "no"
+free_plan_note = "Prepaid storage ($5 per 1,000 minutes) plus delivery billing; no free tier documented; ingress and encoding free"
+free_plan_source = "https://developers.cloudflare.com/stream/"
+docs_url = "https://developers.cloudflare.com/stream/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Video upload, encode and HLS/DASH delivery; maps to the media pipeline"
+
+[[product]]
+name = "Support"
+category = "Core platform"
+groups = ["Core platform", "Docs collections"]
+function = "Cloudflare Support-focused documentation"
+rest_paths = -1
+api_docs = []
+free_plan = "n/a"
+free_plan_note = "Documentation collection"
+free_plan_source = "https://developers.cloudflare.com/support/"
+docs_url = "https://developers.cloudflare.com/support/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Documentation collection, not a runtime service"
+
+[[product]]
+name = "Tenant"
+category = "Developer platform"
+groups = ["Core platform", "Developer platform"]
+function = "Provision and manage Cloudflare accounts and services for your team or customers"
+rest_paths = 4
+rest_path_examples = ["/tenants/{id}/accounts", "/tenants/{id}/custom_ns"]
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/tenant/"
+docs_url = "https://developers.cloudflare.com/tenant/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Control-plane primitives (accounts, members, billing, tenants, tags) are required by every product"
+
+[[product]]
+name = "Terraform"
+category = "Developer platform"
+groups = ["Core platform", "Developer platform"]
+function = "Define and store Cloudflare configurations in source code repositories like GitHub"
+rest_paths = -1
+api_docs = []
+free_plan = "n/a"
+free_plan_note = "Infrastructure-as-code provider, not plan-gated"
+free_plan_source = "https://developers.cloudflare.com/terraform/"
+docs_url = "https://developers.cloudflare.com/terraform/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Operator tooling must target the Aphrody Cloud API"
+
+[[product]]
+name = "Time Services"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Cloudflare's suite of time services: NTP, NTS, and Roughtime"
+rest_paths = -1
+api_docs = []
+free_plan = "unknown"
+free_plan_note = "No plan statement found in the fetched pages"
+free_plan_source = "https://developers.cloudflare.com/time-services/"
+docs_url = "https://developers.cloudflare.com/time-services/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "TURN Service"
+category = "Developer platform"
+groups = ["Developer platform", "Media"]
+function = "Ensure connectivity with a relay point for traffic between WebRTC clients"
+rest_paths = 4
+rest_path_examples = ["/accounts/{id}/calls/apps", "/accounts/{id}/calls/apps/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Free of charge when used together with Realtime SFU"
+free_plan_source = "https://developers.cloudflare.com/realtime/turn/"
+docs_url = "https://developers.cloudflare.com/realtime/turn/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "WebRTC SFU, SDK and TURN relay for real-time audio and video"
+
+[[product]]
+name = "Turnstile"
+category = "Developer platform"
+groups = ["Application security", "Developer platform"]
+function = "Turnstile is Cloudflare's smart CAPTCHA alternative"
+rest_paths = 3
+rest_path_examples = ["/accounts/{id}/challenges/widgets", "/accounts/{id}/challenges/widgets/{id}"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Plans page lists a Free plan"
+free_plan_source = "https://developers.cloudflare.com/turnstile/"
+docs_url = "https://developers.cloudflare.com/turnstile/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "CAPTCHA alternative for form and API protection"
+
+[[product]]
+name = "Vectorize"
+category = "Developer platform"
+groups = ["Developer platform", "AI", "Storage"]
+function = "Store, query, and manage high-dimensional vector databases"
+rest_paths = 19
+rest_path_examples = ["/accounts/{id}/vectorize/indexes", "/accounts/{id}/vectorize/indexes/{id}"]
+api_docs = ["Vectorize REST API", "REST reference: https://developers.cloudflare.com/api/resources/vectorize/subresources/indexes/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Limits for Free and Paid plans; Free allows 100 indexes per account"
+free_plan_source = "https://developers.cloudflare.com/vectorize/"
+docs_url = "https://developers.cloudflare.com/vectorize/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Vector database; maps to a local vector index"
+
+[[product]]
+name = "Version Management"
+category = "Core platform"
+groups = ["Core platform"]
+function = "Safely manage configurations on Cloudflare's global network with versioning, staging, and rollbacks"
+rest_paths = 5
+rest_path_examples = ["/zones/{id}/environments", "/zones/{id}/environments/{id}"]
+api_docs = []
+free_plan = "enterprise-only"
+free_plan_note = "Availability row: Free No, Pro No, Business No, Enterprise Yes"
+free_plan_source = "https://developers.cloudflare.com/version-management/"
+docs_url = "https://developers.cloudflare.com/version-management/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Versioned config with staging and rollback is a control-plane feature; later phase"
+
+[[product]]
+name = "WAF"
+category = "Application security"
+groups = ["Application security"]
+function = "Filter incoming traffic and protect against web app vulnerabilities"
+rest_paths = 37
+rest_path_examples = ["/zones/{id}/content-upload-scan/disable", "/zones/{id}/content-upload-scan/enable"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'; feature table has a Free column"
+free_plan_source = "https://developers.cloudflare.com/waf/"
+docs_url = "https://developers.cloudflare.com/waf/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Request filtering and managed rulesets on the proxy tier"
+
+[[product]]
+name = "Waiting Room"
+category = "Developer platform"
+groups = ["Application performance", "Developer platform"]
+function = "Create a virtual waiting room to manage peak traffic"
+rest_paths = 11
+rest_path_examples = ["/accounts/{id}/waiting_rooms", "/zones/{id}/waiting_rooms"]
+api_docs = ["API reference", "REST reference: https://developers.cloudflare.com/api/resources/waiting_rooms/methods/list/index.md"]
+free_plan = "no"
+free_plan_note = "Availability row: Free No, Pro No, Business Yes"
+free_plan_source = "https://developers.cloudflare.com/waiting-room/"
+docs_url = "https://developers.cloudflare.com/waiting-room/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Virtual queue implementable on the proxy tier with Durable Objects; later phase"
+
+[[product]]
+name = "WARP Client"
+category = "Network security"
+groups = ["Consumer services", "Network security", "Privacy"]
+function = "Allows individuals or organizations to have a faster, more secure connection to the Internet"
+rest_paths = 37
+rest_path_examples = ["/accounts/{id}/devices", "/accounts/{id}/devices/client-versions"]
+api_docs = []
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/warp-client/"
+docs_url = "https://developers.cloudflare.com/warp-client/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Web Search API"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Ground AI agents and applications with real-time web search results"
+rest_paths = 1
+rest_path_examples = ["/accounts/{id}/ai/websearch"]
+api_docs = ["About Web Search API", "How to use Web Search API"]
+free_plan = "beta"
+free_plan_note = "Open beta; plan gating not stated"
+free_plan_source = "https://developers.cloudflare.com/web-search/"
+docs_url = "https://developers.cloudflare.com/web-search/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "AI agent building blocks; later phase"
+
+[[product]]
+name = "Web3"
+category = "Application security"
+groups = ["Application performance", "Application security"]
+function = "Gateways to networks to help you develop applications without worrying about running infrastructure"
+rest_paths = 5
+rest_path_examples = ["/zones/{id}/web3/hostnames", "/zones/{id}/web3/hostnames/{id}"]
+api_docs = ["API reference", "REST reference: https://developers.cloudflare.com/api/resources/web3/subresources/hostnames/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Availability row: Free Yes (usage-based billing)"
+free_plan_source = "https://developers.cloudflare.com/web3/"
+docs_url = "https://developers.cloudflare.com/web3/"
+retrieved = "2026-11-16"
+replicate = false
+replicate_reason = "Public-interest, consumer or privacy-network service tied to Cloudflare's global footprint or third-party trust; integrate upstream instead of replicating"
+
+[[product]]
+name = "Workers"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Build, deploy, and scale serverless applications globally with low latency and minimal configuration"
+rest_paths = 85
+rest_path_examples = ["/accounts/{id}/workers/account-settings", "/accounts/{id}/workers/assets/upload"]
+api_docs = ["Runtime APIs", "Wrangler"]
+free_plan = "yes"
+free_plan_note = "Workers Free plan: 100,000 requests per day, 10 ms CPU time per invocation"
+free_plan_source = "https://developers.cloudflare.com/workers/platform/pricing/"
+docs_url = "https://developers.cloudflare.com/workers/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Core compute: V8-isolate runtime with fetch handler and bindings; the other developer-platform products depend on it"
+
+[[product]]
+name = "Workers AI"
+category = "Developer platform"
+groups = ["Developer platform", "AI"]
+function = "Run AI models in Workers, Pages, or via API"
+rest_paths = 14
+rest_path_examples = ["/accounts/{id}/ai/authors/search", "/accounts/{id}/ai/finetunes"]
+api_docs = ["REST API reference", "REST reference: https://developers.cloudflare.com/api/resources/ai/methods/run/index.md"]
+free_plan = "yes"
+free_plan_note = "Available on Free and Paid plans"
+free_plan_source = "https://developers.cloudflare.com/workers-ai/"
+docs_url = "https://developers.cloudflare.com/workers-ai/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Model inference API; maps to local inference (llama-class and others) behind the same REST and binding surface"
+
+[[product]]
+name = "Workers Analytics Engine"
+category = "Developer platform"
+groups = ["Developer platform", "Analytics"]
+function = "Unlimited-cardinality analytics at scale via an API to write data from Workers and a SQL API to query that data"
+rest_paths = 1
+rest_path_examples = ["/accounts/{id}/analytics_engine/sql"]
+api_docs = ["SQL API"]
+free_plan = "yes"
+free_plan_note = "Workers Free: 100,000 data points written per day included"
+free_plan_source = "https://developers.cloudflare.com/analytics/analytics-engine/"
+docs_url = "https://developers.cloudflare.com/analytics/analytics-engine/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Write and SQL-query time series from Workers"
+
+[[product]]
+name = "Workers for Platforms"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Deploy custom code for your users or let them directly deploy code to your platform"
+rest_paths = 13
+rest_path_examples = ["/accounts/{id}/workers/dispatch/namespaces", "/accounts/{id}/workers/dispatch/namespaces/{id}"]
+api_docs = ["WFP REST API", "REST reference: https://developers.cloudflare.com/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/methods/list/index.md"]
+free_plan = "no"
+free_plan_note = "Workers for Platforms Paid plan is $25 monthly"
+free_plan_source = "https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/"
+docs_url = "https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Multi-tenant Worker hosting is required for a cloud product"
+
+[[product]]
+name = "Workers VPC"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Connect Cloudflare Worker's Virtual Private Cloud to your private clouds to build cross-cloud apps."
+rest_paths = 2
+rest_path_examples = ["/accounts/{id}/connectivity/directory/services", "/accounts/{id}/connectivity/directory/services/{id}"]
+api_docs = ["Workers Binding API"]
+free_plan = "yes"
+free_plan_note = "Available on Free and Paid plans"
+free_plan_source = "https://developers.cloudflare.com/workers-vpc/"
+docs_url = "https://developers.cloudflare.com/workers-vpc/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Private connectivity from Workers to private networks; maps to tunnel plus network policy"
+
+[[product]]
+name = "Workflows"
+category = "Developer platform"
+groups = ["Developer platform"]
+function = "Build durable, multi-step applications using the Workers platform"
+rest_paths = 19
+rest_path_examples = ["/accounts/{id}/workflows", "/accounts/{id}/workflows/concurrency"]
+api_docs = ["Python Workflows SDK", "Workflows REST API", "REST reference: https://developers.cloudflare.com/api/resources/workflows/methods/list/index.md"]
+free_plan = "yes"
+free_plan_note = "Available on Free and Paid plans"
+free_plan_source = "https://developers.cloudflare.com/workflows/"
+docs_url = "https://developers.cloudflare.com/workflows/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Durable multi-step execution built on Workers and Durable Objects"
+
+[[product]]
+name = "Zaraz"
+category = "Developer platform"
+groups = ["Developer platform", "Application performance", "Analytics", "Privacy"]
+function = "Run third-party tools and services on the cloud for improved speed and security Getting started Plans Contact sales Partners Find a partner Startups Under attack? Domain name search Company About Careers Investors Press Press kit Global network Public interest Project Galileo Athenian Project Cloudflare for Campaigns Project Fairshot Impact/ESG Compliance Compliance resources Trust Hub Data Protection Responsible AI Transparency report Report abuse Resources App innovation report Cloudflare Radar Case studies Status Support Events Blog Developers Documentation Learning center Community Solutions SSE and SASE platform Cloudflare AI Cloud AI Security Frontend Development Platform Multi-Tenant Platform Development Web Security Platform Start Building Log In © 2026 Cloudflare, Inc. Privacy policy | Report security issues | Terms of use | Trademark | window.OptanonWrapper = () => {}; Your privacy choices"
+rest_paths = 7
+rest_path_examples = ["/zones/{id}/settings/zaraz/config", "/zones/{id}/settings/zaraz/default"]
+api_docs = ["Web API", "HTTP Events API"]
+free_plan = "yes"
+free_plan_note = "Docs page states 'Available on all plans'"
+free_plan_source = "https://developers.cloudflare.com/zaraz/"
+docs_url = "https://developers.cloudflare.com/zaraz/"
+retrieved = "2026-11-16"
+replicate = true
+replicate_reason = "Third-party tool loading at the edge; low-cost feature on the proxy tier"

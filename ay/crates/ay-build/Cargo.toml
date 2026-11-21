@@ -1,0 +1,29 @@
+[package]
+name = "ay-build"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+# The dev-dependency on the crate itself only switches its features on for the tests.
+[package.metadata.cargo-shear]
+ignored = ["ay-build"]
+
+# The DEPS reader and the build model are in fw (crates/fw-depot, `fw depot`); this crate keeps the `ay_build::deps` and `ay_build::siso` paths.
+[features]
+deps = ["dep:fw-depot", "fw-depot/deps"]
+siso = ["dep:fw-depot", "fw-depot/siso"]
+full = ["deps", "siso"]
+default = []
+
+[dependencies]
+fw-depot = { workspace = true, optional = true }
+
+[dev-dependencies]
+ay-build = { path = ".", features = ["full"] }
+
+[lints]
+workspace = true

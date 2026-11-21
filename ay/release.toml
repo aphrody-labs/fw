@@ -1,0 +1,245 @@
+# The release matrix of the ecosystem, one table per product of ay.toml [ecosystem].stack that ships binaries. Read by
+# tools/release-publish.ts (it classifies each artifact into os, arch, abi and kind for the manifest served by apps/edge) and by the `ay`
+# build matrix of .github/workflows/release.yml. Every other repository builds its own artifacts in its own workflow and calls the
+# reusable publish job of this repository (docs/release.md); the rows below name what those workflows upload, copied from them.
+#
+# asset   file name of the artifact; {version} is replaced by the release version, {tag} by the tag
+# os      ay.toml [sdk].os (linux, windows, macos, android, freestanding, wasi, browser) or "any"
+# arch    ay.toml [sdk].arch (x86_64, aarch64, riscv64, wasm32, wasm64) or "any"
+# abi     optional: what tells two assets of one os and arch apart (musl, msvc, a wasm variant)
+# kind    binary | archive | installer | wasm | library | bundle
+# ship    false: the target is only checked by CI, no artifact is published
+# SHA256SUMS, *.sha256 and release.json files and every subdirectory (the manifests/ of aphrody) are never classified: the publisher writes its own.
+
+[products.fw]
+# aphrody-labs/fw: .github/workflows/release.yml (build-artifacts matrix) and ci.yml (wasm32 job). Binaries are bare executables.
+[[products.fw.targets]]
+asset = "fw-x86_64-linux-musl"
+os = "linux"
+arch = "x86_64"
+abi = "musl"
+kind = "binary"
+runner = "ubuntu-latest"
+rust_target = "x86_64-unknown-linux-musl"
+[[products.fw.targets]]
+asset = "fw-x86_64-windows.exe"
+os = "windows"
+arch = "x86_64"
+abi = "msvc"
+kind = "binary"
+runner = "windows-latest"
+rust_target = "x86_64-pc-windows-msvc"
+[[products.fw.targets]]
+asset = "fw-aarch64-macos"
+os = "macos"
+ship = false # macOS is skipped for now: targets are Windows 11, recent Linux and wasm (2026-11-21)
+arch = "aarch64"
+kind = "binary"
+runner = "macos-latest"
+rust_target = "aarch64-apple-darwin"
+[[products.fw.targets]]
+asset = "fw_wasm.wasm"
+os = "browser"
+arch = "wasm32"
+kind = "wasm"
+runner = "ubuntu-latest"
+rust_target = "wasm32-unknown-unknown"
+package = "fw-wasm"
+
+[products.aphrody]
+# aphrody-labs/aphrody: .github/workflows/aphrody-release.yml (build matrix). Installers and archives of the `aphrody` binary.
+[[products.aphrody.targets]]
+asset = "aphrody-x86_64.tar.gz"
+os = "linux"
+arch = "x86_64"
+abi = "gnu"
+kind = "archive"
+runner = "ubuntu-latest"
+rust_target = "x86_64-unknown-linux-gnu.2.28"
+[[products.aphrody.targets]]
+asset = "aphrody-aarch64.tar.gz"
+os = "linux"
+arch = "aarch64"
+abi = "gnu"
+kind = "archive"
+runner = "ubuntu-latest"
+rust_target = "aarch64-unknown-linux-gnu.2.28"
+[[products.aphrody.targets]]
+asset = "Aphrody-Setup-x64.exe"
+os = "windows"
+arch = "x86_64"
+abi = "msvc"
+kind = "installer"
+runner = "windows-latest"
+rust_target = "x86_64-pc-windows-msvc"
+[[products.aphrody.targets]]
+asset = "Aphrody-arm64.dmg"
+os = "macos"
+ship = false # macOS is skipped for now: targets are Windows 11, recent Linux and wasm (2026-11-21)
+arch = "aarch64"
+kind = "installer"
+runner = "macos-latest"
+rust_target = "aarch64-apple-darwin"
+
+[products.nie]
+# aphrody-labs/nie: .github/workflows/release.yml (linux, windows jobs; `cargo xtask release archive --name`) and targets.yml (wasm32 job,
+# `check` only: nie-plugin and nie-abi are verified for wasm32-unknown-unknown but no module is published).
+[[products.nie.targets]]
+asset = "nie-v{version}-x86_64-unknown-linux-musl.tar.gz"
+os = "linux"
+arch = "x86_64"
+abi = "musl"
+kind = "archive"
+runner = "ubuntu-latest"
+rust_target = "x86_64-unknown-linux-musl"
+[[products.nie.targets]]
+asset = "nie-v{version}-x86_64-pc-windows-msvc.zip"
+os = "windows"
+arch = "x86_64"
+abi = "msvc"
+kind = "archive"
+runner = "windows-latest"
+rust_target = "x86_64-pc-windows-msvc"
+[[products.nie.targets]]
+asset = "nie_plugin.wasm"
+os = "browser"
+arch = "wasm32"
+kind = "wasm"
+runner = "ubuntu-latest"
+rust_target = "wasm32-unknown-unknown"
+package = "nie-plugin"
+ship = false
+
+[products.ay]
+# aphrody-labs/ay: .github/workflows/release.yml. The `ay` CLI is compiled by Bun for each OS and architecture (`bun build --compile`,
+# cross-compilation from one Linux runner, `flags` are the extra `bun build` flags, run by `bun tools/release-publish.ts compile`), the corelib is built with the pinned LLVM (tools/corelib.ts buildWasm variants).
+[[products.ay.targets]]
+asset = "ay-linux-x86_64"
+os = "linux"
+arch = "x86_64"
+kind = "binary"
+runner = "ubuntu-latest"
+build = "bun-compile"
+entry = "apps/ay/src/cli.ts"
+flags = ["--minify", "--bytecode"]
+bun_target = "bun-linux-x64"
+[[products.ay.targets]]
+asset = "ay-linux-aarch64"
+os = "linux"
+arch = "aarch64"
+kind = "binary"
+runner = "ubuntu-latest"
+build = "bun-compile"
+entry = "apps/ay/src/cli.ts"
+flags = ["--minify", "--bytecode"]
+bun_target = "bun-linux-arm64"
+[[products.ay.targets]]
+asset = "ay-windows-x86_64.exe"
+os = "windows"
+arch = "x86_64"
+kind = "binary"
+runner = "ubuntu-latest"
+build = "bun-compile"
+entry = "apps/ay/src/cli.ts"
+flags = ["--minify", "--bytecode"]
+bun_target = "bun-windows-x64"
+[[products.ay.targets]]
+asset = "ay-macos-aarch64"
+os = "macos"
+ship = false # macOS is skipped for now: targets are Windows 11, recent Linux and wasm (2026-11-21)
+arch = "aarch64"
+kind = "binary"
+runner = "ubuntu-latest"
+build = "bun-compile"
+entry = "apps/ay/src/cli.ts"
+flags = ["--minify", "--bytecode"]
+bun_target = "bun-darwin-arm64"
+[[products.ay.targets]]
+asset = "ay-corelib-base.wasm"
+os = "freestanding"
+arch = "wasm32"
+abi = "base"
+kind = "wasm"
+runner = "ubuntu-latest"
+build = "corelib-wasm"
+variant = "base"
+[[products.ay.targets]]
+asset = "ay-corelib-simd.wasm"
+os = "freestanding"
+arch = "wasm32"
+abi = "simd"
+kind = "wasm"
+runner = "ubuntu-latest"
+build = "corelib-wasm"
+variant = "simd"
+[[products.ay.targets]]
+asset = "ay-corelib-atomics.wasm"
+os = "freestanding"
+arch = "wasm32"
+abi = "atomics"
+kind = "wasm"
+runner = "ubuntu-latest"
+build = "corelib-wasm"
+variant = "atomics"
+[[products.ay.targets]]
+asset = "ay-corelib-component.wasm"
+os = "wasi"
+arch = "wasm32"
+abi = "component"
+kind = "wasm"
+runner = "ubuntu-latest"
+build = "corelib-wasm"
+variant = "component"
+
+[products.shenron]
+# aphrody-labs/shenron: .github/workflows/release.yml (build matrix, Package step). Studio installers are named by their build script and
+# are not classified here.
+[[products.shenron.targets]]
+asset = "shenron-server-linux-x64"
+os = "linux"
+arch = "x86_64"
+kind = "binary"
+runner = "ubuntu-26.04"
+[[products.shenron.targets]]
+asset = "shenron-server-windows-x64.exe"
+os = "windows"
+arch = "x86_64"
+kind = "binary"
+runner = "ubuntu-26.04"
+[[products.shenron.targets]]
+asset = "shenron-bot-linux-x64.tar.gz"
+os = "linux"
+arch = "x86_64"
+kind = "archive"
+runner = "ubuntu-26.04"
+[[products.shenron.targets]]
+asset = "shenron-bot-windows-x64.zip"
+os = "windows"
+arch = "x86_64"
+kind = "archive"
+runner = "ubuntu-26.04"
+
+# The release train, one for the whole stack (tools/release-plan.ts, docs/release/model.md). Two upstream models merged:
+# Chromium gives one milestone number for every product, a fixed cadence, a branch point and a beta period before stable,
+# and extended stable for every other milestone; kernel.org gives mainline/-rcN/stable/longterm, with the last release of a
+# calendar year as the longterm one. Dates are UTC days; the anchor is the first milestone of the train.
+[schedule]
+cadence_weeks = 4        # a new milestone reaches stable every 4 weeks (Chromium since M94)
+anchor_milestone = 5     # fw was 4.x: the first shared milestone continues the stack root's major
+anchor_stable = "2026-11-21"
+beta_weeks = 3           # branch point (release/<M> cut from main) to stable: the -rcN / Beta period
+extended_every = 2       # even milestones stay supported as extended stable (Chromium Extended Stable)
+extended_weeks = 8
+lts_weeks = 104          # longterm support from its stable date: two years, the kernel.org minimum
+
+# Channels from the newest code to the longest support. `from` is where builds come from; kernel, chromium and zed name the
+# upstream channel each one follows (tools/release-plan.ts upstream reads them live); prerelease is the semver suffix.
+[channels]
+order = ["canary", "dev", "beta", "stable", "extended", "lts"]
+aliases = { nightly = "canary", preview = "beta", longterm = "lts", mainline = "dev", "linux-next" = "canary" }
+canary = { from = "main, every day", kernel = "linux-next", chromium = "Canary", zed = "nightly", prerelease = "canary" }
+dev = { from = "main, every week", kernel = "mainline", chromium = "Dev", zed = "nightly", prerelease = "dev" }
+beta = { from = "release/<M> from its branch point to stable", kernel = "mainline -rcN", chromium = "Beta", zed = "preview", prerelease = "beta" }
+stable = { from = "release/<M> of the newest stable milestone", kernel = "stable", chromium = "Stable", zed = "stable" }
+extended = { from = "release/<M> of an even milestone, extended_weeks after its stable", kernel = "stable (previous series until EOL)", chromium = "Extended", zed = "stable" }
+lts = { from = "release/<M> of the year's last milestone, lts_weeks after its stable", kernel = "longterm", chromium = "LTS", zed = "stable" }

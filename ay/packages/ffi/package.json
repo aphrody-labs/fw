@@ -1,0 +1,27 @@
+{
+  "name": "@aphrody/ay-ffi",
+  "version": "0.1.0",
+  "description": "Bun bindings to system C libraries through bun:ffi and bun:cc: GMP, zstd, libmagic, libxml2, libarchive, RE2, libcurl and inline C hashes.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "exports": {
+    "./gmp": "./src/gmp.ts",
+    "./zstd": "./src/zstd.ts",
+    "./libmagic": "./src/libmagic.ts",
+    "./xml2": "./src/xml2.ts",
+    "./archive": "./src/archive.ts",
+    "./regex-re2": "./src/regex-re2.ts",
+    "./http-curl": "./src/http-curl.ts",
+    "./hash-cc": "./src/hash-cc.ts"
+  },
+  "files": ["src", "native"],
+  "scripts": {
+    "test": "bun test"
+  },
+  "engines": {
+    "bun": ">=1.2.0"
+  },
+  "sideEffects": false,
+  "keywords": ["bun", "ffi", "gmp", "zstd", "libmagic", "libxml2", "libarchive", "re2", "libcurl"]
+}

@@ -1,0 +1,280 @@
+{
+  "version": 1,
+  "name": "ay",
+  "spec_sha256": "dd88a681502bb36a13b5af9b3c07dce2c23a8f33485b610d68334278efe6d7a4",
+  "constants": [
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_VERSION",
+      "value": 0,
+      "nargs": 0,
+      "doc": "() -> abi version"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_YIELD",
+      "value": 1,
+      "nargs": 0,
+      "doc": "() -> 0"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_LOG",
+      "value": 2,
+      "nargs": 3,
+      "doc": "(console cap, packed bytes, len 1..4) -> len; bytes little-endian"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_MSG_SET",
+      "value": 3,
+      "nargs": 2,
+      "doc": "(register 0..3, value) -> 0"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_MSG_GET",
+      "value": 4,
+      "nargs": 1,
+      "doc": "(register 0..3) -> value"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_SEND",
+      "value": 5,
+      "nargs": 1,
+      "doc": "(endpoint cap) -> 0; sends the four message registers"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_RECV",
+      "value": 6,
+      "nargs": 1,
+      "doc": "(endpoint cap) -> 0; fills the four message registers"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_CAP_DERIVE",
+      "value": 7,
+      "nargs": 2,
+      "doc": "(cap, rights mask) -> new handle with rights & mask; needs AY_RIGHT_DERIVE"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_CAP_DROP",
+      "value": 8,
+      "nargs": 1,
+      "doc": "(cap) -> 0"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_FRAME_ALLOC",
+      "value": 9,
+      "nargs": 0,
+      "doc": "() -> frame number"
+    },
+    {
+      "group": "syscall",
+      "type": "u32",
+      "name": "AY_SYS_FRAME_FREE",
+      "value": 10,
+      "nargs": 1,
+      "doc": "(frame) -> 0; only the owner may free"
+    },
+    {
+      "group": "error",
+      "type": "i32",
+      "name": "AY_EPERM",
+      "value": -1,
+      "doc": "capability lacks the right, or the object is not yours"
+    },
+    {
+      "group": "error",
+      "type": "i32",
+      "name": "AY_EBADCAP",
+      "value": -2,
+      "doc": "no such handle, or the wrong kind of object"
+    },
+    {
+      "group": "error",
+      "type": "i32",
+      "name": "AY_EINVAL",
+      "value": -3,
+      "doc": "argument out of range"
+    },
+    {
+      "group": "error",
+      "type": "i32",
+      "name": "AY_EAGAIN",
+      "value": -4,
+      "doc": "queue full or empty"
+    },
+    {
+      "group": "error",
+      "type": "i32",
+      "name": "AY_ENOMEM",
+      "value": -5,
+      "doc": "table or frame pool exhausted"
+    },
+    {
+      "group": "error",
+      "type": "i32",
+      "name": "AY_ENOSYS",
+      "value": -6,
+      "doc": "unknown syscall number"
+    },
+    {
+      "group": "right",
+      "type": "u32",
+      "name": "AY_RIGHT_SEND",
+      "value": 1
+    },
+    {
+      "group": "right",
+      "type": "u32",
+      "name": "AY_RIGHT_RECV",
+      "value": 2
+    },
+    {
+      "group": "right",
+      "type": "u32",
+      "name": "AY_RIGHT_DERIVE",
+      "value": 4
+    },
+    {
+      "group": "misc",
+      "type": "u32",
+      "name": "AY_ABI_VERSION",
+      "value": 1
+    },
+    {
+      "group": "misc",
+      "type": "u32",
+      "name": "AY_MSG_WORDS",
+      "value": 4
+    }
+  ],
+  "functions": [
+    {
+      "name": "ay_syscall",
+      "returns": "i32",
+      "params": [
+        [
+          "nr",
+          "u32"
+        ],
+        [
+          "a0",
+          "u32"
+        ],
+        [
+          "a1",
+          "u32"
+        ],
+        [
+          "a2",
+          "u32"
+        ]
+      ],
+      "import": {
+        "module": "ay",
+        "name": "syscall"
+      },
+      "doc": "The one entry point."
+    },
+    {
+      "name": "ay_abi_version",
+      "returns": "u32",
+      "params": [],
+      "doc": "The ABI version the library implements."
+    },
+    {
+      "name": "ay_rights_allow",
+      "returns": "u32",
+      "params": [
+        [
+          "have",
+          "u32"
+        ],
+        [
+          "need",
+          "u32"
+        ]
+      ],
+      "doc": "1 when a capability holding `have` may do an operation that needs `need`, else 0."
+    },
+    {
+      "name": "ay_arg_count",
+      "returns": "u32",
+      "params": [
+        [
+          "nr",
+          "u32"
+        ]
+      ],
+      "doc": "Number of arguments syscall `nr` reads; 0 for an unknown number."
+    },
+    {
+      "name": "ay_first_free",
+      "returns": "i32",
+      "params": [
+        [
+          "bits",
+          "u64"
+        ]
+      ],
+      "doc": "Index of the lowest clear bit, or -1 when all 64 are set: the first free frame."
+    },
+    {
+      "name": "ay_checksum",
+      "returns": "u32",
+      "params": [
+        [
+          "words",
+          "*const u32"
+        ],
+        [
+          "len",
+          "usize"
+        ]
+      ],
+      "doc": "Rotate-and-add checksum of a message of `len` words."
+    },
+    {
+      "name": "ay_sum",
+      "returns": "u32",
+      "params": [
+        [
+          "words",
+          "*const u32"
+        ],
+        [
+          "len",
+          "usize"
+        ]
+      ],
+      "doc": "Wrapping sum of `len` words."
+    },
+    {
+      "name": "ay_try_acquire",
+      "returns": "u32",
+      "params": [
+        [
+          "flag",
+          "*mut u32"
+        ]
+      ],
+      "doc": "Take the lock word 0 -> 1: 1 when this caller now holds it, else 0."
+    }
+  ]
+}

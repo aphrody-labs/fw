@@ -1,0 +1,49 @@
+# Fuzzy, search, parsing and indexing stack for every file system, VFS, file, directory and binary.
+# Read live 2026-11-17 (gh api: stars, last push). `fork` = already in aphrody-labs. Rust first, C/C++/Go where they lead.
+
+[enumerate]
+# Getting the list of files fast, then keeping it current.
+ntfs_index = ["ColinFinck/ntfs (MFT read, Rust)", "omerbenamram/mft (MFT parser, Rust)", "USN change journal (FSCTL_QUERY_USN_JOURNAL, Win32)"]   # the Everything approach, open
+walk = ["BurntSushi/ripgrep `ignore` crate (parallel walk, .gitignore)", "sharkdp/fd (45k)", "jwalk crate"]
+watch = ["notify-rs/notify (Rust, inotify/fanotify/FSEvents/ReadDirectoryChangesW)", "meta/watchman (C++)", "watchexec/watchexec (Rust)"]
+linux_index = ["fanotify FAN_REPORT_FID for whole-mount change events", "plocate (posting-list locate, ships in distros)"]
+vfs = ["apache/opendal (Rust, one API over 50+ storages)", "rclone/rclone (Go, fork: VFS mount and serve)", "winfsp/winfsp + dokan-dev/dokany (Windows user-mode FS)", "FUSE (Linux/macOS)"]
+archives = ["libarchive/libarchive (C)", "7-Zip", "zip/tar/zstd crates"]
+
+[fuzzy]
+library = ["helix-editor/nucleo (Rust, fzf-quality scoring, 1523)", "saghen/frizbee (Rust, SIMD Smith-Waterman, 598)"]
+finder = ["dmtrKovalenko/fff (Rust, file finder with frecency, 11256)", "junegunn/fzf (Go, 84k)", "skim-rs/skim (Rust, 7015)", "alexpasmantier/television (Rust TUI, 6425)"]
+
+[content_search]
+grep = ["BurntSushi/ripgrep (69994)", "Genivia/ugrep (C++, archives and binaries, 3338)"]
+code = ["sourcegraph/zoekt (Go, trigram code search, 2076)", "scip-code/scip (precise code index)", "universal-ctags/ctags"]
+structural = ["tree-sitter/tree-sitter (27487)", "ast-grep/ast-grep (16600)", "semgrep/semgrep (17746)"]
+
+[full_text_index]
+library = ["quickwit-oss/tantivy (Rust, Lucene-class, 16447)"]
+engine = ["meilisearch/meilisearch (Rust, 59877)", "quickwit-oss/quickwit (Rust, logs at scale, 11799)", "typesense/typesense (C++, 27149)"]
+
+[semantic_index]
+vectors = ["lancedb/lancedb (Rust, 11913)", "qdrant/qdrant (Rust, 35597)", "unum-cloud/USearch (C++, 4386)", "asg017/sqlite-vec (C, 8266)"]
+embed = ["anush008/fastembed-rs (Rust, local ONNX embeddings)"]
+
+[extract]
+# Turning documents into text and structure before indexing.
+documents = ["xberg-io/xberg (Rust, ex kreuzberg, 9595)", "docling-project/docling (Python, 70669)", "microsoft/markitdown (Python, fork)", "apache/tika (Java)"]
+type_detection = ["google/magika (ML file-type detection, Rust core, 18805)", "file/file (libmagic)"]
+
+[binary]
+carve = ["ReFirmLabs/binwalk (Rust v3, 14709)"]
+rules = ["VirusTotal/yara-x (Rust YARA, 1370)"]
+disasm = ["icedland/iced (Rust x86, fork)", "capstone-engine/capstone (C, multi-arch)"]
+re = ["NationalSecurityAgency/ghidra (fork)", "rizinorg/rizin", "radareorg/radare2"]
+formats = ["m4b/goblin (fork: ELF/PE/Mach-O)", "CasualX/pelite (PE)", "lief-project/LIEF"]
+
+[dedup_and_usage]
+hash = ["BLAKE3-team/BLAKE3"]
+duplicates = ["qarmin/czkawka (35254)", "pkolaczk/fclones"]
+usage = ["bootandy/dust", "Byron/dua-cli", "dundee/gdu (Go)"]
+
+[stack]
+# The assembled pipeline, every layer replaceable (OpenDAL/rclone sources, tantivy or meilisearch, lancedb or qdrant).
+pipeline = "enumerate (MFT/USN on NTFS, fanotify on Linux, notify elsewhere, OpenDAL for remote/VFS) -> type (magika) -> extract (xberg, tree-sitter for code, goblin/iced for binaries) -> index (tantivy full text + trigram for code + lancedb vectors) -> query (nucleo/frizbee fuzzy over names, tantivy/zoekt over content, vectors for meaning)"

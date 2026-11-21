@@ -1,0 +1,183 @@
+From 661432aa5ba2aad100ce6af507de01380820be5c Mon Sep 17 00:00:00 2001
+From: aphrody-dev <324927936+aphrody-dev@users.noreply.github.com>
+Date: Tue, 17 Nov 2026 04:10:51 +0000
+Subject: [PATCH] fix(large_stack_arrays): don't lint arrays in associated
+ consts
+
+Arrays in associated consts (inherent, trait default and trait impl)
+were linted, although the same arrays in a free const or a static are
+not. Their value is evaluated at compile time and takes no stack frame.
+
+Fixes #18066
+
+changelog: [`large_stack_arrays`]: No longer lints arrays in associated consts
+---
+ clippy_lints/src/large_stack_arrays.rs |  8 +++++++-
+ tests/ui/large_stack_arrays.rs         | 16 ++++++++++++++++
+ tests/ui/large_stack_arrays.stderr     | 24 ++++++++++++------------
+ 3 files changed, 35 insertions(+), 13 deletions(-)
+
+diff --git a/clippy_lints/src/large_stack_arrays.rs b/clippy_lints/src/large_stack_arrays.rs
+index 49d4fe478..cda54f377 100644
+--- a/clippy_lints/src/large_stack_arrays.rs
++++ b/clippy_lints/src/large_stack_arrays.rs
+@@ -5,7 +5,7 @@ use clippy_utils::diagnostics::span_lint_and_then;
+ use clippy_utils::macros::macro_backtrace;
+ use clippy_utils::source::snippet;
+ use clippy_utils::{is_from_proc_macro, sym};
+-use rustc_hir::{Expr, ExprKind, Item, ItemKind, Node};
++use rustc_hir::{Expr, ExprKind, ImplItem, ImplItemKind, Item, ItemKind, Node, TraitItem, TraitItemKind};
+ use rustc_lint::{LateContext, LateLintPass, impl_lint_pass};
+ use rustc_middle::ty;
+ use rustc_middle::ty::layout::LayoutOf as _;
+@@ -88,6 +88,12 @@ impl<'tcx> LateLintPass<'tcx> for LargeStackArrays {
+                     Node::Item(Item {
+                         kind: ItemKind::Static(..),
+                         ..
++                    }) | Node::ImplItem(ImplItem {
++                        kind: ImplItemKind::Const(..),
++                        ..
++                    }) | Node::TraitItem(TraitItem {
++                        kind: TraitItemKind::Const(..),
++                        ..
+                     })
+                 )
+             })
+diff --git a/tests/ui/large_stack_arrays.rs b/tests/ui/large_stack_arrays.rs
+index d9643493e..5701d1aff 100644
+--- a/tests/ui/large_stack_arrays.rs
++++ b/tests/ui/large_stack_arrays.rs
+@@ -21,6 +21,22 @@ const STATIC_PROMOTED_LARGE_ARRAY_WITH_NESTED: &[u8; 512001] = {
+     &[0; 512001]
+ };
+ 
++struct Holder;
++
++impl Holder {
++    const INHERENT_LITERAL: &'static [u32] = &[0; 5000];
++    const INHERENT_REPEAT: &'static [u32] = &[7; 5000];
++}
++
++trait Listed {
++    const TRAIT_DEFAULT: &'static [u8] = &[0; 20_000];
++    const TRAIT_REQUIRED: &'static [u8];
++}
++
++impl Listed for Holder {
++    const TRAIT_REQUIRED: &'static [u8] = &[1; 20_000];
++}
++
+ pub static DOESNOTLINT: [u8; 512_001] = [0; 512_001];
+ pub static DOESNOTLINT2: [u8; 512_001] = {
+     let x = 0;
+diff --git a/tests/ui/large_stack_arrays.stderr b/tests/ui/large_stack_arrays.stderr
+index 6758d49d3..61f28bb6a 100644
+--- a/tests/ui/large_stack_arrays.stderr
++++ b/tests/ui/large_stack_arrays.stderr
+@@ -1,5 +1,5 @@
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:38:14
++  --> tests/ui/large_stack_arrays.rs:54:14
+    |
+ LL |     let _x = [build(); 3];
+    |              ^^^^^^^^^^^^
+@@ -9,7 +9,7 @@ LL |     let _x = [build(); 3];
+    = help: to override `-D warnings` add `#[allow(clippy::large_stack_arrays)]`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:41:14
++  --> tests/ui/large_stack_arrays.rs:57:14
+    |
+ LL |     let _y = [build(), build(), build()];
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+@@ -17,7 +17,7 @@ LL |     let _y = [build(), build(), build()];
+    = help: consider allocating on the heap with `vec![build(), build(), build()].into_boxed_slice()`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:47:9
++  --> tests/ui/large_stack_arrays.rs:63:9
+    |
+ LL |         [0u32; 20_000_000],
+    |         ^^^^^^^^^^^^^^^^^^
+@@ -25,7 +25,7 @@ LL |         [0u32; 20_000_000],
+    = help: consider allocating on the heap with `vec![0u32; 20_000_000].into_boxed_slice()`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:49:9
++  --> tests/ui/large_stack_arrays.rs:65:9
+    |
+ LL |         [S { data: [0; 32] }; 5000],
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+@@ -33,7 +33,7 @@ LL |         [S { data: [0; 32] }; 5000],
+    = help: consider allocating on the heap with `vec![S { data: [0; 32] }; 5000].into_boxed_slice()`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:51:9
++  --> tests/ui/large_stack_arrays.rs:67:9
+    |
+ LL |         [Some(""); 20_000_000],
+    |         ^^^^^^^^^^^^^^^^^^^^^^
+@@ -41,7 +41,7 @@ LL |         [Some(""); 20_000_000],
+    = help: consider allocating on the heap with `vec![Some(""); 20_000_000].into_boxed_slice()`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:53:9
++  --> tests/ui/large_stack_arrays.rs:69:9
+    |
+ LL |         [E::T(0); 5000],
+    |         ^^^^^^^^^^^^^^^
+@@ -49,7 +49,7 @@ LL |         [E::T(0); 5000],
+    = help: consider allocating on the heap with `vec![E::T(0); 5000].into_boxed_slice()`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:55:9
++  --> tests/ui/large_stack_arrays.rs:71:9
+    |
+ LL |         [0u8; usize::MAX],
+    |         ^^^^^^^^^^^^^^^^^
+@@ -57,7 +57,7 @@ LL |         [0u8; usize::MAX],
+    = help: consider allocating on the heap with `vec![0u8; usize::MAX].into_boxed_slice()`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:99:13
++  --> tests/ui/large_stack_arrays.rs:115:13
+    |
+ LL |     let y = [x, x, dummy!(x), x, x];
+    |             ^^^^^^^^^^^^^^^^^^^^^^^
+@@ -65,7 +65,7 @@ LL |     let y = [x, x, dummy!(x), x, x];
+    = help: consider allocating on the heap with `vec![x, x, dummy!(x), x, x].into_boxed_slice()`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:76:13
++  --> tests/ui/large_stack_arrays.rs:92:13
+    |
+ LL |     macro_rules! dummy {
+ ...
+@@ -76,7 +76,7 @@ LL |     let y = dummy![x => x];
+    |             -------------- in this macro invocation
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:104:20
++  --> tests/ui/large_stack_arrays.rs:120:20
+    |
+ LL |     let y = dummy![[x, x, x, x, x]];
+    |                    ^^^^^^^^^^^^^^^
+@@ -84,13 +84,13 @@ LL |     let y = dummy![[x, x, x, x, x]];
+    = help: consider allocating on the heap with `vec![x, x, x, x, x].into_boxed_slice()`
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:107:39
++  --> tests/ui/large_stack_arrays.rs:123:39
+    |
+ LL |     let y = proc_macros::make_it_big!([x; 1]);
+    |                                       ^^^^^^
+ 
+ error: allocating a local array larger than 16384 bytes
+-  --> tests/ui/large_stack_arrays.rs:88:23
++  --> tests/ui/large_stack_arrays.rs:104:23
+    |
+ LL |     macro_rules! create_then_move {
+ LL |         ($id:ident; $n:literal) => {{
+-- 
+2.55.0
+

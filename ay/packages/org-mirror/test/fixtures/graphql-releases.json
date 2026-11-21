@@ -1,0 +1,144 @@
+{
+ "data": {
+  "repository": {
+   "releases": {
+    "pageInfo": {
+     "hasNextPage": false,
+     "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wOC0xMlQwMDozNTozNVrOFf1pww=="
+    },
+    "nodes": [
+     {
+      "tagName": "v0.6.2",
+      "name": "v0.6.2",
+      "description": "## What's Changed\n* Add agent marker and drop internal references by @kitlangton in https://github.com/anomalyco/opentunnel/pull/62\n* Release packages by @github-actions[bot] in https://github.com/anomalyco/opentunnel/pull/65\n\n\n**Full Changelog**: https://github.com/anomalyco/opentunnel/compare/v0.6.1...v0.6.2",
+      "isPrerelease": false,
+      "isDraft": false,
+      "isLatest": true,
+      "createdAt": "2026-11-04T14:04:29Z",
+      "publishedAt": "2026-11-04T14:09:43Z",
+      "url": "https://github.com/anomalyco/opentunnel/releases/tag/v0.6.2",
+      "author": {
+       "login": "github-actions[bot]"
+      },
+      "releaseAssets": {
+       "nodes": [
+        {
+         "name": "opentunnel-darwin-arm64.tar.gz",
+         "size": 2743327,
+         "downloadCount": 204,
+         "contentType": "application/x-gtar",
+         "createdAt": "2026-11-04T14:09:41Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.2/opentunnel-darwin-arm64.tar.gz"
+        },
+        {
+         "name": "opentunnel-linux-arm64.tar.gz",
+         "size": 2905242,
+         "downloadCount": 66,
+         "contentType": "application/x-gtar",
+         "createdAt": "2026-11-04T14:09:41Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.2/opentunnel-linux-arm64.tar.gz"
+        },
+        {
+         "name": "SHA256SUMS",
+         "size": 382,
+         "downloadCount": 364,
+         "contentType": "application/octet-stream",
+         "createdAt": "2026-11-04T14:09:41Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.2/SHA256SUMS"
+        }
+       ]
+      }
+     },
+     {
+      "tagName": "v0.6.1",
+      "name": "v0.6.1",
+      "description": "## What's Changed\n* Release packages by @github-actions[bot] in https://github.com/anomalyco/opentunnel/pull/60\n\n\n**Full Changelog**: https://github.com/anomalyco/opentunnel/compare/v0.6.0...v0.6.1",
+      "isPrerelease": false,
+      "isDraft": false,
+      "isLatest": false,
+      "createdAt": "2026-10-23T13:25:57Z",
+      "publishedAt": "2026-10-23T13:31:10Z",
+      "url": "https://github.com/anomalyco/opentunnel/releases/tag/v0.6.1",
+      "author": {
+       "login": "github-actions[bot]"
+      },
+      "releaseAssets": {
+       "nodes": [
+        {
+         "name": "opentunnel-linux-arm64.tar.gz",
+         "size": 2903697,
+         "downloadCount": 31,
+         "contentType": "application/x-gtar",
+         "createdAt": "2026-10-23T13:31:09Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.1/opentunnel-linux-arm64.tar.gz"
+        },
+        {
+         "name": "opentunnel-darwin-x64.tar.gz",
+         "size": 2952470,
+         "downloadCount": 7,
+         "contentType": "application/x-gtar",
+         "createdAt": "2026-10-23T13:31:09Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.1/opentunnel-darwin-x64.tar.gz"
+        },
+        {
+         "name": "SHA256SUMS",
+         "size": 382,
+         "downloadCount": 171,
+         "contentType": "application/octet-stream",
+         "createdAt": "2026-10-23T13:31:09Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.1/SHA256SUMS"
+        }
+       ]
+      }
+     },
+     {
+      "tagName": "v0.6.0",
+      "name": "v0.6.0",
+      "description": "## What's Changed\n* ci: check that no compromised eMudhra CA roots are trusted by @kitlangton in https://github.com/anomalyco/opentunnel/pull/57\n* Release packages by @github-actions[bot] in https://github.com/anomalyco/opentunnel/pull/58\n\n\n**Full Changelog**: https://github.com/anomalyco/opentunnel/compare/v0.5.5...v0.6.0",
+      "isPrerelease": false,
+      "isDraft": false,
+      "isLatest": false,
+      "createdAt": "2026-10-22T13:09:19Z",
+      "publishedAt": "2026-10-22T13:15:13Z",
+      "url": "https://github.com/anomalyco/opentunnel/releases/tag/v0.6.0",
+      "author": {
+       "login": "github-actions[bot]"
+      },
+      "releaseAssets": {
+       "nodes": [
+        {
+         "name": "opentunnel-darwin-x64.tar.gz",
+         "size": 2941368,
+         "downloadCount": 5,
+         "contentType": "application/x-gtar",
+         "createdAt": "2026-10-22T13:15:11Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.0/opentunnel-darwin-x64.tar.gz"
+        },
+        {
+         "name": "opentunnel-linux-arm64.tar.gz",
+         "size": 2889940,
+         "downloadCount": 7,
+         "contentType": "application/x-gtar",
+         "createdAt": "2026-10-22T13:15:11Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.0/opentunnel-linux-arm64.tar.gz"
+        },
+        {
+         "name": "opentunnel-darwin-arm64.tar.gz",
+         "size": 2730571,
+         "downloadCount": 39,
+         "contentType": "application/x-gtar",
+         "createdAt": "2026-10-22T13:15:11Z",
+         "downloadUrl": "https://github.com/anomalyco/opentunnel/releases/download/v0.6.0/opentunnel-darwin-arm64.tar.gz"
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "rateLimit": {
+   "cost": 1,
+   "remaining": 4557
+  }
+ }
+}

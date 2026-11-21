@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@aphrody/*": [
+        "./packages/*/src/index.ts"
+      ],
+      "edge-wasm-registry": [
+        "./target/edge-wasm/registry.ts",
+        "./apps/edge/src/services/wasm-registry.d.ts"
+      ]
+    },
+    "types": [
+      "bun"
+    ]
+  }
+}

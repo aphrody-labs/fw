@@ -1,0 +1,22 @@
+{
+  "name": "@aphrody/ay-node-compat",
+  "version": "0.1.0",
+  "description": "Node.js compatibility shims on Bun: child_process uid/gid through libc FFI, node:sqlite DatabaseSync over bun:sqlite, and node:test over bun:test.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "exports": {
+    "./node-cp": "./src/node-cp.ts",
+    "./node-sqlite": "./src/node-sqlite.ts",
+    "./node-test": "./src/node-test.ts"
+  },
+  "files": ["src"],
+  "scripts": {
+    "test": "bun test"
+  },
+  "engines": {
+    "bun": ">=1.2.0"
+  },
+  "sideEffects": false,
+  "keywords": ["bun", "node", "compat", "child_process", "node:sqlite", "node:test"]
+}

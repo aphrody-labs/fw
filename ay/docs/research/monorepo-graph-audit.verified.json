@@ -1,0 +1,137 @@
+{
+  "schema_version": "2026-11-19.verified",
+  "scientific_methods": [
+    "Tarjan SCC (O(V+E)) for cycle detection & DAG condensation",
+    "Robert C. Martin Instability I = Ce / (Ca + Ce) (0=stable core, 1=volatile leaf)",
+    "Leiden/Louvain modularity clustering for crate boundary consolidation",
+    "AST structural rewriting (ast-grep) + dead-dep pruning (cargo-shear)"
+  ],
+  "tools_verified": {
+    "github": [
+      {
+        "repo": "ast-grep/ast-grep",
+        "stars": 16625,
+        "pushed": "2026-11-19"
+      },
+      {
+        "repo": "Boshen/cargo-shear",
+        "stars": 587,
+        "pushed": "2026-11-15"
+      },
+      {
+        "repo": "guppy-rs/guppy",
+        "stars": 306,
+        "pushed": "2026-11-17"
+      },
+      {
+        "repo": "regexident/cargo-modules",
+        "stars": 1287,
+        "pushed": "2026-11-17"
+      },
+      {
+        "repo": "petgraph/petgraph",
+        "stars": 4062,
+        "pushed": "2026-11-15"
+      },
+      {
+        "repo": "openrewrite/rewrite",
+        "stars": 3994,
+        "pushed": "2026-11-19"
+      }
+    ],
+    "crates_io": {
+      "petgraph": "0.8.3",
+      "guppy": "0.19.1",
+      "cargo-shear": "1.14.1",
+      "cargo-hakari": "0.9.39",
+      "cargo-modules": "0.28.0",
+      "ast-grep-core": "0.51.3"
+    }
+  },
+  "ay_graph_live": {
+    "nodes": 128,
+    "edges": 162,
+    "cycles_scc_count": 0,
+    "cycles_scc": [],
+    "isolated_crates_count": 28,
+    "isolated_crates_sample": [
+      "ay-agent-context",
+      "ay-agent-proto",
+      "ay-app-protocol",
+      "ay-brand",
+      "ay-build-model",
+      "ay-cf-assets",
+      "ay-cf-edge",
+      "ay-chromium",
+      "ay-deps",
+      "ay-dioxus",
+      "ay-fsindex",
+      "ay-headless",
+      "ay-jobs",
+      "ay-media-core",
+      "ay-media-hls"
+    ],
+    "top_10_stable_hubs_by_afferent_ca": [
+      {
+        "crate": "ay-proc",
+        "ca": 7,
+        "ce": 0,
+        "instability": 0
+      },
+      {
+        "crate": "ay-models",
+        "ca": 6,
+        "ce": 1,
+        "instability": 0.143
+      },
+      {
+        "crate": "auto-model",
+        "ca": 5,
+        "ce": 1,
+        "instability": 0.167
+      },
+      {
+        "crate": "ay-a2a",
+        "ca": 5,
+        "ce": 0,
+        "instability": 0
+      },
+      {
+        "crate": "ay-config",
+        "ca": 5,
+        "ce": 0,
+        "instability": 0
+      },
+      {
+        "crate": "ay-toolcall",
+        "ca": 5,
+        "ce": 0,
+        "instability": 0
+      },
+      {
+        "crate": "turbopath",
+        "ca": 5,
+        "ce": 2,
+        "instability": 0.286
+      },
+      {
+        "crate": "auto-docs",
+        "ca": 4,
+        "ce": 3,
+        "instability": 0.429
+      },
+      {
+        "crate": "auto-i18n",
+        "ca": 4,
+        "ce": 0,
+        "instability": 0
+      },
+      {
+        "crate": "ay-model-client",
+        "ca": 4,
+        "ce": 1,
+        "instability": 0.2
+      }
+    ]
+  }
+}

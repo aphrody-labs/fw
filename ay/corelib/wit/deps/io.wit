@@ -1,0 +1,21 @@
+// Subset of wasi:io@0.2.12 (crates/wasi/src/p2/wit/deps/io.wit in bytecodealliance/wasmtime v50.0.2):
+// only what `wasi:cli/stdout` needs, with the signatures unchanged. Hosts accept it because an import
+// is satisfied by any host instance that offers at least these items.
+package wasi:io@0.2.12;
+
+interface error {
+  resource error;
+}
+
+interface streams {
+  use error.{error};
+
+  variant stream-error {
+    last-operation-failed(error),
+    closed,
+  }
+
+  resource output-stream {
+    blocking-write-and-flush: func(contents: list<u8>) -> result<_, stream-error>;
+  }
+}

@@ -1,0 +1,21 @@
+name: llvm-pinned
+description: The LLVM release pinned in docs/guides/assembly-and-wasm/listings.toml (clang, lld, wasm-ld) on PATH, cached by version. The corelib wasm needs clang with --no-wasm-opt, which the runner image's clang lacks.
+runs:
+  using: composite
+  steps:
+    - id: pins
+      shell: bash
+      run: echo "clang=$(sed -n 's/^clang = "\(.*\)"/\1/p' docs/guides/assembly-and-wasm/listings.toml)" >> "$GITHUB_OUTPUT"
+    - uses: actions/cache@v6
+      id: llvm
+      with:
+        path: ~/llvm
+        key: llvm-${{ steps.pins.outputs.clang }}-linux-x64
+    - if: steps.llvm.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        v=${{ steps.pins.outputs.clang }}
+        curl -fsSL -o "$RUNNER_TEMP/llvm.tar.zst" "https://github.com/llvm/llvm-project/releases/download/llvmorg-$v/LLVM-$v-Linux-X64.tar.zst"
+        mkdir -p ~/llvm && zstd -d --long=30 -c "$RUNNER_TEMP/llvm.tar.zst" | tar -xf - -C ~/llvm --strip-components=1
+    - shell: bash
+      run: echo "$HOME/llvm/bin" >> "$GITHUB_PATH"

@@ -1,0 +1,24 @@
+# Absolute-path literals that are allowed, one repo-relative glob per line (tools/paths.ts).
+ay.toml                       # the host layout table: [paths.<role>] is the one place host paths are written
+tools/paths.test.ts           # fixtures of the checker itself
+tools/disks.test.ts           # df output fixture of the fleet
+
+docs/research/recovery*       # inventory of host trees and the rules that classify them: path literals are the data
+tools/recover.test.ts          # fixtures of the host-tree parser
+
+# Absorbed from aphrody-dev/ai-os (2026-11-18): fixtures that quote absolute paths on purpose.
+crates/ay-app-protocol/tests/tier1_contract.rs   # fixture: cwd and home values of the protocol examples
+
+# Intentional Windows/POSIX path examples and unit test fixtures
+config/bash/bashrc
+config/bash/niubashrc
+config/pwsh/profile.ps1
+crates/ay-re/src/adobe.rs
+crates/ay-re/src/minidump.rs
+crates/ay-re/src/pipeline/ghidra.rs
+tools/shells.ts
+tools/shells.test.ts
+
+# Absorbed from aphrody-labs/ay-cf and aphrody-labs/auto (2026-11-19).
+tools/cf-secrets.ts                              # scans the standard Linux credential locations of the fleet hosts (credstore directories)
+apps/auto-server/deploy/compose.self-hosted.yaml # container mount layout of the self-hosted compose stack

@@ -1,0 +1,1 @@
+- [build-host-workflow](build-host-workflow.md) — sync-host stale-tree trap, git commit --only with new files, separate target dirs

@@ -1,0 +1,31 @@
+# Copy to the git-ignored `cf.local.toml` at the repository root or generate it via `bun tools/cf-bootstrap-local.ts`.
+# Never commit real Account IDs, Zone IDs, Tunnel UUIDs, VPS public IPs, or Mullvad private keys.
+
+[cloudflare]
+account_id = "<32-char cloudflare account id>"
+
+[cloudflare.zones]
+"aphrody.com" = "<zone id>"
+"aphrody.app" = "<zone id>"
+"dragonballfr.com" = "<zone id>"
+"rosegriffon.fr" = "<zone id>"
+
+[cloudflare.tunnels]
+aphrody = "<tunnel uuid>"
+rosegriffon = "<tunnel uuid>"
+shenron = "<tunnel uuid>"
+
+[hosts.build]
+ssh_alias = "<ssh alias of the build host>"
+public_ipv4 = "<ovh build public ip>"
+public_ipv6 = "<ovh build public ipv6>"
+work_dir = "<work volume on the build host>"
+
+[hosts.edge_proxy]
+ssh_alias = "<ssh alias of the test host>"
+public_ipv4 = "<ovh proxy public ip>"
+public_ipv6 = "<ovh proxy public ipv6>"
+
+[hosts.origin]
+ssh_alias = "<ssh alias of the production host>"
+public_ipv4 = "<hostinger origin public ip>"

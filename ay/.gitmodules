@@ -1,0 +1,396 @@
+[submodule "third_party/dioxus"]
+	path = third_party/dioxus
+	url = ../dioxus.git
+	branch = main
+[submodule "third_party/blitz"]
+	path = third_party/blitz
+	url = ../blitz.git
+	branch = main
+[submodule "third_party/anyrender"]
+	path = third_party/anyrender
+	url = ../anyrender.git
+	branch = main
+[submodule "third_party/dioxus-components"]
+	path = third_party/dioxus-components
+	url = ../dioxus-components.git
+	branch = main
+[submodule "third_party/dioxus-sdk"]
+	path = third_party/dioxus-sdk
+	url = ../dioxus-sdk.git
+	branch = main
+[submodule "third_party/vello"]
+	path = third_party/vello
+	url = ../vello.git
+	branch = main
+[submodule "third_party/winit"]
+	path = third_party/winit
+	url = ../winit.git
+	branch = main
+[submodule "third_party/nsh"]
+	path = third_party/nsh
+	url = ../longbridge-nsh.git
+	branch = main
+[submodule "third_party/libcosmic"]
+	path = third_party/libcosmic
+	url = ../libcosmic.git
+	branch = master
+[submodule "third_party/iced"]
+	path = third_party/iced
+	url = ../iced.git
+	branch = master
+[submodule "third_party/cloudflare/cloudflare-os"]
+	path = third_party/cloudflare/cloudflare-os
+	url = ../cloudflare-os.git
+	branch = main
+[submodule "third_party/cloudflare/agents"]
+	path = third_party/cloudflare/agents
+	url = ../agents.git
+	branch = main
+[submodule "third_party/cloudflare/sandbox-sdk"]
+	path = third_party/cloudflare/sandbox-sdk
+	url = ../sandbox-sdk.git
+	branch = main
+[submodule "third_party/cloudflare/workers-sdk"]
+	path = third_party/cloudflare/workers-sdk
+	url = ../workers-sdk.git
+	branch = main
+[submodule "third_party/cloudflare/workerd"]
+	path = third_party/cloudflare/workerd
+	url = ../workerd.git
+	branch = main
+[submodule "third_party/cloudflare/pingora"]
+	path = third_party/cloudflare/pingora
+	url = ../pingora.git
+	branch = main
+[submodule "third_party/cloudflare/quiche"]
+	path = third_party/cloudflare/quiche
+	url = ../quiche.git
+	branch = master
+[submodule "third_party/cloudflare/artifact-fs"]
+	path = third_party/cloudflare/artifact-fs
+	url = ../artifact-fs.git
+	branch = main
+[submodule "third_party/vercel/ai"]
+	path = third_party/vercel/ai
+	url = ../ai.git
+	branch = main
+[submodule "third_party/vercel/just-bash"]
+	path = third_party/vercel/just-bash
+	url = ../just-bash.git
+	branch = main
+[submodule "third_party/vercel/wterm"]
+	path = third_party/vercel/wterm
+	url = ../wterm.git
+	branch = main
+[submodule "third_party/vercel/sandbox"]
+	path = third_party/vercel/sandbox
+	url = ../sandbox.git
+	branch = main
+[submodule "third_party/vercel/workflow"]
+	path = third_party/vercel/workflow
+	url = ../workflow.git
+	branch = main
+[submodule "third_party/vercel/turborepo"]
+	path = third_party/vercel/turborepo
+	url = ../turborepo.git
+	branch = main
+[submodule "third_party/vercel/next.js"]
+	path = third_party/vercel/next.js
+	url = ../next.js.git
+	branch = canary
+[submodule "third_party/vercel/agent-browser"]
+	path = third_party/vercel/agent-browser
+	url = ../agent-browser.git
+	branch = main
+[submodule "third_party/bun"]
+	path = third_party/bun
+	url = ../bun.git
+	branch = main
+[submodule "third_party/craft-i18n"]
+	path = third_party/craft-i18n
+	url = ../craft-i18n.git
+	branch = main
+[submodule "third_party/cloudflare/browser-run"]
+	path = third_party/cloudflare/browser-run
+	url = ../browser-run.git
+	branch = main
+[submodule "third_party/cloudflare/cloudflare-ai"]
+	path = third_party/cloudflare/cloudflare-ai
+	url = ../cloudflare-ai.git
+	branch = main
+[submodule "third_party/cloudflare/cloudflare-computer"]
+	path = third_party/cloudflare/cloudflare-computer
+	url = ../cloudflare-computer.git
+	branch = main
+[submodule "third_party/cloudflare/cloudflare-mcp"]
+	path = third_party/cloudflare/cloudflare-mcp
+	url = ../cloudflare-mcp.git
+	branch = main
+[submodule "third_party/cloudflare/cloudflare-skills"]
+	path = third_party/cloudflare/cloudflare-skills
+	url = ../cloudflare-skills.git
+	branch = main
+[submodule "third_party/cloudflare/mcp-server-cloudflare"]
+	path = third_party/cloudflare/mcp-server-cloudflare
+	url = ../mcp-server-cloudflare.git
+	branch = main
+[submodule "third_party/modern-web-guidance-src"]
+	path = third_party/modern-web-guidance-src
+	url = ../modern-web-guidance-src.git
+	branch = main
+[submodule "third_party/cloudflare/security-audit-skill"]
+	path = third_party/cloudflare/security-audit-skill
+	url = ../security-audit-skill.git
+	branch = main
+[submodule "third_party/ui-ux-pro-max-skill"]
+	path = third_party/ui-ux-pro-max-skill
+	url = ../ui-ux-pro-max-skill.git
+	branch = main
+[submodule "third_party/cloudflare/apt-transport-cloudflared"]
+	path = third_party/cloudflare/apt-transport-cloudflared
+	url = ../apt-transport-cloudflared.git
+	branch = master
+[submodule "third_party/cloudflare/cbpfc"]
+	path = third_party/cloudflare/cbpfc
+	url = ../cbpfc.git
+	branch = master
+[submodule "third_party/cloudflare/certinel"]
+	path = third_party/cloudflare/certinel
+	url = ../certinel.git
+	branch = master
+[submodule "third_party/cloudflare/cfssl"]
+	path = third_party/cloudflare/cfssl
+	url = ../cfssl.git
+	branch = master
+[submodule "third_party/cloudflare/cfssl_trust"]
+	path = third_party/cloudflare/cfssl_trust
+	url = ../cfssl_trust.git
+	branch = master
+[submodule "third_party/cloudflare/cloudflared"]
+	path = third_party/cloudflare/cloudflared
+	url = ../cloudflared.git
+	branch = master
+[submodule "third_party/cloudflare/ebpf_exporter"]
+	path = third_party/cloudflare/ebpf_exporter
+	url = ../ebpf_exporter.git
+	branch = master
+[submodule "third_party/cloudflare/go"]
+	path = third_party/cloudflare/go
+	url = ../go.git
+	branch = cf
+[submodule "third_party/cloudflare/gokeyless"]
+	path = third_party/cloudflare/gokeyless
+	url = ../gokeyless.git
+	branch = master
+[submodule "third_party/cloudflare/matched-data-cli"]
+	path = third_party/cloudflare/matched-data-cli
+	url = ../matched-data-cli.git
+	branch = master
+[submodule "third_party/cloudflare/mmproxy"]
+	path = third_party/cloudflare/mmproxy
+	url = ../mmproxy.git
+	branch = master
+[submodule "third_party/cloudflare/mpp-proxy"]
+	path = third_party/cloudflare/mpp-proxy
+	url = ../mpp-proxy.git
+	branch = main
+[submodule "third_party/cloudflare/ngtcp2"]
+	path = third_party/cloudflare/ngtcp2
+	url = ../ngtcp2.git
+	branch = master
+[submodule "third_party/cloudflare/octopus"]
+	path = third_party/cloudflare/octopus
+	url = ../octopus.git
+	branch = main
+[submodule "third_party/cloudflare/pmtud"]
+	path = third_party/cloudflare/pmtud
+	url = ../pmtud.git
+	branch = master
+[submodule "third_party/cloudflare/pp-browser-extension"]
+	path = third_party/cloudflare/pp-browser-extension
+	url = ../pp-browser-extension.git
+	branch = main
+[submodule "third_party/cloudflare/privacy-gateway-client-library"]
+	path = third_party/cloudflare/privacy-gateway-client-library
+	url = ../privacy-gateway-client-library.git
+	branch = main
+[submodule "third_party/cloudflare/privacy-gateway-server-go"]
+	path = third_party/cloudflare/privacy-gateway-server-go
+	url = ../privacy-gateway-server-go.git
+	branch = main
+[submodule "third_party/cloudflare/privacypass-attester"]
+	path = third_party/cloudflare/privacypass-attester
+	url = ../privacypass-attester.git
+	branch = main
+[submodule "third_party/cloudflare/privacypass-config"]
+	path = third_party/cloudflare/privacypass-config
+	url = ../privacypass-config.git
+	branch = main
+[submodule "third_party/cloudflare/privacypass-issuer"]
+	path = third_party/cloudflare/privacypass-issuer
+	url = ../privacypass-issuer.git
+	branch = main
+[submodule "third_party/cloudflare/privacypass-origin"]
+	path = third_party/cloudflare/privacypass-origin
+	url = ../privacypass-origin.git
+	branch = main
+[submodule "third_party/cloudflare/privacypass-ts"]
+	path = third_party/cloudflare/privacypass-ts
+	url = ../privacypass-ts.git
+	branch = main
+[submodule "third_party/cloudflare/proxy-everything"]
+	path = third_party/cloudflare/proxy-everything
+	url = ../proxy-everything.git
+	branch = main
+[submodule "third_party/cloudflare/rakelimit"]
+	path = third_party/cloudflare/rakelimit
+	url = ../rakelimit.git
+	branch = master
+[submodule "third_party/cloudflare/speedtest"]
+	path = third_party/cloudflare/speedtest
+	url = ../speedtest.git
+	branch = main
+[submodule "third_party/cloudflare/tls-tris"]
+	path = third_party/cloudflare/tls-tris
+	url = ../tls-tris.git
+	branch = master
+[submodule "third_party/cloudflare/tubular"]
+	path = third_party/cloudflare/tubular
+	url = ../tubular.git
+	branch = main
+[submodule "third_party/cloudflare/unbound"]
+	path = third_party/cloudflare/unbound
+	url = ../unbound.git
+	branch = master
+[submodule "third_party/cloudflare/xdpcap"]
+	path = third_party/cloudflare/xdpcap
+	url = ../xdpcap.git
+	branch = master
+[submodule "third_party/cloudflare/bpftools"]
+	path = third_party/cloudflare/bpftools
+	url = ../bpftools.git
+	branch = master
+[submodule "third_party/cloudflare/cloudflare-python"]
+	path = third_party/cloudflare/cloudflare-python
+	url = ../cloudflare-python.git
+	branch = main
+[submodule "third_party/cloudflare/langchain-cloudflare"]
+	path = third_party/cloudflare/langchain-cloudflare
+	url = ../langchain-cloudflare.git
+	branch = main
+[submodule "third_party/cloudflare/python-workers-examples"]
+	path = third_party/cloudflare/python-workers-examples
+	url = ../python-workers-examples.git
+	branch = main
+[submodule "third_party/cloudflare/workers-py"]
+	path = third_party/cloudflare/workers-py
+	url = ../workers-py.git
+	branch = main
+[submodule "third_party/cloudflare/capnweb"]
+	path = third_party/cloudflare/capnweb
+	url = ../capnweb.git
+	branch = main
+[submodule "third_party/cloudflare/workerd-cxx"]
+	path = third_party/cloudflare/workerd-cxx
+	url = ../workerd-cxx.git
+	branch = master
+[submodule "third_party/cloudflare/workers-wasi"]
+	path = third_party/cloudflare/workers-wasi
+	url = ../workers-wasi.git
+	branch = main
+[submodule "third_party/cloudflare/boring"]
+	path = third_party/cloudflare/boring
+	url = ../boring.git
+	branch = master
+[submodule "third_party/cloudflare/boringtun"]
+	path = third_party/cloudflare/boringtun
+	url = ../boringtun.git
+	branch = master
+[submodule "third_party/cloudflare/foundations"]
+	path = third_party/cloudflare/foundations
+	url = ../foundations.git
+	branch = main
+[submodule "third_party/cloudflare/moq-rs"]
+	path = third_party/cloudflare/moq-rs
+	url = ../moq-rs.git
+	branch = main
+[submodule "third_party/cloudflare/nel-rs"]
+	path = third_party/cloudflare/nel-rs
+	url = ../nel-rs.git
+	branch = master
+[submodule "third_party/cloudflare/networkquality-rs"]
+	path = third_party/cloudflare/networkquality-rs
+	url = ../networkquality-rs.git
+	branch = main
+[submodule "third_party/cloudflare/odoh-client-rs"]
+	path = third_party/cloudflare/odoh-client-rs
+	url = ../odoh-client-rs.git
+	branch = master
+[submodule "third_party/cloudflare/odoh-rs"]
+	path = third_party/cloudflare/odoh-rs
+	url = ../odoh-rs.git
+	branch = master
+[submodule "third_party/cloudflare/svg-hush"]
+	path = third_party/cloudflare/svg-hush
+	url = ../svg-hush.git
+	branch = main
+[submodule "third_party/cloudflare/web-bot-auth"]
+	path = third_party/cloudflare/web-bot-auth
+	url = ../web-bot-auth.git
+	branch = main
+[submodule "third_party/cloudflare/wirefilter"]
+	path = third_party/cloudflare/wirefilter
+	url = ../wirefilter.git
+	branch = master
+[submodule "third_party/cloudflare/workers-rs"]
+	path = third_party/cloudflare/workers-rs
+	url = ../workers-rs.git
+	branch = main
+[submodule "third_party/xh"]
+	path = third_party/xh
+	url = ../xh.git
+	branch = master
+[submodule "third_party/cloudflare/cf"]
+	path = third_party/cloudflare/cf
+	url = ../cf.git
+	branch = main
+[submodule "third_party/cloudflare/cloudflare-templates"]
+	path = third_party/cloudflare/cloudflare-templates
+	url = ../cloudflare-templates.git
+	branch = main
+[submodule "third_party/cloudflare/cloudflare-typescript"]
+	path = third_party/cloudflare/cloudflare-typescript
+	url = ../cloudflare-typescript.git
+	branch = main
+[submodule "third_party/cloudflare/kumo"]
+	path = third_party/cloudflare/kumo
+	url = ../kumo.git
+	branch = main
+[submodule "third_party/cloudflare/vinext"]
+	path = third_party/cloudflare/vinext
+	url = ../vinext.git
+	branch = main
+[submodule "third_party/media/dav1d"]
+	path = third_party/media/dav1d
+	url = ../dav1d.git
+	branch = master
+[submodule "third_party/media/ffmpeg"]
+	path = third_party/media/ffmpeg
+	url = ../ffmpeg.git
+	branch = master
+[submodule "third_party/media/hls.js"]
+	path = third_party/media/hls.js
+	url = ../hls.js.git
+	branch = master
+[submodule "third_party/media/rav1e"]
+	path = third_party/media/rav1e
+	url = ../rav1e.git
+	branch = master
+[submodule "third_party/media/svt-av1"]
+	path = third_party/media/svt-av1
+	url = ../svt-av1.git
+	branch = main
+[submodule "third_party/better-auth"]
+	path = third_party/better-auth
+	url = ../better-auth.git
+	branch = main

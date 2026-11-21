@@ -1,0 +1,67 @@
+[package]
+edition = "2024"
+rust-version = "1.97"
+name = "ay-accounts"
+version = "1.4.7"
+authors.workspace = true
+build = false
+autolib = false
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+description = "Aphrody OS identity layer: Google OAuth 2.0 and Microsoft identity platform (Entra) sign-in with PKCE loopback and device code, scope catalogs, multiple accounts, token refresh and OS keyring storage."
+homepage = "https://aphrody.app"
+readme = false
+license = "Apache-2.0"
+repository.workspace = true
+
+[features]
+default = ["os-keyring"]
+os-keyring = ["dep:keyring"]
+secrets = [
+    "dep:fw-secrets",
+    "dep:tokio",
+]
+
+[lib]
+name = "ay_accounts"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ay-accounts"
+path = "src/bin/aphrody-accounts.rs"
+
+[dependencies]
+base64.workspace = true
+fw-http = { workspace = true, features = ["blocking"] }
+fw-secrets = { workspace = true, optional = true }
+getrandom.workspace = true
+keyring = { version = "4.2.0", optional = true }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+tokio = { version = "1.54.1", default-features = false, features = ["rt"], optional = true }
+url.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"
+
+[lints.clippy.correctness]
+level = "warn"
+priority = -1
+
+[lints.clippy.perf]
+level = "warn"
+priority = -1
+
+[lints.rust]
+non_ascii_idents = "deny"
+unsafe_op_in_unsafe_fn = "deny"
+unused_must_use = "deny"

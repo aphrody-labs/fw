@@ -1,0 +1,273 @@
+{
+  "schema": "aphrody.character.merge",
+  "schema_version": 1,
+  "dataset_version": "1.1.0",
+  "character": "byron-love-aphrody",
+  "generated": "2026-11-16",
+  "inputs": [
+    {
+      "input": "rosegriffon apps/rg-website/data/aphrody-dossier.json",
+      "source": "rg_dossier",
+      "taken": "profile block (epithet アフロディ帝 / Archon Aphrodite, kana), 5 reference notes (etymology, title, team Zeus, element, constellation) -> canon name.*, element.*, identity.constellation, team.game_team_id",
+      "dropped": "assets, dialogues, identity, series, stats, variants: byte-identical to the ay dossier except techniques[].info.recast_time (0 there, 90 in ay); the ay dossier is kept as the single copy"
+    },
+    {
+      "input": "rosegriffon apps/rg-website/src/components/wiki/AphrodyDossierSection.tsx",
+      "source": "rg_section",
+      "taken": "nothing as data; read to find the ELEMENT and POSITION label maps",
+      "dropped": "the label maps (they disagree with the evidence, see conflicts c1 and c2)"
+    },
+    {
+      "input": "rosegriffon apps/rg-website/src/data/zukan-audit.json",
+      "source": "rg_audit",
+      "taken": "the three Aphrodi rows: hero/BASARA level 99 stats (canon stat.game.hero_lv99) and the era-mismatch / duplicate-hash findings (conflict c5)",
+      "dropped": "the other 5k+ characters"
+    },
+    {
+      "input": "nie docs/ie/iecode-docs/domain/memory/niers_game_data_aphrodi_consolidated.md",
+      "source": "nie_consolidated",
+      "taken": "Japanese names of God Knows, Heaven's Time, God Break, God Alone Knows (ゴッドノウズ・インパクト), Hopping Trick (ホッピングトリック); hero stats; whs00340 and whs02900 codes",
+      "dropped": "Zeus roster (not Aphrody), VFS architecture, cache notes, lv1 stats and technique codes that contradict the native dossier"
+    },
+    {
+      "input": "nie docs/.../crawled_inazuma_glossary_lore.md, inazuma_level5_glossary.md, crawled_level5_inazuma_official.md, level5_akihiro-hino-universe.md, INDEX*.md",
+      "source": "nie_lore",
+      "taken": "カオスブレイク name and the Chaos Break description",
+      "dropped": "restatements of the same canon already sourced to the codex and the wikis; INDEX files are links only"
+    },
+    {
+      "input": "nie crates/nie-launcher/src/spirit.rs, nie-wiki/src/legacy_team_collation.json, nie-runtime/src/open_world.rs, nie docs misc-derived.md",
+      "source": "nie_spirit",
+      "taken": "spirit card ids, database composite name, fan-world NPC (marked non-canon), Afubuki reference",
+      "dropped": "test fixtures and parser samples (nie-zukan parser.rs, nie-wiki cards.rs/legacy.rs, nie-index fts.rs, nie-viola, nie-explore, nie-data text.rs, afubuki oc profiles): they contain the name only as test data"
+    },
+    {
+      "input": "ay apps/aphrody-web/nie-archive.ts",
+      "source": "nie_archive",
+      "taken": "the 3 chara_param URLs, the chara_model_view URL and the 3 wiki URLs, all fetched again live",
+      "dropped": "the archive pipeline"
+    },
+    {
+      "input": "ay system/identity assets/dossier/aphrody.json and aphrody.md",
+      "source": "game_dossier",
+      "taken": "kept in place, referenced by every game-data fact; internal codes, stats, techniques, auras, dialogue lines are read from it by the dataset",
+      "dropped": "nothing; not duplicated"
+    },
+    {
+      "input": "ay system/identity assets/brand, assets/logo, src/design.rs, docs/pipeline-svg.md",
+      "source": "ay_brand_assets",
+      "taken": "SVG/raster inventory with sha256, M3 tokens subset, atlas hues, seeds",
+      "dropped": "nothing; referenced, not copied"
+    },
+    {
+      "input": "ay-next port of aphrody-labs/ay system/identity at b42ed12 (assets/character, assets/brand, assets/logo, tools)",
+      "source": "ay_next_port",
+      "taken": "character dataset, brand icons, wordmarks, favicon, webmanifest, M3 tokens (CSS, JSON), logo sources; paths moved to brand/character, brand/assets, brand/tokens",
+      "dropped": "the pet (atlas, animations, runtime, the pet.spritesheet image entry), the fonts and logo stylesheets (their CDN answers 404), the native dossier JSON (cited by its pinned URL in sources.json, not copied), design.rs and the loader tests that need other repositories"
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "c1",
+      "topic": "position labels",
+      "claim_a": "rosegriffon POSITION map: 1 GK, 2 DF, 3 MF, 4 FW, so Aphrody is shown as MF/DF",
+      "claim_b": "fan wiki: MF, FW; the game FW variant 0xC68B09DE has main_position 2, sub_position 3",
+      "resolution": "ids are 1 GK, 2 FW, 3 MF, 4 DF (enum Position of the game files); Aphrody is MF (3) with FW (2) as secondary and the FW variant has them the other way round; the French wiki lists MIL and ATT",
+      "kept": "position.id_mapping",
+      "sources": [
+        "rg_section",
+        "game_dossier",
+        "fandom_en",
+        "nie_growth",
+        "fandom_fr_character"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c2",
+      "topic": "element id labels",
+      "claim_a": "rosegriffon ELEMENT map: 1 Feu, 3 Foudre, 4 Montagne, 5 Air",
+      "claim_b": "his id-1 technique telops are blue (Wind per nie memory), the id-4 telop is orange, only id 2 = Forest is confirmed by the codex",
+      "resolution": "ids are 1 Wind, 2 Forest, 3 Fire, 4 Mountain, 5 none (Real Skills); matched on the skills whose wiki element, TP and power agree with the native values; the rosegriffon map is wrong for ids 1, 3 and 5",
+      "kept": "element.ids",
+      "sources": [
+        "rg_section",
+        "telop_whs00340",
+        "telop_whs01080",
+        "zukan_en_ie1",
+        "fandom_en_elements",
+        "fandom_en_sabaki_no_tettsui",
+        "fandom_en_heaven_drive",
+        "nie_elements"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c3",
+      "topic": "level 50 stats",
+      "claim_a": "codex (all 3 forms): 104 / 112 / 109 / 91 / 92 / 85 / 100",
+      "claim_b": "native dossier primary variant: 100 / 109 / 105 / 88 / 87 / 81 / 97 (kick, control, technique, pressure, physical, agility, intelligence)",
+      "resolution": "same game table at different ranks: the codex shows MF pattern 0 rank 3 (104/112/109/91/92/85/100, an exact row), the native export shows rank 0 (100/109/105/87/88/81/97); both stay as facts, tied to their rank in stat.growth_table. The native export lists the fourth and fifth columns as physical then pressure, the codex as pressure then physical; the dataset follows the codex labels",
+      "kept": "stat.growth_table",
+      "sources": [
+        "zukan_en_ie1",
+        "game_dossier",
+        "nie_growth_table",
+        "nie_growth"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c4",
+      "topic": "level 1 stats",
+      "claim_a": "nie memory: Kick 11, Control 12, Technique 12, Physical 10, Pressure 11, Agility 9, Intelligence 12",
+      "claim_b": "native dossier: Kick 13, Control 14, Technique 12, Physical 10, Pressure 10, Agility 9, Intelligence 11",
+      "resolution": "native dossier wins (nie memory is a 2026-09-09 snapshot)",
+      "kept": "stat.game.lv1",
+      "sources": [
+        "nie_consolidated",
+        "game_dossier"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c5",
+      "topic": "image hash of c01001900",
+      "claim_a": "game database maps c01001900 to image k/6/q/6q1af7euf9m (an Ares-era render)",
+      "claim_b": "the codex row for the Inazuma Eleven form (No. 185) uses k/d/y/dykb3jbxeis",
+      "resolution": "the codex render is the reference for the IE1 form; the audit mismatch is recorded in images.render.ares",
+      "kept": "visual.images",
+      "sources": [
+        "rg_audit",
+        "zukan_img_ie1",
+        "zukan_img_ares"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c6",
+      "topic": "hero stats pressure versus physical",
+      "claim_a": "rg wiki page: Pression 210, Physique 211",
+      "claim_b": "nie memory and the audit: physical 210, pressure 211 (column order differs between the two documents)",
+      "resolution": "the hero row (MF pattern 0 rank 5) has 210 in the fourth column and 211 in the fifth; the codex and the rosegriffon wiki label them pressure then physical, nie memory and the audit physical then pressure, the same exchange as in c3; the dataset follows the codex labels: Pressure 210, Physical 211",
+      "kept": "stat.game.hero_lv99",
+      "sources": [
+        "rg_wiki",
+        "nie_consolidated",
+        "rg_audit",
+        "nie_growth_table"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c7",
+      "topic": "technique names and codes",
+      "claim_a": "nie memory: Hopping Trick is 'Dust Kick', Chaos Break is 'Tir du Chaos', Heaven's Time is whs00350, God Break 'Tir solaire' without code",
+      "claim_b": "fan wiki: Hopping Trick; French telops: 'Tir chaotique' (whs01250), 'Tir solaire' (whs00900); the native dossier has who00200 as the 85-540 dribble and no whs00350",
+      "resolution": "in-game French lettering and the native dossier win; 'Dust Kick' is the English dub name of Hopping Trick, not another technique; French names are now sourced for the two Real Skills (Frappe Poussiéreuse, Petit Pont) and for Sabaki no Tettsui (Pied Céleste)",
+      "kept": "technique.*",
+      "sources": [
+        "nie_consolidated",
+        "fandom_en",
+        "telop_whs01250",
+        "telop_whs00900",
+        "game_dossier",
+        "fandom_fr_real_skills",
+        "fandom_fr_pied_celeste",
+        "fandom_en_hopping_trick"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c8",
+      "topic": "recast time of the techniques",
+      "claim_a": "rosegriffon dossier recast_time 0",
+      "claim_b": "ay dossier recast_time 90, nie memory recast 90 s",
+      "resolution": "90 s",
+      "kept": "technique.whs00340",
+      "sources": [
+        "rg_dossier",
+        "game_dossier",
+        "nie_consolidated"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c9",
+      "topic": "learn levels",
+      "claim_a": "native dossier learn_level 0, 1, 13, 20, 30, 43",
+      "claim_b": "fan wiki unlock levels 1, 13, 20, 30, 38, 43",
+      "resolution": "both stored; the native numbers are slot values and the table that maps slots to unlock levels is not among the sources read, so the differences (38 against 30, 0 against 1) cannot be reduced to one list",
+      "kept": "technique.learn_levels_note",
+      "sources": [
+        "game_dossier",
+        "fandom_en"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "c10",
+      "topic": "Japanese voice actor",
+      "claim_a": "English wiki: Shouji Masayuki (Inazuma Eleven) and Yuko Sanpei",
+      "claim_b": "French wiki and manga encyclopedia: Yuko Sanpei only",
+      "resolution": "Yuko Sanpei listed first; Shouji Masayuki (Inazuma Eleven) stays flagged single-source: the French wiki, read again on 2026-11-16, lists Yuko Sanpei only (JP) and gives the French voices Antoni Lo Presti, Valéry Benjilali and Olivier Prémel",
+      "kept": "identity.voice_actors",
+      "sources": [
+        "fandom_en",
+        "fandom_fr",
+        "manga_fr",
+        "fandom_fr_character"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "c11",
+      "topic": "M3 seed",
+      "claim_a": "assets/brand/m3-tokens.json seed #e2dbad",
+      "claim_b": "design.rs pet_seed_hex #8c6c88 (documented as the product UI seed) and m3_seed_hex #17335C",
+      "resolution": "one brand seed, #E2DBAD. The shipped token files are the Material tonal-spot scheme (spec 2021, contrast 0) of exactly this seed: @material/material-color-utilities 0.4.0 reproduces primary, background, surface and onPrimaryContainer of m3-tokens.json (light and dark) from #E2DBAD and from neither of the other two; the seed is the measured blond of the character (role.hair #D1D293, atlas.blond #EADBA6). #8C6C88 (the pet sock mauve) and #17335C (the AZUR hue of the atlas palette) are documented by design.rs for the pet and the game atlas; no shipped artifact uses them and neither the pet nor design.rs is carried into this repository, so they stay as superseded records",
+      "kept": "visual.palette.seeds",
+      "sources": [
+        "ay_m3_tokens",
+        "ay_design"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c12",
+      "topic": "name spelling",
+      "claim_a": "Aphrodi (fan wiki romanisation, owner's wording)",
+      "claim_b": "Aphrody (Victory Road localisation, product and crate names), Aphrodite (anime dub), Aphro Deetie (withdrawn)",
+      "resolution": "brand spelling Aphrody; every variant stored in name.*",
+      "kept": "name.*",
+      "sources": [
+        "fandom_en",
+        "zukan_en_list"
+      ],
+      "status": "resolved"
+    },
+    {
+      "id": "c13",
+      "topic": "rosegriffon base card technique list",
+      "claim_a": "wiki page: 'Aucune technique connue' on the base card",
+      "claim_b": "the same page's dossier section lists 7 techniques and 2 auras",
+      "resolution": "the dossier section is right; the base card lacks the data",
+      "kept": "technique.*",
+      "sources": [
+        "rg_wiki"
+      ],
+      "status": "resolved"
+    }
+  ],
+  "unsourced": [
+    "Height, weight and age: no source gives them (the French wiki infobox has the birthday, 17 May, and no height or weight).",
+    "Names in other languages (Korean, Chinese, German, Spanish, Italian, Portuguese) beyond fan-wiki page titles: the codex serves ja and en only, the fan wiki interlanguage list gives titles only, and the game telops exist in 8 languages but only the French ones were read.",
+    "The French lettering of the telops rho10010 and who00200: the CDN answers 404; the names come from the French wiki instead (Frappe Poussiéreuse, Instant céleste).",
+    "Measured colour of the Ares face icon: nie.aphrody.app answered 502 on every attempt.",
+    "Licences of Super Cartoon, BradBunR and Aklatan: none stated in the sources (not gated, per the owner).",
+    "Official Japanese zukan descriptions of the techniques (the codex has no technique pages for this character): only the nie memory quotes the game text for God Knows and God Alone Knows.",
+    "The table that maps the native learn_level slots to unlock levels (conflict c9).",
+    "A second source for Shouji Masayuki as the Inazuma Eleven Japanese voice (conflict c10).",
+    "The atlas_hues colours cannot be measured again here: the pet atlas they come from is not carried in this repository."
+  ]
+}

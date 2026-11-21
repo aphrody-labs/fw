@@ -1,0 +1,17 @@
+{
+  "printWidth": 120,
+  "ignorePatterns": [
+    "target/**",
+    "data/**",
+    ".cache/**",
+    ".claude/**",
+    "third_party/**",
+    "node_modules/**"
+  ],
+  "overrides": [
+    {
+      "files": ["*.jsonc"],
+      "options": { "trailingComma": "none" }
+    }
+  ]
+}

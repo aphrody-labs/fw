@@ -1,0 +1,208 @@
+name: check
+
+on:
+  push:
+    # release/<M> branches of the release train (aphrody-labs/ay docs/release/model.md) get the same gates as main.
+    branches: [main, "release/**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-slim
+    outputs:
+      rust: ${{ steps.filter.outputs.rust }}
+      corelib: ${{ steps.filter.outputs.corelib }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+          submodules: false
+      - id: filter
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "rust=true" >> "$GITHUB_OUTPUT"
+            echo "corelib=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          BASE="${{ github.event.pull_request.base.sha || github.event.before }}"
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            echo "rust=true" >> "$GITHUB_OUTPUT"
+            echo "corelib=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          FILES=$(git diff --name-only "$BASE" HEAD)
+          if echo "$FILES" | grep -qE '^(Cargo\.(toml|lock)|crates/|submodules\.toml|\.gitmodules|\.github/workflows/check\.yml)'; then
+            echo "rust=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "rust=false" >> "$GITHUB_OUTPUT"
+          fi
+          if echo "$FILES" | grep -qE '^(corelib/|abi/|tools/(corelib|listings|abi)|docs/guides/assembly-and-wasm/|\.github/workflows/check\.yml)'; then
+            echo "corelib=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "corelib=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      # The edge Worker imports the generated wasm registry (target/edge-wasm/registry.ts), built from corelib with
+      # clang --target=wasm32 and wasm-ld. The runner clang has no wasm-ld, so use the same pinned LLVM as corelib.
+      - id: pins
+        run: echo "clang=$(sed -n 's/^clang = "\(.*\)"/\1/p' docs/guides/assembly-and-wasm/listings.toml)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        id: llvm
+        with:
+          path: ~/llvm
+          key: llvm-${{ steps.pins.outputs.clang }}-linux-x64
+          enableCrossOsArchive: false
+      - name: LLVM (clang, lld, wasm-ld), the pinned official release
+        if: steps.llvm.outputs.cache-hit != 'true'
+        run: |
+          v=${{ steps.pins.outputs.clang }}
+          curl -fsSL -o "$RUNNER_TEMP/llvm.tar.zst" "https://github.com/llvm/llvm-project/releases/download/llvmorg-$v/LLVM-$v-Linux-X64.tar.zst"
+          mkdir -p ~/llvm && zstd -d --long=30 -c "$RUNNER_TEMP/llvm.tar.zst" | tar -xf - -C ~/llvm --strip-components=1
+      - run: |
+          echo "$HOME/llvm/bin" >> "$GITHUB_PATH"
+          echo "AY_CLANG=$HOME/llvm/bin/clang" >> "$GITHUB_ENV"
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      # services/wasm.ts imports target/edge-wasm/registry.ts; generate it before the tests load that module.
+      - run: bun tools/edge-wasm.ts
+      - run: bun run check
+
+  rust:
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      CARGO_INCREMENTAL: "0"
+      # reqwest gates its HTTP/3 client behind this cfg (see .cargo/config.toml); RUSTFLAGS replaces the config value.
+      RUSTFLAGS: --cfg reqwest_unstable -D warnings
+    defaults:
+      run:
+        working-directory: ay
+    steps:
+      # ay depends down the stack on the sibling fw checkout (../fw/crates/fw-*): lay both out side by side.
+      - uses: actions/checkout@v7
+        with:
+          path: ay
+      - uses: actions/checkout@v7
+        with:
+          repository: aphrody-labs/fw
+          path: fw
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ay
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - run: cargo fmt --check
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+
+  # Every feature of the merged crates builds on its own (no hidden coupling between features).
+  features:
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      CARGO_INCREMENTAL: "0"
+      RUSTFLAGS: --cfg reqwest_unstable
+    defaults:
+      run:
+        working-directory: ay
+    steps:
+      # ay depends down the stack on the sibling fw checkout (../fw/crates/fw-*): lay both out side by side.
+      - uses: actions/checkout@v7
+        with:
+          path: ay
+      - uses: actions/checkout@v7
+        with:
+          repository: aphrody-labs/fw
+          path: fw
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: stable
+      - uses: taiki-e/install-action@cargo-hack
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ay
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+      - run: >
+          cargo hack check --each-feature --locked
+          -p ay-design -p ay-build -p ay-cf -p ay-media -p aphrody-auto
+
+  # SDK corelib conformance: one freestanding C23 code base, run as a native process (clang, and clang-cl on Windows locally),
+  # as WebAssembly (Bun, wasmtime component) and as a bare-metal x86_64 image (QEMU), plus the guide's generated listings.
+  corelib:
+    needs: changes
+    if: needs.changes.outputs.corelib == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - id: pins
+        run: |
+          pins=docs/guides/assembly-and-wasm/listings.toml
+          echo "clang=$(sed -n 's/^clang = "\(.*\)"/\1/p' $pins)" >> "$GITHUB_OUTPUT"
+          echo "wasm_tools=$(sed -n 's/^wasm_tools = "\(.*\)"/\1/p' $pins)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        id: llvm
+        with:
+          path: ~/llvm
+          key: llvm-${{ steps.pins.outputs.clang }}-linux-x64
+          enableCrossOsArchive: false
+      - name: LLVM (clang, lld, wasm-ld), the pinned official release
+        if: steps.llvm.outputs.cache-hit != 'true'
+        run: |
+          v=${{ steps.pins.outputs.clang }}
+          curl -fsSL -o "$RUNNER_TEMP/llvm.tar.zst" "https://github.com/llvm/llvm-project/releases/download/llvmorg-$v/LLVM-$v-Linux-X64.tar.zst"
+          mkdir -p ~/llvm && zstd -d --long=30 -c "$RUNNER_TEMP/llvm.tar.zst" | tar -xf - -C ~/llvm --strip-components=1
+      - run: |
+          echo "$HOME/llvm/bin" >> "$GITHUB_PATH"
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends qemu-system-x86
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-tools@${{ steps.pins.outputs.wasm_tools }}
+      - uses: oven-sh/setup-bun@v2
+      - run: bun test ./corelib/host
+      - run: bun tools/corelib-qemu.ts --log "$RUNNER_TEMP/qemu-boot.log"
+      - run: bun tools/corelib-component.ts --log "$RUNNER_TEMP/wasmtime-boot.log"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: bun tools/listings.ts --check
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: corelib-boot-logs
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/qemu-boot.log
+            ${{ runner.temp }}/wasmtime-boot.log
+
+  layout:
+    runs-on: ubuntu-latest
+    steps:
+      # The layout map resolves fw crates through the sibling checkout, like the path dependencies do.
+      - name: Check out fw beside ay
+        run: git clone --depth 1 https://github.com/aphrody-labs/fw.git "$GITHUB_WORKSPACE/../fw"
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+      - name: layout.toml generates every manifest it owns, no stale or uncovered path
+        run: bun ../fw/tools/layout.ts check

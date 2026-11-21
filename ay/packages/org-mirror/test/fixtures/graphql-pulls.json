@@ -1,0 +1,620 @@
+[
+ {
+  "data": {
+   "repository": {
+    "items": {
+     "pageInfo": {
+      "hasNextPage": true,
+      "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0xMS0xNlQwODo0NzowNFrPAAAAAT3sW9A="
+     },
+     "nodes": [
+      {
+       "id": "PR_kwDOR0TnfM8AAAABPohOQw",
+       "number": 78,
+       "title": "docs: sjc runs on shared-cpu-4x",
+       "body": "sjc hit ~88% of its regional cpu baseline and rising with us daytime, bridges evenly split (~1,080 each), so both machines were resized to shared-cpu-4x. this moves sjc to that row in the sizing table.\n\n— from 𝕺𝖕𝖊𝖓𝕮𝖔𝖉𝖊",
+       "state": "MERGED",
+       "createdAt": "2026-11-16T19:59:31Z",
+       "updatedAt": "2026-11-16T20:02:00Z",
+       "closedAt": "2026-11-16T20:01:56Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/pull/78",
+       "author": {
+        "login": "thdxr"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABoeXzvtgBqzM2MzIxMjMwODc5"
+        },
+        "nodes": [
+         {
+          "__typename": "MergedEvent",
+          "id": "ME_lADOR0TnfM8AAAABfztyfc8AAAAIdOnpUw",
+          "createdAt": "2026-11-16T20:01:56Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "commit": {
+           "oid": "5fedefbae2919d298e6ed42a039747444f73c83c"
+          }
+         },
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABfztyfc8AAAAIdOnp7Q",
+          "createdAt": "2026-11-16T20:01:56Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         },
+         {
+          "__typename": "HeadRefDeletedEvent",
+          "id": "HRDE_lADOR0TnfM8AAAABfztyfc8AAAAIdOoAHw",
+          "createdAt": "2026-11-16T20:01:59Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "headRefName": "ops/sjc-shared-cpu-4x"
+         }
+        ]
+       },
+       "isDraft": false,
+       "merged": true,
+       "mergedAt": "2026-11-16T20:01:56Z",
+       "mergedBy": {
+        "login": "thdxr"
+       },
+       "baseRefName": "dev",
+       "headRefName": "ops/sjc-shared-cpu-4x",
+       "headRefOid": "422ed432754625173a2ede7415a13e43feec8879",
+       "additions": 2,
+       "deletions": 2,
+       "changedFiles": 1,
+       "reviewDecision": null,
+       "commits": {
+        "totalCount": 1
+       },
+       "reviews": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       }
+      },
+      {
+       "id": "PR_kwDOR0TnfM8AAAABPkuKLQ",
+       "number": 77,
+       "title": "docs: cdg runs on performance-1x",
+       "body": "cdg stayed at ~80% of its shared-cpu-4x baseline for hours with ~6,800 bridges (up from ~3,850 on friday), so both cdg machines are now performance-1x with 2 GB. also notes fly's 10,240 open file cap per machine.\n\n— from 𝕺𝖕𝖊𝖓𝕮𝖔𝖉𝖊",
+       "state": "MERGED",
+       "createdAt": "2026-11-16T15:44:25Z",
+       "updatedAt": "2026-11-16T15:47:07Z",
+       "closedAt": "2026-11-16T15:47:05Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/pull/77",
+       "author": {
+        "login": "thdxr"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABoeUKaHgBqzM2Mjk1NjU1NDQ4"
+        },
+        "nodes": [
+         {
+          "__typename": "MergedEvent",
+          "id": "ME_lADOR0TnfM8AAAABfvQ06c8AAAAIc2OvJQ",
+          "createdAt": "2026-11-16T15:47:05Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "commit": {
+           "oid": "4c7584053304542db725b728920367af9782542f"
+          }
+         },
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABfvQ06c8AAAAIc2OwNw",
+          "createdAt": "2026-11-16T15:47:05Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         },
+         {
+          "__typename": "HeadRefDeletedEvent",
+          "id": "HRDE_lADOR0TnfM8AAAABfvQ06c8AAAAIc2PAGA",
+          "createdAt": "2026-11-16T15:47:07Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "headRefName": "cdg-performance-1x"
+         }
+        ]
+       },
+       "isDraft": false,
+       "merged": true,
+       "mergedAt": "2026-11-16T15:47:05Z",
+       "mergedBy": {
+        "login": "thdxr"
+       },
+       "baseRefName": "dev",
+       "headRefName": "cdg-performance-1x",
+       "headRefOid": "0096b97985f1dda6c2c7089c40650c79a8ce1953",
+       "additions": 7,
+       "deletions": 1,
+       "changedFiles": 1,
+       "reviewDecision": null,
+       "commits": {
+        "totalCount": 1
+       },
+       "reviews": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       }
+      },
+      {
+       "id": "PR_kwDOR0TnfM8AAAABPexb0A",
+       "number": 76,
+       "title": "docs: syd runs on shared-cpu-2x",
+       "body": "syd hit 80% of its shared-cpu-1x baseline over 3h (95% over 15m, ~960 bridges, rising) on nov 16. both syd machines are now shared-cpu-2x; jnb stays on 1x.\n\n— from 𝕺𝖕𝖊𝖓𝕮𝖔𝖉𝖊",
+       "state": "MERGED",
+       "createdAt": "2026-11-16T08:44:36Z",
+       "updatedAt": "2026-11-16T08:47:04Z",
+       "closedAt": "2026-11-16T08:47:02Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/pull/76",
+       "author": {
+        "login": "thdxr"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABoeOJ10ABqzM2MjU1NTI3NDQw"
+        },
+        "nodes": [
+         {
+          "__typename": "MergedEvent",
+          "id": "ME_lADOR0TnfM8AAAABfoPNl88AAAAIcP9jtA",
+          "createdAt": "2026-11-16T08:47:02Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "commit": {
+           "oid": "24e7cf0920d80b1e66e84f92bd63583a813805b5"
+          }
+         },
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABfoPNl88AAAAIcP9k2w",
+          "createdAt": "2026-11-16T08:47:02Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         },
+         {
+          "__typename": "HeadRefDeletedEvent",
+          "id": "HRDE_lADOR0TnfM8AAAABfoPNl88AAAAIcP9yEA",
+          "createdAt": "2026-11-16T08:47:04Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "headRefName": "syd-shared-cpu-2x"
+         }
+        ]
+       },
+       "isDraft": false,
+       "merged": true,
+       "mergedAt": "2026-11-16T08:47:02Z",
+       "mergedBy": {
+        "login": "thdxr"
+       },
+       "baseRefName": "dev",
+       "headRefName": "syd-shared-cpu-2x",
+       "headRefOid": "74158f67ac057b6676ebb0f0af986db0d73e5636",
+       "additions": 2,
+       "deletions": 2,
+       "changedFiles": 1,
+       "reviewDecision": null,
+       "commits": {
+        "totalCount": 1
+       },
+       "reviews": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       }
+      }
+     ]
+    }
+   },
+   "rateLimit": {
+    "cost": 1,
+    "remaining": 4764
+   }
+  }
+ },
+ {
+  "data": {
+   "repository": {
+    "items": {
+     "pageInfo": {
+      "hasNextPage": false,
+      "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0xMS0xNFQyMDozMTo1NFrPAAAAATzZnyQ="
+     },
+     "nodes": [
+      {
+       "id": "PR_kwDOR0TnfM8AAAABPbwA2Q",
+       "number": 75,
+       "title": "docs: nrt runs shared-cpu-4x",
+       "body": "nrt machines sat at ~75-80% of their shared-cpu-2x cpu baseline over 3h with ~1,200 bridges each, evenly split, so both went to shared-cpu-4x. this updates the sizing table.\n\n— from 𝕺𝖕𝖊𝖓𝕮𝖔𝖉𝖊",
+       "state": "MERGED",
+       "createdAt": "2026-11-16T03:49:47Z",
+       "updatedAt": "2026-11-16T03:52:14Z",
+       "closedAt": "2026-11-16T03:52:11Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/pull/75",
+       "author": {
+        "login": "thdxr"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABoeJ76bABqzM2MjM1NjIzNzE3"
+        },
+        "nodes": [
+         {
+          "__typename": "MergedEvent",
+          "id": "ME_lADOR0TnfM8AAAABfkoyrc8AAAAIb8-zLA",
+          "createdAt": "2026-11-16T03:52:11Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "commit": {
+           "oid": "739e8e03807446344b139799ba8d54ccc1bad963"
+          }
+         },
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABfkoyrc8AAAAIb8-zlw",
+          "createdAt": "2026-11-16T03:52:11Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         },
+         {
+          "__typename": "HeadRefDeletedEvent",
+          "id": "HRDE_lADOR0TnfM8AAAABfkoyrc8AAAAIb8-9JQ",
+          "createdAt": "2026-11-16T03:52:14Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "headRefName": "nrt-shared-cpu-4x"
+         }
+        ]
+       },
+       "isDraft": false,
+       "merged": true,
+       "mergedAt": "2026-11-16T03:52:11Z",
+       "mergedBy": {
+        "login": "thdxr"
+       },
+       "baseRefName": "dev",
+       "headRefName": "nrt-shared-cpu-4x",
+       "headRefOid": "95949f173e47d21c6f455240a7db91752554466c",
+       "additions": 2,
+       "deletions": 2,
+       "changedFiles": 1,
+       "reviewDecision": null,
+       "commits": {
+        "totalCount": 1
+       },
+       "reviews": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       }
+      },
+      {
+       "id": "PR_kwDOR0TnfM8AAAABPFCgKg",
+       "number": 73,
+       "title": "docs: add Built with OpenCode badge",
+       "body": "- Adds the official **Built with OpenCode** badge from [opencode.ai/brand](https://opencode.ai/brand#integrations) to the README.\n- Uses `<picture>`, so GitHub shows the dark version of the badge in dark mode.\n- Links to https://opencode.ai.\n\n| Before | After |\n| --- | --- |\n| ![](https://github.com/user-attachments/assets/39293384-50c0-4c46-bba9-568c744ac2ce) | ![](https://github.com/user-attachm",
+       "state": "MERGED",
+       "createdAt": "2026-11-14T03:47:53Z",
+       "updatedAt": "2026-11-15T15:55:16Z",
+       "closedAt": "2026-11-15T15:55:14Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/pull/73",
+       "author": {
+        "login": "iamdavidhill"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABod_rgqABqzM2MTk4OTU5NTg2"
+        },
+        "nodes": [
+         {
+          "__typename": "MergedEvent",
+          "id": "ME_lADOR0TnfM8AAAABfI-Wfs8AAAAIbaBDBg",
+          "createdAt": "2026-11-15T15:55:14Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "commit": {
+           "oid": "888a6e6f3f0a124f0e7dca328032ca158e5f0165"
+          }
+         },
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABfI-Wfs8AAAAIbaBDTQ",
+          "createdAt": "2026-11-15T15:55:14Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         },
+         {
+          "__typename": "HeadRefDeletedEvent",
+          "id": "HRDE_lADOR0TnfM8AAAABfI-Wfs8AAAAIbaBJ4g",
+          "createdAt": "2026-11-15T15:55:16Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "headRefName": "opencode-badge"
+         }
+        ]
+       },
+       "isDraft": false,
+       "merged": true,
+       "mergedAt": "2026-11-15T15:55:14Z",
+       "mergedBy": {
+        "login": "thdxr"
+       },
+       "baseRefName": "dev",
+       "headRefName": "opencode-badge",
+       "headRefOid": "0958ae2b6dc5b9ed5db0118690cf4e7c895b5471",
+       "additions": 2,
+       "deletions": 0,
+       "changedFiles": 1,
+       "reviewDecision": null,
+       "commits": {
+        "totalCount": 2
+       },
+       "reviews": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       }
+      },
+      {
+       "id": "PR_kwDOR0TnfM8AAAABPNmfJA",
+       "number": 74,
+       "title": "fly: size machines per region, two per region",
+       "body": "- drops the `[[vm]]` pin from the production config, so a deploy keeps each machine's size (otherwise the next deploy resets every machine to shared-cpu-1x)\n- `soft_limit` 1000 -> 3000 on :443, since the bigger machines hold up to ~2,000 bridges each\n- docs/server.md: two machines per region, sized per region (cdg/fra/lhr shared-cpu-4x, nrt/sin/sjc/gru/iad/ord shared-cpu-2x, syd/jnb shared-cpu-1x)",
+       "state": "MERGED",
+       "createdAt": "2026-11-14T20:29:02Z",
+       "updatedAt": "2026-11-14T20:31:54Z",
+       "closedAt": "2026-11-14T20:31:51Z",
+       "locked": false,
+       "url": "https://github.com/anomalyco/opentunnel/pull/74",
+       "author": {
+        "login": "thdxr"
+       },
+       "milestone": null,
+       "assignees": {
+        "nodes": []
+       },
+       "reactions": {
+        "totalCount": 0
+       },
+       "labels": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "comments": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       },
+       "timelineItems": {
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": "Y3Vyc29yOnYyOpPPAAABodvCapABqzM2MTQ5NjI2OTQy"
+        },
+        "nodes": [
+         {
+          "__typename": "MergedEvent",
+          "id": "ME_lADOR0TnfM8AAAABfTSQW88AAAAIaq-BPg",
+          "createdAt": "2026-11-14T20:31:51Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "commit": {
+           "oid": "6e757aa2c763ae18495a397fba7bc62e5fb481e6"
+          }
+         },
+         {
+          "__typename": "ClosedEvent",
+          "id": "CE_lADOR0TnfM8AAAABfTSQW88AAAAIaq-Bjw",
+          "createdAt": "2026-11-14T20:31:51Z",
+          "actor": {
+           "login": "thdxr"
+          }
+         },
+         {
+          "__typename": "HeadRefDeletedEvent",
+          "id": "HRDE_lADOR0TnfM8AAAABfTSQW88AAAAIaq-IPg",
+          "createdAt": "2026-11-14T20:31:54Z",
+          "actor": {
+           "login": "thdxr"
+          },
+          "headRefName": "fly-per-region-sizes"
+         }
+        ]
+       },
+       "isDraft": false,
+       "merged": true,
+       "mergedAt": "2026-11-14T20:31:51Z",
+       "mergedBy": {
+        "login": "thdxr"
+       },
+       "baseRefName": "dev",
+       "headRefName": "fly-per-region-sizes",
+       "headRefOid": "9174c1a5f0b9b816af8e4bcd7fef4c90616f39da",
+       "additions": 32,
+       "deletions": 20,
+       "changedFiles": 2,
+       "reviewDecision": null,
+       "commits": {
+        "totalCount": 1
+       },
+       "reviews": {
+        "totalCount": 0,
+        "pageInfo": {
+         "hasNextPage": false,
+         "endCursor": null
+        },
+        "nodes": []
+       }
+      }
+     ]
+    }
+   },
+   "rateLimit": {
+    "cost": 1,
+    "remaining": 4763
+   }
+  }
+ }
+]

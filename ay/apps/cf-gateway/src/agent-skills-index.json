@@ -1,0 +1,174 @@
+{
+  "$schema": "https://cloudflare.github.io/agent-skills-discovery-rfc/schema.json",
+  "generated_at": "2026-11-18T13:21:36.907Z",
+  "skills": [
+    {
+      "name": "agents-sdk",
+      "description": "Build, debug, or review Cloudflare Agents SDK applications using the agents package.",
+      "url": "/skills/agents-sdk/SKILL.md",
+      "sha256": "9bda4bd3adc5ab09e30c19ea6b9a0bf673f0a4b190bf7624fc1b0dc5f1fcf9c1",
+      "bytes": 12275
+    },
+    {
+      "name": "ay-cf-finops-infra",
+      "description": "Sovereign FinOps and hybrid infrastructure runbook for Cloudflare Workers Paid, R2 Paid, HA cloudflared tunnels, OVH Pingora proxy VPS, Hostinger origin firewalling, and Mullvad UID policy routing in ay-cf.",
+      "url": "/skills/ay-cf-finops-infra/SKILL.md",
+      "sha256": "86633ceca7d4ff30afe21d49f1686ff9cfa4a809ab76afa6ac5e2869915af987",
+      "bytes": 3529
+    },
+    {
+      "name": "basin",
+      "description": "Build and troubleshoot Cloudflare Basin analytics workflows with Basin Pipelines, Basin Catalog, and Basin SQL. Use for streaming data into R2 Iceberg tables, managing catalogs, or querying those tables; also use for requests using the former Data Platform, Pipelines, R2 Data Catalog, or R2 SQL names.",
+      "url": "/skills/basin/SKILL.md",
+      "sha256": "5f62ae9b86544c352db2829e1f28009b1e97e9549e10bb3081a09a08d060ef1e",
+      "bytes": 2837
+    },
+    {
+      "name": "cf-cli",
+      "description": "Cloudflare's official cf CLI (beta) for the public Cloudflare API and Workers projects. Use for finding and running Cloudflare commands from the terminal — sign-in and profiles, cf cli search, cf schema, cf deploy/dev/build, resource commands for DNS, zones, D1, KV, and R2 — and for choosing between cf and Wrangler in a project.",
+      "url": "/skills/cf-cli/SKILL.md",
+      "sha256": "868b100095aefbaa83d8f08892044e2a6f2428760bdc12490517aab98c289bce",
+      "bytes": 7341
+    },
+    {
+      "name": "cloudflare",
+      "description": "Discover and choose Cloudflare products for apps, APIs, AI agents, storage, networking, and security. Use for architecture and product selection, including when the user describes a need without naming a Cloudflare product; then find the relevant skill or documentation. Also use when a Cloudflare-proxied site shows a Cloudflare error page, a `52x` status, a 1xxx error code, or a Cloudflare `403`, to decide whether to fix Cloudflare configuration or the origin.",
+      "url": "/skills/cloudflare/SKILL.md",
+      "sha256": "7f96af27feff818b413eb0fe790f80567c8b9f4336a8f2398beb673227fcab61",
+      "bytes": 3311
+    },
+    {
+      "name": "cloudflare-app-bootstrap",
+      "description": "Get a Cloudflare Workers app to a working local request by connecting its bindings, secrets, and initial data, then verifying real application behavior. Use for app setup or onboarding after the project exists; use frameworks-on-cloudflare or cf-cli to create or configure the project, and wrangler or cf-cli for isolated commands.",
+      "url": "/skills/cloudflare-app-bootstrap/SKILL.md",
+      "sha256": "0e844a5d3fc39f922a51b906b4e48892610132a207c5e994521a8b0eb7535d91",
+      "bytes": 6153
+    },
+    {
+      "name": "cloudflare-email-service",
+      "description": "Implement or troubleshoot Cloudflare Email Sending and Email Routing integrations and their delivery configuration.",
+      "url": "/skills/cloudflare-email-service/SKILL.md",
+      "sha256": "3f0448eb0f9f98e1762cb5e9bedb60531587ba003d8809b3e082f6dd82cb5912",
+      "bytes": 6806
+    },
+    {
+      "name": "cloudflare-one",
+      "description": "Design, configure, troubleshoot, or review Cloudflare One Zero Trust and SASE deployments. Use cloudflare-one-migrations for migration planning from other vendors. Also use when an agent, script, crawler, or other non-browser client needs to reach a webpage or API protected by Cloudflare Access.",
+      "url": "/skills/cloudflare-one/SKILL.md",
+      "sha256": "1c0dba82c117406a685e3d51eaabc17102df055b0dd4b878037c353638e3c44f",
+      "bytes": 9858
+    },
+    {
+      "name": "cloudflare-one-migrations",
+      "description": "Assess and plan migrations from existing VPN, SWG, or SASE platforms to Cloudflare One, including policy mapping, parity gaps, and rollout.",
+      "url": "/skills/cloudflare-one-migrations/SKILL.md",
+      "sha256": "3ecfe6dba6056996af6ba0b7b7f7d180640bea1fd7a5b3187623494ce1297868",
+      "bytes": 12682
+    },
+    {
+      "name": "cloudflare-security-audit",
+      "description": "Security guidance and vulnerability review for codebases, APIs, services, CLI tools, libraries, and daemons. Use for security questions, focused reviews, vulnerability research, security audits, or pen tests. Run the complete workflow only for explicit codebase audit or pen-test requests, full/comprehensive/end-to-end reviews, or requested report artifacts.",
+      "url": "/skills/cloudflare-security-audit/SKILL.md",
+      "sha256": "0db7639bb0cb1943b500d1b02bc1913597de7b774bedfe1b80c143f372f2981a",
+      "bytes": 22037
+    },
+    {
+      "name": "durable-objects",
+      "description": "Build, debug, or review Cloudflare Durable Objects code for persistent state and coordination.",
+      "url": "/skills/durable-objects/SKILL.md",
+      "sha256": "ef690603d7d998a25ba9748c79f399bb75d943fe1955ba258167116c101ef98c",
+      "bytes": 6259
+    },
+    {
+      "name": "frameworks-on-cloudflare",
+      "description": "Build, migrate, and deploy web-framework applications on Cloudflare Workers. Use when a framework project such as Astro, SvelteKit, React Router, TanStack Start, Nuxt, Hono, or a React or Vue SPA targets Cloudflare, or when a framework repository contains Workers deployment configuration.",
+      "url": "/skills/frameworks-on-cloudflare/SKILL.md",
+      "sha256": "0edfc9c8090988c32b76a0be007264073a67be1c8623b72c172976d510eccda4",
+      "bytes": 6031
+    },
+    {
+      "name": "gateway-workers",
+      "description": "Build, debug, or review Cloudflare Workers invoked by the Forward action in Gateway HTTP policies, including the GatewayMiddleware entrypoint, Gateway types, context, and continuation.",
+      "url": "/skills/gateway-workers/SKILL.md",
+      "sha256": "63f3d183f531ceba625b33761b993264c29c3fc00dbd982e2180767d1e9fb768",
+      "bytes": 4684
+    },
+    {
+      "name": "k2",
+      "description": "Build and troubleshoot Cloudflare K2 or K2 Streams durable logs. Use for stream setup, producing from Workers or HTTP, configuring retention and inputs, and consuming through subscriptions.",
+      "url": "/skills/k2/SKILL.md",
+      "sha256": "94c199923bd4d3eb836dbdd360a37d254b2249ed9f1cb3e20421ed2d34996587",
+      "bytes": 2602
+    },
+    {
+      "name": "nextjs-on-cloudflare",
+      "description": "Build, migrate, and deploy Next.js apps on Cloudflare Workers with vinext. Use when starting a Next.js project on Cloudflare, moving an existing app to Workers, choosing between vinext and OpenNext, or setting up vinext for Workers. For setup, migration, or deployment, install vinext's upstream skills with `npx skills add cloudflare/vinext` if missing, then read and follow the applicable skill and docs.",
+      "url": "/skills/nextjs-on-cloudflare/SKILL.md",
+      "sha256": "2e7d42b5a42a871a9ac3f1f638ac4d44e612650544058480164bd4994251a7dd",
+      "bytes": 2898
+    },
+    {
+      "name": "sandbox-migrate-to-next",
+      "description": "Migrate Cloudflare Sandbox apps from stable @cloudflare/sandbox to @cloudflare/sandbox@next (SDK 1.0 preview). Use sandbox-next for apps already on the preview.",
+      "url": "/skills/sandbox-migrate-to-next/SKILL.md",
+      "sha256": "a3afd0eccaf4100ff48613f985c201469365fa58b1747006c49486aecdc5564c",
+      "bytes": 8089
+    },
+    {
+      "name": "sandbox-next",
+      "description": "Build or maintain Cloudflare Sandbox apps on @cloudflare/sandbox@next (SDK 1.0 preview). Use sandbox-migrate-to-next when porting a stable app.",
+      "url": "/skills/sandbox-next/SKILL.md",
+      "sha256": "86e00416e89acf7f77b4d3926301345725abbc6e3dedec81493fd62ee69f1104",
+      "bytes": 6921
+    },
+    {
+      "name": "sandbox-stable",
+      "description": "Build or maintain Cloudflare Sandbox apps on the stable @cloudflare/sandbox package. Use sandbox-next for preview apps and sandbox-migrate-to-next for stable-to-preview migrations.",
+      "url": "/skills/sandbox-stable/SKILL.md",
+      "sha256": "be65d5c94fc2baf862b5025a9782188af226778e1a2126dfe8681e2501d8ae0a",
+      "bytes": 9496
+    },
+    {
+      "name": "turnstile-spin",
+      "description": "Set up, repair, or migrate to Cloudflare Turnstile bot verification in an existing frontend and backend, including server-side Siteverify.",
+      "url": "/skills/turnstile-spin/SKILL.md",
+      "sha256": "397e39b32b5c5f1dab1ae8ed124c94ec5388bb250f99078be5c50a49f491cc57",
+      "bytes": 2450
+    },
+    {
+      "name": "web-perf",
+      "description": "Audit, diagnose, or optimize website loading and interaction performance, Core Web Vitals, and Lighthouse performance scores.",
+      "url": "/skills/web-perf/SKILL.md",
+      "sha256": "0160c9e7f1b73eb80347efd899a6082219d43bb9de30424667c8017628a48469",
+      "bytes": 8446
+    },
+    {
+      "name": "workers-best-practices",
+      "description": "Cloudflare Workers best practices for production applications. Use when writing, reviewing, or configuring Workers.",
+      "url": "/skills/workers-best-practices/SKILL.md",
+      "sha256": "01c452fd0b6b3caeb4c3b06f87893e52d8e95e32f691911c1644060e00dafa0e",
+      "bytes": 6237
+    },
+    {
+      "name": "workers-development",
+      "description": "Run, inspect, and debug Cloudflare Workers during local development with cf dev, wrangler dev, or the Cloudflare Vite plugin, using Local Explorer to read and seed binding data and query local traces and logs. Also routes production debugging to Workers observability. Use for debugging requests whether or not the project uses Wrangler.",
+      "url": "/skills/workers-development/SKILL.md",
+      "sha256": "322df9f4013457c2a3ff2790ab7b553e301c418d8de7e5b6e2d560e5ac800b1e",
+      "bytes": 2891
+    },
+    {
+      "name": "workers-profiling",
+      "description": "Profile or debug CPU usage and memory allocation in deployed Cloudflare Workers and Durable Objects. Then use this information to optimize your code.",
+      "url": "/skills/workers-profiling/SKILL.md",
+      "sha256": "fec05a080c90f019e1e93e5e1ca3416bb89362655dfc158458301f461cb29839",
+      "bytes": 2204
+    },
+    {
+      "name": "wrangler",
+      "description": "Run or troubleshoot Wrangler CLI commands in projects that have a wrangler.jsonc, wrangler.json, or wrangler.toml file, including local development, Previews, deployment, and resource management. For new projects and projects without a Wrangler configuration file, use the cf CLI instead.",
+      "url": "/skills/wrangler/SKILL.md",
+      "sha256": "a39de5c69f50e88759736a6ec7ad07f402c15f7a58a3224bcf979dce42013b13",
+      "bytes": 11813
+    }
+  ]
+}

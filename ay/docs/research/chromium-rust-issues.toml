@@ -1,0 +1,209 @@
+version = 1
+retrieved = "2026-11-16"
+subject = "Inherited CI failures and open bugs of the four forks behind ay_chromium (CEF in Rust and Bun), and whether each affects the features screenshot and evaluate"
+method = "Workflow runs on each default branch read with gh api repos/<repo>/actions/runs, failing jobs from .../runs/<id>/jobs, first error lines from .../jobs/<id>/logs; open issues from the search API sorted by reactions. affects_us is true only for what changes the behaviour of the crate or its build."
+forks = [
+  "aphrody-labs/cef (master)",
+  "aphrody-labs/cef-rs (dev)",
+  "aphrody-labs/rusty_v8 (main)",
+  "aphrody-labs/deno (main)",
+]
+sources = [
+  "https://api.github.com/repos/chromiumembedded/cef/actions/runs",
+  "https://api.github.com/repos/tauri-apps/cef-rs/actions/runs",
+  "https://api.github.com/repos/denoland/rusty_v8/actions/runs",
+  "https://api.github.com/repos/denoland/deno/actions/runs",
+  "https://api.github.com/search/issues?q=repo:tauri-apps/cef-rs+is:issue+is:open&sort=reactions",
+  "https://api.github.com/search/issues?q=repo:chromiumembedded/cef+is:issue+is:open&sort=reactions",
+  "https://api.github.com/search/issues?q=repo:denoland/rusty_v8+is:issue+is:open&sort=reactions",
+  "https://api.github.com/search/issues?q=repo:denoland/deno+is:issue+is:open+label:bug&sort=reactions",
+  "https://crates.io/api/v1/crates/cef/versions",
+]
+
+# ---- chromiumembedded/cef ----
+
+[[issue]]
+repo = "chromiumembedded/cef"
+kind = "ci"
+title = "No build or test workflow on master: the only runs are 'pages build and deployment' (60 of 60 green)"
+url = "https://github.com/chromiumembedded/cef/actions"
+status = "green; CEF builds and tests run on the project's own infrastructure and publish to cef-builds.spotifycdn.com"
+affects_us = false
+reason = "Nothing fails. The prebuilt binary distribution the crate downloads is the artifact, not this repository's CI."
+
+[[issue]]
+repo = "chromiumembedded/cef"
+kind = "bug"
+title = "Implement off-screen rendering using the Ozone layer"
+url = "https://github.com/chromiumembedded/cef/issues/3263"
+status = "open since 2022-02, label proposal; 4 reactions"
+affects_us = true
+reason = "Linux off-screen rendering still goes through the X11 path; a host with no display needs Ozone's headless platform. ay_chromium starts CEF with --ozone-platform=headless and falls back to Xvfb if CEF rejects it (measured, see docs/chromium.md). Recorded, not fixable in the fork: it is Chromium-side work."
+
+[[issue]]
+repo = "chromiumembedded/cef"
+kind = "bug"
+title = "Linux: Add support for embedded Ozone/Wayland windows"
+url = "https://github.com/chromiumembedded/cef/issues/2804"
+status = "open since 2019-11, 529 reactions, the most-reacted open issue"
+affects_us = false
+reason = "Windowed embedding (the GPUI shell of ADR-3), not off-screen screenshot or evaluate. Recorded for the browser product."
+
+[[issue]]
+repo = "chromiumembedded/cef"
+kind = "bug"
+title = "Not all file handles are closed after Cef.Shutdown"
+url = "https://github.com/chromiumembedded/cef/issues/3726"
+status = "open, label bug, windows; 20 comments"
+affects_us = false
+reason = "Windows only and CEF is shut down once at process exit in ay_chromium."
+
+# ---- tauri-apps/cef-rs ----
+
+[[issue]]
+repo = "tauri-apps/cef-rs"
+kind = "ci"
+title = "update-bindings: download failed, the response body is larger than request limit: 10485760 (the CEF index outgrew ureq's 10 MiB JSON limit)"
+url = "https://github.com/tauri-apps/cef-rs/actions/runs/43229473471"
+status = "fixed upstream in download-cef 3.0.1 (2026-11-15), which caps the index at 32 MiB and streams archives separately; later runs of Rust validation, Release, Bindings changed and Get latest CEF version are green"
+affects_us = true
+reason = "ay_chromium downloads the same index through download-cef. The crate pins download-cef 3.0.1, so it is not hit. The index keeps growing: when it nears 32 MiB the same failure returns, in the build of every cef-dll-sys user."
+
+[[issue]]
+repo = "tauri-apps/cef-rs"
+kind = "ci"
+title = "Release-plz release failed on the same 10 MiB index limit (Release, 2026-11-15)"
+url = "https://github.com/tauri-apps/cef-rs/actions/runs/43679846795"
+status = "fixed by the same change; Release is green since 2026-11-16 (cef 156.6.0+156.0.30 published)"
+affects_us = false
+reason = "Upstream release automation only."
+
+[[issue]]
+repo = "tauri-apps/cef-rs"
+kind = "ci"
+title = "Rust validation / cross-compile-windows failed (3 runs, 2026-11-15): llvm.sh install on the new Ubuntu 'resolute' runner image"
+url = "https://github.com/tauri-apps/cef-rs/actions/runs/43682885756"
+status = "green since run 43684883089 (2026-11-15) and 43788184195 (2026-11-16)"
+affects_us = false
+reason = "Windows cross-compile job of the upstream CI; ay_chromium builds natively on Linux."
+
+[[issue]]
+repo = "tauri-apps/cef-rs"
+kind = "ci"
+title = "Get latest CEF version failed on 2026-11-13, -14 and -15"
+url = "https://github.com/tauri-apps/cef-rs/actions/runs/43658340525"
+status = "green on 2026-11-16 (run 43780929080)"
+affects_us = false
+reason = "Upstream version-bump automation."
+
+[[issue]]
+repo = "tauri-apps/cef-rs"
+kind = "bug"
+title = "Empty CefString passed as an out-parameter becomes a null pointer, so the call fails"
+url = "https://github.com/tauri-apps/cef-rs/issues/507"
+status = "open (2026-11-10), no fix upstream"
+affects_us = false
+reason = "ay_chromium passes no CefString out-parameter: Runtime.evaluate returns its result through DevToolsMessageObserver bytes, not a string_byref."
+
+[[issue]]
+repo = "tauri-apps/cef-rs"
+kind = "bug"
+title = "CefStringList / CefStringMap / CefStringMultimap: a clone is empty"
+url = "https://github.com/tauri-apps/cef-rs/issues/517"
+status = "open (2026-11-16), no fix upstream"
+affects_us = false
+reason = "ay_chromium builds no string collections and never clones one; only wrapper/stream_resource_handler.rs inside cef-rs does."
+
+[[issue]]
+repo = "tauri-apps/cef-rs"
+kind = "bug"
+title = "OSR example potential VRAM leak on AMD GPU"
+url = "https://github.com/tauri-apps/cef-rs/issues/417"
+status = "open since 2026-06; cef 148, Wayland, Vulkan"
+affects_us = false
+reason = "Concerns the GPU-accelerated osr example with a resizing window. ay_chromium renders in software (--disable-gpu) at a fixed size and reads the BGRA buffer from OnPaint."
+
+[[issue]]
+repo = "tauri-apps/cef-rs"
+kind = "bug"
+title = "wrap_* macros do not allow member variables that are references; wrap_* macros are not good DX"
+url = "https://github.com/tauri-apps/cef-rs/issues/450"
+status = "open (#450 since 2026-08, #297 since 2025-12)"
+affects_us = true
+reason = "Handler state must be owned and Clone: ay_chromium keeps it in Rc<RefCell<..>> on CEF's UI thread. A limit that shaped the design, not a defect."
+
+# ---- denoland/rusty_v8 ----
+
+[[issue]]
+repo = "denoland/rusty_v8"
+kind = "ci"
+title = "Update V8 workflow fails on every run (56 of the 56 in the last 100 runs), last 2026-11-16: git fetch origin in the 'build' submodule, 'upload-pack: not our ref 0b189fbd65a99270a7829108ad1aaf2d0840c25c'"
+url = "https://github.com/denoland/rusty_v8/actions/runs/43847099093"
+status = "open; the crate stays at v8 152.2.0 (released 2026-08-20) and master has had no V8 bump since"
+affects_us = false
+reason = "ay_chromium does not use rusty_v8 yet. Recorded because it blocks a later use: V8 in rusty_v8 is at 152 while the CEF build embeds the V8 of Chromium 156."
+
+[[issue]]
+repo = "denoland/rusty_v8"
+kind = "ci"
+title = "ci workflow: latest run cancelled (2026-10-21), one failure on 2026-09-26"
+url = "https://github.com/denoland/rusty_v8/actions/runs/39680713706"
+status = "no current red run on main push; 2 cancelled, 2 failed of the last 4 runs"
+affects_us = false
+reason = "Not used by the crate."
+
+[[issue]]
+repo = "denoland/rusty_v8"
+kind = "bug"
+title = "Appetite for Android & iOS Support?"
+url = "https://github.com/denoland/rusty_v8/issues/1640"
+status = "open since 2024-10, 19 reactions; the most-reacted open issue"
+affects_us = false
+reason = "The mobile targets of the OS product, not the Linux and Windows desktop builds of this feature."
+
+[[issue]]
+repo = "denoland/rusty_v8"
+kind = "bug"
+title = "Reintroduce Locker API (multi-thread support)"
+url = "https://github.com/denoland/rusty_v8/issues/643"
+status = "open since 2021-03, 8 reactions"
+affects_us = false
+reason = "Standalone V8 is not used; the page's V8 is driven through DevTools Runtime.evaluate. It would matter if a feature runs V8 isolates off the main thread."
+
+# ---- denoland/deno ----
+
+[[issue]]
+repo = "denoland/deno"
+kind = "ci"
+title = "node_compat_test fails intermittently (20 of 35 runs on main): 'listen EADDRINUSE 0.0.0.0:12346', 'should start debugger on inner process ... FAILED', assertion errors in the Node test suite"
+url = "https://github.com/denoland/deno/actions/runs/43197160407"
+status = "latest run (2026-11-16) is green; failures are test flakiness on shared runners, last red 2026-11-12"
+affects_us = false
+reason = "Deno's Node-compat suite; ay_chromium and its Bun package do not run on Deno."
+
+[[issue]]
+repo = "denoland/deno"
+kind = "ci"
+title = "ci: 7 of the last 12 runs red, last 2026-10-26; Dependabot security updates for zip, rustls and rand fail to resolve (6 runs, 2026-10-26 to 2026-11-04)"
+url = "https://github.com/denoland/deno/actions/runs/40315173284"
+status = "ci has not run on main since 2026-10-26; dependabot jobs failed to produce updates for zip < 9.0.0"
+affects_us = false
+reason = "Not a dependency of the crate."
+
+[[issue]]
+repo = "denoland/deno"
+kind = "bug"
+title = "deno test --coverage only includes files for which tests exist"
+url = "https://github.com/denoland/deno/issues/14281"
+status = "open since 2022-04, 23 reactions; the most-reacted open bug"
+affects_us = false
+reason = "Deno tooling."
+
+[[issue]]
+repo = "denoland/deno"
+kind = "bug"
+title = "[webgpu] backend not found when use onnxruntime-web"
+url = "https://github.com/denoland/deno/issues/25397"
+status = "open since 2024-09"
+affects_us = false
+reason = "Deno's own WebGPU, not CEF's Dawn."
