@@ -1,0 +1,33 @@
+# Surfaces that were retired and must not come back. `bun configs/claude/scripts/retired.ts --check` (CI job `retired-surfaces`)
+# fails when a tracked file outside an `allow` entry matches a `term`.
+#
+#   term.pattern   JavaScript regular expression, case-insensitive
+#   allow.paths    repository-relative globs (Bun.Glob); `terms` limits the entry to those term ids, otherwise it covers all
+#
+# History notes keep the retired words on purpose; vendored upstream text and unrelated networking uses of the same word are
+# the other allowed paths. A new reference anywhere else fails the check.
+
+[[term]]
+id = "relay-hub"
+# The removed relay hub (MCP server, SQLite mailbox, RELAY_HOME and RELAY_URL), not the word inside identifiers such as
+# TextureLayer or RelayCommand.
+pattern = '(?<![a-z])relay(?![a-z])|AphrodyRelay'
+reason = "the relay hub was removed on 2026-11-16; cross-session delivery is the claude_inject MCP tool and scripts/notify.ts"
+
+[[term]]
+id = "fr2-host"
+pattern = '\bfr2\b'
+reason = "fr2 is out of service; fleet roles are fr1 (builds, CI, heavy agents) and prd"
+
+[[term]]
+id = "agy-tooling"
+pattern = '\bantigravity\b|\bagy\b|configs/gemini|~/\.gemini/scripts'
+reason = "agy (Antigravity CLI) is retired and its repository is archived; the plugin source targets Claude Code only"
+
+[[allow]]
+paths = ["docs/agents/queue/**", "docs/agents/consolidation-*.md", "docs/release/**"]
+reason = "history notes of the retirement itself"
+
+[[allow]]
+paths = ["configs/claude/retired.toml", "configs/claude/scripts/retired.ts", "configs/claude/scripts/retired.test.ts"]
+reason = "the check names the terms it rejects"
