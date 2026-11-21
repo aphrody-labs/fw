@@ -38,6 +38,7 @@ members = [
     "crates/fw-apm",
     "crates/fw-fx",
     "crates/fw-depot",
+    "crates/fw-crates",
     "crates/fw-bin",
     "xtask",
 ]
@@ -85,6 +86,7 @@ fw-unified-stack = { version = "4.2.0", path = "crates/fw-unified-stack" }
 fw-wayland-wgpu = { version = "4.2.0", path = "crates/fw-wayland-wgpu" }
 fw-hermes-claw = { version = "4.2.0", path = "crates/fw-hermes-claw" }
 fw-apm = { version = "4.2.0", path = "crates/fw-apm" }
+fw-crates = { version = "4.2.0", path = "crates/fw-crates", default-features = false, features = ["live"] }
 fw-fx = { version = "4.2.0", path = "crates/fw-fx" }
 
 # External zero-bloat dependencies (verified latest on crates.io 2026-11-19)

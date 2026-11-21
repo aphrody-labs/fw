@@ -1,0 +1,209 @@
+# Stack generator configuration. A role is a job in a project; its pool and filters name candidates and the ranking
+# (`fw crates rank`) picks the winner. Profiles say which roles a kind of project needs, add-ons add roles when the
+# goal mentions a technology. Hints give the skeleton what a bare dependency line cannot: features and starter code.
+
+[[role]]
+id = "runtime"
+title = "Async runtime"
+pool = ["tokio", "async-std", "smol"]
+
+[[role]]
+id = "web-server"
+title = "HTTP server framework"
+pool = ["axum", "actix-web", "rocket", "poem", "salvo", "warp", "ntex"]
+
+[[role]]
+id = "http-client"
+title = "HTTP client"
+pool = ["reqwest", "ureq", "isahc", "surf"]
+
+[[role]]
+id = "serde"
+title = "Serialization framework"
+pool = ["serde"]
+
+[[role]]
+id = "json"
+title = "JSON"
+pool = ["serde_json", "simd-json", "sonic-rs"]
+
+[[role]]
+id = "error"
+title = "Application errors"
+pool = ["anyhow", "eyre", "miette"]
+
+[[role]]
+id = "tracing"
+title = "Logging and tracing"
+pool = ["tracing-subscriber"]
+
+[[role]]
+id = "cli-args"
+title = "Command-line arguments"
+pool = ["clap", "argh", "bpaf", "lexopt", "pico-args"]
+
+[[role]]
+id = "tui"
+title = "Terminal UI"
+pool = ["ratatui", "cursive", "tui"]
+
+[[role]]
+id = "terminal-backend"
+title = "Terminal backend"
+pool = ["crossterm", "termion", "termwiz"]
+
+[[role]]
+id = "sql-postgres"
+title = "PostgreSQL access"
+pool = ["sqlx", "tokio-postgres", "diesel", "sea-orm", "postgres"]
+
+[[role]]
+id = "sql-sqlite"
+title = "SQLite access"
+pool = ["rusqlite", "sqlx", "diesel", "sea-orm"]
+
+[[role]]
+id = "redis"
+title = "Redis client"
+pool = ["redis", "fred"]
+
+[[role]]
+id = "jwt"
+title = "JWT"
+pool = ["jsonwebtoken", "jwt-simple", "jwt"]
+
+[[role]]
+id = "password-hash"
+title = "Password hashing"
+pool = ["argon2", "bcrypt", "scrypt", "pbkdf2"]
+
+[[role]]
+id = "oauth"
+title = "OAuth 2.0 client"
+pool = ["oauth2", "openidconnect"]
+
+[[role]]
+id = "config"
+title = "Configuration"
+pool = ["config", "figment", "dotenvy"]
+
+[[role]]
+id = "id"
+title = "Identifiers"
+pool = ["uuid", "ulid"]
+
+[[role]]
+id = "time"
+title = "Date and time"
+pool = ["chrono", "time", "jiff"]
+
+[[role]]
+id = "worker"
+title = "Cloudflare Workers runtime"
+pool = ["worker"]
+
+[[role]]
+id = "wasm-bindgen"
+title = "WebAssembly bindings"
+pool = ["wasm-bindgen"]
+
+[[profile]]
+id = "web-api"
+title = "Web API"
+match = ["web", "api", "http", "rest", "server", "backend", "service", "microservice", "graphql"]
+roles = ["runtime", "serde", "json", "error", "tracing", "web-server"]
+
+[[profile]]
+id = "cli"
+title = "Command-line tool"
+match = ["cli", "command", "terminal tool", "utility", "script"]
+roles = ["cli-args", "error", "tracing"]
+default = true
+
+[[profile]]
+id = "tui"
+title = "Terminal UI application"
+match = ["tui", "terminal ui", "ncurses", "dashboard terminal", "console ui"]
+roles = ["cli-args", "error", "terminal-backend", "tui"]
+
+[[profile]]
+id = "wasm-worker"
+title = "WebAssembly worker"
+match = ["wasm", "webassembly", "worker", "workers", "cloudflare", "edge"]
+roles = ["serde", "json", "worker"]
+target = "wasm32-unknown-unknown"
+lib = true
+
+[[addon]]
+match = ["postgres", "postgresql", "pg"]
+roles = ["sql-postgres"]
+
+[[addon]]
+match = ["sqlite"]
+roles = ["sql-sqlite"]
+
+[[addon]]
+match = ["redis", "cache"]
+roles = ["redis"]
+
+[[addon]]
+match = ["auth", "authentication", "login", "jwt", "token", "session"]
+roles = ["jwt", "password-hash"]
+
+[[addon]]
+match = ["oauth", "oidc", "sso"]
+roles = ["oauth"]
+
+[[addon]]
+match = ["config", "configuration", "settings"]
+roles = ["config"]
+
+[[addon]]
+match = ["uuid", "ids"]
+roles = ["id"]
+
+[[addon]]
+match = ["client", "fetch", "scraper", "crawler"]
+roles = ["http-client"]
+
+[[addon]]
+match = ["async", "tokio", "concurrent"]
+roles = ["runtime"]
+
+[crate.tokio]
+features = ["full"]
+
+[crate.axum]
+deps = ["tokio"]
+tokio_main = true
+last = true
+items = "async fn health() -> &'static str {\n    \"ok\"\n}\n"
+main = "    let app = axum::Router::new().route(\"/health\", axum::routing::get(health));\n    let listener = tokio::net::TcpListener::bind(\"127.0.0.1:3000\").await?;\n    axum::serve(listener, app).await?;\n"
+
+[crate.actix-web]
+last = true
+items = "async fn health() -> &'static str {\n    \"ok\"\n}\n"
+main = "    actix_web::rt::System::new().block_on(async {\n        actix_web::HttpServer::new(|| actix_web::App::new().route(\"/health\", actix_web::web::get().to(health)))\n            .bind((\"127.0.0.1\", 3000))?\n            .run()\n            .await\n    })?;\n"
+
+[crate.serde]
+features = ["derive"]
+
+[crate.sqlx]
+features = ["runtime-tokio", "tls-rustls", "postgres"]
+deps = ["tokio"]
+
+[crate.clap]
+features = ["derive"]
+items = "#[derive(clap::Parser)]\nstruct Args {\n    #[arg(long)]\n    name: Option<String>,\n}\n"
+main = "    let _args = <Args as clap::Parser>::parse();\n"
+
+[crate.tracing-subscriber]
+deps = ["tracing"]
+main = "    tracing_subscriber::fmt::init();\n    tracing::info!(\"started\");\n"
+
+[crate.worker]
+items = "use worker::*;\n\n#[event(fetch)]\nasync fn fetch(_req: Request, _env: Env, _ctx: Context) -> Result<Response> {\n    Response::ok(\"ok\")\n}\n"
+
+[crate.reqwest]
+features = ["json", "rustls"]
+deps = ["tokio"]

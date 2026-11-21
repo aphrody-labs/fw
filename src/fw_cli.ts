@@ -13,6 +13,7 @@ import {
   routeModelRequest,
 } from "./ai_stack.ts";
 import { startFwApiServer } from "./api.ts";
+import { cmdCrates } from "./crates.ts";
 import {
   installService,
   renderCrossPlatformServices,
@@ -110,6 +111,7 @@ const SUBCOMMANDS = [
   "service",
   "plugin",
   "learn",
+  "crates",
 ] as const;
 
 type Subcommand = (typeof SUBCOMMANDS)[number];
@@ -673,6 +675,8 @@ async function main(): Promise<number> {
       return cmdPlugin(root, rest);
     case "learn":
       return cmdLearn(rest);
+    case "crates":
+      return cmdCrates(root, rest);
     case "ask":
     case "tool":
     case "config":

@@ -111,6 +111,7 @@ pub fn build_openapi_3_1() -> Value {
             "/claw/status": { "get": { "summary": "Hermes/OpenClaw full-Rust runtime status" } },
             "/claw/ranking": { "get": { "summary": "Rust CLI and protocol rankings from fw-hermes-claw" } },
             "/claw/run": { "post": { "summary": "Execute Hermes/OpenClaw grounded goal loop" } },
+            "/v1/crates/{op}": { "get": { "summary": "Crate intelligence over crates.io: op is search, info, compare, rank, awesome or stack; arguments in the query (query, name, names, category, goal, limit, live)" } },
             "/webgpu": { "get": { "summary": "Browser page that runs a WebGPU compute shader and reports the result" } }
         }
     })
@@ -165,6 +166,12 @@ pub fn dispatch_http(
     body_str: &str,
 ) -> (u16, &'static str, String) {
     let body_json: Value = serde_json::from_str(body_str).unwrap_or_else(|_| json!({}));
+    // Crate intelligence (fw-crates): GET /v1/crates/<search|info|compare|rank|awesome|stack>[/<arg>]?<args>.
+    if method == "GET" && (path == "/v1/crates" || path.starts_with("/v1/crates/") || path.starts_with("/v1/crates?")) {
+        let (status, payload) = fw_crates::http(path);
+        return (status, "application/json", payload);
+    }
+    let path = path.split('?').next().unwrap_or(path);
     match (method, path) {
         ("GET", "/") => (200, "text/html; charset=utf-8", CONTROL_PLANE_HTML.to_string()),
         ("GET", "/app.css") => (200, "text/css; charset=utf-8", CONTROL_PLANE_CSS.to_string()),
@@ -241,7 +248,7 @@ pub fn dispatch_http(
                 "name": "fw",
                 "version": FW_VERSION,
                 "protocols": ["http", "graphql", "openapi-3.1", "openai", "mcp", "acp", "a2a", "ggml-rpc", "gemini-decision-1"],
-                "endpoints": ["/mcp", "/acp", "/a2a", "/v1/chat/completions", "/v1/fx/status", "/v1/pm/scan", "/v1/terminal/m3", "/webgpu"]
+                "endpoints": ["/mcp", "/acp", "/a2a", "/v1/chat/completions", "/v1/fx/status", "/v1/pm/scan", "/v1/crates/{op}", "/v1/terminal/m3", "/webgpu"]
             })
             .to_string(),
         ),
@@ -291,6 +298,13 @@ pub fn dispatch_http(
                         json!({ "jsonrpc": "2.0", "id": id, "result": res }).to_string(),
                     );
                 }
+                if let Some(res) = fw_crates::call_mcp_tool(name, &args) {
+                    let result = match res {
+                        Ok(v) => json!({ "content": [{ "type": "text", "text": v.to_string() }], "structuredContent": v, "isError": false }),
+                        Err(e) => json!({ "content": [{ "type": "text", "text": e }], "isError": true }),
+                    };
+                    return (200, "application/json", json!({ "jsonrpc": "2.0", "id": id, "result": result }).to_string());
+                }
                 let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
                 if name == "fw_pm_scan" {
                     let report = scan_unified_workspace(&cwd);
@@ -327,6 +341,9 @@ pub fn dispatch_http(
                         "inputSchema": spec.parameters,
                         "source": "fw-fx"
                     }));
+                }
+                for (name, description, schema) in fw_crates::mcp_tools() {
+                    tools.push(json!({ "name": name, "description": description, "inputSchema": schema, "source": "fw-crates" }));
                 }
                 tools.push(json!({
                     "name": "fw_pm_scan",
@@ -475,5 +492,23 @@ mod tests {
         let (c_acp_init, _, out_acp_init) = dispatch_http(&router, "POST", "/acp", r#"{"jsonrpc":"2.0","id":9,"method":"initialize"}"#);
         assert_eq!(c_acp_init, 200);
         assert!(out_acp_init.contains("\"protocolVersion\":1"));
+    }
+
+    #[test]
+    fn crates_endpoints_and_mcp_tools() {
+        let router = Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster()));
+        let (_, _, list) = dispatch_http(&router, "POST", "/mcp", r#"{"jsonrpc":"2.0","id":1,"method":"tools/list"}"#);
+        for tool in ["crates_search", "crates_info", "crates_compare", "crates_awesome", "crates_stack"] {
+            assert!(list.contains(tool), "{tool} missing from tools/list");
+        }
+        // An unknown operation is a JSON error with a client status, never a panic or an HTML page.
+        let (code, ctype, body) = dispatch_http(&router, "GET", "/v1/crates/bogus?x=1", "");
+        assert!(code == 404 || code == 400, "{code}");
+        assert_eq!(ctype, "application/json");
+        assert!(body.contains("\"ok\":false"));
+        let (_, _, called) = dispatch_http(&router, "POST", "/mcp", r#"{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"crates_info","arguments":{}}}"#);
+        assert!(called.contains("\"isError\":true"), "{called}");
+        let (_, _, spec) = dispatch_http(&router, "GET", "/openapi.json", "");
+        assert!(spec.contains("/v1/crates/{op}"));
     }
 }
