@@ -1,3 +1,27 @@
 [submodule "third_party/gpu-unlock"]
 	path = third_party/gpu-unlock
 	url = ../gpu-unlock.git
+[submodule "third_party/linux"]
+	path = third_party/linux
+	url = ../linux.git
+	shallow = true
+	update = none
+	ignore = dirty
+[submodule "third_party/linux-stable"]
+	path = third_party/linux-stable
+	url = ../linux-stable.git
+	shallow = true
+	update = none
+	ignore = dirty
+[submodule "third_party/linux-cachyos-kernel"]
+	path = third_party/linux-cachyos-kernel
+	url = ../linux-cachyos-kernel.git
+	shallow = true
+	update = none
+	ignore = dirty
+[submodule "third_party/linux-cachyos"]
+	path = third_party/linux-cachyos
+	url = ../linux-cachyos.git
+	shallow = true
+	update = none
+	ignore = dirty
