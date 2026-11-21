@@ -7,7 +7,7 @@ use serde::Serialize;
 
 use crate::error::{Error, Result};
 use crate::pins::{Pins, Profile, Tree};
-use crate::repo::{self, Remotes, git};
+use crate::repo::{self, Remotes, git, git_with_input};
 
 #[derive(Debug, Serialize)]
 pub struct Outcome {
@@ -130,14 +130,9 @@ fn configure_sparse(directory: &Path, profile: &Profile) -> Result<()> {
         }
         return Ok(());
     }
-    let location = git(Some(directory), &["rev-parse", "--git-path", "info/sparse-checkout"])?;
-    let location = directory.join(location.trim());
-    if let Some(parent) = location.parent() {
-        std::fs::create_dir_all(parent).map_err(|source| Error::Io { path: parent.to_owned(), source })?;
-    }
-    std::fs::write(&location, format!("{}\n", profile.sparse.join("\n"))).map_err(|source| Error::Io { path: location.clone(), source })?;
-    git(Some(directory), &["config", "core.sparseCheckout", "true"])?;
-    git(Some(directory), &["config", "core.sparseCheckoutCone", "false"])?;
+    // `sparse-checkout` keeps the patterns and the enabled flag in the same place (the worktree config once it has been
+    // disabled), where editing .git/config by hand would be overridden.
+    git_with_input(Some(directory), &["sparse-checkout", "set", "--no-cone", "--stdin"], &format!("{}\n", profile.sparse.join("\n")))?;
     Ok(())
 }
 

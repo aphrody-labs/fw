@@ -19,6 +19,8 @@ sparse = [
     "/arch/*/include/generated/",
     "/arch/*/Makefile*",
     "/arch/*/Kbuild*",
+    "/arch/*/tools/",
+    "/arch/*/kernel/Makefile.syscalls",
     "/arch/*/entry/syscalls/",
     "/arch/*/kernel/syscalls/",
     "/tools/include/uapi/",

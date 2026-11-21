@@ -109,6 +109,11 @@ fn pin_sync_and_status_follow_the_tags() {
     assert!(checkout.join("drivers/big.c").is_file(), "the full profile checks everything out");
     assert_eq!(run(&checkout, &["rev-parse", "HEAD"]), first);
     assert!(git(Some(&checkout), &["status", "--porcelain"]).expect("status").trim().is_empty());
+
+    // And back: the sparse profile removes what the full one checked out.
+    assert_eq!(run_with(&arguments(&root, &["sync", "stable", "--profile", "uapi"]), &remotes).expect("sync uapi"), 0);
+    assert!(!checkout.join("drivers/big.c").exists(), "going back to the sparse profile drops the drivers again");
+    assert!(checkout.join("include/uapi/linux/a.h").is_file());
 }
 
 #[test]

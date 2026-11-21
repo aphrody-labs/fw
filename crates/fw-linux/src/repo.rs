@@ -39,6 +39,26 @@ pub fn git(directory: Option<&Path>, arguments: &[&str]) -> Result<String> {
     Ok(String::from_utf8_lossy(&output.stdout).into_owned())
 }
 
+/// [`git`] with `input` on stdin.
+pub fn git_with_input(directory: Option<&Path>, arguments: &[&str], input: &str) -> Result<String> {
+    use std::io::Write;
+    use std::process::Stdio;
+    let failed = |detail: String| Error::Command { command: format!("git {}", arguments.join(" ")), detail };
+    let mut command = Command::new("git");
+    if let Some(directory) = directory {
+        command.arg("-C").arg(directory);
+    }
+    let mut child = command.args(arguments).env("GIT_TERMINAL_PROMPT", "0").stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::piped()).spawn().map_err(|error| failed(error.to_string()))?;
+    let mut stdin = child.stdin.take().ok_or_else(|| failed("no stdin".to_owned()))?;
+    stdin.write_all(input.as_bytes()).map_err(|error| failed(error.to_string()))?;
+    drop(stdin);
+    let output = child.wait_with_output().map_err(|error| failed(error.to_string()))?;
+    if !output.status.success() {
+        return Err(failed(String::from_utf8_lossy(&output.stderr).trim().to_owned()));
+    }
+    Ok(String::from_utf8_lossy(&output.stdout).into_owned())
+}
+
 /// A tag of a remote: the object it names and the commit it points at (they differ for annotated tags).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RemoteTag {
