@@ -309,6 +309,9 @@ fn main() {
         "depot" | "gclient" => {
             std::process::exit(run_sibling("depot", "fw-depot", &args[1..]));
         }
+        "kernel" | "linux" => {
+            std::process::exit(run_sibling("kernel", "fw-linux", &args[1..]));
+        }
         "cluster" => {
             let mut router = HybridClusterRouter::default_hybrid_cluster();
             let sub = args.get(1).map(|s| s.as_str()).unwrap_or("summary");

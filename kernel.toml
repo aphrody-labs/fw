@@ -1,43 +1,66 @@
 # Kernel pins read by `fw kernel` (crates/fw-linux). Edit with `fw kernel pin`, never by hand.
-# Each tree is a git submodule (`.gitmodules`, relative URL, shallow, update = none): a normal clone of fw
-# stays light and `fw kernel sync` fetches the pinned commit on demand.
+# Each tree is a git submodule (`.gitmodules`: relative URL, shallow, update = none), so a normal clone of fw stays
+# light; `fw kernel sync` fetches the pinned commit on demand with the profile named by the tree.
+
 schema = 1
 releases = "https://www.kernel.org/releases.json"
 
-# kernel.org mainline (aphrody-labs/linux forks torvalds/linux; tags are pushed to the fork by `fw kernel pin`).
+[profile.full]
+
+[profile.uapi]
+filter = "blob:none"
+sparse = [
+    "/*",
+    "!/*/",
+    "/scripts/",
+    "/include/uapi/",
+    "/include/generated/",
+    "/arch/*/include/uapi/",
+    "/arch/*/include/generated/",
+    "/arch/*/Makefile*",
+    "/arch/*/Kbuild*",
+    "/arch/*/entry/syscalls/",
+    "/arch/*/kernel/syscalls/",
+    "/tools/include/uapi/",
+]
+
 [[tree]]
 id = "mainline"
+role = "kernel.org mainline (aphrody-labs/linux forks torvalds/linux; tags are created in the fork by `fw kernel pin`)"
 path = "third_party/linux"
 repo = "aphrody-labs/linux"
 upstream = "torvalds/linux"
 moniker = "mainline"
+profile = "uapi"
 tag = "v7.4-rc3"
 commit = "aebb7274476403040d582c61478df8f4a7bf9cd3"
 
-# kernel.org stable and longterm (stable tags live in the stable tree, not in torvalds/linux).
 [[tree]]
 id = "stable"
+role = "kernel.org stable and longterm; the stable tags are not in torvalds/linux, and this one is the base of the CachyOS pin"
 path = "third_party/linux-stable"
 repo = "aphrody-labs/linux-stable"
 upstream = "gregkh/linux"
 moniker = "stable"
+profile = "uapi"
 tag = "v7.3.5"
 commit = "988117cc1bb17338c586a4e21ade88b5397eac33"
 
-# CachyOS kernel source (CachyOS/linux with the cachyos patches); tag cachyos-<stable version>-<release>.
 [[tree]]
 id = "cachyos"
+role = "CachyOS kernel source (CachyOS/linux with the cachyos patches); tag cachyos-<kernel version>-<release>"
 path = "third_party/linux-cachyos-kernel"
 repo = "aphrody-labs/linux-cachyos-kernel"
 upstream = "CachyOS/linux"
-base = "stable"
+profile = "uapi"
 tag = "cachyos-7.3.5-2"
 commit = "1ac42d4fa557ecd640dd7283d1be49e1ad526492"
 
-# CachyOS PKGBUILDs (kernel config, patch list, per-scheduler variants); pinned by commit.
 [[tree]]
 id = "cachyos-pkgbuilds"
+role = "CachyOS PKGBUILDs: kernel config, patch list and scheduler variants; pinned by commit"
 path = "third_party/linux-cachyos"
 repo = "aphrody-labs/linux-cachyos"
 upstream = "CachyOS/linux-cachyos"
+profile = "full"
 commit = "093d3cd2ff29928ab951bf000794872d911ed190"
