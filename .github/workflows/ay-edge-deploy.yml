@@ -18,14 +18,15 @@ on:
       - "ay/tools/edge-*.ts"
       - "ay/tools/corelib.ts"
       - "ay/corelib/**"
-      - "ay/release.toml"
+      - "release.toml"
+      - "tools/release-*.ts"
       - "ay/packages/cf-control-plane/cf.toml"
-      - "ay/.github/workflows/edge-deploy.yml"
+      - ".github/workflows/ay-edge-deploy.yml"
   pull_request:
     paths:
       - "ay/apps/edge/**"
       - "ay/tools/edge-*.ts"
-      - "ay/.github/workflows/edge-deploy.yml"
+      - ".github/workflows/ay-edge-deploy.yml"
   workflow_dispatch:
 
 concurrency:
