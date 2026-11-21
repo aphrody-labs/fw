@@ -82,9 +82,13 @@ fn copy_rows(
     let mut pixels = Vec::with_capacity(width * height);
     for row in 0..height {
         let start = offset + row * stride;
-        pixels.extend(bytes[start..start + width * 4].chunks_exact(4).map(|chunk| {
-            format.to_argb(u32::from_le_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]))
-        }));
+        pixels.extend(
+            bytes[start..start + width * 4]
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .map(|chunk| format.to_argb(u32::from_le_bytes(*chunk))),
+        );
     }
     Ok(pixels)
 }

@@ -252,8 +252,9 @@ impl State {
         if let Some(index) = self.window_index(toplevel.wl_surface()) {
             self.refresh_position(index);
             eprintln!(
-                "fw-android-wl: toplevel #{} configure fills_canvas={fills} size={}x{}",
-                self.windows[index].id, size.w, size.h
+                "fw-android-wl: toplevel #{} configure size={}",
+                self.windows[index].id,
+                if fills { format!("{}x{}", size.w, size.h) } else { "client-chosen".into() }
             );
         }
     }
