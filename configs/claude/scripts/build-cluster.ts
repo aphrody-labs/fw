@@ -7,6 +7,7 @@
 //   bun build-cluster.ts hostnames               set each node's hostname to its name, write the mesh DNS block on every node
 //   bun build-cluster.ts linkers                 build mold and wild on every node for its own ISA, install under /usr/local/bin
 //   bun build-cluster.ts runners                 add the GitHub Actions runners a node lacks: ceil(vcpu / cores_per_runner) each
+//   bun build-cluster.ts cargo-config            write each node's cargo-home defaults: shipped target-cpu and the measured linker
 //   bun build-cluster.ts measure                 live load, free memory and free disk per node
 //   bun build-cluster.ts place [--mem G] [--disk G]            the node a new long job should go to
 //   bun build-cluster.ts run [--mem G] [--disk G] -- <cmd>     place, then run <cmd> on that node in its work dir
@@ -38,7 +39,7 @@ export type ClusterConfig = {
   runners: { org: string; cores_per_runner: number; labels: string[]; dir_prefix: string };
   sccache_dist: { scheduler_port: number; server_port: number; version: string; build_target_cpu: string; tools_dir: string };
   nativelink: { scheduler: string; scheduler_port: number; cas_port: number };
-  linkers: { mold: string; wild: string; tools_dir: string };
+  linkers: { mold: string; wild: string; tools_dir: string; default: "lld" | "mold" | "wild"; ship_target_cpu: string };
   bench: { repo: string; package: string; profile_lto: string; codegen_units: number };
   hosts: Record<string, Host>;
 };
@@ -368,6 +369,30 @@ async function runners(cfg: ClusterConfig): Promise<void> {
   }
 }
 
+/** The cargo-home defaults of a node: the shipped codegen baseline (never `native`, which poisons caches shared across ISAs) and the chosen linker. */
+export function renderCargoConfig(cfg: ClusterConfig, node: string): string {
+  const tools = posix.join(cfg.hosts[node]!.work, cfg.linkers.tools_dir);
+  const flags = ["-C", `target-cpu=${cfg.linkers.ship_target_cpu}`];
+  if (cfg.linkers.default === "mold") flags.push("-C", `link-arg=-B${tools}/mold-ld`);
+  if (cfg.linkers.default === "wild") flags.push("-C", `link-arg=-B${tools}/wild-ld`);
+  return [
+    "# Managed by configs/claude/scripts/build-cluster.ts from cluster/build.toml ([linkers]); do not edit by hand.",
+    "[target.x86_64-unknown-linux-gnu]",
+    `rustflags = [${flags.map((f) => `"${f}"`).join(", ")}]`,
+    "",
+  ].join("\n");
+}
+
+async function cargoConfig(cfg: ClusterConfig): Promise<void> {
+  for (const [node, h] of Object.entries(cfg.hosts)) {
+    const home = await ssh(h.ssh, 'echo "${CARGO_HOME:-$HOME/.cargo}"');
+    const path = `${home}/config.toml`;
+    await ssh(h.ssh, `[ ! -s '${path}' ] || sudo cp -n '${path}' '${path}.before-cluster'`);
+    const changed = await putFile(h.ssh, path, "644", renderCargoConfig(cfg, node));
+    console.log(node, path, changed ? "written (previous kept as config.toml.before-cluster)" : "up to date");
+  }
+}
+
 async function status(cfg: ClusterConfig): Promise<void> {
   console.log(cfg.scheduler.host, "scheduler", await distStatus(cfg, cfg.scheduler.host));
   for (const host of serverHosts(cfg)) {
@@ -592,6 +617,7 @@ if (import.meta.main) {
   else if (command === "hostnames") await hostnames(cfg);
   else if (command === "linkers") await linkers(cfg);
   else if (command === "runners") await runners(cfg);
+  else if (command === "cargo-config") await cargoConfig(cfg);
   else if (command === "measure") console.log(JSON.stringify(await measureAll(cfg), null, 2));
   else if (command === "place") {
     const measures = await measureAll(cfg);

@@ -5,6 +5,7 @@ import {
   nodeName,
   place,
   redact,
+  renderCargoConfig,
   renderClient,
   renderMeshBlock,
   renderScheduler,
@@ -85,5 +86,17 @@ describe("build-cluster", async () => {
     expect(place([measure("n1", 12, 2, 2, 20), idle]).node).toBe("n1");
     expect(place([measure("n1", 12, 2, 2, 4), idle], { memGiB: 8 }).node).toBe("n2");
     expect(() => place([loaded, idle], { memGiB: 64 })).toThrow("burst");
+  });
+});
+
+describe("cargo-home defaults", async () => {
+  const cfg = await loadConfig();
+  test("the baseline is the shipped tier, never native, and lld needs no flag", () => {
+    for (const node of Object.keys(cfg.hosts)) {
+      const toml = renderCargoConfig(cfg, node);
+      expect(toml).toContain(`target-cpu=${cfg.linkers.ship_target_cpu}`);
+      expect(toml).not.toContain("native");
+      expect(toml.includes("link-arg")).toBe(cfg.linkers.default !== "lld");
+    }
   });
 });

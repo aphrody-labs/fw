@@ -30,6 +30,10 @@ cores_per_runner = 6
 labels = ["cluster"]
 dir_prefix = "org-"                  # under each node's <work>/runners
 
+# `fw serve` port on every host; read by the fw-cluster router (HybridClusterRouter::from_build_cluster).
+[fw]
+serve_port = 4379
+
 [sccache_dist]
 scheduler_port = 10600
 server_port = 10501
@@ -37,10 +41,6 @@ version = "0.19.0"
 # Built with `--features dist-client dist-server`; target-cpu is the lowest tier of the hosts that run it.
 build_target_cpu = "x86-64-v3"
 tools_dir = "tools/sccache"          # under each node's work dir
-
-# `fw serve` port on every node; read by the fw-cluster router (HybridClusterRouter::from_build_cluster).
-[fw]
-serve_port = 4379
 
 [nativelink]
 scheduler = "n1"
@@ -53,6 +53,11 @@ cas_port = 50061
 mold = "3.0.0"
 wild = "0.11.0"
 tools_dir = "tools/linkers"          # under each node's work dir
+# Chosen by `linker-bench.ts` (fw-bin release link replayed three times per linker on each node, 2026-11-21): rust-lld, the
+# default of rustc 1.100 on x86_64-linux-gnu, was the fastest on both nodes (median 0.558 s on n1 and 0.278 s on n2), wild
+# 7% and 40% behind, mold 2.2x and 2.5x behind, GNU ld 5.3x and 3.3x behind; mold and wild peak at a third or less of lld's RSS (19 and 12 MiB against 65 and 66).
+default = "lld"
+ship_target_cpu = "x86-64-v3"        # codegen baseline of shipped binaries, so one build runs on both ISAs
 
 # Reference build used by `build-cluster.ts bench`: one commit, cold target dir.
 [bench]
