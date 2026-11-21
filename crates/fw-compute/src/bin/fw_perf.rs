@@ -405,6 +405,7 @@ struct Options {
     startup_args: Vec<Vec<String>>,
     gpu_bench: PathBuf,
     wgsl: Vec<PathBuf>,
+    wrangler: Option<PathBuf>,
 }
 
 struct Report {
@@ -929,7 +930,13 @@ fn discover_workers(root: &Path) -> Vec<PathBuf> {
 }
 
 fn run_workers(options: &Options, report: &mut Report) {
-    let runner: Vec<&str> = if which("bunx").is_some() { vec!["bunx"] } else if which("npx").is_some() { vec!["npx", "--yes"] } else { Vec::new() };
+    let wrangler = options.wrangler.as_ref().map(|p| p.display().to_string());
+    let runner: Vec<&str> = match (&wrangler, which("bunx"), which("npx")) {
+        (Some(path), _, _) => vec![path.as_str()],
+        (None, Some(_), _) => vec!["bunx", "wrangler"],
+        (None, None, Some(_)) => vec!["npx", "--yes", "wrangler"],
+        _ => Vec::new(),
+    };
     for config in discover_workers(&options.root) {
         let directory = config.parent().map(Path::to_path_buf).unwrap_or_default();
         let name = directory.strip_prefix(&options.root).map(|p| p.display().to_string()).unwrap_or_default().replace(['/', '\\'], "-");
@@ -944,7 +951,7 @@ fn run_workers(options: &Options, report: &mut Report) {
             continue;
         };
         let mut command = Command::new(program);
-        command.args(prefix).args(["wrangler", "deploy", "--dry-run", "--outdir"]).arg(&out_dir).arg("--config").arg(&config).current_dir(&directory);
+        command.args(prefix).args(["deploy", "--dry-run", "--outdir"]).arg(&out_dir).arg("--config").arg(&config).current_dir(&directory);
         let log = scratch.join("wrangler.log");
         let line = command_line(&command);
         match measure(&mut command, Some(&log)) {
@@ -959,6 +966,11 @@ fn run_workers(options: &Options, report: &mut Report) {
                             files.insert(entry.file_name().to_string_lossy().to_string(), sizes_json(&path, &scratch));
                         }
                     }
+                }
+                if files.is_empty() {
+                    let (record, summary) = failure(&id, "workers", &format!("wrangler exited 0 but wrote no bundle: {}", tail(&log, 2)), &line);
+                    report.push(record, summary);
+                    continue;
                 }
                 let wrangler_total = fs::read_to_string(&log).unwrap_or_default().lines().find(|l| l.contains("Total Upload")).map(|l| l.trim().to_string()).unwrap_or_default();
                 let record = obj(vec![
@@ -1164,6 +1176,7 @@ fn parse_options() -> Result<(String, Options), String> {
     Ok((
         command,
         Options {
+            wrangler: value("--wrangler").map(PathBuf::from).or_else(|| env::var_os("FW_WRANGLER").map(PathBuf::from)),
             wgsl: all("--wgsl").into_iter().map(PathBuf::from).collect(),
             gpu_bench: PathBuf::from(value("--gpu-bench").unwrap_or_else(|| root.join("..").join("gpu-bench").display().to_string())),
             root,
@@ -1208,7 +1221,7 @@ fn main() {
         return;
     }
     if command != "run" {
-        println!("usage: fw_perf <list|run> [--root DIR] [--work DIR] [--out FILE] [--suite host,build,startup,link,wasm,workers,shader,gpu] [--only ID,...] [--runs N] [--build-runs N] [--warmup N] [--no-incremental] [--exe PATH --args \"--version\"] [--gpu-bench DIR] [--wgsl DIR]");
+        println!("usage: fw_perf <list|run> [--root DIR] [--work DIR] [--out FILE] [--suite host,build,startup,link,wasm,workers,shader,gpu] [--only ID,...] [--runs N] [--build-runs N] [--warmup N] [--no-incremental] [--exe PATH --args \"--version\"] [--gpu-bench DIR] [--wgsl DIR] [--wrangler PATH]");
         std::process::exit(if command == "help" { 0 } else { 2 });
     }
     fs::create_dir_all(&options.work).ok();
