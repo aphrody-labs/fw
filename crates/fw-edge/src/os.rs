@@ -1452,9 +1452,10 @@ impl<'a, H: Host> Kernel<'a, H> {
                     .map_or(cmd, |p| &cmd[p.len()..]);
                 stripped.trim().to_string()
             });
+            // The TS worker builds the function with `new Function("input", code)`, which workerd refuses inside a Dynamic
+            // Worker ("Code generation from strings disallowed"); the snippet is embedded as the function body instead.
             let module_source = format!(
-                "export default {{\n  async fetch(request) {{\n    const input = await request.json().catch(() => ({{}}));\n    const fn = new Function(\"input\", {});\n    const value = await fn(input);\n    return Response.json({{ ok: true, value }});\n  }}\n}};",
-                Value::from(raw_code)
+                "export default {{\n  async fetch(request) {{\n    const input = await request.json().catch(() => ({{}}));\n    const fn = async function (input) {{\n{raw_code}\n    }};\n    const value = await fn(input);\n    return Response.json({{ ok: true, value }});\n  }}\n}};"
             );
             let job = LoaderJob {
                 module_source,

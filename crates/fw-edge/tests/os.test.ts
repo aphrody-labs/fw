@@ -2,12 +2,15 @@
 // (cloudflare/worker.ts, in process) and the scenarios of tests/fw_cloudflare.test.ts.
 // Run from crates/fw-edge after `worker-build --release`:  bun test tests/os.test.ts
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
+import { spawn, spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import worker from "../../../cloudflare/worker.ts";
 import { startEdge, type Edge } from "./harness.ts";
 
+const WRANGLER = process.env.WRANGLER ?? "wrangler";
 const pkg = JSON.parse(readFileSync(new URL("../../../package.json", import.meta.url), "utf8")) as { version: string };
 const cargo = readFileSync(new URL("../Cargo.toml", import.meta.url), "utf8");
 const wrangler = readFileSync(new URL("../wrangler.jsonc", import.meta.url), "utf8");
@@ -33,6 +36,9 @@ const post = (body: unknown, headers: Record<string, string> = {}): RequestInit 
   body: JSON.stringify(body),
 });
 
+/** wrangler dev rewrites the request origin to the first custom-domain route (fw.aphrody.com); the TS side is called with edge.fw.test. */
+const REWRITTEN_ORIGIN = "http://fw.aphrody.com";
+
 /** Strips what legitimately differs between runs and runtimes: timestamps, generated ids, hosts. */
 function normalize(text: string): unknown {
   return JSON.parse(
@@ -40,7 +46,9 @@ function normalize(text: string): unknown {
       .replace(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g, "<ts>")
       .replace(/\b(learn|exec|rule|task|acp|vec)_[0-9a-z]+_[0-9a-f-]{12}\b/g, "$1_<id>")
       .replace(/"storage": "memory"/g, '"storage": "sqlite"')
+      .replace(/\\"storage\\":\\"memory\\"/g, '\\"storage\\":\\"sqlite\\"') // inside a shell `stat` stdout string
       .replace(/"storageBackend": "memory"/g, '"storageBackend": "sqlite"')
+      .replace(/"sqlite": false/g, '"sqlite": true') // learn status sinks: the TS memory kernel has no SQLite
       .replace(/"sha256": "[0-9a-f]{64}"/g, '"sha256": "<sha>"'),
   );
 }
@@ -61,7 +69,7 @@ describe("static documents are byte-identical to the TS worker", () => {
       expect(a.headers.get("access-control-allow-origin")).toBe("*");
       const [rustText, tsText] = [await a.text(), await b.text()];
       // the openapi servers[0].url carries the request origin
-      expect(rustText.replaceAll(edge.url, "https://edge.fw.test")).toBe(tsText);
+      expect(rustText.replaceAll(edge.url, "https://edge.fw.test").replaceAll(REWRITTEN_ORIGIN, "https://edge.fw.test")).toBe(tsText);
     });
   }
 
@@ -94,7 +102,7 @@ describe("static documents are byte-identical to the TS worker", () => {
   test("agent card matches except workersAi (the Rust worker declares the AI binding)", async () => {
     const a = (await (await rs("/.well-known/agent.json")).json()) as { url: string; capabilities: Record<string, unknown> };
     const b = (await (await ts("/.well-known/agent.json")).json()) as { url: string; capabilities: Record<string, unknown> };
-    expect(a.url).toBe(`${edge.url}/a2a`);
+    expect([`${edge.url}/a2a`, `${REWRITTEN_ORIGIN}/a2a`]).toContain(a.url);
     expect({ ...a.capabilities, workersAi: false }).toEqual(b.capabilities);
     expect({ ...a, url: "", capabilities: 0 }).toEqual({ ...b, url: "", capabilities: 0 });
   });
@@ -296,4 +304,118 @@ describe("static assets and /webgpu", () => {
     expect([200, 404]).toContain(res.status);
     if (res.status === 200) expect(res.headers.get("content-type")).toContain("text/html");
   });
+});
+
+/** `wrangler dev --local` on tests/wrangler.os-bindings.jsonc: R2 VFS_BLOBS, D1 META_DB and the Dynamic Worker Loader are bound. */
+describe("optional bindings: R2 spill, D1 learn sink, Dynamic Worker Loader (local miniflare)", () => {
+  let bound: { url: string; stop(): Promise<void> };
+  let boundPersist: string;
+  const config = fileURLToPath(new URL("wrangler.os-bindings.jsonc", import.meta.url));
+  const cwd = fileURLToPath(new URL("..", import.meta.url));
+  const wranglerArgs = (persist: string) => ["--config", config, "--local", "--persist-to", persist];
+  const d1 = (persist: string, sql: string) =>
+    spawnSync(WRANGLER, ["d1", "execute", "META_DB", ...wranglerArgs(persist), "--json", "--command", sql], { cwd, encoding: "utf8", env: { ...process.env, CI: "1" } });
+
+  beforeAll(async () => {
+    boundPersist = mkdtempSync(join(tmpdir(), "fw-edge-os-bound-"));
+    const created = d1(boundPersist, "CREATE TABLE IF NOT EXISTS fw_learn_events (id TEXT PRIMARY KEY, tenant TEXT, kind TEXT, source TEXT, summary TEXT, created_at TEXT)");
+    if (created.status !== 0) throw new Error(`d1 create failed\n${created.stdout}\n${created.stderr}`);
+    const port = 9400 + Math.floor(Math.random() * 400);
+    const child = spawn(WRANGLER, ["dev", ...wranglerArgs(boundPersist), "--port", String(port), "--ip", "127.0.0.1"], { cwd, stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, CI: "1" } });
+    let log = "";
+    child.stdout?.on("data", (d) => (log += d));
+    child.stderr?.on("data", (d) => (log += d));
+    const url = `http://127.0.0.1:${port}`;
+    const deadline = Date.now() + 120_000;
+    for (;;) {
+      if (child.exitCode !== null) throw new Error(`wrangler dev exited ${child.exitCode}\n${log}`);
+      try {
+        if ((await fetch(`${url}/health`)).status > 0) break;
+      } catch {
+        // not listening yet
+      }
+      if (Date.now() > deadline) {
+        child.kill();
+        throw new Error(`wrangler dev did not start\n${log}`);
+      }
+      await new Promise((r) => setTimeout(r, 500));
+    }
+    bound = {
+      url,
+      async stop() {
+        child.kill();
+        await new Promise((r) => child.once("exit", r));
+      },
+    };
+  }, 180_000);
+
+  afterAll(async () => {
+    await bound?.stop();
+    rmSync(boundPersist, { recursive: true, force: true });
+  });
+
+  const rb = (path: string, init?: RequestInit) => fetch(`${bound.url}${path}`, init);
+  const h = { "x-fw-tenant": "bound-tenant" };
+
+  test("/health and /os/tiers report the bound bindings", async () => {
+    const health = (await (await rb("/health")).json()) as { env: string; bindings: Record<string, boolean> };
+    expect(health.env).toBe("bindings-test");
+    expect(health.bindings).toMatchObject({ FW_OS: true, VFS_BLOBS: true, META_DB: true, LOADER: true, AI: false, SANDBOX: false, MEMORY_VEC: false, EVENT_LOG: false, TELEMETRY_PIPELINE: false });
+  });
+
+  test("spillToR2 and writes above 65536 bytes go to R2 and read back through the DO", async () => {
+    const spilled = (await (await rb("/os/vfs/write", post({ path: "/workspace/blob.txt", content: "spillover-payload", spillToR2: true }, h))).json()) as { ok: boolean; storage: string; blobKey: string };
+    expect(spilled).toMatchObject({ ok: true, storage: "r2", blobKey: "vfs/bound-tenant/workspace/blob.txt" });
+    const read = (await (await rb("/os/vfs/read?path=/workspace/blob.txt", { headers: h })).json()) as { ok: boolean; storage: string; content: string; blobKey: string };
+    expect(read).toMatchObject({ ok: true, storage: "r2", content: "spillover-payload", blobKey: "vfs/bound-tenant/workspace/blob.txt" });
+    const stat = (await (await rb("/os/vfs/stat?path=/workspace/blob.txt", { headers: h })).json()) as { storage: string };
+    expect(stat.storage).toBe("r2");
+
+    const big = "x".repeat(65_537);
+    const bigWrite = (await (await rb("/os/vfs/write", post({ path: "/workspace/big.txt", content: big }, h))).json()) as { storage: string; size: number };
+    expect(bigWrite).toMatchObject({ storage: "r2", size: 65_537 });
+    expect(((await (await rb("/os/vfs/read?path=/workspace/big.txt", { headers: h })).json()) as { content: string }).content).toBe(big);
+    const small = (await (await rb("/os/vfs/write", post({ path: "/workspace/small.txt", content: "x" }, h))).json()) as { storage: string };
+    expect(small.storage).toBe("sqlite");
+  });
+
+  test("shell cp of an R2 file hydrates and re-writes", async () => {
+    const res = (await (await rb("/os/vfs/exec", post({ command: "cp /workspace/blob.txt /workspace/copy.txt && cat /workspace/copy.txt" }, h))).json()) as { ok: boolean; stdout: string };
+    expect(res).toMatchObject({ ok: true, stdout: "spillover-payload" });
+  });
+
+  test("learn events forward to D1 META_DB", async () => {
+    const res = (await (await rb("/api/learn/events", post({ kind: "d1", summary: "to the meta db" }, h))).json()) as { storage: string; forwarded: Record<string, boolean>; event: { id: string } };
+    expect(res.storage).toBe("sqlite");
+    expect(res.forwarded).toEqual({ k2: false, basinPipeline: false, d1: true });
+    // the local D1 file is briefly SQLITE_BUSY while the dev server's own write settles
+    let query = d1(boundPersist, `SELECT id, tenant, kind, source, summary FROM fw_learn_events WHERE id = '${res.event.id}'`);
+    for (let i = 0; i < 6 && query.status !== 0; i++) {
+      await new Promise((r) => setTimeout(r, 2000));
+      query = d1(boundPersist, `SELECT id, tenant, kind, source, summary FROM fw_learn_events WHERE id = '${res.event.id}'`);
+    }
+    expect(query.status, `${query.stdout}\n${query.stderr}`).toBe(0);
+    const rows = JSON.parse(query.stdout) as Array<{ results: Array<Record<string, string>> }>;
+    expect(rows[0]?.results).toEqual([{ id: res.event.id, tenant: "bound-tenant", kind: "d1", source: "fw-edge", summary: "to the meta db" }]);
+    const status = (await (await rb("/api/learn/status", { headers: h })).json()) as { sinks: Record<string, boolean> };
+    expect(status.sinks).toEqual({ sqlite: true, k2: false, basinPipeline: false, d1: true });
+  }, 90_000);
+
+  test("a learn event is still stored when the D1 insert fails (forwarded.d1 false)", async () => {
+    const dropped = d1(boundPersist, "DROP TABLE fw_learn_events");
+    expect(dropped.status).toBe(0);
+    const res = (await (await rb("/api/learn/events", post({ kind: "d1-down", summary: "table gone" }, h))).json()) as { ok: boolean; forwarded: Record<string, boolean> };
+    expect(res.ok).toBe(true);
+    expect(res.forwarded.d1).toBe(false);
+  }, 90_000);
+
+  test("Tier-1 runs in the Dynamic Worker Loader isolate with globalOutbound null", async () => {
+    const res = (await (await rb("/os/vfs/exec", post({ tier: "auto", code: "return 21 * 2;" }, h))).json()) as Record<string, unknown>;
+    expect(res).toMatchObject({ ok: true, tier: 1, runtime: "dynamic-worker-loader", isolated: true, globalOutbound: null, exitCode: 0 });
+    expect(res.simulated).toBeUndefined();
+    expect(res.result).toEqual({ ok: true, value: 42 });
+    expect(res.stdout).toBe('{"ok":true,"value":42}');
+    const sum = (await (await rb("/os/vfs/exec", post({ command: "js:return input.a + input.b;", input: { a: 40, b: 2 } }, h))).json()) as { result: { value: number } };
+    expect(sum.result.value).toBe(42);
+  }, 60_000);
 });
