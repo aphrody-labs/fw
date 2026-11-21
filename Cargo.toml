@@ -39,6 +39,7 @@ members = [
     "crates/fw-fx",
     "crates/fw-depot",
     "crates/fw-crates",
+    "crates/fw-linux",
     "crates/fw-bin",
     "xtask",
 ]
