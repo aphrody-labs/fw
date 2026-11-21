@@ -27,6 +27,6 @@ claude plugin marketplace update fw && claude plugin update aphrody@fw   # the S
 
 ## Compute targets
 
-`fr1` (builds, CI, heavy agents), `prd` (production, plus a build and agent slice described in `docs/research/cluster-stack-2026-11-21.md`), gcloud Cloud Build, Cloudflare Workers, R2 and containers, and the local RTX 4070 for GPU work. Cross-session delivery between live Claude Code sessions is the `claude_inject` / `claude_sessions` MCP tools and `bun ~/.claude/scripts/notify.ts`.
+the equal cluster nodes `n1` and `n2` (`cluster/build.toml`; builds, CI, agents and services on both, placed by live load with `bun configs/claude/scripts/build-cluster.ts place`), gcloud Cloud Build, Cloudflare Workers, R2 and containers, and the local RTX 4070 for GPU work. Cross-session delivery between live Claude Code sessions is the `claude_inject` / `claude_sessions` MCP tools and `bun ~/.claude/scripts/notify.ts`.
 
 Left out on purpose: `plugins/{hermes,vllm,llmd,openclaw}-fw` are runtime adapters for other products (tests import them), not Claude content. `~/.claude/skills/linux-kernel-docs` (42 MB of generated pages) and the desktop-synced skills stay where they are.

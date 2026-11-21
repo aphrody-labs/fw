@@ -2,7 +2,7 @@
 # Read by configs/claude/scripts/offsite-backup.ts; no host, bucket or path is named anywhere else.
 
 [offsite]
-host = "prd"                              # ssh alias of the host that holds the data and runs the job
+host = "n2"                               # ssh alias of the node that holds the data and runs the job
 bucket = "shenron-backups"                # dedicated R2 bucket, never the build-cache bucket
 repository_path = "restic"                # prefix inside the bucket
 staging = "/var/lib/offsite-backup"       # root-only scratch for dumps and read-back restores
@@ -10,7 +10,7 @@ config_dir = "/etc/offsite-backup"        # r2.env (bucket-scoped S3 credentials
 schedule = "*-*-* 04:00:00 UTC"
 verify_data_subset = "5%"                 # restic check --read-data-subset, on top of the full read-back compare
 max_snapshot_age_hours = 36
-escrow_host = "fr1"                       # second copy of restic.password, so losing the data host never loses the key
+escrow_host = "n1"                        # second copy of restic.password, so losing the data node never loses the key
 escrow_path = ".aphrody/private/offsite/restic.password"
 retired_units = ["shenron-dbfr-backup.timer"]   # replaced by this job (the DBFR target is retired)
 

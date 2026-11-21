@@ -1,7 +1,9 @@
 #!/usr/bin/env bun
 // Full inventory of fleet hosts over ssh: disks, LVM, mounts, services, containers, listeners, timers, tunnels, data sizes.
-//   bun fleet-inventory.ts [host ...] [--json]      default hosts: fr1 prd
+//   bun fleet-inventory.ts [host ...] [--json]      default hosts: every node of cluster/build.toml
 // Every section is read live from the host; nothing is cached or assumed.
+
+import { loadConfig, nodeNames } from "./build-cluster.ts";
 
 export const SECTIONS = [
   "host",
@@ -77,6 +79,6 @@ if (import.meta.main) {
   const args = Bun.argv.slice(2);
   const json = args.includes("--json");
   const hosts = args.filter((a) => !a.startsWith("--"));
-  const results = await Promise.all((hosts.length ? hosts : ["fr1", "prd"]).map(inventory));
+  const results = await Promise.all((hosts.length ? hosts : nodeNames(await loadConfig())).map(inventory));
   console.log(json ? JSON.stringify(results, null, 2) : results.map(render).join("\n\n"));
 }

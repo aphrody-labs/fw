@@ -7,8 +7,8 @@ describe("fleet-inventory", () => {
   });
 
   test("parseSections splits by marker and ignores unknown markers and blanks", () => {
-    const parsed = parseSections("##host\nfr1\r\nUbuntu\n\n##nope\nx\n##lvm\n  data xbuild\n");
-    expect(parsed.host).toEqual(["fr1", "Ubuntu"]);
+    const parsed = parseSections("##host\nn1\r\nUbuntu\n\n##nope\nx\n##lvm\n  data xbuild\n");
+    expect(parsed.host).toEqual(["n1", "Ubuntu"]);
     expect(parsed.lvm).toEqual(["  data xbuild"]);
     expect(parsed.docker).toEqual([]);
   });
