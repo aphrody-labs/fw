@@ -1,5 +1,5 @@
 [package]
-name = "browser-vpn"
+name = "fw-browser-vpn"
 version.workspace = true
 edition.workspace = true
 publish = false
@@ -10,7 +10,7 @@ description = "Fused ayvpn WireGuard/Mullvad/MASQUE tunnel router, per-BrowserCo
 native = true
 
 [dependencies]
-browser-detect = { path = "../browser-detect", default-features = false }
+fw-browser-detect = { path = "../fw-browser-detect", default-features = false }
 parking_lot = "0.12"
 serde = { version = "1.0.229", features = ["derive", "std"] }
 thiserror = "2"

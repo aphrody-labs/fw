@@ -27,7 +27,7 @@ fn to_napi(error: crate::Error) -> napi::Error {
 pub struct NativeConfig {
     /// Directory with libcef, the .pak files and locales/.
     pub cef_dir: Option<String>,
-    /// The browser-chromium executable CEF launches for child processes.
+    /// The fw-browser-chromium executable CEF launches for child processes.
     pub helper: Option<String>,
     pub cache_dir: Option<String>,
 }

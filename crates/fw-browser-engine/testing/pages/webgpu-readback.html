@@ -1,0 +1,68 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>webgpu-readback</title>
+<script>
+(async () => {
+  const out = { ok: false, hasGpu: !!navigator.gpu };
+  try {
+    if (!navigator.gpu) throw new Error('navigator.gpu missing');
+    const adapter = await navigator.gpu.requestAdapter();
+    if (!adapter) throw new Error('no adapter');
+    out.adapter = (adapter.info && (adapter.info.description || adapter.info.device || adapter.info.vendor)) || 'unknown';
+    const device = await adapter.requestDevice();
+    const t0 = performance.now();
+
+    // 1. compute: out[i] = i * i + 7 for 4096 elements
+    const N = 4096;
+    const storage = device.createBuffer({ size: N * 4, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC });
+    const readback = device.createBuffer({ size: N * 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ });
+    const module = device.createShaderModule({ code: `
+      @group(0) @binding(0) var<storage, read_write> data: array<u32>;
+      @compute @workgroup_size(64)
+      fn main(@builtin(global_invocation_id) id: vec3<u32>) { data[id.x] = id.x * id.x + 7u; }` });
+    const pipeline = device.createComputePipeline({ layout: 'auto', compute: { module, entryPoint: 'main' } });
+    const group = device.createBindGroup({ layout: pipeline.getBindGroupLayout(0), entries: [{ binding: 0, resource: { buffer: storage } }] });
+    let encoder = device.createCommandEncoder();
+    const pass = encoder.beginComputePass();
+    pass.setPipeline(pipeline); pass.setBindGroup(0, group); pass.dispatchWorkgroups(N / 64); pass.end();
+    encoder.copyBufferToBuffer(storage, 0, readback, 0, N * 4);
+    device.queue.submit([encoder.finish()]);
+    await readback.mapAsync(GPUMapMode.READ);
+    const words = new Uint32Array(readback.getMappedRange().slice(0));
+    readback.unmap();
+    let bad = 0;
+    for (let i = 0; i < N; i++) if (words[i] !== ((Math.imul(i, i) + 7) >>> 0)) bad++;
+    out.computeMismatches = bad;
+
+    // 2. render: full-screen triangle to a 64x64 rgba8 target cleared to red, read the pixels back
+    const W = 64, H = 64;
+    const target = device.createTexture({ size: [W, H], format: 'rgba8unorm', usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC });
+    const rmodule = device.createShaderModule({ code: `
+      @vertex fn vs(@builtin(vertex_index) i: u32) -> @builtin(position) vec4<f32> {
+        var p = array<vec2<f32>, 3>(vec2(-1.0, -1.0), vec2(3.0, -1.0), vec2(-1.0, 3.0));
+        return vec4(p[i], 0.0, 1.0);
+      }
+      @fragment fn fs() -> @location(0) vec4<f32> { return vec4(0.0, 1.0, 0.0, 1.0); }` });
+    const rpipe = device.createRenderPipeline({ layout: 'auto',
+      vertex: { module: rmodule, entryPoint: 'vs' },
+      fragment: { module: rmodule, entryPoint: 'fs', targets: [{ format: 'rgba8unorm' }] },
+      primitive: { topology: 'triangle-list' } });
+    const rbuf = device.createBuffer({ size: W * H * 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ });
+    encoder = device.createCommandEncoder();
+    const rp = encoder.beginRenderPass({ colorAttachments: [{ view: target.createView(), clearValue: { r: 1, g: 0, b: 0, a: 1 }, loadOp: 'clear', storeOp: 'store' }] });
+    rp.setPipeline(rpipe); rp.draw(3); rp.end();
+    encoder.copyTextureToBuffer({ texture: target }, { buffer: rbuf, bytesPerRow: W * 4 }, [W, H]);
+    device.queue.submit([encoder.finish()]);
+    await rbuf.mapAsync(GPUMapMode.READ);
+    const px = new Uint8Array(rbuf.getMappedRange().slice(0));
+    rbuf.unmap();
+    let green = 0;
+    for (let i = 0; i < W * H; i++) if (px[i*4] === 0 && px[i*4+1] === 255 && px[i*4+2] === 0 && px[i*4+3] === 255) green++;
+    out.renderGreenPixels = green; out.renderPixels = W * H;
+    out.gpuMs = performance.now() - t0;
+    out.ok = bad === 0 && green === W * H;
+  } catch (e) { out.error = String(e && e.message || e); }
+  window.__result = out;
+  document.title = 'done';
+})();
+</script>

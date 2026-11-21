@@ -1,5 +1,5 @@
 [package]
-name = "browser-browse"
+name = "fw-browser-browse"
 version.workspace = true
 edition.workspace = true
 publish = false

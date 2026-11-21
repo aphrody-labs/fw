@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! Shared SSRF deny-set and outbound IP policy across every browser transport, renderer, and agent surface.
 //!
-//! Zero external dependencies so `obscura-ssrf`, `browser-detect`, and host embedders can share one
+//! Zero external dependencies so `obscura-ssrf`, `fw-browser-detect`, and host embedders can share one
 //! exact RFC-compliant IPv4 / IPv6 / NAT64 / 6to4 / Teredo deny-set without drift.
 
 use std::net::{IpAddr, Ipv4Addr};

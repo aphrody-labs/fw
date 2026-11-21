@@ -14,7 +14,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use browser_index::{
+use fw_browser_index::{
     Index, IndexParams, Quantization, SearchOptions, kernels,
     synth::{ClusterSpec, ClusteredGenerator, brute_force_topk, recall_at_k},
 };

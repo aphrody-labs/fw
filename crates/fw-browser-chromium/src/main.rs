@@ -1,28 +1,28 @@
-//! `browser-chromium`: screenshot and evaluate from the command line, and the helper executable CEF re-launches.
+//! `fw-browser-chromium`: screenshot and evaluate from the command line, and the helper executable CEF re-launches.
 
 use std::path::PathBuf;
 use std::process::ExitCode;
 use std::time::Duration;
 
-use browser_chromium::{
+use fw_browser_chromium::{
     CaptureOptions, Chromium, Config, EvaluateOptions, ScreenshotOptions, install_cef,
 };
 
 const USAGE: &str = "usage:
-  browser-chromium screenshot <url> <out.png> [--width N] [--height N] [--wait MS] [--timeout S]
-  browser-chromium eval <url> <expression> [--wait MS] [--timeout S]
-  browser-chromium capture <url> [--json] [--screenshot out.png] [--timeout-ms N] [--quiet-ms N]
-  browser-chromium install [dir]
-  browser-chromium version";
+  fw-browser-chromium screenshot <url> <out.png> [--width N] [--height N] [--wait MS] [--timeout S]
+  fw-browser-chromium eval <url> <expression> [--wait MS] [--timeout S]
+  fw-browser-chromium capture <url> [--json] [--screenshot out.png] [--timeout-ms N] [--quiet-ms N]
+  fw-browser-chromium install [dir]
+  fw-browser-chromium version";
 
 fn main() -> ExitCode {
-    if let Some(code) = browser_chromium::subprocess_main() {
+    if let Some(code) = fw_browser_chromium::subprocess_main() {
         return ExitCode::from(code.clamp(0, 255) as u8);
     }
     match run(std::env::args().skip(1).collect()) {
         Ok(()) => ExitCode::SUCCESS,
         Err(message) => {
-            eprintln!("browser-chromium: {message}");
+            eprintln!("fw-browser-chromium: {message}");
             ExitCode::FAILURE
         }
     }
@@ -89,7 +89,7 @@ fn run(args: Vec<String>) -> Result<(), String> {
         return Err(USAGE.into());
     };
     let parsed = parse(rest)?;
-    let err = |e: browser_chromium::Error| e.to_string();
+    let err = |e: fw_browser_chromium::Error| e.to_string();
     match (command.as_str(), parsed.positional.as_slice()) {
         ("screenshot", [url, out]) => {
             let mut options = ScreenshotOptions::default();
@@ -143,7 +143,7 @@ fn run(args: Vec<String>) -> Result<(), String> {
             Ok(())
         }
         ("version", []) => {
-            println!("{}", browser_chromium::cef_version());
+            println!("{}", fw_browser_chromium::cef_version());
             Ok(())
         }
         _ => Err(USAGE.into()),

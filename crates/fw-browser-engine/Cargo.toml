@@ -1,5 +1,5 @@
 [package]
-name = "browser-engine"
+name = "fw-browser-engine"
 version.workspace = true
 edition.workspace = true
 publish = false

@@ -61,7 +61,7 @@ impl CefDir {
             .find_map(|dir| Self::accept(dir))
             .ok_or_else(|| {
                 Error::CefNotFound(format!(
-                    "looked in {candidates:?}; run `browser-chromium install <dir>`"
+                    "looked in {candidates:?}; run `fw-browser-chromium install <dir>`"
                 ))
             })
     }

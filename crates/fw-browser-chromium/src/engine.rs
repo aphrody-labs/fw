@@ -42,7 +42,7 @@ impl Engine {
         let (ready_tx, ready_rx) = mpsc::channel::<Result<()>>();
         let (shutdown_tx, shutdown_rx) = mpsc::channel::<()>();
         let thread = std::thread::Builder::new()
-            .name("browser-chromium-cef".into())
+            .name("fw-browser-chromium-cef".into())
             .spawn(move || {
                 // CEF is initialized and shut down on this thread; its own UI thread runs the message loop.
                 match boot(&config) {
@@ -154,7 +154,7 @@ fn boot(config: &Config) -> Result<CefGuard> {
     let cef_dir = CefDir::locate(config.cef_dir.as_deref(), std::slice::from_ref(&helper))?;
     let cache = match &config.cache_dir {
         Some(dir) => dir.clone(),
-        None => std::env::temp_dir().join(format!("browser-chromium-{}", std::process::id())),
+        None => std::env::temp_dir().join(format!("fw-browser-chromium-{}", std::process::id())),
     };
     std::fs::create_dir_all(&cache)?;
 

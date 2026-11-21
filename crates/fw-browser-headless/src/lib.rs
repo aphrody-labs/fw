@@ -1,26 +1,29 @@
 // SPDX-License-Identifier: Apache-2.0
-//! Headless Browser + Fused `ayvpn` + `anomalyco/browse` SDK crate (`browser-headless`).
+//! Headless Browser + Fused `ayvpn` + `anomalyco/browse` SDK crate (`fw-browser-headless`).
 //!
-//! Integrates `aphrody-labs/browser` (`browser-engine`, `browser-vpn`, `browser-browse`, `browser-views`,
-//! `browser-detect`) into `ay` for headless automation, crawlers, CI verification, and edge Dynamic Workers,
-//! while the full GPUI Chromium `//ui/views` browser lives in `aphrody-labs/aphrody` (`aphrody_browser`).
+//! The headless layer of fw: `fw browser` (see `main.rs`) plus the SDK over the sibling crates (`fw-browser-engine`, `fw-browser-vpn`, `fw-browser-browse`, `fw-browser-views`,
+//! `fw-browser-detect`) for headless automation, crawlers, CI verification and edge Dynamic Workers; `ay` and `aphrody` consume it from above.
+//! The full GPUI browser lives in `aphrody-labs/aphrody` (`aphrody_browser`).
 
-use browser_browse::{
+pub mod cdp;
+pub mod session;
+
+use fw_browser_browse::{
     AriaSnapshotNode, BrowseError, BrowseSessionPool, DomainPolicy, HandoffNotice, PooledTarget,
     assign_aria_refs, detect_handoff_gate,
 };
-use browser_engine::{Backend, Needs};
-use browser_vpn::{BrowserVpnRouter, ContextProxyConfig, RouteMode, TunnelState, VpnRouteError};
+use fw_browser_engine::{Backend, Needs};
+use fw_browser_vpn::{BrowserVpnRouter, ContextProxyConfig, RouteMode, TunnelState, VpnRouteError};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-pub use browser_browse as browse;
-pub use browser_detect as detect;
-pub use browser_engine as engine;
-pub use browser_views as views;
-pub use browser_vpn as vpn;
+pub use fw_browser_browse as browse;
+pub use fw_browser_detect as detect;
+pub use fw_browser_engine as engine;
+pub use fw_browser_views as views;
+pub use fw_browser_vpn as vpn;
 
-/// Launch specification synthesized for a headless browser context (`kitesurf`, `servo`, or `blink`/`browser-chromium`).
+/// Launch specification synthesized for a headless browser context (`kitesurf`, `servo`, or `blink`/`fw-browser-chromium`).
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct HeadlessLaunchPlan {
     pub backend_id: String,
@@ -79,7 +82,7 @@ impl HeadlessBrowserSdk {
         self.sessions.ensure_url_allowed(raw_url)?;
         let parsed =
             Url::parse(raw_url).map_err(|_| HeadlessError::InvalidUrl(raw_url.to_owned()))?;
-        let backend: &Backend = browser_engine::pick(&needs, &self.shipping_backends, true)
+        let backend: &Backend = fw_browser_engine::pick(&needs, &self.shipping_backends, true)
             .ok_or(HeadlessError::NoEngine(needs))?;
 
         let route = match explicit_route {
@@ -151,10 +154,10 @@ impl SessionPolicyExt for BrowseSessionPool {
 pub fn escalation_chain(needs: Needs) -> Vec<&'static str> {
     let avail = ["obscura", "kitesurf", "servo", "blink"];
     let mut chain = Vec::new();
-    if let Some(first) = browser_engine::pick(&needs, &avail, true) {
+    if let Some(first) = fw_browser_engine::pick(&needs, &avail, true) {
         chain.push(first.id);
         let mut cur = first.id;
-        while let Some(next) = browser_engine::escalate(cur, &needs, &avail, true) {
+        while let Some(next) = fw_browser_engine::escalate(cur, &needs, &avail, true) {
             chain.push(next.id);
             cur = next.id;
         }
@@ -164,7 +167,7 @@ pub fn escalation_chain(needs: Needs) -> Vec<&'static str> {
 
 #[cfg(test)]
 mod tests {
-    use browser_engine::Cdp;
+    use fw_browser_engine::Cdp;
 
     use super::*;
 

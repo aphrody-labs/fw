@@ -5,7 +5,7 @@ use std::net::TcpListener;
 use std::path::PathBuf;
 use std::time::Duration;
 
-use browser_chromium::{
+use fw_browser_chromium::{
     Backend, CaptureOptions, Chromium, Config, Error, EvaluateOptions, Page, ScreenshotOptions,
 };
 
@@ -91,7 +91,7 @@ fn screenshot_and_evaluate_a_real_page() {
         matches!(chromium.evaluate(&url, "nope.nope", &eval), Err(Error::Script(m)) if m.contains("ReferenceError"))
     );
 
-    let out = std::env::temp_dir().join(format!("browser-chromium-e2e-{}.png", std::process::id()));
+    let out = std::env::temp_dir().join(format!("fw-browser-chromium-e2e-{}.png", std::process::id()));
     let options = ScreenshotOptions {
         width: 320,
         height: 200,

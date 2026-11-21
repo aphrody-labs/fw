@@ -1,5 +1,5 @@
 [package]
-name = "browser-detect"
+name = "fw-browser-detect"
 version.workspace = true
 edition.workspace = true
 publish = false

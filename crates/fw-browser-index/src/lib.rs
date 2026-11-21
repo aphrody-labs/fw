@@ -1,4 +1,4 @@
-//! `browser_index`: approximate nearest-neighbour search for the browser.
+//! `fw_browser_index`: approximate nearest-neighbour search for the browser.
 //!
 //! * HNSW graph (Malkov & Yashunin) with heuristic neighbour selection (Algorithm 4 with
 //!   `keepPrunedConnections`), `M0 = 2M` on layer 0.
@@ -11,7 +11,7 @@
 //! * Versioned, checksummed, memory-mapped persistence (see [`persist`]).
 //!
 //! ```
-//! use browser_index::{Index, IndexParams};
+//! use fw_browser_index::{Index, IndexParams};
 //! let index = Index::new(IndexParams::new(3)).unwrap();
 //! index.add(7, &[1.0, 0.0, 0.0]).unwrap();
 //! index.add(8, &[0.0, 1.0, 0.0]).unwrap();

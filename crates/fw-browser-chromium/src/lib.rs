@@ -1,4 +1,4 @@
-//! Chromium through CEF (`cef` crate, tauri-apps/cef-rs) from Rust, the `browser-chromium` binary and Bun.
+//! Chromium through CEF (`cef` crate, tauri-apps/cef-rs) from Rust, the `fw-browser-chromium` binary and Bun.
 //!
 //! One engine per process starts CEF with off-screen rendering; every page is one browser. Opening a page waits for
 //! the main frame to load; a screenshot paints a frame, an evaluation runs `Runtime.evaluate` over the DevTools
@@ -49,8 +49,8 @@ pub enum Error {
 pub type Result<T> = std::result::Result<T, Error>;
 
 /// How the engine finds CEF and the helper executable that CEF re-launches for its renderer, GPU and utility
-/// processes. In the `browser-chromium` binary the helper is the binary itself; in a host such as Bun it is the
-/// `browser-chromium` binary shipped next to the addon.
+/// processes. In the `fw-browser-chromium` binary the helper is the binary itself; in a host such as Bun it is the
+/// `fw-browser-chromium` binary shipped next to the addon.
 #[derive(Clone, Debug, Default)]
 pub struct Config {
     /// Directory holding `libcef.so`, the `.pak` files and `locales/`; discovered when `None`.
@@ -276,7 +276,7 @@ mod tests {
     #[test]
     fn bgra_frame_is_written_as_rgba_png() {
         let path =
-            std::env::temp_dir().join(format!("browser-chromium-unit-{}.png", std::process::id()));
+            std::env::temp_dir().join(format!("fw-browser-chromium-unit-{}.png", std::process::id()));
         write_png(&path, 2, 1, &[0, 0, 255, 0, 255, 0, 0, 0]).unwrap();
         let mut reader =
             png::Decoder::new(std::io::BufReader::new(std::fs::File::open(&path).unwrap()))
@@ -295,7 +295,7 @@ mod tests {
 
     #[test]
     fn locate_accepts_an_explicit_directory_with_the_runtime() {
-        let dir = std::env::temp_dir().join(format!("browser-chromium-cef-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("fw-browser-chromium-cef-{}", std::process::id()));
         std::fs::create_dir_all(dir.join("locales")).unwrap();
         std::fs::write(
             dir.join(if cfg!(windows) {

@@ -6,7 +6,7 @@ use std::{
     },
 };
 
-use browser_index::{
+use fw_browser_index::{
     Index, IndexError, IndexParams, Metric, Quantization, SearchOptions, rng::SplitMix64,
 };
 
@@ -355,7 +355,7 @@ fn corrupt_files_are_detected_without_panicking() {
     // A structurally invalid file with a *valid* checksum must also fail.
     let reseal = |mut bytes: Vec<u8>| {
         let end = bytes.len() - 8;
-        let sum = browser_index::persist::xxh64(&bytes[..end], 0);
+        let sum = fw_browser_index::persist::xxh64(&bytes[..end], 0);
         bytes[end..].copy_from_slice(&sum.to_le_bytes());
         bytes
     };
@@ -434,7 +434,7 @@ fn persisted_vectors_reject_invalid_numeric_values() {
                     let mut bytes = original.clone();
                     bytes[offset..offset + 4].copy_from_slice(&value.to_le_bytes());
                     let end = bytes.len() - 8;
-                    let checksum = browser_index::persist::xxh64(&bytes[..end], 0);
+                    let checksum = fw_browser_index::persist::xxh64(&bytes[..end], 0);
                     bytes[end..].copy_from_slice(&checksum.to_le_bytes());
                     assert!(
                         matches!(corrupted_load(&path, &bytes), Err(IndexError::Corrupt(_))),

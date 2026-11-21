@@ -2,11 +2,11 @@
 //!
 //! Combines Mullvad/WireGuard (`mullvad-daemon` embedded IPC), BoringTun/QUICHE MASQUE HTTP/3 proxy
 //! endpoints, per-`BrowserContext` SOCKS5/CONNECT routing, Linux policy-routing tables (`fwmark` /
-//! UID isolation from `exits.toml`), and `browser-detect` SSRF pre-flight checks into a single
+//! UID isolation from `exits.toml`), and `fw-browser-detect` SSRF pre-flight checks into a single
 //! zero-allocation fast path shared by headless SDK consumers (`ay`) and the full GPUI desktop (`aphrody`).
 
 use std::net::{IpAddr, SocketAddr};
-use browser_detect::ssrf::{is_forbidden_ip, is_loopback_ip};
+use fw_browser_detect::ssrf::{is_forbidden_ip, is_loopback_ip};
 use parking_lot::RwLock;
 use serde::{Deserialize, Serialize};
 use url::Url;

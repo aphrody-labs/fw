@@ -3,13 +3,13 @@
 //! Mirrors Chromium's `BrowserView` widget tree (`TopContainerView` -> `TabStripRegionView`,
 //! `ToolbarView` / `LocationBarView` / `OmniboxView`, `BookmarkBarView`, `SidePanelCoordinator`,
 //! `ContentsWebView`, `FindBarHost`, `StatusBubbleViews`) while embedding:
-//! - multi-engine backend selection & escalation (`browser-engine`: Kitesurf -> Servo -> Blink),
-//! - per-tab / per-context WireGuard/Mullvad VPN shield (`browser-vpn`: `RouteMode`),
-//! - `anomalyco/browse` real-browser agent pairing, WebMCP tools, and human-handoff banners (`browser-browse`).
+//! - multi-engine backend selection & escalation (`fw-browser-engine`: Kitesurf -> Servo -> Blink),
+//! - per-tab / per-context WireGuard/Mullvad VPN shield (`fw-browser-vpn`: `RouteMode`),
+//! - `anomalyco/browse` real-browser agent pairing, WebMCP tools, and human-handoff banners (`fw-browser-browse`).
 
-use browser_browse::{HandoffNotice, WebMcpTool};
-use browser_engine::{Cdp, Needs};
-use browser_vpn::{RouteMode, TunnelState};
+use fw_browser_browse::{HandoffNotice, WebMcpTool};
+use fw_browser_engine::{Cdp, Needs};
+use fw_browser_vpn::{RouteMode, TunnelState};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -143,7 +143,7 @@ pub struct TabGroup {
     pub agent_paired: bool,
 }
 
-/// Shipping engine shortlist passed to `browser_engine::pick` and `browser_engine::escalate`.
+/// Shipping engine shortlist passed to `fw_browser_engine::pick` and `fw_browser_engine::escalate`.
 pub const SHIPPING_ENGINES: &[&str] = &["obscura", "kitesurf", "servo", "blink"];
 
 /// Single tab entry inside `TabStripModel`.
@@ -171,7 +171,7 @@ pub struct TabModel {
 impl TabModel {
     #[must_use]
     pub fn new(id: u64, title: impl Into<String>, url: impl Into<String>, needs: Needs) -> Self {
-        let backend = browser_engine::pick(&needs, SHIPPING_ENGINES, false).unwrap_or(&browser_engine::CATALOG[0]);
+        let backend = fw_browser_engine::pick(&needs, SHIPPING_ENGINES, false).unwrap_or(&fw_browser_engine::CATALOG[0]);
         Self {
             id,
             title: title.into(),
@@ -190,7 +190,7 @@ impl TabModel {
 
     /// Escalates the tab's rendering backend when a page requires heavier compatibility (`Kitesurf -> Servo -> Blink`).
     pub fn escalate_engine(&mut self, needs: Needs) -> bool {
-        if let Some(next) = browser_engine::escalate(&self.engine_id, &needs, SHIPPING_ENGINES, false) {
+        if let Some(next) = fw_browser_engine::escalate(&self.engine_id, &needs, SHIPPING_ENGINES, false) {
             self.engine_id = next.id.to_owned();
             true
         } else {

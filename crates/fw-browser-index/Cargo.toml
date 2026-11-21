@@ -1,5 +1,5 @@
 [package]
-name = "browser-index"
+name = "fw-browser-index"
 version.workspace = true
 edition.workspace = true
 publish = false
