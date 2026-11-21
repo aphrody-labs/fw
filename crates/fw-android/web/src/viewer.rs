@@ -548,7 +548,7 @@ impl App {
             }
         }
         self.gpu.queue.submit([encoder.finish()]);
-        frame.present();
+        self.gpu.queue.present(frame);
     }
 
     fn tick(&mut self, time: f64) {
@@ -708,7 +708,7 @@ impl Viewer {
     }
 }
 
-fn listen<E: JsCast + 'static>(
+fn listen<E: JsCast + wasm_bindgen::convert::FromWasmAbi + 'static>(
     target: &web_sys::EventTarget,
     name: &str,
     handler: impl FnMut(E) + 'static,
@@ -797,6 +797,7 @@ pub async fn start() -> Result<Viewer, JsValue> {
         height,
         present_mode: wgpu::PresentMode::Fifo,
         desired_maximum_frame_latency: 2,
+        color_space: wgpu::SurfaceColorSpace::Auto,
         alpha_mode: wgpu::CompositeAlphaMode::Opaque,
         view_formats: vec![],
     };
