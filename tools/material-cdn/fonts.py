@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """material-cdn font step: variable TTF -> full WOFF2 plus unicode-range WOFF2 subsets.
 
     uv run --with fonttools --with brotli tools/material-cdn/fonts.py OUT_DIR SPEC.json
