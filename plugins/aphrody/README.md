@@ -16,7 +16,7 @@ Toolchain in vendored content: `npx` becomes `bunx`, `npm install|run` becomes `
 bun plugins/aphrody/scripts/unify.ts --update   # moves every ref to its head, rewrites the managed files and the lock
 bun plugins/aphrody/scripts/unify.ts            # replays the locked commits (idempotent)
 bun plugins/aphrody/scripts/unify.ts --check    # exit 1 when the tree differs from what the generator produces
-bun test plugins/aphrody/scripts
+bun test ./plugins/aphrody/scripts
 ```
 
 `.github/workflows/unify-plugin.yml` runs `--update` every 6 hours and commits to `main`. The plugin version is `<base>-<content hash>`, so a content change is always a new version.
