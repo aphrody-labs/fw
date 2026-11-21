@@ -55,7 +55,7 @@ pub fn run(estate: &Estate, live: &Live, plan: &Plan, cluster_hosts: &BTreeSet<S
         .collect();
 
     for zone in &live.zones {
-        let records: Vec<(String, Record)> = zone.records.iter().filter_map(|row| live_record(row)).collect();
+        let records: Vec<(String, Record)> = zone.records.iter().filter_map(live_record).collect();
         for (_, record) in &records {
             if record.name.starts_with("*.") {
                 findings.push(finding("dns.wildcard", false, &record.name, format!("{} wildcard record: every unrouted subdomain resolves", record.kind)));
@@ -70,11 +70,11 @@ pub fn run(estate: &Estate, live: &Live, plan: &Plan, cluster_hosts: &BTreeSet<S
             let domain = domains.contains_key(&record.name);
             let tunnel_target = record.content.strip_suffix(".cfargotunnel.com");
             let ingress_hit = ingress.iter().find(|(_, host, _)| host_matches(host, &record.name));
-            if let Some(id) = tunnel_target {
-                if live.tunnel_name(id).is_none() {
-                    findings.push(finding("dns.dead-origin", true, &record.name, format!("CNAME to tunnel {id}, which does not exist")));
-                    continue;
-                }
+            if let Some(id) = tunnel_target
+                && live.tunnel_name(id).is_none()
+            {
+                findings.push(finding("dns.dead-origin", true, &record.name, format!("CNAME to tunnel {id}, which does not exist")));
+                continue;
             }
             let served = match (record.content.as_str(), tunnel_target) {
                 ("100::", _) => routed || domain,

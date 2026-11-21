@@ -107,7 +107,7 @@ fn dns_actions(zone_name: &str, lines: &[String], zone: &ZoneLive, live: &Live, 
         resolve_content(&mut record, live)?;
         declared.push(record);
     }
-    let mut remaining: Vec<(String, Record)> = zone.records.iter().filter_map(|row| live_record(row)).collect();
+    let mut remaining: Vec<(String, Record)> = zone.records.iter().filter_map(live_record).collect();
     let mut unmatched = Vec::new();
     for record in declared {
         match remaining.iter().position(|(_, existing)| existing.identity() == record.identity()) {
@@ -121,12 +121,12 @@ fn dns_actions(zone_name: &str, lines: &[String], zone: &ZoneLive, live: &Live, 
         }
     }
     for record in unmatched {
-        if record.single_valued() {
-            if let Some(index) = remaining.iter().position(|(_, existing)| existing.kind == record.kind && existing.name == record.name) {
-                let (id, existing) = remaining.remove(index);
-                actions.push(action("update", "dns", zone_name, &format!("{} {}", record.kind, record.name), format!("content {} -> {}", existing.content, record.content), Some(id)));
-                continue;
-            }
+        if record.single_valued()
+            && let Some(index) = remaining.iter().position(|(_, existing)| existing.kind == record.kind && existing.name == record.name)
+        {
+            let (id, existing) = remaining.remove(index);
+            actions.push(action("update", "dns", zone_name, &format!("{} {}", record.kind, record.name), format!("content {} -> {}", existing.content, record.content), Some(id)));
+            continue;
         }
         actions.push(action("create", "dns", zone_name, &format!("{} {}", record.kind, record.name), record.to_line(zone_name), None));
     }
@@ -191,17 +191,33 @@ fn setting_actions(zone_name: &str, declared: &BTreeMap<String, toml::Value>, zo
     }
 }
 
-/// The plan only applies when it is the committed one: tracked, unmodified, and equal to a fresh computation.
-pub fn require_committed(plan_path: &Path, committed: &Plan, fresh: &Plan) -> Result<()> {
-    let directory = plan_path.parent().filter(|parent| !parent.as_os_str().is_empty()).unwrap_or_else(|| Path::new("."));
-    let file_name = plan_path.file_name().ok_or_else(|| anyhow!("plan path has no file name"))?;
-    let tracked = Command::new("git").arg("-C").arg(directory).args(["ls-files", "--error-unmatch"]).arg(file_name).output().context("run git ls-files")?;
-    if !tracked.status.success() {
-        bail!("{} is not tracked by git: commit the plan before applying it", plan_path.display());
-    }
-    let unchanged = Command::new("git").arg("-C").arg(directory).args(["diff", "--quiet", "HEAD", "--"]).arg(file_name).status().context("run git diff")?;
-    if !unchanged.success() {
-        bail!("{} differs from HEAD: commit the plan before applying it", plan_path.display());
+/// The plan only applies when it is the committed one: equal to the blob on `origin/main` of `repository` when given (a
+/// checkout kept apart from a dirty working tree), else tracked and unmodified in the checkout holding the plan file; and equal to a fresh computation.
+pub fn require_committed(plan_path: &Path, relative: &Path, repository: Option<&Path>, committed: &Plan, fresh: &Plan) -> Result<()> {
+    match repository {
+        Some(repository) => {
+            let spec = format!("origin/main:{}", relative.display().to_string().replace('\\', "/"));
+            let blob = Command::new("git").arg("-C").arg(repository).args(["show", &spec]).output().context("run git show")?;
+            if !blob.status.success() {
+                bail!("{spec} is not on origin/main of {}: commit and push the plan before applying it", repository.display());
+            }
+            let on_main: Plan = serde_json::from_slice(&blob.stdout).context("parse the plan on origin/main")?;
+            if &on_main != committed {
+                bail!("{} differs from {spec}: commit and push the plan before applying it", plan_path.display());
+            }
+        }
+        None => {
+            let directory = plan_path.parent().filter(|parent| !parent.as_os_str().is_empty()).unwrap_or_else(|| Path::new("."));
+            let file_name = plan_path.file_name().ok_or_else(|| anyhow!("plan path has no file name"))?;
+            let tracked = Command::new("git").arg("-C").arg(directory).args(["ls-files", "--error-unmatch"]).arg(file_name).output().context("run git ls-files")?;
+            if !tracked.status.success() {
+                bail!("{} is not tracked by git: commit the plan before applying it", plan_path.display());
+            }
+            let unchanged = Command::new("git").arg("-C").arg(directory).args(["diff", "--quiet", "HEAD", "--"]).arg(file_name).status().context("run git diff")?;
+            if !unchanged.success() {
+                bail!("{} differs from HEAD: commit the plan before applying it", plan_path.display());
+            }
+        }
     }
     if committed != fresh {
         bail!("the committed plan no longer matches the estate file and the live state: run `fw estate plan`, commit it, then apply");
