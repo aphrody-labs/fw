@@ -10,3 +10,5 @@
 *.ttf binary
 *.pdf binary
 crates/fw-material/vendor/*.rs linguist-generated=true
+*.glb binary
+*.bin binary
