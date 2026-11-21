@@ -1714,3 +1714,8 @@ why = "GitHub ignores it; the composite action is .github/actions/ay-llvm-pinned
 path = "aphrody/.github/workflows"
 why = "GitHub ignores it; the workflows live in .github/workflows (aphrody-*.yml, zed-sync.yml) and aphrody/tooling/bun reads them there"
 
+[[area]]
+path = ".dockerignore"
+decision = "keep"
+why = "Docker tooling reads it from the build context root"
+

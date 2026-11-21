@@ -82,6 +82,7 @@ Decisions and reasons:
 | `.agents` | 3 | keep | agent workflows and rules live in .agents at the repository root; AGENTS.md and README.md point to the onboarding journey there |
 | `.cargo` | 1 | keep | Cargo reads .cargo/config.toml from the workspace root |
 | `.claude-plugin` | 1 | keep | marketplace.json at the root is how `claude plugin marketplace add` finds the aphrody plugin |
+| `.dockerignore` | 1 | keep | Docker tooling reads it from the build context root |
 | `.editorconfig` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `.fdignore` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `.gitattributes` | 1 | keep | Git reads these from the repository root |
