@@ -148,3 +148,24 @@ jobs:
         run: |
           cargo xtask purity
           cargo xtask map
+
+  rust-hygiene:
+    name: Rust hygiene (deny, machete, shear, rust-stack)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: ./.github/actions/rust-toolchain
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-deny,cargo-machete,cargo-shear
+      - name: Advisories, bans, licenses and sources (deny.toml)
+        run: cargo deny check
+      - name: Unused dependencies in the workspace members
+        run: |
+          cargo machete $(cargo metadata --no-deps --format-version 1 | jq -r '.packages[].manifest_path | sub("/Cargo.toml$"; "")')
+          cargo shear --exclude fw-depot
+      - name: Rust stack catalog matches its data and the manifests
+        run: |
+          bun test ./configs/claude/scripts/rust-stack.test.ts
+          bun configs/claude/scripts/rust-stack.ts --check
