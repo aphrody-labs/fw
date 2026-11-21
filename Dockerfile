@@ -1,13 +1,13 @@
 # syntax=docker/dockerfile:1.7
-# fw v4.2 — Zero-Debian/Ubuntu Alpine Linux static musl multi-stage image
-FROM rust:1.91-alpine AS builder
+# fw on Alpine: static musl build, then a minimal runtime image
+FROM rust:1.100-alpine AS builder
 RUN apk add --no-cache musl-dev
 WORKDIR /src
 COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 COPY xtask ./xtask
 COPY core/webgpu ./core/webgpu
-COPY web ./web
+COPY product.toml ./product.toml
 RUN cargo build --release --target x86_64-unknown-linux-musl -p fw-bin \
     && strip target/x86_64-unknown-linux-musl/release/fw
 

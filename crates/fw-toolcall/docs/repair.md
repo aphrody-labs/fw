@@ -15,4 +15,4 @@ cargo clippy -p fw-toolcall/repair --all-targets -- -D warnings
 
 Rust builds run on the build host or in CI, not on a workstation.
 
-Part of Aphrody: [aphrody-labs/fw](../../README.md).
+Part of Aphrody: [aphrody-labs/fw](../../../README.md).

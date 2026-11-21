@@ -16,6 +16,6 @@ cargo test -p agent-context
 
 Rust builds run on the build host or in CI, not on a workstation.
 
-Part of Aphrody: [aphrody-labs/fw](../../../README.md).
+Part of Aphrody: [aphrody-labs/fw](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->

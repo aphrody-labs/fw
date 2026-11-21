@@ -110,7 +110,7 @@ export function checkUpgrade(root: string): UpgradeCheckReport {
     "cargo build --release --manifest-path native/fw-abi/Cargo.toml (Fat LTO cdylib + craft-pe + tree-sitter)",
     "cargo build --release --manifest-path native/fw-agy/Cargo.toml (Fat LTO AOT native agy launcher)",
     "bun build --compile --aot --trim --no-compile-function-source src/fw_cli.ts --outfile dist/fw-plugin.staging.exe",
-    "verify gates: uvx ruff check ., cargo test (pe/abi/agy), bun test tests, staged binary smoke checks",
+    "verify gates: uvx ruff check ., cargo test (abi/agy), staged binary smoke checks",
     "atomic promote into target/agy/ and dist/ + update target/manifest.json + target/upgrade-history.jsonl",
   ];
 
@@ -169,8 +169,6 @@ export function applyUpgrade(root: string, options: { skipTests?: boolean } = {}
   if (!options.skipTests) {
     steps.push(
       { name: "ruff-lint", cmd: ["uvx", "ruff", "check", "."] },
-      { name: "cargo-test-pe", cmd: ["cargo", "test", "--manifest-path", "native/fw-pe/Cargo.toml"] },
-      { name: "cargo-test-sniff", cmd: ["cargo", "test", "--manifest-path", "native/fw-sniff/Cargo.toml"] },
       { name: "cargo-test-abi", cmd: ["cargo", "test", "--manifest-path", "native/fw-abi/Cargo.toml"] },
       { name: "cargo-test-agy", cmd: ["cargo", "test", "--manifest-path", "native/fw-agy/Cargo.toml"] },
     );

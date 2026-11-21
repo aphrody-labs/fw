@@ -9,14 +9,13 @@ Use `tui-test` to control and test a real terminal.
 
 ## Pick an API
 
-| Context | Use | Reference |
-| --- | --- | --- |
-| Agent or shell workflow | CLI | [CLI](references/cli.md) |
-| Trusted tape to GIF | Local CLI workflow | [Tape](references/tape.md) |
-| Python code | `tui_test` | [Python](references/python.md) |
-| JavaScript or TypeScript | `@microsoft/tui-test` | [JavaScript](references/javascript.md) |
-| Rust code | `tui-test-rs` | [Rust](references/rust.md) |
-| Common tasks | Current project language | [Recipes](references/recipes.md) |
+| Context | Use |
+| --- | --- |
+| Agent or shell workflow | CLI |
+| Trusted tape to GIF | Local CLI workflow |
+| Python code | `tui_test` |
+| JavaScript or TypeScript | `@microsoft/tui-test` |
+| Rust code | `tui-test-rs` |
 
 Use the library that matches the project. Use the CLI when the terminal must persist across separate commands or be watched with `monitor`.
 
@@ -46,7 +45,6 @@ Both commands report the effective grid, pixel dimensions, and source-located wa
 Tape commands ignore `TUI_TEST_SESSION` and do not load project configuration.
 They reject explicit session and diagnostic flags; only the global `--json` flag applies.
 Warning: Run only trusted tapes. Tapes can execute shell commands; they are not sandboxed.
-See [Tape](references/tape.md) for an example and the supported subset.
 
 ## Python
 
@@ -130,12 +128,3 @@ Do not use a fixed sleep when a wait can describe the state.
 Use `screenshot` for text, SVG, or PNG. SVG, PNG, APNG, and GIF support `--background COLOR` and `--transparent`. MP4 supports `--background` only. Use `record` for APNG, GIF, MP4, or asciinema. Configure `[trace]` with `mode = "on-failure"` and a `directory` for test artifacts, including agent-readable Markdown/JSON, an asciicast, and standalone HTML. Trace modes are `off` (default), `on`, and `on-failure`; `[recording]` only accepts `directory`.
 
 For a failed assertion that must be understood offline, add `--failure-artifacts <dir>`. Agents should read `failure.md` first, then `failure.json` for exact locator/process evidence and `timeline.json` for retained per-cell frame metadata. Users can open `failure.html` directly from disk to navigate assertion checkpoints, step frames, and inspect clicked cells. Missing history is explicit; sampled frames are not a complete recording. Add `--failure-artifact-recording` for a continuous cast only when terminal output is safe to retain; diagnostic bundles can contain sensitive terminal text, titles, and locator operands.
-
-## References
-
-- [CLI](references/cli.md)
-- [Tape](references/tape.md)
-- [Python](references/python.md)
-- [JavaScript](references/javascript.md)
-- [Rust](references/rust.md)
-- [Recipes](references/recipes.md)

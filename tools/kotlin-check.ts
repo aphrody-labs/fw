@@ -52,7 +52,7 @@ export function remoteScript(gradleTasks: string[], withAy: boolean, env: Record
 if (import.meta.main) {
   const wipe = spawnSync("ssh", [host, `bash -c ${q('rm -rf "$HOME/fw-kotlin-check" && mkdir -p "$HOME/fw-kotlin-check"')}`], { stdio: "inherit" });
   if (wipe.status !== 0) process.exit(wipe.status ?? 1);
-  await ship(root, ["core/kotlin", "product.toml", "native/fw-abi", "native/fw-pe", "native/fw-sniff"], '"$HOME/fw-kotlin-check"');
+  await ship(root, ["core/kotlin", "product.toml", "native/fw-abi"], '"$HOME/fw-kotlin-check"');
   if (ay) await ship(resolve(ay), ["kotlin", "brand/tokens", "ay.toml", "Cargo.toml"], '"$HOME/fw-kotlin-check/ay"');
   const forwarded = Object.fromEntries(["GITHUB_ACTOR", "GITHUB_TOKEN"].flatMap((k) => (Bun.env[k] ? [[k, Bun.env[k] as string]] : [])));
   const run = spawnSync("ssh", [host, `bash -c ${q(remoteScript(tasks, Boolean(ay), forwarded))}`], { stdio: "inherit" });
