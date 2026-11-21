@@ -14,6 +14,7 @@ const USAGE: &str = "usage: fw kernel <command> [args]
   pin <target> [--tree ID] [--no-index] [--json]   move pins: mainline | stable | longterm[:series] | cachyos | cachyos-rc | a version (7.3.5, 7.4-rc3) | a tag (v6.18.64, cachyos-7.3.5-2); updates kernel.toml and the gitlink in the index
   sync [TREE ...] [--profile NAME] [--json]   fetch the pinned commit of each tree (all when none is named), shallow, with the profile of its tree (uapi: sparse, blobless; full: whole tree)
   graph build|stats|def|refs|callers|callees|includes|included-by|file|config|search ... [--tree ID] [--db FILE] [--limit N]   the tree-sitter code graph of a pinned tree
+  types [--check] [--tree-dir DIR] [--out DIR]   generate (or with --check, verify) packages/linux-types from the sanitized UAPI headers of the pinned stable tree (syncs it with the uapi profile when needed; runs bun, clang, pahole, bpftool)
   help
 global: --root DIR (the fw checkout holding kernel.toml; default: nearest ancestor of the working directory or $FW_ROOT); $FW_KERNEL_GIT_BASE replaces https://github.com for the forks";
 
@@ -113,8 +114,42 @@ pub fn run_with(arguments: &[String], remotes: &Remotes) -> Result<u8> {
             println!("{}", serde_json::to_string_pretty(&value)?);
             Ok(0)
         }
+        "types" => types(&root, &parsed),
         other => Err(Error::message(format!("unknown command `{other}`\n{USAGE}"))),
     }
+}
+
+/// Headers of the pinned tree through `headers.ts`, then the generator; both are Bun scripts of packages/linux-types.
+fn types(root: &Path, parsed: &Arguments) -> Result<u8> {
+    let package = root.join("packages").join("linux-types");
+    let headers = match parsed.value("out") {
+        Some(directory) => PathBuf::from(directory),
+        None => root.join(".cache").join("kernel-types").join("headers"),
+    };
+    let me = std::env::current_exe().map_err(|source| Error::Io { path: PathBuf::from("fw-linux"), source })?;
+    let bun = |arguments: Vec<String>| -> Result<u8> {
+        let status = std::process::Command::new("bun")
+            .args(&arguments)
+            .current_dir(&package)
+            .env("FW_LINUX_BIN", &me)
+            .status()
+            .map_err(|error| Error::Command { command: format!("bun {}", arguments.join(" ")), detail: error.to_string() })?;
+        Ok(u8::try_from(status.code().unwrap_or(1)).unwrap_or(1))
+    };
+    let mut prepare = vec!["run".to_owned(), "headers".to_owned(), "--out".to_owned(), headers.display().to_string()];
+    if let Some(directory) = parsed.value("tree-dir") {
+        prepare.extend(["--tree-dir".to_owned(), directory.to_owned()]);
+    }
+    let code = bun(prepare)?;
+    if code != 0 {
+        return Ok(code);
+    }
+    let mut generate = vec!["run".to_owned(), "gen".to_owned()];
+    if parsed.has("check") {
+        generate.push("--check".to_owned());
+    }
+    generate.extend(["--headers".to_owned(), headers.display().to_string()]);
+    bun(generate)
 }
 
 /// The arguments without `--name VALUE` / `--name=VALUE`.
