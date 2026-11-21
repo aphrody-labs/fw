@@ -1,13 +1,20 @@
 {
   "schema": 1,
-  "estate_sha256": "08a2c94f068d714184ffe1155460602705f232c30dcc3cbb818ed6f10576e1f6",
+  "estate_sha256": "81bfebff5594a1b49e24bca6c719897658dd6e7b58a2024b4f36d79d01492769",
   "actions": [
     {
       "op": "create",
-      "kind": "bucket",
-      "scope": "account",
-      "target": "aphrody-media",
-      "detail": "tier hot"
+      "kind": "dns",
+      "scope": "aphrody.com",
+      "target": "AAAA media.aphrody.com",
+      "detail": "AAAA media proxied | 100::"
+    },
+    {
+      "op": "create",
+      "kind": "domain",
+      "scope": "aphrody.com",
+      "target": "media.aphrody.com",
+      "detail": "media-cdn"
     }
   ]
 }

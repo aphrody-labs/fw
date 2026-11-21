@@ -60,7 +60,7 @@ pub fn compute(estate: &Estate, estate_text: &str, live: &Live) -> Result<Plan> 
     let live_buckets: BTreeSet<&str> = live.buckets.iter().filter_map(|bucket| bucket["name"].as_str()).collect();
     for (name, bucket) in &estate.bucket {
         if !live_buckets.contains(name.as_str()) {
-            actions.push(action("create", "bucket", "account", name, format!("tier {}", bucket.tier), None));
+            actions.push(action("create", "bucket", "account", name, format!("tier {}, location {}", bucket.tier, bucket.location), None));
             continue;
         }
         if let Some(days) = bucket.abort_multipart_days {
@@ -279,7 +279,7 @@ pub fn apply_action(cloudflare: &Cloudflare, estate: &Estate, live: &Live, item:
             cloudflare.call("DELETE", &format!("/accounts/{account}/workers/scripts/{}", item.target), None)?;
         }
         ("bucket", "create") => {
-            cloudflare.call("POST", &format!("/accounts/{account}/r2/buckets"), Some(&json!({ "name": item.target })))?;
+            cloudflare.call("POST", &format!("/accounts/{account}/r2/buckets"), Some(&json!({ "name": item.target, "locationHint": estate.bucket.get(&item.target).map(|bucket| bucket.location.to_lowercase()) })))?;
         }
         ("bucket-lifecycle", "update") => {
             let days = estate.bucket.get(&item.target).and_then(|bucket| bucket.abort_multipart_days).unwrap_or(1);
