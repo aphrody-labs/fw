@@ -11,6 +11,9 @@ use libcontainer::container::builder::ContainerBuilder;
 use libcontainer::container::tenant_builder::TenantContainerBuilder;
 use libcontainer::container::{Container, ContainerStatus};
 use libcontainer::signal::Signal;
+use libcontainer::workload::default::get_executor;
+use libcontainer::workload::{Executor, ExecutorError, ExecutorValidationError};
+use oci_spec::runtime::Spec;
 use libcontainer::syscall::syscall::SyscallType;
 use nix::sys::wait::{WaitStatus, waitpid};
 use nix::unistd::pipe;
@@ -32,6 +35,28 @@ const ANDROID_ENV: [(&str, &str); 9] = [
 
 /// Android keeps CLASSPATH and SYSTEMSERVERCLASSPATH in a file the init generates; `pm`, `am` and friends need them.
 const WITH_CLASSPATH: &str = r#"if [ -r /data/system/environ/classpath ]; then while read -r _ name value; do case "$name" in CLASSPATH|SYSTEMSERVERCLASSPATH) export "$name=$value";; esac; done < /data/system/environ/classpath; fi; exec "$@""#;
+
+/// Android's first-stage init creates /dev/random and /dev/urandom itself and aborts when they exist, but the runtime
+/// always creates its default devices; remove those two just before init is executed.
+#[derive(Clone)]
+struct GuestInit;
+
+impl Executor for GuestInit {
+    fn exec(&self, spec: &Spec) -> Result<(), ExecutorError> {
+        for node in ["/dev/random", "/dev/urandom"] {
+            if let Err(cause) = fs::remove_file(node) {
+                if cause.kind() != std::io::ErrorKind::NotFound {
+                    return Err(ExecutorError::Other(format!("remove {node}: {cause}")));
+                }
+            }
+        }
+        get_executor().exec(spec)
+    }
+
+    fn validate(&self, spec: &Spec) -> Result<(), ExecutorValidationError> {
+        get_executor().validate(spec)
+    }
+}
 
 fn error(context: &str, cause: impl std::fmt::Display) -> String {
     format!("{context}: {cause}")
@@ -74,6 +99,7 @@ pub fn create_and_start(state: &State, spec: &Value) -> Result<(), String> {
     let log = fs::File::create(&log_path).map_err(|cause| error(&log_path.display().to_string(), cause))?;
     let log_errors = log.try_clone().map_err(|cause| error(&log_path.display().to_string(), cause))?;
     let mut container = builder(state)?
+        .with_executor(GuestInit)
         .with_stdout(log)
         .with_stderr(log_errors)
         .as_init(&bundle)
