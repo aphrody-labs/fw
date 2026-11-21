@@ -1091,7 +1091,10 @@ pub fn serve_stdio<R: BufRead, W: Write + Send + 'static>(engine: &Arc<Engine>, 
             }
         };
         let id = message.get("id").filter(|id| valid_id(id)).cloned();
-        let Some(id) = id else {
+        // Notifications, invalid messages and `initialize` run in line: the requests that follow an
+        // `initialize` on the same pipe must see the session it opens.
+        let inline = id.is_none() || message.get("method").and_then(Value::as_str) == Some("initialize");
+        let Some(id) = id.filter(|_| !inline) else {
             let sink = |_: Value| {};
             let reply = engine.handle(&connection, &message, None, &sink, &Cancel::default());
             if let Some(body) = reply.body {
