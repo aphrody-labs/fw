@@ -596,3 +596,21 @@ docs = "https://github.com/cloudflare/artifact-fs#readme"
 fw = "fleet (fr1 clones)"
 role = "Filesystem driver that mounts large git repos quickly (Go, Apache-2.0): fast agent checkouts of big trees such as chromium on fr1"
 watch = true
+
+[[upstream]]
+id = "kube-rs"
+repo = "kube-rs/kube"
+branch = "main"
+docs = "https://kube.rs/getting-started/"
+fw = "crates/fw-cluster"
+role = "Rust Kubernetes client and controller runtime (crate `kube` 5.1.0 with k8s-openapi 0.29.0, Apache-2.0): the Rust path for fw-cluster to drive clusters (kind on fr1); fork aphrody-labs/kube; docs cached by `fw docs` as kube-rs"
+watch = true
+
+[[upstream]]
+id = "kubernetes-website"
+repo = "kubernetes/website"
+branch = "main"
+docs = "https://kubernetes.io/docs/"
+fw = "fw docs + fw learn"
+role = "Kubernetes documentation (CC-BY-4.0, no llms.txt on kubernetes.io): concept and RBAC pages read from content/en/docs and cached by `fw docs` as kubernetes, not vendored"
+watch = true
