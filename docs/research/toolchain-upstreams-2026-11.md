@@ -44,3 +44,24 @@ Reading of the table, per project:
 - aphrody-labs/llvm-project: ref `rustc/23.1-2026-07-22` created at the tip of the upstream branch.
 - aphrody-labs/rustd: all upstream branches mirrored (the submodule `vendor/rust-analyzer` points at a commit of the `rust-analyzer` branch, which the fork needs to be able to check out).
 
+
+## rustd on the pinned toolchain (measured 2026-11-21)
+
+Fork aphrody-labs/rustd, `main` at 6f7c02192220f6af504d73dbbc0b648dd37b3021 (three commits on DioxusLabs/rustd ebcd234a02f7): 48820d0 moves the pin to the channel of rust-toolchain.toml (`harness/toolchain`, CI, install scripts, README), takes `vendor/rustc_abi` from the 1.100.0 tag (it adds `Float::F16B`) and the submodule commit e750978b2805703c78f7757d90637377ed1f742d on branch `rust-analyzer-aphrody` (one arm: `F16B` lowers to the error type, Rust has no bf16 name); 0fd1b39 and 6f7c021 are the `cargo rustd` changes below. Records of what was measured on 1.99.0 (results, baselines, platform notes) are left as written.
+
+Defects found by running it, fixed in the fork:
+
+1. The daemon looked up the records of a build with the first ancestor named `build`, `deps` or `examples`. A workspace below a directory called `build` (the cluster node path `/srv/build/...`) found no record and every first build failed with "cargo built `x` before rustd recorded what it is linked from". The profile directory is now the one that holds `.cargo-lock`.
+2. File names (`.exe`, `.dll`, `.lib`, `lib*.so`) came from the host's constants; they now follow the unit's `--target`.
+3. `cargo rustd` refused every COFF target. With xwin's `LIB` and `-Lnative` flags in the environment (`eval "$(cargo xwin env --target x86_64-pc-windows-msvc)"`) it now builds `x86_64-pc-windows-msvc` from Linux. rustc runs `lld-link -flavor link`; the daemon moved all arguments into a response file, where `-flavor link` is read as a file name, so the flavor pair stays on the command line.
+
+Proof (fr1, `winsmoke`: `fn value() -> u64`, rust-toolchain 1.100.0, xwin SDK 10.0.26100): first build 63.1 s (cargo 0.48 s, then the daemon loads the workspace and links), file type `PE32+ executable for MS Windows 6.00 (console), x86-64`; run under `wine64` it prints `answer 21 on windows`; after editing the literal, rebuild 0.74 s then 0.42 s (`Finished dev profile [rustd] in 0.24s` and 0.09s), output `answer 34 on windows`.
+
+Edit-rebuild on fw-bin (prd, commit f5627a92a2530f7201c0f1845820c6019c05c008, dev profile, `from_millis` literal in `crates/fw-bin/src/doctor.rs`, no sccache, host load average 38 to 50 from other jobs, Rust 1.100.0, 8 cores):
+
+| step | plain cargo | `cargo rustd` |
+|---|---:|---:|
+| cold build of fw-bin | 125.6 s | 251.8 s (cargo builds the dependencies, then the daemon loads and links) |
+| edit, 8 runs, seconds | 5.56 4.56 4.11 4.86 6.61 7.91 4.47 6.52 (median 5.21) | 1.43 1.78 1.76 0.98 1.12 1.11 1.81 0.83 (median 1.28) |
+
+Median speedup of the edit rebuild is 4.1x on this workload at this load, not 25x. The edited program was checked after two edits (sha256 of `target-rustd/debug/fw` changed and `fw --version` ran). Upstream's own table (docs/cargo.md) shows 1 to 2 s for ripgrep edits too; the large ratios in its harness come from the LLVM rows and from projects with slower rustc builds. Not run: the python harness gate (`difftest.py`, `programs.py`, `splices.py`, ...), a Windows host, `cargo rustd test` (refused upstream). Run: `cargo test --release -p rustd -p hir-ty` passes (47 and 107 tests, 0 failed).
