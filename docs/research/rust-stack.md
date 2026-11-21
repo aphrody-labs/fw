@@ -4,7 +4,7 @@ Generated from `rust-stack.toml` by `bun configs/claude/scripts/rust-stack.ts`; 
 
 <!-- rust-stack:start -->
 
-Catalog of 272 entries (61 tools, components and actions, 211 crates): used 107, adopt 20, reject 145.
+Catalog of 272 entries (61 tools, components and actions, 211 crates): used 106, adopt 20, reject 146.
 
 Sources read live:
 
@@ -470,7 +470,7 @@ Sources read live:
 
 | name | kind | version | downloads | seen in | fw | purpose and reason |
 |---|---|---|---|---|---|---|
-| [gpui](https://crates.io/crates/gpui) | crate | 0.2.2 | 534k | blessed.rs | used | native GPU UI: declared by configs/gemini/dashboard |
+| [gpui](https://crates.io/crates/gpui) | crate | 0.2.2 | 534k | blessed.rs | reject | native GPU UI: no fw crate declares it since configs/gemini/dashboard was removed; the native UI lives in aphrody, which becomes a member of this workspace in the monorepo unification |
 | [iced](https://crates.io/crates/iced) | crate | 0.14.0 | 3.4M | blessed.rs, awesome-rust | reject | Elm-style GUI: gpui in aphrody |
 | [egui](https://crates.io/crates/egui) | crate | 0.37.0 | 32.6M | blessed.rs, awesome-rust | reject | immediate mode GUI: gpui in aphrody |
 | [taffy](https://crates.io/crates/taffy) | crate | 0.15.1 | 21.2M | blessed.rs | reject | flexbox layout: owned by blitz and gpui |
