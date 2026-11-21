@@ -86,3 +86,8 @@ reason = "list of crate names already published on crates.io, which never frees 
 paths = ["ay/locales/**", "ay/packages/org-mirror/test/fixtures/**", "ay/packages/wck/data/**", "packages/linux-types/**"]
 terms = ["relay-hub"]
 reason = "locale catalogs, mirrored GitHub text, a word list and generated Linux UAPI names (AMT_MODE_RELAY, 6rd relay_prefix) use the word for networking"
+
+[[allow]]
+paths = ["packages/linux-types/**"]
+terms = ["relay-hub"]
+reason = "generated Linux UAPI identifiers (struct fields such as relay_prefixlen)"
