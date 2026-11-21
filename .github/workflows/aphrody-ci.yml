@@ -191,6 +191,23 @@ jobs:
         run: cargo test -j 4 -p aphrody_cli --bins
       # Every push to main ships the web build it just verified: assets to R2, then the
       # aphrody-web Worker, then a live check. Workers scale per request on their own.
+      # Blocking product gate (owner, 2026-11-21): web.aphrody.com shipped frozen, canvas-only, with a debug string and no
+      # SEO. A build that has no real page shell, or that carries debug text, never deploys.
+      - name: Product gate for web.aphrody.com (real content, no debug text)
+        if: github.event_name == push && github.ref == refs/heads/main
+        shell: bash
+        run: |
+          f=target/web-dist/index.html
+          fail=0
+          for need in "<h1" "name=\"description\"" "property=\"og:title\"" "<header" "<nav" "<footer"; do
+            grep -qF "$need" "$f" || { echo "::error::$f is missing $need"; fail=1; }
+          done
+          if grep -RqE "cohort=|backend=webgpu|TODO|lorem ipsum|placeholder" target/web-dist --include=*.html --include=*.js; then
+            echo "::error::debug or placeholder text in the web build"; fail=1
+          fi
+          text=$(sed -e "s/<script[^>]*>.*<\/script>//g" -e "s/<[^>]*>//g" "$f" | tr -s "[:space:]" " " | wc -c)
+          [ "$text" -ge 400 ] || { echo "::error::only $text characters of real text in the page shell"; fail=1; }
+          exit $fail
       - name: Deploy web.aphrody.com
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
