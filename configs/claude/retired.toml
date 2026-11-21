@@ -30,6 +30,11 @@ id = "agy-tooling"
 pattern = '\bantigravity\b|\bagy\b|configs/gemini|~/\.gemini/scripts'
 reason = "agy (Antigravity CLI) is retired and its repository is archived; the plugin source targets Claude Code only"
 
+[[term]]
+id = "ci-setup-node"
+pattern = 'uses:\s*actions/setup-node@'
+reason = "Bun is the JavaScript runtime of every workflow (oven-sh/setup-bun); node and npm are not installed on the cluster runners (docs/research/modern-toolchain-2026-11.md)"
+
 [[allow]]
 paths = ["docs/agents/queue/**", "docs/agents/consolidation-*.md", "docs/release/**"]
 reason = "history notes of the retirement itself"
@@ -150,3 +155,8 @@ reason = "locale catalogs, mirrored GitHub text, a word list and generated Linux
 paths = ["packages/linux-types/**"]
 terms = ["relay-hub"]
 reason = "generated Linux UAPI identifiers (struct fields such as relay_prefixlen)"
+
+[[allow]]
+terms = ["ci-setup-node"]
+paths = ["ay/tools/bun-native.test.ts"]
+reason = "test fixture of the legacy scanner that rewrites this very line"
