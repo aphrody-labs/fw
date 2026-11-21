@@ -19,11 +19,11 @@
 | `androidx.compose.ui:ui` | `1.13.0` | Stable | Progressive blur (`Modifier.blur { BlurRadiusSpec }`), `PolygonShape`, `MorphPolygonShape`, shared `VectorPainter` draw cache |
 | `org.jetbrains.compose.material3:material3` | `1.13.0-rc01` | RC, not used | Compose Multiplatform port, based on androidx material3 `1.5.0-rc01` (see section 1.1) |
 | `com.aphrody:aphrody-theme` | `0.4.0` | GitHub Packages | The Aphrody theme (48 colour roles light and dark from the ay brand tokens, `AphrodyTheme` on `MaterialExpressiveTheme` with `MotionScheme.expressive()`), owned by `aphrody-labs/ay` (`kotlin/aphrody-theme`), coordinates in `product.toml` [kotlin] |
-| `com.aphrody.fw:fw-core` | `product.toml` `version` | Gradle build | Aphrody Labs Kotlin SDK (`core/kotlin/fw-core`, JVM) |
-| `com.aphrody.fw:fw-material3` | `product.toml` `version` | Gradle build | Android library: fw components and `M3Catalog` on `aphrody-theme` (`core/kotlin/fw-material3`) |
-| `com.aphrody.fw:fw-rust-ffi` | `product.toml` `version` | Gradle build | Bidirectional JDK 25 Panama FFM Kotlin <-> Rust bridge (`core/kotlin/fw-rust-ffi`, JVM) |
+| `com.aphrody.fw:fw-core` | `product.toml` `version` | Gradle build | Aphrody Labs Kotlin SDK (`kotlin/fw-core`, JVM) |
+| `com.aphrody.fw:fw-material3` | `product.toml` `version` | Gradle build | Android library: fw components and `M3Catalog` on `aphrody-theme` (`kotlin/fw-material3`) |
+| `com.aphrody.fw:fw-rust-ffi` | `product.toml` `version` | Gradle build | Bidirectional JDK 25 Panama FFM Kotlin <-> Rust bridge (`kotlin/fw-rust-ffi`, JVM) |
 
-Group `com.aphrody` is the reversed root domain of `ay.toml` [domains] in `aphrody-labs/ay`; `product.toml` [kotlin] holds the fw group and the theme coordinates, `core/kotlin/settings.gradle.kts` reads them.
+Group `com.aphrody` is the reversed root domain of `ay.toml` [domains] in `aphrody-labs/ay`; `product.toml` [kotlin] holds the fw group and the theme coordinates, `kotlin/settings.gradle.kts` reads them.
 
 ### 1.1 Why an Android library on androidx, not Compose Multiplatform
 
@@ -76,4 +76,4 @@ fw defines no colour, shape or motion token. `FwExpressiveTheme` calls `AphrodyT
   4. **Turn designs into specs**: `FwSpecOverlay` (`showKeylines`, `showColorTokens`, `showSpatialMeasurements`) + WGPU `Spec.Keyline.*` overlay instances.
   5. **Presets & JSON export**: `FwParametricPreset` + `exportPresetJson` / `importPresetJson`.
   6. **Randomize to break bias**: Deterministic seeded randomization (`FwParametricEngine.randomize` / `M3ParametricConfig::randomize_seeded`).
-- **Files**: `core/kotlin/fw-material3/src/main/kotlin/com/aphrody/fw/material3/FwParametricStudio.kt`, `crates/fw-wayland-wgpu/src/m3_expressive.rs`.
+- **Files**: `kotlin/fw-material3/src/main/kotlin/com/aphrody/fw/material3/FwParametricStudio.kt`, `crates/fw-wayland-wgpu/src/m3_expressive.rs`.

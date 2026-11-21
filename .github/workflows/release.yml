@@ -1,14 +1,14 @@
 name: Release & CD
 
 # Builds the fw binaries and the fw-wasm module, then calls the shared publish job of the ay SDK repository (checksums, release manifest,
-# provenance, GitHub Release, R2 objects served by the edge Worker). The matrix and the file names are release.toml [products.fw] of that repository.
+# provenance, GitHub Release, R2 objects served by the edge Worker). The matrix and the file names are release.toml [products.fw].
 on:
   push:
     tags: ["v*"]
   workflow_dispatch:
     inputs:
       channel:
-        description: Release train channel of a main or release/<M> build (ay docs/release/model.md); a v* tag carries its own
+        description: Release train channel of a main or release/<M> build (docs/release/model.md); a v* tag carries its own
         type: choice
         default: canary
         options: [canary, dev, beta]
@@ -26,25 +26,17 @@ jobs:
       channel: ${{ steps.meta.outputs.channel }}
       tag: ${{ steps.meta.outputs.tag }}
     steps:
-      # Full history: the build number of a version is a commit count (release train, ay docs/release/model.md).
+      # Full history: the build number of a version is a commit count (release train, docs/release/model.md).
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/checkout@v4
-        with:
-          repository: aphrody-labs/ay
-          path: release-tools
-          sparse-checkout: |
-            tools/release-plan.ts
-            release.toml
-          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
       - id: meta
         env:
           INPUT_CHANNEL: ${{ inputs.channel }}
         run: |
           set -euo pipefail
-          meta=$(bun release-tools/tools/release-plan.ts meta)
+          meta=$(bun tools/release-plan.ts meta)
           echo "$meta"
           # stable, extended and lts tags name a committed version: product.toml and every copy of it must already hold it.
           case "$(echo "$meta" | bun -e "console.log(JSON.parse(await Bun.stdin.text()).channel)")" in
@@ -147,7 +139,7 @@ jobs:
       contents: write
       id-token: write
       attestations: write
-    uses: aphrody-labs/ay/.github/workflows/release.yml@main
+    uses: ./.github/workflows/release-publish.yml
     with:
       product: fw
       version: ${{ needs.meta.outputs.version }}
@@ -155,7 +147,6 @@ jobs:
       tag: ${{ needs.meta.outputs.tag }}
       commit: ${{ github.sha }}
       artifacts-pattern: release-*
-      tools-repository: aphrody-labs/ay
     secrets: inherit
 
   publish-cloudflare:

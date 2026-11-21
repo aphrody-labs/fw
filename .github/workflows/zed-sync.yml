@@ -1,0 +1,58 @@
+name: Zed upstream sync
+
+# aphrody/ is a subtree of zed-industries/zed. The merge keeps Zed's commit ids as ancestors (the original aphrody history was recorded as merged,
+# see docs/architecture/layout-2026.md), so `git merge -X subtree=aphrody upstream/main` finds its merge base. The deterministic conflict
+# resolver is aphrody/tooling/bun/upstream-sync.ts: excised upstream files are dropped, README, .gitignore and isolated blocks keep the Aphrody
+# side, Cargo manifests stay with the root workspace and the upstream side is saved under target/zed-sync for review.
+# The PR must be merged with a merge commit (never squashed or rebased): the next sync needs the merge as an ancestor.
+
+on:
+  schedule:
+    # Zed main moves continuously: every hour.
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: zed-sync
+  cancel-in-progress: false
+
+jobs:
+  zed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Merge upstream Zed into aphrody/ and resolve conflicts
+        id: sync
+        run: |
+          before=$(git rev-parse HEAD)
+          bun aphrody/tooling/bun/upstream-sync.ts sync --target zed --json | tee "$RUNNER_TEMP/zed-sync.json"
+          if git rev-parse -q --verify MERGE_HEAD >/dev/null; then
+            if [ -n "$(git diff --name-only --diff-filter=U)" ]; then echo "unresolved conflicts"; git diff --name-only --diff-filter=U; exit 1; fi
+            git add -A
+            git commit -q -m "chore(sync): merge zed-industries/zed main into aphrody/ ($(git rev-parse --short MERGE_HEAD))"
+          fi
+          if [ "$(git rev-parse HEAD)" = "$before" ]; then echo "changed=false" >> "$GITHUB_OUTPUT"; else echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Open or update the sync PR (merge commit)
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch=sync/zed-subtree
+          git push --force origin "HEAD:refs/heads/$branch"
+          if ! gh pr list --head "$branch" --state open --json number --jq '.[0].number' | grep -q .; then
+            gh pr create --head "$branch" --base main --title "chore(sync): merge upstream Zed into aphrody/" \
+              --body "Subtree merge of zed-industries/zed main (git merge -X subtree=aphrody). Cargo manifest sides kept by the monorepo are saved by the job under target/zed-sync (see the workflow run). Merge with a merge commit."
+          fi
+          gh pr merge "$branch" --merge --auto || true

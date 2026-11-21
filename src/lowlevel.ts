@@ -85,7 +85,7 @@ export const LOW_LEVEL_LTO_AOT_MATRIX: LowLevelTargetRecipe[] = [
     arch: "jvm / kotlin-native (x64/arm64)",
     compiler: "kotlinc / konanc",
     ltoAotFlags: "-opt (Kotlin/Native LLVM AOT)",
-    sourceExample: "core/kotlin/FwSdk.kt",
+    sourceExample: "kotlin/FwSdk.kt",
   },
   {
     lang: "python",

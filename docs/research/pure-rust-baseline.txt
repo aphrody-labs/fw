@@ -1317,10 +1317,6 @@ ay/tools/recon.test.ts
 ay/tools/recon.ts
 ay/tools/recover.test.ts
 ay/tools/recover.ts
-ay/tools/release-plan.test.ts
-ay/tools/release-plan.ts
-ay/tools/release-publish.test.ts
-ay/tools/release-publish.ts
 ay/tools/render_character_index.py
 ay/tools/repo-archive.test.ts
 ay/tools/repo-archive.ts
@@ -1963,6 +1959,10 @@ tools/mcp-conformance/tee.ts
 tools/mcp-conformance/tools.test.ts
 tools/monorepo/import.ts
 tools/monorepo/unify.ts
+tools/release-plan.test.ts
+tools/release-plan.ts
+tools/release-publish.test.ts
+tools/release-publish.ts
 tools/rust_brain.ts
 tools/sync-tree.ts
 tools/upstream_watch.ts

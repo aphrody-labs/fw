@@ -13,12 +13,23 @@
  *   bun tooling/bun/upstream-sync.ts resolve [--json]
  *   bun tooling/bun/upstream-sync.ts sync [--target all|zed|nsh|gpui-kit|bun|agent-browser|agent-desktop] [--dry-run] [--json]
  */
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 
 export const repoRoot = resolve(import.meta.dir, "../..");
+// Inside the fw monorepo this tree lives under a prefix (aphrody/): git paths are relative to the repository top, and the Zed merge runs
+// with `-X subtree=<prefix>` so upstream paths land under it. In the standalone repository both are empty.
+export const gitTop = (() => {
+  try {
+    return execFileSync("git", ["rev-parse", "--show-toplevel"], { cwd: repoRoot, encoding: "utf8" }).trim() || repoRoot;
+  } catch {
+    return repoRoot;
+  }
+})();
+export const subtreePrefix = relative(gitTop, repoRoot).split(sep).join("/");
 export const UPSTREAM_LOCK_REL = "assets/os/upstream_sync_lock.toml";
 
 export const EXCISED_UPSTREAM_PREFIXES = [
@@ -246,7 +257,9 @@ export interface ConflictResolutionReport {
  * Resolves all active Git merge conflicts according to Aphrody's deterministic ruleset.
  */
 export function resolveActiveZedMergeConflicts(root = repoRoot): ConflictResolutionReport {
-  const status = runGit(root, ["status", "--porcelain"]);
+  const top = root === repoRoot ? gitTop : root;
+  const prefix = root === repoRoot ? subtreePrefix : "";
+  const status = runGit(top, ["status", "--porcelain"]);
   const unmerged = status.stdout
     .split(/\r?\n/)
     .filter((l) => /^(DD|AU|UD|UA|DU|AA|UU)\s/.test(l))
@@ -257,60 +270,81 @@ export function resolveActiveZedMergeConflicts(root = repoRoot): ConflictResolut
   const unresolvedFiles: string[] = [];
 
   for (const item of unmerged) {
-    const p = item.path.replaceAll("\\", "/");
+    const full = item.path.replaceAll("\\", "/");
+    if (prefix && !full.startsWith(`${prefix}/`)) continue;
+    const p = prefix ? full.slice(prefix.length + 1) : full;
 
     if (EXCISED_UPSTREAM_PREFIXES.some((prefix) => p.startsWith(prefix)) && (item.code === "DU" || item.code === "UD")) {
-      runGit(root, ["rm", "-f", "--", p]);
+      runGit(top, ["rm", "-f", "--", full]);
       deletedExcised.push(p);
       continue;
     }
 
+
+    // The monorepo owns every Cargo manifest and lock (one workspace, tools/monorepo/unify.ts): keep ours, and save the upstream side so the
+    // dependency delta can be carried into the root manifest by hand (it is listed in the sync report).
+    if (prefix && /(^|\/)Cargo\.(toml|lock)$/.test(p)) {
+      const dir = join(top, "target", "zed-sync", dirname(full));
+      mkdirSync(dir, { recursive: true });
+      for (const [stage, label] of [["1", "base"], ["3", "theirs"]] as const) {
+        const side = runGit(top, ["show", `:${stage}:${full}`]).stdout;
+        if (side) writeFileSync(join(dir, `${basename(full)}.${label}`), side, "utf8");
+      }
+      if (item.code === "DU" || item.code === "DD") runGit(top, ["rm", "-f", "--", full]);
+      else {
+        runGit(top, ["checkout", "--ours", "--", full]);
+        runGit(top, ["add", "--", full]);
+      }
+      resolvedFiles.push(`${full} (ours kept; upstream side in target/zed-sync/${full}.theirs)`);
+      continue;
+    }
+
     if (p === "README.md") {
-      runGit(root, ["checkout", "--theirs", "--", p]);
-      const full = join(root, p);
-      writeFileSync(full, ensureReadmeReviewGuard(readFileSync(full, "utf8")), "utf8");
-      runGit(root, ["add", "--", p]);
+      runGit(top, ["checkout", "--theirs", "--", full]);
+      const abs = join(top, full);
+      writeFileSync(abs, ensureReadmeReviewGuard(readFileSync(abs, "utf8")), "utf8");
+      runGit(top, ["add", "--", full]);
       resolvedFiles.push(p);
       continue;
     }
 
     if (p === "crates/onboarding/src/onboarding.rs") {
-      runGit(root, ["checkout", "--theirs", "--", p]);
-      const full = join(root, p);
-      writeFileSync(full, applyAphrodyOnboardingTransforms(readFileSync(full, "utf8")), "utf8");
-      runGit(root, ["add", "--", p]);
+      runGit(top, ["checkout", "--theirs", "--", full]);
+      const abs = join(top, full);
+      writeFileSync(abs, applyAphrodyOnboardingTransforms(readFileSync(abs, "utf8")), "utf8");
+      runGit(top, ["add", "--", full]);
       resolvedFiles.push(p);
       continue;
     }
 
     if (p === "tooling/xtask/src/main.rs") {
-      runGit(root, ["checkout", "--theirs", "--", p]);
-      const full = join(root, p);
-      writeFileSync(full, mergeXtaskMainKeepingAphrodyCommands(readFileSync(full, "utf8")), "utf8");
-      runGit(root, ["add", "--", p]);
+      runGit(top, ["checkout", "--theirs", "--", full]);
+      const abs = join(top, full);
+      writeFileSync(abs, mergeXtaskMainKeepingAphrodyCommands(readFileSync(abs, "utf8")), "utf8");
+      runGit(top, ["add", "--", full]);
       resolvedFiles.push(p);
       continue;
     }
 
     if (p === ".gitignore" || p === ".gitattributes") {
-      const ours = runGit(root, ["show", `:2:${p}`]).stdout;
-      const theirs = runGit(root, ["show", `:3:${p}`]).stdout;
+      const ours = runGit(top, ["show", `:2:${full}`]).stdout;
+      const theirs = runGit(top, ["show", `:3:${full}`]).stdout;
       if (ours && theirs) {
         let merged = applyIsolatedFencedBlocks(theirs, ours);
         if (p === ".gitignore") {
           merged = merged.replace(/^\.agents$/m, ".agents/*\n!.agents/plugins.json\n!.agents/plugins/\n!.agents/skills/");
         }
-        writeFileSync(join(root, p), merged, "utf8");
-        runGit(root, ["add", "--", p]);
+        writeFileSync(join(top, full), merged, "utf8");
+        runGit(top, ["add", "--", full]);
         resolvedFiles.push(p);
         continue;
       }
     }
 
     if (p === "Cargo.toml") {
-      const base = runGit(root, ["show", `:1:${p}`]).stdout;
-      const ours = runGit(root, ["show", `:2:${p}`]).stdout;
-      const theirs = runGit(root, ["show", `:3:${p}`]).stdout;
+      const base = runGit(top, ["show", `:1:${full}`]).stdout;
+      const ours = runGit(top, ["show", `:2:${full}`]).stdout;
+      const theirs = runGit(top, ["show", `:3:${full}`]).stdout;
       if (ours && theirs) {
         let merged = "";
         if (base) {
@@ -322,7 +356,7 @@ export function resolveActiveZedMergeConflicts(root = repoRoot): ConflictResolut
           writeFileSync(baseFile, base, "utf8");
           writeFileSync(oursFile, ours, "utf8");
           writeFileSync(theirsFile, theirs, "utf8");
-          const mf = runGit(root, ["merge-file", "-p", oursFile, baseFile, theirsFile]);
+          const mf = runGit(top, ["merge-file", "-p", oursFile, baseFile, theirsFile]);
           // Resolve any remaining conflict hunks by keeping Aphrody's ours side
           merged = mf.stdout.replace(
             /^<<<<<<<[^\r\n]*\r?\n([\s\S]*?)^=======\r?\n[\s\S]*?^>>>>>>>[^\r\n]*\r?\n/gm,
@@ -334,16 +368,16 @@ export function resolveActiveZedMergeConflicts(root = repoRoot): ConflictResolut
         // Re-apply upstream collab exclusion cleanly if present
         merged = merged.replace(/^\s*"crates\/collab",\r?\n/m, "");
         merged = merged.replace(/^collab = \{ path = "crates\/collab" \}\r?\n/m, "");
-        writeFileSync(join(root, p), merged, "utf8");
-        runGit(root, ["add", "--", p]);
+        writeFileSync(join(top, full), merged, "utf8");
+        runGit(top, ["add", "--", full]);
         resolvedFiles.push(p);
         continue;
       }
     }
 
     if (p === "Cargo.lock") {
-      runGit(root, ["checkout", "--ours", "--", p]);
-      runGit(root, ["add", "--", p]);
+      runGit(top, ["checkout", "--ours", "--", full]);
+      runGit(top, ["add", "--", full]);
       resolvedFiles.push(p);
       continue;
     }
@@ -888,7 +922,7 @@ if (import.meta.main) {
       runGit(repoRoot, ["fetch", "upstream", cfg.upstreamZedBranch, "--quiet"]);
       zedSha = runGit(repoRoot, ["rev-parse", `upstream/${cfg.upstreamZedBranch}`]).stdout.trim();
       if (!dryRun) {
-        const mergeRes = runGit(repoRoot, ["merge", "--no-commit", "--no-ff", `upstream/${cfg.upstreamZedBranch}`]);
+        const mergeRes = runGit(gitTop, ["merge", "--no-commit", "--no-ff", ...(subtreePrefix ? ["-X", `subtree=${subtreePrefix}`] : []), `upstream/${cfg.upstreamZedBranch}`]);
         const conflictRes = resolveActiveZedMergeConflicts(repoRoot);
         if (!conflictRes.ok && mergeRes.exitCode !== 0) {
           summary.ok = false;

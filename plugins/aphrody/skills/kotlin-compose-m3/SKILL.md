@@ -13,7 +13,7 @@ description: "Compose Material 3 1.5.0 stable (Expressive), Jetpack Compose 1.13
 - **Material 3**: `androidx.compose.material3:material3:1.5.0`, `material3-ripple:1.5.0`, `material3-window-size-class:1.5.0`, `material3-adaptive-navigation-suite:1.5.0`, `androidx.compose.material3.adaptive:adaptive:1.3.0`
 - **Target**: Android library on androidx material3 (the only target of 1.5.0). No stable Compose Multiplatform port is based on 1.5.0 (CMP `1.12.2` ships material3 `1.12.0-alpha03` = androidx `1.5.0-alpha22`; `1.13.0-rc01` = androidx `1.5.0-rc01`).
 - **Theme (owned by `aphrody-labs/ay`)**: `com.aphrody:aphrody-theme` (`AphrodyTheme`, `AphrodyLightColors`, `AphrodyDarkColors`), generated from the brand tokens and published to GitHub Packages; coordinates in `product.toml` [kotlin]. fw never redefines colours, shapes or motion.
-- **Aphrody Labs Libraries** (`core/kotlin/`, Gradle):
+- **Aphrody Labs Libraries** (`kotlin/`, Gradle):
   - `com.aphrody.fw:fw-core:<product.toml version>`
   - `com.aphrody.fw:fw-material3:<product.toml version>`
   - `com.aphrody.fw:fw-rust-ffi:4.2.0`

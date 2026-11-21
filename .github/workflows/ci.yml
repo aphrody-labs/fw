@@ -27,10 +27,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
-      - name: Zero-warning Clippy and workspace tests
+      # One Cargo workspace holds fw, aphrody/ and ay/; each origin has its own CI job (aphrody-ci.yml, ay-check.yml), this job gates fw's members.
+      - name: fw workspace members
+        shell: bash
         run: |
-          cargo clippy --workspace --all-targets -- -D warnings
-          cargo test --workspace
+          pkgs=$(cargo metadata --no-deps --format-version 1 | jq -r --arg root "$(pwd)/" '.packages[]|select((.manifest_path|startswith($root+"aphrody/")|not) and (.manifest_path|startswith($root+"ay/")|not))|"-p "+.name' | tr -d '\r' | tr '\n' ' ')
+          echo "FW_PKGS=$pkgs" >> "$GITHUB_ENV"
+      - name: Zero-warning Clippy and workspace tests
+        shell: bash
+        run: |
+          cargo clippy $FW_PKGS --all-targets -- -D warnings
+          cargo test $FW_PKGS
       - name: Build Fat-LTO fw binary and smoke-verify
         run: |
           cargo build --release -p fw-bin --bin fw
@@ -94,26 +101,10 @@ jobs:
           bun run cf:dry-run
 
   kotlin-compose:
-    name: Kotlin + Compose Material 3 (theme from ay)
+    name: Kotlin + Compose Material 3 (theme from ay/kotlin)
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
       - uses: actions/checkout@v4
-      - name: Pinned ay source (public repository, no registry credentials)
-        id: ay
-        run: |
-          echo "repo=$(sed -n 's/^theme_source = "\(.*\)"/\1/p' product.toml)" >> "$GITHUB_OUTPUT"
-          echo "rev=$(sed -n 's/^theme_source_rev = "\(.*\)"/\1/p' product.toml)" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@v4
-        with:
-          repository: ${{ steps.ay.outputs.repo }}
-          ref: ${{ steps.ay.outputs.rev }}
-          path: ay-source
-          sparse-checkout: |
-            kotlin
-            brand/tokens
-            ay.toml
-            Cargo.toml
-          sparse-checkout-cone-mode: false
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -121,7 +112,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: wrapper
-          build-root-directory: core/kotlin
+          build-root-directory: kotlin
       - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
         with:
@@ -130,11 +121,11 @@ jobs:
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.1" > /dev/null
       - name: libfw_abi for the fw-rust-ffi tests
         run: cargo build --release --manifest-path native/fw-abi/Cargo.toml
-      - name: Gradle build and tests (fw-material3 consumes aphrody-theme from the pinned ay source)
-        working-directory: core/kotlin
+      - name: Gradle build and tests (fw-material3 consumes aphrody-theme from the included ay/kotlin build)
+        working-directory: kotlin
         run: |
           export FW_ABI_PATH="$GITHUB_WORKSPACE/native/fw-abi/target/release/libfw_abi.so"
-          bash ./gradlew --no-daemon --console=plain -Paphrody.ay.checkout="$GITHUB_WORKSPACE/ay-source" test assembleRelease :fw-material3:dependencies --configuration releaseRuntimeClasspath
+          bash ./gradlew --no-daemon --console=plain test assembleRelease :fw-material3:dependencies --configuration releaseRuntimeClasspath
 
   python-and-purity:
     name: Python + Repo Map & Purity
@@ -166,7 +157,7 @@ jobs:
         run: cargo deny check
       - name: Unused dependencies in the workspace members
         run: |
-          cargo machete $(cargo metadata --no-deps --format-version 1 | jq -r '.packages[].manifest_path | sub("/Cargo.toml$"; "")')
+          cargo machete $(cargo metadata --no-deps --format-version 1 | jq -r --arg root "$(pwd)/" '.packages[].manifest_path | select((startswith($root+"aphrody/")|not) and (startswith($root+"ay/")|not)) | sub("/Cargo.toml$"; "")')
           cargo shear --exclude fw-depot
       - name: Rust stack catalog matches its data and the manifests
         run: |

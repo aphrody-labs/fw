@@ -27,9 +27,9 @@
     "wrangler": "4.166.0"
   },
   "scripts": {
-    "check": "uvx ruff check . && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && bun test",
-    "test:ci": "cargo build --release -p fw-bin --bin fw && bun run build:abi && bun test --timeout=30000",
-    "test": "bun test tests && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && uv run python -m unittest discover -s tests",
+    "check": "uvx ruff check . && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && bun test ./tests ./apps ./packages ./configs ./tools ./cloudflare",
+    "test:ci": "cargo build --release -p fw-bin --bin fw && bun run build:abi && bun test --timeout=30000 ./tests ./apps ./packages ./configs ./tools ./cloudflare",
+    "test": "bun test ./tests && cargo test --manifest-path native/fw-kernel/Cargo.toml && cargo test --manifest-path native/fw-world/Cargo.toml && cargo test --manifest-path native/fw-abi/Cargo.toml && uv run python -m unittest discover -s tests",
     "build:abi": "cargo build --release --manifest-path native/fw-abi/Cargo.toml",
     "build:cli": "bun build --compile --aot --trim --no-compile-function-source --no-compile-autoload-dotenv --no-compile-autoload-bunfig src/fw_cli.ts --outfile dist/fw-plugin.exe",
     "build": "bun run build:abi && bun run build:cli",

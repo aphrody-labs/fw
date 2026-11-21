@@ -35,7 +35,7 @@ val generateFwProduct = tasks.register("generateFwProduct") {
         val directory = outputDirectory.get().dir("com/aphrody/fw/core").asFile
         directory.mkdirs()
         directory.resolve("FwProduct.kt").writeText(
-            "package com.aphrody.fw.core\n\n/** Generated from product.toml by core/kotlin/fw-core/build.gradle.kts. */\nobject FwProduct {\n    const val VERSION: String = \"$version\"\n}\n",
+            "package com.aphrody.fw.core\n\n/** Generated from product.toml by kotlin/fw-core/build.gradle.kts. */\nobject FwProduct {\n    const val VERSION: String = \"$version\"\n}\n",
         )
     }
 }

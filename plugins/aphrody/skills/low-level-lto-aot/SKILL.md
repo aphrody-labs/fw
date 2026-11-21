@@ -22,7 +22,7 @@ Use `fw lowlevel matrix` and `fw lowlevel verify` to inspect and verify real nat
 - **WebGPU / WGSL (`core/webgpu/fw_compute.wgsl`, `crates/fw-ostd-wasm`)**: Compute & GPUI quad shaders (`@compute`, `@vertex`, `@fragment`).
 - **Bun AOT (`src/fw_cli.ts`)**: `bun build --compile --aot --trim --no-compile-function-source`.
 - **Go (`core/go/fw-go`)**: `go build -trimpath -ldflags="-s -w"` (and `-buildmode=c-shared` for C ABI FFI).
-- **Java / Kotlin (`core/java`, `core/kotlin`)**: `javac --release 25` (Ghidra headless bridge) + Kotlin SDK contract.
+- **Java / Kotlin (`core/java`, `kotlin`)**: `javac --release 25` (Ghidra headless bridge) + Kotlin SDK contract.
 
 ## 2. Verification Commands
 

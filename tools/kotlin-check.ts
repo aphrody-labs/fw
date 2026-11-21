@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
-// Gate of the Kotlin workspace (core/kotlin): Gradle build and tests run on the build host, never on this machine.
+// Gate of the Kotlin workspace (kotlin): Gradle build and tests run on the build host, never on this machine.
 //   bun tools/kotlin-check.ts [--host <ssh alias>] [--ay <local ay checkout>] [gradle tasks...]   (defaults: FW_BUILD_HOST or fr1, test assembleRelease)
-// What is shipped: core/kotlin, product.toml and the native/fw-abi crates (the fw-rust-ffi tests load the built libfw_abi.so), as the
+// What is shipped: kotlin, product.toml and the native/fw-abi crates (the fw-rust-ffi tests load the built libfw_abi.so), as the
 // working tree stands. With --ay, that checkout's kotlin/, brand/tokens, ay.toml and Cargo.toml are shipped too and Gradle includes it
 // (-Paphrody.ay.checkout), so an unpublished com.aphrody:aphrody-theme is substituted in place; without it the published artifact is
 // resolved from the GitHub Packages registry named in product.toml (GITHUB_ACTOR / GITHUB_TOKEN of this shell are forwarded).
@@ -52,7 +52,7 @@ export function remoteScript(gradleTasks: string[], withAy: boolean, env: Record
 if (import.meta.main) {
   const wipe = spawnSync("ssh", [host, `bash -c ${q('rm -rf "$HOME/fw-kotlin-check" && mkdir -p "$HOME/fw-kotlin-check"')}`], { stdio: "inherit" });
   if (wipe.status !== 0) process.exit(wipe.status ?? 1);
-  await ship(root, ["core/kotlin", "product.toml", "native/fw-abi"], '"$HOME/fw-kotlin-check"');
+  await ship(root, ["kotlin", "product.toml", "native/fw-abi"], '"$HOME/fw-kotlin-check"');
   if (ay) await ship(resolve(ay), ["kotlin", "brand/tokens", "ay.toml", "Cargo.toml"], '"$HOME/fw-kotlin-check/ay"');
   const forwarded = Object.fromEntries(["GITHUB_ACTOR", "GITHUB_TOKEN"].flatMap((k) => (Bun.env[k] ? [[k, Bun.env[k] as string]] : [])));
   const run = spawnSync("ssh", [host, `bash -c ${q(remoteScript(tasks, Boolean(ay), forwarded))}`], { stdio: "inherit" });

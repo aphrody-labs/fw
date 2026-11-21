@@ -24,7 +24,7 @@ import {
   releaseKeys,
   sha256sums,
   validateRelease,
-} from "../apps/edge/src/manifest.ts";
+} from "../ay/apps/edge/src/manifest.ts";
 
 const root = resolve(import.meta.dir, "..");
 
@@ -45,7 +45,7 @@ export function readMatrix(path = join(root, "release.toml")): Matrix {
 }
 
 /** Bucket name of the releases bucket: apps/edge/edge.toml [buckets].RELEASES, the one place that names it. */
-export function releasesBucket(path = join(root, "apps/edge/edge.toml")): string {
+export function releasesBucket(path = join(root, "ay/apps/edge/edge.toml")): string {
   const bucket = (Bun.TOML.parse(readFileSync(path, "utf8")) as { buckets?: Record<string, string> }).buckets?.RELEASES;
   if (!bucket) throw new Error(`${path}: [buckets].RELEASES is missing`);
   return bucket;

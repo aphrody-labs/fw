@@ -68,7 +68,7 @@ Decisions and reasons:
 
 ## Decision for every tracked path
 
-<!-- layout:begin generated (bun tools/layout.ts doc, from layout.toml and git ls-files of 16600 paths) -->
+<!-- layout:begin generated (bun tools/layout.ts doc, from layout.toml and git ls-files of 16610 paths) -->
 
 ### Every tracked path, by area
 
@@ -80,7 +80,7 @@ Decisions and reasons:
 | `.editorconfig` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `.fdignore` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `.gitattributes` | 1 | keep | Git reads these from the repository root |
-| `.github` | 14 | keep | GitHub reads workflows, actions, CODEOWNERS and dependabot from .github |
+| `.github` | 23 | keep | GitHub reads workflows, actions, CODEOWNERS and dependabot from .github |
 | `.gitignore` | 1 | keep | Git reads these from the repository root |
 | `.gitmessage` | 1 | keep | Git reads these from the repository root |
 | `.gitmodules` | 1 | keep | Git reads these from the repository root |
@@ -91,7 +91,7 @@ Decisions and reasons:
 | `aphrody` | 9754 | keep | the Zed fork, imported with its full history under one prefix so `git merge -X subtree=aphrody zed-industries/zed` keeps following upstream; its internal layout is upstream Zed's (crates, assets, extensions, script, tooling) |
 | `apps` | 46 | keep | Bun workspaces convention: deployable apps live in apps/* |
 | `apps/chromium-dash` | 9 | keep | Bun workspace members belong in apps/*, not nested in a Rust crate |
-| `ay` | 1896 | keep | the SDK, cloud and edge repository, imported with its full history; its crates, packages, apps, kotlin and python roots fold into the workspaces of this repository step by step (layout.toml moves) |
+| `ay` | 1888 | keep | the SDK, cloud and edge repository, imported with its full history; its crates, packages, apps, kotlin and python roots fold into the workspaces of this repository step by step (layout.toml moves) |
 | `bun.lock` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `bunfig.toml` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `Cargo.lock` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
@@ -101,18 +101,18 @@ Decisions and reasons:
 | `compose.yaml` | 1 | keep | Docker tooling reads these from the build context root |
 | `configs` | 65 | keep | agent and tool configuration sources (claude scripts, heretic), consumed by the plugin sync |
 | `core` | 19 | keep | single-file native cores, one directory per language (asm, c, cuda, go, java, wasm, webgpu, py) |
-| `core/kotlin` | 22 | move -> `kotlin` (blocked) | a Gradle build has one root with settings.gradle.kts, a version catalog and the wrapper; ay uses kotlin/ at the top level Blocked: settings.gradle.kts reads ../../product.toml, tools/kotlin-check.ts and the Kotlin CI job name core/kotlin; moves with its own gate (gradle build on a host with the Android SDK) |
 | `cpp` | 4 | keep | CMake projects get their own top-level root with CMakePresets.json (ay already uses cpp/) |
 | `crates` | 1168 | keep | Cargo convention: flat crates/* members, one directory per crate |
 | `deny.toml` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
 | `Dockerfile` | 1 | keep | Docker tooling reads these from the build context root |
-| `docs` | 277 | keep | documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract |
+| `docs` | 280 | keep | documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract |
 | `dotnet` | 6 | keep | .NET projects get one root with Directory.Build.props, Directory.Packages.props (central package management) and a .slnx |
 | `flake.nix` | 1 | keep | Nix flakes and legacy entry points are looked up at the root |
 | `fw.soul.json` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `fw.targets.json` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `justfile` | 1 | keep | just discovers the justfile at the root |
 | `kernel.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
+| `kotlin` | 22 | keep | a Gradle build has one root with settings.gradle.kts, a version catalog and the wrapper; ay uses kotlin/ at the top level |
 | `layout.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `LICENSE` | 1 | keep | repository front matter and legal files, read by GitHub and package registries at the root |
 | `LIFETIMES_AND_STYLE.md` | 1 | keep | agent rules and the style contract; agents load them from the root |
@@ -124,18 +124,19 @@ Decisions and reasons:
 | `packages` | 546 | keep | Bun workspaces convention: libraries in packages/* |
 | `packages/chromium` | 7 | keep | Bun workspace members belong in packages/*, not nested in a Rust crate |
 | `packages/chromium-releases` | 40 | keep | Bun workspace members belong in packages/*, not nested in a Rust crate |
-| `plugins` | 2492 | keep | the Claude plugin source tree; its layout (skills/, agents/, hooks/) is fixed by the plugin format |
+| `plugins` | 2493 | keep | the Claude plugin source tree; its layout (skills/, agents/, hooks/) is fixed by the plugin format |
 | `product.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `pyproject.toml` | 1 | keep | uv reads the Python project, workspace and pin from the root |
 | `python` | 12 | keep | uv workspace members live in python/*, not under a Bun package |
 | `README.md` | 1 | keep | repository front matter and legal files, read by GitHub and package registries at the root |
+| `release.toml` | 1 | keep | declarative root file: the release matrix of every product and the release train (tools/release-plan.ts, tools/release-publish.ts, docs/release/model.md); moved from ay |
 | `REVIEW.md` | 1 | keep | repository front matter and legal files, read by GitHub and package registries at the root |
 | `rust-toolchain.toml` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
 | `src` | 20 | move -> `packages/fw/src` (blocked) | Bun convention: the root holds workspace config only, code lives in a package Blocked: package.json main, bin and scripts, plugin runtime paths and tests import src/*; moves with its own gate (bun test over tests/) |
 | `tests` | 16 | move -> `packages/fw/test` (blocked) | tests move with the package they test Blocked: moves together with src |
 | `third_party` | 5 | keep | gitlinks to the kernel sources the kernel lot builds (update = none, shallow) |
 | `THIRD_PARTY_NOTICES.md` | 1 | keep | repository front matter and legal files, read by GitHub and package registries at the root |
-| `tools` | 56 | keep | repository scripts (Bun) with their own tests; one script per task |
+| `tools` | 60 | keep | repository scripts (Bun) with their own tests; one script per task |
 | `tsconfig.json` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `upstreams.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `uv.lock` | 1 | keep | uv reads the Python project, workspace and pin from the root |
@@ -152,7 +153,7 @@ Decisions and reasons:
 | `crates/fw-browser-chromium/packages/chromium-releases` | `packages/chromium-releases` | Bun workspace members belong in packages/*, not nested in a Rust crate | done |
 | `packages/ai-os/python` | `python` | uv workspace members live in python/*, not under a Bun package | done |
 | `packages/ai-os/native` | `dotnet` | .NET projects get one root with Directory.Build.props, Directory.Packages.props (central package management) and a .slnx | done |
-| `core/kotlin` | `kotlin` | a Gradle build has one root with settings.gradle.kts, a version catalog and the wrapper; ay uses kotlin/ at the top level | blocked: settings.gradle.kts reads ../../product.toml, tools/kotlin-check.ts and the Kotlin CI job name core/kotlin; moves with its own gate (gradle build on a host with the Android SDK) |
+| `core/kotlin` | `kotlin` | a Gradle build has one root with settings.gradle.kts, a version catalog and the wrapper; ay uses kotlin/ at the top level | done |
 | `src` | `packages/fw/src` | Bun convention: the root holds workspace config only, code lives in a package | blocked: package.json main, bin and scripts, plugin runtime paths and tests import src/*; moves with its own gate (bun test over tests/) |
 | `tests` | `packages/fw/test` | tests move with the package they test | blocked: moves together with src |
 

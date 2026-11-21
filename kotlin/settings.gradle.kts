@@ -1,10 +1,7 @@
-// Kotlin workspace of fw. Names and versions come from ../../product.toml [kotlin]; nothing is repeated here.
+// Kotlin workspace of fw. Names and versions come from ../product.toml [kotlin]; nothing is repeated here.
 //
-// The Aphrody Compose theme (com.aphrody:aphrody-theme) is owned by aphrody-labs/ay and consumed as a published artifact from its
-// GitHub Packages Maven registry (read:packages: GITHUB_ACTOR and GITHUB_TOKEN, or the gpr.user and gpr.key Gradle properties).
-// With the Gradle property `aphrody.ay.checkout` (a local ay checkout, set in a git-ignored or user-level gradle.properties or with -P)
-// that checkout's kotlin/ build is included instead and substitutes the artifact in place: nothing is copied.
-val product = file("../../product.toml").readText()
+// The Aphrody Compose theme (com.aphrody:aphrody-theme) lives in ay/kotlin of this repository and is included as a composite build.
+val product = file("../product.toml").readText()
 
 fun product(table: String?, key: String): String {
     val body = if (table == null) product.substringBefore("\n[") else product.substringAfter("\n[$table]\n").substringBefore("\n[")
@@ -41,7 +38,8 @@ dependencyResolutionManagement {
     }
 }
 
-providers.gradleProperty("aphrody.ay.checkout").orNull?.let { includeBuild(file(it).resolve("kotlin")) }
+// ay is inside this repository: its Kotlin build (the Aphrody Compose theme) is always part of the build and substitutes com.aphrody:aphrody-theme.
+includeBuild("../ay/kotlin")
 
 rootProject.name = "fw-kotlin"
 

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { CHANNEL_ALIASES, CHANNELS as EDGE_CHANNELS } from "../apps/edge/src/manifest.ts";
+import { CHANNEL_ALIASES, CHANNELS as EDGE_CHANNELS } from "../ay/apps/edge/src/manifest.ts";
 import { CHANNELS, channelName, config, milestone, parseTag, plan, version } from "./release-plan.ts";
 
 const schedule = { cadence_weeks: 4, anchor_milestone: 5, anchor_stable: "2026-11-21", beta_weeks: 3, extended_every: 2, extended_weeks: 8, lts_weeks: 104 };

@@ -2,7 +2,7 @@ import { afterEach, describe, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type IndexManifest, type ReleaseManifest, pickAsset, releaseKeys, validateRelease } from "../apps/edge/src/manifest.ts";
+import { type IndexManifest, type ReleaseManifest, pickAsset, releaseKeys, validateRelease } from "../ay/apps/edge/src/manifest.ts";
 import { actionsMatrix, compileArgv, fsStore, patternRegex, planRelease, publishRelease, r2ApiStore, r2StoreFromEnv, readMatrix, releasesBucket } from "./release-publish.ts";
 
 const dirs: string[] = [];
@@ -26,7 +26,7 @@ const readJson = <T>(root: string, key: string): T => JSON.parse(readFileSync(jo
 describe("release.toml", () => {
   test("every product of the ecosystem that ships binaries is described, with unique asset patterns and known vocabulary", () => {
     const matrix = readMatrix();
-    const ay = Bun.TOML.parse(readFileSync(join(import.meta.dir, "..", "ay.toml"), "utf8")) as { ecosystem: { stack: string[] } };
+    const ay = Bun.TOML.parse(readFileSync(join(import.meta.dir, "..", "ay", "ay.toml"), "utf8")) as { ecosystem: { stack: string[] } };
     for (const key of ay.ecosystem.stack) expect(matrix[key]).toBeDefined();
     const arches = ["x86_64", "aarch64", "riscv64", "wasm32", "wasm64", "any"];
     const oses = ["linux", "windows", "macos", "android", "freestanding", "wasi", "browser", "any"];
@@ -53,10 +53,10 @@ describe("release.toml", () => {
 
   test("every bun-compile target builds with minify and bytecode for its own bun target", () => {
     const targets = actionsMatrix("ay").include.filter((t) => t.build === "bun-compile");
-    expect(targets.map((t) => t.bun_target).sort()).toEqual(["bun-darwin-arm64", "bun-linux-arm64", "bun-linux-x64", "bun-windows-x64"]);
+    expect(targets.map((t) => t.bun_target).sort()).toEqual(["bun-linux-arm64", "bun-linux-x64", "bun-windows-x64"]);
     for (const t of targets) {
       const argv = compileArgv("ay", t.asset, "out/x");
-      expect(argv).toEqual(["build", "--compile", "--minify", "--bytecode", `--target=${t.bun_target}`, "apps/ay/src/cli.ts", "--outfile", "out/x"]);
+      expect(argv).toEqual(["build", "--compile", "--minify", "--bytecode", `--target=${t.bun_target}`, "ay/apps/ay/src/cli.ts", "--outfile", "out/x"]);
     }
     expect(() => compileArgv("ay", "ay-corelib-base.wasm", "x")).toThrow("not bun-compile");
   });
@@ -73,7 +73,6 @@ describe("publish", () => {
   const fwFiles = {
     "fw-x86_64-linux-musl": "elf-bytes",
     "fw-x86_64-windows.exe": "pe-bytes",
-    "fw-aarch64-macos": "macho-bytes",
     "fw_wasm.wasm": "\0asm\x01\0\0\0",
     "SHA256SUMS": "ignored",
     "fw-x86_64-linux-musl.sha256": "ignored",
@@ -85,17 +84,17 @@ describe("publish", () => {
     const result = await publishRelease(plan, fsStore(out), { now: input.date });
 
     expect(validateRelease(plan.manifest)).toEqual([]);
-    expect(plan.manifest.assets.map((a) => a.name)).toEqual(["fw-aarch64-macos", "fw-x86_64-linux-musl", "fw-x86_64-windows.exe", "fw_wasm.wasm"]);
+    expect(plan.manifest.assets.map((a) => a.name)).toEqual(["fw-x86_64-linux-musl", "fw-x86_64-windows.exe", "fw_wasm.wasm"]);
 
     const release = readJson<ReleaseManifest>(out, releaseKeys.release("fw", "4.2.0"));
     expect(release).toEqual(plan.manifest);
     const linux = release.assets.find((a) => a.name === "fw-x86_64-linux-musl")!;
     expect(linux).toMatchObject({ os: "linux", arch: "x86_64", abi: "musl", kind: "binary", size: 9, sha256: sha("elf-bytes") });
     expect(readFileSync(join(out, "fw", "4.2.0", "fw-x86_64-linux-musl"), "utf8")).toBe("elf-bytes");
-    expect(readFileSync(join(out, "fw", "4.2.0", "SHA256SUMS"), "utf8")).toContain(`${sha("macho-bytes")}  fw-aarch64-macos\n`);
+    expect(readFileSync(join(out, "fw", "4.2.0", "SHA256SUMS"), "utf8")).toContain(`${sha("elf-bytes")}  fw-x86_64-linux-musl\n`);
     expect(readJson<{ version: string; channel: string }>(out, releaseKeys.channel("fw", "stable"))).toMatchObject({ version: "4.2.0", channel: "stable" });
     expect(pickAsset(release, "browser", "wasm32")?.name).toBe("fw_wasm.wasm");
-    expect(pickAsset(release, "macos", "aarch64")?.name).toBe("fw-aarch64-macos");
+    expect(pickAsset(release, "windows", "x86_64")?.name).toBe("fw-x86_64-windows.exe");
     expect(result.written).toContain(releaseKeys.index());
   });
 
@@ -105,7 +104,7 @@ describe("publish", () => {
     const ay = { product: "ay", version: "0.4.0", channel: "stable", tag: "v0.4.0", commit: "b".repeat(40), date: "2026-11-19T11:00:00.000Z" };
     await publishRelease(await planRelease({ ...ay, dir: artifacts({ "ay-linux-x86_64": "x", "ay-corelib-base.wasm": "\0asm\x01\0\0\0" }) }), fsStore(out));
     await publishRelease(
-      await planRelease({ ...input, version: "4.3.0", tag: "v4.3.0", date: "2026-11-19T12:00:00.000Z", dir: artifacts({ "fw-aarch64-macos": "newer" }) }),
+      await planRelease({ ...input, version: "4.3.0", tag: "v4.3.0", date: "2026-11-19T12:00:00.000Z", dir: artifacts({ "fw-x86_64-linux-musl": "newer" }) }),
       fsStore(out),
     );
     const index = readJson<IndexManifest>(out, releaseKeys.index());
@@ -122,10 +121,10 @@ describe("publish", () => {
     expect(again.unchanged).toContain(releaseKeys.release("fw", "4.2.0"));
     expect(again.written).not.toContain(releaseKeys.release("fw", "4.2.0"));
 
-    const changed = await planRelease({ ...input, dir: artifacts({ ...fwFiles, "fw-aarch64-macos": "other-bytes-longer" }) });
+    const changed = await planRelease({ ...input, dir: artifacts({ ...fwFiles, "fw-x86_64-linux-musl": "other-bytes-longer" }) });
     await expect(publishRelease(changed, store)).rejects.toThrow(/immutable/);
     await publishRelease(changed, store, { force: true });
-    expect(readFileSync(join(out, "fw", "4.2.0", "fw-aarch64-macos"), "utf8")).toBe("other-bytes-longer");
+    expect(readFileSync(join(out, "fw", "4.2.0", "fw-x86_64-linux-musl"), "utf8")).toBe("other-bytes-longer");
   });
 
   test("a file no target names, an unknown product and a bad channel are refused", async () => {

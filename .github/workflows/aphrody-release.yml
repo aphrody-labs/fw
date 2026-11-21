@@ -1,0 +1,226 @@
+name: aphrody Release
+
+on:
+  push:
+    tags: ["v*"]
+  schedule:
+    # Daily Canary & Nightly snapshots at 03:15 UTC when main moved
+    - cron: '15 3 * * *'
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Release train channel of a main or release/<M> build (docs/release/model.md); a v* tag carries its own
+        required: true
+        default: canary
+        type: choice
+        options: [canary, dev, beta]
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: release-${{ github.event.inputs.channel || github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  CARGO_TERM_COLOR: always
+
+defaults:
+  run:
+    working-directory: aphrody
+
+jobs:
+  resolve-metadata:
+    runs-on: ubuntu-latest
+    outputs:
+      channel: ${{ steps.meta.outputs.channel }}
+      version: ${{ steps.meta.outputs.version }}
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          filter: tree:0
+      - uses: oven-sh/setup-bun@v2
+      # The release train (docs/release/model.md): version, channel and tag from the ref of this run.
+      - name: Resolve channel and version
+        id: meta
+        env:
+          INPUT_CHANNEL: ${{ github.event.inputs.channel }}
+        run: bun ../tools/release-plan.ts meta
+
+  build:
+    needs: resolve-metadata
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Native builds: the GPUI/Zed system libraries (fontconfig, wayland, alsa, ...) come from script/linux, which a zig cross build cannot link.
+          - os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            platform_os: linux
+            arch: x86_64
+            driver: cargo
+            asset: aphrody-x86_64.tar.gz
+          - os: ubuntu-22.04-arm
+            target: aarch64-unknown-linux-gnu
+            platform_os: linux
+            arch: aarch64
+            driver: cargo
+            asset: aphrody-aarch64.tar.gz
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            platform_os: windows
+            arch: x86_64
+            driver: cargo
+            asset: Aphrody-Setup-x64.exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
+      - uses: actions/checkout@v7
+      - uses: Swatinem/rust-cache@v2
+      - uses: mlugg/setup-zig@v2
+        if: matrix.driver == 'zigbuild'
+      - uses: taiki-e/install-action@v2
+        if: matrix.driver == 'zigbuild'
+        with:
+          tool: cargo-zigbuild
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Linux system libraries
+        if: matrix.platform_os == 'linux'
+        run: ./script/linux
+
+      # Cargo checks git dependencies out under CARGO_HOME; mullvadvpn-app has paths past MAX_PATH.
+      - name: Long paths for git checkouts (Windows)
+        if: matrix.platform_os == 'windows'
+        shell: bash
+        run: git config --global core.longpaths true
+
+      - name: Install Rust target
+        run: |
+          BASE_TARGET=$(echo "${{ matrix.target }}" | cut -d. -f1)
+          rustup target add "$BASE_TARGET"
+        shell: bash
+
+      - name: Build release binary
+        run: |
+          mkdir -p dist
+          if [ "${{ matrix.driver }}" = "zigbuild" ]; then
+            cargo zigbuild --release -p zed --bin aphrody --target "${{ matrix.target }}"
+            BASE_TARGET=$(echo "${{ matrix.target }}" | cut -d. -f1)
+            tar -czf "dist/${{ matrix.asset }}" -C "target/${BASE_TARGET}/release" aphrody
+          elif [ "${{ matrix.platform_os }}" = "windows" ]; then
+            cargo build --release -p zed --bin aphrody --target "${{ matrix.target }}"
+            cp "target/${{ matrix.target }}/release/aphrody.exe" "dist/${{ matrix.asset }}"
+          else
+            cargo build --release -p zed --bin aphrody --target "${{ matrix.target }}"
+            tar -czf "dist/${{ matrix.asset }}" -C "target/${{ matrix.target }}/release" aphrody
+          fi
+        shell: bash
+
+      - name: Compute SHA-256 and update manifest JSON
+        run: |
+          bun -e '
+            const fs = require("node:fs");
+            const crypto = require("node:crypto");
+            const asset = process.env.ASSET;
+            const channel = process.env.CHANNEL;
+            const version = process.env.VERSION;
+            const osName = process.env.PLATFORM_OS;
+            const arch = process.env.ARCH;
+            const data = fs.readFileSync(`dist/${asset}`);
+            const sha256 = crypto.createHash("sha256").update(data).digest("hex");
+            fs.writeFileSync(`dist/${asset}.sha256`, `${sha256}  ${asset}\n`);
+            const manifest = {
+              version,
+              channel,
+              os: osName,
+              arch,
+              url: `https://releases.aphrody.com/assets/${channel}/${version}/${asset}`,
+              sha256,
+            };
+            fs.mkdirSync("dist/manifests", { recursive: true });
+            fs.writeFileSync(`dist/manifests/${osName}-${arch}.json`, JSON.stringify(manifest, null, 2));
+          '
+        env:
+          ASSET: ${{ matrix.asset }}
+          CHANNEL: ${{ needs.resolve-metadata.outputs.channel }}
+          VERSION: ${{ needs.resolve-metadata.outputs.version }}
+          PLATFORM_OS: ${{ matrix.platform_os }}
+          ARCH: ${{ matrix.arch }}
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: dist/${{ matrix.asset }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-${{ matrix.platform_os }}-${{ matrix.arch }}
+          path: dist/
+
+  # Checksums, release manifest, provenance, GitHub Release and the R2 layout served by the edge Worker (docs/release.md of the ay SDK repository).
+  # A tag publishes only when every target built; a manual or scheduled run publishes the targets that did build.
+  publish:
+    needs: [resolve-metadata, build]
+    if: ${{ !cancelled() && needs.resolve-metadata.result == 'success' && (needs.build.result == 'success' || !startsWith(github.ref, 'refs/tags/')) }}
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    uses: ./.github/workflows/release-publish.yml
+    with:
+      product: aphrody
+      version: ${{ needs.resolve-metadata.outputs.version }}
+      channel: ${{ needs.resolve-metadata.outputs.channel }}
+      tag: ${{ needs.resolve-metadata.outputs.tag }}
+      commit: ${{ github.sha }}
+      artifacts-pattern: release-*
+    secrets: inherit
+
+  # The channels/ and manifests/ objects and the install scripts that the edge Worker still reads from the releases bucket (legacy layout of this pipeline).
+  legacy-r2:
+    needs: [resolve-metadata, publish]
+    if: ${{ !cancelled() && needs.publish.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+          merge-multiple: true
+          pattern: release-*
+      - uses: oven-sh/setup-bun@v2
+      - name: Mirror the channel pointers and install scripts into the releases bucket
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CHANNEL: ${{ needs.resolve-metadata.outputs.channel }}
+          VERSION: ${{ needs.resolve-metadata.outputs.version }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::Cloudflare credentials are not configured; skipping the legacy R2 mirror."
+            exit 0
+          fi
+          set -e
+          for f in artifacts/*.exe artifacts/*.dmg artifacts/*.tar.gz artifacts/*.sha256; do
+            [ -f "$f" ] || continue
+            name=$(basename "$f")
+            bunx wrangler r2 object put "aphrody-releases/$CHANNEL/$VERSION/$name" --file "$f"
+            bunx wrangler r2 object put "aphrody-releases/$CHANNEL/latest/$name" --file "$f"
+          done
+          for m in artifacts/manifests/*.json; do
+            [ -f "$m" ] || continue
+            name=$(basename "$m")
+            bunx wrangler r2 object put "aphrody-releases/manifests/$CHANNEL/$VERSION/$name" --file "$m" --content-type application/json
+            bunx wrangler r2 object put "aphrody-releases/channels/$CHANNEL/$name" --file "$m" --content-type application/json
+          done
+          if [ -f artifacts/manifests/linux-x86_64.json ]; then
+            bunx wrangler r2 object put "aphrody-releases/channels/$CHANNEL/latest.json" --file artifacts/manifests/linux-x86_64.json --content-type application/json
+          fi
+          bun tooling/bun/cloudflare-deploy.ts publish-scripts
