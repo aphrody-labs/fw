@@ -1,18 +1,18 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { join, relative, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { mirrorRealDirNtfs, scanNtfsJunctions, toNtfsSafePath } from "./ntfs.ts";
 
 export function resolvePluginSource(root: string): string {
-  return resolve(root, "plugin");
+  return resolve(root, "plugins", "aphrody");
 }
 
 export function resolveGeminiPluginPaths() {
   const geminiRoot = join(homedir(), ".gemini");
   return {
     geminiRoot,
-    trackedDest: join(geminiRoot, "plugins", "fw"),
-    configDest: join(geminiRoot, "config", "plugins", "fw"),
+    trackedDest: join(geminiRoot, "plugins", "aphrody"),
+    configDest: join(geminiRoot, "config", "plugins", "aphrody"),
     aphrodySkills: join(geminiRoot, "plugins", "aphrody", "skills"),
     installScript: join(geminiRoot, "scripts", "install.ts"),
   };
@@ -53,8 +53,14 @@ export function auditDeduplication(root: string) {
 
   const fwSkills = listSkills(join(src, "skills"));
   const aphrodySkillList = listSkills(aphrodySkills);
-  const aphrodySet = new Set(aphrodySkillList);
-  const overlapWithAphrody = fwSkills.filter((s) => aphrodySet.has(s));
+  const pluginsDir = dirname(src);
+  const otherSkills = new Set(
+    listSkills(pluginsDir)
+      .map((name) => join(pluginsDir, name))
+      .filter((dir) => dir !== src)
+      .flatMap((dir) => listSkills(join(dir, "skills"))),
+  );
+  const overlapWithAphrody = fwSkills.filter((s) => otherSkills.has(s));
 
   const srcLock = existsSync(src) ? computeDirLockManifest(src) : {};
   const trackedLock = existsSync(trackedDest) ? computeDirLockManifest(trackedDest) : {};
@@ -101,7 +107,7 @@ export function pluginStatus(root: string) {
     : [];
   return {
     ok: existsSync(manifestPath),
-    name: "fw",
+    name: "aphrody",
     version,
     sourceDir: src,
     skills,

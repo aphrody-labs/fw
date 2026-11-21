@@ -314,7 +314,7 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
             .collect()
     });
 
-    let ref_dir = root.join("plugin").join("skills").join("upstreams").join("references");
+    let ref_dir = root.join("plugins").join("aphrody").join("skills").join("upstreams").join("references");
     let _ = fs::create_dir_all(&ref_dir);
     let mut tsv = String::with_capacity(rows.len() * 160);
     tsv.push_str("id\trepo\tbranch\thead_sha\tfw\tdocs\trole\n");
@@ -331,7 +331,7 @@ fn cmd_sync_upstreams(root: &Path) -> ExitCode {
         md.push_str(&format!("| `{repo}` | `{sha}` | `{fw}` | [docs]({docs}) |\n"));
     }
     let _ = fs::write(ref_dir.join("UPSTREAMS.tsv"), tsv);
-    let _ = fs::write(root.join("plugin").join("skills").join("upstreams").join("SKILL.md"), md);
+    let _ = fs::write(root.join("plugins").join("aphrody").join("skills").join("upstreams").join("SKILL.md"), md);
     println!("{{\"ok\":true,\"upstreams\":{},\"ms\":{}}}", rows.len(), t0.elapsed().as_millis());
     ExitCode::SUCCESS
 }

@@ -1,6 +1,0 @@
-{
-  "name": "bun",
-  "version": "1.4.5",
-  "description": "Bun-native workflow plugin: rules and hooks; skills ship in the aphrody plugin.",
-  "contextFileName": "rules/AGENTS.md"
-}

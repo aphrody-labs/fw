@@ -31,7 +31,7 @@ package:
 doctor:
     cargo xtask doctor
 
-# Auto-update plugin/skills/upstreams/ from upstreams.toml + live Git HEADs (parallel)
+# Auto-update plugins/aphrody/skills/upstreams/ from upstreams.toml + live Git HEADs (parallel)
 sync-upstreams:
     cargo xtask sync-upstreams
 

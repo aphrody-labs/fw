@@ -1,7 +1,7 @@
 ---
 name: upstreams
 description: >-
-  Git-pinned catalog of the 47 upstreams fw tracks (llama-cpp, cloudflare-os, cloudflare-computer, pingora, kitesurf, lol-html, rmcp, zeroclaw, zed, nix-cachyos-kernel, scx, cloud-hypervisor, uutils-coreutils, cli-anything, ecc, claude-mem, mesh-llm, openduet, rtk, graphify, agent-skills, ggml, vllm, vllm-router, llm-d, llm-d-router, gateway-api-inference-extension, dynamo, smg, mistral-rs, candle, cubecl, llama-cpp-rs, material-color-utilities, material-theme-builder, material-web, material-design-icons, googlesans-flex, stitch-skills, gemini-cli, gemini-skills, gemini-cookbook, adk-python, antigravity-cli, antigravity-sdk-python, google-apis-rs, yup-oauth2).
+  Git-pinned catalog of the 48 upstreams fw tracks (llama-cpp, cloudflare-os, cloudflare-computer, pingora, kitesurf, lol-html, rmcp, zeroclaw, zed, nix-cachyos-kernel, scx, cloud-hypervisor, uutils-coreutils, cli-anything, ecc, claude-mem, mesh-llm, openduet, rtk, graphify, agent-skills, ggml, vllm, vllm-router, llm-d, llm-d-router, gateway-api-inference-extension, dynamo, smg, mistral-rs, candle, cubecl, llama-cpp-rs, material-color-utilities, material-theme-builder, material-web, material-design-icons, googlesans-flex, googlesans-code, stitch-skills, gemini-cli, gemini-skills, gemini-cookbook, adk-python, antigravity-cli, antigravity-sdk-python, google-apis-rs, yup-oauth2).
   Live HEAD SHAs refresh every 6 hours (sync-upstreams workflow) or with `just sync-upstreams`.
 ---
 
@@ -23,7 +23,7 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `zed-industries/zed` | `2f808b3c2d` | `crates/fw-ostd-wasm + flake.nix` | [docs](https://zed.dev/docs) |
 | `xddxdd/nix-cachyos-kernel` | `9809224771` | `flake.nix + nix/hosts/` | [docs](https://github.com/xddxdd/nix-cachyos-kernel#readme) |
 | `sched-ext/scx` | `0d149b2aa8` | `nix/modules/vps-common.nix + os/fw-wsl` | [docs](https://github.com/sched-ext/scx#readme) |
-| `cloud-hypervisor/cloud-hypervisor` | `8d5dd53b7c` | `nix/modules/vps-common.nix` | [docs](https://github.com/cloud-hypervisor/cloud-hypervisor#readme) |
+| `cloud-hypervisor/cloud-hypervisor` | `f0bb015695` | `nix/modules/vps-common.nix` | [docs](https://github.com/cloud-hypervisor/cloud-hypervisor#readme) |
 | `uutils/coreutils` | `27752927d5` | `flake.nix + crates/fw-uutils` | [docs](https://uutils.github.io/coreutils/) |
 | `HKUDS/CLI-Anything` | `34f519533b` | `plugin/skills + crates/fw-toolcall` | [docs](https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/HARNESS.md) |
 | `affaan-m/ECC` | `4adeee6732` | `plugin/skills + plugin/rules + configs/claude` | [docs](https://github.com/affaan-m/ECC#readme) |
@@ -50,6 +50,7 @@ Index: [references/UPSTREAMS.tsv](references/UPSTREAMS.tsv).
 | `material-components/material-web` | `a0bab1d944` | `crates/fw-proto/ui` | [docs](https://material-web.dev/) |
 | `google/material-design-icons` | `10ecc14790` | `crates/fw-proto/ui` | [docs](https://fonts.google.com/icons) |
 | `googlefonts/googlesans-flex` | `9c3785b85d` | `crates/fw-m3` | [docs](https://fonts.google.com/specimen/Google+Sans+Flex) |
+| `googlefonts/googlesans-code` | `b8ec358c92` | `crates/fw-proto/ui` | [docs](https://fonts.google.com/specimen/Google+Sans+Code) |
 | `google-labs-code/stitch-skills` | `62fdcd6797` | `plugin/skills` | [docs](https://github.com/google-labs-code/stitch-skills#readme) |
 | `google-gemini/gemini-cli` | `eecccfcd5a` | `crates/fw-gemini` | [docs](https://github.com/google-gemini/gemini-cli#readme) |
 | `google-gemini/gemini-skills` | `c4d0c62c12` | `plugin/skills` | [docs](https://github.com/google-gemini/gemini-skills#readme) |

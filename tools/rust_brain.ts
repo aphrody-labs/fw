@@ -11,7 +11,7 @@
  *  - docs/rust-brain/RUST_UPSTREAM_MATRIX.tsv
  *  - docs/rust-brain/agent-cards.json (A2A-compatible toolchain Agent Cards)
  *  - docs/rust-brain/vectors.jsonl (64-dim L2-normalized feature vectors for instant cosine search)
- *  - plugin/skills/rust-upstream/SKILL.md (progressive-disclosure Agent Skill)
+ *  - plugins/aphrody/skills/rust-upstream/SKILL.md (progressive-disclosure Agent Skill)
  *
  * Usage:
  *  bun tools/rust_brain.ts              # refresh all artifacts in parallel
@@ -23,7 +23,7 @@ import { join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dir, "..");
 const OUT_DIR = join(ROOT, "docs", "rust-brain");
-const SKILL_DIR = join(ROOT, "plugin", "skills", "rust-upstream");
+const SKILL_DIR = join(ROOT, "plugins", "aphrody", "skills", "rust-upstream");
 
 interface UpstreamSpec {
   id: string;

@@ -1,1 +1,25 @@
-{ "hooks": {} }
+{
+  "bun-session": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "D:\\cache\\bun\\bin\\bun.exe --no-install --no-env-file ./hooks/session-start.ts agy",
+        "timeout": 10
+      }
+    ]
+  },
+  "bun-commands": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D:\\cache\\bun\\bin\\bun.exe --no-install --no-env-file ./hooks/pre-tool-use.ts agy",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

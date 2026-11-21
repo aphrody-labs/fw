@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 // Live research snapshot of the upstreams flagged `watch = true` in upstreams.toml.
 // Writes docs/research/upstream-watch.tsv (stable path, so `git diff` shows what moved upstream).
-// Also regenerates plugin/skills/upstreams/ (same output as `cargo xtask sync-upstreams`, but needs no Cargo workspace, so CI can run it alone).
+// Also regenerates plugins/aphrody/skills/upstreams/ (same output as `cargo xtask sync-upstreams`, but needs no Cargo workspace, so CI can run it alone).
 // Usage: bun tools/upstream_watch.ts [--check]   (--check exits 1 when the snapshot changed)
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -64,7 +64,7 @@ if (changed || !before) writeFileSync(out, body);
 console.log(JSON.stringify({ ok: true, watched: rows.length, changed }));
 if (process.argv.includes("--check") && changed) process.exit(1);
 
-// ---- catalog (plugin/skills/upstreams), mirrors xtask cmd_sync_upstreams
+// ---- catalog (plugins/aphrody/skills/upstreams), mirrors xtask cmd_sync_upstreams
 const heads = await Promise.all(
   specs.map(async (s) => {
     const p = Bun.spawn(["git", "ls-remote", `https://github.com/${s.repo}.git`, `refs/heads/${s.branch}`], { stdout: "pipe", stderr: "pipe" });
@@ -72,7 +72,7 @@ const heads = await Promise.all(
     return code === 0 ? (o.split(/\s+/)[0] || "unknown").slice(0, 10) : "offline";
   }),
 );
-const refDir = join(root, "plugin", "skills", "upstreams");
+const refDir = join(root, "plugins", "aphrody", "skills", "upstreams");
 const prevTsv = existsSync(join(refDir, "references", "UPSTREAMS.tsv")) ? readFileSync(join(refDir, "references", "UPSTREAMS.tsv"), "utf8") : "";
 const prevSha = new Map(prevTsv.split("\n").slice(1).map((l) => l.split("\t")).map((c) => [c[0], c[3]]));
 const catTsv = ["id\trepo\tbranch\thead_sha\tfw\tdocs\trole"];

@@ -111,10 +111,10 @@ export function brainIndexRepo(root: string) {
     { id: "targets", kind: "config", title: "Fw Targets", path: "fw.targets.json" },
     { id: "agents", kind: "rule", title: "Fw AGENTS", path: "AGENTS.md" },
     { id: "readme", kind: "doc", title: "Fw README", path: "README.md" },
-    { id: "plugin-fw", kind: "skill", title: "Fw Skill", path: "plugin/skills/fw/SKILL.md" },
-    { id: "plugin-agy", kind: "skill", title: "Antigravity Knowledge", path: "plugin/skills/agy-knowledge/SKILL.md" },
-    { id: "plugin-learn", kind: "skill", title: "Autonomous Learn", path: "plugin/skills/learn/SKILL.md" },
-    { id: "plugin-lowlevel", kind: "skill", title: "Low-Level LTO AOT", path: "plugin/skills/low-level-lto-aot/SKILL.md" },
+    { id: "plugin-fw", kind: "skill", title: "Fw Skill", path: "plugins/aphrody/skills/fw/SKILL.md" },
+    { id: "plugin-agy", kind: "skill", title: "Antigravity Knowledge", path: "plugins/aphrody/skills/agy-knowledge/SKILL.md" },
+    { id: "plugin-learn", kind: "skill", title: "Autonomous Learn", path: "plugins/aphrody/skills/learn/SKILL.md" },
+    { id: "plugin-lowlevel", kind: "skill", title: "Low-Level LTO AOT", path: "plugins/aphrody/skills/low-level-lto-aot/SKILL.md" },
   ];
   let indexed = 0;
   for (const d of docs) {

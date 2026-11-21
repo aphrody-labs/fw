@@ -1,39 +1,24 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "fw",
-  "owner": { "name": "aphrody-labs", "url": "https://github.com/aphrody-labs" },
-  "metadata": { "description": "Universal Aphrody marketplace for Claude Code and agy: every plugin has one source tree here.", "version": "2.4.0" },
+  "owner": {
+    "name": "aphrody-labs",
+    "url": "https://github.com/aphrody-labs"
+  },
+  "metadata": {
+    "description": "Aphrody marketplace for Claude Code and agy: one plugin, regenerated from its sources by plugins/aphrody/scripts/unify.ts.",
+    "version": "3.0.0"
+  },
   "plugins": [
-    {
-      "name": "fw",
-      "source": "./plugin",
-      "strict": false,
-      "description": "Fw CLI, MCP, agy-knowledge, binary analysis, reverse engineering, tree-sitter, Rust brain.",
-      "version": "2.3.0",
-      "author": { "name": "aphrody-labs", "url": "https://github.com/aphrody-labs" },
-      "homepage": "https://github.com/aphrody-labs/fw",
-      "skills": "./skills/",
-      "mcpServers": {
-        "fw": {
-          "command": "bun",
-          "args": ["--no-install", "--no-env-file", "${CLAUDE_PLUGIN_ROOT}/mcp/fw-mcp.ts"]
-        }
-      }
-    },
     {
       "name": "aphrody",
       "source": "./plugins/aphrody",
-      "description": "Autonomous engineering plugin: worker and researcher agents, Autonome output style, curated cross-project skills.",
+      "description": "Unified Aphrody plugin: fw MCP, Bun-native hooks, agents, and one deduplicated skill set absorbed from every upstream (plugins/aphrody/sources.toml).",
       "version": "1.0.0",
-      "author": { "name": "aphrody-labs", "url": "https://github.com/aphrody-labs" },
-      "homepage": "https://github.com/aphrody-labs/fw"
-    },
-    {
-      "name": "bun",
-      "source": "./plugins/bun",
-      "description": "Bun-native workflow plugin: rules and command-rewrite helpers for bun, bunx, bun check, bun lint and bun fmt.",
-      "version": "1.4.5",
-      "author": { "name": "aphrody-labs", "url": "https://github.com/aphrody-labs" },
+      "author": {
+        "name": "aphrody-labs",
+        "url": "https://github.com/aphrody-labs"
+      },
       "homepage": "https://github.com/aphrody-labs/fw"
     }
   ]

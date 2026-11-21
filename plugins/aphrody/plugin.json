@@ -3,7 +3,7 @@
   "name": "aphrody",
   "displayName": "Aphrody",
   "version": "1.0.0",
-  "description": "Unified cross-CLI autonomous engineering plugin: recursive agents, non-blocking Bun hooks, MCP integrations, and curated cross-project skills.",
+  "description": "Unified Aphrody plugin: fw MCP, hooks, agents and one deduplicated skill set.",
   "logo": "assets/logo.svg",
   "suggestedPrompts": [
     "Audit workspace conformance, toolchain health, and open blockers cleanly",
@@ -17,5 +17,13 @@
   "homepage": "https://github.com/aphrody-labs/fw",
   "repository": "https://github.com/aphrody-labs/fw",
   "license": "MIT",
-  "keywords": ["aphrody", "autonomous", "agents", "hooks", "mcp", "bun", "rust"]
+  "keywords": [
+    "aphrody",
+    "autonomous",
+    "agents",
+    "hooks",
+    "mcp",
+    "bun",
+    "rust"
+  ]
 }

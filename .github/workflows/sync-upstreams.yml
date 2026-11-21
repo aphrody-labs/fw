@@ -1,6 +1,6 @@
 name: Sync upstreams
 
-# Cron refresh (bun only: the Cargo workspace needs the sibling ay repository, absent in CI) of the live upstream catalog (plugin/skills/upstreams/) and of the research snapshot
+# Cron refresh (bun only: the Cargo workspace needs the sibling ay repository, absent in CI) of the live upstream catalog (plugins/aphrody/skills/upstreams/) and of the research snapshot
 # (docs/research/upstream-watch.tsv) for every upstream declared in upstreams.toml. Commits straight to main, no branch.
 on:
   schedule:
@@ -27,7 +27,7 @@ jobs:
           bun tools/upstream_watch.ts
       - name: Commit changes to main
         run: |
-          paths="plugin/skills/upstreams docs/research/upstream-watch.tsv"
+          paths="plugins/aphrody/skills/upstreams docs/research/upstream-watch.tsv"
           if git diff --quiet -- $paths; then
             echo "upstreams unchanged"
             exit 0

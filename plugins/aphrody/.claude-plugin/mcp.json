@@ -1,1 +1,12 @@
-{ "mcpServers": {} }
+{
+  "mcpServers": {
+    "fw": {
+      "command": "bun",
+      "args": [
+        "--no-install",
+        "--no-env-file",
+        "${CLAUDE_PLUGIN_ROOT}/mcp/fw-mcp.ts"
+      ]
+    }
+  }
+}
