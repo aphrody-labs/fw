@@ -1,0 +1,4 @@
+{"kind": "calendar#events", "summary": "Primary", "timeZone": "Europe/Paris", "nextPageToken": null, "items": [
+  {"kind": "calendar#event", "id": "evt1", "status": "confirmed", "summary": "Standup", "start": {"dateTime": "2026-11-23T09:30:00+01:00"}, "end": {"dateTime": "2026-11-23T09:45:00+01:00"}, "htmlLink": "https://www.google.com/calendar/event?eid=evt1"},
+  {"kind": "calendar#event", "id": "evt2", "status": "confirmed", "summary": "Holiday", "start": {"date": "2026-11-26"}, "end": {"date": "2026-11-27"}}
+]}

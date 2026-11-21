@@ -1,0 +1,48 @@
+[package]
+name = "fw-google"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords = ["google", "drive", "sheets", "gmail", "youtube"]
+categories = ["api-bindings", "command-line-utilities"]
+description = "Typed Google Workspace and YouTube client over the generated google-apis-rs crates: Drive, Sheets, Gmail drafts, Calendar, Docs and YouTube, with access-token, gcloud and Application Default Credentials auth"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "fw-google"
+path = "src/main.rs"
+
+[dependencies]
+base64.workspace = true
+chrono = { workspace = true, features = ["clock"] }
+http-body-util.workspace = true
+hyper-rustls = { version = "0.27", default-features = false, features = ["http1", "http2", "aws-lc-rs", "webpki-tokio"] }
+hyper-util = { version = "0.1", features = ["client-legacy", "http1", "http2", "tokio"] }
+rustls.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+
+# One generated crate per service; `aws-lc-rs` matches the TLS provider the workspace already builds
+# (quinn in fw-http), `yup-oauth2-service-account` gives the Authenticator used for ADC files.
+google-apis-common = { version = "8", default-features = false, features = ["aws-lc-rs", "yup-oauth2-service-account"] }
+google-calendar3 = { version = "7", default-features = false, features = ["aws-lc-rs", "yup-oauth2-service-account"] }
+google-docs1 = { version = "7", default-features = false, features = ["aws-lc-rs", "yup-oauth2-service-account"] }
+google-drive3 = { version = "7", default-features = false, features = ["aws-lc-rs", "yup-oauth2-service-account"] }
+google-gmail1 = { version = "7", default-features = false, features = ["aws-lc-rs", "yup-oauth2-service-account"] }
+google-sheets4 = { version = "7", default-features = false, features = ["aws-lc-rs", "yup-oauth2-service-account"] }
+google-youtube3 = { version = "7", default-features = false, features = ["aws-lc-rs", "yup-oauth2-service-account"] }
+yup-oauth2 = { version = "12", default-features = false, features = ["hyper-rustls", "aws-lc-rs", "service-account"] }
+
+[dev-dependencies]
+hyper = { workspace = true, features = ["http1", "server"] }
+tempfile.workspace = true
+tower-service = "0.3"
+
+[lints]
+workspace = true

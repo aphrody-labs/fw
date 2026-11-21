@@ -1,0 +1,1 @@
+{"id": "18f0a1", "threadId": "18f0a0", "labelIds": ["INBOX", "UNREAD"], "snippet": "Meeting moved to 15:00", "payload": {"mimeType": "multipart/alternative", "headers": [{"name": "From", "value": "Ada <ada@example.com>"}, {"name": "Subject", "value": "Re: planning"}, {"name": "Date", "value": "Fri, 20 Nov 2026 10:02:11 +0000"}]}}

@@ -1,0 +1,8 @@
+{
+  "kind": "drive#fileList",
+  "nextPageToken": "NEXT123",
+  "files": [
+    {"id": "1AbCdEfGhIjKlMnOpQrStUv", "name": "Quarterly report", "mimeType": "application/vnd.google-apps.document", "modifiedTime": "2026-11-02T09:15:30.123Z", "parents": ["0APARENTfolder"], "webViewLink": "https://docs.google.com/document/d/1AbCdEfGhIjKlMnOpQrStUv/edit", "trashed": false},
+    {"id": "1ZyXwVuTsRqPoNmLkJiHgFe", "name": "budget.xlsx", "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "modifiedTime": "2026-10-21T17:00:00.000Z", "size": "48213", "trashed": false}
+  ]
+}

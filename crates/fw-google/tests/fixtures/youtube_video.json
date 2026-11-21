@@ -1,0 +1,7 @@
+{"kind": "youtube#videoListResponse", "pageInfo": {"totalResults": 1, "resultsPerPage": 1}, "items": [
+  {"kind": "youtube#video", "id": "dQw4w9WgXcQ",
+   "snippet": {"publishedAt": "2025-05-01T10:00:00Z", "channelId": "UCxxxxxxxxxxxxxxxxxxxxxx", "title": "Old title", "description": "Old description", "thumbnails": {"default": {"url": "https://i.ytimg.com/vi/dQw4w9WgXcQ/default.jpg", "width": 120, "height": 90}}, "tags": ["rust", "demo"], "categoryId": "28", "defaultLanguage": "en"},
+   "contentDetails": {"duration": "PT3M33S", "definition": "hd"},
+   "statistics": {"viewCount": "100", "likeCount": "7"},
+   "status": {"privacyStatus": "public", "uploadStatus": "processed"}}
+]}

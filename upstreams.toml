@@ -398,3 +398,21 @@ docs = "https://github.com/google-antigravity/antigravity-sdk-python#readme"
 fw = "native/fw-agy"
 role = "Antigravity agent SDK: session, tool and plugin protocol"
 watch = true
+
+[[upstream]]
+id = "google-apis-rs"
+repo = "Byron/google-apis-rs"
+branch = "main"
+docs = "https://github.com/Byron/google-apis-rs#readme"
+fw = "crates/fw-google"
+role = "Generated typed clients for Drive, Sheets, Gmail, Calendar, Docs and YouTube (google-drive3, google-sheets4, google-gmail1, google-calendar3, google-docs1, google-youtube3 + google-apis-common)"
+watch = true
+
+[[upstream]]
+id = "yup-oauth2"
+repo = "dermesser/yup-oauth2"
+branch = "master"
+docs = "https://github.com/dermesser/yup-oauth2#readme"
+fw = "crates/fw-google"
+role = "OAuth2 for the generated Google clients: service-account and authorized-user Application Default Credentials"
+watch = true
