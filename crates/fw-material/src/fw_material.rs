@@ -12,6 +12,8 @@
 
 use std::fmt::Write as _;
 
+pub mod cdn;
+
 /// Version of the generated data, from the upstream commit (`YYYY.MMDD.patch`).
 pub const VERSION: &str = env!("FW_MATERIAL_VERSION");
 /// `vendored` or `cdn`: where the tables of this build came from.

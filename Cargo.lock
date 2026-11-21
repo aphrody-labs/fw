@@ -3954,6 +3954,7 @@ name = "fw-material"
 version = "0.1.0"
 dependencies = [
  "resvg",
+ "serde_json",
  "sha2",
  "toml",
 ]

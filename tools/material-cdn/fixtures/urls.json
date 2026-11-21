@@ -1,0 +1,265 @@
+[
+  {
+    "name": "sprite-both-fills-of",
+    "method": "sprite",
+    "needs": {
+      "style": "rounded",
+      "icons": [
+        "search",
+        "home"
+      ],
+      "fill": [
+        0,
+        1
+      ],
+      "ids": "of"
+    },
+    "url": "https://material.aphrody.com/v1/icons.svg?fill=0..1&icons=home,search&ids=of&style=rounded"
+  },
+  {
+    "name": "sprite-weight",
+    "method": "sprite",
+    "needs": {
+      "style": "outlined",
+      "icons": [
+        "home"
+      ],
+      "wght": 700
+    },
+    "url": "https://material.aphrody.com/v1/icons.svg?icons=home&style=outlined&wght=700"
+  },
+  {
+    "name": "sprite-aphrody",
+    "method": "sprite",
+    "needs": {
+      "style": "outlined",
+      "set": "aphrody",
+      "icons": [
+        "ai_claude",
+        "file_icons/rust"
+      ]
+    },
+    "url": "https://material.aphrody.com/v1/icons.svg?icons=ai_claude,file_icons/rust&set=aphrody&style=outlined"
+  },
+  {
+    "name": "json-filled",
+    "method": "json",
+    "needs": {
+      "style": "sharp",
+      "icons": [
+        "home",
+        "home",
+        "add"
+      ],
+      "fill": 1
+    },
+    "url": "https://material.aphrody.com/v1/icons.json?fill=1&icons=add,home&style=sharp"
+  },
+  {
+    "name": "icon-single",
+    "method": "icon",
+    "needs": {
+      "style": "sharp",
+      "icon": "home",
+      "fill": 1,
+      "wght": 500,
+      "size": 24,
+      "color": "#ffffff"
+    },
+    "url": "https://material.aphrody.com/v1/icon.svg?color=%23ffffff&fill=1&icons=home&size=24&style=sharp&wght=500"
+  },
+  {
+    "name": "icon-font-instanced",
+    "method": "iconFont",
+    "needs": {
+      "style": "outlined",
+      "icons": [
+        "search",
+        "home"
+      ],
+      "axes": {
+        "fill": [
+          0,
+          1
+        ],
+        "wght": 400,
+        "opsz": [
+          20,
+          48
+        ],
+        "grad": 0
+      }
+    },
+    "url": "https://material.aphrody.com/v1/icons.woff2?fill=0..1&grad=0&icons=home,search&opsz=20..48&style=outlined&wght=400"
+  },
+  {
+    "name": "icon-font-all-axes",
+    "method": "iconFont",
+    "needs": {
+      "style": "rounded",
+      "icons": [
+        "home"
+      ],
+      "allAxes": true
+    },
+    "url": "https://material.aphrody.com/v1/icons.woff2?axes=all&icons=home&style=rounded"
+  },
+  {
+    "name": "icons-css-class",
+    "method": "iconCss",
+    "needs": {
+      "style": "outlined",
+      "icons": [
+        "home"
+      ],
+      "cssClass": "mi",
+      "cssFamily": "Mi",
+      "display": "swap"
+    },
+    "url": "https://material.aphrody.com/v1/icons.css?class=mi&display=swap&family=Mi&icons=home&style=outlined"
+  },
+  {
+    "name": "font-text",
+    "method": "font",
+    "needs": {
+      "family": "google-sans-flex",
+      "text": "Aphrody",
+      "axes": {
+        "wght": [
+          400,
+          700
+        ],
+        "wdth": 100
+      }
+    },
+    "url": "https://material.aphrody.com/v1/fonts/google-sans-flex.woff2?unicodes=41,64,68,6F-70,72,79&wdth=100&wght=400..700"
+  },
+  {
+    "name": "font-unicodes",
+    "method": "font",
+    "needs": {
+      "family": "roboto-flex",
+      "unicodes": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        160
+      ],
+      "features": [
+        "tnum"
+      ]
+    },
+    "url": "https://material.aphrody.com/v1/fonts/roboto-flex.woff2?features=tnum&unicodes=20-7E,A0"
+  },
+  {
+    "name": "font-css-subsets",
+    "method": "fontCss",
+    "needs": {
+      "family": "google-sans-code",
+      "subsets": [
+        "latin",
+        "greek"
+      ],
+      "axes": {
+        "wght": [
+          400,
+          700
+        ]
+      },
+      "rev": "0123456789ab"
+    },
+    "url": "https://material.aphrody.com/v1/fonts/google-sans-code.css?subsets=greek,latin&wght=400..700&v=0123456789ab"
+  }
+]

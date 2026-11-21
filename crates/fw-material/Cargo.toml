@@ -23,6 +23,7 @@ sha2.workspace = true
 toml.workspace = true
 
 [dev-dependencies]
+serde_json.workspace = true
 resvg = { version = "0.48", default-features = false }
 
 [lints]
