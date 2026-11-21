@@ -240,9 +240,9 @@ async function verify(): Promise<void> {
   const alive = await ssh(node, `curl -fsS http://${v.listen}/alive`);
   check("origin alive", alive.length > 0, alive.slice(0, 40));
   const page = await ssh(node, `curl -fsS http://${v.listen}/`);
-  check("web vault content", /<title>Vaultwarden Web<\/title>|Bitwarden Web/i.test(page), (/<title>([^<]*)<\/title>/.exec(page)?.[1] ?? "no title").slice(0, 60));
-  const ws = await ssh(node, `curl -s -o /dev/null -w '%{http_code}' http://${v.listen}/notifications/hub`);
-  check("websocket hub route", ws === "401" || ws === "400" || ws === "200", `HTTP ${ws}`);
+  check("web vault content", /<title[^>]*>Vaultwarden Web<\/title>/.test(page), (/<title[^>]*>([^<]*)<\/title>/.exec(page)?.[1] ?? "no title").slice(0, 60));
+  const ws = await ssh(node, `curl -s -o /dev/null -w '%{http_code}' -H 'Connection: Upgrade' -H 'Upgrade: websocket' -H 'Sec-WebSocket-Version: 13' -H 'Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==' http://${v.listen}/notifications/hub`);
+  check("websocket hub (upgrade answered, auth required)", ws === "401" || ws === "101", `HTTP ${ws}`);
 
   const rc = `RCLONE_CONFIG=${b.rclone_config}`;
   const object = await ssh(node, `sudo env ${rc} rclone lsf --files-only ${b.remote}:${b.bucket}/${b.prefix} | sort | tail -1`);
