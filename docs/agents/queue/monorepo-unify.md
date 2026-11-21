@@ -37,7 +37,7 @@ aphrody and ay are inside fw (owner decision: fw is the monorepo). Where things 
 9. Zed subtree sync: mechanism in place (`zed-sync.yml` hourly; `git merge -X subtree=aphrody upstream/main`; resolver ported to the prefix in `aphrody/tooling/bun/upstream-sync.ts`: excised files dropped, README and isolated blocks keep Aphrody's side, Cargo manifests keep the root side and the upstream side is saved under `target/zed-sync`). A real `zed/main` merge has not landed yet: upstream main had no commit since 2026-11-21 00:49 UTC (behind 0). A test merge of `upstream/v0.234.x` (18 commits not in aphrody) found the merge base `b7d35e528a` and reported 23 changed paths with 20 conflicts, which is a lagging release branch against a main-following fork, not a main merge. The first hourly run with a new upstream commit is the proof.
 10. Root `src/` and `tests/` (TypeScript) into `packages/fw`: blocked by package.json scripts, the plugin runtime and MAP.tsv rows (a pure-Rust port removes the code instead).
 
-## Dependency lane (fw), earlier handoff
+## Earlier handoff (phase 1 checkpoint, before the import)
 
 # Monorepo phase 1: one Cargo workspace (handoff)
 
