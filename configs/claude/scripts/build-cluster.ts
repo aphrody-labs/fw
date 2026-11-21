@@ -6,6 +6,7 @@
 // Every name, address, port and path comes from cluster/build.toml. Secrets are generated on first apply, kept in
 // /etc/sccache-dist/secrets.json (root, 0600) on the scheduler host and never printed.
 import { join, resolve } from "node:path";
+import { posix } from "node:path";
 
 export type Host = {
   ssh: string;
@@ -105,6 +106,8 @@ export function renderUnit(kind: "scheduler" | "server", cfg: ClusterConfig, hos
     "Wants=network-online.target",
     "",
     "[Service]",
+    // The scheduler detaches from its launcher after binding its port (systemd follows the survivor); the server stays in the foreground.
+    `Type=${kind === "scheduler" ? "forking" : "simple"}`,
     `ExecStart=${binary} ${kind} --config /etc/sccache-dist/${kind}.toml`,
     "Restart=always",
     "RestartSec=3",
@@ -121,29 +124,30 @@ export function redact(text: string): string {
 
 async function ssh(host: string, script: string, stdin?: string): Promise<string> {
   const proc = Bun.spawn(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", host, "bash -s"], {
-    stdin: new Response(stdin === undefined ? script : `${script}\n`),
+    stdin: new Response(`set -o pipefail\n${script}\n`),
     stdout: "pipe",
     stderr: "pipe",
   });
   const [out, err, code] = await Promise.all([new Response(proc.stdout).text(), new Response(proc.stderr).text(), proc.exited]);
-  if (code !== 0) throw new Error(`ssh ${host} exit ${code}: ${err.trim() || out.trim()}`);
+  if (code !== 0) throw new Error(`ssh ${host} exit ${code} [${script.replace(/'[A-Za-z0-9+/=]{40,}'/g, "'<data>'").slice(0, 100)}]: ${err.trim() || out.trim()}`);
   return out.trim();
 }
 
 async function putFile(host: string, path: string, mode: string, content: string): Promise<void> {
   const b64 = Buffer.from(content).toString("base64");
-  await ssh(host, `echo '${b64}' | base64 -d | sudo install -D -m ${mode} /dev/stdin '${path}'`);
+  await ssh(host, `sudo mkdir -p "$(dirname '${path}')"; echo '${b64}' | base64 -d | sudo tee '${path}' >/dev/null; sudo chmod ${mode} '${path}'`);
 }
 
 async function loadSecrets(cfg: ClusterConfig): Promise<Secrets> {
   const hub = cfg.hosts[cfg.scheduler.host]!;
-  const hubBin = "$(command -v sccache-dist || echo " + join(hub.work, cfg.sccache_dist.tools_dir, "bin/sccache-dist") + ")";
+  const hubBin = await binaryPath(cfg, cfg.scheduler.host);
   const existing = await ssh(hub.ssh, "sudo cat /etc/sccache-dist/secrets.json 2>/dev/null || true");
   const parsed: Secrets = existing ? JSON.parse(existing) : { clientToken: "", hs256Key: "", serverTokens: {} };
-  if (!parsed.clientToken) parsed.clientToken = await ssh(hub.ssh, `${hubBin} auth generate-shared-token | tail -1`);
-  if (!parsed.hs256Key) parsed.hs256Key = await ssh(hub.ssh, `${hubBin} auth generate-jwt-hs256-key | tail -1`);
+  const present = (value: string) => value.length >= 16;
+  if (!present(parsed.clientToken)) parsed.clientToken = await ssh(hub.ssh, `${hubBin} auth generate-shared-token | tail -1`);
+  if (!present(parsed.hs256Key)) parsed.hs256Key = await ssh(hub.ssh, `${hubBin} auth generate-jwt-hs256-key | tail -1`);
   for (const host of serverHosts(cfg)) {
-    if (parsed.serverTokens[host]) continue;
+    if (present(parsed.serverTokens[host] ?? "")) continue;
     const addr = serverAddress(cfg, host);
     parsed.serverTokens[host] = await ssh(
       hub.ssh,
@@ -156,7 +160,7 @@ async function loadSecrets(cfg: ClusterConfig): Promise<Secrets> {
 
 async function binaryPath(cfg: ClusterConfig, host: string): Promise<string> {
   const h = cfg.hosts[host]!;
-  const built = join(h.work, cfg.sccache_dist.tools_dir, "bin/sccache-dist");
+  const built = posix.join(h.work, cfg.sccache_dist.tools_dir, "bin/sccache-dist");
   return ssh(h.ssh, `[ -x '${built}' ] && echo '${built}' || command -v sccache-dist`);
 }
 
