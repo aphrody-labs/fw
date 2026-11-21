@@ -34,4 +34,4 @@ bun run web:verify
 bun run web:matrix
 ```
 
-In CI, [`.github/workflows/aphrody-ci.yml`](../../../.github/workflows/aphrody-ci.yml) runs `wasm-webgpu-first` as an independent required check alongside Linux (`nsh-full`) and Windows checks.
+In CI, [`.github/workflows/aphrody-ci.yml`](../../../../.github/workflows/aphrody-ci.yml) runs `wasm-webgpu-first` as an independent required check alongside Linux (`nsh-full`) and Windows checks.

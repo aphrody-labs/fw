@@ -32,4 +32,4 @@ All five UI/compositor adapters sit symmetrically next to [`crates/gpui`](../../
 ## 3. Headless Zed (`--headless --mcp`), `agent-browser` & `[profile.bun-release]`
 
 - Launching `aphrody --headless --mcp` or `aphrody-cli zed mcp` runs a stdio JSON-RPC 2.0 MCP server with zero GUI window creation, serving `zed_headless_*` (workspace buffers, Tree-sitter AST/symbol analysis across Rust, TypeScript, TSX, Python, and JSON), `browser_*` (CDP discovery, WebSocket commands, SSRF IP/DNS guard absorbed from `agent-browser`), and `desktop_*` (Windows UIA / Linux AT-SPI2 / macOS AXUIElement / GPUI AccessKit).
-- `[profile.bun-release]` in [`Cargo.toml`](../../../Cargo.toml) applies `opt-level = "z"`, `lto = "fat"`, `codegen-units = 1`, `strip = "symbols"`, and `panic = "abort"` for compact final distribution binaries.
+- `[profile.bun-release]` in [`Cargo.toml`](../../../../Cargo.toml) applies `opt-level = "z"`, `lto = "fat"`, `codegen-units = 1`, `strip = "symbols"`, and `panic = "abort"` for compact final distribution binaries.

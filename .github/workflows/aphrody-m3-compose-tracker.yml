@@ -1,8 +1,18 @@
 name: Aphrody Material 3 Compose Tracker & Converter
 
+# Ported from aphrody-labs/aphrody into the monorepo and kept manual until reviewed on this repository (its former triggers are
+# listed below; restore them to enable the automation).
+# original trigger: on:
+# original trigger:   schedule:
+# original trigger:     - cron: "0 5 * * *"
+# original trigger:   workflow_dispatch:
+# original trigger:     inputs:
+# original trigger:       dry_run:
+# original trigger:         description: "Run tracker and converter verification without opening a PR"
+# original trigger:         required: false
+# original trigger:         default: false
+# original trigger:         type: boolean
 on:
-  schedule:
-    - cron: "0 5 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -10,7 +20,6 @@ on:
         required: false
         default: false
         type: boolean
-
 permissions:
   contents: write
   pull-requests: write
@@ -18,6 +27,10 @@ permissions:
 concurrency:
   group: aphrody-m3-compose-tracker
   cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: aphrody
 
 jobs:
   track-and-convert:

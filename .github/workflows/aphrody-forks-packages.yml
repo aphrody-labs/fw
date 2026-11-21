@@ -1,5 +1,16 @@
-name: Publish Aphrody Fork Packages & Release Bundle
+name: aphrody Publish Aphrody Fork Packages & Release Bundle
 
+# Ported from aphrody-labs/aphrody into the monorepo and kept manual until reviewed on this repository (its former triggers are
+# listed below; restore them to enable the automation).
+# original trigger: on:
+# original trigger:   workflow_dispatch:
+# original trigger:     inputs:
+# original trigger:       package_tag:
+# original trigger:         description: "OCI tag on ghcr.io/aphrody-labs/aphrody-forks (defaults to manifest releaseDate compact)"
+# original trigger:         required: false
+# original trigger:         default: "20261120"
+# original trigger:   release:
+# original trigger:     types: [published]
 on:
   workflow_dispatch:
     inputs:
@@ -7,12 +18,13 @@ on:
         description: "OCI tag on ghcr.io/aphrody-labs/aphrody-forks (defaults to manifest releaseDate compact)"
         required: false
         default: "20261120"
-  release:
-    types: [published]
-
 permissions:
   contents: write
   packages: write
+
+defaults:
+  run:
+    working-directory: aphrody
 
 jobs:
   publish-fork-packages:

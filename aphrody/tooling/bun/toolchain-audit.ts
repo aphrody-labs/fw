@@ -842,7 +842,7 @@ export function buildForkPlan(options?: {
       forkOrg: "aphrody-labs",
       pinnedForks: manifestForks.length,
       forksManifest: forksManifestRel,
-      syncWorkflow: ".github/workflows/aphrody-upstream-sync.yml",
+      syncWorkflow: "../.github/workflows/aphrody-upstream-sync.yml",
     },
     targets,
   };

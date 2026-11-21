@@ -186,12 +186,12 @@ Re-exported cleanly from [`crates/aphrody_session/src/aphrody_session.rs`](../..
 ### 3.3 Aphrody Runtime, Compositor & WebGPU Integration
 
 1. **Browser Cohort Architecture ([`tooling/bun/web-build.ts`](../../../tooling/bun/web-build.ts), [`crates/aphrody_desktop/examples/web_os.rs`](../../../crates/aphrody_desktop/examples/web_os.rs), [`crates/gpui_web`](../../../crates/gpui_web/src/gpui_web.rs))**:
-   - Compiles `wasm32-unknown-unknown` with `[profile.web]` (`opt-level = "z"`, `lto = "thin"`, `strip = true`, `panic = "abort"` in root [`Cargo.toml`](../../../Cargo.toml)) and `RUSTC_WRAPPER=""` to avoid Windows `web-sys` argv overflow.
+   - Compiles `wasm32-unknown-unknown` with `[profile.web]` (`opt-level = "z"`, `lto = "thin"`, `strip = true`, `panic = "abort"` in root [`Cargo.toml`](../../../../Cargo.toml)) and `RUSTC_WRAPPER=""` to avoid Windows `web-sys` argv overflow.
    - Emits separated deployment cohorts in `target/web-dist/`:
      - `baseline`: universal Core 2.0 Wasm (`+bulk-memory,+nontrapping-fptoint,+sign-ext,+reference-types,+multivalue`), zero `SharedArrayBuffer` / COOP-COEP requirement.
      - `simd-baseline`: adds `-C target-feature=+simd128`, selected dynamically in JS via `WebAssembly.validate(WASM_CORE2_SIMD_PROBE_BYTES)`.
      - `multithreaded` (opt-in `--coi`): adds `+atomics,+bulk-memory,+mutable-globals` gated on `crossOriginIsolated`.
-   - Optimizes via Binaryen `wasm-opt v133 -Oz --enable-bulk-memory --enable-bulk-memory-opt --enable-nontrapping-float-to-int --enable-sign-ext --enable-reference-types --enable-multivalue` and pins `wasm-bindgen 0.2.129` against [`Cargo.lock`](../../../Cargo.lock).
+   - Optimizes via Binaryen `wasm-opt v133 -Oz --enable-bulk-memory --enable-bulk-memory-opt --enable-nontrapping-float-to-int --enable-sign-ext --enable-reference-types --enable-multivalue` and pins `wasm-bindgen 0.2.129` against [`Cargo.lock`](../../../../Cargo.lock).
 2. **GPU & Compositor Pipeline ([`crates/aphrody_session/src/compositor.rs`](../../../crates/aphrody_session/src/compositor.rs), [`crates/gpui_wgpu`](../../../crates/gpui_wgpu/src/wgpu_context.rs), [`crates/aphrody_cli`](../../../crates/aphrody_cli/src/main.rs))**:
    - `aphrody_session` computes Taffy tiling/layer-shell layouts identically on native and Wasm (`compositor.rs` has zero platform syscalls).
    - `gpui_web::WebPlatform` pairs `WebBackendPreference` with `gpui_wgpu::WgpuContext` (preferring browser WebGPU `navigator.gpu` and falling back to WebGL2 cleanly).

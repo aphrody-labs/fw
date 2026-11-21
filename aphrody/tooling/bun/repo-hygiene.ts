@@ -7,7 +7,7 @@
  * Usage:
  *   bun tooling/bun/repo-hygiene.ts
  */
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 const repoRoot = resolve(import.meta.dir, "../..");
@@ -106,6 +106,18 @@ export function checkRepoHygiene(root = repoRoot): HygieneReport {
       JSON.parse(readFileSync(p, "utf8"));
     } catch (err) {
       invalidManifests.push(`${jsonRel}: ${String(err)}`);
+    }
+  }
+
+  // The workflows live in the monorepo's root .github/workflows (GitHub reads only that directory).
+  const rootWorkflows = join(root, "..", ".github", "workflows");
+  if (existsSync(rootWorkflows)) {
+    for (const file of readdirSync(rootWorkflows).filter((name) => /^(aphrody-|zed-sync).*\.ya?ml$/.test(name))) {
+      try {
+        Bun.YAML.parse(readFileSync(join(rootWorkflows, file), "utf8"));
+      } catch (err) {
+        invalidManifests.push(`.github/workflows/${file}: ${String(err)}`);
+      }
     }
   }
 

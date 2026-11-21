@@ -100,7 +100,7 @@ describe("aphrody repo-native bun tooling", () => {
   });
 
   test("all Aphrody GitHub workflows parse cleanly as YAML", () => {
-    const workflowDir = resolve(repoRoot, ".github/workflows");
+    const workflowDir = resolve(repoRoot, "..", ".github/workflows");
     const files = readdirSync(workflowDir).filter((f) => f.startsWith("aphrody-") && (f.endsWith(".yml") || f.endsWith(".yaml")));
     expect(files.length).toBeGreaterThanOrEqual(5);
     for (const file of files) {

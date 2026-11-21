@@ -1709,3 +1709,8 @@ why = "GitHub ignores it; the workflows live in .github/workflows (ay-*.yml, bun
 [[forbidden]]
 path = "ay/.github/actions"
 why = "GitHub ignores it; the composite action is .github/actions/ay-llvm-pinned"
+
+[[forbidden]]
+path = "aphrody/.github/workflows"
+why = "GitHub ignores it; the workflows live in .github/workflows (aphrody-*.yml, zed-sync.yml) and aphrody/tooling/bun reads them there"
+

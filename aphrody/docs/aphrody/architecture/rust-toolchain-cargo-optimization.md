@@ -12,11 +12,11 @@ Audited directly via [`tooling/bun/toolchain-audit.ts`](../../../tooling/bun/too
 
 | Dimension | Live Observed State | Key Bottleneck / Action |
 | :--- | :--- | :--- |
-| **Workspace Scale** ([`Cargo.toml`](../../../Cargo.toml)) | `302` members (`294` `crates/*`, `4` `extensions/*`, `4` `tooling/*`), `1` excluded glob (`templates/wasm-wgpu/*`), `10` `default-members` | Switching between `gpui_ui`, `aphrody_desktop`, `nsh-cli`, and `zed` triggers feature-unification rebuilds without `cargo-hakari` or `[resolver] feature-unification`. |
-| **`Cargo.lock` Footprint** ([`Cargo.lock`](../../../Cargo.lock)) | `2,069` package entries across `1,804` unique crates; **`183` duplicated crate names** (`hashbrown` x5, `itertools` x5, `quick-xml` x5, `rand*` x5, `windows*` x5, `darling*` x4, `toml_edit` x4) | Deduplicate top offenders and unify features to cut duplicate LLVM bitcode & metadata emission. |
+| **Workspace Scale** ([`Cargo.toml`](../../../../Cargo.toml)) | `302` members (`294` `crates/*`, `4` `extensions/*`, `4` `tooling/*`), `1` excluded glob (`templates/wasm-wgpu/*`), `10` `default-members` | Switching between `gpui_ui`, `aphrody_desktop`, `nsh-cli`, and `zed` triggers feature-unification rebuilds without `cargo-hakari` or `[resolver] feature-unification`. |
+| **`Cargo.lock` Footprint** ([`Cargo.lock`](../../../../Cargo.lock)) | `2,069` package entries across `1,804` unique crates; **`183` duplicated crate names** (`hashbrown` x5, `itertools` x5, `quick-xml` x5, `rand*` x5, `windows*` x5, `darling*` x4, `toml_edit` x4) | Deduplicate top offenders and unify features to cut duplicate LLVM bitcode & metadata emission. |
 | **Pinned Toolchain** ([`rust-toolchain.toml`](../../../rust-toolchain.toml)) | `1.98.1` (`rustc 1.98.1 48a229cea`, LLVM `22.1.8`, `cargo 1.98.1`, `clippy 0.1.98`, `rustfmt 1.9.0-stable`); locally `1.100.0` (LLVM `23.1.5`) & `1.102.0-nightly` are also installed | `1.98.1` accepts `-Zthreads=8`, while `1.100.0+` / `1.102.0-nightly` deprecates `-Zthreads` in favor of `--jobs-frontend=8`. System LLVM (`clang`/`lld-link` `23.1.5`) matches `1.100.0`. |
 | **Active `.cargo/config.toml`** ([`.cargo/config.toml`](../../../.cargo/config.toml)) | Sets `RUSTC_BOOTSTRAP = "1"`, `symbol-mangling-version=v0`, `--cfg tokio_unstable`, Windows `+crt-static`/`windows_slim_errors`, and `aarch64-unknown-linux-gnu` `-fuse-ld=lld` | Missing `x86_64-pc-windows-msvc` `lld`, `x86_64-unknown-linux-gnu` `mold`/`wild`, `build.build-dir` separation, `[cache] auto-clean-frequency`, and feature unification. |
-| **Dev Profile** ([`Cargo.toml`](../../../Cargo.toml)) | `[profile.dev]` sets `debug = "limited"`, `split-debuginfo = "unpacked"`, `codegen-units = 16`, `incremental = true`; `26` crates pinned at `opt-level = 3`, `37` single-file crates at `codegen-units = 1` | Upgrade `debug = "line-tables-only"` (`rust-lang/cargo#17518`), add `"*" = { debug = false }` under `[profile.dev.package]`, trim `build-override` debuginfo, and optimize `20` remaining heavy proc-macro/shader crates. |
+| **Dev Profile** ([`Cargo.toml`](../../../../Cargo.toml)) | `[profile.dev]` sets `debug = "limited"`, `split-debuginfo = "unpacked"`, `codegen-units = 16`, `incremental = true`; `26` crates pinned at `opt-level = 3`, `37` single-file crates at `codegen-units = 1` | Upgrade `debug = "line-tables-only"` (`rust-lang/cargo#17518`), add `"*" = { debug = false }` under `[profile.dev.package]`, trim `build-override` debuginfo, and optimize `20` remaining heavy proc-macro/shader crates. |
 | **Bundle Profile** ([`.cargo/bundle-config.toml`](../../../.cargo/bundle-config.toml)) | Sets `opt-level = "z"` with core hot crates at `opt-level = 3` | Missing upstream `zed-industries/zed#63432` `-Z share-generics=y` (`-10.8%` / `-45.6 MB` binary size, `-36%` `drop_glue` instantiations). |
 | **Local `sccache` State** | `sccache 0.19.0` active (`50 GiB` cap, `9 GiB` used), **`4.8%` hit rate** (`45` hits / `939` executed) | `SCCACHE_BASEDIRS=C:\labs;C:\aphrody` omits `C:\src\aphrody`; `incremental` (`523` calls) bypasses cache; `sccache 0.19.0` lacks `mozilla/sccache#3026` (`web-sys` Windows `@rsp` fix). |
 | **Lint Boundary** ([`clippy.toml`](../../../clippy.toml)) | `disallowed_methods = "deny"` bans `std::process::Command::*` in favor of `smol::process::Command::*` | **19 `std::process::Command::` sites** across `nsh-cli`, `nsh-core`, `nsh-platform-linux`, and `nsh-platform-macos` inherit `[lints] workspace = true` without depending on `smol`. |
@@ -53,7 +53,7 @@ Audited directly via [`tooling/bun/toolchain-audit.ts`](../../../tooling/bun/too
    - Cargo's official build performance guide (`doc/book/src/guide/build-performance.md`) explicitly pairs `debug = "line-tables-only"` with `[profile.dev.package] "*" = { debug = false }` so Cargo avoids writing debug info for ~1,800 upstream crates while keeping backtrace lines for workspace crates.
    - Set `[profile.dev.build-override] debug = false` so proc-macros and `build.rs` scripts stop emitting unused debug symbols.
 3. **Complete Proc-Macro & Heavy Core `opt-level = 3` Overrides**:
-   - [`Cargo.toml`](../../../Cargo.toml) already optimizes `gpui_macros`, `ui_macros`, `nsh-macros`, `syn`, `quote`, `proc-macro2`, `taffy`, `resvg`, `wasmtime`, and `cranelift-codegen`.
+   - [`Cargo.toml`](../../../../Cargo.toml) already optimizes `gpui_macros`, `ui_macros`, `nsh-macros`, `syn`, `quote`, `proc-macro2`, `taffy`, `resvg`, `wasmtime`, and `cranelift-codegen`.
    - Profiling `Cargo.lock` shows 20 additional heavy proc-macros, shader compilers, compression libraries, and crypto crates still compiled at `opt-level = 0` in `dev` builds:
      - Derive macros: `serde_derive`, `thiserror-impl`, `tokio-macros`, `strum_macros`, `clap_derive`, `schemars_derive`, `derive_more-impl`, `zerocopy-derive`, `async-trait`, `pin-project-internal`, `bytemuck_derive`, `wasm-bindgen-macro`
      - Heavy runtime/build libs: `naga`, `wgpu-core`, `flate2`, `zstd-sys`, `ring`, `aws-lc-rs`, `image`, `pulldown-cmark`
@@ -65,7 +65,7 @@ Without feature unification across 302 workspace members, Cargo recomputes depen
 - **Strategy A — Native `[resolver] feature-unification = "workspace"` (`-Zfeature-unification`, Cargo `#15157`)**:
   - Works immediately because [`.cargo/config.toml`](../../../.cargo/config.toml) already sets `RUSTC_BOOTSTRAP = "1"`.
   - Zero edits to 302 member `Cargo.toml` files; unifies features workspace-wide for every `cargo check`, `cargo build`, and `cargo test`.
-  - **Caveat**: A feature enabled by crate A can satisfy crate B's missing feature declaration locally; retain per-crate `--no-default-features` / `--features` CI checks in [`.github/workflows/aphrody-ci.yml`](../../../.github/workflows/aphrody-ci.yml) (`gpui_code --no-default-features`, `gpui_ui --features nsh-full`).
+  - **Caveat**: A feature enabled by crate A can satisfy crate B's missing feature declaration locally; retain per-crate `--no-default-features` / `--features` CI checks in [`.github/workflows/aphrody-ci.yml`](../../../../.github/workflows/aphrody-ci.yml) (`gpui_code --no-default-features`, `gpui_ui --features nsh-full`).
 - **Strategy B — `cargo-hakari 0.9.39` (`crates/workspace-hack`)**:
   - Works on pure stable Cargo without `RUSTC_BOOTSTRAP = "1"`.
   - Initialize via:
@@ -153,7 +153,7 @@ Per fleet role separation ([`tooling/bun/fleet-sync.ts`](../../../tooling/bun/fl
 
 ### 3.3 macOS (`aarch64-apple-darwin` & `x86_64-apple-darwin`)
 
-- Retain `MACOSX_DEPLOYMENT_TARGET = "12.0"` in [`.cargo/config.toml`](../../../.cargo/config.toml) and `split-debuginfo = "unpacked"` in [`Cargo.toml`](../../../Cargo.toml) (skips expensive `dsymutil` runs during local dev).
+- Retain `MACOSX_DEPLOYMENT_TARGET = "12.0"` in [`.cargo/config.toml`](../../../.cargo/config.toml) and `split-debuginfo = "unpacked"` in [`Cargo.toml`](../../../../Cargo.toml) (skips expensive `dsymutil` runs during local dev).
 - Xcode 15+/26+ ships Apple's `ld_prime` by default (substantially faster than legacy `ld64`); optionally evaluate Homebrew LLVM `ld64.lld` (`-C link-arg=-fuse-ld=/opt/homebrew/opt/llvm/bin/ld64.lld`) for pure Rust test binaries, keeping Apple `ld` for final `.app` notarization & Swift/Metal system framework links.
 - Set `RUST_LIB_BACKTRACE=0` in test runs to avoid DWARF symbolication stalls in GPUI test harnesses (matching [`tooling/xtask/src/tasks/workflows/run_tests.rs`](../../../tooling/xtask/src/tasks/workflows/run_tests.rs)).
 
@@ -188,7 +188,7 @@ Per fleet role separation ([`tooling/bun/fleet-sync.ts`](../../../tooling/bun/fl
      cargo shear --locked --deny-warnings
      ```
 2. **Audited `nsh-core` / `nsh-*` Lint Boundary Conflict**:
-   - Root [`Cargo.toml`](../../../Cargo.toml) sets `[workspace.lints.clippy] disallowed_methods = "deny"`, paired with [`clippy.toml`](../../../clippy.toml) banning `std::process::Command::spawn`, `output`, `status`, `stdin`, `stdout`, and `stderr` with replacement `smol::process::Command::*`.
+   - Root [`Cargo.toml`](../../../../Cargo.toml) sets `[workspace.lints.clippy] disallowed_methods = "deny"`, paired with [`clippy.toml`](../../../clippy.toml) banning `std::process::Command::spawn`, `output`, `status`, `stdin`, `stdout`, and `stderr` with replacement `smol::process::Command::*`.
    - Every `nsh-*` crate (including [`crates/nsh-core/Cargo.toml`](../../../crates/nsh-core/Cargo.toml) and [`crates/nsh-cli/Cargo.toml`](../../../crates/nsh-cli/Cargo.toml)) sets `[lints] workspace = true`, yet **none** of the 30 `crates/nsh-*` crates depend on `smol` (they use `tokio` and `std::thread`).
    - Live AST scan found **19 `std::process::Command::` call sites** across `nsh-cli` (`10` sites in `bindgen.rs`, `package.rs`, `rust_app.rs`, `self_update.rs`), `nsh-core` (`2` test/runtime sites in `process.rs` & `websocket/native.rs`), `nsh-platform-linux` (`5` sites), and `nsh-platform-macos` (`2` sites).
    - **Clean Boundary Fix**:
@@ -233,7 +233,7 @@ Per fleet role separation ([`tooling/bun/fleet-sync.ts`](../../../tooling/bun/fl
 
 Verified via `gh repo list Aphrody-Dev`, `gh repo list aphrody-labs`, and [`forks-manifest.json`](../../../tooling/bun/forks-manifest.json):
 - Primary monorepo: `aphrody-labs/aphrody` (fork of `zed-industries/zed`).
-- Upstream dependency forks live under `https://github.com/aphrody-labs/<tool>` and are consumed as **pinned Cargo git dependencies** (`git = "https://github.com/aphrody-labs/<tool>.git", tag = "..."` in the root [`Cargo.toml`](../../../Cargo.toml), tags recorded in `forks-manifest.json`). There are no git submodules and no `vendor/` directory.
+- Upstream dependency forks live under `https://github.com/aphrody-labs/<tool>` and are consumed as **pinned Cargo git dependencies** (`git = "https://github.com/aphrody-labs/<tool>.git", tag = "..."` in the root [`Cargo.toml`](../../../../Cargo.toml), tags recorded in `forks-manifest.json`). There are no git submodules and no `vendor/` directory.
 - None of `cargo`, `rust-clippy`, `wild`, or `sccache` are forked in `aphrody-labs` yet.
 
 ### 5.2 Declarative Toolchain Fork Plan
@@ -249,14 +249,14 @@ Run `bun tooling/bun/toolchain-audit.ts fork-plan` for live JSON specs:
 
 ### 5.3 Automated Upstream Rebase / Cherry-Pick & Regression Gate Pipeline
 
-Extend [`.github/workflows/aphrody-upstream-sync.yml`](../../../.github/workflows/aphrody-upstream-sync.yml) with a scheduled `sync-toolchain-forks` job (`cron: '0 4 * * *'`):
+Extend [`.github/workflows/aphrody-upstream-sync.yml`](../../../../.github/workflows/aphrody-upstream-sync.yml) with a scheduled `sync-toolchain-forks` job (`cron: '0 4 * * *'`):
 
 1. **Fork Bootstrap (one-time per tool)**:
    ```sh
    gh repo fork mozilla/sccache --org aphrody-labs --clone=false
    ```
    Tag each synced fork (`<upstream-version>-aphrody.<date>`) and record it in [`forks-manifest.json`](../../../tooling/bun/forks-manifest.json); tool forks are built as standalone binaries, never added to the root workspace.
-2. **Automated Sync & Cherry-Pick Loop** (matching [`aphrody-auto-merge.yml`](../../../.github/workflows/aphrody-auto-merge.yml)):
+2. **Automated Sync & Cherry-Pick Loop** (matching [`aphrody-auto-merge.yml`](../../../../.github/workflows/aphrody-auto-merge.yml)):
    - Fetch `upstream/<default-branch>`, reset/rebase `aphrody/patched` onto `upstream`, and apply declarative `cherry-pick` commit lists (or open an `upstream-sync` issue automatically on merge conflicts, matching the existing `sync-zed-and-wgpu-digest` pattern).
    - Build tool binaries on `fr1` / CI (`git clone --depth 1 --branch <tag> https://github.com/aphrody-labs/<tool>.git` then `cargo build --manifest-path <tool>/Cargo.toml --release`) and publish internal artifacts / R2 cache drops.
 3. **Mandatory Verification & Perf Regression Gates**:
@@ -322,7 +322,7 @@ Extend [`.github/workflows/aphrody-upstream-sync.yml`](../../../.github/workflow
  opt-level = "z"
 ```
 
-### 6.3 [`Cargo.toml`](../../../Cargo.toml) (`[profile.dev*]` & `[workspace.exclude]`)
+### 6.3 [`Cargo.toml`](../../../../Cargo.toml) (`[profile.dev*]` & `[workspace.exclude]`)
 
 ```diff
  [profile.dev]

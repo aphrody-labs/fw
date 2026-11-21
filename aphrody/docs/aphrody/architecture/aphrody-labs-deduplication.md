@@ -15,7 +15,7 @@
 
 | Monorepo / Repo | Primary Scope | Consolidated / Absorbed Upstream Clusters |
 | --- | --- | --- |
-| `aphrody-labs/aphrody` ([root](../../../Cargo.toml)) | Unified Rust OS, GPUI, Craft, NSH, WebGPU/Wasm, W3C i18n, Tooling | `agent-desktop`, `artcraft`, `artcraftx`, `anicraft`, `autocraft`, `dioxus-monorepo`, standalone `cosmic-*` & `craft-*` UI crates, `gpui-component` / `nsh` merges |
+| `aphrody-labs/aphrody` ([root](../../../../Cargo.toml)) | Unified Rust OS, GPUI, Craft, NSH, WebGPU/Wasm, W3C i18n, Tooling | `agent-desktop`, `artcraft`, `artcraftx`, `anicraft`, `autocraft`, `dioxus-monorepo`, standalone `cosmic-*` & `craft-*` UI crates, `gpui-component` / `nsh` merges |
 | `aphrody-dev/ai-os` | AI-OS runtime, Relay (MCP/ACP/A2A/HTTP/CLI), Automate | `relay`, `automate`, `env-kit`, `gnu-ts`, `omniu`, `wck` |
 | `aphrody-labs/ay` | Core SDK & machine setup | `packages/machine`, fleet installers |
 | `aphrody-labs/open` | AI Router, TUI, Browser automation, Tunnel | `browse`, `opentui`, `opentunnel`, `models.dev` (0 ahead of upstream) |

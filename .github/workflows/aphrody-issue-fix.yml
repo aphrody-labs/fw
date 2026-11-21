@@ -1,23 +1,35 @@
 name: aphrody Issue Triage & Fix Ops
 
+# Ported from aphrody-labs/aphrody into the monorepo and kept manual until reviewed on this repository (its former triggers are
+# listed below; restore them to enable the automation).
+# original trigger: on:
+# original trigger:   issues:
+# original trigger:     types: [opened, reopened]
+# original trigger:   pull_request_target:
+# original trigger:     types: [opened, synchronize]
+# original trigger:   issue_comment:
+# original trigger:     types: [created]
+# original trigger:   workflow_dispatch:
+# original trigger:     inputs:
+# original trigger:       pr_number:
+# original trigger:         description: PR number to autofix (fmt + brand)
+# original trigger:         required: false
+# original trigger:         type: string
 on:
-  issues:
-    types: [opened, reopened]
-  pull_request_target:
-    types: [opened, synchronize]
-  issue_comment:
-    types: [created]
   workflow_dispatch:
     inputs:
       pr_number:
         description: PR number to autofix (fmt + brand)
         required: false
         type: string
-
 permissions:
   contents: write
   issues: write
   pull-requests: write
+
+defaults:
+  run:
+    working-directory: aphrody
 
 jobs:
   triage-and-link:
@@ -75,12 +87,6 @@ jobs:
       )
     runs-on: ubuntu-latest
     steps:
-      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
-      - name: Check out fw beside aphrody
-        shell: bash
-        run: |
-          fw="$GITHUB_WORKSPACE/../fw"
-          if [ -d "$fw/.git" ]; then git -C "$fw" fetch --depth 1 origin main && git -C "$fw" checkout --force FETCH_HEAD; else git clone --depth 1 https://github.com/aphrody-labs/fw.git "$fw"; fi
       - uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -120,12 +126,6 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'issues'
     runs-on: ubuntu-latest
     steps:
-      # fw-m3 (Material 3 tokens) is a path dependency on the sibling fw checkout.
-      - name: Check out fw beside aphrody
-        shell: bash
-        run: |
-          fw="$GITHUB_WORKSPACE/../fw"
-          if [ -d "$fw/.git" ]; then git -C "$fw" fetch --depth 1 origin main && git -C "$fw" checkout --force FETCH_HEAD; else git clone --depth 1 https://github.com/aphrody-labs/fw.git "$fw"; fi
       - uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

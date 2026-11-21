@@ -31,4 +31,4 @@ bun tooling/bun/cloudflare-deploy.ts smoke
 ## Cloudflare Workers & R2
 
 - [`cloudflare-deploy.ts`](../../../tooling/bun/cloudflare-deploy.ts) manages R2 bucket `aphrody-releases`, proxied DNS `releases.aphrody.com`, installer scripts ([`aphrody-install.sh`](../../../script/aphrody-install.sh), [`aphrody-install.ps1`](../../../script/aphrody-install.ps1)), channel JSON manifests, and Worker deployments under [`.cloudflare/`](../../../.cloudflare/README.md).
-- [`aphrody-ci.yml`](../../../.github/workflows/aphrody-ci.yml) validates `cloudflare-and-framework` alongside Linux/Windows/Wasm CI matrices, and [`aphrody-release.yml`](../../../.github/workflows/aphrody-release.yml) publishes signed artifacts and updates R2 + Cloudflare Workers automatically.
+- [`aphrody-ci.yml`](../../../../.github/workflows/aphrody-ci.yml) validates `cloudflare-and-framework` alongside Linux/Windows/Wasm CI matrices, and [`aphrody-release.yml`](../../../../.github/workflows/aphrody-release.yml) publishes signed artifacts and updates R2 + Cloudflare Workers automatically.

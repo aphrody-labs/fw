@@ -1,5 +1,56 @@
 name: aphrody Fleet Orchestrator
 
+# Ported from aphrody-labs/aphrody into the monorepo and kept manual until reviewed on this repository (its former triggers are
+# listed below; restore them to enable the automation).
+# original trigger: on:
+# original trigger:   workflow_dispatch:
+# original trigger:     inputs:
+# original trigger:       action:
+# original trigger:         description: Orchestration action (audit, probe, schedule, beacon, rebalance)
+# original trigger:         required: true
+# original trigger:         default: audit
+# original trigger:         type: choice
+# original trigger:         options:
+# original trigger:           - audit
+# original trigger:           - probe
+# original trigger:           - schedule
+# original trigger:           - beacon
+# original trigger:           - rebalance
+# original trigger:       job_kind:
+# original trigger:         description: Job profile for schedule/rebalance scoring
+# original trigger:         required: false
+# original trigger:         default: native_rust
+# original trigger:         type: choice
+# original trigger:         options:
+# original trigger:           - native_rust
+# original trigger:           - wasm
+# original trigger:           - edge_proxy
+# original trigger:           - verify
+# original trigger:           - release
+# original trigger:       hosts:
+# original trigger:         description: Optional comma-separated SSH hosts override (defaults to ~/.ssh/config discovery)
+# original trigger:         required: false
+# original trigger:         default: ''
+# original trigger:       dry_run:
+# original trigger:         description: Run without publishing live Cloudflare telemetry or remote mutations
+# original trigger:         required: false
+# original trigger:         default: true
+# original trigger:         type: boolean
+# original trigger:   schedule:
+# original trigger:     - cron: '*/15 * * * *'
+# original trigger:   push:
+# original trigger:     branches: [main]
+# original trigger:     paths:
+# original trigger:       - aphrody/assets/os/fleet_cluster.toml
+# original trigger:       - aphrody/tooling/bun/fleet-lb.ts
+# original trigger:       - aphrody/tooling/bun/fleet-lb.test.ts
+# original trigger:       - aphrody/.cloudflare/aphrody-worker/**
+# original trigger:       - aphrody/.github/workflows/aphrody-fleet-orchestrator.yml
+# original trigger:   repository_dispatch:
+# original trigger:     types:
+# original trigger:       - fleet_rebalance
+# original trigger:       - push_main
+# original trigger:       - cloudflare_webhook
 on:
   workflow_dispatch:
     inputs:
@@ -34,28 +85,16 @@ on:
         required: false
         default: true
         type: boolean
-  schedule:
-    - cron: '*/15 * * * *'
-  push:
-    branches: [main]
-    paths:
-      - assets/os/fleet_cluster.toml
-      - tooling/bun/fleet-lb.ts
-      - tooling/bun/fleet-lb.test.ts
-      - .cloudflare/aphrody-worker/**
-      - .github/workflows/aphrody-fleet-orchestrator.yml
-  repository_dispatch:
-    types:
-      - fleet_rebalance
-      - push_main
-      - cloudflare_webhook
-
 concurrency:
   group: aphrody-fleet-orchestrator-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
   contents: read
+
+defaults:
+  run:
+    working-directory: aphrody
 
 jobs:
   validate-cross-platform:

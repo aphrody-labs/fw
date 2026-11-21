@@ -1,21 +1,28 @@
 name: aphrody Wiki Sync
 
+# Ported from aphrody-labs/aphrody into the monorepo and kept manual until reviewed on this repository (its former triggers are
+# listed below; restore them to enable the automation).
+# original trigger: on:
+# original trigger:   push:
+# original trigger:     branches: [main]
+# original trigger:     paths:
+# original trigger:       - 'aphrody/README.md'
+# original trigger:       - 'aphrody/product.toml'
+# original trigger:       - 'aphrody/docs/aphrody/wgpu/**'
+# original trigger:       - 'aphrody/docs/aphrody/gpu/**'
+# original trigger:       - 'aphrody/docs/aphrody/nsh/**'
+# original trigger:       - 'aphrody/.agents/plugins/aphrody/**'
+# original trigger:   schedule:
+# original trigger:     - cron: '0 6 * * 1'
+# original trigger:   workflow_dispatch:
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'README.md'
-      - 'product.toml'
-      - 'docs/aphrody/wgpu/**'
-      - 'docs/aphrody/gpu/**'
-      - 'docs/aphrody/nsh/**'
-      - '.agents/plugins/aphrody/**'
-  schedule:
-    - cron: '0 6 * * 1'
   workflow_dispatch:
-
 permissions:
   contents: write
+
+defaults:
+  run:
+    working-directory: aphrody
 
 jobs:
   publish-wiki:

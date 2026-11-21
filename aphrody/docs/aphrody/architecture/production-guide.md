@@ -30,7 +30,7 @@ Tier 5: Cloudflare Edge & Distribution (.cloudflare/, docs.aphrody.com, releases
 
 ### Key Build, Linker & Hygiene Upgrades
 1. **Top `Cargo.lock` Duplicate Consolidation (`180` duplicates -> minimal)**:
-   - Align `hashbrown` (5x), `itertools` (5x), `quick-xml` (5x), `rand`/`rand_core` (5x), `windows*` (5x), `darling*` (4x), and `syn` (3x) via root [`Cargo.toml`](../../../Cargo.toml) `[patch.crates-io]` and upstream dependency bumps.
+   - Align `hashbrown` (5x), `itertools` (5x), `quick-xml` (5x), `rand`/`rand_core` (5x), `windows*` (5x), `darling*` (4x), and `syn` (3x) via root [`Cargo.toml`](../../../../Cargo.toml) `[patch.crates-io]` and upstream dependency bumps.
 2. **Feature Unification (`cargo-hakari`) & Unused Dep Pruning (`cargo-machete`)**:
    - Add a workspace-hack crate (`cargo-hakari`) so compiling `aphrody_desktop`, `gpui_app_shell`, `nsh-cli`, and `zed` shares identical dependency feature flags without recompilation storms.
    - Adopt workspace-inherited dependencies in remaining crates flagged by `cargo xtask package-conformity` (`perf`, `gpui`, `title_bar`, `vim`, `fs`) and enforce `[lints] workspace = true` uniformly (including [`crates/gpui_web/examples/hello_web/Cargo.toml`](../../../crates/gpui_web/examples/hello_web/Cargo.toml)).
@@ -40,7 +40,7 @@ Tier 5: Cloudflare Edge & Distribution (.cloudflare/, docs.aphrody.com, releases
    - Offload heavy builds to `fr1`, `cargo nextest` partitioned tests/benchmarks to `fr2`, and keep `prd` strictly for signed runtime deployments.
 4. **Workspace Lints & `deny.toml` Policy**:
    - Upgrade `[workspace.lints.rust]` `unexpected_cfgs` to `"warn"` with explicit `check-cfg`, and add `clippy::await_holding_lock = "deny"` and `clippy::clone_on_ref_ptr = "warn"`.
-   - Configure `deny.toml` to match Aphrody's split license boundary: explicitly allow `GPL-3.0-or-later` alongside permissive licenses (`MIT`, `Apache-2.0`, `BSD-*`, `ISC`, `Zlib`) on IDE/app crates, while gating permissive-only licenses on `publish = true` SDK crates; ban `openssl` in favor of [`rustls`](../../../Cargo.toml) and pin allowed git origins.
+   - Configure `deny.toml` to match Aphrody's split license boundary: explicitly allow `GPL-3.0-or-later` alongside permissive licenses (`MIT`, `Apache-2.0`, `BSD-*`, `ISC`, `Zlib`) on IDE/app crates, while gating permissive-only licenses on `publish = true` SDK crates; ban `openssl` in favor of [`rustls`](../../../../Cargo.toml) and pin allowed git origins.
 
 ---
 
@@ -48,7 +48,7 @@ Tier 5: Cloudflare Edge & Distribution (.cloudflare/, docs.aphrody.com, releases
 
 | Area | Current Codebase Gap | Production Hardening Action |
 | :--- | :--- | :--- |
-| **WebAssembly Payload Size** | [`crates/assets/src/assets.rs`](../../../crates/assets/src/assets.rs) embeds raw `.ttf` fonts (~1.6 MB), `.wav` sounds, and defaults into Wasm `.rodata`; legacy Trunk HTML sets `data-wasm-opt="0"`. | Default web releases to [`[profile.web]`](../../../Cargo.toml) via `web-build.ts --release`; split `assets` behind `web-assets-split` keeping only tiny core SVG icons inline; stream subsetted WOFF2 fonts via `on_missing_glyphs` ([`dynamic_fonts.rs`](../../../crates/gpui_web/examples/hello_web/dynamic_fonts.rs)); swap `dlmalloc` for `talc` (`WasmDynamicTalc`; `wee_alloc` stays banned). |
+| **WebAssembly Payload Size** | [`crates/assets/src/assets.rs`](../../../crates/assets/src/assets.rs) embeds raw `.ttf` fonts (~1.6 MB), `.wav` sounds, and defaults into Wasm `.rodata`; legacy Trunk HTML sets `data-wasm-opt="0"`. | Default web releases to [`[profile.web]`](../../../../Cargo.toml) via `web-build.ts --release`; split `assets` behind `web-assets-split` keeping only tiny core SVG icons inline; stream subsetted WOFF2 fonts via `on_missing_glyphs` ([`dynamic_fonts.rs`](../../../crates/gpui_web/examples/hello_web/dynamic_fonts.rs)); swap `dlmalloc` for `talc` (`WasmDynamicTalc`; `wee_alloc` stays banned). |
 | **Shader Pipeline Cache** | `crates/gpui_wgpu` has zero `device.create_pipeline_cache` calls. | Key `wgpu::PipelineCache` by `(adapter_info, driver_version, shader_hash)` with atomic `Write -> fs::rename` persistence on native and `createRenderPipelineAsync` on WebGPU. |
 | **Async `DeviceLost` Recovery** | Native [`wgpu_renderer.rs`](../../../crates/gpui_wgpu/src/wgpu_renderer.rs) calls blocking `std::thread::sleep(350ms)`; Wasm stops permanently asking user to reload. | Drive exponential backoff (`50/100/200ms`) on GPUI's foreground executor without blocking OS event processing; on WebGPU, asynchronously re-acquire adapter/device or fall back to WebGL2 cleanly. |
 | **Texture Atlas Eviction** | [`wgpu_atlas.rs`](../../../crates/gpui_wgpu/src/wgpu_atlas.rs) only frees a texture when `live_atlas_keys == 0`. | Track per-tile `last_frame_used: u64`, enforce a per-kind texture pool cap, and sweep tiles unused for >600 frames before allocating additional GPU textures. |

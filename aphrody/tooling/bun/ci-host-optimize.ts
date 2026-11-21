@@ -102,7 +102,7 @@ export function inspectZedBaseline(root = repoRoot): ZedBaselineStatus {
   ];
   const scriptsPresent: Record<string, boolean> = {};
   for (const rel of checkedPaths) {
-    scriptsPresent[rel] = existsSync(join(root, rel));
+    scriptsPresent[rel] = existsSync(join(rel.startsWith(".github/workflows/") ? join(root, "..") : root, rel));
   }
 
   let rustToolchainChannel = "unknown";

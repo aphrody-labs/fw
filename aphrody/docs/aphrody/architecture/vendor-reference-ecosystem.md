@@ -1,6 +1,6 @@
 # Pinned Fork Dependencies & Reference Ecosystem
 
-> Policy established across [`../../../Cargo.toml`](../../../Cargo.toml), [`../../../tooling/bun/forks-manifest.json`](../../../tooling/bun/forks-manifest.json), and `fw: plugins/aphrody/skills/vendor-ecosystem`: upstream forks are consumed as pinned Cargo git dependencies (`git = "https://github.com/aphrody-labs/<fork>.git", tag = "..."`) only when root workspace crates directly compile or patch them. The repository has no git submodules and no `vendor/` directory. Pure reference ecosystems are tracked via live GitHub / `crates.io` metadata and compact skills.
+> Policy established across [`../../../Cargo.toml`](../../../../Cargo.toml), [`../../../tooling/bun/forks-manifest.json`](../../../tooling/bun/forks-manifest.json), and `fw: plugins/aphrody/skills/vendor-ecosystem`: upstream forks are consumed as pinned Cargo git dependencies (`git = "https://github.com/aphrody-labs/<fork>.git", tag = "..."`) only when root workspace crates directly compile or patch them. The repository has no git submodules and no `vendor/` directory. Pure reference ecosystems are tracked via live GitHub / `crates.io` metadata and compact skills.
 
 ---
 

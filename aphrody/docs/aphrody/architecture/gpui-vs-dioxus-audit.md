@@ -16,8 +16,8 @@ bun test tooling/bun/gpui-vs-dioxus-audit.test.ts
 <!-- BEGIN GPUI_DIOXUS_METRICS -->
 | Audit Dimension | Live Verified Telemetry | Evidence Anchor |
 | :--- | :--- | :--- |
-| **Aphrody Workspace** | `326` members, `8` pinned fork git dependencies, `35` `[patch.crates-io]` overrides (`offline` vs `zed` 95 419★) | [`Cargo.toml`](../../../Cargo.toml), [`forks-manifest.json`](../../../tooling/bun/forks-manifest.json) |
-| **Cargo.lock Graph & Splits** | `2508` packages across `48` git repos; `233` multi-version crates | [`Cargo.lock`](../../../Cargo.lock) |
+| **Aphrody Workspace** | `326` members, `8` pinned fork git dependencies, `35` `[patch.crates-io]` overrides (`offline` vs `zed` 95 419★) | [`Cargo.toml`](../../../../Cargo.toml), [`forks-manifest.json`](../../../tooling/bun/forks-manifest.json) |
+| **Cargo.lock Graph & Splits** | `2508` packages across `48` git repos; `233` multi-version crates | [`Cargo.lock`](../../../../Cargo.lock) |
 | **Feature Matrix** | `24` Cargo manifests parsed across 6 ecosystems (`281` Cargo features) | `cargo metadata --no-deps` |
 | **Measured Studio Bench** | GPUI tree: `n/a us`, egui 0.37: `n/a us`, Bevy: `n/a us`, craft_sniff x100: `n/a us`, Iced x1000: `n/a us`, RON x100: `n/a us` | [`studio_parity_report.rs`](../../../crates/aphrody_craft/examples/studio_parity_report.rs) |
 <!-- END GPUI_DIOXUS_METRICS -->
@@ -225,6 +225,6 @@ flowchart LR
 
 <!-- BEGIN GPUI_DIOXUS_UNIFICATION -->
 1. **Shared GPU, Layout, Text & A11y Foundations**: `aphrody-labs/wgpu@v30.0.0-aphrody.20261120`, `aphrody-labs/taffy@v0.15.1-aphrody.20261120`, `aphrody-labs/accesskit@v0.25.2-aphrody.20261120`, and `aphrody-labs/cosmic-text@v0.19.0-aphrody.20261120` are single pinned Cargo git dependencies shared across GPUI, NSH, `egui 0.37`, `iced_gpui`, and `bevy_gpui`.
-2. **Craft-Libs Zero-Duplicate Patching**: All `20` crates referenced upstream via `https://github.com/storytold/craft-libs` resolve through `[patch."https://github.com/storytold/craft-libs"]` to `aphrody-labs/craft-libs@v0.1.0-aphrody.20261120.2`, leaving `0` duplicate git sources in [`Cargo.lock`](../../../Cargo.lock).
+2. **Craft-Libs Zero-Duplicate Patching**: All `20` crates referenced upstream via `https://github.com/storytold/craft-libs` resolve through `[patch."https://github.com/storytold/craft-libs"]` to `aphrody-labs/craft-libs@v0.1.0-aphrody.20261120.2`, leaving `0` duplicate git sources in [`Cargo.lock`](../../../../Cargo.lock).
 3. **Real Lockfile Splits to Target Next**: Align `nsh-base` onto `ropey 2.0` (when released), bump the pinned `cosmic-text` fork from `harfrust 0.12 / skrifa 0.44` to match `epaint 0.37` (`0.15 / 0.49`), and track Zed upgrades off `lsp-types 0.95.1`, `notify 8.2`, `dirs 6.0`, and legacy `windows 0.56..0.61`.
 <!-- END GPUI_DIOXUS_UNIFICATION -->

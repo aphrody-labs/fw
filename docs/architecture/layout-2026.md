@@ -66,9 +66,14 @@ Decisions and reasons:
 3. One CI, one release workflow driven by `release.toml` and `tools/release-plan.ts` (from ay), one place for secrets. Workflows of the imported trees under `aphrody/.github` and `ay/.github` do not run (GitHub reads only the root `.github`); their jobs move to the root workflows in gated batches.
 4. Zed keeps following upstream through the prefix: the hourly sync merges `upstream/main` with `-X subtree=aphrody` and the deterministic conflict resolver of `aphrody/tooling/bun/upstream-sync.ts`, ported to the prefix.
 
+## Decisions accepted by the owner
+
+- 2026-11-21, owner in chat ("je valide tout, je te fais confiance, setup tout"), relayed by the coordinator: the license lists merged into `deny.toml` for the merged graph are accepted, namely the GPL-3.0 and LGPL-3.0 families that aphrody's (Zed's) crates carry, together with aphrody's git-source list and the advisory ignores recorded with their reasons.
+- Same date: aphrody-labs/aphrody and aphrody-labs/ay are archived after a final pointer commit; fw is the only repository.
+
 ## Decision for every tracked path
 
-<!-- layout:begin generated (bun tools/layout.ts doc, from layout.toml and git ls-files of 16610 paths) -->
+<!-- layout:begin generated (bun tools/layout.ts doc, from layout.toml and git ls-files of 16769 paths) -->
 
 ### Every tracked path, by area
 
@@ -80,7 +85,7 @@ Decisions and reasons:
 | `.editorconfig` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `.fdignore` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `.gitattributes` | 1 | keep | Git reads these from the repository root |
-| `.github` | 23 | keep | GitHub reads workflows, actions, CODEOWNERS and dependabot from .github |
+| `.github` | 39 | keep | GitHub reads workflows, actions, CODEOWNERS and dependabot from .github |
 | `.gitignore` | 1 | keep | Git reads these from the repository root |
 | `.gitmessage` | 1 | keep | Git reads these from the repository root |
 | `.gitmodules` | 1 | keep | Git reads these from the repository root |
@@ -88,24 +93,24 @@ Decisions and reasons:
 | `.python-version` | 1 | keep | uv reads the Python project, workspace and pin from the root |
 | `.rgignore` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `AGENTS.md` | 1 | keep | agent rules and the style contract; agents load them from the root |
-| `aphrody` | 9754 | keep | the Zed fork, imported with its full history under one prefix so `git merge -X subtree=aphrody zed-industries/zed` keeps following upstream; its internal layout is upstream Zed's (crates, assets, extensions, script, tooling) |
+| `aphrody` | 9741 | keep | the Zed fork, imported with its full history under one prefix so `git merge -X subtree=aphrody zed-industries/zed` keeps following upstream; its internal layout is upstream Zed's (crates, assets, extensions, script, tooling) |
 | `apps` | 46 | keep | Bun workspaces convention: deployable apps live in apps/* |
 | `apps/chromium-dash` | 9 | keep | Bun workspace members belong in apps/*, not nested in a Rust crate |
-| `ay` | 1888 | keep | the SDK, cloud and edge repository, imported with its full history; its crates, packages, apps, kotlin and python roots fold into the workspaces of this repository step by step (layout.toml moves) |
+| `ay` | 1877 | keep | the SDK, cloud and edge repository, imported with its full history; its crates, packages, apps, kotlin and python roots fold into the workspaces of this repository step by step (layout.toml moves) |
 | `bun.lock` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `bunfig.toml` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `Cargo.lock` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
 | `Cargo.toml` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
-| `cloudflare` | 30 | keep | wrangler configs sit beside the worker sources they deploy; deploy workflows and fw-edge refer to them |
-| `cluster` | 5 | keep | host topology, build and backup definitions read by tools/fr1.ts and the fleet scripts; roles, not addresses |
+| `cloudflare` | 43 | keep | wrangler configs sit beside the worker sources they deploy; deploy workflows and fw-edge refer to them |
+| `cluster` | 8 | keep | host topology, build and backup definitions read by tools/fr1.ts and the fleet scripts; roles, not addresses |
 | `compose.yaml` | 1 | keep | Docker tooling reads these from the build context root |
-| `configs` | 65 | keep | agent and tool configuration sources (claude scripts, heretic), consumed by the plugin sync |
+| `configs` | 66 | keep | agent and tool configuration sources (claude scripts, heretic), consumed by the plugin sync |
 | `core` | 19 | keep | single-file native cores, one directory per language (asm, c, cuda, go, java, wasm, webgpu, py) |
 | `cpp` | 4 | keep | CMake projects get their own top-level root with CMakePresets.json (ay already uses cpp/) |
-| `crates` | 1168 | keep | Cargo convention: flat crates/* members, one directory per crate |
+| `crates` | 1264 | keep | Cargo convention: flat crates/* members, one directory per crate |
 | `deny.toml` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
 | `Dockerfile` | 1 | keep | Docker tooling reads these from the build context root |
-| `docs` | 280 | keep | documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract |
+| `docs` | 313 | keep | documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract |
 | `dotnet` | 6 | keep | .NET projects get one root with Directory.Build.props, Directory.Packages.props (central package management) and a .slnx |
 | `flake.nix` | 1 | keep | Nix flakes and legacy entry points are looked up at the root |
 | `fw.soul.json` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
@@ -119,14 +124,14 @@ Decisions and reasons:
 | `MAP.tsv` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `native` | 13 | keep | freestanding kernel-mode crates outside the workspace (own targets); declared in Cargo exclude |
 | `nix` | 5 | keep | NixOS modules and host definitions referenced by flake.nix |
-| `os` | 28 | keep | operating-system crates and images outside the hosted workspace (own targets) |
 | `org.plan.json` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `org.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
+| `os` | 28 | keep | operating-system crates and images outside the hosted workspace (own targets) |
 | `package.json` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `packages` | 546 | keep | Bun workspaces convention: libraries in packages/* |
 | `packages/chromium` | 7 | keep | Bun workspace members belong in packages/*, not nested in a Rust crate |
 | `packages/chromium-releases` | 40 | keep | Bun workspace members belong in packages/*, not nested in a Rust crate |
-| `plugins` | 2493 | keep | the Claude plugin source tree; its layout (skills/, agents/, hooks/) is fixed by the plugin format |
+| `plugins` | 2500 | keep | the Claude plugin source tree; its layout (skills/, agents/, hooks/) is fixed by the plugin format |
 | `product.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `pyproject.toml` | 1 | keep | uv reads the Python project, workspace and pin from the root |
 | `python` | 12 | keep | uv workspace members live in python/*, not under a Bun package |
@@ -138,7 +143,7 @@ Decisions and reasons:
 | `tests` | 16 | move -> `packages/fw/test` (blocked) | tests move with the package they test Blocked: moves together with src |
 | `third_party` | 5 | keep | gitlinks to the kernel sources the kernel lot builds (update = none, shallow) |
 | `THIRD_PARTY_NOTICES.md` | 1 | keep | repository front matter and legal files, read by GitHub and package registries at the root |
-| `tools` | 60 | keep | repository scripts (Bun) with their own tests; one script per task |
+| `tools` | 71 | keep | repository scripts (Bun) with their own tests; one script per task |
 | `tsconfig.json` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `upstreams.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `uv.lock` | 1 | keep | uv reads the Python project, workspace and pin from the root |

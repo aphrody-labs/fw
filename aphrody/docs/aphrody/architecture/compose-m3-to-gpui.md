@@ -72,4 +72,4 @@ bun run m3:prove
 cargo run -p gpui_ui --features material3 --example m3_compose15_showcase
 ```
 
-Daily scheduled tracking and PR generation runs via [`.github/workflows/aphrody-m3-compose-tracker.yml`](../../../.github/workflows/aphrody-m3-compose-tracker.yml).
+Daily scheduled tracking and PR generation runs via [`.github/workflows/aphrody-m3-compose-tracker.yml`](../../../../.github/workflows/aphrody-m3-compose-tracker.yml).

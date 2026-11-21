@@ -10,7 +10,7 @@
 | Metric | Verified Live Value | Source |
 | :--- | :--- | :--- |
 | **`wasm-bindgen` Org Repositories** | `8` repositories audited & ingested (100% coverage) | `gh api --paginate orgs/wasm-bindgen/repos` |
-| **Aphrody Pinned `wasm-bindgen`** | `Cargo.lock` `0.2.129` == CLI `0.2.129` (constraint `0.2.120`) | [`Cargo.lock`](../../../Cargo.lock) + [`web-build.ts`](../../../tooling/bun/web-build.ts) |
+| **Aphrody Pinned `wasm-bindgen`** | `Cargo.lock` `0.2.129` == CLI `0.2.129` (constraint `0.2.120`) | [`Cargo.lock`](../../../../Cargo.lock) + [`web-build.ts`](../../../tooling/bun/web-build.ts) |
 | **Binaryen Optimizer** | `v133` (`-Oz --enable-bulk-memory --enable-reference-types`) | Local PATH + [`web-build.ts`](../../../tooling/bun/web-build.ts) |
 | **`gpui_web` Minimized `web-sys`** | `52` explicit features (`crates/gpui_wgpu` uses `1`) | [`crates/gpui_web/Cargo.toml`](../../../crates/gpui_web/Cargo.toml) |
 | **GitIngest Endpoint & CLI** | `https://gitingest.com/api/ingest` reachable=`true` (HTTP 200); CLI `v0.3.1` | Live HTTP probe + `gitingest` |
@@ -64,7 +64,7 @@
 ### Version Pinning & Upgrade Policy
 
 - **Exact Lockstep Rule**: [`tooling/bun/web-build.ts`](../../../tooling/bun/web-build.ts) runs `verifyBindgenVersion()` to guarantee CLI `wasm-bindgen` (0.2.129) strictly equals `Cargo.lock` (0.2.129). Never update `Cargo.lock` to `0.2.130` without installing matching `wasm-bindgen-cli@0.2.130`.
-- **`wasm_thread` Fork Rationale**: Root [`Cargo.toml`](../../../Cargo.toml) pins `wasm_thread` to `zed-industries/wasm_thread` rev `0cf96c7708df` (`features = ["es_modules"]`) because upstream `crates.io` `wasm_thread` invokes deprecated positional `wasm-bindgen` init arguments (deprecated since `0.2.93`).
+- **`wasm_thread` Fork Rationale**: Root [`Cargo.toml`](../../../../Cargo.toml) pins `wasm_thread` to `zed-industries/wasm_thread` rev `0cf96c7708df` (`features = ["es_modules"]`) because upstream `crates.io` `wasm_thread` invokes deprecated positional `wasm-bindgen` init arguments (deprecated since `0.2.93`).
 
 ---
 
