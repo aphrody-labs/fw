@@ -85,7 +85,7 @@ export function getTerminalTuiStatus(root: string): TerminalTuiStatus {
       forkUrl: "https://github.com/aphrody-labs/intelligent-terminal",
       upstreamUrl: "https://github.com/microsoft/intelligent-terminal",
     },
-    skillInstalled: existsSync(join(root, "plugin", "skills", "tui-test", "SKILL.md")),
+    skillInstalled: existsSync(join(root, "plugins", "aphrody", "skills", "tui-test", "SKILL.md")),
     fwWorkflowOptimized: true,
   };
 }

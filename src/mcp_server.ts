@@ -10,15 +10,8 @@ import {
   routeModelRequest,
 } from "./ai_stack.ts";
 import { callCratesTool, CRATES_TOOL_NAMES, CRATES_TOOLS } from "./crates.ts";
-import {
-  installService,
-  renderCrossPlatformServices,
-  runDaemonCycle,
-  serviceStatus,
-  uninstallService,
-} from "./daemon.ts";
 import { LOW_LEVEL_LTO_AOT_MATRIX } from "./lowlevel.ts";
-import { auditDeduplication, pluginStatus, syncFwPlugin } from "./plugin_sync.ts";
+import { auditDeduplication, pluginStatus } from "./plugin_sync.ts";
 import { generateFwWtaConfig, getTerminalTuiStatus, verifyFwSelfTui } from "./terminal_tui.ts";
 import {
   astQueryWithAbi,
@@ -30,10 +23,8 @@ import {
   parseAstWithAbi,
   probeRustAbi,
   readTargetManifest,
-  resolveUpstreamAgyPath,
   writeTargetManifest,
 } from "./targets.ts";
-import { applyUpgrade, buildAgyUpgradePlan, checkUpgrade, runBenchmarks } from "./upgrade.ts";
 import { listVfsMounts, vfsList, vfsRead, vfsWrite } from "./vfs.ts";
 
 export interface JsonRpcRequest {
@@ -54,7 +45,7 @@ export const FW_MCP_TOOLS = [
   {
     name: "fw_status",
     description:
-      "Return unified Fw monorepo status, Rust C ABI (v4) health, absorbed first/third-party modules, and target/agy readiness.",
+      "Return Fw monorepo status, Rust C ABI (v4) health, absorbed modules and plugin status.",
     inputSchema: { type: "object", properties: {} },
   },
   {
@@ -73,12 +64,13 @@ export const FW_MCP_TOOLS = [
   {
     name: "fw_pe_inspect",
     description:
-      "Inspect a Windows PE/COFF binary (defaults to read-only signed upstream agy.exe) using craft-pe compiled into Fw's Fat-LTO ABI.",
+      "Inspect a Windows PE/COFF binary using craft-pe compiled into Fw's Fat-LTO ABI.",
     inputSchema: {
       type: "object",
       properties: {
-        path: { type: "string", description: "Optional binary path; defaults to upstream agy.exe." },
+        path: { type: "string", description: "Binary path." },
       },
+      required: ["path"],
     },
   },
   {
@@ -88,58 +80,14 @@ export const FW_MCP_TOOLS = [
     inputSchema: { type: "object", properties: {} },
   },
   {
-    name: "fw_upgrade",
-    description:
-      "Check or apply Fw's gated LTO/AOT self-upgrade pipeline across target/agy/ and dist/, or produce an agy headless upgrade plan.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        mode: {
-          type: "string",
-          enum: ["check", "apply", "agy_plan"],
-          description: "Upgrade mode (default: check).",
-        },
-        skipTests: { type: "boolean", description: "Skip full test suite during apply (default: false)." },
-      },
-    },
-  },
-  {
-    name: "fw_bench",
-    description:
-      "Benchmark binary size and cold-start latency for target/agy/agy (Rust Fat-LTO), dist/fw-plugin (Bun AOT+trim), and upstream agy.exe.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        iterations: { type: "integer", minimum: 1, maximum: 25, description: "Runs per binary (default: 5)." },
-      },
-    },
-  },
-  {
     name: "fw_learn",
     description:
-      "Run Fw-integrated autonomous learning operations via ~/.gemini/scripts/learn.ts (search, distill, cloud-sync, status).",
+      "Run `fw learn` (status, harvest, distill, search, loop).",
     inputSchema: {
       type: "object",
       properties: {
-        action: { type: "string", enum: ["search", "distill", "cloud-sync", "status"], description: "Learning action." },
+        action: { type: "string", enum: ["status", "harvest", "distill", "search", "loop"], description: "fw learn action." },
         query: { type: "string", description: "Search query when action is 'search'." },
-      },
-      required: ["action"],
-    },
-  },
-  {
-    name: "fw_service",
-    description:
-      "Manage Fw's persistent, boot-startup, auto-restart cross-platform continuous agy improvement daemon and plugin sync.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        action: {
-          type: "string",
-          enum: ["status", "render", "install", "uninstall", "run_once", "plugin_sync", "plugin_status"],
-          description: "Service or plugin management action.",
-        },
-        autoApply: { type: "boolean", description: "For run_once: auto-apply upgrade when drift is detected." },
       },
       required: ["action"],
     },
@@ -164,9 +112,10 @@ export const FW_MCP_TOOLS = [
       type: "object",
       properties: {
         action: { type: "string", enum: ["disasm", "identify"], description: "Operation mode." },
-        path: { type: "string", description: "Optional binary/file path (defaults to upstream agy.exe)." },
+        path: { type: "string", description: "Binary or file path." },
         maxInsns: { type: "integer", minimum: 1, maximum: 128, description: "Instruction limit." },
       },
+      required: ["path"],
     },
   },
   {
@@ -218,19 +167,11 @@ function textResult(
 }
 
 export function runLearnBridge(action: string, query?: string) {
-  const learnScript = join(homedir(), ".gemini", "scripts", "learn.ts");
-  if (!existsSync(learnScript)) {
-    return { ok: false, error: `learn.ts not found at ${learnScript}` };
-  }
-  const cmd =
-    action === "search"
-      ? ["bun", learnScript, "search", ...(query ? query.trim().split(/\s+/) : ["fw"])]
-      : action === "distill"
-        ? ["bun", learnScript, "distill-quiet"]
-        : action === "cloud-sync"
-          ? ["bun", learnScript, "cloud-sync"]
-          : ["bun", learnScript, "status"];
-  const proc = Bun.spawnSync(cmd, { stdout: "pipe", stderr: "pipe" });
+  const fw = process.env.FW_BIN || Bun.which("fw");
+  if (!fw) return { ok: false, error: "the fw binary is not on PATH (set FW_BIN)" };
+  const args =
+    action === "search" ? ["learn", "search", ...(query ? query.trim().split(/\s+/) : ["fw"])] : ["learn", action];
+  const proc = Bun.spawnSync([fw, ...args], { stdout: "pipe", stderr: "pipe" });
   const stdout = proc.stdout.toString().trim();
   const stderr = proc.stderr.toString().trim();
   let parsed: unknown = stdout;
@@ -261,15 +202,12 @@ export function handleFwToolCall(
     case "fw_status": {
       const abi = probeRustAbi(root);
       const manifest = readTargetManifest(root);
-      const isWin = process.platform === "win32";
-      const agyTarget = join(root, "target", "agy", isWin ? "agy.exe" : "agy");
       return textResult({
         ok: true,
         product: "fw",
         root,
         abiLoaded: abi.loaded,
         abi,
-        agyTargetReady: existsSync(agyTarget),
         manifestReady: Boolean(manifest),
         repoDigest: manifest?.repoDigest ?? null,
         plugin: pluginStatus(root),
@@ -291,8 +229,8 @@ export function handleFwToolCall(
       return textResult(res, !res.ok);
     }
     case "fw_pe_inspect": {
-      const target = typeof args.path === "string" && args.path.trim() ? resolve(root, args.path) : resolveUpstreamAgyPath();
-      if (!target) return textResult({ ok: false, error: "no PE binary path resolved" }, true);
+      if (typeof args.path !== "string" || !args.path.trim()) return textResult({ ok: false, error: "path is required" }, true);
+      const target = resolve(root, args.path);
       const res = inspectPeWithAbi(root, target);
       return textResult(res, !res.ok);
     }
@@ -301,53 +239,11 @@ export function handleFwToolCall(
       const manifestPath = writeTargetManifest(root, manifest);
       return textResult({ ok: true, manifestPath, manifest });
     }
-    case "fw_upgrade": {
-      const mode = typeof args.mode === "string" ? args.mode : "check";
-      if (mode === "apply") {
-        const res = applyUpgrade(root, { skipTests: Boolean(args.skipTests) });
-        return textResult(res, !res.ok);
-      }
-      if (mode === "agy_plan") {
-        return textResult(buildAgyUpgradePlan(root));
-      }
-      return textResult(checkUpgrade(root));
-    }
-    case "fw_bench": {
-      const iterations = typeof args.iterations === "number" ? Math.max(1, Math.min(25, Math.trunc(args.iterations))) : 5;
-      return textResult(runBenchmarks(root, iterations));
-    }
     case "fw_learn": {
       const action = typeof args.action === "string" ? args.action : "status";
       const query = typeof args.query === "string" ? args.query : undefined;
       const res = runLearnBridge(action, query);
       return textResult(res, !res.ok);
-    }
-    case "fw_service": {
-      const action = typeof args.action === "string" ? args.action : "status";
-      switch (action) {
-        case "render":
-          return textResult(renderCrossPlatformServices(root));
-        case "install": {
-          const res = installService(root);
-          return textResult(res, !res.ok);
-        }
-        case "uninstall": {
-          const res = uninstallService(root);
-          return textResult(res, !res.ok);
-        }
-        case "run_once": {
-          const res = runDaemonCycle(root, { autoApply: Boolean(args.autoApply), withLearn: true, syncPlugin: true });
-          return textResult(res, !res.ok);
-        }
-        case "plugin_sync": {
-          const res = syncFwPlugin(root);
-          return textResult(res, !res.ok);
-        }
-        case "plugin_status":
-          return textResult(pluginStatus(root));
-        default:
-          return textResult(serviceStatus(root));
-      }
     }
     case "fw_bridge": {
       const sub = typeof args.subsystem === "string" ? args.subsystem : "";
@@ -370,9 +266,8 @@ export function handleFwToolCall(
     }
     case "fw_disasm": {
       const action = typeof args.action === "string" ? args.action : "disasm";
-      const target =
-        typeof args.path === "string" && args.path.trim() ? resolve(root, args.path) : resolveUpstreamAgyPath();
-      if (!target) return textResult({ ok: false, error: "no target binary resolved" }, true);
+      if (typeof args.path !== "string" || !args.path.trim()) return textResult({ ok: false, error: "path is required" }, true);
+      const target = resolve(root, args.path);
       if (action === "identify") {
         const res = identifyFileWithAbi(root, target);
         return textResult(res, !res.ok);
@@ -421,46 +316,110 @@ export function handleFwToolCall(
   }
 }
 
+export const MODERN_VERSION = "2026-07-28";
+export const LEGACY_VERSIONS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
+const META_VERSION = "io.modelcontextprotocol/protocolVersion";
+const META_CAPABILITIES = "io.modelcontextprotocol/clientCapabilities";
+const META_SERVER = "io.modelcontextprotocol/serverInfo";
+const SERVER_INFO = { name: "fw", version: "2.3.0" };
+
+/** Set by `initialize`: the process then also serves requests that carry no per-request `_meta` (the earlier, session-scoped versions). */
+let legacySession = false;
+
+const rpcError = (id: JsonRpcResponse["id"], code: number, message: string, data?: unknown): JsonRpcResponse => ({
+  jsonrpc: "2.0",
+  id,
+  error: { code, message, ...(data === undefined ? {} : { data }) },
+});
+
+function validateArguments(schema: unknown, args: Record<string, unknown>): string | null {
+  const s = schema as { required?: string[]; properties?: Record<string, { type?: string; enum?: unknown[] }> };
+  for (const key of s.required ?? []) if (!(key in args)) return `Missing required property '${key}'`;
+  for (const [key, value] of Object.entries(args)) {
+    const prop = s.properties?.[key];
+    if (!prop) continue;
+    const kind = Array.isArray(value) ? "array" : value === null ? "null" : typeof value;
+    const ok = !prop.type || kind === prop.type || (prop.type === "integer" && Number.isInteger(value));
+    if (!ok) return `${key}: expected ${prop.type} but got ${kind}`;
+    if (prop.enum && !prop.enum.includes(value)) return `${key}: ${JSON.stringify(value)} is not one of the allowed values`;
+  }
+  return null;
+}
+
+function callTool(root: string, params: Record<string, unknown>) {
+  const name = typeof params.name === "string" ? params.name : "";
+  if (params.arguments !== undefined && (params.arguments === null || typeof params.arguments !== "object" || Array.isArray(params.arguments))) {
+    return { error: "Invalid params for tools/call: 'arguments' must be an object" };
+  }
+  const args = (params.arguments ?? {}) as Record<string, unknown>;
+  const tool = FW_MCP_TOOLS.find((t) => t.name === name);
+  if (!tool) return { error: `Unknown tool: ${name}` };
+  const problem = validateArguments(tool.inputSchema, args);
+  if (problem) return { result: textResult(`Invalid arguments for tool ${name}: ${problem}`, true) };
+  return { result: handleFwToolCall(root, name, args) };
+}
+
+/**
+ * One JSON-RPC message. Requests that carry `_meta["io.modelcontextprotocol/protocolVersion"]` are served under
+ * 2026-07-28 (stateless, `server/discover`, `resultType`, cache hints); a process that has seen `initialize` also
+ * serves the earlier session-scoped versions.
+ */
 export function handleJsonRpcMessage(root: string, req: JsonRpcRequest): JsonRpcResponse | null {
   const id = req.id ?? null;
   const method = req.method ?? "";
-  if (method === "notifications/initialized" || method === "notifications/cancelled") {
-    return null;
-  }
+  if (req.id === undefined) return null;
+  const params = (req.params ?? {}) as Record<string, unknown>;
+  const meta = params._meta as Record<string, unknown> | undefined;
+
   if (method === "initialize") {
+    legacySession = true;
+    const requested = typeof params.protocolVersion === "string" ? params.protocolVersion : "";
     return {
       jsonrpc: "2.0",
       id,
       result: {
-        protocolVersion: "2024-11-05",
-        capabilities: { tools: {} },
-        serverInfo: { name: "fw", version: "2.3.0" },
+        protocolVersion: LEGACY_VERSIONS.includes(requested) ? requested : LEGACY_VERSIONS[0],
+        capabilities: { tools: { listChanged: false } },
+        serverInfo: SERVER_INFO,
       },
     };
   }
-  if (method === "ping") {
-    return { jsonrpc: "2.0", id, result: {} };
+
+  const modern = meta !== undefined && meta[META_VERSION] !== undefined;
+  if (!modern) {
+    if (!legacySession) {
+      return rpcError(id, -32602, "Invalid params: _meta with io.modelcontextprotocol/protocolVersion and clientCapabilities is required");
+    }
+    if (method === "ping") return { jsonrpc: "2.0", id, result: {} };
+    if (method === "tools/list") return { jsonrpc: "2.0", id, result: { tools: FW_MCP_TOOLS } };
+    if (method === "tools/call") {
+      const call = callTool(root, params);
+      return call.error ? rpcError(id, -32602, call.error) : { jsonrpc: "2.0", id, result: call.result };
+    }
+    return rpcError(id, -32601, `Method not found: ${method}`);
   }
-  if (method === "tools/list") {
-    return { jsonrpc: "2.0", id, result: { tools: FW_MCP_TOOLS } };
+
+  const version = meta[META_VERSION];
+  if (typeof version !== "string" || typeof meta[META_CAPABILITIES] !== "object" || meta[META_CAPABILITIES] === null) {
+    return rpcError(id, -32602, "Invalid params: _meta.io.modelcontextprotocol/protocolVersion and clientCapabilities are required");
   }
-  if (method === "tools/call") {
-    const params = req.params ?? {};
-    const toolName = typeof params.name === "string" ? params.name : "";
-    const toolArgs = (params.arguments && typeof params.arguments === "object"
-      ? params.arguments
-      : {}) as Record<string, unknown>;
-    return {
-      jsonrpc: "2.0",
-      id,
-      result: handleFwToolCall(root, toolName, toolArgs),
-    };
+  if (version !== MODERN_VERSION) {
+    return rpcError(id, -32022, "Unsupported protocol version", { supported: [MODERN_VERSION, ...LEGACY_VERSIONS], requested: version });
   }
-  return {
+  const done = (result: Record<string, unknown>, cacheable = false): JsonRpcResponse => ({
     jsonrpc: "2.0",
     id,
-    error: { code: -32601, message: `Method not found: ${method}` },
-  };
+    result: { resultType: "complete", ...result, ...(cacheable ? { ttlMs: 300000, cacheScope: "public" } : {}), _meta: { [META_SERVER]: SERVER_INFO } },
+  });
+  if (method === "server/discover") {
+    return done({ supportedVersions: [MODERN_VERSION, ...LEGACY_VERSIONS], capabilities: { tools: { listChanged: false } } }, true);
+  }
+  if (method === "tools/list") return done({ tools: FW_MCP_TOOLS }, true);
+  if (method === "tools/call") {
+    const call = callTool(root, params);
+    return call.error ? rpcError(id, -32602, call.error) : done(call.result as Record<string, unknown>);
+  }
+  return rpcError(id, -32601, `Method not found: ${method}`);
 }
 
 export async function startMcpStdioServer(root: string): Promise<void> {
@@ -474,20 +433,13 @@ export async function startMcpStdioServer(root: string): Promise<void> {
       const line = buffer.slice(0, nl).trim();
       buffer = buffer.slice(nl + 1);
       if (!line) continue;
+      let resp: JsonRpcResponse | null;
       try {
-        const req = JSON.parse(line) as JsonRpcRequest;
-        const resp = handleJsonRpcMessage(root, req);
-        if (resp) {
-          process.stdout.write(`${JSON.stringify(resp)}\n`);
-        }
+        resp = handleJsonRpcMessage(root, JSON.parse(line) as JsonRpcRequest);
       } catch (err) {
-        const errResp: JsonRpcResponse = {
-          jsonrpc: "2.0",
-          id: null,
-          error: { code: -32700, message: err instanceof Error ? err.message : String(err) },
-        };
-        process.stdout.write(`${JSON.stringify(errResp)}\n`);
+        resp = rpcError(null, -32700, `Parse error: ${err instanceof Error ? err.message : String(err)}`);
       }
+      if (resp) process.stdout.write(`${JSON.stringify(resp)}\n`);
     }
   }
 }

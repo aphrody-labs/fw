@@ -1,217 +1,69 @@
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { homedir } from "node:os";
-import { dirname, join, relative, resolve } from "node:path";
-import { mirrorRealDirNtfs, scanNtfsJunctions, toNtfsSafePath } from "./ntfs.ts";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { scanNtfsJunctions } from "./ntfs.ts";
 
 export function resolvePluginSource(root: string): string {
   return resolve(root, "plugins", "aphrody");
 }
 
-export function resolveGeminiPluginPaths() {
-  const geminiRoot = join(homedir(), ".gemini");
-  return {
-    geminiRoot,
-    trackedDest: join(geminiRoot, "plugins", "aphrody"),
-    configDest: join(geminiRoot, "config", "plugins", "aphrody"),
-    aphrodySkills: join(geminiRoot, "plugins", "aphrody", "skills"),
-    installScript: join(geminiRoot, "scripts", "install.ts"),
-  };
+export function resolvePluginManifest(root: string): string {
+  return join(resolvePluginSource(root), ".claude-plugin", "plugin.json");
 }
 
-function computeDirLockManifest(dir: string): Record<string, string> {
-  const out: Record<string, string> = {};
-  const stack = [dir];
-  const files: string[] = [];
-  while (stack.length > 0) {
-    const cur = stack.pop()!;
-    for (const entry of readdirSync(toNtfsSafePath(cur), { withFileTypes: true })) {
-      const full = join(cur, entry.name);
-      if (entry.isDirectory()) stack.push(full);
-      else if (entry.isFile() && entry.name !== "fw.plugin.lock.json") files.push(full);
-    }
-  }
-  files.sort();
-  for (const f of files) {
-    const rel = relative(dir, f).replaceAll("\\", "/");
-    const h = new Bun.CryptoHasher("sha256");
-    h.update(readFileSync(toNtfsSafePath(f)));
-    out[rel] = h.digest("hex");
-  }
-  return out;
-}
-
-export function auditDeduplication(root: string) {
-  const src = resolvePluginSource(root);
-  const { aphrodySkills, trackedDest, configDest } = resolveGeminiPluginPaths();
-  const listSkills = (dir: string) =>
-    existsSync(dir)
-      ? readdirSync(dir, { withFileTypes: true })
-          .filter((e) => e.isDirectory())
-          .map((e) => e.name)
-          .sort()
-      : [];
-
-  const fwSkills = listSkills(join(src, "skills"));
-  const aphrodySkillList = listSkills(aphrodySkills);
-  const pluginsDir = dirname(src);
-  const otherSkills = new Set(
-    listSkills(pluginsDir)
-      .map((name) => join(pluginsDir, name))
-      .filter((dir) => dir !== src)
-      .flatMap((dir) => listSkills(join(dir, "skills"))),
-  );
-  const overlapWithAphrody = fwSkills.filter((s) => otherSkills.has(s));
-
-  const srcLock = existsSync(src) ? computeDirLockManifest(src) : {};
-  const trackedLock = existsSync(trackedDest) ? computeDirLockManifest(trackedDest) : {};
-  const configLock = existsSync(configDest) ? computeDirLockManifest(configDest) : {};
-
-  const lockJson = JSON.stringify(srcLock);
-  const geminiTrackedInSync = lockJson === JSON.stringify(trackedLock);
-  const geminiConfigInSync = lockJson === JSON.stringify(configLock);
-  const ntfsJunctionsFound = [
-    ...scanNtfsJunctions(trackedDest),
-    ...scanNtfsJunctions(configDest),
-  ];
-
-  return {
-    ok: overlapWithAphrody.length === 0 && ntfsJunctionsFound.length === 0,
-    fwSkillCount: fwSkills.length,
-    fwSkills,
-    aphrodySkillCount: aphrodySkillList.length,
-    overlapWithAphrody,
-    geminiTrackedInSync,
-    geminiConfigInSync,
-    ntfsJunctionsFound,
-  };
-}
-
-export function pluginStatus(root: string) {
-  const src = resolvePluginSource(root);
-  const { trackedDest, configDest } = resolveGeminiPluginPaths();
-  let version: string | null = null;
-  const manifestPath = join(src, "plugin.json");
-  if (existsSync(manifestPath)) {
-    try {
-      version = (JSON.parse(readFileSync(manifestPath, "utf8")) as { version?: string }).version ?? null;
-    } catch {
-      version = null;
-    }
-  }
-  const skillsDir = join(src, "skills");
-  const skills = existsSync(skillsDir)
-    ? readdirSync(skillsDir, { withFileTypes: true })
+function listDirs(dir: string): string[] {
+  return existsSync(dir)
+    ? readdirSync(dir, { withFileTypes: true })
         .filter((e) => e.isDirectory())
         .map((e) => e.name)
         .sort()
     : [];
+}
+
+/** Skills this plugin ships that another plugin under `plugins/` ships too; the unified plugin keeps one copy of each. */
+export function auditDeduplication(root: string) {
+  const src = resolvePluginSource(root);
+  const fwSkills = listDirs(join(src, "skills"));
+  const pluginsDir = dirname(src);
+  const otherSkills = new Set(
+    listDirs(pluginsDir)
+      .map((name) => join(pluginsDir, name))
+      .filter((dir) => dir !== src)
+      .flatMap((dir) => listDirs(join(dir, "skills"))),
+  );
+  const overlapWithAphrody = fwSkills.filter((s) => otherSkills.has(s));
+  const ntfsJunctionsFound = scanNtfsJunctions(src);
+  return { ok: overlapWithAphrody.length === 0 && ntfsJunctionsFound.length === 0, fwSkillCount: fwSkills.length, fwSkills, overlapWithAphrody, ntfsJunctionsFound };
+}
+
+export function pluginStatus(root: string) {
+  const src = resolvePluginSource(root);
+  const manifestPath = resolvePluginManifest(root);
+  let manifest: { name?: string; version?: string } = {};
+  if (existsSync(manifestPath)) {
+    try {
+      manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+    } catch {
+      manifest = {};
+    }
+  }
   return {
-    ok: existsSync(manifestPath),
-    name: "aphrody",
-    version,
+    ok: Boolean(manifest.name),
+    name: manifest.name ?? null,
+    version: manifest.version ?? null,
     sourceDir: src,
-    skills,
-    trackedInstalled: existsSync(join(trackedDest, "plugin.json")),
-    configMaterialized: existsSync(join(configDest, "plugin.json")),
-    trackedDest,
-    configDest,
+    manifestPath,
+    skills: listDirs(join(src, "skills")),
     dedupe: auditDeduplication(root),
   };
 }
 
-export function syncFwPlugin(
-  root: string,
-  options: { runInstall?: boolean; validate?: boolean } = {},
-): {
-  ok: boolean;
-  sourceDir: string;
-  trackedDest: string;
-  configDest: string;
-  validated?: boolean;
-  validationOutput?: string;
-  lockFileCount?: number;
-  error?: string;
-} {
-  const src = resolvePluginSource(root);
-  const { trackedDest, configDest, installScript } = resolveGeminiPluginPaths();
-  if (!existsSync(join(src, "plugin.json"))) {
-    return {
-      ok: false,
-      sourceDir: src,
-      trackedDest,
-      configDest,
-      error: `Missing plugin manifest at ${join(src, "plugin.json")}`,
-    };
-  }
-
-  try {
-    mirrorRealDirNtfs(src, trackedDest);
-    mirrorRealDirNtfs(src, configDest);
-    const files = computeDirLockManifest(src);
-    const lockPayload = `${JSON.stringify(
-      {
-        schema: "fw.plugin-lock.v1",
-        sourceRepo: "aphrody-labs/fw",
-        syncedAt: new Date().toISOString(),
-        files,
-      },
-      null,
-      2,
-    )}\n`;
-    writeFileSync(join(trackedDest, "fw.plugin.lock.json"), lockPayload, "utf8");
-    writeFileSync(join(configDest, "fw.plugin.lock.json"), lockPayload, "utf8");
-  } catch (err) {
-    return {
-      ok: false,
-      sourceDir: src,
-      trackedDest,
-      configDest,
-      error: err instanceof Error ? err.message : String(err),
-    };
-  }
-
-  if (options.runInstall && existsSync(installScript)) {
-    const inst = Bun.spawnSync(["bun", installScript], { stdout: "pipe", stderr: "pipe" });
-    if (inst.exitCode !== 0) {
-      return {
-        ok: false,
-        sourceDir: src,
-        trackedDest,
-        configDest,
-        error: `install.ts failed: ${(inst.stderr.toString() || inst.stdout.toString()).slice(0, 400)}`,
-      };
-    }
-  }
-
-  let validated: boolean | undefined;
-  let validationOutput: string | undefined;
-  if (options.validate && Bun.which("agy")) {
-    const val = Bun.spawnSync(["agy", "plugin", "validate", configDest, "--strict", "--json"], {
-      stdout: "pipe",
-      stderr: "pipe",
-    });
-    validated = val.exitCode === 0;
-    validationOutput = (val.stdout.toString() || val.stderr.toString()).trim();
-    if (!validated) {
-      return {
-        ok: false,
-        sourceDir: src,
-        trackedDest,
-        configDest,
-        validated,
-        validationOutput,
-        error: `agy plugin validate --strict failed: ${validationOutput.slice(0, 400)}`,
-      };
-    }
-  }
-
-  return {
-    ok: true,
-    sourceDir: src,
-    trackedDest,
-    configDest,
-    validated,
-    validationOutput,
-    lockFileCount: Object.keys(computeDirLockManifest(src)).length,
-  };
+/** Installs the plugin source into Claude Code: `claude plugin update aphrody@fw` (the `fw` marketplace is this repository). */
+export function syncFwPlugin(root: string, _options: object = {}): { ok: boolean; sourceDir: string; command: string[]; output?: string; error?: string } {
+  const sourceDir = resolvePluginSource(root);
+  const command = ["claude", "plugin", "update", "aphrody@fw"];
+  const claude = Bun.which("claude");
+  if (!claude) return { ok: false, sourceDir, command, error: "the claude CLI is not on PATH" };
+  const run = Bun.spawnSync([claude, ...command.slice(1)], { stdout: "pipe", stderr: "pipe" });
+  const output = (run.stdout.toString() || run.stderr.toString()).trim();
+  return run.exitCode === 0 ? { ok: true, sourceDir, command, output } : { ok: false, sourceDir, command, output, error: `exit ${run.exitCode}` };
 }

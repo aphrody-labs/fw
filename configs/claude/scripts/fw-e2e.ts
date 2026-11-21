@@ -576,10 +576,7 @@ function mcpCalls(root: string): ToolCall[] {
     { name: "fw_ast_parse", args: { lang: "rust", file: join(WORK, "src", "lib.rs") }, ...abi },
     { name: "fw_pe_inspect", args: { path: peSample }, ...abi },
     { name: "fw_target_scan", args: {}, expect: "ok", text: /manifestPath/ },
-    { name: "fw_upgrade", args: { mode: "check" }, expect: "ok" },
-    { name: "fw_bench", args: { iterations: 1 }, expect: "ok" },
-    { name: "fw_learn", args: { action: "status" }, expect: "ok", text: /e2e/ },
-    { name: "fw_service", args: { action: "status" }, expect: "ok" },
+    { name: "fw_learn", args: { action: "status" }, expect: "ok" },
     { name: "fw_bridge", args: { subsystem: "craft" }, expect: "ok" },
     { name: "fw_disasm", args: { action: "disasm", path: peSample, maxInsns: 4 }, ...abi },
     { name: "fw_vfs", args: { action: "mounts" }, expect: "ok" },
@@ -610,7 +607,7 @@ async function mcpSection(): Promise<void> {
 
     const [listed, listMs, listErr] = await timed(() => client.request("tools/list", {}));
     const tools = ((listed?.result as { tools?: { name: string; inputSchema?: unknown }[] } | undefined)?.tools ?? []);
-    const expectedTools = ["fw_ai", "fw_ast_parse", "fw_bench", "fw_bridge", "fw_disasm", "fw_learn", "fw_pe_inspect", "fw_service", "fw_status", "fw_target_scan", "fw_tui_terminal", "fw_upgrade", "fw_vfs"];
+    const expectedTools = ["fw_ai", "fw_ast_parse", "fw_bridge", "fw_disasm", "fw_learn", "fw_pe_inspect", "fw_status", "fw_target_scan", "fw_tui_terminal", "fw_vfs"];
     const names = tools.map((t) => t.name);
     const lacking = expectedTools.filter((n) => !names.includes(n));
     const schemaBad = tools.filter((t) => !t.inputSchema).map((t) => t.name);

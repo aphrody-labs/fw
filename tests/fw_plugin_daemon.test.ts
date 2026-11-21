@@ -9,54 +9,69 @@ import { pluginStatus } from "../src/plugin_sync.ts";
 const ROOT = process.cwd();
 
 describe("fw unified plugin, MCP, API, and cross-platform daemon", () => {
-  test("plugin directory has strict Antigravity manifest and migrated agy/learn/fw skills", () => {
+  test("plugin directory is the unified Claude plugin: manifest, hooks, MCP servers and skills on disk", () => {
     const status = pluginStatus(ROOT);
     expect(status.ok).toBe(true);
-    expect(status.name).toBe("fw");
-    const onDisk = readdirSync(join(ROOT, "plugin", "skills"), { withFileTypes: true })
+    expect(status.name).toBe("aphrody");
+    const pluginDir = join(ROOT, "plugins", "aphrody");
+    const onDisk = readdirSync(join(pluginDir, "skills"), { withFileTypes: true })
       .filter((d) => d.isDirectory())
       .map((d) => d.name)
       .sort();
     expect(status.skills).toEqual(onDisk);
-    for (const core of ["agy-knowledge", "fw", "hermes-claw", "learn", "low-level-lto-aot", "rust-upstream", "tree-sitter", "tui-test", "upstreams"]) {
+    for (const core of ["fw", "hermes-claw", "learn", "low-level-lto-aot", "rust-upstream", "tree-sitter", "tui-test", "upstreams"]) {
       expect(status.skills).toContain(core);
     }
+    expect(status.dedupe.overlapWithAphrody).toEqual([]);
 
-    const manifest = JSON.parse(readFileSync(join(ROOT, "plugin", "plugin.json"), "utf8"));
-    expect(manifest.name).toBe("fw");
-    expect(manifest.$schema).toContain("antigravity.google");
-    expect("license" in manifest).toBe(false);
-    expect("keywords" in manifest).toBe(false);
-
-    expect(existsSync(join(ROOT, "plugin", "mcp_config.json"))).toBe(true);
-    expect(existsSync(join(ROOT, "plugin", "gemini-extension.json"))).toBe(true);
-    expect(existsSync(join(ROOT, "plugin", "mcp", "fw-mcp.ts"))).toBe(true);
-    expect(existsSync(join(ROOT, "plugin", "rules", "AGENTS.md"))).toBe(true);
-    expect(existsSync(join(ROOT, "plugin", "skills", "agy-knowledge", "references", "agy-knowledge.verified.json"))).toBe(true);
+    const manifest = JSON.parse(readFileSync(join(pluginDir, ".claude-plugin", "plugin.json"), "utf8"));
+    expect(manifest.name).toBe("aphrody");
+    for (const key of ["hooks", "mcpServers", "skills"]) {
+      expect(existsSync(join(pluginDir, manifest[key]))).toBe(true);
+    }
+    const servers = JSON.parse(readFileSync(join(pluginDir, ".claude-plugin", "mcp.json"), "utf8")).mcpServers as Record<string, { args?: string[] }>;
+    expect(Object.keys(servers)).toContain("fw");
+    for (const server of Object.values(servers)) {
+      for (const arg of server.args ?? []) {
+        if (arg.startsWith("${CLAUDE_PLUGIN_ROOT}/")) expect(existsSync(join(pluginDir, arg.slice("${CLAUDE_PLUGIN_ROOT}/".length)))).toBe(true);
+      }
+    }
+    // agy is retired: no Antigravity manifest or gemini path ships in the plugin.
+    for (const retired of ["plugin.json", "gemini-extension.json", "mcp_config.json", join("skills", "agy-knowledge")]) {
+      expect(existsSync(join(pluginDir, retired))).toBe(false);
+    }
   });
 
-  test("unified MCP JSON-RPC server exposes all 9 first/third-party tools and executes calls", () => {
-    const init = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 1, method: "initialize" });
-    expect(init?.result).toBeDefined();
+  test("unified MCP JSON-RPC server serves both protocol eras, lists its tools and executes calls", () => {
+    const init = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2025-11-25" } });
+    expect((init?.result as { protocolVersion: string }).protocolVersion).toBe("2025-11-25");
 
     const list = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 2, method: "tools/list" });
     const tools = (list?.result as { tools: typeof FW_MCP_TOOLS }).tools;
-    expect(tools.length).toBe(13);
+    expect(tools.length).toBe(FW_MCP_TOOLS.length);
+    expect(tools.length).toBeGreaterThan(0);
     const names = tools.map((t) => t.name);
-    for (const expected of [
-      "fw_status",
-      "fw_ast_parse",
-      "fw_pe_inspect",
-      "fw_target_scan",
-      "fw_upgrade",
-      "fw_bench",
-      "fw_learn",
-      "fw_service",
-      "fw_bridge",
-      "fw_tui_terminal",
-    ]) {
+    expect(new Set(names).size).toBe(names.length);
+    for (const expected of ["fw_status", "fw_ast_parse", "fw_pe_inspect", "fw_target_scan", "fw_learn", "fw_bridge", "fw_tui_terminal"]) {
       expect(names).toContain(expected);
     }
+
+    // Every listed tool is callable: an empty call answers with a result or a validation error, never "Unknown tool".
+    for (const name of names) {
+      const res = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 9, method: "tools/call", params: { name, arguments: { action: "no-such-action" } } });
+      expect(res?.error?.message ?? "").not.toContain("Unknown tool");
+    }
+
+    const meta = { "io.modelcontextprotocol/protocolVersion": "2026-07-28", "io.modelcontextprotocol/clientCapabilities": {} };
+    const discover = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 5, method: "server/discover", params: { _meta: meta } });
+    expect((discover?.result as { supportedVersions: string[] }).supportedVersions[0]).toBe("2026-07-28");
+    const modernList = handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 6, method: "tools/list", params: { _meta: meta } });
+    const modernResult = modernList?.result as { resultType: string; ttlMs: number; tools: unknown[] };
+    expect(modernResult.resultType).toBe("complete");
+    expect(modernResult.tools.length).toBe(tools.length);
+    expect(modernResult.ttlMs).toBeGreaterThanOrEqual(0);
+    expect(handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 7, method: "tools/list", params: { _meta: { ...meta, "io.modelcontextprotocol/protocolVersion": "1900-01-01" } } })?.error?.code).toBe(-32022);
+    expect(handleJsonRpcMessage(ROOT, { jsonrpc: "2.0", id: 8, method: "nope", params: { _meta: meta } })?.error?.code).toBe(-32601);
 
     const astCall = handleJsonRpcMessage(ROOT, {
       jsonrpc: "2.0",
@@ -77,7 +92,6 @@ describe("fw unified plugin, MCP, API, and cross-platform daemon", () => {
     });
     const bridgeJson = JSON.parse((bridgeCall?.result as { content: Array<{ text: string }> }).content[0].text);
     expect(bridgeJson.ok).toBe(true);
-    expect(bridgeJson.present).toBe(true);
   });
 
   test("unified HTTP API handler serves health, status, ast, and 404 cleanly", async () => {
