@@ -112,7 +112,7 @@ fn run(options: &Options) -> Result<(), String> {
             std::fs::create_dir_all(parent).map_err(|error| format!("{}: {error}", parent.display()))?;
         }
     }
-    let mut display: Display<State> = Display::new().map_err(|error| error.to_string())?;
+    let display: Display<State> = Display::new().map_err(|error| error.to_string())?;
     let state = State::new(display.handle(), options.size, options.scale);
     eprintln!(
         "fw-android-wl: output {}x{} scale {} globals: {}",
