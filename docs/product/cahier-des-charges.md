@@ -119,7 +119,7 @@ Targets are ours; the "basis" column says what they are derived from. `lab` mean
 
 ## 6. State of the media host on 2026-11-21
 
-`media.aphrody.com` is the Worker `media-cdn` (`cloudflare/media-cdn`) on the R2 bucket `aphrody-media`, with the grammar in `tools/media-cdn/grammar.ts`; the live check (bytes, headers, magic numbers) is in `docs/agents/queue/media-cdn.md`.
+`media.aphrody.com` is the Worker `media-cdn` (`cloudflare/media-cdn`) on the R2 bucket `aphrody-media`, with the grammar in `tools/media-cdn/grammar.ts` (R1 to R7 are implemented). Live check on 2026-11-21: `tools/media-cdn/verify.ts` passed 987 checks and 0 failed against the host (bytes equal to the manifest, magic numbers, headers, negotiation, ranges, on-demand sizes); the evidence and the rung sizes are in `docs/agents/queue/media-cdn.md`. Sizes of rungs measured so far come from synthetic fixtures; the byte budgets G4 to G9 are checked against real sources in `media-encode`.
 
 ## 7. Open points (queued, work continues)
 
