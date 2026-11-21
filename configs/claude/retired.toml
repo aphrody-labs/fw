@@ -31,3 +31,34 @@ reason = "history notes of the retirement itself"
 [[allow]]
 paths = ["configs/claude/retired.toml", "configs/claude/scripts/retired.ts", "configs/claude/scripts/retired.test.ts"]
 reason = "the check names the terms it rejects"
+
+# Vendored upstream text and generated data that use the same words for unrelated things.
+[[allow]]
+paths = [
+  "plugins/aphrody/skills/gemini-api/references/**",
+  "plugins/aphrody/skills/stitch/references/**",
+  "plugins/aphrody/skills/android/references/**",
+  "plugins/aphrody/skills/bun-aphrody/references/bun-crates/**",
+  "plugins/aphrody/skills/bun-reference/data/**",
+]
+reason = "upstream documentation copied by plugins/aphrody/scripts/unify.ts: Google's `antigravity-preview-*` managed-agent model ids, the Relay GraphQL transpiler of Bun, a baton metaphor"
+
+[[allow]]
+paths = ["docs/crates/index.jsonl", "docs/research/upstream-watch.tsv"]
+terms = ["relay-hub"]
+reason = "generated indexes of crates.io and upstream repositories (iroh-relay, tor-relay-selection, moq-relay)"
+
+[[allow]]
+paths = ["os/kernel-pipeline/prd.config"]
+terms = ["relay-hub"]
+reason = "CONFIG_RELAY is a Linux kernel option"
+
+[[allow]]
+paths = ["crates/fw-material/vendor/**"]
+terms = ["agy-tooling"]
+reason = "generated Material Symbols tables: the glyph is named antigravity"
+
+[[allow]]
+paths = ["docs/research/acp-mcp-gemini-4-2026-11-21.md", "docs/research/rust-stack.md", "docs/research/rust-stack.toml"]
+terms = ["agy-tooling"]
+reason = "research notes that record what the retirement removed"
