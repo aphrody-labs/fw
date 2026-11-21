@@ -1,4 +1,4 @@
-# aphrody-re
+# ay-re
 
 <!-- catalog:begin unit -->
 <!-- prettier-ignore-start -->
@@ -6,16 +6,16 @@
 
 | Type | Path |
 | :-- | :-- |
-| Rust crate | `frameworks/re` |
+| Rust crate | `crates/ay-re` |
 
 **Commands**
 
 ```sh
-cargo test -p aphrody-re
+cargo test -p ay-re
 ```
 
 Rust builds run on the build host or in CI, not on a workstation.
 
-Part of Aphrody: [aphrody-labs/ay](../../README.md), [Catalog](../../docs/reference/catalog/crate.md).
+Part of Aphrody: [aphrody-labs/ay](../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->

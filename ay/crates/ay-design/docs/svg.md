@@ -6,17 +6,17 @@ memory; no module touches the filesystem, so it is safe for FFI, WebAssembly and
 
 | Module | Feature | What |
 | --- | --- | --- |
-| `sanitize` | always | Element allowlist (passive SVG only; unknown and foreign elements go with their subtree); animation of `href`/`src`/`on*`/`style` dropped and animation values checked for script URLs; `on*` and `xml:base` removed; URL attributes must be same-document or raster `data:` images; CSS (`style`, `<style>`, any value with `(` or `\`) is normalized (comments, escapes) and refused on `expression(`, script URLs, `image-set(`, `@import`/`@font-face`/`@namespace` or an unsafe `url()`; comments, DTDs (rejected); optional external refs and editor metadata. |
-| `viewbox` | always | Parse `viewBox`, absolute lengths to px, intrinsic size, synthesize a missing `viewBox`, `Keep`/`Responsive`/`Fixed` sizing. |
-| `theme` | always | Bake `currentColor`, `var(--x, fallback)` and colour remaps in attributes, `style` and `<style>`; `Theme::m3` takes `(role, colour)` pairs and exposes `--md-sys-color-<role>`. |
-| `sprite` | always | `<symbol>` sheets from standalone SVGs; internal ids and `url(#...)`/`href="#..."` prefixed per symbol. |
+| `sanitize` | `svg` | Element allowlist (passive SVG only; unknown and foreign elements go with their subtree); animation of `href`/`src`/`on*`/`style` dropped and animation values checked for script URLs; `on*` and `xml:base` removed; URL attributes must be same-document or raster `data:` images; CSS (`style`, `<style>`, any value with `(` or `\`) is normalized (comments, escapes) and refused on `expression(`, script URLs, `image-set(`, `@import`/`@font-face`/`@namespace` or an unsafe `url()`; comments, DTDs (rejected); optional external refs and editor metadata. |
+| `viewbox` | `svg` | Parse `viewBox`, absolute lengths to px, intrinsic size, synthesize a missing `viewBox`, `Keep`/`Responsive`/`Fixed` sizing. |
+| `theme` | `svg` | Bake `currentColor`, `var(--x, fallback)` and colour remaps in attributes, `style` and `<style>`; `Theme::m3` takes `(role, colour)` pairs and exposes `--md-sys-color-<role>`. |
+| `sprite` | `svg` | `<symbol>` sheets from standalone SVGs; internal ids and `url(#...)`/`href="#..."` prefixed per symbol. |
 | `glyph` | `glyph` | `skrifa` outline pen (`SvgPathPen`) and glyph to SVG path/metrics, variable axes, collections. |
 | `symbols` | `symbols` | Material Symbols by name: GSUB ligature lookup, 960-grid paths, gstatic layout, WOFF2 decoding; `symbol_svg` escapes its `fill` and `path` arguments. |
 | `optimize` | `raster` | usvg normalizing writer with bounded precision (the Rust counterpart of svgo `preset-default`). |
 | `raster` | `raster` | resvg to straight RGBA / PNG, ICO packing (PNG entries), favicon and Windows size sets. Embedded `data:` images render; path and URL `href`s are never read (no local file or network access); output is capped at `MAX_PIXELS` (64 million). |
 | `diff` | `raster` | Pixel diff of two SVGs or RGBA buffers (max/mean delta, mismatch %). |
 
-Default features: `raster`, `glyph`. Backends are pure Rust: resvg/usvg/tiny-skia, roxmltree, svgtypes, skrifa.
+No default features: enable `svg`, or `raster`, `glyph`, `symbols` (each implies `svg`). Backends are pure Rust: resvg/usvg/tiny-skia, roxmltree, svgtypes, skrifa.
 
 ```rust
 use ay_design::svg::{raster, sanitize, theme::Theme};
@@ -35,7 +35,7 @@ dependency on a Material token crate) is gone, `Theme::m3` is always available a
 ## Test
 
 ```sh
-cargo test -p ay-design/svg --all-features
-cargo clippy -p ay-design/svg --all-targets --all-features -- -D warnings
-cargo clippy -p ay-design/svg --no-default-features -- -D warnings
+cargo test -p ay-design --features raster,glyph,symbols svg
+cargo clippy -p ay-design --features raster,glyph,symbols --all-targets -- -D warnings
+cargo clippy -p ay-design --no-default-features --features svg -- -D warnings
 ```

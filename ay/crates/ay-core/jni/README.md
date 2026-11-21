@@ -16,6 +16,6 @@ cargo test -p ay-core-jni
 
 Rust builds run on the build host or in CI, not on a workstation.
 
-Part of Aphrody: [aphrody-dev/ai-os](../../../README.md).
+Part of Aphrody: [aphrody-labs/ay](../../../README.md).
 <!-- prettier-ignore-end -->
 <!-- catalog:end -->

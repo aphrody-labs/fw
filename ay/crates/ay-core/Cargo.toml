@@ -15,7 +15,7 @@ name = "ay_core"
 [features]
 default = []
 # One content-addressed stage graph over the monorepo: detect -> parse/triage -> deep -> SQLite
-# (WAL, FTS5), with a Valkey cache/queue shared by the fleet (crates/ay-core/src/pipeline, docs/native/PIPELINE.md).
+# (WAL, FTS5), with a Valkey cache/queue shared by the fleet (crates/ay-core/src/pipeline).
 pipeline = ["dep:rusqlite", "dep:zstd"]
 # The `aphrody-code` binary and `ay_core::cli`: facts queries, outlines, grammar registry and its upstream sync.
 cli = ["dep:clap", "dep:fw-http", "dep:toml", "dep:zstd"]
@@ -76,8 +76,6 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(tokio_unstable)'] }
 
 [lints.clippy]
 all = { level = "warn", priority = -1 }
-# cargo = { level = "warn", priority = -1 } # TODO(raghav.narula) Enable after duplicate dependencies fixed
-# undocumented_unsafe_blocks = "warn" # TODO(raghav.narula) enable in follow up
 checked_conversions = "warn"
 dbg_macro = "deny"
 debug_assert_with_mut_call = "warn"

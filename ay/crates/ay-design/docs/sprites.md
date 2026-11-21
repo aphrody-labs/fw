@@ -9,7 +9,7 @@ Turns a sprite atlas (one image plus named rectangles) into forms the web consum
 - `SpriteSheet::to_json`: the region manifest, for code.
 - `sanitize_name` (region name to a valid CSS class / SVG id) and `data_uri` (base64 `data:` URI).
 
-The crate is `no_std` + `alloc`, has no dependency, and knows no input format: the caller supplies the atlas
+The module needs only `alloc` (no `std` item), has no dependency, and knows no input format: the caller supplies the atlas
 image and the regions. Rectangles are copied, never recomputed.
 
 Legacy published name: `aphrody-sprite-sheet` (crates.io, 1.4.7). This crate is the restored source under the
@@ -19,6 +19,6 @@ repository's own name; it is not published. The API is renamed to English (`to_c
 ## Test
 
 ```sh
-cargo test -p ay-design/sprites
-cargo clippy -p ay-design/sprites --all-targets -- -D warnings
+cargo test -p ay-design --features sprites sprites
+cargo clippy -p ay-design --features sprites --all-targets -- -D warnings
 ```

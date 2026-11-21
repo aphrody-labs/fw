@@ -17,7 +17,6 @@
 //! - Strings in are NUL-terminated UTF-8; strings out are NUL-terminated UTF-8 JSON owned by
 //!   the library and released with [`core_free`] or [`aphrody_free`].
 //! - Errors come back as `{"error": "..."}` JSON; null only when the output holds a NUL byte.
-//! - Build with the shared LLVM toolchain (docs/llvm/UNIFIED-TOOLCHAIN.md) for cross-language LTO.
 
 /// Common C ABI primitives; exports `aphrody_abi_version` and `aphrody_free`.
 pub mod cabi;

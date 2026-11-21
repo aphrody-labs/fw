@@ -28,6 +28,6 @@ fill_triangle(
 ## Test
 
 ```sh
-cargo test -p ay-design/softraster
-cargo clippy -p ay-design/softraster --all-targets -- -D warnings
+cargo test -p ay-design --features softraster softraster
+cargo clippy -p ay-design --features softraster --all-targets -- -D warnings
 ```
