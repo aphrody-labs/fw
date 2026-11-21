@@ -1,0 +1,40 @@
+name: CI Windows
+
+on:
+  push:
+    branches: [main, "release/**"]
+    paths-ignore: ["docs/research/**", "docs/agents/**"]
+  pull_request:
+    branches: [main]
+    paths-ignore: ["docs/research/**", "docs/agents/**"]
+
+# Own group, newest commit wins: the Windows job runs 1674 to 2531 s (gh api, 2026-11-21).
+concurrency:
+  group: fw-ci-windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust-windows:
+    name: Rust (windows-latest)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/rust-toolchain
+      - uses: Swatinem/rust-cache@v2
+      # One Cargo workspace holds fw, aphrody/ and ay/; each origin has its own CI job (aphrody-ci.yml, ay-check.yml), this job gates fw's members.
+      - name: fw workspace members
+        shell: bash
+        run: |
+          pkgs=$(cargo metadata --no-deps --format-version 1 | jq -r --arg root "$(pwd)/" '.packages[]|select((.manifest_path|startswith($root+"aphrody/")|not) and (.manifest_path|startswith($root+"ay/")|not))|"-p "+.name' | tr -d '\r' | tr '\n' ' ')
+          echo "FW_PKGS=$pkgs" >> "$GITHUB_ENV"
+      - name: Zero-warning Clippy and workspace tests
+        shell: bash
+        run: |
+          cargo clippy $FW_PKGS --all-targets -- -D warnings
+          cargo test $FW_PKGS
+      - name: Build Fat-LTO fw binary and smoke-verify
+        run: |
+          cargo build --release -p fw-bin --bin fw
+          ./target/release/fw claw status
+          ./target/release/fw claw mcp
+
