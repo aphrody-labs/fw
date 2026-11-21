@@ -4,11 +4,14 @@
 //! OpenAPI 3.1, OpenAI-compatible chat, Gemini Decision 1, MCP, ACP, A2A and the `/webgpu` browser page.
 
 mod chat;
+pub mod mcp;
+pub mod mcp_catalog;
+pub mod mcp_fixture;
 mod server;
 mod ui;
 
 pub use chat::{list_models, proxy_chat_completions};
-pub use server::serve;
+pub use server::{serve, serve_on, serve_with};
 
 use fw_apm::unified_pm::scan_unified_workspace;
 use fw_cluster::HybridClusterRouter;
@@ -16,7 +19,6 @@ use fw_compute::{detect_hardware_profile, run_compute_smoke_bench, DEFAULT_WGSL_
 use fw_fx::acp::AcpServer;
 use fw_fx::cli::build_status_json;
 use fw_fx::config::FxConfig;
-use fw_fx::tools::{builtin_tool_specs, execute_builtin_tool};
 use fw_hermes_claw::{modern_cli_ranking, protocol_and_agent_ranking, ChannelKind, HermesClawAgent};
 use fw_wayland_wgpu::unified_wgpu_terminal::UnifiedWgpuTerminalApp;
 use serde_json::{json, Value};
@@ -286,81 +288,10 @@ pub fn dispatch_http(
             proxy_chat_completions(&cfg, api_key.as_deref(), body_json)
         }
         ("POST", "/mcp") => {
-            if serde_json::from_str::<Value>(body_str).is_err() {
-                let parse_error = json!({ "jsonrpc": "2.0", "id": null, "error": { "code": -32700, "message": "parse error: the body is not JSON" } });
-                return (400, "application/json", parse_error.to_string());
-            }
-            let id = body_json.get("id").cloned().unwrap_or(json!(1));
-            let rpc_method = body_json.get("method").and_then(Value::as_str).unwrap_or("");
-            if rpc_method == "tools/call" {
-                let name = body_json["params"]["name"].as_str().unwrap_or("");
-                let args = body_json["params"].get("arguments").cloned().unwrap_or_else(|| json!({}));
-                if let Some(res) = dispatch_kernel_mcp_tool(name, &args) {
-                    return (
-                        200,
-                        "application/json",
-                        json!({ "jsonrpc": "2.0", "id": id, "result": res }).to_string(),
-                    );
-                }
-                if let Some(res) = fw_crates::call_mcp_tool(name, &args) {
-                    let result = match res {
-                        Ok(v) => json!({ "content": [{ "type": "text", "text": v.to_string() }], "structuredContent": v, "isError": false }),
-                        Err(e) => json!({ "content": [{ "type": "text", "text": e }], "isError": true }),
-                    };
-                    return (200, "application/json", json!({ "jsonrpc": "2.0", "id": id, "result": result }).to_string());
-                }
-                let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-                if name == "fw_pm_scan" {
-                    let report = scan_unified_workspace(&cwd);
-                    return (200, "application/json", json!({ "jsonrpc": "2.0", "id": id, "result": report }).to_string());
-                }
-                if name == "fw_m3_terminal_frame" {
-                    let app = UnifiedWgpuTerminalApp::new(120, 40);
-                    return (200, "application/json", json!({ "jsonrpc": "2.0", "id": id, "result": app }).to_string());
-                }
-                if builtin_tool_specs().iter().any(|s| s.name == name) {
-                    let res = match execute_builtin_tool(&cwd, name, &args) {
-                        Ok(val) => json!({ "jsonrpc": "2.0", "id": id, "result": val }),
-                        Err(e) => json!({ "jsonrpc": "2.0", "id": id, "error": { "code": -32000, "message": e } }),
-                    };
-                    return (200, "application/json", res.to_string());
-                }
-            }
-            let agent = HermesClawAgent::new("fw-hermes-claw");
-            let mut resp = agent.mcp.handle_jsonrpc(&body_json);
-            if rpc_method == "tools/list"
-                && let Some(tools) = resp["result"]["tools"].as_array_mut()
-            {
-                for (name, desc) in KERNEL_MCP_TOOLS {
-                    tools.push(json!({
-                        "name": name,
-                        "description": desc,
-                        "inProcess": true
-                    }));
-                }
-                for spec in builtin_tool_specs() {
-                    tools.push(json!({
-                        "name": spec.name,
-                        "description": spec.description,
-                        "inputSchema": spec.parameters,
-                        "source": "fw-fx"
-                    }));
-                }
-                for (name, description, schema) in fw_crates::mcp_tools() {
-                    tools.push(json!({ "name": name, "description": description, "inputSchema": schema, "source": "fw-crates" }));
-                }
-                tools.push(json!({
-                    "name": "fw_pm_scan",
-                    "description": "Unified pure-Rust package manager scan (npm + crates.io + APM)",
-                    "source": "fw-apm"
-                }));
-                tools.push(json!({
-                    "name": "fw_m3_terminal_frame",
-                    "description": "Pure-Rust Material 3 1.5.0 + Rio/Kitty WGPU terminal frame descriptor",
-                    "source": "fw-wayland-wgpu"
-                }));
-            }
-            (200, "application/json", resp.to_string())
+            // In-process entry for tests: the answer to one message, without the event stream `fw serve` opens for notifications.
+            let engine = mcp::Engine::new(Arc::new(mcp_catalog::FwCatalog::from_current_dir()));
+            let (status, payload) = mcp::handle_json(&engine, &mcp::HttpMeta::default(), body_str);
+            (status, "application/json", payload)
         }
         ("POST", "/acp") => {
             let rpc_method = body_json.get("method").and_then(Value::as_str).unwrap_or("");

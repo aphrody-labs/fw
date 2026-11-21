@@ -131,7 +131,7 @@ pub const COMMANDS: &[CommandMeta] = &[
     CommandMeta { name: "semver", aliases: &[], group: "Packages & Dependencies", usage: "fw semver <ver> <range>", summary: "Evaluate Bun-compatible semver range" },
     // Workspace, Config & Protocols
     CommandMeta { name: "config", aliases: &[], group: "Workspace & Protocols", usage: "fw config <list|get|set>", summary: "Read or update ~/.fx/config.json" },
-    CommandMeta { name: "mcp", aliases: &[], group: "Workspace & Protocols", usage: "fw mcp <list|add|remove>", summary: "Manage MCP servers in ~/.fx/mcp.json" },
+    CommandMeta { name: "mcp", aliases: &[], group: "Workspace & Protocols", usage: "fw mcp | fw mcp <list|add|remove>", summary: "Serve fw's tools as an MCP server over stdio, or manage client MCP servers in ~/.fx/mcp.json" },
     CommandMeta { name: "acp", aliases: &[], group: "Workspace & Protocols", usage: "fw acp", summary: "Run Agent Client Protocol JSON-RPC 2.0 server over stdio" },
     CommandMeta { name: "sessions", aliases: &["session"], group: "Workspace & Protocols", usage: "fw sessions | session <show|delete> <id>", summary: "List, inspect, or delete saved agent sessions" },
     CommandMeta { name: "permissions", aliases: &[], group: "Workspace & Protocols", usage: "fw permissions [ask|auto|full-access]", summary: "View or set agent permission mode" },

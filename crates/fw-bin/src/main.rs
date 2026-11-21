@@ -469,6 +469,14 @@ fn main() {
                 }
             }
         }
+        // `fw mcp` serves MCP over stdio; `list`, `add` and `remove` keep managing ~/.fx/mcp.json.
+        "mcp" if !matches!(args.get(1).map(String::as_str), Some("list" | "add" | "remove")) => {
+            let engine = std::sync::Arc::new(fw_proto::mcp::Engine::new(std::sync::Arc::new(fw_proto::mcp_catalog::FwCatalog::from_current_dir())));
+            if let Err(e) = fw_proto::mcp::serve_stdio(&engine, std::io::stdin().lock(), std::io::stdout()) {
+                eprintln!("fw mcp: {e}");
+                std::process::exit(1);
+            }
+        }
         // Flat unified coding agent commands (fw-fx merged directly into fw)
         "ask" | "tool" | "config" | "mcp" | "acp" | "sessions" | "session" | "permissions"
         | "models" | "provider" | "workspace" | "pr" | "issue" | "completion" => {
