@@ -12340,6 +12340,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "fw-toolchain"
+version = "2026.11.0"
+dependencies = [
+ "anyhow",
+ "hex",
+ "serde",
+ "serde_json",
+ "sha2 0.11.1",
+ "toml 1.2.2+spec-1.1.0",
+ "ureq",
+]
+
+[[package]]
 name = "fw-translate-core"
 version = "2026.11.0"
 dependencies = [

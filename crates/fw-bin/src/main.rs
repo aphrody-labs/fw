@@ -337,6 +337,9 @@ fn main() {
         "estate" => {
             std::process::exit(run_sibling("estate", "fw-estate", &args[1..]));
         }
+        "toolchain" => {
+            std::process::exit(run_sibling("toolchain", "fw-toolchain", &args[1..]));
+        }
         "kernel" | "linux" => {
             std::process::exit(run_sibling("kernel", "fw-linux", &args[1..]));
         }

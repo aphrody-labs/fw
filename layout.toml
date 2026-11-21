@@ -39,6 +39,7 @@ members = [
     "crates/fw-secrets",
     "crates/fw-cluster",
     "crates/fw-estate",
+    "crates/fw-toolchain",
     "crates/fw-org",
     "crates/fw-proto",
     "crates/fw-ui-blitz",
@@ -569,6 +570,9 @@ version = "auto"
 
 [cargo.crate.fw-toolcall]
 default-features = false
+
+[cargo.crate.fw-toolchain]
+version = "auto"
 
 [cargo.crate.fw-ui-blitz]
 version = "auto"
