@@ -1,0 +1,30 @@
+{
+  "name": "@aphrody/linux-types",
+  "version": "0.1.0",
+  "description": "Linux kernel UAPI for Bun, generated from the kernel itself: struct layouts with read/write codecs, constants, ioctl and syscall tables per arch, and bun:ffi syscall and ioctl helpers",
+  "type": "module",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./x86_64": "./src/x86_64/index.ts",
+    "./aarch64": "./src/aarch64/index.ts"
+  },
+  "scripts": {
+    "check": "bun check",
+    "test": "bun test test",
+    "gen": "bun gen/gen.ts",
+    "headers": "bun gen/headers.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.5",
+    "typescript": "7.0.2"
+  },
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aphrody-labs/fw.git",
+    "directory": "packages/linux-types"
+  }
+}
