@@ -1,0 +1,41 @@
+id	method	path	ts_source	behaviour	ts_test	rust_module	status
+drive-whoami	GET|HEAD	/drive/_whoami	drive.ts handleDrive	Access JWT verified (header or CF_Authorization cookie), JSON {ok, viewer:{kind,id}}, no-store	fw_drive_cdn.test.ts: people come in with an email...; cookie works	access.rs drive_cdn.rs	pending
+drive-access	GET|HEAD	/drive/*	drive.ts verifyAccess	503 unconfigured; 401 missing/malformed/bad sig/expired; 403 wrong aud/iss/no identity; RS256 vs team certs	fw_drive_cdn.test.ts: fails closed; rejects missing, foreign-key, wrong-audience and expired	access.rs	pending
+drive-write	POST|PUT|PATCH|DELETE	/drive/*	drive.ts handleDrive	405 read-only	fw_drive_cdn.test.ts: writes are refused	drive_cdn.rs	pending
+drive-list	GET|HEAD	/drive/ and /drive/<folder>/	drive.ts listingResponse	folder listing JSON (agents) or HTML (Accept text/html, ?format=json overrides); folder without trailing slash 308	fw_drive_cdn.test.ts: root lists as JSON...; a folder path without a trailing slash redirects	drive_cdn.rs	pending
+drive-file	GET|HEAD	/drive/<path/to/file>	drive.ts serveFile	R2 cache aphrody-drive key drive/<id>/<version>; miss streams Google Drive into caller and R2; hit has Range, If-None-Match, 304/412; x-fw-drive-cache hit|miss; CSP sandbox	fw_drive_cdn.test.ts: first read fetches Drive and fills R2...; on workerd a miss streams...; cache hits honour Range	drive_cdn.rs	pending
+drive-range-miss	GET|HEAD	/drive/<file> with Range	drive.ts serveFile	Range miss served by Drive, full file fills R2 in background (waitUntil)	fw_drive_cdn.test.ts: a Range miss is served by Drive...	drive_cdn.rs	pending
+drive-export	GET|HEAD	/drive/<google doc>?export=	drive.ts EXPORT_DEFAULTS	Docs to markdown, Sheets csv, Slides pdf, Drawings svg, Script json; ?export=<mime> overrides; 415 without target	fw_drive_cdn.test.ts: Google Docs export...	drive_cdn.rs	pending
+drive-id	GET|HEAD	/drive/_id/<fileId>	drive.ts underRoot	file or folder by id, 404 outside DRIVE_ROOT_ID	fw_drive_cdn.test.ts: ids resolve only inside the shared root	drive_cdn.rs	pending
+drive-sa-token	-	Google service-account token	drive.ts googleAccessToken	RS256 JWT bearer grant with GOOGLE_SA_KEY secret, cached until 5 min before expiry	fw_drive_cdn.test.ts (mocked fetch)	drive_cdn.rs	pending
+mount-drive	any	/drive*	worker.ts fetch	handled before CORS and every other route	fw_drive_cdn.test.ts: fw-edge mounts the drive CDN at /drive	lib.rs	pending
+options	OPTIONS	*	worker.ts fetch	204, access-control-allow-origin *, methods GET POST PUT DELETE OPTIONS, headers Content-Type Authorization X-Fw-Tenant X-Fw-Principal Mcp-Session-Id	fw_cloudflare.test.ts: CORS preflight	proto.rs	pending
+static	GET	/ /index.html /app.css /app.js /robots.txt /sitemap.xml /llms.txt /install.sh /install.ps1	worker.ts fetch	env.ASSETS.fetch (assets from crates/fw-proto/ui, run_worker_first)	none (workerd binding)	proto.rs	pending
+webgpu	GET	/webgpu	worker.ts fetch	ASSETS /webgpu.html	none	proto.rs	pending
+health	any	/health	worker.ts fetch	{ok,product,version,runtime,compatibilityDate,env,deployment (version metadata),bindings}	fw_cloudflare.test.ts: CORS preflight, /health...	proto.rs	pending
+agent-card	any	/.well-known/agent.json	worker.ts fetch	A2A AgentCard, url origin/a2a, protocolVersion 1.0.1, 4 skills	fw_cloudflare.test.ts: CORS preflight, /health...	proto.rs	pending
+openapi	any	/openapi.json	worker.ts buildOpenApiSpec	OpenAPI 3.1.0 with the path table	fw_cloudflare.test.ts: CORS preflight, /health...	proto.rs	pending
+v1-models	any	/v1/models	worker.ts listEdgeModels	live Workers AI catalog, filtered and ranked, 10 min cache; no AI binding: data [] + error	fw_cloudflare.test.ts: OpenAI-compatible /v1/models...	ai.rs	pending
+v1-chat	POST	/v1/chat/completions	worker.ts handleChatCompletions	JSON or SSE stream re-framed as OpenAI chunks; 400 bad body, 503 no AI, 502 upstream	fw_cloudflare.test.ts: OpenAI-compatible...	ai.rs	pending
+v1-embeddings	POST	/v1/embeddings	worker.ts	Workers AI embeddings; default model cheapest free then largest context; optional Vectorize upsert (MEMORY_VEC)	fw_cloudflare.test.ts: ...and /v1/embeddings (+ Vectorize)	ai.rs	pending
+mcp	POST	/mcp	worker.ts handleMcp	JSON-RPC 2.0: initialize, tools/list (9 tools), tools/call, ping; -32602 unknown tool, -32601 unknown method	fw_cloudflare.test.ts: Streamable HTTP MCP	proto.rs	pending
+acp	POST	/acp	worker.ts handleAcp	initialize, session/new, session/prompt (Workers AI), ping; isolate-local sessions	fw_cloudflare.test.ts: ACP and A2A lifecycles	proto.rs	pending
+a2a	POST	/a2a	worker.ts handleA2A	tasks/send, tasks/get (-32001 missing), ping; isolate-local tasks	fw_cloudflare.test.ts: ACP and A2A lifecycles	proto.rs	pending
+os-catalog	GET	/os/catalog	worker.ts	catalog items, ?layer= filter	fw_cloudflare.test.ts: /os/catalog and /os/tiers	proto.rs	pending
+os-tiers	GET	/os/tiers	worker.ts	3 execution tiers + bindings	fw_cloudflare.test.ts: /os/catalog and /os/tiers	proto.rs	pending
+vfs-ls	GET|POST	/os/vfs/ls	worker.ts FwOSAgent	tenant DO SQLite VFS listing, Gatekeeper vfs:read, 403 denied	fw_cloudflare.test.ts: 3-tier Edge OS VFS...	os.rs	pending
+vfs-read	GET|POST	/os/vfs/read	FwOSAgent	400 missing path, 404 ENOENT/EISDIR, R2 spill hydration (VFS_BLOBS)	fw_cloudflare.test.ts: 3-tier...	os.rs	pending
+vfs-write	POST	/os/vfs/write	FwOSAgent	Gatekeeper vfs:write, parent dirs, sha256, spill to VFS_BLOBS above 65536 bytes or spillToR2	fw_cloudflare.test.ts: 3-tier...	os.rs	pending
+vfs-stat	GET|POST	/os/vfs/stat	FwOSAgent	exists false or metadata	fw_cloudflare.test.ts: 3-tier...	os.rs	pending
+vfs-exec	POST	/os/vfs/exec	FwOSAgent	tier select, Tier-0 POSIX shell (pwd ls cat echo stat mkdir touch rm cp mv wc head tail grep find cd env uname whoami help, redirects, && and ;), Tier-1 LOADER (simulated without binding), Tier-2 SANDBOX (simulated without binding), audit	fw_cloudflare.test.ts: 3-tier...	os.rs	pending
+gatekeeper-get	GET	/os/gatekeeper	worker.ts	list rules (14 defaults)	fw_cloudflare.test.ts: 3-tier...	os.rs	pending
+gatekeeper-post	POST	/os/gatekeeper	worker.ts	upsert rule or evaluate check; 403 on deny	fw_cloudflare.test.ts: 3-tier...	os.rs	pending
+learn-events	GET|POST	/api/learn/events	FwOSAgent learnRecord/learnList	SQLite log, optional K2 EVENT_LOG, Basin TELEMETRY_PIPELINE, D1 META_DB sinks	fw_cloudflare.test.ts: FwOSAgent DO SQLite kernel...	os.rs	pending
+learn-status	GET	/api/learn/status	FwOSAgent learnStatus	counts by kind, sinks	fw_cloudflare.test.ts: FwOSAgent DO SQLite kernel...	os.rs	pending
+cluster	GET	/cluster	worker.ts	static JSON	none	proto.rs	pending
+claw-status	GET	/claw/status	worker.ts	static JSON	none	proto.rs	pending
+claw-ranking	GET	/claw/ranking	worker.ts	static JSON	none	proto.rs	pending
+claw-run	POST	/claw/run	worker.ts	static steps JSON for goal	none	proto.rs	pending
+not-found	any	*	worker.ts	404 {ok:false,error:Not found,path}	fw_cloudflare.test.ts: CORS preflight...	proto.rs	pending
+do-class	-	FwOSAgent Durable Object (SQLite)	worker.ts FwOSAgent	same class name and SQLite tables (vfs_nodes gatekeeper_rules learn_events exec_audit) so live tenant data carries over	fw_cloudflare.test.ts: FwOSAgent DO SQLite kernel; standalone in-memory	os.rs	pending
+files-mount	any	/files/*	new	fw-drive (Drive clone) on D1 + R2 behind Access (people Google sign-in, agents aphrody-agents service token), JWT verified in Rust	new: crates/fw-drive tests on both backends + preview run	files.rs	pending

@@ -1,0 +1,74 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "fw-edge",
+  "main": "build/worker/shim.mjs",
+  "compatibility_date": "2026-11-19",
+  "build": {
+    "command": "worker-build --release"
+  },
+  "observability": {
+    "enabled": true,
+    "traces": {
+      "enabled": true
+    }
+  },
+  "assets": {
+    "directory": "../fw-proto/ui",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "FW_OS",
+        "class_name": "FwOSAgent"
+      }
+    ]
+  },
+  "exports": {
+    "FwOSAgent": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    }
+  },
+  "ai": {
+    "binding": "AI"
+  },
+  "version_metadata": {
+    "binding": "CF_VERSION_METADATA"
+  },
+  // fw.aphrody.com is canonical; workers.dev stays on for installs that still use the old URL.
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "fw.aphrody.com",
+      "custom_domain": true
+    }
+  ],
+  // /drive: Google Drive CDN (R2 cache aphrody-drive). /files: fw-drive on D1 (metadata) + R2 (blobs).
+  // Both sit behind the Access app fw-drive; the Worker verifies the Access JWT itself.
+  // Service-account key: `wrangler secret put GOOGLE_SA_KEY` (drive-cdn@aphrody.iam.gserviceaccount.com, Drive read-only).
+  "r2_buckets": [
+    {
+      "binding": "DRIVE_CACHE",
+      "bucket_name": "aphrody-drive"
+    },
+    {
+      "binding": "FW_DRIVE_BLOBS",
+      "bucket_name": "fw-drive"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "FW_DRIVE_DB",
+      "database_name": "fw-drive",
+      "database_id": "5fea60a4-b865-465a-af7c-63382c479371"
+    }
+  ],
+  "vars": {
+    "FW_ENV": "production",
+    "DRIVE_ROOT_ID": "1FjPbSD2mmh1vAgHoV6ASZ8YAiO9jtwoI",
+    "ACCESS_TEAM_DOMAIN": "https://aphrody-labs.cloudflareaccess.com",
+    "ACCESS_AUD": "b4d74c629f0e9f1fba9042ebe81651ced63303130341faf3b16b944078efdb6b"
+  }
+}
