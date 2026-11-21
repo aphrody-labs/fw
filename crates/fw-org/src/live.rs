@@ -82,6 +82,7 @@ impl Live {
             match github.try_get(&format!("/orgs/{name}/packages?package_type={kind}&per_page=100")) {
                 Ok(Value::Array(rows)) => live.packages.extend(rows),
                 Ok(_) => {}
+                Err(reason) if reason.starts_with("HTTP 400") => live.refused.insert(format!("packages {kind}"), reason).map_or((), |_| ()),
                 Err(reason) => {
                     live.packages_refused = Some(reason);
                     break;
