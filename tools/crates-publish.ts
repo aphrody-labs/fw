@@ -8,9 +8,14 @@
 import { join } from "node:path";
 
 const root = join(import.meta.dir, "..");
-const product = Bun.TOML.parse(await Bun.file(join(root, "product.toml")).text()) as { crates_io_publish_order: string[] };
+const product = Bun.TOML.parse(await Bun.file(join(root, "product.toml")).text()) as { crates_io_publish_order: string[]; release?: { crates_io?: boolean } };
 const passthrough = Bun.argv.slice(2);
 const dryRun = passthrough.includes("--dry-run");
+// crates.io names are permanent: product.toml [release] crates_io stays false until the crate names are final.
+if (!dryRun && product.release?.crates_io !== true) {
+  console.log(JSON.stringify({ published: [], reason: "product.toml [release] crates_io is not true" }));
+  process.exit(0);
+}
 
 type Dependency = { name: string; kind: string | null; path?: string; source?: string };
 type Package = { id: string; name: string; version: string; publish: string[] | null; dependencies: Dependency[] };

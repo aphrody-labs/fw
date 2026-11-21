@@ -45,6 +45,8 @@ seed = "#e2dbad"
 variant = "tonal-spot"
 
 [release]
+# crates.io names cannot be taken back: true once the crate names of docs/architecture/layout-2026.md are final.
+crates_io = false
 # Files outside the Cargo workspace that carry the product version; `bun tools/version.ts` keeps them equal to `version`
 # above (`set <v>` writes, the bare command checks, CI and the release workflow run the check).
 version_files = [

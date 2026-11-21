@@ -8,14 +8,10 @@ on:
   workflow_dispatch:
     inputs:
       channel:
-        description: Release channel (lts, stable, preview, canary, nightly, dev)
+        description: Release train channel of a main or release/<M> build (ay docs/release/model.md); a v* tag carries its own
         type: choice
-        default: dev
-        options: [lts, stable, preview, canary, nightly, dev]
-      version:
-        description: Version without the leading v (default yyyy.mm.dd-sha)
-        type: string
-        default: ""
+        default: canary
+        options: [canary, dev, beta]
 
 permissions:
   contents: read
@@ -29,35 +25,34 @@ jobs:
       channel: ${{ steps.meta.outputs.channel }}
       tag: ${{ steps.meta.outputs.tag }}
     steps:
+      # Full history: the build number of a version is a commit count (release train, ay docs/release/model.md).
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: aphrody-labs/ay
+          path: release-tools
+          sparse-checkout: |
+            tools/release-plan.ts
+            release.toml
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
       - id: meta
         env:
-          REF_TYPE: ${{ github.ref_type }}
-          REF_NAME: ${{ github.ref_name }}
           INPUT_CHANNEL: ${{ inputs.channel }}
-          INPUT_VERSION: ${{ inputs.version }}
         run: |
           set -euo pipefail
-          if [ "$REF_TYPE" = tag ]; then
-            tag="$REF_NAME"
-            version="${tag#v}"
-            case "$version" in *-*) channel=preview ;; *) channel=stable ;; esac
-          else
-            channel="${INPUT_CHANNEL:-dev}"
-            version="${INPUT_VERSION:-$(date -u +%Y.%m.%d)-${GITHUB_SHA::7}}"
-            tag="${channel}-v${version}"
-          fi
-          # A v* tag names the release version: product.toml and every copy of it must already hold it.
-          if [ "$REF_TYPE" = tag ]; then bun tools/version.ts --expect "$version"; fi
-          {
-            echo "version=$version"
-            echo "channel=$channel"
-            echo "tag=$tag"
-          } >> "$GITHUB_OUTPUT"
+          meta=$(bun release-tools/tools/release-plan.ts meta)
+          echo "$meta"
+          # stable, extended and lts tags name a committed version: product.toml and every copy of it must already hold it.
+          case "$(echo "$meta" | bun -e "console.log(JSON.parse(await Bun.stdin.text()).channel)")" in
+            stable | extended | lts) bun tools/version.ts --expect "$(echo "$meta" | bun -e "console.log(JSON.parse(await Bun.stdin.text()).version)")" ;;
+          esac
 
   build-artifacts:
     name: Build (${{ matrix.target }})
+    needs: meta
     strategy:
       fail-fast: false
       matrix:
@@ -99,6 +94,11 @@ jobs:
       - name: musl C toolchain for crates with C build scripts
         if: endsWith(matrix.target, '-musl')
         run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends musl-tools
+      - uses: oven-sh/setup-bun@v2
+      # The binary reports the release version on every channel, canary and beta included.
+      - name: Stamp the release version into every manifest
+        shell: bash
+        run: bun tools/version.ts set "${{ needs.meta.outputs.version }}"
       - name: Build release artifact
         env:
           CC_x86_64_unknown_linux_musl: musl-gcc
