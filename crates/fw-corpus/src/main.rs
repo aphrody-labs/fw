@@ -12,14 +12,14 @@ const USAGE: &str = "usage: fw-corpus <sources|status|sync|search|read|systemd> 
   sync <id...|all> [--limit N] [--threads N] [--rate-ms N] [--force]
   search <query> [--source ID] [--limit N]
   read <url-substring> [--source ID]
-  systemd [--user] [--bin PATH] [--calendar SPEC]   print the refresh service and timer units";
+  systemd [--user] [--bin PATH] [--calendar SPEC] [--run-as USER] [--tmpdir DIR]   print the refresh service and timer units";
 
 fn flag<'a>(args: &'a [String], name: &str) -> Option<&'a str> {
     args.iter().position(|arg| arg == name).and_then(|at| args.get(at + 1)).map(String::as_str)
 }
 
 fn positional(args: &[String]) -> Vec<&str> {
-    const WITH_VALUE: &[&str] = &["--root", "--limit", "--threads", "--rate-ms", "--source", "--bin", "--calendar"];
+    const WITH_VALUE: &[&str] = &["--root", "--limit", "--threads", "--rate-ms", "--source", "--bin", "--calendar", "--run-as", "--tmpdir"];
     let mut out = Vec::new();
     let mut skip = false;
     for arg in args {
@@ -77,9 +77,14 @@ fn systemd(args: &[String]) -> String {
     let bin = flag(args, "--bin").unwrap_or("/usr/local/bin/fw-corpus");
     let calendar = flag(args, "--calendar").unwrap_or("*-*-* 03:30:00");
     let wanted_by = if user { "default.target" } else { "multi-user.target" };
+    // A system unit runs as root with no HOME, so the account that owns the store (and its gh login) and the scratch
+    // directory must be explicit; both stay absent from the unit when the flags are not given.
+    let run_as = flag(args, "--run-as").map(|name| format!("User={name}\n")).unwrap_or_default();
+    let tmpdir = flag(args, "--tmpdir").map(|dir| format!("Environment=TMPDIR={dir}\n")).unwrap_or_default();
+    let root = flag(args, "--root").map(|dir| format!(" --root {dir}")).unwrap_or_default();
     format!(
         "# fw-corpus-refresh.service\n[Unit]\nDescription=fw corpus incremental refresh (polite, resumable)\nAfter=network-online.target\nWants=network-online.target\n\n\
-         [Service]\nType=oneshot\nExecStart={bin} sync all\nNice=19\nIOSchedulingClass=idle\nTimeoutStartSec=6h\n\n\
+         [Service]\nType=oneshot\n{run_as}{tmpdir}ExecStart={bin} sync all{root}\nNice=19\nIOSchedulingClass=idle\nTimeoutStartSec=6h\n\n\
          # fw-corpus-refresh.timer\n[Unit]\nDescription=Daily fw corpus refresh\n\n[Timer]\nOnCalendar={calendar}\nRandomizedDelaySec=20m\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n# WantedBy for the service when run as a unit: {wanted_by}\n"
     )
 }
