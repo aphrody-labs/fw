@@ -12,15 +12,14 @@ ignored = ["fw-gemini"]
 
 [features]
 boq = []
-web = ["dep:regex", "dep:sha2", "dep:thiserror", "dep:tracing", "dep:url", "dep:tokio", "boq"]
-runtime = ["dep:thiserror", "dep:url", "dep:fw-config", "dep:fw-toolcall", "dep:fw-proc", "dep:async-trait", "dep:dirs", "dep:futures-util", "dep:tokio", "dep:which"]
+web = ["dep:regex", "dep:sha2", "dep:thiserror", "dep:url", "dep:tokio", "boq"]
+runtime = ["dep:thiserror", "dep:url", "dep:fw-toolcall", "dep:fw-proc", "dep:async-trait", "dep:dirs", "dep:futures-util", "dep:tokio", "dep:which"]
 google = ["web", "runtime", "dep:fw-model", "dep:bun_browser_dom", "dep:chrono", "dep:clap", "dep:futures", "dep:regex", "dep:rusqlite", "dep:rustls", "dep:tokio", "dep:url"]
 full = ["boq", "web", "runtime", "google"]
 default = []
 
 [dependencies]
 async-trait = { version = "0.1.92", default-features = false, optional = true }
-fw-config = { workspace = true, optional = true }
 fw-http = { workspace = true, features = ["client"] }
 fw-model = { path = "../fw-model", default-features = false, features = ["antigravity"], optional = true }
 fw-proc = { path = "../fw-proc", features = ["tokio"], optional = true }
@@ -32,7 +31,6 @@ serde.workspace = true
 serde_json = { workspace = true, features = ["std"] }
 sha2 = { version = "0.11.1", default-features = false, optional = true }
 thiserror = { version = "2.0.21", default-features = false, optional = true }
-tracing = { version = "0.1.44", default-features = false, optional = true }
 url = { version = "2.5.8", default-features = false, optional = true }
 which = { workspace = true, optional = true }
 

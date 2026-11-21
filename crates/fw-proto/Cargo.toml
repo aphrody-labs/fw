@@ -16,14 +16,11 @@ fw-cluster.workspace = true
 fw-crates.workspace = true
 fw-compute.workspace = true
 fw-fx.workspace = true
-fw-ggml.workspace = true
 fw-hermes-claw.workspace = true
 fw-wayland-wgpu.workspace = true
-serde.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
 ureq.workspace = true
-sha2.workspace = true
 
 [dev-dependencies]
 fw-m3 = { path = "../fw-m3" }

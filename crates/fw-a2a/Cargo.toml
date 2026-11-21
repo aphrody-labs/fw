@@ -8,6 +8,10 @@ repository = "https://github.com/aphrody-labs/ay"
 publish = true
 description = "A2A v1: protocol types, protobuf conversion (pb), async client (client), server framework (server), Aphrody coordination (coordinator) and the gRPC binding (grpc)"
 
+# pbjson is used by the code generated into OUT_DIR (build.rs), which cargo-machete cannot see.
+[package.metadata.cargo-machete]
+ignored = ["pbjson"]
+
 # The dev-dependency on the crate itself only switches its features on for the tests.
 [package.metadata.cargo-shear]
 ignored = ["fw-a2a"]
