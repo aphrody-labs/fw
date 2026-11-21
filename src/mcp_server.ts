@@ -10,6 +10,7 @@ import {
   routeModelRequest,
 } from "./ai_stack.ts";
 import { callCratesTool, CRATES_TOOL_NAMES, CRATES_TOOLS } from "./crates.ts";
+import { callKernelTool, KERNEL_TOOL_NAMES, KERNEL_TOOLS } from "./kernel.ts";
 import { LOW_LEVEL_LTO_AOT_MATRIX } from "./lowlevel.ts";
 import { auditDeduplication, pluginStatus } from "./plugin_sync.ts";
 import { generateFwWtaConfig, getTerminalTuiStatus, verifyFwSelfTui } from "./terminal_tui.ts";
@@ -156,6 +157,7 @@ export const FW_MCP_TOOLS = [
     },
   },
   ...CRATES_TOOLS,
+  ...KERNEL_TOOLS,
 ] as const;
 
 function textResult(
@@ -196,6 +198,10 @@ export function handleFwToolCall(
 ): { content: Array<{ type: "text"; text: string }>; isError?: boolean } {
   if (CRATES_TOOL_NAMES.includes(name)) {
     const res = callCratesTool(root, name, args);
+    return textResult(res.payload, !res.ok);
+  }
+  if (KERNEL_TOOL_NAMES.includes(name)) {
+    const res = callKernelTool(root, name, args);
     return textResult(res.payload, !res.ok);
   }
   switch (name) {

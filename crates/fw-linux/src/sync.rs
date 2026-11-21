@@ -55,7 +55,8 @@ fn sync_tree(root: &Path, pins: &Pins, remotes: &Remotes, tree: &Tree, profile_o
     let had_filter = git(Some(&directory), &["config", "--get", "extensions.partialClone"]).is_ok();
 
     configure_filter(&directory, profile)?;
-    let present = git(Some(&directory), &["cat-file", "-e", &format!("{}^{{commit}}", tree.commit)]).is_ok();
+    // A lazy fetch here would download the whole history of a partial clone for one existence check.
+    let present = git(Some(&directory), &["--no-lazy-fetch", "cat-file", "-e", &format!("{}^{{commit}}", tree.commit)]).is_ok();
     if !present || (had_filter && profile.filter.is_none()) {
         fetch(&directory, profile, &tree.commit, had_filter && profile.filter.is_none())?;
     }
