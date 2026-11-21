@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "media-cdn",
+  "main": "worker.ts",
+  "compatibility_date": "2026-11-21",
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true, "traces": { "enabled": true } },
+  // Prebuilt rungs are R2 reads; only a size outside the ladder runs a transform, whose CPU time is the Images service's, not the Worker's.
+  "limits": { "cpu_ms": 1000 },
+  // Images, video and sprites live in R2 (video files are tens of MB: far over the 25 MiB Workers Static Assets file cap).
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "aphrody-media" }],
+  "images": { "binding": "IMAGES" }
+  // No `routes`: media.aphrody.com is attached by the estate (cluster/estate.toml, `fw estate apply`), the single owner of every hostname.
+}
