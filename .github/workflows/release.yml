@@ -72,6 +72,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       # The toolchain pinned by rust-toolchain.toml, with the target added to that same toolchain (a stable install would miss it).
+      # The merged workspace pins git dependencies (mullvadvpn-app) with paths longer than MAX_PATH; cargo resolves them for any -p.
+      - name: Long paths and git CLI fetches (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          git config --global core.longpaths true
+          echo "CARGO_NET_GIT_FETCH_WITH_CLI=true" >> "$GITHUB_ENV"
       - uses: ./.github/actions/rust-toolchain
         with:
           targets: ${{ matrix.target }}
