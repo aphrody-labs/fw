@@ -1,0 +1,47 @@
+# `fw android`: Android apps on Linux and Windows without WSA. Its own Cargo workspace (not a member of the root one),
+# so the container, compositor and Windows/browser clients lock their own dependency trees; see docs/android/README.md.
+[workspace]
+members = [".", "wl", "win", "web"]
+default-members = [".", "wl"]
+resolver = "3"
+
+[workspace.package]
+version = "2026.11.0"
+edition = "2024"
+rust-version = "1.100"
+license = "MIT"
+repository = "https://github.com/aphrody-labs/fw"
+
+[workspace.lints.clippy.perf]
+level = "deny"
+priority = -1
+
+[package]
+name = "fw-android"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "fw android: a pinned Android (AOSP-based) image in a youki libcontainer container with binderfs and memfd, surfaced through a smithay compositor; ships `fw-android` (run by `fw android`)"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "1.2"
+sha2 = "0.11"
+ureq = "3.5"
+zip = { version = "9.8", default-features = false, features = ["deflate"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "0.2"
+nix = { version = "0.29", features = ["mount", "fs", "ioctl", "sched", "process", "signal", "user"] }
+libcontainer = { version = "0.7.0", default-features = false, features = ["v2"] }
+oci-spec = "0.10"
+
+[[bin]]
+name = "fw-android"
+path = "src/bin/fw-android.rs"
+
+[lints]
+workspace = true

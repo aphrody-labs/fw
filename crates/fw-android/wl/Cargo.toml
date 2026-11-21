@@ -1,0 +1,15 @@
+[package]
+name = "fw-android-wl"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Headless smithay Wayland compositor that surfaces the windows of the fw android guest and answers screenshot and window queries on a control socket"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "fw-android-wl"
+path = "src/main.rs"
