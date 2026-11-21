@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: fw:4.2.0-alpine
+    image: fw:${FW_VERSION:-dev}-alpine
     container_name: fw-control-plane
     ports:
       - "4380:4380"

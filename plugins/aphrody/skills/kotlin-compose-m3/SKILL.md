@@ -14,8 +14,8 @@ description: "Compose Material 3 1.5.0 stable (Expressive), Jetpack Compose 1.13
 - **Target**: Android library on androidx material3 (the only target of 1.5.0). No stable Compose Multiplatform port is based on 1.5.0 (CMP `1.12.2` ships material3 `1.12.0-alpha03` = androidx `1.5.0-alpha22`; `1.13.0-rc01` = androidx `1.5.0-rc01`).
 - **Theme (owned by `aphrody-labs/ay`)**: `com.aphrody:aphrody-theme` (`AphrodyTheme`, `AphrodyLightColors`, `AphrodyDarkColors`), generated from the brand tokens and published to GitHub Packages; coordinates in `product.toml` [kotlin]. fw never redefines colours, shapes or motion.
 - **Aphrody Labs Libraries** (`core/kotlin/`, Gradle):
-  - `com.aphrody.fw:fw-core:4.2.0`
-  - `com.aphrody.fw:fw-material3:4.2.0`
+  - `com.aphrody.fw:fw-core:<product.toml version>`
+  - `com.aphrody.fw:fw-material3:<product.toml version>`
   - `com.aphrody.fw:fw-rust-ffi:4.2.0`
 - **Gate**: `bun tools/kotlin-check.ts [--ay <ay checkout>]` (Gradle and cargo run on the build host).
 - **Pure WGPU / WGSL M3 1.5.0**: `crates/fw-wayland-wgpu/shaders/fw_m3_expressive.wgsl` + `crates/fw-wayland-wgpu/src/m3_expressive.rs` (35 `MaterialShapes` SDFs, morphing, wavy linear/circular progress, inset focus rings, progressive blur).

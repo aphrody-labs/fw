@@ -25,6 +25,25 @@ tasks.test {
     useJUnitPlatform()
 }
 
+// FwProduct.VERSION is product.toml's `version`, written at build time so no source file repeats it.
+val generateFwProduct = tasks.register("generateFwProduct") {
+    val version = gradle.extra["fw.version"] as String
+    val outputDirectory = layout.buildDirectory.dir("generated/fw-product")
+    inputs.property("version", version)
+    outputs.dir(outputDirectory)
+    doLast {
+        val directory = outputDirectory.get().dir("com/aphrody/fw/core").asFile
+        directory.mkdirs()
+        directory.resolve("FwProduct.kt").writeText(
+            "package com.aphrody.fw.core\n\n/** Generated from product.toml by core/kotlin/fw-core/build.gradle.kts. */\nobject FwProduct {\n    const val VERSION: String = \"$version\"\n}\n",
+        )
+    }
+}
+
+kotlin.sourceSets.main {
+    kotlin.srcDir(generateFwProduct)
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {

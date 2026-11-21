@@ -25,7 +25,7 @@ class FwCoreTest {
     fun roundTripsHealthAndMcpOverLocalHttp() = runTest {
         val server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0)
         server.createContext("/health") { ex ->
-            val body = """{"ok":true,"product":"fw","version":"4.2.0","protocol":"openai+mcp+acp+a2a"}""".toByteArray()
+            val body = """{"ok":true,"product":"fw","version":"${FwProduct.VERSION}","protocol":"openai+mcp+acp+a2a"}""".toByteArray()
             ex.responseHeaders.add("Content-Type", "application/json")
             ex.sendResponseHeaders(200, body.size.toLong())
             ex.responseBody.use { it.write(body) }

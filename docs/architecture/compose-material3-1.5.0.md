@@ -19,9 +19,9 @@
 | `androidx.compose.ui:ui` | `1.13.0` | Stable | Progressive blur (`Modifier.blur { BlurRadiusSpec }`), `PolygonShape`, `MorphPolygonShape`, shared `VectorPainter` draw cache |
 | `org.jetbrains.compose.material3:material3` | `1.13.0-rc01` | RC, not used | Compose Multiplatform port, based on androidx material3 `1.5.0-rc01` (see section 1.1) |
 | `com.aphrody:aphrody-theme` | `0.4.0` | GitHub Packages | The Aphrody theme (48 colour roles light and dark from the ay brand tokens, `AphrodyTheme` on `MaterialExpressiveTheme` with `MotionScheme.expressive()`), owned by `aphrody-labs/ay` (`kotlin/aphrody-theme`), coordinates in `product.toml` [kotlin] |
-| `com.aphrody.fw:fw-core` | `4.2.0` | Gradle build | Aphrody Labs Kotlin SDK (`core/kotlin/fw-core`, JVM) |
-| `com.aphrody.fw:fw-material3` | `4.2.0` | Gradle build | Android library: fw components and `M3Catalog` on `aphrody-theme` (`core/kotlin/fw-material3`) |
-| `com.aphrody.fw:fw-rust-ffi` | `4.2.0` | Gradle build | Bidirectional JDK 25 Panama FFM Kotlin <-> Rust bridge (`core/kotlin/fw-rust-ffi`, JVM) |
+| `com.aphrody.fw:fw-core` | `product.toml` `version` | Gradle build | Aphrody Labs Kotlin SDK (`core/kotlin/fw-core`, JVM) |
+| `com.aphrody.fw:fw-material3` | `product.toml` `version` | Gradle build | Android library: fw components and `M3Catalog` on `aphrody-theme` (`core/kotlin/fw-material3`) |
+| `com.aphrody.fw:fw-rust-ffi` | `product.toml` `version` | Gradle build | Bidirectional JDK 25 Panama FFM Kotlin <-> Rust bridge (`core/kotlin/fw-rust-ffi`, JVM) |
 
 Group `com.aphrody` is the reversed root domain of `ay.toml` [domains] in `aphrody-labs/ay`; `product.toml` [kotlin] holds the fw group and the theme coordinates, `core/kotlin/settings.gradle.kts` reads them.
 

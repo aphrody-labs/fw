@@ -7,10 +7,6 @@ license = "MIT"
 requires-python = ">=3.11"
 dependencies = []
 
-[project.optional-dependencies]
-# Heretic (AGPL-3.0) is consumed as the upstream PyPI package, never vendored in this MIT repository.
-heretic = ["heretic-llm~=2.1"]
-
 [dependency-groups]
 dev = [
     "ruff>=0.16.9",

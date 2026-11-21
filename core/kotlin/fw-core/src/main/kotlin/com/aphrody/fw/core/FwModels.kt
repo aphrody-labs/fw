@@ -19,7 +19,7 @@ data class FwEndpointConfig(
 data class FwHealthResponse(
     val ok: Boolean,
     val product: String = "fw",
-    val version: String = "4.2.0",
+    val version: String = FwProduct.VERSION,
     val protocol: String = "openai+mcp+acp+a2a",
 )
 
@@ -80,6 +80,6 @@ data class VfsEntry(
 data class AphrodyLabManifest(
     val org: String = "aphrody-labs",
     val mavenGroup: String = "com.aphrody.fw",
-    val version: String = "4.2.0",
+    val version: String = FwProduct.VERSION,
     val modules: List<String> = listOf("fw-core", "fw-material3", "fw-rust-ffi"),
 )

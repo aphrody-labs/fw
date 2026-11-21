@@ -129,3 +129,7 @@ bench-cli:
     hyperfine --warmup 3 --runs 15 -N "{{fw}} table ." "nu -n --no-std-lib -c 'ls | select name type size'"
     hyperfine --warmup 5 --runs 25 -N "{{fw}} find .rs crates" "fd -e rs . crates"
     hyperfine --warmup 5 --runs 25 -N "{{fw}} grep forbid crates" "rg -F -n forbid crates"
+
+# docker compose with the image tag taken from product.toml
+compose *args:
+    bun tools/compose.ts {{args}}
