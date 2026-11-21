@@ -16,11 +16,11 @@ on:
 permissions:
   contents: read
 
-# Linux builds and jobs run on our own runners (label fr1); Windows stays GitHub-hosted.
+# Linux builds and jobs run on our own runners (label cluster: every node, no node preferred); Windows stays GitHub-hosted.
 jobs:
   meta:
     name: Resolve version and channel
-    runs-on: fr1
+    runs-on: cluster
     outputs:
       version: ${{ steps.meta.outputs.version }}
       channel: ${{ steps.meta.outputs.channel }}
@@ -58,7 +58,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: fr1
+          - os: cluster
             target: x86_64-unknown-linux-musl
             bin: fw
             asset: fw-x86_64-linux-musl
@@ -70,7 +70,7 @@ jobs:
             asset: fw-x86_64-windows.exe
             package: fw-bin
             cargo_args: --bin fw
-          - os: fr1
+          - os: cluster
             target: wasm32-unknown-unknown
             bin: fw_wasm.wasm
             asset: fw_wasm.wasm
@@ -88,7 +88,7 @@ jobs:
           key: ${{ matrix.target }}
       - name: musl C toolchain for crates with C build scripts
         if: endsWith(matrix.target, '-musl')
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends musl-tools
+        run: command -v musl-gcc || { sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends musl-tools; }
       - uses: oven-sh/setup-bun@v2
       # The binary reports the release version on every channel, canary and beta included.
       - name: Stamp the release version into every manifest
@@ -113,7 +113,7 @@ jobs:
   mcp-gate:
     name: MCP conformance of the release binary
     needs: [build-artifacts]
-    runs-on: fr1
+    runs-on: cluster
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -161,7 +161,7 @@ jobs:
   publish-cloudflare:
     name: Deploy Cloudflare Edge Worker
     needs: publish
-    runs-on: fr1
+    runs-on: cluster
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
@@ -176,7 +176,7 @@ jobs:
   publish-crates-io:
     name: Publish fw-* to crates.io
     needs: publish
-    runs-on: fr1
+    runs-on: cluster
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
