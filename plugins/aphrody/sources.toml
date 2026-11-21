@@ -139,6 +139,13 @@ optional = true
 license = "Apache-2.0"
 skills = ["skills/*/SKILL.md"]
 
+[[source]]
+id = "nie-bevy"
+git = "aphrody-labs/nie"
+ref = "main"
+license = "MIT"
+skills = [".claude/skills/bevy/SKILL.md"]
+
 [[family]]
 parent = "stitch"
 title = "Google Stitch"
