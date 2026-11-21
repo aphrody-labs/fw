@@ -31,7 +31,6 @@ pub struct Live {
     pub org_workflow: Value,
     pub secrets: Vec<Value>,
     pub secret_repos: BTreeMap<String, Vec<u64>>,
-    pub variables: Vec<Value>,
     pub teams: Vec<Value>,
     pub installations: Vec<Value>,
     pub runners: Vec<Value>,
@@ -65,7 +64,6 @@ impl Live {
                 live.secret_repos.insert(secret_name.to_string(), rows.iter().filter_map(|row| row["id"].as_u64()).collect());
             }
         }
-        live.variables = github.paged(&format!("/orgs/{name}/actions/variables"), Some("variables"))?;
         live.teams = github.paged(&format!("/orgs/{name}/teams"), None)?;
         live.installations = github.paged(&format!("/orgs/{name}/installations"), Some("installations"))?;
         live.runners = github.paged(&format!("/orgs/{name}/actions/runners"), Some("runners"))?;
