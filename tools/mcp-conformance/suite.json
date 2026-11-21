@@ -4,7 +4,7 @@
   "note": "The official MCP conformance suite, pinned. Each run drives the fixture server (crates/fw-proto/examples/mcp_fixture_server.rs) over Streamable HTTP.",
   "runs": [
     { "specVersion": "2026-07-28" },
-    { "specVersion": "2025-11-25", "expectedFailures": "expected-failures.yml" },
-    { "specVersion": "2025-06-18", "expectedFailures": "expected-failures.yml" }
+    { "specVersion": "2025-11-25" },
+    { "specVersion": "2025-06-18" }
   ]
 }

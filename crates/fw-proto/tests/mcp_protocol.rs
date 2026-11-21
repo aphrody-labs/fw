@@ -450,3 +450,147 @@ fn stdio_server_reads_lines_incrementally() {
     drop(write_end);
     server.join().unwrap();
 }
+
+// ---- earlier versions: sessions, server-initiated requests, resumption ---------------------------------------
+
+async fn exchange(addr: &str, method: &str, headers: &[(&str, &str)], body: Option<&Value>) -> (u16, String, String) {
+    let mut stream = TcpStream::connect(addr).await.unwrap();
+    stream.write_all(request_bytes(addr, method, headers, body).as_bytes()).await.unwrap();
+    let mut raw = String::new();
+    stream.read_to_string(&mut raw).await.unwrap();
+    let (head, payload) = raw.split_once("\r\n\r\n").unwrap();
+    (head.split_whitespace().nth(1).unwrap().parse().unwrap(), head.to_owned(), payload.to_owned())
+}
+
+fn request_bytes(addr: &str, method: &str, headers: &[(&str, &str)], body: Option<&Value>) -> String {
+    let payload = body.map(Value::to_string).unwrap_or_default();
+    let mut request = format!("{method} /mcp HTTP/1.1\r\nHost: {addr}\r\nAccept: application/json, text/event-stream\r\nContent-Length: {}\r\n", payload.len());
+    if body.is_some() {
+        request.push_str("Content-Type: application/json\r\n");
+    }
+    for (name, value) in headers {
+        request.push_str(&format!("{name}: {value}\r\n"));
+    }
+    request.push_str("\r\n");
+    request.push_str(&payload);
+    request
+}
+
+fn header_value(head: &str, name: &str) -> Option<String> {
+    head.lines().find_map(|line| line.split_once(':').filter(|(key, _)| key.eq_ignore_ascii_case(name)).map(|(_, value)| value.trim().to_owned()))
+}
+
+fn event_messages(payload: &str) -> Vec<Value> {
+    payload.lines().filter_map(|line| line.strip_prefix("data: ")).filter(|data| !data.is_empty()).map(|data| serde_json::from_str(data).unwrap()).collect()
+}
+
+async fn open_session(addr: &str, capabilities: Value) -> String {
+    let initialize = json!({ "jsonrpc": "2.0", "id": 1, "method": "initialize", "params": { "protocolVersion": "2025-06-18", "capabilities": capabilities, "clientInfo": { "name": "old", "version": "1" } } });
+    let (status, head, _) = exchange(addr, "POST", &[], Some(&initialize)).await;
+    assert_eq!(status, 200);
+    header_value(&head, "mcp-session-id").expect("initialize issues a session id")
+}
+
+fn legacy_call(id: u64, name: &str, arguments: Value) -> Value {
+    json!({ "jsonrpc": "2.0", "id": id, "method": "tools/call", "params": { "name": name, "arguments": arguments } })
+}
+
+#[tokio::test]
+async fn http_sessions_open_at_initialize_and_end_with_delete() {
+    let addr = start_server().await;
+    let session = open_session(&addr, json!({})).await;
+    let with_session = [("Mcp-Session-Id", session.as_str()), ("MCP-Protocol-Version", "2025-06-18")];
+    let list = json!({ "jsonrpc": "2.0", "id": 2, "method": "tools/list" });
+    assert_eq!(exchange(&addr, "POST", &with_session, Some(&list)).await.0, 200);
+    assert_eq!(exchange(&addr, "GET", &with_session, None).await.0, 405, "no standalone stream is offered");
+    assert_eq!(exchange(&addr, "POST", &[("Mcp-Session-Id", "no-such-session")], Some(&list)).await.0, 404);
+
+    let modern_list = modern(3, "tools/list", json!({}), json!({}));
+    let modern_headers = [("Mcp-Session-Id", "ignored"), ("MCP-Protocol-Version", "2026-07-28"), ("Mcp-Method", "tools/list")];
+    assert_eq!(exchange(&addr, "POST", &modern_headers, Some(&modern_list)).await.0, 200, "2026-07-28 requests ignore the session header");
+    assert_eq!(exchange(&addr, "DELETE", &[("Mcp-Session-Id", &session), ("MCP-Protocol-Version", "2026-07-28")], None).await.0, 405);
+
+    assert_eq!(exchange(&addr, "DELETE", &with_session, None).await.0, 204);
+    assert_eq!(exchange(&addr, "DELETE", &with_session, None).await.0, 404);
+    assert_eq!(exchange(&addr, "POST", &with_session, Some(&list)).await.0, 404, "a session that ended is unknown");
+}
+
+#[tokio::test]
+async fn http_tool_asks_the_client_for_sampling_on_its_response_stream() {
+    let addr = start_server().await;
+    let session = open_session(&addr, json!({ "sampling": {} })).await;
+    let headers = [("Mcp-Session-Id", session.as_str()), ("MCP-Protocol-Version", "2025-06-18")];
+    let mut stream = TcpStream::connect(&addr).await.unwrap();
+    stream.write_all(request_bytes(&addr, "POST", &headers, Some(&legacy_call(7, "test_sampling", json!({ "prompt": "Capital of France?" })))).as_bytes()).await.unwrap();
+    let mut seen = String::new();
+    let mut buffer = vec![0u8; 4096];
+    while !seen.contains("sampling/createMessage") {
+        let read = tokio::time::timeout(Duration::from_secs(5), stream.read(&mut buffer)).await.expect("no sampling request").unwrap();
+        assert!(read > 0, "{seen}");
+        seen.push_str(&String::from_utf8_lossy(&buffer[..read]));
+    }
+    assert!(seen.contains("text/event-stream"), "{seen}");
+    assert!(seen.contains("retry: "), "a resumable stream starts with a priming event: {seen}");
+    let request = event_messages(seen.split_once("\r\n\r\n").unwrap().1).into_iter().find(|message| message["method"] == "sampling/createMessage").unwrap();
+    assert_eq!(request["params"]["messages"][0]["content"]["text"], "Capital of France?");
+
+    let answer = json!({ "jsonrpc": "2.0", "id": request["id"], "result": { "role": "assistant", "content": { "type": "text", "text": "Paris" }, "model": "test" } });
+    assert_eq!(exchange(&addr, "POST", &headers, Some(&answer)).await.0, 202);
+    let mut rest = String::new();
+    stream.read_to_string(&mut rest).await.unwrap();
+    let response = event_messages(&rest).pop().expect("the stream ends with the response");
+    assert_eq!(response["id"], 7);
+    assert_eq!(response["result"]["content"][0]["text"], "LLM response: Paris");
+
+    let declined = open_session(&addr, json!({})).await;
+    let (_, head, payload) = exchange(&addr, "POST", &[("Mcp-Session-Id", &declined)], Some(&legacy_call(8, "test_sampling", json!({ "prompt": "x" })))).await;
+    assert!(head.to_ascii_lowercase().contains("application/json"), "{head}");
+    assert_eq!(serde_json::from_str::<Value>(&payload).unwrap()["result"]["isError"], true, "a client that did not declare sampling is not asked");
+}
+
+#[tokio::test]
+async fn http_a_closed_stream_resumes_with_last_event_id() {
+    let addr = start_server().await;
+    let session = open_session(&addr, json!({})).await;
+    let headers = [("Mcp-Session-Id", session.as_str()), ("MCP-Protocol-Version", "2025-06-18")];
+    let (status, head, payload) = exchange(&addr, "POST", &headers, Some(&legacy_call(9, "test_reconnection", json!({})))).await;
+    assert_eq!(status, 200);
+    assert!(head.to_ascii_lowercase().contains("text/event-stream"), "{head}");
+    assert!(event_messages(&payload).is_empty(), "the stream closed before the response: {payload}");
+    let priming = payload.lines().find_map(|line| line.strip_prefix("id: ")).expect("priming event id").to_owned();
+
+    let resume = [("Mcp-Session-Id", session.as_str()), ("MCP-Protocol-Version", "2025-06-18"), ("Last-Event-ID", priming.as_str())];
+    let (status, _, payload) = exchange(&addr, "GET", &resume, None).await;
+    assert_eq!(status, 200);
+    let response = event_messages(&payload).pop().expect("the resumed stream carries the response");
+    assert_eq!(response["id"], 9);
+    assert!(response["result"]["content"][0]["text"].as_str().unwrap().contains("after the stream was closed"), "{response}");
+    assert_eq!(exchange(&addr, "GET", &resume, None).await.0, 404, "a delivered stream is gone");
+}
+
+#[test]
+fn stdio_tool_asks_the_client_for_elicitation_and_reads_the_answer() {
+    let (read_end, mut write_end) = std::io::pipe().unwrap();
+    let (answer_read, answer_write) = std::io::pipe().unwrap();
+    let engine = Arc::new(Engine::new(Arc::new(FixtureCatalog::default())));
+    let server = std::thread::spawn(move || serve_stdio(&engine, BufReader::new(read_end), answer_write).unwrap());
+    let mut lines = BufReader::new(answer_read);
+    let mut next = || {
+        let mut line = String::new();
+        lines.read_line(&mut line).unwrap();
+        serde_json::from_str::<Value>(&line).unwrap()
+    };
+    writeln!(write_end, "{}", json!({ "jsonrpc": "2.0", "id": 1, "method": "initialize", "params": { "protocolVersion": "2025-06-18", "capabilities": { "elicitation": {} }, "clientInfo": { "name": "old", "version": "1" } } })).unwrap();
+    assert_eq!(next()["id"], 1);
+    writeln!(write_end, "{}", legacy_call(2, "test_elicitation", json!({ "message": "Who are you?" }))).unwrap();
+    let request = next();
+    assert_eq!(request["method"], "elicitation/create");
+    assert_eq!(request["params"]["message"], "Who are you?");
+    writeln!(write_end, "{}", json!({ "jsonrpc": "2.0", "id": request["id"], "result": { "action": "accept", "content": { "username": "ada", "email": "ada@example.com" } } })).unwrap();
+    let response = next();
+    assert_eq!(response["id"], 2);
+    let text = response["result"]["content"][0]["text"].as_str().unwrap();
+    assert!(text.starts_with("User response: action=accept") && text.contains("ada@example.com"), "{text}");
+    drop(write_end);
+    server.join().unwrap();
+}

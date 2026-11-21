@@ -43,6 +43,26 @@ fn sample(text: &str, max_tokens: u32) -> Value {
     json!({ "method": "sampling/createMessage", "params": { "messages": [{ "role": "user", "content": { "type": "text", "text": text } }], "maxTokens": max_tokens } })
 }
 
+/// The legacy server-initiated requests of 2025-06-18 and 2025-11-25: the answer is the tool result, or a tool error when
+/// the client did not declare the capability or the request failed.
+fn ask_client(cx: &CallContext<'_>, capability: &str, method: &str, params: Value, describe: impl FnOnce(&Value) -> String) -> Outcome {
+    if !cx.has_capability(capability) {
+        return Outcome::tool_error(format!("The client did not declare the {capability} capability"));
+    }
+    match cx.request_client(method, params) {
+        Ok(answer) => Outcome::text(describe(&answer)),
+        Err(error) => Outcome::tool_error(format!("{method} failed: {}", error.message)),
+    }
+}
+
+fn elicitation_outcome(answer: &Value) -> String {
+    format!("Elicitation completed: action={}, content={}", answer.get("action").and_then(Value::as_str).unwrap_or("unknown"), answer.get("content").unwrap_or(&Value::Null))
+}
+
+fn titled(values: &[(&str, &str)], key: &str) -> Value {
+    Value::Array(values.iter().map(|(value, title)| json!({ key: value, "title": title })).collect())
+}
+
 fn response_text(responses: &Value, key: &str, field: &str) -> String {
     responses.get(key).and_then(|response| response.get("content")).and_then(|content| content.get(field)).and_then(Value::as_str).unwrap_or("unknown").to_owned()
 }
@@ -212,6 +232,19 @@ impl Catalog for FixtureCatalog {
                     "additionalProperties": false
                 }),
             ),
+            tool(
+                "test_sampling",
+                "Tests server-initiated sampling: asks the client for an LLM completion on the stream of the call (2025-06-18, 2025-11-25)",
+                json!({ "type": "object", "properties": { "prompt": { "type": "string", "description": "The prompt to sample" } }, "required": ["prompt"] }),
+            ),
+            tool(
+                "test_elicitation",
+                "Tests server-initiated elicitation: asks the user for input on the stream of the call (2025-06-18, 2025-11-25)",
+                json!({ "type": "object", "properties": { "message": { "type": "string", "description": "The message to show the user" } }, "required": ["message"] }),
+            ),
+            tool("test_elicitation_sep1034_defaults", "Elicitation whose schema carries default values for every primitive type (SEP-1034)", no_arguments()),
+            tool("test_elicitation_sep1330_enums", "Elicitation whose schema holds all five enum variants (SEP-1330)", no_arguments()),
+            tool("test_reconnection", "Closes its response stream before it answers, so the client resumes it with Last-Event-ID (SEP-1699)", no_arguments()),
             tool("test_missing_capability", "Test tool requiring sampling", no_arguments()),
             tool("test_streaming_elicitation", "Diagnostic tool validating response progress streams", no_arguments()),
             tool("test_logging_tool", "Diagnostic logging validator tool", no_arguments()),
@@ -285,6 +318,57 @@ impl Catalog for FixtureCatalog {
             "test_error_handling" => Outcome::tool_error("This tool intentionally returns an error for testing"),
             "json_schema_2020_12_tool" => Outcome::text(format!("JSON Schema 2020-12 tool called with: {arguments}")),
             "test_header_param" => Outcome::text(format!("header params ok: {arguments}")),
+            "test_sampling" => {
+                let prompt = arguments.get("prompt").and_then(Value::as_str).unwrap_or_default();
+                ask_client(cx, "sampling", "sampling/createMessage", sample(prompt, 100)["params"].clone(), |answer| {
+                    format!("LLM response: {}", answer.get("content").and_then(|content| content.get("text")).and_then(Value::as_str).unwrap_or("no text"))
+                })
+            }
+            "test_elicitation" => {
+                let message = arguments.get("message").and_then(Value::as_str).unwrap_or_default();
+                let schema = json!({
+                    "type": "object",
+                    "properties": { "username": { "type": "string", "description": "User's response" }, "email": { "type": "string", "description": "User's email address" } },
+                    "required": ["username", "email"]
+                });
+                ask_client(cx, "elicitation", "elicitation/create", json!({ "message": message, "requestedSchema": schema }), |answer| {
+                    format!("User response: action={}, content={}", answer.get("action").and_then(Value::as_str).unwrap_or("unknown"), answer.get("content").unwrap_or(&Value::Null))
+                })
+            }
+            "test_elicitation_sep1034_defaults" => {
+                let schema = json!({
+                    "type": "object",
+                    "properties": {
+                        "name": { "type": "string", "default": "John Doe" },
+                        "age": { "type": "integer", "default": 30 },
+                        "score": { "type": "number", "default": 95.5 },
+                        "status": { "type": "string", "enum": ["active", "inactive", "pending"], "default": "active" },
+                        "verified": { "type": "boolean", "default": true }
+                    }
+                });
+                ask_client(cx, "elicitation", "elicitation/create", json!({ "message": "Please review and update your information", "requestedSchema": schema }), elicitation_outcome)
+            }
+            "test_elicitation_sep1330_enums" => {
+                let options = ["option1", "option2", "option3"];
+                let schema = json!({
+                    "type": "object",
+                    "properties": {
+                        "untitledSingle": { "type": "string", "enum": options },
+                        "titledSingle": { "type": "string", "oneOf": titled(&[("value1", "First Option"), ("value2", "Second Option"), ("value3", "Third Option")], "const") },
+                        "legacyEnum": { "type": "string", "enum": ["opt1", "opt2", "opt3"], "enumNames": ["Option One", "Option Two", "Option Three"] },
+                        "untitledMulti": { "type": "array", "items": { "type": "string", "enum": options } },
+                        "titledMulti": { "type": "array", "items": { "anyOf": titled(&[("value1", "First Choice"), ("value2", "Second Choice"), ("value3", "Third Choice")], "const") } }
+                    }
+                });
+                ask_client(cx, "elicitation", "elicitation/create", json!({ "message": "Select your preferences", "requestedSchema": schema }), elicitation_outcome)
+            }
+            "test_reconnection" => {
+                if !cx.close_stream() {
+                    return Outcome::text("Reconnection test completed: this transport has no stream to close");
+                }
+                cx.cancel.sleep(Duration::from_millis(100));
+                Outcome::text("Reconnection test completed after the stream was closed")
+            }
             "test_missing_capability" => {
                 if cx.has_capability("sampling") {
                     Outcome::text("Success")

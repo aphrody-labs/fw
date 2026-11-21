@@ -3,16 +3,20 @@
 //! answers with one `Connection: close` response.
 
 use crate::dispatch_http;
-use crate::mcp::{Cancel, Catalog, Connection, Engine, HttpMeta, Reply, RpcError};
+use crate::mcp::{self, Cancel, Catalog, Connection, Engine, HttpMeta, RpcError, StreamControl};
 use crate::mcp_catalog::FwCatalog;
 use fw_cluster::HybridClusterRouter;
 use serde_json::Value;
+use std::collections::HashMap;
+use std::collections::hash_map::RandomState;
+use std::hash::BuildHasher;
 use std::net::{IpAddr, SocketAddr};
-use std::sync::{Arc, Mutex};
-use std::time::Duration;
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::{Arc, Mutex, PoisonError};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
-use tokio::sync::mpsc;
+use tokio::sync::Notify;
 
 /// The MCP endpoint of the control plane.
 const MCP_PATH: &str = "/mcp";
@@ -37,11 +41,107 @@ impl Request {
     }
 }
 
-/// Everything a connection handler shares: the cluster router, the MCP engine and its host policy.
+/// Most sessions of the earlier protocol versions kept at once; opening one more drops the oldest.
+const MAX_SESSIONS: usize = 1024;
+/// Reconnection delay a resumable stream asks the client to wait, in milliseconds.
+const STREAM_RETRY_MS: u32 = 1000;
+
+/// Everything a connection handler shares: the cluster router, the MCP engine, its host policy and its sessions.
 struct Shared {
     router: Arc<Mutex<HybridClusterRouter>>,
     engine: Arc<Engine>,
     hosts: HostPolicy,
+    sessions: Sessions,
+}
+
+fn lock<T>(mutex: &Mutex<T>) -> std::sync::MutexGuard<'_, T> {
+    mutex.lock().unwrap_or_else(PoisonError::into_inner)
+}
+
+/// One session of the earlier protocol versions (`Mcp-Session-Id`): the connection state `initialize` set up and the
+/// response streams of its requests, kept until they are delivered so a client that lost one can resume it.
+struct Session {
+    connection: Arc<Connection>,
+    streams: Mutex<HashMap<String, Arc<StreamLog>>>,
+    next_stream: AtomicU64,
+    opened: u64,
+}
+
+#[derive(Default)]
+struct Sessions {
+    open: Mutex<HashMap<String, Arc<Session>>>,
+    counter: AtomicU64,
+}
+
+impl Sessions {
+    fn fresh_id(&self) -> (String, u64) {
+        let serial = self.counter.fetch_add(1, Ordering::SeqCst);
+        let nanos = SystemTime::now().duration_since(UNIX_EPOCH).map_or(0, |elapsed| elapsed.as_nanos());
+        let id = format!("{:016x}{:016x}", RandomState::new().hash_one((nanos, serial, 1u8)), RandomState::new().hash_one((nanos, serial, 2u8)));
+        (id, serial)
+    }
+
+    fn insert(&self, id: String, opened: u64, connection: Arc<Connection>) {
+        let mut open = lock(&self.open);
+        if open.len() >= MAX_SESSIONS
+            && let Some(oldest) = open.iter().min_by_key(|(_, session)| session.opened).map(|(id, _)| id.clone())
+        {
+            open.remove(&oldest);
+        }
+        open.insert(id, Arc::new(Session { connection, streams: Mutex::default(), next_stream: AtomicU64::new(1), opened }));
+    }
+
+    fn get(&self, id: &str) -> Option<Arc<Session>> {
+        lock(&self.open).get(id).cloned()
+    }
+
+    fn close(&self, id: &str) -> bool {
+        lock(&self.open).remove(id).is_some()
+    }
+}
+
+/// Everything one request sends to its client, in order, until its answer: the notifications and server requests,
+/// then the response. A stream writer reads it from any index, which is what resumption with `Last-Event-ID` needs.
+#[derive(Default)]
+struct StreamLog {
+    state: Mutex<LogState>,
+    changed: Notify,
+}
+
+#[derive(Default)]
+struct LogState {
+    messages: Vec<Value>,
+    /// Messages before the response.
+    notifications: usize,
+    status: u16,
+    done: bool,
+    close_requested: bool,
+}
+
+impl StreamLog {
+    fn push(&self, message: Value) {
+        let mut state = lock(&self.state);
+        state.messages.push(message);
+        state.notifications += 1;
+        drop(state);
+        self.changed.notify_one();
+    }
+
+    fn finish(&self, reply: mcp::Reply) {
+        let mut state = lock(&self.state);
+        state.status = reply.status;
+        state.messages.extend(reply.body);
+        state.done = true;
+        drop(state);
+        self.changed.notify_one();
+    }
+}
+
+impl StreamControl for StreamLog {
+    fn close(&self) {
+        lock(&self.state).close_requested = true;
+        self.changed.notify_one();
+    }
 }
 
 /// DNS-rebinding defence for `/mcp`: the `Host` and `Origin` headers must name this server.
@@ -152,6 +252,7 @@ fn reason(status: u16) -> &'static str {
     match status {
         200 => "OK",
         202 => "Accepted",
+        204 => "No Content",
         400 => "Bad Request",
         403 => "Forbidden",
         404 => "Not Found",
@@ -177,8 +278,13 @@ fn content_security_policy(path: &str) -> &'static str {
 }
 
 async fn write_response(stream: &mut TcpStream, status: u16, content_type: &str, path: &str, payload: &str) {
+    write_response_with(stream, status, content_type, path, payload, "").await;
+}
+
+/// `extra` holds whole header lines, each ending in CRLF.
+async fn write_response_with(stream: &mut TcpStream, status: u16, content_type: &str, path: &str, payload: &str, extra: &str) {
     let head = format!(
-        "HTTP/1.1 {status} {}\r\nContent-Type: {content_type}\r\nX-Content-Type-Options: nosniff\r\nReferrer-Policy: strict-origin-when-cross-origin\r\nContent-Security-Policy: {}\r\nAccess-Control-Allow-Origin: *\r\nCache-Control: no-store\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+        "HTTP/1.1 {status} {}\r\nContent-Type: {content_type}\r\nX-Content-Type-Options: nosniff\r\nReferrer-Policy: strict-origin-when-cross-origin\r\nContent-Security-Policy: {}\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Expose-Headers: Mcp-Session-Id, MCP-Protocol-Version\r\nCache-Control: no-store\r\n{extra}Content-Length: {}\r\nConnection: close\r\n\r\n",
         reason(status),
         content_security_policy(path),
         payload.len()
@@ -217,108 +323,260 @@ async fn handle_conn(mut stream: TcpStream, shared: Arc<Shared>) {
     write_response(&mut stream, status, content_type, &path, &payload).await;
 }
 
-enum McpEvent {
-    Notification(Value),
-    Final(Reply),
-}
-
 async fn write_json_rpc_error(stream: &mut TcpStream, error: &RpcError) {
     let body = serde_json::json!({ "jsonrpc": "2.0", "id": null, "error": { "code": error.code, "message": error.message } }).to_string();
     write_response(stream, error.status, "application/json", MCP_PATH, &body).await;
 }
 
-fn sse_event(message: &Value) -> String {
-    format!("event: message\ndata: {message}\n\n")
+fn unknown_session() -> RpcError {
+    RpcError::new(-32001, "Session not found: it ended or never existed; send initialize again").with_status(404)
 }
 
-/// Streamable HTTP, revision 2026-07-28: one POST per message. The answer is a JSON object, or, as soon as
-/// the request emits a notification (progress, logs, a subscription), an event stream that ends with the
-/// response. Closing the connection cancels the request.
+fn sse_event(id: Option<&str>, message: &Value) -> String {
+    match id {
+        Some(id) => format!("id: {id}\nevent: message\ndata: {message}\n\n"),
+        None => format!("event: message\ndata: {message}\n\n"),
+    }
+}
+
+async fn write_method_not_allowed(stream: &mut TcpStream) {
+    let body = r#"{"jsonrpc":"2.0","id":null,"error":{"code":-32600,"message":"POST a JSON-RPC message"}}"#;
+    let head = format!("HTTP/1.1 405 Method Not Allowed\r\nAllow: POST, OPTIONS\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: {}\r\nConnection: close\r\n\r\n", body.len());
+    if stream.write_all(head.as_bytes()).await.is_ok() {
+        // The client may already be gone; there is nobody to tell.
+        stream.write_all(body.as_bytes()).await.ok();
+    }
+}
+
+/// How a stream writer ended.
+enum Pumped {
+    /// The response was written.
+    Finished,
+    /// The stream was closed on purpose before the response; the client resumes it.
+    Detached,
+    /// The client went away.
+    Gone,
+}
+
+/// What a stream writer needs to know about the stream it serves.
+struct Pump<'a> {
+    log: &'a StreamLog,
+    /// Index of the next message to write.
+    from: usize,
+    /// Event ids are `<stream>-<n>` for streams a client can resume; `None` for the others.
+    ids: Option<&'a str>,
+    /// `Mcp-Session-Id` to add to a successful plain JSON answer (the response to `initialize`).
+    session_header: Option<&'a str>,
+    /// Cancelled when the client closes the connection; `None` when the request outlives its stream.
+    cancel_on_gone: Option<&'a Cancel>,
+    /// A resumed stream is always an event stream.
+    resumed: bool,
+}
+
+/// Writes the messages of one request to its connection: a plain JSON answer when the request produced nothing but
+/// its response, otherwise an event stream that ends with the response (or earlier, when the request closes it).
+async fn pump(stream: &mut TcpStream, pump: Pump<'_>) -> Pumped {
+    let Pump { log, from, ids, session_header, cancel_on_gone, resumed } = pump;
+    let mut sent = from;
+    let mut streaming = false;
+    let mut keep_alive = tokio::time::interval(KEEP_ALIVE);
+    keep_alive.tick().await;
+    let mut scratch = [0u8; 256];
+    let gone = || {
+        if let Some(cancel) = cancel_on_gone {
+            cancel.cancel();
+        }
+        Pumped::Gone
+    };
+    loop {
+        let (batch, done, status, notifications, close) = {
+            let mut state = lock(&log.state);
+            (state.messages.get(sent..).unwrap_or_default().to_vec(), state.done, state.status, state.notifications, std::mem::take(&mut state.close_requested))
+        };
+        if !streaming && !resumed && done && notifications == 0 {
+            match batch.first() {
+                Some(body) => {
+                    let extra = session_header.filter(|_| status == 200 && body.get("result").is_some()).map(|id| format!("Mcp-Session-Id: {id}\r\n")).unwrap_or_default();
+                    write_response_with(stream, status, "application/json", MCP_PATH, &body.to_string(), &extra).await;
+                }
+                None if status == 202 => write_response(stream, 202, "application/json", MCP_PATH, "").await,
+                None => {}
+            }
+            stream.shutdown().await.ok();
+            return Pumped::Finished;
+        }
+        if !streaming && (resumed || !batch.is_empty() || close) {
+            streaming = true;
+            let head = "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nCache-Control: no-cache, no-transform\r\nX-Accel-Buffering: no\r\nX-Content-Type-Options: nosniff\r\nAccess-Control-Allow-Origin: *\r\nConnection: close\r\n\r\n";
+            if stream.write_all(head.as_bytes()).await.is_err() {
+                return gone();
+            }
+            if let Some(id) = ids.filter(|_| !resumed) {
+                let priming = format!("id: {id}-0\nretry: {STREAM_RETRY_MS}\ndata: \n\n");
+                if stream.write_all(priming.as_bytes()).await.is_err() {
+                    return gone();
+                }
+            }
+        }
+        if streaming {
+            for message in &batch {
+                sent += 1;
+                let event = sse_event(ids.map(|id| format!("{id}-{sent}")).as_deref(), message);
+                if stream.write_all(event.as_bytes()).await.is_err() {
+                    return gone();
+                }
+            }
+            if done {
+                stream.shutdown().await.ok();
+                return Pumped::Finished;
+            }
+            if close {
+                stream.shutdown().await.ok();
+                return Pumped::Detached;
+            }
+        }
+        tokio::select! {
+            () = log.changed.notified() => {}
+            // The client closing its end of the connection is the cancellation signal.
+            read = stream.read(&mut scratch) => if matches!(read, Ok(0) | Err(_)) {
+                return gone();
+            },
+            _ = keep_alive.tick(), if streaming => {
+                if stream.write_all(b": keep-alive\n\n").await.is_err() {
+                    return gone();
+                }
+            }
+        }
+    }
+}
+
+/// Streamable HTTP. Under 2026-07-28 every POST is self-contained; under the earlier versions `initialize` opens a
+/// session (`Mcp-Session-Id`) whose requests may send the client requests of their own (sampling, elicitation) on
+/// the response stream, and whose streams a client resumes with `Last-Event-ID`.
 async fn serve_mcp(stream: &mut TcpStream, req: Request, shared: &Arc<Shared>) {
     if !shared.hosts.permits(&req) {
         write_json_rpc_error(stream, &RpcError::new(-32600, "Forbidden: the Host or Origin header does not name this server").with_status(403)).await;
         return;
     }
-    if req.method != "POST" {
-        let body = r#"{"jsonrpc":"2.0","id":null,"error":{"code":-32600,"message":"POST a JSON-RPC message"}}"#;
-        let head = format!("HTTP/1.1 405 Method Not Allowed\r\nAllow: POST, OPTIONS\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: {}\r\nConnection: close\r\n\r\n", body.len());
-        let _ = stream.write_all(head.as_bytes()).await;
-        let _ = stream.write_all(body.as_bytes()).await;
-        return;
+    let http = HttpMeta::from_headers(req.headers.iter().map(|(name, value)| (name.as_str(), value.as_str())));
+    match req.method.as_str() {
+        "POST" => post_mcp(stream, &req.body, http, shared).await,
+        "GET" if mcp::http_is_legacy(&Value::Null, &http) && http.session_id.is_some() && http.last_event_id.is_some() => resume_stream(stream, &http, shared).await,
+        "DELETE" if mcp::http_is_legacy(&Value::Null, &http) && http.session_id.is_some() => {
+            let ended = http.session_id.as_deref().is_some_and(|id| shared.sessions.close(id));
+            if ended {
+                write_response(stream, 204, "application/json", MCP_PATH, "").await;
+            } else {
+                write_json_rpc_error(stream, &unknown_session()).await;
+            }
+        }
+        _ => write_method_not_allowed(stream).await,
     }
-    let message: Value = match serde_json::from_str(&req.body) {
+}
+
+/// `GET` with `Last-Event-ID`: continues the stream the id names from the event after it.
+async fn resume_stream(stream: &mut TcpStream, http: &HttpMeta, shared: &Arc<Shared>) {
+    let Some(session) = http.session_id.as_deref().and_then(|id| shared.sessions.get(id)) else {
+        write_json_rpc_error(stream, &unknown_session()).await;
+        return;
+    };
+    let last = http.last_event_id.as_deref().unwrap_or_default();
+    let Some((stream_id, position)) = last.rsplit_once('-').and_then(|(stream_id, position)| Some((stream_id, position.parse::<usize>().ok()?))) else {
+        write_json_rpc_error(stream, &RpcError::invalid_params("Last-Event-ID is not an event id of this server").with_status(400)).await;
+        return;
+    };
+    let Some(log) = lock(&session.streams).get(stream_id).cloned() else {
+        write_json_rpc_error(stream, &RpcError::new(-32001, "Stream not found: its events were already delivered").with_status(404)).await;
+        return;
+    };
+    let pumped = pump(stream, Pump { log: &log, from: position, ids: Some(stream_id), session_header: None, cancel_on_gone: None, resumed: true }).await;
+    if matches!(pumped, Pumped::Finished) {
+        lock(&session.streams).remove(stream_id);
+    }
+}
+
+/// `POST`: one message in, answered as JSON or as an event stream that ends with the response.
+async fn post_mcp(stream: &mut TcpStream, body: &str, http: HttpMeta, shared: &Arc<Shared>) {
+    let message: Value = match serde_json::from_str(body) {
         Ok(message) => message,
         Err(error) => {
             write_json_rpc_error(stream, &RpcError::new(-32700, format!("Parse error: {error}")).with_status(400)).await;
             return;
         }
     };
-    let http = HttpMeta::from_headers(req.headers.iter().map(|(name, value)| (name.as_str(), value.as_str())));
-    let (sender, mut receiver) = mpsc::unbounded_channel::<McpEvent>();
-    let cancel = Cancel::default();
+    let legacy = mcp::http_is_legacy(message.get("params").unwrap_or(&Value::Null), &http);
+    let session = if legacy { http.session_id.as_deref().map(|id| shared.sessions.get(id).ok_or_else(unknown_session)) } else { None };
+    let session = match session.transpose() {
+        Ok(session) => session,
+        Err(error) => {
+            write_json_rpc_error(stream, &error).await;
+            return;
+        }
+    };
+    if legacy && mcp::is_response(&message) {
+        match session {
+            Some(session) => {
+                session.connection.deliver(&message);
+                write_response(stream, 202, "application/json", MCP_PATH, "").await;
+            }
+            None => write_json_rpc_error(stream, &RpcError::invalid_params("A response to a server request names its session in Mcp-Session-Id").with_status(400)).await,
+        }
+        return;
+    }
+
+    let opens_session = legacy && session.is_none() && message.get("method").and_then(Value::as_str) == Some("initialize");
+    let new_session = opens_session.then(|| shared.sessions.fresh_id());
+    let connection = match (&session, opens_session) {
+        (Some(session), _) => session.connection.clone(),
+        (None, true) => Arc::new(Connection::interactive()),
+        (None, false) => Arc::new(Connection::default()),
+    };
+    let request_id = message.get("id").cloned();
+    let log = Arc::new(StreamLog::default());
+    // A request of a session outlives its stream, so only `notifications/cancelled` (not a closed socket) cancels it.
+    let (cancel, stream_name) = match (&session, &request_id) {
+        (Some(session), Some(id)) => {
+            let name = session.next_stream.fetch_add(1, Ordering::SeqCst).to_string();
+            lock(&session.streams).insert(name.clone(), log.clone());
+            (connection.begin(id), Some(name))
+        }
+        _ => (Cancel::default(), None),
+    };
+    let in_session = session.is_some();
     let worker = {
-        let (engine, cancel, sender) = (shared.engine.clone(), cancel.clone(), sender);
+        let (shared, connection, cancel, log, request_id) = (shared.clone(), connection.clone(), cancel.clone(), log.clone(), request_id.clone());
+        let session_id = new_session.as_ref().map(|(id, _)| id.clone());
+        let opened = new_session.as_ref().map_or(0, |(_, serial)| *serial);
         tokio::task::spawn_blocking(move || {
             let sink = {
-                let sender = sender.clone();
-                move |notification: Value| {
-                    let _ = sender.send(McpEvent::Notification(notification));
-                }
+                let log = log.clone();
+                move |notification: Value| log.push(notification)
             };
-            let reply = engine.handle(&Connection::default(), &message, Some(&http), &sink, &cancel);
-            let _ = sender.send(McpEvent::Final(reply));
+            let reply = shared.engine.handle_on_stream(&connection, &message, Some(&http), &sink, &cancel, Some(log.as_ref()));
+            if let Some(id) = &request_id.filter(|_| in_session) {
+                connection.end(id);
+            }
+            if let Some(id) = session_id
+                && reply.status == 200
+                && reply.body.as_ref().is_some_and(|body| body.get("result").is_some())
+            {
+                shared.sessions.insert(id, opened, connection.clone());
+            }
+            log.finish(reply);
         })
     };
 
-    let mut streaming = false;
-    let mut keep_alive = tokio::time::interval(KEEP_ALIVE);
-    keep_alive.tick().await;
-    let mut scratch = [0u8; 256];
-    loop {
-        tokio::select! {
-            event = receiver.recv() => match event {
-                Some(McpEvent::Notification(notification)) => {
-                    if !streaming {
-                        streaming = true;
-                        let head = "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nCache-Control: no-cache, no-transform\r\nX-Accel-Buffering: no\r\nX-Content-Type-Options: nosniff\r\nAccess-Control-Allow-Origin: *\r\nConnection: close\r\n\r\n";
-                        if stream.write_all(head.as_bytes()).await.is_err() {
-                            cancel.cancel();
-                            break;
-                        }
-                    }
-                    if stream.write_all(sse_event(&notification).as_bytes()).await.is_err() {
-                        cancel.cancel();
-                        break;
-                    }
-                }
-                Some(McpEvent::Final(reply)) => {
-                    match (streaming, reply.body) {
-                        (true, Some(body)) => {
-                            let _ = stream.write_all(sse_event(&body).as_bytes()).await;
-                        }
-                        (false, Some(body)) => write_response(stream, reply.status, "application/json", MCP_PATH, &body.to_string()).await,
-                        (false, None) if reply.status == 202 => write_response(stream, 202, "application/json", MCP_PATH, "").await,
-                        _ => {}
-                    }
-                    let _ = stream.shutdown().await;
-                    break;
-                }
-                None => break,
-            },
-            // The client closing its end of the connection is the cancellation signal.
-            read = stream.read(&mut scratch) => if matches!(read, Ok(0) | Err(_)) {
-                cancel.cancel();
-                break;
-            },
-            _ = keep_alive.tick(), if streaming => {
-                if stream.write_all(b": keep-alive\n\n").await.is_err() {
-                    cancel.cancel();
-                    break;
-                }
-            }
-        }
+    let ids = stream_name.as_deref();
+    let session_header = new_session.as_ref().map(|(id, _)| id.as_str());
+    let cancel_on_gone = session.is_none().then_some(&cancel);
+    let pumped = pump(stream, Pump { log: &log, from: 0, ids, session_header, cancel_on_gone, resumed: false }).await;
+    // A stream the client lost or the request closed stays in place for a resumption; a delivered one is dropped.
+    if let (Some(session), Some(name), Pumped::Finished) = (&session, ids, &pumped) {
+        lock(&session.streams).remove(name);
     }
-    cancel.cancel();
+    if session.is_none() {
+        cancel.cancel();
+    }
     if let Err(error) = worker.await {
         eprintln!("fw serve: an MCP request handler panicked: {error}");
     }
@@ -338,7 +596,7 @@ pub async fn serve_with(addr: SocketAddr, catalog: Arc<dyn Catalog>) -> std::io:
 /// Serves on an already bound listener; the caller reads the port it got from the operating system.
 pub async fn serve_on(listener: TcpListener, catalog: Arc<dyn Catalog>) -> std::io::Result<()> {
     let hosts = HostPolicy::for_bind(listener.local_addr()?);
-    let shared = Arc::new(Shared { router: Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster())), engine: Arc::new(Engine::new(catalog)), hosts });
+    let shared = Arc::new(Shared { router: Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster())), engine: Arc::new(Engine::new(catalog)), hosts, sessions: Sessions::default() });
     loop {
         let (stream, _) = listener.accept().await?;
         tokio::spawn(handle_conn(stream, shared.clone()));
@@ -357,6 +615,7 @@ mod tests {
             router: Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster())),
             engine: Arc::new(Engine::new(Arc::new(FwCatalog::from_current_dir()))),
             hosts,
+            sessions: Sessions::default(),
         });
         let server = tokio::spawn(async move {
             let (s, _) = listener.accept().await.unwrap();

@@ -10,10 +10,10 @@
 use serde_json::{json, Map, Value};
 use std::collections::HashMap;
 use std::io::{BufRead, Write};
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError, Sender};
 use std::sync::{Arc, Mutex, PoisonError};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 pub const MODERN_VERSION: &str = "2026-07-28";
 pub const LEGACY_VERSIONS: &[&str] = &["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
@@ -28,6 +28,8 @@ const META_SUBSCRIPTION: &str = "io.modelcontextprotocol/subscriptionId";
 const PAGE_SIZE: usize = 200;
 const CURSOR_PREFIX: &str = "fwmcp:";
 const MAX_SCHEMA_DEPTH: usize = 32;
+/// How long a request the server sent to the client (sampling, elicitation) waits for the answer.
+const CLIENT_REQUEST_TIMEOUT: Duration = Duration::from_secs(120);
 
 /// Every protocol version the server answers, newest first.
 pub fn supported_versions() -> Vec<&'static str> {
@@ -237,11 +239,60 @@ pub struct CallContext<'a> {
     pub bus: &'a Bus,
     pub cancel: &'a Cancel,
     sink: &'a dyn Fn(Value),
+    connection: &'a Connection,
+    stream: Option<&'a dyn StreamControl>,
+}
+
+/// The transport stream a request is answered on, for the few handlers that need to steer it.
+pub trait StreamControl: Sync {
+    /// Ends the open response stream without finishing the request: the answer waits until the client resumes the stream.
+    fn close(&self);
 }
 
 impl CallContext<'_> {
     pub fn notify(&self, method: &str, params: Value) {
         (self.sink)(json!({ "jsonrpc": "2.0", "method": method, "params": params }));
+    }
+
+    /// Closes the response stream of this request early (SEP-1699 polling); false when the transport has no stream to close.
+    pub fn close_stream(&self) -> bool {
+        let Some(stream) = self.stream else { return false };
+        stream.close();
+        true
+    }
+
+    /// Sends a request to the client on the stream of the current request and waits for its answer
+    /// (`sampling/createMessage`, `elicitation/create`, `roots/list`). Only the session-scoped earlier versions
+    /// carry such requests; 2026-07-28 uses `input_required` results instead.
+    pub fn request_client(&self, method: &str, params: Value) -> Result<Value, RpcError> {
+        if self.modern {
+            return Err(RpcError::internal("Server-initiated requests were removed in 2026-07-28; return input_required instead"));
+        }
+        if !self.connection.interactive.load(Ordering::SeqCst) {
+            return Err(RpcError::internal("This connection has no session the client can answer on; open one with initialize"));
+        }
+        let (id, receiver) = self.connection.register_request();
+        (self.sink)(json!({ "jsonrpc": "2.0", "id": id, "method": method, "params": params }));
+        let deadline = Instant::now() + CLIENT_REQUEST_TIMEOUT;
+        let answer = loop {
+            if self.cancel.is_cancelled() {
+                break Err(RpcError::internal("The request was cancelled before the client answered"));
+            }
+            match receiver.recv_timeout(Duration::from_millis(50)) {
+                Ok(message) => break Ok(message),
+                Err(RecvTimeoutError::Timeout) if Instant::now() < deadline => {}
+                Err(RecvTimeoutError::Timeout) => break Err(RpcError::internal(format!("The client did not answer {method} in time"))),
+                Err(RecvTimeoutError::Disconnected) => break Err(RpcError::internal("The connection closed before the client answered")),
+            }
+        };
+        self.connection.forget_request(&id);
+        let message = answer?;
+        if let Some(error) = message.get("error") {
+            let code = error.get("code").and_then(Value::as_i64).unwrap_or(-32603);
+            let text = error.get("message").and_then(Value::as_str).unwrap_or("The client answered with an error");
+            return Err(RpcError::new(code, text));
+        }
+        Ok(message.get("result").cloned().unwrap_or_else(|| json!({})))
     }
 
     /// `notifications/progress`, sent only when the request carried a `progressToken`.
@@ -317,14 +368,54 @@ struct Legacy {
     log_level: Option<LogLevel>,
 }
 
-/// State scoped to one stdio process. An HTTP request gets a fresh, empty connection: nothing carries over.
+/// State scoped to one stdio process or one HTTP session of the earlier versions. A 2026-07-28 HTTP request
+/// gets a fresh, empty connection: nothing carries over.
 #[derive(Default)]
 pub struct Connection {
     legacy: Mutex<Option<Legacy>>,
     in_flight: Mutex<HashMap<String, Cancel>>,
+    /// Requests the server sent to the client that are not answered yet, by JSON-RPC id.
+    pending: Mutex<HashMap<String, Sender<Value>>>,
+    next_request: AtomicU64,
+    interactive: AtomicBool,
+}
+
+/// A message that answers a request: an id and a `result` or an `error`, no `method`.
+pub fn is_response(message: &Value) -> bool {
+    message.get("method").is_none() && message.get("id").is_some() && (message.get("result").is_some() || message.get("error").is_some())
 }
 
 impl Connection {
+    /// A connection the client answers on (stdio, an HTTP session), so the server may send it requests.
+    pub fn interactive() -> Self {
+        let connection = Self::default();
+        connection.interactive.store(true, Ordering::SeqCst);
+        connection
+    }
+
+    /// Hands a client's answer to the request waiting for it; false when `message` answers nothing pending.
+    pub fn deliver(&self, message: &Value) -> bool {
+        let Some(id) = message.get("id") else { return false };
+        let waiting = lock(&self.pending).remove(&id.to_string());
+        waiting.is_some_and(|sender| sender.send(message.clone()).is_ok())
+    }
+
+    /// Ends every wait for a client answer: the transport closed, so none will come.
+    pub fn abandon_pending(&self) {
+        lock(&self.pending).clear();
+    }
+
+    fn register_request(&self) -> (String, Receiver<Value>) {
+        let id = format!("fw-{}", self.next_request.fetch_add(1, Ordering::SeqCst) + 1);
+        let (sender, receiver) = mpsc::channel();
+        lock(&self.pending).insert(Value::String(id.clone()).to_string(), sender);
+        (id, receiver)
+    }
+
+    fn forget_request(&self, id: &str) {
+        lock(&self.pending).remove(&Value::String(id.to_owned()).to_string());
+    }
+
     /// Registers a request before it runs, so a `notifications/cancelled` that follows it always finds it.
     pub fn begin(&self, id: &Value) -> Cancel {
         let cancel = Cancel::default();
@@ -352,6 +443,10 @@ pub struct HttpMeta {
     pub name: Option<String>,
     /// `Mcp-Param-*` headers, lower-case name without the prefix.
     pub params: Vec<(String, String)>,
+    /// `Mcp-Session-Id`, issued by the server at `initialize` under the earlier versions.
+    pub session_id: Option<String>,
+    /// `Last-Event-ID`, the resumption point of a stream under the earlier versions.
+    pub last_event_id: Option<String>,
 }
 
 impl HttpMeta {
@@ -363,6 +458,8 @@ impl HttpMeta {
                 "mcp-protocol-version" => meta.protocol_version = Some(value.to_owned()),
                 "mcp-method" => meta.method = Some(value.to_owned()),
                 "mcp-name" => meta.name = Some(value.to_owned()),
+                "mcp-session-id" => meta.session_id = Some(value.to_owned()),
+                "last-event-id" => meta.last_event_id = Some(value.to_owned()),
                 other => {
                     if let Some(param) = other.strip_prefix("mcp-param-") {
                         meta.params.push((param.to_owned(), value.to_owned()));
@@ -393,16 +490,27 @@ enum Era {
     Legacy,
 }
 
+/// Whether an HTTP request is served with the session-scoped behaviour of the earlier versions: its body
+/// does not carry the 2026-07-28 `_meta`, and its `MCP-Protocol-Version` header, when present, names one of them.
+pub fn http_is_legacy(params: &Value, http: &HttpMeta) -> bool {
+    if params.get("_meta").and_then(|meta| meta.get(META_VERSION)).is_some() {
+        return false;
+    }
+    http.protocol_version.as_deref().is_none_or(|version| LEGACY_VERSIONS.contains(&version))
+}
+
 struct Incoming<'a> {
     id: &'a Value,
     method: &'a str,
     params: &'a Value,
     http: Option<&'a HttpMeta>,
+    stream: Option<&'a dyn StreamControl>,
 }
 
 /// Request state both eras hand to the shared method handlers.
 struct Call<'a> {
     incoming: &'a Incoming<'a>,
+    connection: &'a Connection,
     modern: bool,
     capabilities: Value,
     log_level: Option<LogLevel>,
@@ -434,6 +542,11 @@ impl Engine {
     /// Serves one JSON-RPC message. `sink` receives the request-scoped notifications (progress, logs,
     /// subscription events) while the request runs; the returned reply is the final response.
     pub fn handle(&self, conn: &Connection, message: &Value, http: Option<&HttpMeta>, sink: &dyn Fn(Value), cancel: &Cancel) -> Reply {
+        self.handle_on_stream(conn, message, http, sink, cancel, None)
+    }
+
+    /// Like [`Engine::handle`], for a transport that lets a handler steer the stream the request is answered on.
+    pub fn handle_on_stream(&self, conn: &Connection, message: &Value, http: Option<&HttpMeta>, sink: &dyn Fn(Value), cancel: &Cancel, stream: Option<&dyn StreamControl>) -> Reply {
         let Some(object) = message.as_object() else {
             return Reply::error(&Value::Null, &RpcError::new(-32600, "Invalid Request: a message is one JSON object").with_status(400));
         };
@@ -454,7 +567,7 @@ impl Engine {
             return Reply::error(&Value::Null, &RpcError::new(-32600, "Invalid Request: id is a string or an integer").with_status(400));
         }
 
-        let incoming = Incoming { id, method, params, http };
+        let incoming = Incoming { id, method, params, http, stream };
         let reply = match self.route(conn, &incoming, sink, cancel) {
             Ok(result) => Reply { status: 200, body: Some(json!({ "jsonrpc": "2.0", "id": id, "result": result })) },
             Err(error) => Reply::error(id, &error),
@@ -478,11 +591,8 @@ impl Engine {
             return Era::Modern;
         }
         match incoming.http {
-            Some(meta) => match meta.protocol_version.as_deref() {
-                Some(version) if LEGACY_VERSIONS.contains(&version) => Era::Legacy,
-                Some(_) => Era::Modern,
-                None => Era::Legacy,
-            },
+            Some(meta) if http_is_legacy(incoming.params, meta) => Era::Legacy,
+            Some(_) => Era::Modern,
             None if incoming.method == "initialize" || lock(&conn.legacy).is_some() => Era::Legacy,
             None => Era::Modern,
         }
@@ -492,7 +602,7 @@ impl Engine {
         match self.era(conn, incoming) {
             Era::Modern => {
                 let request = self.validate_modern(incoming)?;
-                let call = Call { incoming, modern: true, capabilities: request.capabilities, log_level: request.log_level };
+                let call = Call { incoming, connection: conn, modern: true, capabilities: request.capabilities, log_level: request.log_level };
                 self.serve_method(&call, sink, cancel)
             }
             Era::Legacy => self.route_legacy(conn, incoming, sink, cancel),
@@ -531,7 +641,7 @@ impl Engine {
                     Some(legacy) => (legacy.capabilities.clone(), legacy.log_level),
                     None => (json!({}), None),
                 };
-                let call = Call { incoming, modern: false, capabilities, log_level: log_level.or(Some(LogLevel::Info)) };
+                let call = Call { incoming, connection: conn, modern: false, capabilities, log_level: log_level.or(Some(LogLevel::Info)) };
                 self.serve_method(&call, sink, cancel).map_err(|error| if error.status == 404 { error.with_status(200) } else { error })
             }
             _ => Err(not_found()),
@@ -677,6 +787,8 @@ impl Engine {
             bus: &self.bus,
             cancel,
             sink,
+            connection: call.connection,
+            stream: call.incoming.stream,
         };
         let body = match method {
             "server/discover" if modern => self.discover(),
@@ -1075,7 +1187,7 @@ fn write_line<W: Write>(output: &Mutex<W>, message: &Value) {
 /// `echo '<request>' | fw mcp` returns its answer.
 pub fn serve_stdio<R: BufRead, W: Write + Send + 'static>(engine: &Arc<Engine>, input: R, output: W) -> std::io::Result<()> {
     let output = Arc::new(Mutex::new(output));
-    let connection = Arc::new(Connection::default());
+    let connection = Arc::new(Connection::interactive());
     let mut workers: Vec<std::thread::JoinHandle<()>> = Vec::new();
     let mut listeners: Vec<Cancel> = Vec::new();
     for line in input.lines() {
@@ -1090,6 +1202,10 @@ pub fn serve_stdio<R: BufRead, W: Write + Send + 'static>(engine: &Arc<Engine>, 
                 continue;
             }
         };
+        if is_response(&message) {
+            connection.deliver(&message);
+            continue;
+        }
         let id = message.get("id").filter(|id| valid_id(id)).cloned();
         // Notifications, invalid messages and `initialize` run in line: the requests that follow an
         // `initialize` on the same pipe must see the session it opens.
@@ -1123,6 +1239,7 @@ pub fn serve_stdio<R: BufRead, W: Write + Send + 'static>(engine: &Arc<Engine>, 
     for listener in &listeners {
         listener.cancel();
     }
+    connection.abandon_pending();
     for worker in workers {
         if worker.join().is_err() {
             eprintln!("fw mcp: a request handler panicked");
