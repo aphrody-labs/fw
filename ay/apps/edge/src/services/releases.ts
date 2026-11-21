@@ -16,6 +16,7 @@ import {
   type ReleaseManifest,
   SCHEMA_INDEX,
   isChannel,
+  toChannel,
   isSegment,
   pickAsset,
   releaseKeys,
@@ -58,8 +59,9 @@ export function detectPlatform(ua: string): { os: string; arch: string } {
 }
 
 async function latestManifest(r: Routed, product: string, channel: string): Promise<ReleaseManifest | null> {
-  if (!isSegment(product) || !isChannel(channel)) return null;
-  const pointer = await readJson<ChannelPointer>(r, releaseKeys.channel(product, channel));
+  const resolved = toChannel(channel);
+  if (!isSegment(product) || !resolved) return null;
+  const pointer = await readJson<ChannelPointer>(r, releaseKeys.channel(product, resolved));
   if (!pointer) return null;
   return readJson<ReleaseManifest>(r, releaseKeys.release(product, pointer.version));
 }
@@ -68,7 +70,7 @@ async function portal(r: Routed): Promise<Response> {
   const index = await readIndex(r);
   const wanted = r.url.searchParams.get("product");
   const channelParam = (r.url.searchParams.get("channel") ?? "stable").toLowerCase();
-  const channel = isChannel(channelParam) ? channelParam : "stable";
+  const channel = toChannel(channelParam) ?? "stable";
   const me = detectPlatform(r.request.headers.get("user-agent") ?? "");
   const origin = r.origin;
   const rows: string[] = [];
@@ -135,7 +137,7 @@ async function api(r: Routed, segs: string[]): Promise<Response> {
   const origin = r.origin;
   if (segs.length === 0) return json(await readIndex(r));
   // Legacy aphrody API: /api/channels and /api/releases/<channel>/latest.
-  if (segs.length === 2 && segs[1] === "latest" && isChannel(segs[0]!)) {
+  if (segs.length === 2 && segs[1] === "latest" && toChannel(segs[0]!)) {
     const legacy = await r.env.RELEASES.get(`channels/${segs[0]}/latest.json`);
     if (legacy) return new Response(legacy.body, { headers: { "content-type": "application/json; charset=utf-8", "cache-control": SHORT } });
     const index = await readIndex(r);

@@ -142,6 +142,7 @@ describe("publish", () => {
     mkdirSync(join(dir, "manifests"));
     writeFileSync(join(dir, "manifests", "linux-x86_64.json"), "{}");
     const plan = await planRelease({ product: "nie", version: "1.0.0", channel: "preview", tag: "v1.0.0", commit: "c".repeat(40), dir });
+    expect(plan.manifest.channel).toBe("beta");
     expect(plan.manifest.assets.map((a) => [a.os, a.arch, a.abi, a.kind])).toEqual([
       ["windows", "x86_64", "msvc", "archive"],
       ["linux", "x86_64", "musl", "archive"],

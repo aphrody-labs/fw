@@ -18,8 +18,9 @@ import {
   type ReleaseManifest,
   SCHEMA_INDEX,
   SCHEMA_RELEASE,
+  CHANNELS,
   foldIndex,
-  isChannel,
+  toChannel,
   releaseKeys,
   sha256sums,
   validateRelease,
@@ -81,8 +82,10 @@ export interface PlanInput {
 
 /** Hashes and classifies the top-level files of `dir` against the matrix of the product; a file no target names is an error. */
 export async function planRelease(input: PlanInput): Promise<Plan> {
-  const { product, version, channel, tag, commit, dir } = input;
-  if (!isChannel(channel)) throw new Error(`channel must be one of lts, stable, preview, canary, nightly, dev (got ${channel})`);
+  const { product, version, tag, commit, dir } = input;
+  // Old names (preview, nightly) and upstream ones (longterm, mainline) resolve to the release train channel.
+  const channel = toChannel(input.channel);
+  if (!channel) throw new Error(`channel must be one of ${CHANNELS.join(", ")} (got ${input.channel})`);
   const matrix = input.matrix ?? readMatrix();
   const targets = matrix[product]?.targets;
   if (!targets) throw new Error(`release.toml has no product ${product}`);

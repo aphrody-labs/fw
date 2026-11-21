@@ -215,3 +215,28 @@ os = "windows"
 arch = "x86_64"
 kind = "archive"
 runner = "ubuntu-26.04"
+
+# The release train, one for the whole stack (tools/release-plan.ts, docs/release/model.md). Two upstream models merged:
+# Chromium gives one milestone number for every product, a fixed cadence, a branch point and a beta period before stable,
+# and extended stable for every other milestone; kernel.org gives mainline/-rcN/stable/longterm, with the last release of a
+# calendar year as the longterm one. Dates are UTC days; the anchor is the first milestone of the train.
+[schedule]
+cadence_weeks = 4        # a new milestone reaches stable every 4 weeks (Chromium since M94)
+anchor_milestone = 5     # fw was 4.x: the first shared milestone continues the stack root's major
+anchor_stable = "2026-11-21"
+beta_weeks = 3           # branch point (release/<M> cut from main) to stable: the -rcN / Beta period
+extended_every = 2       # even milestones stay supported as extended stable (Chromium Extended Stable)
+extended_weeks = 8
+lts_weeks = 104          # longterm support from its stable date: two years, the kernel.org minimum
+
+# Channels from the newest code to the longest support. `from` is where builds come from; kernel, chromium and zed name the
+# upstream channel each one follows (tools/release-plan.ts upstream reads them live); prerelease is the semver suffix.
+[channels]
+order = ["canary", "dev", "beta", "stable", "extended", "lts"]
+aliases = { nightly = "canary", preview = "beta", longterm = "lts", mainline = "dev", "linux-next" = "canary" }
+canary = { from = "main, every day", kernel = "linux-next", chromium = "Canary", zed = "nightly", prerelease = "canary" }
+dev = { from = "main, every week", kernel = "mainline", chromium = "Dev", zed = "nightly", prerelease = "dev" }
+beta = { from = "release/<M> from its branch point to stable", kernel = "mainline -rcN", chromium = "Beta", zed = "preview", prerelease = "beta" }
+stable = { from = "release/<M> of the newest stable milestone", kernel = "stable", chromium = "Stable", zed = "stable" }
+extended = { from = "release/<M> of an even milestone, extended_weeks after its stable", kernel = "stable (previous series until EOL)", chromium = "Extended", zed = "stable" }
+lts = { from = "release/<M> of the year's last milestone, lts_weeks after its stable", kernel = "longterm", chromium = "LTS", zed = "stable" }

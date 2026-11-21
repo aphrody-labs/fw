@@ -20,7 +20,7 @@ on:
         type: string
         required: true
       channel:
-        description: lts, stable, preview, canary, nightly or dev
+        description: Release train channel (docs/release/model.md); old names such as preview and nightly resolve through release.toml [channels].aliases
         type: string
         default: stable
       tag:
@@ -57,14 +57,10 @@ on:
   workflow_dispatch:
     inputs:
       channel:
-        description: Release channel
+        description: Release train channel of a main or release/<M> build (docs/release/model.md); a v* tag carries its own
         type: choice
-        default: dev
-        options: [lts, stable, preview, canary, nightly, dev]
-      version:
-        description: Version without the leading v (default yyyy.mm.dd-sha)
-        type: string
-        default: ""
+        default: canary
+        options: [canary, dev, beta]
 
 permissions:
   contents: read
@@ -81,32 +77,16 @@ jobs:
       tag: ${{ steps.meta.outputs.tag }}
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
+      # Full history: the build number of a version is a commit count (docs/release/model.md).
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
       - id: meta
         env:
-          REF_TYPE: ${{ github.ref_type }}
-          REF_NAME: ${{ github.ref_name }}
           INPUT_CHANNEL: ${{ inputs.channel }}
-          INPUT_VERSION: ${{ inputs.version }}
-        run: |
-          set -euo pipefail
-          if [ "$REF_TYPE" = tag ]; then
-            tag="$REF_NAME"
-            version="${tag#v}"
-            case "$version" in *-*) channel=preview ;; *) channel=stable ;; esac
-          else
-            channel="${INPUT_CHANNEL:-dev}"
-            version="${INPUT_VERSION:-$(date -u +%Y.%m.%d)-${GITHUB_SHA::7}}"
-            tag="${channel}-v${version}"
-          fi
-          {
-            echo "version=$version"
-            echo "channel=$channel"
-            echo "tag=$tag"
-          } >> "$GITHUB_OUTPUT"
+        run: bun tools/release-plan.ts meta
       - id: matrix
         run: echo "matrix=$(bun tools/release-publish.ts matrix --product ay)" >> "$GITHUB_OUTPUT"
 

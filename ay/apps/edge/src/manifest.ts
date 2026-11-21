@@ -9,8 +9,11 @@
 export const SCHEMA_RELEASE = "ay.release.v1";
 export const SCHEMA_INDEX = "ay.releases.v1";
 
-export const CHANNELS = ["lts", "stable", "preview", "canary", "nightly", "dev"] as const;
+// release.toml [channels]: order and aliases (tools/release-plan.test.ts keeps the two equal).
+export const CHANNELS = ["canary", "dev", "beta", "stable", "extended", "lts"] as const;
 export type Channel = (typeof CHANNELS)[number];
+/** Channel names from before the release train and the upstream names, so old URLs and pointers keep resolving. */
+export const CHANNEL_ALIASES: Readonly<Record<string, Channel>> = { nightly: "canary", preview: "beta", longterm: "lts", mainline: "dev", "linux-next": "canary" };
 
 export type AssetKind = "binary" | "archive" | "installer" | "wasm" | "library" | "bundle" | "checksum";
 
@@ -57,6 +60,7 @@ const SEGMENT = /^[A-Za-z0-9][A-Za-z0-9._+-]*$/;
 const SHA256 = /^[0-9a-f]{64}$/;
 
 export const isChannel = (v: string): v is Channel => (CHANNELS as readonly string[]).includes(v);
+export const toChannel = (v: string): Channel | null => (isChannel(v) ? v : (CHANNEL_ALIASES[v] ?? null));
 export const isSegment = (v: string): boolean => SEGMENT.test(v) && !v.includes("..");
 
 export const releaseKeys = {
