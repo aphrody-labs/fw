@@ -29,6 +29,8 @@ jobs:
       channel: ${{ steps.meta.outputs.channel }}
       tag: ${{ steps.meta.outputs.tag }}
     steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
       - id: meta
         env:
           REF_TYPE: ${{ github.ref_type }}
@@ -46,6 +48,8 @@ jobs:
             version="${INPUT_VERSION:-$(date -u +%Y.%m.%d)-${GITHUB_SHA::7}}"
             tag="${channel}-v${version}"
           fi
+          # A v* tag names the release version: product.toml and every copy of it must already hold it.
+          if [ "$REF_TYPE" = tag ]; then bun tools/version.ts --expect "$version"; fi
           {
             echo "version=$version"
             echo "channel=$channel"
@@ -182,12 +186,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/rust-toolchain
-      - name: Publish in dependency order (product.toml)
+      - uses: oven-sh/setup-bun@v2
+      # The roots in product.toml plus every workspace crate they depend on, one cargo publish call, versions already on
+      # crates.io skipped; any failure fails the job.
+      - name: Publish the product.toml crates and their workspace dependencies
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
-          if [ -z "$CARGO_REGISTRY_TOKEN" ]; then echo "::warning::CARGO_REGISTRY_TOKEN is not set: nothing published to crates.io"; exit 0; fi
-          for c in fw-wasm fw-ggml fw-compute fw-cluster fw-ostd-wasm fw-uutils fw-nix fw-ui-blitz fw-unified-stack fw-wayland-wgpu fw-hermes-claw fw-proto fw-bin; do
-            cargo publish -p "$c" || true
-            sleep 15
-          done
+          if [ -z "$CARGO_REGISTRY_TOKEN" ]; then echo "::error::CARGO_REGISTRY_TOKEN is not set"; exit 1; fi
+          bun tools/crates-publish.ts

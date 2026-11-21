@@ -177,3 +177,5 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - name: Retired terms (configs/claude/retired.toml), config script tests, claude-bridge over stdio
         run: bun configs/claude/scripts/check.ts
+      - name: One product version (product.toml and every copy of it)
+        run: bun tools/version.ts

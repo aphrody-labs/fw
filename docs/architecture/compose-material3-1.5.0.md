@@ -62,7 +62,7 @@ fw defines no colour, shape or motion token. `FwExpressiveTheme` calls `AphrodyT
 
 ## 4. Pure WGPU / WGSL Implementation in `fw`
 
-- Shader: `core/webgpu/fw_m3_expressive.wgsl`
+- Shader: `crates/fw-wayland-wgpu/shaders/fw_m3_expressive.wgsl`
 - Rust scene & spring engine: `crates/fw-wayland-wgpu/src/m3_expressive.rs` (`#![forbid(unsafe_code)]`)
 - Implements all 35 `MaterialShapes` SDFs + `MorphPolygonShape`, animated `WavyLinearProgressIndicator` and `WavyCircularProgressIndicator` SDFs, `material3-ripple:1.5.0` inset focus rings + radial ripples, `StatefulSlider`, `SplitButton`/`FloatingToolbar`/`SegmentedListItem`, and Compose 1.13 progressive blur gradients in pure WGSL.
 

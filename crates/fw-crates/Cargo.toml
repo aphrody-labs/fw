@@ -5,7 +5,6 @@ edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
-publish = false
 description = "Crate intelligence engine over crates.io: the daily database dump, the sparse index and the RustSec advisory-db become a ranked, searchable dataset, per-category awesome lists, load-tested framework benchmarks and a project-skeleton generator. One engine behind `fw crates`, `fw serve`, MCP and the Bun plugin; every output is JSON, MDX or text."
 
 [features]

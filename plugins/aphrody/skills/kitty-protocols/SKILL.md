@@ -25,4 +25,4 @@ Verified live against `kovidgoyal/kitty` (`master`, synced into `aphrody-labs/ki
 ## 2. Unified Pure-Rust WGPU / Wasm Integration in `fw`
 
 - `crates/fw-wayland-wgpu/src/unified_wgpu_terminal.rs`: Pure-Rust (`#![forbid(unsafe_code)]`) encoder/decoder for Kitty Graphics APC, Kitty Keyboard `CSI u`, `DEC 2026`, `OSC 8`, `OSC 133`, and `OSC 7501` merged with Rio's pull-based dirty-row grid and Material 3 `1.5.0` Expressive WGPU rendering.
-- `core/webgpu/fw_unified_terminal_m3.wgsl`: Validated (`naga` + `tint`) pure WGSL shader rendering terminal cells, inline Kitty RGBA placements, and M3 overlays in one draw pass.
+- `crates/fw-wayland-wgpu/shaders/fw_unified_terminal_m3.wgsl`: Validated (`naga` + `tint`) pure WGSL shader rendering terminal cells, inline Kitty RGBA placements, and M3 overlays in one draw pass.

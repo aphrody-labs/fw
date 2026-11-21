@@ -1,6 +1,6 @@
 [package]
 name = "fw-apm"
-version = "4.2.0"
+version.workspace = true
 edition = "2024"
 rust-version.workspace = true
 license = "MIT"

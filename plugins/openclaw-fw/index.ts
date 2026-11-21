@@ -1,3 +1,4 @@
+import manifest from "./openclaw.plugin.json" with { type: "json" };
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import {
@@ -330,7 +331,7 @@ export function createOpenClawFwPlugin(config: OpenClawFwPluginConfig = {}) {
         id: rpc.id,
         result: {
           protocolVersion: "2025-06-18",
-          serverInfo: { name: "openclaw-fw", version: "4.2.0" },
+          serverInfo: { name: "openclaw-fw", version: manifest.version },
           capabilities: { tools: {} },
         },
       };
@@ -399,7 +400,7 @@ export function createOpenClawFwPlugin(config: OpenClawFwPluginConfig = {}) {
   return {
     id: "openclaw-fw",
     name: "fw Bun-Native Runtime",
-    version: "4.2.0",
+    version: manifest.version,
     tools: toolMap,
     handleMcpRequest,
     register(api: OpenClawPluginApiLike) {
@@ -420,7 +421,7 @@ const defaultPlugin = {
   id: "openclaw-fw",
   name: "fw Bun-Native Runtime",
   description: "Bun-native fw plugin exposing ls, grep, find, bench, claw, and MCP JSON-RPC 2.0.",
-  version: "4.2.0",
+  version: manifest.version,
   register(api: OpenClawPluginApiLike) {
     const instance = createOpenClawFwPlugin((api.config ?? {}) as OpenClawFwPluginConfig);
     instance.register(api);

@@ -8,6 +8,7 @@ license = "MIT"
 organization = "aphrody-labs"
 repository = "https://github.com/aphrody-labs/fw"
 homepage = "https://github.com/aphrody-labs/fw"
+# Roots of the crates.io set: tools/crates-publish.ts adds every workspace crate they depend on and orders the upload.
 crates_io_publish_order = [
   "fw-wasm",
   "fw-ggml",
@@ -42,3 +43,15 @@ theme_source_rev = "5339bc337d3de46b27b1d755442756b1c504dc51"
 # (same values as aphrody-labs/ay brand/tokens/m3-tokens.json, which ay generates from this seed).
 seed = "#e2dbad"
 variant = "tonal-spot"
+
+[release]
+# Files outside the Cargo workspace that carry the product version; `bun tools/version.ts` keeps them equal to `version`
+# above (`set <v>` writes, the bare command checks, CI and the release workflow run the check).
+version_files = [
+  "pyproject.toml",
+  "package.json",
+  "crates/fw-edge/Cargo.toml",
+  "plugins/llmd-fw/plugin.toml",
+  "plugins/vllm-fw/plugin.toml",
+  "plugins/openclaw-fw/openclaw.plugin.json",
+]

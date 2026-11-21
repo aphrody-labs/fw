@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 
 /// Embedded pure WGSL shader implementing Material 3 1.5.0 Expressive SDFs,
 /// wavy progress indicators, inset focus rings, and Compose 1.13 progressive blur.
-pub const M3_EXPRESSIVE_WGSL: &str = include_str!("../../../core/webgpu/fw_m3_expressive.wgsl");
+pub const M3_EXPRESSIVE_WGSL: &str = include_str!("../shaders/fw_m3_expressive.wgsl");
 
 /// All 35 predefined Material Design 3 1.5.0 `MaterialShapes` with harmonic lobe counts
 /// for GPU SDF evaluation and smooth `MorphPolygonShape` transitions.

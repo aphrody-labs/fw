@@ -1,6 +1,6 @@
 [package]
 name = "fw-browser-chromium"
-version = "4.2.0"
+version.workspace = true
 edition = "2024"
 description = "Chromium through CEF from Rust and Bun: open a URL off-screen, write a PNG screenshot, evaluate JavaScript and return JSON."
 build = "build.rs"

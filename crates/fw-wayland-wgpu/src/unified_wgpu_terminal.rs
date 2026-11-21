@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 
 /// Embedded pure WGSL shader unifying terminal grid, Kitty RGBA placements, and M3 1.5.0 chrome.
 pub const UNIFIED_TERMINAL_M3_WGSL: &str =
-    include_str!("../../../core/webgpu/fw_unified_terminal_m3.wgsl");
+    include_str!("../shaders/fw_unified_terminal_m3.wgsl");
 
 /// Synchronized output (`DEC 2026`) markers for tear-free GPU terminal frames.
 pub const DEC_2026_BEGIN: &str = "\x1b[?2026h";

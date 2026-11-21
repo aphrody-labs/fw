@@ -243,7 +243,7 @@ export async function verifyLowLevelToolchains(root: string) {
       wgsl.includes("fn fw_rmsnorm");
     steps.push({ name: "webgpu-wgsl", ok: valid, bytes: Buffer.byteLength(wgsl), output: "fw_saxpy + fw_rmsnorm" });
   }
-  const m3WgslPath = resolve(root, "core", "webgpu", "fw_m3_expressive.wgsl");
+  const m3WgslPath = resolve(root, "crates", "fw-wayland-wgpu", "shaders", "fw_m3_expressive.wgsl");
   if (existsSync(m3WgslPath)) {
     const m3Wgsl = readFileSync(m3WgslPath, "utf8");
     const naga = Bun.which("naga");

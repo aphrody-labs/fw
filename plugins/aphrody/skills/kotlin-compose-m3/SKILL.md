@@ -18,7 +18,7 @@ description: "Compose Material 3 1.5.0 stable (Expressive), Jetpack Compose 1.13
   - `com.aphrody.fw:fw-material3:4.2.0`
   - `com.aphrody.fw:fw-rust-ffi:4.2.0`
 - **Gate**: `bun tools/kotlin-check.ts [--ay <ay checkout>]` (Gradle and cargo run on the build host).
-- **Pure WGPU / WGSL M3 1.5.0**: `core/webgpu/fw_m3_expressive.wgsl` + `crates/fw-wayland-wgpu/src/m3_expressive.rs` (35 `MaterialShapes` SDFs, morphing, wavy linear/circular progress, inset focus rings, progressive blur).
+- **Pure WGPU / WGSL M3 1.5.0**: `crates/fw-wayland-wgpu/shaders/fw_m3_expressive.wgsl` + `crates/fw-wayland-wgpu/src/m3_expressive.rs` (35 `MaterialShapes` SDFs, morphing, wavy linear/circular progress, inset focus rings, progressive blur).
 
 ## 2. Installed CLI, LSP, Skills & AST Tools
 
