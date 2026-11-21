@@ -175,5 +175,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - name: No relay hub, fr2 or agy tooling outside the history notes; config script tests; claude-bridge over stdio
+      - name: Retired terms (configs/claude/retired.toml), config script tests, claude-bridge over stdio
         run: bun configs/claude/scripts/check.ts

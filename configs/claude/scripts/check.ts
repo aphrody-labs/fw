@@ -40,7 +40,7 @@ function step(label: string, cmd: string[], cwd = FW_ROOT, stdin?: string): stri
   return undefined;
 }
 
-// 1. Retired surfaces: the relay hub, fr2 and agy tooling stay out of every tracked file but the history notes.
+// 1. Retired surfaces: no tracked file outside the allowed paths names a term of retired.toml.
 const retired = findRetired(FW_ROOT, join(CONFIG_ROOT, "retired.toml"));
 if (retired.length === 0) pass("retired surfaces");
 else
