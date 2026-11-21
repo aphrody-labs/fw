@@ -1,0 +1,962 @@
+{
+  "category": {
+    "crates": 7873,
+    "description": "Crates that are primarily useful on embedded devices or without an operating system.",
+    "name": "Embedded development",
+    "slug": "embedded"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "development-tools::debugging",
+        "embedded",
+        "no-std",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.606,
+        "downloads": 0.8872,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2020-08-14",
+      "dependents": 1322,
+      "description": "A highly efficient logging framework that targets resource-constrained devices, like microcontrollers",
+      "downloads": 122608519,
+      "edition": "2021",
+      "keywords": [
+        "formatter",
+        "formatting",
+        "knurling",
+        "logger",
+        "logging"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "defmt",
+      "owners": 4,
+      "recent_downloads": 92695743,
+      "releases_365d": 4,
+      "repository": "https://github.com/knurling-rs/defmt",
+      "score": 86.33,
+      "version": "1.2.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "embedded",
+        "encoding",
+        "no-std::no-alloc",
+        "parsing",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5746,
+        "downloads": 0.9518,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9299,
+        "security": 1.0
+      },
+      "created": "2018-08-15",
+      "dependents": 911,
+      "description": "Zerocopy makes zero-cost memory manipulation effortless. We write \"unsafe\" so you don't have to.",
+      "downloads": 1182012711,
+      "edition": "2021",
+      "keywords": [
+        "cast",
+        "convert",
+        "transmutation",
+        "transmute",
+        "type-punning"
+      ],
+      "last_release": "2026-10-13",
+      "license": "BSD-2-Clause OR Apache-2.0 OR MIT",
+      "msrv": "1.56.0",
+      "name": "zerocopy",
+      "owners": 2,
+      "recent_downloads": 352251028,
+      "releases_365d": 41,
+      "repository": "https://github.com/google/zerocopy",
+      "score": 86.11,
+      "version": "0.8.63",
+      "versions": 174
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4268,
+        "downloads": 0.9418,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-11-02",
+      "dependents": 157,
+      "description": "Definitions for Unicode properties",
+      "downloads": 794693374,
+      "edition": "2024",
+      "keywords": [
+        "character-properties",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_properties",
+      "owners": 3,
+      "recent_downloads": 286545593,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 83.39,
+      "version": "2.4.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "embedded",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5101,
+        "downloads": 0.8778,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9867,
+        "security": 1.0
+      },
+      "created": "2018-12-06",
+      "dependents": 423,
+      "description": "Global, no_std-compatible constructors for all platforms that run before main (like C/C++ __attribute__((constructor)))",
+      "downloads": 253969184,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.60",
+      "name": "ctor",
+      "owners": 1,
+      "recent_downloads": 76206996,
+      "releases_365d": 28,
+      "repository": "https://github.com/mmastrac/linktime",
+      "score": 82.5,
+      "version": "1.0.14",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4029,
+        "downloads": 0.9425,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2020-10-15",
+      "dependents": 118,
+      "description": "Trait and struct definitions for the ICU data provider",
+      "downloads": 797047576,
+      "edition": "2024",
+      "keywords": [
+        "data",
+        "data-loading"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_provider",
+      "owners": 2,
+      "recent_downloads": 290827531,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 81.81,
+      "version": "2.4.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "concurrency",
+        "embedded",
+        "hardware-support",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5325,
+        "downloads": 0.9249,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8218,
+        "security": 1.0
+      },
+      "created": "2022-02-24",
+      "dependents": 552,
+      "description": "Portable atomic types including support for 128-bit atomics, atomic float, etc.\n",
+      "downloads": 611050641,
+      "edition": "2018",
+      "keywords": [
+        "atomic"
+      ],
+      "last_release": "2026-08-09",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.34",
+      "name": "portable-atomic",
+      "owners": 1,
+      "recent_downloads": 201835044,
+      "releases_365d": 5,
+      "repository": "https://github.com/taiki-e/portable-atomic",
+      "score": 81.76,
+      "version": "1.15.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.603,
+        "downloads": 0.7104,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9462,
+        "security": 1.0
+      },
+      "created": "2016-09-28",
+      "dependents": 1275,
+      "description": "Low level access to Cortex-M processors",
+      "downloads": 14734495,
+      "edition": "2024",
+      "keywords": [
+        "arm",
+        "cortex-m",
+        "peripheral",
+        "register"
+      ],
+      "last_release": "2026-10-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "cortex-m",
+      "owners": 3,
+      "recent_downloads": 2394689,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-embedded/cortex-m",
+      "score": 80.53,
+      "version": "0.7.10",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4148,
+        "downloads": 0.938,
+        "license": 1.0,
+        "maintenance": 0.8328,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2024-11-23",
+      "dependents": 136,
+      "description": "API for managing Unicode Language and Locale Identifiers",
+      "downloads": 605829976,
+      "edition": "2024",
+      "keywords": [
+        "bcp47",
+        "language-tags",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_locale_core",
+      "owners": 2,
+      "recent_downloads": 265039565,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.49,
+      "version": "2.4.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.411,
+        "downloads": 0.9414,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 130,
+      "description": "API for normalizing text into Unicode Normalization Forms",
+      "downloads": 782254493,
+      "edition": "2024",
+      "keywords": [
+        "normalization",
+        "text-processing",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_normalizer",
+      "owners": 2,
+      "recent_downloads": 283889251,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.49,
+      "version": "2.4.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "embedded",
+        "no-std",
+        "parser-implementations",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5072,
+        "downloads": 0.7449,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9437,
+        "security": 1.0
+      },
+      "created": "2016-03-14",
+      "dependents": 409,
+      "description": "Embedded scripting for Rust",
+      "downloads": 15315491,
+      "edition": "2021",
+      "keywords": [
+        "embedded",
+        "scripting",
+        "scripting-engine",
+        "scripting-language"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66.0",
+      "name": "rhai",
+      "owners": 3,
+      "recent_downloads": 4884457,
+      "releases_365d": 6,
+      "repository": "https://github.com/rhaiscript/rhai",
+      "score": 80.46,
+      "version": "1.27.0",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3848,
+        "downloads": 0.8192,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2024-03-08",
+      "dependents": 95,
+      "description": "API for Unicode Language and Locale Identifiers canonicalization",
+      "downloads": 40238865,
+      "edition": "2024",
+      "keywords": [
+        "bcp47",
+        "language-tags",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_locale",
+      "owners": 3,
+      "recent_downloads": 22719869,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 79.28,
+      "version": "2.4.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "embedded",
+        "no-std",
+        "science",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5004,
+        "downloads": 0.6744,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9789,
+        "security": 1.0
+      },
+      "created": "2022-07-27",
+      "dependents": 377,
+      "description": "Flexible and Comprehensive Deep Learning Framework in Rust",
+      "downloads": 2400668,
+      "edition": "2024",
+      "keywords": [
+        "autodiff",
+        "deep-learning",
+        "machine-learning",
+        "pytorch",
+        "tensor"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "burn",
+      "owners": 3,
+      "recent_downloads": 1137619,
+      "releases_365d": 20,
+      "repository": "https://github.com/tracel-ai/burn",
+      "score": 79.05,
+      "version": "0.22.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.9424,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2022-08-05",
+      "dependents": 32,
+      "description": "Collection of API for use in ICU libraries.",
+      "downloads": 793487978,
+      "edition": "2024",
+      "keywords": [
+        "data-structures",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_collections",
+      "owners": 3,
+      "recent_downloads": 289741086,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 78.61,
+      "version": "2.4.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3971,
+        "downloads": 0.8126,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 110,
+      "description": "Unicode line breaking and text segmentation algorithms for text boundaries analysis",
+      "downloads": 32920151,
+      "edition": "2024",
+      "keywords": [
+        "segmentation",
+        "text-processing",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_segmenter",
+      "owners": 2,
+      "recent_downloads": 19828230,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 78.42,
+      "version": "2.4.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "embedded",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5891,
+        "downloads": 0.7126,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.897,
+        "security": 1.0
+      },
+      "created": "2017-04-12",
+      "dependents": 1082,
+      "description": "Minimal runtime / startup for Cortex-M microcontrollers",
+      "downloads": 10940987,
+      "edition": "2024",
+      "keywords": [
+        "arm",
+        "cortex-m",
+        "runtime",
+        "startup"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "cortex-m-rt",
+      "owners": 3,
+      "recent_downloads": 2504915,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-embedded/cortex-m",
+      "score": 78.0,
+      "version": "0.7.7",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.9333,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9857,
+        "security": 1.0
+      },
+      "created": "2018-12-10",
+      "dependents": 21,
+      "description": "UEFI Reference Specification Protocol Constants and Definitions",
+      "downloads": 534498543,
+      "edition": "2018",
+      "keywords": [
+        "boot",
+        "efi",
+        "firmware",
+        "specification",
+        "uefi"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0 OR LGPL-2.1-or-later",
+      "msrv": "1.68",
+      "name": "r-efi",
+      "owners": 1,
+      "recent_downloads": 240515395,
+      "releases_365d": 4,
+      "repository": "https://github.com/r-efi/r-efi",
+      "score": 77.63,
+      "version": "7.2.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3684,
+        "downloads": 0.8036,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 78,
+      "description": "Date APIs for Gregorian and non-Gregorian calendars",
+      "downloads": 28442480,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "formatting",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_calendar",
+      "owners": 2,
+      "recent_downloads": 16430971,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 77.48,
+      "version": "2.4.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures",
+        "embedded",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3705,
+        "downloads": 0.8764,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8632,
+        "security": 1.0
+      },
+      "created": "2023-01-15",
+      "dependents": 80,
+      "description": "Synchronization primitives built with portable-atomic.\n",
+      "downloads": 166306046,
+      "edition": "2018",
+      "keywords": [
+        "atomic"
+      ],
+      "last_release": "2026-09-04",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.36",
+      "name": "portable-atomic-util",
+      "owners": 1,
+      "recent_downloads": 74078097,
+      "releases_365d": 4,
+      "repository": "https://github.com/taiki-e/portable-atomic-util",
+      "score": 77.12,
+      "version": "0.2.8",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "data-structures",
+        "embedded",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5712,
+        "downloads": 0.8784,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7446,
+        "security": 1.0
+      },
+      "created": "2018-06-28",
+      "dependents": 874,
+      "description": "Addresses memory by bits, for packed collections and bitfields",
+      "downloads": 338337315,
+      "edition": "2021",
+      "keywords": [
+        "bitfields",
+        "bitmap",
+        "bitstream",
+        "bitvec",
+        "bitvector"
+      ],
+      "last_release": "2026-06-18",
+      "license": "MIT",
+      "msrv": "1.56",
+      "name": "bitvec",
+      "owners": 2,
+      "recent_downloads": 77236514,
+      "releases_365d": 1,
+      "repository": "https://github.com/bitvecto-rs/bitvec",
+      "score": 76.91,
+      "version": "1.1.1",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.9419,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2023-09-23",
+      "dependents": 10,
+      "description": "Data for the icu_properties crate",
+      "downloads": 798325916,
+      "edition": "2024",
+      "keywords": [
+        "data",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_properties_data",
+      "owners": 2,
+      "recent_downloads": 287011124,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 76.78,
+      "version": "2.4.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.7723,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 69,
+      "description": "API for comparing strings according to language-dependent conventions",
+      "downloads": 15504162,
+      "edition": "2024",
+      "keywords": [
+        "alphabetical",
+        "sorting",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_collator",
+      "owners": 2,
+      "recent_downloads": 8610003,
+      "releases_365d": 6,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 76.44,
+      "version": "2.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.9414,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2023-09-23",
+      "dependents": 8,
+      "description": "Data for the icu_normalizer crate",
+      "downloads": 785826032,
+      "edition": "2024",
+      "keywords": [
+        "data",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_normalizer_data",
+      "owners": 2,
+      "recent_downloads": 283781609,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.84,
+      "version": "2.4.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3532,
+        "downloads": 0.7716,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 65,
+      "description": "API for formatting basic decimal numbers in a locale-sensitive way",
+      "downloads": 19105882,
+      "edition": "2024",
+      "keywords": [
+        "formatting",
+        "numbers",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_decimal",
+      "owners": 2,
+      "recent_downloads": 8483311,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.8,
+      "version": "2.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.7719,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2020-10-15",
+      "dependents": 56,
+      "description": "Unicode Plural Rules categorizer for numeric input",
+      "downloads": 17479247,
+      "edition": "2024",
+      "keywords": [
+        "grammar",
+        "plurals",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_plurals",
+      "owners": 2,
+      "recent_downloads": 8542422,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.5,
+      "version": "2.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3673,
+        "downloads": 0.7436,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2023-09-23",
+      "dependents": 77,
+      "description": "Unicode case mapping and folding algorithms",
+      "downloads": 9037193,
+      "edition": "2024",
+      "keywords": [
+        "case-folding",
+        "casing",
+        "text-processing",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_casemap",
+      "owners": 2,
+      "recent_downloads": 4752235,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.45,
+      "version": "2.4.0",
+      "versions": 16
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,964 @@
+{
+  "category": {
+    "crates": 2167,
+    "description": "Ways to view data, such as plotting or graphing.",
+    "name": "Visualization",
+    "slug": "visualization"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "gui",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.4078,
+        "downloads": 0.6798,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.94,
+        "security": 1.0
+      },
+      "created": "2023-09-28",
+      "dependents": 125,
+      "description": "Immediate mode plotting for the egui GUI library",
+      "downloads": 9371422,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "plot",
+        "plotting"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui_plot",
+      "owners": 2,
+      "recent_downloads": 1271070,
+      "releases_365d": 5,
+      "repository": "https://github.com/emilk/egui_plot",
+      "score": 75.29,
+      "version": "0.38.0",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.7011,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2019-08-05",
+      "dependents": 72,
+      "description": "Safe Skia Bindings for Rust",
+      "downloads": 5449560,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "skia-safe",
+      "owners": 2,
+      "recent_downloads": 1975346,
+      "releases_365d": 12,
+      "repository": "https://github.com/rust-skia/rust-skia",
+      "score": 75.08,
+      "version": "0.157.0",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia::images",
+        "visualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3715,
+        "downloads": 0.7045,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9629,
+        "security": 1.0
+      },
+      "created": "2022-01-12",
+      "dependents": 81,
+      "description": "A high-level idiomatic Rust wrapper around Pdfium, the C++ PDF library used by the Google Chromium project.",
+      "downloads": 4159968,
+      "edition": "2021",
+      "keywords": [
+        "pdf",
+        "pdfium"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "pdfium-render",
+      "owners": 1,
+      "recent_downloads": 2121158,
+      "releases_365d": 7,
+      "repository": "https://github.com/ajrcarey/pdfium-render",
+      "score": 74.34,
+      "version": "0.9.5",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.6472,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9858,
+        "security": 1.0
+      },
+      "created": "2020-08-11",
+      "dependents": 56,
+      "description": "The Rerun Rust SDK: log images, point clouds, etc, and visualize them effortlessly",
+      "downloads": 2503303,
+      "edition": "2024",
+      "keywords": [
+        "mesh",
+        "plotting",
+        "point-cloud",
+        "robotics",
+        "visualization"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "rerun",
+      "owners": 2,
+      "recent_downloads": 648494,
+      "releases_365d": 83,
+      "repository": "https://github.com/rerun-io/rerun",
+      "score": 73.49,
+      "version": "0.43.2",
+      "versions": 277
+    },
+    {
+      "categories": [
+        "text-processing",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.565,
+        "downloads": 0.8014,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.8647,
+        "security": 1.0
+      },
+      "created": "2020-03-23",
+      "dependents": 812,
+      "description": "An easy to use library for pretty print tables of Rust `struct`s and `enum`s.",
+      "downloads": 52099905,
+      "edition": "2018",
+      "keywords": [
+        "format",
+        "pretty-table",
+        "print",
+        "table",
+        "terminal"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT",
+      "name": "tabled",
+      "owners": 1,
+      "recent_downloads": 15718392,
+      "releases_365d": 2,
+      "repository": "https://github.com/zhiburt/tabled",
+      "score": 72.13,
+      "version": "0.22.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::profiling",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3532,
+        "downloads": 0.8037,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7882,
+        "security": 1.0
+      },
+      "created": "2019-01-27",
+      "dependents": 65,
+      "description": "Rust port of the FlameGraph performance profiling tool suite",
+      "downloads": 66357533,
+      "edition": "2021",
+      "keywords": [
+        "flamegraph",
+        "perf",
+        "profiling"
+      ],
+      "last_release": "2026-07-18",
+      "license": "CDDL-1.0",
+      "msrv": "1.71.0",
+      "name": "inferno",
+      "owners": 1,
+      "recent_downloads": 16468457,
+      "releases_365d": 4,
+      "repository": "https://github.com/jonhoo/inferno.git",
+      "score": 71.25,
+      "version": "0.12.8",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.7008,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2019-08-05",
+      "dependents": 6,
+      "description": "Skia Bindings for Rust",
+      "downloads": 5424223,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "skia-bindings",
+      "owners": 2,
+      "recent_downloads": 1963682,
+      "releases_365d": 11,
+      "repository": "https://github.com/rust-skia/rust-skia",
+      "score": 70.14,
+      "version": "0.157.0",
+      "versions": 101
+    },
+    {
+      "categories": [
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.7151,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.946,
+        "security": 1.0
+      },
+      "created": "2020-01-14",
+      "dependents": 10,
+      "description": "Create graphs of crates gathered from cargo metadata",
+      "downloads": 8280434,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "graph",
+        "metadata"
+      ],
+      "last_release": "2026-10-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "krates",
+      "owners": 1,
+      "recent_downloads": 2641014,
+      "releases_365d": 5,
+      "repository": "https://github.com/EmbarkStudios/krates",
+      "score": 70.12,
+      "version": "0.22.0",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3347,
+        "downloads": 0.6277,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8667,
+        "security": 1.0
+      },
+      "created": "2015-10-27",
+      "dependents": 52,
+      "description": "Count your code, quickly.",
+      "downloads": 1820153,
+      "edition": "2021",
+      "keywords": [
+        "cli",
+        "cloc",
+        "lines",
+        "statistics",
+        "utility"
+      ],
+      "last_release": "2026-09-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "tokei",
+      "owners": 1,
+      "recent_downloads": 432864,
+      "releases_365d": 3,
+      "repository": "https://github.com/XAMPPRocky/tokei.git",
+      "score": 68.56,
+      "version": "15.0.0",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.352,
+        "downloads": 0.8546,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.5848,
+        "security": 1.0
+      },
+      "created": "2021-10-07",
+      "dependents": 64,
+      "description": "Visualize tree-like data on the command-line",
+      "downloads": 229619830,
+      "edition": "2021",
+      "keywords": [
+        "cli",
+        "dag",
+        "tree"
+      ],
+      "last_release": "2026-02-11",
+      "license": "MIT",
+      "msrv": "1.74",
+      "name": "termtree",
+      "owners": 2,
+      "recent_downloads": 47215535,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-cli/termtree",
+      "score": 68.44,
+      "version": "1.0.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.6064,
+        "license": 1.0,
+        "maintenance": 0.7409,
+        "msrv": 1.0,
+        "recency": 0.9855,
+        "security": 1.0
+      },
+      "created": "2026-02-23",
+      "dependents": 29,
+      "description": "Parity-focused, headless Rust implementation of Mermaid for parsing, layout, and rendering.",
+      "downloads": 320249,
+      "edition": "2024",
+      "keywords": [
+        "diagrams",
+        "headless",
+        "mermaid",
+        "parser",
+        "svg"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "merman",
+      "owners": 1,
+      "recent_downloads": 278857,
+      "releases_365d": 31,
+      "repository": "https://github.com/Latias94/merman",
+      "score": 68.23,
+      "version": "0.10.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6528,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9857,
+        "security": 1.0
+      },
+      "created": "2023-02-12",
+      "dependents": 6,
+      "description": "Rerun logging SDK",
+      "downloads": 2794767,
+      "edition": "2024",
+      "keywords": [
+        "mesh",
+        "plotting",
+        "point-cloud",
+        "robotics",
+        "visualization"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "re_sdk",
+      "owners": 1,
+      "recent_downloads": 727734,
+      "releases_365d": 88,
+      "repository": "https://github.com/rerun-io/rerun",
+      "score": 68.21,
+      "version": "0.43.2",
+      "versions": 308
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.608,
+        "license": 1.0,
+        "maintenance": 0.7409,
+        "msrv": 1.0,
+        "recency": 0.9855,
+        "security": 1.0
+      },
+      "created": "2026-02-23",
+      "dependents": 9,
+      "description": "Mermaid parser + semantic model (headless; parity-focused).",
+      "downloads": 339043,
+      "edition": "2024",
+      "keywords": [
+        "ast",
+        "diagrams",
+        "mermaid",
+        "parser"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "merman-core",
+      "owners": 1,
+      "recent_downloads": 287883,
+      "releases_365d": 31,
+      "repository": "https://github.com/Latias94/merman",
+      "score": 65.95,
+      "version": "0.10.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "graphics",
+        "no-std",
+        "parser-implementations",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3452,
+        "downloads": 0.6032,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9034,
+        "security": 1.0
+      },
+      "created": "2020-12-23",
+      "dependents": 59,
+      "description": "Color scales library for data visualization, charts, games, generative art and others.",
+      "downloads": 1724259,
+      "edition": "2024",
+      "keywords": [
+        "color",
+        "color-scales",
+        "colormap",
+        "gradient",
+        "visualization"
+      ],
+      "last_release": "2026-09-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "colorgrad",
+      "owners": 1,
+      "recent_downloads": 260934,
+      "releases_365d": 1,
+      "repository": "https://github.com/mazznoer/colorgrad-rs",
+      "score": 65.76,
+      "version": "0.9.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins",
+        "development-tools::profiling",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5202,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9653,
+        "security": 1.0
+      },
+      "created": "2019-03-07",
+      "dependents": 3,
+      "description": "A simple cargo subcommand for generating flamegraphs, using inferno under the hood",
+      "downloads": 1035918,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "cargo-subcommand",
+        "flamegraph",
+        "perf",
+        "profiling"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "flamegraph",
+      "owners": 3,
+      "recent_downloads": 46932,
+      "releases_365d": 5,
+      "repository": "https://github.com/flamegraph-rs/flamegraph",
+      "score": 65.41,
+      "version": "0.6.15",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "text-processing",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.5162,
+        "license": 1.0,
+        "maintenance": 0.7262,
+        "msrv": 1.0,
+        "recency": 0.9712,
+        "security": 1.0
+      },
+      "created": "2026-04-17",
+      "dependents": 21,
+      "description": "Render Mermaid diagrams as Unicode box-drawing text — no browser, no image protocols, pure Rust",
+      "downloads": 97583,
+      "edition": "2024",
+      "keywords": [
+        "diagram",
+        "flowchart",
+        "mermaid",
+        "terminal",
+        "unicode"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "mermaid-text",
+      "owners": 1,
+      "recent_downloads": 43199,
+      "releases_365d": 82,
+      "repository": "https://github.com/leboiko/markdown-reader/tree/master/crates/mermaid-text",
+      "score": 64.88,
+      "version": "0.58.0",
+      "versions": 82
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "graphics",
+        "gui",
+        "rendering",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.4806,
+        "license": 1.0,
+        "maintenance": 0.7702,
+        "msrv": 1.0,
+        "recency": 0.9842,
+        "security": 1.0
+      },
+      "created": "2025-11-08",
+      "dependents": 19,
+      "description": "A customizable pie chart widget for Ratatui TUI applications",
+      "downloads": 30102,
+      "edition": "2024",
+      "keywords": [
+        "piechart",
+        "ratatui",
+        "terminal",
+        "tui",
+        "widget"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tui-piechart",
+      "owners": 1,
+      "recent_downloads": 20664,
+      "releases_365d": 20,
+      "repository": "https://github.com/sorinirimies/tui-piechart",
+      "score": 64.65,
+      "version": "1.4.4",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "gui",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5279,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.982,
+        "security": 1.0
+      },
+      "created": "2023-09-28",
+      "dependents": 4,
+      "description": "An interactive JSON tree visualiser for egui, with search and highlight functionality.",
+      "downloads": 323802,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gui",
+        "json",
+        "ui",
+        "widget"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui_json_tree",
+      "owners": 1,
+      "recent_downloads": 54964,
+      "releases_365d": 4,
+      "repository": "https://github.com/dmackdev/egui_json_tree",
+      "score": 64.32,
+      "version": "0.18.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.6059,
+        "license": 1.0,
+        "maintenance": 0.7409,
+        "msrv": 1.0,
+        "recency": 0.9855,
+        "security": 1.0
+      },
+      "created": "2026-02-23",
+      "dependents": 3,
+      "description": "Dagre-compatible graph layout algorithms (port of dagrejs/dagre).",
+      "downloads": 315855,
+      "edition": "2024",
+      "keywords": [
+        "dagre",
+        "diagrams",
+        "graph",
+        "layout"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "dugong",
+      "owners": 1,
+      "recent_downloads": 275990,
+      "releases_365d": 31,
+      "repository": "https://github.com/Latias94/merman",
+      "score": 63.97,
+      "version": "0.10.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.6051,
+        "license": 1.0,
+        "maintenance": 0.7409,
+        "msrv": 1.0,
+        "recency": 0.9855,
+        "security": 1.0
+      },
+      "created": "2026-02-23",
+      "dependents": 3,
+      "description": "Headless layout + SVG renderer for Mermaid (parity-focused; upstream SVG goldens).",
+      "downloads": 310540,
+      "edition": "2024",
+      "keywords": [
+        "diagrams",
+        "headless",
+        "layout",
+        "mermaid",
+        "svg"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "merman-render",
+      "owners": 1,
+      "recent_downloads": 271214,
+      "releases_365d": 31,
+      "repository": "https://github.com/Latias94/merman",
+      "score": 63.94,
+      "version": "0.10.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "graphics",
+        "science",
+        "visualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.5198,
+        "license": 1.0,
+        "maintenance": 0.7289,
+        "msrv": 1.0,
+        "recency": 0.9965,
+        "security": 1.0
+      },
+      "created": "2026-04-07",
+      "dependents": 9,
+      "description": "SIMD/GPU/WASM-accelerated visualization library for data science and ML",
+      "downloads": 57658,
+      "edition": "2021",
+      "keywords": [
+        "data-science",
+        "gpu",
+        "simd",
+        "visualization",
+        "wasm"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.75",
+      "name": "aprender-viz",
+      "owners": 1,
+      "recent_downloads": 46489,
+      "releases_365d": 37,
+      "repository": "https://github.com/paiml/aprender",
+      "score": 63.73,
+      "version": "0.75.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "game-development",
+        "gui",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.5929,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.9368,
+        "security": 1.0
+      },
+      "created": "2021-01-18",
+      "dependents": 51,
+      "description": "Inspector plugin for the bevy game engine",
+      "downloads": 1624013,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "editor",
+        "egui",
+        "inspector",
+        "reflect"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT OR Apache-2.0",
+      "name": "bevy-inspector-egui",
+      "owners": 1,
+      "recent_downloads": 210962,
+      "releases_365d": 3,
+      "repository": "https://github.com/jakobhellermann/bevy-inspector-egui/",
+      "score": 63.7,
+      "version": "0.38.0",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.8845,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.5769,
+        "security": 1.0
+      },
+      "created": "2016-02-26",
+      "dependents": 3,
+      "description": "Criterion's plotting library",
+      "downloads": 334079045,
+      "edition": "2021",
+      "keywords": [
+        "criterion",
+        "gnuplot",
+        "plotting"
+      ],
+      "last_release": "2026-02-04",
+      "license": "Apache-2.0 OR MIT",
+      "name": "criterion-plot",
+      "owners": 5,
+      "recent_downloads": 87613112,
+      "releases_365d": 4,
+      "repository": "https://github.com/criterion-rs/criterion.rs",
+      "score": 63.69,
+      "version": "0.8.2",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5774,
+        "license": 1.0,
+        "maintenance": 0.7128,
+        "msrv": 1.0,
+        "recency": 0.9855,
+        "security": 1.0
+      },
+      "created": "2026-06-05",
+      "dependents": 5,
+      "description": "Terminal-friendly ASCII and Unicode renderer for Mermaid typed models.",
+      "downloads": 160839,
+      "edition": "2024",
+      "keywords": [
+        "ascii",
+        "diagrams",
+        "headless",
+        "mermaid",
+        "unicode"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "merman-ascii",
+      "owners": 1,
+      "recent_downloads": 153176,
+      "releases_365d": 19,
+      "repository": "https://github.com/Latias94/merman",
+      "score": 63.69,
+      "version": "0.10.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "graphics",
+        "science",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.5471,
+        "license": 1.0,
+        "maintenance": 0.7394,
+        "msrv": 1.0,
+        "recency": 0.9324,
+        "security": 1.0
+      },
+      "created": "2026-02-28",
+      "dependents": 9,
+      "description": "Scientific plotting library in Rust with various backends.",
+      "downloads": 94789,
+      "edition": "2021",
+      "keywords": [
+        "bioinformatics",
+        "plotting",
+        "science",
+        "svg",
+        "visualization"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "kuva",
+      "owners": 1,
+      "recent_downloads": 81794,
+      "releases_365d": 14,
+      "repository": "https://github.com/Psy-Fer/kuva",
+      "score": 63.61,
+      "version": "0.6.0",
+      "versions": 14
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,957 @@
+{
+  "category": {
+    "crates": 2498,
+    "description": "Real-time or offline rendering of 2D or 3D graphics, usually with the help of a graphics card.",
+    "name": "Rendering",
+    "slug": "rendering"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.6367,
+        "downloads": 0.7061,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.957,
+        "security": 1.0
+      },
+      "created": "2020-01-18",
+      "dependents": 1902,
+      "description": "A refreshingly simple data-driven game engine and app framework",
+      "downloads": 9095023,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "engine",
+        "game",
+        "gamedev",
+        "graphics"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy",
+      "owners": 2,
+      "recent_downloads": 2189391,
+      "releases_365d": 13,
+      "repository": "https://github.com/bevyengine/bevy",
+      "score": 81.92,
+      "version": "0.20.1",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.3021,
+        "downloads": 0.7819,
+        "license": 1.0,
+        "maintenance": 0.9535,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2025-05-09",
+      "dependents": 35,
+      "description": "A CPU-based renderer for Vello, optimized for SIMD and multithreaded execution.",
+      "downloads": 13136459,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "vector-graphics"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "vello_cpu",
+      "owners": 5,
+      "recent_downloads": 10495016,
+      "releases_365d": 9,
+      "repository": "https://github.com/linebender/vello",
+      "score": 76.14,
+      "version": "0.4.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.7945,
+        "license": 1.0,
+        "maintenance": 0.9535,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2025-05-09",
+      "dependents": 25,
+      "description": "Core data structures and utilities shared across the Vello rendering, including geometry processing and tiling logic.",
+      "downloads": 16526327,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "vector-graphics"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "vello_common",
+      "owners": 5,
+      "recent_downloads": 13623407,
+      "releases_365d": 9,
+      "repository": "https://github.com/linebender/vello",
+      "score": 75.77,
+      "version": "0.4.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.3899,
+        "downloads": 0.6346,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2024-03-04",
+      "dependents": 101,
+      "description": "A GPU compute-centric 2D renderer.",
+      "downloads": 1240262,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "vector-graphics"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "vello",
+      "owners": 7,
+      "recent_downloads": 499769,
+      "releases_365d": 6,
+      "repository": "https://github.com/linebender/vello",
+      "score": 75.35,
+      "version": "0.12.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "game-engines",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.4617,
+        "downloads": 0.6575,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 238,
+      "description": "SDL2 bindings for Rust",
+      "downloads": 5812050,
+      "edition": "2015",
+      "keywords": [
+        "api",
+        "engine",
+        "graphics",
+        "sdl",
+        "windowing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "sdl2",
+      "owners": 3,
+      "recent_downloads": 801142,
+      "releases_365d": 2,
+      "repository": "https://github.com/Rust-SDL2/rust-sdl2",
+      "score": 74.91,
+      "version": "0.39.0",
+      "versions": 100
+    },
+    {
+      "categories": [
+        "algorithms",
+        "command-line-interface",
+        "graphics",
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.8111,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9337,
+        "security": 1.0
+      },
+      "created": "2024-10-04",
+      "dependents": 9,
+      "description": "A rust layout solver for GUIs, based on the Cassowary algorithm.\nA fork of the unmaintained cassowary-rs crate with improvments and bug fixes.\nKasuari is the indonesian name for the cassowary bird.\n",
+      "downloads": 35351958,
+      "edition": "2021",
+      "keywords": [
+        "cassowary",
+        "layout",
+        "solver",
+        "tui"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "kasuari",
+      "owners": 4,
+      "recent_downloads": 19208235,
+      "releases_365d": 3,
+      "repository": "https://github.com/ratatui/kasuari",
+      "score": 72.64,
+      "version": "0.4.13",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "game-development",
+        "graphics",
+        "gui",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.4274,
+        "downloads": 0.7999,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.5222,
+        "security": 1.0
+      },
+      "created": "2022-01-20",
+      "dependents": 158,
+      "description": "Cross-platform software buffer",
+      "downloads": 35768311,
+      "edition": "2021",
+      "keywords": [
+        "framebuffer",
+        "windowing"
+      ],
+      "last_release": "2025-12-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "softbuffer",
+      "owners": 7,
+      "recent_downloads": 15240279,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-windowing/softbuffer",
+      "score": 70.51,
+      "version": "0.4.8",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6368,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2024-03-04",
+      "dependents": 6,
+      "description": "Vello types that represent the data that needs to be rendered.",
+      "downloads": 1263142,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "vector-graphics"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "vello_encoding",
+      "owners": 7,
+      "recent_downloads": 522398,
+      "releases_365d": 6,
+      "repository": "https://github.com/linebender/vello",
+      "score": 69.76,
+      "version": "0.12.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.3423,
+        "downloads": 0.7126,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8884,
+        "security": 1.0
+      },
+      "created": "2022-03-06",
+      "dependents": 57,
+      "description": "Provides a mechanism to lay out data into GPU buffers ensuring WGSL's memory layout requirements are met",
+      "downloads": 10025404,
+      "edition": "2021",
+      "keywords": [
+        "wgpu",
+        "wgsl"
+      ],
+      "last_release": "2026-09-19",
+      "license": "MIT-0",
+      "msrv": "1.77",
+      "name": "encase",
+      "owners": 1,
+      "recent_downloads": 2507069,
+      "releases_365d": 2,
+      "repository": "https://github.com/teoxoy/encase",
+      "score": 69.7,
+      "version": "0.13.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "game-development",
+        "multimedia",
+        "no-std",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.5938,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9698,
+        "security": 1.0
+      },
+      "created": "2023-01-23",
+      "dependents": 18,
+      "description": "Low level Rust bindings for SDL 3",
+      "downloads": 434999,
+      "edition": "2024",
+      "keywords": [
+        "gamedev",
+        "graphics",
+        "multimedia",
+        "sdl",
+        "windowing"
+      ],
+      "last_release": "2026-11-04",
+      "license": "Zlib",
+      "msrv": "1.85",
+      "name": "sdl3-sys",
+      "owners": 2,
+      "recent_downloads": 214915,
+      "releases_365d": 16,
+      "repository": "https://codeberg.org/maia/sdl3-sys-rs",
+      "score": 69.6,
+      "version": "0.7.3+SDL-3.4.20",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.3506,
+        "downloads": 0.5989,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7824,
+        "security": 1.0
+      },
+      "created": "2019-11-04",
+      "dependents": 63,
+      "description": "A tiny library providing a GPU-powered pixel frame buffer.",
+      "downloads": 854066,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "framebuffer",
+        "gpu",
+        "pixels"
+      ],
+      "last_release": "2026-07-14",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "pixels",
+      "owners": 1,
+      "recent_downloads": 238600,
+      "releases_365d": 4,
+      "repository": "https://github.com/parasyte/pixels",
+      "score": 68.47,
+      "version": "0.17.2",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.5374,
+        "downloads": 0.8348,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 0.0,
+        "recency": 0.5752,
+        "security": 1.0
+      },
+      "created": "2020-07-04",
+      "dependents": 585,
+      "description": "A tiny Skia subset ported to Rust.",
+      "downloads": 74332105,
+      "edition": "2021",
+      "keywords": [
+        "2d",
+        "rendering",
+        "skia"
+      ],
+      "last_release": "2026-02-02",
+      "license": "BSD-3-Clause",
+      "name": "tiny-skia",
+      "owners": 3,
+      "recent_downloads": 31367963,
+      "releases_365d": 1,
+      "repository": "https://github.com/linebender/tiny-skia",
+      "score": 68.43,
+      "version": "0.12.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.6355,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2024-06-08",
+      "dependents": 2,
+      "description": "Vello infrastructure to preprocess and cross-compile shaders at compile time.",
+      "downloads": 1211317,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "vector-graphics"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89",
+      "name": "vello_shaders",
+      "owners": 7,
+      "recent_downloads": 508657,
+      "releases_365d": 6,
+      "repository": "https://github.com/linebender/vello",
+      "score": 67.94,
+      "version": "0.12.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "rendering",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.6295,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9362,
+        "security": 1.0
+      },
+      "created": "2018-10-19",
+      "dependents": 28,
+      "description": "Rust ffi bindings and idiomatic wrapper for mesh optimizer",
+      "downloads": 907984,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "cache",
+        "mesh",
+        "optimize",
+        "rendering"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "meshopt",
+      "owners": 4,
+      "recent_downloads": 449396,
+      "releases_365d": 1,
+      "repository": "https://github.com/gwihlidal/meshopt-rs",
+      "score": 67.38,
+      "version": "0.7.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.7053,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.957,
+        "security": 1.0
+      },
+      "created": "2020-12-19",
+      "dependents": 9,
+      "description": "An internal Bevy crate used to facilitate optional dynamic linking via the 'dynamic_linking' feature",
+      "downloads": 8903789,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "engine",
+        "game",
+        "gamedev",
+        "graphics"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "name": "bevy_internal",
+      "owners": 2,
+      "recent_downloads": 2153264,
+      "releases_365d": 13,
+      "repository": "https://github.com/bevyengine/bevy",
+      "score": 65.84,
+      "version": "0.20.1",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6742,
+        "license": 0.5,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2022-12-16",
+      "dependents": 9,
+      "description": "Skia based renderer for Slint",
+      "downloads": 2571649,
+      "edition": "2024",
+      "keywords": [
+        "gui",
+        "opengl",
+        "skia",
+        "ui",
+        "vulkan"
+      ],
+      "last_release": "2026-11-16",
+      "license": "GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0",
+      "msrv": "1.95",
+      "name": "i-slint-renderer-skia",
+      "owners": 2,
+      "recent_downloads": 1131721,
+      "releases_365d": 9,
+      "repository": "https://github.com/slint-ui/slint",
+      "score": 65.57,
+      "version": "1.19.0",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.5823,
+        "license": 1.0,
+        "maintenance": 0.7256,
+        "msrv": 1.0,
+        "recency": 0.9959,
+        "security": 1.0
+      },
+      "created": "2026-04-20",
+      "dependents": 8,
+      "description": "Display-list IR, ICC colour management, and graphics types — a stable target for custom PostScript and PDF renderers",
+      "downloads": 232331,
+      "edition": "2024",
+      "keywords": [
+        "cmyk",
+        "color",
+        "display-list",
+        "graphics",
+        "icc"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.92",
+      "name": "stet-graphics",
+      "owners": 1,
+      "recent_downloads": 169357,
+      "releases_365d": 21,
+      "repository": "https://github.com/AndyCappDev/stet",
+      "score": 65.01,
+      "version": "0.11.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5153,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2024-01-02",
+      "dependents": 6,
+      "description": "Rust native USD library",
+      "downloads": 60831,
+      "edition": "2024",
+      "keywords": [
+        "pxr",
+        "usd",
+        "usda",
+        "usdc",
+        "usdz"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.96",
+      "name": "openusd",
+      "owners": 1,
+      "recent_downloads": 42411,
+      "releases_365d": 8,
+      "repository": "https://github.com/mxpv/openusd",
+      "score": 64.98,
+      "version": "0.9.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "game-engines",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.3191,
+        "downloads": 0.5685,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9779,
+        "security": 1.0
+      },
+      "created": "2023-04-14",
+      "dependents": 43,
+      "description": "Bindings to SDL3, a cross-platform library to abstract the platform-specific details for building applications.",
+      "downloads": 314131,
+      "edition": "2021",
+      "keywords": [
+        "audio",
+        "cross-platform",
+        "engine",
+        "graphics",
+        "input"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT",
+      "name": "sdl3",
+      "owners": 1,
+      "recent_downloads": 127265,
+      "releases_365d": 14,
+      "repository": "https://github.com/vhspace/sdl3-rs",
+      "score": 64.86,
+      "version": "0.22.1",
+      "versions": 93
+    },
+    {
+      "categories": [
+        "gui",
+        "rendering",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6683,
+        "license": 0.5,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2023-04-03",
+      "dependents": 6,
+      "description": "FemtoVG based renderer for Slint",
+      "downloads": 2251889,
+      "edition": "2024",
+      "keywords": [
+        "femtovg",
+        "gui",
+        "opengl",
+        "ui",
+        "wgpu"
+      ],
+      "last_release": "2026-11-16",
+      "license": "GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0",
+      "msrv": "1.95",
+      "name": "i-slint-renderer-femtovg",
+      "owners": 2,
+      "recent_downloads": 1003242,
+      "releases_365d": 9,
+      "repository": "https://github.com/slint-ui/slint",
+      "score": 64.68,
+      "version": "1.19.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "graphics",
+        "gui",
+        "rendering",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.4806,
+        "license": 1.0,
+        "maintenance": 0.7702,
+        "msrv": 1.0,
+        "recency": 0.9842,
+        "security": 1.0
+      },
+      "created": "2025-11-08",
+      "dependents": 19,
+      "description": "A customizable pie chart widget for Ratatui TUI applications",
+      "downloads": 30102,
+      "edition": "2024",
+      "keywords": [
+        "piechart",
+        "ratatui",
+        "terminal",
+        "tui",
+        "widget"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tui-piechart",
+      "owners": 1,
+      "recent_downloads": 20664,
+      "releases_365d": 20,
+      "repository": "https://github.com/sorinirimies/tui-piechart",
+      "score": 64.65,
+      "version": "1.4.4",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "game-engines",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.6583,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 0.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2015-01-05",
+      "dependents": 18,
+      "description": "Raw SDL2 bindings for Rust, used internally rust-sdl2",
+      "downloads": 5605277,
+      "edition": "2018",
+      "keywords": [
+        "ffi",
+        "graphics",
+        "sdl",
+        "windowing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT AND Zlib",
+      "name": "sdl2-sys",
+      "owners": 3,
+      "recent_downloads": 815670,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-sdl2/rust-sdl2",
+      "score": 64.59,
+      "version": "0.39.0",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5806,
+        "license": 1.0,
+        "maintenance": 0.8109,
+        "msrv": 1.0,
+        "recency": 0.9991,
+        "security": 1.0
+      },
+      "created": "2025-06-12",
+      "dependents": 3,
+      "description": "Render images, animations, and SVG from HTML, CSS, or node trees. No headless browser.",
+      "downloads": 216495,
+      "edition": "2024",
+      "keywords": [
+        "css",
+        "html-to-image",
+        "image",
+        "og-image",
+        "svg"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "takumi",
+      "owners": 1,
+      "recent_downloads": 163451,
+      "releases_365d": 284,
+      "repository": "https://github.com/kane50613/takumi",
+      "score": 64.59,
+      "version": "2.22.1",
+      "versions": 403
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "data-structures",
+        "parsing",
+        "rendering",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.4885,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9861,
+        "security": 1.0
+      },
+      "created": "2018-10-02",
+      "dependents": 27,
+      "description": "Library for OWL Ontologies",
+      "downloads": 88129,
+      "edition": "2024",
+      "keywords": [
+        "command",
+        "ontology",
+        "owl",
+        "xml"
+      ],
+      "last_release": "2026-11-13",
+      "license": "LGPL-3.0",
+      "msrv": "1.88",
+      "name": "horned-owl",
+      "owners": 1,
+      "recent_downloads": 24377,
+      "releases_365d": 7,
+      "repository": "https://github.com/phillord/horned-owl",
+      "score": 64.53,
+      "version": "5.0.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4834,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8735,
+        "security": 1.0
+      },
+      "created": "2024-03-26",
+      "dependents": 6,
+      "description": "A Lottie integration for vello.",
+      "downloads": 41046,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "animation",
+        "lottie",
+        "vector-graphics",
+        "vello"
+      ],
+      "last_release": "2026-09-10",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88",
+      "name": "velato",
+      "owners": 7,
+      "recent_downloads": 21912,
+      "releases_365d": 6,
+      "repository": "https://github.com/linebender/velato",
+      "score": 64.29,
+      "version": "0.12.0",
+      "versions": 15
+    }
+  ],
+  "score_version": 1
+}

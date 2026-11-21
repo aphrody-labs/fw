@@ -1,0 +1,886 @@
+{
+  "category": {
+    "crates": 6792,
+    "description": "Crates to help you create a graphical user interface.",
+    "name": "GUI",
+    "slug": "gui"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.6093,
+        "downloads": 0.8081,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9486,
+        "security": 1.0
+      },
+      "created": "2016-03-26",
+      "dependents": 1374,
+      "description": "Cross-platform window creation library.",
+      "downloads": 68202330,
+      "edition": "2021",
+      "keywords": [
+        "windowing"
+      ],
+      "last_release": "2026-10-24",
+      "license": "Apache-2.0",
+      "msrv": "1.70.0",
+      "name": "winit",
+      "owners": 5,
+      "recent_downloads": 18066731,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-windowing/winit",
+      "score": 83.16,
+      "version": "0.30.13",
+      "versions": 121
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.6123,
+        "downloads": 0.7824,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2020-05-30",
+      "dependents": 1425,
+      "description": "An easy-to-use immediate mode GUI that runs on both web and native",
+      "downloads": 32618231,
+      "edition": "2024",
+      "keywords": [
+        "gamedev",
+        "gui",
+        "imgui",
+        "immediate",
+        "portable"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui",
+      "owners": 2,
+      "recent_downloads": 10619380,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui",
+      "score": 82.87,
+      "version": "0.37.0",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "gui",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.566,
+        "downloads": 0.8122,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2019-11-27",
+      "dependents": 822,
+      "description": "Make tiny, secure apps for all desktop platforms with Tauri",
+      "downloads": 46568611,
+      "edition": "2024",
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "tauri",
+      "owners": 1,
+      "recent_downloads": 19664023,
+      "releases_365d": 28,
+      "repository": "https://github.com/tauri-apps/tauri",
+      "score": 82.38,
+      "version": "2.12.7",
+      "versions": 236
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.6367,
+        "downloads": 0.7061,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.957,
+        "security": 1.0
+      },
+      "created": "2020-01-18",
+      "dependents": 1902,
+      "description": "A refreshingly simple data-driven game engine and app framework",
+      "downloads": 9095023,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "engine",
+        "game",
+        "gamedev",
+        "graphics"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy",
+      "owners": 2,
+      "recent_downloads": 2189391,
+      "releases_365d": 13,
+      "repository": "https://github.com/bevyengine/bevy",
+      "score": 81.92,
+      "version": "0.20.1",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.58,
+        "downloads": 0.7737,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-01-04",
+      "dependents": 971,
+      "description": "egui framework - write GUI apps that compiles to web and/or natively",
+      "downloads": 25825098,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gamedev",
+        "gui"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "eframe",
+      "owners": 2,
+      "recent_downloads": 8864448,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/eframe",
+      "score": 81.84,
+      "version": "0.37.0",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "gui",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5314,
+        "downloads": 0.8049,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2024-02-03",
+      "dependents": 545,
+      "description": "Build script and runtime Tauri plugin definitions",
+      "downloads": 38086313,
+      "edition": "2024",
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "tauri-plugin",
+      "owners": 1,
+      "recent_downloads": 16891229,
+      "releases_365d": 17,
+      "repository": "https://github.com/tauri-apps/tauri",
+      "score": 81.33,
+      "version": "2.7.4",
+      "versions": 65
+    },
+    {
+      "categories": [
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4772,
+        "downloads": 0.7775,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9511,
+        "security": 1.0
+      },
+      "created": "2022-06-10",
+      "dependents": 286,
+      "description": "A flexible UI layout library ",
+      "downloads": 21182183,
+      "edition": "2021",
+      "keywords": [
+        "cross-platform",
+        "css-grid",
+        "flexbox",
+        "grid",
+        "layout"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "taffy",
+      "owners": 3,
+      "recent_downloads": 9577700,
+      "releases_365d": 14,
+      "repository": "https://github.com/DioxusLabs/taffy",
+      "score": 80.63,
+      "version": "0.15.1",
+      "versions": 65
+    },
+    {
+      "categories": [
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4967,
+        "downloads": 0.7933,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9515,
+        "security": 1.0
+      },
+      "created": "2021-12-21",
+      "dependents": 361,
+      "description": "UI accessibility infrastructure across platforms",
+      "downloads": 37060241,
+      "edition": "2024",
+      "keywords": [
+        "accessibility",
+        "gui",
+        "ui"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "accesskit",
+      "owners": 2,
+      "recent_downloads": 13287130,
+      "releases_365d": 7,
+      "repository": "https://github.com/AccessKit/accesskit",
+      "score": 80.52,
+      "version": "0.25.2",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4142,
+        "downloads": 0.8152,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9955,
+        "security": 1.0
+      },
+      "created": "2021-01-29",
+      "dependents": 135,
+      "description": "Cross-platform WebView rendering library",
+      "downloads": 50286210,
+      "edition": "2024",
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "wry",
+      "owners": 2,
+      "recent_downloads": 20915712,
+      "releases_365d": 14,
+      "repository": "https://github.com/tauri-apps/wry",
+      "score": 79.67,
+      "version": "0.57.3",
+      "versions": 157
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.5097,
+        "downloads": 0.8367,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7944,
+        "security": 1.0
+      },
+      "created": "2015-04-29",
+      "dependents": 421,
+      "description": "Bindings to the standard C implementation of the wayland protocol, client side.",
+      "downloads": 93151722,
+      "edition": "2021",
+      "keywords": [
+        "client",
+        "wayland"
+      ],
+      "last_release": "2026-07-22",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "wayland-client",
+      "owners": 2,
+      "recent_downloads": 32586562,
+      "releases_365d": 4,
+      "repository": "https://github.com/smithay/wayland-rs",
+      "score": 79.57,
+      "version": "0.31.15",
+      "versions": 178
+    },
+    {
+      "categories": [
+        "graphics",
+        "gui",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4142,
+        "downloads": 0.7359,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9837,
+        "security": 1.0
+      },
+      "created": "2024-05-01",
+      "dependents": 135,
+      "description": "Parley provides an API for implementing rich text layout.",
+      "downloads": 6493974,
+      "edition": "2024",
+      "keywords": [
+        "layout",
+        "text"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88",
+      "name": "parley",
+      "owners": 7,
+      "recent_downloads": 4059999,
+      "releases_365d": 8,
+      "repository": "https://github.com/linebender/parley",
+      "score": 78.51,
+      "version": "0.13.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "gui",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4043,
+        "downloads": 0.8128,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2021-04-14",
+      "dependents": 120,
+      "description": "build time code to pair with https://crates.io/crates/tauri",
+      "downloads": 46408947,
+      "edition": "2024",
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "tauri-build",
+      "owners": 1,
+      "recent_downloads": 19886617,
+      "releases_365d": 21,
+      "repository": "https://github.com/tauri-apps/tauri",
+      "score": 78.36,
+      "version": "2.7.6",
+      "versions": 130
+    },
+    {
+      "categories": [
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4008,
+        "downloads": 0.8145,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9959,
+        "security": 1.0
+      },
+      "created": "2021-04-30",
+      "dependents": 115,
+      "description": "Cross-platform window manager library.",
+      "downloads": 49291483,
+      "edition": "2021",
+      "keywords": [
+        "windowing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "tao",
+      "owners": 1,
+      "recent_downloads": 20610822,
+      "releases_365d": 13,
+      "repository": "https://github.com/tauri-apps/tao",
+      "score": 78.32,
+      "version": "0.37.3",
+      "versions": 128
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4861,
+        "downloads": 0.7266,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9332,
+        "security": 1.0
+      },
+      "created": "2022-02-22",
+      "dependents": 318,
+      "description": "Extra functionality and widgets for the egui GUI library",
+      "downloads": 14066518,
+      "edition": "2024",
+      "keywords": [
+        "gamedev",
+        "gui",
+        "imgui",
+        "immediate",
+        "portable"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui_extras",
+      "owners": 2,
+      "recent_downloads": 3345565,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui",
+      "score": 78.31,
+      "version": "0.37.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4902,
+        "downloads": 0.7059,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8893,
+        "security": 1.0
+      },
+      "created": "2019-07-25",
+      "dependents": 334,
+      "description": "Rust bindings of the GTK 4 library",
+      "downloads": 5797566,
+      "edition": "2024",
+      "keywords": [
+        "gnome",
+        "gtk",
+        "gtk-rs",
+        "gtk4",
+        "gui"
+      ],
+      "last_release": "2026-09-20",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "gtk4",
+      "owners": 4,
+      "recent_downloads": 2183049,
+      "releases_365d": 10,
+      "repository": "https://github.com/gtk-rs/gtk4-rs",
+      "score": 78.24,
+      "version": "0.11.5",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4289,
+        "downloads": 0.8337,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8299,
+        "security": 1.0
+      },
+      "created": "2022-01-01",
+      "dependents": 161,
+      "description": "Low-level bindings to the Wayland protocol",
+      "downloads": 71703988,
+      "edition": "2021",
+      "keywords": [
+        "wayland"
+      ],
+      "last_release": "2026-08-14",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "wayland-backend",
+      "owners": 2,
+      "recent_downloads": 30669894,
+      "releases_365d": 5,
+      "repository": "https://github.com/smithay/wayland-rs",
+      "score": 78.02,
+      "version": "0.3.17",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.433,
+        "downloads": 0.816,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9191,
+        "security": 1.0
+      },
+      "created": "2022-12-01",
+      "dependents": 169,
+      "description": "Create tray icons for desktop applications",
+      "downloads": 46077291,
+      "edition": "2021",
+      "last_release": "2026-10-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.90",
+      "name": "tray-icon",
+      "owners": 1,
+      "recent_downloads": 21256490,
+      "releases_365d": 13,
+      "repository": "https://github.com/tauri-apps/tray-icon",
+      "score": 78.01,
+      "version": "0.26.1",
+      "versions": 70
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4711,
+        "downloads": 0.8376,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7458,
+        "security": 1.0
+      },
+      "created": "2016-11-12",
+      "dependents": 266,
+      "description": "Generated API for the officials wayland protocol extensions",
+      "downloads": 99219015,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "extension",
+        "protocol",
+        "server",
+        "wayland"
+      ],
+      "last_release": "2026-06-19",
+      "license": "MIT",
+      "msrv": "1.86",
+      "name": "wayland-protocols",
+      "owners": 2,
+      "recent_downloads": 33185599,
+      "releases_365d": 4,
+      "repository": "https://github.com/smithay/wayland-rs",
+      "score": 77.9,
+      "version": "0.32.13",
+      "versions": 141
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4196,
+        "downloads": 0.7712,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-04-10",
+      "dependents": 144,
+      "description": "Bindings for using egui natively using the wgpu library",
+      "downloads": 18997445,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gamedev",
+        "gui",
+        "wgpu"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui-wgpu",
+      "owners": 2,
+      "recent_downloads": 8408972,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/egui-wgpu",
+      "score": 77.77,
+      "version": "0.37.0",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "game-development",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4001,
+        "downloads": 0.7767,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9331,
+        "security": 1.0
+      },
+      "created": "2021-04-05",
+      "dependents": 114,
+      "description": "Bindings for using egui with winit",
+      "downloads": 27863306,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gamedev",
+        "gui",
+        "winit"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "egui-winit",
+      "owners": 2,
+      "recent_downloads": 9426431,
+      "releases_365d": 10,
+      "repository": "https://github.com/emilk/egui/tree/main/crates/egui-winit",
+      "score": 77.41,
+      "version": "0.37.0",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.3993,
+        "downloads": 0.7724,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.997,
+        "security": 1.0
+      },
+      "created": "2020-09-14",
+      "dependents": 113,
+      "description": "XDG portals wrapper in Rust using zbus",
+      "downloads": 21747674,
+      "edition": "2024",
+      "keywords": [
+        "dbus",
+        "desktop",
+        "flatpak",
+        "portal",
+        "xdg"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "ashpd",
+      "owners": 1,
+      "recent_downloads": 8631006,
+      "releases_365d": 23,
+      "repository": "https://github.com/bilelmoussaoui/ashpd",
+      "score": 77.25,
+      "version": "0.14.1",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.3794,
+        "downloads": 0.7735,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9515,
+        "security": 1.0
+      },
+      "created": "2022-07-22",
+      "dependents": 89,
+      "description": "AccessKit UI accessibility infrastructure: winit adapter",
+      "downloads": 26011377,
+      "edition": "2024",
+      "keywords": [
+        "accessibility",
+        "gui",
+        "ui",
+        "winit"
+      ],
+      "last_release": "2026-10-25",
+      "license": "Apache-2.0",
+      "msrv": "1.87",
+      "name": "accesskit_winit",
+      "owners": 2,
+      "recent_downloads": 8829725,
+      "releases_365d": 12,
+      "repository": "https://github.com/AccessKit/accesskit",
+      "score": 77.09,
+      "version": "0.34.2",
+      "versions": 84
+    },
+    {
+      "categories": [
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.3775,
+        "downloads": 0.8213,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.921,
+        "security": 1.0
+      },
+      "created": "2022-05-07",
+      "dependents": 87,
+      "description": "Menu Utilities for Desktop Applications",
+      "downloads": 53743851,
+      "edition": "2021",
+      "keywords": [
+        "menu",
+        "windowing"
+      ],
+      "last_release": "2026-10-08",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "muda",
+      "owners": 1,
+      "recent_downloads": 23695168,
+      "releases_365d": 10,
+      "repository": "https://github.com/tauri-apps/muda",
+      "score": 76.78,
+      "version": "0.21.2",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "gui",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.8131,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2020-02-09",
+      "dependents": 29,
+      "description": "Utilities for Tauri",
+      "downloads": 47441657,
+      "edition": "2024",
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "tauri-utils",
+      "owners": 2,
+      "recent_downloads": 20017051,
+      "releases_365d": 17,
+      "repository": "https://github.com/tauri-apps/tauri",
+      "score": 76.42,
+      "version": "2.10.4",
+      "versions": 116
+    },
+    {
+      "categories": [
+        "gui",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.742,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.983,
+        "security": 1.0
+      },
+      "created": "2024-05-01",
+      "dependents": 46,
+      "description": "Font enumeration and fallback.",
+      "downloads": 7060338,
+      "edition": "2024",
+      "keywords": [
+        "font",
+        "text"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88",
+      "name": "fontique",
+      "owners": 7,
+      "recent_downloads": 4602028,
+      "releases_365d": 8,
+      "repository": "https://github.com/linebender/parley",
+      "score": 76.41,
+      "version": "0.13.0",
+      "versions": 14
+    }
+  ],
+  "score_version": 1
+}

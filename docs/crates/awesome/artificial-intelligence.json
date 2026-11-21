@@ -1,0 +1,950 @@
+{
+  "category": {
+    "crates": 407,
+    "description": "Crates for machine learning, deep learning, large language models, AI agents, and related tooling. Crates focused specifically on computer vision belong in the Computer vision category.",
+    "name": "Artificial intelligence",
+    "slug": "artificial-intelligence"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "artificial-intelligence",
+        "asynchronous",
+        "data-structures",
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.6837,
+        "license": 1.0,
+        "maintenance": 0.8641,
+        "msrv": 0.0,
+        "recency": 0.9803,
+        "security": 1.0
+      },
+      "created": "2026-03-31",
+      "dependents": 10,
+      "description": "Client library and tooling for the Hugging Face Xet data storage system.",
+      "downloads": 2195798,
+      "edition": "2024",
+      "keywords": [
+        "cloud-storage",
+        "datasets",
+        "deduplication",
+        "huggingface",
+        "large-files"
+      ],
+      "last_release": "2026-11-10",
+      "license": "Apache-2.0",
+      "name": "hf-xet",
+      "owners": 3,
+      "recent_downloads": 1377777,
+      "releases_365d": 11,
+      "repository": "https://github.com/huggingface/xet-core",
+      "score": 64.81,
+      "version": "1.8.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.6856,
+        "license": 1.0,
+        "maintenance": 0.8641,
+        "msrv": 0.0,
+        "recency": 0.9803,
+        "security": 1.0
+      },
+      "created": "2026-03-31",
+      "dependents": 7,
+      "description": "Core data structures including MerkleHash, metadata shards, and Xorb objects.",
+      "downloads": 2255252,
+      "edition": "2024",
+      "keywords": [
+        "huggingface"
+      ],
+      "last_release": "2026-11-10",
+      "license": "Apache-2.0",
+      "name": "xet-core-structures",
+      "owners": 3,
+      "recent_downloads": 1432280,
+      "releases_365d": 11,
+      "repository": "https://github.com/huggingface/xet-core",
+      "score": 64.19,
+      "version": "1.8.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.6856,
+        "license": 1.0,
+        "maintenance": 0.8641,
+        "msrv": 0.0,
+        "recency": 0.9803,
+        "security": 1.0
+      },
+      "created": "2026-03-31",
+      "dependents": 7,
+      "description": "Async runtime, configuration, logging, and utility infrastructure for the Hugging Face Xet client tools.",
+      "downloads": 2255575,
+      "edition": "2024",
+      "keywords": [
+        "huggingface"
+      ],
+      "last_release": "2026-11-10",
+      "license": "Apache-2.0",
+      "name": "xet-runtime",
+      "owners": 3,
+      "recent_downloads": 1432284,
+      "releases_365d": 11,
+      "repository": "https://github.com/huggingface/xet-core",
+      "score": 64.19,
+      "version": "1.8.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.6855,
+        "license": 1.0,
+        "maintenance": 0.8641,
+        "msrv": 0.0,
+        "recency": 0.9803,
+        "security": 1.0
+      },
+      "created": "2026-03-31",
+      "dependents": 4,
+      "description": "Client library for communicating with Hugging Face Xet storage servers.  Use through the hf-xet crate.",
+      "downloads": 2252908,
+      "edition": "2024",
+      "keywords": [
+        "huggingface"
+      ],
+      "last_release": "2026-11-10",
+      "license": "Apache-2.0",
+      "name": "xet-client",
+      "owners": 3,
+      "recent_downloads": 1430143,
+      "releases_365d": 11,
+      "repository": "https://github.com/huggingface/xet-core",
+      "score": 63.2,
+      "version": "1.8.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "data-structures",
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.6854,
+        "license": 1.0,
+        "maintenance": 0.8641,
+        "msrv": 0.0,
+        "recency": 0.9803,
+        "security": 1.0
+      },
+      "created": "2026-03-31",
+      "dependents": 3,
+      "description": "Data processing pipeline for chunking, deduplication, and file reconstruction; used in the Hugging Face Xet client tools.  Intended to be used through the API in the hf-xet package.",
+      "downloads": 2249565,
+      "edition": "2024",
+      "keywords": [
+        "huggingface"
+      ],
+      "last_release": "2026-11-10",
+      "license": "Apache-2.0",
+      "name": "xet-data",
+      "owners": 3,
+      "recent_downloads": 1428869,
+      "releases_365d": 11,
+      "repository": "https://github.com/huggingface/xet-core",
+      "score": 62.72,
+      "version": "1.8.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "asynchronous",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.4127,
+        "license": 1.0,
+        "maintenance": 0.7244,
+        "msrv": 1.0,
+        "recency": 0.9983,
+        "security": 1.0
+      },
+      "created": "2026-04-24",
+      "dependents": 12,
+      "description": "Core agent abstractions and execution primitives for the Bamboo agent framework",
+      "downloads": 10806,
+      "edition": "2021",
+      "keywords": [
+        "agent",
+        "ai",
+        "automation",
+        "llm",
+        "mcp"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "bamboo-agent-core",
+      "owners": 1,
+      "recent_downloads": 5080,
+      "releases_365d": 168,
+      "repository": "https://github.com/bigduu/Bamboo-agent",
+      "score": 61.56,
+      "version": "2026.11.33",
+      "versions": 168
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "artificial-intelligence",
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.4285,
+        "license": 1.0,
+        "maintenance": 0.6935,
+        "msrv": 1.0,
+        "recency": 0.9999,
+        "security": 1.0
+      },
+      "created": "2026-08-15",
+      "dependents": 8,
+      "description": "Unified multi-provider LLM types + streaming, Rust port of pi-ai",
+      "downloads": 7093,
+      "edition": "2021",
+      "keywords": [
+        "agent",
+        "ai",
+        "anthropic",
+        "llm",
+        "openai"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "rpi-ai",
+      "owners": 1,
+      "recent_downloads": 7045,
+      "releases_365d": 103,
+      "repository": "https://github.com/bigfish1913/pi-rust",
+      "score": 60.74,
+      "version": "0.27.0",
+      "versions": 103
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "artificial-intelligence",
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4207,
+        "license": 1.0,
+        "maintenance": 0.6935,
+        "msrv": 1.0,
+        "recency": 0.9999,
+        "security": 1.0
+      },
+      "created": "2026-08-15",
+      "dependents": 4,
+      "description": "Agent runtime + loop, Rust port of pi-agent-core core layer",
+      "downloads": 6031,
+      "edition": "2021",
+      "keywords": [
+        "agent",
+        "ai",
+        "claude",
+        "llm",
+        "sdk"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "rpi-agent",
+      "owners": 1,
+      "recent_downloads": 5990,
+      "releases_365d": 103,
+      "repository": "https://github.com/bigfish1913/pi-rust",
+      "score": 59.31,
+      "version": "0.27.0",
+      "versions": 103
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "artificial-intelligence",
+        "asynchronous",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.393,
+        "license": 1.0,
+        "maintenance": 0.6935,
+        "msrv": 1.0,
+        "recency": 0.9999,
+        "security": 1.0
+      },
+      "created": "2026-08-15",
+      "dependents": 2,
+      "description": "Built-in agent tools (read/write/edit/bash/grep/find/ls) + ExecutionEnv, Rust port of pi harness tools",
+      "downloads": 3428,
+      "edition": "2021",
+      "keywords": [
+        "agent",
+        "ai",
+        "claude",
+        "llm",
+        "tools"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "rpi-tools",
+      "owners": 1,
+      "recent_downloads": 3380,
+      "releases_365d": 103,
+      "repository": "https://github.com/bigfish1913/pi-rust",
+      "score": 57.54,
+      "version": "0.27.0",
+      "versions": 103
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3514,
+        "license": 1.0,
+        "maintenance": 0.7651,
+        "msrv": 1.0,
+        "recency": 0.9664,
+        "security": 1.0
+      },
+      "created": "2025-11-26",
+      "dependents": 2,
+      "description": "NER, coreference resolution, relation extraction, PII detection, and zero-shot entity types",
+      "downloads": 2770,
+      "edition": "2021",
+      "keywords": [
+        "coreference",
+        "extraction",
+        "ner",
+        "nlp",
+        "pii"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "anno",
+      "owners": 1,
+      "recent_downloads": 1428,
+      "releases_365d": 19,
+      "repository": "https://github.com/arclabs561/anno",
+      "score": 57.07,
+      "version": "0.14.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "algorithms",
+        "artificial-intelligence",
+        "multimedia::audio"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4283,
+        "license": 1.0,
+        "maintenance": 0.7011,
+        "msrv": 1.0,
+        "recency": 0.8756,
+        "security": 1.0
+      },
+      "created": "2026-07-18",
+      "dependents": 2,
+      "description": "Domain-neutral run segmenter: the Silero-derived hysteresis state machine that turns any frame-probability sequence into contiguous runs with mean/peak aggregates — one instance per class for sound-event detection. Over it sits a backend-agnostic voice-activity-detection (VAD) shell: the VadBackend seam and the Speech* names. The model, inference runtime, and audio I/O live in the backend crate.",
+      "downloads": 7619,
+      "edition": "2024",
+      "keywords": [
+        "event-detection",
+        "hysteresis",
+        "segmentation",
+        "speech",
+        "vad"
+      ],
+      "last_release": "2026-09-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "zuoer",
+      "owners": 1,
+      "recent_downloads": 7017,
+      "releases_365d": 5,
+      "repository": "https://github.com/findit-studio/zuoer",
+      "score": 56.67,
+      "version": "0.3.2",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "artificial-intelligence",
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3797,
+        "license": 1.0,
+        "maintenance": 0.6935,
+        "msrv": 1.0,
+        "recency": 0.9999,
+        "security": 1.0
+      },
+      "created": "2026-08-15",
+      "dependents": 1,
+      "description": "Session tree + JSONL persistence + compaction + AgentHarness loop, Rust port of pi harness layer",
+      "downloads": 2617,
+      "edition": "2021",
+      "keywords": [
+        "agent",
+        "ai",
+        "claude",
+        "harness",
+        "llm"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "rpi-harness",
+      "owners": 1,
+      "recent_downloads": 2567,
+      "releases_365d": 103,
+      "repository": "https://github.com/bigfish1913/pi-rust",
+      "score": 56.35,
+      "version": "0.27.0",
+      "versions": 103
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "command-line-utilities",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4026,
+        "license": 1.0,
+        "maintenance": 0.7441,
+        "msrv": 1.0,
+        "recency": 1.0,
+        "security": 1.0
+      },
+      "created": "2026-02-11",
+      "dependents": 0,
+      "description": "Decapod is a Rust-built governance runtime for AI agents: repo-native state, enforced workflow, proof gates, safe coordination.",
+      "downloads": 15230,
+      "edition": "2024",
+      "keywords": [
+        "ai",
+        "ai-agents",
+        "control-plane",
+        "governance",
+        "orchestration"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.96.1",
+      "name": "decapod",
+      "owners": 1,
+      "recent_downloads": 4121,
+      "releases_365d": 635,
+      "repository": "https://github.com/DecapodLabs/decapod",
+      "score": 56.23,
+      "version": "0.156.2",
+      "versions": 635
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "compression",
+        "encoding",
+        "science",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3447,
+        "license": 1.0,
+        "maintenance": 0.6708,
+        "msrv": 1.0,
+        "recency": 0.994,
+        "security": 1.0
+      },
+      "created": "2026-11-05",
+      "dependents": 2,
+      "description": "Embedded Static Embeddings: runtime for compiled-in static embedding models",
+      "downloads": 1234,
+      "edition": "2024",
+      "keywords": [
+        "embeddings",
+        "model2vec",
+        "nlp",
+        "search"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "ese",
+      "owners": 1,
+      "recent_downloads": 1244,
+      "releases_365d": 4,
+      "repository": "https://github.com/flowercomputers/encoders",
+      "score": 55.9,
+      "version": "0.4.0",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "asynchronous",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3516,
+        "license": 1.0,
+        "maintenance": 0.7106,
+        "msrv": 1.0,
+        "recency": 0.9984,
+        "security": 1.0
+      },
+      "created": "2026-06-13",
+      "dependents": 1,
+      "description": "Ergonomic top-level Agent SDK facade for the Bamboo agent framework",
+      "downloads": 3214,
+      "edition": "2021",
+      "keywords": [
+        "agent",
+        "ai",
+        "llm",
+        "mcp",
+        "sdk"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "bamboo-sdk",
+      "owners": 1,
+      "recent_downloads": 1435,
+      "releases_365d": 123,
+      "repository": "https://github.com/bigduu/Bamboo-agent",
+      "score": 55.89,
+      "version": "2026.11.33",
+      "versions": 123
+    },
+    {
+      "categories": [
+        "artificial-intelligence"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3453,
+        "license": 1.0,
+        "maintenance": 0.7115,
+        "msrv": 1.0,
+        "recency": 0.9954,
+        "security": 1.0
+      },
+      "created": "2026-06-10",
+      "dependents": 1,
+      "description": "SDK for mini-chat: policy plugin traits, models, and errors",
+      "downloads": 1844,
+      "edition": "2024",
+      "keywords": [
+        "cf-gears",
+        "constructorfabric"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "cf-gears-mini-chat-sdk",
+      "owners": 1,
+      "recent_downloads": 1260,
+      "releases_365d": 27,
+      "repository": "https://github.com/constructorfabric/gears-rust",
+      "score": 55.7,
+      "version": "0.10.32",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "artificial-intelligence",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4076,
+        "license": 1.0,
+        "maintenance": 0.8067,
+        "msrv": 0.0,
+        "recency": 0.9958,
+        "security": 1.0
+      },
+      "created": "2026-02-26",
+      "dependents": 4,
+      "description": "On-device AI inference: LLM chat, tool calling and image generation, on every platform.",
+      "downloads": 7388,
+      "edition": "2021",
+      "keywords": [
+        "diffusion",
+        "image-generation",
+        "inference",
+        "llm",
+        "on-device"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "name": "onde",
+      "owners": 2,
+      "recent_downloads": 4568,
+      "releases_365d": 22,
+      "repository": "https://github.com/ondeinference/onde",
+      "score": 55.62,
+      "version": "1.5.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "asynchronous",
+        "development-tools",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3425,
+        "license": 1.0,
+        "maintenance": 0.7408,
+        "msrv": 1.0,
+        "recency": 0.9984,
+        "security": 1.0
+      },
+      "created": "2026-02-23",
+      "dependents": 0,
+      "description": "A fully self-contained AI agent backend framework with built-in web services, multi-LLM provider support, and comprehensive tool execution",
+      "downloads": 4710,
+      "edition": "2021",
+      "keywords": [
+        "agent",
+        "ai",
+        "automation",
+        "llm",
+        "mcp"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "bamboo-agent",
+      "owners": 1,
+      "recent_downloads": 1188,
+      "releases_365d": 200,
+      "repository": "https://github.com/bigduu/Bamboo-agent",
+      "score": 54.65,
+      "version": "2026.11.33",
+      "versions": 200
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "artificial-intelligence",
+        "command-line-interface",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3579,
+        "license": 1.0,
+        "maintenance": 0.6935,
+        "msrv": 1.0,
+        "recency": 0.9999,
+        "security": 1.0
+      },
+      "created": "2026-08-15",
+      "dependents": 0,
+      "description": "Terminal coding-agent CLI (the `rpi` binary) built on the rpi-* library crates",
+      "downloads": 1683,
+      "edition": "2021",
+      "keywords": [
+        "agent",
+        "ai",
+        "claude",
+        "cli",
+        "llm"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "rpi-cli",
+      "owners": 1,
+      "recent_downloads": 1636,
+      "releases_365d": 102,
+      "repository": "https://github.com/bigfish1913/pi-rust",
+      "score": 54.35,
+      "version": "0.27.0",
+      "versions": 102
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "asynchronous",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3417,
+        "license": 1.0,
+        "maintenance": 0.8665,
+        "msrv": 1.0,
+        "recency": 0.6961,
+        "security": 1.0
+      },
+      "created": "2026-03-23",
+      "dependents": 2,
+      "description": "Bounded session management for MCP servers — max sessions, FIFO eviction, rate limiting",
+      "downloads": 3539,
+      "edition": "2021",
+      "keywords": [
+        "mcp",
+        "rate-limiting",
+        "security",
+        "session"
+      ],
+      "last_release": "2026-05-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "mcp-session",
+      "owners": 3,
+      "recent_downloads": 1169,
+      "releases_365d": 4,
+      "repository": "https://github.com/butterflyskies/mcp-session",
+      "score": 54.3,
+      "version": "0.2.0",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "artificial-intelligence"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.34,
+        "license": 1.0,
+        "maintenance": 0.7115,
+        "msrv": 1.0,
+        "recency": 0.9954,
+        "security": 1.0
+      },
+      "created": "2026-06-10",
+      "dependents": 0,
+      "description": "mini-chat gear: multi-tenant AI chat",
+      "downloads": 1589,
+      "edition": "2024",
+      "keywords": [
+        "cf-gears",
+        "constructorfabric"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "cf-gears-mini-chat",
+      "owners": 1,
+      "recent_downloads": 1128,
+      "releases_365d": 27,
+      "repository": "https://github.com/constructorfabric/gears-rust",
+      "score": 54.1,
+      "version": "0.6.0",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "artificial-intelligence",
+        "asynchronous",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.3419,
+        "license": 1.0,
+        "maintenance": 0.7563,
+        "msrv": 0.0,
+        "recency": 0.7227,
+        "security": 1.0
+      },
+      "created": "2025-12-28",
+      "dependents": 44,
+      "description": "Conversational elicitation of strongly-typed Rust values via MCP",
+      "downloads": 3913,
+      "edition": "2024",
+      "keywords": [
+        "agent",
+        "contracts",
+        "formal-verification",
+        "mcp",
+        "state-machine"
+      ],
+      "last_release": "2026-06-03",
+      "license": "Apache-2.0 OR MIT",
+      "name": "elicitation",
+      "owners": 1,
+      "recent_downloads": 1174,
+      "releases_365d": 34,
+      "repository": "https://github.com/crumplecup/elicitation",
+      "score": 53.76,
+      "version": "0.11.1",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "algorithms",
+        "artificial-intelligence"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3677,
+        "license": 1.0,
+        "maintenance": 0.7047,
+        "msrv": 0.0,
+        "recency": 0.9437,
+        "security": 1.0
+      },
+      "created": "2026-07-05",
+      "dependents": 6,
+      "description": "Explainable action ranking from historical sequences, with confidence, context backoff, evaluation, and tuning.",
+      "downloads": 2335,
+      "edition": "2024",
+      "keywords": [
+        "action-ranking",
+        "action-selection",
+        "decision-making",
+        "history",
+        "selective-prediction"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "name": "lineprior",
+      "owners": 1,
+      "recent_downloads": 2002,
+      "releases_365d": 21,
+      "repository": "https://github.com/kent-tokyo/lineprior",
+      "score": 53.02,
+      "version": "0.12.7",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "artificial-intelligence"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.3565,
+        "license": 0.5,
+        "maintenance": 0.6777,
+        "msrv": 1.0,
+        "recency": 0.9755,
+        "security": 1.0
+      },
+      "created": "2026-10-11",
+      "dependents": 5,
+      "description": "Broker-owned durable memory: scoped user/project/session items with explicit retention, durable session records, and an append-only context log. Memory is recalled data, never instructions.",
+      "downloads": 1587,
+      "edition": "2024",
+      "keywords": [
+        "agent",
+        "agent-memory",
+        "context",
+        "llm",
+        "memory"
+      ],
+      "last_release": "2026-11-08",
+      "license": "AGPL-3.0-or-later",
+      "msrv": "1.85.0",
+      "name": "hatchling-memory",
+      "owners": 1,
+      "recent_downloads": 1589,
+      "releases_365d": 9,
+      "repository": "https://github.com/undergroundrap/hatchling",
+      "score": 52.49,
+      "version": "0.8.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "artificial-intelligence",
+        "asynchronous"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3665,
+        "license": 1.0,
+        "maintenance": 0.3688,
+        "msrv": 1.0,
+        "recency": 0.985,
+        "security": 1.0
+      },
+      "created": "2026-11-13",
+      "dependents": 2,
+      "description": "A strongly-typed Rust client and type definitions for LLM provider APIs",
+      "downloads": 1938,
+      "edition": "2024",
+      "keywords": [
+        "agents",
+        "ai",
+        "anthropic",
+        "llm",
+        "openai"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "talin-provider",
+      "owners": 1,
+      "recent_downloads": 1953,
+      "releases_365d": 1,
+      "repository": "https://github.com/Asteromorph-Corp/talin",
+      "score": 51.79,
+      "version": "0.1.0",
+      "versions": 1
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,913 @@
+{
+  "category": {
+    "crates": 8802,
+    "description": "Algorithms intended for securing data.",
+    "name": "Cryptography",
+    "slug": "cryptography"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.8537,
+        "downloads": 0.9591,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9281,
+        "security": 1.0
+      },
+      "created": "2016-05-06",
+      "dependents": 24963,
+      "description": "Pure Rust implementation of the SHA-2 hash function family\nincluding SHA-224, SHA-256, SHA-384, and SHA-512.\n",
+      "downloads": 1272318828,
+      "edition": "2024",
+      "keywords": [
+        "digest",
+        "hash",
+        "sha2"
+      ],
+      "last_release": "2026-10-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "sha2",
+      "owners": 3,
+      "recent_downloads": 409681208,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/hashes",
+      "score": 94.24,
+      "version": "0.11.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "cryptography",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.7293,
+        "downloads": 0.944,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2016-08-27",
+      "dependents": 5706,
+      "description": "Rustls is a modern TLS library written in Rust.",
+      "downloads": 1152117697,
+      "edition": "2021",
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0 OR ISC OR MIT",
+      "msrv": "1.71",
+      "name": "rustls",
+      "owners": 3,
+      "recent_downloads": 299896219,
+      "releases_365d": 15,
+      "repository": "https://github.com/rustls/rustls",
+      "score": 91.59,
+      "version": "0.23.46",
+      "versions": 119
+    },
+    {
+      "categories": [
+        "cryptography",
+        "memory-management",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.7336,
+        "downloads": 0.9401,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9934,
+        "security": 1.0
+      },
+      "created": "2018-10-03",
+      "dependents": 6004,
+      "description": "Securely clear secrets from memory with a simple trait built on\nstable Rust primitives which guarantee memory is zeroed using an\noperation will not be 'optimized away' by the compiler.\nUses a portable pure Rust implementation that works everywhere,\neven WASM, with `asm!` optimizations on select platforms\n",
+      "downloads": 912728153,
+      "edition": "2024",
+      "keywords": [
+        "memory",
+        "memset",
+        "secure",
+        "volatile",
+        "zero"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "zeroize",
+      "owners": 2,
+      "recent_downloads": 276736400,
+      "releases_365d": 3,
+      "repository": "https://github.com/RustCrypto/utils",
+      "score": 89.24,
+      "version": "1.9.2",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6256,
+        "downloads": 0.9053,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9654,
+        "security": 1.0
+      },
+      "created": "2016-10-06",
+      "dependents": 1668,
+      "description": "Pure Rust implementation of the Advanced Encryption Standard (a.k.a. Rijndael)",
+      "downloads": 426505654,
+      "edition": "2024",
+      "keywords": [
+        "aes",
+        "block-cipher",
+        "rijndael"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "aes",
+      "owners": 2,
+      "recent_downloads": 134694002,
+      "releases_365d": 6,
+      "repository": "https://github.com/RustCrypto/block-ciphers",
+      "score": 86.75,
+      "version": "0.9.4",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.667,
+        "downloads": 0.933,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.7761,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 2727,
+      "description": "SHA-1 hash function",
+      "downloads": 708613383,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "digest",
+        "hash",
+        "sha1"
+      ],
+      "last_release": "2026-07-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "sha1",
+      "owners": 3,
+      "recent_downloads": 238858398,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/hashes",
+      "score": 86.64,
+      "version": "0.11.0",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5801,
+        "downloads": 0.9347,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9805,
+        "security": 1.0
+      },
+      "created": "2023-08-31",
+      "dependents": 972,
+      "description": "Shared types for the rustls PKI ecosystem",
+      "downloads": 707976837,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "rustls-pki-types",
+      "owners": 2,
+      "recent_downloads": 247358596,
+      "releases_365d": 8,
+      "repository": "https://github.com/rustls/pki-types",
+      "score": 86.58,
+      "version": "1.16.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography"
+      ],
+      "components": {
+        "dependents": 0.6327,
+        "downloads": 0.8866,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9642,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 1814,
+      "description": "OpenSSL bindings",
+      "downloads": 468312110,
+      "edition": "2021",
+      "keywords": [
+        "crypto",
+        "dtls",
+        "ssl",
+        "tls"
+      ],
+      "last_release": "2026-11-01",
+      "license": "Apache-2.0",
+      "msrv": "1.80.0",
+      "name": "openssl",
+      "owners": 2,
+      "recent_downloads": 91401561,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-openssl/rust-openssl",
+      "score": 86.44,
+      "version": "0.10.82",
+      "versions": 175
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.485,
+        "downloads": 0.9422,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9843,
+        "security": 1.0
+      },
+      "created": "2023-01-09",
+      "dependents": 314,
+      "description": "Web PKI X.509 Certificate Verification.",
+      "downloads": 1008551469,
+      "edition": "2021",
+      "last_release": "2026-11-12",
+      "license": "ISC",
+      "msrv": "1.71",
+      "name": "rustls-webpki",
+      "owners": 3,
+      "recent_downloads": 289105262,
+      "releases_365d": 15,
+      "repository": "https://github.com/rustls/webpki",
+      "score": 85.45,
+      "version": "0.103.17",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "cryptography"
+      ],
+      "components": {
+        "dependents": 0.5939,
+        "downloads": 0.8774,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9772,
+        "security": 1.0
+      },
+      "created": "2018-07-24",
+      "dependents": 1145,
+      "description": "Pure Rust RSA implementation",
+      "downloads": 280391550,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "encryption",
+        "rsa",
+        "security"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "rsa",
+      "owners": 2,
+      "recent_downloads": 75666388,
+      "releases_365d": 14,
+      "repository": "https://github.com/RustCrypto/RSA",
+      "score": 85.44,
+      "version": "0.10.0",
+      "versions": 69
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "cryptography",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6581,
+        "downloads": 0.9364,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9031,
+        "security": 1.0
+      },
+      "created": "2017-02-22",
+      "dependents": 2452,
+      "description": "Asynchronous TLS/SSL streams for Tokio using Rustls.",
+      "downloads": 970031743,
+      "edition": "2021",
+      "last_release": "2026-09-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "tokio-rustls",
+      "owners": 3,
+      "recent_downloads": 256226529,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustls/tokio-rustls",
+      "score": 85.41,
+      "version": "0.26.6",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6889,
+        "downloads": 0.8864,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7703,
+        "security": 1.0
+      },
+      "created": "2016-12-09",
+      "dependents": 3535,
+      "description": "Fast and efficient ed25519 EdDSA key generations, signing, and verification in pure Rust.",
+      "downloads": 284320692,
+      "edition": "2024",
+      "keywords": [
+        "cryptography",
+        "curve25519",
+        "ecc",
+        "ed25519",
+        "signature"
+      ],
+      "last_release": "2026-07-06",
+      "license": "BSD-3-Clause",
+      "msrv": "1.85",
+      "name": "ed25519-dalek",
+      "owners": 2,
+      "recent_downloads": 91106489,
+      "releases_365d": 9,
+      "repository": "https://github.com/dalek-cryptography/curve25519-dalek/tree/main/ed25519-dalek",
+      "score": 84.94,
+      "version": "3.0.0",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "cryptography",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.574,
+        "downloads": 0.9243,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9292,
+        "security": 1.0
+      },
+      "created": "2019-11-04",
+      "dependents": 904,
+      "description": "rustls-native-certs allows rustls to use the platform native certificate store",
+      "downloads": 707228880,
+      "edition": "2021",
+      "last_release": "2026-10-13",
+      "license": "Apache-2.0 OR ISC OR MIT",
+      "msrv": "1.71",
+      "name": "rustls-native-certs",
+      "owners": 3,
+      "recent_downloads": 199673210,
+      "releases_365d": 3,
+      "repository": "https://github.com/rustls/rustls-native-certs",
+      "score": 84.9,
+      "version": "0.8.5",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.7153,
+        "downloads": 0.935,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.6387,
+        "security": 1.0
+      },
+      "created": "2016-10-06",
+      "dependents": 4837,
+      "description": "Generic implementation of Hash-based Message Authentication Code (HMAC)",
+      "downloads": 782100328,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "digest",
+        "hmac",
+        "mac"
+      ],
+      "last_release": "2026-03-29",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "hmac",
+      "owners": 2,
+      "recent_downloads": 248804609,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/MACs",
+      "score": 84.84,
+      "version": "0.13.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6462,
+        "downloads": 0.8805,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.841,
+        "security": 1.0
+      },
+      "created": "2019-08-16",
+      "dependents": 2131,
+      "description": "Pure Rust implementation of the AES-GCM (Galois/Counter Mode)\nAuthenticated Encryption with Associated Data (AEAD) Cipher\nwith optional architecture-specific hardware acceleration\n",
+      "downloads": 221713607,
+      "edition": "2024",
+      "keywords": [
+        "aead",
+        "aes",
+        "encryption",
+        "gcm",
+        "ghash"
+      ],
+      "last_release": "2026-08-21",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "aes-gcm",
+      "owners": 2,
+      "recent_downloads": 80685842,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/AEADs",
+      "score": 84.78,
+      "version": "0.11.1",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "encoding",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.5126,
+        "downloads": 0.9183,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9515,
+        "security": 1.0
+      },
+      "created": "2020-12-17",
+      "dependents": 436,
+      "description": "Pure Rust embedded-friendly implementation of the Distinguished Encoding Rules\n(DER) for Abstract Syntax Notation One (ASN.1) as described in ITU X.690 with\nfull support for heapless `no_std`/`no_alloc` targets\n",
+      "downloads": 599211556,
+      "edition": "2024",
+      "keywords": [
+        "asn1",
+        "crypto",
+        "itu",
+        "no-alloc",
+        "pkcs"
+      ],
+      "last_release": "2026-10-25",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "der",
+      "owners": 2,
+      "recent_downloads": 176334474,
+      "releases_365d": 5,
+      "repository": "https://github.com/RustCrypto/formats",
+      "score": 84.05,
+      "version": "0.8.3",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "cryptography",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.4887,
+        "downloads": 0.8912,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9642,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 328,
+      "description": "FFI bindings to OpenSSL",
+      "downloads": 524791124,
+      "edition": "2021",
+      "last_release": "2026-11-01",
+      "license": "MIT",
+      "msrv": "1.80.0",
+      "name": "openssl-sys",
+      "owners": 3,
+      "recent_downloads": 100555539,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-openssl/rust-openssl",
+      "score": 83.96,
+      "version": "0.9.118",
+      "versions": 184
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6269,
+        "downloads": 0.8371,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8503,
+        "security": 1.0
+      },
+      "created": "2017-02-28",
+      "dependents": 1694,
+      "description": "Pure Rust implementation of the Argon2 password hashing function with support\nfor the Argon2d, Argon2i, and Argon2id algorithmic variants\n",
+      "downloads": 79665442,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "hashing",
+        "password",
+        "phf"
+      ],
+      "last_release": "2026-08-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "argon2",
+      "owners": 2,
+      "recent_downloads": 32897391,
+      "releases_365d": 7,
+      "repository": "https://github.com/RustCrypto/password-hashes",
+      "score": 83.36,
+      "version": "0.6.0",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5999,
+        "downloads": 0.9635,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.682,
+        "security": 1.0
+      },
+      "created": "2016-10-06",
+      "dependents": 1229,
+      "description": "Traits for cryptographic hash functions and message authentication codes",
+      "downloads": 1427005776,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "digest",
+        "hash"
+      ],
+      "last_release": "2026-05-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "digest",
+      "owners": 2,
+      "recent_downloads": 448216126,
+      "releases_365d": 10,
+      "repository": "https://github.com/RustCrypto/traits",
+      "score": 83.31,
+      "version": "0.11.3",
+      "versions": 69
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.566,
+        "downloads": 0.8661,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8485,
+        "security": 1.0
+      },
+      "created": "2016-10-06",
+      "dependents": 822,
+      "description": "BLAKE2 hash functions",
+      "downloads": 212188712,
+      "edition": "2024",
+      "keywords": [
+        "blake2",
+        "digest",
+        "hash"
+      ],
+      "last_release": "2026-08-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "blake2",
+      "owners": 2,
+      "recent_downloads": 59820518,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/hashes",
+      "score": 82.53,
+      "version": "0.11.0",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5091,
+        "downloads": 0.8326,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9991,
+        "security": 1.0
+      },
+      "created": "2022-03-12",
+      "dependents": 418,
+      "description": "Pure Rust implementation of the X.509 Public Key Infrastructure Certificate\nformat as described in RFC 5280\n",
+      "downloads": 63864117,
+      "edition": "2024",
+      "keywords": [
+        "crypto"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "x509-cert",
+      "owners": 2,
+      "recent_downloads": 29926963,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/formats",
+      "score": 82.53,
+      "version": "0.3.1",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5992,
+        "downloads": 0.8814,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7661,
+        "security": 1.0
+      },
+      "created": "2018-10-03",
+      "dependents": 1220,
+      "description": "Pure Rust implementation of the NIST P-256 (a.k.a. secp256r1, prime256v1)\nelliptic curve as defined in SP 800-186, with support for ECDH, ECDSA\nsigning/verification, and general purpose curve arithmetic\n",
+      "downloads": 248002532,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "ecc",
+        "nist",
+        "prime256v1",
+        "secp256r1"
+      ],
+      "last_release": "2026-07-03",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "p256",
+      "owners": 2,
+      "recent_downloads": 82113779,
+      "releases_365d": 16,
+      "repository": "https://github.com/RustCrypto/elliptic-curves",
+      "score": 82.51,
+      "version": "0.14.0",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4649,
+        "downloads": 0.8888,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9511,
+        "security": 1.0
+      },
+      "created": "2019-12-05",
+      "dependents": 247,
+      "description": "General purpose Elliptic Curve Cryptography (ECC) support, including traits and generic types for\nrepresenting various elliptic curve forms, scalars, points, and public/secret keys composed thereof.\n",
+      "downloads": 305583178,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "ecc",
+        "elliptic",
+        "weierstrass"
+      ],
+      "last_release": "2026-10-25",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "elliptic-curve",
+      "owners": 2,
+      "recent_downloads": 95829338,
+      "releases_365d": 24,
+      "repository": "https://github.com/RustCrypto/traits",
+      "score": 82.11,
+      "version": "0.14.3",
+      "versions": 128
+    },
+    {
+      "categories": [
+        "algorithms",
+        "cryptography",
+        "data-structures",
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4446,
+        "downloads": 0.892,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9771,
+        "security": 1.0
+      },
+      "created": "2021-04-30",
+      "dependents": 194,
+      "description": "Pure Rust implementation of a big integer library which has been designed from the ground-up for use\nin cryptographic applications. Provides constant-time, `no_std`/`no_alloc`-friendly implementations\nof modern formulas using const generics. Also includes optional support for heap-backed integers.\n",
+      "downloads": 356815285,
+      "edition": "2024",
+      "keywords": [
+        "arbitrary",
+        "bignum",
+        "crypto",
+        "integer",
+        "precision"
+      ],
+      "last_release": "2026-11-08",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "crypto-bigint",
+      "owners": 2,
+      "recent_downloads": 102374259,
+      "releases_365d": 20,
+      "repository": "https://github.com/RustCrypto/crypto-bigint",
+      "score": 82.07,
+      "version": "0.7.11",
+      "versions": 112
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6287,
+        "downloads": 0.8683,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.698,
+        "security": 1.0
+      },
+      "created": "2016-10-06",
+      "dependents": 1730,
+      "description": "Implementation of the SHA-3 family of cryptographic hash algorithms",
+      "downloads": 216627116,
+      "edition": "2024",
+      "keywords": [
+        "digest",
+        "hash",
+        "keccak",
+        "xof"
+      ],
+      "last_release": "2026-05-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "sha3",
+      "owners": 2,
+      "recent_downloads": 62711777,
+      "releases_365d": 7,
+      "repository": "https://github.com/RustCrypto/hashes",
+      "score": 81.9,
+      "version": "0.12.0",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4665,
+        "downloads": 0.9301,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8504,
+        "security": 1.0
+      },
+      "created": "2016-10-06",
+      "dependents": 252,
+      "description": "The ChaCha20 stream cipher (RFC 8439) implemented in pure Rust using traits\nfrom the RustCrypto `cipher` crate, with optional architecture-specific\nhardware acceleration (AVX2, SSE2). Additionally provides the ChaCha8, ChaCha12,\nXChaCha20, XChaCha12 and XChaCha8 stream ciphers, and also optional\nrand_core-compatible RNGs based on those ciphers.\n",
+      "downloads": 401926779,
+      "edition": "2024",
+      "keywords": [
+        "chacha12",
+        "chacha8",
+        "crypto",
+        "stream-cipher",
+        "xchacha20"
+      ],
+      "last_release": "2026-08-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "chacha20",
+      "owners": 2,
+      "recent_downloads": 224733712,
+      "releases_365d": 8,
+      "repository": "https://github.com/RustCrypto/stream-ciphers",
+      "score": 81.67,
+      "version": "0.10.2",
+      "versions": 45
+    }
+  ],
+  "score_version": 1
+}

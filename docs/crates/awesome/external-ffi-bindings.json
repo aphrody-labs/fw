@@ -1,0 +1,932 @@
+{
+  "category": {
+    "crates": 2623,
+    "description": "Direct Rust FFI bindings to libraries written in other languages; often denoted by a -sys suffix. Safe and idiomatic wrappers are in the API bindings category.",
+    "name": "External FFI bindings",
+    "slug": "external-ffi-bindings"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.8291,
+        "downloads": 0.9699,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9355,
+        "security": 1.0
+      },
+      "created": "2015-01-15",
+      "dependents": 18646,
+      "description": "Raw FFI bindings to platform libraries like libc.",
+      "downloads": 2029208207,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "ffi",
+        "libc",
+        "operating",
+        "system"
+      ],
+      "last_release": "2026-10-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "libc",
+      "owners": 1,
+      "recent_downloads": 512253165,
+      "releases_365d": 18,
+      "repository": "https://github.com/rust-lang/libc",
+      "score": 92.01,
+      "version": "0.2.191",
+      "versions": 209
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.6521,
+        "downloads": 0.8226,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2018-05-18",
+      "dependents": 2284,
+      "description": "Rust bindings to the Tree-sitter parsing library",
+      "downloads": 58521609,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter",
+      "owners": 3,
+      "recent_downloads": 24361622,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 86.48,
+      "version": "0.27.2",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "cryptography",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.4887,
+        "downloads": 0.8912,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9642,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 328,
+      "description": "FFI bindings to OpenSSL",
+      "downloads": 524791124,
+      "edition": "2021",
+      "last_release": "2026-11-01",
+      "license": "MIT",
+      "msrv": "1.80.0",
+      "name": "openssl-sys",
+      "owners": 3,
+      "recent_downloads": 100555539,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-openssl/rust-openssl",
+      "score": 83.96,
+      "version": "0.9.118",
+      "versions": 184
+    },
+    {
+      "categories": [
+        "development-tools::ffi",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.6801,
+        "downloads": 0.896,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8694,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 3185,
+      "description": "Automatically generates Rust FFI bindings to C and C++ libraries.",
+      "downloads": 476338252,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "code-generation",
+        "ffi"
+      ],
+      "last_release": "2026-09-08",
+      "license": "BSD-3-Clause",
+      "msrv": "1.71.0",
+      "name": "bindgen",
+      "owners": 1,
+      "recent_downloads": 111054471,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-lang/rust-bindgen",
+      "score": 83.94,
+      "version": "0.73.2",
+      "versions": 129
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.6155,
+        "downloads": 0.874,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9158,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 1479,
+      "description": "Objective-C interface and runtime bindings",
+      "downloads": 170142668,
+      "edition": "2021",
+      "keywords": [
+        "ios",
+        "macos",
+        "objc",
+        "objc_msgsend",
+        "objective-c"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "objc2",
+      "owners": 2,
+      "recent_downloads": 70575231,
+      "releases_365d": 3,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 83.47,
+      "version": "0.6.5",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.4614,
+        "downloads": 0.8991,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9816,
+        "security": 1.0
+      },
+      "created": "2015-02-24",
+      "dependents": 237,
+      "description": "Native bindings to the libsqlite3 library",
+      "downloads": 330164230,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "sqlcipher",
+        "sqlite"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "libsqlite3-sys",
+      "owners": 2,
+      "recent_downloads": 118555877,
+      "releases_365d": 8,
+      "repository": "https://github.com/rusqlite/rusqlite",
+      "score": 82.74,
+      "version": "0.40.0",
+      "versions": 68
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "external-ffi-bindings",
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.5166,
+        "downloads": 0.8192,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.6751,
+        "security": 1.0
+      },
+      "created": "2021-12-31",
+      "dependents": 457,
+      "description": "No libc, pure Rust cross-platform file locks. Original fs2, now supports async and replace libc by rustix.",
+      "downloads": 83539211,
+      "edition": "2021",
+      "keywords": [
+        "duplicate",
+        "file",
+        "flock",
+        "fs2",
+        "lock"
+      ],
+      "last_release": "2026-04-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "fs4",
+      "owners": 1,
+      "recent_downloads": 22685814,
+      "releases_365d": 4,
+      "repository": "https://github.com/al8n/fs4",
+      "score": 76.52,
+      "version": "1.1.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "filesystem",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.4279,
+        "downloads": 0.7047,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2020-06-19",
+      "dependents": 159,
+      "description": "Filesystem in Userspace (FUSE) for Rust",
+      "downloads": 6856401,
+      "edition": "2024",
+      "keywords": [
+        "bindings",
+        "filesystem",
+        "fuse",
+        "system"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "fuser",
+      "owners": 1,
+      "recent_downloads": 2129476,
+      "releases_365d": 3,
+      "repository": "https://github.com/cberner/fuser",
+      "score": 74.81,
+      "version": "0.19.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "compression",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.4247,
+        "downloads": 0.8525,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9795,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 153,
+      "description": "Low-level bindings to the system libz library (also known as zlib).",
+      "downloads": 265916164,
+      "edition": "2018",
+      "keywords": [
+        "zlib",
+        "zlib-ng"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "name": "libz-sys",
+      "owners": 1,
+      "recent_downloads": 45176182,
+      "releases_365d": 9,
+      "repository": "https://github.com/rust-lang/libz-sys",
+      "score": 74.62,
+      "version": "1.1.33",
+      "versions": 73
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "computer-vision",
+        "external-ffi-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.3874,
+        "downloads": 0.6861,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9761,
+        "security": 1.0
+      },
+      "created": "2015-05-14",
+      "dependents": 98,
+      "description": "Rust bindings for OpenCV",
+      "downloads": 5310667,
+      "edition": "2024",
+      "keywords": [
+        "cv",
+        "opencv",
+        "vision"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "opencv",
+      "owners": 1,
+      "recent_downloads": 1448378,
+      "releases_365d": 10,
+      "repository": "https://github.com/twistedfall/opencv-rust",
+      "score": 74.48,
+      "version": "0.102.0",
+      "versions": 224
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography",
+        "external-ffi-bindings",
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.352,
+        "downloads": 0.6908,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8828,
+        "security": 1.0
+      },
+      "created": "2021-03-18",
+      "dependents": 64,
+      "description": "Rust-native wrapper around the PKCS #11 API",
+      "downloads": 3846655,
+      "edition": "2021",
+      "keywords": [
+        "cryptoki",
+        "hsm",
+        "pkcs11"
+      ],
+      "last_release": "2026-09-16",
+      "license": "Apache-2.0",
+      "msrv": "1.77",
+      "name": "cryptoki",
+      "owners": 4,
+      "recent_downloads": 1596308,
+      "releases_365d": 5,
+      "repository": "https://github.com/parallaxsecond/rust-cryptoki",
+      "score": 74.31,
+      "version": "0.12.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.3281,
+        "downloads": 0.6857,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9227,
+        "security": 1.0
+      },
+      "created": "2020-01-15",
+      "dependents": 48,
+      "description": "Rust-native wrapper around TSS 2.0 Enhanced System API",
+      "downloads": 4640433,
+      "edition": "2018",
+      "keywords": [
+        "esapi",
+        "esys",
+        "tpm",
+        "tss"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "tss-esapi",
+      "owners": 6,
+      "recent_downloads": 1437568,
+      "releases_365d": 4,
+      "repository": "https://github.com/parallaxsecond/rust-tss-esapi",
+      "score": 74.19,
+      "version": "7.7.0",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.3662,
+        "downloads": 0.6916,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9596,
+        "security": 1.0
+      },
+      "created": "2015-08-18",
+      "dependents": 76,
+      "description": "Bindings to LLVM's C API",
+      "downloads": 6789155,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "llvm"
+      ],
+      "last_release": "2026-10-30",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "llvm-sys",
+      "owners": 1,
+      "recent_downloads": 1624075,
+      "releases_365d": 22,
+      "repository": "https://gitlab.com/taricorp/llvm-sys.rs",
+      "score": 73.84,
+      "version": "231.0.2",
+      "versions": 213
+    },
+    {
+      "categories": [
+        "database",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.7194,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9996,
+        "security": 1.0
+      },
+      "created": "2021-06-30",
+      "dependents": 15,
+      "description": "Native bindings to the libduckdb library, C API",
+      "downloads": 6406650,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "duckdb",
+        "ffi"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "libduckdb-sys",
+      "owners": 3,
+      "recent_downloads": 2884045,
+      "releases_365d": 16,
+      "repository": "https://github.com/duckdb/duckdb-rs",
+      "score": 73.82,
+      "version": "1.20001.0",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "cryptography",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.6888,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9987,
+        "security": 1.0
+      },
+      "created": "2020-11-11",
+      "dependents": 19,
+      "description": "FFI bindings to BoringSSL",
+      "downloads": 7197516,
+      "edition": "2021",
+      "keywords": [
+        "boringssl",
+        "fips",
+        "ml-kem",
+        "openssl",
+        "tls"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "boring-sys",
+      "owners": 5,
+      "recent_downloads": 1532923,
+      "releases_365d": 15,
+      "repository": "https://github.com/cloudflare/boring",
+      "score": 73.52,
+      "version": "5.6.0",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.4812,
+        "downloads": 0.8606,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.6018,
+        "security": 1.0
+      },
+      "created": "2022-10-01",
+      "dependents": 300,
+      "description": "Bindings and wrappers for Apple's Grand Central Dispatch (GCD)",
+      "downloads": 107400457,
+      "edition": "2021",
+      "keywords": [
+        "dispatch",
+        "gcd",
+        "ios",
+        "libdispatch",
+        "macos"
+      ],
+      "last_release": "2026-02-26",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "dispatch2",
+      "owners": 3,
+      "recent_downloads": 53473704,
+      "releases_365d": 1,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 73.07,
+      "version": "0.3.1",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "development-tools::ffi",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.5166,
+        "downloads": 0.8154,
+        "license": 0.75,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.732,
+        "security": 1.0
+      },
+      "created": "2017-04-12",
+      "dependents": 457,
+      "description": "A tool for generating C bindings to Rust code.",
+      "downloads": 119116153,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "code-generation",
+        "ffi"
+      ],
+      "last_release": "2026-06-09",
+      "license": "MPL-2.0",
+      "msrv": "1.74",
+      "name": "cbindgen",
+      "owners": 2,
+      "recent_downloads": 21003239,
+      "releases_365d": 2,
+      "repository": "https://github.com/mozilla/cbindgen",
+      "score": 72.78,
+      "version": "0.29.4",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.6598,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9823,
+        "security": 1.0
+      },
+      "created": "2015-12-28",
+      "dependents": 14,
+      "description": "Low-level bindings for the Z3 SMT solver from Microsoft Research",
+      "downloads": 2590400,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "satisfiability",
+        "smt",
+        "solver"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "z3-sys",
+      "owners": 5,
+      "recent_downloads": 841117,
+      "releases_365d": 13,
+      "repository": "https://github.com/prove-rs/z3.rs.git",
+      "score": 71.94,
+      "version": "0.14.2",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.6014,
+        "downloads": 0.8668,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 1252,
+      "description": "Bindings to the Foundation framework",
+      "downloads": 133891843,
+      "edition": "2021",
+      "keywords": [
+        "apple",
+        "cocoa",
+        "framework",
+        "ios",
+        "macos"
+      ],
+      "last_release": "2025-10-04",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "objc2-foundation",
+      "owners": 2,
+      "recent_downloads": 60761850,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 71.56,
+      "version": "0.3.2",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.3151,
+        "downloads": 0.8417,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.64,
+        "security": 1.0
+      },
+      "created": "2015-10-03",
+      "dependents": 41,
+      "description": "FFI bindings to the various libwayland-*.so libraries. You should only need this crate if you are working on custom wayland protocol extensions. Look at the crate wayland-client for usable bindings.",
+      "downloads": 103921934,
+      "edition": "2021",
+      "last_release": "2026-03-31",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "wayland-sys",
+      "owners": 2,
+      "recent_downloads": 36152220,
+      "releases_365d": 3,
+      "repository": "https://github.com/smithay/wayland-rs",
+      "score": 71.02,
+      "version": "0.31.11",
+      "versions": 152
+    },
+    {
+      "categories": [
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6767,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9955,
+        "security": 1.0
+      },
+      "created": "2024-10-11",
+      "dependents": 6,
+      "description": "Rust bindings for AMD ROCm HIP runtime libraries used by CubeCL.",
+      "downloads": 2284156,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "bindings",
+        "cubecl",
+        "hip",
+        "rocm"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "cubecl-hip-sys",
+      "owners": 3,
+      "recent_downloads": 1192005,
+      "releases_365d": 5,
+      "repository": "https://github.com/tracel-ai/cubecl-hip/tree/main/crates/cubecl-hip-sys",
+      "score": 70.95,
+      "version": "7.14.6085002",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.348,
+        "downloads": 0.8918,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.5942,
+        "security": 1.0
+      },
+      "created": "2015-11-27",
+      "dependents": 61,
+      "description": "Apple `Security.framework` low-level FFI bindings",
+      "downloads": 384782994,
+      "edition": "2021",
+      "keywords": [
+        "crypto",
+        "ffi",
+        "ios",
+        "ssl",
+        "tls"
+      ],
+      "last_release": "2026-02-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "security-framework-sys",
+      "owners": 2,
+      "recent_downloads": 101801951,
+      "releases_365d": 2,
+      "repository": "https://github.com/kornelski/rust-security-framework",
+      "score": 70.91,
+      "version": "2.17.0",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.5485,
+        "downloads": 0.8685,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.4569,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 668,
+      "description": "Apple's C language extension of blocks",
+      "downloads": 150571735,
+      "edition": "2021",
+      "keywords": [
+        "blocks",
+        "ios",
+        "macos",
+        "objective-c"
+      ],
+      "last_release": "2025-10-04",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "block2",
+      "owners": 2,
+      "recent_downloads": 62959464,
+      "releases_365d": 0,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 70.28,
+      "version": "0.6.2",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.7783,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8789,
+        "security": 1.0
+      },
+      "created": "2023-09-24",
+      "dependents": 8,
+      "description": "Raw bindings to liblzma which contains an implementation of LZMA and xz stream\nencoding/decoding.\n\nHigh level Rust bindings are available in the `liblzma` crate.\n",
+      "downloads": 28807860,
+      "edition": "2021",
+      "keywords": [
+        "encoding",
+        "lzma",
+        "wasm",
+        "xz"
+      ],
+      "last_release": "2026-09-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "liblzma-sys",
+      "owners": 1,
+      "recent_downloads": 9754532,
+      "releases_365d": 5,
+      "repository": "https://github.com/portable-network-archive/liblzma-rs",
+      "score": 70.27,
+      "version": "0.4.9",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.2973,
+        "downloads": 0.895,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.6299,
+        "security": 1.0
+      },
+      "created": "2016-02-26",
+      "dependents": 33,
+      "description": "Rust definitions corresponding to jni.h",
+      "downloads": 265932230,
+      "edition": "2021",
+      "keywords": [
+        "java",
+        "jni"
+      ],
+      "last_release": "2026-03-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.76.0",
+      "name": "jni-sys",
+      "owners": 2,
+      "recent_downloads": 108824191,
+      "releases_365d": 2,
+      "repository": "https://github.com/jni-rs/jni-sys",
+      "score": 70.26,
+      "version": "0.4.1",
+      "versions": 11
+    }
+  ],
+  "score_version": 1
+}

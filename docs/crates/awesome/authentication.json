@@ -1,0 +1,957 @@
+{
+  "category": {
+    "crates": 3421,
+    "description": "Crates to help with the process of confirming identities.",
+    "name": "Authentication",
+    "slug": "authentication"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6269,
+        "downloads": 0.8371,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8503,
+        "security": 1.0
+      },
+      "created": "2017-02-28",
+      "dependents": 1694,
+      "description": "Pure Rust implementation of the Argon2 password hashing function with support\nfor the Argon2d, Argon2i, and Argon2id algorithmic variants\n",
+      "downloads": 79665442,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "hashing",
+        "password",
+        "phf"
+      ],
+      "last_release": "2026-08-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "argon2",
+      "owners": 2,
+      "recent_downloads": 32897391,
+      "releases_365d": 7,
+      "repository": "https://github.com/RustCrypto/password-hashes",
+      "score": 83.36,
+      "version": "0.6.0",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5644,
+        "downloads": 0.8782,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.6667,
+        "security": 1.0
+      },
+      "created": "2017-02-28",
+      "dependents": 807,
+      "description": "Generic implementation of PBKDF2",
+      "downloads": 303224728,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "hashing",
+        "password",
+        "phf"
+      ],
+      "last_release": "2026-04-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pbkdf2",
+      "owners": 2,
+      "recent_downloads": 76936463,
+      "releases_365d": 9,
+      "repository": "https://github.com/RustCrypto/password-hashes",
+      "score": 80.07,
+      "version": "0.13.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "encoding",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.4603,
+        "downloads": 0.7748,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9773,
+        "security": 1.0
+      },
+      "created": "2021-11-18",
+      "dependents": 234,
+      "description": "Pure Rust implementation of SSH key file format decoders/encoders as described\nin RFC4251/RFC4253 and OpenSSH key formats, as well as \"sshsig\" signatures and\ncertificates (including certificate validation and certificate authority support),\nwith further support for the `authorized_keys` and `known_hosts` file formats.\n",
+      "downloads": 18816099,
+      "edition": "2021",
+      "keywords": [
+        "certificate",
+        "crypto",
+        "openssh",
+        "ssh",
+        "sshsig"
+      ],
+      "last_release": "2026-11-09",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.65",
+      "name": "ssh-key",
+      "owners": 2,
+      "recent_downloads": 9057487,
+      "releases_365d": 9,
+      "repository": "https://github.com/RustCrypto/SSH",
+      "score": 79.54,
+      "version": "0.6.7",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4585,
+        "downloads": 0.8332,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.6679,
+        "security": 1.0
+      },
+      "created": "2016-10-06",
+      "dependents": 229,
+      "description": "Scrypt password-based key derivation function",
+      "downloads": 91816153,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "hashing",
+        "password",
+        "phf"
+      ],
+      "last_release": "2026-04-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "scrypt",
+      "owners": 2,
+      "recent_downloads": 30345753,
+      "releases_365d": 8,
+      "repository": "https://github.com/RustCrypto/password-hashes",
+      "score": 76.31,
+      "version": "0.12.0",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "encoding",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.7777,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9978,
+        "security": 1.0
+      },
+      "created": "2022-10-21",
+      "dependents": 28,
+      "description": "Pure Rust implementation of SSH data type decoders/encoders as described in RFC4251",
+      "downloads": 20659537,
+      "edition": "2024",
+      "keywords": [
+        "certificate",
+        "crypto",
+        "key",
+        "openssh",
+        "ssh"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "ssh-encoding",
+      "owners": 2,
+      "recent_downloads": 9628185,
+      "releases_365d": 8,
+      "repository": "https://github.com/RustCrypto/SSH",
+      "score": 75.51,
+      "version": "0.3.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3978,
+        "downloads": 0.8581,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.6498,
+        "security": 1.0
+      },
+      "created": "2020-08-18",
+      "dependents": 111,
+      "description": "Traits which describe the functionality of password hashing algorithms, with optional support for a\n`no_std`/`no_alloc`-friendly implementation of the PHC string format, as well as generic support for other\nformats (e.g. Modular Crypt Format)\n",
+      "downloads": 161136207,
+      "edition": "2024",
+      "keywords": [
+        "crypt",
+        "mcf",
+        "password",
+        "pbkdf",
+        "phc"
+      ],
+      "last_release": "2026-04-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "password-hash",
+      "owners": 2,
+      "recent_downloads": 50762942,
+      "releases_365d": 11,
+      "repository": "https://github.com/RustCrypto/traits",
+      "score": 75.14,
+      "version": "0.6.1",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "authentication",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3736,
+        "downloads": 0.7311,
+        "license": 0.75,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.961,
+        "security": 1.0
+      },
+      "created": "2019-04-19",
+      "dependents": 83,
+      "description": "Webauthn Framework for Rust Web Servers",
+      "downloads": 9706558,
+      "edition": "2021",
+      "keywords": [
+        "authentication",
+        "passkeys",
+        "webauthn"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MPL-2.0",
+      "msrv": "1.89",
+      "name": "webauthn-rs",
+      "owners": 4,
+      "recent_downloads": 3671498,
+      "releases_365d": 5,
+      "repository": "https://github.com/kanidm/webauthn-rs",
+      "score": 74.53,
+      "version": "0.6.2",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "authentication",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7364,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9967,
+        "security": 1.0
+      },
+      "created": "2022-03-12",
+      "dependents": 12,
+      "description": "Signing HTTP requests for AWS, Azure, Google, Huawei, Aliyun, Tencent and Oracle services",
+      "downloads": 18357646,
+      "edition": "2024",
+      "keywords": [
+        "aws",
+        "azure",
+        "http",
+        "requests",
+        "signing"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.86.0",
+      "name": "reqsign",
+      "owners": 3,
+      "recent_downloads": 4097245,
+      "releases_365d": 9,
+      "repository": "https://github.com/apache/reqsign",
+      "score": 73.77,
+      "version": "0.20.8",
+      "versions": 84
+    },
+    {
+      "categories": [
+        "authentication",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.4247,
+        "downloads": 0.735,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8169,
+        "security": 1.0
+      },
+      "created": "2020-04-13",
+      "dependents": 153,
+      "description": "RFC-compliant TOTP implementation with ease of use as a goal and additional QoL features.",
+      "downloads": 13281849,
+      "edition": "2024",
+      "keywords": [
+        "2fa",
+        "authentication",
+        "hmac",
+        "otp",
+        "totp"
+      ],
+      "last_release": "2026-08-06",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "totp-rs",
+      "owners": 1,
+      "recent_downloads": 3984735,
+      "releases_365d": 3,
+      "repository": "https://github.com/constantoine/totp-rs",
+      "score": 72.75,
+      "version": "6.0.0",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "authentication",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.2567,
+        "downloads": 0.7467,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9565,
+        "security": 1.0
+      },
+      "created": "2021-06-15",
+      "dependents": 20,
+      "description": "Core SPIFFE identity types, Workload API sources, and experimental Broker API bindings",
+      "downloads": 6832214,
+      "edition": "2021",
+      "keywords": [
+        "identity",
+        "jwt",
+        "spiffe",
+        "spire",
+        "x509"
+      ],
+      "last_release": "2026-10-28",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "spiffe",
+      "owners": 1,
+      "recent_downloads": 5070571,
+      "releases_365d": 27,
+      "repository": "https://github.com/maxlambrecht/rust-spiffe",
+      "score": 72.43,
+      "version": "0.19.0",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "authentication"
+      ],
+      "components": {
+        "dependents": 0.3651,
+        "downloads": 0.764,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.7497,
+        "security": 1.0
+      },
+      "created": "2020-05-22",
+      "dependents": 75,
+      "description": "Google cloud platform (GCP) authentication using default and custom service accounts",
+      "downloads": 19540897,
+      "edition": "2021",
+      "keywords": [
+        "authentication",
+        "gcp",
+        "google"
+      ],
+      "last_release": "2026-06-22",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "gcp_auth",
+      "owners": 2,
+      "recent_downloads": 7249819,
+      "releases_365d": 3,
+      "repository": "https://github.com/djc/gcp_auth",
+      "score": 71.97,
+      "version": "0.12.7",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "authentication",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.7438,
+        "license": 0.75,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.961,
+        "security": 1.0
+      },
+      "created": "2022-07-08",
+      "dependents": 25,
+      "description": "Webauthn Specification Bindings",
+      "downloads": 11419829,
+      "edition": "2021",
+      "keywords": [
+        "authentication",
+        "webauthn"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MPL-2.0",
+      "msrv": "1.89",
+      "name": "webauthn-rs-proto",
+      "owners": 2,
+      "recent_downloads": 4777757,
+      "releases_365d": 5,
+      "repository": "https://github.com/kanidm/webauthn-rs",
+      "score": 71.38,
+      "version": "0.6.2",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "email"
+      ],
+      "components": {
+        "dependents": 0.3891,
+        "downloads": 0.6215,
+        "license": 0.75,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9316,
+        "security": 1.0
+      },
+      "created": "2018-11-24",
+      "dependents": 100,
+      "description": "OpenPGP data types and associated machinery",
+      "downloads": 2135675,
+      "edition": "2021",
+      "keywords": [
+        "cryptography",
+        "encryption",
+        "openpgp",
+        "pgp",
+        "signing"
+      ],
+      "last_release": "2026-10-14",
+      "license": "LGPL-2.0-or-later",
+      "msrv": "1.85",
+      "name": "sequoia-openpgp",
+      "owners": 2,
+      "recent_downloads": 381055,
+      "releases_365d": 5,
+      "repository": "https://gitlab.com/sequoia-pgp/sequoia",
+      "score": 70.74,
+      "version": "2.4.2",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "authentication",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7433,
+        "license": 0.75,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.961,
+        "security": 1.0
+      },
+      "created": "2022-07-08",
+      "dependents": 12,
+      "description": "Webauthn Cryptographic Operation Handling",
+      "downloads": 11306791,
+      "edition": "2021",
+      "keywords": [
+        "authentication",
+        "webauthn"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MPL-2.0",
+      "msrv": "1.89",
+      "name": "webauthn-rs-core",
+      "owners": 2,
+      "recent_downloads": 4724715,
+      "releases_365d": 5,
+      "repository": "https://github.com/kanidm/webauthn-rs",
+      "score": 69.9,
+      "version": "0.6.2",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2225,
+        "downloads": 0.6117,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9701,
+        "security": 1.0
+      },
+      "created": "2022-11-13",
+      "dependents": 13,
+      "description": "Password authentication library with a focus on simplicity and ease-of-use,\nincluding support for Argon2, PBKDF2, and scrypt password hashing algorithms\n",
+      "downloads": 1470749,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "hashing",
+        "password"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "password-auth",
+      "owners": 2,
+      "recent_downloads": 310996,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/password-hashes",
+      "score": 69.41,
+      "version": "2.0.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.6658,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9789,
+        "security": 1.0
+      },
+      "created": "2021-01-04",
+      "dependents": 8,
+      "description": "Ledger Nano X/S connection and communication management library",
+      "downloads": 3960996,
+      "edition": "2024",
+      "keywords": [
+        "apdu",
+        "cryptocurrency",
+        "ledger"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "coins-ledger",
+      "owners": 1,
+      "recent_downloads": 952896,
+      "releases_365d": 10,
+      "repository": "https://github.com/summa-tx/coins",
+      "score": 68.96,
+      "version": "0.17.2",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2747,
+        "downloads": 0.7599,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.6679,
+        "security": 1.0
+      },
+      "created": "2018-08-22",
+      "dependents": 25,
+      "description": "bcrypt-pbkdf password-based key derivation function",
+      "downloads": 21236221,
+      "edition": "2024",
+      "keywords": [
+        "crypto",
+        "hashing",
+        "password",
+        "phf"
+      ],
+      "last_release": "2026-04-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "bcrypt-pbkdf",
+      "owners": 2,
+      "recent_downloads": 6664314,
+      "releases_365d": 3,
+      "repository": "https://github.com/RustCrypto/password-hashes",
+      "score": 68.38,
+      "version": "0.11.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "network-programming",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2225,
+        "downloads": 0.5212,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9787,
+        "security": 1.0
+      },
+      "created": "2024-09-06",
+      "dependents": 13,
+      "description": "Pubky SDK",
+      "downloads": 69764,
+      "edition": "2024",
+      "keywords": [
+        "decentralized",
+        "dht",
+        "dns",
+        "identity",
+        "web"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT",
+      "msrv": "1.91",
+      "name": "pubky",
+      "owners": 3,
+      "recent_downloads": 47911,
+      "releases_365d": 20,
+      "repository": "https://github.com/pubky/pubky-homeserver",
+      "score": 68.27,
+      "version": "0.18.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography"
+      ],
+      "components": {
+        "dependents": 0.2567,
+        "downloads": 0.6943,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8555,
+        "security": 1.0
+      },
+      "created": "2020-10-12",
+      "dependents": 20,
+      "description": "PASETO: Platform-Agnostic Security Tokens (in Rust)",
+      "downloads": 10681542,
+      "edition": "2024",
+      "keywords": [
+        "authentication",
+        "crypto",
+        "cryptography",
+        "paseto",
+        "token"
+      ],
+      "last_release": "2026-08-30",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "pasetors",
+      "owners": 1,
+      "recent_downloads": 1714792,
+      "releases_365d": 3,
+      "repository": "https://github.com/brycx/pasetors",
+      "score": 68.11,
+      "version": "0.8.1",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "authentication"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.6385,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9142,
+        "security": 1.0
+      },
+      "created": "2020-03-01",
+      "dependents": 10,
+      "description": "OpenID Connect & Discovery client library using async / await.\n",
+      "downloads": 4773143,
+      "edition": "2024",
+      "keywords": [
+        "authentication",
+        "authorization",
+        "oauth",
+        "openid",
+        "uma2"
+      ],
+      "last_release": "2026-10-04",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.85",
+      "name": "openid",
+      "owners": 1,
+      "recent_downloads": 541334,
+      "releases_365d": 8,
+      "repository": "https://github.com/kilork/openid",
+      "score": 67.73,
+      "version": "0.25.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "authentication"
+      ],
+      "components": {
+        "dependents": 0.3756,
+        "downloads": 0.4838,
+        "license": 1.0,
+        "maintenance": 0.7117,
+        "msrv": 1.0,
+        "recency": 0.9953,
+        "security": 1.0
+      },
+      "created": "2026-06-09",
+      "dependents": 85,
+      "description": "ToolKit security library",
+      "downloads": 39344,
+      "edition": "2024",
+      "keywords": [
+        "cf-gears",
+        "cf-gears-toolkit",
+        "constructorfabric"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "cf-gears-toolkit-security",
+      "owners": 1,
+      "recent_downloads": 22103,
+      "releases_365d": 13,
+      "repository": "https://github.com/constructorfabric/gears-rust",
+      "score": 67.09,
+      "version": "0.14.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.5605,
+        "license": 1.0,
+        "maintenance": 0.7957,
+        "msrv": 1.0,
+        "recency": 0.9923,
+        "security": 1.0
+      },
+      "created": "2025-08-07",
+      "dependents": 18,
+      "description": "Implementation of the did:webvh method in Rust",
+      "downloads": 175886,
+      "edition": "2024",
+      "keywords": [
+        "did",
+        "ssi",
+        "verifiable",
+        "webvh"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "didwebvh-rs",
+      "owners": 1,
+      "recent_downloads": 107979,
+      "releases_365d": 28,
+      "repository": "https://github.com/decentralized-identity/didwebvh-rs",
+      "score": 67.04,
+      "version": "0.8.3",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "authentication",
+        "cryptography",
+        "hardware-support"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.578,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9158,
+        "security": 1.0
+      },
+      "created": "2016-08-19",
+      "dependents": 22,
+      "description": "Pure Rust cross-platform host-side driver for YubiKey devices from Yubico with\nsupport for hardware-backed public-key decryption and digital signatures using\nthe Personal Identity Verification (PIV) application. Supports RSA (1024/2048/3072/4096)\nor ECC (NIST P-256/P-384) algorithms e.g, PKCS#1v1.5, ECDSA\n",
+      "downloads": 612278,
+      "edition": "2021",
+      "keywords": [
+        "ecdsa",
+        "encryption",
+        "piv",
+        "rsa",
+        "signature"
+      ],
+      "last_release": "2026-10-05",
+      "license": "BSD-2-Clause",
+      "msrv": "1.65",
+      "name": "yubikey",
+      "owners": 3,
+      "recent_downloads": 154923,
+      "releases_365d": 2,
+      "repository": "https://github.com/iqlusioninc/yubikey.rs",
+      "score": 66.8,
+      "version": "0.8.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "authentication",
+        "cryptography"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.551,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9917,
+        "security": 1.0
+      },
+      "created": "2023-10-24",
+      "dependents": 7,
+      "description": "Rust crypto library for zero-knowledge proofs",
+      "downloads": 381928,
+      "edition": "2021",
+      "keywords": [
+        "bbs",
+        "blind-signature",
+        "crypto",
+        "signatures",
+        "zero-knowledge"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "msrv": "1.65",
+      "name": "zkryptium",
+      "owners": 3,
+      "recent_downloads": 88723,
+      "releases_365d": 3,
+      "repository": "https://github.com/Cybersecurity-LINKS/zkryptium",
+      "score": 66.53,
+      "version": "0.8.2",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "authentication",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.7747,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8264,
+        "security": 1.0
+      },
+      "created": "2024-05-26",
+      "dependents": 7,
+      "description": "A proxy connector for Hyper-based applications",
+      "downloads": 40592594,
+      "edition": "2021",
+      "keywords": [
+        "hyper",
+        "proxy",
+        "ssl",
+        "tokio"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT",
+      "msrv": "1.70.0",
+      "name": "hyper-http-proxy",
+      "owners": 1,
+      "recent_downloads": 9056157,
+      "releases_365d": 2,
+      "repository": "https://github.com/metalbear-co/hyper-http-proxy",
+      "score": 66.15,
+      "version": "1.2.0",
+      "versions": 4
+    }
+  ],
+  "score_version": 1
+}

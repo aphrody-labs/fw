@@ -1,0 +1,939 @@
+{
+  "category": {
+    "crates": 1012,
+    "description": "Subcommands that extend the capabilities of Cargo.",
+    "name": "Development tools::Cargo plugins",
+    "slug": "development-tools::cargo-plugins"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.433,
+        "downloads": 0.7419,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9827,
+        "security": 1.0
+      },
+      "created": "2019-04-08",
+      "dependents": 169,
+      "description": "Re-usable CLI flags for `cargo` plugins",
+      "downloads": 17523774,
+      "edition": "2024",
+      "keywords": [
+        "cargo"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86",
+      "name": "clap-cargo",
+      "owners": 2,
+      "recent_downloads": 4589321,
+      "releases_365d": 2,
+      "repository": "https://github.com/crate-ci/clap-cargo",
+      "score": 75.11,
+      "version": "0.19.1",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.6459,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9443,
+        "security": 1.0
+      },
+      "created": "2015-11-21",
+      "dependents": 7,
+      "description": "Cargo commands for modifying a `Cargo.toml` file..",
+      "downloads": 4079579,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "cargo-subcommand",
+        "cli",
+        "crates",
+        "dependencies"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97",
+      "name": "cargo-edit",
+      "owners": 4,
+      "recent_downloads": 631198,
+      "releases_365d": 6,
+      "repository": "https://github.com/killercup/cargo-edit",
+      "score": 69.7,
+      "version": "0.13.14",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.742,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9802,
+        "security": 1.0
+      },
+      "created": "2017-02-07",
+      "dependents": 3,
+      "description": "Audit Cargo.lock for crates with security vulnerabilities",
+      "downloads": 15418920,
+      "edition": "2024",
+      "keywords": [
+        "audit",
+        "cargo-subcommand",
+        "security",
+        "vulnerability"
+      ],
+      "last_release": "2026-11-10",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88",
+      "name": "cargo-audit",
+      "owners": 5,
+      "recent_downloads": 4604536,
+      "releases_365d": 3,
+      "repository": "https://github.com/rustsec/rustsec",
+      "score": 69.68,
+      "version": "0.23.0",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.7027,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9992,
+        "security": 1.0
+      },
+      "created": "2021-01-22",
+      "dependents": 3,
+      "description": "Cargo subcommand to easily use LLVM source-based code coverage (-C instrument-coverage).\n",
+      "downloads": 9385465,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "coverage",
+        "subcommand",
+        "testing"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "cargo-llvm-cov",
+      "owners": 1,
+      "recent_downloads": 2042479,
+      "releases_365d": 16,
+      "repository": "https://github.com/taiki-e/cargo-llvm-cov",
+      "score": 68.48,
+      "version": "0.9.2",
+      "versions": 125
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins",
+        "development-tools::debugging",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.6497,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8134,
+        "security": 1.0
+      },
+      "created": "2018-02-06",
+      "dependents": 14,
+      "description": "Fuzz your Rust code with Google-developed Honggfuzz !\n",
+      "downloads": 8354342,
+      "edition": "2024",
+      "keywords": [
+        "fuzzer",
+        "fuzzing",
+        "property",
+        "security",
+        "testing"
+      ],
+      "last_release": "2026-08-04",
+      "license": "MIT/Apache-2.0/Unlicense/WTFPL",
+      "msrv": "1.85",
+      "name": "honggfuzz",
+      "owners": 2,
+      "recent_downloads": 682958,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-fuzz/honggfuzz-rs",
+      "score": 68.15,
+      "version": "0.5.62",
+      "versions": 69
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.6223,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2020-02-09",
+      "dependents": 4,
+      "description": "Wrap rust executables in OS-specific app bundles for Tauri",
+      "downloads": 1911261,
+      "edition": "2024",
+      "keywords": [
+        "bundle",
+        "cargo",
+        "tauri"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.90",
+      "name": "tauri-bundler",
+      "owners": 2,
+      "recent_downloads": 387621,
+      "releases_365d": 22,
+      "repository": "https://github.com/tauri-apps/tauri",
+      "score": 67.88,
+      "version": "2.10.6",
+      "versions": 174
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.7,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9865,
+        "security": 1.0
+      },
+      "created": "2022-02-13",
+      "dependents": 1,
+      "description": "A next-generation test runner for Rust.",
+      "downloads": 14027614,
+      "edition": "2024",
+      "keywords": [
+        "flaky-tests",
+        "junit",
+        "nextest",
+        "test-runner"
+      ],
+      "last_release": "2026-11-13",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.91",
+      "name": "cargo-nextest",
+      "owners": 2,
+      "recent_downloads": 1931955,
+      "releases_365d": 44,
+      "repository": "https://github.com/nextest-rs/nextest",
+      "score": 67.76,
+      "version": "0.9.152",
+      "versions": 176
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins",
+        "development-tools::debugging"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.6397,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9225,
+        "security": 1.0
+      },
+      "created": "2016-06-05",
+      "dependents": 4,
+      "description": "Wrapper around rustc -Zunpretty=expanded. Shows the result of macro expansion and #[derive] expansion.",
+      "downloads": 3938920,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "macros",
+        "subcommand"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.90",
+      "name": "cargo-expand",
+      "owners": 1,
+      "recent_downloads": 555109,
+      "releases_365d": 9,
+      "repository": "https://github.com/dtolnay/cargo-expand",
+      "score": 66.22,
+      "version": "1.0.127",
+      "versions": 182
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6661,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9726,
+        "security": 1.0
+      },
+      "created": "2021-12-01",
+      "dependents": 1,
+      "description": "CycloneDX Software Bill of Materials (SBOM) for Rust Crates",
+      "downloads": 2484089,
+      "edition": "2021",
+      "keywords": [
+        "bom",
+        "components",
+        "dependencies",
+        "owasp",
+        "sbom"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.86.0",
+      "name": "cargo-cyclonedx",
+      "owners": 4,
+      "recent_downloads": 957877,
+      "releases_365d": 3,
+      "repository": "https://github.com/CycloneDX/cyclonedx-rust-cargo",
+      "score": 66.2,
+      "version": "0.5.10",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "database",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.6554,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9844,
+        "security": 1.0
+      },
+      "created": "2023-04-17",
+      "dependents": 0,
+      "description": "Cargo subcommand for 'pgrx' to make Postgres extension development easy",
+      "downloads": 2002999,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "extension",
+        "postgres",
+        "postgresql"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "msrv": "1.99.1",
+      "name": "cargo-pgrx",
+      "owners": 3,
+      "recent_downloads": 768413,
+      "releases_365d": 11,
+      "repository": "https://github.com/pgcentralfoundation/pgrx/",
+      "score": 66.15,
+      "version": "0.20.0",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.7147,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9973,
+        "security": 1.0
+      },
+      "created": "2019-05-13",
+      "dependents": 0,
+      "description": "Cargo plugin to help you manage large dependency graphs",
+      "downloads": 7803055,
+      "edition": "2024",
+      "keywords": [
+        "advisories",
+        "cargo",
+        "ci",
+        "license",
+        "spdx"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "cargo-deny",
+      "owners": 1,
+      "recent_downloads": 2616969,
+      "releases_365d": 18,
+      "repository": "https://github.com/EmbarkStudios/cargo-deny",
+      "score": 65.83,
+      "version": "0.22.0",
+      "versions": 120
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins",
+        "development-tools::profiling",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5202,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9653,
+        "security": 1.0
+      },
+      "created": "2019-03-07",
+      "dependents": 3,
+      "description": "A simple cargo subcommand for generating flamegraphs, using inferno under the hood",
+      "downloads": 1035918,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "cargo-subcommand",
+        "flamegraph",
+        "perf",
+        "profiling"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "flamegraph",
+      "owners": 3,
+      "recent_downloads": 46932,
+      "releases_365d": 5,
+      "repository": "https://github.com/flamegraph-rs/flamegraph",
+      "score": 65.41,
+      "version": "0.6.15",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.3932,
+        "downloads": 0.4385,
+        "license": 1.0,
+        "maintenance": 0.7109,
+        "msrv": 1.0,
+        "recency": 0.9224,
+        "security": 1.0
+      },
+      "created": "2026-06-12",
+      "dependents": 105,
+      "description": "Reusable, multi-aspect Rust test-matrix engine: wrap a repo's native cargo test/nextest plus build/clippy/fmt/audit/coverage/doctest aspects, parse the results into rows, and ship them to any TestSink. Pure std + serde — no iceberg, arrow, eframe. The portable core of nornir's `nornir test` matrix.",
+      "downloads": 13803,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "ci",
+        "clippy",
+        "matrix",
+        "test"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "nornir-testmatrix",
+      "owners": 1,
+      "recent_downloads": 8662,
+      "releases_365d": 21,
+      "repository": "https://codeberg.org/nordisk/nornir",
+      "score": 65.29,
+      "version": "0.2.14",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.6259,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9525,
+        "security": 1.0
+      },
+      "created": "2019-11-07",
+      "dependents": 2,
+      "description": "Cargo plugin for generating a listing of all of the crates and the the terms under which they are licensed",
+      "downloads": 1516950,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "license",
+        "spdx"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "cargo-about",
+      "owners": 1,
+      "recent_downloads": 416798,
+      "releases_365d": 6,
+      "repository": "https://github.com/EmbarkStudios/cargo-about",
+      "score": 65.25,
+      "version": "0.9.3",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5845,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9126,
+        "security": 1.0
+      },
+      "created": "2022-07-13",
+      "dependents": 5,
+      "description": "Scan your Rust crate for semver violations.",
+      "downloads": 750604,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "check",
+        "crate",
+        "linter",
+        "semver"
+      ],
+      "last_release": "2026-10-03",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.93",
+      "name": "cargo-semver-checks",
+      "owners": 1,
+      "recent_downloads": 177199,
+      "releases_365d": 6,
+      "repository": "https://github.com/obi1kenobi/cargo-semver-checks",
+      "score": 65.08,
+      "version": "0.51.0",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.5234,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9209,
+        "security": 1.0
+      },
+      "created": "2015-12-10",
+      "dependents": 10,
+      "description": "A cargo subcommand to generate README.md content from doc comments",
+      "downloads": 820989,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "documentation",
+        "readme",
+        "subcommand"
+      ],
+      "last_release": "2026-10-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.80",
+      "name": "cargo-readme",
+      "owners": 1,
+      "recent_downloads": 50159,
+      "releases_365d": 4,
+      "repository": "https://github.com/webern/cargo-readme",
+      "score": 64.95,
+      "version": "3.4.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::build-utils",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.6138,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8588,
+        "security": 1.0
+      },
+      "created": "2017-07-31",
+      "dependents": 4,
+      "description": "Make Debian packages (.deb) easily with a Cargo subcommand",
+      "downloads": 2457730,
+      "edition": "2024",
+      "keywords": [
+        "cargo-subcommand",
+        "debian",
+        "deploy",
+        "ubuntu"
+      ],
+      "last_release": "2026-09-01",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "cargo-deb",
+      "owners": 1,
+      "recent_downloads": 324810,
+      "releases_365d": 4,
+      "repository": "https://github.com/kornelski/cargo-deb",
+      "score": 64.62,
+      "version": "3.8.0",
+      "versions": 146
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.4754,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9437,
+        "security": 1.0
+      },
+      "created": "2016-03-09",
+      "dependents": 6,
+      "description": "Cargo subcommand for you to smooth your release process.",
+      "downloads": 554921,
+      "edition": "2024",
+      "keywords": [
+        "cargo"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97",
+      "name": "cargo-release",
+      "owners": 2,
+      "recent_downloads": 18587,
+      "releases_365d": 9,
+      "repository": "https://github.com/crate-ci/cargo-release",
+      "score": 64.14,
+      "version": "1.1.7",
+      "versions": 151
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.5903,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9978,
+        "security": 1.0
+      },
+      "created": "2021-05-10",
+      "dependents": 0,
+      "description": "Check if tables and items in a .toml file are lexically sorted",
+      "downloads": 2650361,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "check",
+        "dependencies",
+        "sort",
+        "subcommand"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.82",
+      "name": "cargo-sort",
+      "owners": 2,
+      "recent_downloads": 199855,
+      "releases_365d": 6,
+      "repository": "https://github.com/DevinR528/cargo-sort",
+      "score": 63.72,
+      "version": "2.1.5",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "command-line-utilities",
+        "development-tools",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5399,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8628,
+        "security": 1.0
+      },
+      "created": "2024-08-28",
+      "dependents": 1,
+      "description": "Reusable and Extensible xtask commands to manage repositories.",
+      "downloads": 189859,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "cli",
+        "extensible",
+        "xtask"
+      ],
+      "last_release": "2026-09-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "tracel-xtask",
+      "owners": 3,
+      "recent_downloads": 70520,
+      "releases_365d": 60,
+      "repository": "https://github.com/tracel-ai/xtask/tree/main/crates/tracel-xtask",
+      "score": 62.9,
+      "version": "5.3.0",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "command-line-utilities",
+        "development-tools",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5399,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8628,
+        "security": 1.0
+      },
+      "created": "2024-08-27",
+      "dependents": 1,
+      "description": "Macros for tracel-xtask crate.",
+      "downloads": 192394,
+      "edition": "2024",
+      "keywords": [
+        "macros",
+        "xtask"
+      ],
+      "last_release": "2026-09-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "tracel-xtask-macros",
+      "owners": 3,
+      "recent_downloads": 70437,
+      "releases_365d": 60,
+      "repository": "https://github.com/tracel-ai/xtask/tree/main/crates/tracel-xtask-macros",
+      "score": 62.9,
+      "version": "5.3.0",
+      "versions": 101
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5458,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.985,
+        "security": 1.0
+      },
+      "created": "2024-03-15",
+      "dependents": 1,
+      "description": "Detect and fix unused/misplaced dependencies from Cargo.toml",
+      "downloads": 552704,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "dependencies",
+        "machete",
+        "udeps",
+        "unused"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "cargo-shear",
+      "owners": 1,
+      "recent_downloads": 79603,
+      "releases_365d": 26,
+      "repository": "https://github.com/Boshen/cargo-shear",
+      "score": 62.88,
+      "version": "1.14.1",
+      "versions": 91
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5779,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9257,
+        "security": 1.0
+      },
+      "created": "2019-06-26",
+      "dependents": 1,
+      "description": "Helper program to build and install c-like libraries",
+      "downloads": 1192487,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "cdylib"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT",
+      "msrv": "1.97",
+      "name": "cargo-c",
+      "owners": 1,
+      "recent_downloads": 154490,
+      "releases_365d": 8,
+      "repository": "https://github.com/lu-zero/cargo-c",
+      "score": 62.79,
+      "version": "0.10.26+cargo-0.100.0",
+      "versions": 97
+    },
+    {
+      "categories": [
+        "development-tools::cargo-plugins"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6268,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8345,
+        "security": 1.0
+      },
+      "created": "2023-10-03",
+      "dependents": 1,
+      "description": "Rust on mobile made easy!",
+      "downloads": 1505252,
+      "edition": "2021",
+      "keywords": [
+        "android",
+        "cargo",
+        "ios",
+        "mobile",
+        "tauri"
+      ],
+      "last_release": "2026-08-17",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.76",
+      "name": "cargo-mobile2",
+      "owners": 1,
+      "recent_downloads": 425037,
+      "releases_365d": 4,
+      "repository": "https://github.com/tauri-apps/cargo-mobile2",
+      "score": 62.65,
+      "version": "0.22.5",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.5928,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9637,
+        "security": 1.0
+      },
+      "created": "2019-10-30",
+      "dependents": 0,
+      "description": "Cargo subcommand to provide various options useful for testing and continuous integration.\n",
+      "downloads": 2029645,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "subcommand",
+        "testing"
+      ],
+      "last_release": "2026-11-01",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "cargo-hack",
+      "owners": 1,
+      "recent_downloads": 210605,
+      "releases_365d": 7,
+      "repository": "https://github.com/taiki-e/cargo-hack",
+      "score": 62.28,
+      "version": "0.6.46",
+      "versions": 105
+    }
+  ],
+  "score_version": 1
+}

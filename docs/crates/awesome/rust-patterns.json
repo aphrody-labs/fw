@@ -1,0 +1,946 @@
+{
+  "category": {
+    "crates": 4595,
+    "description": "Shared solutions for particular situations specific to programming in Rust.",
+    "name": "Rust patterns",
+    "slug": "rust-patterns"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.954,
+        "downloads": 0.9742,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8953,
+        "security": 1.0
+      },
+      "created": "2019-10-09",
+      "dependents": 82063,
+      "description": "derive(Error)",
+      "downloads": 1909118609,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "error",
+        "error-handling"
+      ],
+      "last_release": "2026-09-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "thiserror",
+      "owners": 1,
+      "recent_downloads": 559953559,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/thiserror",
+      "score": 94.64,
+      "version": "2.0.21",
+      "versions": 92
+    },
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.9131,
+        "downloads": 0.9453,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7884,
+        "security": 1.0
+      },
+      "created": "2019-10-05",
+      "dependents": 50480,
+      "description": "Flexible concrete Error type built on std::error::Error",
+      "downloads": 1201053491,
+      "edition": "2021",
+      "keywords": [
+        "error",
+        "error-handling"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "anyhow",
+      "owners": 1,
+      "recent_downloads": 307783670,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/anyhow",
+      "score": 91.28,
+      "version": "1.0.104",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5929,
+        "downloads": 0.9093,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9514,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 1132,
+      "description": "Wrappers for total ordering on floats",
+      "downloads": 560963624,
+      "edition": "2021",
+      "keywords": [
+        "f32",
+        "f64",
+        "no_std",
+        "ord",
+        "sort"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "ordered-float",
+      "owners": 3,
+      "recent_downloads": 146327888,
+      "releases_365d": 5,
+      "repository": "https://github.com/reem/rust-ordered-float",
+      "score": 86.83,
+      "version": "5.5.1",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "embedded",
+        "encoding",
+        "no-std::no-alloc",
+        "parsing",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5746,
+        "downloads": 0.9518,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9299,
+        "security": 1.0
+      },
+      "created": "2018-08-15",
+      "dependents": 911,
+      "description": "Zerocopy makes zero-cost memory manipulation effortless. We write \"unsafe\" so you don't have to.",
+      "downloads": 1182012711,
+      "edition": "2021",
+      "keywords": [
+        "cast",
+        "convert",
+        "transmutation",
+        "transmute",
+        "type-punning"
+      ],
+      "last_release": "2026-10-13",
+      "license": "BSD-2-Clause OR Apache-2.0 OR MIT",
+      "msrv": "1.56.0",
+      "name": "zerocopy",
+      "owners": 2,
+      "recent_downloads": 352251028,
+      "releases_365d": 41,
+      "repository": "https://github.com/google/zerocopy",
+      "score": 86.11,
+      "version": "0.8.63",
+      "versions": 174
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.6121,
+        "downloads": 0.9117,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2019-01-08",
+      "dependents": 1421,
+      "description": "A crate for safe and ergonomic pin-projection.\n",
+      "downloads": 701357584,
+      "edition": "2021",
+      "keywords": [
+        "attribute",
+        "macros",
+        "pin"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.71",
+      "name": "pin-project",
+      "owners": 1,
+      "recent_downloads": 153600275,
+      "releases_365d": 4,
+      "repository": "https://github.com/taiki-e/pin-project",
+      "score": 86.05,
+      "version": "1.2.0",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5281,
+        "downloads": 0.9281,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9863,
+        "security": 1.0
+      },
+      "created": "2018-11-24",
+      "dependents": 524,
+      "description": "A fast bump allocation arena for Rust.",
+      "downloads": 750396867,
+      "edition": "2021",
+      "keywords": [
+        "allocator",
+        "arena",
+        "bump"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.1",
+      "name": "bumpalo",
+      "owners": 2,
+      "recent_downloads": 215700230,
+      "releases_365d": 5,
+      "repository": "https://github.com/fitzgen/bumpalo",
+      "score": 85.2,
+      "version": "3.20.4",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.7606,
+        "downloads": 0.9677,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.7416,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 8273,
+      "description": "Extra iterator adaptors, iterator methods, free functions, and macros.",
+      "downloads": 1891203906,
+      "edition": "2018",
+      "keywords": [
+        "data-structure",
+        "iterator",
+        "product",
+        "zip"
+      ],
+      "last_release": "2026-06-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63.0",
+      "name": "itertools",
+      "owners": 3,
+      "recent_downloads": 489118081,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-itertools/itertools",
+      "score": 84.83,
+      "version": "0.15.0",
+      "versions": 131
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.6327,
+        "downloads": 0.9506,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2019-10-22",
+      "dependents": 1815,
+      "description": "A lightweight version of pin-project written with declarative macros.\n",
+      "downloads": 1292675526,
+      "edition": "2018",
+      "keywords": [
+        "macros",
+        "pin"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.37",
+      "name": "pin-project-lite",
+      "owners": 1,
+      "recent_downloads": 343535459,
+      "releases_365d": 2,
+      "repository": "https://github.com/taiki-e/pin-project-lite",
+      "score": 84.54,
+      "version": "0.2.18",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "data-structures",
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5771,
+        "downloads": 0.8328,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9467,
+        "security": 1.0
+      },
+      "created": "2024-06-30",
+      "dependents": 938,
+      "description": "Next-gen compile-time-checked builder generator, named function's arguments, and more!",
+      "downloads": 81291941,
+      "edition": "2024",
+      "keywords": [
+        "builder",
+        "constructor",
+        "derive",
+        "macro",
+        "setter"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "bon",
+      "owners": 2,
+      "recent_downloads": 30069062,
+      "releases_365d": 9,
+      "repository": "https://github.com/elastio/bon",
+      "score": 83.45,
+      "version": "3.10.3",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "memory-management",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.7606,
+        "downloads": 0.9587,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.6178,
+        "security": 1.0
+      },
+      "created": "2018-08-02",
+      "dependents": 8273,
+      "description": "Single assignment cells and lazy values.",
+      "downloads": 1572493982,
+      "edition": "2021",
+      "keywords": [
+        "lazy",
+        "static"
+      ],
+      "last_release": "2026-03-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "once_cell",
+      "owners": 2,
+      "recent_downloads": 405885069,
+      "releases_365d": 1,
+      "repository": "https://github.com/matklad/once_cell",
+      "score": 81.75,
+      "version": "1.21.4",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.357,
+        "downloads": 0.9425,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-19",
+      "dependents": 68,
+      "description": "Zero-copy vector backed by a byte array",
+      "downloads": 800332686,
+      "edition": "2021",
+      "keywords": [
+        "memory-efficiency",
+        "serde",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.83",
+      "name": "zerovec",
+      "owners": 2,
+      "recent_downloads": 290887730,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.67,
+      "version": "0.11.9",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.7777,
+        "downloads": 0.9403,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.9081,
+        "security": 1.0
+      },
+      "created": "2014-11-23",
+      "dependents": 10137,
+      "description": "A macro for declaring lazily evaluated statics in Rust.",
+      "downloads": 1203052210,
+      "keywords": [
+        "lazy",
+        "macro",
+        "static"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT OR Apache-2.0",
+      "name": "lazy_static",
+      "owners": 1,
+      "recent_downloads": 277722528,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-lang-nursery/lazy-static.rs",
+      "score": 80.07,
+      "version": "1.5.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.4446,
+        "downloads": 0.8424,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9757,
+        "security": 1.0
+      },
+      "created": "2019-07-26",
+      "dependents": 194,
+      "description": "This crate offers procedural macros designed to facilitate the swift implementation of Rust's built-in traits.",
+      "downloads": 137200208,
+      "edition": "2024",
+      "keywords": [
+        "derive",
+        "field",
+        "macro",
+        "procedural",
+        "trait"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "educe",
+      "owners": 1,
+      "recent_downloads": 36712729,
+      "releases_365d": 10,
+      "repository": "https://github.com/magiclen/educe",
+      "score": 79.81,
+      "version": "0.8.2",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "encoding",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5008,
+        "downloads": 0.8785,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9502,
+        "security": 1.0
+      },
+      "created": "2016-08-21",
+      "dependents": 379,
+      "description": "Type-erased Serialize and Serializer traits",
+      "downloads": 290938797,
+      "edition": "2021",
+      "keywords": [
+        "erasure",
+        "serde"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "erased-serde",
+      "owners": 1,
+      "recent_downloads": 77370916,
+      "releases_365d": 2,
+      "repository": "https://github.com/dtolnay/erased-serde",
+      "score": 78.74,
+      "version": "0.4.11",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5834,
+        "downloads": 0.8301,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7927,
+        "security": 1.0
+      },
+      "created": "2019-01-28",
+      "dependents": 1011,
+      "description": "An ergonomic error handling library",
+      "downloads": 132177410,
+      "edition": "2018",
+      "keywords": [
+        "ergonomic",
+        "error",
+        "library",
+        "no_std"
+      ],
+      "last_release": "2026-07-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "snafu",
+      "owners": 1,
+      "recent_downloads": 28434721,
+      "releases_365d": 3,
+      "repository": "https://github.com/shepmaster/snafu",
+      "score": 78.73,
+      "version": "0.9.2",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.557,
+        "downloads": 0.8786,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9225,
+        "security": 1.0
+      },
+      "created": "2016-03-19",
+      "dependents": 739,
+      "description": "Indented document literals",
+      "downloads": 380473785,
+      "edition": "2021",
+      "keywords": [
+        "heredoc",
+        "literal",
+        "multiline",
+        "nowdoc",
+        "string"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "indoc",
+      "owners": 1,
+      "recent_downloads": 77575729,
+      "releases_365d": 1,
+      "repository": "https://github.com/dtolnay/indoc",
+      "score": 78.23,
+      "version": "2.0.8",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.6928,
+        "downloads": 0.9159,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.5306,
+        "security": 1.0
+      },
+      "created": "2016-03-28",
+      "dependents": 3703,
+      "description": "Adds #[derive(x)] macros for more traits",
+      "downloads": 612403136,
+      "edition": "2021",
+      "keywords": [
+        "add",
+        "derive",
+        "display",
+        "from",
+        "intoiterator"
+      ],
+      "last_release": "2025-12-22",
+      "license": "MIT",
+      "msrv": "1.81.0",
+      "name": "derive_more",
+      "owners": 1,
+      "recent_downloads": 167500441,
+      "releases_365d": 2,
+      "repository": "https://github.com/JelteF/derive_more",
+      "score": 78.18,
+      "version": "2.1.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.6185,
+        "downloads": 0.8296,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.8251,
+        "security": 1.0
+      },
+      "created": "2020-02-05",
+      "dependents": 1533,
+      "description": "Flexible concrete Error Reporting type built on std::error::Error with customizable Reports",
+      "downloads": 135828676,
+      "edition": "2018",
+      "last_release": "2026-08-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65.0",
+      "name": "eyre",
+      "owners": 2,
+      "recent_downloads": 28123175,
+      "releases_365d": 1,
+      "repository": "https://github.com/eyre-rs/eyre",
+      "score": 78.08,
+      "version": "0.6.14",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "data-structures",
+        "embedded",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5712,
+        "downloads": 0.8784,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7446,
+        "security": 1.0
+      },
+      "created": "2018-06-28",
+      "dependents": 874,
+      "description": "Addresses memory by bits, for packed collections and bitfields",
+      "downloads": 338337315,
+      "edition": "2021",
+      "keywords": [
+        "bitfields",
+        "bitmap",
+        "bitstream",
+        "bitvec",
+        "bitvector"
+      ],
+      "last_release": "2026-06-18",
+      "license": "MIT",
+      "msrv": "1.56",
+      "name": "bitvec",
+      "owners": 2,
+      "recent_downloads": 77236514,
+      "releases_365d": 1,
+      "repository": "https://github.com/bitvecto-rs/bitvec",
+      "score": 76.91,
+      "version": "1.1.1",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.4665,
+        "downloads": 0.8279,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8818,
+        "security": 1.0
+      },
+      "created": "2021-12-08",
+      "dependents": 252,
+      "description": "Deriving with custom trait bounds",
+      "downloads": 86942255,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "macro"
+      ],
+      "last_release": "2026-09-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.57",
+      "name": "derive-where",
+      "owners": 2,
+      "recent_downloads": 27170008,
+      "releases_365d": 2,
+      "repository": "https://github.com/ModProg/derive-where",
+      "score": 76.59,
+      "version": "1.7.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "graphics",
+        "multimedia::images",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.4949,
+        "downloads": 0.8508,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.6008,
+        "security": 1.0
+      },
+      "created": "2016-06-18",
+      "dependents": 353,
+      "description": "`struct RGB/RGBA/etc.` for sharing pixels between crates + convenience methods for color manipulation.\nAllows no-copy high-level interoperability. Also adds common convenience methods and implements standard Rust traits to make `RGB`/`RGBA` pixels and slices first-class Rust objects.",
+      "downloads": 152737912,
+      "edition": "2021",
+      "keywords": [
+        "bgra",
+        "color",
+        "pixel",
+        "rgb",
+        "rgba"
+      ],
+      "last_release": "2026-02-25",
+      "license": "MIT",
+      "msrv": "1.64",
+      "name": "rgb",
+      "owners": 3,
+      "recent_downloads": 43678591,
+      "releases_365d": 3,
+      "repository": "https://github.com/kornelski/rust-rgb",
+      "score": 76.15,
+      "version": "0.8.53",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.4305,
+        "downloads": 0.9111,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8367,
+        "security": 1.0
+      },
+      "created": "2017-10-09",
+      "dependents": 164,
+      "description": "Safely cast &T to &U where the struct U contains a single field of type T.",
+      "downloads": 369821154,
+      "edition": "2021",
+      "last_release": "2026-08-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "ref-cast",
+      "owners": 1,
+      "recent_downloads": 151702714,
+      "releases_365d": 2,
+      "repository": "https://github.com/dtolnay/ref-cast",
+      "score": 76.09,
+      "version": "1.0.27",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.9423,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-12-11",
+      "dependents": 6,
+      "description": "Custom derive for the zerovec crate",
+      "downloads": 793873209,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "macros",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.83",
+      "name": "zerovec-derive",
+      "owners": 2,
+      "recent_downloads": 289621245,
+      "releases_365d": 6,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 75.84,
+      "version": "0.11.7",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "parser-implementations",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.4726,
+        "downloads": 0.8275,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8588,
+        "security": 1.0
+      },
+      "created": "2018-06-14",
+      "dependents": 271,
+      "description": "`Cargo.toml` struct definitions for parsing with Serde",
+      "downloads": 83890025,
+      "edition": "2024",
+      "keywords": [
+        "cargo",
+        "metadata",
+        "schema",
+        "serde",
+        "struct"
+      ],
+      "last_release": "2026-09-01",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "cargo_toml",
+      "owners": 1,
+      "recent_downloads": 26966414,
+      "releases_365d": 2,
+      "repository": "https://gitlab.com/lib.rs/cargo_toml",
+      "score": 75.39,
+      "version": "1.0.1",
+      "versions": 74
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.3715,
+        "downloads": 0.8202,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.8487,
+        "security": 1.0
+      },
+      "created": "2017-04-01",
+      "dependents": 81,
+      "description": "A basic 2-dimensional slice for safe and convenient handling of pixel buffers with width, height & stride",
+      "downloads": 69611433,
+      "edition": "2021",
+      "keywords": [
+        "frame",
+        "interoperability",
+        "plane",
+        "stride",
+        "vec2d"
+      ],
+      "last_release": "2026-08-26",
+      "license": "CC0-1.0 OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "imgref",
+      "owners": 2,
+      "recent_downloads": 23170364,
+      "releases_365d": 3,
+      "repository": "https://github.com/kornelski/imgref",
+      "score": 75.02,
+      "version": "1.12.3",
+      "versions": 34
+    }
+  ],
+  "score_version": 1
+}

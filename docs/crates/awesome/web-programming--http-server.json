@@ -1,0 +1,959 @@
+{
+  "category": {
+    "crates": 3404,
+    "description": "Crates to serve data over HTTP.",
+    "name": "Web programming::HTTP server",
+    "slug": "web-programming::http-server"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.7281,
+        "downloads": 0.9443,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9174,
+        "security": 1.0
+      },
+      "created": "2014-11-22",
+      "dependents": 5631,
+      "description": "A protective and efficient HTTP library for all.",
+      "downloads": 1158803937,
+      "edition": "2021",
+      "keywords": [
+        "http",
+        "hyper",
+        "hyperium"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT",
+      "msrv": "1.63",
+      "name": "hyper",
+      "owners": 2,
+      "recent_downloads": 301417504,
+      "releases_365d": 6,
+      "repository": "https://github.com/hyperium/hyper",
+      "score": 89.57,
+      "version": "1.12.0",
+      "versions": 253
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.6239,
+        "downloads": 0.7957,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9926,
+        "security": 1.0
+      },
+      "created": "2017-10-23",
+      "dependents": 1635,
+      "description": "Actix Web is a powerful, pragmatic, and extremely fast web framework for Rust",
+      "downloads": 91966821,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "http",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-web",
+      "owners": 4,
+      "recent_downloads": 13956987,
+      "releases_365d": 12,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 85.38,
+      "version": "4.20.0",
+      "versions": 165
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.6791,
+        "downloads": 0.9311,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8968,
+        "security": 1.0
+      },
+      "created": "2022-01-15",
+      "dependents": 3147,
+      "description": "hyper utilities",
+      "downloads": 660154422,
+      "edition": "2024",
+      "keywords": [
+        "http",
+        "hyper",
+        "hyperium"
+      ],
+      "last_release": "2026-09-24",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "hyper-util",
+      "owners": 1,
+      "recent_downloads": 229708093,
+      "releases_365d": 3,
+      "repository": "https://github.com/hyperium/hyper-util",
+      "score": 85.21,
+      "version": "0.1.21",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.7726,
+        "downloads": 0.9179,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6576,
+        "security": 1.0
+      },
+      "created": "2021-07-22",
+      "dependents": 9540,
+      "description": "HTTP routing and request handling library that focuses on ergonomics and modularity",
+      "downloads": 610544793,
+      "edition": "2021",
+      "keywords": [
+        "http",
+        "routing",
+        "web"
+      ],
+      "last_release": "2026-04-14",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "axum",
+      "owners": 4,
+      "recent_downloads": 174895965,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/axum",
+      "score": 84.13,
+      "version": "0.8.9",
+      "versions": 94
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.4471,
+        "downloads": 0.796,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.993,
+        "security": 1.0
+      },
+      "created": "2019-03-28",
+      "dependents": 200,
+      "description": "HTTP types and services for the Actix ecosystem",
+      "downloads": 91748200,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "futures",
+        "http"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-http",
+      "owners": 4,
+      "recent_downloads": 14047336,
+      "releases_365d": 28,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 80.97,
+      "version": "3.22.0",
+      "versions": 118
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.4607,
+        "downloads": 0.6917,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9934,
+        "security": 1.0
+      },
+      "created": "2019-03-28",
+      "dependents": 235,
+      "description": "Static file serving for Actix Web",
+      "downloads": 13259363,
+      "edition": "2021",
+      "keywords": [
+        "actix",
+        "async",
+        "futures",
+        "http"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "actix-files",
+      "owners": 4,
+      "recent_downloads": 1625149,
+      "releases_365d": 8,
+      "repository": "https://github.com/actix/actix-web",
+      "score": 78.71,
+      "version": "0.7.5",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.5409,
+        "downloads": 0.7067,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9964,
+        "security": 1.0
+      },
+      "created": "2016-12-23",
+      "dependents": 610,
+      "description": "Web framework with a focus on usability, security, extensibility, and speed.\n",
+      "downloads": 15043796,
+      "edition": "2021",
+      "keywords": [
+        "framework",
+        "rocket",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "rocket",
+      "owners": 2,
+      "recent_downloads": 2217553,
+      "releases_365d": 3,
+      "repository": "https://github.com/rwf2/Rocket",
+      "score": 78.64,
+      "version": "0.5.4",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.3822,
+        "downloads": 0.7448,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9437,
+        "security": 1.0
+      },
+      "created": "2018-11-29",
+      "dependents": 92,
+      "description": "AWS Lambda Runtime",
+      "downloads": 22622403,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "aws",
+        "lambda"
+      ],
+      "last_release": "2026-10-21",
+      "license": "Apache-2.0",
+      "msrv": "1.84.0",
+      "name": "lambda_runtime",
+      "owners": 5,
+      "recent_downloads": 4872567,
+      "releases_365d": 10,
+      "repository": "https://github.com/aws/aws-lambda-rust-runtime",
+      "score": 77.33,
+      "version": "1.5.0",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.3908,
+        "downloads": 0.6723,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2020-02-04",
+      "dependents": 102,
+      "description": "Salvo is a powerful web framework that can make your work easier.\n",
+      "downloads": 13486691,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo",
+      "owners": 4,
+      "recent_downloads": 1088277,
+      "releases_365d": 27,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 76.47,
+      "version": "1.2.1",
+      "versions": 256
+    },
+    {
+      "categories": [
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.3466,
+        "downloads": 0.719,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9437,
+        "security": 1.0
+      },
+      "created": "2019-01-25",
+      "dependents": 60,
+      "description": "Application Load Balancer and API Gateway event types for AWS Lambda",
+      "downloads": 12209384,
+      "edition": "2021",
+      "keywords": [
+        "alb",
+        "api",
+        "apigateway",
+        "aws",
+        "lambda"
+      ],
+      "last_release": "2026-10-21",
+      "license": "Apache-2.0",
+      "msrv": "1.84.0",
+      "name": "lambda_http",
+      "owners": 5,
+      "recent_downloads": 2862822,
+      "releases_365d": 10,
+      "repository": "https://github.com/aws/aws-lambda-rust-runtime",
+      "score": 75.8,
+      "version": "1.3.2",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.3662,
+        "downloads": 0.737,
+        "license": 1.0,
+        "maintenance": 0.9102,
+        "msrv": 1.0,
+        "recency": 0.8918,
+        "security": 1.0
+      },
+      "created": "2025-10-14",
+      "dependents": 76,
+      "description": "A Tower-based Rust implementation of the ConnectRPC protocol",
+      "downloads": 10026534,
+      "edition": "2024",
+      "keywords": [
+        "connectrpc",
+        "grpc",
+        "protobuf",
+        "rpc",
+        "tower"
+      ],
+      "last_release": "2026-09-21",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "connectrpc",
+      "owners": 3,
+      "recent_downloads": 4149751,
+      "releases_365d": 18,
+      "repository": "https://github.com/connectrpc/connect-rust",
+      "score": 74.61,
+      "version": "0.9.1",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "web-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.4345,
+        "downloads": 0.6189,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9591,
+        "security": 1.0
+      },
+      "created": "2016-09-11",
+      "dependents": 172,
+      "description": "GraphQL server library.",
+      "downloads": 3781756,
+      "edition": "2024",
+      "keywords": [
+        "apollo",
+        "graphql",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-10-30",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "juniper",
+      "owners": 4,
+      "recent_downloads": 361073,
+      "releases_365d": 3,
+      "repository": "https://github.com/graphql-rust/juniper",
+      "score": 74.22,
+      "version": "0.18.0",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.352,
+        "downloads": 0.5787,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2020-02-17",
+      "dependents": 64,
+      "description": "Framework for composable network services",
+      "downloads": 1192977,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "futures",
+        "networking",
+        "ntex"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97",
+      "name": "ntex",
+      "owners": 2,
+      "recent_downloads": 157318,
+      "releases_365d": 86,
+      "repository": "https://github.com/ntex-rs/ntex",
+      "score": 72.23,
+      "version": "4.9.3",
+      "versions": 286
+    },
+    {
+      "categories": [
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.5344,
+        "downloads": 0.7625,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.986,
+        "security": 1.0
+      },
+      "created": "2018-03-29",
+      "dependents": 565,
+      "description": "serve the web at warp speeds",
+      "downloads": 53598880,
+      "edition": "2021",
+      "keywords": [
+        "http",
+        "hyper",
+        "server",
+        "warp"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "name": "warp",
+      "owners": 1,
+      "recent_downloads": 7032134,
+      "releases_365d": 2,
+      "repository": "https://github.com/seanmonstar/warp",
+      "score": 72.21,
+      "version": "0.4.4",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.6023,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2020-02-21",
+      "dependents": 27,
+      "description": "Salvo is a powerful web framework that can make your work easier.\n",
+      "downloads": 4814745,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo_core",
+      "owners": 4,
+      "recent_downloads": 255942,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 71.97,
+      "version": "1.2.1",
+      "versions": 259
+    },
+    {
+      "categories": [
+        "development-tools::testing",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.2644,
+        "downloads": 0.7522,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8458,
+        "security": 1.0
+      },
+      "created": "2023-01-17",
+      "dependents": 22,
+      "description": "Easy E2E testing for Axum",
+      "downloads": 18646065,
+      "edition": "2024",
+      "keywords": [
+        "axum",
+        "test",
+        "testing"
+      ],
+      "last_release": "2026-08-24",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "axum-test",
+      "owners": 1,
+      "recent_downloads": 5683413,
+      "releases_365d": 14,
+      "repository": "https://github.com/JosephLenton/axum-test",
+      "score": 71.1,
+      "version": "21.1.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.2973,
+        "downloads": 0.7172,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8377,
+        "security": 1.0
+      },
+      "created": "2024-09-04",
+      "dependents": 33,
+      "description": "rama service core code, used by rama and service authors",
+      "downloads": 4471510,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "io",
+        "non-blocking",
+        "rama",
+        "service"
+      ],
+      "last_release": "2026-08-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "rama-core",
+      "owners": 1,
+      "recent_downloads": 2757476,
+      "releases_365d": 4,
+      "repository": "https://github.com/plabayo/rama",
+      "score": 70.93,
+      "version": "0.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "web-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.6655,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.896,
+        "security": 1.0
+      },
+      "created": "2023-01-15",
+      "dependents": 32,
+      "description": "S3 Service Adapter",
+      "downloads": 1846520,
+      "edition": "2024",
+      "keywords": [
+        "s3"
+      ],
+      "last_release": "2026-09-24",
+      "license": "Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "s3s",
+      "owners": 1,
+      "recent_downloads": 947094,
+      "releases_365d": 16,
+      "repository": "https://github.com/Nugine/s3s",
+      "score": 70.45,
+      "version": "0.17.0",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.3021,
+        "downloads": 0.6243,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9245,
+        "security": 1.0
+      },
+      "created": "2022-01-03",
+      "dependents": 35,
+      "description": "In-progress extractors and middleware for Actix Web",
+      "downloads": 3379378,
+      "edition": "2024",
+      "keywords": [
+        "actix",
+        "async",
+        "framework",
+        "http",
+        "web"
+      ],
+      "last_release": "2026-10-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "actix-web-lab",
+      "owners": 1,
+      "recent_downloads": 403542,
+      "releases_365d": 10,
+      "repository": "https://github.com/robjtede/actix-web-lab",
+      "score": 70.03,
+      "version": "0.29.5",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "development-tools",
+        "web-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.5821,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9723,
+        "security": 1.0
+      },
+      "created": "2023-11-23",
+      "dependents": 24,
+      "description": "The one-person framework for Rust",
+      "downloads": 770129,
+      "edition": "2024",
+      "keywords": [
+        "api",
+        "backend",
+        "framework",
+        "rails",
+        "web"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.94",
+      "name": "loco-rs",
+      "owners": 2,
+      "recent_downloads": 168562,
+      "releases_365d": 6,
+      "repository": "https://github.com/loco-rs/loco",
+      "score": 69.92,
+      "version": "1.3.1",
+      "versions": 49
+    },
+    {
+      "categories": [
+        "network-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.6013,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9604,
+        "security": 1.0
+      },
+      "created": "2020-06-25",
+      "dependents": 8,
+      "description": "expose REST APIs from a Rust program",
+      "downloads": 1064008,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "openapi",
+        "rest"
+      ],
+      "last_release": "2026-10-30",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "dropshot",
+      "owners": 3,
+      "recent_downloads": 251070,
+      "releases_365d": 5,
+      "repository": "https://github.com/oxidecomputer/dropshot/",
+      "score": 69.07,
+      "version": "0.18.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.7445,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8596,
+        "security": 1.0
+      },
+      "created": "2022-02-20",
+      "dependents": 2,
+      "description": "AWS Lambda Runtime interaction API",
+      "downloads": 20810370,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "aws",
+        "lambda"
+      ],
+      "last_release": "2026-09-02",
+      "license": "Apache-2.0",
+      "msrv": "1.84.0",
+      "name": "lambda_runtime_api_client",
+      "owners": 4,
+      "recent_downloads": 4849363,
+      "releases_365d": 4,
+      "repository": "https://github.com/aws/aws-lambda-rust-runtime",
+      "score": 68.82,
+      "version": "1.1.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "web-programming",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.3281,
+        "downloads": 0.5725,
+        "license": 1.0,
+        "maintenance": 0.7322,
+        "msrv": 1.0,
+        "recency": 0.9975,
+        "security": 1.0
+      },
+      "created": "2026-03-26",
+      "dependents": 48,
+      "description": "An opinionated, convention-over-configuration web framework for Rust",
+      "downloads": 173535,
+      "edition": "2024",
+      "keywords": [
+        "axum",
+        "composable",
+        "fullstack",
+        "htmx",
+        "web"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.0",
+      "name": "autumn-web",
+      "owners": 1,
+      "recent_downloads": 138193,
+      "releases_365d": 11,
+      "repository": "https://github.com/autumn-foundation/autumn",
+      "score": 68.46,
+      "version": "0.11.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-client",
+        "web-programming::http-server"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.7162,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8377,
+        "security": 1.0
+      },
+      "created": "2024-09-05",
+      "dependents": 7,
+      "description": "error types and utilities for rama",
+      "downloads": 4379701,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "http",
+        "io",
+        "non-blocking",
+        "rama"
+      ],
+      "last_release": "2026-08-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "rama-http-backend",
+      "owners": 1,
+      "recent_downloads": 2699977,
+      "releases_365d": 4,
+      "repository": "https://github.com/plabayo/rama",
+      "score": 67.85,
+      "version": "0.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "web-programming::http-server",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6536,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9928,
+        "security": 1.0
+      },
+      "created": "2022-09-28",
+      "dependents": 1,
+      "description": "CORS support for salvo web server framework.\n",
+      "downloads": 8013348,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "framework",
+        "http",
+        "server",
+        "web"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "salvo-cors",
+      "owners": 3,
+      "recent_downloads": 739683,
+      "releases_365d": 29,
+      "repository": "https://github.com/salvo-rs/salvo",
+      "score": 67.69,
+      "version": "1.2.1",
+      "versions": 133
+    }
+  ],
+  "score_version": 1
+}

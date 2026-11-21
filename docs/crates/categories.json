@@ -1,0 +1,626 @@
+[
+  {
+    "slug": "accessibility",
+    "name": "Accessibility",
+    "description": "Assistive technology that helps overcome disabilities and impairments to make software usable by as many people as possible.",
+    "crates": 781
+  },
+  {
+    "slug": "aerospace",
+    "name": "Aerospace",
+    "description": "Crates for aeronautics (within the atmosphere) and astronautics (in outer space) applications.",
+    "crates": 319
+  },
+  {
+    "slug": "aerospace::drones",
+    "name": "Aerospace::Drones",
+    "description": "Crates related to Multicopters, Fixed wing, VTOL (Vertical Takeoff and Landing) and Airships/Balloons.",
+    "crates": 75
+  },
+  {
+    "slug": "aerospace::protocols",
+    "name": "Aerospace::Aerospace protocols",
+    "description": "Crates of protocol implementations for aerospace applications.",
+    "crates": 47
+  },
+  {
+    "slug": "aerospace::simulation",
+    "name": "Aerospace::Aerospace simulations",
+    "description": "Crates related to any kind of simulations used in aerospace - fluids, aerodynamics, etc.",
+    "crates": 43
+  },
+  {
+    "slug": "aerospace::space-protocols",
+    "name": "Aerospace::Space protocols",
+    "description": "Protocol implementations for implications in space like CCSDS.",
+    "crates": 39
+  },
+  {
+    "slug": "aerospace::unmanned-aerial-vehicles",
+    "name": "Aerospace::Unmanned aerial vehicles",
+    "description": "Crates related to Unmanned aerial vehicles like Multicopters, Fixed wing, VTOL (Vertical Takeoff and Landing), Airships/Balloons, Rovers, Boats, Submersibles.",
+    "crates": 42
+  },
+  {
+    "slug": "algorithms",
+    "name": "Algorithms",
+    "description": "Rust implementations of core algorithms such as hashing, sorting, searching, and more.",
+    "crates": 9390
+  },
+  {
+    "slug": "api-bindings",
+    "name": "API bindings",
+    "description": "Idiomatic wrappers of specific APIs for convenient access from Rust. Includes HTTP API wrappers as well. Non-idiomatic or unsafe bindings can be found in External FFI bindings.",
+    "crates": 16087
+  },
+  {
+    "slug": "artificial-intelligence",
+    "name": "Artificial intelligence",
+    "description": "Crates for machine learning, deep learning, large language models, AI agents, and related tooling. Crates focused specifically on computer vision belong in the Computer vision category.",
+    "crates": 407
+  },
+  {
+    "slug": "asynchronous",
+    "name": "Asynchronous",
+    "description": "Crates to help you deal with events independently of the main program flow, using techniques like futures, promises, waiting, or eventing.",
+    "crates": 13110
+  },
+  {
+    "slug": "authentication",
+    "name": "Authentication",
+    "description": "Crates to help with the process of confirming identities.",
+    "crates": 3421
+  },
+  {
+    "slug": "automotive",
+    "name": "Automotive",
+    "description": "Crates related to the automotive industry, including vehicle control and diagnostics.",
+    "crates": 49
+  },
+  {
+    "slug": "caching",
+    "name": "Caching",
+    "description": "Crates to store the results of previous computations in order to reuse the results.",
+    "crates": 1196
+  },
+  {
+    "slug": "command-line-interface",
+    "name": "Command-line interface",
+    "description": "Crates to help create command line interfaces, such as argument parsers, line-editing, or output coloring and formatting.",
+    "crates": 4020
+  },
+  {
+    "slug": "command-line-utilities",
+    "name": "Command line utilities",
+    "description": "Applications to run at the command line.",
+    "crates": 37291
+  },
+  {
+    "slug": "compilers",
+    "name": "Compilers",
+    "description": "Compiler implementations, including interpreters and transpilers.",
+    "crates": 3302
+  },
+  {
+    "slug": "compression",
+    "name": "Compression",
+    "description": "Algorithms for making data smaller.",
+    "crates": 1812
+  },
+  {
+    "slug": "computer-vision",
+    "name": "Computer vision",
+    "description": "Crates for comprehending the world from video or images.",
+    "crates": 760
+  },
+  {
+    "slug": "concurrency",
+    "name": "Concurrency",
+    "description": "Crates for implementing concurrent and parallel computation.",
+    "crates": 4132
+  },
+  {
+    "slug": "config",
+    "name": "Configuration",
+    "description": "Crates to facilitate configuration management for applications.",
+    "crates": 2898
+  },
+  {
+    "slug": "cryptography",
+    "name": "Cryptography",
+    "description": "Algorithms intended for securing data.",
+    "crates": 8802
+  },
+  {
+    "slug": "cryptography::cryptocurrencies",
+    "name": "Cryptography::Cryptocurrencies",
+    "description": "Crates for digital currencies, wallets, and distributed ledgers.",
+    "crates": 3257
+  },
+  {
+    "slug": "data-structures",
+    "name": "Data structures",
+    "description": "Rust implementations of particular ways of organizing data suited for specific purposes.",
+    "crates": 12405
+  },
+  {
+    "slug": "database",
+    "name": "Database interfaces",
+    "description": "Crates to interface with database management systems.",
+    "crates": 7658
+  },
+  {
+    "slug": "database-implementations",
+    "name": "Database implementations",
+    "description": "Databases allow clients to store and query large amounts of data in an efficient manner. This category is for database management systems implemented in Rust.",
+    "crates": 2251
+  },
+  {
+    "slug": "date-and-time",
+    "name": "Date and time",
+    "description": "Crates to manage the inherent complexity of dealing with the fourth dimension.",
+    "crates": 1015
+  },
+  {
+    "slug": "development-tools",
+    "name": "Development tools",
+    "description": "Crates that provide developer-facing features such as testing, debugging, linting, performance profiling, autocompletion, formatting, and more.",
+    "crates": 27507
+  },
+  {
+    "slug": "development-tools::build-utils",
+    "name": "Development tools::Build Utils",
+    "description": "Utilities for build scripts and other build time steps.",
+    "crates": 1704
+  },
+  {
+    "slug": "development-tools::cargo-plugins",
+    "name": "Development tools::Cargo plugins",
+    "description": "Subcommands that extend the capabilities of Cargo.",
+    "crates": 1012
+  },
+  {
+    "slug": "development-tools::debugging",
+    "name": "Development tools::Debugging",
+    "description": "Crates to help you figure out what is going on with your code such as logging, tracing, or assertions.",
+    "crates": 2320
+  },
+  {
+    "slug": "development-tools::ffi",
+    "name": "Development tools::FFI",
+    "description": "Crates to help you better interface with other languages. This includes binding generators and helpful language constructs.",
+    "crates": 1081
+  },
+  {
+    "slug": "development-tools::procedural-macro-helpers",
+    "name": "Development tools::Procedural macro helpers",
+    "description": "Crates to help you write procedural macros in Rust.",
+    "crates": 1736
+  },
+  {
+    "slug": "development-tools::profiling",
+    "name": "Development tools::Profiling",
+    "description": "Crates to help you figure out the performance of your code.",
+    "crates": 1167
+  },
+  {
+    "slug": "development-tools::testing",
+    "name": "Development tools::Testing",
+    "description": "Crates to help you verify the correctness of your code.",
+    "crates": 3436
+  },
+  {
+    "slug": "email",
+    "name": "Email",
+    "description": "Crates to help with sending, receiving, formatting, and parsing email.",
+    "crates": 734
+  },
+  {
+    "slug": "embedded",
+    "name": "Embedded development",
+    "description": "Crates that are primarily useful on embedded devices or without an operating system.",
+    "crates": 7873
+  },
+  {
+    "slug": "emulators",
+    "name": "Emulators",
+    "description": "Emulators allow one computer to behave like another, often to allow running software that is not natively available on the host computer. Video game systems are commonly emulated.",
+    "crates": 878
+  },
+  {
+    "slug": "encoding",
+    "name": "Encoding",
+    "description": "Encoding and/or decoding data from one data format to another.",
+    "crates": 8577
+  },
+  {
+    "slug": "external-ffi-bindings",
+    "name": "External FFI bindings",
+    "description": "Direct Rust FFI bindings to libraries written in other languages; often denoted by a -sys suffix. Safe and idiomatic wrappers are in the API bindings category.",
+    "crates": 2623
+  },
+  {
+    "slug": "filesystem",
+    "name": "Filesystem",
+    "description": "Crates for dealing with files and filesystems.",
+    "crates": 4757
+  },
+  {
+    "slug": "finance",
+    "name": "Finance",
+    "description": "Crates for dealing with money. Accounting, trading, investments, taxes, banking and payment processing using government-backed currencies.",
+    "crates": 1810
+  },
+  {
+    "slug": "game-development",
+    "name": "Game development",
+    "description": "For crates that focus on some individual part of accelerating the development of games.",
+    "crates": 4733
+  },
+  {
+    "slug": "game-engines",
+    "name": "Game engines",
+    "description": "For crates that try to provide a \"one-stop-shop\" for all of your game development needs.",
+    "crates": 1419
+  },
+  {
+    "slug": "games",
+    "name": "Games",
+    "description": "Applications for fun and entertainment. If Rust the video game were implemented in Rust the programming language, it would belong in this category. Libraries to help create video games are in the Game engines category.",
+    "crates": 1510
+  },
+  {
+    "slug": "graphics",
+    "name": "Graphics",
+    "description": "Crates for graphics libraries and applications, including raster and vector graphics primitives such as geometry, curves, and color.",
+    "crates": 4540
+  },
+  {
+    "slug": "gui",
+    "name": "GUI",
+    "description": "Crates to help you create a graphical user interface.",
+    "crates": 6792
+  },
+  {
+    "slug": "hardware-support",
+    "name": "Hardware support",
+    "description": "Crates to interface with specific CPU or other hardware features.",
+    "crates": 5569
+  },
+  {
+    "slug": "internationalization",
+    "name": "Internationalization (i18n)",
+    "description": "Crates to help develop software capable of adapting to various languages and regions.",
+    "crates": 1113
+  },
+  {
+    "slug": "localization",
+    "name": "Localization (L10n)",
+    "description": "Crates to help adapting internationalized software to specific languages and regions.",
+    "crates": 663
+  },
+  {
+    "slug": "mathematics",
+    "name": "Mathematics",
+    "description": "Crates with a mathematical aspect.",
+    "crates": 5974
+  },
+  {
+    "slug": "memory-management",
+    "name": "Memory management",
+    "description": "Crates to help with allocation, memory mapping, garbage collection, reference counting, or interfaces to foreign memory managers.",
+    "crates": 1611
+  },
+  {
+    "slug": "multimedia",
+    "name": "Multimedia",
+    "description": "Crates that provide audio, video, and image processing or rendering engines.",
+    "crates": 2386
+  },
+  {
+    "slug": "multimedia::audio",
+    "name": "Multimedia::Audio",
+    "description": "Crates that record, output, or process audio.",
+    "crates": 2967
+  },
+  {
+    "slug": "multimedia::encoding",
+    "name": "Multimedia::Encoding",
+    "description": "Crates that encode or decode binary data in multimedia formats.",
+    "crates": 797
+  },
+  {
+    "slug": "multimedia::images",
+    "name": "Multimedia::Images",
+    "description": "Crates that process or build images.",
+    "crates": 2248
+  },
+  {
+    "slug": "multimedia::video",
+    "name": "Multimedia::Video",
+    "description": "Crates that record, output, or process video.",
+    "crates": 1202
+  },
+  {
+    "slug": "network-programming",
+    "name": "Network programming",
+    "description": "Crates dealing with higher-level network protocols such as FTP, HTTP, or SSH, or lower-level network protocols such as TCP or UDP.",
+    "crates": 16842
+  },
+  {
+    "slug": "no-std",
+    "name": "No standard library",
+    "description": "Crates that are able to function without the Rust standard library.",
+    "crates": 15217
+  },
+  {
+    "slug": "no-std::no-alloc",
+    "name": "No standard library::No dynamic allocation",
+    "description": "Crates that are able to function without the Rust alloc crate.",
+    "crates": 1745
+  },
+  {
+    "slug": "os",
+    "name": "Operating systems",
+    "description": "Bindings to operating system-specific APIs.",
+    "crates": 2204
+  },
+  {
+    "slug": "os::android-apis",
+    "name": "Operating systems::Android APIs",
+    "description": "Bindings to Android-specific APIs.",
+    "crates": 25
+  },
+  {
+    "slug": "os::freebsd-apis",
+    "name": "Operating systems::FreeBSD APIs",
+    "description": "Bindings to FreeBSD-specific APIs.",
+    "crates": 19
+  },
+  {
+    "slug": "os::linux-apis",
+    "name": "Operating systems::Linux APIs",
+    "description": "Bindings to Linux-specific APIs.",
+    "crates": 882
+  },
+  {
+    "slug": "os::macos-apis",
+    "name": "Operating systems::macOS APIs",
+    "description": "Bindings to macOS-specific APIs.",
+    "crates": 674
+  },
+  {
+    "slug": "os::unix-apis",
+    "name": "Operating systems::Unix APIs",
+    "description": "Bindings to Unix-specific APIs.",
+    "crates": 595
+  },
+  {
+    "slug": "os::windows-apis",
+    "name": "Operating systems::Windows APIs",
+    "description": "Bindings to Windows-specific APIs.",
+    "crates": 811
+  },
+  {
+    "slug": "parser-implementations",
+    "name": "Parser implementations",
+    "description": "Parsers implemented for particular formats or languages.",
+    "crates": 9406
+  },
+  {
+    "slug": "parsing",
+    "name": "Parsing tools",
+    "description": "Crates to help create parsers of binary and text formats. Format-specific parsers belong in other, more specific categories.",
+    "crates": 6058
+  },
+  {
+    "slug": "rendering",
+    "name": "Rendering",
+    "description": "Real-time or offline rendering of 2D or 3D graphics, usually with the help of a graphics card.",
+    "crates": 2498
+  },
+  {
+    "slug": "rendering::data-formats",
+    "name": "Rendering::Data formats",
+    "description": "Loading and parsing of data formats related to 2D or 3D rendering, like 3D models or animation sheets.",
+    "crates": 242
+  },
+  {
+    "slug": "rendering::engine",
+    "name": "Rendering::Rendering engine",
+    "description": "High-level solutions for rendering on the screen.",
+    "crates": 248
+  },
+  {
+    "slug": "rendering::graphics-api",
+    "name": "Rendering::Graphics APIs",
+    "description": "Crates that provide direct access to the hardware's or the operating system's rendering capabilities.",
+    "crates": 395
+  },
+  {
+    "slug": "rust-patterns",
+    "name": "Rust patterns",
+    "description": "Shared solutions for particular situations specific to programming in Rust.",
+    "crates": 4595
+  },
+  {
+    "slug": "science",
+    "name": "Science",
+    "description": "Crates related to solving problems involving physics, chemistry, biology, geoscience, and other scientific fields.",
+    "crates": 14175
+  },
+  {
+    "slug": "science::bioinformatics",
+    "name": "Science::Bioinformatics",
+    "description": "Crates for processing large-scale biological data.",
+    "crates": 292
+  },
+  {
+    "slug": "science::bioinformatics::genomics",
+    "name": "Science::Bioinformatics::Genomics",
+    "description": "Crates for processing genetic data, including sequences, abdundance, variants and analysis.",
+    "crates": 68
+  },
+  {
+    "slug": "science::bioinformatics::proteomics",
+    "name": "Science::Bioinformatics::Proteomics",
+    "description": "Crates for processing protein data including sequences, abdundance and analysis.",
+    "crates": 20
+  },
+  {
+    "slug": "science::bioinformatics::sequence-analysis",
+    "name": "Science::Bioinformatics::Sequence analysis",
+    "description": "Crates for processing biological sequences, including alignment, assembly, and annotation.",
+    "crates": 63
+  },
+  {
+    "slug": "science::computational-biology",
+    "name": "Science::Computational Biology",
+    "description": "Crates for computational modeling and simulation of biological systems, including structural modeling and systems-level modeling.",
+    "crates": 16
+  },
+  {
+    "slug": "science::computational-biology::structural-modeling",
+    "name": "Science::Computational Biology::Structural Modeling",
+    "description": "Crates for protein and biomolecular structure prediction, docking, model refinement, and physics-based biomolecular simulation.",
+    "crates": 17
+  },
+  {
+    "slug": "science::computational-biology::systems-biology",
+    "name": "Science::Computational Biology::Systems Biology",
+    "description": "Crates for network modeling, pathway and metabolic modeling, and whole-system simulations.",
+    "crates": 0
+  },
+  {
+    "slug": "science::computational-chemistry",
+    "name": "Science::Computational Chemistry",
+    "description": "Crates for computational methods in chemistry, including electronic-structure calculations, molecular simulation, and cheminformatics.",
+    "crates": 8
+  },
+  {
+    "slug": "science::computational-chemistry::cheminformatics",
+    "name": "Science::Computational Chemistry::Cheminformatics",
+    "description": "Crates for molecular representations, descriptors, chemical graph algorithms, file format parsing, and QSAR tooling.",
+    "crates": 32
+  },
+  {
+    "slug": "science::computational-chemistry::electronic-structure",
+    "name": "Science::Computational Chemistry::Electronic Structure",
+    "description": "Crates for quantum chemistry and electronic-structure methods such as DFT, ab initio, and correlated techniques.",
+    "crates": 4
+  },
+  {
+    "slug": "science::computational-chemistry::molecular-simulation",
+    "name": "Science::Computational Chemistry::Molecular Simulation",
+    "description": "Crates for molecular dynamics, Monte Carlo, force fields, and statistical mechanics simulations.",
+    "crates": 11
+  },
+  {
+    "slug": "science::geo",
+    "name": "Science::Geospatial",
+    "description": "Processing of spatial information, maps, navigation data, and geographic information systems.",
+    "crates": 920
+  },
+  {
+    "slug": "science::materials",
+    "name": "Science::Materials Science",
+    "description": "Crates for the study, characterization, and simulation of condensed matter and materials, including crystallography and solid-state physics.",
+    "crates": 5
+  },
+  {
+    "slug": "science::neuroscience",
+    "name": "Science::Neuroscience",
+    "description": "Crates for research tools and processing of data related to the brain and nervous system.",
+    "crates": 82
+  },
+  {
+    "slug": "science::quantum-computing",
+    "name": "Science::Quantum Computing",
+    "description": "Crates for quantum computing, including circuit construction, simulation, quantum algorithms, intermediate representations, and interfaces to quantum hardware backends.",
+    "crates": 27
+  },
+  {
+    "slug": "science::robotics",
+    "name": "Science::Robotics",
+    "description": "Crates related to robotics.",
+    "crates": 1007
+  },
+  {
+    "slug": "security",
+    "name": "Security",
+    "description": "Crates related to cybersecurity, penetration testing, code review, vulnerability research, and reverse engineering.",
+    "crates": 487
+  },
+  {
+    "slug": "simulation",
+    "name": "Simulation",
+    "description": "Crates used to model or construct models for some activity, e.g. to. simulate a networking protocol.",
+    "crates": 2838
+  },
+  {
+    "slug": "template-engine",
+    "name": "Template engine",
+    "description": "Crates designed to combine templates with data to produce result documents, usually with an emphasis on processing text.",
+    "crates": 938
+  },
+  {
+    "slug": "text-editors",
+    "name": "Text editors",
+    "description": "Applications for editing text.",
+    "crates": 1564
+  },
+  {
+    "slug": "text-processing",
+    "name": "Text processing",
+    "description": "Crates to deal with the complexities of human language when expressed in textual form.",
+    "crates": 7413
+  },
+  {
+    "slug": "value-formatting",
+    "name": "Value formatting",
+    "description": "Crates to allow an application to format values for display to a user, potentially adapting the display to various languages and regions.",
+    "crates": 761
+  },
+  {
+    "slug": "virtualization",
+    "name": "Virtualization",
+    "description": "For the creation and management of virtual environments and resources of any form including containerization systems.",
+    "crates": 532
+  },
+  {
+    "slug": "visualization",
+    "name": "Visualization",
+    "description": "Ways to view data, such as plotting or graphing.",
+    "crates": 2167
+  },
+  {
+    "slug": "wasm",
+    "name": "WebAssembly",
+    "description": "Crates for use when targeting WebAssembly, or for manipulating WebAssembly.",
+    "crates": 5565
+  },
+  {
+    "slug": "web-programming",
+    "name": "Web programming",
+    "description": "Crates to create applications for the web.",
+    "crates": 12016
+  },
+  {
+    "slug": "web-programming::http-client",
+    "name": "Web programming::HTTP client",
+    "description": "Crates to make HTTP network requests.",
+    "crates": 2329
+  },
+  {
+    "slug": "web-programming::http-server",
+    "name": "Web programming::HTTP server",
+    "description": "Crates to serve data over HTTP.",
+    "crates": 3404
+  },
+  {
+    "slug": "web-programming::websocket",
+    "name": "Web programming::WebSocket",
+    "description": "Crates to communicate over the WebSocket protocol.",
+    "crates": 607
+  }
+]

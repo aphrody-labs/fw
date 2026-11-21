@@ -1,0 +1,958 @@
+{
+  "category": {
+    "crates": 1196,
+    "description": "Crates to store the results of previous computations in order to reuse the results.",
+    "name": "Caching",
+    "slug": "caching"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "caching",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6223,
+        "downloads": 0.9071,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9999,
+        "security": 1.0
+      },
+      "created": "2016-12-31",
+      "dependents": 1604,
+      "description": "A LRU cache implementation",
+      "downloads": 457469682,
+      "edition": "2024",
+      "keywords": [
+        "cache",
+        "lru"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.85.0",
+      "name": "lru",
+      "owners": 1,
+      "recent_downloads": 139843918,
+      "releases_365d": 11,
+      "repository": "https://github.com/jeromefroe/lru-rs.git",
+      "score": 86.23,
+      "version": "0.19.1",
+      "versions": 78
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "caching",
+        "encoding",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5738,
+        "downloads": 0.8296,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9838,
+        "security": 1.0
+      },
+      "created": "2019-04-29",
+      "dependents": 902,
+      "description": "Kubernetes client and async controller runtime",
+      "downloads": 95084854,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "cncf",
+        "kubernetes",
+        "runtime"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "kube",
+      "owners": 2,
+      "recent_downloads": 28138715,
+      "releases_365d": 7,
+      "repository": "https://github.com/kube-rs/kube",
+      "score": 83.84,
+      "version": "5.1.0",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "caching",
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.5586,
+        "downloads": 0.8602,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8222,
+        "security": 1.0
+      },
+      "created": "2020-10-22",
+      "dependents": 753,
+      "description": "A fast and concurrent cache library inspired by Java Caffeine",
+      "downloads": 167147146,
+      "edition": "2021",
+      "keywords": [
+        "cache",
+        "concurrent"
+      ],
+      "last_release": "2026-08-09",
+      "license": "(MIT OR Apache-2.0) AND Apache-2.0",
+      "msrv": "1.71.1",
+      "name": "moka",
+      "owners": 1,
+      "recent_downloads": 52993339,
+      "releases_365d": 5,
+      "repository": "https://github.com/moka-rs/moka",
+      "score": 80.8,
+      "version": "0.12.16",
+      "versions": 68
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.357,
+        "downloads": 0.9425,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-19",
+      "dependents": 68,
+      "description": "Zero-copy vector backed by a byte array",
+      "downloads": 800332686,
+      "edition": "2021",
+      "keywords": [
+        "memory-efficiency",
+        "serde",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.83",
+      "name": "zerovec",
+      "owners": 2,
+      "recent_downloads": 290887730,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.67,
+      "version": "0.11.9",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3986,
+        "downloads": 0.9426,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-05-01",
+      "dependents": 112,
+      "description": "Abstraction allowing borrowed data to be carried along with the backing data it borrows from",
+      "downloads": 812160756,
+      "edition": "2021",
+      "keywords": [
+        "memory-efficiency",
+        "self-referential",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.82",
+      "name": "yoke",
+      "owners": 2,
+      "recent_downloads": 291125732,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.21,
+      "version": "0.8.4",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "caching",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.405,
+        "downloads": 0.8194,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2020-11-20",
+      "dependents": 121,
+      "description": "A collection of high-performance asynchronous/concurrent containers with both asynchronous and synchronous interfaces",
+      "downloads": 105083077,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "cache",
+        "concurrent",
+        "hashmap",
+        "tree"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "scc",
+      "owners": 1,
+      "recent_downloads": 22815585,
+      "releases_365d": 34,
+      "repository": "https://codeberg.org/wvwwvwwv/scalable-concurrent-containers/",
+      "score": 78.61,
+      "version": "3.9.1",
+      "versions": 256
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.4614,
+        "downloads": 0.7803,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2017-03-28",
+      "dependents": 237,
+      "description": "Generic cache implementations and simplified function memoization",
+      "downloads": 52170204,
+      "edition": "2024",
+      "keywords": [
+        "cache",
+        "disk",
+        "lru",
+        "memoize",
+        "redis"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "cached",
+      "owners": 1,
+      "recent_downloads": 10156810,
+      "releases_365d": 27,
+      "repository": "https://github.com/jaemk/cached",
+      "score": 78.55,
+      "version": "4.1.1",
+      "versions": 116
+    },
+    {
+      "categories": [
+        "caching",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.357,
+        "downloads": 0.7737,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9894,
+        "security": 1.0
+      },
+      "created": "2024-09-13",
+      "dependents": 68,
+      "description": "Determine the size in bytes an object occupies inside RAM.",
+      "downloads": 14801551,
+      "edition": "2024",
+      "keywords": [
+        "get-size",
+        "heap",
+        "memory",
+        "ram",
+        "size"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "get-size2",
+      "owners": 1,
+      "recent_downloads": 8868230,
+      "releases_365d": 11,
+      "repository": "https://github.com/bircni/get-size2",
+      "score": 76.11,
+      "version": "0.12.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "caching",
+        "network-programming",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.8095,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9838,
+        "security": 1.0
+      },
+      "created": "2020-07-19",
+      "dependents": 26,
+      "description": "Kubernetes controller runtime",
+      "downloads": 72863625,
+      "edition": "2024",
+      "keywords": [
+        "controller",
+        "kubernetes",
+        "reflector",
+        "runtime",
+        "watcher"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "kube-runtime",
+      "owners": 2,
+      "recent_downloads": 18586908,
+      "releases_365d": 7,
+      "repository": "https://github.com/kube-rs/kube",
+      "score": 75.94,
+      "version": "5.1.0",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.9423,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-12-11",
+      "dependents": 6,
+      "description": "Custom derive for the zerovec crate",
+      "downloads": 793873209,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "macros",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.83",
+      "name": "zerovec-derive",
+      "owners": 2,
+      "recent_downloads": 289621245,
+      "releases_365d": 6,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 75.84,
+      "version": "0.11.7",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "caching",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.4104,
+        "downloads": 0.7845,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7573,
+        "security": 1.0
+      },
+      "created": "2022-08-15",
+      "dependents": 129,
+      "description": "Lightweight and high performance concurrent cache",
+      "downloads": 35248938,
+      "edition": "2021",
+      "keywords": [
+        "cache",
+        "clock",
+        "concurrent",
+        "lru",
+        "s3-fifo"
+      ],
+      "last_release": "2026-06-27",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "quick_cache",
+      "owners": 1,
+      "recent_downloads": 11084326,
+      "releases_365d": 7,
+      "repository": "https://github.com/arthurprs/quick-cache",
+      "score": 74.23,
+      "version": "0.7.0",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.9422,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9068,
+        "security": 1.0
+      },
+      "created": "2021-07-02",
+      "dependents": 16,
+      "description": "Custom derive for the yoke crate",
+      "downloads": 802181684,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "macros",
+        "self-referential",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-09-30",
+      "license": "Unicode-3.0",
+      "msrv": "1.82",
+      "name": "yoke-derive",
+      "owners": 2,
+      "recent_downloads": 289078954,
+      "releases_365d": 2,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.13,
+      "version": "0.8.4",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.5353,
+        "downloads": 0.8495,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.5149,
+        "security": 1.0
+      },
+      "created": "2018-07-02",
+      "dependents": 571,
+      "description": "Slotmap data structure",
+      "downloads": 138843276,
+      "edition": "2018",
+      "keywords": [
+        "allocator",
+        "arena",
+        "reference",
+        "slotmap",
+        "storage"
+      ],
+      "last_release": "2025-12-06",
+      "license": "Zlib",
+      "msrv": "1.58.0",
+      "name": "slotmap",
+      "owners": 1,
+      "recent_downloads": 42477785,
+      "releases_365d": 2,
+      "repository": "https://github.com/orlp/slotmap",
+      "score": 72.34,
+      "version": "1.1.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "caching",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.6697,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9825,
+        "security": 1.0
+      },
+      "created": "2022-01-16",
+      "dependents": 36,
+      "description": "http-cache middleware implementation for reqwest",
+      "downloads": 4345584,
+      "edition": "2021",
+      "keywords": [
+        "cache",
+        "http",
+        "middleware",
+        "reqwest"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82.0",
+      "name": "http-cache-reqwest",
+      "owners": 1,
+      "recent_downloads": 1031475,
+      "releases_365d": 8,
+      "repository": "https://github.com/06chaynes/http-cache",
+      "score": 72.09,
+      "version": "0.16.0",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.94,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.6935,
+        "security": 1.0
+      },
+      "created": "2022-04-06",
+      "dependents": 29,
+      "description": "ZeroFrom trait for constructing",
+      "downloads": 778798317,
+      "edition": "2021",
+      "keywords": [
+        "memory-efficiency",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-05-12",
+      "license": "Unicode-3.0",
+      "msrv": "1.71.1",
+      "name": "zerofrom",
+      "owners": 2,
+      "recent_downloads": 275793141,
+      "releases_365d": 2,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 72.07,
+      "version": "0.1.8",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "caching",
+        "web-programming::http-client"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.6749,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9825,
+        "security": 1.0
+      },
+      "created": "2018-09-01",
+      "dependents": 14,
+      "description": "An HTTP caching middleware",
+      "downloads": 5394150,
+      "edition": "2021",
+      "keywords": [
+        "cache",
+        "http",
+        "middleware"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82.0",
+      "name": "http-cache",
+      "owners": 2,
+      "recent_downloads": 1150056,
+      "releases_365d": 7,
+      "repository": "https://github.com/06chaynes/http-cache",
+      "score": 71.32,
+      "version": "0.21.0",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.9404,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8819,
+        "security": 1.0
+      },
+      "created": "2022-04-06",
+      "dependents": 3,
+      "description": "Custom derive for the zerofrom crate",
+      "downloads": 773044600,
+      "edition": "2021",
+      "keywords": [
+        "derive",
+        "macros",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-09-15",
+      "license": "Unicode-3.0",
+      "msrv": "1.71.1",
+      "name": "zerofrom-derive",
+      "owners": 2,
+      "recent_downloads": 278382694,
+      "releases_365d": 2,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 70.66,
+      "version": "0.1.8",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "algorithms",
+        "caching",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.3171,
+        "downloads": 0.7977,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.6056,
+        "security": 1.0
+      },
+      "created": "2024-02-23",
+      "dependents": 42,
+      "description": "The fastest Bloom filter in Rust. No accuracy compromises. Full concurrency support and compatible with any hasher.",
+      "downloads": 33552934,
+      "edition": "2021",
+      "keywords": [
+        "bloom-filter",
+        "bloomfilter",
+        "data-structures",
+        "no_std"
+      ],
+      "last_release": "2026-03-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "fastbloom",
+      "owners": 1,
+      "recent_downloads": 14549442,
+      "releases_365d": 4,
+      "repository": "https://github.com/tomtomwombat/fastbloom/",
+      "score": 69.95,
+      "version": "0.17.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "caching",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.7723,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9894,
+        "security": 1.0
+      },
+      "created": "2024-09-13",
+      "dependents": 1,
+      "description": "Derives the GetSize trait.",
+      "downloads": 14209049,
+      "edition": "2024",
+      "keywords": [
+        "get-size",
+        "heap",
+        "memory",
+        "ram",
+        "size"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "get-size-derive2",
+      "owners": 1,
+      "recent_downloads": 8613860,
+      "releases_365d": 11,
+      "repository": "https://github.com/bircni/get-size2/tree/main/crates/get-size-derive2",
+      "score": 68.61,
+      "version": "0.12.0",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "caching",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.5917,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9082,
+        "security": 1.0
+      },
+      "created": "2020-08-15",
+      "dependents": 7,
+      "description": "Cache system for Wasmer WebAssembly runtime",
+      "downloads": 4199719,
+      "edition": "2024",
+      "keywords": [
+        "cache",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT",
+      "msrv": "1.96",
+      "name": "wasmer-cache",
+      "owners": 3,
+      "recent_downloads": 205778,
+      "releases_365d": 24,
+      "repository": "https://github.com/wasmerio/wasmer",
+      "score": 67.8,
+      "version": "7.5.0",
+      "versions": 107
+    },
+    {
+      "categories": [
+        "caching"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.778,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8652,
+        "security": 1.0
+      },
+      "created": "2020-05-31",
+      "dependents": 1,
+      "description": "Generic cache implementations and simplified function memoization",
+      "downloads": 48453182,
+      "edition": "2024",
+      "keywords": [
+        "cache",
+        "caching",
+        "lru",
+        "memoize"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "cached_proc_macro",
+      "owners": 1,
+      "recent_downloads": 9681562,
+      "releases_365d": 16,
+      "repository": "https://github.com/jaemk/cached",
+      "score": 66.89,
+      "version": "3.0.1",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "caching",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.4948,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9899,
+        "security": 1.0
+      },
+      "created": "2023-08-07",
+      "dependents": 19,
+      "description": "A library for streaming content to a local cache",
+      "downloads": 115605,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "media",
+        "stream"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "stream-download",
+      "owners": 1,
+      "recent_downloads": 27763,
+      "releases_365d": 9,
+      "repository": "https://github.com/aschey/stream-download-rs",
+      "score": 66.53,
+      "version": "0.24.6",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "caching"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.7697,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8436,
+        "security": 1.0
+      },
+      "created": "2020-12-07",
+      "dependents": 1,
+      "description": "Types used by the cached proc-macro crate",
+      "downloads": 43711433,
+      "edition": "2024",
+      "keywords": [
+        "cache",
+        "cached",
+        "caching",
+        "memoize"
+      ],
+      "last_release": "2026-08-23",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "cached_proc_macro_types",
+      "owners": 1,
+      "recent_downloads": 8152977,
+      "releases_365d": 8,
+      "repository": "https://github.com/jaemk/cached",
+      "score": 66.36,
+      "version": "3.0.0",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "caching",
+        "cryptography::cryptocurrencies"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.459,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.992,
+        "security": 1.0
+      },
+      "created": "2023-04-18",
+      "dependents": 8,
+      "description": "State contextual verification and storage code for Zebra",
+      "downloads": 96845,
+      "edition": "2021",
+      "keywords": [
+        "zcash",
+        "zebra"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "zebra-state",
+      "owners": 3,
+      "recent_downloads": 13221,
+      "releases_365d": 19,
+      "repository": "https://github.com/ZcashFoundation/zebra",
+      "score": 65.99,
+      "version": "17.0.0",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "caching",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.7311,
+        "license": 1.0,
+        "maintenance": 0.7593,
+        "msrv": 1.0,
+        "recency": 0.9407,
+        "security": 1.0
+      },
+      "created": "2025-12-17",
+      "dependents": 1,
+      "description": "A minimalistic, lock-free, fixed-size cache",
+      "downloads": 5053375,
+      "edition": "2024",
+      "keywords": [
+        "cache",
+        "concurrent",
+        "fixed",
+        "hash",
+        "lock-free"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "fixed-cache",
+      "owners": 1,
+      "recent_downloads": 3675245,
+      "releases_365d": 12,
+      "repository": "https://github.com/DaniPopes/fixed-cache",
+      "score": 65.24,
+      "version": "0.1.11",
+      "versions": 12
+    }
+  ],
+  "score_version": 1
+}

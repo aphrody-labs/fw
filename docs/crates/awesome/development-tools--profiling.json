@@ -1,0 +1,941 @@
+{
+  "category": {
+    "crates": 1167,
+    "description": "Crates to help you figure out the performance of your code.",
+    "name": "Development tools::Profiling",
+    "slug": "development-tools::profiling"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.9104,
+        "downloads": 0.9423,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.5268,
+        "security": 1.0
+      },
+      "created": "2017-11-27",
+      "dependents": 48944,
+      "description": "Application-level tracing for Rust.\n",
+      "downloads": 1078489609,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "logging",
+        "metrics",
+        "tracing"
+      ],
+      "last_release": "2025-12-18",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing",
+      "owners": 3,
+      "recent_downloads": 289565257,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 86.22,
+      "version": "0.1.44",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.6373,
+        "downloads": 0.8885,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2019-11-08",
+      "dependents": 1916,
+      "description": "OpenTelemetry API for Rust",
+      "downloads": 340780462,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry",
+      "owners": 3,
+      "recent_downloads": 95088940,
+      "releases_365d": 3,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry",
+      "score": 85.49,
+      "version": "0.33.1",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.5881,
+        "downloads": 0.867,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2020-08-14",
+      "dependents": 1069,
+      "description": "Exporter for the OpenTelemetry Collector",
+      "downloads": 202012589,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "otlp",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-otlp",
+      "owners": 3,
+      "recent_downloads": 61000210,
+      "releases_365d": 4,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-otlp",
+      "score": 85.22,
+      "version": "0.33.1",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.8177,
+        "downloads": 0.9258,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.6189,
+        "security": 1.0
+      },
+      "created": "2019-06-27",
+      "dependents": 16290,
+      "description": "Utilities for implementing and composing `tracing` subscribers.\n",
+      "downloads": 768494479,
+      "edition": "2018",
+      "keywords": [
+        "logging",
+        "metrics",
+        "subscriber",
+        "tracing"
+      ],
+      "last_release": "2026-03-13",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing-subscriber",
+      "owners": 3,
+      "recent_downloads": 205908623,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 84.87,
+      "version": "0.3.23",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.592,
+        "downloads": 0.8727,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.8945,
+        "security": 1.0
+      },
+      "created": "2019-11-20",
+      "dependents": 1120,
+      "description": "OpenTelemetry integration for tracing",
+      "downloads": 258622204,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "jaeger",
+        "opentelemetry",
+        "tracing",
+        "zipkin"
+      ],
+      "last_release": "2026-09-23",
+      "license": "MIT",
+      "msrv": "1.75.0",
+      "name": "tracing-opentelemetry",
+      "owners": 4,
+      "recent_downloads": 68697437,
+      "releases_365d": 3,
+      "repository": "https://github.com/tokio-rs/tracing-opentelemetry",
+      "score": 83.54,
+      "version": "0.34.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.4853,
+        "downloads": 0.8534,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2020-10-16",
+      "dependents": 315,
+      "description": "Semantic conventions for OpenTelemetry",
+      "downloads": 174129453,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-semantic-conventions",
+      "owners": 3,
+      "recent_downloads": 46013719,
+      "releases_365d": 4,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-semantic-conventions",
+      "score": 82.31,
+      "version": "0.33.1",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.4104,
+        "downloads": 0.8742,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2022-09-13",
+      "dependents": 129,
+      "description": "Protobuf generated files and transformations.",
+      "downloads": 213932542,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "otlp",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-proto",
+      "owners": 3,
+      "recent_downloads": 70770831,
+      "releases_365d": 3,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-proto",
+      "score": 79.46,
+      "version": "0.33.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.5054,
+        "downloads": 0.8829,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.5769,
+        "security": 1.0
+      },
+      "created": "2017-12-02",
+      "dependents": 400,
+      "description": "Statistics-driven micro-benchmarking library",
+      "downloads": 348080134,
+      "edition": "2021",
+      "keywords": [
+        "benchmark",
+        "criterion"
+      ],
+      "last_release": "2026-02-04",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.86",
+      "name": "criterion",
+      "owners": 4,
+      "recent_downloads": 84730333,
+      "releases_365d": 3,
+      "repository": "https://github.com/criterion-rs/criterion.rs",
+      "score": 76.86,
+      "version": "0.8.2",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "development-tools::profiling",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.4548,
+        "downloads": 0.9,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7539,
+        "security": 1.0
+      },
+      "created": "2016-06-15",
+      "dependents": 219,
+      "description": "A library for reading and writing the DWARF debugging format.",
+      "downloads": 654987457,
+      "edition": "2024",
+      "keywords": [
+        "debug",
+        "dwarf",
+        "eh_frame",
+        "elf"
+      ],
+      "last_release": "2026-06-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "gimli",
+      "owners": 2,
+      "recent_downloads": 120609238,
+      "releases_365d": 2,
+      "repository": "https://github.com/gimli-rs/gimli",
+      "score": 76.18,
+      "version": "0.34.0",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.7278,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2020-10-16",
+      "dependents": 72,
+      "description": "Prometheus exporter for OpenTelemetry",
+      "downloads": 16772117,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "metrics",
+        "opentelemetry",
+        "prometheus"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.81.0",
+      "name": "opentelemetry-prometheus",
+      "owners": 3,
+      "recent_downloads": 3432169,
+      "releases_365d": 4,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-prometheus",
+      "score": 76.08,
+      "version": "0.33.1",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.5002,
+        "downloads": 0.9422,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.5268,
+        "security": 1.0
+      },
+      "created": "2019-06-20",
+      "dependents": 376,
+      "description": "Core primitives for application-level tracing.\n",
+      "downloads": 1088761844,
+      "edition": "2018",
+      "keywords": [
+        "logging",
+        "profiling",
+        "tracing"
+      ],
+      "last_release": "2025-12-18",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing-core",
+      "owners": 2,
+      "recent_downloads": 289078948,
+      "releases_365d": 2,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 74.96,
+      "version": "0.1.36",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.3831,
+        "downloads": 0.747,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2023-07-29",
+      "dependents": 93,
+      "description": "An OpenTelemetry exporter for stdout",
+      "downloads": 36648803,
+      "edition": "2021",
+      "keywords": [
+        "logs",
+        "metrics",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-stdout",
+      "owners": 2,
+      "recent_downloads": 5104586,
+      "releases_365d": 3,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry-stdout",
+      "score": 74.6,
+      "version": "0.33.1",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "data-structures",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.4631,
+        "downloads": 0.8256,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7882,
+        "security": 1.0
+      },
+      "created": "2015-07-07",
+      "dependents": 242,
+      "description": "A port of HdrHistogram to Rust",
+      "downloads": 133433620,
+      "edition": "2024",
+      "keywords": [
+        "analytics",
+        "sampling",
+        "statistics"
+      ],
+      "last_release": "2026-07-18",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.88",
+      "name": "hdrhistogram",
+      "owners": 1,
+      "recent_downloads": 25912987,
+      "releases_365d": 1,
+      "repository": "https://github.com/HdrHistogram/HdrHistogram_rust.git",
+      "score": 72.54,
+      "version": "7.6.0",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::profiling",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.7646,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2022-12-15",
+      "dependents": 7,
+      "description": "Core instrumentation library for CodSpeed",
+      "downloads": 20250058,
+      "edition": "2021",
+      "keywords": [
+        "benchmark",
+        "codspeed"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "codspeed",
+      "owners": 1,
+      "recent_downloads": 7349466,
+      "releases_365d": 14,
+      "repository": "https://github.com/CodSpeedHQ/codspeed-rust",
+      "score": 71.49,
+      "version": "6.1.0",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.4672,
+        "downloads": 0.8427,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.6828,
+        "security": 1.0
+      },
+      "created": "2020-11-25",
+      "dependents": 254,
+      "description": "This crate provides a very thin abstraction over other profiler crates.",
+      "downloads": 102395165,
+      "edition": "2018",
+      "keywords": [
+        "performance",
+        "profiling"
+      ],
+      "last_release": "2026-05-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "profiling",
+      "owners": 1,
+      "recent_downloads": 36927578,
+      "releases_365d": 1,
+      "repository": "https://github.com/aclysma/profiling",
+      "score": 71.49,
+      "version": "1.0.18",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "development-tools::profiling",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.7473,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9019,
+        "security": 1.0
+      },
+      "created": "2022-06-11",
+      "dependents": 18,
+      "description": "Middlewares and tools to integrate axum + tracing + opentelemetry",
+      "downloads": 20171958,
+      "edition": "2024",
+      "keywords": [
+        "axum",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-09-27",
+      "license": "CC0-1.0",
+      "msrv": "1.91.0",
+      "name": "axum-tracing-opentelemetry",
+      "owners": 1,
+      "recent_downloads": 5139010,
+      "releases_365d": 8,
+      "repository": "https://github.com/davidB/tracing-opentelemetry-instrumentation-sdk",
+      "score": 71.42,
+      "version": "0.42.1",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::profiling",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3532,
+        "downloads": 0.8037,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7882,
+        "security": 1.0
+      },
+      "created": "2019-01-27",
+      "dependents": 65,
+      "description": "Rust port of the FlameGraph performance profiling tool suite",
+      "downloads": 66357533,
+      "edition": "2021",
+      "keywords": [
+        "flamegraph",
+        "perf",
+        "profiling"
+      ],
+      "last_release": "2026-07-18",
+      "license": "CDDL-1.0",
+      "msrv": "1.71.0",
+      "name": "inferno",
+      "owners": 1,
+      "recent_downloads": 16468457,
+      "releases_365d": 4,
+      "repository": "https://github.com/jonhoo/inferno.git",
+      "score": 71.25,
+      "version": "0.12.8",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::profiling",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.6586,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9844,
+        "security": 1.0
+      },
+      "created": "2022-12-06",
+      "dependents": 18,
+      "description": "Rust bindings to \"Valgrind Client Request\" interface",
+      "downloads": 1637991,
+      "edition": "2021",
+      "keywords": [
+        "cachegrind",
+        "callgrind",
+        "client-requests",
+        "memcheck",
+        "valgrind"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "crabgrind",
+      "owners": 1,
+      "recent_downloads": 819658,
+      "releases_365d": 10,
+      "repository": "https://github.com/2dav/crabgrind",
+      "score": 70.44,
+      "version": "0.6.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::profiling",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.742,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2023-01-11",
+      "dependents": 3,
+      "description": "Criterion.rs compatibility layer for CodSpeed",
+      "downloads": 12437895,
+      "edition": "2021",
+      "keywords": [
+        "benchmark",
+        "codspeed",
+        "criterion"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "codspeed-criterion-compat",
+      "owners": 1,
+      "recent_downloads": 4598755,
+      "releases_365d": 14,
+      "repository": "https://github.com/CodSpeedHQ/codspeed-rust",
+      "score": 69.46,
+      "version": "6.1.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::profiling",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.66,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9244,
+        "security": 1.0
+      },
+      "created": "2021-07-28",
+      "dependents": 27,
+      "description": "Convenience crate for working with browser's console",
+      "downloads": 6520559,
+      "edition": "2024",
+      "last_release": "2026-10-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "gloo-console",
+      "owners": 2,
+      "recent_downloads": 843629,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustwasm/gloo/tree/master/crates/console",
+      "score": 68.39,
+      "version": "0.4.1",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "database",
+        "development-tools::profiling",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.6332,
+        "license": 1.0,
+        "maintenance": 0.9644,
+        "msrv": 1.0,
+        "recency": 0.9408,
+        "security": 1.0
+      },
+      "created": "2025-03-30",
+      "dependents": 5,
+      "description": "Blazing fast pure Rust zero dependency TPC-H data generation library.",
+      "downloads": 779093,
+      "edition": "2021",
+      "keywords": [
+        "benchmark",
+        "data-generator",
+        "dbgen",
+        "olap",
+        "tpch"
+      ],
+      "last_release": "2026-10-19",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "tpchgen",
+      "owners": 3,
+      "recent_downloads": 485172,
+      "releases_365d": 4,
+      "repository": "https://github.com/datafusion-contrib/tpcgen-rs",
+      "score": 68.19,
+      "version": "4.0.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.7751,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.8156,
+        "security": 1.0
+      },
+      "created": "2021-03-24",
+      "dependents": 7,
+      "description": "[DEPRECATED] Datadog exporters and propagators for OpenTelemetry. Use https://github.com/DataDog/dd-trace-rs instead.",
+      "downloads": 38428160,
+      "edition": "2021",
+      "keywords": [
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-08-05",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-datadog",
+      "owners": 3,
+      "recent_downloads": 9115848,
+      "releases_365d": 2,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust-contrib/tree/main/opentelemetry-datadog",
+      "score": 67.99,
+      "version": "0.20.1",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.9358,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.5051,
+        "security": 1.0
+      },
+      "created": "2019-08-08",
+      "dependents": 32,
+      "description": "Procedural macro attributes for automatically instrumenting functions.\n",
+      "downloads": 944294964,
+      "edition": "2018",
+      "keywords": [
+        "instrument",
+        "log",
+        "logging",
+        "macro",
+        "tracing"
+      ],
+      "last_release": "2025-11-26",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "tracing-attributes",
+      "owners": 2,
+      "recent_downloads": 253134203,
+      "releases_365d": 1,
+      "repository": "https://github.com/tokio-rs/tracing",
+      "score": 67.84,
+      "version": "0.1.31",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.6465,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.8918,
+        "security": 1.0
+      },
+      "created": "2021-03-24",
+      "dependents": 16,
+      "description": "AWS exporters and propagators for OpenTelemetry",
+      "downloads": 2718639,
+      "edition": "2021",
+      "keywords": [
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-09-21",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry-aws",
+      "owners": 4,
+      "recent_downloads": 639132,
+      "releases_365d": 2,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust-contrib/tree/main/opentelemetry-aws",
+      "score": 67.51,
+      "version": "0.21.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "development-tools::profiling",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.6832,
+        "license": 1.0,
+        "maintenance": 0.8636,
+        "msrv": 1.0,
+        "recency": 0.9002,
+        "security": 1.0
+      },
+      "created": "2025-08-02",
+      "dependents": 5,
+      "description": "High-precision, one-shot and consistent benchmarking framework for Rust. All Valgrind tools and Linux perf at your fingertips.\n",
+      "downloads": 1943306,
+      "edition": "2024",
+      "keywords": [
+        "benchmark",
+        "callgrind",
+        "performance",
+        "profiling",
+        "valgrind"
+      ],
+      "last_release": "2026-09-26",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88.0",
+      "name": "gungraun",
+      "owners": 2,
+      "recent_downloads": 1364104,
+      "releases_365d": 11,
+      "repository": "https://github.com/gungraun/gungraun",
+      "score": 67.31,
+      "version": "0.20.0",
+      "versions": 13
+    }
+  ],
+  "score_version": 1
+}

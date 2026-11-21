@@ -1,0 +1,952 @@
+{
+  "category": {
+    "crates": 1419,
+    "description": "For crates that try to provide a \"one-stop-shop\" for all of your game development needs.",
+    "name": "Game engines",
+    "slug": "game-engines"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "game-engines",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6213,
+        "downloads": 0.8737,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9757,
+        "security": 1.0
+      },
+      "created": "2019-05-22",
+      "dependents": 1585,
+      "description": "A simple and fast 3D math library for games and graphics",
+      "downloads": 196441361,
+      "edition": "2024",
+      "keywords": [
+        "gamedev",
+        "math",
+        "matrix",
+        "quaternion",
+        "vector"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "glam",
+      "owners": 1,
+      "recent_downloads": 70047873,
+      "releases_365d": 22,
+      "repository": "https://github.com/bitshifter/glam-rs",
+      "score": 85.01,
+      "version": "0.34.3",
+      "versions": 101
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.6367,
+        "downloads": 0.7061,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.957,
+        "security": 1.0
+      },
+      "created": "2020-01-18",
+      "dependents": 1902,
+      "description": "A refreshingly simple data-driven game engine and app framework",
+      "downloads": 9095023,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "engine",
+        "game",
+        "gamedev",
+        "graphics"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy",
+      "owners": 2,
+      "recent_downloads": 2189391,
+      "releases_365d": 13,
+      "repository": "https://github.com/bevyengine/bevy",
+      "score": 81.92,
+      "version": "0.20.1",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "data-structures",
+        "game-engines"
+      ],
+      "components": {
+        "dependents": 0.5641,
+        "downloads": 0.7191,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.957,
+        "security": 1.0
+      },
+      "created": "2020-08-10",
+      "dependents": 804,
+      "description": "Bevy Engine's entity component system",
+      "downloads": 10965827,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "ecs",
+        "game"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "bevy_ecs",
+      "owners": 2,
+      "recent_downloads": 2867732,
+      "releases_365d": 13,
+      "repository": "https://github.com/bevyengine/bevy",
+      "score": 80.44,
+      "version": "0.20.1",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "game-engines",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.4617,
+        "downloads": 0.6575,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 238,
+      "description": "SDL2 bindings for Rust",
+      "downloads": 5812050,
+      "edition": "2015",
+      "keywords": [
+        "api",
+        "engine",
+        "graphics",
+        "sdl",
+        "windowing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "sdl2",
+      "owners": 3,
+      "recent_downloads": 801142,
+      "releases_365d": 2,
+      "repository": "https://github.com/Rust-SDL2/rust-sdl2",
+      "score": 74.91,
+      "version": "0.39.0",
+      "versions": 100
+    },
+    {
+      "categories": [
+        "game-engines"
+      ],
+      "components": {
+        "dependents": 0.4057,
+        "downloads": 0.7111,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7177,
+        "security": 1.0
+      },
+      "created": "2016-08-17",
+      "dependents": 122,
+      "description": "Game Input Library for Rust",
+      "downloads": 10361952,
+      "edition": "2021",
+      "keywords": [
+        "gamepad",
+        "input",
+        "joystick"
+      ],
+      "last_release": "2026-05-30",
+      "license": "Apache-2.0/MIT",
+      "msrv": "1.84.0",
+      "name": "gilrs",
+      "owners": 1,
+      "recent_downloads": 2428888,
+      "releases_365d": 2,
+      "repository": "https://gitlab.com/gilrs-project/gilrs",
+      "score": 68.69,
+      "version": "0.11.2",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "data-structures",
+        "game-engines",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3363,
+        "downloads": 0.5923,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9129,
+        "security": 1.0
+      },
+      "created": "2019-11-13",
+      "dependents": 53,
+      "description": "A fast, minimal, and ergonomic entity-component-system library",
+      "downloads": 711491,
+      "edition": "2021",
+      "keywords": [
+        "ecs",
+        "entity"
+      ],
+      "last_release": "2026-10-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81",
+      "name": "hecs",
+      "owners": 1,
+      "recent_downloads": 208146,
+      "releases_365d": 3,
+      "repository": "https://github.com/Ralith/hecs",
+      "score": 68.41,
+      "version": "0.11.2",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "gui",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.7053,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.957,
+        "security": 1.0
+      },
+      "created": "2020-12-19",
+      "dependents": 9,
+      "description": "An internal Bevy crate used to facilitate optional dynamic linking via the 'dynamic_linking' feature",
+      "downloads": 8903789,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "engine",
+        "game",
+        "gamedev",
+        "graphics"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "name": "bevy_internal",
+      "owners": 2,
+      "recent_downloads": 2153264,
+      "releases_365d": 13,
+      "repository": "https://github.com/bevyengine/bevy",
+      "score": 65.84,
+      "version": "0.20.1",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.3089,
+        "downloads": 0.6112,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8212,
+        "security": 1.0
+      },
+      "created": "2016-05-30",
+      "dependents": 38,
+      "description": "Rust bindings for Godot 4",
+      "downloads": 712092,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "3d",
+        "engine",
+        "gamedev",
+        "godot"
+      ],
+      "last_release": "2026-08-09",
+      "license": "MPL-2.0",
+      "msrv": "1.94",
+      "name": "godot",
+      "owners": 1,
+      "recent_downloads": 307592,
+      "releases_365d": 9,
+      "repository": "https://github.com/godot-rust/gdext",
+      "score": 65.82,
+      "version": "0.5.5",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "development-tools",
+        "game-engines",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5862,
+        "downloads": 0.8204,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.1857,
+        "security": 1.0
+      },
+      "created": "2017-06-07",
+      "dependents": 1045,
+      "description": "Embed the contents of a directory in your binary",
+      "downloads": 88927925,
+      "edition": "2021",
+      "keywords": [
+        "assets",
+        "dir",
+        "embed",
+        "include"
+      ],
+      "last_release": "2024-06-17",
+      "license": "MIT",
+      "msrv": "1.64",
+      "name": "include_dir",
+      "owners": 1,
+      "recent_downloads": 23265401,
+      "releases_365d": 0,
+      "repository": "https://github.com/Michael-F-Bryan/include_dir",
+      "score": 64.95,
+      "version": "0.7.4",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "game-engines",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.3191,
+        "downloads": 0.5685,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9779,
+        "security": 1.0
+      },
+      "created": "2023-04-14",
+      "dependents": 43,
+      "description": "Bindings to SDL3, a cross-platform library to abstract the platform-specific details for building applications.",
+      "downloads": 314131,
+      "edition": "2021",
+      "keywords": [
+        "audio",
+        "cross-platform",
+        "engine",
+        "graphics",
+        "input"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT",
+      "name": "sdl3",
+      "owners": 1,
+      "recent_downloads": 127265,
+      "releases_365d": 14,
+      "repository": "https://github.com/vhspace/sdl3-rs",
+      "score": 64.86,
+      "version": "0.22.1",
+      "versions": 93
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "game-engines",
+        "multimedia",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.6583,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 0.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2015-01-05",
+      "dependents": 18,
+      "description": "Raw SDL2 bindings for Rust, used internally rust-sdl2",
+      "downloads": 5605277,
+      "edition": "2018",
+      "keywords": [
+        "ffi",
+        "graphics",
+        "sdl",
+        "windowing"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT AND Zlib",
+      "name": "sdl2-sys",
+      "owners": 3,
+      "recent_downloads": 815670,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-sdl2/rust-sdl2",
+      "score": 64.59,
+      "version": "0.39.0",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "game-engines",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.3021,
+        "downloads": 0.5187,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.7326,
+        "security": 1.0
+      },
+      "created": "2019-01-24",
+      "dependents": 35,
+      "description": "Safe Rust bindings for Raylib.",
+      "downloads": 337915,
+      "edition": "2024",
+      "keywords": [
+        "bindings",
+        "gamedev",
+        "raylib"
+      ],
+      "last_release": "2026-06-10",
+      "license": "Zlib",
+      "msrv": "1.88",
+      "name": "raylib",
+      "owners": 4,
+      "recent_downloads": 45458,
+      "releases_365d": 2,
+      "repository": "https://github.com/raylib-rs/raylib-rs",
+      "score": 63.51,
+      "version": "6.0.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "game-development",
+        "game-engines",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5313,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8333,
+        "security": 1.0
+      },
+      "created": "2024-04-06",
+      "dependents": 4,
+      "description": "egui integration for transform-gizmo",
+      "downloads": 91725,
+      "edition": "2024",
+      "keywords": [
+        "egui",
+        "gizmo"
+      ],
+      "last_release": "2026-08-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "transform-gizmo-egui",
+      "owners": 1,
+      "recent_downloads": 58994,
+      "releases_365d": 4,
+      "repository": "https://github.com/urholaukkarinen/transform-gizmo",
+      "score": 62.17,
+      "version": "0.11.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.5592,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.9082,
+        "security": 1.0
+      },
+      "created": "2024-07-11",
+      "dependents": 9,
+      "description": "3D math primitives built on top of glam: bounding boxes, rigid transforms, planes, rays and mesh generation.",
+      "downloads": 687110,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "gamedev",
+        "geometry",
+        "glam",
+        "math"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "re_math",
+      "owners": 2,
+      "recent_downloads": 105025,
+      "releases_365d": 1,
+      "repository": "https://github.com/rerun-io/re_math",
+      "score": 61.96,
+      "version": "0.33.0",
+      "versions": 2
+    },
+    {
+      "categories": [
+        "algorithms",
+        "game-engines"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4577,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9219,
+        "security": 1.0
+      },
+      "created": "2023-04-14",
+      "dependents": 4,
+      "description": "A plugin to integrate rand for ECS optimised RNG for the Bevy game engine.",
+      "downloads": 98551,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "game",
+        "rand",
+        "rng"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy_rand",
+      "owners": 1,
+      "recent_downloads": 12877,
+      "releases_365d": 8,
+      "repository": "https://github.com/Bluefinger/bevy_rand",
+      "score": 61.66,
+      "version": "0.16.0",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.6109,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8212,
+        "security": 1.0
+      },
+      "created": "2021-10-17",
+      "dependents": 4,
+      "description": "Internal crate used by godot-rust",
+      "downloads": 708164,
+      "edition": "2024",
+      "keywords": [
+        "engine",
+        "ffi",
+        "gamedev",
+        "godot",
+        "sys"
+      ],
+      "last_release": "2026-08-09",
+      "license": "MPL-2.0",
+      "msrv": "1.94",
+      "name": "godot-bindings",
+      "owners": 1,
+      "recent_downloads": 305709,
+      "releases_365d": 9,
+      "repository": "https://github.com/godot-rust/gdext",
+      "score": 61.48,
+      "version": "0.5.5",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "game-development",
+        "game-engines",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5374,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8333,
+        "security": 1.0
+      },
+      "created": "2024-02-03",
+      "dependents": 2,
+      "description": "3D transformation gizmo",
+      "downloads": 177858,
+      "edition": "2024",
+      "keywords": [
+        "gizmo"
+      ],
+      "last_release": "2026-08-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "transform-gizmo",
+      "owners": 1,
+      "recent_downloads": 66952,
+      "releases_365d": 4,
+      "repository": "https://github.com/urholaukkarinen/transform-gizmo",
+      "score": 61.25,
+      "version": "0.11.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "game-engines"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.712,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7177,
+        "security": 1.0
+      },
+      "created": "2018-10-30",
+      "dependents": 2,
+      "description": "Minimal event-based abstraction for working with gamepads",
+      "downloads": 10839351,
+      "edition": "2021",
+      "keywords": [
+        "gamepad",
+        "input",
+        "joystick"
+      ],
+      "last_release": "2026-05-30",
+      "license": "Apache-2.0/MIT",
+      "msrv": "1.80.0",
+      "name": "gilrs-core",
+      "owners": 1,
+      "recent_downloads": 2476026,
+      "releases_365d": 2,
+      "repository": "https://gitlab.com/gilrs-project/gilrs",
+      "score": 60.88,
+      "version": "0.6.8",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "algorithms",
+        "game-engines"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4578,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9219,
+        "security": 1.0
+      },
+      "created": "2023-08-29",
+      "dependents": 2,
+      "description": "A crate providing newtyped RNGs for integration into Bevy.",
+      "downloads": 96392,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "game",
+        "rand",
+        "rng"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy_prng",
+      "owners": 1,
+      "recent_downloads": 12911,
+      "releases_365d": 8,
+      "repository": "https://github.com/Bluefinger/bevy_rand",
+      "score": 60.59,
+      "version": "0.16.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "database-implementations",
+        "game-engines",
+        "no-std",
+        "science",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.4311,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.686,
+        "security": 1.0
+      },
+      "created": "2019-03-19",
+      "dependents": 21,
+      "description": "The Mech language runtime.",
+      "downloads": 74359,
+      "edition": "2024",
+      "keywords": [
+        "dataflow",
+        "language",
+        "mech",
+        "programming",
+        "runtime"
+      ],
+      "last_release": "2026-05-06",
+      "license": "Apache-2.0",
+      "msrv": "1.92",
+      "name": "mech-core",
+      "owners": 1,
+      "recent_downloads": 7438,
+      "releases_365d": 15,
+      "repository": "https://github.com/mech-lang/mech",
+      "score": 60.58,
+      "version": "0.3.5",
+      "versions": 87
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.6111,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8212,
+        "security": 1.0
+      },
+      "created": "2022-03-22",
+      "dependents": 2,
+      "description": "Internal crate used by godot-rust",
+      "downloads": 710654,
+      "edition": "2024",
+      "keywords": [
+        "codegen",
+        "engine",
+        "gamedev",
+        "godot"
+      ],
+      "last_release": "2026-08-09",
+      "license": "MPL-2.0",
+      "msrv": "1.94",
+      "name": "godot-codegen",
+      "owners": 1,
+      "recent_downloads": 307235,
+      "releases_365d": 9,
+      "repository": "https://github.com/godot-rust/gdext",
+      "score": 60.41,
+      "version": "0.5.5",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics",
+        "rendering"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.4991,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.9803,
+        "security": 1.0
+      },
+      "created": "2020-09-10",
+      "dependents": 23,
+      "description": "Draw 2D shapes and paths in the Bevy game engine.",
+      "downloads": 383923,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "game",
+        "gamedev",
+        "graphics",
+        "shapes"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "name": "bevy_prototype_lyon",
+      "owners": 1,
+      "recent_downloads": 30337,
+      "releases_365d": 3,
+      "repository": "https://github.com/rparrett/bevy_prototype_lyon/",
+      "score": 60.38,
+      "version": "0.18.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "game-development",
+        "game-engines"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4057,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9896,
+        "security": 1.0
+      },
+      "created": "2023-10-06",
+      "dependents": 2,
+      "description": "Rust library for working with Visual Pinball VPX files",
+      "downloads": 57211,
+      "edition": "2024",
+      "keywords": [
+        "virtual-pinball",
+        "visual-pinball",
+        "vpin",
+        "vpx"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "msrv": "1.98",
+      "name": "vpin",
+      "owners": 1,
+      "recent_downloads": 4397,
+      "releases_365d": 77,
+      "repository": "https://github.com/francisdb/vpin",
+      "score": 60.3,
+      "version": "0.41.1",
+      "versions": 123
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6111,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8212,
+        "security": 1.0
+      },
+      "created": "2021-10-17",
+      "dependents": 1,
+      "description": "Internal crate used by godot-rust",
+      "downloads": 710304,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "3d",
+        "engine",
+        "gamedev",
+        "godot"
+      ],
+      "last_release": "2026-08-09",
+      "license": "MPL-2.0",
+      "msrv": "1.94",
+      "name": "godot-core",
+      "owners": 1,
+      "recent_downloads": 307181,
+      "releases_365d": 9,
+      "repository": "https://github.com/godot-rust/gdext",
+      "score": 59.56,
+      "version": "0.5.5",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "game-engines",
+        "graphics"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6111,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8212,
+        "security": 1.0
+      },
+      "created": "2022-03-28",
+      "dependents": 1,
+      "description": "Internal crate used by godot-rust",
+      "downloads": 709474,
+      "edition": "2024",
+      "keywords": [
+        "derive",
+        "engine",
+        "gamedev",
+        "godot",
+        "macro"
+      ],
+      "last_release": "2026-08-09",
+      "license": "MPL-2.0",
+      "msrv": "1.94",
+      "name": "godot-macros",
+      "owners": 1,
+      "recent_downloads": 306967,
+      "releases_365d": 9,
+      "repository": "https://github.com/godot-rust/gdext",
+      "score": 59.56,
+      "version": "0.5.5",
+      "versions": 27
+    }
+  ],
+  "score_version": 1
+}

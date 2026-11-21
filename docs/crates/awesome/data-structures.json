@@ -1,0 +1,945 @@
+{
+  "category": {
+    "crates": 12405,
+    "description": "Rust implementations of particular ways of organizing data suited for specific purposes.",
+    "name": "Data structures",
+    "slug": "data-structures"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "data-structures",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.827,
+        "downloads": 0.9514,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9939,
+        "security": 1.0
+      },
+      "created": "2015-01-30",
+      "dependents": 18188,
+      "description": "Types and traits for working with bytes",
+      "downloads": 1312675179,
+      "edition": "2021",
+      "keywords": [
+        "buffers",
+        "io",
+        "zero-copy"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.57",
+      "name": "bytes",
+      "owners": 3,
+      "recent_downloads": 349351609,
+      "releases_365d": 4,
+      "repository": "https://github.com/tokio-rs/bytes",
+      "score": 94.37,
+      "version": "1.12.2",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std",
+        "parser-implementations",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.847,
+        "downloads": 0.9397,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9924,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 23069,
+      "description": "A library to generate and parse UUIDs.",
+      "downloads": 1018989605,
+      "edition": "2021",
+      "keywords": [
+        "guid",
+        "unique",
+        "uuid"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.89.0",
+      "name": "uuid",
+      "owners": 1,
+      "recent_downloads": 274276223,
+      "releases_365d": 21,
+      "repository": "https://github.com/uuid-rs/uuid",
+      "score": 92.55,
+      "version": "1.29.3",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.7446,
+        "downloads": 0.9698,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.864,
+        "security": 1.0
+      },
+      "created": "2018-01-30",
+      "dependents": 6848,
+      "description": "A hash table with consistent order and fast iteration.",
+      "downloads": 1938819843,
+      "edition": "2024",
+      "keywords": [
+        "hashmap",
+        "no_std"
+      ],
+      "last_release": "2026-09-05",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "indexmap",
+      "owners": 2,
+      "recent_downloads": 510979890,
+      "releases_365d": 5,
+      "repository": "https://github.com/indexmap-rs/indexmap",
+      "score": 89.82,
+      "version": "2.14.2",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6183,
+        "downloads": 0.9483,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9175,
+        "security": 1.0
+      },
+      "created": "2015-09-14",
+      "dependents": 1529,
+      "description": "The enum `Either` with variants `Left` and `Right` is a general purpose sum type with two cases.\n",
+      "downloads": 1262834633,
+      "edition": "2021",
+      "keywords": [
+        "data-structure",
+        "no_std"
+      ],
+      "last_release": "2026-10-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63.0",
+      "name": "either",
+      "owners": 3,
+      "recent_downloads": 327676332,
+      "releases_365d": 4,
+      "repository": "https://github.com/rayon-rs/either",
+      "score": 87.93,
+      "version": "1.19.0",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.7115,
+        "downloads": 0.9587,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9948,
+        "security": 1.0
+      },
+      "created": "2015-04-06",
+      "dependents": 4620,
+      "description": "'Small vector' optimization: store up to a small number of items on the stack",
+      "downloads": 1502413665,
+      "edition": "2018",
+      "keywords": [
+        "no_std",
+        "small",
+        "stack",
+        "vec",
+        "vector"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "name": "smallvec",
+      "owners": 4,
+      "recent_downloads": 405989136,
+      "releases_365d": 14,
+      "repository": "https://github.com/smallvec/smallvec",
+      "score": 86.68,
+      "version": "1.16.6",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5801,
+        "downloads": 0.9347,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9805,
+        "security": 1.0
+      },
+      "created": "2023-08-31",
+      "dependents": 972,
+      "description": "Shared types for the rustls PKI ecosystem",
+      "downloads": 707976837,
+      "edition": "2021",
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "rustls-pki-types",
+      "owners": 2,
+      "recent_downloads": 247358596,
+      "releases_365d": 8,
+      "repository": "https://github.com/rustls/pki-types",
+      "score": 86.58,
+      "version": "1.16.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.6688,
+        "downloads": 0.9159,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-11-26",
+      "dependents": 2784,
+      "description": "Multi-producer multi-consumer channels for message passing",
+      "downloads": 724274460,
+      "edition": "2021",
+      "keywords": [
+        "channel",
+        "golang",
+        "message",
+        "mpmc",
+        "select"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "crossbeam-channel",
+      "owners": 4,
+      "recent_downloads": 167621718,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 84.59,
+      "version": "0.5.17",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "encoding",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.5126,
+        "downloads": 0.9183,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9515,
+        "security": 1.0
+      },
+      "created": "2020-12-17",
+      "dependents": 436,
+      "description": "Pure Rust embedded-friendly implementation of the Distinguished Encoding Rules\n(DER) for Abstract Syntax Notation One (ASN.1) as described in ITU X.690 with\nfull support for heapless `no_std`/`no_alloc` targets\n",
+      "downloads": 599211556,
+      "edition": "2024",
+      "keywords": [
+        "asn1",
+        "crypto",
+        "itu",
+        "no-alloc",
+        "pkcs"
+      ],
+      "last_release": "2026-10-25",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "der",
+      "owners": 2,
+      "recent_downloads": 176334474,
+      "releases_365d": 5,
+      "repository": "https://github.com/RustCrypto/formats",
+      "score": 84.05,
+      "version": "0.8.3",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "data-structures",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.6546,
+        "downloads": 0.854,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.859,
+        "security": 1.0
+      },
+      "created": "2016-11-16",
+      "dependents": 2352,
+      "description": "Decimal number implementation written in pure Rust suitable for financial and fixed-precision calculations.",
+      "downloads": 180504154,
+      "edition": "2021",
+      "keywords": [
+        "decimal",
+        "financial",
+        "fixed",
+        "number",
+        "precision"
+      ],
+      "last_release": "2026-09-02",
+      "license": "MIT",
+      "msrv": "1.67.1",
+      "name": "rust_decimal",
+      "owners": 1,
+      "recent_downloads": 46617526,
+      "releases_365d": 5,
+      "repository": "https://github.com/paupino/rust-decimal",
+      "score": 83.6,
+      "version": "1.43.0",
+      "versions": 107
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5928,
+        "downloads": 0.8686,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9952,
+        "security": 1.0
+      },
+      "created": "2017-04-27",
+      "dependents": 1130,
+      "description": "`static` friendly data structures that don't require dynamic memory allocation",
+      "downloads": 187658889,
+      "edition": "2021",
+      "keywords": [
+        "no-heap",
+        "static"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "heapless",
+      "owners": 4,
+      "recent_downloads": 63116719,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-embedded/heapless",
+      "score": 83.46,
+      "version": "0.9.4",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "data-structures",
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.5771,
+        "downloads": 0.8328,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9467,
+        "security": 1.0
+      },
+      "created": "2024-06-30",
+      "dependents": 938,
+      "description": "Next-gen compile-time-checked builder generator, named function's arguments, and more!",
+      "downloads": 81291941,
+      "edition": "2024",
+      "keywords": [
+        "builder",
+        "constructor",
+        "derive",
+        "macro",
+        "setter"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "bon",
+      "owners": 2,
+      "recent_downloads": 30069062,
+      "releases_365d": 9,
+      "repository": "https://github.com/elastio/bon",
+      "score": 83.45,
+      "version": "3.10.3",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5292,
+        "downloads": 0.9445,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8284,
+        "security": 1.0
+      },
+      "created": "2015-09-27",
+      "dependents": 531,
+      "description": "Generic types implementing functionality of arrays",
+      "downloads": 1130141742,
+      "edition": "2021",
+      "keywords": [
+        "array",
+        "generic"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "generic-array",
+      "owners": 2,
+      "recent_downloads": 302593058,
+      "releases_365d": 6,
+      "repository": "https://github.com/fizyk20/generic-array.git",
+      "score": 83.27,
+      "version": "1.4.5",
+      "versions": 72
+    },
+    {
+      "categories": [
+        "data-structures",
+        "encoding",
+        "os::unix-apis",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.5571,
+        "downloads": 0.8515,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2020-07-07",
+      "dependents": 740,
+      "description": "API for D-Bus communication and its wire format",
+      "downloads": 118539541,
+      "edition": "2024",
+      "keywords": [
+        "d-bus",
+        "dbus",
+        "ipc",
+        "serde"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "zbus",
+      "owners": 1,
+      "recent_downloads": 44272907,
+      "releases_365d": 16,
+      "repository": "https://github.com/z-galaxy/zbus/",
+      "score": 83.21,
+      "version": "6.5.0",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "cryptography",
+        "data-structures",
+        "encoding",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5091,
+        "downloads": 0.8326,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9991,
+        "security": 1.0
+      },
+      "created": "2022-03-12",
+      "dependents": 418,
+      "description": "Pure Rust implementation of the X.509 Public Key Infrastructure Certificate\nformat as described in RFC 5280\n",
+      "downloads": 63864117,
+      "edition": "2024",
+      "keywords": [
+        "crypto"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "x509-cert",
+      "owners": 2,
+      "recent_downloads": 29926963,
+      "releases_365d": 4,
+      "repository": "https://github.com/RustCrypto/formats",
+      "score": 82.53,
+      "version": "0.3.1",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "data-structures",
+        "memory-management"
+      ],
+      "components": {
+        "dependents": 0.6513,
+        "downloads": 0.9014,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9788,
+        "security": 1.0
+      },
+      "created": "2018-04-16",
+      "dependents": 2262,
+      "description": "Atomically swappable Arc",
+      "downloads": 423241922,
+      "edition": "2018",
+      "keywords": [
+        "arc",
+        "atomic"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "name": "arc-swap",
+      "owners": 2,
+      "recent_downloads": 124314858,
+      "releases_365d": 9,
+      "repository": "https://github.com/vorner/arc-swap",
+      "score": 82.5,
+      "version": "1.9.5",
+      "versions": 50
+    },
+    {
+      "categories": [
+        "algorithms",
+        "cryptography",
+        "data-structures",
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4446,
+        "downloads": 0.892,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9771,
+        "security": 1.0
+      },
+      "created": "2021-04-30",
+      "dependents": 194,
+      "description": "Pure Rust implementation of a big integer library which has been designed from the ground-up for use\nin cryptographic applications. Provides constant-time, `no_std`/`no_alloc`-friendly implementations\nof modern formulas using const generics. Also includes optional support for heap-backed integers.\n",
+      "downloads": 356815285,
+      "edition": "2024",
+      "keywords": [
+        "arbitrary",
+        "bignum",
+        "crypto",
+        "integer",
+        "precision"
+      ],
+      "last_release": "2026-11-08",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "crypto-bigint",
+      "owners": 2,
+      "recent_downloads": 102374259,
+      "releases_365d": 20,
+      "repository": "https://github.com/RustCrypto/crypto-bigint",
+      "score": 82.07,
+      "version": "0.7.11",
+      "versions": 112
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5363,
+        "downloads": 0.944,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-08-28",
+      "dependents": 578,
+      "description": "Utilities for concurrent programming",
+      "downloads": 1143912810,
+      "edition": "2021",
+      "keywords": [
+        "atomic",
+        "cache",
+        "scoped",
+        "thread"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "crossbeam-utils",
+      "owners": 4,
+      "recent_downloads": 299456606,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 81.98,
+      "version": "0.8.23",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6637,
+        "downloads": 1.0,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.6893,
+        "security": 1.0
+      },
+      "created": "2018-10-29",
+      "dependents": 2622,
+      "description": "A Rust port of Google's SwissTable hash map",
+      "downloads": 3190448966,
+      "edition": "2024",
+      "keywords": [
+        "hash",
+        "hashmap",
+        "no_std",
+        "swisstable"
+      ],
+      "last_release": "2026-05-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "hashbrown",
+      "owners": 1,
+      "recent_downloads": 954198056,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-lang/hashbrown",
+      "score": 81.93,
+      "version": "0.17.1",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "cryptography::cryptocurrencies",
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5582,
+        "downloads": 0.7759,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8733,
+        "security": 1.0
+      },
+      "created": "2023-06-13",
+      "dependents": 749,
+      "description": "Ethereum primitive types",
+      "downloads": 36285733,
+      "edition": "2024",
+      "keywords": [
+        "ethereum",
+        "ethers",
+        "primitives",
+        "reth",
+        "revm"
+      ],
+      "last_release": "2026-09-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "alloy-primitives",
+      "owners": 3,
+      "recent_downloads": 9279754,
+      "releases_365d": 14,
+      "repository": "https://github.com/alloy-rs/core",
+      "score": 81.45,
+      "version": "1.7.3",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.6592,
+        "downloads": 0.9314,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.768,
+        "security": 1.0
+      },
+      "created": "2016-04-14",
+      "dependents": 2484,
+      "description": "Big integer implementation for Rust",
+      "downloads": 773879191,
+      "edition": "2021",
+      "keywords": [
+        "bignum",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-07-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "num-bigint",
+      "owners": 1,
+      "recent_downloads": 231093685,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-num/num-bigint",
+      "score": 81.28,
+      "version": "0.5.1",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.4516,
+        "downloads": 0.9132,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.977,
+        "security": 1.0
+      },
+      "created": "2015-04-03",
+      "dependents": 211,
+      "description": "FixedBitSet is a simple bitset collection",
+      "downloads": 622231480,
+      "edition": "2021",
+      "keywords": [
+        "bitset",
+        "bitvec",
+        "container",
+        "data-structure",
+        "no_std"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.56",
+      "name": "fixedbitset",
+      "owners": 4,
+      "recent_downloads": 158499901,
+      "releases_365d": 2,
+      "repository": "https://github.com/petgraph/fixedbitset",
+      "score": 80.77,
+      "version": "0.5.9",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "caching",
+        "data-structures",
+        "memory-management",
+        "no-std",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.357,
+        "downloads": 0.9425,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-19",
+      "dependents": 68,
+      "description": "Zero-copy vector backed by a byte array",
+      "downloads": 800332686,
+      "edition": "2021",
+      "keywords": [
+        "memory-efficiency",
+        "serde",
+        "serialization",
+        "zero-copy"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.83",
+      "name": "zerovec",
+      "owners": 2,
+      "recent_downloads": 290887730,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.67,
+      "version": "0.11.9",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.4754,
+        "downloads": 0.8124,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9564,
+        "security": 1.0
+      },
+      "created": "2014-12-27",
+      "dependents": 280,
+      "description": "A better compressed bitset - pure Rust implementation",
+      "downloads": 66221171,
+      "edition": "2021",
+      "keywords": [
+        "bitmap",
+        "data-structure",
+        "roaring"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.90.0",
+      "name": "roaring",
+      "owners": 2,
+      "recent_downloads": 19714249,
+      "releases_365d": 4,
+      "repository": "https://github.com/RoaringBitmap/roaring-rs",
+      "score": 80.54,
+      "version": "0.12.0",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6001,
+        "downloads": 0.9227,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7643,
+        "security": 1.0
+      },
+      "created": "2015-05-19",
+      "dependents": 1233,
+      "description": "A vector with fixed capacity, backed by an array (it can be stored on the stack too). Implements fixed capacity ArrayVec and ArrayString.",
+      "downloads": 715595956,
+      "edition": "2018",
+      "keywords": [
+        "array",
+        "data-structure",
+        "no_std",
+        "stack",
+        "vector"
+      ],
+      "last_release": "2026-07-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.51",
+      "name": "arrayvec",
+      "owners": 2,
+      "recent_downloads": 192802931,
+      "releases_365d": 2,
+      "repository": "https://github.com/bluss/arrayvec",
+      "score": 80.53,
+      "version": "0.7.8",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5209,
+        "downloads": 0.9002,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2018-09-08",
+      "dependents": 481,
+      "description": "Concurrent queues",
+      "downloads": 446936850,
+      "edition": "2021",
+      "keywords": [
+        "consumer",
+        "lock-free",
+        "mpmc",
+        "producer",
+        "queue"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "crossbeam-queue",
+      "owners": 3,
+      "recent_downloads": 121249771,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 80.5,
+      "version": "0.3.14",
+      "versions": 23
+    }
+  ],
+  "score_version": 1
+}

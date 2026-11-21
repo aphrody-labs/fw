@@ -1,0 +1,930 @@
+{
+  "category": {
+    "crates": 16087,
+    "description": "Idiomatic wrappers of specific APIs for convenient access from Rust. Includes HTTP API wrappers as well. Non-idiomatic or unsafe bindings can be found in External FFI bindings.",
+    "name": "API bindings",
+    "slug": "api-bindings"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.7593,
+        "downloads": 0.9347,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9725,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 8150,
+      "description": "DEFLATE compression and decompression exposed as Read/BufRead/Write streams.\nSupports miniz_oxide and multiple zlib implementations. Supports zlib, gzip,\nand raw deflate streams.\n",
+      "downloads": 877945997,
+      "edition": "2018",
+      "keywords": [
+        "deflate",
+        "encoding",
+        "gzip",
+        "zlib",
+        "zlib-ng"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.67.0",
+      "name": "flate2",
+      "owners": 1,
+      "recent_downloads": 247319338,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-lang/flate2-rs",
+      "score": 89.94,
+      "version": "1.1.11",
+      "versions": 79
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.6566,
+        "downloads": 0.8786,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9318,
+        "security": 1.0
+      },
+      "created": "2017-07-23",
+      "dependents": 2411,
+      "description": "Bindings to Python interpreter",
+      "downloads": 312540790,
+      "edition": "2024",
+      "keywords": [
+        "cpython",
+        "ffi",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pyo3",
+      "owners": 3,
+      "recent_downloads": 77545993,
+      "releases_365d": 8,
+      "repository": "https://github.com/pyo3/pyo3",
+      "score": 87.36,
+      "version": "0.30.1",
+      "versions": 117
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.6671,
+        "downloads": 0.9044,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2016-02-22",
+      "dependents": 2728,
+      "description": "Binding for the zstd compression library.",
+      "downloads": 494715185,
+      "edition": "2018",
+      "keywords": [
+        "compression",
+        "zstandard",
+        "zstd"
+      ],
+      "last_release": "2026-11-12",
+      "license": "BSD-3-Clause",
+      "msrv": "1.64",
+      "name": "zstd",
+      "owners": 1,
+      "recent_downloads": 132312443,
+      "releases_365d": 7,
+      "repository": "https://github.com/gyscos/zstd-rs",
+      "score": 87.05,
+      "version": "0.14.4",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "parsing",
+        "text-editors"
+      ],
+      "components": {
+        "dependents": 0.6521,
+        "downloads": 0.8226,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2018-05-18",
+      "dependents": 2284,
+      "description": "Rust bindings to the Tree-sitter parsing library",
+      "downloads": 58521609,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter",
+      "owners": 3,
+      "recent_downloads": 24361622,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 86.48,
+      "version": "0.27.2",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography"
+      ],
+      "components": {
+        "dependents": 0.6327,
+        "downloads": 0.8866,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9642,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 1814,
+      "description": "OpenSSL bindings",
+      "downloads": 468312110,
+      "edition": "2021",
+      "keywords": [
+        "crypto",
+        "dtls",
+        "ssl",
+        "tls"
+      ],
+      "last_release": "2026-11-01",
+      "license": "Apache-2.0",
+      "msrv": "1.80.0",
+      "name": "openssl",
+      "owners": 2,
+      "recent_downloads": 91401561,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-openssl/rust-openssl",
+      "score": 86.44,
+      "version": "0.10.82",
+      "versions": 175
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.6256,
+        "downloads": 0.9581,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.7809,
+        "security": 1.0
+      },
+      "created": "2017-06-07",
+      "dependents": 1668,
+      "description": "Utilities for handling networking sockets with a maximal amount of configuration\npossible intended.\n",
+      "downloads": 1529670492,
+      "edition": "2021",
+      "keywords": [
+        "io",
+        "network",
+        "socket"
+      ],
+      "last_release": "2026-07-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "socket2",
+      "owners": 4,
+      "recent_downloads": 401300757,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-lang/socket2",
+      "score": 86.31,
+      "version": "0.6.5",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "development-tools::debugging",
+        "development-tools::profiling"
+      ],
+      "components": {
+        "dependents": 0.6373,
+        "downloads": 0.8885,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.923,
+        "security": 1.0
+      },
+      "created": "2019-11-08",
+      "dependents": 1916,
+      "description": "OpenTelemetry API for Rust",
+      "downloads": 340780462,
+      "edition": "2021",
+      "keywords": [
+        "logging",
+        "metrics",
+        "opentelemetry",
+        "tracing"
+      ],
+      "last_release": "2026-10-09",
+      "license": "Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "opentelemetry",
+      "owners": 3,
+      "recent_downloads": 95088940,
+      "releases_365d": 3,
+      "repository": "https://github.com/open-telemetry/opentelemetry-rust/tree/main/opentelemetry",
+      "score": 85.49,
+      "version": "0.33.1",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "caching",
+        "encoding",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5738,
+        "downloads": 0.8296,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9838,
+        "security": 1.0
+      },
+      "created": "2019-04-29",
+      "dependents": 902,
+      "description": "Kubernetes client and async controller runtime",
+      "downloads": 95084854,
+      "edition": "2024",
+      "keywords": [
+        "client",
+        "cncf",
+        "kubernetes",
+        "runtime"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "kube",
+      "owners": 2,
+      "recent_downloads": 28138715,
+      "releases_365d": 7,
+      "repository": "https://github.com/kube-rs/kube",
+      "score": 83.84,
+      "version": "5.1.0",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "external-ffi-bindings",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.6155,
+        "downloads": 0.874,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9158,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 1479,
+      "description": "Objective-C interface and runtime bindings",
+      "downloads": 170142668,
+      "edition": "2021",
+      "keywords": [
+        "ios",
+        "macos",
+        "objc",
+        "objc_msgsend",
+        "objective-c"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "objc2",
+      "owners": 2,
+      "recent_downloads": 70575231,
+      "releases_365d": 3,
+      "repository": "https://github.com/madsmtm/objc2",
+      "score": 83.47,
+      "version": "0.6.5",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.562,
+        "downloads": 0.821,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.921,
+        "security": 1.0
+      },
+      "created": "2024-08-26",
+      "dependents": 784,
+      "description": "The tree-sitter Language type, used by the library and by language implementations",
+      "downloads": 49611326,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-10-08",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-language",
+      "owners": 3,
+      "recent_downloads": 23581364,
+      "releases_365d": 4,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 83.39,
+      "version": "0.1.9",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "api-bindings"
+      ],
+      "components": {
+        "dependents": 0.6279,
+        "downloads": 0.9166,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9859,
+        "security": 1.0
+      },
+      "created": "2015-11-08",
+      "dependents": 1715,
+      "description": "Bindings around the platform's dynamic library loading primitives with greatly improved memory safety.",
+      "downloads": 656652346,
+      "edition": "2021",
+      "keywords": [
+        "dlopen",
+        "dylib",
+        "load",
+        "shared"
+      ],
+      "last_release": "2026-11-13",
+      "license": "ISC",
+      "msrv": "1.88.0",
+      "name": "libloading",
+      "owners": 1,
+      "recent_downloads": 169997760,
+      "releases_365d": 1,
+      "repository": "https://github.com/nagisa/rust_libloading/",
+      "score": 81.9,
+      "version": "0.9.1",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5062,
+        "downloads": 0.7851,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9329,
+        "security": 1.0
+      },
+      "created": "2017-05-10",
+      "dependents": 404,
+      "description": "PyO3-based Rust bindings of the NumPy C-API",
+      "downloads": 56642393,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "numpy",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-15",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "numpy",
+      "owners": 5,
+      "recent_downloads": 11221747,
+      "releases_365d": 4,
+      "repository": "https://github.com/PyO3/rust-numpy",
+      "score": 81.28,
+      "version": "0.30.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "api-bindings"
+      ],
+      "components": {
+        "dependents": 0.5202,
+        "downloads": 0.7853,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9719,
+        "security": 1.0
+      },
+      "created": "2021-12-29",
+      "dependents": 477,
+      "description": "Rust wrappers around Microsoft Azure REST APIs - Core crate",
+      "downloads": 42318671,
+      "edition": "2021",
+      "keywords": [
+        "cloud",
+        "iot",
+        "rest",
+        "sdk"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "azure_core",
+      "owners": 2,
+      "recent_downloads": 11262481,
+      "releases_365d": 9,
+      "repository": "https://github.com/azure/azure-sdk-for-rust",
+      "score": 81.22,
+      "version": "1.1.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.4315,
+        "downloads": 0.8799,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9318,
+        "security": 1.0
+      },
+      "created": "2021-05-25",
+      "dependents": 166,
+      "description": "Build configuration for the PyO3 ecosystem",
+      "downloads": 322995701,
+      "edition": "2024",
+      "keywords": [
+        "cpython",
+        "ffi",
+        "pyo3",
+        "python"
+      ],
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "pyo3-build-config",
+      "owners": 2,
+      "recent_downloads": 79636860,
+      "releases_365d": 10,
+      "repository": "https://github.com/pyo3/pyo3",
+      "score": 80.76,
+      "version": "0.30.1",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.4972,
+        "downloads": 0.7634,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9932,
+        "security": 1.0
+      },
+      "created": "2020-06-17",
+      "dependents": 363,
+      "description": "A async Rust NATS client",
+      "downloads": 52810341,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "client",
+        "messaging",
+        "nats"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "async-nats",
+      "owners": 2,
+      "recent_downloads": 7155613,
+      "releases_365d": 9,
+      "repository": "https://github.com/nats-io/nats.rs",
+      "score": 80.41,
+      "version": "0.53.0",
+      "versions": 74
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.5097,
+        "downloads": 0.8367,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7944,
+        "security": 1.0
+      },
+      "created": "2015-04-29",
+      "dependents": 421,
+      "description": "Bindings to the standard C implementation of the wayland protocol, client side.",
+      "downloads": 93151722,
+      "edition": "2021",
+      "keywords": [
+        "client",
+        "wayland"
+      ],
+      "last_release": "2026-07-22",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "wayland-client",
+      "owners": 2,
+      "recent_downloads": 32586562,
+      "releases_365d": 4,
+      "repository": "https://github.com/smithay/wayland-rs",
+      "score": 79.57,
+      "version": "0.31.15",
+      "versions": 178
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "development-tools::ffi",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5039,
+        "downloads": 0.7941,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.925,
+        "security": 1.0
+      },
+      "created": "2019-12-28",
+      "dependents": 393,
+      "description": "Safe interop between Rust and C++",
+      "downloads": 87996205,
+      "edition": "2024",
+      "keywords": [
+        "c++",
+        "ffi"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "cxx",
+      "owners": 1,
+      "recent_downloads": 13501291,
+      "releases_365d": 16,
+      "repository": "https://github.com/dtolnay/cxx",
+      "score": 79.32,
+      "version": "1.0.205",
+      "versions": 252
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "asynchronous",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.4999,
+        "downloads": 0.8316,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9894,
+        "security": 1.0
+      },
+      "created": "2019-09-13",
+      "dependents": 375,
+      "description": "Convenience crate for working with JavaScript timers",
+      "downloads": 132131252,
+      "edition": "2024",
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "gloo-timers",
+      "owners": 2,
+      "recent_downloads": 29342773,
+      "releases_365d": 2,
+      "repository": "https://github.com/rustwasm/gloo/tree/master/crates/timers",
+      "score": 79.13,
+      "version": "0.4.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.3506,
+        "downloads": 0.9002,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2017-03-24",
+      "dependents": 63,
+      "description": "Low-level bindings for the zstd compression library.",
+      "downloads": 453415318,
+      "edition": "2018",
+      "keywords": [
+        "compression",
+        "zstandard",
+        "zstd"
+      ],
+      "last_release": "2026-11-12",
+      "license": "BSD-3-Clause AND BSD-2-Clause",
+      "msrv": "1.64",
+      "name": "zstd-sys",
+      "owners": 1,
+      "recent_downloads": 121136136,
+      "releases_365d": 5,
+      "repository": "https://github.com/gyscos/zstd-rs",
+      "score": 79.03,
+      "version": "2.1.3+zstd.1.5.7",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.3438,
+        "downloads": 0.9059,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2017-06-05",
+      "dependents": 58,
+      "description": "Safe low-level bindings for the zstd compression library.",
+      "downloads": 505779653,
+      "edition": "2018",
+      "keywords": [
+        "compression",
+        "zstandard",
+        "zstd"
+      ],
+      "last_release": "2026-11-12",
+      "license": "BSD-3-Clause",
+      "msrv": "1.64",
+      "name": "zstd-safe",
+      "owners": 1,
+      "recent_downloads": 136398643,
+      "releases_365d": 7,
+      "repository": "https://github.com/gyscos/zstd-rs",
+      "score": 79.0,
+      "version": "8.3.0",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "filesystem",
+        "os::linux-apis",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.4476,
+        "downloads": 0.768,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2021-04-14",
+      "dependents": 201,
+      "description": "Safe abstraction for Linux Landlock sandboxing",
+      "downloads": 22085121,
+      "edition": "2021",
+      "keywords": [
+        "access-control",
+        "linux",
+        "sandbox",
+        "security"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "landlock",
+      "owners": 1,
+      "recent_downloads": 7874288,
+      "releases_365d": 4,
+      "repository": "https://github.com/landlock-lsm/rust-landlock",
+      "score": 78.38,
+      "version": "0.4.8",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.4642,
+        "downloads": 0.7322,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8914,
+        "security": 1.0
+      },
+      "created": "2015-03-09",
+      "dependents": 245,
+      "description": "Rust bindings for GStreamer",
+      "downloads": 13514639,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "gnome",
+        "gstreamer",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "gstreamer",
+      "owners": 3,
+      "recent_downloads": 3759416,
+      "releases_365d": 9,
+      "repository": "https://gitlab.freedesktop.org/gstreamer/gstreamer-rs",
+      "score": 78.28,
+      "version": "0.25.4",
+      "versions": 128
+    },
+    {
+      "categories": [
+        "api-bindings"
+      ],
+      "components": {
+        "dependents": 0.5305,
+        "downloads": 0.8864,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.6227,
+        "security": 1.0
+      },
+      "created": "2016-11-08",
+      "dependents": 539,
+      "description": "Rust bindings to the JNI",
+      "downloads": 256755380,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "java",
+        "jni"
+      ],
+      "last_release": "2026-03-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "jni",
+      "owners": 4,
+      "recent_downloads": 91124204,
+      "releases_365d": 3,
+      "repository": "https://github.com/jni-rs/jni-rs",
+      "score": 78.26,
+      "version": "0.22.4",
+      "versions": 49
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4902,
+        "downloads": 0.7059,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8893,
+        "security": 1.0
+      },
+      "created": "2019-07-25",
+      "dependents": 334,
+      "description": "Rust bindings of the GTK 4 library",
+      "downloads": 5797566,
+      "edition": "2024",
+      "keywords": [
+        "gnome",
+        "gtk",
+        "gtk-rs",
+        "gtk4",
+        "gui"
+      ],
+      "last_release": "2026-09-20",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "gtk4",
+      "owners": 4,
+      "recent_downloads": 2183049,
+      "releases_365d": 10,
+      "repository": "https://github.com/gtk-rs/gtk4-rs",
+      "score": 78.24,
+      "version": "0.11.5",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui"
+      ],
+      "components": {
+        "dependents": 0.4289,
+        "downloads": 0.8337,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8299,
+        "security": 1.0
+      },
+      "created": "2022-01-01",
+      "dependents": 161,
+      "description": "Low-level bindings to the Wayland protocol",
+      "downloads": 71703988,
+      "edition": "2021",
+      "keywords": [
+        "wayland"
+      ],
+      "last_release": "2026-08-14",
+      "license": "MIT",
+      "msrv": "1.71",
+      "name": "wayland-backend",
+      "owners": 2,
+      "recent_downloads": 30669894,
+      "releases_365d": 5,
+      "repository": "https://github.com/smithay/wayland-rs",
+      "score": 78.02,
+      "version": "0.3.17",
+      "versions": 48
+    }
+  ],
+  "score_version": 1
+}

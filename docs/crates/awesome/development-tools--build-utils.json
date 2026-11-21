@@ -1,0 +1,910 @@
+{
+  "category": {
+    "crates": 1704,
+    "description": "Utilities for build scripts and other build time steps.",
+    "name": "Development tools::Build Utils",
+    "slug": "development-tools::build-utils"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.7111,
+        "downloads": 0.9589,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9989,
+        "security": 1.0
+      },
+      "created": "2014-12-16",
+      "dependents": 4598,
+      "description": "A build-time dependency for Cargo build scripts to assist in invoking the native\nC compiler to compile native C code into a static archive to be linked into Rust\ncode.\n",
+      "downloads": 1559292198,
+      "edition": "2021",
+      "keywords": [
+        "build-dependencies"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65.0",
+      "name": "cc",
+      "owners": 1,
+      "recent_downloads": 407820293,
+      "releases_365d": 41,
+      "repository": "https://github.com/rust-lang/cc-rs",
+      "score": 89.73,
+      "version": "1.11.3",
+      "versions": 234
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.6091,
+        "downloads": 0.8563,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9196,
+        "security": 1.0
+      },
+      "created": "2015-07-22",
+      "dependents": 1371,
+      "description": "Typed distributed plugin registration",
+      "downloads": 166194811,
+      "edition": "2021",
+      "keywords": [
+        "linkage"
+      ],
+      "last_release": "2026-10-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.68",
+      "name": "inventory",
+      "owners": 1,
+      "recent_downloads": 48940758,
+      "releases_365d": 4,
+      "repository": "https://github.com/dtolnay/inventory",
+      "score": 83.43,
+      "version": "0.3.25",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "embedded",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5101,
+        "downloads": 0.8778,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9867,
+        "security": 1.0
+      },
+      "created": "2018-12-06",
+      "dependents": 423,
+      "description": "Global, no_std-compatible constructors for all platforms that run before main (like C/C++ __attribute__((constructor)))",
+      "downloads": 253969184,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.60",
+      "name": "ctor",
+      "owners": 1,
+      "recent_downloads": 76206996,
+      "releases_365d": 28,
+      "repository": "https://github.com/mmastrac/linktime",
+      "score": 82.5,
+      "version": "1.0.14",
+      "versions": 80
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "development-tools::build-utils",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.5379,
+        "downloads": 0.8472,
+        "license": 1.0,
+        "maintenance": 0.7983,
+        "msrv": 1.0,
+        "recency": 0.9584,
+        "security": 1.0
+      },
+      "created": "2025-07-28",
+      "dependents": 589,
+      "description": "Prost build integration for tonic",
+      "downloads": 83861787,
+      "edition": "2024",
+      "keywords": [
+        "grpc",
+        "prost",
+        "protobuf",
+        "rpc",
+        "tonic"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tonic-prost-build",
+      "owners": 1,
+      "recent_downloads": 40542891,
+      "releases_365d": 7,
+      "repository": "https://github.com/grpc/grpc-rust",
+      "score": 80.98,
+      "version": "0.14.9",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.5827,
+        "downloads": 0.9069,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.6348,
+        "security": 1.0
+      },
+      "created": "2015-07-31",
+      "dependents": 1002,
+      "description": "A build dependency for running `cmake` to build a native library\n",
+      "downloads": 417852295,
+      "edition": "2021",
+      "keywords": [
+        "build-dependencies"
+      ],
+      "last_release": "2026-03-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "cmake",
+      "owners": 1,
+      "recent_downloads": 139128161,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-lang/cmake-rs",
+      "score": 79.76,
+      "version": "0.1.58",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.4532,
+        "downloads": 0.7834,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2015-02-12",
+      "dependents": 215,
+      "description": "Generate 'cargo:rustc-env' instructions via 'build.rs' for use in your code via the 'env!' macro",
+      "downloads": 59939854,
+      "edition": "2024",
+      "keywords": [
+        "build",
+        "cargo",
+        "instructions",
+        "tool"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "vergen",
+      "owners": 1,
+      "recent_downloads": 10822494,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustyhorde/vergen",
+      "score": 78.88,
+      "version": "10.0.4",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::ffi"
+      ],
+      "components": {
+        "dependents": 0.4795,
+        "downloads": 0.7912,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.925,
+        "security": 1.0
+      },
+      "created": "2020-04-30",
+      "dependents": 294,
+      "description": "C++ code generator for integrating `cxx` crate into a Cargo build.",
+      "downloads": 82104266,
+      "edition": "2024",
+      "keywords": [
+        "build-dependencies",
+        "ffi"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "cxx-build",
+      "owners": 1,
+      "recent_downloads": 12722824,
+      "releases_365d": 16,
+      "repository": "https://github.com/dtolnay/cxx",
+      "score": 78.64,
+      "version": "1.0.205",
+      "versions": 237
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5039,
+        "downloads": 0.7927,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9775,
+        "security": 1.0
+      },
+      "created": "2019-01-27",
+      "dependents": 393,
+      "description": "Safe cross-platform linker shenanigans",
+      "downloads": 42427735,
+      "edition": "2021",
+      "keywords": [
+        "linkage"
+      ],
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "linkme",
+      "owners": 1,
+      "recent_downloads": 13124874,
+      "releases_365d": 3,
+      "repository": "https://github.com/dtolnay/linkme",
+      "score": 78.58,
+      "version": "0.3.38",
+      "versions": 57
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5058,
+        "downloads": 0.9438,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7709,
+        "security": 1.0
+      },
+      "created": "2019-07-08",
+      "dependents": 402,
+      "description": "Conditional compilation according to rustc compiler version",
+      "downloads": 995903968,
+      "edition": "2018",
+      "last_release": "2026-07-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.31",
+      "name": "rustversion",
+      "owners": 1,
+      "recent_downloads": 298302966,
+      "releases_365d": 1,
+      "repository": "https://github.com/dtolnay/rustversion",
+      "score": 76.3,
+      "version": "1.0.23",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.9498,
+        "license": 1.0,
+        "maintenance": 0.7895,
+        "msrv": 1.0,
+        "recency": 0.9397,
+        "security": 1.0
+      },
+      "created": "2025-08-29",
+      "dependents": 16,
+      "description": "Find windows-specific tools, read MSVC versions from the registry and from COM interfaces",
+      "downloads": 727714146,
+      "edition": "2021",
+      "keywords": [
+        "build-dependencies"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65.0",
+      "name": "find-msvc-tools",
+      "owners": 1,
+      "recent_downloads": 337816566,
+      "releases_365d": 10,
+      "repository": "https://github.com/rust-lang/cc-rs",
+      "score": 75.65,
+      "version": "0.1.15",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.3558,
+        "downloads": 0.7259,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2024-01-30",
+      "dependents": 67,
+      "description": "Generate 'cargo:rustc-env' instructions via 'build.rs' for use in your code via the 'env!' macro",
+      "downloads": 10172455,
+      "edition": "2024",
+      "keywords": [
+        "build",
+        "cargo",
+        "instructions",
+        "tool"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "vergen-gitcl",
+      "owners": 1,
+      "recent_downloads": 3301543,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustyhorde/vergen",
+      "score": 75.01,
+      "version": "10.0.4",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "compilers",
+        "development-tools::build-utils",
+        "encoding"
+      ],
+      "components": {
+        "dependents": 0.45,
+        "downloads": 0.7696,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9194,
+        "security": 1.0
+      },
+      "created": "2022-07-25",
+      "dependents": 207,
+      "description": "A rust implementation of the protobuf compiler.",
+      "downloads": 21901863,
+      "edition": "2021",
+      "keywords": [
+        "protobuf",
+        "serialization"
+      ],
+      "last_release": "2026-10-07",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "protox",
+      "owners": 1,
+      "recent_downloads": 8148408,
+      "releases_365d": 2,
+      "repository": "https://github.com/andrewhickman/protox",
+      "score": 74.28,
+      "version": "0.10.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3883,
+        "downloads": 0.881,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9276,
+        "security": 1.0
+      },
+      "created": "2021-05-24",
+      "dependents": 99,
+      "description": "Parse and inspect Rust literals (i.e. tokens in the Rust programming language\nrepresenting fixed values). Particularly useful for proc macros, but can also\nbe used outside of a proc-macro context.\n",
+      "downloads": 224797753,
+      "edition": "2021",
+      "keywords": [
+        "literal",
+        "parsing",
+        "proc-macro",
+        "procedural",
+        "type"
+      ],
+      "last_release": "2026-10-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.56",
+      "name": "litrs",
+      "owners": 1,
+      "recent_downloads": 81539086,
+      "releases_365d": 1,
+      "repository": "https://github.com/LukasKalbertodt/litrs",
+      "score": 74.15,
+      "version": "1.0.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.3794,
+        "downloads": 0.9575,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7069,
+        "security": 1.0
+      },
+      "created": "2018-05-30",
+      "dependents": 89,
+      "description": "Automatic cfg for Rust compiler features",
+      "downloads": 1600058739,
+      "keywords": [
+        "autoconf",
+        "build",
+        "rustc"
+      ],
+      "last_release": "2026-05-22",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.0",
+      "name": "autocfg",
+      "owners": 2,
+      "recent_downloads": 396544126,
+      "releases_365d": 1,
+      "repository": "https://github.com/cuviper/autocfg",
+      "score": 73.53,
+      "version": "1.5.1",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "embedded",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.8339,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9867,
+        "security": 1.0
+      },
+      "created": "2024-02-27",
+      "dependents": 9,
+      "description": "Global, no_std-compatible destructors for all platforms that run after main (like C/C++ __attribute__((destructor)))",
+      "downloads": 75380373,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.60",
+      "name": "dtor",
+      "owners": 1,
+      "recent_downloads": 30788841,
+      "releases_365d": 21,
+      "repository": "https://github.com/mmastrac/linktime",
+      "score": 73.5,
+      "version": "1.0.7",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.3558,
+        "downloads": 0.6557,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2024-01-30",
+      "dependents": 67,
+      "description": "Generate 'cargo:rustc-env' instructions via 'build.rs' for use in your code via the 'env!' macro",
+      "downloads": 2601482,
+      "edition": "2024",
+      "keywords": [
+        "build",
+        "cargo",
+        "instructions",
+        "tool"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "vergen-gix",
+      "owners": 1,
+      "recent_downloads": 772667,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustyhorde/vergen",
+      "score": 73.25,
+      "version": "10.0.4",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "embedded"
+      ],
+      "components": {
+        "dependents": 0.3493,
+        "downloads": 0.6077,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9417,
+        "security": 1.0
+      },
+      "created": "2021-08-23",
+      "dependents": 62,
+      "description": "A build support library for embedded Rust",
+      "downloads": 1588619,
+      "edition": "2021",
+      "keywords": [
+        "build-dependencies",
+        "cargo",
+        "platformio"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.59",
+      "name": "embuild",
+      "owners": 3,
+      "recent_downloads": 286285,
+      "releases_365d": 6,
+      "repository": "https://github.com/esp-rs/embuild",
+      "score": 73.05,
+      "version": "0.33.7",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.3067,
+        "downloads": 0.6775,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2024-01-30",
+      "dependents": 37,
+      "description": "Generate 'cargo:rustc-env' instructions via 'build.rs' for use in your code via the 'env!' macro",
+      "downloads": 6629913,
+      "edition": "2024",
+      "keywords": [
+        "build",
+        "cargo",
+        "instructions",
+        "tool"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "vergen-git2",
+      "owners": 1,
+      "recent_downloads": 1212465,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustyhorde/vergen",
+      "score": 72.57,
+      "version": "10.0.4",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.4863,
+        "downloads": 0.936,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 0.0,
+        "recency": 0.785,
+        "security": 1.0
+      },
+      "created": "2020-04-05",
+      "dependents": 319,
+      "description": "A tiny utility to help save you a lot of effort with long winded `#[cfg()]` checks.",
+      "downloads": 704258033,
+      "edition": "2018",
+      "keywords": [
+        "alias",
+        "build",
+        "cfg",
+        "compilation",
+        "conditional"
+      ],
+      "last_release": "2026-07-16",
+      "license": "MIT",
+      "name": "cfg_aliases",
+      "owners": 2,
+      "recent_downloads": 254032012,
+      "releases_365d": 1,
+      "repository": "https://github.com/katharostech/cfg_aliases",
+      "score": 71.83,
+      "version": "0.2.2",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.7545,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9667,
+        "security": 1.0
+      },
+      "created": "2022-05-23",
+      "dependents": 3,
+      "description": "Link against the Spectre-mitigated CRT import libraries for Windows MSVC targets; a no-op on every other target.",
+      "downloads": 7477948,
+      "edition": "2024",
+      "keywords": [
+        "crt",
+        "mitigated",
+        "msvc",
+        "oxidizer",
+        "spectre"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "msvc_spectre_libs",
+      "owners": 3,
+      "recent_downloads": 5953250,
+      "releases_365d": 4,
+      "repository": "https://github.com/microsoft/oxidizer/tree/main/crates/msvc_spectre_libs",
+      "score": 71.28,
+      "version": "0.2.3",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::ffi",
+        "wasm",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5158,
+        "downloads": 0.7866,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.5729,
+        "security": 1.0
+      },
+      "created": "2020-12-15",
+      "dependents": 453,
+      "description": "generate typescript bindings from rust types",
+      "downloads": 24444381,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "ts",
+        "ts-rs",
+        "typescript",
+        "wasm"
+      ],
+      "last_release": "2026-01-31",
+      "license": "MIT",
+      "msrv": "1.78.0",
+      "name": "ts-rs",
+      "owners": 1,
+      "recent_downloads": 11569535,
+      "releases_365d": 2,
+      "repository": "https://github.com/Aleph-Alpha/ts-rs",
+      "score": 71.15,
+      "version": "12.0.1",
+      "versions": 49
+    },
+    {
+      "categories": [
+        "development-tools",
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.7686,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9976,
+        "security": 1.0
+      },
+      "created": "2024-01-30",
+      "dependents": 5,
+      "description": "Common code used to support the vergen libraries",
+      "downloads": 32476500,
+      "edition": "2024",
+      "keywords": [
+        "build",
+        "cargo",
+        "instructions",
+        "tool"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96.0",
+      "name": "vergen-lib",
+      "owners": 1,
+      "recent_downloads": 7970675,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustyhorde/vergen",
+      "score": 70.96,
+      "version": "10.0.4",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "gui",
+        "rendering::engine"
+      ],
+      "components": {
+        "dependents": 0.3866,
+        "downloads": 0.6742,
+        "license": 0.5,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2022-02-10",
+      "dependents": 97,
+      "description": "Compile .slint UI files to Rust code from a Cargo build script",
+      "downloads": 2568712,
+      "edition": "2024",
+      "keywords": [
+        "build-script",
+        "codegen",
+        "gui",
+        "ui"
+      ],
+      "last_release": "2026-11-16",
+      "license": "GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0",
+      "msrv": "1.95",
+      "name": "slint-build",
+      "owners": 2,
+      "recent_downloads": 1131451,
+      "releases_365d": 9,
+      "repository": "https://github.com/slint-ui/slint",
+      "score": 70.38,
+      "version": "1.19.0",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "development-tools::build-utils"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.7246,
+        "license": 1.0,
+        "maintenance": 0.8436,
+        "msrv": 1.0,
+        "recency": 0.8463,
+        "security": 1.0
+      },
+      "created": "2025-10-14",
+      "dependents": 21,
+      "description": "Build-time integration for connectrpc (use in build.rs)",
+      "downloads": 4112150,
+      "edition": "2024",
+      "keywords": [
+        "build",
+        "codegen",
+        "connectrpc",
+        "grpc",
+        "protobuf"
+      ],
+      "last_release": "2026-08-25",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "connectrpc-build",
+      "owners": 2,
+      "recent_downloads": 3208265,
+      "releases_365d": 14,
+      "repository": "https://github.com/connectrpc/connect-rust",
+      "score": 69.98,
+      "version": "0.9.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "development-tools::procedural-macro-helpers",
+        "embedded",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.8005,
+        "license": 1.0,
+        "maintenance": 0.7319,
+        "msrv": 1.0,
+        "recency": 0.9867,
+        "security": 1.0
+      },
+      "created": "2026-03-27",
+      "dependents": 4,
+      "description": "Link-time initialized slices for Rust, with full support for Linux, macOS, Windows, WASM and many more platforms.",
+      "downloads": 21461005,
+      "edition": "2021",
+      "last_release": "2026-11-14",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "link-section",
+      "owners": 1,
+      "recent_downloads": 15417764,
+      "releases_365d": 32,
+      "repository": "https://github.com/mmastrac/linktime",
+      "score": 69.18,
+      "version": "0.19.4",
+      "versions": 32
+    }
+  ],
+  "score_version": 1
+}

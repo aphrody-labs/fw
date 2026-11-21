@@ -1,0 +1,920 @@
+{
+  "category": {
+    "crates": 4757,
+    "description": "Crates for dealing with files and filesystems.",
+    "name": "Filesystem",
+    "slug": "filesystem"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "compression",
+        "filesystem",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.706,
+        "downloads": 0.8959,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9986,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 4331,
+      "description": "Library to support the reading and writing of zip files.",
+      "downloads": 356197472,
+      "edition": "2024",
+      "keywords": [
+        "archive",
+        "compression",
+        "zip"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "zip",
+      "owners": 2,
+      "recent_downloads": 110773783,
+      "releases_365d": 46,
+      "repository": "https://github.com/zip-rs/zip2",
+      "score": 89.03,
+      "version": "9.8.1",
+      "versions": 159
+    },
+    {
+      "categories": [
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.686,
+        "downloads": 0.868,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9892,
+        "security": 1.0
+      },
+      "created": "2014-12-20",
+      "dependents": 3416,
+      "description": "Cross-platform filesystem notification library",
+      "downloads": 204412355,
+      "edition": "2021",
+      "keywords": [
+        "events",
+        "filesystem",
+        "notify",
+        "watch"
+      ],
+      "last_release": "2026-11-15",
+      "license": "CC0-1.0",
+      "msrv": "1.88",
+      "name": "notify",
+      "owners": 4,
+      "recent_downloads": 62264301,
+      "releases_365d": 11,
+      "repository": "https://github.com/notify-rs/notify.git",
+      "score": 88.69,
+      "version": "8.2.2",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "filesystem",
+        "network-programming",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.6477,
+        "downloads": 0.9565,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9535,
+        "security": 1.0
+      },
+      "created": "2021-10-29",
+      "dependents": 2168,
+      "description": "Safe Rust bindings to POSIX/Unix/Linux/Winsock-like syscalls",
+      "downloads": 1444292688,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "file",
+        "network",
+        "safe",
+        "syscall"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "msrv": "1.65",
+      "name": "rustix",
+      "owners": 1,
+      "recent_downloads": 388033759,
+      "releases_365d": 4,
+      "repository": "https://github.com/bytecodealliance/rustix",
+      "score": 87.41,
+      "version": "1.1.6",
+      "versions": 171
+    },
+    {
+      "categories": [
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.6516,
+        "downloads": 0.8855,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8488,
+        "security": 1.0
+      },
+      "created": "2015-10-06",
+      "dependents": 2271,
+      "description": "A Rust equivalent of Unix command \"which\". Locate installed executable in cross platforms.",
+      "downloads": 488772724,
+      "edition": "2021",
+      "keywords": [
+        "command",
+        "unix",
+        "which",
+        "which-rs"
+      ],
+      "last_release": "2026-08-26",
+      "license": "MIT",
+      "msrv": "1.70",
+      "name": "which",
+      "owners": 2,
+      "recent_downloads": 89459160,
+      "releases_365d": 6,
+      "repository": "https://github.com/harryfei/which-rs.git",
+      "score": 85.16,
+      "version": "8.0.6",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "development-tools",
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.5927,
+        "downloads": 0.8866,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8806,
+        "security": 1.0
+      },
+      "created": "2021-02-23",
+      "dependents": 1129,
+      "description": "UTF-8 paths",
+      "downloads": 334792166,
+      "edition": "2021",
+      "keywords": [
+        "filesystem",
+        "paths",
+        "unicode",
+        "utf8"
+      ],
+      "last_release": "2026-09-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61.0",
+      "name": "camino",
+      "owners": 2,
+      "recent_downloads": 91527328,
+      "releases_365d": 5,
+      "repository": "https://github.com/camino-rs/camino",
+      "score": 84.19,
+      "version": "1.2.6",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "filesystem",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.6,
+        "downloads": 0.8193,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9815,
+        "security": 1.0
+      },
+      "created": "2017-03-16",
+      "dependents": 1231,
+      "description": "Rust Custom Derive Macro which loads files into the rust binary at compile time during release and loads the file from the fs during dev",
+      "downloads": 70382872,
+      "edition": "2018",
+      "keywords": [
+        "http",
+        "rocket",
+        "server",
+        "static",
+        "web"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT",
+      "msrv": "1.80.0",
+      "name": "rust-embed",
+      "owners": 1,
+      "recent_downloads": 22746520,
+      "releases_365d": 4,
+      "repository": "https://pyrossh.dev/repos/rust-embed",
+      "score": 83.2,
+      "version": "8.14.0",
+      "versions": 69
+    },
+    {
+      "categories": [
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.6995,
+        "downloads": 0.9198,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7925,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 4011,
+      "description": "Support for matching file paths against Unix shell style patterns.\n",
+      "downloads": 748071390,
+      "edition": "2021",
+      "last_release": "2026-07-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63.0",
+      "name": "glob",
+      "owners": 1,
+      "recent_downloads": 181833096,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-lang/glob",
+      "score": 80.87,
+      "version": "0.3.4",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "filesystem",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.472,
+        "downloads": 0.8135,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9784,
+        "security": 1.0
+      },
+      "created": "2019-05-30",
+      "dependents": 269,
+      "description": "The low-level `io_uring` userspace interface for Rust",
+      "downloads": 72885544,
+      "edition": "2021",
+      "last_release": "2026-11-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "io-uring",
+      "owners": 2,
+      "recent_downloads": 20196691,
+      "releases_365d": 5,
+      "repository": "https://github.com/tokio-rs/io-uring",
+      "score": 80.82,
+      "version": "0.7.16",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "development-tools",
+        "filesystem",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5261,
+        "downloads": 0.8277,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.81,
+        "security": 1.0
+      },
+      "created": "2015-04-19",
+      "dependents": 512,
+      "description": "Semantic wrapper for byte count representations",
+      "downloads": 125115965,
+      "edition": "2021",
+      "keywords": [
+        "byte",
+        "byte-size",
+        "format",
+        "human-readable",
+        "utility"
+      ],
+      "last_release": "2026-08-02",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "bytesize",
+      "owners": 2,
+      "recent_downloads": 27085121,
+      "releases_365d": 5,
+      "repository": "https://github.com/bytesize-rs/bytesize",
+      "score": 80.0,
+      "version": "2.7.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.4383,
+        "downloads": 0.7649,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9377,
+        "security": 1.0
+      },
+      "created": "2022-02-14",
+      "dependents": 180,
+      "description": "Apache OpenDAL™: One Layer, All Storage.",
+      "downloads": 21184763,
+      "edition": "2024",
+      "keywords": [
+        "azblob",
+        "fs",
+        "gcs",
+        "s3",
+        "storage"
+      ],
+      "last_release": "2026-10-18",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "opendal",
+      "owners": 6,
+      "recent_downloads": 7388160,
+      "releases_365d": 10,
+      "repository": "https://github.com/apache/opendal",
+      "score": 79.15,
+      "version": "0.59.5",
+      "versions": 161
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "filesystem",
+        "os::linux-apis",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.4476,
+        "downloads": 0.768,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2021-04-14",
+      "dependents": 201,
+      "description": "Safe abstraction for Linux Landlock sandboxing",
+      "downloads": 22085121,
+      "edition": "2021",
+      "keywords": [
+        "access-control",
+        "linux",
+        "sandbox",
+        "security"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "landlock",
+      "owners": 1,
+      "recent_downloads": 7874288,
+      "releases_365d": 4,
+      "repository": "https://github.com/landlock-lsm/rust-landlock",
+      "score": 78.38,
+      "version": "0.4.8",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "development-tools",
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.8606,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9411,
+        "security": 1.0
+      },
+      "created": "2022-08-25",
+      "dependents": 69,
+      "description": "Provides typed variants of Path and PathBuf for Unix and Windows",
+      "downloads": 81217289,
+      "edition": "2021",
+      "keywords": [
+        "filesystem",
+        "paths",
+        "unicode",
+        "utf8"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65.0",
+      "name": "typed-path",
+      "owners": 1,
+      "recent_downloads": 53458772,
+      "releases_365d": 5,
+      "repository": "https://github.com/chipsenkbeil/typed-path",
+      "score": 77.59,
+      "version": "0.13.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.4071,
+        "downloads": 0.8683,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8296,
+        "security": 1.0
+      },
+      "created": "2014-12-22",
+      "dependents": 124,
+      "description": "Idiomatic wrapper for inotify",
+      "downloads": 213392008,
+      "edition": "2018",
+      "keywords": [
+        "inotify",
+        "linux"
+      ],
+      "last_release": "2026-08-14",
+      "license": "ISC",
+      "msrv": "1.70",
+      "name": "inotify",
+      "owners": 1,
+      "recent_downloads": 62699704,
+      "releases_365d": 5,
+      "repository": "https://github.com/hannobraun/inotify-rs",
+      "score": 77.33,
+      "version": "0.11.5",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "external-ffi-bindings",
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.5166,
+        "downloads": 0.8192,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.6751,
+        "security": 1.0
+      },
+      "created": "2021-12-31",
+      "dependents": 457,
+      "description": "No libc, pure Rust cross-platform file locks. Original fs2, now supports async and replace libc by rustix.",
+      "downloads": 83539211,
+      "edition": "2021",
+      "keywords": [
+        "duplicate",
+        "file",
+        "flock",
+        "fs2",
+        "lock"
+      ],
+      "last_release": "2026-04-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.75.0",
+      "name": "fs4",
+      "owners": 1,
+      "recent_downloads": 22685814,
+      "releases_365d": 4,
+      "repository": "https://github.com/al8n/fs4",
+      "score": 76.52,
+      "version": "1.1.0",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.5195,
+        "downloads": 0.8486,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9135,
+        "security": 1.0
+      },
+      "created": "2020-02-02",
+      "dependents": 473,
+      "description": "A drop-in replacement for std::fs with more helpful error messages.",
+      "downloads": 165080065,
+      "edition": "2018",
+      "last_release": "2026-10-04",
+      "license": "MIT OR Apache-2.0",
+      "name": "fs-err",
+      "owners": 1,
+      "recent_downloads": 41710603,
+      "releases_365d": 5,
+      "repository": "https://github.com/andrewhickman/fs-err",
+      "score": 75.9,
+      "version": "3.3.2",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.4178,
+        "downloads": 0.8421,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9439,
+        "security": 1.0
+      },
+      "created": "2017-11-04",
+      "dependents": 141,
+      "description": "Portable, relative paths for Rust.",
+      "downloads": 136205785,
+      "edition": "2021",
+      "keywords": [
+        "path"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "relative-path",
+      "owners": 1,
+      "recent_downloads": 36477325,
+      "releases_365d": 2,
+      "repository": "https://github.com/udoprog/relative-path",
+      "score": 75.66,
+      "version": "2.0.3",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.859,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9892,
+        "security": 1.0
+      },
+      "created": "2024-10-25",
+      "dependents": 11,
+      "description": "Types used by the notify crate",
+      "downloads": 109459767,
+      "edition": "2024",
+      "keywords": [
+        "events",
+        "filesystem",
+        "notify",
+        "watch"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.91",
+      "name": "notify-types",
+      "owners": 2,
+      "recent_downloads": 51733880,
+      "releases_365d": 4,
+      "repository": "https://github.com/notify-rs/notify.git",
+      "score": 75.55,
+      "version": "2.3.1",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.3891,
+        "downloads": 0.7366,
+        "license": 1.0,
+        "maintenance": 0.856,
+        "msrv": 1.0,
+        "recency": 0.9377,
+        "security": 1.0
+      },
+      "created": "2026-04-30",
+      "dependents": 100,
+      "description": "Apache OpenDAL™: One Layer, All Storage.",
+      "downloads": 5399878,
+      "edition": "2024",
+      "keywords": [
+        "azblob",
+        "fs",
+        "gcs",
+        "s3",
+        "storage"
+      ],
+      "last_release": "2026-10-18",
+      "license": "Apache-2.0",
+      "msrv": "1.91",
+      "name": "opendal-core",
+      "owners": 3,
+      "recent_downloads": 4111244,
+      "releases_365d": 11,
+      "repository": "https://github.com/apache/opendal",
+      "score": 75.05,
+      "version": "0.59.5",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "filesystem",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.4279,
+        "downloads": 0.7047,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2020-06-19",
+      "dependents": 159,
+      "description": "Filesystem in Userspace (FUSE) for Rust",
+      "downloads": 6856401,
+      "edition": "2024",
+      "keywords": [
+        "bindings",
+        "filesystem",
+        "fuse",
+        "system"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "fuser",
+      "owners": 1,
+      "recent_downloads": 2129476,
+      "releases_365d": 3,
+      "repository": "https://github.com/cberner/fuser",
+      "score": 74.81,
+      "version": "0.19.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "filesystem",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.4937,
+        "downloads": 0.8088,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.839,
+        "security": 1.0
+      },
+      "created": "2020-06-25",
+      "dependents": 348,
+      "description": "Capability-based version of the Rust standard library",
+      "downloads": 35651333,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "file",
+        "network",
+        "std"
+      ],
+      "last_release": "2026-08-20",
+      "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "name": "cap-std",
+      "owners": 2,
+      "recent_downloads": 18307818,
+      "releases_365d": 4,
+      "repository": "https://github.com/bytecodealliance/cap-std",
+      "score": 74.15,
+      "version": "4.0.3",
+      "versions": 94
+    },
+    {
+      "categories": [
+        "encoding",
+        "filesystem",
+        "graphics",
+        "multimedia"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.8257,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9773,
+        "security": 1.0
+      },
+      "created": "2020-02-15",
+      "dependents": 30,
+      "description": "Read and write OpenEXR files without any unsafe code",
+      "downloads": 92033614,
+      "edition": "2018",
+      "keywords": [
+        "binary",
+        "exr",
+        "file",
+        "io",
+        "openexr"
+      ],
+      "last_release": "2026-11-08",
+      "license": "BSD-3-Clause",
+      "msrv": "1.83.0",
+      "name": "exr",
+      "owners": 1,
+      "recent_downloads": 25973475,
+      "releases_365d": 3,
+      "repository": "https://github.com/johannesvollmer/exrs",
+      "score": 74.04,
+      "version": "1.74.3",
+      "versions": 32
+    },
+    {
+      "categories": [
+        "filesystem",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.3606,
+        "downloads": 0.654,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9531,
+        "security": 1.0
+      },
+      "created": "2024-08-08",
+      "dependents": 71,
+      "description": "Thread-safe Rust bindings for the HDF5 library.",
+      "downloads": 3007209,
+      "edition": "2024",
+      "keywords": [
+        "hdf5"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.1",
+      "name": "hdf5-metno",
+      "owners": 2,
+      "recent_downloads": 746504,
+      "releases_365d": 13,
+      "repository": "https://github.com/metno/hdf5-rust",
+      "score": 73.66,
+      "version": "0.15.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.7924,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8883,
+        "security": 1.0
+      },
+      "created": "2020-11-09",
+      "dependents": 69,
+      "description": "More reliable path manipulation\n",
+      "downloads": 41428476,
+      "edition": "2021",
+      "keywords": [
+        "absolute",
+        "canonicalize",
+        "normalize",
+        "path",
+        "windows"
+      ],
+      "last_release": "2026-09-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81.0",
+      "name": "normpath",
+      "owners": 1,
+      "recent_downloads": 13047462,
+      "releases_365d": 2,
+      "repository": "https://github.com/dylni/normpath",
+      "score": 72.09,
+      "version": "1.5.2",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3746,
+        "downloads": 0.7514,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9875,
+        "security": 1.0
+      },
+      "created": "2023-07-10",
+      "dependents": 84,
+      "description": "copy-on-write mechanism on supported file systems",
+      "downloads": 20444070,
+      "edition": "2018",
+      "keywords": [
+        "btrfs",
+        "copy",
+        "cow",
+        "reflink",
+        "xfs"
+      ],
+      "last_release": "2026-11-14",
+      "license": "MIT/Apache-2.0",
+      "name": "reflink-copy",
+      "owners": 2,
+      "recent_downloads": 5587460,
+      "releases_365d": 5,
+      "repository": "https://github.com/cargo-bins/reflink-copy",
+      "score": 71.96,
+      "version": "0.1.33",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "filesystem"
+      ],
+      "components": {
+        "dependents": 0.4148,
+        "downloads": 0.796,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.839,
+        "security": 1.0
+      },
+      "created": "2020-12-11",
+      "dependents": 136,
+      "description": "Extension traits for `Dir`, `File`, etc.",
+      "downloads": 29757669,
+      "edition": "2021",
+      "keywords": [
+        "filesystem"
+      ],
+      "last_release": "2026-08-20",
+      "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "name": "cap-fs-ext",
+      "owners": 2,
+      "recent_downloads": 14048047,
+      "releases_365d": 4,
+      "repository": "https://github.com/bytecodealliance/cap-std",
+      "score": 71.85,
+      "version": "4.0.3",
+      "versions": 86
+    }
+  ],
+  "score_version": 1
+}

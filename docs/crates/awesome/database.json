@@ -1,0 +1,919 @@
+{
+  "category": {
+    "crates": 7658,
+    "description": "Crates to interface with database management systems.",
+    "name": "Database interfaces",
+    "slug": "database"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.7318,
+        "downloads": 0.871,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9893,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 5884,
+      "description": "Ergonomic wrapper for SQLite",
+      "downloads": 161977041,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "ffi",
+        "sqlite"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT",
+      "msrv": "1.89.0",
+      "name": "rusqlite",
+      "owners": 2,
+      "recent_downloads": 66218507,
+      "releases_365d": 9,
+      "repository": "https://github.com/rusqlite/rusqlite",
+      "score": 88.91,
+      "version": "0.43.0",
+      "versions": 89
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.5495,
+        "downloads": 0.7934,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9854,
+        "security": 1.0
+      },
+      "created": "2015-11-29",
+      "dependents": 676,
+      "description": "A safe, extensible ORM and Query Builder for PostgreSQL, SQLite, and MySQL",
+      "downloads": 47090762,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "orm",
+        "sql"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "diesel",
+      "owners": 3,
+      "recent_downloads": 13314193,
+      "releases_365d": 12,
+      "repository": "https://github.com/diesel-rs/diesel",
+      "score": 83.35,
+      "version": "2.4.0",
+      "versions": 100
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.5347,
+        "downloads": 0.7596,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9018,
+        "security": 1.0
+      },
+      "created": "2021-08-07",
+      "dependents": 567,
+      "description": "🐚 An async & dynamic ORM for Rust",
+      "downloads": 30266165,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "mysql",
+        "orm",
+        "postgres",
+        "sqlite"
+      ],
+      "last_release": "2026-09-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "sea-orm",
+      "owners": 2,
+      "recent_downloads": 6627877,
+      "releases_365d": 31,
+      "repository": "https://github.com/SeaQL/sea-orm",
+      "score": 79.89,
+      "version": "2.0.4",
+      "versions": 142
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.4717,
+        "downloads": 0.7193,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9996,
+        "security": 1.0
+      },
+      "created": "2021-06-30",
+      "dependents": 268,
+      "description": "Ergonomic wrapper for DuckDB",
+      "downloads": 6353143,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "duckdb",
+        "ffi"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "duckdb",
+      "owners": 3,
+      "recent_downloads": 2875069,
+      "releases_365d": 16,
+      "repository": "https://github.com/duckdb/duckdb-rs",
+      "score": 79.77,
+      "version": "1.20001.0",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "database",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.5099,
+        "downloads": 0.7479,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2015-05-22",
+      "dependents": 422,
+      "description": "The official MongoDB driver for Rust",
+      "downloads": 21309839,
+      "edition": "2024",
+      "keywords": [
+        "bson",
+        "database",
+        "mongo",
+        "mongodb",
+        "nosql"
+      ],
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "mongodb",
+      "owners": 1,
+      "recent_downloads": 5195053,
+      "releases_365d": 13,
+      "repository": "https://github.com/mongodb/mongo-rust-driver",
+      "score": 79.4,
+      "version": "3.10.2",
+      "versions": 106
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.5672,
+        "downloads": 0.8312,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.736,
+        "security": 1.0
+      },
+      "created": "2016-12-26",
+      "dependents": 834,
+      "description": "A native, asynchronous PostgreSQL client",
+      "downloads": 91061097,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "database",
+        "postgres",
+        "postgresql",
+        "sql"
+      ],
+      "last_release": "2026-06-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "tokio-postgres",
+      "owners": 2,
+      "recent_downloads": 29105433,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-postgres/rust-postgres",
+      "score": 78.5,
+      "version": "0.7.18",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.4459,
+        "downloads": 0.7848,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9854,
+        "security": 1.0
+      },
+      "created": "2017-11-28",
+      "dependents": 197,
+      "description": "Migration management for diesel",
+      "downloads": 32461495,
+      "edition": "2024",
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "diesel_migrations",
+      "owners": 2,
+      "recent_downloads": 11157147,
+      "releases_365d": 3,
+      "repository": "https://github.com/diesel-rs/diesel",
+      "score": 78.05,
+      "version": "2.4.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.4607,
+        "downloads": 0.7394,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9018,
+        "security": 1.0
+      },
+      "created": "2022-05-09",
+      "dependents": 235,
+      "description": "Migration utility for SeaORM",
+      "downloads": 15583650,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "mysql",
+        "orm",
+        "postgres",
+        "sqlite"
+      ],
+      "last_release": "2026-09-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "sea-orm-migration",
+      "owners": 2,
+      "recent_downloads": 4356549,
+      "releases_365d": 31,
+      "repository": "https://github.com/SeaQL/sea-orm",
+      "score": 77.53,
+      "version": "2.0.4",
+      "versions": 120
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.3684,
+        "downloads": 0.7353,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9732,
+        "security": 1.0
+      },
+      "created": "2021-04-07",
+      "dependents": 78,
+      "description": "Async CQL driver for Rust, optimized for ScyllaDB, fully compatible with Apache Cassandra™",
+      "downloads": 12355018,
+      "edition": "2024",
+      "keywords": [
+        "cassandra",
+        "cql",
+        "database",
+        "scylla",
+        "scylladb"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.94",
+      "name": "scylla",
+      "owners": 4,
+      "recent_downloads": 4004161,
+      "releases_365d": 6,
+      "repository": "https://github.com/scylladb/scylla-rust-driver",
+      "score": 77.19,
+      "version": "1.10.0",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "database",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.4071,
+        "downloads": 0.7669,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.984,
+        "security": 1.0
+      },
+      "created": "2014-11-22",
+      "dependents": 124,
+      "description": "Library for reading MaxMind DB format used by GeoIP2 and GeoLite2",
+      "downloads": 35848473,
+      "edition": "2021",
+      "keywords": [
+        "geoip",
+        "geoip2",
+        "geolocation",
+        "ip",
+        "maxmind"
+      ],
+      "last_release": "2026-11-12",
+      "license": "ISC",
+      "msrv": "1.77",
+      "name": "maxminddb",
+      "owners": 1,
+      "recent_downloads": 7695908,
+      "releases_365d": 14,
+      "repository": "https://github.com/oschwald/maxminddb-rust",
+      "score": 77.11,
+      "version": "0.33.0",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.4015,
+        "downloads": 0.7623,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9854,
+        "security": 1.0
+      },
+      "created": "2022-09-27",
+      "dependents": 116,
+      "description": "An async extension for Diesel the safe, extensible ORM and Query Builder",
+      "downloads": 18543311,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "database",
+        "orm",
+        "sql"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "diesel-async",
+      "owners": 1,
+      "recent_downloads": 7004083,
+      "releases_365d": 5,
+      "repository": "https://github.com/diesel-rs/diesel",
+      "score": 76.88,
+      "version": "0.10.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.433,
+        "downloads": 0.7676,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8268,
+        "security": 1.0
+      },
+      "created": "2020-12-16",
+      "dependents": 169,
+      "description": "🔱 A dynamic query builder for MySQL, Postgres and SQLite",
+      "downloads": 41930020,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "mysql",
+        "postgres",
+        "sql",
+        "sqlite"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "sea-query",
+      "owners": 2,
+      "recent_downloads": 7804524,
+      "releases_365d": 17,
+      "repository": "https://github.com/SeaQL/sea-query",
+      "score": 76.42,
+      "version": "1.0.2",
+      "versions": 165
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.3331,
+        "downloads": 0.7251,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.968,
+        "security": 1.0
+      },
+      "created": "2021-08-09",
+      "dependents": 51,
+      "description": "Apache Iceberg Rust implementation",
+      "downloads": 5163223,
+      "edition": "2024",
+      "keywords": [
+        "iceberg"
+      ],
+      "last_release": "2026-11-03",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "iceberg",
+      "owners": 7,
+      "recent_downloads": 3242749,
+      "releases_365d": 6,
+      "repository": "https://github.com/apache/iceberg-rust",
+      "score": 75.98,
+      "version": "0.11.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.4512,
+        "downloads": 0.834,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.736,
+        "security": 1.0
+      },
+      "created": "2019-10-15",
+      "dependents": 210,
+      "description": "Conversions between Rust and Postgres values",
+      "downloads": 96488686,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "postgres",
+        "postgresql",
+        "sql"
+      ],
+      "last_release": "2026-06-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "postgres-types",
+      "owners": 2,
+      "recent_downloads": 30846544,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-postgres/rust-postgres",
+      "score": 75.67,
+      "version": "0.2.14",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.5017,
+        "downloads": 0.7707,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.8324,
+        "security": 1.0
+      },
+      "created": "2014-11-29",
+      "dependents": 383,
+      "description": "Rust wrapper for Facebook's RocksDB embeddable database",
+      "downloads": 61005583,
+      "edition": "2021",
+      "keywords": [
+        "database",
+        "embedded",
+        "lsm-tree",
+        "persistence"
+      ],
+      "last_release": "2026-08-16",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "rocksdb",
+      "owners": 3,
+      "recent_downloads": 8331110,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-rocksdb/rust-rocksdb",
+      "score": 74.8,
+      "version": "0.25.0",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.3736,
+        "downloads": 0.6832,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9809,
+        "security": 1.0
+      },
+      "created": "2020-11-13",
+      "dependents": 83,
+      "description": "Simple schema migration library for rusqlite using user_version instead of an SQL table to maintain the current schema version.",
+      "downloads": 5222532,
+      "edition": "2021",
+      "keywords": [
+        "database",
+        "migration",
+        "rusqlite",
+        "sqlite",
+        "user_version"
+      ],
+      "last_release": "2026-11-10",
+      "license": "Apache-2.0",
+      "msrv": "1.89",
+      "name": "rusqlite_migration",
+      "owners": 1,
+      "recent_downloads": 1364128,
+      "releases_365d": 5,
+      "repository": "https://github.com/cljoly/rusqlite_migration",
+      "score": 74.13,
+      "version": "2.7.0",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.692,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9844,
+        "security": 1.0
+      },
+      "created": "2023-04-17",
+      "dependents": 27,
+      "description": "pgrx:  A Rust framework for creating Postgres extensions",
+      "downloads": 3205042,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "extension",
+        "postgres",
+        "postgresql"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT",
+      "msrv": "1.99.1",
+      "name": "pgrx",
+      "owners": 3,
+      "recent_downloads": 1636489,
+      "releases_365d": 11,
+      "repository": "https://github.com/pgcentralfoundation/pgrx/",
+      "score": 74.09,
+      "version": "0.20.0",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "database",
+        "development-tools::ffi",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.7902,
+        "license": 1.0,
+        "maintenance": 0.8562,
+        "msrv": 1.0,
+        "recency": 0.9794,
+        "security": 1.0
+      },
+      "created": "2024-12-29",
+      "dependents": 24,
+      "description": "`wasm32-unknown-unknown` bindings to the libsqlite3 library.",
+      "downloads": 18880275,
+      "edition": "2021",
+      "keywords": [
+        "javascript",
+        "sqlite",
+        "sqlite-wasm",
+        "wasm",
+        "webassembly"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.81.0",
+      "name": "sqlite-wasm-rs",
+      "owners": 1,
+      "recent_downloads": 12466638,
+      "releases_365d": 11,
+      "repository": "https://github.com/Spxg/sqlite-wasm-rs",
+      "score": 74.07,
+      "version": "0.6.3",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "database",
+        "external-ffi-bindings"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.7194,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9996,
+        "security": 1.0
+      },
+      "created": "2021-06-30",
+      "dependents": 15,
+      "description": "Native bindings to the libduckdb library, C API",
+      "downloads": 6406650,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "duckdb",
+        "ffi"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "libduckdb-sys",
+      "owners": 3,
+      "recent_downloads": 2884045,
+      "releases_365d": 16,
+      "repository": "https://github.com/duckdb/duckdb-rs",
+      "score": 73.82,
+      "version": "1.20001.0",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.5087,
+        "downloads": 0.7553,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.736,
+        "security": 1.0
+      },
+      "created": "2014-11-24",
+      "dependents": 416,
+      "description": "A native, synchronous PostgreSQL client",
+      "downloads": 23097684,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "postgres",
+        "postgresql",
+        "sql"
+      ],
+      "last_release": "2026-06-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "postgres",
+      "owners": 2,
+      "recent_downloads": 6060151,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-postgres/rust-postgres",
+      "score": 73.64,
+      "version": "0.19.14",
+      "versions": 110
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.2567,
+        "downloads": 0.7062,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.968,
+        "security": 1.0
+      },
+      "created": "2024-02-20",
+      "dependents": 20,
+      "description": "Apache Iceberg Rust REST API",
+      "downloads": 3693867,
+      "edition": "2024",
+      "keywords": [
+        "catalog",
+        "iceberg",
+        "rest"
+      ],
+      "last_release": "2026-11-03",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "iceberg-catalog-rest",
+      "owners": 6,
+      "recent_downloads": 2196956,
+      "releases_365d": 6,
+      "repository": "https://github.com/apache/iceberg-rust",
+      "score": 73.59,
+      "version": "0.11.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "database",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.6812,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9564,
+        "security": 1.0
+      },
+      "created": "2015-05-27",
+      "dependents": 29,
+      "description": "Library for retrieving and interacting with the crates.io index",
+      "downloads": 9651882,
+      "edition": "2021",
+      "keywords": [
+        "crate",
+        "dependencies",
+        "index",
+        "meta",
+        "packaging"
+      ],
+      "last_release": "2026-10-28",
+      "license": "Apache-2.0",
+      "msrv": "1.75",
+      "name": "crates-index",
+      "owners": 4,
+      "recent_downloads": 1309068,
+      "releases_365d": 7,
+      "repository": "https://github.com/frewsxcv/rust-crates-index",
+      "score": 73.55,
+      "version": "4.0.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.3466,
+        "downloads": 0.7344,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9107,
+        "security": 1.0
+      },
+      "created": "2015-11-22",
+      "dependents": 60,
+      "description": "Powerful SQL migration toolkit for Rust",
+      "downloads": 13478805,
+      "edition": "2018",
+      "keywords": [
+        "database",
+        "migrations",
+        "orm",
+        "sql"
+      ],
+      "last_release": "2026-10-02",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "refinery",
+      "owners": 2,
+      "recent_downloads": 3930444,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-db/refinery",
+      "score": 73.18,
+      "version": "0.10.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "database"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.7353,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9732,
+        "security": 1.0
+      },
+      "created": "2022-08-25",
+      "dependents": 8,
+      "description": "CQL data types and primitives, for interacting with ScyllaDB.",
+      "downloads": 12264930,
+      "edition": "2024",
+      "keywords": [
+        "cassandra",
+        "cql",
+        "database",
+        "scylla",
+        "scylladb"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.94",
+      "name": "scylla-cql",
+      "owners": 4,
+      "recent_downloads": 4005641,
+      "releases_365d": 6,
+      "repository": "https://github.com/scylladb/scylla-rust-driver",
+      "score": 72.61,
+      "version": "3.0.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "database",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.3594,
+        "downloads": 0.6275,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9549,
+        "security": 1.0
+      },
+      "created": "2020-10-22",
+      "dependents": 70,
+      "description": "Rust driver for Neo4j",
+      "downloads": 1458392,
+      "edition": "2021",
+      "keywords": [
+        "bolt",
+        "cypher",
+        "driver",
+        "neo4j",
+        "tokio"
+      ],
+      "last_release": "2026-10-27",
+      "license": "MIT",
+      "msrv": "1.63",
+      "name": "neo4rs",
+      "owners": 5,
+      "recent_downloads": 430915,
+      "releases_365d": 3,
+      "repository": "https://github.com/neo4j-labs/neo4rs",
+      "score": 72.49,
+      "version": "0.8.0",
+      "versions": 65
+    }
+  ],
+  "score_version": 1
+}

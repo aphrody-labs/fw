@@ -1,0 +1,949 @@
+{
+  "category": {
+    "crates": 595,
+    "description": "Bindings to Unix-specific APIs.",
+    "name": "Operating systems::Unix APIs",
+    "slug": "os::unix-apis"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.6969,
+        "downloads": 0.9381,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9923,
+        "security": 1.0
+      },
+      "created": "2014-11-11",
+      "dependents": 3887,
+      "description": "Rust friendly bindings to *nix APIs",
+      "downloads": 1006625949,
+      "edition": "2021",
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.69",
+      "name": "nix",
+      "owners": 2,
+      "recent_downloads": 265206377,
+      "releases_365d": 6,
+      "repository": "https://github.com/nix-rust/nix",
+      "score": 89.76,
+      "version": "0.32.0",
+      "versions": 81
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "filesystem",
+        "network-programming",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.6477,
+        "downloads": 0.9565,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9535,
+        "security": 1.0
+      },
+      "created": "2021-10-29",
+      "dependents": 2168,
+      "description": "Safe Rust bindings to POSIX/Unix/Linux/Winsock-like syscalls",
+      "downloads": 1444292688,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "file",
+        "network",
+        "safe",
+        "syscall"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "msrv": "1.65",
+      "name": "rustix",
+      "owners": 1,
+      "recent_downloads": 388033759,
+      "releases_365d": 4,
+      "repository": "https://github.com/bytecodealliance/rustix",
+      "score": 87.41,
+      "version": "1.1.6",
+      "versions": 171
+    },
+    {
+      "categories": [
+        "data-structures",
+        "encoding",
+        "os::unix-apis",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.5571,
+        "downloads": 0.8515,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9997,
+        "security": 1.0
+      },
+      "created": "2020-07-07",
+      "dependents": 740,
+      "description": "API for D-Bus communication and its wire format",
+      "downloads": 118539541,
+      "edition": "2024",
+      "keywords": [
+        "d-bus",
+        "dbus",
+        "ipc",
+        "serde"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "zbus",
+      "owners": 1,
+      "recent_downloads": 44272907,
+      "releases_365d": 16,
+      "repository": "https://github.com/z-galaxy/zbus/",
+      "score": 83.21,
+      "version": "6.5.0",
+      "versions": 99
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "os",
+        "os::unix-apis",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.4786,
+        "downloads": 0.7477,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.996,
+        "security": 1.0
+      },
+      "created": "2020-08-05",
+      "dependents": 291,
+      "description": "Interprocess communication toolkit",
+      "downloads": 18410110,
+      "edition": "2021",
+      "keywords": [
+        "ipc",
+        "pipe"
+      ],
+      "last_release": "2026-11-18",
+      "license": "0BSD OR Apache-2.0",
+      "msrv": "1.75",
+      "name": "interprocess",
+      "owners": 1,
+      "recent_downloads": 5178890,
+      "releases_365d": 12,
+      "repository": "https://github.com/kotauskas/interprocess",
+      "score": 78.6,
+      "version": "2.4.9",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "external-ffi-bindings",
+        "filesystem",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.4279,
+        "downloads": 0.7047,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2020-06-19",
+      "dependents": 159,
+      "description": "Filesystem in Userspace (FUSE) for Rust",
+      "downloads": 6856401,
+      "edition": "2024",
+      "keywords": [
+        "bindings",
+        "filesystem",
+        "fuse",
+        "system"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "fuser",
+      "owners": 1,
+      "recent_downloads": 2129476,
+      "releases_365d": 3,
+      "repository": "https://github.com/cberner/fuser",
+      "score": 74.81,
+      "version": "0.19.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "algorithms",
+        "api-bindings",
+        "development-tools::debugging",
+        "os::unix-apis",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.7399,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9565,
+        "security": 1.0
+      },
+      "created": "2022-07-12",
+      "dependents": 12,
+      "description": "blazesym is a library for address symbolization and related tasks.",
+      "downloads": 11205946,
+      "edition": "2021",
+      "keywords": [
+        "dwarf",
+        "elf",
+        "gsym",
+        "stacktrace",
+        "tracing"
+      ],
+      "last_release": "2026-10-28",
+      "license": "BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "blazesym",
+      "owners": 2,
+      "recent_downloads": 4410163,
+      "releases_365d": 6,
+      "repository": "https://github.com/libbpf/blazesym",
+      "score": 72.25,
+      "version": "0.2.7",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.4516,
+        "downloads": 0.8235,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.7659,
+        "security": 1.0
+      },
+      "created": "2015-02-14",
+      "dependents": 211,
+      "description": "Bindings to D-Bus, which is a bus commonly used on Linux for inter-process communication.",
+      "downloads": 61988885,
+      "edition": "2018",
+      "keywords": [
+        "d-bus",
+        "dbus",
+        "ipc"
+      ],
+      "last_release": "2026-07-03",
+      "license": "Apache-2.0/MIT",
+      "name": "dbus",
+      "owners": 1,
+      "recent_downloads": 24822559,
+      "releases_365d": 3,
+      "repository": "https://github.com/diwic/dbus-rs",
+      "score": 69.87,
+      "version": "0.9.12",
+      "versions": 50
+    },
+    {
+      "advisories": {
+        "informational": [
+          "RUSTSEC-2026-0371"
+        ]
+      },
+      "categories": [
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.85,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9349,
+        "security": 0.5
+      },
+      "created": "2021-07-30",
+      "dependents": 5,
+      "description": "A collection of D-Bus bus names types (deprecated: merged into zbus)",
+      "downloads": 113402212,
+      "edition": "2024",
+      "keywords": [
+        "d-bus",
+        "dbus",
+        "deprecated",
+        "ipc"
+      ],
+      "last_release": "2026-10-16",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "zbus_names",
+      "owners": 1,
+      "recent_downloads": 42923570,
+      "releases_365d": 6,
+      "repository": "https://github.com/z-galaxy/zbus/",
+      "score": 69.55,
+      "version": "4.3.5",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.3067,
+        "downloads": 0.6837,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9918,
+        "security": 1.0
+      },
+      "created": "2019-10-23",
+      "dependents": 37,
+      "description": "Library for creating a new process detached from the controlling terminal (daemon)",
+      "downloads": 7428223,
+      "edition": "2024",
+      "keywords": [
+        "daemon",
+        "daemonize",
+        "fork",
+        "process",
+        "setsid"
+      ],
+      "last_release": "2026-11-16",
+      "license": "BSD-3-Clause",
+      "name": "fork",
+      "owners": 1,
+      "recent_downloads": 1377643,
+      "releases_365d": 9,
+      "repository": "https://github.com/immortal/fork",
+      "score": 67.64,
+      "version": "0.12.0",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "multimedia::audio",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.7813,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.8075,
+        "security": 1.0
+      },
+      "created": "2014-12-16",
+      "dependents": 16,
+      "description": "FFI bindings for the ALSA project (Advanced Linux Sound Architecture)",
+      "downloads": 28324840,
+      "edition": "2021",
+      "keywords": [
+        "alsa",
+        "audio",
+        "sound"
+      ],
+      "last_release": "2026-07-31",
+      "license": "MIT",
+      "name": "alsa-sys",
+      "owners": 3,
+      "recent_downloads": 10374905,
+      "releases_365d": 4,
+      "repository": "https://github.com/diwic/alsa-sys",
+      "score": 67.62,
+      "version": "0.6.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.6502,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9999,
+        "security": 1.0
+      },
+      "created": "2020-07-19",
+      "dependents": 5,
+      "description": "PolicyKit binding",
+      "downloads": 6139401,
+      "edition": "2021",
+      "keywords": [
+        "d-bus",
+        "dbus",
+        "ipc"
+      ],
+      "last_release": "2026-11-21",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "zbus_polkit",
+      "owners": 1,
+      "recent_downloads": 690228,
+      "releases_365d": 3,
+      "repository": "https://github.com/z-galaxy/zbus_polkit/",
+      "score": 66.53,
+      "version": "7.0.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.4091,
+        "downloads": 0.7647,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.5739,
+        "security": 1.0
+      },
+      "created": "2019-04-05",
+      "dependents": 127,
+      "description": "Resource limits",
+      "downloads": 29179365,
+      "edition": "2021",
+      "keywords": [
+        "rlimit",
+        "syscall",
+        "unix"
+      ],
+      "last_release": "2026-02-01",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "rlimit",
+      "owners": 1,
+      "recent_downloads": 7361132,
+      "releases_365d": 1,
+      "repository": "https://github.com/Nugine/rlimit/",
+      "score": 66.45,
+      "version": "0.11.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "filesystem",
+        "no-std",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.8334,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.6961,
+        "security": 1.0
+      },
+      "created": "2016-10-19",
+      "dependents": 3,
+      "description": "Low-level kqueue interface for BSDs",
+      "downloads": 97463699,
+      "edition": "2021",
+      "keywords": [
+        "bsd",
+        "darwin",
+        "kevent",
+        "kqueue",
+        "macos"
+      ],
+      "last_release": "2026-05-14",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "kqueue-sys",
+      "owners": 1,
+      "recent_downloads": 30423943,
+      "releases_365d": 3,
+      "repository": "https://gitlab.com/rust-kqueue/rust-kqueue-sys",
+      "score": 65.7,
+      "version": "1.1.2",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "filesystem",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.4607,
+        "downloads": 0.8249,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.4271,
+        "security": 1.0
+      },
+      "created": "2018-06-17",
+      "dependents": 235,
+      "description": "Interface to the linux procfs pseudo-filesystem",
+      "downloads": 99308139,
+      "edition": "2018",
+      "keywords": [
+        "linux",
+        "proc",
+        "process",
+        "procfs"
+      ],
+      "last_release": "2025-08-30",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.70",
+      "name": "procfs",
+      "owners": 1,
+      "recent_downloads": 25539551,
+      "releases_365d": 0,
+      "repository": "https://github.com/eminence/procfs",
+      "score": 65.54,
+      "version": "0.18.0",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6282,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.6969,
+        "security": 1.0
+      },
+      "created": "2017-07-27",
+      "dependents": 6,
+      "description": "Interact with unix processes/bash the same way as pexpect or Don libes expect does",
+      "downloads": 2278887,
+      "edition": "2024",
+      "keywords": [
+        "automation",
+        "expect",
+        "pexpect",
+        "pty",
+        "testing"
+      ],
+      "last_release": "2026-05-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "rexpect",
+      "owners": 5,
+      "recent_downloads": 437259,
+      "releases_365d": 4,
+      "repository": "https://github.com/rust-cli/rexpect",
+      "score": 65.26,
+      "version": "0.7.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "algorithms",
+        "api-bindings",
+        "development-tools::debugging",
+        "os::unix-apis",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.6594,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9566,
+        "security": 1.0
+      },
+      "created": "2023-11-21",
+      "dependents": 0,
+      "description": "C bindings for blazesym",
+      "downloads": 5090702,
+      "edition": "2021",
+      "keywords": [
+        "dwarf",
+        "elf",
+        "gsym",
+        "stacktrace",
+        "tracing"
+      ],
+      "last_release": "2026-10-28",
+      "license": "BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "blazesym-c",
+      "owners": 2,
+      "recent_downloads": 834860,
+      "releases_365d": 6,
+      "repository": "https://github.com/libbpf/blazesym",
+      "score": 64.83,
+      "version": "0.1.11",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "filesystem",
+        "os",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.8072,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 0.0,
+        "recency": 0.8582,
+        "security": 1.0
+      },
+      "created": "2018-08-21",
+      "dependents": 27,
+      "description": "A pure-Rust library to work with Linux memfd and sealing",
+      "downloads": 62176772,
+      "edition": "2018",
+      "keywords": [
+        "linux",
+        "memfd",
+        "memfd_create",
+        "seal"
+      ],
+      "last_release": "2026-09-01",
+      "license": "MIT OR Apache-2.0",
+      "name": "memfd",
+      "owners": 2,
+      "recent_downloads": 17720067,
+      "releases_365d": 1,
+      "repository": "https://github.com/lucab/memfd-rs",
+      "score": 64.58,
+      "version": "0.6.6",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "filesystem",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.8333,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.8138,
+        "security": 1.0
+      },
+      "created": "2017-01-15",
+      "dependents": 19,
+      "description": "kqueue interface for BSDs",
+      "downloads": 96782590,
+      "edition": "2021",
+      "keywords": [
+        "bsd",
+        "kevent",
+        "kqueue"
+      ],
+      "last_release": "2026-08-04",
+      "license": "MIT",
+      "name": "kqueue",
+      "owners": 1,
+      "recent_downloads": 30381426,
+      "releases_365d": 2,
+      "repository": "https://gitlab.com/rust-kqueue/rust-kqueue",
+      "score": 64.35,
+      "version": "1.2.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "network-programming",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.5376,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8248,
+        "security": 1.0
+      },
+      "created": "2018-09-19",
+      "dependents": 5,
+      "description": "Safe abstraction for libnftnl. Provides low-level userspace access to the in-kernel nf_tables subsystem",
+      "downloads": 850559,
+      "edition": "2024",
+      "keywords": [
+        "firewall",
+        "iptables",
+        "netfilter",
+        "nft",
+        "nftables"
+      ],
+      "last_release": "2026-08-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "nftnl",
+      "owners": 2,
+      "recent_downloads": 67147,
+      "releases_365d": 5,
+      "repository": "https://github.com/mullvad/nftnl-rs",
+      "score": 63.59,
+      "version": "0.9.4",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.2809,
+        "downloads": 0.6227,
+        "license": 0.75,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9399,
+        "security": 1.0
+      },
+      "created": "2019-07-07",
+      "dependents": 27,
+      "description": "Freedesktop Desktop Entry Specification",
+      "downloads": 1124669,
+      "edition": "2021",
+      "keywords": [
+        "desktop",
+        "entry",
+        "freedesktop"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MPL-2.0",
+      "name": "freedesktop-desktop-entry",
+      "owners": 2,
+      "recent_downloads": 390195,
+      "releases_365d": 5,
+      "repository": "https://github.com/pop-os/freedesktop-desktop-entry",
+      "score": 63.19,
+      "version": "0.8.4",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.2567,
+        "downloads": 0.7029,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 0.0,
+        "recency": 0.7817,
+        "security": 1.0
+      },
+      "created": "2020-12-21",
+      "dependents": 20,
+      "description": "Native Rust crate for managing control groups on Linux",
+      "downloads": 7930397,
+      "edition": "2018",
+      "keywords": [
+        "cgroup",
+        "containers",
+        "isolation",
+        "linux"
+      ],
+      "last_release": "2026-07-14",
+      "license": "MIT OR Apache-2.0",
+      "name": "cgroups-rs",
+      "owners": 5,
+      "recent_downloads": 2050292,
+      "releases_365d": 2,
+      "repository": "https://github.com/kata-containers/cgroups-rs",
+      "score": 62.72,
+      "version": "0.5.1",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::unix-apis",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.6676,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9884,
+        "security": 1.0
+      },
+      "created": "2023-07-10",
+      "dependents": 2,
+      "description": "Wait for any PID, an extension to waitpid(2)",
+      "downloads": 2263978,
+      "edition": "2024",
+      "keywords": [
+        "kqueue",
+        "pidfd",
+        "process",
+        "wait",
+        "waitpid"
+      ],
+      "last_release": "2026-11-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "waitpid-any",
+      "owners": 1,
+      "recent_downloads": 987157,
+      "releases_365d": 1,
+      "repository": "https://github.com/oxalica/waitpid-any",
+      "score": 62.33,
+      "version": "0.3.1",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "os",
+        "os::unix-apis",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5123,
+        "license": 1.0,
+        "maintenance": 0.7141,
+        "msrv": 1.0,
+        "recency": 0.8419,
+        "security": 1.0
+      },
+      "created": "2026-05-31",
+      "dependents": 12,
+      "description": "Async child-process management for tokio: whole-tree kill-on-drop (no orphans), plus streaming, pipelines, timeouts, and supervision",
+      "downloads": 63324,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "process",
+        "process-group",
+        "subprocess",
+        "tokio"
+      ],
+      "last_release": "2026-08-22",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "processkit",
+      "owners": 1,
+      "recent_downloads": 39870,
+      "releases_365d": 52,
+      "repository": "https://github.com/ZelAnton/ProcessKit-rs",
+      "score": 61.56,
+      "version": "3.3.4",
+      "versions": 55
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "filesystem",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.6209,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 0.0,
+        "recency": 0.9425,
+        "security": 1.0
+      },
+      "created": "2018-10-05",
+      "dependents": 15,
+      "description": "High level FFI binding around the sys mount & umount2 calls",
+      "downloads": 4474971,
+      "edition": "2021",
+      "keywords": [
+        "linux",
+        "mount",
+        "sys",
+        "umount"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "name": "sys-mount",
+      "owners": 2,
+      "recent_downloads": 376615,
+      "releases_365d": 2,
+      "repository": "https://github.com/pop-os/sys-mount",
+      "score": 61.51,
+      "version": "3.1.1",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "network-programming",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5339,
+        "license": 1.0,
+        "maintenance": 0.7397,
+        "msrv": 1.0,
+        "recency": 0.9996,
+        "security": 1.0
+      },
+      "created": "2026-02-27",
+      "dependents": 1,
+      "description": "Safe, ergonomic Unix socket ancillary data (SCM_RIGHTS fd passing) with OwnedFd/BorrowedFd",
+      "downloads": 62680,
+      "edition": "2021",
+      "keywords": [
+        "ancillary",
+        "fd-passing",
+        "scm-rights",
+        "socket",
+        "unix"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.75",
+      "name": "unix-ancillary",
+      "owners": 1,
+      "recent_downloads": 62298,
+      "releases_365d": 10,
+      "repository": "https://github.com/MohibShaikh/unix-ancillary",
+      "score": 60.9,
+      "version": "0.6.3",
+      "versions": 11
+    }
+  ],
+  "score_version": 1
+}

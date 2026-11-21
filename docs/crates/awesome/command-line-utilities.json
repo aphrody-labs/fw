@@ -1,0 +1,933 @@
+{
+  "category": {
+    "crates": 37291,
+    "description": "Applications to run at the command line.",
+    "name": "Command line utilities",
+    "slug": "command-line-utilities"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "command-line-utilities",
+        "parsing",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4902,
+        "downloads": 0.7316,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9981,
+        "security": 1.0
+      },
+      "created": "2017-04-07",
+      "dependents": 334,
+      "description": "A 100% CommonMark-compatible GitHub Flavored Markdown parser and formatter",
+      "downloads": 10753064,
+      "edition": "2024",
+      "keywords": [
+        "commonmark",
+        "markdown"
+      ],
+      "last_release": "2026-11-20",
+      "license": "BSD-2-Clause",
+      "msrv": "1.89",
+      "name": "comrak",
+      "owners": 3,
+      "recent_downloads": 3708982,
+      "releases_365d": 15,
+      "repository": "https://github.com/kivikakk/comrak",
+      "score": 80.52,
+      "version": "1.1.0",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "config",
+        "encoding",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.5431,
+        "downloads": 0.8047,
+        "license": 1.0,
+        "maintenance": 0.7815,
+        "msrv": 1.0,
+        "recency": 0.9955,
+        "security": 1.0
+      },
+      "created": "2025-09-27",
+      "dependents": 626,
+      "description": "YAML (de)serializer for Serde, emphasizing panic-free parsing, fast builds and good error reporting. Supports properties, include, tag and comment capture",
+      "downloads": 21660202,
+      "edition": "2024",
+      "keywords": [
+        "config",
+        "ros",
+        "serde",
+        "wasm",
+        "yaml"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "serde-saphyr",
+      "owners": 1,
+      "recent_downloads": 16806681,
+      "releases_365d": 31,
+      "repository": "https://github.com/bourumir-wyngs/serde-saphyr",
+      "score": 80.35,
+      "version": "2.2.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.4364,
+        "downloads": 0.6556,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9985,
+        "security": 1.0
+      },
+      "created": "2019-05-13",
+      "dependents": 176,
+      "description": "uutils ~ 'core' uutils code library (cross-platform)",
+      "downloads": 2654806,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "coreutils",
+        "cross-platform",
+        "utility",
+        "uutils"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "uucore",
+      "owners": 4,
+      "recent_downloads": 771586,
+      "releases_365d": 9,
+      "repository": "https://github.com/uutils/coreutils/tree/main/src/uucore",
+      "score": 77.28,
+      "version": "0.13.0",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.4685,
+        "downloads": 0.7139,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9536,
+        "security": 1.0
+      },
+      "created": "2017-07-25",
+      "dependents": 258,
+      "description": "Self updates for standalone executables",
+      "downloads": 13528130,
+      "edition": "2024",
+      "keywords": [
+        "download",
+        "release",
+        "update",
+        "upgrade"
+      ],
+      "last_release": "2026-10-27",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "self_update",
+      "owners": 1,
+      "recent_downloads": 2575468,
+      "releases_365d": 16,
+      "repository": "https://github.com/jaemk/self_update",
+      "score": 76.87,
+      "version": "1.3.3",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.3089,
+        "downloads": 0.7452,
+        "license": 1.0,
+        "maintenance": 0.8554,
+        "msrv": 1.0,
+        "recency": 0.9967,
+        "security": 1.0
+      },
+      "created": "2025-09-01",
+      "dependents": 38,
+      "description": "Signing API requests without effort.",
+      "downloads": 8911529,
+      "edition": "2024",
+      "last_release": "2026-11-19",
+      "license": "Apache-2.0",
+      "msrv": "1.86.0",
+      "name": "reqsign-core",
+      "owners": 2,
+      "recent_downloads": 4916533,
+      "releases_365d": 10,
+      "repository": "https://github.com/apache/reqsign",
+      "score": 74.13,
+      "version": "3.3.3",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.3606,
+        "downloads": 0.6623,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9907,
+        "security": 1.0
+      },
+      "created": "2022-07-07",
+      "dependents": 71,
+      "description": "Search and Rewrite code at large scale using precise AST pattern",
+      "downloads": 3177976,
+      "edition": "2024",
+      "keywords": [
+        "ast",
+        "codemod",
+        "pattern",
+        "rewrite",
+        "search"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT",
+      "msrv": "1.90.0",
+      "name": "ast-grep-core",
+      "owners": 1,
+      "recent_downloads": 885307,
+      "releases_365d": 22,
+      "repository": "https://github.com/ast-grep/ast-grep",
+      "score": 73.43,
+      "version": "0.51.3",
+      "versions": 187
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "compression"
+      ],
+      "components": {
+        "dependents": 0.3629,
+        "downloads": 0.6477,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.8603,
+        "security": 1.0
+      },
+      "created": "2016-03-03",
+      "dependents": 73,
+      "description": "A lossless PNG compression optimizer",
+      "downloads": 2471432,
+      "edition": "2024",
+      "keywords": [
+        "image-compression",
+        "lossless",
+        "multi-threading",
+        "optimization",
+        "png"
+      ],
+      "last_release": "2026-09-02",
+      "license": "MIT",
+      "msrv": "1.88.0",
+      "name": "oxipng",
+      "owners": 3,
+      "recent_downloads": 654635,
+      "releases_365d": 5,
+      "repository": "https://github.com/oxipng/oxipng",
+      "score": 73.17,
+      "version": "10.2.1",
+      "versions": 82
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.7637,
+        "downloads": 0.8675,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.3234,
+        "security": 1.0
+      },
+      "created": "2018-01-18",
+      "dependents": 8589,
+      "description": "A crossplatform terminal library for manipulating terminals.",
+      "downloads": 239014216,
+      "edition": "2021",
+      "keywords": [
+        "cli",
+        "color",
+        "event",
+        "input",
+        "terminal"
+      ],
+      "last_release": "2025-04-05",
+      "license": "MIT",
+      "msrv": "1.63.0",
+      "name": "crossterm",
+      "owners": 1,
+      "recent_downloads": 61576171,
+      "releases_365d": 0,
+      "repository": "https://github.com/crossterm-rs/crossterm",
+      "score": 72.63,
+      "version": "0.29.0",
+      "versions": 70
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::profiling",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3532,
+        "downloads": 0.8037,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7882,
+        "security": 1.0
+      },
+      "created": "2019-01-27",
+      "dependents": 65,
+      "description": "Rust port of the FlameGraph performance profiling tool suite",
+      "downloads": 66357533,
+      "edition": "2021",
+      "keywords": [
+        "flamegraph",
+        "perf",
+        "profiling"
+      ],
+      "last_release": "2026-07-18",
+      "license": "CDDL-1.0",
+      "msrv": "1.71.0",
+      "name": "inferno",
+      "owners": 1,
+      "recent_downloads": 16468457,
+      "releases_365d": 4,
+      "repository": "https://github.com/jonhoo/inferno.git",
+      "score": 71.25,
+      "version": "0.12.8",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.5784,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2021-09-03",
+      "dependents": 17,
+      "description": "Locates, builds, and loads tree-sitter grammars at runtime",
+      "downloads": 1114195,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-loader",
+      "owners": 3,
+      "recent_downloads": 156230,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 70.17,
+      "version": "0.27.2",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools",
+        "embedded"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.6139,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9582,
+        "security": 1.0
+      },
+      "created": "2020-09-15",
+      "dependents": 11,
+      "description": "A command-line tool for interacting with Espressif devices",
+      "downloads": 1337675,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "embedded",
+        "esp"
+      ],
+      "last_release": "2026-10-29",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "espflash",
+      "owners": 3,
+      "recent_downloads": 325738,
+      "releases_365d": 5,
+      "repository": "https://github.com/esp-rs/espflash",
+      "score": 69.96,
+      "version": "4.7.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.5973,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2024-10-04",
+      "dependents": 9,
+      "description": "Library for generating C source code from a tree-sitter grammar",
+      "downloads": 765007,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-generate",
+      "owners": 3,
+      "recent_downloads": 230834,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 69.4,
+      "version": "0.27.2",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6086,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9985,
+        "security": 1.0
+      },
+      "created": "2020-05-31",
+      "dependents": 9,
+      "description": "cp ~ (uutils) copy SOURCE to DESTINATION",
+      "downloads": 1312551,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "coreutils",
+        "cross-platform",
+        "utility",
+        "uutils"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "uu_cp",
+      "owners": 2,
+      "recent_downloads": 291819,
+      "releases_365d": 9,
+      "repository": "https://github.com/uutils/coreutils/tree/main/src/uu/cp",
+      "score": 69.05,
+      "version": "0.13.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "database",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.5498,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9921,
+        "security": 1.0
+      },
+      "created": "2023-07-14",
+      "dependents": 12,
+      "description": "Iggy is the persistent message streaming platform written in Rust, supporting QUIC, TCP and HTTP transport protocols, capable of processing millions of messages per second.",
+      "downloads": 376428,
+      "edition": "2024",
+      "keywords": [
+        "iggy",
+        "messaging",
+        "streaming"
+      ],
+      "last_release": "2026-11-16",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "iggy",
+      "owners": 3,
+      "recent_downloads": 86584,
+      "releases_365d": 46,
+      "repository": "https://github.com/apache/iggy",
+      "score": 69.03,
+      "version": "0.12.0",
+      "versions": 197
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6077,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9985,
+        "security": 1.0
+      },
+      "created": "2020-05-31",
+      "dependents": 9,
+      "description": "mkdir ~ (uutils) create DIRECTORY",
+      "downloads": 1244353,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "coreutils",
+        "cross-platform",
+        "utility",
+        "uutils"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "uu_mkdir",
+      "owners": 2,
+      "recent_downloads": 286219,
+      "releases_365d": 9,
+      "repository": "https://github.com/uutils/coreutils/tree/main/src/uu/mkdir",
+      "score": 69.02,
+      "version": "0.13.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6008,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9985,
+        "security": 1.0
+      },
+      "created": "2020-05-31",
+      "dependents": 9,
+      "description": "mv ~ (uutils) move (rename) SOURCE to DESTINATION",
+      "downloads": 1087923,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "coreutils",
+        "cross-platform",
+        "utility",
+        "uutils"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "uu_mv",
+      "owners": 2,
+      "recent_downloads": 248238,
+      "releases_365d": 9,
+      "repository": "https://github.com/uutils/coreutils/tree/main/src/uu/mv",
+      "score": 68.85,
+      "version": "0.13.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3347,
+        "downloads": 0.6277,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8667,
+        "security": 1.0
+      },
+      "created": "2015-10-27",
+      "dependents": 52,
+      "description": "Count your code, quickly.",
+      "downloads": 1820153,
+      "edition": "2021",
+      "keywords": [
+        "cli",
+        "cloc",
+        "lines",
+        "statistics",
+        "utility"
+      ],
+      "last_release": "2026-09-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71",
+      "name": "tokei",
+      "owners": 1,
+      "recent_downloads": 432864,
+      "releases_365d": 3,
+      "repository": "https://github.com/XAMPPRocky/tokei.git",
+      "score": 68.56,
+      "version": "15.0.0",
+      "versions": 83
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.7066,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.852,
+        "security": 1.0
+      },
+      "created": "2022-03-15",
+      "dependents": 28,
+      "description": "Garbage collector for the Boa JavaScript engine.",
+      "downloads": 6657882,
+      "edition": "2024",
+      "keywords": [
+        "garbage",
+        "javascript",
+        "js",
+        "memory"
+      ],
+      "last_release": "2026-08-28",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.91.0",
+      "name": "boa_gc",
+      "owners": 2,
+      "recent_downloads": 2214039,
+      "releases_365d": 2,
+      "repository": "https://github.com/boa-dev/boa",
+      "score": 68.54,
+      "version": "0.22.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools::cargo-plugins",
+        "development-tools::testing"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.7027,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9992,
+        "security": 1.0
+      },
+      "created": "2021-01-22",
+      "dependents": 3,
+      "description": "Cargo subcommand to easily use LLVM source-based code coverage (-C instrument-coverage).\n",
+      "downloads": 9385465,
+      "edition": "2021",
+      "keywords": [
+        "cargo",
+        "coverage",
+        "subcommand",
+        "testing"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "cargo-llvm-cov",
+      "owners": 1,
+      "recent_downloads": 2042479,
+      "releases_365d": 16,
+      "repository": "https://github.com/taiki-e/cargo-llvm-cov",
+      "score": 68.48,
+      "version": "0.9.2",
+      "versions": 125
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.5936,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9985,
+        "security": 1.0
+      },
+      "created": "2020-05-31",
+      "dependents": 8,
+      "description": "touch ~ (uutils) change FILE timestamps",
+      "downloads": 863303,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "coreutils",
+        "cross-platform",
+        "utility",
+        "uutils"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "uu_touch",
+      "owners": 2,
+      "recent_downloads": 214066,
+      "releases_365d": 9,
+      "repository": "https://github.com/uutils/coreutils/tree/main/src/uu/touch",
+      "score": 68.45,
+      "version": "0.13.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.6418,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9325,
+        "security": 1.0
+      },
+      "created": "2016-10-23",
+      "dependents": 7,
+      "description": "🤖 Just a command runner",
+      "downloads": 3006016,
+      "edition": "2024",
+      "keywords": [
+        "command-line",
+        "development",
+        "runner",
+        "task",
+        "utility"
+      ],
+      "last_release": "2026-10-15",
+      "license": "CC0-1.0",
+      "msrv": "1.89.0",
+      "name": "just",
+      "owners": 2,
+      "recent_downloads": 580007,
+      "releases_365d": 20,
+      "repository": "https://github.com/casey/just",
+      "score": 68.42,
+      "version": "1.59.0",
+      "versions": 169
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "database"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.6945,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9943,
+        "security": 1.0
+      },
+      "created": "2020-05-16",
+      "dependents": 10,
+      "description": "Command-line utility for SQLx, the Rust SQL toolkit.",
+      "downloads": 9005752,
+      "edition": "2021",
+      "keywords": [
+        "database",
+        "database-management",
+        "migration",
+        "postgres"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "sqlx-cli",
+      "owners": 2,
+      "recent_downloads": 1721783,
+      "releases_365d": 2,
+      "repository": "https://github.com/launchbadge/sqlx",
+      "score": 68.33,
+      "version": "0.9.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.5734,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9745,
+        "security": 1.0
+      },
+      "created": "2021-09-03",
+      "dependents": 7,
+      "description": "User configuration of tree-sitter's command line programs",
+      "downloads": 1029418,
+      "edition": "2024",
+      "keywords": [
+        "incremental",
+        "parsing"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "tree-sitter-config",
+      "owners": 3,
+      "recent_downloads": 140880,
+      "releases_365d": 14,
+      "repository": "https://github.com/tree-sitter/tree-sitter",
+      "score": 68.33,
+      "version": "0.27.2",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6062,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9985,
+        "security": 1.0
+      },
+      "created": "2020-05-31",
+      "dependents": 6,
+      "description": "mktemp ~ (uutils) create and display a temporary file or directory from TEMPLATE",
+      "downloads": 1206141,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "coreutils",
+        "cross-platform",
+        "utility",
+        "uutils"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "uu_mktemp",
+      "owners": 2,
+      "recent_downloads": 277568,
+      "releases_365d": 9,
+      "repository": "https://github.com/uutils/coreutils/tree/main/src/uu/mktemp",
+      "score": 68.23,
+      "version": "0.13.0",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "command-line-utilities"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.6055,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9985,
+        "security": 1.0
+      },
+      "created": "2020-05-31",
+      "dependents": 6,
+      "description": "whoami ~ (uutils) display user name of current effective user ID",
+      "downloads": 1189434,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "coreutils",
+        "cross-platform",
+        "utility",
+        "uutils"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "uu_whoami",
+      "owners": 2,
+      "recent_downloads": 273568,
+      "releases_365d": 9,
+      "repository": "https://github.com/uutils/coreutils/tree/main/src/uu/whoami",
+      "score": 68.22,
+      "version": "0.13.0",
+      "versions": 42
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,968 @@
+{
+  "category": {
+    "crates": 242,
+    "description": "Loading and parsing of data formats related to 2D or 3D rendering, like 3D models or animation sheets.",
+    "name": "Rendering::Data formats",
+    "slug": "rendering::data-formats"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "graphics",
+        "rendering",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5153,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2024-01-02",
+      "dependents": 6,
+      "description": "Rust native USD library",
+      "downloads": 60831,
+      "edition": "2024",
+      "keywords": [
+        "pxr",
+        "usd",
+        "usda",
+        "usdc",
+        "usdz"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.96",
+      "name": "openusd",
+      "owners": 1,
+      "recent_downloads": 42411,
+      "releases_365d": 8,
+      "repository": "https://github.com/mxpv/openusd",
+      "score": 64.98,
+      "version": "0.9.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "graphics",
+        "mathematics",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.7166,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9734,
+        "security": 1.0
+      },
+      "created": "2020-08-04",
+      "dependents": 6,
+      "description": "A library to evenly tile hexagons on a sphere.\n",
+      "downloads": 11807218,
+      "edition": "2021",
+      "keywords": [
+        "gamedev",
+        "graphics",
+        "hexagons",
+        "math",
+        "sphere"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "name": "hexasphere",
+      "owners": 1,
+      "recent_downloads": 2720745,
+      "releases_365d": 4,
+      "repository": "https://github.com/OptimisticPeach/hexasphere.git",
+      "score": 64.62,
+      "version": "20.0.0",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "database",
+        "parser-implementations",
+        "rendering::data-formats",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.3651,
+        "downloads": 0.6657,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.5201,
+        "security": 1.0
+      },
+      "created": "2020-04-20",
+      "dependents": 75,
+      "description": "Zero-Copy reading and writing of geospatial data in WKT/WKB, GeoJSON, MVT, GDAL, and other formats.",
+      "downloads": 2332693,
+      "edition": "2024",
+      "keywords": [
+        "gdal",
+        "geo",
+        "geojson",
+        "mvt",
+        "postgis"
+      ],
+      "last_release": "2025-12-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "geozero",
+      "owners": 2,
+      "recent_downloads": 950857,
+      "releases_365d": 2,
+      "repository": "https://github.com/georust/geozero",
+      "score": 64.57,
+      "version": "0.15.1",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "games",
+        "graphics",
+        "rendering::data-formats",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3726,
+        "downloads": 0.6605,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.81,
+        "security": 1.0
+      },
+      "created": "2015-04-19",
+      "dependents": 82,
+      "description": "A lightweight OBJ loader in the spirit of tinyobjloader",
+      "downloads": 3426815,
+      "edition": "2021",
+      "keywords": [
+        "3d",
+        "graphics",
+        "obj",
+        "parser",
+        "wavefront"
+      ],
+      "last_release": "2026-08-02",
+      "license": "MIT",
+      "name": "tobj",
+      "owners": 1,
+      "recent_downloads": 853707,
+      "releases_365d": 2,
+      "repository": "https://github.com/Twinklebear/tobj",
+      "score": 62.98,
+      "version": "4.0.5",
+      "versions": 43
+    },
+    {
+      "categories": [
+        "computer-vision",
+        "graphics",
+        "rendering",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4461,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9499,
+        "security": 1.0
+      },
+      "created": "2023-09-28",
+      "dependents": 3,
+      "description": "bevy gaussian splatting render pipeline plugin",
+      "downloads": 50631,
+      "edition": "2024",
+      "keywords": [
+        "bevy",
+        "gaussian-splatting",
+        "ply",
+        "render-pipeline"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.97.1",
+      "name": "bevy_gaussian_splatting",
+      "owners": 1,
+      "recent_downloads": 10134,
+      "releases_365d": 9,
+      "repository": "https://github.com/mosure/bevy_gaussian_splatting",
+      "score": 61.32,
+      "version": "9.0.0",
+      "versions": 53
+    },
+    {
+      "categories": [
+        "multimedia",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.4275,
+        "license": 1.0,
+        "maintenance": 0.7201,
+        "msrv": 1.0,
+        "recency": 0.9134,
+        "security": 1.0
+      },
+      "created": "2026-05-10",
+      "dependents": 15,
+      "description": "Pure-Rust 3D scene + mesh typed model — Decoder/Encoder traits for STL/OBJ/glTF/FBX/USD format crates",
+      "downloads": 17566,
+      "edition": "2021",
+      "keywords": [
+        "3d",
+        "gltf",
+        "mesh",
+        "pbr",
+        "scene"
+      ],
+      "last_release": "2026-10-04",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "oxideav-mesh3d",
+      "owners": 1,
+      "recent_downloads": 6896,
+      "releases_365d": 8,
+      "repository": "https://github.com/OxideAV/oxideav-mesh3d",
+      "score": 61.03,
+      "version": "0.0.7",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "rendering::data-formats",
+        "science",
+        "science::computational-chemistry::cheminformatics",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4592,
+        "license": 1.0,
+        "maintenance": 0.7153,
+        "msrv": 1.0,
+        "recency": 0.9475,
+        "security": 1.0
+      },
+      "created": "2026-05-27",
+      "dependents": 4,
+      "description": "2D molecular structure depiction as SVG: ring templates, wedge/dash stereo bonds, CPK coloring, grid layout — pure-Rust, no C/C++ dependencies",
+      "downloads": 16216,
+      "edition": "2024",
+      "keywords": [
+        "2d",
+        "cheminformatics",
+        "chemistry",
+        "depiction",
+        "svg"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "chematic-depict",
+      "owners": 1,
+      "recent_downloads": 13293,
+      "releases_365d": 150,
+      "repository": "https://github.com/kent-tokyo/chematic",
+      "score": 59.82,
+      "version": "1.2.1",
+      "versions": 150
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4856,
+        "license": 1.0,
+        "maintenance": 0.5876,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2026-09-05",
+      "dependents": 4,
+      "description": "Typed Rust APIs for USD's standard schemas (UsdGeom, UsdShade, UsdSkel, UsdPhysics, and more), built on openusd",
+      "downloads": 22875,
+      "edition": "2024",
+      "keywords": [
+        "schemas",
+        "usd",
+        "usdgeom",
+        "usdphysics",
+        "usdshade"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.96",
+      "name": "openusd-schemas",
+      "owners": 1,
+      "recent_downloads": 22939,
+      "releases_365d": 3,
+      "repository": "https://github.com/mxpv/openusd",
+      "score": 59.34,
+      "version": "0.9.0",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "parser-implementations",
+        "rendering::data-formats",
+        "text-processing",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3884,
+        "license": 1.0,
+        "maintenance": 0.7184,
+        "msrv": 1.0,
+        "recency": 0.9514,
+        "security": 1.0
+      },
+      "created": "2026-05-16",
+      "dependents": 6,
+      "description": "Pure-Rust PDF — CJK font embedding (Chinese/Japanese/Korean), OCR text overlay, text extraction, HTML→PDF, page merge/split. WASM-ready, zero C deps.",
+      "downloads": 5104,
+      "edition": "2024",
+      "keywords": [
+        "cjk",
+        "ocr",
+        "pdf",
+        "rag",
+        "wasm"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "harumi",
+      "owners": 1,
+      "recent_downloads": 3072,
+      "releases_365d": 73,
+      "repository": "https://github.com/kent-tokyo/harumi",
+      "score": 58.86,
+      "version": "1.23.8",
+      "versions": 73
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4145,
+        "license": 1.0,
+        "maintenance": 0.7201,
+        "msrv": 1.0,
+        "recency": 0.9744,
+        "security": 1.0
+      },
+      "created": "2026-05-10",
+      "dependents": 3,
+      "description": "Pure-Rust glTF 2.0 + .glb 3D scene codec — implements oxideav-mesh3d's Decoder/Encoder traits",
+      "downloads": 12473,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "glb",
+        "gltf",
+        "khronos",
+        "pbr"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-gltf",
+      "owners": 1,
+      "recent_downloads": 5276,
+      "releases_365d": 6,
+      "repository": "https://github.com/OxideAV/oxideav-gltf",
+      "score": 58.7,
+      "version": "0.0.5",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "encoding",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4604,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9422,
+        "security": 1.0
+      },
+      "created": "2021-10-24",
+      "dependents": 3,
+      "description": "3MF (3D Manufacturing Format) file format support",
+      "downloads": 55410,
+      "edition": "2021",
+      "keywords": [
+        "3mf",
+        "cad",
+        "mesh",
+        "slicer",
+        "triangle"
+      ],
+      "last_release": "2026-10-20",
+      "license": "0BSD",
+      "msrv": "1.56",
+      "name": "threemf",
+      "owners": 1,
+      "recent_downloads": 13625,
+      "releases_365d": 2,
+      "repository": "https://github.com/hannobraun/3mf-rs",
+      "score": 58.57,
+      "version": "0.8.1",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "multimedia",
+        "parser-implementations",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3892,
+        "license": 1.0,
+        "maintenance": 0.711,
+        "msrv": 1.0,
+        "recency": 0.9744,
+        "security": 1.0
+      },
+      "created": "2026-06-12",
+      "dependents": 2,
+      "description": "Pure-Rust IFC (ISO 16739 BIM) reader — clean-room STEP physical-file (ISO 10303-21) parser for .ifc building models",
+      "downloads": 3180,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "bim",
+        "ifc",
+        "iso-10303",
+        "step"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-ifc",
+      "owners": 1,
+      "recent_downloads": 3123,
+      "releases_365d": 4,
+      "repository": "https://github.com/OxideAV/oxideav-ifc",
+      "score": 57.33,
+      "version": "0.0.4",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "graphics",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5368,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.5958,
+        "security": 1.0
+      },
+      "created": "2021-11-19",
+      "dependents": 3,
+      "description": "High-level (safe) bindings for poppler-glib",
+      "downloads": 293807,
+      "edition": "2024",
+      "keywords": [
+        "ffi",
+        "pdf",
+        "poppler"
+      ],
+      "last_release": "2026-02-21",
+      "license": "MIT",
+      "msrv": "1.92.0",
+      "name": "poppler-rs",
+      "owners": 4,
+      "recent_downloads": 66158,
+      "releases_365d": 2,
+      "repository": "https://gitlab.gnome.org/World/Rust/poppler-rs",
+      "score": 57.28,
+      "version": "0.26.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3553,
+        "license": 1.0,
+        "maintenance": 0.7201,
+        "msrv": 1.0,
+        "recency": 0.9744,
+        "security": 1.0
+      },
+      "created": "2026-05-10",
+      "dependents": 3,
+      "description": "Pure-Rust Wavefront OBJ + MTL 3D mesh codec — implements oxideav-mesh3d's Decoder/Encoder traits",
+      "downloads": 2046,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "mesh",
+        "obj",
+        "oxideav",
+        "wavefront"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-obj",
+      "owners": 1,
+      "recent_downloads": 1548,
+      "releases_365d": 6,
+      "repository": "https://github.com/OxideAV/oxideav-obj",
+      "score": 57.22,
+      "version": "0.0.5",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "graphics",
+        "rendering",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4602,
+        "license": 1.0,
+        "maintenance": 0.5872,
+        "msrv": 1.0,
+        "recency": 0.9994,
+        "security": 1.0
+      },
+      "created": "2026-09-07",
+      "dependents": 1,
+      "description": "Generates Rust schema views from OpenUSD schema.usda files, for use as a build dependency",
+      "downloads": 13485,
+      "edition": "2024",
+      "keywords": [
+        "build-dependencies",
+        "codegen",
+        "openusd",
+        "schema",
+        "usd"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT",
+      "msrv": "1.96",
+      "name": "openusd-build",
+      "owners": 1,
+      "recent_downloads": 13551,
+      "releases_365d": 3,
+      "repository": "https://github.com/mxpv/openusd",
+      "score": 56.76,
+      "version": "0.9.0",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3362,
+        "license": 1.0,
+        "maintenance": 0.7198,
+        "msrv": 1.0,
+        "recency": 0.9744,
+        "security": 1.0
+      },
+      "created": "2026-05-11",
+      "dependents": 3,
+      "description": "Pure-Rust FBX (Filmbox) binary decoder — implements oxideav-mesh3d's Decoder trait",
+      "downloads": 1401,
+      "edition": "2024",
+      "keywords": [
+        "3d",
+        "fbx",
+        "filmbox",
+        "mesh",
+        "oxideav"
+      ],
+      "last_release": "2026-11-07",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-fbx",
+      "owners": 1,
+      "recent_downloads": 1044,
+      "releases_365d": 4,
+      "repository": "https://github.com/OxideAV/oxideav-fbx",
+      "score": 56.74,
+      "version": "0.0.4",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "graphics",
+        "parser-implementations",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3851,
+        "license": 1.0,
+        "maintenance": 0.695,
+        "msrv": 1.0,
+        "recency": 0.9821,
+        "security": 1.0
+      },
+      "created": "2026-08-09",
+      "dependents": 1,
+      "description": "Pure-Rust reader for Disney's Ptex per-face texture file format",
+      "downloads": 2887,
+      "edition": "2021",
+      "keywords": [
+        "graphics",
+        "ptex",
+        "texture",
+        "vfx"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT AND BSD-3-Clause",
+      "msrv": "1.85",
+      "name": "ptex-rust",
+      "owners": 1,
+      "recent_downloads": 2869,
+      "releases_365d": 5,
+      "repository": "https://github.com/doubleailes/ptex-rs",
+      "score": 56.24,
+      "version": "0.5.1",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "compression",
+        "graphics",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.422,
+        "license": 1.0,
+        "maintenance": 0.7078,
+        "msrv": 1.0,
+        "recency": 0.9951,
+        "security": 1.0
+      },
+      "created": "2026-06-23",
+      "dependents": 0,
+      "description": "Load and save full glTF 2.0 and 2.1 draft scenes with Draco geometry",
+      "downloads": 6711,
+      "edition": "2021",
+      "keywords": [
+        "compression",
+        "draco",
+        "glb",
+        "gltf",
+        "scene"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "draco-gltf",
+      "owners": 1,
+      "recent_downloads": 6151,
+      "releases_365d": 11,
+      "repository": "https://github.com/Filyus/draco-rust",
+      "score": 56.09,
+      "version": "0.8.1",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "encoding",
+        "parsing",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5342,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.6221,
+        "security": 1.0
+      },
+      "created": "2018-11-24",
+      "dependents": 2,
+      "description": "Tools for working with SDF font glyphs encoded in protobuf format.",
+      "downloads": 212089,
+      "edition": "2021",
+      "keywords": [
+        "fonts",
+        "protobuf",
+        "sdf"
+      ],
+      "last_release": "2026-03-16",
+      "license": "BSD-3-Clause",
+      "msrv": "1.87.0",
+      "name": "pbf_font_tools",
+      "owners": 2,
+      "recent_downloads": 62590,
+      "releases_365d": 2,
+      "repository": "https://github.com/stadiamaps/sdf_font_tools",
+      "score": 56.0,
+      "version": "3.1.1",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "algorithms",
+        "encoding",
+        "graphics",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5421,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.6197,
+        "security": 1.0
+      },
+      "created": "2021-02-17",
+      "dependents": 4,
+      "description": "Tools for generating SDF font glyphs from bitmap images.",
+      "downloads": 224862,
+      "edition": "2021",
+      "keywords": [
+        "fonts",
+        "glyphs",
+        "sdf"
+      ],
+      "last_release": "2026-03-14",
+      "license": "BSD-3-Clause",
+      "msrv": "1.87.0",
+      "name": "sdf_glyph_renderer",
+      "owners": 2,
+      "recent_downloads": 73765,
+      "releases_365d": 1,
+      "repository": "https://github.com/stadiamaps/sdf_font_tools",
+      "score": 55.74,
+      "version": "1.1.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3452,
+        "license": 1.0,
+        "maintenance": 0.7201,
+        "msrv": 1.0,
+        "recency": 0.9139,
+        "security": 1.0
+      },
+      "created": "2026-05-10",
+      "dependents": 2,
+      "description": "Pure-Rust USDZ (Universal Scene Description, zipped) reader — implements oxideav-mesh3d's Decoder trait",
+      "downloads": 1758,
+      "edition": "2021",
+      "keywords": [
+        "3d",
+        "ar",
+        "openusd",
+        "usd",
+        "usdz"
+      ],
+      "last_release": "2026-10-04",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "oxideav-usdz",
+      "owners": 1,
+      "recent_downloads": 1256,
+      "releases_365d": 6,
+      "repository": "https://github.com/OxideAV/oxideav-usdz",
+      "score": 55.45,
+      "version": "0.0.5",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5096,
+        "license": 1.0,
+        "maintenance": 0.4011,
+        "msrv": 1.0,
+        "recency": 0.7879,
+        "security": 1.0
+      },
+      "created": "2026-07-18",
+      "dependents": 6,
+      "description": "A bit-exact pure-Rust Basis Universal texture transcoder (.ktx2 and .basis).",
+      "downloads": 39616,
+      "edition": "2021",
+      "keywords": [
+        "basis",
+        "gpu",
+        "ktx2",
+        "texture",
+        "transcode"
+      ],
+      "last_release": "2026-07-18",
+      "license": "Apache-2.0",
+      "msrv": "1.73",
+      "name": "basisu",
+      "owners": 1,
+      "recent_downloads": 37647,
+      "releases_365d": 1,
+      "repository": "https://github.com/marcogomez/basisu",
+      "score": 54.68,
+      "version": "0.1.0",
+      "versions": 1
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "parsing",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.4392,
+        "downloads": 0.703,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 0.0,
+        "recency": 0.2254,
+        "security": 1.0
+      },
+      "created": "2015-02-08",
+      "dependents": 182,
+      "description": "The package provides an SVG composer and parser.",
+      "downloads": 9264831,
+      "edition": "2021",
+      "keywords": [
+        "vector-graphics"
+      ],
+      "last_release": "2024-09-27",
+      "license": "Apache-2.0 OR MIT",
+      "name": "svg",
+      "owners": 1,
+      "recent_downloads": 2056414,
+      "releases_365d": 0,
+      "repository": "https://github.com/bodoni/svg",
+      "score": 53.94,
+      "version": "0.18.0",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3548,
+        "license": 1.0,
+        "maintenance": 0.7201,
+        "msrv": 1.0,
+        "recency": 0.7396,
+        "security": 1.0
+      },
+      "created": "2026-05-10",
+      "dependents": 3,
+      "description": "Pure-Rust STL (stereolithography) ASCII + binary mesh codec — implements oxideav-mesh3d's Decoder/Encoder traits",
+      "downloads": 2021,
+      "edition": "2021",
+      "keywords": [
+        "3d",
+        "mesh",
+        "oxideav",
+        "stereolithography",
+        "stl"
+      ],
+      "last_release": "2026-06-15",
+      "license": "MIT",
+      "msrv": "1.80",
+      "name": "oxideav-stl",
+      "owners": 1,
+      "recent_downloads": 1532,
+      "releases_365d": 5,
+      "repository": "https://github.com/OxideAV/oxideav-stl",
+      "score": 53.69,
+      "version": "0.0.4",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "rendering::data-formats"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5789,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 0.0,
+        "recency": 0.6527,
+        "security": 1.0
+      },
+      "created": "2020-11-13",
+      "dependents": 4,
+      "description": "Wrapper crate for SPIRV-Tools",
+      "downloads": 775252,
+      "edition": "2024",
+      "keywords": [
+        "rust-gpu",
+        "spir-v"
+      ],
+      "last_release": "2026-04-10",
+      "license": "MIT OR Apache-2.0",
+      "name": "spirv-tools",
+      "owners": 2,
+      "recent_downloads": 158016,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-gpu/spirv-tools-rs",
+      "score": 53.66,
+      "version": "0.13.3",
+      "versions": 22
+    }
+  ],
+  "score_version": 1
+}

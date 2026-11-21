@@ -1,0 +1,887 @@
+{
+  "category": {
+    "crates": 920,
+    "description": "Processing of spatial information, maps, navigation data, and geographic information systems.",
+    "name": "Science::Geospatial",
+    "slug": "science::geo"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.4428,
+        "downloads": 0.8082,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9639,
+        "security": 1.0
+      },
+      "created": "2018-11-22",
+      "dependents": 190,
+      "description": "An R*-tree spatial index",
+      "downloads": 57900515,
+      "edition": "2021",
+      "keywords": [
+        "nearest-neighbor",
+        "r-tree",
+        "rtree",
+        "spatial",
+        "spatial-index"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.90",
+      "name": "rstar",
+      "owners": 4,
+      "recent_downloads": 18096209,
+      "releases_365d": 3,
+      "repository": "https://github.com/georust/rstar",
+      "score": 79.23,
+      "version": "0.14.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "algorithms",
+        "graphics",
+        "mathematics",
+        "no-std",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.7523,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.99,
+        "security": 1.0
+      },
+      "created": "2023-08-28",
+      "dependents": 56,
+      "description": "Boolean Operations for 2D Polygons: Supports intersection, union, difference, xor, and self-intersections for all polygon varieties.",
+      "downloads": 12783298,
+      "edition": "2024",
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "i_overlay",
+      "owners": 1,
+      "recent_downloads": 5698336,
+      "releases_365d": 26,
+      "repository": "https://github.com/iShape-Rust/iOverlay",
+      "score": 75.18,
+      "version": "9.2.0",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.5066,
+        "downloads": 0.7523,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.6658,
+        "security": 1.0
+      },
+      "created": "2015-01-16",
+      "dependents": 406,
+      "description": "Geospatial primitives and algorithms",
+      "downloads": 26815056,
+      "edition": "2024",
+      "keywords": [
+        "geo",
+        "geography",
+        "geospatial",
+        "gis"
+      ],
+      "last_release": "2026-04-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "geo",
+      "owners": 2,
+      "recent_downloads": 5695104,
+      "releases_365d": 3,
+      "repository": "https://github.com/georust/geo",
+      "score": 73.96,
+      "version": "0.33.1",
+      "versions": 92
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.5857,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9851,
+        "security": 1.0
+      },
+      "created": "2022-10-21",
+      "dependents": 26,
+      "description": "Implementation of the PMTiles v3 spec with multiple sync and async backends.",
+      "downloads": 435235,
+      "edition": "2024",
+      "keywords": [
+        "geo",
+        "gis",
+        "pmtiles"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "pmtiles",
+      "owners": 4,
+      "recent_downloads": 181871,
+      "releases_365d": 15,
+      "repository": "https://github.com/stadiamaps/pmtiles-rs",
+      "score": 71.37,
+      "version": "0.28.1",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.6499,
+        "license": 1.0,
+        "maintenance": 0.8188,
+        "msrv": 1.0,
+        "recency": 0.9719,
+        "security": 1.0
+      },
+      "created": "2025-05-14",
+      "dependents": 30,
+      "description": "GeoArrow geometry type and metadata definitions.",
+      "downloads": 1908394,
+      "edition": "2024",
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "geoarrow-schema",
+      "owners": 1,
+      "recent_downloads": 685313,
+      "releases_365d": 4,
+      "repository": "https://github.com/geoarrow/geoarrow-rs",
+      "score": 70.35,
+      "version": "0.10.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.6497,
+        "license": 1.0,
+        "maintenance": 0.8188,
+        "msrv": 1.0,
+        "recency": 0.9719,
+        "security": 1.0
+      },
+      "created": "2025-05-14",
+      "dependents": 26,
+      "description": "GeoArrow array definitions.",
+      "downloads": 1904047,
+      "edition": "2024",
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "geoarrow-array",
+      "owners": 1,
+      "recent_downloads": 682153,
+      "releases_365d": 4,
+      "repository": "https://github.com/geoarrow/geoarrow-rs",
+      "score": 70.05,
+      "version": "0.10.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.3264,
+        "downloads": 0.6831,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9314,
+        "security": 1.0
+      },
+      "created": "2017-08-04",
+      "dependents": 47,
+      "description": "Fast, pure-Rust reader and writer for Well-Known Binary geometries",
+      "downloads": 2844944,
+      "edition": "2021",
+      "last_release": "2026-10-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.82",
+      "name": "wkb",
+      "owners": 4,
+      "recent_downloads": 1362062,
+      "releases_365d": 1,
+      "repository": "https://github.com/georust/wkb",
+      "score": 69.71,
+      "version": "0.9.3",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "date-and-time",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.6057,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9653,
+        "security": 1.0
+      },
+      "created": "2022-11-20",
+      "dependents": 11,
+      "description": "Fast convert longitude,latitude to timezone name.",
+      "downloads": 783051,
+      "edition": "2024",
+      "keywords": [
+        "geo",
+        "timezone"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tzf-rs",
+      "owners": 1,
+      "recent_downloads": 274566,
+      "releases_365d": 19,
+      "repository": "https://github.com/ringsaturn/tzf-rs",
+      "score": 67.86,
+      "version": "2.3.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.5949,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9845,
+        "security": 1.0
+      },
+      "created": "2015-07-01",
+      "dependents": 28,
+      "description": "High-level Rust bindings for the latest stable version of PROJ",
+      "downloads": 960073,
+      "edition": "2024",
+      "keywords": [
+        "geo",
+        "osgeo",
+        "proj",
+        "projection"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "proj",
+      "owners": 3,
+      "recent_downloads": 219591,
+      "releases_365d": 1,
+      "repository": "https://github.com/georust/proj",
+      "score": 67.24,
+      "version": "0.32.0",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.6432,
+        "license": 1.0,
+        "maintenance": 0.8855,
+        "msrv": 1.0,
+        "recency": 0.9294,
+        "security": 1.0
+      },
+      "created": "2025-05-14",
+      "dependents": 5,
+      "description": "Spatial extensions for Apache DataFusion",
+      "downloads": 1441938,
+      "edition": "2024",
+      "last_release": "2026-10-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "geodatafusion",
+      "owners": 2,
+      "recent_downloads": 597069,
+      "releases_365d": 5,
+      "repository": "https://github.com/datafusion-contrib/geodatafusion",
+      "score": 67.08,
+      "version": "0.6.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.5613,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8814,
+        "security": 1.0
+      },
+      "created": "2024-01-15",
+      "dependents": 11,
+      "description": "Fast, immutable, ABI-stable spatial indexes.",
+      "downloads": 227314,
+      "edition": "2021",
+      "keywords": [
+        "kdtree",
+        "nearest-neighbor",
+        "rtree",
+        "spatial",
+        "spatial-index"
+      ],
+      "last_release": "2026-09-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.75",
+      "name": "geo-index",
+      "owners": 2,
+      "recent_downloads": 109674,
+      "releases_365d": 4,
+      "repository": "https://github.com/kylebarron/geo-index",
+      "score": 66.49,
+      "version": "0.4.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "parsing",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.4988,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9708,
+        "security": 1.0
+      },
+      "created": "2023-03-25",
+      "dependents": 7,
+      "description": "Utilities to help with map tile processing, such as type and compression detection. Used by the MapLibre's Martin tile server.",
+      "downloads": 81597,
+      "edition": "2024",
+      "keywords": [
+        "maps",
+        "mvt",
+        "tiles",
+        "tileserver"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "martin-tile-utils",
+      "owners": 3,
+      "recent_downloads": 30130,
+      "releases_365d": 20,
+      "repository": "https://github.com/maplibre/martin",
+      "score": 66.41,
+      "version": "0.9.3",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2225,
+        "downloads": 0.5521,
+        "license": 1.0,
+        "maintenance": 0.8082,
+        "msrv": 1.0,
+        "recency": 0.9905,
+        "security": 1.0
+      },
+      "created": "2026-02-20",
+      "dependents": 13,
+      "description": "MapLibre Tile library code",
+      "downloads": 139552,
+      "edition": "2024",
+      "keywords": [
+        "map",
+        "maplibre",
+        "mlt",
+        "mvt",
+        "tile"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "mlt-core",
+      "owners": 2,
+      "recent_downloads": 90781,
+      "releases_365d": 54,
+      "repository": "https://github.com/maplibre/maplibre-tile-spec",
+      "score": 66.35,
+      "version": "0.22.2",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.5661,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9949,
+        "security": 1.0
+      },
+      "created": "2017-11-27",
+      "dependents": 10,
+      "description": "Library for serializing the TileJSON file format",
+      "downloads": 386085,
+      "edition": "2021",
+      "keywords": [
+        "mapbox",
+        "maplibre",
+        "serde",
+        "tilejson"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.78",
+      "name": "tilejson",
+      "owners": 4,
+      "recent_downloads": 121046,
+      "releases_365d": 2,
+      "repository": "https://github.com/georust/tilejson",
+      "score": 66.13,
+      "version": "0.4.5",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "no-std",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2973,
+        "downloads": 0.6466,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.966,
+        "security": 1.0
+      },
+      "created": "2023-01-09",
+      "dependents": 33,
+      "description": "A Rust implementation of the H3 geospatial indexing system.",
+      "downloads": 2253682,
+      "edition": "2024",
+      "keywords": [
+        "geography",
+        "geospatial",
+        "gis",
+        "h3",
+        "spatial-index"
+      ],
+      "last_release": "2026-11-02",
+      "license": "BSD-3-Clause",
+      "name": "h3o",
+      "owners": 1,
+      "recent_downloads": 639620,
+      "releases_365d": 5,
+      "repository": "https://github.com/HydroniumLabs/h3o",
+      "score": 66.09,
+      "version": "0.11.1",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.5366,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9719,
+        "security": 1.0
+      },
+      "created": "2022-09-29",
+      "dependents": 10,
+      "description": "GeoArrow amalgamation crate.",
+      "downloads": 422557,
+      "edition": "2024",
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "geoarrow",
+      "owners": 1,
+      "recent_downloads": 65809,
+      "releases_365d": 4,
+      "repository": "https://github.com/geoarrow/geoarrow-rs",
+      "score": 66.05,
+      "version": "0.10.0",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "database",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4965,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9821,
+        "security": 1.0
+      },
+      "created": "2023-10-28",
+      "dependents": 5,
+      "description": "A simple low-level Mbtiles access and processing library, with some tile format detection and other relevant heuristics.",
+      "downloads": 79464,
+      "edition": "2024",
+      "keywords": [
+        "maps",
+        "mbtiles",
+        "mvt",
+        "tilejson",
+        "tiles"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.98",
+      "name": "mbtiles",
+      "owners": 3,
+      "recent_downloads": 28753,
+      "releases_365d": 28,
+      "repository": "https://github.com/maplibre/martin",
+      "score": 65.92,
+      "version": "0.23.0",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "gui",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.6002,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9623,
+        "security": 1.0
+      },
+      "created": "2023-06-09",
+      "dependents": 4,
+      "description": "slippy map widget for egui",
+      "downloads": 1290164,
+      "edition": "2024",
+      "keywords": [
+        "geography",
+        "gis",
+        "gui"
+      ],
+      "last_release": "2026-10-31",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "walkers",
+      "owners": 1,
+      "recent_downloads": 245180,
+      "releases_365d": 15,
+      "repository": "https://github.com/podusowski/walkers",
+      "score": 65.83,
+      "version": "0.65.0",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.268,
+        "downloads": 0.638,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9918,
+        "security": 1.0
+      },
+      "created": "2023-06-08",
+      "dependents": 23,
+      "description": "Rust adaptation of Proj4",
+      "downloads": 1518577,
+      "edition": "2024",
+      "keywords": [
+        "geography",
+        "geospatial",
+        "gis",
+        "proj",
+        "projection"
+      ],
+      "last_release": "2026-11-16",
+      "license": "MIT OR Apache-2.0",
+      "name": "proj4rs",
+      "owners": 1,
+      "recent_downloads": 536168,
+      "releases_365d": 5,
+      "repository": "https://github.com/3liz/proj4rs/",
+      "score": 65.53,
+      "version": "0.3.1",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.5606,
+        "license": 1.0,
+        "maintenance": 0.7793,
+        "msrv": 1.0,
+        "recency": 0.996,
+        "security": 1.0
+      },
+      "created": "2026-06-06",
+      "dependents": 8,
+      "description": "Fast Mapbox Vector Tile (MVT) reader and writer",
+      "downloads": 148856,
+      "edition": "2024",
+      "keywords": [
+        "map",
+        "mvt",
+        "tile"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "fast-mvt",
+      "owners": 2,
+      "recent_downloads": 108099,
+      "releases_365d": 19,
+      "repository": "https://github.com/nyurik/fast-mvt",
+      "score": 65.27,
+      "version": "0.8.1",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.6433,
+        "license": 1.0,
+        "maintenance": 0.778,
+        "msrv": 1.0,
+        "recency": 0.9719,
+        "security": 1.0
+      },
+      "created": "2025-10-10",
+      "dependents": 2,
+      "description": "Rust implementation of GeoArrow",
+      "downloads": 1443977,
+      "edition": "2024",
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "geoarrow-expr-geo",
+      "owners": 1,
+      "recent_downloads": 598299,
+      "releases_365d": 4,
+      "repository": "https://github.com/geoarrow/geoarrow-rs",
+      "score": 64.65,
+      "version": "0.10.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "database",
+        "parser-implementations",
+        "rendering::data-formats",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.3651,
+        "downloads": 0.6657,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.5201,
+        "security": 1.0
+      },
+      "created": "2020-04-20",
+      "dependents": 75,
+      "description": "Zero-Copy reading and writing of geospatial data in WKT/WKB, GeoJSON, MVT, GDAL, and other formats.",
+      "downloads": 2332693,
+      "edition": "2024",
+      "keywords": [
+        "gdal",
+        "geo",
+        "geojson",
+        "mvt",
+        "postgis"
+      ],
+      "last_release": "2025-12-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "geozero",
+      "owners": 2,
+      "recent_downloads": 950857,
+      "releases_365d": 2,
+      "repository": "https://github.com/georust/geozero",
+      "score": 64.57,
+      "version": "0.15.1",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "algorithms",
+        "graphics",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5515,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9847,
+        "security": 1.0
+      },
+      "created": "2024-03-03",
+      "dependents": 6,
+      "description": "A safe, idiomatic Rust API for 2D polygon boolean clipping (intersection, union, difference, XOR), offsetting (inflate/deflate), Minkowski sum/difference, simplification, area, and point-in-polygon, on top of Clipper2.",
+      "downloads": 458849,
+      "edition": "2024",
+      "keywords": [
+        "clipper2",
+        "clipping",
+        "minkowski",
+        "offset",
+        "polygon"
+      ],
+      "last_release": "2026-11-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "clipper2",
+      "owners": 1,
+      "recent_downloads": 89528,
+      "releases_365d": 3,
+      "repository": "https://github.com/tirithen/clipper2",
+      "score": 64.16,
+      "version": "0.6.1",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4825,
+        "license": 1.0,
+        "maintenance": 0.8188,
+        "msrv": 1.0,
+        "recency": 0.9719,
+        "security": 1.0
+      },
+      "created": "2025-05-14",
+      "dependents": 11,
+      "description": "GeoParquet reader and writer.",
+      "downloads": 52480,
+      "edition": "2024",
+      "last_release": "2026-11-06",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "geoparquet",
+      "owners": 1,
+      "recent_downloads": 21528,
+      "releases_365d": 4,
+      "repository": "https://github.com/geoarrow/geoarrow-rs",
+      "score": 64.16,
+      "version": "0.10.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "database",
+        "science",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.488,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9551,
+        "security": 1.0
+      },
+      "created": "2024-10-10",
+      "dependents": 4,
+      "description": "Transactional storage engine for Zarr designed for use on cloud object storage",
+      "downloads": 63028,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "xarray",
+        "zarr"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "icechunk",
+      "owners": 2,
+      "recent_downloads": 24095,
+      "releases_365d": 28,
+      "repository": "https://github.com/earth-mover/icechunk",
+      "score": 63.92,
+      "version": "2.3.1",
+      "versions": 82
+    }
+  ],
+  "score_version": 1
+}

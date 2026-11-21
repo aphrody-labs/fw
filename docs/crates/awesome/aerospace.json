@@ -1,0 +1,985 @@
+{
+  "category": {
+    "crates": 319,
+    "description": "Crates for aeronautics (within the atmosphere) and astronautics (in outer space) applications.",
+    "name": "Aerospace",
+    "slug": "aerospace"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::protocols",
+        "embedded",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.6143,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9473,
+        "security": 1.0
+      },
+      "created": "2016-02-24",
+      "dependents": 17,
+      "description": "Implements the MAVLink data interchange format for UAVs.",
+      "downloads": 790867,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "mavlink",
+        "parser",
+        "protocol"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.88",
+      "name": "mavlink",
+      "owners": 5,
+      "recent_downloads": 328484,
+      "releases_365d": 9,
+      "repository": "https://github.com/mavlink/rust-mavlink",
+      "score": 70.66,
+      "version": "0.21.0",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::protocols",
+        "embedded",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6156,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9473,
+        "security": 1.0
+      },
+      "created": "2024-07-19",
+      "dependents": 1,
+      "description": "Implements the MAVLink data interchange format for UAVs.",
+      "downloads": 645341,
+      "edition": "2024",
+      "keywords": [
+        "embedded",
+        "mavlink",
+        "parser",
+        "protocol"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.88",
+      "name": "mavlink-core",
+      "owners": 1,
+      "recent_downloads": 337366,
+      "releases_365d": 7,
+      "repository": "https://github.com/mavlink/rust-mavlink",
+      "score": 64.06,
+      "version": "0.21.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::protocols",
+        "embedded",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6148,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9473,
+        "security": 1.0
+      },
+      "created": "2024-07-19",
+      "dependents": 1,
+      "description": "Library used by rust-mavlink.",
+      "downloads": 638677,
+      "edition": "2024",
+      "keywords": [
+        "cli",
+        "generator",
+        "mavlink",
+        "parser",
+        "xml"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.88",
+      "name": "mavlink-bindgen",
+      "owners": 1,
+      "recent_downloads": 331628,
+      "releases_365d": 7,
+      "repository": "https://github.com/mavlink/rust-mavlink",
+      "score": 64.04,
+      "version": "0.21.0",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "aerospace",
+        "mathematics"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.515,
+        "license": 1.0,
+        "maintenance": 0.8831,
+        "msrv": 1.0,
+        "recency": 0.8826,
+        "security": 1.0
+      },
+      "created": "2025-05-23",
+      "dependents": 2,
+      "description": "Hard to misuse rigid body transforms (aka \"spatial math\") for engineers with other things to worry about than linear algebra.",
+      "downloads": 87009,
+      "edition": "2024",
+      "keywords": [
+        "coordinate-systems",
+        "coordinates",
+        "rigid-body",
+        "spatial"
+      ],
+      "last_release": "2026-09-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "sguaba",
+      "owners": 2,
+      "recent_downloads": 42082,
+      "releases_365d": 11,
+      "repository": "https://github.com/helsing-ai/sguaba",
+      "score": 61.68,
+      "version": "0.10.7",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "aerospace",
+        "data-structures",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4607,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9557,
+        "security": 1.0
+      },
+      "created": "2023-07-10",
+      "dependents": 2,
+      "description": "Computational causality library. Provides causality graph, collections, context and causal reasoning.",
+      "downloads": 72472,
+      "edition": "2024",
+      "keywords": [
+        "causal-graph",
+        "causal-reasoning",
+        "causality",
+        "graph"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "deep_causality",
+      "owners": 1,
+      "recent_downloads": 13716,
+      "releases_365d": 28,
+      "repository": "https://github.com/deepcausality/deep_causality.rs",
+      "score": 61.17,
+      "version": "0.20.0",
+      "versions": 62
+    },
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::space-protocols",
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.509,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9565,
+        "security": 1.0
+      },
+      "created": "2022-08-16",
+      "dependents": 5,
+      "description": "Generic implementations for various CCSDS and ECSS packet standards",
+      "downloads": 129615,
+      "edition": "2024",
+      "keywords": [
+        "ccsds",
+        "ecss",
+        "no-std",
+        "packets",
+        "space"
+      ],
+      "last_release": "2026-10-28",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "spacepackets",
+      "owners": 1,
+      "recent_downloads": 37216,
+      "releases_365d": 2,
+      "repository": "https://github.com/ustgt-irs/spacepackets-rs",
+      "score": 60.85,
+      "version": "0.19.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "aerospace",
+        "embedded",
+        "no-std",
+        "science::geo",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5682,
+        "license": 1.0,
+        "maintenance": 0.5552,
+        "msrv": 1.0,
+        "recency": 0.8767,
+        "security": 1.0
+      },
+      "created": "2025-01-01",
+      "dependents": 6,
+      "description": "Rust implementation of the NOAA World Magnetic Model (WMM).",
+      "downloads": 225209,
+      "edition": "2024",
+      "keywords": [
+        "declination",
+        "geodetic",
+        "geomagnetic",
+        "navigation",
+        "wmm"
+      ],
+      "last_release": "2026-09-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "world_magnetic_model",
+      "owners": 1,
+      "recent_downloads": 126563,
+      "releases_365d": 1,
+      "repository": "https://github.com/budzejko/world_magnetic_model",
+      "score": 59.78,
+      "version": "1.2025.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "aerospace",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.5292,
+        "license": 1.0,
+        "maintenance": 0.8306,
+        "msrv": 0.0,
+        "recency": 0.9731,
+        "security": 1.0
+      },
+      "created": "2025-04-01",
+      "dependents": 4,
+      "description": "Crate-specific Sift errors",
+      "downloads": 139254,
+      "edition": "2024",
+      "keywords": [
+        "sift",
+        "sift-stack",
+        "sift_rs",
+        "siftstack",
+        "telemetry"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "name": "sift_error",
+      "owners": 1,
+      "recent_downloads": 56517,
+      "releases_365d": 24,
+      "repository": "https://github.com/sift-stack/sift",
+      "score": 58.68,
+      "version": "0.14.1",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "aerospace",
+        "algorithms",
+        "embedded",
+        "no-std",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4443,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9607,
+        "security": 1.0
+      },
+      "created": "2023-06-11",
+      "dependents": 1,
+      "description": "A microcontroller targeted Kalman filter implementation",
+      "downloads": 54447,
+      "edition": "2021",
+      "keywords": [
+        "embedded",
+        "fixed-point",
+        "kalman-filter",
+        "robotics",
+        "slam"
+      ],
+      "last_release": "2026-10-30",
+      "license": "MIT",
+      "msrv": "1.70.0",
+      "name": "minikalman",
+      "owners": 1,
+      "recent_downloads": 9758,
+      "releases_365d": 3,
+      "repository": "https://github.com/sunsided/minikalman-rs",
+      "score": 58.48,
+      "version": "0.8.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "aerospace",
+        "algorithms",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5334,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9823,
+        "security": 1.0
+      },
+      "created": "2024-03-22",
+      "dependents": 2,
+      "description": "Satellite Toolkit",
+      "downloads": 188779,
+      "edition": "2021",
+      "keywords": [
+        "astrodynamics",
+        "ephemeris",
+        "orbit",
+        "satellite",
+        "tle"
+      ],
+      "last_release": "2026-11-11",
+      "license": "MIT OR Apache-2.0",
+      "name": "satkit",
+      "owners": 1,
+      "recent_downloads": 61645,
+      "releases_365d": 40,
+      "repository": "https://github.com/ssmichael1/satkit",
+      "score": 58.39,
+      "version": "0.24.3",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "aerospace",
+        "algorithms",
+        "embedded",
+        "no-std::no-alloc",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4693,
+        "license": 1.0,
+        "maintenance": 0.8137,
+        "msrv": 1.0,
+        "recency": 0.9161,
+        "security": 1.0
+      },
+      "created": "2025-06-02",
+      "dependents": 0,
+      "description": "Rust port of xioTechnologies' Fusion AHRS C library — sensor fusion for gyroscope, accelerometer, and magnetometer with no_std support.",
+      "downloads": 26295,
+      "edition": "2024",
+      "keywords": [
+        "ahrs",
+        "imu",
+        "madgwick",
+        "orientation",
+        "sensor-fusion"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "fusion-ahrs",
+      "owners": 1,
+      "recent_downloads": 16386,
+      "releases_365d": 11,
+      "repository": "https://github.com/wboayue/fusion-ahrs/",
+      "score": 57.68,
+      "version": "1.0.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "aerospace",
+        "external-ffi-bindings",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.3551,
+        "license": 1.0,
+        "maintenance": 0.8339,
+        "msrv": 1.0,
+        "recency": 0.9292,
+        "security": 1.0
+      },
+      "created": "2025-03-20",
+      "dependents": 2,
+      "description": "Rust bindings for the CFITSIO library, providing access to FITS files.",
+      "downloads": 6447,
+      "edition": "2024",
+      "keywords": [
+        "astronomy",
+        "cfitsio",
+        "ffi",
+        "fits",
+        "fitsio"
+      ],
+      "last_release": "2026-10-13",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.96",
+      "name": "rsfitsio",
+      "owners": 1,
+      "recent_downloads": 1544,
+      "releases_365d": 9,
+      "repository": "https://github.com/cruzzil/rsfitsio",
+      "score": 57.64,
+      "version": "0.470.6",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "aerospace",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5291,
+        "license": 1.0,
+        "maintenance": 0.8306,
+        "msrv": 0.0,
+        "recency": 0.9731,
+        "security": 1.0
+      },
+      "created": "2025-04-01",
+      "dependents": 2,
+      "description": "A convenient and opinionated way to connect to the Sift API",
+      "downloads": 138309,
+      "edition": "2024",
+      "keywords": [
+        "sift",
+        "sift-stack",
+        "sift_rs",
+        "siftstack",
+        "telemetry"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "name": "sift_connect",
+      "owners": 1,
+      "recent_downloads": 56394,
+      "releases_365d": 24,
+      "repository": "https://github.com/sift-stack/sift",
+      "score": 57.6,
+      "version": "0.14.1",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "aerospace",
+        "parser-implementations",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4032,
+        "license": 1.0,
+        "maintenance": 0.7918,
+        "msrv": 1.0,
+        "recency": 0.9457,
+        "security": 1.0
+      },
+      "created": "2026-04-21",
+      "dependents": 1,
+      "description": "Pure-Rust reader for NASA/NAIF SPICE kernel formats (DAF, SPK, PCK, text kernels). Independent of the CSpice toolkit.",
+      "downloads": 7110,
+      "edition": "2021",
+      "keywords": [
+        "astrodynamics",
+        "astronomy",
+        "ephemeris",
+        "naif",
+        "spice"
+      ],
+      "last_release": "2026-10-22",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "spicekit",
+      "owners": 2,
+      "recent_downloads": 4171,
+      "releases_365d": 5,
+      "repository": "https://github.com/B612-Asteroid-Institute/spicekit",
+      "score": 57.6,
+      "version": "0.2.3",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "aerospace",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5291,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9731,
+        "security": 1.0
+      },
+      "created": "2024-11-12",
+      "dependents": 1,
+      "description": "General Rust client library for the Sift API",
+      "downloads": 142602,
+      "edition": "2024",
+      "keywords": [
+        "sift",
+        "sift-stack",
+        "sift_rs",
+        "siftstack",
+        "telemetry"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "name": "sift_rs",
+      "owners": 1,
+      "recent_downloads": 56334,
+      "releases_365d": 24,
+      "repository": "https://github.com/sift-stack/sift",
+      "score": 57.28,
+      "version": "0.14.1",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "aerospace",
+        "encoding",
+        "network-programming",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4145,
+        "license": 1.0,
+        "maintenance": 0.9177,
+        "msrv": 1.0,
+        "recency": 0.8719,
+        "security": 1.0
+      },
+      "created": "2025-01-17",
+      "dependents": 0,
+      "description": "vita49 is a crate for parsing and creating packets compatible with the\nANSI/VITA-49.2-2017 standard.\n",
+      "downloads": 17777,
+      "edition": "2021",
+      "keywords": [
+        "dsp",
+        "network",
+        "packet",
+        "radio",
+        "sdr"
+      ],
+      "last_release": "2026-09-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "vita49",
+      "owners": 2,
+      "recent_downloads": 5271,
+      "releases_365d": 5,
+      "repository": "https://github.com/voyager-tech-inc/vita49-rs",
+      "score": 57.2,
+      "version": "2.0.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "aerospace",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.4325,
+        "license": 1.0,
+        "maintenance": 0.7607,
+        "msrv": 0.0,
+        "recency": 0.9124,
+        "security": 1.0
+      },
+      "created": "2025-12-12",
+      "dependents": 11,
+      "description": "Strongly typed physical and astronomical quantities.",
+      "downloads": 14037,
+      "edition": "2021",
+      "keywords": [
+        "astronomy",
+        "quantities",
+        "science"
+      ],
+      "last_release": "2026-10-03",
+      "license": "BSD-3-Clause",
+      "name": "qtty",
+      "owners": 1,
+      "recent_downloads": 7646,
+      "releases_365d": 19,
+      "repository": "https://github.com/Siderust/qtty",
+      "score": 56.15,
+      "version": "0.8.6",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "aerospace",
+        "data-structures",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3456,
+        "license": 1.0,
+        "maintenance": 0.6823,
+        "msrv": 1.0,
+        "recency": 0.9557,
+        "security": 1.0
+      },
+      "created": "2026-09-25",
+      "dependents": 3,
+      "description": "Context hypergraph, context node types, and contextuable traits for DeepCausality.",
+      "downloads": 1268,
+      "edition": "2024",
+      "keywords": [
+        "causality",
+        "context",
+        "hypergraph",
+        "spacetime"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT",
+      "msrv": "1.98.0",
+      "name": "deep_causality_context",
+      "owners": 1,
+      "recent_downloads": 1268,
+      "releases_365d": 5,
+      "repository": "https://github.com/deepcausality/deep_causality.rs",
+      "score": 56.13,
+      "version": "0.3.0",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "aerospace",
+        "no-std::no-alloc",
+        "science::geo",
+        "science::robotics",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.3364,
+        "license": 1.0,
+        "maintenance": 0.6855,
+        "msrv": 1.0,
+        "recency": 0.9415,
+        "security": 1.0
+      },
+      "created": "2026-09-13",
+      "dependents": 3,
+      "description": "3D positions on Earth, made simple. Convert GPS (geodetic) coordinates to ECEF, local ENU/NED frames, UTM and heights above sea level, then find look angles, distances, areas and line of sight. Exact, tested, no dependencies, and runs on microcontrollers (no_std).",
+      "downloads": 1047,
+      "edition": "2021",
+      "keywords": [
+        "coordinates",
+        "ecef",
+        "geodesy",
+        "gps",
+        "wgs84"
+      ],
+      "last_release": "2026-10-20",
+      "license": "Apache-2.0",
+      "msrv": "1.85",
+      "name": "geo3d",
+      "owners": 1,
+      "recent_downloads": 1047,
+      "releases_365d": 10,
+      "repository": "https://github.com/FusionVault/geo3d",
+      "score": 55.74,
+      "version": "0.3.4",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "aerospace",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5213,
+        "license": 1.0,
+        "maintenance": 0.7689,
+        "msrv": 0.0,
+        "recency": 0.9731,
+        "security": 1.0
+      },
+      "created": "2025-11-13",
+      "dependents": 1,
+      "description": "PBFS (Protobuf File Stream) format for reading and writing protobuf messages to disk",
+      "downloads": 116979,
+      "edition": "2024",
+      "keywords": [
+        "sift",
+        "sift-stack",
+        "sift_rs",
+        "siftstack",
+        "telemetry"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "name": "sift_pbfs",
+      "owners": 1,
+      "recent_downloads": 47998,
+      "releases_365d": 24,
+      "repository": "https://github.com/sift-stack/sift",
+      "score": 55.62,
+      "version": "0.14.1",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "aerospace",
+        "encoding",
+        "network-programming",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4144,
+        "license": 1.0,
+        "maintenance": 0.7021,
+        "msrv": 1.0,
+        "recency": 0.8719,
+        "security": 1.0
+      },
+      "created": "2025-03-14",
+      "dependents": 1,
+      "description": "vita49_macros provides procedural macros for the vita49 crate\n",
+      "downloads": 15880,
+      "edition": "2021",
+      "keywords": [
+        "dsp",
+        "network",
+        "packet",
+        "radio",
+        "sdr"
+      ],
+      "last_release": "2026-09-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61.0",
+      "name": "vita49_macros",
+      "owners": 2,
+      "recent_downloads": 5262,
+      "releases_365d": 2,
+      "repository": "https://github.com/voyager-tech-inc/vita49-rs",
+      "score": 55.43,
+      "version": "0.1.1",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "aerospace",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.5213,
+        "license": 1.0,
+        "maintenance": 0.8306,
+        "msrv": 0.0,
+        "recency": 0.9731,
+        "security": 1.0
+      },
+      "created": "2025-04-01",
+      "dependents": 0,
+      "description": "A robust Sift telemetry streaming library",
+      "downloads": 126824,
+      "edition": "2024",
+      "keywords": [
+        "sift",
+        "sift-stack",
+        "sift_rs",
+        "siftstack",
+        "telemetry"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "name": "sift_stream",
+      "owners": 1,
+      "recent_downloads": 48017,
+      "releases_365d": 24,
+      "repository": "https://github.com/sift-stack/sift",
+      "score": 55.09,
+      "version": "0.14.1",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "aerospace",
+        "data-structures",
+        "mathematics",
+        "no-std::no-alloc",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.3644,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.9697,
+        "security": 1.0
+      },
+      "created": "2023-08-13",
+      "dependents": 12,
+      "description": "Physical Quantities, Units, & Reference Frames Library",
+      "downloads": 29824,
+      "edition": "2021",
+      "keywords": [
+        "coordinate",
+        "epsg",
+        "irox",
+        "no_std",
+        "projections"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT OR Apache-2.0",
+      "name": "irox-units",
+      "owners": 1,
+      "recent_downloads": 1870,
+      "releases_365d": 2,
+      "repository": "https://github.com/spmadden/irox",
+      "score": 54.06,
+      "version": "0.6.0",
+      "versions": 19
+    },
+    {
+      "categories": [
+        "aerospace",
+        "algorithms",
+        "no-std",
+        "parser-implementations",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.599,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 0.0,
+        "recency": 0.5981,
+        "security": 1.0
+      },
+      "created": "2020-07-12",
+      "dependents": 16,
+      "description": "A pure Rust implementation of the SGP4 algorithm for satellite propagation",
+      "downloads": 556717,
+      "edition": "2021",
+      "keywords": [
+        "omm",
+        "sdp4",
+        "sgp4",
+        "tle"
+      ],
+      "last_release": "2026-02-23",
+      "license": "MIT",
+      "name": "sgp4",
+      "owners": 1,
+      "recent_downloads": 238986,
+      "releases_365d": 1,
+      "repository": "https://github.com/neuromorphicsystems/sgp4/",
+      "score": 53.42,
+      "version": "2.4.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "aerospace",
+        "no-std",
+        "parser-implementations",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.4199,
+        "license": 1.0,
+        "maintenance": 0.7145,
+        "msrv": 0.0,
+        "recency": 0.9915,
+        "security": 1.0
+      },
+      "created": "2026-05-30",
+      "dependents": 2,
+      "description": "Reusable Rust bindings for the Siderust Archive: manifests, checksums, provenance, and runtime download of scientific datasets (IERS time data, kernels, planetary theories).",
+      "downloads": 8056,
+      "edition": "2021",
+      "keywords": [
+        "astronomy",
+        "ephemeris",
+        "iers",
+        "no-std",
+        "spice"
+      ],
+      "last_release": "2026-11-16",
+      "license": "BSD-3-Clause",
+      "name": "siderust-archive",
+      "owners": 1,
+      "recent_downloads": 5895,
+      "releases_365d": 7,
+      "repository": "https://github.com/Siderust/archive",
+      "score": 53.4,
+      "version": "0.2.1",
+      "versions": 7
+    }
+  ],
+  "score_version": 1
+}

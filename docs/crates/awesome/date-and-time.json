@@ -1,0 +1,957 @@
+{
+  "category": {
+    "crates": 1015,
+    "description": "Crates to manage the inherent complexity of dealing with the fourth dimension.",
+    "name": "Date and time",
+    "slug": "date-and-time"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "date-and-time",
+        "filesystem",
+        "network-programming",
+        "os::unix-apis"
+      ],
+      "components": {
+        "dependents": 0.6477,
+        "downloads": 0.9565,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9535,
+        "security": 1.0
+      },
+      "created": "2021-10-29",
+      "dependents": 2168,
+      "description": "Safe Rust bindings to POSIX/Unix/Linux/Winsock-like syscalls",
+      "downloads": 1444292688,
+      "edition": "2021",
+      "keywords": [
+        "api",
+        "file",
+        "network",
+        "safe",
+        "syscall"
+      ],
+      "last_release": "2026-10-27",
+      "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "msrv": "1.65",
+      "name": "rustix",
+      "owners": 1,
+      "recent_downloads": 388033759,
+      "releases_365d": 4,
+      "repository": "https://github.com/bytecodealliance/rustix",
+      "score": 87.41,
+      "version": "1.1.6",
+      "versions": 171
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "no-std",
+        "parser-implementations",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.7439,
+        "downloads": 0.9372,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8088,
+        "security": 1.0
+      },
+      "created": "2014-11-13",
+      "dependents": 6792,
+      "description": "Date and time library. Fully interoperable with the standard library. Mostly compatible with #![no_std].",
+      "downloads": 1103680211,
+      "edition": "2024",
+      "keywords": [
+        "calendar",
+        "date",
+        "duration",
+        "time"
+      ],
+      "last_release": "2026-08-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "time",
+      "owners": 1,
+      "recent_downloads": 260461074,
+      "releases_365d": 9,
+      "repository": "https://github.com/time-rs/time",
+      "score": 87.16,
+      "version": "0.3.55",
+      "versions": 135
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6475,
+        "downloads": 0.9031,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9942,
+        "security": 1.0
+      },
+      "created": "2024-02-17",
+      "dependents": 2164,
+      "description": "A date-time library that encourages you to jump into the pit of success.\n\nThis library is heavily inspired by the Temporal project.\n",
+      "downloads": 295810250,
+      "edition": "2024",
+      "keywords": [
+        "calendar",
+        "date",
+        "duration",
+        "time",
+        "zone"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.85",
+      "name": "jiff",
+      "owners": 1,
+      "recent_downloads": 128616142,
+      "releases_365d": 31,
+      "repository": "https://github.com/BurntSushi/jiff",
+      "score": 86.68,
+      "version": "1.0.1",
+      "versions": 80
+    },
+    {
+      "advisories": {
+        "informational": [
+          "RUSTSEC-2026-0543"
+        ]
+      },
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.8908,
+        "downloads": 0.936,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.7247,
+        "security": 0.5
+      },
+      "created": "2014-11-20",
+      "dependents": 38765,
+      "description": "Date and time library for Rust",
+      "downloads": 1006046041,
+      "edition": "2021",
+      "keywords": [
+        "calendar",
+        "date",
+        "time"
+      ],
+      "last_release": "2026-06-04",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.62.0",
+      "name": "chrono",
+      "owners": 2,
+      "recent_downloads": 254108230,
+      "releases_365d": 3,
+      "repository": "https://github.com/chronotope/chrono",
+      "score": 86.54,
+      "version": "0.4.45",
+      "versions": 95
+    },
+    {
+      "advisories": {
+        "informational": [
+          "RUSTSEC-2026-0542"
+        ]
+      },
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.6104,
+        "downloads": 0.8812,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.7642,
+        "security": 0.5
+      },
+      "created": "2016-05-20",
+      "dependents": 1392,
+      "description": "A parser and formatter for std::time::{Duration, SystemTime}",
+      "downloads": 501205917,
+      "edition": "2021",
+      "keywords": [
+        "duration",
+        "human",
+        "human-friendly",
+        "parser",
+        "time"
+      ],
+      "last_release": "2026-07-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "humantime",
+      "owners": 2,
+      "recent_downloads": 81887959,
+      "releases_365d": 1,
+      "repository": "https://github.com/chronotope/humantime",
+      "score": 75.75,
+      "version": "2.4.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.2567,
+        "downloads": 0.8506,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9902,
+        "security": 1.0
+      },
+      "created": "2024-07-09",
+      "dependents": 20,
+      "description": "The entire Time Zone Database embedded into your binary.",
+      "downloads": 80708832,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "iana",
+        "temporal",
+        "time",
+        "zone"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.85",
+      "name": "jiff-tzdb",
+      "owners": 1,
+      "recent_downloads": 43466853,
+      "releases_365d": 7,
+      "repository": "https://github.com/BurntSushi/jiff",
+      "score": 75.54,
+      "version": "1.0.0",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.9315,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7906,
+        "security": 1.0
+      },
+      "created": "2019-12-02",
+      "dependents": 12,
+      "description": "    Procedural macros for the time crate.\n    This crate is an implementation detail and should not be relied upon directly.\n",
+      "downloads": 869333546,
+      "edition": "2024",
+      "keywords": [
+        "calendar",
+        "date",
+        "duration",
+        "time"
+      ],
+      "last_release": "2026-07-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "time-macros",
+      "owners": 1,
+      "recent_downloads": 231654288,
+      "releases_365d": 7,
+      "repository": "https://github.com/time-rs/time",
+      "score": 73.55,
+      "version": "0.2.32",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "internationalization"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.7882,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8158,
+        "security": 1.0
+      },
+      "created": "2024-02-25",
+      "dependents": 17,
+      "description": "Temporal in Rust is an implementation of the TC39 Temporal Builtin Proposal in Rust.",
+      "downloads": 16038071,
+      "edition": "2021",
+      "keywords": [
+        "calendar",
+        "date",
+        "duration",
+        "time",
+        "timezone"
+      ],
+      "last_release": "2026-08-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86.0",
+      "name": "temporal_rs",
+      "owners": 2,
+      "recent_downloads": 11969402,
+      "releases_365d": 6,
+      "repository": "https://github.com/boa-dev/temporal",
+      "score": 72.04,
+      "version": "0.2.6",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.4148,
+        "downloads": 0.7584,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9693,
+        "security": 1.0
+      },
+      "created": "2023-11-08",
+      "dependents": 136,
+      "description": "Fully-featured, lightweight, and efficient Rust library designed for parsing and evaluating cron patterns",
+      "downloads": 13777122,
+      "edition": "2021",
+      "keywords": [
+        "cron",
+        "job",
+        "scheduler",
+        "task",
+        "time"
+      ],
+      "last_release": "2026-11-04",
+      "license": "MIT",
+      "name": "croner",
+      "owners": 1,
+      "recent_downloads": 6464524,
+      "releases_365d": 4,
+      "repository": "https://github.com/hexagon/croner-rust",
+      "score": 71.87,
+      "version": "4.0.3",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "internationalization",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.4123,
+        "downloads": 0.9295,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.5692,
+        "security": 1.0
+      },
+      "created": "2020-06-27",
+      "dependents": 132,
+      "description": "get the IANA time zone for the current system",
+      "downloads": 842552058,
+      "edition": "2021",
+      "keywords": [
+        "iana",
+        "time"
+      ],
+      "last_release": "2026-01-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.62.0",
+      "name": "iana-time-zone",
+      "owners": 2,
+      "recent_downloads": 221918313,
+      "releases_365d": 1,
+      "repository": "https://github.com/strawlab/iana-time-zone",
+      "score": 71.58,
+      "version": "0.1.65",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "data-structures",
+        "date-and-time",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.6264,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9534,
+        "security": 1.0
+      },
+      "created": "2016-11-20",
+      "dependents": 44,
+      "description": "Strongly typed iCalendar builder and parser.",
+      "downloads": 1162015,
+      "edition": "2024",
+      "keywords": [
+        "ical",
+        "icalendar",
+        "parser",
+        "rfc5545",
+        "rfc7986"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.88",
+      "name": "icalendar",
+      "owners": 1,
+      "recent_downloads": 421748,
+      "releases_365d": 12,
+      "repository": "https://github.com/hoodie/icalendar",
+      "score": 70.99,
+      "version": "0.17.17",
+      "versions": 69
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.8813,
+        "license": 1.0,
+        "maintenance": 0.8377,
+        "msrv": 1.0,
+        "recency": 0.9942,
+        "security": 1.0
+      },
+      "created": "2025-03-06",
+      "dependents": 1,
+      "description": "Create static TimeZone values for Jiff (useful in core-only environments).",
+      "downloads": 184488355,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "iana",
+        "static",
+        "time",
+        "zone"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.85",
+      "name": "jiff-static",
+      "owners": 1,
+      "recent_downloads": 82048553,
+      "releases_365d": 32,
+      "repository": "https://github.com/BurntSushi/jiff",
+      "score": 70.97,
+      "version": "1.0.1",
+      "versions": 47
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.9328,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.7355,
+        "security": 1.0
+      },
+      "created": "2020-12-17",
+      "dependents": 10,
+      "description": "This crate is an implementation detail and should not be relied upon directly.",
+      "downloads": 836958781,
+      "edition": "2024",
+      "keywords": [
+        "calendar",
+        "date",
+        "duration",
+        "time"
+      ],
+      "last_release": "2026-06-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "time-core",
+      "owners": 1,
+      "recent_downloads": 237664080,
+      "releases_365d": 3,
+      "repository": "https://github.com/time-rs/time",
+      "score": 70.91,
+      "version": "0.1.9",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.6477,
+        "license": 1.0,
+        "maintenance": 0.8442,
+        "msrv": 1.0,
+        "recency": 0.9902,
+        "security": 1.0
+      },
+      "created": "2025-02-11",
+      "dependents": 29,
+      "description": "Integration for Jiff with SQLx.",
+      "downloads": 811648,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "jiff",
+        "sqlx",
+        "time",
+        "zone"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.94",
+      "name": "jiff-sqlx",
+      "owners": 1,
+      "recent_downloads": 654868,
+      "releases_365d": 4,
+      "repository": "https://github.com/BurntSushi/jiff",
+      "score": 70.88,
+      "version": "1.0.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.8814,
+        "license": 1.0,
+        "maintenance": 0.706,
+        "msrv": 1.0,
+        "recency": 0.9942,
+        "security": 1.0
+      },
+      "created": "2026-06-30",
+      "dependents": 2,
+      "description": "Low level datetime primitives for the Jiff library.",
+      "downloads": 89577017,
+      "edition": "2024",
+      "keywords": [
+        "civil",
+        "date",
+        "time",
+        "timestamp"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.85",
+      "name": "jiff-core",
+      "owners": 1,
+      "recent_downloads": 82076856,
+      "releases_365d": 12,
+      "repository": "https://github.com/BurntSushi/jiff",
+      "score": 69.85,
+      "version": "1.0.1",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.5387,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9728,
+        "security": 1.0
+      },
+      "created": "2015-09-09",
+      "dependents": 18,
+      "description": "Provides primitives to interact with and manipulate machine time.",
+      "downloads": 84208,
+      "edition": "2024",
+      "keywords": [
+        "clock",
+        "stopwatch",
+        "tick",
+        "time"
+      ],
+      "last_release": "2026-11-06",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "tick",
+      "owners": 3,
+      "recent_downloads": 68791,
+      "releases_365d": 18,
+      "repository": "https://github.com/microsoft/oxidizer/tree/main/crates/tick",
+      "score": 69.27,
+      "version": "0.9.1",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "data-structures",
+        "date-and-time",
+        "encoding",
+        "parsing",
+        "value-formatting"
+      ],
+      "components": {
+        "dependents": 0.2483,
+        "downloads": 0.7564,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9684,
+        "security": 1.0
+      },
+      "created": "2018-04-07",
+      "dependents": 18,
+      "description": "A highly performant unique identifier generator.",
+      "downloads": 53960027,
+      "edition": "2021",
+      "keywords": [
+        "guid",
+        "nuid",
+        "uuid"
+      ],
+      "last_release": "2026-11-04",
+      "license": "Apache-2.0",
+      "msrv": "1.63",
+      "name": "nuid",
+      "owners": 1,
+      "recent_downloads": 6199783,
+      "releases_365d": 1,
+      "repository": "https://github.com/casualjim/rs-nuid.git",
+      "score": 68.14,
+      "version": "0.7.0",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6818,
+        "license": 1.0,
+        "maintenance": 0.7442,
+        "msrv": 1.0,
+        "recency": 0.9902,
+        "security": 1.0
+      },
+      "created": "2025-02-11",
+      "dependents": 9,
+      "description": "Conversion routines between Jiff and ICU4X.",
+      "downloads": 3026189,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "icu",
+        "temporal",
+        "time",
+        "zone"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.86",
+      "name": "jiff-icu",
+      "owners": 1,
+      "recent_downloads": 1325077,
+      "releases_365d": 3,
+      "repository": "https://github.com/BurntSushi/jiff",
+      "score": 67.91,
+      "version": "1.0.0",
+      "versions": 8
+    },
+    {
+      "advisories": {
+        "informational": [
+          "RUSTSEC-2026-0555"
+        ]
+      },
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.5946,
+        "downloads": 0.8668,
+        "license": 1.0,
+        "maintenance": 0.5333,
+        "msrv": 1.0,
+        "recency": 0.3889,
+        "security": 0.5
+      },
+      "created": "2016-10-08",
+      "dependents": 1154,
+      "description": "TimeZone implementations for chrono from the IANA database",
+      "downloads": 204649256,
+      "edition": "2021",
+      "keywords": [
+        "date",
+        "iana",
+        "time",
+        "timezone",
+        "zone"
+      ],
+      "last_release": "2025-07-11",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "chrono-tz",
+      "owners": 2,
+      "recent_downloads": 60759179,
+      "releases_365d": 0,
+      "repository": "https://github.com/chronotope/chrono-tz",
+      "score": 67.87,
+      "version": "0.10.4",
+      "versions": 36
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "date-and-time",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.6057,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9653,
+        "security": 1.0
+      },
+      "created": "2022-11-20",
+      "dependents": 11,
+      "description": "Fast convert longitude,latitude to timezone name.",
+      "downloads": 783051,
+      "edition": "2024",
+      "keywords": [
+        "geo",
+        "timezone"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tzf-rs",
+      "owners": 1,
+      "recent_downloads": 274566,
+      "releases_365d": 19,
+      "repository": "https://github.com/ringsaturn/tzf-rs",
+      "score": 67.86,
+      "version": "2.3.0",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.7638,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 0.0,
+        "recency": 0.8726,
+        "security": 1.0
+      },
+      "created": "2015-11-03",
+      "dependents": 44,
+      "description": "Parsing ISO8601 dates using nom",
+      "downloads": 47296064,
+      "edition": "2021",
+      "keywords": [
+        "date-time",
+        "iso8601",
+        "nom",
+        "parser"
+      ],
+      "last_release": "2026-09-10",
+      "license": "MIT",
+      "name": "iso8601",
+      "owners": 2,
+      "recent_downloads": 7217800,
+      "releases_365d": 3,
+      "repository": "https://github.com/badboy/iso8601",
+      "score": 67.71,
+      "version": "0.6.6",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "date-and-time",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.6113,
+        "downloads": 0.903,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.1512,
+        "security": 1.0
+      },
+      "created": "2023-03-27",
+      "dependents": 1407,
+      "description": "Drop-in replacement for std::time for Wasm in browsers",
+      "downloads": 349660953,
+      "edition": "2021",
+      "keywords": [
+        "instant",
+        "systemtime",
+        "time",
+        "wasm",
+        "web"
+      ],
+      "last_release": "2024-03-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "web-time",
+      "owners": 1,
+      "recent_downloads": 128421267,
+      "releases_365d": 0,
+      "repository": "https://github.com/daxpedda/web-time",
+      "score": 67.13,
+      "version": "1.1.0",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "embedded",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.411,
+        "downloads": 0.6841,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.8678,
+        "security": 1.0
+      },
+      "created": "2021-10-28",
+      "dependents": 130,
+      "description": "Time library for embedded targets with ease-of-use and performance first.",
+      "downloads": 6771743,
+      "edition": "2021",
+      "keywords": [
+        "const",
+        "duration",
+        "instant",
+        "time"
+      ],
+      "last_release": "2026-09-07",
+      "license": "MIT OR Apache-2.0",
+      "name": "fugit",
+      "owners": 1,
+      "recent_downloads": 1389680,
+      "releases_365d": 3,
+      "repository": "https://github.com/korken89/fugit",
+      "score": 66.89,
+      "version": "0.6.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.7446,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9327,
+        "security": 1.0
+      },
+      "created": "2022-05-31",
+      "dependents": 14,
+      "description": "Fast and simple datetime, date, time and duration parsing",
+      "downloads": 16164873,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "datetime",
+        "iso8601",
+        "rfc3339",
+        "time"
+      ],
+      "last_release": "2026-10-15",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "speedate",
+      "owners": 1,
+      "recent_downloads": 4851134,
+      "releases_365d": 1,
+      "repository": "https://github.com/pydantic/speedate/",
+      "score": 66.81,
+      "version": "0.18.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "date-and-time"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.8447,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9902,
+        "security": 1.0
+      },
+      "created": "2024-07-09",
+      "dependents": 1,
+      "description": "The entire Time Zone Database embedded into your binary for specific platforms.\n",
+      "downloads": 73771264,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "iana",
+        "temporal",
+        "time",
+        "zone"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Unlicense OR MIT",
+      "msrv": "1.85",
+      "name": "jiff-tzdb-platform",
+      "owners": 1,
+      "recent_downloads": 38504831,
+      "releases_365d": 1,
+      "repository": "https://github.com/BurntSushi/jiff",
+      "score": 65.93,
+      "version": "1.0.0",
+      "versions": 6
+    }
+  ],
+  "score_version": 1
+}

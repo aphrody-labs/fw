@@ -1,0 +1,948 @@
+{
+  "category": {
+    "crates": 2251,
+    "description": "Databases allow clients to store and query large amounts of data in an efficient manner. This category is for database management systems implemented in Rust.",
+    "name": "Database implementations",
+    "slug": "database-implementations"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.4946,
+        "downloads": 0.7525,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9364,
+        "security": 1.0
+      },
+      "created": "2016-08-11",
+      "dependents": 352,
+      "description": "Search engine library",
+      "downloads": 22706770,
+      "edition": "2021",
+      "keywords": [
+        "information",
+        "retrieval",
+        "search"
+      ],
+      "last_release": "2026-10-17",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "tantivy",
+      "owners": 2,
+      "recent_downloads": 5721697,
+      "releases_365d": 4,
+      "repository": "https://github.com/quickwit-oss/tantivy",
+      "score": 79.22,
+      "version": "0.27.0",
+      "versions": 64
+    },
+    {
+      "categories": [
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.3908,
+        "downloads": 0.6897,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9577,
+        "security": 1.0
+      },
+      "created": "2023-03-18",
+      "dependents": 102,
+      "description": "LanceDB: A serverless, low-latency vector database for AI applications",
+      "downloads": 2512356,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "lance",
+        "lancedb",
+        "search",
+        "vector"
+      ],
+      "last_release": "2026-10-29",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lancedb",
+      "owners": 5,
+      "recent_downloads": 1560436,
+      "releases_365d": 17,
+      "repository": "https://github.com/lancedb/lancedb",
+      "score": 76.38,
+      "version": "0.41.0",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.7188,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2022-07-28",
+      "dependents": 36,
+      "description": "A columnar data format that is 100x faster than Parquet for random access.",
+      "downloads": 5311732,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance",
+      "owners": 8,
+      "recent_downloads": 2849102,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 75.42,
+      "version": "14.0.3",
+      "versions": 192
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.7194,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2023-10-11",
+      "dependents": 26,
+      "description": "Lance indices implementation",
+      "downloads": 5284200,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-index",
+      "owners": 7,
+      "recent_downloads": 2884545,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 74.77,
+      "version": "14.0.3",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.7202,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2023-10-11",
+      "dependents": 24,
+      "description": "Lance Columnar Format -- Core Library",
+      "downloads": 5373613,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-core",
+      "owners": 7,
+      "recent_downloads": 2932507,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 74.63,
+      "version": "14.0.3",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.72,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2024-01-24",
+      "dependents": 19,
+      "description": "I/O utilities for Lance",
+      "downloads": 5292735,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-io",
+      "owners": 7,
+      "recent_downloads": 2918065,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 74.15,
+      "version": "14.0.3",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.7202,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2024-01-24",
+      "dependents": 15,
+      "description": "Utilities for the Lance file format",
+      "downloads": 5306973,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-file",
+      "owners": 6,
+      "recent_downloads": 2931284,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 73.68,
+      "version": "14.0.3",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.7194,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2024-01-24",
+      "dependents": 14,
+      "description": "Utilities for the Lance table format",
+      "downloads": 5248000,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-table",
+      "owners": 7,
+      "recent_downloads": 2886594,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 73.53,
+      "version": "14.0.3",
+      "versions": 109
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.3866,
+        "downloads": 0.6599,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9515,
+        "security": 1.0
+      },
+      "created": "2023-12-21",
+      "dependents": 97,
+      "description": "Log-structured, embeddable key-value storage engine",
+      "downloads": 2273434,
+      "edition": "2021",
+      "keywords": [
+        "database",
+        "key-value",
+        "leveldb",
+        "lsm",
+        "rocksdb"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.90.0",
+      "name": "fjall",
+      "owners": 1,
+      "recent_downloads": 842900,
+      "releases_365d": 8,
+      "repository": "https://github.com/fjall-rs/fjall",
+      "score": 73.43,
+      "version": "3.1.13",
+      "versions": 103
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.3347,
+        "downloads": 0.6025,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-05-20",
+      "dependents": 52,
+      "description": "Vortex errors",
+      "downloads": 522302,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-error",
+      "owners": 4,
+      "recent_downloads": 257059,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 73.02,
+      "version": "0.93.0",
+      "versions": 121
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.719,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2024-04-02",
+      "dependents": 10,
+      "description": "Encoders and decoders for the Lance file format",
+      "downloads": 5099946,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-encoding",
+      "owners": 6,
+      "recent_downloads": 2860837,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 72.87,
+      "version": "14.0.3",
+      "versions": 92
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.321,
+        "downloads": 0.6021,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-05-20",
+      "dependents": 44,
+      "description": "A byte buffer implementation for Vortex",
+      "downloads": 519378,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-buffer",
+      "owners": 4,
+      "recent_downloads": 255050,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 72.67,
+      "version": "0.93.0",
+      "versions": 121
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.7118,
+        "license": 1.0,
+        "maintenance": 0.9222,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2025-09-01",
+      "dependents": 17,
+      "description": "Lance Namespace Core APIs",
+      "downloads": 4152516,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "lance-namespace",
+      "owners": 3,
+      "recent_downloads": 2466132,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 72.56,
+      "version": "14.0.3",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.3171,
+        "downloads": 0.6014,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-03-05",
+      "dependents": 42,
+      "description": "Vortex in memory columnar data format",
+      "downloads": 498551,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-array",
+      "owners": 4,
+      "recent_downloads": 251191,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 72.56,
+      "version": "0.93.0",
+      "versions": 105
+    },
+    {
+      "categories": [
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.3866,
+        "downloads": 0.6158,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9459,
+        "security": 1.0
+      },
+      "created": "2020-08-08",
+      "dependents": 97,
+      "description": "SPARQL database and RDF toolkit",
+      "downloads": 1027589,
+      "edition": "2024",
+      "keywords": [
+        "database",
+        "graph-database",
+        "rdf",
+        "sparql"
+      ],
+      "last_release": "2026-10-22",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.87",
+      "name": "oxigraph",
+      "owners": 1,
+      "recent_downloads": 338771,
+      "releases_365d": 11,
+      "repository": "https://github.com/oxigraph/oxigraph/tree/main/lib/oxigraph",
+      "score": 72.25,
+      "version": "0.5.13",
+      "versions": 77
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.2895,
+        "downloads": 0.6021,
+        "license": 1.0,
+        "maintenance": 0.9832,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2025-01-21",
+      "dependents": 30,
+      "description": "Vortex Mask - sorted, unique, non-negative integers",
+      "downloads": 478344,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-mask",
+      "owners": 6,
+      "recent_downloads": 255193,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 71.63,
+      "version": "0.93.0",
+      "versions": 82
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.5997,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-05-20",
+      "dependents": 10,
+      "description": "Vortex fastlanes arrays",
+      "downloads": 477658,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-fastlanes",
+      "owners": 4,
+      "recent_downloads": 242614,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 69.64,
+      "version": "0.93.0",
+      "versions": 101
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.5981,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2020-06-09",
+      "dependents": 10,
+      "description": "Vortex file format with all builtin codecs and a sampling compressor.",
+      "downloads": 445108,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex",
+      "owners": 4,
+      "recent_downloads": 234694,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 69.6,
+      "version": "0.93.0",
+      "versions": 82
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.7201,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2024-07-25",
+      "dependents": 1,
+      "description": "FSST string compression for Lance",
+      "downloads": 5118520,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "msrv": "1.94.0",
+      "name": "fsst",
+      "owners": 6,
+      "recent_downloads": 2927811,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 69.3,
+      "version": "14.0.3",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.5992,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-08-19",
+      "dependents": 8,
+      "description": "Vortex FSST string array encoding",
+      "downloads": 467479,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-fsst",
+      "owners": 4,
+      "recent_downloads": 240088,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 69.21,
+      "version": "0.93.0",
+      "versions": 93
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.7188,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2023-09-14",
+      "dependents": 19,
+      "description": "A columnar data format that is 100x faster than Parquet for random access.",
+      "downloads": 5262692,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "name": "lance-linalg",
+      "owners": 7,
+      "recent_downloads": 2849689,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 69.12,
+      "version": "14.0.3",
+      "versions": 139
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.5996,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-05-20",
+      "dependents": 7,
+      "description": "Vortex ALP array",
+      "downloads": 479101,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-alp",
+      "owners": 4,
+      "recent_downloads": 242392,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 68.97,
+      "version": "0.93.0",
+      "versions": 103
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.3131,
+        "downloads": 0.6008,
+        "license": 1.0,
+        "maintenance": 0.7676,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2025-11-17",
+      "dependents": 40,
+      "description": "Session object for Vortex",
+      "downloads": 422891,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-session",
+      "owners": 1,
+      "recent_downloads": 248436,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 68.96,
+      "version": "0.93.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "data-structures",
+        "database-implementations",
+        "development-tools",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.7203,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 0.0,
+        "recency": 0.9891,
+        "security": 1.0
+      },
+      "created": "2023-09-14",
+      "dependents": 15,
+      "description": "Arrow Extension for Lance",
+      "downloads": 5388353,
+      "edition": "2024",
+      "keywords": [
+        "apache-arrow",
+        "data-analytics",
+        "data-format",
+        "data-science",
+        "machine-learning"
+      ],
+      "last_release": "2026-11-15",
+      "license": "Apache-2.0",
+      "name": "lance-arrow",
+      "owners": 7,
+      "recent_downloads": 2936926,
+      "releases_365d": 29,
+      "repository": "https://github.com/lance-format/lance",
+      "score": 68.69,
+      "version": "14.0.3",
+      "versions": 141
+    },
+    {
+      "categories": [
+        "compression",
+        "data-structures",
+        "database-implementations"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5996,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.973,
+        "security": 1.0
+      },
+      "created": "2024-05-20",
+      "dependents": 6,
+      "description": "Vortex zig zag array",
+      "downloads": 472381,
+      "edition": "2024",
+      "keywords": [
+        "vortex"
+      ],
+      "last_release": "2026-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.95",
+      "name": "vortex-zigzag",
+      "owners": 4,
+      "recent_downloads": 242187,
+      "releases_365d": 36,
+      "repository": "https://github.com/vortex-data/vortex",
+      "score": 68.69,
+      "version": "0.93.0",
+      "versions": 96
+    }
+  ],
+  "score_version": 1
+}

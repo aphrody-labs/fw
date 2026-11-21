@@ -1,0 +1,963 @@
+{
+  "category": {
+    "crates": 1113,
+    "description": "Crates to help develop software capable of adapting to various languages and regions.",
+    "name": "Internationalization (i18n)",
+    "slug": "internationalization"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "encoding",
+        "internationalization",
+        "text-processing",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.62,
+        "downloads": 0.9152,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9601,
+        "security": 1.0
+      },
+      "created": "2016-07-09",
+      "dependents": 1560,
+      "description": "A Gecko-oriented implementation of the Encoding Standard",
+      "downloads": 658801208,
+      "edition": "2024",
+      "keywords": [
+        "charset",
+        "encoding",
+        "unicode",
+        "web"
+      ],
+      "last_release": "2026-10-30",
+      "license": "(Apache-2.0 OR MIT) AND BSD-3-Clause",
+      "msrv": "1.88",
+      "name": "encoding_rs",
+      "owners": 1,
+      "recent_downloads": 165228981,
+      "releases_365d": 5,
+      "repository": "https://github.com/hsivonen/encoding_rs",
+      "score": 85.78,
+      "version": "0.8.44",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "internationalization",
+        "no-std::no-alloc",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.6907,
+        "downloads": 0.9336,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.9553,
+        "security": 1.0
+      },
+      "created": "2015-04-14",
+      "dependents": 3611,
+      "description": "Determine displayed width of `char` and `str` types\naccording to Unicode Standard Annex #11 rules.\n",
+      "downloads": 993245187,
+      "edition": "2021",
+      "keywords": [
+        "text",
+        "unicode",
+        "width"
+      ],
+      "last_release": "2026-10-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.66",
+      "name": "unicode-width",
+      "owners": 5,
+      "recent_downloads": 241668550,
+      "releases_365d": 1,
+      "repository": "https://github.com/unicode-rs/unicode-width",
+      "score": 85.44,
+      "version": "0.2.3",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4268,
+        "downloads": 0.9418,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-11-02",
+      "dependents": 157,
+      "description": "Definitions for Unicode properties",
+      "downloads": 794693374,
+      "edition": "2024",
+      "keywords": [
+        "character-properties",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_properties",
+      "owners": 3,
+      "recent_downloads": 286545593,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 83.39,
+      "version": "2.4.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4029,
+        "downloads": 0.9425,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2020-10-15",
+      "dependents": 118,
+      "description": "Trait and struct definitions for the ICU data provider",
+      "downloads": 797047576,
+      "edition": "2024",
+      "keywords": [
+        "data",
+        "data-loading"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_provider",
+      "owners": 2,
+      "recent_downloads": 290827531,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 81.81,
+      "version": "2.4.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "internationalization",
+        "localization",
+        "os",
+        "value-formatting",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5223,
+        "downloads": 0.8886,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8253,
+        "security": 1.0
+      },
+      "created": "2017-08-04",
+      "dependents": 489,
+      "description": "Rust library for getting information about the current user and environment",
+      "downloads": 287513497,
+      "edition": "2021",
+      "keywords": [
+        "detect",
+        "platform",
+        "user",
+        "username",
+        "whoami"
+      ],
+      "last_release": "2026-08-11",
+      "license": "Apache-2.0 OR BSL-1.0 OR MIT",
+      "msrv": "1.75",
+      "name": "whoami",
+      "owners": 2,
+      "recent_downloads": 95297501,
+      "releases_365d": 8,
+      "repository": "https://github.com/ardaku/whoami",
+      "score": 81.65,
+      "version": "2.1.3",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4148,
+        "downloads": 0.938,
+        "license": 1.0,
+        "maintenance": 0.8328,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2024-11-23",
+      "dependents": 136,
+      "description": "API for managing Unicode Language and Locale Identifiers",
+      "downloads": 605829976,
+      "edition": "2024",
+      "keywords": [
+        "bcp47",
+        "language-tags",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_locale_core",
+      "owners": 2,
+      "recent_downloads": 265039565,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.49,
+      "version": "2.4.0",
+      "versions": 9
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.411,
+        "downloads": 0.9414,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 130,
+      "description": "API for normalizing text into Unicode Normalization Forms",
+      "downloads": 782254493,
+      "edition": "2024",
+      "keywords": [
+        "normalization",
+        "text-processing",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_normalizer",
+      "owners": 2,
+      "recent_downloads": 283889251,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 80.49,
+      "version": "2.4.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3848,
+        "downloads": 0.8192,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2024-03-08",
+      "dependents": 95,
+      "description": "API for Unicode Language and Locale Identifiers canonicalization",
+      "downloads": 40238865,
+      "edition": "2024",
+      "keywords": [
+        "bcp47",
+        "language-tags",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_locale",
+      "owners": 3,
+      "recent_downloads": 22719869,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 79.28,
+      "version": "2.4.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2948,
+        "downloads": 0.9424,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2022-08-05",
+      "dependents": 32,
+      "description": "Collection of API for use in ICU libraries.",
+      "downloads": 793487978,
+      "edition": "2024",
+      "keywords": [
+        "data-structures",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_collections",
+      "owners": 3,
+      "recent_downloads": 289741086,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 78.61,
+      "version": "2.4.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3971,
+        "downloads": 0.8126,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 110,
+      "description": "Unicode line breaking and text segmentation algorithms for text boundaries analysis",
+      "downloads": 32920151,
+      "edition": "2024",
+      "keywords": [
+        "segmentation",
+        "text-processing",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_segmenter",
+      "owners": 2,
+      "recent_downloads": 19828230,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 78.42,
+      "version": "2.4.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3684,
+        "downloads": 0.8036,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 78,
+      "description": "Date APIs for Gregorian and non-Gregorian calendars",
+      "downloads": 28442480,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "formatting",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_calendar",
+      "owners": 2,
+      "recent_downloads": 16430971,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 77.48,
+      "version": "2.4.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.9419,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2023-09-23",
+      "dependents": 10,
+      "description": "Data for the icu_properties crate",
+      "downloads": 798325916,
+      "edition": "2024",
+      "keywords": [
+        "data",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_properties_data",
+      "owners": 2,
+      "recent_downloads": 287011124,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 76.78,
+      "version": "2.4.0",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.7723,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 69,
+      "description": "API for comparing strings according to language-dependent conventions",
+      "downloads": 15504162,
+      "edition": "2024",
+      "keywords": [
+        "alphabetical",
+        "sorting",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_collator",
+      "owners": 2,
+      "recent_downloads": 8610003,
+      "releases_365d": 6,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 76.44,
+      "version": "2.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.9414,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2023-09-23",
+      "dependents": 8,
+      "description": "Data for the icu_normalizer crate",
+      "downloads": 785826032,
+      "edition": "2024",
+      "keywords": [
+        "data",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_normalizer_data",
+      "owners": 2,
+      "recent_downloads": 283781609,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.84,
+      "version": "2.4.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3532,
+        "downloads": 0.7716,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 65,
+      "description": "API for formatting basic decimal numbers in a locale-sensitive way",
+      "downloads": 19105882,
+      "edition": "2024",
+      "keywords": [
+        "formatting",
+        "numbers",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_decimal",
+      "owners": 2,
+      "recent_downloads": 8483311,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.8,
+      "version": "2.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "internationalization",
+        "web-programming"
+      ],
+      "components": {
+        "dependents": 0.394,
+        "downloads": 0.7096,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9417,
+        "security": 1.0
+      },
+      "created": "2020-03-16",
+      "dependents": 106,
+      "description": "Uniform & Internationalized Resource Identifiers (URIs/IRIs), borrowed and owned.",
+      "downloads": 9446397,
+      "edition": "2024",
+      "keywords": [
+        "identifier",
+        "iri",
+        "resource",
+        "uri",
+        "url"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "iref",
+      "owners": 1,
+      "recent_downloads": 2356945,
+      "releases_365d": 7,
+      "repository": "https://github.com/timothee-haudebourg/iref",
+      "score": 74.72,
+      "version": "5.0.0",
+      "versions": 46
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.7719,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2020-10-15",
+      "dependents": 56,
+      "description": "Unicode Plural Rules categorizer for numeric input",
+      "downloads": 17479247,
+      "edition": "2024",
+      "keywords": [
+        "grammar",
+        "plurals",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_plurals",
+      "owners": 2,
+      "recent_downloads": 8542422,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.5,
+      "version": "2.4.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3673,
+        "downloads": 0.7436,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2023-09-23",
+      "dependents": 77,
+      "description": "Unicode case mapping and folding algorithms",
+      "downloads": 9037193,
+      "edition": "2024",
+      "keywords": [
+        "case-folding",
+        "casing",
+        "text-processing",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_casemap",
+      "owners": 2,
+      "recent_downloads": 4752235,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.45,
+      "version": "2.4.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.6678,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2020-04-17",
+      "dependents": 56,
+      "description": "ICU4X: International Components for Unicode, written in Rust",
+      "downloads": 3080487,
+      "edition": "2024",
+      "keywords": [
+        "i18n",
+        "internationalization",
+        "localization",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu",
+      "owners": 3,
+      "recent_downloads": 991913,
+      "releases_365d": 4,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.39,
+      "version": "2.4.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.348,
+        "downloads": 0.7722,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2020-10-15",
+      "dependents": 61,
+      "description": "An API for representing numbers in a human-readable form",
+      "downloads": 19365503,
+      "edition": "2021",
+      "keywords": [
+        "decimals",
+        "numbers"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.82",
+      "name": "fixed_decimal",
+      "owners": 3,
+      "recent_downloads": 8598718,
+      "releases_365d": 2,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 74.18,
+      "version": "0.7.3",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.9375,
+        "license": 1.0,
+        "maintenance": 0.7995,
+        "msrv": 1.0,
+        "recency": 0.8284,
+        "security": 1.0
+      },
+      "created": "2024-11-23",
+      "dependents": 17,
+      "description": "Unvalidated string and character types",
+      "downloads": 604635081,
+      "edition": "2021",
+      "keywords": [
+        "encoding",
+        "text-processing"
+      ],
+      "last_release": "2026-08-13",
+      "license": "Unicode-3.0",
+      "msrv": "1.82",
+      "name": "potential_utf",
+      "owners": 3,
+      "recent_downloads": 262082448,
+      "releases_365d": 2,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 73.95,
+      "version": "0.1.6",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3423,
+        "downloads": 0.7394,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2020-10-15",
+      "dependents": 57,
+      "description": "Human-readable formatting of dates, times, and time zones in hundreds of locales",
+      "downloads": 11944345,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "formatting",
+        "time",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_datetime",
+      "owners": 2,
+      "recent_downloads": 4364947,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 73.72,
+      "version": "2.4.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "internationalization",
+        "no-std",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.4806,
+        "downloads": 0.9077,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 0.0,
+        "recency": 0.9154,
+        "security": 1.0
+      },
+      "created": "2015-01-09",
+      "dependents": 298,
+      "description": "A case-insensitive wrapper around strings.",
+      "downloads": 505457825,
+      "edition": "2018",
+      "keywords": [
+        "case",
+        "case-folding",
+        "case-insensitive",
+        "lowercase",
+        "no_std"
+      ],
+      "last_release": "2026-10-05",
+      "license": "MIT OR Apache-2.0",
+      "name": "unicase",
+      "owners": 1,
+      "recent_downloads": 141592383,
+      "releases_365d": 2,
+      "repository": "https://github.com/seanmonstar/unicase",
+      "score": 73.44,
+      "version": "2.10.0",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.9377,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.8284,
+        "security": 1.0
+      },
+      "created": "2023-09-23",
+      "dependents": 21,
+      "description": "A data structure that efficiently maps strings to integers",
+      "downloads": 608586742,
+      "edition": "2021",
+      "keywords": [
+        "memory-efficiency",
+        "serialization",
+        "trie",
+        "zero-copy"
+      ],
+      "last_release": "2026-08-13",
+      "license": "Unicode-3.0",
+      "msrv": "1.82",
+      "name": "zerotrie",
+      "owners": 2,
+      "recent_downloads": 263177123,
+      "releases_365d": 2,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 73.38,
+      "version": "0.2.5",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "embedded",
+        "internationalization",
+        "localization",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.7298,
+        "license": 1.0,
+        "maintenance": 0.8766,
+        "msrv": 1.0,
+        "recency": 0.9451,
+        "security": 1.0
+      },
+      "created": "2025-02-14",
+      "dependents": 29,
+      "description": "Processing of dates, times, and time zones with a focus on i18n and interop",
+      "downloads": 6473353,
+      "edition": "2024",
+      "keywords": [
+        "date",
+        "formatting",
+        "unicode"
+      ],
+      "last_release": "2026-10-22",
+      "license": "Unicode-3.0",
+      "msrv": "1.88",
+      "name": "icu_time",
+      "owners": 3,
+      "recent_downloads": 3573452,
+      "releases_365d": 3,
+      "repository": "https://github.com/unicode-org/icu4x",
+      "score": 72.74,
+      "version": "2.4.0",
+      "versions": 9
+    }
+  ],
+  "score_version": 1
+}

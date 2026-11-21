@@ -1,0 +1,945 @@
+{
+  "category": {
+    "crates": 1202,
+    "description": "Crates that record, output, or process video.",
+    "name": "Multimedia::Video",
+    "slug": "multimedia::video"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::audio",
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.5216,
+        "downloads": 0.7883,
+        "license": 0.75,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8271,
+        "security": 1.0
+      },
+      "created": "2020-09-01",
+      "dependents": 485,
+      "description": "Pure Rust media container and audio decoding library.",
+      "downloads": 22883004,
+      "edition": "2024",
+      "keywords": [
+        "audio",
+        "codec",
+        "decoder",
+        "media",
+        "multimedia"
+      ],
+      "last_release": "2026-08-13",
+      "license": "MPL-2.0",
+      "msrv": "1.85",
+      "name": "symphonia",
+      "owners": 1,
+      "recent_downloads": 11978915,
+      "releases_365d": 4,
+      "repository": "https://github.com/pdeljanov/Symphonia",
+      "score": 75.65,
+      "version": "0.6.1",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.3089,
+        "downloads": 0.7215,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9618,
+        "security": 1.0
+      },
+      "created": "2020-09-06",
+      "dependents": 38,
+      "description": "High performance utilities for YUV format handling and conversion.",
+      "downloads": 6470757,
+      "edition": "2021",
+      "keywords": [
+        "converter",
+        "rgb2yuv",
+        "ycbcr",
+        "yuv",
+        "yuv2rgb"
+      ],
+      "last_release": "2026-10-31",
+      "license": "BSD-3-Clause OR Apache-2.0",
+      "msrv": "1.82.0",
+      "name": "yuv",
+      "owners": 3,
+      "recent_downloads": 3009353,
+      "releases_365d": 13,
+      "repository": "https://github.com/awxkee/yuvutils-rs",
+      "score": 75.19,
+      "version": "0.8.20",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.692,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2018-09-01",
+      "dependents": 69,
+      "description": "Idiomatic bindings for OpenH264.",
+      "downloads": 2432398,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-11-10",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "openh264",
+      "owners": 1,
+      "recent_downloads": 1636107,
+      "releases_365d": 7,
+      "repository": "https://github.com/ralfbiedert/openh264-rs",
+      "score": 73.97,
+      "version": "0.9.10",
+      "versions": 52
+    },
+    {
+      "categories": [
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.8182,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7475,
+        "security": 1.0
+      },
+      "created": "2020-02-26",
+      "dependents": 12,
+      "description": "Video Frame data structures, originally part of rav1e",
+      "downloads": 63343908,
+      "edition": "2024",
+      "last_release": "2026-06-20",
+      "license": "BSD-2-Clause",
+      "msrv": "1.95.0",
+      "name": "v_frame",
+      "owners": 2,
+      "recent_downloads": 22251091,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-av/v_frame",
+      "score": 71.07,
+      "version": "0.7.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.6938,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9808,
+        "security": 1.0
+      },
+      "created": "2021-09-03",
+      "dependents": 12,
+      "description": "Low-level bindings for OpenH264.",
+      "downloads": 2501200,
+      "edition": "2024",
+      "keywords": [
+        "encoding",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-11-10",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "openh264-sys2",
+      "owners": 1,
+      "recent_downloads": 1699956,
+      "releases_365d": 7,
+      "repository": "https://github.com/ralfbiedert/openh264-rs",
+      "score": 70.46,
+      "version": "0.9.10",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.7353,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9946,
+        "security": 1.0
+      },
+      "created": "2024-06-05",
+      "dependents": 6,
+      "description": "High performance image scaling",
+      "downloads": 4433140,
+      "edition": "2024",
+      "keywords": [
+        "image-resize",
+        "resize",
+        "scale"
+      ],
+      "last_release": "2026-11-18",
+      "license": "BSD-3-Clause OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "pic-scale",
+      "owners": 1,
+      "recent_downloads": 4008413,
+      "releases_365d": 17,
+      "repository": "https://github.com/awxkee/pic-scale",
+      "score": 70.4,
+      "version": "0.7.14",
+      "versions": 91
+    },
+    {
+      "categories": [
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.6818,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.8803,
+        "security": 1.0
+      },
+      "created": "2019-06-01",
+      "dependents": 17,
+      "description": "Reader for H264 bitstream syntax",
+      "downloads": 2980126,
+      "edition": "2018",
+      "keywords": [
+        "h-264"
+      ],
+      "last_release": "2026-09-14",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.83",
+      "name": "h264-reader",
+      "owners": 2,
+      "recent_downloads": 1325514,
+      "releases_365d": 1,
+      "repository": "https://github.com/dholroyd/h264-reader",
+      "score": 65.84,
+      "version": "0.9.0",
+      "versions": 8
+    },
+    {
+      "categories": [
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.6435,
+        "license": 1.0,
+        "maintenance": 0.725,
+        "msrv": 1.0,
+        "recency": 0.9666,
+        "security": 1.0
+      },
+      "created": "2026-04-22",
+      "dependents": 4,
+      "description": "Pure Rust H.265/HEVC video decoder: Main, Main 10 and the 4:2:0 / 4:4:4 range-extension profiles up to 12-bit, multithreaded",
+      "downloads": 701580,
+      "edition": "2024",
+      "keywords": [
+        "codec",
+        "decoder",
+        "h265",
+        "hevc",
+        "video"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "rust_h265",
+      "owners": 1,
+      "recent_downloads": 600126,
+      "releases_365d": 5,
+      "repository": "https://github.com/roticv/rust_h265",
+      "score": 64.85,
+      "version": "0.4.1",
+      "versions": 5
+    },
+    {
+      "categories": [
+        "multimedia::video",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.2389,
+        "downloads": 0.5007,
+        "license": 1.0,
+        "maintenance": 0.7067,
+        "msrv": 1.0,
+        "recency": 0.9895,
+        "security": 1.0
+      },
+      "created": "2026-06-28",
+      "dependents": 16,
+      "description": "MPEG-2 Transport Stream framing (ITU-T H.222.0 / ISO/IEC 13818-1): TS packet, adaptation field, PCR, PSI section reassembly + packetisation, resync. no_std.",
+      "downloads": 33248,
+      "edition": "2024",
+      "keywords": [
+        "mpeg-ts",
+        "mpeg2",
+        "no-std",
+        "psi",
+        "transport-stream"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "mpeg-ts",
+      "owners": 1,
+      "recent_downloads": 31369,
+      "releases_365d": 14,
+      "repository": "https://github.com/fishloa/rust-broadcast",
+      "score": 63.93,
+      "version": "0.9.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "multimedia::video",
+        "os::macos-apis"
+      ],
+      "components": {
+        "dependents": 0.348,
+        "downloads": 0.6944,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.7311,
+        "security": 1.0
+      },
+      "created": "2024-03-21",
+      "dependents": 61,
+      "description": "Safe bindings to CoreVideo framework",
+      "downloads": 2687399,
+      "edition": "2021",
+      "keywords": [
+        "corevideo"
+      ],
+      "last_release": "2026-06-09",
+      "license": "MIT OR Apache-2.0",
+      "name": "core-video",
+      "owners": 1,
+      "recent_downloads": 1720016,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-media/apple-media-rs",
+      "score": 63.53,
+      "version": "0.6.1",
+      "versions": 27
+    },
+    {
+      "categories": [
+        "multimedia::video",
+        "no-std",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.4977,
+        "license": 1.0,
+        "maintenance": 0.7058,
+        "msrv": 1.0,
+        "recency": 0.9931,
+        "security": 1.0
+      },
+      "created": "2026-07-01",
+      "dependents": 12,
+      "description": "Any-to-any media container muxing hub: demux TS, fMP4/CMAF, MPEG-PS, WebM, FLV, or RTMP into one neutral IR and mux to CMAF/fMP4, progressive MP4, TS, DASH, low-latency DASH, HLS, low-latency HLS, Smooth Streaming, or RTMP. CENC/CBCS encrypt+decrypt, SSAI splice, RTP/RTCP, and an fMP4/CMAF conformance validator; parses codec config headers only, samples stay opaque. no_std + alloc, except the XML manifest paths (DASH/Smooth/PlayReady), which need the std feature.",
+      "downloads": 31339,
+      "edition": "2024",
+      "keywords": [
+        "cmaf",
+        "fmp4",
+        "hls",
+        "isobmff",
+        "remux"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "transmux",
+      "owners": 1,
+      "recent_downloads": 29466,
+      "releases_365d": 51,
+      "repository": "https://github.com/fishloa/rust-broadcast",
+      "score": 63.33,
+      "version": "0.32.1",
+      "versions": 51
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.5004,
+        "license": 1.0,
+        "maintenance": 0.7263,
+        "msrv": 1.0,
+        "recency": 0.9756,
+        "security": 1.0
+      },
+      "created": "2026-04-17",
+      "dependents": 10,
+      "description": "Pure-Rust pixel-format conversions, palette quantisation, and dithering — the oxideav framework's shared pixfmt layer",
+      "downloads": 37283,
+      "edition": "2024",
+      "keywords": [
+        "color",
+        "multimedia",
+        "pixel-format",
+        "video",
+        "yuv"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-pixfmt",
+      "owners": 1,
+      "recent_downloads": 31171,
+      "releases_365d": 17,
+      "repository": "https://github.com/OxideAV/oxideav-pixfmt",
+      "score": 63.09,
+      "version": "0.1.13",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.6576,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7735,
+        "security": 1.0
+      },
+      "created": "2024-10-14",
+      "dependents": 9,
+      "description": "MP4 parser",
+      "downloads": 2710731,
+      "edition": "2021",
+      "keywords": [
+        "iso-mp4",
+        "isobmff",
+        "mp4",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-07-08",
+      "license": "MIT",
+      "msrv": "1.92",
+      "name": "re_mp4",
+      "owners": 1,
+      "recent_downloads": 804159,
+      "releases_365d": 2,
+      "repository": "https://github.com/rerun-io/re_mp4",
+      "score": 62.9,
+      "version": "0.5.1",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.501,
+        "license": 1.0,
+        "maintenance": 0.7068,
+        "msrv": 1.0,
+        "recency": 0.9964,
+        "security": 1.0
+      },
+      "created": "2026-06-27",
+      "dependents": 8,
+      "description": "Shared primitives for the rusty_h264 pure-Rust H.264 codec: bitstream I/O, Exp-Golomb, NAL/Annex-B, transforms, intra prediction, motion compensation and deblocking. forbid(unsafe). BSD-2.",
+      "downloads": 46939,
+      "edition": "2021",
+      "keywords": [
+        "avc",
+        "bitstream",
+        "codec",
+        "h264",
+        "video"
+      ],
+      "last_release": "2026-11-19",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "rusty_h264-common",
+      "owners": 1,
+      "recent_downloads": 31524,
+      "releases_365d": 22,
+      "repository": "https://github.com/remade-with-rust/rusty_h264",
+      "score": 62.7,
+      "version": "0.17.3",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "multimedia",
+        "multimedia::video",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.4983,
+        "license": 1.0,
+        "maintenance": 0.7264,
+        "msrv": 1.0,
+        "recency": 0.9232,
+        "security": 1.0
+      },
+      "created": "2026-04-17",
+      "dependents": 10,
+      "description": "Exact-integer rational time types for media pipelines — FFmpeg-style Timebase, Timestamp, and TimeRange. no_std, zero dependencies, const fn.",
+      "downloads": 68982,
+      "edition": "2024",
+      "keywords": [
+        "ffmpeg",
+        "media",
+        "pts",
+        "timebase",
+        "timestamp"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "mediatime",
+      "owners": 1,
+      "recent_downloads": 29817,
+      "releases_365d": 15,
+      "repository": "https://github.com/findit-studio/mediatime",
+      "score": 62.26,
+      "version": "0.5.1",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::video",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.2022,
+        "downloads": 0.4692,
+        "license": 1.0,
+        "maintenance": 0.717,
+        "msrv": 1.0,
+        "recency": 0.9703,
+        "security": 1.0
+      },
+      "created": "2026-05-21",
+      "dependents": 10,
+      "description": "A common media-stream descriptor vocabulary (pixel-format, colour, and frame metadata for video — audio/subtitle to follow) for media processing pipelines.",
+      "downloads": 41748,
+      "edition": "2024",
+      "keywords": [
+        "color",
+        "media",
+        "pixel-format",
+        "video"
+      ],
+      "last_release": "2026-11-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95.0",
+      "name": "mediaframe",
+      "owners": 1,
+      "recent_downloads": 16352,
+      "releases_365d": 24,
+      "repository": "https://github.com/findit-studio/mediaframe",
+      "score": 62.1,
+      "version": "0.13.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.5018,
+        "license": 1.0,
+        "maintenance": 0.7296,
+        "msrv": 1.0,
+        "recency": 0.9666,
+        "security": 1.0
+      },
+      "created": "2026-04-05",
+      "dependents": 6,
+      "description": "Pure Rust H.264/AVC video decoder",
+      "downloads": 54915,
+      "edition": "2021",
+      "keywords": [
+        "avc",
+        "codec",
+        "decoder",
+        "h264",
+        "video"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.89",
+      "name": "rust_h264",
+      "owners": 1,
+      "recent_downloads": 32078,
+      "releases_365d": 7,
+      "repository": "https://github.com/roticv/rust_h264",
+      "score": 62.09,
+      "version": "0.6.1",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "multimedia",
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.493,
+        "license": 1.0,
+        "maintenance": 0.7593,
+        "msrv": 1.0,
+        "recency": 0.9408,
+        "security": 1.0
+      },
+      "created": "2025-12-17",
+      "dependents": 6,
+      "description": "Minimal-dependency pure-Rust MP4 muxer for recording applications. Includes CLI tool and library API.",
+      "downloads": 44201,
+      "edition": "2021",
+      "keywords": [
+        "h264",
+        "hevc",
+        "mp4",
+        "muxer",
+        "video"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.86",
+      "name": "muxide",
+      "owners": 1,
+      "recent_downloads": 26706,
+      "releases_365d": 10,
+      "repository": "https://github.com/Michael-A-Kuykendall/muxide",
+      "score": 61.93,
+      "version": "0.5.0",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "multimedia",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.5825,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.9988,
+        "security": 1.0
+      },
+      "created": "2022-08-19",
+      "dependents": 15,
+      "description": "High-level video toolkit based on ffmpeg.",
+      "downloads": 516687,
+      "edition": "2021",
+      "keywords": [
+        "decoding",
+        "encoding",
+        "ffmpeg",
+        "muxing",
+        "video"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "name": "video-rs",
+      "owners": 1,
+      "recent_downloads": 170082,
+      "releases_365d": 3,
+      "repository": "https://github.com/oddity-ai/video-rs",
+      "score": 61.89,
+      "version": "0.13.0",
+      "versions": 38
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4953,
+        "license": 1.0,
+        "maintenance": 0.7262,
+        "msrv": 1.0,
+        "recency": 0.9809,
+        "security": 1.0
+      },
+      "created": "2026-04-17",
+      "dependents": 5,
+      "description": "Pure-Rust VP8 video codec — orphan-rebuild scaffold pending clean-room re-implementation.",
+      "downloads": 31893,
+      "edition": "2024",
+      "keywords": [
+        "codec",
+        "multimedia",
+        "pure-rust",
+        "video",
+        "vp8"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-vp8",
+      "owners": 1,
+      "recent_downloads": 28013,
+      "releases_365d": 25,
+      "repository": "https://github.com/OxideAV/oxideav-vp8",
+      "score": 61.76,
+      "version": "0.2.9",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4855,
+        "license": 1.0,
+        "maintenance": 0.7068,
+        "msrv": 1.0,
+        "recency": 0.9964,
+        "security": 1.0
+      },
+      "created": "2026-06-27",
+      "dependents": 5,
+      "description": "Pure-Rust H.264 encoder (Baseline/Main: intra, P-frames, quarter-pel ME, CABAC, adaptive quantization, ABR rate control) — bit-exact under ffmpeg across QP 0-51. forbid(unsafe) core; portable Rust SIMD on by default. BSD-2.",
+      "downloads": 38197,
+      "edition": "2021",
+      "keywords": [
+        "avc",
+        "codec",
+        "encoder",
+        "h264",
+        "video"
+      ],
+      "last_release": "2026-11-19",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "rusty_h264-encoder",
+      "owners": 1,
+      "recent_downloads": 22888,
+      "releases_365d": 22,
+      "repository": "https://github.com/remade-with-rust/rusty_h264",
+      "score": 61.46,
+      "version": "0.17.3",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.4947,
+        "license": 1.0,
+        "maintenance": 0.7262,
+        "msrv": 1.0,
+        "recency": 0.9859,
+        "security": 1.0
+      },
+      "created": "2026-04-17",
+      "dependents": 4,
+      "description": "Pure-Rust AV1 codec — orphan-rebuild scaffold pending clean-room re-implementation.",
+      "downloads": 29730,
+      "edition": "2024",
+      "keywords": [
+        "av1",
+        "codec",
+        "multimedia",
+        "pure-rust",
+        "video"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-av1",
+      "owners": 1,
+      "recent_downloads": 27669,
+      "releases_365d": 26,
+      "repository": "https://github.com/OxideAV/oxideav-av1",
+      "score": 61.44,
+      "version": "0.1.24",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1853,
+        "downloads": 0.4438,
+        "license": 1.0,
+        "maintenance": 0.7258,
+        "msrv": 1.0,
+        "recency": 0.9859,
+        "security": 1.0
+      },
+      "created": "2026-04-19",
+      "dependents": 8,
+      "description": "Pure-Rust H.265 / HEVC (ITU-T H.265 | ISO/IEC 23008-2) bitstream parser + decoder scaffold for oxideav",
+      "downloads": 23058,
+      "edition": "2024",
+      "keywords": [
+        "codec",
+        "h265",
+        "hevc",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-h265",
+      "owners": 1,
+      "recent_downloads": 9657,
+      "releases_365d": 10,
+      "repository": "https://github.com/OxideAV/oxideav-h265",
+      "score": 61.4,
+      "version": "0.0.18",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4948,
+        "license": 1.0,
+        "maintenance": 0.7068,
+        "msrv": 1.0,
+        "recency": 0.9964,
+        "security": 1.0
+      },
+      "created": "2026-06-27",
+      "dependents": 3,
+      "description": "Pure-Rust H.264 decoder (Baseline + B-slices + most of High profile, CAVLC + CABAC) — bit-exact vs Cisco openh264, pixel-exact vs ffmpeg, fuzzed panic-free. forbid(unsafe) core; portable Rust SIMD on by default. BSD-2.",
+      "downloads": 42972,
+      "edition": "2021",
+      "keywords": [
+        "avc",
+        "codec",
+        "decoder",
+        "h264",
+        "video"
+      ],
+      "last_release": "2026-11-19",
+      "license": "BSD-2-Clause",
+      "msrv": "1.85",
+      "name": "rusty_h264-decoder",
+      "owners": 1,
+      "recent_downloads": 27752,
+      "releases_365d": 22,
+      "repository": "https://github.com/remade-with-rust/rusty_h264",
+      "score": 60.84,
+      "version": "0.17.3",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.4611,
+        "license": 1.0,
+        "maintenance": 0.7261,
+        "msrv": 1.0,
+        "recency": 0.9756,
+        "security": 1.0
+      },
+      "created": "2026-04-18",
+      "dependents": 5,
+      "description": "Pure-Rust H.264 / AVC (ITU-T H.264 | ISO/IEC 14496-10) codec for oxideav — under spec-driven rewrite, no decode/encode functionality yet",
+      "downloads": 15661,
+      "edition": "2024",
+      "keywords": [
+        "avc",
+        "codec",
+        "h264",
+        "multimedia",
+        "video"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oxideav-h264",
+      "owners": 1,
+      "recent_downloads": 13811,
+      "releases_365d": 16,
+      "repository": "https://github.com/OxideAV/oxideav-h264",
+      "score": 60.83,
+      "version": "0.1.12",
+      "versions": 16
+    }
+  ],
+  "score_version": 1
+}

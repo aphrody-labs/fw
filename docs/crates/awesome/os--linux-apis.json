@@ -1,0 +1,955 @@
+{
+  "category": {
+    "crates": 882,
+    "description": "Bindings to Linux-specific APIs.",
+    "name": "Operating systems::Linux APIs",
+    "slug": "os::linux-apis"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "api-bindings",
+        "filesystem",
+        "os::linux-apis",
+        "virtualization"
+      ],
+      "components": {
+        "dependents": 0.4476,
+        "downloads": 0.768,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9993,
+        "security": 1.0
+      },
+      "created": "2021-04-14",
+      "dependents": 201,
+      "description": "Safe abstraction for Linux Landlock sandboxing",
+      "downloads": 22085121,
+      "edition": "2021",
+      "keywords": [
+        "access-control",
+        "linux",
+        "sandbox",
+        "security"
+      ],
+      "last_release": "2026-11-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "landlock",
+      "owners": 1,
+      "recent_downloads": 7874288,
+      "releases_365d": 4,
+      "repository": "https://github.com/landlock-lsm/rust-landlock",
+      "score": 78.38,
+      "version": "0.4.8",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "gui",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.3993,
+        "downloads": 0.7724,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.997,
+        "security": 1.0
+      },
+      "created": "2020-09-14",
+      "dependents": 113,
+      "description": "XDG portals wrapper in Rust using zbus",
+      "downloads": 21747674,
+      "edition": "2024",
+      "keywords": [
+        "dbus",
+        "desktop",
+        "flatpak",
+        "portal",
+        "xdg"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "ashpd",
+      "owners": 1,
+      "recent_downloads": 8631006,
+      "releases_365d": 23,
+      "repository": "https://github.com/bilelmoussaoui/ashpd",
+      "score": 77.25,
+      "version": "0.14.1",
+      "versions": 67
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.3089,
+        "downloads": 0.7137,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9971,
+        "security": 1.0
+      },
+      "created": "2022-04-28",
+      "dependents": 38,
+      "description": "James Bond went on a new mission and this time as a Secret Service provider",
+      "downloads": 4129002,
+      "edition": "2024",
+      "keywords": [
+        "keychain",
+        "keyring",
+        "portal",
+        "secret",
+        "service"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oo7",
+      "owners": 2,
+      "recent_downloads": 2562162,
+      "releases_365d": 7,
+      "repository": "https://github.com/linux-credentials/oo7",
+      "score": 74.52,
+      "version": "0.7.2",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "network-programming",
+        "os",
+        "os::linux-apis",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.6631,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9863,
+        "security": 1.0
+      },
+      "created": "2021-02-02",
+      "dependents": 14,
+      "description": "Library for AMD SEV",
+      "downloads": 2852374,
+      "edition": "2018",
+      "keywords": [
+        "amd",
+        "sev"
+      ],
+      "last_release": "2026-11-13",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "sev",
+      "owners": 3,
+      "recent_downloads": 900318,
+      "releases_365d": 3,
+      "repository": "https://github.com/virtee/sev",
+      "score": 70.58,
+      "version": "9.0.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "filesystem",
+        "os",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.2338,
+        "downloads": 0.6737,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7646,
+        "security": 1.0
+      },
+      "created": "2021-06-19",
+      "dependents": 15,
+      "description": "Flexible Mandatory Access Control for Linux",
+      "downloads": 4844143,
+      "edition": "2024",
+      "keywords": [
+        "access-control",
+        "filesystem",
+        "linux",
+        "security",
+        "selinux"
+      ],
+      "last_release": "2026-07-02",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "selinux",
+      "owners": 1,
+      "recent_downloads": 1121082,
+      "releases_365d": 4,
+      "repository": "https://codeberg.org/koutheir/selinux.git",
+      "score": 67.16,
+      "version": "0.6.3",
+      "versions": 31
+    },
+    {
+      "categories": [
+        "development-tools::profiling",
+        "external-ffi-bindings",
+        "hardware-support",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.2526,
+        "downloads": 0.7079,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.9215,
+        "security": 1.0
+      },
+      "created": "2019-12-18",
+      "dependents": 19,
+      "description": "Unsafe, direct bindings for Linux's perf_event_open system call, with associated\ntypes and constants.\n",
+      "downloads": 11586624,
+      "edition": "2018",
+      "keywords": [
+        "linux",
+        "perf"
+      ],
+      "last_release": "2026-10-09",
+      "license": "MIT OR Apache-2.0",
+      "name": "perf-event-open-sys",
+      "owners": 1,
+      "recent_downloads": 2271915,
+      "releases_365d": 3,
+      "repository": "https://github.com/jimblandy/perf-event.git",
+      "score": 64.33,
+      "version": "7.1.0",
+      "versions": 17
+    },
+    {
+      "categories": [
+        "embedded",
+        "gui",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.67,
+        "license": 0.5,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9911,
+        "security": 1.0
+      },
+      "created": "2023-09-04",
+      "dependents": 3,
+      "description": "Linux KMS/DRM backend for Slint, to run full-screen on embedded Linux without a windowing system",
+      "downloads": 2288988,
+      "edition": "2024",
+      "keywords": [
+        "drm",
+        "embedded-linux",
+        "gui",
+        "kms",
+        "ui"
+      ],
+      "last_release": "2026-11-16",
+      "license": "GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0",
+      "msrv": "1.95",
+      "name": "i-slint-backend-linuxkms",
+      "owners": 2,
+      "recent_downloads": 1038539,
+      "releases_365d": 9,
+      "repository": "https://github.com/slint-ui/slint",
+      "score": 63.54,
+      "version": "1.19.0",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1941,
+        "downloads": 0.4479,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9313,
+        "security": 1.0
+      },
+      "created": "2023-09-29",
+      "dependents": 9,
+      "description": "Expose standard or fully custom USB peripherals (gadgets) through a USB device controller (UDC) on Linux.",
+      "downloads": 68220,
+      "edition": "2021",
+      "keywords": [
+        "configfs",
+        "functionfs",
+        "gadget",
+        "peripheral",
+        "usb"
+      ],
+      "last_release": "2026-10-14",
+      "license": "Apache-2.0",
+      "msrv": "1.77",
+      "name": "usb-gadget",
+      "owners": 1,
+      "recent_downloads": 10525,
+      "releases_365d": 5,
+      "repository": "https://github.com/surban/usb-gadget",
+      "score": 63.02,
+      "version": "1.3.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "network-programming",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4025,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.996,
+        "security": 1.0
+      },
+      "created": "2022-06-07",
+      "dependents": 3,
+      "description": "Library for networking management in a declarative manner",
+      "downloads": 95323,
+      "edition": "2024",
+      "keywords": [
+        "linux",
+        "network"
+      ],
+      "last_release": "2026-11-18",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "nmstate",
+      "owners": 5,
+      "recent_downloads": 4111,
+      "releases_365d": 8,
+      "repository": "https://github.com/nmstate/nmstate",
+      "score": 62.92,
+      "version": "2.2.63",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "filesystem",
+        "os",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.6736,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9087,
+        "security": 1.0
+      },
+      "created": "2021-03-16",
+      "dependents": 2,
+      "description": "Flexible Mandatory Access Control (MAC) for Linux",
+      "downloads": 4910030,
+      "edition": "2024",
+      "keywords": [
+        "access-control",
+        "filesystem",
+        "linux",
+        "security",
+        "selinux"
+      ],
+      "last_release": "2026-10-01",
+      "license": "MIT",
+      "msrv": "1.88",
+      "name": "selinux-sys",
+      "owners": 1,
+      "recent_downloads": 1119298,
+      "releases_365d": 2,
+      "repository": "https://codeberg.org/koutheir/selinux-sys.git",
+      "score": 62.79,
+      "version": "0.7.1",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "graphics",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.3598,
+        "license": 1.0,
+        "maintenance": 0.677,
+        "msrv": 1.0,
+        "recency": 0.9939,
+        "security": 1.0
+      },
+      "created": "2026-10-14",
+      "dependents": 14,
+      "description": "Core DRM/KMS device access for drmkit: device handles, property caching, and atomic requests.",
+      "downloads": 1659,
+      "edition": "2024",
+      "keywords": [
+        "atomic",
+        "drm",
+        "kms",
+        "modesetting"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.94.1",
+      "name": "drmkit-core",
+      "owners": 1,
+      "recent_downloads": 1700,
+      "releases_365d": 7,
+      "repository": "https://github.com/jwinarske/drmkit",
+      "score": 59.77,
+      "version": "0.1.6",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "network-programming",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5058,
+        "license": 1.0,
+        "maintenance": 0.7552,
+        "msrv": 1.0,
+        "recency": 0.9468,
+        "security": 1.0
+      },
+      "created": "2026-01-01",
+      "dependents": 1,
+      "description": "Async netlink library for Linux network configuration",
+      "downloads": 36547,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "iproute2",
+        "linux",
+        "netlink",
+        "networking"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "nlink",
+      "owners": 1,
+      "recent_downloads": 34797,
+      "releases_365d": 44,
+      "repository": "https://github.com/p13marc/nlink",
+      "score": 59.64,
+      "version": "0.33.0",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.6171,
+        "license": 1.0,
+        "maintenance": 0.6597,
+        "msrv": 1.0,
+        "recency": 0.8534,
+        "security": 1.0
+      },
+      "created": "2025-12-16",
+      "dependents": 1,
+      "description": "Low-level FFI bindings for Linux ublk (userspace block device) kernel interface",
+      "downloads": 367969,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "block",
+        "ffi",
+        "ublk",
+        "userspace"
+      ],
+      "last_release": "2026-08-29",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.80",
+      "name": "libublk-rs-sys",
+      "owners": 1,
+      "recent_downloads": 347922,
+      "releases_365d": 3,
+      "repository": "https://github.com/ublk-org/libublk-rs",
+      "score": 59.59,
+      "version": "0.1.2",
+      "versions": 3
+    },
+    {
+      "categories": [
+        "command-line-utilities",
+        "development-tools",
+        "no-std",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5787,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9651,
+        "security": 1.0
+      },
+      "created": "2020-12-01",
+      "dependents": 1,
+      "description": "BPF static linker",
+      "downloads": 636971,
+      "edition": "2024",
+      "keywords": [
+        "bpf",
+        "ebpf",
+        "linker",
+        "llvm"
+      ],
+      "last_release": "2026-11-02",
+      "license": "MIT OR Apache-2.0",
+      "name": "bpf-linker",
+      "owners": 2,
+      "recent_downloads": 157347,
+      "releases_365d": 9,
+      "repository": "https://github.com/aya-rs/bpf-linker",
+      "score": 59.41,
+      "version": "0.13.0",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "graphics",
+        "no-std",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.3594,
+        "license": 1.0,
+        "maintenance": 0.677,
+        "msrv": 1.0,
+        "recency": 0.9939,
+        "security": 1.0
+      },
+      "created": "2026-10-14",
+      "dependents": 11,
+      "description": "DRM format and format-modifier support for drmkit: IN_FORMATS tables, modifier classification, and bandwidth cost.",
+      "downloads": 1644,
+      "edition": "2024",
+      "keywords": [
+        "afbc",
+        "drm",
+        "fourcc",
+        "kms",
+        "modifier"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.94.1",
+      "name": "drmkit-fmt",
+      "owners": 1,
+      "recent_downloads": 1686,
+      "releases_365d": 7,
+      "repository": "https://github.com/jwinarske/drmkit",
+      "score": 59.28,
+      "version": "0.1.6",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "network-programming",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4973,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.8168,
+        "security": 1.0
+      },
+      "created": "2024-10-23",
+      "dependents": 3,
+      "description": "AF_XDP socket support without C dependencies",
+      "downloads": 70757,
+      "edition": "2024",
+      "last_release": "2026-08-06",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85.0",
+      "name": "xdp",
+      "owners": 1,
+      "recent_downloads": 29212,
+      "releases_365d": 3,
+      "repository": "https://codeberg.org/ca1ne/xdp",
+      "score": 59.11,
+      "version": "0.8.0",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "development-tools::procedural-macro-helpers",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.5079,
+        "license": 1.0,
+        "maintenance": 0.7158,
+        "msrv": 1.0,
+        "recency": 0.9468,
+        "security": 1.0
+      },
+      "created": "2026-05-25",
+      "dependents": 1,
+      "description": "Proc-macro derives for the nlink Linux-netlink library — typed GENL family / command / attribute codecs",
+      "downloads": 37384,
+      "edition": "2024",
+      "keywords": [
+        "derive",
+        "genl",
+        "linux",
+        "netlink",
+        "proc-macro"
+      ],
+      "last_release": "2026-10-23",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "nlink-macros",
+      "owners": 1,
+      "recent_downloads": 36349,
+      "releases_365d": 20,
+      "repository": "https://github.com/p13marc/nlink",
+      "score": 59.1,
+      "version": "0.33.0",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "hardware-support",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.2095,
+        "downloads": 0.6373,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 0.0,
+        "recency": 0.8915,
+        "security": 1.0
+      },
+      "created": "2021-01-08",
+      "dependents": 11,
+      "description": "An async wrapper around the D-Bus interface of BlueZ (the Linux Bluetooth daemon), supporting GATT client (central) functionality.",
+      "downloads": 1845288,
+      "edition": "2024",
+      "keywords": [
+        "ble",
+        "bluetooth",
+        "bluez"
+      ],
+      "last_release": "2026-09-21",
+      "license": "MIT OR Apache-2.0",
+      "name": "bluez-async",
+      "owners": 2,
+      "recent_downloads": 527815,
+      "releases_365d": 1,
+      "repository": "https://github.com/bluez-rs/bluez-async/",
+      "score": 59.04,
+      "version": "0.9.0",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.0926,
+        "downloads": 0.5387,
+        "license": 0.75,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.8067,
+        "security": 1.0
+      },
+      "created": "2015-08-24",
+      "dependents": 2,
+      "description": "A library for using Linux device mapper",
+      "downloads": 954067,
+      "edition": "2024",
+      "keywords": [
+        "device",
+        "libdm",
+        "linux",
+        "mapper",
+        "storage"
+      ],
+      "last_release": "2026-07-30",
+      "license": "MPL-2.0",
+      "msrv": "1.87.0",
+      "name": "devicemapper",
+      "owners": 4,
+      "recent_downloads": 68824,
+      "releases_365d": 3,
+      "repository": "https://github.com/stratis-storage/devicemapper-rs",
+      "score": 58.88,
+      "version": "0.34.8",
+      "versions": 87
+    },
+    {
+      "categories": [
+        "development-tools::build-utils",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1357,
+        "downloads": 0.414,
+        "license": 1.0,
+        "maintenance": 0.6779,
+        "msrv": 1.0,
+        "recency": 0.9964,
+        "security": 1.0
+      },
+      "created": "2026-10-11",
+      "dependents": 4,
+      "description": "Linux target selection: distribution presets with glibc and kernel floors",
+      "downloads": 5218,
+      "edition": "2021",
+      "keywords": [
+        "distribution",
+        "glibc",
+        "kernel",
+        "linux",
+        "target"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "linux-targets",
+      "owners": 1,
+      "recent_downloads": 5218,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustcommons/linux-abi-tools",
+      "score": 58.86,
+      "version": "0.6.1",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "cryptography",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.5139,
+        "license": 0.75,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7433,
+        "security": 1.0
+      },
+      "created": "2020-01-10",
+      "dependents": 3,
+      "description": "High level Rust bindings for libcryptsetup",
+      "downloads": 518867,
+      "edition": "2021",
+      "keywords": [
+        "encryption",
+        "linux",
+        "storage"
+      ],
+      "last_release": "2026-06-17",
+      "license": "MPL-2.0",
+      "msrv": "1.87.0",
+      "name": "libcryptsetup-rs",
+      "owners": 2,
+      "recent_downloads": 41148,
+      "releases_365d": 4,
+      "repository": "https://github.com/stratis-storage/libcryptsetup-rs",
+      "score": 58.42,
+      "version": "0.16.1",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "development-tools::testing",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1169,
+        "downloads": 0.4135,
+        "license": 1.0,
+        "maintenance": 0.6779,
+        "msrv": 1.0,
+        "recency": 0.9964,
+        "security": 1.0
+      },
+      "created": "2026-10-11",
+      "dependents": 3,
+      "description": "Linux kernel ABI data and seccomp profiles that simulate older kernels when testing Rust binaries",
+      "downloads": 5164,
+      "edition": "2021",
+      "keywords": [
+        "compatibility",
+        "kernel",
+        "linux",
+        "seccomp",
+        "syscall"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.90",
+      "name": "kernel-abi-tools",
+      "owners": 1,
+      "recent_downloads": 5164,
+      "releases_365d": 10,
+      "repository": "https://github.com/rustcommons/linux-abi-tools",
+      "score": 58.37,
+      "version": "0.6.1",
+      "versions": 10
+    },
+    {
+      "categories": [
+        "graphics",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.3568,
+        "license": 1.0,
+        "maintenance": 0.677,
+        "msrv": 1.0,
+        "recency": 0.9939,
+        "security": 1.0
+      },
+      "created": "2026-10-14",
+      "dependents": 7,
+      "description": "Display-plane registry, layer model, and the bipartite plane allocator for drmkit.",
+      "downloads": 1556,
+      "edition": "2024",
+      "keywords": [
+        "allocator",
+        "compositor",
+        "drm",
+        "kms",
+        "plane"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.94.1",
+      "name": "drmkit-planes",
+      "owners": 1,
+      "recent_downloads": 1597,
+      "releases_365d": 7,
+      "repository": "https://github.com/jwinarske/drmkit",
+      "score": 58.36,
+      "version": "0.1.6",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "graphics",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1753,
+        "downloads": 0.3555,
+        "license": 1.0,
+        "maintenance": 0.677,
+        "msrv": 1.0,
+        "recency": 0.9939,
+        "security": 1.0
+      },
+      "created": "2026-10-14",
+      "dependents": 7,
+      "description": "DRM dumb buffers for drmkit: GPU-free, CPU-mappable scanout surfaces with lifetime mmaps.",
+      "downloads": 1515,
+      "edition": "2024",
+      "keywords": [
+        "drm",
+        "dumb-buffer",
+        "framebuffer",
+        "kms",
+        "mmap"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.94.1",
+      "name": "drmkit-dumb",
+      "owners": 1,
+      "recent_downloads": 1557,
+      "releases_365d": 7,
+      "repository": "https://github.com/jwinarske/drmkit",
+      "score": 58.33,
+      "version": "0.1.6",
+      "versions": 7
+    },
+    {
+      "categories": [
+        "development-tools::debugging",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.3622,
+        "license": 1.0,
+        "maintenance": 0.677,
+        "msrv": 1.0,
+        "recency": 0.9939,
+        "security": 1.0
+      },
+      "created": "2026-10-14",
+      "dependents": 6,
+      "description": "Diagnostic surface for drmkit: process-wide level, installable sink, and per-category channels.",
+      "downloads": 1746,
+      "edition": "2024",
+      "keywords": [
+        "drm",
+        "kms",
+        "logging",
+        "tracing"
+      ],
+      "last_release": "2026-11-17",
+      "license": "MIT",
+      "msrv": "1.94.1",
+      "name": "drmkit-log",
+      "owners": 1,
+      "recent_downloads": 1787,
+      "releases_365d": 7,
+      "repository": "https://github.com/jwinarske/drmkit",
+      "score": 58.22,
+      "version": "0.1.6",
+      "versions": 7
+    }
+  ],
+  "score_version": 1
+}

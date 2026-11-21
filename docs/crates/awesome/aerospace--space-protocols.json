@@ -1,0 +1,204 @@
+{
+  "category": {
+    "crates": 39,
+    "description": "Protocol implementations for implications in space like CCSDS.",
+    "name": "Aerospace::Space protocols",
+    "slug": "aerospace::space-protocols"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::space-protocols",
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.1511,
+        "downloads": 0.509,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9565,
+        "security": 1.0
+      },
+      "created": "2022-08-16",
+      "dependents": 5,
+      "description": "Generic implementations for various CCSDS and ECSS packet standards",
+      "downloads": 129615,
+      "edition": "2024",
+      "keywords": [
+        "ccsds",
+        "ecss",
+        "no-std",
+        "packets",
+        "space"
+      ],
+      "last_release": "2026-10-28",
+      "license": "Apache-2.0",
+      "msrv": "1.88",
+      "name": "spacepackets",
+      "owners": 1,
+      "recent_downloads": 37216,
+      "releases_365d": 2,
+      "repository": "https://github.com/ustgt-irs/spacepackets-rs",
+      "score": 60.85,
+      "version": "0.19.0",
+      "versions": 39
+    },
+    {
+      "categories": [
+        "aerospace::space-protocols",
+        "encoding",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.4157,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9859,
+        "security": 1.0
+      },
+      "created": "2023-01-25",
+      "dependents": 1,
+      "description": "A Rust library for implementing Forward Error Correction (FEC) using Raptor codes.",
+      "downloads": 23170,
+      "edition": "2021",
+      "keywords": [
+        "5g",
+        "fec",
+        "network",
+        "satellite"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT",
+      "msrv": "1.71.0",
+      "name": "raptor-code",
+      "owners": 1,
+      "recent_downloads": 5410,
+      "releases_365d": 4,
+      "repository": "https://github.com/ypo/raptor",
+      "score": 59.64,
+      "version": "1.0.13",
+      "versions": 11
+    },
+    {
+      "categories": [
+        "aerospace::space-protocols",
+        "command-line-utilities",
+        "multimedia",
+        "network-programming"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.4222,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8684,
+        "security": 1.0
+      },
+      "created": "2022-11-09",
+      "dependents": 0,
+      "description": "DVB-GSE (Digital Video Broadcast Generic Stream Encapsulation)",
+      "downloads": 63083,
+      "edition": "2024",
+      "keywords": [
+        "dvb",
+        "dvb-s2",
+        "gse",
+        "network",
+        "satellite"
+      ],
+      "last_release": "2026-09-07",
+      "license": "MIT OR Apache-2.0",
+      "name": "dvb-gse",
+      "owners": 1,
+      "recent_downloads": 6181,
+      "releases_365d": 4,
+      "repository": "https://github.com/daniestevez/dvb-gse/",
+      "score": 51.58,
+      "version": "0.10.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "aerospace",
+        "aerospace::space-protocols",
+        "embedded",
+        "hardware-support",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.0,
+        "downloads": 0.3354,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 1.0,
+        "recency": 0.4864,
+        "security": 1.0
+      },
+      "created": "2024-02-12",
+      "dependents": 0,
+      "description": "A library collection to build software for remote systems",
+      "downloads": 18566,
+      "edition": "2021",
+      "keywords": [
+        "aerospace",
+        "no-std",
+        "space"
+      ],
+      "last_release": "2025-11-06",
+      "license": "Apache-2.0",
+      "msrv": "1.71.1",
+      "name": "satrs",
+      "owners": 1,
+      "recent_downloads": 1027,
+      "releases_365d": 0,
+      "repository": "https://egit.irs.uni-stuttgart.de/rust/sat-rs",
+      "score": 42.68,
+      "version": "0.2.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "aerospace::space-protocols",
+        "algorithms"
+      ],
+      "components": {
+        "dependents": 0.0584,
+        "downloads": 0.3362,
+        "license": 1.0,
+        "maintenance": 0.4667,
+        "msrv": 0.0,
+        "recency": 0.2629,
+        "security": 1.0
+      },
+      "created": "2024-01-23",
+      "dependents": 1,
+      "description": "Reed-Solomon FEC for CCSDS downlink decoding",
+      "downloads": 6156,
+      "edition": "2021",
+      "keywords": [
+        "ccsds",
+        "fec",
+        "reed-solomon"
+      ],
+      "last_release": "2024-12-17",
+      "license": "MIT OR Apache-2.0",
+      "name": "rs2",
+      "owners": 1,
+      "recent_downloads": 1043,
+      "releases_365d": 0,
+      "repository": "https://github.com/bmflynn/rs2",
+      "score": 35.81,
+      "version": "0.1.1",
+      "versions": 2
+    }
+  ],
+  "score_version": 1
+}

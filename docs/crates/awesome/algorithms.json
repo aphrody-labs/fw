@@ -1,0 +1,943 @@
+{
+  "category": {
+    "crates": 9390,
+    "description": "Rust implementations of core algorithms such as hashing, sorting, searching, and more.",
+    "name": "Algorithms",
+    "slug": "algorithms"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.8596,
+        "downloads": 0.9832,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9896,
+        "security": 1.0
+      },
+      "created": "2015-02-03",
+      "dependents": 26767,
+      "description": "Random number generators and other randomness functionality.\n",
+      "downloads": 2246974371,
+      "edition": "2024",
+      "keywords": [
+        "random",
+        "rng"
+      ],
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "rand",
+      "owners": 2,
+      "recent_downloads": 674822403,
+      "releases_365d": 15,
+      "repository": "https://github.com/rust-random/rand",
+      "score": 94.91,
+      "version": "0.10.4",
+      "versions": 95
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6615,
+        "downloads": 0.9831,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8595,
+        "security": 1.0
+      },
+      "created": "2017-09-14",
+      "dependents": 2555,
+      "description": "Core random number generator traits and tools for implementation.\n",
+      "downloads": 2267581390,
+      "edition": "2024",
+      "keywords": [
+        "random",
+        "rng"
+      ],
+      "last_release": "2026-09-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "rand_core",
+      "owners": 2,
+      "recent_downloads": 673286679,
+      "releases_365d": 12,
+      "repository": "https://github.com/rust-lang-nursery/rand",
+      "score": 88.01,
+      "version": "0.10.1",
+      "versions": 42
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6212,
+        "downloads": 0.9373,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9795,
+        "security": 1.0
+      },
+      "created": "2018-11-13",
+      "dependents": 1584,
+      "description": "Fast, SIMD-accelerated CRC32 (IEEE) checksum computation",
+      "downloads": 896935067,
+      "edition": "2021",
+      "keywords": [
+        "crc",
+        "crc32",
+        "fast",
+        "hash",
+        "simd"
+      ],
+      "last_release": "2026-11-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "crc32fast",
+      "owners": 1,
+      "recent_downloads": 260951238,
+      "releases_365d": 5,
+      "repository": "https://github.com/srijs/rust-crc32fast",
+      "score": 86.66,
+      "version": "1.5.5",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std",
+        "no-std::no-alloc",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.7606,
+        "downloads": 0.9677,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.7416,
+        "security": 1.0
+      },
+      "created": "2014-11-21",
+      "dependents": 8273,
+      "description": "Extra iterator adaptors, iterator methods, free functions, and macros.",
+      "downloads": 1891203906,
+      "edition": "2018",
+      "keywords": [
+        "data-structure",
+        "iterator",
+        "product",
+        "zip"
+      ],
+      "last_release": "2026-06-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63.0",
+      "name": "itertools",
+      "owners": 3,
+      "recent_downloads": 489118081,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-itertools/itertools",
+      "score": 84.83,
+      "version": "0.15.0",
+      "versions": 131
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.6688,
+        "downloads": 0.9159,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-11-26",
+      "dependents": 2784,
+      "description": "Multi-producer multi-consumer channels for message passing",
+      "downloads": 724274460,
+      "edition": "2021",
+      "keywords": [
+        "channel",
+        "golang",
+        "message",
+        "mpmc",
+        "select"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "crossbeam-channel",
+      "owners": 4,
+      "recent_downloads": 167621718,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 84.59,
+      "version": "0.5.17",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4692,
+        "downloads": 0.9028,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9953,
+        "security": 1.0
+      },
+      "created": "2018-10-04",
+      "dependents": 260,
+      "description": "Selected PCG random number generators",
+      "downloads": 284330312,
+      "edition": "2024",
+      "keywords": [
+        "pcg",
+        "random",
+        "rng"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "rand_pcg",
+      "owners": 2,
+      "recent_downloads": 127876331,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-random/rngs",
+      "score": 83.23,
+      "version": "0.10.3",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "algorithms"
+      ],
+      "components": {
+        "dependents": 0.6236,
+        "downloads": 0.9463,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7894,
+        "security": 1.0
+      },
+      "created": "2020-05-27",
+      "dependents": 1629,
+      "description": "A simple and fast random number generator",
+      "downloads": 1155529211,
+      "edition": "2018",
+      "keywords": [
+        "fast",
+        "rand",
+        "random",
+        "simple",
+        "wyrand"
+      ],
+      "last_release": "2026-07-19",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.63",
+      "name": "fastrand",
+      "owners": 2,
+      "recent_downloads": 314593175,
+      "releases_365d": 2,
+      "repository": "https://github.com/smol-rs/fastrand",
+      "score": 82.09,
+      "version": "2.5.0",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "algorithms",
+        "cryptography",
+        "data-structures",
+        "mathematics",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4446,
+        "downloads": 0.892,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9771,
+        "security": 1.0
+      },
+      "created": "2021-04-30",
+      "dependents": 194,
+      "description": "Pure Rust implementation of a big integer library which has been designed from the ground-up for use\nin cryptographic applications. Provides constant-time, `no_std`/`no_alloc`-friendly implementations\nof modern formulas using const generics. Also includes optional support for heap-backed integers.\n",
+      "downloads": 356815285,
+      "edition": "2024",
+      "keywords": [
+        "arbitrary",
+        "bignum",
+        "crypto",
+        "integer",
+        "precision"
+      ],
+      "last_release": "2026-11-08",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.87",
+      "name": "crypto-bigint",
+      "owners": 2,
+      "recent_downloads": 102374259,
+      "releases_365d": 20,
+      "repository": "https://github.com/RustCrypto/crypto-bigint",
+      "score": 82.07,
+      "version": "0.7.11",
+      "versions": 112
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5363,
+        "downloads": 0.944,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-08-28",
+      "dependents": 578,
+      "description": "Utilities for concurrent programming",
+      "downloads": 1143912810,
+      "edition": "2021",
+      "keywords": [
+        "atomic",
+        "cache",
+        "scoped",
+        "thread"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "crossbeam-utils",
+      "owners": 4,
+      "recent_downloads": 299456606,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 81.98,
+      "version": "0.8.23",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.6592,
+        "downloads": 0.9314,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.768,
+        "security": 1.0
+      },
+      "created": "2016-04-14",
+      "dependents": 2484,
+      "description": "Big integer implementation for Rust",
+      "downloads": 773879191,
+      "edition": "2021",
+      "keywords": [
+        "bignum",
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-07-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "num-bigint",
+      "owners": 1,
+      "recent_downloads": 231093685,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-num/num-bigint",
+      "score": 81.28,
+      "version": "0.5.1",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "algorithms",
+        "mathematics",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5555,
+        "downloads": 0.7832,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9397,
+        "security": 1.0
+      },
+      "created": "2022-11-26",
+      "dependents": 726,
+      "description": "A safe Rust wrapper for ONNX Runtime 1.31 - Optimize and accelerate machine learning inference & training",
+      "downloads": 27109605,
+      "edition": "2024",
+      "keywords": [
+        "ai",
+        "machine-learning",
+        "ml",
+        "onnxruntime"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "ort",
+      "owners": 1,
+      "recent_downloads": 10777290,
+      "releases_365d": 5,
+      "repository": "https://github.com/pykeio/ort",
+      "score": 80.56,
+      "version": "2.0.0-rc.15",
+      "versions": 45
+    },
+    {
+      "categories": [
+        "algorithms"
+      ],
+      "components": {
+        "dependents": 0.4555,
+        "downloads": 0.8573,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9953,
+        "security": 1.0
+      },
+      "created": "2019-01-04",
+      "dependents": 221,
+      "description": "Xoshiro, xoroshiro and splitmix64 random number generators",
+      "downloads": 165741198,
+      "edition": "2024",
+      "keywords": [
+        "random",
+        "rng"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "rand_xoshiro",
+      "owners": 2,
+      "recent_downloads": 49909482,
+      "releases_365d": 3,
+      "repository": "https://github.com/rust-random/rngs",
+      "score": 80.25,
+      "version": "0.8.2",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "algorithms"
+      ],
+      "components": {
+        "dependents": 0.5041,
+        "downloads": 0.8819,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9138,
+        "security": 1.0
+      },
+      "created": "2015-05-09",
+      "dependents": 394,
+      "description": "A Rust implementation of the XXHash and XXH3 algorithms",
+      "downloads": 308362120,
+      "edition": "2021",
+      "keywords": [
+        "hash",
+        "hasher",
+        "xxh3",
+        "xxhash"
+      ],
+      "last_release": "2026-10-04",
+      "license": "MIT",
+      "msrv": "1.81",
+      "name": "twox-hash",
+      "owners": 1,
+      "recent_downloads": 83071072,
+      "releases_365d": 3,
+      "repository": "https://github.com/shepmaster/twox-hash",
+      "score": 79.86,
+      "version": "2.1.5",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.7138,
+        "downloads": 0.8972,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7008,
+        "security": 1.0
+      },
+      "created": "2019-08-25",
+      "dependents": 4752,
+      "description": "Blazing fast concurrent HashMap for Rust.",
+      "downloads": 465829303,
+      "edition": "2018",
+      "keywords": [
+        "atomic",
+        "concurrent",
+        "hashmap"
+      ],
+      "last_release": "2026-05-17",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "dashmap",
+      "owners": 1,
+      "recent_downloads": 113805705,
+      "releases_365d": 1,
+      "repository": "https://github.com/xacrimon/dashmap",
+      "score": 79.29,
+      "version": "6.2.1",
+      "versions": 85
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.4428,
+        "downloads": 0.8082,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9639,
+        "security": 1.0
+      },
+      "created": "2018-11-22",
+      "dependents": 190,
+      "description": "An R*-tree spatial index",
+      "downloads": 57900515,
+      "edition": "2021",
+      "keywords": [
+        "nearest-neighbor",
+        "r-tree",
+        "rtree",
+        "spatial",
+        "spatial-index"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.90",
+      "name": "rstar",
+      "owners": 4,
+      "recent_downloads": 18096209,
+      "releases_365d": 3,
+      "repository": "https://github.com/georust/rstar",
+      "score": 79.23,
+      "version": "0.14.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5891,
+        "downloads": 0.8617,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.9896,
+        "security": 1.0
+      },
+      "created": "2020-10-15",
+      "dependents": 1082,
+      "description": "Implementation of xxhash",
+      "downloads": 148221963,
+      "edition": "2018",
+      "keywords": [
+        "hash",
+        "hasher",
+        "no-std",
+        "xxh3",
+        "xxhash"
+      ],
+      "last_release": "2026-11-15",
+      "license": "BSL-1.0",
+      "name": "xxhash-rust",
+      "owners": 1,
+      "recent_downloads": 54646722,
+      "releases_365d": 6,
+      "repository": "https://github.com/DoumanAsh/xxhash-rust",
+      "score": 79.11,
+      "version": "0.8.21",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6057,
+        "downloads": 0.9612,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.5746,
+        "security": 1.0
+      },
+      "created": "2018-10-17",
+      "dependents": 1317,
+      "description": "ChaCha random number generator\n",
+      "downloads": 1714798131,
+      "edition": "2024",
+      "keywords": [
+        "chacha",
+        "random",
+        "rng"
+      ],
+      "last_release": "2026-02-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "rand_chacha",
+      "owners": 2,
+      "recent_downloads": 428174896,
+      "releases_365d": 2,
+      "repository": "https://github.com/rust-random/rand",
+      "score": 78.79,
+      "version": "0.10.0",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.4208,
+        "downloads": 0.9263,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-11-26",
+      "dependents": 146,
+      "description": "Concurrent work-stealing deque",
+      "downloads": 791458152,
+      "edition": "2021",
+      "keywords": [
+        "chase-lev",
+        "lock-free",
+        "scheduler",
+        "scheduling"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "crossbeam-deque",
+      "owners": 4,
+      "recent_downloads": 207792647,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 78.65,
+      "version": "0.8.8",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std",
+        "science"
+      ],
+      "components": {
+        "dependents": 0.5569,
+        "downloads": 0.9317,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8254,
+        "security": 1.0
+      },
+      "created": "2016-04-14",
+      "dependents": 738,
+      "description": "Integer traits and functions",
+      "downloads": 870245779,
+      "edition": "2018",
+      "keywords": [
+        "mathematics",
+        "numerics"
+      ],
+      "last_release": "2026-08-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.31",
+      "name": "num-integer",
+      "owners": 1,
+      "recent_downloads": 232302057,
+      "releases_365d": 1,
+      "repository": "https://github.com/rust-num/num-integer",
+      "score": 78.09,
+      "version": "0.1.47",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "algorithms",
+        "cryptography",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4401,
+        "downloads": 0.8113,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8145,
+        "security": 1.0
+      },
+      "created": "2018-12-08",
+      "dependents": 184,
+      "description": "Hash functions used by the rust-bitcoin ecosystem",
+      "downloads": 68972910,
+      "edition": "2021",
+      "keywords": [
+        "bitcoin",
+        "crypto",
+        "digest",
+        "hash"
+      ],
+      "last_release": "2026-08-05",
+      "license": "CC0-1.0",
+      "msrv": "1.74.0",
+      "name": "bitcoin_hashes",
+      "owners": 2,
+      "recent_downloads": 19264457,
+      "releases_365d": 10,
+      "repository": "https://github.com/rust-bitcoin/rust-bitcoin",
+      "score": 77.5,
+      "version": "1.2.0",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.3363,
+        "downloads": 0.7582,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9677,
+        "security": 1.0
+      },
+      "created": "2015-07-18",
+      "dependents": 53,
+      "description": "A collection of histogram data structures",
+      "downloads": 31783674,
+      "edition": "2024",
+      "keywords": [
+        "hdrhistogram",
+        "histogram",
+        "metrics",
+        "percentile",
+        "statistics"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "histogram",
+      "owners": 2,
+      "recent_downloads": 6427323,
+      "releases_365d": 16,
+      "repository": "https://github.com/iopsystems/histogram",
+      "score": 75.88,
+      "version": "1.6.5",
+      "versions": 63
+    },
+    {
+      "categories": [
+        "algorithms",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4036,
+        "downloads": 0.8454,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.7664,
+        "security": 1.0
+      },
+      "created": "2024-09-17",
+      "dependents": 119,
+      "description": "An extremely fast, high quality, platform-independent hashing algorithm.",
+      "downloads": 67380665,
+      "edition": "2021",
+      "keywords": [
+        "hash",
+        "hasher",
+        "no-std",
+        "rapidhash"
+      ],
+      "last_release": "2026-07-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "rapidhash",
+      "owners": 1,
+      "recent_downloads": 39001751,
+      "releases_365d": 9,
+      "repository": "https://github.com/hoxxep/rapidhash",
+      "score": 75.72,
+      "version": "4.5.1",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "algorithms",
+        "data-structures",
+        "no-std",
+        "text-processing"
+      ],
+      "components": {
+        "dependents": 0.3131,
+        "downloads": 0.7766,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9379,
+        "security": 1.0
+      },
+      "created": "2021-09-14",
+      "dependents": 40,
+      "description": "Daachorse: Double-Array Aho-Corasick",
+      "downloads": 13386116,
+      "edition": "2021",
+      "keywords": [
+        "aho-corasick",
+        "double-array",
+        "multi",
+        "search",
+        "text"
+      ],
+      "last_release": "2026-10-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "daachorse",
+      "owners": 2,
+      "recent_downloads": 9404681,
+      "releases_365d": 11,
+      "repository": "https://github.com/daac-tools/daachorse",
+      "score": 75.31,
+      "version": "5.1.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "algorithms",
+        "graphics",
+        "mathematics",
+        "no-std",
+        "science::geo"
+      ],
+      "components": {
+        "dependents": 0.3409,
+        "downloads": 0.7523,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.99,
+        "security": 1.0
+      },
+      "created": "2023-08-28",
+      "dependents": 56,
+      "description": "Boolean Operations for 2D Polygons: Supports intersection, union, difference, xor, and self-intersections for all polygon varieties.",
+      "downloads": 12783298,
+      "edition": "2024",
+      "last_release": "2026-11-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88",
+      "name": "i_overlay",
+      "owners": 1,
+      "recent_downloads": 5698336,
+      "releases_365d": 26,
+      "repository": "https://github.com/iShape-Rust/iOverlay",
+      "score": 75.18,
+      "version": "9.2.0",
+      "versions": 133
+    },
+    {
+      "categories": [
+        "algorithms",
+        "cryptography"
+      ],
+      "components": {
+        "dependents": 0.4786,
+        "downloads": 0.9287,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 0.0,
+        "recency": 0.8979,
+        "security": 1.0
+      },
+      "created": "2016-10-04",
+      "dependents": 291,
+      "description": "SipHash-2-4 and SipHash-1-3 keyed hash functions in pure Rust, with 64-bit and 128-bit output and no_std support",
+      "downloads": 719733432,
+      "edition": "2018",
+      "keywords": [
+        "hash",
+        "hasher",
+        "keyed-hash",
+        "no-std",
+        "siphash"
+      ],
+      "last_release": "2026-09-25",
+      "license": "MIT OR Apache-2.0",
+      "name": "siphasher",
+      "owners": 1,
+      "recent_downloads": 218263965,
+      "releases_365d": 3,
+      "repository": "https://github.com/jedisct1/rust-siphash",
+      "score": 75.15,
+      "version": "1.0.4",
+      "versions": 25
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,940 @@
+{
+  "category": {
+    "crates": 2204,
+    "description": "Bindings to operating system-specific APIs.",
+    "name": "Operating systems",
+    "slug": "os"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.8291,
+        "downloads": 0.9699,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9355,
+        "security": 1.0
+      },
+      "created": "2015-01-15",
+      "dependents": 18646,
+      "description": "Raw FFI bindings to platform libraries like libc.",
+      "downloads": 2029208207,
+      "edition": "2021",
+      "keywords": [
+        "bindings",
+        "ffi",
+        "libc",
+        "operating",
+        "system"
+      ],
+      "last_release": "2026-10-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65",
+      "name": "libc",
+      "owners": 1,
+      "recent_downloads": 512253165,
+      "releases_365d": 18,
+      "repository": "https://github.com/rust-lang/libc",
+      "score": 92.01,
+      "version": "0.2.191",
+      "versions": 209
+    },
+    {
+      "categories": [
+        "cryptography",
+        "memory-management",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.7336,
+        "downloads": 0.9401,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.9934,
+        "security": 1.0
+      },
+      "created": "2018-10-03",
+      "dependents": 6004,
+      "description": "Securely clear secrets from memory with a simple trait built on\nstable Rust primitives which guarantee memory is zeroed using an\noperation will not be 'optimized away' by the compiler.\nUses a portable pure Rust implementation that works everywhere,\neven WASM, with `asm!` optimizations on select platforms\n",
+      "downloads": 912728153,
+      "edition": "2024",
+      "keywords": [
+        "memory",
+        "memset",
+        "secure",
+        "volatile",
+        "zero"
+      ],
+      "last_release": "2026-11-17",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "zeroize",
+      "owners": 2,
+      "recent_downloads": 276736400,
+      "releases_365d": 3,
+      "repository": "https://github.com/RustCrypto/utils",
+      "score": 89.24,
+      "version": "1.9.2",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.7375,
+        "downloads": 0.9951,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.7431,
+        "security": 1.0
+      },
+      "created": "2019-01-19",
+      "dependents": 6289,
+      "description": "A small cross-platform library for retrieving random data from system source",
+      "downloads": 2694519861,
+      "edition": "2024",
+      "last_release": "2026-06-17",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "getrandom",
+      "owners": 2,
+      "recent_downloads": 862568586,
+      "releases_365d": 7,
+      "repository": "https://github.com/rust-random/getrandom",
+      "score": 88.46,
+      "version": "0.4.3",
+      "versions": 48
+    },
+    {
+      "categories": [
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.6516,
+        "downloads": 0.8855,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8488,
+        "security": 1.0
+      },
+      "created": "2015-10-06",
+      "dependents": 2271,
+      "description": "A Rust equivalent of Unix command \"which\". Locate installed executable in cross platforms.",
+      "downloads": 488772724,
+      "edition": "2021",
+      "keywords": [
+        "command",
+        "unix",
+        "which",
+        "which-rs"
+      ],
+      "last_release": "2026-08-26",
+      "license": "MIT",
+      "msrv": "1.70",
+      "name": "which",
+      "owners": 2,
+      "recent_downloads": 89459160,
+      "releases_365d": 6,
+      "repository": "https://github.com/harryfei/which-rs.git",
+      "score": 85.16,
+      "version": "8.0.6",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "development-tools",
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.5927,
+        "downloads": 0.8866,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8806,
+        "security": 1.0
+      },
+      "created": "2021-02-23",
+      "dependents": 1129,
+      "description": "UTF-8 paths",
+      "downloads": 334792166,
+      "edition": "2021",
+      "keywords": [
+        "filesystem",
+        "paths",
+        "unicode",
+        "utf8"
+      ],
+      "last_release": "2026-09-15",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61.0",
+      "name": "camino",
+      "owners": 2,
+      "recent_downloads": 91527328,
+      "releases_365d": 5,
+      "repository": "https://github.com/camino-rs/camino",
+      "score": 84.19,
+      "version": "1.2.6",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "os"
+      ],
+      "components": {
+        "dependents": 0.6517,
+        "downloads": 0.8288,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9948,
+        "security": 1.0
+      },
+      "created": "2015-07-16",
+      "dependents": 2274,
+      "description": "Easy Ctrl-C handler for Rust projects",
+      "downloads": 145489706,
+      "edition": "2021",
+      "keywords": [
+        "ctrlc",
+        "sigint",
+        "signal"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT/Apache-2.0",
+      "msrv": "1.71",
+      "name": "ctrlc",
+      "owners": 1,
+      "recent_downloads": 27668340,
+      "releases_365d": 2,
+      "repository": "https://github.com/Detegr/rust-ctrlc.git",
+      "score": 81.93,
+      "version": "3.5.3",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "internationalization",
+        "localization",
+        "os",
+        "value-formatting",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.5223,
+        "downloads": 0.8886,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8253,
+        "security": 1.0
+      },
+      "created": "2017-08-04",
+      "dependents": 489,
+      "description": "Rust library for getting information about the current user and environment",
+      "downloads": 287513497,
+      "edition": "2021",
+      "keywords": [
+        "detect",
+        "platform",
+        "user",
+        "username",
+        "whoami"
+      ],
+      "last_release": "2026-08-11",
+      "license": "Apache-2.0 OR BSL-1.0 OR MIT",
+      "msrv": "1.75",
+      "name": "whoami",
+      "owners": 2,
+      "recent_downloads": 95297501,
+      "releases_365d": 8,
+      "repository": "https://github.com/ardaku/whoami",
+      "score": 81.65,
+      "version": "2.1.3",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.4698,
+        "downloads": 0.9463,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.9837,
+        "security": 1.0
+      },
+      "created": "2015-03-19",
+      "dependents": 262,
+      "description": "Cross-platform interface to the `errno` variable.",
+      "downloads": 1087325600,
+      "edition": "2018",
+      "last_release": "2026-11-12",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.56",
+      "name": "errno",
+      "owners": 2,
+      "recent_downloads": 314277427,
+      "releases_365d": 1,
+      "repository": "https://github.com/lambda-fairy/rust-errno",
+      "score": 79.66,
+      "version": "0.3.15",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "os",
+        "os::unix-apis",
+        "os::windows-apis"
+      ],
+      "components": {
+        "dependents": 0.4786,
+        "downloads": 0.7477,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.996,
+        "security": 1.0
+      },
+      "created": "2020-08-05",
+      "dependents": 291,
+      "description": "Interprocess communication toolkit",
+      "downloads": 18410110,
+      "edition": "2021",
+      "keywords": [
+        "ipc",
+        "pipe"
+      ],
+      "last_release": "2026-11-18",
+      "license": "0BSD OR Apache-2.0",
+      "msrv": "1.75",
+      "name": "interprocess",
+      "owners": 1,
+      "recent_downloads": 5178890,
+      "releases_365d": 12,
+      "repository": "https://github.com/kotauskas/interprocess",
+      "score": 78.6,
+      "version": "2.4.9",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "embedded",
+        "hardware-support",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2606,
+        "downloads": 0.9333,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9857,
+        "security": 1.0
+      },
+      "created": "2018-12-10",
+      "dependents": 21,
+      "description": "UEFI Reference Specification Protocol Constants and Definitions",
+      "downloads": 534498543,
+      "edition": "2018",
+      "keywords": [
+        "boot",
+        "efi",
+        "firmware",
+        "specification",
+        "uefi"
+      ],
+      "last_release": "2026-11-13",
+      "license": "MIT OR Apache-2.0 OR LGPL-2.1-or-later",
+      "msrv": "1.68",
+      "name": "r-efi",
+      "owners": 1,
+      "recent_downloads": 240515395,
+      "releases_365d": 4,
+      "repository": "https://github.com/r-efi/r-efi",
+      "score": 77.63,
+      "version": "7.2.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "development-tools",
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.8606,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9411,
+        "security": 1.0
+      },
+      "created": "2022-08-25",
+      "dependents": 69,
+      "description": "Provides typed variants of Path and PathBuf for Unix and Windows",
+      "downloads": 81217289,
+      "edition": "2021",
+      "keywords": [
+        "filesystem",
+        "paths",
+        "unicode",
+        "utf8"
+      ],
+      "last_release": "2026-10-20",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.65.0",
+      "name": "typed-path",
+      "owners": 1,
+      "recent_downloads": 53458772,
+      "releases_365d": 5,
+      "repository": "https://github.com/chipsenkbeil/typed-path",
+      "score": 77.59,
+      "version": "0.13.0",
+      "versions": 26
+    },
+    {
+      "categories": [
+        "gui",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.742,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.983,
+        "security": 1.0
+      },
+      "created": "2024-05-01",
+      "dependents": 46,
+      "description": "Font enumeration and fallback.",
+      "downloads": 7060338,
+      "edition": "2024",
+      "keywords": [
+        "font",
+        "text"
+      ],
+      "last_release": "2026-11-12",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.88",
+      "name": "fontique",
+      "owners": 7,
+      "recent_downloads": 4602028,
+      "releases_365d": 8,
+      "repository": "https://github.com/linebender/parley",
+      "score": 76.41,
+      "version": "0.13.0",
+      "versions": 14
+    },
+    {
+      "categories": [
+        "os"
+      ],
+      "components": {
+        "dependents": 0.4268,
+        "downloads": 0.7873,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9044,
+        "security": 1.0
+      },
+      "created": "2018-08-08",
+      "dependents": 157,
+      "description": "Open a file or link using the system default program.",
+      "downloads": 45002799,
+      "edition": "2021",
+      "keywords": [
+        "browser",
+        "default",
+        "launcher",
+        "open"
+      ],
+      "last_release": "2026-09-29",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.77",
+      "name": "opener",
+      "owners": 1,
+      "recent_downloads": 11742302,
+      "releases_365d": 3,
+      "repository": "https://github.com/Seeker14491/opener",
+      "score": 75.42,
+      "version": "0.9.0",
+      "versions": 22
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "network-programming",
+        "os",
+        "science::robotics"
+      ],
+      "components": {
+        "dependents": 0.2868,
+        "downloads": 0.8084,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9532,
+        "security": 1.0
+      },
+      "created": "2021-11-07",
+      "dependents": 29,
+      "description": "Cross platform serial ports",
+      "downloads": 27019091,
+      "edition": "2021",
+      "keywords": [
+        "com-port",
+        "rs232",
+        "serial",
+        "serial-port",
+        "tty"
+      ],
+      "last_release": "2026-10-26",
+      "license": "BSD-2-Clause OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "serial2",
+      "owners": 1,
+      "recent_downloads": 18149846,
+      "releases_365d": 6,
+      "repository": "https://github.com/de-vri-es/serial2-rs",
+      "score": 74.68,
+      "version": "0.2.39",
+      "versions": 56
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os",
+        "os::linux-apis"
+      ],
+      "components": {
+        "dependents": 0.3089,
+        "downloads": 0.7137,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9971,
+        "security": 1.0
+      },
+      "created": "2022-04-28",
+      "dependents": 38,
+      "description": "James Bond went on a new mission and this time as a Secret Service provider",
+      "downloads": 4129002,
+      "edition": "2024",
+      "keywords": [
+        "keychain",
+        "keyring",
+        "portal",
+        "secret",
+        "service"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.95",
+      "name": "oo7",
+      "owners": 2,
+      "recent_downloads": 2562162,
+      "releases_365d": 7,
+      "repository": "https://github.com/linux-credentials/oo7",
+      "score": 74.52,
+      "version": "0.7.2",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "memory-management",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3594,
+        "downloads": 0.7276,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.9974,
+        "security": 1.0
+      },
+      "created": "2016-11-06",
+      "dependents": 70,
+      "description": "Cross-platform virtual memory API",
+      "downloads": 21827856,
+      "edition": "2024",
+      "keywords": [
+        "lock",
+        "maps",
+        "page",
+        "protect",
+        "region"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "region",
+      "owners": 1,
+      "recent_downloads": 3416005,
+      "releases_365d": 3,
+      "repository": "https://github.com/darfink/region-rs",
+      "score": 73.64,
+      "version": "4.0.2",
+      "versions": 25
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.5599,
+        "downloads": 0.8632,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.5074,
+        "security": 1.0
+      },
+      "created": "2016-12-13",
+      "dependents": 765,
+      "description": "Cross-platform system's host name functions",
+      "downloads": 251753558,
+      "edition": "2021",
+      "keywords": [
+        "gethostname",
+        "hostname",
+        "sethostname"
+      ],
+      "last_release": "2025-11-28",
+      "license": "MIT",
+      "msrv": "1.74",
+      "name": "hostname",
+      "owners": 2,
+      "recent_downloads": 56341095,
+      "releases_365d": 1,
+      "repository": "https://github.com/djc/hostname",
+      "score": 72.69,
+      "version": "0.4.2",
+      "versions": 12
+    },
+    {
+      "categories": [
+        "command-line-interface",
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3582,
+        "downloads": 0.7924,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8883,
+        "security": 1.0
+      },
+      "created": "2020-11-09",
+      "dependents": 69,
+      "description": "More reliable path manipulation\n",
+      "downloads": 41428476,
+      "edition": "2021",
+      "keywords": [
+        "absolute",
+        "canonicalize",
+        "normalize",
+        "path",
+        "windows"
+      ],
+      "last_release": "2026-09-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.81.0",
+      "name": "normpath",
+      "owners": 1,
+      "recent_downloads": 13047462,
+      "releases_365d": 2,
+      "repository": "https://github.com/dylni/normpath",
+      "score": 72.09,
+      "version": "1.5.2",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "os"
+      ],
+      "components": {
+        "dependents": 0.4392,
+        "downloads": 0.8206,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.7033,
+        "security": 1.0
+      },
+      "created": "2017-10-03",
+      "dependents": 182,
+      "description": "Detect the operating system type and version.",
+      "downloads": 85951920,
+      "edition": "2018",
+      "keywords": [
+        "os",
+        "os_info",
+        "os_type",
+        "os_version"
+      ],
+      "last_release": "2026-05-19",
+      "license": "MIT",
+      "msrv": "1.60",
+      "name": "os_info",
+      "owners": 1,
+      "recent_downloads": 23351924,
+      "releases_365d": 2,
+      "repository": "https://github.com/stanislav-tkach/os_info",
+      "score": 72.04,
+      "version": "3.15.0",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "filesystem",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3746,
+        "downloads": 0.7514,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9875,
+        "security": 1.0
+      },
+      "created": "2023-07-10",
+      "dependents": 84,
+      "description": "copy-on-write mechanism on supported file systems",
+      "downloads": 20444070,
+      "edition": "2018",
+      "keywords": [
+        "btrfs",
+        "copy",
+        "cow",
+        "reflink",
+        "xfs"
+      ],
+      "last_release": "2026-11-14",
+      "license": "MIT/Apache-2.0",
+      "name": "reflink-copy",
+      "owners": 2,
+      "recent_downloads": 5587460,
+      "releases_365d": 5,
+      "repository": "https://github.com/cargo-bins/reflink-copy",
+      "score": 71.96,
+      "version": "0.1.33",
+      "versions": 30
+    },
+    {
+      "categories": [
+        "cryptography",
+        "memory-management",
+        "no-std",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2839,
+        "downloads": 0.8988,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7361,
+        "security": 1.0
+      },
+      "created": "2019-03-23",
+      "dependents": 28,
+      "description": "Custom derive support for zeroize",
+      "downloads": 352529123,
+      "edition": "2024",
+      "keywords": [
+        "memory",
+        "memset",
+        "secure",
+        "volatile",
+        "zero"
+      ],
+      "last_release": "2026-06-12",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "zeroize_derive",
+      "owners": 2,
+      "recent_downloads": 117777877,
+      "releases_365d": 2,
+      "repository": "https://github.com/RustCrypto/utils",
+      "score": 71.61,
+      "version": "1.5.0",
+      "versions": 24
+    },
+    {
+      "categories": [
+        "date-and-time",
+        "internationalization",
+        "os"
+      ],
+      "components": {
+        "dependents": 0.4123,
+        "downloads": 0.9295,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.5692,
+        "security": 1.0
+      },
+      "created": "2020-06-27",
+      "dependents": 132,
+      "description": "get the IANA time zone for the current system",
+      "downloads": 842552058,
+      "edition": "2021",
+      "keywords": [
+        "iana",
+        "time"
+      ],
+      "last_release": "2026-01-28",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.62.0",
+      "name": "iana-time-zone",
+      "owners": 2,
+      "recent_downloads": 221918313,
+      "releases_365d": 1,
+      "repository": "https://github.com/strawlab/iana-time-zone",
+      "score": 71.58,
+      "version": "0.1.65",
+      "versions": 66
+    },
+    {
+      "categories": [
+        "os"
+      ],
+      "components": {
+        "dependents": 0.3228,
+        "downloads": 0.802,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 0.0,
+        "recency": 0.9525,
+        "security": 1.0
+      },
+      "created": "2019-02-12",
+      "dependents": 45,
+      "description": "Access to the Wayland clipboard for terminal and other window-less applications.",
+      "downloads": 28070634,
+      "edition": "2021",
+      "keywords": [
+        "clipboard",
+        "wayland"
+      ],
+      "last_release": "2026-10-26",
+      "license": "MIT OR Apache-2.0",
+      "name": "wl-clipboard-rs",
+      "owners": 2,
+      "recent_downloads": 15924895,
+      "releases_365d": 7,
+      "repository": "https://github.com/YaLTeR/wl-clipboard-rs",
+      "score": 71.41,
+      "version": "0.9.5",
+      "versions": 21
+    },
+    {
+      "categories": [
+        "os"
+      ],
+      "components": {
+        "dependents": 0.2437,
+        "downloads": 0.7125,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.926,
+        "security": 1.0
+      },
+      "created": "2018-07-27",
+      "dependents": 17,
+      "description": "A simple cross-platform interface to get info about a system",
+      "downloads": 12277998,
+      "edition": "2018",
+      "keywords": [
+        "info",
+        "platform",
+        "system"
+      ],
+      "last_release": "2026-10-11",
+      "license": "MIT",
+      "msrv": "1.65.0",
+      "name": "platform-info",
+      "owners": 4,
+      "recent_downloads": 2499027,
+      "releases_365d": 3,
+      "repository": "https://github.com/uutils/platform-info",
+      "score": 71.29,
+      "version": "2.2.1",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "hardware-support",
+        "network-programming",
+        "os",
+        "os::linux-apis",
+        "parsing"
+      ],
+      "components": {
+        "dependents": 0.2283,
+        "downloads": 0.6631,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.9863,
+        "security": 1.0
+      },
+      "created": "2021-02-02",
+      "dependents": 14,
+      "description": "Library for AMD SEV",
+      "downloads": 2852374,
+      "edition": "2018",
+      "keywords": [
+        "amd",
+        "sev"
+      ],
+      "last_release": "2026-11-13",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "sev",
+      "owners": 3,
+      "recent_downloads": 900318,
+      "releases_365d": 3,
+      "repository": "https://github.com/virtee/sev",
+      "score": 70.58,
+      "version": "9.0.0",
+      "versions": 28
+    }
+  ],
+  "score_version": 1
+}

@@ -1,0 +1,911 @@
+{
+  "category": {
+    "crates": 2248,
+    "description": "Crates that process or build images.",
+    "name": "Multimedia::Images",
+    "slug": "multimedia::images"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.5024,
+        "downloads": 0.8103,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9824,
+        "security": 1.0
+      },
+      "created": "2018-04-24",
+      "dependents": 386,
+      "description": "An SVG simplification library.",
+      "downloads": 44191791,
+      "edition": "2024",
+      "keywords": [
+        "svg"
+      ],
+      "last_release": "2026-11-11",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85.0",
+      "name": "usvg",
+      "owners": 5,
+      "recent_downloads": 18901933,
+      "releases_365d": 6,
+      "repository": "https://github.com/linebender/resvg",
+      "score": 82.55,
+      "version": "0.50.0",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.7504,
+        "downloads": 0.8844,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.6157,
+        "security": 1.0
+      },
+      "created": "2014-11-20",
+      "dependents": 7330,
+      "description": "Imaging library. Provides basic image processing and encoders/decoders for common image formats.",
+      "downloads": 260336466,
+      "edition": "2021",
+      "last_release": "2026-03-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.88.0",
+      "name": "image",
+      "owners": 4,
+      "recent_downloads": 87460970,
+      "releases_365d": 1,
+      "repository": "https://github.com/image-rs/image",
+      "score": 80.61,
+      "version": "0.25.10",
+      "versions": 118
+    },
+    {
+      "categories": [
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.433,
+        "downloads": 0.8768,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9407,
+        "security": 1.0
+      },
+      "created": "2022-05-09",
+      "dependents": 169,
+      "description": "A fast, correct and safe jpeg decoder",
+      "downloads": 171425687,
+      "edition": "2021",
+      "keywords": [
+        "decoder",
+        "jpeg",
+        "jpeg-decoder"
+      ],
+      "last_release": "2026-10-19",
+      "license": "MIT OR Apache-2.0 OR Zlib",
+      "msrv": "1.75.0",
+      "name": "zune-jpeg",
+      "owners": 1,
+      "recent_downloads": 74736268,
+      "releases_365d": 13,
+      "repository": "https://github.com/etemesi254/zune-image/tree/dev/crates/zune-jpeg",
+      "score": 79.86,
+      "version": "0.5.15",
+      "versions": 60
+    },
+    {
+      "categories": [
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.3673,
+        "downloads": 0.8759,
+        "license": 1.0,
+        "maintenance": 0.8398,
+        "msrv": 1.0,
+        "recency": 0.9742,
+        "security": 1.0
+      },
+      "created": "2025-02-26",
+      "dependents": 77,
+      "description": "Simple Color Management in Rust",
+      "downloads": 138175423,
+      "edition": "2024",
+      "keywords": [
+        "cms",
+        "cmyk",
+        "color",
+        "icc"
+      ],
+      "last_release": "2026-11-07",
+      "license": "BSD-3-Clause OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "moxcms",
+      "owners": 1,
+      "recent_downloads": 73311194,
+      "releases_365d": 7,
+      "repository": "https://github.com/awxkee/moxcms.git",
+      "score": 78.29,
+      "version": "0.9.2",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.6054,
+        "downloads": 0.9013,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.5883,
+        "security": 1.0
+      },
+      "created": "2015-05-26",
+      "dependents": 1313,
+      "description": "PNG decoding and encoding library in pure Rust",
+      "downloads": 325738108,
+      "edition": "2021",
+      "last_release": "2026-02-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.73",
+      "name": "png",
+      "owners": 3,
+      "recent_downloads": 124026108,
+      "releases_365d": 1,
+      "repository": "https://github.com/image-rs/image-png",
+      "score": 76.99,
+      "version": "0.18.1",
+      "versions": 61
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.5416,
+        "downloads": 0.7725,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9968,
+        "security": 1.0
+      },
+      "created": "2014-11-28",
+      "dependents": 615,
+      "description": "QR code encoder in Rust",
+      "downloads": 27160557,
+      "edition": "2024",
+      "keywords": [
+        "qrcode"
+      ],
+      "last_release": "2026-11-19",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "qrcode",
+      "owners": 1,
+      "recent_downloads": 8640618,
+      "releases_365d": 1,
+      "repository": "https://github.com/kennytm/qrcode-rust",
+      "score": 76.3,
+      "version": "0.15.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "graphics",
+        "multimedia::images",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.4949,
+        "downloads": 0.8508,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.6008,
+        "security": 1.0
+      },
+      "created": "2016-06-18",
+      "dependents": 353,
+      "description": "`struct RGB/RGBA/etc.` for sharing pixels between crates + convenience methods for color manipulation.\nAllows no-copy high-level interoperability. Also adds common convenience methods and implements standard Rust traits to make `RGB`/`RGBA` pixels and slices first-class Rust objects.",
+      "downloads": 152737912,
+      "edition": "2021",
+      "keywords": [
+        "bgra",
+        "color",
+        "pixel",
+        "rgb",
+        "rgba"
+      ],
+      "last_release": "2026-02-25",
+      "license": "MIT",
+      "msrv": "1.64",
+      "name": "rgb",
+      "owners": 3,
+      "recent_downloads": 43678591,
+      "releases_365d": 3,
+      "repository": "https://github.com/kornelski/rust-rgb",
+      "score": 76.15,
+      "version": "0.8.53",
+      "versions": 71
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.4142,
+        "downloads": 0.8615,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.5832,
+        "security": 1.0
+      },
+      "created": "2018-06-18",
+      "dependents": 135,
+      "description": "TIFF decoding and encoding library in pure Rust",
+      "downloads": 162208343,
+      "edition": "2021",
+      "last_release": "2026-02-10",
+      "license": "MIT",
+      "msrv": "1.85.0",
+      "name": "tiff",
+      "owners": 3,
+      "recent_downloads": 54462595,
+      "releases_365d": 4,
+      "repository": "https://github.com/image-rs/image-tiff",
+      "score": 75.64,
+      "version": "0.11.3",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.3089,
+        "downloads": 0.7215,
+        "license": 1.0,
+        "maintenance": 1.0,
+        "msrv": 1.0,
+        "recency": 0.9618,
+        "security": 1.0
+      },
+      "created": "2020-09-06",
+      "dependents": 38,
+      "description": "High performance utilities for YUV format handling and conversion.",
+      "downloads": 6470757,
+      "edition": "2021",
+      "keywords": [
+        "converter",
+        "rgb2yuv",
+        "ycbcr",
+        "yuv",
+        "yuv2rgb"
+      ],
+      "last_release": "2026-10-31",
+      "license": "BSD-3-Clause OR Apache-2.0",
+      "msrv": "1.82.0",
+      "name": "yuv",
+      "owners": 3,
+      "recent_downloads": 3009353,
+      "releases_365d": 13,
+      "repository": "https://github.com/awxkee/yuvutils-rs",
+      "score": 75.19,
+      "version": "0.8.20",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.3617,
+        "downloads": 0.7011,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2019-08-05",
+      "dependents": 72,
+      "description": "Safe Skia Bindings for Rust",
+      "downloads": 5449560,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "skia-safe",
+      "owners": 2,
+      "recent_downloads": 1975346,
+      "releases_365d": 12,
+      "repository": "https://github.com/rust-skia/rust-skia",
+      "score": 75.08,
+      "version": "0.157.0",
+      "versions": 104
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "rust-patterns"
+      ],
+      "components": {
+        "dependents": 0.3715,
+        "downloads": 0.8202,
+        "license": 1.0,
+        "maintenance": 0.8333,
+        "msrv": 1.0,
+        "recency": 0.8487,
+        "security": 1.0
+      },
+      "created": "2017-04-01",
+      "dependents": 81,
+      "description": "A basic 2-dimensional slice for safe and convenient handling of pixel buffers with width, height & stride",
+      "downloads": 69611433,
+      "edition": "2021",
+      "keywords": [
+        "frame",
+        "interoperability",
+        "plane",
+        "stride",
+        "vec2d"
+      ],
+      "last_release": "2026-08-26",
+      "license": "CC0-1.0 OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "imgref",
+      "owners": 2,
+      "recent_downloads": 23170364,
+      "releases_365d": 3,
+      "repository": "https://github.com/kornelski/imgref",
+      "score": 75.02,
+      "version": "1.12.3",
+      "versions": 34
+    },
+    {
+      "categories": [
+        "api-bindings",
+        "multimedia::images",
+        "visualization",
+        "wasm"
+      ],
+      "components": {
+        "dependents": 0.3715,
+        "downloads": 0.7045,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9629,
+        "security": 1.0
+      },
+      "created": "2022-01-12",
+      "dependents": 81,
+      "description": "A high-level idiomatic Rust wrapper around Pdfium, the C++ PDF library used by the Google Chromium project.",
+      "downloads": 4159968,
+      "edition": "2021",
+      "keywords": [
+        "pdf",
+        "pdfium"
+      ],
+      "last_release": "2026-11-01",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "pdfium-render",
+      "owners": 1,
+      "recent_downloads": 2121158,
+      "releases_365d": 7,
+      "repository": "https://github.com/ajrcarey/pdfium-render",
+      "score": 74.34,
+      "version": "0.9.5",
+      "versions": 90
+    },
+    {
+      "categories": [
+        "graphics",
+        "multimedia::images",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5099,
+        "downloads": 0.8292,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.8109,
+        "security": 1.0
+      },
+      "created": "2016-01-12",
+      "dependents": 422,
+      "description": "Convert and manage colors with a focus on correctness, flexibility and ease of use.",
+      "downloads": 44068430,
+      "edition": "2021",
+      "keywords": [
+        "color",
+        "conversion",
+        "linear",
+        "pixel",
+        "rgb"
+      ],
+      "last_release": "2026-08-02",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.71.0",
+      "name": "palette",
+      "owners": 1,
+      "recent_downloads": 27922428,
+      "releases_365d": 1,
+      "repository": "https://github.com/Ogeon/palette",
+      "score": 74.14,
+      "version": "0.7.7",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.3705,
+        "downloads": 0.8771,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8189,
+        "security": 1.0
+      },
+      "created": "2023-02-25",
+      "dependents": 80,
+      "description": "Core utilities for image processing in the zune family of crates",
+      "downloads": 168902168,
+      "edition": "2021",
+      "keywords": [
+        "image"
+      ],
+      "last_release": "2026-08-07",
+      "license": "MIT OR Apache-2.0 OR Zlib",
+      "msrv": "1.75.0",
+      "name": "zune-core",
+      "owners": 1,
+      "recent_downloads": 75178972,
+      "releases_365d": 2,
+      "repository": "https://github.com/etemesi254/zune-image",
+      "score": 73.47,
+      "version": "0.5.3",
+      "versions": 16
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.445,
+        "downloads": 0.7477,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.971,
+        "security": 1.0
+      },
+      "created": "2016-12-31",
+      "dependents": 195,
+      "description": "Exif parsing library written in pure Rust",
+      "downloads": 17848487,
+      "edition": "2021",
+      "keywords": [
+        "exif",
+        "jpeg",
+        "parser",
+        "reader",
+        "tiff"
+      ],
+      "last_release": "2026-11-05",
+      "license": "BSD-2-Clause",
+      "msrv": "1.60",
+      "name": "kamadak-exif",
+      "owners": 1,
+      "recent_downloads": 5178410,
+      "releases_365d": 1,
+      "repository": "https://github.com/kamadak/exif-rs",
+      "score": 72.88,
+      "version": "0.6.2",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.3246,
+        "downloads": 0.8613,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.6903,
+        "security": 1.0
+      },
+      "created": "2015-05-29",
+      "dependents": 46,
+      "description": "Color quantization library to reduce n colors to 256 colors.",
+      "downloads": 169012764,
+      "edition": "2021",
+      "last_release": "2026-05-09",
+      "license": "MIT",
+      "msrv": "1.56",
+      "name": "color_quant",
+      "owners": 3,
+      "recent_downloads": 54240613,
+      "releases_365d": 1,
+      "repository": "https://github.com/image-rs/color_quant.git",
+      "score": 70.5,
+      "version": "2.0.0",
+      "versions": 4
+    },
+    {
+      "categories": [
+        "multimedia::images",
+        "multimedia::video"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.7353,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9946,
+        "security": 1.0
+      },
+      "created": "2024-06-05",
+      "dependents": 6,
+      "description": "High performance image scaling",
+      "downloads": 4433140,
+      "edition": "2024",
+      "keywords": [
+        "image-resize",
+        "resize",
+        "scale"
+      ],
+      "last_release": "2026-11-18",
+      "license": "BSD-3-Clause OR Apache-2.0",
+      "msrv": "1.89.0",
+      "name": "pic-scale",
+      "owners": 1,
+      "recent_downloads": 4008413,
+      "releases_365d": 17,
+      "repository": "https://github.com/awxkee/pic-scale",
+      "score": 70.4,
+      "version": "0.7.14",
+      "versions": 91
+    },
+    {
+      "categories": [
+        "encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.2714,
+        "downloads": 0.6784,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9102,
+        "security": 1.0
+      },
+      "created": "2018-10-25",
+      "dependents": 24,
+      "description": "Generates ISO/IEC 18004 QR Code and Micro QR Code symbols and ISO/IEC 23941 rMQR symbols in pure Rust, then renders them as grayscale, PNG and SVG images.",
+      "downloads": 6156257,
+      "edition": "2024",
+      "keywords": [
+        "micro-qr",
+        "png",
+        "qrcode",
+        "rmqr",
+        "svg"
+      ],
+      "last_release": "2026-10-02",
+      "license": "MIT",
+      "msrv": "1.89",
+      "name": "qrcode-generator",
+      "owners": 1,
+      "recent_downloads": 1234336,
+      "releases_365d": 5,
+      "repository": "https://github.com/magiclen/qrcode-generator",
+      "score": 70.4,
+      "version": "6.1.2",
+      "versions": 29
+    },
+    {
+      "categories": [
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.405,
+        "downloads": 0.7267,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.8013,
+        "security": 1.0
+      },
+      "created": "2021-04-29",
+      "dependents": 121,
+      "description": "JPEG encoder",
+      "downloads": 10660510,
+      "edition": "2024",
+      "keywords": [
+        "encoder",
+        "image",
+        "jpeg",
+        "jpg"
+      ],
+      "last_release": "2026-07-27",
+      "license": "(MIT OR Apache-2.0) AND IJG",
+      "msrv": "1.87",
+      "name": "jpeg-encoder",
+      "owners": 1,
+      "recent_downloads": 3353762,
+      "releases_365d": 2,
+      "repository": "https://github.com/vstroebel/jpeg-encoder",
+      "score": 70.31,
+      "version": "0.7.1",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "external-ffi-bindings",
+        "graphics",
+        "multimedia::images",
+        "rendering::graphics-api",
+        "visualization"
+      ],
+      "components": {
+        "dependents": 0.1641,
+        "downloads": 0.7008,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.9675,
+        "security": 1.0
+      },
+      "created": "2019-08-05",
+      "dependents": 6,
+      "description": "Skia Bindings for Rust",
+      "downloads": 5424223,
+      "edition": "2024",
+      "keywords": [
+        "opengl",
+        "pdf",
+        "rust-bindings",
+        "skia",
+        "vulkan"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT",
+      "msrv": "1.87",
+      "name": "skia-bindings",
+      "owners": 2,
+      "recent_downloads": 1963682,
+      "releases_365d": 11,
+      "repository": "https://github.com/rust-skia/rust-skia",
+      "score": 70.14,
+      "version": "0.157.0",
+      "versions": 101
+    },
+    {
+      "categories": [
+        "multimedia::encoding",
+        "multimedia::images",
+        "parser-implementations"
+      ],
+      "components": {
+        "dependents": 0.3044,
+        "downloads": 0.688,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9674,
+        "security": 1.0
+      },
+      "created": "2020-04-01",
+      "dependents": 36,
+      "description": "Low level crate for reading and writing Jpeg, Png and RIFF image containers",
+      "downloads": 11895160,
+      "edition": "2021",
+      "keywords": [
+        "exif",
+        "icc",
+        "jpeg",
+        "no_std",
+        "png"
+      ],
+      "last_release": "2026-11-03",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.63",
+      "name": "img-parts",
+      "owners": 1,
+      "recent_downloads": 1505845,
+      "releases_365d": 2,
+      "repository": "https://github.com/paolobarbolini/img-parts",
+      "score": 69.32,
+      "version": "0.4.2",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.593,
+        "license": 1.0,
+        "maintenance": 0.8542,
+        "msrv": 1.0,
+        "recency": 0.9408,
+        "security": 1.0
+      },
+      "created": "2025-09-05",
+      "dependents": 12,
+      "description": "High performance Rust implementation of a JPEG XL decoder",
+      "downloads": 420846,
+      "edition": "2024",
+      "keywords": [
+        "decoder",
+        "jpeg-xl"
+      ],
+      "last_release": "2026-10-19",
+      "license": "BSD-3-Clause",
+      "msrv": "1.89.0",
+      "name": "jxl",
+      "owners": 2,
+      "recent_downloads": 211257,
+      "releases_365d": 21,
+      "repository": "https://github.com/libjxl/jxl-rs",
+      "score": 67.16,
+      "version": "0.8.0",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.2163,
+        "downloads": 0.6085,
+        "license": 1.0,
+        "maintenance": 0.7667,
+        "msrv": 1.0,
+        "recency": 0.955,
+        "security": 1.0
+      },
+      "created": "2021-11-18",
+      "dependents": 12,
+      "description": "A high-level API for decoding DICOM objects into images and ndarrays",
+      "downloads": 1822996,
+      "edition": "2024",
+      "keywords": [
+        "dicom"
+      ],
+      "last_release": "2026-10-27",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "dicom-pixeldata",
+      "owners": 1,
+      "recent_downloads": 291431,
+      "releases_365d": 3,
+      "repository": "https://github.com/Enet4/dicom-rs",
+      "score": 66.45,
+      "version": "0.10.1",
+      "versions": 20
+    },
+    {
+      "categories": [
+        "compression",
+        "encoding",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.2779,
+        "downloads": 0.578,
+        "license": 1.0,
+        "maintenance": 0.7138,
+        "msrv": 1.0,
+        "recency": 0.9352,
+        "security": 1.0
+      },
+      "created": "2026-06-01",
+      "dependents": 26,
+      "description": "Core traits, image buffers, dimensions, and error types shared across the gamut image codecs.",
+      "downloads": 266330,
+      "edition": "2024",
+      "keywords": [
+        "codec",
+        "compression",
+        "encoding",
+        "image"
+      ],
+      "last_release": "2026-10-16",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.92",
+      "name": "gamut-core",
+      "owners": 1,
+      "recent_downloads": 154825,
+      "releases_365d": 6,
+      "repository": "https://github.com/justin13888/gamut",
+      "score": 66.13,
+      "version": "3.0.0",
+      "versions": 6
+    },
+    {
+      "categories": [
+        "encoding",
+        "graphics",
+        "multimedia::images"
+      ],
+      "components": {
+        "dependents": 0.3228,
+        "downloads": 0.6732,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 0.0,
+        "recency": 0.8661,
+        "security": 1.0
+      },
+      "created": "2023-09-09",
+      "dependents": 45,
+      "description": "A 100% Rust SIXEL encoder and decoder library with high-quality color quantization",
+      "downloads": 1998249,
+      "edition": "2021",
+      "keywords": [
+        "encoder",
+        "graphics",
+        "image",
+        "sixel",
+        "terminal"
+      ],
+      "last_release": "2026-09-06",
+      "license": "MIT OR Apache-2.0",
+      "name": "icy_sixel",
+      "owners": 1,
+      "recent_downloads": 1108942,
+      "releases_365d": 8,
+      "repository": "https://github.com/mkrueger/icy_sixel",
+      "score": 65.89,
+      "version": "0.7.0",
+      "versions": 14
+    }
+  ],
+  "score_version": 1
+}

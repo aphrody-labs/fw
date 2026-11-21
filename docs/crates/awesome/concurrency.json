@@ -1,0 +1,956 @@
+{
+  "category": {
+    "crates": 4132,
+    "description": "Crates for implementing concurrent and parallel computation.",
+    "name": "Concurrency",
+    "slug": "concurrency"
+  },
+  "dump_date": "2026-11-21",
+  "entries": [
+    {
+      "categories": [
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.7676,
+        "downloads": 0.9438,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.9435,
+        "security": 1.0
+      },
+      "created": "2016-05-13",
+      "dependents": 8991,
+      "description": "More compact and efficient implementations of the standard synchronization primitives.",
+      "downloads": 1307607676,
+      "edition": "2024",
+      "keywords": [
+        "condvar",
+        "mutex",
+        "once",
+        "rwlock",
+        "thread"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "parking_lot",
+      "owners": 2,
+      "recent_downloads": 298428047,
+      "releases_365d": 1,
+      "repository": "https://github.com/Amanieu/parking_lot",
+      "score": 86.44,
+      "version": "0.13.0",
+      "versions": 59
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.6688,
+        "downloads": 0.9159,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-11-26",
+      "dependents": 2784,
+      "description": "Multi-producer multi-consumer channels for message passing",
+      "downloads": 724274460,
+      "edition": "2021",
+      "keywords": [
+        "channel",
+        "golang",
+        "message",
+        "mpmc",
+        "select"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "crossbeam-channel",
+      "owners": 4,
+      "recent_downloads": 167621718,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 84.59,
+      "version": "0.5.17",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.6075,
+        "downloads": 0.8217,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.996,
+        "security": 1.0
+      },
+      "created": "2020-04-07",
+      "dependents": 1346,
+      "description": "Synchronously block the thread until a future completes",
+      "downloads": 51553113,
+      "edition": "2018",
+      "keywords": [
+        "async",
+        "block_on",
+        "executor",
+        "minimal",
+        "runtime"
+      ],
+      "last_release": "2026-11-18",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.69",
+      "name": "pollster",
+      "owners": 1,
+      "recent_downloads": 23923274,
+      "releases_365d": 4,
+      "repository": "https://github.com/zesterer/pollster",
+      "score": 83.67,
+      "version": "1.0.3",
+      "versions": 13
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.6879,
+        "downloads": 0.9011,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.7775,
+        "security": 1.0
+      },
+      "created": "2017-03-17",
+      "dependents": 3494,
+      "description": "Tokio binding for Tungstenite, the Lightweight stream-based WebSocket implementation",
+      "downloads": 373491110,
+      "edition": "2018",
+      "keywords": [
+        "io",
+        "web",
+        "websocket"
+      ],
+      "last_release": "2026-07-11",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "tokio-tungstenite",
+      "owners": 2,
+      "recent_downloads": 123467406,
+      "releases_365d": 2,
+      "repository": "https://github.com/snapview/tokio-tungstenite",
+      "score": 82.39,
+      "version": "0.30.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.7943,
+        "downloads": 0.919,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.6572,
+        "security": 1.0
+      },
+      "created": "2015-12-10",
+      "dependents": 12345,
+      "description": "Simple work-stealing parallelism for Rust",
+      "downloads": 685535757,
+      "edition": "2021",
+      "keywords": [
+        "concurrency",
+        "join",
+        "parallel",
+        "performance",
+        "thread"
+      ],
+      "last_release": "2026-04-14",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.80",
+      "name": "rayon",
+      "owners": 2,
+      "recent_downloads": 178807486,
+      "releases_365d": 1,
+      "repository": "https://github.com/rayon-rs/rayon",
+      "score": 82.19,
+      "version": "1.12.0",
+      "versions": 40
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5363,
+        "downloads": 0.944,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-08-28",
+      "dependents": 578,
+      "description": "Utilities for concurrent programming",
+      "downloads": 1143912810,
+      "edition": "2021",
+      "keywords": [
+        "atomic",
+        "cache",
+        "scoped",
+        "thread"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "crossbeam-utils",
+      "owners": 4,
+      "recent_downloads": 299456606,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 81.98,
+      "version": "0.8.23",
+      "versions": 44
+    },
+    {
+      "categories": [
+        "concurrency",
+        "embedded",
+        "hardware-support",
+        "no-std",
+        "no-std::no-alloc"
+      ],
+      "components": {
+        "dependents": 0.5325,
+        "downloads": 0.9249,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8218,
+        "security": 1.0
+      },
+      "created": "2022-02-24",
+      "dependents": 552,
+      "description": "Portable atomic types including support for 128-bit atomics, atomic float, etc.\n",
+      "downloads": 611050641,
+      "edition": "2018",
+      "keywords": [
+        "atomic"
+      ],
+      "last_release": "2026-08-09",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.34",
+      "name": "portable-atomic",
+      "owners": 1,
+      "recent_downloads": 201835044,
+      "releases_365d": 5,
+      "repository": "https://github.com/taiki-e/portable-atomic",
+      "score": 81.76,
+      "version": "1.15.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "caching",
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.5586,
+        "downloads": 0.8602,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8222,
+        "security": 1.0
+      },
+      "created": "2020-10-22",
+      "dependents": 753,
+      "description": "A fast and concurrent cache library inspired by Java Caffeine",
+      "downloads": 167147146,
+      "edition": "2021",
+      "keywords": [
+        "cache",
+        "concurrent"
+      ],
+      "last_release": "2026-08-09",
+      "license": "(MIT OR Apache-2.0) AND Apache-2.0",
+      "msrv": "1.71.1",
+      "name": "moka",
+      "owners": 1,
+      "recent_downloads": 52993339,
+      "releases_365d": 5,
+      "repository": "https://github.com/moka-rs/moka",
+      "score": 80.8,
+      "version": "0.12.16",
+      "versions": 68
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.5209,
+        "downloads": 0.9002,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2018-09-08",
+      "dependents": 481,
+      "description": "Concurrent queues",
+      "downloads": 446936850,
+      "edition": "2021",
+      "keywords": [
+        "consumer",
+        "lock-free",
+        "mpmc",
+        "producer",
+        "queue"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.60",
+      "name": "crossbeam-queue",
+      "owners": 3,
+      "recent_downloads": 121249771,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 80.5,
+      "version": "0.3.14",
+      "versions": 23
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.5002,
+        "downloads": 0.8868,
+        "license": 1.0,
+        "maintenance": 0.7333,
+        "msrv": 1.0,
+        "recency": 0.9657,
+        "security": 1.0
+      },
+      "created": "2019-05-22",
+      "dependents": 376,
+      "description": "Async synchronization primitives",
+      "downloads": 363535256,
+      "edition": "2021",
+      "keywords": [
+        "barrier",
+        "lock",
+        "mutex",
+        "rwlock",
+        "semaphore"
+      ],
+      "last_release": "2026-11-02",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.85",
+      "name": "async-lock",
+      "owners": 2,
+      "recent_downloads": 91816363,
+      "releases_365d": 2,
+      "repository": "https://github.com/smol-rs/async-lock",
+      "score": 80.16,
+      "version": "3.5.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "concurrency",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3993,
+        "downloads": 0.9304,
+        "license": 1.0,
+        "maintenance": 0.9,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-11-26",
+      "dependents": 113,
+      "description": "Epoch-based garbage collection",
+      "downloads": 838657288,
+      "edition": "2021",
+      "keywords": [
+        "atomic",
+        "garbage",
+        "lock-free",
+        "rcu"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "crossbeam-epoch",
+      "owners": 4,
+      "recent_downloads": 226386950,
+      "releases_365d": 3,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 79.72,
+      "version": "0.9.21",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures",
+        "memory-management",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.6082,
+        "downloads": 0.8378,
+        "license": 1.0,
+        "maintenance": 0.7,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2015-08-27",
+      "dependents": 1357,
+      "description": "Tools for concurrent programming",
+      "downloads": 164108568,
+      "edition": "2021",
+      "keywords": [
+        "atomic",
+        "garbage",
+        "lock-free",
+        "non-blocking",
+        "rcu"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "crossbeam",
+      "owners": 5,
+      "recent_downloads": 33341408,
+      "releases_365d": 1,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 79.63,
+      "version": "0.8.5",
+      "versions": 37
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.7138,
+        "downloads": 0.8972,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.7008,
+        "security": 1.0
+      },
+      "created": "2019-08-25",
+      "dependents": 4752,
+      "description": "Blazing fast concurrent HashMap for Rust.",
+      "downloads": 465829303,
+      "edition": "2018",
+      "keywords": [
+        "atomic",
+        "concurrent",
+        "hashmap"
+      ],
+      "last_release": "2026-05-17",
+      "license": "MIT",
+      "msrv": "1.65",
+      "name": "dashmap",
+      "owners": 1,
+      "recent_downloads": 113805705,
+      "releases_365d": 1,
+      "repository": "https://github.com/xacrimon/dashmap",
+      "score": 79.29,
+      "version": "6.2.1",
+      "versions": 85
+    },
+    {
+      "categories": [
+        "algorithms",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.4208,
+        "downloads": 0.9263,
+        "license": 1.0,
+        "maintenance": 0.8,
+        "msrv": 1.0,
+        "recency": 0.865,
+        "security": 1.0
+      },
+      "created": "2017-11-26",
+      "dependents": 146,
+      "description": "Concurrent work-stealing deque",
+      "downloads": 791458152,
+      "edition": "2021",
+      "keywords": [
+        "chase-lev",
+        "lock-free",
+        "scheduler",
+        "scheduling"
+      ],
+      "last_release": "2026-09-05",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.61",
+      "name": "crossbeam-deque",
+      "owners": 4,
+      "recent_downloads": 207792647,
+      "releases_365d": 2,
+      "repository": "https://github.com/crossbeam-rs/crossbeam",
+      "score": 78.65,
+      "version": "0.8.8",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "caching",
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.405,
+        "downloads": 0.8194,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9995,
+        "security": 1.0
+      },
+      "created": "2020-11-20",
+      "dependents": 121,
+      "description": "A collection of high-performance asynchronous/concurrent containers with both asynchronous and synchronous interfaces",
+      "downloads": 105083077,
+      "edition": "2024",
+      "keywords": [
+        "async",
+        "cache",
+        "concurrent",
+        "hashmap",
+        "tree"
+      ],
+      "last_release": "2026-11-20",
+      "license": "Apache-2.0",
+      "msrv": "1.85.0",
+      "name": "scc",
+      "owners": 1,
+      "recent_downloads": 22815585,
+      "releases_365d": 34,
+      "repository": "https://codeberg.org/wvwwvwwv/scalable-concurrent-containers/",
+      "score": 78.61,
+      "version": "3.9.1",
+      "versions": 256
+    },
+    {
+      "categories": [
+        "concurrency",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.4236,
+        "downloads": 0.9432,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.9435,
+        "security": 1.0
+      },
+      "created": "2018-06-08",
+      "dependents": 151,
+      "description": "Wrappers to create fully-featured Mutex and RwLock types. Compatible with no_std.",
+      "downloads": 1218478385,
+      "edition": "2024",
+      "keywords": [
+        "lock",
+        "mutex",
+        "no_std",
+        "rwlock"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "lock_api",
+      "owners": 2,
+      "recent_downloads": 294721136,
+      "releases_365d": 1,
+      "repository": "https://github.com/Amanieu/parking_lot",
+      "score": 77.82,
+      "version": "0.5.0",
+      "versions": 28
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.5091,
+        "downloads": 0.8165,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.9763,
+        "security": 1.0
+      },
+      "created": "2018-12-07",
+      "dependents": 418,
+      "description": "Permutation testing for concurrent code",
+      "downloads": 81590795,
+      "edition": "2021",
+      "keywords": [
+        "atomic",
+        "lock-free"
+      ],
+      "last_release": "2026-11-08",
+      "license": "MIT",
+      "msrv": "1.73",
+      "name": "loom",
+      "owners": 2,
+      "recent_downloads": 21474621,
+      "releases_365d": 1,
+      "repository": "https://github.com/tokio-rs/loom",
+      "score": 77.28,
+      "version": "0.7.3",
+      "versions": 41
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures",
+        "embedded",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.3705,
+        "downloads": 0.8764,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.8632,
+        "security": 1.0
+      },
+      "created": "2023-01-15",
+      "dependents": 80,
+      "description": "Synchronization primitives built with portable-atomic.\n",
+      "downloads": 166306046,
+      "edition": "2018",
+      "keywords": [
+        "atomic"
+      ],
+      "last_release": "2026-09-04",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.36",
+      "name": "portable-atomic-util",
+      "owners": 1,
+      "recent_downloads": 74078097,
+      "releases_365d": 4,
+      "repository": "https://github.com/taiki-e/portable-atomic-util",
+      "score": 77.12,
+      "version": "0.2.8",
+      "versions": 15
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency",
+        "network-programming",
+        "web-programming::websocket"
+      ],
+      "components": {
+        "dependents": 0.4446,
+        "downloads": 0.7806,
+        "license": 1.0,
+        "maintenance": 0.9333,
+        "msrv": 1.0,
+        "recency": 0.8027,
+        "security": 1.0
+      },
+      "created": "2019-11-15",
+      "dependents": 194,
+      "description": "Async binding for Tungstenite, the Lightweight stream-based WebSocket implementation",
+      "downloads": 34049075,
+      "edition": "2018",
+      "keywords": [
+        "async-std",
+        "io",
+        "tokio",
+        "web",
+        "websocket"
+      ],
+      "last_release": "2026-07-28",
+      "license": "MIT",
+      "msrv": "1.85",
+      "name": "async-tungstenite",
+      "owners": 2,
+      "recent_downloads": 10212919,
+      "releases_365d": 5,
+      "repository": "https://github.com/sdroege/async-tungstenite",
+      "score": 76.67,
+      "version": "0.35.0",
+      "versions": 58
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures",
+        "no-std"
+      ],
+      "components": {
+        "dependents": 0.411,
+        "downloads": 0.7519,
+        "license": 1.0,
+        "maintenance": 0.8667,
+        "msrv": 1.0,
+        "recency": 0.9509,
+        "security": 1.0
+      },
+      "created": "2020-11-18",
+      "dependents": 130,
+      "description": "A realtime-safe single-producer single-consumer ring buffer",
+      "downloads": 16031274,
+      "edition": "2018",
+      "keywords": [
+        "lock-free",
+        "queue",
+        "spsc",
+        "wait-free"
+      ],
+      "last_release": "2026-10-25",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.38",
+      "name": "rtrb",
+      "owners": 1,
+      "recent_downloads": 5649143,
+      "releases_365d": 6,
+      "repository": "https://github.com/mgeier/rtrb",
+      "score": 76.34,
+      "version": "0.4.1",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.4704,
+        "downloads": 0.9148,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.8014,
+        "security": 1.0
+      },
+      "created": "2020-05-16",
+      "dependents": 264,
+      "description": "Notify async tasks or threads",
+      "downloads": 661406237,
+      "edition": "2021",
+      "keywords": [
+        "blocking",
+        "condvar",
+        "eventcount",
+        "park",
+        "wake"
+      ],
+      "last_release": "2026-07-27",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.60",
+      "name": "event-listener",
+      "owners": 2,
+      "recent_downloads": 164029641,
+      "releases_365d": 1,
+      "repository": "https://github.com/smol-rs/event-listener",
+      "score": 76.15,
+      "version": "5.4.2",
+      "versions": 35
+    },
+    {
+      "categories": [
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.3394,
+        "downloads": 0.9445,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.9435,
+        "security": 1.0
+      },
+      "created": "2016-08-26",
+      "dependents": 55,
+      "description": "An advanced API for creating custom synchronization primitives.",
+      "downloads": 1339876219,
+      "edition": "2024",
+      "keywords": [
+        "condvar",
+        "mutex",
+        "once",
+        "rwlock",
+        "thread"
+      ],
+      "last_release": "2026-10-21",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.95",
+      "name": "parking_lot_core",
+      "owners": 2,
+      "recent_downloads": 303134871,
+      "releases_365d": 1,
+      "repository": "https://github.com/Amanieu/parking_lot",
+      "score": 75.75,
+      "version": "0.10.0",
+      "versions": 54
+    },
+    {
+      "categories": [
+        "concurrency",
+        "data-structures"
+      ],
+      "components": {
+        "dependents": 0.4378,
+        "downloads": 0.8246,
+        "license": 1.0,
+        "maintenance": 0.6667,
+        "msrv": 1.0,
+        "recency": 0.9245,
+        "security": 1.0
+      },
+      "created": "2018-12-05",
+      "dependents": 179,
+      "description": "A fork of std::sync::Arc with some extra functionality and without weak references (originally servo_arc)",
+      "downloads": 111064334,
+      "edition": "2021",
+      "keywords": [
+        "arc",
+        "data-structure",
+        "ffi",
+        "sync"
+      ],
+      "last_release": "2026-10-10",
+      "license": "MIT OR Apache-2.0",
+      "msrv": "1.85",
+      "name": "triomphe",
+      "owners": 1,
+      "recent_downloads": 25368492,
+      "releases_365d": 2,
+      "repository": "https://github.com/Manishearth/triomphe",
+      "score": 75.43,
+      "version": "0.1.17",
+      "versions": 18
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.4369,
+        "downloads": 0.86,
+        "license": 1.0,
+        "maintenance": 0.6333,
+        "msrv": 1.0,
+        "recency": 0.8434,
+        "security": 1.0
+      },
+      "created": "2019-06-15",
+      "dependents": 177,
+      "description": "A thread pool for isolating blocking I/O in async programs",
+      "downloads": 216821254,
+      "edition": "2021",
+      "keywords": [
+        "async",
+        "file",
+        "process",
+        "stdin",
+        "stdio"
+      ],
+      "last_release": "2026-08-23",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.68",
+      "name": "blocking",
+      "owners": 2,
+      "recent_downloads": 52824151,
+      "releases_365d": 1,
+      "repository": "https://github.com/smol-rs/blocking",
+      "score": 74.57,
+      "version": "1.7.0",
+      "versions": 33
+    },
+    {
+      "categories": [
+        "asynchronous",
+        "concurrency"
+      ],
+      "components": {
+        "dependents": 0.4064,
+        "downloads": 0.8566,
+        "license": 1.0,
+        "maintenance": 0.5667,
+        "msrv": 1.0,
+        "recency": 0.9659,
+        "security": 1.0
+      },
+      "created": "2019-07-01",
+      "dependents": 123,
+      "description": "Async executor",
+      "downloads": 202785691,
+      "edition": "2021",
+      "keywords": [
+        "asynchronous",
+        "executor",
+        "multi",
+        "single",
+        "spawn"
+      ],
+      "last_release": "2026-11-02",
+      "license": "Apache-2.0 OR MIT",
+      "msrv": "1.63",
+      "name": "async-executor",
+      "owners": 1,
+      "recent_downloads": 49185993,
+      "releases_365d": 1,
+      "repository": "https://github.com/smol-rs/async-executor",
+      "score": 74.56,
+      "version": "1.14.1",
+      "versions": 33
+    }
+  ],
+  "score_version": 1
+}
