@@ -1,6 +1,20 @@
 # Modern-toolchain decisions that code can check (docs/research/modern-toolchain-2026-11.md holds the measurements).
 # Read by tools/modern-toolchain/check.ts; nothing else carries these lists.
 
+# Packaged size budget for a published crate and for an npm package without `files` or .npmignore (docs row 3: the 15 published
+# crates package 3 KB to 265 KB; a package past the budget needs include/exclude/files).
+package_budget_bytes = 1048576
+
+# SSH client policy of the PC (`check.ts ssh`, docs row 1): Windows OpenSSH has no ControlMaster, so the cost of a connection is
+# the probe in ~/.ssh/config and the key exchange; keys stay ed25519 and agent forwarding stays off.
+[ssh_audit]
+forbidden_probe = "ping -n 1 -w 1000"
+first_kex = "mlkem768x25519-sha256"
+key_types = ["ED25519"]
+[ssh_audit.expect]
+forwardagent = "no"
+identitiesonly = "yes"
+
 # Tracked paths that look like build output but are vendored inputs on purpose (path prefix, reason).
 [[tracked_binary]]
 path = "aphrody/crates/zed/resources/windows/bin/x64/OpenConsole.exe"
@@ -22,29 +36,59 @@ pattern = '\bping -n 1 -w 1000\b'
 replacement = "route-table probe (route print ... | findstr), docs/research/modern-toolchain-2026-11.md step 1"
 scope = [".github", "justfile", "tools", "cluster", "configs"]
 
-# Userland CLIs the agents use on every node. `adopted` ones must exist on each node of cluster/build.toml;
+# Userland CLIs the agents use on every node. `adopted` ones must run on each node of cluster/build.toml at `min_version` or newer;
 # `rejected` ones were measured slower and stay out (docs row 10).
 [[userland]]
 bin = "rg"
+min_version = "15.2.0"
 replaces = "grep -r"
 status = "adopted"
 [[userland]]
 bin = "jaq"
+min_version = "3.1.2"
 replaces = "jq"
 status = "adopted"
 [[userland]]
 bin = "fd"
+min_version = "10.5.0"
 replaces = "find"
 status = "adopted"
 [[userland]]
 bin = "zstd"
+min_version = "1.5.7"
 replaces = "gzip, xz for Linux archives"
 status = "adopted"
 [[userland]]
 bin = "brotli"
+min_version = "1.2.0"
 replaces = "gzip for static web assets"
+status = "adopted"
+[[userland]]
+bin = "coreutils"
+min_version = "0.12.0"
+replaces = "GNU coreutils (multicall uutils; n1 and n2 already link sort, cat, wc to it)"
 status = "adopted"
 [[userland]]
 bin = "sd"
 replaces = "sed"
 status = "rejected"
+
+# Docker build context: `check.ts ignore --write` writes .dockerignore as these entries followed by every .gitignore pattern
+# (a path git ignores is absent from a CI checkout, so it never belongs in a build context); `check.ts ignore` fails on drift.
+[dockerignore]
+always = [
+  ".git", "**/.git", "target", "**/target", "node_modules", "**/node_modules", ".venv", ".cache", ".wrangler", "dist",
+  ".private", ".secrets", ".env", ".env.*", "!**/.env.example", "**/*.pem", "**/*.p12", "**/*.key",
+  ".claude", ".gemini", ".agents", ".cursor", "tmp",
+]
+
+# Git settings every node carries (docs row 2): partial-clone friendly graph files and incremental maintenance on long-lived checkouts.
+# `check.ts git-nodes` fails on a node that differs, `--apply` sets them and registers the checkouts found one level under `checkout_roots`
+# (relative to the node's work directory from cluster/build.toml and to the ssh user's home).
+[git_nodes]
+checkout_roots = ["src"]
+[git_nodes.config]
+"feature.manyFiles" = "true"
+"fetch.writeCommitGraph" = "true"
+"maintenance.strategy" = "incremental"
+

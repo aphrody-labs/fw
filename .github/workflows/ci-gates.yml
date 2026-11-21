@@ -1,0 +1,53 @@
+name: CI gates
+
+# The fast gates of CI (15 to 20 s each, no compilation). They live apart from ci.yml because that workflow's concurrency group keeps one
+# pending run and replaces it on every push: with a push every few minutes, 330 of 420 ci.yml runs were cancelled before any job started
+# (tools/modern-toolchain/bench/ci-runs.ts). Here the group is per commit, so every push gets its verdict.
+on:
+  push:
+    branches: [main, "release/**"]
+    paths-ignore: ["docs/research/**", "docs/agents/**"]
+  pull_request:
+    branches: [main]
+    paths-ignore: ["docs/research/**", "docs/agents/**"]
+
+concurrency:
+  group: fw-gates-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  retired-surfaces:
+    name: Retired surfaces and Claude config gate
+    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Retired terms (configs/claude/retired.toml), config script tests, claude-bridge over stdio
+        run: bun configs/claude/scripts/check.ts
+      - name: One product version (product.toml and every copy of it)
+        run: bun tools/version.ts
+      - name: Ignore files hold no tracked path, no legacy tool is back, the Dockerfile copies every member (tools/modern-toolchain/steps.toml)
+        # Runs even when an earlier gate of this job failed: a red retired-terms step must not hide these.
+        if: ${{ !cancelled() }}
+        run: |
+          bun tools/modern-toolchain/check.ts ignore
+          bun tools/modern-toolchain/check.ts legacy
+          bun tools/modern-toolchain/check.ts container
+
+  hardcoded:
+    name: Hardcoded colors, texts and icons (ratchet, tools/hardcoded.toml)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: No file holds more literal colors, user-facing strings or icon names than the baseline
+        run: bun tools/hardcoded.ts --check
+
+  layout:
+    name: Layout map (crate homes, dependency direction, covered paths)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: layout.toml generates every manifest it owns, no stale or uncovered path
+        run: bun tools/layout.ts check

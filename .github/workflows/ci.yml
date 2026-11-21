@@ -161,36 +161,3 @@ jobs:
         run: |
           bun test ./configs/claude/scripts/rust-stack.test.ts
           bun configs/claude/scripts/rust-stack.ts --check
-
-  retired-surfaces:
-    name: Retired surfaces and Claude config gate
-    runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - name: Retired terms (configs/claude/retired.toml), config script tests, claude-bridge over stdio
-        run: bun configs/claude/scripts/check.ts
-      - name: One product version (product.toml and every copy of it)
-        run: bun tools/version.ts
-      - name: Ignore files hold no tracked path, no legacy tool is back (tools/modern-toolchain/steps.toml)
-        run: |
-          bun tools/modern-toolchain/check.ts ignore
-          bun tools/modern-toolchain/check.ts legacy
-
-  hardcoded:
-    name: Hardcoded colors, texts and icons (ratchet, tools/hardcoded.toml)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - name: No file holds more literal colors, user-facing strings or icon names than the baseline
-        run: bun tools/hardcoded.ts --check
-
-  layout:
-    name: Layout map (crate homes, dependency direction, covered paths)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - name: layout.toml generates every manifest it owns, no stale or uncovered path
-        run: bun tools/layout.ts check

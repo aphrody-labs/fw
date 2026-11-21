@@ -15,6 +15,7 @@
   },
   "dependencies": {},
   "devDependencies": {},
+  "files": ["src", "vault", "paths", "identity", "loaders", "README.md"],
   "license": "MIT OR Apache-2.0",
   "repository": {
     "type": "git",
