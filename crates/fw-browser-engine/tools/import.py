@@ -15,7 +15,13 @@ picked onto a different base resolve to the commit's side; a first import is the
 cannot be done by git (a commit that renames a file inside a moved directory is a rename/rename conflict, e.g. hyperfine
 80e436030), whereas identical paths on both sides pick cleanly.
 """
-import json, subprocess, sys, os, tomllib, shutil
+import json
+import os
+import pathlib
+import shutil
+import subprocess
+import sys
+import tomllib
 
 RESERVED = {".github", ".cargo", ".taskcluster.yml", ".circleci", ".gitlab", "Cargo.lock",
             "rust-toolchain.toml", "rust-toolchain", ".gitmodules", ".husky", ".claude"}
@@ -107,13 +113,13 @@ def main():
     with open(os.path.join(mono, "tools", "upstreams.toml"), "rb") as f:
         spec = {u["name"]: u for u in tomllib.load(f)["upstream"]}
     lock_path = os.path.join(mono, "tools", "upstreams.lock.json")
-    lock = json.load(open(lock_path)) if os.path.exists(lock_path) else {}
+    lock = json.loads(pathlib.Path(lock_path).read_text()) if os.path.exists(lock_path) else {}
     for n in names:
         u = spec[n]
         if u.get("mode") == "pin":
             sha = run("git", "ls-remote", u["url"], f"refs/heads/{u['branch']}", out=True).split()[0]
             lock[n] = {"url": u["url"], "branch": u["branch"], "sha": sha, "crates": {}}
-            open(lock_path, "w").write(json.dumps(lock, indent=1, sort_keys=True) + "\n")
+            pathlib.Path(lock_path).write_text(json.dumps(lock, indent=1, sort_keys=True) + "\n")
             print("pinned", n, sha[:12], flush=True)
             continue
         w = os.path.join(wd, n)
@@ -155,7 +161,7 @@ def main():
         empty = run("git", "hash-object", "-t", "tree", "/dev/null", out=True)
         changed = run("git", "diff", "--name-only", last or empty, ref, "--", sub, cwd=mono, out=True).split("\n")
         def blob(rev, path):
-            r = subprocess.run(["git", "rev-parse", "-q", "--verify", f"{rev}:{path}"], cwd=mono, capture_output=True, text=True)
+            r = subprocess.run(["git", "rev-parse", "-q", "--verify", f"{rev}:{path}"], check=False, cwd=mono, capture_output=True, text=True)
             return r.stdout.strip() or None
         differ = [f for f in changed if f and blob("HEAD", f) != blob(ref, f)]
         if differ:
@@ -165,9 +171,9 @@ def main():
             cwd=mono)
         old = lock.get(n, {}).get("crates", {})
         lock[n] = {"url": u["url"], "branch": u["branch"], "sha": sha, "imported": head, "crates": {**old, **dict(mp)}}
-        json.dump(lock, open(lock_path, "w"), indent=1, sort_keys=True)
+        pathlib.Path(lock_path).write_text(json.dumps(lock, indent=1, sort_keys=True))
         run("git", "add", "-A", "tools/upstreams.lock.json", cwd=mono)
-        if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=mono).returncode != 0:
+        if subprocess.run(["git", "diff", "--cached", "--quiet"], check=False, cwd=mono).returncode != 0:
             run("git", "commit", "-q", "-m", f"lock: {n} @ {sha[:12]} (tools/upstreams.lock.json)", cwd=mono)
         shutil.rmtree(w)
         print("imported", n, sha[:12], len(mp), "crates", flush=True)

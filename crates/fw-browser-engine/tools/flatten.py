@@ -11,9 +11,16 @@ usage: uv run --with tomlkit tools/flatten.py <monorepo> [--unify] [--root-only]
   newest line found in the workspace (one version per crate).
 Root manifest = the committed one: its members and [patch.crates-io] follow the lock, profiles of Servo and Obscura are added.
 """
-import copy, json, os, re, sys, tomllib
+import copy
+import json
+import os
+import pathlib
+import sys
+import tomllib
+
 import tomlkit
-from tomlkit import inline_table, array
+from tomlkit import array, inline_table
+
 
 def layout(mono):
     """tools/layout.toml: where Bun, first-party crates and third-party upstreams live."""
@@ -72,9 +79,8 @@ def vkey(req):
 
 def main():
     mono = sys.argv[1]
-    unify = "--unify" in sys.argv
     root_only = "--root-only" in sys.argv   # manifests of the crates are already flattened: rebuild the root manifest only
-    lock = json.load(open(os.path.join(mono, "tools", "upstreams.lock.json")))
+    lock = json.loads(pathlib.Path(mono, "tools", "upstreams.lock.json").read_text())
     lay = layout(mono)
     third, first = lay["third_party"]["dir"], lay["first_party"]["dir"]
     root = load(os.path.join(mono, "Cargo.toml"))
@@ -82,7 +88,7 @@ def main():
     # --- index: package name -> (dir, upstream) ---------------------------------------------------
     pkgs, owner = {}, {}
     for u, v in lock.items():
-        for _, tgt in v["crates"].items():
+        for tgt in v["crates"].values():
             mf = os.path.join(mono, tgt, "Cargo.toml")
             if not os.path.exists(mf):
                 continue
@@ -160,7 +166,7 @@ def main():
             if wlints:
                 doc["lints"] = copy.deepcopy(w["workspace"]["lints"])
 
-        def fix_table(tbl, where):
+        def fix_table(tbl, where, tgt=tgt, u=u, orig=orig, wroot_rel=wroot_rel, wdeps=wdeps):
             for k in list(tbl.keys()):
                 spec = plain(tbl[k])
                 d = {"version": spec} if isinstance(spec, str) else dict(spec)
@@ -240,9 +246,9 @@ def main():
         for p in sorted(os.listdir(os.path.join(mono, "tools", "patches", name_dir))):
             pf = os.path.join(mono, "tools", "patches", name_dir, p)
             args = ["git", "apply", "-p1", "--directory=" + tgt, pf]
-            if subprocess.run(args[:2] + ["--reverse", "--check"] + args[2:], cwd=mono, capture_output=True).returncode == 0:
+            if subprocess.run(args[:2] + ["--reverse", "--check"] + args[2:], check=False, cwd=mono, capture_output=True).returncode == 0:
                 continue  # already applied
-            r = subprocess.run(args, cwd=mono, capture_output=True, text=True)
+            r = subprocess.run(args, check=False, cwd=mono, capture_output=True, text=True)
             print("patch", name_dir, p, "ok" if r.returncode == 0 else "FAILED: " + r.stderr[:200])
     patch = tomlkit.table()
     cio = tomlkit.table()
@@ -270,9 +276,9 @@ def main():
                         if pn not in rp[prof_name]["package"] and (pn in pkgs):
                             rp[prof_name]["package"][pn] = ps
     save(root, os.path.join(mono, "Cargo.toml"))
-    json.dump({"unresolved": unresolved, "profiles_not_merged": [f"{u}:{t}" for (u, t) in extras_profile],
-               "patches_not_merged": [f"{u}:{t}" for (u, t) in extras_patch]},
-              open(os.path.join(mono, ".local", "reports", "flatten.report.json"), "w"), indent=1)
+    report = {"unresolved": unresolved, "profiles_not_merged": [f"{u}:{t}" for (u, t) in extras_profile],
+              "patches_not_merged": [f"{u}:{t}" for (u, t) in extras_patch]}
+    pathlib.Path(mono, ".local", "reports", "flatten.report.json").write_text(json.dumps(report, indent=1))
     print("flattened", n_done, "manifests;", len(members), "members;", len(unresolved), "unresolved")
 
 

@@ -6,7 +6,12 @@ usage: cargo metadata --format-version 1 --offline | uv run --with tomlkit tools
 Pinned (=x), ranged and non-registry requirements are left alone. Crates listed in tools/unify.skip (one per line,
 with the reason after #) are not touched: those are the ones whose newest line broke a member.
 """
-import json, os, sys, collections
+import collections
+import json
+import os
+import pathlib
+import sys
+
 import tomlkit
 
 DEPT = ("dependencies", "dev-dependencies", "build-dependencies")
@@ -35,7 +40,7 @@ def main():
     skip = set()
     sp = os.path.join(mono, "tools", "unify.skip")
     if os.path.exists(sp):
-        skip = {l.split("#")[0].strip() for l in open(sp) if l.split("#")[0].strip()}
+        skip = {l.split("#")[0].strip() for l in pathlib.Path(sp).read_text().splitlines() if l.split("#")[0].strip()}
     m = json.load(sys.stdin)
     ws = set(m["workspace_members"])
     byid = {p["id"]: p for p in m["packages"]}
@@ -89,8 +94,8 @@ def main():
             for sec in DEPT:
                 if sec in cfg:
                     fix(cfg[sec], sec)
-        open(f, "w", encoding="utf-8", newline="\n").write(tomlkit.dumps(doc))
-    json.dump({"target": target, "edits": changed}, open(os.path.join(mono, ".local", "reports", "unify.report.json"), "w"), indent=1)
+        pathlib.Path(f).write_text(tomlkit.dumps(doc), encoding="utf-8", newline="\n")
+    pathlib.Path(mono, ".local", "reports", "unify.report.json").write_text(json.dumps({"target": target, "edits": changed}, indent=1))
     print(len(target), "crates unified;", sum(changed.values()), "requirement edits")
 
 

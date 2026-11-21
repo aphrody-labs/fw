@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Direct-dependency requirements of workspace members per crate, for crates resolved at >1 version.
 usage: cargo metadata --format-version 1 | directdups.py"""
-import json, sys, collections
+import collections
+import json
+import sys
+
 m = json.load(sys.stdin)
 ws = set(m["workspace_members"])
 byid = {p["id"]: p for p in m["packages"]}
