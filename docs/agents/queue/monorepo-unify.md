@@ -1,3 +1,44 @@
+# Monorepo merge into fw: state and exact blockers (2026-11-21)
+
+aphrody and ay are inside fw (owner decision: fw is the monorepo). Where things are, what was measured, what is open.
+
+## On fw main
+
+| step | commit |
+| --- | --- |
+| import with full history under `aphrody/` and `ay/` (filter-repo; fw 390, aphrody 41,072, ay 256 commits, 41,721 after the merge) | `70e6143d8235778a12c446767db5d9d05ea0bc8b` |
+| original aphrody history recorded as merged (filter-repo rewrote Zed's commit ids, so there was no merge base with zed-industries/zed; this tree-neutral merge makes `git merge-base HEAD upstream/main` resolve) | `9b621306c0e676d5d80f015426fd428c5b4b2c8e` |
+| pure-Rust guard (baseline 1,970 non-Rust source files) | `e1066c806c4ab05fb844b22c36e976f4f6e6a904` |
+| one Bun workspace (`ay/packages`, `ay/apps` join; `bun install --frozen-lockfile` passes) | `1a14ed1aeecb18cabf1e4c5db2939d1aad3feae2` |
+| one Cargo workspace (unify.ts on current mains), one Gradle build (`kotlin/`, `ay/kotlin` included), release train at the root, deny policy, purity, ported CI | `1c6f15a870c5f473350d33c896ec5ba5b4af983d` |
+| remaining ay workflows ported, nested `ay/.github/workflows` and `actions` forbidden by the layout check | `8fbf315db98a855dae33a1d29d2b918595730dd5` |
+| aphrody commits made after the import merged through `-X subtree=aphrody` | `97378dfe0aacfa8b7d9f4f1c5b0a19be610dccff` |
+
+## Gates measured on the merged tree (host fr1, target /srv/xbuild/target/merge)
+
+- `cargo check --workspace --all-targets --keep-going --locked`: 0 errors, Finished in 7m22s (after porting aphrody `util::fs_embed` and `nsh-bundler` to rust-embed 8.14 and oxc 0.158, the handoff's `983ca6bf15`; before the port 9 units failed: assets, grammars, settings, util (lib test) and nsh-bundler).
+- wasm gate `cargo check -p aphrody_desktop --features web --example web_os --target wasm32-unknown-unknown`: Finished in 3m19s.
+- `cargo deny check`: advisories, bans, licenses, sources ok (one policy; aphrody's license list, git sources and the advisory ignores added with reasons; the license list now allows GPL-3.0 and LGPL-3.0 families mechanically: the licensing question is the owner's, not decided here).
+- `cargo xtask purity`: pass; `cargo xtask map` regenerated.
+- Gradle `gradlew test` in `kotlin/` (fw-core, fw-material3, fw-rust-ffi and the included `ay/kotlin` theme): BUILD SUCCESSFUL in 3m46s.
+- `bun test` of release-plan and release-publish: 19 pass, 0 fail.
+- `cargo nextest run --workspace --no-fail-fast`: not finished at the time of writing (the test build of 380 crates was still compiling after 22 minutes on a host at load 50 to 65); result goes below when it lands.
+
+## Open, with the exact cause
+
+1. fw-files SFTP: still out of the workspace (`unify.toml` strips `sftp`, `russh`, `yazi-sftp`). Re-tested today: restoring the 0.65.2 manifest of `5a4e7d79` fails with `failed to select a version for rsa ... package quickjs-jit-stdlib depends on rsa with feature sha2 but rsa does not have that feature` (quickjs-jit-stdlib 0.14.2, the newest on crates.io, nsh-js crypto). The fix is a patch of quickjs-jit-stdlib (aphrody-labs fork of longbridge/quickjs-jit without the `sha2` feature request) or a release of it against rsa 0.10.0.
+2. libsqlite3-sys lane: the unified workspace stays on libsqlite3-sys 0.38 because `bun-windows-winclean` 1.4.8 (aphrody-labs/bun, `packages/os/bun-windows-winclean`) pins `rusqlite ^0.40` and `ort =2.0.0-rc.12`; rusqlite 0.43 fails with `package libsqlite3-sys v0.40.0 ... conflicts with a previous package which links to sqlite3` (fw-deps lane, below).
+3. ay-vault: out of the workspace (`age 0.12.1` needs `ml-kem ^0.2` and `kem =0.3.0-pre.0`; the mullvad fork behind aphrody_vpn needs ml-kem 0.3.4).
+4. fw-rag oxc: the workspace is on oxc 0.158 because rolldown 1.3.2 needs `^0.158`; oxc 0.159.0 is the newest (fw-deps).
+5. zip 8.6.0 via aphrody-wireguard 1.4.7 <- aphrody-remote-desktop 1.4.7 (fw-agent feature `tools`): five Dependabot alerts; the fix is publishing both against zip 9. glib 0.18.5 via nsh-platform-gpui -> wry 0.57.3 -> webkit2gtk 2.0.2 (gtk3-rs has no glib >= 0.20 release).
+6. The 15 aphrody units that failed `cargo check --all-targets` on their own: the unified check passes with 0 errors on aphrody main at the import plus its 1 later commit; the units agent's own report is the evidence for the rest, no unit is excluded.
+7. Workflows not ported (they stay inert in `aphrody/.github/workflows`, which `aphrody/tooling/bun/{repo-hygiene,toolchain-audit,ci-host-optimize}.ts` and `tooling.test.ts` read): aphrody-auto-merge, aphrody-fleet-orchestrator, aphrody-forks-packages, aphrody-issue-fix, aphrody-janitor, aphrody-kernel-watch, aphrody-m3-compose-tracker, aphrody-upstream-sync (the hourly Zed part is `zed-sync.yml`; the daily nsh, gpui-kit, bun, agent targets are not wired), aphrody-wiki-sync. Pointing those tools at the root `.github/workflows` and porting the nine is the next batch.
+8. Secrets the ported workflows name that are not set on fw (names only; they are not set on the old repositories either): FLEET_SSH_KEY, FLEET_SSH_CONFIG_B64, FLEET_BEACON_TOKEN, APHRODY_WORKER_URL, APHRODY_APP_PRIVATE_KEY (variable APHRODY_APP_ID), FLEET_DEPLOY_KEY, AUTO_MASTER_KEY, variables EDGE_DEPLOY and EDGE_CUTOVER_DONE. Set on fw: CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY (organization level: APHRODY_APP_KEY, CARGO_REGISTRY_TOKEN, HOSTINGER_API_TOKEN, NPM_TOKEN, SUBMODULES_APP_KEY).
+9. Zed subtree sync: mechanism in place (`zed-sync.yml` hourly; `git merge -X subtree=aphrody upstream/main`; resolver ported to the prefix in `aphrody/tooling/bun/upstream-sync.ts`: excised files dropped, README and isolated blocks keep Aphrody's side, Cargo manifests keep the root side and the upstream side is saved under `target/zed-sync`). A real `zed/main` merge has not landed yet: upstream main had no commit since 2026-11-21 00:49 UTC (behind 0). A test merge of `upstream/v0.234.x` (18 commits not in aphrody) found the merge base `b7d35e528a` and reported 23 changed paths with 20 conflicts, which is a lagging release branch against a main-following fork, not a main merge. The first hourly run with a new upstream commit is the proof.
+10. Root `src/` and `tests/` (TypeScript) into `packages/fw`: blocked by package.json scripts, the plugin runtime and MAP.tsv rows (a pure-Rust port removes the code instead).
+
+## Dependency lane (fw), earlier handoff
+
 # Monorepo phase 1: one Cargo workspace (handoff)
 
 Task: one root workspace for fw, aphrody and ay (members `crates/*`, `aphrody/crates/*`, `ay/crates/*`), every dependency at its newest release, conflicts resolved, gates green. Stopped at a checkpoint: the workspace builds and resolves, nothing of it is on main yet because main would go red on aphrody's own pre-existing breakage (below).
