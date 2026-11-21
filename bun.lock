@@ -16,6 +16,14 @@
         "@aphrody/fw-ai-os": "workspace:*",
       },
     },
+    "apps/chromium-dash": {
+      "name": "@aphrody/browser-chromium-dash",
+      "version": "0.1.0",
+      "dependencies": {
+        "@aphrody/ay-edge-stack": "file:../../../ay/packages/edge-stack",
+        "@aphrody/browser-chromium-releases": "workspace:*",
+      },
+    },
     "packages/ai-os": {
       "name": "@aphrody/fw-ai-os",
       "version": "0.2.0",
@@ -166,11 +174,33 @@
         "react-dom": ">=18.0.0",
       },
     },
+    "packages/chromium": {
+      "name": "@aphrody/browser-chromium",
+      "version": "0.1.0",
+      "dependencies": {
+        "@aphrody/browser-chromium-releases": "workspace:*",
+      },
+    },
+    "packages/chromium-releases": {
+      "name": "@aphrody/browser-chromium-releases",
+      "version": "0.1.0",
+      "bin": {
+        "chromium-releases": "src/cli.ts",
+      },
+    },
     "packages/gnu": {
       "name": "@aphrody/fw-gnu",
       "version": "0.1.0",
       "bin": {
         "gnu": "./src/cli.ts",
+      },
+    },
+    "packages/linux-types": {
+      "name": "@aphrody/linux-types",
+      "version": "0.1.0",
+      "devDependencies": {
+        "@types/bun": "1.4.5",
+        "typescript": "7.0.2",
       },
     },
   },
@@ -202,6 +232,12 @@
 
     "@aphrody/brain": ["@aphrody/brain@workspace:packages/ai-os/engines/brain"],
 
+    "@aphrody/browser-chromium": ["@aphrody/browser-chromium@workspace:packages/chromium"],
+
+    "@aphrody/browser-chromium-dash": ["@aphrody/browser-chromium-dash@workspace:apps/chromium-dash"],
+
+    "@aphrody/browser-chromium-releases": ["@aphrody/browser-chromium-releases@workspace:packages/chromium-releases"],
+
     "@aphrody/bun": ["@aphrody/bun@3.3.8", "", { "dependencies": { "@aphrody/paths": "0.1.2", "@aphrody/runtime-sdk": "0.1.2", "@aphrody/update": "0.1.2" } }, "sha512-DN02BbbK83pLC5R6Mz+/lKEHx6AhL00+YTjLkPWZUFzOUiitM5pO0786mSOcppWQIDvZjxX2bvCYuB1a3Ofxzw=="],
 
     "@aphrody/bun-runtime-sdk": ["@aphrody/bun-runtime-sdk@1.4.4", "", {}, "sha512-9Lb6HmdM3o255d4HTvpG9B7AkagHmTBhIpF914riIsQKEvkFG67ayLXtSKFrquBw07LOry1p1iPAGETwba98ag=="],
@@ -219,6 +255,8 @@
     "@aphrody/inference": ["@aphrody/inference@workspace:packages/ai-os/engines/inference"],
 
     "@aphrody/knowledge-engine": ["@aphrody/knowledge-engine@workspace:packages/ai-os/engines/knowledge-engine"],
+
+    "@aphrody/linux-types": ["@aphrody/linux-types@workspace:packages/linux-types"],
 
     "@aphrody/mcp-ui": ["@aphrody/mcp-ui@workspace:packages/ai-os/protocols/mcp-ui"],
 
@@ -763,6 +801,8 @@
     "zod": ["zod@4.6.7", "", {}, "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg=="],
 
     "zod-to-json-schema": ["zod-to-json-schema@3.25.2", "", { "peerDependencies": { "zod": "^3.25.28 || ^4" } }, "sha512-O/PgfnpT1xKSDeQYSCfRI5Gy3hPf91mKVDuYLUHZJMiDFptvP41MSnWofm8dnCm0256ZNfZIM7DSzuSMAFnjHA=="],
+
+    "@aphrody/browser-chromium-dash/@aphrody/ay-edge-stack": ["@aphrody/ay-edge-stack@file:../ay/packages/edge-stack", {}],
 
     "@aphrody/bun/@aphrody/runtime-sdk": ["@aphrody/runtime-sdk@0.1.2", "", {}, "sha512-h2fqoQEVn6rFBM6/LMU5XU0oTGpbR4k93MNGCTMwoaU/3v2ScWQXXlC4M3/bpbMj1hX82/JuOoF2eHCYZbfgDQ=="],
 

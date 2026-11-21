@@ -29,7 +29,7 @@ export const LOW_LEVEL_LTO_AOT_MATRIX: LowLevelTargetRecipe[] = [
     arch: "x86_64 | aarch64 | riscv64 | wasm32",
     compiler: "clang++",
     ltoAotFlags: "-std=c++23 -O3 -flto=full -fno-exceptions -fno-rtti",
-    sourceExample: "core/cpp/fw_cpp_smoke.cpp",
+    sourceExample: "cpp/fw_cpp_smoke.cpp",
   },
   {
     lang: "assembly",
@@ -214,7 +214,7 @@ export async function verifyLowLevelToolchains(root: string) {
   // 4. C++ native build & execution
   if (hasClangxx) {
     const cppExe = join(outDir, isWin ? "fw_cpp.exe" : "fw_cpp");
-    const c = Bun.spawnSync(["clang++", "-std=c++20", "-O3", "core/cpp/fw_cpp_smoke.cpp", "-o", cppExe], {
+    const c = Bun.spawnSync(["clang++", "-std=c++20", "-O3", "cpp/fw_cpp_smoke.cpp", "-o", cppExe], {
       cwd: root,
       stdout: "pipe",
       stderr: "pipe",

@@ -140,3 +140,428 @@ crate = "h3-quinn"
 git = "https://github.com/aphrody-labs/h3"
 rev = "43745ad87e95b0c035ac9c547aad467303213425"
 
+
+# Bun workspaces: apps/* and packages/* only (the root holds config, not code).
+[bun]
+workspaces = [
+    "apps/agents",
+    "apps/chromium-dash",
+    "packages/gnu",
+    "packages/ai-os",
+    "packages/ai-os/engines/*",
+    "packages/ai-os/protocols/*",
+    "packages/chromium",
+    "packages/chromium-releases",
+    "packages/linux-types",
+]
+# Own lockfile and deploy unit (wrangler); skill templates and references that are copied out, never installed from here.
+exclude = [
+    "cloudflare/material-cdn",
+    "plugins/aphrody/skills/3dviz-pro-max/templates/scaffold-vite-threejs",
+    "plugins/aphrody/skills/stitch/references/react-components",
+    "plugins/aphrody/skills/stitch/references/react-native",
+]
+
+# fw (layer 0) must not depend on ay (layer 2). These packages still link ay packages by path; the fix is to move the four ay
+# packages they use (core, env-kit, automate, wck, edge-stack) down into fw or to move ai-os up into ay. Tracked here until then;
+# `check` fails when an entry no longer applies.
+[[bun.debt]]
+path = "apps/agents"
+why = "links @aphrody/ay-env-kit from ay"
+
+[[bun.debt]]
+path = "apps/chromium-dash"
+why = "links @aphrody/ay-edge-stack from ay"
+
+[[bun.debt]]
+path = "packages/ai-os"
+why = "links @aphrody/ay-automate, ay-core, ay-env-kit and ay-wck from ay"
+
+[[bun.debt]]
+path = "packages/ai-os/engines/inference"
+why = "links @aphrody/ay-env-kit from ay"
+
+[[bun.debt]]
+path = "packages/ai-os/engines/rag-core"
+why = "links @aphrody/ay-env-kit from ay"
+
+# uv: Python projects live under python/. fw-agent-context is a maturin crate (built by cargo and maturin, not synced by uv);
+# tools/google has its own lock.
+[uv]
+members = ["python/hermes_agent_memory", "crates/fw-agent-context"]
+# research_ref needs Python >=3.14 (a workspace has one requires-python, the intersection, and the root pins 3.12); tools/google has its own lock.
+exclude = ["python/research_ref", "tools/google"]
+
+[gradle]
+root = "core/kotlin"
+include = ["fw-core", "fw-material3", "fw-rust-ffi"]
+catalog = "core/kotlin/gradle/libs.versions.toml"
+
+[dotnet]
+root = "dotnet"
+solution = "fw.slnx"
+projects = ["dotnet/*"]
+
+[cmake]
+projects = ["cpp"]
+
+[[area]]
+path = ".agents"
+decision = "keep"
+why = "Antigravity reads rules and workflows from .agents at the repository root"
+
+[[area]]
+path = ".cargo"
+decision = "keep"
+why = "Cargo reads .cargo/config.toml from the workspace root"
+
+[[area]]
+path = ".claude-plugin"
+decision = "keep"
+why = "marketplace.json at the root is how `claude plugin marketplace add` finds the aphrody plugin"
+
+[[area]]
+path = ".github"
+decision = "keep"
+why = "GitHub reads workflows, actions, CODEOWNERS and dependabot from .github"
+
+[[area]]
+path = "apps"
+decision = "keep"
+why = "Bun workspaces convention: deployable apps live in apps/*"
+
+[[area]]
+path = "cloudflare"
+decision = "keep"
+why = "wrangler configs sit beside the worker sources they deploy; deploy workflows and fw-edge refer to them"
+
+[[area]]
+path = "cluster"
+decision = "keep"
+why = "host topology, build and backup definitions read by tools/fr1.ts and the fleet scripts; roles, not addresses"
+
+[[area]]
+path = "configs"
+decision = "keep"
+why = "agent and tool configuration sources (claude scripts, heretic), consumed by the plugin sync"
+
+[[area]]
+path = "core"
+decision = "keep"
+why = "single-file native cores, one directory per language (asm, c, cuda, go, java, wasm, webgpu, py)"
+
+[[area]]
+path = "core/kotlin"
+decision = "move"
+to = "kotlin"
+blocked = "settings.gradle.kts reads ../../product.toml, tools/kotlin-check.ts and the Kotlin CI job name core/kotlin; moves with its own gate (gradle build on a host with the Android SDK)"
+why = "a Gradle build has one root with settings.gradle.kts, a version catalog and the wrapper; ay uses kotlin/ at the top level"
+
+[[area]]
+path = "crates"
+decision = "keep"
+why = "Cargo convention: flat crates/* members, one directory per crate"
+
+[[area]]
+path = "docs"
+decision = "keep"
+why = "documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract"
+
+[[area]]
+path = "native"
+decision = "keep"
+why = "freestanding kernel-mode crates outside the workspace (own targets); declared in Cargo exclude"
+
+[[area]]
+path = "nix"
+decision = "keep"
+why = "NixOS modules and host definitions referenced by flake.nix"
+
+[[area]]
+path = "os"
+decision = "keep"
+why = "operating-system crates and images outside the hosted workspace (own targets)"
+
+[[area]]
+path = "packages"
+decision = "keep"
+why = "Bun workspaces convention: libraries in packages/*"
+
+[[area]]
+path = "plugins"
+decision = "keep"
+why = "the Claude plugin source tree; its layout (skills/, agents/, hooks/) is fixed by the plugin format"
+
+[[area]]
+path = "src"
+decision = "move"
+to = "packages/fw/src"
+blocked = "package.json main, bin and scripts, plugin runtime paths and tests import src/*; moves with its own gate (bun test over tests/)"
+why = "Bun convention: the root holds workspace config only, code lives in a package"
+
+[[area]]
+path = "tests"
+decision = "move"
+to = "packages/fw/test"
+blocked = "moves together with src"
+why = "tests move with the package they test"
+
+[[area]]
+path = "third_party"
+decision = "keep"
+why = "gitlinks to the kernel sources the kernel lot builds (update = none, shallow)"
+
+[[area]]
+path = "tools"
+decision = "keep"
+why = "repository scripts (Bun) with their own tests; one script per task"
+
+[[area]]
+path = "vercel"
+decision = "keep"
+why = "vercel.json and api/ are read from this directory by the Vercel project root setting"
+
+[[area]]
+path = "xtask"
+decision = "keep"
+why = "cargo xtask convention: a workspace member named xtask at the root"
+
+[[area]]
+path = ".editorconfig"
+decision = "keep"
+why = "editors and search/lint tools discover their config upward from the root"
+
+[[area]]
+path = ".fdignore"
+decision = "keep"
+why = "editors and search/lint tools discover their config upward from the root"
+
+[[area]]
+path = ".gitattributes"
+decision = "keep"
+why = "Git reads these from the repository root"
+
+[[area]]
+path = ".gitignore"
+decision = "keep"
+why = "Git reads these from the repository root"
+
+[[area]]
+path = ".gitmessage"
+decision = "keep"
+why = "Git reads these from the repository root"
+
+[[area]]
+path = ".gitmodules"
+decision = "keep"
+why = "Git reads these from the repository root"
+
+[[area]]
+path = ".markdownlint-cli2.jsonc"
+decision = "keep"
+why = "editors and search/lint tools discover their config upward from the root"
+
+[[area]]
+path = ".python-version"
+decision = "keep"
+why = "uv reads the Python project, workspace and pin from the root"
+
+[[area]]
+path = ".rgignore"
+decision = "keep"
+why = "editors and search/lint tools discover their config upward from the root"
+
+[[area]]
+path = "AGENTS.md"
+decision = "keep"
+why = "agent rules and the style contract; agents load them from the root"
+
+[[area]]
+path = "Cargo.lock"
+decision = "keep"
+why = "Cargo and the Rust toolchain read these from the workspace root"
+
+[[area]]
+path = "Cargo.toml"
+decision = "keep"
+why = "Cargo and the Rust toolchain read these from the workspace root"
+
+[[area]]
+path = "Dockerfile"
+decision = "keep"
+why = "Docker tooling reads these from the build context root"
+
+[[area]]
+path = "LICENSE"
+decision = "keep"
+why = "repository front matter and legal files, read by GitHub and package registries at the root"
+
+[[area]]
+path = "LIFETIMES_AND_STYLE.md"
+decision = "keep"
+why = "agent rules and the style contract; agents load them from the root"
+
+[[area]]
+path = "MAP.tsv"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "README.md"
+decision = "keep"
+why = "repository front matter and legal files, read by GitHub and package registries at the root"
+
+[[area]]
+path = "REVIEW.md"
+decision = "keep"
+why = "repository front matter and legal files, read by GitHub and package registries at the root"
+
+[[area]]
+path = "THIRD_PARTY_NOTICES.md"
+decision = "keep"
+why = "repository front matter and legal files, read by GitHub and package registries at the root"
+
+[[area]]
+path = "bun.lock"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = "bunfig.toml"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = "compose.yaml"
+decision = "keep"
+why = "Docker tooling reads these from the build context root"
+
+[[area]]
+path = "deny.toml"
+decision = "keep"
+why = "Cargo and the Rust toolchain read these from the workspace root"
+
+[[area]]
+path = "flake.nix"
+decision = "keep"
+why = "Nix flakes and legacy entry points are looked up at the root"
+
+[[area]]
+path = "fw.soul.json"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "fw.targets.json"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "justfile"
+decision = "keep"
+why = "just discovers the justfile at the root"
+
+[[area]]
+path = "kernel.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "layout.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "package.json"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = "product.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "pyproject.toml"
+decision = "keep"
+why = "uv reads the Python project, workspace and pin from the root"
+
+[[area]]
+path = "rust-toolchain.toml"
+decision = "keep"
+why = "Cargo and the Rust toolchain read these from the workspace root"
+
+[[area]]
+path = "tsconfig.json"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = "upstreams.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "uv.lock"
+decision = "keep"
+why = "uv reads the Python project, workspace and pin from the root"
+
+[[area]]
+path = "cpp"
+decision = "keep"
+why = "CMake projects get their own top-level root with CMakePresets.json (ay already uses cpp/)"
+
+[[area]]
+path = "apps/chromium-dash"
+decision = "keep"
+why = "Bun workspace members belong in apps/*, not nested in a Rust crate"
+
+[[area]]
+path = "packages/chromium"
+decision = "keep"
+why = "Bun workspace members belong in packages/*, not nested in a Rust crate"
+
+[[area]]
+path = "packages/chromium-releases"
+decision = "keep"
+why = "Bun workspace members belong in packages/*, not nested in a Rust crate"
+
+[[area]]
+path = "python"
+decision = "keep"
+why = "uv workspace members live in python/*, not under a Bun package"
+
+[[area]]
+path = "dotnet"
+decision = "keep"
+why = ".NET projects get one root with Directory.Build.props, Directory.Packages.props (central package management) and a .slnx"
+
+[[moved]]
+from = "core/cpp"
+to = "cpp"
+why = "CMake projects get their own top-level root with CMakePresets.json (ay already uses cpp/)"
+
+[[moved]]
+from = "crates/fw-browser-chromium/apps/chromium-dash"
+to = "apps/chromium-dash"
+why = "Bun workspace members belong in apps/*, not nested in a Rust crate"
+
+[[moved]]
+from = "crates/fw-browser-chromium/packages/chromium"
+to = "packages/chromium"
+why = "Bun workspace members belong in packages/*, not nested in a Rust crate"
+
+[[moved]]
+from = "crates/fw-browser-chromium/packages/chromium-releases"
+to = "packages/chromium-releases"
+why = "Bun workspace members belong in packages/*, not nested in a Rust crate"
+
+[[moved]]
+from = "packages/ai-os/python"
+to = "python"
+why = "uv workspace members live in python/*, not under a Bun package"
+
+[[moved]]
+from = "packages/ai-os/native"
+to = "dotnet"
+why = ".NET projects get one root with Directory.Build.props, Directory.Packages.props (central package management) and a .slnx"

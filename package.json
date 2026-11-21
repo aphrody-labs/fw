@@ -5,10 +5,14 @@
   "type": "module",
   "workspaces": [
     "apps/agents",
+    "apps/chromium-dash",
     "packages/gnu",
     "packages/ai-os",
     "packages/ai-os/engines/*",
-    "packages/ai-os/protocols/*"
+    "packages/ai-os/protocols/*",
+    "packages/chromium",
+    "packages/chromium-releases",
+    "packages/linux-types"
   ],
   "catalog": {
     "@types/bun": "1.4.5",

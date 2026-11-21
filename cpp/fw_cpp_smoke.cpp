@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
-#include "../c/fw_abi.h"
+#include "../core/c/fw_abi.h"
 
 int main() {
     std::vector<float> a = {1.0f, 2.0f, 3.0f, 4.0f};

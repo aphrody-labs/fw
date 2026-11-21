@@ -59,7 +59,7 @@ review *args:
 [group('ai-os')]
 [windows]
 ai-os-install exe:
-    pwsh -NoProfile -File "{{root}}/packages/ai-os/native/ai-os-windows/install.ps1" -ServiceExe "{{exe}}"
+    pwsh -NoProfile -File "{{root}}/dotnet/ai-os-windows/install.ps1" -ServiceExe "{{exe}}"
 
 # Linux user unit of the ai-os (<prod-host> and Linux hosts; source in device/fleet/prod/systemd)
 [group('ai-os')]

@@ -40,7 +40,7 @@ fw workflow run discover
 - Packages: `fw info`, `fetch`, `lock`, `verify`, `tree`, `export` (CycloneDX 1.5), `install`, `audit`, `compile` over the Cargo sparse index, npm and APM.
 - Crate intelligence: `fw crates <search|info|compare|rank|awesome|bench|stack|sync>` ranks every crates.io crate from the daily database dump (documented score in `docs/crates/RANKING.md`), writes per-category awesome lists (`docs/crates/awesome`), load-tests Rust web frameworks (`docs/crates/bench`), and generates a Cargo skeleton for a goal; also `GET /v1/crates/*` and the `crates_*` MCP tools on `fw serve` and in the Bun plugin (`crates/fw-crates).
 - Userland: `fw sh -c "cmd1 | cmd2"` and 40 applets (`ls`, `grep`, `sort`, `jq`, `tokei`, `du`, `bat`, `base64`, `sha256sum`, `cp`, `mv`, `rm`, and others listed in `crates/fw-uutils/src/lib.rs`).
-- Host: `fw tune <hardware|sysctl|scx|ananicy|bench>` (CachyOS profiles and x86-64-v3 and mimalloc microbenchmarks, `core/cpp/fw_cachy_simd.cpp`).
+- Host: `fw tune <hardware|sysctl|scx|ananicy|bench>` (CachyOS profiles and x86-64-v3 and mimalloc microbenchmarks, `cpp/fw_cachy_simd.cpp`).
 
 ## Gates
 

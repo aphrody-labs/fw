@@ -23,3 +23,7 @@ exclude = ["packages", "plugin", "plugins", "native", "dist", "cloudflare", "ver
 
 [tool.ruff.lint]
 ignore = ["B023", "BLE001", "TRY002", "SIM117"]
+
+[tool.uv.workspace]
+members = ["python/hermes_agent_memory", "crates/fw-agent-context"]
+exclude = ["python/research_ref", "tools/google"]

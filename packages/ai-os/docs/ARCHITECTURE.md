@@ -1,6 +1,6 @@
 # Architecture (`@aphrody/fw-ai-os`)
 
-Cross-platform sandboxed Unix/GNU-like OS distribution for autonomous agents. Workspaces: Bun (`packages/ai-os`), Rust 2024 (`src/core/capi`, `crates/ay-agent-context`, `frameworks/agent/py`, `system/posix/omarchy`), Python `uv` (`packages/ai-os/python`). Native code compiles with the shared Chromium LLVM 24 toolchain on `<build-host>`/CI, never on the workstation.
+Cross-platform sandboxed Unix/GNU-like OS distribution for autonomous agents. Workspaces: Bun (`packages/ai-os`), Rust 2024 (`src/core/capi`, `crates/ay-agent-context`, `frameworks/agent/py`, `system/posix/omarchy`), Python `uv` (`python`). Native code compiles with the shared Chromium LLVM 24 toolchain on `<build-host>`/CI, never on the workstation.
 
 ## Layers
 
