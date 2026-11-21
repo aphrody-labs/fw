@@ -172,6 +172,10 @@ jobs:
         run: bun configs/claude/scripts/check.ts
       - name: One product version (product.toml and every copy of it)
         run: bun tools/version.ts
+      - name: Ignore files hold no tracked path, no legacy tool is back (tools/modern-toolchain/steps.toml)
+        run: |
+          bun tools/modern-toolchain/check.ts ignore
+          bun tools/modern-toolchain/check.ts legacy
 
   layout:
     name: Layout map (crate homes, dependency direction, covered paths)

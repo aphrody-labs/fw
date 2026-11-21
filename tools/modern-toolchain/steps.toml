@@ -1,0 +1,50 @@
+# Modern-toolchain decisions that code can check (docs/research/modern-toolchain-2026-11.md holds the measurements).
+# Read by tools/modern-toolchain/check.ts; nothing else carries these lists.
+
+# Tracked paths that look like build output but are vendored inputs on purpose (path prefix, reason).
+[[tracked_binary]]
+path = "aphrody/crates/zed/resources/windows/bin/x64/OpenConsole.exe"
+reason = "vendored Windows terminal host shipped with the desktop app"
+
+# Legacy tools that must not come back in CI, scripts or container files: regex over tracked files of `scope`.
+[[legacy]]
+pattern = '\b(npm (install|ci|run|exec)|npx|yarn|pnpm)\b'
+replacement = "bun, bunx"
+scope = [".github", "justfile", "tools", "cluster", "Dockerfile", "compose.yaml"]
+
+[[legacy]]
+pattern = '\bpip3? install\b|python3? -m pip\b'
+replacement = "uv (uv run, uv pip, uvx)"
+scope = [".github", "justfile", "tools", "cluster", "Dockerfile", "compose.yaml"]
+
+[[legacy]]
+pattern = '\bping -n 1 -w 1000\b'
+replacement = "route-table probe (route print ... | findstr), docs/research/modern-toolchain-2026-11.md step 1"
+scope = [".github", "justfile", "tools", "cluster", "configs"]
+
+# Userland CLIs the agents use on every node. `adopted` ones must exist on each node of cluster/build.toml;
+# `rejected` ones were measured slower and stay out (docs row 10).
+[[userland]]
+bin = "rg"
+replaces = "grep -r"
+status = "adopted"
+[[userland]]
+bin = "jaq"
+replaces = "jq"
+status = "adopted"
+[[userland]]
+bin = "fd"
+replaces = "find"
+status = "adopted"
+[[userland]]
+bin = "zstd"
+replaces = "gzip, xz for Linux archives"
+status = "adopted"
+[[userland]]
+bin = "brotli"
+replaces = "gzip for static web assets"
+status = "adopted"
+[[userland]]
+bin = "sd"
+replaces = "sed"
+status = "rejected"
