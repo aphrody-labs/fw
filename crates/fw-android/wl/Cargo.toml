@@ -7,6 +7,20 @@ license.workspace = true
 repository.workspace = true
 description = "Headless smithay Wayland compositor that surfaces the windows of the fw android guest and answers screenshot and window queries on a control socket"
 
+[dependencies]
+smithay = { version = "0.7.0", default-features = false, features = ["wayland_frontend"] }
+calloop = { version = "0.14", features = ["signals"] }
+png = "0.18"
+serde_json = "1"
+libc = "0.2"
+rustix = { version = "1", features = ["time"] }
+
+[dev-dependencies]
+wayland-client = "0.31"
+wayland-protocols = { version = "0.32", features = ["client"] }
+tempfile = "3"
+png = "0.18"
+
 [lints]
 workspace = true
 
