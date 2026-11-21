@@ -50,7 +50,9 @@ describe("polyglot OS, C ABI, NTFS, VFS, AI protocols and low-level LTO/AOT", ()
 
     const git = gitInspectWithAbi(ROOT, ROOT) as { ok: boolean; branch: string | null };
     expect(git.ok).toBe(true);
-    expect(git.branch).toBe("main");
+    // The branch the checkout is on (main, a release/<M> branch, or null when detached), read with git itself.
+    const head = Bun.spawnSync(["git", "-C", ROOT, "symbolic-ref", "--quiet", "--short", "HEAD"]).stdout.toString().trim();
+    expect(git.branch).toBe(head || null);
 
     if (IS_WIN) {
       const abiBin = findAbiLibrary(ROOT)!;

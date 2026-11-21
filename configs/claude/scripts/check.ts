@@ -98,9 +98,13 @@ if (bridge !== undefined) {
 }
 
 // 5. Plugin and marketplace validation by the claude CLI itself.
-if (Bun.which("claude")) {
+// A CI runner can have the claude binary on PATH without a user installation under its own HOME (the cluster runners
+// run with an isolated HOME); that is reported as a skip with its reason, every other validation output is a failure.
+const claudeProbe = Bun.which("claude") ? Bun.spawnSync(["claude", "--version"]) : undefined;
+const claudeReady = claudeProbe !== undefined && !`${claudeProbe.stdout}${claudeProbe.stderr}`.includes("user installation not found");
+if (claudeReady) {
   step("claude validate marketplace", ["claude", "plugin", "validate", FW_ROOT]);
   step("claude validate aphrody", ["claude", "plugin", "validate", join(FW_ROOT, "plugins", "aphrody")]);
-} else console.log("SKIP [claude plugin validate]: claude CLI not installed");
+} else console.log(`SKIP [claude plugin validate]: ${Bun.which("claude") ? "no claude user installation under this HOME" : "claude CLI not installed"}`);
 
 process.exit(failed > 0 ? 1 : 0);
