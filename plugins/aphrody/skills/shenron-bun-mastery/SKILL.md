@@ -53,6 +53,6 @@ This skill conforms to:
    - Never insert `"types": ["bun"]` into packages with empty `devDependencies` (use ambient headers).
 3. **No External Network Leaks in CI / Production**:
    - Production Docker images stream layers over WireGuard via Zstandard (`zstd -T0`).
-   - S3/R2 assets are mirrored through Pingora/Garage Edge Simulators.
+   - S3/R2 assets are mirrored to Garage (shenron `docs/runbooks/`, skill `shenron-selfhost`).
 4. **Strict Zero-Emoji Policy**:
    - Zero emojis in all code, comments, commit messages, and logs.

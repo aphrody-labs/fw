@@ -38,6 +38,10 @@ version = "0.19.0"
 build_target_cpu = "x86-64-v3"
 tools_dir = "tools/sccache"          # under each node's work dir
 
+# `fw serve` port on every node; read by the fw-cluster router (HybridClusterRouter::from_build_cluster).
+[fw]
+serve_port = 4379
+
 [nativelink]
 scheduler = "n1"
 scheduler_port = 50051

@@ -13,6 +13,12 @@ mod ui;
 pub use chat::{list_models, proxy_chat_completions};
 pub use server::{serve, serve_on, serve_with};
 
+/// The router a running fw serves: the hosts of `cluster/build.toml` plus this machine as measured now.
+pub fn discover_router() -> HybridClusterRouter {
+    let hardware = detect_hardware_profile();
+    HybridClusterRouter::discover(Some(HybridClusterRouter::local_node(hardware.logical_cpus, hardware.has_cuda)))
+}
+
 use fw_apm::unified_pm::scan_unified_workspace;
 use fw_cluster::HybridClusterRouter;
 use fw_compute::{detect_hardware_profile, run_compute_smoke_bench, DEFAULT_WGSL_KERNEL};
@@ -366,10 +372,10 @@ mod tests {
 
     #[test]
     fn http_graphql_peers_openai_mcp_acp_a2a_dispatch_cleanly() {
-        let router = Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster()));
+        let router = Arc::new(Mutex::new(discover_router()));
         let (code, _, gql) = dispatch_http(&router, "POST", "/graphql", r#"{"query":"{ status hardware cluster wgsl }"}"#);
         assert_eq!(code, 200);
-        assert!(gql.contains("fw-hybrid-v3"));
+        assert!(gql.contains(&router.lock().unwrap().cluster_name));
 
         let (code, _, peer) = dispatch_http(&router, "POST", "/cluster/peers", r#"{"peerId":"browser-rtx","vramGb":8,"cpuCores":8}"#);
         assert_eq!(code, 200, "{peer}");
@@ -431,7 +437,7 @@ mod tests {
 
     #[test]
     fn crates_endpoints_and_mcp_tools() {
-        let router = Arc::new(Mutex::new(HybridClusterRouter::default_hybrid_cluster()));
+        let router = Arc::new(Mutex::new(discover_router()));
         let (_, _, list) = dispatch_http(&router, "POST", "/mcp", r#"{"jsonrpc":"2.0","id":1,"method":"tools/list"}"#);
         for tool in ["crates_search", "crates_info", "crates_compare", "crates_awesome", "crates_stack"] {
             assert!(list.contains(tool), "{tool} missing from tools/list");

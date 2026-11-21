@@ -18,7 +18,6 @@ mod universal_agent;
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
-use fw_cluster::HybridClusterRouter;
 use fw_compute::bench_sandbox::{
     bench_compare, bench_exec, bench_http, bench_silicon, universal_bench_matrix,
 };
@@ -270,7 +269,7 @@ fn main() {
     match cmd {
         "status" => {
             let hw = detect_hardware_profile();
-            let cluster = HybridClusterRouter::default_hybrid_cluster();
+            let cluster = fw_proto::discover_router();
             // The node counts come from the cluster definition, so a host added or retired there shows up here.
             let summary = cluster.summary();
             println!(
@@ -287,7 +286,7 @@ fn main() {
                         "vpsProxyLbStorageCpuHosts": summary["vpsProxyLbStorageCpuHosts"],
                         "userWebGpuFpuPeers": summary["userWebGpuFpuPeers"],
                         "router": summary["router"],
-                        "ggmlCompat": "ggml-org/ggml + llama.cpp GGUF v3 + ggml-rpc"
+                        "nodes": summary["nodes"]
                     }
                 }))
                 .unwrap()
@@ -339,7 +338,7 @@ fn main() {
             std::process::exit(run_sibling("kernel", "fw-linux", &args[1..]));
         }
         "cluster" => {
-            let mut router = HybridClusterRouter::default_hybrid_cluster();
+            let mut router = fw_proto::discover_router();
             let sub = args.get(1).map(|s| s.as_str()).unwrap_or("summary");
             if sub == "k8s" {
                 std::process::exit(run_sibling("cluster k8s", "fw-k8s", &args[2..]));

@@ -7,12 +7,12 @@ The Cargo workspace (`Cargo.toml`) builds two artifacts:
 
 ## Cluster model
 
-`crates/fw-cluster` routes requests over a built-in sample topology (`HybridClusterRouter::default_hybrid_cluster`): one CUDA PC, remote GPU hosts, VPS proxy nodes and CPU workers. `cluster/topology.toml` documents that layout; no code reads it.
+`crates/fw-cluster` routes requests over the hosts of `cluster/build.toml` (`HybridClusterRouter::discover`, found through `$FW_ROOT` or the working directory's ancestors) plus the local machine as `fw-compute` measures it; `fw status` reports exactly those nodes. Kubernetes nodes enter through `fw cluster k8s`.
 
 - Proxy choice: consistent hash with health state, written in `fw-cluster` (Pingora is not a dependency).
 - Scheduling: KV-cache prefix affinity and prefill/decode disaggregation (`crates/fw-cluster/src/epp.rs`, modeled on `llm-d-router`).
 - Browser peers register with `POST /cluster/peers` (`peerId`, `vramGb`, `cpuCores`) on `fw serve`. There is no WebRTC or WebSocket transport.
-- Cloudflare: `cloudflare/worker.ts` (`FwOSAgent` Durable Object on SQLite). Google Cloud: Gemini Decision 1 at `/v1beta/decisions`.
+- Cloudflare: `cloudflare/worker.ts` (`FwOSAgent` Durable Object on SQLite). `src/decisions.ts` serves `/v1beta/decisions` and forwards to the Gemini API `gemini-decision-1` when `GEMINI_API_KEY` is set.
 
 ## Crates
 

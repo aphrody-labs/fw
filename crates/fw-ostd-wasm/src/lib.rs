@@ -136,21 +136,11 @@ pub struct FwOstdKernel {
     pub kernel_name: String,
     pub framekernel_safe_rust: bool,
     pub wasm_target_tuned: bool,
-    pub webgpu_virtio_ready: bool,
-    pub xarray_pages: usize,
-    pub mlsdisk_blocks: usize,
     pub gpui_scene_quads: usize,
     pub gpui_wgsl_bytes: usize,
 }
 
 pub fn boot_ostd_gpui_snapshot() -> FwOstdKernel {
-    let mut xa = XArray::default();
-    xa.store(0, 0x1000);
-    xa.store(1, 0x2000);
-
-    let mut disk = MlsDisk::default();
-    let _ = disk.write_block(b"fw-v4-asterinas-ostd-superblock");
-
     let mut scene = GpuiWasmScene::new(1280, 720, 2.0);
     scene.paint_quad(0.0, 0.0, 1280.0, 48.0, [0.07, 0.10, 0.19, 1.0]);
     scene.paint_quad(24.0, 72.0, 600.0, 320.0, [0.09, 0.14, 0.24, 1.0]);
@@ -159,10 +149,7 @@ pub fn boot_ostd_gpui_snapshot() -> FwOstdKernel {
     FwOstdKernel {
         kernel_name: "fw-asterinas-gpui-v4".into(),
         framekernel_safe_rust: true,
-        wasm_target_tuned: true,
-        webgpu_virtio_ready: true,
-        xarray_pages: xa.len(),
-        mlsdisk_blocks: disk.block_count(),
+        wasm_target_tuned: cfg!(target_arch = "wasm32"),
         gpui_scene_quads: scene.quads.len(),
         gpui_wgsl_bytes: GpuiWasmScene::quad_wgsl_shader().len(),
     }
@@ -184,7 +171,7 @@ mod tests {
 
         let snap = boot_ostd_gpui_snapshot();
         assert!(snap.framekernel_safe_rust);
-        assert!(snap.wasm_target_tuned);
+        assert_eq!(snap.wasm_target_tuned, cfg!(target_arch = "wasm32"));
         assert_eq!(snap.gpui_scene_quads, 3);
         assert!(snap.gpui_wgsl_bytes > 100);
     }

@@ -101,7 +101,7 @@ class TestVllmFwPlugin(unittest.TestCase):
                     "kv_role": "kv_producer",
                     "kv_connector_extra_config": {
                         "block_size": 4,
-                        "node_id": "gpu-2-gcloud-l4",
+                        "node_id": "fixture-node-b",
                     },
                 }
             )
@@ -130,7 +130,7 @@ class TestVllmFwPlugin(unittest.TestCase):
         self.assertTrue(delay_free)
         assert params is not None
         self.assertTrue(params["do_remote_prefill"])
-        self.assertEqual(params["remote_node_id"], "gpu-2-gcloud-l4")
+        self.assertEqual(params["remote_node_id"], "fixture-node-b")
 
         events = conn.take_events()
         self.assertEqual(len(events), 1)
@@ -156,7 +156,7 @@ class TestVllmFwPlugin(unittest.TestCase):
 
         # Export fw-cluster prefix index & dry-run fw bench
         kv_index = conn.export_cluster_kv_index()
-        self.assertEqual(kv_index[fw_vllm_plugin.fw_prefix_key(prompt)], "gpu-2-gcloud-l4")
+        self.assertEqual(kv_index[fw_vllm_plugin.fw_prefix_key(prompt)], "fixture-node-b")
         bench = conn.run_fw_bench(model="Qwen/Qwen3-32B", dry_run=True)
         self.assertTrue(bench["dry_run"])
         self.assertEqual(bench["returncode"], 0)
@@ -179,7 +179,7 @@ class TestLlmdFwScorer(unittest.TestCase):
         endpoints = [
             {
                 "id": "gpu-cold-idle",
-                "endpoint": "http://10.66.0.21:8000",
+                "endpoint": "http://192.0.2.21:8000",
                 "role": "prefill",
                 "healthy": True,
                 "inflight": 0,
@@ -189,7 +189,7 @@ class TestLlmdFwScorer(unittest.TestCase):
             },
             {
                 "id": "gpu-warm-hit",
-                "endpoint": "http://10.66.0.22:8000",
+                "endpoint": "http://192.0.2.22:8000",
                 "role": "prefill",
                 "healthy": True,
                 "inflight": 1,
@@ -199,7 +199,7 @@ class TestLlmdFwScorer(unittest.TestCase):
             },
             {
                 "id": "gpu-unhealthy",
-                "endpoint": "http://10.66.0.23:8000",
+                "endpoint": "http://192.0.2.23:8000",
                 "role": "prefill",
                 "healthy": False,
                 "inflight": 0,
@@ -220,7 +220,7 @@ class TestLlmdFwScorer(unittest.TestCase):
         endpoints = [
             fw_llmd_scorer.EndpointState(
                 id="gpu-prefill-1",
-                endpoint="http://10.66.0.21:8000",
+                endpoint="http://192.0.2.21:8000",
                 role="prefill",
                 prefill_score=1.6,
                 decode_score=0.2,
@@ -228,7 +228,7 @@ class TestLlmdFwScorer(unittest.TestCase):
             ),
             fw_llmd_scorer.EndpointState(
                 id="gpu-decode-1",
-                endpoint="http://10.66.0.22:8200",
+                endpoint="http://192.0.2.22:8200",
                 role="decode",
                 inflight=4,
                 kv_cache_usage=0.7,
@@ -236,15 +236,15 @@ class TestLlmdFwScorer(unittest.TestCase):
             ),
             fw_llmd_scorer.EndpointState(
                 id="gpu-decode-2",
-                endpoint="http://10.66.0.23:8200",
+                endpoint="http://192.0.2.23:8200",
                 role="decode",
                 inflight=0,
                 kv_cache_usage=0.1,
                 decode_score=1.5,
             ),
             fw_llmd_scorer.EndpointState(
-                id="vps-1-fr1",
-                endpoint="http://10.66.0.11:8080",
+                id="fixture-proxy-a",
+                endpoint="http://192.0.2.11:8080",
                 role="proxy",
                 kind="VpsProxyLbStorageCpu",
             ),
@@ -265,7 +265,7 @@ class TestLlmdFwScorer(unittest.TestCase):
         self.assertTrue(decision.disaggregated)
         self.assertEqual(decision.prefill_node, "gpu-prefill-1")
         self.assertEqual(decision.decode_node, "gpu-decode-2")
-        self.assertEqual(decision.proxy_vps, "vps-1-fr1")
+        self.assertEqual(decision.proxy_vps, "fixture-proxy-a")
         self.assertEqual(decision.draft_user_webgpu, "user-webgpu-peer-1")
 
     def test_select_pd_single_node_fallback(self) -> None:
@@ -297,7 +297,8 @@ class TestMigrateVllmLlmdToFw(unittest.TestCase):
         self.assertEqual(res.cluster_config["migration"]["models"], ["Qwen/Qwen3-32B"])
         gpu_node = res.cluster_config["nodes"][0]
         self.assertEqual(gpu_node["endpoint"], "http://127.0.0.1:8000")
-        self.assertEqual(gpu_node["vram_gb"], 48)
+        self.assertEqual(gpu_node["vram_gb"], 0)
+        self.assertIsNone(gpu_node["rpc_addr"])
         self.assertGreater(gpu_node["prefill_score"], gpu_node["decode_score"])
 
         gap_map = {g.feature: g.fw_status for g in res.parity_gaps}
@@ -324,7 +325,7 @@ services:
         node_ids = [n["id"] for n in res.cluster_config["nodes"]]
         self.assertIn("vllm-prefill", node_ids)
         self.assertIn("vllm-decode", node_ids)
-        self.assertIn("vps-1-pingora-ingress", node_ids)
+        self.assertIn("local-proxy", node_ids)
 
     def test_migrate_llmd_helm_values_and_inference_pool(self) -> None:
         llmd_yaml = """
