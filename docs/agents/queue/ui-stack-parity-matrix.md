@@ -37,5 +37,5 @@ Order of the owner, 2026-11-21: an audited parity and equivalence matrix between
 ## Remaining
 
 - Frame time three.js against Bevy (gpu-bench Suite B, no results yet).
-- Wasm sizes of wgpu and Bevy and the native GPUI hello binary: see the Benchmarks section for what finished.
+- Wasm sizes of wgpu and Bevy and the native GPUI hello binary: builds on fr1 were stopped at load average 70 to 100 (Leptos and Dioxus wasm finished); rerun when the node is idle.
 - Latency percentiles at low host load (the hosts ran at load 27 to 100).

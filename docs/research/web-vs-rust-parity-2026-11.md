@@ -402,8 +402,8 @@ Next.js serves the static page at 826 us per request here; the hello routes of a
 | Leptos counter, JS glue | 22,961 | 5,312 | |
 | Dioxus 0.7.10 counter, wasm after `wasm-opt -Oz` | 276,588 | 116,671 | 97,070 |
 | Dioxus counter, JS glue | 54,008 | 8,841 | |
-| wgpu 30.0.2 WebGPU triangle, wasm | not built yet | | |
-| Bevy 0.20.1 cube, wasm | not built yet | | |
+| wgpu 30.0.2 WebGPU triangle, wasm | not measured: build stopped at fr1 load 100 | | |
+| Bevy 0.20.1 cube, wasm | not measured: build not reached | | |
 
 ### Password hashing (better-auth parameters: scrypt N=16384, r=16, p=1, 64-byte key)
 
