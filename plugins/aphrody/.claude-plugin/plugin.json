@@ -1,6 +1,6 @@
 {
   "name": "aphrody",
-  "version": "1.0.0",
+  "version": "1.1.0-ab6f9d07",
   "description": "Unified Aphrody plugin: fw MCP, Bun-native hooks, recursive agents, and one deduplicated skill set absorbed from every upstream (sources.toml).",
   "author": {
     "name": "aphrody-labs",
@@ -28,6 +28,17 @@
   "hooks": "./.claude-plugin/hooks.json",
   "mcpServers": "./.claude-plugin/mcp.json",
   "skills": "./skills/",
-  "agents": "./agents/",
+  "agents": [
+    "./agents/architecture-critic.md",
+    "./agents/business-rules-extractor.md",
+    "./agents/legacy-analyst.md",
+    "./agents/researcher.md",
+    "./agents/scaffolder.md",
+    "./agents/security-auditor.md",
+    "./agents/test-engineer.md",
+    "./agents/uplift-migrator.md",
+    "./agents/version-delta-analyst.md",
+    "./agents/worker.md"
+  ],
   "outputStyles": "./output-styles/"
 }

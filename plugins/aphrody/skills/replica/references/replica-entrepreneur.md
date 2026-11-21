@@ -23,7 +23,7 @@ what the original's users hate, in their own words, and fixes it in yours.
 Tool in this folder:
 
 ```bash
-python3 references/replica-entrepreneur/reviews.py replica/reviews.csv --out replica/feedback.md
+uv run references/replica-entrepreneur/reviews.py replica/reviews.csv --out replica/feedback.md
 ```
 
 ## The rules, which are not negotiable
@@ -66,7 +66,7 @@ best fixes hide.
 ## Step 2: rank
 
 ```bash
-python3 references/replica-entrepreneur/reviews.py replica/reviews.csv --out replica/feedback.md
+uv run references/replica-entrepreneur/reviews.py replica/reviews.csv --out replica/feedback.md
 ```
 
 It sorts reviews into themes (`references/replica-entrepreneur/themes.json`, edit it for the app's category),

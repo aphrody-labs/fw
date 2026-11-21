@@ -21,7 +21,7 @@ and `replica/brand.json`. Writes `replica/launch/`: `landing.md`,
 `pricing.md`, `listing.json`, `launch-plan.md`.
 
 ```bash
-python3 references/replica-launch/listing.py replica/launch/listing.json      # limits, claims, the original's name
+uv run references/replica-launch/listing.py replica/launch/listing.json      # limits, claims, the original's name
 ```
 
 Start from `references/replica-launch/listing.example.json` in this folder.
@@ -72,7 +72,7 @@ Copy in the brand voice. Run replica-design's contrast check on the page.
 Fill `listing.json`, then:
 
 ```bash
-python3 references/replica-launch/listing.py replica/launch/listing.json
+uv run references/replica-launch/listing.py replica/launch/listing.json
 ```
 
 It checks App Store limits (name 30, subtitle 30, promotional text 170,

@@ -1,11 +1,9 @@
 ---
 name: webgpu
-description: >-
-  Authoritative WebGPU & WGSL engineering skill for aphrody. Use whenever authoring,
-  validating, transpiling, or executing WebGPU WGSL shaders, designing GPUI/NSH shader
-  pipelines, inspecting Dawn/Tint vs Naga differences, configuring WebGL2 fallbacks,
-  verifying @webgpu/types with Bun TypeScript, or running GPU validation/headless compute with gpui-wgpu.
+description: "Authoritative WebGPU & WGSL engineering skill for aphrody. Use whenever authoring, validating, transpiling, or executing WebGPU WGSL shaders, designing GPUI/NSH shader pipelines"
 ---
+> inspecting Dawn/Tint vs Naga differences, configuring WebGL2 fallbacks, verifying @webgpu/types with Bun TypeScript, or running GPU validation/headless compute with gpui-wgpu.
+
 
 # WebGPU & WGSL Architecture (`aphrody`)
 

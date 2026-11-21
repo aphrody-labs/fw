@@ -475,7 +475,7 @@ In components:
 **Automated testing:**
 
 ```bash
-npm install -D @axe-core/react
+bun add --dev @axe-core/react
 ```
 
 ```tsx

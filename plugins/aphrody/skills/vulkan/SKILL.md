@@ -1,12 +1,9 @@
 ---
 name: vulkan
-description: >-
-  Architect, build, debug, validate, compile, and benchmark Vulkan 1.3/1.4 and SPIR-V
-  graphics and compute infrastructure in aphrody. Use whenever working on Vulkan adapters,
-  Synchronization2, Dynamic Rendering, Timeline Semaphores, wgpu-hal Vulkan backend (ash 0.38 & gpu-allocator 0.28),
-  Khronos Validation Layers, glslangValidator/glslc/spirv-val/spirv-opt shader pipelines,
-  Naga SPIR-V backend translation, or negative viewport height Y-flipping.
+description: "Architect, build, debug, validate, compile, and benchmark Vulkan 1.3/1.4 and SPIR-V graphics. Use whenever working on Vulkan adapters, Synchronization2, Dynamic Rendering, Timeline Semaphores"
 ---
+> and compute infrastructure in aphrody. , wgpu-hal Vulkan backend (ash 0.38 & gpu-allocator 0.28), Khronos Validation Layers, glslangValidator/glslc/spirv-val/spirv-opt shader pipelines, Naga SPIR-V backend translation, or negative viewport height Y-flipping.
+
 
 # Vulkan Architecture & Toolchain (`aphrody`)
 

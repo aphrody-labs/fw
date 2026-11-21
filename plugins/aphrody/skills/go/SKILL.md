@@ -1,7 +1,9 @@
 ---
 name: go
-description: Authoritative Go 1.27+ toolchain, module/workspace architecture, golang/tools (gopls, govulncheck), golangci-lint v2, fuzzing/benchmarks, and c-shared C ABI FFI integration for Aphrody and Fairwind. Use for any Go code, go.mod/go.work, CLI/server builds, or Go-to-Bun/Rust FFI bridges.
+description: "Authoritative Go 1.27+ toolchain, module/workspace architecture, golang/tools (gopls, govulncheck). Use for any Go code, go.mod/go.work, CLI/server builds, or Go-to-Bun/Rust FFI bridges."
 ---
+> golangci-lint v2, fuzzing/benchmarks, and c-shared C ABI FFI integration for Aphrody and Fairwind.
+
 
 # Go Engineering Reference (Verified 2026-11-19)
 

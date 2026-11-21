@@ -1,11 +1,9 @@
 ---
 name: zed-nix
-description: >-
-  Authoritative Nix architecture distilled from zed-industries/zed/nix (14 files + root flake.nix):
-  flake-parts with dev partitions (keeping consumer flake.lock lean), crane + rust-overlay pinned to
-  rust-toolchain.toml, overlays, devShells, treefmt-nix (nixfmt + rustfmt), and pkgs.testers.nixosTest
-  KVM VM integration suites for GPUI AccessKit AT-SPI (a11y.nix) and Linux Bubblewrap sandboxing.
+description: "Authoritative Nix architecture distilled from zed-industries/zed/nix (14 files + root flake.nix): flake-parts with dev partitions (keeping consumer flake.lock lean)"
 ---
+> , crane + rust-overlay pinned to rust-toolchain.toml, overlays, devShells, treefmt-nix (nixfmt + rustfmt), and pkgs.testers.nixosTest KVM VM integration suites for GPUI AccessKit AT-SPI (a11y.nix) and Linux Bubblewrap sandboxing.
+
 
 # Zed Nix Architecture (`zed-industries/zed/nix`)
 

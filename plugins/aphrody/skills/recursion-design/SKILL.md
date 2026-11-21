@@ -1,7 +1,9 @@
 ---
 name: "recursion-design"
-description: "Design and review recursion and recursive data structures in Rust and JavaScript/Bun: stack depth bounds, tail calls and Rust `become`, JSC proper tail calls, trampolines, CPS, memoisation and dynamic programming, divide-and-conquer recurrences, recursion schemes, termination measures and well-founded induction. Use when writing a recursive algorithm, parser, tree walk, interpreter or fixing a stack overflow."
+description: "Design and review recursion and recursive data structures in Rust and JavaScript/Bun: stack depth. Use when writing a recursive algorithm, parser, tree walk, interpreter or fixing a stack overflow."
 ---
+> bounds, tail calls and Rust become, JSC proper tail calls, trampolines, CPS, memoisation and dynamic programming, divide-and-conquer recurrences, recursion schemes, termination measures and well-founded induction.
+
 
 # recursion-design
 

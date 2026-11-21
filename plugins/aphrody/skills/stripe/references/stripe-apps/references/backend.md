@@ -107,7 +107,7 @@ Run your backend locally alongside `stripe apps start`:
 stripe apps start
 
 # Terminal 2: start your backend server
-node server.js
+bun server.js
 ```
 
 For webhook forwarding during local development, see `references/webhooks.md`.

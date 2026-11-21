@@ -1,6 +1,6 @@
 ---
 name: fw
-description: Orientation for the fw monorepo: the Rust workspace under `crates/fw-*` and `xtask`, the `fw` binary, the Bun plugin CLI, the native agy launcher and C ABI, and the Cloudflare and Vercel adapters.
+description: "Orientation for the fw monorepo: the Rust workspace under crates/fw-* and xtask, the fw binary, the Bun plugin CLI, the native agy launcher and C ABI, and the Cloudflare and Vercel adapters."
 ---
 
 # fw

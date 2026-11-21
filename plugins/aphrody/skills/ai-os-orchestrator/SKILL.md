@@ -1,7 +1,9 @@
 ---
 name: ai-os-orchestrator
-description: "Run multi-agent work across the fleet without a human: task graphs (agent, cmd, tool steps) in parallel on pc, fr1, prd and fr2, engines chosen from what is really installed and discovered, automatic failover on quota/429/auth, fix tickets, budgets, lifecycle (fmt, check, tests, judges, docker, deploy dry-run, monitor, optimize), held external effects. Use for any request to parallelise agents, delegate to sub-agents, route between CLIs or providers, or run the src lifecycle unattended."
+description: "Run multi-agent work across the fleet without a human: task graphs (agent, cmd, tool steps). Use for any request to parallelise agents, delegate to sub-agents, route between CLIs or providers"
 ---
+> in parallel on pc, fr1, prd and fr2, engines chosen from what is really installed and discovered, automatic failover on quota/429/auth, fix tickets, budgets, lifecycle (fmt, check, tests, judges, docker, deploy dry-run, monitor, optimize), held external effects. , or run the src lifecycle unattended.
+
 
 # ai-os orchestrator
 

@@ -1,15 +1,9 @@
 ---
 name: kernel-watch
-description: >-
-  Live state of the Linux mainline rc and stable kernels, Asterinas, Redox, LiberNT
-  and the kernels shipped by Android, CachyOS, ChromiumOS, Alpine, NixOS, Fedora,
-  Ubuntu, Arch and RHEL/CentOS Stream: versions and their distance to the mainline
-  rc, recent commits, releases, issues, PRs and discussions, satellite sites and
-  repositories. Use when a task depends on which kernel version a distribution
-  ships, what changed upstream recently, or how Asterinas, Redox or LiberNT are
-  moving; for the test lanes (read-only probe of the production Arch host, rc kernels booted in
-  QEMU on the build host, the WSL2 kernel build); also for adding or fixing a watched source.
+description: "Live state of the Linux mainline rc and stable kernels, Asterinas, Redox. Use when a task depends on which kernel version a distribution ships, what changed upstream recently"
 ---
+> LiberNT and the kernels shipped by Android, CachyOS, ChromiumOS, Alpine, NixOS, Fedora, Ubuntu, Arch and RHEL/CentOS Stream: versions and their distance to the mainline rc, recent commits, releases, issues, PRs and discussions, satellite sites and repositories. , or how Asterinas, Redox or LiberNT are moving; for the test lanes (read-only probe of the production Arch host, rc kernels booted in QEMU on the build host, the WSL2 kernel build); also for adding or fixing a watched source.
+
 
 # Kernel watch
 

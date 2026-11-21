@@ -1,7 +1,9 @@
 ---
 name: zed-cherry-pick
-description: Cherry-pick one or more merged PRs and/or commits into Zed's `preview` or `stable` release branch. Use this whenever the user mentions cherry-picking to preview/stable, a failed cherry-pick run, or wants to manually port fix(es) into a release branch.
+description: "Cherry-pick one or more merged PRs and/or commits into Zed's preview or stable release branch. Use this whenever the user mentions cherry-picking to preview/stable, a failed cherry-pick run"
 ---
+> or wants to manually port fix(es) into a release branch.
+
 
 # Zed Cherry-Pick
 

@@ -1,0 +1,207 @@
+# Every upstream the aphrody plugin absorbs. `bun scripts/unify.ts` (cron: .github/workflows/unify-plugin.yml) pulls each
+# source, rewrites legacy tool calls to the Aphrody toolchain, dedupes, merges families and regenerates the managed files.
+# Pinned commits live in sources.lock.json; `--update` moves every ref to its head.
+#
+#   id            lock key and license file name
+#   git / ref     GitHub owner/repo and branch, tag or commit; `path` is the plugin root inside the repo
+#   skills        globs (from `path`) of SKILL.md files
+#   commands      directory of command markdown files, absorbed as skills (references of a family)
+#   agents / mcp / lsp   absorbed into agents/, .claude-plugin/mcp.json, .lsp.json
+#   exclude       skill names left out
+#   default_family   family that adopts every skill of this source no family claims (new upstream skills join it)
+#   replace       literal text replacements applied to the source's markdown
+#   copy          directories placed inside the plugin tree (after merging)
+
+[plugin]
+version = "1.1.0"
+description_max = 200
+
+[native]
+# Skills that live in this repository (no upstream): same toolchain rewrite and description compaction, never merged away.
+rewrite = true
+compact = true
+skip = ["bun-aphrody", "bun-upstream", "docker", "docker-docs", "containers-alpine-arch-k8s", "monorepo-dedupe", "source-command-dedupe", "lint-creator", "migrate-radix-to-base", "uv-project"]
+
+[[source]]
+id = "stitch-skills"
+git = "google-labs-code/stitch-skills"
+ref = "main"
+license = "Apache-2.0"
+skills = ["plugins/*/skills/*/SKILL.md"]
+default_family = "stitch"
+
+[[source]]
+id = "gemini-skills"
+git = "google-gemini/gemini-skills"
+ref = "main"
+license = "Apache-2.0"
+skills = ["skills/*/SKILL.md"]
+default_family = "gemini-api"
+
+[[source]]
+id = "huggingface-skills"
+git = "huggingface/skills"
+ref = "main"
+license = "Apache-2.0"
+skills = ["skills/*/SKILL.md"]
+mcp = ".mcp.json"
+default_family = "huggingface"
+
+[[source]]
+id = "code-modernization"
+git = "anthropics/claude-plugins-official"
+ref = "main"
+path = "plugins/code-modernization"
+license = "Apache-2.0"
+commands = "commands"
+agents = "agents"
+default_family = "modernize"
+replace = [
+  { from = "${CLAUDE_PLUGIN_ROOT}/workflows/", to = "${CLAUDE_PLUGIN_ROOT}/skills/modernize/references/workflows/" },
+  { from = "${CLAUDE_PLUGIN_ROOT}/assets/", to = "${CLAUDE_PLUGIN_ROOT}/skills/modernize/references/assets/" },
+  { from = "code-modernization:", to = "aphrody:" },
+]
+copy = [
+  { from = "workflows", to = "skills/modernize/references/workflows" },
+  { from = "assets", to = "skills/modernize/references/assets", exclude = ["media/**", "*.jpg", "*.png"] },
+]
+
+[[source]]
+id = "claude-md-management"
+git = "anthropics/claude-plugins-official"
+ref = "main"
+path = "plugins/claude-md-management"
+license = "Apache-2.0"
+skills = ["skills/*/SKILL.md"]
+commands = "commands"
+default_family = "claude-md"
+
+[[source]]
+id = "kotlin-lsp"
+git = "anthropics/claude-plugins-official"
+ref = "main"
+path = "plugins/kotlin-lsp"
+license = "Apache-2.0"
+lsp = ".claude-plugin/plugin.json"
+
+[[source]]
+id = "deep-refactor"
+git = "cedricfarinazzo/agile-skills"
+ref = "master"
+path = "deep-refactor"
+license = "MIT"
+skills = ["skills/*/SKILL.md"]
+default_family = "refactor"
+
+[[source]]
+id = "android-skills"
+git = "android/skills"
+ref = "main"
+license = "Apache-2.0"
+skills = ["*/*/SKILL.md", "*/*/*/SKILL.md"]
+default_family = "android"
+
+[[source]]
+id = "agent-desktop"
+git = "vercel-labs/agent-desktop"
+ref = "main"
+license = "Apache-2.0"
+skills = ["skills/agent-desktop*/SKILL.md"]
+default_family = "agent-desktop"
+
+[[source]]
+id = "3dviz-pro-max"
+git = "viettranx/3dviz-pro-max"
+ref = "main"
+license = "MIT"
+skills = ["skills/3dviz-pro-max/SKILL.md"]
+
+# Another session maintains plugins/modern-web (scripts/sync-modern-web.ts there); absorbed as is once it is committed.
+[[source]]
+id = "modern-web"
+local = "plugins/modern-web"
+optional = true
+license = "Apache-2.0"
+skills = ["skills/*/SKILL.md"]
+
+[[family]]
+parent = "stitch"
+title = "Google Stitch"
+description = "Google Stitch design workflow: generate and edit screens, DESIGN.md and SITE.md, design systems, code to design, design to React, React Native, shadcn and Remotion video. Use for any Stitch MCP task."
+intro = "Stitch turns prompts and images into UI screens through the `stitch` MCP server. Pick the reference for the step."
+children = ["enhance-prompt", "generate-design", "manage-design-system", "upload-to-stitch", "design-md", "extract-design-md", "extract-static-html", "code-to-design", "site-md", "stitch-loop", "taste-design", "react-components", "react-vite-dashboard", "react-native", "shadcn-ui", "remotion"]
+
+[[family]]
+parent = "gemini-api"
+title = "Gemini API"
+description = "Gemini API and SDK development: models, generation, function calling, Live API, Omni Flash, and the gemini CLI. Use when writing code against Gemini."
+intro = "Read the reference that matches the Gemini surface in use."
+children = ["gemini-api-dev", "gemini-live-api-dev", "gemini-omni-flash-api", "gemini-api-cli"]
+
+[[family]]
+parent = "huggingface"
+title = "Hugging Face"
+description = "Hugging Face Hub and ML work: hf CLI, models, datasets, Spaces, Gradio, ZeroGPU, papers, training (TRL, sentence-transformers, vision, Unsloth), evals, local GGUF models, Transformers.js, Trackio."
+intro = "Pick the reference for the Hub task. Python tooling runs through `uv` (`uv run`, `uv pip install`), never pip."
+match = ["hf-cli", "hf-mem", "huggingface-*", "train-sentence-transformers", "transformers-js", "trl-training"]
+
+[[family]]
+parent = "huggingface-sagemaker"
+title = "Hugging Face on SageMaker"
+description = "Deploy Hugging Face models to Amazon SageMaker: AWS context discovery, IAM preflight, serving image, production defaults, Python env. Use for any SageMaker endpoint work."
+intro = "Run the references in this order: context discovery, python env, IAM preflight, serving image, deployment planner, production defaults."
+match = ["hf-cloud-*"]
+
+[[family]]
+parent = "modernize"
+title = "Code modernization"
+description = "Modernize legacy codebases: preflight, assess, map, extract rules, brief, then reimagine, transform or uplift, harden and status. Use for COBOL, legacy Java, C++, .NET and monolith migrations."
+intro = "A reference named `modernize-<step>` is the former `/modernize-<step>` command. Workflow scripts are under `references/workflows/` (run with the Workflow tool), the topology viewer under `references/assets/`. Specialist agents are `aphrody:legacy-analyst`, `aphrody:business-rules-extractor`, `aphrody:security-auditor`, `aphrody:architecture-critic`, `aphrody:test-engineer`, `aphrody:scaffolder`, `aphrody:version-delta-analyst`, `aphrody:uplift-migrator`."
+match = ["modernize-*"]
+
+[[family]]
+parent = "claude-md"
+title = "CLAUDE.md maintenance"
+description = "Audit and improve CLAUDE.md files, and capture session learnings into them."
+intro = "`claude-md-improver` audits and rewrites; `revise-claude-md` records what this session learned."
+match = ["claude-md-improver", "revise-claude-md"]
+
+[[family]]
+parent = "refactor"
+title = "Deep refactor"
+description = "Audit a whole codebase, its tests or its docs for defects, waste and drift, then ship the findings as a sequenced PR train."
+intro = "`deep-refactor` covers code, `test-refactor` one test suite, `doc-refactor` every markdown file."
+children = ["deep-refactor", "test-refactor", "doc-refactor"]
+
+[[family]]
+parent = "android"
+title = "Android platform"
+description = "Android platform work: android CLI, AGP and build upgrades, testing, edge-to-edge, security, R8, ANR, profiling, Play Billing and policy, identity, CameraX, Media3, cars, iOS to Android."
+intro = "Pick the reference for the Android task; Compose UI is in `android-compose`, on-device AI in `android-ai`."
+children = ["android-cli", "agp-9-upgrade", "testing-setup", "edge-to-edge", "ios-to-android", "restore-credentials", "verified-email", "play-billing-library-version-upgrade", "play-policy-insights", "engage-sdk-integration", "android-intent-security", "android-permissions-security", "r8-analyzer", "anr-audit-and-fix", "android-profiler", "camerax", "media3-cast-integration", "android-for-cars-parked-apps"]
+
+[[family]]
+parent = "android-compose"
+title = "Android Compose and form factors"
+description = "Jetpack Compose on Android: adaptive layouts, performance, XML migration, Navigation 3, Wear, Glance widgets, TV, Ink, XR glasses and projected hardware."
+intro = "Pick the reference for the Compose or form-factor task."
+children = ["adaptive", "jetpack-compose-performance", "migrate-xml-views-to-jetpack-compose", "navigation-3", "navigation-event", "ink-app-builder", "ink-custom-brush-builder", "wear-compose-m3", "wear-widgets", "glance-appwidget-updates-and-memory", "glance-canonical-layouts", "leanback-to-compose-tv-migration", "display-glasses-with-jetpack-compose-glimmer", "projected-hardware"]
+
+[[family]]
+parent = "android-ai"
+title = "Android on-device AI"
+description = "On-device AI on Android: LiteRT-LM and LiteRT runtime, ML Kit GenAI prompt and agent APIs, AppFunctions."
+intro = "Pick the reference for the on-device model or API in use."
+children = ["litert-lm", "litert-runtime", "ml-kit-genai-prompt-api", "mlkit-agent-api", "appfunctions"]
+
+[[family]]
+parent = "agent-desktop"
+title = "agent-desktop"
+description = "Operate desktop apps on macOS, Windows and Linux through native accessibility trees with the agent-desktop CLI. Use when an agent must see or act on a desktop GUI."
+intro = "`references/core.md` is the platform-neutral guide; the platform references add per-OS details."
+children = ["agent-desktop-windows", "agent-desktop-linux", "agent-desktop-macos", "agent-desktop-ffi"]
+
+# Left out on purpose (not Claude or agy content, still live in this repository, referenced by code and tests):
+#   plugins/hermes-fw, plugins/vllm-fw, plugins/llmd-fw: Python adapters loaded by Hermes, vLLM and llm-d.
+#   plugins/openclaw-fw: OpenClaw runtime plugin (tests/fw_bun_native_ai.test.ts imports it).
+# Left in ~/.claude/skills: synced (managed by the desktop app), linux-kernel-docs (42 MB of generated, git-ignored pages).

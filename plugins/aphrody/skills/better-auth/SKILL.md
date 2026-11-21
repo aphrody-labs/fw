@@ -1,7 +1,9 @@
 ---
 name: better-auth
-description: "Better Auth in TypeScript apps: scaffold and configure server and client, adapters, sessions, plugins; email/password and verification; organizations and RBAC; two-factor and MFA; security hardening (rate limits, CSRF, trusted origins, secrets, audit). Use when the user mentions Better Auth, auth.ts, login, sign-up, MFA or multi-tenant auth."
+description: "Better Auth in TypeScript apps: scaffold and configure server and client, adapters, sessions, plugins. Use when the user mentions Better Auth, auth.ts, login, sign-up, MFA or multi-tenant auth."
 ---
+> email/password and verification; organizations and RBAC; two-factor and MFA; security hardening (rate limits, CSRF, trusted origins, secrets, audit).
+
 # Better Auth
 
 Scaffold with `create-auth`, then the reference for the feature being configured.

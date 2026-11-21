@@ -1,11 +1,9 @@
 ---
 name: nvidia
-description: >-
-  Architect, build, profile, compile, and optimize NVIDIA GPU infrastructure in aphrody.
-  Use whenever targeting NVIDIA GPUs (vendor ID 0x10DE), Ada Lovelace sm_89 / Hopper / Blackwell architectures,
-  CUDA 13.x compiler pipelines (nvcc, PTX), NVTX3 instrumentation, Nsight Systems/Compute profiling,
-  warp-level primitives (32 threads, ballot/shuffle), NVML telemetry, or vendor/wgpu NVIDIA quirks.
+description: "Architect, build, profile, compile, and optimize NVIDIA GPU infrastructure in aphrody. Use whenever targeting NVIDIA GPUs (vendor ID 0x10DE), Ada Lovelace sm_89 / Hopper / Blackwell architectures"
 ---
+> CUDA 13.x compiler pipelines (nvcc, PTX), NVTX3 instrumentation, Nsight Systems/Compute profiling, warp-level primitives (32 threads, ballot/shuffle), NVML telemetry, or vendor/wgpu NVIDIA quirks.
+
 
 # NVIDIA GPU Architecture & Toolchain (`aphrody`)
 

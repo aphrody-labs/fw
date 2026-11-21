@@ -1,7 +1,9 @@
 ---
 name: vendor-ecosystem
-description: Reference catalog and architecture mapping for the 14 upstream third-party repositories that were consolidated out of vendor/ (zero direct Cargo dependency) into Aphrody native crates, skills, and release packages, plus the 10 kept Cargo-referenced vendor forks in vendor/.
+description: "Reference catalog and architecture mapping for the 14 upstream third-party repositories that were consolidated out of vendor/ (zero direct Cargo dependency) into Aphrody native crates, skills"
 ---
+> , and release packages, plus the 10 kept Cargo-referenced vendor forks in vendor/.
+
 
 # Aphrody Vendor & Third-Party Ecosystem Reference
 

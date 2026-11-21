@@ -1,7 +1,9 @@
 ---
 name: disks
-description: Inventory and manage disks, partitions, LVM volumes, network mounts and filesystems on the fleet hosts (ay.toml [hosts]), find where large work (builds, caches, mirrors, datasets) must go, and grow or clean storage safely. Use before any large build, clone, download or mirror, when a disk looks full, or when asked about free space, partitions, LVM, XFS/ext4/btrfs, NFS or disk cleanup.
+description: "Inventory and manage disks, partitions, LVM volumes. Use before any large build, clone, download or mirror, when a disk looks full, or when asked about free space"
 ---
+> network mounts and filesystems on the fleet hosts (ay.toml [hosts]), find where large work (builds, caches, mirrors, datasets) must go, and grow or clean storage safely. , partitions, LVM, XFS/ext4/btrfs, NFS or disk cleanup.
+
 
 # Disks on the fleet
 
