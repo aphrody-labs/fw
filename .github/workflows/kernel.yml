@@ -68,8 +68,20 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
-      - name: Tools the generator runs (clang, pahole, bpftool) and headers_install needs (make, gcc, rsync)
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends clang llvm dwarves bpftool make gcc rsync
+      # The generated files depend on the compiler (clang 21 and 23 disagree on 18 structs and 400 macros), so the drift
+      # gate uses the LLVM major the files were generated with (apt.llvm.org), not the runner image's clang.
+      - name: Tools the generator runs (clang 23, pahole, bpftool) and headers_install needs (make, gcc, rsync)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends dwarves bpftool make gcc rsync wget gnupg lsb-release software-properties-common
+          wget -q https://apt.llvm.org/llvm.sh
+          sudo bash llvm.sh 23
+          sudo apt-get install -y --no-install-recommends llvm-23
+          sudo ln -sf "$(command -v clang-23)" /usr/local/bin/clang
+          sudo ln -sf "$(command -v llvm-objcopy-23)" /usr/local/bin/llvm-objcopy
+          clang --version | head -1
+          pahole --version
+          bpftool --version | head -1
       - run: cargo build --release -p fw-linux
       - name: Pinned UAPI headers (sparse blobless checkout, no full clone)
         working-directory: packages/linux-types
