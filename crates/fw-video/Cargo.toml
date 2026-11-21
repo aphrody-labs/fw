@@ -1,0 +1,24 @@
+[package]
+name = "fw-video"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+description = "Pure-Rust video conversion: MP4/H.264 decode (craft-libs), frame sampling, scene detection and colour vectorisation (visioncortex), exported as SVG, Markdown, HTML, JSX and GPUI source."
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "fw-video"
+path = "src/main.rs"
+
+[dependencies]
+craft-media = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2", features = ["isobmff"] }
+craft-video = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2", features = ["h264-decode", "threads"] }
+visioncortex = "0.9.3"
+
+[lints]
+workspace = true

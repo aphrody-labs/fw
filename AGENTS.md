@@ -1,6 +1,7 @@
 # fw - Universal Autonomous Agent Contract (v4.2)
 
 - **First Contact (< 500 tokens)**: Run `fw onboard` (or read `MAP.tsv`, `LIFETIMES_AND_STYLE.md`, `.agents/workflows/fw-agent-journey.md`). Works identically for any autonomous agent (ACP, MCP, Claude, Gemini, Codex, Cursor, Zed, OpenCode, Windsurf, Hermes, OpenClaw).
+- **Principle: everything is a file + code is a design material = fw** ([Unix](https://en.wikipedia.org/wiki/Everything_is_a_file), [Google Design](https://design.google/library/code-is-a-design-material)): every capability takes files or stdin and writes files or stdout, so tools compose by path and pipe (`fw convert`, `fw-video`, `fw-m3 css`); every design artifact is generated code that round-trips and is tested against drift (colors from `product.toml` [brand] through `fw-m3`, video to SVG/Markdown/HTML/JSX/GPUI through `fw-video`), never a hand-copied value.
 - **Token Hygiene**: `.rgignore` & `.fdignore` hide generated/vendored trees (`target/`, `dist/`, `uv.lock`) from default searches.
 - **Root Rust Workspace + `xtask` (`Cargo.toml`)**: members are `crates/fw-*` + `xtask` (list with `cargo metadata --no-deps --format-version 1`, tiers and gates in `MAP.tsv`), plus `apps/{agents,ai-gateway}`, `packages/{ai-os,gnu}`, `docs/ai/`, and `os/{fw-os,fw-os-boot,fw-ostd-vfs,fw-wsl,initramfs,kernel-pipeline}`; CachyOS `x86-64-v3` (AVX2/FMA) + `mimalloc`, zero Clippy warnings, zero stubs, zero skipped tests.
 - **Flat Single Binary (`fw`)**:

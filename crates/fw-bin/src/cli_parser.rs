@@ -80,6 +80,7 @@ pub const COMMANDS: &[CommandMeta] = &[
     CommandMeta { name: "ask", aliases: &["chat"], group: "Agent & Interactive", usage: "fw ask [flags] <prompt>", summary: "Run multi-turn tool-calling coding agent (--model --url --resume --full-access --json)" },
     CommandMeta { name: "tool", aliases: &["x"], group: "Agent & Interactive", usage: "fw tool <name> '<json>'", summary: "Execute a workspace tool directly (read_file, write_file, edit_file, glob_files, grep_files, shell)" },
     CommandMeta { name: "tui", aliases: &["m3-tui", "god"], group: "Agent & Interactive", usage: "fw tui", summary: "Launch interactive Material 3 TUI" },
+    CommandMeta { name: "convert", aliases: &["cv"], group: "Files & Media", usage: "fw convert <input> <out-dir> [--to svg,md,html,jsx,gpui] [--fps N] [--width N]", summary: "Convert a file into other files: video to SVG frames, Markdown, HTML, JSX and GPUI source (runs fw-video)" },
     CommandMeta { name: "serve", aliases: &["s"], group: "Agent & Interactive", usage: "fw serve [host:port]", summary: "Start Fw Chat web UI + OpenAI/MCP/ACP/A2A/WebGPU server" },
     // ML, Inference, Training & Heretic
     CommandMeta { name: "infer", aliases: &["run"], group: "ML, Inference & Heretic", usage: "fw infer [prompt] [--gguf <path>] [--model <m>] [--url <u>]", summary: "Native GGUF v3 Q8_0 or OpenAI/Ollama/Gateway inference (zero subprocess)" },
@@ -285,13 +286,13 @@ pub fn render_root_help() -> String {
     let mut out = format!(
         "fw {FW_VERSION} — Fast native Rust coding agent, package manager & server.\n\nUsage: fw [OPTIONS] [COMMAND] [ARGS...]\n\n"
     );
-    let groups = [
-        "Agent & Interactive",
-        "ML, Inference & Heretic",
-        "Packages & Dependencies",
-        "GNU/Linux & Wasm Userland",
-        "Workspace & Protocols",
-    ];
+    // Groups in the order they first appear in COMMANDS, so a new group can never be hidden.
+    let mut groups: Vec<&str> = Vec::new();
+    for c in COMMANDS {
+        if !groups.contains(&c.group) {
+            groups.push(c.group);
+        }
+    }
     for group in groups {
         out.push_str(group);
         out.push_str(":\n");
@@ -394,5 +395,13 @@ mod tests {
         assert_eq!(suggest_command("doctr"), Some("doctor"));
         assert_eq!(suggest_command("serv"), Some("serve"));
         assert_eq!(suggest_command("instal"), Some("install"));
+    }
+
+    #[test]
+    fn every_command_appears_in_root_help() {
+        let help = render_root_help();
+        for c in COMMANDS {
+            assert!(help.contains(c.name), "`{}` missing from fw --help", c.name);
+        }
     }
 }

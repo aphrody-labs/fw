@@ -613,6 +613,7 @@ fn main() {
             }
             print!("{}", cli_parser::render_root_help());
         }
+        "convert" | "cv" => std::process::exit(run_converter("fw-video", &args[1..])),
         "serve" => {
             let addr_str = args.get(1).map(|s| s.as_str()).unwrap_or("127.0.0.1:4380");
             let addr: SocketAddr = match addr_str.parse() {
@@ -772,6 +773,24 @@ fn main() {
                 eprintln!("fw: unknown command `{cmd}` (run `fw --help`)");
             }
             std::process::exit(2);
+        }
+    }
+}
+
+/// Runs a converter binary with `args`, inheriting stdin/stdout/stderr (files in, files out).
+/// It is looked up next to the running `fw` first, then on PATH; returns its exit code.
+fn run_converter(name: &str, args: &[String]) -> i32 {
+    let exe = format!("{name}{}", std::env::consts::EXE_SUFFIX);
+    let beside = std::env::current_exe().ok().and_then(|p| p.parent().map(|d| d.join(&exe))).filter(|p| p.is_file());
+    let program = beside.unwrap_or_else(|| PathBuf::from(&exe));
+    match std::process::Command::new(&program).args(args).status() {
+        Ok(status) => status.code().unwrap_or(1),
+        Err(e) => {
+            eprintln!(
+                "fw convert: cannot run `{}` ({e}). Build it with `cargo build --release -p {name}` and keep it next to `fw` or on PATH.",
+                program.display()
+            );
+            127
         }
     }
 }
