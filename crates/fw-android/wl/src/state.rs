@@ -123,9 +123,6 @@ pub struct State {
     pub seat_state: SeatState<State>,
     pub data_device_state: DataDeviceState,
     pub dmabuf_state: DmabufState,
-    pub dmabuf_global: DmabufGlobal,
-    pub output_manager_state: OutputManagerState,
-    pub keep_alive: Vec<Box<dyn std::any::Any>>,
 }
 
 impl State {
@@ -141,22 +138,20 @@ impl State {
         );
         let mut seat_state = SeatState::new();
         let data_device_state = DataDeviceState::new::<Self>(&display_handle);
-        let output_manager_state = OutputManagerState::new_with_xdg_output::<Self>(&display_handle);
+        OutputManagerState::new_with_xdg_output::<Self>(&display_handle);
 
         let mut dmabuf_state = DmabufState::new();
         let formats = [Fourcc::Xrgb8888, Fourcc::Argb8888, Fourcc::Abgr8888, Fourcc::Xbgr8888]
             .into_iter()
             .map(|code| Format { code, modifier: Modifier::Linear });
-        let dmabuf_global = dmabuf_state.create_global::<Self>(&display_handle, formats);
+        dmabuf_state.create_global::<Self>(&display_handle, formats);
 
-        let mut keep_alive: Vec<Box<dyn std::any::Any>> = vec![
-            Box::new(ViewporterState::new::<Self>(&display_handle)),
-            Box::new(PresentationState::new::<Self>(&display_handle, libc::CLOCK_MONOTONIC as u32)),
-            Box::new(FractionalScaleManagerState::new::<Self>(&display_handle)),
-            Box::new(PointerConstraintsState::new::<Self>(&display_handle)),
-            Box::new(RelativePointerManagerState::new::<Self>(&display_handle)),
-            Box::new(IdleInhibitManagerState::new::<Self>(&display_handle)),
-        ];
+        ViewporterState::new::<Self>(&display_handle);
+        PresentationState::new::<Self>(&display_handle, libc::CLOCK_MONOTONIC as u32);
+        FractionalScaleManagerState::new::<Self>(&display_handle);
+        PointerConstraintsState::new::<Self>(&display_handle);
+        RelativePointerManagerState::new::<Self>(&display_handle);
+        IdleInhibitManagerState::new::<Self>(&display_handle);
 
         let output = Output::new(
             "fw-android-0".into(),
@@ -175,8 +170,7 @@ impl State {
             Some((0, 0).into()),
         );
         output.set_preferred(mode);
-        let output_global = output.create_global::<Self>(&display_handle);
-        keep_alive.push(Box::new(output_global));
+        output.create_global::<Self>(&display_handle);
 
         let mut seat = seat_state.new_seat("seat0");
         seat.add_pointer();
@@ -204,9 +198,6 @@ impl State {
             seat_state,
             data_device_state,
             dmabuf_state,
-            dmabuf_global,
-            output_manager_state,
-            keep_alive,
         }
     }
 
