@@ -1,8 +1,6 @@
 //! `fw-android` command line.
 
 use std::path::{Path, PathBuf};
-use std::process::ExitCode;
-
 use serde_json::{Value, json};
 
 use crate::image;

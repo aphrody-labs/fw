@@ -69,7 +69,13 @@ pub fn create_and_start(state: &State, spec: &Value) -> Result<(), String> {
     fs::create_dir_all(&bundle).map_err(|cause| error(&bundle.display().to_string(), cause))?;
     let text = serde_json::to_string_pretty(spec).map_err(|cause| cause.to_string())?;
     fs::write(bundle.join("config.json"), text).map_err(|cause| error("config.json", cause))?;
+    fs::create_dir_all(state.logs()).map_err(|cause| error("logs", cause))?;
+    let log_path = state.logs().join("init.log");
+    let log = fs::File::create(&log_path).map_err(|cause| error(&log_path.display().to_string(), cause))?;
+    let log_errors = log.try_clone().map_err(|cause| error(&log_path.display().to_string(), cause))?;
     let mut container = builder(state)?
+        .with_stdout(log)
+        .with_stderr(log_errors)
         .as_init(&bundle)
         .with_systemd(false)
         .with_detach(true)
