@@ -1,6 +1,6 @@
 [project]
 name = "fw"
-version = "4.2.0"
+version = "2026.11.0"
 description = "fw Python tooling: llama.cpp/vLLM/Hermes migration helpers and the ML pipeline bridge"
 readme = "README.md"
 license = "MIT"

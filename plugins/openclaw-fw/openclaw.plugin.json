@@ -2,7 +2,7 @@
   "id": "openclaw-fw",
   "name": "fw Bun-Native Runtime",
   "description": "Bun-native fw plugin for OpenClaw exposing ls, grep, find, bench, claw (prefix KV + runtime TS tool compiler), and MCP JSON-RPC 2.0.",
-  "version": "4.2.0",
+  "version": "2026.11.0",
   "main": "./index.ts",
   "runtime": "bun",
   "capabilities": ["tools", "mcp", "cli", "kv-cache"],

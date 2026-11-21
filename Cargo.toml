@@ -55,7 +55,7 @@ exclude = [
 resolver = "2"
 
 [workspace.package]
-version = "4.2.0"
+version = "2026.11.0"
 edition = "2024"
 rust-version = "1.100"
 license = "MIT"
@@ -70,23 +70,23 @@ inefficient_to_string = "deny"
 
 [workspace.dependencies]
 # Internal publishable fw-* crates (pinned with version + path for crates.io)
-fw-ggml = { version = "4.2.0", path = "crates/fw-ggml" }
-fw-compute = { version = "4.2.0", path = "crates/fw-compute" }
-fw-config = { version = "4.2.0", path = "crates/fw-config" }
-fw-http = { version = "4.2.0", path = "crates/fw-http", default-features = false }
-fw-secrets = { version = "4.2.0", path = "crates/fw-secrets" }
-fw-cluster = { version = "4.2.0", path = "crates/fw-cluster" }
-fw-proto = { version = "4.2.0", path = "crates/fw-proto" }
-fw-ui-blitz = { version = "4.2.0", path = "crates/fw-ui-blitz" }
-fw-ostd-wasm = { version = "4.2.0", path = "crates/fw-ostd-wasm" }
-fw-uutils = { version = "4.2.0", path = "crates/fw-uutils" }
-fw-nix = { version = "4.2.0", path = "crates/fw-nix" }
-fw-unified-stack = { version = "4.2.0", path = "crates/fw-unified-stack" }
-fw-wayland-wgpu = { version = "4.2.0", path = "crates/fw-wayland-wgpu" }
-fw-hermes-claw = { version = "4.2.0", path = "crates/fw-hermes-claw" }
-fw-apm = { version = "4.2.0", path = "crates/fw-apm" }
-fw-crates = { version = "4.2.0", path = "crates/fw-crates", default-features = false, features = ["live"] }
-fw-fx = { version = "4.2.0", path = "crates/fw-fx" }
+fw-ggml = { version = "2026.11.0", path = "crates/fw-ggml" }
+fw-compute = { version = "2026.11.0", path = "crates/fw-compute" }
+fw-config = { version = "2026.11.0", path = "crates/fw-config" }
+fw-http = { version = "2026.11.0", path = "crates/fw-http", default-features = false }
+fw-secrets = { version = "2026.11.0", path = "crates/fw-secrets" }
+fw-cluster = { version = "2026.11.0", path = "crates/fw-cluster" }
+fw-proto = { version = "2026.11.0", path = "crates/fw-proto" }
+fw-ui-blitz = { version = "2026.11.0", path = "crates/fw-ui-blitz" }
+fw-ostd-wasm = { version = "2026.11.0", path = "crates/fw-ostd-wasm" }
+fw-uutils = { version = "2026.11.0", path = "crates/fw-uutils" }
+fw-nix = { version = "2026.11.0", path = "crates/fw-nix" }
+fw-unified-stack = { version = "2026.11.0", path = "crates/fw-unified-stack" }
+fw-wayland-wgpu = { version = "2026.11.0", path = "crates/fw-wayland-wgpu" }
+fw-hermes-claw = { version = "2026.11.0", path = "crates/fw-hermes-claw" }
+fw-apm = { version = "2026.11.0", path = "crates/fw-apm" }
+fw-crates = { version = "2026.11.0", path = "crates/fw-crates", default-features = false, features = ["live"] }
+fw-fx = { version = "2026.11.0", path = "crates/fw-fx" }
 
 # External zero-bloat dependencies (verified latest on crates.io 2026-11-19)
 serde = { version = "1.0.229", features = ["derive"] }
