@@ -14,7 +14,6 @@ pub enum PeerId {
     Claude,
     Codex,
     Grok,
-    Agy,
     Bxc,
 }
 
@@ -25,7 +24,6 @@ impl PeerId {
             Self::Claude => "claude",
             Self::Codex => "codex",
             Self::Grok => "grok",
-            Self::Agy => "agy",
             Self::Bxc => "bxc",
         }
     }
@@ -35,7 +33,6 @@ impl PeerId {
             "claude" | "claude-code" => Some(Self::Claude),
             "codex" => Some(Self::Codex),
             "grok" | "grok-build" => Some(Self::Grok),
-            "agy" | "agycli" | "gemini" | "antigravity" => Some(Self::Agy),
             "bxc" => Some(Self::Bxc),
             _ => None,
         }
@@ -174,7 +171,6 @@ impl PeerInvoker {
         }
         match peer {
             PeerId::Grok => self.invoke_grok(prompt),
-            PeerId::Agy => self.invoke_agy(prompt),
             PeerId::Claude => self.invoke_claude(prompt),
             PeerId::Codex => self.invoke_codex(prompt),
             PeerId::Bxc => self.invoke_bxc(prompt),
@@ -282,21 +278,6 @@ impl PeerInvoker {
         cmd.args(["--output-format", "json"]);
         // Do NOT pass --effort or --reasoning-effort (grok-build HTTP 400).
         self.run(PeerId::Grok, cmd)
-    }
-
-    fn invoke_agy(&self, prompt: &str) -> Result<PeerInvokeResult, PeerError> {
-        let bin = Self::resolve_bin("APHRODY_AGY_BIN", "agy");
-        let mut cmd = Command::new(&bin).no_window();
-        cmd.args([
-            "-p",
-            prompt,
-            "--dangerously-skip-permissions",
-            "--print-timeout",
-            "10m",
-            "--add-dir",
-        ]);
-        cmd.arg(&self.cwd);
-        self.run(PeerId::Agy, cmd)
     }
 
     fn invoke_claude(&self, prompt: &str) -> Result<PeerInvokeResult, PeerError> {
@@ -422,10 +403,10 @@ mod coordination_tests {
     #[test]
     fn common_coding_peers_are_routable() {
         assert_eq!(PeerId::parse("codex"), Some(PeerId::Codex));
-        assert_eq!(PeerId::parse("agycli"), Some(PeerId::Agy));
+        assert_eq!(PeerId::parse("grok-build"), Some(PeerId::Grok));
         let directory = tempfile::tempdir().unwrap();
         let invoker = PeerInvoker::new(directory.path()).with_dry_run(true);
-        for peer in [PeerId::Claude, PeerId::Codex, PeerId::Agy] {
+        for peer in [PeerId::Claude, PeerId::Codex, PeerId::Grok] {
             assert_eq!(
                 invoker
                     .invoke_prompt(peer, "shared task")

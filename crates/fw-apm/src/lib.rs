@@ -198,7 +198,7 @@ license: Apache-2.0
 targets:
   - copilot
   - claude
-  - antigravity
+  - grok
 dependencies:
   apm:
     - anthropics/skills/skills/frontend-design
@@ -223,7 +223,7 @@ scripts:
         assert_eq!(parsed.name, "demo-agent-app");
         assert_eq!(parsed.version, "1.2.3");
         assert_eq!(parsed.targets.len(), 3);
-        assert_eq!(parsed.targets[2], TargetHarness::Antigravity);
+        assert_eq!(parsed.targets[2], TargetHarness::Grok);
         assert_eq!(parsed.dependencies.apm.len(), 5);
         assert_eq!(parsed.dependencies.mcp.len(), 2);
         assert_eq!(parsed.dependencies.mcp[0].transport, McpTransport::Http);

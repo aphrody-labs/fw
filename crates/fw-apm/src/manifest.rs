@@ -14,7 +14,6 @@ pub enum TargetHarness {
     Gemini,
     Windsurf,
     Kiro,
-    Antigravity,
     Grok,
 }
 
@@ -29,7 +28,6 @@ impl TargetHarness {
             "gemini" => Ok(Self::Gemini),
             "windsurf" => Ok(Self::Windsurf),
             "kiro" => Ok(Self::Kiro),
-            "antigravity" | "agy" => Ok(Self::Antigravity),
             "grok" => Ok(Self::Grok),
             other => Err(format!("unknown target harness: {other}")),
         }
@@ -45,7 +43,6 @@ impl TargetHarness {
             Self::Gemini => "gemini",
             Self::Windsurf => "windsurf",
             Self::Kiro => "kiro",
-            Self::Antigravity => "antigravity",
             Self::Grok => "grok",
         }
     }
@@ -61,7 +58,6 @@ impl TargetHarness {
             Self::Gemini => "GEMINI.md",
             Self::Windsurf => ".windsurfrules",
             Self::Kiro => ".kiro/steering/apm.md",
-            Self::Antigravity => ".agents/rules/apm.md",
             Self::Grok => "AGENTS.md",
         }
     }
@@ -75,7 +71,6 @@ impl TargetHarness {
             Self::Gemini => ".gemini/settings.json",
             Self::Windsurf => ".windsurf/mcp.json",
             Self::Kiro => ".kiro/settings/mcp.json",
-            Self::Antigravity => ".agents/mcp.json",
         }
     }
 }

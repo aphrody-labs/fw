@@ -14,7 +14,7 @@ use rusqlite::params;
 use super::ImportReport;
 use crate::localstore::{db::HomeDb, error::Result};
 
-const MIRROR_AGENTS: &[&str] = &["codex", "agy", "claude"];
+const MIRROR_AGENTS: &[&str] = &["codex", "claude"];
 
 struct Found {
     agent: String,

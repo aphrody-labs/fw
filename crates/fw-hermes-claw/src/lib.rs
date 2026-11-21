@@ -348,7 +348,7 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             replaces: "ad-hoc prompt files".into(),
             stars_nov_2026: 27_455,
             language: "Spec".into(),
-            why: "Canonical SKILL.md progressive-disclosure standard (Antigravity, Zed, Claude, OpenClaw)".into(),
+            why: "Canonical SKILL.md progressive-disclosure standard (Zed, Claude, OpenClaw)".into(),
         },
         RankedEntry {
             rank: 5,

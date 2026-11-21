@@ -23,7 +23,7 @@ The Rust import path is `fw_a2a::coordinator`.
 | `Envelope`, `EnvelopeKind` | The v1 JSONL mailbox record exchanged through a `.coord` directory. |
 | `mailbox::Mailbox` | Append, read and heartbeat per-peer JSONL inboxes. |
 | `CoordProxy` | Serve a `.coord` mailbox as an NDJSON or SSE snapshot, or follow it as a stream. |
-| `PeerInvoker`, `PeerId` | Headless dispatch to the native peer CLIs (Claude Code, Grok, agy). |
+| `PeerInvoker`, `PeerId` | Headless dispatch to the native peer CLIs (Claude Code, Codex, Grok). |
 | `PeerRegistry` | HTTP peer endpoints resolved from `APHRODY_A2A_PEER_<ID>_URL`, then from a peer catalog file (`APHRODY_A2A_PEERS_FILE`). |
 | `CoordPeerExecutor` | An `fw_a2a::server::AgentExecutor` that routes A2A tasks to the peers. |
 | `listener::serve`, `serve_profile`, `router_for_profile` | An axum listener exposing `/ping`, `/msg`, `/coord`, the A2A JSON-RPC and REST bindings and the agent card. |
@@ -101,7 +101,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 | `APHRODY_A2A_COORD_TOKEN` | Require a bearer token on all private routes; mandatory outside loopback. |
 | `APHRODY_A2A_PEERS_FILE` | Peer catalog JSON read by `PeerRegistry::from_env`. |
 | `APHRODY_A2A_PEER_<ID>_URL` | Per-peer HTTP endpoint override. |
-| `APHRODY_AGY_BIN` | Path of the `agy` executable used by `PeerInvoker`. |
 
 ## Platform support
 

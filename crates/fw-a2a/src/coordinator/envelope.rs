@@ -111,7 +111,7 @@ mod tests {
     #[test]
     fn legacy_aliases_and_mailbox_id_are_preserved() {
         let value: Envelope =
-            serde_json::from_str(r#"{"id":"legacy","from":"agy","type":"ask","subject":"work"}"#)
+            serde_json::from_str(r#"{"id":"legacy","from":"grok","type":"ask","subject":"work"}"#)
                 .unwrap();
         assert_eq!(value.kind, "ask");
         assert_eq!(value.topic, "work");

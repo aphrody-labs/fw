@@ -126,7 +126,7 @@ impl UnifiedWgpuTerminalApp {
             kitty_graphics: Vec::new(),
             osc7501_state: "idle".into(),
             osc7501_label: "ready".into(),
-            active_agent: "antigravity".into(),
+            active_agent: "claude".into(),
             parametric: M3ParametricConfig {
                 outer_corner_radius: 20.0,
                 inner_corner_radius: 8.0,

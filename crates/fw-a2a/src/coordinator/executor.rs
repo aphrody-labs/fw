@@ -339,10 +339,6 @@ mod tests {
             configured_default_peer(Some(" claude-code ")).unwrap(),
             PeerId::Claude
         );
-        assert_eq!(
-            configured_default_peer(Some("antigravity")).unwrap(),
-            PeerId::Agy
-        );
         assert!(configured_default_peer(Some("")).is_err());
         assert!(configured_default_peer(Some("absent-provider")).is_err());
     }
