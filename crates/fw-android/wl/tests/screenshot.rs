@@ -124,8 +124,10 @@ impl Dispatch<xdg_toplevel::XdgToplevel, ()> for Client {
         if let xdg_toplevel::Event::Configure { width, height, states } = event {
             state.toplevel_size = (width, height);
             state.maximized = states
-                .chunks_exact(4)
-                .any(|chunk| u32::from_ne_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]) == xdg_toplevel::State::Maximized as u32);
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .any(|chunk| u32::from_ne_bytes(*chunk) == xdg_toplevel::State::Maximized as u32);
         }
     }
 }
