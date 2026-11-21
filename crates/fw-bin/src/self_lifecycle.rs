@@ -28,25 +28,30 @@ pub fn binary_filename() -> &'static str {
 pub fn platform_asset_candidates() -> &'static [&'static str] {
     match (std::env::consts::OS, std::env::consts::ARCH) {
         ("windows", "x86_64") => &[
+            "fw-x86_64-windows.exe",
             "fw-x86_64-pc-windows-msvc.exe",
             "fw-windows-x86_64.exe",
             "fw.exe",
         ],
         ("linux", "x86_64") => &[
+            "fw-x86_64-linux-musl",
             "fw-x86_64-unknown-linux-musl",
             "fw-x86_64-unknown-linux-gnu",
             "fw-linux-x86_64",
         ],
         ("linux", "aarch64") => &[
+            "fw-aarch64-linux-musl",
             "fw-aarch64-unknown-linux-musl",
             "fw-aarch64-unknown-linux-gnu",
             "fw-linux-aarch64",
         ],
         ("macos", "aarch64") => &[
+            "fw-aarch64-macos",
             "fw-aarch64-apple-darwin",
             "fw-darwin-arm64",
         ],
         ("macos", "x86_64") => &[
+            "fw-x86_64-macos",
             "fw-x86_64-apple-darwin",
             "fw-darwin-x86_64",
         ],
@@ -125,77 +130,111 @@ fn atomic_swap_bytes(dest: &Path, bytes: &[u8]) -> Result<(), String> {
     Ok(())
 }
 
+fn http_get_json(agent: &ureq::Agent, url: &str) -> Result<Value, String> {
+    let mut resp = agent
+        .get(url)
+        .header("User-Agent", concat!("fw/", env!("CARGO_PKG_VERSION")))
+        .header("Accept", "application/vnd.github+json")
+        .call()
+        .map_err(|e| format!("GET {url}: {e}"))?;
+    let raw = resp.body_mut().read_to_string().map_err(|e| format!("GET {url}: {e}"))?;
+    serde_json::from_str(&raw).map_err(|e| format!("GET {url}: invalid JSON ({e})"))
+}
+
+/// The release to install: the tag given with `--version`, else the latest stable release, else the newest published
+/// release (a project that only ships pre-releases has no "latest": GitHub answers 404 there).
+fn resolve_release(agent: &ureq::Agent, tag: Option<&str>) -> Result<Value, String> {
+    if let Some(tag) = tag {
+        return http_get_json(agent, &format!("https://api.github.com/repos/{REPO_SLUG}/releases/tags/{tag}"));
+    }
+    if let Ok(release) = http_get_json(agent, &format!("https://api.github.com/repos/{REPO_SLUG}/releases/latest")) {
+        return Ok(release);
+    }
+    let list = http_get_json(agent, &format!("https://api.github.com/repos/{REPO_SLUG}/releases?per_page=10"))?;
+    list.as_array()
+        .and_then(|releases| releases.iter().find(|r| r["draft"] != true))
+        .cloned()
+        .ok_or_else(|| format!("{REPO_SLUG} has no published release"))
+}
+
+/// Expected SHA-256 of `asset_name` from the release's `SHA256SUMS`-style asset (`<hex>  <name>` lines).
+fn checksum_from_sums(agent: &ureq::Agent, assets: &[Value], asset_name: &str) -> Option<String> {
+    let sums = assets.iter().find(|a| {
+        a["name"].as_str().is_some_and(|n| {
+            let n = n.to_ascii_lowercase();
+            n.contains("checksum") || n.contains("sha256sums")
+        })
+    })?;
+    let url = sums["browser_download_url"].as_str()?;
+    let text = agent
+        .get(url)
+        .header("User-Agent", concat!("fw/", env!("CARGO_PKG_VERSION")))
+        .call()
+        .ok()?
+        .body_mut()
+        .read_to_string()
+        .ok()?;
+    digest_for(&text, asset_name)
+}
+
+fn digest_for(sums: &str, asset_name: &str) -> Option<String> {
+    sums.lines().find_map(|line| {
+        let mut fields = line.split_whitespace();
+        let hash = fields.next()?;
+        let name = fields.next()?.trim_start_matches('*');
+        name.eq_ignore_ascii_case(asset_name).then(|| hash.to_ascii_lowercase())
+    })
+}
+
 /// `fw self-update [--check] [--version <tag>]`
 pub fn run_self_update(args: &[String], offline: bool) -> Result<Value, String> {
     if offline {
-        return Err("fw self-update: disabled by --offline".to_owned());
+        return Err("disabled by --offline".to_owned());
     }
     let check_only = args.iter().any(|a| a == "--check");
-    let tag_override = flag_str(args, "--version");
-    let api_url = match tag_override {
-        Some(tag) => format!("https://api.github.com/repos/{REPO_SLUG}/releases/tags/{tag}"),
-        None => format!("https://api.github.com/repos/{REPO_SLUG}/releases/latest"),
-    };
-
     let agent: ureq::Agent = ureq::Agent::config_builder()
-        .timeout_global(Some(Duration::from_secs(30)))
+        .timeout_global(Some(Duration::from_secs(120)))
         .build()
         .into();
 
-    let resp = agent
-        .get(&api_url)
-        .header("User-Agent", concat!("fw/", env!("CARGO_PKG_VERSION")))
-        .header("Accept", "application/vnd.github+json")
-        .call();
-
-    let release: Value = match resp {
-        Ok(mut r) => {
-            let raw = r.body_mut().read_to_string().map_err(|e| e.to_string())?;
-            serde_json::from_str(&raw).map_err(|e| e.to_string())?
-        }
-        Err(e) => {
-            return Ok(json!({
-                "ok": true,
-                "zeroSubprocess": true,
-                "currentVersion": env!("CARGO_PKG_VERSION"),
-                "upToDate": true,
-                "note": format!("no published GitHub release reachable at {api_url} ({e})")
-            }));
-        }
-    };
-
+    let release = resolve_release(&agent, flag_str(args, "--version"))?;
     let latest_tag = release["tag_name"].as_str().unwrap_or(env!("CARGO_PKG_VERSION"));
     let current = env!("CARGO_PKG_VERSION");
     let assets = release["assets"].as_array().cloned().unwrap_or_default();
     let candidates = platform_asset_candidates();
 
-    let matched = candidates.iter().find_map(|cand| {
-        assets.iter().find(|a| {
-            a["name"]
-                .as_str()
-                .is_some_and(|n| n.eq_ignore_ascii_case(cand))
-        })
-    });
+    let Some(asset) = candidates.iter().find_map(|cand| {
+        assets.iter().find(|a| a["name"].as_str().is_some_and(|n| n.eq_ignore_ascii_case(cand)))
+    }) else {
+        return Err(format!(
+            "release {latest_tag} has no asset for this platform (looked for {})",
+            candidates.join(", ")
+        ));
+    };
+    let asset_name = asset["name"].as_str().unwrap_or("fw");
+    let expected_sha = checksum_from_sums(&agent, &assets, asset_name);
 
-    if check_only || matched.is_none() {
+    let target_exe = std::env::current_exe().unwrap_or_else(|_| default_install_dir().join(binary_filename()));
+    let current_sha = fs::read(&target_exe).ok().map(|bytes| sha256_bytes(&bytes));
+    // The running binary against the published digest: exact, and independent of how versions are named.
+    let up_to_date = matches!((&current_sha, &expected_sha), (Some(have), Some(want)) if have == want);
+
+    if check_only || up_to_date {
         return Ok(json!({
             "ok": true,
             "zeroSubprocess": true,
             "currentVersion": current,
             "latestTag": latest_tag,
-            "updateAvailable": !latest_tag.contains(current),
-            "matchedAsset": matched.and_then(|a| a["name"].as_str()),
-            "candidates": candidates,
+            "updateAvailable": !up_to_date,
+            "upToDate": up_to_date,
+            "matchedAsset": asset_name,
             "checkOnly": check_only
         }));
     }
 
-    let asset = matched.unwrap();
-    let asset_name = asset["name"].as_str().unwrap_or("fw");
     let dl_url = asset["browser_download_url"]
         .as_str()
         .ok_or_else(|| "release asset missing browser_download_url".to_owned())?;
-
     let bytes = agent
         .get(dl_url)
         .header("User-Agent", concat!("fw/", env!("CARGO_PKG_VERSION")))
@@ -203,35 +242,16 @@ pub fn run_self_update(args: &[String], offline: bool) -> Result<Value, String> 
         .map_err(|e| format!("download {dl_url}: {e}"))?
         .body_mut()
         .read_to_vec()
-        .map_err(|e| e.to_string())?;
+        .map_err(|e| format!("download {dl_url}: {e}"))?;
     let actual_sha = sha256_bytes(&bytes);
-
-    // Verify against checksums.txt if published alongside the release
-    let mut checksum_verified = false;
-    if let Some(cs_asset) = assets.iter().find(|a| {
-        a["name"]
-            .as_str()
-            .is_some_and(|n| n.to_ascii_lowercase().contains("checksum"))
-    }) && let Some(cs_url) = cs_asset["browser_download_url"].as_str()
-        && let Ok(mut cs_resp) = agent.get(cs_url).header("User-Agent", "fw").call()
-        && let Ok(cs_txt) = cs_resp.body_mut().read_to_string()
-    {
-        for line in cs_txt.lines() {
-            if line.contains(asset_name)
-                && let Some(expected) = line.split_whitespace().next()
-            {
-                if !expected.eq_ignore_ascii_case(&actual_sha) {
-                    return Err(format!(
-                        "SHA-256 mismatch for {asset_name}: expected {expected}, got {actual_sha}"
-                    ));
-                }
-                checksum_verified = true;
-                break;
-            }
+    let checksum_verified = match &expected_sha {
+        Some(want) if *want != actual_sha => {
+            return Err(format!("SHA-256 mismatch for {asset_name}: expected {want}, got {actual_sha}"));
         }
-    }
+        Some(_) => true,
+        None => false,
+    };
 
-    let target_exe = std::env::current_exe().unwrap_or_else(|_| default_install_dir().join(binary_filename()));
     atomic_swap_bytes(&target_exe, &bytes)?;
 
     Ok(json!({
@@ -289,6 +309,14 @@ pub fn uninstall_from(dest_dir: &Path, purge_data: bool) -> Result<Value, String
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn digest_for_reads_sha256sums_lines() {
+        let sums = "AB12  fw-x86_64-linux-musl\ncd34 *fw-x86_64-windows.exe\n";
+        assert_eq!(digest_for(sums, "fw-x86_64-linux-musl").as_deref(), Some("ab12"));
+        assert_eq!(digest_for(sums, "FW-X86_64-WINDOWS.EXE").as_deref(), Some("cd34"));
+        assert_eq!(digest_for(sums, "fw-aarch64-macos"), None);
+    }
 
     #[test]
     fn self_install_and_uninstall_roundtrip_in_temp_dir() {
