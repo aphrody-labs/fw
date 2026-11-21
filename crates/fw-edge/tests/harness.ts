@@ -2,7 +2,8 @@
 // Usage (from crates/fw-edge, after `worker-build --release`):
 //   const edge = await startEdge({ vars: { ACCESS_TEAM_DOMAIN: mock.url } });  ...  await edge.stop();
 // The AI binding is remote-only in `wrangler dev`; scenarios that need Workers AI run against the preview URL.
-import { spawn, type ChildProcess } from "node:child_process";
+import { spawn, spawnSync, type ChildProcess } from "node:child_process";
+import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 export interface Edge {
@@ -13,10 +14,15 @@ export interface Edge {
 export async function startEdge(opts: { port?: number; vars?: Record<string, string>; persistTo?: string } = {}): Promise<Edge> {
   const port = opts.port ?? 8800 + Math.floor(Math.random() * 500);
   const cwd = fileURLToPath(new URL("..", import.meta.url));
-  const args = ["dev", "--config", "wrangler.jsonc", "--local", "--port", String(port), "--ip", "127.0.0.1"];
+  // `wrangler dev` would rerun `build.command` (worker-build, a heavy cargo build): tests run the build output
+  // that already exists, so they use a copy of the config without the build step.
+  const config = JSON.parse(readFileSync(new URL("../wrangler.jsonc", import.meta.url), "utf8").replace(/^\s*\/\/.*$/gm, ""));
+  delete config.build;
+  writeFileSync(new URL("../wrangler.test.json", import.meta.url), JSON.stringify(config));
+  const args = ["dev", "--config", "wrangler.test.json", "--local", "--port", String(port), "--ip", "127.0.0.1"];
   if (opts.persistTo) args.push("--persist-to", opts.persistTo);
   for (const [k, v] of Object.entries(opts.vars ?? {})) args.push("--var", `${k}:${v}`);
-  const child: ChildProcess = spawn("wrangler", args, { cwd, stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, CI: "1" } });
+  const child: ChildProcess = spawn(process.env.WRANGLER ?? "wrangler", args, { cwd, stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, CI: "1" } });
   let log = "";
   child.stdout?.on("data", (d) => (log += d));
   child.stderr?.on("data", (d) => (log += d));
@@ -38,8 +44,9 @@ export async function startEdge(opts: { port?: number; vars?: Record<string, str
   return {
     url,
     async stop() {
-      child.kill();
-      await new Promise((r) => child.once("exit", r));
+      if (process.platform === "win32" && child.pid) spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"]);
+      else child.kill();
+      if (child.exitCode === null) await new Promise((r) => child.once("exit", r));
     },
   };
 }

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chrome Release Channels</title>
+  <link rel="stylesheet" href="/_stylesheets/@docsearch/style.css">
+  <link rel="stylesheet" href="/_stylesheets/default.css">
+  <link rel="stylesheet" href="/_stylesheets/highlight.js/github.min.css">
+</head>
+
+<header id="site-header">
+  <button id="mobile-nav-toggle" class="mobile-nav-toggle" type="button" aria-label="Open navigation menu" aria-controls="sidebar-left" aria-expanded="false">
+    <span class="mobile-nav-toggle-bars" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
+  <a class="header-brand" href="/">
+    <img alt="the Chromium logo" src="/_assets/icon-chromium-96.png" width="48" height="48">
+    <h2>The Chromium Projects</h2>
+  </a>
+  <div id="search"></div>
+</header>
+<div id="mobile-header-spacer" aria-hidden="true"></div>
+
+<div id="mobile-nav-backdrop" aria-hidden="true"></div>
+
+<div id="main-wrapper">
+  <nav id="sidebar-left" class="sidebar-nav" aria-label="Site navigation">
+    <div class="mobile-nav-header">
+      <h3>Menu</h3>
+      <button id="mobile-nav-close" class="mobile-nav-close" type="button" aria-label="Close navigation menu">&times;</button>
+    </div>
+    <section class="sidebar-primary">
+      <a href="/chromium-projects">Home</a>
+      <a href="/Home">Chromium</a>
+      <a href="/chromium-os">ChromiumOS</a>
+    </section>
+    <section class="sidebar-quick-links">
+      <h4>Quick links</h4>
+      <a href="/for-testers/bug-reporting-guidelines">Report bugs</a>
+      <a href="/developers/discussion-groups">Discuss</a>
+    </section>
+    <section class="sidebar-other-sites">
+      <h4>Other sites</h4>
+      <a href="https://blog.chromium.org/">Chromium Blog</a>
+      <a href="https://developer.chrome.com/extensions">Google Chrome Extensions</a>
+    </section>
+    <section class="sidebar-license" role="complementary">
+      Except as otherwise
+      <a href="https://developers.google.com/site-policies.html#restrictions">noted</a>,
+      the content of this page is licensed under a
+      <a href="https://creativecommons.org/licenses/by/2.5/">Creative Commons Attribution 2.5 license</a>,
+      and examples are licensed under the
+      <a href="https://chromium.googlesource.com/chromium/src/+/HEAD/LICENSE">BSD License</a>.
+    </section>
+    <section class="sidebar-privacy" role="complementary">
+      <a href="https://policies.google.com/privacy">Privacy</a>
+    </section>
+    <a class="edit-this-page" href="https://edit.chromium.org/edit?repo=chromium/website/main&file=site/getting-involved/chrome-release-channels/index.md&cloneRepo=chromium/website:refs/heads/main&fullPath=chromium/site/getting-involved/chrome-release-channels/index.md">Edit</a>
+  </nav>
+  <main>
+    <div class="breadcrumbs">
+      <a href="/getting-involved">Getting Involved</a> &gt;
+    </div>
+    <h1>Chrome Release Channels</h1>
+  <nav class="table-of-contents"><ol><li><a href="#channels">Channels</a><ol><li><a href="#windows-macos-and-linux">Windows, macOS, and Linux</a></li><li><a href="#android">Android</a></li><li><a href="#ios">iOS</a></li></ol></li><li><a href="#how-do-i-choose-which-channel-to-use">How do I choose which channel to use?</a></li><li><a href="#reporting-dev-channel-and-canary-build-problems">Reporting Dev channel and Canary build problems</a></li></ol></nav><p>Chrome supports a number of different release channels. We use these channels to
+gradually roll out changes to users, starting with our twice-daily Canary
+channel builds, all the way up to our Stable channel releases that happen every
+4 weeks.</p>
+<h3 id="channels" tabindex="-1"><a class="header-anchor" href="#channels">Channels</a></h3>
+<h4 id="windows-macos-and-linux" tabindex="-1"><a class="header-anchor" href="#windows-macos-and-linux">Windows, macOS, and Linux</a></h4>
+<p>All channels may be run in parallel -- they install into distinct directories
+and use dedicated User Data directories.</p>
+<ul>
+<li><a href="https://google.com/chrome">Stable</a></li>
+<li><a href="https://google.com/chrome/beta">Beta</a></li>
+<li><a href="https://google.com/chrome/dev">Dev</a></li>
+<li><a href="https://google.com/chrome/canary">Canary</a></li>
+</ul>
+<p>To download Chrome for a specific architecture or OS, use the &quot;Other Platforms&quot;
+link at the bottom of the page.</p>
+<h4 id="android" tabindex="-1"><a class="header-anchor" href="#android">Android</a></h4>
+<ul>
+<li><a href="https://play.google.com/store/apps/details?id=com.android.chrome">Stable</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.chrome.beta">Beta</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.chrome.dev">Dev</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.chrome.canary">Canary</a></li>
+</ul>
+<h4 id="ios" tabindex="-1"><a class="header-anchor" href="#ios">iOS</a></h4>
+<ul>
+<li><a href="https://itunes.apple.com/us/app/chrome-web-browser-by-google/id535886823?mt=8">Stable</a></li>
+<li><a href="https://testflight.apple.com/join/LPQmtkUs">Beta</a></li>
+</ul>
+<h3 id="how-do-i-choose-which-channel-to-use" tabindex="-1"><a class="header-anchor" href="#how-do-i-choose-which-channel-to-use">How do I choose which channel to use?</a></h3>
+<p>The release channels for Chrome range from the most stable and tested (Stable
+channel) to least stable (Canary channel). On Windows, macOS, and Linux, you can
+use multiple channels at once. This allows you to play with our latest code,
+while still keeping a tested version of Chrome around.</p>
+<ul>
+<li><strong>Stable channel:</strong> This channel has gotten the full testing and
+blessing of the Chrome test team, and is the best bet to avoid
+crashes and other issues. It's updated every week for minor
+releases, and every four weeks for major releases.</li>
+<li><strong>Beta channel:</strong> If you are interested in seeing what's next, with
+minimal risk, Beta channel is the place to be. New features spend
+about a month in Beta before being promoted to Stable.</li>
+<li><strong>Dev channel:</strong> If you want to see what's happening quickly, then
+you want the Dev channel. The Dev channel gets updated once or twice
+weekly, and it shows what we're working on right now. There's no lag
+between major versions, whatever code we've got, you will get. While
+this build does get tested, it is still subject to bugs, as we want
+people to see what's new as soon as possible.</li>
+<li><strong>Canary build:</strong> Canary builds contain changes as soon as we make them, and
+are released twice daily with only automated testing.</li>
+<li><strong>Other builds:</strong> It is also possible to download specific Chromium builds
+from <a href="http://commondatastorage.googleapis.com/chromium-browser-continuous/index.html">this Google Storage
+bucket</a>.</li>
+</ul>
+<p><strong>Note</strong>: Early access releases (Canary builds and Dev and Beta channels) will
+be only partly translated into languages other than English. Text related to new
+features may not get translated into all languages until the feature is released
+in the Stable channel.</p>
+<h3 id="reporting-dev-channel-and-canary-build-problems" tabindex="-1"><a class="header-anchor" href="#reporting-dev-channel-and-canary-build-problems">Reporting Dev channel and Canary build problems</a></h3>
+<p>Remember, Dev channel browsers and Canary builds may still crash frequently.
+Before reporting bugs, consult the following page:</p>
+<ul>
+<li><a href="/for-testers/bug-reporting-guidelines">Bug Life Cycle and Reporting
+Guidelines</a></li>
+</ul>
+<p>If after reading the above, you think you have a real bug,
+<a href="https://crbug.com/new">file it</a>!</p>
+
+  </main>
+</div>
+

@@ -8,7 +8,13 @@
 #   [<name>.<platform>]   platform = "windows-x86_64", "linux-x86_64", "macos-aarch64", ...
 #     url       release asset (`{version}` is substituted)
 #     sha256    digest of that asset; a mismatch aborts the install
-#     archive   "tar.gz" or "zip" when the asset is an archive; `member` is the path of the binary inside it
+#     archive   "tar.gz", "tar.xz" or "zip" when the asset is an archive; `member` is the path of the binary inside it
+#     dir       SDK trees: keep the `member` folder as ~/.local/opt/<dir> (check uses `{opt}`); `post` argv lists run inside it
+#     cargo     crates with no release binary: `cargo install --locked` from the verified .crate (member = its source folder)
+#   group     `bun scripts/toolchain.ts check|install --group wasm` selects one family
+#   expect    what `check` must print when it is not the version (an install path)
+#   lock      a value pinned elsewhere that must equal `version` (first capture group of `pattern` in `file`, relative to the
+#             workspace root); a mismatch is reported as drift
 #
 # Binaries land in ~/.local/bin (on PATH on every host of the fleet).
 
@@ -41,3 +47,384 @@ url = "https://github.com/cli/cli/releases/download/v{version}/gh_{version}_wind
 sha256 = "08c06d10482f12c478018cd259f64acbd5f625712cadf331aad19ba973c879e5"
 archive = "zip"
 member = "bin/gh.exe"
+
+# --- WebAssembly: build, optimize, inspect, run -----------------------------------------------------------------------
+# Pinned 2026-11-21 from the upstream release assets (sha256 = GitHub asset digest, re-verified by downloading on fr1 and the PC).
+# Wasm size and speed (aphrody tooling/bun/web-build.ts) depend on wasm-bindgen == Cargo.lock and on one Binaryen everywhere.
+
+[wasm-bindgen]
+version = "0.2.130"
+check = ["wasm-bindgen", "--version"]
+group = "wasm"
+role = "wasm-bindgen CLI (JS glue + Wasm post-processing); must equal the wasm-bindgen crate in aphrody's Cargo.lock"
+lock = { file = "aphrody/Cargo.lock", pattern = 'name = "wasm-bindgen"\r?\nversion = "([^"]+)"' }
+
+[wasm-bindgen.linux-x86_64]
+url = "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/{version}/wasm-bindgen-{version}-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "9687f3bb551b9f66f37ed32a40d7913a00f7962db653054e56857bc306c3227f"
+archive = "tar.gz"
+member = "wasm-bindgen-{version}-x86_64-unknown-linux-musl/wasm-bindgen"
+
+[wasm-bindgen.windows-x86_64]
+url = "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/{version}/wasm-bindgen-{version}-x86_64-pc-windows-msvc.tar.gz"
+sha256 = "844d23f1b56097549b936dd2e0d561fadebc1e8c9e985d5068b6b919654104ad"
+archive = "tar.gz"
+member = "wasm-bindgen-{version}-x86_64-pc-windows-msvc/wasm-bindgen.exe"
+
+[wasm-bindgen-test-runner]
+version = "0.2.130"
+check = ["wasm-bindgen-test-runner", "--version"]
+group = "wasm"
+role = "wasm-bindgen-test-runner (browser tests of wasm32 crates), shipped in the wasm-bindgen CLI release"
+
+[wasm-bindgen-test-runner.linux-x86_64]
+url = "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/{version}/wasm-bindgen-{version}-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "9687f3bb551b9f66f37ed32a40d7913a00f7962db653054e56857bc306c3227f"
+archive = "tar.gz"
+member = "wasm-bindgen-{version}-x86_64-unknown-linux-musl/wasm-bindgen-test-runner"
+
+[wasm-bindgen-test-runner.windows-x86_64]
+url = "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/{version}/wasm-bindgen-{version}-x86_64-pc-windows-msvc.tar.gz"
+sha256 = "844d23f1b56097549b936dd2e0d561fadebc1e8c9e985d5068b6b919654104ad"
+archive = "tar.gz"
+member = "wasm-bindgen-{version}-x86_64-pc-windows-msvc/wasm-bindgen-test-runner.exe"
+
+[wasm-opt]
+version = "133"
+check = ["wasm-opt", "--version"]
+group = "wasm"
+role = "Binaryen optimizer (-Oz, --converge, --gufa, --monomorphize); web-build.ts and CI run it on every cohort"
+lock = { file = "aphrody/.github/workflows/aphrody-ci.yml", pattern = 'BINARYEN_VERSION: version_(\d+)' }
+
+[wasm-opt.linux-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-linux.tar.gz"
+sha256 = "2dc9c7813f5375db93d96ead4b78222fcc3e2677bbb832297af4797782a37489"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-opt"
+
+[wasm-opt.windows-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-windows.tar.gz"
+sha256 = "17a2cbeac6b5693c5fbafab3838d3c65fd9c1eb38b05f5baec6c657e8c84995b"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-opt.exe"
+
+[wasm-merge]
+version = "133"
+check = ["wasm-merge", "--version"]
+group = "wasm"
+role = "Binaryen merges Wasm modules into one before wasm-opt"
+
+[wasm-merge.linux-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-linux.tar.gz"
+sha256 = "2dc9c7813f5375db93d96ead4b78222fcc3e2677bbb832297af4797782a37489"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-merge"
+
+[wasm-merge.windows-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-windows.tar.gz"
+sha256 = "17a2cbeac6b5693c5fbafab3838d3c65fd9c1eb38b05f5baec6c657e8c84995b"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-merge.exe"
+
+[wasm-metadce]
+version = "133"
+check = ["wasm-metadce", "--version"]
+group = "wasm"
+role = "Binaryen dead-code elimination from a graph of JS and Wasm roots"
+
+[wasm-metadce.linux-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-linux.tar.gz"
+sha256 = "2dc9c7813f5375db93d96ead4b78222fcc3e2677bbb832297af4797782a37489"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-metadce"
+
+[wasm-metadce.windows-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-windows.tar.gz"
+sha256 = "17a2cbeac6b5693c5fbafab3838d3c65fd9c1eb38b05f5baec6c657e8c84995b"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-metadce.exe"
+
+[wasm-split]
+version = "133"
+check = ["wasm-split", "--version"]
+group = "wasm"
+role = "Binaryen splits a module into a primary and lazily loaded secondary modules"
+
+[wasm-split.linux-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-linux.tar.gz"
+sha256 = "2dc9c7813f5375db93d96ead4b78222fcc3e2677bbb832297af4797782a37489"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-split"
+
+[wasm-split.windows-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-windows.tar.gz"
+sha256 = "17a2cbeac6b5693c5fbafab3838d3c65fd9c1eb38b05f5baec6c657e8c84995b"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-split.exe"
+
+[wasm-dis]
+version = "133"
+check = ["wasm-dis", "--version"]
+group = "wasm"
+role = "Binaryen disassembler to Binaryen text"
+
+[wasm-dis.linux-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-linux.tar.gz"
+sha256 = "2dc9c7813f5375db93d96ead4b78222fcc3e2677bbb832297af4797782a37489"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-dis"
+
+[wasm-dis.windows-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-windows.tar.gz"
+sha256 = "17a2cbeac6b5693c5fbafab3838d3c65fd9c1eb38b05f5baec6c657e8c84995b"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-dis.exe"
+
+[wasm-as]
+version = "133"
+check = ["wasm-as", "--version"]
+group = "wasm"
+role = "Binaryen assembler from Binaryen text"
+
+[wasm-as.linux-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-linux.tar.gz"
+sha256 = "2dc9c7813f5375db93d96ead4b78222fcc3e2677bbb832297af4797782a37489"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-as"
+
+[wasm-as.windows-x86_64]
+url = "https://github.com/WebAssembly/binaryen/releases/download/version_{version}/binaryen-version_{version}-x86_64-windows.tar.gz"
+sha256 = "17a2cbeac6b5693c5fbafab3838d3c65fd9c1eb38b05f5baec6c657e8c84995b"
+archive = "tar.gz"
+member = "binaryen-version_{version}/bin/wasm-as.exe"
+
+[wasm-tools]
+version = "1.263.0"
+check = ["wasm-tools", "--version"]
+group = "wasm"
+role = "Bytecode Alliance Wasm toolbox: validate, print, component new/embed/link, strip, smith, mutate"
+
+[wasm-tools.linux-x86_64]
+url = "https://github.com/bytecodealliance/wasm-tools/releases/download/v{version}/wasm-tools-{version}-x86_64-linux.tar.gz"
+sha256 = "21c036c1740a0552124c79c6e2170cb61c5b016005671a6d5bc06cf642165431"
+archive = "tar.gz"
+member = "wasm-tools-{version}-x86_64-linux/wasm-tools"
+
+[wasm-tools.windows-x86_64]
+url = "https://github.com/bytecodealliance/wasm-tools/releases/download/v{version}/wasm-tools-{version}-x86_64-windows.zip"
+sha256 = "0803df158b4dbea6b029d11f4206c414f432f0447af91542817061e4f0bd912e"
+archive = "zip"
+member = "wasm-tools-{version}-x86_64-windows/wasm-tools.exe"
+
+[wasm2wat]
+version = "1.0.42"
+check = ["wasm2wat", "--version"]
+group = "wasm"
+role = "WABT binary to text"
+
+[wasm2wat.linux-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-linux-x64.tar.gz"
+sha256 = "84895407a6bbb80e918f33b16b2fb2206021c150b6bc9ff6f761263a745ab131"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wasm2wat"
+
+[wasm2wat.windows-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-windows-x64.tar.gz"
+sha256 = "62f1eb2b51aa57cf0f0b8ba333bf2c72a049930aa9c5de01dcad271c4fe48c88"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wasm2wat.exe"
+
+[wat2wasm]
+version = "1.0.42"
+check = ["wat2wasm", "--version"]
+group = "wasm"
+role = "WABT text to binary"
+
+[wat2wasm.linux-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-linux-x64.tar.gz"
+sha256 = "84895407a6bbb80e918f33b16b2fb2206021c150b6bc9ff6f761263a745ab131"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wat2wasm"
+
+[wat2wasm.windows-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-windows-x64.tar.gz"
+sha256 = "62f1eb2b51aa57cf0f0b8ba333bf2c72a049930aa9c5de01dcad271c4fe48c88"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wat2wasm.exe"
+
+[wasm-objdump]
+version = "1.0.42"
+check = ["wasm-objdump", "--version"]
+group = "wasm"
+role = "WABT section and function dump"
+
+[wasm-objdump.linux-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-linux-x64.tar.gz"
+sha256 = "84895407a6bbb80e918f33b16b2fb2206021c150b6bc9ff6f761263a745ab131"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wasm-objdump"
+
+[wasm-objdump.windows-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-windows-x64.tar.gz"
+sha256 = "62f1eb2b51aa57cf0f0b8ba333bf2c72a049930aa9c5de01dcad271c4fe48c88"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wasm-objdump.exe"
+
+[wasm-strip]
+version = "1.0.42"
+check = ["wasm-strip", "--version"]
+group = "wasm"
+role = "WABT drops custom sections"
+
+[wasm-strip.linux-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-linux-x64.tar.gz"
+sha256 = "84895407a6bbb80e918f33b16b2fb2206021c150b6bc9ff6f761263a745ab131"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wasm-strip"
+
+[wasm-strip.windows-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-windows-x64.tar.gz"
+sha256 = "62f1eb2b51aa57cf0f0b8ba333bf2c72a049930aa9c5de01dcad271c4fe48c88"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wasm-strip.exe"
+
+[wasm-validate]
+version = "1.0.42"
+check = ["wasm-validate", "--version"]
+group = "wasm"
+role = "WABT spec validator"
+
+[wasm-validate.linux-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-linux-x64.tar.gz"
+sha256 = "84895407a6bbb80e918f33b16b2fb2206021c150b6bc9ff6f761263a745ab131"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wasm-validate"
+
+[wasm-validate.windows-x86_64]
+url = "https://github.com/WebAssembly/wabt/releases/download/{version}/wabt-{version}-windows-x64.tar.gz"
+sha256 = "62f1eb2b51aa57cf0f0b8ba333bf2c72a049930aa9c5de01dcad271c4fe48c88"
+archive = "tar.gz"
+member = "wabt-{version}/bin/wasm-validate.exe"
+
+[wit-bindgen]
+version = "0.63.0"
+check = ["wit-bindgen", "--version"]
+group = "wasm"
+role = "WIT bindings generator for Component Model guests (wasm32-wasip2)"
+
+[wit-bindgen.linux-x86_64]
+url = "https://github.com/bytecodealliance/wit-bindgen/releases/download/v{version}/wit-bindgen-{version}-x86_64-linux.tar.gz"
+sha256 = "bf4efe883ab70d34a4740253911dda20caf895d58a003af58369506b04684cbe"
+archive = "tar.gz"
+member = "wit-bindgen-{version}-x86_64-linux/wit-bindgen"
+
+[wit-bindgen.windows-x86_64]
+url = "https://github.com/bytecodealliance/wit-bindgen/releases/download/v{version}/wit-bindgen-{version}-x86_64-windows.zip"
+sha256 = "213393e4a8b4875a3f19856e943e43067d0315141fca5743e4cfb7795bc9af14"
+archive = "zip"
+member = "wit-bindgen-{version}-x86_64-windows/wit-bindgen.exe"
+
+[wasmtime]
+version = "51.0.0"
+check = ["wasmtime", "--version"]
+group = "wasm"
+role = "Wasmtime runtime: WASI and component tests, `wasmtime compile` AOT (web-build.ts --aot)"
+
+[wasmtime.linux-x86_64]
+url = "https://github.com/bytecodealliance/wasmtime/releases/download/v{version}/wasmtime-v{version}-x86_64-linux.tar.xz"
+sha256 = "a18020674fac4107f329bc9ed720ea9c88e4b30a61e8a527787bcce051123d32"
+archive = "tar.xz"
+member = "wasmtime-v{version}-x86_64-linux/wasmtime"
+
+[wasmtime.windows-x86_64]
+url = "https://github.com/bytecodealliance/wasmtime/releases/download/v{version}/wasmtime-v{version}-x86_64-windows.zip"
+sha256 = "d2f5853a1cded9b1256b45cd57686b6855e69049ef07fd4ad78feb78dfa3aada"
+archive = "zip"
+member = "wasmtime-v{version}-x86_64-windows/wasmtime.exe"
+
+[wasmer]
+version = "7.5.0"
+check = ["wasmer", "--version"]
+group = "wasm"
+role = "Wasmer runtime (LLVM, Cranelift, Singlepass backends): second engine for runtime conformance tests"
+
+[wasmer.linux-x86_64]
+url = "https://github.com/wasmerio/wasmer/releases/download/v{version}/wasmer-linux-amd64.tar.gz"
+sha256 = "23f99818deaad93859f8bb8292af81f0c39f25aea19eaccfb72fc7c9e8a3fae9"
+archive = "tar.gz"
+member = "bin/wasmer"
+
+[wasmer.windows-x86_64]
+url = "https://github.com/wasmerio/wasmer/releases/download/v{version}/wasmer-windows-amd64.tar.gz"
+sha256 = "05ed663fd0db01d5a690e151c976c384d035a8acac7a7710ffb5fcc9d54c917f"
+archive = "tar.gz"
+member = "bin/wasmer.exe"
+
+[twiggy]
+version = "0.8.0"
+check = ["twiggy", "--version"]
+group = "wasm"
+role = "Code-size profiler (top, dominators, monos, garbage, paths); built from the crates.io source, no release binary exists"
+
+[twiggy.linux-x86_64]
+url = "https://static.crates.io/crates/twiggy/twiggy-{version}.crate"
+sha256 = "0b2428af4556b542446239d67b1c21f2d4e51dc148b61e7b5c34e4b0f0e8128c"
+archive = "tar.gz"
+member = "twiggy-{version}"
+cargo = true
+
+[twiggy.windows-x86_64]
+url = "https://static.crates.io/crates/twiggy/twiggy-{version}.crate"
+sha256 = "0b2428af4556b542446239d67b1c21f2d4e51dc148b61e7b5c34e4b0f0e8128c"
+archive = "tar.gz"
+member = "twiggy-{version}"
+cargo = true
+
+[cargo-component]
+version = "0.21.1"
+check = ["cargo-component", "--version"]
+group = "wasm"
+role = "Component Model crates for cargo (wasm32-wasip2 components with WIT); fleet only, it ships no release binary and compiles from source"
+
+[cargo-component.linux-x86_64]
+url = "https://static.crates.io/crates/cargo-component/cargo-component-{version}.crate"
+sha256 = "b5909c9e8cfc35bb77ad11e2cde9edf033e9414680e42c1ad0b06462b6cb78a7"
+archive = "tar.gz"
+member = "cargo-component-{version}"
+cargo = true
+
+[wasi-sdk]
+version = "34.0"
+check = ["{opt}/wasi-sdk-{version}/bin/clang", "--version"]
+group = "wasm"
+role = "WASI SDK: clang, wasm-ld and the wasi-libc sysroot for C and C++ to wasm32-wasip1 and wasm32-wasip2"
+expect = "wasi-sdk-{version}"
+
+[wasi-sdk.linux-x86_64]
+url = "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-34/wasi-sdk-{version}-x86_64-linux.tar.gz"
+sha256 = "b761e3a0721dbae9c09a0059e5fdb2bf917d1b4a8a7b430fb3b5aafb0984b2c4"
+archive = "tar.gz"
+member = "wasi-sdk-{version}-x86_64-linux"
+dir = "wasi-sdk-{version}"
+
+[wasi-sdk.windows-x86_64]
+url = "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-34/wasi-sdk-{version}-x86_64-windows.tar.gz"
+sha256 = "cccb5c323a9b34f0349a9b09e8804a0a7632c68c3310f4b5f437ed57d7e71d8f"
+archive = "tar.gz"
+member = "wasi-sdk-{version}-x86_64-windows"
+dir = "wasi-sdk-{version}"
+
+[emsdk]
+version = "7.0.0"
+check = ["{opt}/emsdk-{version}/upstream/emscripten/emcc", "--version"]
+group = "wasm"
+role = "Emscripten SDK (emcc, wasm-ld, bundled Binaryen and Node) for C and C++ to browser Wasm; 7.0.0 is the latest tag, `7.0.1-git` is the development head"
+expect = "{version}"
+
+[emsdk.linux-x86_64]
+url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/{version}.tar.gz"
+sha256 = "b2d153874f97b3c41f76b91239407d124c8d22f60a5e1a3f0a4ebc92a44479e4"
+archive = "tar.gz"
+member = "emsdk-{version}"
+dir = "emsdk-{version}"
+post = [["python3", "emsdk.py", "install", "{version}"], ["python3", "emsdk.py", "activate", "{version}"]]

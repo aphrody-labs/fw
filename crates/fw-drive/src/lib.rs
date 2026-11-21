@@ -1,18 +1,22 @@
-//! `fw-drive`: a Google Drive style file service. Metadata lives in one SQLite file (`drive.db`); file
-//! content lives in content-addressed blobs (`blobs/<2 hex>/<blake3>`), so identical uploads are stored
-//! once and every blob is a plain file. Each operation checks the caller's role, inherited down the tree.
+//! `fw-drive`: a Google Drive style file service. Metadata lives in a SQLite-dialect database and file
+//! content in content-addressed blobs (one per blake3 hash), so identical uploads are stored once. Each
+//! operation checks the caller's role, inherited down the tree. The rules run over the [`store::Sql`] and
+//! [`store::Blobs`] traits: the `sqlite` feature provides a SQLite file with plain-file blobs, and the
+//! `fw-edge` Worker provides Cloudflare D1 and R2.
 
 #![forbid(unsafe_code)]
 
-use rusqlite::{Connection, OptionalExtension, Row, params};
 use serde::Serialize;
-use std::fs;
-use std::io::{self, Read, Write};
-use std::path::{Path, PathBuf};
-use std::sync::{Mutex, MutexGuard};
+use std::io::{self, Read};
+use std::sync::Arc;
+#[cfg(not(target_arch = "wasm32"))]
 use std::time::{SystemTime, UNIX_EPOCH};
+use store::{BlobSink, BlobStream, Blobs, RowExt, Sql, Stmt, Value};
 
-#[cfg(feature = "server")]
+#[cfg(feature = "sqlite")]
+pub mod sqlite;
+pub mod store;
+#[cfg(feature = "web")]
 pub mod web;
 
 pub const FOLDER_MIME: &str = "application/vnd.fw.folder";
@@ -29,8 +33,8 @@ pub enum Error {
     QuotaExceeded { used: u64, limit: u64 },
     #[error(transparent)]
     Io(#[from] io::Error),
-    #[error(transparent)]
-    Db(#[from] rusqlite::Error),
+    #[error("database: {0}")]
+    Db(String),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -151,78 +155,68 @@ impl User {
     }
 }
 
-pub struct Drive {
-    root: PathBuf,
-    db: Mutex<Connection>,
-    quota_limit: Option<u64>,
+/// Cloudflare Workers have no `SystemTime`; `Date.now()` stands in.
+#[cfg(target_arch = "wasm32")]
+fn now_ms() -> i64 {
+    js_sys::Date::now() as i64
 }
 
-const SCHEMA: &str = "
-pragma journal_mode = wal;
-pragma foreign_keys = on;
-create table if not exists nodes (
-  id text primary key,
-  parent text references nodes(id) on delete cascade,
-  name text not null,
-  kind text not null check (kind in ('file','folder')),
-  mime text not null,
-  size integer not null default 0,
-  blob text,
-  owner text not null,
-  trashed_at integer,
-  trashed_by_ancestor integer not null default 0,
-  created_at integer not null,
-  modified_at integer not null
-);
-create index if not exists nodes_parent on nodes(parent, kind, name);
-create index if not exists nodes_owner on nodes(owner, modified_at);
-create index if not exists nodes_blob on nodes(blob);
-create table if not exists shares (
-  node text not null references nodes(id) on delete cascade,
-  principal text not null,
-  role text not null check (role in ('reader','commenter','writer')),
-  primary key (node, principal)
-);
-create index if not exists shares_principal on shares(principal);
-create table if not exists stars (
-  user text not null,
-  node text not null references nodes(id) on delete cascade,
-  primary key (user, node)
-);
-";
-
-const COLS: &str = "n.id, n.parent, n.name, n.kind, n.mime, n.size, n.blob, n.owner, n.trashed_at is not null or n.trashed_by_ancestor, n.created_at, n.modified_at, exists(select 1 from stars s where s.user = ?1 and s.node = n.id)";
-
+#[cfg(not(target_arch = "wasm32"))]
 fn now_ms() -> i64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map_or(0, |d| d.as_millis() as i64)
 }
 
-fn new_id() -> String {
+#[cfg(not(target_arch = "wasm32"))]
+pub(crate) fn new_id() -> String {
     uuid::Uuid::new_v4().simple().to_string()
 }
 
-fn row_node(r: &Row<'_>) -> rusqlite::Result<Node> {
-    let kind: String = r.get(3)?;
+/// 128 random bits from `crypto.getRandomValues`, as 32 hex digits.
+#[cfg(target_arch = "wasm32")]
+pub(crate) fn new_id() -> String {
+    use std::fmt::Write as _;
+    let crypto = js_sys::Reflect::get(&js_sys::global(), &"crypto".into())
+        .expect("a Workers global has `crypto`");
+    let fill: js_sys::Function = js_sys::Reflect::get(&crypto, &"getRandomValues".into())
+        .expect("crypto.getRandomValues")
+        .into();
+    let bytes = js_sys::Uint8Array::new_with_length(16);
+    fill.call1(&crypto, &bytes)
+        .expect("crypto.getRandomValues fills the array");
+    let mut out = String::with_capacity(32);
+    for b in bytes.to_vec() {
+        let _ = write!(out, "{b:02x}");
+    }
+    out
+}
+
+const COLS: &str = "n.id, n.parent, n.name, n.kind, n.mime, n.size, n.blob, n.owner, n.trashed_at is not null or n.trashed_by_ancestor, n.created_at, n.modified_at, exists(select 1 from stars s where s.user = ?1 and s.node = n.id)";
+
+fn node_of(r: &store::Row) -> Result<Node> {
     Ok(Node {
-        id: r.get(0)?,
-        parent: r.get(1)?,
-        name: r.get(2)?,
-        kind: if kind == "folder" {
+        id: r.text(0)?,
+        parent: r.opt_text(1)?,
+        name: r.text(2)?,
+        kind: if r.text(3)? == "folder" {
             Kind::Folder
         } else {
             Kind::File
         },
-        mime: r.get(4)?,
-        size: r.get::<_, i64>(5)? as u64,
-        hash: r.get(6)?,
-        owner: r.get(7)?,
-        trashed: r.get(8)?,
-        created_at: r.get(9)?,
-        modified_at: r.get(10)?,
-        starred: r.get(11)?,
+        mime: r.text(4)?,
+        size: r.int(5)?.max(0) as u64,
+        hash: r.opt_text(6)?,
+        owner: r.text(7)?,
+        trashed: r.int(8)? != 0,
+        created_at: r.int(9)?,
+        modified_at: r.int(10)?,
+        starred: r.int(11)? != 0,
     })
+}
+
+fn nodes_of(rows: &[store::Row]) -> Result<Vec<Node>> {
+    rows.iter().map(node_of).collect()
 }
 
 fn check_name(name: &str) -> Result<String> {
@@ -288,17 +282,16 @@ fn kind_filter(kind: &str) -> (String, String) {
     }
 }
 
-/// Blob being written: content is hashed while it streams to a temporary file.
+/// Blob being written: content is hashed while it streams into the blob store.
 pub struct BlobWriter {
-    tmp: PathBuf,
-    file: Option<fs::File>,
+    sink: Box<dyn BlobSink>,
     hasher: blake3::Hasher,
     size: u64,
     limit: Option<u64>,
 }
 
 impl BlobWriter {
-    pub fn write_chunk(&mut self, chunk: &[u8]) -> Result<()> {
+    pub async fn write_chunk(&mut self, chunk: &[u8]) -> Result<()> {
         self.size += chunk.len() as u64;
         if let Some(limit) = self.limit
             && self.size > limit
@@ -309,81 +302,93 @@ impl BlobWriter {
             });
         }
         self.hasher.update(chunk);
-        self.file
-            .as_mut()
-            .ok_or(Error::NotFound)?
-            .write_all(chunk)?;
-        Ok(())
+        self.sink.write(chunk).await
     }
 }
 
-impl Drop for BlobWriter {
-    fn drop(&mut self) {
-        let _ = fs::remove_file(&self.tmp);
-    }
+#[derive(Clone)]
+pub struct Drive {
+    sql: Arc<dyn Sql>,
+    blobs: Arc<dyn Blobs>,
+    quota_limit: Option<u64>,
 }
 
 impl Drive {
-    /// Opens (or creates) a drive in `root`: `drive.db`, `blobs/` and `tmp/`.
-    pub fn open(root: impl AsRef<Path>, quota_limit: Option<u64>) -> Result<Self> {
-        let root = root.as_ref().to_path_buf();
-        fs::create_dir_all(root.join("blobs"))?;
-        fs::create_dir_all(root.join("tmp"))?;
-        let db = Connection::open(root.join("drive.db"))?;
-        db.execute_batch(SCHEMA)?;
-        db.busy_timeout(std::time::Duration::from_secs(5))?;
-        Ok(Self {
-            root,
-            db: Mutex::new(db),
+    pub fn new(sql: Arc<dyn Sql>, blobs: Arc<dyn Blobs>, quota_limit: Option<u64>) -> Self {
+        Self {
+            sql,
+            blobs,
             quota_limit,
-        })
+        }
     }
 
-    fn db(&self) -> MutexGuard<'_, Connection> {
-        self.db.lock().unwrap_or_else(|e| e.into_inner())
+    /// Opens (or creates) a local drive in `root`: `drive.db`, `blobs/` and `tmp/`.
+    #[cfg(feature = "sqlite")]
+    pub fn open(root: impl AsRef<std::path::Path>, quota_limit: Option<u64>) -> Result<Self> {
+        let root = root.as_ref();
+        std::fs::create_dir_all(root)?;
+        Ok(Self::new(
+            Arc::new(sqlite::SqliteSql::open(root.join("drive.db"))?),
+            Arc::new(sqlite::FsBlobs::open(root)?),
+            quota_limit,
+        ))
     }
 
-    pub fn blob_path(&self, hash: &str) -> PathBuf {
-        self.root.join("blobs").join(&hash[..2]).join(hash)
+    pub fn quota_limit(&self) -> Option<u64> {
+        self.quota_limit
     }
 
     /// The user's "My Drive" folder, created on first use. Its id is stable per email.
-    pub fn my_drive(&self, user: &User) -> Result<Node> {
+    pub async fn my_drive(&self, user: &User) -> Result<Node> {
         let id = format!(
             "root-{}",
             &blake3::hash(user.email().as_bytes()).to_hex()[..20]
         );
-        let db = self.db();
         let t = now_ms();
-        db.execute(
-            "insert or ignore into nodes (id, parent, name, kind, mime, owner, created_at, modified_at) values (?1, null, 'My Drive', 'folder', ?2, ?3, ?4, ?4)",
-            params![id, FOLDER_MIME, user.email(), t],
-        )?;
-        Self::fetch(&db, user, &id)?.ok_or(Error::NotFound)
+        self.sql
+            .query(
+                "insert or ignore into nodes (id, parent, name, kind, mime, owner, created_at, modified_at) values (?1, null, 'My Drive', 'folder', ?2, ?3, ?4, ?4)",
+                params![id.clone(), FOLDER_MIME, user.email(), t],
+            )
+            .await?;
+        self.fetch(user, &id).await?.ok_or(Error::NotFound)
     }
 
-    fn fetch(db: &Connection, user: &User, id: &str) -> Result<Option<Node>> {
-        Ok(db
-            .query_row(
+    async fn fetch(&self, user: &User, id: &str) -> Result<Option<Node>> {
+        let rows = self
+            .sql
+            .query(
                 &format!("select {COLS} from nodes n where n.id = ?2"),
                 params![user.email(), id],
-                row_node,
             )
-            .optional()?)
+            .await?;
+        rows.first().map(node_of).transpose()
+    }
+
+    async fn nodes(&self, sql: String, params: Vec<Value>) -> Result<Vec<Node>> {
+        nodes_of(&self.sql.query(&sql, params).await?)
     }
 
     /// The caller's role on a node: owner of the node, or the highest share on it or an ancestor.
-    fn role(db: &Connection, user: &User, id: &str) -> Result<Option<Role>> {
-        let mut stmt = db.prepare_cached(
-            "with recursive up(id, parent, owner, depth) as (
+    async fn role(&self, user: &User, id: &str) -> Result<Option<Role>> {
+        let rows = self
+            .sql
+            .query(
+                "with recursive up(id, parent, owner, depth) as (
                select id, parent, owner, 0 from nodes where id = ?1
                union all select n.id, n.parent, n.owner, up.depth + 1 from nodes n join up on n.id = up.parent where up.depth < 64)
              select (select count(*) from up where depth = 0 and owner = ?2),
                     (select max(case s.role when 'writer' then 3 when 'commenter' then 2 else 1 end)
                        from shares s join up on s.node = up.id where s.principal in (?2, '*'))",
-        )?;
-        let (owns, share): (i64, Option<i64>) =
-            stmt.query_row(params![id, user.email()], |r| Ok((r.get(0)?, r.get(1)?)))?;
+                params![id, user.email()],
+            )
+            .await?;
+        let row = rows.first().ok_or(Error::NotFound)?;
+        let owns = row.int(0)?;
+        let share = match row.get(1) {
+            Some(Value::Int(s)) => Some(*s),
+            _ => None,
+        };
         Ok(if owns > 0 {
             Some(Role::Owner)
         } else {
@@ -395,32 +400,31 @@ impl Drive {
         })
     }
 
-    fn require(db: &Connection, user: &User, id: &str, need: Role) -> Result<Node> {
-        let node = Self::fetch(db, user, id)?.ok_or(Error::NotFound)?;
-        match Self::role(db, user, id)? {
+    async fn require(&self, user: &User, id: &str, need: Role) -> Result<Node> {
+        let node = self.fetch(user, id).await?.ok_or(Error::NotFound)?;
+        match self.role(user, id).await? {
             None => Err(Error::NotFound),
             Some(r) if r < need => Err(Error::Forbidden(need)),
             Some(_) => Ok(node),
         }
     }
 
-    pub fn role_of(&self, user: &User, id: &str) -> Result<Option<Role>> {
-        Self::role(&self.db(), user, id)
+    pub async fn role_of(&self, user: &User, id: &str) -> Result<Option<Role>> {
+        self.role(user, id).await
     }
 
-    pub fn get(&self, user: &User, id: &str) -> Result<Node> {
-        Self::require(&self.db(), user, id, Role::Reader)
+    pub async fn get(&self, user: &User, id: &str) -> Result<Node> {
+        self.require(user, id, Role::Reader).await
     }
 
     /// Ancestors from "My Drive" (or the highest folder the user can read) down to the node.
-    pub fn path(&self, user: &User, id: &str) -> Result<Vec<Node>> {
-        let db = self.db();
-        let mut out = vec![Self::require(&db, user, id, Role::Reader)?];
+    pub async fn path(&self, user: &User, id: &str) -> Result<Vec<Node>> {
+        let mut out = vec![self.require(user, id, Role::Reader).await?];
         while let Some(parent) = out.last().and_then(|n| n.parent.clone()) {
-            if out.len() > 64 || Self::role(&db, user, &parent)?.is_none() {
+            if out.len() > 64 || self.role(user, &parent).await?.is_none() {
                 break;
             }
-            out.push(Self::fetch(&db, user, &parent)?.ok_or(Error::NotFound)?);
+            out.push(self.fetch(user, &parent).await?.ok_or(Error::NotFound)?);
         }
         out.reverse();
         Ok(out)
@@ -435,17 +439,22 @@ impl Drive {
         }
     }
 
-    pub fn list(&self, user: &User, parent: &str, sort: Sort, desc: bool) -> Result<Vec<Node>> {
-        let db = self.db();
-        Self::require(&db, user, parent, Role::Reader)?;
-        let mut stmt = db.prepare(&format!(
-            "select {COLS} from nodes n where n.parent = ?2 and n.trashed_at is null and n.trashed_by_ancestor = 0 order by {}",
-            Self::order(sort, desc)
-        ))?;
-        let rows = stmt
-            .query_map(params![user.email(), parent], row_node)?
-            .collect::<rusqlite::Result<Vec<_>>>()?;
-        Ok(rows)
+    pub async fn list(
+        &self,
+        user: &User,
+        parent: &str,
+        sort: Sort,
+        desc: bool,
+    ) -> Result<Vec<Node>> {
+        self.require(user, parent, Role::Reader).await?;
+        self.nodes(
+            format!(
+                "select {COLS} from nodes n where n.parent = ?2 and n.trashed_at is null and n.trashed_by_ancestor = 0 order by {}",
+                Self::order(sort, desc)
+            ),
+            params![user.email(), parent],
+        )
+        .await
     }
 
     /// Every node the user can reach: owned, shared with them, and everything below those.
@@ -454,8 +463,13 @@ impl Drive {
         union select node from shares where principal = ?1
         union select n.id from nodes n join acc on n.parent = acc.id)";
 
-    pub fn search(&self, user: &User, q: &Search, sort: Sort, desc: bool) -> Result<Vec<Node>> {
-        let db = self.db();
+    pub async fn search(
+        &self,
+        user: &User,
+        q: &Search,
+        sort: Sort,
+        desc: bool,
+    ) -> Result<Vec<Node>> {
         let pattern = format!(
             "%{}%",
             q.text
@@ -468,206 +482,189 @@ impl Drive {
             .as_deref()
             .map(kind_filter)
             .unwrap_or_else(|| ("1".into(), String::new()));
-        let mut stmt = db.prepare(&format!(
-            "{} select {COLS} from nodes n where n.id in acc and n.parent is not null and n.trashed_at is null and n.trashed_by_ancestor = 0
+        self.nodes(
+            format!(
+                "{} select {COLS} from nodes n where n.id in acc and n.parent is not null and n.trashed_at is null and n.trashed_by_ancestor = 0
                and n.name like ?2 escape '\\' and {kind_sql} and n.modified_at >= ?4 order by {} limit 500",
-            Self::ACCESSIBLE,
-            Self::order(sort, desc)
-        ))?;
-        let rows = stmt
-            .query_map(
-                params![
-                    user.email(),
-                    pattern,
-                    kind_arg,
-                    q.modified_after.unwrap_or(0)
-                ],
-                row_node,
-            )?
-            .collect::<rusqlite::Result<Vec<_>>>()?;
-        Ok(rows)
+                Self::ACCESSIBLE,
+                Self::order(sort, desc)
+            ),
+            params![user.email(), pattern, kind_arg, q.modified_after.unwrap_or(0)],
+        )
+        .await
     }
 
-    pub fn recent(&self, user: &User) -> Result<Vec<Node>> {
-        let db = self.db();
-        let mut stmt = db.prepare(&format!(
-            "{} select {COLS} from nodes n where n.id in acc and n.kind = 'file' and n.trashed_at is null and n.trashed_by_ancestor = 0 order by n.modified_at desc limit 100",
-            Self::ACCESSIBLE
-        ))?;
-        let rows = stmt
-            .query_map(params![user.email()], row_node)?
-            .collect::<rusqlite::Result<Vec<_>>>()?;
-        Ok(rows)
+    pub async fn recent(&self, user: &User) -> Result<Vec<Node>> {
+        self.nodes(
+            format!(
+                "{} select {COLS} from nodes n where n.id in acc and n.kind = 'file' and n.trashed_at is null and n.trashed_by_ancestor = 0 order by n.modified_at desc limit 100",
+                Self::ACCESSIBLE
+            ),
+            params![user.email()],
+        )
+        .await
     }
 
-    pub fn starred(&self, user: &User) -> Result<Vec<Node>> {
-        let db = self.db();
-        let mut stmt = db.prepare(&format!(
-            "{} select {COLS} from nodes n join stars s on s.node = n.id and s.user = ?1 where n.id in acc and n.trashed_at is null and n.trashed_by_ancestor = 0 order by {}",
-            Self::ACCESSIBLE,
-            Self::order(Sort::Name, false)
-        ))?;
-        let rows = stmt
-            .query_map(params![user.email()], row_node)?
-            .collect::<rusqlite::Result<Vec<_>>>()?;
-        Ok(rows)
+    pub async fn starred(&self, user: &User) -> Result<Vec<Node>> {
+        self.nodes(
+            format!(
+                "{} select {COLS} from nodes n join stars s on s.node = n.id and s.user = ?1 where n.id in acc and n.trashed_at is null and n.trashed_by_ancestor = 0 order by {}",
+                Self::ACCESSIBLE,
+                Self::order(Sort::Name, false)
+            ),
+            params![user.email()],
+        )
+        .await
     }
 
     /// Items shared directly with the user by someone else.
-    pub fn shared_with_me(&self, user: &User) -> Result<Vec<Node>> {
-        let db = self.db();
-        let mut stmt = db.prepare(&format!(
-            "select {COLS} from nodes n join shares sh on sh.node = n.id and sh.principal = ?1 where n.owner != ?1 and n.trashed_at is null and n.trashed_by_ancestor = 0 order by n.modified_at desc"
-        ))?;
-        let rows = stmt
-            .query_map(params![user.email()], row_node)?
-            .collect::<rusqlite::Result<Vec<_>>>()?;
-        Ok(rows)
+    pub async fn shared_with_me(&self, user: &User) -> Result<Vec<Node>> {
+        self.nodes(
+            format!("select {COLS} from nodes n join shares sh on sh.node = n.id and sh.principal = ?1 where n.owner != ?1 and n.trashed_at is null and n.trashed_by_ancestor = 0 order by n.modified_at desc"),
+            params![user.email()],
+        )
+        .await
     }
 
     /// Items the user trashed (the top of each trashed subtree).
-    pub fn trash(&self, user: &User) -> Result<Vec<Node>> {
-        let db = self.db();
-        let mut stmt = db.prepare(&format!("select {COLS} from nodes n where n.owner = ?1 and n.trashed_at is not null order by n.trashed_at desc"))?;
-        let rows = stmt
-            .query_map(params![user.email()], row_node)?
-            .collect::<rusqlite::Result<Vec<_>>>()?;
-        Ok(rows)
+    pub async fn trash(&self, user: &User) -> Result<Vec<Node>> {
+        self.nodes(
+            format!("select {COLS} from nodes n where n.owner = ?1 and n.trashed_at is not null order by n.trashed_at desc"),
+            params![user.email()],
+        )
+        .await
     }
 
-    pub fn create_folder(&self, user: &User, parent: &str, name: &str) -> Result<Node> {
+    pub async fn create_folder(&self, user: &User, parent: &str, name: &str) -> Result<Node> {
         let name = check_name(name)?;
-        let db = self.db();
-        let p = Self::require(&db, user, parent, Role::Writer)?;
+        let p = self.require(user, parent, Role::Writer).await?;
         if p.kind != Kind::Folder || p.trashed {
             return Err(Error::Invalid("the parent is not an open folder".into()));
         }
         let id = new_id();
         let t = now_ms();
-        db.execute(
-            "insert into nodes (id, parent, name, kind, mime, owner, created_at, modified_at) values (?1, ?2, ?3, 'folder', ?4, ?5, ?6, ?6)",
-            params![id, parent, name, FOLDER_MIME, p.owner, t],
-        )?;
-        Self::fetch(&db, user, &id)?.ok_or(Error::NotFound)
+        self.sql
+            .query(
+                "insert into nodes (id, parent, name, kind, mime, owner, created_at, modified_at) values (?1, ?2, ?3, 'folder', ?4, ?5, ?6, ?6)",
+                params![id.clone(), parent, name, FOLDER_MIME, p.owner, t],
+            )
+            .await?;
+        self.fetch(user, &id).await?.ok_or(Error::NotFound)
     }
 
-    pub fn quota_used(&self, owner: &str) -> Result<u64> {
-        let used: i64 = self.db().query_row(
-            "select coalesce(sum(size), 0) from nodes where owner = ?1 and kind = 'file'",
-            params![owner],
-            |r| r.get(0),
-        )?;
-        Ok(used as u64)
+    pub async fn quota_used(&self, owner: &str) -> Result<u64> {
+        let rows = self
+            .sql
+            .query(
+                "select coalesce(sum(size), 0) from nodes where owner = ?1 and kind = 'file'",
+                params![owner],
+            )
+            .await?;
+        Ok(rows.first().map_or(Ok(0), |r| r.int(0))?.max(0) as u64)
     }
 
     /// Starts an upload into `parent`; the parent's owner is charged, as in Drive.
-    pub fn begin_upload(&self, user: &User, parent: &str) -> Result<BlobWriter> {
-        let p = {
-            let db = self.db();
-            Self::require(&db, user, parent, Role::Writer)?
-        };
+    pub async fn begin_upload(&self, user: &User, parent: &str) -> Result<BlobWriter> {
+        let p = self.require(user, parent, Role::Writer).await?;
         if p.kind != Kind::Folder || p.trashed {
             return Err(Error::Invalid("the parent is not an open folder".into()));
         }
         let limit = match self.quota_limit {
-            Some(limit) => Some(limit.saturating_sub(self.quota_used(&p.owner)?)),
+            Some(limit) => Some(limit.saturating_sub(self.quota_used(&p.owner).await?)),
             None => None,
         };
-        let tmp = self.root.join("tmp").join(new_id());
-        let file = fs::File::create(&tmp)?;
         Ok(BlobWriter {
-            tmp,
-            file: Some(file),
+            sink: self.blobs.begin().await?,
             hasher: blake3::Hasher::new(),
             size: 0,
             limit,
         })
     }
 
-    /// Moves the finished blob into place (once per content) and records the file.
-    pub fn finish_upload(
+    /// Stores the finished blob (once per content) and records the file.
+    pub async fn finish_upload(
         &self,
         user: &User,
         parent: &str,
         name: &str,
         mime: Option<&str>,
-        mut w: BlobWriter,
+        w: BlobWriter,
     ) -> Result<Node> {
         let name = check_name(name)?;
-        if let Some(mut f) = w.file.take() {
-            f.flush()?;
-            f.sync_all()?;
-        }
+        let p = self.require(user, parent, Role::Writer).await?;
         let hash = w.hasher.finalize().to_hex().to_string();
-        let dest = self.blob_path(&hash);
-        if !dest.exists() {
-            fs::create_dir_all(dest.parent().ok_or(Error::NotFound)?)?;
-            fs::rename(&w.tmp, &dest)?;
-        }
+        w.sink.commit(&hash).await?;
         let mime = mime
             .filter(|m| !m.is_empty() && *m != "application/octet-stream")
             .unwrap_or_else(|| mime_for(&name));
-        let db = self.db();
-        let p = Self::require(&db, user, parent, Role::Writer)?;
         let id = new_id();
         let t = now_ms();
-        db.execute(
-            "insert into nodes (id, parent, name, kind, mime, size, blob, owner, created_at, modified_at) values (?1, ?2, ?3, 'file', ?4, ?5, ?6, ?7, ?8, ?8)",
-            params![id, parent, name, mime, w.size as i64, hash, p.owner, t],
-        )?;
-        Self::fetch(&db, user, &id)?.ok_or(Error::NotFound)
+        self.sql
+            .query(
+                "insert into nodes (id, parent, name, kind, mime, size, blob, owner, created_at, modified_at) values (?1, ?2, ?3, 'file', ?4, ?5, ?6, ?7, ?8, ?8)",
+                params![id.clone(), parent, name, mime, w.size, hash, p.owner, t],
+            )
+            .await?;
+        self.fetch(user, &id).await?.ok_or(Error::NotFound)
     }
 
     /// Whole upload from a reader (CLI and tests).
-    pub fn upload(
+    pub async fn upload(
         &self,
         user: &User,
         parent: &str,
         name: &str,
         mime: Option<&str>,
-        mut content: impl Read,
+        mut content: impl Read + Send,
     ) -> Result<Node> {
-        let mut w = self.begin_upload(user, parent)?;
+        let mut w = self.begin_upload(user, parent).await?;
         let mut buf = vec![0u8; 256 * 1024];
         loop {
             let n = content.read(&mut buf)?;
             if n == 0 {
                 break;
             }
-            w.write_chunk(&buf[..n])?;
+            w.write_chunk(&buf[..n]).await?;
         }
-        self.finish_upload(user, parent, name, mime, w)
+        self.finish_upload(user, parent, name, mime, w).await
     }
 
-    /// The node and its blob path, for downloads.
-    pub fn content(&self, user: &User, id: &str) -> Result<(Node, PathBuf)> {
-        let node = self.get(user, id)?;
+    /// The file node, for downloads (folders have no content).
+    pub async fn content(&self, user: &User, id: &str) -> Result<Node> {
+        let node = self.get(user, id).await?;
+        if node.hash.is_none() {
+            return Err(Error::Invalid("folders have no content".into()));
+        }
+        Ok(node)
+    }
+
+    /// The bytes `start..=end` of a file's blob, or all of it.
+    pub async fn read(&self, node: &Node, range: Option<(u64, u64)>) -> Result<BlobStream> {
         let hash = node
             .hash
-            .clone()
+            .as_deref()
             .ok_or_else(|| Error::Invalid("folders have no content".into()))?;
-        let path = self.blob_path(&hash);
-        Ok((node, path))
+        self.blobs.open(hash, range).await
     }
 
-    pub fn rename(&self, user: &User, id: &str, name: &str) -> Result<Node> {
+    pub async fn rename(&self, user: &User, id: &str, name: &str) -> Result<Node> {
         let name = check_name(name)?;
-        let db = self.db();
-        let n = Self::require(&db, user, id, Role::Writer)?;
+        let n = self.require(user, id, Role::Writer).await?;
         if n.parent.is_none() {
             return Err(Error::Invalid("My Drive cannot be renamed".into()));
         }
-        db.execute(
-            "update nodes set name = ?2, modified_at = ?3 where id = ?1",
-            params![id, name, now_ms()],
-        )?;
-        Self::fetch(&db, user, id)?.ok_or(Error::NotFound)
+        self.sql
+            .query(
+                "update nodes set name = ?2, modified_at = ?3 where id = ?1",
+                params![id, name, now_ms()],
+            )
+            .await?;
+        self.fetch(user, id).await?.ok_or(Error::NotFound)
     }
 
-    pub fn move_to(&self, user: &User, id: &str, new_parent: &str) -> Result<Node> {
-        let db = self.db();
-        let n = Self::require(&db, user, id, Role::Writer)?;
-        let target = Self::require(&db, user, new_parent, Role::Writer)?;
+    pub async fn move_to(&self, user: &User, id: &str, new_parent: &str) -> Result<Node> {
+        let n = self.require(user, id, Role::Writer).await?;
+        let target = self.require(user, new_parent, Role::Writer).await?;
         if n.parent.is_none() {
             return Err(Error::Invalid("My Drive cannot be moved".into()));
         }
@@ -679,168 +676,208 @@ impl Drive {
             if c == n.id {
                 return Err(Error::Invalid("a folder cannot move into itself".into()));
             }
-            cursor = db.query_row("select parent from nodes where id = ?1", params![c], |r| {
-                r.get(0)
-            })?;
+            let rows = self
+                .sql
+                .query("select parent from nodes where id = ?1", params![c])
+                .await?;
+            cursor = match rows.first() {
+                Some(r) => r.opt_text(0)?,
+                None => None,
+            };
         }
-        db.execute(
-            "update nodes set parent = ?2, modified_at = ?3 where id = ?1",
-            params![id, new_parent, now_ms()],
-        )?;
-        Self::fetch(&db, user, id)?.ok_or(Error::NotFound)
+        self.sql
+            .query(
+                "update nodes set parent = ?2, modified_at = ?3 where id = ?1",
+                params![id, new_parent, now_ms()],
+            )
+            .await?;
+        self.fetch(user, id).await?.ok_or(Error::NotFound)
     }
 
-    pub fn copy(&self, user: &User, id: &str, parent: &str) -> Result<Node> {
-        let db = self.db();
-        let n = Self::require(&db, user, id, Role::Reader)?;
-        let p = Self::require(&db, user, parent, Role::Writer)?;
+    pub async fn copy(&self, user: &User, id: &str, parent: &str) -> Result<Node> {
+        let n = self.require(user, id, Role::Reader).await?;
+        let p = self.require(user, parent, Role::Writer).await?;
         if n.kind != Kind::File {
             return Err(Error::Invalid("only files can be copied".into()));
         }
         let new = new_id();
         let t = now_ms();
-        db.execute(
-            "insert into nodes (id, parent, name, kind, mime, size, blob, owner, created_at, modified_at) values (?1, ?2, ?3, 'file', ?4, ?5, ?6, ?7, ?8, ?8)",
-            params![new, parent, format!("Copy of {}", n.name), n.mime, n.size as i64, n.hash, p.owner, t],
-        )?;
-        Self::fetch(&db, user, &new)?.ok_or(Error::NotFound)
+        self.sql
+            .query(
+                "insert into nodes (id, parent, name, kind, mime, size, blob, owner, created_at, modified_at) values (?1, ?2, ?3, 'file', ?4, ?5, ?6, ?7, ?8, ?8)",
+                params![new.clone(), parent, format!("Copy of {}", n.name), n.mime, n.size, n.hash, p.owner, t],
+            )
+            .await?;
+        self.fetch(user, &new).await?.ok_or(Error::NotFound)
     }
 
-    pub fn set_starred(&self, user: &User, id: &str, starred: bool) -> Result<Node> {
-        let db = self.db();
-        Self::require(&db, user, id, Role::Reader)?;
+    pub async fn set_starred(&self, user: &User, id: &str, starred: bool) -> Result<Node> {
+        self.require(user, id, Role::Reader).await?;
         if starred {
-            db.execute(
-                "insert or ignore into stars (user, node) values (?1, ?2)",
-                params![user.email(), id],
-            )?;
+            self.sql
+                .query(
+                    "insert or ignore into stars (user, node) values (?1, ?2)",
+                    params![user.email(), id],
+                )
+                .await?;
         } else {
-            db.execute(
-                "delete from stars where user = ?1 and node = ?2",
-                params![user.email(), id],
-            )?;
+            self.sql
+                .query(
+                    "delete from stars where user = ?1 and node = ?2",
+                    params![user.email(), id],
+                )
+                .await?;
         }
-        Self::fetch(&db, user, id)?.ok_or(Error::NotFound)
+        self.fetch(user, id).await?.ok_or(Error::NotFound)
     }
 
     const SUBTREE: &str = "with recursive sub(id) as (select id from nodes where parent = ?1 union all select n.id from nodes n join sub on n.parent = sub.id)";
 
-    pub fn trash_node(&self, user: &User, id: &str) -> Result<Node> {
-        let mut db = self.db();
-        let n = Self::require(&db, user, id, Role::Writer)?;
+    pub async fn trash_node(&self, user: &User, id: &str) -> Result<Node> {
+        let n = self.require(user, id, Role::Writer).await?;
         if n.parent.is_none() {
             return Err(Error::Invalid("My Drive cannot be trashed".into()));
         }
-        let tx = db.transaction()?;
-        tx.execute(
-            "update nodes set trashed_at = ?2 where id = ?1 and trashed_at is null",
-            params![id, now_ms()],
-        )?;
-        tx.execute(
-            &format!(
-                "{} update nodes set trashed_by_ancestor = 1 where id in sub",
-                Self::SUBTREE
-            ),
-            params![id],
-        )?;
-        tx.commit()?;
-        Self::fetch(&db, user, id)?.ok_or(Error::NotFound)
+        self.sql
+            .batch(vec![
+                Stmt::new(
+                    "update nodes set trashed_at = ?2 where id = ?1 and trashed_at is null",
+                    params![id, now_ms()],
+                ),
+                Stmt::new(
+                    format!(
+                        "{} update nodes set trashed_by_ancestor = 1 where id in sub",
+                        Self::SUBTREE
+                    ),
+                    params![id],
+                ),
+            ])
+            .await?;
+        self.fetch(user, id).await?.ok_or(Error::NotFound)
     }
 
     /// Restores a trashed item; if its old folder is gone or trashed, it returns to the owner's My Drive.
-    pub fn restore(&self, user: &User, id: &str) -> Result<Node> {
-        let root = self.my_drive(&User::new(&self.get(user, id)?.owner)?)?;
-        let mut db = self.db();
-        let n = Self::require(&db, user, id, Role::Writer)?;
-        let tx = db.transaction()?;
+    pub async fn restore(&self, user: &User, id: &str) -> Result<Node> {
+        let root = self
+            .my_drive(&User::new(&self.get(user, id).await?.owner)?)
+            .await?;
+        let n = self.require(user, id, Role::Writer).await?;
         // The node comes back either under an open parent or into My Drive, so no ancestor of it is trashed.
-        tx.execute(
-            "update nodes set trashed_at = null, trashed_by_ancestor = 0 where id = ?1",
-            params![id],
-        )?;
-        tx.execute(&format!("{} update nodes set trashed_by_ancestor = 0 where id in sub and trashed_at is null", Self::SUBTREE), params![id])?;
-        let parent_open: bool = match &n.parent {
-            Some(p) => tx
-                .query_row("select trashed_at is null and trashed_by_ancestor = 0 from nodes where id = ?1", params![p], |r| r.get(0))
-                .optional()?
-                .unwrap_or(false),
+        let parent_open = match &n.parent {
+            Some(p) => {
+                let rows = self
+                    .sql
+                    .query(
+                        "select trashed_at is null and trashed_by_ancestor = 0 from nodes where id = ?1",
+                        params![p],
+                    )
+                    .await?;
+                match rows.first() {
+                    Some(r) => r.int(0)? != 0,
+                    None => false,
+                }
+            }
             None => true,
         };
+        let mut stmts = vec![
+            Stmt::new(
+                "update nodes set trashed_at = null, trashed_by_ancestor = 0 where id = ?1",
+                params![id],
+            ),
+            Stmt::new(
+                format!(
+                    "{} update nodes set trashed_by_ancestor = 0 where id in sub and trashed_at is null",
+                    Self::SUBTREE
+                ),
+                params![id],
+            ),
+        ];
         if !parent_open {
-            tx.execute(
+            stmts.push(Stmt::new(
                 "update nodes set parent = ?2 where id = ?1",
                 params![id, root.id],
-            )?;
+            ));
         }
-        tx.commit()?;
-        Self::fetch(&db, user, id)?.ok_or(Error::NotFound)
+        self.sql.batch(stmts).await?;
+        self.fetch(user, id).await?.ok_or(Error::NotFound)
     }
 
     /// Deletes a trashed item and its subtree for good, then removes blobs nothing references.
-    pub fn delete_forever(&self, user: &User, id: &str) -> Result<()> {
-        let mut db = self.db();
-        let n = Self::require(&db, user, id, Role::Owner)?;
+    pub async fn delete_forever(&self, user: &User, id: &str) -> Result<()> {
+        let n = self.require(user, id, Role::Owner).await?;
         if n.parent.is_none() {
             return Err(Error::Invalid("My Drive cannot be deleted".into()));
         }
         if !n.trashed {
             return Err(Error::Invalid("move the item to the trash first".into()));
         }
-        let tx = db.transaction()?;
-        let blobs: Vec<String> = {
-            let mut stmt = tx.prepare(
+        let blobs: Vec<String> = self
+            .sql
+            .query(
                 "with recursive sub(id) as (select ?1 union all select n.id from nodes n join sub on n.parent = sub.id) select distinct blob from nodes where id in sub and blob is not null",
-            )?;
-            stmt.query_map(params![id], |r| r.get(0))?
-                .collect::<rusqlite::Result<_>>()?
-        };
-        tx.execute("delete from nodes where id = ?1", params![id])?;
-        let mut orphans = Vec::new();
+                params![id],
+            )
+            .await?
+            .iter()
+            .map(|r| r.text(0))
+            .collect::<Result<_>>()?;
+        self.sql
+            .batch(vec![Stmt::new(
+                "delete from nodes where id = ?1",
+                params![id],
+            )])
+            .await?;
         for b in blobs {
-            let refs: i64 = tx.query_row(
-                "select count(*) from nodes where blob = ?1",
-                params![b],
-                |r| r.get(0),
-            )?;
+            let refs = self
+                .sql
+                .query(
+                    "select count(*) from nodes where blob = ?1",
+                    params![b.clone()],
+                )
+                .await?
+                .first()
+                .map_or(Ok(0), |r| r.int(0))?;
             if refs == 0 {
-                orphans.push(b);
+                self.blobs.delete(&b).await?;
             }
-        }
-        tx.commit()?;
-        drop(db);
-        for b in orphans {
-            let _ = fs::remove_file(self.blob_path(&b));
         }
         Ok(())
     }
 
-    pub fn empty_trash(&self, user: &User) -> Result<usize> {
-        let items = self.trash(user)?;
+    pub async fn empty_trash(&self, user: &User) -> Result<usize> {
+        let items = self.trash(user).await?;
         for n in &items {
-            self.delete_forever(user, &n.id)?;
+            self.delete_forever(user, &n.id).await?;
         }
         Ok(items.len())
     }
 
-    pub fn shares(&self, user: &User, id: &str) -> Result<Vec<Share>> {
-        let db = self.db();
-        Self::require(&db, user, id, Role::Reader)?;
-        let mut stmt =
-            db.prepare("select principal, role from shares where node = ?1 order by principal")?;
-        let rows = stmt
-            .query_map(params![id], |r| {
-                let role: String = r.get(1)?;
+    pub async fn shares(&self, user: &User, id: &str) -> Result<Vec<Share>> {
+        self.require(user, id, Role::Reader).await?;
+        self.sql
+            .query(
+                "select principal, role from shares where node = ?1 order by principal",
+                params![id],
+            )
+            .await?
+            .iter()
+            .map(|r| {
                 Ok(Share {
-                    principal: r.get(0)?,
-                    role: Role::parse(&role).unwrap_or(Role::Reader),
+                    principal: r.text(0)?,
+                    role: Role::parse(&r.text(1)?).unwrap_or(Role::Reader),
                 })
-            })?
-            .collect::<rusqlite::Result<Vec<_>>>()?;
-        Ok(rows)
+            })
+            .collect()
     }
 
     /// Grants `role` to an email, or to anyone with the link when `principal` is `*`. Owner only.
-    pub fn share(&self, user: &User, id: &str, principal: &str, role: Role) -> Result<Vec<Share>> {
+    pub async fn share(
+        &self,
+        user: &User,
+        id: &str,
+        principal: &str,
+        role: Role,
+    ) -> Result<Vec<Share>> {
         if role == Role::Owner {
             return Err(Error::Invalid("ownership cannot be shared".into()));
         }
@@ -849,39 +886,38 @@ impl Drive {
         } else {
             User::new(principal)?.0
         };
-        {
-            let db = self.db();
-            let n = Self::require(&db, user, id, Role::Owner)?;
-            if principal == n.owner {
-                return Err(Error::Invalid("the owner already has access".into()));
-            }
-            db.execute(
+        let n = self.require(user, id, Role::Owner).await?;
+        if principal == n.owner {
+            return Err(Error::Invalid("the owner already has access".into()));
+        }
+        self.sql
+            .query(
                 "insert into shares (node, principal, role) values (?1, ?2, ?3) on conflict (node, principal) do update set role = excluded.role",
                 params![id, principal, role.as_str()],
-            )?;
-        }
-        self.shares(user, id)
+            )
+            .await?;
+        self.shares(user, id).await
     }
 
-    pub fn unshare(&self, user: &User, id: &str, principal: &str) -> Result<Vec<Share>> {
-        {
-            let db = self.db();
-            Self::require(&db, user, id, Role::Owner)?;
-            db.execute(
+    pub async fn unshare(&self, user: &User, id: &str, principal: &str) -> Result<Vec<Share>> {
+        self.require(user, id, Role::Owner).await?;
+        self.sql
+            .query(
                 "delete from shares where node = ?1 and principal = ?2",
                 params![id, principal.trim().to_ascii_lowercase()],
-            )?;
-        }
-        self.shares(user, id)
+            )
+            .await?;
+        self.shares(user, id).await
     }
 
-    pub fn quota(&self, user: &User) -> Result<Quota> {
-        let used = self.quota_used(user.email())?;
-        let db = self.db();
-        let mut stmt = db.prepare(&format!("select {COLS} from nodes n where n.owner = ?1 and n.kind = 'file' order by n.size desc limit 50"))?;
-        let largest = stmt
-            .query_map(params![user.email()], row_node)?
-            .collect::<rusqlite::Result<Vec<_>>>()?;
+    pub async fn quota(&self, user: &User) -> Result<Quota> {
+        let used = self.quota_used(user.email()).await?;
+        let largest = self
+            .nodes(
+                format!("select {COLS} from nodes n where n.owner = ?1 and n.kind = 'file' order by n.size desc limit 50"),
+                params![user.email()],
+            )
+            .await?;
         Ok(Quota {
             used,
             limit: self.quota_limit,
@@ -890,5 +926,5 @@ impl Drive {
     }
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "sqlite"))]
 mod tests;

@@ -1,0 +1,13 @@
+[package]
+name = "fw-browser-engine"
+version.workspace = true
+edition.workspace = true
+publish = false
+license = "Apache-2.0"
+description = "The engines this browser can run on (WebKit/JSC, Blink/V8/Skia/Dawn, Blitz, Servo, Obscura and the experimental Rust ones) and the rule that picks and escalates between them."
+
+[package.metadata.browser]
+native = true
+
+[lints]
+workspace = true

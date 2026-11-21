@@ -1,0 +1,56 @@
+# formal-verification: AlphaProof Code method and lessons
+
+> Digest of "AlphaProof Code: Verifying Signal's Security at the Machine-Code Level" (Google DeepMind and Google, 2026-11-10, 57 pp). AI agents proved key security properties of libsignal (PQXDH handshake, Triple Ratchet) on the compiled AArch64 binary in Lean 4: about 6.5M agent-written proof lines resting on about 26,000 trusted lines (about 18k specs plus about 8k machine-code semantics). Human effort went into the specification; proofs are untrusted and accepted only through the Lean kernel and the comparator tool against a held-out, human-approved spec. Notes are paraphrases; page numbers refer to the PDF. Links read 2026-11-21.
+
+## Reference files (relative to this skill)
+
+- [SKILL.md](SKILL.md): the method in 8 steps and the router.
+- [references/paper.md](references/paper.md): bibliography, numbers table, PDF vs web-edition drift, section and page map, link check.
+- [references/architecture.md](references/architecture.md): spec-writer, AArch64 semantics, prover team roles, amendment critic, gatekeeper and acceptance.
+- [references/specification.md](references/specification.md): how specs are written, reviewed, tested for vacuity and strength; the trusted computing base.
+- [references/proving.md](references/proving.md): orchestration, context management, strategy rules, failure handling, scale numbers.
+- [references/results-and-limits.md](references/results-and-limits.md): proven vs not proven, threats to validity, future work.
+- [references/lessons-for-agents.md](references/lessons-for-agents.md): 20 rules for our workers, each with section cite, today's gap and the gate to add.
+
+## External
+
+- [Lean development and web edition](https://google-deepmind.github.io/code-verification): HTTP 200 on 2026-11-21; Verso book of the paper, newer numbers than the PDF.
+- [Code repository](https://github.com/google-deepmind/code-verification): main branch, last push 2026-11-20.
+- [Paper PDF](https://deepmind.google/documents/36/Formal_Verification_of_Signal_4.pdf): the 2026-11-10 text this skill follows.
+- [comparator](https://github.com/leanprover/comparator): Lean FRO tool the gatekeeper calls, checks a proof against a reference statement (paper ref [72]).
+
+## Key facts (PDF numbers)
+
+- Proof lines: about 6.5M of nearly 7M Lean lines; 5.3M shared binary proofs, about 860k computational, about 350k symbolic, 140k bug disproofs, 70k allocator (sec 7, p25).
+- Trusted base: about 18,000 statement/definition lines plus about 8,000 semantics lines; ratio about 250 to 1 (sec 1, 7).
+- Semantics: 467 AArch64 instructions, 31 syscalls, 7,532 lines; tested against Unicorn, Sail, qemu-aarch64 (sec 2.2).
+- Theorems: 10 symbolic properties (Table 2, p16); one computational bound, Theorem 2, built on 4 lemmas (sec 5.2.3).
+- Hooks: 39 further contract-replaced routines and 18 panic entries; crypto primitives idealized (sec 4).
+- Team: 5 humans, 4 weeks; campaigns of 40 to 80 agents, one machine, 24 to 72 hours; no human-written proof code; no token or dollar cost reported (sec 2.3, 7).
+- Bugs: two fixed libsignal bugs reintroduced; Lean proves the binaries violate the symbolic theorem (sec 6).
+
+## Method in one breath
+
+Human picks scope and reference models, spec-writer agent drafts Lean statements, other-family reviewer attacks them, human approves the commit, spec is tested (non-vacuity, mutants, past bugs), prover team (orchestrator, leads, workers, architect, integrator, support, critic) fills in proofs, amendments only through the critic and human policy, gatekeeper accepts only identical statement plus transitive definitions, standard axioms, kernel replay, no sorry or native_decide.
+
+## Rules for our agents (short)
+
+1. No agent output accepted without an independent mechanical checker (sec 2, 2.4).
+2. Acceptance by a gate the agent cannot bypass: held-out spec copy, only the gate declares done (sec 2.4).
+3. Compare transitive dependencies, not test names; weakening hides in definitions (sec 2.4, 7).
+4. Gate reads paths and ids, never worker narrative; replay in a fresh environment (sec 7).
+5. Keep the trusted base small, labeled, human-reviewed; measure trusted and generated ratios (sec 5.3, 7).
+6. Spec author differs from implementer; reviewer from another model family (sec 2.1, 7).
+7. Test the spec: non-vacuity witnesses, mutants, reintroduced historical bugs (sec 2.1, 6).
+8. Spec change only by audited amendment judged by a critic that never sees the attempts (sec 2.3, 7).
+9. Orchestrator never edits; one writer per file; one committer; leads compress context (sec 2.3).
+10. Falsify goals before building; shared bulletin; support agent batches heavy builds (sec 2.3, 7).
+11. Pin the tested artifact hash and toolchain; test the shipped artifact (sec 5.3, 6, 9).
+12. Policy fit: gates compute an `accepted` record for a SHA; they do not pause workers or add deny lists.
+
+## Limits
+
+- Spec errors are caught by review and testing, not guaranteed (sec 2.1).
+- Not proven: post-quantum healing by SPQR, quantum computational security, groups, multi-device, keygen; bound becomes vacuous around 25,000 messages in one session (sec 5.1.6, 5.2.5).
+- Trusted, not proved: AArch64 semantics, hook contracts, symbol-name extraction, build scripts, Lean kernel (sec 5.3).
+- Use Lean-level proof only for small, stable, high-value cores; elsewhere take the gate discipline without the prover.

@@ -1,0 +1,20 @@
+[package]
+name = "fw-browser-views"
+version.workspace = true
+edition.workspace = true
+publish = false
+license = "Apache-2.0"
+description = "Chromium //ui/views and //chrome/browser/ui/views hierarchy, TabStripModel, Omnibox AI/VPN bar, SidePanelCoordinator, and pixel layout solver for GPUI and headless hosts."
+
+[package.metadata.browser]
+native = true
+
+[dependencies]
+fw-browser-browse = { path = "../fw-browser-browse" }
+fw-browser-engine = { path = "../fw-browser-engine" }
+fw-browser-vpn = { path = "../fw-browser-vpn" }
+serde = { version = "1.0.229", features = ["derive", "std"] }
+url = { version = "2.5.8", features = ["serde"] }
+
+[lints]
+workspace = true

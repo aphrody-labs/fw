@@ -6,8 +6,10 @@
 
 use crate::{Drive, Error, Kind, Node, Role, Search, Sort, User};
 use axum::body::Body;
+use axum::extract::FromRequestParts;
 use axum::extract::{Multipart, Path, Query, Request, State};
-use axum::http::{HeaderMap, HeaderValue, Method, StatusCode, header};
+use axum::http::request::Parts;
+use axum::http::{Extensions, HeaderMap, HeaderValue, Method, StatusCode, header};
 use axum::middleware::{self, Next};
 use axum::response::{Html, IntoResponse, Redirect, Response};
 use axum::routing::{get, post};
@@ -16,7 +18,6 @@ use futures_util::StreamExt;
 use serde::Deserialize;
 use serde_json::json;
 use std::fmt::Write as _;
-use std::io::{Read, Seek, SeekFrom};
 use std::sync::{Arc, LazyLock};
 
 /// How callers are identified.
@@ -27,7 +28,37 @@ pub enum Auth {
     /// Behind a Cloudflare Access application reached only through a Cloudflare Tunnel: trust the
     /// identity headers Access adds. Requests without them are refused.
     Access,
+    /// Identity already verified by the host (the Worker checks the Cloudflare Access JWT signature) and
+    /// placed in the request extensions as a [`Verified`]. Requests without one are refused.
+    Verified,
 }
+
+/// Request headers plus extensions: what identification needs.
+pub struct Ctx {
+    headers: HeaderMap,
+    ext: Extensions,
+}
+
+impl std::ops::Deref for Ctx {
+    type Target = HeaderMap;
+    fn deref(&self) -> &HeaderMap {
+        &self.headers
+    }
+}
+
+impl<S: Send + Sync> FromRequestParts<S> for Ctx {
+    type Rejection = std::convert::Infallible;
+    async fn from_request_parts(parts: &mut Parts, _: &S) -> Result<Self, Self::Rejection> {
+        Ok(Self {
+            headers: parts.headers.clone(),
+            ext: parts.extensions.clone(),
+        })
+    }
+}
+
+/// The caller, verified by the host before the request reaches the router.
+#[derive(Debug, Clone)]
+pub struct Verified(pub User);
 
 pub struct App {
     pub drive: Drive,
@@ -74,6 +105,60 @@ pub fn router(app: Arc<App>) -> Router {
         .with_state(app)
 }
 
+/// The same router mounted under `base` (for example `/files`): routes move under the prefix, and the
+/// root-absolute links, form actions and redirects the pages emit follow them.
+pub fn router_at(app: Arc<App>, base: &str) -> Router {
+    let base: Arc<str> = base.trim_end_matches('/').into();
+    Router::new()
+        .nest(&base, router(app))
+        .layer(middleware::from_fn_with_state(base, rebase))
+}
+
+async fn rebase(State(base): State<Arc<str>>, req: Request, next: Next) -> Response {
+    let res = next.run(req).await;
+    let (mut parts, body) = res.into_parts();
+    if let Some(loc) = parts
+        .headers
+        .get(header::LOCATION)
+        .and_then(|v| v.to_str().ok())
+        .filter(|l| l.starts_with('/') && !l.starts_with("//"))
+        .and_then(|l| HeaderValue::from_str(&format!("{base}{l}")).ok())
+    {
+        parts.headers.insert(header::LOCATION, loc);
+    }
+    let html = parts
+        .headers
+        .get(header::CONTENT_TYPE)
+        .and_then(|v| v.to_str().ok())
+        .is_some_and(|t| t.starts_with("text/html"));
+    if !html {
+        return Response::from_parts(parts, body);
+    }
+    let Ok(bytes) = axum::body::to_bytes(body, 8 << 20).await else {
+        return StatusCode::INTERNAL_SERVER_ERROR.into_response();
+    };
+    let text = String::from_utf8_lossy(&bytes);
+    let mut out = String::with_capacity(text.len() + 256);
+    let mut rest: &str = &text;
+    while let Some((at, attr)) = ["href=\"/", "action=\"/", "src=\"/", "data-drop=\"/"]
+        .iter()
+        .filter_map(|a| rest.find(a).map(|i| (i, *a)))
+        .min_by_key(|(i, _)| *i)
+    {
+        let end = at + attr.len();
+        out.push_str(&rest[..end - 1]);
+        // `//host/path` is protocol-relative, not a path of this site.
+        if !rest[end..].starts_with('/') {
+            out.push_str(&base);
+        }
+        out.push('/');
+        rest = &rest[end..];
+    }
+    out.push_str(rest);
+    parts.headers.remove(header::CONTENT_LENGTH);
+    Response::from_parts(parts, Body::from(out))
+}
+
 /// Browser writes must come from this origin (Access cookies would otherwise allow cross-site forms).
 /// Requests without `Origin` and `Sec-Fetch-Site` are non-browser clients (agents, curl) and pass.
 async fn same_origin_writes(req: Request, next: Next) -> Response {
@@ -105,9 +190,20 @@ async fn same_origin_writes(req: Request, next: Next) -> Response {
     clippy::result_large_err,
     reason = "the error is the HTTP response itself, returned at once by user_or_return!"
 )]
-fn who(app: &App, headers: &HeaderMap) -> Result<User, Response> {
+fn who(app: &App, headers: &Ctx) -> Result<User, Response> {
     match &app.auth {
         Auth::Owner(u) => Ok(u.clone()),
+        Auth::Verified => headers
+            .ext
+            .get::<Verified>()
+            .map(|v| v.0.clone())
+            .ok_or_else(|| {
+                (
+                    StatusCode::UNAUTHORIZED,
+                    Json(json!({ "ok": false, "error": "sign in through Cloudflare Access" })),
+                )
+                    .into_response()
+            }),
         Auth::Access => {
             if let Some(email) = headers
                 .get("cf-access-authenticated-user-email")
@@ -203,66 +299,74 @@ struct ListQuery {
     desc: Option<bool>,
 }
 
-async fn api_me(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn api_me(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.my_drive(&user) {
+    match app.drive.my_drive(&user).await {
         Ok(root) => Json(json!({ "ok": true, "user": user.email(), "root": root })).into_response(),
         Err(e) => failure(&e),
     }
 }
 
-fn listing(app: &App, user: &User, q: &ListQuery) -> crate::Result<Vec<Node>> {
+async fn parent_or_root(app: &App, user: &User, parent: Option<String>) -> crate::Result<String> {
+    match parent {
+        Some(p) => Ok(p),
+        None => Ok(app.drive.my_drive(user).await?.id),
+    }
+}
+
+async fn listing(app: &App, user: &User, q: &ListQuery) -> crate::Result<Vec<Node>> {
     let sort = q.sort.as_deref().and_then(Sort::parse).unwrap_or_default();
     let desc = q.desc.unwrap_or(false);
     match q.view.as_deref() {
-        Some("recent") => app.drive.recent(user),
-        Some("starred") => app.drive.starred(user),
-        Some("shared") => app.drive.shared_with_me(user),
-        Some("trash") => app.drive.trash(user),
-        Some("search") | None if q.q.is_some() || q.r#type.is_some() => app.drive.search(
-            user,
-            &Search {
-                text: q.q.clone().unwrap_or_default(),
-                kind: q.r#type.clone().filter(|t| !t.is_empty()),
-                modified_after: None,
-            },
-            sort,
-            desc,
-        ),
+        Some("recent") => app.drive.recent(user).await,
+        Some("starred") => app.drive.starred(user).await,
+        Some("shared") => app.drive.shared_with_me(user).await,
+        Some("trash") => app.drive.trash(user).await,
+        Some("search") | None if q.q.is_some() || q.r#type.is_some() => {
+            app.drive
+                .search(
+                    user,
+                    &Search {
+                        text: q.q.clone().unwrap_or_default(),
+                        kind: q.r#type.clone().filter(|t| !t.is_empty()),
+                        modified_after: None,
+                    },
+                    sort,
+                    desc,
+                )
+                .await
+        }
         Some(other) if other != "folder" => Err(Error::Invalid(format!("unknown view {other:?}"))),
         _ => {
             let parent = match &q.parent {
                 Some(p) => p.clone(),
-                None => app.drive.my_drive(user)?.id,
+                None => app.drive.my_drive(user).await?.id,
             };
-            app.drive.list(user, &parent, sort, desc)
+            app.drive.list(user, &parent, sort, desc).await
         }
     }
 }
 
 async fn api_list(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Query(q): Query<ListQuery>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    match listing(&app, &user, &q) {
+    match listing(&app, &user, &q).await {
         Ok(files) => Json(json!({ "ok": true, "files": files })).into_response(),
         Err(e) => failure(&e),
     }
 }
 
-async fn api_get(
-    State(app): State<Arc<App>>,
-    headers: HeaderMap,
-    Path(id): Path<String>,
-) -> Response {
+async fn api_get(State(app): State<Arc<App>>, headers: Ctx, Path(id): Path<String>) -> Response {
     let user = user_or_return!(app, headers);
-    match app
-        .drive
-        .get(&user, &id)
-        .and_then(|n| Ok((app.drive.role_of(&user, &id)?, n)))
-    {
+    let found = async {
+        let file = app.drive.get(&user, &id).await?;
+        Ok::<_, Error>((app.drive.role_of(&user, &id).await?, file))
+    }
+    .await;
+    match found {
         Ok((role, file)) => Json(json!({ "ok": true, "file": file, "role": role })).into_response(),
         Err(e) => failure(&e),
     }
@@ -277,15 +381,12 @@ struct UploadQuery {
 /// `POST /api/v1/files?parent=<id>&name=<name>` with the raw bytes as the body (streamed to disk).
 async fn api_upload(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Query(q): Query<UploadQuery>,
     body: Body,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    let parent = match q
-        .parent
-        .map_or_else(|| app.drive.my_drive(&user).map(|n| n.id), Ok)
-    {
+    let parent = match parent_or_root(&app, &user, q.parent).await {
         Ok(p) => p,
         Err(e) => return failure(&e),
     };
@@ -293,7 +394,7 @@ async fn api_upload(
         .get(header::CONTENT_TYPE)
         .and_then(|v| v.to_str().ok())
         .map(str::to_owned);
-    let mut w = match app.drive.begin_upload(&user, &parent) {
+    let mut w = match app.drive.begin_upload(&user, &parent).await {
         Ok(w) => w,
         Err(e) => return failure(&e),
     };
@@ -303,13 +404,14 @@ async fn api_upload(
             Ok(c) => c,
             Err(e) => return failure(&Error::Invalid(format!("upload interrupted: {e}"))),
         };
-        if let Err(e) = w.write_chunk(&chunk) {
+        if let Err(e) = w.write_chunk(&chunk).await {
             return failure(&e);
         }
     }
     match app
         .drive
         .finish_upload(&user, &parent, &q.name, mime.as_deref(), w)
+        .await
     {
         Ok(file) => (
             StatusCode::CREATED,
@@ -329,46 +431,42 @@ struct Patch {
 
 async fn api_patch(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     Json(p): Json<Patch>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    let mut result = app.drive.get(&user, &id);
-    if let Some(name) = &p.name {
-        result = result.and_then(|_| app.drive.rename(&user, &id, name));
+    let result = async {
+        let mut file = app.drive.get(&user, &id).await?;
+        if let Some(name) = &p.name {
+            file = app.drive.rename(&user, &id, name).await?;
+        }
+        if let Some(parent) = &p.parent {
+            file = app.drive.move_to(&user, &id, parent).await?;
+        }
+        if let Some(starred) = p.starred {
+            file = app.drive.set_starred(&user, &id, starred).await?;
+        }
+        Ok::<_, Error>(file)
     }
-    if let Some(parent) = &p.parent {
-        result = result.and_then(|_| app.drive.move_to(&user, &id, parent));
-    }
-    if let Some(starred) = p.starred {
-        result = result.and_then(|_| app.drive.set_starred(&user, &id, starred));
-    }
+    .await;
     match result {
         Ok(file) => Json(json!({ "ok": true, "file": file })).into_response(),
         Err(e) => failure(&e),
     }
 }
 
-async fn api_delete(
-    State(app): State<Arc<App>>,
-    headers: HeaderMap,
-    Path(id): Path<String>,
-) -> Response {
+async fn api_delete(State(app): State<Arc<App>>, headers: Ctx, Path(id): Path<String>) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.delete_forever(&user, &id) {
+    match app.drive.delete_forever(&user, &id).await {
         Ok(()) => Json(json!({ "ok": true })).into_response(),
         Err(e) => failure(&e),
     }
 }
 
-async fn api_trash(
-    State(app): State<Arc<App>>,
-    headers: HeaderMap,
-    Path(id): Path<String>,
-) -> Response {
+async fn api_trash(State(app): State<Arc<App>>, headers: Ctx, Path(id): Path<String>) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.trash_node(&user, &id) {
+    match app.drive.trash_node(&user, &id).await {
         Ok(file) => Json(json!({ "ok": true, "file": file })).into_response(),
         Err(e) => failure(&e),
     }
@@ -376,11 +474,11 @@ async fn api_trash(
 
 async fn api_restore(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.restore(&user, &id) {
+    match app.drive.restore(&user, &id).await {
         Ok(file) => Json(json!({ "ok": true, "file": file })).into_response(),
         Err(e) => failure(&e),
     }
@@ -393,12 +491,12 @@ struct CopyBody {
 
 async fn api_copy(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     Json(b): Json<CopyBody>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.copy(&user, &id, &b.parent) {
+    match app.drive.copy(&user, &id, &b.parent).await {
         Ok(file) => (
             StatusCode::CREATED,
             Json(json!({ "ok": true, "file": file })),
@@ -414,13 +512,9 @@ struct ShareBody {
     role: Option<String>,
 }
 
-async fn api_shares(
-    State(app): State<Arc<App>>,
-    headers: HeaderMap,
-    Path(id): Path<String>,
-) -> Response {
+async fn api_shares(State(app): State<Arc<App>>, headers: Ctx, Path(id): Path<String>) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.shares(&user, &id) {
+    match app.drive.shares(&user, &id).await {
         Ok(shares) => Json(json!({ "ok": true, "shares": shares })).into_response(),
         Err(e) => failure(&e),
     }
@@ -428,7 +522,7 @@ async fn api_shares(
 
 async fn api_share(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     Json(b): Json<ShareBody>,
 ) -> Response {
@@ -438,7 +532,7 @@ async fn api_share(
             "role must be reader, commenter or writer".into(),
         ));
     };
-    match app.drive.share(&user, &id, &b.principal, role) {
+    match app.drive.share(&user, &id, &b.principal, role).await {
         Ok(shares) => Json(json!({ "ok": true, "shares": shares })).into_response(),
         Err(e) => failure(&e),
     }
@@ -446,12 +540,12 @@ async fn api_share(
 
 async fn api_unshare(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     Json(b): Json<ShareBody>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.unshare(&user, &id, &b.principal) {
+    match app.drive.unshare(&user, &id, &b.principal).await {
         Ok(shares) => Json(json!({ "ok": true, "shares": shares })).into_response(),
         Err(e) => failure(&e),
     }
@@ -465,18 +559,15 @@ struct NewFolder {
 
 async fn api_new_folder(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Json(b): Json<NewFolder>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    let parent = match b
-        .parent
-        .map_or_else(|| app.drive.my_drive(&user).map(|n| n.id), Ok)
-    {
+    let parent = match parent_or_root(&app, &user, b.parent).await {
         Ok(p) => p,
         Err(e) => return failure(&e),
     };
-    match app.drive.create_folder(&user, &parent, &b.name) {
+    match app.drive.create_folder(&user, &parent, &b.name).await {
         Ok(folder) => (
             StatusCode::CREATED,
             Json(json!({ "ok": true, "file": folder })),
@@ -486,17 +577,17 @@ async fn api_new_folder(
     }
 }
 
-async fn api_empty_trash(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn api_empty_trash(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.empty_trash(&user) {
+    match app.drive.empty_trash(&user).await {
         Ok(n) => Json(json!({ "ok": true, "deleted": n })).into_response(),
         Err(e) => failure(&e),
     }
 }
 
-async fn api_quota(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn api_quota(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.quota(&user) {
+    match app.drive.quota(&user).await {
         Ok(q) => Json(json!({ "ok": true, "quota": q })).into_response(),
         Err(e) => failure(&e),
     }
@@ -504,16 +595,12 @@ async fn api_quota(State(app): State<Arc<App>>, headers: HeaderMap) -> Response 
 
 // ---------- Content (Range, ETag) ----------
 
-async fn content_inline(state: State<Arc<App>>, headers: HeaderMap, id: Path<String>) -> Response {
-    content(state, headers, id, false)
+async fn content_inline(state: State<Arc<App>>, headers: Ctx, id: Path<String>) -> Response {
+    content(state, headers, id, false).await
 }
 
-async fn content_download(
-    state: State<Arc<App>>,
-    headers: HeaderMap,
-    id: Path<String>,
-) -> Response {
-    content(state, headers, id, true)
+async fn content_download(state: State<Arc<App>>, headers: Ctx, id: Path<String>) -> Response {
+    content(state, headers, id, true).await
 }
 
 /// Parses a single `bytes=a-b`, `bytes=a-` or `bytes=-n` range against `size`.
@@ -538,14 +625,14 @@ pub fn parse_range(value: &str, size: u64) -> Option<(u64, u64)> {
     (start <= end && start < size).then_some((start, end))
 }
 
-fn content(
+async fn content(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     attachment: bool,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    let (node, path) = match app.drive.content(&user, &id) {
+    let node = match app.drive.content(&user, &id).await {
         Ok(v) => v,
         Err(e) => return failure(&e),
     };
@@ -557,10 +644,6 @@ fn content(
     {
         return (StatusCode::NOT_MODIFIED, [(header::ETAG, etag)]).into_response();
     }
-    let mut file = match std::fs::File::open(&path) {
-        Ok(f) => f,
-        Err(e) => return failure(&Error::Io(e)),
-    };
     let size = node.size;
     let range = headers
         .get(header::RANGE)
@@ -577,22 +660,11 @@ fn content(
         Some(Some((s, e))) => (StatusCode::PARTIAL_CONTENT, s, e - s + 1),
         None => (StatusCode::OK, 0, size),
     };
-    if start > 0 && file.seek(SeekFrom::Start(start)).is_err() {
-        return failure(&Error::Invalid("seek failed".into()));
-    }
-    let stream = futures_util::stream::unfold(
-        (file.take(len), vec![0u8; 256 * 1024]),
-        |(mut r, mut buf)| async move {
-            match r.read(&mut buf) {
-                Ok(0) => None,
-                Ok(n) => Some((
-                    Ok::<_, std::io::Error>(axum::body::Bytes::copy_from_slice(&buf[..n])),
-                    (r, buf),
-                )),
-                Err(e) => Some((Err(e), (r, buf))),
-            }
-        },
-    );
+    let byte_range = (status == StatusCode::PARTIAL_CONTENT).then(|| (start, start + len - 1));
+    let stream = match app.drive.read(&node, byte_range).await {
+        Ok(s) => s,
+        Err(e) => return failure(&e),
+    };
     let disposition = format!(
         "{}; filename*=UTF-8''{}",
         if attachment { "attachment" } else { "inline" },
@@ -895,26 +967,26 @@ fn table(nodes: &[Node], show_owner: bool, back: &str, trash_view: bool, empty: 
     t
 }
 
-fn nav_for<'a>(
+async fn nav_for<'a>(
     app: &App,
     user: &'a User,
     root: &'a str,
     active: &'a str,
     upload_to: Option<&'a str>,
 ) -> Nav<'a> {
-    let used = app.drive.quota_used(user.email()).unwrap_or(0);
+    let used = app.drive.quota_used(user.email()).await.unwrap_or(0);
     Nav {
         active,
         root,
         user: user.email(),
-        quota: Some((used, app.drive.quota_limit)),
+        quota: Some((used, app.drive.quota_limit())),
         upload_to,
     }
 }
 
-async fn home(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn home(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.my_drive(&user) {
+    match app.drive.my_drive(&user).await {
         Ok(root) => Redirect::to(&format!("/folders/{}", root.id)).into_response(),
         Err(e) => page_failure(&e),
     }
@@ -956,21 +1028,21 @@ fn sort_links(base: &str, sort: Sort, desc: bool) -> String {
 
 async fn folder_page(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     Query(sq): Query<SortQuery>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    let root = match app.drive.my_drive(&user) {
+    let root = match app.drive.my_drive(&user).await {
         Ok(r) => r,
         Err(e) => return page_failure(&e),
     };
     let sort = sq.sort.as_deref().and_then(Sort::parse).unwrap_or_default();
     let desc = sq.desc.unwrap_or(false);
     let (path, files, role) = match (
-        app.drive.path(&user, &id),
-        app.drive.list(&user, &id, sort, desc),
-        app.drive.role_of(&user, &id),
+        app.drive.path(&user, &id).await,
+        app.drive.list(&user, &id, sort, desc).await,
+        app.drive.role_of(&user, &id).await,
     ) {
         (Ok(p), Ok(f), Ok(r)) => (p, f, r),
         (Err(e), ..) | (_, Err(e), _) | (.., Err(e)) => return page_failure(&e),
@@ -1014,34 +1086,37 @@ async fn folder_page(
         &folder.name,
         "",
         &main,
-        Some(&nav_for(
-            &app,
-            &user,
-            &root.id,
-            active,
-            writable.then_some(folder.id.as_str()),
-        )),
+        Some(
+            &nav_for(
+                &app,
+                &user,
+                &root.id,
+                active,
+                writable.then_some(folder.id.as_str()),
+            )
+            .await,
+        ),
     ))
     .into_response()
 }
 
 async fn view_page(
     app: Arc<App>,
-    headers: HeaderMap,
+    headers: Ctx,
     active: &str,
     title: &str,
     empty: &str,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    let root = match app.drive.my_drive(&user) {
+    let root = match app.drive.my_drive(&user).await {
         Ok(r) => r,
         Err(e) => return page_failure(&e),
     };
     let files = match active {
-        "recent" => app.drive.recent(&user),
-        "starred" => app.drive.starred(&user),
-        "shared" => app.drive.shared_with_me(&user),
-        _ => app.drive.trash(&user),
+        "recent" => app.drive.recent(&user).await,
+        "starred" => app.drive.starred(&user).await,
+        "shared" => app.drive.shared_with_me(&user).await,
+        _ => app.drive.trash(&user).await,
     };
     let files = match files {
         Ok(f) => f,
@@ -1063,12 +1138,12 @@ async fn view_page(
         title,
         "",
         &main,
-        Some(&nav_for(&app, &user, &root.id, active, None)),
+        Some(&nav_for(&app, &user, &root.id, active, None).await),
     ))
     .into_response()
 }
 
-async fn recent_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn recent_page(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     view_page(
         app,
         headers,
@@ -1078,7 +1153,7 @@ async fn recent_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Respons
     )
     .await
 }
-async fn starred_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn starred_page(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     view_page(
         app,
         headers,
@@ -1088,7 +1163,7 @@ async fn starred_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Respon
     )
     .await
 }
-async fn shared_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn shared_page(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     view_page(
         app,
         headers,
@@ -1098,13 +1173,16 @@ async fn shared_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Respons
     )
     .await
 }
-async fn trash_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn trash_page(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     view_page(app, headers, "trash", "Trash", "The trash is empty.").await
 }
 
-async fn quota_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn quota_page(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     let user = user_or_return!(app, headers);
-    let (root, q) = match (app.drive.my_drive(&user), app.drive.quota(&user)) {
+    let (root, q) = match (
+        app.drive.my_drive(&user).await,
+        app.drive.quota(&user).await,
+    ) {
         (Ok(r), Ok(q)) => (r, q),
         (Err(e), _) | (_, Err(e)) => return page_failure(&e),
     };
@@ -1120,7 +1198,7 @@ async fn quota_page(State(app): State<Arc<App>>, headers: HeaderMap) -> Response
         "Storage",
         "",
         &main,
-        Some(&nav_for(&app, &user, &root.id, "quota", None)),
+        Some(&nav_for(&app, &user, &root.id, "quota", None).await),
     ))
     .into_response()
 }
@@ -1133,26 +1211,30 @@ struct SearchQuery {
 
 async fn search_page(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Query(sq): Query<SearchQuery>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    let root = match app.drive.my_drive(&user) {
+    let root = match app.drive.my_drive(&user).await {
         Ok(r) => r,
         Err(e) => return page_failure(&e),
     };
     let text = sq.q.unwrap_or_default();
     let kind = sq.r#type.filter(|t| !t.is_empty());
-    let files = match app.drive.search(
-        &user,
-        &Search {
-            text: text.clone(),
-            kind,
-            modified_after: None,
-        },
-        Sort::Name,
-        false,
-    ) {
+    let files = match app
+        .drive
+        .search(
+            &user,
+            &Search {
+                text: text.clone(),
+                kind,
+                modified_after: None,
+            },
+            Sort::Name,
+            false,
+        )
+        .await
+    {
         Ok(f) => f,
         Err(e) => return page_failure(&e),
     };
@@ -1170,25 +1252,25 @@ async fn search_page(
         "Search",
         &text,
         &main,
-        Some(&nav_for(&app, &user, &root.id, "", None)),
+        Some(&nav_for(&app, &user, &root.id, "", None).await),
     ))
     .into_response()
 }
 
 async fn details_page(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    let root = match app.drive.my_drive(&user) {
+    let root = match app.drive.my_drive(&user).await {
         Ok(r) => r,
         Err(e) => return page_failure(&e),
     };
     let (node, shares, role) = match (
-        app.drive.get(&user, &id),
-        app.drive.shares(&user, &id),
-        app.drive.role_of(&user, &id),
+        app.drive.get(&user, &id).await,
+        app.drive.shares(&user, &id).await,
+        app.drive.role_of(&user, &id).await,
     ) {
         (Ok(n), Ok(s), Ok(r)) => (n, s, r),
         (Err(e), ..) | (_, Err(e), _) | (.., Err(e)) => return page_failure(&e),
@@ -1254,7 +1336,7 @@ async fn details_page(
         &node.name,
         "",
         &main,
-        Some(&nav_for(&app, &user, &root.id, "", None)),
+        Some(&nav_for(&app, &user, &root.id, "", None).await),
     ))
     .into_response()
 }
@@ -1266,12 +1348,12 @@ struct NameForm {
 
 async fn form_new_folder(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     Form(f): Form<NameForm>,
 ) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.create_folder(&user, &id, &f.name) {
+    match app.drive.create_folder(&user, &id, &f.name).await {
         Ok(_) => Redirect::to(&format!("/folders/{id}")).into_response(),
         Err(e) => page_failure(&e),
     }
@@ -1279,7 +1361,7 @@ async fn form_new_folder(
 
 async fn form_upload(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     mut mp: Multipart,
 ) -> Response {
@@ -1298,14 +1380,14 @@ async fn form_upload(
             continue;
         };
         let mime = field.content_type().map(str::to_owned);
-        let mut w = match app.drive.begin_upload(&user, &id) {
+        let mut w = match app.drive.begin_upload(&user, &id).await {
             Ok(w) => w,
             Err(e) => return page_failure(&e),
         };
         loop {
             match field.chunk().await {
                 Ok(Some(c)) => {
-                    if let Err(e) = w.write_chunk(&c) {
+                    if let Err(e) = w.write_chunk(&c).await {
                         return page_failure(&e);
                     }
                 }
@@ -1316,6 +1398,7 @@ async fn form_upload(
         if let Err(e) = app
             .drive
             .finish_upload(&user, &id, &name, mime.as_deref(), w)
+            .await
         {
             return page_failure(&e);
         }
@@ -1334,7 +1417,7 @@ struct ActionForm {
 
 async fn form_action(
     State(app): State<Arc<App>>,
-    headers: HeaderMap,
+    headers: Ctx,
     Path(id): Path<String>,
     Form(f): Form<ActionForm>,
 ) -> Response {
@@ -1343,20 +1426,23 @@ async fn form_action(
     let result = match f.op.as_str() {
         "rename" => d
             .rename(&user, &id, f.name.as_deref().unwrap_or(""))
+            .await
             .map(drop),
-        "star" => d.set_starred(&user, &id, true).map(drop),
-        "unstar" => d.set_starred(&user, &id, false).map(drop),
-        "trash" => d.trash_node(&user, &id).map(drop),
-        "restore" => d.restore(&user, &id).map(drop),
-        "delete" => d.delete_forever(&user, &id),
+        "star" => d.set_starred(&user, &id, true).await.map(drop),
+        "unstar" => d.set_starred(&user, &id, false).await.map(drop),
+        "trash" => d.trash_node(&user, &id).await.map(drop),
+        "restore" => d.restore(&user, &id).await.map(drop),
+        "delete" => d.delete_forever(&user, &id).await,
         "share" => match Role::parse(f.role.as_deref().unwrap_or("reader")) {
             Some(role) => d
                 .share(&user, &id, f.principal.as_deref().unwrap_or(""), role)
+                .await
                 .map(drop),
             None => Err(Error::Invalid("unknown role".into())),
         },
         "unshare" => d
             .unshare(&user, &id, f.principal.as_deref().unwrap_or(""))
+            .await
             .map(drop),
         other => Err(Error::Invalid(format!("unknown action {other:?}"))),
     };
@@ -1366,9 +1452,9 @@ async fn form_action(
     }
 }
 
-async fn form_empty_trash(State(app): State<Arc<App>>, headers: HeaderMap) -> Response {
+async fn form_empty_trash(State(app): State<Arc<App>>, headers: Ctx) -> Response {
     let user = user_or_return!(app, headers);
-    match app.drive.empty_trash(&user) {
+    match app.drive.empty_trash(&user).await {
         Ok(_) => Redirect::to("/trash").into_response(),
         Err(e) => page_failure(&e),
     }

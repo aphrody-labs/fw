@@ -1,0 +1,20 @@
+[package]
+name = "fw-browser-vpn"
+version.workspace = true
+edition.workspace = true
+publish = false
+license = "Apache-2.0"
+description = "Fused ayvpn WireGuard/Mullvad/MASQUE tunnel router, per-BrowserContext exit isolation, DNS shield, C ABI v1 constants, and zero-allocation telemetry."
+
+[package.metadata.browser]
+native = true
+
+[dependencies]
+fw-browser-detect = { path = "../fw-browser-detect", default-features = false }
+parking_lot = "0.12"
+serde = { version = "1.0.229", features = ["derive", "std"] }
+thiserror = "2"
+url = { version = "2.5.8", features = ["serde"] }
+
+[lints]
+workspace = true

@@ -15,19 +15,31 @@ publish = false
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+async-trait = "0.1.92"
 axum = { version = "0.8.9", default-features = false, features = ["json", "query", "form"] }
 base64 = "0.23.1"
+bytes = "1.12.2"
 futures-util = "0.3.34"
+fw-drive = { path = "../fw-drive", default-features = false, features = ["web"] }
 http = "1.5.0"
+httpdate = "1.0.3"
 js-sys = "0.3.107"
+rsa = { version = "0.10.0", default-features = false, features = ["encoding", "pkcs1v15"] }
 serde = { version = "1.0.229", features = ["derive"] }
-serde_json = "1.0.154"
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
 sha2 = "0.11.1"
 tower-service = "0.3.3"
 wasm-bindgen = "0.2.130"
 wasm-bindgen-futures = "0.4.80"
-web-sys = { version = "0.3.107", features = ["Crypto", "SubtleCrypto", "CryptoKey"] }
+web-sys = { version = "0.3.107", features = ["Crypto", "SubtleCrypto", "CryptoKey", "ReadableStream", "WritableStream", "TransformStream"] }
 worker = { version = "0.9.0", features = ["http", "d1", "axum"] }
+
+# Key generation in debug builds is far too slow at opt-level 0.
+[profile.dev.package.crypto-bigint]
+opt-level = 3
+
+[profile.dev.package.crypto-primes]
+opt-level = 3
 
 [lints.rust]
 unsafe_code = "forbid"
@@ -39,4 +51,10 @@ all = { level = "deny", priority = -1 }
 opt-level = "s"
 lto = true
 codegen-units = 1
-strip = true
+
+# Native unit tests run the Durable Object SQL (VFS, Gatekeeper, learn log) on real SQLite.
+[target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
+rusqlite = { version = "0.43.0", features = ["bundled"] }
+# drive.rs / access.rs unit tests generate RSA keys (the rsa crate needs its OS RNG there; wasm builds never see it).
+rand = "0.10.0"
+rsa = { version = "0.10.0", default-features = false, features = ["encoding", "pkcs1v15", "getrandom"] }

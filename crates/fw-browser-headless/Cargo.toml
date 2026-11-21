@@ -1,0 +1,34 @@
+[package]
+name = "fw-browser-headless"
+version.workspace = true
+edition.workspace = true
+license = "Apache-2.0"
+description = "Headless browser for fw: `fw browser` (open, screenshot, eval, pdf, DevTools server, MCP) over the lite engine (Obscura: V8, WebAssembly, wgpu) or Blink, with ayvpn and anomalyco/browse SDK integration."
+
+[lib]
+name = "fw_browser_headless"
+path = "src/lib.rs"
+
+[[bin]]
+name = "fw-browser"
+path = "src/main.rs"
+
+[package.metadata.browser]
+native = true
+
+[dependencies]
+fw-browser-browse = { path = "../fw-browser-browse" }
+fw-browser-detect = { path = "../fw-browser-detect", default-features = false }
+fw-browser-engine = { path = "../fw-browser-engine" }
+fw-browser-views = { path = "../fw-browser-views" }
+fw-browser-vpn = { path = "../fw-browser-vpn" }
+serde.workspace = true
+thiserror.workspace = true
+url.workspace = true
+serde_json.workspace = true
+base64.workspace = true
+ureq.workspace = true
+tungstenite = { version = "0.29", default-features = false, features = ["handshake"] }
+
+[lints]
+workspace = true
