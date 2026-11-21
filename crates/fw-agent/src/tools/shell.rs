@@ -411,7 +411,14 @@ fn kill_process_tree(child: &mut tokio::process::Child) {
 #[cfg(windows)]
 fn kill_windows_descendants(root: u32) {
     use sysinfo::{Pid, ProcessRefreshKind, ProcessesToUpdate, System};
-    let mut system = System::new();
+    // sysinfo 0.40 returns an error when the platform process API is unavailable; the root is still killed by the caller.
+    let mut system = match System::new() {
+        Ok(system) => system,
+        Err(error) => {
+            tracing::warn!(%error, root, "shell: cannot list processes, descendants of the killed command may survive");
+            return;
+        }
+    };
     system.refresh_processes_specifics(ProcessesToUpdate::All, true, ProcessRefreshKind::nothing());
     let mut tree = vec![Pid::from_u32(root)];
     let mut index = 0;
