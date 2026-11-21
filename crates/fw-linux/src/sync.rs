@@ -64,6 +64,9 @@ fn sync_tree(root: &Path, pins: &Pins, remotes: &Remotes, tree: &Tree, profile_o
     git(Some(&directory), &["-c", "advice.detachedHead=false", "checkout", "-q", "--detach", "-f", &tree.commit])?;
     git(Some(&directory), &["read-tree", "-mu", "HEAD"])?;
     git(Some(&directory), &["config", "fw.kernelProfile", profile_name])?;
+    if repo::declared_submodule(root, &tree.path) {
+        git(Some(root), &["submodule", "init", "--", &tree.path])?;
+    }
 
     let action = match (&previous_head, fresh) {
         (_, true) => "cloned",

@@ -95,6 +95,12 @@ pub fn gitlink(root: &Path, path: &str) -> Option<String> {
     (fields.next()? == "160000").then(|| fields.next().map(str::to_owned))?
 }
 
+/// Whether `.gitmodules` of the fw checkout declares `path` as a submodule that is also a gitlink of the index.
+pub fn declared_submodule(root: &Path, path: &str) -> bool {
+    let declared = git(Some(root), &["config", "-f", ".gitmodules", "--get-regexp", r"^submodule\..*\.path$"]).is_ok_and(|listing| listing.lines().any(|line| line.split_once(' ').is_some_and(|(_, value)| value == path)));
+    declared && gitlink(root, path).is_some()
+}
+
 /// Records `commit` as the gitlink of `path` in the index (the commit itself is the caller's to make).
 pub fn set_gitlink(root: &Path, path: &str, commit: &str) -> Result<()> {
     git(Some(root), &["update-index", "--add", "--cacheinfo", &format!("160000,{commit},{path}")]).map(|_| ())
