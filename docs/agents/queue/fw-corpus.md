@@ -33,7 +33,7 @@ All syncs are resumable and write per document: a run that stops keeps its docum
 1. Let the detached crawls finish (m3, chromium-docs, aosp-repos, chromium-repos, android-source), then `fw-corpus status` should show `failed 0` apart from the two lists above; fr1 load was about 80 during this run, so Chrome rendering of m3 is the long pole.
 2. Extend the cited references with the pieces still filling (m3 foundations and styles, chromium Blink READMEs, source.android.com, AOSP) once those stores are complete.
 3. Optional: R2 copy of the `.db` files with wrangler (not started; the corpus is 0.4 GB of SQLite).
-4. Optional: expose `fw corpus search` to the MCP server `fw` (`fw_learn` already forwards `corpusHits` through `fw learn search`).
+4. Optional: expose `fw corpus search` as an MCP tool of the plugin server `fw`.
 
 ## Resume commands
 
@@ -49,5 +49,5 @@ systemctl list-timers fw-corpus-refresh.timer
 ## Directories
 
 - fr1 `/srv/xbuild/corpus/` (databases, `logs/batch*.log`): final home, keep.
-- fr1 `/srv/xbuild/tmp/`: TMPDIR for crawls (Chrome profiles are removed per page).
+- fr1 `/srv/xbuild/tmp/`: TMPDIR for crawls and the Chrome profile directories.
 - prd `/srv/build/corpus-src`, `/srv/build/corpus-target`, `/srv/build/fw-check`, `/srv/build/fw-check-target`: build trees for this lot, safe to delete.
