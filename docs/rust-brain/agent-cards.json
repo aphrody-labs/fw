@@ -248,7 +248,7 @@
   ],
   "workspace_ast": {
     "files": 14,
-    "total_symbols": 180,
+    "total_symbols": 192,
     "modules": [
       {
         "file": "crates/fw-bin/src/main.rs",
@@ -260,21 +260,33 @@
       {
         "file": "crates/fw-cluster/src/lib.rs",
         "symbols": [
+          "epp",
+          "k8s",
           "NodeKind",
           "ClusterNode",
           "RoutingDecision",
           "HybridClusterRouter",
-          "default_hybrid_cluster",
+          "from_build_cluster",
+          "discover",
+          "build_cluster_text",
+          "local_node",
+          "from_nodes",
           "register_user_webgpu_peer",
           "prefix_key",
+          "HEX",
           "route_request",
-          "pick_best_prefill",
-          "pick_best_decode",
+          "apply_kv_event",
+          "report_load",
           "summary",
           "tests",
-          "hybrid_cluster_routes_kv_cache_and_disaggregated_pd_across_4gpu_3vps_and_user_webgpu"
+          "BUILD_CLUSTER",
+          "build_cluster",
+          "nodes_are_the_hosts_the_build_cluster_file_declares",
+          "missing_declarations_are_errors_not_defaults",
+          "routes_kv_cache_and_disaggregated_prefill_decode_across_declared_hosts_and_a_browser_peer",
+          "a_local_node_is_a_gpu_host_only_when_cuda_was_measured"
         ],
-        "lines": 353
+        "lines": 403
       },
       {
         "file": "crates/fw-compute/src/lib.rs",

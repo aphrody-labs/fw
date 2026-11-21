@@ -1,6 +1,6 @@
 {
   // Full-stack production topology template for Fw Edge OS on Cloudflare Workers (Wrangler 4.162+).
-  // Replace placeholder resource IDs before deploying to a live Cloudflare account.
+  // Bindings that need a resource id (D1 `META_DB`, Hyperdrive) are not declared here: the worker runs without them (`env.META_DB` is optional); add them with the id printed by `wrangler d1 create` or `wrangler hyperdrive create`.
   "$schema": "../node_modules/wrangler/config-schema.json",
   "name": "fw-edge-fullstack",
   "main": "worker.ts",
@@ -63,14 +63,6 @@
       "bucket_name": "fw-vfs-blobs"
     }
   ],
-  // D1 relational metadata & cross-tenant index
-  "d1_databases": [
-    {
-      "binding": "META_DB",
-      "database_name": "fw-meta",
-      "database_id": "00000000-0000-0000-0000-000000000000"
-    }
-  ],
   // Vectorize semantic memory index paired with /v1/embeddings
   "vectorize": [
     {
@@ -106,13 +98,6 @@
       }
     ]
   },
-  // Hyperdrive connection pooler for external Postgres/MySQL
-  "hyperdrive": [
-    {
-      "binding": "HYPERDRIVE",
-      "id": "00000000000000000000000000000000"
-    }
-  ],
   // K2 Streams durable at-least-once event log for autonomous learning replay
   "k2": [
     {

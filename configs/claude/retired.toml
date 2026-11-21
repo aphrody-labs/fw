@@ -113,13 +113,19 @@ paths = [
 reason = "the files below still carry the old ssh aliases fr1 and prd: the allow list shrinks as each is migrated, and anything new outside it fails"
 
 [[allow]]
+terms = ["fr2-host"]
+paths = ["aphrody/**"]
+reason = "the imported aphrody/ tree still names fr2 in fleet tooling and tests; owned by the unified-cluster lot (remove fr2 aliases), the entry goes away with the last reference"
+
+[[allow]]
 paths = ["configs/claude/retired.toml", "configs/claude/scripts/retired.ts", "configs/claude/scripts/retired.test.ts"]
 reason = "the check names the terms it rejects"
 
 # Vendored upstream text and generated data that use the same words for unrelated things.
 [[allow]]
 paths = ["aphrody/**"]
-reason = "the Zed fork: upstream Zed source and docs use the same words for unrelated things (relay, agy as an identifier prefix)"
+terms = ["relay-hub", "agy-tooling", "unfinished-macro"]
+reason = "the Zed fork: upstream Zed source uses the same words for unrelated things (relay, agy as an identifier prefix) and unimplemented!() for trait contracts and test doubles; the invented names and seeds stay guarded here"
 
 [[allow]]
 paths = [
@@ -180,11 +186,6 @@ reason = "generated Linux UAPI identifiers (struct fields such as relay_prefixle
 terms = ["ci-setup-node"]
 paths = ["ay/tools/bun-native.test.ts"]
 reason = "test fixture of the legacy scanner that rewrites this very line"
-
-[[allow]]
-paths = ["docs/rust-brain/**"]
-terms = ["invented-cluster"]
-reason = "generated symbol index of tools/rust_brain.ts; the next refresh drops the removed function name"
 
 [[allow]]
 paths = ["plugins/aphrody/skills/*/data/**"]

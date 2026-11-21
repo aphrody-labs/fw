@@ -7,7 +7,7 @@
 //! - Multi-channel sandboxed agent gateway (OpenClaw / ZeroClaw / IronClaw architecture)
 //! - Zero-dependency CLI-to-MCP JSON-RPC 2.0 server (`initialize`, `tools/list`, `tools/call`)
 //! - `agentskills.io` CLI-to-Skill (`SKILL.md`) generator
-//! - Verified November 2026 Rust CLI, Protocol, and Agent OS rankings (replacing bash/pwsh)
+//! - Rust CLI, Protocol, and Agent OS rankings (replacing bash/pwsh): order by GitHub stargazers on 2026-11-19, counts are read live
 
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -22,7 +22,6 @@ pub struct RankedEntry {
     pub repo: String,
     pub category: String,
     pub replaces: String,
-    pub stars_nov_2026: u32,
     pub language: String,
     pub why: String,
 }
@@ -141,7 +140,7 @@ pub struct AgentRunReport {
     pub distilled_skill: Option<String>,
 }
 
-/// Verified November 2026 ranking of modern Rust CLIs replacing bash/pwsh idioms.
+/// Modern Rust CLIs replacing bash/pwsh idioms, ordered by stargazers on 2026-11-19 (`gh api repos/<repo> --jq .stargazers_count` for the live count).
 pub fn modern_cli_ranking() -> Vec<RankedEntry> {
     vec![
         RankedEntry {
@@ -150,7 +149,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "astral-sh/uv".into(),
             category: "python-toolchain".into(),
             replaces: "pip/venv/poetry/pipx".into(),
-            stars_nov_2026: 92_397,
             language: "Rust".into(),
             why: "10-100x faster Python package/env/tool runner in a single static Rust binary".into(),
         },
@@ -160,7 +158,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "BurntSushi/ripgrep".into(),
             category: "search".into(),
             replaces: "grep/Select-String".into(),
-            stars_nov_2026: 70_058,
             language: "Rust".into(),
             why: "SIMD regex search respecting .gitignore with JSON output (--json)".into(),
         },
@@ -170,7 +167,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "sharkdp/bat".into(),
             category: "viewer".into(),
             replaces: "cat/Get-Content".into(),
-            stars_nov_2026: 61_307,
             language: "Rust".into(),
             why: "Syntax-highlighted paged viewer with git diff gutters".into(),
         },
@@ -180,7 +176,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "sharkdp/fd".into(),
             category: "find".into(),
             replaces: "find/Get-ChildItem".into(),
-            stars_nov_2026: 45_110,
             language: "Rust".into(),
             why: "Parallel ignore-aware filesystem traversal".into(),
         },
@@ -190,7 +185,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "sxyazi/yazi".into(),
             category: "file-manager".into(),
             replaces: "ranger/lf".into(),
-            stars_nov_2026: 43_515,
             language: "Rust".into(),
             why: "Async Tokio TUI file manager with Kitty/Sixel image previews".into(),
         },
@@ -200,7 +194,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "nushell/nushell".into(),
             category: "shell".into(),
             replaces: "bash/powershell.exe".into(),
-            stars_nov_2026: 41_035,
             language: "Rust".into(),
             why: "Cross-platform typed table/JSON pipeline shell eliminating text quoting bugs".into(),
         },
@@ -210,7 +203,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "casey/just".into(),
             category: "task-runner".into(),
             replaces: "make/npm scripts".into(),
-            stars_nov_2026: 36_746,
             language: "Rust".into(),
             why: "Zero-ambiguity cross-OS recipe runner".into(),
         },
@@ -220,7 +212,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "jdx/mise".into(),
             category: "env-manager".into(),
             replaces: "nvm/pyenv/asdf/direnv".into(),
-            stars_nov_2026: 36_309,
             language: "Rust".into(),
             why: "Polyglot runtime/toolchain/env manager".into(),
         },
@@ -230,7 +221,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "jj-vcs/jj".into(),
             category: "vcs".into(),
             replaces: "git worktree/rebase".into(),
-            stars_nov_2026: 32_547,
             language: "Rust".into(),
             why: "Git-compatible conflict-first VCS with automatic working-copy snapshots".into(),
         },
@@ -240,7 +230,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "sharkdp/hyperfine".into(),
             category: "benchmark".into(),
             replaces: "time/Measure-Command".into(),
-            stars_nov_2026: 29_300,
             language: "Rust".into(),
             why: "Statistical CLI benchmarking with warmup and JSON/Markdown export".into(),
         },
@@ -250,7 +239,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "Wilfred/difftastic".into(),
             category: "diff".into(),
             replaces: "diff/git diff".into(),
-            stars_nov_2026: 26_201,
             language: "Rust".into(),
             why: "Tree-sitter structural AST diff".into(),
         },
@@ -260,7 +248,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "eza-community/eza".into(),
             category: "listing".into(),
             replaces: "ls/dir".into(),
-            stars_nov_2026: 23_950,
             language: "Rust".into(),
             why: "Git-aware structured directory listing".into(),
         },
@@ -270,7 +257,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "ast-grep/ast-grep".into(),
             category: "ast-refactor".into(),
             replaces: "sed/awk/regex-refactor".into(),
-            stars_nov_2026: 16_627,
             language: "Rust".into(),
             why: "Tree-sitter structural code search, lint, and rewrite".into(),
         },
@@ -280,7 +266,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "ducaale/xh".into(),
             category: "http".into(),
             replaces: "curl/Invoke-WebRequest".into(),
-            stars_nov_2026: 8_194,
             language: "Rust".into(),
             why: "Fast ergonomic HTTP/HTTPS/HTTP3 JSON client".into(),
         },
@@ -290,7 +275,6 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "chmln/sd".into(),
             category: "replace".into(),
             replaces: "sed".into(),
-            stars_nov_2026: 7_433,
             language: "Rust".into(),
             why: "Fast intuitive regex find-and-replace".into(),
         },
@@ -300,14 +284,13 @@ pub fn modern_cli_ranking() -> Vec<RankedEntry> {
             repo: "01mf02/jaq".into(),
             category: "json".into(),
             replaces: "jq/ConvertFrom-Json".into(),
-            stars_nov_2026: 3_844,
             language: "Rust".into(),
             why: "Memory-safe Rust jq clone up to 10-30x faster on large JSON".into(),
         },
     ]
 }
 
-/// Verified November 2026 ranking of AI Agent Protocols, Rust SDKs, and Hermes/OpenClaw ecosystems.
+/// AI agent protocols, Rust SDKs and Hermes/OpenClaw ecosystems, ordered by stargazers on 2026-11-19 (`gh api repos/<repo> --jq .stargazers_count` for the live count).
 pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
     vec![
         RankedEntry {
@@ -316,7 +299,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "openclaw/openclaw".into(),
             category: "agent-os-ts".into(),
             replaces: "ad-hoc bots".into(),
-            stars_nov_2026: 394_799,
             language: "TypeScript".into(),
             why: "Reference multi-channel autonomous personal assistant & 5,400+ skill ecosystem".into(),
         },
@@ -326,7 +308,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "NousResearch/hermes-agent".into(),
             category: "self-growing-agent-py".into(),
             replaces: "stateless agents".into(),
-            stars_nov_2026: 264_635,
             language: "Python".into(),
             why: "Reference self-growing agent with persistent memory & autonomous skill creation".into(),
         },
@@ -336,7 +317,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "zeroclaw-labs/zeroclaw".into(),
             category: "agent-os-rust".into(),
             replaces: "Node/Python OpenClaw".into(),
-            stars_nov_2026: 33_488,
             language: "Rust".into(),
             why: "#1 full-Rust OpenClaw-class autonomous assistant infrastructure".into(),
         },
@@ -346,7 +326,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "agentskills/agentskills".into(),
             category: "skill-spec".into(),
             replaces: "ad-hoc prompt files".into(),
-            stars_nov_2026: 27_455,
             language: "Spec".into(),
             why: "Canonical SKILL.md progressive-disclosure standard (Zed, Claude, OpenClaw)".into(),
         },
@@ -356,7 +335,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "RightNow-AI/openfang".into(),
             category: "agent-os-rust".into(),
             replaces: "heavy orchestrators".into(),
-            stars_nov_2026: 18_271,
             language: "Rust".into(),
             why: "#2 Rust open-source Agent Operating System".into(),
         },
@@ -366,7 +344,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "nearai/ironclaw".into(),
             category: "agent-os-rust".into(),
             replaces: "unsandboxed agents".into(),
-            stars_nov_2026: 12_718,
             language: "Rust".into(),
             why: "#3 Rust Agent OS focused on privacy, WASM sandboxing, and extensibility".into(),
         },
@@ -376,7 +353,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "modelcontextprotocol/rust-sdk".into(),
             category: "cli-to-mcp-rust".into(),
             replaces: "custom JSON-RPC".into(),
-            stars_nov_2026: 4_125,
             language: "Rust".into(),
             why: "Official MCP Rust SDK v3.11.0 (51.9M crates.io downloads, rmcp-macros + schemars)".into(),
         },
@@ -386,7 +362,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "agentclientprotocol/rust-sdk".into(),
             category: "editor-agent-protocol".into(),
             replaces: "custom IDE bridges".into(),
-            stars_nov_2026: 248,
             language: "Rust".into(),
             why: "Official ACP Rust SDK v5.4.0 (6.45M downloads, Zed External Agents)".into(),
         },
@@ -396,7 +371,6 @@ pub fn protocol_and_agent_ranking() -> Vec<RankedEntry> {
             repo: "a2aproject/a2a-rs".into(),
             category: "agent-to-agent".into(),
             replaces: "custom RPC meshes".into(),
-            stars_nov_2026: 116,
             language: "Rust".into(),
             why: "Official Agent2Agent (A2A) protocol Rust SDK".into(),
         },
