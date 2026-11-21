@@ -4,7 +4,10 @@
 
 SPEC.json: [{"slug": "...", "ttf": "path", "pin": {"slnt": 0, "wdth": 100}, "ranges": {"latin": "U+0000-00FF,...", ...}}]
 `pin` (optional) pins or limits variation axes first (fontTools.varLib.instancer); a number pins, a [min, max] pair limits.
-Prints a JSON report on stdout: [{"slug", "ttf", "axes", "files": [{"subset", "file", "bytes", "range"}]}].
+`symbols` (optional, {"codepoints": path, "out": path}) marks a Material Symbols font: no WOFF2 files are written; instead `out` gets
+{"names": [...], "cp": [...], "fill": [...]} (parallel arrays sorted by name; `fill` is the glyph id the FILL axis swaps the icon to, 0 when it has none)
+read from the font's GSUB FeatureVariations, which the Worker needs to keep the filled glyphs of an icon subset.
+Prints a JSON report on stdout: [{"slug", "ttf", "axes", "glyphs", "cmap" (merged codepoint ranges), "files": [{"subset", "file", "bytes", "range"}]}].
 Subsets keep every layout feature and every variation axis; hinting is dropped (variable fonts render unhinted).
 """
 
@@ -44,6 +47,47 @@ def subset_font(ttf: str, out: str, unicodes: set[int]) -> None:
     subset.save_font(font, out, opts)
 
 
+def merge_ranges(codepoints: set[int]) -> list[list[int]]:
+    ranges: list[list[int]] = []
+    for cp in sorted(codepoints):
+        if ranges and cp == ranges[-1][1] + 1:
+            ranges[-1][1] = cp
+        else:
+            ranges.append([cp, cp])
+    return ranges
+
+
+def symbol_data(font: TTFont, codepoints: str, out: str) -> int:
+    order = font.getGlyphOrder()
+    gid = {name: index for index, name in enumerate(order)}
+    swap: dict[str, str] = {}
+    gsub = font["GSUB"].table
+    for lookup in gsub.LookupList.Lookup:
+        for sub in lookup.SubTable:
+            sub = getattr(sub, "ExtSubTable", sub)
+            if hasattr(sub, "mapping"):
+                swap.update(sub.mapping)
+    cmap = font.getBestCmap()
+    rows = []
+    with open(codepoints) as fh:
+        for line in fh:
+            parts = line.split()
+            if len(parts) == 2:
+                rows.append((parts[0], int(parts[1], 16)))
+    rows.sort()
+    names, cps, fills = [], [], []
+    for name, cp in rows:
+        base = cmap.get(cp)
+        if base is None:
+            continue
+        names.append(name)
+        cps.append(cp)
+        fills.append(gid[swap[base]] if base in swap else 0)
+    with open(out, "w") as fh:
+        json.dump({"names": names, "cp": cps, "fill": fills}, fh, separators=(",", ":"))
+    return len(names)
+
+
 def main() -> None:
     out_dir, spec_path = sys.argv[1], sys.argv[2]
     report = []
@@ -73,6 +117,20 @@ def main() -> None:
             for a in (font["fvar"].axes if "fvar" in font else [])
         ]
         files = []
+        if spec.get("symbols"):
+            count = symbol_data(font, spec["symbols"]["codepoints"], spec["symbols"]["out"])
+            report.append(
+                {
+                    "slug": spec["slug"],
+                    "ttf": spec["ttf"],
+                    "pin": None,
+                    "axes": axes,
+                    "glyphs": len(font.getGlyphOrder()),
+                    "icons": count,
+                    "files": [],
+                }
+            )
+            continue
         d = os.path.join(out_dir, spec["slug"])
         os.makedirs(d, exist_ok=True)
         full = os.path.join(d, "full.woff2")
@@ -107,6 +165,7 @@ def main() -> None:
                 "pin": spec.get("pin"),
                 "axes": axes,
                 "glyphs": len(font.getGlyphOrder()),
+                "cmap": merge_ranges(cmap),
                 "files": files,
             }
         )

@@ -1,8 +1,7 @@
 #!/usr/bin/env bun
 // material-cdn: compare the freshly synced sources with the live index and report whether a rebuild is needed.
 //   bun tools/material-cdn/changed.ts [--work DIR] [--base URL]   prints changed=true|false (also to $GITHUB_OUTPUT)
-// Only the pinned inputs are compared (icons commit, font release tags), not the repository names, so reading the
-// upstream directly or through a fork gives the same answer.
+// Only the pinned inputs are compared (icons commit, google/fonts commit and font blobs from tools/material-cdn/lock.json).
 import { appendFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
@@ -14,7 +13,7 @@ const opt = (name: string, fallback: string) => {
 const work = resolve(opt("work", ".cache/material-cdn"));
 const base = opt("base", process.env.MATERIAL_CDN_BASE ?? "");
 const local = await Bun.file(join(work, "sources.json")).json();
-const key = (s: any) => JSON.stringify([s.icons?.sha, s.flex?.tag, s.flex?.zipSha256, s.code?.tag, s.code?.zipSha256]);
+const key = (s: any) => JSON.stringify([s?.icons?.sha, s?.fonts?.sha, Object.values(s?.fonts?.files ?? {}).map((f: any) => f.blob)]);
 let changed = true;
 if (base) {
   const r = await fetch(`${base.replace(/\/$/, "")}/index.json`, { headers: { "Cache-Control": "no-cache" } });

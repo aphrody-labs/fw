@@ -1,0 +1,44 @@
+{
+  "icons": {
+    "repo": "google/material-design-icons",
+    "ref": "master",
+    "sha": "10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7",
+    "date": "2026-10-23"
+  },
+  "fonts": {
+    "repo": "google/fonts",
+    "ref": "main",
+    "sha": "06bfe0d62a98375cb09c942fa18e68bd32cff057",
+    "date": "2026-11-20",
+    "families": {
+      "google-sans-flex": {
+        "family": "Google Sans Flex",
+        "dir": "googlesansflex",
+        "file": "GoogleSansFlex[ROND,opsz,slnt,wdth,wght].ttf",
+        "blob": "1d8d8ae5a7c6d0e48312d2a0a478bad92caee73a",
+        "size": 3910784
+      },
+      "google-sans-code": {
+        "family": "Google Sans Code",
+        "dir": "googlesanscode",
+        "file": "GoogleSansCode[wght].ttf",
+        "blob": "4b63b009b1f32a2ad99b38790d1e8e87ae7d89df",
+        "size": 126224
+      },
+      "google-sans-code-italic": {
+        "family": "Google Sans Code",
+        "dir": "googlesanscode",
+        "file": "GoogleSansCode-Italic[wght].ttf",
+        "blob": "f05ee5febff8ef300edfba3824d0fd35f6d99830",
+        "size": 132968
+      },
+      "roboto-flex": {
+        "family": "Roboto Flex",
+        "dir": "robotoflex",
+        "file": "RobotoFlex[GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght].ttf",
+        "blob": "2a11e4cd5588a89e0047140b09c912059d1a150f",
+        "size": 1787292
+      }
+    }
+  }
+}

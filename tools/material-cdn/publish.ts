@@ -6,6 +6,7 @@
 // R2 S3 credentials are derived from the API token as documented by Cloudflare: access key id = token id, secret = SHA-256(token).
 import { readdir } from "node:fs/promises";
 import { join, relative, resolve, sep } from "node:path";
+import { openBucket, put, TYPES, typeOf } from "./r2.ts";
 
 const args = process.argv.slice(2);
 const opt = (name: string, fallback: string) => {
@@ -16,35 +17,8 @@ const out = resolve(opt("out", ".cache/material-cdn-out"));
 const bucket = opt("bucket", "aphrody-material");
 const dry = args.includes("--dry");
 const prune = args.includes("--prune");
-const token = process.env.CLOUDFLARE_API_TOKEN;
-if (!token) throw new Error("CLOUDFLARE_API_TOKEN is not set");
-
-const cf = async <T>(path: string): Promise<T> => {
-  const r = await fetch(`https://api.cloudflare.com/client/v4/${path}`, { headers: { Authorization: `Bearer ${token}` } });
-  const j = (await r.json()) as { success: boolean; result: T; errors: unknown[] };
-  if (!j.success) throw new Error(`Cloudflare ${path}: ${JSON.stringify(j.errors)}`);
-  return j.result;
-};
-const accountId = process.env.CLOUDFLARE_ACCOUNT_ID ?? (await cf<{ id: string }[]>("accounts"))[0]!.id;
-const tokenId = (await cf<{ id: string }>(`accounts/${accountId}/tokens/verify`)).id;
-const s3 = new Bun.S3Client({
-  accessKeyId: tokenId,
-  secretAccessKey: new Bun.CryptoHasher("sha256").update(token).digest("hex"),
-  endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-  bucket,
-  region: "auto",
-});
-
-const TYPES: Record<string, string> = {
-  svg: "image/svg+xml",
-  json: "application/json; charset=utf-8",
-  css: "text/css; charset=utf-8",
-  woff2: "font/woff2",
-  rs: "text/plain; charset=utf-8",
-  gz: "application/gzip",
-  txt: "text/plain; charset=utf-8",
-  sha256: "text/plain; charset=utf-8",
-};
+const client = await openBucket(bucket);
+const { token, s3, cf } = client;
 
 const files: string[] = [];
 async function walk(d: string) {
@@ -85,26 +59,13 @@ await Promise.all(
   }),
 );
 // Content-addressed fonts and versioned tarballs are served as immutable: an existing key must never change bytes.
-const IMMUTABLE_KEY = /(\.[0-9a-f]{8}\.woff2|^v1\/rust\/\d+\.\d+\.\d+\.tar\.gz(\.sha256)?)$/;
+const IMMUTABLE_KEY = /(\.[0-9a-f]{8}\.(woff2|ttf)|^v1\/rust\/\d+\.\d+\.\d+\.tar\.gz(\.sha256)?)$/;
 const clobbered = todo.filter((t) => IMMUTABLE_KEY.test(t.key) && existing.has(t.key));
 if (clobbered.length && !args.includes("--force")) {
   throw new Error(`refusing to overwrite immutable objects (content changed under the same name): ${clobbered.map((t) => t.key).join(", ")}; pass --force to replace them`);
 }
 todo.sort((a, b) => (a.p === index ? 1 : b.p === index ? -1 : 0)); // index.json last
 console.log(`unchanged ${same}, to upload ${todo.length} (${todo.reduce((n, t) => n + t.body.length, 0)} bytes)${dry ? " [dry run]" : ""}`);
-
-// R2 answers InternalError / 429 under bursts: retry with exponential backoff and jitter.
-async function put(key: string, body: Uint8Array, type: string) {
-  for (let attempt = 0; ; attempt++) {
-    try {
-      await s3.write(key, body, { type });
-      return;
-    } catch (e) {
-      if (attempt >= 6) throw e;
-      await Bun.sleep(250 * 2 ** attempt + Math.random() * 250);
-    }
-  }
-}
 
 if (todo.length > 0 && todo.length <= 50) console.log(todo.map((t) => `  ${t.key} ${t.body.length}`).join("\n"));
 
@@ -116,13 +77,13 @@ if (!dry) {
     Array.from({ length: Number(opt("concurrency", "128")) }, async () => {
       while (next < rest.length) {
         const t = rest[next++]!;
-        await put(t.key, t.body, TYPES[t.key.split(".").pop()!] ?? "application/octet-stream");
+        await put(client, t.key, t.body, typeOf(t.key));
         if (++done % 10000 === 0) console.log(`  ${done}/${rest.length}`);
       }
     }),
   );
   const last = todo.find((t) => t.p === index);
-  if (last) await put(last.key, last.body, TYPES.json!);
+  if (last) await put(client, last.key, last.body, TYPES.json!);
 
   if (prune) {
     const keep = new Set(files.map(keyOf));

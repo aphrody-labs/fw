@@ -49,7 +49,7 @@ async function pool<T>(items: T[], n: number, fn: (t: T) => Promise<void>) {
 }
 
 await rm(out, { recursive: true, force: true });
-for (const d of ["icons", "manifest", "sprites", "fonts", "rust", "licenses"]) await mkdir(join(v1, d), { recursive: true });
+for (const d of ["icons", "manifest", "sprites", "fonts", "rust", "licenses", "data"]) await mkdir(join(v1, d), { recursive: true });
 
 // ---------------------------------------------------------------- version
 // Cargo semver: upstream commit date plus a content hash of the generated tables (set below), so two different tarballs never share a version.
@@ -244,27 +244,31 @@ const FONT_RANGES: Record<string, string> = {
   symbols: "U+2190-21FF,U+2300-23FF,U+2500-27BF,U+2900-297F",
 };
 
-const flexTtf = (await readdir(join(work, "flex"))).filter((f) => f.endsWith(".ttf"));
-const codeTtf = (await readdir(join(work, "code"))).filter((f) => f.endsWith(".ttf"));
-const flexFile = flexTtf.find((f) => /^GoogleSansFlex\[/.test(f));
-if (!flexFile) throw new Error(`no GoogleSansFlex[...].ttf in ${join(work, "flex")}: ${flexTtf}`);
-const specs = [
+const fontSources = sources.fonts.files as Record<string, { family: string; file: string; sha256: string; size: number }>;
+const fontTtf = (id: string) => join(work, "fonts", id, fontSources[id]!.file);
+const familyOf = (slug: string) => fontSources[slug.replace(/-(upright|ui)$/, "")]?.family ?? slug;
+const specs: { slug: string; ttf: string; pin?: Record<string, number | [number, number]>; ranges: Record<string, string>; symbols?: { codepoints: string; out: string } }[] = [
   // Profiles of the same family: all axes; upright (slnt 0, the axes of the Google Fonts css2 API); ui (also wdth 100: opsz, wght, ROND, about a fifth of the size).
-  { slug: "google-sans-flex", ttf: join(work, "flex", flexFile), ranges: FONT_RANGES },
-  { slug: "google-sans-flex-upright", ttf: join(work, "flex", flexFile), pin: { slnt: 0 }, ranges: FONT_RANGES },
-  { slug: "google-sans-flex-ui", ttf: join(work, "flex", flexFile), pin: { slnt: 0, wdth: 100 }, ranges: FONT_RANGES },
-  ...codeTtf.map((f) => ({
-    slug: f.includes("Italic") ? "google-sans-code-italic" : "google-sans-code",
-    ttf: join(work, "code", f),
-    ranges: FONT_RANGES,
-  })),
+  { slug: "google-sans-flex", ttf: fontTtf("google-sans-flex"), ranges: FONT_RANGES },
+  { slug: "google-sans-flex-upright", ttf: fontTtf("google-sans-flex"), pin: { slnt: 0 }, ranges: FONT_RANGES },
+  { slug: "google-sans-flex-ui", ttf: fontTtf("google-sans-flex"), pin: { slnt: 0, wdth: 100 }, ranges: FONT_RANGES },
+  { slug: "google-sans-code", ttf: fontTtf("google-sans-code"), ranges: FONT_RANGES },
+  { slug: "google-sans-code-italic", ttf: fontTtf("google-sans-code-italic"), ranges: FONT_RANGES },
+  { slug: "roboto-flex", ttf: fontTtf("roboto-flex"), ranges: FONT_RANGES },
+  { slug: "roboto-flex-upright", ttf: fontTtf("roboto-flex"), pin: { slnt: 0 }, ranges: FONT_RANGES },
 ];
+const symbolsDir = join(v1, "data", "symbols");
+await mkdir(symbolsDir, { recursive: true });
+const symbolSpecs = STYLES.map((style) => {
+  const base = join(iconsRoot, "variablefont", `MaterialSymbols${style[0]!.toUpperCase()}${style.slice(1)}[FILL,GRAD,opsz,wght]`);
+  return { slug: `material-symbols-${style}`, ttf: `${base}.ttf`, ranges: {}, symbols: { codepoints: `${base}.codepoints`, out: join(symbolsDir, `${style}.json`) } };
+});
 const fontTmp = join(out, "_fonts");
 await mkdir(fontTmp, { recursive: true });
-await writeFile(join(fontTmp, "spec.json"), JSON.stringify(specs));
+await writeFile(join(fontTmp, "spec.json"), JSON.stringify([...specs, ...symbolSpecs]));
 const report = JSON.parse(
   await run(["uv", "run", "--quiet", "--with", "fonttools==4.68.0", "--with", "brotli==1.2.1", join(tool, "fonts.py"), fontTmp, join(fontTmp, "spec.json")]),
-) as { slug: string; axes: { tag: string; min: number; default: number; max: number }[]; files: { subset: string; file: string; bytes: number; range: string | null }[] }[];
+) as { slug: string; ttf: string; axes: { tag: string; min: number; default: number; max: number }[]; glyphs: number; cmap?: number[][]; icons?: number; files: { subset: string; file: string; bytes: number; range: string | null }[] }[];
 
 interface FontFile {
   family: string;
@@ -276,7 +280,6 @@ interface FontFile {
   range: string | null;
 }
 const fontFiles: FontFile[] = [];
-const slugFamily = (slug: string) => (slug.startsWith("google-sans-flex") ? "Google Sans Flex" : "Google Sans Code");
 async function emitFont(slug: string, subset: string, src: string, range: string | null) {
   const body = new Uint8Array(await Bun.file(src).arrayBuffer());
   const h = sha256(body);
@@ -284,15 +287,16 @@ async function emitFont(slug: string, subset: string, src: string, range: string
   await mkdir(dir, { recursive: true });
   const name = `${subset}.${h.slice(0, 8)}.woff2`;
   await Bun.write(join(dir, name), body);
-  fontFiles.push({ family: slugFamily(slug), slug, subset, path: `fonts/${slug}/${name}`, bytes: body.length, sha256: h, range });
+  fontFiles.push({ family: familyOf(slug), slug, subset, path: `fonts/${slug}/${name}`, bytes: body.length, sha256: h, range });
 }
 for (const r of report) for (const f of r.files) await emitFont(r.slug, f.subset, f.file, f.range);
 
 const axisOf = (slug: string, tag: string) => report.find((r) => r.slug === slug)?.axes.find((a) => a.tag === tag);
+const axesText = (slug: string) => report.find((r) => r.slug === slug)!.axes.map((a) => `${a.tag} ${a.min}..${a.max}`).join(", ");
 function fontCss(slug: string, family: string, style: "normal" | "italic"): string {
   const w = axisOf(slug, "wght");
   const wd = axisOf(slug, "wdth");
-  let css = `/* ${family}, SIL OFL 1.1, googlefonts. Variable axes: ${report.find((r) => r.slug === slug)!.axes.map((a) => `${a.tag} ${a.min}..${a.max}`).join(", ")}. Generated by tools/material-cdn. */\n`;
+  let css = `/* ${family}, SIL OFL 1.1, google/fonts. Variable axes: ${axesText(slug)}. Generated by tools/material-cdn. */\n`;
   for (const f of fontFiles.filter((x) => x.slug === slug && x.subset !== "full")) {
     css +=
       `/* ${f.subset} */\n@font-face{font-family:'${family}';font-style:${style};` +
@@ -303,12 +307,22 @@ function fontCss(slug: string, family: string, style: "normal" | "italic"): stri
   return css;
 }
 for (const slug of ["google-sans-flex", "google-sans-flex-upright", "google-sans-flex-ui"]) await writeFile(join(v1, "fonts", `${slug}.css`), fontCss(slug, "Google Sans Flex", "normal"));
-let codeCss = fontCss("google-sans-code", "Google Sans Code", "normal");
-if (report.some((r) => r.slug === "google-sans-code-italic")) codeCss += fontCss("google-sans-code-italic", "Google Sans Code", "italic");
-await writeFile(join(v1, "fonts", "google-sans-code.css"), codeCss);
+for (const slug of ["roboto-flex", "roboto-flex-upright"]) await writeFile(join(v1, "fonts", `${slug}.css`), fontCss(slug, "Roboto Flex", "normal"));
+await writeFile(join(v1, "fonts", "google-sans-code.css"), fontCss("google-sans-code", "Google Sans Code", "normal") + fontCss("google-sans-code-italic", "Google Sans Code", "italic"));
 
-// Material Symbols variable fonts come straight from the fork (already WOFF2).
-let symbolsCss = `/* Material Symbols (Apache-2.0, google/material-design-icons). Axes FILL 0..1, GRAD -25..200, opsz 20..48, wght 100..700. Generated by tools/material-cdn. */\n`;
+// Material Symbols variable fonts: the upstream WOFF2 is published as is (all four axes), the TTF is the source the Worker subsets.
+const srcDir = join(v1, "src");
+await mkdir(srcDir, { recursive: true });
+const sourceFiles: Record<string, { path: string; bytes: number; sha256: string }> = {};
+async function emitSource(slug: string, ttf: string) {
+  const body = new Uint8Array(await Bun.file(ttf).arrayBuffer());
+  const h = sha256(body);
+  const name = `${slug}.${h.slice(0, 8)}.ttf`;
+  await Bun.write(join(srcDir, name), body);
+  sourceFiles[slug] = { path: `src/${name}`, bytes: body.length, sha256: h };
+}
+const symbolAxes = (style: string) => report.find((r) => r.slug === `material-symbols-${style}`)!.axes;
+let symbolsCss = `/* Material Symbols (Apache-2.0, google/material-design-icons). Axes ${symbolAxes("outlined").map((a) => `${a.tag} ${a.min}..${a.max}`).join(", ")}. Generated by tools/material-cdn. */\n`;
 for (const style of STYLES) {
   const cap = style[0]!.toUpperCase() + style.slice(1);
   const src = join(iconsRoot, "variablefont", `MaterialSymbols${cap}[FILL,GRAD,opsz,wght].woff2`);
@@ -317,18 +331,23 @@ for (const style of STYLES) {
   symbolsCss +=
     `@font-face{font-family:'Material Symbols ${cap}';font-style:normal;font-weight:100 700;font-display:block;src:url(${f.path.replace(/^fonts\//, "")}) format('woff2')}\n` +
     `.material-symbols-${style}{font-family:'Material Symbols ${cap}';font-weight:400;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}\n`;
+  await emitSource(`material-symbols-${style}`, join(iconsRoot, "variablefont", `MaterialSymbols${cap}[FILL,GRAD,opsz,wght].ttf`));
 }
 await writeFile(join(v1, "fonts", "material-symbols.css"), symbolsCss);
+for (const id of Object.keys(fontSources)) await emitSource(id, fontTtf(id));
 await rm(fontTmp, { recursive: true, force: true });
 
 // ---------------------------------------------------------------- licenses
 await copyFile(join(iconsRoot, "LICENSE"), join(v1, "licenses", "material-design-icons-APACHE-2.0.txt"));
-await copyFile(join(work, "flex", "OFL.txt"), join(v1, "licenses", "google-sans-flex-OFL-1.1.txt"));
-await copyFile(join(work, "code", "OFL.txt"), join(v1, "licenses", "google-sans-code-OFL-1.1.txt"));
+await copyFile(join(work, "fonts", "google-sans-flex", "OFL.txt"), join(v1, "licenses", "google-sans-flex-OFL-1.1.txt"));
+await copyFile(join(work, "fonts", "google-sans-code", "OFL.txt"), join(v1, "licenses", "google-sans-code-OFL-1.1.txt"));
+await copyFile(join(work, "fonts", "roboto-flex", "OFL.txt"), join(v1, "licenses", "roboto-flex-OFL-1.1.txt"));
 const notice =
   `Material Symbols and Material Icons: Copyright Google LLC, Apache License 2.0 (licenses/material-design-icons-APACHE-2.0.txt), https://github.com/google/material-design-icons.\n` +
   `Google Sans Flex: Copyright 2025 The Google Sans Flex Project Authors, SIL Open Font License 1.1 (licenses/google-sans-flex-OFL-1.1.txt), https://github.com/googlefonts/googlesans-flex.\n` +
   `Google Sans Code: Copyright 2025 The Google Sans Code Project Authors, SIL Open Font License 1.1 (licenses/google-sans-code-OFL-1.1.txt), https://github.com/googlefonts/googlesans-code.\n` +
+  `Roboto Flex: Copyright 2016 The Roboto Flex Project Authors, SIL Open Font License 1.1 (licenses/roboto-flex-OFL-1.1.txt), https://github.com/googlefonts/roboto-flex.\n` +
+  `Font files are read from https://github.com/google/fonts at the commit pinned in tools/material-cdn/lock.json.\n` +
   `Optimized, subset and repackaged by Aphrody (tools/material-cdn in aphrody-labs/fw). SVGs are minified; WOFF2 subsets are derived under the OFL without renaming.\n`;
 await writeFile(join(v1, "licenses", "NOTICE.txt"), notice);
 
@@ -398,7 +417,8 @@ const libRs =
 await writeFile(join(top, "src", "lib.rs"), libRs);
 for (const [k, body] of Object.entries(tables)) await writeFile(join(top, "src", `${k}.rs`), body + "\n");
 await copyFile(join(v1, "licenses", "material-design-icons-APACHE-2.0.txt"), join(top, "LICENSE"));
-await copyFile(join(v1, "licenses", "NOTICE.txt"), join(top, "NOTICE"));
+// The published crate version is immutable and hashed over the tables only, so its NOTICE must not change when the CDN serves a new family.
+await writeFile(join(top, "NOTICE"), notice.split("\n").filter((line) => !/^(Roboto Flex|Font files are read)/.test(line)).join("\n"));
 const tgz = join(v1, "rust", `${version}.tar.gz`);
 // Reproducible: sorted names, fixed mtime/owner, gzip without a timestamp.
 await run([
@@ -453,11 +473,27 @@ const index = {
   manifests: manifestInfo,
   sprites: spriteStats,
   fonts: fontFiles.map((f) => ({ family: f.family, slug: f.slug, subset: f.subset, path: f.path, bytes: f.bytes, sha256: f.sha256, unicodeRange: f.range })),
-  css: ["fonts/google-sans-flex.css", "fonts/google-sans-flex-upright.css", "fonts/google-sans-flex-ui.css", "fonts/google-sans-code.css", "fonts/material-symbols.css"],
+  css: ["fonts/google-sans-flex.css", "fonts/google-sans-flex-upright.css", "fonts/google-sans-flex-ui.css", "fonts/google-sans-code.css", "fonts/roboto-flex.css", "fonts/roboto-flex-upright.css", "fonts/material-symbols.css"],
+  meta: "meta.json",
   rust: { single: "rust/material_symbols.rs", crate: `rust/${version}.tar.gz`, crateName, crateVersion: version, crateSha256: tgzSha },
   icons: iconRows,
 };
 await writeFile(join(v1, "index.json"), JSON.stringify(index));
+
+// meta.json: what the Worker needs for à-la-carte builds (kept small: it is read once per isolate).
+const rev = sha256(JSON.stringify(sources)).slice(0, 12);
+const families: Record<string, unknown> = {};
+for (const style of STYLES) {
+  const slug = `material-symbols-${style}`;
+  const r = report.find((x) => x.slug === slug)!;
+  families[slug] = { family: `Material Symbols ${style[0]!.toUpperCase()}${style.slice(1)}`, kind: "symbols", style, src: sourceFiles[slug]!.path, srcBytes: sourceFiles[slug]!.bytes, axes: r.axes, glyphs: r.glyphs, icons: r.icons, symbols: `data/symbols/${style}.json`, woff2: fontFiles.find((f) => f.slug === slug)!.path };
+}
+for (const id of Object.keys(fontSources)) {
+  const r = report.find((x) => x.slug === id)!;
+  families[id] = { family: fontSources[id]!.family, kind: "text", style: id.endsWith("-italic") ? "italic" : "normal", src: sourceFiles[id]!.path, srcBytes: sourceFiles[id]!.bytes, axes: r.axes, glyphs: r.glyphs, cmap: r.cmap };
+}
+const workerMeta = { rev, version, viewBox: VIEWBOX, styles: STYLES, weights: WEIGHTS, sources, families, ranges: FONT_RANGES };
+await writeFile(join(v1, "meta.json"), JSON.stringify(workerMeta));
 
 // summary
 let total = 0;

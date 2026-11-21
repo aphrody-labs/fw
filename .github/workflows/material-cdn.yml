@@ -1,12 +1,10 @@
 name: Material CDN
 
-# Daily: fast-forward the aphrody-labs forks of google/material-design-icons, googlefonts/googlesans-flex and
-# googlefonts/googlesans-code from their upstreams, rebuild tools/material-cdn when an input changed, republish to the
-# material.aphrody.com R2 bucket and re-pin crates/fw-material. Commits straight to main, no branch.
+# Daily: move tools/material-cdn/lock.json to the latest google/material-design-icons and google/fonts commits, rebuild the /v1 tree when
+# an input changed, republish it to the material.aphrody.com R2 bucket and re-pin crates/fw-material. Commits straight to main, no branch.
+# The Worker job (workflow_dispatch) tests and deploys cloudflare/material-cdn.
 #
-# Secrets: CLOUDFLARE_API_TOKEN (R2 edit + Workers/zone cache purge on the Aphrody account) is required to publish.
-# MATERIAL_FORKS_TOKEN (fine-grained PAT, contents:write on the three forks) is optional: without it the forks are not
-# fast-forwarded and the build reads the upstream repositories directly (same content).
+# Secrets: CLOUDFLARE_API_TOKEN (R2 edit, Workers Scripts edit and zone cache purge on the Aphrody account) is required to publish and deploy.
 on:
   schedule:
     - cron: "41 3 * * *"
@@ -25,7 +23,35 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  worker:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Build the WOFF2 encoder (wasm)
+        run: bun tools/material-cdn/wasm.ts
+      - name: Install and typecheck
+        working-directory: cloudflare/material-cdn
+        run: |
+          bun install --frozen-lockfile
+          bunx wrangler@4.166.0 types
+          bunx tsc -p .
+      - name: Unit tests (grammar and client; the Worker suite runs against a built tree)
+        working-directory: cloudflare/material-cdn
+        run: bun test
+      - name: Deploy
+        working-directory: cloudflare/material-cdn
+        run: bunx wrangler@4.166.0 deploy
+
   sync:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -37,39 +63,36 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - uses: astral-sh/setup-uv@v6
-      - name: Fast-forward the forks
-        env:
-          FORKS_TOKEN: ${{ secrets.MATERIAL_FORKS_TOKEN }}
-        run: |
-          if [ -n "$FORKS_TOKEN" ]; then
-            GH_TOKEN="$FORKS_TOKEN" bun tools/material-cdn/sync.ts --forks --work .cache/material-cdn
-          else
-            echo "MATERIAL_FORKS_TOKEN not set: reading the upstream repositories directly"
-            bun tools/material-cdn/sync.ts --upstream --work .cache/material-cdn
-          fi
+      - name: Move the lock to the latest upstream commits and fetch them
+        run: bun tools/material-cdn/sync.ts --update --work .cache/material-cdn
       - name: Changed since the last publish?
         id: changed
         run: bun tools/material-cdn/changed.ts --work .cache/material-cdn
       - name: Build
         if: steps.changed.outputs.changed == 'true' || inputs.force
-        run: bun tools/material-cdn/build.ts --work .cache/material-cdn --out .cache/material-cdn-out
+        run: |
+          bun tools/material-cdn/build.ts --work .cache/material-cdn --out .cache/material-cdn-out
+          bun tools/material-cdn/extras.ts --out .cache/material-cdn-out --aphrody none
       - name: Publish to R2
         if: steps.changed.outputs.changed == 'true' || inputs.force
         run: bun tools/material-cdn/publish.ts --out .cache/material-cdn-out
       - name: Pin fw-material
         if: steps.changed.outputs.changed == 'true' || inputs.force
         run: bun tools/material-cdn/pin.ts --out .cache/material-cdn-out
-      - name: Commit the new pin to main
+      - name: Verify the live outputs by their bytes
+        if: steps.changed.outputs.changed == 'true' || inputs.force
+        run: uv run --quiet --with fonttools==4.68.0 --with brotli==1.2.1 tools/material-cdn/verify.py
+      - name: Commit the new lock and pin to main
         if: steps.changed.outputs.changed == 'true' || inputs.force
         run: |
-          paths="crates/fw-material/vendor"
+          paths="crates/fw-material/vendor tools/material-cdn/lock.json"
           if git diff --quiet -- $paths; then
-            echo "pin unchanged"
+            echo "lock and pin unchanged"
             exit 0
           fi
           git config user.name "fw-sync"
           git config user.email "fw-sync@users.noreply.github.com"
           git add -- $paths
-          git commit -m "chore: pin fw-material to the latest Material Symbols data"
+          git commit -m "chore: pin the Material CDN sources and fw-material to the latest upstream commits"
           git pull --rebase origin main
           git push origin HEAD:main
