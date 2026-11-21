@@ -79,7 +79,10 @@ pub fn sync_docs(client: &Client, store: &mut Store, spec: &Github, opts: &Opts)
         let commit = head["sha"].as_str().context("commit sha")?.to_owned();
         let date = head["commit"]["committer"]["date"].as_str().unwrap_or_default();
         store.set_meta(&format!("commit:{}", repo.repo), &format!("{commit} {date}"))?;
-        let listing = api(client, token.as_deref(), &format!("repos/{}/git/trees/{commit}?recursive=1", repo.repo))?;
+        // A nested prefix (llvm/docs/) is listed as its own subtree: the recursive tree of a monorepo is truncated.
+        let subtree = repo.prefix.trim_end_matches('/');
+        let (tree_ref, path_base) = if subtree.contains('/') { (format!("{commit}:{subtree}"), repo.prefix) } else { (commit.clone(), "") };
+        let listing = api(client, token.as_deref(), &format!("repos/{}/git/trees/{tree_ref}?recursive=1", repo.repo))?;
         if listing["truncated"].as_bool().unwrap_or(false) {
             report.errors.push(format!("{}: git tree truncated", repo.repo));
         }
@@ -90,8 +93,8 @@ pub fn sync_docs(client: &Client, store: &mut Store, spec: &Github, opts: &Opts)
                     .iter()
                     .filter(|entry| entry["type"] == "blob")
                     .filter_map(|entry| {
-                        let path = entry["path"].as_str()?;
-                        wanted(repo, path, entry["size"].as_u64().unwrap_or(0)).then(|| (path.to_owned(), entry["sha"].as_str().unwrap_or_default().to_owned()))
+                        let path = format!("{path_base}{}", entry["path"].as_str()?);
+                        wanted(repo, &path, entry["size"].as_u64().unwrap_or(0)).then(|| (path, entry["sha"].as_str().unwrap_or_default().to_owned()))
                     })
                     .collect()
             })
