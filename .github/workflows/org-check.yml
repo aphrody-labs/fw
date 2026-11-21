@@ -26,7 +26,7 @@ jobs:
     runs-on: cluster
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
       - id: app
