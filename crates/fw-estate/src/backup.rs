@@ -70,7 +70,8 @@ pub fn mirror_bucket(remote: &str, bucket: &str, root: &Path, stamp: &str) -> Re
         .arg("sync")
         .arg(format!("{remote}:{bucket}"))
         .arg(&destination)
-        .args(["--fast-list", "--transfers", "16", "--backup-dir"])
+        // R2 decompresses an object stored with Content-Encoding when the request does not accept that encoding, which breaks rclone's size check and makes the copy differ from the object: ask for the stored bytes.
+        .args(["--fast-list", "--transfers", "16", "--header-download", "Accept-Encoding: gzip, br", "--s3-use-accept-encoding-gzip=false", "--s3-might-gzip=false", "--backup-dir"])
         .arg(&trash)
         .status()
         .context("run rclone")?;

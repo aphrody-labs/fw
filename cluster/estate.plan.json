@@ -1,5 +1,36 @@
 {
   "schema": 1,
-  "estate_sha256": "326b816bb3736ecfd0ae9801c6f3f1ca2536057f09f79263a438776b2a649b20",
-  "actions": []
+  "estate_sha256": "ebbbff06f10a79262552c3f095624e4b6ff1e0bc0d8d19a7cb124595f74e0eba",
+  "actions": [
+    {
+      "op": "delete",
+      "kind": "dns",
+      "scope": "aphrody.com",
+      "target": "CNAME docs.aphrody.com",
+      "detail": "72153924-6650-4dd4-bced-f8b6731edcd8.cfargotunnel.com (proxied true)",
+      "id": "ca221423aec14359796d9259f75fd9fa"
+    },
+    {
+      "op": "delete",
+      "kind": "route",
+      "scope": "aphrody.com",
+      "target": "docs.aphrody.com/*",
+      "detail": "ay-edge",
+      "id": "8d4c6a843926472da8d514202b8b3602"
+    },
+    {
+      "op": "create",
+      "kind": "dns",
+      "scope": "aphrody.com",
+      "target": "AAAA docs.aphrody.com",
+      "detail": "AAAA docs proxied | 100::"
+    },
+    {
+      "op": "create",
+      "kind": "domain",
+      "scope": "aphrody.com",
+      "target": "docs.aphrody.com",
+      "detail": "fw-docs"
+    }
+  ]
 }
