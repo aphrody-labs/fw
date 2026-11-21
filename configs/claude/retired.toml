@@ -34,11 +34,6 @@ reason = "the check names the terms it rejects"
 
 # Vendored upstream text and generated data that use the same words for unrelated things.
 [[allow]]
-paths = ["ay/**"]
-terms = ["agy-tooling", "relay-hub", "fr2-host"]
-reason = "ay was imported with its history on 2026-11-21 and still names the retired surfaces; the agy retirement lot removes them from ay/ and deletes this entry"
-
-[[allow]]
 paths = ["aphrody/**"]
 reason = "the Zed fork: upstream Zed source and docs use the same words for unrelated things (relay, agy as an identifier prefix)"
 
@@ -76,3 +71,18 @@ reason = "research notes that record what the retirement removed"
 paths = ["crates/fw-gemini/src/google/atlas.json"]
 terms = ["agy-tooling"]
 reason = "measured audit snapshot of Google hosts: antigravity.google is one audited host and its counts are pinned to the source"
+
+[[allow]]
+paths = ["ay/docs/research/**", "ay/docs/features.md", "ay/docs/features.toml"]
+terms = ["agy-tooling", "relay-hub"]
+reason = "research on third-party products (Googlebook, Pixel, Cloudflare TURN and OHTTP relays, Stitch) and the feature catalog derived from it"
+
+[[allow]]
+paths = ["ay/naming.toml"]
+terms = ["agy-tooling"]
+reason = "list of crate names already published on crates.io, which never frees a name"
+
+[[allow]]
+paths = ["ay/locales/**", "ay/packages/org-mirror/test/fixtures/**", "ay/packages/wck/data/**", "packages/linux-types/**"]
+terms = ["relay-hub"]
+reason = "locale catalogs, mirrored GitHub text, a word list and generated Linux UAPI names (AMT_MODE_RELAY, 6rd relay_prefix) use the word for networking"

@@ -94,7 +94,7 @@ export interface AuthOptions {
   persist?: (key: string, value: string) => void;
 }
 
-const CMD_SHIMS = new Set(["gcloud", "npm", "agy"]);
+const CMD_SHIMS = new Set(["gcloud", "npm"]);
 
 const LOCAL =
   process.platform === "win32" ? "pc" : (process.env.HOSTNAME ?? "local");
@@ -437,14 +437,6 @@ const SIMPLE: Simple[] = [
     fix: "ay auth login codex (--device-auth, browserless)",
     login: (h) => ["login", ...(h ? ["--device-auth"] : [])],
     ok: (r) => (r.ok ? clean(r.out || r.err) || "logged in" : false),
-  },
-  {
-    target: "agy",
-    bin: "agy",
-    args: ["--version"],
-    fix: "connexion Antigravity (compte Google, navigateur)",
-    ok: (r) =>
-      r.ok || r.out ? `present (Google auth managed by Antigravity)` : false,
   },
 ];
 

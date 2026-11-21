@@ -73,7 +73,7 @@ pub struct Thread {
     /// Whether the thread is ephemeral (in-memory only).
     #[serde(default)]
     pub ephemeral: bool,
-    /// Active model provider (e.g. "llama", "antigravity", "openai").
+    /// Active model provider (e.g. "llama", "gemini", "openai").
     pub model_provider: String,
     /// Active model name.
     #[serde(default, skip_serializing_if = "Option::is_none")]

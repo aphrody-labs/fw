@@ -27,7 +27,7 @@ ssh = ["build"]
 recipient = "age1wtpumsxfp9wxcgej5f8qygcsem9rtrlshmvugm44arjyhp0ry5qqdhhsue"
 
 # Runner user `agent` of test and build: the agents (ai-os hub, runner credEnv) read their own user credstore, not the login user's.
-[fr2-agent]
+[test-agent]
 os = "linux"
 ssh = ["-l", "agent", "test"]
 recipient = "age1gyzlle89galq00sgn99exfywm0h6t8lk374rmpvcfq72aq4lcprs4g3w8u"

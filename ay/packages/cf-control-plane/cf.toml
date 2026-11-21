@@ -176,7 +176,6 @@ secrets = [
   "GOOGLE_CLIENT_SECRET",
   "OAUTH_SECRET",
   "OWNER_GOOGLE_ACCOUNT",
-  "RELAY_TOKEN",
 ]
 
 [workers.aphrody-releases]
@@ -364,7 +363,6 @@ aphrody = [
   "sheets",
   "slides",
   "sound",
-  "ssh-fr2",
   "ssh-prd",
   "status",
   "store",
@@ -489,13 +487,6 @@ priority = 10
 weight = 10
 port = 50051
 target = "fr1.mesh"
-
-[[zones."aphrody.com".srv_records]]
-name = "_valkey._tcp"
-priority = 10
-weight = 10
-port = 6379
-target = "fr2.mesh"
 
 [[zones."aphrody.com".txt_records]]
 name = "@"
@@ -1114,7 +1105,6 @@ required_keys = [
   "CLAUDE_CODE_OAUTH_TOKEN",
   "CLOUDFLARE_ACCOUNT_ID",
   "CLOUDFLARE_API_TOKEN",
-  "COMMONS_RELAY_TOKEN",
   "CRON_SECRET",
   "CTX7_API_KEY",
   "DATABASE_URL",
@@ -1173,7 +1163,6 @@ required_keys = [
   "R2_SECRET_ACCESS_KEY",
   "RANKED_INTERNAL_SECRET",
   "RCLONE_CONFIG_IEVR_DRIVE_TOKEN",
-  "RELAY_TOKEN",
   "RG_FLEET_TOKEN",
   "SESSION_SECRET",
   "SHENRON_ADMIN_TOKEN",

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Provision a test host: JDK 25, official Ghidra release, pyghidra venv.
-# Run: ssh <host> GHIDRA_ROOT=<work>/ghidra-release bash -s < provision-fr2.sh   (<work>: the large volume of the host)
+# Run: ssh <host> GHIDRA_ROOT=<work>/ghidra-release bash -s < provision-remote.sh   (<work>: the large volume of the host)
 set -euo pipefail
 G=${GHIDRA_ROOT:?set GHIDRA_ROOT to the directory that holds the Ghidra release}
 URL=https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.2_build/ghidra_12.2_PUBLIC_20261016.zip

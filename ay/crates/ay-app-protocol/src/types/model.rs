@@ -21,7 +21,7 @@ pub struct ModelDetails {
     pub id: String,
     /// Display name.
     pub name: String,
-    /// Model provider (e.g. "llama", "antigravity", "openai").
+    /// Model provider (e.g. "llama", "gemini", "openai").
     pub provider: String,
     /// Maximum context window in tokens.
     #[serde(default, skip_serializing_if = "Option::is_none")]

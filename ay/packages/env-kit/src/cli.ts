@@ -197,11 +197,6 @@ function runDoctor(envPath: string): number {
     ["Claude Settings", join(home, ".claude", "settings.json")],
     ["Claude MCP", join(home, ".claude.json")],
     ["Gemini CLI", join(home, ".gemini", "settings.json")],
-    [
-      "Antigravity CLI",
-      join(home, ".gemini", "antigravity-cli", "mcp_config.json"),
-    ],
-    ["Antigravity MCP", join(home, ".gemini", "config", "mcp_config.json")],
     ["Vercel CLI Auth", join(appData, "com.vercel.cli", "Data", "auth.json")],
     [
       "Wrangler OAuth",

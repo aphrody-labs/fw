@@ -568,7 +568,7 @@ pub fn analyze_google(bytes: &[u8]) -> GoogleReport {
 /// and WGA details are extracted across the complete input (ASCII and
 /// ASCII-compatible UTF-16LE) independently of that display-corpus limit.
 ///
-/// Use [`GOOGLE_STRINGS_LIMIT_SIDECAR`] for large Antigravity / Codeium sidecars
+/// Use [`GOOGLE_STRINGS_LIMIT_SIDECAR`] for large Codeium language-server sidecars
 /// to bound the supplemental string-corpus work.
 ///
 /// # Example

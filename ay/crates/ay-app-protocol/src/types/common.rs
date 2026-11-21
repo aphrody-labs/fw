@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ClientInfo {
-    /// Client application name (e.g. "vscode", "codex-cli", "antigravity").
+    /// Client application name (e.g. "vscode", "codex-cli", "claude-code").
     pub name: String,
     /// Client application version string.
     pub version: String,

@@ -199,14 +199,12 @@ describe("env-kit Bun/TypeScript core", () => {
       expect(existsSync(res.zedPath)).toBe(true);
       expect(existsSync(res.piSettingsPath)).toBe(true);
       expect(existsSync(res.piModelsPath)).toBe(true);
-      expect(existsSync(res.antigravityCliMcpPath)).toBe(true);
-      expect(existsSync(res.antigravityGlobalMcpPath)).toBe(true);
       expect(existsSync(res.geminiSettingsPath)).toBe(true);
 
-      const agyMcp = JSON.parse(
-        readFileSync(res.antigravityCliMcpPath, "utf8"),
+      const geminiMcp = JSON.parse(
+        readFileSync(res.geminiSettingsPath, "utf8"),
       );
-      expect(agyMcp.mcpServers["ai-os"].command).toBe(
+      expect(geminiMcp.mcpServers["ai-os"].command).toBe(
         join(
           dir,
           ".local",
@@ -214,13 +212,13 @@ describe("env-kit Bun/TypeScript core", () => {
           process.platform === "win32" ? "ai-os.exe" : "ai-os",
         ),
       );
-      expect(agyMcp.mcpServers["cloudflare-docs"].url).toBe(
+      expect(geminiMcp.mcpServers["cloudflare-docs"].url).toBe(
         "https://docs.mcp.cloudflare.com/mcp",
       );
-      expect(agyMcp.mcpServers.cloudflare.headers.Authorization).toBe(
+      expect(geminiMcp.mcpServers.cloudflare.headers.Authorization).toBe(
         "Bearer cf-test-tok",
       );
-      expect(agyMcp.mcpServers.vercel.headers.Authorization).toBe(
+      expect(geminiMcp.mcpServers.vercel.headers.Authorization).toBe(
         "Bearer vc-test-tok",
       );
 

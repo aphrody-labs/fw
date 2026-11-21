@@ -7,8 +7,6 @@ export interface SyncEditorsResult {
   zedPath: string;
   piSettingsPath: string;
   piModelsPath: string;
-  antigravityCliMcpPath: string;
-  antigravityGlobalMcpPath: string;
   geminiSettingsPath: string;
   claudeJsonPath: string;
   updatedFiles: string[];
@@ -146,18 +144,6 @@ export function syncAllEditorConfigs(
   const zedPath = join(appData, "Zed", "settings.json");
   const piSettingsPath = join(home, ".pi", "agent", "settings.json");
   const piModelsPath = join(home, ".pi", "agent", "models.json");
-  const antigravityCliMcpPath = join(
-    home,
-    ".gemini",
-    "antigravity-cli",
-    "mcp_config.json",
-  );
-  const antigravityGlobalMcpPath = join(
-    home,
-    ".gemini",
-    "config",
-    "mcp_config.json",
-  );
   const geminiSettingsPath = join(home, ".gemini", "settings.json");
   const claudeJsonPath = join(home, ".claude.json");
 
@@ -545,7 +531,7 @@ export function syncAllEditorConfigs(
   );
   updatedFiles.push(piModelsPath);
 
-  // 4. Antigravity (`agy`), Gemini CLI & Claude Code MCP servers (preserving existing entries)
+  // 4. Gemini CLI & Claude Code MCP servers (preserving existing entries)
   const cfToken = env.CLOUDFLARE_API_TOKEN?.trim();
   const vercelToken = env.VERCEL_TOKEN?.trim();
   const remoteServers = (withHttpType: boolean): Record<string, unknown> => {
@@ -598,8 +584,6 @@ export function syncAllEditorConfigs(
     updatedFiles.push(filePath);
   };
 
-  syncMcpFile(antigravityCliMcpPath, true, false);
-  syncMcpFile(antigravityGlobalMcpPath, true, false);
   syncMcpFile(geminiSettingsPath, true, false);
   if (existsSync(claudeJsonPath)) {
     syncMcpFile(claudeJsonPath, false, true);
@@ -610,8 +594,6 @@ export function syncAllEditorConfigs(
     zedPath,
     piSettingsPath,
     piModelsPath,
-    antigravityCliMcpPath,
-    antigravityGlobalMcpPath,
     geminiSettingsPath,
     claudeJsonPath,
     updatedFiles,

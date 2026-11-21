@@ -7,7 +7,7 @@ import { findInstall } from "../../src/rpc.ts";
 
 const install = findInstall();
 if (!install) throw new Error("no Ghidra install: set GHIDRA_INSTALL_DIR");
-// provision-fr2.sh puts the pyghidra venv next to the release directory.
+// provision-remote.sh puts the pyghidra venv next to the release directory.
 const venvPy = process.env.PYGHIDRA_PYTHON ?? join(install, "..", "venv", "bin", "python");
 const work = process.env.PARITY_WORK ?? join(tmpdir(), "ghidra-parity");
 const here = import.meta.dir;

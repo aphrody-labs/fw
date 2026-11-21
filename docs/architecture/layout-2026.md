@@ -73,7 +73,7 @@ Decisions and reasons:
 
 | area | files | decision | reason |
 | --- | ---: | --- | --- |
-| `.agents` | 3 | keep | Antigravity reads rules and workflows from .agents at the repository root |
+| `.agents` | 3 | keep | agent workflows and rules live in .agents at the repository root; AGENTS.md and README.md point to the onboarding journey there |
 | `.cargo` | 1 | keep | Cargo reads .cargo/config.toml from the workspace root |
 | `.claude-plugin` | 1 | keep | marketplace.json at the root is how `claude plugin marketplace add` finds the aphrody plugin |
 | `.editorconfig` | 1 | keep | editors and search/lint tools discover their config upward from the root |

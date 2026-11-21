@@ -128,7 +128,7 @@ A separate job of the fork (`aphrody-release.yml`), on a runner of the build rol
 those tags, never the branch head. Upstream releases arrive every 1 to 5 days (7 between 2026-11-02 and 2026-11-19), so the lag is bounded by one sync
 period plus one build.
 
-**Patches to qualify first (each must be proven necessary on the test host, not assumed).** (a) servers must not self-update or call a share relay: read
+**Patches to qualify first (each must be proven necessary on the test host, not assumed).** (a) servers must not self-update or call a share proxy: read
 `update.rs` and `share.rs` behavior on the Linux daemon and add switches only if absent; (b) a multi-node join for the single-node k3s (`kiri k8s join`),
 required for one cluster across hosts; (c) an Arch Linux package next to the `.deb` and `.rpm`; (d) rebranding, since the name and logo are excluded from
 the license: the fleet runs the binary under an Aphrody name before any redistribution.

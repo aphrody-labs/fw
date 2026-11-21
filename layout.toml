@@ -213,7 +213,7 @@ projects = ["cpp"]
 [[area]]
 path = ".agents"
 decision = "keep"
-why = "Antigravity reads rules and workflows from .agents at the repository root"
+why = "agent workflows and rules live in .agents at the repository root; AGENTS.md and README.md point to the onboarding journey there"
 
 [[area]]
 path = ".cargo"

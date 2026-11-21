@@ -11,7 +11,7 @@ test("signalement au plus une fois par 24 h et par identifiant", () => {
     c("npm", "action"),
     c("gh", "ok"),
     c("cf", "invalid"),
-    c("agy", "skip"),
+    c("codex", "skip"),
   ];
   expect(checks.filter(needsOwner).map((x) => x.target)).toEqual(["npm", "cf"]);
   const prompts = { "pc/npm": now - 3_600_000, "pc/cf": now - 86_400_001 };
