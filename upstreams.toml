@@ -497,3 +497,102 @@ docs = "https://docs.runkiri.com"
 fw = "crates/fw-drive (self-hosted runs)"
 role = "Rust container runtime compatible with the docker CLI, Compose and buildx, plus tunnels: candidate to run fw-drive and fleet services without Docker Desktop; fork aphrody-labs/kiri, Apache-2.0"
 watch = true
+
+[[upstream]]
+id = "cf-quiche"
+repo = "cloudflare/quiche"
+branch = "master"
+docs = "https://github.com/cloudflare/quiche#readme"
+fw = "crates/fw-http"
+role = "QUIC and HTTP/3 (BSD-2-Clause): reference for fw-http's h3 server and client next to quinn"
+watch = true
+
+[[upstream]]
+id = "boringtun"
+repo = "cloudflare/boringtun"
+branch = "master"
+docs = "https://github.com/cloudflare/boringtun#readme"
+fw = "crates/fw-cluster"
+role = "Userspace WireGuard (BSD-3-Clause): the fleet's 10.200.77.0/24 mesh without kernel modules"
+watch = true
+
+[[upstream]]
+id = "cf-foundations"
+repo = "cloudflare/foundations"
+branch = "main"
+docs = "https://github.com/cloudflare/foundations#readme"
+fw = "crates/fw-cluster + crates/fw-drive"
+role = "Service foundations (BSD-3-Clause): settings, structured logs, metrics, tracing, seccomp for fw servers"
+watch = true
+
+[[upstream]]
+id = "svg-hush"
+repo = "cloudflare/svg-hush"
+branch = "main"
+docs = "https://github.com/cloudflare/svg-hush#readme"
+fw = "crates/fw-drive + cloudflare/drive.ts"
+role = "Makes untrusted SVG safe to serve (MIT): inline SVG previews in the Drive clone and the Drive CDN"
+watch = true
+
+[[upstream]]
+id = "shellflip"
+repo = "cloudflare/shellflip"
+branch = "main"
+docs = "https://github.com/cloudflare/shellflip#readme"
+fw = "crates/fw-drive + crates/fw-proto"
+role = "Graceful restarts in Rust (BSD-3-Clause): zero-downtime upgrades of `fw serve` and `fw-drive serve`"
+watch = true
+
+[[upstream]]
+id = "wirefilter"
+repo = "cloudflare/wirefilter"
+branch = "master"
+docs = "https://github.com/cloudflare/wirefilter#readme"
+fw = "cloudflare/worker.ts (gatekeeper)"
+role = "Wireshark-like filter engine (MIT): one expression language for gatekeeper and Access-style policies"
+watch = true
+
+[[upstream]]
+id = "saffron"
+repo = "cloudflare/saffron"
+branch = "main"
+docs = "https://github.com/cloudflare/saffron#readme"
+fw = "crates/fw-bin (fw watch)"
+role = "Cron parser behind Workers Cron Triggers (BSD-3-Clause): same schedule syntax in `fw watch` and on the edge"
+watch = true
+
+[[upstream]]
+id = "moq-rs"
+repo = "cloudflare/moq-rs"
+branch = "main"
+docs = "https://github.com/cloudflare/moq-rs#readme"
+fw = "crates/fw-video"
+role = "Media over QUIC transport (IETF MoQ): live and on-demand video delivery for fw-video and filmcraft; no licence file on GitHub, ideas only"
+watch = true
+
+[[upstream]]
+id = "web-bot-auth"
+repo = "cloudflare/web-bot-auth"
+branch = "main"
+docs = "https://github.com/cloudflare/web-bot-auth#readme"
+fw = "crates/fw-agent"
+role = "Signed agent HTTP requests (HTTP Message Signatures, Apache-2.0): verifiable identity for fw agents calling sites"
+watch = true
+
+[[upstream]]
+id = "cloudflared"
+repo = "cloudflare/cloudflared"
+branch = "master"
+docs = "https://github.com/cloudflare/cloudflared#readme"
+fw = "cloudflare/ + fleet"
+role = "Cloudflare Tunnel client (Go, Apache-2.0): origin connectors for self-hosted fw services behind Access"
+watch = true
+
+[[upstream]]
+id = "artifact-fs"
+repo = "cloudflare/artifact-fs"
+branch = "main"
+docs = "https://github.com/cloudflare/artifact-fs#readme"
+fw = "fleet (fr1 clones)"
+role = "Filesystem driver that mounts large git repos quickly (Go, Apache-2.0): fast agent checkouts of big trees such as chromium on fr1"
+watch = true

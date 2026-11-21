@@ -108,7 +108,7 @@ export async function vendor(src: VendorSource, sha: string, skillsDir = SKILLS_
       writeFileSync(
         join(dst, "UPSTREAM.md"),
         `Vendored from https://github.com/${src.repo}/tree/${sha}/${src.dir}/${e.name} (${src.license}). ` +
-          "Refreshed by scripts/vendor-skills.ts; edit upstream, not here.\n",
+          "Refreshed by configs/gemini/scripts/vendor-skills.ts; edit upstream, not here.\n",
       );
       names.push(e.name);
     }
