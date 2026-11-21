@@ -1,5 +1,4 @@
-# Declarative configuration for Auto — zero hardcoded hosts, ports, secrets, or locale strings.
-# Environment variables override any field below when set.
+# Declarative configuration for Auto. Environment variables override the fields below when set; secrets never belong here.
 
 [app]
 name = "Auto"

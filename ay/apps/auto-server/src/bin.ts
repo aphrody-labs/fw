@@ -3,7 +3,7 @@ import { createSelfHostedServer } from "./self-hosted";
 
 const argv = process.argv.slice(2);
 if (argv.includes("--help") || argv.includes("-h")) {
-  console.log(`auto-server — Unified Self-Hosted Auto API + Rust Auth + MCP + WS HLC Sync Server
+  console.log(`auto-server: self-hosted Auto server (HTTP API, MCP, WebSocket sync)
 
 Usage:
   auto-server [--host 0.0.0.0] [--port 3000] [--db data/auto.sqlite] [--data data]`);

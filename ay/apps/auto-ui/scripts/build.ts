@@ -242,7 +242,7 @@ await Bun.write(
 );
 await Bun.write(
   join(outDir, "llms.txt"),
-  `# Auto\n\n> Factur-X EN 16931 e-invoicing, Art. 286 CGI immutable accounting ledger, FEC exports, DAG workflows, and Rust Better Auth in a single LTO binary and Cloudflare Worker.\n\n## Canonical Routes\n- [Overview](${ORIGIN}/)\n- [Deployment & Pricing](${ORIGIN}/pricing)\n- [Binaries & SDKs](${ORIGIN}/downloads)\n- [Workspace](${ORIGIN}/app)\n- [OpenAPI & Docs](${ORIGIN}/health)\n`,
+  `# Auto\n\n> Factur-X EN 16931 e-invoicing, Art. 286 CGI immutable accounting ledger, FEC exports, DAG workflows, and Rust Better Auth in a single LTO binary and Cloudflare Worker.\n\n## Canonical Routes\n- [Overview](${ORIGIN}/)\n- [Deployment & Pricing](${ORIGIN}/pricing)\n- [Binaries & SDKs](${ORIGIN}/downloads)\n- [Workspace](${ORIGIN}/app)\n- [OpenAPI](${ORIGIN}/v1/openapi.json)\n`,
 );
 await Bun.write(
   join(outDir, "_headers"),
@@ -323,8 +323,7 @@ await Bun.write(
   <h1>Single Binaries & Developer Libraries</h1>
   <p class="muted">Consume Auto as a standalone server binary or embed any layer as a typed crate, npm workspace package, C ABI shared library, or MCP server.</p>
   <pre class="code-box">cargo add aphrody-auto --features auth,facturx,model,client
-bun add @aphrody/auto @aphrody/auto-client @aphrody/auto-native
-auto serve --mode self-hosted --port 3000
+auto serve --port 3000
 auto lb --listen 127.0.0.1:8080 --upstreams https://auto.aphrody.com</pre>
   <p><a class="btn outline" href="/releases/manifest.json">Inspect Signed Release Manifest</a></p>
 </section>`,

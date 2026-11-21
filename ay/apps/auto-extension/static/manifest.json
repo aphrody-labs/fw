@@ -3,7 +3,7 @@
   "name": "Auto: Supplier Invoices",
   "short_name": "Auto",
   "version": "2026.11.5",
-  "description": "One-click upload of PDF or Factur-X invoices to Auto with live pending review badge.",
+  "description": "Send PDF or Factur-X supplier invoices to Auto from the right-click menu. The toolbar badge counts invoices to review.",
   "minimum_chrome_version": "116",
   "icons": {
     "16": "icons/icon-16.png",

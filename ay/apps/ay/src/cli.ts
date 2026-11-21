@@ -2,8 +2,8 @@
 /**
  * Unified `ay` CLI entrypoint.
  *
- * Dispatches all workspace tools, apps, and built-in commands with zero
- * Node.js dependencies and sub-millisecond startup.
+ * Dispatches the workspace tools, apps and built-in commands listed in
+ * registry.ts.
  */
 
 import { join, resolve } from "node:path";

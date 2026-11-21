@@ -34,7 +34,7 @@ async function renderStatus() {
   const org = s.companyName ? `${s.companyName}: ` : "";
   summary.textContent = s.badgeError
     ? `Cannot reach ${new URL(instance).host}: ${s.badgeError}`
-    : `${org}${n === 0 ? "no invoices awaiting review." : `${n} invoice(s) awaiting review.`}`;
+    : `${org}${n === 0 ? "No invoices awaiting review." : `${n} invoice(s) awaiting review.`}`;
   openBtn.href = `${instance}/app/inbox`;
   openBtn.hidden = false;
 }

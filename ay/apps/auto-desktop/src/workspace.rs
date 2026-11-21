@@ -46,7 +46,7 @@ pub struct AutoDesktopWorkspace {
 
 impl AutoDesktopWorkspace {
     pub fn new(doc_count: usize, window: &mut Window, cx: &mut Context<Self>) -> Self {
-        let search_input = cx.new(|cx| InputState::new(window, cx).placeholder("Search 10,000 invoices, customers, SIRET..."));
+        let search_input = cx.new(|cx| InputState::new(window, cx).placeholder("Search documents, customers, SIRET"));
         let sub = cx.subscribe_in(&search_input, window, |this, state, event: &InputEvent, _window, cx| {
             if matches!(event, InputEvent::Change) {
                 let q = state.read(cx).value().to_string();
@@ -123,7 +123,7 @@ impl AutoDesktopWorkspace {
                 h_flex()
                     .gap_3()
                     .items_center()
-                    .child(div().text_sm().font_weight(gpui_kit::FontWeight::BOLD).text_color(pal.foreground).child("Auto Desktop 120 FPS"))
+                    .child(div().text_sm().font_weight(gpui_kit::FontWeight::BOLD).text_color(pal.foreground).child("Auto Desktop"))
                     .child(div().w(px(320.0)).child(Input::new(&self.search_input))),
             )
             .child(
@@ -301,7 +301,7 @@ impl AutoDesktopWorkspace {
             .flex_1()
             .p_4()
             .gap_4()
-            .child(div().text_base().font_weight(gpui_kit::FontWeight::SEMIBOLD).text_color(pal.foreground).child("Workflow DAG Canvas (GPU 120 FPS)"))
+            .child(div().text_base().font_weight(gpui_kit::FontWeight::SEMIBOLD).text_color(pal.foreground).child("Workflow DAG canvas"))
             .child(render_dag_canvas(&self.store.nodes, pal))
     }
 
@@ -310,7 +310,7 @@ impl AutoDesktopWorkspace {
             .flex_1()
             .p_4()
             .gap_4()
-            .child(div().text_base().font_weight(gpui_kit::FontWeight::SEMIBOLD).text_color(pal.foreground).child("Rust Better Auth (`aphrody-auto (auth)`) & Cluster Endpoints"))
+            .child(div().text_base().font_weight(gpui_kit::FontWeight::SEMIBOLD).text_color(pal.foreground).child("Auth sample: Argon2id hash and Ed25519 JWKS"))
             .child(
                 div()
                     .p_4()

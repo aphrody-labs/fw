@@ -1,5 +1,5 @@
-// Bindings of the unified edge Worker. Names are unique across services; a service that needs its historic binding name gets a
-// derived env (see `scoped` in router.ts), so two services never fight over `ASSETS` or `RELEASES`.
+// Bindings of the unified edge Worker. Names are unique across services. A store binding (edge.toml [stores.<NAME>]) is replaced by its
+// guarded view before a module runs (see withStores in store.ts).
 export interface EdgeEnv {
   /** Releases bucket (edge.toml [buckets.releases]): <product>/<version>/..., manifest.json, legacy channels/, scripts/. */
   RELEASES: R2Bucket;

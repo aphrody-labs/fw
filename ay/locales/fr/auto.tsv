@@ -1371,3 +1371,105 @@ site	Compare plans	Comparer les offres
 site	No hidden tracking cookies or ad telemetry.	Aucun cookie publicitaire ni suivi d'audience tiers.
 site	All customer data stays in the European Union or on your own server.	Vos données restent hébergées dans l'Union européenne ou sur votre serveur.
 site	Verify downloaded binary checksum (SHA-256) and Ed25519 signature.	Vérifiez l'empreinte SHA-256 et la signature Ed25519 du fichier téléchargé.
+
+# --- Strings of the Rust UI, web workspace, CLI and validation errors that had no entry ---
+	Auto Workspace	Espace de travail Auto
+	New Quote	Nouveau devis
+	New Invoice	Nouvelle facture
+	Customers	Clients
+	Automations	Automatisations
+	Cluster	Cluster
+	Cluster Load Balancer	Répartiteur de charge du cluster
+	Cluster & Auth	Cluster et authentification
+	Accounting & FEC	Comptabilité et FEC
+	Updater	Mise à jour
+	Back	Retour
+	Cloudflare Serverless	Cloudflare sans serveur
+	Self-Hosted Cluster	Cluster auto-hébergé
+	Sync	Synchro
+	Workspace sections	Sections de l'espace de travail
+	Sign in	Se connecter
+	Signed in	Connecté
+	Create account	Créer un compte
+	Account ready	Compte prêt
+	Email	E-mail
+	Full name	Nom complet
+	Company name	Nom de l'entreprise
+	Create workspace	Créer l'espace de travail
+	Search documents, SIRET, projects	Rechercher des documents, un SIRET, des projets
+	No documents match this filter yet.	Aucun document ne correspond à ce filtre.
+	Draft saved	Brouillon enregistré
+	Issue	Émettre
+	Payment recorded	Paiement enregistré
+	Customer name	Nom du client
+	Add customer	Ajouter un client
+	Click Export FEC to generate the 18-column accounting ledger.	Cliquez sur Exporter le FEC pour générer le registre comptable à 18 colonnes.
+	No posted entries in range.	Aucune écriture comptabilisée sur la période.
+	Export FEC (Art. A47 A-1)	Exporter le FEC (art. A47 A-1)
+	Run an MCP tool call to inspect live server output.	Lancez un appel d'outil MCP pour voir la sortie du serveur.
+	Test MCP Tool (list_documents)	Tester l'outil MCP (list_documents)
+	Create DAG workflow	Créer un scénario DAG
+	Run	Exécuter
+	Signed Release Manifest	Manifeste de version signé
+	AUTO_LLM_URL is required for agent mode	AUTO_LLM_URL est requis pour le mode agent
+	You are the Auto assistant. Use the provided tools accurately and concisely.	Vous êtes l'assistant Auto. Utilisez les outils fournis avec précision et concision.
+	Maximum tool turns reached.	Nombre maximal de tours d'outils atteint.
+	Your Auto trial ends on {date}	Votre essai d'Auto se termine le {date}
+	Your Auto subscription renews on {date}	Votre abonnement Auto est renouvelé le {date}
+	Plan:	Offre :
+	Manage:	Gérer :
+	Hello	Bonjour
+	Please find attached your document:	Veuillez trouver ci-joint votre document :
+	View or pay online:	Consulter ou payer en ligne :
+	Authentication required	Authentification requise
+	Insufficient permissions	Permissions insuffisantes
+	Access restricted for this workspace segment	Accès restreint pour ce segment de l'espace de travail
+	Document not found	Document introuvable
+	Customer not found	Client introuvable
+	Draft document not found	Brouillon introuvable
+	Issued invoice not found	Facture émise introuvable
+	Project not found	Projet introuvable
+	Studio document not found	Document Studio introuvable
+	Document already issued	Document déjà émis
+	Invalid customer	Client invalide
+	Invalid product	Produit invalide
+	Invalid employee	Salarié invalide
+	Missing mandatory fields	Champs obligatoires manquants
+	Payment amount must be positive	Le montant du paiement doit être positif
+	Transition from {from} to {to} is not allowed	Transition de {from} vers {to} non autorisée
+	Document was modified concurrently; reload the latest revision	Document modifié en parallèle ; rechargez la dernière révision
+	Search query must be 2 to 200 characters	La recherche doit comporter de 2 à 200 caractères
+	Unarchive the document before editing	Désarchivez le document avant de le modifier
+	Last name is required	Le nom est obligatoire
+	First name is required	Le prénom est obligatoire
+	Role is required	Le poste est obligatoire
+	Expected contract type: {list}	Type de contrat attendu : {list}
+	Start date must use YYYY-MM-DD format	La date de début doit respecter le format AAAA-MM-JJ
+	End date cannot precede start date	La date de fin ne peut pas précéder la date de début
+	Fixed-term contract requires an end date	Un contrat à durée déterminée requiert une date de fin
+	Working time percentage must be between 1 and 100	Le taux de temps de travail doit être compris entre 1 et 100
+	Gross monthly salary must be an integer number of cents	Le salaire mensuel brut doit être un nombre entier de centimes
+	Invalid email address	Adresse e-mail invalide
+	Invalid issuer tax ID (SIRET)	SIRET de l'émetteur invalide
+	Missing issuer address	Adresse de l'émetteur manquante
+	Missing customer name or address	Nom ou adresse du client manquant
+	At least one line item is required	Au moins une ligne est obligatoire
+	Line {n}: missing description	Ligne {n} : désignation manquante
+	Line {n}: invalid quantity	Ligne {n} : quantité invalide
+	Line {n}: invalid discount	Ligne {n} : remise invalide
+	Line {n}: invalid VAT rate	Ligne {n} : taux de TVA invalide
+	VAT exemption requires 0% VAT on all lines	L'exonération de TVA exige un taux de 0 % sur toutes les lignes
+	Missing issuer VAT number	Numéro de TVA de l'émetteur manquant
+	Invalid customer tax ID (SIRET)	SIRET du client invalide
+	Missing due date	Date d'échéance manquante
+	Missing supply or service date	Date de livraison ou de prestation manquante
+	Missing late payment penalty terms	Conditions de pénalités de retard manquantes
+	Missing early payment discount terms	Conditions d'escompte pour paiement anticipé manquantes
+	Credit note requires an origin invoice number	Un avoir exige le numéro de la facture d'origine
+	Customer name is required	Le nom du client est obligatoire
+	Customer address is required	L'adresse du client est obligatoire
+	Invalid tax ID (9-digit SIREN or 14-digit SIRET expected)	SIREN ou SIRET invalide (9 ou 14 chiffres attendus)
+	Invalid customer email	E-mail du client invalide
+	Product description is required	La désignation du produit est obligatoire
+	Unit price excl. VAT must be a non-negative integer in cents	Le prix unitaire HT doit être un entier positif ou nul, en centimes
+	Invalid VAT rate	Taux de TVA invalide

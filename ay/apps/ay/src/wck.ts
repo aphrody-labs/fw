@@ -1,7 +1,6 @@
 /**
- * Modern Web Guidance & Core Web Vitals (`wck`) gate integrated into `ay`.
- *
- * Pure Bun implementation: zero external dependencies, zero Node.js stdlib.
+ * `ay wck`: static scan of web sources for legacy patterns and missing
+ * accessibility basics, plus the Core Web Vitals and Lighthouse targets.
  */
 
 import { join, resolve } from "node:path";

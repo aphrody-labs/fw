@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-// Auto CLI & MCP entrypoint — usable BOTH as CLI binary (`auto-cli`) AND as a library (`export { runCli }`).
+// Auto CLI and MCP stdio entrypoint: the `auto-cli` binary, and `runCli` for library use.
 import { createAutoClientFromEnv } from "@aphrody/auto-client";
 import { t, type Locale } from "@aphrody/auto-i18n";
 import { llmConfigFromEnv, openAiClient, type LlmMessage } from "@aphrody/auto-platform/llm";
@@ -13,23 +13,31 @@ import {
 } from "@aphrody/auto-native";
 import { handleMcpJsonRpc, importLegacyN8nWorkflow, runAgentTurn, type JsonRpcRequest } from "@aphrody/auto-services";
 
-const HELP = `auto-cli — Auto CLI, AI Agent & MCP stdio server
+const HELP = `auto-cli: Auto command line, agent and MCP stdio server
 
 Usage:
-  auto-cli mcp                             Run JSON-RPC 2.0 MCP server on stdin/stdout
-  auto-cli tools                           List remote API agent/MCP tools
-  auto-cli agent [prompt...]               Execute an interactive or one-shot LLM + MCP turn
-  auto-cli workflows [list|run|import]     Manage or execute DAG workflows remotely
-  auto-cli auth <hash|verify|keygen|totp>  Run local Rust aphrody-auto (auth) operations
-  auto-cli health                          Check configured Auto server health
+  auto-cli mcp                                   MCP server on stdin/stdout (JSON-RPC 2.0), forwarding tool calls to the Auto server
+  auto-cli tools                                 List the MCP tools of the Auto server
+  auto-cli agent [prompt...]                     One-shot prompt, or an interactive session without arguments (LLM + MCP tools)
+  auto-cli workflows list                        List the automations
+  auto-cli workflows import <file.json>          Save an automation from a JSON file (n8n exports are converted)
+  auto-cli workflows run <id> [json]             Run an automation with optional JSON input
+  auto-cli auth hash <password>                  Argon2id hash of a password
+  auto-cli auth verify <password> <hash>         Check a password against a hash
+  auto-cli auth keygen [prefix]                  Generate an API key (default prefix auto_)
+  auto-cli auth totp <secret>                    Current TOTP code of a secret
+  auto-cli auth jwks <master-secret>             JWKS derived from a master secret
+  auto-cli health                                Health of the configured Auto server
 
 Environment:
-  AUTO_API_URL     Base URL (default https://auto.aphrody.com; supports comma-separated AUTO_UPSTREAMS)
+  AUTO_API_URL     Base URL (default https://auto.aphrody.com)
+  AUTO_UPSTREAMS   Comma-separated base URLs with health-based failover; replaces AUTO_API_URL
   AUTO_TOKEN       API key (auto_...) or bearer token
   AUTO_COMPANY_ID  Active company ID
   AUTO_LLM_URL     OpenAI-compatible LLM base URL for 'agent'
   AUTO_LLM_MODEL   Model name
-  AUTO_LLM_KEY     Optional API key`;
+  AUTO_LLM_KEY     Optional API key
+  AUTO_LOCALE      Message language: en (default) or fr`;
 
 async function ensureWasm(): Promise<void> {
   const wasmUrl = new URL("../../../packages/auto-native/wasm/auto_ffi_bg.wasm", import.meta.url);
@@ -173,7 +181,7 @@ export async function runCli(argv = process.argv.slice(2)): Promise<number> {
     return 0;
   }
 
-  console.error(`Unknown command: ${cmd}`);
+  console.error(`Unknown command: ${cmd}\nRun 'auto-cli help' for usage.`);
   return 1;
 }
 

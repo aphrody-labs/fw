@@ -53,7 +53,7 @@ app.on(["GET", "HEAD"], "/v1/:kind/:key", async (c) => {
     key: c.req.param("key"),
   });
   if (!parsed.success) {
-    return c.json({ error: "invalid content-addressed asset key" }, 400);
+    return c.json({ error: "invalid asset path: expected /v1/<kind>/<sha256>.<ext> or /v1/<kind>/latest.json" }, 400);
   }
 
   const { kind, key } = parsed.data;

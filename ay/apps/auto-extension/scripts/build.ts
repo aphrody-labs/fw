@@ -1,4 +1,6 @@
-// Builds Chrome Extension MV3 bundle cleanly using Bun.build.
+// Builds the Chrome Extension MV3 bundle: Bun.build for the scripts, static files, and the PNG icons from icon.ts.
+import { renderIcon } from "./icon.ts";
+
 const root = new URL("..", import.meta.url);
 const DIST = new URL("dist/", root);
 const toPath = (u: URL) => Bun.fileURLToPath(u);
@@ -18,6 +20,7 @@ export async function buildExtension(opts: { dist?: URL; hosts?: string[] } = {}
   for (const f of ["popup.html", "popup.css", "tokens.css"]) {
     await Bun.write(new URL(f, dist), Bun.file(new URL(`static/${f}`, root)));
   }
+  for (const size of [16, 32, 48, 128]) await Bun.write(new URL(`icons/icon-${size}.png`, dist), renderIcon(size));
   const manifest = (await Bun.file(new URL("static/manifest.json", root)).json()) as {
     version: string;
     host_permissions: string[];

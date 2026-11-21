@@ -1,7 +1,7 @@
 {
   "name": "@aphrody/ay-cli",
   "version": "0.4.0",
-  "description": "Unified Aphrody OS & SDK CLI entrypoint consolidating AI OS, WebOS/Portal, Chromium Dash, Shell/PTY, RE/Ghidra, Corelib WASM, Cloud Quota, GNU, and Build/Release workflows.",
+  "description": "Unified ay CLI: dispatches the tools/*.ts scripts and the built-in commands (completions, compile, doctor, upgrade, wck) from one registry.",
   "type": "module",
   "private": true,
   "main": "src/cli.ts",

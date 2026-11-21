@@ -65,7 +65,7 @@ export const COMMANDS: readonly CommandEntry[] = [
     category: "quality",
     kind: "builtin",
     target: "builtin:wck",
-    summary: "Modern Web Guidance, Core Web Vitals, SEO/A11y & legacy-scan gate",
+    summary: "Scan web sources for legacy APIs and missing alt/viewport/lang; `baseline` prints the Core Web Vitals targets",
   },
 
   // Runtime & Corelib
@@ -405,7 +405,7 @@ export const COMMANDS: readonly CommandEntry[] = [
     category: "infra",
     kind: "tool",
     target: "tools/auto-deploy-fleet.ts",
-    summary: "Deploy the self-hosted Auto server to the test and production hosts of ay.toml [hosts]",
+    summary: "Deploy the self-hosted Auto server to the test and production hosts of ay.local.toml [hosts]",
   },
   {
     name: "auto-openapi",
@@ -497,6 +497,13 @@ export const COMMANDS: readonly CommandEntry[] = [
     kind: "tool",
     target: "tools/cf-skills-index.ts",
     summary: "Regenerate the agent-skills discovery index served by apps/cf-gateway",
+  },
+  {
+    name: "cf-inventory",
+    category: "cloud",
+    kind: "tool",
+    target: "tools/cf-inventory.ts",
+    summary: "Read-only inventory of the Cloudflare account: Workers, routes, R2, D1, queues, KV, Durable Objects, Workflows and tunnels",
   },
   {
     name: "cf-tunnels",
