@@ -118,7 +118,7 @@ const self = config.repos?.[config.repo];
 // ---------------------------------------------------------------- Cargo
 
 type Member = { dir: string; name: string; version?: string; publish: boolean; manifest: any };
-const globToRegExp = (glob: string) => new RegExp(`^${glob.split("*").map((s) => s.replace(/[.+?^${}()|[\]\\]/g, "\\$&")).join("[^/]*")}$`);
+const globToRegExp = (glob: string) => new RegExp(`^${glob.split("**").map((part) => part.split("*").map((s) => s.replace(/[.+?^${}()|[\]\\]/g, "\\$&")).join("[^/]*")).join(".*")}$`);
 function members(): Member[] {
   const cargo = config.cargo;
   if (!cargo?.members) return [];

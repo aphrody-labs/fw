@@ -156,6 +156,11 @@ workspaces = [
 ]
 # Own lockfile and deploy unit (wrangler); skill templates and references that are copied out, never installed from here.
 exclude = [
+    # imported repositories keep their own workspaces until their unification step
+    "aphrody",
+    "aphrody/**",
+    "ay",
+    "ay/**",
     "cloudflare/material-cdn",
     "plugins/aphrody/skills/3dviz-pro-max/templates/scaffold-vite-threejs",
     "plugins/aphrody/skills/stitch/references/react-components",
@@ -190,7 +195,7 @@ why = "links @aphrody/ay-env-kit from ay"
 [uv]
 members = ["python/hermes_agent_memory", "crates/fw-agent-context"]
 # research_ref needs Python >=3.14 (a workspace has one requires-python, the intersection, and the root pins 3.12); tools/google has its own lock.
-exclude = ["python/research_ref", "tools/google"]
+exclude = ["python/research_ref", "tools/google", "aphrody", "aphrody/**", "ay", "ay/**"]
 
 [gradle]
 root = "core/kotlin"
@@ -565,3 +570,14 @@ why = "uv workspace members live in python/*, not under a Bun package"
 from = "packages/ai-os/native"
 to = "dotnet"
 why = ".NET projects get one root with Directory.Build.props, Directory.Packages.props (central package management) and a .slnx"
+
+[[area]]
+path = "aphrody"
+decision = "keep"
+why = "the Zed fork, imported with its full history under one prefix so `git merge -X subtree=aphrody zed-industries/zed` keeps following upstream; its internal layout is upstream Zed's (crates, assets, extensions, script, tooling)"
+
+[[area]]
+path = "ay"
+decision = "keep"
+why = "the SDK, cloud and edge repository, imported with its full history; its crates, packages, apps, kotlin and python roots fold into the workspaces of this repository step by step (layout.toml moves)"
+

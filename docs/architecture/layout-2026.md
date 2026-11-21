@@ -54,9 +54,20 @@ Scratch clones of fw, aphrody and ay on fr1 (`/srv/xbuild/scratch/layout-proof`,
 Equivalence of the adoption itself: `cargo metadata` (every dependency with kind, requirement or path, features, default-features, source) before and after `layout.ts sync` and `fix` is identical in all three repositories (fw 1,678 lines, aphrody 9,008, ay 896).
 A renamed package whose importers use the library name needs the `[lib] name` kept; an alias key changes the extern crate name to the key, which is why the rename above keeps `[lib] name = "fw_secrets"`.
 
+## One repository: aphrody and ay inside fw
+
+fw is the monorepo and the stack root. aphrody and ay were imported on 2026-11-21 with their full history (`bun tools/monorepo/import.ts`: `git filter-repo --to-subdirectory-filter`, then a merge of the unrelated histories; fw 390, aphrody 41,072 and ay 256 commits, 41,721 after the merge).
+
+Decisions and reasons:
+
+1. Prefixes `aphrody/` and `ay/`, not flattened into the ecosystem roots yet. `git merge -X subtree=aphrody zed-industries/zed` needs the whole Zed tree under one prefix, so aphrody keeps its upstream shape (crates, assets, extensions, script, tooling). ay shares directory names with fw (apps, packages, tools, docs, config, kotlin, python); folding them into the roots is a sequence of measured `layout.ts move` steps after the workspaces are one, not part of the import.
+2. One workspace per ecosystem at the root, members from all three origins: Cargo `crates/*`, `aphrody/crates/*`, `ay/crates/*` (tools/monorepo/unify.ts, decisions in unify.toml); Bun `apps/*`, `packages/*` and the ay packages and apps; uv `python/*` and `ay/python/*`; one Gradle build in `kotlin/` including `ay/kotlin/aphrody-theme`. Until each step lands, the imported tree is listed under `exclude` of that ecosystem in layout.toml, with its own workspace and lockfile untouched.
+3. One CI, one release workflow driven by `release.toml` and `tools/release-plan.ts` (from ay), one place for secrets. Workflows of the imported trees under `aphrody/.github` and `ay/.github` do not run (GitHub reads only the root `.github`); their jobs move to the root workflows in gated batches.
+4. Zed keeps following upstream through the prefix: the hourly sync merges `upstream/main` with `-X subtree=aphrody` and the deterministic conflict resolver of `aphrody/tooling/bun/upstream-sync.ts`, ported to the prefix.
+
 ## Decision for every tracked path
 
-<!-- layout:begin generated (bun tools/layout.ts doc, from layout.toml and git ls-files of 4905 paths) -->
+<!-- layout:begin generated (bun tools/layout.ts doc, from layout.toml and git ls-files of 16595 paths) -->
 
 ### Every tracked path, by area
 
@@ -76,8 +87,10 @@ A renamed package whose importers use the library name needs the `[lib] name` ke
 | `.python-version` | 1 | keep | uv reads the Python project, workspace and pin from the root |
 | `.rgignore` | 1 | keep | editors and search/lint tools discover their config upward from the root |
 | `AGENTS.md` | 1 | keep | agent rules and the style contract; agents load them from the root |
+| `aphrody` | 9754 | keep | the Zed fork, imported with its full history under one prefix so `git merge -X subtree=aphrody zed-industries/zed` keeps following upstream; its internal layout is upstream Zed's (crates, assets, extensions, script, tooling) |
 | `apps` | 46 | keep | Bun workspaces convention: deployable apps live in apps/* |
 | `apps/chromium-dash` | 9 | keep | Bun workspace members belong in apps/*, not nested in a Rust crate |
+| `ay` | 1896 | keep | the SDK, cloud and edge repository, imported with its full history; its crates, packages, apps, kotlin and python roots fold into the workspaces of this repository step by step (layout.toml moves) |
 | `bun.lock` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `bunfig.toml` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `Cargo.lock` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
@@ -89,10 +102,10 @@ A renamed package whose importers use the library name needs the `[lib] name` ke
 | `core` | 19 | keep | single-file native cores, one directory per language (asm, c, cuda, go, java, wasm, webgpu, py) |
 | `core/kotlin` | 22 | move -> `kotlin` (blocked) | a Gradle build has one root with settings.gradle.kts, a version catalog and the wrapper; ay uses kotlin/ at the top level Blocked: settings.gradle.kts reads ../../product.toml, tools/kotlin-check.ts and the Kotlin CI job name core/kotlin; moves with its own gate (gradle build on a host with the Android SDK) |
 | `cpp` | 4 | keep | CMake projects get their own top-level root with CMakePresets.json (ay already uses cpp/) |
-| `crates` | 1145 | keep | Cargo convention: flat crates/* members, one directory per crate |
+| `crates` | 1168 | keep | Cargo convention: flat crates/* members, one directory per crate |
 | `deny.toml` | 1 | keep | Cargo and the Rust toolchain read these from the workspace root |
 | `Dockerfile` | 1 | keep | Docker tooling reads these from the build context root |
-| `docs` | 273 | keep | documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract |
+| `docs` | 274 | keep | documentation tree; docs/crates is generated catalog data, docs/architecture holds the layout contract |
 | `dotnet` | 6 | keep | .NET projects get one root with Directory.Build.props, Directory.Packages.props (central package management) and a .slnx |
 | `flake.nix` | 1 | keep | Nix flakes and legacy entry points are looked up at the root |
 | `fw.soul.json` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
@@ -107,7 +120,7 @@ A renamed package whose importers use the library name needs the `[lib] name` ke
 | `nix` | 5 | keep | NixOS modules and host definitions referenced by flake.nix |
 | `os` | 28 | keep | operating-system crates and images outside the hosted workspace (own targets) |
 | `package.json` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
-| `packages` | 531 | keep | Bun workspaces convention: libraries in packages/* |
+| `packages` | 546 | keep | Bun workspaces convention: libraries in packages/* |
 | `packages/chromium` | 7 | keep | Bun workspace members belong in packages/*, not nested in a Rust crate |
 | `packages/chromium-releases` | 40 | keep | Bun workspace members belong in packages/*, not nested in a Rust crate |
 | `plugins` | 2492 | keep | the Claude plugin source tree; its layout (skills/, agents/, hooks/) is fixed by the plugin format |
@@ -121,7 +134,7 @@ A renamed package whose importers use the library name needs the `[lib] name` ke
 | `tests` | 16 | move -> `packages/fw/test` (blocked) | tests move with the package they test Blocked: moves together with src |
 | `third_party` | 5 | keep | gitlinks to the kernel sources the kernel lot builds (update = none, shallow) |
 | `THIRD_PARTY_NOTICES.md` | 1 | keep | repository front matter and legal files, read by GitHub and package registries at the root |
-| `tools` | 54 | keep | repository scripts (Bun) with their own tests; one script per task |
+| `tools` | 55 | keep | repository scripts (Bun) with their own tests; one script per task |
 | `tsconfig.json` | 1 | keep | Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root |
 | `upstreams.toml` | 1 | keep | declarative product, naming, release and layout configuration: the single root source other files are derived from |
 | `uv.lock` | 1 | keep | uv reads the Python project, workspace and pin from the root |

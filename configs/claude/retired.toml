@@ -34,6 +34,15 @@ reason = "the check names the terms it rejects"
 
 # Vendored upstream text and generated data that use the same words for unrelated things.
 [[allow]]
+paths = ["ay/**"]
+terms = ["agy-tooling", "relay-hub", "fr2-host"]
+reason = "ay was imported with its history on 2026-11-21 and still names the retired surfaces; the agy retirement lot removes them from ay/ and deletes this entry"
+
+[[allow]]
+paths = ["aphrody/**"]
+reason = "the Zed fork: upstream Zed source and docs use the same words for unrelated things (relay, agy as an identifier prefix)"
+
+[[allow]]
 paths = [
   "plugins/aphrody/skills/gemini-api/references/**",
   "plugins/aphrody/skills/stitch/references/**",

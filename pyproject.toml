@@ -19,11 +19,11 @@ exclude-newer = "7 days"
 
 [tool.ruff]
 src = ["core/py", "tests"]
-exclude = ["packages", "plugin", "plugins", "native", "dist", "cloudflare", "vercel"]
+exclude = ["packages", "python", "plugin", "plugins", "native", "dist", "cloudflare", "vercel", "aphrody", "ay"]
 
 [tool.ruff.lint]
 ignore = ["B023", "BLE001", "TRY002", "SIM117"]
 
 [tool.uv.workspace]
 members = ["python/hermes_agent_memory", "crates/fw-agent-context"]
-exclude = ["python/research_ref", "tools/google"]
+exclude = ["python/research_ref", "tools/google", "aphrody", "aphrody/**", "ay", "ay/**"]
