@@ -78,3 +78,4 @@ cargo deny check licenses
 - [references/crates-io.md](references/crates-io.md): crates.io sparse index paths, live REST API, publishing checklist.
 - [references/compiler-toolchain.md](references/compiler-toolchain.md): pinned Chromium nightly (rust-toolchain.toml), linker-plugin LTO with clang/lld, windows-rs.
 - [references/monorepo-tooling.md](references/monorepo-tooling.md): jj, gix, just, sccache, nextest, binstall, xwin, xtask.
+- [references/corpus-rust-cargo.md](references/corpus-rust-cargo.md): resolver versions, target tiers, cargo-zigbuild, cargo-xwin, xwin, cross and LLVM cross-compilation facts, cited from the `fw-corpus` stores (`corpus` skill).

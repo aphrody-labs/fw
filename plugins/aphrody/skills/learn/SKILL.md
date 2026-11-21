@@ -12,7 +12,7 @@ description: "Local autonomous learning in fw: harvest git history, the code gra
 - `fw learn status`: corpus counts and the dataset root.
 - `fw learn harvest`: add git history, the code graph and docs to the corpus.
 - `fw learn distill`: write `rules/learned-auto.md` from the corpus.
-- `fw learn search <words>`: search first, before re-deriving a known fact.
+- `fw learn search <words>`: search first, before re-deriving a known fact. The reply carries `corpusHits` from the docs corpus (`fw-corpus`, skill `corpus`) next to the code and history hits.
 - `fw learn loop`: continuous harvest and distill; `fw learn systemd` prints a hardened unit for a VPS (the loop runs on fr1).
 - MCP tool `fw_learn` (plugin server `fw`) exposes the same actions.
 
