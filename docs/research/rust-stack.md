@@ -19,7 +19,7 @@ Sources read live:
 
 | name | kind | version | downloads | seen in | fw | purpose and reason |
 |---|---|---|---|---|---|---|
-| [cargo-nextest](https://crates.io/crates/cargo-nextest) | tool | 0.9.152 | 14.0M | blessed.rs, awesome-rust | used | parallel test runner, per-test process, JUnit and retries: rust-audit test step runs the workspace under nextest; the baseline run of 2026-11-21 was killed by SIGTERM (rc 143) under fr1 load, so no wall-time comparison with cargo test is recorded |
+| [cargo-nextest](https://crates.io/crates/cargo-nextest) | tool | 0.9.152 | 14.0M | blessed.rs, awesome-rust | used | parallel test runner, per-test process, JUnit and retries: rust-audit test step runs the workspace under nextest; on 10 member crates (190 tests) it takes 1.91 s and 1.95 s wall against 2.41 s and 2.30 s for cargo test (193 with 3 doctests); the full-workspace baseline run was killed by SIGTERM (rc 143) under fr1 load and is not recorded |
 | [cargo-mutants](https://crates.io/crates/cargo-mutants) | tool | 27.1.0 | 996k | awesome-rust | adopt | mutation testing of the test suite: run on demand |
 | [cargo-llvm-cov](https://crates.io/crates/cargo-llvm-cov) | tool | 0.9.2 | 9.4M |  | adopt | LLVM source based coverage: already installed on the PC |
 | [cargo-miri](https://crates.io/crates/cargo-miri) | tool | 0.0.0 | 5k |  | adopt | UB checker for unsafe code (rustup component miri): already installed on the PC |
