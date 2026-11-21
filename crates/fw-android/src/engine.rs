@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use std::fs;
 use std::io::Read;
 use std::os::fd::OwnedFd;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use libcontainer::container::builder::ContainerBuilder;
 use libcontainer::container::tenant_builder::TenantContainerBuilder;
@@ -124,7 +124,36 @@ pub fn stop(state: &State) -> Result<(), String> {
             std::thread::sleep(std::time::Duration::from_millis(100));
         }
     }
+    remove_cgroup_tree(Path::new(CGROUP_ROOT));
     container.delete(true).map_err(|cause| error("delete container", cause))
+}
+
+const CGROUP_ROOT: &str = "/sys/fs/cgroup/fw-android/guest";
+
+/// Android's init creates uid_/pid_ groups below the container's cgroup; the runtime can only remove an empty tree.
+fn remove_cgroup_tree(root: &Path) {
+    if !root.is_dir() {
+        return;
+    }
+    if fs::write(root.join("cgroup.kill"), "1").is_err() {
+        return;
+    }
+    for _ in 0..50 {
+        if fs::read_to_string(root.join("cgroup.procs")).map(|text| text.trim().is_empty()).unwrap_or(true) {
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(100));
+    }
+    fn remove_below(directory: &Path) {
+        for entry in fs::read_dir(directory).into_iter().flatten().flatten() {
+            let path = entry.path();
+            if path.is_dir() {
+                remove_below(&path);
+                let _removed = fs::remove_dir(&path);
+            }
+        }
+    }
+    remove_below(root);
 }
 
 pub struct Output {
