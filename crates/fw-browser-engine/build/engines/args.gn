@@ -1,0 +1,21 @@
+# V8, Skia and the libc++ they need, from the Chromium checkout: official optimized build.
+# Chromium ships ThinLTO (its only native LTO mode). The security features keep Chromium's defaults (V8 sandbox, pointer compression, CFI):
+# an engine that renders untrusted content ships them on, and the Rust host calls in through the C ABI, which they do not touch.
+is_official_build = true
+is_debug = false
+is_component_build = false
+dcheck_always_on = false
+symbol_level = 0
+blink_symbol_level = 0
+v8_symbol_level = 0
+use_thin_lto = true
+chrome_pgo_phase = 0
+treat_warnings_as_errors = false
+use_custom_libcxx = true
+v8_use_external_startup_data = false
+enable_remoting = false
+enable_widevine = false
+use_cups = false
+use_pulseaudio = false
+use_vaapi = false
+v8_monolithic = true

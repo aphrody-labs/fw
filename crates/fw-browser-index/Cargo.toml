@@ -1,0 +1,20 @@
+[package]
+name = "browser-index"
+version.workspace = true
+edition.workspace = true
+publish = false
+license = "Apache-2.0"
+description = "HNSW approximate nearest-neighbour index with scalar int8 quantisation and mmap persistence. Legacy published name: browser_index."
+
+[package.metadata.browser]
+native = true
+
+[dependencies]
+memmap2 = "0.9.12"
+parking_lot = "0.12"
+serde = { version = "1.0.229", features = ["derive", "std"] }
+serde_json = { version = "1.0.154", features = ["std"] }
+thiserror = "2"
+
+[lints]
+workspace = true

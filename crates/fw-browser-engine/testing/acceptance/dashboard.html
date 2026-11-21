@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>browser acceptance</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #fafafa;
+        --fg: #1b1b1f;
+        --mut: #6b6b76;
+        --line: #e2e2e8;
+        --card: #fff;
+        --ok: #1a7f37;
+        --warn: #9a6700;
+        --bad: #cf222e;
+        --info: #0969da;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0e0e11;
+          --fg: #ececf1;
+          --mut: #9a9aa6;
+          --line: #26262d;
+          --card: #16161b;
+          --ok: #3fb950;
+          --warn: #d29922;
+          --bad: #f85149;
+          --info: #58a6ff;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          14px/1.45 ui-sans-serif,
+          system-ui,
+          sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+      }
+      header {
+        display: flex;
+        gap: 16px;
+        align-items: baseline;
+        padding: 14px 24px;
+        border-bottom: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      header h1 {
+        font-size: 16px;
+        margin: 0;
+      }
+      main {
+        padding: 16px 24px 48px;
+        display: grid;
+        gap: 16px;
+        max-width: 1500px;
+        margin: auto;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px 16px;
+        overflow-x: auto;
+      }
+      section h2 {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--mut);
+        margin: 0 0 8px;
+      }
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-variant-numeric: tabular-nums;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 4px 10px 4px 0;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        white-space: nowrap;
+      }
+      th {
+        color: var(--mut);
+        font-weight: 500;
+        font-size: 12px;
+      }
+      td.wrap {
+        white-space: normal;
+        word-break: break-all;
+      }
+      .num {
+        text-align: right;
+      }
+      .pill {
+        display: inline-block;
+        padding: 0 7px;
+        border-radius: 9px;
+        font-size: 12px;
+        border: 1px solid currentColor;
+      }
+      .pass,
+      .ok,
+      .done {
+        color: var(--ok);
+      }
+      .fail,
+      .bad {
+        color: var(--bad);
+      }
+      .refused,
+      .auth,
+      .consent,
+      .warn {
+        color: var(--warn);
+      }
+      .info,
+      .running {
+        color: var(--info);
+      }
+      .mut {
+        color: var(--mut);
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        display: inline-block;
+        background: var(--bad);
+        margin-right: 6px;
+      }
+      .dot.on {
+        background: var(--ok);
+      }
+      .cell {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .cell img {
+        width: 88px;
+        height: 55px;
+        object-fit: cover;
+        object-position: top;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--line);
+      }
+      #events {
+        max-height: 220px;
+        overflow-y: auto;
+        font:
+          12px ui-monospace,
+          monospace;
+      }
+      #events div {
+        padding: 1px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      svg.spark {
+        width: 110px;
+        height: 22px;
+        vertical-align: middle;
+      }
+      a {
+        color: var(--info);
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>browser acceptance</h1>
+      <span id="live"><i class="dot"></i>connecting</span><span id="meta" class="mut"></span>
+    </header>
+    <main>
+      <div class="grid">
+        <section id="net"></section>
+        <section id="engines"></section>
+      </div>
+      <section id="upstreams"></section>
+      <section id="lessons"></section>
+      <section id="bench"></section>
+      <section id="matrix"></section>
+      <section>
+        <h2>Events</h2>
+        <div id="events"></div>
+      </section>
+    </main>
+    <script type="module">
+      const $ = (id) => document.getElementById(id);
+      // Page titles, errors and versions come from third parties: everything goes through text nodes, never innerHTML.
+      const h = (tag, props, ...kids) => {
+        const el = document.createElement(tag);
+        for (const [k, v] of Object.entries(props ?? {}))
+          k === "class" ? (el.className = v) : v != null && el.setAttribute(k, v);
+        for (const kid of kids.flat())
+          if (kid != null && kid !== false) el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+        return el;
+      };
+      const pill = (text, cls) => h("span", { class: `pill ${cls ?? text}` }, text);
+      const ago = (iso) => {
+        if (!iso) return "-";
+        const s = (Date.now() - Date.parse(iso)) / 1000;
+        return s < 90
+          ? `${Math.round(s)} s ago`
+          : s < 5400
+            ? `${Math.round(s / 60)} min ago`
+            : s < 129600
+              ? `${Math.round(s / 3600)} h ago`
+              : `${Math.round(s / 86400)} d ago`;
+      };
+      const fmt = (n, d = 1) => (n == null ? "-" : Number(n).toFixed(d));
+      const table = (head, rows) =>
+        h(
+          "table",
+          {},
+          h(
+            "thead",
+            {},
+            h(
+              "tr",
+              {},
+              head.map((c) => h("th", { class: c.startsWith("#") ? "num" : "" }, c.replace(/^#/, ""))),
+            ),
+          ),
+          h("tbody", {}, rows),
+        );
+      const tr = (...cells) =>
+        h(
+          "tr",
+          {},
+          cells.map((c) => (c?.nodeType && c.tagName === "TD" ? c : h("td", {}, c))),
+        );
+      const spark = (values) => {
+        const v = values.filter((x) => x != null);
+        if (v.length < 2) return h("span", { class: "mut" }, "-");
+        const [lo, hi] = [Math.min(...v), Math.max(...v)],
+          w = 110,
+          hh = 22;
+        const pts = v
+          .map((x, i) => `${(i / (v.length - 1)) * w},${hh - 2 - ((x - lo) / (hi - lo || 1)) * (hh - 4)}`)
+          .join(" ");
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "spark");
+        svg.setAttribute("viewBox", `0 0 ${w} ${hh}`);
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+        line.setAttribute("points", pts);
+        line.setAttribute("fill", "none");
+        line.setAttribute("stroke", "currentColor");
+        line.setAttribute("stroke-width", "1.5");
+        svg.append(line);
+        return svg;
+      };
+
+      function renderNet(s) {
+        const n = s.net,
+          el = $("net");
+        el.replaceChildren(h("h2", {}, `Published: ${s.host}`));
+        if (!n) return el.append(h("div", { class: "mut" }, "not probed yet"));
+        const kv = (k, v, cls) => tr(h("span", { class: "mut" }, k), cls ? h("span", { class: cls }, v) : v);
+        const https = n.dns.https.map((r) => `${r.priority} ${r.target} alpn=${r.alpn.join(",")}`).join("; ");
+        const h3 =
+          n.h3.verified === true
+            ? ["verified" + (n.h3.via ? ` (${n.h3.via})` : ""), "ok"]
+            : n.h3.verified === false
+              ? [`advertised, not negotiated: ${n.h3.error ?? ""}`, "bad"]
+              : n.h3.advertised
+                ? ["advertised, not verified here", "warn"]
+                : ["not advertised", "bad"];
+        el.append(
+          table(
+            ["", ""],
+            [
+              kv(
+                "DNS A / AAAA",
+                [...n.dns.a, ...n.dns.aaaa].join(", ") || "none",
+                n.dns.a.length || n.dns.aaaa.length ? "" : "bad",
+              ),
+              kv("DNS CNAME", n.dns.cname.join(", ") || "-"),
+              kv("DNS HTTPS record", https || "none", https ? "" : "warn"),
+              kv("name servers", n.dns.ns.join(", ") || "-"),
+              kv(
+                "TLS",
+                n.tls.error ? n.tls.error : `${n.tls.protocol}  ${n.tls.cipher}  ALPN ${n.tls.alpn}  ${n.tls.ms} ms`,
+                n.tls.error ? "bad" : "",
+              ),
+              kv(
+                "certificate",
+                n.tls.subject ? `${n.tls.subject}, ${n.tls.issuer}, ${n.tls.days_left} days left` : "-",
+                n.tls.days_left != null && n.tls.days_left < 14 ? "bad" : "",
+              ),
+              kv(
+                "HTTP",
+                n.http.error
+                  ? n.http.error
+                  : `${n.http.status}  ${n.http.server ?? ""}  ray ${n.http.ray ?? "-"}  ${n.http.ms} ms`,
+                n.http.error ? "bad" : "",
+              ),
+              kv("Alt-Svc", n.http.alt_svc ?? "-"),
+              kv("HSTS", n.http.hsts ?? "-"),
+              kv("HTTP/3", h3[0], h3[1]),
+              kv("probed", ago(n.at)),
+            ].map((r) => r),
+          ),
+        );
+      }
+
+      function renderEngines(s) {
+        const el = $("engines"),
+          run = s.run;
+        el.replaceChildren(
+          h("h2", {}, run ? `Run ${run.stamp} ${run.finished ? (run.ok ? "ok" : "FAILED") : "running"}` : "Run"),
+        );
+        if (!run) return el.append(h("div", { class: "mut" }, "no run recorded"));
+        el.append(
+          table(
+            ["engine", "role", "version", "origin", "#pass", "#auth", "#refused", "#fail", "#load ms", "#RSS MiB"],
+            run.engines.map((e) =>
+              tr(
+                e.id,
+                e.role,
+                e.version,
+                e.origin,
+                e.counts.pass,
+                e.counts.auth + e.counts.consent,
+                e.counts.refused,
+                h("span", { class: e.counts.fail ? "fail" : "" }, e.counts.fail),
+                fmt(e.median_ms, 0),
+                fmt(e.peak_rss_mib),
+              ),
+            ),
+          ),
+        );
+        const feats = run.engines.filter((e) => Object.keys(e.features).length);
+        for (const e of feats)
+          el.append(
+            h(
+              "div",
+              { class: "mut" },
+              `${e.id}: ` +
+                Object.entries(e.features)
+                  .filter(([k]) => k !== "ua")
+                  .map(([k, v]) => `${k} ${v}`)
+                  .join(", "),
+            ),
+          );
+        const par = run.parity;
+        if (par.length)
+          el.append(h("p", {}, `lite is enough for ${par.filter((p) => p.sufficient).length} of ${par.length} pages`));
+        for (const line of run.regressions) el.append(h("div", { class: "bad" }, `regression ${line}`));
+      }
+
+      function renderUpstreams(s) {
+        const el = $("upstreams");
+        el.replaceChildren(h("h2", {}, "Upstream evolution (engines, JS engines, crates, tools)"));
+        el.append(
+          table(
+            [
+              "name",
+              "kind",
+              "version",
+              "version date",
+              "head",
+              "head date",
+              "#behind our pin",
+              "last change",
+              "history",
+            ],
+            s.upstreams.map((u) => {
+              const t = u.snapshot,
+                ch = u.history.find(
+                  (x, i) =>
+                    u.history[i + 1] && JSON.stringify(x.snapshot) !== JSON.stringify(u.history[i + 1].snapshot),
+                );
+              return tr(
+                h("a", { href: t.source }, t.name),
+                t.kind,
+                t.error ? h("span", { class: "bad" }, t.error) : (t.version ?? "-"),
+                t.version_date?.slice(0, 10) ?? "-",
+                t.head?.slice(0, 10) ?? "-",
+                t.head_date?.slice(0, 10) ?? "-",
+                t.behind ?? "-",
+                ago(ch?.at ?? u.history.at(-1)?.at),
+                spark(
+                  u.history
+                    .slice()
+                    .reverse()
+                    .map((x) => x.snapshot.behind),
+                ),
+              );
+            }),
+          ),
+        );
+      }
+
+      function renderLessons(s) {
+        const el = $("lessons");
+        el.replaceChildren(h("h2", {}, "Learned: where an engine fell short of the full one (the router's data)"));
+        el.append(
+          s.lessons.length
+            ? table(
+                ["host", "engine", "kind", "#runs", "since", "detail"],
+                s.lessons.map((l) => tr(l.host, l.engine, pill(l.kind, "warn"), l.runs, l.first_run, l.detail)),
+              )
+            : h("div", { class: "mut" }, "nothing learned yet"),
+        );
+      }
+
+      function renderBench(s) {
+        const el = $("bench");
+        el.replaceChildren(h("h2", {}, "Benchmarks (hyperfine cold start, JetStream)"));
+        const groups = Map.groupBy(s.bench, (b) => `${b.suite} ${b.engine} ${b.target}`);
+        const rows = [...groups.values()].map((list) => {
+          const b = list[0],
+            r = b.result,
+            series = list.slice().reverse();
+          return b.suite === "jetstream"
+            ? tr(
+                "JetStream",
+                b.engine,
+                b.version,
+                b.target,
+                r.error ? h("span", { class: "bad" }, r.error) : fmt(r.score, 2),
+                "",
+                "",
+                ago(b.at),
+                spark(series.map((x) => x.result.score)),
+              )
+            : tr(
+                "cold start",
+                b.engine,
+                b.version,
+                b.target,
+                `${fmt(r.mean_s * 1000)} ms ± ${fmt((r.stddev_s ?? 0) * 1000)}`,
+                `${r.runs} runs`,
+                `${fmt(r.tree_rss_mib)} MiB`,
+                ago(b.at),
+                spark(series.map((x) => x.result.mean_s)),
+              );
+        });
+        el.append(
+          rows.length
+            ? table(["suite", "engine", "version", "target", "result", "runs", "tree RSS", "when", "trend"], rows)
+            : h("div", { class: "mut" }, "no benchmark recorded"),
+        );
+      }
+
+      function renderMatrix(s) {
+        const el = $("matrix"),
+          run = s.run;
+        el.replaceChildren(
+          h(
+            "h2",
+            {},
+            run ? `Pages (${run.corpus.length}, ${new Set(run.corpus.map((c) => c.host)).size} hosts)` : "Pages",
+          ),
+        );
+        if (!run) return;
+        el.append(
+          table(
+            ["page", ...run.engines.map((e) => e.id), "title"],
+            run.corpus.map((site, i) => {
+              const cells = run.engines.map((e) => {
+                const p = e.pages[i];
+                if (!p) return h("td", { class: "mut" }, "…");
+                return h(
+                  "td",
+                  {},
+                  h(
+                    "div",
+                    { class: "cell" },
+                    p.shot
+                      ? h(
+                          "a",
+                          { href: `/shots/${run.stamp}/${p.shot}`, target: "_blank" },
+                          h("img", { loading: "lazy", src: `/shots/${run.stamp}/${p.shot}`, alt: "" }),
+                        )
+                      : null,
+                    h(
+                      "div",
+                      {},
+                      pill(p.verdict),
+                      h("div", { class: "mut" }, `${p.status ?? "-"} ${p.protocol ?? ""} ${p.ms} ms ${p.elements} el`),
+                      p.reason ? h("div", { class: "mut" }, p.reason) : null,
+                    ),
+                  ),
+                );
+              });
+              const title = run.engines.map((e) => e.pages[i]?.title).find(Boolean);
+              return h(
+                "tr",
+                {},
+                h("td", { class: "wrap" }, h("a", { href: site.url }, site.url.replace(/^https:\/\//, ""))),
+                cells,
+                h("td", { class: "wrap" }, title ?? ""),
+              );
+            }),
+          ),
+        );
+      }
+
+      let state;
+      const render = () => {
+        renderNet(state);
+        renderEngines(state);
+        renderUpstreams(state);
+        renderLessons(state);
+        renderBench(state);
+        renderMatrix(state);
+        $("meta").textContent =
+          `store sqlite${state.store.redis ? " + " + state.store.redis : ""}, updated ${ago(state.generated)}`;
+      };
+      const load = async () => {
+        try {
+          state = await (await fetch("/api/state")).json();
+          render();
+        } catch (e) {
+          $("meta").textContent = String(e);
+        }
+      };
+      let pending;
+      const soon = () => {
+        clearTimeout(pending);
+        pending = setTimeout(load, 300);
+      };
+      const log = (e) => {
+        const box = $("events");
+        box.prepend(
+          h(
+            "div",
+            {},
+            h("span", { class: "mut" }, e.at.slice(11, 19) + " "),
+            h("b", {}, e.kind + " "),
+            JSON.stringify(e.data).slice(0, 220),
+          ),
+        );
+        while (box.children.length > 80) box.lastChild.remove();
+      };
+      const connect = () => {
+        const es = new EventSource("/api/events");
+        es.onopen = () => {
+          $("live").replaceChildren(h("i", { class: "dot on" }), "live");
+        };
+        es.onerror = () => {
+          $("live").replaceChildren(h("i", { class: "dot" }), "reconnecting");
+        };
+        for (const kind of [
+          "index",
+          "run",
+          "engine",
+          "page",
+          "front",
+          "bench",
+          "upstream",
+          "lessons",
+          "net",
+          "schedule",
+          "serve",
+        ])
+          es.addEventListener(kind, (m) => {
+            log(JSON.parse(m.data));
+            soon();
+          });
+      };
+      await load();
+      connect();
+      setInterval(load, 60000);
+    </script>
+  </body>
+</html>
