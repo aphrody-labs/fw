@@ -49,7 +49,6 @@ exclude = [
     "native/fw-kernel",
     "native/fw-world",
     "native/fw-abi",
-    "native/fw-agy",
     "packages",
     "crates/fw-edge",
 ]

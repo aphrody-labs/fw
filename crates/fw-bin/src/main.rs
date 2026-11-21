@@ -248,20 +248,22 @@ fn main() {
         "status" => {
             let hw = detect_hardware_profile();
             let cluster = HybridClusterRouter::default_hybrid_cluster();
+            // The node counts come from the cluster definition, so a host added or retired there shows up here.
+            let summary = cluster.summary();
             println!(
                 "{}",
                 serde_json::to_string_pretty(&json!({
                     "ok": true,
                     "product": "fw",
-                    "version": "3.0.0",
+                    "version": env!("CARGO_PKG_VERSION"),
                     "zeroSystemDeps": true,
                     "hardware": hw,
                     "cluster": {
                         "name": cluster.cluster_name,
-                        "gpuHosts": 4,
-                        "vpsProxyLbStorageCpuHosts": 3,
-                        "userWebGpuFpuPeers": 1,
-                        "router": "pingora + ai-dynamo + vllm-router",
+                        "gpuHosts": summary["gpuHosts"],
+                        "vpsProxyLbStorageCpuHosts": summary["vpsProxyLbStorageCpuHosts"],
+                        "userWebGpuFpuPeers": summary["userWebGpuFpuPeers"],
+                        "router": summary["router"],
                         "ggmlCompat": "ggml-org/ggml + llama.cpp GGUF v3 + ggml-rpc"
                     }
                 }))
