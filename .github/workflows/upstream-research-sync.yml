@@ -29,7 +29,6 @@ jobs:
               "googleapis/python-genai",
               "googleapis/js-genai",
               "google/adk-python",
-              "google-deepmind/robotics-antigravity-plugin",
               "google-deepmind/gemma",
               "a2aproject/A2A",
           ]
