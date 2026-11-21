@@ -3748,12 +3748,15 @@ dependencies = [
 name = "fw-drive"
 version = "4.2.0"
 dependencies = [
+ "async-trait",
  "axum",
  "blake3",
+ "bytes",
  "clap",
  "futures-util",
  "fw-http",
  "http-body-util",
+ "js-sys",
  "rusqlite",
  "serde",
  "serde_json",
