@@ -1,12 +1,14 @@
 ---
 name: design
-description: "Design and brand work: logo, brand identity and voice, corporate identity, banners and social images, HTML or Chart.js slide decks, design tokens and design-system specs, Tailwind and shadcn UI styling, UI/UX and accessibility reasoning, Material 3 and Google design guidance, and the Aphrody design package (Drive, Sheets, Slides, Figma)."
+description: "Design and brand work: logo, brand identity and voice, corporate identity, banners and social images, HTML or Chart.js slide decks, design tokens and design-system specs"
 argument-hint: "[design-type] [context]"
 license: MIT
 metadata:
   author: claudekit
   version: "2.1.0"
 ---
+> , Tailwind and shadcn UI styling, UI/UX and accessibility reasoning, Material 3 and Google design guidance, and the Aphrody design package (Drive, Sheets, Slides, Figma).
+
 # Design and brand
 
 `references/core.md` is the former body of this skill (logo, CIP, icons, social photos): read it first when the task is one of those, otherwise take the reference that matches.

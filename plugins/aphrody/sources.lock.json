@@ -57,7 +57,7 @@
     "modern-web": {
       "git": "local:plugins/modern-web",
       "ref": "",
-      "commit": "ca42b50121e8",
+      "commit": "40ff373a1b40",
       "license": "Apache-2.0"
     },
     "stitch-skills": {
