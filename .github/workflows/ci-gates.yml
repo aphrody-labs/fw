@@ -20,7 +20,7 @@ jobs:
     name: Retired surfaces and Claude config gate
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - name: Retired terms (configs/claude/retired.toml), config script tests, claude-bridge over stdio
         run: bun configs/claude/scripts/check.ts
@@ -38,7 +38,7 @@ jobs:
     name: Hardcoded colors, texts and icons (ratchet, tools/hardcoded.toml)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - name: No file holds more literal colors, user-facing strings or icon names than the baseline
         run: bun tools/hardcoded.ts --check
@@ -47,7 +47,7 @@ jobs:
     name: Layout map (crate homes, dependency direction, covered paths)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - name: layout.toml generates every manifest it owns, no stale or uncovered path
         run: bun tools/layout.ts check

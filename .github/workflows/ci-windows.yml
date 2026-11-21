@@ -18,7 +18,7 @@ jobs:
     name: Rust (windows-latest)
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
       # One Cargo workspace holds fw, aphrody/ and ay/; each origin has its own CI job (aphrody-ci.yml, ay-check.yml), this job gates fw's members.

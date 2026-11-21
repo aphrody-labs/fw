@@ -22,7 +22,7 @@ jobs:
     name: Rust (linux)
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
       # One Cargo workspace holds fw, aphrody/ and ay/; each origin has its own CI job (aphrody-ci.yml, ay-check.yml), this job gates fw's members.
@@ -46,7 +46,7 @@ jobs:
     name: Wasm32 + Linux musl + Alpine OCI
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/rust-toolchain
         with:
           targets: wasm32-unknown-unknown x86_64-unknown-linux-musl
@@ -64,7 +64,7 @@ jobs:
     name: crates.io Packaging
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/rust-toolchain
       - uses: Swatinem/rust-cache@v2
       - name: Verify publishable fw-* tarballs
@@ -75,7 +75,7 @@ jobs:
     name: Bun + Cloudflare Edge + Native ABI
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - uses: ./.github/actions/rust-toolchain
         with:
@@ -102,7 +102,7 @@ jobs:
     name: Kotlin + Compose Material 3 (theme from ay/kotlin)
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -129,7 +129,7 @@ jobs:
     name: Python + Repo Map & Purity
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v5
       - uses: oven-sh/setup-bun@v2
       - name: Python lint & tests
@@ -145,7 +145,7 @@ jobs:
     name: Rust hygiene (deny, machete, shear, rust-stack)
     runs-on: ${{ github.event_name == 'pull_request' && 'ubuntu-latest' || 'cluster' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - uses: ./.github/actions/rust-toolchain
       - uses: taiki-e/install-action@v2
