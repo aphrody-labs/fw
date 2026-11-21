@@ -404,7 +404,7 @@ dependencies = [
 
 [[package]]
 name = "fw-drive"
-version = "2026.11.0"
+version = "5.362.0"
 dependencies = [
  "async-trait",
  "axum",
@@ -420,7 +420,7 @@ dependencies = [
 
 [[package]]
 name = "fw-edge"
-version = "2026.11.0"
+version = "5.362.0"
 dependencies = [
  "async-trait",
  "axum",

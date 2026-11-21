@@ -1,6 +1,6 @@
 [plugin]
 name = "vllm-fw"
-version = "2026.11.0"
+version = "5.362.0"
 description = "Fw native vLLM general plugin and KVConnectorBase_V1 adapter for PagedAttention/NIXL -> fw-cluster & fw bench"
 protocol = "vllm.general_plugins"
 entrypoint = "fw_vllm_plugin:register"

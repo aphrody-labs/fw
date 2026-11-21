@@ -1,6 +1,6 @@
 [plugin]
 name = "llmd-fw"
-version = "2026.11.0"
+version = "5.362.0"
 description = "Fw native llm-d Endpoint Picker (EPP) prefix-cache, KV-load, and disaggregated P/D scorer aligned with fw-cluster"
 protocol = "llm-d.ai/v1/EndpointPickerConfig"
 entrypoint = "fw_llmd_scorer:score_endpoints"

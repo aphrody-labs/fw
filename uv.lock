@@ -983,7 +983,7 @@ http = [
 
 [[package]]
 name = "fw"
-version = "2026.11.0"
+version = "5.362.0"
 source = { virtual = "." }
 
 [package.optional-dependencies]

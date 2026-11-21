@@ -2,7 +2,7 @@
 name = "fw"
 display_name = "fw"
 binary = "fw"
-version = "2026.11.0"
+version = "5.362.0"
 crate_prefix = "fw-"
 license = "MIT"
 organization = "aphrody-labs"

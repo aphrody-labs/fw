@@ -1,7 +1,7 @@
 [package]
 name = "fw-edge"
 description = "The single Cloudflare Worker fw-edge (fw.aphrody.com) in Rust: Edge OS routes, AI gateway, MCP/ACP/A2A, the Drive CDN and fw-drive on D1 + R2, built with workers-rs"
-version = "2026.11.0"
+version = "5.362.0"
 edition = "2024"
 rust-version = "1.100"
 license = "MIT"
