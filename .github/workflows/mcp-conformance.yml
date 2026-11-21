@@ -1,0 +1,64 @@
+name: MCP conformance
+
+# The official MCP conformance suite (pinned in tools/mcp-conformance/suite.json) against the fixture catalog, and every
+# tool of `fw mcp` and `fw serve` called with a valid and an invalid payload over both transports.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "crates/fw-proto/**"
+      - "crates/fw-bin/**"
+      - "crates/fw-fx/**"
+      - "crates/fw-crates/**"
+      - "crates/fw-hermes-claw/**"
+      - "tools/mcp-conformance/**"
+      - ".github/workflows/mcp-conformance.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/fw-proto/**"
+      - "crates/fw-bin/**"
+      - "crates/fw-fx/**"
+      - "crates/fw-crates/**"
+      - "crates/fw-hermes-claw/**"
+      - "tools/mcp-conformance/**"
+      - ".github/workflows/mcp-conformance.yml"
+
+concurrency:
+  group: fw-mcp-conformance-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    name: Conformance (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: ./.github/actions/rust-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - name: Protocol tests
+        run: cargo test --locked -p fw-proto
+      - name: Build fw and the fixture server
+        run: |
+          cargo build --locked -p fw-bin --bin fw
+          cargo build --locked -p fw-proto --example mcp_fixture_server
+      - name: Official suite and tool-by-tool tests
+        env:
+          FW_ROOT: ${{ github.workspace }}
+        run: |
+          bun tools/mcp-conformance/run.ts \
+            --fw target/debug/fw \
+            --fixture target/debug/examples/mcp_fixture_server \
+            --out target/mcp-conformance \
+            --write-report target/mcp-conformance/report.md
+      - name: Keep the logs, transcripts and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcp-conformance
+          path: target/mcp-conformance
+          if-no-files-found: warn

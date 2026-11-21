@@ -1,0 +1,11 @@
+# Scenarios of the earlier, session-scoped protocol versions that need what 2026-07-28 removed:
+# - sampling and elicitation requests the server sends to the client on an open stream (replaced by multi round-trip
+#   requests, which `fw` and the fixture implement);
+# - Mcp-Session-Id sessions and resumable or multiple SSE streams (`Last-Event-ID`); a 2026-07-28 server answers GET with 405.
+server:
+  - tools-call-sampling
+  - tools-call-elicitation
+  - elicitation-sep1034-defaults
+  - elicitation-sep1330-enums
+  - server-sse-polling
+  - server-sse-multiple-streams

@@ -111,9 +111,39 @@ jobs:
           path: dist/${{ matrix.asset }}
           if-no-files-found: error
 
+  mcp-gate:
+    name: MCP conformance of the release binary
+    needs: [build-artifacts]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: ./.github/actions/rust-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-fw-x86_64-linux-musl
+          path: dist
+      - name: Build the fixture server of this commit
+        run: cargo build --locked -p fw-proto --example mcp_fixture_server
+      - name: Run the suite against the release binary
+        env:
+          FW_ROOT: ${{ github.workspace }}
+        run: |
+          chmod +x dist/fw-x86_64-linux-musl
+          bun tools/mcp-conformance/run.ts \
+            --fw dist/fw-x86_64-linux-musl \
+            --fixture target/debug/examples/mcp_fixture_server \
+            --out target/mcp-conformance
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mcp-gate
+          path: target/mcp-conformance
+
   publish:
     name: Publish fw
-    needs: [meta, build-artifacts]
+    needs: [meta, build-artifacts, mcp-gate]
     permissions:
       contents: write
       id-token: write
