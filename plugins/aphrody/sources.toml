@@ -223,7 +223,7 @@ description = "Operate desktop apps on macOS, Windows and Linux through native a
 intro = "`references/core.md` is the platform-neutral guide; the platform references add per-OS details."
 children = ["agent-desktop-windows", "agent-desktop-linux", "agent-desktop-macos", "agent-desktop-ffi"]
 
-# Left out on purpose (not Claude or agy content, still live in this repository, referenced by code and tests):
+# Left out on purpose (not Claude content, still live in this repository, referenced by code and tests):
 #   plugins/hermes-fw, plugins/vllm-fw, plugins/llmd-fw: Python adapters loaded by Hermes, vLLM and llm-d.
 #   plugins/openclaw-fw: OpenClaw runtime plugin (tests/fw_bun_native_ai.test.ts imports it).
 # Left in ~/.claude/skills: synced (managed by the desktop app), linux-kernel-docs (42 MB of generated, git-ignored pages).

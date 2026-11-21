@@ -409,18 +409,16 @@ if (config.native.rewrite && !args.has("--no-native")) {
 const hashed = ["skills", "agents", "hooks", "mcp", "lib", "output-styles", "licenses", "rules"];
 const contentHasher = new Bun.CryptoHasher("sha256");
 for (const dir of hashed) contentHasher.update(await treeHash(join(ROOT, dir)).catch(() => ""));
-for (const file of [".lsp.json", ".claude-plugin/mcp.json", ".claude-plugin/hooks.json", "hooks.json"]) {
+for (const file of [".lsp.json", ".claude-plugin/mcp.json", ".claude-plugin/hooks.json"]) {
   contentHasher.update(await Bun.file(join(ROOT, file)).text().catch(() => ""));
 }
 const version = `${config.plugin.version}-${contentHasher.digest("hex").slice(0, 8)}`;
 if (!CHECK) {
-  for (const manifest of [".claude-plugin/plugin.json", "plugin.json", "gemini-extension.json"]) {
-    const path = join(ROOT, manifest);
-    const json = await readJson<Record<string, unknown>>(path, {});
-    json.version = version;
-    if (manifest.startsWith(".claude-plugin")) json.agents = (await files(join(ROOT, "agents"), "*.md")).map((file) => `./agents/${file}`);
-    await writeJson(path, json);
-  }
+  const manifestPath = join(ROOT, ".claude-plugin", "plugin.json");
+  const manifest = await readJson<Record<string, unknown>>(manifestPath, {});
+  manifest.version = version;
+  manifest.agents = (await files(join(ROOT, "agents"), "*.md")).map((file) => `./agents/${file}`);
+  await writeJson(manifestPath, manifest);
   const marketplacePath = join(REPO, ".claude-plugin", "marketplace.json");
   const marketplace = await readJson<{ plugins: Array<{ name: string; version?: string }> }>(marketplacePath, { plugins: [] });
   for (const entry of marketplace.plugins) if (entry.name === "aphrody") entry.version = version;

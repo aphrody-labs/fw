@@ -2,36 +2,17 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 
-export type Harness = "claude" | "agy" | "gemini";
-
 export type HookInput = {
   session_id?: string;
-  conversationId?: string;
   cwd?: string;
-  workspacePaths?: string[];
   hook_event_name?: string;
-  hookEventName?: string;
   tool_name?: string;
   tool_input?: Record<string, unknown>;
-  toolCall?: {
-    id?: string;
-    name?: string;
-    args?: Record<string, unknown>;
-  };
   tool_response?: unknown;
   prompt?: string;
-  user_prompt?: string;
-  lastUserInput?: string;
   error?: string;
   [k: string]: unknown;
 };
-
-export function detectHarness(arg?: string): Harness {
-  if (arg === "agy" || arg === "gemini" || arg === "claude") return arg;
-  if (process.env.CLAUDE_PLUGIN_ROOT) return "claude";
-  if (process.env.GEMINI_CLI || process.env.extensionPath) return "gemini";
-  return "claude";
-}
 
 export async function readHookInput(): Promise<HookInput> {
   if (process.stdin.isTTY) return {};

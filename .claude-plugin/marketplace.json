@@ -6,7 +6,7 @@
     "url": "https://github.com/aphrody-labs"
   },
   "metadata": {
-    "description": "Aphrody marketplace for Claude Code and agy: one plugin, regenerated from its sources by plugins/aphrody/scripts/unify.ts.",
+    "description": "Aphrody marketplace for Claude Code: one plugin, regenerated from its sources by plugins/aphrody/scripts/unify.ts.",
     "version": "3.0.0"
   },
   "plugins": [

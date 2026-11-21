@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bun --no-install --no-env-file \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use.ts\" claude",
+            "command": "bun --no-install --no-env-file \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use.ts\"",
             "timeout": 5
           }
         ]

@@ -1,9 +1,8 @@
 #!/usr/bin/env bun
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { bunCapabilities, detectHarness, writeJson } from "./common.ts";
+import { bunCapabilities, writeJson } from "./common.ts";
 
-const harness = detectHarness(Bun.argv[2]);
 if (!process.stdin.isTTY) {
   await new Response(Bun.stdin.stream()).text();
 }
@@ -21,13 +20,9 @@ if (existsSync(ctxPath)) {
 }
 const msg = `${header.join(" ")}\n\n${body}`;
 
-if (harness === "agy") {
-  writeJson({ injectSteps: [{ systemMessage: { systemMessage: msg } }] });
-} else {
-  writeJson({
-    hookSpecificOutput: {
-      hookEventName: "SessionStart",
-      additionalContext: msg,
-    },
-  });
-}
+writeJson({
+  hookSpecificOutput: {
+    hookEventName: "SessionStart",
+    additionalContext: msg,
+  },
+});
