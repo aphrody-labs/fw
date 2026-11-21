@@ -690,7 +690,7 @@ bindings = ["r2:CDN_BUCKET->rosegriffon-cdn"]
 # move to r2-trash/<stamp>/ instead of vanishing from the copy.
 [backup]
 host = "n1"
-subdir = "backup/cloudflare"
+subdir = "cloudflare-backup"
 rclone_remote = "r2"
 skip_buckets = ["aphrody-sccache"]
 schedule = "*-*-* 03:30:00 UTC"
