@@ -1,13 +1,13 @@
 #![forbid(unsafe_code)]
 
-//! `fw-cluster` — Unified Hybrid Cluster Control Plane:
-//! - Cloudflare **Pingora** `ProxyHttp` + `LoadBalancer` (consistent-hash Ketama, health checks, circuit breaking)
-//! - **`ai-dynamo/dynamo`** + **`vllm-project/router`** KV-cache radix prefix routing & disaggregated Prefill/Decode (P/D)
-//! - Full federated topology:
-//!   - 1 Base CUDA PC (Win 11 RTX 4070 sm_89) + 3 GPU hosts (4 GPU total)
-//!   - 3 VPS Proxy/LB/Storage + 3 CPU nodes (incl. Linux 7.3 12-core 45 GB RAM 1 TB no-GPU)
-//!   - Dynamic End-User Browser/Device WebGPU + FPU peers (WebRTC/WebSocket)
-//!   - Cloudflare (Workers/R2/DO) + GCloud (Gemini Decision 1 / GCS / TPU PJRT)
+//! `fw-cluster`: request router over a built-in sample topology (`HybridClusterRouter::default_hybrid_cluster`).
+//! It implements, in this crate and without Pingora, dynamo or vllm-router as dependencies:
+//! - consistent-hash choice of a proxy node, with health state;
+//! - KV-cache prefix affinity and an llm-d style filter/score/pick scheduler (`epp`);
+//! - prefill/decode disaggregation across GPU nodes;
+//! - browser WebGPU peers registered through `POST /cluster/peers` (`webrtc://` endpoints are labels; there is no WebRTC or WebSocket transport).
+//!
+//! `cluster/topology.toml` documents the same layout; no code reads it.
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

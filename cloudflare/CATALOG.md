@@ -1,4 +1,4 @@
-# Fw Edge OS - Cloudflare Ecosystem Catalog (Nov 2026)
+# Cloudflare ecosystem catalog (Nov 2026)
 
 Verified inventory of Cloudflare Edge OS, Computer, Agent, Sandbox, Rust/Wasm, Browser, and Data Platform building blocks consolidated into `fw-edge` (`cloudflare/worker.ts`, `cloudflare/wrangler.jsonc`, `cloudflare/wrangler.fullstack.jsonc`).
 

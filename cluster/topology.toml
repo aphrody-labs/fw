@@ -1,10 +1,10 @@
-# Fw v3.0 Declarative Hybrid Cluster Topology
-# One unified zero-system-dependency binary across PC CUDA, 3 VPS, 4 GPU, 3 CPU, User WebGPU/FPU, Cloudflare & GCloud
+# Reference hybrid cluster topology: PC CUDA node, VPS and CPU nodes, remote GPU hosts, browser WebGPU peers.
+# Documentation only: nothing reads this file; `HybridClusterRouter::default_hybrid_cluster` in crates/fw-cluster hardcodes the same layout.
 
 [cluster]
 name = "fw-hybrid-v3"
 router_engine = "pingora+dynamo+vllm-router"
-wire_protocol = "ggml-rpc+http2+ws+webrtc"
+wire_protocol = "ggml-rpc+http"
 disaggregated_prefill_decode = true
 kv_cache_radix_routing = true
 ggml_compat = "ggml-org/ggml+llama.cpp-gguf-v3"
@@ -126,7 +126,7 @@ decode_weight = 0.5
 # End-User Federated WebGPU / FPU Browser & Device Pool
 [end_user_pool]
 enabled = true
-transport = ["webrtc-datachannel", "websocket"]
+transport = ["http"]
 wasm_module = "target/wasm32-unknown-unknown/release/fw_wasm.wasm"
 wgsl_shaders = "core/webgpu/fw_compute.wgsl"
 roles = ["speculative-draft", "edge-embedding", "client-webgpu-fpu"]

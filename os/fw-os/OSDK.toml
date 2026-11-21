@@ -1,4 +1,4 @@
-# Fw v4.0 Official Asterinas OSDK Manifest
+# Asterinas OSDK manifest for fw-os
 # Follows https://asterinas.github.io/book/osdk/guide/create-project.html
 
 project_type = "kernel"

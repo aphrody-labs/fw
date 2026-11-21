@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import pkg from "../package.json" with { type: "json" };
 import {
   brainIndexRepo,
   brainSearch,
@@ -76,7 +77,7 @@ export function createFwApiHandler(root: string) {
     }
     if (url.pathname === "/health") {
       const abi = probeRustAbi(root);
-      return json({ ok: true, product: "fw", version: "4.2.0", abiLoaded: abi.loaded, abiVersion: abi.version });
+      return json({ ok: true, product: "fw", version: pkg.version, abiLoaded: abi.loaded, abiVersion: abi.version });
     }
     if (url.pathname === "/openapi.json") {
       return json(buildOpenApiSpec(url.origin));

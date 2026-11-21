@@ -21,7 +21,7 @@ describe("fw unified product", () => {
     expect(existsSync(join(ROOT, ".agents", "rules", "fw-auto-upgrade.md"))).toBe(true);
   });
 
-  test("fw_cli.ts status returns valid JSON with Fat-LTO abi v3 loaded", () => {
+  test("fw_cli.ts status returns valid JSON with the C ABI loaded", () => {
     const proc = Bun.spawnSync(["bun", "src/fw_cli.ts", "status"], {
       cwd: ROOT,
       stdout: "pipe",

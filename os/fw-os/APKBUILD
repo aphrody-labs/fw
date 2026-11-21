@@ -3,7 +3,7 @@
 pkgname=fw-uutils-os
 pkgver=4.0.0
 pkgrel=0
-pkgdesc="Fw v4.0 100% pure-Rust static musl multicall binary (uutils + Asterinas OSTD + NixOS store + WebGPU/Wasm)"
+pkgdesc="fw static musl multicall binary (uutils applets, NixOS store paths)"
 url="https://github.com/aphrody-labs/fw"
 arch="x86_64 aarch64 riscv64"
 license="MIT"

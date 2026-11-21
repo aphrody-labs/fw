@@ -1,6 +1,6 @@
-# Fw Verified Cross-Cloud, ML, Low-Level & Agent Ecosystem Catalog (2026-11-19)
+# Ecosystem catalog (2026-11-19)
 
-Primary-source verified repositories, crate/package versions, and community fixes integrated or tracked by Fw.
+Repositories, package versions and community fixes that fw integrates or tracks, as read from their sources on 2026-11-19.
 
 ## 1. Hugging Face (`github.com/orgs/huggingface`)
 - `huggingface/candle` (`0.11.1`, 21.3k★) - pure-Rust zero-Python ML framework (CPU/SIMD, CUDA, Metal, `wasm32`). Note: `Device::Vulkan` (`#4096`) unmerged; use CPU/CUDA/Metal/WASM/WGSL.
@@ -34,4 +34,4 @@ Primary-source verified repositories, crate/package versions, and community fixe
 ## 5. Google Gemini / Gemma / Antigravity
 - `google-antigravity` Python SDK is consumed from PyPI (Apache-2.0), not vendored.
 - `gemini-decision-1` (`POST /v1beta/decisions`) dual-mode implementation (`src/decisions.ts`): official remote API when `GEMINI_API_KEY` is set + zero-output-token calibrated local System-1 fallback (`noul`, `choice`, `score`).
-- Cross-OS kernel foundations: `packages/windows-rs` (`microsoft/windows-rs`), `packages/rust-for-linux` (`Rust-for-Linux/linux` 7.4-rc3), `native/fw-kernel` (`177 KiB` Fat-LTO), and `native/fw-world` (`15 KiB` pure `no_std` bare-metal/WASM System-1 + World Model).
+- Cross-OS kernel crates in this repository: `native/fw-kernel` (OS telemetry) and `native/fw-world` (`no_std` System-1 and world model).

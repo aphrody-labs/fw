@@ -1,6 +1,5 @@
-//! `fw-uutils` — 100% pure-Rust, zero-C-dependency multicall userland modeled on
-//! `github.com/orgs/uutils` (`coreutils`, `findutils`, `grep`, `diffutils`, `sed`, `util-linux`, `procps`),
-//! Alpine Linux `edge/community/uutils-coreutils`, and `uutils.org/playground` (Wasm32).
+//! `fw-uutils`: multicall userland of the applets in `SUPPORTED_APPLETS`, written in Rust without C dependencies and
+//! without the `uutils` crates; behavior is modeled on `github.com/orgs/uutils` and runs on Wasm32.
 
 #![forbid(unsafe_code)]
 

@@ -85,9 +85,9 @@ in {
     ACTION=="add|change", KERNEL=="sd[a-z]|nvme[0-9]n[0-9]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="none"
   '';
 
-  # Unified fw control-plane + MCP/GraphQL/WebRTC/GGML-RPC service
+  # fw control plane: HTTP, MCP, GraphQL, OpenAI-compatible chat
   systemd.services.fw = {
-    description = "fw v4.2 Full-Stack Rust Control Plane & Hermes/OpenClaw Agent";
+    description = "fw serve: control plane and Hermes/OpenClaw agent";
     wantedBy = [ "multi-user.target" ];
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];

@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Fw native HTML/CSS/WGPU UI renderer aligned with DioxusLabs/blitz (vello_gpu / vello_cpu) with zero-dep headless PNG visual proof"
+description = "Software RGBA rasterizer and PNG encoder that draws the cluster HUD; it does not use blitz, vello or a GPU"
 
 [dependencies]
 flate2.workspace = true

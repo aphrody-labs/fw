@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Alpine-lighter 100% pure-Rust uutils multicall userland (coreutils, findutils, grep, diffutils, sed, util-linux, procps) + Wasm32 playground"
+description = "Multicall userland of 40 pure-Rust applets (cat, ls, grep, sed, sort, jq, sh and others) with a Wasm32 playground; own code, not the uutils crates"
 
 [dependencies]
 serde.workspace = true

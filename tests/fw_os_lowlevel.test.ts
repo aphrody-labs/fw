@@ -20,7 +20,7 @@ import { vfsList, vfsRead, vfsSnapshot, vfsSnapshots, vfsWrite } from "../src/vf
 const ROOT = process.cwd();
 const IS_WIN = process.platform === "win32";
 
-describe("fw v2.4 polyglot OS, Fat-LTO ABI v4, NTFS, VFS, AI protocols, and low-level LTO/AOT", () => {
+describe("polyglot OS, C ABI, NTFS, VFS, AI protocols and low-level LTO/AOT", () => {
   test("Fat-LTO ABI v4 exposes Tree-sitter symbols/query, craft-sniff, iced-x86 disasm, Rust crypto, and Git", () => {
     const syms = astSymbolsWithAbi(ROOT, "rust", join(ROOT, "native", "fw-abi", "src", "gguf.rs")) as {
       ok: boolean;

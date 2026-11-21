@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Fw hybrid cluster router: Cloudflare Pingora proxy/LB pattern + ai-dynamo/dynamo & vllm-project/router KV-cache radix P/D scheduler across 4 GPU + 3 VPS/CPU + End-User WebGPU/FPU + Cloudflare + GCloud"
+description = "Cluster router over a built-in sample topology: consistent-hash proxy choice, KV-cache prefix affinity and prefill/decode scheduling after Pingora, ai-dynamo and llm-d (none is a dependency)"
 
 [dependencies]
 serde.workspace = true

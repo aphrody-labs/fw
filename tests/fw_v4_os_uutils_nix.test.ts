@@ -6,7 +6,7 @@ const ROOT = resolve(import.meta.dir, "..");
 const EXT = process.platform === "win32" ? ".exe" : "";
 const NATIVE_BIN = join(ROOT, "target", "release", `fw${EXT}`);
 
-describe("Fw v4.0 — Asterinas OSDK + GPUI WebGPU/Wasm + Alpine uutils + NixOS + 23 unified stacks", () => {
+describe("Asterinas OSDK, GPUI scene, uutils multicall, NixOS store and unified-stack catalogue", () => {
   test("os/fw-os conforms to official Asterinas OSDK, NixOS flake.nix, and Alpine APKBUILD", () => {
     const libRs = readFileSync(join(ROOT, "os", "fw-os", "src", "lib.rs"), "utf8");
     expect(libRs).toContain("#![no_std]");

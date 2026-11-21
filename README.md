@@ -1,69 +1,50 @@
 # fw
 
-Single pure-Rust v4.2 binary (`x86-64-v3`, `mimalloc 0.1.52`, zero subprocesses) for local LLM abliteration, Hugging Face Hub operations, autonomous agent protocols, keyless self-learning, and a 40-applet GNU/Linux Wasm32 userland.
+Rust toolchain and agent runtime: one `fw` binary (x86-64-v3, mimalloc) with a coding agent, a Hugging Face Hub client, MCP/ACP/A2A servers, a package manager, local learning and memory stores, and a 40-applet userland that runs in-process.
 
-- Live Edge Worker: `https://fw-edge.aphrody-labs.workers.dev` (`cloudflare/wrangler.jsonc`, `FwOSAgent` SQLite Durable Object + `web/` UI)
-- Workspace: the `crates/fw-*` members and `xtask` of `Cargo.toml` (list: `cargo metadata --no-deps --format-version 1`); external dependencies are declared per crate manifest; per-directory tiers and gates are in `MAP.tsv` (`cargo xtask map`). `#![forbid(unsafe_code)]` is set per crate (`git grep -L "forbid(unsafe_code)" -- "crates/*/src/lib.rs"` lists the crates that do not).
+- Edge Worker: `https://fw.aphrody.com` (`cloudflare/wrangler.jsonc`, `FwOSAgent` SQLite Durable Object, static UI from `crates/fw-proto/ui`).
+- Workspace: the `crates/fw-*` members and `xtask` of `Cargo.toml` (`cargo metadata --no-deps --format-version 1`). Per-directory tiers and gates are in `MAP.tsv` (`cargo xtask map`). Crates without `#![forbid(unsafe_code)]`: `git grep -L "forbid(unsafe_code)" -- "crates/*/src/lib.rs"`.
+- Subprocesses: most commands run in-process; `fw ask` (shell tool), `fw convert` (runs `fw-video`) and the `fw-agent`, `fw-gemini`, `fw-llama` and `fw-a2a` crates spawn child processes.
 
-## Install, Update & Uninstall (Zero Manual Steps)
+## Install
 
 ```bash
 # Linux / macOS
-curl -fsSL https://fw-edge.aphrody-labs.workers.dev/install.sh | sh
+curl -fsSL https://fw.aphrody.com/install.sh | sh
 
 # Windows PowerShell
-irm https://fw-edge.aphrody-labs.workers.dev/install.ps1 | iex
+irm https://fw.aphrody.com/install.ps1 | iex
 
-# Self-update (TLS 1.3 + SHA-256 + atomic .prev rollback) & uninstall
-fw self-update
+fw self-update                    # SHA-256 verified, keeps the previous binary as .prev
 fw self-uninstall --purge-data
 ```
 
-## Quick Start
+## Build
 
 ```bash
-# Build native release binary (Fat-LTO, x86-64-v3, mimalloc)
 cargo build --release -p fw-bin --bin fw
-
-# Orient any autonomous agent in one <500-token call
-fw onboard
-fw onboard export all          # exports .mcp.json, opencode.json, .zed/settings.json
-fw workflow run discover       # doctor + repomap + graph + sec
+fw onboard                        # workspace, git, ISA tier, skills, memory
+fw onboard export all             # .mcp.json, opencode.json, .zed/settings.json
+fw workflow run discover
 ```
 
-## Core Capabilities
+## Commands
 
-### 1. Flagship Abliteration, Inference, Training & Hugging Face (Zero Subprocess)
-- `fw abliterate <plan|biprojected|ara|sweep|moe|strip-cot|presets>` — 7-step local studio planner, biprojected row-norm orthogonalization (Lai 2025), Adaptive Refusal Abliteration (Weidmann 2026), Pareto KL sweep, MoE expert-granular targeting, and CoT refusal scorer.
-- `fw heretic <presets|inspect|abliterate>` — Heretic TOML presets and directional orthogonalization in pure Rust.
-- `fw vram` — Exact `llama.cpp` VRAM, SWA KV-cache, and `-ngl` layer planner.
-- `fw hf <search|info|files|pull|datasets|spaces|papers|collections|whoami|sitemap|safetensors|tokenizer|cache>` — Pure-Rust TLS 1.3 (`ureq 3.5.2`) Hugging Face Hub client, binary Safetensors header parser, and `tokenizer.json` encoder.
-- `fw infer` / `fw train` / `fw align <dpo|orpo|kto>` — GGUF v3 Q8_0 inference, LoRA fine-tuning, and preference alignment.
+`fw --help` lists every command; `fw <command> --help` shows its usage.
 
-### 2. Pure-Rust Keyless Self-Learning & Infinite XFS Dataset
-- `fw learn <status|harvest|distill|search|loop|systemd>` — Agentless learning loop (reads `.git/logs/HEAD`, rebuilds knowledge graphs, ingests docs, writes deduplicated `corpus/YYYY-MM.jsonl` pairs) with hardened `systemd` unit for 24/7 VPS XFS storage (`/srv/xbuild/fw-learn`).
-- `fw mem <add|search|timeline|get|list|stats|prune>` — Keyless `claude-mem`: structured observations, 3-layer progressive disclosure (`search` BM25 -> `timeline` -> `get`), SHA-256 deduplication, monthly JSONL shards.
-- `fw graph [query|god-nodes|communities] [dir] [--md] [--save]` — Keyless `graphify`: multi-language AST/symbol/import graph, Label Propagation communities, God Nodes, and cross-community bridges.
-- `fw docs` / `fw c7 <resolve|query|ingest|list>` — Keyless Context7: live TLS 1.3 resolver for crates.io, npm, PyPI, GitHub READMEs, and `llms.txt` with BM25 token-budgeted retrieval and permanent XFS cache.
+- Agent: `fw ask`, `fw tool`, `fw tui`, `fw serve [host:port]` (chat UI plus `/mcp`, `/acp`, `/a2a`, `/v1/chat/completions`, `/webgpu`), `fw acp`, `fw mcp`.
+- Hugging Face: `fw hf <search|info|files|pull|datasets|spaces|papers|collections|whoami|sitemap|safetensors|tokenizer|cache>`; `fw vram` plans VRAM, KV cache and `-ngl` layers for llama.cpp.
+- ML reference math: `fw abliterate`, `fw heretic`, `fw train`, `fw align` and `fw infer --gguf` run on synthetic data and do not read or modify model weights. `fw abliterate plan` and `fw vram` are planners; `fw infer <prompt>` forwards to an OpenAI-compatible endpoint.
+- Memory and learning: `fw learn`, `fw mem <add|search|timeline|get|list|stats|prune>`, `fw graph`, `fw docs`/`fw c7` (resolves crates.io, npm, PyPI, GitHub README and `llms.txt` docs), `fw repomap`, `fw sec`, `fw skills`, `fw watch`.
+- Packages: `fw info`, `fetch`, `lock`, `verify`, `tree`, `export` (CycloneDX 1.5), `install`, `audit`, `compile` over the Cargo sparse index, npm and APM.
+- Userland: `fw sh -c "cmd1 | cmd2"` and 40 applets (`ls`, `grep`, `sort`, `jq`, `tokei`, `du`, `bat`, `base64`, `sha256sum`, `cp`, `mv`, `rm`, and others listed in `crates/fw-uutils/src/lib.rs`).
+- Host: `fw tune <hardware|sysctl|scx|ananicy|bench>` (CachyOS profiles and x86-64-v3 and mimalloc microbenchmarks, `core/cpp/fw_cachy_simd.cpp`).
 
-### 3. GNU/Linux Wasm32 Userland & Unified Package Manager
-- `fw sh -c "cmd1 | cmd2 | cmd3"` — Zero-fork in-process POSIX pipeline shell over 40 Wasm32-compatible applets (`ls`, `find`, `grep`, `cat`, `head`, `tail`, `wc`, `sort`, `uniq`, `cut`, `tr`, `nl`, `rev`, `seq`, `jq`, `tokei`, `du`, `bat`, `base64`, `sha256sum`, `stat`, `which`, `cp`, `mv`, `rm`, `mkdir`, `touch`, etc.).
-- `fw info` / `fw fetch` / `fw lock` / `fw verify` / `fw tree` / `fw export` — Unified Cargo RFC 2789 sparse index + npm + APM resolver, SHA-256 verifier, and CycloneDX 1.5 SBOM exporter.
-
-### 4. Agent Protocols, Security & CachyOS Tuning
-- `fw serve [host:port]` — Local Fw Chat UI (`web/`, `100/100` Baseline web audit) + `/mcp`, `/acp`, `/a2a`, `/v1/chat/completions`, `/webgpu`.
-- `fw ask` / `fw acp` / `fw mcp` / `fw sec` / `fw skills` / `fw repomap` / `fw watch`.
-- `fw tune <hardware|sysctl|scx|ananicy|bench>` — CachyOS `chwd`/`sysctl`/`scx_lavd`/`ananicy-cpp` profiles and local `x86-64-v3` + `mimalloc` microbenchmarks (`core/cpp/fw_cachy_simd.cpp`).
-
-## Verification & CI Gates
+## Gates
 
 ```bash
-cargo clippy --workspace --all-targets -- -D warnings
-cargo test --workspace
-cargo check --target wasm32-unknown-unknown -p fw-uutils -p fw-fx --lib
-cargo build --release -p fw-bin --bin fw
-cargo xtask map && cargo xtask purity
-bun run cf:dry-run
+cargo xtask ci all        # clippy, tests, ruff, bun tests, native ABI, wasm32 build, Cloudflare dry run, purity, MAP.tsv
+cargo xtask ci fast       # the same without native ABI, wasm32 and Cloudflare
 ```
 
-For autonomous agent onboarding, start with [AGENTS.md](AGENTS.md) and [.agents/workflows/fw-agent-journey.md](.agents/workflows/fw-agent-journey.md).
+Agents start with [AGENTS.md](AGENTS.md) and [.agents/workflows/fw-agent-journey.md](.agents/workflows/fw-agent-journey.md).

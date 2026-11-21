@@ -53,13 +53,13 @@ export const FW_MCP_TOOLS = [
   {
     name: "fw_status",
     description:
-      "Return unified Fw monorepo status, Fat-LTO Rust C ABI v3 health, absorbed first/third-party modules, and target/agy readiness.",
+      "Return unified Fw monorepo status, Rust C ABI (v4) health, absorbed first/third-party modules, and target/agy readiness.",
     inputSchema: { type: "object", properties: {} },
   },
   {
     name: "fw_ast_parse",
     description:
-      "Parse a source file using Fw's Fat-LTO Rust Tree-sitter C ABI across 9 grammars (rust, typescript, tsx, python, c, cpp, java, json, bash).",
+      "Parse a source file using Fw's Fat-LTO Rust Tree-sitter C ABI across 12 grammars (rust, typescript, tsx, javascript, python, c, cpp, java, kotlin, go, json, bash).",
     inputSchema: {
       type: "object",
       properties: {

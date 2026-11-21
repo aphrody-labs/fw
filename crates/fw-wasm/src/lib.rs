@@ -1,5 +1,5 @@
-//! `fw-wasm` — Pure zero-dependency `wasm32-unknown-unknown` & `wasm32-wasip2` compute kernel
-//! shared by Cloudflare Workers (`cloudflare/worker.ts`) and End-User Browser WebGPU/FPU peers.
+//! `fw-wasm`: small `wasm32-unknown-unknown` module of C-ABI functions (decision, Q8_0 dot, protocol words, backoff)
+//! used by the Cloudflare Worker (`cloudflare/worker.ts`) and browser peers.
 
 #[unsafe(no_mangle)]
 pub extern "C" fn fw_wasm_abi_version() -> u32 {

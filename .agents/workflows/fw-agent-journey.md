@@ -1,28 +1,28 @@
-# Fw Universal Autonomous Agent Journey & Reproducible Workflows
+# fw agent journey
 
-Any autonomous agent (Claude Code, Codex, Antigravity, Cursor, Zed, OpenCode, Windsurf, Hermes, OpenClaw, or custom ACP/MCP clients) discovers and operates `fw` through one flat, zero-subprocess binary (`fw`).
+Any agent (Claude Code, Codex, Cursor, Zed, OpenCode, or a custom ACP or MCP client) can drive `fw` from the shell. `fw --help` lists every command.
 
-## 1. First-Contact Discovery (< 500 tokens)
-
-```bash
-fw onboard                  # Workspace, git, ISA tier, skills, memory, universal targets
-fw doctor                   # Zero-spawn PATH + FX_HOME + API key + Ollama :11434 probe
-fw repomap                  # Public symbols across Rust/TS/JS/Python/Go/Kotlin
-fw graph --md               # Deterministic import & symbol graph (zero vector store)
-fw sec                      # Static security & secret scan
-```
-
-## 2. Universal Agent Bridge (Zero Vendor Lock-In)
+## 1. Orient
 
 ```bash
-fw onboard export all       # Writes .mcp.json, opencode.json, .zed/settings.json
-fw acp                      # Agent Client Protocol JSON-RPC 2.0 over stdio
-fw serve 127.0.0.1:4380     # Native Fw Chat UI + /mcp + /acp + /a2a + /v1/chat/completions
-fw mem add "<decision>"     # Persistent cross-session memory (~/.fx/memory.jsonl)
-fw skills list              # Unified skills across .fx/.agents/.claude/.gemini/.codex/.cursor
+fw onboard                  # workspace, git, ISA tier, skills, memory, agent targets
+fw doctor                   # PATH, FX_HOME, API keys, Ollama on :11434
+fw repomap                  # public symbols in Rust, TS/JS, Python, Go, Kotlin
+fw graph --md               # import and symbol graph
+fw sec                      # static security and secret scan
 ```
 
-## 3. GNU/Linux + WebAssembly Userland (40 Zero-Fork Applets)
+## 2. Wire an agent
+
+```bash
+fw onboard export all       # .mcp.json, opencode.json, .zed/settings.json
+fw acp                      # Agent Client Protocol, JSON-RPC 2.0 over stdio
+fw serve 127.0.0.1:4380     # chat UI, /mcp, /acp, /a2a, /v1/chat/completions
+fw mem add "<decision>"     # cross-session memory (<learn root>/observations/YYYY-MM.jsonl)
+fw skills list              # skills from .fx, .agents, .claude, .gemini, .codex, .cursor
+```
+
+## 3. Userland applets
 
 ```bash
 fw sh -c "cat Cargo.toml | grep fw- | sort -u | nl"
@@ -31,26 +31,21 @@ fw du crates
 fw jq ".version" package.json
 ```
 
-## 4. Flagship Abliteration, Hugging Face, VRAM & Alignment
+## 4. Hugging Face and local-model planning
 
 ```bash
 fw hf search qwen --gguf --uncensored
 fw hf info ggml-org/Qwen2.5-Coder-7B-Q8_0-GGUF
 fw vram --vram-gb 16 --model-gb 18 --layers 60 --ctx 65536 --swa-layers 50
 fw abliterate plan Qwen/Qwen3.8-27B --model-gb 16 --vram-gb 12
-fw abliterate biprojected --row-norm full --strength 1.0
-fw abliterate ara --rank 16 --knn 5 --steps 30
-fw abliterate sweep --trials 18
-fw align dpo --beta 0.1 --steps 60
 ```
 
-## 5. Reproducible Built-In Workflows & CI Gates
+`fw abliterate biprojected|ara|sweep|moe`, `fw heretic`, `fw train` and `fw align` run reference math on synthetic data; they do not change a model.
+
+## 5. Workflows and gates
 
 ```bash
+fw workflow list
 fw workflow run discover
-fw workflow run abliterate-e2e
-fw workflow run pkg-audit
-fw workflow run perf-check
-cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace
-cargo xtask map && cargo xtask purity
+cargo xtask ci fast
 ```

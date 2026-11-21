@@ -1,4 +1,4 @@
-//! `fw-unified-stack` — Zero-bloat, `#![forbid(unsafe_code)]` Rust unification layer covering:
+//! `fw-unified-stack`: descriptors and a catalogue for these stacks (none is linked; the only dependency is `fw-ggml`):
 //! - ML/Agents: `tracel-ai/burn` (CubeCL WebGPU/CUDA/Wasm) + `0xPlaygrounds/rig` + `ggml-org/llama.cpp`
 //! - Official Rust Agent Protocols: `modelcontextprotocol/rust-sdk` (`rmcp`), `agentclientprotocol/rust-sdk` (ACP), `a2aproject/a2a-rs`
 //! - Cloudflare Edge & Net: `pingora`, `quiche` (QUIC/HTTP3), `foundations`, `workers-rs`, `kitesurf`
@@ -92,14 +92,14 @@ pub fn hex_voice_status() -> HexVoiceStatus {
 /// Cloudflare Pingora + Quiche QUIC/H3 + Foundations + Kitesurf + Official Rust Agent SDKs summary.
 pub fn unified_v4_catalog() -> Value {
     json!({
-        "version": "4.2.0",
+        "version": env!("CARGO_PKG_VERSION"),
         "fxAgent": "crates/fw-fx (Pure-Rust Bun-in-Rust parity for vercel-labs/fx 0.0.17: recovery, indexer, compactor, permissions, ACP, MCP, 26 CLI + 41 slash commands)",
         "unifiedPm": "crates/fw-apm (Unified npm + crates.io RFC 2789 sparse index + Microsoft APM pure-Rust package manager)",
         "m3WgpuTerminal": "crates/fw-wayland-wgpu (Compose Material 3 1.5.0 Expressive + Rio pull-model + Kitty protocols + WTA ConPTY)",
         "kernel": {
             "asterinas": "os/fw-os (OSDK.toml + #![no_std] #![deny(unsafe_code)] #[ostd::main])",
             "gpuiCore": "crates/fw-ostd-wasm (Zed GPUI retained quad scene + WGSL + Cloudflare SSR)",
-            "uutilsUserland": "crates/fw-uutils (Alpine-lighter pure-Rust multicall + Wasm32 playground)",
+            "uutilsUserland": "crates/fw-uutils (pure-Rust multicall applets + Wasm32 playground)",
             "nixosCompat": "crates/fw-nix + os/fw-os/flake.nix (/nix/store nixbase32 + NAR + uutils-coreutils-noprefix)"
         },
         "ml": {
@@ -146,7 +146,7 @@ mod tests {
         let h = hex_voice_status();
         assert!(h.terminal_control_ready);
         let cat = unified_v4_catalog();
-        assert_eq!(cat["version"], "4.2.0");
+        assert_eq!(cat["version"], env!("CARGO_PKG_VERSION"));
         assert!(cat["fxAgent"].as_str().is_some());
         assert!(cat["unifiedPm"].as_str().is_some());
     }

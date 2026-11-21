@@ -312,7 +312,7 @@ pub fn unified_sbom_cyclonedx(lock: &UnifiedPmLockfile) -> Value {
         "specVersion": "1.5",
         "version": 1,
         "metadata": {
-            "component": { "name": "fw-unified-pm", "version": "4.2.0" }
+            "component": { "name": "fw-unified-pm", "version": env!("CARGO_PKG_VERSION") }
         },
         "components": components
     })

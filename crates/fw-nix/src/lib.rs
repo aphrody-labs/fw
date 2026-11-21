@@ -1,4 +1,4 @@
-//! `fw-nix` — 100% pure-Rust NixOS store, `nixbase32` `/nix/store/<hash>-<name>` addressing,
+//! `fw-nix`: `nixbase32` `/nix/store/<hash>-<name>` addressing,
 //! NAR (Nix ARchive) binary serialization, and atomic system generation metadata.
 
 #![forbid(unsafe_code)]

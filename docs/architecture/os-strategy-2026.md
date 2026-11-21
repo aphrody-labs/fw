@@ -1,4 +1,4 @@
-# ADR: Long-Term OS Architecture (`fw` v4.2, 2026–2030)
+# ADR: OS architecture, 2026-2030
 
 - **Date**: 2026-11-19
 - **Status**: Accepted and enforced across `flake.nix`, `nix/`, `os/`, and `upstreams.toml`

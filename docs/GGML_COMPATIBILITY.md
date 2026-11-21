@@ -1,4 +1,4 @@
-# Fw v3.0 - `ggml-org` & `llama.cpp` Compatibility Specification
+# ggml and llama.cpp compatibility
 
 ## Verified `ggml-org` Ecosystem (2026-11-19)
 
@@ -9,7 +9,7 @@ All 26 `github.com/orgs/ggml-org/repositories` were scanned live:
 - `ggml-org/convert` (70★): Automated HuggingFace/Safetensors -> GGUF v3 converter
 - `ggml-org/llama-connect` (6★, Rust): Rust-native client bridge
 
-## `introduction-to-ggml` Architectural Parity (`crates/fw-ggml`)
+## What `crates/fw-ggml` implements
 
 1. **4D Strided Tensors (`GgmlTensor`)**: Matches `struct ggml_tensor` (`ne[4]` element dimensions, `nb[4]` byte strides). `GgmlType` covers every live `enum ggml_type` of `ggml-org/ggml` master (`GGML_TYPE_COUNT = 44`, 36 live ids): `F32=0`, `F16=1`, `Q4_0=2`, `Q4_1=3`, `Q5_0=6`, `Q5_1=7`, `Q8_0=8`, `Q8_1=9`, K-quants `Q2K..Q8K=10..15`, I-quants `IQ2_XXS=16`, `IQ2_XS=17`, `IQ3_XXS=18`, `IQ1_S=19`, `IQ4_NL=20`, `IQ3_S=21`, `IQ2_S=22`, `IQ4_XS=23`, scalars `I8..I64=24..27`, `F64=28`, `IQ1_M=29`, `BF16=30`, ternary `TQ1_0=34`, `TQ2_0=35`, `MXFP4=39`, `NVFP4=40`, `Q1_0=41`, `Q2_0=42`, `F8_E4M3=43`. Removed ids (4, 5, 31-33, 36-38) are rejected. Block sizes and bytes per block (`block_size()`, `type_size()`, `row_size()`) are asserted in unit tests against `sizeof(block_*)` from `ggml-common.h`.
 2. **Static DAG Computation Graph (`GgmlGraph`)**: Implements `ggml_context` + `ggml_cgraph` topological evaluation (`Add`, `Mul`, `MulMat`, `RmsNorm`, `SoftMax`, `Silu`, `Rope`) and `ggml_backend_sched` multi-backend graph splitting (`CudaSm89`, `WebGpu`, `Vulkan`, `Metal`, `CpuSimd`, `RpcRemote`, `TpuPjrt`).
@@ -17,9 +17,3 @@ All 26 `github.com/orgs/ggml-org/repositories` were scanned live:
 4. **`ggml-rpc` Binary Wire Protocol**: Exact command opcodes (`AllocBuffer=0`, `GetAlignment=1`, `SetTensor=6`, `GetTensor=7`, `GraphCompute=9`, `GetDeviceMemory=10`) with little-endian framing (`u8 cmd + u64 len + payload`) interoperable with upstream `llama.cpp` `rpc-server`.
 5. **Cluster routing (`crates/fw-cluster`, `epp`)**: llm-d EPP model: composable `Filter` -> weighted `Scorer` -> `Picker` profiles (prefix-cache affinity, token load, queue depth, capability), a P/D handler running a prefill profile then a decode profile, and a block-hash KV index fed by `observe` or `KvEvent`. Source semantics: `llm-d/llm-d-router` `pkg/epp/framework/plugins/scheduling`.
 6. **`llama.cpp` binding (`crates/fw-llama-sys`)**: vendored headers pinned to the release tag in `include/LLAMA_CPP_TAG` (`LLAMA_CPP_TAG`), refreshed by `bun sync-headers.ts [tag]`.
-
-## `llama.cpp/CONTRIBUTING.md` Engineering Compliance
-
-- Every kernel, parser, and protocol handler includes deterministic unit and regression tests (`cargo test --workspace`).
-- Minimal, clean public API surface; zero bloat or unnecessary external system dependencies.
-- Explicit human/automated code review gates (`cargo test`, `bun test`, `uvx ruff check`) run before every commit on `main`.

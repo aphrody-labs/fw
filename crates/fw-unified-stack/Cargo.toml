@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Unifies Burn CubeCL, Rig, rmcp, ACP rust-sdk, a2a-rs, Pingora/Quiche/Foundations, Yazi VFS, Kitty Graphics/CSI-u, AnomalyCo terminal-control & Hex local voice, and Cloudflare Kitesurf"
+description = "Descriptor types and a catalogue of the Rust stacks fw tracks (Burn, Rig, rmcp, ACP, a2a-rs, Pingora, Quiche, Yazi, Kitty protocols, Hex), plus Kitty and OSC 133 encoders; none of those stacks is a dependency"
 
 [dependencies]
 fw-ggml.workspace = true

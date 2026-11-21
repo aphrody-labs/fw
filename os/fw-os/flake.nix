@@ -1,5 +1,5 @@
 {
-  description = "Fw v4.0 — 100% Pure-Rust OS (Asterinas OSDK + uutils multicall + WebAssembly/WebGPU + NixOS compatible)";
+  description = "fw-os: Asterinas OSDK kernel, uutils multicall binary and NixOS module";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -38,7 +38,7 @@
         ];
 
         systemd.services.fw-cluster = {
-          description = "Fw v4.0 Zero-Dep Hybrid Cluster (Pingora + Dynamo + ggml-rpc + uutils)";
+          description = "fw serve as a cluster service";
           wantedBy = [ "multi-user.target" ];
           serviceConfig = {
             ExecStart = "${self.packages.${system}.fw}/bin/fw serve 0.0.0.0:8080";

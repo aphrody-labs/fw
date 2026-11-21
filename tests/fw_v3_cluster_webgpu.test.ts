@@ -7,8 +7,8 @@ const EXT = process.platform === "win32" ? ".exe" : "";
 const NATIVE_BIN = join(ROOT, "target", "release", `fw${EXT}`);
 const WASM_BIN = join(ROOT, "target", "wasm32-unknown-unknown", "release", "fw_wasm.wasm");
 
-describe("Fw v3.0 unified zero-dep binary, hybrid cluster, ggml-org, Wasm32 & Blitz/WebGPU proof", () => {
-  test("declarative hybrid cluster topology and v3.0 docs exist", () => {
+describe("fw binary, cluster router, ggml, wasm32 module and PNG render", () => {
+  test("cluster topology and architecture docs exist", () => {
     expect(existsSync(join(ROOT, "Cargo.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "cluster", "topology.toml"))).toBe(true);
     expect(existsSync(join(ROOT, "cluster", "cloudflare-gcloud.toml"))).toBe(true);

@@ -1,5 +1,5 @@
 {
-  description = "Fw v4.2 — Reproducible Full-Stack Pure-Rust Userland & 3-VPS Build Cluster Nix Flake (fr1, fr2, prd)";
+  description = "fw userland and the fr1, fr2 and prd host configurations";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

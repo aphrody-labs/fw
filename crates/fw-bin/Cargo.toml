@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "fw unified zero-system-dependency Fat-LTO static binary (CLI, Hybrid Cluster, GGML, WebGPU, Hermes/OpenClaw, MCP, uutils, Nix)"
+description = "The fw command-line binary: coding agent, Hugging Face client, MCP/ACP/A2A server, package manager, uutils userland and cluster router"
 
 [[bin]]
 name = "fw"

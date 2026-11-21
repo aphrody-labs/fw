@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "100% pure-Rust NixOS compatibility layer: nixbase32 /nix/store paths, NAR archive encoder, atomic generations, and uutils-coreutils-noprefix"
+description = "Pure-Rust Nix store helpers: nixbase32 /nix/store paths, NAR archive encoder, atomic generations, and uutils-coreutils-noprefix"
 
 [dependencies]
 serde.workspace = true

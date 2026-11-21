@@ -1,8 +1,7 @@
 #![forbid(unsafe_code)]
 
-//! `fw-ui-blitz` — DioxusLabs/blitz-aligned (`blitz-dom` / `blitz-paint` / `anyrender_vello_cpu`+`vello_gpu`)
-//! zero-dependency headless RGBA renderer producing verifiable PNG visual proofs on both
-//! Win 11 RTX 4070 and no-GPU Linux 7.3 servers.
+//! `fw-ui-blitz`: headless software rasterizer that draws into an RGBA buffer and encodes a PNG (`flate2` only).
+//! It does not link blitz, vello or any GPU API; the name refers to the renderer it was meant to match.
 
 use flate2::write::ZlibEncoder;
 use flate2::Compression;
@@ -77,7 +76,7 @@ pub fn encode_rgba_png(width: u32, height: u32, rgba: &[u8]) -> Vec<u8> {
     png
 }
 
-/// Render the Fw v3.0 Hybrid Cluster HUD (4 GPU + 3 VPS/CPU + User WebGPU cards) to PNG.
+/// Render the hybrid cluster HUD (GPU, VPS/CPU and browser WebGPU cards) to PNG.
 pub fn render_cluster_hud_png(out_path: &Path, width: u32, height: u32) -> std::io::Result<BlitzRenderReport> {
     let mut rgba = vec![0u8; (width as usize) * (height as usize) * 4];
     let mut colors = std::collections::HashSet::new();

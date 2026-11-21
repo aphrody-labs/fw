@@ -3,7 +3,7 @@ name = "fw-os"
 version = "4.0.0"
 edition = "2024"
 license = "MIT"
-description = "Fw v4.0 Asterinas OSDK Framekernel OS tuned for WebAssembly, WebGPU, uutils multicall, and NixOS"
+description = "Asterinas OSDK framekernel for fw (research)"
 
 [features]
 default = []
