@@ -16,6 +16,8 @@ pub struct Opts {
     pub rate_ms: u64,
     /// Ignore stored revisions.
     pub force: bool,
+    /// Sitemap sources only: fetch just the pages whose URL contains this text (prioritise a section; disables pruning).
+    pub only: Option<String>,
 }
 
 pub struct Report {

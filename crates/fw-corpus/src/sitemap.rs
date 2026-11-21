@@ -78,7 +78,10 @@ pub fn sync(client: &Client, store: &mut Store, spec: &Sitemap, opts: &Opts) -> 
     let mut seen = HashSet::new();
     all.retain(|entry| seen.insert(entry.loc.clone()));
     report.listed = all.len();
-    let complete = opts.limit.is_none();
+    if let Some(only) = &opts.only {
+        all.retain(|entry| entry.loc.contains(only.as_str()));
+    }
+    let complete = opts.limit.is_none() && opts.only.is_none();
     if let Some(limit) = opts.limit {
         all.truncate(limit);
     }
