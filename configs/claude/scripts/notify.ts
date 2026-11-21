@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
-import {
-  deliverRealtime,
-  listLiveClaudeSessions,
-} from "../packages/aphrody/hooks-handlers/claude-peer.ts";
+import { deliverRealtime, listLiveClaudeSessions } from "./lib/claude-peer.ts";
+
+const USAGE =
+  "Usage: bun scripts/notify.ts [--list] [--to all|id|name|pid|cwd-basename] [--from sender] [--cwd path] [--urgent] [--mailbox] <message>";
 
 const args = Bun.argv.slice(2);
 if (args.includes("--list") || args.includes("-l")) {
@@ -20,43 +20,34 @@ if (args.includes("--list") || args.includes("-l")) {
   process.exit(0);
 }
 
-const opt = (flag: string): string | undefined => {
-  const i = args.indexOf(flag);
-  return i >= 0 ? args[i + 1] : undefined;
+const valueFlags = ["--to", "--from", "--cwd"];
+const option = (flag: string): string | undefined => {
+  const index = args.indexOf(flag);
+  return index >= 0 ? args[index + 1] : undefined;
 };
-
-const target = opt("--to") ?? "all";
-const sender = opt("--from") ?? "agy";
-const cwdFilter = opt("--cwd");
-const urgent = args.includes("--urgent");
-const alsoQueueHook = args.includes("--hook");
-
-const skip = new Set<number>();
-for (const f of ["--to", "--from", "--cwd"]) {
-  const i = args.indexOf(f);
-  if (i >= 0) {
-    skip.add(i);
-    skip.add(i + 1);
-  }
-}
 const text = args
-  .filter((a, i) => !skip.has(i) && a !== "--urgent" && a !== "--hook")
+  .filter(
+    (arg, index) =>
+      !valueFlags.includes(arg) &&
+      !valueFlags.includes(args[index - 1] ?? "") &&
+      arg !== "--urgent" &&
+      arg !== "--mailbox",
+  )
   .join(" ")
   .trim();
 
 if (!text) {
-  console.error(
-    "Usage: bun scripts/notify.ts [--list] [--to all|id|name|pid] [--from sender] [--cwd path] [--urgent] [--hook] <message>",
-  );
+  console.error(USAGE);
   process.exit(1);
 }
 
-const res = await deliverRealtime({
-  target,
-  sender,
-  cwdFilter,
-  urgent,
-  alsoQueueHook,
+const results = await deliverRealtime({
   message: text,
+  target: option("--to") ?? "all",
+  sender: option("--from"),
+  cwdFilter: option("--cwd"),
+  urgent: args.includes("--urgent"),
+  alsoMailbox: args.includes("--mailbox"),
 });
-console.log(JSON.stringify(res, null, 2));
+console.log(JSON.stringify(results, null, 2));
+process.exit(results.some((result) => !result.ok) ? 1 : 0);

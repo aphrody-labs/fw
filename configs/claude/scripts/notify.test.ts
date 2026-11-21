@@ -20,7 +20,6 @@ const run = (...args: string[]) =>
       ...process.env,
       HOME: home,
       USERPROFILE: home,
-      RELAY_HOME: join(home, "relay"),
     },
     stdout: "pipe",
     stderr: "pipe",
@@ -36,7 +35,7 @@ describe("notify.ts", () => {
   });
 
   test("flags without message text still print usage", () => {
-    const r = run("--to", "all", "--urgent", "--hook");
+    const r = run("--to", "all", "--urgent", "--mailbox");
     expect(r.exitCode).toBe(1);
     expect(r.stderr.toString()).toContain("Usage:");
   });
@@ -77,6 +76,33 @@ describe("notify.ts", () => {
         status: "idle",
         pipeReady: true,
       },
+    ]);
+  });
+});
+
+describe("notify.ts delivery", () => {
+  test("a sender that is not a live session goes to the mailbox", () => {
+    const dir = join(home, ".claude", "sessions");
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(
+      join(dir, `${process.pid}.json`),
+      JSON.stringify({
+        pid: process.pid,
+        sessionId: "11111111-2222-3333-4444-555555555555",
+        name: "receiver",
+        cwd: "/tmp/receiver",
+        status: "idle",
+        messagingSocketPath: join(home, "no-such-pipe"),
+      }),
+    );
+    const r = run("--to", "receiver", "--from", "ci", "build", "done");
+    expect(r.exitCode).toBe(0);
+    const results = JSON.parse(r.stdout.toString()) as Array<{
+      channel: string;
+      ok: boolean;
+    }>;
+    expect(results).toEqual([
+      expect.objectContaining({ channel: "mailbox", ok: true }),
     ]);
   });
 });

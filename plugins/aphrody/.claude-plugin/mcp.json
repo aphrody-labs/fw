@@ -11,6 +11,14 @@
     "huggingface-skills": {
       "type": "http",
       "url": "https://huggingface.co/mcp?login"
+    },
+    "claude-bridge": {
+      "command": "bun",
+      "args": [
+        "--no-install",
+        "--no-env-file",
+        "${CLAUDE_PLUGIN_ROOT}/mcp/claude-bridge.ts"
+      ]
     }
   }
 }

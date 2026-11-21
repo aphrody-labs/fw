@@ -22,6 +22,17 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun --no-install --no-env-file \"${CLAUDE_PLUGIN_ROOT}/hooks/mailbox.ts\"",
+            "timeout": 3
+          }
+        ]
+      }
     ]
   }
 }
