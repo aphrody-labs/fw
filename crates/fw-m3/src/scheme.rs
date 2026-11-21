@@ -23,20 +23,48 @@ pub enum SchemeVariant {
     Neutral,
     /// Greyscale.
     Monochrome,
+    /// Primary palette keeps the seed chroma; tertiary from a temperature analogue (MCU `Content`).
+    Content,
+    /// AOSP `RAINBOW`: chromatic accents on a greyscale neutral. Not for wallpaper extraction.
+    Rainbow,
+    /// AOSP `FRUIT_SALAD`: two-tone accents with hue rotation. Not for wallpaper extraction.
+    FruitSalad,
 }
 
 impl SchemeVariant {
-    /// Parses the kebab-case slug used in `product.toml` (`tonal-spot`, `fidelity`, ...).
+    /// Slugs accepted by [`Self::from_slug`], kebab-case as in `product.toml`.
+    pub const SLUGS: &[&str] = &[
+        "tonal-spot",
+        "vibrant",
+        "expressive",
+        "spritz",
+        "rainbow",
+        "fruit-salad",
+        "fidelity",
+        "content",
+        "neutral",
+        "monochrome",
+    ];
+
+    /// Parses the kebab-case slug used in `product.toml` (`tonal-spot`, `fidelity`, ...), or an AOSP
+    /// `android.theme.customization.theme_style` value (`TONAL_SPOT`, `VIBRANT`, `EXPRESSIVE`, `SPRITZ`,
+    /// `RAINBOW`, `FRUIT_SALAD`; source.android.com/docs/core/display/dynamic-color). AOSP's `SPRITZ`
+    /// is the low-vibrancy style that material-color-utilities ships as `Neutral`.
     pub fn from_slug(slug: &str) -> Option<Self> {
-        Some(match slug {
-            "tonal-spot" => Self::TonalSpot,
-            "fidelity" => Self::Fidelity,
-            "vibrant" => Self::Vibrant,
-            "expressive" => Self::Expressive,
-            "neutral" => Self::Neutral,
-            "monochrome" => Self::Monochrome,
-            _ => return None,
-        })
+        Some(
+            match slug.trim().to_ascii_lowercase().replace('_', "-").as_str() {
+                "tonal-spot" => Self::TonalSpot,
+                "fidelity" => Self::Fidelity,
+                "vibrant" => Self::Vibrant,
+                "expressive" => Self::Expressive,
+                "neutral" | "spritz" => Self::Neutral,
+                "monochrome" => Self::Monochrome,
+                "content" => Self::Content,
+                "rainbow" => Self::Rainbow,
+                "fruit-salad" => Self::FruitSalad,
+                _ => return None,
+            },
+        )
     }
 
     fn upstream(self) -> Variant {
@@ -47,6 +75,9 @@ impl SchemeVariant {
             Self::Expressive => Variant::Expressive,
             Self::Neutral => Variant::Neutral,
             Self::Monochrome => Variant::Monochrome,
+            Self::Content => Variant::Content,
+            Self::Rainbow => Variant::Rainbow,
+            Self::FruitSalad => Variant::FruitSalad,
         }
     }
 }
@@ -126,7 +157,10 @@ pub fn scheme_roles(seed: u32, variant: SchemeVariant, dark: bool) -> Vec<(&'sta
 
 /// One role as `0xRRGGBB`, or `None` for an unknown role name.
 pub fn role(seed: u32, variant: SchemeVariant, dark: bool, name: &str) -> Option<u32> {
-    scheme_roles(seed, variant, dark).into_iter().find(|(n, _)| *n == name).map(|(_, c)| c)
+    scheme_roles(seed, variant, dark)
+        .into_iter()
+        .find(|(n, _)| *n == name)
+        .map(|(_, c)| c)
 }
 
 /// CSS custom properties for both modes: light on `:root`, dark under `prefers-color-scheme`
@@ -156,13 +190,41 @@ pub fn splice_css(file: &str, generated: &str) -> Option<String> {
     let begin = file.find(CSS_BEGIN)?;
     let body_start = begin + file[begin..].find('\n')? + 1;
     let end = body_start + file[body_start..].find(CSS_END)?;
-    Some(format!("{}{}{}", &file[..body_start], generated, &file[end..]))
+    Some(format!(
+        "{}{}{}",
+        &file[..body_start],
+        generated,
+        &file[end..]
+    ))
+}
+
+/// AOSP rejects source colors below this CAM16 chroma (source.android.com/docs/core/display/material).
+pub const MIN_SEED_CHROMA: f64 = 5.0;
+
+/// The seed AOSP falls back to when no candidate color is usable (`0xFF1B6EF3`).
+pub const AOSP_FALLBACK_SEED: u32 = 0x1B6EF3;
+
+/// HCT chroma of a seed (HCT uses CAM16 hue and chroma).
+pub fn seed_chroma(seed: u32) -> f64 {
+    material_colors::hct::Hct::new(Rgb::from_u32(seed)).get_chroma()
+}
+
+/// The seed to build a scheme from, following AOSP: a seed under [`MIN_SEED_CHROMA`] gives a washed-out
+/// scheme, so it is replaced by [`AOSP_FALLBACK_SEED`]. `Monochrome` is greyscale by design and keeps it.
+pub fn usable_seed(seed: u32, variant: SchemeVariant) -> u32 {
+    if variant != SchemeVariant::Monochrome && seed_chroma(seed) < MIN_SEED_CHROMA {
+        AOSP_FALLBACK_SEED
+    } else {
+        seed
+    }
 }
 
 /// Parses `#rrggbb` (or `rrggbb`) into `0xRRGGBB`.
 pub fn parse_seed(hex: &str) -> Option<u32> {
     let h = hex.trim().trim_start_matches('#');
-    (h.len() == 6).then(|| u32::from_str_radix(h, 16).ok()).flatten()
+    (h.len() == 6)
+        .then(|| u32::from_str_radix(h, 16).ok())
+        .flatten()
 }
 
 #[cfg(test)]
@@ -171,6 +233,52 @@ mod tests {
 
     /// Aphrody brand seed; expected values are aphrody-labs/ay brand/tokens/m3-tokens.json (tonal-spot, spec 2021).
     const APHRODY_SEED: u32 = 0xe2dbad;
+
+    #[test]
+    fn aosp_theme_styles_parse() {
+        assert_eq!(
+            SchemeVariant::from_slug("TONAL_SPOT"),
+            Some(SchemeVariant::TonalSpot)
+        );
+        assert_eq!(
+            SchemeVariant::from_slug("SPRITZ"),
+            Some(SchemeVariant::Neutral)
+        );
+        assert_eq!(
+            SchemeVariant::from_slug("FRUIT_SALAD"),
+            Some(SchemeVariant::FruitSalad)
+        );
+        assert_eq!(
+            SchemeVariant::from_slug("rainbow"),
+            Some(SchemeVariant::Rainbow)
+        );
+        assert_eq!(SchemeVariant::from_slug("unknown"), None);
+        for slug in SchemeVariant::SLUGS {
+            let v = SchemeVariant::from_slug(slug).unwrap();
+            assert_eq!(
+                scheme_roles(APHRODY_SEED, v, false).len(),
+                ROLE_NAMES.len(),
+                "{slug}"
+            );
+        }
+    }
+
+    #[test]
+    fn low_chroma_seeds_fall_back_like_aosp() {
+        assert!(
+            seed_chroma(APHRODY_SEED) >= MIN_SEED_CHROMA,
+            "the brand seed is usable"
+        );
+        assert_eq!(
+            usable_seed(APHRODY_SEED, SchemeVariant::TonalSpot),
+            APHRODY_SEED
+        );
+        assert_eq!(
+            usable_seed(0x808080, SchemeVariant::TonalSpot),
+            AOSP_FALLBACK_SEED
+        );
+        assert_eq!(usable_seed(0x808080, SchemeVariant::Monochrome), 0x808080);
+    }
 
     #[test]
     fn aphrody_seed_reproduces_the_brand_tokens() {
@@ -198,11 +306,17 @@ mod tests {
     #[test]
     fn splice_replaces_only_the_block() {
         let file = "a\n/* m3-colors:begin note */\nold\n/* m3-colors:end */\nb\n";
-        assert_eq!(splice_css(file, "new\n").unwrap(), "a\n/* m3-colors:begin note */\nnew\n/* m3-colors:end */\nb\n");
+        assert_eq!(
+            splice_css(file, "new\n").unwrap(),
+            "a\n/* m3-colors:begin note */\nnew\n/* m3-colors:end */\nb\n"
+        );
         assert!(splice_css("no markers", "x").is_none());
         assert_eq!(parse_seed("#E2DBAD"), Some(APHRODY_SEED));
         assert_eq!(parse_seed("#e2db"), None);
-        assert_eq!(SchemeVariant::from_slug("tonal-spot"), Some(SchemeVariant::TonalSpot));
+        assert_eq!(
+            SchemeVariant::from_slug("tonal-spot"),
+            Some(SchemeVariant::TonalSpot)
+        );
     }
 
     #[test]
