@@ -1,0 +1,22 @@
+# fw-gateway configuration. Secrets are named by environment variable and read on the host at call time;
+# they never appear in a tool schema, a result or an error.
+
+[gateway]
+# meta: three tools whose cost does not depend on the catalogue; typed: every tool first-level; both.
+expose = "meta"
+search_limit = 8
+max_result_bytes = 65536
+
+# An API that publishes OpenAPI: each operation is a UTCP tool called directly over HTTPS, no server in between.
+[[provider]]
+kind = "openapi"
+name = "cloudflare"
+spec = "https://raw.githubusercontent.com/cloudflare/api-schemas/main/openapi.json"
+auth = { env = "CLOUDFLARE_API_TOKEN" }
+
+# An existing MCP server, consumed through the rmcp client.
+[[provider]]
+kind = "mcp"
+name = "github"
+url = "https://api.githubcopilot.com/mcp/"
+auth = { env = "GITHUB_PERSONAL_ACCESS_TOKEN" }

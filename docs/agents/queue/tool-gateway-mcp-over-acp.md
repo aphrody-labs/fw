@@ -39,3 +39,7 @@ fw already has its own MCP engine (`crates/fw-proto/src/mcp.rs`, 152/152 on the 
 - **Real tools:** GitHub through its official MCP server, and the Cloudflare API through OpenAPI with UTCP direct calls.
 - **Per call:** latency and context bytes, against the current setup.
 - **Conformance:** the official MCP suite still passes.
+
+## Status (2026-11-21)
+
+Built in `crates/fw-gateway` (standalone crate with its own lockfile, so it must stay in the `exclude` list if the Cargo members become `crates/*`); results in `docs/research/tool-gateway-2026-11-21.md`: gateway over MCP stdio and MCP over ACP, UTCP direct calls from OpenAPI (Cloudflare, 3,925 tools), GitHub's official MCP server through the rmcp client, and the engine decision by measurement (rmcp 3.11.0 passes the official suite on the three spec versions with no baseline). Open: joining the fw workspace and dispatch from `fw acp` and `fw mcp`, swapping the in-house engine in `fw-proto` for rmcp, replacing the per-service MCP servers of the Claude Code plugin with the gateway.

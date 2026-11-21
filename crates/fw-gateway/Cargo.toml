@@ -1,0 +1,47 @@
+[package]
+name = "fw-gateway"
+description = "One in-process tool gateway: UTCP (rs-utcp) for direct calls and OpenAPI, rmcp for MCP servers, served to agents as MCP over stdio and as MCP over ACP"
+version = "2026.11.0"
+edition = "2024"
+rust-version = "1.100"
+license = "MIT"
+repository = "https://github.com/aphrody-labs/fw"
+publish = false
+
+# Not a member of the fw workspace yet: own lockfile, so the root Cargo.toml and Cargo.lock stay untouched.
+[workspace]
+
+[[bin]]
+name = "fw-gateway"
+path = "src/main.rs"
+
+[dependencies]
+agent-client-protocol = { version = "=5.4.0", features = ["stdio", "schemars", "unstable_mcp_over_acp", "unstable_protocol_v2"] }
+agent-client-protocol-rmcp = { version = "=5.4.0", features = ["rmcp_3", "unstable_mcp_over_acp"] }
+rmcp = { version = "=3.11.0", features = ["server", "client", "transport-io", "transport-child-process", "transport-streamable-http-client-reqwest", "reqwest"] }
+rs-utcp = "=0.3.2"
+async-trait = "0.1"
+anyhow = "1"
+reqwest = { version = "0.13.5", default-features = false, features = ["json", "rustls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "io-std", "time", "sync", "process"] }
+tokio-util = { version = "0.7", features = ["compat"] }
+toml = "1.2.2"
+percent-encoding = "2"
+url = "2"
+http = "1"
+# rs-utcp 0.3.2 serialises rhai maps keyed by SmartString and relies on this feature being on; rhai 1.27 no longer enables it.
+smartstring = { version = "1", features = ["serde"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+unused_must_use = "deny"
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"
