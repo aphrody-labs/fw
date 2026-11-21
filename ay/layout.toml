@@ -129,3 +129,316 @@ crate = "h3-quinn"
 git = "https://github.com/aphrody-labs/h3"
 rev = "43745ad87e95b0c035ac9c547aad467303213425"
 
+
+[bun]
+workspaces = ["packages/*", "packages/env-kit/*", "apps/*"]
+# test fixture, installed by its own test
+exclude = ["packages/org-mirror/test/fixtures"]
+
+[uv]
+members = ["python/ay_*_py"]
+# python sides of polyglot packages (each has its own pyproject and lock scope) and a test fixture; they stay beside the code they serve
+exclude = ["packages/env-kit/loaders/python", "packages/ghidra/scripts/parity", "packages/org-mirror/test/fixtures", "packages/py2bun"]
+
+[gradle]
+root = "kotlin"
+include = ["aphrody-theme"]
+catalog = "kotlin/gradle/libs.versions.toml"
+
+[cmake]
+projects = ["packages/env-kit/loaders/cpp"]
+[[area]]
+path = ".bazelrc"
+decision = "keep"
+why = "Bazel requires these at the workspace root"
+
+[[area]]
+path = ".claude"
+decision = "keep"
+why = "Claude Code project agents, workflows and memory"
+
+[[area]]
+path = ".github"
+decision = "keep"
+why = "GitHub reads workflows, actions and templates from .github"
+
+[[area]]
+path = ".cargo"
+decision = "keep"
+why = "Cargo reads .cargo/config.toml from the workspace root"
+
+[[area]]
+path = "abi"
+decision = "keep"
+why = "ABI description (ay.abi.toml) and its generators, one source for the C, Rust and wasm bindings"
+
+[[area]]
+path = "apps"
+decision = "keep"
+why = "Bun workspaces convention: deployable apps live in apps/*"
+
+[[area]]
+path = "brand"
+decision = "keep"
+why = "brand assets, identity and tokens, the input of tokens-compose"
+
+[[area]]
+path = "config"
+decision = "keep"
+why = "dotfile sources for the developer shell tools, linked by config/links.toml"
+
+[[area]]
+path = "corelib"
+decision = "keep"
+why = "freestanding assembly and wasm core library with its own proof and tests"
+
+[[area]]
+path = "cpp"
+decision = "keep"
+why = "CMake root of the C++ edge ABI (the other C++ loader joins it)"
+
+[[area]]
+path = "crates"
+decision = "keep"
+why = "Cargo convention: flat crates/* members, one directory per crate"
+
+[[area]]
+path = "docs"
+decision = "keep"
+why = "documentation tree"
+
+[[area]]
+path = "kotlin"
+decision = "keep"
+why = "Gradle root: settings.gradle.kts, version catalog and wrapper at kotlin/"
+
+[[area]]
+path = "locales"
+decision = "keep"
+why = "message catalogs by locale (fr)"
+
+[[area]]
+path = "packages"
+decision = "keep"
+why = "Bun workspaces convention: libraries in packages/*"
+
+[[area]]
+path = "packages/env-kit"
+decision = "keep"
+why = "polyglot .env loaders: one self-contained project per language (cpp, dotnet, go, lua, python, shell) inside one Bun package; uv and CMake accept members anywhere through globs"
+
+[[area]]
+path = "python"
+decision = "keep"
+why = "uv workspace members (python/ay_*_py)"
+
+[[area]]
+path = "third_party"
+decision = "keep"
+why = "submodule gitlinks listed in submodules.toml (forks and upstreams ay builds against)"
+
+[[area]]
+path = "tools"
+decision = "keep"
+why = "repository scripts (Bun) with their own tests; one script per task"
+
+[[area]]
+path = ".bazelversion"
+decision = "keep"
+why = "Bazel requires these at the workspace root"
+
+[[area]]
+path = ".bun-native-baseline"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = ".clang-format"
+decision = "keep"
+why = "editors and search/lint tools discover their config upward from the root"
+
+[[area]]
+path = ".clang-tidy"
+decision = "keep"
+why = "editors and search/lint tools discover their config upward from the root"
+
+[[area]]
+path = ".editorconfig"
+decision = "keep"
+why = "editors and search/lint tools discover their config upward from the root"
+
+[[area]]
+path = ".gitattributes"
+decision = "keep"
+why = "Git reads these from the repository root"
+
+[[area]]
+path = ".gitignore"
+decision = "keep"
+why = "Git reads these from the repository root"
+
+[[area]]
+path = ".gitmessage"
+decision = "keep"
+why = "Git reads these from the repository root"
+
+[[area]]
+path = ".gitmodules"
+decision = "keep"
+why = "Git reads these from the repository root"
+
+[[area]]
+path = ".markdownlint-cli2.jsonc"
+decision = "keep"
+why = "editors and search/lint tools discover their config upward from the root"
+
+[[area]]
+path = ".oxfmtrc.json"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = ".oxlintrc.json"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = ".python-version"
+decision = "keep"
+why = "uv reads the Python project, workspace and pin from the root"
+
+[[area]]
+path = "AGENTS.md"
+decision = "keep"
+why = "agent rules and the style contract; agents load them from the root"
+
+[[area]]
+path = "CLAUDE.md"
+decision = "keep"
+why = "agent rules and the style contract; agents load them from the root"
+
+[[area]]
+path = "Cargo.lock"
+decision = "keep"
+why = "Cargo and the Rust toolchain read these from the workspace root"
+
+[[area]]
+path = "Cargo.toml"
+decision = "keep"
+why = "Cargo and the Rust toolchain read these from the workspace root"
+
+[[area]]
+path = "LICENSE"
+decision = "keep"
+why = "repository front matter and legal files, read by GitHub and package registries at the root"
+
+[[area]]
+path = "MAP.tsv"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "MODULE.bazel"
+decision = "keep"
+why = "Bazel requires these at the workspace root"
+
+[[area]]
+path = "README.md"
+decision = "keep"
+why = "repository front matter and legal files, read by GitHub and package registries at the root"
+
+[[area]]
+path = "REVIEW.md"
+decision = "keep"
+why = "repository front matter and legal files, read by GitHub and package registries at the root"
+
+[[area]]
+path = "ay.local.example.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "ay.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "bun.lock"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = "bunfig.toml"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = "clippy.toml"
+decision = "keep"
+why = "Cargo and the Rust toolchain read these from the workspace root"
+
+[[area]]
+path = "justfile"
+decision = "keep"
+why = "just discovers the justfile at the root"
+
+[[area]]
+path = "layout.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "map.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "naming.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "package.json"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = "paths.allow"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "pyproject.toml"
+decision = "keep"
+why = "uv reads the Python project, workspace and pin from the root"
+
+[[area]]
+path = "release.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "rust-toolchain.toml"
+decision = "keep"
+why = "Cargo and the Rust toolchain read these from the workspace root"
+
+[[area]]
+path = "submodules.toml"
+decision = "keep"
+why = "declarative product, naming, release and layout configuration: the single root source other files are derived from"
+
+[[area]]
+path = "tsconfig.json"
+decision = "keep"
+why = "Bun workspace root: install, lockfile, runtime config and TypeScript base config are read from the root"
+
+[[area]]
+path = "uv.lock"
+decision = "keep"
+why = "uv reads the Python project, workspace and pin from the root"
+
+[[area]]
+path = "workspace.just"
+decision = "keep"
+why = "just discovers the justfile at the root"
+

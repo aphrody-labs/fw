@@ -16,6 +16,7 @@ dev = [
 
 [tool.uv.workspace]
 members = ["python/ay_*_py"]
+exclude = ["packages/env-kit/loaders/python", "packages/ghidra/scripts/parity", "packages/org-mirror/test/fixtures", "packages/py2bun"]
 
 [tool.ruff]
 line-length = 100
