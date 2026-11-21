@@ -1,0 +1,3705 @@
+# Rust tooling and crates that matter for fw. Hand fields: name, kind, domain, fw, purpose, reason, source, proof.
+# Live fields (version, released, downloads, recent_downloads, seen_in) and [[source]] come from `bun scripts/rust-stack.ts refresh`.
+# fw status: used = declared in a Cargo.toml (crates) or wired into the repo at `proof` (others); adopt = measured or queued with a wire-in point; reject = evaluated, reason given.
+
+[[source]]
+name = "blessed.rs"
+url = "https://blessed.rs/crates"
+fetched = "2026-11-21"
+rev = "nicoburns/blessed-rs@6e317b7, 155 crates"
+
+[[source]]
+name = "awesome-rust"
+url = "https://github.com/rust-unofficial/awesome-rust"
+fetched = "2026-11-21"
+rev = "rust-unofficial/awesome-rust@98131d8"
+
+[[source]]
+name = "lib.rs categories"
+url = "https://lib.rs/"
+fetched = "2026-11-21"
+rev = "17 category pages"
+
+[[source]]
+name = "crates.io API"
+url = "https://crates.io/api/v1/crates"
+fetched = "2026-11-21"
+rev = "version, downloads, recent_downloads, release date"
+
+[[source]]
+name = "GitHub API"
+url = "https://api.github.com/"
+fetched = "2026-11-21"
+rev = "releases and tags of non-crates.io tools"
+
+[[source]]
+name = "rustup components"
+url = "https://rust-lang.github.io/rustup/concepts/components.html"
+fetched = "2026-11-21"
+rev = "rustfmt, clippy, rust-analyzer, miri, llvm-tools"
+
+[[entry]]
+name = "cargo-nextest"
+kind = "tool"
+domain = "test"
+fw = "used"
+purpose = "parallel test runner, per-test process, JUnit and retries"
+reason = "rust-audit test step runs the workspace under nextest; the baseline run of 2026-11-21 was killed by SIGTERM (rc 143) under fr1 load, so no wall-time comparison with cargo test is recorded"
+source = "https://crates.io/crates/cargo-nextest"
+proof = "configs/claude/scripts/rust-audit.ts"
+version = "0.9.152"
+released = "2026-11-13"
+downloads = 14027614
+recent_downloads = 1915935
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "cargo-hakari"
+kind = "tool"
+domain = "build-speed"
+fw = "reject"
+purpose = "workspace-hack crate that unifies features across the workspace"
+reason = "unit-graph check: switching from -p fw-bin to --workspace recompiles 14 of fw-bin's 55 external units, while the workspace-hack crate would carry 159 dependency lines and touch every one of 39 manifests; release and CI builds do not alternate subsets"
+source = "https://crates.io/crates/cargo-hakari"
+version = "0.9.39"
+released = "2026-09-19"
+downloads = 1223146
+recent_downloads = 134468
+
+[[entry]]
+name = "cargo-deny"
+kind = "tool"
+domain = "supply-chain"
+fw = "used"
+purpose = "advisories, licenses, bans and sources gate driven by deny.toml"
+reason = "deny.toml gate: advisories ok, bans ok, licenses ok, sources ok; first run found 26 errors, 13 advisories ignored with a reason each"
+source = "https://crates.io/crates/cargo-deny"
+proof = "deny.toml"
+version = "0.22.0"
+released = "2026-11-19"
+downloads = 7803055
+recent_downloads = 2600256
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "cargo-udeps"
+kind = "tool"
+domain = "deps-hygiene"
+fw = "used"
+purpose = "unused dependencies from a real compile, needs nightly"
+reason = "rust-audit unused step on nightly; the baseline run exited 101 after 1332 s, so machete and shear are the gates"
+source = "https://crates.io/crates/cargo-udeps"
+proof = "configs/claude/scripts/rust-audit.ts"
+version = "0.1.61"
+released = "2026-04-29"
+downloads = 1535928
+recent_downloads = 104864
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-machete"
+kind = "tool"
+domain = "deps-hygiene"
+fw = "used"
+purpose = "fast regex scan for unused dependencies"
+reason = "CI hygiene job over the workspace members; baseline flagged 22 lines repo-wide: 7 removed from workspace members, pbjson ignored in fw-a2a (OUT_DIR code), the other 14 sit in fw-edge and os/* outside the workspace"
+source = "https://crates.io/crates/cargo-machete"
+proof = ".github/workflows/ci.yml"
+version = "0.10.1"
+released = "2026-11-16"
+downloads = 3390710
+recent_downloads = 676344
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-shear"
+kind = "tool"
+domain = "deps-hygiene"
+fw = "used"
+purpose = "AST scan for unused and misplaced dependencies, can --fix"
+reason = "CI hygiene job; baseline 4 errors (fw-proto 3, fw-drive 1), now 0 errors"
+source = "https://crates.io/crates/cargo-shear"
+proof = ".github/workflows/ci.yml"
+version = "1.14.1"
+released = "2026-11-13"
+downloads = 552704
+recent_downloads = 78974
+
+[[entry]]
+name = "cargo-bloat"
+kind = "tool"
+domain = "size"
+fw = "used"
+purpose = "binary size per crate and per function"
+reason = "baseline fw-bin release .text: std 21.7%, fw 13.2%, rustls 10.0%, ring 7.7%, fw_apm 6.0%"
+source = "https://crates.io/crates/cargo-bloat"
+proof = "configs/claude/scripts/rust-audit.ts"
+version = "0.12.1"
+released = "2024-05-10"
+downloads = 446523
+recent_downloads = 65341
+
+[[entry]]
+name = "cargo-llvm-lines"
+kind = "tool"
+domain = "size"
+fw = "used"
+purpose = "LLVM IR lines per generic function, finds monomorphization bloat"
+reason = "rust-audit bloat step; the baseline parse of its table failed and is recorded as unknown"
+source = "https://crates.io/crates/cargo-llvm-lines"
+proof = "configs/claude/scripts/rust-audit.ts"
+version = "0.4.48"
+released = "2026-08-19"
+downloads = 155613
+recent_downloads = 15078
+
+[[entry]]
+name = "cargo-semver-checks"
+kind = "tool"
+domain = "release"
+fw = "reject"
+purpose = "semver lint of a crate against its previous release"
+reason = "fw crates are not published on crates.io (fw-wasm lookup returns not found), so there is no baseline to diff"
+source = "https://crates.io/crates/cargo-semver-checks"
+version = "0.51.0"
+released = "2026-10-03"
+downloads = 750604
+recent_downloads = 175296
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "cargo-mutants"
+kind = "tool"
+domain = "test"
+fw = "adopt"
+purpose = "mutation testing of the test suite"
+reason = "run on demand"
+source = "https://crates.io/crates/cargo-mutants"
+version = "27.1.0"
+released = "2026-06-02"
+downloads = 996312
+recent_downloads = 497808
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-binstall"
+kind = "tool"
+domain = "install"
+fw = "adopt"
+purpose = "installs prebuilt cargo tools instead of compiling them"
+reason = "installs prebuilt cargo tools on fr1 (about 35 tools this session) without compiling them"
+source = "https://crates.io/crates/cargo-binstall"
+version = "1.27.0"
+released = "2026-11-11"
+downloads = 3761196
+recent_downloads = 309327
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-msrv"
+kind = "tool"
+domain = "release"
+fw = "adopt"
+purpose = "finds the minimal supported Rust version"
+reason = "run on demand"
+source = "https://crates.io/crates/cargo-msrv"
+version = "0.19.6"
+released = "2026-10-21"
+downloads = 537680
+recent_downloads = 33253
+
+[[entry]]
+name = "cargo-edit"
+kind = "tool"
+domain = "deps-hygiene"
+fw = "adopt"
+purpose = "cargo upgrade and cargo set-version, bumps dependency requirements"
+reason = "run on demand"
+source = "https://crates.io/crates/cargo-edit"
+version = "0.13.14"
+released = "2026-10-21"
+downloads = 4079579
+recent_downloads = 627487
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "cargo-outdated"
+kind = "tool"
+domain = "deps-hygiene"
+fw = "reject"
+purpose = "lists outdated dependencies"
+reason = "cargo upgrade --dry-run and cargo update --dry-run cover it"
+source = "https://crates.io/crates/cargo-outdated"
+version = "0.19.0"
+released = "2026-04-14"
+downloads = 1030476
+recent_downloads = 73801
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "cargo-expand"
+kind = "tool"
+domain = "debug"
+fw = "adopt"
+purpose = "prints macro-expanded source"
+reason = "run on demand"
+source = "https://crates.io/crates/cargo-expand"
+version = "1.0.127"
+released = "2026-10-09"
+downloads = 3938920
+recent_downloads = 549248
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "flamegraph"
+kind = "tool"
+domain = "profile"
+fw = "adopt"
+purpose = "cargo flamegraph, perf-based flame graphs"
+reason = "run on demand"
+source = "https://crates.io/crates/flamegraph"
+version = "0.6.15"
+released = "2026-11-02"
+downloads = 1035918
+recent_downloads = 46442
+
+[[entry]]
+name = "samply"
+kind = "tool"
+domain = "profile"
+fw = "adopt"
+purpose = "sampling profiler with Firefox Profiler UI"
+reason = "run on demand"
+source = "https://crates.io/crates/samply"
+version = "0.13.1"
+released = "2025-02-01"
+downloads = 146515
+recent_downloads = 16372
+
+[[entry]]
+name = "sccache"
+kind = "tool"
+domain = "build-speed"
+fw = "reject"
+purpose = "shared compiler cache for rustc and cc"
+reason = "clean release fw-bin build on fr1: 188.6 s cold against 187.7 s warm (cache hits 25 to 91, cpu 70.6 s to 75.4 s); the time is fw-bin fat-LTO codegen, which sccache cannot cache; the host-level sccache the fleet sets stays for dev and check builds"
+source = "https://github.com/mozilla/sccache"
+version = "v0.19.0"
+released = "2026-10-24"
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "mold"
+kind = "tool"
+domain = "link"
+fw = "adopt"
+purpose = "fast ELF linker"
+reason = "dev relink of fw-bin on fr1: 1.19 s CPU against 1.57 s with the default rust-lld (5 relinks each); a host-level setting, not repo config, since CI runners do not ship it"
+source = "https://github.com/rui314/mold"
+version = "v3.0.0"
+released = "2026-10-05"
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "wild-linker"
+kind = "tool"
+domain = "link"
+fw = "adopt"
+purpose = "Rust ELF linker, incremental linking"
+reason = "dev relink of fw-bin on fr1: 1.16 s CPU against 1.57 s with rust-lld (5 relinks each), wall 1.66 s against 3.03 s; host-level setting like mold"
+source = "https://github.com/davidlattimore/wild"
+version = "0.11.0"
+released = "2026-10-24"
+
+[[entry]]
+name = "cargo-zigbuild"
+kind = "tool"
+domain = "cross"
+fw = "reject"
+purpose = "cross compile with zig cc as linker and libc selector"
+reason = "CI builds musl and wasm with plain rustup targets and musl-tools"
+source = "https://crates.io/crates/cargo-zigbuild"
+version = "0.24.1"
+released = "2026-11-04"
+downloads = 8691283
+recent_downloads = 2000962
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "cross"
+kind = "tool"
+domain = "cross"
+fw = "reject"
+purpose = "docker-based cross compilation"
+reason = "needs docker on the builder and CI already uses native runners per OS"
+source = "https://crates.io/crates/cross"
+version = "0.2.5"
+released = "2023-02-04"
+downloads = 6588584
+recent_downloads = 387412
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "cargo-chef"
+kind = "tool"
+domain = "build-speed"
+fw = "reject"
+purpose = "dependency layer caching for Docker builds"
+reason = "the Dockerfile builds one binary; Swatinem/rust-cache covers CI"
+source = "https://crates.io/crates/cargo-chef"
+version = "0.1.78"
+released = "2026-08-12"
+downloads = 5332333
+recent_downloads = 1432169
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-auditable"
+kind = "tool"
+domain = "supply-chain"
+fw = "adopt"
+purpose = "embeds the dependency list in the binary for cargo audit bin"
+reason = "installed on fr1; the byte cost of the embedded dependency list is not measured yet"
+source = "https://crates.io/crates/cargo-auditable"
+version = "0.7.7"
+released = "2026-10-02"
+downloads = 1523734
+recent_downloads = 578659
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-vet"
+kind = "tool"
+domain = "supply-chain"
+fw = "reject"
+purpose = "audit ledger for third-party crates"
+reason = "1100+ crates in the graph, no audit ledger to import; cargo-deny covers advisories and licenses"
+source = "https://crates.io/crates/cargo-vet"
+version = "0.10.3"
+released = "2026-10-22"
+downloads = 750844
+recent_downloads = 149720
+
+[[entry]]
+name = "cargo-pgo"
+kind = "tool"
+domain = "profile"
+fw = "reject"
+purpose = "PGO and BOLT builds"
+reason = "fw is a short-lived CLI with no single representative workload; needs llvm-tools and a profile corpus per release"
+source = "https://crates.io/crates/cargo-pgo"
+version = "0.3.0"
+released = "2026-01-25"
+downloads = 81224
+recent_downloads = 14035
+
+[[entry]]
+name = "cargo-wizard"
+kind = "tool"
+domain = "profile"
+fw = "adopt"
+purpose = "suggests Cargo profile templates for compile time or runtime"
+reason = "installed on fr1 as a cross-check for profile choices; not run"
+source = "https://crates.io/crates/cargo-wizard"
+version = "0.2.3"
+released = "2026-04-13"
+downloads = 11447
+recent_downloads = 214
+
+[[entry]]
+name = "cargo-audit"
+kind = "tool"
+domain = "supply-chain"
+fw = "used"
+purpose = "RustSec advisory scan of Cargo.lock"
+reason = "baseline 11 vulnerabilities and 18 warnings on Cargo.lock; the 11 are the deny.toml ignores with reasons"
+source = "https://crates.io/crates/cargo-audit"
+proof = "configs/claude/scripts/rust-audit.ts"
+version = "0.23.0"
+released = "2026-11-10"
+downloads = 15418920
+recent_downloads = 4568188
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "cargo-llvm-cov"
+kind = "tool"
+domain = "test"
+fw = "adopt"
+purpose = "LLVM source based coverage"
+reason = "already installed on the PC"
+source = "https://crates.io/crates/cargo-llvm-cov"
+version = "0.9.2"
+released = "2026-11-20"
+downloads = 9385465
+recent_downloads = 2024760
+
+[[entry]]
+name = "cargo-miri"
+kind = "tool"
+domain = "test"
+fw = "adopt"
+purpose = "UB checker for unsafe code (rustup component miri)"
+reason = "already installed on the PC"
+source = "https://crates.io/crates/cargo-miri"
+version = "0.0.0"
+released = "2018-03-14"
+downloads = 4557
+recent_downloads = 7
+
+[[entry]]
+name = "cargo-show-asm"
+kind = "tool"
+domain = "profile"
+fw = "adopt"
+purpose = "shows assembly or LLVM IR of one function"
+reason = "run on demand"
+source = "https://crates.io/crates/cargo-show-asm"
+version = "0.2.65"
+released = "2026-11-11"
+downloads = 201549
+recent_downloads = 10893
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "cargo-sort"
+kind = "tool"
+domain = "deps-hygiene"
+fw = "reject"
+purpose = "sorts Cargo.toml sections"
+reason = "taplo and cargo-shear cover; style only"
+source = "https://crates.io/crates/cargo-sort"
+version = "2.1.5"
+released = "2026-11-19"
+downloads = 2650361
+recent_downloads = 198290
+
+[[entry]]
+name = "cargo-about"
+kind = "tool"
+domain = "release"
+fw = "reject"
+purpose = "license attribution generator"
+reason = "THIRD_PARTY_NOTICES.md is maintained already"
+source = "https://crates.io/crates/cargo-about"
+version = "0.9.3"
+released = "2026-10-26"
+downloads = 1516950
+recent_downloads = 415331
+
+[[entry]]
+name = "cargo-dist"
+kind = "tool"
+domain = "release"
+fw = "reject"
+purpose = "release packaging and installers"
+reason = "release.yml already ships fw artifacts"
+source = "https://crates.io/crates/cargo-dist"
+version = "0.34.0"
+released = "2026-11-02"
+downloads = 191682
+recent_downloads = 19315
+
+[[entry]]
+name = "cargo-release"
+kind = "tool"
+domain = "release"
+fw = "reject"
+purpose = "version bump, tag and publish"
+reason = "workspace version is bumped by xtask ship"
+source = "https://crates.io/crates/cargo-release"
+version = "1.1.7"
+released = "2026-10-21"
+downloads = 554921
+recent_downloads = 18428
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "release-plz"
+kind = "tool"
+domain = "release"
+fw = "reject"
+purpose = "release PR automation from conventional commits"
+reason = "xtask ship owns the release flow"
+source = "https://crates.io/crates/release-plz"
+version = "0.4.3"
+released = "2026-11-02"
+downloads = 366535
+recent_downloads = 32153
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-geiger"
+kind = "tool"
+domain = "supply-chain"
+fw = "reject"
+purpose = "counts unsafe usage per dependency"
+reason = "output is informational, no gate threshold; miri covers fw own unsafe"
+source = "https://crates.io/crates/cargo-geiger"
+version = "0.14.0"
+released = "2026-10-12"
+downloads = 279847
+recent_downloads = 54451
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-diet"
+kind = "tool"
+domain = "release"
+fw = "reject"
+purpose = "trims crate package size"
+reason = "cargo package gate in CI verifies the tarballs"
+source = "https://crates.io/crates/cargo-diet"
+version = "1.4.2"
+released = "2026-10-31"
+downloads = 26356
+recent_downloads = 641
+
+[[entry]]
+name = "cargo-hack"
+kind = "tool"
+domain = "test"
+fw = "adopt"
+purpose = "feature powerset and per-crate check"
+reason = "checks features individually"
+source = "https://crates.io/crates/cargo-hack"
+version = "0.6.46"
+released = "2026-11-01"
+downloads = 2029645
+recent_downloads = 208137
+
+[[entry]]
+name = "cargo-insta"
+kind = "tool"
+domain = "test"
+fw = "reject"
+purpose = "review UI for insta snapshots"
+reason = "fw has no insta snapshots"
+source = "https://crates.io/crates/cargo-insta"
+version = "1.49.0"
+released = "2026-10-03"
+downloads = 1682360
+recent_downloads = 166544
+
+[[entry]]
+name = "hyperfine"
+kind = "tool"
+domain = "bench"
+fw = "used"
+purpose = "command-line benchmarking"
+reason = "rust-audit startup and profile steps time the release binary"
+source = "https://crates.io/crates/hyperfine"
+proof = "configs/claude/scripts/rust-audit.ts"
+version = "2.0.0"
+released = "2026-10-07"
+downloads = 789442
+recent_downloads = 127186
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "cargo-public-api"
+kind = "tool"
+domain = "release"
+fw = "reject"
+purpose = "public API diff via rustdoc json"
+reason = "cargo-semver-checks covers it"
+source = "https://crates.io/crates/cargo-public-api"
+version = "0.52.0"
+released = "2026-05-25"
+downloads = 424841
+recent_downloads = 181815
+
+[[entry]]
+name = "cargo-license"
+kind = "tool"
+domain = "supply-chain"
+fw = "reject"
+purpose = "lists dependency licenses"
+reason = "cargo deny check licenses covers it"
+source = "https://crates.io/crates/cargo-license"
+version = "0.7.0"
+released = "2025-07-29"
+downloads = 2111919
+recent_downloads = 239140
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "cargo-watch"
+kind = "tool"
+domain = "dev-loop"
+fw = "reject"
+purpose = "rerun on file change"
+reason = "no watcher is wired; the dev loop is rust-analyzer checks and nextest"
+source = "https://crates.io/crates/cargo-watch"
+version = "8.5.3"
+released = "2024-10-02"
+downloads = 2125492
+recent_downloads = 198173
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "bacon"
+kind = "tool"
+domain = "dev-loop"
+fw = "reject"
+purpose = "background checker TUI"
+reason = "editor and rust-analyzer already run checks"
+source = "https://crates.io/crates/bacon"
+version = "3.26.0"
+released = "2026-09-26"
+downloads = 348856
+recent_downloads = 26115
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "taplo-cli"
+kind = "tool"
+domain = "deps-hygiene"
+fw = "reject"
+purpose = "TOML formatter and linter"
+reason = "style only"
+source = "https://crates.io/crates/taplo-cli"
+version = "0.10.0"
+released = "2025-05-23"
+downloads = 2366916
+recent_downloads = 227170
+
+[[entry]]
+name = "typos-cli"
+kind = "tool"
+domain = "deps-hygiene"
+fw = "reject"
+purpose = "source spell checker"
+reason = "docs are French and English, high false positives"
+source = "https://crates.io/crates/typos-cli"
+version = "1.52.2"
+released = "2026-11-11"
+downloads = 1094084
+recent_downloads = 137559
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-tarpaulin"
+kind = "tool"
+domain = "test"
+fw = "reject"
+purpose = "coverage via ptrace"
+reason = "cargo-llvm-cov is cross-platform and exact"
+source = "https://crates.io/crates/cargo-tarpaulin"
+version = "0.37.6"
+released = "2026-11-05"
+downloads = 3240120
+recent_downloads = 306780
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cargo-fuzz"
+kind = "tool"
+domain = "test"
+fw = "reject"
+purpose = "libFuzzer harness"
+reason = "needs nightly; fw parsers are covered by proptest"
+source = "https://crates.io/crates/cargo-fuzz"
+version = "0.13.2"
+released = "2026-06-09"
+downloads = 6695123
+recent_downloads = 2489498
+
+[[entry]]
+name = "cargo-xwin"
+kind = "tool"
+domain = "cross"
+fw = "reject"
+purpose = "cross-compile to MSVC from Linux"
+reason = "CI builds on windows-latest natively"
+source = "https://crates.io/crates/cargo-xwin"
+version = "0.23.1"
+released = "2026-08-13"
+downloads = 5394285
+recent_downloads = 1068347
+
+[[entry]]
+name = "twiggy"
+kind = "tool"
+domain = "size"
+fw = "reject"
+purpose = "wasm code size profiler"
+reason = "wasm-opt size pass covers fw-wasm"
+source = "https://crates.io/crates/twiggy"
+version = "0.8.0"
+released = "2025-06-15"
+downloads = 102345
+recent_downloads = 13630
+
+[[entry]]
+name = "rustfmt"
+kind = "component"
+domain = "lint"
+fw = "used"
+purpose = "formatter, rustup component"
+reason = "pinned in rust-toolchain.toml"
+source = "https://rust-lang.github.io/rustup/concepts/components.html"
+proof = "rust-toolchain.toml"
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "clippy"
+kind = "component"
+domain = "lint"
+fw = "used"
+purpose = "lints, workspace perf group denied"
+reason = "CI runs clippy -D warnings"
+source = "https://github.com/rust-lang/rust-clippy"
+proof = "rust-toolchain.toml"
+version = "v0.0.212"
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "rust-analyzer"
+kind = "component"
+domain = "ide"
+fw = "adopt"
+purpose = "language server"
+reason = "installed on the PC and fr1 (rustup show), not listed in rust-toolchain.toml components"
+source = "https://github.com/rust-lang/rust-analyzer"
+version = "2026-11-16"
+released = "2026-11-16"
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "miri"
+kind = "component"
+domain = "test"
+fw = "adopt"
+purpose = "MIR interpreter, nightly only"
+reason = "run on demand on unsafe code, nightly only"
+source = "https://github.com/rust-lang/miri"
+
+[[entry]]
+name = "llvm-tools"
+kind = "component"
+domain = "profile"
+fw = "reject"
+purpose = "llvm-profdata and friends for PGO and coverage"
+reason = "cargo-llvm-cov installs it on demand"
+source = "https://doc.rust-lang.org/rustc/instrument-coverage.html"
+
+[[entry]]
+name = "rustc_codegen_cranelift"
+kind = "component"
+domain = "build-speed"
+fw = "reject"
+purpose = "Cranelift backend for dev builds, nightly only"
+reason = "toolchain is pinned to stable 1.100.0"
+source = "https://github.com/rust-lang/rustc_codegen_cranelift"
+version = "v0.1.0"
+
+[[entry]]
+name = "rustup"
+kind = "tool"
+domain = "install"
+fw = "used"
+purpose = "toolchain manager"
+reason = "rust-toolchain.toml pins 1.100.0"
+source = "https://github.com/rust-lang/rustup"
+proof = "rust-toolchain.toml"
+version = "1.29.3"
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "Swatinem/rust-cache"
+kind = "action"
+domain = "ci"
+fw = "used"
+purpose = "target and registry cache for GitHub Actions"
+reason = "every ci.yml job"
+source = "https://github.com/Swatinem/rust-cache"
+proof = ".github/workflows/ci.yml"
+version = "v2.9.3"
+released = "2026-10-20"
+
+[[entry]]
+name = "taiki-e/install-action"
+kind = "action"
+domain = "ci"
+fw = "adopt"
+purpose = "installs prebuilt tools in CI"
+reason = "installs deny, machete and shear in the hygiene job"
+source = "https://github.com/taiki-e/install-action"
+version = "v2.90.6"
+released = "2026-11-18"
+
+[[entry]]
+name = "tokio"
+kind = "crate"
+domain = "async"
+fw = "used"
+purpose = "async runtime"
+reason = "de facto standard, axum, hyper, tonic and reqwest require it"
+source = "https://crates.io/crates/tokio"
+version = "1.54.1"
+released = "2026-10-21"
+downloads = 1224457287
+recent_downloads = 322350615
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "smol"
+kind = "crate"
+domain = "async"
+fw = "reject"
+purpose = "small async runtime"
+reason = "the HTTP stack is tokio only"
+source = "https://crates.io/crates/smol"
+version = "2.0.2"
+released = "2024-09-07"
+downloads = 29497457
+recent_downloads = 8349825
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "glommio"
+kind = "crate"
+domain = "async"
+fw = "reject"
+purpose = "io_uring thread-per-core runtime"
+reason = "Linux only, fw targets Windows, macOS and Linux"
+source = "https://crates.io/crates/glommio"
+version = "0.9.0"
+released = "2024-03-25"
+downloads = 179754
+recent_downloads = 22928
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "monoio"
+kind = "crate"
+domain = "async"
+fw = "reject"
+purpose = "io_uring thread-per-core runtime"
+reason = "Linux only"
+source = "https://crates.io/crates/monoio"
+version = "0.2.4"
+released = "2024-08-20"
+downloads = 1772632
+recent_downloads = 407151
+
+[[entry]]
+name = "futures"
+kind = "crate"
+domain = "async"
+fw = "used"
+purpose = "combinators and traits"
+reason = "declared by 7 manifests"
+source = "https://crates.io/crates/futures"
+version = "0.3.34"
+released = "2026-08-11"
+downloads = 961865471
+recent_downloads = 227512819
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "futures-util"
+kind = "crate"
+domain = "async"
+fw = "used"
+purpose = "stream and future utilities"
+reason = "declared by 7 manifests"
+source = "https://crates.io/crates/futures-util"
+version = "0.3.34"
+released = "2026-08-11"
+downloads = 1168438034
+recent_downloads = 328203579
+
+[[entry]]
+name = "tokio-stream"
+kind = "crate"
+domain = "async"
+fw = "used"
+purpose = "stream adapters for tokio"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/tokio-stream"
+version = "0.1.19"
+released = "2026-07-22"
+downloads = 600384260
+recent_downloads = 163661099
+
+[[entry]]
+name = "async-trait"
+kind = "crate"
+domain = "async"
+fw = "used"
+purpose = "async fn in dyn traits"
+reason = "dyn dispatch still needs boxing"
+source = "https://crates.io/crates/async-trait"
+version = "0.1.92"
+released = "2026-08-08"
+downloads = 837390729
+recent_downloads = 220859762
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "pin-project-lite"
+kind = "crate"
+domain = "async"
+fw = "reject"
+purpose = "pin projection without a proc macro"
+reason = "reached transitively (cargo tree -i shows the path); no fw code calls it directly"
+source = "https://crates.io/crates/pin-project-lite"
+version = "0.2.18"
+released = "2026-11-19"
+downloads = 1292675526
+recent_downloads = 341375930
+
+[[entry]]
+name = "tokio-util"
+kind = "crate"
+domain = "async"
+fw = "reject"
+purpose = "codecs and cancellation token"
+reason = "reached transitively (cargo tree -i shows the path); no fw code calls it directly"
+source = "https://crates.io/crates/tokio-util"
+version = "0.7.20"
+released = "2026-10-09"
+downloads = 979885468
+recent_downloads = 251297161
+
+[[entry]]
+name = "reqwest"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "HTTP client with HTTP/3"
+reason = "optional client feature of fw-http, with h2 and h3"
+source = "https://crates.io/crates/reqwest"
+version = "0.13.5"
+released = "2026-09-08"
+downloads = 940453617
+recent_downloads = 278874339
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "ureq"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "blocking HTTP client, rustls"
+reason = "small blocking client for fw-bin"
+source = "https://crates.io/crates/ureq"
+version = "3.5.2"
+released = "2026-11-12"
+downloads = 276632823
+recent_downloads = 92435389
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "hyper"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "HTTP implementation"
+reason = "declared by 4 manifests"
+source = "https://crates.io/crates/hyper"
+version = "1.12.0"
+released = "2026-10-06"
+downloads = 1158803937
+recent_downloads = 299578326
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "hyper-util"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "hyper client and server helpers"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/hyper-util"
+version = "0.1.21"
+released = "2026-09-24"
+downloads = 660154422
+recent_downloads = 228393446
+
+[[entry]]
+name = "axum"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "HTTP server framework"
+reason = "declared by 9 manifests"
+source = "https://crates.io/crates/axum"
+version = "0.8.9"
+released = "2026-04-14"
+downloads = 610544793
+recent_downloads = 173876753
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "tower"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "service abstraction"
+reason = "declared by 4 manifests"
+source = "https://crates.io/crates/tower"
+version = "0.5.3"
+released = "2026-01-12"
+downloads = 866367268
+recent_downloads = 255101395
+
+[[entry]]
+name = "http"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "HTTP types"
+reason = "declared by 4 manifests"
+source = "https://crates.io/crates/http"
+version = "1.5.0"
+released = "2026-07-29"
+downloads = 1290709096
+recent_downloads = 348165460
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "http-body-util"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "body utilities"
+reason = "declared by 5 manifests"
+source = "https://crates.io/crates/http-body-util"
+version = "0.1.5"
+released = "2026-08-12"
+downloads = 643853195
+recent_downloads = 227916340
+
+[[entry]]
+name = "actix-web"
+kind = "crate"
+domain = "http"
+fw = "reject"
+purpose = "HTTP server framework"
+reason = "axum already shares tower and hyper with the rest of the stack"
+source = "https://crates.io/crates/actix-web"
+version = "4.20.0"
+released = "2026-11-17"
+downloads = 91966821
+recent_downloads = 13876713
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "h3"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "HTTP/3 on quinn, git fork patch"
+reason = "master carries fixes 0.0.8 lacks"
+source = "https://crates.io/crates/h3"
+version = "0.0.8"
+released = "2025-05-06"
+downloads = 6000356
+recent_downloads = 1996926
+
+[[entry]]
+name = "quinn"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "QUIC"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/quinn"
+version = "0.11.12"
+released = "2026-09-14"
+downloads = 436939698
+recent_downloads = 163452129
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "tonic"
+kind = "crate"
+domain = "http"
+fw = "used"
+purpose = "gRPC"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/tonic"
+version = "0.14.9"
+released = "2026-10-29"
+downloads = 485752563
+recent_downloads = 119529894
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "rustls"
+kind = "crate"
+domain = "tls"
+fw = "used"
+purpose = "TLS in Rust"
+reason = "declared by 10 manifests"
+source = "https://crates.io/crates/rustls"
+version = "0.23.46"
+released = "2026-10-14"
+downloads = 1152117697
+recent_downloads = 298064889
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "tokio-rustls"
+kind = "crate"
+domain = "tls"
+fw = "used"
+purpose = "rustls for tokio"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/tokio-rustls"
+version = "0.26.6"
+released = "2026-09-28"
+downloads = 970031743
+recent_downloads = 254741061
+
+[[entry]]
+name = "rustls-native-certs"
+kind = "crate"
+domain = "tls"
+fw = "used"
+purpose = "OS trust store"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/rustls-native-certs"
+version = "0.8.5"
+released = "2026-10-13"
+downloads = 707228880
+recent_downloads = 198583845
+
+[[entry]]
+name = "webpki-roots"
+kind = "crate"
+domain = "tls"
+fw = "used"
+purpose = "Mozilla root set"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/webpki-roots"
+version = "1.0.12"
+released = "2026-11-10"
+downloads = 955256336
+recent_downloads = 270259731
+
+[[entry]]
+name = "rcgen"
+kind = "crate"
+domain = "tls"
+fw = "used"
+purpose = "certificate generation"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/rcgen"
+version = "0.14.10"
+released = "2026-08-28"
+downloads = 154244683
+recent_downloads = 63428748
+
+[[entry]]
+name = "aws-lc-rs"
+kind = "crate"
+domain = "tls"
+fw = "reject"
+purpose = "crypto provider for rustls"
+reason = "rustls selects its crypto provider; no direct use"
+source = "https://crates.io/crates/aws-lc-rs"
+version = "1.19.0"
+released = "2026-10-28"
+downloads = 327082556
+recent_downloads = 128863008
+
+[[entry]]
+name = "native-tls"
+kind = "crate"
+domain = "tls"
+fw = "reject"
+purpose = "OS TLS binding"
+reason = "rustls everywhere keeps one TLS stack"
+source = "https://crates.io/crates/native-tls"
+version = "0.2.18"
+released = "2026-02-18"
+downloads = 393686044
+recent_downloads = 74867507
+
+[[entry]]
+name = "serde"
+kind = "crate"
+domain = "serde"
+fw = "used"
+purpose = "serialization framework"
+reason = "declared by 37 manifests"
+source = "https://crates.io/crates/serde"
+version = "1.0.229"
+released = "2026-07-18"
+downloads = 1752708743
+recent_downloads = 451069940
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "serde_json"
+kind = "crate"
+domain = "serde"
+fw = "used"
+purpose = "JSON"
+reason = "declared by 30 manifests"
+source = "https://crates.io/crates/serde_json"
+version = "1.0.154"
+released = "2026-10-11"
+downloads = 1660008322
+recent_downloads = 454215424
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "toml"
+kind = "crate"
+domain = "serde"
+fw = "used"
+purpose = "TOML"
+reason = "declared by 8 manifests"
+source = "https://crates.io/crates/toml"
+version = "1.2.1+spec-1.1.0"
+released = "2026-11-06"
+downloads = 1173287918
+recent_downloads = 333137441
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "prost"
+kind = "crate"
+domain = "serde"
+fw = "used"
+purpose = "protobuf"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/prost"
+version = "0.14.6"
+released = "2026-11-12"
+downloads = 729999058
+recent_downloads = 183408385
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "schemars"
+kind = "crate"
+domain = "serde"
+fw = "used"
+purpose = "JSON schema from types"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/schemars"
+version = "1.2.3"
+released = "2026-10-12"
+downloads = 677115729
+recent_downloads = 264082145
+
+[[entry]]
+name = "serde-saphyr"
+kind = "crate"
+domain = "serde"
+fw = "used"
+purpose = "YAML on serde"
+reason = "serde_yaml is archived upstream (verified with gh api)"
+source = "https://crates.io/crates/serde-saphyr"
+version = "2.2.0"
+released = "2026-11-18"
+downloads = 21660202
+recent_downloads = 16751368
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "postcard"
+kind = "crate"
+domain = "serde"
+fw = "reject"
+purpose = "compact binary serde format"
+reason = "no on-disk or wire format in fw needs it"
+source = "https://crates.io/crates/postcard"
+version = "1.1.3"
+released = "2025-07-24"
+downloads = 99026935
+recent_downloads = 44144892
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "rkyv"
+kind = "crate"
+domain = "serde"
+fw = "reject"
+purpose = "zero-copy deserialization"
+reason = "no hot deserialization path in the profile"
+source = "https://crates.io/crates/rkyv"
+version = "0.8.18"
+released = "2026-08-05"
+downloads = 188814064
+recent_downloads = 43154525
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "bincode"
+kind = "crate"
+domain = "serde"
+fw = "reject"
+purpose = "binary serde format"
+reason = "no binary serde format is in use"
+source = "https://crates.io/crates/bincode"
+version = "3.0.0"
+released = "2025-12-16"
+downloads = 385746225
+recent_downloads = 85316423
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "simd-json"
+kind = "crate"
+domain = "serde"
+fw = "reject"
+purpose = "SIMD JSON parser"
+reason = "JSON payloads are small, serde_json is not on a profile"
+source = "https://crates.io/crates/simd-json"
+version = "0.19.0"
+released = "2026-10-27"
+downloads = 26020338
+recent_downloads = 6982637
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "sonic-rs"
+kind = "crate"
+domain = "serde"
+fw = "reject"
+purpose = "SIMD JSON parser"
+reason = "same as simd-json"
+source = "https://crates.io/crates/sonic-rs"
+version = "0.5.12"
+released = "2026-11-19"
+downloads = 9035397
+recent_downloads = 3687732
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "rmp-serde"
+kind = "crate"
+domain = "serde"
+fw = "reject"
+purpose = "MessagePack serde"
+reason = "no consumer"
+source = "https://crates.io/crates/rmp-serde"
+version = "1.3.1"
+released = "2025-12-23"
+downloads = 156781236
+recent_downloads = 34165166
+
+[[entry]]
+name = "ciborium"
+kind = "crate"
+domain = "serde"
+fw = "reject"
+purpose = "CBOR serde"
+reason = "no consumer"
+source = "https://crates.io/crates/ciborium"
+version = "0.2.2"
+released = "2024-01-24"
+downloads = 308055323
+recent_downloads = 88998912
+
+[[entry]]
+name = "quick-xml"
+kind = "crate"
+domain = "serde"
+fw = "reject"
+purpose = "XML parser"
+reason = "no XML input in fw"
+source = "https://crates.io/crates/quick-xml"
+version = "0.42.0"
+released = "2026-08-22"
+downloads = 567282139
+recent_downloads = 186587133
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "anyhow"
+kind = "crate"
+domain = "error"
+fw = "used"
+purpose = "application errors"
+reason = "declared by 4 manifests"
+source = "https://crates.io/crates/anyhow"
+version = "1.0.104"
+released = "2026-07-18"
+downloads = 1201053491
+recent_downloads = 305831250
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "thiserror"
+kind = "crate"
+domain = "error"
+fw = "used"
+purpose = "library error derive"
+reason = "declared by 15 manifests"
+source = "https://crates.io/crates/thiserror"
+version = "2.0.21"
+released = "2026-09-23"
+downloads = 1909118609
+recent_downloads = 556577428
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "color-eyre"
+kind = "crate"
+domain = "error"
+fw = "reject"
+purpose = "colored application errors"
+reason = "anyhow is used in all binaries, one error type"
+source = "https://crates.io/crates/color-eyre"
+version = "0.6.5"
+released = "2025-05-30"
+downloads = 80712406
+recent_downloads = 16041557
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "miette"
+kind = "crate"
+domain = "error"
+fw = "reject"
+purpose = "diagnostic errors with source spans"
+reason = "no span-based diagnostics in fw"
+source = "https://crates.io/crates/miette"
+version = "7.6.0"
+released = "2025-04-27"
+downloads = 96282153
+recent_downloads = 27589883
+
+[[entry]]
+name = "snafu"
+kind = "crate"
+domain = "error"
+fw = "reject"
+purpose = "context-selector error derive"
+reason = "thiserror is used"
+source = "https://crates.io/crates/snafu"
+version = "0.9.2"
+released = "2026-07-21"
+downloads = 132177410
+recent_downloads = 28281446
+
+[[entry]]
+name = "clap"
+kind = "crate"
+domain = "cli"
+fw = "used"
+purpose = "argument parser"
+reason = "declared by 7 manifests"
+source = "https://crates.io/crates/clap"
+version = "4.6.9"
+released = "2026-11-20"
+downloads = 1367305877
+recent_downloads = 299504003
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "argh"
+kind = "crate"
+domain = "cli"
+fw = "used"
+purpose = "small derive argument parser"
+reason = "used by fw-ring3-agent"
+source = "https://crates.io/crates/argh"
+version = "0.1.19"
+released = "2026-03-16"
+downloads = 18619460
+recent_downloads = 3238863
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "lexopt"
+kind = "crate"
+domain = "cli"
+fw = "reject"
+purpose = "minimal parser"
+reason = "fw-bin has its own parser in cli_parser.rs"
+source = "https://crates.io/crates/lexopt"
+version = "0.3.2"
+released = "2026-02-28"
+downloads = 15548260
+recent_downloads = 3560095
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "pico-args"
+kind = "crate"
+domain = "cli"
+fw = "reject"
+purpose = "minimal parser"
+reason = "same as lexopt"
+source = "https://crates.io/crates/pico-args"
+version = "0.5.0"
+released = "2022-06-04"
+downloads = 98124836
+recent_downloads = 29157442
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "bpaf"
+kind = "crate"
+domain = "cli"
+fw = "reject"
+purpose = "combinator parser"
+reason = "clap is used"
+source = "https://crates.io/crates/bpaf"
+version = "0.9.29"
+released = "2026-11-12"
+downloads = 10227754
+recent_downloads = 2848826
+
+[[entry]]
+name = "clap_complete"
+kind = "crate"
+domain = "cli"
+fw = "reject"
+purpose = "shell completions for clap"
+reason = "fw-bin uses its own parser (cli_parser.rs), so there is no clap completion to generate"
+source = "https://crates.io/crates/clap_complete"
+version = "4.6.12"
+released = "2026-11-16"
+downloads = 144701805
+recent_downloads = 39429554
+
+[[entry]]
+name = "indicatif"
+kind = "crate"
+domain = "cli"
+fw = "reject"
+purpose = "progress bars"
+reason = "fw prints plain lines for agents"
+source = "https://crates.io/crates/indicatif"
+version = "0.18.6"
+released = "2026-07-01"
+downloads = 261114754
+recent_downloads = 57530084
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "ratatui"
+kind = "crate"
+domain = "cli"
+fw = "reject"
+purpose = "TUI framework"
+reason = "fw ui uses blitz and gpui in the upper layers"
+source = "https://crates.io/crates/ratatui"
+version = "0.30.2"
+released = "2026-06-19"
+downloads = 73714973
+recent_downloads = 28025930
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "crossterm"
+kind = "crate"
+domain = "cli"
+fw = "reject"
+purpose = "terminal control"
+reason = "no TUI in this repo"
+source = "https://crates.io/crates/crossterm"
+version = "0.29.0"
+released = "2025-04-05"
+downloads = 239014216
+recent_downloads = 61180320
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "inquire"
+kind = "crate"
+domain = "cli"
+fw = "reject"
+purpose = "interactive prompts"
+reason = "agents run non-interactive"
+source = "https://crates.io/crates/inquire"
+version = "0.9.5"
+released = "2026-11-15"
+downloads = 25306464
+recent_downloads = 6026810
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "tracing"
+kind = "crate"
+domain = "log"
+fw = "used"
+purpose = "structured instrumentation"
+reason = "declared by 11 manifests"
+source = "https://crates.io/crates/tracing"
+version = "0.1.44"
+released = "2025-12-18"
+downloads = 1078489609
+recent_downloads = 287768660
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "tracing-subscriber"
+kind = "crate"
+domain = "log"
+fw = "used"
+purpose = "subscriber and filters"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/tracing-subscriber"
+version = "0.3.23"
+released = "2026-03-13"
+downloads = 768494479
+recent_downloads = 204661616
+
+[[entry]]
+name = "tracing-appender"
+kind = "crate"
+domain = "log"
+fw = "reject"
+purpose = "non-blocking file appender"
+reason = "logs go to stderr"
+source = "https://crates.io/crates/tracing-appender"
+version = "0.2.5"
+released = "2026-04-17"
+downloads = 153799861
+recent_downloads = 49632890
+
+[[entry]]
+name = "tracing-opentelemetry"
+kind = "crate"
+domain = "log"
+fw = "reject"
+purpose = "OpenTelemetry bridge"
+reason = "no collector in fw"
+source = "https://crates.io/crates/tracing-opentelemetry"
+version = "0.34.0"
+released = "2026-09-23"
+downloads = 258622204
+recent_downloads = 68392712
+
+[[entry]]
+name = "log"
+kind = "crate"
+domain = "log"
+fw = "reject"
+purpose = "log facade"
+reason = "tracing replaces it everywhere"
+source = "https://crates.io/crates/log"
+version = "0.4.35"
+released = "2026-10-30"
+downloads = 1574894244
+recent_downloads = 412976690
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "env_logger"
+kind = "crate"
+domain = "log"
+fw = "reject"
+purpose = "log backend"
+reason = "tracing-subscriber replaces it"
+source = "https://crates.io/crates/env_logger"
+version = "0.11.12"
+released = "2026-11-20"
+downloads = 637457712
+recent_downloads = 103221146
+
+[[entry]]
+name = "slog"
+kind = "crate"
+domain = "log"
+fw = "reject"
+purpose = "structured logger"
+reason = "tracing replaces it"
+source = "https://crates.io/crates/slog"
+version = "2.8.2"
+released = "2025-10-11"
+downloads = 83708363
+recent_downloads = 9624365
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "mimalloc"
+kind = "crate"
+domain = "alloc"
+fw = "used"
+purpose = "global allocator"
+reason = "measured against the system allocator"
+source = "https://crates.io/crates/mimalloc"
+version = "0.1.52"
+released = "2026-05-22"
+downloads = 79502431
+recent_downloads = 29217301
+
+[[entry]]
+name = "tikv-jemallocator"
+kind = "crate"
+domain = "alloc"
+fw = "reject"
+purpose = "jemalloc global allocator"
+reason = "mimalloc is already linked; one allocator only"
+source = "https://crates.io/crates/tikv-jemallocator"
+version = "0.7.0"
+released = "2026-05-25"
+downloads = 117472619
+recent_downloads = 28046002
+
+[[entry]]
+name = "snmalloc-rs"
+kind = "crate"
+domain = "alloc"
+fw = "reject"
+purpose = "snmalloc global allocator"
+reason = "same as jemalloc"
+source = "https://crates.io/crates/snmalloc-rs"
+version = "0.7.6"
+released = "2026-10-02"
+downloads = 10050559
+recent_downloads = 444445
+
+[[entry]]
+name = "bumpalo"
+kind = "crate"
+domain = "alloc"
+fw = "reject"
+purpose = "bump arena"
+reason = "oxc_allocator is the arena in use"
+source = "https://crates.io/crates/bumpalo"
+version = "3.20.4"
+released = "2026-11-13"
+downloads = 750396867
+recent_downloads = 214343775
+
+[[entry]]
+name = "foldhash"
+kind = "crate"
+domain = "hash"
+fw = "reject"
+purpose = "fast default hasher, hashbrown default"
+reason = "reached transitively (cargo tree -i shows the path); no fw code calls it directly"
+source = "https://crates.io/crates/foldhash"
+version = "0.2.0"
+released = "2025-08-23"
+downloads = 866566735
+recent_downloads = 362746295
+
+[[entry]]
+name = "ahash"
+kind = "crate"
+domain = "hash"
+fw = "reject"
+purpose = "AES hasher"
+reason = "foldhash replaces it as hashbrown default"
+source = "https://crates.io/crates/ahash"
+version = "0.8.12"
+released = "2025-05-08"
+downloads = 930914356
+recent_downloads = 204734226
+
+[[entry]]
+name = "rustc-hash"
+kind = "crate"
+domain = "hash"
+fw = "reject"
+purpose = "FxHash"
+reason = "two versions in the graph; foldhash is faster on strings"
+source = "https://crates.io/crates/rustc-hash"
+version = "2.1.3"
+released = "2026-07-02"
+downloads = 1053216916
+recent_downloads = 321970246
+
+[[entry]]
+name = "blake3"
+kind = "crate"
+domain = "hash"
+fw = "used"
+purpose = "SIMD hash, mmap and rayon"
+reason = "declared by 6 manifests"
+source = "https://crates.io/crates/blake3"
+version = "1.8.7"
+released = "2026-08-20"
+downloads = 234288078
+recent_downloads = 66063548
+
+[[entry]]
+name = "sha2"
+kind = "crate"
+domain = "hash"
+fw = "used"
+purpose = "SHA-2"
+reason = "declared by 17 manifests"
+source = "https://crates.io/crates/sha2"
+version = "0.11.1"
+released = "2026-10-12"
+downloads = 1272318828
+recent_downloads = 407376914
+
+[[entry]]
+name = "xxhash-rust"
+kind = "crate"
+domain = "hash"
+fw = "reject"
+purpose = "XXH3 non-cryptographic hash"
+reason = "blake3 is fast enough for content addressing"
+source = "https://crates.io/crates/xxhash-rust"
+version = "0.8.21"
+released = "2026-11-15"
+downloads = 148221963
+recent_downloads = 54367096
+
+[[entry]]
+name = "twox-hash"
+kind = "crate"
+domain = "hash"
+fw = "reject"
+purpose = "XXH hash"
+reason = "same as xxhash-rust"
+source = "https://crates.io/crates/twox-hash"
+version = "2.1.5"
+released = "2026-10-04"
+downloads = 308362120
+recent_downloads = 82587476
+
+[[entry]]
+name = "siphasher"
+kind = "crate"
+domain = "hash"
+fw = "reject"
+purpose = "SipHash"
+reason = "std default hasher"
+source = "https://crates.io/crates/siphasher"
+version = "1.0.4"
+released = "2026-09-25"
+downloads = 719733432
+recent_downloads = 216975997
+
+[[entry]]
+name = "hmac"
+kind = "crate"
+domain = "hash"
+fw = "used"
+purpose = "HMAC"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/hmac"
+version = "0.13.0"
+released = "2026-03-29"
+downloads = 782100328
+recent_downloads = 247428502
+
+[[entry]]
+name = "smallvec"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "inline small vectors"
+reason = "reached transitively (cargo tree -i shows the path); no fw code calls it directly"
+source = "https://crates.io/crates/smallvec"
+version = "1.16.6"
+released = "2026-11-18"
+downloads = 1502413665
+recent_downloads = 403421866
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "arrayvec"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "fixed-capacity vector"
+reason = "no fixed-size hot collection"
+source = "https://crates.io/crates/arrayvec"
+version = "0.7.8"
+released = "2026-07-02"
+downloads = 715595956
+recent_downloads = 191609839
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "tinyvec"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "safe small vector"
+reason = "smallvec is the one in the graph"
+source = "https://crates.io/crates/tinyvec"
+version = "1.13.3"
+released = "2026-09-13"
+downloads = 929114940
+recent_downloads = 259653591
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "hashbrown"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "std HashMap implementation"
+reason = "std HashMap is hashbrown"
+source = "https://crates.io/crates/hashbrown"
+version = "0.17.1"
+released = "2026-05-09"
+downloads = 3190448966
+recent_downloads = 948475316
+
+[[entry]]
+name = "indexmap"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "insertion-ordered map"
+reason = "transitive only"
+source = "https://crates.io/crates/indexmap"
+version = "2.14.2"
+released = "2026-09-05"
+downloads = 1938819843
+recent_downloads = 507900118
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "dashmap"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "concurrent hash map"
+reason = "no shared map contention measured"
+source = "https://crates.io/crates/dashmap"
+version = "6.2.1"
+released = "2026-05-17"
+downloads = 465829303
+recent_downloads = 113094943
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "papaya"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "lock-free map"
+reason = "no shared map contention measured"
+source = "https://crates.io/crates/papaya"
+version = "0.2.5"
+released = "2026-08-21"
+downloads = 17062001
+recent_downloads = 8119314
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "compact_str"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "small string optimization"
+reason = "no string hot path measured"
+source = "https://crates.io/crates/compact_str"
+version = "0.10.0"
+released = "2026-07-13"
+downloads = 224362333
+recent_downloads = 84974629
+
+[[entry]]
+name = "thin-vec"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "pointer-sized vector"
+reason = "oxc brings it where needed"
+source = "https://crates.io/crates/thin-vec"
+version = "0.2.21"
+released = "2026-10-07"
+downloads = 49600715
+recent_downloads = 20940304
+
+[[entry]]
+name = "slotmap"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "generational arena"
+reason = "petgraph covers graphs"
+source = "https://crates.io/crates/slotmap"
+version = "1.1.1"
+released = "2025-12-06"
+downloads = 138843276
+recent_downloads = 42234393
+
+[[entry]]
+name = "moka"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "concurrent cache"
+reason = "no cache in fw hot path"
+source = "https://crates.io/crates/moka"
+version = "0.12.16"
+released = "2026-08-09"
+downloads = 167147146
+recent_downloads = 52715594
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "lru"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "LRU cache"
+reason = "no cache in fw hot path"
+source = "https://crates.io/crates/lru"
+version = "0.19.1"
+released = "2026-11-21"
+downloads = 457469682
+recent_downloads = 139073091
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "petgraph"
+kind = "crate"
+domain = "collections"
+fw = "used"
+purpose = "graph structures"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/petgraph"
+version = "0.8.3"
+released = "2025-09-30"
+downloads = 630642716
+recent_downloads = 153643898
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "roaring"
+kind = "crate"
+domain = "collections"
+fw = "reject"
+purpose = "compressed bitmaps"
+reason = "no bitmap indexes"
+source = "https://crates.io/crates/roaring"
+version = "0.12.0"
+released = "2026-10-28"
+downloads = 66221171
+recent_downloads = 19607958
+
+[[entry]]
+name = "winnow"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "parser combinators"
+reason = "hand-written and tree-sitter parsers cover fw"
+source = "https://crates.io/crates/winnow"
+version = "1.0.5"
+released = "2026-11-05"
+downloads = 1214978984
+recent_downloads = 396061273
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "nom"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "parser combinators"
+reason = "two nom versions only transitively"
+source = "https://crates.io/crates/nom"
+version = "8.0.0"
+released = "2025-01-26"
+downloads = 919678786
+recent_downloads = 246233045
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "chumsky"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "parser combinators with recovery"
+reason = "no DSL in fw"
+source = "https://crates.io/crates/chumsky"
+version = "0.14.2"
+released = "2026-11-17"
+downloads = 32507314
+recent_downloads = 5737542
+
+[[entry]]
+name = "logos"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "lexer generator"
+reason = "no custom lexer"
+source = "https://crates.io/crates/logos"
+version = "0.16.1"
+released = "2026-01-30"
+downloads = 106703047
+recent_downloads = 35741735
+
+[[entry]]
+name = "pest"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "PEG parser"
+reason = "no grammar file"
+source = "https://crates.io/crates/pest"
+version = "2.9.6"
+released = "2026-11-10"
+downloads = 401728522
+recent_downloads = 92938294
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "tree-sitter"
+kind = "crate"
+domain = "parse"
+fw = "used"
+purpose = "incremental parsing"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/tree-sitter"
+version = "0.27.2"
+released = "2026-11-07"
+downloads = 58521609
+recent_downloads = 24201548
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "oxc_parser"
+kind = "crate"
+domain = "parse"
+fw = "used"
+purpose = "JS and TS parser"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/oxc_parser"
+version = "0.159.0"
+released = "2026-11-16"
+downloads = 11990454
+recent_downloads = 6080907
+
+[[entry]]
+name = "memchr"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "SIMD byte search"
+reason = "reached transitively (cargo tree -i shows the path); no fw code calls it directly"
+source = "https://crates.io/crates/memchr"
+version = "2.8.3"
+released = "2026-07-08"
+downloads = 1790454253
+recent_downloads = 487129116
+
+[[entry]]
+name = "aho-corasick"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "multi-pattern search"
+reason = "regex pulls it in"
+source = "https://crates.io/crates/aho-corasick"
+version = "1.1.5"
+released = "2026-08-03"
+downloads = 1422786452
+recent_downloads = 360889551
+
+[[entry]]
+name = "regex"
+kind = "crate"
+domain = "parse"
+fw = "used"
+purpose = "regular expressions"
+reason = "declared by 6 manifests"
+source = "https://crates.io/crates/regex"
+version = "1.13.2"
+released = "2026-11-18"
+downloads = 1426884478
+recent_downloads = 344784499
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "fancy-regex"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "backtracking regex"
+reason = "no lookaround need"
+source = "https://crates.io/crates/fancy-regex"
+version = "0.20.2"
+released = "2026-11-11"
+downloads = 318012524
+recent_downloads = 112397713
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "bstr"
+kind = "crate"
+domain = "parse"
+fw = "reject"
+purpose = "byte string utilities"
+reason = "std covers"
+source = "https://crates.io/crates/bstr"
+version = "1.14.0"
+released = "2026-11-18"
+downloads = 522228330
+recent_downloads = 133344392
+
+[[entry]]
+name = "flate2"
+kind = "crate"
+domain = "compress"
+fw = "used"
+purpose = "gzip and deflate"
+reason = "zlib-rs backend measured below"
+source = "https://crates.io/crates/flate2"
+version = "1.1.11"
+released = "2026-11-06"
+downloads = 877945997
+recent_downloads = 245844885
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "zlib-rs"
+kind = "crate"
+domain = "compress"
+fw = "adopt"
+purpose = "fast pure-Rust zlib, flate2 backend"
+reason = "queued: enable the flate2 zlib-rs feature where tar and zip extraction run; not measured yet"
+source = "https://crates.io/crates/zlib-rs"
+version = "0.6.8"
+released = "2026-09-15"
+downloads = 264083623
+recent_downloads = 148642763
+
+[[entry]]
+name = "miniz_oxide"
+kind = "crate"
+domain = "compress"
+fw = "reject"
+purpose = "default flate2 backend"
+reason = "replaced by zlib-rs if measured faster"
+source = "https://crates.io/crates/miniz_oxide"
+version = "0.9.1"
+released = "2026-03-13"
+downloads = 1150724761
+recent_downloads = 309688019
+
+[[entry]]
+name = "zstd"
+kind = "crate"
+domain = "compress"
+fw = "reject"
+purpose = "zstd bindings"
+reason = "C build script; no zstd format in fw"
+source = "https://crates.io/crates/zstd"
+version = "0.14.4"
+released = "2026-11-12"
+downloads = 494715185
+recent_downloads = 131599050
+
+[[entry]]
+name = "lz4_flex"
+kind = "crate"
+domain = "compress"
+fw = "reject"
+purpose = "pure Rust LZ4"
+reason = "no LZ4 format in fw"
+source = "https://crates.io/crates/lz4_flex"
+version = "0.14.2"
+released = "2026-11-15"
+downloads = 179425129
+recent_downloads = 52764571
+
+[[entry]]
+name = "brotli"
+kind = "crate"
+domain = "compress"
+fw = "reject"
+purpose = "brotli codec"
+reason = "HTTP gzip only in ureq"
+source = "https://crates.io/crates/brotli"
+version = "9.1.3"
+released = "2026-11-15"
+downloads = 341337675
+recent_downloads = 98265076
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "snap"
+kind = "crate"
+domain = "compress"
+fw = "reject"
+purpose = "snappy"
+reason = "no snappy format"
+source = "https://crates.io/crates/snap"
+version = "1.1.2"
+released = "2026-07-15"
+downloads = 142894045
+recent_downloads = 33569639
+
+[[entry]]
+name = "zip"
+kind = "crate"
+domain = "compress"
+fw = "used"
+purpose = "zip archives"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/zip"
+version = "9.8.1"
+released = "2026-11-20"
+downloads = 356197472
+recent_downloads = 110102659
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "tar"
+kind = "crate"
+domain = "compress"
+fw = "used"
+purpose = "tar archives"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/tar"
+version = "0.4.46"
+released = "2026-05-18"
+downloads = 298231067
+recent_downloads = 83641852
+
+[[entry]]
+name = "aes-gcm"
+kind = "crate"
+domain = "crypto"
+fw = "used"
+purpose = "AEAD"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/aes-gcm"
+version = "0.11.1"
+released = "2026-08-21"
+downloads = 221713607
+recent_downloads = 80235803
+
+[[entry]]
+name = "argon2"
+kind = "crate"
+domain = "crypto"
+fw = "used"
+purpose = "password hashing"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/argon2"
+version = "0.6.0"
+released = "2026-08-27"
+downloads = 79665442
+recent_downloads = 32684942
+
+[[entry]]
+name = "zeroize"
+kind = "crate"
+domain = "crypto"
+fw = "used"
+purpose = "zero memory on drop"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/zeroize"
+version = "1.9.2"
+released = "2026-11-17"
+downloads = 912728153
+recent_downloads = 275096914
+
+[[entry]]
+name = "rsa"
+kind = "crate"
+domain = "crypto"
+fw = "used"
+purpose = "RSA"
+reason = "declared in a fw manifest; advisories are gated by deny.toml"
+source = "https://crates.io/crates/rsa"
+version = "0.10.0"
+released = "2026-11-08"
+downloads = 280391550
+recent_downloads = 75192419
+
+[[entry]]
+name = "chacha20poly1305"
+kind = "crate"
+domain = "crypto"
+fw = "reject"
+purpose = "AEAD"
+reason = "aes-gcm is used"
+source = "https://crates.io/crates/chacha20poly1305"
+version = "0.11.0"
+released = "2026-06-28"
+downloads = 120513506
+recent_downloads = 44611343
+
+[[entry]]
+name = "ed25519-dalek"
+kind = "crate"
+domain = "crypto"
+fw = "reject"
+purpose = "signatures"
+reason = "no signature scheme needed"
+source = "https://crates.io/crates/ed25519-dalek"
+version = "3.0.0"
+released = "2026-07-06"
+downloads = 284320692
+recent_downloads = 90565021
+
+[[entry]]
+name = "ring"
+kind = "crate"
+domain = "crypto"
+fw = "reject"
+purpose = "crypto library"
+reason = "rustls selects its crypto provider; no direct use"
+source = "https://crates.io/crates/ring"
+version = "0.17.14"
+released = "2025-03-11"
+downloads = 930082647
+recent_downloads = 240990316
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "subtle"
+kind = "crate"
+domain = "crypto"
+fw = "reject"
+purpose = "constant-time compare"
+reason = "transitive via RustCrypto"
+source = "https://crates.io/crates/subtle"
+version = "2.6.1"
+released = "2024-06-24"
+downloads = 900727864
+recent_downloads = 249938422
+
+[[entry]]
+name = "rand"
+kind = "crate"
+domain = "crypto"
+fw = "used"
+purpose = "random numbers"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/rand"
+version = "0.10.4"
+released = "2026-11-15"
+downloads = 2246974371
+recent_downloads = 670870547
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "getrandom"
+kind = "crate"
+domain = "crypto"
+fw = "used"
+purpose = "OS randomness"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/getrandom"
+version = "0.4.3"
+released = "2026-06-17"
+downloads = 2694519861
+recent_downloads = 857316364
+
+[[entry]]
+name = "fastrand"
+kind = "crate"
+domain = "crypto"
+fw = "reject"
+purpose = "small RNG"
+reason = "rand is already linked"
+source = "https://crates.io/crates/fastrand"
+version = "2.5.0"
+released = "2026-07-19"
+downloads = 1155529211
+recent_downloads = 312636769
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "insta"
+kind = "crate"
+domain = "test"
+fw = "reject"
+purpose = "snapshot tests"
+reason = "assertions are explicit; cargo-insta rejected too"
+source = "https://crates.io/crates/insta"
+version = "1.49.0"
+released = "2026-10-03"
+downloads = 133505216
+recent_downloads = 42080241
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "proptest"
+kind = "crate"
+domain = "test"
+fw = "used"
+purpose = "property tests"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/proptest"
+version = "1.12.0"
+released = "2026-10-10"
+downloads = 255139884
+recent_downloads = 81972159
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "quickcheck"
+kind = "crate"
+domain = "test"
+fw = "reject"
+purpose = "property tests"
+reason = "proptest is used"
+source = "https://crates.io/crates/quickcheck"
+version = "1.1.0"
+released = "2026-02-10"
+downloads = 81287457
+recent_downloads = 16415295
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "rstest"
+kind = "crate"
+domain = "test"
+fw = "reject"
+purpose = "parametrized tests"
+reason = "plain loops are used"
+source = "https://crates.io/crates/rstest"
+version = "0.28.0"
+released = "2026-10-18"
+downloads = 154401244
+recent_downloads = 42065197
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "pretty_assertions"
+kind = "crate"
+domain = "test"
+fw = "used"
+purpose = "readable assert_eq diffs"
+reason = "declared by 8 manifests"
+source = "https://crates.io/crates/pretty_assertions"
+version = "1.4.1"
+released = "2024-09-15"
+downloads = 242847032
+recent_downloads = 47799438
+
+[[entry]]
+name = "tempfile"
+kind = "crate"
+domain = "test"
+fw = "used"
+purpose = "temporary files"
+reason = "declared by 14 manifests"
+source = "https://crates.io/crates/tempfile"
+version = "3.27.0"
+released = "2026-03-11"
+downloads = 1023438717
+recent_downloads = 267625428
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "mockall"
+kind = "crate"
+domain = "test"
+fw = "reject"
+purpose = "mock generation"
+reason = "traits are faked by hand"
+source = "https://crates.io/crates/mockall"
+version = "0.15.0"
+released = "2026-06-28"
+downloads = 196486289
+recent_downloads = 36660358
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "wiremock"
+kind = "crate"
+domain = "test"
+fw = "reject"
+purpose = "HTTP mock server"
+reason = "tests bind a real axum server"
+source = "https://crates.io/crates/wiremock"
+version = "0.6.5"
+released = "2025-08-24"
+downloads = 108952872
+recent_downloads = 37930271
+
+[[entry]]
+name = "httpmock"
+kind = "crate"
+domain = "test"
+fw = "reject"
+purpose = "HTTP mock server"
+reason = "same as wiremock"
+source = "https://crates.io/crates/httpmock"
+version = "0.9.0"
+released = "2026-10-20"
+downloads = 34924720
+recent_downloads = 7116498
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "assert_cmd"
+kind = "crate"
+domain = "test"
+fw = "adopt"
+purpose = "run and assert CLI binaries"
+reason = "queued for fw-bin integration tests; the CLI is checked end to end from Bun scripts today"
+source = "https://crates.io/crates/assert_cmd"
+version = "2.2.2"
+released = "2026-05-11"
+downloads = 100335682
+recent_downloads = 21970967
+
+[[entry]]
+name = "trybuild"
+kind = "crate"
+domain = "test"
+fw = "reject"
+purpose = "compile-fail tests"
+reason = "no proc macros of our own"
+source = "https://crates.io/crates/trybuild"
+version = "1.0.125"
+released = "2026-11-16"
+downloads = 83564798
+recent_downloads = 21668124
+
+[[entry]]
+name = "criterion"
+kind = "crate"
+domain = "bench"
+fw = "used"
+purpose = "statistical benchmarks"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/criterion"
+version = "0.8.2"
+released = "2026-02-04"
+downloads = 348080134
+recent_downloads = 84186718
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "divan"
+kind = "crate"
+domain = "bench"
+fw = "reject"
+purpose = "attribute-based benchmarks"
+reason = "criterion benches exist and run on stable"
+source = "https://crates.io/crates/divan"
+version = "0.1.21"
+released = "2025-04-10"
+downloads = 11490689
+recent_downloads = 4692788
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "gungraun"
+kind = "crate"
+domain = "bench"
+fw = "reject"
+purpose = "valgrind instruction-count benchmarks"
+reason = "criterion already runs the benches; a second harness adds no signal"
+source = "https://crates.io/crates/gungraun"
+version = "0.20.0"
+released = "2026-09-26"
+downloads = 1943306
+recent_downloads = 1359131
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "iai-callgrind"
+kind = "crate"
+domain = "bench"
+fw = "reject"
+purpose = "valgrind instruction-count benchmarks"
+reason = "renamed to gungraun"
+source = "https://crates.io/crates/iai-callgrind"
+version = "0.16.1"
+released = "2025-07-30"
+downloads = 2189128
+recent_downloads = 748731
+
+[[entry]]
+name = "dhat"
+kind = "crate"
+domain = "bench"
+fw = "reject"
+purpose = "heap profiler"
+reason = "samply and bloat cover; no allocation hot spot"
+source = "https://crates.io/crates/dhat"
+version = "0.3.3"
+released = "2024-02-04"
+downloads = 16268543
+recent_downloads = 5198638
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "hotpath"
+kind = "crate"
+domain = "bench"
+fw = "reject"
+purpose = "runtime hot path profiler"
+reason = "samply covers"
+source = "https://crates.io/crates/hotpath"
+version = "0.32.1"
+released = "2026-11-17"
+downloads = 1566822
+recent_downloads = 1098357
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "wide"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "portable SIMD on stable"
+reason = "candle and gemm carry the numeric SIMD"
+source = "https://crates.io/crates/wide"
+version = "1.7.1"
+released = "2026-09-14"
+downloads = 100663887
+recent_downloads = 33111452
+
+[[entry]]
+name = "pulp"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "SIMD multiversioning"
+reason = "gemm uses it internally"
+source = "https://crates.io/crates/pulp"
+version = "0.22.3"
+released = "2026-06-20"
+downloads = 40162416
+recent_downloads = 19803603
+
+[[entry]]
+name = "simdutf8"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "SIMD UTF-8 validation"
+reason = "no UTF-8 validation hot path"
+source = "https://crates.io/crates/simdutf8"
+version = "0.1.5"
+released = "2024-09-22"
+downloads = 318674819
+recent_downloads = 127139495
+
+[[entry]]
+name = "gemm"
+kind = "crate"
+domain = "simd"
+fw = "used"
+purpose = "matrix multiplication kernels"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/gemm"
+version = "0.19.0"
+released = "2025-11-14"
+downloads = 25815454
+recent_downloads = 9348977
+
+[[entry]]
+name = "ndarray"
+kind = "crate"
+domain = "simd"
+fw = "used"
+purpose = "n-dimensional arrays"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/ndarray"
+version = "0.17.2"
+released = "2026-01-10"
+downloads = 150959315
+recent_downloads = 37871782
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "nalgebra"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "linear algebra"
+reason = "ndarray is used"
+source = "https://crates.io/crates/nalgebra"
+version = "0.35.0"
+released = "2026-05-24"
+downloads = 104095042
+recent_downloads = 18887930
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "glam"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "3D math"
+reason = "no 3D math in fw crates"
+source = "https://crates.io/crates/glam"
+version = "0.34.3"
+released = "2026-11-08"
+downloads = 196441361
+recent_downloads = 69648646
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "faer"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "linear algebra"
+reason = "no dense solver need"
+source = "https://crates.io/crates/faer"
+version = "0.24.4"
+released = "2026-06-24"
+downloads = 6006104
+recent_downloads = 1845972
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "bytemuck"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "safe casts"
+reason = "zerocopy is used"
+source = "https://crates.io/crates/bytemuck"
+version = "1.25.2"
+released = "2026-07-19"
+downloads = 491950840
+recent_downloads = 150900543
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "zerocopy"
+kind = "crate"
+domain = "simd"
+fw = "used"
+purpose = "safe zero-copy casts"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/zerocopy"
+version = "0.8.63"
+released = "2026-10-13"
+downloads = 1182012711
+recent_downloads = 350009311
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "rayon"
+kind = "crate"
+domain = "simd"
+fw = "used"
+purpose = "data parallelism"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/rayon"
+version = "1.12.0"
+released = "2026-04-14"
+downloads = 685535757
+recent_downloads = 177640830
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "crossbeam-channel"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "channels"
+reason = "tokio and std channels used"
+source = "https://crates.io/crates/crossbeam-channel"
+version = "0.5.17"
+released = "2026-09-05"
+downloads = 724274460
+recent_downloads = 166593369
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "flume"
+kind = "crate"
+domain = "simd"
+fw = "reject"
+purpose = "channels"
+reason = "tokio and std channels used"
+source = "https://crates.io/crates/flume"
+version = "0.12.0"
+released = "2025-12-08"
+downloads = 301646440
+recent_downloads = 86725212
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "wgpu"
+kind = "crate"
+domain = "gpu"
+fw = "reject"
+purpose = "portable GPU API on WebGPU"
+reason = "no GPU code in fw crates; fw-wayland-wgpu is a protocol layer and the renderer lives in aphrody"
+source = "https://crates.io/crates/wgpu"
+version = "30.0.2"
+released = "2026-11-12"
+downloads = 52990570
+recent_downloads = 20708935
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "naga"
+kind = "crate"
+domain = "gpu"
+fw = "reject"
+purpose = "shader translator"
+reason = "owned by the wgpu skill and aphrody"
+source = "https://crates.io/crates/naga"
+version = "30.0.2"
+released = "2026-11-12"
+downloads = 58236749
+recent_downloads = 22950937
+
+[[entry]]
+name = "vello"
+kind = "crate"
+domain = "gpu"
+fw = "reject"
+purpose = "GPU 2D renderer"
+reason = "renderer lives in aphrody, dependency points down only"
+source = "https://crates.io/crates/vello"
+version = "0.12.0"
+released = "2026-11-11"
+downloads = 1240262
+recent_downloads = 493447
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "candle-core"
+kind = "crate"
+domain = "ml"
+fw = "used"
+purpose = "tensor library"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/candle-core"
+version = "0.11.1"
+released = "2026-10-31"
+downloads = 12341440
+recent_downloads = 5076706
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "ort"
+kind = "crate"
+domain = "ml"
+fw = "used"
+purpose = "ONNX Runtime"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/ort"
+version = "2.0.0-rc.15"
+released = "2026-10-19"
+downloads = 27109605
+recent_downloads = 10708877
+
+[[entry]]
+name = "tokenizers"
+kind = "crate"
+domain = "ml"
+fw = "used"
+purpose = "HF tokenizers"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/tokenizers"
+version = "0.23.2"
+released = "2026-09-03"
+downloads = 49150035
+recent_downloads = 20980489
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "burn"
+kind = "crate"
+domain = "ml"
+fw = "reject"
+purpose = "deep learning framework"
+reason = "candle already used"
+source = "https://crates.io/crates/burn"
+version = "0.22.1"
+released = "2026-10-20"
+downloads = 2400668
+recent_downloads = 1134080
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "tch"
+kind = "crate"
+domain = "ml"
+fw = "reject"
+purpose = "libtorch bindings"
+reason = "needs libtorch; candle is already used"
+source = "https://crates.io/crates/tch"
+version = "0.27.0"
+released = "2026-11-10"
+downloads = 9775151
+recent_downloads = 3171481
+
+[[entry]]
+name = "safetensors"
+kind = "crate"
+domain = "ml"
+fw = "used"
+purpose = "tensor file format"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/safetensors"
+version = "0.8.0"
+released = "2026-06-09"
+downloads = 38221470
+recent_downloads = 15637054
+
+[[entry]]
+name = "hf-hub"
+kind = "crate"
+domain = "ml"
+fw = "used"
+purpose = "Hugging Face Hub client"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/hf-hub"
+version = "1.0.0"
+released = "2026-07-10"
+downloads = 25494348
+recent_downloads = 9904359
+
+[[entry]]
+name = "chrono"
+kind = "crate"
+domain = "time"
+fw = "used"
+purpose = "dates and times"
+reason = "declared by 8 manifests"
+source = "https://crates.io/crates/chrono"
+version = "0.4.45"
+released = "2026-06-04"
+downloads = 1006046041
+recent_downloads = 252515751
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "jiff"
+kind = "crate"
+domain = "time"
+fw = "reject"
+purpose = "modern dates and times"
+reason = "chrono is used in 7 crates; jiff only transitively"
+source = "https://crates.io/crates/jiff"
+version = "1.0.1"
+released = "2026-11-18"
+downloads = 295810250
+recent_downloads = 127937199
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "time"
+kind = "crate"
+domain = "time"
+fw = "reject"
+purpose = "dates and times"
+reason = "chrono is used"
+source = "https://crates.io/crates/time"
+version = "0.3.55"
+released = "2026-08-01"
+downloads = 1103680211
+recent_downloads = 258832866
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "memmap2"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "memory maps"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/memmap2"
+version = "0.9.12"
+released = "2026-10-21"
+downloads = 441267114
+recent_downloads = 123396223
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "walkdir"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "directory walk"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/walkdir"
+version = "2.5.1"
+released = "2026-11-21"
+downloads = 795810429
+recent_downloads = 217366719
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "ignore"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "gitignore-aware walk"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/ignore"
+version = "0.4.34"
+released = "2026-10-27"
+downloads = 219169044
+recent_downloads = 57227757
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "globset"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "glob sets"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/globset"
+version = "0.4.21"
+released = "2026-10-27"
+downloads = 301218617
+recent_downloads = 79617151
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "notify"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "file watching"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/notify"
+version = "9.0.0"
+released = "2026-11-21"
+downloads = 204412355
+recent_downloads = 61886033
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "dirs"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "user directories"
+reason = "declared by 5 manifests"
+source = "https://crates.io/crates/dirs"
+version = "7.0.0"
+released = "2026-09-05"
+downloads = 420621609
+recent_downloads = 116370180
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "directories"
+kind = "crate"
+domain = "os"
+fw = "reject"
+purpose = "user directories"
+reason = "dirs is used"
+source = "https://crates.io/crates/directories"
+version = "6.0.0"
+released = "2025-01-12"
+downloads = 84215889
+recent_downloads = 17662562
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "rustix"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "syscalls without libc"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/rustix"
+version = "1.1.6"
+released = "2026-10-27"
+downloads = 1444292688
+recent_downloads = 385702132
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "nix"
+kind = "crate"
+domain = "os"
+fw = "reject"
+purpose = "POSIX bindings"
+reason = "rustix is used"
+source = "https://crates.io/crates/nix"
+version = "0.32.0"
+released = "2026-11-14"
+downloads = 1006625949
+recent_downloads = 263657825
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "libc"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "C bindings"
+reason = "declared by 5 manifests"
+source = "https://crates.io/crates/libc"
+version = "0.2.191"
+released = "2026-10-16"
+downloads = 2029208207
+recent_downloads = 508901119
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "windows"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "Windows API"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/windows"
+version = "0.62.2"
+released = "2025-10-06"
+downloads = 420549970
+recent_downloads = 118104218
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "windows-sys"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "raw Windows bindings"
+reason = "declared by 5 manifests"
+source = "https://crates.io/crates/windows-sys"
+version = "0.61.2"
+released = "2025-10-06"
+downloads = 1979861518
+recent_downloads = 536607060
+
+[[entry]]
+name = "sysinfo"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "system information"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/sysinfo"
+version = "0.40.4"
+released = "2026-11-16"
+downloads = 253248857
+recent_downloads = 65258192
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "which"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "PATH lookup"
+reason = "declared by 4 manifests"
+source = "https://crates.io/crates/which"
+version = "8.0.6"
+released = "2026-08-26"
+downloads = 488772724
+recent_downloads = 88917128
+
+[[entry]]
+name = "fs4"
+kind = "crate"
+domain = "os"
+fw = "used"
+purpose = "file locking"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/fs4"
+version = "1.1.0"
+released = "2026-04-28"
+downloads = 83539211
+recent_downloads = 22530845
+
+[[entry]]
+name = "rusqlite"
+kind = "crate"
+domain = "db"
+fw = "used"
+purpose = "SQLite"
+reason = "declared by 8 manifests"
+source = "https://crates.io/crates/rusqlite"
+version = "0.43.0"
+released = "2026-11-15"
+downloads = 161977041
+recent_downloads = 65818450
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "tokio-postgres"
+kind = "crate"
+domain = "db"
+fw = "used"
+purpose = "Postgres client"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/tokio-postgres"
+version = "0.7.18"
+released = "2026-06-12"
+downloads = 91061097
+recent_downloads = 28942808
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "deadpool-postgres"
+kind = "crate"
+domain = "db"
+fw = "used"
+purpose = "Postgres pool"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/deadpool-postgres"
+version = "0.14.2"
+released = "2026-08-26"
+downloads = 30144432
+recent_downloads = 9510219
+
+[[entry]]
+name = "sqlx"
+kind = "crate"
+domain = "db"
+fw = "reject"
+purpose = "async SQL toolkit"
+reason = "rusqlite and tokio-postgres are used directly"
+source = "https://crates.io/crates/sqlx"
+version = "0.9.1"
+released = "2026-11-18"
+downloads = 195669862
+recent_downloads = 61084583
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "redb"
+kind = "crate"
+domain = "db"
+fw = "reject"
+purpose = "pure Rust embedded KV"
+reason = "SQLite used"
+source = "https://crates.io/crates/redb"
+version = "5.0.0"
+released = "2026-11-18"
+downloads = 16810155
+recent_downloads = 7136764
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "heed"
+kind = "crate"
+domain = "db"
+fw = "reject"
+purpose = "LMDB wrapper"
+reason = "SQLite used"
+source = "https://crates.io/crates/heed"
+version = "0.23.1"
+released = "2026-10-26"
+downloads = 8062403
+recent_downloads = 3180336
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "fjall"
+kind = "crate"
+domain = "db"
+fw = "reject"
+purpose = "LSM embedded KV"
+reason = "SQLite used"
+source = "https://crates.io/crates/fjall"
+version = "3.1.13"
+released = "2026-10-25"
+downloads = 2273434
+recent_downloads = 838978
+
+[[entry]]
+name = "sqlite-vec"
+kind = "crate"
+domain = "db"
+fw = "used"
+purpose = "vector search in SQLite"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/sqlite-vec"
+version = "0.1.9"
+released = "2026-03-31"
+downloads = 4259434
+recent_downloads = 1767652
+
+[[entry]]
+name = "uuid"
+kind = "crate"
+domain = "misc"
+fw = "used"
+purpose = "UUIDs"
+reason = "declared by 6 manifests"
+source = "https://crates.io/crates/uuid"
+version = "1.29.3"
+released = "2026-11-17"
+downloads = 1018989605
+recent_downloads = 272545270
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "url"
+kind = "crate"
+domain = "misc"
+fw = "used"
+purpose = "URL parsing"
+reason = "declared by 4 manifests"
+source = "https://crates.io/crates/url"
+version = "2.5.9"
+released = "2026-11-20"
+downloads = 1094905391
+recent_downloads = 276489741
+
+[[entry]]
+name = "bytes"
+kind = "crate"
+domain = "misc"
+fw = "used"
+purpose = "byte buffers"
+reason = "declared by 7 manifests"
+source = "https://crates.io/crates/bytes"
+version = "1.12.2"
+released = "2026-11-17"
+downloads = 1312675179
+recent_downloads = 347155869
+
+[[entry]]
+name = "base64"
+kind = "crate"
+domain = "misc"
+fw = "used"
+purpose = "base64"
+reason = "two versions in the graph"
+source = "https://crates.io/crates/base64"
+version = "0.23.1"
+released = "2026-08-04"
+downloads = 2029909925
+recent_downloads = 560889978
+
+[[entry]]
+name = "hex"
+kind = "crate"
+domain = "misc"
+fw = "used"
+purpose = "hex"
+reason = "declared by 3 manifests"
+source = "https://crates.io/crates/hex"
+version = "0.4.3"
+released = "2021-03-03"
+downloads = 826480815
+recent_downloads = 221082312
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "itertools"
+kind = "crate"
+domain = "misc"
+fw = "reject"
+purpose = "iterator adapters"
+reason = "std iterators suffice; transitive"
+source = "https://crates.io/crates/itertools"
+version = "0.15.0"
+released = "2026-06-16"
+downloads = 1891203906
+recent_downloads = 486327461
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "bitflags"
+kind = "crate"
+domain = "misc"
+fw = "reject"
+purpose = "flag types"
+reason = "enumflags2 is used"
+source = "https://crates.io/crates/bitflags"
+version = "2.13.2"
+released = "2026-09-10"
+downloads = 2332021914
+recent_downloads = 619961318
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "parking_lot"
+kind = "crate"
+domain = "misc"
+fw = "used"
+purpose = "locks"
+reason = "declared by the fw-browser-* crates; std locks stay in the rest of the workspace"
+source = "https://crates.io/crates/parking_lot"
+version = "0.13.0"
+released = "2026-10-21"
+downloads = 1307607676
+recent_downloads = 296514409
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "arc-swap"
+kind = "crate"
+domain = "misc"
+fw = "used"
+purpose = "atomic Arc swap"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/arc-swap"
+version = "1.9.5"
+released = "2026-11-09"
+downloads = 423241922
+recent_downloads = 123580792
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "strum"
+kind = "crate"
+domain = "misc"
+fw = "used"
+purpose = "enum derives"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/strum"
+version = "0.28.0"
+released = "2026-02-22"
+downloads = 793459692
+recent_downloads = 204357698
+
+[[entry]]
+name = "derive_more"
+kind = "crate"
+domain = "misc"
+fw = "reject"
+purpose = "derive helpers"
+reason = "std derives and thiserror"
+source = "https://crates.io/crates/derive_more"
+version = "2.1.1"
+released = "2025-12-22"
+downloads = 612403136
+recent_downloads = 166503810
+
+[[entry]]
+name = "bon"
+kind = "crate"
+domain = "misc"
+fw = "reject"
+purpose = "builder derive"
+reason = "no builders"
+source = "https://crates.io/crates/bon"
+version = "3.10.3"
+released = "2026-10-23"
+downloads = 81291941
+recent_downloads = 29916731
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "wasm-bindgen"
+kind = "crate"
+domain = "wasm"
+fw = "used"
+purpose = "JS bindings"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/wasm-bindgen"
+version = "0.2.130"
+released = "2026-10-30"
+downloads = 678669504
+recent_downloads = 187533111
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "web-sys"
+kind = "crate"
+domain = "wasm"
+fw = "used"
+purpose = "web APIs"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/web-sys"
+version = "0.3.107"
+released = "2026-10-30"
+downloads = 486435136
+recent_downloads = 134518273
+
+[[entry]]
+name = "js-sys"
+kind = "crate"
+domain = "wasm"
+fw = "used"
+purpose = "JS builtins"
+reason = "declared by 2 manifests"
+source = "https://crates.io/crates/js-sys"
+version = "0.3.107"
+released = "2026-10-30"
+downloads = 631799475
+recent_downloads = 174880828
+
+[[entry]]
+name = "gpui"
+kind = "crate"
+domain = "ui"
+fw = "used"
+purpose = "native GPU UI"
+reason = "declared by configs/gemini/dashboard"
+source = "https://crates.io/crates/gpui"
+version = "0.2.2"
+released = "2025-10-22"
+downloads = 533982
+recent_downloads = 308812
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "iced"
+kind = "crate"
+domain = "ui"
+fw = "reject"
+purpose = "Elm-style GUI"
+reason = "gpui in aphrody"
+source = "https://crates.io/crates/iced"
+version = "0.14.0"
+released = "2025-12-07"
+downloads = 3440541
+recent_downloads = 862498
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "egui"
+kind = "crate"
+domain = "ui"
+fw = "reject"
+purpose = "immediate mode GUI"
+reason = "gpui in aphrody"
+source = "https://crates.io/crates/egui"
+version = "0.37.0"
+released = "2026-10-15"
+downloads = 32618231
+recent_downloads = 10565094
+seen_in = ["blessed.rs", "awesome-rust"]
+
+[[entry]]
+name = "taffy"
+kind = "crate"
+domain = "ui"
+fw = "reject"
+purpose = "flexbox layout"
+reason = "owned by blitz and gpui"
+source = "https://crates.io/crates/taffy"
+version = "0.15.1"
+released = "2026-10-25"
+downloads = 21182183
+recent_downloads = 9508613
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "resvg"
+kind = "crate"
+domain = "ui"
+fw = "used"
+purpose = "SVG rendering"
+reason = "declared by 1 manifest"
+source = "https://crates.io/crates/resvg"
+version = "0.50.0"
+released = "2026-11-11"
+downloads = 40778467
+recent_downloads = 17783668
+seen_in = ["awesome-rust"]
+
+[[entry]]
+name = "cosmic-text"
+kind = "crate"
+domain = "ui"
+fw = "reject"
+purpose = "text layout"
+reason = "owned by gpui and blitz"
+source = "https://crates.io/crates/cosmic-text"
+version = "0.19.0"
+released = "2026-04-22"
+downloads = 12916677
+recent_downloads = 5380732
+seen_in = ["blessed.rs"]
+
+[[entry]]
+name = "nativelink"
+kind = "tool"
+domain = "build-speed"
+fw = "reject"
+purpose = "remote cache and remote execution server speaking the Bazel REAPI, running on fr1"
+reason = "cargo has no REAPI client, only Bazel rules_rust or Buck2 reindeer would use it, which would duplicate Cargo.lock; its single worker on fr1 advertises cpu_count from nproc (the same 12 CPUs as a local build), so remote execution adds no cores, and the host-level sccache already shares compiled crates across clones"
+source = "https://github.com/TraceMachina/nativelink"
+version = "v1.8.7"
+released = "2026-11-20"
+seen_in = ["awesome-rust"]
