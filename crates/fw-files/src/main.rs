@@ -13,7 +13,7 @@
 use clap::{Args, Parser, Subcommand};
 use fw_files::entry::{Entry, list_dir};
 use fw_files::mime;
-use fw_files::preview::{self, Options as PreviewOptions, Source};
+use fw_files::preview::{self, Options as PreviewOptions};
 use fw_files::rules::{self, RuleSet};
 use fw_files::sort::{SortBy, Sorter};
 use fw_files::tasks::{Conflict, Job, Op, Scheduler, Status, target_for};
@@ -234,6 +234,7 @@ fn list(path: &str, hidden: bool, with_mime: bool, ssh: &Ssh) -> io::Result<Vec<
 #[cfg(feature = "sftp")]
 mod remote {
     use super::*;
+    use fw_files::preview::Source;
     use fw_files::sftp::{Options, Remote, Url};
 
     fn runtime() -> io::Result<tokio::runtime::Runtime> {
