@@ -100,13 +100,13 @@ fn annotation(word: &[u8]) -> Option<bool> {
         | "__read_mostly" | "__page_aligned_data" | "__page_aligned_bss" | "__nodiscard" | "__deprecated" | "__flatten" | "__designated_init"
         | "__noclone" | "__malloc" | "__bpf_kfunc" | "__gnu_inline" | "__no_kasan_or_inline" | "__no_kmsan_checks" | "__no_sanitize_thread"
         | "__init_memblock" | "__initdata_memblock" | "__sysfs_function_ref" | "__noendbr" | "__no_ubsan_or_inline" | "__no_gcov"
-        | "__nostackprotector" | "__nonstring" | "__counted_by_ptr" | "__rcu_protected" | "__sparse_cache" | "__kfunc" | "__nonnull" => {
+        | "__net_init" | "__net_exit" | "__nostackprotector" | "__nonstring" | "__counted_by_ptr" | "__rcu_protected" | "__sparse_cache" | "__kfunc" | "__nonnull" => {
             Some(false)
         }
         "__aligned" | "__section" | "__printf" | "__scanf" | "__alloc_size" | "__alloc_align" | "__counted_by" | "__counted_by_le"
         | "__counted_by_be" | "__assume_aligned" | "__cleanup" | "__free" | "__alias" | "__acquires" | "__releases" | "__must_hold"
         | "__attr_access" | "__acquire" | "__release" | "__no_sanitize" | "__guarded_by" | "__aligned_largest" | "__optimize" | "__nonnull_params"
-        | "__weak_alias" | "__noinstr_section" | "__cpuidle" | "__attribute_alias" | "__diag_ignore_all" | "__sanitize_address" => Some(true),
+        | "__attribute__" | "__attribute" | "__weak_alias" | "__noinstr_section" | "__cpuidle" | "__attribute_alias" | "__diag_ignore_all" | "__sanitize_address" => Some(true),
         _ => None,
     }
 }
@@ -188,14 +188,13 @@ fn has_newline(buffer: &[u8], from: usize, to: usize) -> bool {
     buffer[from..to].contains(&b'\n')
 }
 
-/// `SYSCALL_DEFINEn(name, type, arg, ...)` becomes `long sys_name(type arg, ...)` in place.
-fn rewrite_syscall(buffer: &mut [u8], start: usize, open: usize, compat: bool, count: usize) -> Option<usize> {
+/// `SYSCALL_DEFINEn(name, type, arg, ...)` becomes `long sys_name(type arg, ...)` in place; `BPF_CALL_n` becomes `u64 name(...)`.
+fn rewrite_function_macro(buffer: &mut [u8], start: usize, open: usize, prefix: &str, count: usize) -> Option<usize> {
     let arguments = macro_arguments(buffer, open)?;
     let name = arguments.ranges.first().map(|&(from, to)| buffer[from..to].to_vec())?;
     if !is_identifier(&name) || (count == 0 && arguments.ranges.len() != 1) || (count > 0 && arguments.ranges.len() < 2) {
         return None;
     }
-    let prefix = if compat { "long compat_sys_" } else { "long sys_" };
     let head: Vec<u8> = prefix.bytes().chain(name.iter().copied()).chain(std::iter::once(b'(')).collect();
     if count == 0 {
         let end = arguments.close + 1;
@@ -313,6 +312,27 @@ fn previous_word(buffer: &[u8], index: usize) -> &[u8] {
     &buffer[start..end]
 }
 
+const PRIMITIVE_TYPES: [&str; 11] = ["unsigned", "signed", "int", "char", "short", "long", "void", "float", "double", "bool", "_Bool"];
+
+/// The end of a run of primitive type words (`unsigned long`) that forms a whole macro argument, as in `min_t(unsigned int, a, b)`.
+fn primitive_argument_end(buffer: &[u8], start: usize) -> Option<usize> {
+    let mut cursor = start;
+    let mut end = start;
+    loop {
+        cursor = skip_spaces(buffer, cursor);
+        let mut stop = cursor;
+        while stop < buffer.len() && is_identifier_byte(buffer[stop]) {
+            stop += 1;
+        }
+        if stop == cursor || !std::str::from_utf8(&buffer[cursor..stop]).is_ok_and(|word| PRIMITIVE_TYPES.contains(&word)) {
+            break;
+        }
+        end = stop;
+        cursor = stop;
+    }
+    (end > start && matches!(buffer.get(skip_spaces(buffer, end)), Some(b',' | b')'))).then_some(end)
+}
+
 /// `container_of(ptr, struct foo, member)`: the type name is a macro argument, which tree-sitter-c cannot parse as an expression.
 fn is_type_argument(buffer: &[u8], end: usize) -> bool {
     let name_start = skip_spaces(buffer, end);
@@ -321,6 +341,17 @@ fn is_type_argument(buffer: &[u8], end: usize) -> bool {
         name_end += 1;
     }
     name_end > name_start && matches!(buffer.get(skip_spaces(buffer, name_end)), Some(b',' | b')'))
+}
+
+/// `skb_queue_walk(list, skb) {`: a macro call at the start of a statement that is followed by a block instead of a `;`.
+fn opens_block(buffer: &[u8], open: usize, word: &str) -> bool {
+    if matches!(word, "if" | "while" | "for" | "switch" | "return" | "sizeof" | "typeof" | "__typeof__" | "defined" | "else" | "do" | "case" | "default") {
+        return false;
+    }
+    macro_arguments(buffer, open).is_some_and(|arguments| {
+        let after = arguments.close + 1;
+        buffer[after..].iter().find(|byte| !byte.is_ascii_whitespace()) == Some(&b'{')
+    })
 }
 
 /// Statement macros start their line; anything else in front of the name means an expression.
@@ -359,7 +390,7 @@ fn rewrite(source: &[u8]) -> Rewritten {
             if byte == b'#' && braces.last() == Some(&true) {
                 let name_start = skip_spaces(&buffer, index + 1);
                 let rest = &buffer[name_start..];
-                let conditional = [&b"if"[..], b"elif", b"else", b"endif"].iter().any(|word| rest.starts_with(word));
+                let conditional = [&b"if"[..], b"elif", b"else", b"endif", b"include"].iter().any(|word| rest.starts_with(word));
                 if conditional {
                     let mut stop = index;
                     while stop < length && buffer[stop] != b'\n' {
@@ -374,6 +405,7 @@ fn rewrite(source: &[u8]) -> Rewritten {
         }
         match byte {
             b'/' if buffer.get(index + 1) == Some(&b'*') => {
+                let comment_start = index;
                 index += 2;
                 while index < length && !(buffer[index] == b'*' && buffer.get(index + 1) == Some(&b'/')) {
                     if buffer[index] == b'\n' {
@@ -383,6 +415,10 @@ fn rewrite(source: &[u8]) -> Rewritten {
                     index += 1;
                 }
                 index = (index + 2).min(length);
+                // tree-sitter-c ends a macro body at a comment that is followed by a line continuation.
+                if directive {
+                    blank(&mut buffer, comment_start, index);
+                }
                 continue;
             }
             b'/' if buffer.get(index + 1) == Some(&b'/') => {
@@ -452,7 +488,12 @@ fn rewrite(source: &[u8]) -> Rewritten {
             if let (Some((compat, rest)), Some(digit)) = (syscall, digit)
                 && rest.len() == 1
             {
-                index = rewrite_syscall(&mut buffer, index, open, compat, usize::from(digit - b'0')).unwrap_or(end);
+                let prefix = if compat { "long compat_sys_" } else { "long sys_" };
+                index = rewrite_function_macro(&mut buffer, index, open, prefix, usize::from(digit - b'0')).unwrap_or(end);
+                continue;
+            }
+            if let (Some(digit), Some("BPF_CALL_")) = (digit, word.get(..word.len() - 1)) {
+                index = rewrite_function_macro(&mut buffer, index, open, "u64 ", usize::from(digit - b'0')).unwrap_or(end);
                 continue;
             }
             if word.starts_with("DEFINE_") {
@@ -463,12 +504,40 @@ fn rewrite(source: &[u8]) -> Rewritten {
                 }
             }
         }
+        if PRIMITIVE_TYPES.contains(&word.as_str())
+            && calls.last() == Some(&true)
+            && matches!(buffer[..index].iter().rev().find(|byte| !byte.is_ascii_whitespace()), Some(b'(' | b','))
+            && let Some(stop) = primitive_argument_end(&buffer, index)
+        {
+            for byte in &mut buffer[index..stop] {
+                if *byte == b' ' || *byte == b'\t' {
+                    *byte = b'_';
+                }
+            }
+            index = stop;
+            continue;
+        }
         if matches!(word.as_str(), "struct" | "union" | "enum") && calls.last() == Some(&true) && is_type_argument(&buffer, end) {
             blank(&mut buffer, index, end);
             index = end;
             continue;
         }
-        if !braces.is_empty() && has_open && is_loop_macro(&word) && at_statement_start(&buffer, index, line_start) {
+        if !braces.is_empty() && has_open && word.starts_with("while_each") {
+            loops.push((line, word));
+            blank(&mut buffer, index, end);
+            buffer[index..index + 5].copy_from_slice(b"while");
+            if macro_arguments(&buffer, open).is_some_and(|arguments| arguments.ranges.len() == 1 && arguments.ranges[0].0 == arguments.ranges[0].1) {
+                buffer[index + 5..index + 8].copy_from_slice(b"(1)");
+                blank(&mut buffer, index + 8, open + 2);
+            }
+            index = end;
+            continue;
+        }
+        if !braces.is_empty()
+            && has_open
+            && at_statement_start(&buffer, index, line_start)
+            && (is_loop_macro(&word) || opens_block(&buffer, open, &word))
+        {
             loops.push((line, word));
             blank(&mut buffer, index, end);
             buffer[index..index + 2].copy_from_slice(b"if");
@@ -962,6 +1031,7 @@ pub fn extract_c(source: &[u8], parsers: &mut Parsers, out: &mut Extracted) -> R
     let mut extractor = Extractor { source: &rewritten.text, original: source, out, seen: HashSet::new() };
     extractor.visit_items(root, 0);
     extractor.attribute_loops(&rewritten.loops);
+    extractor.out.uses.sort_by_key(|usage| (usage.source, usage.line));
     let exported: HashSet<u32> = out.exports.iter().map(|export| export.name).collect();
     for symbol in &mut out.symbols {
         if matches!(symbol.kind, SymbolKind::Function | SymbolKind::Variable) && exported.contains(&symbol.name) {

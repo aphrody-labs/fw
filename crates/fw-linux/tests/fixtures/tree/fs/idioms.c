@@ -39,3 +39,20 @@ SYSCALL_DEFINE2(idiom,
 }
 
 module_init(idiom_boot)
+
+BPF_CALL_2(idiom_helper, struct file *, file, u32, flags)
+{
+	return min_t(unsigned int, flags, 4);
+}
+
+static void idiom_walk(struct task_struct *leader)
+{
+	struct task_struct *task;
+
+	do {
+		idiom_count(task);
+	} while_each_thread(leader, task);
+	scoped_guard(spinlock, &idiom_lock) {
+		idiom_count(leader);
+	}
+}

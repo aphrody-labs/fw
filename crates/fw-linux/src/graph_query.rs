@@ -135,7 +135,7 @@ fn definition(answer: &Answer<'_>, name: &str) -> Result<Vec<Value>> {
     let Some(id) = id else { return Ok(Vec::new()) };
     collect(
         answer.connection,
-        &format!("SELECT {SYMBOL_COLUMNS} {SYMBOL_JOINS} WHERE s.name_id = ?1 ORDER BY (s.storage = 'extern'), s.kind, f.path, s.line LIMIT ?2"),
+        &format!("SELECT {SYMBOL_COLUMNS} {SYMBOL_JOINS} WHERE s.name_id = ?1 ORDER BY (s.storage = 'extern'), s.id LIMIT ?2"),
         params![id, answer.fetch()],
         symbol_json,
     )
@@ -158,7 +158,7 @@ fn references(answer: &Answer<'_>, name: &str) -> Result<Value> {
     };
     let results = collect(
         answer.connection,
-        "SELECT sn.name, sk.name, f.path, r.line, rk.name FROM refs r JOIN symbols s ON s.id = r.source JOIN names sn ON sn.id = s.name_id JOIN kinds sk ON sk.id = s.kind JOIN files f ON f.id = s.file_id JOIN kinds rk ON rk.id = r.kind WHERE r.name_id = ?1 ORDER BY f.path, r.line LIMIT ?2",
+        "SELECT sn.name, sk.name, f.path, r.line, rk.name FROM refs r JOIN symbols s ON s.id = r.source JOIN names sn ON sn.id = s.name_id JOIN kinds sk ON sk.id = s.kind JOIN files f ON f.id = s.file_id JOIN kinds rk ON rk.id = r.kind WHERE r.name_id = ?1 ORDER BY r.rowid LIMIT ?2",
         params![id, answer.fetch()],
         |row| {
             let path: String = row.get(2)?;
@@ -166,12 +166,12 @@ fn references(answer: &Answer<'_>, name: &str) -> Result<Value> {
             Ok(json!({ "in": row.get::<_, String>(0)?, "in_kind": row.get::<_, String>(1)?, "file": path, "line": line, "location": location(&path, line), "references": row.get::<_, String>(4)? }))
         },
     )?;
-    let registrations = collect(answer.connection, "SELECT r.macro, f.path, r.line FROM registrations r JOIN files f ON f.id = r.file_id WHERE r.name_id = ?1 ORDER BY f.path, r.line LIMIT ?2", params![id, answer.fetch()], |row| {
+    let registrations = collect(answer.connection, "SELECT r.macro, f.path, r.line FROM registrations r JOIN files f ON f.id = r.file_id WHERE r.name_id = ?1 ORDER BY r.rowid LIMIT ?2", params![id, answer.fetch()], |row| {
         let path: String = row.get(1)?;
         let line: i64 = row.get(2)?;
         Ok(json!({ "macro": row.get::<_, String>(0)?, "file": path, "line": line, "location": location(&path, line) }))
     })?;
-    let exports = collect(answer.connection, "SELECT e.license, e.namespace, f.path, e.line FROM exports e JOIN files f ON f.id = e.file_id WHERE e.name_id = ?1 ORDER BY f.path, e.line LIMIT ?2", params![id, answer.fetch()], |row| {
+    let exports = collect(answer.connection, "SELECT e.license, e.namespace, f.path, e.line FROM exports e JOIN files f ON f.id = e.file_id WHERE e.name_id = ?1 ORDER BY e.rowid LIMIT ?2", params![id, answer.fetch()], |row| {
         let path: String = row.get(2)?;
         let line: i64 = row.get(3)?;
         Ok(json!({ "license": row.get::<_, String>(0)?, "namespace": row.get::<_, String>(1)?, "file": path, "line": line, "location": location(&path, line) }))
@@ -183,7 +183,7 @@ fn callers(answer: &Answer<'_>, name: &str) -> Result<Vec<Value>> {
     let Some(id) = name_id(answer.connection, name)? else { return Ok(Vec::new()) };
     collect(
         answer.connection,
-        "SELECT sn.name, sk.name, f.path, c.line, s.line FROM calls c JOIN symbols s ON s.id = c.caller JOIN names sn ON sn.id = s.name_id JOIN kinds sk ON sk.id = s.kind JOIN files f ON f.id = s.file_id WHERE c.callee_id = ?1 ORDER BY f.path, c.line, sn.name LIMIT ?2",
+        "SELECT sn.name, sk.name, f.path, c.line, s.line FROM calls c JOIN symbols s ON s.id = c.caller JOIN names sn ON sn.id = s.name_id JOIN kinds sk ON sk.id = s.kind JOIN files f ON f.id = s.file_id WHERE c.callee_id = ?1 ORDER BY c.rowid LIMIT ?2",
         params![id, answer.fetch()],
         |row| {
             let path: String = row.get(2)?;
@@ -197,7 +197,7 @@ fn callees(answer: &Answer<'_>, name: &str) -> Result<Vec<Value>> {
     let Some(id) = name_id(answer.connection, name)? else { return Ok(Vec::new()) };
     let rows: Vec<(String, i64, String, i64, i64)> = {
         let mut statement = answer.connection.prepare_cached(
-            "SELECT cn.name, c.callee_id, f.path, c.line, s.line FROM symbols s JOIN calls c ON c.caller = s.id JOIN names cn ON cn.id = c.callee_id JOIN files f ON f.id = s.file_id WHERE s.name_id = ?1 AND s.kind IN (1, 8) ORDER BY f.path, c.line, cn.name LIMIT ?2",
+            "SELECT cn.name, c.callee_id, f.path, c.line, s.line FROM symbols s JOIN calls c ON c.caller = s.id JOIN names cn ON cn.id = c.callee_id JOIN files f ON f.id = s.file_id WHERE s.name_id = ?1 AND s.kind IN (1, 8) ORDER BY s.id, c.rowid LIMIT ?2",
         )?;
         let mapped = statement.query_map(params![id, answer.fetch()], |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?, row.get(4)?)))?;
         mapped.collect::<rusqlite::Result<_>>()?
@@ -227,7 +227,7 @@ fn included_by(answer: &Answer<'_>, path: &str) -> Result<Value> {
     let Some((id, path)) = file_id(answer.connection, path)? else { return Ok(answer.limited("included-by", Vec::new(), json!({ "file": null }))) };
     let results = collect(
         answer.connection,
-        "SELECT f.path, i.line, i.target FROM includes i JOIN files f ON f.id = i.file_id WHERE i.resolved = ?1 ORDER BY f.path, i.line LIMIT ?2",
+        "SELECT f.path, i.line, i.target FROM includes i JOIN files f ON f.id = i.file_id WHERE i.resolved = ?1 ORDER BY i.id LIMIT ?2",
         params![id, answer.fetch()],
         |row| {
             let path: String = row.get(0)?;
@@ -253,7 +253,7 @@ fn file(answer: &Answer<'_>, path: &str) -> Result<Value> {
 }
 
 fn search(answer: &Answer<'_>, pattern: &str) -> Result<Vec<Value>> {
-    let sql = |condition: &str, limit: &str| format!("SELECT {SYMBOL_COLUMNS} {SYMBOL_JOINS} WHERE {condition} ORDER BY n.name, f.path, s.line LIMIT {limit}");
+    let sql = |condition: &str, limit: &str| format!("SELECT {SYMBOL_COLUMNS} {SYMBOL_JOINS} WHERE {condition} ORDER BY n.name, s.id LIMIT {limit}");
     if pattern.contains(['*', '?', '[']) {
         collect(answer.connection, &sql("n.name GLOB ?1", "?2"), params![pattern, answer.fetch()], symbol_json)
     } else {

@@ -44,7 +44,7 @@ fn build_reports_counts_and_stores_the_tree_label() {
     assert_eq!(report["tree"], json!({ "label": "v7.3.5", "version": "7.3.5", "commit": "0123456789abcdef" }));
     let counts = &report["counts"];
     assert_eq!(counts["files"], 17);
-    assert_eq!(counts["symbols_by_kind"]["function"], 16);
+    assert_eq!(counts["symbols_by_kind"]["function"], 18);
     assert_eq!(counts["symbols_by_kind"]["kconfig"], 5);
     assert_eq!(counts["symbols_by_kind"]["menu"], 1);
     assert_eq!(counts["symbols_by_kind"]["enumerator"], 3);
@@ -88,8 +88,15 @@ fn statement_macros_and_type_arguments_parse_cleanly() {
             "idiom_read function fs/idioms.c:16",
             "idiom_after function fs/idioms.c:29",
             "sys_idiom function fs/idioms.c:34",
+            "idiom_helper function fs/idioms.c:43",
+            "idiom_walk function fs/idioms.c:48",
         ]
     );
+    assert_eq!(first(&run(&database, &["def", "idiom_helper"]))["signature"], "BPF_CALL_2(idiom_helper, struct file *, file, u32, flags)");
+    let walk = run(&database, &["callees", "idiom_walk"]);
+    let walked: Vec<&str> = walk["results"].as_array().expect("results").iter().map(|row| row["callee"].as_str().unwrap_or("")).collect();
+    assert_eq!(walked, ["idiom_count", "while_each_thread", "scoped_guard"]);
+    assert_eq!(run(&database, &["callees", "idiom_helper"])["results"][0]["callee"], "min_t");
     assert_eq!(first(&run(&database, &["def", "sys_idiom"]))["signature"], "SYSCALL_DEFINE2(idiom, int, fd, const char __user *, name)");
     let callees = run(&database, &["callees", "idiom_read"]);
     let names: Vec<&str> = callees["results"].as_array().expect("results").iter().map(|row| row["callee"].as_str().unwrap_or("")).collect();
