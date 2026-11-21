@@ -1,34 +1,46 @@
 [package]
 name = "nsh-core"
 description = "Platform-independent core: shadow tree, styles, layout and mount instructions."
-version.workspace = true
+version = "0.6.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-homepage.workspace = true
-readme.workspace = true
-repository.workspace = true
+rust-version = "1.97"
+license = "Apache-2.0"
+homepage = "https://aphrody.com"
+readme = "README.md"
+repository = "https://github.com/aphrody-labs/aphrody"
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
-[lints]
-workspace = true
-
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [dependencies]
 unicode-linebreak.workspace = true
 unicode-properties.workspace = true
 rustc-hash.workspace = true
 slab.workspace = true
 taffy = { workspace = true, features = ["std", "block_layout", "flexbox", "grid", "taffy_tree", "content_size", "detailed_layout_info"] }
-serde.workspace = true
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 rust-i18n.workspace = true
 nsh-macros.workspace = true
-tokio = { workspace = true, features = ["rt", "time"] }
+tokio = { version = "1.54.1", features = ["rt", "time"] }
 log.workspace = true
 ordered-float.workspace = true
 resvg = { workspace = true, optional = true }
 flate2 = { workspace = true, optional = true }
-url.workspace = true
-sha2.workspace = true
+url = { version = "2.5.9" }
+sha2 = { version = "0.10" }
 # Picked images' sizes and types (`picker.rs`).
 imagesize.workspace = true
 # A GIF's first frame for the SVG layer budget (`svg/layers.rs`).
@@ -41,8 +53,7 @@ wuff.workspace = true
 # Fonts' family names (`text::font_family`).
 ttf-parser.workspace = true
 # `nsh/mobile`'s `DateTimePicker` values (`mobile.rs`).
-chrono.workspace = true
-
+chrono = { version = "0.4.45", default-features = false, features = ["std", "serde"] }
 [features]
 # SVG images for the native backends (`svg`: sniffing, sizes and rasters with
 # resvg). The web runtime leaves it off: the browser draws SVG itself.
@@ -76,16 +87,16 @@ updater = ["dep:nsh-updater"]
 # Native socket/file implementations. Browser WebSockets and files use
 # the host services; their shared checks do not need these dependencies.
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-tokio = { workspace = true, features = ["net", "io-util", "sync", "macros"] }
+tokio = { version = "1.54.1", features = ["net", "io-util", "sync", "macros"] }
 cap-std.workspace = true
 # The native WebSocket client (feature `websocket`).
-futures-util = { workspace = true, optional = true }
+futures-util = { version = "0.3", features = ["sink"], optional = true }
 tokio-tungstenite = { workspace = true, optional = true }
 rustls = { workspace = true, optional = true }
 # The image disk cache (`image/cache.rs`).
 httpdate.workspace = true
 # The image loader's downloads (`image/loader.rs`, feature `loader`).
-ureq = { workspace = true, optional = true }
+ureq = { version = "3.5.2", features = ["platform-verifier"], optional = true }
 crc32fast.workspace = true
 # `nsh/updater` (feature `updater`).
 nsh-updater = { workspace = true, optional = true }
@@ -116,7 +127,7 @@ windows-sys = { workspace = true, features = [
 # The tests compile shaders.
 nsh-core = { workspace = true, features = ["shader"] }
 # The tests use `futures_util` directly.
-futures-util.workspace = true
+futures-util = { version = "0.3", features = ["sink"] }
 # The `unit_types` check reads the crate's public API.
 syn = { workspace = true, features = ["visit"] }
-tokio = { workspace = true, features = ["rt", "rt-multi-thread", "time"] }
+tokio = { version = "1.54.1", features = ["rt", "rt-multi-thread", "time"] }

@@ -2,6 +2,8 @@
 //! `classList` attributes are parsed with the core's own parser and theme,
 //! and unknown classes are reported with their source position.
 
+use std::borrow::Cow;
+
 use nsh_core::tailwind::{Theme, parse};
 use oxc::{
     allocator::Allocator,
@@ -10,6 +12,7 @@ use oxc::{
         PropertyKey,
     },
     ast_visit::{Visit, walk},
+    str::JSStr,
     parser::Parser,
     span::SourceType,
 };
@@ -62,7 +65,7 @@ impl Checker<'_> {
     /// sides of conditionals and `&&` / `||`, the parts of templates.
     fn expression(&mut self, e: &Expression<'_>) {
         match e {
-            Expression::StringLiteral(s) => self.classes(&s.value, s.span.start + 1),
+            Expression::StringLiteral(s) => self.classes(&js_str(s.value), s.span.start + 1),
             Expression::TemplateLiteral(t) => {
                 let last = t.quasis.len().saturating_sub(1);
                 for (i, q) in t.quasis.iter().enumerate() {
@@ -103,7 +106,7 @@ impl<'a> Visit<'a> for Checker<'_> {
         };
         match (name.name.as_str(), &attr.value) {
             ("class" | "contentContainerClass", Some(JSXAttributeValue::StringLiteral(s))) => {
-                self.classes(&s.value, s.span.start + 1);
+                self.classes(&js_str(s.value), s.span.start + 1);
             }
             (
                 "class" | "contentContainerClass",
@@ -119,7 +122,7 @@ impl<'a> Visit<'a> for Checker<'_> {
                         if let ObjectPropertyKind::ObjectProperty(p) = p {
                             match &p.key {
                                 PropertyKey::StringLiteral(s) => {
-                                    self.classes(&s.value, s.span.start + 1)
+                                    self.classes(&js_str(s.value), s.span.start + 1)
                                 }
                                 PropertyKey::StaticIdentifier(i) => {
                                     self.classes(&i.name, i.span.start)
@@ -181,4 +184,9 @@ export function A(p: { on: boolean }) {
         .unwrap();
         assert!(check(source, SourceType::tsx(), &themed(theme)).is_empty());
     }
+}
+
+/// The text of a JavaScript string literal; oxc 0.158 keeps lone surrogates, which only the display form can show.
+pub(crate) fn js_str(value: JSStr<'_>) -> Cow<'_, str> {
+    value.as_str().map_or_else(|| Cow::Owned(value.display().to_string()), Cow::Borrowed)
 }

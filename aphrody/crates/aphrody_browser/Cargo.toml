@@ -2,13 +2,26 @@
 name = "aphrody_browser"
 version = "0.1.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "GPL-3.0-or-later"
 description = "Complete Chromium //ui/views browser in GPUI fused with ayvpn per-tab WireGuard/Mullvad routing, anomalyco/browse real-browser MCP relay, Kitesurf/Servo/Blink escalation, and the Full WebGPU OS (ai-os + cloudflare-os + nysh)."
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [lib]
 path = "src/aphrody_browser.rs"
 doctest = false
@@ -29,7 +42,7 @@ browser-engine.workspace = true
 browser-views.workspace = true
 browser-vpn.workspace = true
 gpui = { workspace = true, optional = true }
-serde = { workspace = true, features = ["derive"] }
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 ui = { workspace = true, optional = true }
-url.workspace = true
+url = { version = "2.5.9" }

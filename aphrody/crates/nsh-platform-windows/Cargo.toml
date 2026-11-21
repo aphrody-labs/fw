@@ -1,17 +1,29 @@
 [package]
 name = "nsh-platform-windows"
 description = "Windows backend (Win32, Direct2D, DirectWrite): view mounting, text engine, input, standalone app."
-version.workspace = true
+version = "0.6.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-homepage.workspace = true
-readme.workspace = true
-repository.workspace = true
+rust-version = "1.97"
+license = "Apache-2.0"
+homepage = "https://aphrody.com"
+readme = "README.md"
+repository = "https://github.com/aphrody-labs/aphrody"
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
-[lints]
-workspace = true
-
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [features]
 default = ["js", "shader", "editor", "emoji-picker", "highlight", "math", "plot", "rich-editor", "term", "zlib", "crypto", "websocket", "updater", "svg", "net", "webview", "media"]
 # JS apps (bundles, signed packages); without it, the library only runs a
@@ -72,15 +84,15 @@ log.workspace = true
 nsh-core.workspace = true
 nsh-engine.workspace = true
 nsh-base.workspace = true
-windows.workspace = true
+windows = { version = "0.62.2", features = ["std", "Data_Xml_Dom", "Foundation_Numerics", "UI_Notifications", "Win32_Foundation", "Win32_Globalization", "Win32_Graphics_Direct2D", "Win32_Graphics_Direct2D_Common", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D11", "Win32_Graphics_DirectComposition", "Win32_Graphics_DirectWrite", "Win32_Graphics_Dwm", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_Gdi", "Win32_Graphics_Imaging", "Win32_Graphics_Imaging_D2D", "Win32_Media_Audio", "Win32_Media_Audio_XAudio2", "Win32_Media_MediaFoundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_Storage_Xps", "Win32_System_Com", "Win32_System_Com_StructuredStorage", "Win32_System_DataExchange", "Win32_System_Diagnostics_Debug", "Win32_System_IO", "Win32_System_LibraryLoader", "Win32_System_Memory", "Win32_System_Ole", "Win32_System_Performance", "Win32_System_Power", "Win32_System_Registry", "Win32_System_RemoteDesktop", "Win32_System_SystemInformation", "Win32_System_SystemServices", "Win32_System_Threading", "Win32_System_Time", "Win32_System_Variant", "Win32_System_WinRT", "Win32_UI_Accessibility", "Win32_UI_Controls", "Win32_UI_Controls_RichEdit", "Win32_UI_HiDpi", "Win32_UI_Input_Ime", "Win32_UI_Input_KeyboardAndMouse", "Win32_UI_Input_Pointer", "Win32_UI_Notifications", "Win32_UI_Shell", "Win32_UI_Shell_Common", "Win32_UI_Shell_PropertiesSystem", "Win32_UI_WindowsAndMessaging"] }
 windows-core.workspace = true
 windows-numerics.workspace = true
 webview2-com = { workspace = true, optional = true }
 # GIF and WebP animations (WIC decodes the first frame of everything else).
 image = { workspace = true, features = ["gif", "webp"] }
 rustc-hash.workspace = true
-serde_json.workspace = true
-url.workspace = true
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
+url = { version = "2.5.9" }
 ttf-parser.workspace = true
 crossbeam-channel.workspace = true
 nsh-dev = { workspace = true, features = ["client"], optional = true }

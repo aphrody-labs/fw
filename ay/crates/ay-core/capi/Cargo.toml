@@ -1,10 +1,10 @@
 [package]
 name = "ay-core-capi"
-version.workspace = true
+version = "0.4.0"
 edition.workspace = true
-license.workspace = true
-authors.workspace = true
-repository.workspace = true
+license = "MIT OR Apache-2.0"
+authors = ["aphrody-dev"]
+repository = "https://github.com/aphrody-labs/ay"
 keywords = ["c-abi", "ffi", "tree-sitter", "reverse-engineering", "aphrody"]
 categories = ["api-bindings", "development-tools::ffi"]
 description = "One C ABI cdylib: core_* (ay-core), ai_os_*, depot_*, aphrody_re_* and Boq (aphrody_*), loaded by bun:ffi, Python, and Java"
@@ -31,7 +31,7 @@ ay-re = { workspace = true, optional = true, default-features = true }
 fw-agent-context = { workspace = true, optional = true }
 fw-gemini = { workspace = true, features = ["boq"], optional = true }
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
-serde.workspace = true
+serde = { version = "1.0.229", default-features = false, features = ["derive", "std"] }
 serde_json.workspace = true
 
 [lints.rust]

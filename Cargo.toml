@@ -1,5 +1,9 @@
+# One Cargo workspace for fw, aphrody and ay (tools/monorepo/unify.ts, phase 1 of docs/roadmap/2026-os-monorepo.md).
+# Members keep their origin's package fields and lints (spelled out in their own manifests); dependencies shared by several members live below.
 [workspace]
 members = [
+    "aphrody/crates/*",
+    "ay/crates/*",
     "crates/fw-a2a",
     "crates/fw-agent",
     "crates/fw-agent-context",
@@ -43,9 +47,19 @@ members = [
     "crates/fw-linux",
     "crates/fw-bin",
     "xtask",
+    "aphrody/crates/refineable/derive_refineable",
+    "aphrody/extensions/glsl",
+    "aphrody/extensions/html",
+    "aphrody/extensions/proto",
+    "aphrody/extensions/test-extension",
+    "aphrody/tooling/compliance",
+    "aphrody/tooling/crates_io_client",
+    "aphrody/tooling/perf",
+    "ay/crates/ay-core/capi",
+    "ay/crates/ay-core/jni",
 ]
-exclude = ["os/fw-os", "os/fw-os-boot", "os/fw-ostd-vfs", "native/fw-kernel", "native/fw-world", "native/fw-abi", "packages", "crates/fw-edge", "aphrody", "ay"]
-resolver = "2"
+exclude = ["os/fw-os", "os/fw-os-boot", "os/fw-ostd-vfs", "native/fw-kernel", "native/fw-world", "native/fw-abi", "packages", "crates/fw-edge", "aphrody/templates/wasm-wgpu/*", "ay/third_party", "ay/crates/ay-core/capi/py", "ay/packages", "ay/crates/ay-vault", "aphrody/tooling/xtask"]
+resolver = "3"
 
 [workspace.package]
 version = "2026.11.0"
@@ -57,131 +71,983 @@ keywords = ["fw", "rust-os", "wasm", "mcp", "cluster"]
 categories = ["command-line-utilities", "development-tools", "os"]
 
 [workspace.lints.clippy]
-perf = { level = "deny", priority = -1 }
 needless_collect = "deny"
 inefficient_to_string = "deny"
 
+[workspace.lints.clippy.perf]
+level = "deny"
+priority = -1
+
 [workspace.dependencies]
-
-# External zero-bloat dependencies (verified latest on crates.io 2026-11-19)
-serde = { version = "1.0.229", features = ["derive"] }
-serde_json = "1.0.154"
-sha2 = "0.11.1"
-tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "sync"] }
-flate2 = "1.1.11"
-mimalloc = "0.1.52"
-ureq = { version = "3.5.2", default-features = false, features = ["rustls", "gzip"] }
-
-anyhow = "1.0.104"
-argh = "0.1.19"
-aes-gcm = "0.11.1"
-async-trait = "0.1.92"
+aes-gcm = { version = "0.11.1" }
+age = { version = "0.12.1", default-features = false }
+agent-client-protocol = { version = "=5.4.0", features = ["schemars", "unstable", "unstable_protocol_v2"] }
+aho-corasick = { version = "1.1" }
+annotate-snippets = { version = "0.12.1" }
+any_vec = { version = "0.14" }
+anyhow = { version = "1.0.104" }
+arc-swap = { version = "1.9.0" }
+argh = { version = "0.1.19" }
+argon2 = { version = "0.6", default-features = false, features = ["alloc"] }
+arrayvec = { version = "0.7.6" }
+ashpd = { version = "0.13", default-features = false, features = ["async-io", "inhibit", "open_uri", "file_chooser", "settings"] }
+async_zip = { version = "0.0.18", features = ["deflate", "deflate64"] }
+async-channel = { version = "2.5", default-features = false }
+async-compat = { version = "0.2.1" }
+async-compression = { version = "0.4", features = ["bzip2", "gzip", "futures-io"] }
+async-dispatcher = { version = "0.1" }
+async-fs = { version = "2.1" }
+async-io = { version = "2.6.0" }
+async-lock = { version = "3.4", default-features = false }
+async-process = { version = "2.5.0" }
+async-recursion = { version = "1.0.0" }
+async-std = { version = "1.12", features = ["unstable"] }
+async-task = { version = "4.7" }
+async-trait = { version = "0.1.92" }
+async-tungstenite = { version = "0.35" }
+aws-config = { version = "1.8.10", default-features = false, features = ["behavior-version-latest", "credentials-process", "rt-tokio", "sso"] }
+aws-credential-types = { version = "1.2.8", features = ["hardcoded-credentials"] }
+aws-sdk-bedrockruntime = { version = "1.112.0", default-features = false, features = ["behavior-version-latest", "rt-tokio"] }
+aws-sigv4 = { version = "1.4.0", features = ["http1"] }
+aws-smithy-runtime-api = { version = "1.9.2", features = ["http-1x", "client"] }
+aws-smithy-types = { version = "1.3.4", features = ["http-body-1-x"] }
 axum = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
-base64 = "0.23.1"
+backdrop-blur-core = { version = "0.2.0" }
+backtrace = { version = "0.3" }
+base64 = { version = "0.23.1" }
+betlang = { version = "0.1.1" }
+bitflags = { version = "2.6.0" }
 blake3 = { version = "1.8.7", features = ["mmap", "rayon"] }
-bytes = "1.12.2"
+block2 = { version = "0.6" }
+brotli = { version = "9", default-features = false, features = ["std"] }
+brush-parser = { version = "0.3" }
+bytemuck = { version = "1" }
+bytes = { version = "1.12.2" }
+cap-std = { version = "4.0.3" }
+cargo_metadata = { version = "0.23" }
+cargo_toml = { version = "0.21" }
+cbindgen = { version = "0.28.0", default-features = false }
+cc = { version = "1.11.2" }
+chacha20poly1305 = { version = "0.11", default-features = false, features = ["alloc"] }
+chardetng = { version = "0.1" }
 chrono = { version = "0.4.45", default-features = false, features = ["std"] }
+ciborium = { version = "0.2" }
 clap = { version = "4.6.9", features = ["derive", "env", "cargo", "string", "unicode"] }
-criterion = "0.8.2"
-dirs = "7.0.0"
-futures = "0.3.34"
-futures-util = "0.3"
-hex = "0.4.3"
-hf-hub = "1.0.0"
-http = "1.5.0"
-http-body-util = "0.1"
-hyper = "1"
-ignore = "0.4.34"
-libc = "0.2.191"
-libloading = "0.9.1"
-memmap2 = "0.9.12"
-oxc_allocator = "0.159.0"
-oxc_ast = "0.159.0"
-oxc_ast_visit = "0.159.0"
-oxc_parser = "0.159.0"
-oxc_span = "0.159.0"
-oxc_syntax = "0.159.0"
-pretty_assertions = "1.4.1"
-prost = "0.14.6"
-protoc-bin-vendored = "3.3.0"
-pyo3 = "0.30.1"
-rayon = "1.12.0"
-rcgen = "0.14"
-regex = "1.13.2"
-rustls = "0.23.46"
-rusqlite = "0.40"
-tempfile = "3.27.0"
-thiserror = "2.0.21"
-tokio-postgres = "0.7.18"
-tokio-rustls = "0.26"
-toml = "1.2.2"
-tonic-prost-build = "0.14.9"
-tower = "0.5"
-tracing = "0.1.44"
-tree-sitter = "0.27.2"
-tree-sitter-rust = "0.24.2"
+clap_complete = { version = "4.4" }
+clap_complete_nushell = { version = "4.4" }
+console = { version = "0.16" }
+console_error_panic_hook = { version = "0.1.7" }
+const_format = { version = "0.2" }
+convert_case = { version = "0.11.0" }
+core-foundation = { version = "0.10" }
+core-foundation-sys = { version = "0.8.6" }
+core-graphics = { version = "0.24" }
+core-services = { version = "1" }
+core-text = { version = "21" }
+coreaudio-rs = { version = "0.12", default-features = false }
+crash-handler = { version = "0.8" }
+crc32c = { version = "0.6" }
+crc32fast = { version = "1.5.5" }
+criterion = { version = "0.8.2" }
+crossbeam-channel = { version = "0.5" }
+crossbeam-queue = { version = "0.3.12" }
+crossterm = { version = "0.29.0" }
+ctor = { version = "1.0.12" }
+ctrlc = { version = "3.5" }
+data-url = { version = "0.3" }
+derive_more = { version = "2.1", features = ["deref", "deref_mut", "from_str"] }
+dialoguer = { version = "0.12", default-features = false }
+diffy = { version = "0.4.2" }
+dioxus = { version = "0.7.10", default-features = false, features = ["signals", "macro", "html"] }
+dioxus-core = { version = "0.7.10" }
+dioxus-signals = { version = "0.7.10" }
+dioxus-ssr = { version = "0.7.10" }
+dirs = { version = "7.0.0" }
+dispatch2 = { version = "0.3", default-features = false, features = ["std"] }
+documented = { version = "0.10" }
+dotenvy = { version = "0.15.0" }
+dunce = { version = "1.0" }
+ec4rs = { version = "1.2", features = ["allow-empty-values"] }
+ed25519-dalek = { version = "2.1", default-features = false, features = ["std", "fast", "zeroize"] }
+embed-resource = { version = "3.0" }
+emojis = { version = "0.9" }
+encoding_rs = { version = "0.8" }
+enum-iterator = { version = "2.1.0" }
+env_filter = { version = "2", default-features = false }
+env_logger = { version = "0.11" }
+etagere = { version = "0.2" }
+exec = { version = "0.3.1" }
+fancy-regex = { version = "0.19" }
+flate2 = { version = "1.1.11" }
+flume = { version = "0.12", default-features = false, features = ["async"] }
+fontdb = { version = "0.23" }
+foreign-types = { version = "0.5" }
+fork = { version = "0.4.0" }
+futures = { version = "0.3.34" }
+futures-channel = { version = "0.3" }
+futures-concurrency = { version = "7.7.1" }
+futures-lite = { version = "2" }
+futures-util = { version = "0.3" }
+gaoya = { version = "0.2.0" }
+getrandom = { version = "0.3" }
+gif = { version = "0.14" }
+globset = { version = "0.4" }
+gltf = { version = "1.4.1", default-features = false, features = ["names", "utils"] }
+goblin = { version = "0.10.7" }
+gstreamer = { version = "0.25" }
+gstreamer-app = { version = "0.25" }
+gstreamer-audio = { version = "0.25" }
+gstreamer-video = { version = "0.25" }
+gtk = { version = "0.18" }
+gtk4 = { version = "0.11", features = ["v4_14"] }
+guppy = { version = "0.18" }
+handlebars = { version = "4.3" }
+hdrhistogram = { version = "7", default-features = false }
+heapless = { version = "0.9.2" }
+heck = { version = "0.5" }
+heed = { version = "0.21", default-features = false, features = ["read-txn-no-tls", "serde-bincode", "serde-json"] }
+hex = { version = "0.4.3" }
+hf-hub = { version = "1.0.0" }
+hmac = { version = "0.12" }
+html5ever = { version = "0.39" }
+http = { version = "1.5.0" }
+http-body = { version = "1.0" }
+http-body-util = { version = "0.1" }
+http-range-header = { version = "1.1.0" }
+httparse = { version = "1.10" }
+httpdate = { version = "1" }
+human_bytes = { version = "0.4.1" }
+hyper = { version = "1" }
+iced-x86 = { version = "1.22.0" }
+icu_segmenter = { version = "2.3.0", default-features = false, features = ["compiled_data"] }
+idna = { version = "1.0" }
+ignore = { version = "0.4.34" }
+image = { version = "0.25.1", default-features = false, features = ["bmp", "dds", "exr", "ff", "gif", "hdr", "ico", "jpeg", "png", "pnm", "qoi", "rayon", "tga", "tiff", "webp"] }
+imagesize = { version = "0.15" }
+imara-diff = { version = "0.2", default-features = false }
+indexmap = { version = "2.7.0", features = ["serde"] }
+indoc = { version = "2" }
+instant = { version = "0.1", features = ["wasm-bindgen"] }
+inventory = { version = "0.3.19" }
+ipc-channel = { version = "0.19" }
+is_executable = { version = "1.0" }
+itertools = { version = "0.14.0" }
+jiff = { version = "1.0", features = ["js"] }
+jni = { version = "0.21" }
+js-sys = { version = "0.3" }
+jsonschema = { version = "0.51", default-features = false }
+jsonwebtoken = { version = "10.0", default-features = false }
+jupyter-protocol = { version = "2.0.3" }
+jupyter-websocket-client = { version = "3.0.0" }
+jupyter-zmq-client = { version = "3.0.0", default-features = false, features = ["async-dispatcher-runtime", "aws-lc-rs"] }
+ktx2 = { version = "0.5.0" }
+libc = { version = "0.2.191" }
+libloading = { version = "0.9.1" }
+libsqlite3-sys = { version = "0.38.2", features = ["bundled"] }
+libwebrtc = { version = "0.3.26" }
+linkify = { version = "0.10.0" }
+livekit = { version = "0.7.32", features = ["tokio", "rustls-tls-native-roots"] }
+log = { version = "0.4", default-features = false, features = ["std"] }
+lru = { version = "0.16" }
+lucide-static-svg = { version = "1.76.0" }
+lyon_extra = { version = "1.1.0" }
+lyon_path = { version = "1.0.19" }
+mach2 = { version = "0.6" }
+markup5ever_rcdom = { version = "0.39" }
+material-colors = { version = "0.5.0", default-features = false, features = ["std"] }
+md-5 = { version = "0.10" }
+md-icons = { version = "0.4.0" }
+mdbook = { version = "=0.4.40", default-features = false, features = ["search"] }
+memmap2 = { version = "0.9.12" }
+merman = { version = "=0.9.3", default-features = false }
+mimalloc = { version = "0.1.52" }
+mime = { version = "0.3.17" }
+minidumper = { version = "0.11" }
+moka = { version = "0.12.10", features = ["sync"] }
+nanoid = { version = "0.4" }
+napi = { version = "3.16.2", default-features = false }
+napi-build = { version = "2.6.0" }
+napi-derive = { version = "3.7.1" }
+nbformat = { version = "3.0.0" }
+nix = { version = "0.30" }
+notify = { version = "9.0.0-rc.4" }
+notify-rust = { version = "4" }
+num_cpus = { version = "1.13" }
+num-traits = { version = "0.2" }
+objc2 = { version = "0.6" }
+objc2-app-kit = { version = "0.3.2", default-features = false, features = ["std", "block2", "objc2-core-foundation", "objc2-core-graphics", "objc2-quartz-core", "NSAccessibility", "NSAccessibilityConstants", "NSAccessibilityCustomAction", "NSAccessibilityElement", "NSAccessibilityProtocols", "NSActionCell", "NSAlert", "NSAnimationContext", "NSAppearance", "NSApplication", "NSAttributedString", "NSBezierPath", "NSBitmapImageRep", "NSButton", "NSButtonCell", "NSCell", "NSColor", "NSColorSpace", "NSControl", "NSCursor", "NSDocumentController", "NSDragging", "NSDraggingItem", "NSEvent", "NSFont", "NSFontDescriptor", "NSGraphics", "NSGraphicsContext", "NSImage", "NSImageRep", "NSLayoutConstraint", "NSLayoutManager", "NSMenu", "NSMenuItem", "NSOpenPanel", "NSPanel", "NSParagraphStyle", "NSPasteboard", "NSPasteboardItem", "NSProgressIndicator", "NSResponder", "NSRunningApplication", "NSSavePanel", "NSScreen", "NSScrollView", "NSScroller", "NSSecureTextField", "NSStatusBar", "NSStatusBarButton", "NSStatusItem", "NSText", "NSTextContainer", "NSTextField", "NSTextFieldCell", "NSTextInputClient", "NSTextInputContext", "NSTextStorage", "NSTextView", "NSToolbar", "NSTrackingArea", "NSUserInterfaceItemIdentification", "NSUserInterfaceValidation", "NSView", "NSVisualEffectView", "NSWindow", "NSWorkspace"] }
+objc2-authentication-services = { version = "0.3.2", default-features = false, features = ["std", "block2", "ASWebAuthenticationSession"] }
+objc2-av-foundation = { version = "0.3", default-features = false, features = ["std", "AVCaptureDevice", "AVMediaFormat"] }
+objc2-avf-audio = { version = "0.3", default-features = false, features = ["std", "AVAudioBuffer", "AVAudioFormat", "AVAudioTypes"] }
+objc2-core-foundation = { version = "=0.3.2", default-features = false, features = ["std", "CFArray", "CFAttributedString", "CFCGTypes", "CFData", "CFDictionary", "CFNumber", "CFString", "CFURL"] }
+objc2-core-graphics = { version = "=0.3.2", default-features = false, features = ["std", "CGBitmapContext", "CGColor", "CGColorSpace", "CGContext", "CGDirectDisplay", "CGDisplayConfiguration", "CGEvent", "CGEventTypes", "CGGradient", "CGImage", "CGLayer", "CGPath", "CGWindowLevel"] }
+objc2-core-media = { version = "=0.3.2", default-features = false, features = ["CMSampleBuffer", "objc2-core-video"] }
+objc2-core-text = { version = "0.3.2", default-features = false, features = ["std", "objc2-core-graphics", "CTFont", "CTFontDescriptor", "CTFontManager", "CTFontTraits", "CTFrame", "CTFramesetter", "CTLine", "CTParagraphStyle", "CTRun", "CTRunDelegate", "CTStringAttributes", "CTTypesetter"] }
+objc2-core-video = { version = "=0.3.2", default-features = false, features = ["CVBuffer", "CVImageBuffer"] }
+objc2-foundation = { version = "=0.3.2", default-features = false, features = ["std", "block2", "objc2-core-foundation", "NSArray", "NSAttributedString", "NSBundle", "NSCache", "NSCalendar", "NSCoder", "NSData", "NSDate", "NSDateFormatter", "NSDictionary", "NSDistributedNotificationCenter", "NSEnumerator", "NSError", "NSFormatter", "NSGeometry", "NSKeyValueObserving", "NSLocale", "NSNotification", "NSNull", "NSObjCRuntime", "NSObject", "NSOperation", "NSProcessInfo", "NSPropertyList", "NSRange", "NSRunLoop", "NSSet", "NSStream", "NSString", "NSThread", "NSTimeZone", "NSTimer", "NSURL", "NSURLError", "NSURLRequest", "NSURLResponse", "NSURLSession", "NSUserActivity", "NSUserDefaults", "NSValue"] }
+objc2-image-io = { version = "0.3.2", default-features = false, features = ["std", "objc2-core-graphics", "CGImageDestination", "CGImageProperties", "CGImageSource"] }
+objc2-io-kit = { version = "0.3.2", default-features = false, features = ["std", "libc"] }
+objc2-io-surface = { version = "0.3.2", default-features = false, features = ["std", "libc", "objc2", "objc2-core-foundation", "IOSurfaceBase", "IOSurfaceRef", "IOSurfaceTypes"] }
+objc2-metal = { version = "0.3.2", default-features = false, features = ["std", "block2", "objc2-io-surface", "MTLAllocation", "MTLCommandBuffer", "MTLCommandQueue", "MTLDevice", "MTLPixelFormat", "MTLResource", "MTLTexture", "MTLTypes"] }
+objc2-quartz-core = { version = "=0.3.2", default-features = false, features = ["std", "objc2-core-foundation", "objc2-core-graphics", "objc2-metal", "CAAnimation", "CABase", "CADisplayLink", "CAFrameRateRange", "CAGradientLayer", "CALayer", "CAMediaTiming", "CAMediaTimingFunction", "CAMetalDisplayLink", "CAMetalLayer", "CAShapeLayer", "CATransaction", "CATransform3D"] }
+objc2-screen-capture-kit = { version = "=0.3.2", default-features = false, features = ["block2", "dispatch2", "objc2-core-graphics", "objc2-core-media", "SCShareableContent", "SCStream", "std"] }
+objc2-security = { version = "0.3.2", default-features = false, features = ["std", "SecBase", "SecItem"] }
+objc2-speech = { version = "0.3", default-features = false, features = ["std", "block2", "objc2-avf-audio", "SFSpeechRecognitionMetadata", "SFSpeechRecognitionRequest", "SFSpeechRecognitionResult", "SFSpeechRecognitionTask", "SFSpeechRecognizer", "SFTranscription"] }
+objc2-ui-kit = { version = "0.3.2", default-features = false, features = ["std", "block2", "objc2-core-foundation", "objc2-core-graphics", "objc2-quartz-core", "NSAttributedString", "NSLayoutAnchor", "NSLayoutConstraint", "NSText", "NSTextContainer", "UIAccessibility", "UIAccessibilityConstants", "UIAccessibilityCustomAction", "UIAccessibilityIdentification", "UIAction", "UIActivityIndicatorView", "UIAlertController", "UIApplication", "UIBarAppearance", "UIBarButtonItem", "UIBarItem", "UIBehavioralStyle", "UIBlurEffect", "UIButton", "UIColor", "UICommand", "UIControl", "UICornerConfiguration", "UICornerRadius", "UIDevice", "UIEvent", "UIFeedbackGenerator", "UIFocus", "UIFocusAnimationCoordinator", "UIFocusSystem", "UIFocusUpdateContext_UIKitAdditions", "UIFont", "UIFontDescriptor", "UIGeometry", "UIGestureRecognizer", "UIGestureRecognizerSubclass", "UIGraphics", "UIHoverGestureRecognizer", "UIHoverStyle", "UIImage", "UIImpactFeedbackGenerator", "UIInteraction", "UIInterface", "UIKey", "UIKeyCommand", "UIKeyConstants", "UILabel", "UILayoutGuide", "UILongPressGestureRecognizer", "UIMenu", "UIMenuController", "UIMenuElement", "UINavigationBar", "UINavigationBarAppearance", "UINavigationController", "UINavigationItem", "UINotificationFeedbackGenerator", "UIOpenURLContext", "UIOrientation", "UIPanGestureRecognizer", "UIPasteboard", "UIPinchGestureRecognizer", "UIPointerInteraction", "UIPointerRegion", "UIPointerStyle", "UIPopoverPresentationController", "UIPopoverSupport", "UIPresentationController", "UIPress", "UIPressesEvent", "UIRefreshControl", "UIResponder", "UIRotationGestureRecognizer", "UIScene", "UISceneConfiguration", "UISceneDefinitions", "UISceneOptions", "UISceneSession", "UIScreen", "UIScreenEdgePanGestureRecognizer", "UIScrollView", "UISegmentedControl", "UISelectionFeedbackGenerator", "UISplitViewController", "UITabBar", "UITabBarItem", "UITapGestureRecognizer", "UITargetedPreview", "UITextField", "UITextInput", "UITextInputTraits", "UITextInteraction", "UITextView", "UITimingCurveProvider", "UITimingParameters", "UITouch", "UITraitCollection", "UIView", "UIViewAnimating", "UIViewController", "UIViewControllerTransitionCoordinator", "UIViewPropertyAnimator", "UIVisualEffect", "UIVisualEffectView", "UIWindow", "UIWindowScene", "UIWindowSceneGeometry", "UIWindowSceneGeometryPreferences", "UIWindowSceneGeometryPreferencesIOS"] }
+objc2-uniform-type-identifiers = { version = "0.3", default-features = false, features = ["std", "UTCoreTypes", "UTType"] }
+objc2-user-notifications = { version = "0.3", default-features = false, features = ["std", "block2", "UNNotification", "UNNotificationAction", "UNNotificationCategory", "UNNotificationContent", "UNNotificationRequest", "UNNotificationResponse", "UNNotificationTrigger", "UNUserNotificationCenter"] }
+object = { version = "0.37.3", default-features = false, features = ["read", "std"] }
+octocrab = { version = "0.49", default-features = false }
+once_cell = { version = "1.19.0" }
+ordered-float = { version = "5" }
+oxc = { version = "=0.158.0", features = ["transformer", "codegen", "semantic", "ast_visit"] }
+oxc_allocator = { version = "0.158.0" }
+oxc_ast = { version = "0.158.0" }
+oxc_ast_visit = { version = "0.158.0" }
+oxc_parser = { version = "0.158.0" }
+oxc_sourcemap = { version = "9" }
+oxc_span = { version = "0.158.0" }
+oxc_syntax = { version = "0.158.0" }
+p256 = { version = "0.14", default-features = false, features = ["ecdsa", "sha256"] }
+palette = { version = "0.7.5", default-features = false, features = ["std"] }
+pango = { version = "0.22" }
+pangocairo = { version = "0.22" }
+parking = { version = "2.0.0" }
+parking_lot = { version = "0.12.1" }
+parse_int = { version = "0.9" }
+partial-json-fixer = { version = "0.5.3" }
+paste = { version = "1" }
+pathfinder_geometry = { version = "0.5" }
+pciid-parser = { version = "0.8.0" }
+percent-encoding = { version = "2.3.2" }
+pin-project = { version = "1.1.10" }
+piper = { version = "0.2" }
+plist = { version = "1.3" }
+pollster = { version = "0.4.0" }
+postage = { version = "0.5", default-features = false }
+pretty_assertions = { version = "1.4.1" }
+proc-macro-crate = { version = "3.5" }
+proc-macro2 = { version = "1.0.93" }
+profiling = { version = "1" }
+proptest = { version = "1.12.0", features = ["attr-macro"] }
+proptest-derive = { version = "0.8.0" }
+prost = { version = "0.14.6" }
+prost-build = { version = "0.14", default-features = false }
+prost-types = { version = "0.14" }
+protoc-bin-vendored = { version = "3.3.0" }
+protox = { version = "0.9" }
+proxyvars = { version = "0.2" }
+pulldown-cmark = { version = "0.13.0", default-features = false }
+pyo3 = { version = "0.30.1" }
+quick-xml = { version = "0.41" }
+quickjs-jit-stdlib = { version = "=0.14.2", default-features = false, features = ["buffer", "path"] }
+quote = { version = "1.0.9" }
+rand = { version = "0.9", default-features = false, features = ["std", "std_rng", "os_rng"] }
+ratatui-core = { version = "0.1.2", features = ["std", "layout-cache", "underline-color"] }
+ratatui-crossterm = { version = "0.1.2" }
+ratatui-widgets = { version = "0.3.2", default-features = false, features = ["std"] }
+ratex-font = { version = "0.1.15" }
+ratex-layout = { version = "0.1.15" }
+ratex-parser = { version = "0.1.15" }
+ratex-types = { version = "0.1.15" }
+raw-window-handle = { version = "0.6" }
+rayon = { version = "1.12.0" }
+rcgen = { version = "0.14" }
+regex = { version = "1.13.2" }
+resvg = { version = "0.46.0", default-features = false, features = ["text", "system-fonts", "memmap-fonts", "raster-images"] }
+ring = { version = "0.17" }
+rolldown = { version = "=1.3.2" }
+rolldown_common = { version = "=1.3.2" }
+rolldown_error = { version = "=1.3.2" }
+rolldown_sourcemap = { version = "=1.3.2" }
+ropey = { version = "1.6" }
+roxmltree = { version = "0.21" }
+rpassword = { version = "7.4" }
+rsa = { version = "0.9", default-features = false, features = ["std", "u64_digit"] }
+rusqlite = { version = "0.40" }
+rust_decimal = { version = "1.37.0" }
+rust-embed = { version = "8.11", features = ["include-exclude", "compression"] }
+rust-i18n = { version = "4.2.4" }
+rust-i18n-support = { version = "4.2.4" }
+rustc-hash = { version = "2.1.3" }
+rustix = { version = "1.1", features = ["fs"] }
+rustls = { version = "0.23.46" }
+rustls-platform-verifier = { version = "0.7" }
+schemars = { version = "1.0", default-features = false, features = ["std", "indexmap2"] }
+scrypt = { version = "0.12", default-features = false }
+seahash = { version = "4.1" }
+seccompiler = { version = "0.5" }
+semver = { version = "1.0", features = ["serde"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_ignored = { version = "0.1.14" }
+serde_json = { version = "1.0.154" }
+serde_json_lenient = { version = "0.2", features = ["preserve_order", "raw_value"] }
+serde_path_to_error = { version = "0.1.17" }
+serde_repr = { version = "0.1" }
+serde_urlencoded = { version = "0.7" }
+serde_yaml_ng = { version = "0.10" }
+sha1 = { version = "0.10" }
+sha2 = { version = "0.11.1" }
+shellexpand = { version = "3.1" }
+shlex = { version = "2.0" }
+similar = { version = "2.7" }
+simplecss = { version = "0.2" }
+simplelog = { version = "0.12", default-features = false }
+skrifa = { version = "0.50.0", default-features = false, features = ["std"] }
+slab = { version = "0.4" }
+slotmap = { version = "1.0.6" }
+smallvec = { version = "1.6", features = ["union", "const_new"] }
+smol = { version = "2.0" }
+smol_str = { version = "0.3.6", default-features = false }
+spdx = { version = "0.13.6" }
+spin = { version = "0.10", default-features = false, features = ["mutex", "spin_mutex", "lock_api"] }
+sqlformat = { version = "0.2" }
+stacksafe = { version = "1.0" }
+streaming-iterator = { version = "0.1.9" }
+string_wizard = { version = "=1.3.2", features = ["sourcemap"] }
+strsim = { version = "0.11" }
+strum = { version = "0.28", features = ["derive"] }
+subtle = { version = "2.6" }
+swash = { version = "0.2.6" }
+syn = { version = "2.0", default-features = false, features = ["proc-macro"] }
+syntect = { version = "5.3.0", default-features = false, features = ["parsing", "regex-fancy", "dump-load"] }
+sys-locale = { version = "0.3.1" }
+sysinfo = { version = "0.39", default-features = false, features = ["system"] }
+tar = { version = "0.4", default-features = false }
+tempfile = { version = "3.27.0" }
+tendril = { version = "0.5" }
+thiserror = { version = "2.0.21" }
+thread_local = { version = "1.1.4" }
+thumbhash = { version = "0.1.0" }
+time = { version = "0.3", features = ["macros", "parsing", "serde", "serde-well-known", "formatting", "local-offset"] }
+tiny_http = { version = "0.12" }
+tiny-skia = { version = "0.11", default-features = false, features = ["std", "simd"] }
+tiny-skia-path = { version = "0.11" }
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "sync"] }
+tokio-postgres = { version = "0.7.18" }
+tokio-rustls = { version = "0.26" }
+tokio-tungstenite = { version = "0.28", default-features = false, features = ["connect", "rustls-tls-webpki-roots"] }
+toml = { version = "1.2.2" }
+toml_edit = { version = "0.22", default-features = false, features = ["parse"] }
+tonic-prost-build = { version = "0.14.9" }
+tower = { version = "0.5" }
+tracing = { version = "0.1.44" }
+tracing-subscriber = { version = "0.3" }
+tree-sitter-astro-next = { version = "0.1.1" }
+tree-sitter-bash = { version = "0.25.1" }
+tree-sitter-c = { version = "0.24.2" }
+tree-sitter-c-sharp = { version = "0.23.1" }
+tree-sitter-cmake = { version = "0.7.1" }
+tree-sitter-css = { version = "0.23" }
+tree-sitter-diff = { version = "0.1.0" }
+tree-sitter-elixir = { version = "0.3" }
+tree-sitter-embedded-template = { version = "0.23.0" }
+tree-sitter-graphql = { version = "0.1.0" }
+tree-sitter-html = { version = "0.23.2" }
+tree-sitter-java = { version = "0.23.5" }
+tree-sitter-javascript = { version = "0.23.1" }
+tree-sitter-jsdoc = { version = "0.23" }
+tree-sitter-json = { version = "0.24.8" }
+tree-sitter-kotlin-sg = { version = "0.4.0" }
+tree-sitter-language = { version = "0.1.8" }
+tree-sitter-lua = { version = "0.4.1" }
+tree-sitter-make = { version = "1.1.1" }
+tree-sitter-php = { version = "0.24.2" }
+tree-sitter-proto = { version = "0.2.0" }
+tree-sitter-python = { version = "0.25" }
+tree-sitter-regex = { version = "0.24" }
+tree-sitter-ruby = { version = "0.23" }
+tree-sitter-rust = { version = "0.24.2" }
+tree-sitter-scala = { version = "0.23.4" }
+tree-sitter-sequel = { version = "0.3.8" }
+tree-sitter-svelte-next = { version = "0.1.1" }
+tree-sitter-swift = { version = "0.7.0" }
+tree-sitter-toml-ng = { version = "0.7.0" }
+tree-sitter-zig = { version = "1.1.2" }
+ttf-parser = { version = "0.25" }
+tungstenite = { version = "0.28", default-features = false, features = ["handshake"] }
+two-face = { version = "0.4.5", default-features = false, features = ["syntect-fancy"] }
+unicase = { version = "2.6" }
+unicode-bidi = { version = "0.3.18", default-features = false, features = ["hardcoded-data"] }
+unicode-linebreak = { version = "0.1.5" }
+unicode-properties = { version = "0.1.3", default-features = false, features = ["emoji"] }
+unicode-script = { version = "0.5.7" }
+unicode-segmentation = { version = "1.10" }
+unicode-width = { version = "0.2" }
+unindent = { version = "0.2.0" }
+upt = { version = "0.9.0" }
+ureq = { version = "3.5.2", default-features = false, features = ["rustls", "gzip"] }
 url = { version = "2.5.9", features = ["serde"] }
-uuid = "1.29.3"
-walkdir = "2.5.1"
-which = "8"
+urlencoding = { version = "2.1.2" }
+usvg = { version = "0.46.0", default-features = false }
+uuid = { version = "1.29.3" }
+vscode_theme = { version = "0.2.0" }
+vte = { version = "0.15.0", features = ["ansi"] }
+waker-fn = { version = "1.2.0" }
+walkdir = { version = "2.5.1" }
+wasm-bindgen = { version = "0.2.130" }
+wasm-bindgen-futures = { version = "0.4" }
+wasm-encoder = { version = "0.254" }
+wasmparser = { version = "0.254" }
+wasmtime = { version = "48.0.7", default-features = false, features = ["anyhow", "async", "demangle", "runtime", "cranelift", "component-model", "incremental-cache", "parallel-compilation"] }
+wasmtime-wasi = { version = "48.0.7", default-features = false, features = ["p2"] }
+wax = { version = "0.7", default-features = false }
+wayland-client = { version = "0.31" }
+web-sys = { version = "0.3" }
+web-time = { version = "1.1.0" }
+webkit2gtk = { version = "=2.0.2", features = ["v2_38"] }
+webkit6 = { version = "0.6" }
+webpki-roots = { version = "1.0.10" }
+webrtc-sys = { version = "0.3.23" }
+webview2-com = { version = "0.39" }
+which = { version = "8" }
+window-vibrancy = { version = "0.8.1" }
 windows = { version = "0.62.2", features = ["Win32_Foundation", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D12", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_DirectComposition", "Win32_System_Threading", "Win32_Security", "Win32_System_WinRT", "Win32_System_WinRT_Composition", "Win32_UI_WindowsAndMessaging", "Win32_Networking_WinSock", "System"] }
+windows-core = { version = "0.62" }
+windows-numerics = { version = "0.3" }
+windows-registry = { version = "0.6.0" }
 windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_System_Console", "Win32_System_LibraryLoader", "Win32_System_SystemInformation", "Win32_Storage_FileSystem", "Win32_System_Performance", "Win32_Security"] }
+wuff = { version = "0.2.9" }
+x11rb = { version = "0.13", default-features = false, features = ["composite", "dri3", "present"] }
+xkbcommon = { version = "0.8", default-features = false }
+yaml-rust2 = { version = "0.8", default-features = false }
+yawc = { version = "0.4", default-features = false }
+zbus = { version = "5.13", default-features = false, features = ["async-io", "blocking-api"] }
 zerocopy = { version = "0.8.64", features = ["derive", "alloc", "simd"] }
-zeroize = "1.9.2"
+zeroize = { version = "1.9.2" }
+zip = { version = "9", default-features = false, features = ["deflate"] }
+zstd = { version = "0.13", default-features = false, features = ["legacy", "arrays"] }
 
 # layout:begin cargo.dependencies (generated by tools/layout.ts from layout.toml; edit layout.toml)
-fw-a2a = { path = "crates/fw-a2a" }
+accesskit = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120", features = ["enumn"] }
+accesskit_consumer = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+accesskit_macos = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+accesskit_unix = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+accesskit_windows = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+acp_thread = { path = "aphrody/crates/acp_thread" }
+acp_tools = { path = "aphrody/crates/acp_tools" }
+action_log = { path = "aphrody/crates/action_log" }
+activity_indicator = { path = "aphrody/crates/activity_indicator" }
+agent = { path = "aphrody/crates/agent" }
+agent_servers = { path = "aphrody/crates/agent_servers" }
+agent_settings = { path = "aphrody/crates/agent_settings" }
+agent_skills = { path = "aphrody/crates/agent_skills" }
+agent_ui = { path = "aphrody/crates/agent_ui" }
+ai_onboarding = { path = "aphrody/crates/ai_onboarding" }
+alacritty_terminal = { git = "https://github.com/zed-industries/alacritty", rev = "4c129667ce56611becdc82de6e28218c80e2e88f" }
+anthropic = { path = "aphrody/crates/anthropic" }
+aphrody = { path = "aphrody/crates/aphrody", default-features = false }
+aphrody-auto = { path = "ay/crates/auto-sdk", default-features = false }
+aphrody_auto = { path = "aphrody/crates/aphrody_auto" }
+aphrody_browser = { path = "aphrody/crates/aphrody_browser" }
+aphrody_craft = { path = "aphrody/crates/aphrody_craft" }
+aphrody_design = { path = "aphrody/crates/aphrody_design" }
+aphrody_desktop = { path = "aphrody/crates/aphrody_desktop", default-features = false }
+aphrody_google = { path = "aphrody/crates/aphrody_google", default-features = false }
+aphrody_installer = { path = "aphrody/crates/aphrody_installer", default-features = false }
+aphrody_media = { path = "aphrody/crates/aphrody_media", default-features = false }
+aphrody_nsh = { path = "aphrody/crates/aphrody_nsh" }
+aphrody_pilot = { path = "aphrody/crates/aphrody_pilot" }
+aphrody_session = { path = "aphrody/crates/aphrody_session" }
+aphrody_store = { path = "aphrody/crates/aphrody_store", default-features = false }
+aphrody_ui = { path = "aphrody/crates/aphrody_ui" }
+aphrody_video = { path = "aphrody/crates/aphrody_video", default-features = false }
+aphrody_vpn = { path = "aphrody/crates/aphrody_vpn" }
+askpass = { path = "aphrody/crates/askpass" }
+assets = { path = "aphrody/crates/assets" }
+async-pipe = { git = "https://github.com/zed-industries/async-pipe-rs", rev = "82d00a04211cf4e1236029aa03e6b6ce2a74c553" }
+async-tar = { git = "https://github.com/zed-industries/async-tar", rev = "bd3ad6f89df9a9da7a8535958756d6bf465936a0" }
+audio = { path = "aphrody/crates/audio" }
+auto_update = { path = "aphrody/crates/auto_update" }
+auto_update_ui = { path = "aphrody/crates/auto_update_ui" }
+aws_http_client = { path = "aphrody/crates/aws_http_client" }
+ay-core = { path = "ay/crates/ay-core" }
+ay-re = { path = "ay/crates/ay-re", default-features = false }
+ay-vault = { path = "ay/crates/ay-vault" }
+ayvpn-daemon = { path = "aphrody/crates/ayvpn_daemon" }
+bedrock = { path = "aphrody/crates/bedrock" }
+bench_metrics = { path = "aphrody/crates/bench_metrics" }
+bevy_gpui = { path = "aphrody/crates/bevy_gpui" }
+brand = { path = "aphrody/crates/brand" }
+breadcrumbs = { path = "aphrody/crates/breadcrumbs" }
+browser-browse = { git = "https://github.com/aphrody-labs/browser.git", tag = "v2026.11.20-aphrody.3" }
+browser-detect = { git = "https://github.com/aphrody-labs/browser.git", tag = "v2026.11.20-aphrody.3", default-features = false }
+browser-engine = { git = "https://github.com/aphrody-labs/browser.git", tag = "v2026.11.20-aphrody.3" }
+browser-views = { git = "https://github.com/aphrody-labs/browser.git", tag = "v2026.11.20-aphrody.3" }
+browser-vpn = { git = "https://github.com/aphrody-labs/browser.git", tag = "v2026.11.20-aphrody.3" }
+buffer_diff = { path = "aphrody/crates/buffer_diff" }
+call = { path = "aphrody/crates/call" }
+call_hierarchy = { path = "aphrody/crates/call_hierarchy" }
+channel = { path = "aphrody/crates/channel" }
+cli = { path = "aphrody/crates/cli", default-features = false }
+client = { path = "aphrody/crates/client" }
+clock = { path = "aphrody/crates/clock" }
+cloud_api_client = { path = "aphrody/crates/cloud_api_client" }
+cloud_api_types = { path = "aphrody/crates/cloud_api_types" }
+cloud_llm_client = { path = "aphrody/crates/cloud_llm_client" }
+codestral = { path = "aphrody/crates/codestral" }
+collab_ui = { path = "aphrody/crates/collab_ui" }
+collections = { version = "0.1.0", path = "aphrody/crates/collections" }
+command_palette = { path = "aphrody/crates/command_palette" }
+command_palette_hooks = { path = "aphrody/crates/command_palette_hooks" }
+component = { path = "aphrody/crates/component" }
+component_preview = { path = "aphrody/crates/component_preview" }
+context_server = { path = "aphrody/crates/context_server" }
+copilot = { path = "aphrody/crates/copilot" }
+copilot_chat = { path = "aphrody/crates/copilot_chat" }
+copilot_ui = { path = "aphrody/crates/copilot_ui" }
+cosmic-text = { git = "https://github.com/aphrody-labs/cosmic-text.git", tag = "v0.19.0-aphrody.20261120" }
+cosmic_gpui = { path = "aphrody/crates/cosmic_gpui" }
+cpal = { git = "https://github.com/RustAudio/cpal", rev = "e1612d5d98152f8dc2a62e1b51ef7cbf4f7f26b7" }
+craft-aaf = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-aep = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-anicraft-format = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-anything-analysis = { git = "https://github.com/aphrody-labs/craft-anything.git", tag = "v0.6.1-aphrody.20261120" }
+craft-anything-disasm = { git = "https://github.com/aphrody-labs/craft-anything.git", tag = "v0.6.1-aphrody.20261120" }
+craft-anything-evidence = { git = "https://github.com/aphrody-labs/craft-anything.git", tag = "v0.6.1-aphrody.20261120" }
+craft-anything-formats = { git = "https://github.com/aphrody-labs/craft-anything.git", tag = "v0.6.1-aphrody.20261120" }
+craft-anything-js = { git = "https://github.com/aphrody-labs/craft-anything.git", tag = "v0.6.1-aphrody.20261120" }
+craft-audio = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-audio-dsp = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-captions = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-cms = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-color = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-color-transform = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-csv = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-dds = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-deckcraft-format = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-docx = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-dxf = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-ecproj-format = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-elf = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-exr = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-fcproj-format = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-fig = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-figcraft-format = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-figma-rest = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-gainmap = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-gcode = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-gridcraft-format = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-hdr = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-i18n = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-image-codecs = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-kiwi = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-kra = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-lottie = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-macho = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-materialx = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-math = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-mcmat = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-media = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-mesh = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-metadata = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-midi = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-ods = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
+craft-opc = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
+craft-ora = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-pcraft-format = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-pdf = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", default-features = false, features = ["cos"] }
+craft-pe = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-penpot = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-pkcs7 = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
+craft-plist = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-pptx = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-print = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-psd = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-raster-codecs = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-raw = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-sf2 = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-sheet = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-sketch = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-sniff = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-tar = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-tcraft = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-tga = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-time = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-timeline = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-usd = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-vectorcraft-format = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-video = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-wordmodel = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-xcf = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-xls = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2" }
+craft-xlsx = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-xml = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-zip = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+crashes = { path = "aphrody/crates/crashes" }
+credentials_provider = { path = "aphrody/crates/credentials_provider" }
+dap = { path = "aphrody/crates/dap" }
+dap-types = { git = "https://github.com/zed-industries/dap-types", rev = "1b461b310481d01e02b2603c16d7144b926339f8" }
+dap_adapters = { path = "aphrody/crates/dap_adapters" }
+db = { path = "aphrody/crates/db" }
+debug_adapter_extension = { path = "aphrody/crates/debug_adapter_extension" }
+debugger_tools = { path = "aphrody/crates/debugger_tools" }
+debugger_ui = { path = "aphrody/crates/debugger_ui" }
+deepseek = { path = "aphrody/crates/deepseek" }
+derive_refineable = { path = "aphrody/crates/refineable/derive_refineable" }
+dev_container = { path = "aphrody/crates/dev_container" }
+diagnostics = { path = "aphrody/crates/diagnostics" }
+ecolor = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120", default-features = false }
+edit_prediction = { path = "aphrody/crates/edit_prediction" }
+edit_prediction_context = { path = "aphrody/crates/edit_prediction_context" }
+edit_prediction_metrics = { path = "aphrody/crates/edit_prediction_metrics", features = ["tree-sitter"] }
+edit_prediction_types = { path = "aphrody/crates/edit_prediction_types" }
+edit_prediction_ui = { path = "aphrody/crates/edit_prediction_ui" }
+editor = { path = "aphrody/crates/editor" }
+egui = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120", default-features = false }
+egui-wgpu = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120", default-features = false }
+egui_extras = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120", default-features = false }
+egui_gpui = { path = "aphrody/crates/egui_gpui" }
+emath = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120", default-features = false }
+encoding_selector = { path = "aphrody/crates/encoding_selector" }
+env_var = { path = "aphrody/crates/env_var" }
+epaint = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120", default-features = false }
+etw_tracing = { path = "aphrody/crates/etw_tracing" }
+eval_utils = { path = "aphrody/crates/eval_utils" }
+extension = { path = "aphrody/crates/extension" }
+extension_host = { path = "aphrody/crates/extension_host" }
+extension_suggest = { path = "aphrody/crates/extension_suggest" }
+extensions_ui = { path = "aphrody/crates/extensions_ui" }
+feature_flags = { path = "aphrody/crates/feature_flags" }
+feature_flags_macros = { path = "aphrody/crates/feature_flags_macros" }
+feedback = { path = "aphrody/crates/feedback" }
+file_content = { path = "aphrody/crates/file_content" }
+file_finder = { path = "aphrody/crates/file_finder" }
+file_icons = { path = "aphrody/crates/file_icons" }
+font-kit = { version = "0.14.1-zed", git = "https://github.com/zed-industries/font-kit", rev = "94b0f28166665e8fd2f53ff6d268a14955c82269", package = "zed-font-kit", default-features = false }
+fs = { path = "aphrody/crates/fs" }
+fuzzy = { path = "aphrody/crates/fuzzy" }
+fuzzy_nucleo = { path = "aphrody/crates/fuzzy_nucleo" }
 fw-agent = { path = "crates/fw-agent", default-features = false }
 fw-agent-context = { path = "crates/fw-agent-context" }
 fw-apm = { version = "2026.11.0", path = "crates/fw-apm" }
-fw-bin = { path = "crates/fw-bin" }
 fw-cluster = { version = "2026.11.0", path = "crates/fw-cluster" }
 fw-compute = { version = "2026.11.0", path = "crates/fw-compute" }
 fw-config = { version = "2026.11.0", path = "crates/fw-config" }
 fw-crates = { version = "2026.11.0", path = "crates/fw-crates", default-features = false, features = ["live"] }
-fw-depot = { path = "crates/fw-depot" }
-fw-estate = { path = "crates/fw-estate" }
-fw-drive = { path = "crates/fw-drive" }
-fw-files = { path = "crates/fw-files" }
+fw-depot = { path = "crates/fw-depot", default-features = false }
 fw-fx = { version = "2026.11.0", path = "crates/fw-fx" }
 fw-gemini = { path = "crates/fw-gemini", default-features = false }
-# Internal publishable fw-* crates (pinned with version + path for crates.io)
 fw-ggml = { version = "2026.11.0", path = "crates/fw-ggml" }
-fw-google = { path = "crates/fw-google" }
 fw-hermes-claw = { version = "2026.11.0", path = "crates/fw-hermes-claw" }
 fw-http = { version = "2026.11.0", path = "crates/fw-http", default-features = false }
-fw-linux = { path = "crates/fw-linux" }
-fw-llama = { path = "crates/fw-llama" }
 fw-llama-sys = { path = "crates/fw-llama-sys" }
 fw-m3 = { path = "crates/fw-m3" }
-fw-material = { path = "crates/fw-material" }
 fw-ml = { path = "crates/fw-ml", default-features = false }
 fw-model = { path = "crates/fw-model", default-features = false }
 fw-nix = { version = "2026.11.0", path = "crates/fw-nix" }
 fw-ostd-wasm = { version = "2026.11.0", path = "crates/fw-ostd-wasm" }
 fw-proc = { path = "crates/fw-proc" }
 fw-proto = { version = "2026.11.0", path = "crates/fw-proto" }
-fw-rag = { path = "crates/fw-rag" }
-fw-rag-core = { path = "crates/fw-rag-core" }
-fw-ring3-agent = { path = "crates/fw-ring3-agent" }
+fw-rag-core = { path = "crates/fw-rag-core", default-features = false }
 fw-secrets = { version = "2026.11.0", path = "crates/fw-secrets" }
 fw-toolcall = { path = "crates/fw-toolcall", default-features = false }
-fw-translate-core = { path = "crates/fw-translate-core" }
 fw-ui-blitz = { version = "2026.11.0", path = "crates/fw-ui-blitz" }
 fw-unified-stack = { version = "2026.11.0", path = "crates/fw-unified-stack" }
 fw-uutils = { version = "2026.11.0", path = "crates/fw-uutils" }
 fw-video = { path = "crates/fw-video" }
-fw-wasm = { path = "crates/fw-wasm" }
 fw-wayland-wgpu = { version = "2026.11.0", path = "crates/fw-wayland-wgpu" }
-xtask = { path = "xtask" }
+getrandom-stdlib = { version = "0.4", package = "getrandom", default-features = false }
+gh-workflow = { git = "https://github.com/zed-industries/gh-workflow", rev = "37f3c0575d379c218a9c455ee67585184e40d43f" }
+git = { path = "aphrody/crates/git" }
+git_hosting_providers = { path = "aphrody/crates/git_hosting_providers" }
+git_ui = { path = "aphrody/crates/git_ui" }
+git_ui_core = { path = "aphrody/crates/git_ui_core" }
+github_releases = { path = "aphrody/crates/github_releases" }
+go_to_line = { path = "aphrody/crates/go_to_line" }
+google_ai = { path = "aphrody/crates/google_ai" }
+gpui = { path = "aphrody/crates/gpui", default-features = false }
+gpui-base = { version = "0.10.0", path = "aphrody/crates/gpui-base" }
+gpui-component = { version = "0.10.0", path = "aphrody/crates/gpui-component" }
+gpui-component-macros = { version = "0.10.0", path = "aphrody/crates/gpui-component-macros" }
+gpui-fps = { version = "0.10.0", path = "aphrody/crates/gpui-fps" }
+gpui-kit = { version = "0.10.0", path = "aphrody/crates/gpui-kit" }
+gpui-kit-assets = { version = "0.10.0", path = "aphrody/crates/gpui-kit-assets" }
+gpui_app_shell = { path = "aphrody/crates/gpui_app_shell" }
+gpui_apple = { path = "aphrody/crates/gpui_apple" }
+gpui_code = { path = "aphrody/crates/gpui_code" }
+gpui_ios = { path = "aphrody/crates/gpui_ios" }
+gpui_linux = { path = "aphrody/crates/gpui_linux", default-features = false }
+gpui_macos = { path = "aphrody/crates/gpui_macos", default-features = false }
+gpui_macros = { path = "aphrody/crates/gpui_macros" }
+gpui_platform = { path = "aphrody/crates/gpui_platform", default-features = false }
+gpui_shared_string = { path = "aphrody/crates/gpui_shared_string" }
+gpui_tokio = { path = "aphrody/crates/gpui_tokio" }
+gpui_ui = { path = "aphrody/crates/gpui_ui" }
+gpui_util = { path = "aphrody/crates/gpui_util" }
+gpui_web = { path = "aphrody/crates/gpui_web", default-features = false }
+gpui_wgpu = { path = "aphrody/crates/gpui_wgpu" }
+gpui_windows = { path = "aphrody/crates/gpui_windows", default-features = false }
+grammars = { path = "aphrody/crates/grammars" }
+hang_telemetry = { path = "aphrody/crates/hang_telemetry" }
+html_to_markdown = { path = "aphrody/crates/html_to_markdown" }
+http_client = { path = "aphrody/crates/http_client" }
+http_client_tls = { path = "aphrody/crates/http_client_tls" }
+http_proxy = { path = "aphrody/crates/http_proxy" }
+iced_gpui = { path = "aphrody/crates/iced_gpui" }
+icons = { path = "aphrody/crates/icons" }
+image_viewer = { path = "aphrody/crates/image_viewer" }
+input_latency_ui = { path = "aphrody/crates/input_latency_ui" }
+inspector_ui = { path = "aphrody/crates/inspector_ui" }
+install_cli = { path = "aphrody/crates/install_cli" }
+jni-verifier = { version = "0.22", package = "jni" }
+journal = { path = "aphrody/crates/journal" }
+json_schema_store = { path = "aphrody/crates/json_schema_store" }
+keymap_editor = { path = "aphrody/crates/keymap_editor" }
+language = { path = "aphrody/crates/language" }
+language_core = { path = "aphrody/crates/language_core" }
+language_detection = { path = "aphrody/crates/language_detection" }
+language_extension = { path = "aphrody/crates/language_extension" }
+language_model = { path = "aphrody/crates/language_model" }
+language_model_core = { path = "aphrody/crates/language_model_core" }
+language_model_selector = { path = "aphrody/crates/language_model_selector" }
+language_models = { path = "aphrody/crates/language_models" }
+language_models_cloud = { path = "aphrody/crates/language_models_cloud" }
+language_onboarding = { path = "aphrody/crates/language_onboarding" }
+language_selector = { path = "aphrody/crates/language_selector" }
+language_tools = { path = "aphrody/crates/language_tools" }
+languages = { path = "aphrody/crates/languages" }
+line_ending_selector = { path = "aphrody/crates/line_ending_selector" }
+livekit_api = { path = "aphrody/crates/livekit_api" }
+livekit_client = { path = "aphrody/crates/livekit_client" }
+llama_cpp = { path = "aphrody/crates/llama_cpp" }
+lmstudio = { path = "aphrody/crates/lmstudio" }
+lsp = { path = "aphrody/crates/lsp" }
+lsp-types = { git = "https://github.com/zed-industries/lsp-types", rev = "82d7fc66ebdfabcfeb26ba16bbed9f3d26211fc3" }
+lsp_command_selector = { path = "aphrody/crates/lsp_command_selector" }
+lsp_locations = { path = "aphrody/crates/lsp_locations" }
+lsp_types_kit = { version = "0.97", package = "lsp-types", features = ["proposed"] }
+markdown = { path = "aphrody/crates/markdown" }
+markdown-rs = { version = "1.0.0", package = "markdown", features = ["serde"] }
+markdown_preview = { path = "aphrody/crates/markdown_preview" }
+menu = { path = "aphrody/crates/menu" }
+mermaid_render = { path = "aphrody/crates/mermaid_render" }
+migrator = { path = "aphrody/crates/migrator" }
+miniprofiler_ui = { path = "aphrody/crates/miniprofiler_ui" }
+mistral = { path = "aphrody/crates/mistral" }
+mullvad-api = { git = "https://github.com/aphrody-labs/mullvadvpn-app.git", tag = "v2026.11.20-aphrody.3" }
+mullvad-daemon = { git = "https://github.com/aphrody-labs/mullvadvpn-app.git", tag = "v2026.11.20-aphrody.3", default-features = false, features = ["embedded"] }
+mullvad-management-interface = { git = "https://github.com/aphrody-labs/mullvadvpn-app.git", tag = "v2026.11.20-aphrody.3" }
+mullvad-paths = { git = "https://github.com/aphrody-labs/mullvadvpn-app.git", tag = "v2026.11.20-aphrody.3" }
+mullvad-types = { git = "https://github.com/aphrody-labs/mullvadvpn-app.git", tag = "v2026.11.20-aphrody.3" }
+multi_buffer = { path = "aphrody/crates/multi_buffer" }
+naga = { git = "https://github.com/aphrody-labs/wgpu.git", tag = "v30.0.0-aphrody.20261120", default-features = false, features = ["wgsl-in"] }
+net = { path = "aphrody/crates/net" }
+node_runtime = { path = "aphrody/crates/node_runtime" }
+notifications = { path = "aphrody/crates/notifications" }
+nsh-base = { version = "0.6.0", path = "aphrody/crates/nsh-base", default-features = false }
+nsh-bundler = { version = "0.6.0", path = "aphrody/crates/nsh-bundler", default-features = false }
+nsh-core = { version = "0.6.0", path = "aphrody/crates/nsh-core" }
+nsh-dev = { version = "0.6.0", path = "aphrody/crates/nsh-dev" }
+nsh-engine = { version = "0.6.0", path = "aphrody/crates/nsh-engine", default-features = false }
+nsh-i18n = { version = "0.6.0", path = "aphrody/crates/nsh-i18n" }
+nsh-js = { version = "0.6.0", path = "aphrody/crates/nsh-js", default-features = false }
+nsh-macros = { version = "0.6.0", path = "aphrody/crates/nsh-macros" }
+nsh-package = { version = "0.6.0", path = "aphrody/crates/nsh-package" }
+nsh-platform-apple = { version = "0.6.0", path = "aphrody/crates/nsh-platform-apple" }
+nsh-platform-gpui = { version = "0.6.0", path = "aphrody/crates/nsh-platform-gpui", default-features = false }
+nsh-platform-ios = { version = "0.6.0", path = "aphrody/crates/nsh-platform-ios", default-features = false }
+nsh-platform-linux = { version = "0.6.0", path = "aphrody/crates/nsh-platform-linux", default-features = false }
+nsh-platform-macos = { version = "0.6.0", path = "aphrody/crates/nsh-platform-macos", default-features = false }
+nsh-platform-tui = { version = "0.6.0", path = "aphrody/crates/nsh-platform-tui", default-features = false }
+nsh-platform-windows = { version = "0.6.0", path = "aphrody/crates/nsh-platform-windows", default-features = false }
+nsh-testing = { version = "0.6.0", path = "aphrody/crates/nsh-testing", default-features = false }
+nsh-updater = { version = "0.6.0", path = "aphrody/crates/nsh-updater" }
+nucleo = { version = "0.3", package = "nucleo-matcher" }
+nvim-rs = { git = "https://github.com/KillTheMule/nvim-rs", rev = "764dd270c642f77f10f3e19d05cc178a6cbe69f3" }
+oauth_callback_server = { path = "aphrody/crates/oauth_callback_server" }
+ollama = { path = "aphrody/crates/ollama" }
+onboarding = { path = "aphrody/crates/onboarding" }
+oo7 = { version = "0.6", git = "https://github.com/zed-industries/oo7", rev = "731c1215edb6905876c6137ab300428c7b8d7c13", default-features = false }
+open_ai = { path = "aphrody/crates/open_ai" }
+open_path_prompt = { path = "aphrody/crates/open_path_prompt" }
+open_router = { path = "aphrody/crates/open_router", features = ["schemars"] }
+openai_subscribed = { path = "aphrody/crates/openai_subscribed" }
+opencode = { path = "aphrody/crates/opencode" }
+outline = { path = "aphrody/crates/outline" }
+outline_panel = { path = "aphrody/crates/outline_panel" }
+path = { path = "aphrody/crates/path" }
+paths = { path = "aphrody/crates/paths" }
+perf = { path = "aphrody/tooling/perf", default-features = false }
+perf-event = { version = "0.7.4", package = "perf-event2" }
+pet = { git = "https://github.com/zed-industries/python-environment-tools.git", rev = "5aad7164bfc2a58977b103c8ef8fdd7302ed2e9f" }
+pet-conda = { git = "https://github.com/zed-industries/python-environment-tools.git", rev = "5aad7164bfc2a58977b103c8ef8fdd7302ed2e9f" }
+pet-core = { git = "https://github.com/zed-industries/python-environment-tools.git", rev = "5aad7164bfc2a58977b103c8ef8fdd7302ed2e9f" }
+pet-fs = { git = "https://github.com/zed-industries/python-environment-tools.git", rev = "5aad7164bfc2a58977b103c8ef8fdd7302ed2e9f" }
+pet-poetry = { git = "https://github.com/zed-industries/python-environment-tools.git", rev = "5aad7164bfc2a58977b103c8ef8fdd7302ed2e9f" }
+pet-reporter = { git = "https://github.com/zed-industries/python-environment-tools.git", rev = "5aad7164bfc2a58977b103c8ef8fdd7302ed2e9f" }
+pet-virtualenv = { git = "https://github.com/zed-industries/python-environment-tools.git", rev = "5aad7164bfc2a58977b103c8ef8fdd7302ed2e9f" }
+picker = { path = "aphrody/crates/picker" }
+picker_preview = { path = "aphrody/crates/picker_preview" }
+platform_title_bar = { path = "aphrody/crates/platform_title_bar" }
+prettier = { path = "aphrody/crates/prettier" }
+project = { path = "aphrody/crates/project" }
+project_bookmarks = { path = "aphrody/crates/project_bookmarks" }
+project_panel = { path = "aphrody/crates/project_panel" }
+project_symbols = { path = "aphrody/crates/project_symbols" }
+prompt_store = { path = "aphrody/crates/prompt_store" }
+proto = { path = "aphrody/crates/proto" }
+proxy_handshake = { path = "aphrody/crates/proxy_handshake" }
+recent_projects = { path = "aphrody/crates/recent_projects" }
+refineable = { path = "aphrody/crates/refineable" }
+release_channel = { path = "aphrody/crates/release_channel" }
+remote = { path = "aphrody/crates/remote" }
+remote_connection = { path = "aphrody/crates/remote_connection" }
+remote_server = { path = "aphrody/crates/remote_server" }
+repl = { path = "aphrody/crates/repl" }
+reqwest = { version = "0.12.15-zed", git = "https://github.com/zed-industries/reqwest.git", rev = "33bc764aa15ff7b200bf7c93bd96e24878d53e14", package = "zed-reqwest", default-features = false, features = ["http2", "macos-system-configuration", "rustls-tls-native-roots", "socks", "stream"] }
+reqwest_client = { path = "aphrody/crates/reqwest_client" }
+rodio = { git = "https://github.com/RustAudio/rodio", rev = "3ee9745862279ce1d18db593155016e7ce024aeb", default-features = false, features = ["wav", "playback", "wav_output", "recording"] }
+rope = { path = "aphrody/crates/rope" }
+ropey_kit = { version = "=2.0.0-beta.1", package = "ropey", features = ["metric_chars", "metric_lines_lf", "metric_utf16"] }
+rpc = { path = "aphrody/crates/rpc" }
+rquickjs = { version = "=0.14.2", package = "quickjs-jit", default-features = false, features = ["std", "futures", "loader", "macro"] }
+sandbox = { path = "aphrody/crates/sandbox" }
+sandbox_linux = { path = "aphrody/crates/sandbox_linux" }
+scap = { version = "0.0.8-zed", git = "https://github.com/zed-industries/scap", rev = "b5c86ec58dd4b6b7732bf6ac8be03d6b1f190a82", package = "zed-scap", default-features = false }
+scheduler = { path = "aphrody/crates/scheduler" }
+search = { path = "aphrody/crates/search" }
+serde_yaml = { version = "0.10", package = "serde_yaml_ng" }
+session = { path = "aphrody/crates/session" }
+settings = { path = "aphrody/crates/settings" }
+settings_content = { path = "aphrody/crates/settings_content" }
+settings_json = { path = "aphrody/crates/settings_json", default-features = false }
+settings_macros = { path = "aphrody/crates/settings_macros" }
+settings_profile_selector = { path = "aphrody/crates/settings_profile_selector" }
+settings_ui = { path = "aphrody/crates/settings_ui" }
+shell_command_parser = { path = "aphrody/crates/shell_command_parser" }
+sidebar = { path = "aphrody/crates/sidebar" }
+snippet = { path = "aphrody/crates/snippet" }
+snippet_provider = { path = "aphrody/crates/snippet_provider" }
+snippets_ui = { path = "aphrody/crates/snippets_ui" }
+sqlez = { path = "aphrody/crates/sqlez" }
+sqlez_macros = { path = "aphrody/crates/sqlez_macros" }
+streaming_diff = { path = "aphrody/crates/streaming_diff" }
+sum_tree = { path = "aphrody/crates/sum_tree" }
+svg_preview = { path = "aphrody/crates/svg_preview" }
+syntax_theme = { path = "aphrody/crates/syntax_theme" }
+system_specs = { path = "aphrody/crates/system_specs" }
+tab_switcher = { path = "aphrody/crates/tab_switcher" }
+tabular_data_preview = { path = "aphrody/crates/tabular_data_preview" }
+taffy = { git = "https://github.com/aphrody-labs/taffy.git", tag = "v0.15.1-aphrody.20261120", default-features = false }
+task = { path = "aphrody/crates/task" }
+tasks_ui = { path = "aphrody/crates/tasks_ui" }
+tauri_gpui = { path = "aphrody/crates/tauri_gpui" }
+telemetry = { path = "aphrody/crates/telemetry" }
+telemetry_events = { path = "aphrody/crates/telemetry_events" }
+terminal = { path = "aphrody/crates/terminal" }
+terminal_view = { path = "aphrody/crates/terminal_view" }
+text = { path = "aphrody/crates/text" }
+theme = { path = "aphrody/crates/theme" }
+theme_extension = { path = "aphrody/crates/theme_extension" }
+theme_selector = { path = "aphrody/crates/theme_selector" }
+theme_settings = { path = "aphrody/crates/theme_settings" }
+time_format = { path = "aphrody/crates/time_format" }
+title_bar = { path = "aphrody/crates/title_bar" }
+toolchain_selector = { path = "aphrody/crates/toolchain_selector" }
+trash = { git = "https://github.com/zed-industries/trash-rs", rev = "41c6c800d884a89351f3b8856d12894cccee261d" }
+tree-sitter = { git = "https://github.com/tree-sitter/tree-sitter", rev = "cf5d3a63f9fa069fc32b9a73dc28830e427d5ee0" }
+tree-sitter-cpp = { git = "https://github.com/tree-sitter/tree-sitter-cpp", rev = "5cb9b693cfd7bfacab1d9ff4acac1a4150700609" }
+tree-sitter-gitcommit = { git = "https://github.com/zed-industries/tree-sitter-git-commit", rev = "88309716a69dd13ab83443721ba6e0b491d37ee9" }
+tree-sitter-go = { git = "https://github.com/zed-industries/tree-sitter-go", rev = "6862a49e3c5a7567a6c576420e9a8f944e198a85" }
+tree-sitter-go-mod = { git = "https://github.com/camdencheek/tree-sitter-go-mod", rev = "2e886870578eeba1927a2dc4bd2e2b3f598c5f9a", package = "tree-sitter-gomod" }
+tree-sitter-gowork = { git = "https://github.com/zed-industries/tree-sitter-go-work", rev = "acb0617bf7f4fda02c6217676cc64acb89536dc7" }
+tree-sitter-heex = { git = "https://github.com/zed-industries/tree-sitter-heex", rev = "1dd45142fbb05562e35b2040c6129c9bca346592" }
+tree-sitter-md = { git = "https://github.com/zed-industries/tree-sitter-markdown", rev = "b596e737286780d7bfa9fcddceaeeb754574b352" }
+tree-sitter-typescript = { git = "https://github.com/zed-industries/tree-sitter-typescript", rev = "e2c53597d6a5d9cf7bbe8dccde576fe1e46c5899" }
+tree-sitter-yaml = { git = "https://github.com/zed-industries/tree-sitter-yaml", rev = "baff0b51c64ef6a1fb1f8390f3ad6015b83ec13a" }
+ui = { path = "aphrody/crates/ui" }
+ui_input = { path = "aphrody/crates/ui_input" }
+ui_macros = { path = "aphrody/crates/ui_macros" }
+ui_prompt = { path = "aphrody/crates/ui_prompt" }
+util = { path = "aphrody/crates/util" }
+util_macros = { path = "aphrody/crates/util_macros" }
+vim = { path = "aphrody/crates/vim" }
+vim_mode_setting = { path = "aphrody/crates/vim_mode_setting" }
+wasm_thread = { version = "0.3", git = "https://github.com/zed-industries/wasm_thread", rev = "0cf96c7708dfb97ccf3da50347e25edcf75d6937", features = ["es_modules"] }
+watch = { path = "aphrody/crates/watch" }
+web_search = { path = "aphrody/crates/web_search" }
+web_search_providers = { path = "aphrody/crates/web_search_providers" }
+wgpu = { git = "https://github.com/aphrody-labs/wgpu.git", tag = "v30.0.0-aphrody.20261120", default-features = false }
+which_key = { path = "aphrody/crates/which_key" }
+windows_resources = { path = "aphrody/crates/windows_resources" }
+workspace = { path = "aphrody/crates/workspace" }
+worktree = { path = "aphrody/crates/worktree" }
+wry = { git = "https://github.com/aphrody-labs/wry.git", tag = "v0.57.3-aphrody.20261120" }
+x_ai = { path = "aphrody/crates/x_ai" }
+x_ai_subscribed = { path = "aphrody/crates/x_ai_subscribed" }
+zed_actions = { path = "aphrody/crates/zed_actions" }
+zed_credentials_provider = { path = "aphrody/crates/zed_credentials_provider" }
+zed_env_vars = { path = "aphrody/crates/zed_env_vars" }
+zed_extension_api = { path = "aphrody/crates/extension_api" }
+zeta_prompt = { path = "aphrody/crates/zeta_prompt" }
+zlog = { path = "aphrody/crates/zlog" }
+zlog_settings = { path = "aphrody/crates/zlog_settings" }
+ztracing = { path = "aphrody/crates/ztracing" }
+ztracing_macro = { path = "aphrody/crates/ztracing_macro" }
 # layout:end cargo.dependencies
 
 # layout:begin cargo.patch (generated by tools/layout.ts from layout.toml; edit layout.toml)
 [patch.crates-io]
-# hyperium/h3 master carries fixes the 0.0.8 release lacks (send_data flushed before finish, stop_sending, request tracking);
-# fw-http's client (through reqwest) and server both use it. Fork of hyperium/h3; drop the patch once the next release ships.
 h3 = { git = "https://github.com/aphrody-labs/h3", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
 h3-quinn = { git = "https://github.com/aphrody-labs/h3", rev = "43745ad87e95b0c035ac9c547aad467303213425" }
+cpal = { git = "https://github.com/RustAudio/cpal", rev = "e1612d5d98152f8dc2a62e1b51ef7cbf4f7f26b7" }
+tree-sitter-language = { git = "https://github.com/tree-sitter/tree-sitter", rev = "cf5d3a63f9fa069fc32b9a73dc28830e427d5ee0" }
+async-process = { git = "https://github.com/zed-industries/async-process.git", rev = "0b6d6713570af61806e1e5cb40e0f757cb93fd9d" }
+async-task = { git = "https://github.com/smol-rs/async-task", rev = "41fd3359c75e221bd8b187a8ee361aa309c1714c" }
+windows-capture = { git = "https://github.com/zed-industries/windows-capture.git", rev = "f0d6c1b6691db75461b732f6d5ff56eed002eeb9" }
+calloop = { git = "https://github.com/zed-industries/calloop", rev = "3759371fee14c40066d64777e2a36b6ffcc22590" }
+livekit = { git = "https://github.com/zed-industries/livekit-rust-sdks", rev = "fbda05eb278b4a7c5be8fc9b2a92e9b62e732236" }
+libwebrtc = { git = "https://github.com/zed-industries/livekit-rust-sdks", rev = "fbda05eb278b4a7c5be8fc9b2a92e9b62e732236" }
+notify = { git = "https://github.com/zed-industries/notify", rev = "d842f16b2716bd60f09caf3ae3a894237ab38f54" }
+notify-types = { git = "https://github.com/zed-industries/notify", rev = "d842f16b2716bd60f09caf3ae3a894237ab38f54" }
+webrtc-sys = { git = "https://github.com/zed-industries/livekit-rust-sdks", rev = "fbda05eb278b4a7c5be8fc9b2a92e9b62e732236" }
+khronos-egl = { git = "https://github.com/zed-industries/khronos-egl", rev = "42214b36347b108fd9630ca6254b96dde59e04fe" }
+crash-context = { git = "https://github.com/rust-minidump/minidump-writer", rev = "911b04e09b79b736cc15cbe712e83e2d3f348bb9" }
+scratch = { path = "aphrody/tooling/corgi/patches/scratch" }
+taffy = { git = "https://github.com/aphrody-labs/taffy.git", tag = "v0.15.1-aphrody.20261120" }
+cosmic-text = { git = "https://github.com/aphrody-labs/cosmic-text.git", tag = "v0.19.0-aphrody.20261120" }
+wgpu = { git = "https://github.com/aphrody-labs/wgpu.git", tag = "v30.0.0-aphrody.20261120" }
+wgpu-core = { git = "https://github.com/aphrody-labs/wgpu.git", tag = "v30.0.0-aphrody.20261120" }
+wgpu-hal = { git = "https://github.com/aphrody-labs/wgpu.git", tag = "v30.0.0-aphrody.20261120" }
+wgpu-types = { git = "https://github.com/aphrody-labs/wgpu.git", tag = "v30.0.0-aphrody.20261120" }
+wgpu-naga-bridge = { git = "https://github.com/aphrody-labs/wgpu.git", tag = "v30.0.0-aphrody.20261120" }
+naga = { git = "https://github.com/aphrody-labs/wgpu.git", tag = "v30.0.0-aphrody.20261120" }
+accesskit = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+accesskit_consumer = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+accesskit_macos = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+accesskit_unix = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+accesskit_windows = { git = "https://github.com/aphrody-labs/accesskit.git", tag = "v0.25.2-aphrody.20261120" }
+ecolor = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120" }
+emath = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120" }
+epaint = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120" }
+epaint_default_fonts = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120" }
+egui = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120" }
+egui-wgpu = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120" }
+egui_extras = { git = "https://github.com/aphrody-labs/egui.git", tag = "v0.37.0-aphrody.20261120" }
+msvc_spectre_libs = { path = "aphrody/tooling/corgi/patches/msvc_spectre_libs" }
+
+[patch."https://github.com/storytold/craft-libs"]
+craft-codepage = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-dex = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-elf = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-evm = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-har = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-java-class = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-jsonc = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-macho = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-mime = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-pcap = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-pe = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-plist = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-sniff = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-sourcemap = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-tar = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-wasm = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-zip = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-dds = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-pkcs7 = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
+craft-sqlite = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2" }
 # layout:end cargo.patch
 
 [profile.release]
@@ -190,3 +1056,337 @@ lto = "fat"
 codegen-units = 1
 strip = true
 panic = "abort"
+
+[profile.release.package.zed]
+codegen-units = 16
+
+[profile.dev]
+split-debuginfo = "unpacked"
+incremental = true
+codegen-units = 16
+debug = "line-tables-only"
+
+[profile.dev.build-override]
+codegen-units = 16
+split-debuginfo = "unpacked"
+debug = false
+
+[profile.dev.package."*"]
+debug = false
+
+[profile.dev.package.gpui_macros]
+opt-level = 3
+
+[profile.dev.package.derive_refineable]
+opt-level = 3
+
+[profile.dev.package.feature_flags_macros]
+opt-level = 3
+
+[profile.dev.package.settings_macros]
+opt-level = 3
+
+[profile.dev.package.sqlez_macros]
+opt-level = 3
+codegen-units = 1
+
+[profile.dev.package.ui_macros]
+opt-level = 3
+
+[profile.dev.package.util_macros]
+opt-level = 3
+
+[profile.dev.package.quote]
+opt-level = 3
+
+[profile.dev.package.syn]
+opt-level = 3
+
+[profile.dev.package.proc-macro2]
+opt-level = 3
+
+[profile.dev.package.serde_derive]
+opt-level = 3
+
+[profile.dev.package.thiserror-impl]
+opt-level = 3
+
+[profile.dev.package.tokio-macros]
+opt-level = 3
+
+[profile.dev.package.strum_macros]
+opt-level = 3
+
+[profile.dev.package.clap_derive]
+opt-level = 3
+
+[profile.dev.package.schemars_derive]
+opt-level = 3
+
+[profile.dev.package.derive_more-impl]
+opt-level = 3
+
+[profile.dev.package.zerocopy-derive]
+opt-level = 3
+
+[profile.dev.package.async-trait]
+opt-level = 3
+
+[profile.dev.package.pin-project-internal]
+opt-level = 3
+
+[profile.dev.package.bytemuck_derive]
+opt-level = 3
+
+[profile.dev.package.wasm-bindgen-macro]
+opt-level = 3
+
+[profile.dev.package.naga]
+opt-level = 3
+
+[profile.dev.package.wgpu-core]
+opt-level = 3
+
+[profile.dev.package.flate2]
+opt-level = 3
+
+[profile.dev.package.zstd-sys]
+opt-level = 3
+
+[profile.dev.package.ring]
+opt-level = 3
+
+[profile.dev.package.aws-lc-rs]
+opt-level = 3
+
+[profile.dev.package.image]
+opt-level = 3
+
+[profile.dev.package.pulldown-cmark]
+opt-level = 3
+
+[profile.dev.package.tree-sitter]
+opt-level = 3
+
+[profile.dev.package.taffy]
+opt-level = 3
+
+[profile.dev.package.resvg]
+opt-level = 3
+
+[profile.dev.package.usvg]
+opt-level = 3
+
+[profile.dev.package.tiny-skia]
+opt-level = 3
+
+[profile.dev.package.tiny-skia-path]
+opt-level = 3
+
+[profile.dev.package.quickjs-jit-sys]
+opt-level = 3
+
+[profile.dev.package.syntect]
+opt-level = 3
+
+[profile.dev.package.two-face]
+opt-level = 3
+
+[profile.dev.package.nsh-macros]
+opt-level = 3
+
+[profile.dev.package.wasmtime]
+opt-level = 3
+
+[profile.dev.package.cranelift-codegen]
+opt-level = 3
+
+[profile.dev.package.wasmtime-environ]
+opt-level = 3
+
+[profile.dev.package.wasmtime-internal-cranelift]
+opt-level = 3
+
+[profile.dev.package.minidumper]
+opt-level = 3
+
+[profile.dev.package.serde_json]
+opt-level = 3
+
+[profile.dev.package.activity_indicator]
+codegen-units = 1
+
+[profile.dev.package.assets]
+codegen-units = 1
+
+[profile.dev.package.breadcrumbs]
+codegen-units = 1
+
+[profile.dev.package.collections]
+codegen-units = 1
+
+[profile.dev.package.command_palette]
+codegen-units = 1
+
+[profile.dev.package.command_palette_hooks]
+codegen-units = 1
+
+[profile.dev.package.edit_prediction_ui]
+codegen-units = 1
+
+[profile.dev.package.feature_flags]
+codegen-units = 1
+
+[profile.dev.package.file_content]
+codegen-units = 1
+
+[profile.dev.package.file_icons]
+codegen-units = 1
+
+[profile.dev.package.image_viewer]
+codegen-units = 1
+
+[profile.dev.package.install_cli]
+codegen-units = 1
+
+[profile.dev.package.journal]
+codegen-units = 1
+
+[profile.dev.package.json_schema_store]
+codegen-units = 1
+
+[profile.dev.package.llama_cpp]
+codegen-units = 1
+
+[profile.dev.package.lmstudio]
+codegen-units = 1
+
+[profile.dev.package.menu]
+codegen-units = 1
+
+[profile.dev.package.notifications]
+codegen-units = 1
+
+[profile.dev.package.ollama]
+codegen-units = 1
+
+[profile.dev.package.outline]
+codegen-units = 1
+
+[profile.dev.package.paths]
+codegen-units = 1
+
+[profile.dev.package.prettier]
+codegen-units = 1
+
+[profile.dev.package.project_symbols]
+codegen-units = 1
+
+[profile.dev.package.project_bookmarks]
+codegen-units = 1
+
+[profile.dev.package.refineable]
+codegen-units = 1
+
+[profile.dev.package.release_channel]
+codegen-units = 1
+
+[profile.dev.package.reqwest_client]
+codegen-units = 1
+
+[profile.dev.package.session]
+codegen-units = 1
+
+[profile.dev.package.sidebar]
+codegen-units = 1
+
+[profile.dev.package.snippet]
+codegen-units = 1
+
+[profile.dev.package.snippets_ui]
+codegen-units = 1
+
+[profile.dev.package.telemetry_events]
+codegen-units = 1
+
+[profile.dev.package.theme_selector]
+codegen-units = 1
+
+[profile.dev.package.time_format]
+codegen-units = 1
+
+[profile.dev.package.ui_input]
+codegen-units = 1
+
+[profile.dev.package.zed_actions]
+codegen-units = 1
+
+[profile.dbg]
+inherits = "dev"
+debug = "full"
+
+[profile.dbg.build-override]
+debug = "full"
+
+[profile.release-fast]
+inherits = "release"
+debug = "full"
+lto = false
+codegen-units = 16
+
+[profile.dist]
+inherits = "release"
+debug = false
+lto = "fat"
+codegen-units = 1
+strip = "symbols"
+panic = "abort"
+
+[profile.web]
+inherits = "release"
+opt-level = "z"
+lto = "thin"
+codegen-units = 1
+debug = false
+strip = "debuginfo"
+panic = "abort"
+
+[profile.web-lto]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+debug = false
+strip = "debuginfo"
+panic = "abort"
+
+[profile.aot]
+inherits = "release"
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+debug = false
+strip = "debuginfo"
+
+[profile.bun-release]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+debug = false
+strip = "symbols"
+panic = "abort"
+
+[profile.bare-metal]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+
+[profile.wasm-lto]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+

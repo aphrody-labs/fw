@@ -1,13 +1,12 @@
 [package]
 name = "ay-design"
-version.workspace = true
+version = "0.4.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-repository.workspace = true
-authors.workspace = true
-publish.workspace = true
-
+rust-version = "1.98"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/aphrody-labs/ay"
+authors = ["aphrody-dev"]
+publish = false
 # The dev-dependency on the crate itself only switches its features on for the tests.
 [package.metadata.cargo-shear]
 ignored = ["ay-design"]
@@ -32,12 +31,12 @@ dioxus-ssr = { workspace = true, optional = true }
 imagesize = { version = "0.15.0", optional = true }
 resvg = { version = "0.50.0", default-features = false, features = ["text", "raster-images"], optional = true }
 roxmltree = { version = "0.21.2", optional = true }
-serde = { workspace = true, optional = true }
+serde = { version = "1.0.229", default-features = false, features = ["derive", "std"], optional = true }
 serde_json = { workspace = true, optional = true }
 sha2 = { workspace = true, optional = true }
 skrifa = { workspace = true, optional = true }
 svgtypes = { version = "0.16.2", optional = true }
-taffy = { workspace = true, optional = true }
+taffy = { workspace = true, features = ["std", "taffy_tree", "flexbox", "grid", "block_layout"], optional = true }
 thiserror = { workspace = true, optional = true }
 tiny-skia = { version = "0.12.0", optional = true }
 usvg = { version = "0.50.0", optional = true }
@@ -45,10 +44,9 @@ woff2 = { version = "0.4.0", optional = true, package = "woff2-patched" }
 
 [dev-dependencies]
 ay-design = { path = ".", features = ["full"] }
-material-colors.workspace = true
+material-colors = { version = "0.5.0" }
 serde_json.workspace = true
-toml.workspace = true
-
+toml = { version = "1.2.1" }
 [[test]]
 name = "brand_character_dataset"
 path = "tests/brand_character_dataset.rs"
@@ -59,5 +57,11 @@ name = "svg_glyph_font"
 path = "tests/svg_glyph_font.rs"
 required-features = ["svg"]
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"

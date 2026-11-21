@@ -208,13 +208,13 @@ impl Namespace {
             let Statement::ImportDeclaration(import) = statement else {
                 continue;
             };
-            if !is_native(import.source.value.as_str()) {
+            if !is_native(import.source.value.as_str().unwrap_or_default()) {
                 continue;
             }
             for specifier in import.specifiers.iter().flatten() {
                 if let ImportDeclarationSpecifier::ImportNamespaceSpecifier(s) = specifier {
                     namespaces.push(Namespace {
-                        specifier: import.source.value.to_string(),
+                        specifier: crate::classes::js_str(import.source.value).into_owned(),
                         local: s.local.name.to_string(),
                         symbol: s.local.symbol_id.get(),
                         names: BTreeSet::new(),
@@ -329,9 +329,9 @@ fn is_global_object(expression: &Expression<'_>) -> bool {
 /// `import("nsh/desktop")`). `None` for one computed when it runs.
 fn spelled_string(source: &Expression<'_>) -> Option<String> {
     match source {
-        Expression::StringLiteral(s) => Some(s.value.to_string()),
+        Expression::StringLiteral(s) => Some(crate::classes::js_str(s.value).into_owned()),
         Expression::TemplateLiteral(t) if t.expressions.is_empty() => {
-            t.quasis.iter().map(|q| q.value.cooked.as_deref()).collect()
+            t.quasis.iter().map(|q| q.value.cooked.and_then(|cooked| cooked.as_str())).collect()
         }
         _ => None,
     }
@@ -348,7 +348,7 @@ fn is_literal_key(key: &PropertyKey<'_>) -> bool {
 
 impl<'a, F: Fn(&str) -> bool> Visit<'a> for Finder<'_, F> {
     fn visit_import_declaration(&mut self, it: &ImportDeclaration<'a>) {
-        let source = it.source.value.as_str();
+        let source = it.source.value.as_str().unwrap_or_default();
         if (self.is_native)(source) {
             let imported = self.uses.import(source);
             for specifier in it.specifiers.iter().flatten() {
@@ -369,8 +369,8 @@ impl<'a, F: Fn(&str) -> bool> Visit<'a> for Finder<'_, F> {
     }
 
     fn visit_export_from_declaration(&mut self, it: &ExportFromDeclaration<'a>) {
-        if (self.is_native)(it.source.value.as_str()) {
-            let imported = self.uses.import(it.source.value.as_str());
+        if (self.is_native)(it.source.value.as_str().unwrap_or_default()) {
+            let imported = self.uses.import(it.source.value.as_str().unwrap_or_default());
             for specifier in &it.specifiers {
                 imported.add(specifier.local.name().as_str());
             }
@@ -379,8 +379,8 @@ impl<'a, F: Fn(&str) -> bool> Visit<'a> for Finder<'_, F> {
     }
 
     fn visit_export_all_declaration(&mut self, it: &ExportAllDeclaration<'a>) {
-        if (self.is_native)(it.source.value.as_str()) {
-            *self.uses.import(it.source.value.as_str()) = Imported::All;
+        if (self.is_native)(it.source.value.as_str().unwrap_or_default()) {
+            *self.uses.import(it.source.value.as_str().unwrap_or_default()) = Imported::All;
         }
         walk::walk_export_all_declaration(self, it);
     }
@@ -474,14 +474,14 @@ impl<'a, F: Fn(&str) -> bool> Visit<'a> for Finder<'_, F> {
     }
 
     fn visit_string_literal(&mut self, it: &StringLiteral<'a>) {
-        self.spelled(it.value.as_str());
-        self.quoted(it.value.as_str());
+        self.spelled(it.value.as_str().unwrap_or_default());
+        self.quoted(it.value.as_str().unwrap_or_default());
     }
 
     fn visit_template_element(&mut self, it: &TemplateElement<'a>) {
         if let Some(cooked) = &it.value.cooked {
-            self.spelled(cooked.as_str());
-            self.quoted(cooked.as_str());
+            self.spelled(cooked.as_str().unwrap_or_default());
+            self.quoted(cooked.as_str().unwrap_or_default());
         }
     }
 

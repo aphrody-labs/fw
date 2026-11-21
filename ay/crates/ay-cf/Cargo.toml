@@ -1,13 +1,12 @@
 [package]
 name = "ay-cf"
-version.workspace = true
+version = "0.4.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-repository.workspace = true
-authors.workspace = true
-publish.workspace = true
-
+rust-version = "1.98"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/aphrody-labs/ay"
+authors = ["aphrody-dev"]
+publish = false
 # The dev-dependency on the crate itself only switches its features on for the tests.
 [package.metadata.cargo-shear]
 ignored = ["ay-cf"]
@@ -20,21 +19,27 @@ edge = ["dep:serde", "dep:thiserror", "dep:toml"]
 
 [dependencies]
 blake3 = { workspace = true, optional = true }
-etagere = { workspace = true, optional = true }
+etagere = { version = "0.3.0", optional = true }
 gltf = { workspace = true, optional = true }
 http = { workspace = true, optional = true }
 http-range-header = { workspace = true, optional = true }
 ktx2 = { workspace = true, optional = true }
-serde = { workspace = true, optional = true }
+serde = { version = "1.0.229", default-features = false, features = ["derive", "std"], optional = true }
 serde_json = { workspace = true, optional = true }
 spdx = { workspace = true, optional = true }
 thiserror = { workspace = true, optional = true }
 thumbhash = { workspace = true, optional = true }
-toml = { workspace = true, optional = true }
+toml = { version = "1.2.1", optional = true }
 url = { workspace = true, optional = true }
 
 [dev-dependencies]
 ay-cf = { path = ".", features = ["full"] }
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"

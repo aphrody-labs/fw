@@ -1,11 +1,11 @@
 [package]
 name = "ay-re"
-version.workspace = true
+version = "0.4.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-authors.workspace = true
-repository.workspace = true
+rust-version = "1.98"
+license = "MIT OR Apache-2.0"
+authors = ["aphrody-dev"]
+repository = "https://github.com/aphrody-labs/ay"
 description = "Unified Aphrody reverse engineering core: PE/ELF/Mach-O triage, byte-exact PE64 forge/COFF, .pdata/minidump/ASAR/Electron/Go/Android/SteamStub inspection, Ghidra P-Code/Pseudo-C & ghidra-decompiler, MinGW-REA, Lua 5.2, CRIWARE CPK/CRILAYLA, DBXV2 formats, AOB/live memory, YARA-X, Magika"
 keywords = [
   "reverse-engineering",
@@ -50,9 +50,9 @@ process-wrap = { version = "10.0.1", default-features = false, features = ["std"
 regex.workspace = true
 rustc-hash.workspace = true
 rusty-leveldb = { version = "4.0.2", default-features = false, features = ["fs"], optional = true }
-serde.workspace = true
+serde = { version = "1.0.229", default-features = false, features = ["derive", "std"] }
 serde_json.workspace = true
-sha1.workspace = true
+sha1 = { version = "0.11.0" }
 sha2.workspace = true
 tempfile = { workspace = true, optional = true }
 thiserror.workspace = true

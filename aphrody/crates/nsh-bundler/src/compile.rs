@@ -207,7 +207,9 @@ fn check_named_imports(
         let Statement::ImportDeclaration(import) = statement else {
             continue;
         };
-        let module = import.source.value.as_str();
+        let Some(module) = import.source.value.as_str() else {
+            continue;
+        };
         let (true, Some(exports), Some(specifiers)) = (
             !import.import_kind.is_type(),
             modules.exports.get(module),

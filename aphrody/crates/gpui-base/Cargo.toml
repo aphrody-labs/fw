@@ -10,7 +10,7 @@ repository = "https://github.com/longbridge/gpui-kit"
 homepage = "https://gpui-kit.com"
 documentation = "https://docs.rs/gpui-base"
 version = "0.10.0"
-publish.workspace = true
+publish = false
 edition.workspace = true
 
 [lib]
@@ -41,11 +41,11 @@ html5ever.workspace = true
 markup5ever_rcdom.workspace = true
 num-traits.workspace = true
 ropey_kit.workspace = true
-regex.workspace = true
+regex = { version = "1.13.2", default-features = false, features = ["std", "perf"] }
 rust_decimal = { workspace = true, optional = true }
 schemars.workspace = true
-serde.workspace = true
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 smallvec.workspace = true
 sum_tree.workspace = true
 log.workspace = true
@@ -68,15 +68,14 @@ objc2-foundation = { workspace = true, features = ["NSGeometry", "NSString"] }
 
 [target.'cfg(target_os = "windows")'.dependencies]
 # The reduced-motion preference (SystemParametersInfoW).
-windows = { workspace = true, features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging"] }
-
+windows = { version = "0.62.2", features = ["std", "Data_Xml_Dom", "Foundation_Numerics", "UI_Notifications", "Win32_Foundation", "Win32_Globalization", "Win32_Graphics_Direct2D", "Win32_Graphics_Direct2D_Common", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D11", "Win32_Graphics_DirectComposition", "Win32_Graphics_DirectWrite", "Win32_Graphics_Dwm", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_Gdi", "Win32_Graphics_Imaging", "Win32_Graphics_Imaging_D2D", "Win32_Media_Audio", "Win32_Media_Audio_XAudio2", "Win32_Media_MediaFoundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_Storage_Xps", "Win32_System_Com", "Win32_System_Com_StructuredStorage", "Win32_System_DataExchange", "Win32_System_Diagnostics_Debug", "Win32_System_IO", "Win32_System_LibraryLoader", "Win32_System_Memory", "Win32_System_Ole", "Win32_System_Performance", "Win32_System_Power", "Win32_System_Registry", "Win32_System_RemoteDesktop", "Win32_System_SystemInformation", "Win32_System_SystemServices", "Win32_System_Threading", "Win32_System_Time", "Win32_System_Variant", "Win32_System_WinRT", "Win32_UI_Accessibility", "Win32_UI_Controls", "Win32_UI_Controls_RichEdit", "Win32_UI_HiDpi", "Win32_UI_Input_Ime", "Win32_UI_Input_KeyboardAndMouse", "Win32_UI_Input_Pointer", "Win32_UI_Notifications", "Win32_UI_Shell", "Win32_UI_Shell_Common", "Win32_UI_Shell_PropertiesSystem", "Win32_UI_WindowsAndMessaging"] }
 [target.'cfg(target_os = "linux")'.dependencies]
 # The reduced-motion preference, through the XDG desktop portal's Settings
 # interface. The same version and features `gpui-pre-linux` already pulls in.
 ashpd = { workspace = true, features = ["async-io", "settings"] }
 
 [dev-dependencies]
-criterion.workspace = true
+criterion = { version = "0.8.2", features = ["html_reports"] }
 gpui-base = { workspace = true, features = ["test-support"] }
 gpui = { workspace = true, features = ["test-support", "bench-support"] }
 gpui_platform = { workspace = true, features = ["bench-support"] }
@@ -84,5 +83,19 @@ gpui_platform = { workspace = true, features = ["bench-support"] }
 indoc.workspace = true
 reqwest_client.workspace = true
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"

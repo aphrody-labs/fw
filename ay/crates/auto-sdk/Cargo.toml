@@ -2,8 +2,8 @@
 name = "aphrody-auto"
 version = "2026.11.5"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
+rust-version = "1.98"
+license = "MIT OR Apache-2.0"
 description = "Unified Aphrody Auto SDK library + single LTO/AOT executable: modern Rust Better Auth, billing/Factur-X/DOCX/XLSX/PPTX/PDF engines, HLC sync client, MCP router, and real-time L7 load balancer"
 
 # The dev-dependency on the crate itself only switches its features on for the tests.
@@ -36,38 +36,37 @@ axum = { workspace = true, optional = true }
 base64.workspace = true
 chacha20poly1305 = { workspace = true, optional = true }
 chrono = { workspace = true, optional = true }
-craft-csv = { workspace = true, optional = true }
-craft-docx = { workspace = true, optional = true }
-craft-i18n = { workspace = true, optional = true }
+craft-csv = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", optional = true }
+craft-docx = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", optional = true }
+craft-i18n = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", optional = true }
 craft-ods = { workspace = true, optional = true }
 craft-opc = { workspace = true, optional = true }
 craft-pdf = { workspace = true, optional = true }
 craft-pkcs7 = { workspace = true, optional = true }
-craft-pptx = { workspace = true, optional = true }
-craft-sheet = { workspace = true, optional = true }
-craft-wordmodel = { workspace = true, optional = true }
+craft-pptx = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", optional = true }
+craft-sheet = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", optional = true }
+craft-wordmodel = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", optional = true }
 craft-xls = { workspace = true, optional = true }
-craft-xlsx = { workspace = true, optional = true }
-craft-xml = { workspace = true, optional = true }
-ed25519-dalek = { workspace = true, optional = true }
+craft-xlsx = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", optional = true }
+craft-xml = { git = "https://github.com/storytold/craft-libs", rev = "ccbc4b756c168b31358bfa98e71225e9dacb74a2", optional = true }
+ed25519-dalek = { version = "3.0.0", optional = true }
 flate2 = { workspace = true, optional = true }
 fw-http = { workspace = true, features = ["client", "server"], optional = true }
 fw-rag-core = { workspace = true, optional = true }
-getrandom = { workspace = true, optional = true }
-hmac = { workspace = true, optional = true }
+getrandom = { version = "0.4.3", optional = true }
+hmac = { version = "0.13", optional = true }
 p256 = { workspace = true, optional = true }
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
 scrypt = { workspace = true, optional = true }
-serde.workspace = true
+serde = { version = "1.0.229", default-features = false, features = ["derive", "std"] }
 serde_json.workspace = true
-sha1 = { workspace = true, optional = true }
+sha1 = { version = "0.11.0", optional = true }
 sha2.workspace = true
 skrifa = { workspace = true, optional = true }
 subtle = { workspace = true, optional = true }
 thiserror.workspace = true
-tokio = { workspace = true, optional = true }
-toml = { workspace = true, optional = true }
-
+tokio = { version = "1.54.1", features = ["fs", "io-util", "macros", "net", "parking_lot", "rt", "rt-multi-thread", "signal", "sync", "time"], optional = true }
+toml = { version = "1.2.1", optional = true }
 [[bin]]
 name = "auto"
 path = "src/bin/auto.rs"
@@ -111,5 +110,11 @@ required-features = ["sheets"]
 [dev-dependencies]
 aphrody-auto = { workspace = true, features = ["full"], default-features = true }
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"
+
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"

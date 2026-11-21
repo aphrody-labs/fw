@@ -84,7 +84,7 @@ impl<'a> Visit<'a> for Finder {
             self.found.push((
                 it.span.start,
                 (span.start, span.end),
-                source.value.to_string(),
+                crate::classes::js_str(source.value).into_owned(),
             ));
         }
         walk::walk_import_expression(self, it);

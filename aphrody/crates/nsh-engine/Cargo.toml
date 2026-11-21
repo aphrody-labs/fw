@@ -1,17 +1,29 @@
 [package]
 name = "nsh-engine"
 description = "Engine thread that drives the JS host and the core and emits mount batches."
-version.workspace = true
+version = "0.6.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-homepage.workspace = true
-readme.workspace = true
-repository.workspace = true
+rust-version = "1.97"
+license = "Apache-2.0"
+homepage = "https://aphrody.com"
+readme = "README.md"
+repository = "https://github.com/aphrody-labs/aphrody"
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
-[lints]
-workspace = true
-
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [features]
 default = ["js"]
 # JS apps: the QuickJS VM, source maps, signed packages, and every standard
@@ -44,17 +56,17 @@ log.workspace = true
 oxc_sourcemap = { workspace = true, optional = true }
 nsh-core.workspace = true
 nsh-package = { workspace = true, optional = true }
-serde_json.workspace = true
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 nsh-js = { workspace = true, optional = true }
 crossbeam-channel.workspace = true
-tokio = { workspace = true, features = ["rt", "time"] }
-ureq = { workspace = true, optional = true }
+tokio = { version = "1.54.1", features = ["rt", "time"] }
+ureq = { version = "3.5.2", features = ["platform-verifier"], optional = true }
 wgpu = { workspace = true, optional = true, features = ["wgsl"] }
 pollster = { workspace = true, optional = true }
 
 # WebAssembly has no threads: `LocalEngine` drives the engine there.
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-tokio = { workspace = true, features = ["rt-multi-thread"] }
+tokio = { version = "1.54.1", features = ["rt-multi-thread"] }
 # A packaged app's update configuration (`updates`).
 nsh-updater.workspace = true
 # `RUST_LOG` of the desktop release runners' logger (`logging`).
@@ -78,8 +90,8 @@ libc.workspace = true
 # Process CPU and memory (`perf`); shader frames on textures shared with
 # Direct3D 11 (`shader`; the type is in the API with or without it).
 [target.'cfg(windows)'.dependencies]
-windows-sys = { workspace = true, features = ["Win32_Foundation", "Win32_System_ProcessStatus", "Win32_System_Threading"] }
-windows = { workspace = true, optional = true, features = ["Win32_Graphics_Direct3D12", "Win32_Graphics_Dxgi_Common", "Win32_Security"] }
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_System_ProcessStatus", "Win32_System_Threading"] }
+windows = { version = "0.62.2", features = ["std", "Data_Xml_Dom", "Foundation_Numerics", "UI_Notifications", "Win32_Foundation", "Win32_Globalization", "Win32_Graphics_Direct2D", "Win32_Graphics_Direct2D_Common", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D11", "Win32_Graphics_DirectComposition", "Win32_Graphics_DirectWrite", "Win32_Graphics_Dwm", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_Gdi", "Win32_Graphics_Imaging", "Win32_Graphics_Imaging_D2D", "Win32_Media_Audio", "Win32_Media_Audio_XAudio2", "Win32_Media_MediaFoundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_Storage_Xps", "Win32_System_Com", "Win32_System_Com_StructuredStorage", "Win32_System_DataExchange", "Win32_System_Diagnostics_Debug", "Win32_System_IO", "Win32_System_LibraryLoader", "Win32_System_Memory", "Win32_System_Ole", "Win32_System_Performance", "Win32_System_Power", "Win32_System_Registry", "Win32_System_RemoteDesktop", "Win32_System_SystemInformation", "Win32_System_SystemServices", "Win32_System_Threading", "Win32_System_Time", "Win32_System_Variant", "Win32_System_WinRT", "Win32_UI_Accessibility", "Win32_UI_Controls", "Win32_UI_Controls_RichEdit", "Win32_UI_HiDpi", "Win32_UI_Input_Ime", "Win32_UI_Input_KeyboardAndMouse", "Win32_UI_Input_Pointer", "Win32_UI_Notifications", "Win32_UI_Shell", "Win32_UI_Shell_Common", "Win32_UI_Shell_PropertiesSystem", "Win32_UI_WindowsAndMessaging", "Win32_Graphics_Direct3D12"], optional = true }
 wgpu = { workspace = true, optional = true, features = ["dx12"] }
 
 [dev-dependencies]
@@ -89,7 +101,7 @@ nsh-core = { workspace = true, features = ["shader"] }
 syn = { workspace = true, features = ["visit"] }
 nsh-base = { workspace = true, features = ["editor", "highlight", "plot", "rich-editor", "term"] }
 # The host's shared data in `nativeModule`'s tests.
-tokio = { workspace = true, features = ["sync"] }
+tokio = { version = "1.54.1", features = ["sync"] }
 nsh-bundler = { workspace = true, features = ["bundle"] }
 nsh-js.workspace = true
 # The language data an app ships (`locale_and_font_scale_follow_the_environment`).

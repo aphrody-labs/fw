@@ -1,17 +1,29 @@
 [package]
 name = "nsh-macos-app"
 description = "Release app runner on macOS: the executable of packaged nsh apps (no development features)."
-version.workspace = true
+version = "0.6.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-homepage.workspace = true
-readme.workspace = true
-repository.workspace = true
+rust-version = "1.97"
+license = "Apache-2.0"
+homepage = "https://aphrody.com"
+readme = "README.md"
+repository = "https://github.com/aphrody-labs/aphrody"
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
-[lints]
-workspace = true
-
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [features]
 default = ["js", "shader", "editor", "emoji-picker", "highlight", "math", "plot", "rich-editor", "term", "zlib", "crypto", "websocket", "updater", "svg"]
 # JS apps (the bundle in the app's resources). Without it the runner runs a
@@ -47,4 +59,4 @@ nsh-platform-macos.workspace = true
 nsh-platform-apple.workspace = true
 # Over-the-air packages of the app's code (`nsh_engine::updates`).
 nsh-engine.workspace = true
-serde_json.workspace = true
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }

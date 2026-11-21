@@ -2,13 +2,26 @@
 name = "aphrody_desktop"
 version = "0.1.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "GPL-3.0-or-later"
 description = "Pure-Rust Desktop OS shell (Wayland, Windows, macOS, Wasm, Chromium WebGPU) with Material 3 Expressive (Android 17/18) Liquid Glass, Google Workspace, YouTube/Music, and Media Studio."
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [lib]
 path = "src/aphrody_desktop.rs"
 doctest = false
@@ -48,8 +61,8 @@ anyhow.workspace = true
 aphrody_auto.workspace = true
 assets.workspace = true
 brand.workspace = true
-clap = { workspace = true, optional = true }
-chrono.workspace = true
+clap = { version = "4.6.9", features = ["derive", "wrap_help"], optional = true }
+chrono = { version = "0.4.45", default-features = false, features = ["std", "serde"] }
 env_logger = { workspace = true, optional = true }
 gpui.workspace = true
 gpui_app_shell = { workspace = true, optional = true }
@@ -66,8 +79,8 @@ aphrody_pilot.workspace = true
 aphrody_session.workspace = true
 aphrody_store = { workspace = true, default-features = false }
 aphrody_ui.workspace = true
-serde = { workspace = true, features = ["derive"] }
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 theme.workspace = true
 ui.workspace = true
 aphrody_vpn = { workspace = true, optional = true }

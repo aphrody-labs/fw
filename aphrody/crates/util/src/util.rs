@@ -700,7 +700,7 @@ pub fn dev_repo_root() -> Option<&'static std::path::Path> {
 /// detail). Hidden from the public API.
 #[doc(hidden)]
 pub mod __rust_embed {
-    pub use rust_embed::{EmbeddedFile, Filenames, Metadata, RustEmbed, flate, utils};
+    pub use rust_embed::{EmbeddedCompressedFile, EmbeddedFile, Filenames, Metadata, RustEmbed, flate, utils};
 }
 
 /// Backs the dev arm of [`fs_embed!`]'s `iter`: every file under the root-relative
@@ -827,6 +827,13 @@ macro_rules! __fs_embed {
 
         #[cfg(debug_assertions)]
         impl $crate::__rust_embed::RustEmbed for $name {
+            // rust-embed 8.14 added this required item; dev builds never embed compressed files.
+            fn compressed(
+                _file_path: &str,
+            ) -> ::core::option::Option<$crate::__rust_embed::EmbeddedCompressedFile> {
+                ::core::option::Option::None
+            }
+
             fn get(
                 file_path: &str,
             ) -> ::core::option::Option<$crate::__rust_embed::EmbeddedFile> {

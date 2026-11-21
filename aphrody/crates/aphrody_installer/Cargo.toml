@@ -2,13 +2,26 @@
 name = "aphrody_installer"
 version = "0.1.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "GPL-3.0-or-later"
 description = "Aphrody OS & Arch Net-Installer + Live Desktop Environment Switcher (Aphrody GPUI, Iced COSMIC, egui Craft, WebGPU, GNOME, KDE, Hyprland, Sway, Niri) rewritten from cachyos/new-cli-installer in Rust + NSH."
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [lib]
 path = "src/aphrody_installer.rs"
 doctest = false
@@ -34,11 +47,10 @@ brand.workspace = true
 env_logger = { workspace = true, optional = true }
 nsh-base = { workspace = true, optional = true }
 nsh-core = { workspace = true, optional = true }
-serde = { workspace = true, features = ["derive"] }
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 thiserror.workspace = true
-toml.workspace = true
-
+toml = { version = "0.9", default-features = false, features = ["std", "serde", "parse"] }
 [target.'cfg(target_os = "linux")'.dependencies]
 nsh-platform-linux = { workspace = true, optional = true }
 

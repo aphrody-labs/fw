@@ -3,12 +3,25 @@ name = "livekit_client"
 version = "0.1.0"
 edition.workspace = true
 description = "Logic for using LiveKit with GPUI"
-publish.workspace = true
+publish = false
 license = "GPL-3.0-or-later"
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [lib]
 path = "src/lib.rs"
 doctest = false
@@ -36,7 +49,7 @@ nanoid = { workspace = true, optional = true }
 parking_lot.workspace = true
 postage = { workspace = true, optional = true, features = ["futures-traits", "logging", "blocking"] }
 rodio.workspace = true
-serde.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
 serde_urlencoded.workspace = true
 settings.workspace = true
 smallvec.workspace = true
@@ -52,7 +65,7 @@ libwebrtc.workspace = true
 livekit.workspace = true
 
 [target.'cfg(target_os = "linux")'.dependencies]
-tokio = { workspace = true, features = ["time"] }
+tokio = { version = "1.54.1", features = ["time"] }
 webrtc-sys.workspace = true
 
 [target.'cfg(any(target_os = "linux", target_os = "freebsd", target_os = "windows"))'.dependencies]

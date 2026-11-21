@@ -16,8 +16,8 @@ name = "fw-video"
 path = "src/main.rs"
 
 [dependencies]
-craft-media = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2", features = ["isobmff"] }
-craft-video = { git = "https://github.com/aphrody-labs/craft-libs.git", tag = "v0.1.0-aphrody.20261120.2", features = ["h264-decode", "threads"] }
+craft-media = { workspace = true, features = ["isobmff"] }
+craft-video = { workspace = true, features = ["h264-decode", "threads"] }
 visioncortex = "0.9.3"
 
 [lints]

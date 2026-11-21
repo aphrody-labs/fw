@@ -1,14 +1,27 @@
 [package]
 name = "aphrody"
-version.workspace = true
+version = "0.6.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "GPL-3.0-or-later"
 description = "Full-stack Rust OS, GUI & AI framework uniting Zed, GPUI, Iced/COSMIC, egui, Bevy UE5.8, Tauri v3, NSH, Craft, Agent-Browser CDP, Tree-sitter, and Headless MCP."
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [lib]
 path = "src/aphrody.rs"
 doctest = false
@@ -107,8 +120,8 @@ language = { workspace = true, optional = true }
 nsh-base = { workspace = true, optional = true }
 nsh-core = { workspace = true, optional = true }
 project = { workspace = true, optional = true }
-serde = { workspace = true, features = ["derive"] }
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 tauri_gpui = { workspace = true, optional = true }
 tree-sitter = { workspace = true, optional = true }
 workspace = { workspace = true, optional = true }

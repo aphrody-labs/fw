@@ -2,13 +2,26 @@
 name = "aphrody_media"
 version = "0.1.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "Apache-2.0 OR GPL-3.0-or-later"
 description = "Zero-FFmpeg pure-Rust multimedia player, studio, WGSL GPU YUV/HDR/scopes pipeline, HLS/DASH ingest, declarative programmatic video engine (composition format, keyframes, springs, transitions, captions, H.264 MP4 export), and video intelligence index."
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [lib]
 path = "src/aphrody_media.rs"
 doctest = false
@@ -49,13 +62,13 @@ anyhow.workspace = true
 brand.workspace = true
 bytemuck = { workspace = true, features = ["derive"] }
 naga.workspace = true
-serde = { workspace = true, features = ["derive"] }
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 image.workspace = true
 tiny-skia.workspace = true
-toml.workspace = true
+toml = { version = "0.9", default-features = false, features = ["std", "serde", "parse"] }
 ttf-parser.workspace = true
-sha2.workspace = true
+sha2 = { version = "0.10" }
 unicode-bidi.workspace = true
 
 craft-aaf = { workspace = true, optional = true }

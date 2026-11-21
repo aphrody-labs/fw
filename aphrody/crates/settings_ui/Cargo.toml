@@ -2,12 +2,25 @@
 name = "settings_ui"
 version = "0.1.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "GPL-3.0-or-later"
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [lib]
 path = "src/settings_ui.rs"
 doctest = false
@@ -51,15 +64,15 @@ log.workspace = true
 menu.workspace = true
 paths.workspace = true
 picker.workspace = true
-regex.workspace = true
+regex = { version = "1.13.2", default-features = false, features = ["std", "perf"] }
 platform_title_bar.workspace = true
 project.workspace = true
 release_channel.workspace = true
 rodio.workspace = true
 schemars.workspace = true
 search.workspace = true
-serde.workspace = true
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 settings.workspace = true
 shell_command_parser.workspace = true
 strum.workspace = true
@@ -67,7 +80,7 @@ telemetry.workspace = true
 theme.workspace = true
 theme_settings.workspace = true
 ui.workspace = true
-url.workspace = true
+url = { version = "2.5.9" }
 ui_input.workspace = true
 util.workspace = true
 workspace.workspace = true
@@ -81,9 +94,9 @@ futures.workspace = true
 gpui = { workspace = true, features = ["test-support"] }
 language_models = { workspace = true, features = ["test-support"] }
 paths.workspace = true
-pretty_assertions.workspace = true
+pretty_assertions = { version = "1.4.1", features = ["unstable"] }
 project = { workspace = true, features = ["test-support"] }
-serde_json.workspace = true
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 settings = { workspace = true, features = ["test-support"] }
 workspace = { workspace = true, features = ["test-support"] }
 

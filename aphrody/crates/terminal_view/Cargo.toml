@@ -2,12 +2,25 @@
 name = "terminal_view"
 version = "0.1.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "GPL-3.0-or-later"
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [features]
 test-support = ["editor/test-support", "gpui/test-support"]
 
@@ -30,12 +43,12 @@ language.workspace = true
 log.workspace = true
 menu.workspace = true
 project.workspace = true
-regex.workspace = true
+regex = { version = "1.13.2", default-features = false, features = ["std", "perf"] }
 schemars.workspace = true
 task.workspace = true
 
-serde.workspace = true
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 settings.workspace = true
 shellexpand.workspace = true
 shlex.workspace = true
@@ -50,7 +63,7 @@ zed_actions.workspace = true
 [dev-dependencies]
 editor = { workspace = true, features = ["test-support"] }
 gpui = { workspace = true, features = ["test-support"] }
-pretty_assertions.workspace = true
+pretty_assertions = { version = "1.4.1", features = ["unstable"] }
 project = { workspace = true, features = ["test-support"] }
 remote = { workspace = true, features = ["test-support"] }
 release_channel.workspace = true

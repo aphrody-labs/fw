@@ -40,7 +40,7 @@ fw-config = { workspace = true }
 fw-http = { workspace = true, features = ["client"] }
 fw-model = { workspace = true, features = ["store"] }
 fw-proc = { workspace = true, optional = true }
-fw-rag-core = { workspace = true, features = [] }
+fw-rag-core = { workspace = true, features = [], default-features = true }
 fw-toolcall = { workspace = true, features = [] }
 blake3.workspace = true
 chrono = { workspace = true, features = ["serde"], optional = true }

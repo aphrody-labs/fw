@@ -1,17 +1,29 @@
 [package]
 name = "nsh-cli"
 description = "The nsh command line tool: build, package and run apps."
-version.workspace = true
+version = "0.6.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-homepage.workspace = true
-readme.workspace = true
-repository.workspace = true
+rust-version = "1.97"
+license = "Apache-2.0"
+homepage = "https://aphrody.com"
+readme = "README.md"
+repository = "https://github.com/aphrody-labs/aphrody"
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
-[lints]
-workspace = true
-
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [[bin]]
 name = "nsh"
 path = "src/main.rs"
@@ -31,16 +43,16 @@ nsh-package.workspace = true
 nsh-testing = { workspace = true, features = ["agent", "bundle"] }
 crossbeam-channel.workspace = true
 anyhow.workspace = true
-clap = { workspace = true, features = ["env"] }
+clap = { version = "4.6.9", features = ["derive", "wrap_help", "env"] }
 notify.workspace = true
 log.workspace = true
 libc.workspace = true
-ureq.workspace = true
+ureq = { version = "3.5.2", features = ["platform-verifier"] }
 ring.workspace = true
 nsh-updater.workspace = true
-serde.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
 tungstenite.workspace = true
-serde_json.workspace = true
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 serde_ignored.workspace = true
 serde_path_to_error.workspace = true
 plist.workspace = true
@@ -48,16 +60,14 @@ zip.workspace = true
 brotli.workspace = true
 flate2.workspace = true
 tar.workspace = true
-sha2.workspace = true
-base64.workspace = true
+sha2 = { version = "0.10" }
+base64 = { version = "0.22" }
 image.workspace = true
 wasmparser.workspace = true
 # `--asset-url`: checked as an http(s) URL, its origin allowed to `connect-src`.
-url.workspace = true
-
+url = { version = "2.5.9" }
 [build-dependencies]
-serde_json.workspace = true
-
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 [target.'cfg(windows)'.dependencies]
 windows-sys = { workspace = true, features = [
   "Win32_Foundation",
@@ -75,4 +85,4 @@ windows-sys = { workspace = true, features = [
 # The syntaxes file the web runtime fetches must be a dump its syntect reads.
 syntect.workspace = true
 # Pages loaded at the app's paths resolve their files as browsers do.
-url.workspace = true
+url = { version = "2.5.9" }

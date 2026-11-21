@@ -34,7 +34,7 @@ test("sync writes every local crate into workspace.dependencies and is idempoten
   expect(run(root, "sync").code).toBe(0);
   const text = readFileSync(join(root, "Cargo.toml"), "utf8");
   expect(text).toContain('a = { path = "crates/a" }');
-  expect(text).toContain('b = { path = "crates/b" }');
+  expect(text).not.toContain('b = { path');
   expect(text).toContain('"crates/*"');
   expect(text).toContain("[profile.release]");
   expect(run(root, "check").code).toBe(0);

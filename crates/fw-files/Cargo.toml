@@ -9,8 +9,7 @@ publish = false
 description = "Terminal file manager engine distilled from yazi: metadata, natural sorting, MIME detection, yazi's previewer rule table, previews, a worker-pool scheduler for copy/move/remove with progress events, and SFTP through yazi-sftp. Every command reads paths and writes JSON lines."
 
 [features]
-default = ["sftp"]
-sftp = ["dep:yazi-sftp", "dep:russh", "dep:tokio", "dep:dirs"]
+default = []
 
 [lib]
 path = "src/lib.rs"
@@ -28,10 +27,8 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 toml = { workspace = true }
 dirs = { workspace = true, optional = true }
-russh = { version = "0.65.2", default-features = false, features = ["ring", "rsa"], optional = true }
 tokio = { workspace = true, features = ["rt-multi-thread", "io-util", "time"], optional = true }
 # sxyazi/yazi v26.9.1 through the aphrody-labs fork; crates.io stops at 26.5.6 for this crate.
-yazi-sftp = { git = "https://github.com/aphrody-labs/yazi.git", tag = "v26.9.1-aphrody.20261121", optional = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }

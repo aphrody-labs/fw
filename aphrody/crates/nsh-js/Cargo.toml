@@ -1,17 +1,29 @@
 [package]
 name = "nsh-js"
 description = "QuickJS host: runtime setup, host APIs, op decoding and bytecode."
-version.workspace = true
+version = "0.6.0"
 edition.workspace = true
-rust-version.workspace = true
-license.workspace = true
-homepage.workspace = true
-readme.workspace = true
-repository.workspace = true
+rust-version = "1.97"
+license = "Apache-2.0"
+homepage = "https://aphrody.com"
+readme = "README.md"
+repository = "https://github.com/aphrody-labs/aphrody"
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
-[lints]
-workspace = true
-
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [features]
 default = ["zlib", "crypto"]
 # The standard module `zlib`: deflate, gzip, brotli and zstd.
@@ -21,8 +33,8 @@ zlib = ["quickjs-jit-stdlib/zlib", "quickjs-jit-stdlib/zlib-zstd"]
 crypto = ["quickjs-jit-stdlib/crypto"]
 
 [dependencies]
-serde_json.workspace = true
-serde.workspace = true
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
+serde = { version = "1.0.229", features = ["rc", "derive"] }
 # The language data numbers and dates format with (English built in).
 nsh-i18n.workspace = true
 log.workspace = true
@@ -30,7 +42,7 @@ nsh-core.workspace = true
 rustc-hash.workspace = true
 thiserror.workspace = true
 percent-encoding.workspace = true
-url.workspace = true
+url = { version = "2.5.9" }
 quickjs-jit-stdlib.workspace = true
 
 # Native targets generate QuickJS bindings for Apple and Android targets.
@@ -39,8 +51,8 @@ rquickjs = { workspace = true, features = ["bindgen"] }
 quickjs-jit-stdlib = { workspace = true, features = ["url"] }
 # The heap's allocator: the system's `malloc` (as QuickJS's own).
 libc.workspace = true
-tokio = { workspace = true, features = ["rt-multi-thread", "time", "net", "sync", "io-util", "macros"] }
-futures-util.workspace = true
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "time", "net", "sync", "io-util", "macros"] }
+futures-util = { version = "0.3", features = ["sink"] }
 tokio-tungstenite.workspace = true
 
 # The browser uses the same QuickJS and portable standard library.

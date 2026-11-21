@@ -29,6 +29,7 @@
 //! expressions are moved into the holes: they keep their spans (the source
 //! map points at them), generated nodes take their JSX element's.
 
+use crate::classes::js_str;
 use std::{cell::Cell, collections::HashMap};
 
 use oxc::{
@@ -126,7 +127,7 @@ fn export_name(n: &ModuleExportName<'_>) -> String {
     match n {
         ModuleExportName::IdentifierName(n) => n.name.to_string(),
         ModuleExportName::IdentifierReference(n) => n.name.to_string(),
-        ModuleExportName::StringLiteral(n) => n.value.to_string(),
+        ModuleExportName::StringLiteral(n) => js_str(n.value).into_owned(),
     }
 }
 
@@ -137,7 +138,9 @@ fn imported_primitives(program: &Program<'_>) -> HashMap<String, Compiled> {
         let Statement::ImportDeclaration(i) = statement else {
             continue;
         };
-        let module = i.source.value.as_str();
+        let Some(module) = i.source.value.as_str() else {
+            continue;
+        };
         for spec in i.specifiers.iter().flatten() {
             let ImportDeclarationSpecifier::ImportSpecifier(s) = spec else {
                 continue;
@@ -792,7 +795,7 @@ impl<'a> Compiler<'a, '_> {
                     match a.value {
                         None => body.push_str(&self.prop(&v, &name, "true")),
                         Some(JSXAttributeValue::StringLiteral(s)) => {
-                            body.push_str(&self.prop(&v, &name, &quote(&s.value)));
+                            body.push_str(&self.prop(&v, &name, &quote(&js_str(s.value))));
                         }
                         Some(JSXAttributeValue::ExpressionContainer(c)) => {
                             if let Some(e) = self.expression(c.unbox().expression) {
@@ -838,12 +841,12 @@ impl<'a> Compiler<'a, '_> {
                     None => continue,
                 },
                 JSXChild::ExpressionContainer(c) => match &c.expression {
-                    JSXExpression::StringLiteral(s) => (s.value.to_string(), s.span),
+                    JSXExpression::StringLiteral(s) => (js_str(s.value).into_owned(), s.span),
                     JSXExpression::NumericLiteral(n) => (n.raw_str().to_string(), n.span),
                     JSXExpression::TemplateLiteral(t) if t.expressions.is_empty() => (
                         t.quasis
                             .iter()
-                            .filter_map(|q| q.value.cooked.as_deref())
+                            .filter_map(|q| q.value.cooked.and_then(|cooked| cooked.as_str()))
                             .collect(),
                         t.span,
                     ),
@@ -1103,7 +1106,7 @@ impl<'a> Compiler<'a, '_> {
                     match a.value {
                         None => props.push(format!("{k}: true")),
                         Some(JSXAttributeValue::StringLiteral(s)) => {
-                            props.push(format!("{k}: {}", quote(&s.value)));
+                            props.push(format!("{k}: {}", quote(&js_str(s.value))));
                         }
                         Some(JSXAttributeValue::ExpressionContainer(c)) => {
                             if let Some(mut e) = self.expression(c.unbox().expression) {
@@ -1210,7 +1213,7 @@ impl<'a> Compiler<'a, '_> {
                     }
                     let value = match a.value {
                         None => "true".to_owned(),
-                        Some(JSXAttributeValue::StringLiteral(s)) => quote(&s.value),
+                        Some(JSXAttributeValue::StringLiteral(s)) => quote(&js_str(s.value)),
                         Some(JSXAttributeValue::ExpressionContainer(c)) => {
                             let c = c.unbox();
                             // `<If>`'s `else` is a branch, kept as a child

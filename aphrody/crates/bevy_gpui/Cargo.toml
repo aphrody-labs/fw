@@ -2,13 +2,26 @@
 name = "bevy_gpui"
 version = "0.20.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "Apache-2.0"
 description = "Unreal Engine 5.8-class ECS, Nanite meshlets, Solari GI, MaterialX->Naga WGSL compiler, USD/Mocap loader, and bevy_egui 0.37 viewport engine for Zed GPUI."
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [lib]
 path = "src/bevy_gpui.rs"
 doctest = false
@@ -30,8 +43,8 @@ craft-usd.workspace = true
 egui_gpui = { workspace = true, default-features = false }
 naga.workspace = true
 aphrody_ui.workspace = true
-serde = { workspace = true, features = ["derive"] }
+serde = { version = "1.0.229", features = ["rc", "derive"] }
 web-time.workspace = true
 
 [dev-dependencies]
-serde_json.workspace = true
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }

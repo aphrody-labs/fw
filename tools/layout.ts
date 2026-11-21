@@ -187,7 +187,15 @@ function cargoSync(text: string): string {
   }
   // dependencies
   const local = new Map(members().map((m) => [m.name, m]));
-  const names = new Set([...local.keys(), ...Object.keys(cargo.crate ?? {})]);
+  // A local crate gets a workspace entry only when some member inherits it (cargo warns about unused workspace dependencies); a crate
+  // that has an explicit [cargo.crate.*] entry always gets one.
+  const used = new Set<string>();
+  for (const member of local.values()) {
+    const m = member.manifest;
+    const tables: any[] = [m.dependencies, m["dev-dependencies"], m["build-dependencies"], ...Object.values<any>(m.target ?? {}).flatMap((x) => [x.dependencies, x["dev-dependencies"], x["build-dependencies"]])];
+    for (const table of tables) for (const [key, value] of Object.entries<any>(table ?? {})) if (value && typeof value === "object" && value.workspace) used.add(key);
+  }
+  const names = new Set([...[...local.keys()].filter((n) => used.has(n)), ...Object.keys(cargo.crate ?? {})]);
   const generated: string[] = [];
   const generatedKeys = new Set<string>();
   for (const name of [...names].sort()) {

@@ -2,7 +2,7 @@
 name = "worktree"
 version = "0.1.0"
 edition.workspace = true
-publish.workspace = true
+publish = false
 license = "GPL-3.0-or-later"
 
 [lib]
@@ -14,9 +14,22 @@ name = "integration"
 required-features = ["test-support"]
 path = "tests/integration/worktree_tests.rs"
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [features]
 test-support = [
     "gpui/test-support",
@@ -48,7 +61,7 @@ log.workspace = true
 parking_lot.workspace = true
 paths.workspace = true
 postage.workspace = true
-pretty_assertions = { workspace = true, optional = true }
+pretty_assertions = { version = "1.4.1", features = ["unstable"], optional = true }
 rpc = { workspace = true, features = ["gpui"] }
 settings.workspace = true
 smallvec.workspace = true
@@ -65,7 +78,7 @@ gpui = { workspace = true, features = ["test-support"] }
 paths = { workspace = true, features = ["test-support"] }
 rand.workspace = true
 rpc = { workspace = true, features = ["test-support"] }
-serde_json.workspace = true
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 settings = { workspace = true, features = ["test-support"] }
 util = { workspace = true, features = ["test-support"] }
 worktree = { workspace = true, features = ["test-support"] }

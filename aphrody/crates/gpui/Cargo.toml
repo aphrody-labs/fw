@@ -14,9 +14,22 @@ categories = ["gui"]
 autobenches = false
 
 
-[lints]
-workspace = true
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
 
+[lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+declare_interior_mutable_const = "deny"
+redundant_clone = "deny"
+disallowed_methods = "deny"
+style = { level = "allow", priority = -1 }
+type_complexity = "allow"
+let_underscore_future = "allow"
+single_range_in_vec_init = "allow"
+too_many_arguments = "allow"
+large_enum_variant = "allow"
+nonminimal_bool = "allow"
 [features]
 default = ["font-kit", "wayland", "x11", "windows-manifest"]
 test-support = [
@@ -68,7 +81,7 @@ bitflags.workspace = true
 
 collections.workspace = true
 bench_metrics = { workspace = true, optional = true }
-criterion = { workspace = true, optional = true }
+criterion = { version = "0.8.2", features = ["html_reports"], optional = true }
 derive_more = { workspace = true, features = ["add", "add_assign", "mul", "mul_assign", "not"] }
 etagere.workspace = true
 futures.workspace = true
@@ -86,11 +99,11 @@ parking.workspace = true
 parking_lot.workspace = true
 postage = { workspace = true, features = ["blocking"], optional = true }
 proptest = { workspace = true, optional = true }
-chrono = { workspace = true, default-features = true }
+chrono = { version = "0.4.45", default-features = true, features = ["std", "serde"] }
 profiling.workspace = true
 rand = { workspace = true, features = ["small_rng", "thread_rng"] }
 raw-window-handle.workspace = true
-regex = { workspace = true, default-features = true }
+regex = { version = "1.13.2", default-features = true, features = ["std", "perf"] }
 refineable.workspace = true
 scheduler.workspace = true
 resvg.workspace = true
@@ -98,8 +111,8 @@ usvg.workspace = true
 ttf-parser.workspace = true
 schemars = { workspace = true, features = ["derive"] }
 seahash.workspace = true
-serde = { workspace = true, features = ["derive"] }
-serde_json.workspace = true
+serde = { version = "1.0.229", features = ["rc", "derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order", "raw_value"] }
 slotmap.workspace = true
 smallvec.workspace = true
 stacksafe = { workspace = true, optional = true }
@@ -123,8 +136,8 @@ lyon_path.workspace = true
 pin-project.workspace = true
 spin.workspace = true
 tiny-skia-path.workspace = true
-url.workspace = true
-uuid = { workspace = true, features = ["v4"] }
+url = { version = "2.5.9" }
+uuid = { version = "1.29.3", features = ["serde", "v4"] }
 web-time = { workspace = true, optional = true }
 heapless.workspace = true
 
@@ -146,9 +159,7 @@ subsecond = { version = "=0.7.10", optional = true }
 
 [target.'cfg(target_family = "wasm")'.dependencies]
 getrandom = { version = "0.3.4", features = ["wasm_js"] }
-uuid = { workspace = true, features = ["js"] }
-
-
+uuid = { version = "1.29.3", features = ["serde", "js"] }
 [target.'cfg(any(target_os = "macos", target_os = "ios"))'.dependencies]
 objc2-core-foundation.workspace = true
 objc2-core-video = { workspace = true, features = ["CVPixelBuffer"] }

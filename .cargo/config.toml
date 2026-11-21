@@ -1,9 +1,12 @@
 [alias]
+perf-compare = ["run", "--profile", "release-fast", "-p", "perf", "--config", "target.'cfg(true)'.rustflags=[\"--cfg\", \"perf_enabled\"]", "--", "compare"]
+perf-test = ["test", "--profile", "release-fast", "--lib", "--bins", "--tests", "--all-features", "--config", "target.'cfg(true)'.runner='cargo run -p perf --release'", "--config", "target.'cfg(true)'.rustflags=[\"--cfg\", \"perf_enabled\"]"]
 xtask = "run --package xtask --"
 fw = "run --package fw-bin --bin fw --"
 
 # CachyOS x86-64-v3 tier (AVX2, FMA, BMI1/2, F16C, LZCNT, MOVBE) for native x86_64 builds
 [target.x86_64-pc-windows-msvc]
+linker = "lld-link.exe"
 rustflags = ["-C", "target-cpu=x86-64-v3"]
 
 [target.x86_64-unknown-linux-gnu]
@@ -15,10 +18,31 @@ rustflags = ["-C", "target-cpu=x86-64-v3"]
 # reqwest gates its HTTP/3 client (the `http3` feature of fw-http) behind this cfg; it must reach reqwest itself.
 # A `[build]` rustflags entry would be dropped by the per-triple rustflags above, so the cfg rides a matching `cfg(...)` table that cargo joins with them.
 [target.'cfg(all())']
-rustflags = ["--cfg", "reqwest_unstable"]
+rustflags = ["--cfg", "reqwest_unstable", "-C", "symbol-mangling-version=v0", "--cfg", "tokio_unstable"]
 
 [profile.dev]
 debug = "line-tables-only"
 
 [profile.dev.package."*"]
 opt-level = 2
+
+[target."cfg(target_os = \"windows\")"]
+rustflags = ["--cfg", "windows_slim_errors", "-C", "target-feature=+crt-static"]
+
+[target.aarch64-unknown-linux-gnu]
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+[env]
+AY_ROOT = { value = "ay", relative = true }
+MACOSX_DEPLOYMENT_TARGET = "12.0"
+RUSTC_BOOTSTRAP = "1"
+
+[net]
+git-fetch-with-cli = true
+
+[cache]
+auto-clean-frequency = "1 day"
+
+# The toolchain is pinned (rust-toolchain.toml), so the lock takes the newest release of every crate instead of the newest one a member's rust-version allows.
+[resolver]
+incompatible-rust-versions = "allow"

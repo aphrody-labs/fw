@@ -29,7 +29,7 @@ pub fn rewrite_imports(
             _ => None,
         };
         if let Some(source) = source
-            && let Some(to) = resolve(source.value.as_str())
+            && let Some(to) = resolve(source.value.as_str().unwrap_or_default())
         {
             edits.push((source.span.start as usize, source.span.end as usize, to));
         }
