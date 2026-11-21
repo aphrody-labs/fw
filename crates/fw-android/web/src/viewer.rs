@@ -783,6 +783,7 @@ pub async fn start() -> Result<Viewer, JsValue> {
         .await
         .map_err(|error| error.to_string())?;
 
+    device.on_uncaptured_error(std::sync::Arc::new(|error| web_sys::console::error_1(&format!("fwa: webgpu error: {error}").into())));
     let capabilities = surface.get_capabilities(&adapter);
     let format = capabilities.formats.first().copied().ok_or("surface has no formats")?.remove_srgb_suffix();
     let ratio = web_sys::window().map_or(1.0, |window| window.device_pixel_ratio() as f32).max(1.0);
@@ -812,7 +813,7 @@ pub async fn start() -> Result<Viewer, JsValue> {
         entries: &[
             wgpu::BindGroupLayoutEntry {
                 binding: 0,
-                visibility: wgpu::ShaderStages::VERTEX,
+                visibility: wgpu::ShaderStages::VERTEX_FRAGMENT,
                 ty: wgpu::BindingType::Buffer { ty: wgpu::BufferBindingType::Uniform, has_dynamic_offset: false, min_binding_size: None },
                 count: None,
             },
