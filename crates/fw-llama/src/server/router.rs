@@ -9,11 +9,11 @@
 //!   upstream whose own `/models` answers.
 //! - `POST /v1/chat/completions` routes by `model`. llama models start on first use (one at a
 //!   time: switching stops the previous one, so a single GPU is never shared) and the request,
-//!   `stream`, `tools` and `tool_choice` included, is relayed as is to `llama-server` (native
+//!   `stream`, `tools` and `tool_choice` included, is forwarded as is to `llama-server` (native
 //!   tool calls through the model's Jinja template). Gemini answers once; with `stream: true`
 //!   it is sent as SSE (one delta, then `[DONE]`). Gemini has no tool calling: `tools` are
 //!   dropped and the response carries `x-aphrody-tools-ignored: true`.
-//! - `POST /v1/responses` and `POST /v1/responses/compact` relay the native Responses
+//! - `POST /v1/responses` and `POST /v1/responses/compact` forward the native Responses
 //!   wire to llama and OpenAI backends, including opaque reasoning/compaction items.
 //!   Gemini web has no Responses contract and returns an explicit unsupported error.
 //! - `GET /health` reports every backend (`available`, `running`, `reason`).
@@ -533,7 +533,7 @@ async fn route_request(router: ChatRouter, mut body: Value, endpoint: &str) -> R
     };
     match &config {
         ModelConfig::Llama { .. } => match router.ensure_llama(&config).await {
-            Ok(base) => relay(&router.0.http, &base, endpoint, None, body).await,
+            Ok(base) => forward(&router.0.http, &base, endpoint, None, body).await,
             Err(reason) => error(StatusCode::SERVICE_UNAVAILABLE, "model_unavailable", reason),
         },
         ModelConfig::Openai {
@@ -546,7 +546,7 @@ async fn route_request(router: ChatRouter, mut body: Value, endpoint: &str) -> R
                 body["model"] = json!(name);
             }
             let key = api_key_env.as_deref().and_then(|k| std::env::var(k).ok());
-            relay(&router.0.http, base_url, endpoint, key.as_deref(), body).await
+            forward(&router.0.http, base_url, endpoint, key.as_deref(), body).await
         }
         ModelConfig::GeminiWeb { variant, .. } => {
             if endpoint != "chat/completions" {
@@ -598,8 +598,8 @@ async fn route_request(router: ChatRouter, mut body: Value, endpoint: &str) -> R
     }
 }
 
-/// Relay a request to an OpenAI-compatible root, streaming the answer back as is.
-async fn relay(
+/// Forward a request to an OpenAI-compatible root, streaming the answer back as is.
+async fn forward(
     http: &fw_http::Client,
     base: &str,
     endpoint: &str,
@@ -853,7 +853,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn openai_upstream_is_relayed_with_its_stream() {
+    async fn openai_upstream_is_forwarded_with_its_stream() {
         let upstream = Router::new()
             .route("/v1/models", get(|| async { Json(json!({ "data": [] })) }))
             .route(
