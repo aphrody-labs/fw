@@ -74,7 +74,7 @@ pub fn build(state: &State, devices: &Devices, network_namespace: Option<&Path>)
             "terminal": false,
             "user": {"uid": 0, "gid": 0},
             "args": ["/init"],
-            "env": [],
+            "env": ["PATH=/system/bin:/system/xbin:/vendor/bin"],
             "cwd": "/",
             "capabilities": {
                 "bounding": CAPABILITIES, "effective": CAPABILITIES, "permitted": CAPABILITIES, "inheritable": CAPABILITIES, "ambient": CAPABILITIES,
