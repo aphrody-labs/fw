@@ -1,0 +1,113 @@
+# Written by `fw toolchain pin` from cluster/toolchain.toml and rust-toolchain.toml; do not edit.
+[rust]
+version = "1.100.0"
+commit = "0ef1bc386059596dada8fb65b50425aab2ea637a"
+fork_has_tag = true
+manifest_sha256 = "3051e859570f64a8c5acb9d09e87425db52c7d97287c67e8f6d57d7d34ef9258"
+manifest_date = "2026-11-12"
+
+[llvm]
+repo = "rust-lang/llvm-project"
+branch = "rustc/23.1-2026-07-22"
+commit = "0a5579eb649d3634a9c30ac873300cc2944fa070"
+version = "23.1.5"
+fork_has_commit = true
+
+[[llvm.asset]]
+name = "LLVM-23.1.5-Linux-X64.tar.zst"
+url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.5/LLVM-23.1.5-Linux-X64.tar.zst"
+sha256 = "c3107384835f788768f614db610e87fba7077f125ca950eb02a78bab0a308065"
+bytes = 1198896522
+
+[[llvm.asset]]
+name = "LLVM-23.1.5-Linux-ARM64.tar.zst"
+url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.5/LLVM-23.1.5-Linux-ARM64.tar.zst"
+sha256 = "830ceb70edf63849ce66e97bf85310a3bf2bdd04c860a9f2fa4ef1560e290cef"
+bytes = 1102367349
+
+[[tool]]
+name = "xwin"
+fork = "aphrody-labs/xwin"
+tag = "0.10.0"
+commit = "91cd290acd0f951a26bcdfb899ca0c31faad3f2f"
+fork_has_commit = true
+
+[[tool]]
+name = "cargo-xwin"
+fork = "aphrody-labs/cargo-xwin"
+tag = "v0.23.1"
+commit = "cb1c19572bd64c801f45c6fc96e234ccb0d5acc5"
+fork_has_commit = true
+
+[[tool]]
+name = "cargo-zigbuild"
+fork = "aphrody-labs/cargo-zigbuild"
+tag = "v0.24.1"
+commit = "f6fbb8d78a2f770e1625c0723280c01902b983c2"
+fork_has_commit = true
+
+[[artifact]]
+package = "cargo"
+target = "x86_64-unknown-linux-gnu"
+url = "https://static.rust-lang.org/dist/2026-11-12/cargo-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+sha256 = "7e29ce07d7c6e92d1826870575ba27d57fff6cb3e754aa57d99099cb88fab35d"
+
+[[artifact]]
+package = "clippy-preview"
+target = "x86_64-unknown-linux-gnu"
+url = "https://static.rust-lang.org/dist/2026-11-12/clippy-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+sha256 = "0d18df3bff6c852ef8243727fed075ecb33dbf93b8ab8c138c2f45e3f270102a"
+
+[[artifact]]
+package = "rust-src"
+target = "*"
+url = "https://static.rust-lang.org/dist/2026-11-12/rust-src-1.100.0.tar.xz"
+sha256 = "107afa7819b500c573b21a160b08f1a20bc2dfd99550717e1ffbbdb09da7ec6e"
+
+[[artifact]]
+package = "rust-std"
+target = "aarch64-unknown-linux-gnu"
+url = "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-aarch64-unknown-linux-gnu.tar.xz"
+sha256 = "c73f62fbe5d837f9807ed9e0076575dd8d3475c79af2b30e3570d328e6713f8f"
+
+[[artifact]]
+package = "rust-std"
+target = "aarch64-unknown-linux-musl"
+url = "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-aarch64-unknown-linux-musl.tar.xz"
+sha256 = "30eceb11cecdb0f4374c6c6e9b193a195949e7ae2687840ffdd3daa637c06db2"
+
+[[artifact]]
+package = "rust-std"
+target = "wasm32-unknown-unknown"
+url = "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-wasm32-unknown-unknown.tar.xz"
+sha256 = "19b7954d650fc0d22767eceb76b8e03d07ce0d6a9f4234f33c32a17ee8d6d7b9"
+
+[[artifact]]
+package = "rust-std"
+target = "x86_64-pc-windows-msvc"
+url = "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-x86_64-pc-windows-msvc.tar.xz"
+sha256 = "24ad2f28791e08a573b9c7df5efa3ace884eecd1fa7e7f5b62c65f4b49bb4532"
+
+[[artifact]]
+package = "rust-std"
+target = "x86_64-unknown-linux-gnu"
+url = "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+sha256 = "4591b6486594ded52ecd6135db95bf9355bbd3ca7a380888b141528bbcf9a5d4"
+
+[[artifact]]
+package = "rust-std"
+target = "x86_64-unknown-linux-musl"
+url = "https://static.rust-lang.org/dist/2026-11-12/rust-std-1.100.0-x86_64-unknown-linux-musl.tar.xz"
+sha256 = "9d5211bc7b40195f9700a6f9133831832a32f50d0e2a2c0ae8af801e7656de5c"
+
+[[artifact]]
+package = "rustc"
+target = "x86_64-unknown-linux-gnu"
+url = "https://static.rust-lang.org/dist/2026-11-12/rustc-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+sha256 = "f1d0b1dec81dab6f523cd098507763487b0d4bd7fd2c87582f154128719be03b"
+
+[[artifact]]
+package = "rustfmt-preview"
+target = "x86_64-unknown-linux-gnu"
+url = "https://static.rust-lang.org/dist/2026-11-12/rustfmt-1.100.0-x86_64-unknown-linux-gnu.tar.xz"
+sha256 = "4c9389e4722b16499e5d47d89837ec84a4ef755f105ed2a84c038156064e01ab"

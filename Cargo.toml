@@ -31,6 +31,7 @@ members = [
     "crates/fw-secrets",
     "crates/fw-cluster",
     "crates/fw-estate",
+    "crates/fw-toolchain",
     "crates/fw-org",
     "crates/fw-proto",
     "crates/fw-ui-blitz",
@@ -744,6 +745,7 @@ fw-proto = { version = "2026.11.0", path = "crates/fw-proto" }
 fw-rag-core = { path = "crates/fw-rag-core", default-features = false }
 fw-secrets = { version = "2026.11.0", path = "crates/fw-secrets" }
 fw-toolcall = { path = "crates/fw-toolcall", default-features = false }
+fw-toolchain = { version = "2026.11.0", path = "crates/fw-toolchain" }
 fw-ui-blitz = { version = "2026.11.0", path = "crates/fw-ui-blitz" }
 fw-unified-stack = { version = "2026.11.0", path = "crates/fw-unified-stack" }
 fw-uutils = { version = "2026.11.0", path = "crates/fw-uutils" }

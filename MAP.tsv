@@ -29,6 +29,7 @@ crates/fw-browser-views	rust-core	2	16765	cargo test --workspace
 crates/fw-browser-vpn	rust-core	2	24568	cargo test --workspace
 crates/fw-cluster	rust-core	5	53916	cargo test --workspace
 crates/fw-estate	rust-core	8	73444	cargo test --workspace
+crates/fw-toolchain	rust-core	5	24000	cargo test --workspace
 crates/fw-compute	rust-core	3	26277	cargo test --workspace
 crates/fw-config	rust-core	33	175833	cargo test --workspace
 crates/fw-corpus	rust-core	14	112900	cargo test --workspace

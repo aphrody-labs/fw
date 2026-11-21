@@ -1,0 +1,84 @@
+# The Rust toolchain factory as one declarative file, read by `fw toolchain` (crates/fw-toolchain).
+# The compiler version is not written here: it is the channel of rust-toolchain.toml. `fw toolchain pin` resolves everything
+# derived from it (tag commits, the LLVM commit rustc is built against, dist artifact hashes) into cluster/toolchain.lock.toml.
+
+[rust]
+toolchain_file = "rust-toolchain.toml"
+dist_server = "https://static.rust-lang.org"
+upstream = "rust-lang/rust"
+fork = "aphrody-labs/rust"
+host = "x86_64-unknown-linux-gnu"
+# Packages of the dist manifest installed by `fetch`.
+packages = ["rustc", "cargo", "rust-std", "rust-src", "rustfmt-preview", "clippy-preview"]
+
+[llvm]
+# rustc is built against this fork of llvm/llvm-project; the commit is the gitlink of src/llvm-project at the rustc tag.
+upstream = "rust-lang/llvm-project"
+fork = "aphrody-labs/llvm-project"
+# Prebuilt LLVM of the version rustc expects: the llvm/llvm-project release asset for the same X.Y.Z (sha256 from the release digest).
+release_repo = "llvm/llvm-project"
+assets = ["LLVM-{version}-Linux-X64.tar.zst", "LLVM-{version}-Linux-ARM64.tar.zst"]
+
+[cache]
+# Artifacts live in R2 through the rclone remote on the nodes; the prefix holds toolchain/<rust version>/...
+rclone_remote = "r2"
+bucket = "aphrody-dist"
+prefix = "toolchains"
+
+# One cross target per row: the tool that links it. `msvc` uses the xwin Windows SDK and CRT splat, `zig` uses cargo-zigbuild
+# (zig cc as linker and libc), `native` is plain cargo with the target's rust-std.
+[[targets]]
+triple = "x86_64-pc-windows-msvc"
+tool = "msvc"
+[[targets]]
+triple = "x86_64-unknown-linux-gnu"
+tool = "native"
+[[targets]]
+triple = "x86_64-unknown-linux-gnu"
+tool = "zig"
+libc = "2.17"
+[[targets]]
+triple = "aarch64-unknown-linux-gnu"
+tool = "zig"
+libc = "2.17"
+[[targets]]
+triple = "x86_64-unknown-linux-musl"
+tool = "zig"
+[[targets]]
+triple = "aarch64-unknown-linux-musl"
+tool = "zig"
+[[targets]]
+triple = "wasm32-unknown-unknown"
+tool = "native"
+
+[xwin]
+repo = "aphrody-labs/xwin"
+upstream = "Jake-Shadle/xwin"
+tag = "0.10.0"
+# Fork commit on top of the tag: VSIX path traversal refused (upstream #194) and the terms link follows the manifest (#192).
+rev = "91cd290acd0f951a26bcdfb899ca0c31faad3f2f"
+# Manifest 17 is Visual Studio 2022; its build tools terms are recorded in the lock when a splat runs.
+manifest_version = 17
+terms = "https://visualstudio.microsoft.com/license-terms/vs2022-ga-diagnosticbuildtools/"
+arch = ["x86_64"]
+variant = ["desktop"]
+
+[cargo_xwin]
+repo = "aphrody-labs/cargo-xwin"
+upstream = "rust-cross/cargo-xwin"
+tag = "v0.23.1"
+
+[cargo_zigbuild]
+repo = "aphrody-labs/cargo-zigbuild"
+upstream = "rust-cross/cargo-zigbuild"
+tag = "v0.24.1"
+
+# cross-rs/cross runs targets in docker or podman containers; the nodes have neither, so it is tracked (fork) but not a build path.
+[cross]
+repo = "aphrody-labs/cross"
+upstream = "cross-rs/cross"
+used = false
+
+[rustd]
+repo = "aphrody-labs/rustd"
+upstream = "DioxusLabs/rustd"
