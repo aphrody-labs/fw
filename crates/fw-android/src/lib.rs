@@ -1,1 +1,11 @@
-//! `fw android` core: pins, image fetch, host plumbing and the container lifecycle (filled in by the next commits).
+//! `fw android` core: pins, image fetch and the Linux container lifecycle.
+
+pub mod image;
+pub mod pins;
+pub mod props;
+pub mod state;
+
+#[cfg(target_os = "linux")]
+pub mod host;
+#[cfg(target_os = "linux")]
+pub mod spec;
