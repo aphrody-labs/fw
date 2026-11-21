@@ -12387,10 +12387,10 @@ dependencies = [
  "hex",
  "serde",
  "serde_json",
- "sha2",
+ "sha2 0.11.1",
  "tempfile",
  "thiserror 2.0.21",
- "toml",
+ "toml 1.2.2+spec-1.1.0",
  "ureq",
 ]
 
