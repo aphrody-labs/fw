@@ -329,8 +329,39 @@ pub fn render_root_help() -> String {
     out
 }
 
+/// Subcommands dispatched in `main.rs` that are not part of the grouped `fw --help` list: (name, usage, summary).
+const DIRECT_COMMANDS: &[(&str, &str, &str)] = &[
+    ("status", "fw status", "Print the product, hardware profile and cluster summary as JSON"),
+    ("hardware", "fw hardware", "Print the detected CPU, GPU and OS hardware profile as JSON"),
+    ("compute", "fw compute", "Run the compute smoke benchmark and print the result as JSON"),
+    ("ggml", "fw ggml", "Encode and parse a GGUF v3 header and query a loopback ggml-rpc device"),
+    ("openapi", "fw openapi", "Print the OpenAPI 3.1 document of `fw serve`"),
+    ("ui", "fw ui [--out <file.png>]", "Render the cluster HUD to a PNG (default target/blitz-proof.png)"),
+    ("ostd", "fw ostd", "Boot the OSTD GPUI kernel snapshot and print it as JSON"),
+    ("uutils", "fw uutils <applet> [args...]", "Run one built-in uutils applet and print the result as JSON (default applet: uname)"),
+    ("nix", "fw nix [name]", "Compute a fixed-output Nix store entry for a name"),
+    ("stack", "fw stack", "Print the unified v4 stack catalog, burn rig, voice status and Kitty protocol samples"),
+    ("wayland", "fw wayland", "Create and commit a Wayland-WebGPU surface and print the result as JSON"),
+    ("claw", "fw claw [status|ranking|mcp <jsonrpc>|skill-gen <tool>|run <goal>]", "Hermes/OpenClaw runtime status, rankings, MCP, skill generation and goal loop (alias: hermes)"),
+    ("migrate", "fw migrate [target]", "Scan the working directory for packages to migrate and print the counts as JSON"),
+    ("ls", "fw ls [dir] [--tsv]", "Fast directory listing"),
+    ("table", "fw table [dir] [--json]", "Fast directory table"),
+    ("find", "fw find <pattern> [dir]", "Fast file-name search"),
+    ("grep", "fw grep <pattern> [dir]", "Fast content search"),
+];
+
+fn render_direct_help(cmd: &str) -> Option<String> {
+    let cmd = if cmd == "hermes" { "claw" } else { cmd };
+    let (name, usage, summary) = DIRECT_COMMANDS.iter().find(|(n, _, _)| *n == cmd)?;
+    Some(format!(
+        "{summary}\n\nUsage: {usage}\nCommand: {name}\n\nGlobal flags: -C/--directory <DIR>, --offline, --json, -q/--quiet, -v/--verbose, -h/--help\n"
+    ))
+}
+
 pub fn render_command_help(cmd: &str) -> Option<String> {
-    let meta = find_command(cmd)?;
+    let Some(meta) = find_command(cmd) else {
+        return render_direct_help(cmd);
+    };
     let aliases = if meta.aliases.is_empty() {
         "none".to_owned()
     } else {
@@ -401,6 +432,16 @@ mod tests {
         assert_eq!(suggest_command("doctr"), Some("doctor"));
         assert_eq!(suggest_command("serv"), Some("serve"));
         assert_eq!(suggest_command("instal"), Some("install"));
+    }
+
+    #[test]
+    fn every_dispatched_command_has_help() {
+        for (name, _, _) in DIRECT_COMMANDS {
+            let help = render_command_help(name).unwrap_or_default();
+            assert!(help.contains("Usage: fw"), "`fw help {name}` has no usage");
+        }
+        assert!(render_command_help("hermes").is_some());
+        assert!(render_command_help("no-such-command").is_none());
     }
 
     #[test]

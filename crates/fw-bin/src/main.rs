@@ -276,10 +276,24 @@ fn main() {
         }
         "ggml" => {
             let hdr = encode_gguf_header(3, 64, 256);
-            let parsed = parse_gguf_header(&hdr).unwrap();
-            let (addr, h) = spawn_rpc_server_once(10 * 1024 * 1024 * 1024, 12 * 1024 * 1024 * 1024).unwrap();
-            let (free, total) = rpc_get_device_memory(addr).unwrap();
-            let _ = h.join();
+            let ggml = (|| -> Result<_, String> {
+                let parsed = parse_gguf_header(&hdr).map_err(|e| format!("gguf header: {e}"))?;
+                let (addr, handle) = spawn_rpc_server_once(10 * 1024 * 1024 * 1024, 12 * 1024 * 1024 * 1024)
+                    .map_err(|e| format!("ggml-rpc loopback server: {e}"))?;
+                let (free, total) = rpc_get_device_memory(addr).map_err(|e| format!("ggml-rpc device memory: {e}"))?;
+                handle
+                    .join()
+                    .map_err(|_| "ggml-rpc loopback server thread panicked".to_owned())?
+                    .map_err(|e| format!("ggml-rpc loopback server: {e}"))?;
+                Ok((parsed, free, total))
+            })();
+            let (parsed, free, total) = match ggml {
+                Ok(v) => v,
+                Err(e) => {
+                    eprintln!("fw ggml: {e}");
+                    std::process::exit(1);
+                }
+            };
             println!(
                 "{}",
                 serde_json::to_string_pretty(&json!({
@@ -321,8 +335,13 @@ fn main() {
                 .and_then(|i| args.get(i + 1))
                 .map(PathBuf::from)
                 .unwrap_or_else(|| PathBuf::from("target/blitz-proof.png"));
-            let rep = render_cluster_hud_png(&out, 640, 360).expect("render blitz proof PNG");
-            println!("{}", serde_json::to_string_pretty(&rep).unwrap());
+            match render_cluster_hud_png(&out, 640, 360) {
+                Ok(rep) => println!("{}", serde_json::to_string_pretty(&rep).unwrap()),
+                Err(e) => {
+                    eprintln!("fw ui: cannot render {}: {e}", out.display());
+                    std::process::exit(1);
+                }
+            }
         }
         "ostd" => {
             println!(
@@ -375,7 +394,10 @@ fn main() {
         "wayland" => {
             let mut comp = WaylandWgpuCompositor::new(1280, 720);
             let sid = comp.create_surface("Fw Wayland-WebGPU-GPUI", 1280, 720);
-            let commit_hdr = comp.commit_surface(sid).unwrap();
+            let Some(commit_hdr) = comp.commit_surface(sid) else {
+                eprintln!("fw wayland: the compositor refused to commit surface {sid}");
+                std::process::exit(1);
+            };
             println!(
                 "{}",
                 serde_json::to_string_pretty(&json!({
@@ -782,6 +804,15 @@ fn main() {
     }
 }
 
+/// Cargo arguments that build the sibling binary `name`; two of them sit behind a feature.
+fn sibling_build_args(name: &str) -> String {
+    match name {
+        "fw-graph" => "-p fw-rag --features codegraph --bin fw-graph".to_owned(),
+        "fw-k8s" => "-p fw-cluster --features kube --bin fw-k8s".to_owned(),
+        other => format!("-p {other}"),
+    }
+}
+
 /// Runs the sibling binary `name` for `fw <command>` with `args`, inheriting stdin/stdout/stderr.
 /// It is looked up next to the running `fw` first, then on PATH; returns its exit code.
 fn run_sibling(command: &str, name: &str, args: &[String]) -> i32 {
@@ -792,8 +823,9 @@ fn run_sibling(command: &str, name: &str, args: &[String]) -> i32 {
         Ok(status) => status.code().unwrap_or(1),
         Err(e) => {
             eprintln!(
-                "fw {command}: cannot run `{}` ({e}). Build it with `cargo build --release -p {name}` and keep it next to `fw` or on PATH.",
-                program.display()
+                "fw {command}: cannot run `{}` ({e}). Build it with `cargo build --release {}` and keep it next to `fw` or on PATH.",
+                program.display(),
+                sibling_build_args(name)
             );
             127
         }

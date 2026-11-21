@@ -286,6 +286,10 @@ pub fn dispatch_http(
             proxy_chat_completions(&cfg, api_key.as_deref(), body_json)
         }
         ("POST", "/mcp") => {
+            if serde_json::from_str::<Value>(body_str).is_err() {
+                let parse_error = json!({ "jsonrpc": "2.0", "id": null, "error": { "code": -32700, "message": "parse error: the body is not JSON" } });
+                return (400, "application/json", parse_error.to_string());
+            }
             let id = body_json.get("id").cloned().unwrap_or(json!(1));
             let rpc_method = body_json.get("method").and_then(Value::as_str).unwrap_or("");
             if rpc_method == "tools/call" {
