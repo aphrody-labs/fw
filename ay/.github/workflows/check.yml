@@ -2,7 +2,8 @@ name: check
 
 on:
   push:
-    branches: [main]
+    # release/<M> branches of the release train (aphrody-labs/ay docs/release/model.md) get the same gates as main.
+    branches: [main, "release/**"]
   pull_request:
   workflow_dispatch:
 
