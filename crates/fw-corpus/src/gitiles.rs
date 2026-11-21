@@ -182,16 +182,17 @@ fn wanted(walk: &Walk, name: &str) -> bool {
     }
 }
 
-/// Breadth-first listing, one parallel round per directory level.
-fn list_files(client: &Client, host: &str, walk: &Walk, commit_sha: &str, threads: usize) -> Result<Vec<(String, String)>> {
+/// Breadth-first listing, one parallel round per directory level. A directory that cannot be listed is reported and skipped,
+/// so a rate-limited host costs part of a walk instead of the whole source.
+fn list_files(client: &Client, host: &str, walk: &Walk, commit_sha: &str, threads: usize) -> (Vec<(String, String)>, Vec<String>) {
     let mut files = Vec::new();
+    let mut errors = Vec::new();
     let mut level = vec![walk.root.to_owned()];
     for _ in 0..=walk.depth {
         if level.is_empty() {
             break;
         }
         let mut next = Vec::new();
-        let mut errors = Vec::new();
         pipeline(
             std::mem::take(&mut level),
             threads,
@@ -215,12 +216,9 @@ fn list_files(client: &Client, host: &str, walk: &Walk, commit_sha: &str, thread
                 Err(error) => errors.push(format!("{dir}: {error:#}")),
             },
         );
-        if let Some(error) = errors.first() {
-            anyhow::bail!("listing {}/{}: {error}", walk.repo, walk.root);
-        }
         level = next;
     }
-    Ok(files)
+    (files, errors)
 }
 
 fn sync_walks(client: &Client, store: &mut Store, spec: &Gitiles, opts: &Opts, report: &mut Report, keep: &mut HashSet<String>) -> Result<()> {
@@ -229,8 +227,10 @@ fn sync_walks(client: &Client, store: &mut Store, spec: &Gitiles, opts: &Opts, r
             report.errors.push(format!("{}: no HEAD", walk.repo));
             continue;
         };
-        let mut files = list_files(client, spec.host, walk, &head.sha, opts.threads)?;
+        let (mut files, listing_errors) = list_files(client, spec.host, walk, &head.sha, opts.threads);
         report.listed += files.len();
+        report.failed += listing_errors.len();
+        report.errors.extend(listing_errors.into_iter().take(3).map(|error| format!("listing {}/{}: {error}", walk.repo, walk.root)));
         if let Some(limit) = opts.limit {
             files.truncate(limit);
         }

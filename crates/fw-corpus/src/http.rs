@@ -107,7 +107,7 @@ impl Client {
                     let (etag, last_modified) = (header("etag"), header("last-modified"));
                     if status == 429 || status >= 500 {
                         last_error = anyhow!("{url}: HTTP {status}");
-                        let backoff = retry_after.unwrap_or(2u64 << attempt).min(60);
+                        let backoff = retry_after.unwrap_or(5u64 << attempt).min(120);
                         std::thread::sleep(Duration::from_secs(backoff));
                         continue;
                     }

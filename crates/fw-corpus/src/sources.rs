@@ -302,7 +302,9 @@ pub fn license(source: &Source) -> &'static str {
 
 pub fn sync(source: &Source, opts: &Opts) -> Result<Report> {
     let mut store = Store::open(&opts.root, source.id)?;
-    let client = Client::new(opts.rate_ms);
+    // googlesource answers 429 well below the default rate once two crawls share the host.
+    let rate_ms = if matches!(source.kind, Kind::Gitiles(_)) { opts.rate_ms.max(500) } else { opts.rate_ms };
+    let client = Client::new(rate_ms);
     let started = crate::now_unix();
     let report = match &source.kind {
         Kind::Sitemap(spec) => crate::sitemap::sync(&client, &mut store, spec, opts)?,
