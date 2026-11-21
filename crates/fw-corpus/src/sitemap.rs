@@ -101,7 +101,8 @@ pub fn sync(client: &Client, store: &mut Store, spec: &Sitemap, opts: &Opts) -> 
     let threads = if spec.fetch == Fetch::Chrome { opts.threads.min(4) } else { opts.threads };
     let mut touched = Vec::new();
     let mut failures = Vec::new();
-    let mut pages = Vec::new();
+    // Pages are written as they arrive so an interrupted crawl keeps what it fetched and the next run resumes from it.
+    let mut write_error: Option<anyhow::Error> = None;
     pipeline(
         jobs,
         threads,
@@ -110,22 +111,30 @@ pub fn sync(client: &Client, store: &mut Store, spec: &Sitemap, opts: &Opts) -> 
             Some((entry.loc, outcome))
         },
         |(loc, outcome)| match outcome {
-            Ok(Some(page)) => pages.push(page),
+            Ok(Some(page)) => {
+                let title = if page.title.is_empty() { humanize(&page.url, spec.base) } else { page.title.clone() };
+                let chunks = chunk::markdown(&title, &page.markdown, 3000);
+                let doc = DocInput { url: &page.url, title: &title, rev: &page.rev, kind: "page", origin: "", license: spec.license, bytes: page.markdown.len() };
+                match store.put(&doc, &chunks) {
+                    Ok(()) => {
+                        report.fetched += 1;
+                        report.bytes += page.markdown.len();
+                    }
+                    Err(error) => {
+                        write_error.get_or_insert(error);
+                    }
+                }
+            }
             Ok(None) => touched.push(loc),
             Err(error) => failures.push(format!("{error:#}")),
         },
     );
+    if let Some(error) = write_error {
+        return Err(error);
+    }
     for loc in &touched {
         store.touch(loc)?;
         report.unchanged += 1;
-    }
-    for page in pages {
-        let title = if page.title.is_empty() { humanize(&page.url, spec.base) } else { page.title.clone() };
-        let chunks = chunk::markdown(&title, &page.markdown, 3000);
-        let doc = DocInput { url: &page.url, title: &title, rev: &page.rev, kind: "page", origin: "", license: spec.license, bytes: page.markdown.len() };
-        store.put(&doc, &chunks)?;
-        report.fetched += 1;
-        report.bytes += page.markdown.len();
     }
     report.failed = failures.len();
     report.errors = failures.into_iter().take(5).collect();

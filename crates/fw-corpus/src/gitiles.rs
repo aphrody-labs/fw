@@ -137,26 +137,32 @@ fn sync_inventory(client: &Client, store: &mut Store, spec: &Gitiles, opts: &Opt
         jobs.push((repo, description, stored));
     }
     let mut failures = Vec::new();
-    let mut docs = Vec::new();
+    let mut write_error: Option<anyhow::Error> = None;
     let total = jobs.len();
     pipeline(
         jobs,
         opts.threads,
         |(repo, description, stored)| Some((repo.clone(), index_repo(client, spec.host, &repo, &description, stored.as_deref()))),
         |(repo, outcome)| match outcome {
-            Ok(Some(doc)) => docs.push(doc),
+            Ok(Some(doc)) => {
+                let chunks = chunk::markdown(&doc.title, &doc.markdown, 3000);
+                let input = DocInput { url: &doc.url, title: &doc.title, rev: &doc.rev, kind: "repo", origin: &doc.origin, license: spec.license, bytes: doc.markdown.len() };
+                match store.put(&input, &chunks) {
+                    Ok(()) => {
+                        report.fetched += 1;
+                        report.bytes += doc.markdown.len();
+                    }
+                    Err(error) => {
+                        write_error.get_or_insert(error);
+                    }
+                }
+            }
             Ok(None) => report.unchanged += 1,
             Err(error) => failures.push(format!("{repo}: {error:#}")),
         },
     );
-    for doc in docs {
-        let chunks = chunk::markdown(&doc.title, &doc.markdown, 3000);
-        store.put(
-            &DocInput { url: &doc.url, title: &doc.title, rev: &doc.rev, kind: "repo", origin: &doc.origin, license: spec.license, bytes: doc.markdown.len() },
-            &chunks,
-        )?;
-        report.fetched += 1;
-        report.bytes += doc.markdown.len();
+    if let Some(error) = write_error {
+        return Err(error);
     }
     eprintln!("{}: inventory {total} repos, {} failed", spec.id, failures.len());
     report.failed += failures.len();
@@ -240,7 +246,7 @@ fn sync_walks(client: &Client, store: &mut Store, spec: &Gitiles, opts: &Opts, r
             }
         }
         let mut failures = Vec::new();
-        let mut docs = Vec::new();
+        let mut write_error: Option<anyhow::Error> = None;
         pipeline(
             jobs,
             opts.threads,
@@ -249,18 +255,28 @@ fn sync_walks(client: &Client, store: &mut Store, spec: &Gitiles, opts: &Opts, r
                 Some((url, path, sha, outcome))
             },
             |(url, path, sha, outcome)| match outcome {
-                Ok(Some(bytes)) => docs.push((url, path, sha, String::from_utf8_lossy(&bytes).into_owned())),
+                Ok(Some(bytes)) => {
+                    let text = String::from_utf8_lossy(&bytes).into_owned();
+                    let title = chunk::front_title(&text).unwrap_or_else(|| format!("{}/{path}", walk.repo));
+                    let chunks = chunk::markdown(&title, &text, 3000);
+                    let origin = format!("https://{}/{}/+/{}/{path}", spec.host, walk.repo, head.sha);
+                    let doc = DocInput { url: &url, title: &title, rev: &sha, kind: "file", origin: &origin, license: spec.license, bytes: text.len() };
+                    match store.put(&doc, &chunks) {
+                        Ok(()) => {
+                            report.fetched += 1;
+                            report.bytes += text.len();
+                        }
+                        Err(error) => {
+                        write_error.get_or_insert(error);
+                    }
+                    }
+                }
                 Ok(None) => failures.push(format!("{path}: unreadable")),
                 Err(error) => failures.push(format!("{path}: {error:#}")),
             },
         );
-        for (url, path, sha, text) in docs {
-            let title = chunk::front_title(&text).unwrap_or_else(|| format!("{}/{path}", walk.repo));
-            let chunks = chunk::markdown(&title, &text, 3000);
-            let origin = format!("https://{}/{}/+/{}/{path}", spec.host, walk.repo, head.sha);
-            store.put(&DocInput { url: &url, title: &title, rev: &sha, kind: "file", origin: &origin, license: spec.license, bytes: text.len() }, &chunks)?;
-            report.fetched += 1;
-            report.bytes += text.len();
+        if let Some(error) = write_error {
+            return Err(error);
         }
         eprintln!("{}: {}/{} done, {} failed", spec.id, walk.repo, walk.root, failures.len());
         report.failed += failures.len();
