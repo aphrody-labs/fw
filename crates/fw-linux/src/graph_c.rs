@@ -208,7 +208,7 @@ fn rewrite_syscall(buffer: &mut [u8], start: usize, open: usize, compat: bool, c
         return Some(end);
     }
     let first = arguments.ranges[1].0;
-    if head.len() > first - start || has_newline(buffer, start, first) {
+    if head.len() > first - start || has_newline(buffer, start, start + head.len()) {
         return None;
     }
     blank(buffer, start, first);
@@ -288,11 +288,45 @@ fn skip_literal(buffer: &[u8], index: usize) -> usize {
 }
 
 fn is_loop_macro(word: &str) -> bool {
-    word.contains("for_each") || word.contains("FOR_EACH")
+    ["for_each", "FOR_EACH", "foreach", "FOREACH", "do_each", "DO_EACH"].iter().any(|part| word.contains(part)) || word.starts_with("scoped_")
 }
 
-fn at_statement_start(buffer: &[u8], index: usize) -> bool {
-    buffer[..index].iter().rev().find(|byte| !byte.is_ascii_whitespace()).is_none_or(|byte| matches!(byte, b';' | b'{' | b'}' | b')' | b':'))
+/// `EXPORT_SYMBOL(x)` and initcall registrations are read by `scan_markers`; the parse does not need them (they often lack a `;`).
+fn is_marker(word: &str) -> bool {
+    (word.starts_with("EXPORT_") && word.contains("SYMBOL"))
+        || word == "module_init"
+        || word == "module_exit"
+        || word.ends_with("_initcall")
+        || word.ends_with("_initcall_sync")
+        || ((word.starts_with("module_") || word.starts_with("builtin_")) && word.ends_with("_driver"))
+}
+
+fn previous_word(buffer: &[u8], index: usize) -> &[u8] {
+    let mut end = index;
+    while end > 0 && buffer[end - 1].is_ascii_whitespace() {
+        end -= 1;
+    }
+    let mut start = end;
+    while start > 0 && is_identifier_byte(buffer[start - 1]) {
+        start -= 1;
+    }
+    &buffer[start..end]
+}
+
+/// `container_of(ptr, struct foo, member)`: the type name is a macro argument, which tree-sitter-c cannot parse as an expression.
+fn is_type_argument(buffer: &[u8], end: usize) -> bool {
+    let name_start = skip_spaces(buffer, end);
+    let mut name_end = name_start;
+    while name_end < buffer.len() && is_identifier_byte(buffer[name_end]) {
+        name_end += 1;
+    }
+    name_end > name_start && matches!(buffer.get(skip_spaces(buffer, name_end)), Some(b',' | b')'))
+}
+
+/// Statement macros start their line; anything else in front of the name means an expression.
+fn at_statement_start(buffer: &[u8], index: usize, line_start: usize) -> bool {
+    buffer[line_start..index].iter().all(u8::is_ascii_whitespace)
+        || buffer[..index].iter().rev().find(|byte| !byte.is_ascii_whitespace()).is_none_or(|byte| matches!(byte, b';' | b'{' | b'}' | b')' | b':'))
 }
 
 /// Same-length rewrite: byte offsets and line numbers of the parsed text equal those of the file.
@@ -304,8 +338,10 @@ fn rewrite(source: &[u8]) -> Rewritten {
     let mut directive = false;
     let mut line_start = 0;
     let mut line: u32 = 1;
-    let mut depth: i32 = 0;
+    // One entry per open brace: whether it opens an initializer, where tree-sitter-c cannot parse #if lines.
+    let mut braces: Vec<bool> = Vec::new();
     let mut at_line_start = true;
+    let mut calls: Vec<bool> = Vec::new();
     while index < length {
         let byte = buffer[index];
         if byte == b'\n' {
@@ -320,6 +356,21 @@ fn rewrite(source: &[u8]) -> Rewritten {
         if at_line_start && !byte.is_ascii_whitespace() {
             at_line_start = false;
             directive = directive || byte == b'#';
+            if byte == b'#' && braces.last() == Some(&true) {
+                let name_start = skip_spaces(&buffer, index + 1);
+                let rest = &buffer[name_start..];
+                let conditional = [&b"if"[..], b"elif", b"else", b"endif"].iter().any(|word| rest.starts_with(word));
+                if conditional {
+                    let mut stop = index;
+                    while stop < length && buffer[stop] != b'\n' {
+                        stop += 1;
+                    }
+                    blank(&mut buffer, index, stop);
+                    index = stop;
+                    directive = false;
+                    continue;
+                }
+            }
         }
         match byte {
             b'/' if buffer.get(index + 1) == Some(&b'*') => {
@@ -344,9 +395,30 @@ fn rewrite(source: &[u8]) -> Rewritten {
                 index = skip_literal(&buffer, index);
                 continue;
             }
-            b'{' if !directive => depth += 1,
+            b'(' if !directive => {
+                let before = previous_word(&buffer, index);
+                let keyword = matches!(before, b"if" | b"while" | b"for" | b"switch" | b"return" | b"else" | b"do");
+                calls.push(!braces.is_empty() && !keyword && before.first().is_some_and(|&first| first.is_ascii_alphabetic() || first == b'_'));
+            }
+            b')' if !directive => {
+                calls.pop();
+            }
+            b'{' if !directive => {
+                let before = buffer[..index].iter().rev().find(|byte| !byte.is_ascii_whitespace()).copied();
+                let initializer = before == Some(b'=') || (braces.last() == Some(&true) && matches!(before, Some(b',' | b'{')));
+                braces.push(initializer);
+            }
             // Kernel style closes every top-level block at column 0, which resynchronizes the depth after unbalanced #if branches.
-            b'}' if !directive => depth = if index == line_start { 0 } else { (depth - 1).max(0) },
+            b'}' if !directive => {
+                if index == line_start {
+                    calls.clear();
+                }
+                if index == line_start {
+                    braces.clear();
+                } else {
+                    braces.pop();
+                }
+            }
             _ => {}
         }
         if !(byte.is_ascii_alphabetic() || byte == b'_') || (index > 0 && is_identifier_byte(buffer[index - 1])) {
@@ -364,7 +436,17 @@ fn rewrite(source: &[u8]) -> Rewritten {
         let word = std::str::from_utf8(&buffer[index..end]).unwrap_or("").to_owned();
         let open = skip_spaces(&buffer, end);
         let has_open = buffer.get(open) == Some(&b'(');
-        if depth == 0 && has_open {
+        if braces.is_empty()
+            && has_open
+            && index == line_start
+            && is_marker(&word)
+            && let Some(arguments) = macro_arguments(&buffer, open)
+        {
+            blank(&mut buffer, index, arguments.close + 1);
+            index = arguments.close + 1;
+            continue;
+        }
+        if braces.is_empty() && has_open {
             let digit = word.bytes().last().filter(u8::is_ascii_digit);
             let syscall = word.strip_prefix("COMPAT_SYSCALL_DEFINE").map(|rest| (true, rest)).or_else(|| word.strip_prefix("SYSCALL_DEFINE").map(|rest| (false, rest)));
             if let (Some((compat, rest)), Some(digit)) = (syscall, digit)
@@ -381,7 +463,12 @@ fn rewrite(source: &[u8]) -> Rewritten {
                 }
             }
         }
-        if depth > 0 && has_open && is_loop_macro(&word) && at_statement_start(&buffer, index) {
+        if matches!(word.as_str(), "struct" | "union" | "enum") && calls.last() == Some(&true) && is_type_argument(&buffer, end) {
+            blank(&mut buffer, index, end);
+            index = end;
+            continue;
+        }
+        if !braces.is_empty() && has_open && is_loop_macro(&word) && at_statement_start(&buffer, index, line_start) {
             loops.push((line, word));
             blank(&mut buffer, index, end);
             buffer[index..index + 2].copy_from_slice(b"if");
@@ -441,12 +528,7 @@ fn scan_markers(source: &[u8], out: &mut Extracted) {
         let word_bytes = leading_identifier(line);
         let Ok(word) = std::str::from_utf8(word_bytes) else { continue };
         let exports = word.starts_with("EXPORT_") && word.contains("SYMBOL");
-        let registration = word == "module_init"
-            || word == "module_exit"
-            || word.ends_with("_initcall")
-            || word.ends_with("_initcall_sync")
-            || ((word.starts_with("module_") || word.starts_with("builtin_")) && word.ends_with("_driver"));
-        if !exports && !registration {
+        if !is_marker(word) {
             continue;
         }
         let open = skip_spaces(line, word_bytes.len());
@@ -899,7 +981,13 @@ pub fn error_snippets(source: &[u8], parsers: &mut Parsers, limit: usize) -> Res
         if node.is_error() || node.is_missing() {
             if found.len() < limit {
                 let end = (node.start_byte() + 160).min(node.end_byte().max(node.start_byte() + 1)).min(source.len());
-                found.push((node.start_position().row as u32 + 1, collapse(&source[node.start_byte().min(end)..end], 110)));
+                let mut text = collapse(&source[node.start_byte().min(end)..end], 110);
+                if node.is_missing() {
+                    let from = source[..node.start_byte().min(source.len())].iter().rposition(|&byte| byte == b'\n').map_or(0, |position| position + 1);
+                    let to = source[from..].iter().position(|&byte| byte == b'\n').map_or(source.len(), |position| from + position);
+                    text = format!("MISSING {} in `{}`", node.kind(), collapse(&source[from..to], 100));
+                }
+                found.push((node.start_position().row as u32 + 1, text));
             }
             return false;
         }
