@@ -1,6 +1,6 @@
 [package]
 name = "fw-drive"
-description = "A Google Drive style file service in Rust: folders, uploads into content-addressed blobs, trash, stars, search, inherited sharing, quota, a JSON API and HTML pages, behind Cloudflare Access"
+description = "A Google Drive style file service in Rust: folders, uploads into content-addressed blobs, trash, stars, search, inherited sharing, quota, a JSON API and HTML pages, over SQLite and files or over Cloudflare D1 and R2"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -10,20 +10,33 @@ publish = false
 
 [features]
 default = ["server"]
-server = ["dep:axum", "dep:fw-http", "dep:tokio", "dep:futures-util", "dep:serde_json", "dep:clap"]
+# SQLite file (rusqlite) for metadata and plain files for blobs.
+sqlite = ["dep:rusqlite"]
+# The axum router and HTML pages; compiles for wasm32 (the fw-edge Worker mounts it on D1 and R2).
+web = ["dep:axum", "dep:serde_json"]
+# The `fw-drive` binary: local backends, the router over a TCP listener, the shell commands.
+server = ["web", "sqlite", "axum/tokio", "axum/http1", "dep:fw-http", "dep:tokio", "dep:clap"]
 
 [dependencies]
-blake3 = { workspace = true }
-rusqlite = { workspace = true, features = ["bundled"] }
+async-trait = { workspace = true }
+blake3 = { version = "1.8.7", default-features = false }
+bytes = { workspace = true }
+futures-util = { workspace = true }
 serde = { workspace = true }
 thiserror = { workspace = true }
-uuid = { workspace = true, features = ["v4"] }
-axum = { workspace = true, features = ["form", "multipart"], optional = true }
+# Declared here, not through the workspace: the workspace axum enables tokio and hyper, which do not build for wasm32.
+axum = { version = "0.8", default-features = false, features = ["json", "query", "form", "multipart"], optional = true }
 clap = { workspace = true, optional = true }
-futures-util = { workspace = true, optional = true }
 fw-http = { workspace = true, features = ["server"], optional = true }
+rusqlite = { workspace = true, features = ["bundled"], optional = true }
 serde_json = { workspace = true, optional = true }
 tokio = { workspace = true, features = ["fs"], optional = true }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+uuid = { workspace = true, features = ["v4"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "0.3"
 
 [dev-dependencies]
 http-body-util = { workspace = true }

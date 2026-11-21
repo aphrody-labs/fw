@@ -7,6 +7,7 @@
 //! fw-drive mkdir --root DIR --owner EMAIL [--parent ID] NAME
 
 use clap::{Parser, Subcommand};
+use futures_util::StreamExt;
 use fw_drive::web::{App, Auth, router};
 use fw_drive::{Drive, Sort, User};
 use std::io::{self, Write};
@@ -81,6 +82,10 @@ fn run(cli: Cli) -> Result<(), String> {
     };
     let drive =
         Drive::open(&cli.root, quota).map_err(|e| format!("{}: {e}", cli.root.display()))?;
+    let rt = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .map_err(|e| e.to_string())?;
     let mut out = io::stdout().lock();
     let line = |out: &mut io::StdoutLock<'_>, v: &fw_drive::Node| -> Result<(), String> {
         writeln!(
@@ -102,10 +107,6 @@ fn run(cli: Cli) -> Result<(), String> {
                 Auth::Owner(user(cli.owner.as_deref())?)
             };
             let app = Arc::new(App { drive, auth });
-            let rt = tokio::runtime::Builder::new_multi_thread()
-                .enable_all()
-                .build()
-                .map_err(|e| e.to_string())?;
             rt.block_on(async move {
                 let listener = tokio::net::TcpListener::bind(&addr)
                     .await
@@ -118,54 +119,69 @@ fn run(cli: Cli) -> Result<(), String> {
         }
         Cmd::Ls { folder } => {
             let u = user(cli.owner.as_deref())?;
-            let id = match folder {
-                Some(f) => f,
-                None => drive.my_drive(&u).map_err(|e| e.to_string())?.id,
-            };
-            for n in drive
-                .list(&u, &id, Sort::Name, false)
-                .map_err(|e| e.to_string())?
-            {
-                line(&mut out, &n)?;
-            }
-            Ok(())
+            rt.block_on(async {
+                let id = match folder {
+                    Some(f) => f,
+                    None => drive.my_drive(&u).await.map_err(|e| e.to_string())?.id,
+                };
+                for n in drive
+                    .list(&u, &id, Sort::Name, false)
+                    .await
+                    .map_err(|e| e.to_string())?
+                {
+                    line(&mut out, &n)?;
+                }
+                Ok(())
+            })
         }
         Cmd::Put { parent, files } => {
             let u = user(cli.owner.as_deref())?;
-            let parent = match parent {
-                Some(p) => p,
-                None => drive.my_drive(&u).map_err(|e| e.to_string())?.id,
-            };
-            for f in files {
-                let name = f
-                    .file_name()
-                    .map(|n| n.to_string_lossy().into_owned())
-                    .ok_or(format!("{}: no file name", f.display()))?;
-                let file = std::fs::File::open(&f).map_err(|e| format!("{}: {e}", f.display()))?;
-                let node = drive
-                    .upload(&u, &parent, &name, None, file)
-                    .map_err(|e| format!("{}: {e}", f.display()))?;
-                line(&mut out, &node)?;
-            }
-            Ok(())
+            rt.block_on(async {
+                let parent = match parent {
+                    Some(p) => p,
+                    None => drive.my_drive(&u).await.map_err(|e| e.to_string())?.id,
+                };
+                for f in files {
+                    let name = f
+                        .file_name()
+                        .map(|n| n.to_string_lossy().into_owned())
+                        .ok_or(format!("{}: no file name", f.display()))?;
+                    let file =
+                        std::fs::File::open(&f).map_err(|e| format!("{}: {e}", f.display()))?;
+                    let node = drive
+                        .upload(&u, &parent, &name, None, file)
+                        .await
+                        .map_err(|e| format!("{}: {e}", f.display()))?;
+                    line(&mut out, &node)?;
+                }
+                Ok(())
+            })
         }
         Cmd::Get { id } => {
             let u = user(cli.owner.as_deref())?;
-            let (_, path) = drive.content(&u, &id).map_err(|e| e.to_string())?;
-            let mut f = std::fs::File::open(&path).map_err(|e| e.to_string())?;
-            io::copy(&mut f, &mut out).map_err(|e| e.to_string())?;
-            Ok(())
+            rt.block_on(async {
+                let node = drive.content(&u, &id).await.map_err(|e| e.to_string())?;
+                let mut body = drive.read(&node, None).await.map_err(|e| e.to_string())?;
+                while let Some(chunk) = body.next().await {
+                    out.write_all(&chunk.map_err(|e| e.to_string())?)
+                        .map_err(|e| e.to_string())?;
+                }
+                Ok(())
+            })
         }
         Cmd::Mkdir { parent, name } => {
             let u = user(cli.owner.as_deref())?;
-            let parent = match parent {
-                Some(p) => p,
-                None => drive.my_drive(&u).map_err(|e| e.to_string())?.id,
-            };
-            let n = drive
-                .create_folder(&u, &parent, &name)
-                .map_err(|e| e.to_string())?;
-            line(&mut out, &n)
+            rt.block_on(async {
+                let parent = match parent {
+                    Some(p) => p,
+                    None => drive.my_drive(&u).await.map_err(|e| e.to_string())?.id,
+                };
+                let n = drive
+                    .create_folder(&u, &parent, &name)
+                    .await
+                    .map_err(|e| e.to_string())?;
+                line(&mut out, &n)
+            })
         }
     }
 }

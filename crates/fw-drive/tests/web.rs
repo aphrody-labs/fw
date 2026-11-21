@@ -1,6 +1,6 @@
 use axum::body::{Body, to_bytes};
 use axum::http::{Request, StatusCode, header};
-use fw_drive::web::{App, Auth, parse_range, router};
+use fw_drive::web::{App, Auth, Verified, parse_range, router};
 use fw_drive::{Drive, User};
 use serde_json::Value;
 use std::sync::Arc;
@@ -296,4 +296,26 @@ fn ranges() {
     assert_eq!(parse_range("bytes=10-", 10), None);
     assert_eq!(parse_range("bytes=0-1,4-5", 10), None);
     assert_eq!(parse_range("items=0-1", 10), None);
+}
+
+#[tokio::test]
+async fn verified_identity_comes_from_the_host_not_from_headers() {
+    let (_d, r) = app(Auth::Verified);
+    // Identity headers a client could forge mean nothing in this mode.
+    let (s, ..) = call(
+        &r,
+        Request::get("/api/v1/me")
+            .header("cf-access-authenticated-user-email", "mallory@example.com")
+            .body(Body::empty())
+            .unwrap(),
+    )
+    .await;
+    assert_eq!(s, StatusCode::UNAUTHORIZED);
+
+    let mut req = Request::get("/api/v1/me").body(Body::empty()).unwrap();
+    req.extensions_mut()
+        .insert(Verified(User::new("Me@Example.com").unwrap()));
+    let (s, _, b) = call(&r, req).await;
+    assert_eq!(s, StatusCode::OK);
+    assert_eq!(json(&b)["user"], "me@example.com");
 }
