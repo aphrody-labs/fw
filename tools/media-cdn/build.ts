@@ -13,6 +13,7 @@ import { basename, dirname, extname, join, relative, resolve, sep } from "node:p
 import { cpus, tmpdir } from "node:os";
 import {
   CODECS,
+  PIPELINE,
   SQUARE_LADDER,
   VIDEO_DENSITIES,
   VIDEO_EXTENSION,
@@ -80,10 +81,11 @@ const nameOf = (root: string, file: string) => {
   return name;
 };
 
-async function sha256(file: string): Promise<string> {
+/** SHA-256 of the source bytes and the pipeline revision of its kind: the same file under new encoder settings is a new name. */
+async function sha256(file: string, kind: keyof typeof PIPELINE): Promise<string> {
   const hasher = new Bun.CryptoHasher("sha256");
   for await (const chunk of Bun.file(file).stream()) hasher.update(chunk);
-  return hasher.digest("hex");
+  return hasher.update(`|pipeline-${kind}-${PIPELINE[kind]}`).digest("hex");
 }
 
 const exists = async (path: string) => stat(path).then((s) => s.size > 0, () => false);
@@ -133,9 +135,9 @@ async function probe(file: string): Promise<Probe> {
 
 const QUALITY = { avif: 60, webp: 80, jpg: 82 };
 
-async function encodeImage(intermediate: string, format: ImageFormat, target: string) {
+async function encodeImage(intermediate: string, format: ImageFormat, alpha: boolean, target: string) {
   await produce(target, async (temporary) => {
-    if (format === "avif") await run(["avifenc", "-q", String(QUALITY.avif), "--speed", "6", "-j", "2", intermediate, temporary]);
+    if (format === "avif") await run(["avifenc", "-q", String(QUALITY.avif), "--speed", "6", "-j", "2", "-y", alpha ? "444" : "420", intermediate, temporary]);
     else if (format === "webp") await run(["cwebp", "-quiet", "-q", String(QUALITY.webp), "-m", "5", "-alpha_q", "90", "-metadata", "none", intermediate, "-o", temporary]);
     else if (format === "jpg") await run(["magick", intermediate, "-background", "white", "-alpha", "remove", "-alpha", "off", "-quality", String(QUALITY.jpg), "-sampling-factor", "4:2:0", "-interlace", "Plane", "-strip", `jpg:${temporary}`]);
     else await run(["magick", intermediate, "-strip", "-define", "png:compression-level=9", `png:${temporary}`]);
@@ -143,7 +145,7 @@ async function encodeImage(intermediate: string, format: ImageFormat, target: st
 }
 
 async function buildImage(name: string, file: string): Promise<ImageEntry> {
-  const sha = (await sha256(file)).slice(0, 8);
+  const sha = (await sha256(file, "image")).slice(0, 8);
   const meta = await probe(file);
   const alpha = /a(?:\d|p|$)|ya|pal8|rgba|bgra|argb/.test(meta.pixFmt) && meta.pixFmt !== "";
   const fallback: ImageEntry["fallback"] = alpha ? "png" : "jpg";
@@ -164,7 +166,7 @@ async function buildImage(name: string, file: string): Promise<ImageEntry> {
     await run(["vips", "thumbnail", file, `${intermediate}[compression=1]`, String(rung.width), "--height", String(rung.height), "--size", "down", "--export-profile", "srgb"]);
     for (const format of ["avif", "webp", fallback] as ImageFormat[]) {
       const target = tree(imageVariantKey(name, sha, rung.variant, format));
-      await encodeImage(intermediate, format, target);
+      await encodeImage(intermediate, format, alpha, target);
       bytes[`${rung.variant}.${format}`] = (await stat(target)).size;
     }
     await rm(intermediate, { force: true });
@@ -200,7 +202,7 @@ function encoderArgs(codec: Codec): string[] {
 }
 
 async function buildVideo(name: string, file: string): Promise<{ entry: VideoEntry; poster?: { name: string; file: string } }> {
-  const sha = (await sha256(file)).slice(0, 8);
+  const sha = (await sha256(file, "video")).slice(0, 8);
   const meta = await probe(file);
   const files: VideoFile[] = [];
   const rungs: { width: number; density: number; codec: Codec }[] = [];

@@ -45,6 +45,12 @@ export const SIZE_MAX = 4096;
 export const QUALITY_MIN = 30;
 export const QUALITY_MAX = 95;
 
+/**
+ * Revision of the encoder settings, mixed into the content hash of a source. A change of settings (quality, subsampling, codec flags)
+ * bumps its revision, so the new bytes get new immutable URLs and the pinned URLs of the old ones keep their old bytes.
+ */
+export const PIPELINE = { image: "2", video: "1" } as const;
+
 export class GrammarError extends Error {}
 
 export interface ImageRequest {
