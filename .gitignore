@@ -39,3 +39,6 @@ cloudflare/.wrangler/
 
 # Package manager installs
 node_modules/
+
+# tools/material-cdn work directories
+.cache/

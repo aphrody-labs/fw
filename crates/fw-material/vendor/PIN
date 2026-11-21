@@ -1,0 +1,4 @@
+# Written by tools/material-cdn/pin.ts. build.rs verifies the CDN tarball against sha256 before using it.
+version = "2026.1023.4332"
+sha256 = "6bb7b59dcd7b4d54d7c43eb1788ed25fce6971fe4c5775ac3acbb5a12d00bd5e"
+base = "https://material.aphrody.com/v1"

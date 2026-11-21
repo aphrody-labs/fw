@@ -324,7 +324,7 @@ repo = "google/material-design-icons"
 branch = "master"
 docs = "https://fonts.google.com/icons"
 fw = "crates/fw-proto/ui"
-role = "Material Symbols paths for the UI sprite and Figma icon components"
+role = "Material Symbols: source of the material.aphrody.com icon CDN (tools/material-cdn), the fw-material constants and the UI sprite; fork aphrody-labs/material-design-icons"
 watch = true
 
 [[upstream]]
@@ -333,7 +333,16 @@ repo = "googlefonts/googlesans-flex"
 branch = "main"
 docs = "https://fonts.google.com/specimen/Google+Sans+Flex"
 fw = "crates/fw-m3"
-role = "Google Sans Flex variable axes (opsz, wght, wdth, ROND, GRAD, slnt) behind the type scale"
+role = "Google Sans Flex variable axes (opsz, wght, wdth, ROND, GRAD, slnt) behind the type scale; WOFF2 subsets served by material.aphrody.com (tools/material-cdn); fork aphrody-labs/googlesans-flex"
+watch = true
+
+[[upstream]]
+id = "googlesans-code"
+repo = "googlefonts/googlesans-code"
+branch = "main"
+docs = "https://fonts.google.com/specimen/Google+Sans+Code"
+fw = "crates/fw-proto/ui"
+role = "Google Sans Code monospace (MONO, wght) for code blocks in the fw web UI; WOFF2 subsets served by material.aphrody.com (tools/material-cdn); fork aphrody-labs/googlesans-code"
 watch = true
 
 [[upstream]]

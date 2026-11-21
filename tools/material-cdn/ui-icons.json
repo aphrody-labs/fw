@@ -1,0 +1,22 @@
+{
+  "style": "rounded",
+  "fill": true,
+  "icons": {
+    "i-add": "add",
+    "i-chat": "chat",
+    "i-build": "build",
+    "i-memory": "memory",
+    "i-dns": "dns",
+    "i-send": "send",
+    "i-stop": "stop",
+    "i-menu": "menu",
+    "i-delete": "delete",
+    "i-copy": "content_copy",
+    "i-refresh": "refresh",
+    "i-tune": "tune",
+    "i-dark": "dark_mode",
+    "i-play": "play_arrow",
+    "i-search": "search",
+    "i-close": "close"
+  }
+}

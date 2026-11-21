@@ -96,12 +96,12 @@ fn reason(status: u16) -> &'static str {
     }
 }
 
-/// The UI loads Google Sans Flex from Google Fonts; everything else is same-origin.
+/// The UI loads its fonts (Google Sans Flex and Code, tools/material-cdn) from the Aphrody CDN; everything else is same-origin.
 fn content_security_policy(path: &str) -> &'static str {
     if path == "/webgpu" {
         "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'"
     } else {
-        "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:"
+        "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://material.aphrody.com; font-src 'self' https://material.aphrody.com; img-src 'self' data:"
     }
 }
 
