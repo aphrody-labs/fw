@@ -1,0 +1,77 @@
+{
+  "synced_at": "2026-11-21T12:11:24.493216+00:00",
+  "repos": [
+    {
+      "repo": "HKUDS/CLI-Anything",
+      "stars": 61728,
+      "pushed_at": "2026-11-20T10:05:15Z",
+      "head_sha": "34f519533b",
+      "head_message": "Merge pull request #481 from HKUDS/chaohuang-ai-patch-6",
+      "latest_release": "v0.4.0"
+    },
+    {
+      "repo": "affaan-m/ECC",
+      "stars": 308083,
+      "pushed_at": "2026-11-20T01:13:45Z",
+      "head_sha": "4adeee6732",
+      "head_message": "Merge pull request #4052 from affaan-m/repair/combined-postmerge-20261119",
+      "latest_release": "v2.2.3"
+    },
+    {
+      "repo": "thedotmack/claude-mem",
+      "stars": 118751,
+      "pushed_at": "2026-11-21T03:04:47Z",
+      "head_sha": "f1bb834527",
+      "head_message": "fix(agent-runner): run the My Work OpenCode step on OpenCode 2.x (#6361)",
+      "latest_release": "v16.0.2"
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "stars": 108964,
+      "pushed_at": "2026-11-21T01:19:21Z",
+      "head_sha": "eecccfcd5a",
+      "head_message": "fix(cli): resume most recently active session instead of most recently started (#30389)",
+      "latest_release": "v0.71.0-nightly.20261121.geecccfcd5"
+    },
+    {
+      "repo": "googleapis/python-genai",
+      "stars": 4084,
+      "pushed_at": "2026-11-21T00:14:27Z",
+      "head_sha": "68fe6c5634",
+      "head_message": "test: fix Interactions sample runners and harden Decisions tests",
+      "latest_release": "v3.6.1"
+    },
+    {
+      "repo": "googleapis/js-genai",
+      "stars": 1715,
+      "pushed_at": "2026-11-21T00:13:48Z",
+      "head_sha": "4013660c2f",
+      "head_message": "test: fix Interactions sample runners and harden Decisions tests",
+      "latest_release": "v3.6.1"
+    },
+    {
+      "repo": "google/adk-python",
+      "stars": 22292,
+      "pushed_at": "2026-11-21T07:54:49Z",
+      "head_sha": "2b90353cd2",
+      "head_message": "docs: fix the threat model image path in SECURITY.md",
+      "latest_release": "v2.15.0"
+    },
+    {
+      "repo": "google-deepmind/gemma",
+      "stars": 5866,
+      "pushed_at": "2026-11-19T10:01:48Z",
+      "head_sha": "9e1f74131b",
+      "head_message": "Insert type error suppressions necessary for Pyrefly",
+      "latest_release": "v4.0.1"
+    },
+    {
+      "repo": "a2aproject/A2A",
+      "stars": 26619,
+      "pushed_at": "2026-11-20T12:53:38Z",
+      "head_sha": "5f931b8a25",
+      "head_message": "docs: fix dead partner link (#2478)",
+      "latest_release": "v1.0.1"
+    }
+  ]
+}
