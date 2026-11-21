@@ -51,7 +51,6 @@ all = { level = "deny", priority = -1 }
 opt-level = "s"
 lto = true
 codegen-units = 1
-strip = true
 
 # Native unit tests run the Durable Object SQL (VFS, Gatekeeper, learn log) on real SQLite.
 [target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]

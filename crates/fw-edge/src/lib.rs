@@ -9,6 +9,7 @@ use worker::{Context, Env, Request, Response, Result, event};
 pub mod access;
 pub mod ai;
 pub mod drive_cdn;
+pub mod files;
 pub mod os;
 pub mod proto;
 
@@ -17,6 +18,9 @@ async fn fetch(req: Request, env: Env, ctx: Context) -> Result<Response> {
     let path = req.path();
     if path == "/drive" || path.starts_with("/drive/") {
         return drive_cdn::handle(req, env, ctx).await;
+    }
+    if path == "/files" || path.starts_with("/files/") {
+        return files::handle(req, env, ctx).await;
     }
     proto::route(req, env, ctx).await
 }
