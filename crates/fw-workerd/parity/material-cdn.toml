@@ -1,0 +1,96 @@
+# Differential parity of material.aphrody.com (cloud) and the self-hosted workerd mode: same requests, same bytes.
+# accept-encoding is pinned to identity because Cloudflare compresses at its edge and workerd does not.
+name = "material-cdn"
+
+[headers]
+accept-encoding = "identity"
+user-agent = "fw-workerd-parity/1"
+
+[[request]]
+id = "index"
+path = "/v1/"
+
+[[request]]
+id = "meta"
+path = "/v1/meta.json"
+
+[[request]]
+id = "catalogue"
+path = "/v1/index.json"
+
+[[request]]
+id = "static-css"
+path = "/v1/fonts/material-symbols.css"
+
+[[request]]
+id = "tokens-css"
+path = "/v1/tokens/m3.css"
+
+[[request]]
+id = "icon-svg"
+path = "/v1/icons/outlined/home.svg"
+
+[[request]]
+id = "sprite"
+path = "/v1/sprites/outlined.svg"
+
+[[request]]
+id = "variable-font"
+path = "/v1/fonts/material-symbols-outlined/variable.3ae08513.woff2"
+
+[[request]]
+id = "range"
+path = "/v1/fonts/material-symbols-outlined/variable.3ae08513.woff2"
+headers = { range = "bytes=0-1023" }
+
+[[request]]
+id = "head"
+method = "HEAD"
+path = "/v1/meta.json"
+
+[[request]]
+id = "pin-matches"
+path = "/v1/icons/outlined/home.svg?v=ce892a00"
+
+[[request]]
+id = "pin-stale"
+path = "/v1/icons/outlined/home.svg?v=00000000"
+
+[[request]]
+id = "missing"
+path = "/v1/does-not-exist.json"
+
+[[request]]
+id = "cors-preflight"
+method = "OPTIONS"
+path = "/v1/icons.svg"
+headers = { origin = "https://aphrody.com", "access-control-request-method" = "GET" }
+
+# Generated outputs: the first answer is built by the wasm subsetter, later ones come from R2 or the Cache API; only the source may differ.
+[[request]]
+id = "generated-sprite"
+path = "/v1/icons.svg?icons=home,search&style=rounded&fill=0..1&wght=400"
+allow_values = { x-material-source = ["built", "r2", "edge-cache"] }
+
+[[request]]
+id = "generated-sprite-again"
+path = "/v1/icons.svg?icons=home,search&style=rounded&fill=0..1&wght=400"
+allow_values = { x-material-source = ["built", "r2", "edge-cache"] }
+
+[[request]]
+id = "generated-icon-font"
+path = "/v1/icons.woff2?icons=home,search&wght=400&fill=0&grad=0&opsz=24"
+allow_values = { x-material-source = ["built", "r2", "edge-cache"] }
+
+[[request]]
+id = "generated-text-font"
+path = "/v1/fonts/google-sans-flex.woff2?text=Aphrody&wght=400..700"
+allow_values = { x-material-source = ["built", "r2", "edge-cache"] }
+
+[[request]]
+id = "generated-post"
+method = "POST"
+path = "/v1/icons.json"
+headers = { content-type = "application/json" }
+body = '{"icons":["home","search"],"style":"outlined","wght":400}'
+allow_values = { x-material-source = ["built", "r2", "edge-cache"] }

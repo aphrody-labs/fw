@@ -45,6 +45,7 @@ members = [
     "crates/fw-depot",
     "crates/fw-crates",
     "crates/fw-linux",
+    "crates/fw-workerd",
     "crates/fw-bin",
     "xtask",
     "aphrody/crates/refineable/derive_refineable",

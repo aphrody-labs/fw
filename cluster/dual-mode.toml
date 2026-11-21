@@ -1,0 +1,32 @@
+# The self-hosted mode of the Cloudflare services (read by crates/fw-workerd). Hosts, users and work directories come from cluster/build.toml;
+# nothing here names an address. Each service listens on loopback; the fleet ingress decides what faces the network.
+
+[workerd]
+package = "@cloudflare/workerd-linux-64"
+version = "1.20261121.1"
+
+# A second Garage next to the shenron-cdn one: single node, replication factor 1, its own ports and directories under <work>/edge.
+# R2 objects of every service live in the one bucket `r2_bucket`, as <r2 bucket>/<key>.
+[garage]
+binary = "/usr/local/bin/garage"
+region = "garage"
+s3_port = 3910
+rpc_port = 3912
+admin_port = 3913
+r2_bucket = "fw-edge-r2"
+
+[[service]]
+name = "material-cdn"
+wrangler = "cloudflare/material-cdn/wrangler.jsonc"
+port = 8811
+hosts = ["fr1", "prd"]
+cloud_url = "https://material.aphrody.com"
+secrets = []
+
+# A probe Worker with every binding the compiler wires (`fw-workerd probe --out target/fw-probe`); no cloud twin, so it is not on any host.
+[[service]]
+name = "fw-probe"
+wrangler = "target/fw-probe/wrangler.jsonc"
+port = 8899
+hosts = []
+secrets = []
