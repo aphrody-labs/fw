@@ -75,6 +75,8 @@ jobs:
           echo "AY_CLANG=$HOME/llvm/bin/clang" >> "$GITHUB_ENV"
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
+      # services/wasm.ts imports target/edge-wasm/registry.ts; generate it before the tests load that module.
+      - run: bun tools/edge-wasm.ts
       - run: bun run check
 
   rust:
