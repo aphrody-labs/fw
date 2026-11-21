@@ -66,6 +66,8 @@ interface Variant {
   fill: boolean;
   svg: string;
   d: string;
+  /** Drawn from the variable font, not shipped by upstream. */
+  drawn?: boolean;
 }
 // name -> style -> variants
 const icons = new Map<string, Map<string, Variant[]>>();
@@ -162,6 +164,43 @@ await pool(names, 48, async (name) => {
   }
 });
 
+// Icons with no static SVG upstream under any of their names (the codepoint has no file): drawn from the variable font at opsz 24, GRAD 0,
+// every weight and both fills (glyphs.py), under every name of the codepoint, so each sprite and single-icon request finds them.
+const codepoints = new Map<string, number>();
+for (const style of STYLES) {
+  const file = join(iconsRoot, "variablefont", `MaterialSymbols${style[0]!.toUpperCase()}${style.slice(1)}[FILL,GRAD,opsz,wght].codepoints`);
+  for (const line of (await readFile(file, "utf8")).split("\n")) {
+    const [n, hex] = line.trim().split(/\s+/);
+    if (n && hex) codepoints.set(n, parseInt(hex, 16));
+  }
+}
+let drawnIcons = 0;
+for (const style of STYLES) {
+  const namesOf = new Map<number, string[]>();
+  for (const [name, cp] of codepoints) namesOf.set(cp, [...(namesOf.get(cp) ?? []), name]);
+  const missing = [...namesOf].filter(([, names]) => !names.some((n) => icons.get(n)?.has(style)));
+  if (!missing.length) continue;
+  const tmp = join(work, `glyphs-${style}.json`);
+  const ttf = join(iconsRoot, "variablefont", `MaterialSymbols${style[0]!.toUpperCase()}${style.slice(1)}[FILL,GRAD,opsz,wght].ttf`);
+  await run(["uv", "run", "--quiet", "--with", "fonttools==4.68.0", join(tool, "glyphs.py"), ttf, tmp, missing.map(([cp]) => cp.toString(16)).join(",")]);
+  const drawn = JSON.parse(await readFile(tmp, "utf8")) as Record<string, Record<string, Record<string, string>>>;
+  for (const [cp, names] of missing) {
+    for (const name of names) {
+      const variants: Variant[] = [];
+      for (const weight of WEIGHTS) {
+        for (const fill of [0, 1]) {
+          const d = drawn[String(cp)]![String(weight)]![String(fill)]!;
+          variants.push({ weight, fill: fill === 1, d, drawn: true, svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VIEWBOX}" fill="currentColor"><path d="${d}"/></svg>` });
+        }
+      }
+      if (!icons.has(name)) icons.set(name, new Map());
+      icons.get(name)!.set(style, variants);
+      drawnIcons++;
+    }
+  }
+}
+console.log(`icons drawn from the variable fonts (no upstream SVG): ${drawnIcons} names x ${STYLES.length} styles`);
+
 const rel = (v: Variant, name: string) => `${v.weight === 400 ? "" : `w${v.weight}/`}${name}${v.fill ? "-fill" : ""}.svg`;
 const writes: [string, string][] = [];
 for (const [name, byStyle] of icons) {
@@ -208,14 +247,6 @@ for (const style of STYLES) {
 }
 
 // ---------------------------------------------------------------- codepoints and metadata
-const codepoints = new Map<string, number>();
-for (const style of STYLES) {
-  const file = join(iconsRoot, "variablefont", `MaterialSymbols${style[0]!.toUpperCase()}${style.slice(1)}[FILL,GRAD,opsz,wght].codepoints`);
-  for (const line of (await readFile(file, "utf8")).split("\n")) {
-    const [n, hex] = line.trim().split(/\s+/);
-    if (n && hex) codepoints.set(n, parseInt(hex, 16));
-  }
-}
 interface Meta {
   name: string;
   popularity?: number;
@@ -357,7 +388,8 @@ const tableFor = (style: string, fill: boolean) => {
   const rows: [string, string][] = [];
   for (const name of icons.keys()) {
     const v = get(name, style, fill);
-    if (v) rows.push([name, v.d]);
+    // The crate stays the upstream data set: drawn icons are served by the CDN only.
+    if (v && !v.drawn) rows.push([name, v.d]);
   }
   sorted(rows, (r) => r[0]);
   return `&[\n${rows.map(([n, d]) => `(${rs(n)},${rs(d)}),`).join("\n")}\n]`;
