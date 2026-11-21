@@ -102,6 +102,9 @@ pub fn run(org: &Org, live: &Live, plan: &Plan, identity: &Identity) -> Vec<Find
         }
     }
 
+    for (what, reason) in &live.refused {
+        findings.push(finding("read-refused", what.clone(), reason.clone(), false));
+    }
     if let Some(reason) = &live.packages_refused {
         findings.push(finding("packages-unreadable", org.org.name.clone(), format!("packages cannot be listed ({reason}); the token needs the read:packages scope"), false));
     }
