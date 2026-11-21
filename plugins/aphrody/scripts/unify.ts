@@ -406,7 +406,7 @@ if (config.native.rewrite && !args.has("--no-native")) {
 }
 
 // ---- version stamp, lock, report -----------------------------------------------------------------------------------
-const hashed = ["skills", "agents", "hooks", "mcp", "lib", "output-styles", "licenses", "rules"];
+const hashed = ["skills", "agents", "hooks", "mcp", "lib", "output-styles", "licenses"];
 const contentHasher = new Bun.CryptoHasher("sha256");
 for (const dir of hashed) contentHasher.update(await treeHash(join(ROOT, dir)).catch(() => ""));
 for (const file of [".lsp.json", ".claude-plugin/mcp.json", ".claude-plugin/hooks.json"]) {
