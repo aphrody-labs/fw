@@ -112,7 +112,7 @@ pub fn sync_docs(client: &Client, store: &mut Store, spec: &Github, opts: &Opts)
             }
         }
         let mut failures = Vec::new();
-        let mut docs = Vec::new();
+        let mut write_error: Option<anyhow::Error> = None;
         pipeline(
             jobs,
             opts.threads,
@@ -121,18 +121,28 @@ pub fn sync_docs(client: &Client, store: &mut Store, spec: &Github, opts: &Opts)
                 Some((url, path, sha, raw))
             },
             |(url, path, sha, raw)| match raw {
-                Ok(response) if response.status == 200 => docs.push((url, path, sha, response.text())),
+                Ok(response) if response.status == 200 => {
+                    let text = response.text();
+                    let title = chunk::front_title(&text).unwrap_or_else(|| humanize(&path));
+                    let chunks = chunk::markdown(&title, &text, 3000);
+                    let origin = format!("https://github.com/{}/blob/{commit}/{path}", repo.repo);
+                    let doc = DocInput { url: &url, title: &title, rev: &sha, kind: "file", origin: &origin, license: repo.license, bytes: text.len() };
+                    match store.put(&doc, &chunks) {
+                        Ok(()) => {
+                            report.fetched += 1;
+                            report.bytes += text.len();
+                        }
+                        Err(error) => {
+                        write_error.get_or_insert(error);
+                    }
+                    }
+                }
                 Ok(response) => failures.push(format!("{path}: HTTP {}", response.status)),
                 Err(error) => failures.push(format!("{path}: {error:#}")),
             },
         );
-        for (url, path, sha, text) in docs {
-            let title = chunk::front_title(&text).unwrap_or_else(|| humanize(&path));
-            let chunks = chunk::markdown(&title, &text, 3000);
-            let origin = format!("https://github.com/{}/blob/{commit}/{path}", repo.repo);
-            store.put(&DocInput { url: &url, title: &title, rev: &sha, kind: "file", origin: &origin, license: repo.license, bytes: text.len() }, &chunks)?;
-            report.fetched += 1;
-            report.bytes += text.len();
+        if let Some(error) = write_error {
+            return Err(error);
         }
         eprintln!("{}: {} done at {}, {} failed", spec.id, repo.repo, &commit[..12], failures.len());
         report.failed += failures.len();
