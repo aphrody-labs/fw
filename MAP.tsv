@@ -1,24 +1,25 @@
 dir	tier	files	bytes	gate
-(root)	misc	37	1251788	just ci
+(root)	misc	40	1272298	just ci
 .agents	misc	3	3708	just ci
 .cargo	misc	1	1898	just ci
 .claude-plugin	misc	1	831	just ci
-.github	misc	23	88765	just ci
-aphrody	misc	9752	158167078	just ci
-apps	misc	55	266810	just ci
-ay	misc	1787	31607583	just ci
-cloudflare	edge-worker	30	860783	bun run cf:dry-run
-cluster	topology-spec	5	9322	bun test tests/fw_v3_cluster_webgpu.test.ts
-configs	misc	57	348632	just ci
+.github	misc	40	148705	just ci
+aphrody	misc	9741	158108493	just ci
+apps	misc	570	1820237	just ci
+ay	misc	1779	31572876	just ci
+cloudflare	edge-worker	43	905974	bun run cf:dry-run
+cluster	topology-spec	10	52210	bun test tests/fw_v3_cluster_webgpu.test.ts
+configs	misc	59	397621	just ci
 configs/heretic	heretic-presets	8	31105	uvx ruff check .
 core	misc	11	8747	just ci
-core/py	python-core	8	102116	uvx ruff check .
+core/py	python-core	8	101788	uvx ruff check .
 cpp	misc	4	3897	just ci
 crates/fw-a2a	rust-core	84	1030247	cargo test --workspace
 crates/fw-agent	rust-core	92	875214	cargo test --workspace
 crates/fw-agent-context	rust-core	6	13303	cargo test --workspace
+crates/fw-android	rust-core	49	431463	cargo test --workspace
 crates/fw-apm	rust-core	9	125272	cargo test --workspace
-crates/fw-bin	rust-core	14	263317	cargo build --release -p fw-bin --bin fw
+crates/fw-bin	rust-core	14	249404	cargo build --release -p fw-bin --bin fw
 crates/fw-browser-browse	rust-core	2	20756	cargo test --workspace
 crates/fw-browser-chromium	rust-core	10	72671	cargo test --workspace
 crates/fw-browser-detect	rust-core	7	47299	cargo test --workspace
@@ -28,25 +29,24 @@ crates/fw-browser-index	rust-core	18	157228	cargo test --workspace
 crates/fw-browser-views	rust-core	2	16765	cargo test --workspace
 crates/fw-browser-vpn	rust-core	2	24568	cargo test --workspace
 crates/fw-chrome	rust-core	3	16348	cargo test --workspace
-crates/fw-cluster	rust-core	5	53916	cargo test --workspace
-crates/fw-estate	rust-core	8	73444	cargo test --workspace
-crates/fw-toolchain	rust-core	5	24000	cargo test --workspace
-crates/fw-compute	rust-core	3	26277	cargo test --workspace
+crates/fw-cluster	rust-core	5	55425	cargo test --workspace
+crates/fw-compute	rust-core	4	90435	cargo test --workspace
 crates/fw-config	rust-core	33	175833	cargo test --workspace
-crates/fw-corpus	rust-core	14	112900	cargo test --workspace
+crates/fw-corpus	rust-core	14	121881	cargo test --workspace
 crates/fw-crates	rust-core	28	155267	cargo test --workspace
 crates/fw-depot	rust-core	23	334913	cargo test --workspace
 crates/fw-drive	rust-core	16	512988	cargo test --workspace
-crates/fw-edge	rust-core	25	422908	cargo test --workspace
+crates/fw-edge	rust-core	25	422607	cargo test --workspace
+crates/fw-estate	rust-core	9	87591	cargo test --workspace
 crates/fw-files	rust-core	13	99293	cargo test --workspace
 crates/fw-fx	rust-core	14	139041	cargo test --workspace
 crates/fw-gemini	rust-core	44	421620	cargo test --workspace
-crates/fw-ggml	rust-core	4	37486	cargo test --workspace
+crates/fw-ggml	rust-core	4	38091	cargo test --workspace
 crates/fw-google	rust-core	27	92944	cargo test --workspace
-crates/fw-hermes-claw	rust-core	2	30933	cargo test --workspace
+crates/fw-hermes-claw	rust-core	2	30190	cargo test --workspace
 crates/fw-http	rust-core	14	85244	cargo test --workspace
-crates/fw-learn	rust-core	14	127697	cargo test --workspace
-crates/fw-linux	rust-core	38	223526	cargo test --workspace
+crates/fw-learn	rust-core	14	129286	cargo test --workspace
+crates/fw-linux	rust-core	38	224956	cargo test --workspace
 crates/fw-llama	rust-core	50	628324	cargo test --workspace
 crates/fw-llama-sys	rust-core	16	321801	cargo test --workspace
 crates/fw-m3	rust-core	6	65436	cargo test --workspace
@@ -54,22 +54,27 @@ crates/fw-material	rust-core	10	3266510	cargo test --workspace
 crates/fw-ml	rust-core	34	217611	cargo test --workspace
 crates/fw-model	rust-core	74	1155569	cargo test --workspace
 crates/fw-nix	rust-core	2	4364	cargo test --workspace
-crates/fw-ostd-wasm	rust-core	2	6451	cargo test --workspace
+crates/fw-org	rust-core	8	62601	cargo test --workspace
+crates/fw-ostd-wasm	rust-core	2	6109	cargo test --workspace
 crates/fw-proc	rust-core	13	74536	cargo test --workspace
-crates/fw-proto	rust-core	19	270265	cargo test --workspace
+crates/fw-proto	rust-core	19	270780	cargo test --workspace
 crates/fw-rag	rust-core	137	1266674	cargo test --workspace
 crates/fw-rag-core	rust-core	25	270466	cargo test --workspace
 crates/fw-ring3-agent	rust-core	15	96863	cargo test --workspace
 crates/fw-secrets	rust-core	5	42443	cargo test --workspace
+crates/fw-site	rust-core	6	128519	cargo test --workspace
+crates/fw-theme	rust-core	24	109183	cargo test --workspace
 crates/fw-toolcall	rust-core	123	321489	cargo test --workspace
+crates/fw-toolchain	rust-core	6	28934	cargo test --workspace
 crates/fw-translate-core	rust-core	7	40776	cargo test --workspace
-crates/fw-ui-blitz	rust-core	2	5923	cargo test --workspace
+crates/fw-ui-blitz	rust-core	2	7405	cargo test --workspace
 crates/fw-unified-stack	rust-core	2	6818	cargo test --workspace
 crates/fw-uutils	rust-core	5	53053	cargo test --workspace
 crates/fw-video	rust-core	4	31587	cargo test --workspace
 crates/fw-wasm	rust-wasm	2	3165	cargo build --release --target wasm32-unknown-unknown -p fw-wasm
 crates/fw-wayland-wgpu	rust-core	6	38361	cargo test --workspace
-docs	architecture-docs	280	5678418	read-only
+crates/fw-workerd	rust-core	11	91105	cargo test --workspace
+docs	architecture-docs	315	6023050	read-only
 dotnet	misc	6	13153	just ci
 kotlin	misc	22	124281	just ci
 native	rust-ffi-abi	13	109219	cargo test --manifest-path native/fw-abi/Cargo.toml
@@ -77,11 +82,12 @@ nix	nix-fleet	5	8101	bun test tests/fw_v4_os_uutils_nix.test.ts
 os	misc	14	303543	just ci
 os/fw-os	asterinas-osdk	6	4442	bun test tests/fw_v4_os_uutils_nix.test.ts
 os/fw-wsl	wsl-zero-legacy	8	9830	bun test tests/fw_v4_os_uutils_nix.test.ts
-packages	misc	593	15450399	just ci
-plugins	claude-plugin	2493	68959667	dist/fw-plugin.exe plugin sync --install
+packages	misc	594	15452907	just ci
+plugins	claude-plugin	2501	69000913	dist/fw-plugin.exe plugin sync --install
 python	misc	12	37114	just ci
-src	bun-cli-aot	20	222484	bun test
-tests	e2e-tests	16	153069	bun test
-tools	misc	60	497735	just ci
+src	bun-cli-aot	20	223967	bun test
+tests	e2e-tests	16	154272	bun test
+themes	misc	11	7904	just ci
+tools	misc	71	578829	just ci
 vercel	edge-vercel	2	1886	bun test tests/fw_decisions_vercel.test.ts
-xtask	rust-xtask	2	18280	cargo xtask purity
+xtask	rust-xtask	2	18477	cargo xtask purity
