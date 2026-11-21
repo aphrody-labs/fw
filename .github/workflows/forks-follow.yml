@@ -1,0 +1,41 @@
+name: Forks follow upstream
+
+# Every non-archived fork of the organisation follows its upstream every hour (tools/forks-follow.ts): Bun, wgpu, the
+# Cloudflare forks (workerd, workers-rs, workers-sdk, pingora, ...), and every other pinned upstream. Forks with their own
+# conflict resolver (aphrody for Zed) are still fast-forwarded here when they merge cleanly; conflicts go to one issue.
+on:
+  schedule:
+    - cron: "41 * * * *"
+  workflow_dispatch:
+    inputs:
+      only:
+        description: Comma-separated fork names (default every fork)
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: forks-follow
+  cancel-in-progress: false
+
+jobs:
+  follow:
+    runs-on: fr1
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.APHRODY_APP_CLIENT_ID }}
+          private-key: ${{ secrets.APHRODY_APP_KEY }}
+          owner: ${{ github.repository_owner }}
+      - name: Merge every fork's upstream
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          ONLY: ${{ inputs.only }}
+        run: bun tools/forks-follow.ts ${ONLY:+--only "$ONLY"}
