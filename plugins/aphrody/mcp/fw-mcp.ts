@@ -1,13 +1,15 @@
 #!/usr/bin/env bun
 import { existsSync } from "node:fs";
+import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 
 function resolveFwRoot(): string {
   const candidates = [
     process.env.FW_ROOT,
     process.env.FAIRWIND_ROOT, // legacy fallback for units installed before the rename
-    resolve(dirname(import.meta.path), "..", ".."),
-    "C:\\src\\fw",
+    resolve(dirname(import.meta.path), "..", "..", ".."),
+    process.env.WORKSPACE_ROOT ? join(process.env.WORKSPACE_ROOT, "fw") : undefined,
+    join(homedir(), "src", "fw"),
     process.cwd(),
   ].filter((v): v is string => Boolean(v));
   for (const dir of candidates) {

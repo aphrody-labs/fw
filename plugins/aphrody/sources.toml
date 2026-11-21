@@ -110,6 +110,13 @@ skills = ["skills/agent-desktop*/SKILL.md"]
 default_family = "agent-desktop"
 
 [[source]]
+id = "ui-ux-pro-max"
+git = "nextlevelbuilder/ui-ux-pro-max-skill"
+ref = "main"
+license = "MIT"
+skills = [".claude/skills/ui-ux-pro-max/SKILL.md"]
+
+[[source]]
 id = "3dviz-pro-max"
 git = "viettranx/3dviz-pro-max"
 ref = "main"

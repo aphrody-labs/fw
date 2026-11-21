@@ -57,7 +57,7 @@
     "modern-web": {
       "git": "local:plugins/modern-web",
       "ref": "",
-      "commit": "09f6c911bbe0",
+      "commit": "ca42b50121e8",
       "license": "Apache-2.0"
     },
     "stitch-skills": {
@@ -65,6 +65,12 @@
       "ref": "main",
       "commit": "62fdcd679747aca0792e5dd6591b10ddfad56825",
       "license": "Apache-2.0"
+    },
+    "ui-ux-pro-max": {
+      "git": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "ref": "main",
+      "commit": "2de1134dc4d1cfe112934611ae5803ae17a1bd7e",
+      "license": "MIT"
     }
   },
   "managed": {
@@ -74,19 +80,20 @@
       "android": "9662d108fa47594682be594122d1f5013f01a612e9e0a85fadb514b2d2ba7c49",
       "android-ai": "be173f352e12a31c06060044ab4c1752fe7d7787555dab007c10cf7c76cc5fe8",
       "android-compose": "fb1eec7b5b3bb82e65c9b4e9a82d6fde92b920697b31bca295a99a3ef01e286b",
-      "bun-reference": "273a2f2983214dc1abfbf9f716016d8a271144c1dc3b59d42baaebc9e0065fb8",
-      "chrome-extensions": "dc4371360401db1ceb6dda5d5a0ffb5fc291e5743725d42732c4ff6cdc84ee48",
+      "bun-reference": "962e01f9102d1d9f034da0320d219db198edf073c58fbe90be9c5eaaef70c810",
+      "chrome-extensions": "96465fd68bbde72672505fce5f3da397e2b159487003b99b4cc7e97f085f7ee6",
       "claude-md": "7f5851622f7771b7f90d6dad5bf9589cf7a04134fa9fe1b5a6e03c8ccc8b682d",
       "gemini-api": "4ccda12ed0eed74b367e3e2696dd45c9bc0dec652989e6cb351352ef063b8bb0",
       "huggingface": "95480af9ea62666207f719b41de99ab4d67c926d70a9793d0531c21fb98d0b12",
       "huggingface-sagemaker": "cd6ce0dde056d98802db77a67a73ffddde107f54e40edad66e1893d6fa853d9a",
-      "modern-web-guidance": "ca1de5237099160f0bdb36d54859dbb87b7a850354f4f5f953bc2372703e230b",
+      "modern-web-guidance": "e4c6854ea4c83ac6017107a55bd15f88c69c01b7c0af8dad692be5b74f3808bc",
       "modernize": "863dfd3942e7f136d215380a8ed5e732608acc031ab095c3b21bd6d5ff062cd6",
       "refactor": "623bbce2f1157dbff75bf640294a79bd63114dc38834a088fd5226807de36983",
       "stitch": "542212085dfc12d82b74eafaa4f194401498bcf78a7c9b8a32fc59e4e85e9d2c",
-      "web-specs": "2e7e6c27b9c7bc82e83d93a7628dfdeaf0c54ac632fb826cb3bba45859481ca7",
-      "webassembly-spec": "2ff4cd204717906d3bda0cd718f068c436c8c8e1f595c1cafc0fa34eeee2360c",
-      "webgpu-spec": "4ccc115465ad4a95156dadba21a7cce2735ec1c57cf4f9be3bb9deaf370c562c"
+      "ui-ux-pro-max": "c6ca08b35a2ef875c0b28cfa36847233ade78f72379c21eea65acdf0a9ac5e5d",
+      "web-specs": "01e498faef8818af45c9c666349836ed9ad394c1df5864c3848759f59e457144",
+      "webassembly-spec": "067efdef1073fecd8e839dca549ba4884f5810b867825962cb85cd205188fd2a",
+      "webgpu-spec": "257f5bba020517786e11202730582b45e9c67437c9565560ab69d05cc438bf54"
     },
     "agents": [
       "architecture-critic.md",

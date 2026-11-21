@@ -80,19 +80,12 @@
   },
   "enableArtifact": false,
   "enabledPlugins": {
-    "fw@fw": true,
     "aphrody@fw": true,
-    "bun@fw": true,
     "example-skills@anthropic-agent-skills": false,
-    "claude-md-management@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "csharp-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "code-modernization@anthropic-plugin-directory": true,
-    "api-doc-generator-openapi-from-your-code@anthropic-plugin-directory": false,
-    "deep-refactor@anthropic-plugin-directory": true,
-    "kotlin-lsp@claude-plugins-official": false,
-    "huggingface-skills@anthropic-plugin-directory": true
+    "api-doc-generator-openapi-from-your-code@anthropic-plugin-directory": false
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
