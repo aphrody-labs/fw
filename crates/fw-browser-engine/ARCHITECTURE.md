@@ -1,9 +1,8 @@
 # Architecture
 
 One runtime, many engines. Bun, our fork, is the embedder: it owns the process, the event loop, the JavaScript host and
-`Bun.WebView`, and it can switch the engine underneath a page. The engines are the ones that matter in 2026:
-WebKit with JavaScriptCore, Blink with V8, Skia and Dawn, and the Rust ones, Blitz, Servo and Obscura, with the experimental
-Rust ecosystem (Boa, Nova, Ladybird) followed upstream.
+`Bun.WebView`, and it can switch the engine underneath a page. The engines: WebKit with JavaScriptCore, Blink with V8, Skia and Dawn, and the Rust ones, Blitz, Servo, Obscura and Kitesurf;
+Boa, Nova and Ladybird are followed upstream.
 
 ```
  agent / Playwright / Puppeteer / DevTools frontend / Bun.WebView
@@ -26,9 +25,9 @@ Rust ecosystem (Boa, Nova, Ladybird) followed upstream.
 | `webkit` | JavaScriptCore | WebCore | WebKit, system GPU layer | none (WKWebView) | Bun's native engine (`Bun.WebView`, macOS) |
 | `blink` | V8 | Blink (LayoutNG) | Skia, Dawn (WebGPU) | CDP, full | Chromium checkout, `//headless:headless_shell` (`build/engines`) |
 | `blitz` | none: the host runs the script | Stylo, Taffy, Parley | Vello on wgpu | none | `DioxusLabs/blitz`, tracked; its README: "no JavaScript bindings", beta |
-| `kitesurf` | Boa (Rust) in isolates | Stylo, Taffy, Parley, Blitz patched (193 patches) | Vello (CPU) | CDP, partial | fork aphrody-labs/kitesurf (pinned), Cloudflare's engine on Blitz; see [docs/kitesurf.md](docs/kitesurf.md) |
-| `servo` | SpiderMonkey (`mozjs`) | Stylo, Servo layout | WebRender, wgpu | Firefox RDP | crates in `third_party/servo` and its organisation's |
-| `obscura` | V8 | html5ever, Stylo selectors | none (optional render) | CDP, subset | fork in `third_party/obscura` |
+| `kitesurf` | Boa (Rust) in isolates | Stylo, Taffy, Parley, Blitz patched (`scripts/patches/` of the fork) | Vello (CPU) | CDP, partial | fork aphrody-labs/kitesurf (pinned), Cloudflare's engine on Blitz; see [docs/kitesurf.md](docs/kitesurf.md) |
+| `servo` | SpiderMonkey (`mozjs`) | Stylo, Servo layout | WebRender, wgpu | Firefox RDP | Servo and its organisation's crates, pinned in `tools/upstreams.toml` |
+| `obscura` | V8 | html5ever, Stylo selectors | none (optional render) | CDP, subset | fork aphrody-labs/obscura, pinned in `tools/upstreams.toml` |
 | `boa`, `nova` | Rust JavaScript engines | none | none | none | `track` only |
 | `ladybird` | LibJS | LibWeb | Skia | none | `track` only |
 
@@ -38,7 +37,7 @@ Blitz when a static page needs pixels, WebKit when the host's JavaScriptCore is 
 page needs the full CDP, media or anything the others lack. Where an engine falls short is learned from the runs
 (`bun testing/acceptance.ts lessons`, `docs/third-party-lessons.md`) and is the data of `escalate`.
 
-Switching is `Bun.WebView({ backend })`: `webkit` and `chrome` exist in the runtime today; `blitz`, `servo` and `obscura` join
+Switching is `Bun.WebView({ backend })`: `webkit` and `chrome` exist in the runtime; `blitz`, `servo` and `obscura` are planned
 as backends of the same API, CDP where the engine speaks it.
 
 ## Decision
@@ -48,14 +47,14 @@ bench` records them, `bun testing/acceptance.ts docs` writes `.local/docs/measur
 is, not on a number kept here:
 
 - Blink is the engine of record for anything that renders: the only one with the full CDP, DevTools, Chrome-for-Testing parity
-  (Playwright and Puppeteer work unchanged) and full web compatibility. Servo costs as much memory as Blink and is slower.
-- The lite engine wins on memory by an order of magnitude for DOM, network and script work. It is Obscura on html5ever, cssparser,
-  selectors/stylo and url from this repository, with V8 from our Chromium checkout instead of rusty_v8 prebuilts.
+  (Playwright and Puppeteer work unchanged) and full web compatibility.
+- The lite engine is for DOM, network and script work, where memory matters. It is Obscura on the pinned html5ever, cssparser,
+  selectors/stylo and url crates, with V8 from our Chromium checkout instead of rusty_v8 prebuilts.
 - agent-browser is the AI front end: snapshot, refs, click; it speaks CDP, so it drives either CDP engine.
 - Servo's remaining value is its crates: stylo, html5ever, cssparser, url, webrender, mozjs, ipc-channel. Blitz uses Stylo too.
-- Kitesurf is the Rust engine with the most work behind it: it turns Blitz into an engine that runs page JavaScript behind CDP, and carries the
-  patches that close most of Blitz's gap with Blink. It is not Chromium and does not replace it: Blink stays the engine of record, and
-  Kitesurf's value is the lite and edge path whose parity with Chromium 160 is measured on the same WPT corpus (docs/kitesurf.md).
+- Kitesurf turns Blitz into an engine that runs page JavaScript behind CDP and carries patches that close part of Blitz's gap with Blink.
+  It is not Chromium and does not replace it: Blink stays the engine of record, and Kitesurf is the lite and edge path
+  ([docs/kitesurf.md](docs/kitesurf.md)).
 - A verdict is about what the engine did, not what the server answered: `refused`, `auth` and `consent` are not failures, a status code
   is never trusted for a wall (the title and the final URL are read), an engine that hangs is a result with a timeout, and what an
   engine cannot do is recorded where the router reads it (`lessons`) and forgotten the day it can.
@@ -66,20 +65,12 @@ V8, Skia, Dawn and Blink are never taken as published crates or prebuilts (no ru
 `build/engines/` drives GN on the Chromium checkout (`CHROMIUM_SRC`; the pinned revision is in `DEPS`):
 
 - `//v8:v8_monolith` and `//skia:skia` static libraries, optimized official build (ThinLTO).
-- Blink through `//headless:headless_shell` (native CDP, `--remote-debugging-pipe`); `headless_shell_lib` for in-process embedding.
-- The Rust side links the libraries through the C ABI (`components/v8-sys`, `components/skia-sys`, generated with bindgen from the
-  checkout headers) or cxx, the way Chromium does Rust interop.
+- Blink through `//headless:headless_shell` (native CDP, `--remote-debugging-pipe`).
+- The Rust side will link the libraries through the C ABI (`components/v8-sys`, `components/skia-sys`, generated with bindgen from the
+  checkout headers; not written yet) or cxx, the way Chromium does Rust interop.
 
 ## Layout
 
-The tree follows Chromium. `components/<crate>` is first party (`//components`). Forks with a build of their own (the Bun
-runtime, kitesurf, browse, mullvad) are pinned by commit in `tools/layout.toml` [forks] and built in their own checkout, never
-submodules here; every other upstream is pinned in `tools/upstreams.toml` and fetched by Cargo, no tree on disk. Chromium's own
-checkout is `third_party/chromium` on the build host, never committed. Then `build/`, `testing/` (`//testing`), `tools/`,
-`styleguide/`, `docs/`, `DEPS` and `PRESUBMIT.ts`. One Cargo workspace for what cargo builds here, one `Cargo.lock`; a crate of ours
-that needs one of Bun's depends on it by path and stays a non-member.
-
-`tools/layout.toml` decides where everything goes (`bun tools/layout.ts` checks it), `tools/upstreams.toml` lists the upstreams,
-`tools/upstreams.lock.json` records the pinned SHAs, `tools/layout.toml` [forks] pins the forks, `DEPS` pins Chromium,
-`tools/import.py` imports and re-syncs (replayed linearly: `main` requires a linear history), `tools/flatten.py` keeps the
-workspace manifest in step.
+The tree follows Chromium; [tools/layout.toml](tools/layout.toml) decides where everything goes (`bun tools/layout.ts` checks it) and
+[AGENTS.md](AGENTS.md) lists the directories. Forks with a build of their own are pinned in `[forks]`, every other upstream in
+`tools/upstreams.toml` and `tools/upstreams.lock.json`, Chromium in `DEPS`.

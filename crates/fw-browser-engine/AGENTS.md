@@ -15,38 +15,35 @@ Decision record: [ARCHITECTURE.md](ARCHITECTURE.md).
   its own checkout; it is never a submodule or an import here (one checkout per fork across the workspace).
 - First party in `components/<crate>` (a manifest with `[package.metadata.browser] native = true`), new crates named `browser-<unit>`;
   upstream crates come through Cargo from their pinned revision, never copied into the tree.
-- Upstream code stays importable: do not hand-edit imported manifests, change `tools/flatten.py` instead.
 - JavaScript and TypeScript are native Bun only ([styleguide/bun](styleguide/bun/README.md), proof from the fork's docs; rules in
   `bunfig.toml`); `bun PRESUBMIT.ts` runs every check before a push.
-- `main` requires a linear history.
 - Newest of everything (canary, nightly, rc), read live; pins live in `tools/upstreams.lock.json`.
+- Commits, reviews and org-wide rules: [aphrody-labs/.github](https://github.com/aphrody-labs/.github) (`docs/standards/commit-format.md`, `CONTRIBUTING.md`); not repeated here.
 
 ## Test and measure
 
 One tool, [testing/acceptance.ts](testing/acceptance.ts) (Bun only; data in `testing/acceptance.toml`): engines x live corpus over raw CDP,
-hyperfine and JetStream benchmarks, upstream tracking, the live dashboard. Usage and rules: `.claude/skills/acceptance/SKILL.md`.
+hyperfine and JetStream benchmarks, upstream tracking, the live dashboard. Commands and flags: the header of the file.
 
 ```sh
 bun PRESUBMIT.ts                   # types, lint, format, tests, layout, README.chromium, Bun-native, docs proof
-bun check && bun lint tools testing .claude && bun test testing    # the same, one by one
+bun check && bun lint tools testing && bun test testing tools    # the same, one by one
 bun testing/acceptance.ts run        # on the build host for anything beyond a few pages
 bun testing/acceptance.ts lessons    # where each engine fell short of the full one: the router's data
 ```
 
-## Sync an upstream (history preserved)
+## Pin an upstream
+
+Every upstream in `tools/upstreams.toml` is `mode = "pin"`: no tree on disk, Cargo fetches it from the pinned revision.
 
 ```sh
-python3 tools/import.py . <scratch>/imp <name>     # fetch, rewrite to final paths, replay new commits linearly (no merge commit)
-uv run --with tomlkit tools/flatten.py . --root-only          # members and [patch.crates-io] follow the lock (full run: only for a crate just imported)
-bash tools/fixups.sh && bun tools/third_party.ts              # integration fixes, README.chromium
-cargo update && cargo tree -d                                 # dedup check; who requires which version: cargo metadata --format-version 1 | python3 tools/directdups.py
+python3 tools/import.py . . <name>        # record the current branch head of the upstream in tools/upstreams.lock.json
+bun testing/acceptance.ts track           # how far each pin is behind its upstream
 ```
 
 ## Gotchas
 
-- `bun fmt <directory>` also reformats data (lock, reports, TOML): pass explicit `.ts` paths; the edit hook does.
-- `tools/flatten.py` rewrites the members list from the lock, so `fixups.sh` (which drops obscura-*, wrench, webrender-examples) must run after it; the
-  crate manifests are already flattened, so `--root-only` is the normal run.
+- `bun fmt <directory>` also reformats data (lock, reports, TOML): pass explicit `.ts` paths.
 - Tests are hermetic; the live or heavier ones are opt-in by environment: `TRACK_LIVE=1` (upstream APIs), `JETSTREAM_WS=<cdp ws>` (a real JetStream
   run), `REDIS_URL=redis://host:port` (the Redis/Valkey paths).
 - The presubmit's docs check reads the Bun fork's docs: `BUN_DOCS=<fork>/docs`, else the sibling `../bun/docs`.
@@ -62,12 +59,12 @@ the store by `bun testing/acceptance.ts telemetry` and `docs`; add what you lear
 
 | Path | Content |
 |---|---|
-| `tools/layout.toml` [forks] | Bun (aphrody-labs/bun), kitesurf (Cloudflare's Rust engine, aphrody-labs/kitesurf), browse (MCP server and extension), mullvad (aphrody-labs/mullvadvpn-app, fused with `ayvpn`): pinned by commit in `tools/layout.toml` [forks], not checked out here |
+| `tools/layout.toml` [forks] | bun, kitesurf, browse, mullvad (repo and commit per fork), not checked out here |
 | `components/<crate>` | first-party crates: browser-detect (with shared `ssrf` guard), browser-index, browser-engine (`pick`, `escalate`, `KITESURF_CRATES`, `process`), browser-vpn (fused `ayvpn` per-context router & ABI v1), browser-browse (absorbed `anomalyco/browse` pairing, CDP pool, ARIA `@e1` snapshots, WebMCP, human handoff), browser-views (Chromium `//ui/views` model for GPUI & headless), browser-headless (headless contexts over the engines), browser-chromium (CEF from Rust and Bun; downloads CEF, so not a default member) |
-| `tools/upstreams.toml` | Servo and its org crates, Mozilla, HarfBuzz, Obscura, agent-browser, lol-html: tracked upstreams, every one `mode = "pin"` (SHAs in `tools/upstreams.lock.json`), no tree on disk |
+| `tools/upstreams.toml` | tracked upstreams, all `mode = "pin"` (SHAs in `tools/upstreams.lock.json`), no tree on disk |
 | `third_party/chromium` | the Chromium checkout of the build host (gclient), ignored by git |
 | `testing` | the acceptance tool: engines x live corpus, benchmarks, dashboard (Chromium's `//testing`) |
 | `styleguide/bun` | the JS/TS rules with their proof |
 | `DEPS` | what is depended on without being imported (the Chromium checkout, pinned); imports are pinned in `tools/upstreams.lock.json` |
 | `build/engines` | GN overlay and script: V8, Skia (static archive) and Blink (headless_shell) from the Chromium checkout |
-| `tools` | layout, importer, flattener, upstream list and lock, patches |
+| `tools` | layout check, pin recorder (`import.py`), upstream list and lock, README.chromium generator, kitesurf absorb and monorepo generators |

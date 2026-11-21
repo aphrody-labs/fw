@@ -10,12 +10,12 @@ workspace around imported engines, so what has no counterpart is listed with the
 |---|---|---|
 | `base/` | the Bun fork's `src/bun_core`, ... | the foundation library of the runtime is Bun's, in the fork pinned by `tools/layout.toml` [forks] |
 | `build/`, `buildtools/`, `build_overrides/` | `build/engines/` | the GN overlay (V8, Skia, Blink from the Chromium checkout); the toolchains are the Chromium checkout's own |
-| `components/` | `components/` | first-party crates (`browser-detect`, `browser-index`, `browser-engine` with `process`; next: `cdp`, `v8-sys`, `skia-sys`) |
+| `components/` | `components/` | first-party crates, listed in [AGENTS.md](../AGENTS.md); not written yet: `cdp`, `v8-sys`, `skia-sys` |
 | `docs/` | `docs/` | this file, the inventory, [../styleguide/bun](../styleguide/bun/README.md) is the style guide |
 | `styleguide/` | `styleguide/bun/` | JavaScript and TypeScript style with its proof; Rust follows `rustfmt` and the workspace lints |
 | `testing/` | `testing/` | the acceptance tool: engines x live corpus, benchmarks, dashboard |
 | `third_party/` | `third_party/<upstream>/<crate>` | one directory per upstream, `README.chromium` each (generated); Chromium's own checkout is `third_party/chromium`, ignored |
-| `tools/` | `tools/` | layout, importer, flattener, pins |
+| `tools/` | `tools/` | layout, pin recorder, upstream list and lock |
 | `infra/` | none yet | CI lives in the organisation's workflows |
 | `headless/`, `content/`, `chrome/`, `net/`, `url/`, `skia/`, `v8/`, `ui/`, `gpu/`, ... | the Chromium checkout, through `build/engines` | built, never imported: `//headless:headless_shell`, `//v8:v8_monolith`, `//skia:skia` |
 | `ios/`, `android_webview/`, `ash/`, `chromeos/`, `fuchsia_web/`, ... | not used | other products |
@@ -36,8 +36,7 @@ workspace around imported engines, so what has no counterpart is listed with the
 
 ## Third party, vendored and first party
 
-- **First party:** `components/<crate>` (new crates are `browser-<unit>`), `testing/`, `tools/`, `styleguide/`, `.claude/`.
-- **Third party, pinned (`tools/upstreams.toml`, `mode = "pin"`, no tree on disk):** Servo and its organisation's crates, Mozilla (`mozjs`, `mozangle`),
-  HarfBuzz/FreeType/platform bindings, `lol-html`, `rust-argon2`, `hyperfine`, our forks `obscura` and `agent-browser`.
+- **First party:** `components/<crate>` (new crates are `browser-<unit>`), `testing/`, `tools/`, `styleguide/`.
+- **Third party, pinned (`tools/upstreams.toml`, `mode = "pin"`, no tree on disk):** the list of `tools/upstreams.toml` (Servo and its organisation's crates, `lol-html`, `rust-argon2`, `hyperfine`, JetStream, our forks `obscura` and `agent-browser`).
 - **Runtime:** aphrody-labs/bun (rebased on oven-sh/bun), pinned in `tools/layout.toml` [forks]: its own checkout, workspace and build.
-- **Not imported:** the Chromium checkout, JetStream (a pin in `tools/upstreams.lock.json`), the 16 GB of Chromium history.
+- **Not imported:** the Chromium checkout, JetStream (a pin in `tools/upstreams.lock.json`), the Chromium history.
