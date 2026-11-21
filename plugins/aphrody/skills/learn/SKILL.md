@@ -1,27 +1,21 @@
 ---
 name: learn
-description: "Continuous autonomous serverless self-learning unified inside Fw across Antigravity, Codex, and Aphrody Labs agents via Cloudflare (https://learn.aphrody.com) and Fw's persistent boot-startup daemon"
+description: "Local autonomous learning in fw: harvest git history, the code graph and docs into one corpus, search it, distill rules (`fw learn`, MCP `fw_learn`)"
 ---
-> : zero human approval, automatic distillation, promotion, FTS5 indexing, and cross-PC bundle convergence.
 
+# Learning loop (one store: fw)
 
-# Continuous Autonomous Self-Learning Loop (Fw Unified)
-
-Hooks, local distillers, Fw's persistent cross-platform continuous-upgrade daemon (`fw daemon run`), and the Cloudflare `aphrody-learn` Cron worker run completely autonomously with **zero human approval or manual curation**.
-
-## Journal, Local, Fw & Serverless Hub
-
-- Raw events: `~/.gemini/learning/journal.jsonl` (secret-redacted)
-- Auto-promoted memory: `~/.gemini/memory/learned-auto.md` & `~/.gemini/memory/learned-cloud.md`
-- Indexed stores: `~/.gemini/learning/memory.db` (FTS5)
-- Fw target & daemon telemetry: `target/manifest.json`, `target/upgrade-history.jsonl`, `target/daemon-state.json`, `target/daemon.jsonl`
-- Serverless hub: `https://learn.aphrody.com` (`/api/learn/events`, `/api/learn/distill`, `/api/learn/manifest.json`, `/api/learn/bundle.json`)
+`fw learn` is the only learning store. It harvests git history, the code graph and docs into a sharded local corpus, searches all three, and writes distilled rules; no network service is involved. The former hosted hub (`learn.aphrody.com`) has no writer left and is retired.
 
 ## Commands
 
-- Search memory first: `fw learn search <words>` or `bun ~/.gemini/scripts/learn.ts search <words>` (or `fw_learn` MCP tool).
-- Run local distillation: `fw learn distill` or `bun ~/.gemini/scripts/learn.ts distill-quiet`
-- Run cloud sync: `fw learn cloud-sync` or `bun ~/.gemini/scripts/learn.ts cloud-sync`
-- Run combined Fw upgrade + learning + plugin convergence cycle: `fw daemon run --once --auto-apply --with-learn --sync-plugin`
-- Install persistent boot-startup auto-restart loop: `fw service install` (`Windows Task Scheduler`, `Linux systemd --user`, `macOS launchd`).
-- Rebuild local rules/plugins/FTS5 index: `bun ~/.gemini/scripts/sync.ts && bun ~/.gemini/scripts/install.ts && bun ~/.gemini/scripts/check.ts`
+- `fw learn status`: corpus counts and the dataset root.
+- `fw learn harvest`: add git history, the code graph and docs to the corpus.
+- `fw learn distill`: write `rules/learned-auto.md` from the corpus.
+- `fw learn search <words>`: search first, before re-deriving a known fact.
+- `fw learn loop`: continuous harvest and distill; `fw learn systemd` prints a hardened unit for a VPS (the loop runs on fr1).
+- MCP tool `fw_learn` (plugin server `fw`) exposes the same actions.
+
+## Store
+
+Dataset root: `--xfs-root <dir>`, else `FW_LEARN_XFS_ROOT`, else `/srv/xbuild/fw-learn` on a Linux VPS, else `~/.fx/learn-xfs`. Shards are `observations/YYYY-MM.jsonl`, `graphs/<project>/`, `docs/`, `corpus/YYYY-MM.jsonl`, `rules/learned-auto.md`. Claude Code's own memory directory stays the store for user preferences; `fw learn` holds what code and history can show.
