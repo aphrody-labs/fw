@@ -1,0 +1,72 @@
+# One Chrome configuration for every Chrome of the cluster: the PC and the nodes. Non-secret settings only.
+# `fw chrome render` writes the Linux managed-policy JSON and the Windows registry file from this file;
+# `fw chrome apply` installs the JSON on every node of [apply]; `fw chrome status` diffs the nodes against it.
+# Security settings (Safe Browsing, site isolation, certificate and sandbox policies, flags that weaken any of them) are never set here.
+
+[apply]
+nodes = ["n1", "n2"]                                  # keys of [hosts.*] in build.toml
+# Google Chrome, Chrome for Testing (the headless browser of the nodes) and Chromium each read their own directory.
+linux_dirs = ["/etc/opt/chrome/policies/managed", "/etc/opt/chrome_for_testing/policies/managed", "/etc/chromium/policies/managed"]
+linux_file = "aphrody.json"
+windows_key = 'SOFTWARE\Policies\Google\Chrome'       # HKLM, written to dist/chrome/aphrody-chrome-policy.reg
+windows_reset = true                                  # the .reg first deletes the key, so the registry holds exactly this file
+windows_out = "dist/chrome/aphrody-chrome-policy.reg"
+
+# Chrome policy name = value. Names and types are the ones of components/policy/resources/templates/policy_definitions in
+# chromium/chromium. WebGPU has no enterprise policy: it is on by default and follows HardwareAccelerationModeEnabled.
+[policies]
+HardwareAccelerationModeEnabled = true   # GPU raster and compositing, the prerequisite of WebGPU
+NetworkPredictionOptions = 0             # preloading: predict and prefetch on every network type
+HighEfficiencyModeEnabled = true         # Memory Saver discards tabs unused for a while
+MemorySaverModeSavings = 1               # balanced
+BackgroundModeEnabled = false            # no Chrome process after the last window closes
+BrowserThemeColor = "${brand.seed}"      # product.toml [brand] seed
+ShowHomeButton = true
+HomepageIsNewTabPage = false
+HomepageLocation = "https://aphrody.com/"
+DefaultSearchProviderEnabled = true
+DefaultSearchProviderName = "Google"
+DefaultSearchProviderKeyword = "google.com"
+DefaultSearchProviderSearchURL = "https://www.google.com/search?q={searchTerms}"
+DefaultSearchProviderSuggestURL = "https://www.google.com/complete/search?output=chrome&q={searchTerms}"
+
+# Force-installed and pinned to the toolbar through ExtensionSettings. source "webstore" uses the Chrome Web Store update URL;
+# a packaged extension carries its own update_url. state "pending" keeps an entry in the file without installing it.
+[[extension]]
+name = "Bitwarden"
+id = "nngceckbapebfimnlniiiahkandclblb"
+source = "webstore"
+state = "active"
+
+[[extension]]
+name = "fw"
+id = ""
+source = "packaged"
+update_url = ""
+state = "pending"                        # becomes active when the fw extension is packaged and its id and update_url are set
+
+# Keyword shortcuts in the address bar (SiteSearchSettings): type the shortcut, a space, then the query (Chrome rejects a leading @).
+[[search]]
+name = "GitHub code"
+shortcut = "gh"
+url = "https://github.com/search?type=code&q={searchTerms}"
+
+[[search]]
+name = "crates.io"
+shortcut = "crates"
+url = "https://crates.io/search?q={searchTerms}"
+
+[[search]]
+name = "docs.rs"
+shortcut = "docs"
+url = "https://docs.rs/releases/search?query={searchTerms}"
+
+[[search]]
+name = "MDN"
+shortcut = "mdn"
+url = "https://developer.mozilla.org/search?q={searchTerms}"
+
+[[search]]
+name = "Cloudflare docs"
+shortcut = "cf"
+url = "https://developers.cloudflare.com/search/?q={searchTerms}"

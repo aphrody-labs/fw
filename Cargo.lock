@@ -11767,6 +11767,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "fw-chrome"
+version = "2026.11.0"
+dependencies = [
+ "anyhow",
+ "serde",
+ "serde_json",
+ "toml 1.2.2+spec-1.1.0",
+]
+
+[[package]]
 name = "fw-cluster"
 version = "2026.11.0"
 dependencies = [
