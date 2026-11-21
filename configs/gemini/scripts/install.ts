@@ -106,6 +106,15 @@ if (existsSync(fwPluginsDir)) {
     }
   }
 }
+// Third-party plugins installed from their official upstream (vercel, cloudflare) stay in ~/.gemini/plugins: they are not
+// ours, so fw does not carry them; materialize them the same way. fw wins on a name clash.
+const vendorPluginsDir = join(GEMINI_ROOT, "plugins");
+if (existsSync(vendorPluginsDir)) {
+  for (const entry of readdirSync(vendorPluginsDir, { withFileTypes: true })) {
+    const dir = join(vendorPluginsDir, entry.name);
+    if (entry.isDirectory() && !pluginSources.has(entry.name) && isPlugin(dir)) pluginSources.set(entry.name, dir);
+  }
+}
 const pluginsDstRoot = join(CONFIG_DIR, "plugins");
 for (const [name, src] of pluginSources) {
   console.log(`${dry ? "would sync" : "sync"} config/plugins/${name} <- ${src}`);
