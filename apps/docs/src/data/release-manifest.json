@@ -1,0 +1,16 @@
+{
+  "schema": "ay.releases.v1",
+  "generated": "2026-11-21T05:27:44.301Z",
+  "products": {
+    "fw": {
+      "dev": {
+        "schema": "ay.release.v1",
+        "product": "fw",
+        "channel": "dev",
+        "version": "2026.11.21-fc4f4fa",
+        "tag": "dev-v2026.11.21-fc4f4fa",
+        "date": "2026-11-21T05:27:44.301Z"
+      }
+    }
+  }
+}

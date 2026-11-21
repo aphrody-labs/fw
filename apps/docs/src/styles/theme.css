@@ -1,0 +1,146 @@
+/* Starlight variables mapped to Material 3 roles. The roles come from src/generated/colors.css (fw-m3, product.toml [brand]).
+   Shape scale: 4, 8, 12, 16, 28 dp. Targets are 40 px on a pointer and 48 px on touch. Spring easing: cubic-bezier(0.34, 1.56, 0.64, 1). */
+:root {
+  --sl-font: 'Google Sans Flex', system-ui, sans-serif;
+  --sl-font-mono: 'Google Sans Code', ui-monospace, monospace;
+
+  --sl-color-bg: var(--md-sys-color-surface);
+  --sl-color-bg-nav: var(--md-sys-color-surface-container);
+  --sl-color-bg-sidebar: var(--md-sys-color-surface-container-low);
+  --sl-color-bg-inline-code: var(--md-sys-color-surface-container-highest);
+  --sl-color-bg-accent: var(--md-sys-color-primary);
+  --sl-color-hairline: var(--md-sys-color-outline-variant);
+  --sl-color-hairline-light: var(--md-sys-color-outline-variant);
+  --sl-color-hairline-shade: var(--md-sys-color-outline-variant);
+
+  --sl-color-white: var(--md-sys-color-on-surface);
+  --sl-color-gray-1: var(--md-sys-color-on-surface);
+  --sl-color-gray-2: var(--md-sys-color-on-surface-variant);
+  --sl-color-gray-3: var(--md-sys-color-on-surface-variant);
+  --sl-color-gray-4: var(--md-sys-color-outline);
+  --sl-color-gray-5: var(--md-sys-color-outline-variant);
+  --sl-color-gray-6: var(--md-sys-color-surface-container-high);
+  --sl-color-gray-7: var(--md-sys-color-surface-container-low);
+  --sl-color-black: var(--md-sys-color-surface);
+  --sl-color-text: var(--md-sys-color-on-surface);
+  --sl-color-text-accent: var(--md-sys-color-primary);
+  --sl-color-text-invert: var(--md-sys-color-on-primary);
+
+  --sl-color-accent-low: var(--md-sys-color-primary-container);
+  --sl-color-accent: var(--md-sys-color-primary);
+  --sl-color-accent-high: var(--md-sys-color-primary);
+
+  --sl-line-height: 1.5;
+  --sl-content-width: 50rem;
+  --sl-shape-medium: 12px;
+  --sl-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+:focus-visible {
+  outline: 3px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* Sidebar: M3 navigation drawer. The active page is a full-radius indicator in the secondary container. */
+.sidebar-content a {
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: 28px;
+  padding: 0.5rem 1rem;
+  transition: background-color 200ms var(--sl-spring);
+}
+.sidebar-content a:hover {
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+}
+.sidebar-content a[aria-current='page'] {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  font-weight: 500;
+}
+.sidebar-content summary {
+  min-height: 2.5rem;
+  border-radius: 28px;
+  padding-inline: 1rem;
+}
+@media (pointer: coarse) {
+  .sidebar-content a,
+  .sidebar-content summary {
+    min-height: 3rem;
+  }
+}
+
+.crumbs {
+  margin-bottom: 0.5rem;
+  font-size: var(--sl-text-sm);
+}
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.crumbs li:not(:last-child)::after {
+  content: '/';
+  margin-inline-start: 0.5rem;
+  color: var(--md-sys-color-outline);
+}
+.crumbs a {
+  color: var(--md-sys-color-on-surface-variant);
+  text-decoration: none;
+}
+.crumbs a:hover {
+  text-decoration: underline;
+}
+.crumbs [aria-current='page'] {
+  color: var(--md-sys-color-on-surface);
+}
+
+/* Content */
+.sl-markdown-content :not(pre) > code {
+  border-radius: 4px;
+}
+.expressive-code {
+  --ec-brdRad: 12px;
+}
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  border-radius: 12px;
+}
+.sl-markdown-content th {
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  font-weight: 500;
+}
+.sl-markdown-content td,
+.sl-markdown-content th {
+  padding: 0.625rem 0.875rem;
+}
+
+.sl-link-button {
+  border-radius: 9999px;
+  min-height: 3rem;
+  font-weight: 500;
+  transition: transform 300ms var(--sl-spring);
+}
+.sl-link-button:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
