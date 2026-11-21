@@ -190,6 +190,8 @@ fn cmd_ci(root: &Path, mode: &str) -> ExitCode {
         ("rust-clippy", "cargo", vec!["clippy", "--workspace", "--all-targets", "--", "-D", "warnings"]),
         ("rust-test", "cargo", vec!["test", "--workspace"]),
         ("python-ruff", "uvx", vec!["ruff", "check", "."]),
+        // Literal colors, texts and icon names outside token, catalog and theme files may only go down (tools/hardcoded.toml).
+        ("hardcoded", "bun", vec!["tools/hardcoded.ts", "--check"]),
         // The bun suite drives the release `fw` and the native ABI: build them first.
         ("bun-test", "bun", vec!["run", "test:ci"]),
     ];

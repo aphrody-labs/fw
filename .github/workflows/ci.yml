@@ -177,6 +177,15 @@ jobs:
           bun tools/modern-toolchain/check.ts ignore
           bun tools/modern-toolchain/check.ts legacy
 
+  hardcoded:
+    name: Hardcoded colors, texts and icons (ratchet, tools/hardcoded.toml)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: No file holds more literal colors, user-facing strings or icon names than the baseline
+        run: bun tools/hardcoded.ts --check
+
   layout:
     name: Layout map (crate homes, dependency direction, covered paths)
     runs-on: ubuntu-latest

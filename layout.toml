@@ -1678,6 +1678,7 @@ allow = [
     "plugins/aphrody/skills/**", # vendored third-party skill scripts and templates
     "cloudflare/media-cdn/**",   # Worker of media.aphrody.com next to cloudflare/material-cdn: Workers run JS or wasm, the Rust port belongs to the fw-workerd lot
     "tools/media-cdn/**",        # Bun CLIs that drive ffmpeg, vips and R2 on the cluster nodes, as tools/material-cdn does
+    "tools/hardcoded.*",         # the hardcoded-value measurement and CI check requested for Lot B, configured by tools/hardcoded.toml
 ]
 
 [[area]]
