@@ -702,7 +702,9 @@ fn from_r2(req: &Request, object: &Object, body_allowed: bool, cache: &str) -> D
     let headers = file_headers(meta.content_type.as_deref(), meta.content_disposition.as_deref(), &object.http_etag(), Some(object.uploaded().as_millis()), cache)?;
     let has_body = body_allowed && object.body().is_some();
     let size = object.size();
-    let ranged = header(req, "range").and_then(|_| object.range().ok()).map(|r| range_window(&r, size));
+    // Only a range R2 was asked for is a 206: unreadable or multi-range headers get the whole object.
+    let asked = header(req, "range").as_deref().and_then(parse_range).is_some();
+    let ranged = if asked { object.range().ok().map(|r| range_window(&r, size)) } else { None };
     let conditional = req.headers().has("if-none-match").unwrap_or(false) || req.headers().has("if-modified-since").unwrap_or(false);
     let p = plan(req.method() == Method::Head, has_body, conditional, ranged, size);
     if let Some(range) = &p.content_range {
